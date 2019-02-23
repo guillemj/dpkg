@@ -77,6 +77,24 @@ parse_warn(struct parsedb_state *ps, const char *fmt, ...)
   va_end(args);
 }
 
+void
+parse_problem(struct parsedb_state *ps, const char *fmt, ...)
+{
+  va_list args;
+  char *str;
+
+  va_start(args, fmt);
+  m_vasprintf(&str, parse_error_msg(ps, fmt), args);
+  va_end(args);
+
+  if (ps->err.type == DPKG_MSG_WARN)
+    warning("%s: %s", str, ps->err.str);
+  else
+    ohshit("%s: %s", str, ps->err.str);
+
+  free(str);
+}
+
 const struct fieldinfo *
 find_field_info(const struct fieldinfo *fields, const char *fieldname)
 {
@@ -266,29 +284,24 @@ parseversion(struct dpkg_version *rversion, const char *string,
  * @param ps The parsedb state.
  * @param version The version to parse into.
  * @param value The version string to parse from.
- * @param fmt The error format string.
+ *
+ * @retval  0 On success, and err is reset.
+ * @retval -1 On failure, and err is set accordingly.
  */
-void
+int
 parse_db_version(struct parsedb_state *ps, struct dpkg_version *version,
-                 const char *value, const char *fmt, ...)
+                 const char *value)
 {
-  struct dpkg_error err;
-  va_list args;
-  char buf[1000];
+  dpkg_error_destroy(&ps->err);
 
-  if (parseversion(version, value, &err) == 0)
-    return;
+  if (parseversion(version, value, &ps->err) == 0)
+    return 0;
 
-  va_start(args, fmt);
-  vsnprintf(buf, sizeof(buf), fmt, args);
-  va_end(args);
+  /* If not in lax mode, turn everything into an error. */
+  if (!(ps->flags & pdb_lax_version_parser))
+    ps->err.type = DPKG_MSG_ERROR;
 
-  if (err.type == DPKG_MSG_WARN && (ps->flags & pdb_lax_version_parser))
-    parse_warn(ps, "%s: %.250s", buf, err.str);
-  else
-    parse_error(ps, "%s: %.250s", buf, err.str);
-
-  dpkg_error_destroy(&err);
+  return -1;
 }
 
 void

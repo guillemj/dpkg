@@ -62,20 +62,22 @@ enum parse_nv_flags {
  */
 static int
 parse_nv(struct parsedb_state *ps, enum parse_nv_flags flags,
-         const char **strp, const struct namevalue *nv_head, const char *what)
+         const char **strp, const struct namevalue *nv_head)
 {
   const char *str_start = *strp, *str_end;
   const struct namevalue *nv;
   int value;
 
+  dpkg_error_destroy(&ps->err);
+
   if (str_start[0] == '\0')
-    parse_error(ps, _("%s is missing"), what);
+    return dpkg_put_error(&ps->err, _("is missing a value"));
 
   nv = namevalue_find_by_name(nv_head, str_start);
   if (nv == NULL) {
     /* We got no match, skip further string validation. */
     if (!(flags & PARSE_NV_FALLBACK))
-      parse_error(ps, _("'%.50s' is not allowed for %s"), str_start, what);
+      return dpkg_put_error(&ps->err, _("has invalid value '%.50s'"), str_start);
 
     str_end = NULL;
     value = -1;
@@ -87,7 +89,7 @@ parse_nv(struct parsedb_state *ps, enum parse_nv_flags flags,
   }
 
   if (!(flags & PARSE_NV_NEXT) && str_is_set(str_end))
-    parse_error(ps, _("junk after %s"), what);
+    return dpkg_put_error(&ps->err, _("has trailing junk"));
 
   *strp = str_end;
 
@@ -174,8 +176,11 @@ f_boolean(struct pkginfo *pkg, struct pkgbin *pkgbin,
   if (!*value)
     return;
 
-  boolean = parse_nv(ps, PARSE_NV_LAST, &value, booleaninfos,
-                     _("yes/no in boolean field"));
+  boolean = parse_nv(ps, PARSE_NV_LAST, &value, booleaninfos);
+  if (dpkg_has_error(&ps->err))
+    parse_error(ps, _("boolean (yes/no) '%s' field: %s"),
+                fip->name, ps->err.str);
+
   STRUCTFIELD(pkgbin, fip->integer, bool) = boolean;
 }
 
@@ -189,8 +194,10 @@ f_multiarch(struct pkginfo *pkg, struct pkgbin *pkgbin,
   if (!*value)
     return;
 
-  multiarch = parse_nv(ps, PARSE_NV_LAST, &value, multiarchinfos,
-                       _("foreign/allowed/same/no in quadstate field"));
+  multiarch = parse_nv(ps, PARSE_NV_LAST, &value, multiarchinfos);
+  if (dpkg_has_error(&ps->err))
+    parse_error(ps, _("quadstate (foreign/allowed/same/no) '%s' field: %s"),
+                fip->name, ps->err.str);
   STRUCTFIELD(pkgbin, fip->integer, int) = multiarch;
 }
 
@@ -225,7 +232,9 @@ f_priority(struct pkginfo *pkg, struct pkgbin *pkgbin,
   if (!*value) return;
 
   priority = parse_nv(ps, PARSE_NV_LAST | PARSE_NV_FALLBACK, &str,
-                      priorityinfos, _("word in 'Priority' field"));
+                      priorityinfos);
+  if (dpkg_has_error(&ps->err))
+    parse_error(ps, _("word in '%s' field: %s"), fip->name, ps->err.str);
 
   if (str == NULL) {
     pkg->priority = PKG_PRIO_OTHER;
@@ -247,12 +256,18 @@ f_status(struct pkginfo *pkg, struct pkgbin *pkgbin,
   if (ps->flags & pdb_recordavailable)
     return;
 
-  pkg->want = parse_nv(ps, PARSE_NV_NEXT, &value, wantinfos,
-                       _("first (want) word in 'Status' field"));
-  pkg->eflag = parse_nv(ps, PARSE_NV_NEXT, &value, eflaginfos,
-                        _("second (error) word in 'Status' field"));
-  pkg->status = parse_nv(ps, PARSE_NV_LAST, &value, statusinfos,
-                         _("third (status) word in 'Status' field"));
+  pkg->want = parse_nv(ps, PARSE_NV_NEXT, &value, wantinfos);
+  if (dpkg_has_error(&ps->err))
+    parse_error(ps, _("first (want) word in '%s' field: %s"),
+                fip->name, ps->err.str);
+  pkg->eflag = parse_nv(ps, PARSE_NV_NEXT, &value, eflaginfos);
+  if (dpkg_has_error(&ps->err))
+    parse_error(ps, _("second (error) word in '%s' field: %s"),
+                fip->name, ps->err.str);
+  pkg->status = parse_nv(ps, PARSE_NV_LAST, &value, statusinfos);
+  if (dpkg_has_error(&ps->err))
+    parse_error(ps, _("third (status) word in '%s' field: %s"),
+                fip->name, ps->err.str);
 }
 
 void
@@ -260,9 +275,8 @@ f_version(struct pkginfo *pkg, struct pkgbin *pkgbin,
           struct parsedb_state *ps,
           const char *value, const struct fieldinfo *fip)
 {
-  parse_db_version(ps, &pkgbin->version, value,
-                   _("'%s' field value '%.250s'"),
-                   fip->name, value);
+  if (parse_db_version(ps, &pkgbin->version, value) < 0)
+    parse_problem(ps, _("'%s' field value '%.250s'"), fip->name, value);
 }
 
 void
@@ -298,10 +312,8 @@ f_configversion(struct pkginfo *pkg, struct pkgbin *pkgbin,
   if (ps->flags & pdb_recordavailable)
     return;
 
-  parse_db_version(ps, &pkg->configversion, value,
-                   _("'%s' field value '%.250s'"),
-                   fip->name, value);
-
+  if (parse_db_version(ps, &pkg->configversion, value) < 0)
+    parse_problem(ps, _("'%s' field value '%.250s'"), fip->name, value);
 }
 
 /*
@@ -578,9 +590,10 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
         varbuf_reset(&version);
         varbuf_add_buf(&version, versionstart, versionlength);
         varbuf_end_str(&version);
-        parse_db_version(ps, &dop->version, version.buf,
-                         _("'%s' field, reference to '%.255s': "
-                           "error in version"), fip->name, depname.buf);
+        if (parse_db_version(ps, &dop->version, version.buf) < 0)
+          parse_problem(ps,
+                        _("'%s' field, reference to '%.255s': version '%s'"),
+                        fip->name, depname.buf, version.buf);
         p++;
         while (c_isspace(*p))
           p++;

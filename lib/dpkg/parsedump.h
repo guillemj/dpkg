@@ -25,6 +25,8 @@
 
 #include <stdint.h>
 
+#include <dpkg/error.h>
+
 /**
  * @defgroup parsedump In-core package database parsing and reading
  * @ingroup dpkg-public
@@ -46,6 +48,7 @@ enum parsedbtype {
 struct parsedb_state {
 	enum parsedbtype type;
 	enum parsedbflags flags;
+	struct dpkg_error err;
 	struct pkginfo *pkg;
 	struct pkgbin *pkgbin;
 	char *data;
@@ -135,14 +138,19 @@ struct fieldinfo {
   size_t integer;
 };
 
-void parse_db_version(struct parsedb_state *ps,
-                      struct dpkg_version *version, const char *value,
-                      const char *fmt, ...) DPKG_ATTR_PRINTF(4);
+int
+parse_db_version(struct parsedb_state *ps,
+                 struct dpkg_version *version, const char *value)
+	DPKG_ATTR_REQRET;
 
 void parse_error(struct parsedb_state *ps, const char *fmt, ...)
 	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(2);
 void parse_warn(struct parsedb_state *ps, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
+void
+parse_problem(struct parsedb_state *ps, const char *fmt, ...)
+	DPKG_ATTR_PRINTF(2);
+
 void parse_must_have_field(struct parsedb_state *ps,
                            const char *value, const char *what);
 void parse_ensure_have_field(struct parsedb_state *ps,

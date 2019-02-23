@@ -529,6 +529,7 @@ parsedb_new(const char *filename, int fd, enum parsedbflags flags)
   struct parsedb_state *ps;
 
   ps = m_malloc(sizeof(*ps));
+  ps->err = DPKG_ERROR_OBJECT;
   ps->filename = filename;
   ps->type = parse_get_type(ps, flags);
   ps->flags = flags;
