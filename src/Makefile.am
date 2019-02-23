@@ -34,6 +34,7 @@ dpkg_SOURCES = \
 	errors.c \
 	file-match.c file-match.h \
 	filters.c filters.h \
+	force.c force.h \
 	help.c \
 	main.c main.h \
 	packages.c \

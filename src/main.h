@@ -25,6 +25,8 @@
 #include <dpkg/debug.h>
 #include <dpkg/pkg-list.h>
 
+#include "force.h"
+
 /* These two are defined in <dpkg/fsys.h>. */
 struct fsys_namenode_list;
 struct fsys_namenode;
@@ -123,16 +125,6 @@ extern const char *const statusstrings[];
 extern int f_pending, f_recursive, f_alsoselect, f_skipsame, f_noact;
 extern int f_autodeconf, f_nodebsig;
 extern int f_triggers;
-extern int fc_downgrade, fc_configureany, fc_hold, fc_removereinstreq, fc_overwrite;
-extern int fc_removeessential, fc_conflicts, fc_depends, fc_dependsversion;
-extern int fc_breaks, fc_badpath, fc_overwritediverted, fc_architecture;
-extern int fc_nonroot, fc_overwritedir, fc_conff_new, fc_conff_miss;
-extern int fc_conff_old, fc_conff_def;
-extern int fc_conff_ask;
-extern int fc_badverify;
-extern int fc_badversion;
-extern int fc_unsafe_io;
-extern int fc_script_chrootless;
 
 extern bool abort_processing;
 extern int errabort;
@@ -268,8 +260,6 @@ void cu_prermremove(int argc, void **argv);
 
 void print_error_perpackage(const char *emsg, const void *data);
 void print_error_perarchive(const char *emsg, const void *data);
-void forcibleerr(int forceflag, const char *format, ...) DPKG_ATTR_PRINTF(2);
-int forcible_nonroot_error(int rc);
 int reportbroken_retexitstatus(int ret);
 bool skip_due_to_hold(struct pkginfo *pkg);
 
