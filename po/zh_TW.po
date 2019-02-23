@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-01-22 14:24+0100\n"
+"POT-Creation-Date: 2019-02-23 17:59+0100\n"
 "PO-Revision-Date: 2018-04-15 07:06+0800\n"
 "Last-Translator: 林博仁 <Buo.Ren.Lin@gmail.com>\n"
 "Language-Team: Chinese (traditional) <debian-l10n-chinese@lists.debian.org>\n"
@@ -339,30 +339,37 @@ msgid "unable to seek to start of %.250s after padding"
 msgstr "在填充後無法搜尋到 %.250s 的起始位置"
 
 #: lib/dpkg/dbmodify.c
-#, c-format
-msgid "unable to open lock file %s for testing"
-msgstr "無法開啟鎖定檔 %s 測試"
+#, fuzzy, c-format
+#| msgid "unable to get file descriptor for directory '%s'"
+msgid "unable to check lock file for dpkg database directory %s"
+msgstr "無法由 '%s' 目錄取得檔案描述"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy
+#, fuzzy, c-format
 #| msgid "unable to open/create status database lockfile"
-msgid "unable to open/create frontend lockfile"
+msgid "unable to open/create dpkg frontend lock for directory %s"
 msgstr "無法開啟／建立狀態資料庫的鎖定檔"
 
 #: lib/dpkg/dbmodify.c
-msgid "unable to open/create status database lockfile"
+#, fuzzy, c-format
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create dpkg database lock file for directory %s"
 msgstr "無法開啟／建立狀態資料庫的鎖定檔"
 
 #: lib/dpkg/dbmodify.c
-msgid "you do not have permission to lock the dpkg status database"
+#, fuzzy, c-format
+#| msgid "you do not have permission to lock the dpkg status database"
+msgid "you do not have permission to lock the dpkg database directory %s"
 msgstr "您沒有鎖定 dpkg 的狀態資料庫的權限"
 
 #: lib/dpkg/dbmodify.c
-msgid "dpkg frontend"
+msgid "dpkg frontend lock"
 msgstr ""
 
 #: lib/dpkg/dbmodify.c
-msgid "dpkg status database"
+#, fuzzy
+#| msgid "dpkg status database"
+msgid "dpkg database lock"
 msgstr "無法鎖定 dpkg 的狀態資料庫"
 
 #: lib/dpkg/dbmodify.c
@@ -370,11 +377,15 @@ msgid "requested operation requires superuser privilege"
 msgstr "該操作需要超級使用者權限"
 
 #: lib/dpkg/dbmodify.c
-msgid "unable to access dpkg status area"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "unable to access the dpkg database directory %s"
 msgstr "無法存取 dpkg 狀態庫"
 
 #: lib/dpkg/dbmodify.c
-msgid "operation requires read/write access to dpkg status area"
+#, fuzzy, c-format
+#| msgid "operation requires read/write access to dpkg status area"
+msgid "required read/write access to the dpkg database directory %s"
 msgstr "該操作需要在 dpkg 狀態庫有著讀寫權限"
 
 #: lib/dpkg/dbmodify.c
@@ -572,20 +583,25 @@ msgid "syntax error in statoverride file"
 msgstr "statoverride 檔語法錯誤"
 
 #: lib/dpkg/db-fsys-override.c
-#, fuzzy, c-format
-#| msgid "syntax error: unknown user '%s' in statoverride file"
-msgid "unknown user '%s' in statoverride file"
-msgstr "語法錯誤：statoverride 的使用者 '%s' 不明"
+#, c-format
+msgid ""
+"unknown system user '%s' in statoverride file; the system user got removed\n"
+"before the override, which is most probably a packaging bug, to recover you\n"
+"can remove the override manually with %s"
+msgstr ""
 
 #: lib/dpkg/db-fsys-override.c
 msgid "unexpected end of line in statoverride file"
 msgstr "statoverride 檔行尾意外中斷"
 
 #: lib/dpkg/db-fsys-override.c
-#, fuzzy, c-format
-#| msgid "syntax error: unknown group '%s' in statoverride file"
-msgid "unknown group '%s' in statoverride file"
-msgstr "語法錯誤：statoverride 檔中未知的 '%s' 群組"
+#, c-format
+msgid ""
+"unknown system group '%s' in statoverride file; the system group got "
+"removed\n"
+"before the override, which is most probably a packaging bug, to recover you\n"
+"can remove the override manually with %s"
+msgstr ""
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
@@ -701,64 +717,73 @@ msgid "internal error"
 msgstr "內部錯誤"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "%s is missing"
-msgstr "未找到 %s"
+#, fuzzy
+#| msgid "control file '%s' does not exist"
+msgid "is missing a value"
+msgstr "查無控制檔 '%s'"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%.50s' is not allowed for %s"
-msgstr "'%.50s' 不可用於 %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "has invalid value '%.50s'"
+msgstr "忽略無效的行：%s"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "junk after %s"
-msgstr "在 %s 之後有多餘的資料"
+msgid "has trailing junk"
+msgstr ""
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "invalid package name (%.250s)"
-msgstr "無效的套件名稱 (%.250s)"
+#, fuzzy, c-format
+#| msgid "package '%s' is not installed"
+msgid "invalid package name in '%s' field: %s"
+msgstr "套件 '%s' 未安裝"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "empty file details field '%s'"
-msgid "empty archive details field '%s'"
+msgid "empty archive details '%s' field"
 msgstr "檔案說明欄位 `%s' 是空的"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "file details field '%s' not allowed in status file"
-msgid "archive details field '%s' not allowed in status file"
+msgid "archive details '%s' field not allowed in status file"
 msgstr "這個檔案說明欄位 `%s' 不可用於狀態檔"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "too many values in file details field '%s' (compared to others)"
-msgid "too many values in archive details field '%s' (compared to others)"
+msgid "too many values in archive details '%s' field (compared to others)"
 msgstr "檔案說明欄位 `%s' 裡的值太多（和其他的相比）"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "too few values in file details field '%s' (compared to others)"
-msgid "too few values in archive details field '%s' (compared to others)"
+msgid "too few values in archive details '%s' field (compared to others)"
 msgstr "檔案說明欄位 `%s' 中的值太少（和其他的相比）"
 
 #: lib/dpkg/fields.c
-msgid "yes/no in boolean field"
-msgstr "boolean 欄位的 yes/no"
+#, fuzzy, c-format
+#| msgid "obsolete '%s' or '%s' field used"
+msgid "boolean (yes/no) '%s' field: %s"
+msgstr "使用了已廢棄的「%s」或「%s」欄位"
 
 #: lib/dpkg/fields.c
-msgid "foreign/allowed/same/no in quadstate field"
+#, fuzzy, c-format
+#| msgid "foreign/allowed/same/no in quadstate field"
+msgid "quadstate (foreign/allowed/same/no) '%s' field: %s"
 msgstr "四態欄位的 foreign/allowed/same/no"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%s' is not a valid architecture name: %s"
+#, fuzzy, c-format
+#| msgid "'%s' is not a valid architecture name: %s"
+msgid "'%s' is not a valid architecture name in '%s' field: %s"
 msgstr "不合法的硬體平台名稱 '%s'：%s"
 
 #: lib/dpkg/fields.c
-msgid "word in 'Priority' field"
+#, fuzzy, c-format
+#| msgid "word in 'Priority' field"
+msgid "word in '%s' field: %s"
 msgstr "「優先等級」欄位中的字"
 
 #: lib/dpkg/fields.c
@@ -767,25 +792,33 @@ msgid "value for '%s' field not allowed in this context"
 msgstr "在此情境中不能使用這個「%s」欄位的值"
 
 #: lib/dpkg/fields.c
-msgid "first (want) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "first (want) word in 'Status' field"
+msgid "first (want) word in '%s' field: %s"
 msgstr "在「status」欄位中的第一個字 (want)"
 
 #: lib/dpkg/fields.c
-msgid "second (error) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "second (error) word in 'Status' field"
+msgid "second (error) word in '%s' field: %s"
 msgstr "在「status」欄位中的第二個字 (error)"
 
 #: lib/dpkg/fields.c
-msgid "third (status) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "third (status) word in 'Status' field"
+msgid "third (status) word in '%s' field: %s"
 msgstr "在「status」欄位中的第三個字 (status)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "error in '%s' field string '%.250s'"
+#, fuzzy, c-format
+#| msgid "error in '%s' field string '%.250s'"
+msgid "'%s' field value '%.250s'"
 msgstr "「%s」欄位的「%.250s」字串有誤"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "obsolete '%s' or '%s' field used"
+#, fuzzy, c-format
+#| msgid "obsolete '%s' or '%s' field used"
+msgid "obsolete '%s' field used"
 msgstr "使用了已廢棄的「%s」或「%s」欄位"
 
 #: lib/dpkg/fields.c
@@ -794,12 +827,15 @@ msgid "value for '%s' field has malformed line '%.*s'"
 msgstr "「%s」欄位的值存在格式錯誤之「%.*s」行"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "value for '%s' has line starting with non-space '%c'"
+#, fuzzy, c-format
+#| msgid "value for '%s' has line starting with non-space '%c'"
+msgid "value for '%s' field has line starting with non-space '%c'"
 msgstr "「%s」的值包含了「%c」非空白字元開頭的行"
 
 #: lib/dpkg/fields.c
-msgid "root or null directory is listed as a conffile"
+#, fuzzy, c-format
+#| msgid "root or null directory is listed as a conffile"
+msgid "root or empty directory listed as a conffile in '%s' field"
 msgstr "root 或空目錄也被列為 conffile"
 
 #: lib/dpkg/fields.c
@@ -878,9 +914,10 @@ msgid "'%s' field, reference to '%.255s': version unterminated"
 msgstr "`%s' 欄位，參照至 `%.255s'：版本號未終止"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%s' field, reference to '%.255s': error in version"
-msgstr "'%s' 欄位，參照 '%.255s'：版本號有誤"
+#, fuzzy, c-format
+#| msgid "'%s' field, reference to '%.255s': version contains '%c'"
+msgid "'%s' field, reference to '%.255s': version '%s'"
+msgstr "`%s' 欄位，參照至 `%.255s'：版本號含有 `%c'"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -888,8 +925,9 @@ msgid "'%s' field, syntax error after reference to package '%.255s'"
 msgstr "`%s' 欄位，在參照至套件 `%.255s' 後的語法有誤"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "alternatives ('|') not allowed in %s field"
+#, fuzzy, c-format
+#| msgid "alternatives ('|') not allowed in %s field"
+msgid "alternatives ('|') not allowed in '%s' field"
 msgstr "在 %s 欄位不可有可替換符號 (`|')"
 
 #: lib/dpkg/fields.c
@@ -1152,27 +1190,33 @@ msgid "duplicate value for user-defined field '%.*s'"
 msgstr "有多個值對應至用戶自定的欄位 `%.*s'"
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
-#, c-format
-msgid "missing %s"
+#, fuzzy, c-format
+#| msgid "missing %s"
+msgid "missing '%s' field"
 msgstr "找不到 %s"
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
-#, c-format
-msgid "empty value for %s"
-msgstr "%s 的值是空的"
+#, fuzzy, c-format
+#| msgid "duplicate value for '%s' field"
+msgid "empty value for '%s' field"
+msgstr "有多個值對應至 `%s' 欄位"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "package has field '%s' but is missing architecture"
+#, fuzzy, c-format
+#| msgid "package has field '%s' but is missing architecture"
+msgid "package has '%s' field but is missing architecture"
 msgstr "套件有 '%s' 欄位，但缺硬體平台"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "package has field '%s' but is architecture all"
+#, fuzzy, c-format
+#| msgid "package has field '%s' but is architecture all"
+msgid "package has '%s' field but is architecture '%s'"
 msgstr "套件有欄位 '%s'，但適用所有平台"
 
 #: lib/dpkg/parse.c
-msgid "Config-Version for package with inappropriate Status"
+#, fuzzy, c-format
+#| msgid "Config-Version for package with inappropriate Status"
+msgid "'%s' field present for package with inappropriate '%s' field"
 msgstr "套件存在 Configured-Version 但處於錯誤的狀態中"
 
 #: lib/dpkg/parse.c
@@ -1181,8 +1225,10 @@ msgid "package has status %s but triggers are awaited"
 msgstr "套件的狀態為 %s 但觸發程式正要執行"
 
 #: lib/dpkg/parse.c
-msgid "package has status triggers-awaited but no triggers awaited"
-msgstr "套件的狀態為 triggers-awaited 但並沒有觸發程式正要執行"
+#, fuzzy, c-format
+#| msgid "package has status %s but triggers are awaited"
+msgid "package has status %s but no triggers awaited"
+msgstr "套件的狀態為 %s 但觸發程式正要執行"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1190,11 +1236,15 @@ msgid "package has status %s but triggers are pending"
 msgstr "套件的狀態為 %s 但觸發程式尚待執行"
 
 #: lib/dpkg/parse.c
-msgid "package has status triggers-pending but no triggers pending"
-msgstr "套件的狀態為 triggers-pending 但並沒有觸發程式尚待執行"
+#, fuzzy, c-format
+#| msgid "package has status %s but triggers are pending"
+msgid "package has status %s but no triggers pending"
+msgstr "套件的狀態為 %s 但觸發程式尚待執行"
 
 #: lib/dpkg/parse.c
-msgid "Package which in state not-installed has conffiles, forgetting them"
+#, fuzzy, c-format
+#| msgid "Package which in state not-installed has conffiles, forgetting them"
+msgid "package has status %s and has conffiles, forgetting them"
 msgstr "該套件的狀態是尚未安裝，但是它卻有 conffile，不去理會它"
 
 #: lib/dpkg/parse.c
@@ -1212,10 +1262,13 @@ msgstr ""
 "個非官方的版本"
 
 #: lib/dpkg/parse.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
+#| "installed instances"
 msgid ""
-"%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
-"installed instances"
+"package %s (%s) with field '%s: %s' is not co-installable with %s which has "
+"multiple installed instances"
 msgstr "已安裝多份的 %4$s ，無法同時安裝 %1$s %2$s（多硬體平台：%3$s）"
 
 #: lib/dpkg/parse.c
@@ -1575,8 +1628,9 @@ msgid "treewalk root %s is not a directory"
 msgstr "目錄樹遊走(treewalk)的根節點「%s」不是個目錄"
 
 #: lib/dpkg/trigdeferred.c
-#, c-format
-msgid "unable to open/create triggers lockfile '%.250s'"
+#, fuzzy, c-format
+#| msgid "unable to open/create triggers lockfile '%.250s'"
+msgid "unable to open/create triggers lock file '%.250s'"
 msgstr "無法開啟或建立觸發程式鎖定檔「%.250s」"
 
 # file_lock(&lock_fd, FILE_LOCK_WAIT, fn.buf, _("triggers area"));
@@ -1584,7 +1638,9 @@ msgstr "無法開啟或建立觸發程式鎖定檔「%.250s」"
 # file_lock(int *lockfd, enum file_lock_flags flags, const char *filename, const char *desc)
 # @param desc The description of the file to lock.
 #: lib/dpkg/trigdeferred.c
-msgid "triggers area"
+#, fuzzy
+#| msgid "triggers area"
+msgid "triggers database lock"
 msgstr "觸發程式區域"
 
 #: lib/dpkg/trigdeferred.c
@@ -2098,10 +2154,10 @@ msgstr "無法存取壓縮檔"
 msgid "archive '%s' is not a regular file"
 msgstr "conffile '%s' 不是普通檔案"
 
-#: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
-#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
-#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
+#: src/archives.c src/divertcmd.c src/enquiry.c src/force.c src/main.c
+#: src/packages.c src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c
+#: src/verify.c dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c
+#: dpkg-deb/main.c dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<標準輸出>"
 
@@ -3158,7 +3214,168 @@ msgid ""
 "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
 msgstr "套件 %s 目前保留，不會去變動。用 --force-hold 來忽略該設定。\n"
 
-#: src/errors.c
+#: src/force.c
+msgid "Set all force options"
+msgstr "設定所有強制選項"
+
+#: src/force.c
+msgid "Use MAC based security if available"
+msgstr ""
+
+#: src/force.c
+msgid "Replace a package with a lower version"
+msgstr "把套件換成舊版"
+
+#: src/force.c
+msgid "Configure any package which may help this one"
+msgstr "設定和這個套件有關的所有套件"
+
+#: src/force.c
+msgid "Process incidental packages even when on hold"
+msgstr "不管保留狀態，處理所有附帶的套件"
+
+#: src/force.c
+msgid "Try to (de)install things even when not root"
+msgstr "即使不是 root，也試著安裝（解安裝）"
+
+#: src/force.c
+msgid "PATH is missing important programs, problems likely"
+msgstr "PATH 中缺少重要程式，可能是問題"
+
+#: src/force.c
+msgid "Install a package even if it fails authenticity check"
+msgstr "就算套件驗證失敗，也還是安裝"
+
+#: src/force.c
+msgid "Process even packages with wrong versions"
+msgstr "即使套件版本錯誤，也繼續進行"
+
+#: src/force.c
+msgid "Overwrite an existing stat override when adding it"
+msgstr ""
+
+#: src/force.c
+msgid "Ignore a missing stat override when removing it"
+msgstr ""
+
+#: src/force.c
+msgid "Overwrite a file from one package with another"
+msgstr "用一個套件的檔案，取代另外一個套件的檔案"
+
+#: src/force.c
+msgid "Overwrite a diverted file with an undiverted version"
+msgstr "用未移轉的檔案，取代移轉的檔案"
+
+#: src/force.c
+msgid "Overwrite one package's directory with another's file"
+msgstr "用一個套件的檔案，取代另一個套件的目錄"
+
+#: src/force.c
+msgid "Do not perform safe I/O operations when unpacking"
+msgstr "解壓縮時，不執行安全輸出入操作"
+
+#: src/force.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/force.c
+msgid "Always use the new config files, don't prompt"
+msgstr "永遠採用新的設定檔，不另行詢問"
+
+#: src/force.c
+msgid "Always use the old config files, don't prompt"
+msgstr "永遠採用舊的設定檔，不另行詢問"
+
+#: src/force.c
+msgid ""
+"Use the default option for new config files if one\n"
+"is available, don't prompt. If no default can be found,\n"
+"you will be prompted unless one of the confold or\n"
+"confnew options is also given"
+msgstr ""
+"若有新設定檔，則用預設選項，不再詢問。若沒有預設選項，\n"
+"除非有設定 confold 或 confnew 選項，否則會詢問你"
+
+#: src/force.c
+msgid "Always install missing config files"
+msgstr "永遠安裝缺的設定檔"
+
+#: src/force.c
+msgid "Offer to replace config files with no new versions"
+msgstr "即使沒有新設定檔，也詢要問不要取代舊設定檔"
+
+#: src/force.c
+msgid "Process even packages with wrong or no architecture"
+msgstr "即使套件沒有設硬體平台，或硬體平台有誤，也繼續進行"
+
+#: src/force.c
+msgid "Install even if it would break another package"
+msgstr "即使會破壞其它套件，也要安裝"
+
+#: src/force.c
+msgid "Allow installation of conflicting packages"
+msgstr "允許安裝相衝的討件"
+
+#: src/force.c
+msgid "Turn all dependency problems into warnings"
+msgstr "把所有相依問題當作警告"
+
+#: src/force.c
+msgid "Turn dependency version problems into warnings"
+msgstr "把所有相依版本問題當作警告"
+
+#: src/force.c
+msgid "Remove packages which require installation"
+msgstr "移除需要安裝的套件"
+
+#: src/force.c
+msgid "Remove an essential package"
+msgstr "移除核心套件"
+
+#: src/force.c
+#, c-format
+msgid ""
+"%s forcing options - control behaviour when problems found:\n"
+"  warn but continue:  --force-<thing>,<thing>,...\n"
+"  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
+" Forcing things:\n"
+msgstr ""
+"%s 強制選項 - 發生問題時，程式的行為控制：\n"
+"  警告後繼續：  --force-<項目>,<項目>,...\n"
+"  錯誤終止：    --refuse-<項目>,<項目>,... | --no-force-<項目>,...\n"
+" 強制項目：\n"
+
+#: src/force.c
+#, c-format
+msgid ""
+"\n"
+"WARNING - use of options marked [!] can seriously damage your installation.\n"
+"Forcing options marked [*] are enabled by default.\n"
+msgstr ""
+"\n"
+"警告 - 使用標記 [!] 的選項，會嚴重破壞系統。\n"
+"預設啟用標記 [*] 的強制選項。\n"
+
+#: src/force.c
+#, c-format
+msgid ""
+"\n"
+"Currently enabled options:\n"
+" %s\n"
+msgstr ""
+
+#: src/force.c
+#, c-format
+msgid "unknown force/refuse option '%.*s'"
+msgstr "未知的 force/refuse 選項 `%.*s'"
+
+#: src/force.c
+#, fuzzy, c-format
+#| msgid "obsolete force/refuse option '%s'\n"
+msgid "obsolete force/refuse option '%s'"
+msgstr "已作廢的 force/refuse 選項 '%s'\n"
+
+#: src/force.c
 msgid "overriding problem because --force enabled:"
 msgstr "使用了 --force 選項，忽略問題："
 
@@ -3498,112 +3715,6 @@ msgstr ""
 "標示有 [*] 的選項會輸出大量文字 - 將其重導向至 less 或 more！"
 
 #: src/main.c
-msgid "Set all force options"
-msgstr "設定所有強制選項"
-
-#: src/main.c
-msgid "Replace a package with a lower version"
-msgstr "把套件換成舊版"
-
-#: src/main.c
-msgid "Configure any package which may help this one"
-msgstr "設定和這個套件有關的所有套件"
-
-#: src/main.c
-msgid "Process incidental packages even when on hold"
-msgstr "不管保留狀態，處理所有附帶的套件"
-
-#: src/main.c
-msgid "Try to (de)install things even when not root"
-msgstr "即使不是 root，也試著安裝（解安裝）"
-
-#: src/main.c
-msgid "PATH is missing important programs, problems likely"
-msgstr "PATH 中缺少重要程式，可能是問題"
-
-#: src/main.c
-msgid "Install a package even if it fails authenticity check"
-msgstr "就算套件驗證失敗，也還是安裝"
-
-#: src/main.c
-msgid "Process even packages with wrong versions"
-msgstr "即使套件版本錯誤，也繼續進行"
-
-#: src/main.c
-msgid "Overwrite a file from one package with another"
-msgstr "用一個套件的檔案，取代另外一個套件的檔案"
-
-#: src/main.c
-msgid "Overwrite a diverted file with an undiverted version"
-msgstr "用未移轉的檔案，取代移轉的檔案"
-
-#: src/main.c
-msgid "Overwrite one package's directory with another's file"
-msgstr "用一個套件的檔案，取代另一個套件的目錄"
-
-#: src/main.c
-msgid "Do not perform safe I/O operations when unpacking"
-msgstr "解壓縮時，不執行安全輸出入操作"
-
-#: src/main.c
-msgid "Do not chroot into maintainer script environment"
-msgstr ""
-
-#: src/main.c
-msgid "Always use the new config files, don't prompt"
-msgstr "永遠採用新的設定檔，不另行詢問"
-
-#: src/main.c
-msgid "Always use the old config files, don't prompt"
-msgstr "永遠採用舊的設定檔，不另行詢問"
-
-#: src/main.c
-msgid ""
-"Use the default option for new config files if one\n"
-"is available, don't prompt. If no default can be found,\n"
-"you will be prompted unless one of the confold or\n"
-"confnew options is also given"
-msgstr ""
-"若有新設定檔，則用預設選項，不再詢問。若沒有預設選項，\n"
-"除非有設定 confold 或 confnew 選項，否則會詢問你"
-
-#: src/main.c
-msgid "Always install missing config files"
-msgstr "永遠安裝缺的設定檔"
-
-#: src/main.c
-msgid "Offer to replace config files with no new versions"
-msgstr "即使沒有新設定檔，也詢要問不要取代舊設定檔"
-
-#: src/main.c
-msgid "Process even packages with wrong or no architecture"
-msgstr "即使套件沒有設硬體平台，或硬體平台有誤，也繼續進行"
-
-#: src/main.c
-msgid "Install even if it would break another package"
-msgstr "即使會破壞其它套件，也要安裝"
-
-#: src/main.c
-msgid "Allow installation of conflicting packages"
-msgstr "允許安裝相衝的討件"
-
-#: src/main.c
-msgid "Turn all dependency problems into warnings"
-msgstr "把所有相依問題當作警告"
-
-#: src/main.c
-msgid "Turn dependency version problems into warnings"
-msgstr "把所有相依版本問題當作警告"
-
-#: src/main.c
-msgid "Remove packages which require installation"
-msgstr "移除需要安裝的套件"
-
-#: src/main.c
-msgid "Remove an essential package"
-msgstr "移除核心套件"
-
-#: src/main.c
 msgid "Generally helpful progress information"
 msgstr "普通的輔助進度資料"
 
@@ -3731,41 +3842,6 @@ msgstr "移除資料庫正在使用的 '%s' 硬體平台"
 #, c-format
 msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr "無法移除資料庫正在使用的 '%s' 硬體平台"
-
-#: src/main.c
-#, c-format
-msgid ""
-"%s forcing options - control behaviour when problems found:\n"
-"  warn but continue:  --force-<thing>,<thing>,...\n"
-"  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
-" Forcing things:\n"
-msgstr ""
-"%s 強制選項 - 發生問題時，程式的行為控制：\n"
-"  警告後繼續：  --force-<項目>,<項目>,...\n"
-"  錯誤終止：    --refuse-<項目>,<項目>,... | --no-force-<項目>,...\n"
-" 強制項目：\n"
-
-#: src/main.c
-#, c-format
-msgid ""
-"\n"
-"WARNING - use of options marked [!] can seriously damage your installation.\n"
-"Forcing options marked [*] are enabled by default.\n"
-msgstr ""
-"\n"
-"警告 - 使用標記 [!] 的選項，會嚴重破壞系統。\n"
-"預設啟用標記 [*] 的強制選項。\n"
-
-#: src/main.c
-#, c-format
-msgid "unknown force/refuse option '%.*s'"
-msgstr "未知的 force/refuse 選項 `%.*s'"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid "obsolete force/refuse option '%s'\n"
-msgid "obsolete force/refuse option '%s'"
-msgstr "已作廢的 force/refuse 選項 '%s'\n"
 
 #: src/main.c
 #, c-format
@@ -4444,7 +4520,10 @@ msgid ""
 "  --instdir <directory>    set the root directory, but not the admin dir.\n"
 "  --root <directory>       set the directory of the root filesystem.\n"
 "  --update                 immediately update <path> permissions.\n"
-"  --force                  force an action even if a sanity check fails.\n"
+"  --force                  deprecated alias for --force-all.\n"
+"  --force-...              override problems (see --force-help).\n"
+"  --no-force-...           stop when problems encountered.\n"
+"  --refuse-...             ditto.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
@@ -4508,6 +4587,12 @@ msgstr "沒有設定強制選項"
 #: src/statcmd.c
 msgid "--update is useless for --remove"
 msgstr "--remove 時 --update 無效"
+
+#: src/statcmd.c
+#, fuzzy, c-format
+#| msgid "obsolete option '--%s'; please use '--%s' instead"
+msgid "deprecated --%s option; use --%s instead"
+msgstr "已作廢選項 '--%s' ；請改用 '--%s'"
 
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
@@ -4878,12 +4963,18 @@ msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s 需要至多一個 Packages-file 作為引數"
 
 #: src/update.c
-msgid "unable to access dpkg status area for bulk available update"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area for bulk available update"
+msgid "unable to access dpkg database directory '%s' for bulk available update"
 msgstr "無法存取 dpkg 的狀態庫，以進行批次可用套件更新"
 
 #: src/update.c
-msgid "bulk available update requires write access to dpkg status area"
-msgstr "要進行批次可用套件更新，需在 dpkg 狀態庫有寫入權限"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area for bulk available update"
+msgid ""
+"required write access to dpkg database directory '%s' for bulk available "
+"update"
+msgstr "無法存取 dpkg 的狀態庫，以進行批次可用套件更新"
 
 #: src/update.c
 #, c-format
@@ -6524,6 +6615,49 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#~ msgid "unable to open lock file %s for testing"
+#~ msgstr "無法開啟鎖定檔 %s 測試"
+
+#, fuzzy
+#~| msgid "syntax error: unknown user '%s' in statoverride file"
+#~ msgid "unknown user '%s' in statoverride file"
+#~ msgstr "語法錯誤：statoverride 的使用者 '%s' 不明"
+
+#, fuzzy
+#~| msgid "syntax error: unknown group '%s' in statoverride file"
+#~ msgid "unknown group '%s' in statoverride file"
+#~ msgstr "語法錯誤：statoverride 檔中未知的 '%s' 群組"
+
+#~ msgid "%s is missing"
+#~ msgstr "未找到 %s"
+
+#~ msgid "'%.50s' is not allowed for %s"
+#~ msgstr "'%.50s' 不可用於 %s"
+
+#~ msgid "junk after %s"
+#~ msgstr "在 %s 之後有多餘的資料"
+
+#~ msgid "invalid package name (%.250s)"
+#~ msgstr "無效的套件名稱 (%.250s)"
+
+#~ msgid "yes/no in boolean field"
+#~ msgstr "boolean 欄位的 yes/no"
+
+#~ msgid "'%s' field, reference to '%.255s': error in version"
+#~ msgstr "'%s' 欄位，參照 '%.255s'：版本號有誤"
+
+#~ msgid "empty value for %s"
+#~ msgstr "%s 的值是空的"
+
+#~ msgid "package has status triggers-awaited but no triggers awaited"
+#~ msgstr "套件的狀態為 triggers-awaited 但並沒有觸發程式正要執行"
+
+#~ msgid "package has status triggers-pending but no triggers pending"
+#~ msgstr "套件的狀態為 triggers-pending 但並沒有觸發程式尚待執行"
+
+#~ msgid "bulk available update requires write access to dpkg status area"
+#~ msgstr "要進行批次可用套件更新，需在 dpkg 狀態庫有寫入權限"
+
 #~ msgid "error reading dpkg-deb tar output"
 #~ msgstr "在讀取 dpkg-deb 輸出的 tar 檔時發生錯誤"
 
@@ -6561,14 +6695,6 @@ msgstr ""
 
 #~ msgid "failed to chdir to directory after creating it"
 #~ msgstr "建立目錄後，無法切換到該目錄"
-
-#~ msgid "obsolete option '--%s'; please use '--%s' instead"
-#~ msgstr "已作廢選項 '--%s' ；請改用 '--%s'"
-
-#, fuzzy
-#~| msgid "control file '%s' does not exist"
-#~ msgid "control file '%s' missing value"
-#~ msgstr "查無控制檔 '%s'"
 
 #, fuzzy
 #~| msgid "control file '%s' does not exist"

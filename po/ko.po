@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-01-22 14:24+0100\n"
+"POT-Creation-Date: 2019-02-23 17:59+0100\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -373,32 +373,37 @@ msgid "unable to seek to start of %.250s after padding"
 msgstr "채운 뒤에 %.250s 파일의 시작으로 이동할 수 없습니다"
 
 #: lib/dpkg/dbmodify.c
-#, c-format
-msgid "unable to open lock file %s for testing"
-msgstr "테스트를 위해 %s 잠금 파일을 열 수 없습니다"
+#, fuzzy, c-format
+#| msgid "unable to read filedescriptor flags for %.250s"
+msgid "unable to check lock file for dpkg database directory %s"
+msgstr "`%.250s 파일의 파일디스크립터 플래그 값을 읽을 수 없습니다"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy
+#, fuzzy, c-format
 #| msgid "unable to open/create status database lockfile"
-msgid "unable to open/create frontend lockfile"
+msgid "unable to open/create dpkg frontend lock for directory %s"
 msgstr "상태 데이터베이스의 잠금 파일의 열기/만들기를 할 수 없습니다"
 
 #: lib/dpkg/dbmodify.c
-msgid "unable to open/create status database lockfile"
+#, fuzzy, c-format
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create dpkg database lock file for directory %s"
 msgstr "상태 데이터베이스의 잠금 파일의 열기/만들기를 할 수 없습니다"
 
 #: lib/dpkg/dbmodify.c
-msgid "you do not have permission to lock the dpkg status database"
+#, fuzzy, c-format
+#| msgid "you do not have permission to lock the dpkg status database"
+msgid "you do not have permission to lock the dpkg database directory %s"
 msgstr "dpkg 상태 데이터베이스를 잠글 수 있는 권한이 없습니다"
 
 #: lib/dpkg/dbmodify.c
-msgid "dpkg frontend"
+msgid "dpkg frontend lock"
 msgstr ""
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy
 #| msgid "unable to lock dpkg status database"
-msgid "dpkg status database"
+msgid "dpkg database lock"
 msgstr "dpkg 상태 데이터베이스를 잠글 수 없습니다"
 
 #: lib/dpkg/dbmodify.c
@@ -406,11 +411,15 @@ msgid "requested operation requires superuser privilege"
 msgstr "요청한 작업을 하려면 수퍼유저 권한이 필요합니다"
 
 #: lib/dpkg/dbmodify.c
-msgid "unable to access dpkg status area"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "unable to access the dpkg database directory %s"
 msgstr "dpkg 상태 영역에 접근할 수 없습니다"
 
 #: lib/dpkg/dbmodify.c
-msgid "operation requires read/write access to dpkg status area"
+#, fuzzy, c-format
+#| msgid "operation requires read/write access to dpkg status area"
+msgid "required read/write access to the dpkg database directory %s"
 msgstr "이 작업은 dpkg 상태 영역에 읽기/쓰기 권한이 필요합니다"
 
 #: lib/dpkg/dbmodify.c
@@ -617,20 +626,25 @@ msgid "syntax error in statoverride file"
 msgstr "statoverride 파일에 문법 오류가 있습니다"
 
 #: lib/dpkg/db-fsys-override.c
-#, fuzzy, c-format
-#| msgid "syntax error: unknown user '%s' in statoverride file"
-msgid "unknown user '%s' in statoverride file"
-msgstr "문법 오류: statoverride 파일에서 알 수 없는 사용자 '%s'"
+#, c-format
+msgid ""
+"unknown system user '%s' in statoverride file; the system user got removed\n"
+"before the override, which is most probably a packaging bug, to recover you\n"
+"can remove the override manually with %s"
+msgstr ""
 
 #: lib/dpkg/db-fsys-override.c
 msgid "unexpected end of line in statoverride file"
 msgstr "statoverride 파일에서 갑작스레 줄이 끝났습니다"
 
 #: lib/dpkg/db-fsys-override.c
-#, fuzzy, c-format
-#| msgid "syntax error: unknown group '%s' in statoverride file"
-msgid "unknown group '%s' in statoverride file"
-msgstr "문법 오류: statoverride 파일에서 알 수 없는 그룹 '%s'"
+#, c-format
+msgid ""
+"unknown system group '%s' in statoverride file; the system group got "
+"removed\n"
+"before the override, which is most probably a packaging bug, to recover you\n"
+"can remove the override manually with %s"
+msgstr ""
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
@@ -783,67 +797,73 @@ msgid "internal error"
 msgstr "%s: 내부 gzip 읽기 오류"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "%s is missing"
-msgstr "%s이(가) 빠졌습니다"
+#, fuzzy
+#| msgid "cannot stat file '%s'"
+msgid "is missing a value"
+msgstr "'%s' 파일의 정보를 읽을 수 없습니다"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
-#| msgid "`%.*s' is not allowed for %s"
-msgid "'%.50s' is not allowed for %s"
-msgstr "`%.*s'은(는) %s에 쓸 수 없습니다"
+#| msgid "Skip invalid line: %s"
+msgid "has invalid value '%.50s'"
+msgstr "잘못된 줄을 건너 뜁니다: %s"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "junk after %s"
-msgstr "%s 뒤에 쓰레기 데이터가 있습니다"
+msgid "has trailing junk"
+msgstr ""
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "invalid package name (%.250s)"
-msgstr "패키지 이름이 잘못되었습니다 (%.250s)"
+#, fuzzy, c-format
+#| msgid "Package `%s' is not installed.\n"
+msgid "invalid package name in '%s' field: %s"
+msgstr "`%s' 패키지는 설치하지 않았습니다.\n"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "empty file details field '%s'"
-msgid "empty archive details field '%s'"
+msgid "empty archive details '%s' field"
 msgstr "파일 상세 필드 `%s'이(가) 비어 있습니다"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "file details field '%s' not allowed in status file"
-msgid "archive details field '%s' not allowed in status file"
+msgid "archive details '%s' field not allowed in status file"
 msgstr "파일 상세 필드 `%s'은(는) 상태 파일에서 쓸 수 없습니다"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "too many values in file details field '%s' (compared to others)"
-msgid "too many values in archive details field '%s' (compared to others)"
+msgid "too many values in archive details '%s' field (compared to others)"
 msgstr "파일 상세 필드 `%s'에 너무 값이 많습니다 (다른 필드에 비해)"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "too few values in file details field '%s' (compared to others)"
-msgid "too few values in archive details field '%s' (compared to others)"
+msgid "too few values in archive details '%s' field (compared to others)"
 msgstr "파일 상세 필드 `%s'에 너무 값이 적습니다 (다른 필드에 비해)"
 
 #: lib/dpkg/fields.c
-msgid "yes/no in boolean field"
-msgstr "불리언 필드에서는 예/아니오만 가능합니다"
-
-#: lib/dpkg/fields.c
-msgid "foreign/allowed/same/no in quadstate field"
+#, fuzzy, c-format
+#| msgid "obsolete `Revision' or `Package-Revision' field used"
+msgid "boolean (yes/no) '%s' field: %s"
 msgstr ""
+"더 이상 사용하지 않는 `Revision' 이나 `Package-Revision' 필드를 사용했습니다"
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid "'%s' is not a valid architecture name: %s"
+msgid "quadstate (foreign/allowed/same/no) '%s' field: %s"
 msgstr ""
 
 #: lib/dpkg/fields.c
-#, fuzzy
+#, fuzzy, c-format
+#| msgid "'%s' field, reference to '%.255s': error in version"
+msgid "'%s' is not a valid architecture name in '%s' field: %s"
+msgstr "'%s' 필드, '%.255s' 참조: 버전에 오류가 있습니다"
+
+#: lib/dpkg/fields.c
+#, fuzzy, c-format
 #| msgid "word in `priority' field"
-msgid "word in 'Priority' field"
+msgid "word in '%s' field: %s"
 msgstr "`priority' 필드에 단어가 있습니다"
 
 #: lib/dpkg/fields.c
@@ -853,33 +873,33 @@ msgid "value for '%s' field not allowed in this context"
 msgstr "`status' 필드의 값은 이 경우에 쓸 수 없습니다"
 
 #: lib/dpkg/fields.c
-#, fuzzy
+#, fuzzy, c-format
 #| msgid "first (want) word in `status' field"
-msgid "first (want) word in 'Status' field"
+msgid "first (want) word in '%s' field: %s"
 msgstr "`status' 필드 내에 첫 번째 (요청) 단어가 있습니다"
 
 #: lib/dpkg/fields.c
-#, fuzzy
+#, fuzzy, c-format
 #| msgid "second (error) word in `status' field"
-msgid "second (error) word in 'Status' field"
+msgid "second (error) word in '%s' field: %s"
 msgstr "`status' 필드 내에 두 번째 (오류) 단어가 있습니다"
 
 #: lib/dpkg/fields.c
-#, fuzzy
+#, fuzzy, c-format
 #| msgid "third (status) word in `status' field"
-msgid "third (status) word in 'Status' field"
+msgid "third (status) word in '%s' field: %s"
 msgstr "`status' 필드 내에 세 번째 (상태) 단어가 있습니다"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "error in Version string '%.250s'"
-msgid "error in '%s' field string '%.250s'"
+msgid "'%s' field value '%.250s'"
 msgstr "Version 문자열 '%.250s'에 오류가 발생했습니다"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "obsolete `Revision' or `Package-Revision' field used"
-msgid "obsolete '%s' or '%s' field used"
+msgid "obsolete '%s' field used"
 msgstr ""
 "더 이상 사용하지 않는 `Revision' 이나 `Package-Revision' 필드를 사용했습니다"
 
@@ -892,12 +912,14 @@ msgstr "`conffiles'의 값에 잘못된 줄, `%.*s'이(가) 있습니다"
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "value for `conffiles' has line starting with non-space `%c'"
-msgid "value for '%s' has line starting with non-space '%c'"
+msgid "value for '%s' field has line starting with non-space '%c'"
 msgstr ""
 "`conffiles' 필드의 값에 공백이 아닌 `%c'(으)로 시작하는 줄이 들어 있습니다"
 
 #: lib/dpkg/fields.c
-msgid "root or null directory is listed as a conffile"
+#, fuzzy, c-format
+#| msgid "root or null directory is listed as a conffile"
+msgid "root or empty directory listed as a conffile in '%s' field"
 msgstr "conffile에 루트 혹은 빈 디렉터리가 들어 있습니다"
 
 #: lib/dpkg/fields.c
@@ -984,9 +1006,10 @@ msgid "'%s' field, reference to '%.255s': version unterminated"
 msgstr "`%s' 필드, `%.255s' 참조: 버전이 끝나지 않았습니다"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%s' field, reference to '%.255s': error in version"
-msgstr "'%s' 필드, '%.255s' 참조: 버전에 오류가 있습니다"
+#, fuzzy, c-format
+#| msgid "'%s' field, reference to '%.255s': version contains '%c'"
+msgid "'%s' field, reference to '%.255s': version '%s'"
+msgstr "`%s' 필드, `%.255s' 참조: 버전에 `%c'(이)가 들어 있습니다"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -994,8 +1017,9 @@ msgid "'%s' field, syntax error after reference to package '%.255s'"
 msgstr "`%s' 필드, `%.255s' 패키지 참조 후 구문 오류가 있습니다"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "alternatives ('|') not allowed in %s field"
+#, fuzzy, c-format
+#| msgid "alternatives ('|') not allowed in %s field"
+msgid "alternatives ('|') not allowed in '%s' field"
 msgstr "%s 필드에는 대신할 패키지 표시를 (`|') 쓸 수 없습니다"
 
 #: lib/dpkg/fields.c
@@ -1266,30 +1290,33 @@ msgid "duplicate value for user-defined field '%.*s'"
 msgstr "사용자 정의 필드 `%.*s'의 값이 중복되었습니다"
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
-#, c-format
-msgid "missing %s"
+#, fuzzy, c-format
+#| msgid "missing %s"
+msgid "missing '%s' field"
 msgstr "%s 빠졌습니다"
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
-#, c-format
-msgid "empty value for %s"
-msgstr "%s의 값이 비어 있습니다"
-
-#: lib/dpkg/parse.c
-#, c-format
-msgid "package has field '%s' but is missing architecture"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "duplicate value for '%s' field"
+msgid "empty value for '%s' field"
+msgstr "`%s' 필드의 값이 중복되었습니다"
 
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "package has status %s but triggers are awaited"
-msgid "package has field '%s' but is architecture all"
+msgid "package has '%s' field but is missing architecture"
 msgstr "패키지의 상태가 %s이지만 트리거가 대기하고 있습니다"
 
 #: lib/dpkg/parse.c
-#, fuzzy
+#, fuzzy, c-format
+#| msgid "package has status %s but triggers are awaited"
+msgid "package has '%s' field but is architecture '%s'"
+msgstr "패키지의 상태가 %s이지만 트리거가 대기하고 있습니다"
+
+#: lib/dpkg/parse.c
+#, fuzzy, c-format
 #| msgid "Configured-Version for package with inappropriate Status"
-msgid "Config-Version for package with inappropriate Status"
+msgid "'%s' field present for package with inappropriate '%s' field"
 msgstr "적당하지 않은 Status의 패키지에 대한 Configured-Version"
 
 #: lib/dpkg/parse.c
@@ -1298,8 +1325,10 @@ msgid "package has status %s but triggers are awaited"
 msgstr "패키지의 상태가 %s이지만 트리거가 대기하고 있습니다"
 
 #: lib/dpkg/parse.c
-msgid "package has status triggers-awaited but no triggers awaited"
-msgstr "패키지의 상태가 트리거 대기이지만 대기하는 트리거가 하나도 없습니다"
+#, fuzzy, c-format
+#| msgid "package has status %s but triggers are awaited"
+msgid "package has status %s but no triggers awaited"
+msgstr "패키지의 상태가 %s이지만 트리거가 대기하고 있습니다"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1307,11 +1336,15 @@ msgid "package has status %s but triggers are pending"
 msgstr "패키지의 상태가 %s이지만 트리거가 밀려 있습니다"
 
 #: lib/dpkg/parse.c
-msgid "package has status triggers-pending but no triggers pending"
-msgstr "패키지의 상태가 트리거 밀림이지만 밀린 트리거가 하나도 없습니다"
+#, fuzzy, c-format
+#| msgid "package has status %s but triggers are pending"
+msgid "package has status %s but no triggers pending"
+msgstr "패키지의 상태가 %s이지만 트리거가 밀려 있습니다"
 
 #: lib/dpkg/parse.c
-msgid "Package which in state not-installed has conffiles, forgetting them"
+#, fuzzy, c-format
+#| msgid "Package which in state not-installed has conffiles, forgetting them"
+msgid "package has status %s and has conffiles, forgetting them"
 msgstr "설치되지 않은 상태의 패키지에 설정 파일이 있습니다. 잊어버립니다"
 
 #: lib/dpkg/parse.c
@@ -1329,8 +1362,8 @@ msgstr ""
 #: lib/dpkg/parse.c
 #, c-format
 msgid ""
-"%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
-"installed instances"
+"package %s (%s) with field '%s: %s' is not co-installable with %s which has "
+"multiple installed instances"
 msgstr ""
 
 #: lib/dpkg/parse.c
@@ -1729,14 +1762,15 @@ msgid "treewalk root %s is not a directory"
 msgstr "컨트롤 디렉터리가 디렉터리가 아닙니다"
 
 #: lib/dpkg/trigdeferred.c
-#, c-format
-msgid "unable to open/create triggers lockfile '%.250s'"
+#, fuzzy, c-format
+#| msgid "unable to open/create triggers lockfile '%.250s'"
+msgid "unable to open/create triggers lock file '%.250s'"
 msgstr "트리거 잠금 파일을 (`%.250s') 열거나 만들 수 없습니다"
 
 #: lib/dpkg/trigdeferred.c
 #, fuzzy
 #| msgid "triggered"
-msgid "triggers area"
+msgid "triggers database lock"
 msgstr "트리거"
 
 #: lib/dpkg/trigdeferred.c
@@ -2307,10 +2341,10 @@ msgstr "아카이브에 접근할 수 없습니다"
 msgid "archive '%s' is not a regular file"
 msgstr "'%.250s' 설정 파일이 일반 파일이 아닙니다"
 
-#: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
-#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
-#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
+#: src/archives.c src/divertcmd.c src/enquiry.c src/force.c src/main.c
+#: src/packages.c src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c
+#: src/verify.c dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c
+#: dpkg-deb/main.c dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<표준 출력>"
 
@@ -3446,7 +3480,163 @@ msgstr ""
 "%s 패키지는 고정 상태로 건드리지 않습니다.  무시하려면 --force-hold 옵션을 사"
 "용하십시오.\n"
 
-#: src/errors.c
+#: src/force.c
+msgid "Set all force options"
+msgstr ""
+
+#: src/force.c
+msgid "Use MAC based security if available"
+msgstr ""
+
+#: src/force.c
+msgid "Replace a package with a lower version"
+msgstr ""
+
+#: src/force.c
+msgid "Configure any package which may help this one"
+msgstr ""
+
+#: src/force.c
+msgid "Process incidental packages even when on hold"
+msgstr ""
+
+#: src/force.c
+msgid "Try to (de)install things even when not root"
+msgstr ""
+
+#: src/force.c
+msgid "PATH is missing important programs, problems likely"
+msgstr ""
+
+#: src/force.c
+msgid "Install a package even if it fails authenticity check"
+msgstr ""
+
+#: src/force.c
+msgid "Process even packages with wrong versions"
+msgstr ""
+
+#: src/force.c
+msgid "Overwrite an existing stat override when adding it"
+msgstr ""
+
+#: src/force.c
+msgid "Ignore a missing stat override when removing it"
+msgstr ""
+
+#: src/force.c
+msgid "Overwrite a file from one package with another"
+msgstr ""
+
+#: src/force.c
+msgid "Overwrite a diverted file with an undiverted version"
+msgstr ""
+
+#: src/force.c
+msgid "Overwrite one package's directory with another's file"
+msgstr ""
+
+#: src/force.c
+msgid "Do not perform safe I/O operations when unpacking"
+msgstr ""
+
+#: src/force.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/force.c
+msgid "Always use the new config files, don't prompt"
+msgstr ""
+
+#: src/force.c
+msgid "Always use the old config files, don't prompt"
+msgstr ""
+
+#: src/force.c
+msgid ""
+"Use the default option for new config files if one\n"
+"is available, don't prompt. If no default can be found,\n"
+"you will be prompted unless one of the confold or\n"
+"confnew options is also given"
+msgstr ""
+
+#: src/force.c
+msgid "Always install missing config files"
+msgstr ""
+
+#: src/force.c
+msgid "Offer to replace config files with no new versions"
+msgstr ""
+
+#: src/force.c
+msgid "Process even packages with wrong or no architecture"
+msgstr ""
+
+#: src/force.c
+msgid "Install even if it would break another package"
+msgstr ""
+
+#: src/force.c
+msgid "Allow installation of conflicting packages"
+msgstr ""
+
+#: src/force.c
+#, fuzzy
+#| msgid "dependency problems - not removing"
+msgid "Turn all dependency problems into warnings"
+msgstr "의존성 문제 - 지우지 않습니다"
+
+#: src/force.c
+#, fuzzy
+#| msgid "dependency problems - not removing"
+msgid "Turn dependency version problems into warnings"
+msgstr "의존성 문제 - 지우지 않습니다"
+
+#: src/force.c
+msgid "Remove packages which require installation"
+msgstr ""
+
+#: src/force.c
+msgid "Remove an essential package"
+msgstr ""
+
+#: src/force.c
+#, c-format
+msgid ""
+"%s forcing options - control behaviour when problems found:\n"
+"  warn but continue:  --force-<thing>,<thing>,...\n"
+"  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
+" Forcing things:\n"
+msgstr ""
+
+#: src/force.c
+#, c-format
+msgid ""
+"\n"
+"WARNING - use of options marked [!] can seriously damage your installation.\n"
+"Forcing options marked [*] are enabled by default.\n"
+msgstr ""
+
+#: src/force.c
+#, c-format
+msgid ""
+"\n"
+"Currently enabled options:\n"
+" %s\n"
+msgstr ""
+
+#: src/force.c
+#, c-format
+msgid "unknown force/refuse option '%.*s'"
+msgstr "알 수 없는 force/refuse 옵션 `%.*s'"
+
+#: src/force.c
+#, fuzzy, c-format
+#| msgid "obsolete force/refuse option '%s'\n"
+msgid "obsolete force/refuse option '%s'"
+msgstr "'%s' force/refuse 옵션은 더 이상 사용하지 않습니다\n"
+
+#: src/force.c
 msgid "overriding problem because --force enabled:"
 msgstr "--force 옵션이 켜져 있으므로 문제를 무시합니다:"
 
@@ -3849,114 +4039,6 @@ msgstr ""
 "[*] 표시된 옵션은 표시하는 내용이 많습니다. - `less'나 `more'를 이용하십시오!"
 
 #: src/main.c
-msgid "Set all force options"
-msgstr ""
-
-#: src/main.c
-msgid "Replace a package with a lower version"
-msgstr ""
-
-#: src/main.c
-msgid "Configure any package which may help this one"
-msgstr ""
-
-#: src/main.c
-msgid "Process incidental packages even when on hold"
-msgstr ""
-
-#: src/main.c
-msgid "Try to (de)install things even when not root"
-msgstr ""
-
-#: src/main.c
-msgid "PATH is missing important programs, problems likely"
-msgstr ""
-
-#: src/main.c
-msgid "Install a package even if it fails authenticity check"
-msgstr ""
-
-#: src/main.c
-msgid "Process even packages with wrong versions"
-msgstr ""
-
-#: src/main.c
-msgid "Overwrite a file from one package with another"
-msgstr ""
-
-#: src/main.c
-msgid "Overwrite a diverted file with an undiverted version"
-msgstr ""
-
-#: src/main.c
-msgid "Overwrite one package's directory with another's file"
-msgstr ""
-
-#: src/main.c
-msgid "Do not perform safe I/O operations when unpacking"
-msgstr ""
-
-#: src/main.c
-msgid "Do not chroot into maintainer script environment"
-msgstr ""
-
-#: src/main.c
-msgid "Always use the new config files, don't prompt"
-msgstr ""
-
-#: src/main.c
-msgid "Always use the old config files, don't prompt"
-msgstr ""
-
-#: src/main.c
-msgid ""
-"Use the default option for new config files if one\n"
-"is available, don't prompt. If no default can be found,\n"
-"you will be prompted unless one of the confold or\n"
-"confnew options is also given"
-msgstr ""
-
-#: src/main.c
-msgid "Always install missing config files"
-msgstr ""
-
-#: src/main.c
-msgid "Offer to replace config files with no new versions"
-msgstr ""
-
-#: src/main.c
-msgid "Process even packages with wrong or no architecture"
-msgstr ""
-
-#: src/main.c
-msgid "Install even if it would break another package"
-msgstr ""
-
-#: src/main.c
-msgid "Allow installation of conflicting packages"
-msgstr ""
-
-#: src/main.c
-#, fuzzy
-#| msgid "dependency problems - not removing"
-msgid "Turn all dependency problems into warnings"
-msgstr "의존성 문제 - 지우지 않습니다"
-
-#: src/main.c
-#, fuzzy
-#| msgid "dependency problems - not removing"
-msgid "Turn dependency version problems into warnings"
-msgstr "의존성 문제 - 지우지 않습니다"
-
-#: src/main.c
-msgid "Remove packages which require installation"
-msgstr ""
-
-#: src/main.c
-msgid "Remove an essential package"
-msgstr ""
-
-#: src/main.c
 msgid "Generally helpful progress information"
 msgstr ""
 
@@ -4089,34 +4171,6 @@ msgstr ""
 #, c-format
 msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr ""
-
-#: src/main.c
-#, c-format
-msgid ""
-"%s forcing options - control behaviour when problems found:\n"
-"  warn but continue:  --force-<thing>,<thing>,...\n"
-"  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
-" Forcing things:\n"
-msgstr ""
-
-#: src/main.c
-#, c-format
-msgid ""
-"\n"
-"WARNING - use of options marked [!] can seriously damage your installation.\n"
-"Forcing options marked [*] are enabled by default.\n"
-msgstr ""
-
-#: src/main.c
-#, c-format
-msgid "unknown force/refuse option '%.*s'"
-msgstr "알 수 없는 force/refuse 옵션 `%.*s'"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid "obsolete force/refuse option '%s'\n"
-msgid "obsolete force/refuse option '%s'"
-msgstr "'%s' force/refuse 옵션은 더 이상 사용하지 않습니다\n"
 
 # fdopen() 실패 상황
 #: src/main.c
@@ -4852,7 +4906,10 @@ msgid ""
 "  --instdir <directory>    set the root directory, but not the admin dir.\n"
 "  --root <directory>       set the directory of the root filesystem.\n"
 "  --update                 immediately update <path> permissions.\n"
-"  --force                  force an action even if a sanity check fails.\n"
+"  --force                  deprecated alias for --force-all.\n"
+"  --force-...              override problems (see --force-help).\n"
+"  --no-force-...           stop when problems encountered.\n"
+"  --refuse-...             ditto.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
@@ -4925,6 +4982,12 @@ msgstr "override가 없습니다."
 #: src/statcmd.c
 msgid "--update is useless for --remove"
 msgstr "--remove 명령에서는 --update 옵션이 무의미합니다"
+
+#: src/statcmd.c
+#, fuzzy, c-format
+#| msgid "obsolete option '--%s', please use '--%s' instead."
+msgid "deprecated --%s option; use --%s instead"
+msgstr "'--%s' 옵션은 더 이상 사용하지 않습니다. '--%s' 옵션을 사용하십시오."
 
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
@@ -5355,13 +5418,18 @@ msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s 옵션은 정확히 하나의 Packages 파일 인수만을 받습니다"
 
 #: src/update.c
-msgid "unable to access dpkg status area for bulk available update"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area for bulk available update"
+msgid "unable to access dpkg database directory '%s' for bulk available update"
 msgstr "사용 가능 목록을 업데이트하려는데 dpkg 상태 영역에 접근할 수 없습니다"
 
 #: src/update.c
-msgid "bulk available update requires write access to dpkg status area"
-msgstr ""
-"사용 가능 목록을 업데이트하려면 dpkg 상태 영역에 쓰기 권한이 있어야 합니다"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area for bulk available update"
+msgid ""
+"required write access to dpkg database directory '%s' for bulk available "
+"update"
+msgstr "사용 가능 목록을 업데이트하려는데 dpkg 상태 영역에 접근할 수 없습니다"
 
 #: src/update.c
 #, c-format
@@ -7259,6 +7327,52 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#~ msgid "unable to open lock file %s for testing"
+#~ msgstr "테스트를 위해 %s 잠금 파일을 열 수 없습니다"
+
+#, fuzzy
+#~| msgid "syntax error: unknown user '%s' in statoverride file"
+#~ msgid "unknown user '%s' in statoverride file"
+#~ msgstr "문법 오류: statoverride 파일에서 알 수 없는 사용자 '%s'"
+
+#, fuzzy
+#~| msgid "syntax error: unknown group '%s' in statoverride file"
+#~ msgid "unknown group '%s' in statoverride file"
+#~ msgstr "문법 오류: statoverride 파일에서 알 수 없는 그룹 '%s'"
+
+#~ msgid "%s is missing"
+#~ msgstr "%s이(가) 빠졌습니다"
+
+#, fuzzy
+#~| msgid "`%.*s' is not allowed for %s"
+#~ msgid "'%.50s' is not allowed for %s"
+#~ msgstr "`%.*s'은(는) %s에 쓸 수 없습니다"
+
+#~ msgid "junk after %s"
+#~ msgstr "%s 뒤에 쓰레기 데이터가 있습니다"
+
+#~ msgid "invalid package name (%.250s)"
+#~ msgstr "패키지 이름이 잘못되었습니다 (%.250s)"
+
+#~ msgid "yes/no in boolean field"
+#~ msgstr "불리언 필드에서는 예/아니오만 가능합니다"
+
+#~ msgid "'%s' field, reference to '%.255s': error in version"
+#~ msgstr "'%s' 필드, '%.255s' 참조: 버전에 오류가 있습니다"
+
+#~ msgid "empty value for %s"
+#~ msgstr "%s의 값이 비어 있습니다"
+
+#~ msgid "package has status triggers-awaited but no triggers awaited"
+#~ msgstr "패키지의 상태가 트리거 대기이지만 대기하는 트리거가 하나도 없습니다"
+
+#~ msgid "package has status triggers-pending but no triggers pending"
+#~ msgstr "패키지의 상태가 트리거 밀림이지만 밀린 트리거가 하나도 없습니다"
+
+#~ msgid "bulk available update requires write access to dpkg status area"
+#~ msgstr ""
+#~ "사용 가능 목록을 업데이트하려면 dpkg 상태 영역에 쓰기 권한이 있어야 합니다"
+
 #~ msgid "error reading dpkg-deb tar output"
 #~ msgstr "dpkg-deb tar 출력을 읽는데 오류가 발생했습니다"
 
@@ -7300,17 +7414,6 @@ msgstr ""
 
 #~ msgid "failed to chdir to directory after creating it"
 #~ msgstr "디렉터리를 만든 다음에 거기로 이동하는데 실패했습니다"
-
-#, fuzzy
-#~| msgid "obsolete option '--%s', please use '--%s' instead."
-#~ msgid "obsolete option '--%s'; please use '--%s' instead"
-#~ msgstr ""
-#~ "'--%s' 옵션은 더 이상 사용하지 않습니다. '--%s' 옵션을 사용하십시오."
-
-#, fuzzy
-#~| msgid "cannot stat file '%s'"
-#~ msgid "control file '%s' missing value"
-#~ msgstr "'%s' 파일의 정보를 읽을 수 없습니다"
 
 #, fuzzy
 #~| msgid "cannot stat file '%s'"

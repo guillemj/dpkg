@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.11\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-01-22 14:25+0100\n"
+"POT-Creation-Date: 2019-02-23 18:00+0100\n"
 "PO-Revision-Date: 2016-12-17 16:42+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -928,6 +928,99 @@ msgstr ""
 msgid ""
 "On Debian and derivatives only build paths starting with I</build/> will "
 "emit this field."
+msgstr ""
+
+#. type: TP
+#: deb-buildinfo.man
+#, fuzzy, no-wrap
+#| msgid "B<Building>"
+msgid "B<Build-Tainted-By:>"
+msgstr "B<Bygga>"
+
+#. type: TQ
+#: deb-buildinfo.man
+#, no-wrap
+msgid "I<taint-reason-list>"
+msgstr ""
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid ""
+"This folded field contains a space-separated list of non-exhausitve reason "
+"tags (formed by alphanumeric and dash characters) which identify why the "
+"current build has been tainted (since dpkg 1.19.5)."
+msgstr ""
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid "On Debian and derivatives the following reason tags can be emitted:"
+msgstr ""
+
+#. type: TP
+#: deb-buildinfo.man
+#, no-wrap
+msgid "B<merged-usr-via-symlinks>"
+msgstr ""
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid ""
+"The system has a merged I</usr> via symlinks.  This will confuse B<dpkg-"
+"query>, B<dpkg-statoverride>, B<dpkg-trigger>, B<update-alternatives> and "
+"any other tool using pathnames as keys into their databases, as it creates "
+"filesystem aliasing problems, and messes with the understanding of the "
+"filesystem that B<dpkg> has recorded in its database.  For build systems "
+"that hardcode pathnames to specific binaries or libraries on the resulting "
+"artifacts, it can also produce packages that will be incompatible with non-/"
+"usr-merged filesystems."
+msgstr ""
+
+#. type: TP
+#: deb-buildinfo.man
+#, fuzzy, no-wrap
+#| msgid "B<-L>I<local-shlibs-file>"
+msgid "B<usr-local-has-configs>"
+msgstr "B<-L>I<lokal-shlibs-fil>"
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid "The system has configuration files under I</usr/local/etc>."
+msgstr ""
+
+#. type: TP
+#: deb-buildinfo.man
+#, fuzzy, no-wrap
+#| msgid "B<--single-debian-patch>"
+msgid "B<usr-local-has-includes>"
+msgstr "B<--single-debian-patch>"
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid "The system has header files under I</usr/local/include>."
+msgstr ""
+
+#. type: TP
+#: deb-buildinfo.man
+#, no-wrap
+msgid "B<usr-local-has-programs>"
+msgstr ""
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid "The system has programs under I</usr/local/bin> or I</usr/local/sbin>."
+msgstr ""
+
+#. type: TP
+#: deb-buildinfo.man
+#, fuzzy, no-wrap
+#| msgid "B<-L>I<local-shlibs-file>"
+msgid "B<usr-local-has-libraries>"
+msgstr "B<-L>I<lokal-shlibs-fil>"
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid ""
+"The system has libraries, either static or shared under I</usr/local/lib>."
 msgstr ""
 
 #. type: TP
@@ -6880,6 +6973,20 @@ msgstr ""
 "Paketet är markerat för rensning (dvs. vi vill ta bort allting från "
 "systemkataloger, även konfigurationsfiler)."
 
+#. type: TP
+#: dpkg.man
+#, no-wrap
+msgid "B<unknown>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg.man
+msgid ""
+"The package selection is unknown.  A package that is also in a B<not-"
+"installed> state, and with an B<ok> flag will be forgotten in the next "
+"database store."
+msgstr ""
+
 #. type: SS
 #: dpkg.man
 #, no-wrap
@@ -7838,7 +7945,7 @@ msgid "Display a brief help message."
 msgstr "Visar en kortfattad hjälptext."
 
 #. type: TP
-#: dpkg.man
+#: dpkg.man dpkg-statoverride.man
 #, no-wrap
 msgid "B<--force-help>"
 msgstr "B<--force-help>"
@@ -8105,14 +8212,14 @@ msgstr ""
 "   2000   Knäppa mängder pladder\n"
 
 #. type: TP
-#: dpkg.man
+#: dpkg.man dpkg-statoverride.man
 #, fuzzy, no-wrap
 #| msgid "B<--force-sign>"
 msgid "B<--force->I<things>"
 msgstr "B<--force-sign>"
 
 #. type: TQ
-#: dpkg.man
+#: dpkg.man dpkg-statoverride.man
 #, fuzzy, no-wrap
 #| msgid "B<--force->I<things>, B<--no-force->I<things>, B<--refuse->I<things>"
 msgid "B<--no-force->I<things>, B<--refuse->I<things>"
@@ -8143,7 +8250,7 @@ msgstr ""
 "du förstöra din systeminstallation.>"
 
 #. type: Plain text
-#: dpkg.man
+#: dpkg.man dpkg-statoverride.man
 msgid "B<all>: Turns on (or off) all force options."
 msgstr "B<all>: Slår på (eller av) alla tvingande flaggor."
 
@@ -8356,6 +8463,28 @@ msgid ""
 msgstr ""
 "B<overwrite-diverted>: Skriv över en omdirigerad fil med en ej omdirigerad "
 "version."
+
+#. type: Plain text
+#: dpkg.man dpkg-statoverride.man
+msgid ""
+"B<statoverride-add>: Overwrite an existing stat override when adding it "
+"(since dpkg 1.19.5)."
+msgstr ""
+
+#. type: Plain text
+#: dpkg.man dpkg-statoverride.man
+msgid ""
+"B<statoverride-remove>: Ignore a missing stat override when removing it "
+"(since dpkg 1.19.5)."
+msgstr ""
+
+#. type: Plain text
+#: dpkg.man dpkg-statoverride.man
+msgid ""
+"B<security-mac>(*): Use platform-specific Mandatory Access Controls (MAC) "
+"based security when installing files into the filesystem (since dpkg "
+"1.19.5).  On Linux systems the implementation uses SELinux."
+msgstr ""
 
 #. type: Plain text
 #: dpkg.man
@@ -9278,6 +9407,21 @@ msgid ""
 msgstr ""
 
 #. type: TP
+#: dpkg.man dpkg-statoverride.man
+#, fuzzy, no-wrap
+#| msgid "B<DPKG_CONFFILE_OLD>"
+msgid "B<DPKG_FORCE>"
+msgstr "B<DPKG_CONFFILE_OLD>"
+
+#. type: Plain text
+#: dpkg.man
+msgid ""
+"Sets the force flags (since dpkg 1.19.5).  When this variable is present, no "
+"built-in force defaults will be applied.  If the variable is present but "
+"empty, all force flags will be disabled."
+msgstr ""
+
+#. type: TP
 #: dpkg.man
 #, fuzzy, no-wrap
 #| msgid "B<DPKG_CONFFILE_OLD>"
@@ -9353,6 +9497,19 @@ msgid ""
 msgstr ""
 "Definieras av B<dpkg> i utvecklarskriptets miljö till den privata "
 "bibliotekskatalogen för den instans av B<dpkg> som körs för tillfället."
+
+#. type: Plain text
+#: dpkg.man
+#, fuzzy
+#| msgid ""
+#| "Defined by B<dpkg> on the maintainer script environment to the "
+#| "architecture the package got built for."
+msgid ""
+"Defined by B<dpkg> on the subprocesses environment to all the currently "
+"enabled force option names separated by commas (since dpkg 1.19.5)."
+msgstr ""
+"Definieras av B<dpkg> i utvecklarskriptets miljö till arkitekturen paketet "
+"byggdes för."
 
 #. type: TP
 #: dpkg.man
@@ -24618,6 +24775,13 @@ msgstr ""
 #. type: Plain text
 #: dpkg-statoverride.man
 #, fuzzy
+#| msgid "Give help about the B<--force->I<thing> options."
+msgid "Give help about the B<--force->I<thing> options (since dpkg 1.19.5)."
+msgstr "Get hjälp om B<--force->I<nånting>-flaggorna."
+
+#. type: Plain text
+#: dpkg-statoverride.man
+#, fuzzy
 #| msgid ""
 #| "Change the I<directory> of the B<dpkg> database where the statoverride "
 #| "file is also stored. Defaults to I<%ADMINDIR%>."
@@ -24635,6 +24799,41 @@ msgid ""
 "get installed (since dpkg 1.19.2).  Defaults to «I</>»."
 msgstr ""
 
+#. type: Plain text
+#: dpkg-statoverride.man
+#, fuzzy
+#| msgid ""
+#| "Force or refuse (B<no-force> and B<refuse> mean the same thing)  to do "
+#| "some things. I<things> is a comma separated list of things specified "
+#| "below. B<--force-help> displays a message describing them.  Things marked "
+#| "with (*) are forced by default."
+msgid ""
+"Force or refuse (B<no-force> and B<refuse> mean the same thing)  to do some "
+"things (since dpkg 1.19.5).  I<things> is a comma separated list of things "
+"specified below.  B<--force-help> displays a message describing them.  "
+"Things marked with (*) are forced by default."
+msgstr ""
+"Tvinga eller vägra (B<no-force> och B<refuse> betyder detsamma) att göra "
+"vissa saker. I<saker> är en kommaavgränsad lista med saker som anges nedan. "
+"B<--force-help> visar en lista med beskrivningar. Saker som markeras med (*) "
+"är tvingade som förval."
+
+#. type: Plain text
+#: dpkg-statoverride.man
+#, fuzzy
+#| msgid ""
+#| "I<Warning: These options are mostly intended to be used by experts only. "
+#| "Using them without fully understanding their effects may break your whole "
+#| "system.>"
+msgid ""
+"I<Warning: These options are mostly intended to be used by experts only.  "
+"Using them without fully understanding their effects may break your whole "
+"system.>"
+msgstr ""
+"I<Varning: Dessa flaggor är huvudsakligen avsedda att endast användas av "
+"experter. Om du använder dem utan att fullt ut förstå vad de går ut på kan "
+"du förstöra din systeminstallation.>"
+
 #. type: TP
 #: dpkg-statoverride.man update-alternatives.man
 #, no-wrap
@@ -24643,9 +24842,14 @@ msgstr "B<--force>"
 
 #. type: Plain text
 #: dpkg-statoverride.man
+#, fuzzy
+#| msgid ""
+#| "Force an action, even if a sanity check would otherwise prohibit it.  "
+#| "This is necessary to override an existing override."
 msgid ""
 "Force an action, even if a sanity check would otherwise prohibit it.  This "
-"is necessary to override an existing override."
+"is necessary to override an existing override.  This option is deprecated "
+"(since dpkg 1.19.5), it is replaced by B<--force-all>."
 msgstr ""
 "Tvinga ett kommando, även om en säkerhetskontroll annars skulle förhindra "
 "det. Detta behövs för att överstyra en befintlig överstyrning."
@@ -24674,6 +24878,19 @@ msgstr "Var mindre pratsom om vad som görs."
 msgid ""
 "For B<--list>, if there are no overrides or none match the supplied glob."
 msgstr ""
+
+#. type: Plain text
+#: dpkg-statoverride.man
+#, fuzzy
+#| msgid ""
+#| "If set and the B<--admindir> option has not been specified, it will be "
+#| "used as the base administrative directory."
+msgid ""
+"If set and none of the B<--force->I<...> options have been specified, it "
+"will be used as the force options to use (since dpkg 1.19.5)."
+msgstr ""
+"Om satt och flaggan B<--admindir> inte har angivits används det som bas-"
+"administrativ katalog."
 
 #. type: TP
 #: dpkg-statoverride.man
@@ -26528,11 +26745,14 @@ msgstr ""
 #. type: Plain text
 #: start-stop-daemon.man
 msgid ""
-"B<Warning:> Using this match option alone with a daemon that writes the "
-"pidfile as an unprivileged user is a security risk, because if the daemon "
-"gets compromised the contents of the pidfile cannot be trusted, and then a "
+"B<Warning:> using this match option with a world-writable pidfile or using "
+"it alone with a daemon that writes the pidfile as an unprivileged (non-"
+"root)  user will be refused with an error (since version 1.19.3) as this is "
+"a security risk, because either any user can write to it, or if the daemon "
+"gets compromised, the contents of the pidfile cannot be trusted, and then a "
 "privileged runner (such as an init script executed as root) would end up "
-"acting on any system process."
+"acting on any system process.  Using I</dev/null> is excempt from these "
+"checks."
 msgstr ""
 
 #. type: TP

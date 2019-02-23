@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-01-22 14:24+0100\n"
+"POT-Creation-Date: 2019-02-23 17:59+0100\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -342,30 +342,37 @@ msgid "unable to seek to start of %.250s after padding"
 msgstr "kunde inte söka till början av %.250s efter utfyllnad"
 
 #: lib/dpkg/dbmodify.c
-#, c-format
-msgid "unable to open lock file %s for testing"
-msgstr "kunde inte låsa filen %s för test"
+#, fuzzy, c-format
+#| msgid "unable to get file descriptor for directory '%s'"
+msgid "unable to check lock file for dpkg database directory %s"
+msgstr "kunde inte få tag i filhandtag för katalogen '%s'"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy
+#, fuzzy, c-format
 #| msgid "unable to open/create status database lockfile"
-msgid "unable to open/create frontend lockfile"
+msgid "unable to open/create dpkg frontend lock for directory %s"
 msgstr "kunde inte öppna/skapa låsfil för statusdatabas"
 
 #: lib/dpkg/dbmodify.c
-msgid "unable to open/create status database lockfile"
+#, fuzzy, c-format
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create dpkg database lock file for directory %s"
 msgstr "kunde inte öppna/skapa låsfil för statusdatabas"
 
 #: lib/dpkg/dbmodify.c
-msgid "you do not have permission to lock the dpkg status database"
+#, fuzzy, c-format
+#| msgid "you do not have permission to lock the dpkg status database"
+msgid "you do not have permission to lock the dpkg database directory %s"
 msgstr "du har inte rättigheter att låsa dpkgs statusdatabas"
 
 #: lib/dpkg/dbmodify.c
-msgid "dpkg frontend"
+msgid "dpkg frontend lock"
 msgstr ""
 
 #: lib/dpkg/dbmodify.c
-msgid "dpkg status database"
+#, fuzzy
+#| msgid "dpkg status database"
+msgid "dpkg database lock"
 msgstr "dpkg-statusdatabas"
 
 #: lib/dpkg/dbmodify.c
@@ -373,11 +380,15 @@ msgid "requested operation requires superuser privilege"
 msgstr "efterfrågad operation kräver superanvändarbehörighet"
 
 #: lib/dpkg/dbmodify.c
-msgid "unable to access dpkg status area"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "unable to access the dpkg database directory %s"
 msgstr "kunde inte komma åt dpkgs statusarea"
 
 #: lib/dpkg/dbmodify.c
-msgid "operation requires read/write access to dpkg status area"
+#, fuzzy, c-format
+#| msgid "operation requires read/write access to dpkg status area"
+msgid "required read/write access to the dpkg database directory %s"
 msgstr "operationen kräver läs-/skrivåtkomst till dpkgs statusarea"
 
 #: lib/dpkg/dbmodify.c
@@ -578,8 +589,11 @@ msgstr "syntaxfel i statoverride-fil"
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr "användaren \"%s\" i statoverride-filen är okänd"
+msgid ""
+"unknown system user '%s' in statoverride file; the system user got removed\n"
+"before the override, which is most probably a packaging bug, to recover you\n"
+"can remove the override manually with %s"
+msgstr ""
 
 #: lib/dpkg/db-fsys-override.c
 msgid "unexpected end of line in statoverride file"
@@ -587,8 +601,12 @@ msgstr "oväntat radslut i statoverride-fil"
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr "gruppen \"%s\" i statoverride-filen är okänd"
+msgid ""
+"unknown system group '%s' in statoverride file; the system group got "
+"removed\n"
+"before the override, which is most probably a packaging bug, to recover you\n"
+"can remove the override manually with %s"
+msgstr ""
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
@@ -730,64 +748,73 @@ msgid "internal error"
 msgstr "internt fel (bugg)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "%s is missing"
-msgstr "%s saknas"
+#, fuzzy
+#| msgid "missing package"
+msgid "is missing a value"
+msgstr "saknat paket"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%.50s' is not allowed for %s"
-msgstr "\"%.50s\" är ej tillåtet för %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "has invalid value '%.50s'"
+msgstr "Hoppar över trasig rad: %s"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "junk after %s"
-msgstr "skräp efter %s"
+msgid "has trailing junk"
+msgstr ""
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "invalid package name (%.250s)"
-msgstr "ogiltigt paketnamn (%.250s)"
+#, fuzzy, c-format
+#| msgid "package '%s' is not installed"
+msgid "invalid package name in '%s' field: %s"
+msgstr "paketet \"%s\" är ej installerat"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "empty file details field '%s'"
-msgid "empty archive details field '%s'"
+msgid "empty archive details '%s' field"
 msgstr "tomt filinformationfält \"%s\""
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "file details field '%s' not allowed in status file"
-msgid "archive details field '%s' not allowed in status file"
+msgid "archive details '%s' field not allowed in status file"
 msgstr "filinformationsfält \"%s\" ej tillåtet i statusfilen"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "too many values in file details field '%s' (compared to others)"
-msgid "too many values in archive details field '%s' (compared to others)"
+msgid "too many values in archive details '%s' field (compared to others)"
 msgstr "för många värden i fildetaljsfältet \"%s\" (jämfört med andra)"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "too few values in file details field '%s' (compared to others)"
-msgid "too few values in archive details field '%s' (compared to others)"
+msgid "too few values in archive details '%s' field (compared to others)"
 msgstr "för få värden i fildetaljsfältet \"%s\" (jämfört med andra)"
 
 #: lib/dpkg/fields.c
-msgid "yes/no in boolean field"
-msgstr "yes/no i boolskt fält"
+#, fuzzy, c-format
+#| msgid "obsolete '%s' or '%s' field used"
+msgid "boolean (yes/no) '%s' field: %s"
+msgstr "föråldrat \"%s\"- eller \"%s\"-fält använt"
 
 #: lib/dpkg/fields.c
-msgid "foreign/allowed/same/no in quadstate field"
+#, fuzzy, c-format
+#| msgid "foreign/allowed/same/no in quadstate field"
+msgid "quadstate (foreign/allowed/same/no) '%s' field: %s"
 msgstr "foreign/allowed/same/no i 4-statusfält"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%s' is not a valid architecture name: %s"
+#, fuzzy, c-format
+#| msgid "'%s' is not a valid architecture name: %s"
+msgid "'%s' is not a valid architecture name in '%s' field: %s"
 msgstr "\"%s\" är inte ett giltigt arkitekturnamn: %s"
 
 #: lib/dpkg/fields.c
-msgid "word in 'Priority' field"
+#, fuzzy, c-format
+#| msgid "word in 'Priority' field"
+msgid "word in '%s' field: %s"
 msgstr "ord i \"Priority\"-fält"
 
 #: lib/dpkg/fields.c
@@ -796,25 +823,33 @@ msgid "value for '%s' field not allowed in this context"
 msgstr "värdet för fältet \"%s\" ej tillåtet i detta sammanhang"
 
 #: lib/dpkg/fields.c
-msgid "first (want) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "first (want) word in 'Status' field"
+msgid "first (want) word in '%s' field: %s"
 msgstr "första ordet (vill) i \"Status\"-fältet"
 
 #: lib/dpkg/fields.c
-msgid "second (error) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "second (error) word in 'Status' field"
+msgid "second (error) word in '%s' field: %s"
 msgstr "andra ordet (fel) i \"Status\"-fältet"
 
 #: lib/dpkg/fields.c
-msgid "third (status) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "third (status) word in 'Status' field"
+msgid "third (status) word in '%s' field: %s"
 msgstr "tredje ordet (status) i \"Status\"-fältet"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "error in '%s' field string '%.250s'"
+#, fuzzy, c-format
+#| msgid "error in '%s' field string '%.250s'"
+msgid "'%s' field value '%.250s'"
 msgstr "fel i \"%s\"-fältsträngen \"%.250s\""
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "obsolete '%s' or '%s' field used"
+#, fuzzy, c-format
+#| msgid "obsolete '%s' or '%s' field used"
+msgid "obsolete '%s' field used"
 msgstr "föråldrat \"%s\"- eller \"%s\"-fält använt"
 
 #: lib/dpkg/fields.c
@@ -823,12 +858,15 @@ msgid "value for '%s' field has malformed line '%.*s'"
 msgstr "värde för \"%s\" har fel format på raden \"%.*s\""
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "value for '%s' has line starting with non-space '%c'"
+#, fuzzy, c-format
+#| msgid "value for '%s' has line starting with non-space '%c'"
+msgid "value for '%s' field has line starting with non-space '%c'"
 msgstr "värde för \"%s\" innehåller rad som börjar med icke-blanksteg \"%c\""
 
 #: lib/dpkg/fields.c
-msgid "root or null directory is listed as a conffile"
+#, fuzzy, c-format
+#| msgid "root or null directory is listed as a conffile"
+msgid "root or empty directory listed as a conffile in '%s' field"
 msgstr "rot- eller tom katalog listas som konfigurationsfil"
 
 #: lib/dpkg/fields.c
@@ -913,9 +951,10 @@ msgid "'%s' field, reference to '%.255s': version unterminated"
 msgstr "\"%s\"-fältet: referens till \"%.255s\": versionsnumret ej avslutat"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%s' field, reference to '%.255s': error in version"
-msgstr "\"%s\"-fältet: referens till \"%.255s\": fel i version"
+#, fuzzy, c-format
+#| msgid "'%s' field, reference to '%.255s': version contains '%c'"
+msgid "'%s' field, reference to '%.255s': version '%s'"
+msgstr "\"%s\"-fältet: referens till \"%.255s\": versionen innehåller \"%c\""
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -923,8 +962,9 @@ msgid "'%s' field, syntax error after reference to package '%.255s'"
 msgstr "\"%s\"-fältet: syntaktiskt fel efter referens till paket \"%.255s\""
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "alternatives ('|') not allowed in %s field"
+#, fuzzy, c-format
+#| msgid "alternatives ('|') not allowed in %s field"
+msgid "alternatives ('|') not allowed in '%s' field"
 msgstr "alternativ (\"|\") tillåts inte i %s-fältet"
 
 #: lib/dpkg/fields.c
@@ -1188,27 +1228,33 @@ msgid "duplicate value for user-defined field '%.*s'"
 msgstr "dubblerat värde för användardefinierat fält \"%.*s\""
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
-#, c-format
-msgid "missing %s"
+#, fuzzy, c-format
+#| msgid "missing %s"
+msgid "missing '%s' field"
 msgstr "saknat %s"
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
-#, c-format
-msgid "empty value for %s"
-msgstr "tomt värde för %s"
+#, fuzzy, c-format
+#| msgid "duplicate value for '%s' field"
+msgid "empty value for '%s' field"
+msgstr "dubblerat värde för \"%s\"-fältet"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "package has field '%s' but is missing architecture"
+#, fuzzy, c-format
+#| msgid "package has field '%s' but is missing architecture"
+msgid "package has '%s' field but is missing architecture"
 msgstr "paketet har fältet \"%s\", men saknar arkitektur"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "package has field '%s' but is architecture all"
+#, fuzzy, c-format
+#| msgid "package has field '%s' but is architecture all"
+msgid "package has '%s' field but is architecture '%s'"
 msgstr "paketet har fältet \"%s\", men arkitekturen är satt till \"all\""
 
 #: lib/dpkg/parse.c
-msgid "Config-Version for package with inappropriate Status"
+#, fuzzy, c-format
+#| msgid "Config-Version for package with inappropriate Status"
+msgid "'%s' field present for package with inappropriate '%s' field"
 msgstr "Config-Version för paket med opassande Status"
 
 #: lib/dpkg/parse.c
@@ -1217,8 +1263,10 @@ msgid "package has status %s but triggers are awaited"
 msgstr "paketet har status %s, men utlösare väntar"
 
 #: lib/dpkg/parse.c
-msgid "package has status triggers-awaited but no triggers awaited"
-msgstr "paketet har status triggers-awaited man inga utlösare väntar"
+#, fuzzy, c-format
+#| msgid "package has status %s but triggers are awaited"
+msgid "package has status %s but no triggers awaited"
+msgstr "paketet har status %s, men utlösare väntar"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1226,11 +1274,15 @@ msgid "package has status %s but triggers are pending"
 msgstr "paketet har status %s med utlösare är förestående"
 
 #: lib/dpkg/parse.c
-msgid "package has status triggers-pending but no triggers pending"
-msgstr "paketet har status triggers-pending men inga utlösare är förstående"
+#, fuzzy, c-format
+#| msgid "package has status %s but triggers are pending"
+msgid "package has status %s but no triggers pending"
+msgstr "paketet har status %s med utlösare är förestående"
 
 #: lib/dpkg/parse.c
-msgid "Package which in state not-installed has conffiles, forgetting them"
+#, fuzzy, c-format
+#| msgid "Package which in state not-installed has conffiles, forgetting them"
+msgid "package has status %s and has conffiles, forgetting them"
 msgstr "Paket med status non-installed har konfigurationsfiler, glömmer dem"
 
 #: lib/dpkg/parse.c
@@ -1251,10 +1303,13 @@ msgstr ""
 "inofficiell dpkg"
 
 #: lib/dpkg/parse.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
+#| "installed instances"
 msgid ""
-"%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
-"installed instances"
+"package %s (%s) with field '%s: %s' is not co-installable with %s which has "
+"multiple installed instances"
 msgstr ""
 "%s %s (Multi-Arch: %s) kan inte installeras sida vid sida om %s om har flera "
 "installerade instanser"
@@ -1635,12 +1690,15 @@ msgid "treewalk root %s is not a directory"
 msgstr "kontrollkatalogen är inte en katalog"
 
 #: lib/dpkg/trigdeferred.c
-#, c-format
-msgid "unable to open/create triggers lockfile '%.250s'"
+#, fuzzy, c-format
+#| msgid "unable to open/create triggers lockfile '%.250s'"
+msgid "unable to open/create triggers lock file '%.250s'"
 msgstr "kunde inte öppna/skapa utlösarlåsfilen \"%.250s\""
 
 #: lib/dpkg/trigdeferred.c
-msgid "triggers area"
+#, fuzzy
+#| msgid "triggers area"
+msgid "triggers database lock"
 msgstr "område för utlösare"
 
 #: lib/dpkg/trigdeferred.c
@@ -2181,10 +2239,10 @@ msgstr "kan inte komma åt arkivet"
 msgid "archive '%s' is not a regular file"
 msgstr "konfigurationsfilen \"%s\" är inte en vanlig fil"
 
-#: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
-#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
-#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
+#: src/archives.c src/divertcmd.c src/enquiry.c src/force.c src/main.c
+#: src/packages.c src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c
+#: src/verify.c dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c
+#: dpkg-deb/main.c dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<standard ut>"
 
@@ -3257,7 +3315,170 @@ msgid ""
 "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
 msgstr "Paketet %s kvarhålles, rör det inte. --force-hold ignorerar.\n"
 
-#: src/errors.c
+#: src/force.c
+msgid "Set all force options"
+msgstr "Aktivera alla tvingande flaggor"
+
+#: src/force.c
+msgid "Use MAC based security if available"
+msgstr ""
+
+#: src/force.c
+msgid "Replace a package with a lower version"
+msgstr "Ersätt paket med en lägre version"
+
+#: src/force.c
+msgid "Configure any package which may help this one"
+msgstr "Konfigurera godtyckligt paket som kan hjälpa detta"
+
+#: src/force.c
+msgid "Process incidental packages even when on hold"
+msgstr "Hantera oväsentliga paket även när de hålls"
+
+#: src/force.c
+msgid "Try to (de)install things even when not root"
+msgstr "Försök (av)installera saker även som icke-root"
+
+#: src/force.c
+msgid "PATH is missing important programs, problems likely"
+msgstr "PATH saknar viktiga program, problem trolliga"
+
+#: src/force.c
+msgid "Install a package even if it fails authenticity check"
+msgstr "Installera paket även om autentisering misslyckas"
+
+#: src/force.c
+msgid "Process even packages with wrong versions"
+msgstr "Hantera även paket med fel versioner"
+
+#: src/force.c
+msgid "Overwrite an existing stat override when adding it"
+msgstr ""
+
+#: src/force.c
+msgid "Ignore a missing stat override when removing it"
+msgstr ""
+
+#: src/force.c
+msgid "Overwrite a file from one package with another"
+msgstr "Skriv över pakets fil med ett annats"
+
+#: src/force.c
+msgid "Overwrite a diverted file with an undiverted version"
+msgstr "Skriv över omdirigerad fil med ej omdirigerad"
+
+#: src/force.c
+msgid "Overwrite one package's directory with another's file"
+msgstr "Skriv över ett pakets katalog med ett annats fil"
+
+#: src/force.c
+msgid "Do not perform safe I/O operations when unpacking"
+msgstr "Utför ej säkra I/O-operationer vid uppackning"
+
+#: src/force.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/force.c
+msgid "Always use the new config files, don't prompt"
+msgstr "Använd alltid nya konfigurationsfiler, fråga ej"
+
+#: src/force.c
+msgid "Always use the old config files, don't prompt"
+msgstr "Använd alltid gamla konfigurationsfiler, fråga ej"
+
+#: src/force.c
+msgid ""
+"Use the default option for new config files if one\n"
+"is available, don't prompt. If no default can be found,\n"
+"you will be prompted unless one of the confold or\n"
+"confnew options is also given"
+msgstr ""
+"Använd förval för nya konfigurationsfiler om sådant\n"
+"finns, fråga ej. Om inget förval finns tillfrågas du\n"
+"såvida inte flaggorna confold eller confnew också angivit"
+
+#: src/force.c
+msgid "Always install missing config files"
+msgstr "Installera alltid saknade konfigurationsfiler"
+
+#: src/force.c
+msgid "Offer to replace config files with no new versions"
+msgstr "Erbjud ersätta konfigurationsfiler som saknar nya versioner"
+
+#: src/force.c
+msgid "Process even packages with wrong or no architecture"
+msgstr "Hantera även paket med fel eller saknad arkitektur"
+
+#: src/force.c
+msgid "Install even if it would break another package"
+msgstr "Installera även om ett annat paket skulle gå sönder"
+
+#: src/force.c
+msgid "Allow installation of conflicting packages"
+msgstr "Tillåt installera paket som är i konflikt"
+
+#: src/force.c
+msgid "Turn all dependency problems into warnings"
+msgstr "Gör alla beroendeproblem till varningar"
+
+#: src/force.c
+msgid "Turn dependency version problems into warnings"
+msgstr "Gör versionsberoendeproblem till varningar"
+
+#: src/force.c
+msgid "Remove packages which require installation"
+msgstr "Ta bort paket som kräver installation"
+
+#: src/force.c
+msgid "Remove an essential package"
+msgstr "Ta bort ett systemkritiskt paket"
+
+#: src/force.c
+#, c-format
+msgid ""
+"%s forcing options - control behaviour when problems found:\n"
+"  warn but continue:  --force-<thing>,<thing>,...\n"
+"  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
+" Forcing things:\n"
+msgstr ""
+"%s tvingande flaggor - bestämmer vad som händer vid fel:\n"
+"  varna men fortsätt: --force-<sak>,<sak>,...\n"
+"  stanna med fel:     --refuse-<sak>,<sak>,... | --no-force-<sak>,<sak>,...\n"
+" Tvinga saker:\n"
+
+#: src/force.c
+#, c-format
+msgid ""
+"\n"
+"WARNING - use of options marked [!] can seriously damage your installation.\n"
+"Forcing options marked [*] are enabled by default.\n"
+msgstr ""
+"\n"
+"VARNING - flaggor markerade [!] kan tillfoga stor skada till din "
+"installation.\n"
+"Tvingande flaggor markerade [*] är förvalda.\n"
+
+#: src/force.c
+#, c-format
+msgid ""
+"\n"
+"Currently enabled options:\n"
+" %s\n"
+msgstr ""
+
+#: src/force.c
+#, c-format
+msgid "unknown force/refuse option '%.*s'"
+msgstr "okänd flagga för force/refuse: \"%.*s\""
+
+#: src/force.c
+#, fuzzy, c-format
+#| msgid "obsolete force/refuse option '%s'\n"
+msgid "obsolete force/refuse option '%s'"
+msgstr "föråldrad tvingande/vägrande flagga \"%s\"\n"
+
+#: src/force.c
 msgid "overriding problem because --force enabled:"
 msgstr "ignorerar problem då --force använts:"
 
@@ -3604,113 +3825,6 @@ msgstr ""
 "\"!"
 
 #: src/main.c
-msgid "Set all force options"
-msgstr "Aktivera alla tvingande flaggor"
-
-#: src/main.c
-msgid "Replace a package with a lower version"
-msgstr "Ersätt paket med en lägre version"
-
-#: src/main.c
-msgid "Configure any package which may help this one"
-msgstr "Konfigurera godtyckligt paket som kan hjälpa detta"
-
-#: src/main.c
-msgid "Process incidental packages even when on hold"
-msgstr "Hantera oväsentliga paket även när de hålls"
-
-#: src/main.c
-msgid "Try to (de)install things even when not root"
-msgstr "Försök (av)installera saker även som icke-root"
-
-#: src/main.c
-msgid "PATH is missing important programs, problems likely"
-msgstr "PATH saknar viktiga program, problem trolliga"
-
-#: src/main.c
-msgid "Install a package even if it fails authenticity check"
-msgstr "Installera paket även om autentisering misslyckas"
-
-#: src/main.c
-msgid "Process even packages with wrong versions"
-msgstr "Hantera även paket med fel versioner"
-
-#: src/main.c
-msgid "Overwrite a file from one package with another"
-msgstr "Skriv över pakets fil med ett annats"
-
-#: src/main.c
-msgid "Overwrite a diverted file with an undiverted version"
-msgstr "Skriv över omdirigerad fil med ej omdirigerad"
-
-#: src/main.c
-msgid "Overwrite one package's directory with another's file"
-msgstr "Skriv över ett pakets katalog med ett annats fil"
-
-#: src/main.c
-msgid "Do not perform safe I/O operations when unpacking"
-msgstr "Utför ej säkra I/O-operationer vid uppackning"
-
-#: src/main.c
-msgid "Do not chroot into maintainer script environment"
-msgstr ""
-
-#: src/main.c
-msgid "Always use the new config files, don't prompt"
-msgstr "Använd alltid nya konfigurationsfiler, fråga ej"
-
-#: src/main.c
-msgid "Always use the old config files, don't prompt"
-msgstr "Använd alltid gamla konfigurationsfiler, fråga ej"
-
-#: src/main.c
-msgid ""
-"Use the default option for new config files if one\n"
-"is available, don't prompt. If no default can be found,\n"
-"you will be prompted unless one of the confold or\n"
-"confnew options is also given"
-msgstr ""
-"Använd förval för nya konfigurationsfiler om sådant\n"
-"finns, fråga ej. Om inget förval finns tillfrågas du\n"
-"såvida inte flaggorna confold eller confnew också angivit"
-
-#: src/main.c
-msgid "Always install missing config files"
-msgstr "Installera alltid saknade konfigurationsfiler"
-
-#: src/main.c
-msgid "Offer to replace config files with no new versions"
-msgstr "Erbjud ersätta konfigurationsfiler som saknar nya versioner"
-
-#: src/main.c
-msgid "Process even packages with wrong or no architecture"
-msgstr "Hantera även paket med fel eller saknad arkitektur"
-
-#: src/main.c
-msgid "Install even if it would break another package"
-msgstr "Installera även om ett annat paket skulle gå sönder"
-
-#: src/main.c
-msgid "Allow installation of conflicting packages"
-msgstr "Tillåt installera paket som är i konflikt"
-
-#: src/main.c
-msgid "Turn all dependency problems into warnings"
-msgstr "Gör alla beroendeproblem till varningar"
-
-#: src/main.c
-msgid "Turn dependency version problems into warnings"
-msgstr "Gör versionsberoendeproblem till varningar"
-
-#: src/main.c
-msgid "Remove packages which require installation"
-msgstr "Ta bort paket som kräver installation"
-
-#: src/main.c
-msgid "Remove an essential package"
-msgstr "Ta bort ett systemkritiskt paket"
-
-#: src/main.c
 msgid "Generally helpful progress information"
 msgstr "Allmänt hjälpsam förloppsinformation"
 
@@ -3838,42 +3952,6 @@ msgstr "tar bort arkitekturen \"%s\" som för närvarande används av databasen"
 msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr ""
 "kan inte ta bort arkitekturen \"%s\" som för närvarande används av databasen"
-
-#: src/main.c
-#, c-format
-msgid ""
-"%s forcing options - control behaviour when problems found:\n"
-"  warn but continue:  --force-<thing>,<thing>,...\n"
-"  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
-" Forcing things:\n"
-msgstr ""
-"%s tvingande flaggor - bestämmer vad som händer vid fel:\n"
-"  varna men fortsätt: --force-<sak>,<sak>,...\n"
-"  stanna med fel:     --refuse-<sak>,<sak>,... | --no-force-<sak>,<sak>,...\n"
-" Tvinga saker:\n"
-
-#: src/main.c
-#, c-format
-msgid ""
-"\n"
-"WARNING - use of options marked [!] can seriously damage your installation.\n"
-"Forcing options marked [*] are enabled by default.\n"
-msgstr ""
-"\n"
-"VARNING - flaggor markerade [!] kan tillfoga stor skada till din "
-"installation.\n"
-"Tvingande flaggor markerade [*] är förvalda.\n"
-
-#: src/main.c
-#, c-format
-msgid "unknown force/refuse option '%.*s'"
-msgstr "okänd flagga för force/refuse: \"%.*s\""
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid "obsolete force/refuse option '%s'\n"
-msgid "obsolete force/refuse option '%s'"
-msgstr "föråldrad tvingande/vägrande flagga \"%s\"\n"
 
 #: src/main.c
 #, c-format
@@ -4564,7 +4642,10 @@ msgid ""
 "  --instdir <directory>    set the root directory, but not the admin dir.\n"
 "  --root <directory>       set the directory of the root filesystem.\n"
 "  --update                 immediately update <path> permissions.\n"
-"  --force                  force an action even if a sanity check fails.\n"
+"  --force                  deprecated alias for --force-all.\n"
+"  --force-...              override problems (see --force-help).\n"
+"  --no-force-...           stop when problems encountered.\n"
+"  --refuse-...             ditto.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
@@ -4630,6 +4711,12 @@ msgstr "det finns inga överskrivningar"
 #: src/statcmd.c
 msgid "--update is useless for --remove"
 msgstr "--update är oanvändbar tillsammans med --remove"
+
+#: src/statcmd.c
+#, fuzzy, c-format
+#| msgid "obsolete option '--%s'; please use '--%s' instead"
+msgid "deprecated --%s option; use --%s instead"
+msgstr "föråldrad flagga \"--%s\", använd \"--%s\" istället"
 
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
@@ -5007,16 +5094,22 @@ msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s tar som mest en Packages-fil som argument"
 
 #: src/update.c
-msgid "unable to access dpkg status area for bulk available update"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area for bulk available update"
+msgid "unable to access dpkg database directory '%s' for bulk available update"
 msgstr ""
 "kunde inte komma åt dpkgs statusområde för sammanslagen uppdatering av "
 "tillgängliga paket"
 
 #: src/update.c
-msgid "bulk available update requires write access to dpkg status area"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area for bulk available update"
+msgid ""
+"required write access to dpkg database directory '%s' for bulk available "
+"update"
 msgstr ""
-"sammanslagen uppdatering av tillgängliga paket kräver tillgång till dpkgs "
-"statusområde"
+"kunde inte komma åt dpkgs statusområde för sammanslagen uppdatering av "
+"tillgängliga paket"
 
 #: src/update.c
 #, c-format
@@ -6732,6 +6825,47 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#~ msgid "unable to open lock file %s for testing"
+#~ msgstr "kunde inte låsa filen %s för test"
+
+#~ msgid "unknown user '%s' in statoverride file"
+#~ msgstr "användaren \"%s\" i statoverride-filen är okänd"
+
+#~ msgid "unknown group '%s' in statoverride file"
+#~ msgstr "gruppen \"%s\" i statoverride-filen är okänd"
+
+#~ msgid "%s is missing"
+#~ msgstr "%s saknas"
+
+#~ msgid "'%.50s' is not allowed for %s"
+#~ msgstr "\"%.50s\" är ej tillåtet för %s"
+
+#~ msgid "junk after %s"
+#~ msgstr "skräp efter %s"
+
+#~ msgid "invalid package name (%.250s)"
+#~ msgstr "ogiltigt paketnamn (%.250s)"
+
+#~ msgid "yes/no in boolean field"
+#~ msgstr "yes/no i boolskt fält"
+
+#~ msgid "'%s' field, reference to '%.255s': error in version"
+#~ msgstr "\"%s\"-fältet: referens till \"%.255s\": fel i version"
+
+#~ msgid "empty value for %s"
+#~ msgstr "tomt värde för %s"
+
+#~ msgid "package has status triggers-awaited but no triggers awaited"
+#~ msgstr "paketet har status triggers-awaited man inga utlösare väntar"
+
+#~ msgid "package has status triggers-pending but no triggers pending"
+#~ msgstr "paketet har status triggers-pending men inga utlösare är förstående"
+
+#~ msgid "bulk available update requires write access to dpkg status area"
+#~ msgstr ""
+#~ "sammanslagen uppdatering av tillgängliga paket kräver tillgång till dpkgs "
+#~ "statusområde"
+
 #~ msgid "error reading dpkg-deb tar output"
 #~ msgstr "kunde inte läsa dpkg-debs tar-utdata"
 
@@ -6769,9 +6903,6 @@ msgstr ""
 
 #~ msgid "failed to chdir to directory after creating it"
 #~ msgstr "kunde inte byta till katalog efter att ha skapat den"
-
-#~ msgid "obsolete option '--%s'; please use '--%s' instead"
-#~ msgstr "föråldrad flagga \"--%s\", använd \"--%s\" istället"
 
 #~ msgid "control file '%s' missing value"
 #~ msgstr "styrfilen \"%s\" saknar värde"
@@ -7444,9 +7575,6 @@ msgstr ""
 
 #~ msgid "cannot open diversions: %s"
 #~ msgstr "kunde inte öppna omdirigeringsfil: %s"
-
-#~ msgid "missing package"
-#~ msgstr "saknat paket"
 
 #~ msgid "rename: rename `%s' to `%s': %s"
 #~ msgstr "namnbyte: namnbyte på \"%s\" till \"%s\": %s"

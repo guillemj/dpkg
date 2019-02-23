@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-01-22 14:24+0100\n"
+"POT-Creation-Date: 2019-02-23 17:59+0100\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
@@ -344,30 +344,37 @@ msgid "unable to seek to start of %.250s after padding"
 msgstr "ezin da joan %.250s(r)en hasierara bete ondoren"
 
 #: lib/dpkg/dbmodify.c
-#, c-format
-msgid "unable to open lock file %s for testing"
-msgstr "ezin da blokeoaren %s fitxategia ireki probatzeko"
+#, fuzzy, c-format
+#| msgid "unable to get file descriptor for directory '%s'"
+msgid "unable to check lock file for dpkg database directory %s"
+msgstr "ezin da '%s' direktorioaren deskriptorea lortu"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy
+#, fuzzy, c-format
 #| msgid "unable to open/create status database lockfile"
-msgid "unable to open/create frontend lockfile"
+msgid "unable to open/create dpkg frontend lock for directory %s"
 msgstr "ezin da ireki/sortu egoeraren datu-basea blokeatzeko fitxategia"
 
 #: lib/dpkg/dbmodify.c
-msgid "unable to open/create status database lockfile"
+#, fuzzy, c-format
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create dpkg database lock file for directory %s"
 msgstr "ezin da ireki/sortu egoeraren datu-basea blokeatzeko fitxategia"
 
 #: lib/dpkg/dbmodify.c
-msgid "you do not have permission to lock the dpkg status database"
+#, fuzzy, c-format
+#| msgid "you do not have permission to lock the dpkg status database"
+msgid "you do not have permission to lock the dpkg database directory %s"
 msgstr "ez duzu baimenik dpkg egoeraren datu-basea blokeatzeko"
 
 #: lib/dpkg/dbmodify.c
-msgid "dpkg frontend"
+msgid "dpkg frontend lock"
 msgstr ""
 
 #: lib/dpkg/dbmodify.c
-msgid "dpkg status database"
+#, fuzzy
+#| msgid "dpkg status database"
+msgid "dpkg database lock"
 msgstr "dpkg egoeraren datu-basea"
 
 #: lib/dpkg/dbmodify.c
@@ -375,11 +382,15 @@ msgid "requested operation requires superuser privilege"
 msgstr "eskatutako eragiketak supererabiltzailearen baimena behar du"
 
 #: lib/dpkg/dbmodify.c
-msgid "unable to access dpkg status area"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "unable to access the dpkg database directory %s"
 msgstr "ezin da sartu dpkg egoera eremuan"
 
 #: lib/dpkg/dbmodify.c
-msgid "operation requires read/write access to dpkg status area"
+#, fuzzy, c-format
+#| msgid "operation requires read/write access to dpkg status area"
+msgid "required read/write access to the dpkg database directory %s"
 msgstr "eragiketak dpkg egoera eremuan irakurri/idazteko sarbidea behar du"
 
 #: lib/dpkg/dbmodify.c
@@ -587,8 +598,11 @@ msgstr "sintaxi-errorea statoverride fitxategian"
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr "'%s' erabiltzaile ezezaguna statoverride fitxategian"
+msgid ""
+"unknown system user '%s' in statoverride file; the system user got removed\n"
+"before the override, which is most probably a packaging bug, to recover you\n"
+"can remove the override manually with %s"
+msgstr ""
 
 #: lib/dpkg/db-fsys-override.c
 msgid "unexpected end of line in statoverride file"
@@ -596,8 +610,12 @@ msgstr "ustekabeko lerro-amaiera statoverride fitxategian"
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr "'%s' talde ezezaguna statoverride fitxategian"
+msgid ""
+"unknown system group '%s' in statoverride file; the system group got "
+"removed\n"
+"before the override, which is most probably a packaging bug, to recover you\n"
+"can remove the override manually with %s"
+msgstr ""
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
@@ -741,67 +759,76 @@ msgid "internal error"
 msgstr "barneko errorea (akatsa)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "%s is missing"
-msgstr "%s falta da"
+#, fuzzy
+#| msgid "control file '%s' missing value"
+msgid "is missing a value"
+msgstr "'%s' kontrol-fitxategiari balioa falta zaio"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%.50s' is not allowed for %s"
-msgstr "'%.50s' ez du baimenik honetarako: %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "has invalid value '%.50s'"
+msgstr "Saltatu lerro baliogabea: %s"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "junk after %s"
-msgstr "honen ondorengoak baztergarriak: %s"
+msgid "has trailing junk"
+msgstr ""
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "invalid package name (%.250s)"
-msgstr "paketearen izena baliogabea (%.250s)"
+#, fuzzy, c-format
+#| msgid "package '%s' is not installed"
+msgid "invalid package name in '%s' field: %s"
+msgstr "'%s' paketea ez dago instalatuta"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "empty file details field '%s'"
-msgid "empty archive details field '%s'"
+msgid "empty archive details '%s' field"
 msgstr "fitxategiaren xehetasunen '%s' eremua hutsik dago"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "file details field '%s' not allowed in status file"
-msgid "archive details field '%s' not allowed in status file"
+msgid "archive details '%s' field not allowed in status file"
 msgstr ""
 "fitxategiaren xehetasunen '%s' eremua ez da onartzen egoeraren fitxategian"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "too many values in file details field '%s' (compared to others)"
-msgid "too many values in archive details field '%s' (compared to others)"
+msgid "too many values in archive details '%s' field (compared to others)"
 msgstr ""
 "fitxategiaren xehetasunen '%s' eremuan balio gehiegi (beste batzuen aldean)"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "too few values in file details field '%s' (compared to others)"
-msgid "too few values in archive details field '%s' (compared to others)"
+msgid "too few values in archive details '%s' field (compared to others)"
 msgstr ""
 "fitxategiaren xehetasunen '%s' eremuan balio gutxiegi (beste batzuen aldean)"
 
 #: lib/dpkg/fields.c
-msgid "yes/no in boolean field"
-msgstr "'yes/no' (bai/ez) eremu boolearrean"
+#, fuzzy, c-format
+#| msgid "obsolete '%s' or '%s' field used"
+msgid "boolean (yes/no) '%s' field: %s"
+msgstr "'%s' edo '%s' eremu zaharkitua erabili da"
 
 #: lib/dpkg/fields.c
-msgid "foreign/allowed/same/no in quadstate field"
+#, fuzzy, c-format
+#| msgid "foreign/allowed/same/no in quadstate field"
+msgid "quadstate (foreign/allowed/same/no) '%s' field: %s"
 msgstr "'foreign/allowed/same/no' lau egoerako eremuan"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%s' is not a valid architecture name: %s"
+#, fuzzy, c-format
+#| msgid "'%s' is not a valid architecture name: %s"
+msgid "'%s' is not a valid architecture name in '%s' field: %s"
 msgstr "'%s' ez da baliozko arkitektura-izena: %s"
 
 #: lib/dpkg/fields.c
-msgid "word in 'Priority' field"
+#, fuzzy, c-format
+#| msgid "word in 'Priority' field"
+msgid "word in '%s' field: %s"
 msgstr "hitza 'Priority' eremuan"
 
 #: lib/dpkg/fields.c
@@ -810,25 +837,33 @@ msgid "value for '%s' field not allowed in this context"
 msgstr "'%s' eremuko balioa ez da testuinguru honetan onartzen"
 
 #: lib/dpkg/fields.c
-msgid "first (want) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "first (want) word in 'Status' field"
+msgid "first (want) word in '%s' field: %s"
 msgstr "'Status' eremuko lehenengo hitza ('want')"
 
 #: lib/dpkg/fields.c
-msgid "second (error) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "second (error) word in 'Status' field"
+msgid "second (error) word in '%s' field: %s"
 msgstr "'Status' eremuko bigarren hitza ('error')"
 
 #: lib/dpkg/fields.c
-msgid "third (status) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "third (status) word in 'Status' field"
+msgid "third (status) word in '%s' field: %s"
 msgstr "'Status' eremuko hirugarren hitza ('status')"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "error in '%s' field string '%.250s'"
+#, fuzzy, c-format
+#| msgid "error in '%s' field string '%.250s'"
+msgid "'%s' field value '%.250s'"
 msgstr "errorea '%s' eremuaren '%.250s' katean"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "obsolete '%s' or '%s' field used"
+#, fuzzy, c-format
+#| msgid "obsolete '%s' or '%s' field used"
+msgid "obsolete '%s' field used"
 msgstr "'%s' edo '%s' eremu zaharkitua erabili da"
 
 #: lib/dpkg/fields.c
@@ -837,13 +872,16 @@ msgid "value for '%s' field has malformed line '%.*s'"
 msgstr "'%s' eremuaren balioak gaizki osatutako '%.*s' lerroa dauka"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "value for '%s' has line starting with non-space '%c'"
+#, fuzzy, c-format
+#| msgid "value for '%s' has line starting with non-space '%c'"
+msgid "value for '%s' field has line starting with non-space '%c'"
 msgstr ""
 "'%s'(r)en balioak zuriunea ez den '%c' karakterearekin hasten den lerroa du"
 
 #: lib/dpkg/fields.c
-msgid "root or null directory is listed as a conffile"
+#, fuzzy, c-format
+#| msgid "root or null directory is listed as a conffile"
+msgid "root or empty directory listed as a conffile in '%s' field"
 msgstr "erroko direktorioa edo direktorio nulua 'conffile' gisa zerrendatu da"
 
 #: lib/dpkg/fields.c
@@ -930,9 +968,10 @@ msgid "'%s' field, reference to '%.255s': version unterminated"
 msgstr "'%s' eremua, honekiko erreferentzia: '%.255s': bertsioa osatu gabe"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%s' field, reference to '%.255s': error in version"
-msgstr "'%s' eremua, erreferentzia: '%.255s': errorea bertsioan"
+#, fuzzy, c-format
+#| msgid "'%s' field, reference to '%.255s': version contains '%c'"
+msgid "'%s' field, reference to '%.255s': version '%s'"
+msgstr "'%s' eremua, honekiko erreferentzia: '%.255s': bertsioak '%c' dauka"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -941,8 +980,9 @@ msgstr ""
 "'%s' eremua, sintaxi errorea'%.255s' paketearen erreferentziaren ondoren"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "alternatives ('|') not allowed in %s field"
+#, fuzzy, c-format
+#| msgid "alternatives ('|') not allowed in %s field"
+msgid "alternatives ('|') not allowed in '%s' field"
 msgstr "aukera alternatiborik ('|') ez da onartzen %s eremuan"
 
 #: lib/dpkg/fields.c
@@ -1207,27 +1247,33 @@ msgid "duplicate value for user-defined field '%.*s'"
 msgstr "balio bikoiztua erabiltzaileak definitutako '%.*s' eremuan"
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
-#, c-format
-msgid "missing %s"
+#, fuzzy, c-format
+#| msgid "missing %s"
+msgid "missing '%s' field"
 msgstr "%s falta da"
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
-#, c-format
-msgid "empty value for %s"
-msgstr "%s: balio hutsa"
+#, fuzzy, c-format
+#| msgid "duplicate value for '%s' field"
+msgid "empty value for '%s' field"
+msgstr "balio bikoiztua '%s' eremuan"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "package has field '%s' but is missing architecture"
+#, fuzzy, c-format
+#| msgid "package has field '%s' but is missing architecture"
+msgid "package has '%s' field but is missing architecture"
 msgstr "paketeak '%s' eremua dauka, baina arkitektura falta da"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "package has field '%s' but is architecture all"
+#, fuzzy, c-format
+#| msgid "package has field '%s' but is architecture all"
+msgid "package has '%s' field but is architecture '%s'"
 msgstr "paketeak '%s' eremua dauka, baina arkitektura 'all' da"
 
 #: lib/dpkg/parse.c
-msgid "Config-Version for package with inappropriate Status"
+#, fuzzy, c-format
+#| msgid "Config-Version for package with inappropriate Status"
+msgid "'%s' field present for package with inappropriate '%s' field"
 msgstr "Paketearen 'Config-Version' egoera desegokiarekin"
 
 #: lib/dpkg/parse.c
@@ -1236,8 +1282,10 @@ msgid "package has status %s but triggers are awaited"
 msgstr "paketeak %s egoera zuen baina abiarazleak espero dira"
 
 #: lib/dpkg/parse.c
-msgid "package has status triggers-awaited but no triggers awaited"
-msgstr "paketeak 'triggers-awaited' egoera du baina ez zen abiarazlerik espero"
+#, fuzzy, c-format
+#| msgid "package has status %s but triggers are awaited"
+msgid "package has status %s but no triggers awaited"
+msgstr "paketeak %s egoera zuen baina abiarazleak espero dira"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1245,11 +1293,15 @@ msgid "package has status %s but triggers are pending"
 msgstr "paketeak %s egoera du baina abiarazleak falta dira"
 
 #: lib/dpkg/parse.c
-msgid "package has status triggers-pending but no triggers pending"
-msgstr "paketeak 'triggers-pending' egoera du baina ez da abiarazlerik falta"
+#, fuzzy, c-format
+#| msgid "package has status %s but triggers are pending"
+msgid "package has status %s but no triggers pending"
+msgstr "paketeak %s egoera du baina abiarazleak falta dira"
 
 #: lib/dpkg/parse.c
-msgid "Package which in state not-installed has conffiles, forgetting them"
+#, fuzzy, c-format
+#| msgid "Package which in state not-installed has conffiles, forgetting them"
+msgid "package has status %s and has conffiles, forgetting them"
 msgstr ""
 "Instalatu gabeko egoeran konfigurazioko fitxategiak dituen paketea: ahaztu "
 "egingo dira"
@@ -1272,10 +1324,13 @@ msgstr ""
 "baten ondorioz gertatzea"
 
 #: lib/dpkg/parse.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
+#| "installed instances"
 msgid ""
-"%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
-"installed instances"
+"package %s (%s) with field '%s: %s' is not co-installable with %s which has "
+"multiple installed instances"
 msgstr ""
 "%s %s (arkitektura anitzekoa: %s) ez da '%s'(r)ekin (hainbat instantzia "
 "instalatuta dituena) batera instalagarria"
@@ -1661,12 +1716,15 @@ msgid "treewalk root %s is not a directory"
 msgstr "kontrol-direktorioa ez da direktorio bat"
 
 #: lib/dpkg/trigdeferred.c
-#, c-format
-msgid "unable to open/create triggers lockfile '%.250s'"
+#, fuzzy, c-format
+#| msgid "unable to open/create triggers lockfile '%.250s'"
+msgid "unable to open/create triggers lock file '%.250s'"
 msgstr "ezin da '%.250s' abiarazleen blokeoko fitxategia ireki/sortu"
 
 #: lib/dpkg/trigdeferred.c
-msgid "triggers area"
+#, fuzzy
+#| msgid "triggers area"
+msgid "triggers database lock"
 msgstr "abiarazleen area"
 
 #: lib/dpkg/trigdeferred.c
@@ -2217,10 +2275,10 @@ msgstr "ezin da sartu artxiboan"
 msgid "archive '%s' is not a regular file"
 msgstr "'%s' konfigurazioko fitxategia ez da fitxategi arrunta"
 
-#: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
-#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
-#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
+#: src/archives.c src/divertcmd.c src/enquiry.c src/force.c src/main.c
+#: src/packages.c src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c
+#: src/verify.c dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c
+#: dpkg-deb/main.c dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<irteera estandarra>"
 
@@ -3306,7 +3364,175 @@ msgstr ""
 "%s paketea mantenduta dago, ez da ukituko.  Erabili --force-hold\n"
 "gainidazteko\n"
 
-#: src/errors.c
+#: src/force.c
+msgid "Set all force options"
+msgstr "Ezarri behartzeko aukera guztiak"
+
+#: src/force.c
+msgid "Use MAC based security if available"
+msgstr ""
+
+#: src/force.c
+msgid "Replace a package with a lower version"
+msgstr "Ordeztu paketea bertsio baxuago batekin"
+
+#: src/force.c
+msgid "Configure any package which may help this one"
+msgstr "Edozer pakete konfiguratzeak honi lagun diezaioke"
+
+#: src/force.c
+msgid "Process incidental packages even when on hold"
+msgstr "Prozesatu sor litezkeen paketeak atxikitzekoak badira ere"
+
+#: src/force.c
+msgid "Try to (de)install things even when not root"
+msgstr "Saiatu gauzak (des)instalatzen nahiz eta 'root' ez izan"
+
+#: src/force.c
+msgid "PATH is missing important programs, problems likely"
+msgstr "PATH-ek programa garrantzitsuak falta ditu, arazoak litekeena"
+
+#: src/force.c
+msgid "Install a package even if it fails authenticity check"
+msgstr ""
+"Instalatu paketea nahiz eta bere autentifikazioaren egiaztapenak huts egin"
+
+#: src/force.c
+msgid "Process even packages with wrong versions"
+msgstr "Prozesatu paketeak nahiz eta okerreko bertsiokoak izan"
+
+#: src/force.c
+msgid "Overwrite an existing stat override when adding it"
+msgstr ""
+
+#: src/force.c
+msgid "Ignore a missing stat override when removing it"
+msgstr ""
+
+#: src/force.c
+msgid "Overwrite a file from one package with another"
+msgstr "Gainidatzi pakete bateko fitxategia beste batekin"
+
+#: src/force.c
+msgid "Overwrite a diverted file with an undiverted version"
+msgstr ""
+"Gainidatzi fitxategi desbideratu bat desbideratu gabeko bertsio batekin"
+
+#: src/force.c
+msgid "Overwrite one package's directory with another's file"
+msgstr "Gainidatzi pakete baten direktorioa beste baten fitxategiekin"
+
+#: src/force.c
+msgid "Do not perform safe I/O operations when unpacking"
+msgstr "Ez landu S/I-ko eragiketa seguruak deskonprimitzean"
+
+#: src/force.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/force.c
+msgid "Always use the new config files, don't prompt"
+msgstr "Erabili beti konfigurazio-fitxategi berriak, ez galdetu"
+
+#: src/force.c
+msgid "Always use the old config files, don't prompt"
+msgstr "Erabili beti konfigurazio-fitxategi zaharrak, ez galdetu"
+
+#: src/force.c
+msgid ""
+"Use the default option for new config files if one\n"
+"is available, don't prompt. If no default can be found,\n"
+"you will be prompted unless one of the confold or\n"
+"confnew options is also given"
+msgstr ""
+"Erabili konfigurazio-fitxategi berrien aukera lehenetsiak\n"
+"bat erabilgarri egonez gero, ez galdetu. Ezin bada lehenetsirik\n"
+"aurkitu, galdetu egingo zaizu, konfigurazio zaharraren edo\n"
+"berriaren aukeretariko bat ematen denean izan ezik"
+
+#: src/force.c
+msgid "Always install missing config files"
+msgstr "Beti instalatu falta diren konfigurazio-fitxategiak"
+
+#: src/force.c
+msgid "Offer to replace config files with no new versions"
+msgstr "Eskaini konfigurazio-fitxategiak berriak ez diren bertsioekin ordeztea"
+
+#: src/force.c
+msgid "Process even packages with wrong or no architecture"
+msgstr ""
+"Prozesatu bahi eta paketeak okerrekoak edo arkitekturarik gabekoak izan"
+
+#: src/force.c
+msgid "Install even if it would break another package"
+msgstr "Instalatu nahi eta beste paketeren bat honda dezakeen"
+
+#: src/force.c
+msgid "Allow installation of conflicting packages"
+msgstr "Baimendu gatazkan dauden paketeak instalatzea"
+
+#: src/force.c
+msgid "Turn all dependency problems into warnings"
+msgstr "Bihurtu mendekotasun-arazo guztiak abisu"
+
+#: src/force.c
+msgid "Turn dependency version problems into warnings"
+msgstr "Bihurtu mendekotasun-arazoak abisu"
+
+#: src/force.c
+msgid "Remove packages which require installation"
+msgstr "Kendu instalatzea eskatzen duten paketeak"
+
+#: src/force.c
+msgid "Remove an essential package"
+msgstr "Kendu funtsezko pakete bat"
+
+#: src/force.c
+#, c-format
+msgid ""
+"%s forcing options - control behaviour when problems found:\n"
+"  warn but continue:  --force-<thing>,<thing>,...\n"
+"  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
+" Forcing things:\n"
+msgstr ""
+"%s behartzeko aukerak - arazoak daudenean portaera kontrolatzeko:\n"
+"  abisatu baina jarraitu:  --force-<gauza>,<gauza>,...\n"
+"  geldiarazi errorearekin:    --refuse-<gauza>,<gauza>,... | --no-force-"
+"<gauza>,...\n"
+" Gauzak behartzea:\n"
+
+#: src/force.c
+#, c-format
+msgid ""
+"\n"
+"WARNING - use of options marked [!] can seriously damage your installation.\n"
+"Forcing options marked [*] are enabled by default.\n"
+msgstr ""
+"\n"
+"KONTUZ - [!] marka duten aukerak erabiltzeak instalazioa larriki honda "
+"dezake.\n"
+"[*] marka duten behartzeko aukerak gaituta daude lehenespenez.\n"
+
+#: src/force.c
+#, c-format
+msgid ""
+"\n"
+"Currently enabled options:\n"
+" %s\n"
+msgstr ""
+
+#: src/force.c
+#, c-format
+msgid "unknown force/refuse option '%.*s'"
+msgstr "'%.*s' behartzeko/uko egiteko aukera ezezaguna"
+
+#: src/force.c
+#, fuzzy, c-format
+#| msgid "obsolete force/refuse option '%s'\n"
+msgid "obsolete force/refuse option '%s'"
+msgstr "'%s' behartzeko/uko egiteko aukera zaharkitua\n"
+
+#: src/force.c
 msgid "overriding problem because --force enabled:"
 msgstr "gainidazteko arazoa --force gaituta dagoelako:"
 
@@ -3683,117 +3909,6 @@ msgstr ""
 "erabiliz."
 
 #: src/main.c
-msgid "Set all force options"
-msgstr "Ezarri behartzeko aukera guztiak"
-
-#: src/main.c
-msgid "Replace a package with a lower version"
-msgstr "Ordeztu paketea bertsio baxuago batekin"
-
-#: src/main.c
-msgid "Configure any package which may help this one"
-msgstr "Edozer pakete konfiguratzeak honi lagun diezaioke"
-
-#: src/main.c
-msgid "Process incidental packages even when on hold"
-msgstr "Prozesatu sor litezkeen paketeak atxikitzekoak badira ere"
-
-#: src/main.c
-msgid "Try to (de)install things even when not root"
-msgstr "Saiatu gauzak (des)instalatzen nahiz eta 'root' ez izan"
-
-#: src/main.c
-msgid "PATH is missing important programs, problems likely"
-msgstr "PATH-ek programa garrantzitsuak falta ditu, arazoak litekeena"
-
-#: src/main.c
-msgid "Install a package even if it fails authenticity check"
-msgstr ""
-"Instalatu paketea nahiz eta bere autentifikazioaren egiaztapenak huts egin"
-
-#: src/main.c
-msgid "Process even packages with wrong versions"
-msgstr "Prozesatu paketeak nahiz eta okerreko bertsiokoak izan"
-
-#: src/main.c
-msgid "Overwrite a file from one package with another"
-msgstr "Gainidatzi pakete bateko fitxategia beste batekin"
-
-#: src/main.c
-msgid "Overwrite a diverted file with an undiverted version"
-msgstr ""
-"Gainidatzi fitxategi desbideratu bat desbideratu gabeko bertsio batekin"
-
-#: src/main.c
-msgid "Overwrite one package's directory with another's file"
-msgstr "Gainidatzi pakete baten direktorioa beste baten fitxategiekin"
-
-#: src/main.c
-msgid "Do not perform safe I/O operations when unpacking"
-msgstr "Ez landu S/I-ko eragiketa seguruak deskonprimitzean"
-
-#: src/main.c
-msgid "Do not chroot into maintainer script environment"
-msgstr ""
-
-#: src/main.c
-msgid "Always use the new config files, don't prompt"
-msgstr "Erabili beti konfigurazio-fitxategi berriak, ez galdetu"
-
-#: src/main.c
-msgid "Always use the old config files, don't prompt"
-msgstr "Erabili beti konfigurazio-fitxategi zaharrak, ez galdetu"
-
-#: src/main.c
-msgid ""
-"Use the default option for new config files if one\n"
-"is available, don't prompt. If no default can be found,\n"
-"you will be prompted unless one of the confold or\n"
-"confnew options is also given"
-msgstr ""
-"Erabili konfigurazio-fitxategi berrien aukera lehenetsiak\n"
-"bat erabilgarri egonez gero, ez galdetu. Ezin bada lehenetsirik\n"
-"aurkitu, galdetu egingo zaizu, konfigurazio zaharraren edo\n"
-"berriaren aukeretariko bat ematen denean izan ezik"
-
-#: src/main.c
-msgid "Always install missing config files"
-msgstr "Beti instalatu falta diren konfigurazio-fitxategiak"
-
-#: src/main.c
-msgid "Offer to replace config files with no new versions"
-msgstr "Eskaini konfigurazio-fitxategiak berriak ez diren bertsioekin ordeztea"
-
-#: src/main.c
-msgid "Process even packages with wrong or no architecture"
-msgstr ""
-"Prozesatu bahi eta paketeak okerrekoak edo arkitekturarik gabekoak izan"
-
-#: src/main.c
-msgid "Install even if it would break another package"
-msgstr "Instalatu nahi eta beste paketeren bat honda dezakeen"
-
-#: src/main.c
-msgid "Allow installation of conflicting packages"
-msgstr "Baimendu gatazkan dauden paketeak instalatzea"
-
-#: src/main.c
-msgid "Turn all dependency problems into warnings"
-msgstr "Bihurtu mendekotasun-arazo guztiak abisu"
-
-#: src/main.c
-msgid "Turn dependency version problems into warnings"
-msgstr "Bihurtu mendekotasun-arazoak abisu"
-
-#: src/main.c
-msgid "Remove packages which require installation"
-msgstr "Kendu instalatzea eskatzen duten paketeak"
-
-#: src/main.c
-msgid "Remove an essential package"
-msgstr "Kendu funtsezko pakete bat"
-
-#: src/main.c
 msgid "Generally helpful progress information"
 msgstr "Aurrerapenari buruzko informazio lagungarria"
 
@@ -3920,43 +4035,6 @@ msgstr "'%s' arkitektura kentzea unean datu-baseak darabil"
 #, c-format
 msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr "ezin da '%s' arkitektura kendu datu-baseak unean darabilelako"
-
-#: src/main.c
-#, c-format
-msgid ""
-"%s forcing options - control behaviour when problems found:\n"
-"  warn but continue:  --force-<thing>,<thing>,...\n"
-"  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
-" Forcing things:\n"
-msgstr ""
-"%s behartzeko aukerak - arazoak daudenean portaera kontrolatzeko:\n"
-"  abisatu baina jarraitu:  --force-<gauza>,<gauza>,...\n"
-"  geldiarazi errorearekin:    --refuse-<gauza>,<gauza>,... | --no-force-"
-"<gauza>,...\n"
-" Gauzak behartzea:\n"
-
-#: src/main.c
-#, c-format
-msgid ""
-"\n"
-"WARNING - use of options marked [!] can seriously damage your installation.\n"
-"Forcing options marked [*] are enabled by default.\n"
-msgstr ""
-"\n"
-"KONTUZ - [!] marka duten aukerak erabiltzeak instalazioa larriki honda "
-"dezake.\n"
-"[*] marka duten behartzeko aukerak gaituta daude lehenespenez.\n"
-
-#: src/main.c
-#, c-format
-msgid "unknown force/refuse option '%.*s'"
-msgstr "'%.*s' behartzeko/uko egiteko aukera ezezaguna"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid "obsolete force/refuse option '%s'\n"
-msgid "obsolete force/refuse option '%s'"
-msgstr "'%s' behartzeko/uko egiteko aukera zaharkitua\n"
 
 #: src/main.c
 #, c-format
@@ -4660,7 +4738,10 @@ msgid ""
 "  --instdir <directory>    set the root directory, but not the admin dir.\n"
 "  --root <directory>       set the directory of the root filesystem.\n"
 "  --update                 immediately update <path> permissions.\n"
-"  --force                  force an action even if a sanity check fails.\n"
+"  --force                  deprecated alias for --force-all.\n"
+"  --force-...              override problems (see --force-help).\n"
+"  --no-force-...           stop when problems encountered.\n"
+"  --refuse-...             ditto.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
@@ -4728,6 +4809,12 @@ msgstr "ez dago gainidazketarik"
 #: src/statcmd.c
 msgid "--update is useless for --remove"
 msgstr "--update ezin da --remove aukerarekin erabili"
+
+#: src/statcmd.c
+#, fuzzy, c-format
+#| msgid "obsolete option '--%s'; please use '--%s' instead"
+msgid "deprecated --%s option; use --%s instead"
+msgstr "'--%s' aukera zaharkitua, '--%s' erabili horren ordez"
 
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
@@ -5112,14 +5199,18 @@ msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s: gehienez pakete-fitxategiko argumentu bakarra behar du"
 
 #: src/update.c
-msgid "unable to access dpkg status area for bulk available update"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area for bulk available update"
+msgid "unable to access dpkg database directory '%s' for bulk available update"
 msgstr "ezin da dpkg egoera-area atzitu eguneratze masiboa egiteko"
 
 #: src/update.c
-msgid "bulk available update requires write access to dpkg status area"
-msgstr ""
-"eguneratze masiboa egiteko dpkg egoera eremuan idazteko baimena eduki behar "
-"da"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area for bulk available update"
+msgid ""
+"required write access to dpkg database directory '%s' for bulk available "
+"update"
+msgstr "ezin da dpkg egoera-area atzitu eguneratze masiboa egiteko"
 
 #: src/update.c
 #, c-format
@@ -6888,6 +6979,49 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#~ msgid "unable to open lock file %s for testing"
+#~ msgstr "ezin da blokeoaren %s fitxategia ireki probatzeko"
+
+#~ msgid "unknown user '%s' in statoverride file"
+#~ msgstr "'%s' erabiltzaile ezezaguna statoverride fitxategian"
+
+#~ msgid "unknown group '%s' in statoverride file"
+#~ msgstr "'%s' talde ezezaguna statoverride fitxategian"
+
+#~ msgid "%s is missing"
+#~ msgstr "%s falta da"
+
+#~ msgid "'%.50s' is not allowed for %s"
+#~ msgstr "'%.50s' ez du baimenik honetarako: %s"
+
+#~ msgid "junk after %s"
+#~ msgstr "honen ondorengoak baztergarriak: %s"
+
+#~ msgid "invalid package name (%.250s)"
+#~ msgstr "paketearen izena baliogabea (%.250s)"
+
+#~ msgid "yes/no in boolean field"
+#~ msgstr "'yes/no' (bai/ez) eremu boolearrean"
+
+#~ msgid "'%s' field, reference to '%.255s': error in version"
+#~ msgstr "'%s' eremua, erreferentzia: '%.255s': errorea bertsioan"
+
+#~ msgid "empty value for %s"
+#~ msgstr "%s: balio hutsa"
+
+#~ msgid "package has status triggers-awaited but no triggers awaited"
+#~ msgstr ""
+#~ "paketeak 'triggers-awaited' egoera du baina ez zen abiarazlerik espero"
+
+#~ msgid "package has status triggers-pending but no triggers pending"
+#~ msgstr ""
+#~ "paketeak 'triggers-pending' egoera du baina ez da abiarazlerik falta"
+
+#~ msgid "bulk available update requires write access to dpkg status area"
+#~ msgstr ""
+#~ "eguneratze masiboa egiteko dpkg egoera eremuan idazteko baimena eduki "
+#~ "behar da"
+
 #~ msgid "error reading dpkg-deb tar output"
 #~ msgstr "errorea dpkg-deb tar irteera irakurtzean"
 
@@ -6929,12 +7063,6 @@ msgstr ""
 
 #~ msgid "failed to chdir to directory after creating it"
 #~ msgstr "huts egin du direktoriora chdir egitean, direktorioa sortu ondoren"
-
-#~ msgid "obsolete option '--%s'; please use '--%s' instead"
-#~ msgstr "'--%s' aukera zaharkitua, '--%s' erabili horren ordez"
-
-#~ msgid "control file '%s' missing value"
-#~ msgstr "'%s' kontrol-fitxategiari balioa falta zaio"
 
 #~ msgid "control file '%s' missing value separator"
 #~ msgstr "'%s' kontrol-fitxategiari balioen arteko bereizlea falta zaio"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-01-22 14:24+0100\n"
+"POT-Creation-Date: 2019-02-23 17:59+0100\n"
 "PO-Revision-Date: 2018-12-30 15:43+0000\n"
 "Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
@@ -342,28 +342,39 @@ msgid "unable to seek to start of %.250s after padding"
 msgstr "não foi possível executar seek para o inicio de %.250s após enchimento"
 
 #: lib/dpkg/dbmodify.c
-#, c-format
-msgid "unable to open lock file %s for testing"
-msgstr "não foi bloquear ficheiro %s para teste"
+#, fuzzy, c-format
+#| msgid "unable to get file descriptor for directory '%s'"
+msgid "unable to check lock file for dpkg database directory %s"
+msgstr "não foi possível obter descriptor de ficheiro para o directório '%s'"
 
 #: lib/dpkg/dbmodify.c
-msgid "unable to open/create frontend lockfile"
+#, fuzzy, c-format
+#| msgid "unable to open/create frontend lockfile"
+msgid "unable to open/create dpkg frontend lock for directory %s"
 msgstr "não foi possível abrir/criar lockfile do frontend"
 
 #: lib/dpkg/dbmodify.c
-msgid "unable to open/create status database lockfile"
+#, fuzzy, c-format
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create dpkg database lock file for directory %s"
 msgstr "não foi possível abrir/criar lockfile de status da base de dados"
 
 #: lib/dpkg/dbmodify.c
-msgid "you do not have permission to lock the dpkg status database"
+#, fuzzy, c-format
+#| msgid "you do not have permission to lock the dpkg status database"
+msgid "you do not have permission to lock the dpkg database directory %s"
 msgstr "não tem permissão para bloquear a base de dados do status dpkg"
 
 #: lib/dpkg/dbmodify.c
-msgid "dpkg frontend"
+#, fuzzy
+#| msgid "dpkg frontend"
+msgid "dpkg frontend lock"
 msgstr "frontend do dpkg"
 
 #: lib/dpkg/dbmodify.c
-msgid "dpkg status database"
+#, fuzzy
+#| msgid "dpkg status database"
+msgid "dpkg database lock"
 msgstr "base de dados de estado do dpkg"
 
 #: lib/dpkg/dbmodify.c
@@ -371,11 +382,15 @@ msgid "requested operation requires superuser privilege"
 msgstr "a operação pedida necessita de privilégios de super-utilizador"
 
 #: lib/dpkg/dbmodify.c
-msgid "unable to access dpkg status area"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "unable to access the dpkg database directory %s"
 msgstr "não foi possível aceder à área de status do dpkg"
 
 #: lib/dpkg/dbmodify.c
-msgid "operation requires read/write access to dpkg status area"
+#, fuzzy, c-format
+#| msgid "operation requires read/write access to dpkg status area"
+msgid "required read/write access to the dpkg database directory %s"
 msgstr ""
 "a operação necessita de acesso de leitura/escrita na área do estado do dpkg"
 
@@ -576,8 +591,11 @@ msgstr "erro de sintaxe no ficheiro statoverride"
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr "utilizador desconhecido '%s' no ficheiro statoverride"
+msgid ""
+"unknown system user '%s' in statoverride file; the system user got removed\n"
+"before the override, which is most probably a packaging bug, to recover you\n"
+"can remove the override manually with %s"
+msgstr ""
 
 #: lib/dpkg/db-fsys-override.c
 msgid "unexpected end of line in statoverride file"
@@ -585,8 +603,12 @@ msgstr "fim de linha inesperado no ficheiro statoverride"
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr "grupo '%s' desconhecido no statoverride"
+msgid ""
+"unknown system group '%s' in statoverride file; the system group got "
+"removed\n"
+"before the override, which is most probably a packaging bug, to recover you\n"
+"can remove the override manually with %s"
+msgstr ""
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
@@ -705,61 +727,74 @@ msgid "internal error"
 msgstr "erro interno"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "%s is missing"
-msgstr "falta %s"
+#, fuzzy
+#| msgid "missing package"
+msgid "is missing a value"
+msgstr "falta pacote"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%.50s' is not allowed for %s"
-msgstr "'%.50s' não é permitido para %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "has invalid value '%.50s'"
+msgstr "Saltar linha inválida: %s"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "junk after %s"
-msgstr "lixo após %s"
+msgid "has trailing junk"
+msgstr ""
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "invalid package name (%.250s)"
-msgstr "nome de pacote inválido (%.250s)"
+#, fuzzy, c-format
+#| msgid "package name '%s' is invalid: %s"
+msgid "invalid package name in '%s' field: %s"
+msgstr "o nome de pacote '%s' é inválido: %s"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty archive details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty archive details field '%s'"
+msgid "empty archive details '%s' field"
 msgstr "campo de detalhes de ficheiro vazio '%s'"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "archive details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "archive details field '%s' not allowed in status file"
+msgid "archive details '%s' field not allowed in status file"
 msgstr "campo de detalhes de arquivo '%s' não é permitido no ficheiro status"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in archive details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in archive details field '%s' (compared to others)"
+msgid "too many values in archive details '%s' field (compared to others)"
 msgstr "demasiados valores no campo de detalhes '%s' (comparado com outros)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in archive details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in archive details field '%s' (compared to others)"
+msgid "too few values in archive details '%s' field (compared to others)"
 msgstr ""
 "valores a menos no campo de detalhes de arquivo '%s' (comparado com outros)"
 
 #: lib/dpkg/fields.c
-msgid "yes/no in boolean field"
-msgstr "sim/não no campo booleano"
+#, fuzzy, c-format
+#| msgid "obsolete '%s' or '%s' field used"
+msgid "boolean (yes/no) '%s' field: %s"
+msgstr "utilizados campos obsoletos '%s' ou '%s'"
 
 #: lib/dpkg/fields.c
-msgid "foreign/allowed/same/no in quadstate field"
+#, fuzzy, c-format
+#| msgid "foreign/allowed/same/no in quadstate field"
+msgid "quadstate (foreign/allowed/same/no) '%s' field: %s"
 msgstr "foreign/allowed/same/no em campo de quatro estados"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%s' is not a valid architecture name: %s"
+#, fuzzy, c-format
+#| msgid "'%s' is not a valid architecture name: %s"
+msgid "'%s' is not a valid architecture name in '%s' field: %s"
 msgstr "'%s' não é um nome válido de arquitectura: %s"
 
 #: lib/dpkg/fields.c
-msgid "word in 'Priority' field"
+#, fuzzy, c-format
+#| msgid "word in 'Priority' field"
+msgid "word in '%s' field: %s"
 msgstr "palavra no campo 'Priority'"
 
 #: lib/dpkg/fields.c
@@ -768,25 +803,33 @@ msgid "value for '%s' field not allowed in this context"
 msgstr "valor para o campo '%s' não é permitido neste contexto"
 
 #: lib/dpkg/fields.c
-msgid "first (want) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "first (want) word in 'Status' field"
+msgid "first (want) word in '%s' field: %s"
 msgstr "primeira (want) palavra no campo 'Status'"
 
 #: lib/dpkg/fields.c
-msgid "second (error) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "second (error) word in 'Status' field"
+msgid "second (error) word in '%s' field: %s"
 msgstr "segunda (error) palavra no campo 'Status'"
 
 #: lib/dpkg/fields.c
-msgid "third (status) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "third (status) word in 'Status' field"
+msgid "third (status) word in '%s' field: %s"
 msgstr "terceira (status) palavra no campo 'Status'"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "error in '%s' field string '%.250s'"
+#, fuzzy, c-format
+#| msgid "error in '%s' field string '%.250s'"
+msgid "'%s' field value '%.250s'"
 msgstr "erro na string do campo '%s' '%.250s'"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "obsolete '%s' or '%s' field used"
+#, fuzzy, c-format
+#| msgid "obsolete '%s' or '%s' field used"
+msgid "obsolete '%s' field used"
 msgstr "utilizados campos obsoletos '%s' ou '%s'"
 
 #: lib/dpkg/fields.c
@@ -795,12 +838,15 @@ msgid "value for '%s' field has malformed line '%.*s'"
 msgstr "o valor para '%s' tem uma linha mal formatada '%.*s'"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "value for '%s' has line starting with non-space '%c'"
+#, fuzzy, c-format
+#| msgid "value for '%s' has line starting with non-space '%c'"
+msgid "value for '%s' field has line starting with non-space '%c'"
 msgstr "o valor para '%s' tem uma linha que começa por um não-espaço '%c'"
 
 #: lib/dpkg/fields.c
-msgid "root or null directory is listed as a conffile"
+#, fuzzy, c-format
+#| msgid "root or null directory is listed as a conffile"
+msgid "root or empty directory listed as a conffile in '%s' field"
 msgstr "raiz ou directório nulo está listado como conffile"
 
 #: lib/dpkg/fields.c
@@ -884,9 +930,10 @@ msgid "'%s' field, reference to '%.255s': version unterminated"
 msgstr "campo '%s', referência a '%.255s': versão não terminada"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%s' field, reference to '%.255s': error in version"
-msgstr "campo '%s', referência a '%.255s': erro na versão"
+#, fuzzy, c-format
+#| msgid "'%s' field, reference to '%.255s': version contains '%c'"
+msgid "'%s' field, reference to '%.255s': version '%s'"
+msgstr "campo '%s', referência a '%.255s': versão contém '%c'"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -894,8 +941,9 @@ msgid "'%s' field, syntax error after reference to package '%.255s'"
 msgstr "campo '%s', erro de sintaxe após referência ao pacote '%.255s'"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "alternatives ('|') not allowed in %s field"
+#, fuzzy, c-format
+#| msgid "alternatives ('|') not allowed in %s field"
+msgid "alternatives ('|') not allowed in '%s' field"
 msgstr "alternativas ('|') não são permitidas no campo %s"
 
 #: lib/dpkg/fields.c
@@ -1150,27 +1198,33 @@ msgid "duplicate value for user-defined field '%.*s'"
 msgstr "valor duplicado para campo definido pelo utilizador '%.*s'"
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
-#, c-format
-msgid "missing %s"
+#, fuzzy, c-format
+#| msgid "missing %s"
+msgid "missing '%s' field"
 msgstr "falta %s"
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
-#, c-format
-msgid "empty value for %s"
-msgstr "valor vazio para %s"
+#, fuzzy, c-format
+#| msgid "duplicate value for '%s' field"
+msgid "empty value for '%s' field"
+msgstr "valor duplicado para o campo '%s'"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "package has field '%s' but is missing architecture"
+#, fuzzy, c-format
+#| msgid "package has field '%s' but is missing architecture"
+msgid "package has '%s' field but is missing architecture"
 msgstr "o pacote tem o campo '%s' mas falta-lhe a arquitectura"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "package has field '%s' but is architecture all"
+#, fuzzy, c-format
+#| msgid "package has field '%s' but is architecture all"
+msgid "package has '%s' field but is architecture '%s'"
 msgstr "o pacote tem o campo '%s' mas é de arquitectura all"
 
 #: lib/dpkg/parse.c
-msgid "Config-Version for package with inappropriate Status"
+#, fuzzy, c-format
+#| msgid "Config-Version for package with inappropriate Status"
+msgid "'%s' field present for package with inappropriate '%s' field"
 msgstr "Config-Version para o pacote com Status inapropriado"
 
 #: lib/dpkg/parse.c
@@ -1179,9 +1233,10 @@ msgid "package has status %s but triggers are awaited"
 msgstr "o pacote tem estado %s mas são esperados 'triggers'"
 
 #: lib/dpkg/parse.c
-msgid "package has status triggers-awaited but no triggers awaited"
-msgstr ""
-"o pacote tem estado 'triggers-awaited' mas não são esperados 'triggers'"
+#, fuzzy, c-format
+#| msgid "package has status %s but triggers are awaited"
+msgid "package has status %s but no triggers awaited"
+msgstr "o pacote tem estado %s mas são esperados 'triggers'"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1189,12 +1244,15 @@ msgid "package has status %s but triggers are pending"
 msgstr "o pacote tem estado %s mas estão 'triggers' pendentes"
 
 #: lib/dpkg/parse.c
-msgid "package has status triggers-pending but no triggers pending"
-msgstr ""
-"o pacote tem estado 'triggers-pending' mas não tem 'triggers' pendentes"
+#, fuzzy, c-format
+#| msgid "package has status %s but triggers are pending"
+msgid "package has status %s but no triggers pending"
+msgstr "o pacote tem estado %s mas estão 'triggers' pendentes"
 
 #: lib/dpkg/parse.c
-msgid "Package which in state not-installed has conffiles, forgetting them"
+#, fuzzy, c-format
+#| msgid "Package which in state not-installed has conffiles, forgetting them"
+msgid "package has status %s and has conffiles, forgetting them"
 msgstr ""
 "Pacote que tem estado não-instalado tem ficheiros de configuração, a esquecê-"
 "los"
@@ -1217,10 +1275,13 @@ msgstr ""
 "dpkg não-oficial"
 
 #: lib/dpkg/parse.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
+#| "installed instances"
 msgid ""
-"%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
-"installed instances"
+"package %s (%s) with field '%s: %s' is not co-installable with %s which has "
+"multiple installed instances"
 msgstr ""
 "%s %s (Multi-Arch: %s) não é co-instalável com %s que tem várias instâncias "
 "instaladas"
@@ -1584,12 +1645,15 @@ msgid "treewalk root %s is not a directory"
 msgstr "a raiz da navegação %s não é um directório"
 
 #: lib/dpkg/trigdeferred.c
-#, c-format
-msgid "unable to open/create triggers lockfile '%.250s'"
+#, fuzzy, c-format
+#| msgid "unable to open/create triggers lockfile '%.250s'"
+msgid "unable to open/create triggers lock file '%.250s'"
 msgstr "não foi possível abrir/criar o ficheiro de acesso exclusivo '%.250s'"
 
 #: lib/dpkg/trigdeferred.c
-msgid "triggers area"
+#, fuzzy
+#| msgid "triggers area"
+msgid "triggers database lock"
 msgstr "área de triggers"
 
 #: lib/dpkg/trigdeferred.c
@@ -2135,10 +2199,10 @@ msgstr "não pode aceder ao arquivo '%s'"
 msgid "archive '%s' is not a regular file"
 msgstr "o arquivo '%s' não é um ficheiro normal"
 
-#: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
-#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
-#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
+#: src/archives.c src/divertcmd.c src/enquiry.c src/force.c src/main.c
+#: src/packages.c src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c
+#: src/verify.c dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c
+#: dpkg-deb/main.c dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<saída standard>"
 
@@ -3207,7 +3271,174 @@ msgstr ""
 "Pacote %s está em espera, não lhe tocando. Utilize --force-hold para "
 "forçar.\n"
 
-#: src/errors.c
+#: src/force.c
+msgid "Set all force options"
+msgstr "Definir todas as opções de forçar"
+
+#: src/force.c
+msgid "Use MAC based security if available"
+msgstr ""
+
+#: src/force.c
+msgid "Replace a package with a lower version"
+msgstr "Substituir um pacote por uma versão inferior"
+
+#: src/force.c
+msgid "Configure any package which may help this one"
+msgstr "Configurar qualquer pacote que poderá ajudar este"
+
+#: src/force.c
+msgid "Process incidental packages even when on hold"
+msgstr "Processar pacotes incidentes mesmo quando em manter"
+
+#: src/force.c
+msgid "Try to (de)install things even when not root"
+msgstr "Tentar (des)instalar coisas mesmo não sendo root"
+
+#: src/force.c
+msgid "PATH is missing important programs, problems likely"
+msgstr "Faltam programas importantes em PATH, seguramente problemas"
+
+#: src/force.c
+msgid "Install a package even if it fails authenticity check"
+msgstr "Instalar um pacote mesmo que falhe a verificação de autenticidade"
+
+#: src/force.c
+msgid "Process even packages with wrong versions"
+msgstr "Processar até pacotes com versões erradas"
+
+#: src/force.c
+msgid "Overwrite an existing stat override when adding it"
+msgstr ""
+
+#: src/force.c
+msgid "Ignore a missing stat override when removing it"
+msgstr ""
+
+#: src/force.c
+msgid "Overwrite a file from one package with another"
+msgstr "Sobrescrever um ficheiro de um pacote por outro"
+
+#: src/force.c
+msgid "Overwrite a diverted file with an undiverted version"
+msgstr "Sobrescrever um ficheiro desviado com uma versão não desviada"
+
+#: src/force.c
+msgid "Overwrite one package's directory with another's file"
+msgstr "sobrescrever o directório de um pacote por outro ficheiro"
+
+#: src/force.c
+msgid "Do not perform safe I/O operations when unpacking"
+msgstr "Não executar operações I/O seguras ao descompactar"
+
+#: src/force.c
+msgid "Do not chroot into maintainer script environment"
+msgstr "Não fazer chroot para o ambiente de script do maintainer"
+
+#: src/force.c
+msgid "Always use the new config files, don't prompt"
+msgstr "Utilizar sempre os novos ficheiros de configuração, não perguntar"
+
+#: src/force.c
+msgid "Always use the old config files, don't prompt"
+msgstr "Utilizar sempre os ficheiros de configuração antigos, não perguntar"
+
+#: src/force.c
+msgid ""
+"Use the default option for new config files if one\n"
+"is available, don't prompt. If no default can be found,\n"
+"you will be prompted unless one of the confold or\n"
+"confnew options is also given"
+msgstr ""
+"Utilizar a opção por omissão para novos ficheiros de\n"
+"configuração, se estiver disponível não questionar.\n"
+"Se não puder ser encontrado nenhum por omissão irá\n"
+"ser questionado a menos que também sejam indicadas\n"
+"as opções confold ou confnew"
+
+#: src/force.c
+msgid "Always install missing config files"
+msgstr "Instalar sempre ficheiros de configuração em falta"
+
+#: src/force.c
+msgid "Offer to replace config files with no new versions"
+msgstr "Oferecer para substituir ficheiros de configuração sem novas versões"
+
+#: src/force.c
+msgid "Process even packages with wrong or no architecture"
+msgstr "Processar até pacotes com arquitectura errada ou sem nenhuma"
+
+#: src/force.c
+msgid "Install even if it would break another package"
+msgstr "Instalar mesmo que vá estragar outro pacote"
+
+#: src/force.c
+msgid "Allow installation of conflicting packages"
+msgstr "Permitir a instalação de pacotes em conflito"
+
+#: src/force.c
+msgid "Turn all dependency problems into warnings"
+msgstr "Tornar todos os problemas com dependências em avisos"
+
+#: src/force.c
+msgid "Turn dependency version problems into warnings"
+msgstr "Tornar problemas com versões de dependências em avisos"
+
+#: src/force.c
+msgid "Remove packages which require installation"
+msgstr "Remover pacotes que necessitam de instalação"
+
+#: src/force.c
+msgid "Remove an essential package"
+msgstr "Remover um pacote essencial"
+
+#: src/force.c
+#, c-format
+msgid ""
+"%s forcing options - control behaviour when problems found:\n"
+"  warn but continue:  --force-<thing>,<thing>,...\n"
+"  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
+" Forcing things:\n"
+msgstr ""
+"Opções para forçar %s - controlar comportamento quando são encontrados "
+"problemas:\n"
+"  avisar e continuar:  --force-<coisa>,<coisa>,...\n"
+"  parar com erro.      --refuse-<coisa>,<coisa>,... | --no-force-"
+"<coisa>,...\n"
+" Opções para forçar:\n"
+
+#: src/force.c
+#, c-format
+msgid ""
+"\n"
+"WARNING - use of options marked [!] can seriously damage your installation.\n"
+"Forcing options marked [*] are enabled by default.\n"
+msgstr ""
+"\n"
+"AVISO - a utilização de opções marcadas com [!] pode danificar seriamente a\n"
+"sua instalação. As opções para forçar marcadas com [*] estão habilitadas "
+"por\n"
+"pré-definição.\n"
+
+#: src/force.c
+#, c-format
+msgid ""
+"\n"
+"Currently enabled options:\n"
+" %s\n"
+msgstr ""
+
+#: src/force.c
+#, c-format
+msgid "unknown force/refuse option '%.*s'"
+msgstr "opção desconhecida de forçar/recusar '%.*s'"
+
+#: src/force.c
+#, c-format
+msgid "obsolete force/refuse option '%s'"
+msgstr "opção forçar/recusar obsoleta '%s'"
+
+#: src/force.c
 msgid "overriding problem because --force enabled:"
 msgstr "a ultrapassar problema porque --force está activo: "
 
@@ -3574,115 +3805,6 @@ msgstr ""
 "'less' ou 'more' !"
 
 #: src/main.c
-msgid "Set all force options"
-msgstr "Definir todas as opções de forçar"
-
-#: src/main.c
-msgid "Replace a package with a lower version"
-msgstr "Substituir um pacote por uma versão inferior"
-
-#: src/main.c
-msgid "Configure any package which may help this one"
-msgstr "Configurar qualquer pacote que poderá ajudar este"
-
-#: src/main.c
-msgid "Process incidental packages even when on hold"
-msgstr "Processar pacotes incidentes mesmo quando em manter"
-
-#: src/main.c
-msgid "Try to (de)install things even when not root"
-msgstr "Tentar (des)instalar coisas mesmo não sendo root"
-
-#: src/main.c
-msgid "PATH is missing important programs, problems likely"
-msgstr "Faltam programas importantes em PATH, seguramente problemas"
-
-#: src/main.c
-msgid "Install a package even if it fails authenticity check"
-msgstr "Instalar um pacote mesmo que falhe a verificação de autenticidade"
-
-#: src/main.c
-msgid "Process even packages with wrong versions"
-msgstr "Processar até pacotes com versões erradas"
-
-#: src/main.c
-msgid "Overwrite a file from one package with another"
-msgstr "Sobrescrever um ficheiro de um pacote por outro"
-
-#: src/main.c
-msgid "Overwrite a diverted file with an undiverted version"
-msgstr "Sobrescrever um ficheiro desviado com uma versão não desviada"
-
-#: src/main.c
-msgid "Overwrite one package's directory with another's file"
-msgstr "sobrescrever o directório de um pacote por outro ficheiro"
-
-#: src/main.c
-msgid "Do not perform safe I/O operations when unpacking"
-msgstr "Não executar operações I/O seguras ao descompactar"
-
-#: src/main.c
-msgid "Do not chroot into maintainer script environment"
-msgstr "Não fazer chroot para o ambiente de script do maintainer"
-
-#: src/main.c
-msgid "Always use the new config files, don't prompt"
-msgstr "Utilizar sempre os novos ficheiros de configuração, não perguntar"
-
-#: src/main.c
-msgid "Always use the old config files, don't prompt"
-msgstr "Utilizar sempre os ficheiros de configuração antigos, não perguntar"
-
-#: src/main.c
-msgid ""
-"Use the default option for new config files if one\n"
-"is available, don't prompt. If no default can be found,\n"
-"you will be prompted unless one of the confold or\n"
-"confnew options is also given"
-msgstr ""
-"Utilizar a opção por omissão para novos ficheiros de\n"
-"configuração, se estiver disponível não questionar.\n"
-"Se não puder ser encontrado nenhum por omissão irá\n"
-"ser questionado a menos que também sejam indicadas\n"
-"as opções confold ou confnew"
-
-#: src/main.c
-msgid "Always install missing config files"
-msgstr "Instalar sempre ficheiros de configuração em falta"
-
-#: src/main.c
-msgid "Offer to replace config files with no new versions"
-msgstr "Oferecer para substituir ficheiros de configuração sem novas versões"
-
-#: src/main.c
-msgid "Process even packages with wrong or no architecture"
-msgstr "Processar até pacotes com arquitectura errada ou sem nenhuma"
-
-#: src/main.c
-msgid "Install even if it would break another package"
-msgstr "Instalar mesmo que vá estragar outro pacote"
-
-#: src/main.c
-msgid "Allow installation of conflicting packages"
-msgstr "Permitir a instalação de pacotes em conflito"
-
-#: src/main.c
-msgid "Turn all dependency problems into warnings"
-msgstr "Tornar todos os problemas com dependências em avisos"
-
-#: src/main.c
-msgid "Turn dependency version problems into warnings"
-msgstr "Tornar problemas com versões de dependências em avisos"
-
-#: src/main.c
-msgid "Remove packages which require installation"
-msgstr "Remover pacotes que necessitam de instalação"
-
-#: src/main.c
-msgid "Remove an essential package"
-msgstr "Remover um pacote essencial"
-
-#: src/main.c
 msgid "Generally helpful progress information"
 msgstr "Informação de progresso geralmente útil"
 
@@ -3812,44 +3934,6 @@ msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr ""
 "nao pode remover a arquitectura '%s' actualmente em utilização pela base de "
 "dados"
-
-#: src/main.c
-#, c-format
-msgid ""
-"%s forcing options - control behaviour when problems found:\n"
-"  warn but continue:  --force-<thing>,<thing>,...\n"
-"  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
-" Forcing things:\n"
-msgstr ""
-"Opções para forçar %s - controlar comportamento quando são encontrados "
-"problemas:\n"
-"  avisar e continuar:  --force-<coisa>,<coisa>,...\n"
-"  parar com erro.      --refuse-<coisa>,<coisa>,... | --no-force-"
-"<coisa>,...\n"
-" Opções para forçar:\n"
-
-#: src/main.c
-#, c-format
-msgid ""
-"\n"
-"WARNING - use of options marked [!] can seriously damage your installation.\n"
-"Forcing options marked [*] are enabled by default.\n"
-msgstr ""
-"\n"
-"AVISO - a utilização de opções marcadas com [!] pode danificar seriamente a\n"
-"sua instalação. As opções para forçar marcadas com [*] estão habilitadas "
-"por\n"
-"pré-definição.\n"
-
-#: src/main.c
-#, c-format
-msgid "unknown force/refuse option '%.*s'"
-msgstr "opção desconhecida de forçar/recusar '%.*s'"
-
-#: src/main.c
-#, c-format
-msgid "obsolete force/refuse option '%s'"
-msgstr "opção forçar/recusar obsoleta '%s'"
 
 #: src/main.c
 #, c-format
@@ -4506,14 +4590,29 @@ msgstr ""
 "\n"
 
 #: src/statcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir <directory>   set the directory with the statoverride file.\n"
+#| "  --instdir <directory>    set the root directory, but not the admin "
+#| "dir.\n"
+#| "  --root <directory>       set the directory of the root filesystem.\n"
+#| "  --update                 immediately update <path> permissions.\n"
+#| "  --force                  force an action even if a sanity check fails.\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
 "  --instdir <directory>    set the root directory, but not the admin dir.\n"
 "  --root <directory>       set the directory of the root filesystem.\n"
 "  --update                 immediately update <path> permissions.\n"
-"  --force                  force an action even if a sanity check fails.\n"
+"  --force                  deprecated alias for --force-all.\n"
+"  --force-...              override problems (see --force-help).\n"
+"  --no-force-...           stop when problems encountered.\n"
+"  --refuse-...             ditto.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
@@ -4583,6 +4682,12 @@ msgstr "não está presente nenhum 'override'"
 #: src/statcmd.c
 msgid "--update is useless for --remove"
 msgstr "--update é inútil para --remove"
+
+#: src/statcmd.c
+#, fuzzy, c-format
+#| msgid "obsolete option '--%s'; please use '--%s' instead"
+msgid "deprecated --%s option; use --%s instead"
+msgstr "opção obsoleta '--%s'; por favor utilize antes '--%s'"
 
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
@@ -4963,16 +5068,22 @@ msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s necessita no máximo um argumento ficheiro-Packages"
 
 #: src/update.c
-msgid "unable to access dpkg status area for bulk available update"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area for bulk available update"
+msgid "unable to access dpkg database directory '%s' for bulk available update"
 msgstr ""
 "não foi possível aceder à area de status do dpkg para uma completa "
 "actualização"
 
 #: src/update.c
-msgid "bulk available update requires write access to dpkg status area"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area for bulk available update"
+msgid ""
+"required write access to dpkg database directory '%s' for bulk available "
+"update"
 msgstr ""
-"actualização completa de disponibilidade necessita de acesso de escrita à "
-"área de estado do dpkg"
+"não foi possível aceder à area de status do dpkg para uma completa "
+"actualização"
 
 #: src/update.c
 #, c-format
@@ -6676,6 +6787,49 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr "É necessária autenticação para correr update-alternatives"
 
+#~ msgid "unable to open lock file %s for testing"
+#~ msgstr "não foi bloquear ficheiro %s para teste"
+
+#~ msgid "unknown user '%s' in statoverride file"
+#~ msgstr "utilizador desconhecido '%s' no ficheiro statoverride"
+
+#~ msgid "unknown group '%s' in statoverride file"
+#~ msgstr "grupo '%s' desconhecido no statoverride"
+
+#~ msgid "%s is missing"
+#~ msgstr "falta %s"
+
+#~ msgid "'%.50s' is not allowed for %s"
+#~ msgstr "'%.50s' não é permitido para %s"
+
+#~ msgid "junk after %s"
+#~ msgstr "lixo após %s"
+
+#~ msgid "invalid package name (%.250s)"
+#~ msgstr "nome de pacote inválido (%.250s)"
+
+#~ msgid "yes/no in boolean field"
+#~ msgstr "sim/não no campo booleano"
+
+#~ msgid "'%s' field, reference to '%.255s': error in version"
+#~ msgstr "campo '%s', referência a '%.255s': erro na versão"
+
+#~ msgid "empty value for %s"
+#~ msgstr "valor vazio para %s"
+
+#~ msgid "package has status triggers-awaited but no triggers awaited"
+#~ msgstr ""
+#~ "o pacote tem estado 'triggers-awaited' mas não são esperados 'triggers'"
+
+#~ msgid "package has status triggers-pending but no triggers pending"
+#~ msgstr ""
+#~ "o pacote tem estado 'triggers-pending' mas não tem 'triggers' pendentes"
+
+#~ msgid "bulk available update requires write access to dpkg status area"
+#~ msgstr ""
+#~ "actualização completa de disponibilidade necessita de acesso de escrita à "
+#~ "área de estado do dpkg"
+
 #~ msgid "error reading dpkg-deb tar output"
 #~ msgstr "erro ao ler a saída do tar de dpkg-deb"
 
@@ -6709,9 +6863,6 @@ msgstr "É necessária autenticação para correr update-alternatives"
 
 #~ msgid "failed to chdir to directory after creating it"
 #~ msgstr "falhou o chdir para o directório após o ter criado"
-
-#~ msgid "obsolete option '--%s'; please use '--%s' instead"
-#~ msgstr "opção obsoleta '--%s'; por favor utilize antes '--%s'"
 
 #~ msgid "control file '%s' missing value"
 #~ msgstr "falta valor no ficheiro de controlo '%s'"
@@ -7423,9 +7574,6 @@ msgstr "É necessária autenticação para correr update-alternatives"
 
 #~ msgid "cannot open diversions: %s"
 #~ msgstr "falhou ao abrir desvios: %s"
-
-#~ msgid "missing package"
-#~ msgstr "falta pacote"
 
 #~ msgid "rename: rename `%s' to `%s': %s"
 #~ msgstr "renomear: renomear `%s' para `%s': %s"

@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-01-22 14:24+0100\n"
+"POT-Creation-Date: 2019-02-23 17:59+0100\n"
 "PO-Revision-Date: 2016-04-01 16:07+0900\n"
 "Last-Translator: Takuma Yamada <tyamada@takumayamada.com>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -355,30 +355,37 @@ msgid "unable to seek to start of %.250s after padding"
 msgstr "文字の補充後に %.250s の最初に戻れません"
 
 #: lib/dpkg/dbmodify.c
-#, c-format
-msgid "unable to open lock file %s for testing"
-msgstr "テストのためのロックファイル %s をオープンできません"
+#, fuzzy, c-format
+#| msgid "unable to get file descriptor for directory '%s'"
+msgid "unable to check lock file for dpkg database directory %s"
+msgstr "ディレクトリ '%s' のファイル記述子を取得できません"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy
+#, fuzzy, c-format
 #| msgid "unable to open/create status database lockfile"
-msgid "unable to open/create frontend lockfile"
+msgid "unable to open/create dpkg frontend lock for directory %s"
 msgstr "ステータスデータベースのロックファイルをオープン/作成できません。"
 
 #: lib/dpkg/dbmodify.c
-msgid "unable to open/create status database lockfile"
+#, fuzzy, c-format
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create dpkg database lock file for directory %s"
 msgstr "ステータスデータベースのロックファイルをオープン/作成できません。"
 
 #: lib/dpkg/dbmodify.c
-msgid "you do not have permission to lock the dpkg status database"
+#, fuzzy, c-format
+#| msgid "you do not have permission to lock the dpkg status database"
+msgid "you do not have permission to lock the dpkg database directory %s"
 msgstr "あなたには dpkg ステータスデータベースをロックする権限がありません"
 
 #: lib/dpkg/dbmodify.c
-msgid "dpkg frontend"
+msgid "dpkg frontend lock"
 msgstr ""
 
 #: lib/dpkg/dbmodify.c
-msgid "dpkg status database"
+#, fuzzy
+#| msgid "dpkg status database"
+msgid "dpkg database lock"
 msgstr "dpkg ステータスデータベース"
 
 #: lib/dpkg/dbmodify.c
@@ -386,11 +393,15 @@ msgid "requested operation requires superuser privilege"
 msgstr "要求した操作はスーパーユーザの権限が必要です"
 
 #: lib/dpkg/dbmodify.c
-msgid "unable to access dpkg status area"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "unable to access the dpkg database directory %s"
 msgstr "dpkg ステータスエリアにアクセスできません"
 
 #: lib/dpkg/dbmodify.c
-msgid "operation requires read/write access to dpkg status area"
+#, fuzzy, c-format
+#| msgid "operation requires read/write access to dpkg status area"
+msgid "required read/write access to the dpkg database directory %s"
 msgstr "操作は dpkg ステータスエリアへの読み書きの権限が必要です"
 
 #: lib/dpkg/dbmodify.c
@@ -594,8 +605,11 @@ msgstr "statoverride ファイルに文法エラーがあります"
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr "statoverride ファイルに未知のユーザ '%s' があります"
+msgid ""
+"unknown system user '%s' in statoverride file; the system user got removed\n"
+"before the override, which is most probably a packaging bug, to recover you\n"
+"can remove the override manually with %s"
+msgstr ""
 
 #: lib/dpkg/db-fsys-override.c
 msgid "unexpected end of line in statoverride file"
@@ -603,8 +617,12 @@ msgstr "statoverride ファイルに予期せぬ eof があります"
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr "statoverride ファイルに未知のグループ '%s' があります"
+msgid ""
+"unknown system group '%s' in statoverride file; the system group got "
+"removed\n"
+"before the override, which is most probably a packaging bug, to recover you\n"
+"can remove the override manually with %s"
+msgstr ""
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
@@ -749,66 +767,75 @@ msgid "internal error"
 msgstr "内部エラー (バグ)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "%s is missing"
-msgstr "%s がありません"
+#, fuzzy
+#| msgid "control file '%s' missing value"
+msgid "is missing a value"
+msgstr "コントロールファイル '%s' に値がありません"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%.50s' is not allowed for %s"
-msgstr "`%.50s' は %s 用に許可されていません"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "has invalid value '%.50s'"
+msgstr "無効な行をスキップします: %s"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "junk after %s"
-msgstr "%s 後のゴミ"
+msgid "has trailing junk"
+msgstr ""
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "invalid package name (%.250s)"
-msgstr "無効なパッケージ名 (%.250s) です"
+#, fuzzy, c-format
+#| msgid "package '%s' is not installed"
+msgid "invalid package name in '%s' field: %s"
+msgstr "パッケージ '%s' はまだインストールされていません"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "empty file details field '%s'"
-msgid "empty archive details field '%s'"
+msgid "empty archive details '%s' field"
 msgstr "ファイル記述フィールド `%s' が空です"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "file details field '%s' not allowed in status file"
-msgid "archive details field '%s' not allowed in status file"
+msgid "archive details '%s' field not allowed in status file"
 msgstr "ファイル記述フィールド `%s' はステータスファイルでは許可されていません"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "too many values in file details field '%s' (compared to others)"
-msgid "too many values in archive details field '%s' (compared to others)"
+msgid "too many values in archive details '%s' field (compared to others)"
 msgstr ""
 "ファイル記述フィールド `%s' の値が (ほかのフィールドに比べて) 多すぎます"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "too few values in file details field '%s' (compared to others)"
-msgid "too few values in archive details field '%s' (compared to others)"
+msgid "too few values in archive details '%s' field (compared to others)"
 msgstr ""
 "ファイル記述フィールド `%s' の値が (ほかのフィールドに比べて) 少なすぎます"
 
 #: lib/dpkg/fields.c
-msgid "yes/no in boolean field"
-msgstr "真偽フィールドにおける yes/no"
+#, fuzzy, c-format
+#| msgid "obsolete '%s' or '%s' field used"
+msgid "boolean (yes/no) '%s' field: %s"
+msgstr "古い '%s' あるいは '%s' フィールドが使われています"
 
 #: lib/dpkg/fields.c
-msgid "foreign/allowed/same/no in quadstate field"
+#, fuzzy, c-format
+#| msgid "foreign/allowed/same/no in quadstate field"
+msgid "quadstate (foreign/allowed/same/no) '%s' field: %s"
 msgstr "4状態フィールドにおける foreign/allowed/same/no"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%s' is not a valid architecture name: %s"
+#, fuzzy, c-format
+#| msgid "'%s' is not a valid architecture name: %s"
+msgid "'%s' is not a valid architecture name in '%s' field: %s"
 msgstr "'%s' は有効なアーキテクチャ名ではありません: %s"
 
 #: lib/dpkg/fields.c
-msgid "word in 'Priority' field"
+#, fuzzy, c-format
+#| msgid "word in 'Priority' field"
+msgid "word in '%s' field: %s"
 msgstr "'Priority' フィールドのワード"
 
 #: lib/dpkg/fields.c
@@ -817,25 +844,33 @@ msgid "value for '%s' field not allowed in this context"
 msgstr "'%s' フィールドの値はこのコンテキストでは許可されていません"
 
 #: lib/dpkg/fields.c
-msgid "first (want) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "first (want) word in 'Status' field"
+msgid "first (want) word in '%s' field: %s"
 msgstr "'Status' フィールドの第 1 ワード (要望)"
 
 #: lib/dpkg/fields.c
-msgid "second (error) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "second (error) word in 'Status' field"
+msgid "second (error) word in '%s' field: %s"
 msgstr "'Status' フィールドの第 2 ワード (エラー)"
 
 #: lib/dpkg/fields.c
-msgid "third (status) word in 'Status' field"
+#, fuzzy, c-format
+#| msgid "third (status) word in 'Status' field"
+msgid "third (status) word in '%s' field: %s"
 msgstr "'Status' フィールドの第 3 ワード (状態)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "error in '%s' field string '%.250s'"
+#, fuzzy, c-format
+#| msgid "error in '%s' field string '%.250s'"
+msgid "'%s' field value '%.250s'"
 msgstr "'%s' フィールドの文字列 '%.250s' にエラー"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "obsolete '%s' or '%s' field used"
+#, fuzzy, c-format
+#| msgid "obsolete '%s' or '%s' field used"
+msgid "obsolete '%s' field used"
 msgstr "古い '%s' あるいは '%s' フィールドが使われています"
 
 #: lib/dpkg/fields.c
@@ -844,12 +879,15 @@ msgid "value for '%s' field has malformed line '%.*s'"
 msgstr "'%s' の値に不正な形式を持つ行 '%.*s' があります"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "value for '%s' has line starting with non-space '%c'"
+#, fuzzy, c-format
+#| msgid "value for '%s' has line starting with non-space '%c'"
+msgid "value for '%s' field has line starting with non-space '%c'"
 msgstr "'%s' の値に空白以外の文字 `%c' で始まる行があります"
 
 #: lib/dpkg/fields.c
-msgid "root or null directory is listed as a conffile"
+#, fuzzy, c-format
+#| msgid "root or null directory is listed as a conffile"
+msgid "root or empty directory listed as a conffile in '%s' field"
 msgstr ""
 "ルートディレクトリあるいは空のディレクトリが設定ファイルとして指定されていま"
 "す"
@@ -937,9 +975,10 @@ msgid "'%s' field, reference to '%.255s': version unterminated"
 msgstr "`%2$.255s' の `%1$s' フィールド: バージョンが完結していません"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "'%s' field, reference to '%.255s': error in version"
-msgstr "`%2$.255s' を参照する `%1$s' フィールド: バージョンにエラー"
+#, fuzzy, c-format
+#| msgid "'%s' field, reference to '%.255s': version contains '%c'"
+msgid "'%s' field, reference to '%.255s': version '%s'"
+msgstr "`%2$.255s' の `%1$s' フィールド: バージョンが `%3$c' を含んでいます"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -947,8 +986,9 @@ msgid "'%s' field, syntax error after reference to package '%.255s'"
 msgstr "`%s' フィールド、パッケージ `%.255s' 参照後の構文エラー"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "alternatives ('|') not allowed in %s field"
+#, fuzzy, c-format
+#| msgid "alternatives ('|') not allowed in %s field"
+msgid "alternatives ('|') not allowed in '%s' field"
 msgstr "選択記号 (`|') は %s フィールド内では許可されていません"
 
 #: lib/dpkg/fields.c
@@ -1213,30 +1253,36 @@ msgid "duplicate value for user-defined field '%.*s'"
 msgstr "ユーザ定義フィールド `%.*s' の値が重複しています"
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
-#, c-format
-msgid "missing %s"
+#, fuzzy, c-format
+#| msgid "missing %s"
+msgid "missing '%s' field"
 msgstr "%s が見つかりません"
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
-#, c-format
-msgid "empty value for %s"
-msgstr "%s の空の値"
+#, fuzzy, c-format
+#| msgid "duplicate value for '%s' field"
+msgid "empty value for '%s' field"
+msgstr "`%s' フィールドの値が重複しています"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "package has field '%s' but is missing architecture"
+#, fuzzy, c-format
+#| msgid "package has field '%s' but is missing architecture"
+msgid "package has '%s' field but is missing architecture"
 msgstr ""
 "パッケージは '%s' というフィールドを持っていますが、アーキテクチャが見つかり"
 "ません"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "package has field '%s' but is architecture all"
+#, fuzzy, c-format
+#| msgid "package has field '%s' but is architecture all"
+msgid "package has '%s' field but is architecture '%s'"
 msgstr ""
 "パッケージは '%s' というフィールドを持っていますが、アーキテクチャは all です"
 
 #: lib/dpkg/parse.c
-msgid "Config-Version for package with inappropriate Status"
+#, fuzzy, c-format
+#| msgid "Config-Version for package with inappropriate Status"
+msgid "'%s' field present for package with inappropriate '%s' field"
 msgstr "不適切な Status を持つパッケージの Config-Version"
 
 #: lib/dpkg/parse.c
@@ -1245,8 +1291,10 @@ msgid "package has status %s but triggers are awaited"
 msgstr "パッケージは状態 %s ですが、トリガを待ち受けています"
 
 #: lib/dpkg/parse.c
-msgid "package has status triggers-awaited but no triggers awaited"
-msgstr "パッケージはトリガ待ち受けの状態ですが、待ち受けトリガはありません"
+#, fuzzy, c-format
+#| msgid "package has status %s but triggers are awaited"
+msgid "package has status %s but no triggers awaited"
+msgstr "パッケージは状態 %s ですが、トリガを待ち受けています"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1254,11 +1302,15 @@ msgid "package has status %s but triggers are pending"
 msgstr "パッケージは状態 %s ですが、トリガは保留されています"
 
 #: lib/dpkg/parse.c
-msgid "package has status triggers-pending but no triggers pending"
-msgstr "パッケージはトリガ保留の状態ですが、保留トリガはありません"
+#, fuzzy, c-format
+#| msgid "package has status %s but triggers are pending"
+msgid "package has status %s but no triggers pending"
+msgstr "パッケージは状態 %s ですが、トリガは保留されています"
 
 #: lib/dpkg/parse.c
-msgid "Package which in state not-installed has conffiles, forgetting them"
+#, fuzzy, c-format
+#| msgid "Package which in state not-installed has conffiles, forgetting them"
+msgid "package has status %s and has conffiles, forgetting them"
 msgstr ""
 "現在インストールされていないパッケージ (ステータス not-installed) が "
 "conffiles を持っているので、それらの情報を無視します"
@@ -1280,10 +1332,13 @@ msgstr ""
 "混在して提供されています。おそらく非公式の dpkg からの更新によるものです"
 
 #: lib/dpkg/parse.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
+#| "installed instances"
 msgid ""
-"%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
-"installed instances"
+"package %s (%s) with field '%s: %s' is not co-installable with %s which has "
+"multiple installed instances"
 msgstr ""
 "%s %s (マルチアーキテクチャ: %s) は、複数のインストール済み実体を持つ %s と共"
 "存インストールできません"
@@ -1659,12 +1714,15 @@ msgid "treewalk root %s is not a directory"
 msgstr "コントロールディレクトリがディレクトリではありません"
 
 #: lib/dpkg/trigdeferred.c
-#, c-format
-msgid "unable to open/create triggers lockfile '%.250s'"
+#, fuzzy, c-format
+#| msgid "unable to open/create triggers lockfile '%.250s'"
+msgid "unable to open/create triggers lock file '%.250s'"
 msgstr "トリガロックファイル `%.250s' をオープンおよび作成できません"
 
 #: lib/dpkg/trigdeferred.c
-msgid "triggers area"
+#, fuzzy
+#| msgid "triggers area"
+msgid "triggers database lock"
 msgstr "トリガ領域"
 
 #: lib/dpkg/trigdeferred.c
@@ -2204,10 +2262,10 @@ msgstr "アーカイブにアクセスできません"
 msgid "archive '%s' is not a regular file"
 msgstr "設定ファイル '%s' がプレーンファイルではありません"
 
-#: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
-#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
-#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
+#: src/archives.c src/divertcmd.c src/enquiry.c src/force.c src/main.c
+#: src/packages.c src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c
+#: src/verify.c dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c
+#: dpkg-deb/main.c dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<標準出力>"
 
@@ -3296,7 +3354,172 @@ msgstr ""
 "パッケージ %s は保持されているため、手をつけません。上書きするには --force-"
 "hold を使ってください。\n"
 
-#: src/errors.c
+#: src/force.c
+msgid "Set all force options"
+msgstr "すべての強制オプションをセットする"
+
+#: src/force.c
+msgid "Use MAC based security if available"
+msgstr ""
+
+#: src/force.c
+msgid "Replace a package with a lower version"
+msgstr "パッケージをより古いバージョンで置き換える"
+
+#: src/force.c
+msgid "Configure any package which may help this one"
+msgstr "これが助けになるかもしれないパッケージを設定する"
+
+#: src/force.c
+msgid "Process incidental packages even when on hold"
+msgstr "保持していても付帯パッケージを処理する"
+
+#: src/force.c
+msgid "Try to (de)install things even when not root"
+msgstr "root でなくてもインストール/削除の実行を試みる"
+
+#: src/force.c
+msgid "PATH is missing important programs, problems likely"
+msgstr ""
+"PATH に重要なプログラムを見つけられなくても実行する。問題が起きる可能性が高い"
+
+#: src/force.c
+msgid "Install a package even if it fails authenticity check"
+msgstr "正当性チェックに失敗してもパッケージをインストールする"
+
+#: src/force.c
+msgid "Process even packages with wrong versions"
+msgstr "パッケージのバージョンがおかしくても処理する"
+
+#: src/force.c
+msgid "Overwrite an existing stat override when adding it"
+msgstr ""
+
+#: src/force.c
+msgid "Ignore a missing stat override when removing it"
+msgstr ""
+
+#: src/force.c
+msgid "Overwrite a file from one package with another"
+msgstr "あるパッケージから提供されているファイルを別のもので上書きする"
+
+#: src/force.c
+msgid "Overwrite a diverted file with an undiverted version"
+msgstr "退避されているファイルを退避されていないバージョンで上書きする"
+
+#: src/force.c
+msgid "Overwrite one package's directory with another's file"
+msgstr "あるパッケージのディレクトリを別のファイルで上書きする"
+
+#: src/force.c
+msgid "Do not perform safe I/O operations when unpacking"
+msgstr "展開時に安全な I/O 操作を行わない"
+
+#: src/force.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/force.c
+msgid "Always use the new config files, don't prompt"
+msgstr "常に新しい設定ファイルを使用し、問い合わせない"
+
+#: src/force.c
+msgid "Always use the old config files, don't prompt"
+msgstr "常に古い設定ファイルを使用し、問い合わせない"
+
+#: src/force.c
+msgid ""
+"Use the default option for new config files if one\n"
+"is available, don't prompt. If no default can be found,\n"
+"you will be prompted unless one of the confold or\n"
+"confnew options is also given"
+msgstr ""
+"新しい設定ファイルに、もし利用できるなら問い合わせせず\n"
+"にデフォルトオプションを使用する。デフォルトが見つから\n"
+"ない場合は、confold または confnew オプションが与えられ\n"
+"ていない限り、問い合わせが行われる"
+
+#: src/force.c
+msgid "Always install missing config files"
+msgstr "見つからなかった設定ファイルを常にインストールする"
+
+#: src/force.c
+msgid "Offer to replace config files with no new versions"
+msgstr "設定ファイルを新しいバージョンでないもので置き換えるか尋ねる"
+
+#: src/force.c
+msgid "Process even packages with wrong or no architecture"
+msgstr "パッケージがおかしい、あるいはアーキテクチャがなくても処理する"
+
+#: src/force.c
+msgid "Install even if it would break another package"
+msgstr "別のパッケージを壊す可能性があってもインストールする"
+
+#: src/force.c
+msgid "Allow installation of conflicting packages"
+msgstr "競合するパッケージのインストールを許可する"
+
+#: src/force.c
+msgid "Turn all dependency problems into warnings"
+msgstr "すべての依存関係の問題を警告に切り替える"
+
+#: src/force.c
+msgid "Turn dependency version problems into warnings"
+msgstr "依存バージョンの問題を警告に切り替える"
+
+#: src/force.c
+msgid "Remove packages which require installation"
+msgstr "インストールに必要なパッケージを削除する"
+
+#: src/force.c
+msgid "Remove an essential package"
+msgstr "不可欠パッケージを削除する"
+
+#: src/force.c
+#, c-format
+msgid ""
+"%s forcing options - control behaviour when problems found:\n"
+"  warn but continue:  --force-<thing>,<thing>,...\n"
+"  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
+" Forcing things:\n"
+msgstr ""
+"%s 強制オプション - 問題が発生したときの挙動を制御する:\n"
+"  警告するが継続:  --force-<事象>,<事象>,...\n"
+"  エラーで停止:    --refuse-<事象>,<事象>,... | --no-force-<事象>,...\n"
+" 事象の強制:\n"
+
+#: src/force.c
+#, c-format
+msgid ""
+"\n"
+"WARNING - use of options marked [!] can seriously damage your installation.\n"
+"Forcing options marked [*] are enabled by default.\n"
+msgstr ""
+"\n"
+"警告: [!] と記されているオプションの使用は、あなたのシステムに深刻な傷害を与"
+"える\n"
+"可能性があります。[*] と記されているオプションの強制はデフォルトで有効で"
+"す。\n"
+
+#: src/force.c
+#, c-format
+msgid ""
+"\n"
+"Currently enabled options:\n"
+" %s\n"
+msgstr ""
+
+#: src/force.c
+#, c-format
+msgid "unknown force/refuse option '%.*s'"
+msgstr "不明な強制・拒否 (force/refuse) オプション `%.*s'"
+
+#: src/force.c
+#, c-format
+msgid "obsolete force/refuse option '%s'"
+msgstr "時代遅れの強制・拒否 (force/refuse) オプション `%s'"
+
+#: src/force.c
 msgid "overriding problem because --force enabled:"
 msgstr "--force が有効なので、問題を無視します:"
 
@@ -3655,115 +3878,6 @@ msgstr ""
 "してください!"
 
 #: src/main.c
-msgid "Set all force options"
-msgstr "すべての強制オプションをセットする"
-
-#: src/main.c
-msgid "Replace a package with a lower version"
-msgstr "パッケージをより古いバージョンで置き換える"
-
-#: src/main.c
-msgid "Configure any package which may help this one"
-msgstr "これが助けになるかもしれないパッケージを設定する"
-
-#: src/main.c
-msgid "Process incidental packages even when on hold"
-msgstr "保持していても付帯パッケージを処理する"
-
-#: src/main.c
-msgid "Try to (de)install things even when not root"
-msgstr "root でなくてもインストール/削除の実行を試みる"
-
-#: src/main.c
-msgid "PATH is missing important programs, problems likely"
-msgstr ""
-"PATH に重要なプログラムを見つけられなくても実行する。問題が起きる可能性が高い"
-
-#: src/main.c
-msgid "Install a package even if it fails authenticity check"
-msgstr "正当性チェックに失敗してもパッケージをインストールする"
-
-#: src/main.c
-msgid "Process even packages with wrong versions"
-msgstr "パッケージのバージョンがおかしくても処理する"
-
-#: src/main.c
-msgid "Overwrite a file from one package with another"
-msgstr "あるパッケージから提供されているファイルを別のもので上書きする"
-
-#: src/main.c
-msgid "Overwrite a diverted file with an undiverted version"
-msgstr "退避されているファイルを退避されていないバージョンで上書きする"
-
-#: src/main.c
-msgid "Overwrite one package's directory with another's file"
-msgstr "あるパッケージのディレクトリを別のファイルで上書きする"
-
-#: src/main.c
-msgid "Do not perform safe I/O operations when unpacking"
-msgstr "展開時に安全な I/O 操作を行わない"
-
-#: src/main.c
-msgid "Do not chroot into maintainer script environment"
-msgstr ""
-
-#: src/main.c
-msgid "Always use the new config files, don't prompt"
-msgstr "常に新しい設定ファイルを使用し、問い合わせない"
-
-#: src/main.c
-msgid "Always use the old config files, don't prompt"
-msgstr "常に古い設定ファイルを使用し、問い合わせない"
-
-#: src/main.c
-msgid ""
-"Use the default option for new config files if one\n"
-"is available, don't prompt. If no default can be found,\n"
-"you will be prompted unless one of the confold or\n"
-"confnew options is also given"
-msgstr ""
-"新しい設定ファイルに、もし利用できるなら問い合わせせず\n"
-"にデフォルトオプションを使用する。デフォルトが見つから\n"
-"ない場合は、confold または confnew オプションが与えられ\n"
-"ていない限り、問い合わせが行われる"
-
-#: src/main.c
-msgid "Always install missing config files"
-msgstr "見つからなかった設定ファイルを常にインストールする"
-
-#: src/main.c
-msgid "Offer to replace config files with no new versions"
-msgstr "設定ファイルを新しいバージョンでないもので置き換えるか尋ねる"
-
-#: src/main.c
-msgid "Process even packages with wrong or no architecture"
-msgstr "パッケージがおかしい、あるいはアーキテクチャがなくても処理する"
-
-#: src/main.c
-msgid "Install even if it would break another package"
-msgstr "別のパッケージを壊す可能性があってもインストールする"
-
-#: src/main.c
-msgid "Allow installation of conflicting packages"
-msgstr "競合するパッケージのインストールを許可する"
-
-#: src/main.c
-msgid "Turn all dependency problems into warnings"
-msgstr "すべての依存関係の問題を警告に切り替える"
-
-#: src/main.c
-msgid "Turn dependency version problems into warnings"
-msgstr "依存バージョンの問題を警告に切り替える"
-
-#: src/main.c
-msgid "Remove packages which require installation"
-msgstr "インストールに必要なパッケージを削除する"
-
-#: src/main.c
-msgid "Remove an essential package"
-msgstr "不可欠パッケージを削除する"
-
-#: src/main.c
 msgid "Generally helpful progress information"
 msgstr "一般に有用な進行情報"
 
@@ -3891,42 +4005,6 @@ msgstr "データベースで現在使用中のアーキテクチャ '%s' を削
 #, c-format
 msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr "データベースで現在使用中のアーキテクチャ '%s' を削除できません"
-
-#: src/main.c
-#, c-format
-msgid ""
-"%s forcing options - control behaviour when problems found:\n"
-"  warn but continue:  --force-<thing>,<thing>,...\n"
-"  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
-" Forcing things:\n"
-msgstr ""
-"%s 強制オプション - 問題が発生したときの挙動を制御する:\n"
-"  警告するが継続:  --force-<事象>,<事象>,...\n"
-"  エラーで停止:    --refuse-<事象>,<事象>,... | --no-force-<事象>,...\n"
-" 事象の強制:\n"
-
-#: src/main.c
-#, c-format
-msgid ""
-"\n"
-"WARNING - use of options marked [!] can seriously damage your installation.\n"
-"Forcing options marked [*] are enabled by default.\n"
-msgstr ""
-"\n"
-"警告: [!] と記されているオプションの使用は、あなたのシステムに深刻な傷害を与"
-"える\n"
-"可能性があります。[*] と記されているオプションの強制はデフォルトで有効で"
-"す。\n"
-
-#: src/main.c
-#, c-format
-msgid "unknown force/refuse option '%.*s'"
-msgstr "不明な強制・拒否 (force/refuse) オプション `%.*s'"
-
-#: src/main.c
-#, c-format
-msgid "obsolete force/refuse option '%s'"
-msgstr "時代遅れの強制・拒否 (force/refuse) オプション `%s'"
 
 #: src/main.c
 #, c-format
@@ -4621,7 +4699,10 @@ msgid ""
 "  --instdir <directory>    set the root directory, but not the admin dir.\n"
 "  --root <directory>       set the directory of the root filesystem.\n"
 "  --update                 immediately update <path> permissions.\n"
-"  --force                  force an action even if a sanity check fails.\n"
+"  --force                  deprecated alias for --force-all.\n"
+"  --force-...              override problems (see --force-help).\n"
+"  --no-force-...           stop when problems encountered.\n"
+"  --refuse-...             ditto.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
@@ -4683,6 +4764,12 @@ msgstr "override が提供されていません"
 #: src/statcmd.c
 msgid "--update is useless for --remove"
 msgstr "--update は --remove には無意味です"
+
+#: src/statcmd.c
+#, fuzzy, c-format
+#| msgid "obsolete option '--%s'; please use '--%s' instead"
+msgid "deprecated --%s option; use --%s instead"
+msgstr "オプション '--%s' は時代遅れです。'--%s' を代わりに使ってください"
 
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
@@ -5062,14 +5149,18 @@ msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s は引数に Packages ファイルを最大 1 つ必要とします"
 
 #: src/update.c
-msgid "unable to access dpkg status area for bulk available update"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area for bulk available update"
+msgid "unable to access dpkg database directory '%s' for bulk available update"
 msgstr "利用可能の更新が多すぎるため dpkg ステータスエリアにアクセスできません"
 
 #: src/update.c
-msgid "bulk available update requires write access to dpkg status area"
-msgstr ""
-"大部分の利用可能な更新は dpkg ステータスエリアへの書き込みアクセスを必要とし"
-"ます"
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area for bulk available update"
+msgid ""
+"required write access to dpkg database directory '%s' for bulk available "
+"update"
+msgstr "利用可能の更新が多すぎるため dpkg ステータスエリアにアクセスできません"
 
 #: src/update.c
 #, c-format
@@ -6812,6 +6903,47 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#~ msgid "unable to open lock file %s for testing"
+#~ msgstr "テストのためのロックファイル %s をオープンできません"
+
+#~ msgid "unknown user '%s' in statoverride file"
+#~ msgstr "statoverride ファイルに未知のユーザ '%s' があります"
+
+#~ msgid "unknown group '%s' in statoverride file"
+#~ msgstr "statoverride ファイルに未知のグループ '%s' があります"
+
+#~ msgid "%s is missing"
+#~ msgstr "%s がありません"
+
+#~ msgid "'%.50s' is not allowed for %s"
+#~ msgstr "`%.50s' は %s 用に許可されていません"
+
+#~ msgid "junk after %s"
+#~ msgstr "%s 後のゴミ"
+
+#~ msgid "invalid package name (%.250s)"
+#~ msgstr "無効なパッケージ名 (%.250s) です"
+
+#~ msgid "yes/no in boolean field"
+#~ msgstr "真偽フィールドにおける yes/no"
+
+#~ msgid "'%s' field, reference to '%.255s': error in version"
+#~ msgstr "`%2$.255s' を参照する `%1$s' フィールド: バージョンにエラー"
+
+#~ msgid "empty value for %s"
+#~ msgstr "%s の空の値"
+
+#~ msgid "package has status triggers-awaited but no triggers awaited"
+#~ msgstr "パッケージはトリガ待ち受けの状態ですが、待ち受けトリガはありません"
+
+#~ msgid "package has status triggers-pending but no triggers pending"
+#~ msgstr "パッケージはトリガ保留の状態ですが、保留トリガはありません"
+
+#~ msgid "bulk available update requires write access to dpkg status area"
+#~ msgstr ""
+#~ "大部分の利用可能な更新は dpkg ステータスエリアへの書き込みアクセスを必要と"
+#~ "します"
+
 #~ msgid "error reading dpkg-deb tar output"
 #~ msgstr "dpkg-deb tar 出力の読み取り時にエラーが発生しました"
 
@@ -6853,12 +6985,6 @@ msgstr ""
 
 #~ msgid "failed to chdir to directory after creating it"
 #~ msgstr "ディレクトリ作成後、そのディレクトリに移動できません"
-
-#~ msgid "obsolete option '--%s'; please use '--%s' instead"
-#~ msgstr "オプション '--%s' は時代遅れです。'--%s' を代わりに使ってください"
-
-#~ msgid "control file '%s' missing value"
-#~ msgstr "コントロールファイル '%s' に値がありません"
 
 #~ msgid "control file '%s' missing value separator"
 #~ msgstr "コントロールファイル '%s' に値の区切り子がありません"
