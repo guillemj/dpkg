@@ -106,6 +106,15 @@ dpkg_error_print(struct dpkg_error *err, const char *fmt, ...)
 }
 
 void
+dpkg_error_move(struct dpkg_error *dst, struct dpkg_error *src)
+{
+	dst->type = src->type;
+	src->type = DPKG_MSG_NONE;
+	dst->str = src->str;
+	src->str = NULL;
+}
+
+void
 dpkg_error_destroy(struct dpkg_error *err)
 {
 	err->type = DPKG_MSG_NONE;

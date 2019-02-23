@@ -58,6 +58,7 @@ int dpkg_put_errno(struct dpkg_error *err, const char *fmt, ...)
 void dpkg_error_print(struct dpkg_error *err, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
 
+void dpkg_error_move(struct dpkg_error *dst, struct dpkg_error *src);
 void dpkg_error_destroy(struct dpkg_error *err);
 
 /** @} */
