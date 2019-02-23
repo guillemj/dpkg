@@ -73,6 +73,11 @@ static const struct forceinfo {
 		FORCETYPE_DAMAGE,
 		N_("Set all force options"),
 	}, {
+		"security-mac",
+		FORCE_SECURITY_MAC,
+		FORCETYPE_ENABLED,
+		N_("Use MAC based security if available"),
+	}, {
 		"downgrade",
 		FORCE_DOWNGRADE,
 		FORCETYPE_ENABLED,

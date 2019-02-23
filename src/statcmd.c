@@ -104,7 +104,7 @@ usage(const struct cmdinfo *cip, const char *value)
 }
 
 #define FORCE_STATCMD_MASK \
-	FORCE_STATOVERRIDE_ADD | FORCE_STATOVERRIDE_DEL
+	FORCE_SECURITY_MAC | FORCE_STATOVERRIDE_ADD | FORCE_STATOVERRIDE_DEL
 
 static const char *admindir;
 const char *instdir;

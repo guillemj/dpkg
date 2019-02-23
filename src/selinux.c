@@ -53,7 +53,8 @@ dpkg_selabel_load(void)
 		int rc;
 
 		/* Set selinux_enabled if it is not already set (singleton). */
-		selinux_enabled = (is_selinux_enabled() > 0);
+		selinux_enabled = (in_force(FORCE_SECURITY_MAC) &&
+		                   is_selinux_enabled() > 0);
 		if (!selinux_enabled)
 			return;
 
