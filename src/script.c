@@ -158,12 +158,12 @@ maintscript_pre_exec(struct command *cmd)
  * one, use the given fallback.
  */
 static int
-maintscript_set_exec_context(struct command *cmd, const char *fallback)
+maintscript_set_exec_context(struct command *cmd)
 {
 	int rc = 0;
 
 #ifdef WITH_LIBSELINUX
-	rc = setexecfilecon(cmd->filename, fallback);
+	rc = setexecfilecon(cmd->filename, "dpkg_script_t");
 #endif
 
 	return rc < 0 ? rc : 0;
@@ -199,7 +199,7 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
 		cmd->filename = cmd->argv[0] = maintscript_pre_exec(cmd);
 
-		if (maintscript_set_exec_context(cmd, "dpkg_script_t") < 0)
+		if (maintscript_set_exec_context(cmd) < 0)
 			ohshite(_("cannot set security execution context for "
 			          "maintainer script"));
 
