@@ -64,7 +64,6 @@ const struct fieldinfo fieldinfos[]= {
   { FIELD("Multi-Arch"),       f_multiarch,       w_multiarch,      PKGIFPOFF(multiarch)     },
   { FIELD("Source"),           f_charfield,       w_charfield,      PKGIFPOFF(source)        },
   { FIELD("Version"),          f_version,         w_version,        PKGIFPOFF(version)       },
-  { FIELD("Revision"),         f_revision,        w_null                                     },
   { FIELD("Config-Version"),   f_configversion,   w_configversion                            },
   { FIELD("Replaces"),         f_dependency,      w_dependency,     dep_replaces             },
   { FIELD("Provides"),         f_dependency,      w_dependency,     dep_provides             },
@@ -84,17 +83,13 @@ const struct fieldinfo fieldinfos[]= {
   { FIELD("Triggers-Pending"), f_trigpend,        w_trigpend                                 },
   { FIELD("Triggers-Awaited"), f_trigaw,          w_trigaw                                   },
   /* Note that aliases are added to the nicknames table. */
-  {  NULL                                                                             }
-};
-
-static const struct nickname nicknames[] = {
-  /* Note: Capitalization of these strings is important. */
-  { NICK("Recommended"),      .canon = "Recommends" },
-  { NICK("Optional"),         .canon = "Suggests" },
-  { NICK("Class"),            .canon = "Priority" },
-  { NICK("Package-Revision"), .canon = "Revision" },
-  { NICK("Package_Revision"), .canon = "Revision" },
-  { .nick = NULL }
+  { FIELD("Revision"),         f_revision,        w_null                                     },
+  { FIELD("Recommended"),      f_dependency,      w_null                                     },
+  { FIELD("Optional"),         f_dependency,      w_null                                     },
+  { FIELD("Class"),            f_priority,        w_null                                     },
+  { FIELD("Package-Revision"), f_revision,        w_null                                     },
+  { FIELD("Package_Revision"), f_revision,        w_null                                     },
+  { NULL                                                                                     }
 };
 
 /**
@@ -116,18 +111,8 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
                 void *parse_obj)
 {
   struct pkg_parse_object *pkg_obj = parse_obj;
-  const struct nickname *nick;
   const struct fieldinfo *fip;
   int *ip;
-
-  for (nick = nicknames; nick->nick; nick++)
-    if (nick->nicklen == (size_t)fs->fieldlen &&
-        strncasecmp(nick->nick, fs->fieldstart, fs->fieldlen) == 0)
-      break;
-  if (nick->nick) {
-    fs->fieldstart = nick->canon;
-    fs->fieldlen = strlen(fs->fieldstart);
-  }
 
   for (fip = fieldinfos, ip = fs->fieldencountered; fip->name; fip++, ip++)
     if (fip->namelen == (size_t)fs->fieldlen &&

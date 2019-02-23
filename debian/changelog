@@ -29,6 +29,8 @@ dpkg (1.19.5) UNRELEASED; urgency=medium
   * libdpkg: Optimize error handling. Move the error reporting outside the
     involved functions so that we do not need to call gettext if there is no
     error, which has a significant performance cost.
+  * libdpkg: Merge nicknames table into fieldinfos, to stop penalizing the
+    lookup of non-obsolete fieldnames.
   * Perl modules:
     - Dpkg::Vendor::Debian: Add support for merged-usr-via-symlinks tainted
       tag. Suggested by Alexander E. Patrakov <patrakov@gmail.com>.

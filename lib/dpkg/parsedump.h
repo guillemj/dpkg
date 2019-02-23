@@ -158,14 +158,6 @@ void parse_ensure_have_field(struct parsedb_state *ps,
 
 #define MSDOS_EOF_CHAR '\032' /* ^Z */
 
-#define NICK(name) .nick = name, .nicklen = sizeof(name) - 1
-
-struct nickname {
-  const char *nick;
-  const char *canon;
-  size_t nicklen;
-};
-
 extern const struct fieldinfo fieldinfos[];
 
 /** @} */
