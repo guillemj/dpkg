@@ -143,7 +143,7 @@ void checkpath(void) {
   }
 
   if (warned)
-    forcibleerr(fc_badpath,
+    forcibleerr(FORCE_BAD_PATH,
                 P_("%d expected program not found in PATH or not executable\n%s",
                    "%d expected programs not found in PATH or not executable\n%s",
                    warned),
@@ -182,7 +182,7 @@ ignore_depends_possi(struct deppossi *possi)
 bool
 force_depends(struct deppossi *possi)
 {
-  return fc_depends ||
+  return in_force(FORCE_DEPENDS) ||
          ignore_depends_possi(possi) ||
          ignore_depends(possi->up->up);
 }
@@ -190,7 +190,7 @@ force_depends(struct deppossi *possi)
 bool
 force_breaks(struct deppossi *possi)
 {
-  return fc_breaks ||
+  return in_force(FORCE_BREAKS) ||
          ignore_depends_possi(possi) ||
          ignore_depends(possi->up->up);
 }
@@ -198,7 +198,7 @@ force_breaks(struct deppossi *possi)
 bool
 force_conflicts(struct deppossi *possi)
 {
-  return fc_conflicts;
+  return in_force(FORCE_CONFLICTS);
 }
 
 void clear_istobes(void) {

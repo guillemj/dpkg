@@ -126,7 +126,7 @@ void deferred_remove(struct pkginfo *pkg) {
   }
 
   if (pkg->installed.essential && pkg->status != PKG_STAT_CONFIGFILES)
-    forcibleerr(fc_removeessential,
+    forcibleerr(FORCE_REMOVE_ESSENTIAL,
                 _("this is an essential package; it should not be removed"));
 
   debug(dbg_general, "checking dependencies for remove '%s'",
@@ -159,7 +159,7 @@ void deferred_remove(struct pkginfo *pkg) {
   sincenothing= 0;
 
   if (pkg->eflag & PKG_EFLAG_REINSTREQ)
-    forcibleerr(fc_removereinstreq,
+    forcibleerr(FORCE_REMOVE_REINSTREQ,
                 _("package is in a very bad inconsistent state; you should\n"
                   " reinstall it before attempting a removal"));
 

@@ -119,13 +119,13 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 
 	/* No --force-confdef but a forcible situation. */
 	/* TODO: check if this condition can not be simplified to
-	 *       just !fc_conff_def */
-	if (!(fc_conff_def && (what & (CFOF_INSTALL | CFOF_KEEP)))) {
-		if (fc_conff_new) {
+	 *       just !in_force(FORCE_CONFF_DEF) */
+	if (!(in_force(FORCE_CONFF_DEF) && (what & (CFOF_INSTALL | CFOF_KEEP)))) {
+		if (in_force(FORCE_CONFF_NEW)) {
 			fprintf(stderr,
 			        _(" ==> Using new file as you requested.\n"));
 			return 'y';
-		} else if (fc_conff_old) {
+		} else if (in_force(FORCE_CONFF_OLD)) {
 			fprintf(stderr,
 			        _(" ==> Using current old file as you requested.\n"));
 			return 'n';
@@ -133,7 +133,7 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 	}
 
 	/* Force the default action (if there is one. */
-	if (fc_conff_def) {
+	if (in_force(FORCE_CONFF_DEF)) {
 		if (what & CFOF_KEEP) {
 			fprintf(stderr,
 			        _(" ==> Keeping old config file as default.\n"));
@@ -430,7 +430,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		useredited = -1;
 		distedited = -1;
 		what = CFO_IDENTICAL;
-	} else if (strcmp(currenthash, NONEXISTENTFLAG) == 0 && fc_conff_miss) {
+	} else if (strcmp(currenthash, NONEXISTENTFLAG) == 0 && in_force(FORCE_CONFF_MISS)) {
 		fprintf(stderr,
 		        _("\n"
 		          "Configuration file '%s', does not exist on system.\n"
@@ -454,7 +454,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		useredited = strcmp(conff->hash, currenthash) != 0;
 		distedited = strcmp(conff->hash, newdisthash) != 0;
 
-		if (fc_conff_ask && useredited)
+		if (in_force(FORCE_CONFF_ASK) && useredited)
 			what = CFO_PROMPT_KEEP;
 		else
 			what = conffoptcells[useredited][distedited];
@@ -624,7 +624,7 @@ deferred_configure(struct pkginfo *pkg)
 	sincenothing = 0;
 
 	if (pkg->eflag & PKG_EFLAG_REINSTREQ)
-		forcibleerr(fc_removereinstreq,
+		forcibleerr(FORCE_REMOVE_REINSTREQ,
 		            _("package is in a very bad inconsistent state; you should\n"
 		              " reinstall it before attempting configuration"));
 

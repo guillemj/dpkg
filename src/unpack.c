@@ -147,7 +147,7 @@ deb_verify(const char *filename)
 
     status = subproc_reap(pid, "debsig-verify", SUBPROC_NOCHECK);
     if (!(WIFEXITED(status) && WEXITSTATUS(status) == 0)) {
-      if (!fc_badverify)
+      if (!in_force(FORCE_BAD_VERIFY))
         ohshit(_("verification on package %s failed!"), filename);
       else
         notice(_("verification on package %s failed; "
@@ -1136,7 +1136,7 @@ void process_archive(const char *filename) {
   else
     parsedb_flags = pdb_parse_binary;
   parsedb_flags |= pdb_ignore_archives;
-  if (fc_badversion)
+  if (in_force(FORCE_BAD_VERSION))
     parsedb_flags |= pdb_lax_version_parser;
 
   parsedb(cidir, parsedb_flags, &pkg);
@@ -1164,7 +1164,7 @@ void process_archive(const char *filename) {
   if (pkg->available.arch->type != DPKG_ARCH_ALL &&
       pkg->available.arch->type != DPKG_ARCH_NATIVE &&
       pkg->available.arch->type != DPKG_ARCH_FOREIGN)
-    forcibleerr(fc_architecture,
+    forcibleerr(FORCE_ARCHITECTURE,
                 _("package architecture (%s) does not match system (%s)"),
                 pkg->available.arch->name,
                 dpkg_arch_get(DPKG_ARCH_NATIVE)->name);

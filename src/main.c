@@ -492,7 +492,7 @@ arch_remove(const char *const *argv)
     if (pkg->status < PKG_STAT_HALFINSTALLED)
       continue;
     if (pkg->installed.arch == arch) {
-      if (fc_architecture)
+      if (in_force(FORCE_ARCHITECTURE))
         warning(_("removing architecture '%s' currently in use by database"),
                 arch->name);
       else
@@ -579,7 +579,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "no-pager",          0,   0, NULL,          NULL,      set_no_pager,  0 },
   { "no-debsig",         0,   0, &f_nodebsig,   NULL,      NULL,    1 },
   /* Alias ('G') for --refuse. */
-  {  NULL,               'G', 0, &fc_downgrade, NULL,      NULL,    0 },
+  {  NULL,               'G', 0, NULL,          NULL,      reset_force_option, FORCE_DOWNGRADE },
   { "selected-only",     'O', 0, &f_alsoselect, NULL,      NULL,    0 },
   { "triggers",           0,  0, &f_triggers,   NULL,      NULL,    1 },
   { "no-triggers",        0,  0, &f_triggers,   NULL,      NULL,   -1 },
@@ -592,9 +592,9 @@ static const struct cmdinfo cmdinfos[]= {
   { "admindir",          0,   1, NULL,          &admindir, NULL,          0 },
   { "instdir",           0,   1, NULL,          NULL,      set_instdir,   0 },
   { "ignore-depends",    0,   1, NULL,          NULL,      set_ignore_depends, 0 },
-  { "force",             0,   2, NULL,          NULL,      set_force,     1 },
-  { "refuse",            0,   2, NULL,          NULL,      set_force,     0 },
-  { "no-force",          0,   2, NULL,          NULL,      set_force,     0 },
+  { "force",             0,   2, NULL,          NULL,      set_force_option,   1 },
+  { "refuse",            0,   2, NULL,          NULL,      set_force_option,   0 },
+  { "no-force",          0,   2, NULL,          NULL,      set_force_option,   0 },
   { "debug",             'D', 1, NULL,          NULL,      set_debug,     0 },
   { "help",              '?', 0, NULL,          NULL,      usage,         0 },
   { "version",           0,   0, NULL,          NULL,      printversion,  0 },
@@ -747,7 +747,7 @@ int main(int argc, const char *const *argv) {
 
   /* When running as root, make sure our primary group is also root, so
    * that files created by maintainer scripts have correct ownership. */
-  if (!fc_nonroot && getuid() == 0)
+  if (!in_force(FORCE_NON_ROOT) && getuid() == 0)
     if (setgid(0) < 0)
       ohshite(_("cannot set primary group ID to root"));
 

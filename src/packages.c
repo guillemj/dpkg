@@ -137,9 +137,9 @@ packages(const char *const *argv)
 {
   trigproc_install_hooks();
 
-  modstatdb_open(f_noact ?    msdbrw_readonly :
-                 fc_nonroot ? msdbrw_write :
-                              msdbrw_needsuperuser);
+  modstatdb_open(f_noact ?                  msdbrw_readonly :
+                 in_force(FORCE_NON_ROOT) ? msdbrw_write :
+                                            msdbrw_needsuperuser);
   checkpath();
   pkg_infodb_upgrade();
 
@@ -416,7 +416,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
                         checkversion->ed->name,
                         pkg_name(possdependee, pnaw_always),
                         versiondescribe(&provider->version, vdew_nonambig));
-          if (fc_dependsversion)
+          if (in_force(FORCE_DEPENDS_VERSION))
             thisf = found_forced_on(DEPEND_TRY_FORCE_DEPENDS_VERSION);
           debug(dbg_depcondetail, "      bad version");
           goto unsuitable;
@@ -429,7 +429,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
                         pkg_name(possdependee, pnaw_nonambig),
                         versiondescribe(&possdependee->installed.version,
                                         vdew_nonambig));
-          if (fc_dependsversion)
+          if (in_force(FORCE_DEPENDS_VERSION))
             thisf = found_forced_on(DEPEND_TRY_FORCE_DEPENDS_VERSION);
           debug(dbg_depcondetail, "      bad version");
           goto unsuitable;
@@ -484,7 +484,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
         possdependee->clientdata->istobe == PKG_ISTOBE_INSTALLNEW) {
       debug(dbg_depcondetail,"      unpacked/halfconfigured, defer");
       return FOUND_DEFER;
-    } else if (!removing && fc_configureany &&
+    } else if (!removing && in_force(FORCE_CONFIGURE_ANY) &&
                !skip_due_to_hold(possdependee) &&
                !(possdependee->status == PKG_STAT_HALFCONFIGURED)) {
       notice(_("also configuring '%s' (required by '%s')"),
@@ -573,7 +573,8 @@ breaks_check_one(struct varbuf *aemsgs, enum dep_check *ok,
     varbuf_printf(aemsgs, _("  Version of %s to be configured is %s.\n"),
                   pkg_name(broken, pnaw_nonambig),
                   versiondescribe(&broken->installed.version, vdew_nonambig));
-    if (fc_dependsversion) return;
+    if (in_force(FORCE_DEPENDS_VERSION))
+      return;
   }
   if (force_breaks(breaks)) return;
   *ok = DEP_CHECK_HALT;
@@ -698,7 +699,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
       debug(dbg_depcondetail,"    found %d",found);
       if (thisf > found) found= thisf;
     }
-    if (fc_depends) {
+    if (in_force(FORCE_DEPENDS)) {
       thisf = found_forced_on(DEPEND_TRY_FORCE_DEPENDS);
       if (thisf > found) {
         found = thisf;

@@ -37,30 +37,8 @@
 
 #include "force.h"
 
-int fc_architecture = 0;
-int fc_badpath = 0;
-int fc_badverify = 0;
-int fc_badversion = 0;
-int fc_breaks = 0;
-int fc_conff_ask = 0;
-int fc_conff_def = 0;
-int fc_conff_miss = 0;
-int fc_conff_new = 0;
-int fc_conff_old = 0;
-int fc_configureany = 0;
-int fc_conflicts = 0;
-int fc_depends = 0;
-int fc_dependsversion = 0;
-int fc_downgrade = 1;
-int fc_hold = 0;
-int fc_nonroot = 0;
-int fc_overwrite = 0;
-int fc_overwritedir = 0;
-int fc_overwritediverted = 0;
-int fc_removeessential = 0;
-int fc_removereinstreq = 0;
-int fc_script_chrootless = 0;
-int fc_unsafe_io = 0;
+static int force_mask = FORCE_ALL;
+static int force_flags = FORCE_DOWNGRADE;
 
 static const char *
 forcetype_str(char type)
@@ -80,88 +58,88 @@ forcetype_str(char type)
 
 static const struct forceinfo {
 	const char *name;
-	int *opt;
+	int flag;
 	char type;
 	const char *desc;
 } forceinfos[] = {
 	{
 		"all",
-		NULL,
+		FORCE_ALL,
 		'!',
 		N_("Set all force options"),
 	}, {
 		"downgrade",
-		&fc_downgrade,
+		FORCE_DOWNGRADE,
 		'*',
 		N_("Replace a package with a lower version"),
 	}, {
 		"configure-any",
-		&fc_configureany,
+		FORCE_CONFIGURE_ANY,
 		' ',
 		N_("Configure any package which may help this one"),
 	}, {
 		"hold",
-		&fc_hold,
+		FORCE_HOLD,
 		' ',
 		N_("Process incidental packages even when on hold"),
 	}, {
 		"not-root",
-		&fc_nonroot,
+		FORCE_NON_ROOT,
 		' ',
 		N_("Try to (de)install things even when not root"),
 	}, {
 		"bad-path",
-		&fc_badpath,
+		FORCE_BAD_PATH,
 		' ',
 		N_("PATH is missing important programs, problems likely"),
 	}, {
 		"bad-verify",
-		&fc_badverify,
+		FORCE_BAD_VERIFY,
 		' ',
 		N_("Install a package even if it fails authenticity check"),
 	}, {
 		"bad-version",
-		&fc_badversion,
+		FORCE_BAD_VERSION,
 		' ',
 		N_("Process even packages with wrong versions"),
 	}, {
 		"overwrite",
-		&fc_overwrite,
+		FORCE_OVERWRITE,
 		' ',
 		N_("Overwrite a file from one package with another"),
 	}, {
 		"overwrite-diverted",
-		&fc_overwritediverted,
+		FORCE_OVERWRITE_DIVERTED,
 		' ',
 		N_("Overwrite a diverted file with an undiverted version"),
 	}, {
 		"overwrite-dir",
-		&fc_overwritedir,
+		FORCE_OVERWRITE_DIR,
 		'!',
 		N_("Overwrite one package's directory with another's file"),
 	}, {
 		"unsafe-io",
-		&fc_unsafe_io,
+		FORCE_UNSAFE_IO,
 		'!',
 		N_("Do not perform safe I/O operations when unpacking"),
 	}, {
 		"script-chrootless",
-		&fc_script_chrootless,
+		FORCE_SCRIPT_CHROOTLESS,
 		'!',
 		N_("Do not chroot into maintainer script environment"),
 	}, {
 		"confnew",
-		&fc_conff_new,
+		FORCE_CONFF_NEW,
 		'!',
 		N_("Always use the new config files, don't prompt"),
 	}, {
 		"confold",
-		&fc_conff_old,
+		FORCE_CONFF_OLD,
 		'!',
 		N_("Always use the old config files, don't prompt"),
 	}, {
 		"confdef",
-		&fc_conff_def,
+		FORCE_CONFF_DEF,
 		'!',
 		N_("Use the default option for new config files if one\n"
 		   "is available, don't prompt. If no default can be found,\n"
@@ -169,53 +147,71 @@ static const struct forceinfo {
 		   "confnew options is also given"),
 	}, {
 		"confmiss",
-		&fc_conff_miss,
+		FORCE_CONFF_MISS,
 		'!',
 		N_("Always install missing config files"),
 	}, {
 		"confask",
-		&fc_conff_ask,
+		FORCE_CONFF_ASK,
 		'!',
 		N_("Offer to replace config files with no new versions"),
 	}, {
 		"architecture",
-		&fc_architecture,
+		FORCE_ARCHITECTURE,
 		'!',
 		N_("Process even packages with wrong or no architecture"),
 	}, {
 		"breaks",
-		&fc_breaks,
+		FORCE_BREAKS,
 		'!',
 		N_("Install even if it would break another package"),
 	}, {
 		"conflicts",
-		&fc_conflicts,
+		FORCE_CONFLICTS,
 		'!',
 		N_("Allow installation of conflicting packages"),
 	}, {
 		"depends",
-		&fc_depends,
+		FORCE_DEPENDS,
 		'!',
 		N_("Turn all dependency problems into warnings"),
 	}, {
 		"depends-version",
-		&fc_dependsversion,
+		FORCE_DEPENDS_VERSION,
 		'!',
 		N_("Turn dependency version problems into warnings"),
 	}, {
 		"remove-reinstreq",
-		&fc_removereinstreq,
+		FORCE_REMOVE_REINSTREQ,
 		'!',
 		N_("Remove packages which require installation"),
 	}, {
 		"remove-essential",
-		&fc_removeessential,
+		FORCE_REMOVE_ESSENTIAL,
 		'!',
 		N_("Remove an essential package"),
 	}, {
 		NULL
 	}
 };
+
+bool
+in_force(int flags)
+{
+	return (flags & force_flags) == flags;
+}
+
+void
+set_force(int flags)
+{
+	force_flags |= flags;
+}
+
+void
+reset_force(int flags)
+{
+	force_flags &= ~flags;
+}
 
 char *
 get_force_string(void)
@@ -224,7 +220,9 @@ get_force_string(void)
 	struct varbuf vb = VARBUF_INIT;
 
 	for (fip = forceinfos; fip->name; fip++) {
-		if (fip->opt == NULL || !*fip->opt)
+		if ((enum force_flags)fip->flag == FORCE_ALL ||
+		    (fip->flag & force_mask) != fip->flag ||
+		    !in_force(fip->flag))
 			continue;
 
 		if (vb.used)
@@ -258,7 +256,7 @@ print_forceinfo(const struct forceinfo *fi)
 }
 
 void
-set_force(const struct cmdinfo *cip, const char *value)
+parse_force(const char *value, bool set)
 {
 	const char *comma;
 	size_t l;
@@ -272,7 +270,9 @@ set_force(const struct cmdinfo *cip, const char *value)
 " Forcing things:\n"), dpkg_get_progname());
 
 		for (fip = forceinfos; fip->name; fip++)
-			print_forceinfo(fip);
+			if ((enum force_flags)fip->flag == FORCE_ALL ||
+			    (fip->flag & force_mask) == fip->flag)
+				print_forceinfo(fip);
 
 		printf(_(
 "\n"
@@ -299,12 +299,11 @@ set_force(const struct cmdinfo *cip, const char *value)
 		if (!fip->name) {
 			badusage(_("unknown force/refuse option '%.*s'"),
 			         (int)min(l, 250), value);
-		} else if (strcmp(fip->name, "all") == 0) {
-			for (fip = forceinfos; fip->name; fip++)
-				if (fip->opt)
-					*fip->opt = cip->arg_int;
-		} else if (fip->opt) {
-			*fip->opt = cip->arg_int;
+		} else if (fip->flag) {
+			if (set)
+				set_force(fip->flag);
+			else
+				reset_force(fip->flag);
 		} else {
 			warning(_("obsolete force/refuse option '%s'"),
 			        fip->name);
@@ -317,12 +316,26 @@ set_force(const struct cmdinfo *cip, const char *value)
 }
 
 void
+set_force_option(const struct cmdinfo *cip, const char *value)
+{
+	bool set = cip->arg_int;
+
+	parse_force(value, set);
+}
+
+void
+reset_force_option(const struct cmdinfo *cip, const char *value)
+{
+	reset_force(cip->arg_int);
+}
+
+void
 forcibleerr(int forceflag, const char *fmt, ...)
 {
 	va_list args;
 
 	va_start(args, fmt);
-	if (forceflag) {
+	if (in_force(forceflag)) {
 		warning(_("overriding problem because --force enabled:"));
 		warningv(fmt, args);
 	} else {
@@ -334,7 +347,7 @@ forcibleerr(int forceflag, const char *fmt, ...)
 int
 forcible_nonroot_error(int rc)
 {
-	if (fc_nonroot && errno == EPERM)
+	if (in_force(FORCE_NON_ROOT) && errno == EPERM)
 		return 0;
 	return rc;
 }

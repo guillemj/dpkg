@@ -399,7 +399,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
       ohshite(_("error setting permissions of '%.255s'"), te->name);
 
     /* Postpone the fsync, to try to avoid massive I/O degradation. */
-    if (!fc_unsafe_io)
+    if (!in_force(FORCE_UNSAFE_IO))
       namenode->flags |= FNNF_DEFERRED_FSYNC;
 
     pop_cleanup(ehflag_normaltidy); /* fd = open(path) */
@@ -591,7 +591,7 @@ tarobject_matches(struct tarcontext *tc,
     internerr("unknown tar type '%d', but already checked", te->type);
   }
 
-  forcibleerr(fc_overwrite,
+  forcibleerr(FORCE_OVERWRITE,
               _("trying to overwrite shared '%.250s', which is different "
                 "from other instances of package %.250s"),
               namenode->name, pkg_name(tc->pkg, pnaw_nonambig));
@@ -712,13 +712,13 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
     divpkgset = nifd->namenode->divert->pkgset;
 
     if (divpkgset) {
-      forcibleerr(fc_overwritediverted,
+      forcibleerr(FORCE_OVERWRITE_DIVERTED,
                   _("trying to overwrite '%.250s', which is the "
                     "diverted version of '%.250s' (package: %.100s)"),
                   nifd->namenode->name, nifd->namenode->divert->camefrom->name,
                   divpkgset->name);
     } else {
-      forcibleerr(fc_overwritediverted,
+      forcibleerr(FORCE_OVERWRITE_DIVERTED,
                   _("trying to overwrite '%.250s', which is the "
                     "diverted version of '%.250s'"),
                   nifd->namenode->name, nifd->namenode->divert->camefrom->name);
@@ -910,14 +910,14 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
       } else {
         /* At this point we are replacing something without a Replaces. */
         if (!statr && S_ISDIR(stab.st_mode)) {
-          forcibleerr(fc_overwritedir,
+          forcibleerr(FORCE_OVERWRITE_DIR,
                       _("trying to overwrite directory '%.250s' "
                         "in package %.250s %.250s with nondirectory"),
                       nifd->namenode->name, pkg_name(otherpkg, pnaw_nonambig),
                       versiondescribe(&otherpkg->installed.version,
                                       vdew_nonambig));
         } else {
-          forcibleerr(fc_overwrite,
+          forcibleerr(FORCE_OVERWRITE,
                       _("trying to overwrite '%.250s', "
                         "which is also in package %.250s %.250s"),
                       nifd->namenode->name, pkg_name(otherpkg, pnaw_nonambig),
@@ -962,7 +962,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
     }
   }
 
-  if (refcounting && !fc_overwrite) {
+  if (refcounting && !in_force(FORCE_OVERWRITE)) {
     /* If we are not forced to overwrite the path and are refcounting,
      * just compute the hash w/o extracting the object. */
     tarobject_hash(tc, ti, nifd->namenode);
@@ -992,7 +992,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
                           fnamenewvb.buf, ti, nifd->namenode);
 
   /* If we didn't extract anything, there's nothing else to do. */
-  if (refcounting && !fc_overwrite)
+  if (refcounting && !in_force(FORCE_OVERWRITE))
     return 0;
 
   tarobject_set_perms(ti, fnamenewvb.buf, &nodestat);
@@ -1235,7 +1235,7 @@ try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
     return 2;
   } else if (f_autodeconf) {
     if (pkg->installed.essential) {
-      if (fc_removeessential) {
+      if (in_force(FORCE_REMOVE_ESSENTIAL)) {
         warning(_("considering deconfiguration of essential\n"
                   " package %s, to enable %s"),
                 pkg_name(pkg, pnaw_nonambig), action);
@@ -1347,14 +1347,12 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
          (((fixbyrm->want != PKG_WANT_INSTALL &&
             fixbyrm->want != PKG_WANT_HOLD) ||
            does_replace(pkg, &pkg->available, fixbyrm, &fixbyrm->installed)) &&
-          (!fixbyrm->installed.essential || fc_removeessential)))) {
-
+          (!fixbyrm->installed.essential || in_force(FORCE_REMOVE_ESSENTIAL))))) {
       if (fixbyrm->clientdata->istobe != PKG_ISTOBE_NORMAL &&
           fixbyrm->clientdata->istobe != PKG_ISTOBE_DECONFIGURE)
         internerr("package %s to be fixed by removal is not to be normal "
                   "nor deconfigure, is to be %d",
                   pkg_name(pkg, pnaw_always), fixbyrm->clientdata->istobe);
-
       fixbyrm->clientdata->istobe = PKG_ISTOBE_REMOVE;
       notice(_("considering removing %s in favour of %s ..."),
              pkg_name(fixbyrm, pnaw_nonambig),
@@ -1405,7 +1403,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
         pdep= &flagdeppossi;
       }
       if (!pdep && (fixbyrm->eflag & PKG_EFLAG_REINSTREQ)) {
-        if (fc_removereinstreq) {
+        if (in_force(FORCE_REMOVE_REINSTREQ)) {
           notice(_("package %s requires reinstallation, but will "
                    "remove anyway as you requested"),
                  pkg_name(fixbyrm, pnaw_nonambig));
@@ -1466,7 +1464,7 @@ archivefiles(const char *const *argv)
     msdbflags = msdbrw_readonly;
   else if (cipaction->arg_int == act_avail)
     msdbflags = msdbrw_readonly | msdbrw_available_write;
-  else if (fc_nonroot)
+  else if (in_force(FORCE_NON_ROOT))
     msdbflags = msdbrw_write;
   else
     msdbflags = msdbrw_needsuperuser;
@@ -1638,7 +1636,7 @@ wanttoinstall(struct pkginfo *pkg)
       return true;
     }
   } else {
-    if (fc_downgrade) {
+    if (in_force(FORCE_DOWNGRADE)) {
       warning(_("downgrading %.250s from %.250s to %.250s"),
               pkg_name(pkg, pnaw_nonambig),
               versiondescribe(&pkg->installed.version, vdew_nonambig),
