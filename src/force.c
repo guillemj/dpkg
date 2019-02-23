@@ -323,9 +323,19 @@ parse_force(const char *value, bool set)
 void
 set_force_default(int mask)
 {
+	const char *force_env;
 	const struct forceinfo *fip;
 
 	force_mask = mask;
+
+	/* If we get passed force options from the environment, do not
+	 * initialize from the built-in defaults. */
+	force_env = getenv("DPKG_FORCE");
+	if (force_env != NULL) {
+		if (force_env[0] != '\0')
+			parse_force(force_env, 1);
+		return;
+	}
 
 	for (fip = forceinfos; fip->name; fip++)
 		if (fip->type == FORCETYPE_ENABLED)

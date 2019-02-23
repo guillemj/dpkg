@@ -761,6 +761,8 @@ int main(int argc, const char *const *argv) {
     ohshite(_("unable to setenv for subprocesses"));
   if (setenv("DPKG_ROOT", instdir, 1) < 0)
     ohshite(_("unable to setenv for subprocesses"));
+  if (setenv("DPKG_FORCE", get_force_string(), 1) < 0)
+    ohshite(_("unable to setenv for subprocesses"));
 
   if (!f_triggers)
     f_triggers = (cipaction->arg_int == act_triggers && *argv) ? -1 : 1;
