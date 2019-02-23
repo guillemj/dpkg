@@ -3,7 +3,8 @@
 set -e
 
 if [ "$(id -u)" = '0' ]; then
-  exit 1
+  # Skip, we cannot declare we do not want root.
+  exit 77
 fi
 
 t=test-not-root
