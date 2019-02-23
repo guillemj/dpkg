@@ -286,9 +286,7 @@ f_revision(struct pkginfo *pkg, struct pkgbin *pkgbin,
 {
   char *newversion;
 
-  parse_warn(ps,
-             _("obsolete '%s' or '%s' field used"),
-             "Revision", "Package-Revision");
+  parse_warn(ps, _("obsolete '%s' field used"), fip->name);
   if (!*value) return;
   if (str_is_set(pkgbin->version.revision)) {
     newversion = nfmalloc(strlen(pkgbin->version.version) +
