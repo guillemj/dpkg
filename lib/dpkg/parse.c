@@ -257,7 +257,8 @@ pkg_parse_verify(struct parsedb_state *ps,
                 pkg_status_name(pkg));
   else if (pkg->status == PKG_STAT_TRIGGERSAWAITED && !pkg->trigaw.head)
     parse_error(ps,
-                _("package has status triggers-awaited but no triggers awaited"));
+                _("package has status %s but no triggers awaited"),
+                pkg_status_name(pkg));
 
   if (pkg->trigpend_head &&
       !(pkg->status == PKG_STAT_TRIGGERSPENDING ||
@@ -267,8 +268,8 @@ pkg_parse_verify(struct parsedb_state *ps,
                 pkg_status_name(pkg));
   else if (pkg->status == PKG_STAT_TRIGGERSPENDING && !pkg->trigpend_head)
     parse_error(ps,
-                _("package has status triggers-pending but no triggers "
-                  "pending"));
+                _("package has status %s but no triggers pending"),
+                pkg_status_name(pkg));
 
   /* FIXME: There was a bug that could make a not-installed package have
    * conffiles, so we check for them here and remove them (rather than
@@ -277,8 +278,8 @@ pkg_parse_verify(struct parsedb_state *ps,
       pkg->status == PKG_STAT_NOTINSTALLED &&
       pkgbin->conffiles) {
     parse_warn(ps,
-               _("Package which in state not-installed has conffiles, "
-                 "forgetting them"));
+               _("package has status %s and has conffiles, forgetting them"),
+               pkg_status_name(pkg));
     pkgbin->conffiles = NULL;
   }
 
