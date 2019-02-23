@@ -217,6 +217,25 @@ static const struct forceinfo {
 	}
 };
 
+char *
+get_force_string(void)
+{
+	const struct forceinfo *fip;
+	struct varbuf vb = VARBUF_INIT;
+
+	for (fip = forceinfos; fip->name; fip++) {
+		if (fip->opt == NULL || !*fip->opt)
+			continue;
+
+		if (vb.used)
+			varbuf_add_char(&vb, ',');
+		varbuf_add_str(&vb, fip->name);
+	}
+	varbuf_end_str(&vb);
+
+	return varbuf_detach(&vb);
+}
+
 static inline void
 print_forceinfo_line(int type, const char *name, const char *desc)
 {
@@ -260,6 +279,12 @@ set_force(const struct cmdinfo *cip, const char *value)
 "WARNING - use of options marked [!] can seriously damage your installation.\n"
 "Forcing options marked [*] are enabled by default.\n"));
 		m_output(stdout, _("<standard output>"));
+
+		printf(_(
+"\n"
+"Currently enabled options:\n"
+" %s\n"), get_force_string());
+
 		exit(0);
 	}
 

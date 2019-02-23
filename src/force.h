@@ -50,6 +50,8 @@ extern int fc_removereinstreq;
 extern int fc_script_chrootless;
 extern int fc_unsafe_io;
 
+char *
+get_force_string(void);
 void
 set_force(const struct cmdinfo *cip, const char *value);
 
