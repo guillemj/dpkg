@@ -197,7 +197,8 @@ modstatdb_is_locked(void)
   if (dblockfd == -1) {
     lockfd = open(lockfile, O_RDONLY);
     if (lockfd == -1)
-      ohshite(_("unable to open lock file %s for testing"), lockfile);
+      ohshite(_("unable to check lock file for dpkg database directory %s"),
+              dpkg_db_get_dir());
   } else {
     lockfd = dblockfd;
   }
@@ -224,7 +225,8 @@ modstatdb_can_lock(void)
       if (errno == EACCES || errno == EPERM)
         return false;
       else
-        ohshite(_("unable to open/create frontend lockfile"));
+        ohshite(_("unable to open/create dpkg frontend lock for directory %s"),
+                dpkg_db_get_dir());
     }
   } else {
     frontendlockfd = -1;
@@ -235,7 +237,8 @@ modstatdb_can_lock(void)
     if (errno == EACCES || errno == EPERM)
       return false;
     else
-      ohshite(_("unable to open/create status database lockfile"));
+      ohshite(_("unable to open/create dpkg database lock file for directory %s"),
+              dpkg_db_get_dir());
   }
 
   return true;
@@ -245,12 +248,14 @@ void
 modstatdb_lock(void)
 {
   if (!modstatdb_can_lock())
-    ohshit(_("you do not have permission to lock the dpkg status database"));
+    ohshit(_("you do not have permission to lock the dpkg database directory %s"),
+           dpkg_db_get_dir());
 
   if (frontendlockfd != -1)
     file_lock(&frontendlockfd, FILE_LOCK_NOWAIT, frontendlockfile,
-              _("dpkg frontend"));
-  file_lock(&dblockfd, FILE_LOCK_NOWAIT, lockfile, _("dpkg status database"));
+              _("dpkg frontend lock"));
+  file_lock(&dblockfd, FILE_LOCK_NOWAIT, lockfile,
+            _("dpkg database lock"));
 }
 
 void
@@ -282,9 +287,11 @@ modstatdb_open(enum modstatdb_rw readwritereq)
   case msdbrw_write: case msdbrw_writeifposs:
     if (access(dpkg_db_get_dir(), W_OK)) {
       if (errno != EACCES)
-        ohshite(_("unable to access dpkg status area"));
+        ohshite(_("unable to access the dpkg database directory %s"),
+                dpkg_db_get_dir());
       else if (readwritereq == msdbrw_write)
-        ohshit(_("operation requires read/write access to dpkg status area"));
+        ohshit(_("required read/write access to the dpkg database directory %s"),
+               dpkg_db_get_dir());
       cstatus= msdbrw_readonly;
     } else {
       modstatdb_lock();

@@ -118,26 +118,27 @@ file_lock_setup(struct flock *fl, short type)
  * Unlock a previously locked file.
  */
 void
-file_unlock(int lockfd, const char *lock_desc)
+file_unlock(int lockfd, const char *lockfile, const char *lockdesc)
 {
 	struct flock fl;
 
 	if (lockfd < 0)
-		internerr("lock fd is %d < 0", lockfd);
+		internerr("%s (%s) fd is %d < 0", lockdesc, lockfile, lockfd);
 
 	file_lock_setup(&fl, F_UNLCK);
 
 	if (fcntl(lockfd, F_SETLK, &fl) == -1)
-		ohshite(_("unable to unlock %s"), lock_desc);
+		ohshite(_("unable to unlock %s"), lockdesc);
 }
 
 static void
 file_unlock_cleanup(int argc, void **argv)
 {
 	int lockfd = *(int *)argv[0];
-	const char *lock_desc = argv[1];
+	const char *lockfile = argv[1];
+	const char *lockdesc = argv[2];
 
-	file_unlock(lockfd, lock_desc);
+	file_unlock(lockfd, lockfile, lockdesc);
 }
 
 /**
@@ -194,7 +195,7 @@ file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
 			ohshite(_("unable to lock %s"), desc);
 	}
 
-	push_cleanup(file_unlock_cleanup, ~0, 2, lockfd, desc);
+	push_cleanup(file_unlock_cleanup, ~0, 3, lockfd, filename, desc);
 }
 
 void

@@ -83,13 +83,14 @@ trigdef_update_start(enum trigdef_update_flags uf)
 			if (lock_fd == -1) {
 				if (!(errno == ENOENT && (uf & TDUF_NO_LOCK_OK)))
 					ohshite(_("unable to open/create "
-					          "triggers lockfile '%.250s'"),
+					          "triggers lock file '%.250s'"),
 					        fn.buf);
 				return TDUS_ERROR_NO_DIR;
 			}
 		}
 
-		file_lock(&lock_fd, FILE_LOCK_WAIT, fn.buf, _("triggers area"));
+		file_lock(&lock_fd, FILE_LOCK_WAIT, fn.buf,
+		          _("triggers database lock"));
 	}
 
 	constructfn(&fn, triggersdir, TRIGGERSDEFERREDFILE);
