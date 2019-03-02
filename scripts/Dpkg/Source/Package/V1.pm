@@ -267,7 +267,7 @@ sub do_build {
                     'argument (with v1.0 source package)'));
     }
 
-    $sourcestyle =~ y/X/A/;
+    $sourcestyle =~ y/X/a/;
     unless ($sourcestyle =~ m/[akpursnAKPUR]/) {
         usageerr(g_('source handling style -s%s not allowed with -b'),
                  $sourcestyle);

@@ -6,6 +6,11 @@ dpkg (1.19.6) UNRELEASED; urgency=medium
     free()s and the subsequent crashes.
   * libdpkg: Handle non end-of-tape errors from tar_header_decode().
   * libdpkg: Use ERANGE instead of EINVAL for tar_atol8() out-of-range error.
+  * Perl modules:
+    - Dpkg::Source::Package::V1: Change default build option style to -sa.
+      Using -sA by default means the user might lose data on overwrite if
+      there is already a directory with the same name laying around.
+      Closes: #910737
   * Packaging:
     - Update usertags.
     - Install a lintian profile for dpkg based on the debian profile, so that
