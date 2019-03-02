@@ -538,8 +538,12 @@ void
 writedb(const char *filename, enum writedb_flags flags)
 {
   struct atomic_file *file;
+  enum atomic_file_flags atomic_flags = ATOMIC_FILE_BACKUP;
 
-  file = atomic_file_new(filename, ATOMIC_FILE_BACKUP);
+  if (flags & wdb_dump_available)
+    atomic_flags = 0;
+
+  file = atomic_file_new(filename, atomic_flags);
   atomic_file_open(file);
 
   writedb_records(file->fp, filename, flags);
