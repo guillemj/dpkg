@@ -18,6 +18,7 @@ usertag			description
 segfault		Errors that cause segmentation faults.
 conffile		Issues with configuration file handling.
 symlink			Issues related to symlink handling.
+diversion		Issues related to diversions.
 depends			Issues with dependency relationship handling.
 maint-script		Errors related to maintainer scripts.
 db			Issues handling the database.
@@ -30,6 +31,7 @@ deb-format		Changes to the binary (.deb) format.
 dsc-format		Changes to the source (.dsc) format.
 arch			Updates to ‘cputable’, ‘ostable’ and porting patches.
 vendor			Vendor support and needed modifications.
+frontend		Issues or request affecting or required by frontends.
 build			Project build system issues.
 i18n			Conversion to the UTF-8 encoding.
 i18n			Internationalization problems.
@@ -38,15 +40,6 @@ l10n			New or updated translations and bugs affecting
 			  e.g. [INTL:cy_GB].
 doc			Documentation bugs, including --help, program output
 			  and manpages.
-
-Being considered tags
-=====================
-
-usertag			description
--------			-----------
-
-diversion		Issues related to diversions.
-apt-feature		??
 
 Program tags
 ============
@@ -62,6 +55,7 @@ dpkg-checkbuilddeps
 dpkg-deb
 dpkg-distaddfile
 dpkg-divert
+dpkg-genbuildinfo
 dpkg-genchanges
 dpkg-gencontrol
 dpkg-gensymbols
@@ -78,6 +72,7 @@ dpkg-split
 dpkg-statoverride
 dpkg-trigger
 dpkg-vendor
+make-fragment		*.mk
 s-s-d			start-stop-daemon
 u-a			update-alternatives
 
@@ -101,7 +96,7 @@ usercategory dpkg-status [hidden]
    + Unknown Pending Status []
 
 usercategory dpkg-program [hidden]
- * Dpkg Program
+ * Dpkg by Program
   + dpkg program [tag=dpkg]
   + dpkg-deb [tag=dpkg-deb]
   + dpkg-divert [tag=dpkg-divert]
@@ -110,14 +105,15 @@ usercategory dpkg-program [hidden]
   + dpkg-statoverride [tag=dpkg-statoverride]
   + dpkg-trigger [tag=dpkg-trigger]
   + dpkg-maintscript-helper [tag=dpkg-maintscript-helper]
-  + start-stop-daemon [tag=s-s-d]
   + update-alternatives [tag=u-a]
+  + start-stop-daemon [tag=s-s-d]
   + libdpkg [package=libdpkg-dev]
   + dpkg-architecture [tag=dpkg-architecture]
   + dpkg-buildflags [tag=dpkg-buildflags]
   + dpkg-buildpackage [tag=dpkg-buildpackage]
   + dpkg-checkbuilddeps [tag=dpkg-checkbuilddeps]
   + dpkg-distaddfile [tag=dpkg-distaddfile]
+  + dpkg-genbuildinfo [tag=dpkg-genbuildinfo]
   + dpkg-genchanges [tag=dpkg-genchanges]
   + dpkg-gencontrol [tag=dpkg-gencontrol]
   + dpkg-gensymbols [tag=dpkg-gensymbols]
@@ -130,21 +126,17 @@ usercategory dpkg-program [hidden]
   + dpkg-source [tag=dpkg-source]
   + dpkg-vendor [tag=dpkg-vendor]
   + Dpkg perl modules [package=libdpkg-perl]
+  + Dpkg make fragment [tag=make-fragment]
   + dselect [package=dselect]
   + Other [0:]
 
-usercategory dpkg-program-view
- * dpkg-status
- * dpkg-program
- * severity
-
 usercategory dpkg-class [hidden]
- * Dpkg Classification [tag=]
+ * Dpkg by Classification [tag=]
   + Segfault [segfault]
-  + Assertion failure [assert]
   + Dependency relationship handling [depends]
   + Conffile handling [conffile]
   + Symlink handling [symlink]
+  + Diversion handling [diversion]
   + Database handling [db]
   + File metadata tracking [file-metadata]
   + Maintainer script handling [maint-script]
@@ -156,23 +148,37 @@ usercategory dpkg-class [hidden]
   + Source package format [dsc-format]
   + Architecture specific issue [arch]
   + Vendor specific issue [vendor]
+  + Frontend features [frontend]
   + Own build system [build]
   + Internationalization [i18n]
   + Localization [l10n]
   + Documentation [doc]
   + Other [0:]
 
+usercategory dpkg-program-view
+ * status
+ * dpkg-program
+ * severity
+ * classification
+
 usercategory dpkg-class-view
- * dpkg-status
+ * status
  * dpkg-class
  * severity
+ * classification
 
-# Change default view
-usercategory normal
+usercategory dpkg-detail-view
  * dpkg-status
  * severity
  * dpkg-program
  * dpkg-class
+
+# Change default view
+usercategory normal
+ * status
+ * dpkg-program
+ * severity
+ * classification
 
 usercategory old-normal
  * status
