@@ -224,6 +224,39 @@ pkgbin_synopsis(const struct pkginfo *pkg, const struct pkgbin *pkgbin, int *len
 }
 
 /**
+ * Return a string representation of the package synopsis.
+ *
+ * The returned string must not be freed, and it's permanently allocated so
+ * can be used as long as the non-freeing memory pool has not been freed.
+ *
+ * It will try to use the installed version, otherwise it will fallback to
+ * use the available version.
+ *
+ * The package synopsis is the short description, but it is not NUL terminated,
+ * so the output len argument should be used to limit the string length.
+ *
+ * @param pkg      The package to consider.
+ * @param[out] len The length of the synopsis string within the description.
+ *
+ * @return The string representation.
+ */
+const char *
+pkg_synopsis(const struct pkginfo *pkg, int *len)
+{
+	const char *pdesc;
+
+	pdesc = pkg->installed.description;
+	if (!pdesc)
+		pdesc = pkg->available.description;
+	if (!pdesc)
+		pdesc = _("(no description available)");
+
+	*len = strcspn(pdesc, "\n");
+
+	return pdesc;
+}
+
+/**
  * Return a character abbreviated representation of the package want status.
  *
  * @param pkg The package to consider.
