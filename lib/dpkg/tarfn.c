@@ -466,6 +466,8 @@ tar_extractor(struct tar_archive *tar)
 			if (h.name[0] == '\0') {
 				/* End Of Tape. */
 				status = 0;
+			} else {
+				status = -1;
 			}
 			tar_entry_destroy(&h);
 			break;
