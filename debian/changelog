@@ -2,6 +2,8 @@ dpkg (1.19.6) UNRELEASED; urgency=medium
 
   [ Guillem Jover ]
   * libdpkg: Add a new TAR_FORMAT_UNKNOWN enum value.
+  * libdpkg: Set tar_entry to zero on tar_entry_destroy(), to avoid double
+    free()s and the subsequent crashes.
   * Packaging:
     - Update usertags.
     - Install a lintian profile for dpkg based on the debian profile, so that

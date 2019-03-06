@@ -408,6 +408,8 @@ tar_entry_destroy(struct tar_entry *te)
 	free(te->linkname);
 	free(te->stat.uname);
 	free(te->stat.gname);
+
+	memset(te, 0, sizeof(*te));
 }
 
 struct tar_symlink_entry {
