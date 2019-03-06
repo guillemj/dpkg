@@ -110,7 +110,7 @@ tar_atol8(const char *s, size_t size)
 		if (*s == '\0' || *s == ' ')
 			break;
 		if (*s < '0' || *s > '7')
-			return tar_ret_errno(EINVAL, 0);
+			return tar_ret_errno(ERANGE, 0);
 		n = (n * 010) + (*s++ - '0');
 	}
 
