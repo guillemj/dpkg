@@ -280,7 +280,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 	    my $dep;
 	    my $type = field_get_dep_type($_);
 	    $dep = deps_parse($v, build_dep => 1, union => $type eq 'union');
-	    error(g_('error occurred while parsing %s'), $_) unless defined $dep;
+	    error(g_('cannot parse %s field'), $_) unless defined $dep;
 	    my $facts = Dpkg::Deps::KnownFacts->new();
 	    $dep->simplify_deps($facts);
 	    $dep->sort() if $type eq 'union';
@@ -334,7 +334,8 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
                     push(@sourcearch, $v) unless $archadded{$v}++;
                 } else {
                     for my $a (split(/\s+/, $v)) {
-                        error(g_("'%s' is not a legal architecture string"), $a)
+                        error(g_("'%s' is not a legal architecture string " .
+                                 "in package '%s'"), $a, $p)
                             if debarch_is_illegal($a);
                         error(g_('architecture %s only allowed on its ' .
                                  "own (list for package %s is '%s')"),

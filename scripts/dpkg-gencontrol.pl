@@ -221,8 +221,8 @@ foreach (keys %{$pkg}) {
 
 	    if (none { debarch_is($host_arch, $_) } @archlist) {
 		error(g_("current host architecture '%s' does not " .
-			 "appear in package's architecture list (%s)"),
-		      $host_arch, "@archlist");
+			 "appear in package '%s' architecture list (%s)"),
+		      $host_arch, $oppackage, "@archlist");
 	    }
 	    $fields->{$_} = $host_arch;
 	}
@@ -281,8 +281,8 @@ foreach my $field (field_list_pkg_dep()) {
 	    $dep = deps_parse($field_value, use_arch => 1,
 	                      reduce_arch => $reduce_arch,
 	                      reduce_profiles => 1);
-	    error(g_('error occurred while parsing %s field: %s'), $field,
-                  $field_value) unless defined $dep;
+            error(g_("parsing package '%s' %s field: %s"), $oppackage,
+                  $field, $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts, @seen_deps);
 	    # Remember normal deps to simplify even further weaker deps
 	    push @seen_deps, $dep;
@@ -290,13 +290,13 @@ foreach my $field (field_list_pkg_dep()) {
 	    $dep = deps_parse($field_value, use_arch => 1,
 	                      reduce_arch => $reduce_arch,
 	                      reduce_profiles => 1, union => 1);
-	    error(g_('error occurred while parsing %s field: %s'), $field,
-                  $field_value) unless defined $dep;
+            error(g_("parsing package '%s' %s field: %s"), $oppackage,
+                  $field, $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts);
             $dep->sort();
 	}
 	error(g_('the %s field contains an arch-specific dependency but the ' .
-	         'package is architecture all'), $field)
+	         "package '%s' is architecture all"), $field, $oppackage)
 	    if $dep->has_arch_restriction();
 	$fields->{$field} = $dep->output();
 	delete $fields->{$field} unless $fields->{$field}; # Delete empty field
@@ -320,7 +320,8 @@ if ($pkg_type eq 'udeb') {
     delete $fields->{'Homepage'};
 } else {
     for my $f (qw(Subarchitecture Kernel-Version Installer-Menu-Item)) {
-        warning(g_('%s package with udeb specific field %s'), $pkg_type, $f)
+        warning(g_("%s package '%s' with udeb specific field %s"),
+                $pkg_type, $oppackage, $f)
             if defined($fields->{$f});
     }
 }

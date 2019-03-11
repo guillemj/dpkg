@@ -122,7 +122,7 @@ if ($bd_value) {
     my $dep = deps_parse($bd_value, reduce_restrictions => 1,
                          build_dep => 1, build_profiles => \@build_profiles,
                          host_arch => $host_arch);
-    error(g_('error occurred while parsing %s'),
+    error(g_('cannot parse %s field'),
           'Build-Depends/Build-Depends-Arch/Build-Depends-Indep')
         unless defined $dep;
     push @unmet, build_depends($dep, $facts);
@@ -131,7 +131,7 @@ if ($bc_value) {
     my $dep = deps_parse($bc_value, reduce_restrictions => 1, union => 1,
                          build_dep => 1, build_profiles => \@build_profiles,
                          host_arch => $host_arch);
-    error(g_('error occurred while parsing %s'),
+    error(g_('cannot parse %s field'),
           'Build-Conflicts/Build-Conflicts-Arch/Build-Conflicts-Indep')
         unless defined $dep;
     push @conflicts, build_conflicts($dep, $facts);
