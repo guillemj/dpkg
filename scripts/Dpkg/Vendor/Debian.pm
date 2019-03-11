@@ -80,6 +80,11 @@ sub run_hook {
         return qw(/build/);
     } elsif ($hook eq 'build-tainted-by') {
         return $self->_build_tainted_by();
+    } elsif ($hook eq 'sanitize-environment') {
+        # Reset umask to a sane default.
+        umask 0022;
+        # Reset locale to a sane default.
+        $ENV{LC_COLLATE} = 'C.UTF-8';
     } else {
         return $self->SUPER::run_hook($hook, @params);
     }

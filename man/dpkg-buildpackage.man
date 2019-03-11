@@ -303,6 +303,15 @@ Do not clean the source tree after the package has been built
 (since dpkg 1.19.1).
 This is the default behavior.
 .TP
+.BR \-\-sanitize\-env
+Sanitize the build environment (since dpkg 1.20.0).
+This will reset or remove environment variables, umask, and any other process
+attributes that might otherwise adversely affect the build of packages.
+Because the official entry point to build packages is \fBdebian/rules\fP,
+packages cannot rely on these settings being in place, and thus should work
+even when they are not.
+What to sanitize is vendor specific.
+.TP
 .BR \-r ", " \-\-root\-command= \fIgain-root-command\fP
 When
 .B dpkg\-buildpackage

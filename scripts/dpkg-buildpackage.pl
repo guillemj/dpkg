@@ -44,6 +44,7 @@ use Dpkg::Control::Info;
 use Dpkg::Changelog::Parse;
 use Dpkg::Path qw(find_command);
 use Dpkg::IPC;
+use Dpkg::Vendor qw(run_vendor_hook);
 
 textdomain('dpkg-dev');
 
@@ -74,6 +75,7 @@ sub usage {
       --pre-clean             pre clean source tree (default).
       --no-post-clean         do not post clean source tree (default).
   -tc, --post-clean           post clean source tree.
+      --sanitize-env          sanitize the build environment.
   -D, --check-builddeps       check build dependencies and conflicts (default).
   -d, --no-check-builddeps    do not check build dependencies and conflicts.
       --ignore-builtin-builddeps
@@ -149,6 +151,7 @@ my @rootcommand = ();
 my $signcommand;
 my $preclean = 1;
 my $postclean = 0;
+my $sanitize_env = 0;
 my $parallel;
 my $parallel_force = 0;
 my $checkbuilddep = 1;
@@ -296,6 +299,8 @@ while (@ARGV) {
         $postclean = 1;
     } elsif (/^--no-post-clean$/) {
         $postclean = 0;
+    } elsif (/^--sanitize-env$/) {
+        $sanitize_env = 1;
     } elsif (/^-t$/ or /^--host-type$/) {
 	$host_type = shift; # Order DOES matter!
     } elsif (/^-t(.*)$/ or /^--host-type=(.*)$/) {
@@ -502,6 +507,11 @@ if (not $signcommand) {
 
 if ($signsource && build_has_none(BUILD_SOURCE)) {
     $signsource = 0;
+}
+
+# Sanitize build environment.
+if ($sanitize_env) {
+    run_vendor_hook('sanitize-environment');
 }
 
 #

@@ -62,6 +62,7 @@ dep
 deps
 dpkg
 dpkg-buildflags
+dpkg-buildpackage
 dpkg-checkbuilddeps
 dpkg-dev
 dpkg-genbuildinfo

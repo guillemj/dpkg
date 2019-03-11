@@ -148,6 +148,11 @@ will be recorded in the B<Build-Tainted-By> field (since dpkg 1.19.5). It
 takes no parameters, but returns a (possibly empty) list of tainted reason
 tags (formed by alphanumeric and dash characters).
 
+=item sanitize-environment ()
+
+The hook is called by dpkg-buildpackage to sanitize its build environment
+(since dpkg 1.20.0).
+
 =back
 
 =cut
@@ -179,6 +184,8 @@ sub run_hook {
         return ();
     } elsif ($hook eq 'build-tainted-by') {
         return ();
+    } elsif ($hook eq 'sanitize-environment') {
+        return;
     }
 
     # Default return value for unknown/unimplemented hooks
