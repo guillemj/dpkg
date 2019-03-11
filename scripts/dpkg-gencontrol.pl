@@ -350,7 +350,7 @@ if (!defined($substvars->get('Installed-Size'))) {
             $installed_size += 1;
         }
     };
-    find($scan_installed_size, $packagebuilddir);
+    find($scan_installed_size, $packagebuilddir) if -d $packagebuilddir;
 
     $substvars->set_as_auto('Installed-Size', $installed_size);
 }
