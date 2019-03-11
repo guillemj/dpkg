@@ -537,7 +537,8 @@ sub extract {
     }
 
     # Store format if non-standard so that next build keeps the same format
-    if ($self->{fields}{'Format'} ne '1.0' and
+    if ($self->{fields}{'Format'} and
+        $self->{fields}{'Format'} ne '1.0' and
         not $self->{options}{skip_debianization})
     {
         my $srcdir = File::Spec->catdir($newdirectory, 'debian', 'source');

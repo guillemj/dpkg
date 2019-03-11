@@ -11,6 +11,10 @@ dpkg (1.19.6) UNRELEASED; urgency=medium
       Using -sA by default means the user might lose data on overwrite if
       there is already a directory with the same name laying around.
       Closes: #910737
+    - Dpkg::Source::Package: Handle Format field being undefined. On source
+      format 1.0, the default is for the debian/source/format file not being
+      present, which means we'll start with an empty Format field name.
+      Regression introduced in dpkg 1.19.3.
   * Packaging:
     - Update usertags.
     - Install a lintian profile for dpkg based on the debian profile, so that
