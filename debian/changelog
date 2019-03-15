@@ -43,6 +43,9 @@ dpkg (1.20.0) UNRELEASED; urgency=medium
   * dpkg-split: Create the parts/ database directory on demand.
   * libdpkg: Consider msdbrw_needsuperuser equivalent to msdbrw_write, so
     the same checks are performed on normal non --force-not-root operation.
+  * libdpkg: Add support for bootstrapping the installation of dpkg:
+    - Create the logfile with correct permissions, and remove the code
+      setting up the logfile from the dpkg postinst.
   * Perl modules:
     - Dpkg::Source::Package: Verify original tarball signatures at build time.
     - Dpkg::BuildFlags: Add new unset() method.

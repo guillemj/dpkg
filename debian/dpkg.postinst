@@ -14,23 +14,9 @@ create_database() {
     done
 }
 
-
-# Create log file and set default permissions if possible
-create_logfile() {
-    logfile=$DPKG_ROOT/var/log/dpkg.log
-
-    if [ ! -f "$logfile" ]; then
-        touch "$logfile"
-        chmod 644 "$logfile"
-        chown root:root "$logfile" 2>/dev/null || chown 0:0 "$logfile"
-    fi
-}
-
-
 case "$1" in
     configure)
 	create_database
-	create_logfile
 	;;
 
     abort-upgrade|abort-deconfigure|abort-remove)
