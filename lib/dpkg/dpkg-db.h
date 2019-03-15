@@ -350,13 +350,16 @@ enum parsedbflags {
   pdb_close_fd			= DPKG_BIT(7),
   /** Interpret filename ‘-’ as stdin. */
   pdb_dash_is_stdin		= DPKG_BIT(8),
+  /** Allow empty/missing files. */
+  pdb_allow_empty		= DPKG_BIT(9),
 
   /* Standard operations. */
 
-  pdb_parse_status		= pdb_lax_parser | pdb_weakclassification,
+  pdb_parse_status		= pdb_lax_parser | pdb_weakclassification |
+				  pdb_allow_empty,
   pdb_parse_update		= pdb_parse_status | pdb_single_stanza,
   pdb_parse_available		= pdb_recordavailable | pdb_rejectstatus |
-				  pdb_lax_parser,
+				  pdb_lax_parser | pdb_allow_empty,
   pdb_parse_binary		= pdb_recordavailable | pdb_rejectstatus |
 				  pdb_single_stanza,
 };

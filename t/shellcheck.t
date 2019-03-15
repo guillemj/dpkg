@@ -36,7 +36,6 @@ my @files = qw(
     get-version
     run-script
     debian/dpkg.cron.daily
-    debian/dpkg.postinst
     debian/dpkg.postrm
     scripts/dpkg-maintscript-helper.sh
 );

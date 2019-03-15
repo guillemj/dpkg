@@ -46,6 +46,9 @@ dpkg (1.20.0) UNRELEASED; urgency=medium
   * libdpkg: Add support for bootstrapping the installation of dpkg:
     - Create the logfile with correct permissions, and remove the code
       setting up the logfile from the dpkg postinst.
+    - Allow missing status and available databases, so that they get created
+      on write, and remove the code setting them up from the dpkg postinst.
+      Closes: #647911
   * Perl modules:
     - Dpkg::Source::Package: Verify original tarball signatures at build time.
     - Dpkg::BuildFlags: Add new unset() method.

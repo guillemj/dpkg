@@ -28,6 +28,7 @@
 #include <sys/mman.h>
 #endif
 
+#include <errno.h>
 #include <fcntl.h>
 #include <string.h>
 #include <unistd.h>
@@ -531,6 +532,9 @@ parsedb_new(const char *filename, int fd, enum parsedbflags flags)
   ps->flags = flags;
   ps->fd = fd;
   ps->lno = 0;
+  ps->data = NULL;
+  ps->dataptr = NULL;
+  ps->endptr = NULL;
   ps->pkg = NULL;
   ps->pkgbin = NULL;
 
@@ -551,7 +555,7 @@ parsedb_open(const char *filename, enum parsedbflags flags)
     return parsedb_new(filename, STDIN_FILENO, flags);
 
   fd = open(filename, O_RDONLY);
-  if (fd == -1)
+  if (fd == -1 && !(errno == ENOENT && (flags & pdb_allow_empty)))
     ohshite(_("failed to open package info file '%.255s' for reading"),
             filename);
 
@@ -569,6 +573,9 @@ void
 parsedb_load(struct parsedb_state *ps)
 {
   struct stat st;
+
+  if (ps->fd < 0 && (ps->flags & pdb_allow_empty))
+      return;
 
   if (fstat(ps->fd, &st) == -1)
     ohshite(_("can't stat package info file '%.255s'"), ps->filename);
@@ -735,7 +742,7 @@ parsedb_close(struct parsedb_state *ps)
   if (ps->flags & pdb_close_fd) {
     pop_cleanup(ehflag_normaltidy);
 
-    if (close(ps->fd))
+    if (ps->fd >= 0 && close(ps->fd) < 0)
       ohshite(_("failed to close after read: '%.255s'"), ps->filename);
   }
 
@@ -765,6 +772,9 @@ parsedb_parse(struct parsedb_state *ps, struct pkginfo **donep)
   int fieldencountered[array_count(fieldinfos)];
   int pdone;
   struct field_state fs;
+
+  if (ps->data == NULL && (ps->flags & pdb_allow_empty))
+    return 0;
 
   memset(&fs, 0, sizeof(fs));
   fs.fieldencountered = fieldencountered;
