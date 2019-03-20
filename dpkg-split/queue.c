@@ -92,8 +92,12 @@ scandepot(void)
   struct partqueue *queue = NULL;
 
   depot = opendir(opt_depotdir);
-  if (!depot)
+  if (!depot) {
+    if (errno == ENOENT)
+      return NULL;
+
     ohshite(_("unable to read depot directory '%.250s'"), opt_depotdir);
+  }
   while ((de= readdir(depot))) {
     struct partqueue *pq;
     char *p;
