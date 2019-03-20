@@ -317,7 +317,7 @@ dpkg_arch_save_list(void)
 		return;
 
 	archfile = dpkg_db_get_path(DPKG_DB_ARCH_FILE);
-	file = atomic_file_new(archfile, 0);
+	file = atomic_file_new(archfile, ATOMIC_FILE_MKPATH);
 	atomic_file_open(file);
 
 	for (arch = arch_head; arch; arch = arch->next) {
