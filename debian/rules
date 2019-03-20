@@ -96,6 +96,11 @@ install: check
 
 	cd build-tree && $(MAKE) DESTDIR=$(D) install
 
+	# Special-case the lintian profile, as dh cannot rename on install.
+	mkdir -p $(D)/usr/share/lintian/profiles/dpkg
+	cp debian/dpkg.lintian-profile \
+	   $(D)/usr/share/lintian/profiles/dpkg/main.profile
+
 define dpkg-installmanl10n
 for f in `sed -e 's:\*:*/*:' debian/$(1).manpages`; do \
 	test -e $$f && \
