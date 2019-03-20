@@ -167,6 +167,10 @@ do_auto(const char *const *argv)
   }
 
   queue = scandepot();
+  if (queue == NULL)
+    if (dir_make_path(opt_depotdir, 0755) < 0)
+      ohshite(_("cannot create directory %s"), opt_depotdir);
+
   partlist = nfmalloc(sizeof(*partlist) * refi->maxpartn);
   for (i = 0; i < refi->maxpartn; i++)
     partlist[i] = NULL;
