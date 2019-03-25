@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.19.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-02-23 18:00+0100\n"
+"POT-Creation-Date: 2019-03-25 15:07+0100\n"
 "PO-Revision-Date: 2019-03-04 20:35+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -1002,23 +1002,17 @@ msgstr ""
 #. type: TP
 #: deb-buildinfo.man
 #, no-wrap
-#| msgid "B<build-indep>"
 msgid "B<Build-Tainted-By:>"
 msgstr "B<Build-Tainted-By:>"
 
 #. type: TQ
 #: deb-buildinfo.man
 #, no-wrap
-#| msgid "I<variable-list>"
 msgid "I<taint-reason-list>"
 msgstr "I<lijst-met-bezoedelingsredenen>"
 
 #. type: Plain text
 #: deb-buildinfo.man
-#| msgid ""
-#| "This folded field is a space-separated list of binary packages to "
-#| "upload.  If the upload is source-only, then the field is omitted (since "
-#| "dpkg 1.19.3)."
 msgid ""
 "This folded field contains a space-separated list of non-exhausitve reason "
 "tags (formed by alphanumeric and dash characters) which identify why the "
@@ -1031,9 +1025,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-buildinfo.man
-#| msgid ""
-#| "On Debian and derivatives only build paths starting with I</build/> will "
-#| "emit this field."
 msgid "On Debian and derivatives the following reason tags can be emitted:"
 msgstr ""
 "Op Debian en zijn derivaten kunnen de volgende reden-labels gegeven worden:"
@@ -1070,7 +1061,6 @@ msgstr ""
 #. type: TP
 #: deb-buildinfo.man
 #, no-wrap
-#| msgid "B<-L>I<local-shlibs-file>"
 msgid "B<usr-local-has-configs>"
 msgstr "B<usr-local-has-configs>"
 
@@ -1082,7 +1072,6 @@ msgstr "Het systeem bevat configuratiebestanden onder I</usr/local/etc>."
 #. type: TP
 #: deb-buildinfo.man
 #, no-wrap
-#| msgid "B<--always-include-path>"
 msgid "B<usr-local-has-includes>"
 msgstr "B<usr-local-has-includes>"
 
@@ -1107,7 +1096,6 @@ msgstr ""
 #. type: TP
 #: deb-buildinfo.man
 #, no-wrap
-#| msgid "B<-L>I<local-shlibs-file>"
 msgid "B<usr-local-has-libraries>"
 msgstr "B<usr-local-has-libraries>"
 
@@ -9316,7 +9304,6 @@ msgstr ""
 #. type: TP
 #: dpkg.man dpkg-statoverride.man
 #, no-wrap
-#| msgid "B<DPKG_COLORS>"
 msgid "B<DPKG_FORCE>"
 msgstr "B<DPKG_FORCE>"
 
@@ -9426,9 +9413,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg.man
-#| msgid ""
-#| "Defined by B<dpkg> on the maintainer script environment to the "
-#| "architecture the package got built for (since dpkg 1.15.4)."
 msgid ""
 "Defined by B<dpkg> on the subprocesses environment to all the currently "
 "enabled force option names separated by commas (since dpkg 1.19.5)."
@@ -22314,6 +22298,20 @@ msgstr "B<-sa> of B<-sA>"
 
 #. type: Plain text
 #: dpkg-source.man
+#, fuzzy
+#| msgid ""
+#| "Specifies to look for the original source archive as a tarfile or as a "
+#| "directory - the second argument, if any, may be either, or the empty "
+#| "string (this is equivalent to using B<-sn>).  If a tarfile is found it "
+#| "will unpack it to create the diff and remove it afterwards (this is "
+#| "equivalent to B<-sp>); if a directory is found it will pack it to create "
+#| "the original source and remove it afterwards (this is equivalent to B<-"
+#| "sr>); if neither is found it will assume that the package has no "
+#| "debianization diffs, only a straightforward source archive (this is "
+#| "equivalent to B<-sn>).  If both are found then B<dpkg-source> will ignore "
+#| "the directory, overwriting it, if B<-sA> was specified (this is "
+#| "equivalent to B<-sP>)  or raise an error if B<-sa> was specified.  B<-sA> "
+#| "is the default."
 msgid ""
 "Specifies to look for the original source archive as a tarfile or as a "
 "directory - the second argument, if any, may be either, or the empty string "
@@ -22325,7 +22323,7 @@ msgid ""
 "straightforward source archive (this is equivalent to B<-sn>).  If both are "
 "found then B<dpkg-source> will ignore the directory, overwriting it, if B<-"
 "sA> was specified (this is equivalent to B<-sP>)  or raise an error if B<-"
-"sa> was specified.  B<-sA> is the default."
+"sa> was specified.  B<-sa> is the default."
 msgstr ""
 "Geeft aan dat naar de originele broncode gezocht moet worden in de vorm van "
 "een tar-bestand of een map. Als er een tweede argument opgegeven wordt, mag "
@@ -22584,6 +22582,15 @@ msgstr ""
 "toegepast worden met de optie B<-p1> van B<patch>. Het zal dus een "
 "waarschuwing geven als het dergelijke opties tegenkomt en het bouwen zal "
 "waarschijnlijk mislukken."
+
+#. type: Plain text
+#: dpkg-source.man
+msgid ""
+"Note that B<lintian>(1) will emit unconditional warnings when using vendor "
+"series due to a controversial Debian specific ruling, which should not "
+"affect any external usage; to silence these, the dpkg lintian profile can be "
+"used by passing «B<--profile dpkg>» to B<lintian>(1)."
+msgstr ""
 
 #. type: Plain text
 #: dpkg-source.man
@@ -24152,7 +24159,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-statoverride.man
-#| msgid "Give help about the B<--force->I<thing> options."
 msgid "Give help about the B<--force->I<thing> options (since dpkg 1.19.5)."
 msgstr "Hulp bieden over de opties B<--force->I<iets> (sinds dpkg 1.19.5)."
 
@@ -24176,11 +24182,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-statoverride.man
-#| msgid ""
-#| "Force or refuse (B<no-force> and B<refuse> mean the same thing)  to do "
-#| "some things. I<things> is a comma separated list of things specified "
-#| "below. B<--force-help> displays a message describing them.  Things marked "
-#| "with (*) are forced by default."
 msgid ""
 "Force or refuse (B<no-force> and B<refuse> mean the same thing)  to do some "
 "things (since dpkg 1.19.5).  I<things> is a comma separated list of things "
@@ -24195,10 +24196,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-statoverride.man
-#| msgid ""
-#| "I<Warning: These options are mostly intended to be used by experts only. "
-#| "Using them without fully understanding their effects may break your whole "
-#| "system.>"
 msgid ""
 "I<Warning: These options are mostly intended to be used by experts only.  "
 "Using them without fully understanding their effects may break your whole "
@@ -24216,9 +24213,6 @@ msgstr "B<--force>"
 
 #. type: Plain text
 #: dpkg-statoverride.man
-#| msgid ""
-#| "Force an action, even if a sanity check would otherwise prohibit it.  "
-#| "This is necessary to override an existing override."
 msgid ""
 "Force an action, even if a sanity check would otherwise prohibit it.  This "
 "is necessary to override an existing override.  This option is deprecated "
@@ -24257,9 +24251,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-statoverride.man
-#| msgid ""
-#| "If set and the B<--instdir> or B<--root> options have not been specified, "
-#| "it will be used as the filesystem root directory (since dpkg 1.19.2)."
 msgid ""
 "If set and none of the B<--force->I<...> options have been specified, it "
 "will be used as the force options to use (since dpkg 1.19.5)."
@@ -25959,12 +25950,16 @@ msgstr ""
 
 #. type: Plain text
 #: start-stop-daemon.man
+#, fuzzy
 #| msgid ""
-#| "B<Warning:> Using this match option alone with a daemon that writes the "
-#| "pidfile as an unprivileged user is a security risk, because if the daemon "
-#| "gets compromised the contents of the pidfile cannot be trusted, and then "
-#| "a privileged runner (such as an init script executed as root) would end "
-#| "up acting on any system process."
+#| "B<Warning:> using this match option with a world-writable pidfile or "
+#| "using it alone with a daemon that writes the pidfile as an unprivileged "
+#| "(non-root)  user will be refused with an error (since version 1.19.3) as "
+#| "this is a security risk, because either any user can write to it, or if "
+#| "the daemon gets compromised, the contents of the pidfile cannot be "
+#| "trusted, and then a privileged runner (such as an init script executed as "
+#| "root) would end up acting on any system process.  Using I</dev/null> is "
+#| "excempt from these checks."
 msgid ""
 "B<Warning:> using this match option with a world-writable pidfile or using "
 "it alone with a daemon that writes the pidfile as an unprivileged (non-"
@@ -25972,7 +25967,7 @@ msgid ""
 "a security risk, because either any user can write to it, or if the daemon "
 "gets compromised, the contents of the pidfile cannot be trusted, and then a "
 "privileged runner (such as an init script executed as root) would end up "
-"acting on any system process.  Using I</dev/null> is excempt from these "
+"acting on any system process.  Using I</dev/null> is exempt from these "
 "checks."
 msgstr ""
 "B<Waarschuwing:> deze vergelijkingsoptie gebruiken met een pid-bestand dat "
