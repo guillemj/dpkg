@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.19.4\n"
+"Project-Id-Version: dpkg-man 1.19.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2019-02-23 18:00+0100\n"
-"PO-Revision-Date: 2019-02-24 18:25+0100\n"
+"PO-Revision-Date: 2019-03-04 20:35+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
 "Language: nl\n"
@@ -1001,21 +1001,20 @@ msgstr ""
 
 #. type: TP
 #: deb-buildinfo.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<build-indep>"
 msgid "B<Build-Tainted-By:>"
-msgstr "B<build-indep>"
+msgstr "B<Build-Tainted-By:>"
 
 #. type: TQ
 #: deb-buildinfo.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "I<variable-list>"
 msgid "I<taint-reason-list>"
-msgstr "I<variabelelijst>"
+msgstr "I<lijst-met-bezoedelingsredenen>"
 
 #. type: Plain text
 #: deb-buildinfo.man
-#, fuzzy
 #| msgid ""
 #| "This folded field is a space-separated list of binary packages to "
 #| "upload.  If the upload is source-only, then the field is omitted (since "
@@ -1025,26 +1024,25 @@ msgid ""
 "tags (formed by alphanumeric and dash characters) which identify why the "
 "current build has been tainted (since dpkg 1.19.5)."
 msgstr ""
-"Dit gevouwen veld is een lijst, met spatie als scheidingsteken, van binaire "
-"pakketten die geüpload moeten worden. Indien het een upload is van enkel "
-"broncode, dan wordt het veld weggelaten (sinds dpkg 1.19.3)."
+"Dit gevouwen veld bevat een niet-exhaustieve lijst, met spatie als "
+"scheidingsteken, van labels (samengesteld uit alfanumerieke tekens en "
+"gedachtestreepjes) met redenen die aanduiden waarom de huidige bouw "
+"bezoedeld werd (sinds dpkg 1.19.5)."
 
 #. type: Plain text
 #: deb-buildinfo.man
-#, fuzzy
 #| msgid ""
 #| "On Debian and derivatives only build paths starting with I</build/> will "
 #| "emit this field."
 msgid "On Debian and derivatives the following reason tags can be emitted:"
 msgstr ""
-"Op Debian en zijn derivaten zullen enkel bouwpaden die beginnen met I</build/"
-"> aanleiding geven tot het aanmaken van dit veld."
+"Op Debian en zijn derivaten kunnen de volgende reden-labels gegeven worden:"
 
 #. type: TP
 #: deb-buildinfo.man
 #, no-wrap
 msgid "B<merged-usr-via-symlinks>"
-msgstr ""
+msgstr "B<merged-usr-via-symlinks>"
 
 #. type: Plain text
 #: deb-buildinfo.man
@@ -1058,54 +1056,67 @@ msgid ""
 "artifacts, it can also produce packages that will be incompatible with non-/"
 "usr-merged filesystems."
 msgstr ""
+"Het systeem heeft een via symbolische koppelingen samengevoegde map I</usr>. "
+"Dit sticht verwarring bij B<dpkg-query>, B<dpkg-statoverride>, B<dpkg-"
+"trigger>, B<update-alternatives> en elk ander hulpmiddel dat in zijn "
+"databank gebruik maakt van padnamen als sleutel, omdat het zorgt voor "
+"problemen met aliassen in het bestandssysteem en knoeit met het overzicht "
+"van het bestandssysteem dat B<dpkg> in zijn databank opgeslagen heeft. Met "
+"bouwsystemen die in de door hen gemaakte objecten gebruik maken van vaste "
+"padnamen naar specifieke uitvoerbare bestanden of bibliotheken, kan dit ook "
+"leiden tot pakketten die niet compatibel zijn met bestandssystemen zonder "
+"samengevoegde /usr-map."
 
 #. type: TP
 #: deb-buildinfo.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-L>I<local-shlibs-file>"
 msgid "B<usr-local-has-configs>"
-msgstr "B<-L>I<lokaal-shlibs-bestand>"
+msgstr "B<usr-local-has-configs>"
 
 #. type: Plain text
 #: deb-buildinfo.man
 msgid "The system has configuration files under I</usr/local/etc>."
-msgstr ""
+msgstr "Het systeem bevat configuratiebestanden onder I</usr/local/etc>."
 
 #. type: TP
 #: deb-buildinfo.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--always-include-path>"
 msgid "B<usr-local-has-includes>"
-msgstr "B<--always-include-path>"
+msgstr "B<usr-local-has-includes>"
 
 #. type: Plain text
 #: deb-buildinfo.man
 msgid "The system has header files under I</usr/local/include>."
-msgstr ""
+msgstr "Het systeem bevat kopbestanden onder I</usr/local/include>."
 
 #. type: TP
 #: deb-buildinfo.man
 #, no-wrap
 msgid "B<usr-local-has-programs>"
-msgstr ""
+msgstr "B<usr-local-has-programs>"
 
 #. type: Plain text
 #: deb-buildinfo.man
 msgid "The system has programs under I</usr/local/bin> or I</usr/local/sbin>."
 msgstr ""
+"Op het systeem staan programma's onder I</usr/local/bin> of I</usr/local/"
+"sbin>."
 
 #. type: TP
 #: deb-buildinfo.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-L>I<local-shlibs-file>"
 msgid "B<usr-local-has-libraries>"
-msgstr "B<-L>I<lokaal-shlibs-bestand>"
+msgstr "B<usr-local-has-libraries>"
 
 #. type: Plain text
 #: deb-buildinfo.man
 msgid ""
 "The system has libraries, either static or shared under I</usr/local/lib>."
 msgstr ""
+"Het systeem bevat statische of gedeelde bibliotheken onder I</usr/local/lib>."
 
 #. type: TP
 #: deb-buildinfo.man
@@ -6969,7 +6980,7 @@ msgstr ""
 #: dpkg.man
 #, no-wrap
 msgid "B<unknown>"
-msgstr ""
+msgstr "B<unknown>"
 
 #. type: Plain text
 #: dpkg.man
@@ -6978,6 +6989,10 @@ msgid ""
 "installed> state, and with an B<ok> flag will be forgotten in the next "
 "database store."
 msgstr ""
+"Het betreft een onbekende pakketselectie. Een pakket dat zich eveneens in de "
+"toestand B<not-installed> (niet-geïnstalleerd) bevindt en een B<ok>-vlag "
+"heeft, zal de volgende keer weggelaten worden bij het opslaan van de "
+"databank."
 
 #. type: SS
 #: dpkg.man
@@ -8179,7 +8194,7 @@ msgid ""
 "B<downgrade>(*): Install a package, even if newer version of it is already "
 "installed."
 msgstr ""
-"B<downgrade>(*): Installeer een pakket, zelfs als reeds een nieuwere versie "
+"B<downgrade>(*): Een pakket installeren, zelfs als reeds een nieuwere versie "
 "ervan geïnstalleerd is."
 
 #. type: Plain text
@@ -8203,14 +8218,14 @@ msgid ""
 "B<configure-any>: Configure also any unpacked but unconfigured packages on "
 "which the current package depends."
 msgstr ""
-"B<configure-any>: Configureer ook elk uitgepakt maar niet-geconfigureerd "
-"pakket waarvan het huidige pakket afhankelijk is."
+"B<configure-any>: Ook elk uitgepakt maar niet-geconfigureerd pakket waarvan "
+"het huidige pakket afhankelijk is, configureren."
 
 #. type: Plain text
 #: dpkg.man
 msgid "B<hold>: Process packages even when marked “hold”."
 msgstr ""
-"B<hold>: Behandel ook pakketten die met “hold” (te handhaven) gemarkeerd "
+"B<hold>: Ook pakketten verwerken die met “hold” (te handhaven) gemarkeerd "
 "zijn."
 
 #. type: Plain text
@@ -8220,7 +8235,7 @@ msgid ""
 "require reinstallation. This may, for example, cause parts of the package to "
 "remain on the system, which will then be forgotten by B<dpkg>."
 msgstr ""
-"B<remove-reinstreq>: Verwijder een pakket, zelfs als het defect is en er "
+"B<remove-reinstreq>: Een pakket verwijderen, zelfs als het defect is en er "
 "aangegeven staat dat een herinstallatie nodig is. Dit kan bijvoorbeeld tot "
 "gevolg hebben dat delen van het pakket op het systeem achterblijven, maar "
 "B<dpkg> zal er dan niet meer van op de hoogte zijn."
@@ -8232,8 +8247,8 @@ msgid ""
 "Essential packages contain mostly very basic Unix commands. Removing them "
 "might cause the whole system to stop working, so use with caution."
 msgstr ""
-"B<remove-essential>: Verwijder het pakket, zelfs al wordt het als essentieel "
-"beschouwd. Essentiële pakketten bevatten meestal hele basale Unix "
+"B<remove-essential>: Het pakket verwijderen, zelfs al wordt het als "
+"essentieel beschouwd. Essentiële pakketten bevatten meestal hele basale Unix "
 "commando's. Ze verwijderen kan tot gevolg hebben dat het hele systeem stopt "
 "met werken. Gebruik dit dus met voorzichtigheid."
 
@@ -8243,8 +8258,8 @@ msgid ""
 "B<depends>: Turn all dependency problems into warnings.  This affects the "
 "B<Pre-Depends> and B<Depends> fields."
 msgstr ""
-"B<depends>: Zet alle vereistenproblemen in waarschuwingen. Dit heeft invloed "
-"op de velden B<Pre-Depends> en B<Depends>."
+"B<depends>: Alle vereistenproblemen omzetten in waarschuwingen. Dit heeft "
+"invloed op de velden B<Pre-Depends> en B<Depends>."
 
 #. type: Plain text
 #: dpkg.man
@@ -8252,7 +8267,7 @@ msgid ""
 "B<depends-version>: Don't care about versions when checking dependencies.  "
 "This affects the B<Pre-Depends> and B<Depends> fields."
 msgstr ""
-"B<depends-version>: Bekommer u niet om versies bij het toetsen van "
+"B<depends-version>: Zich niet om versies bekommeren bij het toetsen van "
 "vereisten. Dit heeft invloed op de velden B<Pre-Depends> en B<Depends>."
 
 #. type: Plain text
@@ -8261,7 +8276,7 @@ msgid ""
 "B<breaks>: Install, even if this would break another package (since dpkg "
 "1.14.6).  This affects the B<Breaks> field."
 msgstr ""
-"B<breaks>: Installeer, zelfs als dit een ander pakket defect zou maken "
+"B<breaks>: Installeren, zelfs als dit een ander pakket defect zou maken "
 "(sinds dpkg 1.14.6). Dit heeft invloed op het veld B<Breaks>."
 
 #. type: Plain text
@@ -8271,7 +8286,7 @@ msgid ""
 "dangerous, for it will usually cause overwriting of some files.  This "
 "affects the B<Conflicts> field."
 msgstr ""
-"B<conflicts>: Installeer, zelfs als er een tegenstelling is met een ander "
+"B<conflicts>: Installeren, zelfs als er een tegenstelling is met een ander "
 "pakket. Dit is gevaarlijk, want gewoonlijk zal dit het overschrijven van "
 "bepaalde bestanden tot gevolg hebben. Dit heeft invloed op het veld "
 "B<Conflicts>."
@@ -8283,10 +8298,10 @@ msgid ""
 "dangerous, since it means not preserving a change (removing) made to the "
 "file."
 msgstr ""
-"B<confmiss>: Installeer zonder vragen steeds de ontbrekende conffile "
-"(configuratiebestand). Dit is gevaarlijk, aangezien het betekent dat een "
-"verandering die aan een bestand aangebracht werd (het verwijderen ervan), "
-"niet behouden wordt."
+"B<confmiss>: Zonder vragen steeds het ontbrekende conffile "
+"(configuratiebestand) installeren. Dit is gevaarlijk, aangezien het betekent "
+"dat een verandering die aan een bestand aangebracht werd (het verwijderen "
+"ervan), niet behouden wordt."
 
 #. type: Plain text
 #: dpkg.man
@@ -8297,9 +8312,9 @@ msgid ""
 "preferred."
 msgstr ""
 "B<confnew>: Als een conffile (configuratiebestand) aangepast werd en de "
-"versie uit het pakket gewijzigd werd, installeer dan steeds zonder vragen de "
-"nieuwe versie, tenzij ook B<--force-confdef> opgegeven werd. In dat geval "
-"wordt de voorkeur gegeven aan de standaardactie."
+"versie uit het pakket gewijzigd werd, dan steeds zonder vragen de nieuwe "
+"versie installeren, tenzij ook B<--force-confdef> opgegeven werd. In dat "
+"geval wordt de voorkeur gegeven aan de standaardactie."
 
 #. type: Plain text
 #: dpkg.man
@@ -8310,8 +8325,8 @@ msgid ""
 "preferred."
 msgstr ""
 "B<confold>: Als een conffile (configuratiebestand) aangepast werd en de "
-"versie uit het pakket gewijzigd werd, behoud dan steeds zonder vragen de "
-"oude versie, tenzij ook B<--force-confdef> opgegeven werd. In dat geval "
+"versie uit het pakket gewijzigd werd, dan steeds zonder vragen de oude "
+"versie behouden, tenzij ook B<--force-confdef> opgegeven werd. In dat geval "
 "wordt de voorkeur gegeven aan de standaardactie."
 
 #. type: Plain text
@@ -8324,11 +8339,11 @@ msgid ""
 "decide the final action."
 msgstr ""
 "B<confdef>: Als een conffile (configuratiebestand) aangepast werd en de "
-"versie uit het pakket gewijzigd werd, kies dan steeds zonder vragen voor de "
-"standaardactie. Indien er geen standaardactie is, zal het programma stoppen "
-"en de gebruiker een vraag stellen, tenzij ook B<--force-confnew> of B<--"
-"force-confold> opgegeven werd. In dat geval zal het dit gebruiken om over de "
-"uiteindelijke actie te beslissen."
+"versie uit het pakket gewijzigd werd, dan steeds zonder vragen voor de "
+"standaardactie kiezen. Indien er geen standaardactie is, zal het programma "
+"stoppen en de gebruiker een vraag stellen, tenzij ook B<--force-confnew> of "
+"B<--force-confold> opgegeven werd. In dat geval zal het dit gebruiken om "
+"over de uiteindelijke actie te beslissen."
 
 #. type: Plain text
 #: dpkg.man
@@ -8350,23 +8365,23 @@ msgstr ""
 #: dpkg.man
 msgid "B<overwrite>: Overwrite one package's file with another's file."
 msgstr ""
-"B<overwrite>: Overschrijf een bestand van een pakket met het bestand van een "
-"ander pakket."
+"B<overwrite>: Een bestand van een pakket overschrijven met het bestand van "
+"een ander pakket."
 
 #. type: Plain text
 #: dpkg.man
 msgid ""
 "B<overwrite-dir>: Overwrite one package's directory with another's file."
 msgstr ""
-"B<overwrite-dir>: Overschrijf een map van een pakket met het bestand van een "
-"ander pakket."
+"B<overwrite-dir>: Een map van een pakket overschrijven met het bestand van "
+"een ander pakket."
 
 #. type: Plain text
 #: dpkg.man
 msgid ""
 "B<overwrite-diverted>: Overwrite a diverted file with an undiverted version."
 msgstr ""
-"B<overwrite-diverted>: Overschrijf een omgeleid bestand met een niet-"
+"B<overwrite-diverted>: Een omgeleid bestand overschrijven met een niet-"
 "omgeleide versie."
 
 #. type: Plain text
@@ -8375,6 +8390,8 @@ msgid ""
 "B<statoverride-add>: Overwrite an existing stat override when adding it "
 "(since dpkg 1.19.5)."
 msgstr ""
+"B<statoverride-add>: Bij het toevoegen ervan een bestaande statusmodificatie "
+"overschrijven (sinds dpkg 1.19.5)."
 
 #. type: Plain text
 #: dpkg.man dpkg-statoverride.man
@@ -8382,6 +8399,8 @@ msgid ""
 "B<statoverride-remove>: Ignore a missing stat override when removing it "
 "(since dpkg 1.19.5)."
 msgstr ""
+"B<statoverride-remove>: Bij het verwijderen ervan een ontbrekende "
+"statusmodificatie negeren (sinds dpkg 1.19.5)."
 
 #. type: Plain text
 #: dpkg.man dpkg-statoverride.man
@@ -8390,6 +8409,10 @@ msgid ""
 "based security when installing files into the filesystem (since dpkg "
 "1.19.5).  On Linux systems the implementation uses SELinux."
 msgstr ""
+"B<security-mac>(*): Bij het installeren van bestanden op het bestandssysteem "
+"gebruik maken van platformspecifieke beveiliging, gebaseerd op Mandatory "
+"Access Controls (MAC) (since dpkg 1.19.5). Op Linux-systemen gebruikt de "
+"implementatie SELinux."
 
 #. type: Plain text
 #: dpkg.man
@@ -8401,7 +8424,7 @@ msgid ""
 "first place due to their unreliable behaviour causing zero-length files on "
 "abrupt system crashes."
 msgstr ""
-"B<unsafe-io>: Voer bij het uitpakken geen veilige I/O-operaties uit (sinds "
+"B<unsafe-io>: Bij het uitpakken geen veilige I/O-operaties uitvoeren (sinds "
 "dpkg 1.15.8.6). Momenteel houdt dit in dat geen "
 "bestandssysteemsynchronisatie gebeurt vooraleer bestanden hernoemd worden. "
 "Daarvan is geweten dat dit op sommige bestandssystemen tot aanzienlijk "
@@ -8443,8 +8466,8 @@ msgid ""
 "B<instdir> even if the package does not support this mode of operation "
 "(since dpkg 1.18.5)."
 msgstr ""
-"B<script-chrootless>: Voer de scripts van de pakketonderhouder uit zonder te "
-"B<chroot>(2)en naar B<instdir>, zelfs als het pakket deze werkwijze niet "
+"B<script-chrootless>: De scripts van de pakketonderhouder uitvoeren zonder "
+"te B<chroot>(2)en naar B<instdir>, zelfs als het pakket deze werkwijze niet "
 "ondersteunt (sinds dpkg 1.18.5)."
 
 #. type: Plain text
@@ -8458,7 +8481,7 @@ msgstr ""
 #: dpkg.man
 msgid "B<architecture>: Process even packages with wrong or no architecture."
 msgstr ""
-"B<architecture>: Verwerk pakketten zelfs als ze de verkeerde of geen "
+"B<architecture>: Pakketten verwerken, zelfs als ze de verkeerde of geen "
 "architectuur hebben."
 
 #. type: Plain text
@@ -8467,8 +8490,8 @@ msgid ""
 "B<bad-version>: Process even packages with wrong versions (since dpkg "
 "1.16.1)."
 msgstr ""
-"B<bad-version>: Verwerk pakketten zelfs als ze een verkeerde versie hebben "
-"(sinds dpkg 1.16.1)."
+"B<bad-version>: Pakketten verwerken, zelfs als ze een verkeerde versie "
+"hebben (sinds dpkg 1.16.1)."
 
 #. type: Plain text
 #: dpkg.man
@@ -8482,14 +8505,14 @@ msgstr ""
 #: dpkg.man
 msgid "B<not-root>: Try to (de)install things even when not root."
 msgstr ""
-"B<not-root>: Tracht zaken te (de-)installeren, zelfs als niet-"
-"systeembeheerder."
+"B<not-root>: Proberen om zaken te (de-)installeren, zelfs in opdracht van "
+"een niet-systeembeheerder."
 
 #. type: Plain text
 #: dpkg.man
 msgid "B<bad-verify>: Install a package even if it fails authenticity check."
 msgstr ""
-"B<bad-verify>: Installeer een pakket zelfs als de authenticiteitscontrole "
+"B<bad-verify>: Een pakket installeren, zelfs als de authenticiteitscontrole "
 "mislukt."
 
 #. type: TP
@@ -8505,7 +8528,7 @@ msgid ""
 "performed, but only warnings about conflicts are given, nothing else).  This "
 "affects the B<Pre-Depends>, B<Depends> and B<Breaks> fields."
 msgstr ""
-"Negeer het toetsen van afhankelijkheden voor de opgegeven pakketten "
+"Voor de opgegeven pakketten het toetsen van afhankelijkheden negeren "
 "(eigenlijk wordt de controle wel uitgevoerd, maar er worden enkel "
 "waarschuwingen in verband met tegenstrijdigheden gegeven en verder niets). "
 "Dit heeft invloed op de velden B<Pre-Depends>, B<Depends> en B<Breaks>."
@@ -8523,9 +8546,9 @@ msgid ""
 "This is used to see what would happen with the specified action, without "
 "actually modifying anything."
 msgstr ""
-"Voer alles wat gedaan moet worden, uit, maar schrijf geen veranderingen weg. "
-"Dit wordt gebruikt om te zien wat er bij de opgegeven actie zou gebeuren, "
-"zonder dat er effectief iets gewijzigd wordt."
+"Alles wat gedaan moet worden, uitvoeren, maar geen veranderingen "
+"wegschrijven. Dit wordt gebruikt om te zien wat er bij de opgegeven actie "
+"zou gebeuren, zonder dat er effectief iets gewijzigd wordt."
 
 #. type: Plain text
 #: dpkg.man
@@ -8553,8 +8576,8 @@ msgid ""
 "specified directories and all of its subdirectories. This can be used with "
 "B<-i>, B<-A>, B<--install>, B<--unpack> and B<--record-avail> actions."
 msgstr ""
-"Behandel alle gewone bestanden die beantwoorden aan het patroon B<*.deb> "
-"recursief in de opgegeven mappen en al hun onderliggende mappen. Dit kan "
+"Alle gewone bestanden die beantwoorden aan het patroon B<*.deb>, recursief "
+"behandelen in de opgegeven mappen en al hun onderliggende mappen. Dit kan "
 "gebruikt worden samen met de acties B<-i>, B<-A>, B<--install>, B<--unpack> "
 "en B<--record-avail>."
 
@@ -8570,7 +8593,7 @@ msgid ""
 "Don't install a package if a newer version of the same package is already "
 "installed. This is an alias of B<--refuse-downgrade>."
 msgstr ""
-"Installeer een pakket niet als reeds een nieuwere versie van dat pakket "
+"Een pakket niet installeren als reeds een nieuwere versie van dat pakket "
 "geïnstalleerd is. Dit is een alias voor B<--refuse-downgrade>."
 
 #. type: TP
@@ -8587,7 +8610,7 @@ msgid ""
 "many files that give information about status of installed or uninstalled "
 "packages, etc.  Defaults to «I<%ADMINDIR%>»."
 msgstr ""
-"Stel de administratieve map in op I<directory>. In deze map zitten veel "
+"De administratieve map instellen op I<directory>. In deze map zitten veel "
 "bestanden met informatie over de status van geïnstalleerde of gede-"
 "installeerde pakketten, enz. Standaard is dat «I<%ADMINDIR%>»"
 
@@ -8605,7 +8628,7 @@ msgid ""
 "before running package's installation scripts, which means that the scripts "
 "see B<instdir> as a root directory.  Defaults to «I</>»."
 msgstr ""
-"Stel de installatiemap in, welke de map aangeeft waarin pakketten "
+"Instellen van de installatiemap, welke de map aangeeft waarin pakketten "
 "geïnstalleerd zullen worden. B<instdir> is ook de map die aan B<chroot>(2) "
 "doorgegeven wordt vooraleer de installatiescripts van een pakket uitgevoerd "
 "worden, waardoor de scripts B<instdir> als de hoofdmap beschouwen. Standaard "
@@ -8624,7 +8647,7 @@ msgid ""
 "directory to «I<dir>» and the administrative directory to «I<dir>B<%ADMINDIR"
 "%>»."
 msgstr ""
-"Stel de hoofdmap in op B<directory>, hetgeen de installatiemap instelt op "
+"De hoofdmap instellen op B<directory>, hetgeen de installatiemap instelt op "
 "«I<map>» en de administratieve map op «I<map>B<%ADMINDIR%>»."
 
 #. type: TP
@@ -8641,7 +8664,7 @@ msgid ""
 "example, when a package is removed, it will be marked selected for "
 "deinstallation."
 msgstr ""
-"Verwerk enkel de pakketten die geselecteerd werden om geïnstalleerd te "
+"Enkel de pakketten verwerken welke geselecteerd werden om geïnstalleerd te "
 "worden. Het eigenlijke markeren gebeurt door B<dselect> of door B<dpkg> als "
 "het de pakketten behandelt. Als bijvoorbeeld een pakket verwijderd wordt, "
 "zal het als geselecteerd om verwijderd te worden gemarkeerd worden."
@@ -8658,7 +8681,7 @@ msgid ""
 "Don't install the package if the same version of the package is already "
 "installed."
 msgstr ""
-"Installeer het pakket niet als dezelfde versie van dat pakket reeds "
+"Het pakket niet installeren als dezelfde versie van dat pakket reeds "
 "geïnstalleerd is."
 
 #. type: TP
@@ -8687,17 +8710,18 @@ msgid ""
 "Note: front-ends might call B<dpkg> several times per invocation, which "
 "might run the hooks more times than expected."
 msgstr ""
-"Stel in dat een uitbreiding (hook) I<commando> via ``sh -c'' moet uitgevoerd "
-"worden voor of na het uitvoeren van B<dpkg> bij de acties I<unpack>, "
-"I<configure>, I<install>, I<triggers-only>, I<remove>, I<purge>, I<add-"
-"architecture> en I<remove-architecture> van B<dpkg> (sinds dpkg 1.15.4 en de "
-"acties I<add-architecture> en I<remove-architecture> sinds dpkg 1.17.19). "
-"Deze optie kan meermaals opgegeven worden. De volgorde waarin de opties "
-"opgegeven worden, wordt behouden, waarbij die uit de configuratiebestanden "
-"voorrang hebben. De omgevingsvariabele B<DPKG_HOOK_ACTION> wordt ingesteld "
-"voor de uitbreidingen (hooks) bij de huidige actie van B<dpkg>. Merk op dat "
-"frontends die uitgevoerd worden, B<dpkg> meermaals kunnen activeren, "
-"waardoor de uitbreidingen meer keren dan verwacht uitgevoerd kunnen worden."
+"Instellen dat een uitbreiding (hook) I<commando> via ``sh -c'' moet "
+"uitgevoerd worden voor of na het uitvoeren van B<dpkg> bij de acties "
+"I<unpack>, I<configure>, I<install>, I<triggers-only>, I<remove>, I<purge>, "
+"I<add-architecture> en I<remove-architecture> van B<dpkg> (sinds dpkg 1.15.4 "
+"en de acties I<add-architecture> en I<remove-architecture> (sinds dpkg "
+"1.17.19). Deze optie kan meermaals opgegeven worden. De volgorde waarin de "
+"opties opgegeven worden, wordt behouden, waarbij deze uit de "
+"configuratiebestanden voorrang hebben. De omgevingsvariabele "
+"B<DPKG_HOOK_ACTION> wordt ingesteld voor de uitbreidingen (hooks) bij de "
+"huidige actie van B<dpkg>. Merk op dat frontends die uitgevoerd worden, "
+"B<dpkg> meermaals kunnen activeren, waardoor de uitbreidingen meer keren dan "
+"verwacht uitgevoerd kunnen worden."
 
 #. type: TP
 #: dpkg.man
@@ -8718,9 +8742,10 @@ msgid ""
 "previously excluded paths matching the specified patterns during install "
 "(since dpkg 1.15.8)."
 msgstr ""
-"Stel I<glob-patroon> bij het installeren in als een filter voor paden, ofwel "
-"door paden die aan het opgegeven patroon beantwoorden, uit te sluiten ofwel "
-"door eerder uitgesloten paden opnieuw toe te voegen (sinds dpkg 1.15.8)."
+"Het I<glob-patroon> bij het installeren instellen als een filter voor paden, "
+"ofwel door paden die aan het opgegeven patroon beantwoorden, uit te sluiten "
+"ofwel door eerder uitgesloten paden opnieuw toe te voegen (sinds dpkg "
+"1.15.8)."
 
 #. type: Plain text
 #: dpkg.man
@@ -8877,9 +8902,9 @@ msgid ""
 "descriptor I<n>. This option can be specified multiple times. The "
 "information is generally one record per line, in one of the following forms:"
 msgstr ""
-"Stuur status- en voortgangsinformatie die leesbaar is voor machines naar "
-"bestandsindicator I<n>. Deze optie kan meermaals opgegeven worden. Meestal "
-"wordt de informatie met één item per regel weergegeven in een van de "
+"Status- en voortgangsinformatie die leesbaar is voor machines naar "
+"bestandsindicator I<n> sturen. Deze optie kan meermaals opgegeven worden. "
+"Meestal wordt de informatie met één item per regel weergegeven in een van de "
 "volgende vormen:"
 
 #. type: TP
@@ -8953,11 +8978,11 @@ msgid ""
 "This option can be specified multiple times.  The output format used is the "
 "same as in B<--status-fd>."
 msgstr ""
-"Verstuur door een machine te lezen informatie over pakketstatus en voortgang "
-"naar de standaardinvoer van het shell-commando I<commando> dat via ``sh -c'' "
-"moet uitgevoerd worden (sinds dpkg 1.16.0). Deze optie kan meermaals "
-"opgegeven worden. De indeling van de uitvoer is dezelfde als bij B<--status-"
-"fd>."
+"Door een machine te lezen informatie over pakketstatus en voortgang "
+"versturen naar de standaardinvoer van het shell-commando I<commando> dat via "
+"``sh -c'' moet uitgevoerd worden (sinds dpkg 1.16.0). Deze optie kan "
+"meermaals opgegeven worden. De indeling van de uitvoer is dezelfde als bij "
+"B<--status-fd>."
 
 #. type: TP
 #: dpkg.man
@@ -8972,9 +8997,9 @@ msgid ""
 "I<%LOGDIR%/dpkg.log>. If this option is given multiple times, the last "
 "filename is used. Log messages are of the form:"
 msgstr ""
-"Log updates van toestandswijzigingen en acties in I<bestandsnaam> in plaats "
-"van in het standaardlogbestand I<%LOGDIR%/dpkg.log>. Indien deze optie "
-"meerdere keren opgegeven wordt, wordt de laatst opgegeven bestandsnaam "
+"Updates van toestandswijzigingen en acties loggen in I<bestandsnaam> in "
+"plaats van in het standaardlogbestand I<%LOGDIR%/dpkg.log>. Indien deze "
+"optie meerdere keren opgegeven wordt, wordt de laatst opgegeven bestandsnaam "
 "gebruikt. Log-berichten zijn in de volgende vorm:"
 
 #. type: TP
@@ -9056,7 +9081,7 @@ msgstr "B<--no-debsig>"
 #. type: Plain text
 #: dpkg.man
 msgid "Do not try to verify package signatures."
-msgstr "Tracht pakket-ondertekeningen niet te verifiëren."
+msgstr "Niet proberen pakket-ondertekeningen te verifiëren."
 
 #. type: TP
 #: dpkg.man
@@ -9074,7 +9099,7 @@ msgid ""
 "in the improper B<triggers-awaited> and B<triggers-pending> states. This can "
 "be fixed later by running: B<dpkg --configure --pending>."
 msgstr ""
-"Voer in deze doorloop geen triggers uit (sinds dpkg 1.14.17), maar "
+"In deze doorloop geen triggers uitvoeren (sinds dpkg 1.14.17), maar "
 "activeringen blijven wel opgetekend worden. Indien het gebruikt wordt in "
 "combinatie met B<--configure> I<pakket> of B<--triggers-only> I<pakket>, dan "
 "zullen de postinst-scripts van het vermelde pakket nog steeds uitgevoerd "
@@ -9290,10 +9315,10 @@ msgstr ""
 
 #. type: TP
 #: dpkg.man dpkg-statoverride.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<DPKG_COLORS>"
 msgid "B<DPKG_FORCE>"
-msgstr "B<DPKG_COLORS>"
+msgstr "B<DPKG_FORCE>"
 
 #. type: Plain text
 #: dpkg.man
@@ -9302,6 +9327,10 @@ msgid ""
 "built-in force defaults will be applied.  If the variable is present but "
 "empty, all force flags will be disabled."
 msgstr ""
+"Stelt de forceer-vlaggen in (sinds dpkg 1.19.5). Indien deze variabele "
+"aanwezig is, zullen geen ingebouwde forceer-standaardwaarden toegepast "
+"worden. Indien de variabele aanwezig, maar leeg is, zullen alle forceer-"
+"vlaggen gedeactiveerd worden."
 
 #. type: TP
 #: dpkg.man
@@ -9397,7 +9426,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
 #| msgid ""
 #| "Defined by B<dpkg> on the maintainer script environment to the "
 #| "architecture the package got built for (since dpkg 1.15.4)."
@@ -9405,9 +9433,9 @@ msgid ""
 "Defined by B<dpkg> on the subprocesses environment to all the currently "
 "enabled force option names separated by commas (since dpkg 1.19.5)."
 msgstr ""
-"Gedefinieerd door B<dpkg> binnen de omgeving van het script van de "
-"pakketonderhouder als de architectuur waarvoor het pakket gebouwd werd "
-"(sinds dpkg 1.15.4)."
+"Gedefinieerd door B<dpkg> binnen de omgeving van de subprocessen voor alle "
+"momenteel geactiveerde forceer-optienamen, gescheiden door komma's (sinds "
+"dpkg 1.19.5)."
 
 #. type: TP
 #: dpkg.man
@@ -24074,7 +24102,7 @@ msgid ""
 "by their number by prepending the number with a ‘B<#>’ (for example B<#0> or "
 "B<#65534>).  The I<mode> needs to be specified in octal."
 msgstr ""
-"Voeg een statusmodificatie toe voor I<pad>. Het is niet nodig dat I<pad> "
+"Een statusmodificatie toevoegen voor I<pad>. Het is niet nodig dat I<pad> "
 "reeds bestaat op het ogenblik dat dit commando gebruikt wordt. De "
 "modificatie zal opgeslagen worden en later gebruikt worden. Gebruikers en "
 "groepen kunnen bij hun naam opgegeven worden (bijvoorbeeld B<root> of "
@@ -24103,8 +24131,8 @@ msgid ""
 "Remove an override for I<path>, the status of I<path> is left unchanged by "
 "this command."
 msgstr ""
-"Verwijder een statusmodificatie voor I<pad>. De status zelf van I<pad> wordt "
-"door dit commando niet gewijzigd."
+"Een statusmodificatie verwijderen voor I<pad>. De status zelf van I<pad> "
+"wordt door dit commando niet gewijzigd."
 
 #. type: TP
 #: dpkg-statoverride.man
@@ -24118,15 +24146,15 @@ msgid ""
 "List all overrides. If a glob pattern is specified restrict the output to "
 "overrides which match the glob."
 msgstr ""
-"Som alle modificaties (overrides) op. Beperk de uitvoer tot modificaties die "
-"overeenkomen met het glob-patroon, indien een glob-patroon opgegeven werd."
+"Alle modificaties (overrides) opsommen. Beperk de uitvoer tot modificaties "
+"die overeenkomen met het glob-patroon, indien een glob-patroon opgegeven "
+"werd."
 
 #. type: Plain text
 #: dpkg-statoverride.man
-#, fuzzy
 #| msgid "Give help about the B<--force->I<thing> options."
 msgid "Give help about the B<--force->I<thing> options (since dpkg 1.19.5)."
-msgstr "Geef hulp over de opties B<--force->I<iets>."
+msgstr "Hulp bieden over de opties B<--force->I<iets> (sinds dpkg 1.19.5)."
 
 #. type: Plain text
 #: dpkg-statoverride.man
@@ -24134,7 +24162,7 @@ msgid ""
 "Set the administrative directory to I<directory>.  This is where the "
 "I<statoverride> file is stored.  Defaults to «I<%ADMINDIR%>»."
 msgstr ""
-"Stel de administratieve map in op I<map>. Dit is waar het "
+"De administratieve map instellen op I<map>. Dit is waar het "
 "I<statusmodificatie>-bestand opgeslagen is. Standaard is dat «I<%ADMINDIR%>»."
 
 #. type: Plain text
@@ -24143,12 +24171,11 @@ msgid ""
 "Set the installation directory, which refers to the directory where packages "
 "get installed (since dpkg 1.19.2).  Defaults to «I</>»."
 msgstr ""
-"Stel de installatiemap in, welke verwijst naar de map waar pakketten "
+"Instellen van de installatiemap, welke verwijst naar de map waar pakketten "
 "geïnstalleerd worden (sinds dpkg 1.19.2). Standaard is dat «I</>»."
 
 #. type: Plain text
 #: dpkg-statoverride.man
-#, fuzzy
 #| msgid ""
 #| "Force or refuse (B<no-force> and B<refuse> mean the same thing)  to do "
 #| "some things. I<things> is a comma separated list of things specified "
@@ -24161,14 +24188,13 @@ msgid ""
 "Things marked with (*) are forced by default."
 msgstr ""
 "Het uitvoeren van sommige dingen opleggen of weigeren (B<no-force> en "
-"B<refuse> betekenen hetzelfde). I<dingen> is een door komma's gescheiden "
-"lijst van hierna gespecificeerde zaken. B<--force-help> geeft er een "
-"beschrijving van weer. Zaken die met een (*) gemarkeerd zijn, worden "
-"standaard opgelegd."
+"B<refuse> betekenen hetzelfde) (sinds dpkg 1.19.5). I<dingen> is een door "
+"komma's gescheiden lijst van hierna gespecificeerde zaken. B<--force-help> "
+"geeft er een beschrijving van weer. Zaken die met een (*) gemarkeerd zijn, "
+"worden standaard opgelegd."
 
 #. type: Plain text
 #: dpkg-statoverride.man
-#, fuzzy
 #| msgid ""
 #| "I<Warning: These options are mostly intended to be used by experts only. "
 #| "Using them without fully understanding their effects may break your whole "
@@ -24190,7 +24216,6 @@ msgstr "B<--force>"
 
 #. type: Plain text
 #: dpkg-statoverride.man
-#, fuzzy
 #| msgid ""
 #| "Force an action, even if a sanity check would otherwise prohibit it.  "
 #| "This is necessary to override an existing override."
@@ -24199,7 +24224,7 @@ msgid ""
 "is necessary to override an existing override.  This option is deprecated "
 "(since dpkg 1.19.5), it is replaced by B<--force-all>."
 msgstr ""
-"Verplicht een actie, zelfs als een redelijkheidstoets die anders zou "
+"Een actie verplicht maken, zelfs als een redelijkheidstoets deze anders zou "
 "verbieden. Dit is noodzakelijk om een bestaande modificatie (override) te "
 "wijzigen."
 
@@ -24214,13 +24239,13 @@ msgstr "B<--update>"
 msgid ""
 "Immediately try to change the I<path> to the new owner and mode if it exists."
 msgstr ""
-"Tracht onmiddellijk het I<pad>, als dat bestaat, in te stellen op de nieuwe "
-"eigenaar en modus."
+"Proberen om onmiddellijk het I<pad>, als dat bestaat, in te stellen op de "
+"nieuwe eigenaar en modus."
 
 #. type: Plain text
 #: dpkg-statoverride.man
 msgid "Be less verbose about what we do."
-msgstr "Wees minder breedsprakig over wat er gedaan wordt."
+msgstr "Minder breedsprakig zijn over wat er gedaan wordt."
 
 #. type: Plain text
 #: dpkg-statoverride.man
@@ -24232,7 +24257,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-statoverride.man
-#, fuzzy
 #| msgid ""
 #| "If set and the B<--instdir> or B<--root> options have not been specified, "
 #| "it will be used as the filesystem root directory (since dpkg 1.19.2)."
@@ -24240,9 +24264,9 @@ msgid ""
 "If set and none of the B<--force->I<...> options have been specified, it "
 "will be used as the force options to use (since dpkg 1.19.5)."
 msgstr ""
-"Indien dit ingesteld is en de opties B<--instdir> of B<--root> niet "
-"opgegeven werden, zal dit gebruikt worden als de hoofdmap voor het "
-"bestandssysteem (sinds dpkg 1.19.2)."
+"Indien dit ingesteld is en geen enkele van de opties B<--force->I<...> "
+"opgegeven werd, zal dit gebruikt worden als de te gebruiken forceer-opties "
+"(sinds dpkg 1.19.5)."
 
 #. type: TP
 #: dpkg-statoverride.man
@@ -25935,7 +25959,6 @@ msgstr ""
 
 #. type: Plain text
 #: start-stop-daemon.man
-#, fuzzy
 #| msgid ""
 #| "B<Warning:> Using this match option alone with a daemon that writes the "
 #| "pidfile as an unprivileged user is a security risk, because if the daemon "
@@ -25949,16 +25972,20 @@ msgid ""
 "a security risk, because either any user can write to it, or if the daemon "
 "gets compromised, the contents of the pidfile cannot be trusted, and then a "
 "privileged runner (such as an init script executed as root) would end up "
-"acting on any system process.  Using I</dev/null> is exempt from these "
+"acting on any system process.  Using I</dev/null> is excempt from these "
 "checks."
 msgstr ""
-"B<Waarschuwing:> Deze vergelijkingsoptie alleen gebruiken met een "
+"B<Waarschuwing:> deze vergelijkingsoptie gebruiken met een pid-bestand dat "
+"door iedereen beschreven kan worden, of deze enkel gebruiken met een "
 "achtergronddienst die het pid-bestand wegschrijft als gebruiker zonder "
-"bijzondere rechten, houdt een veiligheidsrisico in. Namelijk, als de "
-"achtergronddienst aangetast raakt, kan de inhoud van het pid-bestand niet "
-"vertrouwd worden met als resultaat dat een programmauitvoerder met "
-"bijzondere rechten (zoals een init-script dat als systeembeheerder "
-"uitgevoerd wordt) op gelijk welk systeemproces kan inwerken."
+"bijzondere rechten, zal met een foutmelding geweigerd worden (sinds versie "
+"1.19.3) omdat het een veiligheidsrisico inhoudt. Dit is omdat elke gebruiker "
+"er naartoe kan schrijven, of omdat de inhoud van het pid-bestand niet "
+"vertrouwd kan worden als de achtergronddienst aangetast raakt, met als "
+"resultaat dat een programmauitvoerder met bijzondere rechten (zoals een init-"
+"script dat als systeembeheerder uitgevoerd wordt) op gelijk welk "
+"systeemproces kan inwerken. Het gebruik van I</dev/null> is vrijgesteld van "
+"deze controles."
 
 #. type: TP
 #: start-stop-daemon.man
