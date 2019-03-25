@@ -71,7 +71,8 @@ enqueue_error_report(const char *arg)
   *lastreport= nr;
   lastreport= &nr->next;
 
-  if (nerrs++ < errabort) return;
+  if (++nerrs < errabort)
+    return;
   notice(_("too many errors, stopping"));
   abort_processing = true;
 }
