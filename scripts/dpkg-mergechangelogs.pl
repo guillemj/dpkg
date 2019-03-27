@@ -20,7 +20,7 @@ use warnings;
 use strict;
 
 use Scalar::Util qw(blessed);
-use Getopt::Long qw(:config posix_default bundling no_ignorecase);
+use Getopt::Long qw(:config posix_default bundling_values no_ignorecase);
 
 use Dpkg ();
 use Dpkg::Changelog::Debian;
