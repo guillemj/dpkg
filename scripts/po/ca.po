@@ -2,14 +2,14 @@
 # Copyright © 2006, 2010 Software in the Public Interest, Inc.
 # This file is distributed under the same license as the dpkg package.
 # Jordi Mallach <jordi@debian.org>, 2006, 2010.
-# Guillem Jover <guillem@debian.org>, 2010, 2014-2015, 2017
+# Guillem Jover <guillem@debian.org>, 2010-2011, 2014-2015, 2017, 2019.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-dev 1.17.23\n"
+"Project-Id-Version: dpkg-dev 1.19.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2019-03-25 15:07+0100\n"
-"PO-Revision-Date: 2017-05-07 16:26+0200\n"
+"PO-Revision-Date: 2019-05-09 05:38+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
 "Language: ca\n"
@@ -179,28 +179,6 @@ msgid "Usage: %s [<command>]"
 msgstr "Format d'ús: %s [<ordre>]"
 
 #: scripts/dpkg-buildflags.pl
-#, fuzzy
-#| msgid ""
-#| "Commands:\n"
-#| "  --get <flag>       output the requested flag to stdout.\n"
-#| "  --origin <flag>    output the origin of the flag to stdout:\n"
-#| "                     value is one of vendor, system, user, env.\n"
-#| "  --query-features <area>\n"
-#| "                     output the status of features for the given area.\n"
-#| "  --list             output a list of the flags supported by the current "
-#| "vendor.\n"
-#| "  --export=(sh|make|cmdline|configure)\n"
-#| "                     output something convenient to import the "
-#| "compilation\n"
-#| "                     flags in a shell script, in make, or in a command "
-#| "line.\n"
-#| "  --dump             output all compilation flags with their values\n"
-#| "  --status           print a synopsis with all parameters affecting the\n"
-#| "                     behaviour of dpkg-buildflags and the resulting "
-#| "flags\n"
-#| "                     and their origin.\n"
-#| "  --help             show this help message.\n"
-#| "  --version          show the version.\n"
 msgid ""
 "Commands:\n"
 "  --get <flag>       output the requested flag to stdout.\n"
@@ -227,6 +205,11 @@ msgstr ""
 "  --origin <senyalador>\n"
 "                     mostra l'origen del senyalador a stdout, el valor és:\n"
 "                       vendor, system, user, env.\n"
+"  --status           mostra una sinopsis amb tots els paràmetres que "
+"afecten\n"
+"                       el comportament de dpkg-buildflags, els senyaladors\n"
+"                       resultants i els seus orígens.\n"
+"  --query            com --status, però en format deb822.\n"
 "  --query-features <àrea>\n"
 "                     mostra l'estat de les característiques de l'àrea "
 "donada.\n"
@@ -238,10 +221,6 @@ msgstr ""
 "                       a un guió d'ordres, a make o a la línia d'ordres.\n"
 "  --dump             mostra tots els senyaladors de compilació amb els seus\n"
 "                       valors.\n"
-"  --status           mostra una sinopsis amb tots els paràmetres que "
-"afecten\n"
-"                       el comportament de dpkg-buildflags, els senyaladors\n"
-"                       resultants i els seus orígens.\n"
 "  --help             mostra aquest missatge d'ajuda.\n"
 "  --version          mostra la versió.\n"
 
@@ -263,73 +242,6 @@ msgid "Usage: %s [<option>...]"
 msgstr "Forma d'ús: %s [<opció>…]"
 
 #: scripts/dpkg-buildpackage.pl
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "      --build=<type>[,...]    specify the build <type>: full, source, "
-#| "binary,\n"
-#| "                                any, all (default is 'full').\n"
-#| "  -F                          normal full build (source and binary; "
-#| "default).\n"
-#| "  -g                          source and arch-indep build.\n"
-#| "  -G                          source and arch-specific build.\n"
-#| "  -b                          binary-only, no source files.\n"
-#| "  -B                          binary-only, only arch-specific files.\n"
-#| "  -A                          binary-only, only arch-indep files.\n"
-#| "  -S                          source-only, no binary files.\n"
-#| "  -nc, --no-pre-clean         do not pre clean source tree (implies -b).\n"
-#| "       --pre-clean            pre clean source tree (default).\n"
-#| "  -tc, --post-clean           clean source tree when finished.\n"
-#| "  -D                          check build dependencies and conflicts "
-#| "(default).\n"
-#| "  -d                          do not check build dependencies and "
-#| "conflicts.\n"
-#| "      --[no-]check-builddeps  ditto.\n"
-#| "      --ignore-builtin-builddeps\n"
-#| "                              do not check builtin build dependencies.\n"
-#| "  -P, --build-profiles=<profiles>\n"
-#| "                              assume comma-separated build profiles as "
-#| "active.\n"
-#| "  -R, --rules-file=<rules>    rules file to execute (default is debian/"
-#| "rules).\n"
-#| "  -T, --rules-target=<target> call debian/rules <target>.\n"
-#| "      --as-root               ensure -T calls the target with root "
-#| "rights.\n"
-#| "  -j, --jobs[=<number>|auto]  jobs to run simultaneously (passed to "
-#| "<rules>),\n"
-#| "                                forced mode.\n"
-#| "  -J, --jobs-try[=<number>|auto]\n"
-#| "                              jobs to run simultaneously (passed to "
-#| "<rules>),\n"
-#| "                                opt-in mode (default is auto).\n"
-#| "  -r, --root-command=<command>\n"
-#| "                              command to gain root rights (default is "
-#| "fakeroot).\n"
-#| "      --check-command=<command>\n"
-#| "                              command to check the .changes file (no "
-#| "default).\n"
-#| "      --check-option=<opt>    pass <opt> to check <command>.\n"
-#| "      --hook-<name>=<command> set <command> as the hook <name>, known "
-#| "hooks:\n"
-#| "                                init preclean source build binary "
-#| "buildinfo\n"
-#| "                                changes postclean check sign done\n"
-#| "      --buildinfo-option=<opt>\n"
-#| "                              pass option <opt> to dpkg-genbuildinfo.\n"
-#| "  -p, --sign-command=<command>\n"
-#| "                              command to sign .dsc and/or .changes files\n"
-#| "                                (default is gpg2 or gpg).\n"
-#| "  -k, --sign-key=<keyid>      the key to use for signing.\n"
-#| "  -ap, --sign-pause           add pause before starting signature "
-#| "process.\n"
-#| "  -us, --unsigned-source      unsigned source package.\n"
-#| "  -ui, --unsigned-buildinfo   unsigned .buildinfo file.\n"
-#| "  -uc, --unsigned-changes     unsigned .buildinfo and .changes file.\n"
-#| "      --no-sign               do not sign any file.\n"
-#| "      --force-sign            force signing the resulting files.\n"
-#| "      --admindir=<directory>  change the administrative directory.\n"
-#| "  -?, --help                  show this help message.\n"
-#| "      --version               show the version."
 msgid ""
 "Options:\n"
 "      --build=<type>[,...]    specify the build <type>: full, source, "
@@ -415,16 +327,15 @@ msgstr ""
 "  -nc, --no-pre-clean         no preneteja l'arbre font (implica -b).\n"
 "       --pre-clean            preneteja l'arbre font (predeterminat)\n"
 "  -tc, --post-clean           neteja l'arbre font al finalitzar.\n"
-"  -D                          verifica dependències i conflictes de\n"
+"  -D, --check-builddeps       verifica dependències i conflictes de\n"
 "                                construcció (predeterminat).\n"
-"  -d                          no verifica dependències ni conflictes de\n"
+"  -d, --no-check-builddeps    no verifica dependències ni conflictes de\n"
 "                                construcció.\n"
-"      --[no-]check-builddeps  ídem.\n"
 "      --ignore-builtin-builddeps\n"
 "                              no verifica dependències de construcció\n"
 "                                incorporades.\n"
 "  -P, --build-profiles=<perfils>\n"
-"                              assumeix els perfils de construcció com "
+"                              assumeix els <perfils> de construcció com "
 "actius\n"
 "                                (llista de valors separats per comes).\n"
 "  -R, --rules-file=<regles>   regles a executar (predeterminat a debian/"
@@ -564,7 +475,7 @@ msgstr "l'opció o argument %s és desconeguda"
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "option %s is only meaningful with option %s"
-msgstr ""
+msgstr "l'opció %s només te sentit juntament amb l'opció %s"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -663,28 +574,28 @@ msgstr "no s'ha trobat l'ordre-assolir-superusuari «%s»"
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "disallowed target in %s field keyword %s"
-msgstr ""
+msgstr "no s'accepta l'objectiu en el camp %s amb la paraula clau %s"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "unknown %s field keyword %s in dpkg namespace"
-msgstr ""
+msgstr "paraula clau %s desconeguda en el camp %s a l'espai de noms de dpkg"
 
 #: scripts/dpkg-buildpackage.pl
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "unknown build type %s"
 msgid "unknown %s field keyword %s"
-msgstr "tipus de construcció «%s» desconegut"
+msgstr "paraula clau %s desconeguda en el camp %s"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "field %s contains duplicate keyword %s"
-msgstr ""
+msgstr "el camp %s conté la paraula clau duplicada «%s»"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "%s field contains both global and implementation specific keywords"
-msgstr ""
+msgstr "el camp %s conté paraules clau globals i especifiques d'implementació"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -697,6 +608,8 @@ msgid ""
 "short OpenPGP key IDs are broken; please use key fingerprints in %s or %s "
 "instead"
 msgstr ""
+"els identificador de clau OpenPGP curts estan trencats; empreu empremtes de "
+"clau a %s o %s"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -704,6 +617,8 @@ msgid ""
 "long OpenPGP key IDs are strongly discouraged; please use key fingerprints "
 "in %s or %s instead"
 msgstr ""
+"els identificadors de clau OpenPGP llargs estan descoratjats; empreu "
+"empremtes de clau a %s o %s"
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
 #: scripts/dpkg-genbuildinfo.pl scripts/dpkg-name.pl scripts/Dpkg/Arch.pm
@@ -862,22 +777,6 @@ msgid "install new files list file"
 msgstr "no es pot instal·lar la nova llista de fitxers"
 
 #: scripts/dpkg-genbuildinfo.pl
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  --build=<type>[,...]     specify the build <type>: full, source, "
-#| "binary,\n"
-#| "                             any, all (default is 'full').\n"
-#| "  -c<control-file>         get control info from this file.\n"
-#| "  -l<changelog-file>       get per-version info from this file.\n"
-#| "  -f<files-list-file>      get .deb files list from this file.\n"
-#| "  -F<changelog-format>     force changelog format.\n"
-#| "  -O[<buildinfo-file>]     write to stdout (or <buildinfo-file>).\n"
-#| "  -u<upload-files-dir>     directory with files (default is '..').\n"
-#| "  --always-include-path    always include Build-Path.\n"
-#| "  --admindir=<directory>   change the administrative directory.\n"
-#| "  -?, --help               show this help message.\n"
-#| "      --version            show the version.\n"
 msgid ""
 "Options:\n"
 "  --build=<type>[,...]     specify the build <type>: full, source, binary,\n"
@@ -904,6 +803,7 @@ msgstr ""
 "  -O[<fitxer-buildinfo>]   escriu a stdout (o <fitxer-buildinfo>).\n"
 "  -u<dir-publicació>       directori amb fitxers a publicar (predeterminat a "
 "«..»).\n"
+"  --always-include-kernel  inclou sempre el camp Build-Kernel-Version.\n"
 "  --always-include-path    inclou sempre el camp Build-Path.\n"
 "  --admindir=<directori>   canvia el directori administratiu.\n"
 "  -?, --help               mostra aquest missatge d'ajuda.\n"
@@ -986,7 +886,7 @@ msgstr ""
 "                             debian/substvars.\n"
 "  -D<camp>=<valor>         afegeix o sobreescriu un camp i valor.\n"
 "  -U<camp>                 suprimeix un camp.\n"
-"  -O[<ftxer>]              escriu les variables a stdout (predeterminat)\n"
+"  -O[<fitxer>]             escriu les variables a stdout (predeterminat)\n"
 "                             o al <fitxer>.\n"
 "  -?, --help               mostra aquest missatge d'ajuda.\n"
 "      --version            mostra la versió.\n"
@@ -1214,41 +1114,6 @@ msgid "cannot install output control file '%s'"
 msgstr "no s'ha pogut instal·lar el fitxer de control de sortida «%s»"
 
 #: scripts/dpkg-gensymbols.pl
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -p<package>              generate symbols file for package.\n"
-#| "  -P<package-build-dir>    temporary build directory instead of debian/"
-#| "tmp.\n"
-#| "  -e<library>              explicitly list libraries to scan.\n"
-#| "  -v<version>              version of the packages (defaults to\n"
-#| "                           version extracted from debian/changelog).\n"
-#| "  -c<level>                compare generated symbols file with the "
-#| "reference\n"
-#| "                           template in the debian directory and fail if\n"
-#| "                           difference is too important; level goes from 0 "
-#| "for\n"
-#| "                           no check, to 4 for all checks (default level "
-#| "is 1).\n"
-#| "  -q                       keep quiet and never emit any warnings or\n"
-#| "                           generate a diff between generated symbols\n"
-#| "                           file and the reference template.\n"
-#| "  -I<file>                 force usage of <file> as reference symbols\n"
-#| "                           file instead of the default file.\n"
-#| "  -O[<file>]               write to stdout (or <file>), not .../DEBIAN/"
-#| "symbols.\n"
-#| "  -t                       write in template mode (tags are not\n"
-#| "                           processed and included in output).\n"
-#| "  -V                       verbose output; write deprecated symbols and "
-#| "pattern\n"
-#| "                           matching symbols as comments (in template mode "
-#| "only).\n"
-#| "  -a<arch>                 assume <arch> as host architecture when "
-#| "processing\n"
-#| "                           symbol files.\n"
-#| "  -d                       display debug information during work.\n"
-#| "  -?, --help               show this help message.\n"
-#| "      --version            show the version.\n"
 msgid ""
 "Options:\n"
 "  -l<library-path>         add directory to private shared library search "
@@ -1286,6 +1151,8 @@ msgid ""
 "      --version            show the version.\n"
 msgstr ""
 "Opcions:\n"
+"  -l<directori>            afegeix el directori a la llista de cerca de\n"
+"                             biblioteques compartides privades.\n"
 "  -p<paquet>               genera el fitxer de símbols per a <paquet>.\n"
 "  -P<dir-construcció>      directori temporal de construcció, i no debian/"
 "tmp.\n"
@@ -1536,27 +1403,6 @@ msgstr ""
 "      --version            mostra la versió."
 
 #: scripts/dpkg-parsechangelog.pl
-#, fuzzy
-#| msgid ""
-#| "Parser options:\n"
-#| "      --format <output-format>\n"
-#| "                           set output format (defaults to 'dpkg').\n"
-#| "      --all                include all changes.\n"
-#| "  -s, --since <version>    include all changes later than <version>.\n"
-#| "  -v <version>             ditto.\n"
-#| "  -u, --until <version>    include all changes earlier than <version>.\n"
-#| "  -f, --from <version>     include all changes equal or later than "
-#| "<version>.\n"
-#| "  -t, --to <version>       include all changes up to or equal than "
-#| "<version>.\n"
-#| "  -c, --count <number>     include <number> entries from the top (or "
-#| "tail\n"
-#| "                             if <number> is lower than 0).\n"
-#| "  -n <number>              ditto.\n"
-#| "  -o, --offset <number>    change starting point for --count, counted "
-#| "from\n"
-#| "                             the top (or tail if <number> is lower than "
-#| "0).\n"
 msgid ""
 "Parser options:\n"
 "      --format <output-format>\n"
@@ -1577,22 +1423,23 @@ msgid ""
 "                             the top (or tail if <number> is lower than 0).\n"
 msgstr ""
 "Opcions de l'analitzador:\n"
-"     --format <format-sortida>\n"
+"      --format <format-sortida>\n"
 "                           vegeu la pàgina de manual per la llista de "
 "formats\n"
 "                             de sortida disponibles, el valor predeterminat\n"
 "                             és «dpkg».\n"
-"     --all                 inclou tots els canvis.\n"
-" -s, --since <versió>      inclou tots els canvis posteriors a <versió>.\n"
-" -v <versió>               ídem.\n"
-" -u, --until <versió>      inclou tots els canvis anteriors a <versió>.\n"
-" -f, --from <versió>       inclou tots els canvis iguals o posteriors a\n"
+"      --reverse            inclou tots els canvis en ordre invertit.\n"
+"      --all                inclou tots els canvis.\n"
+"  -s, --since <versió>     inclou tots els canvis posteriors a <versió>.\n"
+"  -v <versió>              ídem.\n"
+"  -u, --until <versió>     inclou tots els canvis anteriors a <versió>.\n"
+"  -f, --from <versió>      inclou tots els canvis iguals o posteriors a\n"
 "                             <versió>.\n"
-" -t, --to <versió>         inclou tots els canvis fins o iguals a <versió>.\n"
-" -c, --count <número>      inclou el <número> d'entrades des del principi,\n"
+"  -t, --to <versió>        inclou tots els canvis fins o iguals a <versió>.\n"
+"  -c, --count <número>     inclou el <número> d'entrades des del principi,\n"
 "                             o des del final si <número> és inferior a 0.\n"
-" -n <número>               ídem.\n"
-" -o, --offset <número>     canvia el punt d'inici per a --count, contant\n"
+"  -n <número>              ídem.\n"
+"  -o, --offset <número>    canvia el punt d'inici per a --count, contant\n"
 "                             des del principi, o des del final si <número>\n"
 "                             és inferior a 0.\n"
 
@@ -1729,6 +1576,7 @@ msgstr "no s'ha pogut tancar la sortida estàndard"
 #: scripts/dpkg-scanpackages.pl
 msgid "Packages with multiple instances but no --multiversion specified:"
 msgstr ""
+"Paquets amb múltiples instancies però no s'ha especificat --multiversion:"
 
 #: scripts/dpkg-scanpackages.pl
 msgid "Packages in override file with incorrect old maintainer value:"
@@ -2325,7 +2173,7 @@ msgstr ""
 "vàlida.\n"
 "  --require-strong-checksums\n"
 "                           interromp si el paquet no té sumes de "
-"comprovació\n"
+"verificació\n"
 "                             fortes.\n"
 "  --ignore-bad-version     permet versions de font no vàlides."
 
@@ -2476,10 +2324,10 @@ msgid "you can only specify one of 'to' and 'until', using 'until'"
 msgstr "només es pot especificar «to» o «until», s'emprarà «until»"
 
 #: scripts/Dpkg/Changelog.pm
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "'%s' option specifies non-existing version"
 msgid "'%s' option specifies non-existing version '%s'"
-msgstr "l'opció «%s» especifica una versió inexistent"
+msgstr "l'opció «%s» especifica una versió «%s» inexistent"
 
 #: scripts/Dpkg/Changelog.pm
 msgid "use newest entry that is earlier than the one specified"
@@ -2494,22 +2342,21 @@ msgid "use oldest entry that is later than the one specified"
 msgstr "empra l'entrada més antiga que és posterior a l'especificada"
 
 #: scripts/Dpkg/Changelog.pm
-#, fuzzy, perl-format
-#| msgid "no such entry found, ignoring '%s' parameter"
+#, perl-format
 msgid "no such entry found, ignoring '%s' parameter '%s'"
-msgstr "no s'ha trobat l'entrada, s'ignorarà el paràmetre «%s»"
+msgstr "no s'ha trobat l'entrada, s'ignorarà el paràmetre «%s» = «%s»"
 
 #: scripts/Dpkg/Changelog.pm
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "'since' option specifies most recent version, ignoring"
 msgid "'since' option specifies most recent version '%s', ignoring"
-msgstr "l'opció «since» especifica la versió més recent, s'ignorarà"
+msgstr "l'opció «since» especifica la versió «%s» més recent, s'ignorarà"
 
 #: scripts/Dpkg/Changelog.pm
-#, fuzzy, perl-format
+#, perl-format
 #| msgid "'until' option specifies oldest version, ignoring"
 msgid "'until' option specifies oldest version '%s', ignoring"
-msgstr "l'opció «until» especifica la versió més antiga, s'ignorarà"
+msgstr "l'opció «until» especifica la versió «%s» més antiga, s'ignorarà"
 
 #: scripts/Dpkg/Changelog/Debian.pm
 msgid "first heading"
@@ -2623,10 +2470,9 @@ msgid "the trailer doesn't match the expected regex"
 msgstr "el final no coincideix amb la regex esperada"
 
 #: scripts/Dpkg/Changelog/Parse.pm
-#, fuzzy, perl-format
-#| msgid "cannot stat file %s"
+#, perl-format
 msgid "cannot seek into file %s"
-msgstr "no es pot fer «stat» al fitxer «%s»"
+msgstr "no es pot reposicionar al fitxer «%s»"
 
 #: scripts/Dpkg/Changelog/Parse.pm
 #, perl-format
@@ -2817,10 +2663,9 @@ msgid "block lacks the '%s' field"
 msgstr "el bloc no conté el camp «%s»"
 
 #: scripts/Dpkg/Control/Tests/Entry.pm
-#, fuzzy, perl-format
-#| msgid "block lacks the '%s' field"
+#, perl-format
 msgid "block lacks either %s or %s fields"
-msgstr "el bloc no conté el camp «%s»"
+msgstr "el bloc no conté els camps «%s» o «%s»"
 
 #: scripts/Dpkg/Deps.pm
 #, perl-format
@@ -2873,21 +2718,19 @@ msgid "error"
 msgstr "error"
 
 #: scripts/Dpkg/ErrorHandling.pm
-#, fuzzy, perl-format
-#| msgid "%s gave error exit status %s"
+#, perl-format
 msgid "%s subprocess returned exit status %d"
-msgstr "%s ha fallat amb el codi d'eixida d'error %s"
+msgstr "el subprocés «%s» ha retornat codi d'eixida %d"
 
 #: scripts/Dpkg/ErrorHandling.pm
 #, perl-format
 msgid "%s subprocess was killed by signal %d"
-msgstr ""
+msgstr "el subprocés «%s» ha estat finalitzat pel senyal %d"
 
 #: scripts/Dpkg/ErrorHandling.pm
-#, fuzzy, perl-format
-#| msgid "%s failed with unknown exit code %d"
+#, perl-format
 msgid "%s subprocess failed with unknown status code %d"
-msgstr "%s ha fallat amb el codi d'eixida d'error desconegut %d"
+msgstr "el subprocés «%s» ha fallat amb el codi d'estat desconegut %d"
 
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "Use --help for program usage information."
@@ -2943,29 +2786,26 @@ msgstr "no s'ha pogut obtenir el blocatge d'escriptura per a %s"
 
 #: scripts/Dpkg/OpenPGP.pm
 msgid "signature file is already OpenPGP ASCII armor, copying"
-msgstr ""
+msgstr "el fitxer de signatura ja és armat en OpenPGP ASCII, s'esta copiant"
 
 #: scripts/Dpkg/OpenPGP.pm
 msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
-msgstr ""
+msgstr "no es pot armar el fitxer de signatura en OpenPGP ASCII ja que manca gpg"
 
 #: scripts/Dpkg/OpenPGP.pm
-#, fuzzy, perl-format
-#| msgid "cannot create pipe for %s"
+#, perl-format
 msgid "cannot create signature file %s"
-msgstr "no es pot crear el conducte per a %s"
+msgstr "no es pot crear el fitxer de signatura %s"
 
 #: scripts/Dpkg/OpenPGP.pm
-#, fuzzy, perl-format
-#| msgid "cannot write %s"
+#, perl-format
 msgid "cannot execute %s program"
-msgstr "no es pot escriure %s"
+msgstr "no es pot executar el programa %s"
 
 #: scripts/Dpkg/OpenPGP.pm
-#, fuzzy, perl-format
-#| msgid "cannot stat file %s"
+#, perl-format
 msgid "cannot write signature file %s"
-msgstr "no es pot fer «stat» al fitxer «%s»"
+msgstr "no es pot escriure el fitxer de signatura «%s»"
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -2985,6 +2825,8 @@ msgid ""
 "deprecated use of LD_LIBRARY_PATH with private library directory which "
 "interferes with cross-building, please use -l option instead"
 msgstr ""
+"ús obsolet de LD_LIBRARY_PATH amb directori de biblioteques privades que "
+"interfereix amb la compilació creuada, empreu l'opció -l en el seu lloc"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
@@ -3089,10 +2931,9 @@ msgid "cannot read timestamp from %s"
 msgstr "no es pot llegir la marca horària de %s"
 
 #: scripts/Dpkg/Source/Functions.pm
-#, fuzzy, perl-format
-#| msgid "cannot open file %s"
+#, perl-format
 msgid "cannot open file %s for binary detection"
-msgstr "no es pot obrir el fitxer %s"
+msgstr "no es pot obrir el fitxer %s per a detecció binaria"
 
 #: scripts/Dpkg/Source/BinaryFiles.pm
 #, perl-format
@@ -3668,10 +3509,8 @@ msgid "uncommitted, not-ignored changes in working directory: %s"
 msgstr "hi ha canvis sense publicar no ignorats en el directori de treball: %s"
 
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
-#, fuzzy
-#| msgid "format v3.0 uses only one source file"
 msgid "format v3.0 (bzr) uses only one source file"
-msgstr "el format v3.0 només empra un sol fitxer font"
+msgstr "el format v3.0 (bzr) només empra un sol fitxer font"
 
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
 #, perl-format
@@ -3794,10 +3633,9 @@ msgid "can't create symlink %s"
 msgstr "no es pot crear l'enllaç simbòlic %s"
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
-#, fuzzy, perl-format
-#| msgid "using options from %s: %s"
+#, perl-format
 msgid "using patch list from %s"
-msgstr "s'estan emprant opcions de %s: %s"
+msgstr "s'esta emprant la llista de pedaços de %s"
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 #, perl-format
@@ -3843,10 +3681,9 @@ msgid "unknown file type"
 msgstr "tipus de fitxer desconegut"
 
 #: scripts/Dpkg/Source/Patch.pm
-#, fuzzy, perl-format
-#| msgid "ignoring deletion of directory %s"
+#, perl-format
 msgid "ignoring deletion of file %s"
-msgstr "s'omet la supressió del directori %s"
+msgstr "s'omet la supressió del fitxer %s"
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
@@ -4089,16 +3926,14 @@ msgid "obsolete substitution variable ${%s}"
 msgstr "la variable de substitució ${%s} és obsoleta"
 
 #: scripts/Dpkg/Substvars.pm
-#, fuzzy, perl-format
-#| msgid "unused substitution variable ${%s}"
+#, perl-format
 msgid "substitution variable ${%s} used, but is not defined"
-msgstr "la variable de substitució ${%s} no s'utilitza"
+msgstr "la variable de substitució ${%s} s'utilitza, però no s'ha definit"
 
 #: scripts/Dpkg/Substvars.pm
-#, fuzzy, perl-format
-#| msgid "unused substitution variable ${%s}"
+#, perl-format
 msgid "substitution variable ${%s} unused, but is defined"
-msgstr "la variable de substitució ${%s} no s'utilitza"
+msgstr "la variable de substitució ${%s} no s'utilitza, però s'ha definit"
 
 #: scripts/Dpkg/Vars.pm
 #, perl-format
