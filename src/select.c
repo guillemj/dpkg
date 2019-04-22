@@ -228,7 +228,7 @@ clearselections(const char *const *argv)
 
   iter = pkg_hash_iter_new();
   while ((pkg = pkg_hash_iter_next_pkg(iter))) {
-    if (!pkg->installed.essential)
+    if (!pkg->installed.essential && pkg->want != PKG_WANT_UNKNOWN)
       pkg_set_want(pkg, PKG_WANT_DEINSTALL);
   }
   pkg_hash_iter_free(iter);
