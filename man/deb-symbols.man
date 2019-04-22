@@ -67,6 +67,13 @@ and is used by \fBdpkg\-shlibdeps\fP to make sure that the dependency
 generated is at least as strict as the corresponding build dependency
 (since dpkg 1.14.13).
 .TP
+.B Build\-Depends\-Packages
+The same as \fBBuild\-Depends\-Package\fP but accepts a comma-separated
+list of package names (since dpkg 1.20.0).
+This field will override any \fBBuild\-Depends\-Package\fP field present,
+and is mostly useful with a “\-dev” packages and metapackages depending
+on these, say for a transition period.
+.TP
 .B Ignore\-Blacklist\-Groups
 It indicates what blacklist groups should be ignored, as a whitespace
 separated list, so that the symbols contained in those groups get

@@ -435,8 +435,9 @@ foreach my $file (keys %exec) {
     foreach my $soname (@sonames) {
 	# Adjust minimal version of dependencies with information
 	# extracted from build-dependencies
-	my $dev_pkg = $symfile->get_field($soname, 'Build-Depends-Package');
-	if (defined $dev_pkg) {
+        my $dev_pkgs = $symfile->get_field($soname, 'Build-Depends-Packages') //
+                       $symfile->get_field($soname, 'Build-Depends-Package');
+        foreach my $dev_pkg (split /[,\s]+/, $dev_pkgs // '') {
             debug(1, "Updating dependencies of $soname with build-dependencies");
 	    my $minver = get_min_version_from_deps($build_deps, $dev_pkg);
 	    if (defined $minver) {
