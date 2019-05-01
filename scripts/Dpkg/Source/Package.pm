@@ -44,6 +44,7 @@ our @EXPORT_OK = qw(
 use Exporter qw(import);
 use POSIX qw(:errno_h :sys_wait_h);
 use Carp;
+use File::Copy qw(cp);
 use File::Basename;
 
 use Dpkg::Gettext;
@@ -519,8 +520,8 @@ sub extract {
             my $src = File::Spec->catfile($self->{basedir}, $orig);
             my $dst = File::Spec->catfile($destdir, $orig);
             if (not check_files_are_the_same($src, $dst, 1)) {
-                system('cp', '--', $src, $dst);
-                subprocerr("cp $src to $dst") if $?;
+                cp($src, $dst)
+                    or syserror(g_('cannot copy %s to %s'), $src, $dst);
             }
         }
     }

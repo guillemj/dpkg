@@ -851,8 +851,8 @@ sub signfile {
            '--output', "$signfile.asc", $signfile);
     my $status = $?;
     if ($status == 0) {
-	system('mv', '--', "$signfile.asc", "../$file")
-	    and subprocerr('mv');
+        move("$signfile.asc", "../$file")
+            or syserror(g_('cannot move %s to %s'), "$signfile.asc", "../$file");
     }
 
     print "\n";
