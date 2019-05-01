@@ -81,6 +81,42 @@ sub openpgp_sig_to_asc
     return;
 }
 
+sub import_key {
+    my ($asc, %opts) = @_;
+
+    $opts{require_valid_signature} //= 1;
+
+    my @exec;
+    if (find_command('gpg')) {
+        push @exec, 'gpg';
+    } elsif ($opts{require_valid_signature}) {
+        error(g_('cannot import key in %s since GnuPG is not installed'),
+              $asc);
+    } else {
+        warning(g_('cannot import key in %s since GnuPG is not installed'),
+                $asc);
+        return;
+    }
+    push @exec, '--no-options', '--no-default-keyring', '-q', '--import';
+    push @exec, '--keyring', $opts{keyring};
+    push @exec, $asc;
+
+    my ($stdout, $stderr);
+    spawn(exec => \@exec, wait_child => 1, nocheck => 1, timeout => 10,
+          to_string => \$stdout, error_to_string => \$stderr);
+    if (WIFEXITED($?)) {
+        my $status = WEXITSTATUS($?);
+        print { *STDERR } "$stdout$stderr" if $status;
+        if ($status == 1 or ($status && $opts{require_valid_signature})) {
+            error(g_('failed to import key in %s'), $asc);
+        } elsif ($status) {
+            warning(g_('failed to import key in %s'), $asc);
+        }
+    } else {
+        subprocerr("@exec");
+    }
+}
+
 sub verify_signature {
     my ($sig, %opts) = @_;
 
