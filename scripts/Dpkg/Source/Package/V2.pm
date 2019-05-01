@@ -401,6 +401,7 @@ sub _generate_patch {
     my ($tarfile, %addonfile);
     my $comp_ext_regex = compression_get_file_extension_regex();
     my @origtarfiles;
+    my @origtarsigns;
     foreach my $file (sort $self->find_original_tarballs()) {
         if ($file =~ /\.orig\.tar\.$comp_ext_regex$/) {
             if (defined($tarfile)) {
@@ -423,6 +424,7 @@ sub _generate_patch {
         }
         if (-e "$file.asc") {
             push @origtarfiles, "$file.asc";
+            push @origtarsigns, "$file.asc";
             $self->add_file("$file.asc")
         }
     }
@@ -435,6 +437,8 @@ sub _generate_patch {
             info(g_('building %s using existing %s'),
                  $self->{fields}{'Source'}, $origtarfile);
         }
+
+        $self->check_original_tarball_signature(@origtarsigns);
     }
 
     # Unpack a second copy for comparison

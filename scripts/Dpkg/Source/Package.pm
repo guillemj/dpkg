@@ -1,5 +1,5 @@
 # Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
-# Copyright © 2008-2015 Guillem Jover <guillem@debian.org>
+# Copyright © 2008-2019 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ is the one that supports the extraction of the source package.
 use strict;
 use warnings;
 
-our $VERSION = '1.03';
+our $VERSION = '1.04';
 our @EXPORT_OK = qw(
     get_default_diff_ignore_regex
     set_default_diff_ignore_regex
@@ -44,6 +44,7 @@ our @EXPORT_OK = qw(
 use Exporter qw(import);
 use POSIX qw(:errno_h :sys_wait_h);
 use Carp;
+use File::Temp;
 use File::Copy qw(cp);
 use File::Basename;
 
@@ -403,6 +404,33 @@ sub find_original_tarballs {
     return @tar;
 }
 
+=item $p->check_original_tarball_signature($dir, @asc)
+
+Verify the original upstream tarball signatures @asc using the upstream
+public keys. It requires the origin upstream tarballs, their signatures
+and the upstream signing key, as found in an unpacked source tree $dir.
+If any inconsistency is discovered, it immediately errors out.
+
+=cut
+
+sub check_original_tarball_signature {
+    my ($self, $dir, @asc) = @_;
+
+    my $upstream_key = "$dir/debian/upstream/signing-key.asc";
+    if (not -e $upstream_key) {
+        warning(g_('upstream tarball signatures but no upstream signing key'));
+        return;
+    }
+
+    my $keyring = File::Temp->new(UNLINK => 1, SUFFIX => '.gpg');
+    Dpkg::OpenPGP::import_key($upstream_key, keyring => $keyring);
+    foreach my $asc (@asc) {
+        Dpkg::OpenPGP::verify_signature($asc,
+                                        datafile => $asc =~ s/\.asc$//r,
+                                        keyrings => [ $keyring ]);
+    }
+}
+
 =item $bool = $p->is_signed()
 
 Returns 1 if the DSC files contains an embedded OpenPGP signature.
@@ -631,6 +659,10 @@ sub write_dsc {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.04 (dpkg 1.20.0)
+
+New method: check_original_tarball_signature().
 
 =head2 Version 1.03 (dpkg 1.19.3)
 

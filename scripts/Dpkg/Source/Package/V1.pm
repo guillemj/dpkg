@@ -418,6 +418,8 @@ sub do_build {
     if ($tarsign and -e $tarsign) {
         info(g_('building %s using existing %s'), $sourcepackage, $tarsign);
         $self->add_file($tarsign);
+
+        $self->check_original_tarball_signature($tarsign);
     }
 
     if ($sourcestyle =~ m/[kpKP]/) {
