@@ -408,26 +408,22 @@ sub _generate_patch {
                          'one is allowed'), $tarfile, $file);
             }
             $tarfile = $file;
-            push @origtarfiles, $file;
-            $self->add_file($file);
-            if (-e "$file.sig" and not -e "$file.asc") {
-                openpgp_sig_to_asc("$file.sig", "$file.asc");
-            }
-            if (-e "$file.asc") {
-                push @origtarfiles, "$file.asc";
-                $self->add_file("$file.asc")
-            }
         } elsif ($file =~ /\.orig-([[:alnum:]-]+)\.tar\.$comp_ext_regex$/) {
             $addonfile{$1} = $file;
-            push @origtarfiles, $file;
-            $self->add_file($file);
-            if (-e "$file.sig" and not -e "$file.asc") {
-                openpgp_sig_to_asc("$file.sig", "$file.asc");
-            }
-            if (-e "$file.asc") {
-                push @origtarfiles, "$file.asc";
-                $self->add_file("$file.asc");
-            }
+        } else {
+            next;
+        }
+
+        push @origtarfiles, $file;
+        $self->add_file($file);
+
+        # Check for an upstream signature.
+        if (-e "$file.sig" and not -e "$file.asc") {
+            openpgp_sig_to_asc("$file.sig", "$file.asc");
+        }
+        if (-e "$file.asc") {
+            push @origtarfiles, "$file.asc";
+            $self->add_file("$file.asc")
         }
     }
 

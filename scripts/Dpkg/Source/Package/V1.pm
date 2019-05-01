@@ -409,9 +409,11 @@ sub do_build {
 	     $sourcepackage, $tarname);
     }
 
-    $self->add_file($tarname) if $tarname;
-    if ($tarname and -e "$tarname.sig" and not -e "$tarname.asc") {
-        openpgp_sig_to_asc("$tarname.sig", "$tarname.asc");
+    if ($tarname) {
+        $self->add_file($tarname);
+        if (-e "$tarname.sig" and not -e "$tarname.asc") {
+            openpgp_sig_to_asc("$tarname.sig", "$tarname.asc");
+        }
     }
     if ($tarsign and -e $tarsign) {
         info(g_('building %s using existing %s'), $sourcepackage, $tarsign);
