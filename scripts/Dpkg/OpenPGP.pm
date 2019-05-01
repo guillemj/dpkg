@@ -18,6 +18,7 @@ package Dpkg::OpenPGP;
 use strict;
 use warnings;
 
+use POSIX qw(:sys_wait_h);
 use Exporter qw(import);
 use File::Copy;
 
@@ -78,6 +79,45 @@ sub openpgp_sig_to_asc
     }
 
     return;
+}
+
+sub verify_signature {
+    my ($sig, %opts) = @_;
+
+    $opts{require_valid_signature} //= 1;
+
+    my @exec;
+    if (find_command('gpgv')) {
+        push @exec, 'gpgv';
+    } elsif (find_command('gpg')) {
+        push @exec, 'gpg', '--no-default-keyring', '-q', '--verify';
+    } elsif ($opts{require_valid_signature}) {
+        error(g_('cannot verify signature on %s since GnuPG is not installed'),
+              $sig);
+    } else {
+        warning(g_('cannot verify signature on %s since GnuPG is not installed'),
+                $sig);
+        return;
+    }
+    foreach my $keyring (@{$opts{keyrings}}) {
+        push @exec, '--keyring', $keyring;
+    }
+    push @exec, $sig;
+
+    my ($stdout, $stderr);
+    spawn(exec => \@exec, wait_child => 1, nocheck => 1, timeout => 10,
+          to_string => \$stdout, error_to_string => \$stderr);
+    if (WIFEXITED($?)) {
+        my $status = WEXITSTATUS($?);
+        print { *STDERR } "$stdout$stderr" if $status;
+        if ($status == 1 or ($status && $opts{require_valid_signature})) {
+            error(g_('failed to verify signature on %s'), $sig);
+        } elsif ($status) {
+            warning(g_('failed to verify signature on %s'), $sig);
+        }
+    } else {
+        subprocerr("@exec");
+    }
 }
 
 1;

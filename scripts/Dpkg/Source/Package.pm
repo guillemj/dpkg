@@ -58,6 +58,7 @@ use Dpkg::Path qw(check_files_are_the_same find_command);
 use Dpkg::IPC;
 use Dpkg::Vendor qw(run_vendor_hook);
 use Dpkg::Source::Format;
+use Dpkg::OpenPGP;
 
 my $diff_ignore_default_regex = '
 # Ignore general backup files
@@ -427,48 +428,18 @@ then any problem will result in a fatal error.
 sub check_signature {
     my $self = shift;
     my $dsc = $self->get_filename();
-    my @exec;
+    my @keyrings;
 
-    if (find_command('gpgv')) {
-        push @exec, 'gpgv';
-    } elsif (find_command('gpg')) {
-        push @exec, 'gpg', '--no-default-keyring', '-q', '--verify';
+    if (length $ENV{HOME} and -r "$ENV{HOME}/.gnupg/trustedkeys.gpg") {
+        push @keyrings, "$ENV{HOME}/.gnupg/trustedkeys.gpg";
     }
-    if (scalar(@exec)) {
-        if (length $ENV{HOME} and -r "$ENV{HOME}/.gnupg/trustedkeys.gpg") {
-            push @exec, '--keyring', "$ENV{HOME}/.gnupg/trustedkeys.gpg";
-        }
-        foreach my $vendor_keyring (run_vendor_hook('package-keyrings')) {
-            if (-r $vendor_keyring) {
-                push @exec, '--keyring', $vendor_keyring;
-            }
-        }
-        push @exec, $dsc;
-
-        my ($stdout, $stderr);
-        spawn(exec => \@exec, wait_child => 1, nocheck => 1,
-              to_string => \$stdout, error_to_string => \$stderr,
-              timeout => 10);
-        if (WIFEXITED($?)) {
-            my $gpg_status = WEXITSTATUS($?);
-            print { *STDERR } "$stdout$stderr" if $gpg_status;
-            if ($gpg_status == 1 or ($gpg_status &&
-                $self->{options}{require_valid_signature}))
-            {
-                error(g_('failed to verify signature on %s'), $dsc);
-            } elsif ($gpg_status) {
-                warning(g_('failed to verify signature on %s'), $dsc);
-            }
-        } else {
-            subprocerr("@exec");
-        }
-    } else {
-        if ($self->{options}{require_valid_signature}) {
-            error(g_('cannot verify signature on %s since GnuPG is not installed'), $dsc);
-        } else {
-            warning(g_('cannot verify signature on %s since GnuPG is not installed'), $dsc);
+    foreach my $vendor_keyring (run_vendor_hook('package-keyrings')) {
+        if (-r $vendor_keyring) {
+            push @keyrings, $vendor_keyring;
         }
     }
+
+    Dpkg::OpenPGP::verify_signature($dsc, keyrings => \@keyrings);
 }
 
 sub describe_cmdline_options {
