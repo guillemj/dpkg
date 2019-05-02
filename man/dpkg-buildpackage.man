@@ -90,7 +90,7 @@ It runs the \fBcheck\fP hook and calls a package checker for the
 \fB.changes\fP file (if a command is specified in \fBDEB_CHECK_COMMAND\fP or
 with \fB\-\-check\-command\fP).
 .IP \fB11.\fP 3
-It runs the \fBsign\fP hook and calls \fBgpg2\fP or \fBgpg\fP (as long as it
+It runs the \fBsign\fP hook and calls \fBgpg\fP (as long as it
 is not an UNRELEASED build, or \fB\-\-no\-sign\fP is specified) to sign the
 \fB.dsc\fP file (if any, unless
 \fB\-us\fP or \fB\-\-unsigned\-source\fP is specified), the \fB.buildinfo\fP
@@ -399,9 +399,9 @@ Can be used multiple times.
 When \fBdpkg\-buildpackage\fP needs to execute GPG to sign a source
 control (\fB.dsc\fP) file or a \fB.changes\fP file it will run
 \fIsign-command\fP (searching the \fBPATH\fP if necessary) instead of
-\fBgpg2\fP or \fBgpg\fP (long option since dpkg 1.18.8).
+\fBgpg\fP (long option since dpkg 1.18.8).
 \fIsign-command\fP will get all the arguments
-that \fBgpg2\fP or \fBgpg\fP would have gotten. \fIsign-command\fP
+that \fBgpg\fP would have gotten. \fIsign-command\fP
 should not contain spaces or any other shell metacharacters.
 .TP
 .BR \-k ", " \-\-sign\-key= \fIkey-id\fP
@@ -584,5 +584,4 @@ and initial arguments for
 .BR dpkg\-genchanges (1),
 .BR fakeroot (1),
 .BR lintian (1),
-.BR gpg2 (1),
 .BR gpg (1).

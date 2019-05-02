@@ -101,7 +101,7 @@ sub usage {
                               pass option <opt> to dpkg-genbuildinfo.
   -p, --sign-command=<command>
                               command to sign .dsc and/or .changes files
-                                (default is gpg2 or gpg).
+                                (default is gpg).
   -k, --sign-key=<keyid>      the key to use for signing.
   -ap, --sign-pause           add pause before starting signature process.
   -us, --unsigned-source      unsigned source package.
@@ -394,9 +394,7 @@ if ($signcommand) {
     }
 } elsif (($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME}) ||
          ($ENV{HOME} && -e "$ENV{HOME}/.gnupg")) {
-    if (find_command('gpg2')) {
-        $signcommand = 'gpg2';
-    } elsif (find_command('gpg')) {
+    if (find_command('gpg')) {
         $signcommand = 'gpg';
     }
 }
