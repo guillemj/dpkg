@@ -742,8 +742,8 @@ int main(int argc, const char *const *argv) {
 
   dpkg_locales_init(PACKAGE);
   dpkg_program_init("dpkg");
-  dpkg_options_load(DPKG, cmdinfos);
   set_force_default(FORCE_ALL);
+  dpkg_options_load(DPKG, cmdinfos);
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
   /* When running as root, make sure our primary group is also root, so
