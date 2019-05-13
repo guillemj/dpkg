@@ -407,9 +407,11 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 
 		ok = dependencies_ok(pkg, NULL, &depwhynot);
 		if (ok == DEP_CHECK_DEFER) {
-			gaveup = check_trigger_cycle(pkg);
-			if (gaveup == pkg)
-				return;
+			if (dependtry >= DEPEND_TRY_TRIGGERS_CYCLES) {
+				gaveup = check_trigger_cycle(pkg);
+				if (gaveup == pkg)
+					return;
+			}
 
 			varbuf_destroy(&depwhynot);
 			enqueue_package(pkg);
