@@ -137,10 +137,11 @@ extracthalf(const char *debar, const char *dir,
       if (r != sizeof(arh))
         read_fail(r, debar, _("archive member header"));
 
-      dpkg_ar_normalize_name(&arh);
-
       if (dpkg_ar_member_is_illegal(&arh))
         ohshit(_("file '%.250s' is corrupt - bad archive header magic"), debar);
+
+      dpkg_ar_normalize_name(&arh);
+
       memberlen = dpkg_ar_member_get_size(ar, &arh);
       if (!header_done) {
         char *infobuf;
