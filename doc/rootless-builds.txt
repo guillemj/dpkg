@@ -48,10 +48,11 @@ The values are defined as:
      (See also "Implementation provided keywords".)
 
    - When "Rules-Requires-Root" is set to <implementations-keywords>, the
-     builder will expose an interface that is used to run a command under
-     (fake)root via the "Gain Root API". If the builder cannot provide such
-     a command, it MUST behave like "Rules-Requires-Root" was set to
-     "binary-targets", i.e. run "debian/rules binary" under (fake)root.
+     builder (i.e. whatever is executing debian/rules) will expose an
+     interface that is used to run a command under (fake)root via the
+     "Gain Root API". If the builder cannot provide such a command, it
+     MUST behave like "Rules-Requires-Root" was set to "binary-targets",
+     i.e. run "debian/rules binary" under (fake)root.
 
 When the builder supports this specification, it MUST notify this fact to
 the rules file via the "DEB_RULES_REQUIRES_ROOT" environment variable, with
@@ -139,12 +140,12 @@ Prototyping/preparation
 dpkg side
 ---------
 
-dpkg-deb --build must either default to resetting all owner/group values to
-0:0 when not run under (fake)root OR provide an interface so dh_builddeb can
-provide the owner/group value to dpkg-deb --build.
+dpkg-deb --build provides the --root-owner-group option so that dh_builddeb
+or direct calls can control the owner/group file values w/o requiring
+(fake)root.
 
-dpkg-buildpackage must export DEB_GAIN_ROOT_CMD (for starters, doing this
-unconditionally would be fine).
+dpkg-buildpackage must export DEB_GAIN_ROOT_CMD when necessary (for
+prototyping, doing this unconditionally would be fine).
 
 
 debhelper side
