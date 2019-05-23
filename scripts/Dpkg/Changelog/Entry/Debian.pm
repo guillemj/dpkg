@@ -236,7 +236,7 @@ sub parse_trailer {
 	            push @errors, sprintf(g_('invalid abbreviated month name \'%s\''), $8);
 	        }
 	    }
-	    push @errors, sprintf(g_("cannot parse non-comformant date '%s'"), $7);
+	    push @errors, sprintf(g_("cannot parse non-conformant date '%s'"), $7);
 	};
 	$self->{trailer_timestamp_date} = $4;
     } else {

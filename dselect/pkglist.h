@@ -212,7 +212,7 @@ protected:
 
   explicit packagelist(keybindings *kb); // nonrecursive
   packagelist(keybindings *kb, pkginfo **pkgltab); // recursive
-  void add(pkginfo **arry) { while (*arry) add(*arry++); }
+  void add(pkginfo **array) { while (*array) add(*array++); }
   void add(pkginfo*);
   void add(pkginfo *, pkgwant);
   void add(pkginfo*, const char *extrainfo, showpriority displayimportance);
