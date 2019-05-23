@@ -115,12 +115,12 @@ Check for a process with the specified parent pid \fIppid\fP
 (since version 1.17.7).
 The \fIppid\fP must be a number greater than 0.
 .TP
-.BR \-p ", " \-\-pidfile " \fIpid-file\fP"
-Check whether a process has created the file \fIpid-file\fP.
+.BR \-p ", " \-\-pidfile " \fIpidfile\fP"
+Check whether a process has created the file \fIpidfile\fP.
 .IP
 Note: using this matching option alone might cause unintended processes to
 be acted on, if the old process terminated without being able to remove the
-\fIpid-file\fP.
+\fIpidfile\fP.
 .IP
 \fBWarning:\fP using this match option with a world-writable pidfile or using
 it alone with a daemon that writes the pidfile as an unprivileged (non-root)
@@ -244,18 +244,18 @@ group membership for generic users like
 .BR nobody ).
 .TP
 .BR \-r ", " \-\-chroot " \fIroot\fP"
-Chdir and chroot to
+Change directory and chroot to
 .I root
 before starting the process. Please note that the pidfile is also written
 after the chroot.
 .TP
 .BR \-d ", " \-\-chdir " \fIpath\fP"
-Chdir to
+Change directory to
 .I path
 before starting the process. This is done after the chroot if the
 \fB\-r\fP|\fB\-\-chroot\fP option is set. When not specified,
 .B start\-stop\-daemon
-will chdir to the root directory before starting the process.
+will change directory to the root directory before starting the process.
 .TP
 .BR \-b ", " \-\-background
 Typically used with programs that don't detach on their own. This option
