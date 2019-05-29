@@ -168,7 +168,7 @@ file_treewalk_feed(const char *dir, int fd_out)
 
     nodename = str_fmt("./%s", virtname);
 
-    if (strchr(nodename, '\n'))
+    if (!nocheckflag && strchr(nodename, '\n'))
       ohshit(_("newline not allowed in pathname '%s'"), nodename);
 
     /* We need to reorder the files so we can make sure that symlinks
