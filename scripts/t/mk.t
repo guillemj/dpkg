@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 8;
+use Test::More tests => 9;
 use Test::Dpkg qw(:paths);
 
 use File::Spec::Functions qw(rel2abs);
@@ -108,6 +108,12 @@ foreach my $tool (keys %buildtools) {
     $ENV{"TEST_${tool}_FOR_BUILD"} = "$ENV{DEB_BUILD_GNU_TYPE}-$buildtools{$tool}";
 }
 test_makefile('buildtools.mk');
+
+$ENV{DEB_BUILD_OPTIONS} = 'nostrip';
+$ENV{TEST_STRIP} = ':';
+$ENV{TEST_STRIP_FOR_BUILD} = ':';
+test_makefile('buildtools.mk');
+delete $ENV{DEB_BUILD_OPTIONS};
 
 foreach my $tool (keys %buildtools) {
     delete $ENV{${tool}};
