@@ -189,10 +189,23 @@ file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
 		lock_cmd = F_SETLK;
 
 	if (fcntl(*lockfd, lock_cmd, &fl) == -1) {
-		if (errno == EACCES || errno == EAGAIN)
-			ohshit(_("%s is locked by another process"), desc);
-		else
+		const char *warnmsg;
+
+		if (errno != EACCES && errno != EAGAIN)
 			ohshite(_("unable to lock %s"), desc);
+
+		warnmsg = _("Note: removing the lock file is always wrong, "
+		            "and can end up damaging the\n"
+		            "locked area and the entire system. "
+		            "See <https://wiki.debian.org/Teams/Dpkg/FAQ>.");
+
+		file_lock_setup(&fl, F_WRLCK);
+		if (fcntl(*lockfd, F_GETLK, &fl) == -1)
+			ohshit(_("%s was locked by another process\n%s"),
+			       desc, warnmsg);
+
+		ohshit(_("%s was locked by another process with pid %d\n%s"),
+		       desc, fl.l_pid, warnmsg);
 	}
 
 	push_cleanup(file_unlock_cleanup, ~0, 3, lockfd, filename, desc);
