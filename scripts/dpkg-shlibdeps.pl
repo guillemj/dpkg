@@ -705,11 +705,15 @@ sub add_shlibs_dep {
 
 sub split_soname {
     my $soname = shift;
+
     if ($soname =~ /^(.*)\.so\.(.*)$/) {
+        # Shared library with stable <name>.so.<version> format.
 	return wantarray ? ($1, $2) : 1;
     } elsif ($soname =~ /^(.*)-(\d.*)\.so$/) {
+        # Shared library/module with unstable <name>-<version>.so format.
 	return wantarray ? ($1, $2) : 1;
     } else {
+        # Something else.
 	return wantarray ? () : 0;
     }
 }
