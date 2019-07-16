@@ -1,3 +1,4 @@
+# serial 1
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>.
 # Copyright © 2010, 2014, 2016 Guillem Jover <guillem@debian.org>
 

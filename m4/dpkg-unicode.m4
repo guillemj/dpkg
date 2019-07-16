@@ -1,3 +1,4 @@
+# serial 1
 # Copyright © 1995-2003, 2005-2006 Free Software Foundation, Inc.
 # Copyright © 2009 Yuri Vasilevski <yvasilev@gentoo.org>
 # Copyright © 2010 Guillem Jover <guillem@debian.org>

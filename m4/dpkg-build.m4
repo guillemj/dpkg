@@ -1,3 +1,4 @@
+# serial 1
 # Copyright © 2010-2014 Guillem Jover <guillem@debian.org>
 
 # DPKG_BUILD_SHARED_LIBS()

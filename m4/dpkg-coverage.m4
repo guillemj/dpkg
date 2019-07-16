@@ -1,3 +1,4 @@
+# serial 1
 # Copyright © 2010 Guillem Jover <guillem@debian.org>
 
 # DPKG_CODE_COVERAGE
