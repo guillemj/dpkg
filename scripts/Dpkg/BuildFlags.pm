@@ -68,8 +68,6 @@ Reset the flags stored to the default set provided by the vendor.
 sub load_vendor_defaults {
     my $self = shift;
 
-    $self->{options} = {};
-    $self->{source} = {};
     $self->{features} = {};
     $self->{flags} = {
 	CPPFLAGS => '',
