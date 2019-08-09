@@ -90,6 +90,22 @@ sub set_options {
     $self->{$_} = $opts{$_} foreach keys %opts;
 }
 
+=item $count = $c->parse($fh, $description)
+
+Read the filehandle and parse a changelog in it. The data in the object is
+reset before parsing new data.
+
+Returns the number of changelog entries that have been parsed with success.
+
+This method needs to be implemented by one of the specialized changelog
+format subclasses.
+
+=item $count = $c->load($filename)
+
+Parse $filename contents for a changelog.
+
+Returns the number of changelog entries that have been parsed with success.
+
 =item $c->reset_parse_errors()
 
 Can be used to delete all information about errors occurred during
