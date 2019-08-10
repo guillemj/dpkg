@@ -33,10 +33,8 @@ package Dpkg::Changelog::Parse;
 use strict;
 use warnings;
 
-our $VERSION = '1.03';
+our $VERSION = '2.00';
 our @EXPORT = qw(
-    changelog_parse_debian
-    changelog_parse_plugin
     changelog_parse
 );
 
@@ -75,40 +73,6 @@ sub _changelog_detect_format {
 
 =over 4
 
-=item $fields = changelog_parse_debian(%opt)
-
-This function is deprecated, use changelog_parse() instead, with the changelog
-format set to "debian".
-
-=cut
-
-sub changelog_parse_debian {
-    my (%options) = @_;
-
-    warnings::warnif('deprecated',
-                     'deprecated function changelog_parse_debian, use changelog_parse instead');
-
-    # Force the plugin to be debian.
-    $options{changelogformat} = 'debian';
-
-    return _changelog_parse(%options);
-}
-
-=item $fields = changelog_parse_plugin(%opt)
-
-This function is deprecated, use changelog_parse() instead.
-
-=cut
-
-sub changelog_parse_plugin {
-    my (%options) = @_;
-
-    warnings::warnif('deprecated',
-                     'deprecated function changelog_parse_plugin, use changelog_parse instead');
-
-    return _changelog_parse(%options);
-}
-
 =item $fields = changelog_parse(%opt)
 
 This function will parse a changelog. In list context, it returns as many
@@ -137,14 +101,8 @@ All the other keys in %opt are forwarded to the parser module constructor.
 
 =cut
 
-sub _changelog_parse {
+sub changelog_parse {
     my (%options) = @_;
-
-    # Setup and sanity checks.
-    if (exists $options{libdir}) {
-        warnings::warnif('deprecated',
-                         'obsolete libdir option, changelog parsers are now perl modules');
-    }
 
     $options{file} //= 'debian/changelog';
     $options{label} //= $options{file};
@@ -195,19 +153,15 @@ sub _changelog_parse {
     }
 }
 
-sub changelog_parse {
-    my (%options) = @_;
-
-    if (exists $options{forceplugin}) {
-        warnings::warnif('deprecated', 'obsolete forceplugin option');
-    }
-
-    return _changelog_parse(%options);
-}
-
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.00 (dpkg 1.20.0)
+
+Remove functions: changelog_parse_debian(), changelog_parse_plugin().
+
+Remove warnings: For options 'forceplugin', 'libdir'.
 
 =head2 Version 1.03 (dpkg 1.19.0)
 
