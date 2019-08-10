@@ -34,7 +34,7 @@ package Dpkg::Changelog;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '2.00';
 
 use Carp;
 
@@ -670,36 +670,6 @@ sub format_range {
     }
 }
 
-=item $control = $c->dpkg($range)
-
-This is a deprecated alias for $c->format_range('dpkg', $range).
-
-=cut
-
-sub dpkg {
-    my ($self, $range) = @_;
-
-    warnings::warnif('deprecated',
-                     'deprecated method, please use format_range("dpkg", $range) instead');
-
-    return $self->format_range('dpkg', $range);
-}
-
-=item @controls = $c->rfc822($range)
-
-This is a deprecated alias for C<scalar c->format_range('rfc822', $range)>.
-
-=cut
-
-sub rfc822 {
-    my ($self, $range) = @_;
-
-    warnings::warnif('deprecated',
-                     'deprecated method, please use format_range("rfc822", $range) instead');
-
-    return scalar $self->format_range('rfc822', $range);
-}
-
 =back
 
 =head1 RANGE SELECTION
@@ -778,6 +748,10 @@ C<until> and C<to> returns the intersection of the two results
 with only one of the options specified.
 
 =head1 CHANGES
+
+=head2 Version 2.00 (dpkg 1.20.0)
+
+Remove methods: $c->dpkg(), $c->rfc822().
 
 =head2 Version 1.01 (dpkg 1.18.8)
 
