@@ -31,7 +31,7 @@ It is also the entry point to the Dpkg module hierarchy.
 use strict;
 use warnings;
 
-our $VERSION = '1.03';
+our $VERSION = '2.00';
 our @EXPORT_OK = qw(
     $PROGNAME
     $PROGVERSION
@@ -42,13 +42,6 @@ our @EXPORT_OK = qw(
     $ADMINDIR
     $LIBDIR
     $DATADIR
-);
-our @EXPORT = qw(
-    $version
-    $progname
-    $admindir
-    $dpkglibdir
-    $pkgdatadir
 );
 
 use Exporter qw(import);
@@ -112,14 +105,6 @@ our $LIBDIR = '.';
 our $DATADIR = '../data';
 
 $DATADIR = $ENV{DPKG_DATADIR} if defined $ENV{DPKG_DATADIR};
-
-# XXX: Backwards compatibility, to be removed on VERSION 2.00.
-## no critic (Variables::ProhibitPackageVars)
-our $version = $PROGVERSION;
-our $admindir = $ADMINDIR;
-our $dpkglibdir = $LIBDIR;
-our $pkgdatadir = $DATADIR;
-## use critic
 
 =head1 MODULES
 
@@ -289,6 +274,10 @@ Parse and manipulate Debian package versions.
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.00 (dpkg 1.20.0)
+
+Remove variables: $version, $progname, $admindir, $dpkglibdir and $pkgdatadir.
 
 =head2 Version 1.03 (dpkg 1.18.24)
 
