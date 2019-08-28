@@ -1327,7 +1327,7 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
 void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                     const char *pfilename) {
   struct pkginfo *fixbyrm;
-  struct deppossi *pdep, flagdeppossi;
+  struct deppossi *pdep, flagdeppossi = { 0 };
   struct varbuf conflictwhy = VARBUF_INIT, removalwhy = VARBUF_INIT;
   struct dependency *providecheck;
 
