@@ -51,7 +51,7 @@ command_init(struct command *cmd, const char *filename, const char *name)
 		cmd->name = name;
 	cmd->argc = 0;
 	cmd->argv_size = 10;
-	cmd->argv = m_malloc(cmd->argv_size * sizeof(const char *));
+	cmd->argv = m_malloc(cmd->argv_size * sizeof(cmd->argv[0]));
 	cmd->argv[0] = NULL;
 }
 
@@ -85,7 +85,7 @@ command_grow_argv(struct command *cmd, int need)
 		return;
 
 	cmd->argv_size = (cmd->argv_size + need) * 2;
-	cmd->argv = m_realloc(cmd->argv, cmd->argv_size * sizeof(const char *));
+	cmd->argv = m_realloc(cmd->argv, cmd->argv_size * sizeof(cmd->argv[0]));
 }
 
 /**
