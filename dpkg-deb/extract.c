@@ -303,9 +303,10 @@ extracthalf(const char *debar, const char *dir,
   }
   close(p1[0]);
   dpkg_ar_close(ar);
-  if (taroption) close(p2[1]);
 
   if (taroption) {
+    close(p2[1]);
+
     c3 = subproc_fork();
     if (!c3) {
       struct command cmd;
