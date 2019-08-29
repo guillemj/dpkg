@@ -173,7 +173,7 @@ sub get_items_to_merge {
 }
 
 # Compares the versions taking into account some oddities like the fact
-# that we want backport/volatile versions to sort higher than the version
+# that we want backport versions to sort higher than the version
 # on which they are based.
 sub compare_versions {
     my ($a, $b) = @_;
@@ -182,9 +182,9 @@ sub compare_versions {
     return -1 if not defined $a;
     $a = $a->get_version() if ref($a) and $a->isa('Dpkg::Changelog::Entry');
     $b = $b->get_version() if ref($b) and $b->isa('Dpkg::Changelog::Entry');
-    # Backport and volatile are not real prereleases
-    $a =~ s/~(bpo|vola)/+$1/;
-    $b =~ s/~(bpo|vola)/+$1/;
+    # Backports are not real prereleases.
+    $a =~ s/~(bpo)/+$1/;
+    $b =~ s/~(bpo)/+$1/;
     if ($merge_prereleases) {
 	$a =~ s/~[^~]*$//;
 	$b =~ s/~[^~]*$//;

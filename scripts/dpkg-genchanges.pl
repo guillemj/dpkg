@@ -221,8 +221,8 @@ if (defined($prev_changelog) and
 {
     warning(g_('the current version (%s) is earlier than the previous one (%s)'),
 	$changelog->{'Version'}, $prev_changelog->{'Version'})
-        # ~bpo and ~vola are backports and have lower version number by definition
-        unless $changelog->{'Version'} =~ /~(?:bpo|vola)/;
+        # ~bpo are backports and have lower version number by definition.
+        unless $changelog->{'Version'} =~ /~bpo/;
 }
 
 # Scan control info of source package
