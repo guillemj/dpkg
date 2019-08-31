@@ -103,6 +103,7 @@ sub verify_signature {
         push @exec, '--keyring', $keyring;
     }
     push @exec, $sig;
+    push @exec, $opts{datafile} if exists $opts{datafile};
 
     my ($stdout, $stderr);
     spawn(exec => \@exec, wait_child => 1, nocheck => 1, timeout => 10,
