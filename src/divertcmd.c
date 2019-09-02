@@ -855,6 +855,7 @@ main(int argc, const char * const *argv)
 	modstatdb_shutdown();
 
 	dpkg_program_done();
+	dpkg_locales_done();
 
 	return ret;
 }

@@ -862,6 +862,7 @@ int main(int argc, const char *const *argv) {
   ret = cipaction->action(argv);
 
   dpkg_program_done();
+  dpkg_locales_done();
 
   return !!ret;
 }

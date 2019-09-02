@@ -173,6 +173,7 @@ int main(int argc, const char *const *argv) {
   m_output(stderr, _("<standard error>"));
 
   dpkg_program_done();
+  dpkg_locales_done();
 
   return ret;
 }

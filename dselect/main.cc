@@ -532,6 +532,7 @@ main(int, const char *const *argv)
 
   cursesoff();
   dpkg_program_done();
+  dpkg_locales_done();
 
   return(0);
 }

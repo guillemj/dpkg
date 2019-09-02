@@ -251,6 +251,7 @@ main(int argc, const char *const *argv)
 	}
 
 	dpkg_program_done();
+	dpkg_locales_done();
 
 	return 0;
 }

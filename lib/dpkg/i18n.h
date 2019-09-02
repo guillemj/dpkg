@@ -43,6 +43,14 @@ DPKG_BEGIN_DECLS
 #define C_(ctxt, str) pgettext(ctxt, str)
 
 void dpkg_locales_init(const char *package);
+void dpkg_locales_done(void);
+
+struct dpkg_locale {
+	void *oldloc;
+};
+
+struct dpkg_locale dpkg_locale_switch_C(void);
+void dpkg_locale_switch_back(struct dpkg_locale loc);
 
 /** @} */
 

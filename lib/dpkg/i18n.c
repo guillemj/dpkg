@@ -23,12 +23,20 @@
 
 #include <dpkg/i18n.h>
 
+#ifdef HAVE_USELOCALE
+static locale_t dpkg_C_locale;
+#endif
+
 void
 dpkg_locales_init(const char *package)
 {
 	setlocale(LC_ALL, "");
 	bindtextdomain(package, LOCALEDIR);
 	textdomain(package);
+
+#ifdef HAVE_USELOCALE
+	dpkg_C_locale = newlocale(LC_ALL_MASK, "C", (locale_t)0);
+#endif
 
 #if defined(__APPLE__) && defined(__MACH__)
 	/*
@@ -42,5 +50,39 @@ dpkg_locales_init(const char *package)
 	 * at program startup time, by performing a dummy gettext() call.
 	 */
 	gettext("");
+#endif
+}
+
+void
+dpkg_locales_done(void)
+{
+#ifdef HAVE_USELOCALE
+	freelocale(dpkg_C_locale);
+	dpkg_C_locale = (locale_t)0;
+#endif
+}
+
+struct dpkg_locale
+dpkg_locale_switch_C(void)
+{
+	struct dpkg_locale loc;
+
+#ifdef HAVE_USELOCALE
+	loc.oldloc = uselocale(dpkg_C_locale);
+#else
+	loc.oldloc = setlocale(LC_ALL, NULL);
+	setlocale(LC_ALL, "C");
+#endif
+
+	return loc;
+}
+
+void
+dpkg_locale_switch_back(struct dpkg_locale loc)
+{
+#ifdef HAVE_USELOCALE
+	uselocale(loc.oldloc);
+#else
+	setlocale(LC_ALL, loc.oldloc);
 #endif
 }

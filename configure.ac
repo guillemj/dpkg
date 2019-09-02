@@ -182,6 +182,7 @@ AC_CHECK_FUNCS([\
   fallocate \
   posix_fallocate \
   posix_fadvise \
+  uselocale \
 ])
 
 AS_IF([test "x$build_dselect" = "xyes"], [

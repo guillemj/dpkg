@@ -783,6 +783,7 @@ int main(int argc, const char *const *argv) {
   free_invoke_hooks(&post_invoke_hooks);
 
   dpkg_program_done();
+  dpkg_locales_done();
 
   return reportbroken_retexitstatus(ret);
 }
