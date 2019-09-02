@@ -349,8 +349,8 @@ void
 log_action(const char *action, struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
   log_message("%s %s %s %s", action, pkgbin_name(pkg, pkgbin, pnaw_always),
-	      versiondescribe(&pkg->installed.version, vdew_nonambig),
-	      versiondescribe(&pkg->available.version, vdew_nonambig));
+              versiondescribe_c(&pkg->installed.version, vdew_nonambig),
+              versiondescribe_c(&pkg->available.version, vdew_nonambig));
   statusfd_send("processing: %s: %s", action,
                 pkgbin_name(pkg, pkgbin, pnaw_nonambig));
 }

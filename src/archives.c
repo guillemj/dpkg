@@ -323,12 +323,12 @@ does_replace(struct pkginfo *new_pkg, struct pkgbin *new_pkgbin,
   debug(dbg_depcon,"does_replace new=%s old=%s (%s)",
         pkgbin_name(new_pkg, new_pkgbin, pnaw_always),
         pkgbin_name(old_pkg, old_pkgbin, pnaw_always),
-        versiondescribe(&old_pkgbin->version, vdew_always));
+        versiondescribe_c(&old_pkgbin->version, vdew_always));
   for (dep = new_pkgbin->depends; dep; dep = dep->next) {
     if (dep->type != dep_replaces || dep->list->ed != old_pkg->set)
       continue;
     debug(dbg_depcondetail,"does_replace ... found old, version %s",
-          versiondescribe(&dep->list->version,vdew_always));
+          versiondescribe_c(&dep->list->version,vdew_always));
     if (!versionsatisfied(old_pkgbin, dep->list))
       continue;
     /* The test below can only trigger if dep_replaces start having
@@ -828,7 +828,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
           refcounting = true;
         debug(dbg_eachfiledetail, "tarobject ... shared with %s %s (syncing=%d)",
               pkg_name(otherpkg, pnaw_always),
-              versiondescribe(&otherpkg->installed.version, vdew_nonambig),
+              versiondescribe_c(&otherpkg->installed.version, vdew_nonambig),
               tc->pkgset_getting_in_sync);
         continue;
       }

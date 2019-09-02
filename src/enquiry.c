@@ -742,8 +742,8 @@ cmpversions(const char *const *argv)
   }
   rc = dpkg_version_compare(&a, &b);
   debug(dbg_general, "cmpversions a='%s' b='%s' r=%d",
-        versiondescribe(&a,vdew_always),
-        versiondescribe(&b,vdew_always),
+        versiondescribe_c(&a,vdew_always),
+        versiondescribe_c(&b,vdew_always),
         rc);
   if (rc > 0)
     return rip->if_greater;

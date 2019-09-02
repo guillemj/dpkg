@@ -23,6 +23,9 @@ dpkg (1.20.0) UNRELEASED; urgency=medium
     versioning, as volatile.debian.org was decommissioned some time ago.
   * dpkg-genchanges, dpkg-mergechangelogs: Match ~deb also as a backport
     marker in versions. Closes: #934980
+  * libdpkg, dpkg: Use new versiondescribe_c() for non-localizable call sites,
+    such as when writing to a log, which should not be localized.
+    Reported by Julien Cristau <jcristau@debian.org>.
   * Perl modules:
     - Dpkg::Source::Package: Verify original tarball signatures at build time.
     - Dpkg::BuildFlags: Add new unset() method.
