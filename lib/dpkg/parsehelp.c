@@ -188,6 +188,20 @@ const char *versiondescribe
   return vb->buf;
 }
 
+const char *
+versiondescribe_c(const struct dpkg_version *version,
+                  enum versiondisplayepochwhen vdew)
+{
+  struct dpkg_locale oldloc;
+  const char *str;
+
+  oldloc = dpkg_locale_switch_C();
+  str = versiondescribe(version, vdew);
+  dpkg_locale_switch_back(oldloc);
+
+  return str;
+}
+
 /**
  * Parse a version string and check for invalid syntax.
  *

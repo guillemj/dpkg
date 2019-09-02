@@ -392,6 +392,8 @@ int parseversion(struct dpkg_version *version, const char *,
                  struct dpkg_error *err);
 const char *versiondescribe(const struct dpkg_version *,
                             enum versiondisplayepochwhen);
+const char *versiondescribe_c(const struct dpkg_version *version,
+                              enum versiondisplayepochwhen vdew);
 
 enum pkg_name_arch_when {
   /** Never display arch. */
