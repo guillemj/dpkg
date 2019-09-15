@@ -39,6 +39,8 @@ my @codespell_skip = qw(
   libtool
   libtool.m4
   aclocal.m4
+  build-tree
+  tmp
 );
 my $codespell_skip = join ',', @codespell_skip;
 
