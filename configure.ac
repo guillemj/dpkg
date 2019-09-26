@@ -28,7 +28,7 @@ AM_INIT_AUTOMAKE(
 AM_SILENT_RULES([yes])
 
 # Require at least this gettext version, but will take any later version too.
-AM_GNU_GETTEXT_REQUIRE_VERSION([0.19.7])
+AM_GNU_GETTEXT_REQUIRE_VERSION([0.19.8])
 # XXX: We cannot remove the following macro due to backwards compatibility
 # reasons. The above macro is set unconditionally to the minimal version
 # required, and the below is set to 0.19.6, the first version introducing
