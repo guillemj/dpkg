@@ -183,8 +183,8 @@ sub compare_versions {
     $a = $a->get_version() if ref($a) and $a->isa('Dpkg::Changelog::Entry');
     $b = $b->get_version() if ref($b) and $b->isa('Dpkg::Changelog::Entry');
     # Backports are not real prereleases.
-    $a =~ s/~(bpo)/+$1/;
-    $b =~ s/~(bpo)/+$1/;
+    $a =~ s/~(bpo|deb)/+$1/;
+    $b =~ s/~(bpo|deb)/+$1/;
     if ($merge_prereleases) {
 	$a =~ s/~[^~]*$//;
 	$b =~ s/~[^~]*$//;
