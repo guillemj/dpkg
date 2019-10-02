@@ -50,7 +50,7 @@ updateavailable(const char *const *argv)
   case act_avreplace: case act_avmerge:
     if (sourcefile == NULL)
       sourcefile = "-";
-    else if (sourcefile && argv[1])
+    else if (argv[1])
       badusage(_("--%s takes at most one Packages-file argument"),
                cipaction->olong);
     break;
