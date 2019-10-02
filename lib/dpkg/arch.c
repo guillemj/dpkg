@@ -58,7 +58,7 @@ dpkg_arch_name_is_illegal(const char *name)
 	static char buf[150];
 	const char *p = name;
 
-	if (name == NULL)
+	if (p == NULL)
 		internerr("arch name argument is NULL");
 	if (!*p)
 		return _("may not be empty string");
