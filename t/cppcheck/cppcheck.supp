@@ -21,6 +21,12 @@ literalWithCharPtrCompare:lib/dpkg/t/t-test.c
 // Ignore, the code is used only for its binary artifacts.
 uninitMemberVar:*/Dpkg_Shlibs/patterns.cpp
 
+// BUG: False positive, the variable uses operator() which writes to it.
+constVariable:dselect/pkgsublist.cc:111
+
+// BUG: False positive.
+syntaxError:lib/dpkg/t/*.c
+
 // BUG: False positive.
 knownConditionTrueFalse:src/depcon.c:585
 knownConditionTrueFalse:src/depcon.c:668
@@ -36,6 +42,13 @@ unusedStructMember:lib/dpkg/triglib.c:378
 
 // BUG: False positive, does not understand must-allocate functions.
 nullPointer:src/unpack.c:195
+
+// BUG: False positive, does not understand non-returning functions.
+nullPointer:utils/start-stop-daemon.c:756
+nullPointer:utils/start-stop-daemon.c:758
+
+// BUG: False positive, does not understand parser.
+nullPointerArithmeticRedundantCheck:lib/dpkg/pkg-format.c:82
 
 // BUG: False positive, does not understand setjmp-style error handling.
 redundantAssignment:lib/compat/selinux.c:73
