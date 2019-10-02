@@ -135,19 +135,19 @@ baselist::end_column(column &col, const char *title)
 }
 
 void
-baselist::draw_column_head(column &col)
+baselist::draw_column_head(const column &col)
 {
   mvwaddnstr(colheadspad, 0, col.x, col.title, col.width);
 }
 
 void
-baselist::draw_column_sep(column &col, int y)
+baselist::draw_column_sep(const column &col, int y)
 {
   mvwaddch(listpad, y, col.x - 1, ' ');
 }
 
 void
-baselist::draw_column_item(column &col, int y, const char *item)
+baselist::draw_column_item(const column &col, int y, const char *item)
 {
   mvwprintw(listpad, y, col.x, "%-*.*s", col.width, col.width, item);
 }

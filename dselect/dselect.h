@@ -87,9 +87,9 @@ protected:
 
   void add_column(column &col, const char *title, int width);
   void end_column(column &col, const char *title);
-  void draw_column_head(column &col);
-  void draw_column_sep(column &col, int y);
-  void draw_column_item(column &col, int y, const char *item);
+  void draw_column_head(const column &col);
+  void draw_column_sep(const column &col, int y);
+  void draw_column_item(const column &col, int y, const char *item);
 
   // (n)curses stuff
   WINDOW *listpad, *infopad, *colheadspad, *thisstatepad;
