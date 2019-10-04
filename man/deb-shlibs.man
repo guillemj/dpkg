@@ -26,7 +26,7 @@ deb\-shlibs \- Debian shared library information file
 .PP
 .B shlibs
 files map shared library names and versions
-.RI ( sonames )
+.RI ( SONAMEs )
 to dependencies suitable for a package control file.  There is one
 entry per line. Blank lines are \fBnot\fP allowed.  Lines beginning
 with an \fB#\fP character are considered commentary, and are ignored.
@@ -44,13 +44,23 @@ but the \fIdependencies\fP field extends to the end of the line.  The
 The \fIdependencies\fP field has the same syntax as the \fBDepends\fP
 field in a binary control file, see \fBdeb\-control\fP(5).
 .
+.SH SONAME FORMATS
+The SONAME formats supported are:
+
+  \fIname\fP.so.\fIversion\fP
+
+and
+
+  \fIname\fP-\fIversion\fP.so
+
+where \fIname\fP is usually prefixed by \fBlib\fP.
 .SH EXAMPLES
 .PP
 The
 .B shlibs
 file for a typical library package, named
 .IR libcrunch1 ,
-that provides one library whose soname is
+that provides one library whose SONAME is
 .IR libcrunch.so.1 ,
 might read
 .IP
