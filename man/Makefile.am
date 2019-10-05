@@ -9,6 +9,7 @@ man_MANS = \
 	deb-src-control.5 \
 	deb-src-files.5 \
 	deb-src-rules.5 \
+	deb-src-symbols.5 \
 	deb-version.7 \
 	deb-shlibs.5 \
 	deb-split.5 \
@@ -91,6 +92,7 @@ EXTRA_DIST = \
 	deb-src-control.man \
 	deb-src-files.man \
 	deb-src-rules.man \
+	deb-src-symbols.man \
 	deb-substvars.man \
 	deb-symbols.man \
 	deb-triggers.man \
