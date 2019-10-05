@@ -52,6 +52,8 @@ Register a code reference into the exit function handlers stack.
 
 sub push_exit_handler {
     my ($func) = shift;
+
+    _setup_exit_handlers() if @handlers == 0;
     push @handlers, $func;
 }
 
@@ -62,6 +64,7 @@ Pop the last registered exit handler from the handlers stack.
 =cut
 
 sub pop_exit_handler {
+    _reset_exit_handlers() if @handlers == 1;
     pop @handlers;
 }
 
@@ -80,9 +83,23 @@ sub _exit_handler {
     exit(127);
 }
 
-$SIG{INT} = \&_exit_handler;
-$SIG{HUP} = \&_exit_handler;
-$SIG{QUIT} = \&_exit_handler;
+my @SIGNAMES = qw(INT HUP QUIT);
+my %SIGOLD;
+
+sub _setup_exit_handlers
+{
+    foreach my $signame (@SIGNAMES) {
+        $SIGOLD{$signame} = $SIG{$signame};
+        $SIG{$signame} = \&_exit_handler;
+    }
+}
+
+sub _reset_exit_handlers
+{
+    foreach my $signame (@SIGNAMES) {
+        $SIG{$signame} = $SIGOLD{$signame};
+    }
+}
 
 =back
 
