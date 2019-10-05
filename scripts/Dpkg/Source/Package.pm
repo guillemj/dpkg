@@ -54,7 +54,6 @@ use Dpkg::Control;
 use Dpkg::Checksums;
 use Dpkg::Version;
 use Dpkg::Compression;
-use Dpkg::Exit qw(run_exit_handlers);
 use Dpkg::Path qw(check_files_are_the_same find_command);
 use Dpkg::IPC;
 use Dpkg::Vendor qw(run_vendor_hook);
@@ -520,11 +519,7 @@ sub extract {
     }
 
     # Try extract
-    eval { $self->do_extract($newdirectory) };
-    if ($@) {
-        run_exit_handlers();
-        die $@;
-    }
+    $self->do_extract($newdirectory);
 
     # Store format if non-standard so that next build keeps the same format
     if ($self->{fields}{'Format'} and
@@ -569,11 +564,8 @@ sub before_build {
 
 sub build {
     my $self = shift;
-    eval { $self->do_build(@_) };
-    if ($@) {
-        run_exit_handlers();
-        die $@;
-    }
+
+    $self->do_build(@_);
 }
 
 sub after_build {
@@ -603,11 +595,8 @@ sub add_file {
 
 sub commit {
     my $self = shift;
-    eval { $self->do_commit(@_) };
-    if ($@) {
-        run_exit_handlers();
-        die $@;
-    }
+
+    $self->do_commit(@_);
 }
 
 sub do_commit {

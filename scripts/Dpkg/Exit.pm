@@ -83,7 +83,7 @@ sub _exit_handler {
     exit(127);
 }
 
-my @SIGNAMES = qw(INT HUP QUIT);
+my @SIGNAMES = qw(INT HUP QUIT __DIE__);
 my %SIGOLD;
 
 sub _setup_exit_handlers
