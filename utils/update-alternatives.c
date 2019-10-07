@@ -71,7 +71,7 @@ enum action {
 	ACTION_DISPLAY,
 };
 
-struct action_name {
+static struct action_name {
 	enum action action;
 	const char *name;
 } action_names[] = {
