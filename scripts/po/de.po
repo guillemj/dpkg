@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-dev 1.19.5\n"
+"Project-Id-Version: dpkg-dev 1.20.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-06-03 23:21+0200\n"
-"PO-Revision-Date: 2019-02-24 17:42+0100\n"
+"POT-Creation-Date: 2019-11-01 05:32+0100\n"
+"PO-Revision-Date: 2019-11-01 06:12+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -287,7 +287,7 @@ msgid ""
 "                              pass option <opt> to dpkg-genbuildinfo.\n"
 "  -p, --sign-command=<command>\n"
 "                              command to sign .dsc and/or .changes files\n"
-"                                (default is gpg2 or gpg).\n"
+"                                (default is gpg).\n"
 "  -k, --sign-key=<keyid>      the key to use for signing.\n"
 "  -ap, --sign-pause           add pause before starting signature process.\n"
 "  -us, --unsigned-source      unsigned source package.\n"
@@ -355,7 +355,7 @@ msgstr ""
 "  -p, --sign-command=<Befehl>\n"
 "                      Befehl, um .dsc- und/oder .changes-Dateien zu "
 "signieren\n"
-"                        (standardmäßig gpg2 oder gpg)\n"
+"                        (standardmäßig gpg)\n"
 "  -k, --sign-key=<Schlüssel-ID>\n"
 "                      Für die Signierung zu verwendender Schlüssel\n"
 "  -ap, --sign-pause   Pause vor Beginn des Signaturprozesses einfügen\n"
@@ -622,6 +622,11 @@ msgstr "%s kann nicht geöffnet werden"
 #, perl-format
 msgid "cannot close %s"
 msgstr "%s kann nicht geschlossen werden"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "cannot move %s to %s"
+msgstr "%s kann nicht in %s verschoben werden"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "source-only upload: Debian-native package"
@@ -2783,6 +2788,28 @@ msgstr "Programm %s kann nicht ausgeführt werden"
 msgid "cannot write signature file %s"
 msgstr "Signaturdatei %s kann nicht geschrieben werden"
 
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "cannot import key in %s since GnuPG is not installed"
+msgstr ""
+"Schlüssel kann nicht in %s importiert werden, da GnuPG nicht installiert ist"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "failed to import key in %s"
+msgstr "Fehlschlag beim Import des Schlüssels in %s"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "cannot verify signature on %s since GnuPG is not installed"
+msgstr ""
+"Signatur von %s kann nicht überprüft werden, da GnuPG nicht installiert ist"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "failed to verify signature on %s"
+msgstr "Fehler beim Überprüfen der Signatur von %s"
+
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
 msgstr "darf keine leere Zeichenkette sein"
@@ -2966,20 +2993,20 @@ msgstr ""
 "ermitteln"
 
 #: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "failed to verify signature on %s"
-msgstr "Fehler beim Überprüfen der Signatur von %s"
-
-#: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "cannot verify signature on %s since GnuPG is not installed"
+msgid "upstream tarball signatures but no upstream signing key"
 msgstr ""
-"Signatur von %s kann nicht überprüft werden, da GnuPG nicht installiert ist"
+"Tarball-Signatur der Originalautoren aber kein Signaturschlüssel der "
+"Originalautoren"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "%s is not a valid option for %s"
 msgstr "%s ist keine gültige Option für %s."
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "cannot copy %s to %s"
+msgstr "%s kann nicht nach %s kopiert werden"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -4541,9 +4568,6 @@ msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
 
 #~ msgid "1 to 3 args expected\n"
 #~ msgstr "1 bis 3 Argumente erwartet\n"
-
-#~ msgid "cannot rename %s to %s"
-#~ msgstr "%s kann nicht in %s umbenannt werden"
 
 #~ msgid "no orig.tar file found"
 #~ msgstr "keine orig.tar-Datei gefunden"
