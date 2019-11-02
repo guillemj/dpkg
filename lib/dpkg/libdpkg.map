@@ -140,6 +140,7 @@ LIBDPKG_PRIVATE {
 	dir_sync_path_parent;
 	dir_sync_contents;
 
+	treenode_get_name;
 	treenode_get_mode;
 	treenode_get_virtname;
 	treenode_get_pathname;
@@ -147,9 +148,11 @@ LIBDPKG_PRIVATE {
 	treewalk_node;
 	treewalk_next;
 	treewalk_close;
+	treewalk;
 
 	file_copy_perms;
 	file_show;
+	file_slurp;
 
 	atomic_file_new;
 	atomic_file_open;
@@ -192,6 +195,7 @@ LIBDPKG_PRIVATE {
 	pager_get_exec;
 	pager_spawn;
 	pager_reap;
+	pager_enable;
 
 	setcloexec;
 
@@ -327,6 +331,7 @@ LIBDPKG_PRIVATE {
 	pkg_hash_find_set;
 	pkg_hash_find_singleton;
 	pkg_hash_find_pkg;
+	pkg_hash_get_singleton;
 	pkg_hash_count_set;
 	pkg_hash_count_pkg;
 	pkg_hash_reset;
@@ -336,6 +341,7 @@ LIBDPKG_PRIVATE {
 	pkg_hash_iter_free;
 
 	# Package field handling
+	booleaninfos;		# XXX variable, do not export
 	fieldinfos;		# XXX variable, do not export
 	find_field_info;
 	find_arbfield_info;
@@ -412,6 +418,7 @@ LIBDPKG_PRIVATE {
 	fsys_hash_reset;
 	fsys_hash_entries;
 	fsys_hash_find_node;
+	fsys_hash_report;
 
 	fsys_hash_iter_new;
 	fsys_hash_iter_next;
