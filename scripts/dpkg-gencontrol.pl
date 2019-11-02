@@ -335,13 +335,20 @@ if ($binarypackage ne $sourcepackage || $verdiff) {
 
 if (!defined($substvars->get('Installed-Size'))) {
     my $installed_size = 0;
+    my %hardlink;
     my $scan_installed_size = sub {
         lstat or syserr(g_('cannot stat %s'), $File::Find::name);
 
         if (-f _ or -l _) {
+            my ($dev, $ino, $nlink) = (lstat _)[0, 1, 3];
+
             # For filesystem objects with actual content accumulate the size
             # in 1 KiB units.
-            $installed_size += POSIX::ceil((-s _) / 1024);
+            $installed_size += POSIX::ceil((-s _) / 1024)
+                if not exists $hardlink{"$dev:$ino"};
+
+            # Track hardlinks to avoid repeated additions.
+            $hardlink{"$dev:$ino"} = 1 if $nlink > 1;
         } else {
             # For other filesystem objects assume a minimum 1 KiB baseline,
             # as directories are shared resources between packages, and other
