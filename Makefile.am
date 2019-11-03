@@ -82,6 +82,7 @@ EXTRA_DIST = \
 	debian/dselect.docs \
 	debian/dselect.install \
 	debian/dselect.manpages \
+	debian/dselect.postrm \
 	debian/libdpkg-dev.docs \
 	debian/libdpkg-dev.install \
 	debian/libdpkg-perl.docs \
