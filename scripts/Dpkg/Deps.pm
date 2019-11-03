@@ -46,7 +46,7 @@ All the deps_* functions are exported by default.
 use strict;
 use warnings;
 
-our $VERSION = '1.06';
+our $VERSION = '1.07';
 our @EXPORT = qw(
     deps_concat
     deps_parse
@@ -235,6 +235,12 @@ them if set.
 If set to 1, returns a Dpkg::Deps::Union instead of a Dpkg::Deps::AND. Use
 this when parsing non-dependency fields like Conflicts.
 
+=item virtual (defaults to 0)
+
+If set to 1, allow only virtual package version relations, that is none,
+or “=”.
+This should be set whenever working with Provides fields.
+
 =item build_dep (defaults to 0)
 
 If set to 1, allow build-dep only arch qualifiers, that is “:native”.
@@ -265,6 +271,7 @@ sub deps_parse {
     $options{reduce_profiles} //= 0;
     $options{reduce_restrictions} //= 0;
     $options{union} //= 0;
+    $options{virtual} //= 0;
     $options{build_dep} //= 0;
     $options{tests_dep} //= 0;
 
@@ -301,6 +308,12 @@ sub deps_parse {
 		warning(g_("can't parse dependency %s"), $dep_or);
 		return;
 	    }
+            if ($options{virtual} && defined $dep_simple->{relation} &&
+                $dep_simple->{relation} ne '=') {
+                warning(g_('virtual dependency contains invalid relation: %s'),
+                        $dep_simple->output);
+                return;
+            }
 	    $dep_simple->{arches} = undef if not $options{use_arch};
             if ($options{reduce_arch}) {
 		$dep_simple->reduce_arch($options{host_arch});
@@ -436,6 +449,10 @@ installed packages along with the virtual packages that they might
 provide.
 
 =head1 CHANGES
+
+=head2 Version 1.07 (dpkg 1.20.0)
+
+New option: Add virtual option to Dpkg::Deps::deps_parse().
 
 =head2 Version 1.06 (dpkg 1.18.7; module version bumped on dpkg 1.18.24)
 
