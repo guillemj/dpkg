@@ -185,8 +185,21 @@ sub _add_build_flags {
 
     # Warnings that detect actual bugs.
     if ($use_feature{qa}{bug}) {
-        foreach my $warnflag (qw(array-bounds clobbered volatile-register-var
-                                 implicit-function-declaration)) {
+        # C flags
+        my @cflags = qw(
+            implicit-function-declaration
+        );
+        foreach my $warnflag (@cflags) {
+            $flags->append('CFLAGS', "-Werror=$warnflag");
+        }
+
+        # C/C++ flags
+        my @cfamilyflags = qw(
+            array-bounds
+            clobbered
+            volatile-register-var
+        );
+        foreach my $warnflag (@cfamilyflags) {
             $flags->append('CFLAGS', "-Werror=$warnflag");
             $flags->append('CXXFLAGS', "-Werror=$warnflag");
         }
