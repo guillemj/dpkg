@@ -91,7 +91,7 @@ static const struct forceinfo {
 		"hold",
 		FORCE_HOLD,
 		FORCETYPE_DISABLED,
-		N_("Process incidental packages even when on hold"),
+		N_("Install or remove incidental packages even when on hold"),
 	}, {
 		"not-root",
 		FORCE_NON_ROOT,

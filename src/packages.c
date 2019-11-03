@@ -83,13 +83,15 @@ enqueue_pending(void)
             pkg->status == PKG_STAT_HALFCONFIGURED ||
             pkg->trigpend_head))
         continue;
-      if (pkg->want != PKG_WANT_INSTALL)
+      if (pkg->want != PKG_WANT_INSTALL &&
+          pkg->want != PKG_WANT_HOLD)
         continue;
       break;
     case act_triggers:
       if (!pkg->trigpend_head)
         continue;
-      if (pkg->want != PKG_WANT_INSTALL)
+      if (pkg->want != PKG_WANT_INSTALL &&
+          pkg->want != PKG_WANT_HOLD)
         continue;
       break;
     case act_remove:

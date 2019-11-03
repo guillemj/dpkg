@@ -134,7 +134,8 @@ trigproc_populate_deferred(void)
 		    pkg->status != PKG_STAT_TRIGGERSPENDING)
 			continue;
 
-		if (pkg->want != PKG_WANT_INSTALL)
+		if (pkg->want != PKG_WANT_INSTALL &&
+		    pkg->want != PKG_WANT_HOLD)
 			continue;
 
 		trigproc_enqueue_deferred(pkg);

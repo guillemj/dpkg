@@ -38,7 +38,7 @@ Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n\
   ^b                    ^f                      pan display by 1 character\n\n\
 \
 Mark packages for later processing:\n\
- +, Insert  install or upgrade      =, H  hold in present state\n\
+ +, Insert  install or upgrade      =, H  hold in present version\n\
  -, Delete  remove                  :, G  unhold: upgrade or leave uninstalled\n\
  _          remove & purge config\n\
                                              Miscellaneous:\n\
@@ -140,7 +140,7 @@ four columns for its current status on the system and mark.  In terse mode (use\
  Mark: what is requested for this package:\n\
   '*': marked for installation or upgrade;\n\
   '-': marked for removal, but any configuration files will remain;\n\
-  '=': on hold: package will not be processed at all;\n\
+  '=': on hold: package will not be installed, upgraded or removed;\n\
   '_': marked for purge completely - even remove configuration;\n\
   'n': package is new and has yet to be marked for install/remove/&c.\n\n\
 \

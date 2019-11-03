@@ -96,8 +96,10 @@ The package is correctly unpacked and configured.
 The package is selected for installation.
 .TP
 .B hold
-A package marked to be on \fBhold\fP is not handled by \fBdpkg\fP,
-unless forced to do that with option \fB\-\-force\-hold\fP.
+A package marked to be on \fBhold\fP is kept on the same version, that is,
+no automatic new installs, upgrades or removals will be performed on them,
+unless these actions are requested explicitly, or are permitted to be done
+automatically with the \fB\-\-force\-hold\fP option.
 .TP
 .B deinstall
 The package is selected for deinstallation (i.e. we want to remove all
@@ -555,7 +557,9 @@ Configure also any unpacked but unconfigured packages on which the current
 package depends.
 
 \fBhold\fP:
-Process packages even when marked “hold”.
+Allow automatic installs, upgrades or removals of packages even when marked
+to be on “hold”.
+Note: This does not prevent these actions when requested explicitly.
 
 \fBremove\-reinstreq\fP:
 Remove a package, even if it's broken and marked to require
