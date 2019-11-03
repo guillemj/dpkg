@@ -466,7 +466,7 @@ sub _build_tainted_by {
         File::Find::find({
             wanted => sub { $tainted{"usr-local-has-$type"} = 1 if -f },
             no_chdir => 1,
-        }, map { "/usr/local/$_" } @{$usr_local_types{$type}});
+        }, grep { -d } map { "/usr/local/$_" } @{$usr_local_types{$type}});
     }
 
     my @tainted = sort keys %tainted;
