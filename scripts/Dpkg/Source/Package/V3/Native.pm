@@ -49,7 +49,7 @@ sub do_extract {
     my $comp_ext_regex = compression_get_file_extension_regex();
     foreach my $file ($self->get_files()) {
 	if ($file =~ /^\Q$basenamerev\E\.tar\.$comp_ext_regex$/) {
-            error(g_('multiple tarfiles in v1.0 source package')) if $tarfile;
+            error(g_('multiple tarfiles in native source package')) if $tarfile;
             $tarfile = $file;
 	} else {
 	    error(g_('unrecognized file for a native source package: %s'), $file);
