@@ -24,6 +24,12 @@ Dpkg::Changelog::Debian - parse Debian changelogs
 
 =head1 DESCRIPTION
 
+This class represents a Debian changelog file as an array of changelog
+entries (Dpkg::Changelog::Entry::Debian).
+It implements the generic interface Dpkg::Changelog.
+Only methods specific to this implementation are described below,
+the rest are inherited.
+
 Dpkg::Changelog::Debian parses Debian changelogs as described in
 deb-changelog(5).
 
@@ -118,10 +124,11 @@ my $ancient_delimiter_re = qr{
 
 =over 4
 
-=item $c->parse($fh, $description)
+=item $count = $c->parse($fh, $description)
 
-Read the filehandle and parse a Debian changelog in it. The data in the
-object is reset before parsing new data.
+Read the filehandle and parse a Debian changelog in it, to store the entries
+as an array of Dpkg::Changelog::Entry::Debian objects.
+Any previous entries in the object are reset before parsing new data.
 
 Returns the number of changelog entries that have been parsed with success.
 
