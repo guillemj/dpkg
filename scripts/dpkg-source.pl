@@ -306,13 +306,6 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
         $pkg_summary .= ' arch=' . join ',', split ' ', $arch;
 
         if (defined $profile) {
-            # If the string does not contain brackets then it is using the
-            # old syntax. Emit a fatal error.
-            if ($profile !~ m/^\s*<.*>\s*$/) {
-                error(g_('binary package stanza %s is using an obsolete ' .
-                         'Build-Profiles field syntax'), $p);
-            }
-
             # Instead of splitting twice and then joining twice, we just do
             # simple string replacements:
 
