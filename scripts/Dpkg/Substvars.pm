@@ -39,7 +39,7 @@ Dpkg::Substvars - handle variable substitution in strings
 
 =head1 DESCRIPTION
 
-It provides an object which is able to substitute variables in strings.
+It provides a class which is able to substitute variables in strings.
 
 =cut
 

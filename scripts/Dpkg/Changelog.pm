@@ -24,7 +24,7 @@ Dpkg::Changelog - base class to implement a changelog parser
 
 Dpkg::Changelog is a class representing a changelog file
 as an array of changelog entries (Dpkg::Changelog::Entry).
-By deriving this object and implementing its parse method, you
+By deriving this class and implementing its parse method, you
 add the ability to fill this object with changelog entries.
 
 =cut

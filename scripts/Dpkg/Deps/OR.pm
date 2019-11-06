@@ -29,7 +29,7 @@ Dpkg::Deps::OR - list of OR dependencies
 
 =head1 DESCRIPTION
 
-This object represents a list of dependencies of which only one must be met
+This class represents a list of dependencies of which only one must be met
 for the dependency to be true. It inherits from Dpkg::Deps::Multiple.
 
 =cut

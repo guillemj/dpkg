@@ -29,7 +29,7 @@ Dpkg::Deps::KnownFacts - list of installed real and virtual packages
 
 =head1 DESCRIPTION
 
-This object represents a list of installed packages and a list of virtual
+This class represents a list of installed packages and a list of virtual
 packages provided (by the set of installed packages).
 
 =cut

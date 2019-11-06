@@ -38,12 +38,12 @@ Dpkg::Interface::Storable - common methods related to object serialization
 =head1 DESCRIPTION
 
 Dpkg::Interface::Storable is only meant to be used as parent
-class for other objects. It provides common methods that are
+class for other classes. It provides common methods that are
 all implemented on top of two basic methods parse() and output().
 
 =head1 BASE METHODS
 
-Those methods must be provided by the object that wish to inherit
+Those methods must be provided by the class that wish to inherit
 from Dpkg::Interface::Storable so that the methods provided can work.
 
 =over 4

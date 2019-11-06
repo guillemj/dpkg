@@ -31,14 +31,14 @@ use Dpkg::ErrorHandling;
 use parent qw(IO::File Tie::Handle);
 
 # Useful reference to understand some kludges required to
-# have the object behave like a filehandle
+# have the class behave like a filehandle
 # http://blog.woobling.org/2009/10/are-filehandles-objects.html
 
 =encoding utf8
 
 =head1 NAME
 
-Dpkg::Compression::FileHandle - object dealing transparently with file compression
+Dpkg::Compression::FileHandle - class dealing transparently with file compression
 
 =head1 SYNOPSIS
 
@@ -76,7 +76,7 @@ Dpkg::Compression::FileHandle - object dealing transparently with file compressi
 
 =head1 DESCRIPTION
 
-Dpkg::Compression::FileHandle is an object that can be used
+Dpkg::Compression::FileHandle is a class that can be used
 like any filehandle and that deals transparently with compressed
 files. By default, the compression scheme is guessed from the filename
 but you can override this behaviour with the method C<set_compression>.
@@ -102,8 +102,8 @@ and you can't seek on a pipe.
 
 =head1 FileHandle METHODS
 
-The object inherits from IO::File so all methods that work on this
-object should work for Dpkg::Compression::FileHandle too. There
+The class inherits from IO::File so all methods that work on this
+class should work for Dpkg::Compression::FileHandle too. There
 may be exceptions though.
 
 =head1 PUBLIC METHODS
@@ -121,7 +121,7 @@ obviously incompatible with automatic detection of the compression method.
 
 =cut
 
-# Object methods
+# Class methods
 sub new {
     my ($this, %args) = @_;
     my $class = ref($this) || $this;
@@ -378,7 +378,7 @@ sub use_compression {
 =item $real_fh = $fh->get_filehandle()
 
 Returns the real underlying filehandle. Useful if you want to pass it
-along in a derived object.
+along in a derived class.
 
 =cut
 
@@ -444,9 +444,9 @@ sub _cleanup {
 
 =back
 
-=head1 DERIVED OBJECTS
+=head1 DERIVED CLASSES
 
-If you want to create an object that inherits from
+If you want to create a class that inherits from
 Dpkg::Compression::FileHandle you must be aware that
 the object is a reference to a GLOB that is returned by Symbol::gensym()
 and as such it's not a HASH.

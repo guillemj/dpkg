@@ -29,7 +29,7 @@ Dpkg::Deps::AND - list of AND dependencies
 
 =head1 DESCRIPTION
 
-This object represents a list of dependencies that must be met at the same
+This class represents a list of dependencies that must be met at the same
 time. It inherits from Dpkg::Deps::Multiple.
 
 =cut

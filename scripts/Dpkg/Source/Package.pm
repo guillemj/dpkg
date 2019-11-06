@@ -24,7 +24,7 @@ Dpkg::Source::Package - manipulate Debian source packages
 
 =head1 DESCRIPTION
 
-This module provides an object that can manipulate Debian source
+This module provides a class that can manipulate Debian source
 packages. While it supports both the extraction and the creation
 of source packages, the only API that is officially supported
 is the one that supports the extraction of the source package.
@@ -204,7 +204,7 @@ source package after its extraction.
 
 =cut
 
-# Object methods
+# Class methods
 sub new {
     my ($this, %args) = @_;
     my $class = ref($this) || $this;

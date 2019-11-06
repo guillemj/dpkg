@@ -36,11 +36,11 @@ use parent qw(Dpkg::Vendor::Default);
 
 =head1 NAME
 
-Dpkg::Vendor::Debian - Debian vendor object
+Dpkg::Vendor::Debian - Debian vendor class
 
 =head1 DESCRIPTION
 
-This vendor object customizes the behaviour of dpkg scripts for Debian
+This vendor class customizes the behaviour of dpkg scripts for Debian
 specific behavior and policies.
 
 =cut

@@ -39,7 +39,7 @@ Dpkg::Index - generic index of control information
 
 =head1 DESCRIPTION
 
-This object represent a set of Dpkg::Control objects.
+This class represent a set of Dpkg::Control objects.
 
 =head1 METHODS
 

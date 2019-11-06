@@ -45,7 +45,7 @@ Dpkg::Changelog::Entry::Debian - represents a Debian changelog entry
 
 =head1 DESCRIPTION
 
-This object represents a Debian changelog entry. It implements the
+This class represents a Debian changelog entry. It implements the
 generic interface Dpkg::Changelog::Entry. Only functions specific to this
 implementation are described below.
 

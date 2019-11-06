@@ -34,11 +34,11 @@ use parent qw(Dpkg::Vendor::Debian);
 
 =head1 NAME
 
-Dpkg::Vendor::Ubuntu - Ubuntu vendor object
+Dpkg::Vendor::Ubuntu - Ubuntu vendor class
 
 =head1 DESCRIPTION
 
-This vendor object customizes the behaviour of dpkg scripts for Ubuntu
+This vendor class customizes the behaviour of dpkg scripts for Ubuntu
 specific behavior and policies.
 
 =cut

@@ -24,7 +24,7 @@ Dpkg::Source::Format - manipulate debian/source/format files
 
 =head1 DESCRIPTION
 
-This module provides an object that can manipulate Debian source
+This module provides a class that can manipulate Debian source
 package F<debian/source/format> files.
 
 =cut

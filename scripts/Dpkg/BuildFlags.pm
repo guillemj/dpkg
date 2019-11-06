@@ -34,7 +34,7 @@ Dpkg::BuildFlags - query build flags
 
 =head1 DESCRIPTION
 
-The Dpkg::BuildFlags object is used by dpkg-buildflags and can be used
+This class is used by dpkg-buildflags and can be used
 to query the same information.
 
 =head1 METHODS

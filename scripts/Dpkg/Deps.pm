@@ -29,7 +29,7 @@ Dpkg::Deps - parse and manipulate dependencies of Debian packages
 
 =head1 DESCRIPTION
 
-The Dpkg::Deps module provides objects implementing various types of
+The Dpkg::Deps module provides classes implementing various types of
 dependencies.
 
 The most important function is deps_parse(), it turns a dependency line in
@@ -429,11 +429,11 @@ sub deps_compare {
     }
 }
 
-=head1 OBJECTS - Dpkg::Deps::*
+=head1 CLASSES - Dpkg::Deps::*
 
 There are several kind of dependencies. A Dpkg::Deps::Simple dependency
 represents a single dependency statement (it relates to one package only).
-Dpkg::Deps::Multiple dependencies are built on top of this object
+Dpkg::Deps::Multiple dependencies are built on top of this class
 and combine several dependencies in different manners. Dpkg::Deps::AND
 represents the logical "AND" between dependencies while Dpkg::Deps::OR
 represents the logical "OR". Dpkg::Deps::Multiple objects can contain
@@ -443,7 +443,7 @@ In practice, the code is only meant to handle the realistic cases which,
 given Debian's dependencies structure, imply those restrictions: AND can
 contain Simple or OR objects, OR can only contain Simple objects.
 
-Dpkg::Deps::KnownFacts is a special object that is used while evaluating
+Dpkg::Deps::KnownFacts is a special class that is used while evaluating
 dependencies and while trying to simplify them. It represents a set of
 installed packages along with the virtual packages that they might
 provide.

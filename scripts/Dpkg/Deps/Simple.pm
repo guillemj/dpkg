@@ -29,7 +29,8 @@ Dpkg::Deps::Simple - represents a single dependency statement
 
 =head1 DESCRIPTION
 
-This object has several interesting properties:
+This class represents a single dependency statement.
+It has several interesting properties:
 
 =over 4
 
@@ -576,7 +577,7 @@ sub get_evaluation {
 =item $dep->simplify_deps($facts, @assumed_deps)
 
 Simplifies the dependency as much as possible given the list of facts (see
-object Dpkg::Deps::KnownFacts) and a list of other dependencies that are
+class Dpkg::Deps::KnownFacts) and a list of other dependencies that are
 known to be true.
 
 =cut

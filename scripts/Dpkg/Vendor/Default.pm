@@ -20,7 +20,7 @@ use warnings;
 
 our $VERSION = '0.01';
 
-# If you use this file as template to create a new vendor object, please
+# If you use this file as template to create a new vendor class, please
 # uncomment the following lines
 #use parent qw(Dpkg::Vendor::Default);
 
@@ -28,12 +28,12 @@ our $VERSION = '0.01';
 
 =head1 NAME
 
-Dpkg::Vendor::Default - default vendor object
+Dpkg::Vendor::Default - default vendor class
 
 =head1 DESCRIPTION
 
-A vendor object is used to provide vendor specific behaviour
-in various places. This is the default object used in case
+A vendor class is used to provide vendor specific behaviour
+in various places. This is the default class used in case
 there's none for the current vendor or in case the vendor could
 not be identified (see Dpkg::Vendor documentation).
 

@@ -43,7 +43,7 @@ Dpkg::Control::HashCore - parse and manipulate a block of RFC822-like fields
 
 =head1 DESCRIPTION
 
-The Dpkg::Control::Hash object is a hash-like representation of a set of
+The Dpkg::Control::Hash class is a hash-like representation of a set of
 RFC822-like fields. The fields names are case insensitive and are always
 capitalized the same when output (see field_capitalize function in
 Dpkg::Control::Fields).
@@ -440,7 +440,7 @@ sub apply_substvars {
 
 package Dpkg::Control::HashCore::Tie;
 
-# This object is used to tie a hash. It implements hash-like functions by
+# This class is used to tie a hash. It implements hash-like functions by
 # normalizing the name of fields received in keys (using
 # Dpkg::Control::Fields::field_capitalize). It also stores the order in
 # which fields have been added in order to be able to dump them in the
