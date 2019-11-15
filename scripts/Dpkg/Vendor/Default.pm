@@ -157,9 +157,6 @@ sub run_hook {
 
     if ($hook eq 'before-source-build') {
         my $srcpkg = shift @params;
-    } elsif ($hook eq 'keyrings') {
-        warnings::warnif('deprecated', 'obsolete keyrings vendor hook');
-        return ();
     } elsif ($hook eq 'package-keyrings') {
         return ();
     } elsif ($hook eq 'archive-keyrings') {
