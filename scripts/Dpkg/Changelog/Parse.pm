@@ -217,7 +217,7 @@ New option: 'compression' in changelog_parse().
 
 Deprecated functions: changelog_parse_debian(), changelog_parse_plugin().
 
-Obsolete options: $forceplugin, $libdir.
+Obsolete options: forceplugin, libdir.
 
 =head2 Version 1.01 (dpkg 1.18.2)
 
