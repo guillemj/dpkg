@@ -34,7 +34,7 @@ is the one that supports the extraction of the source package.
 use strict;
 use warnings;
 
-our $VERSION = '1.04';
+our $VERSION = '2.00';
 our @EXPORT_OK = qw(
     get_default_diff_ignore_regex
     set_default_diff_ignore_regex
@@ -81,14 +81,8 @@ my $diff_ignore_default_regex = '
 $diff_ignore_default_regex =~ s/^#.*$//mg;
 $diff_ignore_default_regex =~ s/\n//sg;
 
-# Public variables
-# XXX: Backwards compatibility, stop exporting on VERSION 2.00.
-## no critic (Variables::ProhibitPackageVars)
-our $diff_ignore_default_regexp;
-*diff_ignore_default_regexp = \$diff_ignore_default_regex;
-
 no warnings 'qw'; ## no critic (TestingAndDebugging::ProhibitNoWarnings)
-our @tar_ignore_default_pattern = qw(
+my @tar_ignore_default_pattern = qw(
 *.a
 *.la
 *.o
@@ -660,9 +654,13 @@ sub write_dsc {
 
 =head1 CHANGES
 
-=head2 Version 1.04 (dpkg 1.20.0)
+=head2 Version 2.00 (dpkg 1.20.0)
 
 New method: check_original_tarball_signature().
+
+Remove variable: $diff_ignore_default_regexp.
+
+Hide variable: @tar_ignore_default_pattern.
 
 =head2 Version 1.03 (dpkg 1.19.3)
 
