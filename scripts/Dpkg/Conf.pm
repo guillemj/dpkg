@@ -18,7 +18,7 @@ package Dpkg::Conf;
 use strict;
 use warnings;
 
-our $VERSION = '1.03';
+our $VERSION = '1.04';
 
 use Carp;
 
@@ -83,22 +83,6 @@ sub get_options {
     my $self = shift;
 
     return @{$self->{options}};
-}
-
-=item get()
-
-=item set()
-
-Obsolete functions, use get_options() instead. They will croak.
-
-=cut
-
-sub get {
-    croak 'obsolete function, use get_options instead';
-}
-
-sub set {
-    croak 'obsolete function, use get_options instead';
 }
 
 =item $conf->load($file)
@@ -215,8 +199,6 @@ sub filter {
     my $remove = $opts{remove} // sub { 0 };
     my $keep = $opts{keep} // sub { 1 };
 
-    croak 'obsolete option format_argv' if exists $opts{format_argv};
-
     @{$self->{options}} = grep { not $remove->($_) and $keep->($_) }
                                @{$self->{options}};
 }
@@ -252,6 +234,12 @@ Save the options in a file.
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.04 (dpkg 1.20.0)
+
+Remove croak: For 'format_argv' in $conf->filter().
+
+Remove methods: $conf->get(), $conf->set().
 
 =head2 Version 1.03 (dpkg 1.18.8)
 
