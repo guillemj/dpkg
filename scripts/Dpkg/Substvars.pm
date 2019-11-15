@@ -19,7 +19,7 @@ package Dpkg::Substvars;
 use strict;
 use warnings;
 
-our $VERSION = '1.06';
+our $VERSION = '2.00';
 
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
@@ -166,21 +166,6 @@ default.
 sub mark_as_used {
     my ($self, $key) = @_;
     $self->{attr}{$key} |= SUBSTVAR_ATTR_USED;
-}
-
-=item $s->no_warn($key)
-
-Obsolete function, use mark_as_used() instead.
-
-=cut
-
-sub no_warn {
-    my ($self, $key) = @_;
-
-    warnings::warnif('deprecated',
-                     'obsolete no_warn() function, use mark_as_used() instead');
-
-    $self->mark_as_used($key);
 }
 
 =item $s->parse($fh, $desc)
@@ -437,6 +422,10 @@ indicated file.
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.00 (dpkg 1.20.0)
+
+Remove method: $s->no_warn().
 
 =head2 Version 1.06 (dpkg 1.19.0)
 
