@@ -37,7 +37,7 @@ packages provided (by the set of installed packages).
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '2.00';
 
 use Dpkg::Version;
 
@@ -107,37 +107,6 @@ sub add_provided_package {
 
     $self->{virtualpkg}{$pkg} //= [];
     push @{$self->{virtualpkg}{$pkg}}, $v;
-}
-
-=item ($check, $param) = $facts->check_package($package)
-
-$check is one when the package is found. For a real package, $param
-contains the version. For a virtual package, $param contains an array
-reference containing the list of packages that provide it (each package is
-listed as [ $provider, $relation, $version ]).
-
-This function is obsolete and should not be used. Dpkg::Deps::KnownFacts
-is only meant to be filled with data and then passed to Dpkg::Deps
-methods where appropriate, but it should not be directly queried.
-
-=cut
-
-sub check_package {
-    my ($self, $pkg) = @_;
-
-    warnings::warnif('deprecated', 'obsolete function, pass ' .
-                     'Dpkg::Deps::KnownFacts to Dpkg::Deps methods instead');
-
-    if (exists $self->{pkg}{$pkg}) {
-        return (1, $self->{pkg}{$pkg}[0]{version});
-    }
-    if (exists $self->{virtualpkg}{$pkg}) {
-        my $arrayref = [ map { [
-            $_->{provider}, $_->{relation}, $_->{version}
-        ] } @{$self->{virtualpkg}{$pkg}} ];
-        return (1, $arrayref);
-    }
-    return (0, undef);
 }
 
 ##
@@ -227,6 +196,10 @@ sub evaluate_simple_dep {
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.00 (dpkg 1.20.0)
+
+Remove method: $facts->check_package().
 
 =head2 Version 1.01 (dpkg 1.16.1)
 
