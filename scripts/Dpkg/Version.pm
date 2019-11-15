@@ -22,7 +22,7 @@ use strict;
 use warnings;
 use warnings::register qw(semantic_change::overload::bool);
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 our @EXPORT = qw(
     version_compare
     version_compare_relation
@@ -56,12 +56,7 @@ use overload
     '<=>' => \&_comparison,
     'cmp' => \&_comparison,
     '""'  => sub { return $_[0]->as_string(); },
-    'bool' => sub {
-        warnings::warnif('Dpkg::Version::semantic_change::overload::bool',
-                         'Dpkg::Version bool overload behavior has changed ' .
-                         'back to be an is_valid() alias');
-        return $_[0]->is_valid();
-    },
+    'bool' => sub { return $_[0]->is_valid(); },
     'fallback' => 1;
 
 =encoding utf8
@@ -472,6 +467,10 @@ sub version_check($) {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.03 (dpkg 1.20.0)
+
+Remove deprecation warning from semantic change in 1.02.
 
 =head2 Version 1.02 (dpkg 1.19.1)
 

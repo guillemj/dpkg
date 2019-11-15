@@ -85,12 +85,6 @@ my $truth = {
     },
 };
 
-# XXX: Some of the tests check the bool overload, which currently emits
-# the semantic_change warning. Disable it until we stop emitting the
-# warning in dpkg 1.20.x.
-## no critic (TestingAndDebugging::ProhibitNoWarnings)
-no warnings(qw(Dpkg::Version::semantic_change::overload::bool));
-
 # Handling of empty/invalid versions
 my $empty = Dpkg::Version->new('');
 ok($empty eq '', "Dpkg::Version->new('') eq ''");
