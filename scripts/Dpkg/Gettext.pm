@@ -30,14 +30,13 @@ use strict;
 use warnings;
 use feature qw(state);
 
-our $VERSION = '1.03';
+our $VERSION = '2.00';
 our @EXPORT = qw(
     textdomain
     ngettext
     g_
     P_
     N_
-    _g
 );
 
 use Exporter qw(import);
@@ -189,18 +188,11 @@ sub N_
     return $msgid;
 }
 
-# XXX: Backwards compatibility, to be removed on VERSION 2.00.
-sub _g ## no critic (Subroutines::ProhibitUnusedPrivateSubroutines)
-{
-    my $msgid = shift;
-
-    warnings::warnif('deprecated',
-                     'obsolete _g() function, please use g_() instead');
-
-    return g_($msgid);
-}
-
 =head1 CHANGES
+
+=head2 Version 2.00 (dpkg 1.20.0)
+
+Remove function: _g().
 
 =head2 Version 1.03 (dpkg 1.19.0)
 
