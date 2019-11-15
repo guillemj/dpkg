@@ -19,7 +19,7 @@ package Dpkg::Exit;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '2.00';
 our @EXPORT_OK = qw(
     push_exit_handler
     pop_exit_handler
@@ -28,10 +28,7 @@ our @EXPORT_OK = qw(
 
 use Exporter qw(import);
 
-# XXX: Backwards compatibility, stop exporting on VERSION 2.00.
-## no critic (Variables::ProhibitPackageVars)
-our @handlers = ();
-## use critic
+my @handlers = ();
 
 =encoding utf8
 
@@ -90,6 +87,10 @@ $SIG{QUIT} = \&_exit_handler;
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.00 (dpkg 1.20.0)
+
+Hide variable: @handlers.
 
 =head2 Version 1.01 (dpkg 1.17.2)
 
