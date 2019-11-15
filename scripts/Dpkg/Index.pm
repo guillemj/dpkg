@@ -19,7 +19,7 @@ package Dpkg::Index;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '2.00';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -58,7 +58,7 @@ sub new {
     my $self = {
 	items => {},
 	order => [],
-	unique_tuple_key => 0,
+	unique_tuple_key => 1,
 	get_key_func => sub { return $_[0]->{Package} },
 	type => CTRL_UNKNOWN,
     };
@@ -77,8 +77,7 @@ The "type" option is checked first to define default values for other
 options. Here are the relevant options: "get_key_func" is a function
 returning a key for the item passed in parameters, "unique_tuple_key" is
 a boolean requesting whether the default key should be the unique tuple
-(default to false for backwards compatibility, but it will change to true
-in dpkg 1.20.x). The index can only contain one item with a given key.
+(default to true). The index can only contain one item with a given key.
 The "get_key_func" function used depends on the type:
 
 =over
@@ -89,9 +88,9 @@ for CTRL_INFO_SRC, it is the Source field;
 
 =item *
 
-for CTRL_INDEX_SRC and CTRL_PKG_SRC it is the Package field by default,
-or the Package and Version fields (concatenated with "_") when
-"unique_tuple_key" is true;
+for CTRL_INDEX_SRC and CTRL_PKG_SRC it is the Package and Version fields
+(concatenated with "_") when "unique_tuple_key" is true (the default), or
+otherwise the Package field;
 
 =item *
 
@@ -99,9 +98,9 @@ for CTRL_INFO_PKG it is simply the Package field;
 
 =item *
 
-for CTRL_INDEX_PKG and CTRL_PKG_DEB it is the Package field by default,
-or the Package, Version and Architecture fields (concatenated with "_")
-when "unique_tuple_key" is true;
+for CTRL_INDEX_PKG and CTRL_PKG_DEB it is the Package, Version and
+Architecture fields (concatenated with "_") when "unique_tuple_key" is
+true (the default) or otherwise the Package field;
 
 =item *
 
@@ -165,14 +164,10 @@ sub set_options {
                 $self->{get_key_func} = sub {
                     return $_[0]->{Package} . '_' . $_[0]->{Version};
                 };
-            } elsif (not defined $opts{get_key_func}) {
+            } else {
                 $self->{get_key_func} = sub {
                     return $_[0]->{Package};
                 };
-                warnings::warnif('deprecated',
-                    'the default get_key_func for this control type will ' .
-                    'change semantics in dpkg 1.20.x , please set ' .
-                    'unique_tuple_key or get_key_func explicitly');
             }
         } elsif ($t == CTRL_INDEX_PKG or $t == CTRL_PKG_DEB) {
             if ($opts{unique_tuple_key} // $self->{unique_tuple_key}) {
@@ -180,14 +175,10 @@ sub set_options {
                     return $_[0]->{Package} . '_' . $_[0]->{Version} . '_' .
                            $_[0]->{Architecture};
                 };
-            } elsif (not defined $opts{get_key_func}) {
+            } else {
                 $self->{get_key_func} = sub {
                     return $_[0]->{Package};
                 };
-                warnings::warnif('deprecated',
-                    'the default get_key_func for this control type will ' .
-                    'change semantics in dpkg 1.20.x , please set ' .
-                    'unique_tuple_key or get_key_func explicitly');
             }
         } elsif ($t == CTRL_FILE_CHANGES) {
 	    $self->{get_key_func} = sub {
@@ -434,6 +425,10 @@ based on their extensions.
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.00 (dpkg 1.20.0)
+
+Change behavior: The "unique_tuple_key" option now defaults to true.
 
 =head2 Version 1.01 (dpkg 1.19.0)
 
