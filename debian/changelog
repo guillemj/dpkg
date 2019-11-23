@@ -113,6 +113,8 @@ dpkg (1.20.0) UNRELEASED; urgency=medium
     - libdpkg: Add missing symbols to the version map.
     - libdpkg: Fix fiemap memory layout usage that confuses gcc 10 to emit a
       warning.
+    - libdpkg: Only use varbuf_printf() in pkg_format_show() when necessary.
+      This should speed up «dpkg-query --show» formatting.
   * Build system:
     - Bump minimal Perl version to 5.24.1.
     - Add a serial versioning to the m4 files.

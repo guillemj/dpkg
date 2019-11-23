@@ -388,6 +388,21 @@ static const struct fieldinfo virtinfos[] = {
 	{ NULL },
 };
 
+static void
+pkg_format_item(struct varbuf *vb,
+                const struct pkg_format_node *node, const char *str)
+{
+	if (node->width == 0)
+		varbuf_add_str(vb, str);
+	else {
+		char fmt[16];
+
+		snprintf(fmt, sizeof(fmt), "%%%s%zus",
+		         ((node->pad) ? "-" : ""), node->width);
+		varbuf_printf(vb, fmt, str);
+	}
+}
+
 void
 pkg_format_show(const struct pkg_format_node *head,
                 struct pkginfo *pkg, struct pkgbin *pkgbin)
@@ -396,19 +411,10 @@ pkg_format_show(const struct pkg_format_node *head,
 	struct varbuf vb = VARBUF_INIT, fb = VARBUF_INIT, wb = VARBUF_INIT;
 
 	for (node = head; node; node = node->next) {
-		bool ok;
-		char fmt[16];
-
-		ok = false;
-
-		if (node->width > 0)
-			snprintf(fmt, 16, "%%%s%zus",
-			         ((node->pad) ? "-" : ""), node->width);
-		else
-			strcpy(fmt, "%s");
+		bool ok = false;
 
 		if (node->type == PKG_FORMAT_STRING) {
-			varbuf_printf(&fb, fmt, node->data);
+			pkg_format_item(&fb, node, node->data);
 			ok = true;
 		} else if (node->type == PKG_FORMAT_FIELD) {
 			const struct fieldinfo *fip;
@@ -421,7 +427,7 @@ pkg_format_show(const struct pkg_format_node *head,
 				fip->wcall(&wb, pkg, pkgbin, 0, fip);
 
 				varbuf_end_str(&wb);
-				varbuf_printf(&fb, fmt, wb.buf);
+				pkg_format_item(&fb, node, wb.buf);
 				varbuf_reset(&wb);
 				ok = true;
 			} else {
@@ -429,7 +435,7 @@ pkg_format_show(const struct pkg_format_node *head,
 
 				afp = find_arbfield_info(pkgbin->arbs, node->data);
 				if (afp) {
-					varbuf_printf(&fb, fmt, afp->value);
+					pkg_format_item(&fb, node, afp->value);
 					ok = true;
 				}
 			}
