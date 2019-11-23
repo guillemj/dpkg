@@ -153,6 +153,11 @@ dpkg (1.20.0) UNRELEASED; urgency=medium
     - libdpkg: Add new dir_make_path() and dir_make_path_parent() functions.
     - libdpkg: Add new atomic file flag to create the base path when missing.
     - libdpkg: Fix modstatdb_rw enum comments.
+    - libdpkg, dpkg-query: Optimize db-fsys:Files virtual variable loading.
+      We load either the entire db-fsys for all packages, possibly optimized
+      per platform (such as by using fiemap), or the specific ones for the
+      requested packages. This also fixes a problematic cast removing the
+      constness of a variable.
   * Build system:
     - Bump minimal Perl version to 5.24.1.
     - Add a serial versioning to the m4 files.

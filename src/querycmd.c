@@ -541,6 +541,12 @@ list_files(const char *const *argv)
 }
 
 static void
+pkg_array_load_db_fsys(struct pkg_array *array, struct pkginfo *pkg, void *pkg_data)
+{
+  ensure_packagefiles_available(pkg);
+}
+
+static void
 pkg_array_show_item(struct pkg_array *array, struct pkginfo *pkg, void *pkg_data)
 {
   struct pkg_format_node *fmt = pkg_data;
@@ -555,6 +561,7 @@ showpackages(const char *const *argv)
   struct pkg_array array;
   struct pkginfo *pkg;
   struct pkg_format_node *fmt;
+  bool fmt_needs_db_fsys;
   int i;
   int rc = 0;
 
@@ -566,6 +573,8 @@ showpackages(const char *const *argv)
     return rc;
   }
 
+  fmt_needs_db_fsys = pkg_format_needs_db_fsys(fmt);
+
   if (!opt_loadavail)
     modstatdb_open(msdbrw_readonly);
   else
@@ -575,6 +584,8 @@ showpackages(const char *const *argv)
   pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
 
   if (!*argv) {
+    if (fmt_needs_db_fsys)
+      ensure_allinstfiles_available();
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
       if (pkg->status == PKG_STAT_NOTINSTALLED)
@@ -582,6 +593,8 @@ showpackages(const char *const *argv)
       pkg_format_show(fmt, pkg, &pkg->installed);
     }
   } else {
+    if (fmt_needs_db_fsys)
+      pkg_array_foreach(&array, pkg_array_load_db_fsys, NULL);
     rc = pkg_array_match_patterns(&array, pkg_array_show_item, fmt, argv);
   }
 

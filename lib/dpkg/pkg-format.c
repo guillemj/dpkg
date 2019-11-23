@@ -302,21 +302,16 @@ virt_fsys_last_modified(struct varbuf *vb,
 	varbuf_printf(vb, "%ld", st.st_mtime);
 }
 
+/*
+ * This function requires the caller to have loaded the package fsys metadata,
+ * otherwise it will do nothing.
+ */
 static void
 virt_fsys_files(struct varbuf *vb,
                 const struct pkginfo *pkg, const struct pkgbin *pkgbin,
                 enum fwriteflags flags, const struct fieldinfo *fip)
 {
 	struct fsys_namenode_list *node;
-
-	/* XXX: This cast is so wrong on so many levels, but the alternatives
-	 * are apparently worse. We might need to end up removing the const
-	 * from the arguments.
-	 *
-	 * Ideally loading the entire fsys db would be cheaper, and stored
-	 * in a single file, so we could do it unconditionally, before any
-	 * formatting. */
-	ensure_packagefiles_available((struct pkginfo *)pkg);
 
 	if (!pkg->files_list_valid)
 		return;
@@ -381,6 +376,21 @@ static const struct fieldinfo virtinfos[] = {
 	{ FIELD("source:Upstream-Version"), NULL, virt_source_upstream_version },
 	{ NULL },
 };
+
+bool
+pkg_format_needs_db_fsys(const struct pkg_format_node *head)
+{
+	const struct pkg_format_node *node;
+
+	for (node = head; node; node = node->next) {
+		if (node->type != PKG_FORMAT_FIELD)
+			continue;
+		if (strcmp(node->data, "db-fsys:Files") == 0)
+			return true;
+	}
+
+	return false;
+}
 
 static void
 pkg_format_item(struct varbuf *vb,
