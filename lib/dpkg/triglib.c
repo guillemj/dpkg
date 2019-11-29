@@ -790,9 +790,6 @@ trig_incorporate(enum modstatdb_rw cstatus)
 			if (errno != EEXIST)
 				ohshite(_("unable to create triggers state"
 				          " directory '%.250s'"), triggersdir);
-		} else if (chown(triggersdir, 0, 0)) {
-			ohshite(_("unable to set ownership of triggers state"
-			          " directory '%.250s'"), triggersdir);
 		}
 		ur = trigdef_update_start(tduf);
 	}
