@@ -85,8 +85,16 @@ static void cleanupdates(void) {
   *updatefnrest = '\0';
   updateslength= -1;
   cdn= scandir(updatefnbuf, &cdlist, &ulist_select, alphasort);
-  if (cdn == -1)
+  if (cdn == -1) {
+    if (errno == ENOENT) {
+      if (cstatus >= msdbrw_write &&
+          dir_make_path(updatefnbuf, 0755) < 0)
+        ohshite(_("cannot create the dpkg updates directory %s"),
+                updatefnbuf);
+      return;
+    }
     ohshite(_("cannot scan updates directory '%.255s'"), updatefnbuf);
+  }
 
   if (cdn) {
     for (i=0; i<cdn; i++) {
