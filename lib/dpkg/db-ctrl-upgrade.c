@@ -210,7 +210,7 @@ pkg_infodb_upgrade_to_multiarch(void)
 	char *db_format_file;
 
 	db_format_file = dpkg_db_get_path(INFODIR "/format");
-	db_file = atomic_file_new(db_format_file, 0);
+	db_file = atomic_file_new(db_format_file, ATOMIC_FILE_MKPATH);
 	atomic_file_open(db_file);
 
 	push_cleanup(cu_abort_db_upgrade, ehflag_bombout, 1, db_file);
