@@ -503,6 +503,36 @@ rename_mv(const char *src, const char *dst)
 	return false;
 }
 
+static int
+make_path(const char *pathname, mode_t mode)
+{
+	char *dirname, *slash;
+
+	dirname = xstrdup(pathname);
+
+	/* Find the first slash, and ignore it, as it will be either the
+	 * slash for the root directory, for the current directory in a
+	 * relative pathname or its parent. */
+	slash = strchr(dirname, '/');
+
+	while (slash != NULL) {
+		slash = strchr(slash + 1, '/');
+		if (slash)
+			*slash = '\0';
+
+		if (mkdir(dirname, mode) < 0 && errno != EEXIST) {
+			free(dirname);
+			return -1;
+		}
+		if (slash)
+			*slash = '/';
+	}
+
+	free(dirname);
+
+	return 0;
+}
+
 static void
 checked_symlink(const char *filename, const char *linkname)
 {
@@ -1417,6 +1447,12 @@ alternative_save(struct alternative *a)
 
 	ctx.filename = filenew;
 	ctx.fh = fopen(ctx.filename, "w");
+	if (ctx.fh == NULL && errno == ENOENT) {
+		if (make_path(admdir, 0755) < 0)
+			syserr(_("cannot create administrative directory '%s'"),
+			       admdir);
+		ctx.fh = fopen(ctx.filename, "w");
+	}
 	if (ctx.fh == NULL)
 		syserr(_("unable to create file '%s'"), ctx.filename);
 
