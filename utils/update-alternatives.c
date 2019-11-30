@@ -1107,8 +1107,13 @@ altdb_get_namelist(struct dirent ***table)
 	int count;
 
 	count = scandir(admdir, table, altdb_filter_namelist, alphasort);
-	if (count < 0)
-		syserr(_("cannot scan directory '%.255s'"), admdir);
+	if (count < 0) {
+		if (errno != ENOENT)
+			syserr(_("cannot scan directory '%.255s'"), admdir);
+		/* The directory does not exist, proceed anyway. */
+		*table = NULL;
+		count = 0;
+	}
 
 	return count;
 }
