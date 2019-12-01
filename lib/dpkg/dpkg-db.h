@@ -261,10 +261,12 @@ char *dpkg_db_get_path(const char *pathpart);
 /*** from dbmodify.c ***/
 
 enum modstatdb_rw {
-  /* Those marked with \*s*\ are possible returns from modstatdb_init. */
-  msdbrw_readonly/*s*/, msdbrw_needsuperuserlockonly/*s*/,
+  /* Those marked with «return» are possible returns from modstatdb_open(). */
+  msdbrw_readonly,			/* «return» */
+  msdbrw_needsuperuserlockonly,		/* «return» */
   msdbrw_writeifposs,
-  msdbrw_write/*s*/, msdbrw_needsuperuser,
+  msdbrw_write,				/* «return» */
+  msdbrw_needsuperuser,
 
   /* Now some optional flags (starting at bit 8): */
   msdbrw_available_readonly	= DPKG_BIT(8),
