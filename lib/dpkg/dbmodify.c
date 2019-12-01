@@ -289,7 +289,7 @@ modstatdb_open(enum modstatdb_rw readwritereq)
       if (errno != EACCES)
         ohshite(_("unable to access the dpkg database directory %s"),
                 dpkg_db_get_dir());
-      else if (readwritereq == msdbrw_write)
+      else if (readwritereq >= msdbrw_write)
         ohshit(_("required read/write access to the dpkg database directory %s"),
                dpkg_db_get_dir());
       cstatus= msdbrw_readonly;
