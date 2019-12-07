@@ -1,5 +1,5 @@
 /*
- * dpkg - main program for package management
+ * libdpkg - Debian packaging suite library routines
  * db-ctrl-upgrade.c - package control information database format upgrade
  *
  * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>

@@ -1,5 +1,5 @@
 /*
- * dpkg - main program for package management
+ * libdpkg - Debian packaging suite library routines
  * b-pkg-hash.c - test pkg database load and hash performance
  *
  * Copyright © 2009-2019 Guillem Jover <guillem@debian.org>

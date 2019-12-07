@@ -1,5 +1,5 @@
 /*
- * dpkg - main program for package management
+ * libdpkg - Debian packaging suite library routines
  * options-parsers.c - command-line options parser helpers
  *
  * Copyright © 2014 Guillem Jover <guillem@debian.org>

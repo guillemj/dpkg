@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * t-fsys.c - test filesystem handling
+ * t-fsys-dir.c - test filesystem handling
  *
  * Copyright © 2018 Guillem Jover <guillem@debian.org>
  *

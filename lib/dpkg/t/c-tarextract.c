@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * t-tarextract.c - test tar extractor
+ * c-tarextract.c - test tar extractor
  *
  * Copyright © 2014 Guillem Jover <guillem@debian.org>
  *
