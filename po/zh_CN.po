@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.19.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2019-12-26 07:58+0100\n"
-"PO-Revision-Date: 2019-01-12 00:00+0000\n"
+"PO-Revision-Date: 2020-01-12 19:47+0100\n"
 "Last-Translator: Mo Zhou <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
 "Language: zh_CN\n"
@@ -346,56 +346,46 @@ msgid "unable to seek to start of %.250s after padding"
 msgstr "补齐后无法找到 %.250s 的起始位置"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy, c-format
-#| msgid "unable to get file descriptor for directory '%s'"
+#, c-format
 msgid "unable to check lock file for dpkg database directory %s"
-msgstr "无法获得目录 '%s' 的文件描述符"
+msgstr "无法检查 dpkg 数据库目录 '%s' 的锁文件"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy, c-format
-#| msgid "unable to open/create frontend lockfile"
+#, c-format
 msgid "unable to open/create dpkg frontend lock for directory %s"
-msgstr "无法打开或创建前端锁"
+msgstr "无法为目录 '%s' 打开或创建 dpkg 前端锁"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy, c-format
-#| msgid "unable to open/create status database lockfile"
+#, c-format
 msgid "unable to open/create dpkg database lock file for directory %s"
-msgstr "无法打开或创建状态数据库锁"
+msgstr "无法为目录 '%s' 打开或创建 dpkg 锁文件"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy, c-format
-#| msgid "you do not have permission to lock the dpkg status database"
+#, c-format
 msgid "you do not have permission to lock the dpkg database directory %s"
-msgstr "您没有锁定 dpkg 的状态数据库的权限"
+msgstr "您没有锁定 dpkg 数据库目录 '%s' 的权限"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy
-#| msgid "dpkg frontend"
 msgid "dpkg frontend lock"
-msgstr "dpkg 前端"
+msgstr "dpkg 前端锁"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy
-#| msgid "dpkg status database"
 msgid "dpkg database lock"
-msgstr "dpkg 状态数据库"
+msgstr "dpkg 数据库锁"
 
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "所请求的操作需要超级用户权限"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy, c-format
-#| msgid "unable to access dpkg status area"
+#, c-format
 msgid "unable to access the dpkg database directory %s"
-msgstr "无法访问 dpkg 状态区域"
+msgstr "无法访问 dpkg 数据库目录 %s"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy, c-format
-#| msgid "operation requires read/write access to dpkg status area"
+#, c-format
 msgid "required read/write access to the dpkg database directory %s"
-msgstr "该操作需要读写 dpkg 状态区域的权限"
+msgstr "需要对于 dpkg 数据库目录 %s 的读/写权限"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -520,18 +510,18 @@ msgid ""
 "files list file for package '%.250s' missing; assuming package has no files "
 "currently installed"
 msgstr ""
-"无法找到软件包 %.250s 的文件名列表文件，现假定该软件包目前没有任何文件被安装"
+"无法找到软件包 %.250s 的文件列表，现假定目前该软件包没有任何文件被安装"
 "在系统里。"
 
 #: lib/dpkg/db-fsys-files.c
 #, c-format
 msgid "files list file for package '%.250s' is missing final newline"
-msgstr "软件包 %.250s 的文件名列表文件缺少最后结尾的换行符"
+msgstr "软件包 %.250s 的文件列表缺少最后结尾的换行符"
 
 #: lib/dpkg/db-fsys-files.c
 #, c-format
 msgid "files list file for package '%.250s' contains empty filename"
-msgstr "软件包 %.250s 的文件名列表文件含有空的文件名"
+msgstr "软件包 %.250s 的文件列表含有空的文件名"
 
 #: lib/dpkg/db-fsys-files.c
 msgid "(Reading database ... "
@@ -590,6 +580,8 @@ msgid ""
 "before the override, which is most probably a packaging bug, to recover you\n"
 "can remove the override manually with %s"
 msgstr ""
+"在 stateoverride 文件中发现未知的系统用户 '%s'；该系统用户在重载之前被移除。\n"
+"这很有可能是一个打包Bug。您可以通过 %s 手动移除重载来进行恢复"
 
 #: lib/dpkg/db-fsys-override.c
 msgid "unexpected end of line in statoverride file"
@@ -603,6 +595,8 @@ msgid ""
 "before the override, which is most probably a packaging bug, to recover you\n"
 "can remove the override manually with %s"
 msgstr ""
+"在 stateoverride 文件中发现未知的系统组 '%s'；该系统组在重载之前被移除。\n"
+"这很有可能是一个打包Bug。您可以通过 %s 手动移除重载来进行恢复"
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
@@ -720,74 +714,62 @@ msgid "internal error"
 msgstr "内部错误"
 
 #: lib/dpkg/fields.c
-#, fuzzy
-#| msgid "control file '%s' missing value"
 msgid "is missing a value"
-msgstr "control 文件 %s 中缺少值"
+msgstr "缺少一个值"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "Skip invalid line: %s"
+#, c-format
 msgid "has invalid value '%.50s'"
-msgstr "跳过无效行：%s"
+msgstr "有无效值 '%.50s'"
 
 #: lib/dpkg/fields.c
 msgid "has trailing junk"
-msgstr ""
+msgstr "有多余成分尾随"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "package name '%s' is invalid: %s"
+#, c-format
 msgid "invalid package name in '%s' field: %s"
-msgstr "软件包名 %s 无效: %s"
+msgstr "无效的软件包名存在于 '%s' 字段: %s"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "empty archive details field '%s'"
+#, c-format
 msgid "empty archive details '%s' field"
-msgstr "档案详情字段 %s 为空"
+msgstr "档案详情 '%s' 字段为空"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "archive details field '%s' not allowed in status file"
+#, c-format
 msgid "archive details '%s' field not allowed in status file"
-msgstr "状态文件不允许档案详情字段 ‘%s’ "
+msgstr "状态文件不允许档案详情 ‘%s’ 字段"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "too many values in archive details field '%s' (compared to others)"
+#, c-format
 msgid "too many values in archive details '%s' field (compared to others)"
-msgstr "档案详情字段 %s 的值过多(和其他的相比)"
+msgstr "档案详情 '%s' 字段的值过多(和其他的相比)"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "too few values in archive details field '%s' (compared to others)"
+#, c-format
 msgid "too few values in archive details '%s' field (compared to others)"
-msgstr "档案详情字段 %s 的值过少(和其他的相比)"
+msgstr "档案详情 %s 字段的值过少(和其他的相比)"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "obsolete '%s' or '%s' field used"
+#, c-format
 msgid "boolean (yes/no) '%s' field: %s"
-msgstr "使用了废弃字段 %s 或者 %s "
+msgstr "布尔型(是/否) '%s' 字段: %s "
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "foreign/allowed/same/no in quadstate field"
+#, c-format
 msgid "quadstate (foreign/allowed/same/no) '%s' field: %s"
-msgstr "四值字段中的 foreign/allowed/same/no"
+msgstr "四值状态 (foreign/allowed/same/no) '%s' 字段: %s"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "'%s' is not a valid architecture name: %s"
+#, c-format
 msgid "'%s' is not a valid architecture name in '%s' field: %s"
-msgstr "'%s' 不是有效的体系结构名称： %s"
+msgstr "'%s' 不是有效的 '%s' 字段体系结构名称: %s"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "word in 'Priority' field"
+#, c-format
 msgid "word in '%s' field: %s"
-msgstr " Priority 字段中的文字"
+msgstr " '%s' 字段中的文字: %s"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -795,34 +777,29 @@ msgid "value for '%s' field not allowed in this context"
 msgstr "此处不允许 '%s' 字段的值"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "first (want) word in 'Status' field"
+#, c-format
 msgid "first (want) word in '%s' field: %s"
-msgstr " Status 字段的第一个 (want) 词"
+msgstr "'%s' 字段的第一个 (want) 词: %s"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "second (error) word in 'Status' field"
+#, c-format
 msgid "second (error) word in '%s' field: %s"
-msgstr " Status 字段的第二个 (error) 词"
+msgstr "'%s' 字段的第二个 (error) 词: %s"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "third (status) word in 'Status' field"
+#, c-format
 msgid "third (status) word in '%s' field: %s"
-msgstr " Status 字段的第三个 (status) 词"
+msgstr "'%s' 字段的第三个 (status) 词: %s"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "error in '%s' field string '%.250s'"
+#, c-format
 msgid "'%s' field value '%.250s'"
-msgstr "'%s' 字段的字符串 %.250s 中有错误"
+msgstr "'%s' 字段值 '%.250s'"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "obsolete '%s' or '%s' field used"
+#, c-format
 msgid "obsolete '%s' field used"
-msgstr "使用了废弃字段 %s 或者 %s "
+msgstr "使用了废弃字段 '%s'"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -830,16 +807,14 @@ msgid "value for '%s' field has malformed line '%.*s'"
 msgstr "'%s' 字段的值有行格式有误: '%.*s'"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "value for '%s' has line starting with non-space '%c'"
+#, c-format
 msgid "value for '%s' field has line starting with non-space '%c'"
 msgstr "'%s' 字段的值有以非空格字符 '%c' 开头的行"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "root or null directory is listed as a conffile"
+#, c-format
 msgid "root or empty directory listed as a conffile in '%s' field"
-msgstr "根目录或空目录被列为 conffile"
+msgstr "根目录或空目录被列为一个 '%s' 字段中的配置文件"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -917,10 +892,9 @@ msgid "'%s' field, reference to '%.255s': version unterminated"
 msgstr "'%s' 字段，引用 '%.255s' ：版本号未终止"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "'%s' field, reference to '%.255s': version contains '%c'"
+#, c-format
 msgid "'%s' field, reference to '%.255s': version '%s'"
-msgstr "'%s' 字段，引用 '%.255s' ：版本号含有 '%c' "
+msgstr "'%s' 字段，引用 '%.255s': 版本 '%s'"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -928,10 +902,9 @@ msgid "'%s' field, syntax error after reference to package '%.255s'"
 msgstr "'%s' 字段，在引用软件包 '%.255s' 后有语法错误"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "alternatives ('|') not allowed in %s field"
+#, c-format
 msgid "alternatives ('|') not allowed in '%s' field"
-msgstr "%s 字段不能含有可替换符 ('|')"
+msgstr "'%s' 字段不允许可替代项 ('|')"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -1203,45 +1176,39 @@ msgid "duplicate value for user-defined field '%.*s'"
 msgstr "有多个值对应于用户自定义字段 %.*s "
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
-#, fuzzy, c-format
-#| msgid "missing %s"
+#, c-format
 msgid "missing '%s' field"
-msgstr "找不到 %s"
+msgstr "缺失 '%s' 字段"
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
-#, fuzzy, c-format
-#| msgid "duplicate value for '%s' field"
+#, c-format
 msgid "empty value for '%s' field"
-msgstr "有多个值对应于字段 %s "
+msgstr "'%s' 字段值为空"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "package has field '%s' but is missing architecture"
+#, c-format
 msgid "package has '%s' field but is missing architecture"
 msgstr "软件包有 '%s' 字段，但缺失体系结构"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "package has field '%s' but is architecture all"
+#, c-format
 msgid "package has '%s' field but is architecture '%s'"
-msgstr "软件包有 %s 字段，但体系结构为“全部”"
+msgstr "软件包有 '%s' 字段，但体系结构为 “%s”"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "Config-Version for package with inappropriate Status"
+#, c-format
 msgid "'%s' field present for package with inappropriate '%s' field"
-msgstr "软件包有 Config-Version 的标志，但与安装状态不符"
+msgstr "软件包有 '%s' 字段，但存在不相符的 '%s' 字段"
 
 #: lib/dpkg/parse.c
 #, c-format
 msgid "package has status %s but triggers are awaited"
-msgstr "软件包有 %s 状态，但触发器在等待"
+msgstr "软件包处于 %s 状态，但触发器在等待"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "package has status %s but triggers are awaited"
+#, c-format
 msgid "package has status %s but no triggers awaited"
-msgstr "软件包有 %s 状态，但触发器在等待"
+msgstr "软件包处于 %s 状态，但没有触发器在等待"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1249,16 +1216,14 @@ msgid "package has status %s but triggers are pending"
 msgstr "软件包处于 %s 状态，但是触发器处于未决状态"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "package has status %s but triggers are pending"
+#, c-format
 msgid "package has status %s but no triggers pending"
-msgstr "软件包处于 %s 状态，但是触发器处于未决状态"
+msgstr "软件包处于 %s 状态，但是没有触发器处于未决状态"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "Package which in state not-installed has conffiles, forgetting them"
+#, c-format
 msgid "package has status %s and has conffiles, forgetting them"
-msgstr "该软件包的状态是尚未安装，但它有 conffiles ，忽略它们"
+msgstr "软件包处于 %s 状态，并且拥有配置文件，将会忽略它们"
 
 #: lib/dpkg/parse.c
 msgid ""
@@ -1275,14 +1240,11 @@ msgstr ""
 "进行过升级"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid ""
-#| "%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
-#| "installed instances"
+#, c-format
 msgid ""
 "package %s (%s) with field '%s: %s' is not co-installable with %s which has "
 "multiple installed instances"
-msgstr "%s %s (多体系结构: %s) 不能与 %s 共存，它有多个安装实例"
+msgstr "含有字段 '%3$s: %4$s' 的软件包 %1$s (%2$s) 不能与存在多个已安装实例的 %5$s 共存"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1628,16 +1590,13 @@ msgid "treewalk root %s is not a directory"
 msgstr "treewalk 的根节点 %s 不是一个目录"
 
 #: lib/dpkg/trigdeferred.c
-#, fuzzy, c-format
-#| msgid "unable to open/create triggers lockfile '%.250s'"
+#, c-format
 msgid "unable to open/create triggers lock file '%.250s'"
-msgstr "无法打开或创建触发器锁文件 %.250s"
+msgstr "无法打开或创建触发器锁文件 '%.250s'"
 
 #: lib/dpkg/trigdeferred.c
-#, fuzzy
-#| msgid "triggers area"
 msgid "triggers database lock"
-msgstr "触发器区域"
+msgstr "触发器数据库锁"
 
 #: lib/dpkg/trigdeferred.c
 #, c-format
@@ -3188,7 +3147,7 @@ msgstr "设置所有的强制选项"
 
 #: src/force.c
 msgid "Use MAC based security if available"
-msgstr ""
+msgstr "如果可行则使用基于 MAC 的安全性"
 
 #: src/force.c
 msgid "Replace a package with a lower version"
@@ -3222,11 +3181,11 @@ msgstr "继续处理，即使软件包版本错误"
 
 #: src/force.c
 msgid "Overwrite an existing stat override when adding it"
-msgstr ""
+msgstr "在添加一个 stat 重载时盖写它"
 
 #: src/force.c
 msgid "Ignore a missing stat override when removing it"
-msgstr ""
+msgstr "忽略一个在移除时缺失的 stat 重载"
 
 #: src/force.c
 msgid "Overwrite a file from one package with another"
@@ -3334,6 +3293,9 @@ msgid ""
 "Currently enabled options:\n"
 " %s\n"
 msgstr ""
+"\n"
+"当前启用的选项:\n"
+" %s\n"
 
 #: src/force.c
 #, c-format
@@ -3479,7 +3441,7 @@ msgstr ""
 "  --yet-to-unpack                  列出标记为待解压的软件包。\n"
 "  --predep-package                 列出待解压的预依赖。\n"
 "  --add-architecture    <体系结构> 添加 <体系结构> 到体系结构列表。\n"
-"  --remove-architecture <体系结构> 从架构列表中移除 <体系结构>。\n"
+"  --remove-architecture <体系结构> 从体系结构列表中移除 <体系结构>。\n"
 "  --print-architecture             显示 dpkg 体系结构。\n"
 "  --print-foreign-architectures    显示已启用的异质体系结构。\n"
 "  --assert-<特性>                  对指定特性启用断言支持。\n"
@@ -4396,19 +4358,7 @@ msgstr ""
 "\n"
 
 #: src/statcmd.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir <directory>   set the directory with the statoverride file.\n"
-#| "  --instdir <directory>    set the root directory, but not the admin "
-#| "dir.\n"
-#| "  --root <directory>       set the directory of the root filesystem.\n"
-#| "  --update                 immediately update <path> permissions.\n"
-#| "  --force                  force an action even if a sanity check fails.\n"
-#| "  --quiet                  quiet operation, minimal output.\n"
-#| "  --help                   show this help message.\n"
-#| "  --version                show the version.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
@@ -4425,12 +4375,15 @@ msgid ""
 "\n"
 msgstr ""
 "选项：\n"
-"  --admindir <目录>        设置 statoverride 文件的目录。\n"
-"  --instdir <directory>    设置根目录，但不包括管理员目录。\n"
-"  --root <directory>       设置根文件系统的目录。\n"
+"  --admindir <目录>        经由 statoverride 文件设置目录。\n"
+"  --instdir <目录>         设置根目录，但不包括管理员目录。\n"
+"  --root <目录>            设置根文件系统的目录。\n"
 "  --update                 立即更新 <路径> 的权限。\n"
-"  --force                  就算没有通过自检，也强制执行操作。\n"
-"  --quiet                  安静模式，输出尽可能少的信息。不显示输出信息。\n"
+"  --force                  已弃用的 --force-all 别名。\n"
+"  --force-...              强制某问题 (参见 --force-help)。\n"
+"  --no-force-...           出现某问题则停止。\n"
+"  --refuse-...             同上。\n"
+"  --quiet                  安静模式，尽可能少的输出。\n"
 "  --help                   显示本帮助信息。\n"
 "  --version                显示版本信息。\n"
 
@@ -4482,10 +4435,9 @@ msgid "--update is useless for --remove"
 msgstr "对于 --remove，--update 是无效的"
 
 #: src/statcmd.c
-#, fuzzy, c-format
-#| msgid "obsolete option '--%s'; please use '--%s' instead"
+#, c-format
 msgid "deprecated --%s option; use --%s instead"
-msgstr "废弃的选项 --%s，请使用 --%s 代替"
+msgstr "废弃的 --%s 选项；请使用 --%s 代替"
 
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
@@ -4843,18 +4795,16 @@ msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s 只需要一个“软件包文件名”作为参数"
 
 #: src/update.c
-#, fuzzy, c-format
-#| msgid "unable to access dpkg status area for bulk available update"
+#, c-format
 msgid "unable to access dpkg database directory '%s' for bulk available update"
-msgstr "无法访问 dpkg 的状态区域，以进行批量的可用软件包更新"
+msgstr "无法访问 dpkg 数据库目录 '%s' 以进行批量的可用更新"
 
 #: src/update.c
-#, fuzzy, c-format
-#| msgid "unable to access dpkg status area for bulk available update"
+#, c-format
 msgid ""
 "required write access to dpkg database directory '%s' for bulk available "
 "update"
-msgstr "无法访问 dpkg 的状态区域，以进行批量的可用软件包更新"
+msgstr "需要对于 dpkg 数据库目录 '%s' 的写权限以进行批量的可用更新"
 
 #: src/update.c
 #, c-format
@@ -5617,7 +5567,7 @@ msgstr ""
 "    分块的格式版本：                %d.%d\n"
 "    是这个软件包的分块：            %s\n"
 "        ... 版本：                  %s\n"
-"        ... 架构：                  %s\n"
+"        ... 体系结构：              %s\n"
 "        ... MD5 校验和：            %s\n"
 "        ... 大小：                  %jd 字节\n"
 "        ... 每个分块的大小：        %jd 字节\n"
@@ -6524,13 +6474,13 @@ msgstr "需要认证后才能执行 update-alternatives"
 #~ msgstr "无法关闭软件包 '%2$s' 的 '%1$s' 控制文件"
 
 #~ msgid "unable to open files list file for package '%.250s'"
-#~ msgstr "无法打开软件包 %.250s 的文件名列表文件"
+#~ msgstr "无法打开软件包 %.250s 的文件列表"
 
 #~ msgid "unable to stat files list file for package '%.250s'"
-#~ msgstr "无法取得软件包 %.250s 的文件名列表文件"
+#~ msgstr "无法取得软件包 %.250s 的文件列表"
 
 #~ msgid "files list for package '%.250s' is not a regular file"
-#~ msgstr "软件包 %.250s 的文件名列表文件不是一个常规文件"
+#~ msgstr "软件包 %.250s 的文件列表不是一个常规文件"
 
 #~ msgid "reading files list for package '%.250s'"
 #~ msgstr "正在读取软件包 %.250s 的文件列表"
@@ -6782,22 +6732,22 @@ msgstr "需要认证后才能执行 update-alternatives"
 #~ msgstr "建立新的本地修改项备份出错"
 
 #~ msgid "unable to create updated files list file for package %s"
-#~ msgstr "无法为软件包 %s 新建更新后的文件名列表文件"
+#~ msgstr "无法为软件包 %s 新建更新后的文件列表"
 
 #~ msgid "failed to write to updated files list file for package %s"
-#~ msgstr "无法写入更新后的软件包 %s 的文件名列表文件"
+#~ msgstr "无法写入更新后的软件包 %s 的文件列表"
 
 #~ msgid "failed to flush updated files list file for package %s"
-#~ msgstr "无法刷新更新后的软件包 %s 的文件名列表文件"
+#~ msgstr "无法刷新更新后的软件包 %s 的文件列表"
 
 #~ msgid "failed to sync updated files list file for package %s"
-#~ msgstr "无法同步更新后的软件包 %s 的文件名列表文件"
+#~ msgstr "无法同步更新后的软件包 %s 的文件列表"
 
 #~ msgid "failed to close updated files list file for package %s"
-#~ msgstr "无法关闭更新后的软件包 %s 的文件名列表文件"
+#~ msgstr "无法关闭更新后的软件包 %s 的文件列表"
 
 #~ msgid "failed to install updated files list file for package %s"
-#~ msgstr "无法安装更新后的软件包 %s 的文件名列表文件"
+#~ msgstr "无法安装更新后的软件包 %s 的文件列表"
 
 #~ msgid "--command-fd takes one argument, not zero"
 #~ msgstr "--command-fd 需要一个参数，而非零个"
@@ -7029,7 +6979,7 @@ msgstr "需要认证后才能执行 update-alternatives"
 #~ "  confask [!]            没有新版本时询问替换配置文件\n"
 #~ "  breaks [!]             即使损坏其他软件包也继续安装\n"
 #~ "  conflicts [!]          让相互冲突的软件包也得以安装\n"
-#~ "  architecture [!]       即使软件包所属的体系架构与环境不符，它也将被处"
+#~ "  architecture [!]       即使软件包所属的体系体系结构与环境不符，它也将被处"
 #~ "理\n"
 #~ "  overwrite-dir [!]      用来自一个软件包的文件覆盖原本属于另一软件包的目"
 #~ "录\n"
