@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-06-03 23:21+0200\n"
+"POT-Creation-Date: 2019-12-26 07:58+0100\n"
 "PO-Revision-Date: 2015-04-07 07:02+0200\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -356,7 +356,7 @@ msgid ""
 "                              pass option <opt> to dpkg-genbuildinfo.\n"
 "  -p, --sign-command=<command>\n"
 "                              command to sign .dsc and/or .changes files\n"
-"                                (default is gpg2 or gpg).\n"
+"                                (default is gpg).\n"
 "  -k, --sign-key=<keyid>      the key to use for signing.\n"
 "  -ap, --sign-pause           add pause before starting signature process.\n"
 "  -us, --unsigned-source      unsigned source package.\n"
@@ -694,6 +694,12 @@ msgstr "не удалось открыть %s"
 #, perl-format
 msgid "cannot close %s"
 msgstr "не удалось закрыть %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, fuzzy, perl-format
+#| msgid "cannot rename %s to %s"
+msgid "cannot move %s to %s"
+msgstr "не удалось переименовать %s в %s"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "source-only upload: Debian-native package"
@@ -2176,14 +2182,6 @@ msgstr "%s не содержит информации о пакете с исх�
 
 #: scripts/dpkg-source.pl
 #, perl-format
-msgid ""
-"binary package stanza %s is using an obsolete Build-Profiles field syntax"
-msgstr ""
-"в строке о двоичном пакете %s используется устаревший синтаксис поля Build-"
-"Profiles"
-
-#: scripts/dpkg-source.pl
-#, perl-format
 msgid "'%s' is not a legal architecture string"
 msgstr "«%s» не является разрешённой строкой архитектуры"
 
@@ -2938,6 +2936,12 @@ msgid "can't parse dependency %s"
 msgstr "не удалось проанализировать зависимость %s"
 
 #: scripts/Dpkg/Deps.pm
+#, fuzzy, perl-format
+#| msgid "invalid dependency got generated: %s"
+msgid "virtual dependency contains invalid relation: %s"
+msgstr "при генерации получена неверная зависимость: %s"
+
+#: scripts/Dpkg/Deps.pm
 msgid "an union dependency can only contain simple dependencies"
 msgstr "в объединяющей зависимости могут быть только простые зависимости"
 
@@ -3083,6 +3087,29 @@ msgstr "не удалось запустить dpkg"
 #| msgid "cannot stat file %s"
 msgid "cannot write signature file %s"
 msgstr "не удалось выполнить функцию stat для файла %s"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "could not verify signature on %s since gpg isn't installed"
+msgid "cannot import key in %s since GnuPG is not installed"
+msgstr "невозможно проверить подпись для %s, так как gpg не установлена"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "failed to parse line in %s: %s"
+msgid "failed to import key in %s"
+msgstr "не удалось проанализировать строку в %s: %s"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "could not verify signature on %s since gpg isn't installed"
+msgid "cannot verify signature on %s since GnuPG is not installed"
+msgstr "невозможно проверить подпись для %s, так как gpg не установлена"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "failed to verify signature on %s"
+msgstr "проверка подписи для %s завершилась неудачно"
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -3266,20 +3293,19 @@ msgid "%s and %s fields are required to compute the source basename"
 msgstr "для определения базового имени исходника требуется исходник и версия"
 
 #: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "failed to verify signature on %s"
-msgstr "проверка подписи для %s завершилась неудачно"
-
-#: scripts/Dpkg/Source/Package.pm
-#, fuzzy, perl-format
-#| msgid "could not verify signature on %s since gpg isn't installed"
-msgid "cannot verify signature on %s since GnuPG is not installed"
-msgstr "невозможно проверить подпись для %s, так как gpg не установлена"
+msgid "upstream tarball signatures but no upstream signing key"
+msgstr ""
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "%s is not a valid option for %s"
 msgstr "%s не является допустимым параметром для %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, fuzzy, perl-format
+#| msgid "cannot rename %s to %s"
+msgid "cannot copy %s to %s"
+msgstr "не удалось переименовать %s в %s"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -3377,7 +3403,7 @@ msgstr "параметр -s%s заменит ранее указанный па�
 msgid "source handling style -s%s not allowed with -x"
 msgstr "указывать обработчик исходников -s%s не разрешено вместе с -x"
 
-#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
+#: scripts/Dpkg/Source/Package/V1.pm
 msgid "multiple tarfiles in v1.0 source package"
 msgstr "несколько tar-файлов в пакете с исходным кодом версии v1.0"
 
@@ -3922,6 +3948,12 @@ msgid "setting up shallow clone"
 msgstr "настройка поверхностного клона"
 
 #: scripts/Dpkg/Source/Package/V3/Native.pm
+#, fuzzy
+#| msgid "multiple tarfiles in v1.0 source package"
+msgid "multiple tarfiles in native source package"
+msgstr "несколько tar-файлов в пакете с исходным кодом версии v1.0"
+
+#: scripts/Dpkg/Source/Package/V3/Native.pm
 #, perl-format
 msgid "unrecognized file for a native source package: %s"
 msgstr "нераспознанный файл для родного пакета с исходным кодом: %s"
@@ -4329,6 +4361,12 @@ msgstr "номер версии содержит недопустимый сим
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "часть эпохи в номере версии не является числом: «%s»"
+
+#~ msgid ""
+#~ "binary package stanza %s is using an obsolete Build-Profiles field syntax"
+#~ msgstr ""
+#~ "в строке о двоичном пакете %s используется устаревший синтаксис поля "
+#~ "Build-Profiles"
 
 #~ msgid "format variant must be in lowercase"
 #~ msgstr "символы варианта формата должны быть строчными"
@@ -4918,9 +4956,6 @@ msgstr "часть эпохи в номере версии не является
 
 #~ msgid "no orig.tar file found"
 #~ msgstr "файл orig.tar не найден"
-
-#~ msgid "cannot rename %s to %s"
-#~ msgstr "не удалось переименовать %s в %s"
 
 #~ msgid "exec %s"
 #~ msgstr "вызов exec для %s"

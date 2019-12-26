@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-06-03 23:21+0200\n"
+"POT-Creation-Date: 2019-12-26 07:58+0100\n"
 "PO-Revision-Date: 2019-01-12 00:00+0000\n"
 "Last-Translator: Mo Zhou <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -1000,13 +1000,31 @@ msgstr "无法检查文件 %s 的锁状态 "
 
 #: lib/dpkg/file.c
 #, c-format
-msgid "%s is locked by another process"
+msgid "unable to lock %s"
+msgstr "无法锁定 %s"
+
+#: lib/dpkg/file.c
+msgid ""
+"Note: removing the lock file is always wrong, and can end up damaging the\n"
+"locked area and the entire system. See <https://wiki.debian.org/Teams/Dpkg/"
+"FAQ>."
+msgstr ""
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "%s is locked by another process"
+msgid ""
+"%s was locked by another process\n"
+"%s"
 msgstr "另外一个进程已经为 %s 加锁"
 
 #: lib/dpkg/file.c
-#, c-format
-msgid "unable to lock %s"
-msgstr "无法锁定 %s"
+#, fuzzy, c-format
+#| msgid "%s is locked by another process"
+msgid ""
+"%s was locked by another process with pid %d\n"
+"%s"
+msgstr "另外一个进程已经为 %s 加锁"
 
 #: lib/dpkg/file.c
 #, c-format
@@ -3181,7 +3199,9 @@ msgid "Configure any package which may help this one"
 msgstr "配置任何可能与这有关的软件包"
 
 #: src/force.c
-msgid "Process incidental packages even when on hold"
+#, fuzzy
+#| msgid "Process incidental packages even when on hold"
+msgid "Install or remove incidental packages even when on hold"
 msgstr "处理意外的软件包，即使它处于搁置状态"
 
 #: src/force.c

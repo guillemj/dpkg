@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.15.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-06-03 23:21+0200\n"
+"POT-Creation-Date: 2019-12-26 07:58+0100\n"
 "PO-Revision-Date: 2015-04-07 07:05+0200\n"
 "Last-Translator: Łukasz Dulny <BartekChom@poczta.onet.pl>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
@@ -355,7 +355,7 @@ msgid ""
 "                              pass option <opt> to dpkg-genbuildinfo.\n"
 "  -p, --sign-command=<command>\n"
 "                              command to sign .dsc and/or .changes files\n"
-"                                (default is gpg2 or gpg).\n"
+"                                (default is gpg).\n"
 "  -k, --sign-key=<keyid>      the key to use for signing.\n"
 "  -ap, --sign-pause           add pause before starting signature process.\n"
 "  -us, --unsigned-source      unsigned source package.\n"
@@ -689,6 +689,12 @@ msgstr "nie można otworzyć %s"
 #, perl-format
 msgid "cannot close %s"
 msgstr "nie można zamknąć %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, fuzzy, perl-format
+#| msgid "cannot rename %s to %s"
+msgid "cannot move %s to %s"
+msgstr "nie można przemianować %s na %s"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "source-only upload: Debian-native package"
@@ -2164,13 +2170,6 @@ msgstr "%s nie zawiera żadnej informacji o pakiecie źródłowym"
 
 #: scripts/dpkg-source.pl
 #, perl-format
-msgid ""
-"binary package stanza %s is using an obsolete Build-Profiles field syntax"
-msgstr ""
-"binarny wpis o pakiecie %s używa przestarzałej składni pola Build-Profiles"
-
-#: scripts/dpkg-source.pl
-#, perl-format
 msgid "'%s' is not a legal architecture string"
 msgstr "\"%s\" nie jest poprawną specyfikacją architektury"
 
@@ -2915,6 +2914,12 @@ msgid "can't parse dependency %s"
 msgstr "nie można przetworzyć zależności %s"
 
 #: scripts/Dpkg/Deps.pm
+#, fuzzy, perl-format
+#| msgid "invalid dependency got generated: %s"
+msgid "virtual dependency contains invalid relation: %s"
+msgstr "wygenerowano niepoprawną zależność: %s"
+
+#: scripts/Dpkg/Deps.pm
 msgid "an union dependency can only contain simple dependencies"
 msgstr "suma zależności może zawierać jedynie proste zależności"
 
@@ -3057,6 +3062,29 @@ msgstr "uruchamianie dpkg  nie powiodło się"
 #| msgid "cannot stat file %s"
 msgid "cannot write signature file %s"
 msgstr "nie można ustalić stanu pliku %s"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "could not verify signature on %s since gpg isn't installed"
+msgid "cannot import key in %s since GnuPG is not installed"
+msgstr "nie można zweryfikować sygnatury w %s, ponieważ nie zainstalowano gpg"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "failed to parse line in %s: %s"
+msgid "failed to import key in %s"
+msgstr "błąd przetwarzania linii w %s: %s"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "could not verify signature on %s since gpg isn't installed"
+msgid "cannot verify signature on %s since GnuPG is not installed"
+msgstr "nie można zweryfikować sygnatury w %s, ponieważ nie zainstalowano gpg"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "failed to verify signature on %s"
+msgstr "błąd weryfikowania sygnatury w %s"
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -3239,20 +3267,19 @@ msgid "%s and %s fields are required to compute the source basename"
 msgstr "źródło i wersja są wymagane do określenia nazwy bazowej źródeł"
 
 #: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "failed to verify signature on %s"
-msgstr "błąd weryfikowania sygnatury w %s"
-
-#: scripts/Dpkg/Source/Package.pm
-#, fuzzy, perl-format
-#| msgid "could not verify signature on %s since gpg isn't installed"
-msgid "cannot verify signature on %s since GnuPG is not installed"
-msgstr "nie można zweryfikować sygnatury w %s, ponieważ nie zainstalowano gpg"
+msgid "upstream tarball signatures but no upstream signing key"
+msgstr ""
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "%s is not a valid option for %s"
 msgstr "%s nie jest prawidłową opcją dla %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, fuzzy, perl-format
+#| msgid "cannot rename %s to %s"
+msgid "cannot copy %s to %s"
+msgstr "nie można przemianować %s na %s"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -3350,7 +3377,7 @@ msgstr "opcja -s%s nadpisuje wcześniejszą opcję -s%s"
 msgid "source handling style -s%s not allowed with -x"
 msgstr "opcja przetwarzania źródeł -s%s nie jest dopuszczalna z -x"
 
-#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
+#: scripts/Dpkg/Source/Package/V1.pm
 msgid "multiple tarfiles in v1.0 source package"
 msgstr "wiele archiwów tar w pakiecie źródłowym wersji 1.0"
 
@@ -3884,6 +3911,12 @@ msgid "setting up shallow clone"
 msgstr "konfigurowanie płytkiego klonu"
 
 #: scripts/Dpkg/Source/Package/V3/Native.pm
+#, fuzzy
+#| msgid "multiple tarfiles in v1.0 source package"
+msgid "multiple tarfiles in native source package"
+msgstr "wiele archiwów tar w pakiecie źródłowym wersji 1.0"
+
+#: scripts/Dpkg/Source/Package/V3/Native.pm
 #, perl-format
 msgid "unrecognized file for a native source package: %s"
 msgstr "nierozpoznany plik dla natywnego pakietu źródłowego: %s"
@@ -4292,6 +4325,11 @@ msgstr "numer wersji zawiera niepoprawny znak \"%s\""
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "częśc epoki w numerze wersji nie jest liczbą: \"%s\""
+
+#~ msgid ""
+#~ "binary package stanza %s is using an obsolete Build-Profiles field syntax"
+#~ msgstr ""
+#~ "binarny wpis o pakiecie %s używa przestarzałej składni pola Build-Profiles"
 
 #~ msgid "format variant must be in lowercase"
 #~ msgstr "wariant formatu musi być zapisany małymi literami"
@@ -4871,9 +4909,6 @@ msgstr "częśc epoki w numerze wersji nie jest liczbą: \"%s\""
 
 #~ msgid "no orig.tar file found"
 #~ msgstr "nie znaleziono pliku orig.tar"
-
-#~ msgid "cannot rename %s to %s"
-#~ msgstr "nie można przemianować %s na %s"
 
 #~ msgid "exec %s"
 #~ msgstr "uruchamianie %s"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-06-03 23:21+0200\n"
+"POT-Creation-Date: 2019-12-26 07:58+0100\n"
 "PO-Revision-Date: 2016-12-09 11:32+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -346,7 +346,7 @@ msgid ""
 "                              pass option <opt> to dpkg-genbuildinfo.\n"
 "  -p, --sign-command=<command>\n"
 "                              command to sign .dsc and/or .changes files\n"
-"                                (default is gpg2 or gpg).\n"
+"                                (default is gpg).\n"
 "  -k, --sign-key=<keyid>      the key to use for signing.\n"
 "  -ap, --sign-pause           add pause before starting signature process.\n"
 "  -us, --unsigned-source      unsigned source package.\n"
@@ -681,6 +681,12 @@ msgstr "kan inte öppna %s"
 #, perl-format
 msgid "cannot close %s"
 msgstr "kan inte stänga %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, fuzzy, perl-format
+#| msgid "cannot rename %s to %s"
+msgid "cannot move %s to %s"
+msgstr "kan inte byta namn på %s till %s"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "source-only upload: Debian-native package"
@@ -2132,13 +2138,6 @@ msgstr "%s innehåller inte någon information om källkodspaketet"
 
 #: scripts/dpkg-source.pl
 #, perl-format
-msgid ""
-"binary package stanza %s is using an obsolete Build-Profiles field syntax"
-msgstr ""
-"binärpaketstrofen %s använder en föråldrad syntax för fältet Build-Profiles"
-
-#: scripts/dpkg-source.pl
-#, perl-format
 msgid "'%s' is not a legal architecture string"
 msgstr "\"%s\" är inte en giltig arkitektursträng"
 
@@ -2883,6 +2882,12 @@ msgid "can't parse dependency %s"
 msgstr "kan inte tolka beroendet %s:"
 
 #: scripts/Dpkg/Deps.pm
+#, fuzzy, perl-format
+#| msgid "Files field contains invalid filename `%s'"
+msgid "virtual dependency contains invalid relation: %s"
+msgstr "Files-fältet innehåller ogiltigt filnamn \"%s\""
+
+#: scripts/Dpkg/Deps.pm
 msgid "an union dependency can only contain simple dependencies"
 msgstr "ett unionsberoende kan endast innehålla enkla beroenden"
 
@@ -3023,6 +3028,29 @@ msgstr "kunde inte exekvera dpkg"
 #| msgid "cannot stat file %s"
 msgid "cannot write signature file %s"
 msgstr "kan inte ta status på filen %s"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "could not verify signature on %s since gpg isn't installed"
+msgid "cannot import key in %s since GnuPG is not installed"
+msgstr "kunde inte verifiera signaturen på %s eftersom gpg inte installerats"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "failed to parse line in %s: %s"
+msgid "failed to import key in %s"
+msgstr "misslyckades att tolka en rad i %s: %s"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "could not verify signature on %s since gpg isn't installed"
+msgid "cannot verify signature on %s since GnuPG is not installed"
+msgstr "kunde inte verifiera signaturen på %s eftersom gpg inte installerats"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "failed to verify signature on %s"
+msgstr "misslyckades verifiera signaturen på %s"
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -3202,20 +3230,19 @@ msgid "%s and %s fields are required to compute the source basename"
 msgstr "källkod och version behövs för att beräkna basnamn för källkod"
 
 #: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "failed to verify signature on %s"
-msgstr "misslyckades verifiera signaturen på %s"
-
-#: scripts/Dpkg/Source/Package.pm
-#, fuzzy, perl-format
-#| msgid "could not verify signature on %s since gpg isn't installed"
-msgid "cannot verify signature on %s since GnuPG is not installed"
-msgstr "kunde inte verifiera signaturen på %s eftersom gpg inte installerats"
+msgid "upstream tarball signatures but no upstream signing key"
+msgstr ""
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "%s is not a valid option for %s"
 msgstr "%s är inte en giltig flagga för %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, fuzzy, perl-format
+#| msgid "cannot rename %s to %s"
+msgid "cannot copy %s to %s"
+msgstr "kan inte byta namn på %s till %s"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -3313,7 +3340,7 @@ msgstr "flaggan -s%s ersätter tidigare flagga -s%s"
 msgid "source handling style -s%s not allowed with -x"
 msgstr "källkodshanteringstyp -s%s tillåts inte med -x"
 
-#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
+#: scripts/Dpkg/Source/Package/V1.pm
 msgid "multiple tarfiles in v1.0 source package"
 msgstr "flera tarfiler i v1.0-källkodspaket"
 
@@ -3837,6 +3864,12 @@ msgid "setting up shallow clone"
 msgstr "ställer in grund klon"
 
 #: scripts/Dpkg/Source/Package/V3/Native.pm
+#, fuzzy
+#| msgid "multiple tarfiles in v1.0 source package"
+msgid "multiple tarfiles in native source package"
+msgstr "flera tarfiler i v1.0-källkodspaket"
+
+#: scripts/Dpkg/Source/Package/V3/Native.pm
 #, perl-format
 msgid "unrecognized file for a native source package: %s"
 msgstr "okänd fil i ett Debianeget källkodspaket: %s"
@@ -4242,6 +4275,12 @@ msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
+
+#~ msgid ""
+#~ "binary package stanza %s is using an obsolete Build-Profiles field syntax"
+#~ msgstr ""
+#~ "binärpaketstrofen %s använder en föråldrad syntax för fältet Build-"
+#~ "Profiles"
 
 #~ msgid "format variant must be in lowercase"
 #~ msgstr "formatvarianten måste skrivas med små bokstäver"
@@ -4808,9 +4847,6 @@ msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
 #~ msgid "no orig.tar file found"
 #~ msgstr "ingen orig.tar-fil hittades"
 
-#~ msgid "cannot rename %s to %s"
-#~ msgstr "kan inte byta namn på %s till %s"
-
 #~ msgid "exec %s"
 #~ msgstr "exekverar %s"
 
@@ -5110,9 +5146,6 @@ msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
 
 #~ msgid "Unsupported format of .dsc file (%s)"
 #~ msgstr "Formatet på .dsc-filen stöds inte (%s)"
-
-#~ msgid "Files field contains invalid filename `%s'"
-#~ msgstr "Files-fältet innehåller ogiltigt filnamn \"%s\""
 
 #~ msgid "repeated file type - files `%s' and `%s'"
 #~ msgstr "repeterad filtyp - filerna \"%s\" och \"%s\""

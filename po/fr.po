@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-06-03 23:21+0200\n"
+"POT-Creation-Date: 2019-12-26 07:58+0100\n"
 "PO-Revision-Date: 2015-09-08 10:18+0200\n"
 "Last-Translator: Sébastien Poher <sbphr@volted.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -1082,13 +1082,31 @@ msgstr "impossible de vérifier l'état de verrouillage du fichier « %s »"
 
 #: lib/dpkg/file.c
 #, c-format
-msgid "%s is locked by another process"
+msgid "unable to lock %s"
+msgstr "impossible de déverrouiller %s"
+
+#: lib/dpkg/file.c
+msgid ""
+"Note: removing the lock file is always wrong, and can end up damaging the\n"
+"locked area and the entire system. See <https://wiki.debian.org/Teams/Dpkg/"
+"FAQ>."
+msgstr ""
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "%s is locked by another process"
+msgid ""
+"%s was locked by another process\n"
+"%s"
 msgstr "%s est verrouillé par un autre processus"
 
 #: lib/dpkg/file.c
-#, c-format
-msgid "unable to lock %s"
-msgstr "impossible de déverrouiller %s"
+#, fuzzy, c-format
+#| msgid "%s is locked by another process"
+msgid ""
+"%s was locked by another process with pid %d\n"
+"%s"
+msgstr "%s est verrouillé par un autre processus"
 
 #: lib/dpkg/file.c
 #, fuzzy, c-format
@@ -3456,7 +3474,9 @@ msgid "Configure any package which may help this one"
 msgstr "Configurer tout paquet qui pourrait être utile à celui-ci"
 
 #: src/force.c
-msgid "Process incidental packages even when on hold"
+#, fuzzy
+#| msgid "Process incidental packages even when on hold"
+msgid "Install or remove incidental packages even when on hold"
 msgstr "Traiter les paquets incidents même s'ils sont à garder (on hold)"
 
 #: src/force.c

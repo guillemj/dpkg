@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-06-03 23:21+0200\n"
+"POT-Creation-Date: 2019-12-26 07:58+0100\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -1094,15 +1094,32 @@ msgstr "'%s' 파일의 잠금 상태를 검사할 수 없습니다"
 
 #: lib/dpkg/file.c
 #, fuzzy, c-format
+#| msgid "unable to close %s: %s"
+msgid "unable to lock %s"
+msgstr "%s 닫을 수 없습니다: %s"
+
+#: lib/dpkg/file.c
+msgid ""
+"Note: removing the lock file is always wrong, and can end up damaging the\n"
+"locked area and the entire system. See <https://wiki.debian.org/Teams/Dpkg/"
+"FAQ>."
+msgstr ""
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
 #| msgid "status database area is locked by another process"
-msgid "%s is locked by another process"
+msgid ""
+"%s was locked by another process\n"
+"%s"
 msgstr "상태 데이터베이스 영역이 다른 프로세스때문에 잠겨 있습니다"
 
 #: lib/dpkg/file.c
 #, fuzzy, c-format
-#| msgid "unable to close %s: %s"
-msgid "unable to lock %s"
-msgstr "%s 닫을 수 없습니다: %s"
+#| msgid "status database area is locked by another process"
+msgid ""
+"%s was locked by another process with pid %d\n"
+"%s"
+msgstr "상태 데이터베이스 영역이 다른 프로세스때문에 잠겨 있습니다"
 
 #: lib/dpkg/file.c
 #, fuzzy, c-format
@@ -3497,7 +3514,7 @@ msgid "Configure any package which may help this one"
 msgstr ""
 
 #: src/force.c
-msgid "Process incidental packages even when on hold"
+msgid "Install or remove incidental packages even when on hold"
 msgstr ""
 
 #: src/force.c

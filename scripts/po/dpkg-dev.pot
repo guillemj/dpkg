@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.19.7\n"
+"Project-Id-Version: dpkg 1.19.7-102-gcad2c\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-06-03 23:21+0200\n"
+"POT-Creation-Date: 2019-12-26 07:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -227,7 +227,7 @@ msgid ""
 "                              pass option <opt> to dpkg-genbuildinfo.\n"
 "  -p, --sign-command=<command>\n"
 "                              command to sign .dsc and/or .changes files\n"
-"                                (default is gpg2 or gpg).\n"
+"                                (default is gpg).\n"
 "  -k, --sign-key=<keyid>      the key to use for signing.\n"
 "  -ap, --sign-pause           add pause before starting signature process.\n"
 "  -us, --unsigned-source      unsigned source package.\n"
@@ -454,6 +454,11 @@ msgstr ""
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
 msgid "cannot close %s"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "cannot move %s to %s"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
@@ -1483,12 +1488,6 @@ msgstr ""
 
 #: scripts/dpkg-source.pl
 #, perl-format
-msgid ""
-"binary package stanza %s is using an obsolete Build-Profiles field syntax"
-msgstr ""
-
-#: scripts/dpkg-source.pl
-#, perl-format
 msgid "'%s' is not a legal architecture string"
 msgstr ""
 
@@ -2104,6 +2103,11 @@ msgid "can't parse dependency %s"
 msgstr ""
 
 #: scripts/Dpkg/Deps.pm
+#, perl-format
+msgid "virtual dependency contains invalid relation: %s"
+msgstr ""
+
+#: scripts/Dpkg/Deps.pm
 msgid "an union dependency can only contain simple dependencies"
 msgstr ""
 
@@ -2235,6 +2239,26 @@ msgstr ""
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
 msgid "cannot write signature file %s"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "cannot import key in %s since GnuPG is not installed"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "failed to import key in %s"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "cannot verify signature on %s since GnuPG is not installed"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "failed to verify signature on %s"
 msgstr ""
 
 #: scripts/Dpkg/Package.pm
@@ -2405,18 +2429,17 @@ msgid "%s and %s fields are required to compute the source basename"
 msgstr ""
 
 #: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "failed to verify signature on %s"
-msgstr ""
-
-#: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "cannot verify signature on %s since GnuPG is not installed"
+msgid "upstream tarball signatures but no upstream signing key"
 msgstr ""
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "%s is not a valid option for %s"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "cannot copy %s to %s"
 msgstr ""
 
 #: scripts/Dpkg/Source/Package.pm
@@ -2501,7 +2524,7 @@ msgstr ""
 msgid "source handling style -s%s not allowed with -x"
 msgstr ""
 
-#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
+#: scripts/Dpkg/Source/Package/V1.pm
 msgid "multiple tarfiles in v1.0 source package"
 msgstr ""
 
@@ -2988,6 +3011,10 @@ msgstr ""
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 msgid "setting up shallow clone"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V3/Native.pm
+msgid "multiple tarfiles in native source package"
 msgstr ""
 
 #: scripts/Dpkg/Source/Package/V3/Native.pm
