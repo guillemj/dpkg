@@ -78,10 +78,6 @@ getblockdev () {
 			echo "$response is not a block device."; continue
 		fi
 		tryblockdevice="$response"
-		if [ $option = cdrom ]
-		then
-			fstype=iso9660
-		fi
 		umount="$mountpoint"
 		if mount -rt "$fstype" -o nosuid,nodev "$tryblockdevice" "$mountpoint"
 		then
@@ -128,73 +124,6 @@ then
 	defaultdevice="$p_blockdev"
 	defaultnfsserver="$p_nfsserver"
 	defaultnfsrempath="$p_nfsrempath"
-fi
-
-if [ $option = cdrom ]
-then
-	mount >$tp.m
-	sed -n 's/ ([^)]*)$//; s/^[^ ]* on //; s/ type iso9660$//p' <$tp.m >$tp.l
-	ncdroms=`wc -l <$tp.l`
-	if [ $ncdroms -gt 1 ]
-	then
-		response=""
-		while [ -z "$response" ]
-		do
-			echo \
-	'Several CD-ROMs (or other ISO9660 filesystems) are mounted:'
-			grep 'type iso9660 ([^)]*)$' <$tp.m | nl
-			echo -n \
-	"Is it any of these ?  Type a number, or 'n' for none.  "
-			read response
-			response="`echo \"$response\" | sed -e 's/[ 	]*$//'`"
-			if expr "$response" : '[0-9][0-9]*$' >/dev/null && \
-			   [ $response -ge 1 ] && [ $response -le $ncdroms ]
-			then
-				mountpoint="`sed -n $response'p' <$tp.l`"
-				echo
-			elif expr "$response" : '[Nn]' >/dev/null
-			then
-				mountpoint=""
-			else
-				response=""
-			fi
-		done
-	elif [ $ncdroms = 1 ]
-	then
-		mountpoint="`cat $tp.l`"
-		perl -ne 'print if s/ type iso9660 \([^)]*\)$// && s/ on .*$//;' \
-			<$tp.m >$tp.d
-		blockdevice="`cat $tp.d`"
-		yesno yes \
-	"I see a CD-ROM: $blockdevice, mounted on $mountpoint.  Is it the right one ?"
-		if [ $yesno = no ]
-		then
-			echo 'Unmounting it ...'
-			umount="$mountpoint"
-			while true
-			do
-				echo -n \
-	'Please insert the right disc, and hit return:  '
-				read response
-				if mount -rt iso9660 -o nosuid,nodev \
-					"$blockdevice" "$mountpoint"
-				then
-					echo
-					break
-				fi
-			done
-		fi
-	fi
-	if [ -z "$mountpoint" ]
-	then
-		if [ -b /dev/cdrom ]
-		then
-			echo \
-	'I see that /dev/cdrom exists and is a block device.'
-			newdefaultdevice=/dev/cdrom
-		fi
-		getblockdev 'Insert the CD-ROM and enter the block device name'
-	fi
 fi
 
 if [ $option = nfs ]
@@ -261,12 +190,7 @@ fi
 if [ -n "$mountpoint" ]
 then
 	# We must have $mountpoint
-	if [ $option = cdrom ]
-	then
-		echo \
-'All directory names should be entered relative to the root of the CD-ROM.
-'
-	elif [ $option = nfs ]
+	if [ $option = nfs ]
 	then
 		echo \
 "All directory names should be entered relative to the root of the NFS
@@ -282,18 +206,7 @@ fi
 
 while true
 do
-	if [ $option = cdrom ]
-	then
-		echo \
-"I would like to know where on the CD-ROM the top level of the Debian
-distribution is (eg. 'dists/stable') - this directory usually contains the
-Packages-Master file.
-
-If the CD-ROM is badly organised and doesn't have a straightforward copy of
-the distribution you may answer 'none' and we'll go through the parts
-I need individually."
-	else
-		echo \
+	echo \
 "In order to make it easy for me to find the relevant files I'd ideally
 like to install from a straightforward copy of the Debian distribution.
 To use this I'll need to know where the top level of that copy of the
@@ -302,7 +215,6 @@ contains the Packages-Master file.
 
 If you do not have a straightforward copy of the distribution available
 just answer 'none' and we'll go through the parts I need individually."
-	fi
 	defhierbase=none
 # maybe ask for debian/dists and then show and ask for available dists
 # eg. {stable,frozen,unstable,bo,hamm,slink}
@@ -394,16 +306,7 @@ find_area () {
 		check_binary $1 "$hierbase/$3/binary-$iarch"
 	fi
 
-	if [ $option = cdrom ] && [ $2 = nf ] && [ -z "$this_binary" ]
-	then
-		echo "
-Note: most CD-ROM distributions of Debian do not include programs
-available in the 'non-free' directory of the distribution site.
-This is because these programs have copyrights that prevent
-distribution for profit on a CD-ROM - ie they are not free software.
-If you wish to install these programs you'll have to get them from an
-alternative source."
-	elif [ $2 = lcl ] && [ -z "$this_binary" ]
+	if [ $2 = lcl ] && [ -z "$this_binary" ]
 	then
 		echo "
 Note: By default there is no 'local' directory. It is intended for

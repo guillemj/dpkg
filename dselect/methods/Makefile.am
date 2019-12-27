@@ -4,7 +4,6 @@ methodsdir = $(pkglibexecdir)/methods
 
 nobase_dist_methods_DATA = \
 	disk/names \
-	disk/desc.cdrom \
 	disk/desc.nfs \
 	disk/desc.mounted \
 	ftp/names \
