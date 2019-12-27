@@ -48,12 +48,6 @@ then
 	mount -rt "$p_fstype" -o nosuid,nodev "$p_blockdev" "$p_mountpoint"
 fi
 
-if [ -n "$p_nfs" ]
-then
-	umount="$p_mountpoint"
-	mount -rt nfs "$p_nfs" -o nosuid,nodev "$p_mountpoint"
-fi
-
 updatetype=update
 
 for f in main ctb nf lcl

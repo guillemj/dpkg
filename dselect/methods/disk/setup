@@ -54,43 +54,6 @@ yesno () {
 	done
 }
 
-getblockdev () {
-	mountpoint="$vardir/methods/mnt"
-	if [ -z "$defaultdevice" ]
-	then
-		defaultdevice="$newdefaultdevice"
-	elif [ "$defaultdevice" != "$newdefaultdevice" ]
-	then
-		echo \
-	"Last time you specified installation from $defaultdevice."
-	fi
-	promptstring="$1"
-	while [ -z "$blockdevice" ]
-	do
-		echo -n "$promptstring [$defaultdevice]:  "
-		read response
-		if [ -z "$response" ]
-		then
-			response="$defaultdevice"
-		fi
-		if ! [ -b "$response" ]
-		then
-			echo "$response is not a block device."; continue
-		fi
-		tryblockdevice="$response"
-		umount="$mountpoint"
-		if mount -rt "$fstype" -o nosuid,nodev "$tryblockdevice" "$mountpoint"
-		then
-			echo
-			blockdevice="$tryblockdevice"
-		else
-			umount=""
-			echo \
-	"Unable to mount $tryblockdevice on $mountpoint, type $fstype."
-		fi
-	done
-}
-
 outputparam () {
 	echo "$2" | sed -e "s/'/'\\\\''/; s/^/$1='/; s/$/'/" >&3
 }
@@ -122,86 +85,15 @@ if [ -f shvar.$option ]
 then
 	. ./shvar.$option
 	defaultdevice="$p_blockdev"
-	defaultnfsserver="$p_nfsserver"
-	defaultnfsrempath="$p_nfsrempath"
-fi
-
-if [ $option = nfs ]
-then
-	mountpoint="$vardir/methods/mnt"
-	while [ -z "$nfsserver" ]
-	do
-		echo -n \
-"What is the name of the NFS server ? [$defaultnfsserver]  "
-		read response
-		if [ -z "$response" ] && [ -n "$defaultnfsserver" ]
-		then
-			response="$defaultnfsserver"
-		fi
-		if [ -z "$response" ]; then continue; fi
-		if [ -x "`which rpcinfo`" ]
-		then
-			if rpcinfo -u "$response" mountd | grep -q 'ready'
-			then
-				nfsserver="$response"
-			else
-				echo "$response appears not to be an NFS server."
-			fi
-		elif [ -x "`which ping`" ]
-		then
-			if ping -q -c 1 "$response" | grep -q ', 1 packets received'
-			then
-				nfsserver="$response"
-			else
-				echo "$response appears to be down or nonexistent."
-			fi
-		else
-			echo \
-"(I can't check that now because there is no rpcinfo or ping.)"
-			nfsserver="$response"
-		fi
-	done
-	while [ -z "$nfsrempath" ]
-	do
-		echo -n "
-What is the pathname on the NFS server of the filesystem with
-the Debian files? [$defaultnfsrempath]  "
-		read response
-		if [ -z "$response" ] && [ -n "$defaultnfsrempath" ]
-		then
-			response="$defaultnfsrempath"
-		else
-			response="`echo \"$response\" | sed -e 's:/$::; s:^/*:/:'`"
-		fi
-		umount="$mountpoint"
-		if mount -rt nfs -o nosuid,nodev "$nfsserver:$response" "$mountpoint"
-		then
-			echo
-			nfsrempath="$response"
-		else
-			umount=""
-			echo \
-"Unable to mount NFS filesystem $nfsserver:$response."
-		fi
-	done
-	nfs="$nfsserver:$nfsrempath"
 fi
 
 if [ -n "$mountpoint" ]
 then
 	# We must have $mountpoint
-	if [ $option = nfs ]
-	then
-		echo \
-"All directory names should be entered relative to the root of the NFS
-filesystem, ie relative to $nfsrempath on the server.
-"
-	else
-		echo \
+	echo \
 "All directory names should be entered relative to the root of the
 $fstype filesystem on $blockdevice.
 "
-	fi
 fi
 
 while true
@@ -403,9 +295,6 @@ exec 3>shvar.$option.new
 outputparam p_blockdev "$blockdevice"
 outputparam p_fstype "$fstype"
 outputparam p_mountpoint "$mountpoint"
-outputparam p_nfsserver "$nfsserver"
-outputparam p_nfsrempath "$nfsrempath"
-outputparam p_nfs "$nfs"
 outputparam p_hierbase "$hierbase"
 
 outputparam p_main_packages "$main_packages"

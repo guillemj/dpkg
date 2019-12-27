@@ -81,12 +81,6 @@ do_mount() {
 		umount="$p_mountpoint"
 		echo mount -rt iso9660 -o nosuid,nodev${loop} "$p_blockdev" "$p_mountpoint"\; umount="$p_mountpoint"
 	fi
-
-	if [ -n "$p_nfs" ]
-	then
-		umount="$p_mountpoint"
-		echo mount -rt nfs "$p_nfs" -o nosuid,nodev "$p_mountpoint"\; umount="$p_mountpoint"
-	fi
 }
 
 trap 'eval `do_umount`; exit $xit' 0

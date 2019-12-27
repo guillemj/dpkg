@@ -4,14 +4,13 @@ methodsdir = $(pkglibexecdir)/methods
 
 nobase_dist_methods_DATA = \
 	disk/names \
-	disk/desc.nfs \
 	disk/desc.mounted \
 	ftp/names \
 	ftp/desc.ftp \
 	multicd/names \
 	multicd/desc.multi_cd \
 	multicd/desc.multi_mount \
-	multicd/desc.multi_nfs
+	$(nil)
 
 nobase_methods_SCRIPTS = \
 	ftp/setup \
