@@ -87,11 +87,6 @@ do_mount() {
 		umount="$p_mountpoint"
 		echo mount -rt nfs "$p_nfs" -o nosuid,nodev "$p_mountpoint"\; umount="$p_mountpoint"
 	fi
-
-	#if [ -n "$p_multi" -a -n "$p_multi_contentsfile" ]; then
-		#echo "This is disk "
-		#echo "    "`getdisklabel "${p_mountpoint}" "${p_hierbase}"`
-	#fi
 }
 
 trap 'eval `do_umount`; exit $xit' 0

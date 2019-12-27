@@ -6,7 +6,6 @@ nobase_dist_methods_DATA = \
 	disk/names \
 	disk/desc.cdrom \
 	disk/desc.nfs \
-	disk/desc.harddisk \
 	disk/desc.mounted \
 	ftp/names \
 	ftp/desc.ftp \

@@ -54,13 +54,6 @@ yesno () {
 	done
 }
 
-print_partition_table()
-{
-	device="$1"
-
-	printf "p\nq\n" | fdisk "$device" 2>/dev/null
-}
-
 getblockdev () {
 	mountpoint="$vardir/methods/mnt"
 	if [ -z "$defaultdevice" ]
@@ -88,43 +81,6 @@ getblockdev () {
 		if [ $option = cdrom ]
 		then
 			fstype=iso9660
-		elif [ $option = harddisk ]
-		then
-			blockbase="`echo \"$tryblockdevice\" | sed -e 's/[0-9]\{1,\}$//'`"
-			set +e
-			print_partition_table "$blockbase" >$tp.f
-			set -e
-			proposeddevice="$tryblockdevice" perl -ne '
-next unless /^ *Device +Boot +Start +End +Blocks +Id +System *$/i .. !/\S/;
-next unless s:^/\S+::p && ${^MATCH} eq $ENV{proposeddevice};
-next unless s/^ +(\* +)?\d+ +\d+ +\d+\+? +//;
-next unless m/^([0-9a-f]{1,2}) /i;
-%types= ( "1","msdos", "4","msdos", "6","msdos", "7","hpfs", "80","minix",
-          "81","minix", "83","ext2" );
-print $types{$1}; exit(0);	' <$tp.f >$tp.m
-			defaultfstype="`cat $tp.m`"
-			if [ -n "$defaultfstype" ]
-			then
-				cat <<END
-The partition table for $blockbase claims that $tryblockdevice
-contains filesystem type $defaultfstype.
-END
-				if ! grep "	$defaultfstype$" /proc/filesystems >/dev/null
-				then
-					echo \
-	"Your kernel does not appear to support that filesystem type."
-					defaultfstype=""
-				fi
-			fi
-			echo -n "Supported filesystems: "
-			sed -e 's/^.*	/ /' /proc/filesystems | tr '\n' ' '
-			echo -n "
-Enter filesystem type (for $tryblockdevice) [$defaultfstype]:  "
-			read fstype
-			if [ -z "$fstype" ]
-			then
-				fstype="$defaultfstype"
-			fi
 		fi
 		umount="$mountpoint"
 		if mount -rt "$fstype" -o nosuid,nodev "$tryblockdevice" "$mountpoint"
@@ -300,32 +256,6 @@ the Debian files? [$defaultnfsrempath]  "
 		fi
 	done
 	nfs="$nfsserver:$nfsrempath"
-fi
-
-if [ $option = harddisk ]
-then
-	set +e
-	print_partition_table /dev/hda >$tp.f
-	if [ $? != 0 ]
-	then
-		print_partition_table /dev/sda >$tp.f
-	fi
-	set -e
-	perl -ne '
-next unless /^ *Device +Boot +Start +End +Blocks +Id +System *$/i .. !/\S/;
-next unless / [146] +DOS \d+-bit \S+$/;
-next unless m:^/\S+:p;
-print ${^MATCH};		' <$tp.f >$tp.d
-	newdefaultdevice="`cat $tp.d`"
-	echo "
-I need to know which disk partition contains the distribution files;
-disk partitions are specified by the block device name in Linux."
-	if [ -n "$newdefaultdevice" ]
-	then
-		echo \
-"By the way, $newdefaultdevice looks like a DOS partition."
-	fi
-	getblockdev "Enter the partition's block device name"
 fi
 
 if [ -n "$mountpoint" ]
