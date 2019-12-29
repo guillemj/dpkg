@@ -30,6 +30,7 @@
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
+#include <dpkg/dir.h>
 #include <dpkg/atomic-file.h>
 
 #define ATOMIC_FILE_NEW_EXT "-new"
@@ -53,6 +54,13 @@ void
 atomic_file_open(struct atomic_file *file)
 {
 	file->fp = fopen(file->name_new, "w");
+	if (file->fp == NULL && file->flags & ATOMIC_FILE_MKPATH) {
+		if (dir_make_path_parent(file->name, 0755) < 0)
+			ohshite(_("cannot create base directory for %s"),
+			        file->name);
+
+		file->fp = fopen(file->name_new, "w");
+	}
 	if (file->fp == NULL)
 		ohshite(_("unable to create new file '%.250s'"),
 		        file->name_new);
