@@ -208,7 +208,7 @@ static urqresult rundpkgauto(const char *name, const char *dpkgmode) {
                    dpkgmode, nullptr);
 
   cursesoff();
-  printf("running dpkg --pending %s ...\n",dpkgmode);
+  printf(_("running %s %s ...\n"), "dpkg --pending", dpkgmode);
   fflush(stdout);
   ur = falliblesubprocess(&cmd);
   command_destroy(&cmd);
