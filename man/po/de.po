@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.20.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2020-01-08 18:07+0100\n"
-"PO-Revision-Date: 2020-01-06 17:26+0100\n"
+"PO-Revision-Date: 2020-01-08 21:35+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -766,21 +766,16 @@ msgstr ""
 
 #. type: TP
 #: deb-buildinfo.man
-#, fuzzy, no-wrap
-#| msgid "B<Binary:> I<binary-package-list> (required in context)"
+#, no-wrap
 msgid "B<Binary:> I<binary-package-list> (required)"
-msgstr "B<Binary:> I<Binärpaketliste> (verpflichtend im Kontext)"
+msgstr "B<Binary:> I<Binärpaketliste> (verpflichtend)"
 
 #. type: Plain text
 #: deb-buildinfo.man
-#, fuzzy
-#| msgid ""
-#| "This field specifies a whitespace separated list of build profiles that "
-#| "this upload was built with."
 msgid "This folded field is a space-separated list of binary packages built."
 msgstr ""
-"Das Feld gibt eine durch Leerraum getrennte Liste von Bauprofilen an, unter "
-"denen dieser Upload gebaut wurde."
+"Das gefaltete Feld gibt eine durch Leerzeichen getrennte Liste von gebauten "
+"Binärpaketen an."
 
 #. type: TP
 #: deb-buildinfo.man
@@ -4898,13 +4893,6 @@ msgstr "deb-shlibs - Debians Informationsdatei für Laufzeitbibliotheken"
 
 #. type: Plain text
 #: deb-shlibs.man
-#, fuzzy
-#| msgid ""
-#| "B<shlibs> files map shared library names and versions (I<SONAMEs>)  to "
-#| "dependencies suitable for a package control file.  There is one entry per "
-#| "line. Blank lines are B<not> allowed.  Lines beginning with an B<#> "
-#| "character are considered commentary, and are ignored.  All other lines "
-#| "must have the format"
 msgid ""
 "B<shlibs> files map shared library names and versions (I<sonames>)  to "
 "dependencies suitable for a package control file.  There is one entry per "
@@ -4912,7 +4900,7 @@ msgid ""
 "character are considered commentary, and are ignored.  All other lines must "
 "have the format"
 msgstr ""
-"B<shlibs>-Dateien bilden Laufzeitbibliotheknamen und -versionen (I<SONAMEs>) "
+"B<shlibs>-Dateien bilden Laufzeitbibliotheknamen und -versionen (I<Sonamen>) "
 "auf Abhängigkeiten ab, die für eine Paket-B<control>-Datei geeignet sind. Es "
 "gibt einen Eintrag pro Zeile. Leerzeilen sind B<nicht> erlaubt. Zeilen, die "
 "mit B<#> beginnen, werden als Kommentarzeilen betrachtet und ignoriert. Alle "
@@ -4945,16 +4933,12 @@ msgstr ""
 
 #. type: Plain text
 #: deb-shlibs.man
-#, fuzzy
-#| msgid ""
-#| "The B<shlibs> file for a typical library package, named I<libcrunch1>, "
-#| "that provides one library whose SONAME is I<libcrunch.so.1>, might read"
 msgid ""
 "The B<shlibs> file for a typical library package, named I<libcrunch1>, that "
 "provides one library whose soname is I<libcrunch.so.1>, might read"
 msgstr ""
 "Die B<shlibs>-Datei für ein typisches Bibliothekspaket namens I<libcrunch1>, "
-"das eine Bibliothek mit dem SONAME I<libcrunch.so.1> bereitstellt, könnte "
+"das eine Bibliothek mit dem Soname I<libcrunch.so.1> bereitstellt, könnte "
 "wie folgt lauten:"
 
 #. type: Plain text
@@ -5237,15 +5221,6 @@ msgstr "B<Installed-Size>"
 
 #. type: Plain text
 #: deb-substvars.man
-#, fuzzy
-#| msgid ""
-#| "The approximate total size of the package's installed files. This value "
-#| "is copied into the corresponding control file field; setting it will "
-#| "modify the value of that field. If this variable is not set B<dpkg-"
-#| "gencontrol> will compute the default value by accumulating the size of "
-#| "each regular file and symlink rounded to 1 KiB used units, and a baseline "
-#| "of 1 KiB for any other filesystem object type.  With hardlinks only being "
-#| "counted once as a regular file."
 msgid ""
 "The approximate total size of the package's installed files. This value is "
 "copied into the corresponding control file field; setting it will modify the "
@@ -5260,8 +5235,7 @@ msgstr ""
 "gesetzt ist, wird B<dpkg-gencontrol> den Vorgabewert berechnen, indem es die "
 "Größen jeder regulären Datei und jedes Symlinks (gerundet auf 1 KiB) "
 "aufaddiert und einen Grundwert von 1 KiB für aller anderen "
-"Dateisystemobjekttypen verwendet. Dabei werden Hardlinks nur einmalig als "
-"reguläre Dateien gezählt."
+"Dateisystemobjekttypen verwendet."
 
 #. type: Plain text
 #: deb-substvars.man
@@ -6873,6 +6847,8 @@ msgid ""
 "A package marked to be on B<hold> is not handled by B<dpkg>, unless forced "
 "to do that with option B<--force-hold>."
 msgstr ""
+"Ein mit B<hold> markiertes Paket wird durch B<dpkg> nicht bearbeitet, außer "
+"dies wird mit der Option B<--force-hold> erzwungen."
 
 #. type: TP
 #: dpkg.man
@@ -8132,6 +8108,7 @@ msgstr ""
 #: dpkg.man
 msgid "B<hold>: Process packages even when marked “hold”."
 msgstr ""
+"B<hold>: Pakete selbst dann verarbeiten, wenn diese mit „hold“ markiert sind."
 
 #. type: Plain text
 #: dpkg.man
@@ -9161,21 +9138,14 @@ msgstr "B<DPKG_PAGER>"
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
-#| msgid ""
-#| "The program B<dpkg> will execute when running a pager, which will be "
-#| "executed with «B<$SHELL -c>», for example when displaying the conffile "
-#| "differences.  If B<SHELL> is not set, «B<sh>» will be used instead.  The "
-#| "B<DPKG_PAGER> overrides the B<PAGER> environment variable (since dpkg "
-#| "1.19.2)."
 msgid ""
 "The program B<dpkg> will execute when running a pager, for example when "
 "displaying the conffile differences.  If B<SHELL> is not set, «B<sh>» will "
 "be used instead.  The B<DPKG_PAGER> overrides the B<PAGER> environment "
 "variable (since dpkg 1.19.2)."
 msgstr ""
-"Das Programm, das B<dpkg> ausführen wird, wenn es einen Pager mit „B<$SHELL -"
-"c>“ ausführt, beispielsweise zur Anzeige von Conffile-Dateiunterschieden. "
+"Das Programm, das B<dpkg> ausführen wird, wenn es einen Pager "
+"ausführt, beispielsweise zur Anzeige von Conffile-Dateiunterschieden. "
 "Falls B<SHELL> nicht gesetzt ist, wird stattdessen „B<sh>“ verwandt. "
 "B<DPKG_PAGER> setzt die Umgebungsvariable B<PAGER> außer Kraft (seit Dpkg "
 "1.19.2)."
@@ -12976,14 +12946,6 @@ msgstr "B<11.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
-#| msgid ""
-#| "It runs the B<sign> hook and calls B<gpg> (as long as it is not an "
-#| "UNRELEASED build, or B<--no-sign> is specified) to sign the B<.dsc> file "
-#| "(if any, unless B<-us> or B<--unsigned-source> is specified), the B<."
-#| "buildinfo> file (unless B<-ui>, B<--unsigned-buildinfo>, B<-uc> or B<--"
-#| "unsigned-changes> is specified) and the B<.changes> file (unless B<-uc> "
-#| "or B<--unsigned-changes> is specified)."
 msgid ""
 "It runs the B<sign> hook and calls B<gpg2> or B<gpg> (as long as it is not "
 "an UNRELEASED build, or B<--no-sign> is specified) to sign the B<.dsc> file "
@@ -12992,7 +12954,7 @@ msgid ""
 "unsigned-changes> is specified) and the B<.changes> file (unless B<-uc> or "
 "B<--unsigned-changes> is specified)."
 msgstr ""
-"Der Hook B<sign> wird ausgeführt und B<gpg> aufgerufen (so lange es sich "
+"Der Hook B<sign> wird ausgeführt und B<gpg2> oder B<gpg> aufgerufen (so lange es sich "
 "nicht um einen „UNRELEASED“-Bau handelt oder B<--no-sign> angegeben wurde), "
 "um die B<.dsc>-Datei (falls vorhanden und B<-us> oder B<--unsigned-source> "
 "nicht angegeben wurde), die B<.buildinfo>-Datei (falls B<-ui>, B<--unsigned-"
@@ -13817,14 +13779,6 @@ msgstr "B<-p>, B<--sign-command=>I<Unterschreibbefehl>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
-#| msgid ""
-#| "When B<dpkg-buildpackage> needs to execute GPG to sign a source control "
-#| "(B<.dsc>) file or a B<.changes> file it will run I<sign-command> "
-#| "(searching the B<PATH> if necessary) instead of B<gpg> (long option since "
-#| "dpkg 1.18.8).  I<sign-command> will get all the arguments that B<gpg> "
-#| "would have gotten. I<sign-command> should not contain spaces or any other "
-#| "shell metacharacters."
 msgid ""
 "When B<dpkg-buildpackage> needs to execute GPG to sign a source control (B<."
 "dsc>) file or a B<.changes> file it will run I<sign-command> (searching the "
@@ -13834,10 +13788,10 @@ msgid ""
 "shell metacharacters."
 msgstr ""
 "Wenn B<dpkg-buildpackage> GPG zum Unterschreiben einer Quellsteuerdatei (B<."
-"dsc>) oder einer B<.changes>-Datei benötigt, wird es statt B<gpg> den "
+"dsc>) oder einer B<.changes>-Datei benötigt, wird es statt B<gpg2> oder B<gpg> den "
 "I<Unterschreibbefehl> ausführen (und dabei falls notwendig den B<PATH> "
 "durchsuchen) (lange Option seit Dpkg 1.18.8). I<Unterschreibbefehl> wird "
-"alle Argumente erhalten, die B<gpg> erhalten hätte. I<Unterschreibbefehl> "
+"alle Argumente erhalten, die B<gpg2> oder B<gpg> erhalten hätte. I<Unterschreibbefehl> "
 "sollte keine Leerzeichen oder andere Metazeichen der Shell enthalten."
 
 #. type: TP
@@ -14293,11 +14247,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
-#| "genbuildinfo>(1), B<dpkg-genchanges>(1), B<fakeroot>(1), B<lintian>(1), "
-#| "B<gpg>(1)."
 msgid ""
 "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
 "genbuildinfo>(1), B<dpkg-genchanges>(1), B<fakeroot>(1), B<lintian>(1), "
@@ -14305,7 +14254,7 @@ msgid ""
 msgstr ""
 "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
 "genbuildinfo>(1), B<dpkg-genchanges>(1), B<fakeroot>(1), B<lintian>(1), "
-"B<gpg>(1)."
+"B<gpg2>(1), B<gpg>(1)."
 
 #. type: TH
 #: dpkg-genbuildinfo.man
@@ -16571,19 +16520,13 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-gensymbols.man
-#, fuzzy
-#| msgid ""
-#| "Comments are supported in template symbol files. Any line with ‘#’ as the "
-#| "first character is a comment except if it starts with ‘#include’ (see "
-#| "section B<Using includes>).  Lines starting with ‘#MISSING:’ are special "
-#| "comments documenting symbols that have disappeared."
 msgid ""
 "Note that you can put comments in symbols files: any line with ‘#’ as the "
 "first character is a comment except if it starts with ‘#include’ (see "
 "section B<Using includes>).  Lines starting with ‘#MISSING:’ are special "
 "comments documenting symbols that have disappeared."
 msgstr ""
-"In Symboldateien werden Kommentare unterstützt. Jede Zeile, die mit ‚#’ als "
+"Beachten Sie, dass Sie Kommentare in Symboldateien stellen können: Jede Zeile, die mit ‚#’ als "
 "erstem Zeichen beginnt, ist ein Kommentar, falls sie nicht mit ‚#include’ "
 "beginnt (siehe Abschnitt B<Includes verwenden>). Zeilen, die mit ‚#MISSING:’ "
 "anfangen, sind besondere Kommentare, die verschwundene Symbole dokumentieren."
@@ -17767,10 +17710,8 @@ msgstr "B<https://people.redhat.com/drepper/dsohowto.pdf>"
 
 #. type: Plain text
 #: dpkg-gensymbols.man
-#, fuzzy
-#| msgid "B<deb-src-symbol>(5), B<deb-symbols>(5), B<dpkg-shlibdeps>(1)."
 msgid "B<deb-symbols>(5), B<dpkg-shlibdeps>(1)."
-msgstr "B<deb-src-symbol>(5), B<deb-symbols>(5), B<dpkg-shlibdeps>(1)."
+msgstr "B<deb-symbols>(5), B<dpkg-shlibdeps>(1)."
 
 #. type: TH
 #: dpkg-maintscript-helper.man
@@ -24334,18 +24275,6 @@ msgstr ""
 
 #. type: Plain text
 #: dselect.man
-#, fuzzy
-#| msgid ""
-#| "B<dselect> operates as a front-end to B<dpkg>(1), the low-level Debian "
-#| "package handling tool. It features a full-screen package selections "
-#| "manager with package depends and conflicts resolver. When run with "
-#| "administrator privileges, packages can be installed, upgraded and "
-#| "removed. Various access methods can be configured to retrieve available "
-#| "package version information and installable packages from package "
-#| "repositories.  Depending on the used access method, these repositories "
-#| "can be public archive servers on the internet, local archive servers or "
-#| "CD-ROMs.  The recommended access method is I<apt>, which is provided by "
-#| "the package B<apt>."
 msgid ""
 "B<dselect> operates as a front-end to B<dpkg>(1), the low-level Debian "
 "package handling tool. It features a full-screen package selections manager "
@@ -24440,10 +24369,9 @@ msgstr ""
 
 #. type: TP
 #: dselect.man
-#, fuzzy, no-wrap
-#| msgid "B<--colour> I<screenpart>:[I<foreground>],[I<background>][:I<attr>[I<+attr>]...]"
+#, no-wrap
 msgid "B<--colour>|B<--color> I<screenpart>:[I<foreground>],[I<background>][:I<attr>[I<+attr>]...]"
-msgstr "B<--colour> I<Bildschirmteil>:[I<Vordergrund>],[I<Hintergrund>][:I<Attr>[I<+Attr>]…]"
+msgstr "B<--colour>|B<--color> I<Bildschirmteil>:[I<Vordergrund>],[I<Hintergrund>][:I<Attr>[I<+Attr>]…]"
 
 #. type: Plain text
 #: dselect.man
@@ -25690,25 +25618,17 @@ msgstr ""
 
 #. type: TP
 #: start-stop-daemon.man
-#, fuzzy, no-wrap
-#| msgid "B<-p>, B<--pidfile> I<pidfile>"
+#, no-wrap
 msgid "B<-p>, B<--pidfile> I<pid-file>"
 msgstr "B<-p>, B<--pidfile> I<PID-Datei>"
 
 #. type: Plain text
 #: start-stop-daemon.man
-#, fuzzy
-#| msgid "Check whether a process has created the file I<pidfile>."
 msgid "Check whether a process has created the file I<pid-file>."
 msgstr "Prüft, ob ein Prozess die Datei I<PID-Datei> angelegt hat."
 
 #. type: Plain text
 #: start-stop-daemon.man
-#, fuzzy
-#| msgid ""
-#| "Note: using this matching option alone might cause unintended processes "
-#| "to be acted on, if the old process terminated without being able to "
-#| "remove the I<pidfile>."
 msgid ""
 "Note: using this matching option alone might cause unintended processes to "
 "be acted on, if the old process terminated without being able to remove the "
@@ -25985,15 +25905,11 @@ msgstr "B<-r>, B<--chroot> I<Wurzel>"
 
 #. type: Plain text
 #: start-stop-daemon.man
-#, fuzzy
-#| msgid ""
-#| "Change directory and chroot to I<root> before starting the process. "
-#| "Please note that the pidfile is also written after the chroot."
 msgid ""
 "Chdir and chroot to I<root> before starting the process. Please note that "
 "the pidfile is also written after the chroot."
 msgstr ""
-"Wechselt das Verzeichnis und chroot vor dem Start des Prozesse zu I<Wurzel>. "
+"Chdir und chroot vor dem Start des Prozesse zu I<Wurzel>. "
 "Bitte beachten Sie, dass die PID-Datei auch nach dem chroot geschrieben wird."
 
 #. type: TP
@@ -26004,21 +25920,15 @@ msgstr "B<-d>, B<--chdir> I<Pfad>"
 
 #. type: Plain text
 #: start-stop-daemon.man
-#, fuzzy
-#| msgid ""
-#| "Change directory to I<path> before starting the process. This is done "
-#| "after the chroot if the B<-r>|B<--chroot> option is set. When not "
-#| "specified, B<start-stop-daemon> will change directory to the root "
-#| "directory before starting the process."
 msgid ""
 "Chdir to I<path> before starting the process. This is done after the chroot "
 "if the B<-r>|B<--chroot> option is set. When not specified, B<start-stop-"
 "daemon> will chdir to the root directory before starting the process."
 msgstr ""
-"Wechselt vor dem Starten des Prozesses zum Verzeichnis I<Pfad>. Dies wird, "
+"Chdir zu I<Pfad> vor dem Starten des Prozesses. Dies wird, "
 "falls die B<-r>|B<--chroot> Option gesetzt ist, nach dem chroot "
 "durchgeführt. Falls nicht angegeben, wird B<start-stop-daemon> vor dem "
-"Prozess-Start in das Wurzelverzeichnis wechseln."
+"Prozess-Start in das Wurzelverzeichnis mittels Chdir wechseln."
 
 #. type: TP
 #: start-stop-daemon.man
