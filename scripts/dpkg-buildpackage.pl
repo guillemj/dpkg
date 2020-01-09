@@ -241,7 +241,7 @@ while (@ARGV) {
 	$check_command = $1;
     } elsif (/^--check-option=(.*)$/) {
 	push @check_opts, $1;
-    } elsif (/^--hook-(.+)=(.*)$/) {
+    } elsif (/^--hook-([^=]+)=(.*)$/) {
 	my ($hook_name, $hook_cmd) = ($1, $2);
 	usageerr(g_('unknown hook name %s'), $hook_name)
 	    if not exists $hook{$hook_name};
