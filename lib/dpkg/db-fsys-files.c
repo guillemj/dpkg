@@ -168,9 +168,16 @@ pkg_sorter_by_files_list_phys_offs(const void *a, const void *b)
     return 0;
 }
 
+#define DPKG_FIEMAP_EXTENTS	1
+#define DPKG_FIEMAP_BUF_SIZE	\
+	(sizeof(struct fiemap) + \
+	 sizeof(struct fiemap_extent) * DPKG_FIEMAP_EXTENTS) / sizeof(__u64)
+
 static void
 pkg_files_optimize_load(struct pkg_array *array)
 {
+  __u64 fiemap_buf[DPKG_FIEMAP_BUF_SIZE];
+  struct fiemap *fm = (struct fiemap *)fiemap_buf;
   struct statfs fs;
   int i;
 
@@ -182,10 +189,6 @@ pkg_files_optimize_load(struct pkg_array *array)
    * scanning them later will minimize disk drive head movements. */
   for (i = 0; i < array->n_pkgs; i++) {
     struct pkginfo *pkg = array->pkgs[i];
-    struct {
-      struct fiemap fiemap;
-      struct fiemap_extent extent;
-    } fm;
     const char *listfile;
     int fd;
 
@@ -201,14 +204,14 @@ pkg_files_optimize_load(struct pkg_array *array)
     if (fd < 0)
       continue;
 
-    memset(&fm, 0, sizeof(fm));
-    fm.fiemap.fm_start = 0;
-    fm.fiemap.fm_length = fs.f_bsize;
-    fm.fiemap.fm_flags = 0;
-    fm.fiemap.fm_extent_count = 1;
+    memset(fiemap_buf, 0, sizeof(fiemap_buf));
+    fm->fm_start = 0;
+    fm->fm_length = fs.f_bsize;
+    fm->fm_flags = 0;
+    fm->fm_extent_count = DPKG_FIEMAP_EXTENTS;
 
-    if (ioctl(fd, FS_IOC_FIEMAP, (unsigned long)&fm) == 0)
-      pkg->files_list_phys_offs = fm.fiemap.fm_extents[0].fe_physical;
+    if (ioctl(fd, FS_IOC_FIEMAP, (unsigned long)fm) == 0)
+      pkg->files_list_phys_offs = fm->fm_extents[0].fe_physical;
 
     close(fd);
   }
