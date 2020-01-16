@@ -51,8 +51,7 @@ enum pkg_format_type {
 struct pkg_format_node {
 	struct pkg_format_node *next;
 	enum pkg_format_type type;
-	size_t width;
-	int pad;
+	int width;
 	char *data;
 };
 
@@ -67,7 +66,6 @@ pkg_format_node_new(void)
 	buf->next = NULL;
 	buf->data = NULL;
 	buf->width = 0;
-	buf->pad = 0;
 
 	return buf;
 }
@@ -99,11 +97,7 @@ parsefield(struct pkg_format_node *node, const char *fmt, const char *fmtend,
 			return false;
 		}
 
-		if (w < 0) {
-			node->pad = 1;
-			node->width = (size_t)-w;
-		} else
-			node->width = (size_t)w;
+		node->width = w;
 
 		len = ws - fmt;
 	}
@@ -394,13 +388,8 @@ pkg_format_item(struct varbuf *vb,
 {
 	if (node->width == 0)
 		varbuf_add_str(vb, str);
-	else {
-		char fmt[16];
-
-		snprintf(fmt, sizeof(fmt), "%%%s%zus",
-		         ((node->pad) ? "-" : ""), node->width);
-		varbuf_printf(vb, fmt, str);
-	}
+	else
+		varbuf_printf(vb, "%*s", node->width, str);
 }
 
 void
@@ -443,8 +432,10 @@ pkg_format_show(const struct pkg_format_node *head,
 
 		if (ok) {
 			size_t len = fb.used;
-			if ((node->width > 0) && (len > node->width))
-				len = node->width;
+			size_t width = abs(node->width);
+
+			if ((width != 0) && (len > width))
+				len = width;
 			varbuf_add_buf(&vb, fb.buf, len);
 		}
 
