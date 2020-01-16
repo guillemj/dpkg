@@ -52,11 +52,6 @@ getdisklabel () {
 xit=1
 
 do_umount() {
-	if [ "$method" = "multi_mount" ]
-	then
-		echo true
-		return
-	fi
 	if [ -n "$umount" ]; then
 		echo umount "$umount"
 		#">/dev/null" "2>&1"
@@ -64,13 +59,6 @@ do_umount() {
 }
 
 do_mount() {
-
-	if [ "$method" = "multi_mount" ]
-	then
-		echo true
-		return
-	fi
-
 	if [ ! -b "$p_blockdev" ]
 	then
 		loop=",loop"

@@ -9,7 +9,6 @@ nobase_dist_methods_DATA = \
 	ftp/desc.ftp \
 	multicd/names \
 	multicd/desc.multi_cd \
-	multicd/desc.multi_mount \
 	$(nil)
 
 nobase_methods_SCRIPTS = \
