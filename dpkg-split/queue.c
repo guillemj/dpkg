@@ -152,13 +152,15 @@ do_auto(const char *const *argv)
   part = dpkg_ar_open(partfile);
   if (!part)
     ohshite(_("unable to read part file '%.250s'"), partfile);
-  if (!read_info(part, refi)) {
+  refi = read_info(part, refi);
+  dpkg_ar_close(part);
+
+  if (refi == NULL) {
     if (!opt_npquiet)
       printf(_("File '%.250s' is not part of a multipart archive.\n"), partfile);
     m_output(stdout, _("<standard output>"));
     return 1;
   }
-  dpkg_ar_close(part);
 
   queue = scandepot();
   partlist = nfmalloc(sizeof(*partlist) * refi->maxpartn);
