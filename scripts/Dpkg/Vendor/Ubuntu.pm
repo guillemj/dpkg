@@ -65,9 +65,6 @@ sub run_hook {
                warning(g_('Version number suggests Ubuntu changes, but there is no XSBC-Original-Maintainer field'));
            }
         }
-
-    } elsif ($hook eq 'keyrings') {
-        return $self->run_hook('package-keyrings', @params);
     } elsif ($hook eq 'package-keyrings') {
         return ($self->SUPER::run_hook($hook),
                 '/usr/share/keyrings/ubuntu-archive-keyring.gpg');
