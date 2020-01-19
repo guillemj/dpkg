@@ -551,8 +551,8 @@ wait_for_child(pid_t pid)
 static void
 cleanup_socket_dir(void)
 {
-	unlink(notify_socket);
-	rmdir(notify_sockdir);
+	(void)unlink(notify_socket);
+	(void)rmdir(notify_sockdir);
 }
 
 static char *
@@ -593,7 +593,7 @@ set_socket_passcred(int fd)
 #ifdef SO_PASSCRED
 	static const int enable = 1;
 
-	setsockopt(fd, SOL_SOCKET, SO_PASSCRED, &enable, sizeof(enable));
+	(void)setsockopt(fd, SOL_SOCKET, SO_PASSCRED, &enable, sizeof(enable));
 #endif
 }
 
