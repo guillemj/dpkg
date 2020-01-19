@@ -807,6 +807,10 @@ daemonize(void)
 		_exit(0);
 	}
 
+	/* Close the notification socket, even though it is close-on-exec. */
+	if (notify_await)
+		close(notify_fd);
+
 	/* Create a new session. */
 	if (setsid() < 0)
 		fatale("cannot set session ID");
