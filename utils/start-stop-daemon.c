@@ -1359,6 +1359,7 @@ parse_options(int argc, char * const *argv)
 			execname = optarg;
 			break;
 		case 'c':  /* --chuid <username>|<uid> */
+			free(changeuser);
 			/* We copy the string just in case we need the
 			 * argument later. */
 			changeuser_len = strcspn(optarg, ":");
