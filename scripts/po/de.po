@@ -1,13 +1,13 @@
 # German translation of the scripts in the dpkg package
 # This file is distributed under the same license as the dpkg package.
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2019.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.20.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
-"PO-Revision-Date: 2019-11-26 18:26+0100\n"
+"POT-Creation-Date: 2020-01-20 19:35+0100\n"
+"PO-Revision-Date: 2020-01-20 19:45+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -166,6 +166,12 @@ msgstr ""
 "angegebener GNU-Systemtyp %s passt nicht zu CC-Systemtyp %s, versuchen Sie, "
 "eine korrekte CC-Umgebungsvariable zu setzen"
 
+#: scripts/dpkg-architecture.pl scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/Shlibs/Cppfilt.pm
+#, perl-format
+msgid "unable to execute %s"
+msgstr "%s konnte nicht ausgeführt werden"
+
 #: scripts/dpkg-buildflags.pl
 #, perl-format
 msgid "Usage: %s [<command>]"
@@ -250,6 +256,7 @@ msgid ""
 "      --pre-clean             pre clean source tree (default).\n"
 "      --no-post-clean         do not post clean source tree (default).\n"
 "  -tc, --post-clean           post clean source tree.\n"
+"      --sanitize-env          sanitize the build environment.\n"
 "  -D, --check-builddeps       check build dependencies and conflicts "
 "(default).\n"
 "  -d, --no-check-builddeps    do not check build dependencies and "
@@ -314,6 +321,7 @@ msgstr ""
 "       --pre-clean    Quellbaum vorab säubern (Standard)\n"
 "      --no-post-clean Quellbaum nicht abschließend säubern (Standard).\n"
 "  -tc, --post-clean   Quellbaum abschließend säubern.\n"
+"      --sanitize-env  die Bauumgebung bereinigen.\n"
 "  -D, --check-builddeps\n"
 "                      Bauabhängigkeiten und -konflikte prüfen (Standard)\n"
 "  -d, --no-check-builddeps Bauabhängigkeiten und -konflikte nicht prüfen\n"
@@ -713,8 +721,8 @@ msgstr ""
 #: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-shlibdeps.pl
 #: scripts/dpkg-source.pl
 #, perl-format
-msgid "error occurred while parsing %s"
-msgstr "Fehler beim Auswerten von %s"
+msgid "cannot parse %s field"
+msgstr "das Feld %s kann nicht ausgewertet werden"
 
 #: scripts/dpkg-checkbuilddeps.pl
 #, perl-format
@@ -1047,38 +1055,40 @@ msgstr "Paket muss angegeben werden, da Steuer-Info viele (%s) enthält"
 msgid "package %s: "
 msgstr "Paket %s: "
 
+# FIXME Positional arguments for %s?
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
 msgid ""
-"current host architecture '%s' does not appear in package's architecture "
+"current host architecture '%s' does not appear in package '%s' architecture "
 "list (%s)"
 msgstr ""
-"aktuelle Host-Architektur »%s« erscheint nicht in der Architekturliste (%s) "
-"des Pakets"
+"aktuelle Host-Architektur »%s« erscheint nicht in der Architekturliste "
+"des Pakets »%s« (%s)"
 
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
 msgid "%s field of package %s: "
 msgstr "Feld %s von Paket %s: "
 
+# FIXME Positional arguments for %s?
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
-msgid "error occurred while parsing %s field: %s"
-msgstr "Fehler beim Auswerten von %s Feld: %s"
+msgid "parsing package '%s' %s field: %s"
+msgstr "Pakets »%s« Feld %s wird ausgewertet: %s"
 
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
 msgid ""
-"the %s field contains an arch-specific dependency but the package is "
+"the %s field contains an arch-specific dependency but the package '%s' is "
 "architecture all"
 msgstr ""
 "das Feld %s enthält eine architekturspezifische Abhängigkeit, aber das Paket "
-"ist »architecture all«"
+"»%s« ist »architecture all«"
 
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
-msgid "%s package with udeb specific field %s"
-msgstr "%s Paket mit udeb-spezifischem Feld %s"
+msgid "%s package '%s' with udeb specific field %s"
+msgstr "%s Paket »%s« mit udeb-spezifischem Feld %s"
 
 #: scripts/dpkg-gencontrol.pl scripts/Dpkg/Source/Package.pm
 #: scripts/Dpkg/Source/Patch.pm
@@ -1872,11 +1882,6 @@ msgstr ""
 "nicht identifiziert werden, da das DEBIAN-Unterverzeichnis in der Wurzel des "
 "Paketbaubaums fehlt."
 
-#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Cppfilt.pm
-#, perl-format
-msgid "unable to execute %s"
-msgstr "%s konnte nicht ausgeführt werden"
-
 #: scripts/dpkg-shlibdeps.pl
 msgid "diversions involved - output may be incorrect"
 msgstr "Umleitungen beteiligt - Ausgabe könnte nicht korrekt sein"
@@ -1943,8 +1948,8 @@ msgstr "%s enthält keine Informationen über das Quellpaket"
 
 #: scripts/dpkg-source.pl
 #, perl-format
-msgid "'%s' is not a legal architecture string"
-msgstr "»%s« ist keine gültige Architektur-Zeichenkette"
+msgid "'%s' is not a legal architecture string in package '%s'"
+msgstr "»%s« ist keine gültige Architekturzeichenkette in Paket »%s«"
 
 #: scripts/dpkg-source.pl
 #, perl-format
@@ -4012,6 +4017,15 @@ msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
+
+#~ msgid "error occurred while parsing %s"
+#~ msgstr "Fehler beim Auswerten von %s"
+
+#~ msgid "error occurred while parsing %s field: %s"
+#~ msgstr "Fehler beim Auswerten von %s Feld: %s"
+
+#~ msgid "'%s' is not a legal architecture string"
+#~ msgstr "»%s« ist keine gültige Architektur-Zeichenkette"
 
 #~ msgid ""
 #~ "binary package stanza %s is using an obsolete Build-Profiles field syntax"
