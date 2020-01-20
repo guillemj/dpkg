@@ -344,6 +344,7 @@ if ($action eq 'list') {
     exit !debarch_is($v{DEB_HOST_ARCH}, $req_is_arch);
 } elsif ($action eq 'command') {
     @ENV{keys %v} = values %v;
+    ## no critic (TestingAndDebugging::ProhibitNoWarnings)
     no warnings qw(exec);
     exec @ARGV or syserr(g_('unable to execute %s'), "@ARGV");
 } elsif ($action eq 'query') {
