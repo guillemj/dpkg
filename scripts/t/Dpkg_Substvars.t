@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 47;
+use Test::More tests => 51;
 use Test::Dpkg qw(:paths);
 
 use Dpkg ();
@@ -67,6 +67,12 @@ is($s->get('dpkg:Version'), $Dpkg::PROGVERSION, 'dpkg version 1');
 is($s->get('Arch'), undef, 'no arch');
 $s->set_arch_substvars();
 is($s->get('Arch'), get_host_arch(), 'arch');
+
+is($s->get('vendor:Id'), undef, 'no vendor id');
+is($s->get('vendor:Name'), undef, 'no vendor name');
+$s->set_vendor_substvars();
+is($s->get('vendor:Id'), 'debian', 'vendor id');
+is($s->get('vendor:Name'), 'Debian', 'vendor name');
 
 is($s->get($_), undef, 'no ' . $_) for qw/binary:Version source:Version source:Upstream-Version/;
 $s->set_version_substvars('1:2.3.4~5-6.7.8~nmu9', '1:2.3.4~5-6.7.8~nmu9+bin0');

@@ -98,6 +98,15 @@ Additionally, the following standard variables are available:
 The current host architecture (i.e. the architecture the package is being
 built for, the equivalent of \fBDEB_HOST_ARCH\fP).
 .TP
+.B vendor:Name
+The current vendor name (since dpkg 1.20.0).
+This value comes from the \fBVendor\fP field for the current vendor's origin
+file, as \fBdpkg\-vendor\fP(1) would retrieve it.
+.TP
+.B vendor:Id
+The current vendor ID (since dpkg 1.20.0).
+This is just the lowercase variant of \fBvendor:Name\fP.
+.TP
 .B source:Version
 The source package version (since dpkg 1.13.19).
 .TP
@@ -195,6 +204,7 @@ List of substitution variables and values.
 .
 .SH SEE ALSO
 .BR dpkg (1),
+.BR dpkg\-vendor (1),
 .BR dpkg\-genchanges (1),
 .BR dpkg\-gencontrol (1),
 .BR dpkg\-shlibdeps (1),

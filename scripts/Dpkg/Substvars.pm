@@ -23,6 +23,7 @@ our $VERSION = '2.00';
 
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
+use Dpkg::Vendor qw(get_current_vendor);
 use Dpkg::Version;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -252,6 +253,24 @@ sub set_arch_substvars {
     $self->set('Arch', get_host_arch(), $attr);
 }
 
+=item $s->set_vendor_substvars()
+
+Defines vendor variables: ${vendor:Name} and ${vendor:Id}.
+
+These will never be warned about when unused.
+
+=cut
+
+sub set_vendor_substvars {
+    my ($self, $desc) = @_;
+
+    my $attr = SUBSTVAR_ATTR_USED | SUBSTVAR_ATTR_AUTO;
+
+    my $vendor = get_current_vendor();
+    $self->set('vendor:Name', $vendor, $attr);
+    $self->set('vendor:Id', lc $vendor, $attr);
+}
+
 =item $s->set_desc_substvars()
 
 Defines source description variables: ${source:Synopsis} and
@@ -426,6 +445,8 @@ indicated file.
 =head2 Version 2.00 (dpkg 1.20.0)
 
 Remove method: $s->no_warn().
+
+New method: $s->set_vendor_substvars().
 
 =head2 Version 1.06 (dpkg 1.19.0)
 
