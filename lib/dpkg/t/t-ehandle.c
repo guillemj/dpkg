@@ -96,9 +96,6 @@ test_cleanup_error(void)
 		pop_cleanup(ehflag_normaltidy);
 		pop_error_context(ehflag_normaltidy);
 	} else {
-		/* Mark any error before this as not passing. */
-		pass = false;
-
 		push_error_context_jump(&handler_jump, printer_empty, "test cleanup");
 		push_cleanup(cleanup_error, ~ehflag_normaltidy, 0);
 		pop_error_context(ehflag_bombout);
