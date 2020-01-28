@@ -55,12 +55,16 @@ sub parse_filename {
     my $file;
 
     if ($fn =~ m/^(([-+:.0-9a-z]+)_([^_]+)_([-\w]+)\.([a-z0-9.]+))$/) {
+        # Artifact using the common <name>_<version>_<arch>.<type> pattern.
         $file->{filename} = $1;
         $file->{package} = $2;
         $file->{version} = $3;
         $file->{arch} = $4;
         $file->{package_type} = $5;
     } elsif ($fn =~ m/^([-+:.,_0-9a-zA-Z~]+)$/) {
+        # Artifact with no common pattern, usually called byhand or raw, as
+        # they might require manual processing on the server side, or custom
+        # actions per file type.
         $file->{filename} = $1;
     } else {
         $file = undef;
