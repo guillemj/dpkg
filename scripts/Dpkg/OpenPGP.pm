@@ -24,6 +24,7 @@ use File::Copy;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::IPC;
 use Dpkg::Path qw(find_command);
 
 our $VERSION = '0.01';
