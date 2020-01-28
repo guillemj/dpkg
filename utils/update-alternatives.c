@@ -2749,7 +2749,7 @@ main(int argc, char **argv)
 			const char *slink, *sname, *spath;
 			struct slave_link *sl;
 
-			if (action == ACTION_NONE || action != ACTION_INSTALL)
+			if (action != ACTION_INSTALL)
 				badusage(_("--slave only allowed with --install"));
 			if (MISSING_ARGS(3))
 				badusage(_("--slave needs <link> <name> <path>"));
