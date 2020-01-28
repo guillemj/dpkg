@@ -438,7 +438,9 @@ sub _generate_patch {
                  $self->{fields}{'Source'}, $origtarfile);
         }
 
-        $self->check_original_tarball_signature(@origtarsigns);
+        if (@origtarsigns) {
+            $self->check_original_tarball_signature($dir, @origtarsigns);
+        }
     }
 
     # Unpack a second copy for comparison
