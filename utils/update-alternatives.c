@@ -1336,13 +1336,6 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 	char *master_link;
 
 	/* Initialize parse context */
-	if (setjmp(ctx.on_error)) {
-		if (ctx.fh)
-			fclose(ctx.fh);
-		free(ctx.filename);
-		alternative_reset(a);
-		return false;
-	}
 	ctx.modified = false;
 	ctx.flags = flags;
 	if (flags & ALTDB_LAX_PARSER)
@@ -1358,6 +1351,14 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 			return false;
 
 		syserr(_("unable to open file '%s'"), ctx.filename);
+	}
+
+	if (setjmp(ctx.on_error)) {
+		if (ctx.fh)
+			fclose(ctx.fh);
+		free(ctx.filename);
+		alternative_reset(a);
+		return false;
 	}
 
 	/* Verify the alternative is not empty. */
