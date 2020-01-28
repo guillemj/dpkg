@@ -27,34 +27,17 @@ constVariable:dselect/pkgsublist.cc:111
 // BUG: False positive.
 syntaxError:lib/dpkg/t/*.c
 
-// BUG: False positive.
-knownConditionTrueFalse:src/depcon.c:585
-knownConditionTrueFalse:src/depcon.c:668
-
 // BUG: False positive, the loop does an early exit.
 identicalInnerCondition:lib/dpkg/fsys-hash.c:100
 
 // BUG: False positive, the macros from lib/dpkg/dlist.h use the tail member.
 unusedStructMember:lib/dpkg/triglib.c:378
 
-// BUG: False positive, does not understand must-allocate functions.
-nullPointer:src/unpack.c:195
-
-// BUG: False positive, does not understand non-returning functions.
-nullPointer:utils/start-stop-daemon.c:756
-nullPointer:utils/start-stop-daemon.c:758
-
-// BUG: False positive, does not understand parser.
-nullPointerArithmeticRedundantCheck:lib/dpkg/pkg-format.c:82
-
-// BUG: False positive, does not understand setjmp-style error handling.
-redundantAssignment:lib/compat/selinux.c:73
+// BUG: False positive, does not understand non-returning functors.
 nullPointerRedundantCheck:utils/update-alternatives.c:1193
-
-// BUG: False positive, does not understand ohshit(), ohshite() and
-//      bad_format as error terminators.
-doubleFree:src/script.c
 doubleFree:utils/update-alternatives.c:1248
+
+// BUG: False positive, does not understand non-returning functions + vaargs.
 va_end_missing:lib/dpkg/parsehelp.c:68
 
 // BUG: False positive, due to our local va_copy().
