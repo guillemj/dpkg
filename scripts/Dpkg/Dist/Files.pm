@@ -83,7 +83,7 @@ sub parse {
 
         if (m/^(\S+) (\S+) (\S+)((?:\s+[0-9a-z-]+=\S+)*)$/) {
             $file = $self->parse_filename($1);
-            error(g_('badly formed package name in files list file, line %d'), $.)
+            error(g_('badly formed file name in files list file, line %d'), $.)
                 unless defined $file;
             $file->{section} = $2;
             $file->{priority} = $3;
