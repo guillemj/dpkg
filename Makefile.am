@@ -61,7 +61,6 @@ EXTRA_DIST = \
 	doc/triggers.txt \
 	debian/bug-script \
 	debian/changelog \
-	debian/compat \
 	debian/control \
 	debian/copyright \
 	debian/dpkg-dev.docs \
