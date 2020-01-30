@@ -115,8 +115,11 @@ triggers empty.
 
 To restore a package in state ‘triggers-pending’ to ‘installed’, or to
 process pending triggers of a package with both pending and awaited
-triggers, dpkg will run the postinst script:
+triggers, dpkg will run the postinst script as:
+
    postinst triggered "<trigger-name> <trigger-name> ..."
+
+by passing a space-separated list of <trigger-name>s as the second argument.
 
 This will be attempted for each relevant package at the end of each
 dpkg run; so, normally, in the same dpkg run as the event which made
