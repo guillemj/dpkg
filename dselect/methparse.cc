@@ -294,7 +294,7 @@ void writecurrentopt() {
   if (methoptfile == nullptr)
     internerr("method options filename is nullptr");
 
-  file = atomic_file_new(methoptfile, (enum atomic_file_flags)0);
+  file = atomic_file_new(methoptfile, ATOMIC_FILE_NORMAL);
   atomic_file_open(file);
   if (fprintf(file->fp, "%s %s\n", coption->meth->name, coption->name) == EOF)
     ohshite(_("unable to write new option to '%.250s'"), file->name_new);
