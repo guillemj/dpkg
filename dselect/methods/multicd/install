@@ -146,15 +146,15 @@ Please change the discs and press <RETURN>.
 			if (!length($invoke)) {
 				warn "
 
-Oh dear, I need to install or upgrade $package, but I don'\''t see
-the appropriate file(s) anywhere.  I'\''m expecting version $version or
-later, as that is listed in the Packages.cd file.
+Cannot find the appropriate file(s) anywhere needed to install or upgrade
+package $package. Expecting version $version or later, as listed in the
+Packages file.
 
-Perhaps you downloaded it with an unexpected name, or something.
-In any case, you must find the file(s) and then either place it with
-the correct filename(s) (as listed in the Packages.cd file or in
-/var/lib/dpkg/available) and rerun the installation, or upgrade the
-package by using '\''dpkg --install --auto-deconfigure'\'' by hand.
+Perhaps the package was downloaded with an unexpected name? In any case,
+you must find the file(s) and then either place it with the correct
+filename(s) (as listed in the Packages file or in $vardir/available)
+and rerun the installation, or upgrade the package by using
+\"dpkg --install --auto-deconfigure" by hand.
 
 ";
 				exit(1);
@@ -240,7 +240,7 @@ done
 
 		while ($disk ne $need) {
 			print "Wrong disc.  This is disc\n    $disk\n";
-			print "However, I need disc\n    $need\n";
+			print "However, the needed disc is\n    $need\n";
 			print "Please change the discs and press <RETURN>\n";
 			system($umount);
 			<STDIN>;
@@ -270,7 +270,7 @@ done
 		chdir "..";
 
 		if ($?) {
-			print "\nThe dpkg run produced errors.  Please tell me, if I should\n",
+			print "\nThe dpkg run produced errors. Please state whether to\n",
 				  "continue with the next CD. [Y/n]: ";
 			$answer = <STDIN>;
 			exit 1 if $answer =~ /^n/i;

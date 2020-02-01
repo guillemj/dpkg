@@ -874,7 +874,7 @@ parsedb(const char *filename, enum parsedbflags flags, struct pkginfo **pkgp)
  * It is likely that the backward pointer for the package in question
  * (‘depended’) will be updated by this routine, but this will happen by
  * the routine traversing the dependency data structures. It doesn't need
- * to be told where to update that; I just mention it as something that
+ * to be told where to update that; just mentioned here as something that
  * one should be cautious about.
  */
 void copy_dependency_links(struct pkginfo *pkg,

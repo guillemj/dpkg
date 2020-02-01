@@ -751,7 +751,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
   if (statr) {
     /* The lstat failed. */
     if (errno != ENOENT && errno != ENOTDIR)
-      ohshite(_("unable to stat '%.255s' (which I was about to install)"),
+      ohshite(_("unable to stat '%.255s' (which was about to be installed)"),
               ti->name);
     /* OK, so it doesn't exist.
      * However, it's possible that we were in the middle of some other
