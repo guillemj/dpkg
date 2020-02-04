@@ -72,6 +72,8 @@ struct varbuf {
 
 #define VARBUF_INIT { 0, 0, NULL }
 
+#define VARBUF_OBJECT (struct varbuf)VARBUF_INIT
+
 struct varbuf *varbuf_new(size_t size);
 void varbuf_init(struct varbuf *v, size_t size);
 void varbuf_grow(struct varbuf *v, size_t need_size);
