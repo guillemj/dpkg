@@ -527,6 +527,7 @@ parsedb_new(const char *filename, int fd, enum parsedbflags flags)
 
   ps = m_malloc(sizeof(*ps));
   ps->err = DPKG_ERROR_OBJECT;
+  ps->errmsg = VARBUF_OBJECT;
   ps->filename = filename;
   ps->type = parse_get_type(ps, flags);
   ps->flags = flags;
@@ -754,6 +755,7 @@ parsedb_close(struct parsedb_state *ps)
 #endif
   }
   dpkg_error_destroy(&ps->err);
+  varbuf_destroy(&ps->errmsg);
   free(ps);
 }
 

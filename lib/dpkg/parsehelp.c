@@ -36,35 +36,37 @@
 #include <dpkg/error.h>
 #include <dpkg/parsedump.h>
 
-static const char *
-parse_error_msg(struct parsedb_state *ps, const char *fmt)
+static DPKG_ATTR_VPRINTF(2) const char *
+parse_error_msg(struct parsedb_state *ps, const char *fmt, va_list args)
 {
-  static char msg[1024];
-  char filename[256];
+  struct varbuf *vb = &ps->errmsg;
 
-  str_escape_fmt(filename, ps->filename, sizeof(filename));
+  varbuf_reset(vb);
 
-  if (ps->pkg && ps->pkg->set->name) {
-    char pkgname[256];
+  if (ps->pkg && ps->pkg->set->name)
+    varbuf_printf(vb, _("parsing file '%s' near line %d package '%s':\n "),
+                  ps->filename, ps->lno,
+                  pkgbin_name(ps->pkg, ps->pkgbin, pnaw_nonambig));
+  else
+    varbuf_printf(vb, _("parsing file '%.255s' near line %d:\n "),
+                  ps->filename, ps->lno);
 
-    str_escape_fmt(pkgname, pkgbin_name(ps->pkg, ps->pkgbin, pnaw_nonambig),
-                   sizeof(pkgname));
-    sprintf(msg, _("parsing file '%.255s' near line %d package '%.255s':\n"
-                   " %.255s"), filename, ps->lno, pkgname, fmt);
-  } else
-    sprintf(msg, _("parsing file '%.255s' near line %d:\n"
-                   " %.255s"), filename, ps->lno, fmt);
+  varbuf_vprintf(vb, fmt, args);
 
-  return msg;
+  return vb->buf;
 }
 
 void
 parse_error(struct parsedb_state *ps, const char *fmt, ...)
 {
   va_list args;
+  const char *str;
 
   va_start(args, fmt);
-  ohshitv(parse_error_msg(ps, fmt), args);
+  str = parse_error_msg(ps, fmt, args);
+  va_end(args);
+
+  ohshit("%s", str);
 }
 
 void
@@ -73,7 +75,7 @@ parse_warn(struct parsedb_state *ps, const char *fmt, ...)
   va_list args;
 
   va_start(args, fmt);
-  warningv(parse_error_msg(ps, fmt), args);
+  warning("%s", parse_error_msg(ps, fmt, args));
   va_end(args);
 }
 
@@ -81,18 +83,16 @@ void
 parse_problem(struct parsedb_state *ps, const char *fmt, ...)
 {
   va_list args;
-  char *str;
+  const char *str;
 
   va_start(args, fmt);
-  m_vasprintf(&str, parse_error_msg(ps, fmt), args);
+  str = parse_error_msg(ps, fmt, args);
   va_end(args);
 
   if (ps->err.type == DPKG_MSG_WARN)
     warning("%s: %s", str, ps->err.str);
   else
     ohshit("%s: %s", str, ps->err.str);
-
-  free(str);
 }
 
 const struct fieldinfo *

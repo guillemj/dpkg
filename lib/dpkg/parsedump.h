@@ -49,6 +49,7 @@ struct parsedb_state {
 	enum parsedbtype type;
 	enum parsedbflags flags;
 	struct dpkg_error err;
+	struct varbuf errmsg;
 	struct pkginfo *pkg;
 	struct pkgbin *pkgbin;
 	char *data;
