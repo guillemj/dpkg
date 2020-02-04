@@ -122,7 +122,8 @@ c_isalnum(int c)
 static inline int
 c_tolower(int c)
 {
-	return (c_isupper(c) ? ((unsigned char)c & ~0x20) | 0x20 : c);
+	return (c_isupper(c) ?
+	        (DPKG_STATIC_CAST(unsigned char, c) & ~0x20) | 0x20 : c);
 }
 
 DPKG_END_DECLS

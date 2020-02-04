@@ -103,6 +103,21 @@
 #endif
 
 /**
+ * @def DPKG_STATIC_CAST
+ *
+ * Cast an expression to a given type that works on C or C++.
+ *
+ * To be used only on header files, where having to conditionalize the code
+ * to use either NULL or nullptr would be too cumbersome. Non-header files
+ * should use the appropriate constant directly.
+ */
+#if defined(__cplusplus)
+#define DPKG_STATIC_CAST(type, expr) static_cast<type>(expr)
+#else
+#define DPKG_STATIC_CAST(type, expr) (type)(expr)
+#endif
+
+/**
  * @def DPKG_BIT
  *
  * Return the integer value of bit n.
