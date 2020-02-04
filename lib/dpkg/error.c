@@ -42,6 +42,9 @@ dpkg_error_set(struct dpkg_error *err, enum dpkg_msg_type type, int syserrno,
 	err->syserrno = syserrno;
 
 	varbuf_vprintf(&str, fmt, args);
+	if (syserrno)
+		varbuf_printf(&str, " (%s)", strerror(syserrno));
+
 	err->str = str.buf;
 }
 
@@ -79,16 +82,10 @@ int
 dpkg_put_errno(struct dpkg_error *err, const char *fmt, ...)
 {
 	va_list args;
-	char *new_fmt;
-	int syserrno = errno;
-
-	new_fmt = str_fmt("%s (%s)", fmt, strerror(errno));
 
 	va_start(args, fmt);
-	dpkg_error_set(err, DPKG_MSG_ERROR, syserrno, new_fmt, args);
+	dpkg_error_set(err, DPKG_MSG_ERROR, errno, fmt, args);
 	va_end(args);
-
-	free(new_fmt);
 
 	return -1;
 }
