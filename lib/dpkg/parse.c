@@ -753,6 +753,7 @@ parsedb_close(struct parsedb_state *ps)
     free(ps->data);
 #endif
   }
+  dpkg_error_destroy(&ps->err);
   free(ps);
 }
 
