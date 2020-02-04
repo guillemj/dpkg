@@ -291,8 +291,8 @@ void getcurrentopt() {
 void writecurrentopt() {
   struct atomic_file *file;
 
-  if (methoptfile == NULL)
-    internerr("method options filename is NULL");
+  if (methoptfile == nullptr)
+    internerr("method options filename is nullptr");
 
   file = atomic_file_new(methoptfile, (enum atomic_file_flags)0);
   atomic_file_open(file);

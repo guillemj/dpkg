@@ -293,7 +293,7 @@ void packagelist::sortmakeheads() {
   int a;
   for (a=0; a<nrealitems; a++) {
     thispkg= table[a]->pkg;
-    if (thispkg->set->name == NULL)
+    if (thispkg->set->name == nullptr)
       internerr("package set has no name at table index %d", a);
     int ssdiff= 0;
     ssavailval ssavail= ssa_none;
