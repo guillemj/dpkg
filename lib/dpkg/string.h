@@ -35,12 +35,12 @@ DPKG_BEGIN_DECLS
  */
 
 /**
- * Check if a string is either NULL or empty.
+ * Check if a string is either null or empty.
  */
 static inline bool
 str_is_unset(const char *str)
 {
-	return str == NULL || str[0] == '\0';
+	return str == DPKG_NULL || str[0] == '\0';
 }
 
 /**
@@ -49,7 +49,7 @@ str_is_unset(const char *str)
 static inline bool
 str_is_set(const char *str)
 {
-	return str != NULL && str[0] != '\0';
+	return str != DPKG_NULL && str[0] != '\0';
 }
 
 bool str_match_end(const char *str, const char *end);

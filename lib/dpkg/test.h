@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <dpkg/macros.h>
 #ifndef TEST_MAIN_CTOR
 #include <dpkg/ehandle.h>
 #define TEST_MAIN_CTOR push_error_context()
@@ -51,7 +52,7 @@
 static inline void *
 test_alloc(void *ptr, const char *reason)
 {
-	if (ptr == NULL)
+	if (ptr == DPKG_NULL)
 		test_bail(reason);
 	return ptr;
 }
@@ -88,22 +89,23 @@ static const char *test_skip_reason;
 	printf("ok %d # SKIP %s\n", test_id++, (reason))
 #define test_skip_block(cond) \
 	for (test_skip_prefix = " # SKIP ", \
-	     test_skip_reason = cond ? #cond : NULL, \
+	     test_skip_reason = cond ? #cond : DPKG_NULL, \
 	     test_skip_code = 1; \
 	     test_skip_prefix; \
-	     test_skip_prefix = test_skip_reason = NULL, test_skip_code = 0)
+	     test_skip_prefix = test_skip_reason = DPKG_NULL, \
+	     test_skip_code = 0)
 
 #define test_todo(a, reason, desc) \
 	do { \
 		test_skip_prefix = " # TODO "; \
 		test_skip_reason = reason; \
 		test_case(a, "%s", desc); \
-		test_skip_prefix = test_skip_reason = NULL; \
+		test_skip_prefix = test_skip_reason = DPKG_NULL; \
 	} while(0)
 #define test_todo_block(reason) \
 	for (test_skip_prefix = " # TODO ", test_skip_reason = reason; \
 	     test_skip_prefix; \
-	     test_skip_prefix = test_skip_reason = NULL)
+	     test_skip_prefix = test_skip_reason = DPKG_NULL)
 
 #define test_case(a, fmt, ...) \
 	printf("%sok %d - " fmt "%s%s\n", \
@@ -140,7 +142,7 @@ static void name(void); \
 int \
 main(int argc, char **argv) \
 { \
-	setvbuf(stdout, NULL, _IOLBF, 0); \
+	setvbuf(stdout, DPKG_NULL, _IOLBF, 0); \
  \
 	TEST_MAIN_CTOR; \
 	name(); \
