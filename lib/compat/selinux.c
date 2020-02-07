@@ -23,8 +23,16 @@
 #include <string.h>
 #include <stdlib.h>
 
+/* We need to disarm the libselinux declaration to avoid a redundant
+ * declaration. */
+#if TEST_LIBCOMPAT
+#define setexecfilecon setexecfilecon_libselinux
+#endif
 #include <selinux/selinux.h>
 #include <selinux/context.h>
+#if TEST_LIBCOMPAT
+#undef setexecfilecon
+#endif
 
 #include "compat.h"
 
