@@ -49,8 +49,10 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
 
   DPKG_CHECK_COMPILER_FLAG([-Wcast-align])
   DPKG_CHECK_COMPILER_FLAG([-Wdocumentation])
+  DPKG_CHECK_COMPILER_FLAG([-Wduplicated-branches])
   DPKG_CHECK_COMPILER_FLAG([-Wduplicated-cond])
   DPKG_CHECK_COMPILER_FLAG([-Wformat -Wformat-security])
+  DPKG_CHECK_COMPILER_FLAG([-Wformat=2])
   DPKG_CHECK_COMPILER_FLAG([-Winit-self])
   DPKG_CHECK_COMPILER_FLAG([-Wlogical-not-parentheses])
   DPKG_CHECK_COMPILER_FLAG([-Wlogical-op])
@@ -62,8 +64,9 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
   DPKG_CHECK_COMPILER_FLAG([-Wno-unused-parameter])
   DPKG_CHECK_COMPILER_FLAG([-Wnull-dereference])
   DPKG_CHECK_COMPILER_FLAG([-Wpointer-arith])
-  DPKG_CHECK_COMPILER_FLAG([-Wrestrict])
+  DPKG_CHECK_COMPILER_FLAG([-Wredundant-decls])
   DPKG_CHECK_COMPILER_FLAG([-Wregister])
+  DPKG_CHECK_COMPILER_FLAG([-Wrestrict])
   DPKG_CHECK_COMPILER_FLAG([-Wshadow])
   DPKG_CHECK_COMPILER_FLAG([-Wshift-negative-value])
   DPKG_CHECK_COMPILER_FLAG([-Wsizeof-array-argument])
@@ -83,6 +86,8 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
   ],
   [C++], [
     DPKG_CHECK_COMPILER_FLAG([-Wc++11-compat])
+    DPKG_CHECK_COMPILER_FLAG([-Wcast-qual])
+    DPKG_CHECK_COMPILER_FLAG([-Wold-style-cast])
     AS_IF([test "x$dpkg_cv_cxx11" = "xyes"], [
       DPKG_CHECK_COMPILER_FLAG([-Wzero-as-null-pointer-constant])
     ])
