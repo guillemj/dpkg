@@ -161,8 +161,8 @@ dpkg_version_compare(const struct dpkg_version *a,
  * @param rel The relation.
  * @param b The second version.
  *
- * @retval true If the expression “a rel b” is true.
- * @retval true If rel is #DPKG_RELATION_NONE.
+ * @retval true If rel is #DPKG_RELATION_NONE or the expression “a rel b” is
+ *              true.
  * @retval false Otherwise.
  *
  * @warning If rel is not a valid relation, this function will terminate

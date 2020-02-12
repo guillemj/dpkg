@@ -63,6 +63,7 @@ dir_make_path_noalloc(char *dirname, mode_t mode)
  * Create the directory and all its parents if necessary.
  *
  * @param path The pathname to create directories for.
+ * @param mode The pathname mode.
  */
 int
 dir_make_path(const char *path, mode_t mode)
