@@ -62,6 +62,7 @@ CLEANFILES = \
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
 	Dpkg/Arch.pm \
+	Dpkg/BuildAPI.pm \
 	Dpkg/BuildEnv.pm \
 	Dpkg/BuildFlags.pm \
 	Dpkg/BuildInfo.pm \
@@ -225,6 +226,7 @@ test_scripts = \
 	t/Dpkg_Package.t \
 	t/Dpkg_Shlibs_Cppfilt.t \
 	t/Dpkg_Shlibs.t \
+	t/Dpkg_BuildAPI.t \
 	t/Dpkg_BuildEnv.t \
 	t/Dpkg_BuildFlags.t \
 	t/Dpkg_BuildFlags_Ubuntu.t \
@@ -269,6 +271,13 @@ test_scripts = \
 	# EOL
 
 test_data = \
+	t/Dpkg_BuildAPI/ctrl-api-default \
+	t/Dpkg_BuildAPI/ctrl-api-desync \
+	t/Dpkg_BuildAPI/ctrl-api-explicit \
+	t/Dpkg_BuildAPI/ctrl-api-gt-max \
+	t/Dpkg_BuildAPI/ctrl-api-no-int \
+	t/Dpkg_BuildAPI/ctrl-api-no-ver \
+	t/Dpkg_BuildAPI/ctrl-api-rel-noeq \
 	t/Dpkg_Changelog/countme \
 	t/Dpkg_Changelog/date-format \
 	t/Dpkg_Changelog/fields \
