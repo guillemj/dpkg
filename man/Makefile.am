@@ -160,22 +160,23 @@ all-local: all-local-@USE_PO4A@
 all-local-no:
 all-local-yes: gen-man
 
-# We use the man-once target to guarantee there is never an empty call in
-# gen-man, that starts recursing infinitely.
-.PHONY: gen-man man-once
+.PHONY: gen-man
 
 gen-man: man.stamp
 	for lang in $(LINGUAS); do \
 	  files=""; \
 	  for man in $(man_MANS); do \
-	    trans="$${man%%.[0-9]}.pod"; \
-	    if [ -f $(builddir)/$$lang/$$trans ]; then \
+	    tmpl="$${man%%.[0-9]}.pod"; \
+	    if [ -f "$(builddir)/$$lang/$$tmpl" ]; then \
 	      files="$$files $(builddir)/$$lang/$$man"; \
-	    elif [ -f $(srcdir)/$$lang/$$trans ]; then \
-	      files="$$files $(srcdir)/$$lang/$$man"; \
+	    elif [ -f "$(srcdir)/$$lang/$$tmpl" ]; then \
+	      files="$$files $(builddir)/$$lang/$$man"; \
 	    fi; \
 	  done; \
-	  $(MAKE) mandir="$(mandir)/$$lang" man_MANS="" man-once $$files; \
+	  if [ -n "$$files" ]; then \
+	    $(MKDIR_P) $$lang; \
+	    $(MAKE) mandir="$(mandir)/$$lang" man_MANS="" $$files; \
+	  fi; \
 	done
 
 # FIXME: Use a stamp file until po4a supports them internally.
@@ -246,11 +247,11 @@ install-data-local-yes:
 	for lang in $(LINGUAS); do \
 	  files=""; \
 	  for man in $(man_MANS); do \
-	    trans="$${man%%.[0-9]}.pod"; \
-	    if [ -f $(builddir)/$$lang/$$trans ]; then \
+	    tmpl="$${man%%.[0-9]}.pod"; \
+	    if [ -f "$(builddir)/$$lang/$$tmpl" ]; then \
 	      files="$$files $(builddir)/$$lang/$$man"; \
-	    elif [ -f $(srcdir)/$$lang/$$trans ]; then \
-	      files="$$files $(srcdir)/$$lang/$$man"; \
+	    elif [ -f "$(srcdir)/$$lang/$$tmpl" ]; then \
+	      files="$$files $(builddir)/$$lang/$$man"; \
 	    fi; \
 	  done; \
 	  $(MAKE) install-man mandir="$(mandir)/$$lang" man_MANS="$$files"; \
@@ -263,11 +264,11 @@ uninstall-local-yes:
 	for lang in $(LINGUAS); do \
 	  files=""; \
 	  for man in $(man_MANS); do \
-	    trans="$${man%%.[0-9]}.pod"; \
-	    if [ -f $(builddir)/$$lang/$$trans ]; then \
+	    tmpl="$${man%%.[0-9]}.pod"; \
+	    if [ -f "$(builddir)/$$lang/$$tmpl" ]; then \
 	      files="$$files $(builddir)/$$lang/$$man"; \
-	    elif [ -f $(srcdir)/$$lang/$$trans ]; then \
-	      files="$$files $(srcdir)/$$lang/$$man"; \
+	    elif [ -f "$(srcdir)/$$lang/$$tmpl" ]; then \
+	      files="$$files $(builddir)/$$lang/$$man"; \
 	    fi; \
 	  done; \
 	  $(MAKE) uninstall-man mandir="$(mandir)/$$lang" man_MANS="$$files"; \
@@ -277,7 +278,11 @@ dist-hook: man.stamp
 	cp -p $< $(distdir)/
 	for lang in $(LINGUAS_DIST); do \
 	  cp -p $(srcdir)/po/$$lang.po $(distdir)/po; \
-	  cp -p $(srcdir)/po/$$lang.add $(distdir)/po; \
-	  $(MKDIR_P) $(distdir)/$$lang; \
-	  cp -pR $(srcdir)/$$lang $(distdir)/; \
+	  if [ -e "$(srcdir)/po/$$lang.add" ]; then \
+	    cp -p $(srcdir)/po/$$lang.add $(distdir)/po; \
+	  fi; \
+	  if [ -n "`ls $(builddir)/$$lang/*.pod 2>/dev/null`" ]; then \
+	    $(MKDIR_P) $(distdir)/$$lang; \
+	    cp -p $(builddir)/$$lang/*.pod $(distdir)/$$lang/; \
+	  fi; \
 	done
