@@ -17,6 +17,7 @@
 # AR: archiver
 # RANLIB: archive index generator
 # PKG_CONFIG: pkg-config tool
+# QMAKE: Qt build system generator
 #
 # All the above variables have a counterpart variable for the build tool,
 # as in CC → CC_FOR_BUILD.
@@ -73,3 +74,4 @@ $(eval $(call dpkg_buildtool_setvar,NM,nm))
 $(eval $(call dpkg_buildtool_setvar,AR,ar))
 $(eval $(call dpkg_buildtool_setvar,RANLIB,ranlib))
 $(eval $(call dpkg_buildtool_setvar,PKG_CONFIG,pkg-config))
+$(eval $(call dpkg_buildtool_setvar,QMAKE,qmake))
