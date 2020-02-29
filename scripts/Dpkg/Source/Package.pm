@@ -44,7 +44,9 @@ our @EXPORT_OK = qw(
 use Exporter qw(import);
 use POSIX qw(:errno_h :sys_wait_h);
 use Carp;
+use Cwd qw(realpath);
 use File::Temp;
+use File::Find;
 use File::Copy qw(cp);
 use File::Basename;
 
@@ -527,6 +529,25 @@ sub extract {
 
     # Try extract
     $self->do_extract($newdirectory);
+
+    # Check for directory traversals.
+    if (not $self->{options}{skip_debianization}) {
+        my $canon_newdir = realpath($newdirectory);
+        my $check_symlinks = sub {
+            my $canon_pathname = realpath($_);
+            return if $canon_pathname =~ m/^\Q$canon_newdir\E/;
+
+            error(g_("pathname '%s' points outside source root"), $_);
+        };
+        # We need to add a trailing slash to handle the debian directory
+        # possibly being a symlink.
+        find({
+            wanted => $check_symlinks,
+            no_chdir => 1,
+            follow => 1,
+            follow_skip => 2,
+        }, "$newdirectory/debian/");
+    }
 
     # Store format if non-standard so that next build keeps the same format
     if ($self->{fields}{'Format'} and
