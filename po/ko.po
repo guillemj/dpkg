@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -106,6 +106,12 @@ msgstr ""
 #| msgid "error writing to '%s'"
 msgid "error writing to architecture list"
 msgstr "'%s' 파일에 쓰는데 오류가 발생했습니다"
+
+#: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "`%.255s' 디렉터리를 읽을 수 없습니다"
 
 #: lib/dpkg/atomic-file.c
 #, fuzzy, c-format
@@ -210,6 +216,12 @@ msgstr "%s: 내부 gzip 읽기 오류: '%s'"
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: 내부 gzip 쓰기 오류"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error: '%s'"
+msgid "%s: internal gzip read error: %s"
+msgstr "%s: 내부 gzip 읽기 오류: '%s'"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -348,6 +360,12 @@ msgid ""
 msgstr "업데이트 디렉터리의 파일의 이름 길이가 서로 다릅니다 (%d 및 %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "업데이트 디렉터리 `%.255s'을(를) 읽을 수 없습니다"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "업데이트 디렉터리 `%.255s'을(를) 읽을 수 없습니다"
@@ -409,6 +427,12 @@ msgstr "dpkg 상태 데이터베이스를 잠글 수 없습니다"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "요청한 작업을 하려면 수퍼유저 권한이 필요합니다"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "dpkg 상태 영역에 접근할 수 없습니다"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1485,8 +1509,8 @@ msgstr "`%.255s'에 패키지 정보가 없습니다"
 #| "%s, in file '%.255s' near line %d package '%.255s':\n"
 #| " "
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr ""
 "%s, '%.255s' 파일 %d번 줄 근처, '%.255s' 패키지:\n"
 " "
@@ -1498,7 +1522,7 @@ msgstr ""
 #| " "
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr ""
 "%s, '%.255s' 파일 %d번 줄 근처:\n"
 " "
@@ -1921,11 +1945,6 @@ msgstr "트리거 ci 파일에 알 수 없는 지시어가 (`%.250s') 들어 있
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "트리거 상태 디렉터리를 (`%.250s') 만들 수 없습니다"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "트리거 상태 디렉터리의 (`%.250s')  소유자를 설정할 수 없습니다"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "빈 문자열은 트리거 이름으로 사용할 수 없습니다"
@@ -2092,8 +2111,9 @@ msgid "trying to overwrite '%.250s', which is the diverted version of '%.250s'"
 msgstr "`%.250s' 덮어쓰기를 시도합니다. 이 버전은 `%.250s'의 전환된 버전입니다"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "`%.255s' 파일의 정보를 읽을 수 없습니다 (지금 설치하려는 파일)"
 
 #: src/archives.c
@@ -6530,6 +6550,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "`%.250s' 파일은 다중 구성 아카이브의 일부가 아닙니다.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "`%.255s' 디렉터리를 읽을 수 없습니다"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "구성 요소 파일 `%.250s'을(를) 다시 열 수 없습니다"
@@ -6964,6 +6990,12 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "사용 중지한 %s 슬레이브 링크 없애는 중 (%s)."
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "업데이트 디렉터리 `%.255s'을(를) 읽을 수 없습니다"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "'%s' 파일을 플러시할 수 없습니다"
@@ -7343,6 +7375,9 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "트리거 상태 디렉터리의 (`%.250s')  소유자를 설정할 수 없습니다"
 
 #~ msgid "unable to open lock file %s for testing"
 #~ msgstr "테스트를 위해 %s 잠금 파일을 열 수 없습니다"

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2018-09-26 22:42+0200\n"
 "Last-Translator: Łukasz Dulny <BartekChom@poczta.onet.pl>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
@@ -112,6 +112,12 @@ msgid "error writing to architecture list"
 msgstr "błąd zapisu do listy architektur"
 
 #: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
+#| msgid "cannot open directory '%s'"
+msgid "cannot create base directory for %s"
+msgstr "nie można otworzyć katalogu \"%s\""
+
+#: lib/dpkg/atomic-file.c
 #, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "nie można utworzyć nowego pliku \"%.250s\""
@@ -198,6 +204,12 @@ msgstr "%s: wewnętrzny błąd odczytu gzip: \"%s\""
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: wewnętrzny błąd zapisu gzip"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error: '%s'"
+msgid "%s: internal gzip read error: %s"
+msgstr "%s: wewnętrzny błąd odczytu gzip: \"%s\""
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -326,6 +338,12 @@ msgstr ""
 "katalog \"updates\" zawiera pliki z nazwami o różnej długości (%d oraz %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "nie można przeszukać katalogu \"updates\" %.255s"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "nie można przeszukać katalogu \"updates\" %.255s"
@@ -389,6 +407,12 @@ msgstr "baza danych stanu dpkg"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "żądana operacja wymaga uprawnień administratora"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "brak dostępu do sekcji stanu dpkg"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1411,19 +1435,25 @@ msgid "no package information in '%.255s'"
 msgstr "brak informacji o pakiecie w \"%.255s\""
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d package '%.255s':\n"
+#| " %.255s"
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr ""
 "parsowanie pliku \"%.255s\" niedaleko linii %d pakiet \"%.255s\":\n"
 " %.255s"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d:\n"
+#| " %.255s"
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr ""
 "parsowanie pliku \"%.255s\" niedaleko linii %d:\n"
 " %.255s"
@@ -1832,11 +1862,6 @@ msgstr ""
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "nie można utworzyć katalogu stanu wyzwalaczy \"%.250s\""
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "nie można zmienić właściciela katalogu stanu wyzwalaczy \"%.250s\""
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "puste nazwy wyzwalaczy są niedozwolone"
@@ -1996,8 +2021,9 @@ msgid "trying to overwrite '%.250s', which is the diverted version of '%.250s'"
 msgstr "próba nadpisania \"%.250s\", który jest ominięciem \"%.250s\""
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "nie można ustalić stanu \"%.255s\" (który miał być zainstalowany)"
 
 #: src/archives.c
@@ -6105,6 +6131,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "Plik \"%.250s\" nie jest częścią archiwum wieloczęściowego.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot open directory '%s'"
+msgid "cannot create directory %s"
+msgstr "nie można otworzyć katalogu \"%s\""
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "nie można otworzyć pliku części \"%.250s\""
@@ -6489,6 +6521,12 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "odrzucanie przestarzałego dowiązania podrzędnego %s (%s)"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "nie można przeszukać katalogu \"updates\" %.255s"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "nie można opróżnić pliku \"%s\""
@@ -6837,6 +6875,9 @@ msgstr "Uruchom update-alternatives, aby zmienić wybór alternatyw w systemie"
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "Uruchomienie update-alternatives wymaga uwierzytelnienia"
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "nie można zmienić właściciela katalogu stanu wyzwalaczy \"%.250s\""
 
 #~ msgid "unable to open lock file %s for testing"
 #~ msgstr "%s: nie można otworzyć pliku blokady $s do sprawdzenia"

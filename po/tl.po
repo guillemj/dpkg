@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-04-07 09:53+0200\n"
 "Last-Translator: Eric Pareja <xenos@upm.edu.ph>\n"
 "Language-Team: Tagalog <debian-tl@banwa.upm.edu.ph>\n"
@@ -107,6 +107,12 @@ msgstr "error sa pagsulat ng `%s'"
 
 #: lib/dpkg/atomic-file.c
 #, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "hindi ma-scan ang directory `%.255s'"
+
+#: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "hindi mabuksan ang pinagmulan na talaksang `%.250s'"
 
@@ -200,6 +206,11 @@ msgstr "%s: error na internal sa gzip: `%s'"
 #: lib/dpkg/compress.c
 #, fuzzy, c-format
 msgid "%s: internal gzip write error"
+msgstr "%s: error na internal sa gzip: `%s'"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+msgid "%s: internal gzip read error: %s"
 msgstr "%s: error na internal sa gzip: `%s'"
 
 #: lib/dpkg/compress.c
@@ -339,6 +350,12 @@ msgstr ""
 "pangalan (parehong %d at %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "hindi ma-scan ang directory ng mga update `%.255s'"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "hindi ma-scan ang directory ng mga update `%.255s'"
@@ -400,6 +417,12 @@ msgstr "hindi maaldaba ang dpkg status database"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "kailangan ng pribilehiyong superuser ang hiniling na operasyon"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "hindi mabasa ang lugar ng kalagayan ng dpkg"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1456,15 +1479,15 @@ msgstr "walang impormasyong pakete sa loob ng `%.255s'"
 #: lib/dpkg/parsehelp.c
 #, fuzzy, c-format
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr "%s, sa talaksang `%.255s' malapit sa linya %d"
 
 #: lib/dpkg/parsehelp.c
 #, fuzzy, c-format
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr "%s, sa talaksang `%.255s' malapit sa linya %d"
 
 #: lib/dpkg/parsehelp.c
@@ -1866,11 +1889,6 @@ msgstr ""
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "hindi mabasa ang directory na bodega `%.250s'"
 
-#: lib/dpkg/triglib.c
-#, fuzzy, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "hindi mabasa ang directory na bodega `%.250s'"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr ""
@@ -2033,8 +2051,9 @@ msgstr ""
 "%.250s'%.10s%.100s%.10s"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "hindi ma-stat ang `%.255s' (na siyang iluluklok sana)"
 
 #: src/archives.c
@@ -6231,6 +6250,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "Hindi bahagi ng arkibong multipart ang talaksang `%.250s'.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "hindi ma-scan ang directory `%.255s'"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "hindi mabuksang muli ang talaksang bahagi `%.250s'"
@@ -6557,6 +6582,12 @@ msgstr "nadobleng halaga para sa saklaw na `%s'"
 #, fuzzy, c-format
 msgid "discarding obsolete slave link %s (%s)"
 msgstr "nadobleng halaga para sa saklaw na `%s'"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "hindi ma-scan ang directory ng mga update `%.255s'"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6891,6 +6922,10 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, fuzzy
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "hindi mabasa ang directory na bodega `%.250s'"
 
 #, fuzzy
 #~| msgid "unable to open tmpfile for vsnprintf"

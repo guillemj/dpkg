@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Håvard Korsvoll <korsvoll@skulelinux.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -111,6 +111,12 @@ msgstr "feil ved skriving av «%s»"
 
 #: lib/dpkg/atomic-file.c
 #, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "klarte ikkje skanna katalogen «%.255s»"
+
+#: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "klarte ikkje opna kjeldefila «%.250s»"
 
@@ -204,6 +210,11 @@ msgstr "%s: intern gzip-feil: «%s»"
 #: lib/dpkg/compress.c
 #, fuzzy, c-format
 msgid "%s: internal gzip write error"
+msgstr "%s: intern gzip-feil: «%s»"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+msgid "%s: internal gzip read error: %s"
 msgstr "%s: intern gzip-feil: «%s»"
 
 #: lib/dpkg/compress.c
@@ -342,6 +353,12 @@ msgstr ""
 "oppdateringskatalogen inneheld filer med ulike namnelengder (både %d og %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "klarte ikkje skanna oppdateringskatalogen «%.255s»"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "klarte ikkje skanna oppdateringskatalogen «%.255s»"
@@ -403,6 +420,12 @@ msgstr "klarte ikkje låsa dpkg-statusdatabasen"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "den ønskte handlinga krev superbrukartilgang"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "får ikkje tilgang til dpkg-statusområdet"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1436,15 +1459,15 @@ msgstr "ingen pakkeinformasjon i «%.255s»"
 #: lib/dpkg/parsehelp.c
 #, fuzzy, c-format
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr "%s, i fila «%.255s» nær linje %d"
 
 #: lib/dpkg/parsehelp.c
 #, fuzzy, c-format
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr "%s, i fila «%.255s» nær linje %d"
 
 #: lib/dpkg/parsehelp.c
@@ -1846,11 +1869,6 @@ msgstr ""
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "klarte ikkje lesa depotkatalogen «%.250s»"
 
-#: lib/dpkg/triglib.c
-#, fuzzy, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "klarte ikkje lesa depotkatalogen «%.250s»"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr ""
@@ -2013,8 +2031,9 @@ msgstr ""
 "«%.250s»%.10s%.100s%.10s"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "fann ikkje «%.255s» (som eg skulle til å installera)"
 
 #: src/archives.c
@@ -6100,6 +6119,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "Fila «%.250s» er ikkje ein del av eit oppdelt arkiv.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "klarte ikkje skanna katalogen «%.255s»"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "klarte ikkje opna delfila «%.250s» på nytt"
@@ -6422,6 +6447,12 @@ msgstr "verdien for feltet «%s» finst meir enn éin gong"
 #, fuzzy, c-format
 msgid "discarding obsolete slave link %s (%s)"
 msgstr "verdien for feltet «%s» finst meir enn éin gong"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "klarte ikkje skanna oppdateringskatalogen «%.255s»"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6755,6 +6786,10 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, fuzzy
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "klarte ikkje lesa depotkatalogen «%.250s»"
 
 #, fuzzy
 #~| msgid "unable to open tmpfile for vsnprintf"

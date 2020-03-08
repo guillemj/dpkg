@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-04-07 09:50+0200\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -109,6 +109,12 @@ msgstr "កំហុស​​ក្នុង​ការសរសេរ `%s'"
 
 #: lib/dpkg/atomic-file.c
 #, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "មិន​អាច​ស្កេន​ថត `%.255s'"
+
+#: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
 
@@ -204,6 +210,11 @@ msgstr "%s ៖ កំហុស​ gzip ខាងក្នុង​ ៖ `%s'"
 #: lib/dpkg/compress.c
 #, fuzzy, c-format
 msgid "%s: internal gzip write error"
+msgstr "%s ៖ កំហុស​ gzip ខាងក្នុង​ ៖ `%s'"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+msgid "%s: internal gzip read error: %s"
 msgstr "%s ៖ កំហុស​ gzip ខាងក្នុង​ ៖ `%s'"
 
 #: lib/dpkg/compress.c
@@ -342,6 +353,12 @@ msgid ""
 msgstr "ធ្វើ​ឲ្យទាន់សម័​យនូវថត​ដែ​លមានឯកសារ ដែលមានឈ្មោះប្រវែងខុសគ្នា (ទាំង %d និង %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "មិន​អា​ចវិ​ភាគ​រកថតដែលទាន់សម័យ `%.255s'"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "មិន​អា​ចវិ​ភាគ​រកថតដែលទាន់សម័យ `%.255s'"
@@ -403,6 +420,12 @@ msgstr "មិន​អាច​ចាក់សោ​មូលដ្ឋាន​
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "ប្រតិបត្តិការ​​ដែ​លបាន​ស្នើ​ត្រូវការ​សិទ្ធិ​ជា​អ្នក​ប្រើ​ជាន់ខ្ពស់"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "មិន​អាច​ចូលដំណើរកា​រ​​ទៅក្នុង​​​តំបន់ស្ថានភាពរបស់ dpkg"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1440,15 +1463,15 @@ msgstr "គ្មាន​ព័ត៌មាន​កញ្ចប់​នៅ​
 #: lib/dpkg/parsehelp.c
 #, fuzzy, c-format
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr "%s នៅ​ក្នុង​ឯកសារ `%.255s' នៅ​ជិត​បន្ទាត់ %d"
 
 #: lib/dpkg/parsehelp.c
 #, fuzzy, c-format
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr "%s នៅ​ក្នុង​ឯកសារ `%.255s' នៅ​ជិត​បន្ទាត់ %d"
 
 #: lib/dpkg/parsehelp.c
@@ -1854,11 +1877,6 @@ msgstr ""
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "មិន​អាច​អាន​ថត depot `%.250s' បាន​ទេ"
 
-#: lib/dpkg/triglib.c
-#, fuzzy, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "មិន​អាច​អាន​ថត depot `%.250s' បាន​ទេ"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr ""
@@ -2019,8 +2037,9 @@ msgstr ""
 "ព្យាយាម​សរសេរ​ជាន់​លើ `%.250s' ដែល​ជា​កំណែ​ដែល​បាន​បំបែរ​របស់ `%.250s'%.10s%.100s%.10s"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "មិន​អាច​ចាប់ផ្ដើម `%.255s' (ដែល​ខ្ញុំ​រៀប​នឹង​ដំឡើង)"
 
 #: src/archives.c
@@ -6166,6 +6185,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "ឯកសារ `%.250s' មិនមែន​ជា​ផ្នែក​របស់​ប័ណ្ណសារ​ច្រើន​ផ្នែកទេ ។\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "មិន​អាច​ស្កេន​ថត `%.255s'"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "មិន​អាច​បើក​ផ្នែក​ឯកសារ `%.250s' ឡើង​វិញ​បាន​ទេ"
@@ -6539,6 +6564,12 @@ msgstr "បោះបង់​តំណ​កូន​ចៅ​ដែល​លែ
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "មិន​អា​ចវិ​ភាគ​រកថតដែលទាន់សម័យ `%.255s'"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 msgid "unable to flush file '%s'"
 msgstr "មិន​អាច​បង្ហូរ​ចូល​ក្នុងឯកសារ​ vsnprintf"
 
@@ -6880,6 +6911,10 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, fuzzy
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "មិន​អាច​អាន​ថត depot `%.250s' បាន​ទេ"
 
 #, fuzzy
 #~| msgid "unable to open tmpfile for vsnprintf"

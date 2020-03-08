@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.19.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2019-05-09 05:38+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -173,6 +173,12 @@ msgstr ""
 "el tipus de sistema GNU %s especificat no correspon amb el tipus de sistema "
 "del CC %s, proveu a especificar una variable d'entorn CC correcta"
 
+#: scripts/dpkg-architecture.pl scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/Shlibs/Cppfilt.pm
+#, perl-format
+msgid "unable to execute %s"
+msgstr "no es pot executar %s"
+
 #: scripts/dpkg-buildflags.pl
 #, perl-format
 msgid "Usage: %s [<command>]"
@@ -328,6 +334,7 @@ msgid ""
 "      --pre-clean             pre clean source tree (default).\n"
 "      --no-post-clean         do not post clean source tree (default).\n"
 "  -tc, --post-clean           post clean source tree.\n"
+"      --sanitize-env          sanitize the build environment.\n"
 "  -D, --check-builddeps       check build dependencies and conflicts "
 "(default).\n"
 "  -d, --no-check-builddeps    do not check build dependencies and "
@@ -794,9 +801,10 @@ msgstr ""
 
 #: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-shlibdeps.pl
 #: scripts/dpkg-source.pl
-#, perl-format
-msgid "error occurred while parsing %s"
-msgstr "s'ha produït un error en analitzar %s"
+#, fuzzy, perl-format
+#| msgid "cannot open %s"
+msgid "cannot parse %s field"
+msgstr "no es pot obrir %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
 #, perl-format
@@ -1144,9 +1152,12 @@ msgid "package %s: "
 msgstr "paquet %s: "
 
 #: scripts/dpkg-gencontrol.pl
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "current host architecture '%s' does not appear in package's architecture "
+#| "list (%s)"
 msgid ""
-"current host architecture '%s' does not appear in package's architecture "
+"current host architecture '%s' does not appear in package '%s' architecture "
 "list (%s)"
 msgstr ""
 "l'arquitectura amfitrió «%s» no apareix a la llista d'arquitectures (%s) del "
@@ -1158,22 +1169,27 @@ msgid "%s field of package %s: "
 msgstr "camp %s del paquet %s: "
 
 #: scripts/dpkg-gencontrol.pl
-#, perl-format
-msgid "error occurred while parsing %s field: %s"
-msgstr "s'ha produït un error en analitzar el camp %s: %s"
+#, fuzzy, perl-format
+#| msgid "source package name '%s' is illegal: %s"
+msgid "parsing package '%s' %s field: %s"
+msgstr "el nom del paquet font «%s» no és legal: %s"
 
 #: scripts/dpkg-gencontrol.pl
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "the %s field contains an arch-specific dependency but the package is "
+#| "architecture all"
 msgid ""
-"the %s field contains an arch-specific dependency but the package is "
+"the %s field contains an arch-specific dependency but the package '%s' is "
 "architecture all"
 msgstr ""
 "el camp %s conté una dependència especifica d'arquitectura però el paquet és "
 "d'arquitectura «all»"
 
 #: scripts/dpkg-gencontrol.pl
-#, perl-format
-msgid "%s package with udeb specific field %s"
+#, fuzzy, perl-format
+#| msgid "%s package with udeb specific field %s"
+msgid "%s package '%s' with udeb specific field %s"
 msgstr "paquet %s amb camp específic d'udeb %s"
 
 #: scripts/dpkg-gencontrol.pl scripts/Dpkg/Source/Package.pm
@@ -1972,11 +1988,6 @@ msgstr ""
 "identificar a causa de la manca de subdirectori DEBIAN en l'arrel de l'arbre "
 "de construcció del paquet"
 
-#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Cppfilt.pm
-#, perl-format
-msgid "unable to execute %s"
-msgstr "no es pot executar %s"
-
 #: scripts/dpkg-shlibdeps.pl
 msgid "diversions involved - output may be incorrect"
 msgstr "hi ha desviacions involucrades, la sortida pot ser incorrecta"
@@ -2042,9 +2053,10 @@ msgid "%s doesn't contain any information about the source package"
 msgstr "%s no conté cap informació del paquet font"
 
 #: scripts/dpkg-source.pl
-#, perl-format
-msgid "'%s' is not a legal architecture string"
-msgstr "«%s» no és una cadena d'arquitectura vàlida"
+#, fuzzy, perl-format
+#| msgid "'%s' is not a legal architecture in list '%s'"
+msgid "'%s' is not a legal architecture string in package '%s'"
+msgstr "«%s» no és una cadena d'arquitectura vàlida a la llista «%s»"
 
 #: scripts/dpkg-source.pl
 #, perl-format
@@ -2746,9 +2758,10 @@ msgid "an union dependency can only contain simple dependencies"
 msgstr "una dependència d'unió només pot contenir dependències senzilles"
 
 #: scripts/Dpkg/Dist/Files.pm
-#, perl-format
-msgid "badly formed package name in files list file, line %d"
-msgstr "nom de paquet mal format en la llista de fitxers, línia %d"
+#, fuzzy, perl-format
+#| msgid "badly formed line in files list file, line %d"
+msgid "badly formed file name in files list file, line %d"
+msgstr "línia mal formada en la llista de fitxers, línia %d"
 
 #: scripts/Dpkg/Dist/Files.pm
 #, perl-format
@@ -3090,6 +3103,11 @@ msgstr "%s no és una opció vàlida per a %s"
 #| msgid "failed to copy %s to %s"
 msgid "cannot copy %s to %s"
 msgstr "no es pot copiar %s a %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "pathname '%s' points outside source root"
+msgstr ""
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -4098,6 +4116,18 @@ msgstr "el número de versió conté un caràcter il·legal ‘%s‘"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "l'època en la versió no és un número: «%s»"
+
+#~ msgid "error occurred while parsing %s"
+#~ msgstr "s'ha produït un error en analitzar %s"
+
+#~ msgid "error occurred while parsing %s field: %s"
+#~ msgstr "s'ha produït un error en analitzar el camp %s: %s"
+
+#~ msgid "'%s' is not a legal architecture string"
+#~ msgstr "«%s» no és una cadena d'arquitectura vàlida"
+
+#~ msgid "badly formed package name in files list file, line %d"
+#~ msgstr "nom de paquet mal format en la llista de fitxers, línia %d"
 
 #~ msgid ""
 #~ "binary package stanza %s is using an obsolete Build-Profiles field syntax"

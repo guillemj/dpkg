@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-06-26 16:13+0200\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@debian.org>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -100,6 +100,12 @@ msgid "error writing to architecture list"
 msgstr "เกิดข้อผิดพลาดขณะเขียนลงในรายชื่อสถาปัตยกรรม"
 
 #: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "ไม่สามารถตรวจข้อมูลไดเรกทอรี `%.255s'"
+
+#: lib/dpkg/atomic-file.c
 #, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "ไม่สามารถสร้างแฟ้มใหม่ '%.250s'"
@@ -186,6 +192,12 @@ msgstr "%s: เกิดข้อผิดพลาดภายในของ g
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: เกิดข้อผิดพลาดภายในของ gzip เกี่ยวกับการเขียน"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error: '%s'"
+msgid "%s: internal gzip read error: %s"
+msgstr "%s: เกิดข้อผิดพลาดภายในของ gzip เกี่ยวกับการอ่าน: '%s'"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -311,6 +323,12 @@ msgid ""
 msgstr "ไดเรกทอรีปรับข้อมูลมีแฟ้มซึ่งมีชื่อยาวไม่เท่ากัน (ทั้ง %d และ %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "ไม่สามารถตรวจข้อมูลไดเรกทอรีปรับข้อมูล`%.255s'"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "ไม่สามารถตรวจข้อมูลไดเรกทอรีปรับข้อมูล`%.255s'"
@@ -372,6 +390,12 @@ msgstr "ฐานข้อมูลสถานะของ dpkg"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "การดำเนินการที่สั่งต้องอาศัยสิทธิ์ผู้ดูแลระบบ"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "ไม่สามารถเข้าใช้พื้นที่สถานะของ dpkg"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1407,19 +1431,25 @@ msgid "no package information in '%.255s'"
 msgstr "ไม่มีข้อมูลแพกเกจใน `%.255s'"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d package '%.255s':\n"
+#| " %.255s"
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr ""
 "ขณะแจงแฟ้ม '%.255s' บริเวณบรรทัด %d แพกเกจ '%.255s':\n"
 " %.255s"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d:\n"
+#| " %.255s"
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr ""
 "ขณะแจงแฟ้ม '%.255s' บริเวณบรรทัด %d:\n"
 " %.255s"
@@ -1825,11 +1855,6 @@ msgstr "แฟ้มข้อมูลการสะกิดมีคำสั
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "ไม่สามารถสร้างไดเรกทอรีสถานะของการสะกิด `%.250s'"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "ไม่สามารถกำหนดเจ้าของให้กับไดเรกทอรีสถานะของการสะกิด `%.250s'"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "ไม่อนุญาตให้ใช้ชื่อการสะกิดที่ว่างเปล่า"
@@ -1986,8 +2011,9 @@ msgid "trying to overwrite '%.250s', which is the diverted version of '%.250s'"
 msgstr "กำลังพยายามเขียนทับ `%.250s' ซึ่งเป็นฉบับเบนของ `%.250s'"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "ไม่สามารถ stat `%.255s' (ซึ่งกำลังจะติดตั้ง)"
 
 #: src/archives.c
@@ -6018,6 +6044,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "แฟ้ม `%.250s' ไม่ใช่ส่วนย่อยของแพกเกจแบ่งส่วน\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "ไม่สามารถตรวจข้อมูลไดเรกทอรี `%.255s'"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "ไม่สามารถเปิดแฟ้มส่วนย่อย `%.250s' ซ้ำ"
@@ -6390,6 +6422,12 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "จะทิ้งลิงก์ลูกที่เลิกใช้แล้ว %s (%s)"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "ไม่สามารถตรวจข้อมูลไดเรกทอรีปรับข้อมูล`%.255s'"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "ไม่สามารถ flush แฟ้ม '%s'"
@@ -6724,6 +6762,9 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "ไม่สามารถกำหนดเจ้าของให้กับไดเรกทอรีสถานะของการสะกิด `%.250s'"
 
 #~ msgid "unable to open lock file %s for testing"
 #~ msgstr "ไม่สามารถเปิดแฟ้มล็อค %s เพื่อทดสอบ"

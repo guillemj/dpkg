@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2019-05-09 05:38+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -106,6 +106,12 @@ msgid "error writing to architecture list"
 msgstr "s'ha produït un error en escriure la llista d'arquitectures"
 
 #: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
+#| msgid "cannot open directory '%s'"
+msgid "cannot create base directory for %s"
+msgstr "no es pot obrir el directori «%s»"
+
+#: lib/dpkg/atomic-file.c
 #, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "no es pot crear el fitxer nou «%.250s»"
@@ -194,6 +200,12 @@ msgstr "%s: s'ha produït un error de lectura intern de gzip: «%s»"
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: s'ha produït un error d'escriptura intern de gzip"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error: '%s'"
+msgid "%s: internal gzip read error: %s"
+msgstr "%s: s'ha produït un error de lectura intern de gzip: «%s»"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -323,6 +335,12 @@ msgstr ""
 "(%d i %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "no es pot analitzar el directori d'actualitzacions «%.255s»"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "no es pot analitzar el directori d'actualitzacions «%.255s»"
@@ -386,6 +404,12 @@ msgstr "blocatge de la base de dades de dpkg"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "la operació sol·licitada requereix privilegis de superusuari"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access the dpkg database directory %s"
+msgid "cannot create the dpkg database directory %s"
+msgstr "no es pot accedir al directori %s de la base de dades de dpkg"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -1398,19 +1422,25 @@ msgid "no package information in '%.255s'"
 msgstr "no hi ha informació de paquets en «%.255s»"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d package '%.255s':\n"
+#| " %.255s"
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr ""
 "analitzant el fitxer «%.255s» prop de la línia %d paquet «%.255s»:\n"
 " %.255s"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d:\n"
+#| " %.255s"
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr ""
 "analitzant el fitxer «%.255s» prop de la línia %d:\n"
 " %.255s"
@@ -1805,12 +1835,6 @@ msgstr ""
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "no es pot crear el directori d'estat dels activadors «%.250s»"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr ""
-"no es pot establir el propietari del directori d'estat d'activadors «%.250s»"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "no es permeten els noms d'activador buits"
@@ -1975,8 +1999,9 @@ msgstr ""
 "«%.250s»"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "no es pot fer «stat» a «%.255s» (que és el que s'anava a instal·lar)"
 
 #: src/archives.c
@@ -6090,6 +6115,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "El fitxer «%.250s» no és part d'un arxiu multipart.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot open directory '%s'"
+msgid "cannot create directory %s"
+msgstr "no es pot obrir el directori «%s»"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "no es pot reobrir el fitxer part «%.250s»"
@@ -6460,6 +6491,12 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "s'està descartant l'enllaç esclau obsolet %s (%s)"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "no es pot analitzar el directori d'actualitzacions «%.255s»"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "no es pot fer «flush» al fitxer «%s»"
@@ -6810,6 +6847,11 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "Es requereix autenticació per a executar update-alternatives"
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr ""
+#~ "no es pot establir el propietari del directori d'estat d'activadors "
+#~ "«%.250s»"
 
 #~ msgid "unable to open lock file %s for testing"
 #~ msgstr "no es pot obrir el fitxer de blocatge %s per comprovar"

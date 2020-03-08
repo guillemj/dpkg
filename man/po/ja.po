@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2019-02-24 18:26+0100\n"
 "Last-Translator: TAKAHASHI Motonobu <monyo@monyo.com>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -1162,7 +1162,8 @@ msgstr ""
 #. type: Plain text
 #: deb-changelog.man
 msgid ""
-"I<package> and I<version> are the source package name and version number."
+"I<package> and I<version> are the source package name and version number.  "
+"I<version> is delimited by parenthesis U+00028 ‘B<(>’ and U+0029 ‘B<)>’."
 msgstr ""
 
 #. type: Plain text
@@ -1170,14 +1171,17 @@ msgstr ""
 msgid ""
 "I<distributions> lists one or more space-separated distributions where this "
 "version should be installed when it is uploaded; it is copied to the "
-"B<Distribution> field in the I<.changes> file."
+"B<Distribution> field in the I<.changes> file.  I<distributions> must be "
+"terminated by a semicolon (U+003B ‘B<;>’)."
 msgstr ""
 
 #. type: Plain text
 #: deb-changelog.man
 msgid ""
-"I<metadata> is a comma-separated list of I<keyword>=I<value> items.  The "
-"only I<keyword>s currently supported by B<dpkg> are B<urgency> and B<binary-"
+"I<metadata> lists zero or more comma-separated I<keyword>=I<value> items.  "
+"Each keyword can contain only minus and case insensitive alphanumeric "
+"characters, as they need to be mapped to B<deb822>(5) field names.  The only "
+"I<keyword>s currently supported by B<dpkg> are B<urgency> and B<binary-"
 "only>.  B<urgency>'s value is used for the B<Urgency> field in the I<."
 "changes> file for the upload.  B<binary-only> with a B<yes> value, is used "
 "to denote that this changelog entry is for a binary-only non-maintainer "
@@ -1189,10 +1193,10 @@ msgstr ""
 #: deb-changelog.man
 msgid ""
 "The change details may in fact be any series of lines starting with at least "
-"two spaces, but conventionally each change starts with an asterisk and a "
-"separating space and continuation lines are indented so as to bring them in "
-"line with the start of the text above.  Blank lines may be used here to "
-"separate groups of changes, if desired."
+"two spaces (U+0020 B<SPACE>), but conventionally each change starts with an "
+"asterisk and a separating space and continuation lines are indented so as to "
+"bring them in line with the start of the text above.  Blank lines may be "
+"used here to separate groups of changes, if desired."
 msgstr ""
 
 #. type: Plain text
@@ -1347,8 +1351,8 @@ msgstr ""
 msgid ""
 "The first “title” line with the package name must start at the left hand "
 "margin.  The “trailer” line with the maintainer and date details must be "
-"preceded by exactly one space.  The maintainer details and the date must be "
-"separated by exactly two spaces."
+"preceded by exactly one space (U+0020 B<SPACE>).  The maintainer details and "
+"the date must be separated by exactly two spaces (U+0020 B<SPACE>)."
 msgstr ""
 
 #. type: Plain text
@@ -1441,7 +1445,9 @@ msgstr ""
 #, fuzzy
 #| msgid ""
 #| "B<deb-override>(5), B<deb-extra-override>(5), B<dpkg-scanpackages>(1)."
-msgid "B<deb-version>(7), B<deb-changes>(5), B<dpkg-parsechangelog>(1)."
+msgid ""
+"B<deb822>(5), B<deb-version>(7), B<deb-changes>(5), B<dpkg-"
+"parsechangelog>(1)."
 msgstr "B<deb-override>(5), B<deb-extra-override>(5), B<dpkg-scanpackages>(1)."
 
 #. type: TH
@@ -6104,6 +6110,35 @@ msgid ""
 msgstr ""
 
 #. type: TP
+#: deb-substvars.man
+#, fuzzy, no-wrap
+#| msgid "B<vendor>"
+msgid "B<vendor:Name>"
+msgstr "B<vendor>"
+
+#. type: Plain text
+#: deb-substvars.man
+msgid ""
+"The current vendor name (since dpkg 1.20.0).  This value comes from the "
+"B<Vendor> field for the current vendor's origin file, as B<dpkg-vendor>(1) "
+"would retrieve it."
+msgstr ""
+
+#. type: TP
+#: deb-substvars.man
+#, fuzzy, no-wrap
+#| msgid "B<vendor>"
+msgid "B<vendor:Id>"
+msgstr "B<vendor>"
+
+#. type: Plain text
+#: deb-substvars.man
+msgid ""
+"The current vendor ID (since dpkg 1.20.0).  This is just the lowercase "
+"variant of B<vendor:Name>."
+msgstr ""
+
+#. type: TP
 #: deb-substvars.man dpkg-query.man
 #, no-wrap
 msgid "B<source:Version>"
@@ -6388,9 +6423,13 @@ msgstr "変数およびその値のリスト。"
 
 #. type: Plain text
 #: deb-substvars.man
+#, fuzzy
+#| msgid ""
+#| "B<dpkg>(1), B<dpkg-genchanges>(1), B<dpkg-gencontrol>(1), B<dpkg-"
+#| "shlibdeps>(1), B<dpkg-source>(1)."
 msgid ""
-"B<dpkg>(1), B<dpkg-genchanges>(1), B<dpkg-gencontrol>(1), B<dpkg-"
-"shlibdeps>(1), B<dpkg-source>(1)."
+"B<dpkg>(1), B<dpkg-vendor>(1), B<dpkg-genchanges>(1), B<dpkg-gencontrol>(1), "
+"B<dpkg-shlibdeps>(1), B<dpkg-source>(1)."
 msgstr ""
 "B<dpkg>(1), B<dpkg-genchanges>(1), B<dpkg-gencontrol>(1), B<dpkg-"
 "shlibdeps>(1), B<dpkg-source>(1)."
@@ -6693,15 +6732,15 @@ msgstr "パッケージ名"
 #: deb-postinst.man
 #, fuzzy, no-wrap
 #| msgid "B<interest> I<trigger-name>"
-msgid "I<postinst> B<triggered> I<trigger-name...>"
+msgid "I<postinst> B<triggered> \"I<trigger-name...>\""
 msgstr "B<interest> I<trigger-name>"
 
 #. type: Plain text
 #: deb-postinst.man
-#, fuzzy
-#| msgid "The package has been triggered."
-msgid "After the package was triggered."
-msgstr "パッケージはトリガされている。"
+msgid ""
+"After the package was triggered.  The list of space-separated I<trigger-"
+"name>s is passed as the second argument."
+msgstr ""
 
 #. type: TP
 #: deb-postinst.man
@@ -14923,6 +14962,24 @@ msgstr "B<-C>, B<--no-close>"
 msgid ""
 "Do not clean the source tree after the package has been built (since dpkg "
 "1.19.1).  This is the default behavior."
+msgstr ""
+
+#. type: TP
+#: dpkg-buildpackage.man
+#, fuzzy, no-wrap
+#| msgid "B<--skip-debianization>"
+msgid "B<--sanitize-env>"
+msgstr "B<--skip-debianization>"
+
+#. type: Plain text
+#: dpkg-buildpackage.man
+msgid ""
+"Sanitize the build environment (since dpkg 1.20.0).  This will reset or "
+"remove environment variables, umask, and any other process attributes that "
+"might otherwise adversely affect the build of packages.  Because the "
+"official entry point to build packages is B<debian/rules>, packages cannot "
+"rely on these settings being in place, and thus should work even when they "
+"are not.  What to sanitize is vendor specific."
 msgstr ""
 
 #. type: TP
@@ -24422,10 +24479,10 @@ msgstr "debian/source/include-binaries"
 #| "stripped.  Lines starting with \"#\" are comments and are skipped. Empty "
 #| "lines are ignored."
 msgid ""
-"This file contains a list of binary files (one per line) that should be "
-"included in the debian tarball. Leading and trailing spaces are stripped.  "
-"Lines starting with ‘B<#>’ are comments and are skipped.  Empty lines are "
-"ignored."
+"This file contains a list of pathnames of binary files (one per line) "
+"relative to the source root directory that should be included in the debian "
+"tarball.  Leading and trailing spaces are stripped.  Lines starting with "
+"‘B<#>’ are comments and are skipped.  Empty lines are ignored."
 msgstr ""
 "このファイルには、debian tar アーカイブに含まれるバイナリファイルが (1 行に "
 "1 ファイルずつ) リストされる。前後の空白は削除される。\"#\" で始まる行はコメ"
@@ -25442,11 +25499,19 @@ msgstr "B<--no-await>"
 
 #. type: Plain text
 #: dpkg-trigger.man
+#, fuzzy
+#| msgid ""
+#| "This option arranges that the calling package T (if any) need not await "
+#| "the processing of this trigger; the interested package(s) I, will not be "
+#| "added to T's trigger processing awaited list and T's status is "
+#| "unchanged.  T may be considered installed even though I may not yet have "
+#| "processed the trigger."
 msgid ""
-"This option arranges that the calling package T (if any) need not await the "
-"processing of this trigger; the interested package(s) I, will not be added "
-"to T's trigger processing awaited list and T's status is unchanged.  T may "
-"be considered installed even though I may not yet have processed the trigger."
+"This option arranges that the calling package I<T> (if any) need not await "
+"the processing of this trigger; the interested package(s) I<I>, will not be "
+"added to I<T>'s trigger processing awaited list and I<T>'s status is "
+"unchanged.  I<T> may be considered installed even though I<I> may not yet "
+"have processed the trigger."
 msgstr ""
 "このオプションは、呼び出し側のパッケージ T (もしあれば) が、このトリガの処理"
 "を待機する必要がないように設定する。これは、関連パッケージ I が T のトリガ処"
@@ -28868,6 +28933,11 @@ msgstr "B<update-alternatives --auto vi>"
 #: update-alternatives.man
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
+
+#, fuzzy
+#~| msgid "The package has been triggered."
+#~ msgid "After the package was triggered."
+#~ msgstr "パッケージはトリガされている。"
 
 #, fuzzy
 #~| msgid "B<Package:> I<binary-package-name> (required)"

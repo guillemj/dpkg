@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>\n"
 "Language-Team: Indonesian <debian-l10n-indonesian@lists.debian.org>\n"
@@ -108,6 +108,12 @@ msgstr ""
 #| msgid "error writing to '%s'"
 msgid "error writing to architecture list"
 msgstr "Ada galat saat menulis ke '%s'"
+
+#: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "gagal memindai direktori '%.255s'"
 
 #: lib/dpkg/atomic-file.c
 #, fuzzy, c-format
@@ -212,6 +218,12 @@ msgstr "%s: ada galat internal saat membaca gzip: '%s'"
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: ada galat internal saat menulis gzip"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error: '%s'"
+msgid "%s: internal gzip read error: %s"
+msgstr "%s: ada galat internal saat membaca gzip: '%s'"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -352,6 +364,12 @@ msgstr ""
 "(keduanya %d dan %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "tidak dapat memindai direktori 'updates' '%.255s'"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "tidak dapat memindai direktori 'updates' '%.255s'"
@@ -413,6 +431,12 @@ msgstr "gagal mengunci basis data status dpkg"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "operasi yang diminta membutuhkan kewenangan superuser"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "gagal mengakses area status dpkg"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1486,8 +1510,8 @@ msgstr "tidak ada informasi paket dalam '%.255s'"
 #| "%s, in file '%.255s' near line %d package '%.255s':\n"
 #| " "
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr "%s, dalam berkas '%.255s' dekat baris %d di paket '%.255s':"
 
 #: lib/dpkg/parsehelp.c
@@ -1497,7 +1521,7 @@ msgstr "%s, dalam berkas '%.255s' dekat baris %d di paket '%.255s':"
 #| " "
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr "%s, dalam berkas '%.255s' dekat baris %d:"
 
 #: lib/dpkg/parsehelp.c
@@ -1920,11 +1944,6 @@ msgstr "berkas ci pemicu berisi konfigurasi tak dikenal '%.250s'"
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "gagal membuat direktori status pemicu: '%.250s'"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "gagal menata kepemilikan direktori status pemicu: '%.250s'"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "nama pemicu kosong tidak diizinkan"
@@ -2089,8 +2108,9 @@ msgid "trying to overwrite '%.250s', which is the diverted version of '%.250s'"
 msgstr "mencoba menimpa '%.250s', yang merupakan versi '%.250s' yang dialihkan"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "gagal menata status '%.255s' (yang ingin saya pasang)"
 
 #: src/archives.c
@@ -6511,6 +6531,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "Berkas '%.250s' bukan bagian dari arsip banyak-bagian.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "gagal memindai direktori '%.255s'"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "gagal membuka ulang berkas bagian '%.250s'"
@@ -6948,6 +6974,12 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "mengabaikan nara tiruan usang %s (%s)."
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "tidak dapat memindai direktori 'updates' '%.255s'"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "gagal mengosongkan berkas '%s'"
@@ -7325,6 +7357,9 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "gagal menata kepemilikan direktori status pemicu: '%.250s'"
 
 #~ msgid "unable to open lock file %s for testing"
 #~ msgstr "Gagal membuka berkas pengunci %s untuk ujicoba"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: Tshewang Norbu <bumthap2006@hotmail.com>\n"
 "Language-Team: Dzongkha <pgeyleg@dit.gov.bt>\n"
@@ -114,6 +114,12 @@ msgstr "stdout འབྲིཝ་ད་འཛོལ་བ: %s"
 
 #: lib/dpkg/atomic-file.c
 #, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "སྣོད་ཐོ་ `%.255s' ཞིབ་ལྟ་འབད་མི་ཚུགས།"
+
+#: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
 
@@ -209,6 +215,11 @@ msgstr "%s: ནང་འཁོད་ gzip འཛོལ་བ: `%s'"
 #: lib/dpkg/compress.c
 #, fuzzy, c-format
 msgid "%s: internal gzip write error"
+msgstr "%s: ནང་འཁོད་ gzip འཛོལ་བ: `%s'"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+msgid "%s: internal gzip read error: %s"
 msgstr "%s: ནང་འཁོད་ gzip འཛོལ་བ: `%s'"
 
 #: lib/dpkg/compress.c
@@ -350,6 +361,12 @@ msgstr ""
 "ཡོདཔ་ཨིན།"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "དུས་མཐོན་ཀྱི་སྣོད་ཐོ་ `%.255s' ཞིབ་ལྟ་འབད་མི་ཚུགས།"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "དུས་མཐོན་ཀྱི་སྣོད་ཐོ་ `%.255s' ཞིབ་ལྟ་འབད་མི་ཚུགས།"
@@ -411,6 +428,12 @@ msgstr "ཌི་པི་ཀེ་ཇི་གནས་ཚད་ཀྱི་ག
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "ཞུ་བ་འབད་ཡོད་པའི་བཀོལ་སྤྱོད་པ་ལུ་ ལག་ལེན་པ་གཙོ་བོའི་ཁེ་དབང་དགོཔ་ཨིན།"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "ཌི་པི་ཀེ་ཇི་གནས་ཚད་མངའ་ཁོངས་འཛུལ་སྤྱོད་འབད་མ་ཚུགས།"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1452,15 +1475,15 @@ msgstr "`%.255s' ནང་ཐུམ་སྒྲིལ་གྱི་བརྡ་
 #: lib/dpkg/parsehelp.c
 #, fuzzy, c-format
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr "%s  ཡིག་སྣོད་ `%.255s' ནང་ གྲལ་ཐིག་ %d གི་རྩ་བ།"
 
 #: lib/dpkg/parsehelp.c
 #, fuzzy, c-format
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr "%s  ཡིག་སྣོད་ `%.255s' ནང་ གྲལ་ཐིག་ %d གི་རྩ་བ།"
 
 #: lib/dpkg/parsehelp.c
@@ -1865,11 +1888,6 @@ msgstr ""
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "དོས་ཁང་སྣོད་ཐོ་ `%.250s' ལྷག་མ་ཚུགས།"
 
-#: lib/dpkg/triglib.c
-#, fuzzy, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "དོས་ཁང་སྣོད་ཐོ་ `%.250s' ལྷག་མ་ཚུགས།"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr ""
@@ -2033,8 +2051,9 @@ msgstr ""
 "ནི་ལུ་འབད་རྩོལ་བསྐྱེད་དོ།"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "`%.255s' སི་ཊེཊི་འབད་མ་ཚུགས།(ང་གིས་གཞི་བཙུགས་འབད་ནི་འབད་མི་དེ)"
 
 #: src/archives.c
@@ -6274,6 +6293,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "ཡིག་སྣོད་ `%.250s' འདི་སྣ་མང་ཡན་ལག་ཡིག་མཛོད་ཀྱི་ཡན་ལག་མེན།\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "སྣོད་ཐོ་ `%.255s' ཞིབ་ལྟ་འབད་མི་ཚུགས།"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "ཡན་ལག་ཡིག་སྣོད་ `%.250s' ལོག་ཁ་ཕྱེ་མ་ཚུགས།"
@@ -6656,6 +6681,12 @@ msgstr "ཕན་མེད་བྲན་གཡོག་འབྲེལ་ལམ
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "དུས་མཐོན་ཀྱི་སྣོད་ཐོ་ `%.255s' ཞིབ་ལྟ་འབད་མི་ཚུགས།"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 msgid "unable to flush file '%s'"
 msgstr "vsnprintf ནང་ ངོས་སྙོམ་མ་ཚུགས།"
 
@@ -6998,6 +7029,10 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, fuzzy
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "དོས་ཁང་སྣོད་ཐོ་ `%.250s' ལྷག་མ་ཚུགས།"
 
 #, fuzzy
 #~| msgid "unable to open tmpfile for vsnprintf"

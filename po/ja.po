@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2016-04-01 16:07+0900\n"
 "Last-Translator: Takuma Yamada <tyamada@takumayamada.com>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -117,6 +117,12 @@ msgid "error writing to architecture list"
 msgstr "アーキテクチャリストへの書き込みエラーです"
 
 #: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "ディレクトリ `%.255s' を走査できません"
+
+#: lib/dpkg/atomic-file.c
 #, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "新しいファイル '%.250s' を作成できません"
@@ -203,6 +209,12 @@ msgstr "%s: 内部 gzip 読み取りエラー: '%s'"
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: 内部 gzip 書き込みエラー"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error: '%s'"
+msgid "%s: internal gzip read error: %s"
+msgstr "%s: 内部 gzip 読み取りエラー: '%s'"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -330,6 +342,12 @@ msgid ""
 msgstr "updates ディレクトリにあるファイル名の長さが異なります (%d と %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "updates ディレクトリ `%.255s' を走査できません"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "updates ディレクトリ `%.255s' を走査できません"
@@ -391,6 +409,12 @@ msgstr "dpkg ステータスデータベース"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "要求した操作はスーパーユーザの権限が必要です"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "dpkg ステータスエリアにアクセスできません"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1450,19 +1474,25 @@ msgid "no package information in '%.255s'"
 msgstr "`%.255s' にパッケージ情報がありません"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d package '%.255s':\n"
+#| " %.255s"
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr ""
 "ファイル '%.255s' を解析。%d 行目付近、パッケージ '%.255s':\n"
 " %.255s"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d:\n"
+#| " %.255s"
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr ""
 "ファイル '%.255s' を解析。%d 行目付近:\n"
 " %.255s"
@@ -1874,11 +1904,6 @@ msgstr "ci ファイルのトリガは未知のディレクティブ `%.250s' �
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "状態ディレクトリ `%.250s' のトリガを作成できません"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "状態ディレクトリ `%.250s' のトリガの所有権を設定できません"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "空のトリガ名は許されていません"
@@ -2042,8 +2067,9 @@ msgstr ""
 "`%.250s' を上書きしようとしています。これは `%.250s' の退避バージョンです"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "(今インストールしようとしている) `%.255s' の状態を取得できません"
 
 #: src/archives.c
@@ -6194,6 +6220,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "ファイル `%.250s' はマルチパートアーカイブのパートではありません。\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "ディレクトリ `%.255s' を走査できません"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "パートファイル `%.250s' を再オープンできません"
@@ -6575,6 +6607,12 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "時代遅れのスレーブリンク %s を破棄しています (%s)"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "updates ディレクトリ `%.255s' を走査できません"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "ファイル '%s' をフラッシュできません"
@@ -6922,6 +6960,9 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "状態ディレクトリ `%.250s' のトリガの所有権を設定できません"
 
 #~ msgid "unable to open lock file %s for testing"
 #~ msgstr "テストのためのロックファイル %s をオープンできません"

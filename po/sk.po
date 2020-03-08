@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-04-07 10:01+0200\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <debian-l10n-slovak@lists.debian.org>\n"
@@ -106,6 +106,12 @@ msgid "error writing to architecture list"
 msgstr "chyba pri zápise do zoznamu architektúr"
 
 #: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "nie je možné skenovať adresár „%.255s“"
+
+#: lib/dpkg/atomic-file.c
 #, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "nie je možné vytvoriť nový súbor „%.250s“"
@@ -192,6 +198,12 @@ msgstr "%s: vnútorná chyba čítania gzip: „%s“"
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: vnútorná chyba zápisu gzip"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error: '%s'"
+msgid "%s: internal gzip read error: %s"
+msgstr "%s: vnútorná chyba čítania gzip: „%s“"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -321,6 +333,12 @@ msgstr ""
 "%d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "nie je možné zistiť obsah adresára s aktualizáciami „%.250s“"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "nie je možné zistiť obsah adresára s aktualizáciami „%.250s“"
@@ -382,6 +400,12 @@ msgstr "stavová databáza dpkg"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "požadovaná operácia vyžaduje oprávnenie superpoužívateľa"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "nie je možné pristúpiť ku stavovej oblasti dpkg"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1441,19 +1465,25 @@ msgid "no package information in '%.255s'"
 msgstr "žiadne informácie o balíku v „%.255s“"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d package '%.255s':\n"
+#| " %.255s"
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr ""
 "spracúva sa súbor „%.255s“ neďaleko riadka %d, balík „%.255s“:\n"
 " %.255s"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d:\n"
+#| " %.255s"
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr ""
 "spracúva sa súbor „%.255s“ neďaleko riadka %d:\n"
 " %.255s"
@@ -1865,11 +1895,6 @@ msgstr "súbor ci spúšťača obsahuje neznámu direktívu „%.250s“"
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "nepodarilo sa vytvoriť adresár stavu spúšťačov „%.250s“"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "nepodarilo sa nastaviť vlastníctvo adresára stavu spúšťačov „%.250s“"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "prázdne názvy spúšťačov nie sú dovolené"
@@ -2034,8 +2059,9 @@ msgid "trying to overwrite '%.250s', which is the diverted version of '%.250s'"
 msgstr "pokus o prepísanie „%.250s“, ktorý je odklonenou verziou „%.250s“"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "nie je možné zistiť stav „%.255s“ (ktorý bude práve nainštalovaný)"
 
 #: src/archives.c
@@ -6318,6 +6344,12 @@ msgstr ""
 "Súbor „%.250s“ nie je časťou archívu skladajúceho sa z viacerých častí.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "nie je možné skenovať adresár „%.255s“"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "nie je možné znovu otvoriť časť súboru „%.250s“"
@@ -6698,6 +6730,12 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "zahadzuje sa zastaralý závislý odkaz %s (%s)"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "nie je možné zistiť obsah adresára s aktualizáciami „%.250s“"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "nie je možné vyprázdniť (flush) súbor „%s“"
@@ -7053,6 +7091,10 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr ""
+#~ "nepodarilo sa nastaviť vlastníctvo adresára stavu spúšťačov „%.250s“"
 
 #~ msgid "unable to open lock file %s for testing"
 #~ msgstr "nie je možné otvoriť súbor zámku %s na testovanie"

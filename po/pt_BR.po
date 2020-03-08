@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: Felipe Augusto van de Wiel (faw) <faw@debian.org>\n"
 "Language-Team: Brazilian Portuguese <debian-l10n-portuguese@lists.debian."
@@ -116,6 +116,12 @@ msgstr "erro ao escrever em stdout: %s"
 
 #: lib/dpkg/atomic-file.c
 #, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "não foi possível fazer vasculhar o diretório '%.255s'"
+
+#: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "impossível abrir arquivo fonte '%.250s'"
 
@@ -211,6 +217,11 @@ msgstr "%s: erro interno do gzip: '%s'"
 #: lib/dpkg/compress.c
 #, fuzzy, c-format
 msgid "%s: internal gzip write error"
+msgstr "%s: erro interno do gzip: '%s'"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+msgid "%s: internal gzip read error: %s"
 msgstr "%s: erro interno do gzip: '%s'"
 
 #: lib/dpkg/compress.c
@@ -353,6 +364,12 @@ msgstr ""
 "(%d e %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "não foi possível vasculhar diretório de atualizações '%.255s'"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "não foi possível vasculhar diretório de atualizações '%.255s'"
@@ -417,6 +434,12 @@ msgstr "impossível bloquear banco de dados de estados do dpkg"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "a operação solicitada requer privilégios de superusuário"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "impossível acessar área de estado do dpkg"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1499,15 +1522,15 @@ msgstr "sem informações de pacote em '%.255s'"
 #: lib/dpkg/parsehelp.c
 #, fuzzy, c-format
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr "aviso, no arquivo '%.255s', próximo à linha %d"
 
 #: lib/dpkg/parsehelp.c
 #, fuzzy, c-format
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr "aviso, no arquivo '%.255s', próximo à linha %d"
 
 #: lib/dpkg/parsehelp.c
@@ -1928,13 +1951,6 @@ msgstr "arquivo de gatilhos ci contém diretiva desconhecida '%.250s'"
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "impossível criar diretório de estado dos gatilhos '%.250s'"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr ""
-"impossível definir o proprietário do diretório de estado dos gatilhos "
-"'%.250s'"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "nomes de gatilho vazios não são permitidos"
@@ -2100,8 +2116,9 @@ msgid "trying to overwrite '%.250s', which is the diverted version of '%.250s'"
 msgstr "tentando sobrescrever '%.250s', que é a versão desviada de '%.250s'"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr ""
 "impossível executar \"stat\" de '%.255s' (que eu estava prestes a instalar)"
 
@@ -6496,6 +6513,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "Arquivo '%.250s' não é parte de um arquivo em múltiplas partes.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "não foi possível fazer vasculhar o diretório '%.255s'"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "impossível reabrir arquivo parcial '%.250s'"
@@ -6920,6 +6943,12 @@ msgstr "Descartando ligação escrava obsoleta %s (%s)."
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "não foi possível vasculhar diretório de atualizações '%.255s'"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 msgid "unable to flush file '%s'"
 msgstr "impossível efetuar \"flush\" em vsnprintf "
 
@@ -7268,6 +7297,11 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr ""
+#~ "impossível definir o proprietário do diretório de estado dos gatilhos "
+#~ "'%.250s'"
 
 #, fuzzy
 #~| msgid "unable to open tmpfile for vsnprintf"

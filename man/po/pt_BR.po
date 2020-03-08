@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2019-02-24 18:25+0100\n"
 "Last-Translator: Andre Luis Lopes  <andrelop@debian.org>\n"
 "Language-Team: Portuguese <debian-l10n-portuguese@lists.debian.org>\n"
@@ -1011,7 +1011,8 @@ msgstr ""
 #. type: Plain text
 #: deb-changelog.man
 msgid ""
-"I<package> and I<version> are the source package name and version number."
+"I<package> and I<version> are the source package name and version number.  "
+"I<version> is delimited by parenthesis U+00028 ‘B<(>’ and U+0029 ‘B<)>’."
 msgstr ""
 
 #. type: Plain text
@@ -1019,14 +1020,17 @@ msgstr ""
 msgid ""
 "I<distributions> lists one or more space-separated distributions where this "
 "version should be installed when it is uploaded; it is copied to the "
-"B<Distribution> field in the I<.changes> file."
+"B<Distribution> field in the I<.changes> file.  I<distributions> must be "
+"terminated by a semicolon (U+003B ‘B<;>’)."
 msgstr ""
 
 #. type: Plain text
 #: deb-changelog.man
 msgid ""
-"I<metadata> is a comma-separated list of I<keyword>=I<value> items.  The "
-"only I<keyword>s currently supported by B<dpkg> are B<urgency> and B<binary-"
+"I<metadata> lists zero or more comma-separated I<keyword>=I<value> items.  "
+"Each keyword can contain only minus and case insensitive alphanumeric "
+"characters, as they need to be mapped to B<deb822>(5) field names.  The only "
+"I<keyword>s currently supported by B<dpkg> are B<urgency> and B<binary-"
 "only>.  B<urgency>'s value is used for the B<Urgency> field in the I<."
 "changes> file for the upload.  B<binary-only> with a B<yes> value, is used "
 "to denote that this changelog entry is for a binary-only non-maintainer "
@@ -1038,10 +1042,10 @@ msgstr ""
 #: deb-changelog.man
 msgid ""
 "The change details may in fact be any series of lines starting with at least "
-"two spaces, but conventionally each change starts with an asterisk and a "
-"separating space and continuation lines are indented so as to bring them in "
-"line with the start of the text above.  Blank lines may be used here to "
-"separate groups of changes, if desired."
+"two spaces (U+0020 B<SPACE>), but conventionally each change starts with an "
+"asterisk and a separating space and continuation lines are indented so as to "
+"bring them in line with the start of the text above.  Blank lines may be "
+"used here to separate groups of changes, if desired."
 msgstr ""
 
 #. type: Plain text
@@ -1196,8 +1200,8 @@ msgstr ""
 msgid ""
 "The first “title” line with the package name must start at the left hand "
 "margin.  The “trailer” line with the maintainer and date details must be "
-"preceded by exactly one space.  The maintainer details and the date must be "
-"separated by exactly two spaces."
+"preceded by exactly one space (U+0020 B<SPACE>).  The maintainer details and "
+"the date must be separated by exactly two spaces (U+0020 B<SPACE>)."
 msgstr ""
 
 #. type: Plain text
@@ -1287,7 +1291,9 @@ msgstr ""
 #. type: Plain text
 #: deb-changelog.man
 #, fuzzy
-msgid "B<deb-version>(7), B<deb-changes>(5), B<dpkg-parsechangelog>(1)."
+msgid ""
+"B<deb822>(5), B<deb-version>(7), B<deb-changes>(5), B<dpkg-"
+"parsechangelog>(1)."
 msgstr ""
 "B<dselect>(8), B<dpkg-deb>(1), B<deb>(5), B<deb-control>(5), e B<dpkg-"
 "reconfigure>(8)"
@@ -4724,6 +4730,33 @@ msgid ""
 msgstr ""
 
 #. type: TP
+#: deb-substvars.man
+#, fuzzy, no-wrap
+msgid "B<vendor:Name>"
+msgstr "B<--admindir> I<diretório>"
+
+#. type: Plain text
+#: deb-substvars.man
+msgid ""
+"The current vendor name (since dpkg 1.20.0).  This value comes from the "
+"B<Vendor> field for the current vendor's origin file, as B<dpkg-vendor>(1) "
+"would retrieve it."
+msgstr ""
+
+#. type: TP
+#: deb-substvars.man
+#, fuzzy, no-wrap
+msgid "B<vendor:Id>"
+msgstr "B<--admindir> I<diretório>"
+
+#. type: Plain text
+#: deb-substvars.man
+msgid ""
+"The current vendor ID (since dpkg 1.20.0).  This is just the lowercase "
+"variant of B<vendor:Name>."
+msgstr ""
+
+#. type: TP
 #: deb-substvars.man dpkg-query.man
 #, fuzzy, no-wrap
 msgid "B<source:Version>"
@@ -4955,8 +4988,8 @@ msgstr "Lista dos pacotes disponíveis."
 #: deb-substvars.man
 #, fuzzy
 msgid ""
-"B<dpkg>(1), B<dpkg-genchanges>(1), B<dpkg-gencontrol>(1), B<dpkg-"
-"shlibdeps>(1), B<dpkg-source>(1)."
+"B<dpkg>(1), B<dpkg-vendor>(1), B<dpkg-genchanges>(1), B<dpkg-gencontrol>(1), "
+"B<dpkg-shlibdeps>(1), B<dpkg-source>(1)."
 msgstr ""
 "B<dselect>(8), B<dpkg-deb>(1), B<deb>(5), B<deb-control>(5), e B<dpkg-"
 "reconfigure>(8)"
@@ -5196,14 +5229,15 @@ msgstr "O pacote está instalado e configurado."
 #. type: TP
 #: deb-postinst.man
 #, fuzzy, no-wrap
-msgid "I<postinst> B<triggered> I<trigger-name...>"
+msgid "I<postinst> B<triggered> \"I<trigger-name...>\""
 msgstr "B<--log=>I<filename>"
 
 #. type: Plain text
 #: deb-postinst.man
-#, fuzzy
-msgid "After the package was triggered."
-msgstr "O pacote está instalado e configurado."
+msgid ""
+"After the package was triggered.  The list of space-separated I<trigger-"
+"name>s is passed as the second argument."
+msgstr ""
 
 #. type: TP
 #: deb-postinst.man
@@ -12055,6 +12089,23 @@ msgstr ""
 #. type: TP
 #: dpkg-buildpackage.man
 #, fuzzy, no-wrap
+msgid "B<--sanitize-env>"
+msgstr "B<dpkg-deb-actions>"
+
+#. type: Plain text
+#: dpkg-buildpackage.man
+msgid ""
+"Sanitize the build environment (since dpkg 1.20.0).  This will reset or "
+"remove environment variables, umask, and any other process attributes that "
+"might otherwise adversely affect the build of packages.  Because the "
+"official entry point to build packages is B<debian/rules>, packages cannot "
+"rely on these settings being in place, and thus should work even when they "
+"are not.  What to sanitize is vendor specific."
+msgstr ""
+
+#. type: TP
+#: dpkg-buildpackage.man
+#, fuzzy, no-wrap
 msgid "B<-r>, B<--root-command=>I<gain-root-command>"
 msgstr "B<--new> | B<--old>"
 
@@ -18871,10 +18922,10 @@ msgstr "B<config-files>"
 #. type: Plain text
 #: dpkg-source.man
 msgid ""
-"This file contains a list of binary files (one per line) that should be "
-"included in the debian tarball. Leading and trailing spaces are stripped.  "
-"Lines starting with ‘B<#>’ are comments and are skipped.  Empty lines are "
-"ignored."
+"This file contains a list of pathnames of binary files (one per line) "
+"relative to the source root directory that should be included in the debian "
+"tarball.  Leading and trailing spaces are stripped.  Lines starting with "
+"‘B<#>’ are comments and are skipped.  Empty lines are ignored."
 msgstr ""
 
 #. type: SS
@@ -19645,10 +19696,11 @@ msgstr "B<--nocheck>"
 #. type: Plain text
 #: dpkg-trigger.man
 msgid ""
-"This option arranges that the calling package T (if any) need not await the "
-"processing of this trigger; the interested package(s) I, will not be added "
-"to T's trigger processing awaited list and T's status is unchanged.  T may "
-"be considered installed even though I may not yet have processed the trigger."
+"This option arranges that the calling package I<T> (if any) need not await "
+"the processing of this trigger; the interested package(s) I<I>, will not be "
+"added to I<T>'s trigger processing awaited list and I<T>'s status is "
+"unchanged.  I<T> may be considered installed even though I<I> may not yet "
+"have processed the trigger."
 msgstr ""
 
 #. type: TP
@@ -22388,6 +22440,10 @@ msgstr "update-alternatives --auto vi"
 #, fuzzy
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS, o Padrão da Hierarquia do Sistema de Arquivos."
+
+#, fuzzy
+#~ msgid "After the package was triggered."
+#~ msgstr "O pacote está instalado e configurado."
 
 #, fuzzy
 #~ msgid "B<Binary:> I<binary-package-list> (required)"

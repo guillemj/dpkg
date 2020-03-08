@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2020-01-12 19:47+0100\n"
 "Last-Translator: Mo Zhou <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -110,6 +110,12 @@ msgid "error writing to architecture list"
 msgstr "写入体系结构列表时出错"
 
 #: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
+#| msgid "cannot open directory '%s'"
+msgid "cannot create base directory for %s"
+msgstr "无法打开目录 '%s'"
+
+#: lib/dpkg/atomic-file.c
 #, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "无法新建文件 '%.250s'"
@@ -196,6 +202,12 @@ msgstr "%s：内部 gzip 读取错误：%s"
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s：内部 gzip 写入错误"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error: '%s'"
+msgid "%s: internal gzip read error: %s"
+msgstr "%s：内部 gzip 读取错误：%s"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -321,6 +333,12 @@ msgid ""
 msgstr "更新目录中的文件长度名称不一致（分别为 %d 和 %d）"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "无法扫描更新目录 %.255s "
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "无法扫描更新目录 %.255s "
@@ -376,6 +394,12 @@ msgstr "dpkg 数据库锁"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "所请求的操作需要超级用户权限"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access the dpkg database directory %s"
+msgid "cannot create the dpkg database directory %s"
+msgstr "无法访问 dpkg 数据库目录 %s"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -510,8 +534,8 @@ msgid ""
 "files list file for package '%.250s' missing; assuming package has no files "
 "currently installed"
 msgstr ""
-"无法找到软件包 %.250s 的文件列表，现假定目前该软件包没有任何文件被安装"
-"在系统里。"
+"无法找到软件包 %.250s 的文件列表，现假定目前该软件包没有任何文件被安装在系统"
+"里。"
 
 #: lib/dpkg/db-fsys-files.c
 #, c-format
@@ -580,7 +604,8 @@ msgid ""
 "before the override, which is most probably a packaging bug, to recover you\n"
 "can remove the override manually with %s"
 msgstr ""
-"在 stateoverride 文件中发现未知的系统用户 '%s'；该系统用户在重载之前被移除。\n"
+"在 stateoverride 文件中发现未知的系统用户 '%s'；该系统用户在重载之前被移"
+"除。\n"
 "这很有可能是一个打包Bug。您可以通过 %s 手动移除重载来进行恢复"
 
 #: lib/dpkg/db-fsys-override.c
@@ -1244,7 +1269,9 @@ msgstr ""
 msgid ""
 "package %s (%s) with field '%s: %s' is not co-installable with %s which has "
 "multiple installed instances"
-msgstr "含有字段 '%3$s: %4$s' 的软件包 %1$s (%2$s) 不能与存在多个已安装实例的 %5$s 共存"
+msgstr ""
+"含有字段 '%3$s: %4$s' 的软件包 %1$s (%2$s) 不能与存在多个已安装实例的 %5$s 共"
+"存"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1335,19 +1362,25 @@ msgid "no package information in '%.255s'"
 msgstr "在 %.255s 中没有软件包的相关信息"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d package '%.255s':\n"
+#| " %.255s"
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr ""
 "正在解析文件 '%.255s' 第 %d 行附近，软件包 '%.255s' :\n"
 " %.255s"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d:\n"
+#| " %.255s"
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr ""
 "正在解析文件 '%.255s' 第 %d 行附近:\n"
 " %.255s"
@@ -1718,11 +1751,6 @@ msgstr "触发器 ci 文件包含位置指令 %.250s"
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "无法创建触发器状态目录 %.250s"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "无法设置触发器状态目录 %.250s 的所有者"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "触发器名不能为空"
@@ -1876,8 +1904,9 @@ msgid "trying to overwrite '%.250s', which is the diverted version of '%.250s'"
 msgstr "正在尝试覆盖 %.250s，它是 %.250s 的转移版本"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "无法获取 %.255s 的状态(正准备安装该文件)"
 
 #: src/archives.c
@@ -5735,6 +5764,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "文件 %.250s 并非多卷包文件的一个分块文件。\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot open directory '%s'"
+msgid "cannot create directory %s"
+msgstr "无法打开目录 '%s'"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "无法打开分块文件 %.250s"
@@ -6092,6 +6127,12 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "舍弃废弃的次要链接 %s (%s)"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "无法扫描更新目录 %.255s "
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "无法清空文件 %s"
@@ -6418,6 +6459,9 @@ msgstr "运行 update-alternatives 工具以修改系统可选项的选择情况
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "需要认证后才能执行 update-alternatives"
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "无法设置触发器状态目录 %.250s 的所有者"
 
 #~ msgid "unable to open lock file %s for testing"
 #~ msgstr "无法打开锁文件 %s 以进行测试"
@@ -6979,8 +7023,8 @@ msgstr "需要认证后才能执行 update-alternatives"
 #~ "  confask [!]            没有新版本时询问替换配置文件\n"
 #~ "  breaks [!]             即使损坏其他软件包也继续安装\n"
 #~ "  conflicts [!]          让相互冲突的软件包也得以安装\n"
-#~ "  architecture [!]       即使软件包所属的体系体系结构与环境不符，它也将被处"
-#~ "理\n"
+#~ "  architecture [!]       即使软件包所属的体系体系结构与环境不符，它也将被"
+#~ "处理\n"
 #~ "  overwrite-dir [!]      用来自一个软件包的文件覆盖原本属于另一软件包的目"
 #~ "录\n"
 #~ "  remove-reinstreq [!]   删除那些需要安装的软件包\n"

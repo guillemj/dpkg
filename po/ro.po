@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: ioan-eugen STAN <stan.ieugen@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -129,6 +129,12 @@ msgstr "eroare la scrierea în „%s”"
 
 #: lib/dpkg/atomic-file.c
 #, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "nu se poate examina directorul „%.255s”"
+
+#: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
 #| msgid "unable to write file '%s'"
 msgid "unable to create new file '%.250s'"
 msgstr "nu se poate scrie fișierul „%s”"
@@ -230,6 +236,12 @@ msgstr "%s: eroare internă gzip la citire: „%s”"
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: eroare internă gzip la scriere"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error: '%s'"
+msgid "%s: internal gzip read error: %s"
+msgstr "%s: eroare internă gzip la citire: „%s”"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -370,6 +382,12 @@ msgstr ""
 "%d cât și %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "nu se poate scana directorul cu actualizări „%.255s”"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "nu se poate scana directorul cu actualizări „%.255s”"
@@ -431,6 +449,12 @@ msgstr "nu se poate bloca baza de date dpkg status"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "operația solicitată necesită drepturi de superutilizator"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "nu se poate accesa zona dpkg status"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1531,8 +1555,8 @@ msgstr "nici o informație despre pachet în „%.255s”"
 #| "%s, in file '%.255s' near line %d package '%.255s':\n"
 #| " "
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr ""
 "%s, în fișierul „%.255s” lângă linia %d pachetul „%.255s”:\n"
 " "
@@ -1544,7 +1568,7 @@ msgstr ""
 #| " "
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr ""
 "%s, în fișierul „%.255s” lângă linia %d:\n"
 " "
@@ -1984,13 +2008,6 @@ msgstr "fișierul cu declanșatori ci conține o directivă necunoscută „%.25
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "nu se poate crea directorul cu stări ale declanșatorilor „%.250s”"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr ""
-"nu se poate ajusta apartenența directorului cu stări ale declanșatorilor "
-"„%.250s”"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "nu se permit nume vide de declanșatori"
@@ -2159,8 +2176,9 @@ msgstr ""
 "lui „%.250s”"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "stat imposibil pentru „%.255s” (care urma să fie instalat)"
 
 #: src/archives.c
@@ -6669,6 +6687,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "Fișierul „%.250s” nu este parte dintr-o arhivă multivolum.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "nu se poate examina directorul „%.255s”"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "nu se poate redeschide fișierul volum „%.250s”"
@@ -7114,6 +7138,12 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "se renunță la legătura-sclav învechită %s (%s)."
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "nu se poate scana directorul cu actualizări „%.255s”"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "eșec la flush pentru fișierul „%s”"
@@ -7499,6 +7529,11 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr ""
+#~ "nu se poate ajusta apartenența directorului cu stări ale declanșatorilor "
+#~ "„%.250s”"
 
 # numele funcților și argumentelor acestora rămân cele originale
 # pentru a nu induce în eroare utilizatorul

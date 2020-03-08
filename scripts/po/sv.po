@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2016-12-09 11:32+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -161,6 +161,12 @@ msgstr ""
 "Angiven GNU-systemtyp %s stämmer inte med gcc-systemtypen %s, försök sätta "
 "en korrekt CC-miljövariabel"
 
+#: scripts/dpkg-architecture.pl scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/Shlibs/Cppfilt.pm
+#, perl-format
+msgid "unable to execute %s"
+msgstr "kan inte exekvera %s"
+
 #: scripts/dpkg-buildflags.pl
 #, perl-format
 msgid "Usage: %s [<command>]"
@@ -309,6 +315,7 @@ msgid ""
 "      --pre-clean             pre clean source tree (default).\n"
 "      --no-post-clean         do not post clean source tree (default).\n"
 "  -tc, --post-clean           post clean source tree.\n"
+"      --sanitize-env          sanitize the build environment.\n"
 "  -D, --check-builddeps       check build dependencies and conflicts "
 "(default).\n"
 "  -d, --no-check-builddeps    do not check build dependencies and "
@@ -785,9 +792,10 @@ msgstr ""
 
 #: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-shlibdeps.pl
 #: scripts/dpkg-source.pl
-#, perl-format
-msgid "error occurred while parsing %s"
-msgstr "fel vid tolkning av %s"
+#, fuzzy, perl-format
+#| msgid "cannot open %s"
+msgid "cannot parse %s field"
+msgstr "kan inte öppna %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
 #, fuzzy, perl-format
@@ -1147,9 +1155,12 @@ msgid "package %s: "
 msgstr "paketet %s: "
 
 #: scripts/dpkg-gencontrol.pl
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "current host architecture '%s' does not appear in package's architecture "
+#| "list (%s)"
 msgid ""
-"current host architecture '%s' does not appear in package's architecture "
+"current host architecture '%s' does not appear in package '%s' architecture "
 "list (%s)"
 msgstr ""
 "den aktuella värdarkitekturen \"%s\" finns inte i paketets arkitekturlista "
@@ -1161,22 +1172,27 @@ msgid "%s field of package %s: "
 msgstr "%s-fältet i paketet %s: "
 
 #: scripts/dpkg-gencontrol.pl
-#, perl-format
-msgid "error occurred while parsing %s field: %s"
-msgstr "fel vid tolkning av fältet %s: %s"
+#, fuzzy, perl-format
+#| msgid "source package name '%s' is illegal: %s"
+msgid "parsing package '%s' %s field: %s"
+msgstr "namnet på källkodspaketet \"%s\" är ogiltigt: %s"
 
 #: scripts/dpkg-gencontrol.pl
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "the %s field contains an arch-specific dependency but the package is "
+#| "architecture all"
 msgid ""
-"the %s field contains an arch-specific dependency but the package is "
+"the %s field contains an arch-specific dependency but the package '%s' is "
 "architecture all"
 msgstr ""
 "Fältet %s innehåller ett arkitekturspecifikt beroende, men paketet är för "
 "alla arkitekturer"
 
 #: scripts/dpkg-gencontrol.pl
-#, perl-format
-msgid "%s package with udeb specific field %s"
+#, fuzzy, perl-format
+#| msgid "%s package with udeb specific field %s"
+msgid "%s package '%s' with udeb specific field %s"
 msgstr "%s-paket med udeb-specifikt fält %s"
 
 #: scripts/dpkg-gencontrol.pl scripts/Dpkg/Source/Package.pm
@@ -2067,11 +2083,6 @@ msgstr ""
 "identifieras på grund av DEBIAN-underkatalogen saknas i roten av paketets "
 "byggträd"
 
-#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Cppfilt.pm
-#, perl-format
-msgid "unable to execute %s"
-msgstr "kan inte exekvera %s"
-
 #: scripts/dpkg-shlibdeps.pl
 msgid "diversions involved - output may be incorrect"
 msgstr "omdirigeringar finns - utdata kan vara felaktiga"
@@ -2137,8 +2148,9 @@ msgid "%s doesn't contain any information about the source package"
 msgstr "%s innehåller inte någon information om källkodspaketet"
 
 #: scripts/dpkg-source.pl
-#, perl-format
-msgid "'%s' is not a legal architecture string"
+#, fuzzy, perl-format
+#| msgid "'%s' is not a legal architecture string"
+msgid "'%s' is not a legal architecture string in package '%s'"
 msgstr "\"%s\" är inte en giltig arkitektursträng"
 
 #: scripts/dpkg-source.pl
@@ -2894,7 +2906,7 @@ msgstr "ett unionsberoende kan endast innehålla enkla beroenden"
 #: scripts/Dpkg/Dist/Files.pm
 #, fuzzy, perl-format
 #| msgid "badly formed line in files list file, line %d"
-msgid "badly formed package name in files list file, line %d"
+msgid "badly formed file name in files list file, line %d"
 msgstr "felformaterad rad i fillistfilen, rad %d"
 
 #: scripts/Dpkg/Dist/Files.pm
@@ -3243,6 +3255,11 @@ msgstr "%s är inte en giltig flagga för %s"
 #| msgid "cannot rename %s to %s"
 msgid "cannot copy %s to %s"
 msgstr "kan inte byta namn på %s till %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "pathname '%s' points outside source root"
+msgstr ""
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -4275,6 +4292,20 @@ msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
+
+#~ msgid "error occurred while parsing %s"
+#~ msgstr "fel vid tolkning av %s"
+
+#~ msgid "error occurred while parsing %s field: %s"
+#~ msgstr "fel vid tolkning av fältet %s: %s"
+
+#~ msgid "'%s' is not a legal architecture string"
+#~ msgstr "\"%s\" är inte en giltig arkitektursträng"
+
+#, fuzzy
+#~| msgid "badly formed line in files list file, line %d"
+#~ msgid "badly formed package name in files list file, line %d"
+#~ msgstr "felformaterad rad i fillistfilen, rad %d"
 
 #~ msgid ""
 #~ "binary package stanza %s is using an obsolete Build-Profiles field syntax"

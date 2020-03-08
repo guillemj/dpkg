@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -105,6 +105,12 @@ msgid "error writing to architecture list"
 msgstr "ошибка записи в список архитектур"
 
 #: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "не удалось просмотреть каталог «%.255s»"
+
+#: lib/dpkg/atomic-file.c
 #, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "не удалось создать новый файл «%.250s»"
@@ -191,6 +197,12 @@ msgstr "%s: внутренняя ошибка gzip при чтении: «%s»"
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: внутренняя ошибка gzip при записи"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error: '%s'"
+msgid "%s: internal gzip read error: %s"
+msgstr "%s: внутренняя ошибка gzip при чтении: «%s»"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -319,6 +331,12 @@ msgstr ""
 "каталог обновлений содержит файлы с разными длинами имён (как %d, так и %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "не удалось просмотреть каталог обновлений «%.255s»"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "не удалось просмотреть каталог обновлений «%.255s»"
@@ -380,6 +398,12 @@ msgstr "база данных состояния dpkg"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "запрошенная операция требует привилегий суперпользователя"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "не удалось получить доступ к области состояния dpkg"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1448,19 +1472,25 @@ msgid "no package information in '%.255s'"
 msgstr "в файле «%.255s» нет информации о пакете"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d package '%.255s':\n"
+#| " %.255s"
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr ""
 "анализ файла «%.255s» около строки %d пакета «%.255s»:\n"
 " %.255s"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d:\n"
+#| " %.255s"
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr ""
 "анализ файла «%.255s» около строки %d:\n"
 " %.255s"
@@ -1875,12 +1905,6 @@ msgstr "файл триггеров ci содержит неизвестную �
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "не удалось создать каталог состояния триггеров «%.250s»"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr ""
-"не удалось назначить владельца для каталога состояния триггеров «%.250s»"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "пустые имена триггеров не разрешены"
@@ -2043,8 +2067,9 @@ msgid "trying to overwrite '%.250s', which is the diverted version of '%.250s'"
 msgstr "попытка переписать «%.250s», являющийся отклонённой версией «%.250s»"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr ""
 "не удалось получить информацию о «%.255s» (который должен быть установлен)"
 
@@ -6276,6 +6301,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "Файл «%.250s» не является частью архива.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "не удалось просмотреть каталог «%.255s»"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "не удалось заново открыть часть архива «%.250s»"
@@ -6658,6 +6689,12 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "отбрасывается устаревшая подчинённая ссылка %s (%s)"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "не удалось просмотреть каталог обновлений «%.255s»"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "не удалось сбросить на диск файл «%s»"
@@ -7010,6 +7047,10 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr ""
+#~ "не удалось назначить владельца для каталога состояния триггеров «%.250s»"
 
 #~ msgid "unable to open lock file %s for testing"
 #~ msgstr "не удалось открыть файл блокировки %s для тестирования"

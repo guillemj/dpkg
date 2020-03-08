@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -110,6 +110,12 @@ msgstr "लेख्दै गर्दा त्रुटि `%s'"
 
 #: lib/dpkg/atomic-file.c
 #, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "डाइरेक्टरी `%.255s' स्क्यान गर्न सकिदैन"
+
+#: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "स्रोत फाइल `%.250s' खोल्न अक्षम"
 
@@ -205,6 +211,11 @@ msgstr "%s: आन्तरिक gzip त्रुटि: `%s'"
 #: lib/dpkg/compress.c
 #, fuzzy, c-format
 msgid "%s: internal gzip write error"
+msgstr "%s: आन्तरिक gzip त्रुटि: `%s'"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+msgid "%s: internal gzip read error: %s"
 msgstr "%s: आन्तरिक gzip त्रुटि: `%s'"
 
 #: lib/dpkg/compress.c
@@ -345,6 +356,12 @@ msgid ""
 msgstr "अद्यावधिक डाइरेक्टरीले भिन्न लम्बाई नामहरू (%d र %d दुबै) फाइलहरू समावेश गर्दछ ।"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "अद्यावधिक डाइरेक्टरी `%.255s' स्क्यान गर्न सक्दैन ।"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "अद्यावधिक डाइरेक्टरी `%.255s' स्क्यान गर्न सक्दैन ।"
@@ -406,6 +423,12 @@ msgstr "dpkg वस्तुस्थिति डेटावेश ताल�
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "अनुरोध गरिएको सञ्चालनलाई सुपर प्रयोगकर्ता विशेषाधिकार चाहिन्छ"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "dpkg स्थिति क्षेत्र पहुँच गर्न अक्षम"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1443,15 +1466,15 @@ msgstr "`%.255s' प्याकेज सूचनाहरू छैन"
 #: lib/dpkg/parsehelp.c
 #, fuzzy, c-format
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr "%s, फाइल `%.255s'मा नजिकको लाइन %d"
 
 #: lib/dpkg/parsehelp.c
 #, fuzzy, c-format
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr "%s, फाइल `%.255s'मा नजिकको लाइन %d"
 
 #: lib/dpkg/parsehelp.c
@@ -1856,11 +1879,6 @@ msgstr ""
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "डिपोट डाइरेक्ट्री `%.250s' पढ्न अक्षम"
 
-#: lib/dpkg/triglib.c
-#, fuzzy, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "डिपोट डाइरेक्ट्री `%.250s' पढ्न अक्षम"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr ""
@@ -2022,8 +2040,9 @@ msgstr ""
 "हो ।"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "`%.255s' (जुन मैले स्थापना गर्न लागेको थिए) लाई तोक्न अक्षम"
 
 #: src/archives.c
@@ -6212,6 +6231,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "फाइल `%.250s' बहुँभाग सङ्ग्रहको भाग होइन ।\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "डाइरेक्टरी `%.255s' स्क्यान गर्न सकिदैन"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "भाग फाइल `%.250s' पुन:खोल्न अक्षम भयो"
@@ -6592,6 +6617,12 @@ msgstr "छुटेको स्लेभ लिङ्क %s (%s) परित�
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "अद्यावधिक डाइरेक्टरी `%.255s' स्क्यान गर्न सक्दैन ।"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 msgid "unable to flush file '%s'"
 msgstr "vsnprintf मा फ्लस गर्न अक्षम"
 
@@ -6933,6 +6964,10 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, fuzzy
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "डिपोट डाइरेक्ट्री `%.250s' पढ्न अक्षम"
 
 #, fuzzy
 #~| msgid "unable to open tmpfile for vsnprintf"

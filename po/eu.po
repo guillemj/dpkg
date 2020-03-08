@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
@@ -104,6 +104,12 @@ msgid "error writing to architecture list"
 msgstr "errorea arkitekturaren zerrendan idaztean"
 
 #: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "ezin da '%.255s' direktorioa aztertu"
+
+#: lib/dpkg/atomic-file.c
 #, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "ezin da '%.250s' fitxategi berria sortu"
@@ -190,6 +196,12 @@ msgstr "%s: gzip-en irakurketaren barneko errorea: '%s'"
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: gzip-en idazketaren barneko errorea"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error: '%s'"
+msgid "%s: internal gzip read error: %s"
+msgstr "%s: gzip-en irakurketaren barneko errorea: '%s'"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -319,6 +331,12 @@ msgstr ""
 "dauzka (%d eta %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "ezin da '%.255s' eguneratzeen direktorioa aztertu"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "ezin da '%.255s' eguneratzeen direktorioa aztertu"
@@ -380,6 +398,12 @@ msgstr "dpkg egoeraren datu-basea"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "eskatutako eragiketak supererabiltzailearen baimena behar du"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "ezin da sartu dpkg egoera eremuan"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1450,19 +1474,25 @@ msgid "no package information in '%.255s'"
 msgstr "paketearen informaziorik ez: '%.255s'"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d package '%.255s':\n"
+#| " %.255s"
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr ""
 "'%.255s' fitxategia analizatzen %d lerrotik gertu '%.255s' paketea:\n"
 " %.255s"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d:\n"
+#| " %.255s"
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr ""
 "'%.255s' fitxategia analizatzen %d lerrotik gertu:\n"
 " %.255s"
@@ -1883,11 +1913,6 @@ msgstr "abiarazleen ci fitxategiak '%.250s' direktiba ezezaguna du"
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "ezin da sortu abiarazleen '%.250s' egoerako direktorioa"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "ezin da abiarazleen '%.250s' egoerako direktorioaren jabetza ezarri"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "izen hutsa duten abiarazleak ez dira onartzen"
@@ -2055,8 +2080,9 @@ msgstr ""
 "den"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "ezin da '%.255s' atzitu (instalatzera zihoala)"
 
 #: src/archives.c
@@ -6264,6 +6290,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "'%.250s' fitxategia ez da zati anitzeko artxibo baten zatia.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "ezin da '%.255s' direktorioa aztertu"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "ezin da '%.250s' zati-fitxategia berriro ireki"
@@ -6651,6 +6683,12 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "%s (%s) morroiaren esteka zaharkitua baztertzen"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "ezin da '%.255s' eguneratzeen direktorioa aztertu"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "ezin da '%s' fitxategia garbitu"
@@ -6998,6 +7036,9 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "ezin da abiarazleen '%.250s' egoerako direktorioaren jabetza ezarri"
 
 #~ msgid "unable to open lock file %s for testing"
 #~ msgstr "ezin da blokeoaren %s fitxategia ireki probatzeko"

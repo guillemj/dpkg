@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2016-01-14 08:22+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
@@ -106,6 +106,12 @@ msgid "error writing to architecture list"
 msgstr "gặp lỗi khi ghi vào danh sách kiến trúc"
 
 #: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "không thể quét thư mục “%.255s”"
+
+#: lib/dpkg/atomic-file.c
 #, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "không thể tạo tập tin mới “%.250s”"
@@ -192,6 +198,12 @@ msgstr "%s: lỗi đọc nội bộ của gzip: “%s”"
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: lỗi ghi nội bộ của gzip"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error: '%s'"
+msgid "%s: internal gzip read error: %s"
+msgstr "%s: lỗi đọc nội bộ của gzip: “%s”"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -320,6 +332,12 @@ msgstr ""
 "và %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "không thể quét thư mục cập nhật “%.255s”"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "không thể quét thư mục cập nhật “%.255s”"
@@ -381,6 +399,12 @@ msgstr "cơ sở dữ liệu trạng thái dpkg"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "thao tác đã yêu cầu cần quyền của siêu người dùng (superuser)"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "không thể truy cập vùng trạng thái của dpkg"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1429,19 +1453,25 @@ msgid "no package information in '%.255s'"
 msgstr "không có thông tin gói trong “%.255s”"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d package '%.255s':\n"
+#| " %.255s"
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr ""
 "phân tích tập tin “%.255s” ở gần dòng %d gói “%.255s”:\n"
 " %.255s"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d:\n"
+#| " %.255s"
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr ""
 "phân tích tập tin “%.255s” ở gần dòng %d:\n"
 " %.255s "
@@ -1850,11 +1880,6 @@ msgstr "tập tin bẫy ci chứa chỉ thị không rõ “%.250s”"
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "không thể tạo thư mục tình trạng bẫy “%.250s”"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "không thể đặt quyền sở hữu của thư mục tình trạng bẫy “%.250s”"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "không cho phép tên bẫy rỗng"
@@ -2018,8 +2043,9 @@ msgid "trying to overwrite '%.250s', which is the diverted version of '%.250s'"
 msgstr "đang thử ghi đè lên “%.250s”, phiên bản đã chuyển hướng của “%.250s”"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "không thể lấy thống kê về “%.255s” (mà trình này sắp cài đặt)"
 
 #: src/archives.c
@@ -6189,6 +6215,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "Tập tin “%.250s” không phải là phần của một kho được chia nhỏ.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "không thể quét thư mục “%.255s”"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "không thể mở lại tập tin phần “%.250s”"
@@ -6574,6 +6606,12 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "đang hủy liên kết lệ thuộc đã cũ %s (%s)."
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "không thể quét thư mục cập nhật “%.255s”"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "không thể đẩy dữ liệu của tập tin “%s” lên đĩa"
@@ -6925,6 +6963,9 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "không thể đặt quyền sở hữu của thư mục tình trạng bẫy “%.250s”"
 
 #~ msgid "unable to open lock file %s for testing"
 #~ msgstr "không thể mở tập tin khóa %s để thử"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-04-07 09:47+0200\n"
 "Last-Translator: Marcos Alvarez Costales <marcos.alvarez.costales@gmail."
 "com>\n"
@@ -113,6 +113,12 @@ msgstr "fallu al escribir `%s'"
 
 #: lib/dpkg/atomic-file.c
 #, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "nun se puede desaminar el direutoriu `%.255s'"
+
+#: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "nun se puede abrir el ficheru fonte `%.250s'"
 
@@ -208,6 +214,11 @@ msgstr "%s: fallu internu de gzip: `%s'"
 #: lib/dpkg/compress.c
 #, fuzzy, c-format
 msgid "%s: internal gzip write error"
+msgstr "%s: fallu internu de gzip: `%s'"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+msgid "%s: internal gzip read error: %s"
 msgstr "%s: fallu internu de gzip: `%s'"
 
 #: lib/dpkg/compress.c
@@ -349,6 +360,12 @@ msgstr ""
 "diferentes (%d y %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "nun puede desaminase'l direutoriu d'anovaciones `%.255s'"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "nun puede desaminase'l direutoriu d'anovaciones `%.255s'"
@@ -413,6 +430,12 @@ msgstr "nun puede bloquiase la base de datos d'estáu de dpkg"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "la operación solicitada precisa privilexos de superusuariu"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "nun puede accedese al área d'estáu de dpkg"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1509,8 +1532,8 @@ msgstr "nun hai denguna información de paquetes en `%.255s'"
 #| "%s, in file '%.255s' near line %d package '%.255s':\n"
 #| " "
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr ""
 "%s, nel ficheru '%.255s' cerca de la llinia %d paquete '%.255s':\n"
 " "
@@ -1522,7 +1545,7 @@ msgstr ""
 #| " "
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr ""
 "%s, en ficheru '%.255s' cerca de llinia %d:\n"
 " "
@@ -1961,12 +1984,6 @@ msgstr "el ficheru ci d'activadores contién la directiva desconocida `%.250s'"
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "nun pue criase'l direutoriu d'estau d'activadores `%.250s'"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr ""
-"nun pue afitase'l propietariu del direutoriu d'estau d'activadores `%.250s'"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "nun se permiten nomes de disparadores ermos"
@@ -2132,8 +2149,9 @@ msgid "trying to overwrite '%.250s', which is the diverted version of '%.250s'"
 msgstr "tentando sobrescribir `%.250s', que ye la versión esviada de `%.250s'"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr "nun pudo amosase l'estáu de `%.255s' (que taba nel intre d'instalase)"
 
 #: src/archives.c
@@ -6563,6 +6581,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "El ficheru `%.250s' nun ye parte d'un archivu multiparte.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "nun se puede desaminar el direutoriu `%.255s'"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "nun puede reabrise'l ficheru parte `%.250s'"
@@ -6992,6 +7016,12 @@ msgstr "descartando enllaz esclavu pervieyu %s (%s)."
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "nun puede desaminase'l direutoriu d'anovaciones `%.255s'"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 msgid "unable to flush file '%s'"
 msgstr "nun pue escosase vsnprintf"
 
@@ -7371,6 +7401,11 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr ""
+#~ "nun pue afitase'l propietariu del direutoriu d'estau d'activadores `"
+#~ "%.250s'"
 
 #, fuzzy
 #~| msgid "unable to open tmpfile for vsnprintf"

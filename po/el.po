@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: quad-nrg.net <yodesy@quad-nrg.net>\n"
 "Language-Team: Greek <debian-l10n-greek@lists.debian.org>\n"
@@ -116,6 +116,12 @@ msgstr "σφάλμα κατά την εγγραφή `%s'"
 
 #: lib/dpkg/atomic-file.c
 #, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "αδύνατη η ανίχνευση του καταλόγου `%.255s'"
+
+#: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "αδύνατο το άνοιγμα του αρχείου πηγής `%.250s'"
 
@@ -211,6 +217,11 @@ msgstr "%s: εσωτερικό σφάλμα gzip: `%s'"
 #: lib/dpkg/compress.c
 #, fuzzy, c-format
 msgid "%s: internal gzip write error"
+msgstr "%s: εσωτερικό σφάλμα gzip: `%s'"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+msgid "%s: internal gzip read error: %s"
 msgstr "%s: εσωτερικό σφάλμα gzip: `%s'"
 
 #: lib/dpkg/compress.c
@@ -353,6 +364,12 @@ msgstr ""
 "%d και %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "αδύνατη η σάρωση του καταλόγου ενημερώσεων `%.255s'"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "αδύνατη η σάρωση του καταλόγου ενημερώσεων `%.255s'"
@@ -415,6 +432,12 @@ msgstr "αδυναμία κλειδώματος βάσης δεδομένων κ
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "η ζητούμενη ενέργεια απαιτεί προνόμια υπερχρήστη"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "αδύνατη η πρόσβαση στην περιοχή κατάστασης dpkg"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1480,15 +1503,15 @@ msgstr "καμία πληροφορία πακέτου στο  `%.255s'"
 #: lib/dpkg/parsehelp.c
 #, fuzzy, c-format
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr "προειδοποίηση, στο αρχείο `%.255s' κοντά στη γραμμή %d"
 
 #: lib/dpkg/parsehelp.c
 #, fuzzy, c-format
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr "προειδοποίηση, στο αρχείο `%.255s' κοντά στη γραμμή %d"
 
 #: lib/dpkg/parsehelp.c
@@ -1917,13 +1940,6 @@ msgstr "triggers ci file περιέχει άγνωστη ντιρεκτίβα `%
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "αδύνατη η δημιουργία καταλόγου κατάστασης trigger `%.250s'"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr ""
-"αδύνατος ο καθορισμός της ιδιοκτησίας του καταλόγου κατάστασης trigger `"
-"%.250s'"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "δεν επιτρέπονται κενά ονόματα trigger"
@@ -2094,8 +2110,9 @@ msgstr ""
 "%.250s'"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr ""
 "αδύνατη η εύρεση κατάστασης του `%.255s' (που προσπάθησα να εγκαταστήσω)"
 
@@ -6562,6 +6579,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "Το αρχείο `%.250s' δεν είναι μέρος μιας πολυτμηματικής αρχειοθήκης.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "αδύνατη η ανίχνευση του καταλόγου `%.255s'"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "αδύνατο το επανάνοιγμα του αρχείου τμήματος `%.250s'"
@@ -6994,6 +7017,12 @@ msgstr "Αφαίρεση του παρωχημένου δευτερεύοντο�
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "αδύνατη η σάρωση του καταλόγου ενημερώσεων `%.255s'"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 msgid "unable to flush file '%s'"
 msgstr "αδύνατη η εκκένωση στο vnsprintf"
 
@@ -7344,6 +7373,11 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr ""
+#~ "αδύνατος ο καθορισμός της ιδιοκτησίας του καταλόγου κατάστασης trigger `"
+#~ "%.250s'"
 
 #, fuzzy
 #~| msgid "unable to open tmpfile for vsnprintf"

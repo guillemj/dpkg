@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2019-03-07 11:40+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -103,6 +103,12 @@ msgid "error writing to architecture list"
 msgstr "fout bij schrijven naar de lijst van architecturen"
 
 #: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
+#| msgid "cannot open directory '%s'"
+msgid "cannot create base directory for %s"
+msgstr "kan map '%s' niet openen"
+
+#: lib/dpkg/atomic-file.c
 #, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "kan nieuw bestand '%.250s' niet aanmaken"
@@ -189,6 +195,12 @@ msgstr "%s: interne leesfout van gzip: '%s'"
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: interne schrijffout van gzip"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error: '%s'"
+msgid "%s: internal gzip read error: %s"
+msgstr "%s: interne leesfout van gzip: '%s'"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -318,6 +330,12 @@ msgstr ""
 "(zowel %d als %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "kan map `%.255s' met bijwerkingen niet doorzoeken"
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "kan map `%.255s' met bijwerkingen niet doorzoeken"
@@ -376,6 +394,12 @@ msgstr "dpkg-databasevergrendeling"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "deze bewerking kan alleen uitgevoerd worden door de systeembeheerder"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access the dpkg database directory %s"
+msgid "cannot create the dpkg database directory %s"
+msgstr "kan dpkg-databasemap %s niet benaderen"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -1377,19 +1401,25 @@ msgid "no package information in '%.255s'"
 msgstr "geen pakketinformatie in '%.255s'"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d package '%.255s':\n"
+#| " %.255s"
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr ""
 "ontleden van bestand '%.255s' bij regel %d pakket '%.255s':\n"
 " %.255s"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d:\n"
+#| " %.255s"
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr ""
 "ontleden van bestand '%.255s' bij regel %d:\n"
 " %.255s"
@@ -1779,11 +1809,6 @@ msgstr "ci-triggerbestand bevat de onbekende richtlijn '%.250s'"
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "kan triggerstatusmap '%.250s' niet aanmaken"
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "kan de eigenaarschap van triggerstatusmap '%.250s' niet instellen"
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "lege triggernamen zijn niet toegelaten"
@@ -1951,8 +1976,9 @@ msgstr ""
 "'%.250s'"
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr ""
 "kan de status van '%.255s' niet opvragen (wat ik net wilde beginnen "
 "installeren)"
@@ -6012,6 +6038,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "Bestand '%.250s' is geen onderdeel van een meerdelig archief.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot open directory '%s'"
+msgid "cannot create directory %s"
+msgstr "kan map '%s' niet openen"
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "kan deelbestand '%.250s' niet opnieuw openen"
@@ -6382,6 +6414,12 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "verouderde slaafkoppeling %s wordt weggegooid (%s)."
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "kan map `%.255s' met bijwerkingen niet doorzoeken"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "kan bestand '%s' niet doorspoelen"
@@ -6741,6 +6779,9 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "Authenticatie is nodig voor het uitvoeren van update-alternatives"
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "kan de eigenaarschap van triggerstatusmap '%.250s' niet instellen"
 
 #~ msgid "unable to open lock file %s for testing"
 #~ msgstr "kan het vergrendelingsbestand %s niet openen om te testen"

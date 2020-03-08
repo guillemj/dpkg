@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-12-26 07:58+0100\n"
+"POT-Creation-Date: 2020-03-08 03:34+0100\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -103,6 +103,12 @@ msgid "error writing to architecture list"
 msgstr "fel vid skrivning till arkitekturlistan"
 
 #: lib/dpkg/atomic-file.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create base directory for %s"
+msgstr "kan inte läsa katalogen \"%.255s\""
+
+#: lib/dpkg/atomic-file.c
 #, c-format
 msgid "unable to create new file '%.250s'"
 msgstr "kunde inte skapa ny fil \"%.250s\""
@@ -189,6 +195,12 @@ msgstr "%s: internt gzip-läsfel: \"%s\""
 #, c-format
 msgid "%s: internal gzip write error"
 msgstr "%s: internt gzip-skrivfel"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error: '%s'"
+msgid "%s: internal gzip read error: %s"
+msgstr "%s: internt gzip-läsfel: \"%s\""
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -317,6 +329,12 @@ msgstr ""
 "uppdateringskatalogen innehåller filer med olika långa namn (både %d och %d)"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create the dpkg updates directory %s"
+msgstr "kan inte genomsöka uppdateringskatalogen \"%.255s\""
+
+#: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
 msgstr "kan inte genomsöka uppdateringskatalogen \"%.255s\""
@@ -378,6 +396,12 @@ msgstr "dpkg-statusdatabas"
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
 msgstr "efterfrågad operation kräver superanvändarbehörighet"
+
+#: lib/dpkg/dbmodify.c
+#, fuzzy, c-format
+#| msgid "unable to access dpkg status area"
+msgid "cannot create the dpkg database directory %s"
+msgstr "kunde inte komma åt dpkgs statusarea"
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy, c-format
@@ -1426,19 +1450,25 @@ msgid "no package information in '%.255s'"
 msgstr "ingen paketinformation i \"%.255s\""
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d package '%.255s':\n"
+#| " %.255s"
 msgid ""
-"parsing file '%.255s' near line %d package '%.255s':\n"
-" %.255s"
+"parsing file '%s' near line %d package '%s':\n"
+" "
 msgstr ""
 "tolkar filen \"%.255s\" nära rad %d paket \"%.255s\":\n"
 " %.255s"
 
 #: lib/dpkg/parsehelp.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "parsing file '%.255s' near line %d:\n"
+#| " %.255s"
 msgid ""
 "parsing file '%.255s' near line %d:\n"
-" %.255s"
+" "
 msgstr ""
 "tolkar filen \"%.255s\" nära rad %d:\n"
 " %.255s"
@@ -1848,11 +1878,6 @@ msgstr "utlösar-ci-filen innehåller okänt direktiv \"%.250s\""
 msgid "unable to create triggers state directory '%.250s'"
 msgstr "kunde inte skapa utlösarstatuskatalogen \"%.250s\""
 
-#: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to set ownership of triggers state directory '%.250s'"
-msgstr "kunde inte sätta ägare för utlösarstatuskatalogen \"%.250s\""
-
 #: lib/dpkg/trigname.c
 msgid "empty trigger names are not permitted"
 msgstr "tomma utlösarnamn är inte tillåtna"
@@ -2019,8 +2044,9 @@ msgstr ""
 "\"%.250s\""
 
 #: src/archives.c
-#, c-format
-msgid "unable to stat '%.255s' (which I was about to install)"
+#, fuzzy, c-format
+#| msgid "unable to stat '%.255s' (which I was about to install)"
+msgid "unable to stat '%.255s' (which was about to be installed)"
 msgstr ""
 "kunde inte läsa status för \"%.255s\" (vilket var vad jag just skulle "
 "installera)"
@@ -6127,6 +6153,12 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "Filen \"%.250s\" är inte del av ett flerdelat arkiv.\n"
 
 #: dpkg-split/queue.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot create directory %s"
+msgstr "kan inte läsa katalogen \"%.255s\""
+
+#: dpkg-split/queue.c
 #, c-format
 msgid "unable to reopen part file '%.250s'"
 msgstr "kunde inte öppna om delfilen \"%.250s\""
@@ -6501,6 +6533,12 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "kastar bort föråldrad slavlänk %s (%s)"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan updates directory '%.255s'"
+msgid "cannot create administrative directory '%s'"
+msgstr "kan inte genomsöka uppdateringskatalogen \"%.255s\""
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "kunde inte tömma (flush) filen \"%s\""
@@ -6844,6 +6882,9 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid "unable to set ownership of triggers state directory '%.250s'"
+#~ msgstr "kunde inte sätta ägare för utlösarstatuskatalogen \"%.250s\""
 
 #~ msgid "unable to open lock file %s for testing"
 #~ msgstr "kunde inte låsa filen %s för test"
