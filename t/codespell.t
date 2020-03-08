@@ -56,6 +56,9 @@ my $tags = qx(codespell @codespell_opts 2>&1);
 $tags =~ s/^WARNING: Binary file:.*\n//mg;
 $tags =~ s{^\./build-aux/.*\n}{}mg;
 $tags =~ s{^\./man/[a-zA-Z_]+/.*\n}{}mg;
+# XXX: Ignore python-3.8 runtime warnings:
+$tags =~ s{^.*: RuntimeWarning: line buffering .*\n}{}mg;
+$tags =~ s{^\s*file = builtins.open.*\n}{}mg;
 chomp $tags;
 
 my $ok = length $tags == 0;
