@@ -347,6 +347,16 @@ sub do_build {
 	}
     }
 
+    my $v = Dpkg::Version->new($self->{fields}->{'Version'});
+    if ($sourcestyle =~ m/[kpursKPUR]/) {
+        error(g_('non-native package version does not contain a revision'))
+            if $v->is_native();
+    } else {
+        # FIXME: This will become fatal in the near future.
+        warning(g_('native package version may not have a revision'))
+            unless $v->is_native();
+    }
+
     my ($dirname, $dirbase) = fileparse($dir);
     if ($dirname ne $basedirname) {
 	warning(g_("source directory '%s' is not <sourcepackage>" .
