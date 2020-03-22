@@ -50,7 +50,7 @@ log_message(const char *fmt, ...)
 		return;
 
 	if (logfd < 0) {
-		logfd = open(log_file, O_CREAT | O_APPEND, 0644);
+		logfd = open(log_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (logfd < 0) {
 			notice(_("could not open log '%s': %s"),
 			       log_file, strerror(errno));
