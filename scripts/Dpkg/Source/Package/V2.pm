@@ -440,6 +440,11 @@ sub _generate_patch {
 
         if (@origtarsigns) {
             $self->check_original_tarball_signature($dir, @origtarsigns);
+        } else {
+            my $key = $self->get_upstream_signing_key($dir);
+            if (-e $key) {
+                error(g_('upstream signing key but no upstream tarball signature'));
+            }
         }
     }
 
