@@ -73,7 +73,7 @@ log_message(const char *fmt, ...)
 	varbuf_end_str(&log);
 	va_end(args);
 
-	fd_write(logfd, log.buf, log.size);
+	fd_write(logfd, log.buf, log.used);
 }
 
 struct pipef {
