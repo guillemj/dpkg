@@ -34,7 +34,7 @@ is the one that supports the extraction of the source package.
 use strict;
 use warnings;
 
-our $VERSION = '2.00';
+our $VERSION = '2.01';
 our @EXPORT_OK = qw(
     get_default_diff_ignore_regex
     set_default_diff_ignore_regex
@@ -398,6 +398,18 @@ sub find_original_tarballs {
     return @tar;
 }
 
+=item $p->get_upstream_signing_key($dir)
+
+Get the filename for the upstream key.
+
+=cut
+
+sub get_upstream_signing_key {
+    my ($self, $dir) = @_;
+
+    return "$dir/debian/upstream/signing-key.asc";
+}
+
 =item $p->check_original_tarball_signature($dir, @asc)
 
 Verify the original upstream tarball signatures @asc using the upstream
@@ -410,7 +422,7 @@ If any inconsistency is discovered, it immediately errors out.
 sub check_original_tarball_signature {
     my ($self, $dir, @asc) = @_;
 
-    my $upstream_key = "$dir/debian/upstream/signing-key.asc";
+    my $upstream_key = $self->get_upstream_signing_key($dir);
     if (not -e $upstream_key) {
         warning(g_('upstream tarball signatures but no upstream signing key'));
         return;
@@ -670,6 +682,10 @@ sub write_dsc {
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.01 (dpkg 1.20.1)
+
+New method: get_upstream_signing_key().
 
 =head2 Version 2.00 (dpkg 1.20.0)
 
