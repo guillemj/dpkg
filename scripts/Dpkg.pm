@@ -298,6 +298,10 @@ Deprecated variables: $version, $admindir, $dpkglibdir and $pkgdatadir.
 
 Mark the module as public.
 
+=head1 LICENSE
+
+See the header comment on each module for their particular license.
+
 =cut
 
 1;
