@@ -525,6 +525,11 @@ sub set_testsuite_triggers_field
     return if $fields->{'Testsuite-Triggers'};
 
     foreach my $test ($tests->get()) {
+        if (not exists $test->{Tests} and not exists $test->{'Test-Command'}) {
+            error(g_('test control %s is missing %s or %s field'),
+                  'debian/tests/control', 'Tests', 'Test-Command');
+        }
+
         next unless $test->{Depends};
 
         my $deps = deps_parse($test->{Depends}, use_arch => 0, tests_dep => 1);
