@@ -33,6 +33,7 @@ man_MANS = \
 	dpkg-deb.1 \
 	dpkg-distaddfile.1 \
 	dpkg-divert.1 \
+	dpkg-fsys-usrunmess.8 \
 	dpkg-genbuildinfo.1 \
 	dpkg-genchanges.1 \
 	dpkg-gencontrol.1 \
@@ -107,6 +108,7 @@ EXTRA_DIST = \
 	dpkg-deb.pod \
 	dpkg-distaddfile.pod \
 	dpkg-divert.pod \
+	dpkg-fsys-usrunmess.pod \
 	dpkg-genbuildinfo.pod \
 	dpkg-genchanges.pod \
 	dpkg-gencontrol.pod \
