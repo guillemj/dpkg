@@ -460,7 +460,7 @@ info($origsrcmsg);
 
 $fields->{'Format'} = $substvars->get('Format');
 
-if (!defined($fields->{'Date'})) {
+if (length $fields->{'Date'} == 0) {
     setlocale(LC_TIME, 'C');
     $fields->{'Date'} = POSIX::strftime('%a, %d %b %Y %T %z', localtime);
     setlocale(LC_TIME, '');
