@@ -2696,8 +2696,8 @@ main(int argc, char **argv)
 
 			set_action(ACTION_INSTALL);
 			if (MISSING_ARGS(4))
-				badusage(_("--install needs <link> <name> "
-				           "<path> <priority>"));
+				badusage(_("--%s needs <link> <name> <path> "
+					   "<priority>"), argv[i] + 2);
 
 			prio_str = argv[i + 4];
 
@@ -2753,9 +2753,11 @@ main(int argc, char **argv)
 			struct slave_link *sl;
 
 			if (action != ACTION_INSTALL)
-				badusage(_("--slave only allowed with --install"));
+				badusage(_("--%s only allowed with --%s"),
+				         argv[i] + 2, "install");
 			if (MISSING_ARGS(3))
-				badusage(_("--slave needs <link> <name> <path>"));
+				badusage(_("--%s needs <link> <name> <path>"),
+				         argv[i] + 2);
 
 			slink = argv[i + 1];
 			sname = argv[i + 2];
@@ -2787,17 +2789,20 @@ main(int argc, char **argv)
 			i+= 3;
 		} else if (strcmp("--log", argv[i]) == 0) {
 			if (MISSING_ARGS(1))
-				badusage(_("--%s needs a <file> argument"), "log");
+				badusage(_("--%s needs a <file> argument"),
+				         argv[i] + 2);
 			log_file = argv[i + 1];
 			i++;
 		} else if (strcmp("--altdir", argv[i]) == 0) {
 			if (MISSING_ARGS(1))
-				badusage(_("--%s needs a <directory> argument"), "log");
+				badusage(_("--%s needs a <directory> argument"),
+				         argv[i] + 2);
 			altdir = argv[i + 1];
 			i++;
 		} else if (strcmp("--admindir", argv[i]) == 0) {
 			if (MISSING_ARGS(1))
-				badusage(_("--%s needs a <directory> argument"), "log");
+				badusage(_("--%s needs a <directory> argument"),
+				         argv[i] + 2);
 			admdir = argv[i + 1];
 			i++;
 		} else if (strcmp("--skip-auto", argv[i]) == 0) {
@@ -2810,9 +2815,11 @@ main(int argc, char **argv)
 	}
 
 	if (action == ACTION_NONE)
-		badusage(_("need --display, --query, --list, --get-selections, "
-		           "--config, --set, --set-selections, --install, "
-		           "--remove, --all, --remove-all or --auto"));
+		badusage(_("need --%s, --%s, --%s, --%s, --%s, --%s, --%s, "
+		           "--%s, --%s, --%s, --%s or --%s"),
+		         "display", "query", "list", "get-selections",
+		         "config", "set", "set-selections", "install",
+		         "remove", "all", "remove-all", "auto");
 
 	/* The following actions might modify the current alternative. */
 	if (action == ACTION_SET ||
