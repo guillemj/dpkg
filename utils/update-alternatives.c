@@ -462,6 +462,29 @@ rename_mv(const char *src, const char *dst)
 	return false;
 }
 
+static void
+xrename(const char *src, const char *dst)
+{
+	if (!rename_mv(src, dst))
+		syserr(_("unable to install '%.250s' as '%.250s'"), src, dst);
+}
+
+static void DPKG_ATTR_PRINTF(1)
+xunlink_args(const char *fmt, ...)
+{
+	va_list args;
+	char *path;
+
+	va_start(args, fmt);
+	path = xvasprintf(fmt, args);
+	va_end(args);
+
+	if (unlink(path) < 0 && errno != ENOENT)
+		syserr(_("unable to remove '%s'"), path);
+
+	free(path);
+}
+
 static int
 make_path(const char *pathname, mode_t mode)
 {
@@ -1452,7 +1475,7 @@ alternative_save(struct alternative *a)
 		syserr(_("unable to close file '%s'"), ctx.filename);
 
 	/* Put in place atomically. */
-	checked_mv(filenew, file);
+	xrename(filenew, file);
 
 	free(filenew);
 	free(file);
@@ -1888,7 +1911,7 @@ alternative_remove_files(struct alternative *a)
 		checked_rm_args("%s/%s", altdir, sl->name);
 	}
 	/* Drop admin file */
-	checked_rm_args("%s/%s", admdir, a->master_name);
+	xunlink_args("%s/%s", admdir, a->master_name);
 }
 
 static const char *
