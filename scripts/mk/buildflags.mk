@@ -1,14 +1,14 @@
-# This Makefile snippet defines the following variables:
+# This Makefile fragment (since dpkg 1.16.1) defines the following variables:
 #
-# CFLAGS: flags for the C compiler
-# CPPFLAGS: flags for the C preprocessor
-# CXXFLAGS: flags for the C++ compiler
-# OBJCFLAGS: flags for the Objective C compiler
-# OBJCXXFLAGS: flags for the Objective C++ compiler
-# GCJFLAGS: flags for the GNU Java compiler
-# FFLAGS: flags for the Fortran 77 compiler
-# FCFLAGS: flags for the Fortran 9x compiler
-# LDFLAGS: flags for the linker
+#   CFLAGS: flags for the C compiler.
+#   CPPFLAGS: flags for the C preprocessor.
+#   CXXFLAGS: flags for the C++ compiler.
+#   OBJCFLAGS: flags for the Objective C compiler.
+#   OBJCXXFLAGS: flags for the Objective C++ compiler.
+#   GCJFLAGS: flags for the GNU Java compiler.
+#   FFLAGS: flags for the Fortran 77 compiler.
+#   FCFLAGS: flags for the Fortran 9x compiler.
+#   LDFLAGS: flags for the linker.
 #
 # You can also export them in the environment by setting
 # DPKG_EXPORT_BUILDFLAGS to a non-empty value.

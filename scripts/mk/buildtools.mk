@@ -1,23 +1,24 @@
-# This Makefile snippet defines the following variables for host tools:
+# This Makefile fragment (since dpkg 1.19.0) defines the following variables
+# for host tools:
 #
-# AS: assembler
-# CPP: C preprocessor
-# CC: C compiler
-# CXX: C++ compiler
-# OBJC: Objective C compiler
-# OBJCXX: Objective C++ compiler
-# GCJ: GNU Java compiler
-# F77: Fortran 77 compiler
-# FC: Fortran 9x compiler
-# LD: linker
-# STRIP: strip objects
-# OBJCOPY: copy objects
-# OBJDUMP: dump objects
-# NM: names lister
-# AR: archiver
-# RANLIB: archive index generator
-# PKG_CONFIG: pkg-config tool
-# QMAKE: Qt build system generator
+#   AS: assembler (since dpkg 1.19.1).
+#   CPP: C preprocessor.
+#   CC: C compiler.
+#   CXX: C++ compiler.
+#   OBJC: Objective C compiler.
+#   OBJCXX: Objective C++ compiler.
+#   GCJ: GNU Java compiler.
+#   F77: Fortran 77 compiler.
+#   FC: Fortran 9x compiler.
+#   LD: linker.
+#   STRIP: strip objects (since dpkg 1.19.1).
+#   OBJCOPY: copy objects (since dpkg 1.19.1).
+#   OBJDUMP: dump objects (since dpkg 1.19.1).
+#   NM: names lister (since dpkg 1.19.1).
+#   AR: archiver (since dpkg 1.19.1).
+#   RANLIB: archive index generator (since dpkg 1.19.1).
+#   PKG_CONFIG: pkg-config tool.
+#   QMAKE: Qt build system generator (since dpkg 1.20.0).
 #
 # All the above variables have a counterpart variable for the build tool,
 # as in CC → CC_FOR_BUILD.

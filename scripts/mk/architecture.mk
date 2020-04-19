@@ -1,6 +1,6 @@
-# This Makefile snippet defines all the DEB_HOST_* / DEB_BUILD_* variables
-# that dpkg-architecture can return. Existing values of those variables
-# are preserved as per policy.
+# This Makefile frament (since dpkg 1.16.1) defines all the DEB_HOST_* and
+# DEB_BUILD_* variables that dpkg-architecture can return. Existing values
+# of those variables are preserved as per policy.
 
 dpkg_lazy_eval ?= $$(or $$(value DPKG_CACHE_$(1)),$$(eval DPKG_CACHE_$(1) := $$(shell $(2)))$$(value DPKG_CACHE_$(1)))
 
