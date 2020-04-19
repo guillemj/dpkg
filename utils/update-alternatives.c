@@ -424,46 +424,6 @@ pathname_is_missing(const char *pathname)
 	syserr(_("cannot stat file '%s'"), pathname);
 }
 
-static void
-set_action(enum action new_action)
-{
-	if (action)
-		badusage(_("two commands specified: --%s and --%s"),
-		         action_names[action].name, action_names[new_action].name);
-	action = new_action;
-}
-
-static void
-set_action_from_name(const char *new_action)
-{
-	size_t i;
-
-	for (i = 0; i < array_count(action_names); i++) {
-		if (strcmp(new_action, action_names[i].name) == 0) {
-			set_action(action_names[i].action);
-			return;
-		}
-	}
-
-	assert(!"unknown action name");
-}
-
-static const char *
-admindir_init(void)
-{
-	const char *basedir, *basedir_env;
-
-	/* Try to get the admindir from an environment variable, usually set
-	 * by the system package manager. */
-	basedir_env = getenv(ADMINDIR_ENVVAR);
-	if (basedir_env)
-		basedir = basedir_env;
-	else
-		basedir = ADMINDIR;
-
-	return xasprintf("%s/%s", basedir, "alternatives");
-}
-
 static int
 spawn(const char *prog, const char *args[])
 {
@@ -2641,6 +2601,46 @@ alternative_check_install_args(struct alternative *inst_alt,
 /*
  * Main program
  */
+
+static void
+set_action(enum action new_action)
+{
+	if (action)
+		badusage(_("two commands specified: --%s and --%s"),
+		         action_names[action].name, action_names[new_action].name);
+	action = new_action;
+}
+
+static void
+set_action_from_name(const char *new_action)
+{
+	size_t i;
+
+	for (i = 0; i < array_count(action_names); i++) {
+		if (strcmp(new_action, action_names[i].name) == 0) {
+			set_action(action_names[i].action);
+			return;
+		}
+	}
+
+	assert(!"unknown action name");
+}
+
+static const char *
+admindir_init(void)
+{
+	const char *basedir, *basedir_env;
+
+	/* Try to get the admindir from an environment variable, usually set
+	 * by the system package manager. */
+	basedir_env = getenv(ADMINDIR_ENVVAR);
+	if (basedir_env)
+		basedir = basedir_env;
+	else
+		basedir = ADMINDIR;
+
+	return xasprintf("%s/%s", basedir, "alternatives");
+}
 
 #define MISSING_ARGS(nb) (argc < i + nb + 1)
 
