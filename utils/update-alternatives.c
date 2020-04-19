@@ -397,33 +397,6 @@ areadlink(const char *linkname)
 	return buf;
 }
 
-static char *
-xreadlink(const char *linkname)
-{
-	char *buf;
-
-	buf = areadlink(linkname);
-	if (buf == NULL)
-		syserr(_("unable to read link '%.255s'"), linkname);
-
-	return buf;
-}
-
-static bool
-pathname_is_missing(const char *pathname)
-{
-	struct stat st;
-
-	errno = 0;
-	if (stat(pathname, &st) == 0)
-		return false;
-
-	if (errno == ENOENT)
-		return true;
-
-	syserr(_("cannot stat file '%s'"), pathname);
-}
-
 static int
 spawn(const char *prog, const char *args[])
 {
@@ -515,22 +488,80 @@ make_path(const char *pathname, mode_t mode)
 	return 0;
 }
 
+/*
+ * Filesystem access for alernative handling.
+ */
+
+static char *
+fsys_gen_admindir(const char *basedir)
+{
+	return xasprintf("%s/%s", basedir, "alternatives");
+}
+
+static bool
+fsys_pathname_is_missing(const char *pathname)
+{
+	struct stat st;
+
+	errno = 0;
+	if (stat(pathname, &st) == 0)
+		return false;
+
+	if (errno == ENOENT)
+		return true;
+
+	syserr(_("cannot stat file '%s'"), pathname);
+}
+
+static int
+fsys_lstat(const char *linkname, struct stat *st)
+{
+	int rc;
+
+	errno = 0;
+	rc = lstat(linkname, st);
+
+	return rc;
+}
+
+static char *
+fsys_areadlink(const char *linkname)
+{
+	char *target;
+
+	target = areadlink(linkname);
+
+	return target;
+}
+
+static char *
+fsys_xreadlink(const char *linkname)
+{
+	char *buf;
+
+	buf = fsys_areadlink(linkname);
+	if (buf == NULL)
+		syserr(_("unable to read link '%.255s'"), linkname);
+
+	return buf;
+}
+
 static void
-checked_symlink(const char *filename, const char *linkname)
+fsys_symlink(const char *filename, const char *linkname)
 {
 	if (symlink(filename, linkname))
 		syserr(_("error creating symbolic link '%.255s'"), linkname);
 }
 
 static void
-checked_mv(const char *src, const char *dst)
+fsys_mv(const char *src, const char *dst)
 {
 	if (!rename_mv(src, dst))
 		syserr(_("unable to install '%.250s' as '%.250s'"), src, dst);
 }
 
 static void
-checked_rm(const char *f)
+fsys_rm(const char *f)
 {
 	if (!unlink(f))
 		return;
@@ -540,7 +571,7 @@ checked_rm(const char *f)
 }
 
 static void DPKG_ATTR_PRINTF(1)
-checked_rm_args(const char *fmt, ...)
+fsys_rm_args(const char *fmt, ...)
 {
 	va_list args;
 	char *path;
@@ -549,7 +580,7 @@ checked_rm_args(const char *fmt, ...)
 	path = xvasprintf(fmt, args);
 	va_end(args);
 
-	checked_rm(path);
+	fsys_rm(path);
 	free(path);
 }
 
@@ -656,7 +687,7 @@ fileset_can_install_slave(struct fileset *fs, const char *slave_name)
 	if (fileset_has_slave(fs, slave_name)) {
 		const char *slave = fileset_get_slave(fs, slave_name);
 
-		if (!pathname_is_missing(slave))
+		if (!fsys_pathname_is_missing(slave))
 			return true;
 	}
 
@@ -1264,7 +1295,7 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 	if (fs)
 		ctx->bad_format(ctx, _("duplicate path %s"), master_file);
 
-	if (pathname_is_missing(master_file)) {
+	if (fsys_pathname_is_missing(master_file)) {
 		char *junk;
 
 		/* File not found - remove. */
@@ -1500,7 +1531,7 @@ alternative_get_current(struct alternative *a)
 		return a->current;
 
 	curlink = xasprintf("%s/%s", altdir, a->master_name);
-	file = areadlink(curlink);
+	file = fsys_areadlink(curlink);
 	if (file == NULL && errno != ENOENT)
 		syserr(_("cannot stat file '%s'"), curlink);
 	free(curlink);
@@ -1748,10 +1779,10 @@ alternative_commit(struct alternative *a)
 		case OPCODE_NOP:
 			break;
 		case OPCODE_RM:
-			checked_rm(op->arg_a);
+			fsys_rm(op->arg_a);
 			break;
 		case OPCODE_MV:
-			checked_mv(op->arg_a, op->arg_b);
+			fsys_mv(op->arg_a, op->arg_b);
 			break;
 		}
 	}
@@ -1770,8 +1801,7 @@ alternative_path_classify(const char *linkname)
 {
 	struct stat st;
 
-	errno = 0;
-	if (lstat(linkname, &st) == -1) {
+	if (fsys_lstat(linkname, &st) == -1) {
 		if (errno != ENOENT)
 			syserr(_("cannot stat file '%s'"), linkname);
 		return ALT_PATH_MISSING;
@@ -1805,7 +1835,7 @@ alternative_path_needs_update(const char *linkname, const char *filename)
 
 	switch (alternative_path_classify(linkname)) {
 	case ALT_PATH_SYMLINK:
-		linktarget = xreadlink(linkname);
+		linktarget = fsys_xreadlink(linkname);
 		if (strcmp(linktarget, filename) == 0)
 			update = false;
 		else
@@ -1831,16 +1861,16 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 	/* Create link in /etc/alternatives. */
 	fntmp = xasprintf("%s/%s" ALT_TMP_EXT, altdir, name);
 	fn = xasprintf("%s/%s", altdir, name);
-	checked_rm(fntmp);
-	checked_symlink(file, fntmp);
+	fsys_rm(fntmp);
+	fsys_symlink(file, fntmp);
 	alternative_add_commit_op(a, OPCODE_MV, fntmp, fn);
 	free(fntmp);
 
 	if (alternative_path_needs_update(linkname, fn)) {
 		/* Create alternative link. */
 		fntmp = xasprintf("%s" ALT_TMP_EXT, linkname);
-		checked_rm(fntmp);
-		checked_symlink(fn, fntmp);
+		fsys_rm(fntmp);
+		fsys_symlink(fn, fntmp);
 		alternative_add_commit_op(a, OPCODE_MV, fntmp, linkname);
 		free(fntmp);
 	}
@@ -1895,20 +1925,20 @@ alternative_remove_files(struct alternative *a)
 {
 	struct slave_link *sl;
 
-	checked_rm_args("%s" ALT_TMP_EXT, a->master_link);
+	fsys_rm_args("%s" ALT_TMP_EXT, a->master_link);
 	if (alternative_path_can_remove(a->master_link))
-		checked_rm(a->master_link);
+		fsys_rm(a->master_link);
 
-	checked_rm_args("%s/%s" ALT_TMP_EXT, altdir, a->master_name);
-	checked_rm_args("%s/%s", altdir, a->master_name);
+	fsys_rm_args("%s/%s" ALT_TMP_EXT, altdir, a->master_name);
+	fsys_rm_args("%s/%s", altdir, a->master_name);
 
 	for (sl = a->slaves; sl; sl = sl->next) {
-		checked_rm_args("%s" ALT_TMP_EXT, sl->link);
+		fsys_rm_args("%s" ALT_TMP_EXT, sl->link);
 		if (alternative_path_can_remove(sl->link))
-			checked_rm(sl->link);
+			fsys_rm(sl->link);
 
-		checked_rm_args("%s/%s" ALT_TMP_EXT, altdir, sl->name);
-		checked_rm_args("%s/%s", altdir, sl->name);
+		fsys_rm_args("%s/%s" ALT_TMP_EXT, altdir, sl->name);
+		fsys_rm_args("%s/%s", altdir, sl->name);
 	}
 	/* Drop admin file */
 	xunlink_args("%s/%s", admdir, a->master_name);
@@ -1953,7 +1983,7 @@ alternative_has_broken_slave(struct slave_link *sl, struct fileset *fs)
 		char *sl_altlnk, *sl_current;
 
 		/* Verify link -> /etc/alternatives/foo */
-		sl_altlnk = areadlink(sl->link);
+		sl_altlnk = fsys_areadlink(sl->link);
 		if (!sl_altlnk)
 			return true;
 		wanted = xasprintf("%s/%s", altdir, sl->name);
@@ -1964,7 +1994,7 @@ alternative_has_broken_slave(struct slave_link *sl, struct fileset *fs)
 		}
 		free(sl_altlnk);
 		/* Verify /etc/alternatives/foo -> file */
-		sl_current = areadlink(wanted);
+		sl_current = fsys_areadlink(wanted);
 		free(wanted);
 		if (!sl_current)
 			return true;
@@ -2000,7 +2030,7 @@ alternative_needs_update(struct alternative *a)
 	struct slave_link *sl;
 
 	/* Check master link */
-	altlnk = areadlink(a->master_link);
+	altlnk = fsys_areadlink(a->master_link);
 	if (!altlnk)
 		return ALT_UPDATE_LINK_BROKEN;
 	wanted = xasprintf("%s/%s", altdir, a->master_name);
@@ -2205,7 +2235,7 @@ alternative_select_mode(struct alternative *a, const char *current_choice)
 	if (current_choice) {
 		/* Detect manually modified alternative, switch to manual. */
 		if (!alternative_has_choice(a, current_choice)) {
-			if (pathname_is_missing(current_choice)) {
+			if (fsys_pathname_is_missing(current_choice)) {
 				warning(_("%s/%s is dangling; it will be updated "
 				          "with best choice"), altdir, a->master_name);
 				alternative_set_status(a, ALT_ST_AUTO);
@@ -2247,7 +2277,7 @@ alternative_evolve_slave(struct alternative *a, const char *cur_choice,
 		char *lnk;
 
 		lnk = xasprintf("%s/%s", altdir, sl->name);
-		new_file = areadlink(lnk);
+		new_file = fsys_areadlink(lnk);
 		free(lnk);
 	}
 	if (strcmp(old, new) != 0 &&
@@ -2255,14 +2285,14 @@ alternative_evolve_slave(struct alternative *a, const char *cur_choice,
 		bool rename_link = false;
 
 		if (new_file)
-			rename_link = !pathname_is_missing(new_file);
+			rename_link = !fsys_pathname_is_missing(new_file);
 
 		if (rename_link) {
 			info(_("renaming %s slave link from %s to %s"),
 			     sl->name, old, new);
-			checked_mv(old, new);
+			fsys_mv(old, new);
 		} else {
-			checked_rm(old);
+			fsys_rm(old);
 		}
 
 		sl->updated = true;
@@ -2281,7 +2311,7 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 	if (is_link && strcmp(a->master_link, b->master_link) != 0) {
 		info(_("renaming %s link from %s to %s"), b->master_name,
 		     a->master_link, b->master_link);
-		checked_mv(a->master_link, b->master_link);
+		fsys_mv(a->master_link, b->master_link);
 	}
 	alternative_set_link(a, b->master_link);
 
@@ -2571,7 +2601,7 @@ alternative_check_install_args(struct alternative *inst_alt,
 		      inst_alt->master_link, found->master_name);
 	}
 
-	if (pathname_is_missing(fileset->master_file))
+	if (fsys_pathname_is_missing(fileset->master_file))
 		error(_("alternative path %s doesn't exist"),
 		      fileset->master_file);
 
@@ -2662,7 +2692,7 @@ admindir_init(void)
 	else
 		basedir = ADMINDIR;
 
-	return xasprintf("%s/%s", basedir, "alternatives");
+	return fsys_gen_admindir(basedir);
 }
 
 #define MISSING_ARGS(nb) (argc < i + nb + 1)
