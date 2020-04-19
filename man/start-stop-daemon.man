@@ -48,10 +48,10 @@ behaves similar to
 will scan the process table looking for any processes which
 match the process name, parent pid, uid, and/or gid (if specified). Any
 matching process will prevent
-.BR \-\-start
+.B \-\-start
 from starting the daemon. All matching processes will be sent the TERM
 signal (or the one specified via \fB\-\-signal\fP or \fB\-\-retry\fP) if
-.BR \-\-stop
+.B \-\-stop
 is specified. For daemons which have long-lived children
 which need to live through a
 .BR \-\-stop ,
@@ -64,7 +64,7 @@ Check for the existence of a specified process.
 If such a process exists,
 .B start\-stop\-daemon
 does nothing, and exits with error status 1 (0 if
-.BR \-\-oknodo
+.B \-\-oknodo
 is specified).
 If such a process does not exist, it starts an
 instance, using either the executable specified by
@@ -72,7 +72,7 @@ instance, using either the executable specified by
 or, if specified, by
 .BR \-\-startas .
 Any arguments given after
-.BR \-\-
+.B \-\-
 on the command line are passed unmodified to the program being
 started.
 .TP
@@ -87,7 +87,7 @@ If such a process does not exist,
 .B start\-stop\-daemon
 exits with error status 1
 (0 if
-.BR \-\-oknodo
+.B \-\-oknodo
 is specified). If
 .B \-\-retry
 is specified, then
@@ -199,7 +199,7 @@ which means to repeat the rest of the schedule forever if
 necessary.
 
 If the end of the schedule is reached and
-.BR forever
+.B forever
 is not specified, then
 .B start\-stop\-daemon
 exits with error status 2.
@@ -270,7 +270,7 @@ reason. This is a last resort, and is only meant for programs that either
 make no sense forking on their own, or where it's not feasible to add the
 code for them to do this themselves.
 .TP
-.BR \-\-notify\-await
+.B \-\-notify\-await
 Wait for the background process to send a readiness notification before
 considering the service started (since version 1.19.3).
 This implements parts of the systemd readiness protocol, as specified
