@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 9;
+use Test::More tests => 10;
 use Test::Dpkg qw(:paths);
 
 use File::Spec::Functions qw(rel2abs);
@@ -74,6 +74,12 @@ $ENV{"TEST_$_"} = $arch{$_} foreach keys %arch;
 test_makefile('architecture.mk');
 $ENV{$_} = $arch{$_} foreach keys %arch;
 test_makefile('architecture.mk');
+
+$ENV{DEB_BUILD_OPTIONS} = 'parallel=16';
+$ENV{TEST_DEB_BUILD_OPTION_PARALLEL} = '16';
+test_makefile('buildopts.mk');
+delete $ENV{DEB_BUILD_OPTIONS};
+delete $ENV{TEST_DEB_BUILD_OPTION_PARALLEL};
 
 my %buildflag = cmd_get_vars($ENV{PERL}, "$srcdir/dpkg-buildflags.pl");
 
