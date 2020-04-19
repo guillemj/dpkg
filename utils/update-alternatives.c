@@ -100,6 +100,7 @@ enum output_mode {
 /* Action to perform */
 static enum action action = ACTION_NONE;
 static const char *log_file = LOGDIR "/alternatives.log";
+static FILE *fh_log = NULL;
 /* Skip alternatives properly configured in auto mode (for --config) */
 static int opt_skip_auto = 0;
 static int opt_verbose = OUTPUT_NORMAL;
@@ -286,6 +287,32 @@ pr(char const *fmt, ...)
 	printf("\n");
 }
 
+static void DPKG_ATTR_PRINTF(1)
+log_msg(const char *fmt, ...)
+{
+	va_list args;
+
+	if (fh_log == NULL) {
+		fh_log = fopen(log_file, "a");
+		if (fh_log == NULL && errno != EACCES)
+			syserr(_("cannot append to '%s'"), log_file);
+	}
+
+	if (fh_log) {
+		char timestamp[64];
+		time_t now;
+
+		time(&now);
+		strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S",
+		         localtime(&now));
+		fprintf(fh_log, "%s %s: ", PROGNAME, timestamp);
+		va_start(args, fmt);
+		vfprintf(fh_log, fmt, args);
+		va_end(args);
+		fprintf(fh_log, "\n");
+	}
+}
+
 static void *
 xmalloc(size_t size)
 {
@@ -435,34 +462,6 @@ admindir_init(void)
 		basedir = ADMINDIR;
 
 	return xasprintf("%s/%s", basedir, "alternatives");
-}
-
-static FILE *fh_log = NULL;
-
-static void DPKG_ATTR_PRINTF(1)
-log_msg(const char *fmt, ...)
-{
-	va_list args;
-
-	if (fh_log == NULL) {
-		fh_log = fopen(log_file, "a");
-		if (fh_log == NULL && errno != EACCES)
-			syserr(_("cannot append to '%s'"), log_file);
-	}
-
-	if (fh_log) {
-		char timestamp[64];
-		time_t now;
-
-		time(&now);
-		strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S",
-		         localtime(&now));
-		fprintf(fh_log, "%s %s: ", PROGNAME, timestamp);
-		va_start(args, fmt);
-		vfprintf(fh_log, fmt, args);
-		va_end(args);
-		fprintf(fh_log, "\n");
-	}
 }
 
 static int
