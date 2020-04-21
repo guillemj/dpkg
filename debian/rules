@@ -97,9 +97,9 @@ install: check
 	   $(D)/usr/share/lintian/profiles/dpkg/main.profile
 
 define dpkg-installmanl10n
-for f in `sed -e 's:\*:*/*:' debian/$(1).manpages`; do \
+for f in `sed -e 's:\*:*/*:' -e 's:^:$(D)/:' debian/$(1).manpages`; do \
 	test -e $$f && \
-	install -D $$f `echo $$f | sed -e 's:^debian/tmp:debian/$(1):'`; \
+	install -D $$f `echo $$f | sed -e 's:^$(D):debian/$(1):'`; \
 done
 endef
 
