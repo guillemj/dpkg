@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.20.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-03-08 03:34+0100\n"
-"PO-Revision-Date: 2020-03-09 19:40+0100\n"
+"POT-Creation-Date: 2020-04-21 19:08+0200\n"
+"PO-Revision-Date: 2020-04-21 19:13+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -2033,6 +2033,11 @@ msgid "%s field contains value %s, but no tests control file %s"
 msgstr "%s-Feld enthält Wert %s, aber keine Teststeuerdatei %s"
 
 #: scripts/dpkg-source.pl
+#, perl-format
+msgid "test control %s is missing %s or %s field"
+msgstr "Teststeuerdatei %s fehlt das Feld %s oder %s."
+
+#: scripts/dpkg-source.pl
 msgctxt "source options"
 msgid "<none>"
 msgstr "<keine>"
@@ -3223,6 +3228,14 @@ msgid "unable to stat putative unpacked orig '%s'"
 msgstr ""
 "unmöglich, das vermeintlich ausgepackte Original »%s« mit stat abzufragen"
 
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Quilt.pm
+msgid "non-native package version does not contain a revision"
+msgstr "nichtnative Paketversion enthält keine Revision"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
+msgid "native package version may not have a revision"
+msgstr "native Paketversion darf keine Revision haben"
+
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid "source directory '%s' is not <sourcepackage>-<upstreamversion> '%s'"
@@ -3273,6 +3286,12 @@ msgstr "Berechtigung von »%s« kann nicht geändert werden"
 #, perl-format
 msgid "building %s using existing %s"
 msgstr "%s wird unter Benutzung des existierenden %s gebaut"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "upstream signing key but no upstream tarball signature"
+msgstr ""
+"Signaturschlüssel der Originalautoren aber keine Tarball-Signatur der "
+"Originalautoren"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -3633,10 +3652,6 @@ msgstr "mehrere Tar-Dateien in nativem Quellpaket"
 msgid "unrecognized file for a native source package: %s"
 msgstr "unerkannte Datei für natives Quellpaket: %s"
 
-#: scripts/Dpkg/Source/Package/V3/Native.pm
-msgid "native package version may not have a revision"
-msgstr "native Paketversion darf keine Revision haben"
-
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 msgid "use a single debianization patch"
 msgstr "einen einzigen Debianisierungs-Patch verwenden"
@@ -3644,10 +3659,6 @@ msgstr "einen einzigen Debianisierungs-Patch verwenden"
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 msgid "accept quilt metadata <version> even if unknown"
 msgstr "Quilt-Metadaten <Version> akzeptieren, selbst falls unbekannt"
-
-#: scripts/Dpkg/Source/Package/V3/Quilt.pm
-msgid "non-native package version does not contain a revision"
-msgstr "nichtnative Paketversion enthält keine Revision"
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 #, perl-format
