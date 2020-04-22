@@ -36,7 +36,7 @@ DPKG_ENV += \
   LD_PRELOAD="$(LD_PRELOAD)" \
   LD_LIBRARY_PATH="$(LD_LIBRARY_PATH)"
 DPKG_INSTDIR = /
-BEROOT := sudo env $(DPKG_ENV)
+BEROOT := sudo -E env $(DPKG_ENV)
 else
 DPKG_INSTDIR = $(CURDIR)/../dpkginst
 DPKG_OPTIONS += \
