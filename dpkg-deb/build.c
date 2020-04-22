@@ -252,7 +252,7 @@ check_conffiles(const char *ctrldir, const char *rootdir)
 {
   FILE *cf;
   struct varbuf controlfile = VARBUF_INIT;
-  char conffilename[MAXCONFFILENAME + 1];
+  char conffilenamebuf[MAXCONFFILENAME + 1];
   struct file_info *conffiles_head = NULL;
   struct file_info *conffiles_tail = NULL;
 
@@ -268,8 +268,9 @@ check_conffiles(const char *ctrldir, const char *rootdir)
     ohshite(_("error opening conffiles file"));
   }
 
-  while (fgets(conffilename, MAXCONFFILENAME + 1, cf)) {
+  while (fgets(conffilenamebuf, MAXCONFFILENAME + 1, cf)) {
     struct stat controlstab;
+    char *conffilename = conffilenamebuf;
     int n;
 
     n = strlen(conffilename);

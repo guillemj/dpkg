@@ -342,23 +342,24 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
     struct fsys_namenode *namenode;
     struct fsys_namenode_list *newconff;
     struct conffile *searchconff;
+    char *conffilename = conffilenamebuf;
     char *p;
 
-    p = conffilenamebuf + strlen(conffilenamebuf);
-    if (p == conffilenamebuf)
+    p = conffilename + strlen(conffilename);
+    if (p == conffilename)
       ohshit(_("conffile file contains an empty line"));
     if (p[-1] != '\n')
       ohshit(_("conffile name '%s' is too long, or missing final newline"),
-             conffilenamebuf);
-    p = str_rtrim_spaces(conffilenamebuf, p);
-    if (p == conffilenamebuf)
+             conffilename);
+    p = str_rtrim_spaces(conffilename, p);
+    if (p == conffilename)
       continue;
 
-    if (conffilenamebuf[0] != '/')
+    if (conffilename[0] != '/')
       ohshit(_("conffile name '%s' is not an absolute pathname"),
-             conffilenamebuf);
+             conffilename);
 
-    namenode = fsys_hash_find_node(conffilenamebuf, 0);
+    namenode = fsys_hash_find_node(conffilename, 0);
     namenode->oldhash = NEWCONFFILEFLAG;
     newconff = tar_fsys_namenode_queue_push(newconffiles, namenode);
 
