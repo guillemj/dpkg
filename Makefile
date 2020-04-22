@@ -9,7 +9,7 @@
 
 ## Feature checks setup ##
 
-DPKG_SERIES ?= 1.18.x
+DPKG_SERIES ?= 1.20.x
 
 include Feature.mk
 
