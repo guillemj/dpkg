@@ -24,11 +24,7 @@ dist-check:
 unit-tests:
   stage: test
   script:
-    - eatmydata apt install -qq -y --no-install-recommends
-      fakeroot gpg cppcheck shellcheck aspell aspell-en codespell i18nspector
-      libtest-strict-perl libtest-minimumversion-perl libtest-perl-critic-perl
-      libtest-pod-perl libtest-pod-coverage-perl libtest-spelling-perl
-      libtest-synopsis-perl
+    - eatmydata apt -P pkg.dpkg.author-testing build-dep -qq -y .
     - ./configure
     - make check TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
                  AUTHOR_TESTING=1
