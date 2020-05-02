@@ -5,32 +5,28 @@ set -e
 
 # Remove log file when dpkg is purged
 remove_logfile() {
-    logdir=$DPKG_ROOT/var/log
+  logdir=$DPKG_ROOT/var/log
 
-    rm -f "$logdir"/dpkg.log "$logdir"/dpkg.log.* 2>/dev/null
-    rm -f "$logdir"/alternatives.log "$logdir"/alternatives.log.* 2>/dev/null
+  rm -f "$logdir"/dpkg.log "$logdir"/dpkg.log.* 2>/dev/null
+  rm -f "$logdir"/alternatives.log "$logdir"/alternatives.log.* 2>/dev/null
 }
 
 case "$1" in
-    remove)
-	;;
-
-    purge)
-	remove_logfile
-	;;
-
-    upgrade)
-	;;
-
-    failed-upgrade|disappear|abort-install|abort-upgrade)
-	;;
-
-
-    *)
-	echo "$0 called with unknown argument '$1'" 1>&2
-	exit 1
-	;;
+remove)
+  ;;
+purge)
+  remove_logfile
+  ;;
+upgrade)
+  ;;
+failed-upgrade|disappear|abort-install|abort-upgrade)
+  ;;
+*)
+  echo "$0 called with unknown argument '$1'" 1>&2
+  exit 1
+  ;;
 esac
 
 #DEBHELPER#
+
 exit 0

@@ -21,54 +21,50 @@ vardir="$1"
 method=$2
 option=$3
 
-
 cd "$vardir/methods/$method"
 
 . ./shvar.$option
 
-
 #debug() { echo "DEBUG: $@"; }
-debug() { true; }
+debug() {
+  true
+}
 iarch=$(dpkg --print-architecture)
-ismulti() { test -e "$1/.disk/info" || test -e "$1$2/.disk/info"; }
+ismulti() {
+  test -e "$1/.disk/info" || test -e "$1$2/.disk/info"
+}
 
 # 1/ mountpoint
 # 2/ hierarchy
 getdisklabel () {
-    debug "$1" "$2"
-    if [ -f $1/.disk/info ]
-    then
-        echo -n $(head -1 "$1/.disk/info")
-    else
-        if [ -f $1$2/.disk/info ]
-	then
-            echo -n $(head -1 "$1$2/.disk/info")
-	else
-            echo -n 'Non-Debian disc'
-	fi
-    fi
+  debug "$1" "$2"
+  if [ -f $1/.disk/info ]; then
+   echo -n $(head -1 "$1/.disk/info")
+  elif [ -f $1$2/.disk/info ]; then
+    echo -n $(head -1 "$1$2/.disk/info")
+  else
+    echo -n 'Non-Debian disc'
+  fi
 }
 
 xit=1
 
 do_umount() {
-	if [ -n "$umount" ]; then
-		echo umount "$umount"
-		#">/dev/null" "2>&1"
-	fi
+  if [ -n "$umount" ]; then
+    echo umount "$umount"
+    #">/dev/null" "2>&1"
+  fi
 }
 
 do_mount() {
-	if [ ! -b "$p_blockdev" ]
-	then
-		loop=",loop"
-	fi
+  if [ ! -b "$p_blockdev" ]; then
+    loop=",loop"
+  fi
 
-	if [ -n "$p_blockdev" ]
-	then
-		umount="$p_mountpoint"
-		echo mount -rt iso9660 -o nosuid,nodev${loop} "$p_blockdev" "$p_mountpoint"\; umount="$p_mountpoint"
-	fi
+  if [ -n "$p_blockdev" ]; then
+    umount="$p_mountpoint"
+    echo mount -rt iso9660 -o nosuid,nodev${loop} "$p_blockdev" "$p_mountpoint"\; umount="$p_mountpoint"
+  fi
 }
 
 trap 'eval $(do_umount); exit $xit' 0
@@ -76,33 +72,34 @@ trap 'eval $(do_umount); exit $xit' 0
 eval $(do_mount)
 
 predep="$vardir/predep-package"
-while true
-do
-	thisdisk="$(getdisklabel ${p_mountpoint} ${p_hierbase})"
-	set +e
-	dpkg --predep-package >"$predep"
-	rc=$?
-	set -e
-	if test $rc = 1; then break; fi
-	test $rc = 0
+while true; do
+  thisdisk="$(getdisklabel ${p_mountpoint} ${p_hierbase})"
+  set +e
+  dpkg --predep-package >"$predep"
+  rc=$?
+  set -e
+  if test $rc = 1; then
+    break
+  fi
+  test $rc = 0
 
-	perl -e '
-		($binaryprefix,$predep,$thisdisk) = @ARGV;
-		open(P, "< $predep") or die "cannot open $predep: $!\n";
-		while (<P>) {
-			s/\s*\n$//;
-			$package= $_ if s/^Package: //i;
-			/^X-Medium:\s+(.*)\s*/ and $medium = $1;
-			@filename= split(/ /,$_) if s/^Filename: //i;
-			@msdosfilename= split(/ /,$_) if s/^MSDOS-Filename: //i;
-		}
-		die "internal error - no package" if length($package) == 0;
-		die "internal error - no filename" if not @filename;
-		die "internal error - mismatch >@filename< >@msdosfilename<"
-			if @filename && @msdosfilename &&
-			   @filename != @msdosfilename;
-		if ($medium && ($medium ne $thisdisk)) {
-			print "
+  perl -e '
+	($binaryprefix,$predep,$thisdisk) = @ARGV;
+	open(P, "< $predep") or die "cannot open $predep: $!\n";
+	while (<P>) {
+		s/\s*\n$//;
+		$package= $_ if s/^Package: //i;
+		/^X-Medium:\s+(.*)\s*/ and $medium = $1;
+		@filename= split(/ /,$_) if s/^Filename: //i;
+		@msdosfilename= split(/ /,$_) if s/^MSDOS-Filename: //i;
+	}
+	die "internal error - no package" if length($package) == 0;
+	die "internal error - no filename" if not @filename;
+	die "internal error - mismatch >@filename< >@msdosfilename<"
+		if @filename && @msdosfilename &&
+		   @filename != @msdosfilename;
+	if ($medium && ($medium ne $thisdisk)) {
+		print "
 
 This is
     $thisdisk
@@ -111,40 +108,40 @@ However, $package is expected on disc:
 Please change the discs and press <RETURN>.
 
 ";
-			exit(1);
-		}
-		@invoke=(); $|=1;
-		for ($i=0; $i<=$#filename; $i++) {
-			$ppart= $i+1;
-			print "Looking for part $ppart of $package ... ";
-			if (-f "$binaryprefix$filename[$i]") {
-				$print= $filename[$i];
-				$invoke= "$binaryprefix$filename[$i]";
-			} elsif (-f "$binaryprefix$msdosfilename[$i]") {
-				$print= $msdosfilename[$i];
-				$invoke= "$binaryprefix$msdosfilename[$i]";
-			} else {
-				$base= $filename[$i]; $base =~ s,.*/,,;
-				$msdosbase= $msdosfilename[$i]; $msdosbase =~ s,.*/,,;
-				$c = open(X, "-|"));
-				if (not defined $c) {
-					die "failed to fork for find: $!\n";
-				}
-				if (!$c) {
-					exec("find", "-L",
-					     length($binaryprefix) ? $binaryprefix : ".",
-					     "-name",$base,"-o","-name",$msdosbase);
-					die "failed to exec find: $!\n";
-				}
-				while (chop($invoke= <X>)) { last if -f $invoke; }
-				$print= $invoke;
-				if (substr($print,0,length($binaryprefix)+1) eq
-				    "$binaryprefix/") {
-					$print= substr($print,length($binaryprefix));
-				}
+		exit(1);
+	}
+	@invoke=(); $|=1;
+	for ($i=0; $i<=$#filename; $i++) {
+		$ppart= $i+1;
+		print "Looking for part $ppart of $package ... ";
+		if (-f "$binaryprefix$filename[$i]") {
+			$print= $filename[$i];
+			$invoke= "$binaryprefix$filename[$i]";
+		} elsif (-f "$binaryprefix$msdosfilename[$i]") {
+			$print= $msdosfilename[$i];
+			$invoke= "$binaryprefix$msdosfilename[$i]";
+		} else {
+			$base= $filename[$i]; $base =~ s,.*/,,;
+			$msdosbase= $msdosfilename[$i]; $msdosbase =~ s,.*/,,;
+			$c = open(X, "-|"));
+			if (not defined $c) {
+				die "failed to fork for find: $!\n";
 			}
-			if (!length($invoke)) {
-				warn "
+			if (!$c) {
+				exec("find", "-L",
+				     length($binaryprefix) ? $binaryprefix : ".",
+				     "-name",$base,"-o","-name",$msdosbase);
+				die "failed to exec find: $!\n";
+			}
+			while (chop($invoke= <X>)) { last if -f $invoke; }
+			$print= $invoke;
+			if (substr($print,0,length($binaryprefix)+1) eq
+			    "$binaryprefix/") {
+				$print= substr($print,length($binaryprefix));
+			}
+		}
+		if (!length($invoke)) {
+			warn "
 
 Cannot find the appropriate file(s) anywhere needed to install or upgrade
 package $package. Expecting version $version or later, as listed in the
@@ -157,18 +154,18 @@ and rerun the installation, or upgrade the package by using
 \"dpkg --install --auto-deconfigure" by hand.
 
 ";
-				exit(1);
-			}
-			print "$print\n";
-			push(@invoke,$invoke);
+			exit(1);
 		}
-		print "Running dpkg -iB for $package ...\n";
-		exec("dpkg","-iB","--",@invoke);
-		die "failed to exec dpkg: $!\n";
-	' -- "$p_mountpoint$p_hierbase" "$predep" "$thisdisk"
+		print "$print\n";
+		push(@invoke,$invoke);
+	}
+	print "Running dpkg -iB for $package ...\n";
+	exec("dpkg","-iB","--",@invoke);
+	die "failed to exec dpkg: $!\n";
+  ' -- "$p_mountpoint$p_hierbase" "$predep" "$thisdisk"
 done
 
-	perl -e '
+perl -e '
 	$SIG{INT} = sub { cd $vardir; unlink <tmp/*>; exit 1; };
 	$| = 1;
 	my ($vardir, $mountpoint, $hierbase, $mount, $umount) = @ARGV;
@@ -281,7 +278,6 @@ done
 	exit $ouch;
 
 ' "$vardir" "$p_mountpoint" "$p_hierbase" "$(do_mount)" "$(do_umount)"
-
 
 echo -n 'Installation OK.  Hit RETURN.  '
 read response
