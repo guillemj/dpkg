@@ -632,14 +632,17 @@ Commands:
 	Replace a directory with a symlink. Must be called in preinst,
 	postinst and postrm.
   help
-	Display this usage information.
+  -?, --help
+	Show this help message.
+      --version
+	Show the version.
 END
 }
 
 badusage() {
 	echo "$FMT_PROG: ${COLOR_ERROR}error${COLOR_RESET}: $1" >&2
 	echo >&2
-	echo "Use '$PROGNAME help' for program usage information." >&2
+	echo "Use '$PROGNAME --help' for program usage information." >&2
 	exit 1
 }
 
