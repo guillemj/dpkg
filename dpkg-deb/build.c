@@ -278,8 +278,12 @@ check_conffiles(const char *ctrldir, const char *rootdir)
              conffilename);
 
     conffilename[n - 1] = '\0';
+
+    if (conffilename[0] != '/')
+      ohshit(_("conffile name '%s' is not an absolute pathname"), conffilename);
+
     varbuf_reset(&controlfile);
-    varbuf_printf(&controlfile, "%s/%s", rootdir, conffilename);
+    varbuf_printf(&controlfile, "%s%s", rootdir, conffilename);
     if (lstat(controlfile.buf, &controlstab)) {
       if (errno == ENOENT) {
         if ((n > 1) && c_isspace(conffilename[n - 2]))

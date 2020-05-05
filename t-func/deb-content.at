@@ -29,6 +29,16 @@ dpkg-deb -b pkg-conff-noeol pkg-conff-noeol.deb
 ], [2], [ignore], [dpkg-deb: error: conffile name '/test-conffile-1' is too long, or missing final newline
 ])
 
+DPKG_GEN_CONTROL([pkg-conff-noabs])
+DPKG_GEN_FILE([pkg-conff-noabs], [conffiles], [test-conffile-rel])
+AT_DATA([pkg-conff-noabs/test-conffile-rel], [test init
+])
+AT_CHECK([
+# Conffiles must use absolute pathnames.
+dpkg-deb -b pkg-conff-noabs pkg-conff-noabs.deb
+], [2], [ignore], [dpkg-deb: error: conffile name 'test-conffile-rel' is not an absolute pathname
+])
+
 DPKG_GEN_CONTROL([pkg-deb-newline])
 touch 'pkg-deb-newline/file
 newline'
