@@ -36,7 +36,7 @@ is used to control the creation and termination of system-level processes.
 Using one of the matching options, \fBstart\-stop\-daemon\fP
 can be configured to find existing instances of a running process.
 .PP
-Note: unless
+\fBNote:\fP Unless
 .B \-\-pid
 or
 .B \-\-pidfile
@@ -119,11 +119,11 @@ The \fIppid\fP must be a number greater than 0.
 .BR \-p ", " \-\-pidfile " \fIpidfile\fP"
 Check whether a process has created the file \fIpidfile\fP.
 .IP
-Note: using this matching option alone might cause unintended processes to
+\fBNote:\fP Using this matching option alone might cause unintended processes to
 be acted on, if the old process terminated without being able to remove the
 \fIpidfile\fP.
 .IP
-\fBWarning:\fP using this match option with a world-writable pidfile or using
+\fBWarning:\fP Using this match option with a world-writable pidfile or using
 it alone with a daemon that writes the pidfile as an unprivileged (non-root)
 user will be refused with an error (since version 1.19.3) as this is a
 security risk, because either any user can write to it, or if the daemon
@@ -134,7 +134,9 @@ Using \fI/dev/null\fP is exempt from these checks.
 .TP
 .BR \-x ", " \-\-exec " \fIexecutable\fP"
 Check for processes that are instances of this \fIexecutable\fP. The
-\fIexecutable\fP argument should be an absolute pathname. Note: this might
+\fIexecutable\fP argument should be an absolute pathname.
+.IP
+\fBNote:\fP This might
 not work as intended with interpreted scripts, as the executable will point
 to the interpreter. Take into account processes running from inside a chroot
 will also be matched, so other match restrictions might be needed.
@@ -142,13 +144,17 @@ will also be matched, so other match restrictions might be needed.
 .BR \-n ", " \-\-name " \fIprocess-name\fP"
 Check for processes with the name \fIprocess-name\fP. The \fIprocess-name\fP
 is usually the process filename, but it could have been changed by the
-process itself. Note: on most systems this information is retrieved from
+process itself.
+.IP
+\fBNote:\fP On most systems this information is retrieved from
 the process comm name from the kernel, which tends to have a relatively
 short length limit (assuming more than 15 characters is non-portable).
 .TP
 .BR \-u ", " \-\-user " \fIusername\fP|\fIuid\fP
 Check for processes owned by the user specified by \fIusername\fP or
-\fIuid\fP. Note: using this matching option alone will cause all processes
+\fIuid\fP.
+.IP
+\fBNote:\fP Using this matching option alone will cause all processes
 matching the user to be acted on.
 .
 .SS Generic options
@@ -263,6 +269,7 @@ Typically used with programs that don't detach on their own. This option
 will force
 .B start\-stop\-daemon
 to fork before starting the process, and force it into the background.
+.IP
 .B Warning: start\-stop\-daemon
 cannot check the exit status if the process fails to execute for
 .B any
@@ -334,6 +341,7 @@ create the file referenced with
 and place the pid into it just before executing the process. Note, the
 file will only be removed when stopping the program if
 \fB\-\-remove\-pidfile\fP is used.
+.IP
 .B Note:
 This feature may not work in all cases. Most notably when the program
 being executed forks from its main process. Because of this, it is usually
