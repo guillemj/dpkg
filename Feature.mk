@@ -20,7 +20,7 @@ endif
 # dpkg >= 1.17.x
 ifeq ($(call CHECK_VERSION,$(DPKG_SERIES),ge,1.17.x),yes)
 $(info Assuming checks for dpkg >= 1.17.x)
-export DPKG_HAS_STRICT_CONFFILE_PARSER ?= 1
+export DPKG_HAS_STRICT_CONFFILE_PARSER_NOEOL ?= 1
 export DPKG_HAS_STRICT_DEB_PARSER ?= 1
 export DPKG_HAS_DEB_CONTROL_UNIFORM_SUPPORT ?= 1
 export DPKG_HAS_VERSIONED_PROVIDES ?= 1
