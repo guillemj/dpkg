@@ -16,6 +16,12 @@ else
 	  ( echo Fail: missing warning in output && exit 1 )
 endif
 
+ifdef DPKG_HAS_STRICT_CONFFILE_PARSER_NOABS
+	# Conffiles must use absolute pathnames.
+	! $(DPKG_BUILD_DEB) pkg-conff-noabs
+endif
+
 test-clean:
 	$(RM) pkg-conff-duped.deb
 	$(RM) pkg-conff-noeol.deb
+	$(RM) pkg-conff-noabs.deb
