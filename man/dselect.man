@@ -33,10 +33,14 @@ dselect \- Debian package management frontend
 .B dselect
 is one of the primary user interfaces for managing packages on a Debian
 system. At the \fBdselect\fP main menu, the system administrator can:
- - Update the list of available package versions,
- - View the status of installed and available packages,
- - Alter package selections and manage dependencies,
- - Install new packages or upgrade to newer versions.
+.IP • 2
+Update the list of available package versions,
+.IP • 2
+View the status of installed and available packages,
+.IP • 2
+Alter package selections and manage dependencies,
+.IP • 2
+Install new packages or upgrade to newer versions.
 .PP
 .B dselect
 operates as a front-end to \fBdpkg\fP(1), the low-level Debian package
@@ -270,10 +274,13 @@ The package details view by default shows the extended package description
 for the package that is currently selected in the packages status list.
 The type of detail can be toggled by pressing the ‘\fBi\fP’ key.
 This alternates between:
- - the extended description
- - the control information for the installed version
- - the control information for the available version
-.sp
+.IP • 2
+the extended description
+.IP • 2
+the control information for the installed version
+.IP • 2
+the control information for the available version
+.LP
 In a dependency resolution screen, there is also the possibility of
 viewing the specific unresolved depends or conflicts related to the
 package and causing it to be listed.
@@ -302,46 +309,84 @@ The first two relate to the actual state of the package, the second pair
 are about the selections set by the user.
 .sp
 These are the meanings of the shorthand package status indicator codes:
- Error flag:
-  \fIempty\fP   no error
-  \fBR\fP       serious error, needs reinstallation;
- Installed state:
-  \fIempty\fP   not installed;
-  \fB*\fP       fully installed and configured;
-  \fB\-\fP       not installed but some config files may remain;
-  \fBU\fP       unpacked but not yet configured;
-  \fBC\fP       half-configured (an error happened);
-  \fBI\fP       half-installed (an error happened).
- Current and requested selections:
-  \fB*\fP       marked for installation or upgrade;
-  \fB\-\fP       marked for removal, configuration files remain;
-  \fB=\fP       on hold: package will not be processed at all;
-  \fB_\fP       marked for purge, also remove configuration;
-  \fBn\fP       package is new and has yet to be marked.
-.sp
+.IP
+.RS
+Error flag:
+.TP
+\fIempty\fP   no error
+.TQ
+\fBR\fP       serious error, needs reinstallation;
+.RE
+.IP
+Installed state:
+.RS
+.TP
+\fIempty\fP   not installed;
+.TQ
+\fB*\fP       fully installed and configured;
+.TQ
+\fB\-\fP       not installed but some config files may remain;
+.TQ
+\fBU\fP       unpacked but not yet configured;
+.TQ
+\fBC\fP       half-configured (an error happened);
+.TQ
+\fBI\fP       half-installed (an error happened).
+.RE
+.IP
+Current and requested selections:
+.RS
+.TP
+\fB*\fP       marked for installation or upgrade;
+.TQ
+\fB\-\fP       marked for removal, configuration files remain;
+.TQ
+\fB=\fP       on hold: package will not be processed at all;
+.TQ
+\fB_\fP       marked for purge, also remove configuration;
+.TQ
+\fBn\fP       package is new and has yet to be marked.
+.RE
 .SS Cursor and screen movement
 .sp
 The package selection list and the dependency conflict
 resolution screens can be navigated using motion
 commands mapped to the following keys:
-.br
-  \fBp, Up, k\fP           move cursor bar up
-  \fBn, Down, j\fP         move cursor bar down
-  \fBP, Pgup, Backspace\fP scroll list 1 page up
-  \fBN, Pgdn, Space\fP     scroll list 1 page down
-  \fB^p\fP                 scroll list 1 line up
-  \fB^n\fP                 scroll list 1 line down
-  \fBt, Home\fP            jump to top of list
-  \fBe, End\fP             jump to end of list
-  \fBu\fP                  scroll info 1 page up
-  \fBd\fP                  scroll info 1 page down
-  \fB^u\fP                 scroll info 1 line up
-  \fB^d\fP                 scroll info 1 line down
-  \fBB, Left-arrow\fP      pan display 1/3 screen left
-  \fBF, Right-arrow\fP     pan display 1/3 screen right
-  \fB^b\fP                 pan display 1 character left
-  \fB^f\fP                 pan display 1 character right
-.sp
+.IP
+.RS
+.TP
+\fBp, Up, k\fP           move cursor bar up
+.TQ
+\fBn, Down, j\fP         move cursor bar down
+.TQ
+\fBP, Pgup, Backspace\fP scroll list 1 page up
+.TQ
+\fBN, Pgdn, Space\fP     scroll list 1 page down
+.TQ
+\fB^p\fP                 scroll list 1 line up
+.TQ
+\fB^n\fP                 scroll list 1 line down
+.TQ
+\fBt, Home\fP            jump to top of list
+.TQ
+\fBe, End\fP             jump to end of list
+.TQ
+\fBu\fP                  scroll info 1 page up
+.TQ
+\fBd\fP                  scroll info 1 page down
+.TQ
+\fB^u\fP                 scroll info 1 line up
+.TQ
+\fB^d\fP                 scroll info 1 line down
+.TQ
+\fBB, Left-arrow\fP      pan display 1/3 screen left
+.TQ
+\fBF, Right-arrow\fP     pan display 1/3 screen right
+.TQ
+\fB^b\fP                 pan display 1 character left
+.TQ
+\fB^f\fP                 pan display 1 character right
+.RE
 .SS Searching and sorting
 .sp
 The list of packages can be searched by package name. This
@@ -361,23 +406,47 @@ and continues searching from there.
 The list sort order can be varied by pressing
 the ‘\fBo\fP’ and ‘\fBO\fP’ keys repeatedly.
 The following nine sort orderings can be selected:
- alphabet          available           status
- priority+section  available+priority  status+priority
- section+priority  available+section   status+section
-.br
+.IP
+.RS
+.TP
+.B alphabet
+.TQ
+.B priority+section
+.TQ
+.B section+priority
+.TQ
+.B available
+.TQ
+.B available+priority
+.TQ
+.B available+section
+.TQ
+.B status
+.TQ
+.B status+priority
+.TQ
+.B status+section
+.RE
+.LP
 Where not listed above explicitly, alphabetic order is used as
 the final subordering sort key.
-.sp
 .SS Altering selections
 .sp
 The requested selection state of individual packages may be
 altered with the following commands:
-  \fB+, Insert\fP    install or upgrade
-  \fB=, H\fP         hold in present state and version
-  \fB:, G\fP         unhold: upgrade or leave uninstalled
-  \fB\-, Delete\fP    remove, but leave configuration
-  \fB_\fP            remove & purge configuration
-.sp
+.RS
+.TP
+\fB+, Insert\fP    install or upgrade
+.TQ
+\fB=, H\fP         hold in present state and version
+.TQ
+\fB:, G\fP         unhold: upgrade or leave uninstalled
+.TQ
+\fB\-, Delete\fP    remove, but leave configuration
+.TQ
+\fB_\fP            remove & purge configuration
+.RE
+.LP
 When the change request results in one or more unsatisfied depends
 or conflicts, \fBdselect\fP prompts the user with a dependency resolution
 screen. This will be further explained below.
