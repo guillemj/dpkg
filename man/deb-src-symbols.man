@@ -66,9 +66,11 @@ whitespaces in them. However, if there are no tags specified for the symbol,
 quotes are treated as part of the symbol name which continues up until the
 first space.
 .P
+.EX
  (tag1=i am marked|tag name with space)"tagged quoted symbol"@Base 1.0
  (optional)tagged_unquoted_symbol@Base 1.0 1
  untagged_symbol@Base 1.0
+.EE
 .P
 The first symbol in the example is named \fItagged quoted symbol\fR and has two
 tags: \fItag1\fR with value \fIi am marked\fR and \fItag name with space\fR
@@ -137,23 +139,31 @@ will be considered only on alpha, any\-amd64 and ia64 architectures,
 the second only on linux architectures, while the third one anywhere
 except on armel.
 
+.EX
  (arch=alpha any\-amd64 ia64)64bit_specific_symbol@Base 1.0
  (arch=linux\-any)linux_specific_symbol@Base 1.0
  (arch=!armel)symbol_armel_does_not_have@Base 1.0
+.EE
 
 The \fIarchitecture-bits\fP is either \fB32\fP or \fB64\fP.
 
+.EX
  (arch-bits=32)32bit_specific_symbol@Base 1.0
  (arch-bits=64)64bit_specific_symbol@Base 1.0
+.EE
 
 The \fIarchitecture-endianness\fP is either \fBlittle\fP or \fBbig\fP.
 
+.EX
  (arch-endian=little)little_endian_specific_symbol@Base 1.0
  (arch-endian=big)big_endian_specific_symbol@Base 1.0
+.EE
 
 Multiple restrictions can be chained.
 
+.EX
  (arch-bits=32|arch-endian=little)32bit_le_symbol@Base 1.0
+.EE
 .TP
 .B ignore\-blacklist
 dpkg\-gensymbols has an internal blacklist of symbols that should not
@@ -212,14 +222,18 @@ non-virtual thunk symbol. For example, even if _ZThn8_N3NSB6ClassDD1Ev@Base on
 32bit architectures will probably be _ZThn16_N3NSB6ClassDD1Ev@Base on 64bit
 ones, it can be matched with a single \fIc++\fR pattern:
 
+.EX
 libdummy.so.1 libdummy1 #MINVER#
  [...]
  (c++)"non\-virtual thunk to NSB::ClassD::~ClassD()@Base" 1.0
  [...]
+.EE
 
 The demangled name above can be obtained by executing the following command:
 
+.EX
  $ echo '_ZThn8_N3NSB6ClassDD1Ev@Base' | c++filt
+.EE
 
 Please note that while mangled name is unique in the library by definition,
 this is not necessarily true for demangled names. A couple of distinct real
@@ -235,11 +249,13 @@ versioned symbols where each version corresponds to the upstream version where
 the symbol got added. If that's the case, you can use a \fIsymver\fR pattern to
 match any symbol associated to the specific version. For example:
 
+.EX
 libc.so.6 libc6 #MINVER#
  (symver)GLIBC_2.0 2.0
  [...]
  (symver)GLIBC_2.7 2.7
  access@GLIBC_2.0 2.2
+.EE
 
 All symbols associated with versions GLIBC_2.0 and GLIBC_2.7 will lead to
 minimal version of 2.0 and 2.7 respectively with the exception of the symbol
@@ -259,9 +275,11 @@ expression is matched as it is, therefore do not forget to start it with the
 \fI^\fR character or it may match any part of the real symbol
 \fIname@version\fR string. For example:
 
+.EX
 libdummy.so.1 libdummy1 #MINVER#
  (regex)"^mystack_.*@Base$" 1.0
  (regex|optional)"private" 1.0
+.EE
 
 Symbols like "mystack_new@Base", "mystack_push@Base", "mystack_pop@Base" etc.
 will be matched by the first pattern while e.g. "ng_mystack_new@Base" won't.
@@ -272,8 +290,10 @@ Basic patterns listed above can be combined where it makes sense. In that case,
 they are processed in the order in which the tags are specified. For example,
 both
 
+.EX
  (c++|regex)"^NSA::ClassA::Private::privmethod\\d\\(int\\)@Base" 1.0
  (regex|c++)N3NSA6ClassA7Private11privmethod\\dEi@Base 1.0
+.EE
 
 will match symbols "_ZN3NSA6ClassA7Private11privmethod1Ei@Base" and
 "_ZN3NSA6ClassA7Private11privmethod2Ei@Base". When matching the first pattern,
@@ -311,17 +331,21 @@ using an include directive like this:
 .IP • 4
 The include directive may also be tagged like any symbol:
 
+.EX
 (tag|...|tagN)#include "file-to-include"
+.EE
 
 As a result, all symbols included from \fIfile-to-include\fR will be considered
 to be tagged with \fItag\fR ... \fItagN\fR by default. You can use this feature
 to create a common \fIpackage\fR.symbols file which includes architecture
 specific symbol files:
 
+.EX
   common_symbol1@Base 1.0
  (arch=amd64 ia64 alpha)#include "package.symbols.64bit"
  (arch=!amd64 !ia64 !alpha)#include "package.symbols.32bit"
   common_symbol2@Base 1.0
+.EE
 .P
 The symbols files are read line by line, and include directives are processed
 as soon as they are encountered. This means that the content of the included
@@ -337,8 +361,10 @@ library. In that case, it overrides any header line previously read.
 However, in general it's best to avoid duplicating header lines. One way
 to do it is the following:
 .PP
+.EX
 #include "libsomething1.symbols.common"
  arch_specific_symbol@Base 1.0
+.EE
 .SH SEE ALSO
 .BR deb\-symbols (5),
 .BR dpkg\-shlibdeps (1),

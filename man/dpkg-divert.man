@@ -177,22 +177,30 @@ library has the same SONAME as the undiverted one.
 To divert all copies of a \fI/usr/bin/example\fR to \fI/usr/bin/example.foo\fR,
 i.e. directs all packages providing \fI/usr/bin/example\fR to install it as
 \fI/usr/bin/example.foo\fR, performing the rename if required:
-.HP
+.PP
+.EX
 dpkg\-divert \-\-divert /usr/bin/example.foo \-\-rename /usr/bin/example
+.EE
 .PP
 To remove that diversion:
-.HP
+.PP
+.EX
 dpkg\-divert \-\-rename \-\-remove /usr/bin/example
-
+.EE
 .PP
 To divert any package trying to install \fI/usr/bin/example\fR to
 \fI/usr/bin/example.foo\fR, except your own \fIwibble\fR package:
-.HP
-dpkg\-divert \-\-package wibble \-\-divert /usr/bin/example.foo \-\-rename /usr/bin/example
+.PP
+.EX
+dpkg\-divert \-\-package wibble \-\-divert /usr/bin/example.foo \\
+    \-\-rename /usr/bin/example
+.EE
 .PP
 To remove that diversion:
-.HP
+.PP
+.EX
 dpkg\-divert \-\-package wibble \-\-rename \-\-remove /usr/bin/example
+.EE
 .
 .SH SEE ALSO
 .BR dpkg (1).

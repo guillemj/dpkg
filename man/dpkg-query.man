@@ -45,11 +45,13 @@ Normal shell wildcard characters are allowed in \fIpackage-name-pattern\fP.
 Please note you will probably have to quote \fIpackage-name-pattern\fP to
 prevent the shell from performing filename expansion.
 For example this will list all package names starting with “libc6”:
-
-.nf
-  \fBdpkg\-query \-l 'libc6*'\fP
-.fi
-
+.IP
+.RS 9
+.EX
+dpkg\-query \-l 'libc6*'
+.EE
+.RE
+.IP
 The first three columns of the output show the desired action, the package
 status, and errors, in that order.
 .IP
@@ -362,9 +364,12 @@ fields) can be requested, too. They will be printed as-is, though, no
 conversion nor error checking is done on them. To get the name of the
 \fBdpkg\fP maintainer and the installed version, you could run:
 
-.nf
-  \fBdpkg\-query \-W \-f='${binary:Package} ${Version}\\t${Maintainer}\\n' dpkg\fP
-.fi
+.RS
+.EX
+dpkg\-query \-f='${binary:Package} ${Version}\\t${Maintainer}\\n' \\
+  \-W dpkg
+.EE
+.RE
 .
 .SH EXIT STATUS
 .TP

@@ -142,7 +142,7 @@ state of all feature flags, and the compiler flags with their origin
 (since dpkg 1.19.0).
 .IP
 For example:
-.nf
+.EX
   Vendor: Debian
   Environment:
    DEB_CFLAGS_SET=-O0 -Wall
@@ -163,7 +163,7 @@ For example:
   Flag: CPPFLAGS
   Value: -D_FORTIFY_SOURCE=2
   Origin: vendor
-.fi
+.EE
 .TP
 .BI \-\-query\-features " area"
 Print the features enabled for a given area (since dpkg 1.16.2).
@@ -176,13 +176,13 @@ Exits with 0 if the area is known otherwise exits with 1.
 The output is in RFC822 format, with one section per feature.
 For example:
 .IP
-.nf
+.EX
   Feature: pie
   Enabled: yes
 
   Feature: stackprotector
   Enabled: yes
-.fi
+.EE
 .TP
 .B \-\-help
 Show the usage message and exit.
@@ -238,14 +238,18 @@ and \fBDEB_BUILD_MAINT_OPTIONS\fP environment variable's area value with the
 For example, to enable the \fBhardening\fP “pie” feature and disable the
 “fortify” feature you can do this in \fBdebian/rules\fP:
 .P
+.EX
   export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,\-fortify
+.EE
 .P
 The special feature \fBall\fP (valid in any area) can be used to enable or
 disable all area features at the same time.
 Thus disabling everything in the \fBhardening\fP area and enabling only
 “format” and “fortify” can be achieved with:
 .P
+.EX
   export DEB_BUILD_MAINT_OPTIONS=hardening=\-all,+format,+fortify
+.EE
 .
 .SS future
 Several compile-time options (detailed below) can be used to enable features
@@ -579,29 +583,29 @@ supported by \fBdpkg-buildflags\fP into variables (since dpkg 1.16.1).
 To pass build flags to a build command in a Makefile:
 .PP
 .RS 4
-.nf
+.EX
 $(MAKE) $(shell dpkg\-buildflags \-\-export=cmdline)
 
 \&./configure $(shell dpkg\-buildflags \-\-export=cmdline)
-.fi
+.EE
 .RE
 .PP
 To set build flags in a shell script or shell fragment, \fBeval\fP can be
 used to interpret the output and to export the flags in the environment:
 .PP
 .RS 4
-.nf
+.EX
 eval "$(dpkg\-buildflags \-\-export=sh)" && make
-.fi
+.EE
 .RE
 .PP
 or to set the positional parameters to pass to a command:
 .PP
 .RS 4
-.nf
+.EX
 eval "set \-\- $(dpkg\-buildflags \-\-export=cmdline)"
 for dir in a b c; do (cd $dir && ./configure "$@" && make); done
-.fi
+.EE
 .RE
 .
 .SS Usage in debian/rules
@@ -624,28 +628,28 @@ If you want to export all buildflags into the environment (where they
 can be picked up by your build system):
 .PP
 .RS 4
-.nf
+.EX
 DPKG_EXPORT_BUILDFLAGS = 1
 include %PKGDATADIR%/buildflags.mk
-.fi
+.EE
 .RE
 .PP
 For some extra control over what is exported, you can manually export
 the variables (as none are exported by default):
 .PP
 .RS 4
-.nf
+.EX
 include %PKGDATADIR%/buildflags.mk
 export CPPFLAGS CFLAGS LDFLAGS
-.fi
+.EE
 .RE
 .PP
 And you can of course pass the flags to commands manually:
 .PP
 .RS 4
-.nf
+.EX
 include %PKGDATADIR%/buildflags.mk
 build\-arch:
 \&	$(CC) \-o hello hello.c $(CPPFLAGS) $(CFLAGS) $(LDFLAGS)
-.fi
+.EE
 .RE

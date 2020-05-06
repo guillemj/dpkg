@@ -792,10 +792,10 @@ failures; future work might fix this.
 This can be used to remove all paths except some particular ones; a typical
 case is:
 
-.nf
-.B \-\-path\-exclude=/usr/share/doc/*
-.B \-\-path\-include=/usr/share/doc/*/copyright
-.fi
+.EX
+\-\-path\-exclude=/usr/share/doc/*
+\-\-path\-include=/usr/share/doc/*/copyright
+.EE
 
 to remove all documentation files except the copyright files.
 
@@ -1081,56 +1081,74 @@ To list installed packages related to the editor \fBvi\fP(1) (note that
 \fBdpkg\-query\fP does not load the \fIavailable\fP file anymore by
 default, and the \fBdpkg\-query\fP \fB\-\-load\-avail\fP option should
 be used instead for that):
-.br
-\fB     dpkg \-l '*vi*'\fP
-.br
+.RS
+.EX
+dpkg \-l '*vi*'
+.EE
+.RE
 
 To see the entries in \fI%ADMINDIR%/available\fP of two packages:
-.br
-\fB     dpkg \-\-print\-avail elvis vim | less\fP
-.br
+.RS
+.EX
+dpkg \-\-print\-avail elvis vim | less
+.EE
+.RE
 
 To search the listing of packages yourself:
-.br
-\fB     less %ADMINDIR%/available\fP
-.br
+.RS
+.EX
+less %ADMINDIR%/available
+.EE
+.RE
 
 To remove an installed elvis package:
-.br
-\fB     dpkg \-r elvis\fP
-.br
+.RS
+.EX
+dpkg \-r elvis
+.EE
+.RE
 
 To install a package, you first need to find it in an archive or
 CDROM. The \fIavailable\fP file shows that the vim package is in section
 \fBeditors\fP:
-.br
-\fB     cd /media/cdrom/pool/main/v/vim\fP
-\fB     dpkg \-i vim_4.5\-3.deb\fP
-.br
+.RS
+.EX
+cd /media/cdrom/pool/main/v/vim
+dpkg \-i vim_4.5\-3.deb
+.EE
+.RE
 
 To make a local copy of the package selection states:
-.br
-\fB     dpkg \-\-get\-selections >myselections\fP
-.br
+.RS
+.EX
+dpkg \-\-get\-selections >myselections
+.EE
+.RE
 
 You might transfer this file to another computer, and after having updated
 the \fIavailable\fP file there with your package manager frontend of choice
 (see https://wiki.debian.org/Teams/Dpkg/FAQ for more details), for example:
-.br
-\fB     apt\-cache dumpavail | dpkg \-\-merge\-avail\fP
-.br
+.RS
+.EX
+apt\-cache dumpavail | dpkg \-\-merge\-avail
+.EE
+.RE
 or with dpkg 1.17.6 and earlier:
-.br
-\fB     avail=`mktemp`\fP
-\fB     apt\-cache dumpavail >"$avail"\fP
-\fB     dpkg \-\-merge\-avail "$avail"\fP
-\fB     rm "$avail"\fP
-.br
+.RS
+.EX
+avail=`mktemp`
+apt\-cache dumpavail >"$avail"
+dpkg \-\-merge\-avail "$avail"
+rm "$avail"
+.EE
+.RE
 you can install it with:
-.br
-\fB     dpkg \-\-clear\-selections\fP
-\fB     dpkg \-\-set\-selections <myselections\fP
-.br
+.RS
+.EX
+dpkg \-\-clear\-selections
+dpkg \-\-set\-selections <myselections
+.EE
+.RE
 
 Note that this will not actually install or remove anything, but just
 set the selection state on the requested packages. You will need some

@@ -288,22 +288,30 @@ Makefile snippet that properly sets and exports all the variables that
 \fBdpkg\-buildpackage\fP accepts the \fB\-a\fR option and passes it to
 \fBdpkg\-architecture\fP. Other examples:
 .IP
+.EX
 CC=i386\-gnu\-gcc dpkg\-architecture \-c debian/rules build
+.EE
 .IP
+.EX
 eval \`dpkg\-architecture \-u\`
+.EE
 .PP
 Check if the current or specified host architecture is equal to an
 architecture:
 .IP
+.EX
 dpkg\-architecture \-elinux\-alpha
-.IP
+
 dpkg\-architecture \-amips \-elinux\-mips
+.EE
 .PP
 Check if the current or specified host architecture is a Linux system:
 .IP
+.EX
 dpkg\-architecture \-ilinux\-any
-.IP
+
 dpkg\-architecture \-ai386 \-ilinux\-any
+.EE
 .
 .SS Usage in debian/rules
 The environment variables set by \fBdpkg\-architecture\fP are passed to
@@ -317,7 +325,7 @@ package:
 Retrieving the GNU system type and forwarding it to ./configure:
 .PP
 .RS 4
-.nf
+.EX
 DEB_BUILD_GNU_TYPE ?= $(shell dpkg\-architecture \-qDEB_BUILD_GNU_TYPE)
 DEB_HOST_GNU_TYPE ?= $(shell dpkg\-architecture \-qDEB_HOST_GNU_TYPE)
 [...]
@@ -329,19 +337,19 @@ else
 endif
 [...]
 \&./configure $(confflags)
-.fi
+.EE
 .RE
 .PP
 Doing something only for a specific architecture:
 .PP
 .RS 4
-.nf
+.EX
 DEB_HOST_ARCH ?= $(shell dpkg\-architecture \-qDEB_HOST_ARCH)
 
 ifeq ($(DEB_HOST_ARCH),alpha)
   [...]
 endif
-.fi
+.EE
 .RE
 .PP
 or if you only need to check the CPU or OS type, use the
@@ -351,13 +359,13 @@ Note that you can also rely on an external Makefile snippet to properly
 set all the variables that \fBdpkg\-architecture\fP can provide:
 .PP
 .RS 4
-.nf
+.EX
 include %PKGDATADIR%/architecture.mk
 
 ifeq ($(DEB_HOST_ARCH),alpha)
   [...]
 endif
-.fi
+.EE
 .RE
 .PP
 In any case, you should never use \fBdpkg \-\-print\-architecture\fP to get
