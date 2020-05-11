@@ -98,8 +98,9 @@ install: check
 
 define dpkg-installmanl10n
 for f in `sed -e 's:\*:*/*:' -e 's:^:$(D)/:' debian/$(1).manpages`; do \
-	test -e $$f && \
-	install -D $$f `echo $$f | sed -e 's:^$(D):debian/$(1):'`; \
+  if [ -e $$f ]; then \
+    install -D $$f `echo $$f | sed -e 's:^$(D):debian/$(1):'`; \
+  fi; \
 done
 endef
 
