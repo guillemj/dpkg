@@ -29,7 +29,7 @@ cd "$vardir/methods/$method"
 
 #debug() { echo "DEBUG: $@"; }
 debug() { true; }
-iarch=`dpkg --print-architecture`
+iarch=$(dpkg --print-architecture)
 ismulti() { test -e "$1/.disk/info" || test -e "$1$2/.disk/info"; }
 
 # 1/ mountpoint
@@ -38,11 +38,11 @@ getdisklabel () {
     debug "$1" "$2"
     if [ -f $1/.disk/info ]
     then
-	echo -n `head -1 "$1/.disk/info"`
+        echo -n $(head -1 "$1/.disk/info")
     else
         if [ -f $1$2/.disk/info ]
 	then
-	    echo -n `head -1 "$1$2/.disk/info"`
+            echo -n $(head -1 "$1$2/.disk/info")
 	else
             echo -n 'Non-Debian disc'
 	fi
@@ -71,14 +71,14 @@ do_mount() {
 	fi
 }
 
-trap 'eval `do_umount`; exit $xit' 0
+trap 'eval $(do_umount); exit $xit' 0
 
-eval `do_mount`
+eval $(do_mount)
 
 predep="$vardir/predep-package"
 while true
 do
-	thisdisk="`getdisklabel ${p_mountpoint} ${p_hierbase}`"
+	thisdisk="$(getdisklabel ${p_mountpoint} ${p_hierbase})"
 	set +e
 	dpkg --predep-package >"$predep"
 	rc=$?
@@ -280,7 +280,7 @@ done
 
 	exit $ouch;
 
-' "$vardir" "$p_mountpoint" "$p_hierbase" "`do_mount`" "`do_umount`"
+' "$vardir" "$p_mountpoint" "$p_hierbase" "$(do_mount)" "$(do_umount)"
 
 
 echo -n 'Installation OK.  Hit RETURN.  '

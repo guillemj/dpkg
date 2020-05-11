@@ -21,7 +21,7 @@ option=$3
 cd "$vardir/methods/disk"
 tp=/var/run/ddm$$
 
-iarch=`dpkg --admindir $vardir --print-architecture`
+iarch=$(dpkg --admindir $vardir --print-architecture)
 
 xit=1
 trap '
@@ -58,7 +58,7 @@ outputparam () {
 	echo "$2" | sed -e "s/'/'\\\\''/; s/^/$1='/; s/$/'/" >&3
 }
 
-intrkey="`stty -a | sed -n 's/.*intr = \([^;]*\);.*/\1/p'`"
+intrkey="$(stty -a | sed -n 's/.*intr = \([^;]*\);.*/\1/p')"
 echo "
 If you make a mistake, use the interrupt key ($intrkey) to abort.
 "
@@ -150,7 +150,7 @@ since '$p_hierbase/main/binary-$iarch' doesn't seem to exist."
 		break
 	elif [ -d "$mountpoint/$response/main/binary-$iarch" ]
 	then
-		hierbase="`echo \"$response\" | sed -e 's:/*$::; s:^/*:/:'`"
+		hierbase="$(echo \"$response\" | sed -e 's:/*$::; s:^/*:/:')"
 		break
 	fi
 	echo \
@@ -230,7 +230,7 @@ Say 'none' if this area is not available."
 		case "$response" in
 		'' | none)	continue		;;
 		esac
-		check_binary $1 "`echo \"$response\" | sed -e 's:/$::; s:^/*:/:'`"
+		check_binary $1 "$(echo \"$response\" | sed -e 's:/$::; s:^/*:/:')"
 	done
 	if [ -n "$this_binary" ]
 	then

@@ -26,7 +26,7 @@ test -d "$vardir/methods/$method" || mkdir "$vardir/methods/$method"
 cd "$vardir/methods/$method"
 tp=/tmp/ddm$$
 
-iarch=`dpkg --print-architecture`
+iarch=$(dpkg --print-architecture)
 dist=stable
 
 xit=1
@@ -54,11 +54,11 @@ getdisklabel () {
     debug "$1" "$2"
     if [ -f $1/.disk/info ]
     then
-	echo -n `head -1 "$1/.disk/info"`
+        echo -n $(head -1 "$1/.disk/info")
     else
         if [ -f $1$2/.disk/info ]
 	then
-	    echo -n `head -1 "$1$2/.disk/info"`
+            echo -n $(head -1 "$1$2/.disk/info")
 	else
             echo -n 'Non-Debian disc'
 	fi
@@ -128,7 +128,7 @@ outputparam () {
 }
 
 ## MAIN
-intrkey="`stty -a | sed -n 's/.*intr = \([^;]*\);.*/\1/p'`"
+intrkey="$(stty -a | sed -n 's/.*intr = \([^;]*\);.*/\1/p')"
 echo "
 If you make a mistake, use the interrupt key ($intrkey) to abort.
 "
@@ -162,7 +162,7 @@ if [ $option = multi_cd ]
 then
 	mount >$tp.m
 	sed -n 's/ ([^)]*)$//; s/^[^ ]* on //; s/ type iso9660$//p' <$tp.m >$tp.l
-	ncdroms=`wc -l <$tp.l`
+	ncdroms=$(wc -l <$tp.l)
 	if [ $ncdroms -gt 1 ]
 	then
 		response=""
@@ -174,11 +174,11 @@ then
 			echo -n \
 	"Is it any of these ?  Type a number, or 'n' for none.  "
 			read response
-			response="`echo \"$response\" | sed -e 's/[ 	]*$//'`"
+                        response="$(echo \"$response\" | sed -e 's/[ 	]*$//')"
 			if expr "$response" : '[0-9][0-9]*$' >/dev/null && \
 			   [ $response -ge 1 -a $response -le $ncdroms ]
 			then
-				mountpoint="`sed -n $response'p' <$tp.l`"
+                                mountpoint="$(sed -n $response'p' <$tp.l)"
 				echo
 			elif expr "$response" : '[Nn]' >/dev/null
 			then
@@ -189,10 +189,10 @@ then
 		done
 	elif [ $ncdroms = 1 ]
 	then
-		mountpoint="`cat $tp.l`"
+		mountpoint="$(cat $tp.l)"
 		perl -ne 'print if s/ type iso9660 \([^)]*\)$// && s/ on .*$//;' \
 			<$tp.m >$tp.d
-		blockdevice="`cat $tp.d`"
+		blockdevice="$(cat $tp.d)"
 		yesno yes \
 	"Found a CD-ROM: $blockdevice, mounted on $mountpoint. Is it the right one?"
 		if [ $yesno = no ]
@@ -312,11 +312,11 @@ nor are you using a multi-CD set"
 		break
 	fi
 
-	hierbase="`echo \"$response\" | sed -e 's:/$::; s:^/*:/:; s:/\+:/:g;'`"
+	hierbase="$(echo \"$response\" | sed -e 's:/$::; s:^/*:/:; s:/\+:/:g;')"
 	debug "hierbase: [$hierbase]"
 
 	if [ -n "$multi" ]; then
-		disklabel=`getdisklabel "$mountpoint" "/$response"`
+		disklabel=$(getdisklabel "$mountpoint" "/$response")
 		echo "Ok, this is disc"
 		echo "    $disklabel"
 		#echo "Updating multi CD contents file cache ..."
@@ -381,7 +381,7 @@ check_binary () {
 	echo -n "Using '$this_binary' as $1 binary directory"
 
 	if [ -n "$multi" ]; then
-		this_disk=`getdisklabel ${mountpoint} "/$hierbase"`
+		this_disk=$(getdisklabel ${mountpoint} "/$hierbase")
 		echo " from disc"
 		echo "    '$this_disk'"
 	else
@@ -398,7 +398,7 @@ find_area () {
 	this_disk=''
 	if [ -n "$hierbase" ]
 	then
-		check_binary $1 `echo "$hierbase/dists/$3/$1/binary-$iarch" | sed 's:/\+:/:g'`
+		check_binary $1 $(echo "$hierbase/dists/$3/$1/binary-$iarch" | sed 's:/\+:/:g')
 		debug "THIS_BINARY $this_binary"
 	fi
 	if [ $option = multi_cd -a $2 = nf -a -z "$this_binary" ]
@@ -437,7 +437,7 @@ Say 'none' if this area is not available."
 		case "$response" in
 		'' | none)	continue		;;
 		esac
-		check_binary $1 "`echo \"$response\" | sed -e 's:/$::; s:^/*:/:'`"
+		check_binary $1 "$(echo \"$response\" | sed -e 's:/$::; s:^/*:/:')"
 	done
 	if [ -n "$this_binary" ]
 	then
@@ -453,7 +453,7 @@ Say 'none' if this area is not available."
 			done
 		else
 			if [ -f "${mountpoint}${hierbase}/.disk/packages/$1/Packages.gz" ]; then
-				this_packages=`echo "${hierbase}/.disk/packages/$1/Packages.gz"|sed 's:/\+:/:g'`
+				this_packages=$(echo "${hierbase}/.disk/packages/$1/Packages.gz"|sed 's:/\+:/:g')
 				echo "Using '${this_packages}' for $1."
 			fi
 		fi
