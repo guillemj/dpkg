@@ -512,6 +512,9 @@ Give help about debugging options.
 
 Display B<dpkg> version information.
 
+When used with B<--robot>, the output will be the program version number
+in a dotted numerical format, with no newline.
+
 =item B<dpkg-deb actions>
 
 See B<dpkg-deb>(1) for more information about the following actions,
@@ -999,6 +1002,15 @@ For conffile changes where I<decision> is either B<install> or
 B<keep>.
 
 =back
+
+=item B<--robot>
+
+Use a machine-readable output format. This provides an interface for programs
+that need to parse the output of some of the commands that do not otherwise
+emit a machine-readable output format. No localization will be used, and the
+output will be modified to make it easier to parse.
+
+The only currently supported command is B<--version>.
 
 =item B<--no-pager>
 

@@ -58,11 +58,15 @@
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
-  printf(_("Debian '%s' package management program version %s.\n"),
-         DPKG, PACKAGE_RELEASE);
-  printf(_(
+  if (f_robot) {
+    printf("%s", PACKAGE_RELEASE);
+  } else {
+    printf(_("Debian '%s' package management program version %s.\n"),
+           DPKG, PACKAGE_RELEASE);
+    printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"));
+  }
 
   m_output(stdout, _("<standard output>"));
 
@@ -163,6 +167,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --no-force-...|--refuse-...\n"
 "                             Stop when problems encountered.\n"
 "  --abort-after <n>          Abort after encountering <n> errors.\n"
+"  --robot                    Use machine-readable output on some commands.\n"
 "\n"), ADMINDIR);
 
   printf(_(
@@ -189,6 +194,7 @@ static const char printforhelp[] = N_(
 "\n"
 "Options marked [*] produce a lot of output - pipe it through 'less' or 'more' !");
 
+int f_robot = 0;
 int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
 int f_autodeconf=0, f_nodebsig=0;
 int f_triggers = 0;
@@ -596,6 +602,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "no-also-select",    'N', 0, &f_alsoselect, NULL,      NULL,    0 },
   { "skip-same-version", 'E', 0, &f_skipsame,   NULL,      NULL,    1 },
   { "auto-deconfigure",  'B', 0, &f_autodeconf, NULL,      NULL,    1 },
+  { "robot",             0,   0, &f_robot,      NULL,      NULL,    1 },
   { "root",              0,   1, NULL,          NULL,      set_root,      0 },
   { "abort-after",       0,   1, &errabort,     NULL,      set_integer,   0 },
   { "admindir",          0,   1, NULL,          &admindir, NULL,          0 },
