@@ -27,7 +27,7 @@ dpkg\-shlibdeps \- generate shared library substvar dependencies
 .
 .SH SYNOPSIS
 .B dpkg\-shlibdeps
-.RI [ option "...] [" \fB\-e\fP ] executable " [" option ...]
+.RI [ option "...] [\fB\-e\fP] " executable " [" option ...]
 .
 .SH DESCRIPTION
 .B dpkg\-shlibdeps
@@ -132,7 +132,7 @@ than another dependency).
 .B dpkg\-shlibdeps
 interprets non-option arguments as executable names, just as if they'd
 been supplied as
-.BI \-e executable\fR.
+.BR \-e \fIexecutable\fP.
 .TP
 .BI \-e executable
 Include dependencies appropriate for the shared libraries required by
@@ -154,13 +154,13 @@ problematic when cross-compiling for example.
 Add dependencies to be added to the control file dependency field
 .IR dependency-field .
 (The dependencies for this field are placed in the variable
-.BI shlibs: dependency-field\fR.)
+.BR shlibs: \fIdependency-field\fR.)
 
 The
 .BI \-d dependency-field
 option takes effect for all executables after the option, until the
 next
-.BI \-d dependency-field\fR.
+.BR \-d \fIdependency-field\fR.
 The default
 .I dependency-field
 is
@@ -363,7 +363,7 @@ in \fIlibrary-file\fR but
 has been unable to find any dependency information for that library. To
 find out the dependency, it has tried to map the library to a Debian
 package with the help of
-.BI "dpkg \-S " library-file\fR.
+.BR "dpkg \-S " \fIlibrary-file\fP.
 Then it checked the corresponding shlibs and symbols files in
 %ADMINDIR%/info/, and in the various package's build trees
 (debian/*/DEBIAN/).
