@@ -38,14 +38,28 @@ AC_DEFUN([DPKG_PROG_PERL], [
 # --------------
 AC_DEFUN([DPKG_PROG_PO4A], [
   AC_REQUIRE([AM_NLS])
+  AC_REQUIRE([DPKG_PROG_PERL])
   AC_ARG_VAR([PO4A], [po4a program])
   AC_CHECK_PROGS([PO4A], [po4a])
   AS_IF([test "$USE_NLS" = "yes" && test -n "$PO4A"], [
     USE_PO4A=yes
+    po4a_use_wrap=$($PERL -MLocale::Po4a::Po -e \
+                    'my $porefs = Locale::Po4a::Po->new()->{options}{porefs};
+                     print "yes" if $porefs =~ /,nowrap$/')
   ], [
     USE_PO4A=no
   ])
   AC_SUBST([USE_PO4A])
+
+  # Starting with po4a 0.58 the --porefs option does not accept the wrap
+  # modifiers, but earlier versions defaulted to nowrap, so we have to handle
+  # the backward incompatible change to support older and newer versions.
+  AS_IF([test "x$po4a_use_wrap" = "xyes"], [
+    PO4A_POREFS="file,wrap"
+  ], [
+    PO4A_POREFS="file"
+  ])
+  AC_SUBST([PO4A_POREFS])
 ])# DPKG_PROG_PO4A
 
 # DPKG_PROG_POD2MAN
