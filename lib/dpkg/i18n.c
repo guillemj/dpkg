@@ -24,6 +24,9 @@
 #include <dpkg/i18n.h>
 
 #ifdef HAVE_USELOCALE
+#ifdef HAVE_XLOCALE_H
+#include <xlocale.h>
+#endif
 static locale_t dpkg_C_locale;
 #endif
 

@@ -106,6 +106,7 @@ AC_CHECK_HEADERS([\
   error.h \
   err.h \
   locale.h \
+  xlocale.h \
   libintl.h \
   kvm.h \
   sys/sysmacros.h \
