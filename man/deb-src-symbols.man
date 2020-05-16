@@ -327,7 +327,9 @@ You can factorize the common part in some external file
 and include that file in your \fIpackage\fR.symbols.\fIarch\fR file by
 using an include directive like this:
 
+.EX
 #include "\fIpackages\fR.symbols.common"
+.EE
 .IP • 4
 The include directive may also be tagged like any symbol:
 
@@ -341,10 +343,10 @@ to create a common \fIpackage\fR.symbols file which includes architecture
 specific symbol files:
 
 .EX
-  common_symbol1@Base 1.0
- (arch=amd64 ia64 alpha)#include "package.symbols.64bit"
- (arch=!amd64 !ia64 !alpha)#include "package.symbols.32bit"
-  common_symbol2@Base 1.0
+ common_symbol1@Base 1.0
+(arch=amd64 ia64 alpha)#include "package.symbols.64bit"
+(arch=!amd64 !ia64 !alpha)#include "package.symbols.32bit"
+ common_symbol2@Base 1.0
 .EE
 .P
 The symbols files are read line by line, and include directives are processed
