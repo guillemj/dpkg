@@ -1,0 +1,49 @@
+# dpkg manual page - deb-conffiles(5)
+#
+# Copyright © 2016-2017 Guillem Jover <guillem@debian.org>
+#
+# This is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+=encoding utf8
+
+=head1 NAME
+
+deb-conffiles - package conffiles
+
+=head1 SYNOPSIS
+
+B<DEBIAN/conffiles>
+
+=head1 DESCRIPTION
+
+A package declares its list of conffiles by including a I<conffiles> file
+in its control archive (i.e. I<DEBIAN/conffiles> during package creation).
+
+This file contains a list of files, one per line.
+They should be listed as absolute pathnames, and should exist in the binary
+package, otherwise B<dpkg>(1) will ignore them (although by default
+B<dpkg-deb>(1) will refuse to build such binary packages).
+Trailing whitespace will be trimmed, and empty lines will be ignored.
+
+=head1 EXAMPLE
+
+ %CONFDIR%/alternatives/README
+ %CONFDIR%/cron.daily/dpkg
+ %PKGCONFDIR%/dpkg.cfg
+ %CONFDIR%/logrotate.d/dpkg
+
+=head1 SEE ALSO
+
+B<dpkg-deb>(1),
+B<dpkg>(1).
