@@ -44,6 +44,9 @@ EXTRA_DIST = \
 	$(test_scripts) \
 	$(test_data)
 
+nobase_dist_pkgdata_DATA = \
+	sh/dpkg-error.sh \
+	# EOL
 
 CLEANFILES = \
 	$(test_data_objects) \
@@ -147,6 +150,7 @@ do_perl_subst = $(AM_V_GEN) sed \
 	-e "s:our \$$PROGVERSION = .*;:our \$$PROGVERSION = '$(PACKAGE_VERSION)';:"
 
 do_shell_subst = $(AM_V_GEN) sed \
+	-e "s:^PKGDATADIR=.*$$:PKGDATADIR='$(pkgdatadir)':" \
 	-e "s:^version=['\"][^'\"]*[\"']:version=\"$(PACKAGE_VERSION)\":"
 
 SUFFIXES = .pl .sh
