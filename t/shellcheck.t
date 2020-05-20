@@ -38,6 +38,7 @@ my @files = qw(
     debian/dpkg.cron.daily
     debian/dpkg.postrm
     scripts/dpkg-maintscript-helper.sh
+    scripts/dpkg-realpath.sh
 );
 my @shellcheck_opts = (
     '--exclude=SC1090', # Allow non-constant source.

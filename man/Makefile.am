@@ -42,6 +42,7 @@ man_MANS = \
 	dpkg-name.1 \
 	dpkg-parsechangelog.1 \
 	dpkg-query.1 \
+	dpkg-realpath.1 \
 	dpkg-scanpackages.1 \
 	dpkg-scansources.1 \
 	dpkg-shlibdeps.1 \
@@ -115,6 +116,7 @@ EXTRA_DIST = \
 	dpkg-name.pod \
 	dpkg-parsechangelog.pod \
 	dpkg-query.pod \
+	dpkg-realpath.pod \
 	dpkg-scanpackages.pod \
 	dpkg-scansources.pod \
 	dpkg-shlibdeps.pod \

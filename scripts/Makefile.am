@@ -16,6 +16,7 @@ bin_SCRIPTS = \
 	dpkg-mergechangelogs \
 	dpkg-name \
 	dpkg-parsechangelog \
+	dpkg-realpath \
 	dpkg-scanpackages \
 	dpkg-scansources \
 	dpkg-shlibdeps \
@@ -36,6 +37,7 @@ EXTRA_DIST = \
 	dpkg-mergechangelogs.pl \
 	dpkg-name.pl \
 	dpkg-parsechangelog.pl \
+	dpkg-realpath.sh \
 	dpkg-scanpackages.pl \
 	dpkg-scansources.pl \
 	dpkg-shlibdeps.pl \
