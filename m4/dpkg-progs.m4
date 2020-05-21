@@ -40,26 +40,29 @@ AC_DEFUN([DPKG_PROG_PO4A], [
   AC_REQUIRE([AM_NLS])
   AC_REQUIRE([DPKG_PROG_PERL])
   AC_ARG_VAR([PO4A], [po4a program])
+  m4_define([_PO4A_MIN_VERSION], [0.59])
+  AC_CACHE_CHECK([for po4a >= _PO4A_MIN_VERSION], [ac_cv_path_PO4A], [
+    AC_PATH_PROGS_FEATURE_CHECK([PO4A], [po4a], [
+      po4aversion=$(LC_ALL=C $ac_path_PO4A --version \
+                      | sed -ne 's/^po4a version \(.*\)\.$/\1/p')
+      AS_VERSION_COMPARE([$po4aversion], [_PO4A_MIN_VERSION],
+                         [po4acheck=no], [po4acheck=yes], [po4acheck=yes])
+      AS_IF([test "x$po4acheck" = "xyes"], [
+        ac_cv_path_PO4A=$ac_path_PO4A ac_path_PO4A_found=:
+      ])
+    ], [
+      AC_MSG_ERROR([cannot find po4a >= _PO4A_MIN_VERSION])
+    ])
+  ])
+  AC_SUBST([PO4A], [$ac_cv_path_PO4A])
+
   AC_CHECK_PROGS([PO4A], [po4a])
   AS_IF([test "$USE_NLS" = "yes" && test -n "$PO4A"], [
     USE_PO4A=yes
-    po4a_use_wrap=$($PERL -MLocale::Po4a::Po -e \
-                    'my $porefs = Locale::Po4a::Po->new()->{options}{porefs};
-                     print "yes" if $porefs =~ /,nowrap$/')
   ], [
     USE_PO4A=no
   ])
   AC_SUBST([USE_PO4A])
-
-  # Starting with po4a 0.58 the --porefs option does not accept the wrap
-  # modifiers, but earlier versions defaulted to nowrap, so we have to handle
-  # the backward incompatible change to support older and newer versions.
-  AS_IF([test "x$po4a_use_wrap" = "xyes"], [
-    PO4A_POREFS="file,wrap"
-  ], [
-    PO4A_POREFS="file"
-  ])
-  AC_SUBST([PO4A_POREFS])
 ])# DPKG_PROG_PO4A
 
 # DPKG_PROG_POD2MAN

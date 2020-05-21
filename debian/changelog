@@ -66,9 +66,10 @@ dpkg (1.20.1) UNRELEASED; urgency=medium
     - Handle .git being a plain file when getting the dpkg tree version.
     - Add debian/changelog as a Changes file to the CPAN distribution.
     - Set DPKG_SERIES to 1.20.x when running the functional test suite.
-    - Change po4a --porefs argument from no longer supported “noline,wrap”
-      to “file,wrap” when the default contains «,nowrap» (po4a < 0.58), and
-      to “file” otherwise (po4a >= 0.58), to preserve backwards compatibility.
+    - When using po4a require at least po4a 0.59. Change the po4a --porefs
+      argument from no longer supported “noline,wrap” to “file”, as wrapping
+      is the default since po4a 0.58. We require po4a 0.59 as 0.58 had a
+      regression in its --srcdir support.
     - Switch to set the po4a addendum in the po4a_paths section instead of
       repeating it for each man page.
   * Packaging:
