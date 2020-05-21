@@ -573,7 +573,11 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	versionlength= p - versionstart;
         while (c_isspace(*p))
           p++;
-        if (*p == '(')
+        if (*p == '\0')
+          parse_error(ps,
+                      _("'%s' field, reference to '%.255s': "
+                        "version unterminated"), fip->name, depname.buf);
+        else if (*p == '(')
           parse_error(ps,
                       _("'%s' field, reference to '%.255s': "
                         "version contains '%c'"), fip->name, depname.buf, ')');
@@ -581,10 +585,6 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
           parse_error(ps,
                       _("'%s' field, reference to '%.255s': "
                         "version contains '%c'"), fip->name, depname.buf, ' ');
-        else if (*p == '\0')
-          parse_error(ps,
-                      _("'%s' field, reference to '%.255s': "
-                        "version unterminated"), fip->name, depname.buf);
         varbuf_reset(&version);
         varbuf_add_buf(&version, versionstart, versionlength);
         varbuf_end_str(&version);
