@@ -25,6 +25,10 @@ test_needs_srcdir_switch();
 
 plan tests => 1;
 
+# XXX: We should add the following to @cppcheck_opts, but then cppcheck emits
+# tons of false positives due to not understanding non-returning functions.
+#  -DLIBDPKG_VOLATILE_API=1
+#  -Ilib
 my @cppcheck_opts = (qw(
   -q --force --error-exitcode=2
   --suppressions-list=t/cppcheck/cppcheck.supp

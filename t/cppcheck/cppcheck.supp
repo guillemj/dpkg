@@ -11,6 +11,8 @@ variableScope
 // Ignore, this is an imported module.
 unusedStructMember:lib/compat/obstack.c
 nullPointerArithmetic:lib/compat/obstack.c
+nullPointerRedundantCheck:lib/compat/obstack.c
+nullPointerArithmeticRedundantCheck:lib/compat/obstack.c
 
 // Ignore, we are testing the functions.
 knownConditionTrueFalse:lib/dpkg/t/t-macros.c
@@ -20,6 +22,12 @@ literalWithCharPtrCompare:lib/dpkg/t/t-test.c
 
 // Ignore, the code is used only for its binary artifacts.
 uninitMemberVar:*/Dpkg_Shlibs/patterns.cpp
+
+// BUG: False positive, it gets triggered even with -Ilib.
+unknownMacro
+
+// BUG: False positive, the function returns a pointer within a local.
+returnDanglingLifetime:lib/dpkg/pkg-hash.c
 
 // BUG: False positive, the variable uses operator() which writes to it.
 constVariable:dselect/pkgsublist.cc:111
@@ -34,6 +42,7 @@ identicalInnerCondition:lib/dpkg/fsys-hash.c:100
 unusedStructMember:lib/dpkg/triglib.c:378
 
 // BUG: False positive, does not understand non-returning functors.
+nullPointerRedundantCheck:lib/dpkg/ehandle.c
 nullPointerRedundantCheck:utils/update-alternatives.c:1193
 doubleFree:utils/update-alternatives.c:1248
 
