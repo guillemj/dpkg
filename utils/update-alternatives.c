@@ -2666,6 +2666,8 @@ main(int argc, char **argv)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
+	umask(022);
+
 	admdir = admindir_init();
 
 	if (setvbuf(stdout, NULL, _IONBF, 0))
