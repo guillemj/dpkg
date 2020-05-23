@@ -432,7 +432,8 @@ run_error_handler(void)
   }
 
   if (econtext == NULL) {
-    print_abort_error(_("outside error context, aborting"), econtext->errmsg);
+    print_abort_error(_("outside error context, aborting"),
+                      _("an error occurred with no error handling in place"));
     exit(2);
   } else if (econtext->handler_type == HANDLER_TYPE_FUNC) {
     econtext->handler.func();
