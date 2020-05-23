@@ -73,12 +73,12 @@ decompose_filename(const char *filename, struct partqueue *pq)
 
   p = q;
   pq->info.thispartn = (int)strtol(p, &q, 16);
-  if (q == p || *q++ != '.' || errno != 0)
+  if (q == p || *q++ != '.' || pq->info.thispartn < 0 || errno != 0)
     return false;
 
   p = q;
   pq->info.maxpartn = (int)strtol(p, &q, 16);
-  if (q == p || *q || errno != 0)
+  if (q == p || *q || pq->info.maxpartn < 0 || errno != 0)
     return false;
 
   return true;
@@ -143,8 +143,7 @@ do_auto(const char *const *argv)
   struct partqueue *queue;
   struct partqueue *pq;
   struct dpkg_ar *part;
-  unsigned int i;
-  int j;
+  int i, j;
 
   if (!opt_outputfile)
     badusage(_("--auto requires the use of the --output option"));
@@ -226,7 +225,7 @@ do_auto(const char *const *argv)
     /* There are still some parts missing. */
     for (i=0, ap=0; i<refi->maxpartn; i++)
       if (!partlist[i])
-        printf("%s%d", !ap++ ? "" : i == (unsigned int)j ? _(" and ") : ", ", i + 1);
+        printf("%s%d", !ap++ ? "" : i == j ? _(" and ") : ", ", i + 1);
     printf(").\n");
 
     dir_sync_path(opt_depotdir);
@@ -282,7 +281,7 @@ do_queue(const char *const *argv)
   head= N_("Packages not yet reassembled:\n");
   for (pq= queue; pq; pq= pq->nextinqueue) {
     struct partinfo ti;
-    unsigned int i;
+    int i;
 
     if (!pq->info.md5sum) continue;
     mustgetpartinfo(pq->info.filename,&ti);

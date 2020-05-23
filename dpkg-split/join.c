@@ -39,7 +39,7 @@
 void reassemble(struct partinfo **partlist, const char *outputfile) {
   struct dpkg_error err;
   int fd_out, fd_in;
-  unsigned int i;
+  int i;
 
   printf(P_("Putting package %s together from %d part: ",
             "Putting package %s together from %d parts: ",
@@ -63,7 +63,7 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
              pi->filename, outputfile, err.str);
     close(fd_in);
 
-    printf("%u ", i + 1);
+    printf("%d ", i + 1);
   }
   if (fsync(fd_out))
     ohshite(_("unable to sync file '%s'"), outputfile);
@@ -103,7 +103,7 @@ do_join(const char *const *argv)
   struct partqueue *queue = NULL;
   struct partqueue *pq;
   struct partinfo *refi, **partlist;
-  unsigned int i;
+  int i;
 
   if (!*argv)
     badusage(_("--%s requires one or more part file arguments"),
