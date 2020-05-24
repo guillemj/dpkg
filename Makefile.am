@@ -59,6 +59,7 @@ EXTRA_DIST = \
 	doc/lcov-inject.pl \
 	doc/rootless-builds.txt \
 	doc/triggers.txt \
+	debian/README.bug-usertags \
 	debian/bug-script \
 	debian/changelog \
 	debian/control \
@@ -84,7 +85,6 @@ EXTRA_DIST = \
 	debian/libdpkg-dev.install \
 	debian/libdpkg-perl.install \
 	debian/source/format \
-	debian/usertags \
 	debian/rules \
 	debian/shlibs.default \
 	debian/shlibs.override \
