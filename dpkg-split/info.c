@@ -126,7 +126,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
   if (rc != (ssize_t)(thisilen + (thisilen & 1)))
     read_fail(rc, ar->name, "reading header member");
   if (thisilen & 1) {
-    int c = readinfobuf[thisilen + 1];
+    int c = readinfobuf[thisilen];
 
     if (c != '\n')
       ohshit(_("file '%.250s' is corrupt - bad padding character (code %d)"),

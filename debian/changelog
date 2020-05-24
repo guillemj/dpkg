@@ -16,6 +16,8 @@ dpkg (1.20.1) UNRELEASED; urgency=medium
     Prompted by Felix Lechner <felix.lechner@lease-up.com>.
   * dpkg-deb, dpkg: Do not accept relative pathnames in DEBIAN/conffiles.
     Reported by Niels Thykier <niels@thykier.net>.
+  * dpkg-split: Fix off-by-one check in ar header padding, that was making
+    parsing error out on valid archives. Regression introduced in dpkg 1.18.8.
   * Portability:
     - libdpkg: When using uselocale(), include <xlocale.h> for locale_t if
       the header is available. Needed on BSDs.
