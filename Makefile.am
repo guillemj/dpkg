@@ -44,6 +44,14 @@ dist_pkgdata_DATA = \
 	data/tupletable \
 	$(nil)
 
+dist_doc_DATA = \
+	doc/README.api \
+	doc/README.feature-removal-schedule \
+	doc/frontend.txt \
+	doc/rootless-builds.txt \
+	doc/triggers.txt \
+	$(nil)
+
 EXTRA_DIST = \
 	.gitlab-ci.yml \
 	.mailmap \
@@ -52,13 +60,8 @@ EXTRA_DIST = \
 	autogen \
 	get-version \
 	run-script \
-	doc/README.api \
-	doc/README.feature-removal-schedule \
 	doc/coding-style.txt \
-	doc/frontend.txt \
 	doc/lcov-inject.pl \
-	doc/rootless-builds.txt \
-	doc/triggers.txt \
 	debian/README.bug-usertags \
 	debian/bug-script \
 	debian/changelog \
