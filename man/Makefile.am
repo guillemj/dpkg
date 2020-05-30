@@ -193,7 +193,7 @@ clean-local-yes:
 update-po:
 	$(PO4A_V) $(PO4A) $(PO4A_OPTS) --force $(srcdir)/po/po4a.cfg
 
-SUFFIXES = .man
+SUFFIXES = .man .1 .5 .7 .8
 
 MANGEN_V = $(MANGEN_V_@AM_V@)
 MANGEN_V_ = $(MANGEN_V_@AM_DEFAULT_V@)
