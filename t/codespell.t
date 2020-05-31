@@ -40,6 +40,7 @@ my @codespell_skip = qw(
   libtool
   libtool.m4
   aclocal.m4
+  _build
   build-tree
   tmp
 );
