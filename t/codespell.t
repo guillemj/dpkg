@@ -33,14 +33,19 @@ my @codespell_skip = qw(
   *.add
   *.cache
   *~
+  .libs
+  .deps
   ChangeLog
   Makefile.in
   Makefile
   configure
+  config.*
   libtool
   libtool.m4
   aclocal.m4
+  autom4te.cache
   _build
+  build-aux
   build-tree
   tmp
 );
