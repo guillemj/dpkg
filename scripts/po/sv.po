@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-03-08 03:34+0100\n"
+"POT-Creation-Date: 2020-06-01 02:17+0200\n"
 "PO-Revision-Date: 2016-12-09 11:32+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -2234,6 +2234,12 @@ msgid "%s field contains value %s, but no tests control file %s"
 msgstr "Fältet %s innehåller värdet %s, men ingen teststyrfil %s"
 
 #: scripts/dpkg-source.pl
+#, fuzzy, perl-format
+#| msgid "%s is not a plain file"
+msgid "test control %s is missing %s or %s field"
+msgstr "%s är inte en vanlig fil"
+
+#: scripts/dpkg-source.pl
 msgctxt "source options"
 msgid "<none>"
 msgstr ""
@@ -3480,6 +3486,14 @@ msgstr "uppackad orig \"%s\" finns men är inte en katalog"
 msgid "unable to stat putative unpacked orig '%s'"
 msgstr "kan inte ta status på förmodad uppackad orig \"%s\""
 
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Quilt.pm
+msgid "non-native package version does not contain a revision"
+msgstr "icke-Debianegen paketversion saknar debianuppdateringsversion"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
+msgid "native package version may not have a revision"
+msgstr "Debianegen paketversion kan inte ha en debianuppdateringsversion"
+
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid "source directory '%s' is not <sourcepackage>-<upstreamversion> '%s'"
@@ -3528,6 +3542,10 @@ msgstr "kunde inte ändra beroenden på \"%s\""
 #, perl-format
 msgid "building %s using existing %s"
 msgstr "bygger %s med befintlig %s"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "upstream signing key but no upstream tarball signature"
+msgstr ""
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, fuzzy, perl-format
@@ -3891,10 +3909,6 @@ msgstr "flera tarfiler i v1.0-källkodspaket"
 msgid "unrecognized file for a native source package: %s"
 msgstr "okänd fil i ett Debianeget källkodspaket: %s"
 
-#: scripts/Dpkg/Source/Package/V3/Native.pm
-msgid "native package version may not have a revision"
-msgstr "Debianegen paketversion kan inte ha en debianuppdateringsversion"
-
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 msgid "use a single debianization patch"
 msgstr ""
@@ -3902,10 +3916,6 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 msgid "accept quilt metadata <version> even if unknown"
 msgstr ""
-
-#: scripts/Dpkg/Source/Package/V3/Quilt.pm
-msgid "non-native package version does not contain a revision"
-msgstr "icke-Debianegen paketversion saknar debianuppdateringsversion"
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 #, perl-format

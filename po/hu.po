@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-03-08 03:34+0100\n"
+"POT-Creation-Date: 2020-06-01 02:17+0200\n"
 "PO-Revision-Date: 2015-06-26 16:11+0200\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.debian.org>\n"
@@ -790,6 +790,10 @@ msgid "outside error context, aborting"
 msgstr "\"%s\" többszöri felülbírálása, megszakítva"
 
 #: lib/dpkg/ehandle.c
+msgid "an error occurred with no error handling in place"
+msgstr ""
+
+#: lib/dpkg/ehandle.c
 #, fuzzy
 #| msgid "internal error - bad mode `%s'"
 msgid "internal error"
@@ -988,13 +992,15 @@ msgstr ""
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid "'%s' field, reference to '%.255s': version contains '%c'"
-msgstr "`%s' mező, hivatkozás erre: `%.255s': a verzió `%c'-t tartalmaz"
-
-#: lib/dpkg/fields.c
-#, c-format
 msgid "'%s' field, reference to '%.255s': version unterminated"
 msgstr "`%s' mező, hivatkozás erre: `%.255s': lezáratlan verzió"
+
+#: lib/dpkg/fields.c
+#, fuzzy, c-format
+#| msgid "'%s' field, reference to '%.255s': version contains '%c'"
+msgid ""
+"'%s' field, reference to '%.255s': version contains '%c' instead of '%c'"
+msgstr "`%s' mező, hivatkozás erre: `%.255s': a verzió `%c'-t tartalmaz"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
@@ -5007,6 +5013,12 @@ msgstr "a statoverride fájl üres sort tartalmaz"
 msgid "conffile name '%s' is too long, or missing final newline"
 msgstr ""
 "figyelem, `%.50s...' konffájl név túl hosszú, vagy hiányzó végső újsor\n"
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "filename \"%s\" is not absolute"
+msgid "conffile name '%s' is not an absolute pathname"
+msgstr "\"%s\" fájlnév nem abszolút"
 
 #: src/unpack.c utils/update-alternatives.c
 #, c-format

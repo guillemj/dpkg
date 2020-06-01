@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-03-08 03:34+0100\n"
+"POT-Creation-Date: 2020-06-01 02:17+0200\n"
 "PO-Revision-Date: 2018-09-26 22:42+0200\n"
 "Last-Translator: Łukasz Dulny <BartekChom@poczta.onet.pl>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
@@ -754,6 +754,10 @@ msgid "outside error context, aborting"
 msgstr "zewnętrzny błąd kontekstu, przerywanie"
 
 #: lib/dpkg/ehandle.c
+msgid "an error occurred with no error handling in place"
+msgstr ""
+
+#: lib/dpkg/ehandle.c
 msgid "internal error"
 msgstr "błąd wewnętrzny"
 
@@ -955,13 +959,15 @@ msgstr ""
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid "'%s' field, reference to '%.255s': version contains '%c'"
-msgstr "pole \"%s\", w odniesieniu do \"%.255s\": numer wersji zawiera \"%c\""
-
-#: lib/dpkg/fields.c
-#, c-format
 msgid "'%s' field, reference to '%.255s': version unterminated"
 msgstr "pole \"%s\", w odniesieniu do \"%.255s\": numer wersji niezakończony"
+
+#: lib/dpkg/fields.c
+#, fuzzy, c-format
+#| msgid "'%s' field, reference to '%.255s': version contains '%c'"
+msgid ""
+"'%s' field, reference to '%.255s': version contains '%c' instead of '%c'"
+msgstr "pole \"%s\", w odniesieniu do \"%.255s\": numer wersji zawiera \"%c\""
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
@@ -4990,6 +4996,12 @@ msgid "conffile name '%s' is too long, or missing final newline"
 msgstr ""
 "nazwa pliku konfiguracyjnego \"%s\" jest za długa lub brak w niej znaku "
 "końca linii"
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "filename \"%s\" is not absolute"
+msgid "conffile name '%s' is not an absolute pathname"
+msgstr "nazwa pliku \"%s\" nie jest absolutna"
 
 #: src/unpack.c utils/update-alternatives.c
 #, c-format

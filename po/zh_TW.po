@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-03-08 03:34+0100\n"
+"POT-Creation-Date: 2020-06-01 02:17+0200\n"
 "PO-Revision-Date: 2018-04-15 07:06+0800\n"
 "Last-Translator: 林博仁 <Buo.Ren.Lin@gmail.com>\n"
 "Language-Team: Chinese (traditional) <debian-l10n-chinese@lists.debian.org>\n"
@@ -737,6 +737,10 @@ msgid "outside error context, aborting"
 msgstr "非處於錯誤情境中，中止程序"
 
 #: lib/dpkg/ehandle.c
+msgid "an error occurred with no error handling in place"
+msgstr ""
+
+#: lib/dpkg/ehandle.c
 msgid "internal error"
 msgstr "內部錯誤"
 
@@ -929,13 +933,15 @@ msgstr ""
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid "'%s' field, reference to '%.255s': version contains '%c'"
-msgstr "`%s' 欄位，參照至 `%.255s'：版本號含有 `%c'"
-
-#: lib/dpkg/fields.c
-#, c-format
 msgid "'%s' field, reference to '%.255s': version unterminated"
 msgstr "`%s' 欄位，參照至 `%.255s'：版本號未終止"
+
+#: lib/dpkg/fields.c
+#, fuzzy, c-format
+#| msgid "'%s' field, reference to '%.255s': version contains '%c'"
+msgid ""
+"'%s' field, reference to '%.255s': version contains '%c' instead of '%c'"
+msgstr "`%s' 欄位，參照至 `%.255s'：版本號含有 `%c'"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
@@ -4865,6 +4871,12 @@ msgstr "statoverride 檔有空行"
 #| msgid "conffile name '%.50s...' is too long, or missing final newline"
 msgid "conffile name '%s' is too long, or missing final newline"
 msgstr "conffile 名稱 '%.50s' 太長，或檔尾沒有換行"
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "filename \"%s\" is not absolute"
+msgid "conffile name '%s' is not an absolute pathname"
+msgstr "檔名 \"%s\" 不是唯一的"
 
 #: src/unpack.c utils/update-alternatives.c
 #, c-format

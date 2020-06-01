@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.16.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-03-08 03:34+0100\n"
+"POT-Creation-Date: 2020-06-01 02:17+0200\n"
 "PO-Revision-Date: 2014-12-02 20:24+0100\n"
 "Last-Translator: Omar Campagne <ocampagne@gmail.com>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -2405,6 +2405,12 @@ msgstr ""
 "pruebas %s"
 
 #: scripts/dpkg-source.pl
+#, fuzzy, perl-format
+#| msgid "%s is not a plain file"
+msgid "test control %s is missing %s or %s field"
+msgstr "«%s» no es un fichero simple"
+
+#: scripts/dpkg-source.pl
 msgctxt "source options"
 msgid "<none>"
 msgstr ""
@@ -3698,6 +3704,16 @@ msgstr "el «orig» desempaquetado «%s» existe, pero no es un directorio"
 msgid "unable to stat putative unpacked orig '%s'"
 msgstr "no se pudo obtener el estado («stat») del fichero «orig» putativo «%s»"
 
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Quilt.pm
+#, fuzzy
+#| msgid "doesn't contain a bzr repository"
+msgid "non-native package version does not contain a revision"
+msgstr "no contiene un repositorio bzr"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
+msgid "native package version may not have a revision"
+msgstr "la versión de un paquete nativo puede no tener una revisión"
+
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid "source directory '%s' is not <sourcepackage>-<upstreamversion> '%s'"
@@ -3750,6 +3766,10 @@ msgstr "no se han podido cambiar los permisos de «%s»"
 #, perl-format
 msgid "building %s using existing %s"
 msgstr "construyendo «%s» usando «%s», que está presente en el sistema"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "upstream signing key but no upstream tarball signature"
+msgstr ""
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, fuzzy, perl-format
@@ -4134,10 +4154,6 @@ msgstr "varios archivos tar en un paquete fuente versión 1.0"
 msgid "unrecognized file for a native source package: %s"
 msgstr "fichero no reconocido para un paquete fuente nativo: %s"
 
-#: scripts/Dpkg/Source/Package/V3/Native.pm
-msgid "native package version may not have a revision"
-msgstr "la versión de un paquete nativo puede no tener una revisión"
-
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 msgid "use a single debianization patch"
 msgstr ""
@@ -4145,12 +4161,6 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 msgid "accept quilt metadata <version> even if unknown"
 msgstr ""
-
-#: scripts/Dpkg/Source/Package/V3/Quilt.pm
-#, fuzzy
-#| msgid "doesn't contain a bzr repository"
-msgid "non-native package version does not contain a revision"
-msgstr "no contiene un repositorio bzr"
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 #, perl-format
