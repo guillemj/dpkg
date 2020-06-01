@@ -128,7 +128,22 @@ my @fields = changelog_parse(%options);
 foreach my $f (@fields) {
     print "\n" if $count++;
     if ($fieldname) {
-        print $f->{$fieldname} . "\n" if exists $f->{$fieldname};
+        next if not exists $f->{$fieldname};
+
+        my ($first_line, @lines) = split /\n/, $f->{$fieldname};
+
+        my $v = '';
+        $v .= $first_line if length $first_line;
+        $v .= "\n";
+        foreach (@lines) {
+            s/\s+$//;
+            if (length == 0 or /^\.+$/) {
+                $v .= ".$_\n";
+            } else {
+                $v .= "$_\n";
+            }
+        }
+        print $v;
     } else {
         print $f->output();
     }
