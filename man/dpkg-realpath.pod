@@ -33,6 +33,16 @@ B<dpkg-realpath> is a tool to resolve a pathname.
 
 =over
 
+=item B<--instdir> I<directory>
+
+Set the installation directory, which refers to the directory where
+packages get installed. Defaults to «I</>».
+
+=item B<--root> I<directory>
+
+Set the root directory to B<directory>, which sets the installation
+directory to «I<directory>».
+
 =item B<-?>, B<--help>
 
 Show the usage message and exit.
@@ -49,7 +59,8 @@ Show the version and exit.
 
 =item B<DPKG_ROOT>
 
-If set, it will be used as the filesystem root directory.
+If set and the B<--instdir> or B<--root> options have not been
+specified, it will be used as the filesystem root directory.
 
 =item B<DPKG_COLORS>
 

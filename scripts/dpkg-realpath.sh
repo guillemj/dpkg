@@ -41,8 +41,10 @@ show_usage()
 Usage: $PROGNAME [<option>...] <pathname>
 
 Options:
-       --version      Show the version.
-  -?,  --help         Show this help message.
+       --instdir <directory>    set the root directory.
+       --root <directory>       set the root directory.
+       --version                show the version.
+  -?,  --help                   show this help message.
 END
 }
 
@@ -119,6 +121,16 @@ setup_colors
 
 while [ $# -ne 0 ]; do
   case "$1" in
+  --instdir|--root)
+    shift
+    DPKG_ROOT=$1
+    ;;
+  --instdir=*)
+    DPKG_ROOT="${1#--instdir=}"
+    ;;
+  --root=*)
+    DPKG_ROOT="${1#--root=}"
+    ;;
   --version)
     show_version
     exit 0
