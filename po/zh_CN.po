@@ -10,22 +10,22 @@
 # Deng Xiyue <manphiz-guest@users.alioth.debian.org>, 2007, 2008, 2009.
 # Aron Xu <happyaron.xu@gmail.com>, 2009, 2010.
 # Zhou Mo <cdluminate@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019.
-# Boyuan Yang <073plan@gmail.com>, 2017, 2018.
+# Boyuan Yang <073plan@gmail.com>, 2017, 2018, 2020.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.19.0\n"
+"Project-Id-Version: dpkg 1.20.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2020-06-01 02:17+0200\n"
-"PO-Revision-Date: 2020-01-12 19:47+0100\n"
-"Last-Translator: Mo Zhou <cdluminate@gmail.com>\n"
+"PO-Revision-Date: 2020-06-14 21:45-0400\n"
+"Last-Translator: Boyuan yang <byang@debian.org>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #: lib/dpkg/ar.c
 msgid "failed to fstat archive"
@@ -110,10 +110,9 @@ msgid "error writing to architecture list"
 msgstr "写入体系结构列表时出错"
 
 #: lib/dpkg/atomic-file.c
-#, fuzzy, c-format
-#| msgid "cannot open directory '%s'"
+#, c-format
 msgid "cannot create base directory for %s"
-msgstr "无法打开目录 '%s'"
+msgstr "无法为 %s 创建基本目录"
 
 #: lib/dpkg/atomic-file.c
 #, c-format
@@ -133,12 +132,12 @@ msgstr "无法清空新文件 %.250s"
 #: lib/dpkg/atomic-file.c
 #, c-format
 msgid "unable to sync new file '%.250s'"
-msgstr "无法同步新文件 %.250s "
+msgstr "无法同步新文件 %.250s"
 
 #: lib/dpkg/atomic-file.c
 #, c-format
 msgid "unable to close new file '%.250s'"
-msgstr "无法关闭新文件 '%.250s' "
+msgstr "无法关闭新文件 '%.250s'"
 
 #: lib/dpkg/atomic-file.c
 #, c-format
@@ -204,8 +203,7 @@ msgid "%s: internal gzip write error"
 msgstr "%s：内部 gzip 写入错误"
 
 #: lib/dpkg/compress.c
-#, fuzzy, c-format
-#| msgid "%s: internal gzip read error: '%s'"
+#, c-format
 msgid "%s: internal gzip read error: %s"
 msgstr "%s：内部 gzip 读取错误：%s"
 
@@ -333,10 +331,9 @@ msgid ""
 msgstr "更新目录中的文件长度名称不一致（分别为 %d 和 %d）"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy, c-format
-#| msgid "cannot scan updates directory '%.255s'"
+#, c-format
 msgid "cannot create the dpkg updates directory %s"
-msgstr "无法扫描更新目录 %.255s "
+msgstr "无法创建 dpkg 更新目录 %s"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -396,10 +393,9 @@ msgid "requested operation requires superuser privilege"
 msgstr "所请求的操作需要超级用户权限"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy, c-format
-#| msgid "unable to access the dpkg database directory %s"
+#, c-format
 msgid "cannot create the dpkg database directory %s"
-msgstr "无法访问 dpkg 数据库目录 %s"
+msgstr "无法创建 dpkg 数据库目录 %s"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -736,7 +732,7 @@ msgstr "处于错误上下文之外，中止"
 
 #: lib/dpkg/ehandle.c
 msgid "an error occurred with no error handling in place"
-msgstr ""
+msgstr "发生了错误且不存在错误处理方法"
 
 #: lib/dpkg/ehandle.c
 msgid "internal error"
@@ -916,11 +912,10 @@ msgid "'%s' field, reference to '%.255s': version unterminated"
 msgstr "'%s' 字段，引用 '%.255s' ：版本号未终止"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "'%s' field, reference to '%.255s': version contains '%c'"
+#, c-format
 msgid ""
 "'%s' field, reference to '%.255s': version contains '%c' instead of '%c'"
-msgstr "'%s' 字段，引用 '%.255s' ：版本号含有 '%c' "
+msgstr "'%s' 字段，引用 '%.255s' ：版本号含有 '%c' 而非 '%c'"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -1013,22 +1008,26 @@ msgid ""
 "locked area and the entire system. See <https://wiki.debian.org/Teams/Dpkg/"
 "FAQ>."
 msgstr ""
+"注意：删除锁文件的操作是错误的，这样操作会损坏上锁的部分甚至损坏\n"
+"个系统。详情请见 <https://wiki.debian.org/Teams/Dpkg/FAQ>。"
 
 #: lib/dpkg/file.c
-#, fuzzy, c-format
-#| msgid "%s is locked by another process"
+#, c-format
 msgid ""
 "%s was locked by another process\n"
 "%s"
-msgstr "另外一个进程已经为 %s 加锁"
+msgstr ""
+"%s 已被另一个进程加锁\n"
+"%s"
 
 #: lib/dpkg/file.c
-#, fuzzy, c-format
-#| msgid "%s is locked by another process"
+#, c-format
 msgid ""
 "%s was locked by another process with pid %d\n"
 "%s"
-msgstr "另外一个进程已经为 %s 加锁"
+msgstr ""
+"%s 已被另一个 pid 为 %d 的进程加锁\n"
+"%s"
 
 #: lib/dpkg/file.c
 #, c-format
@@ -1114,7 +1113,7 @@ msgstr "%s 中引号不闭合"
 #: lib/dpkg/options.c utils/update-alternatives.c
 #, c-format
 msgid "unknown option '%s'"
-msgstr "未知选项 %s "
+msgstr "未知选项 %s"
 
 #: lib/dpkg/options.c
 #, c-format
@@ -1368,28 +1367,18 @@ msgid "no package information in '%.255s'"
 msgstr "在 %.255s 中没有软件包的相关信息"
 
 #: lib/dpkg/parsehelp.c
-#, fuzzy, c-format
-#| msgid ""
-#| "parsing file '%.255s' near line %d package '%.255s':\n"
-#| " %.255s"
+#, c-format
 msgid ""
 "parsing file '%s' near line %d package '%s':\n"
 " "
-msgstr ""
-"正在解析文件 '%.255s' 第 %d 行附近，软件包 '%.255s' :\n"
-" %.255s"
+msgstr "在解析文件 '%s' 第 %d 行附近，软件包 '%s' 时："
 
 #: lib/dpkg/parsehelp.c
-#, fuzzy, c-format
-#| msgid ""
-#| "parsing file '%.255s' near line %d:\n"
-#| " %.255s"
+#, c-format
 msgid ""
 "parsing file '%.255s' near line %d:\n"
 " "
-msgstr ""
-"正在解析文件 '%.255s' 第 %d 行附近:\n"
-" %.255s"
+msgstr "在解析文件 '%.255s' 第 %d 行附近时："
 
 #: lib/dpkg/parsehelp.c
 msgid "must start with an alphanumeric character"
@@ -1866,7 +1855,7 @@ msgstr "为符号链接 %.255s 设置属主时出错"
 #: src/archives.c utils/update-alternatives.c
 #, c-format
 msgid "unable to read link '%.255s'"
-msgstr "无法读取符号链接 %.255s "
+msgstr "无法读取符号链接 %.255s"
 
 #: src/archives.c src/configure.c
 #, c-format
@@ -1910,10 +1899,9 @@ msgid "trying to overwrite '%.250s', which is the diverted version of '%.250s'"
 msgstr "正在尝试覆盖 %.250s，它是 %.250s 的转移版本"
 
 #: src/archives.c
-#, fuzzy, c-format
-#| msgid "unable to stat '%.255s' (which I was about to install)"
+#, c-format
 msgid "unable to stat '%.255s' (which was about to be installed)"
-msgstr "无法获取 %.255s 的状态(正准备安装该文件)"
+msgstr "无法获取 '%.255s' 的状态（正准备安装该文件）"
 
 #: src/archives.c
 #, c-format
@@ -1983,12 +1971,12 @@ msgstr "无法安装 %.255s 的新版本"
 #: src/archives.c
 #, c-format
 msgid "unable to open '%.255s'"
-msgstr "无法打开 %.255s "
+msgstr "无法打开 %.255s"
 
 #: src/archives.c
 #, c-format
 msgid "unable to sync file '%.255s'"
-msgstr "无法同步文件 %.255s "
+msgstr "无法同步文件 %.255s"
 
 #: src/archives.c
 #, c-format
@@ -2721,7 +2709,7 @@ msgstr ""
 msgid ""
 "please specify --no-rename explicitly, the default will change to --rename "
 "in 1.20.x"
-msgstr "请显式指定 --no-rename ，默认选项将会在 1.20.x 版本中变为 --rename 。"
+msgstr "请显式指定 --no-rename ，默认选项将会在 1.20.x 版本中变为 --rename"
 
 #: src/divertcmd.c utils/update-alternatives.c
 #, c-format
@@ -3126,7 +3114,7 @@ msgstr "--compare-versions 错误的比较关系"
 #: src/enquiry.c
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
-msgstr "--%s 使用了废弃的关系操作符 '%s' "
+msgstr "--%s 使用了废弃的关系操作符 '%s'"
 
 #: src/errors.c
 #, c-format
@@ -3193,10 +3181,8 @@ msgid "Configure any package which may help this one"
 msgstr "配置任何可能与这有关的软件包"
 
 #: src/force.c
-#, fuzzy
-#| msgid "Process incidental packages even when on hold"
 msgid "Install or remove incidental packages even when on hold"
-msgstr "处理意外的软件包，即使它处于搁置状态"
+msgstr "安装或删除意外的软件包，即使它处于搁置状态"
 
 #: src/force.c
 msgid "Try to (de)install things even when not root"
@@ -3380,7 +3366,7 @@ msgstr "已安装"
 
 #: src/help.c
 msgid "PATH is not set"
-msgstr "没有设置 PATH 环境变量。"
+msgstr "没有设置 PATH 环境变量"
 
 #: src/help.c
 #, c-format
@@ -4463,7 +4449,7 @@ msgstr "--update 已指定但 %s 不存在"
 
 #: src/statcmd.c
 msgid "no override present"
-msgstr "override 不存在。"
+msgstr "override 不存在"
 
 #: src/statcmd.c
 msgid "--update is useless for --remove"
@@ -4692,10 +4678,9 @@ msgid "conffile name '%s' is too long, or missing final newline"
 msgstr "conffile 的文件名 %s 超长，或是缺少最后结尾的换行符"
 
 #: src/unpack.c dpkg-deb/build.c
-#, fuzzy, c-format
-#| msgid "filename \"%s\" is not absolute"
+#, c-format
 msgid "conffile name '%s' is not an absolute pathname"
-msgstr "文件名 \"%s\" 并不是绝对的"
+msgstr "conffile 文件名 \"%s\" 不是绝对路径名"
 
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
@@ -5405,12 +5390,12 @@ msgstr "无效的 deb 格式版本：%s"
 #: dpkg-deb/main.c
 #, c-format
 msgid "unknown deb format version: %s"
-msgstr "未知的 deb 格式版本：%s "
+msgstr "未知的 deb 格式版本：%s"
 
 #: dpkg-deb/main.c
 #, c-format
 msgid "invalid compression level for -%c: %ld"
-msgstr "无效的压缩等级 -%c：%ld "
+msgstr "无效的压缩等级 -%c：%ld"
 
 #: dpkg-deb/main.c
 #, c-format
@@ -5498,7 +5483,7 @@ msgstr "文件 %.250s 格式的版本是 %d.%d；您需要用更新版本的 dpk
 
 #: dpkg-split/info.c
 msgid "package name"
-msgstr "软件包名："
+msgstr "软件包名"
 
 #: dpkg-split/info.c
 msgid "package version number"
@@ -5550,7 +5535,7 @@ msgstr "文件 %.250s 已经损毁 - 归档分块编号有误"
 
 #: dpkg-split/info.c
 msgid "package architecture"
-msgstr "软件包体系结构："
+msgstr "软件包体系结构"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5776,10 +5761,9 @@ msgid "File '%.250s' is not part of a multipart archive.\n"
 msgstr "文件 %.250s 并非多卷包文件的一个分块文件。\n"
 
 #: dpkg-split/queue.c
-#, fuzzy, c-format
-#| msgid "cannot open directory '%s'"
+#, c-format
 msgid "cannot create directory %s"
-msgstr "无法打开目录 '%s'"
+msgstr "无法创建目录 %s"
 
 #: dpkg-split/queue.c
 #, c-format
@@ -6139,10 +6123,9 @@ msgid "discarding obsolete slave link %s (%s)"
 msgstr "舍弃废弃的次要链接 %s (%s)"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "cannot scan updates directory '%.255s'"
+#, c-format
 msgid "cannot create administrative directory '%s'"
-msgstr "无法扫描更新目录 %.255s "
+msgstr "无法创建管理目录 \"%s\""
 
 #: utils/update-alternatives.c
 #, c-format
