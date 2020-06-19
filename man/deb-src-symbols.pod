@@ -166,14 +166,19 @@ Multiple restrictions can be chained.
 
   (arch-bits=32|arch-endian=little)32bit_le_symbol@Base 1.0
 
+=item B<allow-internal>
+
+dpkg-gensymbols has a list of internal symbols that should not
+appear in symbols files as they are usually only side-effects of
+implementation details of the toolchain (since dpkg 1.20.1).
+If for some reason, you really want one of those symbols to be included in
+the symbols file, you should tag the symbol with B<allow-internal>.
+It can be necessary for some low level toolchain libraries like “libgcc”.
+
 =item B<ignore-blacklist>
 
-dpkg-gensymbols has an internal blacklist of symbols that should not
-appear in symbols files as they are usually only side-effects of
-implementation details of the toolchain. If for some reason, you really
-want one of those symbols to be included in the symbols file, you should
-tag the symbol with B<ignore-blacklist>. It can be necessary for
-some low level toolchain libraries like “libgcc”.
+A deprecated alias for B<allow-internal> (since dpkg 1.20.1,
+supported since dpkg 1.15.3).
 
 =item B<c++>
 

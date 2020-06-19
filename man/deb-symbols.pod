@@ -78,15 +78,20 @@ This field will override any B<Build-Depends-Package> field present,
 and is mostly useful with “-dev” packages and metapackages depending
 on these, say for a transition period.
 
-=item B<Ignore-Blacklist-Groups>
+=item B<Allow-Internal-Symbol-Groups>
 
-It indicates what blacklist groups should be ignored, as a whitespace
+It indicates what internal symbol groups should be ignored, as a whitespace
 separated list, so that the symbols contained in those groups get
-included in the output file (since dpkg 1.17.6).
+included in the output file (since dpkg 1.20.1).
 This should only be necessary for toolchain
-packages providing those blacklisted symbols. The available groups are
+packages providing those internal symbols. The available groups are
 system dependent, for ELF and GNU-based systems these are B<aeabi>
 and B<gomp>.
+
+=item B<Ignore-Blacklist-Groups>
+
+A deprecated alias for B<Allow-Internal-Symbol-Groups> (since dpkg 1.20.1,
+supported since dpkg 1.17.6).
 
 =back
 

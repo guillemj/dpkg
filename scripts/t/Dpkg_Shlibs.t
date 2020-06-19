@@ -161,7 +161,7 @@ ok( $sym_file->get_new_symbols($sym_file_old), 'has new symbols' );
 ok( $sym_file_old->get_lost_symbols($sym_file), 'has lost symbols' );
 
 is( $sym_file_old->lookup_symbol('__bss_start@Base', ['libc.so.6']),
-    undef, 'internal symbols are blacklisted' );
+    undef, 'internal symbols are ignored' );
 
 %tmp = $sym_file->lookup_symbol('_errno@GLIBC_2.0', ['libc.so.6'], 1);
 isa_ok($tmp{symbol}, 'Dpkg::Shlibs::Symbol');
@@ -205,84 +205,84 @@ sub save_load_test {
 save_load_test( $sym_file, 'save -> load' );
 
 
-# Test ignoring blacklisted symbols
-open $objdump, '<', "$datadir/objdump.blacklisted"
-    or die "objdump.blacklisted: $!";
+# Test ignoring internal symbols
+open $objdump, '<', "$datadir/objdump.internal"
+    or die "objdump.internal: $!";
 $obj->reset();
 $obj->parse_objdump_output($objdump);
 close $objdump;
 
-# Do not ignore any blacklist
-$sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/symbols.blacklist-filter");
+# Do not ignore any internal symbols
+$sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/symbols.internal-filter");
 $sym_file->merge_symbols($obj, '100.MISSING');
 
-$sym = $sym_file->lookup_symbol('symbol@Base', ['libblacklisted.so.0']);
+$sym = $sym_file->lookup_symbol('symbol@Base', ['libinternal.so.0']);
 is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol@Base',
                 minver => '1.0', dep_id => 0, deprecated => 0),
-          'symbol unaffected w/o ignoring blacklists');
+          'symbol unaffected w/o including internal symbols');
 
-$sym = $sym_file->lookup_symbol('.gomp_critical_user_foo@Base', ['libblacklisted.so.0']);
-is($sym, undef, 'gomp symbol omitted while filtering on blacklists');
+$sym = $sym_file->lookup_symbol('.gomp_critical_user_foo@Base', ['libinternal.so.0']);
+is($sym, undef, 'gomp symbol omitted while filtering internal symbols');
 
-$sym = $sym_file->lookup_symbol('__aeabi_lcmp@GCC_3.0', ['libblacklisted.so.0']);
-is($sym, undef, 'known aeabi symbol omitted while filtering on blacklists');
+$sym = $sym_file->lookup_symbol('__aeabi_lcmp@GCC_3.0', ['libinternal.so.0']);
+is($sym, undef, 'known aeabi symbol omitted while filtering internal symbols');
 
-$sym = $sym_file->lookup_symbol('__aeabi_unknown@GCC_4.0', ['libblacklisted.so.0']);
-is($sym, undef, 'unknown aeabi symbol omitted while filtering on blacklists');
+$sym = $sym_file->lookup_symbol('__aeabi_unknown@GCC_4.0', ['libinternal.so.0']);
+is($sym, undef, 'unknown aeabi symbol omitted while filtering internal symbols');
 
-# Ignore blacklists using the ignore-blacklists symbol tag
-$sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/symbols.blacklist-ignore");
+# Include internal symbols using the allow-internal tag.
+$sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/symbols.internal-allow");
 $sym_file->merge_symbols($obj, '100.MISSING');
 
-$sym = $sym_file->lookup_symbol('symbol@Base', ['libblacklisted.so.0']);
+$sym = $sym_file->lookup_symbol('symbol@Base', ['libinternal.so.0']);
 is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol@Base',
                 minver => '1.0', dep_id => 0, deprecated => 0),
-          'symbol unaffected while ignoring blacklists via symbol tag');
+          'symbol unaffected while including internal symbols via symbol tag');
 
-$sym = $sym_file->lookup_symbol('.gomp_critical_user_foo@Base', ['libblacklisted.so.0']);
+$sym = $sym_file->lookup_symbol('.gomp_critical_user_foo@Base', ['libinternal.so.0']);
 is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => '.gomp_critical_user_foo@Base',
                 minver => '2.0', dep_id => 0, deprecated => 0,
-                tags => { 'ignore-blacklist' => undef },
-                tagorder => [ 'ignore-blacklist' ]),
-          'blacklisted gomp symbol included via symbol tag');
+                tags => { 'allow-internal' => undef },
+                tagorder => [ 'allow-internal' ]),
+          'internal gomp symbol included via symbol tag');
 
-$sym = $sym_file->lookup_symbol('__aeabi_lcmp@GCC_3.0', ['libblacklisted.so.0']);
+$sym = $sym_file->lookup_symbol('__aeabi_lcmp@GCC_3.0', ['libinternal.so.0']);
 is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => '__aeabi_lcmp@GCC_3.0',
                 minver => '3.0', dep_id => 0, deprecated => 0,
-                tags => { 'ignore-blacklist' => undef },
-                tagorder => [ 'ignore-blacklist' ]),
-          'blacklisted known aeabi symbol included via symbol tag');
+                tags => { 'allow-internal' => undef },
+                tagorder => [ 'allow-internal' ]),
+          'internal known aeabi symbol included via symbol tag');
 
-$sym = $sym_file->lookup_symbol('__aeabi_unknown@GCC_4.0', ['libblacklisted.so.0']);
+$sym = $sym_file->lookup_symbol('__aeabi_unknown@GCC_4.0', ['libinternal.so.0']);
 is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => '__aeabi_unknown@GCC_4.0',
                 minver => '4.0', dep_id => 0, deprecated => 0,
-                tags => { 'ignore-blacklist' => undef },
-                tagorder => [ 'ignore-blacklist' ]),
-          'blacklisted unknown aeabi symbol omitted via symbol tag');
+                tags => { 'allow-internal' => undef },
+                tagorder => [ 'allow-internal' ]),
+          'internal unknown aeabi symbol omitted via symbol tag');
 
-# Ignore blacklists using the Ignore-Blacklist-Groups field
-$sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/symbols.blacklist-groups");
+# Include internal symbols using the Allow-Internal-Symbol-Groups field
+$sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/symbols.internal-allow-groups");
 $sym_file->merge_symbols($obj, '100.MISSING');
 
-$sym = $sym_file->lookup_symbol('symbol@Base', ['libblacklisted.so.0']);
+$sym = $sym_file->lookup_symbol('symbol@Base', ['libinternal.so.0']);
 is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol@Base',
                 minver => '1.0', dep_id => 0, deprecated => 0),
-          'symbol unaffected w/o ignoring blacklists');
+          'symbol unaffected w/o including internal symbols');
 
-$sym = $sym_file->lookup_symbol('.gomp_critical_user_foo@Base', ['libblacklisted.so.0']);
+$sym = $sym_file->lookup_symbol('.gomp_critical_user_foo@Base', ['libinternal.so.0']);
 is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => '.gomp_critical_user_foo@Base',
                 minver => '2.0', dep_id => 0, deprecated => 0),
-          'blacklisted gomp symbol included via library field');
+          'internal gomp symbol included via library field');
 
-$sym = $sym_file->lookup_symbol('__aeabi_lcmp@GCC_3.0', ['libblacklisted.so.0']);
+$sym = $sym_file->lookup_symbol('__aeabi_lcmp@GCC_3.0', ['libinternal.so.0']);
 is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => '__aeabi_lcmp@GCC_3.0',
                 minver => '3.0', dep_id => 0, deprecated => 0),
-          'blacklisted known aeabi symbol included via library field');
+          'internal known aeabi symbol included via library field');
 
-$sym = $sym_file->lookup_symbol('__aeabi_unknown@GCC_4.0', ['libblacklisted.so.0']);
+$sym = $sym_file->lookup_symbol('__aeabi_unknown@GCC_4.0', ['libinternal.so.0']);
 is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => '__aeabi_unknown@GCC_4.0',
                 minver => '4.0', dep_id => 0, deprecated => 0),
-          'blacklisted unknown aeabi symbol included via library field');
+          'internal unknown aeabi symbol included via library field');
 
 
 # Test include mechanism of SymbolFile

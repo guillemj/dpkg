@@ -266,10 +266,10 @@ test_data = \
 	t/Dpkg_OpenPGP/package_1.0.orig.tar \
 	t/Dpkg_OpenPGP/package_1.0.orig.tar.asc \
 	t/Dpkg_OpenPGP/package_1.0.orig.tar.sig \
-	t/Dpkg_Shlibs/symbols.blacklisted \
-	t/Dpkg_Shlibs/symbols.blacklist-groups \
-	t/Dpkg_Shlibs/symbols.blacklist-filter \
-	t/Dpkg_Shlibs/symbols.blacklist-ignore \
+	t/Dpkg_Shlibs/symbols.internal \
+	t/Dpkg_Shlibs/symbols.internal-allow \
+	t/Dpkg_Shlibs/symbols.internal-allow-groups \
+	t/Dpkg_Shlibs/symbols.internal-filter \
 	t/Dpkg_Shlibs/symbols.fake-1 \
 	t/Dpkg_Shlibs/symbols.fake-2 \
 	t/Dpkg_Shlibs/symbols.fake-3 \
@@ -291,7 +291,7 @@ test_data = \
 	t/Dpkg_Shlibs/objdump.basictags-amd64 \
 	t/Dpkg_Shlibs/objdump.basictags-i386 \
 	t/Dpkg_Shlibs/objdump.basictags-mips \
-	t/Dpkg_Shlibs/objdump.blacklisted \
+	t/Dpkg_Shlibs/objdump.internal \
 	t/Dpkg_Shlibs/objdump.patterns \
 	t/Dpkg_Shlibs/objdump.glib-ia64 \
 	t/Dpkg_Shlibs/objdump.libc6-2.3 \

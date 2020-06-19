@@ -34,7 +34,7 @@ use parent qw(Dpkg::Interface::Storable);
 no if $Dpkg::Version::VERSION ge '1.02',
     warnings => qw(Dpkg::Version::semantic_change::overload::bool);
 
-my %blacklist = (
+my %internal_symbol = (
     __bss_end__ => 1,                   # arm
     __bss_end => 1,                     # arm
     _bss_end__ => 1,                    # arm
@@ -66,18 +66,18 @@ my %blacklist = (
 
 for my $i (14 .. 31) {
     # Many powerpc specific symbols
-    $blacklist{"_restfpr_$i"} = 1;
-    $blacklist{"_restfpr_$i\_x"} = 1;
-    $blacklist{"_restgpr_$i"} = 1;
-    $blacklist{"_restgpr_$i\_x"} = 1;
-    $blacklist{"_savefpr_$i"} = 1;
-    $blacklist{"_savegpr_$i"} = 1;
+    $internal_symbol{"_restfpr_$i"} = 1;
+    $internal_symbol{"_restfpr_$i\_x"} = 1;
+    $internal_symbol{"_restgpr_$i"} = 1;
+    $internal_symbol{"_restgpr_$i\_x"} = 1;
+    $internal_symbol{"_savefpr_$i"} = 1;
+    $internal_symbol{"_savegpr_$i"} = 1;
 }
 
-sub symbol_is_blacklisted {
+sub symbol_is_internal {
     my ($symbol, $include_groups) = @_;
 
-    return 1 if exists $blacklist{$symbol};
+    return 1 if exists $internal_symbol{$symbol};
 
     # The ARM Embedded ABI spec states symbols under this namespace as
     # possibly appearing in output objects.
@@ -400,8 +400,7 @@ sub find_matching_pattern {
 
 # merge_symbols($object, $minver)
 # Needs $Objdump->get_object($soname) as parameter
-# Don't merge blacklisted symbols related to the internal (arch-specific)
-# machinery
+# Do not merge symbols found in the list of (arch-specific) internal symbols.
 sub merge_symbols {
     my ($self, $object, $minver) = @_;
 
@@ -410,7 +409,15 @@ sub merge_symbols {
         unless $soname;
 
     my %include_groups = ();
-    my $groups = $self->get_field($soname, 'Ignore-Blacklist-Groups');
+    my $groups = $self->get_field($soname, 'Allow-Internal-Symbol-Groups');
+    if (not defined $groups) {
+        $groups = $self->get_field($soname, 'Ignore-Blacklist-Groups');
+        if (defined $groups) {
+            warnings::warnif('deprecated',
+                'symbols file field "Ignore-Blacklist-Groups" is deprecated, ' .
+                'use "Allow-Internal-Symbol-Groups" instead');
+        }
+    }
     if (defined $groups) {
         $include_groups{$_} = 1 foreach (split ' ', $groups);
     }
@@ -420,8 +427,20 @@ sub merge_symbols {
         my $name = $sym->{name} . '@' .
                    ($sym->{version} ? $sym->{version} : 'Base');
         my $symobj = $self->lookup_symbol($name, $soname);
-        if (symbol_is_blacklisted($sym->{name}, \%include_groups)) {
-            next unless (defined $symobj and $symobj->has_tag('ignore-blacklist'));
+        if (symbol_is_internal($sym->{name}, \%include_groups)) {
+            next unless defined $symobj;
+
+            if ($symobj->has_tag('allow-internal')) {
+                # Allow the symbol.
+            } elsif ($symobj->has_tag('ignore-blacklist')) {
+                # Allow the symbol and warn.
+                warnings::warnif('deprecated',
+                    'symbol tag "ignore-blacklist" is deprecated, ' .
+                    'use "allow-internal" instead');
+            } else {
+                # Ignore the symbol.
+                next;
+            }
         }
         $dynsyms{$name} = $sym;
     }
