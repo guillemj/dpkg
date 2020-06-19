@@ -18,9 +18,10 @@ package Dpkg::Build::Info;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 our @EXPORT_OK = qw(
     get_build_env_whitelist
+    get_build_env_allowed
 );
 
 use Exporter qw(import);
@@ -40,14 +41,14 @@ information.
 
 =over 4
 
-=item @envvars = get_build_env_whitelist()
+=item @envvars = get_build_env_allowed()
 
-Get an array with the whitelist of environment variables that can affect
+Get an array with the allowed list of environment variables that can affect
 the build, but are still not privacy revealing.
 
 =cut
 
-my @env_whitelist = (
+my @env_allowed = (
     # Toolchain.
     qw(CC CPP CXX OBJC OBJCXX PC FC M2C AS LD AR RANLIB MAKE AWK LEX YACC),
     # Toolchain flags.
@@ -77,13 +78,30 @@ my @env_whitelist = (
     qw(SOURCE_DATE_EPOCH),
 );
 
+sub get_build_env_allowed {
+    return @env_allowed;
+}
+
+=item @envvars = get_build_env_whitelist()
+
+This is a deprecated alias for get_build_env_allowed().
+
+=cut
+
 sub get_build_env_whitelist {
-    return @env_whitelist;
+    warnings::warnif('deprecated', 'use get_build_env_allowed() instead');
+    return get_build_env_allowed();
 }
 
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.01 (dpkg 1.20.1)
+
+New function: get_build_env_allowed().
+
+Deprecated function: get_build_env_whitelist().
 
 =head2 Version 1.00 (dpkg 1.18.14)
 

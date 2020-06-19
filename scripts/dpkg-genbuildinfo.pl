@@ -36,7 +36,7 @@ use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_build_arch get_host_arch debarch_eq);
 use Dpkg::Build::Types;
-use Dpkg::Build::Info qw(get_build_env_whitelist);
+use Dpkg::Build::Info qw(get_build_env_allowed);
 use Dpkg::BuildOptions;
 use Dpkg::BuildFlags;
 use Dpkg::BuildProfiles qw(get_build_profiles);
@@ -248,13 +248,13 @@ sub collect_installed_builddeps {
 }
 
 sub cleansed_environment {
-    # Consider only whitelisted variables which are not supposed to leak
+    # Consider only allowed variables which are not supposed to leak
     # local user information.
     my %env = map {
         $_ => $ENV{$_}
     } grep {
         exists $ENV{$_}
-    } get_build_env_whitelist();
+    } get_build_env_allowed();
 
     # Record flags from dpkg-buildflags.
     my $bf = Dpkg::BuildFlags->new();

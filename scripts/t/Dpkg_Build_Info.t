@@ -22,7 +22,7 @@ BEGIN {
     use_ok('Dpkg::Build::Info');
 }
 
-is(scalar Dpkg::Build::Info::get_build_env_whitelist(), 50,
-   'whitelisted environment variables array');
+is(scalar Dpkg::Build::Info::get_build_env_allowed(), 50,
+   'allowed environment variables array');
 
 1;
