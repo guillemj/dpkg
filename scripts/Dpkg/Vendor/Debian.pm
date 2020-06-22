@@ -465,7 +465,7 @@ sub _build_tainted_by {
         next unless -l $pathname;
 
         my $linkname = readlink $pathname;
-        if ($linkname eq "usr$pathname") {
+        if ($linkname eq "usr$pathname" or $linkname eq "/usr$pathname") {
             $tainted{'merged-usr-via-symlinks'} = 1;
             last;
         }
