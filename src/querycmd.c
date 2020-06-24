@@ -813,6 +813,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
+"  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
 "\n"), ADMINDIR);
 
