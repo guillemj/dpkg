@@ -203,6 +203,19 @@ sub run_hook {
     return;
 }
 
+=item $vendor->set_build_features($flags)
+
+Sets the vendor build features, which will then be used to initialize the
+build flags.
+
+=cut
+
+sub set_build_features {
+    my ($self, $flags) = @_;
+
+    return;
+}
+
 =back
 
 =head1 CHANGES
