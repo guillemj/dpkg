@@ -595,9 +595,9 @@ PROGNAME=$(basename "$0")
 version="unknown"
 DPKG_ROOT=${DPKG_ROOT:+$(realpath "$DPKG_ROOT")}
 
-PKGDATADIR=scripts/sh
+PKGDATADIR=scripts
 
-. "$PKGDATADIR/dpkg-error.sh"
+. "$PKGDATADIR/sh/dpkg-error.sh"
 
 setup_colors
 

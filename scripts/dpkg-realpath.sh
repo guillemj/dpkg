@@ -21,9 +21,9 @@ set -e
 PROGNAME=$(basename "$0")
 version="unknown"
 
-PKGDATADIR=scripts/sh
+PKGDATADIR=scripts
 
-. "$PKGDATADIR/dpkg-error.sh"
+. "$PKGDATADIR/sh/dpkg-error.sh"
 
 show_version()
 {
