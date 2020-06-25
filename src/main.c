@@ -128,7 +128,7 @@ usage(const struct cmdinfo *ci, const char *value)
 
   printf(_(
 "Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides protected-field.\n"
+"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
 "\n"));
 
   printf(_(
