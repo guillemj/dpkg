@@ -128,7 +128,7 @@ usage(const struct cmdinfo *ci, const char *value)
 
   printf(_(
 "Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides.\n"
+"  multi-conrep, multi-arch, versioned-provides protected-field.\n"
 "\n"));
 
   printf(_(
@@ -567,6 +567,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "assert-multi-conrep",             0,  act_assertmulticonrep,    assertmulticonrep ),
   ACTION( "assert-multi-arch",               0,  act_assertmultiarch,      assertmultiarch ),
   ACTION( "assert-versioned-provides",       0,  act_assertverprovides,    assertverprovides ),
+  ACTION( "assert-protected-field",          0,  act_assert_protected,     assert_protected ),
   ACTION( "add-architecture",                0,  act_arch_add,             arch_add        ),
   ACTION( "remove-architecture",             0,  act_arch_remove,          arch_remove     ),
   ACTION( "print-architecture",              0,  act_printarch,            printarch   ),

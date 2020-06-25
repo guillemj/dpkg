@@ -108,6 +108,8 @@ struct pkgbin {
   struct dependency *depends;
   /** The ‘essential’ flag, true = yes, false = no (absent). */
   bool essential;
+  /** The ‘protected’ flag, true = yes, false = no (absent). */
+  bool is_protected;
   enum pkgmultiarch multiarch;
   const struct dpkg_arch *arch;
   /** The following is the "pkgname:archqual" cached string, if this was a

@@ -125,9 +125,14 @@ void deferred_remove(struct pkginfo *pkg) {
     return;
   }
 
-  if (pkg->installed.essential && pkg->status != PKG_STAT_CONFIGFILES)
-    forcibleerr(FORCE_REMOVE_ESSENTIAL,
-                _("this is an essential package; it should not be removed"));
+  if (pkg->status != PKG_STAT_CONFIGFILES) {
+    if (pkg->installed.essential)
+      forcibleerr(FORCE_REMOVE_ESSENTIAL,
+                  _("this is an essential package; it should not be removed"));
+    if (pkg->installed.is_protected)
+      forcibleerr(FORCE_REMOVE_PROTECTED,
+                  _("this is a protected package; it should not be removed"));
+  }
 
   debug(dbg_general, "checking dependencies for remove '%s'",
         pkg_name(pkg, pnaw_always));
@@ -378,6 +383,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 
     pkg_set_status(pkg, PKG_STAT_CONFIGFILES);
     pkg->installed.essential = false;
+    pkg->installed.is_protected = false;
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 }

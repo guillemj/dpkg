@@ -1246,6 +1246,19 @@ try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
         return 0;
       }
     }
+    if (pkg->installed.is_protected) {
+      if (in_force(FORCE_REMOVE_PROTECTED)) {
+        warning(_("considering deconfiguration of protected\n"
+                  " package %s, to enable %s"),
+                pkg_name(pkg, pnaw_nonambig), action);
+      } else {
+        notice(_("no, %s is protected, will not deconfigure\n"
+                 " it in order to enable %s"),
+               pkg_name(pkg, pnaw_nonambig), action);
+        return 0;
+      }
+    }
+
     enqueue_deconfigure(pkg, removal);
     return 1;
   } else {
@@ -1343,11 +1356,13 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       fixbyrm= dep->up;
       ensure_package_clientdata(fixbyrm);
     }
-    if (((pkg->available.essential && fixbyrm->installed.essential) ||
-         (((fixbyrm->want != PKG_WANT_INSTALL &&
-            fixbyrm->want != PKG_WANT_HOLD) ||
-           does_replace(pkg, &pkg->available, fixbyrm, &fixbyrm->installed)) &&
-          (!fixbyrm->installed.essential || in_force(FORCE_REMOVE_ESSENTIAL))))) {
+    if (((pkg->available.essential || pkg->available.is_protected) &&
+         (fixbyrm->installed.essential || fixbyrm->installed.is_protected)) ||
+        (((fixbyrm->want != PKG_WANT_INSTALL &&
+           fixbyrm->want != PKG_WANT_HOLD) ||
+          does_replace(pkg, &pkg->available, fixbyrm, &fixbyrm->installed)) &&
+         ((!fixbyrm->installed.essential || in_force(FORCE_REMOVE_ESSENTIAL)) ||
+          (!fixbyrm->installed.is_protected || in_force(FORCE_REMOVE_PROTECTED))))) {
       if (fixbyrm->clientdata->istobe != PKG_ISTOBE_NORMAL &&
           fixbyrm->clientdata->istobe != PKG_ISTOBE_DECONFIGURE)
         internerr("package %s to be fixed by removal is not to be normal "

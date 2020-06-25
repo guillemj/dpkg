@@ -317,7 +317,9 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
             $profile =~ s/\s+/,/g;
             $pkg_summary .= " profile=$profile";
         }
-
+        if (defined $pkg->{'Protected'} and $pkg->{'Protected'} eq 'yes') {
+            $pkg_summary .= ' protected=yes';
+        }
         if (defined $pkg->{'Essential'} and $pkg->{'Essential'} eq 'yes') {
             $pkg_summary .= ' essential=yes';
         }

@@ -772,6 +772,7 @@ pkg_update_fields(struct pkginfo *pkg, struct fsys_namenode_queue *newconffiles)
 
   /* We copy the text fields. */
   pkg->installed.essential = pkg->available.essential;
+  pkg->installed.is_protected = pkg->available.is_protected;
   pkg->installed.multiarch = pkg->available.multiarch;
   pkg->installed.description = pkg->available.description;
   pkg->installed.maintainer = pkg->available.maintainer;

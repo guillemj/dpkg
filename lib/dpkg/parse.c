@@ -54,6 +54,7 @@ const struct fieldinfo fieldinfos[]= {
   /* Note: Capitalization of field name strings is important. */
   { FIELD("Package"),          f_name,            w_name                                     },
   { FIELD("Essential"),        f_boolean,         w_booleandefno,   PKGIFPOFF(essential)     },
+  { FIELD("Protected"),        f_boolean,         w_booleandefno,   PKGIFPOFF(is_protected)  },
   { FIELD("Status"),           f_status,          w_status                                   },
   { FIELD("Priority"),         f_priority,        w_priority                                 },
   { FIELD("Section"),          f_section,         w_section                                  },

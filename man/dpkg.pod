@@ -440,6 +440,10 @@ Supports multi-arch fields and semantics (since dpkg 1.16.2).
 
 Supports versioned B<Provides> (since dpkg 1.17.11).
 
+=item B<protected-field>
+
+Supports the B<Protected> field (since dpkg 1.20.1).
+
 =back
 
 =item B<--validate->I<thing string>
@@ -676,6 +680,12 @@ B<remove-reinstreq>:
 Remove a package, even if it's broken and marked to require
 reinstallation. This may, for example, cause parts of the package to
 remain on the system, which will then be forgotten by B<dpkg>.
+
+B<remove-protected>:
+Remove, even if the package is considered protected (since dpkg 1.20.1).
+Protected packages contain mostly important system boot infrastructure.
+Removing them might cause the whole system to be unable to boot, so use
+with caution.
 
 B<remove-essential>:
 Remove, even if the package is considered essential. Essential

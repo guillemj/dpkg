@@ -99,6 +99,7 @@ void
 pkgbin_blank(struct pkgbin *pkgbin)
 {
 	pkgbin->essential = false;
+	pkgbin->is_protected = false;
 	pkgbin->depends = NULL;
 	pkgbin->pkgname_archqual = NULL;
 	pkgbin->description = NULL;

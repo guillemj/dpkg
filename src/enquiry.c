@@ -440,6 +440,14 @@ assertverprovides(const char *const *argv)
   return assert_version_support(argv, &version, _("versioned Provides"));
 }
 
+int
+assert_protected(const char *const *argv)
+{
+  struct dpkg_version version = { 0, "1.20.1", NULL };
+
+  return assert_version_support(argv, &version, _("Protected field"));
+}
+
 /**
  * Print a single package which:
  *  (a) is the target of one or more relevant predependencies.

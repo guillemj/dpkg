@@ -206,6 +206,11 @@ static const struct forceinfo {
 		FORCETYPE_DAMAGE,
 		N_("Remove packages which require installation"),
 	}, {
+		"remove-protected",
+		FORCE_REMOVE_PROTECTED,
+		FORCETYPE_DAMAGE,
+		N_("Remove a protected package"),
+	}, {
 		"remove-essential",
 		FORCE_REMOVE_ESSENTIAL,
 		FORCETYPE_DAMAGE,

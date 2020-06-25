@@ -48,6 +48,7 @@ dist_doc_DATA = \
 	doc/README.api \
 	doc/README.feature-removal-schedule \
 	doc/frontend.txt \
+	doc/protected-field.txt \
 	doc/rootless-builds.txt \
 	doc/triggers.txt \
 	$(nil)

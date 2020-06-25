@@ -20,7 +20,7 @@ use Test::More;
 use Test::Dpkg qw(:paths);
 
 BEGIN {
-    plan tests => 2438;
+    plan tests => 2460;
 
     use_ok('Dpkg::Control::Types');
     use_ok('Dpkg::Control::FieldsCore');
@@ -70,7 +70,7 @@ my %fields = (
         unordered => 1,
         fields => [
             qw(Architecture Build-Essential Build-Profiles Built-For-Profiles
-               Description Essential Homepage
+               Description Essential Protected Homepage
                Installer-Menu-Item Kernel-Version Multi-Arch
                Package Package-Type Priority Section Subarchitecture
                Tag Task), @bin_dep_fields
@@ -92,7 +92,7 @@ my %fields = (
             qw(Package Package-Type Source Version Built-Using Kernel-Version
                Built-For-Profiles Auto-Built-Package Architecture
                Subarchitecture Installer-Menu-Item
-               Build-Essential Essential Origin Bugs
+               Build-Essential Essential Protected Origin Bugs
                Maintainer Installed-Size), @bin_dep_fields,
             qw(Section Priority Multi-Arch Homepage Description Tag Task)
         ],
@@ -114,7 +114,7 @@ my %fields = (
             qw(Package Package-Type Source Version Built-Using Kernel-Version
                Built-For-Profiles Auto-Built-Package Architecture
                Subarchitecture Installer-Menu-Item
-               Build-Essential Essential Origin Bugs
+               Build-Essential Essential Protected Origin Bugs
                Maintainer Installed-Size), @bin_dep_fields, @bin_files,
             qw(Section Priority Multi-Arch Homepage Description Tag Task)
         ],
@@ -190,7 +190,8 @@ my %fields = (
     CTRL_FILE_STATUS() => {
         name => 'dpkg status',
         fields => [
-            qw(Package Essential Status Priority Section Installed-Size
+            qw(Package Essential Protected Status Priority Section
+               Installed-Size
                Origin Maintainer Bugs Architecture Multi-Arch Source
                Version Config-Version
                Replaces Provides Depends Pre-Depends
