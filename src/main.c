@@ -82,7 +82,7 @@ static void DPKG_ATTR_NORET
 usage(const struct cmdinfo *ci, const char *value)
 {
   printf(_(
-"Usage: %s [<option> ...] <command>\n"
+"Usage: %s [<option>...] <command>\n"
 "\n"), DPKG);
 
   printf(_(
@@ -164,11 +164,11 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --status-fd <n>            Send status change updates to file descriptor <n>.\n"
 "  --status-logger=<command>  Send status change updates to <command>'s stdin.\n"
 "  --log=<filename>           Log status changes and actions to <filename>.\n"
-"  --ignore-depends=<package>,...\n"
+"  --ignore-depends=<package>[,...]\n"
 "                             Ignore dependencies involving <package>.\n"
-"  --force-...                Override problems (see --force-help).\n"
-"  --no-force-...|--refuse-...\n"
-"                             Stop when problems encountered.\n"
+"  --force-<thing>[,...]      Override problems (see --force-help).\n"
+"  --no-force-<thing>[,...]   Stop when problems encountered.\n"
+"  --refuse-<thing>[,...]     Ditto.\n"
 "  --abort-after <n>          Abort after encountering <n> errors.\n"
 "  --robot                    Use machine-readable output on some commands.\n"
 "\n"), ADMINDIR);

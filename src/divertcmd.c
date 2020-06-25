@@ -82,7 +82,7 @@ static void
 usage(const struct cmdinfo *cip, const char *value)
 {
 	printf(_(
-"Usage: %s [<option> ...] <command>\n"
+"Usage: %s [<option>...] <command>\n"
 "\n"), dpkg_get_progname());
 
 	printf(_(
