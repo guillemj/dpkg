@@ -410,7 +410,7 @@ dir_to_symlink() {
             -f "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir" \) -o \
          \( -h "$DPKG_ROOT$PATHNAME" -a \
             \( "$(readlink "$DPKG_ROOT$PATHNAME")" = "$SYMLINK_TARGET" -o \
-               "$(dpkg-realpath "$DPKG_ROOT$PATHNAME")" = "$SYMLINK_TARGET" \) \) ] &&
+               "$(dpkg-realpath "$PATHNAME")" = "$SYMLINK_TARGET" \) \) ] &&
        dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
       abort_dir_to_symlink "$PATHNAME"
     fi

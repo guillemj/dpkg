@@ -55,11 +55,6 @@ canonicalize() {
   local result="$root"
   local dst
 
-  if [ "${src#"$root"}" = "$src" ]; then
-    error "link not within root"
-  fi
-  # Remove prefixed root dir.
-  src=${src#"$root"}
   # Remove prefixed slashes.
   while [ "$src" != "${src#/}" ]; do
      src=${src#/}
@@ -155,6 +150,9 @@ while [ $# -ne 0 ]; do
 done
 
 [ -n "$pathname" ] || badusage "missing pathname"
+if [ "${pathname#"$DPKG_ROOT"}" != "$pathname" ]; then
+  error "link includes root prefix"
+fi
 
 canonicalize "$pathname"
 
