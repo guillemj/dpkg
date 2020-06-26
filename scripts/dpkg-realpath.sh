@@ -50,7 +50,7 @@ END
 
 canonicalize() {
   local src="$1"
-  local root="$2"
+  local root="$DPKG_ROOT"
   local loop=0
   local result="$root"
   local dst
@@ -117,6 +117,9 @@ canonicalize() {
 
 setup_colors
 
+DPKG_ROOT="${DPKG_ROOT:-}"
+export DPKG_ROOT
+
 while [ $# -ne 0 ]; do
   case "$1" in
   --instdir|--root)
@@ -153,6 +156,6 @@ done
 
 [ -n "$pathname" ] || badusage "missing pathname"
 
-canonicalize "$pathname" "${DPKG_ROOT:-}"
+canonicalize "$pathname"
 
 exit 0

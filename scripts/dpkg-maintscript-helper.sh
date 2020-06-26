@@ -594,6 +594,7 @@ set -e
 PROGNAME=$(basename "$0")
 version="unknown"
 DPKG_ROOT=${DPKG_ROOT:+$(realpath "$DPKG_ROOT")}
+export DPKG_ROOT
 
 PKGDATADIR=scripts
 
