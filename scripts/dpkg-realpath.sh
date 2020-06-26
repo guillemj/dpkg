@@ -149,6 +149,13 @@ while [ $# -ne 0 ]; do
   shift
 done
 
+# Normalize root directory.
+DPKG_ROOT="${DPKG_ROOT:+$(realpath "$DPKG_ROOT")}"
+# Remove default root dir.
+if [ "$DPKG_ROOT" = "/" ]; then
+  DPKG_ROOT=""
+fi
+
 [ -n "$pathname" ] || badusage "missing pathname"
 if [ "${pathname#"$DPKG_ROOT"}" != "$pathname" ]; then
   error "link includes root prefix"

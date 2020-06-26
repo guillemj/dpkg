@@ -594,6 +594,10 @@ set -e
 PROGNAME=$(basename "$0")
 version="unknown"
 DPKG_ROOT=${DPKG_ROOT:+$(realpath "$DPKG_ROOT")}
+# Remove default root dir.
+if [ "$DPKG_ROOT" = "/" ]; then
+  DPKG_ROOT=""
+fi
 export DPKG_ROOT
 
 PKGDATADIR=scripts
