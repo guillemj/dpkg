@@ -117,8 +117,6 @@ canonicalize() {
 
 setup_colors
 
-[ $# -eq 1 ] || badusage "missing pathname"
-
 while [ $# -ne 0 ]; do
   case "$1" in
   --instdir|--root)
@@ -152,6 +150,8 @@ while [ $# -ne 0 ]; do
   esac
   shift
 done
+
+[ -n "$pathname" ] || badusage "missing pathname"
 
 canonicalize "$pathname" "${DPKG_ROOT:-}"
 
