@@ -55,6 +55,12 @@ canonicalize() {
   local result="$root"
   local dst
 
+  # Check whether the path is relative and make it absolute otherwise.
+  if [ "$src" = "${src#/}" ]; then
+    src="$(pwd)/$src"
+    src="${src#"$root"}"
+  fi
+
   # Remove prefixed slashes.
   while [ "$src" != "${src#/}" ]; do
      src=${src#/}
