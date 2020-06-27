@@ -443,7 +443,7 @@ sub _generate_patch {
         } else {
             my $key = $self->get_upstream_signing_key($dir);
             if (-e $key) {
-                error(g_('upstream signing key but no upstream tarball signature'));
+                warning(g_('upstream signing key but no upstream tarball signature'));
             }
         }
     }

@@ -5,6 +5,11 @@ dpkg (1.20.2) UNRELEASED; urgency=medium
     if it is missing, to help with installation bootstrapping.
     Reported by Johannes Schauer <josch@debian.org>.
   * update-alternatives: Create the log directory if it is missing.
+  * Perl modules:
+    - Dpkg::Source::Package: Turn the missing expected tarball signature
+      error into a warning for now, as it is causing unintended fallout,
+      and does not play nice (yet) with tarballs repackaged by uscan(1).
+      Closes: #963821
   * Code internals:
     - update-alternatives: Move log_msg() after make_path() so that we can use
       the latter.
