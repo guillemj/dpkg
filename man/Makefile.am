@@ -219,8 +219,9 @@ MANFIXUP = sed \
 	$(nil)
 
 if BUILD_POD_DOC
-MANGEN = $(POD2MAN_V) filename='$*'; $(POD2MAN) $(POD2MAN_OPTS) \
-	  --name="$${filename%%.*}" --section="$${filename\#\#*.}" $< | \
+MANGEN = $(POD2MAN_V) filename='$@'; $(POD2MAN) $(POD2MAN_OPTS) \
+	  --name="$$(basename $${filename%%.*})" \
+	  --section="$${filename\#\#*.}" $< | \
 	  $(MANFIXUP) >$@
 endif
 
