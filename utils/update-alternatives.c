@@ -318,6 +318,21 @@ xstrdup(const char *str)
 	return new_str;
 }
 
+static char *
+xstrndup(const char *str, size_t n)
+{
+	char *new_str;
+
+	if (!str)
+		return NULL;
+
+	new_str = strndup(str, n);
+	if (!new_str)
+		error(_("failed to allocate memory"));
+
+	return new_str;
+}
+
 static char * DPKG_ATTR_VPRINTF(1)
 xvasprintf(const char *fmt, va_list args)
 {
@@ -434,6 +449,20 @@ xunlink_args(const char *fmt, ...)
 		syserr(_("unable to remove '%s'"), path);
 
 	free(path);
+}
+
+static char *
+xdirname(const char *pathname)
+{
+	char *dirname, *slash;
+
+	slash = strrchr(pathname, '/');
+	if (slash)
+		dirname = xstrndup(pathname, slash - pathname);
+	else
+		dirname = xstrdup(".");
+
+	return dirname;
 }
 
 static int
