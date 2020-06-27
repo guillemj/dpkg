@@ -1916,6 +1916,17 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 {
 	char *fntmp, *fn;
 
+	/* Create alternatives directory (/etc/alternatives) if missing. */
+	if (fsys_pathname_is_missing(altdir)) {
+		char *root_altdir = fsys_get_path(altdir);
+
+		if (make_path(root_altdir, 0755) < 0)
+			syserr(_("cannot create alternatives directory '%s'"),
+			       root_altdir);
+
+		free(root_altdir);
+	}
+
 	/* Create link in /etc/alternatives. */
 	fntmp = xasprintf("%s/%s" ALT_TMP_EXT, altdir, name);
 	fn = xasprintf("%s/%s", altdir, name);
