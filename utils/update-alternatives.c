@@ -502,6 +502,16 @@ log_msg(const char *fmt, ...)
 
 	if (fh_log == NULL) {
 		fh_log = fopen(log_file, "a");
+		if (fh_log == NULL && errno == ENOENT) {
+			char *log_dir = xdirname(log_file);
+
+			if (make_path(log_dir, 0755) < 0)
+				syserr(_("cannot create log directory '%s'"),
+				       log_dir);
+			free(log_dir);
+
+			fh_log = fopen(log_file, "a");
+		}
 		if (fh_log == NULL && errno != EACCES)
 			syserr(_("cannot append to '%s'"), log_file);
 	}
