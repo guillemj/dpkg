@@ -21,7 +21,7 @@ set -e
 PROGNAME=$(basename "$0")
 version="unknown"
 
-PKGDATADIR=scripts
+PKGDATADIR="${DPKG_DATADIR:-scripts}"
 
 . "$PKGDATADIR/sh/dpkg-error.sh"
 

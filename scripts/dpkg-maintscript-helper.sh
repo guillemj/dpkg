@@ -600,7 +600,7 @@ if [ "$DPKG_ROOT" = "/" ]; then
 fi
 export DPKG_ROOT
 
-PKGDATADIR=scripts
+PKGDATADIR="${DPKG_DATADIR:-scripts}"
 
 . "$PKGDATADIR/sh/dpkg-error.sh"
 
