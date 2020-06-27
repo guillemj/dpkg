@@ -139,7 +139,7 @@ while [ $# -ne 0 ]; do
     shift
     pathname="$1"
     ;;
-  --*)
+  -*)
     badusage "unknown option: $1"
     ;;
   *)
