@@ -51,13 +51,12 @@ AC_DEFUN([DPKG_PROG_PO4A], [
         ac_cv_path_PO4A=$ac_path_PO4A ac_path_PO4A_found=:
       ])
     ], [
-      AC_MSG_ERROR([cannot find po4a >= _PO4A_MIN_VERSION])
+      ac_cv_path_PO4A=no
     ])
   ])
   AC_SUBST([PO4A], [$ac_cv_path_PO4A])
 
-  AC_CHECK_PROGS([PO4A], [po4a])
-  AS_IF([test "$USE_NLS" = "yes" && test -n "$PO4A"], [
+  AS_IF([test "$USE_NLS" = "yes" && test "$ac_cv_path_PO4A" != "no"], [
     USE_PO4A=yes
   ], [
     USE_PO4A=no
