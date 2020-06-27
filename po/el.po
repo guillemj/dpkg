@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-06-01 02:17+0200\n"
+"POT-Creation-Date: 2020-06-27 02:41+0200\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: quad-nrg.net <yodesy@quad-nrg.net>\n"
 "Language-Team: Greek <debian-l10n-greek@lists.debian.org>\n"
@@ -2059,7 +2059,7 @@ msgstr "σφάλμα ορισμού της χρονοσήμανσης του `%.
 msgid "error setting ownership of symlink '%.255s'"
 msgstr "σφάλμα ρύθμισης ιδιοκτησίας του `%.255s'"
 
-#: src/archives.c utils/update-alternatives.c
+#: src/archives.c
 #, c-format
 msgid "unable to read link '%.255s'"
 msgstr "αδύνατη η ανάγνωση δεσμού `%.255s'"
@@ -2233,6 +2233,27 @@ msgstr ""
 #| " it in order to enable %s.\n"
 msgid ""
 "no, %s is essential, will not deconfigure\n"
+" it in order to enable %s"
+msgstr ""
+"dpkg: όχι,το %s είναι ουσιώδες, δε θα απορρυθμιστεί\n"
+" για να ενεργοποιηθεί το %s.\n"
+
+#: src/archives.c
+#, fuzzy, c-format
+msgid ""
+"considering deconfiguration of protected\n"
+" package %s, to enable %s"
+msgstr ""
+"dpkg: προειδοποίηση - θεώρηση της απορρύθμισης του ουσιώδους\n"
+" πακέτου %s, για ενεργοποίηση του %s.\n"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: no, %s is essential, will not deconfigure\n"
+#| " it in order to enable %s.\n"
+msgid ""
+"no, %s is protected, will not deconfigure\n"
 " it in order to enable %s"
 msgstr ""
 "dpkg: όχι,το %s είναι ουσιώδες, δε θα απορρυθμιστεί\n"
@@ -2974,11 +2995,13 @@ msgstr ""
 "ή\n"
 "μεταγενέστερη για συνθήκες αντιγραφής. Δεν υπάρχει ΚΑΜΙΑ εγγύηση.\n"
 
-#: src/divertcmd.c src/main.c src/querycmd.c src/statcmd.c dpkg-deb/main.c
-#: dpkg-split/main.c utils/update-alternatives.c
-#, c-format
+#: src/divertcmd.c src/main.c src/querycmd.c dpkg-deb/main.c
+#, fuzzy, c-format
+#| msgid ""
+#| "Usage: %s [<option> ...] <command>\n"
+#| "\n"
 msgid ""
-"Usage: %s [<option> ...] <command>\n"
+"Usage: %s [<option>...] <command>\n"
 "\n"
 msgstr ""
 "Usage: %s [<option> ...] <command>\n"
@@ -3421,6 +3444,10 @@ msgid "versioned Provides"
 msgstr ""
 
 #: src/enquiry.c
+msgid "Protected field"
+msgstr ""
+
+#: src/enquiry.c
 #, fuzzy, c-format
 #| msgid ""
 #| "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -3678,6 +3705,10 @@ msgid "Remove packages which require installation"
 msgstr ""
 
 #: src/force.c
+msgid "Remove a protected package"
+msgstr ""
+
+#: src/force.c
 msgid "Remove an essential package"
 msgstr ""
 
@@ -3919,7 +3950,7 @@ msgstr ""
 #| "\n"
 msgid ""
 "Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides.\n"
+"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
 "\n"
 msgstr ""
 "Για εσωτερική χρήση: dpkg --assert-support-predepends | --predep-package |\n"
@@ -3993,6 +4024,8 @@ msgid ""
 "  --root=<directory>         Install on a different root directory.\n"
 "  --instdir=<directory>      Change installation dir without changing admin "
 "dir.\n"
+"  --pre-invoke=<command>     Set a pre-invoke hook.\n"
+"  --post-invoke=<command>    Set a post-invoke hook.\n"
 "  --path-exclude=<pattern>   Do not install paths which match a shell "
 "pattern.\n"
 "  --path-include=<pattern>   Re-include a pattern after a previous "
@@ -4007,6 +4040,7 @@ msgid ""
 "  --[no-]triggers            Skip or force consequential trigger "
 "processing.\n"
 "  --verify-format=<format>   Verify output format (supported: 'rpm').\n"
+"  --no-pager                 Disables the use of any pager.\n"
 "  --no-debsig                Do not try to verify package signatures.\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             Just say what we would do - don't do it.\n"
@@ -4016,12 +4050,13 @@ msgid ""
 "  --status-logger=<command>  Send status change updates to <command>'s "
 "stdin.\n"
 "  --log=<filename>           Log status changes and actions to <filename>.\n"
-"  --ignore-depends=<package>,...\n"
+"  --ignore-depends=<package>[,...]\n"
 "                             Ignore dependencies involving <package>.\n"
-"  --force-...                Override problems (see --force-help).\n"
-"  --no-force-...|--refuse-...\n"
-"                             Stop when problems encountered.\n"
+"  --force-<thing>[,...]      Override problems (see --force-help).\n"
+"  --no-force-<thing>[,...]   Stop when problems encountered.\n"
+"  --refuse-<thing>[,...]     Ditto.\n"
 "  --abort-after <n>          Abort after encountering <n> errors.\n"
+"  --robot                    Use machine-readable output on some commands.\n"
 "\n"
 msgstr ""
 "Επιλογές:\n"
@@ -4612,6 +4647,7 @@ msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
+"  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
 "\n"
 msgstr ""
@@ -4674,6 +4710,12 @@ msgstr ""
 #, fuzzy
 #| msgid "This is an essential package - it should not be removed."
 msgid "this is an essential package; it should not be removed"
+msgstr "Αυτό είναι ένα βασικό πακέτο - δεν πρέπει να αφαιρεθεί."
+
+#: src/remove.c
+#, fuzzy
+#| msgid "This is an essential package - it should not be removed."
+msgid "this is a protected package; it should not be removed"
 msgstr "Αυτό είναι ένα βασικό πακέτο - δεν πρέπει να αφαιρεθεί."
 
 #: src/remove.c
@@ -4940,6 +4982,15 @@ msgstr ""
 msgid "Use --help for help about overriding file stat information."
 msgstr ""
 
+#: src/statcmd.c dpkg-split/main.c utils/update-alternatives.c
+#, c-format
+msgid ""
+"Usage: %s [<option> ...] <command>\n"
+"\n"
+msgstr ""
+"Usage: %s [<option> ...] <command>\n"
+"\n"
+
 #: src/statcmd.c
 #, c-format
 msgid ""
@@ -4960,9 +5011,9 @@ msgid ""
 "  --root <directory>       set the directory of the root filesystem.\n"
 "  --update                 immediately update <path> permissions.\n"
 "  --force                  deprecated alias for --force-all.\n"
-"  --force-...              override problems (see --force-help).\n"
-"  --no-force-...           stop when problems encountered.\n"
-"  --refuse-...             ditto.\n"
+"  --force-<thing>[,...]    override problems (see --force-help).\n"
+"  --no-force-<thing>[,...] stop when problems encountered.\n"
+"  --refuse-<thing>[,...]   ditto.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
@@ -5060,10 +5111,14 @@ msgid "Debian %s package trigger utility version %s.\n"
 msgstr "Βοηθητικό εργαλείο για τους trigger πακέτων του Debian %s.\n"
 
 #: src/trigcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Usage: %s [<options> ...] <trigger-name>\n"
+#| "       %s [<options> ...] <command>\n"
+#| "\n"
 msgid ""
-"Usage: %s [<options> ...] <trigger-name>\n"
-"       %s [<options> ...] <command>\n"
+"Usage: %s [<option>...] <trigger-name>\n"
+"       %s [<option>...] <command>\n"
 "\n"
 msgstr ""
 "Χρήση: %s [<options> ...] <trigger-name>\n"
@@ -6041,9 +6096,9 @@ msgid ""
 "Commands:\n"
 "  -b|--build <directory> [<deb>]   Build an archive.\n"
 "  -c|--contents <deb>              List contents.\n"
-"  -I|--info <deb> [<cfile> ...]    Show info to stdout.\n"
+"  -I|--info <deb> [<cfile>...]     Show info to stdout.\n"
 "  -W|--show <deb>                  Show information on package(s)\n"
-"  -f|--field <deb> [<cfield> ...]  Show field(s) to stdout.\n"
+"  -f|--field <deb> [<cfield>...]   Show field(s) to stdout.\n"
 "  -e|--control <deb> [<directory>] Extract control info.\n"
 "  -x|--extract <deb> <directory>   Extract files.\n"
 "  -X|--vextract <deb> <directory>  Extract & list files.\n"
@@ -6848,6 +6903,8 @@ msgid ""
 "Options:\n"
 "  --altdir <directory>     change the alternatives directory.\n"
 "  --admindir <directory>   change the administrative directory.\n"
+"  --instdir <directory>    change the installation directory.\n"
+"  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
 "  --force                  allow replacing files with alternative links.\n"
 "  --skip-auto              skip prompt for alternatives correctly "
@@ -6886,21 +6943,15 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-#| msgid "realloc failed (%zu bytes)"
-msgid "malloc failed (%zu bytes)"
-msgstr "η realloc απέτυχε (%zu bytes)"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "two commands specified: %s and --%s"
-msgid "two commands specified: --%s and --%s"
-msgstr "έχουν προσδιοριστεί δύο εντολές: %s και --%s"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
 #| msgid "cannot open diversions: %s"
 msgid "cannot append to '%s'"
 msgstr "αδυναμία ανοίγματος εκτροπών: %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "realloc failed (%zu bytes)"
+msgid "malloc failed (%zu bytes)"
+msgstr "η realloc απέτυχε (%zu bytes)"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6912,6 +6963,12 @@ msgstr "η αναμονή για %s απέτυχε"
 #| msgid "unable to remove %s: %s"
 msgid "unable to remove '%s'"
 msgstr "αδύνατη η αφαίρεση του  %s: %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "unable to read link '%.255s'"
+msgid "unable to read link '%s%.255s'"
+msgstr "αδύνατη η ανάγνωση δεσμού `%.255s'"
 
 #: utils/update-alternatives.c
 msgid "auto mode"
@@ -7037,6 +7094,12 @@ msgstr "αδύνατη η σάρωση του καταλόγου ενημερώ�
 #, fuzzy, c-format
 msgid "unable to flush file '%s'"
 msgstr "αδύνατη η εκκένωση στο vnsprintf"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "cannot stat file '%s%s'"
+msgstr "αδυναμία προσδιορισμού κατάστασης του παλιού ονόματος `%s': %s"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -7170,13 +7233,13 @@ msgstr "Η εναλλακτική %s για το %s δεν είναι καταγ
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "%s/%s is dangling; it will be updated with best choice"
+msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr ""
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
 msgid ""
-"%s/%s has been changed (manually or by a script); switching to manual "
+"%s%s/%s has been changed (manually or by a script); switching to manual "
 "updates only"
 msgstr ""
 "Το %s έχει μεταβληθεί (είτε με το χέρι είτε από κάποιο σενάριο).\n"
@@ -7189,13 +7252,13 @@ msgstr "Καθορισμός αυτόματης επιλογής για το %s.
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "renaming %s slave link from %s to %s"
+msgid "renaming %s slave link from %s%s to %s%s"
 msgstr ""
 "Αλλαγή της ονομασίας του δευτερεύοντος συμβολικού συνδέσμου %s από %s σε %s."
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "renaming %s link from %s to %s"
+msgid "renaming %s link from %s%s to %s%s"
 msgstr "Μετονομασία %s συνδέσμου από %s σε %s."
 
 #: utils/update-alternatives.c
@@ -7271,7 +7334,7 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "alternative path %s doesn't exist"
+msgid "alternative path %s%s doesn't exist"
 msgstr "προειδοποίηση: δόθηκε --update αλλά το %s δεν υπάρχει"
 
 #: utils/update-alternatives.c
@@ -7292,12 +7355,20 @@ msgid "alternative link %s is already managed by %s (slave of %s)"
 msgstr ""
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "two commands specified: %s and --%s"
+msgid "two commands specified: --%s and --%s"
+msgstr "έχουν προσδιοριστεί δύο εντολές: %s και --%s"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "unknown argument '%s'"
 msgstr "άγνωστος όρισμα `%s'"
 
 #: utils/update-alternatives.c
-msgid "--install needs <link> <name> <path> <priority>"
+#, fuzzy, c-format
+#| msgid "--install needs <link> <name> <path> <priority>"
+msgid "--%s needs <link> <name> <path> <priority>"
 msgstr "η εντολή --install χρειάζεται <link> <name> <path> <priority>"
 
 #: utils/update-alternatives.c
@@ -7324,11 +7395,15 @@ msgid "--%s needs <name>"
 msgstr "--%s χρειάζεται <name>"
 
 #: utils/update-alternatives.c
-msgid "--slave only allowed with --install"
+#, fuzzy, c-format
+#| msgid "--slave only allowed with --install"
+msgid "--%s only allowed with --%s"
 msgstr "η εντολή --slave επιτρέπεται μόνο με την --install"
 
 #: utils/update-alternatives.c
-msgid "--slave needs <link> <name> <path>"
+#, fuzzy, c-format
+#| msgid "--slave needs <link> <name> <path>"
+msgid "--%s needs <link> <name> <path>"
 msgstr "η εντολή --slave χρειάζεται <link> <name> <path>"
 
 #: utils/update-alternatives.c
@@ -7347,13 +7422,10 @@ msgid "--%s needs a <file> argument"
 msgstr "--%s χρειάζεται μόνο ένα όρισμα"
 
 #: utils/update-alternatives.c
-#, fuzzy
+#, c-format
 msgid ""
-"need --display, --query, --list, --get-selections, --config, --set, --set-"
-"selections, --install, --remove, --all, --remove-all or --auto"
+"need --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s or --%s"
 msgstr ""
-"χρειάζεται μία από τις --display, --config, --set, --install, --remove, --"
-"all, --remove-all  ή --auto"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -7385,6 +7457,14 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "need --display, --query, --list, --get-selections, --config, --set, --set-"
+#~ "selections, --install, --remove, --all, --remove-all or --auto"
+#~ msgstr ""
+#~ "χρειάζεται μία από τις --display, --config, --set, --install, --remove, --"
+#~ "all, --remove-all  ή --auto"
 
 #~ msgid "unable to set ownership of triggers state directory '%.250s'"
 #~ msgstr ""

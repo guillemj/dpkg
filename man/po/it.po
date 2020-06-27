@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.16.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-05-31 23:50+0200\n"
+"POT-Creation-Date: 2020-06-27 02:41+0200\n"
 "PO-Revision-Date: 2019-02-24 18:25+0100\n"
 "Last-Translator: Beatrice Torracca <beatricet@libero.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
@@ -32,10 +32,10 @@ msgstr ""
 #: dpkg-distaddfile.pod dpkg-deb.pod dpkg-divert.pod dpkg-genchanges.pod
 #: dpkg-gencontrol.pod dpkg-gensymbols.pod dpkg-maintscript-helper.pod
 #: dpkg-mergechangelogs.pod dpkg-name.pod dpkg-parsechangelog.pod
-#: dpkg-query.pod dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
-#: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
-#: dpkg-vendor.pod dselect.pod dselect.cfg.pod start-stop-daemon.pod
-#: update-alternatives.pod
+#: dpkg-query.pod dpkg-realpath.pod dpkg-scanpackages.pod dpkg-scansources.pod
+#: dpkg-shlibdeps.pod dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod
+#: dpkg-trigger.pod dpkg-vendor.pod dselect.pod dselect.cfg.pod
+#: start-stop-daemon.pod update-alternatives.pod
 msgid "NAME"
 msgstr "NOME"
 
@@ -55,10 +55,10 @@ msgstr "deb - formato dei pacchetti binari di Debian"
 #: dpkg-checkbuilddeps.pod dpkg-distaddfile.pod dpkg-deb.pod dpkg-divert.pod
 #: dpkg-genchanges.pod dpkg-gencontrol.pod dpkg-gensymbols.pod
 #: dpkg-maintscript-helper.pod dpkg-mergechangelogs.pod dpkg-name.pod
-#: dpkg-parsechangelog.pod dpkg-query.pod dpkg-scanpackages.pod
-#: dpkg-scansources.pod dpkg-shlibdeps.pod dpkg-source.pod dpkg-split.pod
-#: dpkg-statoverride.pod dpkg-trigger.pod dpkg-vendor.pod dselect.pod
-#: start-stop-daemon.pod update-alternatives.pod
+#: dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
+#: dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
+#: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
+#: dpkg-vendor.pod dselect.pod start-stop-daemon.pod update-alternatives.pod
 msgid "SYNOPSIS"
 msgstr "SINTASSI"
 
@@ -79,10 +79,10 @@ msgstr "I<nomefile>B<.deb>"
 #: dpkg-distaddfile.pod dpkg-deb.pod dpkg-divert.pod dpkg-genchanges.pod
 #: dpkg-gencontrol.pod dpkg-gensymbols.pod dpkg-maintscript-helper.pod
 #: dpkg-mergechangelogs.pod dpkg-name.pod dpkg-parsechangelog.pod
-#: dpkg-query.pod dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
-#: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
-#: dpkg-vendor.pod dselect.pod dselect.cfg.pod start-stop-daemon.pod
-#: update-alternatives.pod
+#: dpkg-query.pod dpkg-realpath.pod dpkg-scanpackages.pod dpkg-scansources.pod
+#: dpkg-shlibdeps.pod dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod
+#: dpkg-trigger.pod dpkg-vendor.pod dselect.pod dselect.cfg.pod
+#: start-stop-daemon.pod update-alternatives.pod
 msgid "DESCRIPTION"
 msgstr "DESCRIZIONE"
 
@@ -315,9 +315,10 @@ msgstr "application/x-deb"
 #: dpkg-genbuildinfo.pod dpkg-distaddfile.pod dpkg-deb.pod dpkg-divert.pod
 #: dpkg-genchanges.pod dpkg-gencontrol.pod dpkg-gensymbols.pod
 #: dpkg-maintscript-helper.pod dpkg-name.pod dpkg-parsechangelog.pod
-#: dpkg-query.pod dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
-#: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
-#: dpkg-vendor.pod dselect.pod dselect.cfg.pod update-alternatives.pod
+#: dpkg-query.pod dpkg-realpath.pod dpkg-scanpackages.pod dpkg-scansources.pod
+#: dpkg-shlibdeps.pod dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod
+#: dpkg-trigger.pod dpkg-vendor.pod dselect.pod dselect.cfg.pod
+#: update-alternatives.pod
 msgid "SEE ALSO"
 msgstr "VEDERE ANCHE"
 
@@ -855,7 +856,7 @@ msgstr ""
 #: deb-buildinfo.pod
 msgid ""
 "The absolute build path, which correspond to the unpacked source tree.  This "
-"field is only going to be present if the vendor has whitelisted it via some "
+"field is only going to be present if the vendor has allowed it via some "
 "pattern match to avoid leaking possibly sensitive information."
 msgstr ""
 
@@ -2001,17 +2002,50 @@ msgid ""
 msgstr ""
 
 #. type: =item
+#: deb-control.pod
+#, fuzzy
+#| msgid "B<Essential:> B<yes>|B<no>"
+msgid "B<Protected:> B<yes>|B<no>"
+msgstr "B<Essential:> B<yes>|B<no>"
+
+#. type: textblock
+#: deb-control.pod
+#, fuzzy
+#| msgid ""
+#| "This field is usually only needed when the answer is B<yes>. It denotes a "
+#| "package that is required for proper operation of the system. Dpkg or any "
+#| "other installation tool will not allow an B<Essential> package to be "
+#| "removed (at least not without using one of the force options)."
+msgid ""
+"This field is usually only needed when the answer is B<yes>.  It denotes a "
+"package that is required for proper booting of the system.  L<dpkg(1)> or "
+"any other installation tool will not allow a B<Protected> package to be "
+"removed (at least not without using one of the force options)."
+msgstr ""
+"Questo campo è solitamente necessario solamente quando la risposta è B<yes>. "
+"Denota un pacchetto che è richiesto per il corretto funzionamento del "
+"sistema. dpkg o qualsiasi altro strumento di installazione non permetterà "
+"che un pacchetto B<Essential> venga rimosso (almeno non senza usare una "
+"delle opzioni di forzatura)."
+
+#. type: =item
 #: deb-control.pod deb-src-control.pod
 msgid "B<Essential:> B<yes>|B<no>"
 msgstr "B<Essential:> B<yes>|B<no>"
 
 #. type: textblock
 #: deb-control.pod
+#, fuzzy
+#| msgid ""
+#| "This field is usually only needed when the answer is B<yes>. It denotes a "
+#| "package that is required for proper operation of the system. Dpkg or any "
+#| "other installation tool will not allow an B<Essential> package to be "
+#| "removed (at least not without using one of the force options)."
 msgid ""
-"This field is usually only needed when the answer is B<yes>. It denotes a "
-"package that is required for proper operation of the system. Dpkg or any "
-"other installation tool will not allow an B<Essential> package to be removed "
-"(at least not without using one of the force options)."
+"This field is usually only needed when the answer is B<yes>.  It denotes a "
+"package that is required for proper operation of the system.  L<dpkg(1)> or "
+"any other installation tool will not allow an B<Essential> package to be "
+"removed (at least not without using one of the force options)."
 msgstr ""
 "Questo campo è solitamente necessario solamente quando la risposta è B<yes>. "
 "Denota un pacchetto che è richiesto per il corretto funzionamento del "
@@ -3525,6 +3559,13 @@ msgstr ""
 
 #. type: =item
 #: deb-src-control.pod
+#, fuzzy
+#| msgid "B<Essential:> B<yes>|B<no>"
+msgid "B<Protected:> B<Byes>|B<no>"
+msgstr "B<Essential:> B<yes>|B<no>"
+
+#. type: =item
+#: deb-src-control.pod
 msgid "B<Multi-Arch:> B<same>|B<foreign>|B<allowed>|B<no>"
 msgstr "B<Multi-Arch:> B<same>|B<foreign>|B<allowed>|B<no>"
 
@@ -4281,18 +4322,32 @@ msgstr ""
 
 #. type: =item
 #: deb-src-symbols.pod
+#, fuzzy
+#| msgid "B<--all>"
+msgid "B<allow-internal>"
+msgstr "B<--all>"
+
+#. type: textblock
+#: deb-src-symbols.pod
+msgid ""
+"dpkg-gensymbols has a list of internal symbols that should not appear in "
+"symbols files as they are usually only side-effects of implementation "
+"details of the toolchain (since dpkg 1.20.1).  If for some reason, you "
+"really want one of those symbols to be included in the symbols file, you "
+"should tag the symbol with B<allow-internal>.  It can be necessary for some "
+"low level toolchain libraries like “libgcc”."
+msgstr ""
+
+#. type: =item
+#: deb-src-symbols.pod
 msgid "B<ignore-blacklist>"
 msgstr "B<ignore-blacklist>"
 
 #. type: textblock
 #: deb-src-symbols.pod
 msgid ""
-"dpkg-gensymbols has an internal blacklist of symbols that should not appear "
-"in symbols files as they are usually only side-effects of implementation "
-"details of the toolchain. If for some reason, you really want one of those "
-"symbols to be included in the symbols file, you should tag the symbol with "
-"B<ignore-blacklist>. It can be necessary for some low level toolchain "
-"libraries like “libgcc”."
+"A deprecated alias for B<allow-internal> (since dpkg 1.20.1, supported since "
+"dpkg 1.15.3)."
 msgstr ""
 
 #. type: =item
@@ -6248,18 +6303,30 @@ msgstr ""
 
 #. type: =item
 #: deb-symbols.pod
+msgid "B<Allow-Internal-Symbol-Groups>"
+msgstr ""
+
+#. type: textblock
+#: deb-symbols.pod
+msgid ""
+"It indicates what internal symbol groups should be ignored, as a whitespace "
+"separated list, so that the symbols contained in those groups get included "
+"in the output file (since dpkg 1.20.1).  This should only be necessary for "
+"toolchain packages providing those internal symbols. The available groups "
+"are system dependent, for ELF and GNU-based systems these are B<aeabi> and "
+"B<gomp>."
+msgstr ""
+
+#. type: =item
+#: deb-symbols.pod
 msgid "B<Ignore-Blacklist-Groups>"
 msgstr "B<Ignore-Blacklist-Groups>"
 
 #. type: textblock
 #: deb-symbols.pod
 msgid ""
-"It indicates what blacklist groups should be ignored, as a whitespace "
-"separated list, so that the symbols contained in those groups get included "
-"in the output file (since dpkg 1.17.6).  This should only be necessary for "
-"toolchain packages providing those blacklisted symbols. The available groups "
-"are system dependent, for ELF and GNU-based systems these are B<aeabi> and "
-"B<gomp>."
+"A deprecated alias for B<Allow-Internal-Symbol-Groups> (since dpkg 1.20.1, "
+"supported since dpkg 1.17.6)."
 msgstr ""
 
 #. type: =head2
@@ -7157,6 +7224,20 @@ msgstr "B<file-config>"
 msgid ""
 "The normalized build-profile restriction formula from the binary package "
 "B<Build-Profile> field, with ORs converted to ‘+’ and ANDs to ‘,’."
+msgstr ""
+
+#. type: =item
+#: dsc.pod
+#, fuzzy
+#| msgid "B<stackprotector>"
+msgid "B<protected>"
+msgstr "B<stackprotector>"
+
+#. type: textblock
+#: dsc.pod
+msgid ""
+"If the binary package is protected, this key will contain the value of the "
+"B<Protected> field, that is a B<yes> value."
 msgstr ""
 
 #. type: =item
@@ -8310,6 +8391,20 @@ msgstr "Annulla un'opzione B<--no-triggers> precedente."
 #. type: =item
 #: dpkg.pod
 #, fuzzy
+#| msgid "B<config-files>"
+msgid "B<protected-field>"
+msgstr "B<file-config>"
+
+#. type: textblock
+#: dpkg.pod
+#, fuzzy
+#| msgid "Cancels a previous B<--no-triggers>."
+msgid "Supports the B<Protected> field (since dpkg 1.20.1)."
+msgstr "Annulla un'opzione B<--no-triggers> precedente."
+
+#. type: =item
+#: dpkg.pod
+#, fuzzy
 #| msgid "B<--force-sign>"
 msgid "B<--validate->I<thing string>"
 msgstr "B<--force-sign>"
@@ -8452,9 +8547,9 @@ msgstr ""
 #: dpkg.pod dpkg-architecture.pod dpkg-buildpackage.pod dpkg-genbuildinfo.pod
 #: dpkg-checkbuilddeps.pod dpkg-distaddfile.pod dpkg-deb.pod dpkg-divert.pod
 #: dpkg-genchanges.pod dpkg-gencontrol.pod dpkg-gensymbols.pod dpkg-name.pod
-#: dpkg-parsechangelog.pod dpkg-query.pod dpkg-scanpackages.pod
-#: dpkg-shlibdeps.pod dpkg-source.pod dpkg-split.pod dpkg-trigger.pod
-#: dselect.pod
+#: dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
+#: dpkg-scanpackages.pod dpkg-shlibdeps.pod dpkg-source.pod dpkg-split.pod
+#: dpkg-trigger.pod dselect.pod
 msgid "B<-?>, B<--help>"
 msgstr "B<-?>, B<--help>"
 
@@ -8488,9 +8583,9 @@ msgstr "Mostra un aiuto sulle opzioni di debug."
 #: dpkg-genbuildinfo.pod dpkg-checkbuilddeps.pod dpkg-distaddfile.pod
 #: dpkg-deb.pod dpkg-divert.pod dpkg-genchanges.pod dpkg-gencontrol.pod
 #: dpkg-gensymbols.pod dpkg-mergechangelogs.pod dpkg-parsechangelog.pod
-#: dpkg-query.pod dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
-#: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
-#: dpkg-vendor.pod dselect.pod update-alternatives.pod
+#: dpkg-query.pod dpkg-realpath.pod dpkg-scanpackages.pod dpkg-scansources.pod
+#: dpkg-shlibdeps.pod dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod
+#: dpkg-trigger.pod dpkg-vendor.pod dselect.pod update-alternatives.pod
 msgid "B<--version>"
 msgstr "B<--version>"
 
@@ -8498,6 +8593,13 @@ msgstr "B<--version>"
 #: dpkg.pod
 msgid "Display B<dpkg> version information."
 msgstr "Mostra informazioni sulla versione di B<dpkg>."
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"When used with B<--robot>, the output will be the program version number in "
+"a dotted numerical format, with no newline."
+msgstr ""
 
 #. type: =item
 #: dpkg.pod
@@ -8712,9 +8814,10 @@ msgstr ""
 #: dpkg-checkbuilddeps.pod dpkg-distaddfile.pod dpkg-deb.pod dpkg-divert.pod
 #: dpkg-genchanges.pod dpkg-gencontrol.pod dpkg-gensymbols.pod
 #: dpkg-mergechangelogs.pod dpkg-name.pod dpkg-parsechangelog.pod
-#: dpkg-query.pod dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
-#: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
-#: dpkg-vendor.pod dselect.pod start-stop-daemon.pod update-alternatives.pod
+#: dpkg-query.pod dpkg-realpath.pod dpkg-scanpackages.pod dpkg-scansources.pod
+#: dpkg-shlibdeps.pod dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod
+#: dpkg-trigger.pod dpkg-vendor.pod dselect.pod start-stop-daemon.pod
+#: update-alternatives.pod
 msgid "OPTIONS"
 msgstr "OPZIONI"
 
@@ -8940,6 +9043,24 @@ msgstr ""
 "contrassegno che richiede la reinstallazione. Questo può, ad esempio, far sì "
 "che parti del pacchetto rimangano sul sistema e vengano poi dimenticate da "
 "B<dpkg>."
+
+#. type: textblock
+#: dpkg.pod
+#, fuzzy
+#| msgid ""
+#| "B<remove-essential>: Remove, even if the package is considered essential. "
+#| "Essential packages contain mostly very basic Unix commands. Removing them "
+#| "might cause the whole system to stop working, so use with caution."
+msgid ""
+"B<remove-protected>: Remove, even if the package is considered protected "
+"(since dpkg 1.20.1).  Protected packages contain mostly important system "
+"boot infrastructure.  Removing them might cause the whole system to be "
+"unable to boot, so use with caution."
+msgstr ""
+"B<remove-essential>: rimuove un pacchetto anche se è considerato essenziale. "
+"I pacchetti essenziali contengono per lo più i comandi Unix veramente "
+"fondamentali; la loro rimozione può far sì che l'intero sistema non funzioni "
+"più, perciò usarla con cautela."
 
 #. type: textblock
 #: dpkg.pod
@@ -9266,11 +9387,17 @@ msgstr ""
 
 #. type: textblock
 #: dpkg.pod
+#, fuzzy
+#| msgid ""
+#| "Be sure to give B<--no-act> before the action-parameter, or you might end "
+#| "up with undesirable results. (e.g. B<dpkg --purge foo --no-act> will "
+#| "first purge package foo and then try to purge package --no-act, even "
+#| "though you probably expected it to actually do nothing)"
 msgid ""
 "Be sure to give B<--no-act> before the action-parameter, or you might end up "
 "with undesirable results. (e.g. B<dpkg --purge foo --no-act> will first "
-"purge package foo and then try to purge package --no-act, even though you "
-"probably expected it to actually do nothing)"
+"purge package “foo” and then try to purge package ”--no-act”, even though "
+"you probably expected it to actually do nothing)."
 msgstr ""
 "Assicurarsi di specificare B<--no-act> prima del parametro di azione, oppure "
 "si potrebbero verificare risultati indesiderati. (Ad esempio, B<dpkg --purge "
@@ -9810,6 +9937,27 @@ msgid "For conffile changes where I<decision> is either B<install> or B<keep>."
 msgstr ""
 
 #. type: =item
+#: dpkg.pod
+#, fuzzy
+#| msgid "B<--as-root>"
+msgid "B<--robot>"
+msgstr "B<--as-root>"
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"Use a machine-readable output format. This provides an interface for "
+"programs that need to parse the output of some of the commands that do not "
+"otherwise emit a machine-readable output format. No localization will be "
+"used, and the output will be modified to make it easier to parse."
+msgstr ""
+
+#. type: textblock
+#: dpkg.pod
+msgid "The only currently supported command is B<--version>."
+msgstr ""
+
+#. type: =item
 #: dpkg.pod dpkg-query.pod
 #, fuzzy
 #| msgid "B<--no-triggers>"
@@ -9933,10 +10081,10 @@ msgstr ""
 #: dpkg-genbuildinfo.pod dpkg-checkbuilddeps.pod dpkg-distaddfile.pod
 #: dpkg-deb.pod dpkg-divert.pod dpkg-genchanges.pod dpkg-gencontrol.pod
 #: dpkg-gensymbols.pod dpkg-maintscript-helper.pod dpkg-mergechangelogs.pod
-#: dpkg-name.pod dpkg-parsechangelog.pod dpkg-query.pod dpkg-scanpackages.pod
-#: dpkg-scansources.pod dpkg-shlibdeps.pod dpkg-source.pod dpkg-split.pod
-#: dpkg-statoverride.pod dpkg-trigger.pod dpkg-vendor.pod dselect.pod
-#: update-alternatives.pod
+#: dpkg-name.pod dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
+#: dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
+#: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
+#: dpkg-vendor.pod dselect.pod update-alternatives.pod
 msgid "ENVIRONMENT"
 msgstr "AMBIENTE"
 
@@ -10029,9 +10177,10 @@ msgstr ""
 #: dpkg-genbuildinfo.pod dpkg-checkbuilddeps.pod dpkg-distaddfile.pod
 #: dpkg-deb.pod dpkg-divert.pod dpkg-genchanges.pod dpkg-gencontrol.pod
 #: dpkg-gensymbols.pod dpkg-maintscript-helper.pod dpkg-mergechangelogs.pod
-#: dpkg-name.pod dpkg-parsechangelog.pod dpkg-query.pod dpkg-scanpackages.pod
-#: dpkg-scansources.pod dpkg-shlibdeps.pod dpkg-source.pod dpkg-split.pod
-#: dpkg-statoverride.pod dpkg-trigger.pod dpkg-vendor.pod
+#: dpkg-name.pod dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
+#: dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
+#: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
+#: dpkg-vendor.pod
 #, fuzzy
 #| msgid "B<DPKG_CONFFILE_OLD>"
 msgid "B<DPKG_COLORS>"
@@ -10066,8 +10215,8 @@ msgid ""
 msgstr ""
 
 #. type: =item
-#: dpkg.pod dpkg-divert.pod dpkg-query.pod dpkg-statoverride.pod
-#: dpkg-trigger.pod update-alternatives.pod
+#: dpkg.pod dpkg-divert.pod dpkg-maintscript-helper.pod dpkg-query.pod
+#: dpkg-statoverride.pod dpkg-trigger.pod update-alternatives.pod
 msgid "B<DPKG_ADMINDIR>"
 msgstr "B<DPKG_ADMINDIR>"
 
@@ -10119,7 +10268,8 @@ msgid ""
 msgstr ""
 
 #. type: =item
-#: dpkg.pod dpkg-divert.pod dpkg-statoverride.pod
+#: dpkg.pod dpkg-divert.pod dpkg-maintscript-helper.pod dpkg-realpath.pod
+#: dpkg-statoverride.pod
 #, fuzzy
 #| msgid "B<DPKG_SHELL_REASON>"
 msgid "B<DPKG_ROOT>"
@@ -10886,9 +11036,10 @@ msgstr ""
 #: dpkg-genbuildinfo.pod dpkg-checkbuilddeps.pod dpkg-distaddfile.pod
 #: dpkg-deb.pod dpkg-divert.pod dpkg-genchanges.pod dpkg-gencontrol.pod
 #: dpkg-gensymbols.pod dpkg-mergechangelogs.pod dpkg-name.pod
-#: dpkg-parsechangelog.pod dpkg-query.pod dpkg-scanpackages.pod
-#: dpkg-scansources.pod dpkg-shlibdeps.pod dpkg-split.pod dpkg-statoverride.pod
-#: dpkg-trigger.pod dpkg-vendor.pod update-alternatives.pod
+#: dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
+#: dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod dpkg-split.pod
+#: dpkg-statoverride.pod dpkg-trigger.pod dpkg-vendor.pod
+#: update-alternatives.pod
 msgid "Show the usage message and exit."
 msgstr "Mostra il messaggio sull'uso ed esce."
 
@@ -10897,10 +11048,10 @@ msgstr "Mostra il messaggio sull'uso ed esce."
 #: dpkg-genbuildinfo.pod dpkg-checkbuilddeps.pod dpkg-distaddfile.pod
 #: dpkg-deb.pod dpkg-divert.pod dpkg-genchanges.pod dpkg-gencontrol.pod
 #: dpkg-gensymbols.pod dpkg-mergechangelogs.pod dpkg-name.pod
-#: dpkg-parsechangelog.pod dpkg-query.pod dpkg-scanpackages.pod
-#: dpkg-scansources.pod dpkg-shlibdeps.pod dpkg-source.pod dpkg-split.pod
-#: dpkg-statoverride.pod dpkg-trigger.pod dpkg-vendor.pod
-#: update-alternatives.pod
+#: dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
+#: dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
+#: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
+#: dpkg-vendor.pod update-alternatives.pod
 msgid "Show the version and exit."
 msgstr "Mostra la versione ed esce."
 
@@ -15316,7 +15467,7 @@ msgstr "B<--single-debian-patch>"
 #: dpkg-genbuildinfo.pod
 msgid ""
 "By default, the B<Build-Path> field will only be written if the current "
-"directory starts with a whitelisted pattern."
+"directory starts with an allowed pattern."
 msgstr ""
 
 #. type: textblock
@@ -16381,7 +16532,8 @@ msgstr ""
 "I<%ADMINDIR%>)."
 
 #. type: =item
-#: dpkg-divert.pod dpkg-statoverride.pod
+#: dpkg-divert.pod dpkg-realpath.pod dpkg-statoverride.pod
+#: update-alternatives.pod
 #, fuzzy
 #| msgid "B<--admindir> I<directory>"
 msgid "B<--instdir> I<directory>"
@@ -16395,7 +16547,8 @@ msgid ""
 msgstr ""
 
 #. type: =item
-#: dpkg-divert.pod dpkg-statoverride.pod
+#: dpkg-divert.pod dpkg-realpath.pod dpkg-statoverride.pod
+#: update-alternatives.pod
 #, fuzzy
 #| msgid "B<--depotdir> I<directory>"
 msgid "B<--root> I<directory>"
@@ -18113,6 +18266,22 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-maintscript-helper.pod
+msgid "If set, it will be used as the filesystem root directory."
+msgstr ""
+
+#. type: textblock
+#: dpkg-maintscript-helper.pod
+#, fuzzy
+#| msgid ""
+#| "If set and the B<--admindir> option has not been specified, it will be "
+#| "used as the B<dpkg> data directory."
+msgid "If set, it will be used as the B<dpkg> data directory."
+msgstr ""
+"Se impostata e l'opzione B<--admindir> non è stata specificata, verrà usata "
+"come directory dei dati di B<dpkg>."
+
+#. type: textblock
+#: dpkg-maintscript-helper.pod
 msgid ""
 "Sets the color mode (since dpkg 1.19.1).  The currently accepted values are: "
 "B<auto> (default), B<always> and B<never>."
@@ -19659,6 +19828,13 @@ msgstr ""
 #. type: =item
 #: dpkg-query.pod
 #, fuzzy
+#| msgid "B<--print-architecture>"
+msgid "B<Protected>"
+msgstr "B<--print-architecture>"
+
+#. type: =item
+#: dpkg-query.pod
+#, fuzzy
 #| msgid "B<Essential:> B<yes>|B<no>"
 msgid "B<Essential>"
 msgstr "B<Essential:> B<yes>|B<no>"
@@ -20062,6 +20238,74 @@ msgid ""
 "can be preset to some other value including an empty string, or the B<PAGER> "
 "or B<DPKG_PAGER> variables can be set to disable specific options with «B<-"
 "+>», for example B<DPKG_PAGER=\"less -+F\">."
+msgstr ""
+
+#. type: textblock
+#: dpkg-realpath.pod
+msgid "dpkg-realpath - print the resolved pathname"
+msgstr ""
+
+#. type: textblock
+#: dpkg-realpath.pod
+#, fuzzy
+#| msgid "B<dpkg> [I<option>...] I<action>"
+msgid "B<dpkg-realpath> [I<option>...] I<pathname>"
+msgstr "B<dpkg> [I<opzione>...] I<azione>"
+
+#. type: textblock
+#: dpkg-realpath.pod
+msgid "B<dpkg-realpath> is a tool to resolve a pathname."
+msgstr ""
+
+#. type: textblock
+#: dpkg-realpath.pod
+#, fuzzy
+#| msgid ""
+#| "Change the I<directory> of the B<dpkg> database where the statoverride "
+#| "file is also stored. Defaults to I<%ADMINDIR%>."
+msgid ""
+"Set the installation directory, which refers to the directory where packages "
+"get installed. Defaults to «I</>»."
+msgstr ""
+"Cambia la I<directory> del database di B<dpkg> dove viene memorizzato anche "
+"il file statoverride. La posizione predefinita è I<%ADMINDIR%>."
+
+#. type: textblock
+#: dpkg-realpath.pod
+#, fuzzy
+#| msgid ""
+#| "Changing B<root> changes B<instdir> to I<dir> and B<admindir> to I<dir>B</"
+#| "var/lib/dpkg>."
+msgid ""
+"Set the root directory to B<directory>, which sets the installation "
+"directory to «I<directory>»."
+msgstr ""
+"Cambiare B<root> cambia B<instdir> in I<dir> e B<admindir> in I<dir>B</var/"
+"lib/dpkg>."
+
+#. type: textblock
+#: dpkg-realpath.pod
+#, fuzzy
+#| msgid ""
+#| "If set and the B<--admindir> option has not been specified, it will be "
+#| "used as the base administrative directory."
+msgid ""
+"If set and the B<--instdir> or B<--root> options have not been specified, it "
+"will be used as the filesystem root directory."
+msgstr ""
+"Se impostata e l'opzione B<--admindir> non è stata specificata, verrà usata "
+"come directory di amministrazione di base."
+
+#. type: textblock
+#: dpkg-realpath.pod
+msgid ""
+"Sets the color mode.  The currently accepted values are: B<auto> (default), "
+"B<always> and B<never>."
+msgstr ""
+
+#. type: textblock
+#: dpkg-realpath.pod
+msgid "L<realpath(1)>."
 msgstr ""
 
 #. type: textblock
@@ -22331,13 +22575,21 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-source.pod
+#, fuzzy
+#| msgid ""
+#| "Any change on a binary file is not representable in a diff and will thus "
+#| "lead to a failure unless the maintainer deliberately decided to include "
+#| "that modified binary file in the debian tarball (by listing it in "
+#| "B<debian/source/include-binaries>). The build will also fail if it finds "
+#| "binary files in the debian sub-directory unless they have been "
+#| "whitelisted through B<debian/source/include-binaries>."
 msgid ""
 "Any change on a binary file is not representable in a diff and will thus "
 "lead to a failure unless the maintainer deliberately decided to include that "
 "modified binary file in the debian tarball (by listing it in B<debian/source/"
 "include-binaries>). The build will also fail if it finds binary files in the "
-"debian sub-directory unless they have been whitelisted through B<debian/"
-"source/include-binaries>."
+"debian sub-directory unless they have been allowed through B<debian/source/"
+"include-binaries>."
 msgstr ""
 "Qualsiasi modifica ad un file binario non è rappresentabile con un diff e "
 "perciò causerà un fallimento a meno che il manutentore non decida "
@@ -27356,21 +27608,50 @@ msgstr "B<--altdir> I<directory>"
 
 #. type: textblock
 #: update-alternatives.pod
+#, fuzzy
+#| msgid ""
+#| "Specifies the alternatives directory, when this is to be different from "
+#| "the default."
 msgid ""
 "Specifies the alternatives directory, when this is to be different from the "
-"default."
+"default.  Defaults to «I<%CONFDIR%/alternatives>»."
 msgstr ""
 "Specifica la directory delle alternative, quando deve essere diversa da "
 "quella predefinita."
 
 #. type: textblock
 #: update-alternatives.pod
+#, fuzzy
+#| msgid ""
+#| "Specifies the administrative directory, when this is to be different from "
+#| "the default."
 msgid ""
 "Specifies the administrative directory, when this is to be different from "
-"the default."
+"the default.  Defaults to «I<%ADMINDIR%/alternatives>»"
 msgstr ""
 "Specifica la directory di amministrazione, quando deve essere diversa da "
 "quella predefinita."
+
+#. type: textblock
+#: update-alternatives.pod
+#, fuzzy
+#| msgid ""
+#| "Specifies the administrative directory, when this is to be different from "
+#| "the default."
+msgid ""
+"Specifies the installation directory where alternatives links will be "
+"created (since version 1.20.1).  Defaults to «»."
+msgstr ""
+"Specifica la directory di amministrazione, quando deve essere diversa da "
+"quella predefinita."
+
+#. type: textblock
+#: update-alternatives.pod
+msgid ""
+"Specifies the root directory (since version 1.20.1).  This also sets the "
+"alternatives, installation and administrative directories to match.  "
+"Defaults to «»."
+msgstr ""
 
 #. type: =item
 #: update-alternatives.pod
@@ -28255,7 +28536,8 @@ msgstr "B<ln>(1), FHS: lo standard per la gerarchia del file system."
 #~ "    B<Source>\n"
 #~ "    B<Status> (interno)\n"
 #~ "    B<Suggests>\n"
-#~ "    B<Tag> (solitamente non nei .deb ma nei file Packages dei repository)\n"
+#~ "    B<Tag> (solitamente non nei .deb ma nei file Packages dei "
+#~ "repository)\n"
 #~ "    B<Triggers-Awaited> (interno)\n"
 #~ "    B<Triggers-Pending> (interno)\n"
 #~ "    B<Version>\n"
@@ -28311,8 +28593,10 @@ msgstr "B<ln>(1), FHS: lo standard per la gerarchia del file system."
 #~ " - Install new packages or upgrade to newer versions.\n"
 #~ msgstr ""
 #~ "B<dselect>\n"
-#~ "è una delle interfacce utente principali per la gestione di pacchetti in un sistema\n"
-#~ "Debian. Nel menu principale di B<dselect>, l'amministratore di sistema può:\n"
+#~ "è una delle interfacce utente principali per la gestione di pacchetti in "
+#~ "un sistema\n"
+#~ "Debian. Nel menu principale di B<dselect>, l'amministratore di sistema "
+#~ "può:\n"
 #~ " - aggiornare l'elenco delle versioni disponibili dei pacchetti,\n"
 #~ " - visualizzare lo stato dei pacchetti installati e disponibili,\n"
 #~ " - modificare le selezioni dei pacchetti e gestire le dipendenze,\n"
@@ -28337,22 +28621,26 @@ msgstr "B<ln>(1), FHS: lo standard per la gerarchia del file system."
 #~ "  B<_>       marked for purge, also remove configuration;\n"
 #~ "  B<n>       package is new and has yet to be marked.\n"
 #~ msgstr ""
-#~ "Questi sono i significati dei codici di indicazione concisa dello stato dei pacchetti:\n"
+#~ "Questi sono i significati dei codici di indicazione concisa dello stato "
+#~ "dei pacchetti:\n"
 #~ " Contrassegno di errore:\n"
 #~ "  I<vuoto>   nessun errore\n"
 #~ "  B<R>       errore grave, necessaria la reinstallazione;\n"
 #~ " Stato di installazione:\n"
 #~ "  I<vuoto>   non installato;\n"
 #~ "  B<*>       completamente installato e configurato;\n"
-#~ "  B<->       non installato ma possono essere ancora presenti alcuni file di configurazione;\n"
+#~ "  B<->       non installato ma possono essere ancora presenti alcuni file "
+#~ "di configurazione;\n"
 #~ "  B<U>       spacchettato ma non ancora configurato;\n"
 #~ "  B<C>       semi-configurato (si è verificato un errore);\n"
 #~ "  B<I>       semi-installato (si è verificato un errore).\n"
 #~ " Selezioni attuali e richieste:\n"
 #~ "  B<*>       marcato per l'installazione o l'aggiornamento;\n"
-#~ "  B<->       marcato per la rimozione, i file di configurazione rimangono;\n"
+#~ "  B<->       marcato per la rimozione, i file di configurazione "
+#~ "rimangono;\n"
 #~ "  B<=>       bloccato: il pacchetto non verrà affatto considerato;\n"
-#~ "  B<_>       marcato per l'eliminazione, rimuove anche la configurazione;\n"
+#~ "  B<_>       marcato per l'eliminazione, rimuove anche la "
+#~ "configurazione;\n"
 #~ "  B<n>       il pacchetto è nuovo e deve ancora essere marcato.\n"
 
 #~ msgid ""
@@ -28385,10 +28673,14 @@ msgstr "B<ln>(1), FHS: lo standard per la gerarchia del file system."
 #~ "  B<d>                  scorre le informazioni 1 pagina in giù\n"
 #~ "  B<^u>                 scorre le informazioni 1 riga in su\n"
 #~ "  B<^d>                 scorre le informazioni 1 riga in giù\n"
-#~ "  B<B, Left-arrow>      scorre orizzontalmente il display di 1/3 dello schermo a sinistra\n"
-#~ "  B<F, Right-arrow>     scorre orizzontalmente il display di 1/3 dello schermo a destra\n"
-#~ "  B<^b>                 scorre orizzontalmente il display di 1 carattere a sinistra\n"
-#~ "  B<^f>                 scorre orizzontalmente il display di 1 carattere a destra\n"
+#~ "  B<B, Left-arrow>      scorre orizzontalmente il display di 1/3 dello "
+#~ "schermo a sinistra\n"
+#~ "  B<F, Right-arrow>     scorre orizzontalmente il display di 1/3 dello "
+#~ "schermo a destra\n"
+#~ "  B<^b>                 scorre orizzontalmente il display di 1 carattere "
+#~ "a sinistra\n"
+#~ "  B<^f>                 scorre orizzontalmente il display di 1 carattere "
+#~ "a destra\n"
 
 #~ msgid ""
 #~ "The requested selection state of individual packages may be\n"

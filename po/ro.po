@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-06-01 02:17+0200\n"
+"POT-Creation-Date: 2020-06-27 02:41+0200\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: ioan-eugen STAN <stan.ieugen@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -2125,7 +2125,7 @@ msgstr "eroare la setarea marcajului de timp pentru „%.255s”"
 msgid "error setting ownership of symlink '%.255s'"
 msgstr "eroare la setarea apartenenței legăturii simbolice „%.255s”"
 
-#: src/archives.c utils/update-alternatives.c
+#: src/archives.c
 #, c-format
 msgid "unable to read link '%.255s'"
 msgstr "nu se poate citi legătura „%.255s”"
@@ -2300,6 +2300,30 @@ msgstr ""
 #| " it in order to enable %s.\n"
 msgid ""
 "no, %s is essential, will not deconfigure\n"
+" it in order to enable %s"
+msgstr ""
+"dpkg: nu, %s este esențial, nu va fi deconfigurat\n"
+" pentru a permite %s.\n"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "considering deconfiguration of essential\n"
+#| " package %s, to enable %s."
+msgid ""
+"considering deconfiguration of protected\n"
+" package %s, to enable %s"
+msgstr ""
+"se consideră deconfigurarea pachetului\n"
+" esențial %s, pentru a permite %s."
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: no, %s is essential, will not deconfigure\n"
+#| " it in order to enable %s.\n"
+msgid ""
+"no, %s is protected, will not deconfigure\n"
 " it in order to enable %s"
 msgstr ""
 "dpkg: nu, %s este esențial, nu va fi deconfigurat\n"
@@ -3020,11 +3044,13 @@ msgstr ""
 "versiunea 2 sau\n"
 "ulterioară pentru condițiile de copiere. NU există nici o garanție.\n"
 
-#: src/divertcmd.c src/main.c src/querycmd.c src/statcmd.c dpkg-deb/main.c
-#: dpkg-split/main.c utils/update-alternatives.c
-#, c-format
+#: src/divertcmd.c src/main.c src/querycmd.c dpkg-deb/main.c
+#, fuzzy, c-format
+#| msgid ""
+#| "Usage: %s [<option> ...] <command>\n"
+#| "\n"
 msgid ""
-"Usage: %s [<option> ...] <command>\n"
+"Usage: %s [<option>...] <command>\n"
 "\n"
 msgstr ""
 "Utilizare: %s [<opțiune> ...] <comanda>\n"
@@ -3467,6 +3493,12 @@ msgid "versioned Provides"
 msgstr ""
 
 #: src/enquiry.c
+#, fuzzy
+#| msgid "Pre-Depends field"
+msgid "Protected field"
+msgstr "câmpul Pre-Depends"
+
+#: src/enquiry.c
 #, fuzzy, c-format
 #| msgid ""
 #| "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -3724,6 +3756,10 @@ msgid "Remove packages which require installation"
 msgstr ""
 
 #: src/force.c
+msgid "Remove a protected package"
+msgstr ""
+
+#: src/force.c
 msgid "Remove an essential package"
 msgstr ""
 
@@ -3978,7 +4014,7 @@ msgstr ""
 #| "\n"
 msgid ""
 "Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides.\n"
+"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
 "\n"
 msgstr ""
 "Pentru uz intern: dpkg --assert-support-predepends | --predep-package |\n"
@@ -4055,6 +4091,8 @@ msgid ""
 "  --root=<directory>         Install on a different root directory.\n"
 "  --instdir=<directory>      Change installation dir without changing admin "
 "dir.\n"
+"  --pre-invoke=<command>     Set a pre-invoke hook.\n"
+"  --post-invoke=<command>    Set a post-invoke hook.\n"
 "  --path-exclude=<pattern>   Do not install paths which match a shell "
 "pattern.\n"
 "  --path-include=<pattern>   Re-include a pattern after a previous "
@@ -4069,6 +4107,7 @@ msgid ""
 "  --[no-]triggers            Skip or force consequential trigger "
 "processing.\n"
 "  --verify-format=<format>   Verify output format (supported: 'rpm').\n"
+"  --no-pager                 Disables the use of any pager.\n"
 "  --no-debsig                Do not try to verify package signatures.\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             Just say what we would do - don't do it.\n"
@@ -4078,12 +4117,13 @@ msgid ""
 "  --status-logger=<command>  Send status change updates to <command>'s "
 "stdin.\n"
 "  --log=<filename>           Log status changes and actions to <filename>.\n"
-"  --ignore-depends=<package>,...\n"
+"  --ignore-depends=<package>[,...]\n"
 "                             Ignore dependencies involving <package>.\n"
-"  --force-...                Override problems (see --force-help).\n"
-"  --no-force-...|--refuse-...\n"
-"                             Stop when problems encountered.\n"
+"  --force-<thing>[,...]      Override problems (see --force-help).\n"
+"  --no-force-<thing>[,...]   Stop when problems encountered.\n"
+"  --refuse-<thing>[,...]     Ditto.\n"
 "  --abort-after <n>          Abort after encountering <n> errors.\n"
+"  --robot                    Use machine-readable output on some commands.\n"
 "\n"
 msgstr ""
 "Opțiuni:\n"
@@ -4694,6 +4734,7 @@ msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
+"  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
 "\n"
 msgstr ""
@@ -4753,6 +4794,12 @@ msgstr ""
 #, fuzzy
 #| msgid "This is an essential package - it should not be removed."
 msgid "this is an essential package; it should not be removed"
+msgstr "Acest pachet este esențial - nu ar trebui șters."
+
+#: src/remove.c
+#, fuzzy
+#| msgid "This is an essential package - it should not be removed."
+msgid "this is a protected package; it should not be removed"
 msgstr "Acest pachet este esențial - nu ar trebui șters."
 
 #: src/remove.c
@@ -5021,6 +5068,15 @@ msgstr ""
 msgid "Use --help for help about overriding file stat information."
 msgstr "Folosiți --help pentru ajutor despre interogarea pachetelor"
 
+#: src/statcmd.c dpkg-split/main.c utils/update-alternatives.c
+#, c-format
+msgid ""
+"Usage: %s [<option> ...] <command>\n"
+"\n"
+msgstr ""
+"Utilizare: %s [<opțiune> ...] <comanda>\n"
+"\n"
+
 #: src/statcmd.c
 #, fuzzy, c-format
 #| msgid ""
@@ -5063,9 +5119,9 @@ msgid ""
 "  --root <directory>       set the directory of the root filesystem.\n"
 "  --update                 immediately update <path> permissions.\n"
 "  --force                  deprecated alias for --force-all.\n"
-"  --force-...              override problems (see --force-help).\n"
-"  --no-force-...           stop when problems encountered.\n"
-"  --refuse-...             ditto.\n"
+"  --force-<thing>[,...]    override problems (see --force-help).\n"
+"  --no-force-<thing>[,...] stop when problems encountered.\n"
+"  --refuse-<thing>[,...]   ditto.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
@@ -5157,10 +5213,14 @@ msgid "Debian %s package trigger utility version %s.\n"
 msgstr "Debian %s, unealta pentru declanșatori de pachete versiunea %s.\n"
 
 #: src/trigcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Usage: %s [<options> ...] <trigger-name>\n"
+#| "       %s [<options> ...] <command>\n"
+#| "\n"
 msgid ""
-"Usage: %s [<options> ...] <trigger-name>\n"
-"       %s [<options> ...] <command>\n"
+"Usage: %s [<option>...] <trigger-name>\n"
+"       %s [<option>...] <command>\n"
 "\n"
 msgstr ""
 "Utilizare: %s [<opțiuni> ...] <nume-declanșator>\n"
@@ -6137,9 +6197,9 @@ msgid ""
 "Commands:\n"
 "  -b|--build <directory> [<deb>]   Build an archive.\n"
 "  -c|--contents <deb>              List contents.\n"
-"  -I|--info <deb> [<cfile> ...]    Show info to stdout.\n"
+"  -I|--info <deb> [<cfile>...]     Show info to stdout.\n"
 "  -W|--show <deb>                  Show information on package(s)\n"
-"  -f|--field <deb> [<cfield> ...]  Show field(s) to stdout.\n"
+"  -f|--field <deb> [<cfield>...]   Show field(s) to stdout.\n"
 "  -e|--control <deb> [<directory>] Extract control info.\n"
 "  -x|--extract <deb> <directory>   Extract files.\n"
 "  -X|--vextract <deb> <directory>  Extract & list files.\n"
@@ -6978,6 +7038,8 @@ msgid ""
 "Options:\n"
 "  --altdir <directory>     change the alternatives directory.\n"
 "  --admindir <directory>   change the administrative directory.\n"
+"  --instdir <directory>    change the installation directory.\n"
+"  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
 "  --force                  allow replacing files with alternative links.\n"
 "  --skip-auto              skip prompt for alternatives correctly "
@@ -7007,20 +7069,15 @@ msgstr "Folosiți --help pentru ajutor despre interogarea pachetelor"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-#| msgid "malloc failed (%ld bytes)"
-msgid "malloc failed (%zu bytes)"
-msgstr "malloc a eșuat (%ld octeți)"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "two commands specified: --%s and --%s"
-msgstr "au fost specificate două comenzi: --%s și --%s"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
 #| msgid "cannot append to %s: %s"
 msgid "cannot append to '%s'"
 msgstr "nu se poate adăuga la %s: %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "malloc failed (%ld bytes)"
+msgid "malloc failed (%zu bytes)"
+msgstr "malloc a eșuat (%ld octeți)"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -7032,6 +7089,12 @@ msgstr "așteptarea după sub-procesul %s a eșuat"
 #| msgid "unable to remove %s: %s"
 msgid "unable to remove '%s'"
 msgstr "nu se poate șterge %s: %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "unable to read link '%.255s'"
+msgid "unable to read link '%s%.255s'"
+msgstr "nu se poate citi legătura „%.255s”"
 
 #: utils/update-alternatives.c
 msgid "auto mode"
@@ -7159,6 +7222,12 @@ msgstr "nu se poate scana directorul cu actualizări „%.255s”"
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "eșec la flush pentru fișierul „%s”"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot stat file '%s%s'"
+msgstr "stat imposibil pentru fișierul „%s”"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -7300,7 +7369,7 @@ msgstr "alternativa %s pentru %s nu este înregistrată, nu se configurează."
 #: utils/update-alternatives.c
 #, fuzzy, c-format
 #| msgid "%s is dangling, it will be updated with best choice."
-msgid "%s/%s is dangling; it will be updated with best choice"
+msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr "%s este desfăcută, va fi actualizată cu cea mai bună opțiune."
 
 #: utils/update-alternatives.c
@@ -7309,7 +7378,7 @@ msgstr "%s este desfăcută, va fi actualizată cu cea mai bună opțiune."
 #| "%s has been changed (manually or by a script). Switching to manual "
 #| "updates only."
 msgid ""
-"%s/%s has been changed (manually or by a script); switching to manual "
+"%s%s/%s has been changed (manually or by a script); switching to manual "
 "updates only"
 msgstr ""
 "%s a fost schimbată (manual sau de un script). Se comută pe actualizare "
@@ -7324,13 +7393,13 @@ msgstr "se configurează selecția automată pentru %s."
 #: utils/update-alternatives.c
 #, fuzzy, c-format
 #| msgid "renaming %s slave link from %s to %s."
-msgid "renaming %s slave link from %s to %s"
+msgid "renaming %s slave link from %s%s to %s%s"
 msgstr "se redenumește legătura sclav %s din %s în %s."
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
 #| msgid "renaming %s link from %s to %s."
-msgid "renaming %s link from %s to %s"
+msgid "renaming %s link from %s%s to %s%s"
 msgstr "se redenumește legătura %s din %s în %s."
 
 #: utils/update-alternatives.c
@@ -7424,7 +7493,7 @@ msgstr "legătura alternativă %s este deja administrată de %s."
 #: utils/update-alternatives.c
 #, fuzzy, c-format
 #| msgid "alternative path %s doesn't exist."
-msgid "alternative path %s doesn't exist"
+msgid "alternative path %s%s doesn't exist"
 msgstr "calea alternativă %s nu există."
 
 #: utils/update-alternatives.c
@@ -7447,11 +7516,18 @@ msgstr "legătura alternativă %s este deja administrată de %s."
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "two commands specified: --%s and --%s"
+msgstr "au fost specificate două comenzi: --%s și --%s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unknown argument '%s'"
 msgstr "argument necunoscut „%s”"
 
 #: utils/update-alternatives.c
-msgid "--install needs <link> <name> <path> <priority>"
+#, fuzzy, c-format
+#| msgid "--install needs <link> <name> <path> <priority>"
+msgid "--%s needs <link> <name> <path> <priority>"
 msgstr "--install necesită <legătură> <nume> <cale> <prioritate>"
 
 #: utils/update-alternatives.c
@@ -7479,11 +7555,15 @@ msgid "--%s needs <name>"
 msgstr "--%s necesită <nume>"
 
 #: utils/update-alternatives.c
-msgid "--slave only allowed with --install"
+#, fuzzy, c-format
+#| msgid "--slave only allowed with --install"
+msgid "--%s only allowed with --%s"
 msgstr "--slave este permis doar cu --install"
 
 #: utils/update-alternatives.c
-msgid "--slave needs <link> <name> <path>"
+#, fuzzy, c-format
+#| msgid "--slave needs <link> <name> <path>"
+msgid "--%s needs <link> <name> <path>"
 msgstr "--slave necesită <legătură> <nume> <cale>"
 
 #: utils/update-alternatives.c
@@ -7502,12 +7582,10 @@ msgid "--%s needs a <file> argument"
 msgstr "--%s necesită un argument <fișier>"
 
 #: utils/update-alternatives.c
+#, c-format
 msgid ""
-"need --display, --query, --list, --get-selections, --config, --set, --set-"
-"selections, --install, --remove, --all, --remove-all or --auto"
+"need --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s or --%s"
 msgstr ""
-"este nevoie de --display, --query, --list, --get-selections, --config, --"
-"set, --set-selections, --install, --remove, --all, --remove-all sau --auto"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -7541,6 +7619,13 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid ""
+#~ "need --display, --query, --list, --get-selections, --config, --set, --set-"
+#~ "selections, --install, --remove, --all, --remove-all or --auto"
+#~ msgstr ""
+#~ "este nevoie de --display, --query, --list, --get-selections, --config, --"
+#~ "set, --set-selections, --install, --remove, --all, --remove-all sau --auto"
 
 #~ msgid "unable to set ownership of triggers state directory '%.250s'"
 #~ msgstr ""
