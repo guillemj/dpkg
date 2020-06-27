@@ -262,6 +262,7 @@ test_scripts = \
 	t/Dpkg_Source_Archive.t \
 	t/Dpkg_Source_Package.t \
 	t/Dpkg_Dist_Files.t \
+	t/dpkg_realpath.t \
 	t/dpkg_source.t \
 	t/dpkg_buildpackage.t \
 	t/merge_changelogs.t \
