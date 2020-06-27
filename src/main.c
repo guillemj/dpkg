@@ -59,7 +59,7 @@ static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
   if (f_robot) {
-    printf("%s", PACKAGE_RELEASE);
+    printf("%s", PACKAGE_VERSION);
   } else {
     printf(_("Debian '%s' package management program version %s.\n"),
            DPKG, PACKAGE_RELEASE);
