@@ -100,7 +100,7 @@ sub import_key {
         return;
     }
 
-    my $gpghome = File::Temp->newdir("dpkg-import-key.XXXXXXXX", TMPDIR => 1);
+    my $gpghome = File::Temp->newdir('dpkg-import-key.XXXXXXXX', TMPDIR => 1);
 
     push @exec, '--homedir', $gpghome;
     push @exec, '--no-options', '--no-default-keyring', '-q', '--import';
