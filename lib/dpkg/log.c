@@ -73,7 +73,9 @@ log_message(const char *fmt, ...)
 	varbuf_end_str(&log);
 	va_end(args);
 
-	fd_write(logfd, log.buf, log.used);
+	if (fd_write(logfd, log.buf, log.used) < 0)
+		notice(_("cannot write to log file '%s': %s"),
+		       log_file, strerror(errno));
 }
 
 struct pipef {
