@@ -10,6 +10,10 @@ dpkg (1.20.3) UNRELEASED; urgency=medium
     - Dpkg::Source::Package: Fix check_original_tarball_signature() to make
       import_key() honor require_valid_signature, which should default to
       false. Reported by Mattia Rizzolo <mattia@debian.org>.
+    - Dpkg::OpenPGP: Use a temporary directory for the GnuPG homedir in
+      import_key(), to make sure we do not write to the user home directory,
+      which might be read-only or non-existent.
+      Reported by Mattia Rizzolo <mattia@debian.org>.
 
   [ Updated programs translations ]
   * German (Sven Joachim).

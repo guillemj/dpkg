@@ -20,6 +20,7 @@ use warnings;
 
 use POSIX qw(:sys_wait_h);
 use Exporter qw(import);
+use File::Temp;
 use File::Copy;
 
 use Dpkg::Gettext;
@@ -98,6 +99,10 @@ sub import_key {
                 $asc);
         return;
     }
+
+    my $gpghome = File::Temp->newdir("dpkg-import-key.XXXXXXXX", TMPDIR => 1);
+
+    push @exec, '--homedir', $gpghome;
     push @exec, '--no-options', '--no-default-keyring', '-q', '--import';
     push @exec, '--keyring', $opts{keyring};
     push @exec, $asc;
