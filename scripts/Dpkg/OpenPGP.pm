@@ -127,7 +127,8 @@ sub verify_signature {
     if (find_command('gpgv')) {
         push @exec, 'gpgv';
     } elsif (find_command('gpg')) {
-        push @exec, 'gpg', '--no-default-keyring', '-q', '--verify';
+        my @gpg_opts = qw(--no-options --no-default-keyring -q);
+        push @exec, 'gpg', @gpg_opts, '--verify';
     } elsif ($opts{require_valid_signature}) {
         error(g_('cannot verify signature on %s since GnuPG is not installed'),
               $sig);
