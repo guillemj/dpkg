@@ -89,7 +89,9 @@ This is a deprecated alias for get_build_env_allowed().
 =cut
 
 sub get_build_env_whitelist {
-    warnings::warnif('deprecated', 'use get_build_env_allowed() instead');
+    warnings::warnif('deprecated',
+        'Dpkg::Build::Info::get_build_env_whitelist() is deprecated, ' .
+        'use get_build_env_allowed() instead');
     return get_build_env_allowed();
 }
 
