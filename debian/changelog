@@ -1,6 +1,11 @@
 dpkg (1.20.4) UNRELEASED; urgency=medium
 
   [ Guillem Jover ]
+  * Improve PIE flags support:
+    - Prefix the specs file spec string self_spec with + instead of *.
+      This way we do not override any previous setting, otherwise when
+      passing the -specs options twice (f.ex. to compile and link), only the
+      last one will take effect, which can break the build. Closes: #870383
   * Perl modules:
     - Dpkg::Source::Package: Explicitly initialize constructor options to
       their implicit values, otherwise other code end up assuming different
