@@ -219,7 +219,7 @@ sub check_directory_traversal {
     my $canon_basedir = realpath($basedir);
     my $check_symlinks = sub {
         my $canon_pathname = realpath($_);
-        return if $canon_pathname =~ m/^\Q$canon_basedir\E/;
+        return if $canon_pathname =~ m{^\Q$canon_basedir/\E};
 
         error(g_("pathname '%s' points outside source root (to '%s')"),
               $_, $canon_pathname);
