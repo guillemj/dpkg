@@ -16,16 +16,28 @@
 use strict;
 use warnings;
 
-use Test::More tests => 16;
+use Test::More tests => 32;
 use Test::Dpkg qw(:paths);
 
+use Cwd qw(realpath);
 use File::Path qw(make_path);;
+use File::Spec::Functions qw(abs2rel);
 
 use_ok('Dpkg::Path', 'canonpath', 'resolve_symlink',
-       'check_files_are_the_same', 'get_pkg_root_dir',
+       'check_files_are_the_same',
+       'check_directory_traversal',
+       'get_pkg_root_dir',
        'guess_pkg_root_dir', 'relative_to_pkg_root');
 
 my $tmpdir = test_get_temp_path();
+
+sub gen_file
+{
+    my ($pathname) = @_;
+
+    open my $fh, '>', $pathname or BAIL_OUT("cannot create file $pathname");
+    close $fh;
+}
 
 make_path("$tmpdir/a/b/c");
 make_path("$tmpdir/a/DEBIAN");
@@ -45,6 +57,167 @@ is(resolve_symlink("$tmpdir/here"), $tmpdir, 'resolve_symlink .');
 
 ok(!check_files_are_the_same("$tmpdir/here", $tmpdir), 'Symlink is not the same!');
 ok(check_files_are_the_same("$tmpdir/here/a", "$tmpdir/a"), 'Same directory');
+
+sub gen_hier_travbase {
+    my $basedir = shift;
+
+    make_path("$basedir/subdir");
+    gen_file("$basedir/file");
+    gen_file("$basedir/subdir/subfile");
+    symlink 'file', "$basedir/symlink-file";
+    symlink 'subdir/subfile', "$basedir/symlink-subfile";
+}
+
+my $travbase = "$tmpdir/travbase";
+my $travbase_out = "$tmpdir/travbase-out";
+my %travtype = (
+    none => {
+        fail => 0,
+        gen => sub { },
+    },
+    dots => {
+        fail => 0,
+        gen => sub {
+            my $basedir = shift;
+            symlink 'aa..bb..cc', "$basedir/dots";
+        },
+    },
+    rel => {
+        fail => 1,
+        gen => sub {
+            my $basedir = shift;
+            symlink '../../..', "$basedir/rel";
+        },
+    },
+    abs => {
+        fail => 1,
+        gen => sub {
+            my $basedir = shift;
+            symlink '/etc', "$basedir/abs";
+        },
+    },
+    loop => {
+        fail => 1,
+        gen => sub {
+            my $basedir = shift;
+            symlink 'self', "$basedir/self";
+        },
+    },
+    enoent_rel => {
+        fail => 0,
+        gen => sub {
+            my $basedir = shift;
+            symlink 'not-existent', "$basedir/enoent-rel";
+        },
+    },
+    enoent_abs => {
+        fail => 1,
+        gen => sub {
+            my $basedir = shift;
+            symlink '/not-existent', "$basedir/enoent-abs";
+        },
+    },
+    enoent_indirect_rel => {
+        fail => 0,
+        gen => sub {
+            my $basedir = shift;
+            symlink 'not-existent', "$basedir/enoent-rel";
+            symlink 'enoent-rel', "$basedir/enoent-indirect-rel";
+        },
+    },
+    enoent_indirect_abs => {
+        fail => 1,
+        gen => sub {
+            my $basedir = shift;
+            symlink '/not-existent', "$basedir/enoent-abs";
+            symlink realpath("$basedir/enoent-abs"), "$basedir/enoent-indirect-abs";
+        },
+    },
+    base_in_none => {
+        fail => 0,
+        gen => sub {
+            my $basedir = shift;
+            rename $basedir, "$basedir-real";
+            symlink 'base_in_none-real', $basedir;
+        },
+    },
+    base_in_rel => {
+        fail => 1,
+        gen => sub {
+            my $basedir = shift;
+            rename $basedir, "$basedir-real";
+            symlink 'base_in_rel-real', $basedir;
+            symlink '../../..', "$basedir/rel";
+        },
+    },
+    base_in_abs => {
+        fail => 1,
+        gen => sub {
+            my $basedir = shift;
+            rename $basedir, "$basedir-real";
+            symlink 'base_in_abs-real', $basedir;
+            symlink '/etc', "$basedir/abs";
+        },
+    },
+    base_out_empty => {
+        fail => 1,
+        gen => sub {
+            my $basedir = shift;
+            rename $basedir, "$travbase_out/base_out_empty-disabled";
+            symlink abs2rel("$travbase_out/base_out_empty", $travbase), $basedir;
+            make_path("$travbase_out/base_out_empty");
+        },
+    },
+    base_out_none => {
+        fail => 1,
+        gen => sub {
+            my $basedir = shift;
+            rename $basedir, "$travbase_out/base_out_none";
+            symlink abs2rel("$travbase_out/base_out_none", $travbase), $basedir;
+        },
+    },
+    base_out_rel => {
+        fail => 1,
+        gen => sub {
+            my $basedir = shift;
+            rename $basedir, "$travbase_out/base_out_rel";
+            symlink abs2rel("$travbase_out/base_out_rel", $travbase), $basedir;
+            symlink '../../..', "$basedir/rel";
+        },
+    },
+    base_out_abs => {
+        fail => 1,
+        gen => sub {
+            my $basedir = shift;
+            rename $basedir, "$travbase_out/base_out_abs";
+            symlink abs2rel("$travbase_out/base_out_abs", $travbase), $basedir;
+            symlink '/etc', "$basedir/abs";
+        },
+    },
+);
+
+make_path($travbase_out);
+
+foreach my $travtype (sort keys %travtype) {
+    my $travdir = "$travbase/$travtype";
+
+    gen_hier_travbase($travdir);
+    $travtype{$travtype}->{gen}->($travdir);
+
+    my $catch;
+    eval {
+        check_directory_traversal($travbase, $travdir);
+        1;
+    } or do {
+        $catch = $@;
+        diag("error from check_directory_traversal => $catch");
+    };
+    if ($travtype{$travtype}->{fail}) {
+        ok($catch, "directory traversal type $travtype detected: $catch");
+    } else {
+        ok(! $catch, "no directory traversal type $travtype");
+    }
+}
 
 is(get_pkg_root_dir("$tmpdir/a/b/c"), "$tmpdir/a", 'get_pkg_root_dir');
 is(guess_pkg_root_dir("$tmpdir/a/b/c"), "$tmpdir/a", 'guess_pkg_root_dir');
