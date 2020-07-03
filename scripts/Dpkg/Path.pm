@@ -34,6 +34,7 @@ our @EXPORT_OK = qw(
 );
 
 use Exporter qw(import);
+use Errno qw(ENOENT);
 use File::Spec;
 use File::Find;
 use Cwd qw(realpath);
@@ -220,6 +221,8 @@ sub check_directory_traversal {
     my $check_symlinks = sub {
         my $canon_pathname = realpath($_);
         if (not defined $canon_pathname) {
+            return if $! == ENOENT;
+
             syserr(g_("pathname '%s' cannot be canonicalized"), $_);
         }
         return if $canon_pathname =~ m{^\Q$canon_basedir/\E};
