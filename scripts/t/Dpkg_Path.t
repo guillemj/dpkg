@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 32;
+use Test::More tests => 33;
 use Test::Dpkg qw(:paths);
 
 use Cwd qw(realpath);
@@ -74,6 +74,13 @@ my %travtype = (
     none => {
         fail => 0,
         gen => sub { },
+    },
+    dev_null => {
+        fail => 0,
+        gen => sub {
+            my $basedir = shift;
+            symlink '/dev/null', "$basedir/dev-null";
+        },
     },
     dots => {
         fail => 0,
