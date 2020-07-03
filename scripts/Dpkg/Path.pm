@@ -219,6 +219,9 @@ sub check_directory_traversal {
     my $canon_basedir = realpath($basedir);
     my $check_symlinks = sub {
         my $canon_pathname = realpath($_);
+        if (not defined $canon_pathname) {
+            syserr(g_("pathname '%s' cannot be canonicalized"), $_);
+        }
         return if $canon_pathname =~ m{^\Q$canon_basedir/\E};
 
         error(g_("pathname '%s' points outside source root (to '%s')"),
