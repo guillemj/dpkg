@@ -5,6 +5,9 @@ dpkg (1.20.4) UNRELEASED; urgency=medium
     - Dpkg::Source::Package: Explicitly initialize constructor options to
       their implicit values, otherwise other code end up assuming different
       defaults. Closes: #964017
+    - Dpkg::OpenPGP: Use a temporary directory for the GnuPG homedir in
+      verify_signature(), to make sure we do not write to the user home
+      directory, except for the trustkeys.db file if present.
   * Build system:
     - Add Module::Signature as configure recommends for CPAN.
 

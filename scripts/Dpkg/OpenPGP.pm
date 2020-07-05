@@ -142,6 +142,9 @@ sub verify_signature {
                 $sig);
         return;
     }
+
+    my $gpghome = File::Temp->newdir('dpkg-verify-sig.XXXXXXXX', TMPDIR => 1);
+    push @exec, '--homedir', $gpghome;
     foreach my $keyring (@{$opts{keyrings}}) {
         push @exec, '--keyring', $keyring;
     }
