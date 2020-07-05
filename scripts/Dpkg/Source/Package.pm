@@ -248,9 +248,16 @@ sub init_options {
          'debian/source/local-patch-header',
          'debian/files',
          'debian/files.new';
+    $self->{options}{copy_orig_tarballs} //= 0;
+
     # Skip debianization while specific to some formats has an impact
     # on code common to all formats
     $self->{options}{skip_debianization} //= 0;
+    $self->{options}{skip_patches} //= 0;
+
+    # Set default validation checks.
+    $self->{options}{require_valid_signature} //= 0;
+    $self->{options}{require_strong_checksums} //= 0;
 
     # Set default compressor for new formats.
     $self->{options}{compression} //= 'xz';
