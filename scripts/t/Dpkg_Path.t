@@ -19,20 +19,17 @@ use warnings;
 use Test::More tests => 16;
 use Test::Dpkg qw(:paths);
 
+use File::Path qw(make_path);;
+
 use_ok('Dpkg::Path', 'canonpath', 'resolve_symlink',
        'check_files_are_the_same', 'get_pkg_root_dir',
        'guess_pkg_root_dir', 'relative_to_pkg_root');
 
 my $tmpdir = test_get_temp_path();
 
-mkdir "$tmpdir/a";
-mkdir "$tmpdir/a/b";
-mkdir "$tmpdir/a/b/c";
-mkdir "$tmpdir/a/DEBIAN";
-mkdir "$tmpdir/debian";
-mkdir "$tmpdir/debian/a";
-mkdir "$tmpdir/debian/a/b";
-mkdir "$tmpdir/debian/a/b/c";
+make_path("$tmpdir/a/b/c");
+make_path("$tmpdir/a/DEBIAN");
+make_path("$tmpdir/debian/a/b/c");
 symlink 'a/b/c', "$tmpdir/cbis";
 symlink '/this/does/not/exist', "$tmpdir/tmp";
 symlink '.', "$tmpdir/here";
