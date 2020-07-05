@@ -44,9 +44,7 @@ our @EXPORT_OK = qw(
 use Exporter qw(import);
 use POSIX qw(:errno_h :sys_wait_h);
 use Carp;
-use Cwd qw(realpath);
 use File::Temp;
-use File::Find;
 use File::Copy qw(cp);
 use File::Basename;
 
@@ -56,7 +54,7 @@ use Dpkg::Control;
 use Dpkg::Checksums;
 use Dpkg::Version;
 use Dpkg::Compression;
-use Dpkg::Path qw(check_files_are_the_same);
+use Dpkg::Path qw(check_files_are_the_same check_directory_traversal);
 use Dpkg::Vendor qw(run_vendor_hook);
 use Dpkg::Source::Format;
 use Dpkg::OpenPGP;
@@ -556,21 +554,9 @@ sub extract {
 
     # Check for directory traversals.
     if (not $self->{options}{skip_debianization}) {
-        my $canon_newdir = realpath($newdirectory);
-        my $check_symlinks = sub {
-            my $canon_pathname = realpath($_);
-            return if $canon_pathname =~ m/^\Q$canon_newdir\E/;
-
-            error(g_("pathname '%s' points outside source root"), $_);
-        };
         # We need to add a trailing slash to handle the debian directory
         # possibly being a symlink.
-        find({
-            wanted => $check_symlinks,
-            no_chdir => 1,
-            follow => 1,
-            follow_skip => 2,
-        }, "$newdirectory/debian/");
+        check_directory_traversal($newdirectory, "$newdirectory/debian/");
     }
 
     # Store format if non-standard so that next build keeps the same format
