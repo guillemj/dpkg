@@ -221,7 +221,8 @@ sub check_directory_traversal {
         my $canon_pathname = realpath($_);
         return if $canon_pathname =~ m/^\Q$canon_basedir\E/;
 
-        error(g_("pathname '%s' points outside source root"), $_);
+        error(g_("pathname '%s' points outside source root (to '%s')"),
+              $_, $canon_pathname);
     };
 
     find({
