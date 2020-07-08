@@ -217,12 +217,13 @@ foreach my $travtype (sort keys %travtype) {
         1;
     } or do {
         $catch = $@;
-        diag("error from check_directory_traversal => $catch");
     };
     if ($travtype{$travtype}->{fail}) {
-        ok($catch, "directory traversal type $travtype detected: $catch");
+        ok($catch, "directory traversal type $travtype detected");
+        note("traversal reason: $catch") if $catch;
     } else {
         ok(! $catch, "no directory traversal type $travtype");
+        diag("error from check_directory_traversal => $catch") if $catch;
     }
 }
 
