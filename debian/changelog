@@ -1,5 +1,13 @@
 dpkg (1.20.5) UNRELEASED; urgency=medium
 
+  [ Guillem Jover ]
+  * Revert change to prefix the specs file spec string self_spec with +
+    instead of *. The prefix is supposed to go in the text itself
+    instead of the spec name, which already had it. This change only
+    apparently fixed the issue at hand because gcc started parsing it as
+    the «[SUFFIX]:» case, completely disabling the PIE handling.
+    Thanks to Thorsten Glaser <tg@mirbsd.de>.
+
   [ Updated scripts translations ]
   * German (Helge Kreutzmann).
 
