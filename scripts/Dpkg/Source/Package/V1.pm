@@ -63,6 +63,10 @@ sub init_options {
     $self->{options}{ignore_bad_version} //= 0;
     $self->{options}{abort_on_upstream_changes} //= 0;
 
+    # Set default validation checks.
+    $self->{options}{require_valid_signature} //= 0;
+    $self->{options}{require_strong_checksums} //= 0;
+
     # V1.0 only supports gzip compression.
     $self->{options}{compression} //= 'gzip';
     $self->{options}{comp_level} //= compression_get_property('gzip', 'default_level');
