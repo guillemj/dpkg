@@ -73,6 +73,8 @@ my $class = Module::Build->subclass(
             local $ENV{DPKG_TEST_MODE} = 'cpan';
             local $ENV{DPKG_DATADIR} = 'data';
             local $ENV{DPKG_ORIGINS_DIR} = 't/origins';
+            # To avoid requiring dpkg(1).
+            local $ENV{DEB_BUILD_ARCH} = 'amd64';
             $self->SUPER::ACTION_test;
         }
     },
