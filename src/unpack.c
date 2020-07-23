@@ -1092,7 +1092,8 @@ pkg_remove_backup_files(struct pkginfo *pkg, struct fsys_namenode_list *newfiles
   }
 }
 
-void process_archive(const char *filename) {
+
+void process_archive(const char *filename, struct passed_through_package_info *unpackedInfo) {
   static const struct tar_operations tf = {
     .read = tarfileread,
     .extract_file = tarobject,
@@ -1174,6 +1175,7 @@ void process_archive(const char *filename) {
 
   parsedb(cidir, parsedb_flags, &pkg);
 
+  passed_through_package_info_append(unpackedInfo, pkg);
   if (!pkg->archives) {
     pkg->archives = nfmalloc(sizeof(*pkg->archives));
     pkg->archives->next = NULL;

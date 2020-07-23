@@ -45,6 +45,7 @@
 #include <dpkg/db-fsys.h>
 
 #include "main.h"
+#include "triggerer_info_passthrough.h"
 
 static struct pkginfo *progress_bytrigproc;
 static struct pkg_queue queue = PKG_QUEUE_INIT;
@@ -70,7 +71,7 @@ enqueue_package_mark_seen(struct pkginfo *pkg)
 }
 
 static void
-enqueue_pending(void)
+enqueue_pending(struct passed_through_package_info *packagePassedThroughInfo)
 {
   struct pkg_hash_iter *iter;
   struct pkginfo *pkg;
@@ -108,13 +109,14 @@ enqueue_pending(void)
     default:
       internerr("unknown action '%d'", cipaction->arg_int);
     }
+    passed_through_package_info_append(packagePassedThroughInfo, pkg);
     enqueue_package(pkg);
   }
   pkg_hash_iter_free(iter);
 }
 
 static void
-enqueue_specified(const char *const *argv)
+enqueue_specified(const char *const *argv, struct passed_through_package_info *packagePassedThroughInfo)
 {
   const char *thisarg;
 
@@ -122,6 +124,7 @@ enqueue_specified(const char *const *argv)
     struct pkginfo *pkg;
 
     pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
+    passed_through_package_info_append(packagePassedThroughInfo, pkg);
     if (pkg->status == PKG_STAT_NOTINSTALLED &&
         str_match_end(pkg->set->name, DEBEXT)) {
       badusage(_("you must specify packages by their own names, "
@@ -137,6 +140,7 @@ enqueue_specified(const char *const *argv)
 int
 packages(const char *const *argv)
 {
+  struct passed_through_package_info unpackedInfo = passed_through_package_info_init();
   trigproc_install_hooks();
 
   modstatdb_open(f_noact ?                  msdbrw_readonly :
@@ -151,13 +155,16 @@ packages(const char *const *argv)
     if (*argv)
       badusage(_("--%s --pending does not take any non-option arguments"),cipaction->olong);
 
-    enqueue_pending();
+    enqueue_pending(&unpackedInfo);
   } else {
     if (!*argv)
       badusage(_("--%s needs at least one package name argument"), cipaction->olong);
 
-    enqueue_specified(argv);
+    enqueue_specified(argv, &unpackedInfo);
   }
+
+  serialize_the_info_about_triggerers_into_an_env_variable(&unpackedInfo);
+  passed_through_package_info_free(&unpackedInfo);
 
   ensure_diversions();
 
