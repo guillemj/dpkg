@@ -95,9 +95,11 @@ varbuf_vprintf(struct varbuf *v, const char *fmt, va_list args)
 void
 varbuf_add_buf(struct varbuf *v, const void *s, size_t size)
 {
-  varbuf_grow(v, size);
-  memcpy(v->buf + v->used, s, size);
-  v->used += size;
+  if(size){
+    varbuf_grow(v, size);
+    memcpy(v->buf + v->used, s, size);
+    v->used += size;
+  }
 }
 
 void

@@ -1114,7 +1114,7 @@ void process_archive(const char *filename) {
     deb_verify(filename);
 
   /* Get the control information directory. */
-  cidir = get_control_dir(cidir);
+  cidir = get_control_dir(cidir);  // todo: Memory leak!!! cannot free because it is used after exitting this func.
   cidirrest = cidir + strlen(cidir);
   push_cleanup(cu_cidir, ~0, 2, (void *)cidir, (void *)cidirrest);
 
@@ -1443,9 +1443,13 @@ void process_archive(const char *filename) {
   tar.ops = &tf;
 
   rc = tar_extractor(&tar);
-  if (rc)
+  if (rc){
     dpkg_error_print(&tar.err,
                      _("corrupted filesystem tarfile in package archive"));
+  }
+  if(tar.err.str) // todo: during normal operation no error strings should be set!
+    free(tar.err.str);
+
   if (fd_skip(p1[0], -1, &err) < 0)
     ohshit(_("cannot zap possible trailing zeros from dpkg-deb: %s"), err.str);
   close(p1[0]);

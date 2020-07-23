@@ -85,6 +85,7 @@ trigdef_update_start(enum trigdef_update_flags uf)
 					ohshite(_("unable to open/create "
 					          "triggers lock file '%.250s'"),
 					        fn.buf);
+				free(triggersdir);
 				return TDUS_ERROR_NO_DIR;
 			}
 		}
@@ -121,6 +122,7 @@ trigdef_update_start(enum trigdef_update_flags uf)
 		if (stab.st_size == 0 && !(uf & TDUF_WRITE_IF_EMPTY)) {
 			if (uf & TDUF_WRITE)
 				pop_cleanup(ehflag_normaltidy);
+			free(triggersdir);
 			return TDUS_ERROR_EMPTY_DEFERRED;
 		}
 	}
@@ -136,6 +138,7 @@ trigdef_update_start(enum trigdef_update_flags uf)
 
 		setcloexec(fileno(trig_new_deferred), newfn.buf);
 	}
+	free(triggersdir);
 
 	if (!old_deferred)
 		return TDUS_NO_DEFERRED;

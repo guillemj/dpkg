@@ -458,10 +458,13 @@ tar_extractor(struct tar_archive *tar)
 	h.linkname = NULL;
 	h.stat.uname = NULL;
 	h.stat.gname = NULL;
+	tar->err.str = NULL;
 
 	while ((status = tar->ops->read(tar, buffer, TARBLKSZ)) == TARBLKSZ) {
 		int name_len;
 
+		if(tar->err.str != NULL)
+			free(tar->err.str);
 		if (tar_header_decode((struct tar_header *)buffer, &h, &tar->err) < 0) {
 			if (h.name[0] == '\0') {
 				/* End Of Tape. */
@@ -485,6 +488,8 @@ tar_extractor(struct tar_archive *tar)
 		}
 
 		if (h.name[0] == '\0') {
+			if(tar->err.str != NULL)
+				free(tar->err.str);
 			status = dpkg_put_error(&tar->err,
 			                        _("invalid tar header with empty name field"));
 			errno = 0;
