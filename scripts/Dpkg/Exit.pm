@@ -75,7 +75,10 @@ Run the registered exit handlers.
 =cut
 
 sub run_exit_handlers {
-    $_->() foreach (reverse @handlers);
+    while (my $handler = pop @handlers) {
+        $handler->();
+    }
+    _reset_exit_handlers();
 }
 
 sub _exit_handler {
@@ -83,7 +86,7 @@ sub _exit_handler {
     exit(127);
 }
 
-my @SIGNAMES = qw(INT HUP QUIT __DIE__);
+my @SIGNAMES = qw(INT HUP QUIT);
 my %SIGOLD;
 
 sub _setup_exit_handlers
@@ -99,6 +102,10 @@ sub _reset_exit_handlers
     foreach my $signame (@SIGNAMES) {
         $SIG{$signame} = $SIGOLD{$signame};
     }
+}
+
+END {
+    run_exit_handlers();
 }
 
 =back
