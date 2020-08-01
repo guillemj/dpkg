@@ -1458,6 +1458,7 @@ void cu_cidir(int argc, void **argv) {
   char *cidirrest= (char*)argv[1];
   cidirrest[-1] = '\0';
   path_remove_tree(cidir);
+  free(cidir);
 }
 
 void cu_fileslist(int argc, void **argv) {
