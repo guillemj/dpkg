@@ -758,6 +758,7 @@ commandfd(const char *const *argv)
 }
 
 int main(int argc, const char *const *argv) {
+  char *force_string;
   int ret;
 
   dpkg_locales_init(PACKAGE);
@@ -781,8 +782,10 @@ int main(int argc, const char *const *argv) {
     ohshite(_("unable to setenv for subprocesses"));
   if (setenv("DPKG_ROOT", instdir, 1) < 0)
     ohshite(_("unable to setenv for subprocesses"));
-  if (setenv("DPKG_FORCE", get_force_string(), 1) < 0)
+  force_string = get_force_string();
+  if (setenv("DPKG_FORCE", force_string, 1) < 0)
     ohshite(_("unable to setenv for subprocesses"));
+  free(force_string);
 
   if (!f_triggers)
     f_triggers = (cipaction->arg_int == act_triggers && *argv) ? -1 : 1;
