@@ -74,6 +74,7 @@ constructfn(struct varbuf *vb, const char *dir, const char *tail)
 enum trigdef_update_status
 trigdef_update_start(enum trigdef_update_flags uf)
 {
+	free(triggersdir);
 	triggersdir = dpkg_db_get_path(TRIGGERSDIR);
 
 	if (uf & TDUF_WRITE) {
