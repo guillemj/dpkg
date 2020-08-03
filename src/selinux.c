@@ -86,7 +86,7 @@ void
 dpkg_selabel_set_context(const char *matchpath, const char *path, mode_t mode)
 {
 #ifdef WITH_LIBSELINUX
-	security_context_t scontext = NULL;
+	char *scontext = NULL;
 	int ret;
 
 	/* If SELinux is not enabled just do nothing. */
