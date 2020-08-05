@@ -224,7 +224,7 @@ sub parse_trailer {
 	        # We have to nest the conditionals because May is the same in
 	        # full and abbreviated forms!
 	        if (exists $month_name{$8}) {
-	            push @errors, sprintf(g_('uses full instead of abbreviated month name \'%s\''),
+	            push @errors, sprintf(g_('uses full \'%s\' instead of abbreviated month name \'%s\''),
 	                                  $8, $month_name{$8});
 	        } else {
 	            push @errors, sprintf(g_('invalid abbreviated month name \'%s\''), $8);
