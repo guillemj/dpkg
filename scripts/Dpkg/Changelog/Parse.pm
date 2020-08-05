@@ -83,8 +83,9 @@ parser failed, it will die. Any parse errors will be printed as warnings
 on standard error, but this can be disabled by passing $opt{verbose} to 0.
 
 The changelog file that is parsed is F<debian/changelog> by default but it
-can be overridden with $opt{file}. The default output format is "dpkg" but
-it can be overridden with $opt{format}.
+can be overridden with $opt{file}. The changelog name used in output messages
+can be specified with $opt{label}, otherwise it will default to $opt{file}.
+The default output format is "dpkg" but it can be overridden with $opt{format}.
 
 The parsing itself is done by a parser module (searched in the standard
 perl library directories. That module is named according to the format that
