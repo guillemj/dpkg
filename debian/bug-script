@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 for d in /bin /sbin /lib /lib32 /libo32 /libx32 /lib64; do
   linkname="$(readlink $d)"
   if [ "$linkname" = "usr$d" ] || [ "$linkname" = "/usr$d" ]; then
