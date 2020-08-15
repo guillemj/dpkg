@@ -20,6 +20,7 @@ set -e
 
 PROGNAME=$(basename "$0")
 version="unknown"
+EOL="\n"
 
 PKGDATADIR="${DPKG_DATADIR:-scripts}"
 
@@ -41,6 +42,7 @@ show_usage()
 Usage: $PROGNAME [<option>...] <pathname>
 
 Options:
+  -z,  --zero                   end output line with NUL, not newline.
        --instdir <directory>    set the root directory.
        --root <directory>       set the root directory.
        --version                show the version.
@@ -113,7 +115,7 @@ canonicalize() {
   done
   # We are done, print the resolved pathname, w/o $root.
   result="${result#"$root"}"
-  echo "${result:-/}"
+  printf "%s$EOL" "${result:-/}"
 }
 
 setup_colors
@@ -123,6 +125,9 @@ export DPKG_ROOT
 
 while [ $# -ne 0 ]; do
   case "$1" in
+  -z|--zero)
+    EOL="\0"
+    ;;
   --instdir|--root)
     shift
     DPKG_ROOT=$1
