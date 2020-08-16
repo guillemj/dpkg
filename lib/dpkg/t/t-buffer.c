@@ -69,6 +69,8 @@ test_fdio_hash(void)
 	test_str(hash, ==, ref_hash_test);
 
 	test_pass(unlink(test_file) == 0);
+
+	free(test_file);
 }
 
 TEST_ENTRY(test)

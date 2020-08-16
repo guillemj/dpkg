@@ -140,6 +140,8 @@ main(int argc, char **argv)
 	if (tar_extractor(&tar))
 		ohshite("extracting tar");
 
+	dpkg_error_destroy(&tar.err);
+
 	if (tar_name)
 		close(tar_ctx.tar_fd);
 

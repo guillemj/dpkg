@@ -180,6 +180,8 @@ test_command_exec(void)
 
 	ret = subproc_reap(pid, "command exec test", 0);
 	test_pass(ret == 0);
+
+	command_destroy(&cmd);
 }
 
 static void

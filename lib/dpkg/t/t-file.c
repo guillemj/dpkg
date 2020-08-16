@@ -63,6 +63,7 @@ test_file_slurp(void)
 	test_error(err);
 	varbuf_destroy(&vb);
 	test_pass(rmdir(test_dir) == 0);
+	free(test_dir);
 
 	test_file = test_alloc(strdup("test.XXXXXX"));
 	fd = mkstemp(test_file);
@@ -86,6 +87,7 @@ test_file_slurp(void)
 	varbuf_destroy(&vb);
 
 	test_pass(unlink(test_file) == 0);
+	free(test_file);
 }
 
 TEST_ENTRY(test)
