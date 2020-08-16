@@ -274,6 +274,7 @@ static void
 treenode_free_node(struct treenode *node)
 {
 	free(node->pathname);
+	free(node->stat);
 	free(node);
 }
 
