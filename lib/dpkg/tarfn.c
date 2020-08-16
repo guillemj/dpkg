@@ -474,11 +474,15 @@ tar_extractor(struct tar_archive *tar)
 		}
 		if (h.type != TAR_FILETYPE_GNU_LONGLINK &&
 		    h.type != TAR_FILETYPE_GNU_LONGNAME) {
-			if (next_long_name)
+			if (next_long_name) {
+				free(h.name);
 				h.name = next_long_name;
+			}
 
-			if (next_long_link)
+			if (next_long_link) {
+				free(h.linkname);
 				h.linkname = next_long_link;
+			}
 
 			next_long_link = NULL;
 			next_long_name = NULL;
