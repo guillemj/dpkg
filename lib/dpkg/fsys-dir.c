@@ -29,6 +29,7 @@
 #include <dpkg/fsys.h>
 
 static const char *fsys_dir = "";
+static char *fsys_dir_alloc;
 
 /**
  * Set current on-disk filesystem root directory.
@@ -45,22 +46,23 @@ static const char *fsys_dir = "";
 const char *
 dpkg_fsys_set_dir(const char *dir)
 {
-	char *new_dir;
-
 	if (dir == NULL) {
 		const char *env;
 
 		env = getenv("DPKG_ROOT");
 		if (env)
 			dir = env;
-		else
-			dir = "";
 	}
 
-	new_dir = m_strdup(dir);
-	path_trim_slash_slashdot(new_dir);
+	free(fsys_dir_alloc);
 
-	fsys_dir = new_dir;
+	if (dir == NULL) {
+		fsys_dir = "";
+		fsys_dir_alloc = NULL;
+	} else {
+		fsys_dir = fsys_dir_alloc = m_strdup(dir);
+		path_trim_slash_slashdot(fsys_dir_alloc);
+	}
 
 	return fsys_dir;
 }
