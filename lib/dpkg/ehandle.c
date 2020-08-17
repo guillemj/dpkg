@@ -173,6 +173,7 @@ error_context_errmsg_free(struct error_context *ec)
 {
   if (ec->errmsg != emergency.errmsg)
     free(ec->errmsg);
+  ec->errmsg = NULL;
 }
 
 static void
