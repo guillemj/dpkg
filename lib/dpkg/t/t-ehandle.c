@@ -110,15 +110,20 @@ test_cleanup_error(void)
 
 TEST_ENTRY(test)
 {
-	int fd;
+	const char *verbose;
 
 	test_plan(3);
 
-	/* XXX: Shut up stderr, we don't want the error output. */
-	fd = open("/dev/null", O_RDWR);
-	if (fd < 0)
-		test_bail("cannot open /dev/null");
-	dup2(fd, 2);
+	verbose = getenv("TEST_VERBOSE");
+	if (verbose == NULL || strcmp(verbose, "0") == 0){
+		int fd;
+
+		/* Shut up stderr, we do not want the error output. */
+		fd = open("/dev/null", O_RDWR);
+		if (fd < 0)
+			test_bail("cannot open /dev/null");
+		dup2(fd, 2);
+	}
 
 	test_error_handler_func();
 	test_error_handler_jump();
