@@ -133,7 +133,7 @@ opt_rename_setup(void)
 }
 
 struct file {
-	const char *name;
+	char *name;
 	enum {
 		FILE_STAT_INVALID,
 		FILE_STAT_VALID,
@@ -153,6 +153,12 @@ file_init(struct file *f, const char *filename)
 
 	f->name = varbuf_detach(&usefilename);
 	f->stat_state = FILE_STAT_INVALID;
+}
+
+static void
+file_destroy(struct file *f)
+{
+	free(f->name);
 }
 
 static void
@@ -512,6 +518,10 @@ diversion_add(const char *const *argv)
 			if (opt_verbose > 0)
 				printf(_("Leaving '%s'\n"),
 				       diversion_describe(fnn_from->divert));
+
+			file_destroy(&file_from);
+			file_destroy(&file_to);
+
 			return 0;
 		}
 
@@ -557,6 +567,9 @@ diversion_add(const char *const *argv)
 		if (opt_rename)
 			file_rename(&file_from, &file_to);
 	}
+
+	file_destroy(&file_from);
+	file_destroy(&file_to);
 
 	return 0;
 }
@@ -668,6 +681,9 @@ diversion_remove(const char *const *argv)
 
 	if (!opt_test)
 		divertdb_write();
+
+	file_destroy(&file_from);
+	file_destroy(&file_to);
 
 	return 0;
 }
