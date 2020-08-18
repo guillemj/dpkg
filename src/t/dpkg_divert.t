@@ -90,13 +90,17 @@ sub call {
           to_pipe => \$output, error_to_pipe => \$error, %opts);
 
     if ($opts{expect_failure}) {
-        ok($? != 0, "@$args should fail");
+        ok($? != 0, "@$args should fail: $?");
     } else  {
-        ok($? == 0, "@$args should not fail");
+        ok($? == 0, "@$args should not fail: $?");
     }
 
+    my @output = <$output>;
+    my @error = <$error>;
+    note("stdout <<<@output>>>");
+    note("stderr <<<@error>>>");
+
     if (defined $opts{expect_stdout}) {
-        my (@output) = <$output>;
         my (@expect) = split(/^/, $opts{expect_stdout});
         if (defined $opts{expect_sorted_stdout}) {
             @output = sort @output;
@@ -105,13 +109,13 @@ sub call {
         is(join('', @output), join('', @expect), "@$args stdout");
     }
     if (defined $opts{expect_stdout_like}) {
-        like(file_slurp($output), $opts{expect_stdout_like}, "@$args stdout");
+        like("@output", $opts{expect_stdout_like}, "@$args stdout");
     }
     if (defined $opts{expect_stderr}) {
-        is(file_slurp($error), $opts{expect_stderr}, "@$args stderr");
+        is("@error", $opts{expect_stderr}, "@$args stderr");
     }
     if (defined $opts{expect_stderr_like}) {
-        like(file_slurp($error), $opts{expect_stderr_like}, "@$args stderr");
+        like("@error", $opts{expect_stderr_like}, "@$args stderr");
     }
 
     close($output);
