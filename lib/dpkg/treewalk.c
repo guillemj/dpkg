@@ -489,8 +489,10 @@ treewalk_next(struct treeroot *tree)
 			break;
 		}
 
-		if (tree->curdir == NULL)
+		if (tree->curdir == NULL) {
+			treenode_free_node(tree->rootnode);
 			break;
+		}
 	}
 
 	treeroot_set_curnode(tree, node);
