@@ -1229,6 +1229,14 @@ struct altdb_context {
 	jmp_buf on_error;
 };
 
+static void
+altdb_context_free(struct altdb_context *ctx)
+{
+	if (ctx->fh)
+		fclose(ctx->fh);
+	free(ctx->filename);
+}
+
 static int
 altdb_filter_namelist(const struct dirent *entry)
 {
@@ -1464,9 +1472,7 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 	}
 
 	if (setjmp(ctx.on_error)) {
-		if (ctx.fh)
-			fclose(ctx.fh);
-		free(ctx.filename);
+		altdb_context_free(&ctx);
 		alternative_reset(a);
 		return false;
 	}
