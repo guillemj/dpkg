@@ -1465,8 +1465,10 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 	/* Open the alternative file. */
 	ctx.fh = fopen(ctx.filename, "r");
 	if (ctx.fh == NULL) {
-		if (errno == ENOENT)
+		if (errno == ENOENT) {
+			altdb_context_free(&ctx);
 			return false;
+		}
 
 		syserr(_("unable to open file '%s'"), ctx.filename);
 	}
@@ -1480,8 +1482,10 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 	/* Verify the alternative is not empty. */
 	if (fstat(fileno(ctx.fh), &st) == -1)
 		syserr(_("cannot stat file '%s'"), ctx.filename);
-	if (st.st_size == 0)
+	if (st.st_size == 0) {
+		altdb_context_free(&ctx);
 		return false;
+	}
 
 	/* Start parsing mandatory attributes (link+status) of the alternative */
 	alternative_reset(a);
