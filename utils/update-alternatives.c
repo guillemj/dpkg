@@ -1484,6 +1484,7 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 		syserr(_("cannot stat file '%s'"), ctx.filename);
 	if (st.st_size == 0) {
 		altdb_context_free(&ctx);
+		alternative_reset(a);
 		return false;
 	}
 
@@ -3061,6 +3062,7 @@ main(int argc, char **argv)
 		 * link group file. */
 		if (!alternative_load(a, ALTDB_WARN_PARSER)) {
 			verbose(_("no alternatives for %s"), a->master_name);
+			alternative_free(a);
 			exit(0);
 		}
 	} else if (action == ACTION_INSTALL) {
@@ -3104,6 +3106,7 @@ main(int argc, char **argv)
 			/* Alternative already exists, check if anything got
 			 * updated. */
 			alternative_evolve(a, inst_alt, current_choice, fileset);
+			alternative_free(inst_alt);
 		} else {
 			/* Alternative doesn't exist, create from parameters. */
 			alternative_free(a);
@@ -3122,6 +3125,9 @@ main(int argc, char **argv)
 
 	if (modifies_alt)
 		alternative_update(a, current_choice, new_choice);
+
+	if (a)
+		alternative_free(a);
 
 	return 0;
 }
