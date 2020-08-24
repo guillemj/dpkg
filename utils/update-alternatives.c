@@ -51,7 +51,7 @@
 #define PROGNAME "update-alternatives"
 
 static const char *altdir = SYSCONFDIR "/alternatives";
-static const char *admdir;
+static char *admdir = NULL;
 static const char *instdir = "";
 static size_t instdir_len;
 
@@ -101,7 +101,7 @@ enum output_mode {
 
 /* Action to perform */
 static enum action action = ACTION_NONE;
-static const char *log_file = LOGDIR "/alternatives.log";
+static char *log_file = NULL;
 static FILE *fh_log = NULL;
 /* Skip alternatives properly configured in auto mode (for --config) */
 static int opt_skip_auto = 0;
@@ -2806,14 +2806,16 @@ static const char *
 set_rootdir(const char *dir)
 {
 	instdir = fsys_set_dir(dir);
+	free(log_file);
 	log_file = fsys_get_path(LOGDIR "/alternatives.log");
 	altdir = SYSCONFDIR "/alternatives";
+	free(admdir);
 	admdir = fsys_gen_admindir(dir);
 
 	return instdir;
 }
 
-static const char *
+static char *
 admindir_init(void)
 {
 	const char *basedir, *basedir_env;
@@ -2856,6 +2858,7 @@ main(int argc, char **argv)
 
 	instdir = fsys_set_dir(NULL);
 	admdir = admindir_init();
+	log_file = fsys_get_path(LOGDIR "/alternatives.log");
 
 	if (setvbuf(stdout, NULL, _IONBF, 0))
 		syserr("setvbuf failed");
@@ -2978,6 +2981,7 @@ main(int argc, char **argv)
 			if (MISSING_ARGS(1))
 				badusage(_("--%s needs a <file> argument"),
 				         argv[i] + 2);
+			free(log_file);
 			log_file = fsys_get_path(argv[i + 1]);
 			i++;
 		} else if (strcmp("--altdir", argv[i]) == 0) {
@@ -2995,7 +2999,8 @@ main(int argc, char **argv)
 			if (MISSING_ARGS(1))
 				badusage(_("--%s needs a <directory> argument"),
 				         argv[i] + 2);
-			admdir = argv[i + 1];
+			free(admdir);
+			admdir = xstrdup(argv[i + 1]);
 			i++;
 		} else if (strcmp("--instdir", argv[i]) == 0) {
 			if (MISSING_ARGS(1))
@@ -3065,6 +3070,8 @@ main(int argc, char **argv)
 		if (!alternative_load(a, ALTDB_WARN_PARSER)) {
 			verbose(_("no alternatives for %s"), a->master_name);
 			alternative_free(a);
+			free(log_file);
+			free(admdir);
 			exit(0);
 		}
 	} else if (action == ACTION_INSTALL) {
@@ -3131,6 +3138,8 @@ main(int argc, char **argv)
 	if (a)
 		alternative_free(a);
 	free(new_choice);
+	free(log_file);
+	free(admdir);
 
 	return 0;
 }
