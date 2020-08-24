@@ -2985,7 +2985,7 @@ main(int argc, char **argv)
 			i++;
 
 			/* If altdir is below instdir, convert it to a relative
-			 * path, as we will prepenr instdir as needed. */
+			 * path, as we will prepend instdir as needed. */
 			if (strncmp(altdir, instdir, instdir_len) == 0)
 				altdir += instdir_len;
 		} else if (strcmp("--admindir", argv[i]) == 0) {
@@ -3002,7 +3002,7 @@ main(int argc, char **argv)
 			i++;
 
 			/* If altdir is below instdir, convert it to a relative
-			 * path, as we will prepenr instdir as needed. */
+			 * path, as we will prepend instdir as needed. */
 			if (strncmp(altdir, instdir, instdir_len) == 0)
 				altdir += instdir_len;
 		} else if (strcmp("--root", argv[i]) == 0) {
