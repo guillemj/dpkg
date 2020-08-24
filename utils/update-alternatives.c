@@ -2063,11 +2063,11 @@ alternative_remove_files(struct alternative *a)
 	xunlink_args("%s/%s", admdir, a->master_name);
 }
 
-static const char *
+static char *
 alternative_remove(struct alternative *a, const char *current_choice,
                    const char *path)
 {
-	const char *new_choice = NULL;
+	char *new_choice = NULL;
 
 	if (alternative_has_choice(a, path))
 		alternative_remove_choice(a, path);
@@ -2088,7 +2088,7 @@ alternative_remove(struct alternative *a, const char *current_choice,
 		}
 		best = alternative_get_best(a);
 		if (best)
-			new_choice = best->master_file;
+			new_choice = xstrdup(best->master_file);
 	}
 
 	return new_choice;
@@ -2293,13 +2293,13 @@ alternative_map_free(struct alternative_map *am)
 	}
 }
 
-static const char *
+static char *
 alternative_set_manual(struct alternative *a, const char *path)
 {
-	const char *new_choice = NULL;
+	char *new_choice = NULL;
 
 	if (alternative_has_choice(a, path))
-		new_choice = path;
+		new_choice = xstrdup(path);
 	else
 		error(_("alternative %s for %s not registered; "
 		        "not setting"), path, a->master_name);
@@ -2308,17 +2308,17 @@ alternative_set_manual(struct alternative *a, const char *path)
 	return new_choice;
 }
 
-static const char *
+static char *
 alternative_set_auto(struct alternative *a)
 {
-	const char *new_choice = NULL;
+	char *new_choice = NULL;
 
 	alternative_set_status(a, ALT_ST_AUTO);
 	if (alternative_choices_count(a) == 0)
 		pr(_("There is no program which provides %s."),
 		   a->master_name);
 	else
-		new_choice = alternative_get_best(a)->master_file;
+		new_choice = xstrdup(alternative_get_best(a)->master_file);
 
 	return new_choice;
 }
@@ -2565,7 +2565,7 @@ alternative_set_selection(struct alternative_map *all, const char *name,
 	debug("set_selection(%s, %s, %s)", name, status, choice);
 	a = alternative_map_find(all, name);
 	if (a) {
-		const char *new_choice = NULL;
+		char *new_choice = NULL;
 
 		if (strcmp(status, "auto") == 0) {
 			new_choice = alternative_set_auto(a);
@@ -2583,6 +2583,8 @@ alternative_set_selection(struct alternative_map *all, const char *name,
 			alternative_select_mode(a, current_choice);
 
 			alternative_update(a, current_choice, new_choice);
+
+			free(new_choice);
 		}
 	} else {
 		pr(_("Skip unknown alternative %s."), name);
@@ -2839,9 +2841,9 @@ main(int argc, char **argv)
 	/* Set of files to install in the alternative. */
 	struct fileset *fileset = NULL;
 	/* Path of alternative we are offering. */
-	char *path = NULL;
+	const char *path = NULL;
 	const char *current_choice = NULL;
-	const char *new_choice = NULL;
+	char *new_choice = NULL;
 	bool modifies_alt = false;
 	bool modifies_sys = false;
 	int i = 0;
@@ -2909,7 +2911,7 @@ main(int argc, char **argv)
 				badusage(_("--%s needs <name> <path>"), argv[i] + 2);
 
 			a = alternative_new(argv[i + 1]);
-			path = xstrdup(argv[i + 2]);
+			path = argv[i + 2];
 
 			alternative_check_name(a->master_name);
 			alternative_check_path(path);
@@ -3114,7 +3116,7 @@ main(int argc, char **argv)
 		}
 		alternative_add_choice(a, fileset);
 		if (a->status == ALT_ST_AUTO) {
-			new_choice = alternative_get_best(a)->master_file;
+			new_choice = xstrdup(alternative_get_best(a)->master_file);
 		} else {
 			verbose(_("automatic updates of %s/%s are disabled; "
 			          "leaving it alone"), altdir, a->master_name);
@@ -3128,6 +3130,7 @@ main(int argc, char **argv)
 
 	if (a)
 		alternative_free(a);
+	free(new_choice);
 
 	return 0;
 }
