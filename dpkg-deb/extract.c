@@ -298,7 +298,9 @@ extracthalf(const char *debar, const char *dir,
     if (taroption)
       close(p2[0]);
     decompress_filter(decompressor, p1[0], p2_out,
-                      _("decompressing archive member"));
+                      _("decompressing archive '%s' (size=%jd) member '%s'"),
+                      ar->name, (intmax_t)ar->size,
+                      admininfo ? ADMINMEMBER : DATAMEMBER);
     exit(0);
   }
   close(p1[0]);
