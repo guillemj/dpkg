@@ -170,6 +170,7 @@ test_command_exec(void)
 
 	command_init(&cmd, "true", "exec test");
 
+	command_add_arg(&cmd, "true");
 	command_add_arg(&cmd, "arg 0");
 	command_add_arg(&cmd, "arg 1");
 
