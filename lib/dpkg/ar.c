@@ -172,6 +172,8 @@ dpkg_ar_member_put_header(struct dpkg_ar *ar, struct dpkg_ar_member *member)
 		ohshit(_("ar member name '%s' length too long"), member->name);
 	if (member->size > 9999999999L)
 		ohshit(_("ar member size %jd too large"), (intmax_t)member->size);
+	if (member->time > 999999999999L)
+		ohshit(_("ar member time %jd too large"), (intmax_t)member->time);
 
 	n = snprintf(header, sizeof(struct dpkg_ar_hdr) + 1,
 	             "%-16s%-12jd%-6lu%-6lu%-8lo%-10jd`\n",
