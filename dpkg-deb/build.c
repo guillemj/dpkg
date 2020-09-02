@@ -259,8 +259,10 @@ check_conffiles(const char *ctrldir, const char *rootdir)
 
   cf = fopen(controlfile.buf, "r");
   if (cf == NULL) {
-    if (errno == ENOENT)
+    if (errno == ENOENT) {
+      varbuf_destroy(&controlfile);
       return;
+    }
 
     ohshite(_("error opening conffiles file"));
   }
