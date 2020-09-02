@@ -24,6 +24,7 @@
 #include <sys/types.h>
 
 #include <stdbool.h>
+#include <stdint.h>
 #include <ar.h>
 
 #include <dpkg/macros.h>
@@ -57,7 +58,7 @@ struct dpkg_ar_hdr {
 struct dpkg_ar {
 	const char *name;
 	mode_t mode;
-	time_t time;
+	intmax_t time;
 	off_t size;
 	int fd;
 };
@@ -70,7 +71,7 @@ struct dpkg_ar_member {
 	const char *name;
 	off_t offset;
 	off_t size;
-	time_t time;
+	intmax_t time;
 	mode_t mode;
 	uid_t uid;
 	gid_t gid;
@@ -80,7 +81,7 @@ struct dpkg_ar *
 dpkg_ar_fdopen(const char *filename, int fd);
 struct dpkg_ar *dpkg_ar_open(const char *filename);
 struct dpkg_ar *dpkg_ar_create(const char *filename, mode_t mode);
-void dpkg_ar_set_mtime(struct dpkg_ar *ar, time_t mtime);
+void dpkg_ar_set_mtime(struct dpkg_ar *ar, intmax_t mtime);
 void dpkg_ar_close(struct dpkg_ar *ar);
 
 void dpkg_ar_normalize_name(struct dpkg_ar_hdr *arh);

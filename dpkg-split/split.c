@@ -28,6 +28,7 @@
 
 #include <errno.h>
 #include <limits.h>
+#include <inttypes.h>
 #include <fcntl.h>
 #include <libgen.h>
 #include <string.h>
@@ -90,14 +91,14 @@ deb_parse_control(const char *filename)
 	return pkg;
 }
 
-static time_t
+static intmax_t
 parse_timestamp(const char *value)
 {
-	time_t timestamp;
+	intmax_t timestamp;
 	char *end;
 
 	errno = 0;
-	timestamp = strtol(value, &end, 10);
+	timestamp = strtoimax(value, &end, 10);
 	if (value == end || *end || errno != 0)
 		ohshite(_("unable to parse timestamp '%.255s'"), value);
 
@@ -132,7 +133,7 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	struct dpkg_error err;
 	int fd_src;
 	struct stat st;
-	time_t timestamp;
+	intmax_t timestamp;
 	const char *timestamp_str;
 	const char *version;
 	char hash[MD5HASHLEN + 1];

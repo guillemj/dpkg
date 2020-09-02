@@ -80,7 +80,7 @@ struct tar_entry {
 	/** File size. */
 	off_t size;
 	/** Last-modified time. */
-	time_t mtime;
+	intmax_t mtime;
 	/** Special device for mknod(). */
 	dev_t dev;
 

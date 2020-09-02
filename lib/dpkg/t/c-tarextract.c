@@ -65,7 +65,7 @@ tar_object_skip(struct tar_archive *tar, struct tar_entry *te)
 static int
 tar_object(struct tar_archive *tar, struct tar_entry *te)
 {
-	printf("%s mode=%o time=%ld.%.9d uid=%d gid=%d", te->name,
+	printf("%s mode=%o time=%jd.%.9d uid=%d gid=%d", te->name,
 	       te->stat.mode, te->mtime, 0, te->stat.uid, te->stat.gid);
 	if (te->stat.uname)
 		printf(" uname=%s", te->stat.uname);

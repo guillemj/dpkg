@@ -29,6 +29,7 @@
 
 #include <errno.h>
 #include <limits.h>
+#include <inttypes.h>
 #include <string.h>
 #include <time.h>
 #include <dirent.h>
@@ -425,7 +426,7 @@ gen_dest_pathname_from_pkg(const char *dir, struct pkginfo *pkg)
 typedef void filenames_feed_func(const char *dir, int fd_out);
 
 struct tar_pack_options {
-  time_t timestamp;
+  intmax_t timestamp;
   const char *mode;
   bool root_owner_group;
 };
@@ -459,7 +460,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
     if (chdir(dir))
       ohshite(_("failed to chdir to '%.255s'"), dir);
 
-    snprintf(mtime, sizeof(mtime), "@%ld", options->timestamp);
+    snprintf(mtime, sizeof(mtime), "@%jd", options->timestamp);
 
     command_init(&cmd, TAR, "tar -cf");
     command_add_args(&cmd, "tar", "-cf", "-", "--format=gnu",
@@ -495,14 +496,14 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
   subproc_reap(pid_tar, "tar -cf", 0);
 }
 
-static time_t
+static intmax_t
 parse_timestamp(const char *value)
 {
-  time_t timestamp;
+  intmax_t timestamp;
   char *end;
 
   errno = 0;
-  timestamp = strtol(value, &end, 10);
+  timestamp = strtoimax(value, &end, 10);
   if (value == end || *end || errno != 0)
     ohshite(_("unable to parse timestamp '%.255s'"), value);
 
@@ -519,7 +520,7 @@ do_build(const char *const *argv)
   struct tar_pack_options tar_options;
   struct dpkg_error err;
   struct dpkg_ar *ar;
-  time_t timestamp;
+  intmax_t timestamp;
   const char *timestamp_str;
   const char *dir, *dest;
   char *ctrldir;

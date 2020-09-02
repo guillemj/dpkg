@@ -285,6 +285,7 @@ virt_fsys_last_modified(struct varbuf *vb,
 {
 	const char *listfile;
 	struct stat st;
+	intmax_t mtime;
 
 	if (pkg->status == PKG_STAT_NOTINSTALLED)
 		return;
@@ -299,7 +300,8 @@ virt_fsys_last_modified(struct varbuf *vb,
 		        pkgbin_name_const(pkg, pkgbin, pnaw_nonambig));
 	}
 
-	varbuf_printf(vb, "%ld", st.st_mtime);
+	mtime = st.st_mtime;
+	varbuf_printf(vb, "%jd", mtime);
 }
 
 /*
