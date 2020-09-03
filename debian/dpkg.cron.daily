@@ -9,15 +9,21 @@ if cd /var/backups ; then
   dbchanged=no
   dbfiles="arch status diversions statoverride"
   for db in $dbfiles ; do
-    if ! cmp -s "dpkg.${db}.0" "$dbdir/$db"; then
+    if ! [ -s "dpkg.${db}.0" ] && ! [ -s "$dbdir/$db" ]; then
+      # Special case the files not existing or being empty as being equal.
+      continue
+    elif ! cmp -s "dpkg.${db}.0" "$dbdir/$db"; then
       dbchanged=yes
       break
     fi
   done
   if [ "$dbchanged" = "yes" ] ; then
     for db in $dbfiles ; do
-      [ -e "$dbdir/$db" ] || continue
-      cp -p "$dbdir/$db" "dpkg.$db"
+      if [ -e "$dbdir/$db" ]; then
+        cp -p "$dbdir/$db" "dpkg.$db"
+      else
+        touch "dpkg.$db"
+      fi
       savelog -c 7 "dpkg.$db" >/dev/null
     done
   fi
