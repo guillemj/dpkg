@@ -66,6 +66,9 @@ sub usage {
                             restrict architecture list matching <arch-bits>.
   -E, --match-endian <arch-endian>
                             restrict architecture list matching <arch-endian>.
+      --print-format <format>
+                            use <format> for --print-set and --print-unset,
+                              allowed values: shell (default), make.
   -f, --force               force flag (override variables set in environment).')
     . "\n", $Dpkg::PROGNAME;
 }
@@ -153,6 +156,9 @@ my %arch_vars = (
     DEB_TARGET_GNU_TYPE => DEB_TARGET | DEB_GNU_INFO,
 );
 
+my %known_print_format = map { $_ => 1 } qw(shell make);
+my $print_format = 'shell';
+
 my $req_vars = DEB_ALL;
 my $req_host_arch = '';
 my $req_host_gnu_type = '';
@@ -207,6 +213,10 @@ while (@ARGV) {
     } elsif ($arg eq '-s' or $arg eq '--print-set') {
 	$req_vars = DEB_ALL;
 	$action = 'print-set';
+    } elsif ($arg eq '--print-format') {
+        $print_format = shift;
+        error(g_('%s is not a supported print format'), $print_format)
+            unless exists $known_print_format{$print_format};
     } elsif ($arg eq '-f' or $arg eq '--force') {
         $force=1;
     } elsif ($arg eq '-q' or $arg eq '--query') {
@@ -332,12 +342,24 @@ if ($action eq 'list') {
 	print "$k=$v{$k}\n";
     }
 } elsif ($action eq 'print-set') {
-    foreach my $k (sort keys %arch_vars) {
-	print "$k=$v{$k}; ";
+    if ($print_format eq 'shell') {
+        foreach my $k (sort keys %arch_vars) {
+            print "$k=$v{$k}; ";
+        }
+        print 'export ' . join(' ', sort keys %arch_vars) . "\n";
+    } elsif ($print_format eq 'make') {
+        foreach my $k (sort keys %arch_vars) {
+            print "export $k = $v{$k}\n";
+        }
     }
-    print 'export ' . join(' ', sort keys %arch_vars) . "\n";
 } elsif ($action eq 'print-unset') {
-    print 'unset ' . join(' ', sort keys %arch_vars) . "\n";
+    if ($print_format eq 'shell') {
+        print 'unset ' . join(' ', sort keys %arch_vars) . "\n";
+    } elsif ($print_format eq 'make') {
+        foreach my $k (sort keys %arch_vars) {
+            print "undefine $k\n";
+        }
+    }
 } elsif ($action eq 'equal') {
     exit !debarch_eq($v{DEB_HOST_ARCH}, $req_eq_arch);
 } elsif ($action eq 'is') {
