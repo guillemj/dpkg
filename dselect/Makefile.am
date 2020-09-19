@@ -57,18 +57,14 @@ dselect_LDADD = \
 
 
 EXTRA_DIST = keyoverride mkcurkeys.pl
-CLEANFILES = curkeys.h
+CLEANFILES = curkeys.hpp curkeys.h
 
 curkeys.$(OBJEXT): curkeys.h
-curkeys.h: $(srcdir)/keyoverride $(srcdir)/mkcurkeys.pl
-	$(AM_V_GEN) cursesfile=`echo '#include "dselect-curses.h"' | \
-	  $(CPP) $(CPPFLAGS) -I$(top_builddir) -I $(srcdir) - | \
-	  grep '[^-]curses\.h' | head -n 1 | \
-	  sed -e 's/^[^"]*"//; s/".*$$//'`; \
-	if [ "$$cursesfile" = "" ]; then \
-	  echo "can't find curses file"; exit 1; \
-	fi; \
-	$(PERL) $(srcdir)/mkcurkeys.pl $< $$cursesfile >$@
+curkeys.hpp: dselect-curses.h
+	$(AM_V_GEN) echo '#include "dselect-curses.h"' | \
+	  $(CPP) -dD $(CPPFLAGS) -I$(top_builddir) -I $(srcdir) - >$@
+curkeys.h: $(srcdir)/keyoverride $(srcdir)/mkcurkeys.pl curkeys.hpp
+	$(AM_V_GEN) $(PERL) $(srcdir)/mkcurkeys.pl $< curkeys.hpp >$@
 
 install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(pkgconfdir)/dselect.cfg.d
