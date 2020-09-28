@@ -20,7 +20,7 @@ use Test::More tests => 33;
 use Test::Dpkg qw(:paths);
 
 use Cwd qw(realpath);
-use File::Path qw(make_path);;
+use File::Path qw(make_path rmtree);
 use File::Spec::Functions qw(abs2rel);
 
 use_ok('Dpkg::Path', 'canonpath', 'resolve_symlink',
@@ -168,49 +168,45 @@ my %travtype = (
     },
     base_out_empty => {
         fail => 1,
+        root => $travbase_out,
         gen => sub {
             my $basedir = shift;
-            rename $basedir, "$travbase_out/base_out_empty-disabled";
-            symlink abs2rel("$travbase_out/base_out_empty", $travbase), $basedir;
-            make_path("$travbase_out/base_out_empty");
+            rmtree($basedir);
+            make_path($basedir);
         },
     },
     base_out_none => {
         fail => 1,
-        gen => sub {
-            my $basedir = shift;
-            rename $basedir, "$travbase_out/base_out_none";
-            symlink abs2rel("$travbase_out/base_out_none", $travbase), $basedir;
-        },
+        root => $travbase_out,
+        gen => sub { },
     },
     base_out_rel => {
         fail => 1,
+        root => $travbase_out,
         gen => sub {
             my $basedir = shift;
-            rename $basedir, "$travbase_out/base_out_rel";
-            symlink abs2rel("$travbase_out/base_out_rel", $travbase), $basedir;
             symlink '../../..', "$basedir/rel";
         },
     },
     base_out_abs => {
         fail => 1,
+        root => $travbase_out,
         gen => sub {
             my $basedir = shift;
-            rename $basedir, "$travbase_out/base_out_abs";
-            symlink abs2rel("$travbase_out/base_out_abs", $travbase), $basedir;
             symlink '/etc', "$basedir/abs";
         },
     },
 );
 
-make_path($travbase_out);
-
 foreach my $travtype (sort keys %travtype) {
     my $trav = $travtype{$travtype};
+    my $rootdir = $trav->{chroot} // $trav->{root} // $travbase;
+    my $hierdir = "$rootdir/$travtype";
     my $travdir = "$travbase/$travtype";
 
-    gen_hier_travbase($travdir);
-    $trav->{gen}->($travdir);
+    gen_hier_travbase($hierdir);
+    symlink abs2rel($hierdir, $travbase), $travdir if exists $trav->{root};
+    $trav->{gen}->($hierdir);
 
     my $catch;
     eval {
