@@ -226,6 +226,7 @@ sub check_directory_traversal {
             syserr(g_("pathname '%s' cannot be canonicalized"), $_);
         }
         return if $canon_pathname eq '/dev/null';
+        return if $canon_pathname eq $canon_basedir;
         return if $canon_pathname =~ m{^\Q$canon_basedir/\E};
 
         error(g_("pathname '%s' points outside source root (to '%s')"),

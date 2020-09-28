@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 33;
+use Test::More tests => 34;
 use Test::Dpkg qw(:paths);
 
 use Cwd qw(realpath);
@@ -74,6 +74,14 @@ my %travtype = (
     none => {
         fail => 0,
         gen => sub { },
+    },
+    same => {
+        fail => 0,
+        chroot => "$tmpdir/travbase-same",
+        gen => sub {
+            my $basedir = shift;
+            symlink '../..', "$basedir/subdir/root";
+        },
     },
     dev_null => {
         fail => 0,
