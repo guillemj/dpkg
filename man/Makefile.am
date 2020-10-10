@@ -204,8 +204,7 @@ POD2MAN_V_0 = @echo "  POD2MAN $@";
 POD2MAN_OPTS = --utf8 --center='dpkg suite' --release=$(PACKAGE_VERSION) \
                --date='$(PACKAGE_RELEASE_DATE)'
 
-MANFIXUP = sed \
-	-f $(srcdir)/utf8toman.sed \
+PODSUBST = sed \
 	-e 's/%PACKAGE%/$(PACKAGE)/g' \
 	-e 's/%VERSION%/$(PACKAGE_VERSION)/g' \
 	-e 's/%RELEASE_DATE%/$(PACKAGE_RELEASE_DATE)/g' \
@@ -218,10 +217,16 @@ MANFIXUP = sed \
 	-e 's:%PKGDATADIR%:$(pkgdatadir):g' \
 	$(nil)
 
+MANFIXUP = sed \
+	-f $(srcdir)/utf8toman.sed \
+	$(nil)
+
 if BUILD_POD_DOC
-MANGEN = $(POD2MAN_V) filename='$@'; $(POD2MAN) $(POD2MAN_OPTS) \
+MANGEN = $(POD2MAN_V) filename='$@'; \
+	  $(PODSUBST) $< | \
+	  $(POD2MAN) $(POD2MAN_OPTS) \
 	  --name="$$(basename $${filename%.*})" \
-	  --section="$${filename\#\#*.}" $< | \
+	  --section="$${filename\#\#*.}" | \
 	  $(MANFIXUP) >$@
 endif
 
