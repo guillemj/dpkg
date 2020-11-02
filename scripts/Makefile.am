@@ -108,6 +108,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/OpenPGP.pm \
 	Dpkg/OpenPGP/Backend.pm \
 	Dpkg/OpenPGP/Backend/GnuPG.pm \
+	Dpkg/OpenPGP/Backend/Sequoia.pm \
 	Dpkg/OpenPGP/ErrorCodes.pm \
 	Dpkg/OpenPGP/KeyHandle.pm \
 	Dpkg/Package.pm \

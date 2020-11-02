@@ -106,8 +106,8 @@ Recommends:
  build-essential,
  gcc | c-compiler,
  fakeroot,
- gnupg,
- gpgv,
+ gnupg | sq,
+ gpgv | sq,
 # Used by dpkg-mergechangelogs.
  libalgorithm-merge-perl,
 Suggests:
@@ -115,6 +115,8 @@ Suggests:
 Breaks:
 # Force R³ support, w/o requiring debhelper users to depend on dpkg-dev.
  debhelper (<< 10.10.1~),
+# Uses new sq features, w/o requiring a hard dependency on sq.
+ sq (<< 0.25.0~),
 Description: Debian package development tools
  This package provides the development tools (including dpkg-source)
  required to unpack, build and upload Debian source packages.
@@ -141,8 +143,8 @@ Recommends:
  xz-utils,
 Suggests:
  debian-keyring,
- gnupg,
- gpgv,
+ gnupg | sq,
+ gpgv | sq,
  gcc | c-compiler,
  binutils,
  patch,
@@ -159,6 +161,8 @@ Breaks:
 # Uses Dpkg::Compression::Process imported from Dpkg::Source::Package in
 # versions prior to 1.19.0.
  dgit (<< 3.13~),
+# Uses new sq features, w/o requiring a hard dependency on sq.
+ sq (<< 0.25.0~),
 Description: Dpkg perl modules
  This package provides the perl modules used by the scripts
  in dpkg-dev. They cover a wide range of functionality. Among them

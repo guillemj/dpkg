@@ -27,10 +27,12 @@ use Dpkg::OpenPGP::KeyHandle;
 
 my @backend_cmds = qw(
     gpg
+    sq
 );
 my %backend_cmd = (
     auto => 'auto',
     gpg => 'gpg',
+    sq => 'sq',
 );
 my @cmds = grep { find_command($_) } @backend_cmds;
 if (@cmds == 0) {
