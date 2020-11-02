@@ -226,6 +226,7 @@ AC_CONFIG_FILES([
   po/Makefile.in
   scripts/Build.PL
   scripts/Makefile
+  scripts/README.cpan
   scripts/mk/Makefile
   scripts/po/Makefile.in
   src/Makefile
