@@ -402,35 +402,38 @@ void
 varbuf_add_source_version(struct varbuf *vb,
                           const struct pkginfo *pkg, const struct pkgbin *pkgbin)
 {
-	const char *version;
-	size_t len;
+	struct dpkg_version version = DPKG_VERSION_INIT;
 
-	if (pkgbin->source)
-		version = strchr(pkgbin->source, '(');
-	else
-		version = NULL;
-
-	if (version == NULL) {
-		varbufversion(vb, &pkgbin->version, vdew_nonambig);
-	} else {
-		version++;
-
-		len = strcspn(version, ")");
-
-		varbuf_add_buf(vb, version, len);
-	}
+	pkg_source_version(&version, pkg, pkgbin);
+	varbufversion(vb, &version, vdew_nonambig);
+	varbuf_end_str(vb);
 }
 
 void
 pkg_source_version(struct dpkg_version *version,
                    const struct pkginfo *pkg, const struct pkgbin *pkgbin)
 {
-	struct dpkg_error err;
-	struct varbuf vb = VARBUF_INIT;
+	const char *version_str;
 
-	varbuf_add_source_version(&vb, pkg, pkgbin);
-	varbuf_end_str(&vb);
+	if (pkgbin->source)
+		version_str = strchr(pkgbin->source, '(');
+	else
+		version_str = NULL;
 
-	if (parseversion(version, vb.buf, &err) < 0)
-		ohshit(_("version '%s' has bad syntax: %s"), vb.buf, err.str);
+	if (version_str == NULL) {
+		*version = pkgbin->version;
+	} else {
+		struct dpkg_error err;
+		struct varbuf vb = VARBUF_INIT;
+		size_t len;
+
+		version_str++;
+		len = strcspn(version_str, ")");
+		varbuf_add_buf(&vb, version_str, len);
+		varbuf_end_str(&vb);
+
+		if (parseversion(version, vb.buf, &err) < 0)
+			ohshit(_("version '%s' has bad syntax: %s"),
+			       vb.buf, err.str);
+	}
 }
