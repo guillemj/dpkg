@@ -544,7 +544,7 @@ sub extract {
             my $dst = File::Spec->catfile($destdir, $orig);
             if (not check_files_are_the_same($src, $dst, 1)) {
                 cp($src, $dst)
-                    or syserror(g_('cannot copy %s to %s'), $src, $dst);
+                    or syserr(g_('cannot copy %s to %s'), $src, $dst);
             }
         }
     }
