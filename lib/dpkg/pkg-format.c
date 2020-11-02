@@ -333,6 +333,9 @@ virt_source_package(struct varbuf *vb,
 	const char *name;
 	size_t len;
 
+	if (pkg->status == PKG_STAT_NOTINSTALLED)
+		return;
+
 	name = pkgbin->source;
 	if (name == NULL)
 		name = pkg->set->name;
@@ -347,6 +350,9 @@ virt_source_version(struct varbuf *vb,
                     const struct pkginfo *pkg, const struct pkgbin *pkgbin,
                     enum fwriteflags flags, const struct fieldinfo *fip)
 {
+	if (pkg->status == PKG_STAT_NOTINSTALLED)
+		return;
+
 	varbuf_add_source_version(vb, pkg, pkgbin);
 }
 
@@ -356,6 +362,9 @@ virt_source_upstream_version(struct varbuf *vb,
                              enum fwriteflags flags, const struct fieldinfo *fip)
 {
 	struct dpkg_version version;
+
+	if (pkg->status == PKG_STAT_NOTINSTALLED)
+		return;
 
 	pkg_source_version(&version, pkg, pkgbin);
 
