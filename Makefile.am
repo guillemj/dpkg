@@ -59,6 +59,7 @@ EXTRA_DIST = \
 	ChangeLog.old \
 	README.l10n \
 	autogen \
+	gen-changelog \
 	get-version \
 	run-script \
 	doc/coding-style.txt \
