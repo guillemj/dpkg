@@ -19,7 +19,7 @@ package Dpkg::Index;
 use strict;
 use warnings;
 
-our $VERSION = '2.00';
+our $VERSION = '2.01';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -61,6 +61,7 @@ sub new {
 	unique_tuple_key => 1,
 	get_key_func => sub { return $_[0]->{Package} },
 	type => CTRL_UNKNOWN,
+        item_opts => {},
     };
     bless $self, $class;
     $self->set_options(%opts);
@@ -77,7 +78,9 @@ The "type" option is checked first to define default values for other
 options. Here are the relevant options: "get_key_func" is a function
 returning a key for the item passed in parameters, "unique_tuple_key" is
 a boolean requesting whether the default key should be the unique tuple
-(default to true). The index can only contain one item with a given key.
+(default to true), "item_opts" is a hash reference that will be passed to
+the item constructor in the new_item() method.
+The index can only contain one item with a given key.
 The "get_key_func" function used depends on the type:
 
 =over
@@ -264,7 +267,7 @@ object.
 
 sub new_item {
     my $self = shift;
-    return Dpkg::Control->new(type => $self->{type});
+    return Dpkg::Control->new(%{$self->{item_opts}}, type => $self->{type});
 }
 
 =item $item = $index->get_by_key($key)
@@ -425,6 +428,10 @@ based on their extensions.
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.01 (dpkg 1.20.6)
+
+New option: Add new "item_opts" option.
 
 =head2 Version 2.00 (dpkg 1.20.0)
 
