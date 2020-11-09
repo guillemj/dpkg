@@ -105,7 +105,7 @@ sub _add_build_flags {
         },
         reproducible => {
             timeless => 1,
-            fixfilepath => 0,
+            fixfilepath => 1,
             fixdebugpath => 1,
         },
         sanitize => {
