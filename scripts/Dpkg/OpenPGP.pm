@@ -33,6 +33,30 @@ our @EXPORT = qw(
     openpgp_sig_to_asc
 );
 
+sub _armor_gpg {
+    my ($sig, $asc) = @_;
+
+    my @gpg_opts = qw(--no-options);
+
+    open my $fh_asc, '>', $asc
+        or syserr(g_('cannot create signature file %s'), $asc);
+    open my $fh_gpg, '-|', 'gpg', @gpg_opts, '-o', '-', '--enarmor', $sig
+        or syserr(g_('cannot execute %s program'), 'gpg');
+    while (my $line = <$fh_gpg>) {
+        next if $line =~ m/^Version: /;
+        next if $line =~ m/^Comment: /;
+
+        $line =~ s/ARMORED FILE/SIGNATURE/;
+
+        print { $fh_asc } $line;
+    }
+
+    close $fh_gpg or subprocerr('gpg');
+    close $fh_asc or syserr(g_('cannot write signature file %s'), $asc);
+
+    return $asc;
+}
+
 sub openpgp_sig_to_asc
 {
     my ($sig, $asc) = @_;
@@ -55,29 +79,11 @@ sub openpgp_sig_to_asc
             return $asc;
         }
 
-        if (not find_command('gpg')) {
+        if (find_command('gpg')) {
+            return _armor_gpg($sig, $asc);
+        } else {
             warning(g_('cannot OpenPGP ASCII armor signature file due to missing gpg'));
         }
-
-        my @gpg_opts = qw(--no-options);
-
-        open my $fh_asc, '>', $asc
-            or syserr(g_('cannot create signature file %s'), $asc);
-        open my $fh_gpg, '-|', 'gpg', @gpg_opts, '-o', '-', '--enarmor', $sig
-            or syserr(g_('cannot execute %s program'), 'gpg');
-        while (my $line = <$fh_gpg>) {
-            next if $line =~ m/^Version: /;
-            next if $line =~ m/^Comment: /;
-
-            $line =~ s/ARMORED FILE/SIGNATURE/;
-
-            print { $fh_asc } $line;
-        }
-
-        close $fh_gpg or subprocerr('gpg');
-        close $fh_asc or syserr(g_('cannot write signature file %s'), $asc);
-
-        return $asc;
     }
 
     return;
