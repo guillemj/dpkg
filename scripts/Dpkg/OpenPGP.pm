@@ -89,6 +89,26 @@ sub openpgp_sig_to_asc
     return;
 }
 
+sub _exec_openpgp
+{
+    my ($exec, $exec_opts, $opts, $errmsg) = @_;
+
+    my ($stdout, $stderr);
+    spawn(exec => $exec, wait_child => 1, nocheck => 1, timeout => 10,
+          to_string => \$stdout, error_to_string => \$stderr, %{$exec_opts});
+    if (WIFEXITED($?)) {
+        my $status = WEXITSTATUS($?);
+        print { *STDERR } "$stdout$stderr" if $status;
+        if ($status == 1 or ($status && $opts->{require_valid_signature})) {
+            error($errmsg);
+        } elsif ($status) {
+            warning($errmsg);
+        }
+    } else {
+        subprocerr("@{$exec}");
+    }
+}
+
 sub import_key {
     my ($asc, %opts) = @_;
 
@@ -113,20 +133,8 @@ sub import_key {
     push @exec, '--keyring', $opts{keyring};
     push @exec, $asc;
 
-    my ($stdout, $stderr);
-    spawn(exec => \@exec, wait_child => 1, nocheck => 1, timeout => 10,
-          to_string => \$stdout, error_to_string => \$stderr);
-    if (WIFEXITED($?)) {
-        my $status = WEXITSTATUS($?);
-        print { *STDERR } "$stdout$stderr" if $status;
-        if ($status == 1 or ($status && $opts{require_valid_signature})) {
-            error(g_('failed to import key in %s'), $asc);
-        } elsif ($status) {
-            warning(g_('failed to import key in %s'), $asc);
-        }
-    } else {
-        subprocerr("@exec");
-    }
+    my $errmsg = sprintf g_('cannot import key %s into %s'), $asc, $opts{keyring};
+    _exec_openpgp(\@exec, {}, \%opts, $errmsg);
 }
 
 sub verify_signature {
@@ -157,20 +165,8 @@ sub verify_signature {
     push @exec, $sig;
     push @exec, $opts{datafile} if exists $opts{datafile};
 
-    my ($stdout, $stderr);
-    spawn(exec => \@exec, wait_child => 1, nocheck => 1, timeout => 10,
-          to_string => \$stdout, error_to_string => \$stderr);
-    if (WIFEXITED($?)) {
-        my $status = WEXITSTATUS($?);
-        print { *STDERR } "$stdout$stderr" if $status;
-        if ($status == 1 or ($status && $opts{require_valid_signature})) {
-            error(g_('failed to verify signature on %s'), $sig);
-        } elsif ($status) {
-            warning(g_('failed to verify signature on %s'), $sig);
-        }
-    } else {
-        subprocerr("@exec");
-    }
+    my $errmsg = sprintf g_('cannot verify signature %s'), $sig;
+    _exec_openpgp(\@exec, {}, \%opts, $errmsg);
 }
 
 1;
