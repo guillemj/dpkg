@@ -279,8 +279,7 @@ pkg_parse_verify(struct parsedb_state *ps,
       pkg->status == PKG_STAT_NOTINSTALLED &&
       pkg->eflag == PKG_EFLAG_OK &&
       (pkg->want == PKG_WANT_PURGE ||
-       pkg->want == PKG_WANT_DEINSTALL ||
-       pkg->want == PKG_WANT_HOLD)) {
+       pkg->want == PKG_WANT_DEINSTALL)) {
     pkg_set_want(pkg, PKG_WANT_UNKNOWN);
   }
 
