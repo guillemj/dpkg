@@ -111,13 +111,24 @@ AC_CHECK_HEADERS([\
   kvm.h \
   sys/sysmacros.h \
   sys/param.h \
-  sys/sysctl.h \
   sys/syscall.h \
   sys/user.h \
   sys/procfs.h \
   sys/pstat.h \
   linux/fiemap.h \
 ])
+AS_CASE([$host_os],
+  [linux-gnu*], [
+    # The glibc project has deprecated the <sys/sysctl.h> header and emits
+    # warnings on its usage, and removed it in 2.32. The Linux kernel removed
+    # support for it in 5.5.
+  ], [
+    # On other systems, we need to check whether to use it.
+    AC_CHECK_HEADERS([\
+      sys/sysctl.h \
+    ])
+  ]
+)
 AC_CHECK_HEADERS([sys/proc.h], [], [], [
 #ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>
