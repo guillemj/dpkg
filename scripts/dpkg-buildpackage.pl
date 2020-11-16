@@ -726,6 +726,9 @@ sub parse_rules_requires_root {
                 (lc $keyword eq 'no' or lc $keyword eq 'binary-targets')) {
                 error(g_('%s field keyword "%s" is uppercase; use "%s" instead'),
                       'Rules-Requires-Root', $keyword, lc $keyword);
+            } elsif (lc $keyword eq 'yes') {
+                error(g_('%s field keyword "%s" is invalid; use "%s" instead'),
+                      'Rules-Requires-Root', $keyword, 'binary-targets');
             } elsif ($keyword ne 'no' and $keyword ne 'binary-targets') {
                 warning(g_('unknown %s field keyword %s'),
                         'Rules-Requires-Root', $keyword);
