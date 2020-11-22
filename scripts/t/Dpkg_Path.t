@@ -206,10 +206,11 @@ my %travtype = (
 make_path($travbase_out);
 
 foreach my $travtype (sort keys %travtype) {
+    my $trav = $travtype{$travtype};
     my $travdir = "$travbase/$travtype";
 
     gen_hier_travbase($travdir);
-    $travtype{$travtype}->{gen}->($travdir);
+    $trav->{gen}->($travdir);
 
     my $catch;
     eval {
@@ -218,7 +219,7 @@ foreach my $travtype (sort keys %travtype) {
     } or do {
         $catch = $@;
     };
-    if ($travtype{$travtype}->{fail}) {
+    if ($trav->{fail}) {
         ok($catch, "directory traversal type $travtype detected");
         note("traversal reason: $catch") if $catch;
     } else {
