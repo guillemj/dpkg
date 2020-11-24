@@ -470,7 +470,7 @@ sub _build_tainted_by {
 
         my $linkname = readlink $pathname;
         if ($linkname eq "usr$pathname" or $linkname eq "/usr$pathname") {
-            $tainted{'merged-usr-via-symlinks'} = 1;
+            $tainted{'merged-usr-via-aliased-dirs'} = 1;
             last;
         }
     }
