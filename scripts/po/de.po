@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.20.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
-"PO-Revision-Date: 2020-07-07 13:17+0200\n"
+"POT-Creation-Date: 2020-11-24 18:29+0100\n"
+"PO-Revision-Date: 2020-11-24 19:20+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -96,6 +96,9 @@ msgid ""
 "  -E, --match-endian <arch-endian>\n"
 "                            restrict architecture list matching <arch-"
 "endian>.\n"
+"      --print-format <format>\n"
+"                            use <format> for --print-set and --print-unset,\n"
+"                              allowed values: shell (default), make.\n"
 "  -f, --force               force flag (override variables set in "
 "environment)."
 msgstr ""
@@ -113,6 +116,10 @@ msgstr ""
 "  -E, --match-endian <Arch-Endian>\n"
 "                            Architekturliste auf zu <Arch-Endian> passende "
 "einschränken\n"
+"      --print-format <Format>\n"
+"                            <Format> für --print-set und --print-unset "
+"verwenden,\n"
+"                              erlaubte Werte: shell (Vorgabe), make.\n"
 "  -f, --force               Schalter zum Erzwingen (setzt Umgebungsvariablen "
 "außer Kraft)"
 
@@ -141,6 +148,11 @@ msgid ""
 msgstr ""
 "Standard GNU-Systemtyp %s für Debian-Architektur %s passt nicht zu "
 "angegebenem GNU-Systemtyp %s"
+
+#: scripts/dpkg-architecture.pl
+#, perl-format
+msgid "%s is not a supported print format"
+msgstr "%s ist keine unterstütztes Print-Format"
 
 #: scripts/dpkg-architecture.pl
 #, perl-format
@@ -569,23 +581,33 @@ msgstr "root-werde-Befehl »%s« nicht gefunden"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
-msgid "disallowed target in %s field keyword %s"
-msgstr "nicht erlaubtes Ziel im %s-Feld-Schlüsselwort %s"
+msgid "disallowed target in %s field keyword \"%s\""
+msgstr "nicht erlaubtes Ziel im %s-Feld-Schlüsselwort »%s«"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
-msgid "unknown %s field keyword %s in dpkg namespace"
-msgstr "unbekanntes %s-Feld-Schlüsselwort %s im Dpkg-Namensraum"
+msgid "%s field keyword \"%s\" is unknown in dpkg namespace"
+msgstr "%s-Feld-Schlüsselwort »%s« ist im Dpkg-Namensraum unbekannt"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
-msgid "unknown %s field keyword %s"
-msgstr "unbekanntes %s-Feldschlüsselwort %s"
+msgid "%s field keyword \"%s\" is uppercase; use \"%s\" instead"
+msgstr "%s-Feld-Schlüsselwort »%s« ist großgeschrieben; verwenden Sie stattdessen »%s«"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
-msgid "field %s contains duplicate keyword %s"
-msgstr "Feld %s enthält doppeltes Schlüsselwort %s"
+msgid "%s field keyword \"%s\" is invalid; use \"%s\" instead"
+msgstr "%s-Feld-Schlüsselwort »%s« ist ungültig; verwenden Sie stattdessen »%s«"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "%s field keyword \"%s\" is unknown"
+msgstr "%s-Feldschlüsselwort »%s« ist unbekannt"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "field %s contains duplicate keyword \"%s\""
+msgstr "Feld %s enthält doppeltes Schlüsselwort »%s«"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -2437,8 +2459,8 @@ msgstr "ungültiger Wochentag »%s« wird ignoriert"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 #, perl-format
-msgid "uses full instead of abbreviated month name '%s'"
-msgstr "verwendet den vollständigen statt des abgekürzten Monatsnamens »%s«"
+msgid "uses full '%s' instead of abbreviated month name '%s'"
+msgstr "verwendet den vollständigen »%« statt des abgekürzten Monatsnamens »%s«"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 #, perl-format
@@ -2773,16 +2795,6 @@ msgid "failed to get a write lock on %s"
 msgstr "Fehler beim Erlangen einer Schreibsperre auf %s"
 
 #: scripts/Dpkg/OpenPGP.pm
-msgid "signature file is already OpenPGP ASCII armor, copying"
-msgstr "Signaturdatei ist bereits OpenPGP-ASCII-Armor, sie wird kopiert"
-
-#: scripts/Dpkg/OpenPGP.pm
-msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
-msgstr ""
-"OpenPGP-ASCII-Armor-Signaturdatei kann wegen fehlendem GPG nicht geöffnet "
-"werden"
-
-#: scripts/Dpkg/OpenPGP.pm
 #, perl-format
 msgid "cannot create signature file %s"
 msgstr "Signaturdatei %s kann nicht angelegt werden"
@@ -2796,6 +2808,16 @@ msgstr "Programm %s kann nicht ausgeführt werden"
 #, perl-format
 msgid "cannot write signature file %s"
 msgstr "Signaturdatei %s kann nicht geschrieben werden"
+
+#: scripts/Dpkg/OpenPGP.pm
+msgid "signature file is already OpenPGP ASCII armor, copying"
+msgstr "Signaturdatei ist bereits OpenPGP-ASCII-Armor, sie wird kopiert"
+
+#: scripts/Dpkg/OpenPGP.pm
+msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
+msgstr ""
+"OpenPGP-ASCII-Armor-Signaturdatei kann wegen fehlendem GPG nicht geöffnet "
+"werden"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
@@ -3291,6 +3313,11 @@ msgstr "Berechtigung von »%s« kann nicht geändert werden"
 #, perl-format
 msgid "building %s using existing %s"
 msgstr "%s wird unter Benutzung des existierenden %s gebaut"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "verifying %s using existing %s"
+msgstr "%s wird unter Benutzung des existierenden %s überprüft"
 
 #: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
 msgid "upstream signing key but no upstream tarball signature"
