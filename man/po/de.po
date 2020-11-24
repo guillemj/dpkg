@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.20.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-06-25 18:13+0200\n"
-"PO-Revision-Date: 2020-06-25 21:27+0200\n"
+"POT-Creation-Date: 2020-11-24 18:29+0100\n"
+"PO-Revision-Date: 2020-11-24 21:04+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -591,20 +591,28 @@ msgstr "I<Dateiname>B<.buildinfo>"
 #: deb-buildinfo.pod
 msgid ""
 "Each Debian source package build can record the build information in a B<."
-"buildinfo> control file, which contains a number of fields.  Each field "
-"begins with a tag, such as B<Source> or B<Binary> (case insensitive), "
-"followed by a colon, and the body of the field.  Fields are delimited only "
-"by field tags.  In other words, field text may be multiple lines in length, "
-"but the installation tools will generally join lines when processing the "
-"body of the field (except in case of the multiline fields B<Binary-Only-"
-"Changes>, B<Installed-Build-Depends>, B<Environment>, B<Checksums-Md5>, "
-"B<Checksums-Sha1> and B<Checksums-Sha256>, see below)."
+"buildinfo> control file, which contains a number of fields in L<deb822(5)> "
+"format."
 msgstr ""
 "Jeder Bau eines Debian-Quellpakets kann die Bauinformationen in einer B<."
-"buildinfo>-Steuerdatei aufzeichnen. Diese enthält eine Reihe von Feldern. "
+"buildinfo>-Steuerdatei aufzeichnen. Diese enthält eine Reihe von Feldern im "
+"L<deb822(5)>-Format."
+
+#. type: textblock
+#: deb-buildinfo.pod
+msgid ""
+"Each field begins with a tag, such as B<Source> or B<Binary> (case "
+"insensitive), followed by a colon, and the body of the field (case sensitive "
+"unless stated otherwise).  Fields are delimited only by field tags.  In "
+"other words, field text may be multiple lines in length, but the "
+"installation tools will generally join lines when processing the body of the "
+"field (except in case of the multiline fields B<Binary-Only-Changes>, "
+"B<Installed-Build-Depends>, B<Environment>, B<Checksums-Md5>, B<Checksums-"
+"Sha1> and B<Checksums-Sha256>, see below)."
+msgstr ""
 "Jedes Feld beginnt mit einer Markierung, wie B<Source> oder B<Binary> (Groß-/"
 "Kleinschreibung ist egal), gefolgt von einem Doppelpunkt und dem Inhalt des "
-"Feldes. Felder werden nur durch Feldmarkierungen begrenzt. Mit anderen "
+"Feldes (Groß-/Kleinschreibung ist relevant, außer anders angegeben). Felder werden nur durch Feldmarkierungen begrenzt. Mit anderen "
 "Worten, Felder können mehrere Zeilen umfassen, aber die "
 "Installationswerkzeuge werden im Allgemeinen die Zeilen bei der Verarbeitung "
 "des Feldinhaltes zusammenfassen (außer im Falle der mehrzeiligen Felder "
@@ -1079,8 +1087,10 @@ msgstr ""
 
 #. type: textblock
 #: deb-buildinfo.pod
-msgid "B<deb-changes>(5), B<deb-version>(7), B<dpkg-genbuildinfo>(1)."
-msgstr "B<deb-changes>(5), B<deb-version>(7), B<dpkg-genbuildinfo>(1)."
+msgid ""
+"L<deb822(5)>, B<deb-changes>(5), B<deb-version>(7), B<dpkg-genbuildinfo>(1)."
+msgstr ""
+"L<deb822(5)>, B<deb-changes>(5), B<deb-version>(7), B<dpkg-genbuildinfo>(1)."
 
 #. type: textblock
 #: deb-changelog.pod
@@ -1294,8 +1304,12 @@ msgstr "I<tt>"
 
 #. type: textblock
 #: deb-changelog.pod
-msgid "Is a one- or two-digit day of the month (B<01>-B<31>)."
-msgstr "Dies ist der Tag des Monats (B<01>-B<31>) aus einer oder zwei Ziffern."
+msgid ""
+"Is a one- or two-digit day of the month (B<01>-B<31>), where the leading "
+"zero is optional, but conventionally does not get omitted."
+msgstr ""
+"Dies ist der ein- oder zweistellige Tag des Monats (B<01>-B<31>), wobei die "
+"führende Null optional ist, aber normalerweise nicht weggelassen wird."
 
 #. type: =item
 #: deb-changelog.pod
@@ -1379,12 +1393,18 @@ msgid ""
 "The first “title” line with the package name must start at the left hand "
 "margin.  The “trailer” line with the maintainer and date details must be "
 "preceded by exactly one space (U+0020 B<SPACE>).  The maintainer details and "
-"the date must be separated by exactly two spaces (U+0020 B<SPACE>)."
+"the date must be separated by exactly two spaces (U+0020 B<SPACE>).  Each "
+"part of the I<date> can be separated by one or more spaces (U+0020 "
+"B<SPACE>), except after the comma where it can be separated by zero or more "
+"spaces (U+0020 B<SPACE>)."
 msgstr ""
 "Die erste „Titel“-Zeile muss am linken Rand anfangen. Die „Schluss“-Zeile "
 "mit den Betreuer- und Datumsdetails muss durch genau ein Leerzeichen (U+0020 "
 "B<LEERZEICHEN>) eingeleitet werden. Die Details zum Betreuer und das Datum "
-"müssen durch genau zwei Leerzeichen (U+0020 B<LEERZEICHEN>) getrennt sein."
+"müssen durch genau zwei Leerzeichen (U+0020 B<LEERZEICHEN>) getrennt sein. "
+"Jeder Teil vom I<Datum> kann durch eines oder mehrere Leerzeichen (U+0020 "
+"B<SPACE>) getrennt werden, außer nach dem Komma, wo es durch Null oder mehr "
+"Leerzeichen (U+0020 B<SPACE>) abgetrennt werden kann."
 
 # FIXME The sentence is lacking, »ignored« is only in the translation
 #. type: textblock
@@ -1521,18 +1541,25 @@ msgstr "I<Dateiname>B<.changes>"
 #: deb-changes.pod
 msgid ""
 "Each Debian upload is composed of a .changes control file, which contains a "
-"number of fields.  Each field begins with a tag, such as B<Source> or "
-"B<Binary> (case insensitive), followed by a colon, and the body of the "
-"field.  Fields are delimited only by field tags.  In other words, field text "
-"may be multiple lines in length, but the installation tools will generally "
-"join lines when processing the body of the field (except in case of the "
-"multiline fields B<Description>, B<Changes>, B<Files>, B<Checksums-Sha1> and "
-"B<Checksums-Sha256>, see below)."
+"number of fields in L<deb822(5)> format."
 msgstr ""
 "Jeder Debian-Upload besteht aus einer .changes-Steuerdatei, die eine Reihe "
-"von Feldern enthält. Jedes Feld beginnt mit einer Markierung wie B<Source> "
+"von Feldern im L<deb822(5)>-Format enthält."
+
+#. type: textblock
+#: deb-changes.pod
+msgid ""
+"Each field begins with a tag, such as B<Source> or B<Binary> (case "
+"insensitive), followed by a colon, and the body of the field (case sensitive "
+"unless stated otherwise).  Fields are delimited only by field tags.  In "
+"other words, field text may be multiple lines in length, but the "
+"installation tools will generally join lines when processing the body of the "
+"field (except in case of the multiline fields B<Description>, B<Changes>, "
+"B<Files>, B<Checksums-Sha1> and B<Checksums-Sha256>, see below)."
+msgstr ""
+"Jedes Feld beginnt mit einer Markierung wie B<Source> "
 "oder B<Binary> (Groß-/Kleinschreibung ist egal), gefolgt von einem "
-"Doppelpunkt und dem Inhalt des Feldes. Felder werden nur durch "
+"Doppelpunkt und dem Inhalt des Feldes (Groß-/Kleinschreibung ist relevant, außer anders angegeben). Felder werden nur durch "
 "Feldmarkierungen abgegrenzt. Mit anderen Worten: Der Feldtext kann sich über "
 "mehrere Zeilen erstrecken, wobei die Installationswerkzeuge die Zeilen bei "
 "der Verarbeitung des Feldinhaltes zusammenfügen werden (Ausnahmen sind die "
@@ -1868,8 +1895,8 @@ msgstr ""
 
 #. type: textblock
 #: deb-changes.pod
-msgid "B<deb-src-control>(5), B<deb-version>(7)."
-msgstr "B<deb-src-control>(5), B<deb-version>(7)."
+msgid "L<deb822(5)>, B<deb-src-control>(5), B<deb-version>(7)."
+msgstr "L<deb822(5)>, B<deb-src-control>(5), B<deb-version>(7)."
 
 #. type: textblock
 #: deb-control.pod
@@ -1886,11 +1913,11 @@ msgstr "B<DEBIAN/control>"
 #: deb-control.pod
 msgid ""
 "Each Debian binary package contains a B<control> file in its B<control> "
-"member, and its format is a subset of the master B<debian/control> file in "
-"Debian source packages, see B<deb-src-control>(5)."
+"member, and its L<deb822(5)> format is a subset of the master B<debian/"
+"control> file in Debian source packages, see B<deb-src-control>(5)."
 msgstr ""
 "Jedes Debian-Binärpaket enthält eine Datei B<control> in seinem B<control>-"
-"Element. Ihr Format ist eine Teilmenge der Hauptdatei B<debian/control> in "
+"Element. Ihr L<deb822(5)>-Format ist eine Teilmenge der Hauptdatei B<debian/control> in "
 "dem Debian-Quellpaket, siehe B<deb-src-control>(5)."
 
 #. type: textblock
@@ -1898,17 +1925,18 @@ msgstr ""
 msgid ""
 "This file contains a number of fields.  Each field begins with a tag, such "
 "as B<Package> or B<Version> (case insensitive), followed by a colon, and the "
-"body of the field.  Fields are delimited only by field tags. In other words, "
-"field text may be multiple lines in length, but the installation tools will "
-"generally join lines when processing the body of the field (except in the "
-"case of the B<Description> field, see below)."
+"body of the field (case sensitive unless stated otherwise).  Fields are "
+"delimited only by field tags. In other words, field text may be multiple "
+"lines in length, but the installation tools will generally join lines when "
+"processing the body of the field (except in the case of the B<Description> "
+"field, see below)."
 msgstr ""
 "Diese Datei enthält eine Reihe von Feldern. Jedes Feld beginnt mit einer "
 "Markierung, wie B<Package> oder B<Version> (Groß-/Kleinschreibung egal), "
-"gefolgt von einem Doppelpunkt und dem Körper des Feldes. Felder werden nur "
+"gefolgt von einem Doppelpunkt und dem Inhalt des Feldes (Groß-/Kleinschreibung ist relevant, außer anders angegeben). Felder werden nur "
 "durch die Feldmarkierungen abgegrenzt. Mit anderen Worten, Feldtexte können "
 "mehrere Zeilen überspannen, aber die Installationswerkzeuge werden im "
-"Allgemeinen die Zeilen bei der Verarbeitung des Feldkörpers zusammenfassen "
+"Allgemeinen die Zeilen bei der Verarbeitung des Feldinhaltes zusammenfassen "
 "(mit Ausnahme des B<Description>-Feldes, sehen Sie dazu unten)."
 
 #. type: =item
@@ -2063,8 +2091,8 @@ msgid ""
 "removed (at least not without using one of the force options)."
 msgstr ""
 "Dieses Feld wird normalerweise nur benötigt, wenn die Antwort B<yes> lautet. "
-"Es bezeichnet ein Paket, das für den ordnungsgemäßen Systemstart "
-"benötigt wird. L<dpkg(1)> oder jedes andere Installationswerkzeug wird es nicht "
+"Es bezeichnet ein Paket, das für den ordnungsgemäßen Systemstart benötigt "
+"wird. L<dpkg(1)> oder jedes andere Installationswerkzeug wird es nicht "
 "erlauben, ein B<Protected>-Paket zu entfernen (zumindest nicht ohne die "
 "Verwendung einer der „force“-Optionen)."
 
@@ -2083,9 +2111,9 @@ msgid ""
 msgstr ""
 "Dieses Feld wird normalerweise nur benötigt, wenn die Antwort B<yes> lautet. "
 "Es bezeichnet ein Paket, das für den ordnungsgemäßen Betrieb des Systems "
-"benötigt wird. L<dpkg(1)> oder jedes andere Installationswerkzeug wird es nicht "
-"erlauben, ein B<Essential>-Paket zu entfernen (zumindest nicht ohne die "
-"Verwendung einer der „force“-Optionen)."
+"benötigt wird. L<dpkg(1)> oder jedes andere Installationswerkzeug wird es "
+"nicht erlauben, ein B<Essential>-Paket zu entfernen (zumindest nicht ohne "
+"die Verwendung einer der „force“-Optionen)."
 
 #. type: =item
 #: deb-control.pod deb-src-control.pod
@@ -2718,11 +2746,11 @@ msgstr ""
 #. type: textblock
 #: deb-control.pod
 msgid ""
-"B<deb-src-control>(5), B<deb>(5), B<deb-version>(7), B<debtags>(1), "
-"B<dpkg>(1), B<dpkg-deb>(1)."
+"L<deb822(5)>, B<deb-src-control>(5), B<deb>(5), B<deb-version>(7), "
+"B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
 msgstr ""
-"B<deb-src-control>(5), B<deb>(5), B<deb-version>(7), B<debtags>(1), "
-"B<dpkg>(1), B<dpkg-deb>(1)."
+"L<deb822(5)>, B<deb-src-control>(5), B<deb>(5), B<deb-version>(7), "
+"B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
 
 #. type: textblock
 #: deb-conffiles.pod
@@ -2796,11 +2824,11 @@ msgstr "B<debian/control>"
 #: deb-src-control.pod
 msgid ""
 "Each Debian source package contains the master «B<debian/control>» file, and "
-"its format is a superset of the B<control> file shipped in Debian binary "
-"packages, see B<deb-control>(5)."
+"its L<deb822(5)> format is a superset of the B<control> file shipped in "
+"Debian binary packages, see B<deb-control>(5)."
 msgstr ""
 "Jedes Debian-Quellpaket enthält eine Hauptdatei „B<debian/control>“. Deren "
-"Format ist eine Obermenge der in Debian-Binärpaketen ausgelieferten "
+"L<deb822(5)>-Format ist eine Obermenge der in Debian-Binärpaketen ausgelieferten "
 "B<control>-Datei, siehe B<deb-control>(5)."
 
 #. type: textblock
@@ -2811,19 +2839,20 @@ msgid ""
 "while each following paragraph describes exactly one binary package. Each "
 "paragraph consists of at least one field. A field starts with a fieldname, "
 "such as B<Package> or B<Section> (case insensitive), followed by a colon, "
-"the body of the field and a newline.  Multi-line fields are also allowed, "
-"but each supplementary line, without a fieldname, should start with at least "
-"one space. The content of the multi-line fields is generally joined to a "
-"single line by the tools (except in the case of the B<Description> field, "
-"see below). To insert empty lines into a multi-line field, insert a dot "
-"after the space.  Lines starting with a ‘B<#>’ are treated as comments."
+"the body of the field (case sensitive unless stated otherwise) and a "
+"newline.  Multi-line fields are also allowed, but each supplementary line, "
+"without a fieldname, should start with at least one space. The content of "
+"the multi-line fields is generally joined to a single line by the tools "
+"(except in the case of the B<Description> field, see below). To insert empty "
+"lines into a multi-line field, insert a dot after the space.  Lines starting "
+"with a ‘B<#>’ are treated as comments."
 msgstr ""
 "Diese Datei enthält mindestens zwei Absätze, die durch eine Leerzeile "
 "getrennt werden. Der erste Absatz führt alle allgemeinen Informationen über "
 "das Quellpaket auf, während jeder folgende Absatz genau ein Binärpaket "
 "beschreibt. Jeder Absatz besteht aus mindestens einem Feld. Ein Feld beginnt "
 "mit einem Feldnamen, wie B<Package> oder B<Section> (Groß-/Kleinschreibung "
-"egal), gefolgt von einem Doppelpunkt, dem Inhalt des Feldes und einem "
+"egal), gefolgt von einem Doppelpunkt, dem Inhalt des Feldes (Groß-/Kleinschreibung ist relevant, außer anders angegeben) und einem "
 "Zeilenumbruch. Mehrzeilige Felder sind auch erlaubt, aber jede ergänzende "
 "Zeile ohne Feldnamen sollte mit mindestens einem Leerzeichen beginnen. Der "
 "Inhalt des mehrzeiligen Feldes wird durch die Werkzeuge im Allgemeinen zu "
@@ -3654,8 +3683,8 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
-msgid "B<deb-control>(5), B<deb-version>(7), B<dpkg-source>(1)"
-msgstr "B<deb-control>(5), B<deb-version>(7), B<dpkg-source>(1)"
+msgid "L<deb822(5)>, B<deb-control>(5), B<deb-version>(7), B<dpkg-source>(1)"
+msgstr "L<deb822(5)>, B<deb-control>(5), B<deb-version>(7), B<dpkg-source>(1)"
 
 #. type: textblock
 #: deb-src-files.pod
@@ -3921,10 +3950,12 @@ msgstr ""
 #: deb-src-symbols.pod
 msgid ""
 "The symbol file templates are shipped in Debian source packages, and its "
-"format is a superset of the symbols files shipped in binary packages."
+"format is a superset of the symbols files shipped in binary packages, see "
+"L<deb-symbols(5)>."
 msgstr ""
 "Die Symboldateivorlagen werden in Debian-Quellpaketen ausgeliefert. Deren "
-"Format ist eine Obermenge der in Binärpaketen ausgelieferten Symboldateien."
+"Format ist eine Obermenge der in Binärpaketen ausgelieferten Symboldateien, "
+"siehe L<deb-symbols(5)>."
 
 #. type: =head2
 #: deb-src-symbols.pod
@@ -4277,13 +4308,13 @@ msgid ""
 "should tag the symbol with B<allow-internal>.  It can be necessary for some "
 "low level toolchain libraries like “libgcc”."
 msgstr ""
-"dpkg-gensymbols verfügt über eine interne Liste von "
-"Symbolen, die nicht in Symboldateien auftauchen sollten, da sie "
-"normalerweise nur Seiteneffekte von Implementierungsdetails in der "
-"Werkzeugkette darstellen (seit Dpkg 1.20.1). Falls Sie aus irgendeinem Grund wollen, dass diese "
-"Symbole in der Symboldatei aufgenommen werden, sollten Sie das Symbol mit "
-"B<allow-internal> kennzeichnen. Dies kann für einige grundlegende "
-"Bibliotheken der Werkzeugkette wie „libgcc“ notwendig sein."
+"dpkg-gensymbols verfügt über eine interne Liste von Symbolen, die nicht in "
+"Symboldateien auftauchen sollten, da sie normalerweise nur Seiteneffekte von "
+"Implementierungsdetails in der Werkzeugkette darstellen (seit Dpkg 1.20.1). "
+"Falls Sie aus irgendeinem Grund wollen, dass diese Symbole in der "
+"Symboldatei aufgenommen werden, sollten Sie das Symbol mit B<allow-internal> "
+"kennzeichnen. Dies kann für einige grundlegende Bibliotheken der "
+"Werkzeugkette wie „libgcc“ notwendig sein."
 
 #. type: =item
 #: deb-src-symbols.pod
@@ -5325,10 +5356,10 @@ msgstr ""
 "Sie enthalten eine Reihe von Feldern oder Kommentaren (wenn die Zeile mit "
 "‚B<#>’ beginnt). Jedes Feld beginnt mit einer Markierung, wie B<Vendor> oder "
 "B<Parent> (Groß-/Kleinschreibung egal), gefolgt von einem Doppelpunkt und "
-"dem Körper des Feldes. Felder werden nur durch die Feldmarkierungen "
+"dem Inhalt des Feldes. Felder werden nur durch die Feldmarkierungen "
 "abgegrenzt. Mit anderen Worten, Feldtexte können mehrere Zeilen überspannen, "
 "aber die Werkzeuge werden im Allgemeinen die Zeilen bei der Verarbeitung des "
-"Feldkörpers zusammenfassen."
+"Feldinhaltes zusammenfassen."
 
 #. type: textblock
 #: deb-origin.pod
@@ -6205,7 +6236,8 @@ msgid ""
 "version> of its dependency template (the main dependency template is always "
 "used and will end up being combined with the dependency template referenced "
 "by I<id-of-dependency-template> if present). The first alternative "
-"dependency template is numbered 1, the second one 2, etc."
+"dependency template is numbered 1, the second one 2, etc.  Each column is "
+"separated by exactly a single whitespace."
 msgstr ""
 "Jedem exportierten I<Symbol> (aufgeführt als I<Name>@I<Version>, mit "
 "I<Version> als „Base“, falls die Bibliothek nicht versioniert ist) wird eine "
@@ -6213,7 +6245,8 @@ msgstr ""
 "Hauptabhängigkeitsvorlage wird immer verwandt und wird am Ende mit der "
 "abhängigen, in I<Kennung_der_Abhängigkeitsvorlage> referenzierten Vorlage "
 "(falls vorhanden) kombiniert). Die erste alternative Abhängigkeitsvorlage "
-"wird mit 1 nummeriert, die zweite mit 2 usw."
+"wird mit 1 nummeriert, die zweite mit 2 usw. Jede Spalte ist genau durch ein "
+"Leerraum abgetrennt."
 
 #. type: textblock
 #: deb-symbols.pod
@@ -6280,9 +6313,9 @@ msgstr ""
 "Es gibt in einer durch Leerraumzeichen getrennten Liste an, welche internen "
 "Gruppen ignoriert werden sollten, so dass Symbole, die in diesen Gruppen "
 "enthalten sind, in die Ausgabedatei aufgenommen werden (seit Dpkg 1.20.1). "
-"Dies sollte nur für Toolchain-Pakete notwendig sein, die solche internen Symbole "
-"bereitstellen. Die verfügbaren Gruppen sind systemabhängig, für "
-"ELF- und GNU-basierte Systeme sind dies B<aeabi> und B<gomp>."
+"Dies sollte nur für Toolchain-Pakete notwendig sein, die solche internen "
+"Symbole bereitstellen. Die verfügbaren Gruppen sind systemabhängig, für ELF- "
+"und GNU-basierte Systeme sind dies B<aeabi> und B<gomp>."
 
 #. type: =item
 #: deb-symbols.pod
@@ -6348,13 +6381,12 @@ msgstr ""
 
 #. type: textblock
 #: deb-symbols.pod
-msgid "B<https://wiki.debian.org/Projects/ImprovedDpkgShlibdeps>"
-msgstr "B<https://wiki.debian.org/Projects/ImprovedDpkgShlibdeps>"
-
-#. type: textblock
-#: deb-symbols.pod
-msgid "B<dpkg-shlibdeps>(1), B<dpkg-gensymbols>(1)."
-msgstr "B<dpkg-shlibdeps>(1), B<dpkg-gensymbols>(1)."
+msgid ""
+"L<https://wiki.debian.org/Projects/ImprovedDpkgShlibdeps>, B<dpkg-"
+"shlibdeps>(1), B<dpkg-gensymbols>(1)."
+msgstr ""
+"L<https://wiki.debian.org/Projects/ImprovedDpkgShlibdeps>, B<dpkg-"
+"shlibdeps>(1), B<dpkg-gensymbols>(1)."
 
 #. type: textblock
 #: deb-postinst.pod
@@ -6932,21 +6964,28 @@ msgstr "I<Dateiname>B<.dsc>"
 #: dsc.pod
 msgid ""
 "Each Debian source package is composed of a .dsc control file, which "
-"contains a number of fields.  Each field begins with a tag, such as "
-"B<Source> or B<Binary> (case insensitive), followed by a colon, and the body "
-"of the field.  Fields are delimited only by field tags.  In other words, "
-"field text may be multiple lines in length, but the installation tools will "
-"generally join lines when processing the body of the field (except in case "
-"of the multiline fields B<Package-List>, B<Files>, B<Checksums-Sha1> and "
-"B<Checksums-Sha256>, see below)."
+"contains a number of fields, in L<deb822(5)> format."
 msgstr ""
 "Jedes Debian-Quellpaket besteht aus einer .dsc-Steuerdatei, die eine Reihe "
-"von Feldern enthält. Jedes Feld beginnt mit einer Markierung, wie B<Source> "
+"von Feldern im L<deb822(5)>-Format enthält."
+
+#. type: textblock
+#: dsc.pod
+msgid ""
+"Each field begins with a tag, such as B<Source> or B<Binary> (case "
+"insensitive), followed by a colon, and the body of the field (case sensitive "
+"unless stated otherwise).  Fields are delimited only by field tags.  In "
+"other words, field text may be multiple lines in length, but the "
+"installation tools will generally join lines when processing the body of the "
+"field (except in case of the multiline fields B<Package-List>, B<Files>, "
+"B<Checksums-Sha1> and B<Checksums-Sha256>, see below)."
+msgstr ""
+"Jedes Feld beginnt mit einer Markierung, wie B<Source> "
 "oder B<Binary> (Groß-/Kleinschreibung egal), gefolgt von einem Doppelpunkt "
-"und dem Körper des Feldes. Felder werden nur durch die Feldmarkierungen "
+"und dem Inhalt des Feldes (Groß-/Kleinschreibung ist relevant, außer anders angegeben). Felder werden nur durch die Feldmarkierungen "
 "abgegrenzt. Mit anderen Worten, Feldtexte können mehrere Zeilen überspannen, "
 "aber die Installationswerkzeuge werden im Allgemeinen die Zeilen bei der "
-"Verarbeitung des Feldkörpers zusammenfassen (mit Ausnahme der mehrzeiligen "
+"Verarbeitung des Feldinhaltes zusammenfassen (mit Ausnahme der mehrzeiligen "
 "Felder B<Package-List>, B<Files>, B<Checksums-Sha1> und B<Checksums-Sha256>, "
 "sehen Sie dazu unten)."
 
@@ -7294,8 +7333,10 @@ msgstr ""
 
 #. type: textblock
 #: dsc.pod
-msgid "B<deb-src-control>(5), B<deb-version>(7), B<dpkg-source>(1)."
-msgstr "B<deb-src-control>(5), B<deb-version>(7), B<dpkg-source>(1)."
+msgid ""
+"L<deb822(5)>, B<deb-src-control>(5), B<deb-version>(7), B<dpkg-source>(1)."
+msgstr ""
+"L<deb822(5)>, B<deb-src-control>(5), B<deb-version>(7), B<dpkg-source>(1)."
 
 #. type: textblock
 #: dpkg.pod
@@ -8872,10 +8913,10 @@ msgid ""
 "unable to boot, so use with caution."
 msgstr ""
 "B<remove-protected>: Entfernt, selbst falls das Paket als geschützt "
-"betrachtet wird (seit Dpkg 1.20.1). Geschützte Pakete enthalten hauptsächlich "
-"wichtige Teile der Systemstartinfrastruktur. Diese zu entfernen kann dazu führen, dass das "
-"gesamte System nicht mehr starten kann - verwenden Sie diese Option daher mit "
-"Vorsicht."
+"betrachtet wird (seit Dpkg 1.20.1). Geschützte Pakete enthalten "
+"hauptsächlich wichtige Teile der Systemstartinfrastruktur. Diese zu "
+"entfernen kann dazu führen, dass das gesamte System nicht mehr starten kann "
+"- verwenden Sie diese Option daher mit Vorsicht."
 
 #. type: textblock
 #: dpkg.pod
@@ -9189,9 +9230,10 @@ msgid ""
 msgstr ""
 "Stellen Sie sicher, dass B<--no-act> vor dem Aktions-Parameter steht, "
 "andernfalls könnte dies zu unerwünschten Ergebnissen führen. (Beispielsweise "
-"wird B<dpkg --purge foo --no-act> zuerst das Paket „foo“ endgültig löschen und dann "
-"versuchen, das Paket „--no-act“ endgültig zu löschen, obwohl Sie wahrscheinlich davon "
-"ausgingen, dass tatsächlich gar nichts passieren sollte)."
+"wird B<dpkg --purge foo --no-act> zuerst das Paket „foo“ endgültig löschen "
+"und dann versuchen, das Paket „--no-act“ endgültig zu löschen, obwohl Sie "
+"wahrscheinlich davon ausgingen, dass tatsächlich gar nichts passieren "
+"sollte)."
 
 #. type: =item
 #: dpkg.pod
@@ -10410,11 +10452,12 @@ msgstr ""
 msgid ""
 "You might transfer this file to another computer, and after having updated "
 "the I<available> file there with your package manager frontend of choice "
-"(see https://wiki.debian.org/Teams/Dpkg/FAQ for more details), for example:"
+"(see L<https://wiki.debian.org/Teams/Dpkg/FAQ> for more details), for "
+"example:"
 msgstr ""
 "Sie könnten diese Datei auf einen anderen Rechner übertragen und dann die "
-"Datei I<available> dort mit dem Paketverwalter Ihrer Wahl (siehe https://"
-"wiki.debian.org/Teams/Dpkg/FAQ für weitere Details) aktualisieren, zum "
+"Datei I<available> dort mit dem Paketverwalter Ihrer Wahl (siehe L<https://"
+"wiki.debian.org/Teams/Dpkg/FAQ> für weitere Details) aktualisieren, zum "
 "Beispiel:"
 
 #. type: verbatim
@@ -10548,25 +10591,30 @@ msgstr ""
 #. type: textblock
 #: dpkg-architecture.pod
 msgid ""
-"The build architecture is always determined by an external call to "
-"B<dpkg>(1), and cannot be set at the command line."
+"The build architecture is always determined by either the B<DEB_BUILD_ARCH> "
+"variable if set (and B<--force> not being specified) or by an external call "
+"to B<dpkg>(1), and cannot be set at the command line."
 msgstr ""
-"Die Bau-Architektur wird immer über einen externen Aufruf an B<dpkg>(1) "
+"Die Bau-Architektur wird immer über due Variable B<DEB_BUILD_ARCH> (falls "
+"diese gesetzt und B<--force> nicht angegeben ist) oder durch einen externen Aufruf an B<dpkg>(1) "
 "bestimmt und kann nicht auf der Befehlszeile gesetzt werden."
 
 #. type: textblock
 #: dpkg-architecture.pod
 msgid ""
 "You can specify the host architecture by providing one or both of the "
-"options B<--host-arch> and B<--host-type>. The default is determined by an "
-"external call to B<gcc>(1), or the same as the build architecture if B<CC> "
-"or gcc are both not available. One out of B<--host-arch> and B<--host-type> "
-"is sufficient, the value of the other will be set to a usable default. "
-"Indeed, it is often better to only specify one, because B<dpkg-architecture> "
-"will warn you if your choice does not match the default."
+"options B<--host-arch> and B<--host-type>, otherwise the B<DEB_HOST_ARCH> "
+"variable is used if set (and B<--force> not being specified). The default is "
+"determined by an external call to B<gcc>(1), or the same as the build "
+"architecture if B<CC> or gcc are both not available. One out of B<--host-"
+"arch> and B<--host-type> is sufficient, the value of the other will be set "
+"to a usable default. Indeed, it is often better to only specify one, because "
+"B<dpkg-architecture> will warn you if your choice does not match the default."
 msgstr ""
 "Sie können die Host-Architektur (Wirt-Architektur) spezifizieren, indem Sie "
-"eine oder beide der Optionen B<--host-arch> oder B<--host-type> verwenden. "
+"eine oder beide der Optionen B<--host-arch> oder B<--host-type> verwenden "
+"(andernfalls wird die Variable B<DEB_HOST_ARCH> verwandt, falls sie gesetzt "
+"und B<--force> nicht angegeben ist). "
 "Der Standardwert wird über einen externen Aufruf an B<gcc>(1) ermittelt oder "
 "ist identisch mit der Bauarchitektur, falls sowohl B<CC> als auch GCC nicht "
 "verfügbar sind. Einer von B<--host-arch> oder B<--host-type> ist "
@@ -10656,10 +10704,11 @@ msgstr "B<-s>, B<--print-set>"
 #: dpkg-architecture.pod
 msgid ""
 "Print an export command. This can be used to set the environment variables "
-"using the POSIX shell B<eval>."
+"using the POSIX shell or make B<eval>, depending on the output format."
 msgstr ""
 "Zeigt einen Export-Befehl. Dies kann dazu verwendet werden, um "
-"Umgebungsvariablen mittels B<eval> der POSIX-Shell zu setzen."
+"Umgebungsvariablen mittels der POSIX-Shell oder make B<eval> zu setzen, "
+"abhängig vom Ausgabeformat."
 
 #. type: =item
 #: dpkg-architecture.pod
@@ -10668,9 +10717,9 @@ msgstr "B<-u>, B<--print-unset>"
 
 #. type: textblock
 #: dpkg-architecture.pod
-msgid "Print a similar command to B<--print-unset> but to unset all variables."
+msgid "Print a similar command to B<--print-set> but to unset all variables."
 msgstr ""
-"Gibt ähnlich wie B<--print-unset> einen Export-Befehl aus, der alle "
+"Gibt ähnlich wie B<--print-set> einen Export-Befehl aus, der alle "
 "Variablen löscht."
 
 #. type: =item
@@ -10809,6 +10858,20 @@ msgstr ""
 "Begrenzt die mit B<--list-known> aufgeführten Architekturen auf solche mit "
 "der angegebenen Bytereihenfolge (seit Dpkg 1.17.14). Entweder B<little> oder "
 "B<big>."
+
+#. type: =item
+#: dpkg-architecture.pod
+msgid "B<--print-format> I<format>"
+msgstr "B<--print-format> I<Format>"
+
+#. type: textblock
+#: dpkg-architecture.pod
+msgid ""
+"Sets the output format for B<--print-set> and B<--print-unset> (since dpkg "
+"1.20.6), to either B<shell> (default) or B<make>."
+msgstr ""
+"Setzt das Ausgabeformat für B<--print-set> und B<--print-unset> (seit Dpkg "
+"1.20.6), auf entweder B<shell> (Vorgabe) oder B<make>."
 
 #. type: =item
 #: dpkg-architecture.pod
@@ -10996,10 +11059,12 @@ msgstr "VARIABLEN"
 #. type: textblock
 #: dpkg-architecture.pod
 msgid ""
-"The following variables are set by B<dpkg-architecture> (see the B<TERMS> "
-"section for a description of the naming scheme):"
+"The following variables are read from the environment (unless B<--force> has "
+"been specified) and set by B<dpkg-architecture> (see the B<TERMS> section "
+"for a description of the naming scheme):"
 msgstr ""
-"Die folgenden Variablen werden von B<dpkg-architecture> gesetzt (siehe den "
+"Die folgenden Variablen werden von der Umgebung gelesen (außer B<--force> "
+"wurde angegeben) und durch B<dpkg-architecture> gesetzt (siehe den "
 "Abschnitt B<AUSDRÜCKE> für eine Beschreibung des Benennungsschemas):"
 
 #. type: =item
@@ -11019,7 +11084,7 @@ msgstr "B<DEB_BUILD_ARCH_ABI>"
 
 #. type: textblock
 #: dpkg-architecture.pod
-msgid "The Debian abi name of the build machine (since dpkg 1.18.11)."
+msgid "The Debian ABI name of the build machine (since dpkg 1.18.11)."
 msgstr "Der Debian-ABI-Name der Baumaschine. (Seit Dpkg 1.18.11)."
 
 #. type: =item
@@ -11049,7 +11114,7 @@ msgstr "B<DEB_BUILD_ARCH_CPU>"
 
 #. type: textblock
 #: dpkg-architecture.pod
-msgid "The Debian cpu name of the build machine (since dpkg 1.13.2)."
+msgid "The Debian CPU name of the build machine (since dpkg 1.13.2)."
 msgstr "Der Debian-CPU-Name der Baumaschine. (Seit Dpkg 1.13.2)."
 
 #. type: =item
@@ -11079,8 +11144,8 @@ msgstr "B<DEB_BUILD_GNU_CPU>"
 
 #. type: textblock
 #: dpkg-architecture.pod
-msgid "The CPU part of B<DEB_BUILD_GNU_TYPE>."
-msgstr "Der CPU-Teil von B<DEB_BUILD_GNU_TYPE>."
+msgid "The GNU CPU part of B<DEB_BUILD_GNU_TYPE>."
+msgstr "Der GNU-CPU-Teil von B<DEB_BUILD_GNU_TYPE>."
 
 #. type: =item
 #: dpkg-architecture.pod
@@ -11089,8 +11154,8 @@ msgstr "B<DEB_BUILD_GNU_SYSTEM>"
 
 #. type: textblock
 #: dpkg-architecture.pod
-msgid "The System part of B<DEB_BUILD_GNU_TYPE>."
-msgstr "Der System-Teil von B<DEB_BUILD_GNU_TYPE>."
+msgid "The GNU system part of B<DEB_BUILD_GNU_TYPE>."
+msgstr "Der GNU-System-Teil von B<DEB_BUILD_GNU_TYPE>."
 
 #. type: =item
 #: dpkg-architecture.pod
@@ -11133,7 +11198,7 @@ msgstr "B<DEB_HOST_ARCH_ABI>"
 
 #. type: textblock
 #: dpkg-architecture.pod
-msgid "The Debian abi name of the host machine (since dpkg 1.18.11)."
+msgid "The Debian ABI name of the host machine (since dpkg 1.18.11)."
 msgstr "Der Debian-ABI-Name der Host-Maschine. (Seit Dpkg 1.18.11)."
 
 #. type: =item
@@ -11163,7 +11228,7 @@ msgstr "B<DEB_HOST_ARCH_CPU>"
 
 #. type: textblock
 #: dpkg-architecture.pod
-msgid "The Debian cpu name of the host machine (since dpkg 1.13.2)."
+msgid "The Debian CPU name of the host machine (since dpkg 1.13.2)."
 msgstr "Der Debian-CPU-Name der Host-Maschine. (Seit Dpkg 1.13.2)."
 
 #. type: =item
@@ -11193,8 +11258,8 @@ msgstr "B<DEB_HOST_GNU_CPU>"
 
 #. type: textblock
 #: dpkg-architecture.pod
-msgid "The CPU part of B<DEB_HOST_GNU_TYPE>."
-msgstr "Der CPU-Teil von B<DEB_HOST_GNU_TYPE>."
+msgid "The GNU CPU part of B<DEB_HOST_GNU_TYPE>."
+msgstr "Der GNU-CPU-Teil von B<DEB_HOST_GNU_TYPE>."
 
 #. type: =item
 #: dpkg-architecture.pod
@@ -11203,8 +11268,8 @@ msgstr "B<DEB_HOST_GNU_SYSTEM>"
 
 #. type: textblock
 #: dpkg-architecture.pod
-msgid "The System part of B<DEB_HOST_GNU_TYPE>."
-msgstr "Der System-Teil von B<DEB_HOST_GNU_TYPE>."
+msgid "The GNU system part of B<DEB_HOST_GNU_TYPE>."
+msgstr "Der GNU-System-Teil von B<DEB_HOST_GNU_TYPE>."
 
 #. type: =item
 #: dpkg-architecture.pod
@@ -11247,7 +11312,7 @@ msgstr "B<DEB_TARGET_ARCH_ABI>"
 
 #. type: textblock
 #: dpkg-architecture.pod
-msgid "The Debian abi name of the target machine (since dpkg 1.18.11)."
+msgid "The Debian ABI name of the target machine (since dpkg 1.18.11)."
 msgstr "Der Debian-ABI-Name der Ziel-Maschine. (Seit Dpkg 1.18.11)."
 
 #. type: =item
@@ -11277,7 +11342,7 @@ msgstr "B<DEB_TARGET_ARCH_CPU>"
 
 #. type: textblock
 #: dpkg-architecture.pod
-msgid "The Debian cpu name of the target machine (since dpkg 1.17.14)."
+msgid "The Debian CPU name of the target machine (since dpkg 1.17.14)."
 msgstr "Der Debian-CPU-Name der Ziel-Maschine. (Seit Dpkg 1.17.14)."
 
 #. type: =item
@@ -11308,8 +11373,8 @@ msgstr "B<DEB_TARGET_GNU_CPU>"
 
 #. type: textblock
 #: dpkg-architecture.pod
-msgid "The CPU part of B<DEB_TARGET_GNU_TYPE> (since dpkg 1.17.14)."
-msgstr "Der CPU-Teil von B<DEB_TARGET_GNU_TYPE>. (Seit Dpkg 1.17.14)."
+msgid "The GNU CPU part of B<DEB_TARGET_GNU_TYPE> (since dpkg 1.17.14)."
+msgstr "Der GNU-CPU-Teil von B<DEB_TARGET_GNU_TYPE>. (Seit Dpkg 1.17.14)."
 
 #. type: =item
 #: dpkg-architecture.pod
@@ -11318,8 +11383,8 @@ msgstr "B<DEB_TARGET_GNU_SYSTEM>"
 
 #. type: textblock
 #: dpkg-architecture.pod
-msgid "The System part of B<DEB_TARGET_GNU_TYPE> (since dpkg 1.17.14)."
-msgstr "Der System-Teil von B<DEB_TARGET_GNU_TYPE>. (Seit Dpkg 1.17.14)."
+msgid "The GNU system part of B<DEB_TARGET_GNU_TYPE> (since dpkg 1.17.14)."
+msgstr "Der GNU-System-Teil von B<DEB_TARGET_GNU_TYPE>. (Seit Dpkg 1.17.14)."
 
 #. type: =item
 #: dpkg-architecture.pod
@@ -11563,9 +11628,9 @@ msgid ""
 " [...]\n"
 " ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))\n"
 "  confflags += --build=$(DEB_HOST_GNU_TYPE)\n"
-" else\n"
-"  confflags += --build=$(DEB_BUILD_GNU_TYPE) \\\n"
-"               --host=$(DEB_HOST_GNU_TYPE)\n"
+"  else\n"
+"   confflags += --build=$(DEB_BUILD_GNU_TYPE) \\\n"
+"                --host=$(DEB_HOST_GNU_TYPE)\n"
 " endif\n"
 " [...]\n"
 " ./configure $(confflags)\n"
@@ -11576,9 +11641,9 @@ msgstr ""
 " […]\n"
 " ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))\n"
 "  confflags += --build=$(DEB_HOST_GNU_TYPE)\n"
-" else\n"
-"  confflags += --build=$(DEB_BUILD_GNU_TYPE) \\\n"
-"               --host=$(DEB_HOST_GNU_TYPE)\n"
+"  else\n"
+"   confflags += --build=$(DEB_BUILD_GNU_TYPE) \\\n"
+"                --host=$(DEB_HOST_GNU_TYPE)\n"
 " endif\n"
 " […]\n"
 " ./configure $(confflags)\n"
@@ -11604,12 +11669,12 @@ msgstr ""
 #, no-wrap
 msgid ""
 " ifeq ($(DEB_HOST_ARCH),alpha)\n"
-"  [...]\n"
+"   [...]\n"
 " endif\n"
 "\n"
 msgstr ""
 " ifeq ($(DEB_HOST_ARCH),alpha)\n"
-"  […]\n"
+"   […]\n"
 " endif\n"
 "\n"
 
@@ -16234,7 +16299,8 @@ msgid ""
 "will be used as the filesystem root directory (since dpkg 1.19.2)."
 msgstr ""
 "Falls gesetzt und die Option B<--instdir> oder B<--root> nicht angegeben "
-"wurde, wird dies als Dateisystemwurzelverzeichnis verwandt (seit Dpkg 1.19.2)."
+"wurde, wird dies als Dateisystemwurzelverzeichnis verwandt (seit Dpkg "
+"1.19.2)."
 
 #. type: textblock
 #: dpkg-divert.pod dpkg-statoverride.pod
@@ -17360,23 +17426,14 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-gensymbols.pod
-msgid "B<https://people.redhat.com/drepper/symbol-versioning>"
-msgstr "B<https://people.redhat.com/drepper/symbol-versioning>"
-
-#. type: textblock
-#: dpkg-gensymbols.pod
-msgid "B<https://people.redhat.com/drepper/goodpractice.pdf>"
-msgstr "B<https://people.redhat.com/drepper/goodpractice.pdf>"
-
-#. type: textblock
-#: dpkg-gensymbols.pod
-msgid "B<https://people.redhat.com/drepper/dsohowto.pdf>"
-msgstr "B<https://people.redhat.com/drepper/dsohowto.pdf>"
-
-#. type: textblock
-#: dpkg-gensymbols.pod
-msgid "B<deb-src-symbol>(5), B<deb-symbols>(5), B<dpkg-shlibdeps>(1)."
-msgstr "B<deb-src-symbol>(5), B<deb-symbols>(5), B<dpkg-shlibdeps>(1)."
+msgid ""
+"L<https://people.redhat.com/drepper/symbol-versioning>, L<https://people."
+"redhat.com/drepper/goodpractice.pdf>, L<https://people.redhat.com/drepper/"
+"dsohowto.pdf>, B<deb-src-symbol>(5), B<deb-symbols>(5), B<dpkg-shlibdeps>(1)."
+msgstr ""
+"L<https://people.redhat.com/drepper/symbol-versioning>, L<https://people."
+"redhat.com/drepper/goodpractice.pdf>, L<https://people.redhat.com/drepper/"
+"dsohowto.pdf>, B<deb-src-symbol>(5), B<deb-symbols>(5), B<dpkg-shlibdeps>(1)."
 
 #. type: textblock
 #: dpkg-maintscript-helper.pod
@@ -19782,6 +19839,20 @@ msgstr "B<dpkg-realpath> [I<Option>…] I<Pfadname>"
 msgid "B<dpkg-realpath> is a tool to resolve a pathname."
 msgstr "B<dpkg-realpath> ist ein Werkzeug zur Auflösung eines Pfadnamens"
 
+#. type: =item
+#: dpkg-realpath.pod
+msgid "B<-z>, B<--zero>"
+msgstr "B<-z>, B<--zero>"
+
+#. type: textblock
+#: dpkg-realpath.pod
+msgid ""
+"Use a NUL byte to end output lines instead of a new line character (since "
+"dpkg 1.20.6)."
+msgstr ""
+"Verwendet ein NUL-Byte statt eines Zeilenumbruchzeichens, um Ausgabezeilen "
+"abzuschließen (seit Dpkg 1.20.6)."
+
 #. type: textblock
 #: dpkg-realpath.pod
 msgid ""
@@ -19815,8 +19886,8 @@ msgid ""
 "Sets the color mode.  The currently accepted values are: B<auto> (default), "
 "B<always> and B<never>."
 msgstr ""
-"Setzt den Farbmodus. Die derzeit unterstützten Werte "
-"sind: B<auto> (Vorgabe), B<always> und B<never>."
+"Setzt den Farbmodus. Die derzeit unterstützten Werte sind: B<auto> "
+"(Vorgabe), B<always> und B<never>."
 
 #. type: textblock
 #: dpkg-realpath.pod
@@ -21445,8 +21516,8 @@ msgid ""
 "relative path of each file. B<-I> can specified multiple times and takes a "
 "filename pattern with shell wildcards.  The pattern is applied to the full "
 "relative path but also to each part of the path individually. The exact "
-"semantic of tar's B<--exclude> option is somewhat complicated, see https://"
-"www.gnu.org/software/tar/manual/tar.html#wildcards for a full documentation."
+"semantic of tar's B<--exclude> option is somewhat complicated, see L<https://"
+"www.gnu.org/software/tar/manual/tar.html#wildcards> for a full documentation."
 msgstr ""
 "B<Hinweis>: Obwohl sie ähnlichen Zwecken dienen, haben B<-i> und B<-I> eine "
 "sehr verschiedene Syntax und Semantik. B<-i> kann nur einmal angegeben "
@@ -21455,8 +21526,8 @@ msgstr ""
 "werden und nimmt ein Dateinamen-Muster mit Shell-Jokerzeichen an. Das Muster "
 "wird gegen den vollen relativen Pfad, aber auch individuell auf jeden Teil "
 "des Pfades angewendet. Die exakte Semantik der Option B<--exclude> ist etwas "
-"kompliziert, lesen Sie https://www.gnu.org/software/tar/manual/tar."
-"html#wildcards für eine komplette Dokumentation."
+"kompliziert, lesen Sie L<https://www.gnu.org/software/tar/manual/tar."
+"html#wildcards> für eine komplette Dokumentation."
 
 #. type: textblock
 #: dpkg-source.pod
@@ -21576,12 +21647,12 @@ msgstr "QUELLPAKET-FORMATE"
 #: dpkg-source.pod
 msgid ""
 "If you don't know what source format to use, you should probably pick either "
-"“3.0 (quilt)” or “3.0 (native)”.  See https://wiki.debian.org/Projects/"
-"DebSrc3.0 for information on the deployment of those formats within Debian."
+"“3.0 (quilt)” or “3.0 (native)”.  See L<https://wiki.debian.org/Projects/"
+"DebSrc3.0> for information on the deployment of those formats within Debian."
 msgstr ""
 "Falls Sie nicht wissen, welches Quellformat Sie verwenden sollen, verwenden "
 "Sie wahrscheinlich am besten entweder „3.0 (quilt)“ oder „3.0 (native)“. "
-"Lesen Sie https://wiki.debian.org/Projects/DebSrc3.0 für Informationen über "
+"Lesen Sie L<https://wiki.debian.org/Projects/DebSrc3.0> für Informationen über "
 "den Einsatz dieser Formate innerhalb von Debian."
 
 #. type: =head2
@@ -21999,9 +22070,9 @@ msgid ""
 "support.  Note however that while B<dpkg-source> parses correctly series "
 "files with explicit options used for patch application (stored on each line "
 "after the patch filename and one or more spaces), it does ignore those "
-"options and always expect patches that can be applied with the B<-p1> option "
-"of B<patch>. It will thus emit a warning when it encounters such options, "
-"and the build is likely to fail."
+"options and always expects patches that can be applied with the B<-p1> "
+"option of B<patch>. It will thus emit a warning when it encounters such "
+"options, and the build is likely to fail."
 msgstr ""
 "Dann werden alle in B<debian/patches/>I<Lieferant>B<.series> oder B<debian/"
 "patches/series> aufgeführten Patches angewandt, wobei I<Lieferant> der Name "
@@ -24395,8 +24466,8 @@ msgid ""
 "again. In most cases, the problems will disappear or be solved.  If problems "
 "persist or the installation performed was incorrect, please investigate into "
 "the causes and circumstances, and file a bug in the Debian bug tracking "
-"system. Instructions on how to do this can be found at https://bugs.debian."
-"org/ or by reading the documentation for B<bug>(1) or B<reportbug>(1), if "
+"system. Instructions on how to do this can be found at L<https://bugs.debian."
+"org/> or by reading the documentation for B<bug>(1) or B<reportbug>(1), if "
 "these are installed."
 msgstr ""
 "Falls während der Installation ein Fehler auftrat, ist es normalerweise "
@@ -24405,7 +24476,7 @@ msgstr ""
 "oder die durchgeführte Installation nicht korrekt war, untersuchen Sie bitte "
 "den Grund und die Umstände und reichen Sie einen Fehler in der "
 "Fehlerdatenbank von Debian ein. Anleitungen, wie dies erfolgen kann, sind "
-"auf https://bugs.debian.org/ verfügbar oder können durch Lesen der "
+"auf L<https://bugs.debian.org/> verfügbar oder können durch Lesen der "
 "Dokumentation für B<bug>(1) oder B<reportbug>(1) (falls diese installiert "
 "sind) erhalten werden."
 
@@ -26179,15 +26250,27 @@ msgid ""
 "When each package providing a file with a particular functionality is "
 "installed, changed or removed, B<update-alternatives> is called to update "
 "information about that file in the alternatives system.  B<update-"
-"alternatives> is usually called from the B<postinst> (configure) or B<prerm> "
-"(remove and deconfigure) scripts in Debian packages."
+"alternatives> is usually called from the following Debian package maintainer "
+"scripts, B<postinst> (configure) to install the alternative and from "
+"B<prerm> and B<postrm> (remove) to remove the alternative.  B<Note:> in most "
+"(if not all) cases no other maintainer script actions should call B<update-"
+"alternatives>, in particular neither of B<upgrade> nor B<disappear>, as any "
+"other such action can lose the manual state of an alternative, or make the "
+"alternative temporarily flip-flop, or completely switch when several of them "
+"have the same priority."
 msgstr ""
-"Für jedes Paket, das eine Datei mit einer bestimmten Funktionalität "
-"bereitstellt, wird bei der Installation, der Änderung oder der Entfernung "
-"B<update-alternatives> aufgerufen, um die Informationen über diese Datei im "
-"Alternativ-System zu aktualisieren. B<update-alternatives> wird gewöhnlich "
-"vom Skript B<postinst> (configure) oder B<prerm> (remove und deconfigure) "
-"eines Debian-Paketes aufgerufen."
+"Wenn ein Paket, das eine Datei mit einer bestimmten Funktionalität "
+"bereitstellt, installiert, geändert oder entfernt wird, wird B<update-"
+"alternatives> aufgerufen, um die Informationen über diese Datei im "
+"Alternatives-System zu aktualisieren. B<update-alternatives> wird "
+"normalerweise in den folgenden Debian-Paketbetreuerskripten aufgerufen: "
+"B<postinst> (configure), um die Alternative zu installieren und von B<prerm> "
+"und B<postrm> (remove), um die Alternative zu entfernen. B<Hinweis:> In den "
+"meisten (wenn nicht allen) Fällen sollte keine weitere Betreuerskriptaktion "
+"B<update-alternatives> aufrufen, insbesondere weder B<upgrade> noch B<disappear>, da "
+"jede dieser anderen Aktionen zum Verlust des manuellen Zustands einer "
+"Alternative, oder zum Hin-und Herspringen oder zum kompletten Umspringen, "
+"wenn mehrere von ihnen die gleiche Priorität haben, führen kann."
 
 #. type: textblock
 #: update-alternatives.pod
@@ -27139,10 +27222,43 @@ msgstr ""
 
 #. type: textblock
 #: update-alternatives.pod
-msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
+msgid "B<ln>(1), FHS (the Filesystem Hierarchy Standard)."
 msgstr ""
-"B<ln>(1), FHS, der Dateisystem-Hierarchie-Standard (Filesystem Hierarchy "
+"B<ln>(1), FHS (der Dateisystem-Hierarchie-Standard, Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid "Is a one- or two-digit day of the month (B<01>-B<31>)."
+#~ msgstr ""
+#~ "Dies ist der Tag des Monats (B<01>-B<31>) aus einer oder zwei Ziffern."
+
+#~ msgid "B<dpkg-shlibdeps>(1), B<dpkg-gensymbols>(1)."
+#~ msgstr "B<dpkg-shlibdeps>(1), B<dpkg-gensymbols>(1)."
+
+#~ msgid "B<https://people.redhat.com/drepper/symbol-versioning>"
+#~ msgstr "B<https://people.redhat.com/drepper/symbol-versioning>"
+
+#~ msgid "B<https://people.redhat.com/drepper/goodpractice.pdf>"
+#~ msgstr "B<https://people.redhat.com/drepper/goodpractice.pdf>"
+
+#~ msgid "B<https://people.redhat.com/drepper/dsohowto.pdf>"
+#~ msgstr "B<https://people.redhat.com/drepper/dsohowto.pdf>"
+
+#~ msgid "B<deb-src-symbol>(5), B<deb-symbols>(5), B<dpkg-shlibdeps>(1)."
+#~ msgstr "B<deb-src-symbol>(5), B<deb-symbols>(5), B<dpkg-shlibdeps>(1)."
+
+#~ msgid ""
+#~ "When each package providing a file with a particular functionality is "
+#~ "installed, changed or removed, B<update-alternatives> is called to update "
+#~ "information about that file in the alternatives system.  B<update-"
+#~ "alternatives> is usually called from the B<postinst> (configure) or "
+#~ "B<prerm> (remove and deconfigure) scripts in Debian packages."
+#~ msgstr ""
+#~ "Für jedes Paket, das eine Datei mit einer bestimmten Funktionalität "
+#~ "bereitstellt, wird bei der Installation, der Änderung oder der Entfernung "
+#~ "B<update-alternatives> aufgerufen, um die Informationen über diese Datei "
+#~ "im Alternativ-System zu aktualisieren. B<update-alternatives> wird "
+#~ "gewöhnlich vom Skript B<postinst> (configure) oder B<prerm> (remove und "
+#~ "deconfigure) eines Debian-Paketes aufgerufen."
 
 #~ msgid "deb"
 #~ msgstr "deb"
