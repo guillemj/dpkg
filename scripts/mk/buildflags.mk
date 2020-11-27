@@ -6,6 +6,7 @@
 #   OBJCFLAGS: flags for the Objective C compiler.
 #   OBJCXXFLAGS: flags for the Objective C++ compiler.
 #   GCJFLAGS: flags for the GNU Java compiler.
+#   DFLAGS: flags for the D compiler.
 #   FFLAGS: flags for the Fortran 77 compiler.
 #   FCFLAGS: flags for the Fortran 9x compiler.
 #   LDFLAGS: flags for the linker.
@@ -19,7 +20,7 @@
 dpkg_lazy_eval ?= $$(or $$(value DPKG_CACHE_$(1)),$$(eval DPKG_CACHE_$(1) := $$(shell $(2)))$$(value DPKG_CACHE_$(1)))
 
 DPKG_BUILDFLAGS_LIST = CFLAGS CPPFLAGS CXXFLAGS OBJCFLAGS OBJCXXFLAGS \
-                       GCJFLAGS FFLAGS FCFLAGS LDFLAGS
+                       GCJFLAGS DFLAGS FFLAGS FCFLAGS LDFLAGS
 
 define dpkg_buildflags_export_envvar
 ifdef $(1)
