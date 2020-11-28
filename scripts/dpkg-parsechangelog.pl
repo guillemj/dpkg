@@ -47,7 +47,8 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . g_(
 'Options:
-  -l <changelog-file>      get per-version info from this file.
+  -l, --file <changelog-file>
+                           get per-version info from this file.
   -F <changelog-format>    force changelog format.
   -S, --show-field <field> show the values for <field>.
   -?, --help               show this help message.
