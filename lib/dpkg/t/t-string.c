@@ -169,6 +169,43 @@ test_str_escape_fmt(void)
 }
 
 static void
+test_str_rtrim_spaces(void)
+{
+	char buf[1024];
+	char *str_end;
+
+	strcpy(buf, "");
+	str_end = str_rtrim_spaces(buf, buf + strlen(buf));
+	test_pass(str_end == buf);
+	test_str(buf, ==, "");
+
+	strcpy(buf, "  \t\t  \r\n  ");
+	str_end = str_rtrim_spaces(buf, buf + strlen(buf));
+	test_pass(str_end == buf);
+	test_str(buf, ==, "");
+
+	strcpy(buf, "abcd");
+	str_end = str_rtrim_spaces(buf, buf + strlen(buf));
+	test_pass(str_end == buf + 4);
+	test_str(buf, ==, "abcd");
+
+	strcpy(buf, "abcd    ");
+	str_end = str_rtrim_spaces(buf, buf + strlen(buf));
+	test_pass(str_end == buf + 4);
+	test_str(buf, ==, "abcd");
+
+	strcpy(buf, "abcd\t \t ");
+	str_end = str_rtrim_spaces(buf, buf + strlen(buf));
+	test_pass(str_end == buf + 4);
+	test_str(buf, ==, "abcd");
+
+	strcpy(buf, "  \t  \t  abcd");
+	str_end = str_rtrim_spaces(buf, buf + strlen(buf));
+	test_pass(str_end == buf + 12);
+	test_str(buf, ==, "  \t  \t  abcd");
+}
+
+static void
 test_str_quote_meta(void)
 {
 	char *str;
@@ -230,7 +267,7 @@ test_str_strip_quotes(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(62);
+	test_plan(74);
 
 	test_str_is_set();
 	test_str_match_end();
@@ -240,4 +277,5 @@ TEST_ENTRY(test)
 	test_str_escape_fmt();
 	test_str_quote_meta();
 	test_str_strip_quotes();
+	test_str_rtrim_spaces();
 }

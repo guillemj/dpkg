@@ -61,6 +61,7 @@ char *str_fmt(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 char *str_escape_fmt(char *dest, const char *src, size_t n);
 char *str_quote_meta(const char *src);
 char *str_strip_quotes(char *str);
+char *str_rtrim_spaces(const char *str, char *str_end);
 
 struct str_crop_info {
 	int str_bytes;

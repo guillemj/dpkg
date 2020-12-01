@@ -175,3 +175,20 @@ str_strip_quotes(char *str)
 
 	return str;
 }
+
+/**
+ * Trim possible ending spaces in string.
+ *
+ * @param str The string to act on.
+ *
+ * @return A pointer to the end of the trimmed string.
+ */
+char *
+str_rtrim_spaces(const char *str, char *str_end)
+{
+	while (str_end > str && c_isspace(str_end[-1]))
+		str_end--;
+	if (str_end >= str)
+		*str_end = '\0';
+	return str_end;
+}

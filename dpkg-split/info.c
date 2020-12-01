@@ -71,9 +71,9 @@ static char *nextline(char **ripp, const char *fn, const char *what) {
     ohshit(_("file '%.250s' is corrupt - missing newline after %.250s"),
            fn, what);
   *ripp= newline+1;
-  while (newline > rip && c_isspace(newline[-1]))
-    newline--;
-  *newline = '\0';
+
+  str_rtrim_spaces(rip, newline);
+
   return rip;
 }
 

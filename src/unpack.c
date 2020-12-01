@@ -350,11 +350,9 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
     if (p[-1] != '\n')
       ohshit(_("conffile name '%s' is too long, or missing final newline"),
              conffilenamebuf);
-    while (p > conffilenamebuf && c_isspace(p[-1]))
-      --p;
+    p = str_rtrim_spaces(conffilenamebuf, p);
     if (p == conffilenamebuf)
       continue;
-    *p = '\0';
 
     if (conffilenamebuf[0] != '/')
       ohshit(_("conffile name '%s' is not an absolute pathname"),
