@@ -362,13 +362,11 @@ pkg_hash_iter_free(struct pkg_hash_iter *iter)
 void
 pkg_hash_reset(void)
 {
-  int i;
-
   dpkg_arch_reset_list();
   nffreeall();
   nset = 0;
   npkg = 0;
-  for (i=0; i<BINS; i++) bins[i]= NULL;
+  memset(bins, 0, sizeof(bins));
 }
 
 void

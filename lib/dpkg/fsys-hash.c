@@ -59,11 +59,7 @@ fsys_hash_init(void)
 void
 fsys_hash_reset(void)
 {
-	int i;
-
-	for (i = 0; i < BINS; i++)
-		bins[i] = NULL;
-
+	memset(bins, 0, sizeof(bins));
 	nfiles = 0;
 }
 
@@ -103,7 +99,7 @@ fsys_hash_find_node(const char *name, enum fsys_hash_find_flags flags)
 		return NULL;
 
 	newnode = nfmalloc(sizeof(*newnode));
-	newnode->packages = NULL;
+	memset(newnode, 0, sizeof(*newnode));
 	if ((flags & FHFF_NOCOPY) && name > orig_name && name[-1] == '/') {
 		newnode->name = name - 1;
 	} else {
@@ -113,14 +109,6 @@ fsys_hash_find_node(const char *name, enum fsys_hash_find_flags flags)
 		strcpy(newname + 1, name);
 		newnode->name = newname;
 	}
-	newnode->flags = 0;
-	newnode->next = NULL;
-	newnode->divert = NULL;
-	newnode->statoverride = NULL;
-	newnode->oldhash = NULL;
-	newnode->newhash = NULL;
-	newnode->file_ondisk_id = NULL;
-	newnode->trig_interested = NULL;
 	*pointerp = newnode;
 	nfiles++;
 
