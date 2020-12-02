@@ -871,8 +871,6 @@ int main(int argc, const char *const *argv) {
 
   if (!cipaction) badusage(_("need an action option"));
 
-  fsys_hash_init();
-
   ret = cipaction->action(argv);
 
   dpkg_program_done();

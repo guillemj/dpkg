@@ -863,7 +863,6 @@ main(int argc, const char * const *argv)
 		setaction(&cmdinfo_add, NULL);
 
 	modstatdb_open(msdbrw_readonly);
-	fsys_hash_init();
 	ensure_diversions();
 
 	ret = cipaction->action(argv);

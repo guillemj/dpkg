@@ -743,8 +743,6 @@ commandfd(const char *const *argv)
     dpkg_options_parse((const char *const **)&endargs, cmdinfos, printforhelp);
     if (!cipaction) badusage(_("need an action option"));
 
-    fsys_hash_init();
-
     ret |= cipaction->action(endargs);
 
     fsys_hash_reset();
@@ -794,8 +792,6 @@ int main(int argc, const char *const *argv) {
     run_invoke_hooks(cipaction->olong, &pre_invoke_hooks);
     run_status_loggers(&status_loggers);
   }
-
-  fsys_hash_init();
 
   ret = cipaction->action(argv);
 

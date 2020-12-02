@@ -416,7 +416,6 @@ main(int argc, const char *const *argv)
 	if (!cipaction)
 		badusage(_("need an action option"));
 
-	fsys_hash_init();
 	ensure_statoverrides(STATDB_PARSE_LAX);
 
 	ret = cipaction->action(argv);
