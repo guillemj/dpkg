@@ -68,8 +68,10 @@ main(int argc, const char *const *argv)
 
 	perf_ts_slot_print(&ps, "load .list");
 
-	pkg_hash_report(stdout);
-	fsys_hash_report(stdout);
+	if (test_is_verbose()) {
+		pkg_hash_report(stdout);
+		fsys_hash_report(stdout);
+	}
 
 	modstatdb_shutdown();
 	pop_error_context(ehflag_normaltidy);
