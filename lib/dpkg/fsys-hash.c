@@ -50,7 +50,7 @@ fsys_hash_init(void)
 		for (fnn = bins[i]; fnn; fnn = fnn->next) {
 			fnn->flags = 0;
 			fnn->oldhash = NULL;
-			fnn->newhash = EMPTYHASHFLAG;
+			fnn->newhash = NULL;
 			fnn->file_ondisk_id = NULL;
 		}
 	}
@@ -118,7 +118,7 @@ fsys_hash_find_node(const char *name, enum fsys_hash_find_flags flags)
 	newnode->divert = NULL;
 	newnode->statoverride = NULL;
 	newnode->oldhash = NULL;
-	newnode->newhash = EMPTYHASHFLAG;
+	newnode->newhash = NULL;
 	newnode->file_ondisk_id = NULL;
 	newnode->trig_interested = NULL;
 	*pointerp = newnode;

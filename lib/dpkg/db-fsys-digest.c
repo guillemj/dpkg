@@ -64,7 +64,7 @@ write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
 		if (mask && (namenode->flags & mask))
 			continue;
-		if (strcmp(namenode->newhash, EMPTYHASHFLAG) == 0)
+		if (namenode->newhash == NULL)
 			continue;
 
 		fprintf(file->fp, "%s  %s\n",

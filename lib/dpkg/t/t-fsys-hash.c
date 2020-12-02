@@ -48,7 +48,7 @@ test_fsys_nodes(void)
 	test_str(fnn->name, ==, "/test/path/aa");
 	test_pass(fnn->flags == 0);
 	test_pass(fnn->oldhash == NULL);
-	test_str(fnn->newhash, ==, EMPTYHASHFLAG);
+	test_pass(fnn->newhash == NULL);
 
 	fnn = fsys_hash_find_node("//./test/path/bb", 0);
 	test_pass(fnn != NULL);
@@ -56,7 +56,7 @@ test_fsys_nodes(void)
 	test_str(fnn->name, ==, "/test/path/bb");
 	test_pass(fnn->flags == 0);
 	test_pass(fnn->oldhash == NULL);
-	test_str(fnn->newhash, ==, EMPTYHASHFLAG);
+	test_pass(fnn->newhash == NULL);
 
 	fnn = fsys_hash_find_node("/test/path/cc", 0);
 	test_pass(fnn != NULL);
@@ -64,7 +64,7 @@ test_fsys_nodes(void)
 	test_str(fnn->name, ==, "/test/path/cc");
 	test_pass(fnn->flags == 0);
 	test_pass(fnn->oldhash == NULL);
-	test_str(fnn->newhash, ==, EMPTYHASHFLAG);
+	test_pass(fnn->newhash == NULL);
 
 	iter = fsys_hash_iter_new();
 	while ((fnn = fsys_hash_iter_next(iter))) {

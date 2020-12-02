@@ -110,7 +110,7 @@ verify_package(struct pkginfo *pkg)
 
 		fnn = namenodetouse(file->namenode, pkg, &pkg->installed);
 
-		if (strcmp(fnn->newhash, EMPTYHASHFLAG) == 0) {
+		if (fnn->newhash == NULL) {
 			if (fnn->oldhash == NULL)
 				continue;
 			else
