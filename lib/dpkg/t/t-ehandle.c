@@ -110,12 +110,9 @@ test_cleanup_error(void)
 
 TEST_ENTRY(test)
 {
-	const char *verbose;
-
 	test_plan(3);
 
-	verbose = getenv("TEST_VERBOSE");
-	if (verbose == NULL || strcmp(verbose, "0") == 0){
+	if (!test_is_verbose()) {
 		int fd;
 
 		/* Shut up stderr, we do not want the error output. */

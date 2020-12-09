@@ -22,6 +22,7 @@
 #define LIBDPKG_TEST_H
 
 #include <string.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -71,6 +72,13 @@ test_get_envdir(const char *envvar)
 	test_get_envdir("srcdir")
 #define test_get_builddir() \
 	test_get_envdir("builddir")
+
+static inline bool
+test_is_verbose(void)
+{
+	const char *verbose = getenv("TEST_VERBOSE");
+	return verbose != NULL && strcmp(verbose, "1") == 0;
+}
 
 static int test_id = 1;
 static int test_skip_code;
