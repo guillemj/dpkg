@@ -150,6 +150,8 @@ varbuf_reset(struct varbuf *v)
 void
 varbuf_grow(struct varbuf *v, size_t need_size)
 {
+  size_t new_size;
+
   /* Make sure the varbuf is in a sane state. */
   if (v->size < v->used)
     internerr("varbuf used(%zu) > size(%zu)", v->used, v->size);
@@ -158,7 +160,12 @@ varbuf_grow(struct varbuf *v, size_t need_size)
   if ((v->size - v->used) >= need_size)
     return;
 
-  v->size = (v->size + need_size) * 2;
+  /* Check if we overflow. */
+  new_size = (v->size + need_size) * 2;
+  if (new_size < v->size)
+    ohshit(_("cannot grow varbuf to size %zu; it would overflow"), need_size);
+
+  v->size = new_size;
   v->buf = m_realloc(v->buf, v->size);
 }
 

@@ -25,6 +25,7 @@
 #include <dpkg/varbuf.h>
 
 #include <string.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 static void
@@ -83,7 +84,9 @@ static void
 test_varbuf_grow(void)
 {
 	struct varbuf vb;
+	jmp_buf grow_jump;
 	size_t old_size;
+	bool grow_overflow;
 	int i;
 
 	varbuf_init(&vb, 10);
@@ -108,6 +111,25 @@ test_varbuf_grow(void)
 	varbuf_grow(&vb, 100);
 	test_pass(vb.used == 10);
 	test_pass(vb.size >= 110);
+
+	/* Test that we do not allow allocation overflows. */
+	grow_overflow = false;
+	old_size = vb.size;
+	test_try(grow_jump) {
+		varbuf_grow(&vb, SIZE_MAX - vb.size + 2);
+	} test_catch {
+		grow_overflow = true;
+	} test_finally;
+	test_pass(vb.size == old_size && grow_overflow);
+
+	grow_overflow = false;
+	old_size = vb.size;
+	test_try(grow_jump) {
+		varbuf_grow(&vb, (SIZE_MAX - vb.size - 2) / 2);
+	} test_catch {
+		grow_overflow = true;
+	} test_finally;
+	test_pass(vb.size == old_size && grow_overflow);
 
 	varbuf_destroy(&vb);
 }
@@ -370,7 +392,7 @@ test_varbuf_detach(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(128);
+	test_plan(130);
 
 	test_varbuf_init();
 	test_varbuf_prealloc();
