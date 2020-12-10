@@ -61,6 +61,14 @@ test_alloc(void *ptr, const char *reason)
 #define test_alloc(ptr) \
 	test_alloc((ptr), "cannot allocate memory for " #ptr " in " __FILE__ ":" test_stringify(__LINE__))
 
+#define test_try(jmp) \
+	push_error_context_jump(&(jmp), NULL, "test try"); \
+	if (!setjmp((jmp)))
+#define test_catch \
+	else
+#define test_finally \
+	pop_error_context(ehflag_normaltidy);
+
 static inline const char *
 test_get_envdir(const char *envvar)
 {
