@@ -28,6 +28,9 @@
 #include <time.h>
 #include <stdio.h>
 
+#define TEST_OMIT_VARIABLES
+#include <dpkg/test.h>
+
 struct perf_slot {
 	struct timespec t_ini, t_end;
 };

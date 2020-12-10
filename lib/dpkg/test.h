@@ -80,10 +80,12 @@ test_is_verbose(void)
 	return verbose != NULL && strcmp(verbose, "1") == 0;
 }
 
+#ifndef TEST_OMIT_VARIABLES
 static int test_id = 1;
 static int test_skip_code;
 static const char *test_skip_prefix;
 static const char *test_skip_reason;
+#endif
 
 #define test_plan(n) \
 	printf("1..%d\n", n);
