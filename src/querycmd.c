@@ -585,7 +585,7 @@ showpackages(const char *const *argv)
 
   if (!*argv) {
     if (fmt_needs_db_fsys)
-      ensure_allinstfiles_available();
+      ensure_allinstfiles_available_quiet();
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
       if (pkg->status == PKG_STAT_NOTINSTALLED)
