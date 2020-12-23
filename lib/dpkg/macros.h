@@ -153,8 +153,11 @@
  * @param l The low limit.
  * @param h The high limit.
  */
+/* For C++ use native implementations from STL or similar. */
+#ifndef __cplusplus
 #ifndef clamp
 #define clamp(v, l, h) ((v) > (h) ? (h) : ((v) < (l) ? (l) : (v)))
+#endif
 #endif
 
 /** @} */
