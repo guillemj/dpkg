@@ -212,6 +212,7 @@ static int quietmode = 0;
 static int exitnodo = 1;
 static bool background = false;
 static bool close_io = true;
+static const char *output_io;
 static bool notify_await = false;
 static int notify_timeout = 60;
 static char *notify_sockdir;
@@ -908,6 +909,7 @@ usage(void)
 "      --notify-await            wait for a readiness notification\n"
 "      --notify-timeout <int>    timeout after <int> seconds of notify wait\n"
 "  -C, --no-close                do not close any file descriptor\n"
+"  -O, --output <filename>       send stdout and stderr to <filename>\n"
 "  -m, --make-pidfile            create the pidfile before starting\n"
 "      --remove-pidfile          delete the pidfile after stopping\n"
 "  -R, --retry <schedule>        check whether processes die, and retry\n"
@@ -1281,6 +1283,7 @@ parse_options(int argc, char * const *argv)
 		{ "notify-await", 0, NULL, OPT_NOTIFY_AWAIT},
 		{ "notify-timeout", 1, NULL, OPT_NOTIFY_TIMEOUT},
 		{ "no-close",	  0, NULL, 'C'},
+		{ "output",	  1, NULL, 'O'},
 		{ "make-pidfile", 0, NULL, 'm'},
 		{ "remove-pidfile", 0, NULL, OPT_RM_PIDFILE},
 		{ "retry",	  1, NULL, 'R'},
@@ -1300,7 +1303,7 @@ parse_options(int argc, char * const *argv)
 
 	for (;;) {
 		c = getopt_long(argc, argv,
-		                "HKSVTa:n:op:qr:s:tu:vx:c:N:P:I:k:bCmR:g:d:",
+		                "HKSVTa:n:op:qr:s:tu:vx:c:N:P:I:k:bCO:mR:g:d:",
 		                longopts, NULL);
 		if (c == -1)
 			break;
@@ -1404,6 +1407,9 @@ parse_options(int argc, char * const *argv)
 		case 'C': /* --no-close */
 			close_io = false;
 			break;
+		case 'O': /* --outout <filename> */
+			output_io = optarg;
+			break;
 		case 'm':  /* --make-pidfile */
 			mpidfile = true;
 			break;
@@ -1453,6 +1459,9 @@ parse_options(int argc, char * const *argv)
 			badusage("umask value must be a positive number");
 	}
 
+	if (output_io != NULL && output_io[0] != '/')
+		badusage("--output file needs to be an absolute filename");
+
 	if (notify_timeout_str != NULL)
 		if (parse_unsigned(notify_timeout_str, 10, &notify_timeout) != 0)
 			badusage("invalid notify timeout value");
@@ -1489,8 +1498,13 @@ parse_options(int argc, char * const *argv)
 	if (background && action != ACTION_START)
 		badusage("--background is only relevant with --start");
 
+	if (close_io && output_io == NULL)
+		output_io = "/dev/null";
+
 	if (!close_io && !background)
 		badusage("--no-close is only relevant with --background");
+	if (output_io && !background)
+		badusage("--output is only relevant with --background");
 }
 
 static void
@@ -2528,6 +2542,7 @@ static int
 do_start(int argc, char **argv)
 {
 	int devnull_fd = -1;
+	int output_fd = -1;
 	gid_t rgid;
 	uid_t ruid;
 
@@ -2573,9 +2588,14 @@ do_start(int argc, char **argv)
 		/* User wants _us_ to make the pidfile, but detach themself! */
 		write_pidfile(pidfile, getpid());
 	if (background && close_io) {
-		devnull_fd = open("/dev/null", O_RDWR);
+		devnull_fd = open("/dev/null", O_RDONLY);
 		if (devnull_fd < 0)
 			fatale("unable to open '%s'", "/dev/null");
+	}
+	if (background && output_io) {
+		output_fd = open(output_io, O_CREAT | O_WRONLY, 0664);
+		if (output_fd < 0)
+			fatale("unable to open '%s'", output_io);
 	}
 	if (nicelevel) {
 		errno = 0;
@@ -2616,12 +2636,14 @@ do_start(int argc, char **argv)
 				fatale("unable to set uid to %s", changeuser);
 	}
 
+	if (background && output_fd >= 0) {
+		dup2(output_fd, 1); /* stdout */
+		dup2(output_fd, 2); /* stderr */
+	}
 	if (background && close_io) {
 		int i;
 
 		dup2(devnull_fd, 0); /* stdin */
-		dup2(devnull_fd, 1); /* stdout */
-		dup2(devnull_fd, 2); /* stderr */
 
 		 /* Now close all extra fds. */
 		for (i = get_open_fd_max() - 1; i >= 3; --i)
