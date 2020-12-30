@@ -667,7 +667,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
 {
   static struct varbuf conffderefn, symlinkfn;
   const char *usename;
-  struct fsys_namenode *usenode;
+  struct fsys_namenode *namenode, *usenode;
 
   struct conffile *conff;
   struct tarcontext *tc = tar->ctx;
@@ -688,12 +688,13 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
   if (strchr(ti->name, '\n'))
     ohshit(_("newline not allowed in archive object name '%.255s'"), ti->name);
 
+  namenode = fsys_hash_find_node(ti->name, 0);
+
   /* Append to list of files.
    * The trailing ‘/’ put on the end of names in tarfiles has already
    * been stripped by tar_extractor(). */
   oldnifd = tc->newfiles_queue->tail;
-  nifd = tar_fsys_namenode_queue_push(tc->newfiles_queue,
-                                     fsys_hash_find_node(ti->name, 0));
+  nifd = tar_fsys_namenode_queue_push(tc->newfiles_queue, namenode);
   nifd->namenode->flags |= FNNF_NEW_INARCHIVE;
 
   debug(dbg_eachfile,
