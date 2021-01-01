@@ -2564,6 +2564,8 @@ do_start(int argc, char **argv)
 		return 0;
 	debug("Starting %s...\n", startas);
 	*--argv = startas;
+	if (umask_value >= 0)
+		umask(umask_value);
 	if (background)
 		/* Ok, we need to detach this process. */
 		daemonize();
@@ -2584,8 +2586,6 @@ do_start(int argc, char **argv)
 		set_proc_schedule(proc_sched);
 	if (io_sched)
 		set_io_schedule(io_sched);
-	if (umask_value >= 0)
-		umask(umask_value);
 	if (changeroot != NULL) {
 		if (chdir(changeroot) < 0)
 			fatale("unable to chdir() to %s", changeroot);
