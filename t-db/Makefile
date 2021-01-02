@@ -22,42 +22,42 @@ TEST_CASES += test-bogus-multi-update
 
 test-case: $(TEST_CASES)
 
-test-field-blank-lines: DPKG_ADMINDIR = db-field-blank-lines
+test-field-blank-lines: override DPKG_ADMINDIR = db-field-blank-lines
 test-field-blank-lines:
 	$(call stderr_has,$(PKG_TUPLE),warning)
 
-test-field-blank-lines-update: DPKG_ADMINDIR = db-field-blank-lines-update
+test-field-blank-lines-update: override DPKG_ADMINDIR = db-field-blank-lines-update
 test-field-blank-lines-update:
 	$(call stderr_has,$(PKG_TUPLE),warning)
 
-test-dupe-multi: DPKG_ADMINDIR = db-dupe-multi
+test-dupe-multi: override DPKG_ADMINDIR = db-dupe-multi
 test-dupe-multi:
 	$(call stdout_is,$(PKG_TUPLE),pkg-multi:amd64:1.0)
 
-test-cross-single-update: DPKG_ADMINDIR = db-cross-single-update
+test-cross-single-update: override DPKG_ADMINDIR = db-cross-single-update
 test-cross-single-update:
 	$(call stdout_is,$(PKG_TUPLE),pkg-single:armel:3.0)
 
-test-cross-multi-update: DPKG_ADMINDIR = db-cross-multi-update
+test-cross-multi-update: override DPKG_ADMINDIR = db-cross-multi-update
 test-cross-multi-update:
 	$(call stdout_is,$(PKG_TUPLE),pkg-multi:armel:4.0)
 
-test-bogus-dupe-same-single: DPKG_ADMINDIR = db-bogus-dupe-same-single
+test-bogus-dupe-same-single: override DPKG_ADMINDIR = db-bogus-dupe-same-single
 test-bogus-dupe-same-single:
 	$(call stderr_has,$(PKG_TUPLE),error)
 
-test-bogus-dupe-diff-single: DPKG_ADMINDIR = db-bogus-dupe-diff-single
+test-bogus-dupe-diff-single: override DPKG_ADMINDIR = db-bogus-dupe-diff-single
 test-bogus-dupe-diff-single:
 	$(call stderr_has,$(PKG_TUPLE),error)
 
-test-bogus-single: DPKG_ADMINDIR = db-bogus-single
+test-bogus-single: override DPKG_ADMINDIR = db-bogus-single
 test-bogus-single:
 	$(call stderr_has,$(PKG_TUPLE),error)
 
-test-bogus-multi: DPKG_ADMINDIR = db-bogus-multi
+test-bogus-multi: override DPKG_ADMINDIR = db-bogus-multi
 test-bogus-multi:
 	$(call stderr_has,$(PKG_TUPLE),error)
 
-test-bogus-multi-update: DPKG_ADMINDIR = db-bogus-multi-update
+test-bogus-multi-update: override DPKG_ADMINDIR = db-bogus-multi-update
 test-bogus-multi-update:
 	$(call stderr_has,$(PKG_TUPLE),error)

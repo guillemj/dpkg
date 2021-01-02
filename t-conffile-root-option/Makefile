@@ -18,8 +18,8 @@ test-conffile-move-packages-no-rootdir:
 
 TEST_ROOT := $(CURDIR)/target
 
-test-conffile-move-packages-rootdir: DPKG_ADMINDIR = $(TEST_ROOT)/var/lib/dpkg
-test-conffile-move-packages-rootdir: DPKG_INSTDIR = $(TEST_ROOT)
+test-conffile-move-packages-rootdir: override DPKG_ADMINDIR = $(TEST_ROOT)/var/lib/dpkg
+test-conffile-move-packages-rootdir: override DPKG_INSTDIR = $(TEST_ROOT)
 test-conffile-move-packages-rootdir:
 	# Create template root dir.
 	mkdir -p $(DPKG_ADMINDIR)/info
