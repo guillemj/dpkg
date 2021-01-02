@@ -1,13 +1,6 @@
 dpkg functional test-suite
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-WARNING
--------
-
-This program currently runs as root, and will write to your current root
-filesystem. If you are uncertain of the consequences, run it at least on
-a chroot, or isolated in a virtual machine.
-
 How to run
 ----------
 
@@ -27,9 +20,11 @@ The DPKG_TESTSUITE_OPTIONS environment/make variable can be used to change
 the behaviour of the test runs, the following options are currently
 supported:
 
-* not-root
+* as-root
 
-  This runs the tests in unprivileged (non-root) mode.
+  WARNING: This runs the tests in privileged mode, and will write to your
+  current root filesystem. If you are uncertain of the consequences, run
+  it at least on a chroot, or isolated in a virtual machine.
 
 * test-all
 
@@ -43,7 +38,7 @@ The configuration file ‘.pkg-tests.conf’ can be used to set permanent
 parameters. For example:
 
   ,-- .pkg-tests.conf --
-  |DPKG_TESTSUITE_OPTIONS := debug not-root
+  |DPKG_TESTSUITE_OPTIONS := debug
   `--
 
 Test-suite layout
