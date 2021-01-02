@@ -1,10 +1,8 @@
 include ../Test.mk
 
 test-case:
-ifdef DPKG_HAS_STRICT_DEB_ARCHITECTURE_FIELD
 	# test building package with missing Architecture field.
 	! $(DPKG_BUILD_DEB) pkg-no-arch
-endif
 
 	# build bogus packages
 	$(DPKG_BUILD_DEB) --nocheck pkg-no-arch

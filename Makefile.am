@@ -98,6 +98,7 @@ EXTRA_DIST = \
 	debian/tests/test-root \
 	po/its/polkit.its \
 	po/its/polkit.loc \
+	tests \
 	$(test_scripts) \
 	$(test_data) \
 	$(nil)

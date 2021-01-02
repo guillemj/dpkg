@@ -6,11 +6,8 @@ include ../Test.mk
 
 PKG_TUPLE = LC_ALL=C $(DPKG_QUERY) -f '$${Package}:$${Architecture}:$${Version}' -W
 
-# This only works with dpkg >= 1.18.x
-ifdef DPKG_HAS_LAX_DB_BLANK_LINE_PARSER
 TEST_CASES += test-field-blank-lines
 TEST_CASES += test-field-blank-lines-update
-endif
 TEST_CASES += test-dupe-multi
 TEST_CASES += test-cross-single-update
 TEST_CASES += test-cross-multi-update

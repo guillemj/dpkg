@@ -6,10 +6,8 @@ include ../Test.mk
 TEST_CASES += test-trigger-file
 TEST_CASES += test-trigger-explicit
 TEST_CASES += test-trigger-cmd
-ifdef DPKG_HAS_TRIGGERS_AWAIT
 TEST_CASES += test-trigger-await-file
 TEST_CASES += test-trigger-await-cmd
-endif
 TEST_CASES += test-trigger-noawait-file
 TEST_CASES += test-trigger-noawait-explicit
 TEST_CASES += test-trigger-noawait-cmd

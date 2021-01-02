@@ -749,10 +749,8 @@ test-coinstall-diversions: ma-setup
 	$(DPKG_INSTALL) pkg-ma-diverted_1.0_all.deb
 	$(DPKG_INSTALL) pkg-ma-shared-diversion_1.0_$(NATIVE_ARCH).deb
 	$(DPKG_INSTALL) pkg-ma-shared-diversion_1.0_$(FOREIGN_ARCH).deb
-ifdef DPKG_HAS_WORKING_ROOTDIR_DIVERSIONS
 	grep -q "pkg-ma-diverted" "$(DPKG_INSTDIR)$(common_file).distrib"
 	grep -q "pkg-ma-shared-diversion" "$(DPKG_INSTDIR)$(common_file)"
-endif
 	$(DPKG_PURGE) pkg-ma-shared-diversion:$(NATIVE_ARCH)
 	$(call stdout_has,$(DPKG_DIVERT) --list,$(common_file).distrib)
 	$(DPKG_PURGE) pkg-ma-shared-diversion:$(FOREIGN_ARCH)

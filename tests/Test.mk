@@ -45,12 +45,9 @@ DPKG_OPTIONS += \
  # EOL
 BEROOT := env $(DPKG_ENV)
 
-# Only works when the following is enabled due to not running as root.
-ifdef DPKG_HAS_WORKING_ROOTDIR_DIVERSIONS
 DPKG_DIVERT_OPTIONS += \
   --instdir="$(DPKG_INSTDIR)" \
   # EOL
-endif
 endif
 
 DPKG_OPTIONS += \
@@ -63,14 +60,10 @@ ifneq (,$(filter debug,$(DPKG_TESTSUITE_OPTIONS)))
 DPKG_OPTIONS += -D77777
 endif
 
-# Always use a local db (requires at least dpkg 1.16.0)
+# Always use a local db.
 DPKG_ADMINDIR = $(CURDIR)/../dpkgdb
 DPKG_COMMON_OPTIONS = --admindir="$(DPKG_ADMINDIR)"
-ifdef DPKG_BUILD_PKG_HAS_IGNORE_BUILTIN_BUILDDEPS
 DPKG_CHECKBUILDDEPS_OPTIONS = --ignore-builtin-builddeps
-else
-DPKG_CHECKBUILDDEPS_OPTIONS = -d
-endif
 DPKG_BUILD_PKG_OPTIONS = $(DPKG_COMMON_OPTIONS) $(DPKG_CHECKBUILDDEPS_OPTIONS) -us -uc --check-command=
 
 DPKG = dpkg $(DPKG_COMMON_OPTIONS) $(DPKG_OPTIONS)
