@@ -140,7 +140,7 @@ my $fh_gitlog;
 
 spawn(
     exec => [
-        qw(git log --no-merges), "--format=tformat:$log_format", "$tag_prev.."
+        qw(git log --first-parent), "--format=tformat:$log_format", "$tag_prev.."
     ],
     to_pipe => \$fh_gitlog,
 );
