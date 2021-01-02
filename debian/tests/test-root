@@ -7,9 +7,8 @@ if [ "$(id -u)" != '0' ]; then
   exit 1
 fi
 
-t=test-root
+srcdir="$(pwd)"
 
-mkdir -p $t
-cd $t
-../configure --disable-nls --disable-dselect
+cd $AUTOPKGTEST_TMP
+"$srcdir/configure" --disable-nls --disable-dselect
 make installcheck
