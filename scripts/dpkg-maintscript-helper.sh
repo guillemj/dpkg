@@ -559,7 +559,7 @@ symlink_match()
   local SYMLINK_TARGET="$2"
 
   [ "$(readlink "$DPKG_ROOT$SYMLINK")" = "$SYMLINK_TARGET" ] || \
-  [ "$(dpkg-realpath "$DPKG_ROOT$SYMLINK")" = "$SYMLINK_TARGET" ]
+  [ "$(dpkg-realpath "$SYMLINK")" = "$SYMLINK_TARGET" ]
 }
 
 usage() {
