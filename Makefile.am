@@ -94,6 +94,8 @@ EXTRA_DIST = \
 	debian/shlibs.default \
 	debian/shlibs.override \
 	debian/tests/control \
+	debian/tests/test-func \
+	debian/tests/test-func-root \
 	debian/tests/test-not-root \
 	debian/tests/test-root \
 	po/its/polkit.its \
