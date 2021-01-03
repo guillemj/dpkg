@@ -582,9 +582,9 @@ pkg_remove_old_files(struct pkginfo *pkg,
     varbuf_add_str(&fnamevb, usenode->name);
     varbuf_end_str(&fnamevb);
 
-    if (!stat(namenode->name, &stab) && S_ISDIR(stab.st_mode)) {
+    if (!stat(fnamevb.buf, &stab) && S_ISDIR(stab.st_mode)) {
       debug(dbg_eachfiledetail, "process_archive: %s is a directory",
-            namenode->name);
+            fnamevb.buf);
       if (dir_is_used_by_others(namenode, pkg))
         continue;
     }
