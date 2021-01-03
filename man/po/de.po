@@ -1,6 +1,6 @@
 # German translation of the manpages in the dpkg package
 # This file is distributed under the same license as the dpkg package.
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2004, 2006-2020.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2004, 2006-2021.
 # (C) Florian Rehnisch <eixman@gmx.de>, 2007.
 # (C) Sven Joachim <svenjoac@gmx.de>, 2008.
 # (C) Mario Blättermann <mario.blaettermann@gmail.com>, 2019, 2020.
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.20.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-12-24 05:35+0100\n"
-"PO-Revision-Date: 2020-12-24 05:44+0100\n"
+"POT-Creation-Date: 2021-01-03 06:45+0100\n"
+"PO-Revision-Date: 2021-01-03 08:02+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -938,22 +938,23 @@ msgstr ""
 
 #. type: =item
 #: deb-buildinfo.pod
-msgid "B<merged-usr-via-symlinks>"
-msgstr "B<merged-usr-via-symlinks>"
+msgid "B<merged-usr-via-aliased-dirs>"
+msgstr "B<merged-usr-via-aliased-dirs>"
 
 #. type: textblock
 #: deb-buildinfo.pod
 msgid ""
-"The system has a merged I</usr> via symlinks.  This will confuse B<dpkg-"
-"query>, B<dpkg-statoverride>, B<dpkg-trigger>, B<update-alternatives> and "
-"any other tool using pathnames as keys into their databases, as it creates "
-"filesystem aliasing problems, and messes with the understanding of the "
-"filesystem that B<dpkg> has recorded in its database.  For build systems "
-"that hardcode pathnames to specific binaries or libraries on the resulting "
-"artifacts, it can also produce packages that will be incompatible with non-/"
-"usr-merged filesystems."
+"The system has a merged I</usr> via aliased directories (previously known as "
+"B<merged-usr-via-symlinks>).  This will confuse B<dpkg-query>, B<dpkg-"
+"statoverride>, B<dpkg-trigger>, B<update-alternatives> and any other tool "
+"using pathnames as keys into their databases, as it creates filesystem "
+"aliasing problems, and messes with the understanding of the filesystem that "
+"B<dpkg> has recorded in its database.  For build systems that hardcode "
+"pathnames to specific binaries or libraries on the resulting artifacts, it "
+"can also produce packages that will be incompatible with non-/usr-merged "
+"filesystems."
 msgstr ""
-"Das System hat ein mittels Symlinks zusammengeführtes I</usr>. Dies wird "
+"Das System hat ein mittels Alias-Verzeichnisse zusammengeführtes I</usr> (früher B<merged-usr-via-symlinks> benannt). Dies wird "
 "B<dpkg-query>, B<dpkg-statoverride>, B<dpkg-trigger>, B<update-alternatives> "
 "und weitere Werkzeuge, die Pfadnamen als Schlüssel in ihren Datenbanken "
 "verwenden, durcheinanderbringen, da es Dateisystem-Alias-Probleme erzeugt "
@@ -13097,13 +13098,13 @@ msgstr "B<fixfilepath>"
 #. type: textblock
 #: dpkg-buildflags.pod
 msgid ""
-"This setting (disabled by default) adds B<-ffile-prefix-map=>I<BUILDPATH>B<=."
+"This setting (enabled by default) adds B<-ffile-prefix-map=>I<BUILDPATH>B<=."
 "> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, "
 "B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is set to the top-level "
 "directory of the package being built.  This has the effect of removing the "
 "build path from any generated file."
 msgstr ""
-"Diese Einstellung (standardmäßig deaktiviert) fügt B<-ffile-prefix-"
+"Diese Einstellung (standardmäßig aktiviert) fügt B<-ffile-prefix-"
 "map=>I<BUILDPATH>B<=.> zu B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
 "B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu, wobei "
 "B<BUILDPATH> auf das oberste Verzeichnis des bauenden Pakets gesetzt wird. "
@@ -25928,6 +25929,22 @@ msgstr ""
 "gezwungen wird (seit Version 1.16.5). Dies wird zu Fehlersuchzwecken "
 "angewandt oder um Dateideskriptoren zur Protokollierung der Prozessausgabe "
 "umzuleiten. Nur relevant bei der Verwendung von B<--background>."
+
+#. type: =item
+#: start-stop-daemon.pod
+msgid "B<-O>, B<--output> I<pathname>"
+msgstr "B<-O>, B<--output> I<Pfadname>"
+
+#. type: textblock
+#: start-stop-daemon.pod
+msgid ""
+"Redirect B<stdout> and B<stderr> to I<pathname> when forcing the daemon into "
+"the background (since version 1.20.6).  Only relevant when using B<--"
+"background>."
+msgstr ""
+"Leitet B<stdout> und B<stderr> auf I<Pfadname> um, wenn der Daemon in den "
+"Hintergrund gezwungen wird (seit Version 1.20.6). Nur relevant bei Einsatz "
+"von B<--background>."
 
 #. type: =item
 #: start-stop-daemon.pod
