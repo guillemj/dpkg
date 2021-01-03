@@ -12,10 +12,10 @@ test-case:
 	$(DPKG_PURGE) pkg-file
 	$(DPKG_PURGE) pkg-dir-real
 	
-	test ! -L /test-symlink
+	test ! -L '$(DPKG_INSTDIR)/test-symlink'
 
 test-clean:
 	$(DPKG_PURGE) pkg-dir-symlink
 	$(DPKG_PURGE) pkg-file
 	$(DPKG_PURGE) pkg-dir-real
-	$(BEROOT) $(RM) -f /test-symlink
+	$(BEROOT) $(RM) -f '$(DPKG_INSTDIR)/test-symlink'

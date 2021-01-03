@@ -23,12 +23,12 @@ test-case:
 	# test Small File Support packages
 	$(DPKG_INSTALL) pkg-sfs.deb
 	$(call pkg_is_installed,pkg-sfs)
-	test "`stat -c%s /small-file`" = "4096"
+	test "`stat -c%s '$(DPKG_INSTDIR)/small-file'`" = "4096"
 	
 	# test Large File Support packages
 	$(DPKG_INSTALL) pkg-lfs.deb
 	$(call pkg_is_installed,pkg-lfs)
-	test "`stat -c%s /large-file`" = "5368709120"
+	test "`stat -c%s '$(DPKG_INSTDIR)/large-file'`" = "5368709120"
 
 test-clean:
 	$(DPKG_PURGE) pkg-sfs
