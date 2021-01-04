@@ -8,7 +8,7 @@ build-hook:
 
 clean-hook:
 	$(RM) pkg-dir-symlink-0/test-path/test-symlink
-	rmdir pkg-dir-symlink-0/test-path
+	-rmdir pkg-dir-symlink-0/test-path
 
 test-case:
 	$(DPKG_INSTALL) pkg-dir-real.deb
