@@ -10,12 +10,16 @@ build-hook:
 	ln -sf ../test-dir pkg-dir-conffile-1/test-path/test-subpath
 	mkdir -p pkg-dir-symlink-ext-1/test-path
 	ln -sf ../test-dir pkg-dir-symlink-ext-1/test-path/test-subpath
+	mkdir -p pkg-dir-symlink-int-1/test-path
+	ln -sf ../test-dir pkg-dir-symlink-int-1/test-path/test-subpath
 
 clean-hook:
 	$(RM) pkg-dir-conffile-1/test-path/test-subpath
 	-rmdir pkg-dir-conffile-1/test-path
 	$(RM) pkg-dir-symlink-ext-1/test-path/test-subpath
 	-rmdir pkg-dir-symlink-ext-1/test-path
+	$(RM) pkg-dir-symlink-int-1/test-path/test-subpath
+	-rmdir pkg-dir-symlink-int-1/test-path
 
 test-case:
 	# Cannot switch a directory containing conffiles
