@@ -46,6 +46,8 @@ static char *fsys_dir_alloc;
 const char *
 dpkg_fsys_set_dir(const char *dir)
 {
+	char *fsys_dir_new;
+
 	if (dir == NULL) {
 		const char *env;
 
@@ -54,15 +56,16 @@ dpkg_fsys_set_dir(const char *dir)
 			dir = env;
 	}
 
-	free(fsys_dir_alloc);
-
 	if (dir == NULL) {
 		fsys_dir = "";
-		fsys_dir_alloc = NULL;
+		fsys_dir_new = NULL;
 	} else {
-		fsys_dir = fsys_dir_alloc = m_strdup(dir);
-		path_trim_slash_slashdot(fsys_dir_alloc);
+		fsys_dir = fsys_dir_new = m_strdup(dir);
+		path_trim_slash_slashdot(fsys_dir_new);
 	}
+
+	free(fsys_dir_alloc);
+	fsys_dir_alloc = fsys_dir_new;
 
 	return fsys_dir;
 }
