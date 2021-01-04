@@ -1498,13 +1498,13 @@ parse_options(int argc, char * const *argv)
 	if (background && action != ACTION_START)
 		badusage("--background is only relevant with --start");
 
-	if (close_io && output_io == NULL)
-		output_io = "/dev/null";
-
 	if (!close_io && !background)
 		badusage("--no-close is only relevant with --background");
 	if (output_io && !background)
 		badusage("--output is only relevant with --background");
+
+	if (close_io && output_io == NULL)
+		output_io = "/dev/null";
 }
 
 static void
