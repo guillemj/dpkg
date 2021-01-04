@@ -2,6 +2,14 @@ TESTS_DEB := pkg-dir-real pkg-dir-symlink-0 pkg-dir-symlink-1 pkg-file
 
 include ../Test.mk
 
+build-hook:
+	ln -fs test-dir pkg-dir-symlink-0/test-symlink
+	ln -fs test-dir pkg-dir-symlink-1/test-symlink
+
+clean-hook:
+	$(RM) pkg-dir-symlink-0/test-symlink
+	$(RM) pkg-dir-symlink-1/test-symlink
+
 test-case:
 	$(DPKG_INSTALL) pkg-dir-real.deb
 	$(DPKG_INSTALL) pkg-dir-symlink-0.deb
@@ -18,4 +26,4 @@ test-clean:
 	$(DPKG_PURGE) pkg-dir-symlink
 	$(DPKG_PURGE) pkg-file
 	$(DPKG_PURGE) pkg-dir-real
-	$(BEROOT) $(RM) -f '$(DPKG_INSTDIR)/test-symlink'
+	$(BEROOT) $(RM) '$(DPKG_INSTDIR)/test-symlink'

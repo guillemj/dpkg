@@ -2,6 +2,14 @@ TESTS_DEB := pkg-dir-real pkg-dir-symlink-0 pkg-dir-symlink-1
 
 include ../Test.mk
 
+build-hook:
+	mkdir -p pkg-dir-symlink-0/test-path
+	ln -sf ../test-dir pkg-dir-symlink-0/test-path/test-symlink
+
+clean-hook:
+	$(RM) pkg-dir-symlink-0/test-path/test-symlink
+	rmdir pkg-dir-symlink-0/test-path
+
 test-case:
 	$(DPKG_INSTALL) pkg-dir-real.deb
 
