@@ -666,11 +666,11 @@ pkg-ma-triggers_1.0_$(NATIVE_ARCH) pkg-ma-triggers_1.0_$(FOREIGN_ARCH):: pkg-tem
 	echo '[ "$$1" = "triggered" ] || exit 0' >>$@/DEBIAN/postinst
 	echo 'case " $$2 " in' >>$@/DEBIAN/postinst
 	echo '*" /m-a/trigger-watch "*) ' >>$@/DEBIAN/postinst
-	echo '   echo "FILE $$DPKG_MAINTSCRIPT_ARCH" >>"$${DPKG_ROOT}/m-a/triggers" ;;' >>$@/DEBIAN/postinst
+	echo '   echo "FILE $$DPKG_MAINTSCRIPT_ARCH" >>"$$DPKG_ROOT/m-a/triggers" ;;' >>$@/DEBIAN/postinst
 	echo 'esac' >>$@/DEBIAN/postinst
 	echo 'case " $$2 " in' >>$@/DEBIAN/postinst
 	echo '*" test-m-a-same "*)' >>$@/DEBIAN/postinst
-	echo '   echo "MANUAL $$DPKG_MAINTSCRIPT_ARCH" >>"$${DPKG_ROOT}/m-a/triggers" ;;' >>$@/DEBIAN/postinst
+	echo '   echo "MANUAL $$DPKG_MAINTSCRIPT_ARCH" >>"$$DPKG_ROOT/m-a/triggers" ;;' >>$@/DEBIAN/postinst
 	echo 'esac' >>$@/DEBIAN/postinst
 	chmod 755 $@/DEBIAN/postinst
 	echo 'interest /m-a/trigger-watch' >$@/DEBIAN/triggers
