@@ -39,16 +39,14 @@ vpath-tests:
     - ../configure
     - make check TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
 
-# Test whether the external functional tests pass.
+# Test whether the functional tests pass.
 func-tests:
   stage: test
   script:
     - ./configure
     - make
-    - git clone https://git.dpkg.org/git/dpkg/dpkg-tests.git
-    - cd dpkg-tests
-    - echo "DPKG_SERIES = 1.20.x" >>.pkg-tests.conf
-    - echo "DPKG_TESTSUITE_OPTIONS = debug not-root" >>.pkg-tests.conf
+    - cd tests
+    - echo "DPKG_TESTSUITE_OPTIONS = debug" >>.pkg-tests.conf
     - echo "DPKG_BUILDTREE = $(realpath ..)" >>.pkg-tests.conf
     - ./db-regen
     - eatmydata make test
