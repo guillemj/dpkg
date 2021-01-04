@@ -169,7 +169,7 @@ fi
 
 [ -n "$pathname" ] || badusage "missing pathname"
 if [ "${pathname#"$DPKG_ROOT"}" != "$pathname" ]; then
-  error "link includes root prefix"
+  error "link '$pathname' includes root prefix '$DPKG_ROOT'"
 fi
 
 canonicalize "$pathname"
