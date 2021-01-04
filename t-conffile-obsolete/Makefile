@@ -21,7 +21,7 @@ test-case:
 	$(DPKG_PURGE) pkg-conff-obsolete
 	# Modified conffile is moved away in .dpkg-bak for the user
 	$(DPKG_INSTALL) pkg-conff-obsolete-0.deb
-	$(BEROOT) sh -c "echo foo >>$(DPKG_INSTDIR)/test-conffile"
+	$(BEROOT) sh -c "echo foo >>'$(DPKG_INSTDIR)/test-conffile'"
 	$(DPKG_INSTALL) pkg-conff-obsolete-2.deb
 	test ! -f '$(DPKG_INSTDIR)/test-conffile'
 	test -f '$(DPKG_INSTDIR)/test-conffile.dpkg-bak'
