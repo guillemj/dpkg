@@ -437,6 +437,10 @@ treewalk_next(struct treeroot *tree)
 {
 	struct treenode *node;
 
+	/* Handle rootless trees, such as uninitialized or fully traversed. */
+	if (tree->rootnode == NULL)
+		return NULL;
+
 	node = tree->curnode;
 
 	/* Handle end of tree. */
