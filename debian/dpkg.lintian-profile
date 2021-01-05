@@ -4,4 +4,4 @@ Profile: dpkg/main
 Extends: debian/main
 # Except the ones that are bogus for the non-Debian distributions.
 Disable-Tags:
- package-uses-vendor-specific-patch-series,
+ package-uses-vendor-specific-patch-series
