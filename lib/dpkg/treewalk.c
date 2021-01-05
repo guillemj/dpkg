@@ -495,6 +495,7 @@ treewalk_next(struct treeroot *tree)
 
 		if (tree->curdir == NULL) {
 			treenode_free_node(tree->rootnode);
+			tree->rootnode = NULL;
 			break;
 		}
 	}
