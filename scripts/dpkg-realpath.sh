@@ -22,7 +22,8 @@ PROGNAME=$(basename "$0")
 version="unknown"
 EOL="\n"
 
-PKGDATADIR="${DPKG_DATADIR:-scripts}"
+PKGDATADIR_DEFAULT=scripts
+PKGDATADIR="${DPKG_DATADIR:-$PKGDATADIR_DEFAULT}"
 
 . "$PKGDATADIR/sh/dpkg-error.sh"
 
