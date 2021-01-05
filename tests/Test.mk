@@ -18,7 +18,7 @@ endif
 
 DPKG_PATH := $(PATH):/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ifdef DPKG_BUILDTREE
-DPKG_PATH := $(DPKG_BUILDTREE)/dpkg-deb:$(DPKG_BUILDTREE)/dpkg-split:$(DPKG_BUILDTREE)/src:$(DPKG_BUILDTREE)/utils:$(DPKG_PATH)
+DPKG_PATH := $(DPKG_BUILDTREE)/dpkg-deb:$(DPKG_BUILDTREE)/dpkg-split:$(DPKG_BUILDTREE)/src:$(DPKG_BUILDTREE)/utils:$(DPKG_BUILDTREE)/scripts:$(DPKG_PATH)
 endif
 
 DPKG_ENV = \
