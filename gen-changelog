@@ -103,6 +103,22 @@ my %sections = (
     },
 );
 
+my @metafields = qw(
+    Thanks-to
+    Co-Author
+    Based-on-patch-by
+    Improved-by
+    Prompted-by
+    Reported-by
+    Required-by
+    Analysis-by
+    Requested-by
+    Suggested-by
+    Spotted-by
+    Naming-by
+    Ref
+);
+
 my %metafield = (
     'Co-Author' => 'Co-authored by',
     'Based-on-patch-by' => 'Based on a patch by',
@@ -243,7 +259,7 @@ foreach my $groupname (@groups, sort @groups_l10n) {
             if ($grouptype ne 'l10n' and $commit->{Author} ne $commit->{Committer}) {
                 $commit->{'Thanks-to'} = "$commit->{Author} <$commit->{AuthorEmail}>";
             }
-            foreach my $metafield (keys %metafield) {
+            foreach my $metafield (@metafields) {
                 next unless exists $commit->{$metafield};
 
                 $title .= "\n$metafield{$metafield} $commit->{$metafield}.";
