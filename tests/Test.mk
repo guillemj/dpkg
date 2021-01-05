@@ -63,8 +63,6 @@ endif
 # Always use a local db.
 DPKG_ADMINDIR = $(CURDIR)/../dpkgdb
 DPKG_COMMON_OPTIONS = --admindir="$(DPKG_ADMINDIR)"
-DPKG_CHECKBUILDDEPS_OPTIONS = --ignore-builtin-builddeps
-DPKG_BUILD_PKG_OPTIONS = $(DPKG_COMMON_OPTIONS) $(DPKG_CHECKBUILDDEPS_OPTIONS) -us -uc --check-command=
 
 DPKG = dpkg $(DPKG_COMMON_OPTIONS) $(DPKG_OPTIONS)
 DPKG_INSTALL = $(BEROOT) $(DPKG) -i
@@ -79,15 +77,12 @@ DPKG_DIVERT_ADD = $(BEROOT) $(DPKG_DIVERT) --add
 DPKG_DIVERT_DEL = $(BEROOT) $(DPKG_DIVERT) --remove
 DPKG_SPLIT = dpkg-split $(DPKG_SPLIT_OPTIONS)
 DPKG_BUILD_DEB = $(DPKG_DEB) -b
-DPKG_BUILD_DSC = dpkg-source -b
-DPKG_BUILD_PKG = dpkg-buildpackage $(DPKG_BUILD_PKG_OPTIONS)
 DPKG_QUERY = dpkg-query $(DPKG_COMMON_OPTIONS) $(DPKG_QUERY_OPTIONS)
 DPKG_TRIGGER = dpkg-trigger $(DPKG_COMMON_OPTIONS) $(DPKG_TRIGGER_OPTIONS)
 
 PKG_STATUS = $(DPKG_QUERY) -f '$${Status}' -W
 
 DEB = $(addsuffix .deb,$(TESTS_DEB))
-DSC = $(addsuffix .dsc,$(TESTS_DSC))
 
 # Common test patterns to use with $(call foo,args...)
 stdout_is = test "`$(1)`" = "$(2)"
@@ -102,17 +97,14 @@ pkg_field_is = $(call stdout_is,$(DPKG_QUERY) -f '$${$(2)}' -W $(1),$(3))
 %.deb: %
 	$(DPKG_BUILD_DEB) $< $@
 
-%.dsc: %
-	$(DPKG_BUILD_DSC) $<
-
 TEST_CASES :=
 
-build: build-hook $(DEB) $(DSC)
+build: build-hook $(DEB)
 
 test: build test-case test-clean
 
 clean: clean-hook
-	$(RM) $(DEB) $(DSC) *.diff.xz *.diff.gz *.tar.xz *.tar.gz
+	$(RM) $(DEB)
 
 .PHONY: build-hook build test test-case test-clean clean-hook clean
 
