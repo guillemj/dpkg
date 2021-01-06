@@ -134,7 +134,9 @@ void m_dup2(int oldfd, int newfd) {
   ohshite(_("failed to dup for fd %d"),newfd);
 }
 
-void m_pipe(int *fds) {
+void
+m_pipe(int fds[2])
+{
   if (!pipe(fds)) return;
   onerr_abort++;
   ohshite(_("failed to create pipe"));
