@@ -77,6 +77,8 @@ enum fsys_namenode_flags {
 	FNNF_DEFERRED_RENAME		= DPKG_BIT(8),
 	/** Path being filtered. */
 	FNNF_FILTERED			= DPKG_BIT(9),
+	/** Conffile removal requested by upgrade. */
+	FNNF_RM_CONFF_ON_UPGRADE	= DPKG_BIT(10),
 };
 
 /**

@@ -272,6 +272,7 @@ check_conffiles(const char *ctrldir, const char *rootdir)
     struct stat controlstab;
     char *conffilename = conffilenamebuf;
     int n;
+    bool remove_on_upgrade = false;
 
     n = strlen(conffilename);
     if (!n)
@@ -283,8 +284,41 @@ check_conffiles(const char *ctrldir, const char *rootdir)
 
     conffilename[n - 1] = '\0';
 
-    if (conffilename[0] != '/')
-      ohshit(_("conffile name '%s' is not an absolute pathname"), conffilename);
+    if (c_isspace(conffilename[0])) {
+      /* The conffiles lines cannot start with whitespace; by handling this
+       * case now, we simplify the remaining code. Move past the whitespace
+       * to give a better error. */
+      while (c_isspace(conffilename[0]))
+        conffilename++;
+      if (conffilename[0] == '\0')
+          ohshit(_("empty and whitespace-only lines are not allowed in "
+                   "conffiles"));
+      ohshit(_("line with conffile filename '%s' has leading white spaces"),
+             conffilename);
+    }
+
+    if (conffilename[0] != '/') {
+      char *flag = conffilename;
+      char *flag_end = strchr(flag, ' ');
+
+      if (flag_end)
+        conffilename = flag_end + 1;
+
+      /* If no flag separator is found, assume a missing leading slash. */
+      if (flag_end == NULL || (conffilename[0] && conffilename[0] != '/'))
+        ohshit(_("conffile name '%s' is not an absolute pathname"), conffilename);
+
+      flag_end[0] = '\0';
+
+      /* Otherwise assume a missing filename after the flag separator. */
+      if (conffilename[0] == '\0')
+        ohshit(_("conffile name missing after flag '%s'"), flag);
+
+      if (strcmp(flag, "remove-on-upgrade") == 0)
+        remove_on_upgrade = true;
+      else
+        ohshit(_("unknown flag '%s' for conffile '%s'"), flag, conffilename);
+    }
 
     varbuf_reset(&controlfile);
     varbuf_printf(&controlfile, "%s%s", rootdir, conffilename);
@@ -293,9 +327,13 @@ check_conffiles(const char *ctrldir, const char *rootdir)
         if ((n > 1) && c_isspace(conffilename[n - 2]))
           warning(_("conffile filename '%s' contains trailing white spaces"),
                   conffilename);
-        ohshit(_("conffile '%.250s' does not appear in package"), conffilename);
+        if (!remove_on_upgrade)
+          ohshit(_("conffile '%.250s' does not appear in package"), conffilename);
       } else
         ohshite(_("conffile '%.250s' is not stattable"), conffilename);
+    } else if (remove_on_upgrade) {
+        ohshit(_("conffile '%s' is present but is requested to be removed"),
+               conffilename);
     } else if (!S_ISREG(controlstab.st_mode)) {
       warning(_("conffile '%s' is not a plain file"), conffilename);
     }

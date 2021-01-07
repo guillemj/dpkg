@@ -90,6 +90,7 @@ TESTS_PASS += t-conffile-replaces-disappear
 TESTS_PASS += t-conffile-replaces-diverted
 TESTS_PASS += t-conffile-versioned-replaces-downgrade
 TESTS_PASS += t-conffile-rename
+TESTS_PASS += t-conffile-declarative-removal
 TESTS_PASS += t-queue-process-deconf-dupe
 TESTS_PASS += t-symlink-dir
 TESTS_PASS += t-switch-symlink-abs-to-dir

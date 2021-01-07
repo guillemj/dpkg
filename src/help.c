@@ -228,7 +228,7 @@ dir_has_conffiles(struct fsys_namenode *file, struct pkginfo *pkg)
         pkg_name(pkg, pnaw_always));
   namelen = strlen(file->name);
   for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
-      if (conff->obsolete)
+      if (conff->obsolete || conff->remove_on_upgrade)
         continue;
       if (strncmp(file->name, conff->name, namelen) == 0 &&
           strlen(conff->name) > namelen && conff->name[namelen] == '/') {

@@ -82,6 +82,7 @@ struct conffile {
   const char *name;
   const char *hash;
   bool obsolete;
+  bool remove_on_upgrade;
 };
 
 struct archivedetails {

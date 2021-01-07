@@ -356,7 +356,7 @@ deferred_configure_ghost_conffile(struct pkginfo *pkg, struct conffile *conff)
 
 		for (otherconff = otherpkg->installed.conffiles; otherconff;
 		     otherconff = otherconff->next) {
-			if (otherconff->obsolete)
+			if (otherconff->obsolete || otherconff->remove_on_upgrade)
 				continue;
 
 			/* Check if we need to propagate the new hash from
@@ -400,6 +400,42 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	varbuf_grow(&cdr2, 50);
 	cdr2rest = cdr2.buf + strlen(cdr.buf);
 	/* From now on we can just strcpy(cdr2rest, extension); */
+
+	if (conff->remove_on_upgrade) {
+		/* Remove DPKGDISTEXT variant if still present. */
+		strcpy(cdr2rest, DPKGDISTEXT);
+		if (unlink(cdr2.buf) < 0 && errno != ENOENT)
+			warning(_("%s: failed to remove '%.250s': %s"),
+			        pkg_name(pkg, pnaw_nonambig), cdr2.buf,
+			        strerror(errno));
+
+		/* Has it been already removed (e.g. by local admin)? */
+		if (strcmp(currenthash, NONEXISTENTFLAG) == 0)
+			return;
+
+		/* For unmodified conffiles, we just remove them. */
+		if (strcmp(currenthash, conff->hash) == 0) {
+			printf(_("Removing obsolete conffile %s ...\n"),
+			       cdr.buf);
+			if (unlink(cdr.buf) < 0 && errno != ENOENT)
+				warning(_("%s: failed to remove '%.250s': %s"),
+				        pkg_name(pkg, pnaw_nonambig), cdr.buf,
+				        strerror(errno));
+			return;
+		}
+
+		/* Otherwise, preserve the modified conffile. */
+		strcpy(cdr2rest, DPKGOLDEXT);
+		printf(_("Obsolete conffile '%s' has been modified by you.\n"),
+		       cdr.buf);
+		printf(_("Saving as %s ...\n"), cdr2.buf);
+		if (rename(cdr.buf, cdr2.buf) < 0)
+			warning(_("%s: cannot rename obsolete conffile '%s' "
+			          "to '%s': %s"),
+			        pkg_name(pkg, pnaw_nonambig),
+			        cdr.buf, cdr2.buf, strerror(errno));
+		return;
+	}
 
 	strcpy(cdr2rest, DPKGNEWEXT);
 	/* If the .dpkg-new file is no longer there, ignore this one. */

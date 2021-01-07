@@ -235,7 +235,7 @@ md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
                              &otherpkg->configversion) != 0)
       continue;
     for (conff = otherpkg->installed.conffiles; conff; conff = conff->next) {
-      if (conff->obsolete)
+      if (conff->obsolete || conff->remove_on_upgrade)
         continue;
       if (strcmp(conff->name, namenode->name) == 0)
         break;
@@ -689,6 +689,10 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
     ohshit(_("newline not allowed in archive object name '%.255s'"), ti->name);
 
   namenode = fsys_hash_find_node(ti->name, 0);
+
+  if (namenode->flags & FNNF_RM_CONFF_ON_UPGRADE)
+    ohshit(_("conffile '%s' marked for removal on upgrade, shipped in package"),
+           ti->name);
 
   /* Append to list of files.
    * The trailing ‘/’ put on the end of names in tarfiles has already
