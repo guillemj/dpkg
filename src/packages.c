@@ -633,7 +633,6 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
   struct deppossi *possi, *provider;
   struct pkginfo *possfixbytrig, *canfixbytrig;
 
-  interestingwarnings= 0;
   ok = DEP_CHECK_OK;
   debug(dbg_depcon,"checking dependencies of %s (- %s)",
         pkg_name(pkg, pnaw_always),
@@ -645,6 +644,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     if (dep->type != dep_depends && dep->type != dep_predepends) continue;
     debug(dbg_depcondetail,"  checking group ...");
     matched = false;
+    interestingwarnings = 0;
     varbuf_reset(&oemsgs);
     found = FOUND_NONE;
     possfixbytrig = NULL;
