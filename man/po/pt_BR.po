@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-01-08 04:27+0100\n"
+"POT-Creation-Date: 2021-01-09 00:59+0100\n"
 "PO-Revision-Date: 2019-02-24 18:25+0100\n"
 "Last-Translator: Andre Luis Lopes  <andrelop@debian.org>\n"
 "Language-Team: Portuguese <debian-l10n-portuguese@lists.debian.org>\n"
@@ -10520,7 +10520,7 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
-msgid "Check for dpkg database consistency and otherwise abort,"
+msgid "Check for dpkg database consistency and otherwise abort."
 msgstr ""
 
 #. type: textblock
@@ -13712,7 +13712,7 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-realpath.pod
-msgid "dpkg-realpath - print the resolved pathname"
+msgid "dpkg-realpath - print the resolved pathname with DPKG_ROOT support"
 msgstr ""
 
 #. type: textblock
@@ -13724,7 +13724,22 @@ msgstr "B<dpkg> [I<opções>] I<ação>"
 
 #. type: textblock
 #: dpkg-realpath.pod
-msgid "B<dpkg-realpath> is a tool to resolve a pathname."
+msgid ""
+"B<dpkg-realpath> is a tool (since dpkg 1.20.1) to resolve a pathname, that "
+"takes the L<dpkg(1)> root directory into account, either implicitly from the "
+"B<DPKG_ROOT> environment variable or from the command-line B<--root> or B<--"
+"instdir> options, and returns an absolute I<pathname> relative to the root "
+"directory.  The root directory must not be prefixed to the I<pathname> to be "
+"resolved."
+msgstr ""
+
+#. type: textblock
+#: dpkg-realpath.pod
+msgid ""
+"This is intended to be used by other B<dpkg> helpers, or by maintainer "
+"scripts instead of using L<realpath(1)> or L<readlink(1)> to canonicalize "
+"pathnames, as these latter commands do not support canonicalization relative "
+"to a different root than F</>."
 msgstr ""
 
 #. type: =item
@@ -13743,15 +13758,8 @@ msgstr ""
 #. type: textblock
 #: dpkg-realpath.pod
 msgid ""
-"Set the installation directory, which refers to the directory where packages "
-"get installed. Defaults to «I</>»."
-msgstr ""
-
-#. type: textblock
-#: dpkg-realpath.pod
-msgid ""
-"Set the root directory to B<directory>, which sets the installation "
-"directory to «I<directory>»."
+"Set the root directory to I<directory>, which is the base directory that "
+"pathnames get canonicalized against.  Defaults to «B</>»."
 msgstr ""
 
 #. type: textblock
@@ -13770,7 +13778,7 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-realpath.pod
-msgid "L<realpath(1)>."
+msgid "L<realpath(1)>, L<readlink(1)>."
 msgstr ""
 
 #. type: textblock
