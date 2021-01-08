@@ -204,9 +204,12 @@ modstatdb_is_locked(void)
 
   if (dblockfd == -1) {
     lockfd = open(lockfile, O_RDONLY);
-    if (lockfd == -1)
+    if (lockfd == -1) {
+      if (errno == ENOENT)
+        return false;
       ohshite(_("unable to check lock file for dpkg database directory %s"),
               dpkg_db_get_dir());
+    }
   } else {
     lockfd = dblockfd;
   }
