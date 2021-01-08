@@ -1,8 +1,194 @@
-dpkg (1.20.6) UNRELEASED; urgency=medium
+dpkg (1.20.6) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * libdpkg: Fix undefined behavior in varbuf functions.
+    Reported by KOLANICH <kolan_n@mail.ru>.
+  * libdpkg: Fix memory leaks in tar_extractor().
+  * libdpkg: Fix memory leak in trigger deferred processing.
+    Reported by KOLANICH <kolan_n@mail.ru>.
+  * libdpkg: Fix memory leak in filesystem treewalk node free function.
+  * libdpkg: Fix memory leak in filesystem treewalk iterator.
+  * libdpkg: Fix single-instance memory leak with fsys dir.
+  * libdpkg: Fix short-lived memory leaks.
+  * libdpkg: Reset error context errmsg after free().
+  * dpkg: Fix memory leak for cidir.
+    Reported by KOLANICH <kolan_n@mail.ru>.
+  * dpkg: Fix short-lived memory leak in --force-help output.
+    Based on a patch by KOLANICH <kolan_n@mail.ru>.
+  * dpkg-deb: Fix single-instance memory leak on missing conffiles control
+    file.
+  * dpkg-divert: Fix short-lived memory leaks.
+  * dpkg-realpath: Add new -z, --zero option.
+    Requested by Johannes Schauer <josch@debian.org>.
+  * dpkg-deb: Make decompression error message more descriptive.
+    Closes: #968442
+  * dpkg-architecture: Add a --print-format option.
+    Prompted by #968963.
+  * dpkg-buildpackage: Warn on known R³ values in uppercase.
+    Reported by Niels Thykier <niels@thykier.net>.
+  * dpkg-buildpackage: Error out on R³ "yes" value.
+    Requested by Niels Thykier <niels@thykier.net>.
+  * dpkg-buildpackage: Clarify R³ keyword diagnostic messages.
+  * dpkg-deb, dpkg-split: Fix time handling to support 64-bit time.
+  * libdpkg: Check that the ar archive time is within bounds.
+  * libdpkg: Ignore not-installed packages for source related virtual fields.
+    Closes: #972580
+  * libdpkg: Make source version parsing more robust on missing data.
+    See #972580.
+  * libdpkg: Do not forget not-installed packages that are set on hold.
+    Reported by David Kalnischkies <donkult@debian.org>.
+  * update-alternatives: Fix memory leaks for alternative database context on
+    load errors.
+  * update-alternatives: Fix short-lived memory leaks for alternative structs.
+  * update-alternatives: Fix memory leaks with new_choice.
+  * update-alternatives: Fix short-lived memory leaks for log_file and admdir.
+  * dpkg-buildflags: Add support for DFLAGS. Closes: #975896
+  * dpkg-parsechanaglog: Document --file in --help output.
+  * libdpkg: Fix allocation size wrap around when growing a varbuf.
+  * dpkg-query: Do not print database loading progress. Closes: #977240
+  * Rename taint tag to merged-usr-via-aliased-dirs.
+  * dpkg-buildflags: Enable reproducible=fixfilepath by default.
+    Thanks to Vagrant Cascadian <vagrant@reproducible-builds.org>.
+    See https://lists.debian.org/debian-devel/2020/10/msg00222.html.
+    Closes: #974087
+  * start-stop-daemon: Move umask setup before any file has been created.
+  * start-stop-daemon: Add a new --output option to redirect stderr and stdout.
+  * dpkg-maintscript-helper: Do not pass DPKG_ROOT prefixed pathmames to
+    dpkg-realpath.
+  * dpkg: When removing old files check the pathname with diversion and
+    instdir.
+  * dpkg-realpath: Make 'link includes root prefix' error more verbose.
+  * libdpkg: Make sure we do not walk on rootless trees.
+  * dpkg: Fix incorrect logic around printing dependency warnings.
+    Thanks to Jessica Clarke <jrtc27@debian.org>.
+    Reported by Helmut Grohne <helmut@subdivi.de>.
+  * Support remove-on-upgrade conffile flag via DEBIAN/conffiles.
+    Based on a patch by Niels Thykier <niels@thykier.net>. Closes: #822462
+  * dpkg-fsys-usrunmess: New program.
+  * Perl modules:
+    - Dpkg::Index: Add new item_opts option.
+    - Dpkg::Exit: Fix exit handler on program termination. Closes: #966083
+    - Dpkg::Changelog::Entry::Debian: Fix format string.
+      Prompted by #967911.
+    - Dpkg::Changelog::Parse: Add new verbose option.
+      Prompted by #967911.
+    - Dpkg::Changelog::Parse: Document 'label' option.
+    - Dpkg::Source::Package::V1: Print a message when verifying tarball
+      signatures.
+    - Dpkg::Path: Fix pathname traversal check for symlinks. Closes: #971203
+    - Dpkg::Source::Package: Honor no_check for directory traversal checks.
+      See #971203.
+    - Dpkg::Source::Package: Call syserr() instead of syserror().
+      Reported by Drew Parsons <dparsons@debian.org>.
+      See #849752. Closes: #976249
+    - Dpkg::Path: Check first whether the files are the same by comparing
+      string-wise. Closes: #849752
+    - Dpkg::OpenPGP: Refactor gpg armor code into its own function.
+  * Documentation:
+    - man: Fix typo in --print-unset option reference.
+      Reported by Ferenc Wágner <wferi@debian.org>. Closes: #966110
+    - man: Clarify that dpkg-architecture uses some of its own variables.
+      Closes: #966111
+    - man: Fix casing and namespacing in VARIABLES definitions.
+    - man: Fix typo in dpkg-source(1).
+      Thanks to Paul Wise <pabs@debian.org>.
+    - man: Add a reference to deb-symbols(5) in deb-src-symbols(5) DESCRIPTION.
+      Prompted by #970083.
+    - man: Specify that symbol, version and id are separated by a single
+      whitespace. Closes: #970083
+    - man: Clarify day-of-month format in deb-changelog(5).
+      Reported by Axel Beckert <abe@debian.org>.
+      See #971977.
+    - man: Update update-alternatives maintainer script usage information.
+      Prompted by Niels Thykier <niels@thykier.net>.
+    - man: Switch to use L<> markup for URLs instead of B<>.
+    - doc, man: Clarify that R³ values are case sensitive.
+      Prompted by Niels Thykier <niels@thykier.net>.
+    - man: Add references to deb822(5) to file formats based on it.
+      Prompted by Niels Thykier <niels@thykier.net>.
+    - man: Clarify config-files state in dpkg(1).
+      Prompted by Stuart Prescott <stuart@debian.org>.
+    - man: Fix typos.
+    - man: Hyphenate multiple words in deb-override(5) format description.
+    - man: Uppercase acronyms and logic operators.
+    - man: Empty or whitespace-only lines in deb-conffiles(5) are not accepted.
+  * Code internals:
+    - libcompat, dpkg: Stop using deprecated security_context_t data type.
+    - update-alternatives: Refactor alternative database context freeing into a
+      new function.
+    - libdpkg: Do not define the clamp macro when compiling C++ code.
+      Reported by Helmut Grohne <helmut@subdivi.de>.
+    - libdpkg: Replace FSF address by pointing to the gnu.org URL.
+    - libdpkg: Initialize pkgbin's newhash to NULL.
+      Prompted by Steinar H. Gunderson <sesse@debian.org>.
+    - libdpkg: Use memset() instead of open-coding struct blanking.
+      Prompted by Steinar H. Gunderson <sesse@debian.org>.
+    - Do not call fsys_hash_init() before command actions.
+      Prompted by Steinar H. Gunderson <sesse@debian.org>.
+    - libdpkg: Fix m_pipe() function definition prototype to match declaration.
+    - libdpkg: Refactor new str_rtrim_spaces().
+      Based on a patch by Niels Thykier <niels@thykier.net>.
+    - dpkg: Call fsys_hash_find_node() outside tar_fsys_namenode_queue_push().
+    - Use a conffilename variable to track the actual conffile name in the
+      buffer.
+      Thanks to Niels Thykier <niels@thykier.net>.
+  * Build system:
+    - Add new gen-changelog tool.
+    - Pre-process the curses header before parsing it. Closes: #970545
+    - Fix variable substitution in man pages.
+      Reported by Niels Thykier <niels@thykier.net>. Closes: #978983
+    - Add a README.cpan to be installed as README in the CPAN distribution.
+    - Do not try to use <sys/sysctl.h> on GNU/Linux.
+    - Fix «make distcheck» for man pages.
+    - Update GitLab CI configuration to use built-in functional test suite.
+    - Make it possible to override PKGDATADIR on built scripts too.
+    - Disable umask to 0 for Docker executor in GitLab CI.
+    - Disable functional test suite debug mode on GitLab CI.
+    - Sort po4a entries in po4a.cfg.
+  * Packaging:
+    - Do not fail the bug-script if readlink fails. Closes: #968397
+    - Improve cron file robustness on missing or empty backup files.
+      Closes: #969472
+    - Use AUTOPKGTEST_TMP instead of writing into the source tree.
+    - Hook the functional test suite into autopkgtest.
+    - Remove trailing comma from lintian profile file.
+    - Do not hardcode libdpkg-perl dependency on perl:any.
+      Thanks to Sven Joachim <svenjoac@gmx.de>.
+  * Test suite:
+    - Fix short lived memory leaks in unit tests.
+    - Print the ehandle unit test error output on verbose mode.
+    - Improve dpkg-divert test to output stdout and stderr.
+    - Use intermediate variable for directory traversal item iteration.
+    - Refactor root handling in Dpkg::Path unit tests.
+    - Refactor test verbose check into an inline function.
+    - Make it possible to include test.h from benchmarks.
+    - Disable hash reports in benchmark tests unless verbose.
+    - Add support for basic test try/catch/finally keywords.
+    - Merge the dpkg-tests.git repository into tests/.
+    - Update merged functional test suite assumptions.
+    - Remove redundant test cases from the functional test suite.
+    - Remove source package building support from functional test suite.
+    - When using DPKG_BUILDTREE add scripts/ to DPKG_PATH.
 
- -- Guillem Jover <guillem@debian.org>  Wed, 08 Jul 2020 05:52:04 +0200
+  [ Add man pages translations ]
+  * Portuguese (Américo Monteiro). Closes: #964751
+
+  [ Update dselect translations ]
+  * Dutch (Frans Spiesschaert). Closes: #968294
+  * French (Didier Vidal). Closes: #964749
+
+  [ Update man pages translations ]
+  * Dutch (Frans Spiesschaert). Closes: #968743
+  * German (Helge Kreutzmann).
+
+  [ Update programs translations ]
+  * Dutch (Frans Spiesschaert). Closes: #968744
+  * German (Sven Joachim).
+
+  [ Update scripts translations ]
+  * German (Helge Kreutzmann).
+
+ -- Guillem Jover <guillem@debian.org>  Fri, 08 Jan 2021 04:39:40 +0100
 
 dpkg (1.20.5) unstable; urgency=medium
 
