@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.20.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2021-01-08 04:27+0100\n"
-"PO-Revision-Date: 2021-01-03 08:02+0100\n"
+"PO-Revision-Date: 2021-01-08 09:45+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -1452,6 +1452,11 @@ msgid ""
 "pathnames.  Trailing whitespace will be trimmed, but empty or whitespace-"
 "only lines are not accepted."
 msgstr ""
+"Diese Datei enthält eine Liste von Dateien, eine pro Zeile, mit einem "
+"optionalen, durch Leerraum abgretrennten Schalter vorab. Diese Conffiles "
+"müssen als absolute Pfadnamen aufgeführt werden. Abschließender Leerraum "
+"wird abgetrennt, aber leere oder Zeilen mit nur Leerraum werden nicht "
+"akzeptiert."
 
 #. type: textblock
 #: deb-conffiles.pod
@@ -1459,6 +1464,8 @@ msgid ""
 "Files without a flag should exist in the binary package, otherwise "
 "L<dpkg(1)> will ignore them."
 msgstr ""
+"Dateien ohne einen Schalter sollten in Binärpaketen existieren, andernfalls "
+"wird L<dpkg(1)> sie ignorieren."
 
 #. type: textblock
 #: deb-conffiles.pod
@@ -1469,6 +1476,11 @@ msgid ""
 "L<dpkg(1)> and L<dpkg-deb(1)> will not accept building nor processing such "
 "binary packages."
 msgstr ""
+"Es wird derzeit nur ein Schalter unterstützt. B<remove-on-upgrade> markiert, "
+"dass ein Conffile beim nächsten Upgrade entfernt werden muss (seit Dpkg 1.20."
+"6). Diese Dateien dürfen nicht im Binärpaket enthalten sein, da sowohl "
+"L<dpkg(1)> als auch L<dpkg-deb(1)> das Bauen oder die Verarbeitung solcher "
+"Binärpakete nicht akzeptiert."
 
 #. type: =head1
 #: deb-conffiles.pod deb-control.pod deb-origin.pod deb-src-control.pod
@@ -1478,13 +1490,7 @@ msgstr "BEISPIEL"
 
 #. type: verbatim
 #: deb-conffiles.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| " %CONFDIR%/alternatives/README\n"
-#| " %CONFDIR%/cron.daily/dpkg\n"
-#| " %PKGCONFDIR%/dpkg.cfg\n"
-#| " %CONFDIR%/logrotate.d/dpkg\n"
-#| "\n"
+#, no-wrap
 msgid ""
 " %CONFDIR%/alternatives/README\n"
 " %CONFDIR%/cron.daily/dpkg\n"
@@ -1497,6 +1503,7 @@ msgstr ""
 " %CONFDIR%/cron.daily/dpkg\n"
 " %PKGCONFDIR%/dpkg.cfg\n"
 " %CONFDIR%/logrotate.d/dpkg\n"
+" remove-on-upgrade /etc/some-old-file.conf\n"
 "\n"
 
 #. type: textblock
@@ -12738,13 +12745,13 @@ msgstr ""
 #: dpkg-fsys-usrunmess.pod
 msgid "dpkg-fsys-usrunmess - undoes the merged-/usr-via-aliased-dirs mess"
 msgstr ""
+"dpkg-fsys-usrunmess - macht die Unordnung durch merged-/usr-via-aliased-dirs "
+"rückgängig"
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
-#, fuzzy
-#| msgid "B<dpkg-gensymbols> [I<option>...]"
 msgid "B<dpkg-fsys-usrunmess> [B<option>...]"
-msgstr "B<dpkg-gensymbols> [I<Option> …]"
+msgstr "B<dpkg-fsys-usrunmess> [B<Option> …]"
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
@@ -12754,26 +12761,34 @@ msgid ""
 "to the broken merged /usr via aliased directories layout, which is B<not> "
 "supported by dpkg. See the dpkg FAQ."
 msgstr ""
+"B<dpkg-fsys-usrunmess> ist ein Werkzeug, das Dateisysteme repariert, die mit "
+"neueren Installationsprogrammen mit unglücklichen Vorgaben neu installiert "
+"wurden oder die auf defekte vereinigte /usr mittels des Alias-Verzeichnis-"
+"Layouts migriert wurden, welches von Dpkg B<nicht> unterstützt wird. Siehe "
+"die FAQ von Dpkg."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
 msgid "The program will perform the following overall actions:"
-msgstr ""
+msgstr "Das Programm wird folgende grobe Aktionen durchführen:"
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
 msgid "Check whether the system needs to be switched, otherwise do nothing,"
 msgstr ""
+"Überprüft, ob das System umgestellt werden muss, macht andernfalls nichts."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
-msgid "Check for dpkg database consistency and otherwise abort,"
-msgstr ""
+msgid "Check for dpkg database consistency and otherwise abort."
+msgstr "Prüft auf die Konsistenz der Dpkg-Datenbank und bricht andernfalls ab."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
 msgid "Get the list of files and alternatives that need to be restored."
 msgstr ""
+"Ermittelt die Liste der Dateien und Alternativen, die wiederhergestellt "
+"werden müssen."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
@@ -12781,17 +12796,20 @@ msgid ""
 "Create a shadow hierarchy under F</.usrunmess>, by creating the directories "
 "symlinks or hardlinking or copying the files as needed."
 msgstr ""
+"Erstellt eine Schatten-Hierarchie unter F</.usrunmess>, indem es "
+"Verzeichnissymlinks oder -hardlinks oder -Kopien wie notwendig erstellt."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
 msgid ""
 "Prompt for confirmation before proceeding, if requested on the command-line."
 msgstr ""
+"Bittet um Bestätigung vor dem Fortfahren, falls auf der Befehlszeile erbeten."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
 msgid "Lock the dpkg database."
-msgstr ""
+msgstr "Sperrt die Dpkg-Datenbank."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
@@ -12799,6 +12817,9 @@ msgid ""
 "Mark all packages as half-configured to force running maintainer scripts "
 "that might need to recreate files."
 msgstr ""
+"Markiert alle Pakete als halbkonfiguriert, um die Ausführung der "
+"Betreuerskripte zu erzwingen, die notwendig sein könnten, um Dateien neu zu "
+"erstellen."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
@@ -12806,38 +12827,44 @@ msgid ""
 "Replace the aliased directories with the shadow ones, by creating a backup "
 "of the old symlinked directories and renaming the shadow ones over."
 msgstr ""
+"Ersetzt die Alias-Verzeichnisse mit den aus dem Schattenbereich, indem eine "
+"Sicherungskopie des alten Symlink-Verzeichnisses erstellt und das aus dem "
+"Schattenbereich darüber umbenannt wird."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
 msgid "Relabel MAC information for directories and symlinks if necessary."
 msgstr ""
+"Bringt MAC-Informationen für Verzeichnisse und Symlinks wo notwendig neu an."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
-#, fuzzy
-#| msgid "include all changes."
 msgid "Reconfigure all packages."
-msgstr "füge alle Änderungen hinzu."
+msgstr "Rekonfiguriert alle Pakete."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
 msgid "Remove backup symlinks."
-msgstr ""
+msgstr "Entfernt alle Sicherungskopie-Symlinks."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
 msgid "Remove old moved objects, but defer directory removal."
 msgstr ""
+"Entfernt alle verschobenen Objekte, verzögert aber die Entfernung des "
+"Verzeichnisses."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
 msgid "Remove old deferred directories that are not referenced by dpkg-query."
 msgstr ""
+"Entfernt alle verzögerten Verzeichnisse, die nicht mehr von Dpkg-query "
+"referenziert werden."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
 msgid "Remove shadow root directory."
-msgstr ""
+msgstr "Entfernt das Schatten-Wurzelverzeichnis."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
@@ -12846,6 +12873,10 @@ msgid ""
 "L<zsh(1)>, after executing it, you might need to request the shell to forget "
 "all remembered executable locations with for example C<hash -r>."
 msgstr ""
+"B<Hinweis:>: Wird das Programm aus einigen Shells wie L<bash(1)> oder "
+"L<zsh(1)> ausgeführt, dann müssen Sie nach der Ausführung die Shell "
+"anweisen, alle gespeicherten Orte von Programmen zu vergessen, "
+"beispielsweise mit C<hash -r>."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
@@ -12855,13 +12886,17 @@ msgid ""
 "the system, or possible bugs in the script. Be prepared with recovery media "
 "and consider doing backups beforehand."
 msgstr ""
+"B<Warnung>: Beachten Sie, dass diese Aktion die Möglichkeit eröffnet, dass "
+"Ihr System unbrauchbar oder defekt wird, falls das System unerwartet "
+"abstürzt oder neustartet, es sich in einem unerwarteten Zustand befindet "
+"oder sich möglicherweise Fehler in dem Skript befinden. Halten Sie Medien "
+"zur Systemwiederherstellung bereit und erstellen Sie vor der Ausführung "
+"Sicherungskopien."
 
 #. type: =item
 #: dpkg-fsys-usrunmess.pod
-#, fuzzy
-#| msgid "B<-z>, B<--zero>"
 msgid "B<-p>, B<--prompt>"
-msgstr "B<-z>, B<--zero>"
+msgstr "B<-p>, B<--prompt>"
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
@@ -12869,20 +12904,19 @@ msgid ""
 "Prompt at the time of no return, so that the debug output or the shadow "
 "hierarchy can be evaluated before proceeding."
 msgstr ""
+"Bittet am Punkt, ab dem die Änderungen nicht mehr rückgängig gemacht werden "
+"können, um Bestätigung, so dass die Fehlersuchausgabe oder die Schatten-"
+"Hierarchie untersucht werden können, bevor fortgefahren wird."
 
 #. type: =item
 #: dpkg-fsys-usrunmess.pod
-#, fuzzy
-#| msgid "B<-n>, B<--no-sort>"
 msgid "B<-n>, B<--no-act>"
-msgstr "B<-n>, B<--no-sort>"
+msgstr "B<-n>, B<--no-act>"
 
 #. type: =item
 #: dpkg-fsys-usrunmess.pod
-#, fuzzy
-#| msgid "B<--dump>"
 msgid "B<--dry-run>"
-msgstr "B<--dump>"
+msgstr "B<--dry-run>"
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
@@ -12890,18 +12924,18 @@ msgid ""
 "This option enables the dry-run mode, where no destructive action takes "
 "place, only the preparatory part."
 msgstr ""
+"Diese Option aktiviert den Probelaufmodus, bei der keine zerstörenden "
+"Aktionen stattfinden, nur der vorbereitende Anteil."
 
 #. type: =item
 #: dpkg-fsys-usrunmess.pod
-#, fuzzy
-#| msgid "B<DPKG_ROOT>"
 msgid "B<DPKG_USRUNMESS_NOACT>"
-msgstr "B<DPKG_ROOT>"
+msgstr "B<DPKG_USRUNMESS_NOACT>"
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
 msgid "This setting defines whether to enable dry-run mode."
-msgstr ""
+msgstr "Diese Einstellung definiert, ob der Probelaufmodus aktiviert wird."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
@@ -12909,6 +12943,8 @@ msgid ""
 "L<https://wiki.debian.org/Teams/Dpkg/FAQ#Q:_Does_dpkg_support_merged-.2Fusr-"
 "via-aliased-dirs.3F>."
 msgstr ""
+"L<https://wiki.debian.org/Teams/Dpkg/FAQ#Q:_Does_dpkg_support_merged-.2Fusr-"
+"via-aliased-dirs.3F>."
 
 #. type: textblock
 #: dpkg-genbuildinfo.pod
@@ -14430,6 +14466,9 @@ msgid ""
 "Note: This can be replaced in most cases by the C<remove-on-upgrade> flag in "
 "F<DEBIAN/conffiles> (since dpkg 1.20.6), see L<deb-conffiles(5)>."
 msgstr ""
+"Hinweis: In den meisten Fällen kann dies durch den Schalter C<remove-on-"
+"upgrade> in F<DEBIAN/conffiles> (seit Dpkg 1.20.6) ersetzt werden, siehe "
+"L<deb-conffiles(5)>."
 
 #. type: textblock
 #: dpkg-maintscript-helper.pod
