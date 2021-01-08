@@ -1,6 +1,6 @@
 # dpkg manual page - dpkg-realpath(1)
 #
-# Copyright © 2020 Guillem Jover <guillem@debian.org>
+# Copyright © 2020-2021 Guillem Jover <guillem@debian.org>
 #
 # This is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 =head1 NAME
 
-dpkg-realpath - print the resolved pathname
+dpkg-realpath - print the resolved pathname with DPKG_ROOT support
 
 =head1 SYNOPSIS
 
@@ -27,7 +27,17 @@ B<dpkg-realpath> [I<option>...] I<pathname>
 
 =head1 DESCRIPTION
 
-B<dpkg-realpath> is a tool to resolve a pathname.
+B<dpkg-realpath> is a tool (since dpkg 1.20.1) to resolve a pathname,
+that takes the L<dpkg(1)> root directory into account, either implicitly
+from the B<DPKG_ROOT> environment variable or from the command-line
+B<--root> or B<--instdir> options, and returns an absolute I<pathname>
+relative to the root directory.
+The root directory must not be prefixed to the I<pathname> to be resolved.
+
+This is intended to be used by other B<dpkg> helpers, or by maintainer
+scripts instead of using L<realpath(1)> or L<readlink(1)> to canonicalize
+pathnames, as these latter commands do not support canonicalization
+relative to a different root than F</>.
 
 =head1 OPTIONS
 
@@ -40,13 +50,11 @@ Use a NUL byte to end output lines instead of a new line character
 
 =item B<--instdir> I<directory>
 
-Set the installation directory, which refers to the directory where
-packages get installed. Defaults to «I</>».
-
 =item B<--root> I<directory>
 
-Set the root directory to B<directory>, which sets the installation
-directory to «I<directory>».
+Set the root directory to I<directory>, which is the base directory
+that pathnames get canonicalized against.
+Defaults to «B</>».
 
 =item B<-?>, B<--help>
 
@@ -76,4 +84,5 @@ The currently accepted values are: B<auto> (default), B<always> and B<never>.
 
 =head1 SEE ALSO
 
-L<realpath(1)>.
+L<realpath(1)>,
+L<readlink(1)>.
