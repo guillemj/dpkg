@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2016-01-14 08:22+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
@@ -61,6 +61,12 @@ msgstr "độ dài tên tập tin thành viên của ar “%s” quá lớn"
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member size %jd too large"
+msgstr "kích thước thành viên “ar” %jd là quá lớn"
+
+#: lib/dpkg/ar.c
+#, fuzzy, c-format
+#| msgid "ar member size %jd too large"
+msgid "ar member time %jd too large"
 msgstr "kích thước thành viên “ar” %jd là quá lớn"
 
 #: lib/dpkg/ar.c
@@ -1924,6 +1930,11 @@ msgstr "gặp kết thúc tập tin bất thường khi đọc \"%.250s\""
 msgid "error formatting string into varbuf variable"
 msgstr "gặp lỗi khi định dạng chuỗi sang biến varbuf"
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "gặp lỗi khi đọc từ ống dẫn dpkg-deb"
@@ -2039,6 +2050,12 @@ msgstr ""
 #, c-format
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "không cho phép ký hiệu dòng mới trong đối tượng kho tên “%.250s”"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "tập tin cấu hình “%.250s” không nằm trong gói"
 
 #: src/archives.c
 #, c-format
@@ -2518,6 +2535,34 @@ msgstr "hệ vỏ conffile"
 
 #: src/configure.c
 #, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: gặp lỗi khi gỡ bỏ “%.250s”: %s"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Đang gỡ bỏ %s (%s) …\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Đang gỡ bỏ %s (%s) …\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "không thể nối thêm tập tin thành viên ar (%s) thành “%s”: %s"
+
+#: src/configure.c
+#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "không thể lấy thống kê tập tin cấu hình mới phát hành “%.250s”"
 
@@ -2547,11 +2592,6 @@ msgstr "%s: gặp lỗi khi gỡ bỏ bản sao lưu cũ “%.250s”: %s"
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: gặp lỗi khi đổi tên “%.250s” thành “%.250s”: %s"
-
-#: src/configure.c
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: gặp lỗi khi gỡ bỏ “%.250s”: %s"
 
 #: src/configure.c
 #, c-format
@@ -5178,6 +5218,22 @@ msgstr ""
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "tên tập tin “%s” không phải dạng tuyệt đối"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "conffile filename '%s' contains trailing white spaces"
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr "tên tập tin cấu hình “%s” chứa khoảng trắng ở cuối"
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5421,6 +5477,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "chuỗi rỗng từ fgets() đọc các tập tin cấu hình"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "tên tập tin cấu hình “%s” chứa khoảng trắng ở cuối"
@@ -5434,6 +5494,11 @@ msgstr "tập tin cấu hình “%.250s” không nằm trong gói"
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "tập tin cấu hình “%.250s” không có khả năng cung cấp thống kê"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5684,7 +5749,9 @@ msgid "cannot close decompressor pipe"
 msgstr "không thể đóng ống dẫn giải nén"
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid "decompressing archive member"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr "giải nén thành viên kho lưu"
 
 #: dpkg-deb/extract.c

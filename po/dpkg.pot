@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.20.5\n"
+"Project-Id-Version: dpkg 1.20.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,6 +56,11 @@ msgstr ""
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member size %jd too large"
+msgstr ""
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "ar member time %jd too large"
 msgstr ""
 
 #: lib/dpkg/ar.c
@@ -1747,6 +1752,11 @@ msgstr ""
 msgid "error formatting string into varbuf variable"
 msgstr ""
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr ""
@@ -1853,6 +1863,11 @@ msgstr ""
 #: src/archives.c
 #, c-format
 msgid "newline not allowed in archive object name '%.255s'"
+msgstr ""
+
+#: src/archives.c
+#, c-format
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
 msgstr ""
 
 #: src/archives.c
@@ -2283,6 +2298,31 @@ msgstr ""
 
 #: src/configure.c
 #, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr ""
+
+#: src/configure.c
+#, c-format
+msgid "Removing obsolete conffile %s ...\n"
+msgstr ""
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, c-format
+msgid "Saving as %s ...\n"
+msgstr ""
+
+#: src/configure.c
+#, c-format
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr ""
+
+#: src/configure.c
+#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr ""
 
@@ -2307,11 +2347,6 @@ msgstr ""
 #: src/configure.c
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
-msgstr ""
-
-#: src/configure.c
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
 msgstr ""
 
 #: src/configure.c
@@ -4382,6 +4417,21 @@ msgstr ""
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr ""
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -4612,6 +4662,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr ""
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr ""
@@ -4624,6 +4678,11 @@ msgstr ""
 #: dpkg-deb/build.c
 #, c-format
 msgid "conffile '%.250s' is not stattable"
+msgstr ""
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
 msgstr ""
 
 #: dpkg-deb/build.c
@@ -4850,7 +4909,8 @@ msgid "cannot close decompressor pipe"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, c-format
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr ""
 
 #: dpkg-deb/extract.c

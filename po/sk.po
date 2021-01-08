@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2015-04-07 10:01+0200\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <debian-l10n-slovak@lists.debian.org>\n"
@@ -57,6 +57,12 @@ msgstr "názov člena ar „%s“ je príliš dlhý"
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member size %jd too large"
+msgstr "veľkosť člena ar %jd je príliš veľká"
+
+#: lib/dpkg/ar.c
+#, fuzzy, c-format
+#| msgid "ar member size %jd too large"
+msgid "ar member time %jd too large"
 msgstr "veľkosť člena ar %jd je príliš veľká"
 
 #: lib/dpkg/ar.c
@@ -1940,6 +1946,11 @@ msgstr "neočakávaný koniec súboru v %.250s"
 msgid "error formatting string into varbuf variable"
 msgstr "chyba pri formátovaní reťazca do premennej varbuf"
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "chyba pri čítaní z rúry dpkg-deb"
@@ -2055,6 +2066,12 @@ msgstr ""
 #| msgid "cannot open archive part file '%.250s'"
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "nie je možné otvoriť časť archívneho súboru „%.250s“"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "konfiguračný súbor „%.250s“ nebol v balíku nájdený"
 
 #: src/archives.c
 #, c-format
@@ -2568,6 +2585,34 @@ msgstr "shell konfiguračných súborov conffile"
 
 #: src/configure.c
 #, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: nepodarilo sa vykonať „%.250s“: %s"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Odstraňuje sa %s ...\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Odstraňuje sa %s ...\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "nepodarilo sa pridať k členský súbor ar (%s) do „%s“: %s"
+
+#: src/configure.c
+#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr ""
 "nepodarilo sa vykonať stat() nového distribučného konfiguračného súboru "
@@ -2598,11 +2643,6 @@ msgstr "%s: nepodarilo sa odstrániť starú zálohu „%.250s“: %s"
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: nepodarilo sa premenovať „%.250s“ na „%.250s“: %s"
-
-#: src/configure.c
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: nepodarilo sa vykonať „%.250s“: %s"
 
 #: src/configure.c
 #, c-format
@@ -5257,6 +5297,22 @@ msgstr ""
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "názov súboru „%s“ nie je absolútny"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "conffile filename '%s' contains trailing white spaces"
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr "názov konfiguračného súboru „%s“ obsahuje na konci netlačiteľné znaky"
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5507,6 +5563,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "prázdny reťazec z funkcie fgets počas čítania súboru"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "názov konfiguračného súboru „%s“ obsahuje na konci netlačiteľné znaky"
@@ -5520,6 +5580,11 @@ msgstr "konfiguračný súbor „%.250s“ nebol v balíku nájdený"
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "u konfiguračného súboru „%.250s“ nie je možné zistiť stav"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5771,7 +5836,9 @@ msgid "cannot close decompressor pipe"
 msgstr "nie je možné zatvoriť rúru dekompresora"
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid "decompressing archive member"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr "dekomprimuje sa člen archívu"
 
 #: dpkg-deb/extract.c

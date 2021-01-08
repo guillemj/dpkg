@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2019-05-09 05:38+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -59,6 +59,12 @@ msgstr "la mida del nom de l'element d'ar «%.s» és massa llarg"
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member size %jd too large"
+msgstr "la mida %jd de l'element d'ar és massa gran"
+
+#: lib/dpkg/ar.c
+#, fuzzy, c-format
+#| msgid "ar member size %jd too large"
+msgid "ar member time %jd too large"
 msgstr "la mida %jd de l'element d'ar és massa gran"
 
 #: lib/dpkg/ar.c
@@ -1879,6 +1885,11 @@ msgstr "s'ha trobat un final del fitxer inesperat en llegir «%.250s»"
 msgid "error formatting string into varbuf variable"
 msgstr "s'ha produït un error en formatar la cadena a una variable varbuf"
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "s'ha produït un error en llegir des d'un conducte de dpkg-deb"
@@ -1993,6 +2004,12 @@ msgstr ""
 #, c-format
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "no es permet una línia nova al nom de l'objecte de l'arxiu «%.250s»"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "el conffile «%.250s» no està dins del paquet"
 
 #: src/archives.c
 #, c-format
@@ -2481,6 +2498,34 @@ msgstr "intèrpret d'ordres de conffile"
 
 #: src/configure.c
 #, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: no s'ha pogut esborrar «%s»: %s"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "S'està desinstal·lant %s (%s)…\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "S'està desinstal·lant %s (%s)…\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "no es pot afegir el fitxer (%s) de l'element d'ar a «%s»: %s"
+
+#: src/configure.c
+#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "no es pot fer «stat» al conffile de nova distribució «%.250s»"
 
@@ -2514,11 +2559,6 @@ msgstr "%s: no s'ha pogut esborrar l'antiga còpia de seguretat «%.250s»: %s"
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: no s'ha pogut canviar el nom de «%.250s» a «%.250s»: %s"
-
-#: src/configure.c
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: no s'ha pogut esborrar «%s»: %s"
 
 #: src/configure.c
 #, c-format
@@ -5111,6 +5151,22 @@ msgstr ""
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "el nom de fitxer «%s» no és absolut"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "conffile filename '%s' contains trailing white spaces"
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr "el nom del conffile «%s» conté espais en blanc al final"
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5363,6 +5419,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "cadena buida de «fgets» en llegir conffiles"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "el nom del conffile «%s» conté espais en blanc al final"
@@ -5376,6 +5436,11 @@ msgstr "el conffile «%.250s» no està dins del paquet"
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "no es pot fer «stat» al conffile «%.250s»"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5620,7 +5685,9 @@ msgid "cannot close decompressor pipe"
 msgstr "no es pot tancar el conducte de descompressió"
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid "decompressing archive member"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr "descomprimint l'element de l'arxiu"
 
 #: dpkg-deb/extract.c

@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2016-04-01 16:07+0900\n"
 "Last-Translator: Takuma Yamada <tyamada@takumayamada.com>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -72,6 +72,12 @@ msgstr "ar メンバー名 '%s' の長さが長すぎます"
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member size %jd too large"
+msgstr "ar メンバーサイズ %jd は長すぎます"
+
+#: lib/dpkg/ar.c
+#, fuzzy, c-format
+#| msgid "ar member size %jd too large"
+msgid "ar member time %jd too large"
 msgstr "ar メンバーサイズ %jd は長すぎます"
 
 #: lib/dpkg/ar.c
@@ -1948,6 +1954,11 @@ msgstr "'%.250s' 内で予期しないファイルの終わりです"
 msgid "error formatting string into varbuf variable"
 msgstr "varbuf 変数内のフォーマット文字列にエラーがあります"
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "dpkg-deb パイプからの読み込みエラーです"
@@ -2062,6 +2073,12 @@ msgstr ""
 #, c-format
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "アーカイブオブジェクト名 `%.255s' の中での改行は許されません"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "設定ファイル `%.250s' がパッケージ内にありません"
 
 #: src/archives.c
 #, c-format
@@ -2548,6 +2565,34 @@ msgstr "設定ファイルシェル"
 
 #: src/configure.c
 #, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: '%.250s' の削除に失敗しました: %s"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "%s (%s) を削除しています ...\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "%s (%s) を削除しています ...\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "ar メンバーファイル (%s) を '%s' に追加できません: %s"
+
+#: src/configure.c
+#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "新規配布設定ファイル '%.250s' の状態を取得できません"
 
@@ -2576,11 +2621,6 @@ msgstr "%s: 古いバックアップ '%.250s' の削除に失敗しました: %s
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: '%.250s' から '%.250s' に名前を変更できませんでした: %s"
-
-#: src/configure.c
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: '%.250s' の削除に失敗しました: %s"
 
 #: src/configure.c
 #, c-format
@@ -5174,6 +5214,22 @@ msgstr "設定ファイル名 '%s' は長すぎるか、最後の改行があり
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "ファイル名 \"%s\" は絶対パスではありません"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "conffile filename '%s' contains trailing white spaces"
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr "設定ファイル '%s' の後ろに空白が付いています"
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5425,6 +5481,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "conffiles の読み取り中に fgets からの空の文字"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "設定ファイル '%s' の後ろに空白が付いています"
@@ -5438,6 +5498,11 @@ msgstr "設定ファイル `%.250s' がパッケージ内にありません"
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "設定ファイル `%.250s' の状態を取得できません"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5689,7 +5754,9 @@ msgid "cannot close decompressor pipe"
 msgstr "伸張パイプをクローズできません"
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid "decompressing archive member"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr "アーカイブメンバーを伸張しています"
 
 #: dpkg-deb/extract.c

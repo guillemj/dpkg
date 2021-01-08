@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Håvard Korsvoll <korsvoll@skulelinux.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -59,6 +59,11 @@ msgstr ""
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member size %jd too large"
+msgstr ""
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "ar member time %jd too large"
 msgstr ""
 
 #: lib/dpkg/ar.c
@@ -1912,6 +1917,11 @@ msgstr "uventa slutt på fil i %.250s"
 msgid "error formatting string into varbuf variable"
 msgstr ""
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "feil ved lesing frå dpkg-deb-røyr"
@@ -2023,6 +2033,12 @@ msgstr ""
 #| msgid "cannot open archive part file '%.250s'"
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "klarte ikkje opna arkivdelfila «%.250s»"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "oppsettsfila «%.250s» finst ikkje i pakken"
 
 #: src/archives.c
 #, fuzzy, c-format
@@ -2538,6 +2554,33 @@ msgstr ""
 
 #: src/configure.c
 #, fuzzy, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: Klarte ikkje køyra gzip %s"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Fjernar %s ...\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Fjernar %s ...\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "fann ikkje «%.255s» (i «%.255s»)"
+
+#: src/configure.c
+#, fuzzy, c-format
 #| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "fann ikkje den nye distribusjonsoppsettsfila «%.250s»"
@@ -2570,11 +2613,6 @@ msgstr ""
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr ""
 "dpkg: %s: Åtvaring - klarte ikkje endra namnet på «%.250s» til «%.250s»: %s\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: Klarte ikkje køyra gzip %s"
 
 #: src/configure.c
 #, fuzzy, c-format
@@ -4997,6 +5035,21 @@ msgstr ""
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "finn ikkje oppsettsfila «%.250s»"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr "åtvaring, oppsettsfila «%s» er inga vanleg fil\n"
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5258,6 +5311,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "tom streng frå «fgets» ved lesing av oppsettsfiler"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, fuzzy, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "åtvaring, oppsettsfila «%s» er inga vanleg fil\n"
@@ -5271,6 +5328,11 @@ msgstr "oppsettsfila «%.250s» finst ikkje i pakken"
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "finn ikkje oppsettsfila «%.250s»"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5538,8 +5600,14 @@ msgid "cannot close decompressor pipe"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid ""
+#| "%s: error processing %s (--%s):\n"
+#| " %s\n"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr ""
+"%s: Feil ved behandling av %s (--%s):\n"
+" %s\n"
 
 #: dpkg-deb/extract.c
 msgid "failed to create directory"

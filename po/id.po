@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>\n"
 "Language-Team: Indonesian <debian-l10n-indonesian@lists.debian.org>\n"
@@ -59,6 +59,12 @@ msgstr "nama berkas '%.50s ...' terlalu panjang"
 #, c-format
 msgid "ar member size %jd too large"
 msgstr ""
+
+#: lib/dpkg/ar.c
+#, fuzzy, c-format
+#| msgid "file name '%.50s...' is too long"
+msgid "ar member time %jd too large"
+msgstr "nama berkas '%.50s ...' terlalu panjang"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -1989,6 +1995,11 @@ msgstr "akhiran berkas dalam %.250s tidak diharapkan"
 msgid "error formatting string into varbuf variable"
 msgstr "salah menata string ke dalam variabel varbuf"
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "ada kesalahan saat membaca pipe dpkg-deb"
@@ -2104,6 +2115,12 @@ msgstr ""
 #| msgid "cannot open archive part file '%.250s'"
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "tidak dapat membuka berkas bagian arsip '%.250s'"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "berkas 'conffile' '%.250s' tidak ada dalam paket"
 
 #: src/archives.c
 #, c-format
@@ -2646,6 +2663,34 @@ msgstr ""
 
 #: src/configure.c
 #, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: gagal membuang '%.250s': %s"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Sedang membuang %s ... \n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Sedang membuang %s ... \n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot rename '%s' to '%s'"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "gagal mengganti nama '%s' ke '%s'"
+
+#: src/configure.c
+#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "gagal menata status berkas konfig terdistribusi '%.250s' yang baru"
 
@@ -2674,11 +2719,6 @@ msgstr "%s: gagal membuang berkas cadangan lama '%.250s': %s "
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: gagal mengganti nama '%.250s' ke '%.250s': %s "
-
-#: src/configure.c
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: gagal membuang '%.250s': %s"
 
 #: src/configure.c
 #, c-format
@@ -5369,6 +5409,22 @@ msgstr ""
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "nama berkas \"%s\" tidak mutlak"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "conffile filename '%s' contains trailing white spaces"
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr "nama berkas konfig '%s' berakhiran spasi kosong "
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5635,6 +5691,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "string kosong dari fgets yang membaca berkas konfig"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "nama berkas konfig '%s' berakhiran spasi kosong "
@@ -5648,6 +5708,11 @@ msgstr "berkas 'conffile' '%.250s' tidak ada dalam paket"
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "berkas konfig '%.250s' tidak dapat diakses"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5921,8 +5986,14 @@ msgid "cannot close decompressor pipe"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid ""
+#| "%s: error processing %s (--%s):\n"
+#| " %s\n"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr ""
+"%s: ada kesalahan saat memproses %s (--%s): \n"
+" %s \n"
 
 #: dpkg-deb/extract.c
 msgid "failed to create directory"

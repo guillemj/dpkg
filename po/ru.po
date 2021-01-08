@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -59,6 +59,12 @@ msgstr "слишком большая длина имени элемента ar 
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member size %jd too large"
+msgstr "элемент ar «%jd» слишком большого размера"
+
+#: lib/dpkg/ar.c
+#, fuzzy, c-format
+#| msgid "ar member size %jd too large"
+msgid "ar member time %jd too large"
 msgstr "элемент ar «%jd» слишком большого размера"
 
 #: lib/dpkg/ar.c
@@ -1950,6 +1956,11 @@ msgstr "неожиданный конец файла %.250s"
 msgid "error formatting string into varbuf variable"
 msgstr "ошибка при форматировании строки в переменную varbuf"
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "ошибка чтения данных из канала dpkg-deb"
@@ -2063,6 +2074,12 @@ msgstr ""
 #| msgid "cannot open archive part file '%.250s'"
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "не удалось открыть часть архива «%.250s»"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "в пакете отсутствует conffile «%.250s»"
 
 #: src/archives.c
 #, c-format
@@ -2544,6 +2561,34 @@ msgstr "Оболочка conffile"
 
 #: src/configure.c
 #, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: не удалось удалить «%.250s»: %s"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Удаляется %s (%s) …\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Удаляется %s (%s) …\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "не удалось добавить элемент-файл ar (%s) в «%s»: %s"
+
+#: src/configure.c
+#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr ""
 "не удалось получить информацию о новом распространяемом conffile-файле "
@@ -2575,11 +2620,6 @@ msgstr "%s: не удалось удалить резервную копию «%
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: не удалось переименовать «%.250s» в «%.250s»: %s"
-
-#: src/configure.c
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: не удалось удалить «%.250s»: %s"
 
 #: src/configure.c
 #, c-format
@@ -5227,6 +5267,22 @@ msgstr ""
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "имя файла «%s» указано не с полным путём"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "conffile filename '%s' contains trailing white spaces"
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr "имя conffile-файла «%s» содержит в конце пробельные символы"
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5485,6 +5541,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "при чтении списка файлов настройки функция fgets вернула пустую строку"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "имя conffile-файла «%s» содержит в конце пробельные символы"
@@ -5498,6 +5558,11 @@ msgstr "в пакете отсутствует conffile «%.250s»"
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "невозможно получить информацию о conffile-файле «%.250s»"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5756,7 +5821,9 @@ msgid "cannot close decompressor pipe"
 msgstr "невозможно закрыть канал разжимающего процесса"
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid "decompressing archive member"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr "разжимающий элемент архива"
 
 #: dpkg-deb/extract.c

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2015-04-07 09:50+0200\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -57,6 +57,11 @@ msgstr ""
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member size %jd too large"
+msgstr ""
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "ar member time %jd too large"
 msgstr ""
 
 #: lib/dpkg/ar.c
@@ -1922,6 +1927,11 @@ msgstr "ចុង​ឯកសារ​ដែល​មិន​រំពឹង​
 msgid "error formatting string into varbuf variable"
 msgstr ""
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "កំហុស​ក្នុ​ងការ​អាន​ពី​បំពង់ dpkg-deb"
@@ -2033,6 +2043,12 @@ msgstr ""
 #| msgid "cannot open archive part file '%.250s'"
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "មិន​អាច​បើក​ឯកសារ​ផ្នែក​ប័ណ្ណសារ `%.250s'"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "conffile `%.250s' មិន​បង្ហាញ​នៅ​ក្នុង​កញ្ចប់"
 
 #: src/archives.c
 #, fuzzy, c-format
@@ -2538,6 +2554,34 @@ msgstr ""
 
 #: src/configure.c
 #, fuzzy, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s ៖ បាន​បរាជ័​យក្នុ​ងការប្រតិបត្តិ gzip %s"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "កំពុងយក %s ចេញ...\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Saving as %s ...\n"
+msgstr "កំពុងយក %s ចេញ...\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot stat new name `%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "មិន​អាច​ចាប់ផ្ដើម​ឈ្មោះ​ថ្មី `%s' ៖ %s"
+
+#: src/configure.c
+#, fuzzy, c-format
 #| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "មិនអាច​ថ្លែង​ dist conffile ថ្មី `%.250s' បានទេ"
@@ -2568,11 +2612,6 @@ msgstr "dpkg ៖ %s ៖ ព្រមាន - បាន​បរាជ័យ​
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr ""
 "dpkg ៖ %s ៖ ព្រមាន - បាន​បរាជ័យ​ក្នុង​ការ​ប្ដូរ​ឈ្មោះ `%.250s' ទៅ​ជា `%.250s' ៖ %s\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s ៖ បាន​បរាជ័​យក្នុ​ងការប្រតិបត្តិ gzip %s"
 
 #: src/configure.c
 #, fuzzy, c-format
@@ -5053,6 +5092,21 @@ msgstr "ព្រមាន ឈ្មោះ​របស់ conffile `%.50s...' �
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "ឈ្មោះ​ឯកសារ \"%s\" មិន​ពេញលេញ"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr "ព្រមាន ឈ្មោះឯកសារ conffile `%s' មានកន្ទុយជាចន្លោះមិនឃើញ\n"
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5305,6 +5359,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "ខ្សែអក្សរទទេពីការអាន fgets conffiles"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, fuzzy, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "ព្រមាន ឈ្មោះឯកសារ conffile `%s' មានកន្ទុយជាចន្លោះមិនឃើញ\n"
@@ -5318,6 +5376,11 @@ msgstr "conffile `%.250s' មិន​បង្ហាញ​នៅ​ក្នុ
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "conffile `%.250s' មិន​ស្ថិតស្ថេរ"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5585,8 +5648,14 @@ msgid "cannot close decompressor pipe"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid ""
+#| "%s: error processing %s (--%s):\n"
+#| " %s\n"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr ""
+"%s ៖ កំហុស​ខណៈ​​ពេល​ដំណើរការ %s (--%s) ៖\n"
+" %s\n"
 
 #: dpkg-deb/extract.c
 msgid "failed to create directory"

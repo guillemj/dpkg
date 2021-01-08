@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -57,6 +57,12 @@ msgstr "'%.50s...' 파일명이 너무 깁니다"
 #, c-format
 msgid "ar member size %jd too large"
 msgstr ""
+
+#: lib/dpkg/ar.c
+#, fuzzy, c-format
+#| msgid "file name '%.50s...' is too long"
+msgid "ar member time %jd too large"
+msgstr "'%.50s...' 파일명이 너무 깁니다"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -1990,6 +1996,11 @@ msgstr "%.250s 파일에서 예상치 못하게 파일이 끝났습니다"
 msgid "error formatting string into varbuf variable"
 msgstr "문자열을 varbuf 변수로 포매팅하는데 오류가 발생했습니다"
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "dpkg-deb 파이프에서 읽기 오류가 발생했습니다"
@@ -2107,6 +2118,12 @@ msgstr ""
 #| msgid "cannot open archive part file '%.250s'"
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "아카이브 구성 요소 `%.250s' 파일을 열 수 없습니다"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "`%.250s' 설정 파일이 패키지 안에 없습니다"
 
 #: src/archives.c
 #, c-format
@@ -2651,6 +2668,34 @@ msgstr ""
 
 #: src/configure.c
 #, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: '%.250s' 파일을 제거하는데 실패했습니다: %s"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "%s 패키지를 지우는 중입니다 ...\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Saving as %s ...\n"
+msgstr "%s 패키지를 지우는 중입니다 ...\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot rename '%s' to '%s'"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "'%s' 파일의 이름을 '%s'(으)로 바꿀 수 없습니다"
+
+#: src/configure.c
+#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "새로운 배포 설정 파일, `%.250s' 파일의 정보를 읽을 수 없습니다"
 
@@ -2679,11 +2724,6 @@ msgstr "%s: 이전 백업 '%.250s' 파일을 지우는데 실패했습니다: %s
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: '%.250s' 파일을 '%.250s' 파일로 이름 바꾸는데 실패했습니다: %s"
-
-#: src/configure.c
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: '%.250s' 파일을 제거하는데 실패했습니다: %s"
 
 #: src/configure.c
 #, c-format
@@ -5374,6 +5414,22 @@ msgstr ""
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "\"%s\" 파일의 이름은 절대적이지 않습니다"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "conffile filename '%s' contains trailing white spaces"
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr "설정 파일의 이름 '%s' 끝에 공백문자가 있습니다"
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5639,6 +5695,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "정보 파일을 읽는 fgets에서 빈 문자열을 리턴했습니다"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "설정 파일의 이름 '%s' 끝에 공백문자가 있습니다"
@@ -5652,6 +5712,11 @@ msgstr "`%.250s' 설정 파일이 패키지 안에 없습니다"
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "`%.250s' 설정 파일의 정보를 읽을 수 없습니다"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5929,8 +5994,14 @@ msgid "cannot close decompressor pipe"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid ""
+#| "%s: error processing %s (--%s):\n"
+#| " %s\n"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr ""
+"%s: %s을(를) 처리하는데 오류가 발생했습니다 (--%s):\n"
+" %s\n"
 
 #: dpkg-deb/extract.c
 msgid "failed to create directory"

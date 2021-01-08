@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2018-01-03 16:44+0300\n"
 "Last-Translator: Mert Dirik <mertdirik@gmail.com>\n"
 "Language-Team: Turkish <debian-l10n-turkish@lists.debian.org>\n"
@@ -56,6 +56,12 @@ msgstr "ar üye adı '%s' çok uzun"
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member size %jd too large"
+msgstr "ar üye boyutu %jd çok büyük"
+
+#: lib/dpkg/ar.c
+#, fuzzy, c-format
+#| msgid "ar member size %jd too large"
+msgid "ar member time %jd too large"
 msgstr "ar üye boyutu %jd çok büyük"
 
 #: lib/dpkg/ar.c
@@ -1896,6 +1902,11 @@ msgstr "'%.250s' dosyasında beklenmeyen dosya sonu"
 msgid "error formatting string into varbuf variable"
 msgstr "dizgi varbuf değişkeni olarak biçimlendirilirken bir sorun yaşandı"
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "dpkg-deb borusundan okuma yapılırken bir sorun yaşandı"
@@ -2010,6 +2021,12 @@ msgstr ""
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr ""
 "arşiv nesnelerinin adlarında yeni satır karakteri kullanılamaz (%.255s)"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "yapılandırma dosyası (%.250s) pakette yok"
 
 #: src/archives.c
 #, c-format
@@ -2498,6 +2515,34 @@ msgstr "yapılandırma dosyası kabuğu"
 
 #: src/configure.c
 #, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: '%.250s' kaldırılamadı: %s"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Kaldırılıyor: %s (%s) ...\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Kaldırılıyor: %s (%s) ...\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "üye dosyası (%s) ar dosyasına (%s) eklenemiyor: %s"
+
+#: src/configure.c
+#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "yeni dağıtık yapılandırma dosyasına (%.250s) stat çağrısı yapılamadı"
 
@@ -2527,11 +2572,6 @@ msgstr "%s: eski yedek (%.250s) kaldırılamadı: %s"
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: '%.250s' dosyasının adı '%.250s' olarak değiştirilemedi: %s"
-
-#: src/configure.c
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: '%.250s' kaldırılamadı: %s"
 
 #: src/configure.c
 #, c-format
@@ -5134,6 +5174,22 @@ msgstr ""
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "\"%s\" dosya adı mutlak değil"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "conffile filename '%s' contains trailing white spaces"
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr "yapılandırma dosyası adının (%s) sonunda boşluk karakterleri var"
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5385,6 +5441,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "fgets conffiles dosyasını okurken boş dizgi döndürdü"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "yapılandırma dosyası adının (%s) sonunda boşluk karakterleri var"
@@ -5398,6 +5458,11 @@ msgstr "yapılandırma dosyası (%.250s) pakette yok"
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "yapılandırma dosyasına (%.250s) stat çağrısı yapılamıyor"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5637,7 +5702,9 @@ msgid "cannot close decompressor pipe"
 msgstr "sıkıştırmayı açma borusu kapatılamıyor"
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid "decompressing archive member"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr "sıkıştırılmış arşiv üyesi açılıyor"
 
 #: dpkg-deb/extract.c

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: quad-nrg.net <yodesy@quad-nrg.net>\n"
 "Language-Team: Greek <debian-l10n-greek@lists.debian.org>\n"
@@ -63,6 +63,12 @@ msgstr "το όνομα του αρχείου '%.50s...' είναι πολύ μ�
 #, c-format
 msgid "ar member size %jd too large"
 msgstr ""
+
+#: lib/dpkg/ar.c
+#, fuzzy, c-format
+#| msgid "file name '%.50s...' is too long"
+msgid "ar member time %jd too large"
+msgstr "το όνομα του αρχείου '%.50s...' είναι πολύ μεγάλο"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -1985,6 +1991,11 @@ msgstr "απρόσμενο τέλος αρχείου στο %.250s"
 msgid "error formatting string into varbuf variable"
 msgstr ""
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "σφάλμα από την ανάγνωση της σωλήνωσης του dpkg-deb"
@@ -2104,6 +2115,12 @@ msgstr ""
 #| msgid "cannot open archive part file '%.250s'"
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "αδύνατο το άνοιγμα του αρχείου τμήματος της αρχειοθήκης `%.250s'"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "το conffile `%.250s' δεν εμφανίζεται στο πακέτο"
 
 #: src/archives.c
 #, c-format
@@ -2653,6 +2670,34 @@ msgstr ""
 
 #: src/configure.c
 #, fuzzy, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: αποτυχία εκτέλεσης '%s %s'"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Αφαίρεση του %s ...\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Αφαίρεση του %s ...\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot stat new name `%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "αδύνατος ο προσδιορισμός κατάστασης του νέου ονόματος `%s': %s"
+
+#: src/configure.c
+#, fuzzy, c-format
 #| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "αδύνατη η εύρεση κατάστασης του νέου αρχείου ρυθμίσεων `%.250s'"
@@ -2686,11 +2731,6 @@ msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr ""
 "dpkg: %s: προειδοποίηση - αποτυχία μετονομασίας του `%.250s' σε `%.250s': "
 "%s\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: αποτυχία εκτέλεσης '%s %s'"
 
 #: src/configure.c
 #, fuzzy, c-format
@@ -5393,6 +5433,22 @@ msgstr ""
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "το όνομα αρχείου \"%s\" δεν είναι απόλυτο"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr ""
+"προειδοποίηση, το αρχείο ρυθμίσεων `%s' περιέχει trailing κενά διαστήματα\n"
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5662,6 +5718,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "κενή συμβολοσειρά από την fgets κατά την ανάγνωση αρχείων ρυθμίσεων"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, fuzzy, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr ""
@@ -5676,6 +5736,11 @@ msgstr "το conffile `%.250s' δεν εμφανίζεται στο πακέτο
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "αδύνατη η εύρεση της κατάστασης (stat) του αρχείου ρυθμίσεων `%.50s'"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5952,8 +6017,14 @@ msgid "cannot close decompressor pipe"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid ""
+#| "%s: error processing %s (--%s):\n"
+#| " %s\n"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr ""
+"%s: σφάλμα στην επεξεργασία του %s (--%s):\n"
+" %s\n"
 
 #: dpkg-deb/extract.c
 msgid "failed to create directory"

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2018-09-26 22:42+0200\n"
 "Last-Translator: Łukasz Dulny <BartekChom@poczta.onet.pl>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
@@ -67,6 +67,12 @@ msgstr "nazwa członu ar \"%s\" jest zbyt długa"
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member size %jd too large"
+msgstr "nazwa członu ar %jd jest zbyt duża"
+
+#: lib/dpkg/ar.c
+#, fuzzy, c-format
+#| msgid "ar member size %jd too large"
+msgid "ar member time %jd too large"
 msgstr "nazwa członu ar %jd jest zbyt duża"
 
 #: lib/dpkg/ar.c
@@ -1906,6 +1912,11 @@ msgstr "niespodziewany koniec czytania pliku \"%.250s\""
 msgid "error formatting string into varbuf variable"
 msgstr "błąd podczas formatowania ciągu w zmienną varbuf"
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "nie można odczytać potoku z \"dpkg-deb\""
@@ -2018,6 +2029,12 @@ msgstr ""
 #, c-format
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "nowa linia nie dozwolona w nazwie obiektu archiwalnego \"%.255s\""
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "plik konfiguracyjny \"%.250s\" nie został odnaleziony w pakiecie"
 
 #: src/archives.c
 #, c-format
@@ -2499,6 +2516,34 @@ msgstr "plik konfiguracyjny powłoki"
 
 #: src/configure.c
 #, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: nie można usunąć \"%.250s\": %s"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Usuwanie pakietu %s (%s) ...\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Usuwanie pakietu %s (%s) ...\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "nie dopisać pliku będącego częścią ar (%s) do \"%s\": %s"
+
+#: src/configure.c
+#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "nie można ustalić stanu nowego pliku konfiguracyjnego \"%.250s\""
 
@@ -2527,11 +2572,6 @@ msgstr "%s: nie można usunąć starej kopii \"%.250s\": %s"
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: nie można zmienić nazwy \"%.250s\" na \"%.250s\": %s"
-
-#: src/configure.c
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: nie można usunąć \"%.250s\": %s"
 
 #: src/configure.c
 #, c-format
@@ -5121,6 +5161,22 @@ msgstr ""
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "nazwa pliku \"%s\" nie jest absolutna"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "conffile filename '%s' contains trailing white spaces"
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr "nazwa pliku konfiguracyjnego \"%s\" kończy się spacjami"
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5374,6 +5430,10 @@ msgstr ""
 "konfiguracyjnego"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "nazwa pliku konfiguracyjnego \"%s\" kończy się spacjami"
@@ -5387,6 +5447,11 @@ msgstr "plik konfiguracyjny \"%.250s\" nie został odnaleziony w pakiecie"
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "nie można sprawdzić stanu pliku konfiguracyjnego \"%.250s\""
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5626,7 +5691,9 @@ msgid "cannot close decompressor pipe"
 msgstr "nie można zamknąć potoku dekompresyjnego"
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid "decompressing archive member"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr "dekompresowanie członu archiwum"
 
 #: dpkg-deb/extract.c

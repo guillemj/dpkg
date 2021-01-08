@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.20.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2020-06-14 21:45-0400\n"
 "Last-Translator: Boyuan yang <byang@debian.org>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -65,6 +65,12 @@ msgstr "ar 成员名称 '%s' 过长"
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member size %jd too large"
+msgstr "ar 成员尺寸 %jd 过大"
+
+#: lib/dpkg/ar.c
+#, fuzzy, c-format
+#| msgid "ar member size %jd too large"
+msgid "ar member time %jd too large"
 msgstr "ar 成员尺寸 %jd 过大"
 
 #: lib/dpkg/ar.c
@@ -1784,6 +1790,11 @@ msgstr "读取 %.250s 时遭遇未预期的文件结束符"
 msgid "error formatting string into varbuf variable"
 msgstr "将字符串格式化为 varbuf 变量时出错"
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "从 dpkg-deb 管道读取错误"
@@ -1891,6 +1902,12 @@ msgstr "获取建议的新符号链接 %.250s 的状态失败，它将替代符�
 #, c-format
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "归档对象名称 “%.255s” 中不允许换行"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "软件包内没有发现 conffile  %.250s"
 
 #: src/archives.c
 #, c-format
@@ -2346,6 +2363,34 @@ msgstr "conffile Shell"
 
 #: src/configure.c
 #, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s：删除 %.250s 失败：%s"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "正在卸载 %s (%s) ...\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "正在卸载 %s (%s) ...\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "无法追加 ar 成员文件(%s)到 '%s': %s"
+
+#: src/configure.c
+#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "无法获取新发布版的 conffile %.250s"
 
@@ -2374,11 +2419,6 @@ msgstr "%s：无法删除以前的备份文件 %.250s ：%s"
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s：无法将 %.250s 改名为 %.250s ：%s"
-
-#: src/configure.c
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s：删除 %.250s 失败：%s"
 
 #: src/configure.c
 #, c-format
@@ -4813,6 +4853,22 @@ msgstr "conffile 的文件名 %s 超长，或是缺少最后结尾的换行符"
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "conffile 文件名 \"%s\" 不是绝对路径名"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "conffile filename '%s' contains trailing white spaces"
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr "conffile  %s  的文件名后面含有空格"
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5042,6 +5098,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "通过 fgets 读取 conffile 时，返回了空字符串"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "conffile  %s  的文件名后面含有空格"
@@ -5055,6 +5115,11 @@ msgstr "软件包内没有发现 conffile  %.250s"
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "无法 conffile  %.50s 的状态"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5285,7 +5350,9 @@ msgid "cannot close decompressor pipe"
 msgstr "无法关闭解压管道"
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid "decompressing archive member"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr "解压缩归档成员"
 
 #: dpkg-deb/extract.c

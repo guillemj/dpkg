@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.19.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2019-05-09 05:38+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -81,6 +81,24 @@ msgstr ""
 "      --version             mostra la versió."
 
 #: scripts/dpkg-architecture.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "  -a, --host-arch <arch>    set host Debian architecture.\n"
+#| "  -t, --host-type <type>    set host GNU system type.\n"
+#| "  -A, --target-arch <arch>  set target Debian architecture.\n"
+#| "  -T, --target-type <type>  set target GNU system type.\n"
+#| "  -W, --match-wildcard <arch-wildcard>\n"
+#| "                            restrict architecture list matching <arch-"
+#| "wildcard>.\n"
+#| "  -B, --match-bits <arch-bits>\n"
+#| "                            restrict architecture list matching <arch-"
+#| "bits>.\n"
+#| "  -E, --match-endian <arch-endian>\n"
+#| "                            restrict architecture list matching <arch-"
+#| "endian>.\n"
+#| "  -f, --force               force flag (override variables set in "
+#| "environment)."
 msgid ""
 "Options:\n"
 "  -a, --host-arch <arch>    set host Debian architecture.\n"
@@ -96,6 +114,9 @@ msgid ""
 "  -E, --match-endian <arch-endian>\n"
 "                            restrict architecture list matching <arch-"
 "endian>.\n"
+"      --print-format <format>\n"
+"                            use <format> for --print-set and --print-unset,\n"
+"                              allowed values: shell (default), make.\n"
 "  -f, --force               force flag (override variables set in "
 "environment)."
 msgstr ""
@@ -148,6 +169,12 @@ msgid ""
 msgstr ""
 "el tipus de sistema GNU predeterminat %s per a la arquitectura de Debian %s "
 "no coincideix amb el tipus de sistema GNU especificat %s"
+
+#: scripts/dpkg-architecture.pl
+#, fuzzy, perl-format
+#| msgid "%s is not a supported compression method"
+msgid "%s is not a supported print format"
+msgstr "%s no és un mètode de compressió admès"
 
 #: scripts/dpkg-architecture.pl
 #, perl-format
@@ -648,23 +675,37 @@ msgid "gain-root-command '%s' not found"
 msgstr "no s'ha trobat l'ordre-assolir-superusuari «%s»"
 
 #: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "disallowed target in %s field keyword %s"
+#, fuzzy, perl-format
+#| msgid "disallowed target in %s field keyword %s"
+msgid "disallowed target in %s field keyword \"%s\""
 msgstr "no s'accepta l'objectiu en el camp %s amb la paraula clau %s"
 
 #: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "unknown %s field keyword %s in dpkg namespace"
+#, fuzzy, perl-format
+#| msgid "unknown %s field keyword %s in dpkg namespace"
+msgid "%s field keyword \"%s\" is unknown in dpkg namespace"
 msgstr "paraula clau %s desconeguda en el camp %s a l'espai de noms de dpkg"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
-msgid "unknown %s field keyword %s"
-msgstr "paraula clau %s desconeguda en el camp %s"
+msgid "%s field keyword \"%s\" is uppercase; use \"%s\" instead"
+msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
-msgid "field %s contains duplicate keyword %s"
+msgid "%s field keyword \"%s\" is invalid; use \"%s\" instead"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, fuzzy, perl-format
+#| msgid "unknown %s field keyword %s"
+msgid "%s field keyword \"%s\" is unknown"
+msgstr "paraula clau %s desconeguda en el camp %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, fuzzy, perl-format
+#| msgid "field %s contains duplicate keyword %s"
+msgid "field %s contains duplicate keyword \"%s\""
 msgstr "el camp %s conté la paraula clau duplicada «%s»"
 
 #: scripts/dpkg-buildpackage.pl
@@ -1477,9 +1518,18 @@ msgid "need at least a filename"
 msgstr "es necessita almenys un directori"
 
 #: scripts/dpkg-parsechangelog.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "  -l <changelog-file>      get per-version info from this file.\n"
+#| "  -F <changelog-format>    force changelog format.\n"
+#| "  -S, --show-field <field> show the values for <field>.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version."
 msgid ""
 "Options:\n"
-"  -l <changelog-file>      get per-version info from this file.\n"
+"  -l, --file <changelog-file>\n"
+"                           get per-version info from this file.\n"
 "  -F <changelog-format>    force changelog format.\n"
 "  -S, --show-field <field> show the values for <field>.\n"
 "  -?, --help               show this help message.\n"
@@ -2532,8 +2582,9 @@ msgid "ignoring invalid week day '%s'"
 msgstr "s'esta ignorant el dia de la setmana no vàlid «%s»"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
-#, perl-format
-msgid "uses full instead of abbreviated month name '%s'"
+#, fuzzy, perl-format
+#| msgid "uses full instead of abbreviated month name '%s'"
+msgid "uses full '%s' instead of abbreviated month name '%s'"
 msgstr "empra nom del mes complet «%s» en comptes d'abreviat"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
@@ -2873,15 +2924,6 @@ msgid "failed to get a write lock on %s"
 msgstr "no s'ha pogut obtenir el blocatge d'escriptura per a %s"
 
 #: scripts/Dpkg/OpenPGP.pm
-msgid "signature file is already OpenPGP ASCII armor, copying"
-msgstr "el fitxer de signatura ja és armat en OpenPGP ASCII, s'esta copiant"
-
-#: scripts/Dpkg/OpenPGP.pm
-msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
-msgstr ""
-"no es pot armar el fitxer de signatura en OpenPGP ASCII ja que manca gpg"
-
-#: scripts/Dpkg/OpenPGP.pm
 #, perl-format
 msgid "cannot create signature file %s"
 msgstr "no es pot crear el fitxer de signatura %s"
@@ -2895,6 +2937,15 @@ msgstr "no es pot executar el programa %s"
 #, perl-format
 msgid "cannot write signature file %s"
 msgstr "no es pot escriure el fitxer de signatura «%s»"
+
+#: scripts/Dpkg/OpenPGP.pm
+msgid "signature file is already OpenPGP ASCII armor, copying"
+msgstr "el fitxer de signatura ja és armat en OpenPGP ASCII, s'esta copiant"
+
+#: scripts/Dpkg/OpenPGP.pm
+msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
+msgstr ""
+"no es pot armar el fitxer de signatura en OpenPGP ASCII ja que manca gpg"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, fuzzy, perl-format
@@ -3382,6 +3433,12 @@ msgstr "no es poden establir els permisos d'execució en «%s»"
 #: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
 msgid "building %s using existing %s"
+msgstr "s'està construint %s emprant %s existent"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy, perl-format
+#| msgid "building %s using existing %s"
+msgid "verifying %s using existing %s"
 msgstr "s'està construint %s emprant %s existent"
 
 #: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm

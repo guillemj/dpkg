@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2015-06-26 16:11+0200\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.debian.org>\n"
@@ -58,6 +58,11 @@ msgstr ""
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member size %jd too large"
+msgstr ""
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "ar member time %jd too large"
 msgstr ""
 
 #: lib/dpkg/ar.c
@@ -1923,6 +1928,11 @@ msgstr "váratlan fájl vége jel itt: %.250s"
 msgid "error formatting string into varbuf variable"
 msgstr ""
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "hiba a dpkg-deb cső olvasásakor"
@@ -2035,6 +2045,12 @@ msgstr ""
 #| msgid "cannot open archive part file '%.250s'"
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "nem megnyitható archívum rész fájl: `%.250s'"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "úgy fest, `%.250s' konffájl nincs a csomagban"
 
 #: src/archives.c
 #, fuzzy, c-format
@@ -2545,6 +2561,34 @@ msgstr ""
 
 #: src/configure.c
 #, fuzzy, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: sikertelen gzip %s futtatás"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Eltávolítás: %s ...\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Eltávolítás: %s ...\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot stat new name `%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "az új `%s' név nem behatárolható: %s"
+
+#: src/configure.c
+#, fuzzy, c-format
 #| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "nem érhető el az új terjesztési beállítófájl: %.250s"
@@ -2575,11 +2619,6 @@ msgstr "dpkg: %s: figyelem - a régi `%.250s' mentés törlése meghiúsult: %s\
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr ""
 "dpkg: %s: figyelem - nem sikerült átnevezni `%.250s'-t erre: `%.250s': %s\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: sikertelen gzip %s futtatás"
 
 #: src/configure.c
 #, fuzzy, c-format
@@ -5074,6 +5113,21 @@ msgstr ""
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "\"%s\" fájlnév nem abszolút"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5334,6 +5388,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "üres szöveg az fgets-ből a konffájl olvasásakor"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr ""
@@ -5347,6 +5405,11 @@ msgstr "úgy fest, `%.250s' konffájl nincs a csomagban"
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "`%.250s' konffájl nem található"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5614,8 +5677,14 @@ msgid "cannot close decompressor pipe"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid ""
+#| "%s: error processing %s (--%s):\n"
+#| " %s\n"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr ""
+"%s: hibás feldolgozás: %s (--%s):\n"
+" %s\n"
 
 #: dpkg-deb/extract.c
 msgid "failed to create directory"

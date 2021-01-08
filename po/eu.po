@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
@@ -59,6 +59,12 @@ msgstr "ar '%s' kide-izena luzeegia da"
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member size %jd too large"
+msgstr "ar kidearen %jd tamaina luzeegia"
+
+#: lib/dpkg/ar.c
+#, fuzzy, c-format
+#| msgid "ar member size %jd too large"
+msgid "ar member time %jd too large"
 msgstr "ar kidearen %jd tamaina luzeegia"
 
 #: lib/dpkg/ar.c
@@ -1958,6 +1964,11 @@ msgstr "ustekabeko fitxategi amaiera %.250s-en"
 msgid "error formatting string into varbuf variable"
 msgstr "errorea kateari formatua ematean varbuf aldagaian"
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "errorea dpkg-deb kanalizaziotik irakurtzean"
@@ -2074,6 +2085,12 @@ msgstr ""
 #| msgid "cannot open archive part file '%.250s'"
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "ezin da '%.250s' artxiboko zati-fitxategia ireki"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "'%.250s' konf. fitxategia ez da paketean azaltzen"
 
 #: src/archives.c
 #, c-format
@@ -2556,6 +2573,34 @@ msgstr "konfigurazio-fitxategiaren shell-a"
 
 #: src/configure.c
 #, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: huts egin du '%.250s' ezabatzean: %s"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "%s (%s) kentzen...\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "%s (%s) kentzen...\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "ezin zaio ar-eko kide-fitxategia (%s) '%s'(e)ri erantsi: %s"
+
+#: src/configure.c
+#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "ezin da banatutako '%.250s' konfigurazioko fitxategi berria analizatu"
 
@@ -2585,11 +2630,6 @@ msgstr "%s: huts egin du '%.250s' babeskopia zaharra kentzean : %s"
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: huts egin du '%.250s'-tik '%.250s'-ra izena aldatzean: %s"
-
-#: src/configure.c
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: huts egin du '%.250s' ezabatzean: %s"
 
 #: src/configure.c
 #, c-format
@@ -5218,6 +5258,22 @@ msgstr ""
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "\"%s\" fitxategi-izena ez da absolutua"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "conffile filename '%s' contains trailing white spaces"
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr "'%s' konfigurazioko fitxategiak amaieran zuriuneak ditu"
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5473,6 +5529,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "fgets: kate huts bat bidali du konfigurazioko fitxategiak irakurtzean"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "'%s' konfigurazioko fitxategiak amaieran zuriuneak ditu"
@@ -5486,6 +5546,11 @@ msgstr "'%.250s' konf. fitxategia ez da paketean azaltzen"
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "'%.250s' konfigurazioko fitxategia ezin da atzitu"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5744,7 +5809,9 @@ msgid "cannot close decompressor pipe"
 msgstr "ezin da deskonprimitzailearen kanalizazioa itxi"
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid "decompressing archive member"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr "artxiboaren kidea deskonprimitzen"
 
 #: dpkg-deb/extract.c

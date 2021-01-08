@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2020-07-08 05:40+0200\n"
+"POT-Creation-Date: 2021-01-08 04:27+0100\n"
 "PO-Revision-Date: 2015-06-26 16:13+0200\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@debian.org>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -55,6 +55,12 @@ msgstr "ชื่อสมาชิก ar '%s' ยาวเกินไป"
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member size %jd too large"
+msgstr "ขนาดของสมาชิก ar %jd ใหญ่เกินไป"
+
+#: lib/dpkg/ar.c
+#, fuzzy, c-format
+#| msgid "ar member size %jd too large"
+msgid "ar member time %jd too large"
 msgstr "ขนาดของสมาชิก ar %jd ใหญ่เกินไป"
 
 #: lib/dpkg/ar.c
@@ -1900,6 +1906,11 @@ msgstr "พบจุดจบแฟ้มก่อนกำหนดใน %.250
 msgid "error formatting string into varbuf variable"
 msgstr "เกิดข้อผิดพลาดขณะจัดรูปแบบข้อความลงในตัวแปร varbuf"
 
+#: lib/dpkg/varbuf.c
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
+msgstr ""
+
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
 msgstr "เกิดข้อผิดพลาดขณะอ่านจากไปป์ของ dpkg-deb"
@@ -2009,6 +2020,12 @@ msgstr ""
 #| msgid "cannot open archive part file '%.250s'"
 msgid "newline not allowed in archive object name '%.255s'"
 msgstr "ไม่สามารถเปิดแฟ้มส่วนย่อยของแฟ้มจัดเก็บ `%.250s'"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%.250s' does not appear in package"
+msgid "conffile '%s' marked for removal on upgrade, shipped in package"
+msgstr "ไม่พบแฟ้มค่าตั้ง `%.250s' ในแพกเกจ"
 
 #: src/archives.c
 #, c-format
@@ -2473,6 +2490,34 @@ msgstr "เชลล์สำหรับแฟ้มค่าตั้ง"
 
 #: src/configure.c
 #, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: ไม่สามารถลบ '%.250s': %s"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "กำลังถอดถอน %s (%s) ...\n"
+
+#: src/configure.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "กำลังถอดถอน %s (%s) ...\n"
+
+#: src/configure.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "ไม่สามารถเพิ่มแฟ้มสมาชิก ar (%s) เข้าใน '%s': %s"
+
+#: src/configure.c
+#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "ไม่สามารถ stat แฟ้มค่าตั้ง '%.250s' ฉบับจัดแจกรุ่นใหม่"
 
@@ -2501,11 +2546,6 @@ msgstr "%s: ไม่สามารถลบแฟ้มสำรองเก�
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: ไม่สามารถเปลี่ยนชื่อ '%.250s' เป็น '%.250s': %s"
-
-#: src/configure.c
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: ไม่สามารถลบ '%.250s': %s"
 
 #: src/configure.c
 #, c-format
@@ -5034,6 +5074,22 @@ msgstr "ชื่อแฟ้มค่าตั้ง '%s' ยาวเกิน
 msgid "conffile name '%s' is not an absolute pathname"
 msgstr "ชื่อแฟ้ม \"%s\" ไม่ใช่พาธเต็ม"
 
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "conffile name missing after flag '%s'"
+msgstr ""
+
+#: src/unpack.c dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "conffile filename '%s' contains trailing white spaces"
+msgid "line with conffile filename '%s' has leading white spaces"
+msgstr "ชื่อแฟ้มค่าตั้ง '%s' มีช่องว่างท้ายบรรทัด"
+
+#: src/unpack.c dpkg-deb/build.c
+#, c-format
+msgid "unknown flag '%s' for conffile '%s'"
+msgstr ""
+
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "read error in %.250s"
@@ -5270,6 +5326,10 @@ msgid "empty string from fgets reading conffiles"
 msgstr "ได้รับข้อความเปล่าจาก fgets ขณะอ่าน conffiles"
 
 #: dpkg-deb/build.c
+msgid "empty and whitespace-only lines are not allowed in conffiles"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "ชื่อแฟ้มค่าตั้ง '%s' มีช่องว่างท้ายบรรทัด"
@@ -5283,6 +5343,11 @@ msgstr "ไม่พบแฟ้มค่าตั้ง `%.250s' ในแพ�
 #, c-format
 msgid "conffile '%.250s' is not stattable"
 msgstr "แฟ้มค่าตั้ง `%.250s' ไม่สามารถ stat ได้"
+
+#: dpkg-deb/build.c
+#, c-format
+msgid "conffile '%s' is present but is requested to be removed"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5528,7 +5593,9 @@ msgid "cannot close decompressor pipe"
 msgstr "ไม่สามารถปิดไปป์ของเครื่องมือคลายบีบอัด"
 
 #: dpkg-deb/extract.c
-msgid "decompressing archive member"
+#, fuzzy, c-format
+#| msgid "decompressing archive member"
+msgid "decompressing archive '%s' (size=%jd) member '%s'"
 msgstr "การคลายบีบอัดสมาชิกแพกเกจ"
 
 #: dpkg-deb/extract.c
