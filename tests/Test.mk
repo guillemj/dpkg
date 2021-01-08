@@ -38,11 +38,15 @@ DPKG_OPTIONS =
 DPKG_DIVERT_OPTIONS =
 
 ifdef DPKG_AS_ROOT
+DPKG_INSTDIR = /
+ifeq ($(shell id -u),0)
+BEROOT := env $(DPKG_ENV)
+else
 DPKG_ENV += \
   LD_PRELOAD="$(LD_PRELOAD)" \
   LD_LIBRARY_PATH="$(LD_LIBRARY_PATH)"
-DPKG_INSTDIR = /
 BEROOT := sudo -E env $(DPKG_ENV)
+endif
 else
 DPKG_INSTDIR = $(CURDIR)/../dpkginst
 DPKG_OPTIONS += \
