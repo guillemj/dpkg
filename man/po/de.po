@@ -11,10 +11,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.20.6\n"
+"Project-Id-Version: dpkg-man 1.20.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2021-01-09 00:59+0100\n"
-"PO-Revision-Date: 2021-01-08 09:45+0100\n"
+"PO-Revision-Date: 2021-01-09 10:28+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -16671,10 +16671,8 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-realpath.pod
-#, fuzzy
-#| msgid "dpkg-realpath - print the resolved pathname"
 msgid "dpkg-realpath - print the resolved pathname with DPKG_ROOT support"
-msgstr "dpkg-realpath - Ausgabe des aufgelösten Pfadnamens"
+msgstr "dpkg-realpath - Ausgabe des aufgelösten Pfadnamens mit DPKG_ROOT-Unterstützung"
 
 #. type: textblock
 #: dpkg-realpath.pod
@@ -16691,6 +16689,13 @@ msgid ""
 "directory.  The root directory must not be prefixed to the I<pathname> to be "
 "resolved."
 msgstr ""
+"B<dpkg-realpath> ist ein Werkzeug (seit Dpkg 1.20.1), um einen Pfadnamen "
+"aufzulösen, der das Wurzelverzeichnis von L<dpkg(1)> berücksichtigt, "
+"entweder implizit von der Umgebungsvariablen B<DPKG_ROOT> oder von den "
+"Befehlszeilenoptionen B<--root> oder B<--instdir>, und das dann einen "
+"absoluten I<Pfadnamen> relativ zu dem Wurzelverzeichnis zurückliefert. Das "
+"Wurzelverzeichnis darf dem I<Pfadnamen> nicht vorangestellt werden, um "
+"aufgelöst zu werden."
 
 #. type: textblock
 #: dpkg-realpath.pod
@@ -16700,6 +16705,10 @@ msgid ""
 "pathnames, as these latter commands do not support canonicalization relative "
 "to a different root than F</>."
 msgstr ""
+"Dies ist für den Einsatz durch andere Hilfsprogramme von B<dpkg> oder "
+"Betreuerskripten gedacht, statt L<realpath(1)> oder L<readlink(1)> zu "
+"verwenden, um einen kanonischen Pfad zu erhalten, da diese beiden Werkzeuge "
+"den kanonischen Pfad nur relativ zu F</> ermitteln können."
 
 #. type: =item
 #: dpkg-realpath.pod
@@ -16717,16 +16726,12 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-realpath.pod
-#, fuzzy
-#| msgid ""
-#| "Set the installation directory, which refers to the directory where "
-#| "packages get installed. Defaults to «I</>»."
 msgid ""
 "Set the root directory to I<directory>, which is the base directory that "
 "pathnames get canonicalized against.  Defaults to «B</>»."
 msgstr ""
-"Setzt das Installationsverzeichnis, das sich auf das Verzeichnis bezieht, in "
-"dem Pakete installiert werden. Standardmäßig „I</>“."
+"Setzt das Wurzelverzeichnis auf I<Verzeichnis>, das das Basisverzeichnis "
+"ist, gegen das Pfadnamen kanonisiert werden. Standardmäßig „B</>“."
 
 #. type: textblock
 #: dpkg-realpath.pod
@@ -16748,10 +16753,8 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-realpath.pod
-#, fuzzy
-#| msgid "L<realpath(1)>."
 msgid "L<realpath(1)>, L<readlink(1)>."
-msgstr "L<realpath(1)>."
+msgstr "L<realpath(1)>, L<readlink(1)>."
 
 #. type: textblock
 #: dpkg-scanpackages.pod
