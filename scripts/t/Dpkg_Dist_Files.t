@@ -21,7 +21,7 @@ use Test::Dpkg qw(:paths);
 
 use_ok('Dpkg::Dist::Files');
 
-my $datadir = test_get_data_path('t/Dpkg_Dist_Files');
+my $datadir = test_get_data_path();
 
 my $expected;
 my %expected = (
@@ -29,11 +29,13 @@ my %expected = (
         filename => 'pkg-src_4:2.0+1A~rc1-1.dsc',
         section => 'source',
         priority => 'extra',
+        attrs => {},
     },
     'pkg-src_4:2.0+1A~rc1-1.tar.xz' => {
         filename => 'pkg-src_4:2.0+1A~rc1-1.tar.xz',
         section => 'source',
         priority => 'extra',
+        attrs => {},
     },
     'pkg-templ_1.2.3_arch.type' => {
         filename => 'pkg-templ_1.2.3_arch.type',
@@ -43,6 +45,7 @@ my %expected = (
         arch => 'arch',
         section => 'section',
         priority => 'priority',
+        attrs => {},
     },
     'pkg-arch_2.0.0_amd64.deb' => {
         filename => 'pkg-arch_2.0.0_amd64.deb',
@@ -52,6 +55,7 @@ my %expected = (
         arch => 'amd64',
         section => 'admin',
         priority => 'required',
+        attrs => {},
     },
     'pkg-indep_0.0.1-2_all.deb' => {
         filename => 'pkg-indep_0.0.1-2_all.deb',
@@ -61,26 +65,35 @@ my %expected = (
         arch => 'all',
         section => 'net',
         priority => 'standard',
+        attrs => {},
     },
     'other_0.txt' => {
         filename => 'other_0.txt',
         section => 'text',
         priority => 'optional',
+        attrs => {
+            'mime-type' => 'text/plain',
+        },
     },
     'BY-HAND-file' => {
         filename => 'BY-HAND-file',
         section => 'webdocs',
         priority => 'optional',
+        attrs => {
+            'by-hand' => 'true'
+        },
     },
     'another:filename' => {
         filename => 'another:filename',
         section => 'by-hand',
         priority => 'extra',
+        attrs => {},
     },
     'added-on-the-fly' => {
         filename => 'added-on-the-fly',
         section => 'void',
         priority => 'wish',
+        attrs => {},
     },
 );
 
@@ -88,8 +101,8 @@ my $dist = Dpkg::Dist::Files->new();
 $dist->load("$datadir/files-byhand") or error('cannot parse file');
 
 $expected = <<'FILES';
-BY-HAND-file webdocs optional
-other_0.txt text optional
+BY-HAND-file webdocs optional by-hand=true
+other_0.txt text optional mime-type=text/plain
 pkg-arch_2.0.0_amd64.deb admin required
 pkg-indep_0.0.1-2_all.deb net standard
 pkg-templ_1.2.3_arch.type section priority
@@ -110,9 +123,9 @@ foreach my $f ($dist->get_files()) {
 is($dist->parse_filename('file%invalid'), undef, 'invalid filename');
 
 $expected = <<'FILES';
-BY-HAND-file webdocs optional
+BY-HAND-file webdocs optional by-hand=true
 added-on-the-fly void wish
-other_0.txt text optional
+other_0.txt text optional mime-type=text/plain
 pkg-arch_2.0.0_amd64.deb void imperative
 pkg-templ_1.2.3_arch.type section priority
 FILES
@@ -156,8 +169,8 @@ is_deeply($dist->get_file('another:filename'),
 is($dist->output, $expected, 'Added source files');
 
 $expected = <<'FILES';
-BY-HAND-file webdocs optional
-other_0.txt text optional
+BY-HAND-file webdocs optional by-hand=true
+other_0.txt text optional mime-type=text/plain
 pkg-arch_2.0.0_amd64.deb admin required
 pkg-frag-a_0.0_arch.type section priority
 pkg-frag-b_0.0_arch.type section priority
@@ -181,8 +194,8 @@ $dist->filter(remove => sub { $_[0]->{priority} eq 'optional' });
 is($dist->output(), $expected, 'Filter remove priority optional');
 
 $expected = <<'FILES';
-BY-HAND-file webdocs optional
-other_0.txt text optional
+BY-HAND-file webdocs optional by-hand=true
+other_0.txt text optional mime-type=text/plain
 FILES
 
 $dist->reset();
@@ -191,7 +204,7 @@ $dist->filter(keep => sub { $_[0]->{priority} eq 'optional' });
 is($dist->output(), $expected, 'Filter keep priority optional');
 
 $expected = <<'FILES';
-BY-HAND-file webdocs optional
+BY-HAND-file webdocs optional by-hand=true
 FILES
 
 $dist->reset();

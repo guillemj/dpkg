@@ -63,6 +63,7 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . g_(
 'Options:
+  -l<library-path>         add directory to private shared library search list.
   -p<package>              generate symbols file for package.
   -P<package-build-dir>    temporary build directory instead of debian/tmp.
   -e<library>              explicitly list libraries to scan.
@@ -97,6 +98,8 @@ while (@ARGV) {
 	$oppackage = ${^POSTMATCH};
 	my $err = pkg_name_is_illegal($oppackage);
 	error(g_("illegal package name '%s': %s"), $oppackage, $err) if $err;
+    } elsif (m/^-l(.*)$/) {
+        Dpkg::Shlibs::add_library_dir($1);
     } elsif (m/^-c(\d)?$/) {
 	$compare = $1 // 1;
     } elsif (m/^-q$/) {
@@ -253,27 +256,34 @@ if ($stdout) {
 
 # Check if generated files differs from reference file
 my $exitcode = 0;
+
+sub compare_problem
+{
+    my ($level, $msg, @args) = @_;
+
+    if ($compare >= $level) {
+        errormsg($msg, @args);
+        $exitcode = $level;
+    } else {
+        warning($msg, @args) unless $quiet;
+    }
+}
+
 if ($compare || ! $quiet) {
     # Compare
     if (my @libs = $symfile->get_new_libs($ref_symfile)) {
-	warning(g_('new libraries appeared in the symbols file: %s'), "@libs")
-	    unless $quiet;
-	$exitcode = 4 if ($compare >= 4);
+        compare_problem(4, g_('new libraries appeared in the symbols file: %s'), "@libs");
     }
     if (my @libs = $symfile->get_lost_libs($ref_symfile)) {
-	warning(g_('some libraries disappeared in the symbols file: %s'), "@libs")
-	    unless $quiet;
-	$exitcode = 3 if ($compare >= 3);
+        compare_problem(3, g_('some libraries disappeared in the symbols file: %s'), "@libs");
     }
     if ($symfile->get_new_symbols($ref_symfile)) {
-	warning(g_('some new symbols appeared in the symbols file: %s'),
-		g_('see diff output below')) unless $quiet;
-	$exitcode = 2 if ($compare >= 2);
+        compare_problem(2, g_('some new symbols appeared in the symbols file: %s'),
+                           g_('see diff output below'));
     }
     if ($symfile->get_lost_symbols($ref_symfile)) {
-	warning(g_('some symbols or patterns disappeared in the symbols file: %s'),
-	        g_('see diff output below')) unless $quiet;
-	$exitcode = 1 if ($compare >= 1);
+        compare_problem(1, g_('some symbols or patterns disappeared in the symbols file: %s'),
+                           g_('see diff output below'))
     }
 }
 

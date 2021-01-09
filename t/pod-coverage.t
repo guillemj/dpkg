@@ -34,7 +34,7 @@ sub all_pod_modules
     my $scan_perl_modules = sub {
         my $module = $File::Find::name;
 
-        # Only chack modules, scripts are documented in man pages.
+        # Only check modules, scripts are documented in man pages.
         return unless $module =~ s/\.pm$//;
 
         my $mod = Module::Metadata->new_from_file($File::Find::name);

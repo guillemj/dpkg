@@ -42,9 +42,9 @@
 #include <dpkg/dir.h>
 #include <dpkg/options.h>
 #include <dpkg/triglib.h>
+#include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "infodb.h"
-#include "filesdb.h"
 #include "main.h"
 
 /*
@@ -71,10 +71,14 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
             pkg_name(depender, pnaw_always));
       continue;
     }
-    if (dependtry > 1) { if (findbreakcycle(pkgtoremove)) sincenothing= 0; }
+    if (dependtry >= DEPEND_TRY_CYCLES) {
+      if (findbreakcycle(pkgtoremove))
+        sincenothing = 0;
+    }
     varbuf_snapshot(raemsgs, &raemsgs_state);
     ok= dependencies_ok(depender,pkgtoremove,raemsgs);
     if (ok == DEP_CHECK_HALT &&
+        depender->clientdata &&
         depender->clientdata->istobe == PKG_ISTOBE_REMOVE)
       ok = DEP_CHECK_DEFER;
     if (ok == DEP_CHECK_DEFER)
@@ -102,6 +106,8 @@ void deferred_remove(struct pkginfo *pkg) {
       modstatdb_note(pkg);
   }
 
+  ensure_package_clientdata(pkg);
+
   if (pkg->status == PKG_STAT_NOTINSTALLED) {
     sincenothing = 0;
     warning(_("ignoring request to remove %.250s which isn't installed"),
@@ -119,9 +125,14 @@ void deferred_remove(struct pkginfo *pkg) {
     return;
   }
 
-  if (pkg->installed.essential && pkg->status != PKG_STAT_CONFIGFILES)
-    forcibleerr(fc_removeessential,
-                _("this is an essential package; it should not be removed"));
+  if (pkg->status != PKG_STAT_CONFIGFILES) {
+    if (pkg->installed.essential)
+      forcibleerr(FORCE_REMOVE_ESSENTIAL,
+                  _("this is an essential package; it should not be removed"));
+    if (pkg->installed.is_protected)
+      forcibleerr(FORCE_REMOVE_PROTECTED,
+                  _("this is a protected package; it should not be removed"));
+  }
 
   debug(dbg_general, "checking dependencies for remove '%s'",
         pkg_name(pkg, pnaw_always));
@@ -153,12 +164,12 @@ void deferred_remove(struct pkginfo *pkg) {
   sincenothing= 0;
 
   if (pkg->eflag & PKG_EFLAG_REINSTREQ)
-    forcibleerr(fc_removereinstreq,
+    forcibleerr(FORCE_REMOVE_REINSTREQ,
                 _("package is in a very bad inconsistent state; you should\n"
                   " reinstall it before attempting a removal"));
 
   ensure_allinstfiles_available();
-  filesdbinit();
+  fsys_hash_init();
 
   if (f_noact) {
     printf(_("Would remove or purge %s (%s) ...\n"),
@@ -186,7 +197,7 @@ void deferred_remove(struct pkginfo *pkg) {
     oldpkgstatus= pkg->status;
     pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
     modstatdb_note(pkg);
-    push_cleanup(cu_prermremove, ~ehflag_normaltidy, NULL, 0, 2,
+    push_cleanup(cu_prermremove, ~ehflag_normaltidy, 2,
                  (void *)pkg, (void *)&oldpkgstatus);
     maintscript_installed(pkg, PRERMFILE, "pre-removal", "remove", NULL);
 
@@ -197,10 +208,13 @@ void deferred_remove(struct pkginfo *pkg) {
   removal_bulk(pkg);
 }
 
-static void push_leftover(struct fileinlist **leftoverp,
-                          struct filenamenode *namenode) {
-  struct fileinlist *newentry;
-  newentry= nfmalloc(sizeof(struct fileinlist));
+static void
+push_leftover(struct fsys_namenode_list **leftoverp,
+              struct fsys_namenode *namenode)
+{
+  struct fsys_namenode_list *newentry;
+
+  newentry = nfmalloc(sizeof(*newentry));
   newentry->next= *leftoverp;
   newentry->namenode= namenode;
   *leftoverp= newentry;
@@ -223,17 +237,17 @@ removal_bulk_remove_file(const char *filename, const char *filetype)
 }
 
 static bool
-removal_bulk_file_is_shared(struct pkginfo *pkg, struct filenamenode *namenode)
+removal_bulk_file_is_shared(struct pkginfo *pkg, struct fsys_namenode *namenode)
 {
-  struct filepackages_iterator *iter;
+  struct fsys_node_pkgs_iter *iter;
   struct pkginfo *otherpkg;
   bool shared = false;
 
   if (pkgset_installed_instances(pkg->set) <= 1)
     return false;
 
-  iter = filepackages_iter_new(namenode);
-  while ((otherpkg = filepackages_iter_next(iter))) {
+  iter = fsys_node_pkgs_iter_new(namenode);
+  while ((otherpkg = fsys_node_pkgs_iter_next(iter))) {
     if (otherpkg == pkg)
       continue;
     if (otherpkg->set != pkg->set)
@@ -244,7 +258,7 @@ removal_bulk_file_is_shared(struct pkginfo *pkg, struct filenamenode *namenode)
     shared = true;
     break;
   }
-  filepackages_iter_free(iter);
+  fsys_node_pkgs_iter_free(iter);
 
   return shared;
 }
@@ -252,9 +266,9 @@ removal_bulk_file_is_shared(struct pkginfo *pkg, struct filenamenode *namenode)
 static void
 removal_bulk_remove_files(struct pkginfo *pkg)
 {
-  struct reversefilelistiter rev_iter;
-  struct fileinlist *leftover;
-  struct filenamenode *namenode;
+  struct fsys_hash_rev_iter rev_iter;
+  struct fsys_namenode_list *leftover;
+  struct fsys_namenode *namenode;
   static struct varbuf fnvb;
   struct varbuf_state fnvb_state;
   struct stat stab;
@@ -263,10 +277,10 @@ removal_bulk_remove_files(struct pkginfo *pkg)
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 
-    reversefilelist_init(&rev_iter, pkg->clientdata->files);
+    fsys_hash_rev_iter_init(&rev_iter, pkg->files);
     leftover = NULL;
-    while ((namenode = reversefilelist_next(&rev_iter))) {
-      struct filenamenode *usenode;
+    while ((namenode = fsys_hash_rev_iter_next(&rev_iter))) {
+      struct fsys_namenode *usenode;
       bool is_dir;
 
       debug(dbg_eachfile, "removal_bulk '%s' flags=%o",
@@ -289,7 +303,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
         continue;
 
       /* Non-shared conffiles are kept. */
-      if (namenode->flags & fnnf_old_conff) {
+      if (namenode->flags & FNNF_OLD_CONFF) {
         push_leftover(&leftover, namenode);
         continue;
       }
@@ -369,14 +383,15 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 
     pkg_set_status(pkg, PKG_STAT_CONFIGFILES);
     pkg->installed.essential = false;
+    pkg->installed.is_protected = false;
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 }
 
 static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
-  struct reversefilelistiter rev_iter;
-  struct fileinlist *leftover;
-  struct filenamenode *namenode;
+  struct fsys_hash_rev_iter rev_iter;
+  struct fsys_namenode_list *leftover;
+  struct fsys_namenode *namenode;
   static struct varbuf fnvb;
   struct stat stab;
 
@@ -386,14 +401,14 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
   modstatdb_note(pkg);
   push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 
-  reversefilelist_init(&rev_iter, pkg->clientdata->files);
+  fsys_hash_rev_iter_init(&rev_iter, pkg->files);
   leftover = NULL;
-  while ((namenode = reversefilelist_next(&rev_iter))) {
-    struct filenamenode *usenode;
+  while ((namenode = fsys_hash_rev_iter_next(&rev_iter))) {
+    struct fsys_namenode *usenode;
 
     debug(dbg_eachfile, "removal_bulk '%s' flags=%o",
           namenode->name, namenode->flags);
-    if (namenode->flags & fnnf_old_conff) {
+    if (namenode->flags & FNNF_OLD_CONFF) {
       /* This can only happen if removal_bulk_remove_configfiles() got
        * interrupted half way. */
       debug(dbg_eachfiledetail, "removal_bulk expecting only left over dirs, "
@@ -471,7 +486,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
   int conffnameused, conffbasenamelen;
   char *conffbasename;
   struct conffile *conff, **lconffp;
-  struct fileinlist *searchfile;
+  struct fsys_namenode_list *searchfile;
   DIR *dsd;
   struct dirent *de;
   char *p;
@@ -495,7 +510,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
      * are involved in diversions, except if we are the package doing the
      * diverting. */
     for (lconffp = &pkg->installed.conffiles; (conff = *lconffp) != NULL; ) {
-      for (searchfile= pkg->clientdata->files;
+      for (searchfile = pkg->files;
            searchfile && strcmp(searchfile->namenode->name,conff->name);
            searchfile= searchfile->next);
       if (!searchfile) {
@@ -519,7 +534,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
     modstatdb_note(pkg);
 
     for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
-      struct filenamenode *namenode, *usenode;
+      struct fsys_namenode *namenode, *usenode;
     static struct varbuf fnvb, removevb;
       struct varbuf_state removevb_state;
 
@@ -534,7 +549,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       if (rc == -1)
         continue;
 
-      namenode = findnamenode(conff->name, 0);
+      namenode = fsys_hash_find_node(conff->name, 0);
       usenode = namenodetouse(namenode, pkg, &pkg->installed);
 
       trig_path_activate(usenode, pkg);
@@ -561,7 +576,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
                 fnvb.buf, conff->name);
       }
       debug(dbg_conffdetail, "removal_bulk conffile cleaning dsd %s", fnvb.buf);
-      push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
+      push_cleanup(cu_closedir, ~0, 1, (void *)dsd);
       *p= '/';
       conffbasenamelen= strlen(++p);
       conffbasename= fnvb.buf+conffnameused-conffbasenamelen;
@@ -602,8 +617,8 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
     }
 
     /* Remove the conffiles from the file list file. */
-    write_filelist_except(pkg, &pkg->installed, pkg->clientdata->files,
-                          fnnf_old_conff);
+    write_filelist_except(pkg, &pkg->installed, pkg->files,
+                          FNNF_OLD_CONFF);
 
     pkg->installed.conffiles = NULL;
     modstatdb_note(pkg);

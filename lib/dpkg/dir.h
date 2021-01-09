@@ -23,6 +23,8 @@
 
 #include <dpkg/macros.h>
 
+#include <sys/types.h>
+
 #include <dirent.h>
 
 DPKG_BEGIN_DECLS
@@ -32,6 +34,11 @@ DPKG_BEGIN_DECLS
  * @ingroup dpkg-internal
  * @{
  */
+
+int
+dir_make_path(const char *path, mode_t mode);
+int
+dir_make_path_parent(const char *path, mode_t mode);
 
 void dir_sync_path(const char *path);
 void dir_sync_path_parent(const char *path);

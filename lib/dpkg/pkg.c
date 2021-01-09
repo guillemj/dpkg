@@ -22,9 +22,9 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <string.h>
 
+#include <dpkg/ehandle.h>
 #include <dpkg/string.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>
@@ -42,9 +42,12 @@ pkg_set_status(struct pkginfo *pkg, enum pkgstatus status)
 	else if (status == PKG_STAT_NOTINSTALLED)
 		pkg->set->installed_instances--;
 
-	assert(pkg->set->installed_instances >= 0);
+	if (pkg->set->installed_instances < 0)
+		internerr("pkgset %s went into negative installed instances %d",
+		          pkg->set->name, pkg->set->installed_instances);
 
 	pkg->status = status;
+	pkg->status_dirty = true;
 }
 
 /**
@@ -96,6 +99,7 @@ void
 pkgbin_blank(struct pkgbin *pkgbin)
 {
 	pkgbin->essential = false;
+	pkgbin->is_protected = false;
 	pkgbin->depends = NULL;
 	pkgbin->pkgname_archqual = NULL;
 	pkgbin->description = NULL;
@@ -113,13 +117,17 @@ void
 pkg_blank(struct pkginfo *pkg)
 {
 	pkg->status = PKG_STAT_NOTINSTALLED;
+	pkg->status_dirty = false;
 	pkg->eflag = PKG_EFLAG_OK;
 	pkg->want = PKG_WANT_UNKNOWN;
 	pkg->priority = PKG_PRIO_UNKNOWN;
 	pkg->otherpriority = NULL;
 	pkg->section = NULL;
 	dpkg_version_blank(&pkg->configversion);
+	pkg->files_list_valid = false;
+	pkg->files_list_phys_offs = 0;
 	pkg->files = NULL;
+	pkg->archives = NULL;
 	pkg->clientdata = NULL;
 	pkg->trigaw.head = NULL;
 	pkg->trigaw.tail = NULL;

@@ -161,7 +161,7 @@ my $control = Dpkg::Control::Info->new();
 my $fields = $control->get_source();
 my $bd_value = deps_concat($fields->{'Build-Depends'}, $fields->{'Build-Depends-Arch'});
 my $build_deps = deps_parse($bd_value, build_dep => 1, reduce_restrictions => 1);
-error(g_('error occurred while parsing %s'), 'Build-Depends/Build-Depends-Arch')
+error(g_('cannot parse %s field'), 'Build-Depends/Build-Depends-Arch')
     unless defined $build_deps;
 
 my %dependencies;
@@ -227,7 +227,6 @@ foreach my $file (keys %exec) {
     my $file2pkg = find_packages(keys %libfiles, keys %altlibfiles);
     my $symfile = Dpkg::Shlibs::SymbolFile->new();
     my $dumplibs_wo_symfile = Dpkg::Shlibs::Objdump->new();
-    my @soname_wo_symfile;
     SONAME: foreach my $soname (@sonames) {
       # Select the first good entry from the ordered list that we got from
       # find_library(), and skip to the next SONAME.
@@ -236,7 +235,7 @@ foreach my $file (keys %exec) {
 	if (none { $_ ne '' } @{$file2pkg->{$lib}}) {
 	    # The path of the library as calculated is not the
 	    # official path of a packaged file, try to fallback on
-	    # on the realpath() first, maybe this one is part of a package
+	    # the realpath() first, maybe this one is part of a package
 	    my $reallib = realpath($lib);
 	    if (exists $file2pkg->{$reallib}) {
 		$file2pkg->{$lib} = $file2pkg->{$reallib};
@@ -295,7 +294,6 @@ foreach my $file (keys %exec) {
 		    warning(g_('%s has an unexpected SONAME (%s)'), $lib, $id);
 		    $alt_soname{$id} = $soname;
 		}
-		push @soname_wo_symfile, $soname;
 
 		# Only try to generate a dependency for libraries with a SONAME
                 if (not $libobj->is_public_library()) {
@@ -437,8 +435,9 @@ foreach my $file (keys %exec) {
     foreach my $soname (@sonames) {
 	# Adjust minimal version of dependencies with information
 	# extracted from build-dependencies
-	my $dev_pkg = $symfile->get_field($soname, 'Build-Depends-Package');
-	if (defined $dev_pkg) {
+        my $dev_pkgs = $symfile->get_field($soname, 'Build-Depends-Packages') //
+                       $symfile->get_field($soname, 'Build-Depends-Package');
+        foreach my $dev_pkg (split /[,\s]+/, $dev_pkgs // '') {
             debug(1, "Updating dependencies of $soname with build-dependencies");
 	    my $minver = get_min_version_from_deps($build_deps, $dev_pkg);
 	    if (defined $minver) {
@@ -482,8 +481,9 @@ foreach my $soname (keys %global_soname_needed) {
 # Quit now if any missing libraries
 if ($error_count >= 1) {
     my $note = g_('Note: libraries are not searched in other binary packages ' .
-	"that do not have any shlibs or symbols file.\nTo help dpkg-shlibdeps " .
-	'find private libraries, you might need to use -l.');
+                  "that do not have any shlibs or symbols file.\n" .
+                  'To help dpkg-shlibdeps find private libraries, you might ' .
+                  'need to use -l.');
     error(P_('cannot continue due to the error above',
              'cannot continue due to the errors listed above',
              $error_count) . "\n" . $note);
@@ -546,7 +546,8 @@ foreach my $field (reverse @depfields) {
 	    map {
 		# Translate dependency templates into real dependencies
 		my $templ = $_;
-		if ($dependencies{$field}{$templ}) {
+		if ($dependencies{$field}{$templ}->is_valid() and
+		    $dependencies{$field}{$templ}->as_string()) {
 		    $templ =~ s/#MINVER#/(>= $dependencies{$field}{$templ})/g;
 		} else {
 		    $templ =~ s/#MINVER#//g;
@@ -704,11 +705,15 @@ sub add_shlibs_dep {
 
 sub split_soname {
     my $soname = shift;
+
     if ($soname =~ /^(.*)\.so\.(.*)$/) {
+        # Shared library with stable <name>.so.<version> format.
 	return wantarray ? ($1, $2) : 1;
     } elsif ($soname =~ /^(.*)-(\d.*)\.so$/) {
+        # Shared library/module with unstable <name>-<version>.so format.
 	return wantarray ? ($1, $2) : 1;
     } else {
+        # Something else.
 	return wantarray ? () : 0;
     }
 }

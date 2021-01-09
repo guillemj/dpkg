@@ -21,7 +21,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <limits.h>
 #include <string.h>
 #include <fcntl.h>
@@ -40,7 +39,7 @@
 void reassemble(struct partinfo **partlist, const char *outputfile) {
   struct dpkg_error err;
   int fd_out, fd_in;
-  unsigned int i;
+  int i;
 
   printf(P_("Putting package %s together from %d part: ",
             "Putting package %s together from %d parts: ",
@@ -64,7 +63,7 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
              pi->filename, outputfile, err.str);
     close(fd_in);
 
-    printf("%d ",i+1);
+    printf("%d ", i + 1);
   }
   if (fsync(fd_out))
     ohshite(_("unable to sync file '%s'"), outputfile);
@@ -104,13 +103,13 @@ do_join(const char *const *argv)
   struct partqueue *queue = NULL;
   struct partqueue *pq;
   struct partinfo *refi, **partlist;
-  unsigned int i;
+  int i;
 
   if (!*argv)
     badusage(_("--%s requires one or more part file arguments"),
              cipaction->olong);
   while ((thisarg= *argv++)) {
-    pq= nfmalloc(sizeof(struct partqueue));
+    pq = nfmalloc(sizeof(*pq));
 
     mustgetpartinfo(thisarg,&pq->info);
 
@@ -120,8 +119,10 @@ do_join(const char *const *argv)
   refi= NULL;
   for (pq= queue; pq; pq= pq->nextinqueue)
     if (!refi || pq->info.thispartn < refi->thispartn) refi= &pq->info;
-  assert(refi);
-  partlist= nfmalloc(sizeof(struct partinfo*)*refi->maxpartn);
+  if (refi == NULL)
+    internerr("empty deb part queue");
+
+  partlist = nfmalloc(sizeof(*partlist) * refi->maxpartn);
   for (i = 0; i < refi->maxpartn; i++)
     partlist[i] = NULL;
   for (pq= queue; pq; pq= pq->nextinqueue) {

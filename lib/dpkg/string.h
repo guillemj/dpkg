@@ -35,12 +35,12 @@ DPKG_BEGIN_DECLS
  */
 
 /**
- * Check if a string is either NULL or empty.
+ * Check if a string is either null or empty.
  */
 static inline bool
 str_is_unset(const char *str)
 {
-	return str == NULL || str[0] == '\0';
+	return str == DPKG_NULL || str[0] == '\0';
 }
 
 /**
@@ -49,17 +49,19 @@ str_is_unset(const char *str)
 static inline bool
 str_is_set(const char *str)
 {
-	return str != NULL && str[0] != '\0';
+	return str != DPKG_NULL && str[0] != '\0';
 }
 
 bool str_match_end(const char *str, const char *end);
 
 unsigned int str_fnv_hash(const char *str);
 
+char *str_concat(char *dst, ...) DPKG_ATTR_SENTINEL;
 char *str_fmt(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 char *str_escape_fmt(char *dest, const char *src, size_t n);
 char *str_quote_meta(const char *src);
 char *str_strip_quotes(char *str);
+char *str_rtrim_spaces(const char *str, char *str_end);
 
 struct str_crop_info {
 	int str_bytes;

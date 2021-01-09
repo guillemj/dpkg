@@ -29,8 +29,8 @@
 struct tarcontext {
   int backendpipe;
   struct pkginfo *pkg;
-  /** A queue of filenamenode that have been extracted anew. */
-  struct filenamenode_queue *newfiles_queue;
+  /** A queue of fsys_namenode that have been extracted anew. */
+  struct fsys_namenode_queue *newfiles_queue;
   /** Are all “Multi-arch: same” instances about to be in sync? */
   bool pkgset_getting_in_sync;
 };
@@ -70,16 +70,20 @@ void ok_prermdeconfigure(int argc, void **argv);
 
 void setupfnamevbs(const char *filename);
 
-int tarobject(void *ctx, struct tar_entry *ti);
-int tarfileread(void *ud, char *buf, int len);
-void tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg);
+int
+tarobject(struct tar_archive *tar, struct tar_entry *ti);
+int
+tarfileread(struct tar_archive *tar, char *buf, int len);
+void
+tar_deferred_extract(struct fsys_namenode_list *files, struct pkginfo *pkg);
 
-struct fileinlist *
-tar_filenamenode_queue_push(struct filenamenode_queue *queue,
-                            struct filenamenode *namenode);
+struct fsys_namenode_list *
+tar_fsys_namenode_queue_push(struct fsys_namenode_queue *queue,
+                             struct fsys_namenode *namenode);
 
-bool filesavespackage(struct fileinlist *, struct pkginfo *,
-                      struct pkginfo *pkgbeinginstalled);
+bool
+filesavespackage(struct fsys_namenode_list *, struct pkginfo *,
+                 struct pkginfo *pkgbeinginstalled);
 
 void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                     const char *pfilename);

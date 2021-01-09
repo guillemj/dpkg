@@ -45,7 +45,7 @@ sub make_file {
 # Populate the tree hierarchy.
 sub make_tree {
     my ($dirtree) = @_;
-    my $cwd = cwd();
+    my $cwd = getcwd();
 
     make_path($dirtree);
     chdir $dirtree;

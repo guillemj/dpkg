@@ -28,6 +28,25 @@
 #include <dpkg/string.h>
 #include <dpkg/dpkg.h>
 
+char *
+str_concat(char *dst, ...)
+{
+	va_list args;
+	const char *src;
+	size_t len;
+
+	va_start(args, dst);
+	while ((src = va_arg(args, const char *))) {
+		len = strlen(src);
+		memcpy(dst, src, len);
+		dst += len;
+	}
+	va_end(args);
+	*dst = '\0';
+
+	return dst;
+}
+
 /**
  * Match the end of a string.
  *
@@ -155,4 +174,21 @@ str_strip_quotes(char *str)
 	}
 
 	return str;
+}
+
+/**
+ * Trim possible ending spaces in string.
+ *
+ * @param str The string to act on.
+ *
+ * @return A pointer to the end of the trimmed string.
+ */
+char *
+str_rtrim_spaces(const char *str, char *str_end)
+{
+	while (str_end > str && c_isspace(str_end[-1]))
+		str_end--;
+	if (str_end >= str)
+		*str_end = '\0';
+	return str_end;
 }

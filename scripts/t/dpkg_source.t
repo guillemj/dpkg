@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use Test::More tests => 8;
-use Test::Dpkg qw(test_neutralize_checksums);
+use Test::Dpkg qw(:paths test_neutralize_checksums);
 
 use File::Spec::Functions qw(rel2abs);
 use File::Compare;
@@ -28,14 +28,12 @@ use Dpkg::Substvars;
 
 my $srcdir = rel2abs($ENV{srcdir} || '.');
 my $datadir = "$srcdir/t/dpkg_source";
-my $tmpdir = 't.tmp/dpkg_source';
+my $tmpdir = test_get_temp_path();
 
 $ENV{$_} = rel2abs($ENV{$_}) foreach qw(DPKG_DATADIR DPKG_ORIGINS_DIR);
 
 # Delete variables that can affect the tests.
 delete $ENV{SOURCE_DATE_EPOCH};
-
-make_path($tmpdir);
 
 chdir $tmpdir;
 

@@ -16,7 +16,9 @@
 use strict;
 use warnings;
 
-use Test::More tests => 6;
+use Test::More tests => 10;
+use Test::Dpkg qw(:paths);
+
 use File::Spec::Functions qw(rel2abs);
 
 use Dpkg ();
@@ -25,7 +27,7 @@ use Dpkg::IPC;
 use Dpkg::Vendor;
 
 my $srcdir = $ENV{srcdir} || '.';
-my $datadir = "$srcdir/t/mk";
+my $datadir = test_get_data_path();
 
 # Turn these into absolute names so that we can safely switch to the test
 # directory with «make -C».
@@ -73,6 +75,12 @@ test_makefile('architecture.mk');
 $ENV{$_} = $arch{$_} foreach keys %arch;
 test_makefile('architecture.mk');
 
+$ENV{DEB_BUILD_OPTIONS} = 'parallel=16';
+$ENV{TEST_DEB_BUILD_OPTION_PARALLEL} = '16';
+test_makefile('buildopts.mk');
+delete $ENV{DEB_BUILD_OPTIONS};
+delete $ENV{TEST_DEB_BUILD_OPTION_PARALLEL};
+
 my %buildflag = cmd_get_vars($ENV{PERL}, "$srcdir/dpkg-buildflags.pl");
 
 delete $ENV{$_} foreach keys %buildflag;
@@ -80,6 +88,7 @@ $ENV{"TEST_$_"} = $buildflag{$_} foreach keys %buildflag;
 test_makefile('buildflags.mk');
 
 my %buildtools = (
+    AS => 'as',
     CPP => 'gcc -E',
     CC => 'gcc',
     CXX => 'g++',
@@ -89,6 +98,12 @@ my %buildtools = (
     F77 => 'f77',
     FC => 'f77',
     LD => 'ld',
+    STRIP => 'strip',
+    OBJCOPY => 'objcopy',
+    OBJDUMP => 'objdump',
+    NM => 'nm',
+    AR => 'ar',
+    RANLIB => 'ranlib',
     PKG_CONFIG => 'pkg-config',
 );
 
@@ -100,6 +115,12 @@ foreach my $tool (keys %buildtools) {
 }
 test_makefile('buildtools.mk');
 
+$ENV{DEB_BUILD_OPTIONS} = 'nostrip';
+$ENV{TEST_STRIP} = ':';
+$ENV{TEST_STRIP_FOR_BUILD} = ':';
+test_makefile('buildtools.mk');
+delete $ENV{DEB_BUILD_OPTIONS};
+
 foreach my $tool (keys %buildtools) {
     delete $ENV{${tool}};
     delete $ENV{"${tool}_FOR_BUILD"};
@@ -108,5 +129,7 @@ foreach my $tool (keys %buildtools) {
 test_makefile('pkg-info.mk');
 
 test_makefile('vendor.mk');
+test_makefile('vendor-v0.mk');
+test_makefile('vendor-v1.mk');
 
 1;

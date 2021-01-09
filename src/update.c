@@ -50,7 +50,7 @@ updateavailable(const char *const *argv)
   case act_avreplace: case act_avmerge:
     if (sourcefile == NULL)
       sourcefile = "-";
-    else if (sourcefile && argv[1])
+    else if (argv[1])
       badusage(_("--%s takes at most one Packages-file argument"),
                cipaction->olong);
     break;
@@ -59,11 +59,15 @@ updateavailable(const char *const *argv)
   }
 
   if (!f_noact) {
-    if (access(dpkg_db_get_dir(), W_OK)) {
+    const char *dbdir = dpkg_db_get_dir();
+
+    if (access(dbdir, W_OK)) {
       if (errno != EACCES)
-        ohshite(_("unable to access dpkg status area for bulk available update"));
+        ohshite(_("unable to access dpkg database directory '%s' for bulk available update"),
+                dbdir);
       else
-        ohshit(_("bulk available update requires write access to dpkg status area"));
+        ohshit(_("required write access to dpkg database directory '%s' for bulk available update"),
+               dbdir);
     }
     modstatdb_lock();
   }

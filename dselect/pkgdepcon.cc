@@ -22,7 +22,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -51,12 +50,13 @@ packagelist::useavailable(pkginfo *pkg)
 pkgbin *
 packagelist::find_pkgbin(pkginfo *pkg)
 {
-  pkgbin *r;
-  r= useavailable(pkg) ? &pkg->available : &pkg->installed;
-  debug(dbg_general, "packagelist[%p]::find_pkgbin(%s) useavailable=%d",
-        this, pkgbin_name(pkg, r, pnaw_always), useavailable(pkg));
+  pkgbin *pkgbin;
 
-  return r;
+  pkgbin = useavailable(pkg) ? &pkg->available : &pkg->installed;
+  debug(dbg_general, "packagelist[%p]::find_pkgbin(%s) useavailable=%d",
+        this, pkgbin_name(pkg, pkgbin, pnaw_always), useavailable(pkg));
+
+  return pkgbin;
 }
 
 int packagelist::checkdependers(pkginfo *pkg, int changemade) {
@@ -124,7 +124,7 @@ dep_update_best_to_change_stop(perpackagestate *& best, pkginfo *trythis)
 
   debug(dbg_depcon, "update_best_to_change(best=%s{%d}, test=%s{%d});",
         best ? pkg_name(best->pkg, pnaw_always) : "",
-        best ? (int)best->spriority : -1,
+        best ? best->spriority : -1,
         trythis->set->name, trythis->clientdata->spriority);
 
   // If the problem is caused by us deselecting one of these packages
@@ -190,14 +190,19 @@ packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *dep)
     best = ed;
   else if (ped->eflag & PKG_EFLAG_REINSTREQ)
     best = er;
-  else if (er->spriority < ed->spriority) best= er; // We'd rather change the
-  else if (er->spriority > ed->spriority) best= ed; // one with the lowest priority.
-  // ... failing that the one with the highest priority
-  else if (er->pkg->priority > ed->pkg->priority)
+  // We'd rather change the one with the lowest priority.
+  else if (er->spriority > ed->spriority)
+    best = ed;
+  else if (er->spriority < ed->spriority)
     best = er;
+  // ... failing that the one with the highest priority.
   else if (er->pkg->priority < ed->pkg->priority)
     best = ed;
-  else best= ed;                                      // ... failing that, the second
+  else if (er->pkg->priority > ed->pkg->priority)
+    best = er;
+  // ... failing that, the second.
+  else
+    best = ed;
 
   debug(dbg_depcon, "packagelist[%p]::deselect_one_of(): best %s{%d}",
         this, pkg_name(best->pkg, pnaw_always), best->spriority);
@@ -401,7 +406,8 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
     // been specified, in which case we don't need to look at the rest
     // anyway.
     if (useavailable(&possi->ed->pkg)) {
-      assert(want == PKG_WANT_INSTALL);
+      if (want != PKG_WANT_INSTALL)
+        internerr("depossi package is not want-install, is %d", want);
       return versionsatisfied(&possi->ed->pkg.available, possi);
     } else {
       if (versionsatisfied(&possi->ed->pkg.installed, possi))

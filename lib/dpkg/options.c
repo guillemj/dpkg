@@ -83,14 +83,10 @@ dpkg_options_load_file(const char *fn, const struct cmdinfo *cmdinfos)
   while (fgets(linebuf, sizeof(linebuf), file)) {
     char *opt;
     const struct cmdinfo *cip;
-    int l;
 
     line_num++;
 
-    l = strlen(linebuf);
-    while (l && c_isspace(linebuf[l - 1]))
-      l--;
-    linebuf[l] = '\0';
+    str_rtrim_spaces(linebuf, linebuf + strlen(linebuf));
 
     if ((linebuf[0] == '#') || (linebuf[0] == '\0'))
       continue;
@@ -109,6 +105,8 @@ dpkg_options_load_file(const char *fn, const struct cmdinfo *cmdinfos)
     }
 
     for (cip=cmdinfos; cip->olong || cip->oshort; cip++) {
+      int l;
+
       if (!cip->olong) continue;
       if (strcmp(cip->olong, linebuf) == 0)
         break;

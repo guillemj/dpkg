@@ -22,16 +22,22 @@
 #include <config.h>
 #include <compat.h>
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
 #include <errno.h>
 #include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include <dpkg/i18n.h>
 #include <dpkg/error.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 #include <dpkg/parsedump.h>
 #include <dpkg/pkg-show.h>
 #include <dpkg/pkg-format.h>
@@ -45,8 +51,7 @@ enum pkg_format_type {
 struct pkg_format_node {
 	struct pkg_format_node *next;
 	enum pkg_format_type type;
-	size_t width;
-	int pad;
+	int width;
 	char *data;
 };
 
@@ -61,7 +66,6 @@ pkg_format_node_new(void)
 	buf->next = NULL;
 	buf->data = NULL;
 	buf->width = 0;
-	buf->pad = 0;
 
 	return buf;
 }
@@ -93,11 +97,7 @@ parsefield(struct pkg_format_node *node, const char *fmt, const char *fmtend,
 			return false;
 		}
 
-		if (w < 0) {
-			node->pad = 1;
-			node->width = (size_t)-w;
-		} else
-			node->width = (size_t)w;
+		node->width = w;
 
 		len = ws - fmt;
 	}
@@ -194,11 +194,8 @@ pkg_format_parse(const char *fmt, struct dpkg_error *err)
 			fmtend = fmt;
 			do {
 				fmtend += 1;
-				fmtend = strchr(fmtend, '$');
-			} while (fmtend && fmtend[1] != '{');
-
-			if (!fmtend)
-				fmtend = fmt + strlen(fmt);
+				fmtend = strchrnul(fmtend, '$');
+			} while (fmtend[0] && fmtend[1] != '{');
 
 			if (!parsestring(node, fmt, fmtend - 1, err)) {
 				pkg_format_free(head);
@@ -269,16 +266,63 @@ virt_status_eflag(struct varbuf *vb,
 }
 
 static void
-virt_summary(struct varbuf *vb,
-             const struct pkginfo *pkg, const struct pkgbin *pkgbin,
-             enum fwriteflags flags, const struct fieldinfo *fip)
+virt_synopsis(struct varbuf *vb,
+              const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+              enum fwriteflags flags, const struct fieldinfo *fip)
 {
 	const char *desc;
 	int len;
 
-	desc = pkgbin_summary(pkg, pkgbin, &len);
+	desc = pkgbin_synopsis(pkg, pkgbin, &len);
 
 	varbuf_add_buf(vb, desc, len);
+}
+
+static void
+virt_fsys_last_modified(struct varbuf *vb,
+                        const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                        enum fwriteflags flags, const struct fieldinfo *fip)
+{
+	const char *listfile;
+	struct stat st;
+	intmax_t mtime;
+
+	if (pkg->status == PKG_STAT_NOTINSTALLED)
+		return;
+
+	listfile = pkg_infodb_get_file(pkg, pkgbin, LISTFILE);
+
+	if (stat(listfile, &st) < 0) {
+		if (errno == ENOENT)
+			return;
+
+		ohshite(_("cannot get package %s filesystem last modification time"),
+		        pkgbin_name_const(pkg, pkgbin, pnaw_nonambig));
+	}
+
+	mtime = st.st_mtime;
+	varbuf_printf(vb, "%jd", mtime);
+}
+
+/*
+ * This function requires the caller to have loaded the package fsys metadata,
+ * otherwise it will do nothing.
+ */
+static void
+virt_fsys_files(struct varbuf *vb,
+                const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                enum fwriteflags flags, const struct fieldinfo *fip)
+{
+	struct fsys_namenode_list *node;
+
+	if (!pkg->files_list_valid)
+		return;
+
+	for (node = pkg->files; node; node = node->next) {
+		varbuf_add_char(vb, ' ');
+		varbuf_add_str(vb, node->namenode->name);
+		varbuf_add_char(vb, '\n');
+	}
 }
 
 static void
@@ -288,6 +332,9 @@ virt_source_package(struct varbuf *vb,
 {
 	const char *name;
 	size_t len;
+
+	if (pkg->status == PKG_STAT_NOTINSTALLED)
+		return;
 
 	name = pkgbin->source;
 	if (name == NULL)
@@ -303,6 +350,9 @@ virt_source_version(struct varbuf *vb,
                     const struct pkginfo *pkg, const struct pkgbin *pkgbin,
                     enum fwriteflags flags, const struct fieldinfo *fip)
 {
+	if (pkg->status == PKG_STAT_NOTINSTALLED)
+		return;
+
 	varbuf_add_source_version(vb, pkg, pkgbin);
 }
 
@@ -313,6 +363,9 @@ virt_source_upstream_version(struct varbuf *vb,
 {
 	struct dpkg_version version;
 
+	if (pkg->status == PKG_STAT_NOTINSTALLED)
+		return;
+
 	pkg_source_version(&version, pkg, pkgbin);
 
 	varbuf_add_str(vb, version.version);
@@ -321,16 +374,44 @@ virt_source_upstream_version(struct varbuf *vb,
 
 static const struct fieldinfo virtinfos[] = {
 	{ FIELD("binary:Package"), NULL, virt_package },
-	{ FIELD("binary:Summary"), NULL, virt_summary },
+	{ FIELD("binary:Synopsis"), NULL, virt_synopsis },
+	{ FIELD("binary:Summary"), NULL, virt_synopsis },
 	{ FIELD("db:Status-Abbrev"), NULL, virt_status_abbrev },
 	{ FIELD("db:Status-Want"), NULL, virt_status_want },
 	{ FIELD("db:Status-Status"), NULL, virt_status_status },
 	{ FIELD("db:Status-Eflag"), NULL, virt_status_eflag },
+	{ FIELD("db-fsys:Files"), NULL, virt_fsys_files },
+	{ FIELD("db-fsys:Last-Modified"), NULL, virt_fsys_last_modified },
 	{ FIELD("source:Package"), NULL, virt_source_package },
 	{ FIELD("source:Version"), NULL, virt_source_version },
 	{ FIELD("source:Upstream-Version"), NULL, virt_source_upstream_version },
 	{ NULL },
 };
+
+bool
+pkg_format_needs_db_fsys(const struct pkg_format_node *head)
+{
+	const struct pkg_format_node *node;
+
+	for (node = head; node; node = node->next) {
+		if (node->type != PKG_FORMAT_FIELD)
+			continue;
+		if (strcmp(node->data, "db-fsys:Files") == 0)
+			return true;
+	}
+
+	return false;
+}
+
+static void
+pkg_format_item(struct varbuf *vb,
+                const struct pkg_format_node *node, const char *str)
+{
+	if (node->width == 0)
+		varbuf_add_str(vb, str);
+	else
+		varbuf_printf(vb, "%*s", node->width, str);
+}
 
 void
 pkg_format_show(const struct pkg_format_node *head,
@@ -340,19 +421,10 @@ pkg_format_show(const struct pkg_format_node *head,
 	struct varbuf vb = VARBUF_INIT, fb = VARBUF_INIT, wb = VARBUF_INIT;
 
 	for (node = head; node; node = node->next) {
-		bool ok;
-		char fmt[16];
-
-		ok = false;
-
-		if (node->width > 0)
-			snprintf(fmt, 16, "%%%s%zus",
-			         ((node->pad) ? "-" : ""), node->width);
-		else
-			strcpy(fmt, "%s");
+		bool ok = false;
 
 		if (node->type == PKG_FORMAT_STRING) {
-			varbuf_printf(&fb, fmt, node->data);
+			pkg_format_item(&fb, node, node->data);
 			ok = true;
 		} else if (node->type == PKG_FORMAT_FIELD) {
 			const struct fieldinfo *fip;
@@ -365,7 +437,7 @@ pkg_format_show(const struct pkg_format_node *head,
 				fip->wcall(&wb, pkg, pkgbin, 0, fip);
 
 				varbuf_end_str(&wb);
-				varbuf_printf(&fb, fmt, wb.buf);
+				pkg_format_item(&fb, node, wb.buf);
 				varbuf_reset(&wb);
 				ok = true;
 			} else {
@@ -373,7 +445,7 @@ pkg_format_show(const struct pkg_format_node *head,
 
 				afp = find_arbfield_info(pkgbin->arbs, node->data);
 				if (afp) {
-					varbuf_printf(&fb, fmt, afp->value);
+					pkg_format_item(&fb, node, afp->value);
 					ok = true;
 				}
 			}
@@ -381,8 +453,10 @@ pkg_format_show(const struct pkg_format_node *head,
 
 		if (ok) {
 			size_t len = fb.used;
-			if ((node->width > 0) && (len > node->width))
-				len = node->width;
+			size_t width = abs(node->width);
+
+			if ((width != 0) && (len > width))
+				len = width;
 			varbuf_add_buf(&vb, fb.buf, len);
 		}
 

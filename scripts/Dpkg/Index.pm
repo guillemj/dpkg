@@ -19,7 +19,7 @@ package Dpkg::Index;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '2.01';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -39,7 +39,7 @@ Dpkg::Index - generic index of control information
 
 =head1 DESCRIPTION
 
-This object represent a set of Dpkg::Control objects.
+This class represent a set of Dpkg::Control objects.
 
 =head1 METHODS
 
@@ -58,9 +58,10 @@ sub new {
     my $self = {
 	items => {},
 	order => [],
-	unique_tuple_key => 0,
+	unique_tuple_key => 1,
 	get_key_func => sub { return $_[0]->{Package} },
 	type => CTRL_UNKNOWN,
+        item_opts => {},
     };
     bless $self, $class;
     $self->set_options(%opts);
@@ -77,8 +78,9 @@ The "type" option is checked first to define default values for other
 options. Here are the relevant options: "get_key_func" is a function
 returning a key for the item passed in parameters, "unique_tuple_key" is
 a boolean requesting whether the default key should be the unique tuple
-(default to false for backwards compatibility, but it will change to true
-in dpkg 1.20.x). The index can only contain one item with a given key.
+(default to true), "item_opts" is a hash reference that will be passed to
+the item constructor in the new_item() method.
+The index can only contain one item with a given key.
 The "get_key_func" function used depends on the type:
 
 =over
@@ -89,9 +91,9 @@ for CTRL_INFO_SRC, it is the Source field;
 
 =item *
 
-for CTRL_INDEX_SRC and CTRL_PKG_SRC it is the Package field by default,
-or the Package and Version fields (concatenated with "_") when
-"unique_tuple_key" is true;
+for CTRL_INDEX_SRC and CTRL_PKG_SRC it is the Package and Version fields
+(concatenated with "_") when "unique_tuple_key" is true (the default), or
+otherwise the Package field;
 
 =item *
 
@@ -99,9 +101,9 @@ for CTRL_INFO_PKG it is simply the Package field;
 
 =item *
 
-for CTRL_INDEX_PKG and CTRL_PKG_DEB it is the Package field by default,
-or the Package, Version and Architecture fields (concatenated with "_")
-when "unique_tuple_key" is true;
+for CTRL_INDEX_PKG and CTRL_PKG_DEB it is the Package, Version and
+Architecture fields (concatenated with "_") when "unique_tuple_key" is
+true (the default) or otherwise the Package field;
 
 =item *
 
@@ -165,14 +167,10 @@ sub set_options {
                 $self->{get_key_func} = sub {
                     return $_[0]->{Package} . '_' . $_[0]->{Version};
                 };
-            } elsif (not defined $opts{get_key_func}) {
+            } else {
                 $self->{get_key_func} = sub {
                     return $_[0]->{Package};
                 };
-                warnings::warnif('deprecated',
-                    'the default get_key_func for this control type will ' .
-                    'change semantics in dpkg 1.20.x , please set ' .
-                    'unique_tuple_key or get_key_func explicitly');
             }
         } elsif ($t == CTRL_INDEX_PKG or $t == CTRL_PKG_DEB) {
             if ($opts{unique_tuple_key} // $self->{unique_tuple_key}) {
@@ -180,14 +178,10 @@ sub set_options {
                     return $_[0]->{Package} . '_' . $_[0]->{Version} . '_' .
                            $_[0]->{Architecture};
                 };
-            } elsif (not defined $opts{get_key_func}) {
+            } else {
                 $self->{get_key_func} = sub {
                     return $_[0]->{Package};
                 };
-                warnings::warnif('deprecated',
-                    'the default get_key_func for this control type will ' .
-                    'change semantics in dpkg 1.20.x , please set ' .
-                    'unique_tuple_key or get_key_func explicitly');
             }
         } elsif ($t == CTRL_FILE_CHANGES) {
 	    $self->{get_key_func} = sub {
@@ -237,11 +231,6 @@ sub add {
     $self->{items}{$key} = $item;
 }
 
-=item $index->load($file)
-
-Reads the file and creates all items parsed. Returns the number of items
-parsed. Handles compressed files transparently based on their extensions.
-
 =item $index->parse($fh, $desc)
 
 Reads the filehandle and creates all items parsed. When called multiple
@@ -263,10 +252,10 @@ sub parse {
     return $i;
 }
 
-=item $index->save($file)
+=item $index->load($file)
 
-Writes the content of the index in a file. Auto-compresses files
-based on their extensions.
+Reads the file and creates all items parsed. Returns the number of items
+parsed. Handles compressed files transparently based on their extensions.
 
 =item $item = $index->new_item()
 
@@ -278,7 +267,7 @@ object.
 
 sub new_item {
     my $self = shift;
-    return Dpkg::Control->new(type => $self->{type});
+    return Dpkg::Control->new(%{$self->{item_opts}}, type => $self->{type});
 }
 
 =item $item = $index->get_by_key($key)
@@ -404,17 +393,16 @@ sub sort {
     }
 }
 
-=item $str = $index->output()
+=item $str = $index->output([$fh])
 
 =item "$index"
 
-Get a string representation of the index. The Dpkg::Control objects are
+Get a string representation of the index. The L<Dpkg::Control> objects are
 output in the order which they have been read or added except if the order
 have been changed with sort().
 
-=item $index->output($fh)
-
-Print the string representation of the index to a filehandle.
+Print the string representation of the index to a filehandle if $fh has
+been passed.
 
 =cut
 
@@ -432,9 +420,22 @@ sub output {
     return $str;
 }
 
+=item $index->save($file)
+
+Writes the content of the index in a file. Auto-compresses files
+based on their extensions.
+
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.01 (dpkg 1.20.6)
+
+New option: Add new "item_opts" option.
+
+=head2 Version 2.00 (dpkg 1.20.0)
+
+Change behavior: The "unique_tuple_key" option now defaults to true.
 
 =head2 Version 1.01 (dpkg 1.19.0)
 

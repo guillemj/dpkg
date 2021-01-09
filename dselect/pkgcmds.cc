@@ -104,7 +104,7 @@ packagelist::reallywant(pkgwant nwarg, struct perpackagestate *pkgstate)
 void
 packagelist::setwant(pkgwant nwarg)
 {
-  int index, top, bot;
+  int index, bot;
   pkgwant nw;
 
   if (modstatdb_get_status() == msdbrw_readonly) {
@@ -116,9 +116,10 @@ packagelist::setwant(pkgwant nwarg)
     redrawitemsrange(cursorline,cursorline+1);
     table[cursorline]->selected= reallywant(nwarg,table[cursorline]);
     redraw1item(cursorline);
-    top= cursorline;
     bot= cursorline+1;
   } else {
+    int top;
+
     packagelist *sub = new packagelist(bindings, nullptr);
 
     affectedrange(&top,&bot);

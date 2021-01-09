@@ -72,22 +72,22 @@ test_tar_atol8(void)
 	errno = 0;
 	u = tar_atoul("   11111aaa ", 12, UINTMAX_MAX);
 	test_pass(u == 0);
-	test_pass(errno == EINVAL);
+	test_pass(errno == ERANGE);
 
 	errno = 0;
 	u = tar_atoul("          8 ", 12, UINTMAX_MAX);
 	test_pass(u == 0);
-	test_pass(errno == EINVAL);
+	test_pass(errno == ERANGE);
 
 	errno = 0;
 	u = tar_atoul("         18 ", 12, UINTMAX_MAX);
 	test_pass(u == 0);
-	test_pass(errno == EINVAL);
+	test_pass(errno == ERANGE);
 
 	errno = 0;
 	u = tar_atoul("    aa      ", 12, UINTMAX_MAX);
 	test_pass(u == 0);
-	test_pass(errno == EINVAL);
+	test_pass(errno == ERANGE);
 }
 
 static void

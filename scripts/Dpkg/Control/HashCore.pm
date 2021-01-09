@@ -43,7 +43,7 @@ Dpkg::Control::HashCore - parse and manipulate a block of RFC822-like fields
 
 =head1 DESCRIPTION
 
-The Dpkg::Control::Hash object is a hash-like representation of a set of
+The Dpkg::Control::Hash class is a hash-like representation of a set of
 RFC822-like fields. The fields names are case insensitive and are always
 capitalized the same when output (see field_capitalize function in
 Dpkg::Control::Fields).
@@ -159,11 +159,6 @@ sub get_option {
     my ($self, $k) = @_;
     return $$self->{$k};
 }
-
-=item $c->load($file)
-
-Parse the content of $file. Exits in case of errors. Returns true if some
-fields have been parsed.
 
 =item $c->parse_error($file, $fmt, ...)
 
@@ -284,6 +279,11 @@ sub parse {
     return defined($cf);
 }
 
+=item $c->load($file)
+
+Parse the content of $file. Exits in case of errors. Returns true if some
+fields have been parsed.
+
 =item $c->find_custom_field($name)
 
 Scan the fields and look for a user specific field whose name matches the
@@ -312,11 +312,6 @@ sub get_custom_field {
     return $self->{$key} if defined $key;
     return;
 }
-
-=item $c->save($filename)
-
-Write the string representation of the control information to a
-file.
 
 =item $str = $c->output()
 
@@ -386,6 +381,10 @@ sub output {
     return $str;
 }
 
+=item $c->save($filename)
+
+Write the string representation of the control information to a file.
+
 =item $c->set_output_order(@fields)
 
 Define the order in which fields will be displayed in the output() method.
@@ -441,7 +440,7 @@ sub apply_substvars {
 
 package Dpkg::Control::HashCore::Tie;
 
-# This object is used to tie a hash. It implements hash-like functions by
+# This class is used to tie a hash. It implements hash-like functions by
 # normalizing the name of fields received in keys (using
 # Dpkg::Control::Fields::field_capitalize). It also stores the order in
 # which fields have been added in order to be able to dump them in the

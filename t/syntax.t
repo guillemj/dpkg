@@ -34,7 +34,7 @@ my $PERL = $ENV{PERL} // $^X // 'perl';
 sub syntax_ok {
     my $file = shift;
 
-    my $eval = `$PERL -cw \"$file\" 2>&1`;
+    my $eval = qx($PERL -cw \"$file\" 2>&1);
     my $ok = ($eval =~ s{^\Q$file\E syntax OK\n$}{}ms) && length $eval == 0;
 
     ok($ok, "Compilation check $file");

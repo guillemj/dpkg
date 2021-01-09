@@ -32,7 +32,7 @@ The mailing list address is (no subscription required to post):
 Source Repository
 -----------------
 
-  <https://anonscm.debian.org/cgit/dpkg/dpkg.git>
+  <https://git.dpkg.org/cgit/dpkg/dpkg.git>
 
 
 Building from git source
@@ -44,18 +44,19 @@ some required software needs to be installed:
   GNU autoconf >= 2.60
   GNU automake >= 1.11
   GNU libtool >= 2.0
-  GNU gettext >= 0.19 (or just autopoint if using --disable-nls)
+  GNU autopoint >= 0.19.7 (from GNU gettext)
+  GNU gettext >= 0.19.7 (only with --enable-nls)
 
 After installing the needed software, and running the following command on
 the git tree:
 
-  $ autoreconf -f -i
+  $ ./autogen
 
 the source should be roughly equivalent to the distributed tar source.
 
 To enable translated documentation this software will be needed:
 
-  po4a >= 0.43
+  po4a >= 0.59
 
 
 Building from tar source
@@ -81,12 +82,19 @@ To run the test suite («make check»):
 
   Test::MinimumVersion perl module (optional, author)
   Test::Pod perl module (optional)
+  Test::Pod::Coverage perl module (optional, author)
   Test::Spelling perl module (optional, author)
   Test::Strict perl module (optional)
   Test::Synopsis perl module (optional, author)
   Test::Perl::Critic perl module (optional, author)
   aspell (optional, author)
   aspell-en (optional, author)
+  codespell (optional, author)
+  cppcheck (optional, author)
+  fakeroot (optional)
+  gpg (optional)
+  i18nspector (optional, author)
+  shellcheck (optional, author)
 
   Define the environment variable DPKG_DEVEL_MODE or AUTHOR_TESTING to run
   the test suite in development mode, to include tests that might not be

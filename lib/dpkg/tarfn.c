@@ -22,6 +22,9 @@
 #include <config.h>
 #include <compat.h>
 
+#if HAVE_SYS_SYSMACROS_H
+#include <sys/sysmacros.h>
+#endif
 #include <sys/stat.h>
 
 #include <errno.h>
@@ -35,6 +38,8 @@
 
 #include <dpkg/macros.h>
 #include <dpkg/dpkg.h>
+#include <dpkg/i18n.h>
+#include <dpkg/error.h>
 #include <dpkg/tarfn.h>
 
 #define TAR_MAGIC_USTAR "ustar\0" "00"
@@ -105,7 +110,7 @@ tar_atol8(const char *s, size_t size)
 		if (*s == '\0' || *s == ' ')
 			break;
 		if (*s < '0' || *s > '7')
-			return tar_ret_errno(EINVAL, 0);
+			return tar_ret_errno(ERANGE, 0);
 		n = (n * 010) + (*s++ - '0');
 	}
 
@@ -118,7 +123,7 @@ tar_atol8(const char *s, size_t size)
 	if (s < end)
 		return tar_ret_errno(EINVAL, 0);
 
-	return n;
+	return tar_ret_errno(0, n);
 }
 
 /**
@@ -154,12 +159,12 @@ tar_atol256(const char *s, size_t size, intmax_t min, uintmax_t max)
 
 	for (;;) {
 		n = (n << 8) | c;
-		if (--size <= 0)
+		if (--size == 0)
 			break;
 		c = *s++;
 	}
 
-	return n;
+	return tar_ret_errno(0, n);
 }
 
 static uintmax_t
@@ -269,7 +274,7 @@ tar_header_checksum(struct tar_header *h)
 }
 
 static int
-tar_header_decode(struct tar_header *h, struct tar_entry *d)
+tar_header_decode(struct tar_header *h, struct tar_entry *d, struct dpkg_error *err)
 {
 	long checksum;
 
@@ -296,7 +301,11 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 	/* Even though off_t is signed, we use an unsigned parser here because
 	 * negative offsets are not allowed. */
 	d->size = TAR_ATOUL(h->size, off_t);
+	if (errno)
+		return dpkg_put_errno(err, _("invalid tar header size field"));
 	d->mtime = TAR_ATOSL(h->mtime, time_t);
+	if (errno)
+		return dpkg_put_errno(err, _("invalid tar header mtime field"));
 
 	if (d->type == TAR_FILETYPE_CHARDEV || d->type == TAR_FILETYPE_BLOCKDEV)
 		d->dev = makedev(TAR_ATOUL(h->devmajor, dev_t),
@@ -309,19 +318,25 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 	else
 		d->stat.uname = NULL;
 	d->stat.uid = TAR_ATOUL(h->uid, uid_t);
+	if (errno)
+		return dpkg_put_errno(err, _("invalid tar header uid field"));
 
 	if (*h->group)
 		d->stat.gname = m_strndup(h->group, sizeof(h->group));
 	else
 		d->stat.gname = NULL;
 	d->stat.gid = TAR_ATOUL(h->gid, gid_t);
+	if (errno)
+		return dpkg_put_errno(err, _("invalid tar header gid field"));
 
 	checksum = tar_atol8(h->checksum, sizeof(h->checksum));
-
-	/* Check for parse errors. */
 	if (errno)
-		return 0;
-	return tar_header_checksum(h) == checksum;
+		return dpkg_put_errno(err, _("invalid tar header checksum field"));
+
+	if (tar_header_checksum(h) != checksum)
+		return dpkg_put_error(err, _("invalid tar header checksum"));
+
+	return 0;
 }
 
 /**
@@ -336,8 +351,7 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
  *   bogus name or link.
  */
 static int
-tar_gnu_long(void *ctx, const struct tar_operations *ops, struct tar_entry *te,
-             char **longp)
+tar_gnu_long(struct tar_archive *tar, struct tar_entry *te, char **longp)
 {
 	char buf[TARBLKSZ];
 	char *bp;
@@ -350,14 +364,15 @@ tar_gnu_long(void *ctx, const struct tar_operations *ops, struct tar_entry *te,
 	for (long_read = te->size; long_read > 0; long_read -= TARBLKSZ) {
 		int copysize;
 
-		status = ops->read(ctx, buf, TARBLKSZ);
+		status = tar->ops->read(tar, buf, TARBLKSZ);
 		if (status == TARBLKSZ)
 			status = 0;
 		else {
 			/* Read partial header record? */
 			if (status > 0) {
 				errno = 0;
-				status = -1;
+				status = dpkg_put_error(&tar->err,
+				                        _("partially read tar header"));
 			}
 
 			/* If we didn't get TARBLKSZ bytes read, punt. */
@@ -393,6 +408,8 @@ tar_entry_destroy(struct tar_entry *te)
 	free(te->linkname);
 	free(te->stat.uname);
 	free(te->stat.gname);
+
+	memset(te, 0, sizeof(*te));
 }
 
 struct tar_symlink_entry {
@@ -424,7 +441,7 @@ tar_entry_update_from_system(struct tar_entry *te)
 }
 
 int
-tar_extractor(void *ctx, const struct tar_operations *ops)
+tar_extractor(struct tar_archive *tar)
 {
 	int status;
 	char buffer[TARBLKSZ];
@@ -442,17 +459,14 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 	h.stat.uname = NULL;
 	h.stat.gname = NULL;
 
-	while ((status = ops->read(ctx, buffer, TARBLKSZ)) == TARBLKSZ) {
+	while ((status = tar->ops->read(tar, buffer, TARBLKSZ)) == TARBLKSZ) {
 		int name_len;
 
-		if (!tar_header_decode((struct tar_header *)buffer, &h)) {
+		if (tar_header_decode((struct tar_header *)buffer, &h, &tar->err) < 0) {
 			if (h.name[0] == '\0') {
-				/* End of tape. */
+				/* End Of Tape. */
 				status = 0;
 			} else {
-				/* Indicates broken tarfile:
-				 * “Header checksum error”. */
-				errno = 0;
 				status = -1;
 			}
 			tar_entry_destroy(&h);
@@ -460,20 +474,24 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 		}
 		if (h.type != TAR_FILETYPE_GNU_LONGLINK &&
 		    h.type != TAR_FILETYPE_GNU_LONGNAME) {
-			if (next_long_name)
+			if (next_long_name) {
+				free(h.name);
 				h.name = next_long_name;
+			}
 
-			if (next_long_link)
+			if (next_long_link) {
+				free(h.linkname);
 				h.linkname = next_long_link;
+			}
 
 			next_long_link = NULL;
 			next_long_name = NULL;
 		}
 
 		if (h.name[0] == '\0') {
-			/* Indicates broken tarfile: “Bad header data”. */
+			status = dpkg_put_error(&tar->err,
+			                        _("invalid tar header with empty name field"));
 			errno = 0;
-			status = -1;
 			tar_entry_destroy(&h);
 			break;
 		}
@@ -484,7 +502,7 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 		case TAR_FILETYPE_FILE:
 			/* Compatibility with pre-ANSI ustar. */
 			if (h.name[name_len - 1] != '/') {
-				status = ops->extract_file(ctx, &h);
+				status = tar->ops->extract_file(tar, &h);
 				break;
 			}
 			/* Else, fall through. */
@@ -492,10 +510,10 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 			if (h.name[name_len - 1] == '/') {
 				h.name[name_len - 1] = '\0';
 			}
-			status = ops->mkdir(ctx, &h);
+			status = tar->ops->mkdir(tar, &h);
 			break;
 		case TAR_FILETYPE_HARDLINK:
-			status = ops->link(ctx, &h);
+			status = tar->ops->link(tar, &h);
 			break;
 		case TAR_FILETYPE_SYMLINK:
 			symlink_node = m_malloc(sizeof(*symlink_node));
@@ -512,18 +530,42 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 		case TAR_FILETYPE_CHARDEV:
 		case TAR_FILETYPE_BLOCKDEV:
 		case TAR_FILETYPE_FIFO:
-			status = ops->mknod(ctx, &h);
+			status = tar->ops->mknod(tar, &h);
 			break;
 		case TAR_FILETYPE_GNU_LONGLINK:
-			status = tar_gnu_long(ctx, ops, &h, &next_long_link);
+			status = tar_gnu_long(tar, &h, &next_long_link);
 			break;
 		case TAR_FILETYPE_GNU_LONGNAME:
-			status = tar_gnu_long(ctx, ops, &h, &next_long_name);
+			status = tar_gnu_long(tar, &h, &next_long_name);
+			break;
+		case TAR_FILETYPE_GNU_VOLUME:
+		case TAR_FILETYPE_GNU_MULTIVOL:
+		case TAR_FILETYPE_GNU_SPARSE:
+		case TAR_FILETYPE_GNU_DUMPDIR:
+			status = dpkg_put_error(&tar->err,
+			                        _("unsupported GNU tar header type '%c'"),
+			                        h.type);
+			errno = 0;
+			break;
+		case TAR_FILETYPE_SOLARIS_EXTENDED:
+		case TAR_FILETYPE_SOLARIS_ACL:
+			status = dpkg_put_error(&tar->err,
+			                        _("unsupported Solaris tar header type '%c'"),
+			                        h.type);
+			errno = 0;
+			break;
+		case TAR_FILETYPE_PAX_GLOBAL:
+		case TAR_FILETYPE_PAX_EXTENDED:
+			status = dpkg_put_error(&tar->err,
+			                        _("unsupported PAX tar header type '%c'"),
+			                        h.type);
+			errno = 0;
 			break;
 		default:
-			/* Indicates broken tarfile: “Bad header field”. */
+			status = dpkg_put_error(&tar->err,
+			                        _("unknown tar header type '%c'"),
+			                        h.type);
 			errno = 0;
-			status = -1;
 		}
 		tar_entry_destroy(&h);
 		if (status != 0)
@@ -534,7 +576,7 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 	while (symlink_head) {
 		symlink_node = symlink_head->next;
 		if (status == 0)
-			status = ops->symlink(ctx, &symlink_head->h);
+			status = tar->ops->symlink(tar, &symlink_head->h);
 		tar_entry_destroy(&symlink_head->h);
 		free(symlink_head);
 		symlink_head = symlink_node;
@@ -545,11 +587,11 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 	free(next_long_link);
 
 	if (status > 0) {
-		/* Indicates broken tarfile: “Read partial header record”. */
+		status = dpkg_put_error(&tar->err,
+		                        _("partially read tar header"));
 		errno = 0;
-		return -1;
-	} else {
-		/* Return whatever I/O function returned. */
-		return status;
 	}
+
+	/* Return whatever I/O function returned. */
+	return status;
 }

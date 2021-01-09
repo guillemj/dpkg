@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * trigdeferred.c - parsing of triggers/Deferred
+ * trigdeferred.c - parsing of triggers/Unincorp (was …/Deferred)
  *
  * Copyright © 2007 Canonical Ltd
  * written by Ian Jackson <ijackson@chiark.greenend.org.uk>
@@ -74,6 +74,7 @@ constructfn(struct varbuf *vb, const char *dir, const char *tail)
 enum trigdef_update_status
 trigdef_update_start(enum trigdef_update_flags uf)
 {
+	free(triggersdir);
 	triggersdir = dpkg_db_get_path(TRIGGERSDIR);
 
 	if (uf & TDUF_WRITE) {
@@ -83,13 +84,14 @@ trigdef_update_start(enum trigdef_update_flags uf)
 			if (lock_fd == -1) {
 				if (!(errno == ENOENT && (uf & TDUF_NO_LOCK_OK)))
 					ohshite(_("unable to open/create "
-					          "triggers lockfile '%.250s'"),
+					          "triggers lock file '%.250s'"),
 					        fn.buf);
 				return TDUS_ERROR_NO_DIR;
 			}
 		}
 
-		file_lock(&lock_fd, FILE_LOCK_WAIT, fn.buf, _("triggers area"));
+		file_lock(&lock_fd, FILE_LOCK_WAIT, fn.buf,
+		          _("triggers database lock"));
 	}
 
 	constructfn(&fn, triggersdir, TRIGGERSDEFERREDFILE);

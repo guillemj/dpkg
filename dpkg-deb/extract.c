@@ -137,10 +137,11 @@ extracthalf(const char *debar, const char *dir,
       if (r != sizeof(arh))
         read_fail(r, debar, _("archive member header"));
 
-      dpkg_ar_normalize_name(&arh);
-
       if (dpkg_ar_member_is_illegal(&arh))
         ohshit(_("file '%.250s' is corrupt - bad archive header magic"), debar);
+
+      dpkg_ar_normalize_name(&arh);
+
       memberlen = dpkg_ar_member_get_size(ar, &arh);
       if (!header_done) {
         char *infobuf;
@@ -297,14 +298,17 @@ extracthalf(const char *debar, const char *dir,
     if (taroption)
       close(p2[0]);
     decompress_filter(decompressor, p1[0], p2_out,
-                      _("decompressing archive member"));
+                      _("decompressing archive '%s' (size=%jd) member '%s'"),
+                      ar->name, (intmax_t)ar->size,
+                      admininfo ? ADMINMEMBER : DATAMEMBER);
     exit(0);
   }
   close(p1[0]);
   dpkg_ar_close(ar);
-  if (taroption) close(p2[1]);
 
   if (taroption) {
+    close(p2[1]);
+
     c3 = subproc_fork();
     if (!c3) {
       struct command cmd;

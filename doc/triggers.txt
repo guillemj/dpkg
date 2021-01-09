@@ -76,12 +76,12 @@ dependencies just like packages in installed.
 Details - triggering package
 ----------------------------
 
-When a package T activates a trigger in which a package I is
-interested, I is added to the list of packages whose trigger
-processing is awaited by T.  Zero or more packages I may be added as a
+When a package <T> activates a trigger in which a package <I> is
+interested, <I> is added to the list of packages whose trigger
+processing is awaited by <T>. Zero or more packages <I> may be added as a
 result of any particular trigger activation, depending on how many
-packages were interested.  (If T chooses, explicit trigger activation
-using dpkg-trigger of I by T need not make T become triggers-awaited
+packages were interested. (If <T> chooses, explicit trigger activation
+using dpkg-trigger of <I> by <T> need not make <T> become triggers-awaited
 in this way.)
 
 A package which awaits trigger processing but would otherwise be
@@ -89,10 +89,10 @@ A package which awaits trigger processing but would otherwise be
 ‘triggers-awaited’.  Packages in ‘triggers-awaited’ do not satisfy
 Depends dependencies.
 
-Every triggered package I in T's list of awaited packages either has a
+Every triggered package <I> in <T>'s list of awaited packages either has a
 nonempty list of pending triggers, or is in ‘config-failed’ or worse.
-When I enters ‘installed’ (or ‘config-files’ or ‘not-installed’), the
-entry in T's list of awaited packages is removed so that T may, if it
+When <I> enters ‘installed’ (or ‘config-files’ or ‘not-installed’), the
+entry in <T>'s list of awaited packages is removed so that <T> may, if it
 no longer awaits any packages, become ‘installed’ or ‘triggers-pending’.
 
 Packages in ‘config-files’ or ‘not-installed’ do not await triggers.
@@ -115,8 +115,11 @@ triggers empty.
 
 To restore a package in state ‘triggers-pending’ to ‘installed’, or to
 process pending triggers of a package with both pending and awaited
-triggers, dpkg will run the postinst script:
+triggers, dpkg will run the postinst script as:
+
    postinst triggered "<trigger-name> <trigger-name> ..."
+
+by passing a space-separated list of <trigger-name>s as the second argument.
 
 This will be attempted for each relevant package at the end of each
 dpkg run; so, normally, in the same dpkg run as the event which made
@@ -164,14 +167,14 @@ lists of pending triggers.  A package whose postinst is being run
 can however acquire pending triggers during that run (ie, a package
 can trigger itself).
 
-This means that if a triggering package T awaits trigger processing by
-an interested package I, and I goes to ‘config-failed’ or worse (eg,
-during unpack for upgrade), then when I is reconfigured (goes to
-‘installed’) or removed, T will no longer await processing by I, so
-that T may automatically go from ‘triggers-awaited’ to ‘installed’.
+This means that if a triggering package <T> awaits trigger processing by
+an interested package <I>, and <I> goes to ‘config-failed’ or worse (eg,
+during unpack for upgrade), then when <I> is reconfigured (goes to
+‘installed’) or removed, <T> will no longer await processing by <I>, so
+that <T> may automatically go from ‘triggers-awaited’ to ‘installed’.
 
 Or to put it another way, triggered actions are considered irrelevant
-if the interested package I is not configured.  When I's postinst is
+if the interested package <I> is not configured. When <I>'s postinst is
 called with ‘configure’, it must do whatever actions are necessary to
 deal with any trigger activations which might have occurred while it
 was not configured, just as if the package was being configured for

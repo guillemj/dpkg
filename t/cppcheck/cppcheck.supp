@@ -1,0 +1,60 @@
+//
+// Suppression file for cppcheck.
+///
+
+// We assume that the system has a sane NULL definition.
+varFuncNullUB
+
+// TODO: While perhaps valid there are many to handle right away.
+variableScope
+
+// Ignore, this is an imported module.
+unusedStructMember:lib/compat/obstack.c
+nullPointerArithmetic:lib/compat/obstack.c
+nullPointerRedundantCheck:lib/compat/obstack.c
+nullPointerArithmeticRedundantCheck:lib/compat/obstack.c
+
+// Ignore, we are testing the functions.
+knownConditionTrueFalse:lib/dpkg/t/t-macros.c
+
+// Ignore, we use our own test assertions macros.
+literalWithCharPtrCompare:lib/dpkg/t/t-test.c
+
+// Ignore, the code is used only for its binary artifacts.
+uninitMemberVar:*/Dpkg_Shlibs/patterns.cpp
+
+// BUG: False positive, it gets triggered even with -Ilib.
+unknownMacro
+
+// BUG: False positive, the function returns a pointer within a local.
+returnDanglingLifetime:lib/dpkg/pkg-hash.c
+
+// BUG: False positive, the variable uses operator() which writes to it.
+constVariable:dselect/pkgsublist.cc:111
+
+// BUG: False positive.
+syntaxError:lib/dpkg/t/*.c
+
+// BUG: False positive, the loop does an early exit.
+identicalInnerCondition:lib/dpkg/fsys-hash.c:96
+
+// BUG: False positive, the macros from lib/dpkg/dlist.h use the tail member.
+unusedStructMember:lib/dpkg/triglib.c:378
+
+// BUG: False positive, does not understand non-returning functors.
+negativeIndex:dpkg-deb/build.c
+nullPointerArithmeticRedundantCheck:lib/dpkg/db-fsys-files.c
+nullPointerArithmeticRedundantCheck:lib/dpkg/db-fsys-override.c
+nullPointerRedundantCheck:dpkg-deb/build.c
+nullPointerRedundantCheck:lib/dpkg/db-fsys-override.c
+nullPointerRedundantCheck:lib/dpkg/ehandle.c
+nullPointerRedundantCheck:src/enquiry.c
+nullPointerRedundantCheck:src/unpack.c
+nullPointerRedundantCheck:utils/update-alternatives.c:1193
+doubleFree:utils/update-alternatives.c:1248
+
+// BUG: False positive, does not understand non-returning functions + vaargs.
+va_end_missing:lib/dpkg/parsehelp.c:68
+
+// BUG: False positive, due to our local va_copy().
+va_list_usedBeforeStarted:lib/compat/vasprintf.c

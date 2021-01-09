@@ -1,0 +1,147 @@
+# dpkg manual page - dpkg-fsys-usrunmess(8)
+#
+# Copyright © 2020-2021 Guillem Jover <guillem@debian.org>
+#
+# This is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+=encoding utf8
+
+=head1 NAME
+
+dpkg-fsys-usrunmess - undoes the merged-/usr-via-aliased-dirs mess
+
+=head1 SYNOPSIS
+
+B<dpkg-fsys-usrunmess> [B<option>...]
+
+=head1 DESCRIPTION
+
+B<dpkg-fsys-usrunmess> is a tool to fix up filesystems that have been
+installed anew with recent installers with unfortunate defaults or
+migrated to the broken merged /usr via aliased directories layout,
+which is B<not> supported by dpkg. See the dpkg FAQ.
+
+The program will perform the following overall actions:
+
+=over
+
+=item *
+
+Check whether the system needs to be switched, otherwise do nothing,
+
+=item *
+
+Check for dpkg database consistency and otherwise abort.
+
+=item *
+
+Get the list of files and alternatives that need to be restored.
+
+=item *
+
+Create a shadow hierarchy under F</.usrunmess>, by creating the directories
+symlinks or hardlinking or copying the files as needed.
+
+=item *
+
+Prompt for confirmation before proceeding, if requested on the command-line.
+
+=item *
+
+Lock the dpkg database.
+
+=item *
+
+Mark all packages as half-configured to force running maintainer scripts
+that might need to recreate files.
+
+=item *
+
+Replace the aliased directories with the shadow ones, by creating a backup
+of the old symlinked directories and renaming the shadow ones over.
+
+=item *
+
+Relabel MAC information for directories and symlinks if necessary.
+
+=item *
+
+Reconfigure all packages.
+
+=item *
+
+Remove backup symlinks.
+
+=item *
+
+Remove old moved objects, but defer directory removal.
+
+=item *
+
+Remove old deferred directories that are not referenced by dpkg-query.
+
+=item *
+
+Remove shadow root directory.
+
+=back
+
+B<Note>: When running the program from some shells such as L<bash(1)> or
+L<zsh(1)>, after executing it, you might need to request the shell to
+forget all remembered executable locations with for example C<hash -r>.
+
+B<Warning>: Note that this operation has the potential to render the system
+unusable or broken in case of a sudden crash or reboot, unexpected state of
+the system, or possible bugs in the script. Be prepared with recovery media
+and consider doing backups beforehand.
+
+=head1 OPTIONS
+
+=over
+
+=item B<-p>, B<--prompt>
+
+Prompt at the time of no return, so that the debug output or the shadow
+hierarchy can be evaluated before proceeding.
+
+=item B<-n>, B<--no-act>
+
+=item B<--dry-run>
+
+This option enables the dry-run mode, where no destructive action takes place,
+only the preparatory part.
+
+=item B<-?>, B<--help>
+
+Show the usage message and exit.
+
+=item B<--version>
+
+Show the version and exit.
+
+=back
+
+=head1 ENVIRONMENT
+
+=over
+
+=item B<DPKG_USRUNMESS_NOACT>
+
+This setting defines whether to enable dry-run mode.
+
+=back
+
+=head1 SEE ALSO
+
+L<https://wiki.debian.org/Teams/Dpkg/FAQ#Q:_Does_dpkg_support_merged-.2Fusr-via-aliased-dirs.3F>.

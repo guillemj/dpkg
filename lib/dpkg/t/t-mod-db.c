@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * t-db.c - test database implementation
+ * t-mod-db.c - test database implementation
  *
  * Copyright © 2011 Guillem Jover <guillem@debian.org>
  *

@@ -46,6 +46,7 @@ update_alternatives_SOURCES = \
 update_alternatives_CPPFLAGS = \
 	-DALT_TMP_EXT=\".dpkg-tmp\" \
 	-DADMINDIR_ENVVAR=\"DPKG_ADMINDIR\" \
+	-DINSTDIR_ENVVAR=\"DPKG_ROOT\" \
 	$(AM_CPPFLAGS)
 
 update_alternatives_LDADD = \

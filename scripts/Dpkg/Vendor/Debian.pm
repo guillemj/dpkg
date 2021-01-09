@@ -36,11 +36,11 @@ use parent qw(Dpkg::Vendor::Default);
 
 =head1 NAME
 
-Dpkg::Vendor::Debian - Debian vendor object
+Dpkg::Vendor::Debian - Debian vendor class
 
 =head1 DESCRIPTION
 
-This vendor object customizes the behaviour of dpkg scripts for Debian
+This vendor class customizes the behaviour of dpkg scripts for Debian
 specific behavior and policies.
 
 =cut
@@ -50,10 +50,8 @@ sub run_hook {
 
     if ($hook eq 'package-keyrings') {
         return ('/usr/share/keyrings/debian-keyring.gpg',
+                '/usr/share/keyrings/debian-nonupload.gpg',
                 '/usr/share/keyrings/debian-maintainers.gpg');
-    } elsif ($hook eq 'keyrings') {
-        warnings::warnif('deprecated', 'deprecated keyrings vendor hook');
-        return $self->run_hook('package-keyrings', @params);
     } elsif ($hook eq 'archive-keyrings') {
         return ('/usr/share/keyrings/debian-archive-keyring.gpg');
     } elsif ($hook eq 'archive-keyrings-historic') {
@@ -81,21 +79,16 @@ sub run_hook {
         $self->_add_build_flags(@params);
     } elsif ($hook eq 'builtin-system-build-paths') {
         return qw(/build/);
+    } elsif ($hook eq 'build-tainted-by') {
+        return $self->_build_tainted_by();
+    } elsif ($hook eq 'sanitize-environment') {
+        # Reset umask to a sane default.
+        umask 0022;
+        # Reset locale to a sane default.
+        $ENV{LC_COLLATE} = 'C.UTF-8';
     } else {
         return $self->SUPER::run_hook($hook, @params);
     }
-}
-
-sub _parse_feature_area {
-    my ($self, $area, $use_feature) = @_;
-
-    require Dpkg::BuildOptions;
-
-    # Adjust features based on user or maintainer's desires.
-    my $opts = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_OPTIONS');
-    $opts->parse_features($area, $use_feature);
-    $opts = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_MAINT_OPTIONS');
-    $opts->parse_features($area, $use_feature);
 }
 
 sub _add_build_flags {
@@ -112,6 +105,7 @@ sub _add_build_flags {
         },
         reproducible => {
             timeless => 1,
+            fixfilepath => 1,
             fixdebugpath => 1,
         },
         sanitize => {
@@ -141,9 +135,15 @@ sub _add_build_flags {
 
     ## Setup
 
+    require Dpkg::BuildOptions;
+
     # Adjust features based on user or maintainer's desires.
+    my $opts_build = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_OPTIONS');
+    my $opts_maint = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_MAINT_OPTIONS');
+
     foreach my $area (sort keys %use_feature) {
-        $self->_parse_feature_area($area, $use_feature{$area});
+        $opts_build->parse_features($area, $use_feature{$area});
+        $opts_maint->parse_features($area, $use_feature{$area});
     }
 
     require Dpkg::Arch;
@@ -155,6 +155,26 @@ sub _add_build_flags {
         warning(g_("unknown host architecture '%s'"), $arch);
         ($abi, $os, $cpu) = ('', '', '');
     }
+
+    ## Global defaults
+
+    my $default_flags;
+    my $default_d_flags;
+    if ($opts_build->has('noopt')) {
+        $default_flags = '-g -O0';
+        $default_d_flags = '-fdebug';
+    } else {
+        $default_flags = '-g -O2';
+        $default_d_flags = '-frelease';
+    }
+    $flags->append('CFLAGS', $default_flags);
+    $flags->append('CXXFLAGS', $default_flags);
+    $flags->append('OBJCFLAGS', $default_flags);
+    $flags->append('OBJCXXFLAGS', $default_flags);
+    $flags->append('FFLAGS', $default_flags);
+    $flags->append('FCFLAGS', $default_flags);
+    $flags->append('GCJFLAGS', $default_flags);
+    $flags->append('DFLAGS', $default_d_flags);
 
     ## Area: future
 
@@ -172,8 +192,21 @@ sub _add_build_flags {
 
     # Warnings that detect actual bugs.
     if ($use_feature{qa}{bug}) {
-        foreach my $warnflag (qw(array-bounds clobbered volatile-register-var
-                                 implicit-function-declaration)) {
+        # C flags
+        my @cflags = qw(
+            implicit-function-declaration
+        );
+        foreach my $warnflag (@cflags) {
+            $flags->append('CFLAGS', "-Werror=$warnflag");
+        }
+
+        # C/C++ flags
+        my @cfamilyflags = qw(
+            array-bounds
+            clobbered
+            volatile-register-var
+        );
+        foreach my $warnflag (@cfamilyflags) {
             $flags->append('CFLAGS', "-Werror=$warnflag");
             $flags->append('CXXFLAGS', "-Werror=$warnflag");
         }
@@ -195,15 +228,17 @@ sub _add_build_flags {
     my $build_path;
 
     # Mask features that might have an unsafe usage.
-    if ($use_feature{reproducible}{fixdebugpath}) {
+    if ($use_feature{reproducible}{fixfilepath} or
+        $use_feature{reproducible}{fixdebugpath}) {
         require Cwd;
 
-        $build_path = $ENV{DEB_BUILD_PATH} || Cwd::cwd();
+        $build_path = $ENV{DEB_BUILD_PATH} || Cwd::getcwd();
 
         # If we have any unsafe character in the path, disable the flag,
         # so that we do not need to worry about escaping the characters
         # on output.
         if ($build_path =~ m/[^-+:.0-9a-zA-Z~\/_]/) {
+            $use_feature{reproducible}{fixfilepath} = 0;
             $use_feature{reproducible}{fixdebugpath} = 0;
         }
     }
@@ -213,9 +248,19 @@ sub _add_build_flags {
        $flags->append('CPPFLAGS', '-Wdate-time');
     }
 
-    # Avoid storing the build path in the debug symbols.
-    if ($use_feature{reproducible}{fixdebugpath}) {
-        my $map = '-fdebug-prefix-map=' . $build_path . '=.';
+    # Avoid storing the build path in the binaries.
+    if ($use_feature{reproducible}{fixfilepath} or
+        $use_feature{reproducible}{fixdebugpath}) {
+        my $map;
+
+        # -ffile-prefix-map is a superset of -fdebug-prefix-map, prefer it
+        # if both are set.
+        if ($use_feature{reproducible}{fixfilepath}) {
+            $map = '-ffile-prefix-map=' . $build_path . '=.';
+        } else {
+            $map = '-fdebug-prefix-map=' . $build_path . '=.';
+        }
+
         $flags->append('CFLAGS', $map);
         $flags->append('CXXFLAGS', $map);
         $flags->append('OBJCFLAGS', $map);
@@ -267,8 +312,24 @@ sub _add_build_flags {
 
     # Mask builtin features that are not enabled by default in the compiler.
     my %builtin_pie_arch = map { $_ => 1 } qw(
-        amd64 arm64 armel armhf hurd-i386 i386 kfreebsd-amd64 kfreebsd-i386
-        mips mipsel mips64el powerpc ppc64 ppc64el s390x sparc sparc64
+        amd64
+        arm64
+        armel
+        armhf
+        hurd-i386
+        i386
+        kfreebsd-amd64
+        kfreebsd-i386
+        mips
+        mipsel
+        mips64el
+        powerpc
+        ppc64
+        ppc64el
+        riscv64
+        s390x
+        sparc
+        sparc64
     );
     if (not exists $builtin_pie_arch{$arch}) {
         $builtin_feature{hardening}{pie} = 0;
@@ -295,7 +356,7 @@ sub _add_build_flags {
     }
 
     # Mask features that might be influenced by other flags.
-    if ($flags->{build_options}->has('noopt')) {
+    if ($opts_build->has('noopt')) {
       # glibc 2.16 and later warn when using -O0 and _FORTIFY_SOURCE.
       $use_feature{hardening}{fortify} = 0;
     }
@@ -398,6 +459,38 @@ sub _add_build_flags {
             $flags->set_feature($area, $feature, $enabled);
         }
     }
+}
+
+sub _build_tainted_by {
+    my $self = shift;
+    my %tainted;
+
+    foreach my $pathname (qw(/bin /sbin /lib /lib32 /libo32 /libx32 /lib64)) {
+        next unless -l $pathname;
+
+        my $linkname = readlink $pathname;
+        if ($linkname eq "usr$pathname" or $linkname eq "/usr$pathname") {
+            $tainted{'merged-usr-via-aliased-dirs'} = 1;
+            last;
+        }
+    }
+
+    require File::Find;
+    my %usr_local_types = (
+        configs => [ qw(etc) ],
+        includes => [ qw(include) ],
+        programs => [ qw(bin sbin) ],
+        libraries => [ qw(lib) ],
+    );
+    foreach my $type (keys %usr_local_types) {
+        File::Find::find({
+            wanted => sub { $tainted{"usr-local-has-$type"} = 1 if -f },
+            no_chdir => 1,
+        }, grep { -d } map { "/usr/local/$_" } @{$usr_local_types{$type}});
+    }
+
+    my @tainted = sort keys %tainted;
+    return @tainted;
 }
 
 =head1 CHANGES

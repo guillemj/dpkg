@@ -38,7 +38,7 @@ Dpkg::Control::Info - parse files like debian/control
 
 =head1 DESCRIPTION
 
-It provides an object to access data of files that follow the same
+It provides a class to access data of files that follow the same
 syntax as F<debian/control>.
 
 =head1 METHODS
@@ -90,11 +90,6 @@ sub reset {
     $self->{packages} = [];
 }
 
-=item $c->load($file)
-
-Load the content of $file. Exits in case of errors. If file is "-", it
-loads from the standard input.
-
 =item $c->parse($fh, $description)
 
 Parse a control file from the given filehandle. Exits in case of errors.
@@ -128,6 +123,11 @@ sub parse {
 
     }
 }
+
+=item $c->load($file)
+
+Load the content of $file. Exits in case of errors. If file is "-", it
+loads from the standard input.
 
 =item $c->[0]
 
@@ -182,9 +182,10 @@ sub get_packages {
     return @{$self->{packages}};
 }
 
-=item $c->output($filehandle)
+=item $str = $c->output([$fh])
 
-Dump the content into a filehandle.
+Return the content info into a string. If $fh is specified print it into
+the filehandle.
 
 =cut
 

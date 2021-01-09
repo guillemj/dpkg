@@ -58,22 +58,19 @@ protected:
   // Table of methods
   struct dselect_option **table;
 
-  // Misc.
-  char searchstring[50];
-
   // Information displays
   void itd_description();
 
   // Define these virtuals
-  void redraw1itemsel(int index, int selected);
-  void redrawcolheads();
-  void redrawthisstate();
-  void redrawinfo();
-  void redrawtitle();
-  void setwidths();
-  void setheights();
-  const char *itemname(int index);
-  const struct helpmenuentry *helpmenulist();
+  void redraw1itemsel(int index, int selected) override;
+  void redrawcolheads() override;
+  void redrawthisstate() override;
+  void redrawinfo() override;
+  void redrawtitle() override;
+  void setwidths() override;
+  void setheights() override;
+  const char *itemname(int index) override;
+  const struct helpmenuentry *helpmenulist() override;
 
  public:
   // Keybinding functions */
@@ -81,6 +78,8 @@ protected:
   void kd_abort();
 
   methodlist();
+  methodlist(const methodlist &) = delete;
+  methodlist &operator =(const methodlist &) = delete;
   quitaction display();
   ~methodlist();
 };

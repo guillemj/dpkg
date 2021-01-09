@@ -3,26 +3,26 @@ Section: admin
 Priority: required
 Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
 Uploaders: Guillem Jover <guillem@debian.org>
-Origin: debian
-Bugs: debbugs://bugs.debian.org
 Homepage: https://wiki.debian.org/Teams/Dpkg
-Vcs-Browser: https://anonscm.debian.org/cgit/dpkg/dpkg.git
-Vcs-Git: https://anonscm.debian.org/git/dpkg/dpkg.git
-Standards-Version: 4.1.0
-# We cannot enable R³ until debhelper supports it.
-#Rules-Requires-Root: no
+Vcs-Browser: https://git.dpkg.org/cgit/dpkg/dpkg.git
+Vcs-Git: https://git.dpkg.org/git/dpkg/dpkg.git
+Standards-Version: 4.5.1
+Rules-Requires-Root: no
 Build-Depends:
- debhelper (>= 10),
+ debhelper-compat (= 13),
  pkg-config,
 # Needed for ITS support.
  gettext (>= 0.19.7),
-# Needed for --porefs.
- po4a (>= 0.43),
+# Needed for --porefs defaults, conditional addenda and mode=eof.
+ po4a (>= 0.59),
  zlib1g-dev,
  libbz2-dev,
  liblzma-dev,
  libselinux1-dev [linux-any],
- libncursesw5-dev,
+ libncurses-dev (>= 6.1+20180210) | libncursesw5-dev,
+# Needed for the functional test.
+ bzip2 <!nocheck>,
+ xz-utils <!nocheck>,
 
 Package: dpkg
 Architecture: any
@@ -38,21 +38,10 @@ Suggests:
  apt,
  debsig-verify,
 Breaks:
-# Due to removal of dpkg-divert compat symlink.
- amule (<< 2.3.1+git1a369e47-3),
-# Due to removal of dpkg-statoverride compat symlink.
- acidbase (<= 1.4.5-4),
- beep (<< 1.3-4),
- im (<< 1:151-4),
- netselect (<< 0.3.ds1-27),
- pconsole (<< 1.0-12),
- phpgacl (<< 3.3.7-7.3),
- pure-ftpd (<< 1.0.43-1),
- systemtap (<< 2.8-1),
- terminatorx (<< 4.0.1-1),
- xvt (<= 2.1-20.1),
-# Due to renaming of triplettable to tupletable.
- libdpkg-perl (<< 1.18.11),
+# Due to --status-fd not duplicating output.
+ libapt-pkg5.0 (<< 1.7~b),
+# Due to s-s-d requiring secure usage of --pidfile.
+ lsb-base (<< 10.2019031300),
 Description: Debian package management system
  This package provides the low-level infrastructure for handling the
  installation and removal of Debian software packages.
@@ -97,8 +86,8 @@ Recommends:
  build-essential,
  gcc | c-compiler,
  fakeroot,
- gnupg | gnupg2,
- gpgv | gpgv2,
+ gnupg,
+ gpgv,
 # Used by dpkg-mergechangelogs.
  libalgorithm-merge-perl,
 Suggests:
@@ -120,10 +109,7 @@ Architecture: all
 Multi-Arch: foreign
 Depends:
  ${misc:Depends},
-# XXX: This needs to be perl:any, but that breaks debootstrap in jessie
-# (the current stable), it could be fixed once and iff stretch is stable
-# and contains a fixed debootstrap.
- perl,
+ ${perl:Depends},
 # Needed for arch tuples.
  dpkg (>= 1.18.11),
 Recommends:
@@ -135,18 +121,18 @@ Recommends:
  xz-utils,
 Suggests:
  debian-keyring,
- gnupg | gnupg2,
- gpgv | gpgv2,
+ gnupg,
+ gpgv,
  gcc | c-compiler,
  binutils,
  patch,
+# Used (if available) by Dpkg::Source::Package::V2.
+ sensible-utils,
 # Needed by Dpkg::Source::Package::V3::Git
  git,
 # Needed by Dpkg::Source::Package::V3::Bzr
  bzr,
 Breaks:
-# Needed for git-style diffs.
- patch (<< 2.7),
 # Uses the private Dpkg::Shlibs::SymbolFile module with no API stability
 # guarantees! Which obviously broke with 1.19.0.
  pkg-kde-tools (<< 0.15.28~),
@@ -163,14 +149,14 @@ Description: Dpkg perl modules
   - Dpkg::Build::Info: build information functions
   - Dpkg::BuildFlags: set, modify and query compilation build flags
   - Dpkg::BuildOptions: parse and manipulate DEB_BUILD_OPTIONS
-  - Dpkg::BuildProfile: parse and manipulate build profiles
+  - Dpkg::BuildProfiles: parse and manipulate build profiles
   - Dpkg::Changelog: parse changelogs
   - Dpkg::Changelog::Entry: represents a changelog entry
   - Dpkg::Changelog::Parse: generic changelog parser for dpkg-parsechangelog
   - Dpkg::Checksums: generate and parse checksums
   - Dpkg::Compression: simple database of available compression methods
-  - Dpkg::Compression::Process: wrapper around compression tools
   - Dpkg::Compression::FileHandle: transparently (de)compress files
+  - Dpkg::Compression::Process: wrapper around compression tools
   - Dpkg::Conf: parse dpkg configuration files
   - Dpkg::Control: parse and manipulate Debian control information
     (.dsc, .changes, Packages/Sources entries, etc.)
@@ -179,7 +165,14 @@ Description: Dpkg perl modules
   - Dpkg::Control::Hash: parse and manipulate a block of RFC822-like fields
   - Dpkg::Control::Info: parse files like debian/control
   - Dpkg::Control::Tests: parse files like debian/tests/control
+  - Dpkg::Control::Tests::Entry: represents a debian/tests/control stanza
   - Dpkg::Deps: parse and manipulate dependencies
+  - Dpkg::Deps::Simple: represents a single dependency statement
+  - Dpkg::Deps::Multiple: base module to represent multiple dependencies
+  - Dpkg::Deps::Union: list of unrelated dependencies
+  - Dpkg::Deps::AND: list of AND dependencies
+  - Dpkg::Deps::OR: list of OR dependencies
+  - Dpkg::Deps::KnownFacts: list of installed and virtual packages
   - Dpkg::Exit: push, pop and run exit handlers
   - Dpkg::Gettext: wrapper around Locale::gettext
   - Dpkg::IPC: spawn sub-processes and feed/retrieve data
@@ -187,6 +180,7 @@ Description: Dpkg perl modules
     example)
   - Dpkg::Interface::Storable: base object serializer
   - Dpkg::Path: common path handling functions
+  - Dpkg::Source::Format: manipulate debian/source/format files
   - Dpkg::Source::Package: extract Debian source packages
   - Dpkg::Substvars: substitute variables in strings
   - Dpkg::Vendor: identify current distribution vendor

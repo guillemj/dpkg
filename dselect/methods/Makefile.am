@@ -4,16 +4,12 @@ methodsdir = $(pkglibexecdir)/methods
 
 nobase_dist_methods_DATA = \
 	disk/names \
-	disk/desc.cdrom \
-	disk/desc.nfs \
-	disk/desc.harddisk \
 	disk/desc.mounted \
 	ftp/names \
 	ftp/desc.ftp \
 	multicd/names \
 	multicd/desc.multi_cd \
-	multicd/desc.multi_mount \
-	multicd/desc.multi_nfs
+	$(nil)
 
 nobase_methods_SCRIPTS = \
 	ftp/setup \
@@ -47,7 +43,7 @@ do_perl_subst = $(AM_V_GEN) sed \
 
 SUFFIXES = .pl
 
-.pl: Makefile
+.pl:
 	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
 	$(do_perl_subst) <$< >$@
 	$(AM_V_at) chmod +x $@

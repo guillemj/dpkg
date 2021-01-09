@@ -150,6 +150,7 @@ static void
 decompress_gzip(int fd_in, int fd_out, const char *desc)
 {
 	char buffer[DPKG_BUFFER_SIZE];
+	int z_errnum;
 	gzFile gzfile = gzdopen(fd_in, "r");
 
 	if (gzfile == NULL)
@@ -160,7 +161,6 @@ decompress_gzip(int fd_in, int fd_out, const char *desc)
 
 		actualread = gzread(gzfile, buffer, sizeof(buffer));
 		if (actualread < 0) {
-			int z_errnum = 0;
 			const char *errmsg = gzerror(gzfile, &z_errnum);
 
 			if (z_errnum == Z_ERRNO)
@@ -174,6 +174,17 @@ decompress_gzip(int fd_in, int fd_out, const char *desc)
 		actualwrite = fd_write(fd_out, buffer, actualread);
 		if (actualwrite != actualread)
 			ohshite(_("%s: internal gzip write error"), desc);
+	}
+
+	z_errnum = gzclose(gzfile);
+	if (z_errnum) {
+		const char *errmsg;
+
+		if (z_errnum == Z_ERRNO)
+			errmsg = strerror(errno);
+		else
+			errmsg = zError(z_errnum);
+		ohshit(_("%s: internal gzip read error: %s"), desc, errmsg);
 	}
 
 	if (close(fd_out))
@@ -308,6 +319,8 @@ decompress_bzip2(int fd_in, int fd_out, const char *desc)
 		if (actualwrite != actualread)
 			ohshite(_("%s: internal bzip2 write error"), desc);
 	}
+
+	BZ2_bzclose(bzfile);
 
 	if (close(fd_out))
 		ohshite(_("%s: internal bzip2 write error"), desc);

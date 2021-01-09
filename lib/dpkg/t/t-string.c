@@ -77,6 +77,37 @@ test_str_fnv_hash(void)
 }
 
 static void
+test_str_concat(void)
+{
+	char buf[1024], *str;
+
+	memset(buf, 0, sizeof(buf));
+	str = str_concat(buf, NULL);
+	test_pass(str == buf);
+	test_str(buf, ==, "");
+
+	memset(buf, 0, sizeof(buf));
+	str = str_concat(buf, "aaa", NULL);
+	test_str(buf, ==, "aaa");
+	test_pass(str == buf + 3);
+
+	memset(buf, 0, sizeof(buf));
+	str = str_concat(buf, "zzzz", "yy", "xxxx", NULL);
+	test_str(buf, ==, "zzzzyyxxxx");
+	test_pass(str == buf + 10);
+
+	memset(buf, 0, sizeof(buf));
+	str = str_concat(buf, "1234", "", "5678", NULL);
+	test_str(buf, ==, "12345678");
+	test_pass(str == buf + 8);
+
+	memset(buf, ' ', sizeof(buf));
+	str = str_concat(buf, "eol", NULL, "bom", NULL);
+	test_str(buf, ==, "eol");
+	test_pass(str == buf + 3);
+}
+
+static void
 test_str_fmt(void)
 {
 	char *str;
@@ -119,6 +150,8 @@ test_str_escape_fmt(void)
 	memset(buf, 'a', sizeof(buf));
 	q = str_escape_fmt(buf, NULL, 0);
 	test_mem(buf, ==, "aaaa", 4);
+	test_pass(buf == q);
+	test_pass(strnlen(buf, sizeof(buf)) == sizeof(buf));
 
 	memset(buf, 'a', sizeof(buf));
 	q = str_escape_fmt(buf, "b", 1);
@@ -133,6 +166,43 @@ test_str_escape_fmt(void)
 	q = str_escape_fmt(buf, "%%%", 4);
 	strcpy(q, " end");
 	test_str(buf, ==, "%% end");
+}
+
+static void
+test_str_rtrim_spaces(void)
+{
+	char buf[1024];
+	char *str_end;
+
+	strcpy(buf, "");
+	str_end = str_rtrim_spaces(buf, buf + strlen(buf));
+	test_pass(str_end == buf);
+	test_str(buf, ==, "");
+
+	strcpy(buf, "  \t\t  \r\n  ");
+	str_end = str_rtrim_spaces(buf, buf + strlen(buf));
+	test_pass(str_end == buf);
+	test_str(buf, ==, "");
+
+	strcpy(buf, "abcd");
+	str_end = str_rtrim_spaces(buf, buf + strlen(buf));
+	test_pass(str_end == buf + 4);
+	test_str(buf, ==, "abcd");
+
+	strcpy(buf, "abcd    ");
+	str_end = str_rtrim_spaces(buf, buf + strlen(buf));
+	test_pass(str_end == buf + 4);
+	test_str(buf, ==, "abcd");
+
+	strcpy(buf, "abcd\t \t ");
+	str_end = str_rtrim_spaces(buf, buf + strlen(buf));
+	test_pass(str_end == buf + 4);
+	test_str(buf, ==, "abcd");
+
+	strcpy(buf, "  \t  \t  abcd");
+	str_end = str_rtrim_spaces(buf, buf + strlen(buf));
+	test_pass(str_end == buf + 12);
+	test_str(buf, ==, "  \t  \t  abcd");
 }
 
 static void
@@ -197,13 +267,15 @@ test_str_strip_quotes(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(50);
+	test_plan(74);
 
 	test_str_is_set();
 	test_str_match_end();
 	test_str_fnv_hash();
+	test_str_concat();
 	test_str_fmt();
 	test_str_escape_fmt();
 	test_str_quote_meta();
 	test_str_strip_quotes();
+	test_str_rtrim_spaces();
 }

@@ -19,7 +19,7 @@ package Dpkg::Exit;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '2.00';
 our @EXPORT_OK = qw(
     push_exit_handler
     pop_exit_handler
@@ -28,10 +28,7 @@ our @EXPORT_OK = qw(
 
 use Exporter qw(import);
 
-# XXX: Backwards compatibility, stop exporting on VERSION 2.00.
-## no critic (Variables::ProhibitPackageVars)
-our @handlers = ();
-## use critic
+my @handlers = ();
 
 =encoding utf8
 
@@ -55,6 +52,8 @@ Register a code reference into the exit function handlers stack.
 
 sub push_exit_handler {
     my ($func) = shift;
+
+    _setup_exit_handlers() if @handlers == 0;
     push @handlers, $func;
 }
 
@@ -65,6 +64,7 @@ Pop the last registered exit handler from the handlers stack.
 =cut
 
 sub pop_exit_handler {
+    _reset_exit_handlers() if @handlers == 1;
     pop @handlers;
 }
 
@@ -75,7 +75,10 @@ Run the registered exit handlers.
 =cut
 
 sub run_exit_handlers {
-    $_->() foreach (reverse @handlers);
+    while (my $handler = pop @handlers) {
+        $handler->();
+    }
+    _reset_exit_handlers();
 }
 
 sub _exit_handler {
@@ -83,13 +86,35 @@ sub _exit_handler {
     exit(127);
 }
 
-$SIG{INT} = \&_exit_handler;
-$SIG{HUP} = \&_exit_handler;
-$SIG{QUIT} = \&_exit_handler;
+my @SIGNAMES = qw(INT HUP QUIT);
+my %SIGOLD;
+
+sub _setup_exit_handlers
+{
+    foreach my $signame (@SIGNAMES) {
+        $SIGOLD{$signame} = $SIG{$signame};
+        $SIG{$signame} = \&_exit_handler;
+    }
+}
+
+sub _reset_exit_handlers
+{
+    foreach my $signame (@SIGNAMES) {
+        $SIG{$signame} = $SIGOLD{$signame};
+    }
+}
+
+END {
+    run_exit_handlers();
+}
 
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.00 (dpkg 1.20.0)
+
+Hide variable: @handlers.
 
 =head2 Version 1.01 (dpkg 1.17.2)
 

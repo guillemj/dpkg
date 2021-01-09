@@ -37,9 +37,9 @@
 #include <dpkg/pkg-show.h>
 #include <dpkg/pkg-spec.h>
 #include <dpkg/options.h>
+#include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
-#include "infodb.h"
 #include "main.h"
 
 static void getsel1package(struct pkginfo *pkg) {
@@ -67,7 +67,7 @@ getselections(const char *const *argv)
 
   modstatdb_open(msdbrw_readonly);
 
-  pkg_array_init_from_db(&array);
+  pkg_array_init_from_hash(&array);
   pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
 
   if (!*argv) {
@@ -183,6 +183,7 @@ setselections(const char *const *argv)
         !pkg_is_informative(pkg, &pkg->available)) {
       db_possibly_outdated = true;
       warning(_("package not in status nor available database at line %d: %.250s"), lno, namevb.buf);
+      lno++;
       continue;
     }
 
@@ -211,7 +212,7 @@ int
 clearselections(const char *const *argv)
 {
   enum modstatdb_rw msdbflags;
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *pkg;
 
   if (*argv)
@@ -225,12 +226,14 @@ clearselections(const char *const *argv)
   modstatdb_open(msdbflags);
   pkg_infodb_upgrade();
 
-  iter = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(iter))) {
-    if (!pkg->installed.essential)
+  iter = pkg_hash_iter_new();
+  while ((pkg = pkg_hash_iter_next_pkg(iter))) {
+    if (!pkg->installed.essential &&
+        !pkg->installed.is_protected &&
+        pkg->want != PKG_WANT_UNKNOWN)
       pkg_set_want(pkg, PKG_WANT_DEINSTALL);
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 
   modstatdb_shutdown();
 

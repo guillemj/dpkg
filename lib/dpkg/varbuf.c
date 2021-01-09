@@ -40,6 +40,8 @@ varbuf_add_char(struct varbuf *v, int c)
 void
 varbuf_dup_char(struct varbuf *v, int c, size_t n)
 {
+  if (n == 0)
+    return;
   varbuf_grow(v, n);
   memset(v->buf + v->used, c, n);
   v->used += n;
@@ -95,6 +97,8 @@ varbuf_vprintf(struct varbuf *v, const char *fmt, va_list args)
 void
 varbuf_add_buf(struct varbuf *v, const void *s, size_t size)
 {
+  if (size == 0)
+    return;
   varbuf_grow(v, size);
   memcpy(v->buf + v->used, s, size);
   v->used += size;
@@ -113,6 +117,17 @@ varbuf_get_str(struct varbuf *v)
   varbuf_end_str(v);
 
   return v->buf;
+}
+
+struct varbuf *
+varbuf_new(size_t size)
+{
+  struct varbuf *v;
+
+  v = m_malloc(sizeof(*v));
+  varbuf_init(v, size);
+
+  return v;
 }
 
 void
@@ -135,6 +150,8 @@ varbuf_reset(struct varbuf *v)
 void
 varbuf_grow(struct varbuf *v, size_t need_size)
 {
+  size_t new_size;
+
   /* Make sure the varbuf is in a sane state. */
   if (v->size < v->used)
     internerr("varbuf used(%zu) > size(%zu)", v->used, v->size);
@@ -143,7 +160,12 @@ varbuf_grow(struct varbuf *v, size_t need_size)
   if ((v->size - v->used) >= need_size)
     return;
 
-  v->size = (v->size + need_size) * 2;
+  /* Check if we overflow. */
+  new_size = (v->size + need_size) * 2;
+  if (new_size < v->size)
+    ohshit(_("cannot grow varbuf to size %zu; it would overflow"), need_size);
+
+  v->size = new_size;
   v->buf = m_realloc(v->buf, v->size);
 }
 
@@ -185,4 +207,11 @@ void
 varbuf_destroy(struct varbuf *v)
 {
   free(v->buf); v->buf=NULL; v->size=0; v->used=0;
+}
+
+void
+varbuf_free(struct varbuf *v)
+{
+  free(v->buf);
+  free(v);
 }

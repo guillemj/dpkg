@@ -47,7 +47,8 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . g_(
 'Options:
-  -l <changelog-file>      get per-version info from this file.
+  -l, --file <changelog-file>
+                           get per-version info from this file.
   -F <changelog-format>    force changelog format.
   -S, --show-field <field> show the values for <field>.
   -?, --help               show this help message.
@@ -56,6 +57,7 @@ sub usage {
 "Parser options:
       --format <output-format>
                            set output format (defaults to 'dpkg').
+      --reverse            include all changes in reverse order.
       --all                include all changes.
   -s, --since <version>    include all changes later than <version>.
   -v <version>             ditto.
@@ -88,6 +90,8 @@ while (@ARGV) {
                           $options{changelogformat} =~ m/^([0-9a-z]+)$/;
     } elsif ($arg eq '--format') {
         $options{format} = shift;
+    } elsif ($arg eq '--reverse') {
+        $options{reverse} = 1;
     } elsif ($arg eq '-l' or $arg eq '--file') {
         $options{file} = shift;
         usageerr(g_('missing changelog filename'))
@@ -125,7 +129,22 @@ my @fields = changelog_parse(%options);
 foreach my $f (@fields) {
     print "\n" if $count++;
     if ($fieldname) {
-        print $f->{$fieldname} . "\n" if exists $f->{$fieldname};
+        next if not exists $f->{$fieldname};
+
+        my ($first_line, @lines) = split /\n/, $f->{$fieldname};
+
+        my $v = '';
+        $v .= $first_line if length $first_line;
+        $v .= "\n";
+        foreach (@lines) {
+            s/\s+$//;
+            if (length == 0 or /^\.+$/) {
+                $v .= ".$_\n";
+            } else {
+                $v .= "$_\n";
+            }
+        }
+        print $v;
     } else {
         print $f->output();
     }

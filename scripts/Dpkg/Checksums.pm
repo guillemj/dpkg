@@ -20,7 +20,7 @@ package Dpkg::Checksums;
 use strict;
 use warnings;
 
-our $VERSION = '1.03';
+our $VERSION = '1.04';
 our @EXPORT = qw(
     checksums_is_supported
     checksums_get_list
@@ -41,7 +41,7 @@ Dpkg::Checksums - generate and manipulate file checksums
 
 =head1 DESCRIPTION
 
-This module provides an object that can generate and manipulate
+This module provides a class that can generate and manipulate
 various file checksums as well as some methods to query information
 about supported checksums.
 
@@ -105,10 +105,6 @@ whether the checksum algorithm is considered cryptographically strong.
 
 sub checksums_get_property($$) {
     my ($alg, $property) = @_;
-
-    if ($property eq 'program') {
-        warnings::warnif('deprecated', 'obsolete checksums program property');
-    }
 
     return unless checksums_is_supported($alg);
     return $CHECKSUMS->{lc($alg)}{$property};
@@ -399,6 +395,10 @@ sub export_to_control {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.04 (dpkg 1.20.0)
+
+Remove warning: For obsolete property 'program'.
 
 =head2 Version 1.03 (dpkg 1.18.5)
 

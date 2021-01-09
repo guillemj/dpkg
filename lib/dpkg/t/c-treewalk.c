@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * t-treewalk.c - test tree walk implementation
+ * c-treewalk.c - test tree walk implementation
  *
  * Copyright © 2013-2016 Guillem Jover <guillem@debian.org>
  *

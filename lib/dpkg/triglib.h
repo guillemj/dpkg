@@ -25,6 +25,7 @@
 
 #include <dpkg/macros.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/fsys.h>
 
 DPKG_BEGIN_DECLS
 
@@ -53,7 +54,7 @@ enum trig_options {
 struct trigfileint {
 	struct pkginfo *pkg;
 	struct pkgbin *pkgbin;
-	struct filenamenode *fnn;
+	struct fsys_namenode *fnn;
 	enum trig_options options;
 	struct trigfileint *samefile_next;
 	struct {
@@ -70,24 +71,26 @@ struct trig_hooks {
 	void (*enqueue_deferred)(struct pkginfo *pend);
 	void (*transitional_activate)(enum modstatdb_rw cstatus);
 
-	struct filenamenode *(*namenode_find)(const char *filename, bool nonew);
-	struct trigfileint **(*namenode_interested)(struct filenamenode *fnn);
+	struct fsys_namenode *(*namenode_find)(const char *filename, bool nonew);
+	struct trigfileint **(*namenode_interested)(struct fsys_namenode *fnn);
 
 	/** Returns a pointer from nfmalloc. */
-	const char *(*namenode_name)(struct filenamenode *fnn);
+	const char *(*namenode_name)(struct fsys_namenode *fnn);
 };
 
 #define TRIGHOOKS_DEFINE_NAMENODE_ACCESSORS				 \
-  static struct trigfileint **th_nn_interested(struct filenamenode *fnn) \
+  static struct fsys_namenode *th_nn_find(const char *name, bool nonew)	 \
+    { return fsys_hash_find_node(name, nonew ? FHFF_NONE : 0); }		 \
+  static struct trigfileint **th_nn_interested(struct fsys_namenode *fnn) \
     { return &fnn->trig_interested; }					 \
-  static const char *th_nn_name(struct filenamenode *fnn)		 \
+  static const char *th_nn_name(struct fsys_namenode *fnn)		 \
     { return fnn->name; }
 
 void trig_override_hooks(const struct trig_hooks *hooks);
 
 void trig_file_activate_byname(const char *trig, struct pkginfo *aw);
-void trig_file_activate(struct filenamenode *trig, struct pkginfo *aw);
-void trig_path_activate(struct filenamenode *trig, struct pkginfo *aw);
+void trig_file_activate(struct fsys_namenode *trig, struct pkginfo *aw);
+void trig_path_activate(struct fsys_namenode *trig, struct pkginfo *aw);
 
 bool trig_note_pend_core(struct pkginfo *pend, const char *trig /*not copied!*/);
 bool trig_note_pend(struct pkginfo *pend, const char *trig /*not copied!*/);

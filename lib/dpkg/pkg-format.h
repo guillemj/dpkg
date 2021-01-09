@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * pkg-format.c - customizable package formatting
+ * pkg-format.g - customizable package formatting
  *
  * Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
  *
@@ -34,6 +34,9 @@ DPKG_BEGIN_DECLS
  */
 
 struct pkg_format_node;
+
+bool
+pkg_format_needs_db_fsys(const struct pkg_format_node *head);
 
 struct pkg_format_node *pkg_format_parse(const char *fmt,
                                          struct dpkg_error *err);

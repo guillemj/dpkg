@@ -23,7 +23,7 @@ BEGIN {
     use_ok('Dpkg::Conf');
 }
 
-my $datadir = test_get_data_path('t/Dpkg_Conf');
+my $datadir = test_get_data_path();
 
 my ($conf, $count, @opts);
 

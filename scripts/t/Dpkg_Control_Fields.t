@@ -20,22 +20,25 @@ use Test::More;
 use Test::Dpkg qw(:paths);
 
 BEGIN {
-    plan tests => 2416;
+    plan tests => 2460;
 
     use_ok('Dpkg::Control::Types');
     use_ok('Dpkg::Control::FieldsCore');
 }
 
-#my $datadir = test_get_data_path('t/Dpkg_Control_Fields');
+#my $datadir = test_get_data_path();
 
 my @src_dep_fields = qw(
     Build-Depends Build-Depends-Arch Build-Depends-Indep
     Build-Conflicts Build-Conflicts-Arch Build-Conflicts-Indep
 );
-my @bin_dep_fields = qw(
+my @bin_dep_normal_fields = qw(
     Pre-Depends Depends Recommends Suggests Enhances
+);
+my @bin_dep_union_fields = qw(
     Conflicts Breaks Replaces Provides Built-Using
 );
+my @bin_dep_fields = (@bin_dep_normal_fields, @bin_dep_union_fields);
 my @src_checksums = qw(
     Checksums-Md5 Checksums-Sha1 Checksums-Sha256
 );
@@ -67,7 +70,7 @@ my %fields = (
         unordered => 1,
         fields => [
             qw(Architecture Build-Essential Build-Profiles Built-For-Profiles
-               Description Essential Homepage
+               Description Essential Protected Homepage
                Installer-Menu-Item Kernel-Version Multi-Arch
                Package Package-Type Priority Section Subarchitecture
                Tag Task), @bin_dep_fields
@@ -89,7 +92,7 @@ my %fields = (
             qw(Package Package-Type Source Version Built-Using Kernel-Version
                Built-For-Profiles Auto-Built-Package Architecture
                Subarchitecture Installer-Menu-Item
-               Build-Essential Essential Origin Bugs
+               Build-Essential Essential Protected Origin Bugs
                Maintainer Installed-Size), @bin_dep_fields,
             qw(Section Priority Multi-Arch Homepage Description Tag Task)
         ],
@@ -111,7 +114,7 @@ my %fields = (
             qw(Package Package-Type Source Version Built-Using Kernel-Version
                Built-For-Profiles Auto-Built-Package Architecture
                Subarchitecture Installer-Menu-Item
-               Build-Essential Essential Origin Bugs
+               Build-Essential Essential Protected Origin Bugs
                Maintainer Installed-Size), @bin_dep_fields, @bin_files,
             qw(Section Priority Multi-Arch Homepage Description Tag Task)
         ],
@@ -164,7 +167,8 @@ my %fields = (
             qw(Format Source Binary Architecture Version Binary-Only-Changes),
             @src_checksums,
             qw(Build-Origin Build-Architecture Build-Kernel-Version
-               Build-Date Build-Path Installed-Build-Depends Environment)
+               Build-Date Build-Path Build-Tainted-By
+               Installed-Build-Depends Environment)
         ],
     },
     CTRL_FILE_CHANGES() => {
@@ -186,7 +190,8 @@ my %fields = (
     CTRL_FILE_STATUS() => {
         name => 'dpkg status',
         fields => [
-            qw(Package Essential Status Priority Section Installed-Size
+            qw(Package Essential Protected Status Priority Section
+               Installed-Size
                Origin Maintainer Bugs Architecture Multi-Arch Source
                Version Config-Version
                Replaces Provides Depends Pre-Depends

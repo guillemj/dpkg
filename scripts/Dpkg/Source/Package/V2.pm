@@ -37,8 +37,9 @@ use Dpkg::Path qw(find_command);
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
+use Dpkg::Source::BinaryFiles;
 use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
-use Dpkg::Source::Functions qw(erasedir is_binary fs_time);
+use Dpkg::Source::Functions qw(erasedir chmod_if_needed fs_time);
 use Dpkg::Vendor qw(run_vendor_hook);
 use Dpkg::Control;
 use Dpkg::Changelog::Parse;
@@ -399,7 +400,8 @@ sub _generate_patch {
     # Identify original tarballs
     my ($tarfile, %addonfile);
     my $comp_ext_regex = compression_get_file_extension_regex();
-    my @origtarballs;
+    my @origtarfiles;
+    my @origtarsigns;
     foreach my $file (sort $self->find_original_tarballs()) {
         if ($file =~ /\.orig\.tar\.$comp_ext_regex$/) {
             if (defined($tarfile)) {
@@ -407,20 +409,23 @@ sub _generate_patch {
                          'one is allowed'), $tarfile, $file);
             }
             $tarfile = $file;
-            push @origtarballs, $file;
-            $self->add_file($file);
-            if (-e "$file.sig" and not -e "$file.asc") {
-                openpgp_sig_to_asc("$file.sig", "$file.asc");
-            }
-            $self->add_file("$file.asc") if -e "$file.asc";
         } elsif ($file =~ /\.orig-([[:alnum:]-]+)\.tar\.$comp_ext_regex$/) {
             $addonfile{$1} = $file;
-            push @origtarballs, $file;
-            $self->add_file($file);
-            if (-e "$file.sig" and not -e "$file.asc") {
-                openpgp_sig_to_asc("$file.sig", "$file.asc");
-            }
-            $self->add_file("$file.asc") if -e "$file.asc";
+        } else {
+            next;
+        }
+
+        push @origtarfiles, $file;
+        $self->add_file($file);
+
+        # Check for an upstream signature.
+        if (-e "$file.sig" and not -e "$file.asc") {
+            openpgp_sig_to_asc("$file.sig", "$file.asc");
+        }
+        if (-e "$file.asc") {
+            push @origtarfiles, "$file.asc";
+            push @origtarsigns, "$file.asc";
+            $self->add_file("$file.asc")
         }
     }
 
@@ -428,8 +433,19 @@ sub _generate_patch {
           $self->_upstream_tarball_template()) unless $tarfile;
 
     if ($opts{usage} eq 'build') {
-        info(g_('building %s using existing %s'),
-             $self->{fields}{'Source'}, "@origtarballs");
+        foreach my $origtarfile (@origtarfiles) {
+            info(g_('building %s using existing %s'),
+                 $self->{fields}{'Source'}, $origtarfile);
+        }
+
+        if (@origtarsigns) {
+            $self->check_original_tarball_signature($dir, @origtarsigns);
+        } else {
+            my $key = $self->get_upstream_signing_key($dir);
+            if (-e $key) {
+                warning(g_('upstream signing key but no upstream tarball signature'));
+            }
+        }
     }
 
     # Unpack a second copy for comparison
@@ -509,50 +525,12 @@ sub do_build {
     my $basenamerev = $self->get_basename(1);
 
     # Check if the debian directory contains unwanted binary files
-    my $binaryfiles = Dpkg::Source::Package::V2::BinaryFiles->new($dir);
-    my $unwanted_binaries = 0;
-    my $check_binary = sub {
-        if (-f and is_binary($_)) {
-            my $fn = File::Spec->abs2rel($_, $dir);
-            $binaryfiles->new_binary_found($fn);
-            unless ($include_binaries or $binaryfiles->binary_is_allowed($fn)) {
-                errormsg(g_('unwanted binary file: %s'), $fn);
-                $unwanted_binaries++;
-            }
-        }
-    };
-    my $tar_ignore_glob = '{' . join(',',
-        map { s/,/\\,/rg } @{$self->{options}{tar_ignore}}) . '}';
-    my $filter_ignore = sub {
-        # Filter out files that are not going to be included in the debian
-        # tarball due to ignores.
-        my %exclude;
-        my $reldir = File::Spec->abs2rel($File::Find::dir, $dir);
-        my $cwd = getcwd();
-        # Apply the pattern both from the top dir and from the inspected dir
-        chdir $dir or syserr(g_("unable to chdir to '%s'"), $dir);
-        $exclude{$_} = 1 foreach glob($tar_ignore_glob);
-        chdir $cwd or syserr(g_("unable to chdir to '%s'"), $cwd);
-        chdir($File::Find::dir)
-            or syserr(g_("unable to chdir to '%s'"), $File::Find::dir);
-        $exclude{$_} = 1 foreach glob($tar_ignore_glob);
-        chdir $cwd or syserr(g_("unable to chdir to '%s'"), $cwd);
-        my @result;
-        foreach my $fn (@_) {
-            unless (exists $exclude{$fn} or exists $exclude{"$reldir/$fn"}) {
-                push @result, $fn;
-            }
-        }
-        return @result;
-    };
-    find({ wanted => $check_binary, preprocess => $filter_ignore,
-           no_chdir => 1 }, File::Spec->catdir($dir, 'debian'));
-    error(P_('detected %d unwanted binary file (add it in ' .
-             'debian/source/include-binaries to allow its inclusion).',
-             'detected %d unwanted binary files (add them in ' .
-             'debian/source/include-binaries to allow their inclusion).',
-             $unwanted_binaries), $unwanted_binaries)
-         if $unwanted_binaries;
+    my $binaryfiles = Dpkg::Source::BinaryFiles->new($dir);
+
+    $binaryfiles->detect_binary_files(
+        exclude_globs => $self->{options}{tar_ignore},
+        include_binaries => $include_binaries,
+    );
 
     # Handle modified binary files detected by the auto-patch generation
     my $handle_binary = sub {
@@ -616,17 +594,25 @@ sub do_build {
 
 sub _get_patch_header {
     my ($self, $dir) = @_;
+
     my $ph = File::Spec->catfile($dir, 'debian', 'source', 'local-patch-header');
     unless (-f $ph) {
         $ph = File::Spec->catfile($dir, 'debian', 'source', 'patch-header');
     }
-    my $text;
     if (-f $ph) {
-        open(my $ph_fh, '<', $ph) or syserr(g_('cannot read %s'), $ph);
-        $text = file_slurp($ph_fh);
-        close($ph_fh);
-        return $text;
+        return file_slurp($ph);
     }
+
+    if ($self->{options}->{single_debian_patch}) {
+        return <<'AUTOGEN_HEADER';
+This is an autogenerated patch header for a single-debian-patch file. The
+delta against upstream is either kept as a single patch, or maintained
+in some VCS, and exported as a single patch instead of more manageable
+atomic patches.
+
+AUTOGEN_HEADER
+    }
+
     my $ch_info = changelog_parse(offset => 0, count => 1,
         file => File::Spec->catfile($dir, 'debian', 'changelog'));
     return '' if not defined $ch_info;
@@ -642,6 +628,7 @@ it.\n";
     $header->{'Author'} = $ch_info->{'Maintainer'};
     my $yyyy_mm_dd = POSIX::strftime('%Y-%m-%d', gmtime);
 
+    my $text;
     $text = "$header";
     run_vendor_hook('extend-patch-header', \$text, $ch_info);
     $text .= "\n---
@@ -665,7 +652,7 @@ sub register_patch {
     if (-s $patch_file) {
         copy($patch_file, $patch)
             or syserr(g_('failed to copy %s to %s'), $patch_file, $patch);
-        chmod(0666 & ~ umask(), $patch)
+        chmod_if_needed(0666 & ~ umask(), $patch)
             or syserr(g_("unable to change permission of '%s'"), $patch);
         my $applied = File::Spec->catfile($dir, 'debian', 'patches', '.dpkg-source-applied');
         open(my $applied_fh, '>>', $applied)
@@ -706,7 +693,7 @@ sub do_commit {
         error(g_("patch file '%s' doesn't exist"), $tmpdiff) if not -e $tmpdiff;
     }
 
-    my $binaryfiles = Dpkg::Source::Package::V2::BinaryFiles->new($dir);
+    my $binaryfiles = Dpkg::Source::BinaryFiles->new($dir);
     my $handle_binary = sub {
         my ($self, $old, $new, %opts) = @_;
         my $fn = File::Spec->abs2rel($new, $dir);
@@ -747,88 +734,6 @@ sub do_commit {
     unlink($tmpdiff) or syserr(g_('cannot remove %s'), $tmpdiff);
     pop_exit_handler();
     info(g_('local changes have been recorded in a new patch: %s'), $patch);
-}
-
-package Dpkg::Source::Package::V2::BinaryFiles;
-
-use Dpkg::ErrorHandling;
-use Dpkg::Gettext;
-
-use File::Path qw(make_path);
-use File::Spec;
-
-sub new {
-    my ($this, $dir) = @_;
-    my $class = ref($this) || $this;
-
-    my $self = {
-        dir => $dir,
-        allowed_binaries => {},
-        seen_binaries => {},
-        include_binaries_path =>
-            File::Spec->catfile($dir, 'debian', 'source', 'include-binaries'),
-    };
-    bless $self, $class;
-    $self->load_allowed_binaries();
-    return $self;
-}
-
-sub new_binary_found {
-    my ($self, $path) = @_;
-
-    $self->{seen_binaries}{$path} = 1;
-}
-
-sub load_allowed_binaries {
-    my $self = shift;
-    my $incbin_file = $self->{include_binaries_path};
-    if (-f $incbin_file) {
-        open(my $incbin_fh, '<', $incbin_file)
-            or syserr(g_('cannot read %s'), $incbin_file);
-        while (<$incbin_fh>) {
-            chomp;
-            s/^\s*//;
-            s/\s*$//;
-            next if /^#/ or length == 0;
-            $self->{allowed_binaries}{$_} = 1;
-        }
-        close($incbin_fh);
-    }
-}
-
-sub binary_is_allowed {
-    my ($self, $path) = @_;
-    return 1 if exists $self->{allowed_binaries}{$path};
-    return 0;
-}
-
-sub update_debian_source_include_binaries {
-    my $self = shift;
-
-    my @unknown_binaries = $self->get_unknown_binaries();
-    return unless scalar(@unknown_binaries);
-
-    my $incbin_file = $self->{include_binaries_path};
-    make_path(File::Spec->catdir($self->{dir}, 'debian', 'source'));
-    open(my $incbin_fh, '>>', $incbin_file)
-        or syserr(g_('cannot write %s'), $incbin_file);
-    foreach my $binary (@unknown_binaries) {
-        print { $incbin_fh } "$binary\n";
-        info(g_('adding %s to %s'), $binary, 'debian/source/include-binaries');
-        $self->{allowed_binaries}{$binary} = 1;
-    }
-    close($incbin_fh);
-}
-
-sub get_unknown_binaries {
-    my $self = shift;
-    return grep { not $self->binary_is_allowed($_) } $self->get_seen_binaries();
-}
-
-sub get_seen_binaries {
-    my $self = shift;
-    my @seen = sort keys %{$self->{seen_binaries}};
-    return @seen;
 }
 
 1;

@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5;
+use Test::More tests => 7;
 
 BEGIN {
     use_ok('Dpkg::Exit');
@@ -51,7 +51,17 @@ sub exit_handler {
     exit 0;
 }
 
+sub ini_handler {
+    pass('ini handler invoked');
+}
+
+sub end_handler {
+    pass('end handler invoked');
+}
+
+Dpkg::Exit::push_exit_handler(\&end_handler);
 Dpkg::Exit::push_exit_handler(\&exit_handler);
+Dpkg::Exit::push_exit_handler(\&ini_handler);
 
 kill 'INT', $$;
 

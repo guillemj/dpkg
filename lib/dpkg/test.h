@@ -22,9 +22,11 @@
 #define LIBDPKG_TEST_H
 
 #include <string.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <dpkg/macros.h>
 #ifndef TEST_MAIN_CTOR
 #include <dpkg/ehandle.h>
 #define TEST_MAIN_CTOR push_error_context()
@@ -51,7 +53,7 @@
 static inline void *
 test_alloc(void *ptr, const char *reason)
 {
-	if (ptr == NULL)
+	if (ptr == DPKG_NULL)
 		test_bail(reason);
 	return ptr;
 }
@@ -59,10 +61,39 @@ test_alloc(void *ptr, const char *reason)
 #define test_alloc(ptr) \
 	test_alloc((ptr), "cannot allocate memory for " #ptr " in " __FILE__ ":" test_stringify(__LINE__))
 
+#define test_try(jmp) \
+	push_error_context_jump(&(jmp), NULL, "test try"); \
+	if (!setjmp((jmp)))
+#define test_catch \
+	else
+#define test_finally \
+	pop_error_context(ehflag_normaltidy);
+
+static inline const char *
+test_get_envdir(const char *envvar)
+{
+	const char *envdir = getenv(envvar);
+	return envdir ? envdir : ".";
+}
+
+#define test_get_srcdir() \
+	test_get_envdir("srcdir")
+#define test_get_builddir() \
+	test_get_envdir("builddir")
+
+static inline bool
+test_is_verbose(void)
+{
+	const char *verbose = getenv("TEST_VERBOSE");
+	return verbose != NULL && strcmp(verbose, "1") == 0;
+}
+
+#ifndef TEST_OMIT_VARIABLES
 static int test_id = 1;
 static int test_skip_code;
 static const char *test_skip_prefix;
 static const char *test_skip_reason;
+#endif
 
 #define test_plan(n) \
 	printf("1..%d\n", n);
@@ -76,22 +107,23 @@ static const char *test_skip_reason;
 	printf("ok %d # SKIP %s\n", test_id++, (reason))
 #define test_skip_block(cond) \
 	for (test_skip_prefix = " # SKIP ", \
-	     test_skip_reason = cond ? #cond : NULL, \
+	     test_skip_reason = cond ? #cond : DPKG_NULL, \
 	     test_skip_code = 1; \
 	     test_skip_prefix; \
-	     test_skip_prefix = test_skip_reason = NULL, test_skip_code = 0)
+	     test_skip_prefix = test_skip_reason = DPKG_NULL, \
+	     test_skip_code = 0)
 
 #define test_todo(a, reason, desc) \
 	do { \
 		test_skip_prefix = " # TODO "; \
 		test_skip_reason = reason; \
 		test_case(a, "%s", desc); \
-		test_skip_prefix = test_skip_reason = NULL; \
+		test_skip_prefix = test_skip_reason = DPKG_NULL; \
 	} while(0)
 #define test_todo_block(reason) \
 	for (test_skip_prefix = " # TODO ", test_skip_reason = reason; \
 	     test_skip_prefix; \
-	     test_skip_prefix = test_skip_reason = NULL)
+	     test_skip_prefix = test_skip_reason = DPKG_NULL)
 
 #define test_case(a, fmt, ...) \
 	printf("%sok %d - " fmt "%s%s\n", \
@@ -128,7 +160,7 @@ static void name(void); \
 int \
 main(int argc, char **argv) \
 { \
-	setvbuf(stdout, NULL, _IOLBF, 0); \
+	setvbuf(stdout, DPKG_NULL, _IOLBF, 0); \
  \
 	TEST_MAIN_CTOR; \
 	name(); \

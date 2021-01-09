@@ -34,7 +34,9 @@ DPKG_BEGIN_DECLS
  */
 
 enum atomic_file_flags {
+	ATOMIC_FILE_NORMAL	= 0,
 	ATOMIC_FILE_BACKUP	= DPKG_BIT(0),
+	ATOMIC_FILE_MKPATH	= DPKG_BIT(1),
 };
 
 struct atomic_file {

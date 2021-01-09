@@ -36,35 +36,37 @@
 #include <dpkg/error.h>
 #include <dpkg/parsedump.h>
 
-static const char *
-parse_error_msg(struct parsedb_state *ps, const char *fmt)
+static DPKG_ATTR_VPRINTF(2) const char *
+parse_error_msg(struct parsedb_state *ps, const char *fmt, va_list args)
 {
-  static char msg[1024];
-  char filename[256];
+  struct varbuf *vb = &ps->errmsg;
 
-  str_escape_fmt(filename, ps->filename, sizeof(filename));
+  varbuf_reset(vb);
 
-  if (ps->pkg && ps->pkg->set->name) {
-    char pkgname[256];
+  if (ps->pkg && ps->pkg->set->name)
+    varbuf_printf(vb, _("parsing file '%s' near line %d package '%s':\n "),
+                  ps->filename, ps->lno,
+                  pkgbin_name(ps->pkg, ps->pkgbin, pnaw_nonambig));
+  else
+    varbuf_printf(vb, _("parsing file '%.255s' near line %d:\n "),
+                  ps->filename, ps->lno);
 
-    str_escape_fmt(pkgname, pkgbin_name(ps->pkg, ps->pkgbin, pnaw_nonambig),
-                   sizeof(pkgname));
-    sprintf(msg, _("parsing file '%.255s' near line %d package '%.255s':\n"
-                   " %.255s"), filename, ps->lno, pkgname, fmt);
-  } else
-    sprintf(msg, _("parsing file '%.255s' near line %d:\n"
-                   " %.255s"), filename, ps->lno, fmt);
+  varbuf_vprintf(vb, fmt, args);
 
-  return msg;
+  return vb->buf;
 }
 
 void
 parse_error(struct parsedb_state *ps, const char *fmt, ...)
 {
   va_list args;
+  const char *str;
 
   va_start(args, fmt);
-  ohshitv(parse_error_msg(ps, fmt), args);
+  str = parse_error_msg(ps, fmt, args);
+  va_end(args);
+
+  ohshit("%s", str);
 }
 
 void
@@ -73,8 +75,24 @@ parse_warn(struct parsedb_state *ps, const char *fmt, ...)
   va_list args;
 
   va_start(args, fmt);
-  warningv(parse_error_msg(ps, fmt), args);
+  warning("%s", parse_error_msg(ps, fmt, args));
   va_end(args);
+}
+
+void
+parse_problem(struct parsedb_state *ps, const char *fmt, ...)
+{
+  va_list args;
+  const char *str;
+
+  va_start(args, fmt);
+  str = parse_error_msg(ps, fmt, args);
+  va_end(args);
+
+  if (ps->err.type == DPKG_MSG_WARN)
+    warning("%s: %s", str, ps->err.str);
+  else
+    ohshit("%s: %s", str, ps->err.str);
 }
 
 const struct fieldinfo *
@@ -168,6 +186,20 @@ const char *versiondescribe
   varbuf_end_str(vb);
 
   return vb->buf;
+}
+
+const char *
+versiondescribe_c(const struct dpkg_version *version,
+                  enum versiondisplayepochwhen vdew)
+{
+  struct dpkg_locale oldloc;
+  const char *str;
+
+  oldloc = dpkg_locale_switch_C();
+  str = versiondescribe(version, vdew);
+  dpkg_locale_switch_back(oldloc);
+
+  return str;
 }
 
 /**
@@ -266,29 +298,24 @@ parseversion(struct dpkg_version *rversion, const char *string,
  * @param ps The parsedb state.
  * @param version The version to parse into.
  * @param value The version string to parse from.
- * @param fmt The error format string.
+ *
+ * @retval  0 On success, and err is reset.
+ * @retval -1 On failure, and err is set accordingly.
  */
-void
+int
 parse_db_version(struct parsedb_state *ps, struct dpkg_version *version,
-                 const char *value, const char *fmt, ...)
+                 const char *value)
 {
-  struct dpkg_error err;
-  va_list args;
-  char buf[1000];
+  dpkg_error_destroy(&ps->err);
 
-  if (parseversion(version, value, &err) == 0)
-    return;
+  if (parseversion(version, value, &ps->err) == 0)
+    return 0;
 
-  va_start(args, fmt);
-  vsnprintf(buf, sizeof(buf), fmt, args);
-  va_end(args);
+  /* If not in lax mode, turn everything into an error. */
+  if (!(ps->flags & pdb_lax_version_parser))
+    ps->err.type = DPKG_MSG_ERROR;
 
-  if (err.type == DPKG_MSG_WARN && (ps->flags & pdb_lax_version_parser))
-    parse_warn(ps, "%s: %.250s", buf, err.str);
-  else
-    parse_error(ps, "%s: %.250s", buf, err.str);
-
-  dpkg_error_destroy(&err);
+  return -1;
 }
 
 void
@@ -296,9 +323,9 @@ parse_must_have_field(struct parsedb_state *ps,
                       const char *value, const char *what)
 {
   if (!value)
-    parse_error(ps, _("missing %s"), what);
+    parse_error(ps, _("missing '%s' field"), what);
   else if (!*value)
-    parse_error(ps, _("empty value for %s"), what);
+    parse_error(ps, _("empty value for '%s' field"), what);
 }
 
 void
@@ -308,9 +335,9 @@ parse_ensure_have_field(struct parsedb_state *ps,
   static const char empty[] = "";
 
   if (!*value) {
-    parse_warn(ps, _("missing %s"), what);
+    parse_warn(ps, _("missing '%s' field"), what);
     *value = empty;
   } else if (!**value) {
-    parse_warn(ps, _("empty value for %s"), what);
+    parse_warn(ps, _("empty value for '%s' field"), what);
   }
 }

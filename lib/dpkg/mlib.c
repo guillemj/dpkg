@@ -24,6 +24,7 @@
 
 #include <sys/types.h>
 
+#include <errno.h>
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -110,6 +111,19 @@ m_asprintf(char **strp, const char *fmt, ...)
   return n;
 }
 
+int
+m_dup(int oldfd)
+{
+  int newfd;
+
+  newfd = dup(oldfd);
+  if (newfd >= 0)
+    return newfd;
+
+  onerr_abort++;
+  ohshite(_("failed to dup for fd %d"), oldfd);
+}
+
 void m_dup2(int oldfd, int newfd) {
   const char *const stdstrings[]= { "in", "out", "err" };
 
@@ -120,7 +134,9 @@ void m_dup2(int oldfd, int newfd) {
   ohshite(_("failed to dup for fd %d"),newfd);
 }
 
-void m_pipe(int *fds) {
+void
+m_pipe(int fds[2])
+{
   if (!pipe(fds)) return;
   onerr_abort++;
   ohshite(_("failed to create pipe"));
@@ -130,7 +146,7 @@ void
 m_output(FILE *f, const char *name)
 {
   fflush(f);
-  if (ferror(f))
+  if (ferror(f) && errno != EPIPE)
     ohshite(_("error writing to '%s'"), name);
 }
 

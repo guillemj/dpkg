@@ -18,7 +18,7 @@ AT_CHECK([
 mv pkg-deb-format pkg-templ
 chmod -R u+w pkg-templ
 find pkg-templ | xargs touch -t 197001010100.00
-$ASROOT dpkg-deb --uniform-compression -Znone -b pkg-templ >/dev/null
+dpkg-deb --uniform-compression --root-owner-group -Znone -b pkg-templ >/dev/null
 
 # Extract the base members
 ar x pkg-templ.deb

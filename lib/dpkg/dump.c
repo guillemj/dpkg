@@ -30,7 +30,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
@@ -41,6 +40,8 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg-array.h>
+#include <dpkg/pkg-show.h>
 #include <dpkg/string.h>
 #include <dpkg/dir.h>
 #include <dpkg/parsedump.h>
@@ -57,7 +58,9 @@ w_name(struct varbuf *vb,
        const struct pkginfo *pkg, const struct pkgbin *pkgbin,
        enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  assert(pkg->set->name);
+  if (pkg->set->name == NULL)
+    internerr("pkgset has no name");
+
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Package: ");
   varbuf_add_str(vb, pkg->set->name);
@@ -139,16 +142,16 @@ w_charfield(struct varbuf *vb,
 }
 
 void
-w_filecharf(struct varbuf *vb,
-            const struct pkginfo *pkg, const struct pkgbin *pkgbin,
-            enum fwriteflags flags, const struct fieldinfo *fip)
+w_archives(struct varbuf *vb,
+           const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+           enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  struct filedetails *fdp;
+  struct archivedetails *archive;
 
   if (pkgbin != &pkg->available)
     return;
-  fdp = pkg->files;
-  if (!fdp || !STRUCTFIELD(fdp, fip->integer, const char *))
+  archive = pkg->archives;
+  if (!archive || !STRUCTFIELD(archive, fip->integer, const char *))
     return;
 
   if (flags&fw_printheader) {
@@ -156,10 +159,10 @@ w_filecharf(struct varbuf *vb,
     varbuf_add_char(vb, ':');
   }
 
-  while (fdp) {
+  while (archive) {
     varbuf_add_char(vb, ' ');
-    varbuf_add_str(vb, STRUCTFIELD(fdp, fip->integer, const char *));
-    fdp= fdp->next;
+    varbuf_add_str(vb, STRUCTFIELD(archive, fip->integer, const char *));
+    archive = archive->next;
   }
 
   if (flags&fw_printheader)
@@ -230,7 +233,11 @@ w_priority(struct varbuf *vb,
 {
   if (pkg->priority == PKG_PRIO_UNKNOWN)
     return;
-  assert(pkg->priority <= PKG_PRIO_UNKNOWN);
+
+  if (pkg->priority > PKG_PRIO_UNKNOWN)
+    internerr("package %s has out-of-range priority %d",
+              pkgbin_name_const(pkg, pkgbin, pnaw_always), pkg->priority);
+
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Priority: ");
   varbuf_add_str(vb, pkg_priority_name(pkg));
@@ -245,38 +252,46 @@ w_status(struct varbuf *vb,
 {
   if (pkgbin != &pkg->installed)
     return;
-  assert(pkg->want <= PKG_WANT_PURGE);
-  assert(pkg->eflag <= PKG_EFLAG_REINSTREQ);
 
-#define PEND pkg->trigpend_head
-#define AW pkg->trigaw.head
+  if (pkg->want > PKG_WANT_PURGE)
+    internerr("package %s has unknown want state %d",
+              pkgbin_name_const(pkg, pkgbin, pnaw_always), pkg->want);
+  if (pkg->eflag > PKG_EFLAG_REINSTREQ)
+    internerr("package %s has unknown error state %d",
+              pkgbin_name_const(pkg, pkgbin, pnaw_always), pkg->eflag);
+
   switch (pkg->status) {
   case PKG_STAT_NOTINSTALLED:
   case PKG_STAT_CONFIGFILES:
-    assert(!PEND);
-    assert(!AW);
+    if (pkg->trigpend_head || pkg->trigaw.head)
+      internerr("package %s in state %s, has awaited or pending triggers",
+              pkgbin_name_const(pkg, pkgbin, pnaw_always), pkg_status_name(pkg));
     break;
   case PKG_STAT_HALFINSTALLED:
   case PKG_STAT_UNPACKED:
   case PKG_STAT_HALFCONFIGURED:
-    assert(!PEND);
+    if (pkg->trigpend_head)
+      internerr("package %s in state %s, has pending triggers",
+              pkgbin_name_const(pkg, pkgbin, pnaw_always), pkg_status_name(pkg));
     break;
   case PKG_STAT_TRIGGERSAWAITED:
-    assert(AW);
+    if (pkg->trigaw.head == NULL)
+      internerr("package %s in state %s, has no awaited triggers",
+                pkgbin_name_const(pkg, pkgbin, pnaw_always), pkg_status_name(pkg));
     break;
   case PKG_STAT_TRIGGERSPENDING:
-    assert(PEND);
-    assert(!AW);
+    if (pkg->trigpend_head == NULL || pkg->trigaw.head)
+      internerr("package %s in stata %s, has awaited or no pending triggers",
+              pkgbin_name_const(pkg, pkgbin, pnaw_always), pkg_status_name(pkg));
     break;
   case PKG_STAT_INSTALLED:
-    assert(!PEND);
-    assert(!AW);
+    if (pkg->trigpend_head || pkg->trigaw.head)
+      internerr("package %s in state %s, has awaited or pending triggers",
+              pkgbin_name_const(pkg, pkgbin, pnaw_always), pkg_status_name(pkg));
     break;
   default:
     internerr("unknown package status '%d'", pkg->status);
   }
-#undef PEND
-#undef AW
 
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Status: ");
@@ -295,7 +310,9 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep) {
 
   possdel= "";
   for (dop= dep->list; dop; dop= dop->next) {
-    assert(dop->up == dep);
+    if (dop->up != dep)
+      internerr("dependency and deppossi not linked properly");
+
     varbuf_add_str(vb, possdel);
     possdel = " | ";
     varbuf_add_str(vb, dop->ed->name);
@@ -339,7 +356,10 @@ w_dependency(struct varbuf *vb,
 
   for (dyp = pkgbin->depends; dyp; dyp = dyp->next) {
     if (dyp->type != fip->integer) continue;
-    assert(dyp->up == pkg);
+
+    if (dyp->up != pkg)
+      internerr("dependency and package %s not linked properly",
+                pkgbin_name_const(pkg, pkgbin, pnaw_always));
 
     if (dep_found) {
       varbuf_add_str(vb, ", ");
@@ -374,6 +394,8 @@ w_conffiles(struct varbuf *vb,
     varbuf_add_str(vb, i->hash);
     if (i->obsolete)
       varbuf_add_str(vb, " obsolete");
+    if (i->remove_on_upgrade)
+      varbuf_add_str(vb, " remove-on-upgrade");
   }
   if (flags&fw_printheader)
     varbuf_add_char(vb, '\n');
@@ -389,8 +411,10 @@ w_trigpend(struct varbuf *vb,
   if (pkgbin == &pkg->available || !pkg->trigpend_head)
     return;
 
-  assert(pkg->status >= PKG_STAT_TRIGGERSAWAITED &&
-         pkg->status <= PKG_STAT_TRIGGERSPENDING);
+  if (pkg->status < PKG_STAT_TRIGGERSAWAITED ||
+      pkg->status > PKG_STAT_TRIGGERSPENDING)
+    internerr("package %s in non-trigger state %s, has pending triggers",
+              pkgbin_name_const(pkg, pkgbin, pnaw_always), pkg_status_name(pkg));
 
   if (flags & fw_printheader)
     varbuf_add_str(vb, "Triggers-Pending:");
@@ -412,8 +436,10 @@ w_trigaw(struct varbuf *vb,
   if (pkgbin == &pkg->available || !pkg->trigaw.head)
     return;
 
-  assert(pkg->status > PKG_STAT_CONFIGFILES &&
-         pkg->status <= PKG_STAT_TRIGGERSAWAITED);
+  if (pkg->status <= PKG_STAT_CONFIGFILES ||
+      pkg->status > PKG_STAT_TRIGGERSAWAITED)
+    internerr("package %s in state %s, has awaited triggers",
+              pkgbin_name_const(pkg, pkgbin, pnaw_always), pkg_status_name(pkg));
 
   if (flags & fw_printheader)
     varbuf_add_str(vb, "Triggers-Awaited:");
@@ -461,55 +487,69 @@ writerecord(FILE *file, const char *filename,
 
   varbufrecord(&vb, pkg, pkgbin);
   varbuf_end_str(&vb);
-  if (fputs(vb.buf,file) < 0) {
-    struct varbuf pkgname = VARBUF_INIT;
-    int errno_saved = errno;
 
-    varbuf_add_pkgbin_name(&pkgname, pkg, pkgbin, pnaw_nonambig);
-
-    errno = errno_saved;
+  if (fputs(vb.buf, file) < 0)
     ohshite(_("failed to write details of '%.50s' to '%.250s'"),
-            pkgname.buf, filename);
+            pkgbin_name_const(pkg, pkgbin, pnaw_nonambig), filename);
+
+  varbuf_destroy(&vb);
+}
+
+void
+writedb_records(FILE *fp, const char *filename, enum writedb_flags flags)
+{
+  static char writebuf[8192];
+
+  struct pkg_array array;
+  struct pkginfo *pkg;
+  struct pkgbin *pkgbin;
+  const char *which;
+  struct varbuf vb = VARBUF_INIT;
+  int i;
+
+  which = (flags & wdb_dump_available) ? "available" : "status";
+
+  if (setvbuf(fp, writebuf, _IOFBF, sizeof(writebuf)))
+    ohshite(_("unable to set buffering on %s database file"), which);
+
+  pkg_array_init_from_hash(&array);
+  pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
+
+  for (i = 0; i < array.n_pkgs; i++) {
+    pkg = array.pkgs[i];
+    pkgbin = (flags & wdb_dump_available) ? &pkg->available : &pkg->installed;
+
+    /* Don't dump records which have no useful content. */
+    if (!pkg_is_informative(pkg, pkgbin))
+      continue;
+
+    varbufrecord(&vb, pkg, pkgbin);
+    varbuf_add_char(&vb, '\n');
+    varbuf_end_str(&vb);
+    if (fputs(vb.buf, fp) < 0)
+      ohshite(_("failed to write %s database record about '%.50s' to '%.250s'"),
+              which, pkgbin_name(pkg, pkgbin, pnaw_nonambig), filename);
+    varbuf_reset(&vb);
   }
 
+  pkg_array_destroy(&array);
   varbuf_destroy(&vb);
 }
 
 void
 writedb(const char *filename, enum writedb_flags flags)
 {
-  static char writebuf[8192];
-
-  struct pkgiterator *iter;
-  struct pkginfo *pkg;
-  struct pkgbin *pkgbin;
-  const char *which;
   struct atomic_file *file;
-  struct varbuf vb = VARBUF_INIT;
+  enum atomic_file_flags atomic_flags = ATOMIC_FILE_BACKUP;
 
-  which = (flags & wdb_dump_available) ? "available" : "status";
+  if (flags & wdb_dump_available)
+    atomic_flags = 0;
 
-  file = atomic_file_new(filename, ATOMIC_FILE_BACKUP);
+  file = atomic_file_new(filename, atomic_flags);
   atomic_file_open(file);
-  if (setvbuf(file->fp, writebuf, _IOFBF, sizeof(writebuf)))
-    ohshite(_("unable to set buffering on %s database file"), which);
 
-  iter = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(iter)) != NULL) {
-    pkgbin = (flags & wdb_dump_available) ? &pkg->available : &pkg->installed;
-    /* Don't dump records which have no useful content. */
-    if (!pkg_is_informative(pkg, pkgbin))
-      continue;
-    varbufrecord(&vb, pkg, pkgbin);
-    varbuf_add_char(&vb, '\n');
-    varbuf_end_str(&vb);
-    if (fputs(vb.buf, file->fp) < 0)
-      ohshite(_("failed to write %s database record about '%.50s' to '%.250s'"),
-              which, pkgbin_name(pkg, pkgbin, pnaw_nonambig), filename);
-    varbuf_reset(&vb);
-  }
-  pkg_db_iter_free(iter);
-  varbuf_destroy(&vb);
+  writedb_records(file->fp, filename, flags);
+
   if (flags & wdb_must_sync)
     atomic_file_sync(file);
 

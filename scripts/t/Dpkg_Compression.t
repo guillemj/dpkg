@@ -17,12 +17,12 @@ use strict;
 use warnings;
 
 use Test::More tests => 13;
+use Test::Dpkg qw(:paths);
 
 use_ok('Dpkg::Compression');
 use_ok('Dpkg::Compression::FileHandle');
 
-my $tmpdir = 't.tmp/Dpkg_Compression';
-mkdir $tmpdir;
+my $tmpdir = test_get_temp_path();
 my @lines = ("One\n", "Two\n", "Three\n");
 my $fh;
 

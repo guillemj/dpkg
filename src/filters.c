@@ -29,9 +29,9 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/db-fsys.h>
 
 #include "main.h"
-#include "filesdb.h"
 #include "filters.h"
 
 struct filter_node {

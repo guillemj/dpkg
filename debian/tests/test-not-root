@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+
+if [ "$(id -u)" = '0' ]; then
+  # Skip, we cannot declare we do not want root.
+  exit 77
+fi
+
+srcdir="$(pwd)"
+
+cd $AUTOPKGTEST_TMP
+"$srcdir/configure" --disable-nls --disable-dselect
+make installcheck

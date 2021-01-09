@@ -73,7 +73,7 @@ subproc_signals_ignore(const char *name)
 	for (i = 0; i < array_count(signo_ignores); i++)
 		subproc_set_signal(signo_ignores[i], &sa, &sa_save[i], name);
 
-	push_cleanup(subproc_signals_cleanup, ~0, NULL, 0, 0);
+	push_cleanup(subproc_signals_cleanup, ~0, 0);
 	onerr_abort--;
 }
 

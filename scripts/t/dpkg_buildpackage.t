@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use Test::Dpkg qw(:needs test_neutralize_checksums);
+use Test::Dpkg qw(:needs :paths test_neutralize_checksums);
 
 use File::Spec::Functions qw(rel2abs);
 use File::Compare;
@@ -34,7 +34,7 @@ plan tests => 12;
 
 my $srcdir = rel2abs($ENV{srcdir} || '.');
 my $datadir = "$srcdir/t/dpkg_buildpackage";
-my $tmpdir = 't.tmp/dpkg_buildpackage';
+my $tmpdir = test_get_temp_path();
 
 $ENV{$_} = rel2abs($ENV{$_}) foreach qw(DPKG_DATADIR DPKG_ORIGINS_DIR);
 
@@ -47,8 +47,6 @@ delete $ENV{SOURCE_DATE_EPOCH};
 
 # Delete other variables that can affect the tests.
 delete $ENV{$_} foreach grep { m/^DEB_/ } keys %ENV;
-
-make_path($tmpdir);
 
 chdir $tmpdir;
 

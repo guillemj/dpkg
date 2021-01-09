@@ -1,6 +1,6 @@
-# Simplified Chinese translation to dpkg.
-# Copyright (C) 2004 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Simplified Chinese translation to dselect.
+# Copyright (C) 2004 Dpkg Developers
+# This file is distributed under the same license as the dpkg package.
 #
 # Copyrights:
 # Kov Chai <tchaikov@sjtu.edu.cn>, 2005,2006.
@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dselect 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2021-01-09 00:59+0100\n"
 "PO-Revision-Date: 2006-05-06 20:11+0800\n"
 "Last-Translator: Kov Chai <tchaikov@sjtu.edu.cn>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -303,7 +303,7 @@ msgid ""
 "  ^b                    ^f                      pan display by 1 character\n"
 "\n"
 "Mark packages for later processing:\n"
-" +, Insert  install or upgrade      =, H  hold in present state\n"
+" +, Insert  install or upgrade      =, H  hold in present version\n"
 " -, Delete  remove                  :, G  unhold: upgrade or leave "
 "uninstalled\n"
 " _          remove & purge config\n"
@@ -453,6 +453,42 @@ msgid "Introduction to conflict/dependency resolution sub-list"
 msgstr "用于解决冲突/依赖问题的子列表的简介"
 
 #: dselect/helpmsgs.cc
+#, fuzzy
+#| msgid ""
+#| "Dependency/conflict resolution - introduction.\n"
+#| "\n"
+#| "One or more of your choices have raised a conflict or dependency problem "
+#| "-\n"
+#| "some packages should only be installed in conjunction with certain "
+#| "others, and\n"
+#| "some combinations of packages may not be installed together.\n"
+#| "\n"
+#| "You will see a sub-list containing the packages involved.  The bottom "
+#| "half of\n"
+#| "the display shows relevant conflicts and dependencies; use 'i' to cycle "
+#| "between\n"
+#| "that, the package descriptions and the internal control information.\n"
+#| "\n"
+#| "A set of 'suggested' packages has been calculated, and the initial "
+#| "markings in\n"
+#| "this sub-list have been set to match those, so you can just hit Return "
+#| "to\n"
+#| "accept the suggestions if you wish.  You may abort the change(s) which "
+#| "caused\n"
+#| "the problem(s), and go back to the main list, by pressing capital 'X'.\n"
+#| "\n"
+#| "You can also move around the list and change the markings so that they "
+#| "are more\n"
+#| "like what you want, and you can 'reject' my suggestions by using the "
+#| "capital\n"
+#| "'D' or 'R' keys (see the keybindings help screen).  You can use capital "
+#| "'Q' to\n"
+#| "force me to accept the situation currently displayed, in case you want "
+#| "to\n"
+#| "override a recommendation or think that the program is mistaken.\n"
+#| "\n"
+#| "Press <space> to leave help and enter the sub-list; remember: press '?' "
+#| "for help.\n"
 msgid ""
 "Dependency/conflict resolution - introduction.\n"
 "\n"
@@ -480,7 +516,7 @@ msgid ""
 "capital\n"
 "'D' or 'R' keys (see the keybindings help screen).  You can use capital 'Q' "
 "to\n"
-"force me to accept the situation currently displayed, in case you want to\n"
+"force to accept the situation currently displayed, in case you want to\n"
 "override a recommendation or think that the program is mistaken.\n"
 "\n"
 "Press <space> to leave help and enter the sub-list; remember: press '?' for "
@@ -543,7 +579,7 @@ msgid ""
 " Mark: what is requested for this package:\n"
 "  '*': marked for installation or upgrade;\n"
 "  '-': marked for removal, but any configuration files will remain;\n"
-"  '=': on hold: package will not be processed at all;\n"
+"  '=': on hold: package will not be installed, upgraded or removed;\n"
 "  '_': marked for purge completely - even remove configuration;\n"
 "  'n': package is new and has yet to be marked for install/remove/&c.\n"
 "\n"
@@ -1035,17 +1071,6 @@ msgid "No explanation available."
 msgstr "没有发现相应的说明。"
 
 #: dselect/method.cc
-#, c-format
-msgid ""
-"\n"
-"\n"
-"%s: %s\n"
-msgstr ""
-"\n"
-"\n"
-"%s：%s\n"
-
-#: dselect/method.cc
 msgid ""
 "\n"
 "Press <enter> to continue."
@@ -1108,6 +1133,11 @@ msgstr "更新可用软件包列表的脚本"
 #: dselect/method.cc
 msgid "installation script"
 msgstr "软件包安装脚本"
+
+#: dselect/method.cc
+#, c-format
+msgid "running %s %s ...\n"
+msgstr ""
 
 #: dselect/method.cc
 msgid "query/setup script"
@@ -1672,6 +1702,15 @@ msgstr "在 %3$s 大类中 %1$s %2$s 软件包"
 #, c-format
 msgid "%-*s %s%s%s;  %s (was: %s).  %s"
 msgstr "%-*s %s%s%s;  %s (曾为：%s).  %s"
+
+#~ msgid ""
+#~ "\n"
+#~ "\n"
+#~ "%s: %s\n"
+#~ msgstr ""
+#~ "\n"
+#~ "\n"
+#~ "%s：%s\n"
 
 #~ msgid "failed to re-block SIGWINCH"
 #~ msgstr "重新阻塞 SIGWINCH 信号失败"

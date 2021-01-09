@@ -34,6 +34,10 @@ static bool
 pkgbin_name_needs_arch(const struct pkgbin *pkgbin,
                        enum pkg_name_arch_when pnaw)
 {
+	if (pkgbin->arch->type == DPKG_ARCH_NONE ||
+	    pkgbin->arch->type == DPKG_ARCH_EMPTY)
+		return false;
+
 	switch (pnaw) {
 	case pnaw_never:
 		break;
@@ -43,8 +47,7 @@ pkgbin_name_needs_arch(const struct pkgbin *pkgbin,
 	/* Fall through. */
 	case pnaw_foreign:
 		if (pkgbin->arch->type == DPKG_ARCH_NATIVE ||
-		    pkgbin->arch->type == DPKG_ARCH_ALL ||
-		    pkgbin->arch->type == DPKG_ARCH_NONE)
+		    pkgbin->arch->type == DPKG_ARCH_ALL)
 			break;
 	/* Fall through. */
 	case pnaw_always:
@@ -76,6 +79,75 @@ varbuf_add_pkgbin_name(struct varbuf *vb,
 	varbuf_end_str(vb);
 }
 
+const char *
+pkgbin_name_archqual(const struct pkginfo *pkg, const struct pkgbin *pkgbin)
+{
+	char *pkgname;
+
+	if (pkgbin->arch->type == DPKG_ARCH_NONE ||
+	    pkgbin->arch->type == DPKG_ARCH_EMPTY)
+		return pkg->set->name;
+
+	pkgname = nfmalloc(strlen(pkg->set->name) + 1 +
+	                   strlen(pkgbin->arch->name) + 1);
+	str_concat(pkgname, pkg->set->name, ":",
+	                    pkgbin->arch->name, NULL);
+
+	return pkgname;
+}
+
+/**
+ * Return a string representation of the package name.
+ *
+ * The returned string must not be freed, and it's permanently allocated so
+ * can be used as long as the non-freeing memory pool has not been freed.
+ *
+ * Note, that this const variant will "leak" a new non-freeing string on
+ * each call if the internal cache has not been previously initialized,
+ * so it is advised to use it only in error reporting code paths.
+ *
+ * The pnaw parameter should be one of pnaw_never (never print arch),
+ * pnaw_foreign (print arch for foreign packages only), pnaw_nonambig (print
+ * arch for non ambiguous cases) or pnaw_always (always print arch),
+ *
+ * @param pkg     The package to consider.
+ * @param pkgbin  The binary package instance to consider.
+ * @param pnaw    When to display the architecture qualifier.
+ *
+ * @return The string representation.
+ */
+const char *
+pkgbin_name_const(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+            enum pkg_name_arch_when pnaw)
+{
+	if (!pkgbin_name_needs_arch(pkgbin, pnaw))
+		return pkg->set->name;
+
+	/* Return a non-freeing package name representation, which
+	 * is intended to be used in error-handling code, as we will keep
+	 * "leaking" them until the next memory pool flush. */
+	if (pkgbin->pkgname_archqual == NULL)
+		return pkgbin_name_archqual(pkg, pkgbin);
+
+	return pkgbin->pkgname_archqual;
+}
+
+/**
+ * Return a string representation of the installed package name.
+ *
+ * This is equivalent to pkgbin_name_const() but just for its installed pkgbin.
+ *
+ * @param pkg   The package to consider.
+ * @param pnaw  When to display the architecture qualifier.
+ *
+ * @return The string representation.
+ */
+const char *
+pkg_name_const(const struct pkginfo *pkg, enum pkg_name_arch_when pnaw)
+{
+	return pkgbin_name_const(pkg, &pkg->installed, pnaw);
+}
+
 /**
  * Return a string representation of the package name.
  *
@@ -100,17 +172,8 @@ pkgbin_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
 		return pkg->set->name;
 
 	/* Cache the package name representation, for later reuse. */
-	if (pkgbin->pkgname_archqual == NULL) {
-		struct varbuf vb = VARBUF_INIT;
-
-		varbuf_add_str(&vb, pkg->set->name);
-		varbuf_add_archqual(&vb, pkgbin->arch);
-		varbuf_end_str(&vb);
-
-		pkgbin->pkgname_archqual = nfstrsave(vb.buf);
-
-		varbuf_destroy(&vb);
-	}
+	if (pkgbin->pkgname_archqual == NULL)
+		pkgbin->pkgname_archqual = pkgbin_name_archqual(pkg, pkgbin);
 
 	return pkgbin->pkgname_archqual;
 }
@@ -132,26 +195,59 @@ pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw)
 }
 
 /**
- * Return a string representation of the package summary.
+ * Return a string representation of the package synopsis.
  *
  * The returned string must not be freed, and it's permanently allocated so
  * can be used as long as the non-freeing memory pool has not been freed.
  *
- * The package summary is the short description, but it is not NUL terminated,
+ * The package synopsis is the short description, but it is not NUL terminated,
  * so the output len argument should be used to limit the string length.
  *
  * @param pkg      The package to consider.
  * @param pkgbin   The binary package instance to consider.
- * @param[out] len The length of the summary string within the description.
+ * @param[out] len The length of the synopsis string within the description.
  *
  * @return The string representation.
  */
 const char *
-pkgbin_summary(const struct pkginfo *pkg, const struct pkgbin *pkgbin, int *len)
+pkgbin_synopsis(const struct pkginfo *pkg, const struct pkgbin *pkgbin, int *len)
 {
 	const char *pdesc;
 
 	pdesc = pkgbin->description;
+	if (!pdesc)
+		pdesc = _("(no description available)");
+
+	*len = strcspn(pdesc, "\n");
+
+	return pdesc;
+}
+
+/**
+ * Return a string representation of the package synopsis.
+ *
+ * The returned string must not be freed, and it's permanently allocated so
+ * can be used as long as the non-freeing memory pool has not been freed.
+ *
+ * It will try to use the installed version, otherwise it will fallback to
+ * use the available version.
+ *
+ * The package synopsis is the short description, but it is not NUL terminated,
+ * so the output len argument should be used to limit the string length.
+ *
+ * @param pkg      The package to consider.
+ * @param[out] len The length of the synopsis string within the description.
+ *
+ * @return The string representation.
+ */
+const char *
+pkg_synopsis(const struct pkginfo *pkg, int *len)
+{
+	const char *pdesc;
+
+	pdesc = pkg->installed.description;
+	if (!pdesc)
+		pdesc = pkg->available.description;
 	if (!pdesc)
 		pdesc = _("(no description available)");
 
@@ -306,35 +402,38 @@ void
 varbuf_add_source_version(struct varbuf *vb,
                           const struct pkginfo *pkg, const struct pkgbin *pkgbin)
 {
-	const char *version;
-	size_t len;
+	struct dpkg_version version = DPKG_VERSION_INIT;
 
-	if (pkgbin->source)
-		version = strchr(pkgbin->source, '(');
-	else
-		version = NULL;
-
-	if (version == NULL) {
-		varbufversion(vb, &pkgbin->version, vdew_nonambig);
-	} else {
-		version++;
-
-		len = strcspn(version, ")");
-
-		varbuf_add_buf(vb, version, len);
-	}
+	pkg_source_version(&version, pkg, pkgbin);
+	varbufversion(vb, &version, vdew_nonambig);
+	varbuf_end_str(vb);
 }
 
 void
 pkg_source_version(struct dpkg_version *version,
                    const struct pkginfo *pkg, const struct pkgbin *pkgbin)
 {
-	struct dpkg_error err;
-	struct varbuf vb = VARBUF_INIT;
+	const char *version_str;
 
-	varbuf_add_source_version(&vb, pkg, pkgbin);
-	varbuf_end_str(&vb);
+	if (pkgbin->source)
+		version_str = strchr(pkgbin->source, '(');
+	else
+		version_str = NULL;
 
-	if (parseversion(version, vb.buf, &err) < 0)
-		ohshit(_("version '%s' has bad syntax: %s"), vb.buf, err.str);
+	if (version_str == NULL) {
+		*version = pkgbin->version;
+	} else {
+		struct dpkg_error err;
+		struct varbuf vb = VARBUF_INIT;
+		size_t len;
+
+		version_str++;
+		len = strcspn(version_str, ")");
+		varbuf_add_buf(&vb, version_str, len);
+		varbuf_end_str(&vb);
+
+		if (parseversion(version, vb.buf, &err) < 0)
+			ohshit(_("version '%s' has bad syntax: %s"),
+			       vb.buf, err.str);
+	}
 }

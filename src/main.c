@@ -46,23 +46,27 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/arch.h>
-#include <dpkg/path.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
+#include <dpkg/pager.h>
 #include <dpkg/options.h>
+#include <dpkg/db-fsys.h>
 
 #include "main.h"
-#include "filesdb.h"
 #include "filters.h"
 
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
-  printf(_("Debian '%s' package management program version %s.\n"),
-         DPKG, PACKAGE_RELEASE);
-  printf(_(
+  if (f_robot) {
+    printf("%s", PACKAGE_VERSION);
+  } else {
+    printf(_("Debian '%s' package management program version %s.\n"),
+           DPKG, PACKAGE_RELEASE);
+    printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"));
+  }
 
   m_output(stdout, _("<standard output>"));
 
@@ -78,32 +82,32 @@ static void DPKG_ATTR_NORET
 usage(const struct cmdinfo *ci, const char *value)
 {
   printf(_(
-"Usage: %s [<option> ...] <command>\n"
+"Usage: %s [<option>...] <command>\n"
 "\n"), DPKG);
 
   printf(_(
 "Commands:\n"
-"  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
-"  --unpack           <.deb file name> ... | -R|--recursive <directory> ...\n"
-"  -A|--record-avail  <.deb file name> ... | -R|--recursive <directory> ...\n"
-"  --configure        <package> ... | -a|--pending\n"
-"  --triggers-only    <package> ... | -a|--pending\n"
-"  -r|--remove        <package> ... | -a|--pending\n"
-"  -P|--purge         <package> ... | -a|--pending\n"
-"  -V|--verify <package> ...        Verify the integrity of package(s).\n"
-"  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
+"  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
+"  --unpack           <.deb file name>... | -R|--recursive <directory>...\n"
+"  -A|--record-avail  <.deb file name>... | -R|--recursive <directory>...\n"
+"  --configure        <package>... | -a|--pending\n"
+"  --triggers-only    <package>... | -a|--pending\n"
+"  -r|--remove        <package>... | -a|--pending\n"
+"  -P|--purge         <package>... | -a|--pending\n"
+"  -V|--verify [<package>...]       Verify the integrity of package(s).\n"
+"  --get-selections [<pattern>...]  Get list of selections to stdout.\n"
 "  --set-selections                 Set package selections from stdin.\n"
 "  --clear-selections               Deselect every non-essential package.\n"
 "  --update-avail [<Packages-file>] Replace available packages info.\n"
 "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
 "  --clear-avail                    Erase existing available info.\n"
 "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"  -C|--audit [<package> ...]       Check for broken package(s).\n"
+"  -s|--status [<package>...]       Display package status details.\n"
+"  -p|--print-avail [<package>...]  Display available version details.\n"
+"  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
+"  -l|--list [<pattern>...]         List packages concisely.\n"
+"  -S|--search <pattern>...         Find package(s) owning file(s).\n"
+"  -C|--audit [<package>...]        Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for installation.\n"
 "  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
@@ -124,7 +128,7 @@ usage(const struct cmdinfo *ci, const char *value)
 
   printf(_(
 "Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides.\n"
+"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
 "\n"));
 
   printf(_(
@@ -142,6 +146,8 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
 "  --root=<directory>         Install on a different root directory.\n"
 "  --instdir=<directory>      Change installation dir without changing admin dir.\n"
+"  --pre-invoke=<command>     Set a pre-invoke hook.\n"
+"  --post-invoke=<command>    Set a post-invoke hook.\n"
 "  --path-exclude=<pattern>   Do not install paths which match a shell pattern.\n"
 "  --path-include=<pattern>   Re-include a pattern after a previous exclusion.\n"
 "  -O|--selected-only         Skip packages not selected for install/upgrade.\n"
@@ -150,6 +156,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "  -B|--auto-deconfigure      Install even if it would break some other package.\n"
 "  --[no-]triggers            Skip or force consequential trigger processing.\n"
 "  --verify-format=<format>   Verify output format (supported: 'rpm').\n"
+"  --no-pager                 Disables the use of any pager.\n"
 "  --no-debsig                Do not try to verify package signatures.\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             Just say what we would do - don't do it.\n"
@@ -157,12 +164,13 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --status-fd <n>            Send status change updates to file descriptor <n>.\n"
 "  --status-logger=<command>  Send status change updates to <command>'s stdin.\n"
 "  --log=<filename>           Log status changes and actions to <filename>.\n"
-"  --ignore-depends=<package>,...\n"
+"  --ignore-depends=<package>[,...]\n"
 "                             Ignore dependencies involving <package>.\n"
-"  --force-...                Override problems (see --force-help).\n"
-"  --no-force-...|--refuse-...\n"
-"                             Stop when problems encountered.\n"
+"  --force-<thing>[,...]      Override problems (see --force-help).\n"
+"  --no-force-<thing>[,...]   Stop when problems encountered.\n"
+"  --refuse-<thing>[,...]     Ditto.\n"
 "  --abort-after <n>          Abort after encountering <n> errors.\n"
+"  --robot                    Use machine-readable output on some commands.\n"
 "\n"), ADMINDIR);
 
   printf(_(
@@ -189,102 +197,15 @@ static const char printforhelp[] = N_(
 "\n"
 "Options marked [*] produce a lot of output - pipe it through 'less' or 'more' !");
 
+int f_robot = 0;
 int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
 int f_autodeconf=0, f_nodebsig=0;
 int f_triggers = 0;
-int fc_downgrade=1, fc_configureany=0, fc_hold=0, fc_removereinstreq=0, fc_overwrite=0;
-int fc_removeessential=0, fc_conflicts=0, fc_depends=0, fc_dependsversion=0;
-int fc_breaks=0, fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
-int fc_nonroot=0, fc_overwritedir=0, fc_conff_new=0, fc_conff_miss=0;
-int fc_conff_old=0, fc_conff_def=0;
-int fc_conff_ask = 0;
-int fc_unsafe_io = 0;
-int fc_badverify = 0;
-int fc_badversion = 0;
-int fc_script_chrootless = 0;
 
 int errabort = 50;
-static const char *admindir = ADMINDIR;
+static const char *admindir;
 const char *instdir= "";
 struct pkg_list *ignoredependss = NULL;
-
-static const char *
-forcetype_str(char type)
-{
-  switch (type) {
-  case '\0':
-  case ' ':
-    return "   ";
-  case '*':
-    return "[*]";
-  case '!':
-    return "[!]";
-  default:
-    internerr("unknown force type '%c'", type);
-  }
-}
-
-static const struct forceinfo {
-  const char *name;
-  int *opt;
-  char type;
-  const char *desc;
-} forceinfos[]= {
-  { "all",                 NULL,
-    '!', N_("Set all force options")},
-  { "downgrade",           &fc_downgrade,
-    '*', N_("Replace a package with a lower version") },
-  { "configure-any",       &fc_configureany,
-    ' ', N_("Configure any package which may help this one") },
-  { "hold",                &fc_hold,
-    ' ', N_("Process incidental packages even when on hold") },
-  { "not-root",            &fc_nonroot,
-    ' ', N_("Try to (de)install things even when not root") },
-  { "bad-path",            &fc_badpath,
-    ' ', N_("PATH is missing important programs, problems likely") },
-  { "bad-verify",          &fc_badverify,
-    ' ', N_("Install a package even if it fails authenticity check") },
-  { "bad-version",         &fc_badversion,
-    ' ', N_("Process even packages with wrong versions") },
-  { "overwrite",           &fc_overwrite,
-    ' ', N_("Overwrite a file from one package with another") },
-  { "overwrite-diverted",  &fc_overwritediverted,
-    ' ', N_("Overwrite a diverted file with an undiverted version") },
-  { "overwrite-dir",       &fc_overwritedir,
-    '!', N_("Overwrite one package's directory with another's file") },
-  { "unsafe-io",           &fc_unsafe_io,
-    '!', N_("Do not perform safe I/O operations when unpacking") },
-  { "script-chrootless",   &fc_script_chrootless,
-    '!', N_("Do not chroot into maintainer script environment") },
-  { "confnew",             &fc_conff_new,
-    '!', N_("Always use the new config files, don't prompt") },
-  { "confold",             &fc_conff_old,
-    '!', N_("Always use the old config files, don't prompt") },
-  { "confdef",             &fc_conff_def,
-    '!', N_("Use the default option for new config files if one\n"
-            "is available, don't prompt. If no default can be found,\n"
-            "you will be prompted unless one of the confold or\n"
-            "confnew options is also given") },
-  { "confmiss",            &fc_conff_miss,
-    '!', N_("Always install missing config files") },
-  { "confask",             &fc_conff_ask,
-    '!', N_("Offer to replace config files with no new versions") },
-  { "architecture",        &fc_architecture,
-    '!', N_("Process even packages with wrong or no architecture") },
-  { "breaks",              &fc_breaks,
-    '!', N_("Install even if it would break another package") },
-  { "conflicts",           &fc_conflicts,
-    '!', N_("Allow installation of conflicting packages") },
-  { "depends",             &fc_depends,
-    '!', N_("Turn all dependency problems into warnings") },
-  { "depends-version",     &fc_dependsversion,
-    '!', N_("Turn dependency version problems into warnings") },
-  { "remove-reinstreq",    &fc_removereinstreq,
-    '!', N_("Remove packages which require installation") },
-  { "remove-essential",    &fc_removeessential,
-    '!', N_("Remove an essential package") },
-  { NULL }
-};
 
 #define DBG_DEF(n, d) \
   { .flag = dbg_##n, .name = #n, .desc = d }
@@ -342,6 +263,15 @@ set_debug(const struct cmdinfo *cpi, const char *value)
 }
 
 static void
+set_no_pager(const struct cmdinfo *ci, const char *value)
+{
+  pager_enable(false);
+
+  /* Let's communicate this to our backends. */
+  setenv("DPKG_PAGER", "cat", 1);
+}
+
+static void
 set_filter(const struct cmdinfo *cip, const char *value)
 {
   filter_add(value, cip->arg_int);
@@ -357,19 +287,14 @@ set_verify_format(const struct cmdinfo *cip, const char *value)
 static void
 set_instdir(const struct cmdinfo *cip, const char *value)
 {
-  char *new_instdir;
-
-  new_instdir = m_strdup(value);
-  path_trim_slash_slashdot(new_instdir);
-
-  instdir = new_instdir;
+  instdir = dpkg_fsys_set_dir(value);
 }
 
 static void
 set_root(const struct cmdinfo *cip, const char *value)
 {
-  set_instdir(cip, value);
-  admindir = str_fmt("%s%s", instdir, ADMINDIR);
+  instdir = dpkg_fsys_set_dir(value);
+  admindir = dpkg_fsys_get_path(ADMINDIR);
 }
 
 static void
@@ -434,9 +359,18 @@ is_invoke_action(enum action action)
   }
 }
 
-struct invoke_list pre_invoke_hooks = { .head = NULL, .tail = &pre_invoke_hooks.head };
-struct invoke_list post_invoke_hooks = { .head = NULL, .tail = &post_invoke_hooks.head };
-struct invoke_list status_loggers = { .head = NULL, .tail = &status_loggers.head };
+static struct invoke_list pre_invoke_hooks = {
+  .head = NULL,
+  .tail = &pre_invoke_hooks.head,
+};
+static struct invoke_list post_invoke_hooks = {
+  .head = NULL,
+  .tail = &post_invoke_hooks.head,
+};
+static struct invoke_list status_loggers = {
+  .head = NULL,
+  .tail = &status_loggers.head,
+};
 
 static void
 set_invoke_hook(const struct cmdinfo *cip, const char *value)
@@ -444,7 +378,7 @@ set_invoke_hook(const struct cmdinfo *cip, const char *value)
   struct invoke_list *hook_list = cip->arg_ptr;
   struct invoke_hook *hook_new;
 
-  hook_new = m_malloc(sizeof(struct invoke_hook));
+  hook_new = m_malloc(sizeof(*hook_new));
   hook_new->command = m_strdup(value);
   hook_new->next = NULL;
 
@@ -556,7 +490,7 @@ arch_remove(const char *const *argv)
 {
   const char *archname = *argv++;
   struct dpkg_arch *arch;
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *pkg;
 
   if (archname == NULL || *argv)
@@ -571,12 +505,12 @@ arch_remove(const char *const *argv)
   }
 
   /* Check if it's safe to remove the architecture from the db. */
-  iter = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(iter))) {
+  iter = pkg_hash_iter_new();
+  while ((pkg = pkg_hash_iter_next_pkg(iter))) {
     if (pkg->status < PKG_STAT_HALFINSTALLED)
       continue;
     if (pkg->installed.arch == arch) {
-      if (fc_architecture)
+      if (in_force(FORCE_ARCHITECTURE))
         warning(_("removing architecture '%s' currently in use by database"),
                 arch->name);
       else
@@ -585,7 +519,7 @@ arch_remove(const char *const *argv)
       break;
     }
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 
   dpkg_arch_unmark(arch);
   dpkg_arch_save_list();
@@ -593,77 +527,6 @@ arch_remove(const char *const *argv)
   modstatdb_shutdown();
 
   return 0;
-}
-
-static inline void
-print_forceinfo_line(int type, const char *name, const char *desc)
-{
-  printf("  %s %-18s %s\n", forcetype_str(type), name, desc);
-}
-
-static void
-print_forceinfo(const struct forceinfo *fi)
-{
-  char *desc, *line;
-
-  desc = m_strdup(gettext(fi->desc));
-
-  line = strtok(desc, "\n");
-  print_forceinfo_line(fi->type, fi->name, line);
-  while ((line = strtok(NULL, "\n")))
-    print_forceinfo_line(' ', "", line);
-
-  free(desc);
-}
-
-static void
-set_force(const struct cmdinfo *cip, const char *value)
-{
-  const char *comma;
-  size_t l;
-  const struct forceinfo *fip;
-
-  if (strcmp(value, "help") == 0) {
-    printf(_(
-"%s forcing options - control behaviour when problems found:\n"
-"  warn but continue:  --force-<thing>,<thing>,...\n"
-"  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
-" Forcing things:\n"), DPKG);
-
-    for (fip = forceinfos; fip->name; fip++)
-      print_forceinfo(fip);
-
-    printf(_(
-"\n"
-"WARNING - use of options marked [!] can seriously damage your installation.\n"
-"Forcing options marked [*] are enabled by default.\n"));
-    m_output(stdout, _("<standard output>"));
-    exit(0);
-  }
-
-  for (;;) {
-    comma= strchr(value,',');
-    l = comma ? (size_t)(comma - value) : strlen(value);
-    for (fip=forceinfos; fip->name; fip++)
-      if (strncmp(fip->name, value, l) == 0 && strlen(fip->name) == l)
-        break;
-
-    if (!fip->name) {
-      badusage(_("unknown force/refuse option '%.*s'"),
-               (int)min(l, 250), value);
-    } else if (strcmp(fip->name, "all") == 0) {
-      for (fip = forceinfos; fip->name; fip++)
-        if (fip->opt)
-          *fip->opt = cip->arg_int;
-    } else if (fip->opt) {
-      *fip->opt = cip->arg_int;
-    } else {
-      warning(_("obsolete force/refuse option '%s'"), fip->name);
-    }
-
-    if (!comma) break;
-    value= ++comma;
-  }
 }
 
 int execbackend(const char *const *argv) DPKG_ATTR_NORET;
@@ -704,6 +567,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "assert-multi-conrep",             0,  act_assertmulticonrep,    assertmulticonrep ),
   ACTION( "assert-multi-arch",               0,  act_assertmultiarch,      assertmultiarch ),
   ACTION( "assert-versioned-provides",       0,  act_assertverprovides,    assertverprovides ),
+  ACTION( "assert-protected-field",          0,  act_assert_protected,     assert_protected ),
   ACTION( "add-architecture",                0,  act_arch_add,             arch_add        ),
   ACTION( "remove-architecture",             0,  act_arch_remove,          arch_remove     ),
   ACTION( "print-architecture",              0,  act_printarch,            printarch   ),
@@ -731,9 +595,10 @@ static const struct cmdinfo cmdinfos[]= {
   { "no-act",            0,   0, &f_noact,      NULL,      NULL,    1 },
   { "dry-run",           0,   0, &f_noact,      NULL,      NULL,    1 },
   { "simulate",          0,   0, &f_noact,      NULL,      NULL,    1 },
+  { "no-pager",          0,   0, NULL,          NULL,      set_no_pager,  0 },
   { "no-debsig",         0,   0, &f_nodebsig,   NULL,      NULL,    1 },
   /* Alias ('G') for --refuse. */
-  {  NULL,               'G', 0, &fc_downgrade, NULL,      NULL,    0 },
+  {  NULL,               'G', 0, NULL,          NULL,      reset_force_option, FORCE_DOWNGRADE },
   { "selected-only",     'O', 0, &f_alsoselect, NULL,      NULL,    0 },
   { "triggers",           0,  0, &f_triggers,   NULL,      NULL,    1 },
   { "no-triggers",        0,  0, &f_triggers,   NULL,      NULL,   -1 },
@@ -741,14 +606,15 @@ static const struct cmdinfo cmdinfos[]= {
   { "no-also-select",    'N', 0, &f_alsoselect, NULL,      NULL,    0 },
   { "skip-same-version", 'E', 0, &f_skipsame,   NULL,      NULL,    1 },
   { "auto-deconfigure",  'B', 0, &f_autodeconf, NULL,      NULL,    1 },
+  { "robot",             0,   0, &f_robot,      NULL,      NULL,    1 },
   { "root",              0,   1, NULL,          NULL,      set_root,      0 },
   { "abort-after",       0,   1, &errabort,     NULL,      set_integer,   0 },
   { "admindir",          0,   1, NULL,          &admindir, NULL,          0 },
   { "instdir",           0,   1, NULL,          NULL,      set_instdir,   0 },
   { "ignore-depends",    0,   1, NULL,          NULL,      set_ignore_depends, 0 },
-  { "force",             0,   2, NULL,          NULL,      set_force,     1 },
-  { "refuse",            0,   2, NULL,          NULL,      set_force,     0 },
-  { "no-force",          0,   2, NULL,          NULL,      set_force,     0 },
+  { "force",             0,   2, NULL,          NULL,      set_force_option,   1 },
+  { "refuse",            0,   2, NULL,          NULL,      set_force_option,   0 },
+  { "no-force",          0,   2, NULL,          NULL,      set_force_option,   0 },
   { "debug",             'D', 1, NULL,          NULL,      set_debug,     0 },
   { "help",              '?', 0, NULL,          NULL,      usage,         0 },
   { "version",           0,   0, NULL,          NULL,      printversion,  0 },
@@ -877,29 +743,31 @@ commandfd(const char *const *argv)
     dpkg_options_parse((const char *const **)&endargs, cmdinfos, printforhelp);
     if (!cipaction) badusage(_("need an action option"));
 
-    filesdbinit();
-
     ret |= cipaction->action(endargs);
 
-    files_db_reset();
+    fsys_hash_reset();
 
     pop_error_context(ehflag_normaltidy);
   }
+
+  fclose(in);
 
   return ret;
 }
 
 int main(int argc, const char *const *argv) {
+  char *force_string;
   int ret;
 
   dpkg_locales_init(PACKAGE);
   dpkg_program_init("dpkg");
+  set_force_default(FORCE_ALL);
   dpkg_options_load(DPKG, cmdinfos);
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
   /* When running as root, make sure our primary group is also root, so
    * that files created by maintainer scripts have correct ownership. */
-  if (!fc_nonroot && getuid() == 0)
+  if (!in_force(FORCE_NON_ROOT) && getuid() == 0)
     if (setgid(0) < 0)
       ohshite(_("cannot set primary group ID to root"));
 
@@ -912,6 +780,10 @@ int main(int argc, const char *const *argv) {
     ohshite(_("unable to setenv for subprocesses"));
   if (setenv("DPKG_ROOT", instdir, 1) < 0)
     ohshite(_("unable to setenv for subprocesses"));
+  force_string = get_force_string();
+  if (setenv("DPKG_FORCE", force_string, 1) < 0)
+    ohshite(_("unable to setenv for subprocesses"));
+  free(force_string);
 
   if (!f_triggers)
     f_triggers = (cipaction->arg_int == act_triggers && *argv) ? -1 : 1;
@@ -920,8 +792,6 @@ int main(int argc, const char *const *argv) {
     run_invoke_hooks(cipaction->olong, &pre_invoke_hooks);
     run_status_loggers(&status_loggers);
   }
-
-  filesdbinit();
 
   ret = cipaction->action(argv);
 
@@ -932,6 +802,7 @@ int main(int argc, const char *const *argv) {
   free_invoke_hooks(&post_invoke_hooks);
 
   dpkg_program_done();
+  dpkg_locales_done();
 
   return reportbroken_retexitstatus(ret);
 }

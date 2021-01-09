@@ -23,7 +23,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
@@ -113,7 +112,10 @@ void packagelist::addheading(enum ssavailval ssavail,
                              pkgpriority priority,
                              const char *otherpriority,
                              const char *section) {
-  assert(nitems <= nallocated);
+  if (nitems > nallocated)
+    internerr("inconsistent state: ntimes=%d > nallocated=%d",
+              nitems, nallocated);
+
   if (nitems == nallocated) {
     nallocated += nallocated+50;
     struct perpackagestate **newtable= new struct perpackagestate*[nallocated];
@@ -149,8 +151,10 @@ void packagelist::addheading(enum ssavailval ssavail,
 static packagelist *sortpackagelist;
 
 int qsort_compareentries(const void *a, const void *b) {
-  return sortpackagelist->compareentries(*(const struct perpackagestate **)a,
-                                         *(const struct perpackagestate **)b);
+  const struct perpackagestate *pa = *static_cast<const struct perpackagestate * const *>(a);
+  const struct perpackagestate *pb = *static_cast<const struct perpackagestate * const *>(b);
+
+  return sortpackagelist->compareentries(pa, pb);
 }
 
 void packagelist::sortinplace() {
@@ -266,7 +270,9 @@ void packagelist::sortmakeheads() {
   discardheadings();
   ensurestatsortinfo();
   sortinplace();
-  assert(nitems);
+
+  if (nitems == 0)
+    internerr("cannot sort 0 items");
 
   debug(dbg_general,
         "packagelist[%p]::sortmakeheads() sortorder=%d statsortorder=%d",
@@ -275,7 +281,9 @@ void packagelist::sortmakeheads() {
   int nrealitems= nitems;
   addheading(ssa_none, sss_none, PKG_PRIO_UNSET, nullptr, nullptr);
 
-  assert(sortorder != so_unsorted);
+  if (sortorder == so_unsorted)
+    internerr("cannot sort unsorted order");
+
   if (sortorder == so_alpha && statsortorder == sso_unsorted) { sortinplace(); return; }
 
   // Important: do not save pointers into table in this function, because
@@ -287,7 +295,8 @@ void packagelist::sortmakeheads() {
   int a;
   for (a=0; a<nrealitems; a++) {
     thispkg= table[a]->pkg;
-    assert(thispkg->set->name);
+    if (thispkg->set->name == nullptr)
+      internerr("package set has no name at table index %d", a);
     int ssdiff= 0;
     ssavailval ssavail= ssa_none;
     ssstateval ssstate= sss_none;
@@ -358,7 +367,7 @@ void packagelist::sortmakeheads() {
 void packagelist::initialsetup() {
   debug(dbg_general, "packagelist[%p]::initialsetup()", this);
 
-  int allpackages = pkg_db_count_pkg();
+  int allpackages = pkg_hash_count_pkg();
   datatable= new struct perpackagestate[allpackages];
 
   nallocated= allpackages+150; // will realloc if necessary, so 150 not critical
@@ -383,17 +392,17 @@ void packagelist::finalsetup() {
 packagelist::packagelist(keybindings *kb) : baselist(kb) {
   // nonrecursive
   initialsetup();
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *pkg;
 
   nitems = 0;
 
-  iter = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(iter))) {
+  iter = pkg_hash_iter_new();
+  while ((pkg = pkg_hash_iter_next_pkg(iter))) {
     struct perpackagestate *state= &datatable[nitems];
     state->pkg= pkg;
     if (pkg->status == PKG_STAT_NOTINSTALLED &&
-        !pkg->files &&
+        !pkg->archives &&
         pkg->want != PKG_WANT_INSTALL) {
       pkg->clientdata = nullptr;
       continue;
@@ -419,7 +428,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
     table[nitems]= state;
     nitems++;
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 
   if (!nitems)
     ohshit(_("there are no packages"));
@@ -456,11 +465,13 @@ perpackagestate::free(bool recursive)
   if (pkg->set->name) {
     if (modstatdb_get_status() == msdbrw_write) {
       if (uprec) {
-        assert(recursive);
+        if (!recursive)
+          internerr("unexpected non-recursive free requested");
         uprec->selected= selected;
         pkg->clientdata= uprec;
       } else {
-        assert(!recursive);
+        if (recursive)
+          internerr("unexpected recursive free requested");
         if (pkg->want != selected &&
             !(pkg->want == PKG_WANT_UNKNOWN && selected == PKG_WANT_PURGE)) {
           pkg->want= selected;

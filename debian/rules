@@ -3,7 +3,12 @@
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>
 # Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
 
-WFLAGS := -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
+WFLAGS := \
+	-Wall -Wextra \
+	-Wno-missing-field-initializers \
+	-Wno-nonnull-compare \
+	-Wno-unused-parameter \
+	$(nil)
 
 # Use the in-tree dpkg-buildflags
 dpkg_buildflags = \
@@ -28,8 +33,9 @@ endif
 ifeq ($(DEB_HOST_ARCH_OS),linux)
 	confflags += --with-libselinux
 endif
-ifeq (,$(filter maintainer-build,$(DEB_BUILD_OPTIONS)))
+ifeq (,$(filter terse,$(DEB_BUILD_OPTIONS)))
 	confflags += --disable-silent-rules
+	testflags += TESTSUITEFLAGS=--verbose
 endif
 
 # Enable parallel test suite
@@ -41,15 +47,10 @@ endif
 
 D := $(CURDIR)/debian/tmp
 
-# Create configure script if necessary, automake handles rebuilding it.
-configure:
-	dh_testdir
-
-	autoreconf -v -i
-
 # Configure the build tree
-build-tree/config.status: configure
+build-tree/config.status:
 	dh_testdir
+	dh_autoreconf
 
 	install -d build-tree
 	cd build-tree && ../configure $(confflags) \
@@ -78,8 +79,7 @@ check: build
 	dh_testdir
 
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	cd build-tree && $(MAKE) VERBOSE=1 TESTSUITEFLAGS=--verbose \
-	                         TEST_PARALLEL=$(NUMJOBS) check
+	cd build-tree && $(MAKE) $(testflags) TEST_PARALLEL=$(NUMJOBS) check
 endif
 
 # Install the package underneath debian/tmp
@@ -91,10 +91,16 @@ install: check
 
 	cd build-tree && $(MAKE) DESTDIR=$(D) install
 
+	# Special-case the lintian profile, as dh cannot rename on install.
+	mkdir -p $(D)/usr/share/lintian/profiles/dpkg
+	cp debian/dpkg.lintian-profile \
+	   $(D)/usr/share/lintian/profiles/dpkg/main.profile
+
 define dpkg-installmanl10n
-for f in `sed -e 's:\*:*/*:' debian/$(1).manpages`; do \
-	test -e $$f && \
-	install -D $$f `echo $$f | sed -e 's:^debian/tmp:debian/$(1):'`; \
+for f in `sed -e 's:\*:*/*:' -e 's:^:$(D)/:' debian/$(1).manpages`; do \
+  if [ -e $$f ]; then \
+    install -D $$f `echo $$f | sed -e 's:^$(D):debian/$(1):'`; \
+  fi; \
 done
 endef
 
@@ -112,6 +118,7 @@ binary-arch: install
 	$(call dpkg-installmanl10n,dselect)
 	dh_installman -a
 	dh_link -a
+	dh_bugfiles -a -A
 	dh_lintian -a
 	dh_strip -a
 	dh_compress -a
@@ -129,13 +136,14 @@ binary-indep: install
 	dh_install -i
 	dh_installcron -i
 	dh_installchangelogs -i ChangeLog*
-	dh_installdocs -i
+	dh_installdocs -i -Ndpkg-dev
+	dh_installdocs -pdpkg-dev --doc-main-package=dpkg
 	$(call dpkg-installmanl10n,dpkg-dev)
 	dh_installman -i
 	dh_link -i
+	dh_bugfiles -i -A
 	dh_lintian -i
-	# The perl modules should not depend on a specific interpreter.
-	dh_perl -i -Nlibdpkg-perl
+	dh_perl -i
 	dh_compress -i
 	dh_fixperms -i
 	dh_installdeb -i
@@ -152,6 +160,7 @@ clean:
 
 	[ ! -f Makefile ] || $(MAKE) distclean
 	rm -rf build-tree
+	dh_autoreconf_clean
 	dh_clean
 
 

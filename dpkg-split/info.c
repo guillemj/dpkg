@@ -71,9 +71,9 @@ static char *nextline(char **ripp, const char *fn, const char *what) {
     ohshit(_("file '%.250s' is corrupt - missing newline after %.250s"),
            fn, what);
   *ripp= newline+1;
-  while (newline > rip && c_isspace(newline[-1]))
-    newline--;
-  *newline = '\0';
+
+  str_rtrim_spaces(rip, newline);
+
   return rip;
 }
 
@@ -126,7 +126,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
   if (rc != (ssize_t)(thisilen + (thisilen & 1)))
     read_fail(rc, ar->name, "reading header member");
   if (thisilen & 1) {
-    int c = readinfobuf[thisilen + 1];
+    int c = readinfobuf[thisilen];
 
     if (c != '\n')
       ohshit(_("file '%.250s' is corrupt - bad padding character (code %d)"),

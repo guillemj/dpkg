@@ -21,11 +21,14 @@
 #include <config.h>
 #include <compat.h>
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
 #include <errno.h>
 #include <time.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <stdarg.h>
-#include <stdio.h>
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
@@ -38,7 +41,7 @@ void
 log_message(const char *fmt, ...)
 {
 	static struct varbuf log;
-	static FILE *logfd = NULL;
+	static int logfd = -1;
 	char time_str[20];
 	time_t now;
 	va_list args;
@@ -46,27 +49,33 @@ log_message(const char *fmt, ...)
 	if (!log_file)
 		return;
 
-	if (!logfd) {
-		logfd = fopen(log_file, "a");
-		if (!logfd) {
+	if (logfd < 0) {
+		logfd = open(log_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (logfd < 0) {
 			notice(_("could not open log '%s': %s"),
 			       log_file, strerror(errno));
 			log_file = NULL;
 			return;
 		}
-		setlinebuf(logfd);
-		setcloexec(fileno(logfd), log_file);
+		setcloexec(logfd, log_file);
 	}
-
-	va_start(args, fmt);
-	varbuf_reset(&log);
-	varbuf_vprintf(&log, fmt, args);
-	va_end(args);
 
 	time(&now);
 	strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S",
 	         localtime(&now));
-	fprintf(logfd, "%s %s\n", time_str, log.buf);
+
+	va_start(args, fmt);
+	varbuf_reset(&log);
+	varbuf_add_str(&log, time_str);
+	varbuf_add_char(&log, ' ');
+	varbuf_vprintf(&log, fmt, args);
+	varbuf_add_char(&log, '\n');
+	varbuf_end_str(&log);
+	va_end(args);
+
+	if (fd_write(logfd, log.buf, log.used) < 0)
+		notice(_("cannot write to log file '%s': %s"),
+		       log_file, strerror(errno));
 }
 
 struct pipef {
@@ -83,7 +92,7 @@ statusfd_add(int fd)
 
 	setcloexec(fd, _("<package status and progress file descriptor>"));
 
-	pipe_new = nfmalloc(sizeof(struct pipef));
+	pipe_new = nfmalloc(sizeof(*pipe_new));
 	pipe_new->fd = fd;
 	pipe_new->next = status_pipes;
 	status_pipes = pipe_new;

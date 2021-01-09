@@ -33,6 +33,10 @@ use Dpkg::Shlibs::Cppfilt;
 # Supported alias types in the order of matching preference
 use constant ALIAS_TYPES => qw(c++ symver);
 
+# Needed by the deprecated key, which is a correct use.
+no if $Dpkg::Version::VERSION ge '1.02',
+    warnings => qw(Dpkg::Version::semantic_change::overload::bool);
+
 sub new {
     my ($this, %args) = @_;
     my $class = ref($this) || $this;

@@ -62,23 +62,25 @@ decompose_filename(const char *filename, struct partqueue *pq)
   if (strspn(filename, "0123456789abcdef") != MD5HASHLEN ||
       filename[MD5HASHLEN] != '.')
     return false;
-  q = nfmalloc(MD5HASHLEN + 1);
-  memcpy(q, filename, MD5HASHLEN);
-  q[MD5HASHLEN] = '\0';
-  pq->info.md5sum= q;
+
+  pq->info.md5sum = nfstrnsave(filename, MD5HASHLEN);
+
   p = filename + MD5HASHLEN + 1;
   errno = 0;
   pq->info.maxpartlen = strtoimax(p, &q, 16);
   if (q == p || *q++ != '.' || errno != 0)
     return false;
+
   p = q;
   pq->info.thispartn = (int)strtol(p, &q, 16);
-  if (q == p || *q++ != '.' || errno != 0)
+  if (q == p || *q++ != '.' || pq->info.thispartn < 0 || errno != 0)
     return false;
+
   p = q;
   pq->info.maxpartn = (int)strtol(p, &q, 16);
-  if (q == p || *q || errno != 0)
+  if (q == p || *q || pq->info.maxpartn < 0 || errno != 0)
     return false;
+
   return true;
 }
 
@@ -90,14 +92,18 @@ scandepot(void)
   struct partqueue *queue = NULL;
 
   depot = opendir(opt_depotdir);
-  if (!depot)
+  if (!depot) {
+    if (errno == ENOENT)
+      return NULL;
+
     ohshite(_("unable to read depot directory '%.250s'"), opt_depotdir);
+  }
   while ((de= readdir(depot))) {
     struct partqueue *pq;
     char *p;
 
     if (de->d_name[0] == '.') continue;
-    pq= nfmalloc(sizeof(struct partqueue));
+    pq = nfmalloc(sizeof(*pq));
     pq->info.fmtversion.major = 0;
     pq->info.fmtversion.minor = 0;
     pq->info.package = NULL;
@@ -137,8 +143,7 @@ do_auto(const char *const *argv)
   struct partqueue *queue;
   struct partqueue *pq;
   struct dpkg_ar *part;
-  unsigned int i;
-  int j;
+  int i, j;
 
   if (!opt_outputfile)
     badusage(_("--auto requires the use of the --output option"));
@@ -146,27 +151,33 @@ do_auto(const char *const *argv)
   if (partfile == NULL || *argv)
     badusage(_("--auto requires exactly one part file argument"));
 
-  refi= nfmalloc(sizeof(struct partqueue));
+  refi = nfmalloc(sizeof(*refi));
   part = dpkg_ar_open(partfile);
   if (!part)
     ohshite(_("unable to read part file '%.250s'"), partfile);
-  if (!read_info(part, refi)) {
+  refi = read_info(part, refi);
+  dpkg_ar_close(part);
+
+  if (refi == NULL) {
     if (!opt_npquiet)
       printf(_("File '%.250s' is not part of a multipart archive.\n"), partfile);
     m_output(stdout, _("<standard output>"));
     return 1;
   }
-  dpkg_ar_close(part);
 
   queue = scandepot();
-  partlist= nfmalloc(sizeof(struct partinfo*)*refi->maxpartn);
+  if (queue == NULL)
+    if (dir_make_path(opt_depotdir, 0755) < 0)
+      ohshite(_("cannot create directory %s"), opt_depotdir);
+
+  partlist = nfmalloc(sizeof(*partlist) * refi->maxpartn);
   for (i = 0; i < refi->maxpartn; i++)
     partlist[i] = NULL;
   for (pq= queue; pq; pq= pq->nextinqueue) {
     struct partinfo *npi, *pi = &pq->info;
 
     if (!partmatches(pi,refi)) continue;
-    npi= nfmalloc(sizeof(struct partinfo));
+    npi = nfmalloc(sizeof(*npi));
     mustgetpartinfo(pi->filename,npi);
     addtopartlist(partlist,npi,refi);
   }
@@ -214,7 +225,7 @@ do_auto(const char *const *argv)
     /* There are still some parts missing. */
     for (i=0, ap=0; i<refi->maxpartn; i++)
       if (!partlist[i])
-        printf("%s%d", !ap++ ? "" : i == (unsigned int)j ? _(" and ") : ", ", i + 1);
+        printf("%s%d", !ap++ ? "" : i == j ? _(" and ") : ", ", i + 1);
     printf(").\n");
 
     dir_sync_path(opt_depotdir);
@@ -270,7 +281,7 @@ do_queue(const char *const *argv)
   head= N_("Packages not yet reassembled:\n");
   for (pq= queue; pq; pq= pq->nextinqueue) {
     struct partinfo ti;
-    unsigned int i;
+    int i;
 
     if (!pq->info.md5sum) continue;
     mustgetpartinfo(pq->info.filename,&ti);

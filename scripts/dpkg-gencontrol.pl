@@ -163,6 +163,7 @@ if (defined $forceversion) {
 }
 
 $substvars->set_version_substvars($sourceversion, $binaryversion);
+$substvars->set_vendor_substvars();
 $substvars->set_arch_substvars();
 $substvars->load('debian/substvars') if -e 'debian/substvars' and not $substvars_loaded;
 my $control = Dpkg::Control::Info->new($controlfile);
@@ -217,12 +218,12 @@ foreach (keys %{$pkg}) {
 	if (debarch_eq('all', $v)) {
 	    $fields->{$_} = $v;
 	} else {
-	    my @archlist = debarch_list_parse($v);
+	    my @archlist = debarch_list_parse($v, positive => 1);
 
 	    if (none { debarch_is($host_arch, $_) } @archlist) {
 		error(g_("current host architecture '%s' does not " .
-			 "appear in package's architecture list (%s)"),
-		      $host_arch, "@archlist");
+			 "appear in package '%s' architecture list (%s)"),
+		      $host_arch, $oppackage, "@archlist");
 	    }
 	    $fields->{$_} = $host_arch;
 	}
@@ -257,7 +258,7 @@ $facts->add_installed_package($fields->{'Package'}, $fields->{'Version'},
                               $fields->{'Architecture'}, $fields->{'Multi-Arch'});
 if (exists $pkg->{'Provides'}) {
     my $provides = deps_parse($substvars->substvars($pkg->{'Provides'}, no_warn => 1),
-                              reduce_restrictions => 1, union => 1);
+                              reduce_restrictions => 1, virtual => 1, union => 1);
     if (defined $provides) {
 	foreach my $subdep ($provides->get_deps()) {
 	    if ($subdep->isa('Dpkg::Deps::Simple')) {
@@ -281,8 +282,8 @@ foreach my $field (field_list_pkg_dep()) {
 	    $dep = deps_parse($field_value, use_arch => 1,
 	                      reduce_arch => $reduce_arch,
 	                      reduce_profiles => 1);
-	    error(g_('error occurred while parsing %s field: %s'), $field,
-                  $field_value) unless defined $dep;
+            error(g_("parsing package '%s' %s field: %s"), $oppackage,
+                  $field, $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts, @seen_deps);
 	    # Remember normal deps to simplify even further weaker deps
 	    push @seen_deps, $dep;
@@ -290,13 +291,13 @@ foreach my $field (field_list_pkg_dep()) {
 	    $dep = deps_parse($field_value, use_arch => 1,
 	                      reduce_arch => $reduce_arch,
 	                      reduce_profiles => 1, union => 1);
-	    error(g_('error occurred while parsing %s field: %s'), $field,
-                  $field_value) unless defined $dep;
+            error(g_("parsing package '%s' %s field: %s"), $oppackage,
+                  $field, $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts);
             $dep->sort();
 	}
 	error(g_('the %s field contains an arch-specific dependency but the ' .
-	         'package is architecture all'), $field)
+	         "package '%s' is architecture all"), $field, $oppackage)
 	    if $dep->has_arch_restriction();
 	$fields->{$field} = $dep->output();
 	delete $fields->{$field} unless $fields->{$field}; # Delete empty field
@@ -320,7 +321,8 @@ if ($pkg_type eq 'udeb') {
     delete $fields->{'Homepage'};
 } else {
     for my $f (qw(Subarchitecture Kernel-Version Installer-Menu-Item)) {
-        warning(g_('%s package with udeb specific field %s'), $pkg_type, $f)
+        warning(g_("%s package '%s' with udeb specific field %s"),
+                $pkg_type, $oppackage, $f)
             if defined($fields->{$f});
     }
 }
@@ -335,13 +337,20 @@ if ($binarypackage ne $sourcepackage || $verdiff) {
 
 if (!defined($substvars->get('Installed-Size'))) {
     my $installed_size = 0;
+    my %hardlink;
     my $scan_installed_size = sub {
         lstat or syserr(g_('cannot stat %s'), $File::Find::name);
 
         if (-f _ or -l _) {
+            my ($dev, $ino, $nlink) = (lstat _)[0, 1, 3];
+
             # For filesystem objects with actual content accumulate the size
             # in 1 KiB units.
-            $installed_size += POSIX::ceil((-s _) / 1024);
+            $installed_size += POSIX::ceil((-s _) / 1024)
+                if not exists $hardlink{"$dev:$ino"};
+
+            # Track hardlinks to avoid repeated additions.
+            $hardlink{"$dev:$ino"} = 1 if $nlink > 1;
         } else {
             # For other filesystem objects assume a minimum 1 KiB baseline,
             # as directories are shared resources between packages, and other
@@ -350,7 +359,7 @@ if (!defined($substvars->get('Installed-Size'))) {
             $installed_size += 1;
         }
     };
-    find($scan_installed_size, $packagebuilddir);
+    find($scan_installed_size, $packagebuilddir) if -d $packagebuilddir;
 
     $substvars->set_as_auto('Installed-Size', $installed_size);
 }
@@ -406,7 +415,10 @@ if ($stdout) {
         }
     }
 
-    $dist->add_file($forcefilename, $section, $priority);
+    my %fileattrs;
+    $fileattrs{automatic} = 'yes' if $fields->{'Auto-Built-Package'};
+
+    $dist->add_file($forcefilename, $section, $priority, %fileattrs);
     $dist->save("$fileslistfile.new");
 
     rename "$fileslistfile.new", $fileslistfile

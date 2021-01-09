@@ -20,10 +20,13 @@ use warnings;
 
 our $VERSION = '0.00';
 our @EXPORT_OK = qw(
+    all_po_files
     all_perl_files
     all_perl_modules
+    test_get_po_dirs
     test_get_perl_dirs
     test_get_data_path
+    test_get_temp_path
     test_needs_author
     test_needs_module
     test_needs_command
@@ -38,34 +41,98 @@ our %EXPORT_TAGS = (
         test_needs_srcdir_switch
     ) ],
     paths => [ qw(
+        all_po_files
         all_perl_files
         all_perl_modules
+        test_get_po_dirs
         test_get_perl_dirs
         test_get_data_path
+        test_get_temp_path
     ) ],
 );
 
 use Exporter qw(import);
 use File::Find;
+use File::Basename;
+use File::Path qw(make_path);
 use IPC::Cmd qw(can_run);
 use Test::More;
+
+my $test_mode;
+
+BEGIN {
+    $test_mode = $ENV{DPKG_TEST_MODE} // 'dpkg';
+}
+
+sub _test_get_caller_dir
+{
+    my (undef, $path, undef) = caller 1;
+
+    $path =~ s{\.t$}{};
+    $path =~ s{^\./}{};
+
+    return $path;
+}
 
 sub test_get_data_path
 {
     my $path = shift;
 
-    my $srcdir = $ENV{srcdir} || '.';
-    return "$srcdir/$path";
+    if (defined $path) {
+        if ($test_mode eq 'cpan') {
+            return $path;
+        } else {
+            my $srcdir = $ENV{srcdir} || '.';
+            return "$srcdir/$path";
+        }
+    } else {
+        return _test_get_caller_dir();
+    }
+}
+
+sub test_get_temp_path
+{
+    my $path = shift // _test_get_caller_dir();
+    $path = 't.tmp/' . fileparse($path);
+
+    make_path($path);
+    return $path;
+}
+
+sub test_get_po_dirs
+{
+    if ($test_mode eq 'cpan') {
+        return qw();
+    } else {
+        return qw(po scripts/po dselect/po man/po);
+    }
 }
 
 sub test_get_perl_dirs
 {
-    return qw(t src/t lib utils/t scripts dselect);
+    if ($test_mode eq 'cpan') {
+        return qw(t lib);
+    } else {
+        return qw(t src/t lib utils/t scripts dselect);
+    }
+}
+
+sub all_po_files
+{
+    my $filter = shift // qr/\.(?:po|pot)$/;
+    my @files;
+    my $scan_po_files = sub {
+        push @files, $File::Find::name if m/$filter/;
+    };
+
+    find($scan_po_files, test_get_po_dirs());
+
+    return @files;
 }
 
 sub all_perl_files
 {
-    my $filter = shift // qr/\.(?:pl|pm|t)$/;
+    my $filter = shift // qr/\.(?:PL|pl|pm|t)$/;
     my @files;
     my $scan_perl_files = sub {
         push @files, $File::Find::name if m/$filter/;

@@ -1,14 +1,17 @@
-# Makefile snippet defining the following variables:
+# This Makefile fragment (since dpkg 1.16.1) defines the following package
+# information variables:
 #
-# DEB_SOURCE: the source package name
-# DEB_VERSION: the full version of the package (epoch + upstream vers. + revision)
-# DEB_VERSION_EPOCH_UPSTREAM: the package's version without the Debian revision
-# DEB_VERSION_UPSTREAM_REVISION: the package's version without the Debian epoch
-# DEB_VERSION_UPSTREAM: the package's upstream version
-# DEB_DISTRIBUTION: the distribution(s) listed in the current entry of debian/changelog
+#   DEB_SOURCE: source package name.
+#   DEB_VERSION: package's full version (epoch + upstream vers. + revision).
+#   DEB_VERSION_EPOCH_UPSTREAM: package's version without the Debian revision.
+#   DEB_VERSION_UPSTREAM_REVISION: package's version without the Debian epoch.
+#   DEB_VERSION_UPSTREAM: package's upstream version.
+#   DEB_DISTRIBUTION: distribution(s) listed in the current debian/changelog
+#     entry.
 #
-# SOURCE_DATE_EPOCH: the source release date as seconds since the epoch, as
-#   specified by <https://reproducible-builds.org/specs/source-date-epoch/>
+#   SOURCE_DATE_EPOCH: source release date as seconds since the epoch, as
+#     specified by <https://reproducible-builds.org/specs/source-date-epoch/>
+#     (since dpkg 1.18.8).
 
 dpkg_late_eval ?= $(or $(value DPKG_CACHE_$(1)),$(eval DPKG_CACHE_$(1) := $(shell $(2)))$(value DPKG_CACHE_$(1)))
 

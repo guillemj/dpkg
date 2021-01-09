@@ -135,7 +135,7 @@ error_context_new(void)
 {
   struct error_context *necp;
 
-  necp = malloc(sizeof(struct error_context));
+  necp = malloc(sizeof(*necp));
   if (!necp)
     ohshite(_("out of memory for new error context"));
   necp->next= econtext;
@@ -173,6 +173,7 @@ error_context_errmsg_free(struct error_context *ec)
 {
   if (ec->errmsg != emergency.errmsg)
     free(ec->errmsg);
+  ec->errmsg = NULL;
 }
 
 static void
@@ -190,7 +191,7 @@ error_context_errmsg_format(const char *fmt, va_list args)
   int rc;
 
   va_copy(args_copy, args);
-  rc = vasprintf(&errmsg, fmt, args);
+  rc = vasprintf(&errmsg, fmt, args_copy);
   va_end(args_copy);
 
   /* If the message was constructed successfully, at least we have some
@@ -279,6 +280,7 @@ run_cleanups(struct error_context *econ, int flagsetin)
       if (cep->calls[i].call && cep->calls[i].mask & flagset) {
         if (setjmp(recurse_jump)) {
           run_cleanups(&recurserr, ehflag_bombout | ehflag_recursiveerror);
+          error_context_errmsg_free(&recurserr);
         } else {
           memset(&recurserr, 0, sizeof(recurserr));
           set_error_printer(&recurserr, print_cleanup_error, NULL);
@@ -311,7 +313,7 @@ void push_checkpoint(int mask, int value) {
   struct cleanup_entry *cep;
   int i;
 
-  cep = malloc(sizeof(struct cleanup_entry) + sizeof(char *));
+  cep = malloc(sizeof(*cep) + sizeof(void *));
   if (cep == NULL) {
     onerr_abort++;
     ohshite(_("out of memory for new cleanup entry"));
@@ -324,9 +326,11 @@ void push_checkpoint(int mask, int value) {
   econtext->cleanups= cep;
 }
 
-void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
+static void
+cleanup_entry_new(void (*call1)(int argc, void **argv), int mask1,
                   void (*call2)(int argc, void **argv), int mask2,
-                  unsigned int nargs, ...) {
+                  unsigned int nargs, va_list vargs)
+{
   struct cleanup_entry *cep;
   void **argv;
   int e = 0;
@@ -334,7 +338,7 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
 
   onerr_abort++;
 
-  cep = malloc(sizeof(struct cleanup_entry) + sizeof(char *) * (nargs + 1));
+  cep = malloc(sizeof(*cep) + sizeof(void *) * (nargs + 1));
   if (!cep) {
     if (nargs > array_count(emergency.args))
       ohshite(_("out of memory for new cleanup entry with many arguments"));
@@ -343,7 +347,8 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
   cep->calls[0].call= call1; cep->calls[0].mask= mask1;
   cep->calls[1].call= call2; cep->calls[1].mask= mask2;
   cep->cpmask=~0; cep->cpvalue=0; cep->argc= nargs;
-  va_start(args, nargs);
+
+  va_copy(args, vargs);
   argv = cep->argv;
   while (nargs-- > 0)
     *argv++ = va_arg(args, void *);
@@ -357,6 +362,29 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
   }
 
   onerr_abort--;
+}
+
+void
+push_cleanup(void (*call)(int argc, void **argv), int mask,
+             unsigned int nargs, ...)
+{
+  va_list args;
+
+  va_start(args, nargs);
+  cleanup_entry_new(call, mask, NULL, 0, nargs, args);
+  va_end(args);
+}
+
+void
+push_cleanup_fallback(void (*call1)(int argc, void **argv), int mask1,
+                      void (*call2)(int argc, void **argv), int mask2,
+                      unsigned int nargs, ...)
+{
+  va_list args;
+
+  va_start(args, nargs);
+  cleanup_entry_new(call1, mask1, call2, mask2, nargs, args);
+  va_end(args);
 }
 
 void pop_cleanup(int flagset) {
@@ -402,11 +430,13 @@ run_error_handler(void)
      * abort. Hopefully the user can fix the situation (out of disk, out
      * of memory, etc). */
     print_abort_error(_("unrecoverable fatal error, aborting"), econtext->errmsg);
+    error_context_errmsg_free(econtext);
     exit(2);
   }
 
   if (econtext == NULL) {
-    print_abort_error(_("outside error context, aborting"), econtext->errmsg);
+    print_abort_error(_("outside error context, aborting"),
+                      _("an error occurred with no error handling in place"));
     exit(2);
   } else if (econtext->handler_type == HANDLER_TYPE_FUNC) {
     econtext->handler.func();
@@ -474,6 +504,8 @@ do_internerr(const char *file, int line, const char *func, const char *fmt, ...)
           dpkg_get_progname(), file, line, func, color_reset(),
           color_get(COLOR_ERROR), _("internal error"), color_reset(),
           econtext->errmsg);
+
+  error_context_errmsg_free(econtext);
 
   abort();
 }

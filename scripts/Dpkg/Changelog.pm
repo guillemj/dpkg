@@ -24,7 +24,7 @@ Dpkg::Changelog - base class to implement a changelog parser
 
 Dpkg::Changelog is a class representing a changelog file
 as an array of changelog entries (Dpkg::Changelog::Entry).
-By deriving this object and implementing its parse method, you
+By deriving this class and implementing its parse method, you
 add the ability to fill this object with changelog entries.
 
 =cut
@@ -34,7 +34,7 @@ package Dpkg::Changelog;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '2.00';
 
 use Carp;
 
@@ -74,12 +74,6 @@ sub new {
     return $self;
 }
 
-=item $c->load($filename)
-
-Parse $filename as a changelog.
-
-=cut
-
 =item $c->set_options(%opts)
 
 Change the value of some options. "verbose" (defaults to 1) defines
@@ -95,6 +89,22 @@ sub set_options {
     my ($self, %opts) = @_;
     $self->{$_} = $opts{$_} foreach keys %opts;
 }
+
+=item $count = $c->parse($fh, $description)
+
+Read the filehandle and parse a changelog in it. The data in the object is
+reset before parsing new data.
+
+Returns the number of changelog entries that have been parsed with success.
+
+This method needs to be implemented by one of the specialized changelog
+format subclasses.
+
+=item $count = $c->load($filename)
+
+Parse $filename contents for a changelog.
+
+Returns the number of changelog entries that have been parsed with success.
 
 =item $c->reset_parse_errors()
 
@@ -254,7 +264,7 @@ sub __sanity_check_range {
         push @versions, $version->as_string();
     }
     if ((defined($r->{since}) and not exists $versions{$r->{since}})) {
-        warning(g_("'%s' option specifies non-existing version"), 'since');
+        warning(g_("'%s' option specifies non-existing version '%s'"), 'since', $r->{since});
         warning(g_('use newest entry that is earlier than the one specified'));
         foreach my $v (@versions) {
             if (version_compare_relation($v, REL_LT, $r->{since})) {
@@ -270,7 +280,7 @@ sub __sanity_check_range {
         }
     }
     if ((defined($r->{from}) and not exists $versions{$r->{from}})) {
-        warning(g_("'%s' option specifies non-existing version"), 'from');
+        warning(g_("'%s' option specifies non-existing version '%s'"), 'from', $r->{from});
         warning(g_('use oldest entry that is later than the one specified'));
         my $oldest;
         foreach my $v (@versions) {
@@ -281,12 +291,12 @@ sub __sanity_check_range {
         if (defined($oldest)) {
             $r->{from} = $oldest;
         } else {
-            warning(g_("no such entry found, ignoring '%s' parameter"), 'from');
+            warning(g_("no such entry found, ignoring '%s' parameter '%s'"), 'from', $r->{from});
             delete $r->{from}; # No version was oldest
         }
     }
     if (defined($r->{until}) and not exists $versions{$r->{until}}) {
-        warning(g_("'%s' option specifies non-existing version"), 'until');
+        warning(g_("'%s' option specifies non-existing version '%s'"), 'until', $r->{until});
         warning(g_('use oldest entry that is later than the one specified'));
         my $oldest;
         foreach my $v (@versions) {
@@ -297,12 +307,12 @@ sub __sanity_check_range {
         if (defined($oldest)) {
             $r->{until} = $oldest;
         } else {
-            warning(g_("no such entry found, ignoring '%s' parameter"), 'until');
+            warning(g_("no such entry found, ignoring '%s' parameter '%s'"), 'until', $r->{until});
             delete $r->{until}; # No version was oldest
         }
     }
     if (defined($r->{to}) and not exists $versions{$r->{to}}) {
-        warning(g_("'%s' option specifies non-existing version"), 'to');
+        warning(g_("'%s' option specifies non-existing version '%s'"), 'to', $r->{to});
         warning(g_('use newest entry that is earlier than the one specified'));
         foreach my $v (@versions) {
             if (version_compare_relation($v, REL_LT, $r->{to})) {
@@ -312,17 +322,17 @@ sub __sanity_check_range {
         }
         if (not exists $versions{$r->{to}}) {
             # No version was earlier
-            warning(g_("no such entry found, ignoring '%s' parameter"), 'to');
+            warning(g_("no such entry found, ignoring '%s' parameter '%s'"), 'to', $r->{to});
             delete $r->{to};
         }
     }
 
     if (defined($r->{since}) and $data->[0]->get_version() eq $r->{since}) {
-	warning(g_("'since' option specifies most recent version, ignoring"));
+	warning(g_("'since' option specifies most recent version '%s', ignoring"), $r->{since});
 	delete $r->{since};
     }
     if (defined($r->{until}) and $data->[-1]->get_version() eq $r->{until}) {
-	warning(g_("'until' option specifies oldest version, ignoring"));
+	warning(g_("'until' option specifies oldest version '%s', ignoring"), $r->{until});
 	delete $r->{until};
     }
     ## use critic
@@ -332,11 +342,12 @@ sub get_range {
     my ($self, $range) = @_;
     $range //= {};
     my $res = $self->_data_range($range);
-    if (defined $res) {
-	return @$res if wantarray;
-	return $res;
+    return unless defined $res;
+    if (wantarray) {
+        return reverse @{$res} if $range->{reverse};
+        return @{$res};
     } else {
-	return;
+	return $res;
     }
 }
 
@@ -442,11 +453,7 @@ sub abort_early {
     return;
 }
 
-=item $c->save($filename)
-
-Save the changelog in the given file.
-
-=item $c->output()
+=item $str = $c->output()
 
 =item "$c"
 
@@ -474,6 +481,12 @@ sub output {
     }
     return $str;
 }
+
+=item $c->save($filename)
+
+Save the changelog in the given file.
+
+=cut
 
 our ( @URGENCIES, %URGENCIES );
 BEGIN {
@@ -657,36 +670,6 @@ sub format_range {
     }
 }
 
-=item $control = $c->dpkg($range)
-
-This is a deprecated alias for $c->format_range('dpkg', $range).
-
-=cut
-
-sub dpkg {
-    my ($self, $range) = @_;
-
-    warnings::warnif('deprecated',
-                     'deprecated method, please use format_range("dpkg", $range) instead');
-
-    return $self->format_range('dpkg', $range);
-}
-
-=item @controls = $c->rfc822($range)
-
-This is a deprecated alias for C<scalar c->format_range('rfc822', $range)>.
-
-=cut
-
-sub rfc822 {
-    my ($self, $range) = @_;
-
-    warnings::warnif('deprecated',
-                     'deprecated method, please use format_range("rfc822", $range) instead');
-
-    return scalar $self->format_range('rfc822', $range);
-}
-
 =back
 
 =head1 RANGE SELECTION
@@ -765,6 +748,10 @@ C<until> and C<to> returns the intersection of the two results
 with only one of the options specified.
 
 =head1 CHANGES
+
+=head2 Version 2.00 (dpkg 1.20.0)
+
+Remove methods: $c->dpkg(), $c->rfc822().
 
 =head2 Version 1.01 (dpkg 1.18.8)
 

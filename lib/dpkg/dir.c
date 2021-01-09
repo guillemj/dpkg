@@ -24,6 +24,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#include <errno.h>
 #include <fcntl.h>
 #include <dirent.h>
 #include <string.h>
@@ -33,6 +34,68 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/i18n.h>
 #include <dpkg/dir.h>
+
+static int
+dir_make_path_noalloc(char *dirname, mode_t mode)
+{
+	char *slash;
+
+	/* Find the first slash, and ignore it, as it will be either the
+	 * slash for the root directory, for the current directory in a
+	 * relative pathname or its parent. */
+	slash = strchr(dirname, '/');
+
+	while (slash != NULL) {
+		slash = strchr(slash + 1, '/');
+		if (slash)
+			*slash = '\0';
+
+		if (mkdir(dirname, mode) < 0 && errno != EEXIST)
+			return -1;
+		if (slash)
+			*slash = '/';
+	}
+
+	return 0;
+}
+
+/**
+ * Create the directory and all its parents if necessary.
+ *
+ * @param path The pathname to create directories for.
+ * @param mode The pathname mode.
+ */
+int
+dir_make_path(const char *path, mode_t mode)
+{
+	char *dirname;
+	int rc;
+
+	dirname = m_strdup(path);
+	rc = dir_make_path_noalloc(dirname, mode);
+	free(dirname);
+
+	return rc;
+}
+
+int
+dir_make_path_parent(const char *path, mode_t mode)
+{
+	char *dirname, *slash;
+	int rc;
+
+	dirname = m_strdup(path);
+	slash = strrchr(dirname, '/');
+	if (slash != NULL) {
+		*slash = '\0';
+		rc = dir_make_path_noalloc(dirname, mode);
+	} else {
+		rc = -1;
+	}
+	free(dirname);
+
+	return rc;
+}
 
 /**
  * Sync a directory to disk from a DIR structure.

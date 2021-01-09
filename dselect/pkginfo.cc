@@ -114,14 +114,15 @@ void packagelist::itd_description() {
       m = table[cursorline]->pkg->installed.description;
     if (str_is_unset(m))
       m = _("No description available.");
-    const char *p= strchr(m,'\n');
-    int l= p ? (int)(p-m) : strlen(m);
+    const char *p = strchrnul(m, '\n');
+    ptrdiff_t l = p - m;
+
     wattrset(infopad, part_attr[info_head]);
     waddstr(infopad, table[cursorline]->pkg->set->name);
     waddstr(infopad," - ");
     waddnstr(infopad,m,l);
     wattrset(infopad, part_attr[info_body]);
-    if (p) {
+    if (*p) {
       waddstr(infopad,"\n\n");
       wordwrapinfo(1,++p);
     }
@@ -171,8 +172,8 @@ void packagelist::redrawinfo() {
   whatinfovb.reset();
   werase(infopad); wmove(infopad,0,0);
 
-  debug(dbg_general, "packagelist[%p]::redrawinfo(); #=%d",
-        this, (int)(currentinfo - baseinfo));
+  debug(dbg_general, "packagelist[%p]::redrawinfo(); #=%jd",
+        this, currentinfo - baseinfo);
 
   (this->*currentinfo->display)();
 

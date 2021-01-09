@@ -109,6 +109,8 @@ extern "C" {
 #define asprintf test_asprintf
 #undef vasprintf
 #define vasprintf test_vasprintf
+#undef strchrnul
+#define strchrnul test_strchrnul
 #undef strndup
 #define strndup test_strndup
 #undef strnlen
@@ -137,6 +139,10 @@ int asprintf(char **str, char const *fmt, ...)
 	LIBCOMPAT_ATTR_PRINTF(2);
 int vasprintf(char **str, const char *fmt, va_list args)
 	LIBCOMPAT_ATTR_VPRINTF(2);
+#endif
+
+#if TEST_LIBCOMPAT || !defined(HAVE_STRCHRNUL)
+char *strchrnul(const char *s, int c);
 #endif
 
 #if TEST_LIBCOMPAT || !defined(HAVE_STRNLEN)

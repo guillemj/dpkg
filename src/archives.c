@@ -29,7 +29,6 @@
 #include <sys/time.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <time.h>
@@ -56,12 +55,12 @@
 #include <dpkg/tarfn.h>
 #include <dpkg/options.h>
 #include <dpkg/triglib.h>
+#include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
 #include "main.h"
 #include "archives.h"
 #include "filters.h"
-#include "infodb.h"
 
 static inline void
 fd_writeback_init(int fd)
@@ -114,11 +113,11 @@ tar_pool_release(void)
   }
 }
 
-struct fileinlist *
-tar_filenamenode_queue_push(struct filenamenode_queue *queue,
-                            struct filenamenode *namenode)
+struct fsys_namenode_list *
+tar_fsys_namenode_queue_push(struct fsys_namenode_queue *queue,
+                            struct fsys_namenode *namenode)
 {
-  struct fileinlist *node;
+  struct fsys_namenode_list *node;
 
   node = tar_pool_alloc(sizeof(*node));
   node->namenode = namenode;
@@ -131,9 +130,9 @@ tar_filenamenode_queue_push(struct filenamenode_queue *queue,
 }
 
 static void
-tar_filenamenode_queue_pop(struct filenamenode_queue *queue,
-                           struct fileinlist **tail_prev,
-                           struct fileinlist *node)
+tar_fsys_namenode_queue_pop(struct fsys_namenode_queue *queue,
+                           struct fsys_namenode_list **tail_prev,
+                           struct fsys_namenode_list *node)
 {
   tar_pool_free(node);
   queue->tail = tail_prev;
@@ -149,11 +148,11 @@ tar_filenamenode_queue_pop(struct filenamenode_queue *queue,
  * shared directories don't stop packages from disappearing).
  */
 bool
-filesavespackage(struct fileinlist *file,
+filesavespackage(struct fsys_namenode_list *file,
                  struct pkginfo *pkgtobesaved,
                  struct pkginfo *pkgbeinginstalled)
 {
-  struct filepackages_iterator *iter;
+  struct fsys_node_pkgs_iter *iter;
   struct pkgset *divpkgset;
   struct pkginfo *thirdpkg;
 
@@ -172,14 +171,14 @@ filesavespackage(struct fileinlist *file,
     }
   }
   /* Is the file in the package being installed? If so then it can't save. */
-  if (file->namenode->flags & fnnf_new_inarchive) {
+  if (file->namenode->flags & FNNF_NEW_INARCHIVE) {
     debug(dbg_eachfiledetail,"filesavespackage ... in new archive -- no save");
     return false;
   }
   /* Look for a 3rd package which can take over the file (in case
    * it's a directory which is shared by many packages. */
-  iter = filepackages_iter_new(file->namenode);
-  while ((thirdpkg = filepackages_iter_next(iter))) {
+  iter = fsys_node_pkgs_iter_new(file->namenode);
+  while ((thirdpkg = fsys_node_pkgs_iter_next(iter))) {
     debug(dbg_eachfiledetail, "filesavespackage ... also in %s",
           pkg_name(thirdpkg, pnaw_always));
 
@@ -199,17 +198,17 @@ filesavespackage(struct fileinlist *file,
      * we shouldn't try to make it take over this shared directory. */
     debug(dbg_eachfiledetail,"filesavespackage ...  is 3rd package");
 
-    if (!thirdpkg->clientdata->fileslistvalid) {
+    if (!thirdpkg->files_list_valid) {
       debug(dbg_eachfiledetail, "process_archive ... already disappeared!");
       continue;
     }
 
     /* We've found a package that can take this file. */
     debug(dbg_eachfiledetail, "filesavespackage ...  taken -- no save");
-    filepackages_iter_free(iter);
+    fsys_node_pkgs_iter_free(iter);
     return false;
   }
-  filepackages_iter_free(iter);
+  fsys_node_pkgs_iter_free(iter);
 
   debug(dbg_eachfiledetail, "filesavespackage ... not taken -- save !");
   return true;
@@ -217,7 +216,7 @@ filesavespackage(struct fileinlist *file,
 
 static void
 md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
-                      struct filenamenode *namenode)
+                      struct fsys_namenode *namenode)
 {
   struct pkginfo *otherpkg;
   struct conffile *conff;
@@ -236,7 +235,7 @@ md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
                              &otherpkg->configversion) != 0)
       continue;
     for (conff = otherpkg->installed.conffiles; conff; conff = conff->next) {
-      if (conff->obsolete)
+      if (conff->obsolete || conff->remove_on_upgrade)
         continue;
       if (strcmp(conff->name, namenode->name) == 0)
         break;
@@ -265,8 +264,10 @@ void cu_pathname(int argc, void **argv) {
   path_remove_tree((char*)(argv[0]));
 }
 
-int tarfileread(void *ud, char *buf, int len) {
-  struct tarcontext *tc= (struct tarcontext*)ud;
+int
+tarfileread(struct tar_archive *tar, char *buf, int len)
+{
+  struct tarcontext *tc = (struct tarcontext *)tar->ctx;
   int r;
 
   r = fd_read(tc->backendpipe, buf, len);
@@ -322,12 +323,12 @@ does_replace(struct pkginfo *new_pkg, struct pkgbin *new_pkgbin,
   debug(dbg_depcon,"does_replace new=%s old=%s (%s)",
         pkgbin_name(new_pkg, new_pkgbin, pnaw_always),
         pkgbin_name(old_pkg, old_pkgbin, pnaw_always),
-        versiondescribe(&old_pkgbin->version, vdew_always));
+        versiondescribe_c(&old_pkgbin->version, vdew_always));
   for (dep = new_pkgbin->depends; dep; dep = dep->next) {
     if (dep->type != dep_replaces || dep->list->ed != old_pkg->set)
       continue;
     debug(dbg_depcondetail,"does_replace ... found old, version %s",
-          versiondescribe(&dep->list->version,vdew_always));
+          versiondescribe_c(&dep->list->version,vdew_always));
     if (!versionsatisfied(old_pkgbin, dep->list))
       continue;
     /* The test below can only trigger if dep_replaces start having
@@ -344,16 +345,17 @@ does_replace(struct pkginfo *new_pkg, struct pkgbin *new_pkgbin,
 static void
 tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
                   const char *path, struct file_stat *st,
-                  struct filenamenode *namenode)
+                  struct fsys_namenode *namenode)
 {
   static struct varbuf hardlinkfn;
   static int fd;
 
   struct dpkg_error err;
-  struct filenamenode *linknode;
+  struct fsys_namenode *linknode;
   char fnamebuf[256];
   char fnamenewbuf[256];
   char *newhash;
+  int rc;
 
   switch (te->type) {
   case TAR_FILETYPE_FILE:
@@ -363,7 +365,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
     if (fd < 0)
       ohshite(_("unable to create '%.255s' (while processing '%.255s')"),
               path, te->name);
-    push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
+    push_cleanup(cu_closefd, ehflag_bombout, 1, &fd);
     debug(dbg_eachfiledetail, "tarobject file open size=%jd",
           (intmax_t)te->size);
 
@@ -389,14 +391,16 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
             namenode->statoverride->uid,
             namenode->statoverride->gid,
             namenode->statoverride->mode);
-    if (fchown(fd, st->uid, st->gid))
+    rc = fchown(fd, st->uid, st->gid);
+    if (forcible_nonroot_error(rc))
       ohshite(_("error setting ownership of '%.255s'"), te->name);
-    if (fchmod(fd, st->mode & ~S_IFMT))
+    rc = fchmod(fd, st->mode & ~S_IFMT);
+    if (forcible_nonroot_error(rc))
       ohshite(_("error setting permissions of '%.255s'"), te->name);
 
     /* Postpone the fsync, to try to avoid massive I/O degradation. */
-    if (!fc_unsafe_io)
-      namenode->flags |= fnnf_deferred_fsync;
+    if (!in_force(FORCE_UNSAFE_IO))
+      namenode->flags |= FNNF_DEFERRED_FSYNC;
 
     pop_cleanup(ehflag_normaltidy); /* fd = open(path) */
     if (close(fd))
@@ -420,10 +424,10 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
   case TAR_FILETYPE_HARDLINK:
     varbuf_reset(&hardlinkfn);
     varbuf_add_str(&hardlinkfn, instdir);
-    linknode = findnamenode(te->linkname, 0);
+    linknode = fsys_hash_find_node(te->linkname, 0);
     varbuf_add_str(&hardlinkfn,
                    namenodetouse(linknode, tc->pkg, &tc->pkg->available)->name);
-    if (linknode->flags & (fnnf_deferred_rename | fnnf_new_conff))
+    if (linknode->flags & (FNNF_DEFERRED_RENAME | FNNF_NEW_CONFF))
       varbuf_add_str(&hardlinkfn, DPKGNEWEXT);
     varbuf_end_str(&hardlinkfn);
     if (link(hardlinkfn.buf, path))
@@ -450,7 +454,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
 
 static void
 tarobject_hash(struct tarcontext *tc, struct tar_entry *te,
-               struct filenamenode *namenode)
+               struct fsys_namenode *namenode)
 {
   if (te->type == TAR_FILETYPE_FILE) {
     struct dpkg_error err;
@@ -466,9 +470,9 @@ tarobject_hash(struct tarcontext *tc, struct tar_entry *te,
     namenode->newhash = newhash;
     debug(dbg_eachfiledetail, "tarobject file hash=%s", namenode->newhash);
   } else if (te->type == TAR_FILETYPE_HARDLINK) {
-    struct filenamenode *linknode;
+    struct fsys_namenode *linknode;
 
-    linknode = findnamenode(te->linkname, 0);
+    linknode = fsys_hash_find_node(te->linkname, 0);
     namenode->newhash = linknode->newhash;
     debug(dbg_eachfiledetail, "tarobject hardlink hash=%s", namenode->newhash);
   }
@@ -498,16 +502,21 @@ tarobject_set_mtime(struct tar_entry *te, const char *path)
 static void
 tarobject_set_perms(struct tar_entry *te, const char *path, struct file_stat *st)
 {
+  int rc;
+
   if (te->type == TAR_FILETYPE_FILE)
     return; /* Already handled using the file descriptor. */
 
   if (te->type == TAR_FILETYPE_SYMLINK) {
-    if (lchown(path, st->uid, st->gid))
+    rc = lchown(path, st->uid, st->gid);
+    if (forcible_nonroot_error(rc))
       ohshite(_("error setting ownership of symlink '%.255s'"), path);
   } else {
-    if (chown(path, st->uid, st->gid))
+    rc = chown(path, st->uid, st->gid);
+    if (forcible_nonroot_error(rc))
       ohshite(_("error setting ownership of '%.255s'"), path);
-    if (chmod(path, st->mode & ~S_IFMT))
+    rc = chmod(path, st->mode & ~S_IFMT);
+    if (forcible_nonroot_error(rc))
       ohshite(_("error setting permissions of '%.255s'"), path);
   }
 }
@@ -522,7 +531,7 @@ static void
 tarobject_matches(struct tarcontext *tc,
                   const char *fn_old, struct stat *stab, char *oldhash,
                   const char *fn_new, struct tar_entry *te,
-                  struct filenamenode *namenode)
+                  struct fsys_namenode *namenode)
 {
   char *linkname;
   ssize_t linksize;
@@ -572,7 +581,7 @@ tarobject_matches(struct tarcontext *tc,
     /* Fall through. */
   case TAR_FILETYPE_FILE:
     /* Only check metadata for non-conffiles. */
-    if (!(namenode->flags & fnnf_new_conff) &&
+    if (!(namenode->flags & FNNF_NEW_CONFF) &&
         !(S_ISREG(stab->st_mode) && te->size == stab->st_size))
       break;
     if (strcmp(oldhash, namenode->newhash) == 0)
@@ -582,7 +591,7 @@ tarobject_matches(struct tarcontext *tc,
     internerr("unknown tar type '%d', but already checked", te->type);
   }
 
-  forcibleerr(fc_overwrite,
+  forcibleerr(FORCE_OVERWRITE,
               _("trying to overwrite shared '%.250s', which is different "
                 "from other instances of package %.250s"),
               namenode->name, pkg_name(tc->pkg, pnaw_nonambig));
@@ -631,7 +640,8 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
     varbuf_add_str(symlinkfn, instdir);
   } else {
     lastslash= strrchr(fname, '/');
-    assert(lastslash);
+    if (lastslash == NULL)
+      internerr("tar entry filename '%s' does not contain '/'", fname);
     varbuf_add_buf(symlinkfn, fname, (lastslash - fname) + 1);
   }
   varbuf_add_str(symlinkfn, ti->linkname);
@@ -653,14 +663,14 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
 }
 
 int
-tarobject(void *ctx, struct tar_entry *ti)
+tarobject(struct tar_archive *tar, struct tar_entry *ti)
 {
   static struct varbuf conffderefn, symlinkfn;
   const char *usename;
-  struct filenamenode *usenode;
+  struct fsys_namenode *namenode, *usenode;
 
   struct conffile *conff;
-  struct tarcontext *tc = ctx;
+  struct tarcontext *tc = tar->ctx;
   bool existingdir, keepexisting;
   bool refcounting;
   char oldhash[MD5HASHLEN + 1];
@@ -668,7 +678,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   ssize_t r;
   struct stat stab, stabtmp;
   struct file_stat nodestat;
-  struct fileinlist *nifd, **oldnifd;
+  struct fsys_namenode_list *nifd, **oldnifd;
   struct pkgset *divpkgset;
   struct pkginfo *otherpkg;
 
@@ -678,13 +688,18 @@ tarobject(void *ctx, struct tar_entry *ti)
   if (strchr(ti->name, '\n'))
     ohshit(_("newline not allowed in archive object name '%.255s'"), ti->name);
 
+  namenode = fsys_hash_find_node(ti->name, 0);
+
+  if (namenode->flags & FNNF_RM_CONFF_ON_UPGRADE)
+    ohshit(_("conffile '%s' marked for removal on upgrade, shipped in package"),
+           ti->name);
+
   /* Append to list of files.
    * The trailing ‘/’ put on the end of names in tarfiles has already
    * been stripped by tar_extractor(). */
   oldnifd = tc->newfiles_queue->tail;
-  nifd = tar_filenamenode_queue_push(tc->newfiles_queue,
-                                     findnamenode(ti->name, 0));
-  nifd->namenode->flags |= fnnf_new_inarchive;
+  nifd = tar_fsys_namenode_queue_push(tc->newfiles_queue, namenode);
+  nifd->namenode->flags |= FNNF_NEW_INARCHIVE;
 
   debug(dbg_eachfile,
         "tarobject ti->name='%s' mode=%lo owner=%u:%u type=%d(%c)"
@@ -702,13 +717,13 @@ tarobject(void *ctx, struct tar_entry *ti)
     divpkgset = nifd->namenode->divert->pkgset;
 
     if (divpkgset) {
-      forcibleerr(fc_overwritediverted,
+      forcibleerr(FORCE_OVERWRITE_DIVERTED,
                   _("trying to overwrite '%.250s', which is the "
                     "diverted version of '%.250s' (package: %.100s)"),
                   nifd->namenode->name, nifd->namenode->divert->camefrom->name,
                   divpkgset->name);
     } else {
-      forcibleerr(fc_overwritediverted,
+      forcibleerr(FORCE_OVERWRITE_DIVERTED,
                   _("trying to overwrite '%.250s', which is the "
                     "diverted version of '%.250s'"),
                   nifd->namenode->name, nifd->namenode->divert->camefrom->name);
@@ -727,12 +742,12 @@ tarobject(void *ctx, struct tar_entry *ti)
 
   trig_file_activate(usenode, tc->pkg);
 
-  if (nifd->namenode->flags & fnnf_new_conff) {
+  if (nifd->namenode->flags & FNNF_NEW_CONFF) {
     /* If it's a conffile we have to extract it next to the installed
      * version (i.e. we do the usual link-following). */
     if (conffderef(tc->pkg, &conffderefn, usename))
       usename= conffderefn.buf;
-    debug(dbg_conff, "tarobject fnnf_new_conff deref='%s'", usename);
+    debug(dbg_conff, "tarobject FNNF_NEW_CONFF deref='%s'", usename);
   }
 
   setupfnamevbs(usename);
@@ -741,7 +756,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   if (statr) {
     /* The lstat failed. */
     if (errno != ENOENT && errno != ENOTDIR)
-      ohshite(_("unable to stat '%.255s' (which I was about to install)"),
+      ohshite(_("unable to stat '%.255s' (which was about to be installed)"),
               ti->name);
     /* OK, so it doesn't exist.
      * However, it's possible that we were in the middle of some other
@@ -799,10 +814,10 @@ tarobject(void *ctx, struct tar_entry *ti)
   keepexisting = false;
   refcounting = false;
   if (!existingdir) {
-    struct filepackages_iterator *iter;
+    struct fsys_node_pkgs_iter *iter;
 
-    iter = filepackages_iter_new(nifd->namenode);
-    while ((otherpkg = filepackages_iter_next(iter))) {
+    iter = fsys_node_pkgs_iter_new(nifd->namenode);
+    while ((otherpkg = fsys_node_pkgs_iter_next(iter))) {
       if (otherpkg == tc->pkg)
         continue;
       debug(dbg_eachfile, "tarobject ... found in %s",
@@ -818,7 +833,7 @@ tarobject(void *ctx, struct tar_entry *ti)
           refcounting = true;
         debug(dbg_eachfiledetail, "tarobject ... shared with %s %s (syncing=%d)",
               pkg_name(otherpkg, pnaw_always),
-              versiondescribe(&otherpkg->installed.version, vdew_nonambig),
+              versiondescribe_c(&otherpkg->installed.version, vdew_nonambig),
               tc->pkgset_getting_in_sync);
         continue;
       }
@@ -843,6 +858,8 @@ tarobject(void *ctx, struct tar_entry *ti)
         continue;
       }
 
+      ensure_package_clientdata(otherpkg);
+
       /* Nope? Hmm, file conflict, perhaps. Check Replaces. */
       switch (otherpkg->clientdata->replacingfilesandsaid) {
       case 2:
@@ -864,7 +881,7 @@ tarobject(void *ctx, struct tar_entry *ti)
 
       /* Is the file an obsolete conffile in the other package
        * and a conffile in the new package? */
-      if ((nifd->namenode->flags & fnnf_new_conff) &&
+      if ((nifd->namenode->flags & FNNF_NEW_CONFF) &&
           !statr && S_ISREG(stab.st_mode)) {
         for (conff = otherpkg->installed.conffiles;
              conff;
@@ -893,19 +910,19 @@ tarobject(void *ctx, struct tar_entry *ti)
                pkg_name(otherpkg, pnaw_nonambig),
                versiondescribe(&otherpkg->installed.version, vdew_nonambig));
         otherpkg->clientdata->replacingfilesandsaid = 2;
-        nifd->namenode->flags &= ~fnnf_new_inarchive;
+        nifd->namenode->flags &= ~FNNF_NEW_INARCHIVE;
         keepexisting = true;
       } else {
         /* At this point we are replacing something without a Replaces. */
         if (!statr && S_ISDIR(stab.st_mode)) {
-          forcibleerr(fc_overwritedir,
+          forcibleerr(FORCE_OVERWRITE_DIR,
                       _("trying to overwrite directory '%.250s' "
                         "in package %.250s %.250s with nondirectory"),
                       nifd->namenode->name, pkg_name(otherpkg, pnaw_nonambig),
                       versiondescribe(&otherpkg->installed.version,
                                       vdew_nonambig));
         } else {
-          forcibleerr(fc_overwrite,
+          forcibleerr(FORCE_OVERWRITE,
                       _("trying to overwrite '%.250s', "
                         "which is also in package %.250s %.250s"),
                       nifd->namenode->name, pkg_name(otherpkg, pnaw_nonambig),
@@ -914,20 +931,20 @@ tarobject(void *ctx, struct tar_entry *ti)
         }
       }
     }
-    filepackages_iter_free(iter);
+    fsys_node_pkgs_iter_free(iter);
   }
 
   if (keepexisting) {
-    if (nifd->namenode->flags & fnnf_new_conff)
-      nifd->namenode->flags |= fnnf_obs_conff;
-    tar_filenamenode_queue_pop(tc->newfiles_queue, oldnifd, nifd);
+    if (nifd->namenode->flags & FNNF_NEW_CONFF)
+      nifd->namenode->flags |= FNNF_OBS_CONFF;
+    tar_fsys_namenode_queue_pop(tc->newfiles_queue, oldnifd, nifd);
     tarobject_skip_entry(tc, ti);
     return 0;
   }
 
   if (filter_should_skip(ti)) {
-    nifd->namenode->flags &= ~fnnf_new_inarchive;
-    nifd->namenode->flags |= fnnf_filtered;
+    nifd->namenode->flags &= ~FNNF_NEW_INARCHIVE;
+    nifd->namenode->flags |= FNNF_FILTERED;
     tarobject_skip_entry(tc, ti);
 
     return 0;
@@ -941,7 +958,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   if (refcounting) {
     debug(dbg_eachfiledetail, "tarobject hashing on-disk file '%s', refcounting",
           fnamevb.buf);
-    if (nifd->namenode->flags & fnnf_new_conff) {
+    if (nifd->namenode->flags & FNNF_NEW_CONFF) {
       md5hash_prev_conffile(tc->pkg, oldhash, fnamenewvb.buf, nifd->namenode);
     } else if (S_ISREG(stab.st_mode)) {
       md5hash(tc->pkg, oldhash, fnamevb.buf);
@@ -950,7 +967,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     }
   }
 
-  if (refcounting && !fc_overwrite) {
+  if (refcounting && !in_force(FORCE_OVERWRITE)) {
     /* If we are not forced to overwrite the path and are refcounting,
      * just compute the hash w/o extracting the object. */
     tarobject_hash(tc, ti, nifd->namenode);
@@ -963,7 +980,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     /* Now we start to do things that we need to be able to undo
      * if something goes wrong. Watch out for the CLEANUP comments to
      * keep an eye on what's installed on the disk at each point. */
-    push_cleanup(cu_installnew, ~ehflag_normaltidy, NULL, 0, 1, nifd->namenode);
+    push_cleanup(cu_installnew, ~ehflag_normaltidy, 1, nifd->namenode);
 
     /*
      * CLEANUP: Now we either have the old file on the disk, or not, in
@@ -980,7 +997,7 @@ tarobject(void *ctx, struct tar_entry *ti)
                           fnamenewvb.buf, ti, nifd->namenode);
 
   /* If we didn't extract anything, there's nothing else to do. */
-  if (refcounting && !fc_overwrite)
+  if (refcounting && !in_force(FORCE_OVERWRITE))
     return 0;
 
   tarobject_set_perms(ti, fnamenewvb.buf, &nodestat);
@@ -998,9 +1015,9 @@ tarobject(void *ctx, struct tar_entry *ti)
 
   /* First, check to see if it's a conffile. If so we don't install
    * it now - we leave it in .dpkg-new for --configure to take care of. */
-  if (nifd->namenode->flags & fnnf_new_conff) {
+  if (nifd->namenode->flags & FNNF_NEW_CONFF) {
     debug(dbg_conffdetail,"tarobject conffile extracted");
-    nifd->namenode->flags |= fnnf_elide_other_lists;
+    nifd->namenode->flags |= FNNF_ELIDE_OTHER_LISTS;
     return 0;
   }
 
@@ -1013,11 +1030,13 @@ tarobject(void *ctx, struct tar_entry *ti)
     if (ti->type == TAR_FILETYPE_DIR || S_ISDIR(stab.st_mode)) {
       /* One of the two is a directory - can't do atomic install. */
       debug(dbg_eachfiledetail,"tarobject directory, nonatomic");
-      nifd->namenode->flags |= fnnf_no_atomic_overwrite;
+      nifd->namenode->flags |= FNNF_NO_ATOMIC_OVERWRITE;
       if (rename(fnamevb.buf,fnametmpvb.buf))
         ohshite(_("unable to move aside '%.255s' to install new version"),
                 ti->name);
     } else if (S_ISLNK(stab.st_mode)) {
+      int rc;
+
       /* We can't make a symlink with two hardlinks, so we'll have to
        * copy it. (Pretend that making a copy of a symlink is the same
        * as linking to it.) */
@@ -1036,7 +1055,8 @@ tarobject(void *ctx, struct tar_entry *ti)
       varbuf_end_str(&symlinkfn);
       if (symlink(symlinkfn.buf,fnametmpvb.buf))
         ohshite(_("unable to make backup symlink for '%.255s'"), ti->name);
-      if (lchown(fnametmpvb.buf,stab.st_uid,stab.st_gid))
+      rc = lchown(fnametmpvb.buf, stab.st_uid, stab.st_gid);
+      if (forcible_nonroot_error(rc))
         ohshite(_("unable to chown backup symlink for '%.255s'"), ti->name);
       tarobject_set_se_context(fnamevb.buf, fnametmpvb.buf, stab.st_mode);
     } else {
@@ -1054,7 +1074,7 @@ tarobject(void *ctx, struct tar_entry *ti)
 
   if (ti->type == TAR_FILETYPE_FILE || ti->type == TAR_FILETYPE_HARDLINK ||
       ti->type == TAR_FILETYPE_SYMLINK) {
-    nifd->namenode->flags |= fnnf_deferred_rename;
+    nifd->namenode->flags |= FNNF_DEFERRED_RENAME;
 
     debug(dbg_eachfiledetail, "tarobject done and installation deferred");
   } else {
@@ -1068,8 +1088,8 @@ tarobject(void *ctx, struct tar_entry *ti)
      * remove the new file.
      */
 
-    nifd->namenode->flags |= fnnf_placed_on_disk;
-    nifd->namenode->flags |= fnnf_elide_other_lists;
+    nifd->namenode->flags |= FNNF_PLACED_ON_DISK;
+    nifd->namenode->flags |= FNNF_ELIDE_OTHER_LISTS;
 
     debug(dbg_eachfiledetail, "tarobject done and installed");
   }
@@ -1079,15 +1099,15 @@ tarobject(void *ctx, struct tar_entry *ti)
 
 #if defined(SYNC_FILE_RANGE_WAIT_BEFORE)
 static void
-tar_writeback_barrier(struct fileinlist *files, struct pkginfo *pkg)
+tar_writeback_barrier(struct fsys_namenode_list *files, struct pkginfo *pkg)
 {
-  struct fileinlist *cfile;
+  struct fsys_namenode_list *cfile;
 
   for (cfile = files; cfile; cfile = cfile->next) {
-    struct filenamenode *usenode;
+    struct fsys_namenode *usenode;
     int fd;
 
-    if (!(cfile->namenode->flags & fnnf_deferred_fsync))
+    if (!(cfile->namenode->flags & FNNF_DEFERRED_FSYNC))
       continue;
 
     usenode = namenodetouse(cfile->namenode, pkg, &pkg->available);
@@ -1107,30 +1127,30 @@ tar_writeback_barrier(struct fileinlist *files, struct pkginfo *pkg)
 }
 #else
 static void
-tar_writeback_barrier(struct fileinlist *files, struct pkginfo *pkg)
+tar_writeback_barrier(struct fsys_namenode_list *files, struct pkginfo *pkg)
 {
 }
 #endif
 
 void
-tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
+tar_deferred_extract(struct fsys_namenode_list *files, struct pkginfo *pkg)
 {
-  struct fileinlist *cfile;
-  struct filenamenode *usenode;
+  struct fsys_namenode_list *cfile;
+  struct fsys_namenode *usenode;
 
   tar_writeback_barrier(files, pkg);
 
   for (cfile = files; cfile; cfile = cfile->next) {
     debug(dbg_eachfile, "deferred extract of '%.255s'", cfile->namenode->name);
 
-    if (!(cfile->namenode->flags & fnnf_deferred_rename))
+    if (!(cfile->namenode->flags & FNNF_DEFERRED_RENAME))
       continue;
 
     usenode = namenodetouse(cfile->namenode, pkg, &pkg->available);
 
     setupfnamevbs(usenode->name);
 
-    if (cfile->namenode->flags & fnnf_deferred_fsync) {
+    if (cfile->namenode->flags & FNNF_DEFERRED_FSYNC) {
       int fd;
 
       debug(dbg_eachfiledetail, "deferred extract needs fsync");
@@ -1143,7 +1163,7 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
       if (close(fd))
         ohshite(_("error closing/writing '%.255s'"), fnamenewvb.buf);
 
-      cfile->namenode->flags &= ~fnnf_deferred_fsync;
+      cfile->namenode->flags &= ~FNNF_DEFERRED_FSYNC;
     }
 
     debug(dbg_eachfiledetail, "deferred extract needs rename");
@@ -1152,7 +1172,7 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
       ohshite(_("unable to install new version of '%.255s'"),
               cfile->namenode->name);
 
-    cfile->namenode->flags &= ~fnnf_deferred_rename;
+    cfile->namenode->flags &= ~FNNF_DEFERRED_RENAME;
 
     /*
      * CLEANUP: Now the new file is in the destination file, and the
@@ -1161,8 +1181,8 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
      * remove the new file.
      */
 
-    cfile->namenode->flags |= fnnf_placed_on_disk;
-    cfile->namenode->flags |= fnnf_elide_other_lists;
+    cfile->namenode->flags |= FNNF_PLACED_ON_DISK;
+    cfile->namenode->flags |= FNNF_ELIDE_OTHER_LISTS;
 
     debug(dbg_eachfiledetail, "deferred extract done and installed");
   }
@@ -1175,7 +1195,7 @@ enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal)
 
   ensure_package_clientdata(pkg);
   pkg->clientdata->istobe = PKG_ISTOBE_DECONFIGURE;
-  newdeconf = m_malloc(sizeof(struct pkg_deconf_list));
+  newdeconf = m_malloc(sizeof(*newdeconf));
   newdeconf->next = deconfigure;
   newdeconf->pkg = pkg;
   newdeconf->pkg_removal = pkg_removal;
@@ -1220,7 +1240,7 @@ try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
     return 2;
   } else if (f_autodeconf) {
     if (pkg->installed.essential) {
-      if (fc_removeessential) {
+      if (in_force(FORCE_REMOVE_ESSENTIAL)) {
         warning(_("considering deconfiguration of essential\n"
                   " package %s, to enable %s"),
                 pkg_name(pkg, pnaw_nonambig), action);
@@ -1231,6 +1251,19 @@ try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
         return 0;
       }
     }
+    if (pkg->installed.is_protected) {
+      if (in_force(FORCE_REMOVE_PROTECTED)) {
+        warning(_("considering deconfiguration of protected\n"
+                  " package %s, to enable %s"),
+                pkg_name(pkg, pnaw_nonambig), action);
+      } else {
+        notice(_("no, %s is protected, will not deconfigure\n"
+                 " it in order to enable %s"),
+               pkg_name(pkg, pnaw_nonambig), action);
+        return 0;
+      }
+    }
+
     enqueue_deconfigure(pkg, removal);
     return 1;
   } else {
@@ -1267,7 +1300,11 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
     char action[512];
 
     ensure_package_clientdata(fixbydeconf);
-    assert(fixbydeconf->clientdata->istobe == PKG_ISTOBE_NORMAL);
+
+    if (fixbydeconf->clientdata->istobe != PKG_ISTOBE_NORMAL)
+      internerr("package %s being fixed by deconf is not to be normal, "
+                "is to be %d",
+                pkg_name(pkg, pnaw_always), fixbydeconf->clientdata->istobe);
 
     sprintf(action, _("installation of %.250s"),
             pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
@@ -1308,7 +1345,7 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
 void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                     const char *pfilename) {
   struct pkginfo *fixbyrm;
-  struct deppossi *pdep, flagdeppossi;
+  struct deppossi *pdep, flagdeppossi = { 0 };
   struct varbuf conflictwhy = VARBUF_INIT, removalwhy = VARBUF_INIT;
   struct dependency *providecheck;
 
@@ -1324,13 +1361,18 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       fixbyrm= dep->up;
       ensure_package_clientdata(fixbyrm);
     }
-    if (((pkg->available.essential && fixbyrm->installed.essential) ||
-         (((fixbyrm->want != PKG_WANT_INSTALL &&
-            fixbyrm->want != PKG_WANT_HOLD) ||
-           does_replace(pkg, &pkg->available, fixbyrm, &fixbyrm->installed)) &&
-          (!fixbyrm->installed.essential || fc_removeessential)))) {
-      assert(fixbyrm->clientdata->istobe == PKG_ISTOBE_NORMAL ||
-             fixbyrm->clientdata->istobe == PKG_ISTOBE_DECONFIGURE);
+    if (((pkg->available.essential || pkg->available.is_protected) &&
+         (fixbyrm->installed.essential || fixbyrm->installed.is_protected)) ||
+        (((fixbyrm->want != PKG_WANT_INSTALL &&
+           fixbyrm->want != PKG_WANT_HOLD) ||
+          does_replace(pkg, &pkg->available, fixbyrm, &fixbyrm->installed)) &&
+         ((!fixbyrm->installed.essential || in_force(FORCE_REMOVE_ESSENTIAL)) ||
+          (!fixbyrm->installed.is_protected || in_force(FORCE_REMOVE_PROTECTED))))) {
+      if (fixbyrm->clientdata->istobe != PKG_ISTOBE_NORMAL &&
+          fixbyrm->clientdata->istobe != PKG_ISTOBE_DECONFIGURE)
+        internerr("package %s to be fixed by removal is not to be normal "
+                  "nor deconfigure, is to be %d",
+                  pkg_name(pkg, pnaw_always), fixbyrm->clientdata->istobe);
       fixbyrm->clientdata->istobe = PKG_ISTOBE_REMOVE;
       notice(_("considering removing %s in favour of %s ..."),
              pkg_name(fixbyrm, pnaw_nonambig),
@@ -1381,7 +1423,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
         pdep= &flagdeppossi;
       }
       if (!pdep && (fixbyrm->eflag & PKG_EFLAG_REINSTREQ)) {
-        if (fc_removereinstreq) {
+        if (in_force(FORCE_REMOVE_REINSTREQ)) {
           notice(_("package %s requires reinstallation, but will "
                    "remove anyway as you requested"),
                  pkg_name(fixbyrm, pnaw_nonambig));
@@ -1421,6 +1463,7 @@ void cu_cidir(int argc, void **argv) {
   char *cidirrest= (char*)argv[1];
   cidirrest[-1] = '\0';
   path_remove_tree(cidir);
+  free(cidir);
 }
 
 void cu_fileslist(int argc, void **argv) {
@@ -1442,7 +1485,7 @@ archivefiles(const char *const *argv)
     msdbflags = msdbrw_readonly;
   else if (cipaction->arg_int == act_avail)
     msdbflags = msdbrw_readonly | msdbrw_available_write;
-  else if (fc_nonroot)
+  else if (in_force(FORCE_NON_ROOT))
     msdbflags = msdbrw_write;
   else
     msdbflags = msdbrw_needsuperuser;
@@ -1614,7 +1657,7 @@ wanttoinstall(struct pkginfo *pkg)
       return true;
     }
   } else {
-    if (fc_downgrade) {
+    if (in_force(FORCE_DOWNGRADE)) {
       warning(_("downgrading %.250s from %.250s to %.250s"),
               pkg_name(pkg, pnaw_nonambig),
               versiondescribe(&pkg->installed.version, vdew_nonambig),

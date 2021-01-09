@@ -19,11 +19,12 @@ package Dpkg::Path;
 use strict;
 use warnings;
 
-our $VERSION = '1.04';
+our $VERSION = '1.05';
 our @EXPORT_OK = qw(
     canonpath
     resolve_symlink
     check_files_are_the_same
+    check_directory_traversal
     find_command
     find_build_file
     get_control_path
@@ -33,9 +34,13 @@ our @EXPORT_OK = qw(
 );
 
 use Exporter qw(import);
+use Errno qw(ENOENT);
 use File::Spec;
+use File::Find;
 use Cwd qw(realpath);
 
+use Dpkg::ErrorHandling;
+use Dpkg::Gettext;
 use Dpkg::Arch qw(get_host_arch debarch_to_debtuple);
 use Dpkg::IPC;
 
@@ -131,6 +136,8 @@ $resolve_symlink is true then stat() is used, otherwise lstat() is used.
 
 sub check_files_are_the_same($$;$) {
     my ($file1, $file2, $resolve_symlink) = @_;
+
+    return 1 if $file1 eq $file2;
     return 0 if ((! -e $file1) || (! -e $file2));
     my (@stat1, @stat2);
     if ($resolve_symlink) {
@@ -202,6 +209,41 @@ sub resolve_symlink($) {
     }
 }
 
+=item check_directory_traversal($basedir, $dir)
+
+This function verifies that the directory $dir does not contain any symlink
+that goes beyond $basedir (which should be either equal or a parent of $dir).
+
+=cut
+
+sub check_directory_traversal {
+    my ($basedir, $dir) = @_;
+
+    my $canon_basedir = realpath($basedir);
+    my $check_symlinks = sub {
+        my $canon_pathname = realpath($_);
+        if (not defined $canon_pathname) {
+            return if $! == ENOENT;
+
+            syserr(g_("pathname '%s' cannot be canonicalized"), $_);
+        }
+        return if $canon_pathname eq '/dev/null';
+        return if $canon_pathname eq $canon_basedir;
+        return if $canon_pathname =~ m{^\Q$canon_basedir/\E};
+
+        error(g_("pathname '%s' points outside source root (to '%s')"),
+              $_, $canon_pathname);
+    };
+
+    find({
+        wanted => $check_symlinks,
+        no_chdir => 1,
+        follow => 1,
+        follow_skip => 2,
+    }, $dir);
+
+    return;
+}
 
 =item $cmdpath = find_command($command)
 
@@ -280,6 +322,10 @@ sub find_build_file($) {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.05 (dpkg 1.20.4)
+
+New function: check_directory_traversal().
 
 =head2 Version 1.04 (dpkg 1.17.11)
 

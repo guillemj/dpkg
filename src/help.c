@@ -34,8 +34,8 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
 #include "main.h"
 
 const char *const statusstrings[]= {
@@ -49,32 +49,29 @@ const char *const statusstrings[]= {
   [PKG_STAT_INSTALLED]       = N_("installed")
 };
 
-struct filenamenode *
-namenodetouse(struct filenamenode *namenode, struct pkginfo *pkg,
+struct fsys_namenode *
+namenodetouse(struct fsys_namenode *namenode, struct pkginfo *pkg,
               struct pkgbin *pkgbin)
 {
-  struct filenamenode *r;
+  struct fsys_namenode *fnn;
 
-  if (!namenode->divert) {
-    r = namenode;
-    return r;
-  }
+  if (!namenode->divert)
+    return namenode;
 
   debug(dbg_eachfile, "namenodetouse namenode='%s' pkg=%s",
         namenode->name, pkgbin_name(pkg, pkgbin, pnaw_always));
 
-  r=
-    (namenode->divert->useinstead && namenode->divert->pkgset != pkg->set)
-      ? namenode->divert->useinstead : namenode;
+  fnn = (namenode->divert->useinstead && namenode->divert->pkgset != pkg->set)
+        ? namenode->divert->useinstead : namenode;
 
   debug(dbg_eachfile,
         "namenodetouse ... useinstead=%s camefrom=%s pkg=%s return %s",
         namenode->divert->useinstead ? namenode->divert->useinstead->name : "<none>",
         namenode->divert->camefrom ? namenode->divert->camefrom->name : "<none>",
         namenode->divert->pkgset ? namenode->divert->pkgset->name : "<none>",
-        r->name);
+        fnn->name);
 
-  return r;
+  return fnn;
 }
 
 bool
@@ -90,9 +87,9 @@ find_command(const char *prog)
   if (!path_list)
     ohshit(_("PATH is not set"));
 
-  for (path = path_list; path; path = path_end ? path_end + 1 : NULL) {
-    path_end = strchr(path, ':');
-    path_len = path_end ? (size_t)(path_end - path) : strlen(path);
+  for (path = path_list; path; path = *path_end ? path_end + 1 : NULL) {
+    path_end = strchrnul(path, ':');
+    path_len = (size_t)(path_end - path);
 
     varbuf_reset(&filename);
     varbuf_add_buf(&filename, path, path_len);
@@ -125,7 +122,8 @@ void checkpath(void) {
      * an ldconfig. */
 #if defined(__APPLE__) && defined(__MACH__)
     "update_dyld_shared_cache",
-#else
+#elif defined(__GLIBC__) || defined(__UCLIBC__) || \
+      defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__)
     "ldconfig",
 #endif
 #if BUILD_START_STOP_DAEMON
@@ -145,7 +143,7 @@ void checkpath(void) {
   }
 
   if (warned)
-    forcibleerr(fc_badpath,
+    forcibleerr(FORCE_BAD_PATH,
                 P_("%d expected program not found in PATH or not executable\n%s",
                    "%d expected programs not found in PATH or not executable\n%s",
                    warned),
@@ -184,7 +182,7 @@ ignore_depends_possi(struct deppossi *possi)
 bool
 force_depends(struct deppossi *possi)
 {
-  return fc_depends ||
+  return in_force(FORCE_DEPENDS) ||
          ignore_depends_possi(possi) ||
          ignore_depends(possi->up->up);
 }
@@ -192,7 +190,7 @@ force_depends(struct deppossi *possi)
 bool
 force_breaks(struct deppossi *possi)
 {
-  return fc_breaks ||
+  return in_force(FORCE_BREAKS) ||
          ignore_depends_possi(possi) ||
          ignore_depends(possi->up->up);
 }
@@ -200,20 +198,20 @@ force_breaks(struct deppossi *possi)
 bool
 force_conflicts(struct deppossi *possi)
 {
-  return fc_conflicts;
+  return in_force(FORCE_CONFLICTS);
 }
 
 void clear_istobes(void) {
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *pkg;
 
-  iter = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(iter)) != NULL) {
+  iter = pkg_hash_iter_new();
+  while ((pkg = pkg_hash_iter_next_pkg(iter)) != NULL) {
     ensure_package_clientdata(pkg);
     pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
     pkg->clientdata->replacingfilesandsaid= 0;
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 }
 
 /*
@@ -221,7 +219,7 @@ void clear_istobes(void) {
  * false otherwise.
  */
 bool
-dir_has_conffiles(struct filenamenode *file, struct pkginfo *pkg)
+dir_has_conffiles(struct fsys_namenode *file, struct pkginfo *pkg)
 {
   struct conffile *conff;
   size_t namelen;
@@ -230,7 +228,7 @@ dir_has_conffiles(struct filenamenode *file, struct pkginfo *pkg)
         pkg_name(pkg, pnaw_always));
   namelen = strlen(file->name);
   for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
-      if (conff->obsolete)
+      if (conff->obsolete || conff->remove_on_upgrade)
         continue;
       if (strncmp(file->name, conff->name, namelen) == 0 &&
           strlen(conff->name) > namelen && conff->name[namelen] == '/') {
@@ -248,26 +246,26 @@ dir_has_conffiles(struct filenamenode *file, struct pkginfo *pkg)
  * false otherwise.
  */
 bool
-dir_is_used_by_others(struct filenamenode *file, struct pkginfo *pkg)
+dir_is_used_by_others(struct fsys_namenode *file, struct pkginfo *pkg)
 {
-  struct filepackages_iterator *iter;
+  struct fsys_node_pkgs_iter *iter;
   struct pkginfo *other_pkg;
 
   debug(dbg_veryverbose, "dir_is_used_by_others '%s' (except %s)", file->name,
         pkg ? pkg_name(pkg, pnaw_always) : "<none>");
 
-  iter = filepackages_iter_new(file);
-  while ((other_pkg = filepackages_iter_next(iter))) {
+  iter = fsys_node_pkgs_iter_new(file);
+  while ((other_pkg = fsys_node_pkgs_iter_next(iter))) {
     debug(dbg_veryverbose, "dir_is_used_by_others considering %s ...",
           pkg_name(other_pkg, pnaw_always));
     if (other_pkg == pkg)
       continue;
 
-    filepackages_iter_free(iter);
+    fsys_node_pkgs_iter_free(iter);
     debug(dbg_veryverbose, "dir_is_used_by_others yes");
     return true;
   }
-  filepackages_iter_free(iter);
+  fsys_node_pkgs_iter_free(iter);
 
   debug(dbg_veryverbose, "dir_is_used_by_others no");
   return false;
@@ -277,10 +275,10 @@ dir_is_used_by_others(struct filenamenode *file, struct pkginfo *pkg)
  * Returns true if the file is used by pkg, false otherwise.
  */
 bool
-dir_is_used_by_pkg(struct filenamenode *file, struct pkginfo *pkg,
-                   struct fileinlist *list)
+dir_is_used_by_pkg(struct fsys_namenode *file, struct pkginfo *pkg,
+                   struct fsys_namenode_list *list)
 {
-  struct fileinlist *node;
+  struct fsys_namenode_list *node;
   size_t namelen;
 
   debug(dbg_veryverbose, "dir_is_used_by_pkg '%s' (by %s)",
@@ -312,7 +310,7 @@ dir_is_used_by_pkg(struct filenamenode *file, struct pkginfo *pkg,
  * @param namenode	The namenode for the obsolete conffile.
  */
 void
-conffile_mark_obsolete(struct pkginfo *pkg, struct filenamenode *namenode)
+conffile_mark_obsolete(struct pkginfo *pkg, struct fsys_namenode *namenode)
 {
   struct conffile *conff;
 
@@ -335,11 +333,11 @@ void
 pkg_conffiles_mark_old(struct pkginfo *pkg)
 {
   const struct conffile *conff;
-  struct filenamenode *namenode;
+  struct fsys_namenode *namenode;
 
   for (conff = pkg->installed.conffiles; conff; conff = conff->next) {
-    namenode = findnamenode(conff->name, 0); /* XXX */
-    namenode->flags |= fnnf_old_conff;
+    namenode = fsys_hash_find_node(conff->name, 0); /* XXX */
+    namenode->flags |= FNNF_OLD_CONFF;
     if (!namenode->oldhash)
       namenode->oldhash = conff->hash;
     debug(dbg_conffdetail, "%s '%s' namenode '%s' flags %o", __func__,
@@ -351,8 +349,8 @@ void
 log_action(const char *action, struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
   log_message("%s %s %s %s", action, pkgbin_name(pkg, pkgbin, pnaw_always),
-	      versiondescribe(&pkg->installed.version, vdew_nonambig),
-	      versiondescribe(&pkg->available.version, vdew_nonambig));
+              versiondescribe_c(&pkg->installed.version, vdew_nonambig),
+              versiondescribe_c(&pkg->available.version, vdew_nonambig));
   statusfd_send("processing: %s: %s", action,
                 pkgbin_name(pkg, pkgbin, pnaw_nonambig));
 }

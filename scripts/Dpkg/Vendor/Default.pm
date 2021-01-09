@@ -20,7 +20,7 @@ use warnings;
 
 our $VERSION = '0.01';
 
-# If you use this file as template to create a new vendor object, please
+# If you use this file as template to create a new vendor class, please
 # uncomment the following lines
 #use parent qw(Dpkg::Vendor::Default);
 
@@ -28,12 +28,12 @@ our $VERSION = '0.01';
 
 =head1 NAME
 
-Dpkg::Vendor::Default - default vendor object
+Dpkg::Vendor::Default - default vendor class
 
 =head1 DESCRIPTION
 
-A vendor object is used to provide vendor specific behaviour
-in various places. This is the default object used in case
+A vendor class is used to provide vendor specific behaviour
+in various places. This is the default class used in case
 there's none for the current vendor or in case the vendor could
 not be identified (see Dpkg::Vendor documentation).
 
@@ -140,6 +140,19 @@ field will be created if the current directory is "/build/dpkg-1.18.0". If
 the list contains "/", the path will always be recorded. If the list is
 empty, the current path will never be recorded.
 
+=item build-tainted-by ()
+
+The hook is called by dpkg-genbuildinfo to determine if the current system
+has been tainted in some way that could affect the resulting build, which
+will be recorded in the B<Build-Tainted-By> field (since dpkg 1.19.5). It
+takes no parameters, but returns a (possibly empty) list of tainted reason
+tags (formed by alphanumeric and dash characters).
+
+=item sanitize-environment ()
+
+The hook is called by dpkg-buildpackage to sanitize its build environment
+(since dpkg 1.20.0).
+
 =back
 
 =cut
@@ -149,9 +162,6 @@ sub run_hook {
 
     if ($hook eq 'before-source-build') {
         my $srcpkg = shift @params;
-    } elsif ($hook eq 'keyrings') {
-        warnings::warnif('deprecated', 'obsolete keyrings vendor hook');
-        return ();
     } elsif ($hook eq 'package-keyrings') {
         return ();
     } elsif ($hook eq 'archive-keyrings') {
@@ -172,6 +182,10 @@ sub run_hook {
 	my $flags = shift @params;
     } elsif ($hook eq 'builtin-system-build-paths') {
         return ();
+    } elsif ($hook eq 'build-tainted-by') {
+        return ();
+    } elsif ($hook eq 'sanitize-environment') {
+        return;
     }
 
     # Default return value for unknown/unimplemented hooks

@@ -88,6 +88,36 @@
 #endif
 
 /**
+ * @def DPKG_NULL
+ *
+ * A null pointer constant that works on C or C++.
+ *
+ * To be used only on header files, where having to conditionalize the code
+ * to use either NULL or nullptr would be too cumbersome. Non-header files
+ * should use the appropriate constant directly.
+ */
+#if defined(__cplusplus)
+#define DPKG_NULL      nullptr
+#else
+#define DPKG_NULL      NULL
+#endif
+
+/**
+ * @def DPKG_STATIC_CAST
+ *
+ * Cast an expression to a given type that works on C or C++.
+ *
+ * To be used only on header files, where having to conditionalize the code
+ * to use either NULL or nullptr would be too cumbersome. Non-header files
+ * should use the appropriate constant directly.
+ */
+#if defined(__cplusplus)
+#define DPKG_STATIC_CAST(type, expr) static_cast<type>(expr)
+#else
+#define DPKG_STATIC_CAST(type, expr) (type)(expr)
+#endif
+
+/**
  * @def DPKG_BIT
  *
  * Return the integer value of bit n.
@@ -123,8 +153,11 @@
  * @param l The low limit.
  * @param h The high limit.
  */
+/* For C++ use native implementations from STL or similar. */
+#ifndef __cplusplus
 #ifndef clamp
 #define clamp(v, l, h) ((v) > (h) ? (h) : ((v) < (l) ? (l) : (v)))
+#endif
 #endif
 
 /** @} */

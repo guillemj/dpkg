@@ -1,3 +1,4 @@
+# serial 1
 # Copyright © 2010 Guillem Jover <guillem@debian.org>
 
 # DPKG_CODE_COVERAGE
@@ -29,8 +30,8 @@ AC_DEFUN([DPKG_CODE_COVERAGE], [
        AC_MSG_ERROR([missing genhtml, which is required for C coverage support])
      ])
 
-     CFLAGS="$CFLAGS --coverage"
-     LDFLAGS="$LDFLAGS --coverage"
+     CFLAGS="$CFLAGS --coverage -O0"
+     LDFLAGS="$LDFLAGS --coverage -O0"
 
      AC_MSG_CHECKING([for Devel::Cover perl module])
      AS_IF([$($PERL -e "require Devel::Cover;" 2>/dev/null)], [

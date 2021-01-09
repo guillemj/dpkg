@@ -71,7 +71,7 @@ static void info_prepare(const char *const **argvp,
     ohshite(_("unable to create temporary directory"));
   *dirp = dbuf;
 
-  push_cleanup(cu_info_prepare, -1, NULL, 0, 1, (void *)dbuf);
+  push_cleanup(cu_info_prepare, -1, 1, (void *)dbuf);
   extracthalf(*debarp, dbuf, DPKG_TAR_EXTRACT | DPKG_TAR_NOMTIME, admininfo);
 }
 
@@ -160,7 +160,8 @@ info_list(const char *debar, const char *dir)
         ohshite(_("failed to read '%.255s' (in '%.255s')"), cdep->d_name, dir);
       fclose(cc);
       printf(_(" %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"),
-             (intmax_t)stab.st_size, lines, S_IXUSR & stab.st_mode ? '*' : ' ',
+             (intmax_t)stab.st_size, lines,
+             (S_IXUSR & stab.st_mode) ? '*' : ' ',
              cdep->d_name, interpreter);
     } else {
       printf(_("     not a plain file          %.255s\n"), cdep->d_name);
@@ -206,7 +207,7 @@ info_field(const char *debar, const char *dir, const char *const *fields,
   int i;
 
   controlfile = str_fmt("%s/%s", dir, CONTROLFILE);
-  parsedb(controlfile, pdb_parse_binary | pdb_ignorefiles, &pkg);
+  parsedb(controlfile, pdb_parse_binary | pdb_ignore_archives, &pkg);
   free(controlfile);
 
   for (i = 0; fields[i]; i++) {
@@ -251,7 +252,7 @@ do_showinfo(const char *const *argv)
   info_prepare(&argv, &debar, &dir, 1);
 
   controlfile  = str_fmt("%s/%s", dir, CONTROLFILE);
-  parsedb(controlfile, pdb_parse_binary | pdb_ignorefiles, &pkg);
+  parsedb(controlfile, pdb_parse_binary | pdb_ignore_archives, &pkg);
   pkg_format_show(fmt, pkg, &pkg->available);
   pkg_format_free(fmt);
   free(controlfile);

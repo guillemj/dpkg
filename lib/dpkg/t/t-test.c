@@ -25,7 +25,7 @@
 
 TEST_ENTRY(test)
 {
-	test_plan(20);
+	test_plan(22);
 
 	test_pass(1);
 	test_fail(0);
@@ -58,4 +58,9 @@ TEST_ENTRY(test)
 	test_mem("abcd", ==, "abcd", 5);
 	test_mem("ababcd", ==, "ababff", 4);
 	test_mem("ababcd", !=, "ababff", 6);
+
+	setenv("srcdir", "aaa", 1);
+	setenv("builddir", "bbb", 1);
+	test_str(test_get_srcdir(), ==, "aaa");
+	test_str(test_get_builddir(), ==, "bbb");
 }

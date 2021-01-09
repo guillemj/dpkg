@@ -22,7 +22,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -42,7 +41,9 @@ pkgprioritystring(const struct pkginfo *pkg)
   } else if (pkg->priority == PKG_PRIO_OTHER) {
     return pkg->otherpriority;
   } else {
-    assert(pkg->priority <= PKG_PRIO_UNKNOWN);
+    if (pkg->priority > PKG_PRIO_UNKNOWN)
+      internerr("package %s has out-of-range priority %d",
+                pkg_name_const(pkg, pnaw_always), pkg->priority);
     return gettext(prioritystrings[pkg->priority]);
   }
 }

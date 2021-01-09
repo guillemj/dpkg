@@ -32,7 +32,7 @@ Dpkg::Control::Changelog - represent info fields output by dpkg-parsechangelog
 
 =head1 DESCRIPTION
 
-This object derives directly from Dpkg::Control with the type
+This class derives directly from Dpkg::Control with the type
 CTRL_CHANGELOG.
 
 =head1 METHODS

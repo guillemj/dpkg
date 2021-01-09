@@ -34,7 +34,7 @@ Dpkg::BuildOptions - parse and update build options
 
 =head1 DESCRIPTION
 
-The Dpkg::BuildOptions object can be used to manipulate options stored
+This class can be used to manipulate options stored
 in environment variables like DEB_BUILD_OPTIONS and
 DEB_BUILD_MAINT_OPTIONS.
 
@@ -164,7 +164,7 @@ Each feature is prefixed with a ‘B<+>’ or a ‘B<->’ character as a marker
 to enable or disable it. The special feature “B<all>” can be used to act
 on all known features.
 
-Unknown of malformed features will emit warnings.
+Unknown or malformed features will emit warnings.
 
 =cut
 

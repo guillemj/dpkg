@@ -25,15 +25,15 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
 
 #include <dpkg/dpkg.h>
 #include <dpkg/i18n.h>
-#include <dpkg/subproc.h>
-#include <dpkg/command.h>
+#include <dpkg/pager.h>
+#include <dpkg/fdio.h>
+#include <dpkg/buffer.h>
 #include <dpkg/file.h>
 
 /**
@@ -61,6 +61,49 @@ file_copy_perms(const char *src, const char *dst)
 		ohshite(_("unable to set mode of target file '%.250s'"), dst);
 }
 
+static int
+file_slurp_fd(int fd, const char *filename, struct varbuf *vb,
+              struct dpkg_error *err)
+{
+	struct stat st;
+
+	if (fstat(fd, &st) < 0)
+		return dpkg_put_errno(err, _("cannot stat %s"), filename);
+
+	if (!S_ISREG(st.st_mode))
+		return dpkg_put_error(err, _("%s is not a regular file"),
+		                      filename);
+
+	if (st.st_size == 0)
+		return 0;
+
+	varbuf_init(vb, st.st_size);
+	if (fd_read(fd, vb->buf, st.st_size) < 0)
+		return dpkg_put_errno(err, _("cannot read %s"), filename);
+	vb->used = st.st_size;
+
+	return 0;
+}
+
+int
+file_slurp(const char *filename, struct varbuf *vb, struct dpkg_error *err)
+{
+	int fd;
+	int rc;
+
+	varbuf_init(vb, 0);
+
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		return dpkg_put_errno(err, _("cannot open %s"), filename);
+
+	rc = file_slurp_fd(fd, filename, vb, err);
+
+	(void)close(fd);
+
+	return rc;
+}
+
 static void
 file_lock_setup(struct flock *fl, short type)
 {
@@ -75,25 +118,27 @@ file_lock_setup(struct flock *fl, short type)
  * Unlock a previously locked file.
  */
 void
-file_unlock(int lockfd, const char *lock_desc)
+file_unlock(int lockfd, const char *lockfile, const char *lockdesc)
 {
 	struct flock fl;
 
-	assert(lockfd >= 0);
+	if (lockfd < 0)
+		internerr("%s (%s) fd is %d < 0", lockdesc, lockfile, lockfd);
 
 	file_lock_setup(&fl, F_UNLCK);
 
 	if (fcntl(lockfd, F_SETLK, &fl) == -1)
-		ohshite(_("unable to unlock %s"), lock_desc);
+		ohshite(_("unable to unlock %s"), lockdesc);
 }
 
 static void
 file_unlock_cleanup(int argc, void **argv)
 {
 	int lockfd = *(int *)argv[0];
-	const char *lock_desc = argv[1];
+	const char *lockfile = argv[1];
+	const char *lockdesc = argv[2];
 
-	file_unlock(lockfd, lock_desc);
+	file_unlock(lockfd, lockfile, lockdesc);
 }
 
 /**
@@ -144,34 +189,50 @@ file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
 		lock_cmd = F_SETLK;
 
 	if (fcntl(*lockfd, lock_cmd, &fl) == -1) {
-		if (errno == EACCES || errno == EAGAIN)
-			ohshit(_("%s is locked by another process"), desc);
-		else
+		const char *warnmsg;
+
+		if (errno != EACCES && errno != EAGAIN)
 			ohshite(_("unable to lock %s"), desc);
+
+		warnmsg = _("Note: removing the lock file is always wrong, "
+		            "and can end up damaging the\n"
+		            "locked area and the entire system. "
+		            "See <https://wiki.debian.org/Teams/Dpkg/FAQ>.");
+
+		file_lock_setup(&fl, F_WRLCK);
+		if (fcntl(*lockfd, F_GETLK, &fl) == -1)
+			ohshit(_("%s was locked by another process\n%s"),
+			       desc, warnmsg);
+
+		ohshit(_("%s was locked by another process with pid %d\n%s"),
+		       desc, fl.l_pid, warnmsg);
 	}
 
-	push_cleanup(file_unlock_cleanup, ~0, NULL, 0, 2, lockfd, desc);
+	push_cleanup(file_unlock_cleanup, ~0, 3, lockfd, filename, desc);
 }
 
 void
 file_show(const char *filename)
 {
-	pid_t pid;
+	struct pager *pager;
+	struct dpkg_error err;
+	int fd, rc;
 
 	if (filename == NULL)
-		internerr("file '%s' does not exist", filename);
+		internerr("filename is NULL");
 
-	pid = subproc_fork();
-	if (pid == 0) {
-		struct command cmd;
-		const char *pager;
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		ohshite(_("cannot open file %s"), filename);
 
-		pager = command_get_pager();
+	pager = pager_spawn(_("pager to show file"));
+	rc = fd_fd_copy(fd, STDOUT_FILENO, -1, &err);
+	pager_reap(pager);
 
-		command_init(&cmd, pager, _("showing file on pager"));
-		command_add_arg(&cmd, pager);
-		command_add_arg(&cmd, filename);
-		command_exec(&cmd);
+	close(fd);
+
+	if (rc < 0 && err.syserrno != EPIPE) {
+		errno = err.syserrno;
+		ohshite(_("cannot write file %s into the pager"), filename);
 	}
-	subproc_reap(pid, _("showing file on pager"), SUBPROC_NOCHECK);
 }

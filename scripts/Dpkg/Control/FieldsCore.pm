@@ -176,6 +176,11 @@ our %FIELDS = (
         allowed => CTRL_INFO_PKG,
         separator => FIELD_SEP_SPACE,
     },
+    'build-tainted-by' => {
+        name => 'Build-Tainted-By',
+        allowed => CTRL_FILE_BUILDINFO,
+        separator => FIELD_SEP_SPACE,
+    },
     'built-for-profiles' => {
         name => 'Built-For-Profiles',
         allowed => ALL_PKG | CTRL_FILE_CHANGES,
@@ -394,6 +399,10 @@ our %FIELDS = (
         name => 'Priority',
         allowed => CTRL_INFO_SRC | CTRL_INDEX_SRC | ALL_PKG,
     },
+    'protected' => {
+        name => 'Protected',
+        allowed => ALL_PKG,
+    },
     'provides' => {
         name => 'Provides',
         allowed => ALL_PKG,
@@ -604,14 +613,14 @@ our %FIELD_ORDER = (
     CTRL_PKG_DEB() => [
         qw(package package-type source version built-using kernel-version
         built-for-profiles auto-built-package architecture subarchitecture
-        installer-menu-item build-essential essential origin bugs
+        installer-menu-item build-essential essential protected origin bugs
         maintainer installed-size), @bin_dep_fields,
         qw(section priority multi-arch homepage description tag task)
     ],
     CTRL_INDEX_PKG() => [
         qw(package package-type source version built-using kernel-version
         built-for-profiles auto-built-package architecture subarchitecture
-        installer-menu-item build-essential essential origin bugs
+        installer-menu-item build-essential essential protected origin bugs
         maintainer installed-size), @bin_dep_fields,
         qw(filename size), @bin_checksums_fields,
         qw(section priority multi-arch homepage description tag task)
@@ -634,7 +643,7 @@ our %FIELD_ORDER = (
         qw(format source binary architecture version binary-only-changes),
         @src_checksums_fields,
         qw(build-origin build-architecture build-kernel-version build-date
-        build-path installed-build-depends environment),
+        build-path build-tainted-by installed-build-depends environment),
     ],
     CTRL_FILE_CHANGES() => [
         qw(format date source binary binary-only built-for-profiles architecture
@@ -647,7 +656,8 @@ our %FIELD_ORDER = (
     ],
     CTRL_FILE_STATUS() => [
         # Same as fieldinfos in lib/dpkg/parse.c
-        qw(package essential status priority section installed-size origin
+        qw(package essential protected status priority section installed-size
+        origin
         maintainer bugs architecture multi-arch source version config-version
         replaces provides depends pre-depends recommends suggests breaks
         conflicts enhances conffiles description triggers-pending

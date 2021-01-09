@@ -27,559 +27,565 @@
 ## Functions to remove an obsolete conffile during upgrade
 ##
 rm_conffile() {
-	local CONFFILE="$1"
-	local LASTVERSION="$2"
-	local PACKAGE="$3"
-	if [ "$LASTVERSION" = "--" ]; then
-		LASTVERSION=""
-		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
-	fi
-	if [ "$PACKAGE" = "--" -o -z "$PACKAGE" ]; then
-		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
-	fi
-	# Skip remaining parameters up to --
-	while [ "$1" != "--" -a $# -gt 0 ]; do shift; done
-	[ $# -gt 0 ] || badusage "missing arguments after --"
-	shift
+  local CONFFILE="$1"
+  local LASTVERSION="$2"
+  local PACKAGE="$3"
 
-	[ -n "$PACKAGE" ] || error "couldn't identify the package"
-	[ -n "$1" ] || error "maintainer script parameters are missing"
-	[ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
-		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
-	[ "${CONFFILE}" != "${CONFFILE#/}" ] || \
-		error "conffile '$CONFFILE' is not an absolute path"
-	validate_optional_version "$LASTVERSION"
+  if [ "$LASTVERSION" = "--" ]; then
+    LASTVERSION=""
+    PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
+  fi
+  if [ "$PACKAGE" = "--" -o -z "$PACKAGE" ]; then
+    PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
+  fi
+  # Skip remaining parameters up to --
+  while [ "$1" != "--" -a $# -gt 0 ]; do
+    shift
+  done
+  [ $# -gt 0 ] || badusage "missing arguments after --"
+  shift
 
-	debug "Executing $0 rm_conffile in $DPKG_MAINTSCRIPT_NAME" \
-	      "of $DPKG_MAINTSCRIPT_PACKAGE"
-	debug "CONFFILE=$CONFFILE PACKAGE=$PACKAGE" \
-	      "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
-	case "$DPKG_MAINTSCRIPT_NAME" in
-	preinst)
-		if [ "$1" = "install" -o "$1" = "upgrade" ] && [ -n "$2" ] &&
-		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
-			prepare_rm_conffile "$CONFFILE" "$PACKAGE"
-		fi
-		;;
-	postinst)
-		if [ "$1" = "configure" ] && [ -n "$2" ] &&
-		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
-			finish_rm_conffile "$CONFFILE"
-		fi
-		;;
-	postrm)
-		if [ "$1" = "purge" ]; then
-			rm -f "$CONFFILE.dpkg-bak" "$CONFFILE.dpkg-remove" \
-			      "$CONFFILE.dpkg-backup"
-		fi
-		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
-		   [ -n "$2" ] &&
-		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
-			abort_rm_conffile "$CONFFILE" "$PACKAGE"
-		fi
-		;;
-	*)
-		debug "$0 rm_conffile not required in $DPKG_MAINTSCRIPT_NAME"
-		;;
-	esac
+  [ -n "$PACKAGE" ] || error "couldn't identify the package"
+  [ -n "$1" ] || error "maintainer script parameters are missing"
+  [ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
+    error "environment variable DPKG_MAINTSCRIPT_NAME is required"
+  [ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || \
+    error "environment variable DPKG_MAINTSCRIPT_PACKAGE is required"
+  [ "${CONFFILE}" != "${CONFFILE#/}" ] || \
+    error "conffile '$CONFFILE' is not an absolute path"
+  validate_optional_version "$LASTVERSION"
+
+  debug "Executing $0 rm_conffile in $DPKG_MAINTSCRIPT_NAME" \
+        "of $DPKG_MAINTSCRIPT_PACKAGE"
+  debug "CONFFILE=$CONFFILE PACKAGE=$PACKAGE" \
+        "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
+  case "$DPKG_MAINTSCRIPT_NAME" in
+  preinst)
+    if [ "$1" = "install" -o "$1" = "upgrade" ] && [ -n "$2" ] &&
+       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+      prepare_rm_conffile "$CONFFILE" "$PACKAGE"
+    fi
+    ;;
+  postinst)
+    if [ "$1" = "configure" ] && [ -n "$2" ] &&
+       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+      finish_rm_conffile "$CONFFILE"
+    fi
+    ;;
+  postrm)
+    if [ "$1" = "purge" ]; then
+      rm -f "$DPKG_ROOT$CONFFILE.dpkg-bak" \
+            "$DPKG_ROOT$CONFFILE.dpkg-remove" \
+            "$DPKG_ROOT$CONFFILE.dpkg-backup"
+    fi
+    if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
+       [ -n "$2" ] &&
+       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+      abort_rm_conffile "$CONFFILE" "$PACKAGE"
+    fi
+    ;;
+  *)
+    debug "$0 rm_conffile not required in $DPKG_MAINTSCRIPT_NAME"
+    ;;
+  esac
 }
 
 prepare_rm_conffile() {
-	local CONFFILE="$1"
-	local PACKAGE="$2"
+  local CONFFILE="$1"
+  local PACKAGE="$2"
 
-	[ -e "$CONFFILE" ] || return 0
-	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
+  [ -e "$DPKG_ROOT$CONFFILE" ] || return 0
+  ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
-	local md5sum old_md5sum
-	md5sum="$(md5sum "$CONFFILE" | sed -e 's/ .*//')"
-	old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
-		sed -n -e "\'^ $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
-	if [ "$md5sum" != "$old_md5sum" ]; then
-		mv -f "$CONFFILE" "$CONFFILE.dpkg-backup"
-	else
-		mv -f "$CONFFILE" "$CONFFILE.dpkg-remove"
-	fi
+  local md5sum old_md5sum
+  md5sum="$(md5sum "$DPKG_ROOT$CONFFILE" | sed -e 's/ .*//')"
+  old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
+    sed -n -e "\\'^ $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
+  if [ "$md5sum" != "$old_md5sum" ]; then
+    mv -f "$DPKG_ROOT$CONFFILE" "$DPKG_ROOT$CONFFILE.dpkg-backup"
+  else
+    mv -f "$DPKG_ROOT$CONFFILE" "$DPKG_ROOT$CONFFILE.dpkg-remove"
+  fi
 }
 
 finish_rm_conffile() {
-	local CONFFILE="$1"
+  local CONFFILE="$1"
 
-	if [ -e "$CONFFILE.dpkg-backup" ]; then
-		echo "Obsolete conffile $CONFFILE has been modified by you."
-		echo "Saving as $CONFFILE.dpkg-bak ..."
-		mv -f "$CONFFILE.dpkg-backup" "$CONFFILE.dpkg-bak"
-	fi
-	if [ -e "$CONFFILE.dpkg-remove" ]; then
-		echo "Removing obsolete conffile $CONFFILE ..."
-		rm -f "$CONFFILE.dpkg-remove"
-	fi
+  if [ -e "$DPKG_ROOT$CONFFILE.dpkg-backup" ]; then
+    echo "Obsolete conffile $DPKG_ROOT$CONFFILE has been modified by you."
+    echo "Saving as $DPKG_ROOT$CONFFILE.dpkg-bak ..."
+    mv -f "$DPKG_ROOT$CONFFILE.dpkg-backup" "$DPKG_ROOT$CONFFILE.dpkg-bak"
+  fi
+  if [ -e "$DPKG_ROOT$CONFFILE.dpkg-remove" ]; then
+    echo "Removing obsolete conffile $DPKG_ROOT$CONFFILE ..."
+    rm -f "$DPKG_ROOT$CONFFILE.dpkg-remove"
+  fi
 }
 
 abort_rm_conffile() {
-	local CONFFILE="$1"
-	local PACKAGE="$2"
+  local CONFFILE="$1"
+  local PACKAGE="$2"
 
-	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
+  ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
-	if [ -e "$CONFFILE.dpkg-remove" ]; then
-		echo "Reinstalling $CONFFILE that was moved away"
-		mv "$CONFFILE.dpkg-remove" "$CONFFILE"
-	fi
-	if [ -e "$CONFFILE.dpkg-backup" ]; then
-		echo "Reinstalling $CONFFILE that was backed-up"
-		mv "$CONFFILE.dpkg-backup" "$CONFFILE"
-	fi
+  if [ -e "$DPKG_ROOT$CONFFILE.dpkg-remove" ]; then
+    echo "Reinstalling $DPKG_ROOT$CONFFILE that was moved away"
+    mv "$DPKG_ROOT$CONFFILE.dpkg-remove" "$DPKG_ROOT$CONFFILE"
+  fi
+  if [ -e "$DPKG_ROOT$CONFFILE.dpkg-backup" ]; then
+    echo "Reinstalling $DPKG_ROOT$CONFFILE that was backed-up"
+    mv "$DPKG_ROOT$CONFFILE.dpkg-backup" "$DPKG_ROOT$CONFFILE"
+  fi
 }
 
 ##
 ## Functions to rename a conffile during upgrade
 ##
 mv_conffile() {
-	local OLDCONFFILE="$1"
-	local NEWCONFFILE="$2"
-	local LASTVERSION="$3"
-	local PACKAGE="$4"
-	if [ "$LASTVERSION" = "--" ]; then
-		LASTVERSION=""
-		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
-	fi
-	if [ "$PACKAGE" = "--" -o -z "$PACKAGE" ]; then
-		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
-	fi
-	# Skip remaining parameters up to --
-	while [ "$1" != "--" -a $# -gt 0 ]; do shift; done
-	[ $# -gt 0 ] || badusage "missing arguments after --"
-	shift
+  local OLDCONFFILE="$1"
+  local NEWCONFFILE="$2"
+  local LASTVERSION="$3"
+  local PACKAGE="$4"
 
-	[ -n "$PACKAGE" ] || error "couldn't identify the package"
-	[ -n "$1" ] || error "maintainer script parameters are missing"
-	[ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
-		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
-	[ "${OLDCONFFILE}" != "${OLDCONFFILE#/}" ] || \
-		error "old-conffile '$OLDCONFFILE' is not an absolute path"
-	[ "${NEWCONFFILE}" != "${NEWCONFFILE#/}" ] || \
-		error "new-conffile '$NEWCONFFILE' is not an absolute path"
-	validate_optional_version "$LASTVERSION"
+  if [ "$LASTVERSION" = "--" ]; then
+    LASTVERSION=""
+    PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
+  fi
+  if [ "$PACKAGE" = "--" -o -z "$PACKAGE" ]; then
+    PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
+  fi
+  # Skip remaining parameters up to --
+  while [ "$1" != "--" -a $# -gt 0 ]; do
+    shift
+  done
+  [ $# -gt 0 ] || badusage "missing arguments after --"
+  shift
 
-	debug "Executing $0 mv_conffile in $DPKG_MAINTSCRIPT_NAME" \
-	      "of $DPKG_MAINTSCRIPT_PACKAGE"
-	debug "CONFFILE=$OLDCONFFILE -> $NEWCONFFILE PACKAGE=$PACKAGE" \
-	      "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
-	case "$DPKG_MAINTSCRIPT_NAME" in
-	preinst)
-		if [ "$1" = "install" -o "$1" = "upgrade" ] && [ -n "$2" ] &&
-		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
-			prepare_mv_conffile "$OLDCONFFILE" "$PACKAGE"
-		fi
-		;;
-	postinst)
-		if [ "$1" = "configure" ] && [ -n "$2" ] &&
-		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
-			finish_mv_conffile "$OLDCONFFILE" "$NEWCONFFILE" "$PACKAGE"
-		fi
-		;;
-	postrm)
-		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
-		   [ -n "$2" ] &&
-		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
-			abort_mv_conffile "$OLDCONFFILE" "$PACKAGE"
-		fi
-		;;
-	*)
-		debug "$0 mv_conffile not required in $DPKG_MAINTSCRIPT_NAME"
-		;;
-	esac
+  [ -n "$PACKAGE" ] || error "couldn't identify the package"
+  [ -n "$1" ] || error "maintainer script parameters are missing"
+  [ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
+    error "environment variable DPKG_MAINTSCRIPT_NAME is required"
+  [ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || \
+    error "environment variable DPKG_MAINTSCRIPT_PACKAGE is required"
+  [ "${OLDCONFFILE}" != "${OLDCONFFILE#/}" ] || \
+    error "old-conffile '$OLDCONFFILE' is not an absolute path"
+  [ "${NEWCONFFILE}" != "${NEWCONFFILE#/}" ] || \
+    error "new-conffile '$NEWCONFFILE' is not an absolute path"
+  validate_optional_version "$LASTVERSION"
+
+  debug "Executing $0 mv_conffile in $DPKG_MAINTSCRIPT_NAME" \
+        "of $DPKG_MAINTSCRIPT_PACKAGE"
+  debug "CONFFILE=$OLDCONFFILE -> $NEWCONFFILE PACKAGE=$PACKAGE" \
+        "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
+  case "$DPKG_MAINTSCRIPT_NAME" in
+  preinst)
+    if [ "$1" = "install" -o "$1" = "upgrade" ] && [ -n "$2" ] &&
+       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+      prepare_mv_conffile "$OLDCONFFILE" "$PACKAGE"
+    fi
+    ;;
+  postinst)
+    if [ "$1" = "configure" ] && [ -n "$2" ] &&
+       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+      finish_mv_conffile "$OLDCONFFILE" "$NEWCONFFILE" "$PACKAGE"
+    fi
+    ;;
+  postrm)
+    if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
+       [ -n "$2" ] &&
+       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+      abort_mv_conffile "$OLDCONFFILE" "$PACKAGE"
+    fi
+    ;;
+  *)
+    debug "$0 mv_conffile not required in $DPKG_MAINTSCRIPT_NAME"
+    ;;
+  esac
 }
 
 prepare_mv_conffile() {
-	local CONFFILE="$1"
-	local PACKAGE="$2"
+  local CONFFILE="$1"
+  local PACKAGE="$2"
 
-	[ -e "$CONFFILE" ] || return 0
+  [ -e "$DPKG_ROOT$CONFFILE" ] || return 0
 
-	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
+  ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
-	local md5sum old_md5sum
-	md5sum="$(md5sum "$CONFFILE" | sed -e 's/ .*//')"
-	old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
-		sed -n -e "\'^ $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
-	if [ "$md5sum" = "$old_md5sum" ]; then
-		mv -f "$CONFFILE" "$CONFFILE.dpkg-remove"
-	fi
+  local md5sum old_md5sum
+  md5sum="$(md5sum "$DPKG_ROOT$CONFFILE" | sed -e 's/ .*//')"
+  old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
+    sed -n -e "\\'^ $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
+  if [ "$md5sum" = "$old_md5sum" ]; then
+    mv -f "$DPKG_ROOT$CONFFILE" "$DPKG_ROOT$CONFFILE.dpkg-remove"
+  fi
 }
 
 finish_mv_conffile() {
-	local OLDCONFFILE="$1"
-	local NEWCONFFILE="$2"
-	local PACKAGE="$3"
+  local OLDCONFFILE="$1"
+  local NEWCONFFILE="$2"
+  local PACKAGE="$3"
 
-	rm -f "$OLDCONFFILE.dpkg-remove"
+  rm -f "$DPKG_ROOT$OLDCONFFILE.dpkg-remove"
 
-	[ -e "$OLDCONFFILE" ] || return 0
-	ensure_package_owns_file "$PACKAGE" "$OLDCONFFILE" || return 0
+  [ -e "$DPKG_ROOT$OLDCONFFILE" ] || return 0
+  ensure_package_owns_file "$PACKAGE" "$OLDCONFFILE" || return 0
 
-	echo "Preserving user changes to $NEWCONFFILE (renamed from $OLDCONFFILE)..."
-	if [ -e "$NEWCONFFILE" ]; then
-		mv -f "$NEWCONFFILE" "$NEWCONFFILE.dpkg-new"
-	fi
-	mv -f "$OLDCONFFILE" "$NEWCONFFILE"
+  echo "Preserving user changes to $DPKG_ROOT$NEWCONFFILE (renamed from $DPKG_ROOT$OLDCONFFILE)..."
+  if [ -e "$DPKG_ROOT$NEWCONFFILE" ]; then
+    mv -f "$DPKG_ROOT$NEWCONFFILE" "$DPKG_ROOT$NEWCONFFILE.dpkg-new"
+  fi
+  mv -f "$DPKG_ROOT$OLDCONFFILE" "$DPKG_ROOT$NEWCONFFILE"
 }
 
 abort_mv_conffile() {
-	local CONFFILE="$1"
-	local PACKAGE="$2"
+  local CONFFILE="$1"
+  local PACKAGE="$2"
 
-	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
+  ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
-	if [ -e "$CONFFILE.dpkg-remove" ]; then
-		echo "Reinstalling $CONFFILE that was moved away"
-		mv "$CONFFILE.dpkg-remove" "$CONFFILE"
-	fi
+  if [ -e "$DPKG_ROOT$CONFFILE.dpkg-remove" ]; then
+    echo "Reinstalling $DPKG_ROOT$CONFFILE that was moved away"
+    mv "$DPKG_ROOT$CONFFILE.dpkg-remove" "$DPKG_ROOT$CONFFILE"
+  fi
 }
 
 ##
 ## Functions to replace a symlink with a directory
 ##
 symlink_to_dir() {
-	local SYMLINK="$1"
-	local SYMLINK_TARGET="$2"
-	local LASTVERSION="$3"
-	local PACKAGE="$4"
+  local SYMLINK="$1"
+  local SYMLINK_TARGET="$2"
+  local LASTVERSION="$3"
+  local PACKAGE="$4"
 
-	if [ "$LASTVERSION" = "--" ]; then
-		LASTVERSION=""
-		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
-	fi
-	if [ "$PACKAGE" = "--" -o -z "$PACKAGE" ]; then
-		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
-	fi
+  if [ "$LASTVERSION" = "--" ]; then
+    LASTVERSION=""
+    PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
+  fi
+  if [ "$PACKAGE" = "--" -o -z "$PACKAGE" ]; then
+    PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
+  fi
 
-	# Skip remaining parameters up to --
-	while [ "$1" != "--" -a $# -gt 0 ]; do shift; done
-	[ $# -gt 0 ] || badusage "missing arguments after --"
-	shift
+  # Skip remaining parameters up to --
+  while [ "$1" != "--" -a $# -gt 0 ]; do
+    shift
+  done
+  [ $# -gt 0 ] || badusage "missing arguments after --"
+  shift
 
-	[ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
-		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
-	[ -n "$PACKAGE" ] || error "cannot identify the package"
-	[ -n "$SYMLINK" ] || error "symlink parameter is missing"
-	[ "${SYMLINK#/}" = "$SYMLINK" ] && \
-		error "symlink pathname is not an absolute path"
-	[ "${SYMLINK%/}" = "$SYMLINK" ] || \
-		error "symlink pathname ends with a slash"
-	[ -n "$SYMLINK_TARGET" ] || error "original symlink target is missing"
-	[ -n "$1" ] || error "maintainer script parameters are missing"
-	validate_optional_version "$LASTVERSION"
+  [ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
+    error "environment variable DPKG_MAINTSCRIPT_NAME is required"
+  [ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || \
+    error "environment variable DPKG_MAINTSCRIPT_PACKAGE is required"
+  [ -n "$PACKAGE" ] || error "cannot identify the package"
+  [ -n "$SYMLINK" ] || error "symlink parameter is missing"
+  [ "${SYMLINK#/}" = "$SYMLINK" ] && \
+    error "symlink pathname is not an absolute path"
+  [ "${SYMLINK%/}" = "$SYMLINK" ] || \
+    error "symlink pathname ends with a slash"
+  [ -n "$SYMLINK_TARGET" ] || error "original symlink target is missing"
+  [ -n "$1" ] || error "maintainer script parameters are missing"
+  validate_optional_version "$LASTVERSION"
 
-	debug "Executing $0 symlink_to_dir in $DPKG_MAINTSCRIPT_NAME" \
-	      "of $DPKG_MAINTSCRIPT_PACKAGE"
-	debug "SYMLINK=$SYMLINK -> $SYMLINK_TARGET PACKAGE=$PACKAGE" \
-	      "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
+  debug "Executing $0 symlink_to_dir in $DPKG_MAINTSCRIPT_NAME" \
+        "of $DPKG_MAINTSCRIPT_PACKAGE"
+  debug "SYMLINK=$SYMLINK -> $SYMLINK_TARGET PACKAGE=$PACKAGE" \
+        "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
 
-	case "$DPKG_MAINTSCRIPT_NAME" in
-	preinst)
-		if [ "$1" = "install" -o "$1" = "upgrade" ] &&
-		   [ -n "$2" ] && [ -h "$SYMLINK" ] &&
-		   symlink_match "$SYMLINK" "$SYMLINK_TARGET" &&
-		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
-			mv -f "$SYMLINK" "${SYMLINK}.dpkg-backup"
-		fi
-		;;
-	postinst)
-		# We cannot bail depending on the version, as here we only
-		# know what was the last configured version, and we might
-		# have been unpacked, then upgraded with an unpack and thus
-		# never been configured before.
-		if [ "$1" = "configure" ] && [ -h "${SYMLINK}.dpkg-backup" ] &&
-		   symlink_match "${SYMLINK}.dpkg-backup" "$SYMLINK_TARGET"
-		then
-			rm -f "${SYMLINK}.dpkg-backup"
-		fi
-		;;
-	postrm)
-		if [ "$1" = "purge" ] && [ -h "${SYMLINK}.dpkg-backup" ]; then
-		    rm -f "${SYMLINK}.dpkg-backup"
-		fi
-		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
-		   [ -n "$2" ] &&
-		   [ ! -e "$SYMLINK" ] && [ -h "${SYMLINK}.dpkg-backup" ] &&
-		   symlink_match "${SYMLINK}.dpkg-backup" "$SYMLINK_TARGET" &&
-		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
-			echo "Restoring backup of $SYMLINK ..."
-			mv "${SYMLINK}.dpkg-backup" "$SYMLINK"
-		fi
-		;;
-	*)
-		debug "$0 symlink_to_dir not required in $DPKG_MAINTSCRIPT_NAME"
-		;;
-	esac
+  case "$DPKG_MAINTSCRIPT_NAME" in
+  preinst)
+    if [ "$1" = "install" -o "$1" = "upgrade" ] &&
+       [ -n "$2" ] && [ -h "$DPKG_ROOT$SYMLINK" ] &&
+       symlink_match "$SYMLINK" "$SYMLINK_TARGET" &&
+       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+      mv -f "$DPKG_ROOT$SYMLINK" "$DPKG_ROOT${SYMLINK}.dpkg-backup"
+    fi
+    ;;
+  postinst)
+    # We cannot bail depending on the version, as here we only
+    # know what was the last configured version, and we might
+    # have been unpacked, then upgraded with an unpack and thus
+    # never been configured before.
+    if [ "$1" = "configure" ] &&
+       [ -h "$DPKG_ROOT${SYMLINK}.dpkg-backup" ] &&
+       symlink_match "${SYMLINK}.dpkg-backup" "$SYMLINK_TARGET"
+    then
+      rm -f "$DPKG_ROOT${SYMLINK}.dpkg-backup"
+    fi
+    ;;
+  postrm)
+    if [ "$1" = "purge" ] && [ -h "$DPKG_ROOT${SYMLINK}.dpkg-backup" ]; then
+      rm -f "$DPKG_ROOT${SYMLINK}.dpkg-backup"
+    fi
+    if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
+       [ -n "$2" ] &&
+       [ ! -e "$DPKG_ROOT$SYMLINK" ] &&
+       [ -h "$DPKG_ROOT${SYMLINK}.dpkg-backup" ] &&
+       symlink_match "${SYMLINK}.dpkg-backup" "$SYMLINK_TARGET" &&
+       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+      echo "Restoring backup of $DPKG_ROOT$SYMLINK ..."
+      mv "$DPKG_ROOT${SYMLINK}.dpkg-backup" "$DPKG_ROOT$SYMLINK"
+    fi
+    ;;
+  *)
+    debug "$0 symlink_to_dir not required in $DPKG_MAINTSCRIPT_NAME"
+    ;;
+  esac
 }
 
 ##
 ## Functions to replace a directory with a symlink
 ##
 dir_to_symlink() {
-	local PATHNAME="${1%/}"
-	local SYMLINK_TARGET="$2"
-	local LASTVERSION="$3"
-	local PACKAGE="$4"
+  local PATHNAME="${1%/}"
+  local SYMLINK_TARGET="$2"
+  local LASTVERSION="$3"
+  local PACKAGE="$4"
 
-	if [ "$LASTVERSION" = "--" ]; then
-		LASTVERSION=""
-		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
-	fi
-	if [ "$PACKAGE" = "--" -o -z "$PACKAGE" ]; then
-		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
-	fi
+  if [ "$LASTVERSION" = "--" ]; then
+    LASTVERSION=""
+    PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
+  fi
+  if [ "$PACKAGE" = "--" -o -z "$PACKAGE" ]; then
+    PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
+  fi
 
-	# Skip remaining parameters up to --
-	while [ "$1" != "--" -a $# -gt 0 ]; do shift; done
-	[ $# -gt 0 ] || badusage "missing arguments after --"
-	shift
+  # Skip remaining parameters up to --
+  while [ "$1" != "--" -a $# -gt 0 ]; do
+    shift
+  done
+  [ $# -gt 0 ] || badusage "missing arguments after --"
+  shift
 
-	[ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
-		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
-	[ -n "$PACKAGE" ] || error "cannot identify the package"
-	[ -n "$PATHNAME" ] || error "directory parameter is missing"
-	[ "${PATHNAME#/}" = "$PATHNAME" ] && \
-		error "directory parameter is not an absolute path"
-	[ -n "$SYMLINK_TARGET" ] || error "new symlink target is missing"
-	[ -n "$1" ] || error "maintainer script parameters are missing"
-	validate_optional_version "$LASTVERSION"
+  [ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
+    error "environment variable DPKG_MAINTSCRIPT_NAME is required"
+  [ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || \
+    error "environment variable DPKG_MAINTSCRIPT_PACKAGE is required"
+  [ -n "$PACKAGE" ] || error "cannot identify the package"
+  [ -n "$PATHNAME" ] || error "directory parameter is missing"
+  [ "${PATHNAME#/}" = "$PATHNAME" ] && \
+    error "directory parameter is not an absolute path"
+  [ -n "$SYMLINK_TARGET" ] || error "new symlink target is missing"
+  [ -n "$1" ] || error "maintainer script parameters are missing"
+  validate_optional_version "$LASTVERSION"
 
-	debug "Executing $0 dir_to_symlink in $DPKG_MAINTSCRIPT_NAME" \
-	      "of $DPKG_MAINTSCRIPT_PACKAGE"
-	debug "PATHNAME=$PATHNAME SYMLINK_TARGET=$SYMLINK_TARGET" \
-	      "PACKAGE=$PACKAGE LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
+  debug "Executing $0 dir_to_symlink in $DPKG_MAINTSCRIPT_NAME" \
+        "of $DPKG_MAINTSCRIPT_PACKAGE"
+  debug "PATHNAME=$PATHNAME SYMLINK_TARGET=$SYMLINK_TARGET" \
+        "PACKAGE=$PACKAGE LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
 
-	case "$DPKG_MAINTSCRIPT_NAME" in
-	preinst)
-		if [ "$1" = "install" -o "$1" = "upgrade" ] &&
-		   [ -n "$2" ] &&
-		   [ ! -h "$PATHNAME" ] && [ -d "$PATHNAME" ] &&
-		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
-			prepare_dir_to_symlink "$PACKAGE" "$PATHNAME"
-		fi
-		;;
-	postinst)
-		# We cannot bail depending on the version, as here we only
-		# know what was the last configured version, and we might
-		# have been unpacked, then upgraded with an unpack and thus
-		# never been configured before.
-		if [ "$1" = "configure" ] &&
-		   [ -d "${PATHNAME}.dpkg-backup" ] &&
-		   [ ! -h "$PATHNAME" ] && [ -d "$PATHNAME" ] &&
-		   [ -f "$PATHNAME/.dpkg-staging-dir" ]; then
-			finish_dir_to_symlink "$PATHNAME" "$SYMLINK_TARGET"
-		fi
-		;;
-	postrm)
-		if [ "$1" = "purge" ] && [ -d "${PATHNAME}.dpkg-backup" ]; then
-		    rm -rf "${PATHNAME}.dpkg-backup"
-		fi
-		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
-		   [ -n "$2" ] &&
-		   [ -d "${PATHNAME}.dpkg-backup" ] &&
-		   [ \( ! -h "$PATHNAME" -a -d "$PATHNAME" -a \
-		        -f "$PATHNAME/.dpkg-staging-dir" \) -o \
-		     \( -h "$PATHNAME" -a \
-		        \( "$(readlink "$PATHNAME")" = "$SYMLINK_TARGET" -o \
-		           "$(readlink -f "$PATHNAME")" = "$SYMLINK_TARGET" \) \) ] &&
-		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
-			abort_dir_to_symlink "$PATHNAME"
-		fi
-		;;
-	*)
-		debug "$0 dir_to_symlink not required in $DPKG_MAINTSCRIPT_NAME"
-		;;
-	esac
+  case "$DPKG_MAINTSCRIPT_NAME" in
+  preinst)
+    if [ "$1" = "install" -o "$1" = "upgrade" ] &&
+       [ -n "$2" ] &&
+       [ ! -h "$DPKG_ROOT$PATHNAME" ] &&
+       [ -d "$DPKG_ROOT$PATHNAME" ] &&
+       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+      prepare_dir_to_symlink "$PACKAGE" "$PATHNAME"
+    fi
+    ;;
+  postinst)
+    # We cannot bail depending on the version, as here we only
+    # know what was the last configured version, and we might
+    # have been unpacked, then upgraded with an unpack and thus
+    # never been configured before.
+    if [ "$1" = "configure" ] &&
+       [ -d "$DPKG_ROOT${PATHNAME}.dpkg-backup" ] &&
+       [ ! -h "$DPKG_ROOT$PATHNAME" ] &&
+       [ -d "$DPKG_ROOT$PATHNAME" ] &&
+       [ -f "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir" ]; then
+      finish_dir_to_symlink "$PATHNAME" "$SYMLINK_TARGET"
+    fi
+    ;;
+  postrm)
+    if [ "$1" = "purge" ] &&
+       [ -d "$DPKG_ROOT${PATHNAME}.dpkg-backup" ]; then
+      rm -rf "$DPKG_ROOT${PATHNAME}.dpkg-backup"
+    fi
+    if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
+       [ -n "$2" ] &&
+       [ -d "$DPKG_ROOT${PATHNAME}.dpkg-backup" ] &&
+       [ \( ! -h "$DPKG_ROOT$PATHNAME" -a \
+            -d "$DPKG_ROOT$PATHNAME" -a \
+            -f "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir" \) -o \
+         \( -h "$DPKG_ROOT$PATHNAME" -a \
+            \( "$(readlink "$DPKG_ROOT$PATHNAME")" = "$SYMLINK_TARGET" -o \
+               "$(dpkg-realpath "$PATHNAME")" = "$SYMLINK_TARGET" \) \) ] &&
+       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+      abort_dir_to_symlink "$PATHNAME"
+    fi
+    ;;
+  *)
+    debug "$0 dir_to_symlink not required in $DPKG_MAINTSCRIPT_NAME"
+    ;;
+  esac
 }
 
 prepare_dir_to_symlink()
 {
-	local PACKAGE="$1"
-	local PATHNAME="$2"
+  local PACKAGE="$1"
+  local PATHNAME="$2"
 
-	local LINE
-	# If there are conffiles we should not perform the switch.
-	dpkg-query -W -f='${Conffiles}\n' "$PACKAGE" | while read -r LINE; do
-		case "$LINE" in
-		"$PATHNAME"/*)
-			error "directory '$PATHNAME' contains conffiles," \
-			      "cannot switch to symlink"
-			;;
-		esac
-	done
+  local LINE
+  # If there are conffiles we should not perform the switch.
+  dpkg-query -W -f='${Conffiles}\n' "$PACKAGE" | while read -r LINE; do
+    case "$LINE" in
+    "$PATHNAME"/*)
+      error "directory '$PATHNAME' contains conffiles," \
+            "cannot switch to symlink"
+      ;;
+    esac
+  done
 
-	# If there are locally created files or files owned by another package
-	# we should not perform the switch.
-	export DPKG_MAINTSCRIPT_HELPER_INTERNAL_API="$version"
-	find "$PATHNAME" -print0 | \
-		xargs -0 -n1 $0 _internal_pkg_must_own_file "$PACKAGE" || \
-		error "directory '$PATHNAME' contains files not owned by" \
-		      "package $PACKAGE, cannot switch to symlink"
-	unset DPKG_MAINTSCRIPT_HELPER_INTERNAL_API
+  # If there are locally created files or files owned by another package
+  # we should not perform the switch.
+  export DPKG_MAINTSCRIPT_HELPER_INTERNAL_API="$version"
+  find "$DPKG_ROOT$PATHNAME" -print0 | \
+    xargs -0 -n1 "$0" _internal_pkg_must_own_file "$PACKAGE" || \
+    error "directory '$PATHNAME' contains files not owned by" \
+          "package $PACKAGE, cannot switch to symlink"
+  unset DPKG_MAINTSCRIPT_HELPER_INTERNAL_API
 
-	# At this point, we know that the directory either contains no files,
-	# or only non-conffiles owned by the package.
-	#
-	# To do the switch we cannot simply replace it with the final symlink
-	# just yet, because dpkg needs to remove any file present in the old
-	# package that have disappeared in the new one, and we do not want to
-	# lose files resolving to the same pathname in the symlink target.
-	#
-	# We cannot replace the directory with a staging symlink either,
-	# because dpkg will update symlinks to their new target.
-	#
-	# So we need to create a staging directory, to avoid removing files
-	# from other packages, and to trap any new files in the directory
-	# to move them to their correct place later on.
-	mv -f "$PATHNAME" "${PATHNAME}.dpkg-backup"
-	mkdir "$PATHNAME"
+  # At this point, we know that the directory either contains no files,
+  # or only non-conffiles owned by the package.
+  #
+  # To do the switch we cannot simply replace it with the final symlink
+  # just yet, because dpkg needs to remove any file present in the old
+  # package that have disappeared in the new one, and we do not want to
+  # lose files resolving to the same pathname in the symlink target.
+  #
+  # We cannot replace the directory with a staging symlink either,
+  # because dpkg will update symlinks to their new target.
+  #
+  # So we need to create a staging directory, to avoid removing files
+  # from other packages, and to trap any new files in the directory
+  # to move them to their correct place later on.
+  mv -f "$DPKG_ROOT$PATHNAME" "$DPKG_ROOT${PATHNAME}.dpkg-backup"
+  mkdir "$DPKG_ROOT$PATHNAME"
 
-	# Mark it as a staging directory, so that we can track things.
-	touch "$PATHNAME/.dpkg-staging-dir"
+  # Mark it as a staging directory, so that we can track things.
+  touch "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir"
 }
 
 finish_dir_to_symlink()
 {
-	local PATHNAME="$1"
-	local SYMLINK_TARGET="$2"
+  local PATHNAME="$1"
+  local SYMLINK_TARGET="$2"
 
-	# Move the contents of the staging directory to the symlink target,
-	# as those are all new files installed between this package being
-	# unpacked and configured.
-	local ABS_SYMLINK_TARGET
-	if [ "${SYMLINK_TARGET#/}" = "$SYMLINK_TARGET" ]; then
-		ABS_SYMLINK_TARGET="$(dirname "$PATHNAME")/$SYMLINK_TARGET"
-	else
-		ABS_SYMLINK_TARGET="$SYMLINK_TARGET"
-	fi
-	rm "$PATHNAME/.dpkg-staging-dir"
-	find "$PATHNAME" -mindepth 1 -print0 | \
-		xargs -0 -i% mv -f "%" "$ABS_SYMLINK_TARGET/"
+  # Move the contents of the staging directory to the symlink target,
+  # as those are all new files installed between this package being
+  # unpacked and configured.
+  local ABS_SYMLINK_TARGET
+  if [ "${SYMLINK_TARGET#/}" = "$SYMLINK_TARGET" ]; then
+    ABS_SYMLINK_TARGET="$(dirname "$PATHNAME")/$SYMLINK_TARGET"
+  else
+    ABS_SYMLINK_TARGET="$SYMLINK_TARGET"
+  fi
+  rm "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir"
+  find "$DPKG_ROOT$PATHNAME" -mindepth 1 -maxdepth 1 -print0 | \
+    xargs -0 -i% mv -f "%" "$DPKG_ROOT$ABS_SYMLINK_TARGET/"
 
-	# Remove the staging directory.
-	rmdir "$PATHNAME"
+  # Remove the staging directory.
+  rmdir "$DPKG_ROOT$PATHNAME"
 
-	# Do the actual switch.
-	ln -s "$SYMLINK_TARGET" "$PATHNAME"
+  # Do the actual switch.
+  ln -s "$SYMLINK_TARGET" "$DPKG_ROOT$PATHNAME"
 
-	# We are left behind the old files owned by this package in the backup
-	# directory, just remove it.
-	rm -rf "${PATHNAME}.dpkg-backup"
+  # We are left behind the old files owned by this package in the backup
+  # directory, just remove it.
+  rm -rf "$DPKG_ROOT${PATHNAME}.dpkg-backup"
 }
 
 abort_dir_to_symlink()
 {
-	local PATHNAME="$1"
+  local PATHNAME="$1"
 
-	echo "Restoring backup of $PATHNAME ..."
-	if [ -h "$PATHNAME" ]; then
-		rm -f "$PATHNAME"
-	else
-		# The staging directory must be empty, as no other package
-		# should have been unpacked in between.
-		rm -f "$PATHNAME/.dpkg-staging-dir"
-		rmdir "$PATHNAME"
-	fi
+  echo "Restoring backup of $DPKG_ROOT$PATHNAME ..."
+  if [ -h "$DPKG_ROOT$PATHNAME" ]; then
+    rm -f "$DPKG_ROOT$PATHNAME"
+  else
+    # The staging directory must be empty, as no other package
+    # should have been unpacked in between.
+    rm -f "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir"
+    rmdir "$DPKG_ROOT$PATHNAME"
+  fi
 
-	mv "${PATHNAME}.dpkg-backup" "$PATHNAME"
+  mv "$DPKG_ROOT${PATHNAME}.dpkg-backup" "$DPKG_ROOT$PATHNAME"
 }
 
 # Common functions
 validate_optional_version() {
-	local VERSION="$1"
+  local VERSION="$1"
 
-	if [ -z "$VERSION" ]; then
-		return
-	fi
+  if [ -z "$VERSION" ]; then
+    return
+  fi
 
-	if ! VERSIONCHECK=$(dpkg --validate-version -- "$VERSION" 2>&1); then
-		error "$VERSIONCHECK"
-	fi
+  if ! VERSIONCHECK=$(dpkg --validate-version -- "$VERSION" 2>&1); then
+    error "$VERSIONCHECK"
+  fi
 }
 
 ensure_package_owns_file() {
-	local PACKAGE="$1"
-	local FILE="$2"
+  local PACKAGE="$1"
+  local FILE="$2"
 
-	if ! dpkg-query -L "$PACKAGE" | grep -F -q -x "$FILE"; then
-		debug "File '$FILE' not owned by package " \
-		      "'$PACKAGE', skipping $command"
-		return 1
-	fi
-	return 0
+  if ! dpkg-query -L "$PACKAGE" | grep -F -q -x "$FILE"; then
+    debug "File '$FILE' not owned by package " \
+          "'$PACKAGE', skipping $command"
+    return 1
+  fi
+  return 0
 }
 
 internal_pkg_must_own_file()
 {
-	local PACKAGE="$1"
-	local FILE="$2"
+  local PACKAGE="$1"
+  local FILE="${2##$DPKG_ROOT}"
 
-	if [ "$DPKG_MAINTSCRIPT_HELPER_INTERNAL_API" != "$version" ]; then
-		error "internal API used by external command"
-	fi
+  if [ "$DPKG_MAINTSCRIPT_HELPER_INTERNAL_API" != "$version" ]; then
+    error "internal API used by external command"
+  fi
 
-	if ! ensure_package_owns_file "$PACKAGE" "$FILE"; then
-		error "file '$FILE' not owned by package '$PACKAGE'"
-	fi
-	return 0
+  if ! ensure_package_owns_file "$PACKAGE" "$FILE"; then
+    error "file '$FILE' not owned by package '$PACKAGE'"
+  fi
+  return 0
 }
 
 symlink_match()
 {
-	local SYMLINK="$1"
-	local SYMLINK_TARGET="$2"
+  local SYMLINK="$1"
+  local SYMLINK_TARGET="$2"
 
-	[ "$(readlink "$SYMLINK")" = "$SYMLINK_TARGET" ] || \
-	[ "$(readlink -f "$SYMLINK")" = "$SYMLINK_TARGET" ]
-}
-
-debug() {
-	if [ -n "$DPKG_DEBUG" ]; then
-		echo "DEBUG: $PROGNAME: $*" >&2
-	fi
-}
-
-error() {
-	echo "$PROGNAME: error: $*" >&2
-	exit 1
-}
-
-warning() {
-	echo "$PROGNAME: warning: $*" >&2
+  [ "$(readlink "$DPKG_ROOT$SYMLINK")" = "$SYMLINK_TARGET" ] || \
+  [ "$(dpkg-realpath "$SYMLINK")" = "$SYMLINK_TARGET" ]
 }
 
 usage() {
-	cat <<END
+  cat <<END
 Usage: $PROGNAME <command> <parameter>... -- <maintainer-script-parameter>...
 
 Commands:
   supports <command>
-	Returns 0 (success) if the given command is supported, 1 otherwise.
+        Returns 0 (success) if the given command is supported, 1 otherwise.
   rm_conffile <conffile> [<last-version> [<package>]]
-	Remove obsolete conffile. Must be called in preinst, postinst and
-	postrm.
+        Remove obsolete conffile. Must be called in preinst, postinst and
+        postrm.
   mv_conffile <old-conf> <new-conf> [<last-version> [<package>]]
-	Rename a conffile. Must be called in preinst, postinst and postrm.
+        Rename a conffile. Must be called in preinst, postinst and postrm.
   symlink_to_dir <pathname> <old-symlink-target> [<last-version> [<package>]]
-	Replace a symlink with a directory. Must be called in preinst,
-	postinst and postrm.
+        Replace a symlink with a directory. Must be called in preinst,
+        postinst and postrm.
   dir_to_symlink <pathname> <new-symlink-target> [<last-version> [<package>]]
-	Replace a directory with a symlink. Must be called in preinst,
-	postinst and postrm.
+        Replace a directory with a symlink. Must be called in preinst,
+        postinst and postrm.
   help
-	Display this usage information.
+  -?, --help
+        Show this help message.
+      --version
+        Show the version.
 END
-}
-
-badusage() {
-	echo "$PROGNAME: error: $1" >&2
-	echo >&2
-	echo "Use '$PROGNAME help' for program usage information." >&2
-	exit 1
 }
 
 # Main code
@@ -587,59 +593,73 @@ set -e
 
 PROGNAME=$(basename "$0")
 version="unknown"
+DPKG_ROOT=${DPKG_ROOT:+$(realpath "$DPKG_ROOT")}
+# Remove default root dir.
+if [ "$DPKG_ROOT" = "/" ]; then
+  DPKG_ROOT=""
+fi
+export DPKG_ROOT
+
+PKGDATADIR_DEFAULT=scripts
+PKGDATADIR="${DPKG_DATADIR:-$PKGDATADIR_DEFAULT}"
+
+. "$PKGDATADIR/sh/dpkg-error.sh"
+
+setup_colors
+
 command="$1"
 [ $# -gt 0 ] || badusage "missing command"
 shift
 
 case "$command" in
 supports)
-	case "$1" in
-	rm_conffile|mv_conffile|symlink_to_dir|dir_to_symlink)
-		code=0
-		;;
-	*)
-		code=1
-		;;
-	esac
-	if [ -z "$DPKG_MAINTSCRIPT_NAME" ]; then
-		warning "environment variable DPKG_MAINTSCRIPT_NAME missing"
-		code=1
-	fi
-	if [ -z "$DPKG_MAINTSCRIPT_PACKAGE" ]; then
-		warning "environment variable DPKG_MAINTSCRIPT_PACKAGE missing"
-		code=1
-	fi
-	exit $code
-	;;
+  case "$1" in
+  rm_conffile|mv_conffile|symlink_to_dir|dir_to_symlink)
+    code=0
+    ;;
+  *)
+    code=1
+    ;;
+  esac
+  if [ -z "$DPKG_MAINTSCRIPT_NAME" ]; then
+    warning "environment variable DPKG_MAINTSCRIPT_NAME missing"
+    code=1
+  fi
+  if [ -z "$DPKG_MAINTSCRIPT_PACKAGE" ]; then
+    warning "environment variable DPKG_MAINTSCRIPT_PACKAGE missing"
+    code=1
+  fi
+  exit $code
+  ;;
 rm_conffile)
-	rm_conffile "$@"
-	;;
+  rm_conffile "$@"
+  ;;
 mv_conffile)
-	mv_conffile "$@"
-	;;
+  mv_conffile "$@"
+  ;;
 symlink_to_dir)
-	symlink_to_dir "$@"
-	;;
+  symlink_to_dir "$@"
+  ;;
 dir_to_symlink)
-	dir_to_symlink "$@"
-	;;
+  dir_to_symlink "$@"
+  ;;
 _internal_pkg_must_own_file)
-	# This is an internal command, must not be used outside this program.
-	internal_pkg_must_own_file "$@"
-	;;
+  # This is an internal command, must not be used outside this program.
+  internal_pkg_must_own_file "$@"
+  ;;
 --help|help|-?)
-	usage
-	;;
+  usage
+  ;;
 --version)
-	cat <<-END
-	Debian $PROGNAME version $version.
+  cat <<END
+Debian $PROGNAME version $version.
 
-	This is free software; see the GNU General Public License version 2 or
-	later for copying conditions. There is NO warranty.
-	END
-	;;
+This is free software; see the GNU General Public License version 2 or
+later for copying conditions. There is NO warranty.
+END
+  ;;
 *)
-	badusage "command $command is unknown
+  badusage "command $command is unknown
 Hint: upgrading dpkg to a newer version might help."
 esac
 

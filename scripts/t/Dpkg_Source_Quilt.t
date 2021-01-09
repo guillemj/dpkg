@@ -23,7 +23,7 @@ BEGIN {
     use_ok('Dpkg::Source::Quilt');
 }
 
-my $datadir = test_get_data_path('t/Dpkg_Source_Quilt');
+my $datadir = test_get_data_path();
 
 my $quilt;
 my (@series_got, @series_exp);

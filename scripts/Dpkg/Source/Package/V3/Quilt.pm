@@ -28,7 +28,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Version;
 use Dpkg::Source::Patch;
-use Dpkg::Source::Functions qw(erasedir fs_time);
+use Dpkg::Source::Functions qw(erasedir chmod_if_needed fs_time);
 use Dpkg::Source::Quilt;
 use Dpkg::Exit;
 
@@ -142,6 +142,8 @@ sub apply_patches {
 
     return unless scalar($quilt->series());
 
+    info(g_('using patch list from %s'), "debian/patches/$basename");
+
     if ($opts{usage} eq 'preparation' and
         $self->{options}{unapply_patches} eq 'auto') {
         # We're applying the patches in --before-build, remember to unapply
@@ -249,7 +251,7 @@ sub register_patch {
     if (-s $tmpdiff) {
         copy($tmpdiff, $patch)
             or syserr(g_('failed to copy %s to %s'), $tmpdiff, $patch);
-        chmod(0666 & ~ umask(), $patch)
+        chmod_if_needed(0666 & ~ umask(), $patch)
             or syserr(g_("unable to change permission of '%s'"), $patch);
     } elsif (-e $patch) {
         unlink($patch) or syserr(g_('cannot remove %s'), $patch);

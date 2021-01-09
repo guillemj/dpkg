@@ -23,7 +23,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <limits.h>
 #include <string.h>
 #include <stdbool.h>
@@ -59,7 +58,8 @@ dpkg_arch_name_is_illegal(const char *name)
 	static char buf[150];
 	const char *p = name;
 
-	assert(name);
+	if (p == NULL)
+		internerr("arch name argument is NULL");
 	if (!*p)
 		return _("may not be empty string");
 	if (!c_isalnum(*p))
@@ -124,10 +124,11 @@ dpkg_arch_new(const char *name, enum dpkg_arch_type type)
 /**
  * Retrieve the struct dpkg_arch for the given architecture.
  *
- * Create a new structure for the architecture if it's not yet known from
- * the system, in that case it will have arch->type == arch_unknown, if the
- * architecture is illegal it will have arch->type == arch_illegal and if
- * name is NULL or an empty string then it will have arch->type == arch_none.
+ * Create a new structure for the architecture if it is not yet known from
+ * the system, in that case it will have type == DPKG_ARCH_UNKNOWN, if the
+ * architecture is illegal it will have type == DPKG_ARCH_ILLEGAL, if name
+ * is an empty string it will have type == DPKG_ARCH_EMPTY, and if it is
+ * NULL then it will have type == DPKG_ARCH_NONE.
  *
  * @param name The architecture name.
  */
@@ -316,7 +317,7 @@ dpkg_arch_save_list(void)
 		return;
 
 	archfile = dpkg_db_get_path(DPKG_DB_ARCH_FILE);
-	file = atomic_file_new(archfile, 0);
+	file = atomic_file_new(archfile, ATOMIC_FILE_MKPATH);
 	atomic_file_open(file);
 
 	for (arch = arch_head; arch; arch = arch->next) {

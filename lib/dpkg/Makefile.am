@@ -53,6 +53,13 @@ libdpkg_la_SOURCES = \
 	compress.c \
 	dbdir.c \
 	dbmodify.c \
+	db-ctrl-access.c \
+	db-ctrl-format.c \
+	db-ctrl-upgrade.c \
+	db-fsys-digest.c \
+	db-fsys-divert.c \
+	db-fsys-files.c \
+	db-fsys-override.c \
 	deb-version.c \
 	debug.c \
 	depcon.c \
@@ -63,6 +70,9 @@ libdpkg_la_SOURCES = \
 	fdio.c \
 	file.c \
 	fields.c \
+	fsys-dir.c\
+	fsys-iter.c \
+	fsys-hash.c \
 	glob.c \
 	i18n.c i18n.h \
 	log.c \
@@ -71,14 +81,17 @@ libdpkg_la_SOURCES = \
 	nfmalloc.c \
 	options.c \
 	options-parsers.c \
+	pager.c \
 	parse.c \
 	parsehelp.c \
 	path.c \
 	path-remove.c \
+	perf.h \
 	pkg.c \
-	pkg-db.c \
 	pkg-array.c \
+	pkg-files.c \
 	pkg-format.c \
+	pkg-hash.c \
 	pkg-list.c \
 	pkg-namevalue.c \
 	pkg-queue.c \
@@ -112,6 +125,8 @@ pkginclude_HEADERS = \
 	color.h \
 	command.h \
 	compress.h \
+	db-ctrl.h \
+	db-fsys.h \
 	deb-version.h \
 	debug.h \
 	dir.h \
@@ -121,14 +136,17 @@ pkginclude_HEADERS = \
 	error.h \
 	fdio.h \
 	file.h \
+	fsys.h \
 	glob.h \
 	macros.h \
 	namevalue.h \
 	options.h \
+	pager.h \
 	parsedump.h \
 	path.h \
 	pkg.h \
 	pkg-array.h \
+	pkg-files.h \
 	pkg-format.h \
 	pkg-list.h \
 	pkg-queue.h \

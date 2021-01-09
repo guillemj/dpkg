@@ -28,7 +28,6 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <time.h>
@@ -52,11 +51,11 @@
 #include <dpkg/dir.h>
 #include <dpkg/tarfn.h>
 #include <dpkg/options.h>
+#include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 #include <dpkg/triglib.h>
 
-#include "filesdb.h"
 #include "file-match.h"
-#include "infodb.h"
 #include "main.h"
 #include "archives.h"
 
@@ -95,7 +94,7 @@ deb_reassemble(const char **filename, const char **pfilename)
   if (unlink(reasmbuf) && errno != ENOENT)
     ohshite(_("error ensuring '%.250s' doesn't exist"), reasmbuf);
 
-  push_cleanup(cu_pathname, ~0, NULL, 0, 1, (void *)reasmbuf);
+  push_cleanup(cu_pathname, ~0, 1, (void *)reasmbuf);
 
   pid = subproc_fork();
   if (!pid) {
@@ -148,7 +147,7 @@ deb_verify(const char *filename)
 
     status = subproc_reap(pid, "debsig-verify", SUBPROC_NOCHECK);
     if (!(WIFEXITED(status) && WEXITSTATUS(status) == 0)) {
-      if (!fc_badverify)
+      if (!in_force(FORCE_BAD_VERIFY))
         ohshit(_("verification on package %s failed!"), filename);
       else
         notice(_("verification on package %s failed; "
@@ -208,6 +207,7 @@ pkg_check_depcon(struct pkginfo *pkg, const char *pfilename)
 
   /* Check if anything is installed that we conflict with, or not installed
    * that we need. */
+  ensure_package_clientdata(pkg);
   pkg->clientdata->istobe = PKG_ISTOBE_INSTALLNEW;
 
   for (dsearch = pkg->available.depends; dsearch; dsearch = dsearch->next) {
@@ -291,9 +291,9 @@ pkg_deconfigure_others(struct pkginfo *pkg)
     /* This means that we *either* go and run postinst abort-deconfigure,
      * *or* queue the package for later configure processing, depending
      * on which error cleanup route gets taken. */
-    push_cleanup(cu_prermdeconfigure, ~ehflag_normaltidy,
-                 ok_prermdeconfigure, ehflag_normaltidy,
-                 3, (void *)deconpil->pkg, (void *)removing, (void *)pkg);
+    push_cleanup_fallback(cu_prermdeconfigure, ~ehflag_normaltidy,
+                          ok_prermdeconfigure, ehflag_normaltidy,
+                          3, (void *)deconpil->pkg, (void *)removing, (void *)pkg);
 
     if (removing) {
       maintscript_installed(deconpil->pkg, PRERMFILE, "pre-removal",
@@ -322,7 +322,7 @@ pkg_deconfigure_others(struct pkginfo *pkg)
  */
 static void
 deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
-                    struct filenamenode_queue *newconffiles)
+                    struct fsys_namenode_queue *newconffiles)
 {
   FILE *conff;
   char conffilenamebuf[MAXCONFFILENAME];
@@ -334,30 +334,60 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
     ohshite(_("error trying to open %.250s"), control_conffiles);
   }
 
-  push_cleanup(cu_closestream, ehflag_bombout, NULL, 0, 1, conff);
+  push_cleanup(cu_closestream, ehflag_bombout, 1, conff);
 
   while (fgets(conffilenamebuf, MAXCONFFILENAME - 2, conff)) {
     struct pkginfo *otherpkg;
-    struct filepackages_iterator *iter;
-    struct filenamenode *namenode;
-    struct fileinlist *newconff;
+    struct fsys_node_pkgs_iter *iter;
+    struct fsys_namenode *namenode;
+    struct fsys_namenode_list *newconff;
     struct conffile *searchconff;
+    char *conffilename = conffilenamebuf;
     char *p;
+    enum fsys_namenode_flags confflags = FNNF_NEW_CONFF;
 
-    p = conffilenamebuf + strlen(conffilenamebuf);
-    assert(p != conffilenamebuf);
+    p = conffilename + strlen(conffilename);
+    if (p == conffilename)
+      ohshit(_("conffile file contains an empty line"));
     if (p[-1] != '\n')
       ohshit(_("conffile name '%s' is too long, or missing final newline"),
-             conffilenamebuf);
-    while (p > conffilenamebuf && c_isspace(p[-1]))
-      --p;
-    if (p == conffilenamebuf)
+             conffilename);
+    p = str_rtrim_spaces(conffilename, p);
+    if (p == conffilename)
       continue;
-    *p = '\0';
 
-    namenode = findnamenode(conffilenamebuf, 0);
+    /* Check for conffile flags. */
+    if (conffilename[0] != '/') {
+      char *flag = conffilename;
+      char *flag_end = strchr(flag, ' ');
+
+      if (flag_end)
+        conffilename = flag_end + 1;
+
+      /* If no flag separator is found, assume a missing leading slash. */
+      if (flag_end == NULL || (conffilename[0] && conffilename[0] != '/'))
+        ohshit(_("conffile name '%s' is not an absolute pathname"), conffilename);
+
+      flag_end[0] = '\0';
+
+      /* Otherwise assume a missing filename after the flag separator. */
+      if (conffilename[0] == '\0')
+        ohshit(_("conffile name missing after flag '%s'"), flag);
+
+      if (strcmp(flag, "remove-on-upgrade") == 0) {
+        confflags |= FNNF_RM_CONFF_ON_UPGRADE;
+        confflags &= ~FNNF_NEW_CONFF;
+      } else {
+        if (c_isspace(flag[0]))
+          warning(_("line with conffile filename '%s' has leading white spaces"),
+                  conffilename);
+        ohshit(_("unknown flag '%s' for conffile '%s'"), flag, conffilename);
+      }
+    }
+
+    namenode = fsys_hash_find_node(conffilename, 0);
     namenode->oldhash = NEWCONFFILEFLAG;
-    newconff = tar_filenamenode_queue_push(newconffiles, namenode);
+    newconff = tar_fsys_namenode_queue_push(newconffiles, namenode);
 
     /*
      * Let's see if any packages have this file.
@@ -376,8 +406,8 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
      */
     searchconff = NULL;
 
-    iter = filepackages_iter_new(newconff->namenode);
-    while ((otherpkg = filepackages_iter_next(iter))) {
+    iter = fsys_node_pkgs_iter_new(newconff->namenode);
+    while ((otherpkg = fsys_node_pkgs_iter_next(iter))) {
       debug(dbg_conffdetail,
             "process_archive conffile '%s' in package %s - conff ?",
             newconff->namenode->name, pkg_name(otherpkg, pnaw_always));
@@ -398,7 +428,7 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
           break;
       }
     }
-    filepackages_iter_free(iter);
+    fsys_node_pkgs_iter_free(iter);
 
     if (searchconff) {
       /* We don't copy ‘obsolete’; it's not obsolete in the new package. */
@@ -407,7 +437,7 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
       debug(dbg_conff, "process_archive conffile '%s' no package, no hash",
             newconff->namenode->name);
     }
-    newconff->namenode->flags |= fnnf_new_conff;
+    newconff->namenode->flags |= confflags;
   }
 
   if (ferror(conff))
@@ -494,7 +524,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
   dsd = opendir(cidir);
   if (!dsd)
     ohshite(_("unable to open temp control directory"));
-  push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
+  push_cleanup(cu_closedir, ~0, 1, (void *)dsd);
   while ((de = readdir(dsd))) {
     const char *newinfofilename;
 
@@ -555,20 +585,21 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 
 static void
 pkg_remove_old_files(struct pkginfo *pkg,
-                     struct filenamenode_queue *newfiles_queue,
-                     struct filenamenode_queue *newconffiles)
+                     struct fsys_namenode_queue *newfiles_queue,
+                     struct fsys_namenode_queue *newconffiles)
 {
-  struct reversefilelistiter rev_iter;
-  struct filenamenode *namenode;
+  struct fsys_hash_rev_iter rev_iter;
+  struct fsys_namenode *namenode;
   struct stat stab, oldfs;
 
-  reversefilelist_init(&rev_iter, pkg->clientdata->files);
+  fsys_hash_rev_iter_init(&rev_iter, pkg->files);
 
-  while ((namenode = reversefilelist_next(&rev_iter))) {
-    struct filenamenode *usenode;
+  while ((namenode = fsys_hash_rev_iter_next(&rev_iter))) {
+    struct fsys_namenode *usenode;
 
-    if ((namenode->flags & fnnf_new_conff) ||
-        (namenode->flags & fnnf_new_inarchive))
+    if ((namenode->flags & FNNF_NEW_CONFF) ||
+        (namenode->flags & FNNF_RM_CONFF_ON_UPGRADE) ||
+        (namenode->flags & FNNF_NEW_INARCHIVE))
       continue;
 
     usenode = namenodetouse(namenode, pkg, &pkg->installed);
@@ -577,9 +608,9 @@ pkg_remove_old_files(struct pkginfo *pkg,
     varbuf_add_str(&fnamevb, usenode->name);
     varbuf_end_str(&fnamevb);
 
-    if (!stat(namenode->name, &stab) && S_ISDIR(stab.st_mode)) {
+    if (!stat(fnamevb.buf, &stab) && S_ISDIR(stab.st_mode)) {
       debug(dbg_eachfiledetail, "process_archive: %s is a directory",
-            namenode->name);
+            fnamevb.buf);
       if (dir_is_used_by_others(namenode, pkg))
         continue;
     }
@@ -600,14 +631,14 @@ pkg_remove_old_files(struct pkginfo *pkg,
       if (rmdir(fnamevb.buf)) {
         warning(_("unable to delete old directory '%.250s': %s"),
                 namenode->name, strerror(errno));
-      } else if ((namenode->flags & fnnf_old_conff)) {
+      } else if ((namenode->flags & FNNF_OLD_CONFF)) {
         warning(_("old conffile '%.250s' was an empty directory "
                   "(and has now been deleted)"), namenode->name);
       }
     } else {
-      struct fileinlist *sameas = NULL;
-      struct fileinlist *cfile;
-      static struct stat empty_stat;
+      struct fsys_namenode_list *sameas = NULL;
+      struct fsys_namenode_list *cfile;
+      static struct file_ondisk_id empty_ondisk_id;
       struct varbuf cfilename = VARBUF_INIT;
 
       /*
@@ -633,10 +664,10 @@ pkg_remove_old_files(struct pkginfo *pkg,
       for (cfile = newfiles_queue->head; cfile; cfile = cfile->next) {
         /* If the file has been filtered then treat it as if it didn't exist
          * on the file system. */
-        if (cfile->namenode->flags & fnnf_filtered)
+        if (cfile->namenode->flags & FNNF_FILTERED)
           continue;
 
-        if (!cfile->namenode->filestat) {
+        if (cfile->namenode->file_ondisk_id == NULL) {
           struct stat tmp_stat;
 
           varbuf_reset(&cfilename);
@@ -645,22 +676,26 @@ pkg_remove_old_files(struct pkginfo *pkg,
           varbuf_end_str(&cfilename);
 
           if (lstat(cfilename.buf, &tmp_stat) == 0) {
-            cfile->namenode->filestat = nfmalloc(sizeof(struct stat));
-            memcpy(cfile->namenode->filestat, &tmp_stat, sizeof(struct stat));
+            struct file_ondisk_id *file_ondisk_id;
+
+            file_ondisk_id = nfmalloc(sizeof(*file_ondisk_id));
+            file_ondisk_id->id_dev = tmp_stat.st_dev;
+            file_ondisk_id->id_ino = tmp_stat.st_ino;
+            cfile->namenode->file_ondisk_id = file_ondisk_id;
           } else {
             if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
               ohshite(_("unable to stat other new file '%.250s'"),
                       cfile->namenode->name);
-            cfile->namenode->filestat = &empty_stat;
+            cfile->namenode->file_ondisk_id = &empty_ondisk_id;
             continue;
           }
         }
 
-        if (cfile->namenode->filestat == &empty_stat)
+        if (cfile->namenode->file_ondisk_id == &empty_ondisk_id)
           continue;
 
-        if (oldfs.st_dev == cfile->namenode->filestat->st_dev &&
-            oldfs.st_ino == cfile->namenode->filestat->st_ino) {
+        if (oldfs.st_dev == cfile->namenode->file_ondisk_id->id_dev &&
+            oldfs.st_ino == cfile->namenode->file_ondisk_id->id_ino) {
           if (sameas)
             warning(_("old file '%.250s' is the same as several new files! "
                       "(both '%.250s' and '%.250s')"), fnamevb.buf,
@@ -673,9 +708,9 @@ pkg_remove_old_files(struct pkginfo *pkg,
 
       varbuf_destroy(&cfilename);
 
-      if ((namenode->flags & fnnf_old_conff)) {
+      if ((namenode->flags & FNNF_OLD_CONFF)) {
         if (sameas) {
-          if (sameas->namenode->flags & fnnf_new_conff) {
+          if (sameas->namenode->flags & FNNF_NEW_CONFF) {
             if (strcmp(sameas->namenode->oldhash, NEWCONFFILEFLAG) == 0) {
               sameas->namenode->oldhash = namenode->oldhash;
               debug(dbg_eachfile, "process_archive: old conff %s "
@@ -690,9 +725,9 @@ pkg_remove_old_files(struct pkginfo *pkg,
         } else {
           debug(dbg_eachfile, "process_archive: old conff %s "
                 "is disappearing", namenode->name);
-          namenode->flags |= fnnf_obs_conff;
-          tar_filenamenode_queue_push(newconffiles, namenode);
-          tar_filenamenode_queue_push(newfiles_queue, namenode);
+          namenode->flags |= FNNF_OBS_CONFF;
+          tar_fsys_namenode_queue_push(newconffiles, namenode);
+          tar_fsys_namenode_queue_push(newfiles_queue, namenode);
         }
         continue;
       }
@@ -711,13 +746,13 @@ pkg_remove_old_files(struct pkginfo *pkg,
 }
 
 static void
-pkg_update_fields(struct pkginfo *pkg, struct filenamenode_queue *newconffiles)
+pkg_update_fields(struct pkginfo *pkg, struct fsys_namenode_queue *newconffiles)
 {
   struct dependency *newdeplist, **newdeplistlastp;
   struct dependency *newdep, *dep;
   struct deppossi **newpossilastp, *possi, *newpossi;
   struct conffile **iconffileslastp, *newiconff;
-  struct fileinlist *cfile;
+  struct fsys_namenode_list *cfile;
 
   /* The dependencies are the most difficult. We have to build
    * a whole new forward dependency tree. At least the reverse
@@ -726,14 +761,14 @@ pkg_update_fields(struct pkginfo *pkg, struct filenamenode_queue *newconffiles)
   newdeplist = NULL;
   newdeplistlastp = &newdeplist;
   for (dep = pkg->available.depends; dep; dep = dep->next) {
-    newdep = nfmalloc(sizeof(struct dependency));
+    newdep = nfmalloc(sizeof(*newdep));
     newdep->up = pkg;
     newdep->next = NULL;
     newdep->list = NULL;
     newpossilastp = &newdep->list;
 
     for (possi = dep->list; possi; possi = possi->next) {
-      newpossi = nfmalloc(sizeof(struct deppossi));
+      newpossi = nfmalloc(sizeof(*newpossi));
       newpossi->up = newdep;
       newpossi->ed = possi->ed;
       newpossi->next = NULL;
@@ -763,6 +798,7 @@ pkg_update_fields(struct pkginfo *pkg, struct filenamenode_queue *newconffiles)
 
   /* We copy the text fields. */
   pkg->installed.essential = pkg->available.essential;
+  pkg->installed.is_protected = pkg->available.is_protected;
   pkg->installed.multiarch = pkg->available.multiarch;
   pkg->installed.description = pkg->available.description;
   pkg->installed.maintainer = pkg->available.maintainer;
@@ -778,11 +814,13 @@ pkg_update_fields(struct pkginfo *pkg, struct filenamenode_queue *newconffiles)
   pkg->installed.conffiles = NULL;
   iconffileslastp = &pkg->installed.conffiles;
   for (cfile = newconffiles->head; cfile; cfile = cfile->next) {
-    newiconff = nfmalloc(sizeof(struct conffile));
+    newiconff = nfmalloc(sizeof(*newiconff));
     newiconff->next = NULL;
     newiconff->name = nfstrsave(cfile->namenode->name);
     newiconff->hash = nfstrsave(cfile->namenode->oldhash);
-    newiconff->obsolete = !!(cfile->namenode->flags & fnnf_obs_conff);
+    newiconff->obsolete = !!(cfile->namenode->flags & FNNF_OBS_CONFF);
+    newiconff->remove_on_upgrade = !!(
+        cfile->namenode->flags & FNNF_RM_CONFF_ON_UPGRADE);
     *iconffileslastp = newiconff;
     iconffileslastp = &newiconff->next;
   }
@@ -823,7 +861,7 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
   dpkg_version_blank(&pkg->configversion);
   pkgbin_blank(&pkg->installed);
 
-  pkg->clientdata->fileslistvalid = false;
+  pkg->files_list_valid = false;
 
   modstatdb_note(pkg);
 }
@@ -831,22 +869,22 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
 static void
 pkg_disappear_others(struct pkginfo *pkg)
 {
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *otherpkg;
-  struct fileinlist *cfile;
+  struct fsys_namenode_list *cfile;
   struct deppossi *pdep;
   struct dependency *providecheck;
   struct varbuf depprobwhy = VARBUF_INIT;
 
-  iter = pkg_db_iter_new();
-  while ((otherpkg = pkg_db_iter_next_pkg(iter)) != NULL) {
+  iter = pkg_hash_iter_new();
+  while ((otherpkg = pkg_hash_iter_next_pkg(iter)) != NULL) {
     ensure_package_clientdata(otherpkg);
 
     if (otherpkg == pkg ||
         otherpkg->status == PKG_STAT_NOTINSTALLED ||
         otherpkg->status == PKG_STAT_CONFIGFILES ||
         otherpkg->clientdata->istobe == PKG_ISTOBE_REMOVE ||
-        !otherpkg->clientdata->files)
+        !otherpkg->files)
       continue;
 
     /* Do not try to disappear other packages from the same set
@@ -858,17 +896,21 @@ pkg_disappear_others(struct pkginfo *pkg)
 
     debug(dbg_veryverbose, "process_archive checking disappearance %s",
           pkg_name(otherpkg, pnaw_always));
-    assert(otherpkg->clientdata->istobe == PKG_ISTOBE_NORMAL ||
-           otherpkg->clientdata->istobe == PKG_ISTOBE_DECONFIGURE);
 
-    for (cfile = otherpkg->clientdata->files;
+    if (otherpkg->clientdata->istobe != PKG_ISTOBE_NORMAL &&
+        otherpkg->clientdata->istobe != PKG_ISTOBE_DECONFIGURE)
+      internerr("disappearing package %s is not to be normal or deconfigure, "
+                "is to be %d",
+                pkg_name(otherpkg, pnaw_always), otherpkg->clientdata->istobe);
+
+    for (cfile = otherpkg->files;
          cfile && strcmp(cfile->namenode->name, "/.") == 0;
          cfile = cfile->next);
     if (!cfile) {
       debug(dbg_stupidlyverbose, "process_archive no non-root, no disappear");
       continue;
     }
-    for (cfile = otherpkg->clientdata->files;
+    for (cfile = otherpkg->files;
          cfile && !filesavespackage(cfile, otherpkg, pkg);
          cfile = cfile->next);
     if (cfile)
@@ -930,7 +972,7 @@ pkg_disappear_others(struct pkginfo *pkg)
      * what can we do ?  It has to be run this late. */
     pkg_disappear(otherpkg, pkg);
   } /* while (otherpkg= ... */
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 }
 
 /**
@@ -959,16 +1001,16 @@ pkgset_getting_in_sync(struct pkginfo *pkg)
 }
 
 static void
-pkg_remove_files_from_others(struct pkginfo *pkg, struct fileinlist *newfileslist)
+pkg_remove_files_from_others(struct pkginfo *pkg, struct fsys_namenode_list *newfileslist)
 {
-  struct fileinlist *cfile;
+  struct fsys_namenode_list *cfile;
   struct pkginfo *otherpkg;
 
   for (cfile = newfileslist; cfile; cfile = cfile->next) {
-    struct filepackages_iterator *iter;
+    struct fsys_node_pkgs_iter *iter;
     struct pkgset *divpkgset;
 
-    if (!(cfile->namenode->flags & fnnf_elide_other_lists))
+    if (!(cfile->namenode->flags & FNNF_ELIDE_OTHER_LISTS))
       continue;
 
     if (cfile->namenode->divert && cfile->namenode->divert->useinstead) {
@@ -989,8 +1031,8 @@ pkg_remove_files_from_others(struct pkginfo *pkg, struct fileinlist *newfileslis
             cfile->namenode->name);
     }
 
-    iter = filepackages_iter_new(cfile->namenode);
-    while ((otherpkg = filepackages_iter_next(iter))) {
+    iter = fsys_node_pkgs_iter_new(cfile->namenode);
+    while ((otherpkg = fsys_node_pkgs_iter_next(iter))) {
       debug(dbg_eachfiledetail, "process_archive ... found in %s",
             pkg_name(otherpkg, pnaw_always));
 
@@ -1004,37 +1046,36 @@ pkg_remove_files_from_others(struct pkginfo *pkg, struct fileinlist *newfileslis
         continue;
       }
 
-      if (cfile->namenode->flags & fnnf_new_conff)
+      if (cfile->namenode->flags & FNNF_NEW_CONFF)
         conffile_mark_obsolete(otherpkg, cfile->namenode);
 
-      /* If !fileslistvalid then it's one of the disappeared packages above
+      /* If !files_list_valid then it's one of the disappeared packages above
        * or we have already updated the files list file, and we don't bother
        * with it here, clearly. */
-      if (!otherpkg->clientdata->fileslistvalid)
+      if (!otherpkg->files_list_valid)
         continue;
 
       /* Found one. We delete the list entry for this file,
        * (and any others in the same package) and then mark the package
        * as requiring a reread. */
       write_filelist_except(otherpkg, &otherpkg->installed,
-                            otherpkg->clientdata->files, fnnf_elide_other_lists);
-      ensure_package_clientdata(otherpkg);
+                            otherpkg->files, FNNF_ELIDE_OTHER_LISTS);
       debug(dbg_veryverbose, "process_archive overwrote from %s",
             pkg_name(otherpkg, pnaw_always));
     }
-    filepackages_iter_free(iter);
+    fsys_node_pkgs_iter_free(iter);
   }
 }
 
 static void
-pkg_remove_backup_files(struct pkginfo *pkg, struct fileinlist *newfileslist)
+pkg_remove_backup_files(struct pkginfo *pkg, struct fsys_namenode_list *newfileslist)
 {
-  struct fileinlist *cfile;
+  struct fsys_namenode_list *cfile;
 
   for (cfile = newfileslist; cfile; cfile = cfile->next) {
-    struct filenamenode *usenode;
+    struct fsys_namenode *usenode;
 
-    if (cfile->namenode->flags & fnnf_new_conff)
+    if (cfile->namenode->flags & FNNF_NEW_CONFF)
       continue;
 
     usenode = namenodetouse(cfile->namenode, pkg, &pkg->installed);
@@ -1069,6 +1110,7 @@ void process_archive(const char *filename) {
   static enum pkgstatus oldversionstatus;
   static struct tarcontext tc;
 
+  struct tar_archive tar;
   struct dpkg_error err;
   enum parsedbflags parsedb_flags;
   int rc;
@@ -1079,7 +1121,7 @@ void process_archive(const char *filename) {
   char *cidirrest;
   char *psize;
   const char *pfilename;
-  struct filenamenode_queue newconffiles, newfiles_queue;
+  struct fsys_namenode_queue newconffiles, newfiles_queue;
   struct stat stab;
 
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
@@ -1102,7 +1144,7 @@ void process_archive(const char *filename) {
   /* Get the control information directory. */
   cidir = get_control_dir(cidir);
   cidirrest = cidir + strlen(cidir);
-  push_cleanup(cu_cidir, ~0, NULL, 0, 2, (void *)cidir, (void *)cidirrest);
+  push_cleanup(cu_cidir, ~0, 2, (void *)cidir, (void *)cidirrest);
 
   pid = subproc_fork();
   if (pid == 0) {
@@ -1126,22 +1168,24 @@ void process_archive(const char *filename) {
     parsedb_flags = pdb_parse_available;
   else
     parsedb_flags = pdb_parse_binary;
-  parsedb_flags |= pdb_ignorefiles;
-  if (fc_badversion)
+  parsedb_flags |= pdb_ignore_archives;
+  if (in_force(FORCE_BAD_VERSION))
     parsedb_flags |= pdb_lax_version_parser;
 
   parsedb(cidir, parsedb_flags, &pkg);
 
-  if (!pkg->files) {
-    pkg->files= nfmalloc(sizeof(struct filedetails));
-    pkg->files->next = NULL;
-    pkg->files->name = pkg->files->msdosname = pkg->files->md5sum = NULL;
+  if (!pkg->archives) {
+    pkg->archives = nfmalloc(sizeof(*pkg->archives));
+    pkg->archives->next = NULL;
+    pkg->archives->name = NULL;
+    pkg->archives->msdosname = NULL;
+    pkg->archives->md5sum = NULL;
   }
   /* Always nfmalloc. Otherwise, we may overwrite some other field (like
    * md5sum). */
   psize = nfmalloc(30);
   sprintf(psize, "%jd", (intmax_t)stab.st_size);
-  pkg->files->size = psize;
+  pkg->archives->size = psize;
 
   if (cipaction->arg_int == act_avail) {
     printf(_("Recorded info about %s from %s.\n"),
@@ -1153,7 +1197,7 @@ void process_archive(const char *filename) {
   if (pkg->available.arch->type != DPKG_ARCH_ALL &&
       pkg->available.arch->type != DPKG_ARCH_NATIVE &&
       pkg->available.arch->type != DPKG_ARCH_FOREIGN)
-    forcibleerr(fc_architecture,
+    forcibleerr(FORCE_ARCHITECTURE,
                 _("package architecture (%s) does not match system (%s)"),
                 pkg->available.arch->name,
                 dpkg_arch_get(DPKG_ARCH_NATIVE)->name);
@@ -1183,7 +1227,7 @@ void process_archive(const char *filename) {
   pkg_check_depcon(pkg, pfilename);
 
   ensure_allinstfiles_available();
-  filesdbinit();
+  fsys_hash_init();
   trig_file_interests_ensure();
 
   printf(_("Preparing to unpack %s ...\n"), pfilename);
@@ -1211,7 +1255,7 @@ void process_archive(const char *filename) {
   /* Read the conffiles, and copy the hashes across. */
   newconffiles.head = NULL;
   newconffiles.tail = &newconffiles.head;
-  push_cleanup(cu_fileslist, ~0, NULL, 0, 0);
+  push_cleanup(cu_fileslist, ~0, 0);
   strcpy(cidirrest,CONFFILESFILE);
   deb_parse_conffiles(pkg, cidir, &newconffiles);
 
@@ -1225,7 +1269,10 @@ void process_archive(const char *filename) {
 
   oldversionstatus= pkg->status;
 
-  assert(oldversionstatus <= PKG_STAT_INSTALLED);
+  if (oldversionstatus > PKG_STAT_INSTALLED)
+    internerr("package %s state %d is out-of-bounds",
+              pkg_name(pkg, pnaw_always), oldversionstatus);
+
   debug(dbg_general,"process_archive oldversionstatus=%s",
         statusstrings[oldversionstatus]);
 
@@ -1236,7 +1283,7 @@ void process_archive(const char *filename) {
     pkg_set_eflags(pkg, PKG_EFLAG_REINSTREQ);
     pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
     modstatdb_note(pkg);
-    push_cleanup(cu_prermupgrade, ~ehflag_normaltidy, NULL, 0, 1, (void *)pkg);
+    push_cleanup(cu_prermupgrade, ~ehflag_normaltidy, 1, (void *)pkg);
     if (dpkg_version_compare(&pkg->available.version,
                              &pkg->installed.version) >= 0)
       /* Upgrade or reinstall. */
@@ -1269,7 +1316,7 @@ void process_archive(const char *filename) {
     trig_activate_packageprocessing(conflictor);
     pkg_set_status(conflictor, PKG_STAT_HALFCONFIGURED);
     modstatdb_note(conflictor);
-    push_cleanup(cu_prerminfavour, ~ehflag_normaltidy, NULL, 0,
+    push_cleanup(cu_prerminfavour, ~ehflag_normaltidy,
                  2, conflictor, pkg);
     maintscript_installed(conflictor, PRERMFILE, "pre-removal",
                           "remove", "in-favour",
@@ -1289,12 +1336,12 @@ void process_archive(const char *filename) {
   pkg_set_status(pkg, PKG_STAT_HALFINSTALLED);
   modstatdb_note(pkg);
   if (oldversionstatus == PKG_STAT_NOTINSTALLED) {
-    push_cleanup(cu_preinstverynew, ~ehflag_normaltidy, NULL, 0,
+    push_cleanup(cu_preinstverynew, ~ehflag_normaltidy,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
     maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
                     "install", NULL);
   } else if (oldversionstatus == PKG_STAT_CONFIGFILES) {
-    push_cleanup(cu_preinstnew, ~ehflag_normaltidy, NULL, 0,
+    push_cleanup(cu_preinstnew, ~ehflag_normaltidy,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
     maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
                     "install",
@@ -1302,7 +1349,7 @@ void process_archive(const char *filename) {
                     versiondescribe(&pkg->available.version, vdew_nonambig),
                     NULL);
   } else {
-    push_cleanup(cu_preinstupgrade, ~ehflag_normaltidy, NULL, 0,
+    push_cleanup(cu_preinstupgrade, ~ehflag_normaltidy,
                  4,(void*)pkg,(void*)cidir,(void*)cidirrest,(void*)&oldversionstatus);
     maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
                     "upgrade",
@@ -1399,7 +1446,7 @@ void process_archive(const char *filename) {
    */
 
   m_pipe(p1);
-  push_cleanup(cu_closepipe, ehflag_bombout, NULL, 0, 1, (void *)&p1[0]);
+  push_cleanup(cu_closepipe, ehflag_bombout, 1, (void *)&p1[0]);
   pid = subproc_fork();
   if (pid == 0) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
@@ -1413,19 +1460,20 @@ void process_archive(const char *filename) {
   newfiles_queue.head = NULL;
   newfiles_queue.tail = &newfiles_queue.head;
   tc.newfiles_queue = &newfiles_queue;
-  push_cleanup(cu_fileslist, ~0, NULL, 0, 0);
+  push_cleanup(cu_fileslist, ~0, 0);
   tc.pkg= pkg;
   tc.backendpipe= p1[0];
   tc.pkgset_getting_in_sync = pkgset_getting_in_sync(pkg);
 
-  rc = tar_extractor(&tc, &tf);
-  if (rc) {
-    if (errno) {
-      ohshite(_("error reading dpkg-deb tar output"));
-    } else {
-      ohshit(_("corrupted filesystem tarfile - corrupted package archive"));
-    }
-  }
+  /* Setup the tar archive. */
+  tar.err = DPKG_ERROR_OBJECT;
+  tar.ctx = &tc;
+  tar.ops = &tf;
+
+  rc = tar_extractor(&tar);
+  if (rc)
+    dpkg_error_print(&tar.err,
+                     _("corrupted filesystem tarfile in package archive"));
   if (fd_skip(p1[0], -1, &err) < 0)
     ohshit(_("cannot zap possible trailing zeros from dpkg-deb: %s"), err.str);
   close(p1[0]);
@@ -1440,7 +1488,7 @@ void process_archive(const char *filename) {
      * reduced to ‘unpacked’ by now, by the running of the prerm script. */
     pkg_set_status(pkg, PKG_STAT_HALFINSTALLED);
     modstatdb_note(pkg);
-    push_cleanup(cu_postrmupgrade, ~ehflag_normaltidy, NULL, 0, 1, (void *)pkg);
+    push_cleanup(cu_postrmupgrade, ~ehflag_normaltidy, 1, (void *)pkg);
     maintscript_fallback(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
                          "upgrade", "failed-upgrade");
   }
@@ -1515,7 +1563,9 @@ void process_archive(const char *filename) {
     if (otherpkg->installed.arch != pkg->installed.arch)
       continue;
 
-    assert(otherpkg->status == PKG_STAT_NOTINSTALLED);
+    if (otherpkg->status != PKG_STAT_NOTINSTALLED)
+      internerr("other package %s instance in state %s instead of not-installed",
+                pkg_name(otherpkg, pnaw_always), pkg_status_name(otherpkg));
 
     pkg_blank(otherpkg);
   }

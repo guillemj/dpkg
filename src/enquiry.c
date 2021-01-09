@@ -26,7 +26,6 @@
 
 #include <sys/types.h>
 
-#include <assert.h>
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -43,9 +42,9 @@
 #include <dpkg/triglib.h>
 #include <dpkg/string.h>
 #include <dpkg/options.h>
+#include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
-#include "infodb.h"
 #include "main.h"
 
 struct audit_problem {
@@ -170,7 +169,7 @@ static void describebriefly(struct pkginfo *pkg) {
   l= strlen(pkg->set->name);
   if (l>20) maxl -= (l-20);
 
-  pdesc = pkgbin_summary(pkg, &pkg->installed, &l);
+  pdesc = pkgbin_synopsis(pkg, &pkg->installed, &l);
   l = min(l, maxl);
 
   printf(" %-20s %.*s\n", pkg_name(pkg, pnaw_nonambig), l, pdesc);
@@ -199,7 +198,7 @@ audit(const char *const *argv)
   modstatdb_open(msdbrw_readonly);
 
   if (!*argv)
-    pkg_array_init_from_db(&array);
+    pkg_array_init_from_hash(&array);
   else
     pkg_array_init_from_names(&array, pkg_array_mapper, (const char **)argv);
 
@@ -274,7 +273,7 @@ unpackchk(const char *const *argv)
 {
   int totalcount, sects;
   struct sectionentry *sectionentries, *se, **sep;
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *pkg;
   const char *thissect;
   char buf[20];
@@ -288,12 +287,12 @@ unpackchk(const char *const *argv)
   totalcount= 0;
   sectionentries = NULL;
   sects= 0;
-  iter = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(iter))) {
+  iter = pkg_hash_iter_new();
+  while ((pkg = pkg_hash_iter_next_pkg(iter))) {
     if (!yettobeunpacked(pkg, &thissect)) continue;
     for (se= sectionentries; se && strcasecmp(thissect,se->name); se= se->next);
     if (!se) {
-      se= nfmalloc(sizeof(struct sectionentry));
+      se = nfmalloc(sizeof(*se));
       for (sep= &sectionentries;
            *sep && strcasecmp(thissect,(*sep)->name) > 0;
            sep= &(*sep)->next);
@@ -305,27 +304,27 @@ unpackchk(const char *const *argv)
     }
     se->count++; totalcount++;
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 
   if (totalcount == 0)
     return 0;
 
   if (totalcount <= 12) {
-    iter = pkg_db_iter_new();
-    while ((pkg = pkg_db_iter_next_pkg(iter))) {
+    iter = pkg_hash_iter_new();
+    while ((pkg = pkg_hash_iter_next_pkg(iter))) {
       if (!yettobeunpacked(pkg, NULL))
         continue;
       describebriefly(pkg);
     }
-    pkg_db_iter_free(iter);
+    pkg_hash_iter_free(iter);
   } else if (sects <= 12) {
     for (se= sectionentries; se; se= se->next) {
       sprintf(buf,"%d",se->count);
       printf(_(" %d in %s: "),se->count,se->name);
       width= 70-strlen(se->name)-strlen(buf);
       while (width > 59) { putchar(' '); width--; }
-      iter = pkg_db_iter_new();
-      while ((pkg = pkg_db_iter_next_pkg(iter))) {
+      iter = pkg_hash_iter_new();
+      while ((pkg = pkg_hash_iter_next_pkg(iter))) {
         const char *pkgname;
 
         if (!yettobeunpacked(pkg,&thissect)) continue;
@@ -336,7 +335,7 @@ unpackchk(const char *const *argv)
         if (width < 4) { printf(" ..."); break; }
         printf(" %s", pkgname);
       }
-      pkg_db_iter_free(iter);
+      pkg_hash_iter_free(iter);
       putchar('\n');
     }
   } else {
@@ -370,7 +369,7 @@ assert_version_support(const char *const *argv,
 
   modstatdb_open(msdbrw_readonly);
 
-  pkg = pkg_db_find_singleton("dpkg");
+  pkg = pkg_hash_find_singleton("dpkg");
   switch (pkg->status) {
   case PKG_STAT_INSTALLED:
   case PKG_STAT_TRIGGERSPENDING:
@@ -441,6 +440,14 @@ assertverprovides(const char *const *argv)
   return assert_version_support(argv, &version, _("versioned Provides"));
 }
 
+int
+assert_protected(const char *const *argv)
+{
+  struct dpkg_version version = { 0, "1.20.1", NULL };
+
+  return assert_version_support(argv, &version, _("Protected field"));
+}
+
 /**
  * Print a single package which:
  *  (a) is the target of one or more relevant predependencies.
@@ -459,7 +466,7 @@ predeppackage(const char *const *argv)
 {
   static struct varbuf vb;
 
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *pkg = NULL, *startpkg, *trypkg;
   struct dependency *dep;
   struct deppossi *possi, *provider;
@@ -472,13 +479,13 @@ predeppackage(const char *const *argv)
   clear_istobes();
 
   dep = NULL;
-  iter = pkg_db_iter_new();
-  while (!dep && (pkg = pkg_db_iter_next_pkg(iter))) {
+  iter = pkg_hash_iter_new();
+  while (!dep && (pkg = pkg_hash_iter_next_pkg(iter))) {
     /* Ignore packages user doesn't want. */
     if (pkg->want != PKG_WANT_INSTALL)
       continue;
     /* Ignore packages not available. */
-    if (!pkg->files)
+    if (!pkg->archives)
       continue;
     pkg->clientdata->istobe = PKG_ISTOBE_PREINSTALL;
     for (dep= pkg->available.depends; dep; dep= dep->next) {
@@ -491,11 +498,13 @@ predeppackage(const char *const *argv)
     pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
     /* If dep is NULL we go and get the next package. */
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 
   if (!dep)
     return 1; /* Not found. */
-  assert(pkg);
+  if (pkg == NULL)
+    internerr("unexpected unfound package");
+
   startpkg= pkg;
   pkg->clientdata->istobe = PKG_ISTOBE_PREINSTALL;
 
@@ -511,7 +520,7 @@ predeppackage(const char *const *argv)
 
       possi_iter = deppossi_pkg_iter_new(possi, wpb_available);
       while (!pkg && (trypkg = deppossi_pkg_iter_next(possi_iter))) {
-        if (trypkg->files &&
+        if (trypkg->archives &&
             trypkg->clientdata->istobe == PKG_ISTOBE_NORMAL &&
             versionsatisfied(&trypkg->available, possi)) {
           pkg = trypkg;
@@ -525,7 +534,7 @@ predeppackage(const char *const *argv)
           if (!pkg_virtual_deppossi_satisfied(possi, provider))
             continue;
           trypkg = provider->up->up;
-          if (!trypkg->files)
+          if (!trypkg->archives)
             continue;
           if (trypkg->clientdata->istobe == PKG_ISTOBE_NORMAL) {
             pkg = trypkg;
@@ -741,8 +750,8 @@ cmpversions(const char *const *argv)
   }
   rc = dpkg_version_compare(&a, &b);
   debug(dbg_general, "cmpversions a='%s' b='%s' r=%d",
-        versiondescribe(&a,vdew_always),
-        versiondescribe(&b,vdew_always),
+        versiondescribe_c(&a,vdew_always),
+        versiondescribe_c(&b,vdew_always),
         rc);
   if (rc > 0)
     return rip->if_greater;

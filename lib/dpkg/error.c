@@ -29,8 +29,9 @@
 #include <dpkg/varbuf.h>
 #include <dpkg/error.h>
 
-static void DPKG_ATTR_VPRINTF(3)
-dpkg_error_set(struct dpkg_error *err, int type, const char *fmt, va_list args)
+static void DPKG_ATTR_VPRINTF(4)
+dpkg_error_set(struct dpkg_error *err, enum dpkg_msg_type type, int syserrno,
+               const char *fmt, va_list args)
 {
 	struct varbuf str = VARBUF_INIT;
 
@@ -38,9 +39,19 @@ dpkg_error_set(struct dpkg_error *err, int type, const char *fmt, va_list args)
 		return;
 
 	err->type = type;
+	err->syserrno = syserrno;
 
 	varbuf_vprintf(&str, fmt, args);
+	if (syserrno)
+		varbuf_printf(&str, " (%s)", strerror(syserrno));
+
 	err->str = str.buf;
+}
+
+bool
+dpkg_has_error(struct dpkg_error *err)
+{
+	return err != NULL && err->type != DPKG_MSG_NONE;
 }
 
 int
@@ -49,7 +60,7 @@ dpkg_put_warn(struct dpkg_error *err, const char *fmt, ...)
 	va_list args;
 
 	va_start(args, fmt);
-	dpkg_error_set(err, DPKG_MSG_WARN, fmt, args);
+	dpkg_error_set(err, DPKG_MSG_WARN, 0, fmt, args);
 	va_end(args);
 
 	return -1;
@@ -61,7 +72,7 @@ dpkg_put_error(struct dpkg_error *err, const char *fmt, ...)
 	va_list args;
 
 	va_start(args, fmt);
-	dpkg_error_set(err, DPKG_MSG_ERROR, fmt, args);
+	dpkg_error_set(err, DPKG_MSG_ERROR, 0, fmt, args);
 	va_end(args);
 
 	return -1;
@@ -71,15 +82,10 @@ int
 dpkg_put_errno(struct dpkg_error *err, const char *fmt, ...)
 {
 	va_list args;
-	char *new_fmt;
-
-	new_fmt = str_fmt("%s (%s)", fmt, strerror(errno));
 
 	va_start(args, fmt);
-	dpkg_error_set(err, DPKG_MSG_ERROR, new_fmt, args);
+	dpkg_error_set(err, DPKG_MSG_ERROR, errno, fmt, args);
 	va_end(args);
-
-	free(new_fmt);
 
 	return -1;
 }
@@ -103,9 +109,19 @@ dpkg_error_print(struct dpkg_error *err, const char *fmt, ...)
 }
 
 void
+dpkg_error_move(struct dpkg_error *dst, struct dpkg_error *src)
+{
+	dst->type = src->type;
+	src->type = DPKG_MSG_NONE;
+	dst->str = src->str;
+	src->str = NULL;
+}
+
+void
 dpkg_error_destroy(struct dpkg_error *err)
 {
 	err->type = DPKG_MSG_NONE;
+	err->syserrno = 0;
 	free(err->str);
 	err->str = NULL;
 }

@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 15;
+use Test::More tests => 26;
 
 BEGIN {
     use_ok('Dpkg::BuildFlags');
@@ -46,6 +46,47 @@ $bf->prepend('DPKGFLAGS', '-Idir', 'env', 1);
 is($bf->get('DPKGFLAGS'), '-Idir -Wflag -fsome -Wl,other', 'get prepended flag');
 is($bf->get_origin('DPKGFLAGS'), 'env', 'flag has an env origin');
 ok($bf->is_maintainer_modified('DPKGFLAGS'), 'prepend marked flag as maint modified');
+
+my %known_features = (
+    future => [ qw(
+        lfs
+    ) ],
+    hardening => [ qw(
+        bindnow
+        format
+        fortify
+        pie
+        relro
+        stackprotector
+        stackprotectorstrong
+    ) ],
+    qa => [ qw(
+        bug
+        canary
+    ) ],
+    reproducible => [ qw(
+        fixdebugpath
+        fixfilepath
+        timeless
+    ) ],
+    sanitize => [ qw(
+        address
+        leak
+        thread
+        undefined
+    ) ],
+);
+
+is_deeply([ sort $bf->get_feature_areas() ], [ sort keys %known_features ],
+          'supported feature areas');
+
+foreach my $area (sort keys %known_features) {
+    ok($bf->has_features($area), "has feature area $area");
+    my %features = $bf->get_features($area);
+    is_deeply([ sort keys %features ],
+              $known_features{$area},
+              "supported features for area $area");
+}
 
 # TODO: Add more test cases.
 

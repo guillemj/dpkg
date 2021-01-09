@@ -29,9 +29,9 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/options.h>
+#include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
-#include "infodb.h"
 #include "main.h"
 
 
@@ -45,7 +45,7 @@ struct verify_checks {
 	enum verify_result md5sum;
 };
 
-typedef void verify_output_func(struct filenamenode *, struct verify_checks *);
+typedef void verify_output_func(struct fsys_namenode *, struct verify_checks *);
 
 static int
 verify_result_rpm(enum verify_result result, int check)
@@ -62,7 +62,7 @@ verify_result_rpm(enum verify_result result, int check)
 }
 
 static void
-verify_output_rpm(struct filenamenode *namenode, struct verify_checks *checks)
+verify_output_rpm(struct fsys_namenode *namenode, struct verify_checks *checks)
 {
 	char result[9];
 	int attr;
@@ -71,7 +71,7 @@ verify_output_rpm(struct filenamenode *namenode, struct verify_checks *checks)
 
 	result[2] = verify_result_rpm(checks->md5sum, '5');
 
-	if (namenode->flags & fnnf_old_conff)
+	if (namenode->flags & FNNF_OLD_CONFF)
 		attr = 'c';
 	else
 		attr = ' ';
@@ -95,22 +95,22 @@ verify_set_output(const char *name)
 static void
 verify_package(struct pkginfo *pkg)
 {
-	struct fileinlist *file;
+	struct fsys_namenode_list *file;
 	struct varbuf filename = VARBUF_INIT;
 
 	ensure_packagefiles_available(pkg);
 	parse_filehash(pkg, &pkg->installed);
 	pkg_conffiles_mark_old(pkg);
 
-	for (file = pkg->clientdata->files; file; file = file->next) {
+	for (file = pkg->files; file; file = file->next) {
 		struct verify_checks checks;
-		struct filenamenode *fnn;
+		struct fsys_namenode *fnn;
 		char hash[MD5HASHLEN + 1];
 		int failures = 0;
 
 		fnn = namenodetouse(file->namenode, pkg, &pkg->installed);
 
-		if (strcmp(fnn->newhash, EMPTYHASHFLAG) == 0) {
+		if (fnn->newhash == NULL) {
 			if (fnn->oldhash == NULL)
 				continue;
 			else
@@ -147,12 +147,12 @@ verify(const char *const *argv)
 	ensure_diversions();
 
 	if (!*argv) {
-		struct pkgiterator *iter;
+		struct pkg_hash_iter *iter;
 
-		iter = pkg_db_iter_new();
-		while ((pkg = pkg_db_iter_next_pkg(iter)))
+		iter = pkg_hash_iter_new();
+		while ((pkg = pkg_hash_iter_next_pkg(iter)))
 			verify_package(pkg);
-		pkg_db_iter_free(iter);
+		pkg_hash_iter_free(iter);
 	} else {
 		const char *thisarg;
 

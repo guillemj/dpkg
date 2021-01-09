@@ -82,10 +82,11 @@ struct conffile {
   const char *name;
   const char *hash;
   bool obsolete;
+  bool remove_on_upgrade;
 };
 
-struct filedetails {
-  struct filedetails *next;
+struct archivedetails {
+  struct archivedetails *next;
   const char *name;
   const char *msdosname;
   const char *size;
@@ -108,6 +109,8 @@ struct pkgbin {
   struct dependency *depends;
   /** The ‘essential’ flag, true = yes, false = no (absent). */
   bool essential;
+  /** The ‘protected’ flag, true = yes, false = no (absent). */
+  bool is_protected;
   enum pkgmultiarch multiarch;
   const struct dpkg_arch *arch;
   /** The following is the "pkgname:archqual" cached string, if this was a
@@ -204,10 +207,11 @@ struct pkginfo {
   const char *otherpriority;
   const char *section;
   struct dpkg_version configversion;
-  struct filedetails *files;
   struct pkgbin installed;
   struct pkgbin available;
   struct perpackagestate *clientdata;
+
+  struct archivedetails *archives;
 
   struct {
     /* ->aw == this */
@@ -217,6 +221,22 @@ struct pkginfo {
   /* ->pend == this, non-NULL for us when Triggers-Pending. */
   struct trigaw *othertrigaw_head;
   struct trigpend *trigpend_head;
+
+  /**
+   * files_list_valid  files  Meaning
+   * ----------------  -----  -------
+   * false             NULL   Not read yet, must do so if want them.
+   * false             !NULL  Read, but rewritten and now out of date. If want
+   *                          info must throw away old and reread file.
+   * true              !NULL  Read, all is OK.
+   * true              NULL   Read OK, but, there were no files.
+   */
+  struct fsys_namenode_list *files;
+  off_t files_list_phys_offs;
+  bool files_list_valid;
+
+  /* The status has changed, it needs to be logged. */
+  bool status_dirty;
 };
 
 /**
@@ -244,10 +264,12 @@ char *dpkg_db_get_path(const char *pathpart);
 /*** from dbmodify.c ***/
 
 enum modstatdb_rw {
-  /* Those marked with \*s*\ are possible returns from modstatdb_init. */
-  msdbrw_readonly/*s*/, msdbrw_needsuperuserlockonly/*s*/,
+  /* Those marked with «return» are possible returns from modstatdb_open(). */
+  msdbrw_readonly,			/* «return» */
+  msdbrw_needsuperuserlockonly,		/* «return» */
   msdbrw_writeifposs,
-  msdbrw_write/*s*/, msdbrw_needsuperuser,
+  msdbrw_write,				/* «return» */
+  msdbrw_needsuperuser,
 
   /* Now some optional flags (starting at bit 8): */
   msdbrw_available_readonly	= DPKG_BIT(8),
@@ -277,21 +299,34 @@ void pkg_blank(struct pkginfo *pp);
 void pkgbin_blank(struct pkgbin *pkgbin);
 bool pkg_is_informative(struct pkginfo *pkg, struct pkgbin *info);
 
-struct pkgset *pkg_db_find_set(const char *name);
-struct pkginfo *pkg_db_get_singleton(struct pkgset *set);
-struct pkginfo *pkg_db_find_singleton(const char *name);
-struct pkginfo *pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch);
-struct pkginfo *pkg_db_find_pkg(const char *name, const struct dpkg_arch *arch);
-int pkg_db_count_set(void);
-int pkg_db_count_pkg(void);
-void pkg_db_reset(void);
+struct pkgset *
+pkg_hash_find_set(const char *name);
+struct pkginfo *
+pkg_hash_get_singleton(struct pkgset *set);
+struct pkginfo *
+pkg_hash_find_singleton(const char *name);
+struct pkginfo *
+pkg_hash_get_pkg(struct pkgset *set, const struct dpkg_arch *arch);
+struct pkginfo *
+pkg_hash_find_pkg(const char *name, const struct dpkg_arch *arch);
+int
+pkg_hash_count_set(void);
+int
+pkg_hash_count_pkg(void);
+void
+pkg_hash_reset(void);
 
-struct pkgiterator *pkg_db_iter_new(void);
-struct pkgset *pkg_db_iter_next_set(struct pkgiterator *iter);
-struct pkginfo *pkg_db_iter_next_pkg(struct pkgiterator *iter);
-void pkg_db_iter_free(struct pkgiterator *iter);
+struct pkg_hash_iter *
+pkg_hash_iter_new(void);
+struct pkgset *
+pkg_hash_iter_next_set(struct pkg_hash_iter *iter);
+struct pkginfo *
+pkg_hash_iter_next_pkg(struct pkg_hash_iter *iter);
+void
+pkg_hash_iter_free(struct pkg_hash_iter *iter);
 
-void pkg_db_report(FILE *);
+void
+pkg_hash_report(FILE *);
 
 /*** from parse.c ***/
 
@@ -304,8 +339,8 @@ enum parsedbflags {
   pdb_rejectstatus		= DPKG_BIT(2),
   /** Ignore priority/section info if we already have any. */
   pdb_weakclassification	= DPKG_BIT(3),
-  /** Ignore files info if we already have them. */
-  pdb_ignorefiles		= DPKG_BIT(4),
+  /** Ignore archives info if we already have them. */
+  pdb_ignore_archives		= DPKG_BIT(4),
   /** Ignore packages with older versions already read. */
   pdb_ignoreolder		= DPKG_BIT(5),
   /** Perform laxer version parsing. */
@@ -318,13 +353,16 @@ enum parsedbflags {
   pdb_close_fd			= DPKG_BIT(7),
   /** Interpret filename ‘-’ as stdin. */
   pdb_dash_is_stdin		= DPKG_BIT(8),
+  /** Allow empty/missing files. */
+  pdb_allow_empty		= DPKG_BIT(9),
 
   /* Standard operations. */
 
-  pdb_parse_status		= pdb_lax_parser | pdb_weakclassification,
+  pdb_parse_status		= pdb_lax_parser | pdb_weakclassification |
+				  pdb_allow_empty,
   pdb_parse_update		= pdb_parse_status | pdb_single_stanza,
   pdb_parse_available		= pdb_recordavailable | pdb_rejectstatus |
-				  pdb_lax_parser,
+				  pdb_lax_parser | pdb_allow_empty,
   pdb_parse_binary		= pdb_recordavailable | pdb_rejectstatus |
 				  pdb_single_stanza,
 };
@@ -362,6 +400,8 @@ int parseversion(struct dpkg_version *version, const char *,
                  struct dpkg_error *err);
 const char *versiondescribe(const struct dpkg_version *,
                             enum versiondisplayepochwhen);
+const char *versiondescribe_c(const struct dpkg_version *version,
+                              enum versiondisplayepochwhen vdew);
 
 enum pkg_name_arch_when {
   /** Never display arch. */
@@ -377,9 +417,21 @@ enum pkg_name_arch_when {
 void varbuf_add_pkgbin_name(struct varbuf *vb, const struct pkginfo *pkg,
                             const struct pkgbin *pkgbin,
                             enum pkg_name_arch_when pnaw);
-const char *pkgbin_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                        enum pkg_name_arch_when pnaw);
-const char *pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw);
+
+const char *
+pkgbin_name_archqual(const struct pkginfo *pkg, const struct pkgbin *pkgbin);
+
+const char *
+pkgbin_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
+            enum pkg_name_arch_when pnaw);
+const char *
+pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw);
+
+const char *
+pkgbin_name_const(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                  enum pkg_name_arch_when pnaw);
+const char *
+pkg_name_const(const struct pkginfo *pkg, enum pkg_name_arch_when pnaw);
 
 void
 pkg_source_version(struct dpkg_version *version,
@@ -407,6 +459,7 @@ enum writedb_flags {
   wdb_must_sync			= DPKG_BIT(1),
 };
 
+void writedb_records(FILE *fp, const char *filename, enum writedb_flags flags);
 void writedb(const char *filename, enum writedb_flags flags);
 
 /* Note: The varbufs must have been initialized and will not be

@@ -40,7 +40,7 @@ struct partinfo {
   const char *arch;
   const char *md5sum;
   off_t orglength;
-  unsigned int thispartn, maxpartn;
+  int thispartn, maxpartn;
   off_t maxpartlen;
   off_t thispartoffset;
   off_t thispartlen;

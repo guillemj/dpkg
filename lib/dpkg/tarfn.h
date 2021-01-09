@@ -26,6 +26,7 @@
 
 #include <stdint.h>
 
+#include <dpkg/error.h>
 #include <dpkg/file.h>
 
 /**
@@ -37,6 +38,7 @@
 #define TARBLKSZ	512
 
 enum tar_format {
+	TAR_FORMAT_UNKNOWN,
 	TAR_FORMAT_OLD,
 	TAR_FORMAT_GNU,
 	TAR_FORMAT_USTAR,
@@ -53,12 +55,21 @@ enum tar_filetype {
 	TAR_FILETYPE_BLOCKDEV = '4',
 	TAR_FILETYPE_DIR = '5',
 	TAR_FILETYPE_FIFO = '6',
+	TAR_FILETYPE_CONTIG = '7',
 	TAR_FILETYPE_GNU_LONGLINK = 'K',
 	TAR_FILETYPE_GNU_LONGNAME = 'L',
+	TAR_FILETYPE_GNU_VOLUME = 'V',
+	TAR_FILETYPE_GNU_MULTIVOL = 'M',
+	TAR_FILETYPE_GNU_DUMPDIR = 'D',
+	TAR_FILETYPE_GNU_SPARSE = 'S',
+	TAR_FILETYPE_PAX_GLOBAL = 'g',
+	TAR_FILETYPE_PAX_EXTENDED = 'x',
+	TAR_FILETYPE_SOLARIS_EXTENDED = 'X',
+	TAR_FILETYPE_SOLARIS_ACL = 'A',
 };
 
 struct tar_entry {
-	/** Tar archive format. */
+	/** Tar entry format. */
 	enum tar_format format;
 	/** File type. */
 	enum tar_filetype type;
@@ -69,15 +80,17 @@ struct tar_entry {
 	/** File size. */
 	off_t size;
 	/** Last-modified time. */
-	time_t mtime;
+	intmax_t mtime;
 	/** Special device for mknod(). */
 	dev_t dev;
 
 	struct file_stat stat;
 };
 
-typedef int tar_read_func(void *ctx, char *buffer, int length);
-typedef int tar_make_func(void *ctx, struct tar_entry *h);
+struct tar_archive;
+
+typedef int tar_read_func(struct tar_archive *tar, char *buffer, int length);
+typedef int tar_make_func(struct tar_archive *tar, struct tar_entry *h);
 
 struct tar_operations {
 	tar_read_func *read;
@@ -89,6 +102,18 @@ struct tar_operations {
 	tar_make_func *mknod;
 };
 
+struct tar_archive {
+	/* Global tar archive error. */
+	struct dpkg_error err;
+
+	/** Tar archive format. */
+	enum tar_format format;
+
+	/* Operation functions and context. */
+	const struct tar_operations *ops;
+	void *ctx;
+};
+
 uintmax_t
 tar_atoul(const char *s, size_t size, uintmax_t max);
 intmax_t
@@ -97,7 +122,8 @@ tar_atosl(const char *s, size_t size, intmax_t min, intmax_t max);
 void
 tar_entry_update_from_system(struct tar_entry *te);
 
-int tar_extractor(void *ctx, const struct tar_operations *ops);
+int
+tar_extractor(struct tar_archive *tar);
 
 /** @} */
 

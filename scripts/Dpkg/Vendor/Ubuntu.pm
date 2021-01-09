@@ -34,11 +34,11 @@ use parent qw(Dpkg::Vendor::Debian);
 
 =head1 NAME
 
-Dpkg::Vendor::Ubuntu - Ubuntu vendor object
+Dpkg::Vendor::Ubuntu - Ubuntu vendor class
 
 =head1 DESCRIPTION
 
-This vendor object customizes the behaviour of dpkg scripts for Ubuntu
+This vendor class customizes the behaviour of dpkg scripts for Ubuntu
 specific behavior and policies.
 
 =cut
@@ -65,9 +65,6 @@ sub run_hook {
                warning(g_('Version number suggests Ubuntu changes, but there is no XSBC-Original-Maintainer field'));
            }
         }
-
-    } elsif ($hook eq 'keyrings') {
-        return $self->run_hook('package-keyrings', @params);
     } elsif ($hook eq 'package-keyrings') {
         return ($self->SUPER::run_hook($hook),
                 '/usr/share/keyrings/ubuntu-archive-keyring.gpg');
@@ -98,6 +95,9 @@ sub run_hook {
     } elsif ($hook eq 'update-buildflags') {
 	my $flags = shift @params;
 
+        # Run the Debian hook to add hardening flags
+        $self->SUPER::run_hook($hook, $flags);
+
         require Dpkg::BuildOptions;
 
 	my $build_opts = Dpkg::BuildOptions->new();
@@ -109,15 +109,14 @@ sub run_hook {
             if (Dpkg::Arch::debarch_eq($arch, 'ppc64el')) {
 		for my $flag (qw(CFLAGS CXXFLAGS OBJCFLAGS OBJCXXFLAGS GCJFLAGS
 		                 FFLAGS FCFLAGS)) {
-		    $flags->set($flag, '-g -O3', 'vendor');
+                    my $value = $flags->get($flag);
+                    $value =~ s/-O[0-9]/-O3/;
+                    $flags->set($flag, $value);
 		}
 	    }
 	}
 	# Per https://wiki.ubuntu.com/DistCompilerFlags
-	$flags->set('LDFLAGS', '-Wl,-Bsymbolic-functions', 'vendor');
-
-	# Run the Debian hook to add hardening flags
-	$self->SUPER::run_hook($hook, $flags);
+        $flags->prepend('LDFLAGS', '-Wl,-Bsymbolic-functions');
     } else {
         return $self->SUPER::run_hook($hook, @params);
     }

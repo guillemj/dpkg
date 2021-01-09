@@ -34,7 +34,7 @@ Dpkg::Control::Tests - parse files like debian/tests/control
 
 =head1 DESCRIPTION
 
-It provides an object to access data of files that follow the same
+It provides a class to access data of files that follow the same
 syntax as F<debian/tests/control>.
 
 =head1 METHODS

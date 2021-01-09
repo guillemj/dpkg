@@ -38,7 +38,7 @@ Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n\
   ^b                    ^f                      pan display by 1 character\n\n\
 \
 Mark packages for later processing:\n\
- +, Insert  install or upgrade      =, H  hold in present state\n\
+ +, Insert  install or upgrade      =, H  hold in present version\n\
  -, Delete  remove                  :, G  unhold: upgrade or leave uninstalled\n\
  _          remove & purge config\n\
                                              Miscellaneous:\n\
@@ -115,7 +115,7 @@ the problem(s), and go back to the main list, by pressing capital 'X'.\n\n\
 You can also move around the list and change the markings so that they are more\n\
 like what you want, and you can 'reject' my suggestions by using the capital\n\
 'D' or 'R' keys (see the keybindings help screen).  You can use capital 'Q' to\n\
-force me to accept the situation currently displayed, in case you want to\n\
+force to accept the situation currently displayed, in case you want to\n\
 override a recommendation or think that the program is mistaken.\n\n\
 \
 Press <space> to leave help and enter the sub-list; remember: press '?' for help.\n")
@@ -140,7 +140,7 @@ four columns for its current status on the system and mark.  In terse mode (use\
  Mark: what is requested for this package:\n\
   '*': marked for installation or upgrade;\n\
   '-': marked for removal, but any configuration files will remain;\n\
-  '=': on hold: package will not be processed at all;\n\
+  '=': on hold: package will not be installed, upgraded or removed;\n\
   '_': marked for purge completely - even remove configuration;\n\
   'n': package is new and has yet to be marked for install/remove/&c.\n\n\
 \

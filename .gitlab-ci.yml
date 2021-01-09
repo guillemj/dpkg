@@ -1,0 +1,54 @@
+image: debian:sid
+
+variables:
+  FF_DISABLE_UMASK_FOR_DOCKER_EXECUTOR: 1
+
+before_script:
+  - apt update -qq
+  - apt install -qq -y eatmydata
+  - eatmydata apt install -qq -y --no-install-recommends
+    git ca-certificates
+  - eatmydata apt build-dep -qq -y .
+  - ./autogen
+
+# Test whether the release can be done.
+dist-check:
+  stage: test
+  script:
+    - eatmydata apt install -qq -y --no-install-recommends
+      libmodule-build-perl
+    - ./configure
+    - make distcheck
+
+# Test whether the unit tests pass.
+unit-tests:
+  stage: test
+  script:
+    - eatmydata apt install -qq -y --no-install-recommends
+      fakeroot gpg cppcheck shellcheck aspell aspell-en codespell i18nspector
+      libtest-strict-perl libtest-minimumversion-perl libtest-perl-critic-perl
+      libtest-pod-perl libtest-pod-coverage-perl libtest-spelling-perl
+      libtest-synopsis-perl
+    - ./configure
+    - make check TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
+                 AUTHOR_TESTING=1
+
+# Test whether the unit tests pass on a VPATH build.
+vpath-tests:
+  stage: test
+  script:
+    - mkdir -p build-tree
+    - cd build-tree
+    - ../configure
+    - make check TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
+
+# Test whether the functional tests pass.
+func-tests:
+  stage: test
+  script:
+    - ./configure
+    - make
+    - cd tests
+    - echo "DPKG_BUILDTREE = $(realpath ..)" >>.pkg-tests.conf
+    - ./db-regen
+    - eatmydata make test

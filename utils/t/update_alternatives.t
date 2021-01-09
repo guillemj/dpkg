@@ -21,6 +21,7 @@ use Test::More;
 use File::Spec;
 
 use Dpkg::IPC;
+use Dpkg::File qw(file_slurp);
 use Dpkg::Path qw(find_command);
 
 my $srcdir = $ENV{srcdir} || '.';
@@ -30,6 +31,9 @@ my $altdir = File::Spec->rel2abs("$tmpdir/alternatives");
 my $bindir = File::Spec->rel2abs("$tmpdir/bin");
 my @ua = ("$ENV{builddir}/update-alternatives", '--log', '/dev/null',
           '--quiet', '--admindir', "$admindir", '--altdir', "$altdir");
+
+delete $ENV{DPKG_ROOT};
+delete $ENV{DPKG_ADMINDIR};
 
 my %paths = (
     true => find_command('true'),
@@ -93,7 +97,7 @@ my @choices = (
 );
 my $nb_slaves = 4;
 plan tests => (4 * ($nb_slaves + 1) + 2) * 26 # number of check_choices
-               + 106;                         # rest
+               + 110;                         # rest
 
 sub cleanup {
     system("rm -rf $tmpdir && mkdir -p $admindir && mkdir -p $altdir");
@@ -260,11 +264,7 @@ check_choice(0, 'auto', 'initial install 3');
 
 # verify that the administrative file is sorted properly
 {
-    local $/ = undef;
-    open(my $db_fh, '<', "$admindir/generic-test") or die $!;
-    my $content = <$db_fh>;
-    close($db_fh);
-
+    my $content = file_slurp("$admindir/generic-test");
     my $expected =
 "auto
 $bindir/generic-test
@@ -518,3 +518,54 @@ ok(-f "$bindir/slave2", 'install + switching keeps real files installed as slave
 set_choice(1, params => ['--force']);
 ok(!-e "$bindir/slave2", 'forced switching w/o slave drops real files installed as slave links');
 check_choice(1, 'manual', 'set --force replaces files with links');
+
+# check disappearence of obsolete slaves (#916799)
+cleanup();
+call_ua([
+    '--install', "$bindir/test-obsolete", 'test-obsolete', "$paths{date}", '10',
+    '--slave', "$bindir/test-slave-a", 'test-slave-a', "$bindir/impl-slave-a",
+    '--slave', "$bindir/test-slave-b", 'test-slave-b', "$bindir/impl-slave-b",
+    '--slave', "$bindir/test-slave-c", 'test-slave-c', "$bindir/impl-slave-c",
+], to_file => '/dev/null', error_to_file => '/dev/null');
+
+my $content;
+my $expected;
+
+$content = file_slurp("$admindir/test-obsolete");
+$expected =
+"auto
+$bindir/test-obsolete
+test-slave-a
+$bindir/test-slave-a
+test-slave-b
+$bindir/test-slave-b
+test-slave-c
+$bindir/test-slave-c
+
+$paths{date}
+10
+$bindir/impl-slave-a
+$bindir/impl-slave-b
+$bindir/impl-slave-c
+
+";
+is($content, $expected, 'administrative file for non-obsolete slaves is as expected');
+
+call_ua([
+    '--install', "$bindir/test-obsolete", 'test-obsolete', "$paths{date}", '20',
+    '--slave', "$bindir/test-slave-c", 'test-slave-c', "$bindir/impl-slave-c",
+], to_file => '/dev/null', error_to_file => '/dev/null');
+
+$content = file_slurp("$admindir/test-obsolete");
+$expected =
+"auto
+$bindir/test-obsolete
+test-slave-c
+$bindir/test-slave-c
+
+$paths{date}
+20
+$bindir/impl-slave-c
+
+";
+is($content, $expected, 'administrative file for obsolete slaves is as expected');

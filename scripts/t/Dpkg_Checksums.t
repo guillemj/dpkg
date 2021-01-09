@@ -16,14 +16,14 @@
 use strict;
 use warnings;
 
-use Test::More tests => 44;
+use Test::More tests => 59;
 use Test::Dpkg qw(:paths);
 
 BEGIN {
     use_ok('Dpkg::Checksums');
 }
 
-my $datadir = test_get_data_path('t/Dpkg_Checksums');
+my $datadir = test_get_data_path();
 
 my @data = (
     {
@@ -119,5 +119,33 @@ foreach my $alg (keys %str_checksum) {
 }
 
 test_checksums($ck);
+
+# Check remove_file()
+
+ok($ck->has_file('data-2'), 'To be removed file is present');
+$ck->remove_file('data-2');
+ok(!$ck->has_file('data-2'), 'Remove file is not present');
+
+# Check add_from_control()
+my $ctrl;
+foreach my $f (@data) {
+    next if $f->{file} ne 'data-2';
+    foreach my $alg (keys %{$f->{sums}}) {
+        $ctrl->{"Checksums-$alg"} = "\n$f->{sums}->{$alg} $f->{size} $f->{file}";
+    }
+}
+$ck->add_from_control($ctrl);
+
+test_checksums($ck);
+
+# Check export_to_control()
+
+my $ctrl_export = {};
+$ck->export_to_control($ctrl_export);
+
+foreach my $alg (keys %str_checksum) {
+    is($ctrl_export->{"Checksums-$alg"}, $str_checksum{$alg},
+       "Export checksum $alg to a control object");
+}
 
 1;

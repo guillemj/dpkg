@@ -23,8 +23,16 @@
 #include <string.h>
 #include <stdlib.h>
 
+/* We need to disarm the libselinux declaration to avoid a redundant
+ * declaration. */
+#if TEST_LIBCOMPAT
+#define setexecfilecon setexecfilecon_libselinux
+#endif
 #include <selinux/selinux.h>
 #include <selinux/context.h>
+#if TEST_LIBCOMPAT
+#undef setexecfilecon
+#endif
 
 #include "compat.h"
 
@@ -32,8 +40,7 @@ int
 setexecfilecon(const char *filename, const char *fallback)
 {
 	int rc;
-
-	security_context_t curcon = NULL, newcon = NULL, filecon = NULL;
+	char *curcon = NULL, *newcon = NULL, *filecon = NULL;
 	security_class_t seclass;
 	context_t tmpcon = NULL;
 

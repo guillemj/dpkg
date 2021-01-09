@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * path-remove.c - path removal functionss
+ * path-remove.c - path removal functions
  *
  * Copyright © 1994-1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2007-2015 Guillem Jover <guillem@debian.org>
@@ -24,7 +24,6 @@
 
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
@@ -122,7 +121,8 @@ path_remove_tree(const char *pathname)
 	const char *u;
 
 	u = path_skip_slash_dotslash(pathname);
-	assert(*u);
+	if (u[0] == '\0')
+		internerr("pathname '%s' reduces to nothing", pathname);
 
 	debug(dbg_eachfile, "%s '%s'", __func__, pathname);
 	if (!rmdir(pathname))

@@ -33,6 +33,7 @@ our @EXPORT = qw(
     build_is
     set_build_type
     set_build_type_from_options
+    set_build_type_from_targets
     get_build_options_from_type
 );
 
@@ -107,6 +108,15 @@ my %build_types = (
     binary => BUILD_BINARY,
     any => BUILD_ARCH_DEP,
     all => BUILD_ARCH_INDEP,
+);
+my %build_targets = (
+    'clean' => BUILD_SOURCE,
+    'build' => BUILD_BINARY,
+    'build-arch' => BUILD_ARCH_DEP,
+    'build-indep' => BUILD_ARCH_INDEP,
+    'binary' => BUILD_BINARY,
+    'binary-arch' => BUILD_ARCH_DEP,
+    'binary-indep' => BUILD_ARCH_INDEP,
 );
 
 =back
@@ -193,9 +203,10 @@ sub set_build_type
     $current_option = $build_option;
 }
 
-=item set_build_type_from_options($build_type, $build_option, %opts)
+=item set_build_type_from_options($build_types, $build_option, %opts)
 
-Set the current build type from a list of build type components.
+Set the current build type from a list of comma-separated build type
+components.
 
 The function will check and abort on incompatible build type assignments,
 this behavior can be disabled by using the boolean option "nocheck".
@@ -211,6 +222,28 @@ sub set_build_type_from_options
         usageerr(g_('unknown build type %s'), $type)
             unless exists $build_types{$type};
         $build_type |= $build_types{$type};
+    }
+
+    set_build_type($build_type, $build_option, %opts);
+}
+
+=item set_build_type_from_targets($build_targets, $build_option, %opts)
+
+Set the current build type from a list of comma-separated build target
+components.
+
+The function will check and abort on incompatible build type assignments,
+this behavior can be disabled by using the boolean option "nocheck".
+
+=cut
+
+sub set_build_type_from_targets
+{
+    my ($build_targets, $build_option, %opts) = @_;
+
+    my $build_type = 0;
+    foreach my $target (split /,/, $build_targets) {
+        $build_type |= $build_targets{$target} // BUILD_BINARY;
     }
 
     set_build_type($build_type, $build_option, %opts);

@@ -22,7 +22,7 @@
 use strict;
 use warnings;
 
-use List::Util qw(any none);
+use List::Util qw(any all none);
 use Encode;
 use POSIX qw(:errno_h :locale_h);
 
@@ -212,6 +212,7 @@ my $sourceversion = $changelog->{'Binary-Only'} ?
 my $binaryversion = $changelog->{'Version'};
 
 $substvars->set_version_substvars($sourceversion, $binaryversion);
+$substvars->set_vendor_substvars();
 $substvars->set_arch_substvars();
 $substvars->load('debian/substvars') if -e 'debian/substvars' and not $substvars_loaded;
 
@@ -221,8 +222,8 @@ if (defined($prev_changelog) and
 {
     warning(g_('the current version (%s) is earlier than the previous one (%s)'),
 	$changelog->{'Version'}, $prev_changelog->{'Version'})
-        # ~bpo and ~vola are backports and have lower version number by definition
-        unless $changelog->{'Version'} =~ /~(?:bpo|vola)/;
+        # Backports have lower version number by definition.
+        unless $changelog->{'Version'} =~ /~(?:bpo|deb)/;
 }
 
 # Scan control info of source package
@@ -353,15 +354,6 @@ foreach my $pkg ($control->get_packages()) {
     my $pkg_type = $pkg->{'Package-Type'} ||
                    $pkg->get_custom_field('Package-Type') || 'deb';
 
-    my @f; # List of files for this binary package
-    push @f, @{$p2f{$p}} if defined $p2f{$p};
-
-    # Add description of all binary packages
-    $d = $substvars->substvars($d);
-    my $desc = encode_utf8(sprintf('%-10s - %-.65s', $p, decode_utf8($d)));
-    $desc .= " ($pkg_type)" if $pkg_type ne 'deb';
-    push @descriptions, $desc;
-
     my @restrictions;
     @restrictions = parse_build_profiles($bp) if defined $bp;
 
@@ -369,7 +361,7 @@ foreach my $pkg ($control->get_packages()) {
 	# No files for this package... warn if it's unexpected
 	if (((build_has_any(BUILD_ARCH_INDEP) and debarch_eq('all', $a)) or
 	     (build_has_any(BUILD_ARCH_DEP) and
-	      (any { debarch_is($host_arch, $_) } debarch_list_parse($a)))) and
+	      (any { debarch_is($host_arch, $_) } debarch_list_parse($a, positive => 1)))) and
 	    (@restrictions == 0 or
 	     evaluate_restriction_formula(\@restrictions, \@profiles)))
 	{
@@ -378,6 +370,15 @@ foreach my $pkg ($control->get_packages()) {
 	}
 	next; # and skip it
     }
+
+    # Add description of all binary packages
+    $d = $substvars->substvars($d);
+    my $desc = encode_utf8(sprintf('%-10s - %-.65s', $p, decode_utf8($d)));
+    $desc .= " ($pkg_type)" if $pkg_type ne 'deb';
+    push @descriptions, $desc;
+
+    # List of files for this binary package.
+    my @f = @{$p2f{$p}};
 
     foreach (keys %{$pkg}) {
 	my $v = $pkg->{$_};
@@ -388,7 +389,7 @@ foreach my $pkg ($control->get_packages()) {
 	    $f2pricf{$_} = $v foreach (@f);
 	} elsif (m/^Architecture$/) {
 	    if (build_has_any(BUILD_ARCH_DEP) and
-	        (any { debarch_is($host_arch, $_) } debarch_list_parse($v))) {
+	        (any { debarch_is($host_arch, $_) } debarch_list_parse($v, positive => 1))) {
 		$v = $host_arch;
 	    } elsif (!debarch_eq('all', $v)) {
 		$v = '';
@@ -415,18 +416,19 @@ foreach (keys %{$changelog}) {
 }
 
 if ($changesdescription) {
-    open(my $changes_fh, '<', $changesdescription)
-        or syserr(g_('cannot read %s'), $changesdescription);
-    $fields->{'Changes'} = "\n" . file_slurp($changes_fh);
-    close($changes_fh);
+    $fields->{'Changes'} = "\n" . file_slurp($changesdescription);
 }
 
 for my $p (keys %p2f) {
     if (not defined $control->get_pkg_by_name($p)) {
-        # XXX: Skip automatic debugging symbol packages. We should not be
-        # hardcoding packages names here, as this is distribution-specific.
-        # Instead we should use the Auto-Built-Package field.
-        next if $p =~ m/-dbgsym$/;
+        # Skip automatically generated packages (such as debugging symbol
+        # packages), by using the Auto-Built-Package field.
+        next if all {
+            my $file = $dist->get_file($_);
+
+            $file->{attrs}->{automatic} eq 'yes'
+        } @{$p2f{$p}};
+
         warning(g_('package %s listed in files list but not in control info'), $p);
         next;
     }
@@ -458,13 +460,13 @@ info($origsrcmsg);
 
 $fields->{'Format'} = $substvars->get('Format');
 
-if (!defined($fields->{'Date'})) {
+if (length $fields->{'Date'} == 0) {
     setlocale(LC_TIME, 'C');
     $fields->{'Date'} = POSIX::strftime('%a, %d %b %Y %T %z', localtime);
     setlocale(LC_TIME, '');
 }
 
-$fields->{'Binary'} = join(' ', map { $_->{'Package'} } $control->get_packages());
+$fields->{'Binary'} = join ' ', sort keys %p2f;
 # Avoid overly long line by splitting over multiple lines
 if (length($fields->{'Binary'}) > 980) {
     $fields->{'Binary'} =~ s/(.{0,980}) /$1\n/g;

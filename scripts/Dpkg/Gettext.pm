@@ -28,15 +28,15 @@ package Dpkg::Gettext;
 
 use strict;
 use warnings;
+use feature qw(state);
 
-our $VERSION = '1.03';
+our $VERSION = '2.00';
 our @EXPORT = qw(
     textdomain
     ngettext
     g_
     P_
     N_
-    _g
 );
 
 use Exporter qw(import);
@@ -88,6 +88,19 @@ our $DEFAULT_TEXT_DOMAIN = 'dpkg-dev';
 
 =over 4
 
+=item $domain = textdomain($new_domain)
+
+Compatibility textdomain() fallback when Locale::gettext is not available.
+
+If $new_domain is not undef, it will set the current domain to $new_domain.
+Returns the current domain, after possibly changing it.
+
+=item $trans = ngettext($msgid, $msgid_plural, $n)
+
+Compatibility ngettext() fallback when Locale::gettext is not available.
+
+Returns $msgid if $n is 1 or $msgid_plural otherwise.
+
 =item $trans = g_($msgid)
 
 Calls dgettext() on the $msgid and returns its translation for the current
@@ -118,41 +131,43 @@ BEGIN {
         $use_gettext = not $@;
     }
     if (not $use_gettext) {
-        eval q{
-            sub g_ {
-                return shift;
-            }
-            sub textdomain {
-            }
-            sub ngettext {
-                my ($msgid, $msgid_plural, $n) = @_;
-                if ($n == 1) {
-                    return $msgid;
-                } else {
-                    return $msgid_plural;
-                }
-            }
-            sub C_ {
-                my ($msgctxt, $msgid) = @_;
+        *g_ = sub {
+            return shift;
+        };
+        *textdomain = sub {
+            my $new_domain = shift;
+            state $domain = $DEFAULT_TEXT_DOMAIN;
+
+            $domain = $new_domain if defined $new_domain;
+
+            return $domain;
+        };
+        *ngettext = sub {
+            my ($msgid, $msgid_plural, $n) = @_;
+            if ($n == 1) {
                 return $msgid;
-            }
-            sub P_ {
-                return ngettext(@_);
+            } else {
+                return $msgid_plural;
             }
         };
+        *C_ = sub {
+            my ($msgctxt, $msgid) = @_;
+            return $msgid;
+        };
+        *P_ = sub {
+            return ngettext(@_);
+        };
     } else {
-        eval q{
-            sub g_ {
-                return dgettext($DEFAULT_TEXT_DOMAIN, shift);
-            }
-            sub C_ {
-                my ($msgctxt, $msgid) = @_;
-                return dgettext($DEFAULT_TEXT_DOMAIN,
-                                $msgctxt . GETTEXT_CONTEXT_GLUE . $msgid);
-            }
-            sub P_ {
-                return dngettext($DEFAULT_TEXT_DOMAIN, @_);
-            }
+        *g_ = sub {
+            return dgettext($DEFAULT_TEXT_DOMAIN, shift);
+        };
+        *C_ = sub {
+            my ($msgctxt, $msgid) = @_;
+            return dgettext($DEFAULT_TEXT_DOMAIN,
+                            $msgctxt . GETTEXT_CONTEXT_GLUE . $msgid);
+        };
+        *P_ = sub {
+            return dngettext($DEFAULT_TEXT_DOMAIN, @_);
         };
     }
 }
@@ -173,18 +188,11 @@ sub N_
     return $msgid;
 }
 
-# XXX: Backwards compatibility, to be removed on VERSION 2.00.
-sub _g ## no critic (Subroutines::ProhibitUnusedPrivateSubroutines)
-{
-    my $msgid = shift;
-
-    warnings::warnif('deprecated',
-                     'obsolete _g() function, please use g_() instead');
-
-    return g_($msgid);
-}
-
 =head1 CHANGES
+
+=head2 Version 2.00 (dpkg 1.20.0)
+
+Remove function: _g().
 
 =head2 Version 1.03 (dpkg 1.19.0)
 

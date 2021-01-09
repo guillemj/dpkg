@@ -21,6 +21,8 @@
 #include <config.h>
 #include <compat.h>
 
+#include <string.h>
+
 #include <dpkg/test.h>
 #include <dpkg/ar.h>
 
@@ -29,11 +31,11 @@ test_ar_normalize_name(void)
 {
 	struct dpkg_ar_hdr arh;
 
-	strncpy(arh.ar_name, "member-name/    ", sizeof(arh.ar_name));
+	memccpy(arh.ar_name, "member-name/    ", '\0', sizeof(arh.ar_name));
 	dpkg_ar_normalize_name(&arh);
 	test_str(arh.ar_name, ==, "member-name");
 
-	strncpy(arh.ar_name, "member-name     ", sizeof(arh.ar_name));
+	memccpy(arh.ar_name, "member-name     ", '\0', sizeof(arh.ar_name));
 	dpkg_ar_normalize_name(&arh);
 	test_str(arh.ar_name, ==, "member-name");
 }

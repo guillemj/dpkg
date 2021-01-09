@@ -20,7 +20,7 @@
 use warnings;
 use strict;
 
-use Getopt::Long qw(:config posix_default bundling no_ignorecase);
+use Getopt::Long qw(:config posix_default bundling_values no_ignorecase);
 use List::Util qw(none);
 use File::Find;
 
@@ -38,10 +38,11 @@ textdomain('dpkg-dev');
 report_options(info_fh => \*STDERR);
 
 my (@samemaint, @changedmaint);
+my @multi_instances;
 my @spuriousover;
 my %packages;
 my %overridden;
-my %hash;
+my @checksums;
 
 my %options = (help            => sub { usage(); exit 0; },
 	       version         => sub { version(); exit 0; },
@@ -174,20 +175,23 @@ sub process_deb {
         if not defined $p;
 
     if (defined($packages{$p}) and not $options{multiversion}) {
-        foreach my $pkg (@{$packages{$p}}) {
-            if (version_compare_relation($fields->{'Version'}, REL_GT,
-                                         $pkg->{'Version'}))
-            {
-                warning(g_('package %s (filename %s) is repeat but newer ' .
-                           'version; used that one and ignored data from %s!'),
-                        $p, $fn, $pkg->{Filename});
-                $packages{$p} = [];
-            } else {
-                warning(g_('package %s (filename %s) is repeat; ' .
-                           'ignored that one and using data from %s!'),
-                        $p, $fn, $pkg->{Filename});
-                return;
-            }
+        my $pkg = ${$packages{$p}}[0];
+
+        @multi_instances = ($pkg->{Filename}) if @multi_instances == 0;
+        push @multi_instances, "$pathprefix$fn";
+
+        if (version_compare_relation($fields->{'Version'}, REL_GT,
+                                     $pkg->{'Version'}))
+        {
+            warning(g_('package %s (filename %s) is repeat but newer ' .
+                       'version; used that one and ignored data from %s!'),
+                    $p, $fn, $pkg->{Filename});
+            $packages{$p} = [];
+        } else {
+            warning(g_('package %s (filename %s) is repeat; ' .
+                       'ignored that one and using data from %s!'),
+                    $p, $fn, $pkg->{Filename});
+            return;
         }
     }
 
@@ -196,10 +200,8 @@ sub process_deb {
     $fields->{'Filename'} = "$pathprefix$fn";
 
     my $sums = Dpkg::Checksums->new();
-    $sums->add_from_file($fn);
-    foreach my $alg (checksums_get_list()) {
-        next if %hash and not $hash{$alg};
-
+    $sums->add_from_file($fn, checksums => \@checksums);
+    foreach my $alg (@checksums) {
         if ($alg eq 'md5') {
             $fields->{'MD5sum'} = $sums->get_checksum($fn, $alg);
         } else {
@@ -223,13 +225,14 @@ if (not (@ARGV >= 1 and @ARGV <= 3)) {
 
 my $type = $options{type} // 'deb';
 my $arch = $options{arch};
-%hash = map { $_ => 1 } split /,/, $options{hash} // '';
+my %hash = map { $_ => 1 } split /,/, $options{hash} // '';
 
 foreach my $alg (keys %hash) {
     if (not checksums_is_supported($alg)) {
         usageerr(g_('unsupported checksum \'%s\''), $alg);
     }
 }
+@checksums = %hash ? keys %hash : checksums_get_list();
 
 my ($binarypath, $override, $pathprefix) = @ARGV;
 
@@ -275,6 +278,10 @@ for my $p (sort keys %packages) {
 }
 close(STDOUT) or syserr(g_("couldn't close stdout"));
 
+if (@multi_instances) {
+    warning(g_('Packages with multiple instances but no --multiversion specified:'));
+    warning($_) foreach (sort @multi_instances);
+}
 if (@changedmaint) {
     warning(g_('Packages in override file with incorrect old maintainer value:'));
     warning($_) foreach (@changedmaint);

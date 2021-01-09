@@ -149,16 +149,16 @@ protected:
   int deselect_one_of(pkginfo *er, pkginfo *ed, dependency *dep);
 
   // Define these virtuals
-  bool checksearch(char *str);
-  bool matchsearch(int index);
-  void redraw1itemsel(int index, int selected);
-  void redrawcolheads();
-  void redrawthisstate();
-  void redrawinfo();
-  void redrawtitle();
-  void setwidths();
-  const char *itemname(int index);
-  const struct helpmenuentry *helpmenulist();
+  bool checksearch(char *str) override;
+  bool matchsearch(int index) override;
+  void redraw1itemsel(int index, int selected) override;
+  void redrawcolheads() override;
+  void redrawthisstate() override;
+  void redrawinfo() override;
+  void redrawtitle() override;
+  void setwidths() override;
+  const char *itemname(int index) override;
+  const struct helpmenuentry *helpmenulist() override;
 
   // Miscellaneous internal routines
 
@@ -210,9 +210,9 @@ protected:
   void kd_archdisplay();
   void kd_versiondisplay();
 
-  packagelist(keybindings *kb); // nonrecursive
+  explicit packagelist(keybindings *kb); // nonrecursive
   packagelist(keybindings *kb, pkginfo **pkgltab); // recursive
-  void add(pkginfo **arry) { while (*arry) add(*arry++); }
+  void add(pkginfo **array) { while (*array) add(*array++); }
   void add(pkginfo*);
   void add(pkginfo *, pkgwant);
   void add(pkginfo*, const char *extrainfo, showpriority displayimportance);

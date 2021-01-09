@@ -3,6 +3,7 @@
 dist_pkgdata_DATA = \
 	architecture.mk \
 	buildflags.mk \
+	buildopts.mk \
 	buildtools.mk \
 	default.mk \
 	pkg-info.mk \

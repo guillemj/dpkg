@@ -25,7 +25,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
@@ -43,9 +42,9 @@
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
 #include <dpkg/triglib.h>
+#include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
-#include "infodb.h"
 #include "main.h"
 
 void
@@ -101,12 +100,14 @@ maintscript_pre_exec(struct command *cmd)
 	const char *changedir;
 	size_t instdirlen = strlen(instdir);
 
-	if (instdirlen > 0 && fc_script_chrootless)
+	if (instdirlen > 0 && in_force(FORCE_SCRIPT_CHROOTLESS))
 		changedir = instdir;
 	else
 		changedir = "/";
 
-	if (instdirlen > 0 && !fc_script_chrootless) {
+	if (instdirlen > 0 && !in_force(FORCE_SCRIPT_CHROOTLESS)) {
+		int rc;
+
 		if (strncmp(admindir, instdir, instdirlen) != 0)
 			ohshit(_("admindir must be inside instdir for dpkg to work properly"));
 		if (setenv("DPKG_ADMINDIR", admindir + instdirlen, 1) < 0)
@@ -114,7 +115,12 @@ maintscript_pre_exec(struct command *cmd)
 		if (setenv("DPKG_ROOT", "", 1) < 0)
 			ohshite(_("unable to setenv for subprocesses"));
 
-		if (chroot(instdir))
+		rc = chroot(instdir);
+		if (rc && in_force(FORCE_NON_ROOT) && errno == EPERM)
+			ohshit(_("not enough privileges to change root "
+			         "directory with --force-not-root, consider "
+			         "using --force-script-chrootless?"));
+		else if (rc)
 			ohshite(_("failed to chroot to '%.250s'"), instdir);
 	}
 	/* Switch to a known good directory to give the maintainer script
@@ -134,10 +140,13 @@ maintscript_pre_exec(struct command *cmd)
 		      args.buf);
 		varbuf_destroy(&args);
 	}
-	if (instdirlen == 0 || fc_script_chrootless)
+	if (instdirlen == 0 || in_force(FORCE_SCRIPT_CHROOTLESS))
 		return cmd->filename;
 
-	assert(strlen(cmd->filename) >= instdirlen);
+	if (strlen(cmd->filename) < instdirlen)
+		internerr("maintscript name '%s' length < instdir length %zd",
+		          cmd->filename, instdirlen);
+
 	return cmd->filename + instdirlen;
 }
 
@@ -149,15 +158,14 @@ maintscript_pre_exec(struct command *cmd)
  * one, use the given fallback.
  */
 static int
-maintscript_set_exec_context(struct command *cmd, const char *fallback)
+maintscript_set_exec_context(struct command *cmd)
 {
-	int rc = 0;
-
 #ifdef WITH_LIBSELINUX
-	rc = setexecfilecon(cmd->filename, fallback);
+	return setexecfilecon(cmd->filename, "dpkg_script_t");
+#else
+	return 0;
 #endif
 
-	return rc < 0 ? rc : 0;
 }
 
 static int
@@ -169,7 +177,7 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
 	setexecute(cmd->filename, stab);
 
-	push_cleanup(cu_post_script_tasks, ehflag_bombout, NULL, 0, 0);
+	push_cleanup(cu_post_script_tasks, ehflag_bombout, 0);
 
 	pid = subproc_fork();
 	if (pid == 0) {
@@ -190,7 +198,7 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
 		cmd->filename = cmd->argv[0] = maintscript_pre_exec(cmd);
 
-		if (maintscript_set_exec_context(cmd, "dpkg_script_t") < 0)
+		if (maintscript_set_exec_context(cmd) < 0)
 			ohshite(_("cannot set security execution context for "
 			          "maintainer script"));
 
@@ -224,12 +232,12 @@ vmaintscript_installed(struct pkginfo *pkg, const char *scriptname,
 
 	if (stat(scriptpath, &stab)) {
 		command_destroy(&cmd);
-		free(buf);
 
 		if (errno == ENOENT) {
 			debug(dbg_scripts,
 			      "vmaintscript_installed nonexistent %s",
 			      scriptname);
+			free(buf);
 			return 0;
 		}
 		ohshite(_("unable to stat %s '%.250s'"), buf, scriptpath);
@@ -300,12 +308,12 @@ maintscript_new(struct pkginfo *pkg, const char *scriptname,
 
 	if (stat(cidir, &stab)) {
 		command_destroy(&cmd);
-		free(buf);
 
 		if (errno == ENOENT) {
 			debug(dbg_scripts,
 			      "maintscript_new nonexistent %s '%s'",
 			      scriptname, cidir);
+			free(buf);
 			return 0;
 		}
 		ohshite(_("unable to stat %s '%.250s'"), buf, cidir);
@@ -373,7 +381,6 @@ maintscript_fallback(struct pkginfo *pkg,
 
 	if (stat(cidir, &stab)) {
 		command_destroy(&cmd);
-		free(buf);
 
 		if (errno == ENOENT)
 			ohshit(_("there is no script in the new version of the package - giving up"));

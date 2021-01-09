@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 94;
+use Test::More tests => 102;
 use Test::Dpkg qw(:paths);
 
 use File::Basename;
@@ -29,21 +29,19 @@ BEGIN {
     use_ok('Dpkg::Vendor', qw(get_current_vendor));
 };
 
-my $datadir = test_get_data_path('t/Dpkg_Changelog');
+my $datadir = test_get_data_path();
 
 my $vendor = get_current_vendor();
 
 #########################
 
 foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
-    "$datadir/regressions", "$datadir/date-format") {
+    "$datadir/regressions", "$datadir/date-format", "$datadir/stop-modeline") {
 
     my $changes = Dpkg::Changelog::Debian->new(verbose => 0);
     $changes->load($file);
 
-    open(my $clog_fh, '<', "$file") or die "can't open $file\n";
-    my $content = file_slurp($clog_fh);
-    close($clog_fh);
+    my $content = file_slurp($file);
     cmp_ok($content, 'eq', "$changes", "string output of Dpkg::Changelog on $file");
 
     my $errors = $changes->get_parse_errors();
@@ -81,6 +79,10 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
                       count => 3,
                       versions => [ '2:2.0-1', '1:2.0~rc2-3', '1:2.0~rc2-2' ],
                       name => 'positive count');
+        check_options(%ref, range => { count => 3, reverse => 1 },
+                      count => 3,
+                      versions => [ '1:2.0~rc2-2', '1:2.0~rc2-3', '2:2.0-1' ],
+                      name => 'positive reverse count');
         check_options(%ref, range => { count => -3 },
                       count => 3,
                       versions => [
@@ -341,6 +343,10 @@ Xb-Userfield2: foobar
            'get date w/ DoW, and positive timezone offset');
         is($data[2]->get_timestamp(), 'Mon, 01 Jan 2000 00:00:00 +0000',
            'get date w/ DoW, and zero timezone offset');
+    }
+    if ($file eq "$datadir/stop-modeline") {
+        is($changes->get_unparsed_tail(), "vim: et\n",
+           'get unparsed modeline at EOF');
     }
     if ($file eq "$datadir/regressions") {
 	my $f = ($changes->format_range('dpkg'))[0];

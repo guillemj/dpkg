@@ -18,17 +18,44 @@ package Dpkg::OpenPGP;
 use strict;
 use warnings;
 
+use POSIX qw(:sys_wait_h);
 use Exporter qw(import);
+use File::Temp;
 use File::Copy;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::IPC;
 use Dpkg::Path qw(find_command);
 
 our $VERSION = '0.01';
 our @EXPORT = qw(
     openpgp_sig_to_asc
 );
+
+sub _armor_gpg {
+    my ($sig, $asc) = @_;
+
+    my @gpg_opts = qw(--no-options);
+
+    open my $fh_asc, '>', $asc
+        or syserr(g_('cannot create signature file %s'), $asc);
+    open my $fh_gpg, '-|', 'gpg', @gpg_opts, '-o', '-', '--enarmor', $sig
+        or syserr(g_('cannot execute %s program'), 'gpg');
+    while (my $line = <$fh_gpg>) {
+        next if $line =~ m/^Version: /;
+        next if $line =~ m/^Comment: /;
+
+        $line =~ s/ARMORED FILE/SIGNATURE/;
+
+        print { $fh_asc } $line;
+    }
+
+    close $fh_gpg or subprocerr('gpg');
+    close $fh_asc or syserr(g_('cannot write signature file %s'), $asc);
+
+    return $asc;
+}
 
 sub openpgp_sig_to_asc
 {
@@ -49,32 +76,101 @@ sub openpgp_sig_to_asc
         if ($is_openpgp_ascii_armor) {
             notice(g_('signature file is already OpenPGP ASCII armor, copying'));
             copy($sig, $asc);
-            return;
+            return $asc;
         }
 
-        if (not find_command('gpg')) {
+        if (find_command('gpg')) {
+            return _armor_gpg($sig, $asc);
+        } else {
             warning(g_('cannot OpenPGP ASCII armor signature file due to missing gpg'));
         }
-
-        open my $fh_asc, '>', $asc
-            or syserr(g_('cannot create signature file %s'), $asc);
-        open my $fh_gpg, '-|', 'gpg', '-o', '-', '--enarmor', $sig
-            or syserr(g_('cannot execute %s program'), 'gpg');
-        while (my $line = <$fh_gpg>) {
-            next if $line =~ m/^Comment: /;
-
-            $line =~ s/ARMORED FILE/SIGNATURE/;
-
-            print { $fh_asc } $line;
-        }
-
-        close $fh_gpg or subprocerr('gpg');
-        close $fh_asc or syserr(g_('cannot write signature file %s'), $asc);
-
-        return $sig;
     }
 
     return;
+}
+
+sub import_key {
+    my ($asc, %opts) = @_;
+
+    $opts{require_valid_signature} //= 1;
+
+    my @exec;
+    if (find_command('gpg')) {
+        push @exec, 'gpg';
+    } elsif ($opts{require_valid_signature}) {
+        error(g_('cannot import key in %s since GnuPG is not installed'),
+              $asc);
+    } else {
+        warning(g_('cannot import key in %s since GnuPG is not installed'),
+                $asc);
+        return;
+    }
+
+    my $gpghome = File::Temp->newdir('dpkg-import-key.XXXXXXXX', TMPDIR => 1);
+
+    push @exec, '--homedir', $gpghome;
+    push @exec, '--no-options', '--no-default-keyring', '-q', '--import';
+    push @exec, '--keyring', $opts{keyring};
+    push @exec, $asc;
+
+    my ($stdout, $stderr);
+    spawn(exec => \@exec, wait_child => 1, nocheck => 1, timeout => 10,
+          to_string => \$stdout, error_to_string => \$stderr);
+    if (WIFEXITED($?)) {
+        my $status = WEXITSTATUS($?);
+        print { *STDERR } "$stdout$stderr" if $status;
+        if ($status == 1 or ($status && $opts{require_valid_signature})) {
+            error(g_('failed to import key in %s'), $asc);
+        } elsif ($status) {
+            warning(g_('failed to import key in %s'), $asc);
+        }
+    } else {
+        subprocerr("@exec");
+    }
+}
+
+sub verify_signature {
+    my ($sig, %opts) = @_;
+
+    $opts{require_valid_signature} //= 1;
+
+    my @exec;
+    if (find_command('gpgv')) {
+        push @exec, 'gpgv';
+    } elsif (find_command('gpg')) {
+        my @gpg_opts = qw(--no-options --no-default-keyring -q);
+        push @exec, 'gpg', @gpg_opts, '--verify';
+    } elsif ($opts{require_valid_signature}) {
+        error(g_('cannot verify signature on %s since GnuPG is not installed'),
+              $sig);
+    } else {
+        warning(g_('cannot verify signature on %s since GnuPG is not installed'),
+                $sig);
+        return;
+    }
+
+    my $gpghome = File::Temp->newdir('dpkg-verify-sig.XXXXXXXX', TMPDIR => 1);
+    push @exec, '--homedir', $gpghome;
+    foreach my $keyring (@{$opts{keyrings}}) {
+        push @exec, '--keyring', $keyring;
+    }
+    push @exec, $sig;
+    push @exec, $opts{datafile} if exists $opts{datafile};
+
+    my ($stdout, $stderr);
+    spawn(exec => \@exec, wait_child => 1, nocheck => 1, timeout => 10,
+          to_string => \$stdout, error_to_string => \$stderr);
+    if (WIFEXITED($?)) {
+        my $status = WEXITSTATUS($?);
+        print { *STDERR } "$stdout$stderr" if $status;
+        if ($status == 1 or ($status && $opts{require_valid_signature})) {
+            error(g_('failed to verify signature on %s'), $sig);
+        } elsif ($status) {
+            warning(g_('failed to verify signature on %s'), $sig);
+        }
+    } else {
+        subprocerr("@exec");
+    }
 }
 
 1;

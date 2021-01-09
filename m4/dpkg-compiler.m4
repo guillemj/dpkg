@@ -1,10 +1,11 @@
+# serial 1
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>
 # Copyright © 2006, 2009-2011, 2013-2016 Guillem Jover <guillem@debian.org>
 
 # DPKG_CHECK_COMPILER_FLAG
 # ------------------------
 AC_DEFUN([DPKG_CHECK_COMPILER_FLAG], [
-  m4_define([dpkg_check_flag], [m4_default([$2], [$1])])
+  m4_define([dpkg_check_flag], m4_bpatsubst([$1], [^-Wno-], [-W]))
 
   AC_LANG_CASE(
   [C], [
@@ -45,41 +46,48 @@ AC_DEFUN([DPKG_CHECK_COMPILER_FLAG], [
 AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
   DPKG_CHECK_COMPILER_FLAG([-Wall])
   DPKG_CHECK_COMPILER_FLAG([-Wextra])
-  DPKG_CHECK_COMPILER_FLAG([-Wno-unused-parameter], [-Wunused-parameter])
-  DPKG_CHECK_COMPILER_FLAG([-Wno-missing-field-initializers],
-                           [-Wmissing-field-initializers])
-  DPKG_CHECK_COMPILER_FLAG([-Wno-tautological-constant-out-of-range-compare],
-                           [-Wtautological-constant-out-of-range-compare])
+
+  DPKG_CHECK_COMPILER_FLAG([-Wcast-align])
+  DPKG_CHECK_COMPILER_FLAG([-Wdocumentation])
+  DPKG_CHECK_COMPILER_FLAG([-Wduplicated-branches])
+  DPKG_CHECK_COMPILER_FLAG([-Wduplicated-cond])
+  DPKG_CHECK_COMPILER_FLAG([-Wformat -Wformat-security])
+  DPKG_CHECK_COMPILER_FLAG([-Wformat=2])
+  DPKG_CHECK_COMPILER_FLAG([-Winit-self])
+  DPKG_CHECK_COMPILER_FLAG([-Wlogical-not-parentheses])
+  DPKG_CHECK_COMPILER_FLAG([-Wlogical-op])
   DPKG_CHECK_COMPILER_FLAG([-Wmissing-declarations])
   DPKG_CHECK_COMPILER_FLAG([-Wmissing-format-attribute])
-  DPKG_CHECK_COMPILER_FLAG([-Wformat -Wformat-security])
-  DPKG_CHECK_COMPILER_FLAG([-Wsizeof-array-argument])
+  DPKG_CHECK_COMPILER_FLAG([-Wno-missing-field-initializers])
+  DPKG_CHECK_COMPILER_FLAG([-Wno-nonnull-compare])
+  DPKG_CHECK_COMPILER_FLAG([-Wno-tautological-constant-out-of-range-compare])
+  DPKG_CHECK_COMPILER_FLAG([-Wno-unused-parameter])
+  DPKG_CHECK_COMPILER_FLAG([-Wnull-dereference])
   DPKG_CHECK_COMPILER_FLAG([-Wpointer-arith])
-  DPKG_CHECK_COMPILER_FLAG([-Wlogical-op])
-  DPKG_CHECK_COMPILER_FLAG([-Wlogical-not-parentheses])
-  DPKG_CHECK_COMPILER_FLAG([-Wswitch-bool])
-  DPKG_CHECK_COMPILER_FLAG([-Wvla])
-  DPKG_CHECK_COMPILER_FLAG([-Winit-self])
-  DPKG_CHECK_COMPILER_FLAG([-Wwrite-strings])
-  DPKG_CHECK_COMPILER_FLAG([-Wcast-align])
+  DPKG_CHECK_COMPILER_FLAG([-Wredundant-decls])
+  DPKG_CHECK_COMPILER_FLAG([-Wregister])
   DPKG_CHECK_COMPILER_FLAG([-Wrestrict])
   DPKG_CHECK_COMPILER_FLAG([-Wshadow])
   DPKG_CHECK_COMPILER_FLAG([-Wshift-negative-value])
-  DPKG_CHECK_COMPILER_FLAG([-Wduplicated-cond])
-  DPKG_CHECK_COMPILER_FLAG([-Wnull-dereference])
+  DPKG_CHECK_COMPILER_FLAG([-Wsizeof-array-argument])
+  DPKG_CHECK_COMPILER_FLAG([-Wswitch-bool])
+  DPKG_CHECK_COMPILER_FLAG([-Wvla])
+  DPKG_CHECK_COMPILER_FLAG([-Wwrite-strings])
 
   AC_LANG_CASE(
   [C], [
-    DPKG_CHECK_COMPILER_FLAG([-Wdeclaration-after-statement])
-    DPKG_CHECK_COMPILER_FLAG([-Wnested-externs])
     DPKG_CHECK_COMPILER_FLAG([-Wbad-function-cast])
-    DPKG_CHECK_COMPILER_FLAG([-Wstrict-prototypes])
-    DPKG_CHECK_COMPILER_FLAG([-Wmissing-prototypes])
-    DPKG_CHECK_COMPILER_FLAG([-Wold-style-definition])
     DPKG_CHECK_COMPILER_FLAG([-Wc99-c11-compat])
+    DPKG_CHECK_COMPILER_FLAG([-Wdeclaration-after-statement])
+    DPKG_CHECK_COMPILER_FLAG([-Wmissing-prototypes])
+    DPKG_CHECK_COMPILER_FLAG([-Wnested-externs])
+    DPKG_CHECK_COMPILER_FLAG([-Wold-style-definition])
+    DPKG_CHECK_COMPILER_FLAG([-Wstrict-prototypes])
   ],
   [C++], [
     DPKG_CHECK_COMPILER_FLAG([-Wc++11-compat])
+    DPKG_CHECK_COMPILER_FLAG([-Wcast-qual])
+    DPKG_CHECK_COMPILER_FLAG([-Wold-style-cast])
     AS_IF([test "x$dpkg_cv_cxx11" = "xyes"], [
       DPKG_CHECK_COMPILER_FLAG([-Wzero-as-null-pointer-constant])
     ])

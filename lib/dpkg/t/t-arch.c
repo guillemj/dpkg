@@ -186,6 +186,8 @@ test_dpkg_arch_varbuf_archqual(void)
 	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, ":any");
 	varbuf_reset(&vb);
+
+	varbuf_destroy(&vb);
 }
 
 static void

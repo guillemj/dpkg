@@ -26,7 +26,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -104,7 +103,9 @@ trig_clear_awaiters(struct pkginfo *notpend)
 	struct trigaw *ta;
 	struct pkginfo *aw;
 
-	assert(!notpend->trigpend_head);
+	if (notpend->trigpend_head)
+		internerr("package %s has pending triggers",
+		          pkg_name(notpend, pnaw_always));
 
 	ta = notpend->othertrigaw_head;
 	notpend->othertrigaw_head = NULL;
@@ -395,12 +396,15 @@ trk_file_interest_change(const char *trig, struct pkginfo *pkg,
                          struct pkgbin *pkgbin, int signum,
                          enum trig_options opts)
 {
-	struct filenamenode *fnn;
+	struct fsys_namenode *fnn;
 	struct trigfileint **search, *tfi;
 
 	fnn = trigh.namenode_find(trig, signum <= 0);
 	if (!fnn) {
-		assert(signum < 0);
+		if (signum >= 0)
+			internerr("lost filename node '%s' for package %s "
+			          "triggered to add", trig,
+			          pkgbin_name(pkg, pkgbin, pnaw_always));
 		return;
 	}
 
@@ -503,7 +507,7 @@ trig_file_interests_ensure(void)
 		        triggersfilefile);
 	}
 
-	push_cleanup(cu_closestream, ~0, NULL, 0, 1, f);
+	push_cleanup(cu_closestream, ~0, 1, f);
 	while (fgets_checked(linebuf, sizeof(linebuf), f, triggersfilefile) >= 0) {
 		struct dpkg_error err;
 		char *slash;
@@ -541,14 +545,14 @@ ok:
 void
 trig_file_activate_byname(const char *trig, struct pkginfo *aw)
 {
-	struct filenamenode *fnn = trigh.namenode_find(trig, 1);
+	struct fsys_namenode *fnn = trigh.namenode_find(trig, 1);
 
 	if (fnn)
 		trig_file_activate(fnn, aw);
 }
 
 void
-trig_file_activate(struct filenamenode *trig, struct pkginfo *aw)
+trig_file_activate(struct fsys_namenode *trig, struct pkginfo *aw)
 {
 	struct trigfileint *tfi;
 
@@ -575,7 +579,7 @@ trig_file_activate_parents(const char *trig, struct pkginfo *aw)
 }
 
 void
-trig_path_activate(struct filenamenode *trig, struct pkginfo *aw)
+trig_path_activate(struct fsys_namenode *trig, struct pkginfo *aw)
 {
 	trig_file_activate(trig, aw);
 	trig_file_activate_parents(trigh.namenode_name(trig), aw);
@@ -584,7 +588,7 @@ trig_path_activate(struct filenamenode *trig, struct pkginfo *aw)
 static void
 trig_path_activate_byname(const char *trig, struct pkginfo *aw)
 {
-	struct filenamenode *fnn = trigh.namenode_find(trig, 1);
+	struct fsys_namenode *fnn = trigh.namenode_find(trig, 1);
 
 	if (fnn)
 		trig_file_activate(fnn, aw);
@@ -627,7 +631,10 @@ trig_cicb_interest_change(const char *trig, struct pkginfo *pkg,
 {
 	const struct trigkindinfo *tki = trig_classify_byname(trig);
 
-	assert(filetriggers_edited >= 0);
+	if (filetriggers_edited < 0)
+		internerr("trigger control file for package %s not read",
+		          pkgbin_name(pkg, pkgbin, pnaw_always));
+
 	tki->interest_change(trig, pkg, pkgbin, signum, opts);
 }
 
@@ -687,7 +694,7 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 			return; /* No file is just like an empty one. */
 		ohshite(_("unable to open triggers ci file '%.250s'"), file);
 	}
-	push_cleanup(cu_closestream, ~0, NULL, 0, 1, f);
+	push_cleanup(cu_closestream, ~0, 1, f);
 
 	while ((l = fgets_checked(linebuf, sizeof(linebuf), f, file)) >= 0) {
 		for (cmd = linebuf; c_iswhite(*cmd); cmd++) ;
@@ -783,9 +790,6 @@ trig_incorporate(enum modstatdb_rw cstatus)
 			if (errno != EEXIST)
 				ohshite(_("unable to create triggers state"
 				          " directory '%.250s'"), triggersdir);
-		} else if (chown(triggersdir, 0, 0)) {
-			ohshite(_("unable to set ownership of triggers state"
-			          " directory '%.250s'"), triggersdir);
 		}
 		ur = trigdef_update_start(tduf);
 	}
@@ -814,42 +818,12 @@ trig_incorporate(enum modstatdb_rw cstatus)
 
 /*---------- Default hooks. ----------*/
 
-struct filenamenode {
-	struct filenamenode *next;
-	const char *name;
-	struct trigfileint *trig_interested;
-};
-
-static struct filenamenode *trigger_files;
-
-static struct filenamenode *
-th_simple_nn_find(const char *name, bool nonew)
-{
-	struct filenamenode *search;
-
-	for (search = trigger_files; search; search = search->next)
-		if (strcmp(search->name, name) == 0)
-			return search;
-
-	/* Not found. */
-	if (nonew)
-		return NULL;
-
-	search = nfmalloc(sizeof(*search));
-	search->name = nfstrsave(name);
-	search->trig_interested = NULL;
-	search->next = trigger_files;
-	trigger_files = search;
-
-	return search;
-}
-
 TRIGHOOKS_DEFINE_NAMENODE_ACCESSORS
 
 static struct trig_hooks trigh = {
 	.enqueue_deferred = NULL,
 	.transitional_activate = NULL,
-	.namenode_find = th_simple_nn_find,
+	.namenode_find = th_nn_find,
 	.namenode_interested = th_nn_interested,
 	.namenode_name = th_nn_name,
 };

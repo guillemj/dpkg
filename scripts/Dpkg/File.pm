@@ -25,12 +25,26 @@ our @EXPORT = qw(
 );
 
 use Exporter qw(import);
+use Scalar::Util qw(openhandle);
+
+use Dpkg::ErrorHandling;
+use Dpkg::Gettext;
 
 sub file_slurp {
-    my $fh = shift;
+    my $file = shift;
+    my $fh;
+    my $doclose = 0;
 
+    if (openhandle($file)) {
+        $fh = $file;
+    } else {
+        open $fh, '<', $file or syserr(g_('cannot read %s'), $fh);
+        $doclose = 1;
+    }
     local $/;
     my $data = <$fh>;
+    close $fh if $doclose;
+
     return $data;
 }
 

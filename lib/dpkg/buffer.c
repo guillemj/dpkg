@@ -38,7 +38,7 @@
 #include <dpkg/buffer.h>
 
 struct buffer_md5_ctx {
-	struct MD5Context ctx;
+	MD5_CTX ctx;
 	char *hash;
 };
 
@@ -224,6 +224,8 @@ buffer_copy(struct buffer_data *read_data,
 	free(buf);
 
 	if (bytesread < 0 || byteswritten < 0)
+		return -1;
+	if (totalread != totalwritten)
 		return -1;
 	if (limit > 0)
 		return dpkg_put_error(err, _("unexpected end of file or stream"));

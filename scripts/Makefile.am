@@ -2,6 +2,9 @@
 
 SUBDIRS = mk po
 
+sbin_SCRIPTS = \
+	dpkg-fsys-usrunmess
+
 bin_SCRIPTS = \
 	dpkg-architecture \
 	dpkg-buildflags \
@@ -16,6 +19,7 @@ bin_SCRIPTS = \
 	dpkg-mergechangelogs \
 	dpkg-name \
 	dpkg-parsechangelog \
+	dpkg-realpath \
 	dpkg-scanpackages \
 	dpkg-scansources \
 	dpkg-shlibdeps \
@@ -28,6 +32,7 @@ EXTRA_DIST = \
 	dpkg-buildpackage.pl \
 	dpkg-checkbuilddeps.pl \
 	dpkg-distaddfile.pl \
+	dpkg-fsys-usrunmess.pl \
 	dpkg-genbuildinfo.pl \
 	dpkg-genchanges.pl \
 	dpkg-gencontrol.pl \
@@ -36,6 +41,7 @@ EXTRA_DIST = \
 	dpkg-mergechangelogs.pl \
 	dpkg-name.pl \
 	dpkg-parsechangelog.pl \
+	dpkg-realpath.sh \
 	dpkg-scanpackages.pl \
 	dpkg-scansources.pl \
 	dpkg-shlibdeps.pl \
@@ -44,9 +50,13 @@ EXTRA_DIST = \
 	$(test_scripts) \
 	$(test_data)
 
+nobase_dist_pkgdata_DATA = \
+	sh/dpkg-error.sh \
+	# EOL
 
 CLEANFILES = \
 	$(test_data_objects) \
+	$(sbin_SCRIPTS) \
 	$(bin_SCRIPTS)
 
 perllibdir = $(PERL_LIBDIR)
@@ -79,6 +89,12 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Control/Tests/Entry.pm \
 	Dpkg/Control/Types.pm \
 	Dpkg/Deps.pm \
+	Dpkg/Deps/AND.pm \
+	Dpkg/Deps/KnownFacts.pm \
+	Dpkg/Deps/Multiple.pm \
+	Dpkg/Deps/OR.pm \
+	Dpkg/Deps/Simple.pm \
+	Dpkg/Deps/Union.pm \
 	Dpkg/Dist/Files.pm \
 	Dpkg/ErrorHandling.pm \
 	Dpkg/Exit.pm \
@@ -98,6 +114,8 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Shlibs/SymbolFile.pm \
 	Dpkg/Shlibs/Cppfilt.pm \
 	Dpkg/Source/Archive.pm \
+	Dpkg/Source/BinaryFiles.pm \
+	Dpkg/Source/Format.pm \
 	Dpkg/Source/Functions.pm \
 	Dpkg/Source/Package.pm \
 	Dpkg/Source/Package/V1.pm \
@@ -139,16 +157,17 @@ do_perl_subst = $(AM_V_GEN) sed \
 	-e "s:our \$$PROGVERSION = .*;:our \$$PROGVERSION = '$(PACKAGE_VERSION)';:"
 
 do_shell_subst = $(AM_V_GEN) sed \
-	-e "s:^version[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:version=\"$(PACKAGE_VERSION)\":"
+	-e "s:^PKGDATADIR_DEFAULT=.*$$:PKGDATADIR_DEFAULT='$(pkgdatadir)':" \
+	-e "s:^version=['\"][^'\"]*[\"']:version=\"$(PACKAGE_VERSION)\":"
 
 SUFFIXES = .pl .sh
 
-.pl: Makefile
+.pl:
 	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
 	$(do_perl_subst) <$< >$@
 	$(AM_V_at) chmod +x $@
 
-.sh: Makefile
+.sh:
 	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
 	$(do_shell_subst) <$< >$@
 	$(AM_V_at) chmod +x $@
@@ -212,6 +231,7 @@ test_scripts = \
 	t/Dpkg_Shlibs_Cppfilt.t \
 	t/Dpkg_Shlibs.t \
 	t/Dpkg_BuildFlags.t \
+	t/Dpkg_BuildFlags_Ubuntu.t \
 	t/Dpkg_BuildOptions.t \
 	t/Dpkg_BuildProfiles.t \
 	t/Dpkg_Build_Env.t \
@@ -243,9 +263,11 @@ test_scripts = \
 	t/Dpkg_Source_Functions.t \
 	t/Dpkg_Source_Patch.t \
 	t/Dpkg_Source_Quilt.t \
+	t/Dpkg_Source_Format.t \
 	t/Dpkg_Source_Archive.t \
 	t/Dpkg_Source_Package.t \
 	t/Dpkg_Dist_Files.t \
+	t/dpkg_realpath.t \
 	t/dpkg_source.t \
 	t/dpkg_buildpackage.t \
 	t/merge_changelogs.t \
@@ -256,10 +278,10 @@ test_data = \
 	t/Dpkg_OpenPGP/package_1.0.orig.tar \
 	t/Dpkg_OpenPGP/package_1.0.orig.tar.asc \
 	t/Dpkg_OpenPGP/package_1.0.orig.tar.sig \
-	t/Dpkg_Shlibs/symbols.blacklisted \
-	t/Dpkg_Shlibs/symbols.blacklist-groups \
-	t/Dpkg_Shlibs/symbols.blacklist-filter \
-	t/Dpkg_Shlibs/symbols.blacklist-ignore \
+	t/Dpkg_Shlibs/symbols.internal \
+	t/Dpkg_Shlibs/symbols.internal-allow \
+	t/Dpkg_Shlibs/symbols.internal-allow-groups \
+	t/Dpkg_Shlibs/symbols.internal-filter \
 	t/Dpkg_Shlibs/symbols.fake-1 \
 	t/Dpkg_Shlibs/symbols.fake-2 \
 	t/Dpkg_Shlibs/symbols.fake-3 \
@@ -281,7 +303,7 @@ test_data = \
 	t/Dpkg_Shlibs/objdump.basictags-amd64 \
 	t/Dpkg_Shlibs/objdump.basictags-i386 \
 	t/Dpkg_Shlibs/objdump.basictags-mips \
-	t/Dpkg_Shlibs/objdump.blacklisted \
+	t/Dpkg_Shlibs/objdump.internal \
 	t/Dpkg_Shlibs/objdump.patterns \
 	t/Dpkg_Shlibs/objdump.glib-ia64 \
 	t/Dpkg_Shlibs/objdump.libc6-2.3 \
@@ -304,6 +326,7 @@ test_data = \
 	t/Dpkg_Changelog/misplaced-tz \
 	t/Dpkg_Changelog/regressions \
 	t/Dpkg_Changelog/shadow \
+	t/Dpkg_Changelog/stop-modeline \
 	t/Dpkg_Changelog/unreleased \
 	t/Dpkg_Checksums/empty \
 	t/Dpkg_Checksums/data-1 \
@@ -351,8 +374,11 @@ test_data = \
 	t/mk/debian/changelog \
 	t/mk/architecture.mk \
 	t/mk/buildflags.mk \
+	t/mk/buildopts.mk \
 	t/mk/buildtools.mk \
 	t/mk/pkg-info.mk \
+	t/mk/vendor-v0.mk \
+	t/mk/vendor-v1.mk \
 	t/mk/vendor.mk \
 	t/origins/debian \
 	t/origins/default \

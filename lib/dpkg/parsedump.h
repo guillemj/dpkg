@@ -25,6 +25,8 @@
 
 #include <stdint.h>
 
+#include <dpkg/error.h>
+
 /**
  * @defgroup parsedump In-core package database parsing and reading
  * @ingroup dpkg-public
@@ -46,6 +48,8 @@ enum parsedbtype {
 struct parsedb_state {
 	enum parsedbtype type;
 	enum parsedbflags flags;
+	struct dpkg_error err;
+	struct varbuf errmsg;
 	struct pkginfo *pkg;
 	struct pkgbin *pkgbin;
 	char *data;
@@ -89,17 +93,22 @@ bool parse_stanza(struct parsedb_state *ps, struct field_state *fs,
 #define STRUCTFIELD(klass, off, type) (*(type *)((uintptr_t)(klass) + (off)))
 
 #define PKGIFPOFF(f) (offsetof(struct pkgbin, f))
-#define FILEFOFF(f) (offsetof(struct filedetails, f))
+#define ARCHIVEFOFF(f) (offsetof(struct archivedetails, f))
 
 typedef void freadfunction(struct pkginfo *pkg, struct pkgbin *pkgbin,
                            struct parsedb_state *ps,
                            const char *value, const struct fieldinfo *fip);
-freadfunction f_name, f_charfield, f_priority, f_section, f_status, f_filecharf;
+freadfunction f_name;
+freadfunction f_charfield;
+freadfunction f_priority;
+freadfunction f_section;
+freadfunction f_status;
 freadfunction f_boolean, f_dependency, f_conffiles, f_version, f_revision;
 freadfunction f_configversion;
 freadfunction f_multiarch;
 freadfunction f_architecture;
 freadfunction f_trigpend, f_trigaw;
+freadfunction f_archives;
 
 enum fwriteflags {
 	/** Print field header and trailing newline. */
@@ -113,8 +122,8 @@ fwritefunction w_name, w_charfield, w_priority, w_section, w_status, w_configver
 fwritefunction w_version, w_null, w_booleandefno, w_dependency, w_conffiles;
 fwritefunction w_multiarch;
 fwritefunction w_architecture;
-fwritefunction w_filecharf;
 fwritefunction w_trigpend, w_trigaw;
+fwritefunction w_archives;
 
 void
 varbuf_add_arbfield(struct varbuf *vb, const struct arbitraryfield *arbfield,
@@ -130,28 +139,25 @@ struct fieldinfo {
   size_t integer;
 };
 
-void parse_db_version(struct parsedb_state *ps,
-                      struct dpkg_version *version, const char *value,
-                      const char *fmt, ...) DPKG_ATTR_PRINTF(4);
+int
+parse_db_version(struct parsedb_state *ps,
+                 struct dpkg_version *version, const char *value)
+	DPKG_ATTR_REQRET;
 
 void parse_error(struct parsedb_state *ps, const char *fmt, ...)
 	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(2);
 void parse_warn(struct parsedb_state *ps, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
+void
+parse_problem(struct parsedb_state *ps, const char *fmt, ...)
+	DPKG_ATTR_PRINTF(2);
+
 void parse_must_have_field(struct parsedb_state *ps,
                            const char *value, const char *what);
 void parse_ensure_have_field(struct parsedb_state *ps,
                              const char **value, const char *what);
 
 #define MSDOS_EOF_CHAR '\032' /* ^Z */
-
-#define NICK(name) .nick = name, .nicklen = sizeof(name) - 1
-
-struct nickname {
-  const char *nick;
-  const char *canon;
-  size_t nicklen;
-};
 
 extern const struct fieldinfo fieldinfos[];
 

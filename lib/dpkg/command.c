@@ -51,7 +51,7 @@ command_init(struct command *cmd, const char *filename, const char *name)
 		cmd->name = name;
 	cmd->argc = 0;
 	cmd->argv_size = 10;
-	cmd->argv = m_malloc(cmd->argv_size * sizeof(const char *));
+	cmd->argv = m_malloc(cmd->argv_size * sizeof(cmd->argv[0]));
 	cmd->argv[0] = NULL;
 }
 
@@ -85,7 +85,7 @@ command_grow_argv(struct command *cmd, int need)
 		return;
 
 	cmd->argv_size = (cmd->argv_size + need) * 2;
-	cmd->argv = m_realloc(cmd->argv, cmd->argv_size * sizeof(const char *));
+	cmd->argv = m_realloc(cmd->argv, cmd->argv_size * sizeof(cmd->argv[0]));
 }
 
 /**
@@ -180,27 +180,6 @@ command_exec(struct command *cmd)
 {
 	execvp(cmd->filename, (char * const *)cmd->argv);
 	ohshite(_("unable to execute %s (%s)"), cmd->name, cmd->filename);
-}
-
-
-/**
- * Get a suitable pager.
- *
- * @return A string representing a pager.
- */
-const char *
-command_get_pager(void)
-{
-	const char *pager;
-
-	if (!isatty(1))
-		return CAT;
-
-	pager = getenv("PAGER");
-	if (str_is_unset(pager))
-		pager = DEFAULTPAGER;
-
-	return pager;
 }
 
 /**
