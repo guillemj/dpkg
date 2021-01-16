@@ -268,7 +268,13 @@ if (build_has_any(BUILD_SOURCE)) {
     if (defined($prev_changelog)) {
         my $cur = Dpkg::Version->new($changelog->{'Version'});
         my $prev = Dpkg::Version->new($prev_changelog->{'Version'});
-        $include_tarball = ($cur->version() ne $prev->version()) ? 1 : 0;
+        if ($cur->version() ne $prev->version()) {
+            $include_tarball = 1;
+        } elsif ($changelog->{'Source'} ne $prev_changelog->{'Source'}) {
+            $include_tarball = 1;
+        } else {
+            $include_tarball = 0;
+        }
     } else {
         # No previous entry means first upload, tarball required
         $include_tarball = 1;
