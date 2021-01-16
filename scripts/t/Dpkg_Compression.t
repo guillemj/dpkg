@@ -19,12 +19,15 @@ use warnings;
 use Test::More tests => 13;
 use Test::Dpkg qw(:paths);
 
+use IPC::Cmd qw(can_run);
+
 use_ok('Dpkg::Compression');
 use_ok('Dpkg::Compression::FileHandle');
 
 my $tmpdir = test_get_temp_path();
 my @lines = ("One\n", "Two\n", "Three\n");
 my $fh;
+my $have_gunzip = can_run('gunzip');
 
 sub test_write {
     my ($filename, $check_result) = @_;
@@ -60,7 +63,7 @@ sub check_uncompressed {
 
 sub check_compressed {
     my ($filename, $method) = @_;
-    open my $read_fh, '-|', 'zcat', "$tmpdir/myfile.gz"
+    open my $read_fh, '-|', 'gunzip', '-c', "$tmpdir/myfile.gz"
         or die 'cannot fork zcat';
     my @read = <$read_fh>;
     close $read_fh or die 'cannot close';
@@ -98,8 +101,12 @@ is(compression_get_default_level(), $old_level, 'reset default compression level
 # Test write on uncompressed file
 test_write("$tmpdir/myfile", \&check_uncompressed);
 
-# Test write on compressed file
-test_write("$tmpdir/myfile.gz", \&check_compressed);
+SKIP: {
+    skip 'gunzip not available', 1 if not $have_gunzip;
+
+    # Test write on compressed file
+    test_write("$tmpdir/myfile.gz", \&check_compressed);
+}
 
 # Test read on uncompressed file
 test_read("$tmpdir/myfile");
