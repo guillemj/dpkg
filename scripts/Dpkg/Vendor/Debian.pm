@@ -108,6 +108,9 @@ sub _add_build_flags {
             fixfilepath => 1,
             fixdebugpath => 1,
         },
+        optimize => {
+            lto => 0,
+        },
         sanitize => {
             address => 0,
             thread => 0,
@@ -266,6 +269,13 @@ sub _add_build_flags {
         }
 
         $flags->append($_, $map) foreach @compile_flags;
+    }
+
+    ## Area: optimize
+
+    if ($use_feature{optimize}{lto}) {
+        my $flag = '-flto=auto -ffat-lto-objects';
+        $flags->append($_, $flag) foreach (@compile_flags, 'LDFLAGS');
     }
 
     ## Area: sanitize

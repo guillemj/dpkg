@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 26;
+use Test::More tests => 28;
 
 BEGIN {
     $ENV{DEB_BUILD_ARCH} = 'amd64';
@@ -70,6 +70,9 @@ my %known_features = (
         fixdebugpath
         fixfilepath
         timeless
+    ) ],
+    optimize => [ qw(
+        lto
     ) ],
     sanitize => [ qw(
         address
