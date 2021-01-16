@@ -186,6 +186,8 @@ sub push {
         info(g_('the patch has fuzz which is not allowed, or is malformed'));
         info(g_("if patch '%s' is correctly applied by quilt, use '%s' to update it"),
              $patch, 'quilt refresh');
+        info(g_('if the file is present in the unpacked source, make sure it ' .
+                'is also present in the orig tarball'));
         $self->restore_quilt_backup_files($patch, %opts);
         erasedir($self->get_db_file($patch));
         die $@;
