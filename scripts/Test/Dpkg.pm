@@ -79,12 +79,10 @@ sub test_get_data_path
     my $path = shift;
 
     if (defined $path) {
-        if ($test_mode eq 'cpan') {
-            return $path;
-        } else {
-            my $srcdir = $ENV{srcdir} || '.';
-            return "$srcdir/$path";
-        }
+        my $srcdir;
+        $srcdir = $ENV{srcdir} if $test_mode ne 'cpan';
+        $srcdir ||= '.';
+        return "$srcdir/$path";
     } else {
         return _test_get_caller_dir();
     }
