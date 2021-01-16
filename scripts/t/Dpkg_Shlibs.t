@@ -20,10 +20,9 @@ use Test::More;
 use Test::Dpkg qw(:needs :paths);
 
 use Cwd;
+use IPC::Cmd qw(can_run);
 
 plan tests => 150;
-
-use Dpkg::Path qw(find_command);
 
 $ENV{DEB_BUILD_ARCH} = 'amd64';
 $ENV{DEB_HOST_ARCH} = 'amd64';
@@ -608,7 +607,7 @@ is ( $sym->{testfield}, 1, 'original field "testfield" not changed' );
 
 SKIP: {
 
-skip 'c++filt not available', 41 if not find_command('c++filt');
+skip 'c++filt not available', 41 if not can_run('c++filt');
 
 sub load_patterns_obj {
     $obj = Dpkg::Shlibs::Objdump::Object->new();

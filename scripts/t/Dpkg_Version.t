@@ -18,9 +18,10 @@ use warnings;
 
 use Test::More;
 
+use IPC::Cmd qw(can_run);
+
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
-use Dpkg::Path qw(find_command);
 use Dpkg::Version;
 
 report_options(quiet_warnings => 1);
@@ -34,7 +35,7 @@ my @ops = ('<', '<<', 'lt',
 
 plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 27;
 
-my $have_dpkg = find_command('dpkg');
+my $have_dpkg = can_run('dpkg');
 
 sub dpkg_vercmp {
      my ($a, $cmp, $b) = @_;
