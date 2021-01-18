@@ -52,6 +52,7 @@ our %EXPORT_TAGS = (
 );
 
 use Exporter qw(import);
+use Cwd;
 use File::Find;
 use File::Basename;
 use File::Path qw(make_path);
@@ -194,16 +195,17 @@ sub test_neutralize_checksums
     my $filename = shift;
     my $filenamenew = "$filename.new";
 
-    open my $fhnew, '>', $filenamenew or die;
-    open my $fh, '<', $filename or die;
+    my $cwd = getcwd();
+    open my $fhnew, '>', $filenamenew or die "cannot open new $filenamenew in $cwd: $!";
+    open my $fh, '<', $filename or die "cannot open $filename in $cwd: $!";
     while (<$fh>) {
         s/^ ([0-9a-f]{32,}) [1-9][0-9]* /q{ } . $1 =~ tr{0-9a-f}{0}r . q{ 0 }/e;
         print { $fhnew } $_;
     }
-    close $fh or die;
-    close $fhnew or die;
+    close $fh or die "cannot close $filename";
+    close $fhnew or die "cannot close $filenamenew";
 
-    rename $filenamenew, $filename or die;
+    rename $filenamenew, $filename or die "cannot rename $filenamenew to $filename";
 }
 
 1;
