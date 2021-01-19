@@ -106,54 +106,72 @@ sub check_arch_coherency
 }
 
 use constant {
-    DEB_NONE => 0,
-    DEB_BUILD => 1,
-    DEB_HOST => 2,
-    DEB_TARGET => 64,
-    DEB_ARCH_INFO => 4,
-    DEB_ARCH_ATTR => 8,
-    DEB_MULTIARCH => 16,
-    DEB_GNU_INFO => 32,
+    DEB_NONE                    => 0,
+
+    DEB_BUILD_INFO              => 0b00001,
+    DEB_BUILD_ARCH_INFO         => 0b00010,
+    DEB_BUILD_ARCH_ATTR         => 0b00100,
+    DEB_BUILD_MULTIARCH_INFO    => 0b01000,
+    DEB_BUILD_GNU_INFO          => 0b10000,
+    DEB_BUILD_ANY               => 0b11111,
+
+    DEB_HOST_INFO               => 0b0000100000,
+    DEB_HOST_ARCH_INFO          => 0b0001000000,
+    DEB_HOST_ARCH_ATTR          => 0b0010000000,
+    DEB_HOST_MULTIARCH_INFO     => 0b0100000000,
+    DEB_HOST_GNU_INFO           => 0b1000000000,
+    DEB_HOST_ANY                => 0b1111100000,
+
+    DEB_TARGET_INFO             => 0b000010000000000,
+    DEB_TARGET_ARCH_INFO        => 0b000100000000000,
+    DEB_TARGET_ARCH_ATTR        => 0b001000000000000,
+    DEB_TARGET_MULTIARCH_INFO   => 0b010000000000000,
+    DEB_TARGET_GNU_INFO         => 0b100000000000000,
+    DEB_TARGET_ANY              => 0b111110000000000,
+
+    DEB_ALL                     => 0b111111111111111,
 };
 
-use constant DEB_ALL => DEB_BUILD | DEB_HOST | DEB_TARGET |
-                        DEB_ARCH_INFO | DEB_ARCH_ATTR |
-                        DEB_MULTIARCH | DEB_GNU_INFO;
+my %arch_deps = (
+    DEB_BUILD_ANY+0 => DEB_BUILD_INFO,
+    DEB_HOST_ANY+0 => DEB_HOST_INFO,
+    DEB_TARGET_ANY+0 => DEB_TARGET_INFO,
+);
 
 my %arch_vars = (
-    DEB_BUILD_ARCH => DEB_BUILD,
-    DEB_BUILD_ARCH_ABI => DEB_BUILD | DEB_ARCH_INFO,
-    DEB_BUILD_ARCH_LIBC => DEB_BUILD | DEB_ARCH_INFO,
-    DEB_BUILD_ARCH_OS => DEB_BUILD | DEB_ARCH_INFO,
-    DEB_BUILD_ARCH_CPU => DEB_BUILD | DEB_ARCH_INFO,
-    DEB_BUILD_ARCH_BITS => DEB_BUILD | DEB_ARCH_ATTR,
-    DEB_BUILD_ARCH_ENDIAN => DEB_BUILD | DEB_ARCH_ATTR,
-    DEB_BUILD_MULTIARCH => DEB_BUILD | DEB_MULTIARCH,
-    DEB_BUILD_GNU_CPU => DEB_BUILD | DEB_GNU_INFO,
-    DEB_BUILD_GNU_SYSTEM => DEB_BUILD | DEB_GNU_INFO,
-    DEB_BUILD_GNU_TYPE => DEB_BUILD | DEB_GNU_INFO,
-    DEB_HOST_ARCH => DEB_HOST,
-    DEB_HOST_ARCH_ABI => DEB_HOST | DEB_ARCH_INFO,
-    DEB_HOST_ARCH_LIBC => DEB_HOST | DEB_ARCH_INFO,
-    DEB_HOST_ARCH_OS => DEB_HOST | DEB_ARCH_INFO,
-    DEB_HOST_ARCH_CPU => DEB_HOST | DEB_ARCH_INFO,
-    DEB_HOST_ARCH_BITS => DEB_HOST | DEB_ARCH_ATTR,
-    DEB_HOST_ARCH_ENDIAN => DEB_HOST | DEB_ARCH_ATTR,
-    DEB_HOST_MULTIARCH => DEB_HOST | DEB_MULTIARCH,
-    DEB_HOST_GNU_CPU => DEB_HOST | DEB_GNU_INFO,
-    DEB_HOST_GNU_SYSTEM => DEB_HOST | DEB_GNU_INFO,
-    DEB_HOST_GNU_TYPE => DEB_HOST | DEB_GNU_INFO,
-    DEB_TARGET_ARCH => DEB_TARGET,
-    DEB_TARGET_ARCH_ABI => DEB_TARGET | DEB_ARCH_INFO,
-    DEB_TARGET_ARCH_LIBC => DEB_TARGET | DEB_ARCH_INFO,
-    DEB_TARGET_ARCH_OS => DEB_TARGET | DEB_ARCH_INFO,
-    DEB_TARGET_ARCH_CPU => DEB_TARGET | DEB_ARCH_INFO,
-    DEB_TARGET_ARCH_BITS => DEB_TARGET | DEB_ARCH_ATTR,
-    DEB_TARGET_ARCH_ENDIAN => DEB_TARGET | DEB_ARCH_ATTR,
-    DEB_TARGET_MULTIARCH => DEB_TARGET | DEB_MULTIARCH,
-    DEB_TARGET_GNU_CPU => DEB_TARGET | DEB_GNU_INFO,
-    DEB_TARGET_GNU_SYSTEM => DEB_TARGET | DEB_GNU_INFO,
-    DEB_TARGET_GNU_TYPE => DEB_TARGET | DEB_GNU_INFO,
+    DEB_BUILD_ARCH => DEB_BUILD_INFO,
+    DEB_BUILD_ARCH_ABI => DEB_BUILD_ARCH_INFO,
+    DEB_BUILD_ARCH_LIBC => DEB_BUILD_ARCH_INFO,
+    DEB_BUILD_ARCH_OS => DEB_BUILD_ARCH_INFO,
+    DEB_BUILD_ARCH_CPU => DEB_BUILD_ARCH_INFO,
+    DEB_BUILD_ARCH_BITS => DEB_BUILD_ARCH_ATTR,
+    DEB_BUILD_ARCH_ENDIAN => DEB_BUILD_ARCH_ATTR,
+    DEB_BUILD_MULTIARCH => DEB_BUILD_MULTIARCH_INFO,
+    DEB_BUILD_GNU_CPU => DEB_BUILD_GNU_INFO,
+    DEB_BUILD_GNU_SYSTEM => DEB_BUILD_GNU_INFO,
+    DEB_BUILD_GNU_TYPE => DEB_BUILD_GNU_INFO,
+    DEB_HOST_ARCH => DEB_HOST_INFO,
+    DEB_HOST_ARCH_ABI => DEB_HOST_ARCH_INFO,
+    DEB_HOST_ARCH_LIBC => DEB_HOST_ARCH_INFO,
+    DEB_HOST_ARCH_OS => DEB_HOST_ARCH_INFO,
+    DEB_HOST_ARCH_CPU => DEB_HOST_ARCH_INFO,
+    DEB_HOST_ARCH_BITS => DEB_HOST_ARCH_ATTR,
+    DEB_HOST_ARCH_ENDIAN => DEB_HOST_ARCH_ATTR,
+    DEB_HOST_MULTIARCH => DEB_HOST_MULTIARCH_INFO,
+    DEB_HOST_GNU_CPU => DEB_HOST_GNU_INFO,
+    DEB_HOST_GNU_SYSTEM => DEB_HOST_GNU_INFO,
+    DEB_HOST_GNU_TYPE => DEB_HOST_GNU_INFO,
+    DEB_TARGET_ARCH => DEB_TARGET_INFO,
+    DEB_TARGET_ARCH_ABI => DEB_TARGET_ARCH_INFO,
+    DEB_TARGET_ARCH_LIBC => DEB_TARGET_ARCH_INFO,
+    DEB_TARGET_ARCH_OS => DEB_TARGET_ARCH_INFO,
+    DEB_TARGET_ARCH_CPU => DEB_TARGET_ARCH_INFO,
+    DEB_TARGET_ARCH_BITS => DEB_TARGET_ARCH_ATTR,
+    DEB_TARGET_ARCH_ENDIAN => DEB_TARGET_ARCH_ATTR,
+    DEB_TARGET_MULTIARCH => DEB_TARGET_MULTIARCH_INFO,
+    DEB_TARGET_GNU_CPU => DEB_TARGET_GNU_INFO,
+    DEB_TARGET_GNU_SYSTEM => DEB_TARGET_GNU_INFO,
+    DEB_TARGET_GNU_TYPE => DEB_TARGET_GNU_INFO,
 );
 
 my %known_print_format = map { $_ => 1 } qw(shell make);
@@ -243,24 +261,37 @@ while (@ARGV) {
     }
 }
 
+# Handle variable dependencies
+foreach my $k (keys %arch_deps) {
+    if ($req_vars & $k) {
+        $req_vars |= $arch_deps{$k};
+    }
+}
+
 my %v;
+
+foreach my $k (keys %arch_vars) {
+    next if not length $ENV{$k} or $force;
+    $v{$k} = $ENV{$k};
+    $req_vars &= ~$arch_vars{$k};
+}
 
 #
 # Set build variables
 #
 
 $v{DEB_BUILD_ARCH} = get_raw_build_arch()
-    if (action_needs(DEB_BUILD));
+    if (action_needs(DEB_BUILD_INFO));
 ($v{DEB_BUILD_ARCH_ABI}, $v{DEB_BUILD_ARCH_LIBC},
  $v{DEB_BUILD_ARCH_OS}, $v{DEB_BUILD_ARCH_CPU}) = debarch_to_debtuple($v{DEB_BUILD_ARCH})
-    if (action_needs(DEB_BUILD | DEB_ARCH_INFO));
+    if (action_needs(DEB_BUILD_ARCH_INFO));
 ($v{DEB_BUILD_ARCH_BITS}, $v{DEB_BUILD_ARCH_ENDIAN}) = debarch_to_abiattrs($v{DEB_BUILD_ARCH})
-    if (action_needs(DEB_BUILD | DEB_ARCH_ATTR));
+    if (action_needs(DEB_BUILD_ARCH_ATTR));
 
 $v{DEB_BUILD_MULTIARCH} = debarch_to_multiarch($v{DEB_BUILD_ARCH})
-    if (action_needs(DEB_BUILD | DEB_MULTIARCH));
+    if (action_needs(DEB_BUILD_MULTIARCH_INFO));
 
-if (action_needs(DEB_BUILD | DEB_GNU_INFO)) {
+if (action_needs(DEB_BUILD_GNU_INFO)) {
   $v{DEB_BUILD_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_BUILD_ARCH});
   ($v{DEB_BUILD_GNU_CPU}, $v{DEB_BUILD_GNU_SYSTEM}) = split(/-/, $v{DEB_BUILD_GNU_TYPE}, 2);
 }
@@ -276,17 +307,17 @@ if (action_needs(DEB_BUILD | DEB_GNU_INFO)) {
 # Proceed to compute the host variables if needed.
 
 $v{DEB_HOST_ARCH} = $req_host_arch || get_raw_host_arch()
-    if (action_needs(DEB_HOST));
+    if (action_needs(DEB_HOST_INFO));
 ($v{DEB_HOST_ARCH_ABI}, $v{DEB_HOST_ARCH_LIBC},
  $v{DEB_HOST_ARCH_OS}, $v{DEB_HOST_ARCH_CPU}) = debarch_to_debtuple($v{DEB_HOST_ARCH})
-    if (action_needs(DEB_HOST | DEB_ARCH_INFO));
+    if (action_needs(DEB_HOST_ARCH_INFO));
 ($v{DEB_HOST_ARCH_BITS}, $v{DEB_HOST_ARCH_ENDIAN}) = debarch_to_abiattrs($v{DEB_HOST_ARCH})
-    if (action_needs(DEB_HOST | DEB_ARCH_ATTR));
+    if (action_needs(DEB_HOST_ARCH_ATTR));
 
 $v{DEB_HOST_MULTIARCH} = debarch_to_multiarch($v{DEB_HOST_ARCH})
-    if (action_needs(DEB_HOST | DEB_MULTIARCH));
+    if (action_needs(DEB_HOST_MULTIARCH_INFO));
 
-if (action_needs(DEB_HOST | DEB_GNU_INFO)) {
+if (action_needs(DEB_HOST_GNU_INFO)) {
     if ($req_host_gnu_type eq '') {
         $v{DEB_HOST_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_HOST_ARCH});
     } else {
@@ -312,18 +343,18 @@ if (action_needs(DEB_HOST | DEB_GNU_INFO)) {
 
 # Proceed to compute the target variables if needed.
 
-$v{DEB_TARGET_ARCH} = $req_target_arch || $req_host_arch || get_raw_host_arch()
-    if (action_needs(DEB_TARGET));
+$v{DEB_TARGET_ARCH} = $req_target_arch || $v{DEB_HOST_ARCH} || $req_host_arch || get_raw_host_arch()
+    if (action_needs(DEB_TARGET_INFO));
 ($v{DEB_TARGET_ARCH_ABI}, $v{DEB_TARGET_ARCH_LIBC},
  $v{DEB_TARGET_ARCH_OS}, $v{DEB_TARGET_ARCH_CPU}) = debarch_to_debtuple($v{DEB_TARGET_ARCH})
-    if (action_needs(DEB_TARGET | DEB_ARCH_INFO));
+    if (action_needs(DEB_TARGET_ARCH_INFO));
 ($v{DEB_TARGET_ARCH_BITS}, $v{DEB_TARGET_ARCH_ENDIAN}) = debarch_to_abiattrs($v{DEB_TARGET_ARCH})
-    if (action_needs(DEB_TARGET | DEB_ARCH_ATTR));
+    if (action_needs(DEB_TARGET_ARCH_ATTR));
 
 $v{DEB_TARGET_MULTIARCH} = debarch_to_multiarch($v{DEB_TARGET_ARCH})
-    if (action_needs(DEB_TARGET | DEB_MULTIARCH));
+    if (action_needs(DEB_TARGET_MULTIARCH_INFO));
 
-if (action_needs(DEB_TARGET | DEB_GNU_INFO)) {
+if (action_needs(DEB_TARGET_GNU_INFO)) {
     if ($req_target_gnu_type eq '') {
         $v{DEB_TARGET_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_TARGET_ARCH});
     } else {
@@ -332,10 +363,6 @@ if (action_needs(DEB_TARGET | DEB_GNU_INFO)) {
     ($v{DEB_TARGET_GNU_CPU}, $v{DEB_TARGET_GNU_SYSTEM}) = split(/-/, $v{DEB_TARGET_GNU_TYPE}, 2);
 }
 
-
-for my $k (keys %arch_vars) {
-    $v{$k} = $ENV{$k} if (length $ENV{$k} && !$force);
-}
 
 if ($action eq 'list') {
     foreach my $k (sort keys %arch_vars) {
