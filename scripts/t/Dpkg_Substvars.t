@@ -22,6 +22,9 @@ use Test::Dpkg qw(:paths);
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
 
+$ENV{DEB_BUILD_ARCH} = 'amd64';
+$ENV{DEB_HOST_ARCH} = 'amd64';
+
 use_ok('Dpkg::Substvars');
 
 my $datadir = test_get_data_path();

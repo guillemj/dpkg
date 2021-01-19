@@ -25,6 +25,9 @@ plan tests => 150;
 
 use Dpkg::Path qw(find_command);
 
+$ENV{DEB_BUILD_ARCH} = 'amd64';
+$ENV{DEB_HOST_ARCH} = 'amd64';
+
 use_ok('Dpkg::Shlibs');
 
 my $tmp;

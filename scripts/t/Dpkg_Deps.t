@@ -21,6 +21,9 @@ use Test::More tests => 82;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;
 
+$ENV{DEB_BUILD_ARCH} = 'amd64';
+$ENV{DEB_HOST_ARCH} = 'amd64';
+
 use_ok('Dpkg::Deps');
 
 is(deps_concat(), '', 'Concatenate an empty list');

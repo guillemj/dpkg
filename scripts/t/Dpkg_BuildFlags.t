@@ -19,6 +19,8 @@ use warnings;
 use Test::More tests => 26;
 
 BEGIN {
+    $ENV{DEB_BUILD_ARCH} = 'amd64';
+    $ENV{DEB_HOST_ARCH} = 'amd64';
     use_ok('Dpkg::BuildFlags');
 }
 
