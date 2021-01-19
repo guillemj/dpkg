@@ -48,6 +48,9 @@ delete $ENV{SOURCE_DATE_EPOCH};
 # Delete other variables that can affect the tests.
 delete $ENV{$_} foreach grep { m/^DEB_/ } keys %ENV;
 
+# Set architecture variables to not require dpkg nor gcc.
+$ENV{PATH} = "$srcdir/t/mock-bin:$ENV{PATH}";
+
 chdir $tmpdir;
 
 my $tmpl_format = <<'TMPL_FORMAT';

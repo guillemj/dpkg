@@ -380,6 +380,8 @@ test_data = \
 	t/mk/vendor-v0.mk \
 	t/mk/vendor-v1.mk \
 	t/mk/vendor.mk \
+	t/mock-bin/dpkg \
+	t/mock-bin/gcc \
 	t/origins/debian \
 	t/origins/default \
 	t/origins/gnewsense \

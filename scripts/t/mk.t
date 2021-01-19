@@ -26,7 +26,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::IPC;
 use Dpkg::Vendor;
 
-my $srcdir = $ENV{srcdir} || '.';
+my $srcdir = rel2abs($ENV{srcdir} || '.');
 my $datadir = test_get_data_path();
 
 # Turn these into absolute names so that we can safely switch to the test
@@ -39,6 +39,9 @@ delete $ENV{MAKEFLAGS};
 
 # Delete other variables that can affect the tests.
 delete $ENV{$_} foreach grep { m/^DEB_/ } keys %ENV;
+
+# Set architecture variables to not require dpkg nor gcc.
+$ENV{PATH} = "$srcdir/t/mock-bin:$ENV{PATH}";
 
 $ENV{DEB_BUILD_PATH} = rel2abs($datadir);
 
