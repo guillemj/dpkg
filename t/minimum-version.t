@@ -28,5 +28,5 @@ my @files = Test::Dpkg::all_perl_files();
 plan tests => scalar @files;
 
 for my $file (@files) {
-    minimum_version_ok($file, '5.24.1');
+    minimum_version_ok($file, '5.28.1');
 }
