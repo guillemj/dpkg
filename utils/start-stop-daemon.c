@@ -2593,7 +2593,7 @@ do_start(int argc, char **argv)
 			fatale("unable to open '%s'", "/dev/null");
 	}
 	if (background && output_io) {
-		output_fd = open(output_io, O_CREAT | O_WRONLY, 0664);
+		output_fd = open(output_io, O_CREAT | O_WRONLY | O_APPEND, 0664);
 		if (output_fd < 0)
 			fatale("unable to open '%s'", output_io);
 	}
