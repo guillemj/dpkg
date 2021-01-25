@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 16836;
+use Test::More tests => 17914;
 
 use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         debarch_eq debarch_is debarch_is_wildcard
@@ -24,8 +24,11 @@ use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         debarch_to_abiattrs debarch_to_cpubits
                         debarch_list_parse
                         debtuple_to_debarch gnutriplet_to_debarch
+                        debtuple_to_gnutriplet gnutriplet_to_debtuple
                         get_host_gnu_type
                         get_valid_arches));
+
+my @valid_arches = get_valid_arches();
 
 sub get_valid_wildcards
 {
@@ -37,7 +40,7 @@ sub get_valid_wildcards
         any-any-any-any
     );
 
-    foreach my $archname (get_valid_arches()) {
+    foreach my $archname (@valid_arches) {
         my @tuple = debarch_to_debtuple($archname);
 
         my @wildcards_arch = (
@@ -174,7 +177,17 @@ is(gnutriplet_to_debarch(undef), undef, 'undef gnutriplet');
 is(gnutriplet_to_debarch('unknown-unknown-unknown'), undef, 'unknown gnutriplet');
 is(gnutriplet_to_debarch('x86_64-linux-gnu'), 'amd64', 'known gnutriplet');
 
-is(scalar get_valid_arches(), 539, 'expected amount of known architectures');
+foreach my $arch (@valid_arches) {
+    my @tuple = debarch_to_debtuple($arch);
+    is(debtuple_to_debarch(@tuple), $arch,
+       "bijective arch $arch to tuple @tuple");
+
+    my $triplet = debtuple_to_gnutriplet(@tuple);
+    is_deeply([ gnutriplet_to_debtuple($triplet) ], \@tuple,
+              "bijective triplet $triplet to tuple @tuple");
+}
+
+is(scalar @valid_arches, 539, 'expected amount of known architectures');
 
 {
     local $ENV{CC} = 'false';
