@@ -20,10 +20,11 @@ use Test::More;
 use Test::Dpkg qw(:paths);
 
 BEGIN {
-    plan tests => 2460;
+    plan tests => 2467;
 
     use_ok('Dpkg::Control::Types');
     use_ok('Dpkg::Control::FieldsCore');
+    use_ok('Dpkg::Control');
 }
 
 #my $datadir = test_get_data_path();
@@ -251,3 +252,26 @@ foreach my $type (sort keys %fields) {
         }
     }
 }
+
+# Check deb822 field parsers
+
+my $ctrl = Dpkg::Control->new(type => CTRL_PKG_DEB);
+
+my ($source, $version);
+
+$ctrl->{Package} = 'test-binary';
+$ctrl->{Version} = '2.0-1';
+$ctrl->{Source} = 'test-source (1.0)';
+($source, $version) = field_parse_binary_source($ctrl);
+is($source, 'test-source', 'Source package from binary w/ Source field');
+is($version, '1.0', 'Source version from binary w/ Source field');
+
+$ctrl->{Source} = 'test-source';
+($source, $version) = field_parse_binary_source($ctrl);
+is($source, 'test-source', 'Source package from binary w/ Source field w/o version');
+is($version, '2.0-1', 'Source version from binary w/ Source field w/o version');
+
+delete $ctrl->{Source};
+($source, $version) = field_parse_binary_source($ctrl);
+is($source, 'test-binary', 'Source package from binary w/o Source field');
+is($version, '2.0-1', 'Source version from binary w/o Source field');
