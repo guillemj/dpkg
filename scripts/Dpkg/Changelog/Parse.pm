@@ -132,6 +132,8 @@ sub changelog_parse {
         \$changes = Dpkg::Changelog::$format->new();
     };
     error(g_('changelog format %s is unknown: %s'), $format, $@) if $@;
+    error(g_('changelog format %s is not a Dpkg::Changelog class'), $format)
+        unless $changes->isa('Dpkg::Changelog');
     $changes->set_options(reportfile => $options{label},
                           verbose => $options{verbose},
                           range => $range);
