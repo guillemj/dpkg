@@ -105,6 +105,7 @@ sub _reset_exit_handlers
 }
 
 END {
+    local $?;
     run_exit_handlers();
 }
 
