@@ -23,8 +23,12 @@
 #include <config.h>
 #include <compat.h>
 
+#include <sys/stat.h>
+
 #include <errno.h>
+#include <inttypes.h>
 #include <string.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -525,6 +529,85 @@ filter_lzma_error(struct io_lzma *io, lzma_ret ret)
 	       dpkg_lzma_strerror(ret, io->status));
 }
 
+#ifdef HAVE_LZMA_MT_ENCODER
+# ifdef __linux__
+/*
+ * An estimate of how much memory is available. Swap will not be used, the
+ * page cache may be purged, not everything will be reclaimed that might be
+ * reclaimed, watermarks are considered.
+ */
+static const char str_MemAvailable[] = "MemAvailable";
+static const size_t len_MemAvailable = sizeof(str_MemAvailable) - 1;
+
+static int
+get_avail_mem(uint64_t *val)
+{
+	char buf[4096];
+	char *str;
+	ssize_t bytes;
+	int fd;
+
+	*val = 0;
+
+	fd = open("/proc/meminfo", O_RDONLY);
+	if (fd < 0)
+		return -1;
+
+	bytes = fd_read(fd, buf, sizeof(buf));
+	close(fd);
+
+	if (bytes <= 0)
+		return -1;
+
+	buf[bytes] = '\0';
+
+	str = buf;
+	while (1) {
+		char *end;
+
+		end = strchr(str, ':');
+		if (end == 0)
+			break;
+
+		if ((end - str) == len_MemAvailable &&
+		    strncmp(str, str_MemAvailable, len_MemAvailable) == 0) {
+			intmax_t num;
+
+			str = end + 1;
+			errno = 0;
+			num = strtoimax(str, &end, 10);
+			if (num <= 0)
+				return -1;
+			if ((num == INTMAX_MAX) && errno == ERANGE)
+				return -1;
+			/* It should end with ' kB\n'. */
+			if (*end != ' ' || *(end + 1) != 'k' ||
+			    *(end + 2) != 'B')
+				return -1;
+
+			/* This should not overflow, but just in case. */
+			if (num < (INTMAX_MAX / 1024))
+				num *= 1024;
+			*val = num;
+			return 0;
+		}
+
+		end = strchr(end + 1, '\n');
+		if (end == 0)
+			break;
+		str = end + 1;
+	}
+	return -1;
+}
+# else
+static int
+get_avail_mem(uint64_t *val)
+{
+	return -1;
+}
+# endif
+#endif
+
 static void
 filter_unxz_init(struct io_lzma *io, lzma_stream *s)
 {
@@ -564,11 +647,14 @@ filter_xz_init(struct io_lzma *io, lzma_stream *s)
 #ifdef HAVE_LZMA_MT_ENCODER
 	mt_options.preset = preset;
 
-	/* Initialize the multi-threaded memory limit to half the physical
-	 * RAM, or to 128 MiB if we cannot infer the number. */
-	mt_memlimit = lzma_physmem() / 2;
-	if (mt_memlimit == 0)
-		mt_memlimit = 128 * 1024 * 1024;
+	/* Ask the kernel what is currently available for us. If this fails
+	 * initialize the memory limit to half the physical RAM, or to 128 MiB
+	 * if we cannot infer the number. */
+	if (get_avail_mem(&mt_memlimit) < 0) {
+		mt_memlimit = lzma_physmem() / 2;
+		if (mt_memlimit == 0)
+			mt_memlimit = 128 * 1024 * 1024;
+	}
 	/* Clamp the multi-threaded memory limit to half the addressable
 	 * memory on this architecture. */
 	if (mt_memlimit > INTPTR_MAX)
