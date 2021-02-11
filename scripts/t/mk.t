@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 10;
+use Test::More tests => 11;
 use Test::Dpkg qw(:paths);
 
 use File::Spec::Functions qw(rel2abs);
@@ -131,6 +131,14 @@ foreach my $tool (keys %buildtools) {
     delete $ENV{"${tool}_FOR_BUILD"};
 }
 
+delete $ENV{SOURCE_DATE_EPOCH};
+# Timestamp in seconds since the epoch from date in test debian/changelog
+# entry: «Tue, 04 Aug 2015 16:13:50 +0200».
+$ENV{TEST_SOURCE_DATE_EPOCH} = 1438697630;
+test_makefile('pkg-info.mk');
+
+$ENV{SOURCE_DATE_EPOCH} = 100;
+$ENV{TEST_SOURCE_DATE_EPOCH} = 100;
 test_makefile('pkg-info.mk');
 
 test_makefile('vendor.mk');
