@@ -28,7 +28,6 @@
 #include <limits.h>
 #include <string.h>
 #include <unistd.h>
-#include <ar.h>
 #include <inttypes.h>
 #include <stdint.h>
 #include <stdlib.h>

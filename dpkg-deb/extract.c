@@ -32,7 +32,6 @@
 #include <dirent.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <ar.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
