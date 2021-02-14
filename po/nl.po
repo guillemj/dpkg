@@ -1,14 +1,14 @@
 # Dutch translation of dpkg.
 # Copyright © 1994-2016 Dpkg Developers
 # This file is distributed under the same license as the dpkg package.
-# Frans Spiesschaert <Frans.Spiesschaert@yucom.be>, 2015, 2016, 2017, 2018, 2019.
+# Frans Spiesschaert <Frans.Spiesschaert@yucom.be>, 2015-2021.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.19.5\n"
+"Project-Id-Version: dpkg 1.20.7.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-01-09 00:59+0100\n"
-"PO-Revision-Date: 2020-07-21 22:53+0200\n"
+"POT-Creation-Date: 2021-01-09 07:11+0100\n"
+"PO-Revision-Date: 2021-01-14 14:48+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
 "Language: nl\n"
@@ -60,10 +60,9 @@ msgid "ar member size %jd too large"
 msgstr "de omvang %jd van het ar-element is te groot"
 
 #: lib/dpkg/ar.c
-#, fuzzy, c-format
-#| msgid "ar member size %jd too large"
+#, c-format
 msgid "ar member time %jd too large"
-msgstr "de omvang %jd van het ar-element is te groot"
+msgstr "de tijd %jd van het ar-element is te groot"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -1293,7 +1292,7 @@ msgstr "de status van het pakket is %s maar er staan geen triggers in de wacht"
 #, c-format
 msgid "package has status %s and has conffiles, forgetting them"
 msgstr ""
-"het pakket heeft status %s en het heeft configuratiebestanden. Ze worden "
+"het pakket heeft status %s en het heeft configuratiebestanden, ze worden "
 "vergeten"
 
 #: lib/dpkg/parse.c
@@ -1858,7 +1857,7 @@ msgstr "fout bij het opmaken van de tekenreeks als varbuf-variabele"
 #: lib/dpkg/varbuf.c
 #, c-format
 msgid "cannot grow varbuf to size %zu; it would overflow"
-msgstr ""
+msgstr "kan varbuf niet laten aangroeien tot de grootte %zu; het zou overlopen"
 
 #: src/archives.c
 msgid "error reading from dpkg-deb pipe"
@@ -1979,10 +1978,11 @@ msgstr ""
 "een nieuwe regel is niet toegelaten in de archiefobjectbenaming '%.255s'"
 
 #: src/archives.c
-#, fuzzy, c-format
-#| msgid "conffile '%.250s' does not appear in package"
+#, c-format
 msgid "conffile '%s' marked for removal on upgrade, shipped in package"
-msgstr "configuratiebestand '%.250s' zit niet in het pakket"
+msgstr ""
+"configuratiebestand '%s' staat gemarkeerd om bij opwaardering verwijderd te "
+"worden, zit in het pakket"
 
 #: src/archives.c
 #, c-format
@@ -2432,17 +2432,15 @@ msgstr "[geen standaard]"
 
 #: src/configure.c
 msgid "error writing to stderr, discovered before conffile prompt"
-msgstr ""
-"fout bij schrijven naar stderr, ontdekt voor de prompt i.v.m. "
-"configuratiebestand"
+msgstr "fout bij schrijven naar stderr, ontdekt vóór de configuratie-prompt"
 
 #: src/configure.c
 msgid "read error on stdin at conffile prompt"
-msgstr "leesfout op stdin bij de prompt i.v.m. configuratiebestand"
+msgstr "leesfout op stdin bij de configuratie-prompt"
 
 #: src/configure.c
 msgid "end of file on stdin at conffile prompt"
-msgstr "bestandseinde op stdin bij de prompt i.v.m. configuratiebestand"
+msgstr "bestandseinde op stdin bij de configuratie-prompt"
 
 #: src/configure.c
 msgid "conffile difference visualizer"
@@ -2458,7 +2456,7 @@ msgstr "Typ 'exit' als u klaar bent.\n"
 
 #: src/configure.c
 msgid "conffile shell"
-msgstr "shell t.b.v. configuratiebestand"
+msgstr "configuratie-shell"
 
 #: src/configure.c
 #, c-format
@@ -2466,27 +2464,25 @@ msgid "%s: failed to remove '%.250s': %s"
 msgstr "%s: kon '%.250s' niet verwijderen: %s"
 
 #: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
+#, c-format
 msgid "Removing obsolete conffile %s ...\n"
-msgstr "%s (%s) wordt verwijderd ...\n"
+msgstr "Verouderd configuratiebestand %s wordt verwijderd ...\n"
 
 #: src/configure.c
 #, c-format
 msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
+msgstr "Verouderd configuratiebestand '%s' werd door u gewijzigd.\n"
 
 #: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
+#, c-format
 msgid "Saving as %s ...\n"
-msgstr "%s (%s) wordt verwijderd ...\n"
+msgstr "Wordt bewaard als %s ...\n"
 
 #: src/configure.c
-#, fuzzy, c-format
-#| msgid "cannot append ar member file (%s) to '%s': %s"
+#, c-format
 msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "kan bestand (%s) van ar-elementen niet toevoegen aan '%s': %s"
+msgstr ""
+"%s: kan verouderd configuratiebestand niet hernoemen van '%s' naar '%s': %s"
 
 #: src/configure.c
 #, c-format
@@ -4994,35 +4990,36 @@ msgstr "Bezig met de-configureren van %s (%s) ...\n"
 
 #: src/unpack.c
 msgid "conffile file contains an empty line"
-msgstr "conffile-configuratiebestand bevat een lege regel"
+msgstr "configuratiebestand bevat een lege regel"
 
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
 msgstr ""
-"configuratiebestandsnaam '%s' is te lang, of afsluitende nieuwe regel "
+"naam van configuratiebestand '%s' is te lang, of afsluitende nieuwe regel "
 "ontbreekt"
 
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
 msgid "conffile name '%s' is not an absolute pathname"
-msgstr "configuratiebestandsnaam '%s is geen absolute padnaam"
+msgstr "naam van configuratiebestand '%s' is geen absolute padnaam"
 
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
 msgid "conffile name missing after flag '%s'"
-msgstr ""
+msgstr "naam van configuratiebestand ontbreekt na vlag '%s'"
 
 #: src/unpack.c dpkg-deb/build.c
-#, fuzzy, c-format
-#| msgid "conffile filename '%s' contains trailing white spaces"
+#, c-format
 msgid "line with conffile filename '%s' has leading white spaces"
-msgstr "naam van configuratiebestand '%s' eindigt met leegruimte"
+msgstr ""
+"regel met bestandsnaam van configuratiebestand '%s' heeft witruimte aan het "
+"begin"
 
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
 msgid "unknown flag '%s' for conffile '%s'"
-msgstr ""
+msgstr "onbekende vlag '%s' voor configuratiebestand '%s'"
 
 #: src/unpack.c utils/update-alternatives.c
 #, c-format
@@ -5098,7 +5095,7 @@ msgstr "kan de oude map '%.250s' niet verwijderen: %s"
 #, c-format
 msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
 msgstr ""
-"oud configuratiebestand '%.250s' was een lege map (en is nu verwijderd)"
+"oude configuratiebestand '%.250s' was een lege map (en is nu verwijderd)"
 
 #: src/unpack.c
 #, c-format
@@ -5266,7 +5263,7 @@ msgstr "status van beheerdersscript '%.50s' is niet opvraagbaar"
 
 #: dpkg-deb/build.c
 msgid "error opening conffiles file"
-msgstr "fout bij openen van bestand net configuratiebestanden"
+msgstr "fout bij openen van conffiles-bestand"
 
 #: dpkg-deb/build.c
 msgid "empty string from fgets reading conffiles"
@@ -5275,11 +5272,13 @@ msgstr "lege tekenreeks van fgets bij lezen van configuratiebestanden"
 #: dpkg-deb/build.c
 msgid "empty and whitespace-only lines are not allowed in conffiles"
 msgstr ""
+"lege regels en regels met enkel witruimte zijn niet toegelaten in "
+"configuratiebestanden"
 
 #: dpkg-deb/build.c
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
-msgstr "naam van configuratiebestand '%s' eindigt met leegruimte"
+msgstr "bestandsnaam van configuratiebestand '%s' eindigt met witruimte"
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5295,6 +5294,7 @@ msgstr "status van configuratiebestand '%.250s' is niet opvraagbaar"
 #, c-format
 msgid "conffile '%s' is present but is requested to be removed"
 msgstr ""
+"configuratiebestand '%s' is aanwezig maar er is gevraagd het te verwijderen"
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5308,7 +5308,7 @@ msgstr "naam van configuratiebestand '%s' werd gedupliceerd"
 
 #: dpkg-deb/build.c
 msgid "error reading conffiles file"
-msgstr "fout bij lezen van bestand met configuratiebestanden"
+msgstr "fout bij lezen van conffiles-bestand"
 
 #: dpkg-deb/build.c
 msgid "package name has characters that aren't lowercase alphanums or '-+.'"
@@ -5538,10 +5538,9 @@ msgid "cannot close decompressor pipe"
 msgstr "kan de pijp van het decompressieprogramma niet sluiten"
 
 #: dpkg-deb/extract.c
-#, fuzzy, c-format
-#| msgid "decompressing archive member"
+#, c-format
 msgid "decompressing archive '%s' (size=%jd) member '%s'"
-msgstr "element van het archief wordt gedecomprimeerd"
+msgstr "archief '%s' (grootte=%jd) zijn element '%s' wordt gedecomprimeerd"
 
 #: dpkg-deb/extract.c
 msgid "failed to create directory"
