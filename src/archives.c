@@ -1215,71 +1215,94 @@ clear_deconfigure_queue(void)
 }
 
 /**
- * Try if we can deconfigure the package and queue it if so.
+ * Try if we can deconfigure the package for installation and queue it if so.
  *
- * Also checks whether the pdep is forced, first, according to force_p.
- * force_p may be NULL in which case nothing is considered forced.
+ * This function gets called in the Breaks context, when trying to install
+ * a package that might require another to be deconfigured to be able to
+ * proceed.
  *
- * Action is a string describing the action which causes the
- * deconfiguration:
- *
- *   "removal of <package>"       (due to Conflicts+Depends; removal != NULL)
- *   "installation of <package>"  (due to Breaks;            removal == NULL)
+ * First checks whether the pdep is forced.
  *
  * @retval 0 Not possible (why is printed).
  * @retval 1 Deconfiguration queued ok (no message printed).
  * @retval 2 Forced (no deconfiguration needed, why is printed).
  */
 static int
-try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
-                    struct deppossi *pdep, const char *action,
-                    struct pkginfo *removal, const char *why)
+try_deconfigure_can(struct pkginfo *pkg, struct deppossi *pdep,
+                    struct pkginfo *pkg_install, const char *why)
 {
-  if (force_p && force_p(pdep)) {
-    warning(_("ignoring dependency problem with %s:\n%s"), action, why);
+  if (force_breaks(pdep)) {
+    warning(_("ignoring dependency problem with installation of %s:\n%s"),
+            pkgbin_name(pkg_install, &pkg->available, pnaw_nonambig), why);
     return 2;
   } else if (f_autodeconf) {
-    if (removal && pkg->installed.essential) {
-      if (in_force(FORCE_REMOVE_ESSENTIAL)) {
-        warning(_("considering deconfiguration of essential\n"
-                  " package %s, to enable %s"),
-                pkg_name(pkg, pnaw_nonambig), action);
-      } else {
-        notice(_("no, %s is essential, will not deconfigure\n"
-                 " it in order to enable %s"),
-               pkg_name(pkg, pnaw_nonambig), action);
-        return 0;
-      }
-    }
-    if (removal && pkg->installed.is_protected) {
-      if (in_force(FORCE_REMOVE_PROTECTED)) {
-        warning(_("considering deconfiguration of protected\n"
-                  " package %s, to enable %s"),
-                pkg_name(pkg, pnaw_nonambig), action);
-      } else {
-        notice(_("no, %s is protected, will not deconfigure\n"
-                 " it in order to enable %s"),
-               pkg_name(pkg, pnaw_nonambig), action);
-        return 0;
-      }
-    }
-
-    enqueue_deconfigure(pkg, removal);
+    enqueue_deconfigure(pkg, NULL);
     return 1;
   } else {
-    notice(_("no, cannot proceed with %s (--auto-deconfigure will help):\n%s"),
-           action, why);
+    notice(_("no, cannot proceed with installation of %s (--auto-deconfigure will help):\n%s"),
+           pkgbin_name(pkg_install, &pkg->available, pnaw_nonambig), why);
     return 0;
   }
 }
 
-static int try_remove_can(struct deppossi *pdep,
-                          struct pkginfo *fixbyrm,
-                          const char *why) {
-  char action[512];
-  sprintf(action, _("removal of %.250s"), pkg_name(fixbyrm, pnaw_nonambig));
-  return try_deconfigure_can(force_depends, pdep->up->up, pdep,
-                             action, fixbyrm, why);
+/**
+ * Try if we can deconfigure the package for removal and queue it if so.
+ *
+ * This function gets called in the Conflicts+Depends context, when trying
+ * to install a package that might require another to be fully removed to
+ * be able to proceed.
+ *
+ * First checks whether the pdep is forced, then if auto-configure is enabled
+ * we make sure Essential and Protected are not allowed to be removed unless
+ * forced.
+ *
+ * @retval 0 Not possible (why is printed).
+ * @retval 1 Deconfiguration queued ok (no message printed).
+ * @retval 2 Forced (no deconfiguration needed, why is printed).
+ */
+static int
+try_remove_can(struct deppossi *pdep,
+               struct pkginfo *pkg_removal, const char *why)
+{
+  struct pkginfo *pkg = pdep->up->up;
+
+  if (force_depends(pdep)) {
+    warning(_("ignoring dependency problem with removal of %s:\n%s"),
+            pkg_name(pkg_removal, pnaw_nonambig), why);
+    return 2;
+  } else if (f_autodeconf) {
+    if (pkg->installed.essential) {
+      if (in_force(FORCE_REMOVE_ESSENTIAL)) {
+        warning(_("considering deconfiguration of essential\n"
+                  " package %s, to enable removal of %s"),
+                pkg_name(pkg, pnaw_nonambig), pkg_name(pkg_removal, pnaw_nonambig));
+      } else {
+        notice(_("no, %s is essential, will not deconfigure\n"
+                 " it in order to enable removal of %s"),
+               pkg_name(pkg, pnaw_nonambig), pkg_name(pkg_removal, pnaw_nonambig));
+        return 0;
+      }
+    }
+    if (pkg->installed.is_protected) {
+      if (in_force(FORCE_REMOVE_PROTECTED)) {
+        warning(_("considering deconfiguration of protected\n"
+                  " package %s, to enable removal of %s"),
+                pkg_name(pkg, pnaw_nonambig), pkg_name(pkg_removal, pnaw_nonambig));
+      } else {
+        notice(_("no, %s is protected, will not deconfigure\n"
+                 " it in order to enable removal of %s"),
+               pkg_name(pkg, pnaw_nonambig), pkg_name(pkg_removal, pnaw_nonambig));
+        return 0;
+      }
+    }
+
+    enqueue_deconfigure(pkg, pkg_removal);
+    return 1;
+  } else {
+    notice(_("no, cannot proceed with removal of %s (--auto-deconfigure will help):\n%s"),
+           pkg_name(pkg_removal, pnaw_nonambig), why);
+    return 0;
+  }
 }
 
 void check_breaks(struct dependency *dep, struct pkginfo *pkg,
@@ -1297,8 +1320,6 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
   varbuf_end_str(&why);
 
   if (fixbydeconf && f_autodeconf) {
-    char action[512];
-
     ensure_package_clientdata(fixbydeconf);
 
     if (fixbydeconf->clientdata->istobe != PKG_ISTOBE_NORMAL)
@@ -1306,13 +1327,11 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
                 "is to be %d",
                 pkg_name(pkg, pnaw_always), fixbydeconf->clientdata->istobe);
 
-    sprintf(action, _("installation of %.250s"),
-            pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
-    notice(_("considering deconfiguration of %s, which would be broken by %s ..."),
-           pkg_name(fixbydeconf, pnaw_nonambig), action);
+    notice(_("considering deconfiguration of %s, which would be broken by installation of %s ..."),
+           pkg_name(fixbydeconf, pnaw_nonambig),
+           pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
 
-    ok= try_deconfigure_can(force_breaks, fixbydeconf, dep->list,
-                            action, NULL, why.buf);
+    ok = try_deconfigure_can(fixbydeconf, dep->list, pkg, why.buf);
     if (ok == 1) {
       notice(_("yes, will deconfigure %s (broken by %s)"),
              pkg_name(fixbydeconf, pnaw_nonambig),
