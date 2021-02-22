@@ -1239,7 +1239,7 @@ try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
     warning(_("ignoring dependency problem with %s:\n%s"), action, why);
     return 2;
   } else if (f_autodeconf) {
-    if (pkg->installed.essential) {
+    if (removal && pkg->installed.essential) {
       if (in_force(FORCE_REMOVE_ESSENTIAL)) {
         warning(_("considering deconfiguration of essential\n"
                   " package %s, to enable %s"),
@@ -1251,7 +1251,7 @@ try_deconfigure_can(bool (*force_p)(struct deppossi *), struct pkginfo *pkg,
         return 0;
       }
     }
-    if (pkg->installed.is_protected) {
+    if (removal && pkg->installed.is_protected) {
       if (in_force(FORCE_REMOVE_PROTECTED)) {
         warning(_("considering deconfiguration of protected\n"
                   " package %s, to enable %s"),
