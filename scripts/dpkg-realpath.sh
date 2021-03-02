@@ -88,7 +88,7 @@ canonicalize() {
     elif [ "$prefix" = .. ]; then
       # Go up one directory.
       result=${result%/*}
-      if [ "${result#"$root"}" = "$result" ]; then
+      if [ -n "$root" ] && [ "${result#"$root"}" = "$result" ]; then
         result="$root"
       fi
     elif [ -h "$result/$prefix" ]; then
