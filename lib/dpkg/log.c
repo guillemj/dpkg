@@ -44,6 +44,7 @@ log_message(const char *fmt, ...)
 	static int logfd = -1;
 	char time_str[20];
 	time_t now;
+	struct tm tm;
 	va_list args;
 
 	if (!log_file)
@@ -61,8 +62,12 @@ log_message(const char *fmt, ...)
 	}
 
 	time(&now);
-	strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S",
-	         localtime(&now));
+	if (localtime_r(&now, &tm) == NULL) {
+		notice(_("cannot get local time to log into '%s': %s"),
+		       log_file, strerror(errno));
+		return;
+	}
+	strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", &tm);
 
 	va_start(args, fmt);
 	varbuf_reset(&log);

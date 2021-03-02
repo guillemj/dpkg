@@ -519,10 +519,13 @@ log_msg(const char *fmt, ...)
 	if (fh_log) {
 		char timestamp[64];
 		time_t now;
+		struct tm tm;
 
 		time(&now);
+		if (localtime_r(&now, &tm) == NULL)
+			syserr(_("cannot get local time to log into '%s'"), log_file);
 		strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S",
-		         localtime(&now));
+		         &tm);
 		fprintf(fh_log, "%s %s: ", PROGNAME, timestamp);
 		va_start(args, fmt);
 		vfprintf(fh_log, fmt, args);
