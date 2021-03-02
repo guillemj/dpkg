@@ -865,6 +865,7 @@ sub signfile {
 
     system($signcommand, '--utf8-strings', '--textmode', '--armor',
            '--local-user', $signkey || $maintainer, '--clearsign',
+           '--weak-digest', 'SHA1', '--weak-digest', 'RIPEMD160',
            '--output', "$signfile.asc", $signfile);
     my $status = $?;
     if ($status == 0) {

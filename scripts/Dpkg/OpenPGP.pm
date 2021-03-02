@@ -142,11 +142,15 @@ sub verify_signature {
 
     $opts{require_valid_signature} //= 1;
 
+    my @gpg_weak_digest = map {
+        (qw(--weak-digest), $_)
+    } qw(SHA1 RIPEMD160);
+
     my @exec;
     if (find_command('gpgv')) {
-        push @exec, 'gpgv';
+        push @exec, 'gpgv', @gpg_weak_digest;
     } elsif (find_command('gpg')) {
-        my @gpg_opts = qw(--no-options --no-default-keyring -q);
+        my @gpg_opts = (qw(--no-options --no-default-keyring -q), @gpg_weak_digest);
         push @exec, 'gpg', @gpg_opts, '--verify';
     } elsif ($opts{require_valid_signature}) {
         error(g_('cannot verify signature on %s since GnuPG is not installed'),
