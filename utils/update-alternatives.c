@@ -3064,7 +3064,7 @@ main(int argc, char **argv)
 		if (!alternative_load(a, ALTDB_WARN_PARSER))
 			error(_("no alternatives for %s"), a->master_name);
 	} else if (action == ACTION_REMOVE) {
-		/* FIXME: Be consistent for now with the case when we
+		/* XXX: Be consistent for now with the case when we
 		 * try to remove a non-existing path from an existing
 		 * link group file. */
 		if (!alternative_load(a, ALTDB_WARN_PARSER)) {
