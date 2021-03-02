@@ -40,7 +40,7 @@ test_pkginfo_informative(void)
 	pkg.installed.description = "test description";
 	test_pass(pkg_is_informative(&pkg, &pkg.installed));
 
-	/* FIXME: Complete. */
+	/* TODO: Complete. */
 }
 
 static void
@@ -149,5 +149,5 @@ TEST_ENTRY(test)
 	test_pkginfo_eflags();
 	test_pkginfo_instance_tracking();
 
-	/* FIXME: Complete. */
+	/* TODO: Complete. */
 }

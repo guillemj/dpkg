@@ -89,7 +89,7 @@ sub tar_create_tree {
     mkdir 'directory';
     mkfifo('fifo', 0770);
 
-    # FIXME: Need root.
+    # TODO: Need root.
     # system 'mknod', 'chardev', 'c', '1', '3';
     # system 'mknod', 'blockdev', 'b', '0', '0';
 }

@@ -108,7 +108,7 @@ test_version_compare(void)
 	test_pass(dpkg_version_compare(&a, &b) < 0);
 	test_pass(dpkg_version_compare(&b, &a) > 0);
 
-	/* FIXME: Complete. */
+	/* TODO: Complete. */
 }
 
 static void
@@ -293,7 +293,7 @@ test_version_parse(void)
 	}
 	free(verstr);
 
-	/* FIXME: Complete. */
+	/* TODO: Complete. */
 }
 
 TEST_ENTRY(test)

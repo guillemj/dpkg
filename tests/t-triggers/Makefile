@@ -61,7 +61,7 @@ test-trigger-file test-trigger-await-file:
 	$(call pkg_status_is,pkg-triggers,install ok triggers-pending)
 	$(call pkg_status_is,pkg-trig-file,install ok unpacked)
 	$(DPKG_CONFIGURE) pkg-trig-file
-	# FIXME: Remove ifdef during dpkg 1.18.x cycle, after the apt
+	# TODO: Remove ifdef during dpkg 1.18.x cycle, after the apt
 	# workaround has been reverted.
 ifdef DPKG_HAS_CONFIGURE_WITH_IMPLICIT_TRIGGER_PENDING
 	$(call pkg_status_is,pkg-trig-file,install ok triggers-awaited)

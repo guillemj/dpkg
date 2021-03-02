@@ -602,7 +602,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "selected-only",     'O', 0, &f_alsoselect, NULL,      NULL,    0 },
   { "triggers",           0,  0, &f_triggers,   NULL,      NULL,    1 },
   { "no-triggers",        0,  0, &f_triggers,   NULL,      NULL,   -1 },
-  /* FIXME: Remove ('N') sometime. */
+  /* TODO: Remove ('N') sometime. */
   { "no-also-select",    'N', 0, &f_alsoselect, NULL,      NULL,    0 },
   { "skip-same-version", 'E', 0, &f_skipsame,   NULL,      NULL,    1 },
   { "auto-deconfigure",  'B', 0, &f_autodeconf, NULL,      NULL,    1 },

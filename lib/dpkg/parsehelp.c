@@ -122,7 +122,7 @@ find_arbfield_info(const struct arbitraryfield *arbs, const char *fieldname)
 const char *
 pkg_name_is_illegal(const char *p)
 {
-  /* FIXME: _ is deprecated, remove sometime. */
+  /* TODO: _ is deprecated, remove sometime. */
   static const char alsoallowed[] = "-+._";
   static char buf[150];
   int c;

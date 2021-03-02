@@ -410,5 +410,5 @@ TEST_ENTRY(test)
 	test_varbuf_snapshot();
 	test_varbuf_detach();
 
-	/* FIXME: Complete. */
+	/* TODO: Complete. */
 }

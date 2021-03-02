@@ -157,7 +157,7 @@ dir_sync_path_parent(const char *path)
 	free(dirname);
 }
 
-/* FIXME: Ideally we'd use openat() here, to avoid the path mangling, but
+/* TODO: Ideally we'd use openat() here, to avoid the path mangling, but
  * it's not widely available yet, so this will do for now. */
 static void
 dir_file_sync(const char *dir, const char *filename)

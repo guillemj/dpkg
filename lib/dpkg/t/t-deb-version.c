@@ -79,7 +79,7 @@ test_deb_version_parse(void)
 	test_fail(deb_version_parse(&v, vs) == NULL);
 	free(vs);
 
-	/* FIXME: Complete. */
+	/* TODO: Complete. */
 }
 
 TEST_ENTRY(test)

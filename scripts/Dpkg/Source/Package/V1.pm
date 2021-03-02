@@ -356,7 +356,7 @@ sub do_build {
         error(g_('non-native package version does not contain a revision'))
             if $v->is_native();
     } else {
-        # FIXME: This will become fatal in the near future.
+        # TODO: This will become fatal in the near future.
         warning(g_('native package version may not have a revision'))
             unless $v->is_native();
     }
