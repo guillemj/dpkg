@@ -22,8 +22,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/* FIXME: Don't write uninteresting packages. */
-
 #include <config.h>
 #include <compat.h>
 

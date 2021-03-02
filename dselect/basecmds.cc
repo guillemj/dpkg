@@ -76,13 +76,6 @@ void baselist::kd_bottom() {
 }
 
 void baselist::kd_redraw() {
-//#define RFSH(x) werase(x); redrawwin(x)
-//  RFSH(listpad);
-//  RFSH(infopad);
-//  RFSH(colheadspad);
-//  RFSH(thisstatepad);
-//  RFSH(titlewin);
-//  RFSH(whatinfowin); /* FIXME: why does ncurses need this? */
   clearok(curscr,TRUE);
   redrawall();
   debug(dbg_general, "baselist[%p]::kd_redraw() done", this);
@@ -123,11 +116,11 @@ void baselist::kd_search() {
   strcpy(newsearchstring,searchstring);
   werase(querywin);
   mvwaddstr(querywin,0,0, _("Search for ? "));
-  echo(); /* FIXME: ncurses documentation or implementation. */
+  echo();
   if (wgetnstr(querywin,newsearchstring,sizeof(newsearchstring)-1) == ERR)
     searchstring[0]= 0;
-  raise(SIGWINCH); /* FIXME: ncurses and xterm arrow keys. */
-  noecho(); /* FIXME: ncurses. */
+  raise(SIGWINCH);
+  noecho();
   if (whatinfo_height) { touchwin(whatinfowin); refreshinfo(); }
   else if (info_height) { touchwin(infopad); refreshinfo(); }
   else if (thisstate_height) redrawthisstate();
