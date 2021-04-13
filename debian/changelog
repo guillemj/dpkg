@@ -1,8 +1,39 @@
-dpkg (1.20.8) UNRELEASED; urgency=medium
+dpkg (1.20.8) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * start-stop-daemon: Open the --output file in append mode.
+  * dpkg: Fix --auto-deconfigure for essential and protected during
+    installation. Reported by Julian Andres Klode <jak@debian.org>.
+    See #983014.
+  * dpkg-realpath: Fix resolution for absolute symlinks on «/».
+    Closes: #983855
+  * dpkg-realpath: Fix symlink loop tracker.
+  * Perl modules:
+    - Test::Dpkg: Fix test data path fetching on CPAN.
+    - Dpkg::Exit: Preserve exit code in END block.
+  * Build system:
+    - Group Test::Dpkg changelog entries into “Perl modules” section.
+  * Packaging:
+    - Run autopkgtest test suites in verbose mode.
+  * Test suite:
+    - Set PERL in the perl test suite.
+    - Use gunzip instead of zcat and assume it might not be present.
+    - Mock dpkg and gcc for architecture detection code.
+    - Initialize DEB_BUILD_ARCH and DEB_HOST_ARCH to avoid computing them.
+    - Update suppressions for cppcheck 2.4.
 
- -- Guillem Jover <guillem@debian.org>  Sat, 09 Jan 2021 01:11:05 +0100
+  [ Update man pages translations ]
+  * Dutch (Frans Spiesschaert). Closes: #981884
+  * German (Helge Kreutzmann).
+  * Portuguese (Américo Monteiro). Closes: #980018
+
+  [ Update programs translations ]
+  * Dutch (Frans Spiesschaert). Closes: #981882
+
+  [ Update scripts translations ]
+  * German (Helge Kreutzmann). Closes: #983865
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 13 Apr 2021 22:17:05 +0200
 
 dpkg (1.20.7) unstable; urgency=medium
 
