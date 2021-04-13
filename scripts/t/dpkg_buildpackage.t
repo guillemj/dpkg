@@ -187,6 +187,7 @@ sub test_build
     chdir $dirname;
     spawn(exec => [ $ENV{PERL}, "$srcdir/dpkg-buildpackage.pl",
                     '--host-arch=amd64',
+                    '--ignore-builtin-builddeps',
                     '--unsigned-source', '--unsigned-changes',
                     '--unsigned-buildinfo',
                     "--build=$typename", '--check-command=' ],
