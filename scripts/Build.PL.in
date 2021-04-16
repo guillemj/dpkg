@@ -71,7 +71,7 @@ my $class = Module::Build->subclass(
 
             local $ENV{LANG} = 'C';
             local $ENV{LC_ALL} = 'C';
-            local $ENV{PERL} = $Config{perlpath};
+            local $ENV{PERL} = $Config{perlpath} || $^X || 'perl';
             local $ENV{DPKG_TEST_MODE} = 'cpan';
             local $ENV{DPKG_DATADIR} = 'data';
             local $ENV{DPKG_ORIGINS_DIR} = 't/origins';
