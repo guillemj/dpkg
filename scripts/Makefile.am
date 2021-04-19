@@ -54,6 +54,10 @@ nobase_dist_pkgdata_DATA = \
 	sh/dpkg-error.sh \
 	# EOL
 
+dist_zshcompletions_DATA = \
+	zsh/_dpkg-parsechangelog \
+	# EOL
+
 CLEANFILES = \
 	$(test_data_objects) \
 	$(sbin_SCRIPTS) \

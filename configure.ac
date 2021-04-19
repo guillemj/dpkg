@@ -64,6 +64,8 @@ DPKG_WITH_DIR([admindir], [${localstatedir}/lib/${PACKAGE_NAME}],
   [dpkg database directory [LOCALSTATEDIR/lib/dpkg]])
 DPKG_WITH_DIR([logdir], [${localstatedir}/log],
   [system logging directory [LOCALSTATEDIR/log]])
+DPKG_WITH_DIR([zshcompletionsdir], [${datadir}/zsh/vendor-completions],
+  [zsh vendor completions directory [DATADIR/zsh/vendor-completions]])
 
 # Set default dpkg-deb values
 DPKG_DEB_COMPRESSOR([xz])
