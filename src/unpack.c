@@ -1624,6 +1624,11 @@ void process_archive(const char *filename) {
     /* We need to have the most up-to-date info about which files are
      * what ... */
     ensure_allinstfiles_available();
+    printf(_("Removing %s (%s), to allow configuration of %s (%s) ...\n"),
+           pkg_name(conflictor, pnaw_nonambig),
+           versiondescribe(&conflictor->installed.version, vdew_nonambig),
+           pkg_name(pkg, pnaw_nonambig),
+           versiondescribe(&pkg->installed.version, vdew_nonambig));
     removal_bulk(conflictor);
   }
 
