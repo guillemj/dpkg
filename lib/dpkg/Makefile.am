@@ -2,8 +2,6 @@
 
 SUBDIRS = . t
 
-localedir = $(datadir)/locale
-pkgconfdir = $(sysconfdir)/@PACKAGE@
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DCONFIGDIR=\"$(pkgconfdir)\" \

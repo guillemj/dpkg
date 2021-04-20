@@ -1,8 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-localedir = $(datadir)/locale
-pkgconfdir = $(sysconfdir)/@PACKAGE@
-
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DADMINDIR=\"$(admindir)\" \

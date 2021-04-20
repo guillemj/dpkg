@@ -1,6 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-localedir = $(datadir)/locale
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-idirafter $(top_srcdir)/lib/compat \
