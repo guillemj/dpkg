@@ -27,6 +27,7 @@ bin_PROGRAMS = \
 
 dpkg_SOURCES = \
 	archives.c archives.h \
+	bencode.c \
 	cleanup.c \
 	configure.c \
 	depcon.c \
@@ -38,12 +39,14 @@ dpkg_SOURCES = \
 	help.c \
 	main.c main.h \
 	packages.c \
+	pascal_str.c \
 	perpkgstate.c \
 	remove.c \
 	script.c \
 	select.c \
 	selinux.c \
 	trigproc.c \
+	triggerer_info_passthrough.c \
 	unpack.c \
 	update.c \
 	verify.c \

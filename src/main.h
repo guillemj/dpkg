@@ -26,6 +26,7 @@
 #include <dpkg/pkg-list.h>
 
 #include "force.h"
+#include "triggerer_info_passthrough.h"
 
 /* These two are defined in <dpkg/fsys.h>. */
 struct fsys_namenode_list;
@@ -149,7 +150,7 @@ void ensure_package_clientdata(struct pkginfo *pkg);
 /* from archives.c */
 
 int archivefiles(const char *const *argv);
-void process_archive(const char *filename);
+void process_archive(const char *filename, struct passed_through_package_info *unpackedInfo);
 bool wanttoinstall(struct pkginfo *pkg);
 
 /* from update.c */
