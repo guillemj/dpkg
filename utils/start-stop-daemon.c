@@ -135,6 +135,11 @@
 #define SCHED_RR -1
 #endif
 
+/* At least macOS and AIX do not define this. */
+#ifndef SOCK_NONBLOCK
+#define SOCK_NONBLOCK 0
+#endif
+
 #if defined(OS_Linux)
 /* This comes from TASK_COMM_LEN defined in Linux' include/linux/sched.h. */
 #define PROCESS_NAME_SIZE 15
