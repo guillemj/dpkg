@@ -171,6 +171,23 @@ AC_DEFUN([DPKG_LIB_CURSES], [
   have_libcurses=yes
 ])# DPKG_LIB_CURSES
 
+# DPKG_LIB_SOCKET
+# ---------------
+# Check for socket library
+AC_DEFUN([DPKG_LIB_SOCKET], [
+  AC_ARG_VAR([SOCKET_LIBS], [linker flags for socket library])dnl
+  have_libsocket="no"
+  dpkg_save_libsocket_LIBS=$LIBS
+  AC_SEARCH_LIBS([bind], [socket])
+  LIBS=$dpkg_save_libsocket_LIBS
+  AS_IF([test "x$ac_cv_search_bind" = "xnone required"], [
+    have_libsocket="builtin"
+  ], [test "x$ac_cv_search_bind" != "xno"], [
+    have_libsocket="yes"
+    SOCKET_LIBS="$ac_cv_search_bind"
+  ])
+])# DPKG_LIB_SOCKET
+
 # DPKG_LIB_PS
 # -----------
 # Check for GNU/Hurd ps library

@@ -97,6 +97,7 @@ AS_IF([test "x$build_dselect" = "xyes"], [
   DPKG_LIB_CURSES
 ])
 AS_IF([test "x$build_start_stop_daemon" = "xyes"], [
+  DPKG_LIB_SOCKET
   DPKG_LIB_PS
   DPKG_LIB_KVM
 ])
@@ -276,6 +277,7 @@ Configuration:
     dselect . . . . . . . . . . . : $build_dselect
 
   System Libraries:
+    libsocket . . . . . . . . . . : ${have_libsocket:-no}
     libps . . . . . . . . . . . . : ${have_libps:-no}
     libkvm  . . . . . . . . . . . : ${have_libkvm:-no}
     libselinux  . . . . . . . . . : $have_libselinux
