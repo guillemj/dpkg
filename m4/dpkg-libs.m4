@@ -16,7 +16,7 @@ AC_DEFUN([DPKG_LIB_MD], [
   AS_IF([test "x$with_libmd" != "xno"], [
     AC_CHECK_HEADERS([md5.h], [
       dpkg_save_libmd_LIBS=$LIBS
-      AC_SEARCH_LIBS([MD5Init], [md], [have_libmd="yes"])
+      AC_SEARCH_LIBS([MD5Init], [md])
       LIBS=$dpkg_save_libmd_LIBS
       AS_IF([test "x$ac_cv_search_MD5Init" = "xnone required"], [
         have_libmd="builtin"
