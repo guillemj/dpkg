@@ -192,6 +192,7 @@ AC_CHECK_FUNCS([\
   isascii \
   setsid \
   getdtablesize \
+  getprocs64 \
   getprogname \
   getexecname \
   lutimes \

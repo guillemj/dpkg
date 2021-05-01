@@ -21,6 +21,12 @@
 #include <config.h>
 #include <compat.h>
 
+#ifdef HAVE_GETPROCS64
+#include <sys/types.h>
+#include <string.h>
+#include <unistd.h>
+#include <procinfo.h>
+#endif
 #include <errno.h>
 #include <stdlib.h>
 
@@ -70,6 +76,12 @@ dpkg_get_progname(void)
 #elif defined(HAVE_GETEXECNAME)
 		/* getexecname(3) returns an absolute path, normalize it. */
 		dpkg_set_progname(getexecname());
+#elif defined(HAVE_GETPROCS64)
+		struct progentry64 pe;
+		pid_t pid = getpid();
+
+		if (getprocs64(&pe, sizeof(pe), NULL, 0, &pid, 1) >= 0)
+			progname = strdup(pe.pi_comm);
 #endif
 	}
 
