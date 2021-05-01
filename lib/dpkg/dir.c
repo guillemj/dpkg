@@ -106,6 +106,7 @@ dir_make_path_parent(const char *path, mode_t mode)
 static void
 dir_sync(DIR *dir, const char *path)
 {
+#ifdef HAVE_FSYNC_DIR
 	int fd;
 
 	fd = dirfd(dir);
@@ -115,6 +116,7 @@ dir_sync(DIR *dir, const char *path)
 
 	if (fsync(fd))
 		ohshite(_("unable to sync directory '%s'"), path);
+#endif
 }
 
 /**
@@ -125,6 +127,7 @@ dir_sync(DIR *dir, const char *path)
 void
 dir_sync_path(const char *path)
 {
+#ifdef HAVE_FSYNC_DIR
 	DIR *dir;
 
 	dir = opendir(path);
@@ -134,6 +137,7 @@ dir_sync_path(const char *path)
 	dir_sync(dir, path);
 
 	closedir(dir);
+#endif
 }
 
 /**
@@ -144,6 +148,7 @@ dir_sync_path(const char *path)
 void
 dir_sync_path_parent(const char *path)
 {
+#ifdef HAVE_FSYNC_DIR
 	char *dirname, *slash;
 
 	dirname = m_strdup(path);
@@ -155,6 +160,7 @@ dir_sync_path_parent(const char *path)
 	}
 
 	free(dirname);
+#endif
 }
 
 /* TODO: Ideally we'd use openat() here, to avoid the path mangling, but

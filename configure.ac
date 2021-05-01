@@ -161,6 +161,7 @@ DPKG_DECL_SYS_ERRLIST
 # Checks for library functions.
 DPKG_FUNC_VA_COPY
 DPKG_FUNC_C99_SNPRINTF
+DPKG_FUNC_FSYNC_DIR
 DPKG_CHECK_DECL([offsetof], [stddef.h])
 DPKG_CHECK_DECL([makedev], [sys/types.h])
 DPKG_CHECK_DECL([WCOREDUMP], [sys/wait.h])
