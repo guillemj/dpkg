@@ -31,7 +31,7 @@ va_copy(v1, v2);
 AC_DEFUN([DPKG_FUNC_C99_SNPRINTF], [
   AC_CACHE_CHECK([for C99 snprintf functions], [dpkg_cv_c99_snprintf], [
     AC_RUN_IFELSE([
-      AC_LANG_SOURCE([[
+      AC_LANG_PROGRAM([[
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
@@ -46,8 +46,7 @@ int test_vsnprintf(const char *fmt, ...)
 
 	return n;
 }
-int main()
-{
+]], [[
 	int n;
 
 	n = snprintf(NULL, 0, "format %s %d", "string", 10);
@@ -57,9 +56,6 @@ int main()
 	n = test_vsnprintf("format %s %d", "string", 10);
 	if (n != strlen("format string 10"))
 		return 1;
-
-	return 0;
-}
       ]])
     ], [
       dpkg_cv_c99_snprintf=yes
