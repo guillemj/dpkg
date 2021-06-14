@@ -7,6 +7,7 @@ man_MANS = \
 	deb-conffiles.5 \
 	deb-control.5 \
 	deb-extra-override.5 \
+	deb-md5sums.5 \
 	deb-old.5 \
 	deb-origin.5 \
 	deb-override.5 \
@@ -90,6 +91,7 @@ EXTRA_DIST += \
 	deb-conffiles.pod \
 	deb-control.pod \
 	deb-extra-override.pod \
+	deb-md5sums.pod \
 	deb-old.pod \
 	deb-origin.pod \
 	deb-override.pod \
