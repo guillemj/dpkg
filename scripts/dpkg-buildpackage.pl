@@ -880,7 +880,7 @@ sub signfile {
 sub fileomitted {
     my ($files, $regex) = @_;
 
-    return $files !~ /$regex/
+    return $files !~ /$regex$/
 }
 
 sub describe_build {
