@@ -142,8 +142,9 @@ on the argument list.
 List files installed to your system from I<package-name>. When multiple
 I<package-name>s are listed, the requested lists of files are separated
 by an empty line, with the same order as specified on the argument list.
-However, note that files created by package-specific installation-scripts
-are not listed.
+
+This command will not list extra files created by maintainer scripts,
+nor will it list alternatives.
 
 =item B<--control-list> I<package-name>
 
@@ -188,6 +189,14 @@ handled like a glob pattern, otherwise any trailing ‘B</>’ or
 
 This command will not list extra files created by maintainer scripts,
 nor will it list alternatives.
+
+The output format consists of one line per matching pattern, with a list
+of packages owning the pathname separated by a comma (U+002C ‘B<,>’) and
+a space (U+0020 ‘B< >’), followed by a colon (U+003A ‘B<:>’) and a space,
+followed by the pathname. As in:
+
+  pkgname1, pkgname2: pathname1
+  pkgname3: pathname2
 
 =item B<-p>, B<--print-avail> [I<package-name>...]
 
