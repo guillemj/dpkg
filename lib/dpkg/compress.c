@@ -606,6 +606,39 @@ get_avail_mem(uint64_t *val)
 	return -1;
 }
 # endif
+
+static uint64_t
+filter_xz_get_memlimit(void)
+{
+	uint64_t mt_memlimit;
+
+	/* Ask the kernel what is currently available for us. If this fails
+	 * initialize the memory limit to half the physical RAM, or to 128 MiB
+	 * if we cannot infer the number. */
+	if (get_avail_mem(&mt_memlimit) < 0) {
+		mt_memlimit = lzma_physmem() / 2;
+		if (mt_memlimit == 0)
+			mt_memlimit = 128 * 1024 * 1024;
+	}
+	/* Clamp the multi-threaded memory limit to half the addressable
+	 * memory on this architecture. */
+	if (mt_memlimit > INTPTR_MAX)
+		mt_memlimit = INTPTR_MAX;
+
+	return mt_memlimit;
+}
+
+static uint32_t
+filter_xz_get_cputhreads(void)
+{
+	uint32_t threads_max;
+
+	threads_max = lzma_cputhreads();
+	if (threads_max == 0)
+		threads_max = 1;
+
+	return threads_max;
+}
 #endif
 
 static void
@@ -646,23 +679,8 @@ filter_xz_init(struct io_lzma *io, lzma_stream *s)
 
 #ifdef HAVE_LZMA_MT_ENCODER
 	mt_options.preset = preset;
-
-	/* Ask the kernel what is currently available for us. If this fails
-	 * initialize the memory limit to half the physical RAM, or to 128 MiB
-	 * if we cannot infer the number. */
-	if (get_avail_mem(&mt_memlimit) < 0) {
-		mt_memlimit = lzma_physmem() / 2;
-		if (mt_memlimit == 0)
-			mt_memlimit = 128 * 1024 * 1024;
-	}
-	/* Clamp the multi-threaded memory limit to half the addressable
-	 * memory on this architecture. */
-	if (mt_memlimit > INTPTR_MAX)
-		mt_memlimit = INTPTR_MAX;
-
-	mt_options.threads = lzma_cputhreads();
-	if (mt_options.threads == 0)
-		mt_options.threads = 1;
+	mt_memlimit = filter_xz_get_memlimit();
+	mt_options.threads = filter_xz_get_cputhreads();
 
 	/* Guess whether we have enough RAM to use the multi-threaded encoder,
 	 * and decrease them up to single-threaded to reduce memory usage. */
