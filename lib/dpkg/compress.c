@@ -543,7 +543,7 @@ filter_xz_init(struct io_lzma *io, lzma_stream *s)
 {
 	uint32_t preset;
 	lzma_check check = LZMA_CHECK_CRC64;
-#ifdef HAVE_LZMA_MT
+#ifdef HAVE_LZMA_MT_ENCODER
 	uint64_t mt_memlimit;
 	lzma_mt mt_options = {
 		.flags = 0,
@@ -561,7 +561,7 @@ filter_xz_init(struct io_lzma *io, lzma_stream *s)
 	if (io->params->strategy == COMPRESSOR_STRATEGY_EXTREME)
 		preset |= LZMA_PRESET_EXTREME;
 
-#ifdef HAVE_LZMA_MT
+#ifdef HAVE_LZMA_MT_ENCODER
 	mt_options.preset = preset;
 
 	/* Initialize the multi-threaded memory limit to half the physical
