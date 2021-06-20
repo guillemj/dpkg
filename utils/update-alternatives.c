@@ -563,9 +563,9 @@ fsys_set_dir(const char *dir)
 }
 
 static char *
-fsys_gen_admindir(const char *basedir)
+fsys_gen_admindir(void)
 {
-	return xasprintf("%s%s/%s", instdir, basedir, "alternatives");
+	return fsys_get_path(ADMINDIR "/alternatives");
 }
 
 static bool
@@ -2813,7 +2813,7 @@ set_rootdir(const char *dir)
 	log_file = fsys_get_path(LOGDIR "/alternatives.log");
 	altdir = SYSCONFDIR "/alternatives";
 	free(admdir);
-	admdir = fsys_gen_admindir(dir);
+	admdir = fsys_gen_admindir();
 
 	return instdir;
 }
@@ -2821,17 +2821,15 @@ set_rootdir(const char *dir)
 static char *
 admindir_init(void)
 {
-	const char *basedir, *basedir_env;
+	const char *basedir_env;
 
 	/* Try to get the admindir from an environment variable, usually set
 	 * by the system package manager. */
 	basedir_env = getenv(ADMINDIR_ENVVAR);
 	if (basedir_env)
-		basedir = basedir_env;
+		return strdup(basedir_env);
 	else
-		basedir = ADMINDIR;
-
-	return fsys_gen_admindir(basedir);
+		return fsys_gen_admindir();
 }
 
 #define MISSING_ARGS(nb) (argc < i + nb + 1)
@@ -3037,6 +3035,8 @@ main(int argc, char **argv)
 		         "display", "query", "list", "get-selections",
 		         "config", "set", "set-selections", "install",
 		         "remove", "all", "remove-all", "auto");
+
+	debug("root=%s admdir=%s altdir=%s", instdir, admdir, altdir);
 
 	/* The following actions might modify the current alternative. */
 	if (action == ACTION_SET ||

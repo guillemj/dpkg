@@ -79,7 +79,12 @@ endif
 uninstall-local:
 	rm -f $(DESTDIR)$(sysconfdir)/alternatives/README
 
-TEST_ENV_VARS = DPKG_DATADIR=$(top_srcdir)/data
+TEST_ENV_VARS = \
+	DPKG_DATADIR=$(top_srcdir)/data \
+	UA_ROOTDIR_ENVVAR=DPKG_ROOT \
+	UA_ADMINDIR_ENVVAR=DPKG_ADMINDIR \
+	UA_ADMINDIR_DEFAULT=$(admindir) \
+	# EOL
 
 test_tmpdir = t.tmp
 test_scripts = \

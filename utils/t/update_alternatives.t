@@ -32,8 +32,11 @@ my $bindir = File::Spec->rel2abs("$tmpdir/bin");
 my @ua = ("$ENV{builddir}/update-alternatives", '--log', '/dev/null',
           '--quiet', '--admindir', "$admindir", '--altdir', "$altdir");
 
-delete $ENV{DPKG_ROOT};
-delete $ENV{DPKG_ADMINDIR};
+my $rootdir_envvar = $ENV{UA_ROOTDIR_ENVVAR} // 'DPKG_ROOT';
+my $admindir_envvar = $ENV{UA_ADMINDIR_ENVVAR} // 'DPKG_ADMINDIR';
+
+delete $ENV{$rootdir_envvar};
+delete $ENV{$admindir_envvar};
 
 my %paths = (
     true => find_command('true'),
@@ -97,6 +100,7 @@ my @choices = (
 );
 my $nb_slaves = 4;
 plan tests => (4 * ($nb_slaves + 1) + 2) * 26 # number of check_choices
+               + 30                           # number of directory checks
                + 110;                         # rest
 
 sub cleanup {
@@ -106,8 +110,18 @@ sub cleanup {
 
 sub call_ua {
     my ($params, %opts) = @_;
-    spawn(exec => [ @ua, @$params ], nocheck => 1,
-	  wait_child => 1, env => { LC_ALL => 'C' }, %opts);
+
+    my %env;
+    %env = %{delete $opts{env}} if exists $opts{env};
+    my @cmd;
+    if (exists $opts{cmd}) {
+        @cmd = @{delete $opts{cmd}};
+    } else {
+        @cmd = @ua;
+    }
+
+    spawn(exec => [ @cmd, @{$params} ], nocheck => 1,
+        wait_child => 1, env => { LC_ALL => 'C', %env }, %opts);
     my $test_id = '';
     $test_id = "$opts{test_id}: " if defined $opts{test_id};
     if ($opts{expect_failure}) {
@@ -117,6 +131,29 @@ sub call_ua {
 	ok($? == 0, "${test_id}update-alternatives @$params should work.") or
 	    diag("Did not succeed as expected: @ua @$params");
     }
+}
+
+sub call_ua_dirs {
+    my (%opts) = @_;
+
+    $opts{cmd} = [ "$ENV{builddir}/update-alternatives" ];
+
+    my @params;
+    @params = @{delete $opts{params}} if exists $opts{params};
+    push @params, qw(--debug);
+    push @params, qw(--log /dev/null);
+    push @params, qw(--get-selections);
+
+    die unless exists $opts{expected};
+
+    my $stderr;
+    my $expected = delete $opts{expected};
+    $opts{to_file} = '/dev/null';
+    $opts{error_to_string} = \$stderr;
+
+    call_ua(\@params, %opts);
+
+    ok($stderr =~ $expected, "output '$stderr' does not match expected '$expected'");
 }
 
 sub install_choice {
@@ -251,6 +288,114 @@ sub check_choice {
 }
 
 ### START OF TESTS
+cleanup();
+
+# check directory overrides
+
+my $DEFAULT_ROOTDIR = '';
+my $DEFAULT_ADMINDIR = $ENV{UA_ADMINDIR_DEFAULT} // '/var/lib/dpkg/alternatives';
+
+# ENV_ADMINDIR + defaults
+call_ua_dirs(
+    env => {
+        $admindir_envvar => '/admindir_env',
+    },
+    expected => "root=$DEFAULT_ROOTDIR admdir=/admindir_env",
+);
+
+# ENV_ROOT + defaults
+call_ua_dirs(
+    env => { $rootdir_envvar => '/rootdir_env' },
+    expected => "root=/rootdir_env admdir=/rootdir_env$DEFAULT_ADMINDIR",
+);
+
+# ENV_ROOT + ENV_ADMINDIR
+call_ua_dirs(
+    env => {
+        $rootdir_envvar => '/rootdir_env',
+        $admindir_envvar => '/admindir_env',
+    },
+    expected => 'root=/rootdir_env admdir=/admindir_env',
+);
+
+# ENV_ADMINDIR + options
+call_ua_dirs(
+    env => { $admindir_envvar => '/admindir_env' },
+    params => [ qw(--root /rootdir_opt) ],
+    expected => "root=/rootdir_opt admdir=/rootdir_opt$DEFAULT_ADMINDIR",
+);
+call_ua_dirs(
+    env => { $admindir_envvar => '/admindir_env' },
+    params => [ qw(--admindir /admindir_opt) ],
+    expected => "root=$DEFAULT_ROOTDIR admdir=/admindir_opt",
+);
+call_ua_dirs(
+    env => { $admindir_envvar => '/admindir_env' },
+    params => [ qw(--root /rootdir_opt --admindir /admindir_opt) ],
+    expected => 'root=/rootdir_opt admdir=/admindir_opt',
+);
+call_ua_dirs(
+    env => { $admindir_envvar => '/admindir_env' },
+    params => [ qw(--admindir /admindir_opt --root /rootdir_opt) ],
+    expected => "root=/rootdir_opt admdir=/rootdir_opt$DEFAULT_ADMINDIR",
+);
+
+# DPKG_ROOT + options
+call_ua_dirs(
+    env => { $rootdir_envvar => '/rootdir_env' },
+    params => [ qw(--root /rootdir_opt) ],
+    expected => "root=/rootdir_opt admdir=/rootdir_opt$DEFAULT_ADMINDIR",
+);
+call_ua_dirs(
+    env => { $rootdir_envvar => '/rootdir_env' },
+    params => [ qw(--admindir /admindir_opt) ],
+    expected => 'root=/rootdir_env admdir=/admindir_opt',
+);
+call_ua_dirs(
+    env => { $rootdir_envvar => '/rootdir_env' },
+    params => [ qw(--root /rootdir_opt --admindir /admindir_opt) ],
+    expected => 'root=/rootdir_opt admdir=/admindir_opt',
+);
+call_ua_dirs(
+    env => { $rootdir_envvar => '/rootdir_env' },
+    params => [ qw(--admindir /admindir_opt --root /rootdir_opt) ],
+    expected => "root=/rootdir_opt admdir=/rootdir_opt$DEFAULT_ADMINDIR",
+);
+
+# ENV_ROOT + ENV_ADMINDIR + options
+call_ua_dirs(
+    env => {
+        $rootdir_envvar => '/rootdir_env',
+        $admindir_envvar => '/admindir_env',
+    },
+    params => [ qw(--root /rootdir_opt) ],
+    expected => "root=/rootdir_opt admdir=/rootdir_opt$DEFAULT_ADMINDIR",
+);
+call_ua_dirs(
+    env => {
+        $rootdir_envvar => '/rootdir_env',
+        $admindir_envvar => '/admindir_env',
+    },
+    params => [ qw(--admindir /admindir_opt) ],
+    expected => 'root=/rootdir_env admdir=/admindir_opt',
+);
+call_ua_dirs(
+    env => {
+        $rootdir_envvar => '/rootdir_env',
+        $admindir_envvar => '/admindir_env',
+    },
+    params => [ qw(--root /rootdir_opt --admindir /admindir_opt) ],
+    expected => 'root=/rootdir_opt admdir=/admindir_opt',
+);
+call_ua_dirs(
+    env => {
+        $rootdir_envvar => '/rootdir_env',
+        $admindir_envvar => '/admindir_env',
+    },
+    params => [ qw(--admindir /admindir_opt --root /rootdir_opt) ],
+    expected => "root=/rootdir_opt admdir=/rootdir_opt$DEFAULT_ADMINDIR",
+);
+
 cleanup();
 # removal when not installed should not fail
 remove_choice(0);
