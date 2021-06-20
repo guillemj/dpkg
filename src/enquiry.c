@@ -362,33 +362,41 @@ assert_version_support(const char *const *argv,
                        struct dpkg_version *version,
                        const char *feature_name)
 {
-  struct pkginfo *pkg;
+  const char *running_version_str;
+  struct dpkg_version running_version = DPKG_VERSION_INIT;
+  struct dpkg_error err = DPKG_ERROR_INIT;
 
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  modstatdb_open(msdbrw_readonly);
+  /*
+   * When using the feature asserts, we want to know whether the currently
+   * running dpkg, which we might be running under (say from within a
+   * maintainer script) and which might have a different version, supports
+   * the requested feature. As dpkg is an Essential package, it is expected
+   * to work even when just unpacked, and so its own version is enough.
+   */
+  running_version_str = getenv("DPKG_RUNNING_VERSION");
 
-  pkg = pkg_hash_find_singleton("dpkg");
-  switch (pkg->status) {
-  case PKG_STAT_INSTALLED:
-  case PKG_STAT_TRIGGERSPENDING:
+  /*
+   * If we are not running from within a maintainer script, then that means
+   * once we do, the executed dpkg will support the requested feature, if
+   * we know about it. Always return success in that case.
+   */
+  if (str_is_unset(running_version_str))
     return 0;
-  case PKG_STAT_UNPACKED:
-  case PKG_STAT_HALFCONFIGURED:
-  case PKG_STAT_HALFINSTALLED:
-  case PKG_STAT_TRIGGERSAWAITED:
-    if (dpkg_version_relate(&pkg->configversion, DPKG_RELATION_GE, version))
-      return 0;
-    printf(_("Version of dpkg with working %s support not yet configured.\n"
-             " Please use 'dpkg --configure dpkg', and then try again.\n"),
-           feature_name);
-    return 1;
-  default:
-    printf(_("dpkg not recorded as installed, cannot check for %s support!\n"),
-           feature_name);
-    return 1;
-  }
+
+  if (parseversion(&running_version, running_version_str, &err) < 0)
+    ohshit(_("cannot parse dpkg running version '%s': %s"),
+           running_version_str, err.str);
+
+  if (dpkg_version_relate(&running_version, DPKG_RELATION_GE, version))
+    return 0;
+
+  printf(_("Running version of dpkg does not support %s.\n"
+           " Please upgrade to at least dpkg %s, and then try again.\n"),
+         feature_name, versiondescribe(version, vdew_nonambig));
+  return 1;
 }
 
 int
