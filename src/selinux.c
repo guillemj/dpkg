@@ -38,6 +38,7 @@
 #endif
 
 #include "main.h"
+#include "security-mac.h"
 
 #ifdef WITH_LIBSELINUX
 static struct selabel_handle *sehandle;

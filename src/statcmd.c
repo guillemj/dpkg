@@ -49,6 +49,7 @@
 
 #include "force.h"
 #include "main.h"
+#include "security-mac.h"
 
 static const char printforhelp[] = N_(
 "Use --help for help about overriding file stat information.");

@@ -38,6 +38,7 @@ dpkg_SOURCES = \
 	perpkgstate.c \
 	remove.c \
 	script.c \
+	security-mac.h \
 	select.c \
 	selinux.c \
 	trigproc.c \
@@ -58,6 +59,7 @@ dpkg_query_SOURCES = \
 
 dpkg_statoverride_SOURCES = \
 	force.c force.h \
+	security-mac.h \
 	selinux.c \
 	statcmd.c
 
