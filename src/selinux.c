@@ -37,7 +37,7 @@
 #include <selinux/label.h>
 #endif
 
-#include "main.h"
+#include "force.h"
 #include "security-mac.h"
 
 #ifdef WITH_LIBSELINUX
