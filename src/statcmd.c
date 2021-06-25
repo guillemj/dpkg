@@ -48,7 +48,7 @@
 #include <dpkg/options.h>
 
 #include "force.h"
-#include "main.h"
+#include "actions.h"
 #include "security-mac.h"
 
 static const char printforhelp[] = N_(

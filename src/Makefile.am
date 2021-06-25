@@ -23,6 +23,7 @@ bin_PROGRAMS = \
 	dpkg-trigger
 
 dpkg_SOURCES = \
+	actions.h \
 	archives.c archives.h \
 	cleanup.c \
 	configure.c \
@@ -55,9 +56,11 @@ dpkg_divert_SOURCES = \
 	divertcmd.c
 
 dpkg_query_SOURCES = \
+	actions.h \
 	querycmd.c
 
 dpkg_statoverride_SOURCES = \
+	actions.h \
 	force.c force.h \
 	security-mac.h \
 	selinux.c \

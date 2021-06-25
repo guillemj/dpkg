@@ -56,7 +56,7 @@
 #include <dpkg/db-ctrl.h>
 #include <dpkg/db-fsys.h>
 
-#include "main.h"
+#include "actions.h"
 
 static const char *showformat = "${binary:Package}\t${Version}\n";
 

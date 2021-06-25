@@ -26,6 +26,7 @@
 #include <dpkg/pkg-list.h>
 
 #include "force.h"
+#include "actions.h"
 #include "security-mac.h"
 
 /* These two are defined in <dpkg/fsys.h>. */
@@ -64,62 +65,6 @@ struct perpackagestate {
 
   /** Non-NULL iff in trigproc.c:deferred. */
   struct pkg_list *trigprocdeferred;
-};
-
-enum action {
-	act_unset,
-
-	act_unpack,
-	act_configure,
-	act_install,
-	act_triggers,
-	act_remove,
-	act_purge,
-	act_verify,
-	act_commandfd,
-
-	act_status,
-	act_listpackages,
-	act_listfiles,
-	act_searchfiles,
-	act_controlpath,
-	act_controllist,
-	act_controlshow,
-
-	act_cmpversions,
-
-	act_arch_add,
-	act_arch_remove,
-	act_printarch,
-	act_printforeignarches,
-
-	act_assertpredep,
-	act_assertepoch,
-	act_assertlongfilenames,
-	act_assertmulticonrep,
-	act_assertmultiarch,
-	act_assertverprovides,
-	act_assert_protected,
-
-	act_validate_pkgname,
-	act_validate_trigname,
-	act_validate_archname,
-	act_validate_version,
-
-	act_audit,
-	act_unpackchk,
-	act_predeppackage,
-
-	act_getselections,
-	act_setselections,
-	act_clearselections,
-
-	act_avail,
-	act_printavail,
-	act_avclear,
-	act_avreplace,
-	act_avmerge,
-	act_forgetold,
 };
 
 extern const char *const statusstrings[];
