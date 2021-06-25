@@ -25,10 +25,6 @@ if HAVE_SYS_ERRLIST
 libcompat_test_la_SOURCES += strerror.c
 endif
 
-if WITH_LIBSELINUX
-libcompat_test_la_SOURCES += selinux.c
-endif
-
 libcompat_la_SOURCES = \
 	empty.c \
 	compat.h \
@@ -72,12 +68,6 @@ endif
 
 if !HAVE_STRSIGNAL
 libcompat_la_SOURCES += strsignal.c
-endif
-
-if WITH_LIBSELINUX
-if !HAVE_SETEXECFILECON
-libcompat_la_SOURCES += selinux.c
-endif
 endif
 
 if !HAVE_C99_SNPRINTF

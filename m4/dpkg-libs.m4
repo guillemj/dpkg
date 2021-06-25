@@ -103,7 +103,7 @@ AC_DEFUN([DPKG_LIB_SELINUX], [
     [AS_HELP_STRING([--with-libselinux],
       [use selinux library to set security contexts])],
     [], [with_libselinux=check])
-  SELINUX_MIN_VERSION=2.0.99
+  SELINUX_MIN_VERSION=2.3
   have_libselinux="no"
   AS_IF([test "x$with_libselinux" != "xno"], [
     PKG_CHECK_MODULES([SELINUX], [libselinux >= $SELINUX_MIN_VERSION], [
@@ -116,9 +116,8 @@ AC_DEFUN([DPKG_LIB_SELINUX], [
           AC_MSG_FAILURE([libselinux header not found])
         ])
       ])
-      AC_CHECK_LIB([selinux], [setexecfilecon], [
-        AC_DEFINE([HAVE_SETEXECFILECON], [1],
-          [Define to 1 if SELinux setexecfilecon is present])
+      AC_CHECK_LIB([selinux], [setexecfilecon], [], [
+        AC_MSG_FAILURE([libselinux does not support setexecfilecon()])
       ])
     ], [
       AS_IF([test "x$with_libselinux" != "xcheck"], [
@@ -127,8 +126,6 @@ AC_DEFUN([DPKG_LIB_SELINUX], [
     ])
   ])
   AM_CONDITIONAL([WITH_LIBSELINUX], [test "x$have_libselinux" = "xyes"])
-  AM_CONDITIONAL([HAVE_SETEXECFILECON],
-    [test "x$ac_cv_lib_selinux_setexecfilecon" = "xyes"])
 ])# DPKG_LIB_SELINUX
 
 # _DPKG_CHECK_LIB_CURSES_NARROW
