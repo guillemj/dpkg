@@ -54,6 +54,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/options.h>
+#include <dpkg/fsys.h>
 
 #include "dselect.h"
 #include "bindings.h"
@@ -64,6 +65,7 @@ static const char printforhelp[] = N_("Type dselect --help for help.");
 bool expertmode = false;
 
 static const char *admindir;
+static const char *instdir;
 
 static keybindings packagelistbindings(packagelist_kinterps,packagelist_korgbindings);
 
@@ -187,11 +189,12 @@ usage(const struct cmdinfo *ci, const char *value)
   printf(_(
 "Options:\n"
 "      --admindir <directory>       Use <directory> instead of %s.\n"
+"      --root <directory>           Use <directory> instead of %s.\n"
 "      --expert                     Turn on expert mode.\n"
 "  -D, --debug <file>               Turn on debugging, send output to <file>.\n"
 "      --color <color-spec>         Configure screen colors.\n"
 "      --colour <color-spec>        Ditto.\n"
-), ADMINDIR);
+), ADMINDIR, "/");
 
   printf(_(
 "  -?, --help                       Show this help message.\n"
@@ -222,6 +225,13 @@ usage(const struct cmdinfo *ci, const char *value)
 
 /* These are called by C code, so need to have C calling convention */
 extern "C" {
+
+  static void
+  set_root(const struct cmdinfo*, const char *v)
+  {
+    instdir = dpkg_fsys_set_dir(v);
+    admindir = dpkg_fsys_get_path(ADMINDIR);
+  }
 
   static void
   set_debug(const struct cmdinfo*, const char *v)
@@ -312,6 +322,7 @@ extern "C" {
 
 static const struct cmdinfo cmdinfos[]= {
   { "admindir",     0,  1, nullptr,  &admindir, nullptr      },
+  { "root",         0,  1, nullptr,  nullptr,   set_root, 1  },
   { "debug",       'D', 1, nullptr,  nullptr,   set_debug    },
   { "expert",      'E', 0, nullptr,  nullptr,   set_expert   },
   { "help",        '?', 0, nullptr,  nullptr,   usage        },
@@ -531,6 +542,7 @@ main(int, const char *const *argv)
   dpkg_options_load(DSELECT, cmdinfos);
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
+  instdir = dpkg_fsys_set_dir(instdir);
   admindir = dpkg_db_set_dir(admindir);
 
   if (*argv) {

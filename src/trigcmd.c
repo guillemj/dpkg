@@ -80,12 +80,13 @@ usage(const struct cmdinfo *ci, const char *value)
 	printf(_(
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
 "  --no-await                       No package needs to await the processing.\n"
 "  --no-act                         Just test - don't actually change anything.\n"
-"\n"), ADMINDIR);
+"\n"), ADMINDIR, "/");
 
 	m_output(stdout, _("<standard output>"));
 
@@ -93,11 +94,19 @@ usage(const struct cmdinfo *ci, const char *value)
 }
 
 static const char *admindir;
+static const char *instdir;
 static int f_noact, f_check;
 static int f_await = 1;
 
 static const char *bypackage, *activate;
 static bool done_trig, ctrig;
+
+static void
+set_root(const struct cmdinfo *cip, const char *value)
+{
+	instdir = dpkg_fsys_set_dir(value);
+	admindir = dpkg_fsys_get_path(ADMINDIR);
+}
 
 static void
 yespackage(const char *awname)
@@ -191,6 +200,7 @@ do_check(void)
 
 static const struct cmdinfo cmdinfos[] = {
 	{ "admindir",        0,   1, NULL,     &admindir },
+	{ "root",            0,   1, NULL,     NULL,       set_root, 0 },
 	{ "by-package",      'f', 1, NULL,     &bypackage },
 	{ "await",           0,   0, &f_await, NULL,       NULL, 1 },
 	{ "no-await",        0,   0, &f_await, NULL,       NULL, 0 },
@@ -212,6 +222,7 @@ main(int argc, const char *const *argv)
 	dpkg_program_init("dpkg-trigger");
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
+	instdir = dpkg_fsys_set_dir(instdir);
 	admindir = dpkg_db_set_dir(admindir);
 
 	if (f_check) {

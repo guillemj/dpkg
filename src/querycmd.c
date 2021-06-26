@@ -58,6 +58,9 @@
 
 #include "actions.h"
 
+static const char *admindir;
+static const char *instdir;
+
 static const char *showformat = "${binary:Package}\t${Version}\n";
 
 static int opt_loadavail = 0;
@@ -763,6 +766,13 @@ control_show(const char *const *argv)
 }
 
 static void
+set_root(const struct cmdinfo *cip, const char *value)
+{
+  instdir = dpkg_fsys_set_dir(value);
+  admindir = dpkg_fsys_get_path(ADMINDIR);
+}
+
+static void
 set_no_pager(const struct cmdinfo *ci, const char *value)
 {
   pager_enable(false);
@@ -812,10 +822,11 @@ usage(const struct cmdinfo *ci, const char *value)
   printf(_(
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
-"\n"), ADMINDIR);
+"\n"), ADMINDIR, "/");
 
   printf(_(
 "Format syntax:\n"
@@ -834,8 +845,6 @@ usage(const struct cmdinfo *ci, const char *value)
 static const char printforhelp[] = N_(
 "Use --help for help about querying packages.");
 
-static const char *admindir;
-
 /* This table has both the action entries in it and the normal options.
  * The action entries are made with the ACTION macro, as they all
  * have a very similar structure. */
@@ -851,6 +860,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "control-show",                    0,  act_controlshow,   control_show    ),
 
   { "admindir",   0,   1, NULL, &admindir,   NULL          },
+  { "root",       0,   1, NULL, NULL,        set_root, 0   },
   { "load-avail", 0,   0, &opt_loadavail, NULL, NULL, 1    },
   { "showformat", 'f', 1, NULL, &showformat, NULL          },
   { "no-pager",   0,   0, NULL, NULL,        set_no_pager  },
@@ -867,6 +877,7 @@ int main(int argc, const char *const *argv) {
   dpkg_program_init("dpkg-query");
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
+  instdir = dpkg_fsys_set_dir(instdir);
   admindir = dpkg_db_set_dir(admindir);
 
   if (!cipaction) badusage(_("need an action option"));
