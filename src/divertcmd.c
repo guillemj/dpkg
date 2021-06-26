@@ -852,8 +852,8 @@ main(int argc, const char * const *argv)
 	dpkg_program_init("dpkg-divert");
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
-	admindir = dpkg_db_set_dir(admindir);
 	instdir = dpkg_fsys_set_dir(instdir);
+	admindir = dpkg_db_set_dir(admindir);
 
 	env_pkgname = getenv("DPKG_MAINTSCRIPT_PACKAGE");
 	if (opt_pkgname_match_any && env_pkgname)
