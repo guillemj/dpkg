@@ -370,7 +370,7 @@ urqresult urq_list(void) {
 }
 
 static void
-dme(int i, int so)
+display_menu_entry(int i, int so)
 {
   const menuentry *me= &menuentries[i];
 
@@ -406,7 +406,7 @@ refreshmenu(void)
   attrset(A_NORMAL);
   const struct menuentry *mep; int i;
   for (mep=menuentries, i=0; mep->option && mep->menuent; mep++, i++)
-    dme(i,0);
+    display_menu_entry(i, 0);
 
   attrset(A_BOLD);
   addstr(_("\n\n"
@@ -431,7 +431,7 @@ urqresult urq_menu(void) {
   int entries, c;
   entries= refreshmenu();
   int cursor=0;
-  dme(0,1);
+  display_menu_entry(0, 1);
   for (;;) {
     refresh();
     do
@@ -441,15 +441,24 @@ urqresult urq_menu(void) {
       if(errno != 0)
         ohshite(_("failed to getch in main menu"));
       else {
-        clearok(stdscr,TRUE); clear(); refreshmenu(); dme(cursor,1);
+        clearok(stdscr, TRUE);
+        clear();
+        refreshmenu();
+        display_menu_entry(cursor, 1);
       }
     }
 
     if (c == CTRL('n') || c == KEY_DOWN || c == ' ' || c == 'j') {
-      dme(cursor,0); cursor++; cursor %= entries; dme(cursor,1);
+      display_menu_entry(cursor, 0);
+      cursor++;
+      cursor %= entries;
+      display_menu_entry(cursor, 1);
     } else if (c == CTRL('p') || c == KEY_UP || c == CTRL('h') ||
                c==KEY_BACKSPACE || c==KEY_DC || c=='k') {
-      dme(cursor,0); cursor+= entries-1; cursor %= entries; dme(cursor,1);
+      display_menu_entry(cursor, 0);
+      cursor += entries - 1;
+      cursor %= entries;
+      display_menu_entry(cursor, 1);
     } else if (c=='\n' || c=='\r' || c==KEY_ENTER) {
       clear(); refresh();
 
@@ -465,13 +474,19 @@ urqresult urq_menu(void) {
       default:
         internerr("unknown menufn %d", res);
       }
-      refreshmenu(); dme(cursor,1);
+      refreshmenu();
+      display_menu_entry(cursor, 1);
     } else if (c == CTRL('l')) {
-      clearok(stdscr,TRUE); clear(); refreshmenu(); dme(cursor,1);
+      clearok(stdscr, TRUE);
+      clear();
+      refreshmenu();
+      display_menu_entry(cursor, 1);
     } else if (isdigit(c)) {
       char buf[2]; buf[0]=c; buf[1]=0; c=atoi(buf);
       if (c < entries) {
-        dme(cursor,0); cursor=c; dme(cursor,1);
+        display_menu_entry(cursor, 0);
+        cursor = c;
+        display_menu_entry(cursor, 1);
       } else {
         beep();
       }
@@ -481,7 +496,9 @@ urqresult urq_menu(void) {
       while (i < entries && gettext(menuentries[i].key)[0] != c)
         i++;
       if (i < entries) {
-        dme(cursor,0); cursor=i; dme(cursor,1);
+        display_menu_entry(cursor, 0);
+        cursor = i;
+        display_menu_entry(cursor, 1);
       } else {
         beep();
       }
