@@ -63,7 +63,7 @@ static const char printforhelp[] = N_("Type dselect --help for help.");
 
 bool expertmode = false;
 
-static const char *admindir = ADMINDIR;
+static const char *admindir;
 
 static keybindings packagelistbindings(packagelist_kinterps,packagelist_korgbindings);
 
