@@ -29,6 +29,8 @@
 #include <dpkg/error.h>
 #include <dpkg/file.h>
 
+DPKG_BEGIN_DECLS
+
 /**
  * @defgroup tar Tar archive handling
  * @ingroup dpkg-public
@@ -126,5 +128,7 @@ int
 tar_extractor(struct tar_archive *tar);
 
 /** @} */
+
+DPKG_END_DECLS
 
 #endif

@@ -27,6 +27,8 @@
 
 #include <dpkg/error.h>
 
+DPKG_BEGIN_DECLS
+
 /**
  * @defgroup parsedump In-core package database parsing and reading
  * @ingroup dpkg-public
@@ -162,5 +164,7 @@ void parse_ensure_have_field(struct parsedb_state *ps,
 extern const struct fieldinfo fieldinfos[];
 
 /** @} */
+
+DPKG_END_DECLS
 
 #endif /* LIBDPKG_PARSEDUMP_H */

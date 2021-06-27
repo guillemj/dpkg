@@ -26,6 +26,8 @@
 
 #include <dpkg/file.h>
 
+DPKG_BEGIN_DECLS
+
 /*
  * Data structure here is as follows:
  *
@@ -202,5 +204,7 @@ fsys_hash_rev_iter_abort(struct fsys_hash_rev_iter *iter);
 const char *dpkg_fsys_set_dir(const char *dir);
 const char *dpkg_fsys_get_dir(void);
 char *dpkg_fsys_get_path(const char *pathpart);
+
+DPKG_END_DECLS
 
 #endif /* LIBDPKG_FSYS_H */
