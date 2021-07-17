@@ -697,14 +697,36 @@ filter_xz_get_memlimit(void)
 	return mt_memlimit;
 }
 
-static uint32_t
-filter_xz_get_cputhreads(void)
+static long
+parse_threads_max(const char *str)
 {
-	uint32_t threads_max;
+	long value;
+	char *end;
+
+	errno = 0;
+	value = strtol(str, &end, 10);
+	if (str == end || *end != '\0' || errno != 0)
+		return 0;
+
+	return value;
+}
+
+static uint32_t
+filter_xz_get_cputhreads(struct compress_params *params)
+{
+	long threads_max;
+	const char *env;
 
 	threads_max = lzma_cputhreads();
 	if (threads_max == 0)
 		threads_max = 1;
+
+	if (params->threads_max >= 0)
+		return clamp(params->threads_max, 1, threads_max);
+
+	env = getenv("DPKG_DEB_THREADS_MAX");
+	if (str_is_set(env))
+		return clamp(parse_threads_max(env), 1, threads_max);
 
 	return threads_max;
 }
@@ -749,7 +771,7 @@ filter_xz_init(struct io_lzma *io, lzma_stream *s)
 #ifdef HAVE_LZMA_MT_ENCODER
 	mt_options.preset = preset;
 	mt_memlimit = filter_xz_get_memlimit();
-	mt_options.threads = filter_xz_get_cputhreads();
+	mt_options.threads = filter_xz_get_cputhreads(io->params);
 
 	/* Guess whether we have enough RAM to use the multi-threaded encoder,
 	 * and decrease them up to single-threaded to reduce memory usage. */
@@ -838,15 +860,22 @@ compress_xz(struct compress_params *params, int fd_in, int fd_out,
             const char *desc)
 {
 	struct command cmd;
+	char *threads_opt = NULL;
 
 	command_compress_init(&cmd, XZ, desc, params->level);
 
 	if (params->strategy == COMPRESSOR_STRATEGY_EXTREME)
 		command_add_arg(&cmd, "-e");
 
+	if (params->threads_max > 0) {
+		threads_opt = str_fmt("-T%d", params->threads_max);
+		command_add_arg(&cmd, threads_opt);
+	}
+
 	fd_fd_filter(&cmd, fd_in, fd_out, env_xz);
 
 	command_destroy(&cmd);
+	free(threads_opt);
 }
 #endif
 

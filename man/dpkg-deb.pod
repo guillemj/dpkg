@@ -284,6 +284,11 @@ The B<--no-uniform-compression> option disables uniform compression
 (since dpkg 1.19.0).
 Uniform compression is the default (since dpkg 1.19.0).
 
+=item B<--threads-max=>I<threads>
+
+Sets the maximum number of threads allowed for compressors that support
+multi-threaded operations (since dpkg 1.21.9).
+
 =item B<--root-owner-group>
 
 Set the owner and group for each entry in the filesystem tree data to
@@ -343,6 +348,13 @@ memory allocations, etc.
 =head1 ENVIRONMENT
 
 =over
+
+=item B<DPKG_DEB_THREADS_MAX>
+
+Sets the maximum number of threads allowed for compressors that support
+multi-threaded operations (since dpkg 1.21.9).
+
+The B<--threads-max> option overrides this value.
 
 =item B<DPKG_COLORS>
 

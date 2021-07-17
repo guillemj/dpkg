@@ -105,6 +105,7 @@ usage(const struct cmdinfo *cip, const char *value)
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
+"      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when building.\n"
@@ -166,6 +167,7 @@ struct compress_params compress_params = {
   .type = DPKG_DEB_DEFAULT_COMPRESSOR,
   .strategy = COMPRESSOR_STRATEGY_NONE,
   .level = -1,
+  .threads_max = -1,
 };
 
 static void
@@ -200,6 +202,12 @@ set_compress_type(const struct cmdinfo *cip, const char *value)
     badusage(_("obsolete compression type '%s'; use xz or gzip instead"), value);
 }
 
+static void
+set_threads_max(const struct cmdinfo *cip, const char *value)
+{
+  compress_params.threads_max = dpkg_options_parse_arg_int(cip, value);
+}
+
 static const struct cmdinfo cmdinfos[]= {
   ACTION("build",         'b', 0, do_build),
   ACTION("contents",      'c', 0, do_contents),
@@ -218,6 +226,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "verbose",       'v', 0, &opt_verbose,   NULL,         NULL,          1 },
   { "nocheck",       0,   0, &nocheckflag,   NULL,         NULL,          1 },
   { "root-owner-group",    0, 0, &opt_root_owner_group,    NULL, NULL,    1 },
+  { "threads-max",   0,   1, NULL,           NULL,         set_threads_max  },
   { "uniform-compression", 0, 0, &opt_uniform_compression, NULL, NULL,    1 },
   { "no-uniform-compression", 0, 0, &opt_uniform_compression, NULL, NULL, 0 },
   { NULL,            'z', 1, NULL,           NULL,         set_compress_level },

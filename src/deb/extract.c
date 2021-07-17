@@ -122,6 +122,7 @@ extracthalf(const char *debar, const char *dir,
   bool header_done;
   struct compress_params decompress_params = {
     .type = COMPRESSOR_TYPE_GZIP,
+    .threads_max = compress_params.threads_max,
   };
 
   ar = dpkg_ar_open(debar);
