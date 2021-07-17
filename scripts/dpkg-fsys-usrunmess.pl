@@ -270,17 +270,6 @@ foreach my $dir (@aliased_dirs) {
 mac_relabel();
 
 #
-# Re-configure all packages, so that postinst maintscripts are executed.
-#
-
-debug('reconfigured all packages');
-if (not $opt_noact) {
-    local $ENV{DEBIAN_FRONTEND} = 'noninteractive';
-    system(qw(dpkg --configure --pending)) == 0
-        or fatal("cannot reconfigure packages: $!");
-}
-
-#
 # Cleanup backup directories.
 #
 
@@ -363,6 +352,17 @@ if (not $opt_noact) {
     debug("cleaning up shadow root dir = $sroot");
     rmdir $sroot
         or sysfatal("cannot remove shadow directory $sroot");
+}
+
+#
+# Re-configure all packages, so that postinst maintscripts are executed.
+#
+
+debug('reconfigured all packages');
+if (not $opt_noact) {
+    local $ENV{DEBIAN_FRONTEND} = 'noninteractive';
+    system(qw(dpkg --configure --pending)) == 0
+        or fatal("cannot reconfigure packages: $!");
 }
 
 print "Done, hierarchy unmessed, congrats!\n";
