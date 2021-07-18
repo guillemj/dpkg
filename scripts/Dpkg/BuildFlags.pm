@@ -70,6 +70,7 @@ sub load_vendor_defaults {
 
     $self->{features} = {};
     $self->{flags} = {
+	ASFLAGS => '',
 	CPPFLAGS => '',
 	CFLAGS   => '',
 	CXXFLAGS => '',
@@ -82,6 +83,7 @@ sub load_vendor_defaults {
 	LDFLAGS  => '',
     };
     $self->{origin} = {
+	ASFLAGS => 'vendor',
 	CPPFLAGS => 'vendor',
 	CFLAGS   => 'vendor',
 	CXXFLAGS => 'vendor',
@@ -94,6 +96,7 @@ sub load_vendor_defaults {
 	LDFLAGS  => 'vendor',
     };
     $self->{maintainer} = {
+	ASFLAGS => 0,
 	CPPFLAGS => 0,
 	CFLAGS   => 0,
 	CXXFLAGS => 0,
