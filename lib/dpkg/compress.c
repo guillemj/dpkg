@@ -155,17 +155,20 @@ fixup_gzip_params(struct compress_params *params)
 static void
 decompress_gzip(int fd_in, int fd_out, const char *desc)
 {
-	char buffer[DPKG_BUFFER_SIZE];
+	char *buffer;
+	size_t bufsize = DPKG_BUFFER_SIZE;
 	int z_errnum;
 	gzFile gzfile = gzdopen(fd_in, "r");
 
 	if (gzfile == NULL)
 		ohshit(_("%s: error binding input to gzip stream"), desc);
 
+	buffer = m_malloc(bufsize);
+
 	for (;;) {
 		int actualread, actualwrite;
 
-		actualread = gzread(gzfile, buffer, sizeof(buffer));
+		actualread = gzread(gzfile, buffer, bufsize);
 		if (actualread < 0) {
 			const char *errmsg = gzerror(gzfile, &z_errnum);
 
@@ -181,6 +184,8 @@ decompress_gzip(int fd_in, int fd_out, const char *desc)
 		if (actualwrite != actualread)
 			ohshite(_("%s: internal gzip write error"), desc);
 	}
+
+	free(buffer);
 
 	z_errnum = gzclose(gzfile);
 	if (z_errnum) {
@@ -200,8 +205,9 @@ decompress_gzip(int fd_in, int fd_out, const char *desc)
 static void
 compress_gzip(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
-	char buffer[DPKG_BUFFER_SIZE];
+	char *buffer;
 	char combuf[6];
+	size_t bufsize = DPKG_BUFFER_SIZE;
 	int strategy;
 	int z_errnum;
 	gzFile gzfile;
@@ -222,10 +228,12 @@ compress_gzip(int fd_in, int fd_out, struct compress_params *params, const char 
 	if (gzfile == NULL)
 		ohshit(_("%s: error binding output to gzip stream"), desc);
 
+	buffer = m_malloc(bufsize);
+
 	for (;;) {
 		int actualread, actualwrite;
 
-		actualread = fd_read(fd_in, buffer, sizeof(buffer));
+		actualread = fd_read(fd_in, buffer, bufsize);
 		if (actualread < 0)
 			ohshite(_("%s: internal gzip read error"), desc);
 		if (actualread == 0) /* EOF. */
@@ -241,6 +249,8 @@ compress_gzip(int fd_in, int fd_out, struct compress_params *params, const char 
 			       errmsg);
 		}
 	}
+
+	free(buffer);
 
 	z_errnum = gzclose(gzfile);
 	if (z_errnum) {
@@ -299,16 +309,19 @@ fixup_bzip2_params(struct compress_params *params)
 static void
 decompress_bzip2(int fd_in, int fd_out, const char *desc)
 {
-	char buffer[DPKG_BUFFER_SIZE];
+	char *buffer;
+	size_t bufsize = DPKG_BUFFER_SIZE;
 	BZFILE *bzfile = BZ2_bzdopen(fd_in, "r");
 
 	if (bzfile == NULL)
 		ohshit(_("%s: error binding input to bzip2 stream"), desc);
 
+	buffer = m_malloc(bufsize);
+
 	for (;;) {
 		int actualread, actualwrite;
 
-		actualread = BZ2_bzread(bzfile, buffer, sizeof(buffer));
+		actualread = BZ2_bzread(bzfile, buffer, bufsize);
 		if (actualread < 0) {
 			int bz_errnum = 0;
 			const char *errmsg = BZ2_bzerror(bzfile, &bz_errnum);
@@ -326,6 +339,8 @@ decompress_bzip2(int fd_in, int fd_out, const char *desc)
 			ohshite(_("%s: internal bzip2 write error"), desc);
 	}
 
+	free(buffer);
+
 	BZ2_bzclose(bzfile);
 
 	if (close(fd_out))
@@ -335,8 +350,9 @@ decompress_bzip2(int fd_in, int fd_out, const char *desc)
 static void
 compress_bzip2(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
-	char buffer[DPKG_BUFFER_SIZE];
+	char *buffer;
 	char combuf[6];
+	size_t bufsize = DPKG_BUFFER_SIZE;
 	int bz_errnum;
 	BZFILE *bzfile;
 
@@ -345,10 +361,12 @@ compress_bzip2(int fd_in, int fd_out, struct compress_params *params, const char
 	if (bzfile == NULL)
 		ohshit(_("%s: error binding output to bzip2 stream"), desc);
 
+	buffer = m_malloc(bufsize);
+
 	for (;;) {
 		int actualread, actualwrite;
 
-		actualread = fd_read(fd_in, buffer, sizeof(buffer));
+		actualread = fd_read(fd_in, buffer, bufsize);
 		if (actualread < 0)
 			ohshite(_("%s: internal bzip2 read error"), desc);
 		if (actualread == 0) /* EOF. */
@@ -364,6 +382,8 @@ compress_bzip2(int fd_in, int fd_out, struct compress_params *params, const char
 			       errmsg);
 		}
 	}
+
+	free(buffer);
 
 	BZ2_bzWriteClose(&bz_errnum, bzfile, 0, NULL, NULL);
 	if (bz_errnum != BZ_OK) {
@@ -479,13 +499,17 @@ struct io_lzma {
 static void
 filter_lzma(struct io_lzma *io, int fd_in, int fd_out)
 {
-	uint8_t buf_in[DPKG_BUFFER_SIZE];
-	uint8_t buf_out[DPKG_BUFFER_SIZE];
+	uint8_t *buf_in;
+	uint8_t *buf_out;
+	size_t buf_size = DPKG_BUFFER_SIZE;
 	lzma_stream s = LZMA_STREAM_INIT;
 	lzma_ret ret;
 
+	buf_in = m_malloc(buf_size);
+	buf_out = m_malloc(buf_size);
+
 	s.next_out = buf_out;
-	s.avail_out = sizeof(buf_out);
+	s.avail_out = buf_size;
 
 	io->action = LZMA_RUN;
 	io->status = DPKG_STREAM_INIT;
@@ -496,7 +520,7 @@ filter_lzma(struct io_lzma *io, int fd_in, int fd_out)
 		ssize_t len;
 
 		if (s.avail_in == 0 && io->action != LZMA_FINISH) {
-			len = fd_read(fd_in, buf_in, sizeof(buf_in));
+			len = fd_read(fd_in, buf_in, buf_size);
 			if (len < 0)
 				ohshite(_("%s: lzma read error"), io->desc);
 			if (len == 0)
@@ -512,11 +536,14 @@ filter_lzma(struct io_lzma *io, int fd_in, int fd_out)
 			if (len < 0)
 				ohshite(_("%s: lzma write error"), io->desc);
 			s.next_out = buf_out;
-			s.avail_out = sizeof(buf_out);
+			s.avail_out = buf_size;
 		}
 	} while (ret != LZMA_STREAM_END);
 
 	io->done(io, &s);
+
+	free(buf_in);
+	free(buf_out);
 
 	if (close(fd_out))
 		ohshite(_("%s: lzma close error"), io->desc);
