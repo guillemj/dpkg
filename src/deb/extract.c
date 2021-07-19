@@ -118,7 +118,9 @@ extracthalf(const char *debar, const char *dir,
   char nlc;
   int adminmember = -1;
   bool header_done;
-  enum compressor_type decompressor = COMPRESSOR_TYPE_GZIP;
+  struct compress_params decompress_params = {
+    .type = COMPRESSOR_TYPE_GZIP,
+  };
 
   ar = dpkg_ar_open(debar);
 
@@ -176,10 +178,10 @@ extracthalf(const char *debar, const char *dir,
           const char *extension = arh.ar_name + strlen(ADMINMEMBER);
 
 	  adminmember = 1;
-          decompressor = compressor_find_by_extension(extension);
-          if (decompressor != COMPRESSOR_TYPE_NONE &&
-              decompressor != COMPRESSOR_TYPE_GZIP &&
-              decompressor != COMPRESSOR_TYPE_XZ)
+          decompress_params.type = compressor_find_by_extension(extension);
+          if (decompress_params.type != COMPRESSOR_TYPE_NONE &&
+              decompress_params.type != COMPRESSOR_TYPE_GZIP &&
+              decompress_params.type != COMPRESSOR_TYPE_XZ)
             ohshit(_("archive '%s' uses unknown compression for member '%.*s', "
                      "giving up"),
                    debar, (int)sizeof(arh.ar_name), arh.ar_name);
@@ -193,8 +195,8 @@ extracthalf(const char *debar, const char *dir,
 	    const char *extension = arh.ar_name + strlen(DATAMEMBER);
 
 	    adminmember= 0;
-	    decompressor = compressor_find_by_extension(extension);
-            if (decompressor == COMPRESSOR_TYPE_UNKNOWN)
+            decompress_params.type = compressor_find_by_extension(extension);
+            if (decompress_params.type == COMPRESSOR_TYPE_UNKNOWN)
               ohshit(_("archive '%s' uses unknown compression for member '%.*s', "
                        "giving up"),
                      debar, (int)sizeof(arh.ar_name), arh.ar_name);
@@ -296,7 +298,7 @@ extracthalf(const char *debar, const char *dir,
   if (!c2) {
     if (taroption)
       close(p2[0]);
-    decompress_filter(decompressor, p1[0], p2_out,
+    decompress_filter(&decompress_params, p1[0], p2_out,
                       _("decompressing archive '%s' (size=%jd) member '%s'"),
                       ar->name, (intmax_t)ar->size,
                       admininfo ? ADMINMEMBER : DATAMEMBER);

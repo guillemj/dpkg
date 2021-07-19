@@ -98,7 +98,8 @@ struct compressor {
 	void (*fixup_params)(struct compress_params *params);
 	void (*compress)(struct compress_params *params,
 	                 int fd_in, int fd_out, const char *desc);
-	void (*decompress)(int fd_in, int fd_out, const char *desc);
+	void (*decompress)(struct compress_params *params,
+	                   int fd_in, int fd_out, const char *desc);
 };
 
 /*
@@ -111,7 +112,8 @@ fixup_none_params(struct compress_params *params)
 }
 
 static void
-decompress_none(int fd_in, int fd_out, const char *desc)
+decompress_none(struct compress_params *params, int fd_in, int fd_out,
+                const char *desc)
 {
 	struct dpkg_error err;
 
@@ -154,7 +156,8 @@ fixup_gzip_params(struct compress_params *params)
 
 #if defined(WITH_LIBZ_NG) || defined(WITH_LIBZ)
 static void
-decompress_gzip(int fd_in, int fd_out, const char *desc)
+decompress_gzip(struct compress_params *params, int fd_in, int fd_out,
+                const char *desc)
 {
 	char *buffer;
 	size_t bufsize = DPKG_BUFFER_SIZE;
@@ -269,7 +272,8 @@ compress_gzip(struct compress_params *params, int fd_in, int fd_out,
 static const char *env_gzip[] = { "GZIP", NULL };
 
 static void
-decompress_gzip(int fd_in, int fd_out, const char *desc)
+decompress_gzip(struct compress_params *params, int fd_in, int fd_out,
+                const char *desc)
 {
 	fd_fd_filter(fd_in, fd_out, desc, env_gzip, GZIP, "-dc", NULL);
 }
@@ -310,7 +314,8 @@ fixup_bzip2_params(struct compress_params *params)
 
 #ifdef WITH_LIBBZ2
 static void
-decompress_bzip2(int fd_in, int fd_out, const char *desc)
+decompress_bzip2(struct compress_params *params, int fd_in, int fd_out,
+                 const char *desc)
 {
 	char *buffer;
 	size_t bufsize = DPKG_BUFFER_SIZE;
@@ -409,7 +414,8 @@ compress_bzip2(struct compress_params *params, int fd_in, int fd_out,
 static const char *env_bzip2[] = { "BZIP", "BZIP2", NULL };
 
 static void
-decompress_bzip2(int fd_in, int fd_out, const char *desc)
+decompress_bzip2(struct compress_params *params, int fd_in, int fd_out,
+                 const char *desc)
 {
 	fd_fd_filter(fd_in, fd_out, desc, env_bzip2, BZIP2, "-dc", NULL);
 }
@@ -752,7 +758,8 @@ filter_lzma_done(struct io_lzma *io, lzma_stream *s)
 }
 
 static void
-decompress_xz(int fd_in, int fd_out, const char *desc)
+decompress_xz(struct compress_params *params, int fd_in, int fd_out,
+              const char *desc)
 {
 	struct io_lzma io;
 
@@ -760,6 +767,7 @@ decompress_xz(int fd_in, int fd_out, const char *desc)
 	io.code = filter_lzma_code;
 	io.done = filter_lzma_done;
 	io.desc = desc;
+	io.params = params;
 
 	filter_lzma(&io, fd_in, fd_out);
 }
@@ -782,7 +790,8 @@ compress_xz(struct compress_params *params, int fd_in, int fd_out,
 static const char *env_xz[] = { "XZ_DEFAULTS", "XZ_OPT", NULL };
 
 static void
-decompress_xz(int fd_in, int fd_out, const char *desc)
+decompress_xz(struct compress_params *params, int fd_in, int fd_out,
+              const char *desc)
 {
 	fd_fd_filter(fd_in, fd_out, desc, env_xz, XZ, "-dc", NULL);
 }
@@ -852,7 +861,8 @@ filter_lzma_init(struct io_lzma *io, lzma_stream *s)
 }
 
 static void
-decompress_lzma(int fd_in, int fd_out, const char *desc)
+decompress_lzma(struct compress_params *params, int fd_in, int fd_out,
+                const char *desc)
 {
 	struct io_lzma io;
 
@@ -860,6 +870,7 @@ decompress_lzma(int fd_in, int fd_out, const char *desc)
 	io.code = filter_lzma_code;
 	io.done = filter_lzma_done;
 	io.desc = desc;
+	io.params = params;
 
 	filter_lzma(&io, fd_in, fd_out);
 }
@@ -880,7 +891,8 @@ compress_lzma(struct compress_params *params, int fd_in, int fd_out,
 }
 #else
 static void
-decompress_lzma(int fd_in, int fd_out, const char *desc)
+decompress_lzma(struct compress_params *params, int fd_in, int fd_out,
+                const char *desc)
 {
 	fd_fd_filter(fd_in, fd_out, desc, env_xz, XZ, "-dc", "--format=lzma", NULL);
 }
@@ -1016,7 +1028,7 @@ compressor_check_params(struct compress_params *params, struct dpkg_error *err)
 }
 
 void
-decompress_filter(enum compressor_type type, int fd_in, int fd_out,
+decompress_filter(struct compress_params *params, int fd_in, int fd_out,
                   const char *desc_fmt, ...)
 {
 	va_list args;
@@ -1026,7 +1038,7 @@ decompress_filter(enum compressor_type type, int fd_in, int fd_out,
 	varbuf_vprintf(&desc, desc_fmt, args);
 	va_end(args);
 
-	compressor(type)->decompress(fd_in, fd_out, desc.buf);
+	compressor(params->type)->decompress(params, fd_in, fd_out, desc.buf);
 
 	varbuf_destroy(&desc);
 }
