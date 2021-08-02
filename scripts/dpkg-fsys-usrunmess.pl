@@ -358,6 +358,27 @@ if (not $opt_noact) {
 # Re-configure all packages, so that postinst maintscripts are executed.
 #
 
+my $policypath = '/usr/sbin/dpkg-fsys-usrunmess-policy-rc.d';
+
+debug('installing local policy-rc.d');
+if (not $opt_noact) {
+    open my $policyfh, '>', $policypath
+        or sysfatal("cannot create $policypath");
+    print { $policyfh } <<'POLICYRC';
+#!/bin/sh
+echo "$0: Denied action $2 for service $1"
+exit 101
+POLICYRC
+    close $policyfh or fatal("cannot write $policypath");
+
+    my @alt = (qw(/usr/sbin/policy-rc.d policy-rc.d), $policypath, qw(1000));
+    system(qw(update-alternatives --install), @alt) == 0
+        or fatal("cannot register $policypath");
+
+    system(qw(update-alternatives --set policy-rc.d), $policypath) == 0
+        or fatal("cannot select alternative $policypath");
+}
+
 debug('reconfigured all packages');
 if (not $opt_noact) {
     local $ENV{DEBIAN_FRONTEND} = 'noninteractive';
@@ -365,7 +386,25 @@ if (not $opt_noact) {
         or fatal("cannot reconfigure packages: $!");
 }
 
+debug('removing local policy-rc.d');
+if (not $opt_noact) {
+    system(qw(update-alternatives --remove policy-rc.d), $policypath) == 0
+        or fatal("cannot unregister $policypath: $!");
+
+    unlink $policypath
+        or warning("cannot remove $policypath");
+
+    # Restore the selections we saved initially.
+    open my $altfh, '|-', qw(update-alternatives --set-selections)
+        or fatal('cannot restore alternatives state');
+    print { $altfh } $_ foreach @selections;
+    close $altfh or fatal('cannot restore alternatives state');
+}
+
+print "\n";
+
 print "Done, hierarchy unmessed, congrats!\n";
+print "Rebooting now is very strongly advised.\n";
 
 print "(Note: you might need to run 'hash -r' in your shell.)\n";
 
@@ -380,6 +419,13 @@ sub debug
     my $msg = shift;
 
     print { \*STDERR } "D: $msg\n";
+}
+
+sub warning
+{
+    my $msg = shift;
+
+    warn "warning: $msg\n";
 }
 
 sub fatal
