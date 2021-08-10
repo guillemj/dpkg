@@ -56,6 +56,7 @@ test_dpkg_arch_name_is_illegal(void)
 	test_pass(dpkg_arch_name_is_illegal("powerpc") == NULL);
 	test_pass(dpkg_arch_name_is_illegal("s390") == NULL);
 	test_pass(dpkg_arch_name_is_illegal("sparc") == NULL);
+	test_pass(dpkg_arch_name_is_illegal("loongarch64") == NULL);
 }
 
 static void
@@ -213,7 +214,7 @@ test_dpkg_arch_describe(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(60);
+	test_plan(61);
 
 	test_dpkg_arch_name_is_illegal();
 	test_dpkg_arch_get_list();

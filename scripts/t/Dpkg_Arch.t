@@ -187,7 +187,7 @@ foreach my $arch (@valid_arches) {
               "bijective triplet $triplet to tuple @tuple");
 }
 
-is(scalar @valid_arches, 554, 'expected amount of known architectures');
+is(scalar @valid_arches, 569, 'expected amount of known architectures');
 
 {
     local $ENV{CC} = 'false';
