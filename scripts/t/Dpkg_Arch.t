@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 18407;
+use Test::More tests => 18900;
 
 use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         debarch_eq debarch_is debarch_is_wildcard
@@ -187,7 +187,7 @@ foreach my $arch (@valid_arches) {
               "bijective triplet $triplet to tuple @tuple");
 }
 
-is(scalar @valid_arches, 554, 'expected amount of known architectures');
+is(scalar @valid_arches, 569, 'expected amount of known architectures');
 
 {
     local $ENV{CC} = 'false';

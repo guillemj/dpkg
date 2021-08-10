@@ -101,6 +101,7 @@ use constant {
     ELF_MACH_XTENSA         => 94,
     ELF_MACH_MICROBLAZE     => 189,
     ELF_MACH_ARCV2          => 195,
+    ELF_MACH_LOONGARCH      => 258,
     ELF_MACH_AVR_OLD        => 0x1057,
     ELF_MACH_OR1K_OLD       => 0x8472,
     ELF_MACH_ALPHA          => 0x9026,
