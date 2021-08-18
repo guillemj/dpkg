@@ -101,6 +101,7 @@ sub usage {
                                 changes postclean check sign done
       --buildinfo-option=<opt>
                               pass option <opt> to dpkg-genbuildinfo.
+      --changes-file=<file>   set the .changes filename to generate.
   -p, --sign-command=<command>
                               command to sign .dsc and/or .changes files
                                 (default is gpg).
@@ -181,6 +182,7 @@ my $maint;
 my $changedby;
 my $desc;
 my @buildinfo_opts;
+my $changes_file;
 my @changes_opts;
 my %target_legacy_root = map { $_ => 1 } qw(
     clean binary binary-arch binary-indep
@@ -226,8 +228,18 @@ while (@ARGV) {
 	push @source_opts, $1;
     } elsif (/^--buildinfo-option=(.*)$/) {
 	push @buildinfo_opts, $1;
+    } elsif (/^--changes-file=(.*)$/) {
+        $changes_file = $1;
+        usageerr(g_('missing .changes filename')) if not length $changes_file;
     } elsif (/^--changes-option=(.*)$/) {
-	push @changes_opts, $1;
+        my $changes_opt = $1;
+        if ($changes_opt =~ m/^-O(.*)/) {
+            warning(g_('passing %s via %s is not supported; please use %s instead'),
+                    '-O', '--changes-option', '--changes-file');
+            $changes_file = $1;
+        } else {
+            push @changes_opts, $changes_opt;
+        }
     } elsif (/^(?:-j|--jobs=)(\d*|auto)$/) {
 	$parallel = $1 || '';
 	$parallel_force = 1;
@@ -592,22 +604,21 @@ run_cmd('dpkg-genbuildinfo', @buildinfo_opts);
 
 run_hook('changes', 1);
 
+$changes_file //= "../$pva.changes";
+
 push @changes_opts, "--build=$build_types" if build_has_none(BUILD_DEFAULT);
 push @changes_opts, "-m$maint" if defined $maint;
 push @changes_opts, "-e$changedby" if defined $changedby;
 push @changes_opts, "-v$since" if defined $since;
 push @changes_opts, "-C$desc" if defined $desc;
+push @changes_opts, "-O$changes_file";
 
-my $chg = "../$pva.changes";
 my $changes = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
 
-printcmd("dpkg-genchanges @changes_opts >$chg");
+printcmd("dpkg-genchanges @changes_opts");
 
-open my $changes_fh, '-|', 'dpkg-genchanges', @changes_opts
-    or subprocerr('dpkg-genchanges');
-$changes->parse($changes_fh, g_('parse changes file'));
-$changes->save($chg);
-close $changes_fh or subprocerr(g_('dpkg-genchanges'));
+run_cmd('dpkg-genchanges', @changes_opts);
+$changes->load($changes_file);
 
 run_hook('postclean', $postclean);
 
@@ -622,7 +633,7 @@ info(describe_build($changes->{'Files'}));
 run_hook('check', $check_command);
 
 if ($check_command) {
-    run_cmd($check_command, @check_opts, $chg);
+    run_cmd($check_command, @check_opts, $changes_file);
 }
 
 if ($signpause && ($signsource || $signbuildinfo || $signchanges)) {
@@ -661,7 +672,7 @@ if ($signsource or $signbuildinfo) {
     update_files_field($changes, $checksums, "$pv.dsc")
         if $signsource;
     update_files_field($changes, $checksums, "$pva.buildinfo");
-    $changes->save($chg);
+    $changes->save($changes_file);
 }
 if ($signchanges && signfile("$pva.changes")) {
     error(g_('failed to sign %s file'), '.changes');
