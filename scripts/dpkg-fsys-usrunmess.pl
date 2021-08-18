@@ -26,6 +26,7 @@ our $PROGVERSION = '1.21.x';
 our $ADMINDIR = '/var/lib/dpkg/';
 
 use POSIX;
+use File::Temp qw(tempdir);
 use Getopt::Long qw(:config posix_default bundling_values no_ignorecase);
 
 eval q{
@@ -83,6 +84,46 @@ system(qw(dpkg --audit)) == 0
 debug('checking whether dpkg has been interrupted');
 if (glob "$ADMINDIR/updates/*") {
     fatal('dpkg is in an inconsistent state, please fix that');
+}
+
+debug('building regression prevention measures');
+my $tmpdir = tempdir(CLEANUP => 1, TMPDIR => 1);
+my $pkgdir = "$tmpdir/pkg";
+my $pkgfile = "$tmpdir/dpkg-fsys-usrunmess.deb";
+
+mkdir "$pkgdir" or fatal('cannot create temporary package directory');
+mkdir "$pkgdir/DEBIAN" or fatal('cannot create temporary directory');
+open my $ctrl_fh, '>', "$pkgdir/DEBIAN/control"
+    or fatal('cannot create temporary control file');
+print { $ctrl_fh } <<"CTRL";
+Package: dpkg-fsys-usrunmess
+Version: $PROGVERSION
+Architecture: all
+Protected: yes
+Multi-Arch: foreign
+Section: admin
+Priority: optional
+Maintainer: Dpkg Developers <debian-dpkg\@lists.debian.org>
+Installed-Size: 5
+Conflicts: usrmerge
+Provides: usrmerge (= 25)
+Replaces: usrmerge
+Description: prevention measure to avoid unsuspected filesystem breakage
+ This package will prevent automatic migration of the filesystem to the
+ broken merge-/usr-via-aliased-dirs via the usrmerge package.
+ .
+ This package was generated and installed by the dpkg-fsys-usrunmess(8)
+ program.
+
+CTRL
+close $ctrl_fh or fatal('cannot write temporary control file');
+
+system(('dpkg-deb', '-b', $pkgdir, $pkgfile)) == 0
+    or fatal('cannot create prevention package');
+
+if (not $opt_noact) {
+    system(('dpkg', '-GBi', $pkgfile)) == 0
+        or fatal('cannot install prevention package');
 }
 
 my $aliased_regex = '^(' . join('|', @aliased_dirs) . ')/';
