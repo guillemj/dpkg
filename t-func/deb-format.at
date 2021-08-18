@@ -40,7 +40,7 @@ ar rc pkg-version-2x.deb debian-binary
 ar t pkg-version-2x.deb
 ar x pkg-templ.deb debian-binary
 # XXX: Ideally we would have no need to strip trailing spaces.
-dpkg-deb -I pkg-version-2x.deb | sed -e 's/ *$//'
+dpkg-deb -I pkg-version-2x.deb | $SED -e 's/ *$//'
 ], [], [debian-binary
 control.tar
 data.tar
@@ -64,7 +64,7 @@ ar rc pkg-magic-extra.deb debian-binary
 ar t pkg-magic-extra.deb
 ar x pkg-templ.deb debian-binary
 # XXX: Ideally we would have no need to strip trailing spaces.
-dpkg-deb -I pkg-magic-extra.deb | sed -e 's/ *$//'
+dpkg-deb -I pkg-magic-extra.deb | $SED -e 's/ *$//'
 ], [], [debian-binary
 control.tar
 data.tar
@@ -157,7 +157,7 @@ cp pkg-templ.deb pkg-extra-member.deb
 ar q pkg-extra-member.deb unknown
 ar t pkg-extra-member.deb
 # XXX: Ideally we would have no need to strip trailing spaces.
-dpkg-deb -I pkg-extra-member.deb | sed -e 's/ *$//'
+dpkg-deb -I pkg-extra-member.deb | $SED -e 's/ *$//'
 ], [], [debian-binary
 control.tar
 data.tar
@@ -180,7 +180,7 @@ cp pkg-templ.deb pkg-under-member.deb
 ar ra debian-binary pkg-under-member.deb _ignore
 ar t pkg-under-member.deb
 # XXX: Ideally we would have no need to strip trailing spaces.
-dpkg-deb -I pkg-under-member.deb | sed -e 's/ *$//'
+dpkg-deb -I pkg-under-member.deb | $SED -e 's/ *$//'
 ], [], [debian-binary
 _ignore
 control.tar
@@ -214,7 +214,7 @@ AT_CHECK([
 ar rc pkg-control-none.deb debian-binary control.tar data.tar
 ar t pkg-control-none.deb
 # XXX: Ideally we would have no need to strip trailing spaces.
-dpkg-deb -I pkg-control-none.deb | sed -e 's/ *$//'
+dpkg-deb -I pkg-control-none.deb | $SED -e 's/ *$//'
 ], [], [debian-binary
 control.tar
 data.tar
@@ -307,7 +307,7 @@ AT_CHECK([
 ar rc pkg-mixed-comp.deb debian-binary control.tar.xz data.tar.gz
 ar t pkg-mixed-comp.deb
 # XXX: Ideally we would have no need to strip trailing spaces.
-dpkg-deb -I pkg-mixed-comp.deb | sed -e 's/ *$//'
+dpkg-deb -I pkg-mixed-comp.deb | $SED -e 's/ *$//'
 dpkg-deb -c pkg-mixed-comp.deb
 ], [], [debian-binary
 control.tar.xz

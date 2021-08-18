@@ -38,7 +38,7 @@ CLEANFILES = \
 	$(nobase_methods_SCRIPTS) \
 	$(nil)
 
-do_perl_subst = $(AM_V_GEN) sed \
+do_perl_subst = $(AM_V_GEN) $(SED) \
 	-e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):"
 
 SUFFIXES = .pl

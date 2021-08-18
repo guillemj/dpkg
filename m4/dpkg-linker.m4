@@ -12,7 +12,7 @@ AC_DEFUN([DPKG_LINKER_OPTIMIZATIONS], [
     [], [enable_linker_optimizations=yes])
 
   AS_IF([test "x$enable_linker_optimizations" = "xno"], [
-    LDFLAGS=$(echo "$LDFLAGS" | sed -e "s/ -Wl,-O[[0-9]]*\b//g")
+    LDFLAGS=$(echo "$LDFLAGS" | $SED -e "s/ -Wl,-O[[0-9]]*\b//g")
   ], [
     save_LDFLAGS=$LDFLAGS
     LDFLAGS="$LDFLAGS -Wl,-O1"

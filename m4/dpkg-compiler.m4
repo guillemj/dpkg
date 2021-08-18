@@ -124,7 +124,7 @@ AC_DEFUN([DPKG_COMPILER_OPTIMIZATIONS], [
     [], [enable_compiler_optimizations=yes])
 
   AS_IF([test "x$enable_compiler_optimizations" = "xno"], [
-    CFLAGS=$(echo "$CFLAGS" | sed -e "s/ -O[[1-9]]*\b/ -O0/g")
+    CFLAGS=$(echo "$CFLAGS" | $SED -e "s/ -O[[1-9]]*\b/ -O0/g")
   ])
 ])
 

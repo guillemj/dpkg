@@ -44,7 +44,7 @@ AC_DEFUN([DPKG_PROG_PO4A], [
   AC_CACHE_CHECK([for po4a >= _PO4A_MIN_VERSION], [ac_cv_path_PO4A], [
     AC_PATH_PROGS_FEATURE_CHECK([PO4A], [po4a], [
       po4aversion=$(LC_ALL=C $ac_path_PO4A --version \
-                      | sed -ne 's/^po4a version \(.*\)\.$/\1/p')
+                      | $SED -ne 's/^po4a version \(.*\)\.$/\1/p')
       AS_VERSION_COMPARE([$po4aversion], [_PO4A_MIN_VERSION],
                          [po4acheck=no], [po4acheck=yes], [po4acheck=yes])
       AS_IF([test "x$po4acheck" = "xyes"], [

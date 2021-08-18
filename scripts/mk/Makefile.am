@@ -9,7 +9,7 @@ dist_pkgdata_DATA = \
 	pkg-info.mk \
 	vendor.mk
 
-do_path_subst = $(AM_V_GEN) sed \
+do_path_subst = $(AM_V_GEN) $(SED) \
 	-e "s:dpkg_datadir[[:space:]]*=[[:space:]]*[^[:space:]]*:dpkg_datadir = $(pkgdatadir):"
 
 install-data-hook:

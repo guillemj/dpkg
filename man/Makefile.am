@@ -148,7 +148,7 @@ EXTRA_DIST += \
 
 
 # Extract the list of languages from the po4a config file.
-LINGUAS_DIST = `sed -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.cfg`
+LINGUAS_DIST = `$(SED) -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.cfg`
 
 # If the user has not defined it let's use the default.
 LINGUAS ?= $(LINGUAS_DIST)
@@ -214,7 +214,7 @@ POD2MAN_V_0 = @echo "  POD2MAN $@";
 POD2MAN_OPTS = --utf8 --center='dpkg suite' --release=$(PACKAGE_VERSION) \
                --date='$(PACKAGE_RELEASE_DATE)'
 
-PODSUBST = sed \
+PODSUBST = $(SED) \
 	-e 's/%PACKAGE%/$(PACKAGE)/g' \
 	-e 's/%VERSION%/$(PACKAGE_VERSION)/g' \
 	-e 's/%RELEASE_DATE%/$(PACKAGE_RELEASE_DATE)/g' \
@@ -227,7 +227,7 @@ PODSUBST = sed \
 	-e 's:%PKGDATADIR%:$(pkgdatadir):g' \
 	$(nil)
 
-MANFIXUP = sed \
+MANFIXUP = $(SED) \
 	-f $(srcdir)/utf8toman.sed \
 	$(nil)
 
