@@ -79,6 +79,8 @@ void setobsolete(const struct cmdinfo *cip, const char *value);
 
 #define ACTION(longopt, shortopt, code, func) \
  { longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, func }
+#define ACTION_MUX(longopt, shortopt, code, func, strvar) \
+ { longopt, shortopt, 2, NULL, strvar, setaction, code, NULL, func }
 #define OBSOLETE(longopt, shortopt) \
  { longopt, shortopt, 0, NULL, NULL, setobsolete, 0, NULL, NULL }
 

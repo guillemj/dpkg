@@ -318,4 +318,6 @@ setaction(const struct cmdinfo *cip, const char *value)
              option_short(cip->oshort), cip->olong,
              option_short(cipaction->oshort), cipaction->olong);
   cipaction = cip;
+  if (cip->takesvalue == 2 && cip->sassignto)
+    *cipaction->sassignto = value;
 }
