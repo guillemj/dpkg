@@ -444,6 +444,18 @@ assert_feature(const char *const *argv)
 {
   const struct assert_feature *feature;
 
+  if (strcmp(assert_feature_name, "help") == 0) {
+    printf(_("%s assert options - assert whether features are supported:\n"),
+           dpkg_get_progname());
+
+    for (feature = assert_features; feature->name; feature++) {
+      printf("  %-19s %-9s %s\n", feature->name, feature->version,
+             gettext(feature->desc));
+    }
+
+    exit(0);
+  }
+
   for (feature = assert_features; feature->name; feature++) {
     if (strcmp(feature->name, assert_feature_name) != 0)
       continue;
