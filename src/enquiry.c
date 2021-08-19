@@ -364,15 +364,15 @@ static const struct assert_feature {
 } assert_features[] = {
   {
     .name = "support-predepends",
-    .desc = N_("Pre-Depends field"),
+    .desc = N_("the Pre-Depends field"),
     .version = "1.1.0",
   }, {
     .name = "working-epoch",
-    .desc = N_("epoch"),
+    .desc = N_("epochs in versions"),
     .version = "1.4.0.7",
   }, {
     .name = "long-filenames",
-    .desc = N_("long filenames"),
+    .desc = N_("long filenames in .deb archives"),
     .version = "1.4.1.17",
   }, {
     .name = "multi-conrep",
@@ -380,15 +380,15 @@ static const struct assert_feature {
     .version = "1.4.1.19",
   }, {
     .name = "multi-arch",
-    .desc = N_("multi-arch"),
+    .desc = N_("multi-arch fields and semantics"),
     .version = "1.16.2",
   }, {
     .name = "versioned-provides",
-    .desc = N_("versioned Provides"),
+    .desc = N_("versioned relationships in the Provides field"),
     .version = "1.17.11",
   }, {
     .name = "protected-field",
-    .desc = N_("Protected field"),
+    .desc = N_("the Protected field"),
     .version = "1.20.1",
   }, {
     .name = NULL,
