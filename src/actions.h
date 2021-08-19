@@ -49,13 +49,7 @@ enum action {
 	act_printarch,
 	act_printforeignarches,
 
-	act_assertpredep,
-	act_assertepoch,
-	act_assertlongfilenames,
-	act_assertmulticonrep,
-	act_assertmultiarch,
-	act_assertverprovides,
-	act_assert_protected,
+	act_assert_feature,
 
 	act_validate_pkgname,
 	act_validate_trigname,

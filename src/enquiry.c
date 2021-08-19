@@ -357,13 +357,51 @@ unpackchk(const char *const *argv)
   return 0;
 }
 
+static const struct assert_feature {
+  const char *name;
+  const char *desc;
+  const char *version;
+} assert_features[] = {
+  {
+    .name = "support-predepends",
+    .desc = N_("Pre-Depends field"),
+    .version = "1.1.0",
+  }, {
+    .name = "working-epoch",
+    .desc = N_("epoch"),
+    .version = "1.4.0.7",
+  }, {
+    .name = "long-filenames",
+    .desc = N_("long filenames"),
+    .version = "1.4.1.17",
+  }, {
+    .name = "multi-conrep",
+    .desc = N_("multiple Conflicts and Replaces"),
+    .version = "1.4.1.19",
+  }, {
+    .name = "multi-arch",
+    .desc = N_("multi-arch"),
+    .version = "1.16.2",
+  }, {
+    .name = "versioned-provides",
+    .desc = N_("versioned Provides"),
+    .version = "1.17.11",
+  }, {
+    .name = "protected-field",
+    .desc = N_("Protected field"),
+    .version = "1.20.1",
+  }, {
+    .name = NULL,
+  }
+};
+
 static int
 assert_version_support(const char *const *argv,
-                       struct dpkg_version *version,
-                       const char *feature_name)
+                       const struct assert_feature *feature)
 {
   const char *running_version_str;
   struct dpkg_version running_version = DPKG_VERSION_INIT;
+  struct dpkg_version version = { 0, feature->version, NULL };
   struct dpkg_error err = DPKG_ERROR_INIT;
 
   if (*argv)
@@ -390,70 +428,30 @@ assert_version_support(const char *const *argv,
     ohshit(_("cannot parse dpkg running version '%s': %s"),
            running_version_str, err.str);
 
-  if (dpkg_version_relate(&running_version, DPKG_RELATION_GE, version))
+  if (dpkg_version_relate(&running_version, DPKG_RELATION_GE, &version))
     return 0;
 
   printf(_("Running version of dpkg does not support %s.\n"
            " Please upgrade to at least dpkg %s, and then try again.\n"),
-         feature_name, versiondescribe(version, vdew_nonambig));
+         feature->desc, versiondescribe(&version, vdew_nonambig));
   return 1;
 }
 
-int
-assertpredep(const char *const *argv)
-{
-  struct dpkg_version version = { 0, "1.1.0", NULL };
-
-  return assert_version_support(argv, &version, _("Pre-Depends field"));
-}
+const char *assert_feature_name;
 
 int
-assertepoch(const char *const *argv)
+assert_feature(const char *const *argv)
 {
-  struct dpkg_version version = { 0, "1.4.0.7", NULL };
+  const struct assert_feature *feature;
 
-  return assert_version_support(argv, &version, _("epoch"));
-}
+  for (feature = assert_features; feature->name; feature++) {
+    if (strcmp(feature->name, assert_feature_name) != 0)
+      continue;
 
-int
-assertlongfilenames(const char *const *argv)
-{
-  struct dpkg_version version = { 0, "1.4.1.17", NULL };
+    return assert_version_support(argv, feature);
+  }
 
-  return assert_version_support(argv, &version, _("long filenames"));
-}
-
-int
-assertmulticonrep(const char *const *argv)
-{
-  struct dpkg_version version = { 0, "1.4.1.19", NULL };
-
-  return assert_version_support(argv, &version,
-                                _("multiple Conflicts and Replaces"));
-}
-
-int
-assertmultiarch(const char *const *argv)
-{
-  struct dpkg_version version = { 0, "1.16.2", NULL };
-
-  return assert_version_support(argv, &version, _("multi-arch"));
-}
-
-int
-assertverprovides(const char *const *argv)
-{
-  struct dpkg_version version = { 0, "1.17.11", NULL };
-
-  return assert_version_support(argv, &version, _("versioned Provides"));
-}
-
-int
-assert_protected(const char *const *argv)
-{
-  struct dpkg_version version = { 0, "1.20.1", NULL };
-
-  return assert_version_support(argv, &version, _("Protected field"));
+  badusage(_("unknown --%s-<feature>"), cipaction->olong);
 }
 
 /**

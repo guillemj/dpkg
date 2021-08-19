@@ -105,15 +105,11 @@ int updateavailable(const char *const *argv);
 
 /* from enquiry.c */
 
+extern const char *assert_feature_name;
+
 int audit(const char *const *argv);
 int unpackchk(const char *const *argv);
-int assertepoch(const char *const *argv);
-int assertpredep(const char *const *argv);
-int assertlongfilenames(const char *const *argv);
-int assertmulticonrep(const char *const *argv);
-int assertmultiarch(const char *const *argv);
-int assertverprovides(const char *const *argv);
-int assert_protected(const char *const *argv);
+int assert_feature(const char *const *argv);
 int validate_pkgname(const char *const *argv);
 int validate_trigname(const char *const *argv);
 int validate_archname(const char *const *argv);
