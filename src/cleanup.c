@@ -126,7 +126,8 @@ void cu_prermupgrade(int argc, void **argv) {
 
 /*
  * Also has conflictor in argv[1] and infavour in argv[2].
- * conflictor may be NULL if deconfigure was due to Breaks.
+ * conflictor may be NULL if deconfigure was due to Breaks or multi-arch
+ * instance sync.
  */
 void ok_prermdeconfigure(int argc, void **argv) {
   struct pkginfo *deconf= (struct pkginfo*)argv[0];
@@ -136,7 +137,8 @@ void ok_prermdeconfigure(int argc, void **argv) {
 }
 
 /*
- * conflictor may be NULL.
+ * conflictor may be NULL if deconfigure was due to Breaks or multi-arch
+ * instance sync.
  */
 void cu_prermdeconfigure(int argc, void **argv) {
   struct pkginfo *deconf= (struct pkginfo*)argv[0];

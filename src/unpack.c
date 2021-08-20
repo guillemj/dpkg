@@ -273,16 +273,25 @@ pkg_deconfigure_others(struct pkginfo *pkg)
   for (deconpil = deconfigure; deconpil; deconpil = deconpil->next) {
     struct pkginfo *removing = deconpil->pkg_removal;
 
-    if (removing)
+    if (deconpil->reason == PKG_WANT_DEINSTALL) {
       printf(_("De-configuring %s (%s), to allow removal of %s (%s) ...\n"),
              pkg_name(deconpil->pkg, pnaw_nonambig),
              versiondescribe(&deconpil->pkg->installed.version, vdew_nonambig),
              pkg_name(removing, pnaw_nonambig),
              versiondescribe(&removing->installed.version, vdew_nonambig));
-    else
-      printf(_("De-configuring %s (%s) ...\n"),
+    } else if (deconpil->reason == PKG_WANT_INSTALL) {
+      printf(_("De-configuring %s (%s), to allow installation of %s (%s) ...\n"),
              pkg_name(deconpil->pkg, pnaw_nonambig),
-             versiondescribe(&deconpil->pkg->installed.version, vdew_nonambig));
+             versiondescribe(&deconpil->pkg->installed.version, vdew_nonambig),
+             pkg_name(pkg, pnaw_nonambig),
+             versiondescribe(&pkg->available.version, vdew_nonambig));
+    } else {
+      printf(_("De-configuring %s (%s), to allow configuration of %s (%s) ...\n"),
+             pkg_name(deconpil->pkg, pnaw_nonambig),
+             versiondescribe(&deconpil->pkg->installed.version, vdew_nonambig),
+             pkg_name(pkg, pnaw_nonambig),
+             versiondescribe(&pkg->installed.version, vdew_nonambig));
+    }
 
     trig_activate_packageprocessing(deconpil->pkg);
     pkg_set_status(deconpil->pkg, PKG_STAT_HALFCONFIGURED);
@@ -1221,7 +1230,7 @@ void process_archive(const char *filename) {
 
     if (dpkg_version_compare(&pkg->available.version,
                              &otherpkg->installed.version))
-      enqueue_deconfigure(otherpkg, NULL);
+      enqueue_deconfigure(otherpkg, NULL, PKG_WANT_UNKNOWN);
   }
 
   pkg_check_depcon(pkg, pfilename);

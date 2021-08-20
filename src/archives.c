@@ -1189,7 +1189,8 @@ tar_deferred_extract(struct fsys_namenode_list *files, struct pkginfo *pkg)
 }
 
 void
-enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal)
+enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal,
+                    enum pkgwant reason)
 {
   struct pkg_deconf_list *newdeconf;
 
@@ -1199,6 +1200,7 @@ enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal)
   newdeconf->next = deconfigure;
   newdeconf->pkg = pkg;
   newdeconf->pkg_removal = pkg_removal;
+  newdeconf->reason = reason;
   deconfigure = newdeconf;
 }
 
@@ -1236,7 +1238,7 @@ try_deconfigure_can(struct pkginfo *pkg, struct deppossi *pdep,
             pkgbin_name(pkg_install, &pkg->available, pnaw_nonambig), why);
     return 2;
   } else if (f_autodeconf) {
-    enqueue_deconfigure(pkg, NULL);
+    enqueue_deconfigure(pkg, NULL, PKG_WANT_INSTALL);
     return 1;
   } else {
     notice(_("no, cannot proceed with installation of %s (--auto-deconfigure will help):\n%s"),
@@ -1296,7 +1298,7 @@ try_remove_can(struct deppossi *pdep,
       }
     }
 
-    enqueue_deconfigure(pkg, pkg_removal);
+    enqueue_deconfigure(pkg, pkg_removal, PKG_WANT_DEINSTALL);
     return 1;
   } else {
     notice(_("no, cannot proceed with removal of %s (--auto-deconfigure will help):\n%s"),

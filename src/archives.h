@@ -39,6 +39,7 @@ struct pkg_deconf_list {
   struct pkg_deconf_list *next;
   struct pkginfo *pkg;
   struct pkginfo *pkg_removal;
+  enum pkgwant reason;
 };
 
 extern struct varbuf_state fname_state;
@@ -48,7 +49,8 @@ extern struct varbuf fnamenewvb;
 extern struct pkg_deconf_list *deconfigure;
 
 void clear_deconfigure_queue(void);
-void enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal);
+void enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal,
+                         enum pkgwant reason);
 void enqueue_conflictor(struct pkginfo *pkg);
 
 void cu_pathname(int argc, void **argv);
