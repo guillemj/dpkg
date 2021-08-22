@@ -41,6 +41,7 @@ my @files = qw(
     scripts/dpkg-realpath.sh
 );
 my @shellcheck_opts = (
+    '--external-sources', # Allow checking external source files.
     '--exclude=SC1090', # Allow non-constant source.
     '--exclude=SC2039', # Allow local keyword.
     '--exclude=SC2166', # Allow -a and -o.

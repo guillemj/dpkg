@@ -603,6 +603,7 @@ export DPKG_ROOT
 PKGDATADIR_DEFAULT=scripts
 PKGDATADIR="${DPKG_DATADIR:-$PKGDATADIR_DEFAULT}"
 
+# shellcheck source=scripts/sh/dpkg-error.sh
 . "$PKGDATADIR/sh/dpkg-error.sh"
 
 setup_colors
