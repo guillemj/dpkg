@@ -483,7 +483,7 @@ finish_dir_to_symlink()
   fi
   rm "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir"
   find "$DPKG_ROOT$PATHNAME" -mindepth 1 -maxdepth 1 -print0 | \
-    xargs -0 -i% mv -f "%" "$DPKG_ROOT$ABS_SYMLINK_TARGET/"
+    xargs -0 -I% mv -f "%" "$DPKG_ROOT$ABS_SYMLINK_TARGET/"
 
   # Remove the staging directory.
   rmdir "$DPKG_ROOT$PATHNAME"
