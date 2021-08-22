@@ -46,6 +46,7 @@ my @shellcheck_opts = (
     '--exclude=SC2039', # Allow local keyword.
     '--exclude=SC2166', # Allow -a and -o.
     '--exclude=SC2034', # Allow unused variables for colors.
+    '--exclude=SC3043', # Allow local keyword.
 );
 
 plan tests => scalar @files;
