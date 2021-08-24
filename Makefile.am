@@ -76,6 +76,8 @@ EXTRA_DIST = \
 	debian/dpkg.cfg \
 	debian/dpkg.cron.daily \
 	debian/dpkg.docs \
+	debian/dpkg.dpkg-db-backup.service \
+	debian/dpkg.dpkg-db-backup.timer \
 	debian/dpkg.install \
 	debian/dpkg.manpages \
 	debian/dpkg.postrm \
