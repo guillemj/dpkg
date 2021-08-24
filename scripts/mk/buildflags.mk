@@ -31,6 +31,7 @@ endef
 
 $(eval $(call dpkg_buildflags_export_envvar,DEB_BUILD_OPTIONS))
 $(eval $(call dpkg_buildflags_export_envvar,DEB_BUILD_MAINT_OPTIONS))
+$(eval $(call dpkg_buildflags_export_envvar,DEB_BUILD_PATH))
 $(foreach flag,$(DPKG_BUILDFLAGS_LIST),\
   $(foreach operation,SET STRIP APPEND PREPEND,\
     $(eval $(call dpkg_buildflags_export_envvar,DEB_$(flag)_MAINT_$(operation)))))
