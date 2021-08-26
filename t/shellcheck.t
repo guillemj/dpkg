@@ -37,6 +37,7 @@ my @files = qw(
     run-script
     debian/dpkg.cron.daily
     debian/dpkg.postrm
+    scripts/dpkg-db-backup.sh
     scripts/dpkg-maintscript-helper.sh
     scripts/dpkg-realpath.sh
 );

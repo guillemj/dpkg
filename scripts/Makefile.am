@@ -2,6 +2,10 @@
 
 SUBDIRS = mk po
 
+pkglibexec_SCRIPTS = \
+	dpkg-db-backup \
+	# EOL
+
 sbin_SCRIPTS = \
 	dpkg-fsys-usrunmess
 
@@ -31,6 +35,7 @@ EXTRA_DIST = \
 	dpkg-buildflags.pl \
 	dpkg-buildpackage.pl \
 	dpkg-checkbuilddeps.pl \
+	dpkg-db-backup.sh \
 	dpkg-distaddfile.pl \
 	dpkg-fsys-usrunmess.pl \
 	dpkg-genbuildinfo.pl \
@@ -60,6 +65,7 @@ dist_zshcompletions_DATA = \
 
 CLEANFILES = \
 	$(test_data_objects) \
+	$(pkglibexec_SCRIPTS) \
 	$(sbin_SCRIPTS) \
 	$(bin_SCRIPTS)
 
