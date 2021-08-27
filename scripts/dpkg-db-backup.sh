@@ -15,9 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+ROTATE=7
+
+while [ $# -ne 0 ]; do
+  case "$1" in
+  --rotate=*)
+    ROTATE="${1#--rotate=}"
+    ;;
+  esac
+  shift
+done
+
 dbdir=/var/lib/dpkg
 
-# Backup the 7 last versions of dpkg databases containing user data.
+# Backup the N last versions of dpkg databases containing user data.
 if cd /var/backups ; then
   # We backup all relevant database files if any has changed, so that
   # the rotation number always contains an internally consistent set.
@@ -39,7 +50,7 @@ if cd /var/backups ; then
       else
         touch "dpkg.$db"
       fi
-      savelog -c 7 "dpkg.$db" >/dev/null
+      savelog -c "$ROTATE" "dpkg.$db" >/dev/null
     done
   fi
 
@@ -52,6 +63,6 @@ if cd /var/backups ; then
      ! tar -df ${dbalt}.tar.0 -C $dbdir $dbalt >/dev/null 2>&1 ;
   then
     tar -cf ${dbalt}.tar -C $dbdir $dbalt >/dev/null 2>&1
-    savelog -c 7 ${dbalt}.tar >/dev/null
+    savelog -c "$ROTATE" ${dbalt}.tar >/dev/null
   fi
 fi
