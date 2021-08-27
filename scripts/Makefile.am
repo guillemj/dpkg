@@ -167,6 +167,7 @@ do_perl_subst = $(AM_V_GEN) $(SED) \
 	-e "s:our \$$PROGVERSION = .*;:our \$$PROGVERSION = '$(PACKAGE_VERSION)';:"
 
 do_shell_subst = $(AM_V_GEN) $(SED) \
+	-e "s:^ADMINDIR=.*$$:ADMINDIR='$(admindir)':" \
 	-e "s:^PKGDATADIR_DEFAULT=.*$$:PKGDATADIR_DEFAULT='$(pkgdatadir)':" \
 	-e "s:^version=['\"][^'\"]*[\"']:version=\"$(PACKAGE_VERSION)\":"
 

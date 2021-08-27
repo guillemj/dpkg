@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+ADMINDIR=/var/lib/dpkg
 ROTATE=7
 
 while [ $# -ne 0 ]; do
@@ -26,7 +27,7 @@ while [ $# -ne 0 ]; do
   shift
 done
 
-dbdir=/var/lib/dpkg
+dbdir="$ADMINDIR"
 
 # Backup the N last versions of dpkg databases containing user data.
 if cd /var/backups ; then
