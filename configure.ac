@@ -62,6 +62,8 @@ DPKG_WITH_DIR([pkgconfdir], [${sysconfdir}/${PACKAGE_NAME}],
   [dpkg configuration directory [SYSCONFDIR/dpkg]])
 DPKG_WITH_DIR([admindir], [${localstatedir}/lib/${PACKAGE_NAME}],
   [dpkg database directory [LOCALSTATEDIR/lib/dpkg]])
+DPKG_WITH_DIR([backupsdir], [${localstatedir}/backups],
+  [dpkg database backups directory [LOCALSTATEDIR/backups]])
 DPKG_WITH_DIR([logdir], [${localstatedir}/log],
   [system logging directory [LOCALSTATEDIR/log]])
 DPKG_WITH_DIR([zshcompletionsdir], [${datadir}/zsh/vendor-completions],
@@ -269,6 +271,7 @@ Configuration:
     devlibdir . . . . . . . . . . : $devlibdir
     pkgconfdir  . . . . . . . . . : $pkgconfdir
     admindir  . . . . . . . . . . : $admindir
+    backupsdir  . . . . . . . . . : $backupsdir
     logdir  . . . . . . . . . . . : $logdir
     perl interpreter  . . . . . . : $PERL
     perl libdir . . . . . . . . . : $PERL_LIBDIR

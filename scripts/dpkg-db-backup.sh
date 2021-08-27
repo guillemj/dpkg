@@ -16,6 +16,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ADMINDIR=/var/lib/dpkg
+BACKUPSDIR=/var/backups
 ROTATE=7
 
 while [ $# -ne 0 ]; do
@@ -30,7 +31,7 @@ done
 dbdir="$ADMINDIR"
 
 # Backup the N last versions of dpkg databases containing user data.
-if cd /var/backups ; then
+if cd $BACKUPSDIR ; then
   # We backup all relevant database files if any has changed, so that
   # the rotation number always contains an internally consistent set.
   dbchanged=no

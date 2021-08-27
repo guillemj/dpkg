@@ -221,6 +221,7 @@ PODSUBST = $(SED) \
 	-e 's:%CONFDIR%:$(sysconfdir):g' \
 	-e 's:%LOGDIR%:$(logdir):g' \
 	-e 's:%ADMINDIR%:$(admindir):g' \
+	-e 's:%BACKUPSDIR%:$(backupsdir):g' \
 	-e 's:%PKGDOCDIR%:$(docdir):g' \
 	-e 's:%PKGCONFDIR%:$(pkgconfdir):g' \
 	-e 's:%PKGLIBDIR%:$(pkglibexecdir):g' \
