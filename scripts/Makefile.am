@@ -383,6 +383,11 @@ test_data = \
 	t/merge_changelogs/ch-merged-basic \
 	t/merge_changelogs/ch-merged-pr \
 	t/merge_changelogs/ch-merged-pr-basic \
+	t/merge_changelogs/ch-unreleased-a \
+	t/merge_changelogs/ch-unreleased-b \
+	t/merge_changelogs/ch-unreleased-merged \
+	t/merge_changelogs/ch-unreleased-merged-basic \
+	t/merge_changelogs/ch-unreleased-old \
 	t/mk/debian/changelog \
 	t/mk/architecture.mk \
 	t/mk/buildflags.mk \
