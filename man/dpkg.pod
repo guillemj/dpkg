@@ -947,10 +947,14 @@ of a line for every path that failed any check.
 These lines have the following format:
 
 Z<>
+ B<missing  > [B<c>] I<pathname> [B<(>I<error-message>B<)>]
  B<??5??????> [B<c>] I<pathname>
 
 The first 9 characters are used to report the checks result,
-where the following special characters denote general conditions:
+either a literal B<missing> when the file is not present or its metadata
+cannot be fetched,
+or one of the following special characters that report the result for each
+check:
 
 =over
 
@@ -997,6 +1001,10 @@ The pathname is a conffile.
 =back
 
 Finally followed by another space and the pathname.
+
+In case the entry was of the B<missing> type, and the file was not actually
+present on the filesystem, then the line is followed by a space and the
+error message enclosed within parenthesis.
 
 =item B<--status-fd> I<n>
 

@@ -21,8 +21,12 @@
 #include <config.h>
 #include <compat.h>
 
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
@@ -31,6 +35,7 @@
 #include <dpkg/options.h>
 #include <dpkg/db-ctrl.h>
 #include <dpkg/db-fsys.h>
+#include <dpkg/buffer.h>
 
 #include "main.h"
 
@@ -42,6 +47,8 @@ enum verify_result {
 };
 
 struct verify_checks {
+	int exists_errno;
+	enum verify_result exists;
 	enum verify_result md5sum;
 };
 
@@ -65,18 +72,27 @@ static void
 verify_output_rpm(struct fsys_namenode *namenode, struct verify_checks *checks)
 {
 	char result[9];
+	char *error = NULL;
 	int attr;
 
 	memset(result, '?', sizeof(result));
 
-	result[2] = verify_result_rpm(checks->md5sum, '5');
+	if (checks->exists == VERIFY_FAIL) {
+		memcpy(result, "missing  ", sizeof(result));
+		if (checks->exists_errno != ENOENT)
+			m_asprintf(&error, " (%s)", strerror(checks->exists_errno));
+	} else {
+		result[2] = verify_result_rpm(checks->md5sum, '5');
+	}
 
 	if (namenode->flags & FNNF_OLD_CONFF)
 		attr = 'c';
 	else
 		attr = ' ';
 
-	printf("%.9s %c %s\n", result, attr, namenode->name);
+	printf("%.9s %c %s%s\n", result, attr, namenode->name, error ? error : "");
+
+	free(error);
 }
 
 static verify_output_func *verify_output = verify_output_rpm;
@@ -92,6 +108,62 @@ verify_set_output(const char *name)
 	return true;
 }
 
+static int
+verify_digest(const char *filename, struct fsys_namenode *fnn,
+              struct verify_checks *checks)
+{
+	struct dpkg_error err;
+	static int fd;
+	char hash[MD5HASHLEN + 1];
+
+	fd = open(filename, O_RDONLY);
+
+	if (fd >= 0) {
+		push_cleanup(cu_closefd, ehflag_bombout, 1, &fd);
+		if (fd_md5(fd, hash, -1, &err) < 0)
+			ohshit(_("cannot compute MD5 digest for file '%s': %s"),
+			       filename, err.str);
+		pop_cleanup(ehflag_normaltidy); /* fd = open(cdr.buf) */
+		close(fd);
+
+		if (strcmp(hash, fnn->newhash) == 0) {
+			checks->md5sum = VERIFY_PASS;
+			return 0;
+		} else {
+			checks->md5sum = VERIFY_FAIL;
+		}
+	} else {
+		checks->md5sum = VERIFY_NONE;
+	}
+
+	return -1;
+}
+
+static int
+verify_file(const char *filename, struct fsys_namenode *fnn,
+            struct pkginfo *pkg, struct verify_checks *checks)
+{
+	struct stat st;
+	int failures = 0;
+
+	if (lstat(filename, &st) < 0) {
+		checks->exists_errno = errno;
+		checks->exists = VERIFY_FAIL;
+		return 1;
+	}
+	checks->exists = VERIFY_PASS;
+
+	if (fnn->newhash == NULL && fnn->oldhash != NULL)
+		fnn->newhash = fnn->oldhash;
+
+	if (fnn->newhash != NULL) {
+		if (verify_digest(filename, fnn, checks) < 0)
+			failures++;
+	}
+
+	return failures;
+}
+
 static void
 verify_package(struct pkginfo *pkg)
 {
@@ -105,17 +177,8 @@ verify_package(struct pkginfo *pkg)
 	for (file = pkg->files; file; file = file->next) {
 		struct verify_checks checks;
 		struct fsys_namenode *fnn;
-		char hash[MD5HASHLEN + 1];
-		int failures = 0;
 
 		fnn = namenodetouse(file->namenode, pkg, &pkg->installed);
-
-		if (fnn->newhash == NULL) {
-			if (fnn->oldhash == NULL)
-				continue;
-			else
-				fnn->newhash = fnn->oldhash;
-		}
 
 		varbuf_reset(&filename);
 		varbuf_add_str(&filename, instdir);
@@ -124,13 +187,7 @@ verify_package(struct pkginfo *pkg)
 
 		memset(&checks, 0, sizeof(checks));
 
-		md5hash(pkg, hash, filename.buf);
-		if (strcmp(hash, fnn->newhash) != 0) {
-			checks.md5sum = VERIFY_FAIL;
-			failures++;
-		}
-
-		if (failures)
+		if (verify_file(filename.buf, fnn, pkg, &checks) > 0)
 			verify_output(fnn, &checks);
 	}
 
