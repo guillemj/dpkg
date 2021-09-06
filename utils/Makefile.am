@@ -5,6 +5,7 @@ AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DLOGDIR=\"$(logdir)\" \
 	-DSYSCONFDIR=\"$(sysconfdir)\" \
+	-DRUNSTATEDIR=\"$(runstatedir)\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib

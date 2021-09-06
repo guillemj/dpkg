@@ -566,8 +566,8 @@ setup_socket_name(const char *suffix)
 {
 	const char *basedir;
 
-	if (getuid() == 0 && access("/run", F_OK) == 0) {
-		basedir = "/run";
+	if (getuid() == 0 && access(RUNSTATEDIR, F_OK) == 0) {
+		basedir = RUNSTATEDIR;
 	} else {
 		basedir = getenv("TMPDIR");
 		if (basedir == NULL)

@@ -219,6 +219,7 @@ PODSUBST = $(SED) \
 	-e 's/%VERSION%/$(PACKAGE_VERSION)/g' \
 	-e 's/%RELEASE_DATE%/$(PACKAGE_RELEASE_DATE)/g' \
 	-e 's:%CONFDIR%:$(sysconfdir):g' \
+	-e 's:%RUNSTATEDIR%:$(runstatedir):g' \
 	-e 's:%LOGDIR%:$(logdir):g' \
 	-e 's:%ADMINDIR%:$(admindir):g' \
 	-e 's:%BACKUPSDIR%:$(backupsdir):g' \
