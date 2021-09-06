@@ -24,7 +24,7 @@ option=$3
 
 test -d "$vardir/methods/$method" || mkdir "$vardir/methods/$method"
 cd "$vardir/methods/$method"
-tp=/tmp/ddm$$
+tp="$(mktemp --tmpdir $method.XXXXXXXXXX)"
 
 iarch=$(dpkg --print-architecture)
 dist=stable

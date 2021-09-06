@@ -19,7 +19,7 @@ method=$2
 option=$3
 
 cd "$vardir/methods/disk"
-tp=/var/run/ddm$$
+tp="$(mktemp --tmpdir $method.XXXXXXXXXX)"
 
 iarch=$(dpkg --admindir $vardir --print-architecture)
 
