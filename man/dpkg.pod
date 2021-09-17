@@ -944,14 +944,59 @@ Sets the output format for the B<--verify> command (since dpkg 1.17.2).
 
 The only currently supported output format is B<rpm>, which consists
 of a line for every path that failed any check.
-The lines start with 9 characters to report each specific check result,
-a ‘B<?>’ implies the check could not be done (lack of support,
-file permissions, etc), ‘B<.>’ implies the check passed, and
-an alphanumeric character implies a specific check failed; the md5sum
-verification failure (the file contents have changed) is denoted with
-a ‘B<5>’ on the third character.
-The line is followed by a space and an attribute character (currently
-‘B<c>’ for conffiles), another space and the pathname.
+These lines have the following format:
+
+Z<>
+ B<??5??????> [B<c>] I<pathname>
+
+The first 9 characters are used to report the checks result,
+where the following special characters denote general conditions:
+
+=over
+
+=item ‘B<?>’
+
+Implies the check could not be done (lack of support, file permissions, etc).
+
+=item ‘B<.>’
+
+Implies the check passed.
+
+=item ‘I<A-Za-z0-9>’
+
+Implies a specific check failed.
+The following positions and alphanumeric characters are currently supported:
+
+=over
+
+=item 1-2 ‘B<?>’
+
+These checks are currently not supported, will always be ‘B<?>’.
+
+=item 3 ‘B<5>’
+
+The digest check failed, which means the file contents have changed.
+
+=item 4-9 ‘B<?>’
+
+These checks are currently not supported, will always be ‘B<?>’.
+
+=back
+
+=back
+
+The line is followed by a space and an attribute character.
+The following attribute character is supported:
+
+=over
+
+=item ‘B<c>’
+
+The pathname is a conffile.
+
+=back
+
+Finally followed by another space and the pathname.
 
 =item B<--status-fd> I<n>
 
