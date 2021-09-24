@@ -69,7 +69,6 @@ DPKG_WITH_DIR([zshcompletionsdir], [${datadir}/zsh/vendor-completions],
 
 # Set default dpkg-deb values
 DPKG_DEB_COMPRESSOR([xz])
-DPKG_DEB_PROG_TAR
 
 # Checks for programs.
 AC_PROG_SED
@@ -80,6 +79,7 @@ DPKG_CXX_CXX11
 DPKG_PROG_PATCH
 AC_CHECK_PROGS([DOXYGEN], [doxygen])
 AC_CHECK_PROG([HAVE_DOT], [dot], [YES], [NO])
+DPKG_PROG_TAR
 DPKG_PROG_PO4A
 DPKG_PROG_PERL
 DPKG_PROG_POD2MAN
