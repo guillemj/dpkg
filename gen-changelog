@@ -165,6 +165,7 @@ spawn(
 my $log = Dpkg::Index->new(
     get_key_func => sub { return $_[0]->{Commit} },
     item_opts => {
+        keep_duplicate => 1,
         allow_duplicate => 1,
     },
 );
@@ -262,7 +263,12 @@ foreach my $groupname (@groups, sort @groups_l10n) {
             foreach my $metafield (@metafields) {
                 next unless exists $commit->{$metafield};
 
-                $title .= "\n$metafield{$metafield} $commit->{$metafield}.";
+                my $values = $commit->{$metafield};
+                $values = [ $values ] if ref $values ne 'ARRAY';
+
+                foreach my $value (@{$values}) {
+                    $title .= "\n$metafield{$metafield} $value.";
+                }
             }
             # Handle the Closes metafield last.
             if (exists $commit->{Closes}) {
