@@ -593,13 +593,109 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 }
 
 static void
+pkg_remove_conffile_on_upgrade(struct pkginfo *pkg, struct fsys_namenode *namenode)
+{
+  struct pkginfo *otherpkg;
+  struct fsys_namenode *usenode;
+  struct fsys_node_pkgs_iter *iter;
+  struct varbuf cdr = VARBUF_INIT;
+  struct varbuf cdrext = VARBUF_INIT;
+  struct varbuf_state cdrext_state;
+  char currenthash[MD5HASHLEN + 1];
+  int rc;
+
+  usenode = namenodetouse(namenode, pkg, &pkg->installed);
+
+  rc = conffderef(pkg, &cdr, usenode->name);
+  if (rc == -1) {
+    debug(dbg_conffdetail, "%s: '%s' conffile dereference error: %s", __func__,
+          namenode->name, strerror(errno));
+    namenode->oldhash = EMPTYHASHFLAG;
+    return;
+  }
+
+  varbuf_reset(&cdrext);
+  varbuf_add_str(&cdrext, cdr.buf);
+  varbuf_end_str(&cdrext);
+
+  varbuf_snapshot(&cdrext, &cdrext_state);
+
+  iter = fsys_node_pkgs_iter_new(namenode);
+  while ((otherpkg = fsys_node_pkgs_iter_next(iter))) {
+    debug(dbg_conffdetail, "%s: namenode '%s' owned by other %s?",
+          __func__, namenode->name, pkg_name(otherpkg, pnaw_always));
+
+    if (otherpkg == pkg)
+      continue;
+
+    debug(dbg_conff, "%s: namenode '%s' owned by other %s, remove-on-upgrade ignored",
+         __func__, namenode->name, pkg_name(otherpkg, pnaw_always));
+    return;
+  }
+  fsys_node_pkgs_iter_free(iter);
+
+  /* Remove DPKGDISTEXT variant if still present. */
+  varbuf_rollback(&cdrext, &cdrext_state);
+  varbuf_add_str(&cdrext, DPKGDISTEXT);
+  varbuf_end_str(&cdrext);
+
+  if (unlink(cdrext.buf) < 0 && errno != ENOENT)
+    warning(_("%s: failed to remove '%.250s': %s"),
+            pkg_name(pkg, pnaw_nonambig), cdrext.buf,
+            strerror(errno));
+
+  md5hash(pkg, currenthash, cdr.buf);
+
+  /* Has it been already removed (e.g. by local admin)? */
+  if (strcmp(currenthash, NONEXISTENTFLAG) == 0)
+    return;
+
+  /* For unmodified conffiles, we just remove them. */
+  if (strcmp(currenthash, namenode->oldhash) == 0) {
+    printf(_("Removing obsolete conffile %s ...\n"), cdr.buf);
+    if (unlink(cdr.buf) < 0 && errno != ENOENT)
+      warning(_("%s: failed to remove '%.250s': %s"),
+              pkg_name(pkg, pnaw_nonambig), cdr.buf, strerror(errno));
+    return;
+  }
+
+  /* Otherwise, preserve the modified conffile. */
+  varbuf_rollback(&cdrext, &cdrext_state);
+  varbuf_add_str(&cdrext, DPKGOLDEXT);
+  varbuf_end_str(&cdrext);
+
+  printf(_("Obsolete conffile '%s' has been modified by you.\n"), cdr.buf);
+  printf(_("Saving as %s ...\n"), cdrext.buf);
+  if (rename(cdr.buf, cdrext.buf) < 0)
+    warning(_("%s: cannot rename obsolete conffile '%s' to '%s': %s"),
+            pkg_name(pkg, pnaw_nonambig),
+            cdr.buf, cdrext.buf, strerror(errno));
+}
+
+static void
 pkg_remove_old_files(struct pkginfo *pkg,
                      struct fsys_namenode_queue *newfiles_queue,
                      struct fsys_namenode_queue *newconffiles)
 {
   struct fsys_hash_rev_iter rev_iter;
+  struct fsys_namenode_list *cfile;
   struct fsys_namenode *namenode;
   struct stat stab, oldfs;
+
+  /* Before removing any old files, we try to remove obsolete conffiles that
+   * have been requested to be removed during upgrade. These conffiles are
+   * not tracked as part of the package file lists, so removing them here
+   * means we will get their parent directories removed if not present in the
+   * new package without needing to do anything special ourselves. */
+  for (cfile = newconffiles->head; cfile; cfile = cfile->next) {
+    debug(dbg_conffdetail, "%s: removing conffile '%s' for %s?", __func__,
+          cfile->namenode->name, pkg_name(pkg, pnaw_always));
+
+    if (!(cfile->namenode->flags & FNNF_RM_CONFF_ON_UPGRADE))
+      continue;
+
+    pkg_remove_conffile_on_upgrade(pkg, cfile->namenode);
+  }
 
   fsys_hash_rev_iter_init(&rev_iter, pkg->files);
 
@@ -646,7 +742,6 @@ pkg_remove_old_files(struct pkginfo *pkg,
       }
     } else {
       struct fsys_namenode_list *sameas = NULL;
-      struct fsys_namenode_list *cfile;
       static struct file_ondisk_id empty_ondisk_id;
       struct varbuf cfilename = VARBUF_INIT;
 
