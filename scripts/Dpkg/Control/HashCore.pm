@@ -432,7 +432,10 @@ sub apply_substvars {
 	        $v =~ s/\s*,\s*$//;
 	    }
 	}
-        $v =~ s/\$\{\}/\$/g; # XXX: what for?
+        # Replace ${} with $, which is otherwise an invalid substitution, but
+        # this then makes it possible to use ${} as an escape sequence such
+        # as ${}{VARIABLE}.
+        $v =~ s/\$\{\}/\$/g;
 
         $self->{$f} = $v;
     }
