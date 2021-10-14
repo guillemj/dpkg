@@ -61,6 +61,7 @@
 #include "main.h"
 #include "archives.h"
 #include "filters.h"
+#include "triggerer_info_passthrough.h"
 
 static inline void
 fd_writeback_init(int fd)
@@ -1478,6 +1479,7 @@ archivefiles(const char *const *argv)
   int i;
   jmp_buf ejbuf;
   enum modstatdb_rw msdbflags;
+  struct passed_through_package_info unpackedInfo = passed_through_package_info_init();
 
   trigproc_install_hooks();
 
@@ -1580,7 +1582,7 @@ archivefiles(const char *const *argv)
 
     dpkg_selabel_load();
 
-    process_archive(argp[i]);
+    process_archive(argp[i], &unpackedInfo);
     onerr_abort++;
     m_output(stdout, _("<standard output>"));
     m_output(stderr, _("<standard error>"));
@@ -1588,6 +1590,8 @@ archivefiles(const char *const *argv)
 
     pop_error_context(ehflag_normaltidy);
   }
+  serialize_the_info_about_triggerers_into_an_env_variable(&unpackedInfo);
+  passed_through_package_info_free(&unpackedInfo);
 
   dpkg_selabel_close();
 
