@@ -1293,17 +1293,8 @@ void process_archive(const char *filename) {
     pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
     modstatdb_note(pkg);
     push_cleanup(cu_prermupgrade, ~ehflag_normaltidy, 1, (void *)pkg);
-    if (dpkg_version_compare(&pkg->available.version,
-                             &pkg->installed.version) >= 0)
-      /* Upgrade or reinstall. */
-      maintscript_fallback(pkg, PRERMFILE, "pre-removal", cidir, cidirrest,
-                           "upgrade", "failed-upgrade");
-    else /* Downgrade => no fallback */
-      maintscript_installed(pkg, PRERMFILE, "pre-removal",
-                            "upgrade",
-                            versiondescribe(&pkg->available.version,
-                                            vdew_nonambig),
-                            NULL);
+    maintscript_fallback(pkg, PRERMFILE, "pre-removal", cidir, cidirrest,
+                         "upgrade", "failed-upgrade");
     pkg_set_status(pkg, PKG_STAT_UNPACKED);
     oldversionstatus = PKG_STAT_UNPACKED;
     modstatdb_note(pkg);
