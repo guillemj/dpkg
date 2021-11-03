@@ -452,6 +452,11 @@ if (defined $parallel) {
     $build_opts->export();
 }
 
+if ($build_opts->has('terse')) {
+    $ENV{MAKEFLAGS} //= '';
+    $ENV{MAKEFLAGS} .= ' -s';
+}
+
 set_build_profiles(@build_profiles) if @build_profiles;
 
 my $changelog = changelog_parse();
