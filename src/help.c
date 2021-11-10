@@ -152,7 +152,7 @@ void checkpath(void) {
 }
 
 bool
-ignore_depends(struct pkginfo *pkg)
+ignore_depends(const struct pkginfo *pkg)
 {
   struct pkg_list *id;
   for (id= ignoredependss; id; id= id->next)

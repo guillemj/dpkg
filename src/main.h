@@ -275,7 +275,7 @@ bool skip_due_to_hold(struct pkginfo *pkg);
 
 struct stat;
 
-bool ignore_depends(struct pkginfo *pkg);
+bool ignore_depends(const struct pkginfo *pkg);
 bool force_breaks(struct deppossi *possi);
 bool force_depends(struct deppossi *possi);
 bool force_conflicts(struct deppossi *possi);
