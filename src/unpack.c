@@ -321,7 +321,7 @@ pkg_deconfigure_others(struct pkginfo *pkg)
  * Read the conffiles, and copy the hashes across.
  */
 static void
-deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
+deb_parse_conffiles(const struct pkginfo *pkg, const char *control_conffiles,
                     struct fsys_namenode_queue *newconffiles)
 {
   FILE *conff;
