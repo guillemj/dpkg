@@ -56,7 +56,7 @@ struct treewalk_funcs {
 
 struct treeroot *
 treewalk_open(const char *rootdir, enum treewalk_options options,
-              struct treewalk_funcs *funcs);
+              const struct treewalk_funcs *funcs);
 struct treenode *
 treewalk_node(struct treeroot *tree);
 struct treenode *
