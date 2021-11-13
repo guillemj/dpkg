@@ -159,7 +159,7 @@ if [ $option = multi_cd ]; then
     response=""
     while [ -z "$response" ]; do
       echo 'Several CD-ROMs (or other ISO9660 filesystems) are mounted:'
-      egrep 'type iso9660 \([^)]*\)$' <$tp.m | nl
+      grep -E 'type iso9660 \([^)]*\)$' <$tp.m | nl
       echo -n "Is it any of these ?  Type a number, or 'n' for none.  "
       read response
       response="$(echo \"$response\" | sed -e 's/[ 	]*$//')"
