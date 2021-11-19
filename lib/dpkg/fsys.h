@@ -139,7 +139,7 @@ struct fsys_namenode_queue {
  * files have entries in the filesdb database, and they refer to each other
  * via these diversion structures.
  *
- * The contested filename's fsys_namenode has an diversion entry with
+ * The contested filename's fsys_namenode has a diversion entry with
  * useinstead set to point to the redirected filename's fsys_namenode; the
  * redirected fsys_namenode has camefrom set to the contested fsys_namenode.
  * Both sides' diversion entries will have pkg set to the package (if any)

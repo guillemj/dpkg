@@ -183,7 +183,7 @@ sub parse_status {
 
 # This function checks the build dependencies passed in as the first
 # parameter. If they are satisfied, returns false. If they are unsatisfied,
-# an list of the unsatisfied depends is returned.
+# a list of the unsatisfied depends is returned.
 #
 # Additional parameters that must be passed:
 # * A reference to a hash of all "ok installed" the packages on the system,
