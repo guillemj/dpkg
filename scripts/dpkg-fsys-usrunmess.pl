@@ -383,7 +383,7 @@ POLICYRC
         or fatal("cannot select alternative $policypath");
 }
 
-debug('reconfigured all packages');
+debug('reconfiguring all packages');
 if (not $opt_noact) {
     local $ENV{DEBIAN_FRONTEND} = 'noninteractive';
     system(qw(dpkg --configure --pending)) == 0
