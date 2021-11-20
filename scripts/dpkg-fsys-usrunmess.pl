@@ -341,17 +341,21 @@ foreach my $dir (keys %deferred_dirnames) {
     $batch_size = 0;
 }
 
+my @dirs_linger;
+
 if (not $opt_noact) {
     foreach my $dirname (reverse sort keys %deferred_dirnames) {
-        rmdir $dirname
-            or sysfatal("cannot remove shadow directory $dirname");
+        next if rmdir $dirname;
+        warning("cannot remove shadow directory $dirname: $!");
+
+        push @dirs_linger, $dirname;
     }
 }
 
 if (not $opt_noact) {
     debug("cleaning up shadow root dir = $sroot");
     rmdir $sroot
-        or sysfatal("cannot remove shadow directory $sroot");
+        or warning("cannot remove shadow directory $sroot: $!");
 }
 
 #
@@ -402,6 +406,13 @@ if (not $opt_noact) {
 }
 
 print "\n";
+
+if (@dirs_linger) {
+    warning("lingering directories that could not be removed:");
+    foreach my $dir (@dirs_linger) {
+        warning("  $dir");
+    }
+}
 
 print "Done, hierarchy unmessed, congrats!\n";
 print "Rebooting now is very strongly advised.\n";
