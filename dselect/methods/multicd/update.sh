@@ -54,7 +54,9 @@ fi
 
 xit=1
 trap '
-  rm -f packages-{main,ctb,nf,lcl}
+  for area in main ctb nf lcl; do
+    rm -f packages-$area
+  done
   if [ -n "$umount" ]; then
     umount "$umount" >/dev/null 2>&1
   fi
