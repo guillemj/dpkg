@@ -541,7 +541,7 @@ ensure_package_owns_file() {
 internal_pkg_must_own_file()
 {
   local PACKAGE="$1"
-  local FILE="${2##$DPKG_ROOT}"
+  local FILE="${2##"$DPKG_ROOT"}"
 
   if [ "$DPKG_MAINTSCRIPT_HELPER_INTERNAL_API" != "$version" ]; then
     error "internal API used by external command"
