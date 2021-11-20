@@ -441,15 +441,15 @@ if (not $opt_noact) {
 
     # Restore the selections we saved initially.
     open my $altfh, '|-', qw(update-alternatives --set-selections)
-        or fatal("cannot restore alternatives state");
+        or fatal('cannot restore alternatives state');
     print { $altfh } $_ foreach @selections;
-    close $altfh or fatal("cannot restore alternatives state");
+    close $altfh or fatal('cannot restore alternatives state');
 }
 
 print "\n";
 
 if (@dirs_linger) {
-    warning("lingering directories that could not be removed:");
+    warning('lingering directories that could not be removed:');
     foreach my $dir (@dirs_linger) {
         warning("  $dir");
     }
