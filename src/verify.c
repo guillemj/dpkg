@@ -49,6 +49,7 @@ enum verify_result {
 struct verify_checks {
 	int exists_errno;
 	enum verify_result exists;
+	enum verify_result mode;
 	enum verify_result md5sum;
 };
 
@@ -82,6 +83,7 @@ verify_output_rpm(struct fsys_namenode *namenode, struct verify_checks *checks)
 		if (checks->exists_errno != ENOENT)
 			m_asprintf(&error, " (%s)", strerror(checks->exists_errno));
 	} else {
+		result[1] = verify_result_rpm(checks->mode, 'M');
 		result[2] = verify_result_rpm(checks->md5sum, '5');
 	}
 
@@ -157,6 +159,13 @@ verify_file(const char *filename, struct fsys_namenode *fnn,
 		fnn->newhash = fnn->oldhash;
 
 	if (fnn->newhash != NULL) {
+		/* Mode check heuristic: If we know its digest, the pathname
+		 * must be a regular file. */
+		if (!S_ISREG(st.st_mode)) {
+			checks->mode = VERIFY_FAIL;
+			failures++;
+		}
+
 		if (verify_digest(filename, fnn, checks) < 0)
 			failures++;
 	}
