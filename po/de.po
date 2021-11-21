@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.0~\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-11-20 20:36+0100\n"
-"PO-Revision-Date: 2021-11-20 20:50+0100\n"
+"POT-Creation-Date: 2021-11-21 11:33+0100\n"
+"PO-Revision-Date: 2021-11-21 18:37+0100\n"
 "Last-Translator: Sven Joachim <svenjoac@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -2093,73 +2093,85 @@ msgstr "Datei »%.255s« kann nicht synchronisiert werden"
 #: src/archives.c
 #, c-format
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
 "%s"
 msgstr ""
-"Abhängigkeitsproblem mit %s wird ignoriert:\n"
+"Abhängigkeitsproblem mit Installation von %s wird ignoriert:\n"
+"%s"
+
+#: src/archives.c
+#, c-format
+msgid ""
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"Nein, fortfahren mit Installation von %s nicht möglich (--auto-deconfigure "
+"wird helfen):\n"
+"%s"
+
+#: src/archives.c
+#, c-format
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
+"%s"
+msgstr ""
+"Abhängigkeitsproblem mit Entfernen von %s wird ignoriert:\n"
 "%s"
 
 #: src/archives.c
 #, c-format
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "Dekonfiguration des essenziellen Paketes %s\n"
-" wird in Betracht gezogen, um %s zu ermöglichen"
+" wird in Betracht gezogen, um Entfernen von %s zu ermöglichen"
 
 #: src/archives.c
 #, c-format
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "dpkg: Nein, %s ist essenziell, es wird nicht dekonfiguriert werden,\n"
-" um %s zu ermöglichen"
+" um Entfernen von %s zu ermöglichen"
 
 #: src/archives.c
 #, c-format
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "Dekonfiguration des geschützten Paketes %s\n"
-" wird in Betracht gezogen, um %s zu ermöglichen"
+" wird in Betracht gezogen, um Entfernen von %s zu ermöglichen"
 
 #: src/archives.c
 #, c-format
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "dpkg: Nein, %s ist geschützt, es wird nicht dekonfiguriert werden,\n"
-" um %s zu ermöglichen"
+" um Entfernen von %s zu ermöglichen"
 
 #: src/archives.c
 #, c-format
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
-"Nein, fortfahren mit %s nicht möglich (--auto-deconfigure wird helfen):\n"
+"Nein, fortfahren mit Entfernen von %s nicht möglich (--auto-deconfigure wird "
+"helfen):\n"
 "%s"
 
 #: src/archives.c
 #, c-format
-msgid "removal of %.250s"
-msgstr "Entfernen von %.250s"
-
-#: src/archives.c
-#, c-format
-msgid "installation of %.250s"
-msgstr "Installation von »%.250s«"
-
-#: src/archives.c
-#, c-format
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr ""
-"Dekonfiguration von %s wird in Betracht gezogen, welches durch %s beschädigt "
-"würde ..."
+"Dekonfiguration von %s wird in Betracht gezogen, welches durch Installation "
+"von %s beschädigt würde ..."
 
 #: src/archives.c
 #, c-format
@@ -3206,49 +3218,59 @@ msgstr[0] " %d Paket, aus folgendem Abschnitt:"
 msgstr[1] " %d Pakete, aus folgenden Abschnitten:"
 
 #: src/enquiry.c
-#, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"Version von dpkg mit funktionierender Unterstützung für %s ist noch nicht "
-"konfiguriert.\n"
-" Bitte benutzen Sie »dpkg --configure dpkg« und versuchen es danach erneut.\n"
+msgid "the Pre-Depends field"
+msgstr "das »Pre-Depends«-Feld"
 
 #: src/enquiry.c
-#, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr ""
-"dpkg ist nicht als installiert vermerkt, Unterstützung für %s kann nicht "
-"überprüft werden!\n"
+msgid "epochs in versions"
+msgstr "Epoche in Versionen"
 
 #: src/enquiry.c
-msgid "Pre-Depends field"
-msgstr "»Pre-Depends«-Feld"
-
-#: src/enquiry.c
-msgid "epoch"
-msgstr "Epochen"
-
-#: src/enquiry.c
-msgid "long filenames"
-msgstr "lange Dateinamen"
+msgid "long filenames in .deb archives"
+msgstr "lange Dateinamen in .deb-Archiven"
 
 #: src/enquiry.c
 msgid "multiple Conflicts and Replaces"
 msgstr "mehrere Kollisionen und Ersetzungen"
 
 #: src/enquiry.c
-msgid "multi-arch"
-msgstr "Multi-Arch"
+msgid "multi-arch fields and semantics"
+msgstr "»Multi-Arch«-Felder und Semantiken"
 
 #: src/enquiry.c
-msgid "versioned Provides"
-msgstr "Provides mit Version"
+msgid "versioned relationships in the Provides field"
+msgstr "versionierte Beziehungen im »Provides«-Feld"
 
 #: src/enquiry.c
-msgid "Protected field"
-msgstr "»Protected«-Feld"
+msgid "the Protected field"
+msgstr "das »Protected«-Feld"
+
+#: src/enquiry.c
+#, c-format
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "Version »%s« des laufenden dpkg kann nicht ausgewertet werden: %s"
+
+#: src/enquiry.c
+#, c-format
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"Laufende Version von dpkg unterstützt %s nicht.\n"
+" Bitte aktualisiern sie auf mindestens dpkg %s, und versuchen es danach "
+"erneut.\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+"%s-Zusicherungs-Optionen - zusichern, ob Funktionalitäten unterstützt "
+"werden:\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
+msgstr "unbekannte --%s-<Funktionalität>"
 
 #: src/enquiry.c
 #, c-format
@@ -3668,6 +3690,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3714,8 +3737,9 @@ msgstr ""
 "                                     entfernen.\n"
 "  --print-architecture             Architektur von dpkg ausgeben.\n"
 "  --print-foreign-architectures    Erlaubte fremde Architekturen ausgeben.\n"
-"  --assert-<Merkmal>               Unterstützung für das angegebene Merkmal\n"
-"                                   zusichern.\n"
+"  --assert-help                    Hilfe über Zusicherungen anzeigen.\n"
+"  --assert-<Funktionalität>        Unterstützung für die angegebene\n"
+"                                     Funktionalität zusichern.\n"
 "  --validate-<Sache> <Zeichenk.>   <Zeichenkette> einer <Sache> validieren.\n"
 "  --compare-versions <a> <op> <b>  Versionsnummern vergleichen - siehe "
 "unten.\n"
@@ -3732,17 +3756,6 @@ msgid ""
 msgstr ""
 "  -?, --help                       Diesen Hilfetext anzeigen.\n"
 "      --version                    Version anzeigen.\n"
-"\n"
-
-#: src/main.c
-#, c-format
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
-"\n"
-msgstr ""
-"Zusicherbare Merkmale: support-predepends, working-epoch, long-filenames,\n"
-"multi-conrep, multi-arch, versioned-provides, protected-field.\n"
 "\n"
 
 #: src/main.c
@@ -5020,8 +5033,13 @@ msgstr "De-konfigurieren von %s (%s), um %s (%s) entfernen zu können ...\n"
 
 #: src/unpack.c
 #, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "%s (%s) wird de-konfiguriert ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr "De-konfigurieren von %s (%s), um %s (%s) installieren zu können ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "De-konfigurieren von %s (%s), um %s (%s) konfigurieren zu können ...\n"
 
 #: src/unpack.c
 msgid "conffile file contains an empty line"
@@ -6415,8 +6433,10 @@ msgstr ""
 #, c-format
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -6431,8 +6451,10 @@ msgid ""
 "  --version                show the version.\n"
 msgstr ""
 "Optionen:\n"
-"  --altdir <Verzeichnis>   Alternativ-Verzeichnis ändern.\n"
-"  --admindir <Verzeichnis> administratives Verzeichnis ändern.\n"
+"  --altdir <Verzeichnis>   Alternativ-Verzeichnis ändern\n"
+"                             (Vorgabe ist %s).\n"
+"  --admindir <Verzeichnis> administratives Verzeichnis ändern\n"
+"                             (Vorgabe ist %s).\n"
 "  --instdir <Verzeichnis>  Installations-Verzeichnis ändern.\n"
 "  --root <Verzeichnis>     Wurzelverzeichnis des Dateisystems ändern.\n"
 "  --log <Datei>            Protokolldatei ändern.\n"
@@ -6479,7 +6501,8 @@ msgstr "An »%s« kann nicht angehängt werden"
 #: utils/update-alternatives.c
 #, c-format
 msgid "cannot get local time to log into '%s'"
-msgstr "Lokale Zeit kann nicht ermittelt werden, um sie in »%s« zu protokollieren"
+msgstr ""
+"Lokale Zeit kann nicht ermittelt werden, um sie in »%s« zu protokollieren"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6744,6 +6767,11 @@ msgstr ""
 msgid "alternative %s for %s not registered; not setting"
 msgstr "Alternative %s für %s ist nicht registriert; wird nicht gesetzt"
 
+#: utils/update-alternatives.c
+#, c-format
+msgid "there is no program which provides %s"
+msgstr "es gibt kein Programm, welches %s bereitstellt"
+
 # CHECKME: it -> »er« oder »sie« (Symlink oder Alternative)?
 #: utils/update-alternatives.c
 #, c-format
@@ -6809,13 +6837,23 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "Alternative %s nicht verändert, weil Auswahl %s nicht verfügbar ist."
+msgid "selecting alternative %s as auto"
+msgstr "Alternative %s wird als automatisch gewählt"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Unbekannte Alternative %s wird übersprungen."
+msgid "selecting alternative %s as choice %s"
+msgstr "Alternative %s wird als Auswahl %s gewählt"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "alternative %s unchanged because choice %s is not available"
+msgstr "Alternative %s nicht verändert, weil Auswahl %s nicht verfügbar ist"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "skip unknown alternative %s"
+msgstr "unbekannte Alternative %s wird übersprungen"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6824,8 +6862,8 @@ msgstr "Zeile zu lang oder nicht beendet beim Versuch, %s zu lesen"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip invalid line: %s"
-msgstr "Ungültige Zeile wird übersprungen: %s"
+msgid "skip invalid selection line: %s"
+msgstr "ungültige Auswahlzeile wird übersprungen: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6975,6 +7013,44 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "Authentifizierung ist erforderlich, um update-alternatives auszuführen"
+
+#, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "Entfernen von %.250s"
+
+#, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "Installation von »%.250s«"
+
+#, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr ""
+#~ "dpkg ist nicht als installiert vermerkt, Unterstützung für %s kann nicht "
+#~ "überprüft werden!\n"
+
+#~ msgid "epoch"
+#~ msgstr "Epochen"
+
+#~ msgid "multi-arch"
+#~ msgstr "Multi-Arch"
+
+#~ msgid "versioned Provides"
+#~ msgstr "Provides mit Version"
+
+#, c-format
+#~ msgid ""
+#~ "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Zusicherbare Merkmale: support-predepends, working-epoch, long-"
+#~ "filenames,\n"
+#~ "multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+
+#, c-format
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "%s (%s) wird de-konfiguriert ...\n"
 
 #~ msgid ""
 #~ "need --display, --query, --list, --get-selections, --config, --set, --set-"
@@ -7132,9 +7208,6 @@ msgstr "Authentifizierung ist erforderlich, um update-alternatives auszuführen"
 
 #~ msgid "failed to chdir to `/' for cleanup"
 #~ msgstr "Wechsel nach »/« zum Aufräumen fehlgeschlagen"
-
-#~ msgid "cannot extract package field value from '%s': %s"
-#~ msgstr "Paket-Feldwert kann nicht aus »%s« extrahiert werden: %s"
 
 #~ msgid "file name '%.50s...' is too long"
 #~ msgstr "Dateiname »%.50s...« ist zu lang"
