@@ -865,12 +865,16 @@ sub field_parse_binary_source($) {
 
     if ($ctrl_type != CTRL_INDEX_PKG and
         $ctrl_type != CTRL_PKG_DEB and
+        $ctrl_type != CTRL_FILE_CHANGES and
+        $ctrl_type != CTRL_FILE_BUILDINFO and
         $ctrl_type != CTRL_FILE_STATUS) {
         return;
     }
 
     my ($source, $version);
 
+    # For .changes and .buildinfo the Source field always exists,
+    # and there is no Package field.
     if (exists $ctrl->{'Source'}) {
         $source = $ctrl->{'Source'};
         if ($source =~ m/^([^ ]+) +\(([^)]*)\)$/) {
