@@ -243,7 +243,7 @@ md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
     if (conff) {
       strcpy(oldhash, conff->hash);
       debug(dbg_conffdetail,
-            "tarobject found shared conffile, from pkg %s (%s); hash=%s",
+            "tarobject found shared conffile, from pkg %s (%s); digest=%s",
             pkg_name(otherpkg, pnaw_always),
             pkg_status_name(otherpkg), oldhash);
       break;
@@ -256,7 +256,7 @@ md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
   if (otherpkg == NULL) {
     md5hash(pkg, oldhash, oldname);
     debug(dbg_conffdetail,
-          "tarobject found shared conffile, from disk; hash=%s", oldhash);
+          "tarobject found shared conffile, from disk; digest=%s", oldhash);
   }
 }
 
@@ -380,7 +380,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
              path_quote_filename(fnamebuf, te->name, 256),
              path_quote_filename(fnamenewbuf, fnamenewvb.buf, 256), err.str);
     namenode->newhash = newhash;
-    debug(dbg_eachfiledetail, "tarobject file hash=%s", namenode->newhash);
+    debug(dbg_eachfiledetail, "tarobject file digest=%s", namenode->newhash);
 
     tarobject_skip_padding(tc, te);
 
@@ -433,7 +433,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
     if (link(hardlinkfn.buf, path))
       ohshite(_("error creating hard link '%.255s'"), te->name);
     namenode->newhash = linknode->newhash;
-    debug(dbg_eachfiledetail, "tarobject hardlink hash=%s", namenode->newhash);
+    debug(dbg_eachfiledetail, "tarobject hardlink digest=%s", namenode->newhash);
     break;
   case TAR_FILETYPE_SYMLINK:
     /* We've already checked for an existing directory. */
@@ -463,18 +463,18 @@ tarobject_hash(struct tarcontext *tc, struct tar_entry *te,
 
     newhash = nfmalloc(MD5HASHLEN + 1);
     if (fd_md5(tc->backendpipe, newhash, te->size, &err) < 0)
-      ohshit(_("cannot compute MD5 hash for tar file '%.255s': %s"),
+      ohshit(_("cannot compute MD5 digest for file '%.255s' in tar archive: %s"),
              path_quote_filename(fnamebuf, te->name, 256), err.str);
     tarobject_skip_padding(tc, te);
 
     namenode->newhash = newhash;
-    debug(dbg_eachfiledetail, "tarobject file hash=%s", namenode->newhash);
+    debug(dbg_eachfiledetail, "tarobject file digest=%s", namenode->newhash);
   } else if (te->type == TAR_FILETYPE_HARDLINK) {
     struct fsys_namenode *linknode;
 
     linknode = fsys_hash_find_node(te->linkname, 0);
     namenode->newhash = linknode->newhash;
-    debug(dbg_eachfiledetail, "tarobject hardlink hash=%s", namenode->newhash);
+    debug(dbg_eachfiledetail, "tarobject hardlink digest=%s", namenode->newhash);
   }
 }
 
@@ -956,7 +956,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
   /* Compute the hash of the previous object, before we might replace it
    * with the new version on forced overwrites. */
   if (refcounting) {
-    debug(dbg_eachfiledetail, "tarobject hashing on-disk file '%s', refcounting",
+    debug(dbg_eachfiledetail, "tarobject computing on-disk file '%s' digest, refcounting",
           fnamevb.buf);
     if (nifd->namenode->flags & FNNF_NEW_CONFF) {
       md5hash_prev_conffile(tc->pkg, oldhash, fnamenewvb.buf, nifd->namenode);

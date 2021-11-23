@@ -851,14 +851,14 @@ md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn)
 	if (fd >= 0) {
 		push_cleanup(cu_closefd, ehflag_bombout, 1, &fd);
 		if (fd_md5(fd, hashbuf, -1, &err) < 0)
-			ohshit(_("cannot compute MD5 hash for file '%s': %s"),
+			ohshit(_("cannot compute MD5 digest for file '%s': %s"),
 			       fn, err.str);
 		pop_cleanup(ehflag_normaltidy); /* fd = open(cdr.buf) */
 		close(fd);
 	} else if (errno == ENOENT) {
 		strcpy(hashbuf, NONEXISTENTFLAG);
 	} else {
-		warning(_("%s: unable to open %s for hash: %s"),
+		warning(_("%s: unable to open %s to compute its digest: %s"),
 		        pkg_name(pkg, pnaw_nonambig), fn, strerror(errno));
 		strcpy(hashbuf, EMPTYHASHFLAG);
 	}
