@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.20.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2021-11-22 18:56+0100\n"
-"PO-Revision-Date: 2021-11-22 20:55+0100\n"
+"PO-Revision-Date: 2021-11-23 18:30+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -15190,6 +15190,8 @@ msgid ""
 "Ignore the version number when the entries are marked as B<UNRELEASED> "
 "(since dpkg 1.21.0)."
 msgstr ""
+"Ignoriert die Versionsnummer, wenn die Einträge als B<UNRELEASED> markiert "
+"sind (seit Dpkg 1.21.0)."
 
 #. type: textblock
 #: dpkg-mergechangelogs.pod
@@ -15200,6 +15202,11 @@ msgid ""
 "end with a coalesced entry for 2.3-1 including all the development done in "
 "2.2-1."
 msgstr ""
+"Dies ist nützlich, wenn Sie auseinanderlaufende Entwicklungen für Versionen "
+"haben, die noch nicht veröffentlicht wurden. Beispielsweise wurde die 2.1-1 "
+"Instanz veröffentlicht, dann passiert die Entwicklung für die neue 2.2-1 und "
+"dann 2.3-1, wo es dann Sinn ergibt, nur in einem vereinigten Eintrag für 2.3-"
+"1 zu enden, der sämtliche in 2.2-1 vorgenommene Entwicklung enthält."
 
 #. type: =item
 #: dpkg-mergechangelogs.pod
@@ -16247,6 +16254,9 @@ msgid ""
 "Each file diversion is printed on its own line after its diverted file, "
 "prefixed with one of the following localized strings:"
 msgstr ""
+"Jede Dateiumleitung wird auf seiner eigenen Zeile nach der umgeleiteten "
+"Datei ausgegeben, wobei eine der folgenden lokalisierten Zeichenketten "
+"vorangestellt wird:"
 
 #. type: verbatim
 #: dpkg-query.pod
@@ -16258,6 +16268,11 @@ msgid ""
 "  diverted by I<pkg> to: I<diverted-to>\n"
 "\n"
 msgstr ""
+"Z<>\n"
+"  lokal umgeleitet zu: I<umgeleitet-zu>\n"
+"  Paket leitet andere um zu: I<umgeleitet-zu>\n"
+"  umgeleitet durch I<Paket> zu: I<umgeleitet-zu>\n"
+"\n"
 
 #. type: textblock
 #: dpkg-query.pod
@@ -16265,6 +16280,8 @@ msgid ""
 "Hint: When machine parsing the output, it is customary to set the locale to "
 "B<C.UTF-8> to get reproducible results."
 msgstr ""
+"Tipp: Wenn Maschinen die Ausgabe auswerten, ist es üblich, die Locale auf "
+"B<C.UTF-8> zu setzen, um reproduzierbare Ausgaben zu erhalten."
 
 #. type: textblock
 #: dpkg-query.pod
@@ -16407,6 +16424,8 @@ msgstr ""
 #: dpkg-query.pod
 msgid "File diversions are printed with the following localized strings:"
 msgstr ""
+"Dateiumleitungen werden mit den folgenden lokalisierten Zeichenketten "
+"ausgegeben:"
 
 #. type: verbatim
 #: dpkg-query.pod
@@ -16417,6 +16436,10 @@ msgid ""
 "  diversion by I<pkgname> to: I<diverted-to>\n"
 "\n"
 msgstr ""
+"Z<>\n"
+"  Umleitung durch I<Paketname> von: I<umgeleitet-von>\n"
+"  Umleitung durch I<Paketname> zu: I<umgeleitet-zu>\n"
+"\n"
 
 #. type: textblock
 #: dpkg-query.pod
@@ -16432,6 +16455,10 @@ msgid ""
 "  local diversion to: I<diverted-to>\n"
 "\n"
 msgstr ""
+"Z<>\n"
+"  lokale Umleitung von: I<umgeleitet-von>\n"
+"  lokale Umleitung zu: I<umgeleitet-zu>\n"
+"\n"
 
 #. type: =item
 #: dpkg-query.pod
@@ -23400,6 +23427,10 @@ msgid ""
 " B<??5??????> [B<c>] I<pathname>\n"
 "\n"
 msgstr ""
+"Z<>\n"
+" B<missing  > [B<c>] I<Pfadname> [B<(>I<Fehlermeldung>B<)>]\n"
+" B<??5??????> [B<c>] I<Pfadname>\n"
+"\n"
 
 #. type: textblock
 #: dpkg.pod
@@ -23409,32 +23440,39 @@ msgid ""
 "fetched, or one of the following special characters that report the result "
 "for each check:"
 msgstr ""
+"Die ersten 9 Zeichen werden zum Berichten des Überprüfungsergebnisses "
+"verwandt, entweder ein wörtliches B<missing>, wenn die Datei nicht vorhanden "
+"ist oder seine Metadaten nicht abgerufen werden können, oder eines der "
+"folgenden besonderen Zeichen, das das Ergebnis für jede Überprüfung "
+"berichtet:"
 
 #. type: =item
 #: dpkg.pod
 msgid "‘B<?>’"
-msgstr "‘B<?>’"
+msgstr "‚B<?>‘"
 
 #. type: textblock
 #: dpkg.pod
 msgid ""
 "Implies the check could not be done (lack of support, file permissions, etc)."
 msgstr ""
+"Impliziert, dass die Überprüfung nicht erfolgen konnte (Unterstützung fehlt, "
+"Dateiberechtigungen usw.)"
 
 #. type: =item
 #: dpkg.pod
 msgid "‘B<.>’"
-msgstr "‘B<.>’"
+msgstr "‚B<.>‘"
 
 #. type: textblock
 #: dpkg.pod
 msgid "Implies the check passed."
-msgstr ""
+msgstr "Impliziert, dass die Überprüfung erfolgreich war."
 
 #. type: =item
 #: dpkg.pod
 msgid "‘I<A-Za-z0-9>’"
-msgstr "‘I<A-Za-z0-9>’"
+msgstr "‚I<A-Za-z0-9>‘"
 
 #. type: textblock
 #: dpkg.pod
@@ -23442,21 +23480,25 @@ msgid ""
 "Implies a specific check failed.  The following positions and alphanumeric "
 "characters are currently supported:"
 msgstr ""
+"Impliziert, dass eine bestimmte Prüfung fehlschlug. Die folgenden Positionen "
+"und alphanumerischen Zeichen werden derzeit unterstützt:"
 
 #. type: =item
 #: dpkg.pod
 msgid "1 ‘B<?>’"
-msgstr "1 ‘B<?>’"
+msgstr "1 ‚B<?>‘"
 
 #. type: textblock
 #: dpkg.pod
 msgid "These checks are currently not supported, will always be ‘B<?>’."
 msgstr ""
+"Diese Überprüfungen werden derzeit nicht unterstützt, sie werden immer "
+"‚B<?>‘ sein."
 
 #. type: =item
 #: dpkg.pod
 msgid "2 ‘B<M>’"
-msgstr "2 ‘B<M>’"
+msgstr "2 ‚B<M>‘"
 
 #. type: textblock
 #: dpkg.pod
@@ -23465,21 +23507,26 @@ msgid ""
 "applies to regular files that have a known digest, and on the filesystem are "
 "not regular files."
 msgstr ""
+"Die Dateimodusüberprüfung schlug fehl (seit Dpkg 1.21.0). Die Überprüfung "
+"wird momentan nur auf reguläre Dateien angewandt, die einen bekannten Hash "
+"haben und auf dem Dateisystem sind keine regulären Dateien."
 
 #. type: =item
 #: dpkg.pod
 msgid "3 ‘B<5>’"
-msgstr "3 ‘B<5>’"
+msgstr "3 ‚B<5>‘"
 
 #. type: textblock
 #: dpkg.pod
 msgid "The digest check failed, which means the file contents have changed."
 msgstr ""
+"Die Hashüberprüfung schlug fehl, was bedeutet, dass sich der Inhalt geändert "
+"hat."
 
 #. type: =item
 #: dpkg.pod
 msgid "4-9 ‘B<?>’"
-msgstr "4-9 ‘B<?>’"
+msgstr "4-9 ‚B<?>‘"
 
 #. type: textblock
 #: dpkg.pod
@@ -23487,11 +23534,13 @@ msgid ""
 "The line is followed by a space and an attribute character.  The following "
 "attribute character is supported:"
 msgstr ""
+"Dieser Zeile folgt ein Leerzeichen und ein Attributszeichen. Das folgende "
+"Attributszeichen wird unterstützt:"
 
 #. type: =item
 #: dpkg.pod
 msgid "‘B<c>’"
-msgstr "‘B<c>’"
+msgstr "‚B<c>‘"
 
 #. type: textblock
 #: dpkg.pod
@@ -23501,7 +23550,7 @@ msgstr "Der Pfadname ist ein Conffile."
 #. type: textblock
 #: dpkg.pod
 msgid "Finally followed by another space and the pathname."
-msgstr ""
+msgstr "Schließlich folgt ein weiteres Leerzeichen und der Pfadname."
 
 #. type: textblock
 #: dpkg.pod
@@ -23510,6 +23559,9 @@ msgid ""
 "present on the filesystem, then the line is followed by a space and the "
 "error message enclosed within parenthesis."
 msgstr ""
+"Falls der Eintrag vom Typ B<missing> und die Datei nicht wirklich auf dem "
+"Dateisystem vorhanden war, dann folgt der Zeile ein Leerzeichen und die in "
+"Klammern eingeschlossene Fehlermeldung."
 
 #. type: =item
 #: dpkg.pod
