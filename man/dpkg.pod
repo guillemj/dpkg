@@ -980,8 +980,12 @@ These checks are currently not supported, will always be ‘B<?>’.
 =item 2 ‘B<M>’
 
 The file mode check failed (since dpkg 1.21.0).
-This check currently only applies to regular files that have a known digest,
-and on the filesystem are not regular files.
+Because pathname metadata is currently not tracked, this check can only be
+partially emulated via a very simple heuristic for pathnames that have a
+known digest, which implies they should be regular files, where the check
+will fail if the pathname is not a regular file on the filesystem.
+This check will currently never succeed as it does not have enough
+information available.
 
 =item 3 ‘B<5>’
 
