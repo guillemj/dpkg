@@ -54,8 +54,8 @@ sub run_hook {
         # https://wiki.ubuntu.com/DebianMaintainerField
         if (defined($fields->{'Version'}) and defined($fields->{'Maintainer'}) and
            $fields->{'Version'} =~ /ubuntu/) {
-           if ($fields->{'Maintainer'} !~ /ubuntu/i) {
-               if (length $ENV{DEBEMAIL} and $ENV{DEBEMAIL} =~ /\@ubuntu\.com/) {
+           if ($fields->{'Maintainer'} !~ /(?:ubuntu|canonical)/i) {
+               if (length $ENV{DEBEMAIL} and $ENV{DEBEMAIL} =~ /\@(?:ubuntu|canonical)\.com/) {
                    error(g_('Version number suggests Ubuntu changes, but Maintainer: does not have Ubuntu address'));
                } else {
                    warning(g_('Version number suggests Ubuntu changes, but Maintainer: does not have Ubuntu address'));
