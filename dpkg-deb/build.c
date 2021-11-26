@@ -282,7 +282,7 @@ check_conffiles(const char *ctrldir, const char *rootdir)
       ohshit(_("conffile name '%s' is too long, or missing final newline"),
              conffilename);
 
-    conffilename[n - 1] = '\0';
+    conffilename[--n] = '\0';
 
     if (c_isspace(conffilename[0])) {
       /* The conffiles lines cannot start with whitespace; by handling this
@@ -301,8 +301,10 @@ check_conffiles(const char *ctrldir, const char *rootdir)
       char *flag = conffilename;
       char *flag_end = strchr(flag, ' ');
 
-      if (flag_end)
+      if (flag_end) {
         conffilename = flag_end + 1;
+        n -= conffilename - flag;
+      }
 
       /* If no flag separator is found, assume a missing leading slash. */
       if (flag_end == NULL || (conffilename[0] && conffilename[0] != '/'))
@@ -324,7 +326,7 @@ check_conffiles(const char *ctrldir, const char *rootdir)
     varbuf_printf(&controlfile, "%s%s", rootdir, conffilename);
     if (lstat(controlfile.buf, &controlstab)) {
       if (errno == ENOENT) {
-        if ((n > 1) && c_isspace(conffilename[n - 2]))
+        if ((n > 1) && c_isspace(conffilename[n - 1]))
           warning(_("conffile filename '%s' contains trailing white spaces"),
                   conffilename);
         if (!remove_on_upgrade)
