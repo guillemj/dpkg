@@ -1495,7 +1495,7 @@ int
 archivefiles(const char *const *argv)
 {
   const char *const *volatile argp;
-  const char **volatile arglist = NULL;
+  char **volatile arglist = NULL;
   int i;
   jmp_buf ejbuf;
   enum modstatdb_rw msdbflags;
@@ -1553,7 +1553,7 @@ archivefiles(const char *const *argv)
       ohshit(_("searched, but found no packages (files matching *.deb)"));
 
     arglist[nfiles] = NULL;
-    argp= arglist;
+    argp = (const char **volatile)arglist;
   } else {
     if (!*argv) badusage(_("--%s needs at least one package archive file argument"),
                          cipaction->olong);
@@ -1612,7 +1612,11 @@ archivefiles(const char *const *argv)
 
   dpkg_selabel_close();
 
-  free(arglist);
+  if (arglist) {
+    for (i = 0; arglist[i]; i++)
+      free(arglist[i]);
+    free(arglist);
+  }
 
   switch (cipaction->arg_int) {
   case act_install:
