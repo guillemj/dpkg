@@ -16,7 +16,7 @@ TEST_CASES += test-same-include-exclude
 TEST_CASES += test-upgrade test-help
 
 build-hook:
-	ln -fs pkg-somefiles pkg-somefiles/test/share/doc/pkg-symlinked
+	ln -fsT pkg-somefiles pkg-somefiles/test/share/doc/pkg-symlinked
 
 clean-hook:
 	$(RM) pkg-somefiles/test/share/doc/pkg-symlinked
