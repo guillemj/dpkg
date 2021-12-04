@@ -61,6 +61,7 @@ EXTRA_DIST = \
 	build-aux/get-version \
 	build-aux/lcov-inject \
 	build-aux/run-script \
+	build-aux/test-runner \
 	doc/coding-style.txt \
 	debian/README.bug-usertags \
 	debian/bug-script \
