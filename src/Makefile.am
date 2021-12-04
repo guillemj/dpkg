@@ -6,6 +6,7 @@ AM_CPPFLAGS = \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib \
+	-I$(srcdir)/common \
 	# EOL
 LDADD = \
 	../lib/dpkg/libdpkg.la \
@@ -19,36 +20,43 @@ EXTRA_DIST = \
 
 bin_PROGRAMS = \
 	dpkg \
+	dpkg-deb \
 	dpkg-divert \
 	dpkg-query \
+	dpkg-split \
 	dpkg-statoverride \
 	dpkg-trigger \
 	# EOL
 
 dpkg_SOURCES = \
-	actions.h \
-	archives.c archives.h \
-	cleanup.c \
-	configure.c \
-	depcon.c \
-	enquiry.c \
-	errors.c \
-	file-match.c file-match.h \
-	filters.c filters.h \
-	force.c force.h \
-	help.c \
-	main.c main.h \
-	packages.c \
-	perpkgstate.c \
-	remove.c \
-	script.c \
-	security-mac.h \
-	select.c \
-	selinux.c \
-	trigproc.c \
-	unpack.c \
-	update.c \
-	verify.c \
+	common/actions.h \
+	common/force.c \
+	common/force.h \
+	common/security-mac.h \
+	common/selinux.c \
+	main/archives.c \
+	main/archives.h \
+	main/cleanup.c \
+	main/configure.c \
+	main/depcon.c \
+	main/enquiry.c \
+	main/errors.c \
+	main/file-match.c \
+	main/file-match.h \
+	main/filters.c \
+	main/filters.h \
+	main/help.c \
+	main/main.c \
+	main/main.h \
+	main/packages.c \
+	main/perpkgstate.c \
+	main/remove.c \
+	main/script.c \
+	main/select.c \
+	main/trigproc.c \
+	main/unpack.c \
+	main/update.c \
+	main/verify.c \
 	# EOL
 
 dpkg_LDADD = \
@@ -56,21 +64,46 @@ dpkg_LDADD = \
 	$(SELINUX_LIBS) \
 	# EOL
 
+dpkg_deb_SOURCES = \
+	deb/dpkg-deb.h \
+	deb/build.c \
+	deb/extract.c \
+	deb/info.c \
+	deb/main.c \
+	# EOL
+
+dpkg_deb_LDADD = \
+	$(LDADD) \
+	$(Z_LIBS) \
+	$(LZMA_LIBS) \
+	$(BZ2_LIBS) \
+	# EOL
+
 dpkg_divert_SOURCES = \
-	divertcmd.c \
+	divert/main.c \
 	# EOL
 
 dpkg_query_SOURCES = \
-	actions.h \
-	querycmd.c \
+	common/actions.h \
+	query/main.c \
+	# EOL
+
+dpkg_split_SOURCES = \
+	split/dpkg-split.h \
+	split/info.c \
+	split/join.c \
+	split/main.c \
+	split/queue.c \
+	split/split.c \
 	# EOL
 
 dpkg_statoverride_SOURCES = \
-	actions.h \
-	force.c force.h \
-	security-mac.h \
-	selinux.c \
-	statcmd.c \
+	common/actions.h \
+	common/force.c \
+	common/force.h \
+	common/security-mac.h \
+	common/selinux.c \
+	statoverride/main.c \
 	# EOL
 
 dpkg_statoverride_LDADD = \
@@ -79,12 +112,13 @@ dpkg_statoverride_LDADD = \
 	# EOL
 
 dpkg_trigger_SOURCES = \
-	trigcmd.c \
+	trigger/main.c \
 	# EOL
 
 install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(pkgconfdir)/dpkg.cfg.d
 	$(MKDIR_P) $(DESTDIR)$(admindir)/info
+	$(MKDIR_P) $(DESTDIR)$(admindir)/parts
 	$(MKDIR_P) $(DESTDIR)$(admindir)/updates
 
 test_tmpdir = t.tmp

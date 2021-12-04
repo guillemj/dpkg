@@ -6,8 +6,6 @@ endif
 
 SUBDIRS = \
 	lib \
-	dpkg-deb \
-	dpkg-split \
 	src \
 	utils \
 	$(MAYBE_DSELECT) \

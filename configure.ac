@@ -24,6 +24,7 @@ AM_INIT_AUTOMAKE(
   [-Wall]
   [foreign]
   [nostdinc]
+  [subdir-objects]
   [tar-ustar no-dist-gzip dist-xz]
 )
 AM_SILENT_RULES([yes])
@@ -230,8 +231,6 @@ AC_CONFIG_FILES([
   Makefile
   t-func/Makefile
   t-func/atlocal
-  dpkg-deb/Makefile
-  dpkg-split/Makefile
   dselect/Makefile
   dselect/methods/Makefile
   dselect/po/Makefile.in
