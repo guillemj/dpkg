@@ -15,7 +15,7 @@ AC_DEFUN([DPKG_BUILD_SHARED_LIBS], [
 # -----------------------
 AC_DEFUN([DPKG_BUILD_RELEASE_DATE], [
   AC_REQUIRE([DPKG_PROG_PERL])
-  TIMESTAMP=$(PERL=$PERL ${CONFIG_SHELL-/bin/sh} "$srcdir/run-script" scripts/dpkg-parsechangelog.pl -l"$srcdir/debian/changelog" -STimestamp)
+  TIMESTAMP=$(PERL=$PERL ${CONFIG_SHELL-/bin/sh} "$srcdir/build-aux/run-script" scripts/dpkg-parsechangelog.pl -l"$srcdir/debian/changelog" -STimestamp)
   PACKAGE_RELEASE_DATE=$($PERL -MPOSIX -e "print POSIX::strftime('%Y-%m-%d', gmtime('$TIMESTAMP'));")
   AC_SUBST([PACKAGE_RELEASE_DATE])
 ])# DPKG_BUILD_RELEASE_DATE

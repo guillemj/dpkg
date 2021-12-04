@@ -60,11 +60,11 @@ EXTRA_DIST = \
 	ChangeLog.old \
 	README.l10n \
 	autogen \
-	gen-changelog \
-	get-version \
-	run-script \
+	build-aux/gen-changelog \
+	build-aux/get-version \
+	build-aux/lcov-inject \
+	build-aux/run-script \
 	doc/coding-style.txt \
-	doc/lcov-inject.pl \
 	debian/README.bug-usertags \
 	debian/bug-script \
 	debian/changelog \
@@ -128,7 +128,7 @@ LCOV_CAPTURE_OPTS = $(LCOV_OPTS) --no-recursion \
 	-d $(top_builddir)/src \
 	-d $(top_builddir)/utils \
 	# EOL
-LCOV_INJECT = $(PERL) -i $(top_srcdir)/doc/lcov-inject.pl
+LCOV_INJECT = $(PERL) -i $(top_srcdir)/build-aux/lcov-inject
 
 coverage: all
 	: # Remove coverage data from any previous run
@@ -201,7 +201,7 @@ TEST_ENV_VARS = \
 	DPKG_DATADIR=$(abs_top_srcdir)/data \
 	# EOL
 
-include $(top_srcdir)/check.am
+include $(top_srcdir)/build-aux/check.am
 
 .PHONY: update-po
 
@@ -211,7 +211,7 @@ update-po:
 	$(MAKE) -C dselect/po update-po
 	$(MAKE) -C man update-po
 
-include $(top_srcdir)/cpan.am
+include $(top_srcdir)/build-aux/cpan.am
 
 # If we create the dist tarball from the git repository, make sure
 # that we're not forgetting some files, and we are not storing any symlink

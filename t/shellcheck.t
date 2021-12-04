@@ -33,8 +33,8 @@ my @todofiles = qw(
 );
 my @files = qw(
     autogen
-    get-version
-    run-script
+    build-aux/get-version
+    build-aux/run-script
     debian/dpkg.cron.daily
     debian/dpkg.postrm
     scripts/dpkg-db-backup.sh

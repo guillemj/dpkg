@@ -80,6 +80,6 @@ check_PROGRAMS = \
 
 test_tmpdir = t.tmp
 
-include $(top_srcdir)/check.am
+include $(top_srcdir)/build-aux/check.am
 
 clean-local: check-clean

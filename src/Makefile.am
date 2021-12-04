@@ -93,6 +93,6 @@ test_scripts = \
 	t/dpkg_divert.t \
 	# EOL
 
-include $(top_srcdir)/check.am
+include $(top_srcdir)/build-aux/check.am
 
 clean-local: check-clean

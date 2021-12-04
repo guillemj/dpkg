@@ -96,6 +96,6 @@ test_scripts = \
 	t/update_alternatives.t \
 	# EOL
 
-include $(top_srcdir)/check.am
+include $(top_srcdir)/build-aux/check.am
 
 clean-local: check-clean

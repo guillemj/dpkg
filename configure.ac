@@ -3,8 +3,9 @@
 m4_pattern_forbid([^_?DPKG_])
 
 AC_PREREQ(2.60)
-AC_INIT([dpkg], m4_esyscmd([./get-version]), [debian-dpkg@lists.debian.org],
-        [dpkg], [https://wiki.debian.org/Teams/Dpkg])
+AC_INIT([dpkg], m4_esyscmd([build-aux/get-version]),
+        [debian-dpkg@lists.debian.org], [dpkg],
+        [https://wiki.debian.org/Teams/Dpkg])
 DPKG_DIST_IS_RELEASE
 AC_SUBST([PACKAGE_COPYRIGHT_HOLDER], ['Dpkg Developers'])
 AC_SUBST([PACKAGE_VCS_TYPE], [git])
