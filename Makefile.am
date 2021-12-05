@@ -217,7 +217,7 @@ include $(top_srcdir)/cpan.am
 dist-hook: dist-cpan
 	echo $(VERSION) >$(distdir)/.dist-version
 	if [ -e .git ]; then \
-	  for file in `git ls-tree | grep ^12 | grep -v t/origins/default`; do \
+	  for file in `git ls-tree -r HEAD | grep ^12 | grep -v t/origins/default`; do \
 	    echo "$$file is a symlink packed as a file on the dist tar" >&2 ; \
 	    exit 1 ; \
 	  done ; \
