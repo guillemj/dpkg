@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-05 16:32+0100\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -1149,6 +1149,12 @@ msgstr "लग खोल्न सकेन `%s': %s\n"
 #: lib/dpkg/log.c
 #, fuzzy, c-format
 #| msgid "cannot stat old name `%s': %s"
+msgid "cannot get local time to log into '%s': %s"
+msgstr "पुरानो नाम `%s' तोक्न सकिदैन: %s"
+
+#: lib/dpkg/log.c
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
 msgid "cannot write to log file '%s': %s"
 msgstr "पुरानो नाम `%s' तोक्न सकिदैन: %s"
 
@@ -1998,7 +2004,7 @@ msgstr "डाइरेक्टरी `%.255s' सिर्जना गर्�
 #: src/archives.c
 #, fuzzy, c-format
 #| msgid "cannot open archive part file `%.250s'"
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
 msgstr "सङ्ग्रह भाग फाइल `%.250s' खोल्न सकिदैन"
 
 #: src/archives.c
@@ -2153,7 +2159,25 @@ msgstr "`%.255s' बफर बन्द गर्न अक्षम"
 #: src/archives.c
 #, fuzzy, c-format
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
+"%s"
+msgstr ""
+"dpkg: चेतावनी - %s को हटाउने सँग निर्भरता समस्या अवज्ञा गर्दै:\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+msgid ""
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"dpkg: होइन, %s हटाउन सक्दैन (--स्वत डिकन्फिगरले मद्दत गर्नेछ):\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
 "%s"
 msgstr ""
 "dpkg: चेतावनी - %s को हटाउने सँग निर्भरता समस्या अवज्ञा गर्दै:\n"
@@ -2163,7 +2187,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "dpkg: चेतावनी - अत्यावश्यक\n"
 " प्याकेज %s को डिकन्फिगरेसन ध्यान दिदै , %sको हटाउने सक्षम पार्न ।\n"
@@ -2172,7 +2196,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "dpkg: होइन, %s आवश्यक छैन, डिकन्फिगर गरिएको छैन\n"
 "यो हटाउने %s को सक्षम गर्न  क्रममा छ ।\n"
@@ -2181,7 +2205,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "dpkg: चेतावनी - अत्यावश्यक\n"
 " प्याकेज %s को डिकन्फिगरेसन ध्यान दिदै , %sको हटाउने सक्षम पार्न ।\n"
@@ -2190,7 +2214,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "dpkg: होइन, %s आवश्यक छैन, डिकन्फिगर गरिएको छैन\n"
 "यो हटाउने %s को सक्षम गर्न  क्रममा छ ।\n"
@@ -2198,7 +2222,7 @@ msgstr ""
 #: src/archives.c
 #, fuzzy, c-format
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "dpkg: होइन, %s हटाउन सक्दैन (--स्वत डिकन्फिगरले मद्दत गर्नेछ):\n"
@@ -2206,17 +2230,9 @@ msgstr ""
 
 #: src/archives.c
 #, fuzzy, c-format
-msgid "removal of %.250s"
-msgstr "%.250s मा त्रुटि पढ्नुहोस्"
-
-#: src/archives.c
-#, fuzzy, c-format
-msgid "installation of %.250s"
-msgstr "`%.255s' को नयाँ संस्करण स्थापना गर्न अक्षम"
-
-#: src/archives.c
-#, fuzzy, c-format
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr "dpkg: %sको पक्षमा %s हटाउन विचार गर्दै ...\n"
 
 #: src/archives.c
@@ -2559,34 +2575,6 @@ msgstr ""
 
 #: src/configure.c
 #, fuzzy, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: ले '%s %s' कार्यान्वयन गर्न असफल"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "हटाउँदैछ %s ...\n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
-msgid "Saving as %s ...\n"
-msgstr "हटाउँदैछ %s ...\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "cannot stat new name `%s': %s"
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "नयाँ नाम `%s' तोक्न सकिदैन: %s"
-
-#: src/configure.c
-#, fuzzy, c-format
 #| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "नयाँ वितरण कन्फफाइल `%.250s' तोक्न अक्षम"
@@ -2616,6 +2604,11 @@ msgstr "dpkg: %s: चेतावनी - पुरानो जगेडा ह
 #, fuzzy, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "dpkg: %s: चेतावनी - नाम फेर्न असफल`%.250s' to `%.250s': %s\n"
+
+#: src/configure.c src/unpack.c
+#, fuzzy, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: ले '%s %s' कार्यान्वयन गर्न असफल"
 
 #: src/configure.c
 #, fuzzy, c-format
@@ -2765,15 +2758,15 @@ msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 "dpkg: %s: चेतावनी - कन्फफाइल `%.250s' एउटा सादा फाइल वा सिमलिङ्क होइन (= `%s')\n"
 
-#: src/configure.c dpkg-split/split.c
+#: src/configure.c src/verify.c dpkg-split/split.c
 #, fuzzy, c-format
 #| msgid "cannot stat old name `%s': %s"
-msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "पुरानो नाम `%s' तोक्न सकिदैन: %s"
 
 #: src/configure.c
 #, fuzzy, c-format
-msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "dpkg: %s: चेतावनी - ह्यासका लागि कन्फफाइल %s खोल्न अक्षम: %s\n"
 
 #: src/depcon.c
@@ -3301,30 +3294,17 @@ msgstr[0] " %d प्याकेजहरू, निम्न सेक्स�
 msgstr[1] " %d प्याकेजहरू, निम्न सेक्सनबाट:"
 
 #: src/enquiry.c
-#, fuzzy, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"dpkg को संस्करण सँग कार्यगत इपोक अहिले सम्म कन्फिगर गरिएको छैन ।\n"
-" कृपया`dpkg --कन्फिगर dpkg', र त्यसपछि फेरी प्रयास गर्नुहोस् ।\n"
-
-#: src/enquiry.c
-#, fuzzy, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr ""
-"dpkg लाई स्थापना गरिएको रुपमा रेकड गरिएको छैन, इपोक समर्थनका लागि जाँच गर्न सक्दैन !\n"
-
-#: src/enquiry.c
-msgid "Pre-Depends field"
+msgid "the Pre-Depends field"
 msgstr ""
 
 #: src/enquiry.c
-msgid "epoch"
-msgstr ""
+#, fuzzy
+#| msgid "epoch in version is not number"
+msgid "epochs in versions"
+msgstr "संस्करणमा इपोच नम्बर होइन"
 
 #: src/enquiry.c
-msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr ""
 
 #: src/enquiry.c
@@ -3332,15 +3312,40 @@ msgid "multiple Conflicts and Replaces"
 msgstr ""
 
 #: src/enquiry.c
-msgid "multi-arch"
+msgid "multi-arch fields and semantics"
 msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
+msgid "versioned relationships in the Provides field"
 msgstr ""
 
 #: src/enquiry.c
-msgid "Protected field"
+msgid "the Protected field"
+msgstr ""
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "cannot open diversions: %s"
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "diversions खोल्न असफल: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"dpkg को संस्करण सँग कार्यगत इपोक अहिले सम्म कन्फिगर गरिएको छैन ।\n"
+" कृपया`dpkg --कन्फिगर dpkg', र त्यसपछि फेरी प्रयास गर्नुहोस् ।\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
 msgstr ""
 
 #: src/enquiry.c
@@ -3744,6 +3749,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3796,21 +3802,6 @@ msgstr ""
 "  --अनुमति पत्र|--अनुमति पत्र             प्रतिलिपी अधिकारको अनुमति पत्र नियम "
 "देखाउनुहोस् ।\n"
 "\n"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#| "conrep.\n"
-#| "\n"
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
-"\n"
-msgstr ""
-"आन्तरीक प्रयोगको लागि:dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 
 #: src/main.c
 #, c-format
@@ -4444,6 +4435,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -4920,6 +4912,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -5108,8 +5101,13 @@ msgstr "%s डि-कन्फीगर गर्नुहोस्, जसल�
 
 #: src/unpack.c
 #, fuzzy, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "हटाउँदैछ %s ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr "%s डि-कन्फीगर गर्नुहोस्, जसले हामिले %s हटाउन सक्छौ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "%s डि-कन्फीगर गर्नुहोस्, जसले हामिले %s हटाउन सक्छौ...\n"
 
 #: src/unpack.c
 #, fuzzy
@@ -5197,6 +5195,29 @@ msgstr "dpkg: चेतावनी - प्याकेज %s ले सूच�
 #, c-format
 msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "नयाँ सूचना फाइल `%.250s' को रुपमा `%.250s' स्थापना गर्न अक्षम"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "हटाउँदैछ %s ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Saving as %s ...\n"
+msgstr "हटाउँदैछ %s ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot stat new name `%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "नयाँ नाम `%s' तोक्न सकिदैन: %s"
 
 #: src/unpack.c
 #, fuzzy, c-format
@@ -5288,6 +5309,11 @@ msgstr "दुषित फाइलप्रणाली टारफाइल 
 #| msgid "dpkg-deb: zap possible trailing zeros"
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "dpkg-deb: ज्यापले सम्भवत शुन्यहरू ट्रायल गर्दै"
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "%s डि-कन्फीगर गर्नुहोस्, जसले हामिले %s हटाउन सक्छौ...\n"
 
 #: src/update.c
 #, fuzzy, c-format
@@ -6577,8 +6603,10 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -6640,6 +6668,12 @@ msgstr "डाइरेक्टरी `%.255s' स्क्यान गर्�
 #| msgid "cannot open diversions: %s"
 msgid "cannot append to '%s'"
 msgstr "diversions खोल्न असफल: %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot get local time to log into '%s'"
+msgstr "डाइरेक्टरी `%.255s' स्क्यान गर्न सकिदैन"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6909,6 +6943,13 @@ msgid "alternative %s for %s not registered; not setting"
 msgstr "%s का लागि %s विकल्प दर्ता गरिएको छैन, हटाइएको छैन ।"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "there is no program which provides %s"
+msgstr ""
+"त्यहाँ %s उपलब्ध गर्ने कार्यक्रम छैन ।\n"
+"कन्फिगर गर्नलाई केही छैन ।\n"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr ""
@@ -6965,12 +7006,22 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
 msgstr ""
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "Skip unknown alternative %s."
+msgid "selecting alternative %s as choice %s"
+msgstr "%s का लागि विकल्प छैन"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "alternative %s unchanged because choice %s is not available"
+msgstr "%s मा तोक्न %s का लागि विकल्प - जुन फेला परेन । विकल्पको सूचीबाट हटाउदैछ ।"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "skip unknown alternative %s"
 msgstr "`%s' विकल्प फेला पार्न सकिदैन ।"
 
 #: utils/update-alternatives.c
@@ -6980,7 +7031,7 @@ msgstr "%.255s मा %s मा फाइलको अप्रत्यास�
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr ""
 
 #: utils/update-alternatives.c
@@ -7129,6 +7180,40 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, fuzzy, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "%.250s मा त्रुटि पढ्नुहोस्"
+
+#, fuzzy, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "`%.255s' को नयाँ संस्करण स्थापना गर्न अक्षम"
+
+#, fuzzy, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr ""
+#~ "dpkg लाई स्थापना गरिएको रुपमा रेकड गरिएको छैन, इपोक समर्थनका लागि जाँच गर्न "
+#~ "सक्दैन !\n"
+
+#, fuzzy, c-format
+#~| msgid ""
+#~| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+#~| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~| "conrep.\n"
+#~| "\n"
+#~ msgid ""
+#~ "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "आन्तरीक प्रयोगको लागि:dpkg --assert-support-predepends | --predep-package "
+#~ "|\n"
+#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~ "conrep.\n"
+
+#, fuzzy, c-format
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "हटाउँदैछ %s ...\n"
 
 #, fuzzy
 #~ msgid ""
@@ -7918,9 +8003,6 @@ msgstr ""
 
 #~ msgid "--%s needs a <package> argument"
 #~ msgstr "--%s लाई <package> आवश्यक पर्दछ"
-
-#~ msgid "cannot open diversions: %s"
-#~ msgstr "diversions खोल्न असफल: %s"
 
 #~ msgid "rename: rename `%s' to `%s': %s"
 #~ msgstr "पुन: नामकरण: `%s' लाई `%s' मा पुन: नामकरण गर्नुहोस्: %s"

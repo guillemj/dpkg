@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-05 16:32+0100\n"
 "PO-Revision-Date: 2019-08-25 10:45+0100\n"
 "Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
@@ -1080,6 +1080,12 @@ msgstr "não pode abrir o log '%s': %s"
 #: lib/dpkg/log.c
 #, fuzzy, c-format
 #| msgid "cannot stat file '%s'"
+msgid "cannot get local time to log into '%s': %s"
+msgstr "Não pode fazer stat ao ficheiro '%s'"
+
+#: lib/dpkg/log.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
 msgid "cannot write to log file '%s': %s"
 msgstr "Não pode fazer stat ao ficheiro '%s'"
 
@@ -1913,8 +1919,9 @@ msgid "error creating directory '%.255s'"
 msgstr "erro ao criar o directório '%.255s'"
 
 #: src/archives.c
-#, c-format
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
 msgstr "não pode processar hash MD5 para o ficheiro tar '%.255s': %s"
 
 #: src/archives.c
@@ -2077,28 +2084,61 @@ msgid "unable to sync file '%.255s'"
 msgstr "não foi possível sync ao ficheiro '%.255s'"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
 "%s"
 msgstr ""
 "a ignorar problema de dependências com %s:\n"
 "%s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
+msgid ""
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"não, não pode proceder com %s (--auto-deconfigure irá ajudar):\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
+"%s"
+msgstr ""
+"a ignorar problema de dependências com %s:\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "considering deconfiguration of essential\n"
+#| " package %s, to enable %s"
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "a considerar a desconfiguração do pacote\n"
 " essencial %s, para permitir %s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, %s is essential, will not deconfigure\n"
+#| " it in order to enable %s"
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "não, %s é essencial, não irá desconfigurar\n"
 " de modo a permitir %s"
@@ -2110,7 +2150,7 @@ msgstr ""
 #| " package %s, to enable %s"
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "a considerar a desconfiguração do pacote\n"
 " essencial %s, para permitir %s"
@@ -2122,33 +2162,29 @@ msgstr ""
 #| " it in order to enable %s"
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "não, %s é essencial, não irá desconfigurar\n"
 " de modo a permitir %s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "não, não pode proceder com %s (--auto-deconfigure irá ajudar):\n"
 "%s"
 
 #: src/archives.c
-#, c-format
-msgid "removal of %.250s"
-msgstr "remoção de %.250s"
-
-#: src/archives.c
-#, c-format
-msgid "installation of %.250s"
-msgstr "instalação de %.250s"
-
-#: src/archives.c
-#, c-format
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+#, fuzzy, c-format
+#| msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr "a considerar a desconfiguração de %s, que seria estragada por %s ..."
 
 #: src/archives.c
@@ -2450,34 +2486,6 @@ msgstr "shell conffile"
 
 #: src/configure.c
 #, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: falhou remover '%.250s': %s"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "A remover %s (%s) ...\n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
-msgid "Saving as %s ...\n"
-msgstr "A remover %s (%s) ...\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "cannot append ar member file (%s) to '%s': %s"
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "não pode acrescentar o ficheiro de membro ar (%s) a '%s': %s"
-
-#: src/configure.c
-#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "não foi possível fazer stat do novo conffile distribuído '%.250s'"
 
@@ -2508,6 +2516,11 @@ msgstr "%s: falhou remover o backup antigo '%.250s': %s"
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: falhou renomear '%.250s' para '%.250s': %s"
+
+#: src/configure.c src/unpack.c
+#, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: falhou remover '%.250s': %s"
 
 #: src/configure.c
 #, c-format
@@ -2647,14 +2660,16 @@ msgstr ""
 "%s: ficheiro de configuração '%.250s' não é um ficheiro de texto ou link "
 "simbólico (= '%s')"
 
-#: src/configure.c dpkg-split/split.c
-#, c-format
-msgid "cannot compute MD5 hash for file '%s': %s"
+#: src/configure.c src/verify.c dpkg-split/split.c
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "não pode processar a hash MD5 para o ficheiro '%s': %s"
 
 #: src/configure.c
-#, c-format
-msgid "%s: unable to open %s for hash: %s"
+#, fuzzy, c-format
+#| msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "%s: não foi possível abrir %s para o hash: %s"
 
 #: src/depcon.c
@@ -3190,30 +3205,21 @@ msgstr[0] " %d pacote, da seguinte secção:"
 msgstr[1] " %d pacotes, das seguintes secções:"
 
 #: src/enquiry.c
-#, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"A versão do dpkg com suporte funcional de %s ainda não está configurado.\n"
-" Por favor utilize 'dpkg --configure dpkg', e depois tente novamente.\n"
-
-#: src/enquiry.c
-#, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr ""
-"dpkg não registado como instalado, não pode verificar o suporte para %s!\n"
-
-#: src/enquiry.c
-msgid "Pre-Depends field"
+#, fuzzy
+#| msgid "Pre-Depends field"
+msgid "the Pre-Depends field"
 msgstr "Campo Pre-Depends"
 
 #: src/enquiry.c
-msgid "epoch"
-msgstr "era"
+#, fuzzy
+#| msgid "epoch in version is empty"
+msgid "epochs in versions"
+msgstr "época na versão está vazia"
 
 #: src/enquiry.c
-msgid "long filenames"
+#, fuzzy
+#| msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr "nomes de ficheiros longos"
 
 #: src/enquiry.c
@@ -3221,18 +3227,46 @@ msgid "multiple Conflicts and Replaces"
 msgstr "vários Conflicts e Replaces"
 
 #: src/enquiry.c
-msgid "multi-arch"
-msgstr "multi-arquitectura"
+msgid "multi-arch fields and semantics"
+msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
-msgstr "Provides com versões"
+msgid "versioned relationships in the Provides field"
+msgstr ""
 
 #: src/enquiry.c
 #, fuzzy
 #| msgid "Pre-Depends field"
-msgid "Protected field"
+msgid "the Protected field"
 msgstr "Campo Pre-Depends"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "cannot open diversions: %s"
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "falhou ao abrir desvios: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid ""
+#| "Version of dpkg with working %s support not yet configured.\n"
+#| " Please use 'dpkg --configure dpkg', and then try again.\n"
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"A versão do dpkg com suporte funcional de %s ainda não está configurado.\n"
+" Por favor utilize 'dpkg --configure dpkg', e depois tente novamente.\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
+msgstr ""
 
 #: src/enquiry.c
 #, c-format
@@ -3605,7 +3639,46 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "Debian '%s' programa de gestão de pacotes versão %s.\n"
 
 #: src/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
+#| "  --unpack           <.deb file name>... | -R|--recursive <directory>...\n"
+#| "  -A|--record-avail  <.deb file name>... | -R|--recursive <directory>...\n"
+#| "  --configure        <package>... | -a|--pending\n"
+#| "  --triggers-only    <package>... | -a|--pending\n"
+#| "  -r|--remove        <package>... | -a|--pending\n"
+#| "  -P|--purge         <package>... | -a|--pending\n"
+#| "  -V|--verify [<package>...]       Verify the integrity of package(s).\n"
+#| "  --get-selections [<pattern>...]  Get list of selections to stdout.\n"
+#| "  --set-selections                 Set package selections from stdin.\n"
+#| "  --clear-selections               Deselect every non-essential package.\n"
+#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
+#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
+#| "  --clear-avail                    Erase existing available info.\n"
+#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
+#| "  -s|--status [<package>...]       Display package status details.\n"
+#| "  -p|--print-avail [<package>...]  Display available version details.\n"
+#| "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern>...]         List packages concisely.\n"
+#| "  -S|--search <pattern>...         Find package(s) owning file(s).\n"
+#| "  -C|--audit [<package>...]        Check for broken package(s).\n"
+#| "  --yet-to-unpack                  Print packages selected for "
+#| "installation.\n"
+#| "  --predep-package                 Print pre-dependencies to unpack.\n"
+#| "  --add-architecture <arch>        Add <arch> to the list of "
+#| "architectures.\n"
+#| "  --remove-architecture <arch>     Remove <arch> from the list of "
+#| "architectures.\n"
+#| "  --print-architecture             Print dpkg architecture.\n"
+#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+#| "  --assert-<feature>               Assert support for the specified "
+#| "feature.\n"
+#| "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
+#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
+#| "  --force-help                     Show help on forcing.\n"
+#| "  -Dh|--debug=help                 Show help on debugging.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
@@ -3637,6 +3710,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3699,21 +3773,6 @@ msgid ""
 msgstr ""
 "  -?, --help                       Mostrar esta mensagem de ajuda.\n"
 "      --version                    Mostrar a versão.\n"
-"\n"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Assertable features: support-predepends, working-epoch, long-filenames,\n"
-#| "  multi-conrep, multi-arch, versioned-provides.\n"
-#| "\n"
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
-"\n"
-msgstr ""
-"Capacidades afirmáveis: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides.\n"
 "\n"
 
 #: src/main.c
@@ -4374,6 +4433,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -4853,10 +4913,24 @@ msgstr ""
 "\n"
 
 #: src/trigcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
+#| "  --by-package=<package>           Override trigger awaiter (normally "
+#| "set\n"
+#| "                                     by dpkg).\n"
+#| "  --await                          Package needs to await the "
+#| "processing.\n"
+#| "  --no-await                       No package needs to await the "
+#| "processing.\n"
+#| "  --no-act                         Just test - don't actually change "
+#| "anything.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -5030,9 +5104,16 @@ msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
 msgstr "A desconfigurar %s (%s), para permitir a remoção de %s (%s) ...\n"
 
 #: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "A desconfigurar %s (%s) ...\n"
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr "A desconfigurar %s (%s), para permitir a remoção de %s (%s) ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "A desconfigurar %s (%s), para permitir a remoção de %s (%s) ...\n"
 
 #: src/unpack.c
 msgid "conffile file contains an empty line"
@@ -5127,6 +5208,29 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "não foi possível instalar o novo ficheiro info '%.250s' como '%.250s'"
 
 #: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "A remover %s (%s) ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "A remover %s (%s) ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "não pode acrescentar o ficheiro de membro ar (%s) a '%s': %s"
+
+#: src/unpack.c
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
@@ -5210,6 +5314,12 @@ msgstr "sistema de ficheiros do ficheiro tar corrompido no arquivo de pacote"
 #, c-format
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "não foi possível fazer zap ao rasto de zeros de dpkg-deb: %s"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "A desconfigurar %s (%s), para permitir a remoção de %s (%s) ...\n"
 
 #: src/update.c
 #, c-format
@@ -6453,8 +6563,10 @@ msgstr ""
 #| "  --version                show the version.\n"
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -6513,6 +6625,12 @@ msgstr "não pode abrir o directório '%s'"
 #, c-format
 msgid "cannot append to '%s'"
 msgstr "não pode acrescentar a '%s'"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot open directory '%s'"
+msgid "cannot get local time to log into '%s'"
+msgstr "não pode abrir o directório '%s'"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6779,6 +6897,12 @@ msgstr "a alternativa %s para %s não registada, a não definir"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "There is no program which provides %s."
+msgid "there is no program which provides %s"
+msgstr "Não existe um programa que disponibiliza %s."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 #| msgid "%s/%s is dangling; it will be updated with best choice"
 msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr "%s/%s em suspenso; será actualizado com a melhor escolha"
@@ -6846,12 +6970,25 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "no alternatives for %s"
+msgid "selecting alternative %s as choice %s"
+msgstr "nenhuma alternativa para %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Alternative %s unchanged because choice %s is not available."
+msgid "alternative %s unchanged because choice %s is not available"
 msgstr "Alternativa %s inalterada porque a escolha %s não está disponível."
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
+#, fuzzy, c-format
+#| msgid "Skip unknown alternative %s."
+msgid "skip unknown alternative %s"
 msgstr "Saltar alternativa %s desconhecida."
 
 #: utils/update-alternatives.c
@@ -6860,8 +6997,9 @@ msgid "line too long or not terminated while trying to read %s"
 msgstr "linha demasiado comprida ou não terminada ao tentar ler %s"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr "Saltar linha inválida: %s"
 
 #: utils/update-alternatives.c
@@ -7010,6 +7148,47 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "É necessária autenticação para correr update-alternatives"
+
+#, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "remoção de %.250s"
+
+#, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "instalação de %.250s"
+
+#, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr ""
+#~ "dpkg não registado como instalado, não pode verificar o suporte para %s!\n"
+
+#~ msgid "epoch"
+#~ msgstr "era"
+
+#~ msgid "multi-arch"
+#~ msgstr "multi-arquitectura"
+
+#~ msgid "versioned Provides"
+#~ msgstr "Provides com versões"
+
+#, fuzzy, c-format
+#~| msgid ""
+#~| "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~| "  multi-conrep, multi-arch, versioned-provides.\n"
+#~| "\n"
+#~ msgid ""
+#~ "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Capacidades afirmáveis: support-predepends, working-epoch, long-"
+#~ "filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides.\n"
+#~ "\n"
+
+#, c-format
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "A desconfigurar %s (%s) ...\n"
 
 #~ msgid ""
 #~ "need --display, --query, --list, --get-selections, --config, --set, --set-"
@@ -7807,9 +7986,6 @@ msgstr "É necessária autenticação para correr update-alternatives"
 
 #~ msgid "--%s needs a <package> argument"
 #~ msgstr "--%s necessita de um argumento <nome de pacote>"
-
-#~ msgid "cannot open diversions: %s"
-#~ msgstr "falhou ao abrir desvios: %s"
 
 #~ msgid "rename: rename `%s' to `%s': %s"
 #~ msgstr "renomear: renomear `%s' para `%s': %s"

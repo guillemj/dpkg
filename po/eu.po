@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-05 16:32+0100\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
@@ -1144,6 +1144,12 @@ msgstr "ezin izan da '%s' egunkaria ireki: %s"
 #: lib/dpkg/log.c
 #, fuzzy, c-format
 #| msgid "cannot stat file '%s'"
+msgid "cannot get local time to log into '%s': %s"
+msgstr "ezin da '%s' fitxategia atzitu"
+
+#: lib/dpkg/log.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
 msgid "cannot write to log file '%s': %s"
 msgstr "ezin da '%s' fitxategia atzitu"
 
@@ -2031,8 +2037,9 @@ msgid "error creating directory '%.255s'"
 msgstr "errorea '%.255s' direktorioa sortzean"
 
 #: src/archives.c
-#, c-format
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
 msgstr "ezin da '%.255s' tar artxiboaren MD5 hasha kalkulatu: %s"
 
 #: src/archives.c
@@ -2196,28 +2203,61 @@ msgid "unable to sync file '%.255s'"
 msgstr "ezin da'%.255s' fitxategia sinkronizatu"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
 "%s"
 msgstr ""
 "%s(r)en mendekotasunaren arazoari ezikusia egiten:\n"
 "%s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
+msgid ""
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"ez, ezin da %s(r)ekin aurrera jarraitu (ikus --auto-deconfigure):\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
+"%s"
+msgstr ""
+"%s(r)en mendekotasunaren arazoari ezikusia egiten:\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "considering deconfiguration of essential\n"
+#| " package %s, to enable %s"
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "funtsezko %s paketearen konfigurazioa kentzea\n"
 "aztertzen, %s gaitzeko."
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, %s is essential, will not deconfigure\n"
+#| " it in order to enable %s"
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "ez, %s funtsezkoa da, ez da konfigurazioa kenduko\n"
 " %s gaitu ahal izateko."
@@ -2229,7 +2269,7 @@ msgstr ""
 #| " package %s, to enable %s"
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "funtsezko %s paketearen konfigurazioa kentzea\n"
 "aztertzen, %s gaitzeko."
@@ -2241,33 +2281,29 @@ msgstr ""
 #| " it in order to enable %s"
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "ez, %s funtsezkoa da, ez da konfigurazioa kenduko\n"
 " %s gaitu ahal izateko."
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "ez, ezin da %s(r)ekin aurrera jarraitu (ikus --auto-deconfigure):\n"
 "%s"
 
 #: src/archives.c
-#, c-format
-msgid "removal of %.250s"
-msgstr "%.250s ezabatzea"
-
-#: src/archives.c
-#, c-format
-msgid "installation of %.250s"
-msgstr "%.250s instalatzea"
-
-#: src/archives.c
-#, c-format
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+#, fuzzy, c-format
+#| msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr ""
 "%s(r)en konfigurazioa kentzea kontutan hartzen, zeinek %s(e)k honda "
 "dezakeen..."
@@ -2573,34 +2609,6 @@ msgstr "konfigurazio-fitxategiaren shell-a"
 
 #: src/configure.c
 #, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: huts egin du '%.250s' ezabatzean: %s"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "%s (%s) kentzen...\n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
-msgid "Saving as %s ...\n"
-msgstr "%s (%s) kentzen...\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "cannot append ar member file (%s) to '%s': %s"
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "ezin zaio ar-eko kide-fitxategia (%s) '%s'(e)ri erantsi: %s"
-
-#: src/configure.c
-#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "ezin da banatutako '%.250s' konfigurazioko fitxategi berria analizatu"
 
@@ -2630,6 +2638,11 @@ msgstr "%s: huts egin du '%.250s' babeskopia zaharra kentzean : %s"
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: huts egin du '%.250s'-tik '%.250s'-ra izena aldatzean: %s"
+
+#: src/configure.c src/unpack.c
+#, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: huts egin du '%.250s' ezabatzean: %s"
 
 #: src/configure.c
 #, c-format
@@ -2767,14 +2780,16 @@ msgstr ""
 "%s: '%.250s' konf. fitxategia ez da fitxategi arrunta, ezta esteka "
 "sinbolikoa ere (= '%s')"
 
-#: src/configure.c dpkg-split/split.c
-#, c-format
-msgid "cannot compute MD5 hash for file '%s': %s"
+#: src/configure.c src/verify.c dpkg-split/split.c
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "ezin da '%s' fitxategiaren MD5 hash-a kalkulatu: %s"
 
 #: src/configure.c
-#, c-format
-msgid "%s: unable to open %s for hash: %s"
+#, fuzzy, c-format
+#| msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "%s: ezin da %s ireki hash egiteko: %s"
 
 #: src/depcon.c
@@ -3320,29 +3335,21 @@ msgstr[0] "pakete %d, ondoko sekzioetan:"
 msgstr[1] " %d pakete, ondoko sekzioetan:"
 
 #: src/enquiry.c
-#, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"dpkg-en bertsioa %s euskarriarekin ez dago oraindik konfiguratuta.\n"
-"Erabili 'dpkg --configure dpkg', eta ondoren saiatu berriro.\n"
-
-#: src/enquiry.c
-#, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr "badirudi dpkg ez dagoela instalatuta, ezin da bilatu %s euskarria !\n"
-
-#: src/enquiry.c
-msgid "Pre-Depends field"
+#, fuzzy
+#| msgid "Pre-Depends field"
+msgid "the Pre-Depends field"
 msgstr "'Pre-Depends' eremua"
 
 #: src/enquiry.c
-msgid "epoch"
-msgstr "aro"
+#, fuzzy
+#| msgid "epoch in version is negative"
+msgid "epochs in versions"
+msgstr "bertsioko aroa negatiboa da"
 
 #: src/enquiry.c
-msgid "long filenames"
+#, fuzzy
+#| msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr "fitxategi-izen luzeak"
 
 #: src/enquiry.c
@@ -3350,18 +3357,46 @@ msgid "multiple Conflicts and Replaces"
 msgstr "hainbat 'Conflicts' eta 'Replaces'"
 
 #: src/enquiry.c
-msgid "multi-arch"
-msgstr "arkitektura anitzekoa"
+msgid "multi-arch fields and semantics"
+msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
-msgstr "'Provides' bertsioarekin"
+msgid "versioned relationships in the Provides field"
+msgstr ""
 
 #: src/enquiry.c
 #, fuzzy
 #| msgid "Pre-Depends field"
-msgid "Protected field"
+msgid "the Protected field"
 msgstr "'Pre-Depends' eremua"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "cannot extract package field value from '%s': %s"
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "ezin da paketearen eremuaren balioa erauzi '%s'(e)ndik: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid ""
+#| "Version of dpkg with working %s support not yet configured.\n"
+#| " Please use 'dpkg --configure dpkg', and then try again.\n"
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"dpkg-en bertsioa %s euskarriarekin ez dago oraindik konfiguratuta.\n"
+"Erabili 'dpkg --configure dpkg', eta ondoren saiatu berriro.\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
+msgstr ""
 
 #: src/enquiry.c
 #, c-format
@@ -3811,6 +3846,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3869,25 +3905,6 @@ msgid ""
 msgstr ""
 "  -?|--help                           Erakutsi laguntzako mezu hau.\n"
 "  --version                          Erakutsi bertsioa.\n"
-"\n"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#| "conrep |\n"
-#| "  --assert-multi-arch | --assert-versioned-provides.\n"
-#| "\n"
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
-"\n"
-msgstr ""
-"Barne erabilpenerako: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
-"|\n"
-"  --assert-multi-arch | --assert-versioned-provides.\n"
 "\n"
 
 #: src/main.c
@@ -4582,6 +4599,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -5056,10 +5074,24 @@ msgstr ""
 "\n"
 
 #: src/trigcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
+#| "  --by-package=<package>           Override trigger awaiter (normally "
+#| "set\n"
+#| "                                     by dpkg).\n"
+#| "  --await                          Package needs to await the "
+#| "processing.\n"
+#| "  --no-await                       No package needs to await the "
+#| "processing.\n"
+#| "  --no-act                         Just test - don't actually change "
+#| "anything.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -5235,9 +5267,16 @@ msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
 msgstr "%s (%s) konfigurazioa kentzen, %s (%s) kendu ahal izateko...\n"
 
 #: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "%s (%s) konfigurazioa kentzen...\n"
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr "%s (%s) konfigurazioa kentzen, %s (%s) kendu ahal izateko...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "%s (%s) konfigurazioa kentzen, %s (%s) kendu ahal izateko...\n"
 
 #: src/unpack.c
 #, fuzzy
@@ -5334,6 +5373,29 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "ezin da '%.250s' informazio fitxategi berria '%.250s' gisa instalatu"
 
 #: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "%s (%s) kentzen...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "%s (%s) kentzen...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "ezin zaio ar-eko kide-fitxategia (%s) '%s'(e)ri erantsi: %s"
+
+#: src/unpack.c
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
@@ -5420,6 +5482,12 @@ msgstr ""
 #, c-format
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "kendu amaierako zero posibleak 'dpkg-deb'-etik: %s"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "%s (%s) konfigurazioa kentzen, %s (%s) kendu ahal izateko...\n"
 
 #: src/update.c
 #, c-format
@@ -6724,8 +6792,10 @@ msgstr ""
 #| "  --version                show the version.\n"
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -6783,6 +6853,12 @@ msgstr "ezin da '%.255s' direktorioa aztertu"
 #, c-format
 msgid "cannot append to '%s'"
 msgstr "ezin zaio '%s'(r)i erantsi"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot get local time to log into '%s'"
+msgstr "ezin da '%.255s' direktorioa aztertu"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -7053,6 +7129,12 @@ msgstr "%2$s(r)en %1$s alternatiboa ez dago erregistratuta, ez da ezartzen ari"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "There is no program which provides %s."
+msgid "there is no program which provides %s"
+msgstr "Ez dago %s hornitzen duen programarik."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 #| msgid "%s/%s is dangling; it will be updated with best choice"
 msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr "%s/%s esekita dago, aukera onenarekin eguneratuko da"
@@ -7119,12 +7201,25 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "no alternatives for %s"
+msgid "selecting alternative %s as choice %s"
+msgstr "ez dago %s(r)en alternatiborik"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Alternative %s unchanged because choice %s is not available."
+msgid "alternative %s unchanged because choice %s is not available"
 msgstr "%s alternatiboa ez da aldatu %s hautapena ez baitago eskuragarri."
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
+#, fuzzy, c-format
+#| msgid "Skip unknown alternative %s."
+msgid "skip unknown alternative %s"
 msgstr "Utzi alde batera %s alternatiboa ezezaguna."
 
 #: utils/update-alternatives.c
@@ -7133,8 +7228,9 @@ msgid "line too long or not terminated while trying to read %s"
 msgstr "lerroa luzeegia da edo ez dago amaituta %s irakurtzen saiatzean"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr "Saltatu lerro baliogabea: %s"
 
 #: utils/update-alternatives.c
@@ -7281,6 +7377,51 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "%.250s ezabatzea"
+
+#, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "%.250s instalatzea"
+
+#, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr ""
+#~ "badirudi dpkg ez dagoela instalatuta, ezin da bilatu %s euskarria !\n"
+
+#~ msgid "epoch"
+#~ msgstr "aro"
+
+#~ msgid "multi-arch"
+#~ msgstr "arkitektura anitzekoa"
+
+#~ msgid "versioned Provides"
+#~ msgstr "'Provides' bertsioarekin"
+
+#, fuzzy, c-format
+#~| msgid ""
+#~| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+#~| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~| "conrep |\n"
+#~| "  --assert-multi-arch | --assert-versioned-provides.\n"
+#~| "\n"
+#~ msgid ""
+#~ "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Barne erabilpenerako: dpkg --assert-support-predepends | --predep-package "
+#~ "|\n"
+#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~ "conrep |\n"
+#~ "  --assert-multi-arch | --assert-versioned-provides.\n"
+#~ "\n"
+
+#, c-format
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "%s (%s) konfigurazioa kentzen...\n"
 
 #~ msgid ""
 #~ "need --display, --query, --list, --get-selections, --config, --set, --set-"
@@ -7445,9 +7586,6 @@ msgstr ""
 
 #~ msgid "failed to chdir to `/' for cleanup"
 #~ msgstr "huts egin du chdir '/' egitean garbitzeko"
-
-#~ msgid "cannot extract package field value from '%s': %s"
-#~ msgstr "ezin da paketearen eremuaren balioa erauzi '%s'(e)ndik: %s"
 
 #~ msgid "file name '%.50s...' is too long"
 #~ msgstr "'%.50s...' fitxategi-izena luzeegia da"

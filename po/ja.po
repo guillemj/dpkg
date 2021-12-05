@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-05 16:32+0100\n"
 "PO-Revision-Date: 2016-04-01 16:07+0900\n"
 "Last-Translator: Takuma Yamada <tyamada@takumayamada.com>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -1150,6 +1150,12 @@ msgstr "ログ `%s' をオープンできませんでした: %s"
 #: lib/dpkg/log.c
 #, fuzzy, c-format
 #| msgid "cannot stat file '%s'"
+msgid "cannot get local time to log into '%s': %s"
+msgstr "ファイル '%s' の状態を取得できません"
+
+#: lib/dpkg/log.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
 msgid "cannot write to log file '%s': %s"
 msgstr "ファイル '%s' の状態を取得できません"
 
@@ -2021,8 +2027,9 @@ msgid "error creating directory '%.255s'"
 msgstr "ディレクトリ `%.255s' の作成中にエラーが発生しました"
 
 #: src/archives.c
-#, c-format
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
 msgstr "tar ファイル '%.255s' の MD5 ハッシュを計算できません: %s"
 
 #: src/archives.c
@@ -2184,28 +2191,61 @@ msgid "unable to sync file '%.255s'"
 msgstr "ファイル '%.255s' を同期できません"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
 "%s"
 msgstr ""
 "%s の依存関係の問題を無視しています:\n"
 "%s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
+msgid ""
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"失敗。%s を処理できません (--auto-deconfigure を使いましょう):\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
+"%s"
+msgstr ""
+"%s の依存関係の問題を無視しています:\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "considering deconfiguration of essential\n"
+#| " package %s, to enable %s"
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "%2$s を有効にするため、不可欠パッケージ\n"
 " %1$s の設定削除を考慮しています"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, %s is essential, will not deconfigure\n"
+#| " it in order to enable %s"
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "失敗。%s は不可欠パッケージです。%s を有効に\n"
 " するために、その設定削除を行いません"
@@ -2217,7 +2257,7 @@ msgstr ""
 #| " package %s, to enable %s"
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "%2$s を有効にするため、不可欠パッケージ\n"
 " %1$s の設定削除を考慮しています"
@@ -2229,33 +2269,29 @@ msgstr ""
 #| " it in order to enable %s"
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "失敗。%s は不可欠パッケージです。%s を有効に\n"
 " するために、その設定削除を行いません"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "失敗。%s を処理できません (--auto-deconfigure を使いましょう):\n"
 "%s"
 
 #: src/archives.c
-#, c-format
-msgid "removal of %.250s"
-msgstr "%.250s の削除"
-
-#: src/archives.c
-#, c-format
-msgid "installation of %.250s"
-msgstr "`%.250s' のインストール"
-
-#: src/archives.c
-#, c-format
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+#, fuzzy, c-format
+#| msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr "%2$s によって壊れた %1$s の設定削除を考えています ..."
 
 #: src/archives.c
@@ -2565,34 +2601,6 @@ msgstr "設定ファイルシェル"
 
 #: src/configure.c
 #, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: '%.250s' の削除に失敗しました: %s"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "%s (%s) を削除しています ...\n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
-msgid "Saving as %s ...\n"
-msgstr "%s (%s) を削除しています ...\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "cannot append ar member file (%s) to '%s': %s"
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "ar メンバーファイル (%s) を '%s' に追加できません: %s"
-
-#: src/configure.c
-#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "新規配布設定ファイル '%.250s' の状態を取得できません"
 
@@ -2621,6 +2629,11 @@ msgstr "%s: 古いバックアップ '%.250s' の削除に失敗しました: %s
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: '%.250s' から '%.250s' に名前を変更できませんでした: %s"
+
+#: src/configure.c src/unpack.c
+#, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: '%.250s' の削除に失敗しました: %s"
 
 #: src/configure.c
 #, c-format
@@ -2758,14 +2771,16 @@ msgstr ""
 "%s: 設定ファイル '%.250s' がプレーンファイルでもシンボリックリンク (= '%s') "
 "でもありません"
 
-#: src/configure.c dpkg-split/split.c
-#, c-format
-msgid "cannot compute MD5 hash for file '%s': %s"
+#: src/configure.c src/verify.c dpkg-split/split.c
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "ファイル '%s' の MD5 ハッシュを計算できません: %s"
 
 #: src/configure.c
-#, c-format
-msgid "%s: unable to open %s for hash: %s"
+#, fuzzy, c-format
+#| msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "%s: ハッシュ用に %s をオープンできません: %s"
 
 #: src/depcon.c
@@ -3309,31 +3324,21 @@ msgid_plural " %d packages, from the following sections:"
 msgstr[0] " %d パッケージは、(以下のセクションから):"
 
 #: src/enquiry.c
-#, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"作動中の %s をサポートしている dpkg のバージョンがまだ設定されていません。\n"
-" `dpkg --configure dpkg' を行った後にもう一度実行してください。\n"
-
-#: src/enquiry.c
-#, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr ""
-"dpkg がインストール済みとして記録されていないため、%s をサポートしているか確"
-"認できません!\n"
-
-#: src/enquiry.c
-msgid "Pre-Depends field"
+#, fuzzy
+#| msgid "Pre-Depends field"
+msgid "the Pre-Depends field"
 msgstr "先行依存フィールド"
 
 #: src/enquiry.c
-msgid "epoch"
-msgstr "エポック"
+#, fuzzy
+#| msgid "epoch in version is negative"
+msgid "epochs in versions"
+msgstr "バージョン中の epoch が負の数値です"
 
 #: src/enquiry.c
-msgid "long filenames"
+#, fuzzy
+#| msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr "長いファイル名"
 
 #: src/enquiry.c
@@ -3341,18 +3346,46 @@ msgid "multiple Conflicts and Replaces"
 msgstr "複数の競合 (Conflicts) および 置換 (Replaces)"
 
 #: src/enquiry.c
-msgid "multi-arch"
-msgstr "マルチアーキテクチャ"
+msgid "multi-arch fields and semantics"
+msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
-msgstr "バージョン付き提供 (Provides)"
+msgid "versioned relationships in the Provides field"
+msgstr ""
 
 #: src/enquiry.c
 #, fuzzy
 #| msgid "Pre-Depends field"
-msgid "Protected field"
+msgid "the Protected field"
 msgstr "先行依存フィールド"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "ファイル '%s' の状態を取得できません"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid ""
+#| "Version of dpkg with working %s support not yet configured.\n"
+#| " Please use 'dpkg --configure dpkg', and then try again.\n"
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"作動中の %s をサポートしている dpkg のバージョンがまだ設定されていません。\n"
+" `dpkg --configure dpkg' を行った後にもう一度実行してください。\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
+msgstr ""
 
 #: src/enquiry.c
 #, c-format
@@ -3799,6 +3832,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3858,21 +3892,6 @@ msgid ""
 msgstr ""
 "  -?, --help                          このヘルプを表示\n"
 "      --version                       バージョン番号を表示\n"
-"\n"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Assertable features: support-predepends, working-epoch, long-filenames,\n"
-#| "  multi-conrep, multi-arch, versioned-provides.\n"
-#| "\n"
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
-"\n"
-msgstr ""
-"アサート可能機能: support-predepends, working-epoch, long-filenames,\n"
-"                  multi-conrep, multi-arch, versioned-provides\n"
 "\n"
 
 #: src/main.c
@@ -4556,6 +4575,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -5016,10 +5036,24 @@ msgstr ""
 "\n"
 
 #: src/trigcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
+#| "  --by-package=<package>           Override trigger awaiter (normally "
+#| "set\n"
+#| "                                     by dpkg).\n"
+#| "  --await                          Package needs to await the "
+#| "processing.\n"
+#| "  --no-await                       No package needs to await the "
+#| "processing.\n"
+#| "  --no-act                         Just test - don't actually change "
+#| "anything.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -5193,9 +5227,20 @@ msgstr ""
 "(deconfigure) を行います ...\n"
 
 #: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "%s (%s) を設定削除しています ...\n"
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr ""
+"%3$s (%4$s) を削除できるようにするために %1$s (%2$s) の設定削除 "
+"(deconfigure) を行います ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr ""
+"%3$s (%4$s) を削除できるようにするために %1$s (%2$s) の設定削除 "
+"(deconfigure) を行います ...\n"
 
 #: src/unpack.c
 #, fuzzy
@@ -5291,6 +5336,29 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "新規情報ファイル `%.250s' を `%.250s' としてインストールできません"
 
 #: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "%s (%s) を削除しています ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "%s (%s) を削除しています ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "ar メンバーファイル (%s) を '%s' に追加できません: %s"
+
+#: src/unpack.c
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "古いファイル '%.250s' の状態を取得できないので、削除しません: %s"
@@ -5374,6 +5442,14 @@ msgstr ""
 #, c-format
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "dpkg-deb から末尾の余計なゼロを取り除けません: %s"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr ""
+"%3$s (%4$s) を削除できるようにするために %1$s (%2$s) の設定削除 "
+"(deconfigure) を行います ...\n"
 
 #: src/update.c
 #, c-format
@@ -6650,8 +6726,10 @@ msgstr ""
 #| "  --version                show the version.\n"
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -6711,6 +6789,12 @@ msgstr "ディレクトリ `%.255s' を走査できません"
 #, c-format
 msgid "cannot append to '%s'"
 msgstr "'%s' に追加できません"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot get local time to log into '%s'"
+msgstr "ディレクトリ `%.255s' を走査できません"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6974,6 +7058,12 @@ msgstr "%2$s の alternative %1$s は登録されていません。設定は行�
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "There is no program which provides %s."
+msgid "there is no program which provides %s"
+msgstr "%s を提供するプログラムがありません。"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 #| msgid "%s/%s is dangling; it will be updated with best choice"
 msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr "%s/%s が宙ぶらりんなため、最適な選択肢で更新されます"
@@ -7041,13 +7131,26 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "no alternatives for %s"
+msgid "selecting alternative %s as choice %s"
+msgstr "%s の alternatives がありません"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Alternative %s unchanged because choice %s is not available."
+msgid "alternative %s unchanged because choice %s is not available"
 msgstr ""
 "選択肢 %2$s が利用できないので、alternative %1$s は変更されませんでした。"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
+#, fuzzy, c-format
+#| msgid "Skip unknown alternative %s."
+msgid "skip unknown alternative %s"
 msgstr "未知の alternative %s をスキップします。"
 
 #: utils/update-alternatives.c
@@ -7056,8 +7159,9 @@ msgid "line too long or not terminated while trying to read %s"
 msgstr "%s の読み取り試行中、行が長すぎるか完了していませんでした"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr "無効な行をスキップします: %s"
 
 #: utils/update-alternatives.c
@@ -7208,6 +7312,47 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "%.250s の削除"
+
+#, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "`%.250s' のインストール"
+
+#, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr ""
+#~ "dpkg がインストール済みとして記録されていないため、%s をサポートしているか"
+#~ "確認できません!\n"
+
+#~ msgid "epoch"
+#~ msgstr "エポック"
+
+#~ msgid "multi-arch"
+#~ msgstr "マルチアーキテクチャ"
+
+#~ msgid "versioned Provides"
+#~ msgstr "バージョン付き提供 (Provides)"
+
+#, fuzzy, c-format
+#~| msgid ""
+#~| "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~| "  multi-conrep, multi-arch, versioned-provides.\n"
+#~| "\n"
+#~ msgid ""
+#~ "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "アサート可能機能: support-predepends, working-epoch, long-filenames,\n"
+#~ "                  multi-conrep, multi-arch, versioned-provides\n"
+#~ "\n"
+
+#, c-format
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "%s (%s) を設定削除しています ...\n"
 
 #~ msgid ""
 #~ "need --display, --query, --list, --get-selections, --config, --set, --set-"

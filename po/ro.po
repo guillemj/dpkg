@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-05 16:32+0100\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: ioan-eugen STAN <stan.ieugen@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -1225,6 +1225,12 @@ msgstr "nu s-a putut deschide jurnalul „%s”: %s\n"
 #: lib/dpkg/log.c
 #, fuzzy, c-format
 #| msgid "cannot stat file '%s'"
+msgid "cannot get local time to log into '%s': %s"
+msgstr "stat imposibil pentru fișierul „%s”"
+
+#: lib/dpkg/log.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
 msgid "cannot write to log file '%s': %s"
 msgstr "stat imposibil pentru fișierul „%s”"
 
@@ -2129,7 +2135,7 @@ msgstr "eroare la crearea directorului „%.255s”"
 #: src/archives.c
 #, fuzzy, c-format
 #| msgid "cannot open archive part file `%.250s'"
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
 msgstr "nu se poate deschide fișierul parte de arhivă „%.250s”"
 
 #: src/archives.c
@@ -2296,9 +2302,36 @@ msgid "unable to sync file '%.255s'"
 msgstr "sync imposibil pentru fișierul „%.255s”"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
+"%s"
+msgstr ""
+"se ignoră problema de dependență cu %s:\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
+msgid ""
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"dpkg: nu, nu se poate purcede la %s (--auto-deconfigure va ajuta):\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
 "%s"
 msgstr ""
 "se ignoră problema de dependență cu %s:\n"
@@ -2311,7 +2344,7 @@ msgstr ""
 #| " package %s, to enable %s."
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "se consideră deconfigurarea pachetului\n"
 " esențial %s, pentru a permite %s."
@@ -2323,7 +2356,7 @@ msgstr ""
 #| " it in order to enable %s.\n"
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "dpkg: nu, %s este esențial, nu va fi deconfigurat\n"
 " pentru a permite %s.\n"
@@ -2335,7 +2368,7 @@ msgstr ""
 #| " package %s, to enable %s."
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "se consideră deconfigurarea pachetului\n"
 " esențial %s, pentru a permite %s."
@@ -2347,7 +2380,7 @@ msgstr ""
 #| " it in order to enable %s.\n"
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "dpkg: nu, %s este esențial, nu va fi deconfigurat\n"
 " pentru a permite %s.\n"
@@ -2358,27 +2391,19 @@ msgstr ""
 #| "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
 #| "%s"
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "dpkg: nu, nu se poate purcede la %s (--auto-deconfigure va ajuta):\n"
 "%s"
 
 #: src/archives.c
-#, c-format
-msgid "removal of %.250s"
-msgstr "ștergerea lui %.250s"
-
-#: src/archives.c
-#, c-format
-msgid "installation of %.250s"
-msgstr "instalarea lui „%.255s”"
-
-#: src/archives.c
 #, fuzzy, c-format
 #| msgid ""
 #| "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr ""
 "dpkg: se ia în considerare deconfigurarea lui %s care ar fi corupt de "
 "%s ...\n"
@@ -2735,34 +2760,6 @@ msgstr ""
 
 #: src/configure.c
 #, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: eșec la ștergerea lui „%.250s”: %s"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "Se șterge %s ...\n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
-msgid "Saving as %s ...\n"
-msgstr "Se șterge %s ...\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "cannot rename '%s' to '%s'"
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "nu se poate redenumi „%s” în „%s”"
-
-#: src/configure.c
-#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "stat imposibil pentru noul fișier conffile „%.250s”"
 
@@ -2791,6 +2788,11 @@ msgstr "%s: eșec la ștergerea vechii copii de siguranță „%.250s”: %s"
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: eșec la redenumirea lui „%.250s” în „%.250s”: %s"
+
+#: src/configure.c src/unpack.c
+#, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: eșec la ștergerea lui „%.250s”: %s"
 
 #: src/configure.c
 #, c-format
@@ -2941,16 +2943,16 @@ msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 "%s: fișierul conffile „%.250s” nu este fișier sau legătură simbolică (= „%s”)"
 
-#: src/configure.c dpkg-split/split.c
+#: src/configure.c src/verify.c dpkg-split/split.c
 #, fuzzy, c-format
 #| msgid "cannot stat file '%s'"
-msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "stat imposibil pentru fișierul „%s”"
 
 #: src/configure.c
 #, fuzzy, c-format
 #| msgid "%s: unable to open conffile %s for hash: %s"
-msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "%s: nu se poate deschide fișierul conffile %s pentru hash: %s"
 
 #: src/depcon.c
@@ -3499,31 +3501,24 @@ msgstr[1] " %d pachete, din următoarele secțiuni:"
 msgstr[2] " %d de pachete, din următoarele secțiuni:"
 
 #: src/enquiry.c
-#, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"O versiune de dpkg cu suport funcțional pentru %s nu este configurată încă.\n"
-" Folosiți „dpkg --configure dpkg” și apoi încercați din nou.\n"
-
-#: src/enquiry.c
-#, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr ""
-"dpkg nu este înregistrat ca fiind instalat, nu se poate verifica existența\n"
-" suportului pentru %s\n"
-
-#: src/enquiry.c
-msgid "Pre-Depends field"
+#, fuzzy
+#| msgid "Pre-Depends field"
+msgid "the Pre-Depends field"
 msgstr "câmpul Pre-Depends"
 
+# „epoch” este un număr care se poate pune în fața versiunii unui
+# pachet (separat cu două puncte pentru a forța dpkg să considere
+# pachetul ca având o versiune mai mare. ex: 2:1.4.2
 #: src/enquiry.c
-msgid "epoch"
-msgstr "epocă"
+#, fuzzy
+#| msgid "epoch in version is not number"
+msgid "epochs in versions"
+msgstr "epoca din versiune nu este număr"
 
 #: src/enquiry.c
-msgid "long filenames"
+#, fuzzy
+#| msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr "denumiri lungi de fișiere"
 
 #: src/enquiry.c
@@ -3531,18 +3526,46 @@ msgid "multiple Conflicts and Replaces"
 msgstr "multiple Conflicts și Replaces"
 
 #: src/enquiry.c
-msgid "multi-arch"
+msgid "multi-arch fields and semantics"
 msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
+msgid "versioned relationships in the Provides field"
 msgstr ""
 
 #: src/enquiry.c
 #, fuzzy
 #| msgid "Pre-Depends field"
-msgid "Protected field"
+msgid "the Protected field"
 msgstr "câmpul Pre-Depends"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "stat imposibil pentru fișierul „%s”"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid ""
+#| "Version of dpkg with working %s support not yet configured.\n"
+#| " Please use 'dpkg --configure dpkg', and then try again.\n"
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"O versiune de dpkg cu suport funcțional pentru %s nu este configurată încă.\n"
+" Folosiți „dpkg --configure dpkg” și apoi încercați din nou.\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
+msgstr ""
 
 #: src/enquiry.c
 #, fuzzy, c-format
@@ -3991,6 +4014,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -4049,22 +4073,6 @@ msgid ""
 msgstr ""
 "  -h|--help                         Afișează acest ajutor\n"
 "  --version                         Afișează versiunea\n"
-"\n"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#| "conrep.\n"
-#| "\n"
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
-"\n"
-msgstr ""
-"Pentru uz intern: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n"
 "\n"
 
 #: src/main.c
@@ -4779,6 +4787,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -5302,6 +5311,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -5507,9 +5517,15 @@ msgstr "Se deconfigurează %s, pentru a fi permite ștergerea lui %s ...\n"
 
 #: src/unpack.c
 #, fuzzy, c-format
-#| msgid "De-configuring %s ...\n"
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Se deconfigurează %s ...\n"
+#| msgid "De-configuring %s, to allow removal of %s ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr "Se deconfigurează %s, pentru a fi permite ștergerea lui %s ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s, to allow removal of %s ...\n"
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "Se deconfigurează %s, pentru a fi permite ștergerea lui %s ...\n"
 
 #: src/unpack.c
 #, fuzzy
@@ -5607,6 +5623,29 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "nu se poate instala noul fișier info „%.250s” ca „%.250s”"
 
 #: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Se șterge %s ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Se șterge %s ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot rename '%s' to '%s'"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "nu se poate redenumi „%s” în „%s”"
+
+#: src/unpack.c
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "nu s-a putut accesa fișierul vechi „%.250s” așa că nu se șterge: %s"
@@ -5699,6 +5738,12 @@ msgstr ""
 #| msgid "dpkg-deb: zap possible trailing zeros"
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "dpkg-deb: ștergere a posibilelor zerouri de la sfârșit"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s, to allow removal of %s ...\n"
+msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "Se deconfigurează %s, pentru a fi permite ștergerea lui %s ...\n"
 
 #: src/update.c
 #, fuzzy, c-format
@@ -7113,8 +7158,10 @@ msgstr ""
 #| "\n"
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -7172,6 +7219,12 @@ msgstr "nu se poate examina directorul „%.255s”"
 #| msgid "cannot append to %s: %s"
 msgid "cannot append to '%s'"
 msgstr "nu se poate adăuga la %s: %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot get local time to log into '%s'"
+msgstr "nu se poate examina directorul „%.255s”"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -7457,6 +7510,12 @@ msgstr "alternativa %s pentru %s nu este înregistrată, nu se configurează."
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "There is no program which provides %s."
+msgid "there is no program which provides %s"
+msgstr "Nu există nici un program care să furnizeze %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 #| msgid "%s is dangling, it will be updated with best choice."
 msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr "%s este desfăcută, va fi actualizată cu cea mai bună opțiune."
@@ -7533,12 +7592,25 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "no alternatives for %s."
+msgid "selecting alternative %s as choice %s"
+msgstr "nu există alternative pentru %s."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Alternative %s unchanged because choice %s is not available."
+msgid "alternative %s unchanged because choice %s is not available"
 msgstr "Alternativa %s neschimbată deoarece opțiunea %s nu este disponibilă."
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
+#, fuzzy, c-format
+#| msgid "Skip unknown alternative %s."
+msgid "skip unknown alternative %s"
 msgstr "Omite alternativa necunoscută „%s”."
 
 #: utils/update-alternatives.c
@@ -7547,8 +7619,9 @@ msgid "line too long or not terminated while trying to read %s"
 msgstr "linie prea lungă sau neterminată în timp ce se încerca citirea %s"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr "Omite linie nevalidă: %s"
 
 #: utils/update-alternatives.c
@@ -7708,6 +7781,45 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "ștergerea lui %.250s"
+
+#, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "instalarea lui „%.255s”"
+
+#, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr ""
+#~ "dpkg nu este înregistrat ca fiind instalat, nu se poate verifica "
+#~ "existența\n"
+#~ " suportului pentru %s\n"
+
+#~ msgid "epoch"
+#~ msgstr "epocă"
+
+#, fuzzy, c-format
+#~| msgid ""
+#~| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+#~| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~| "conrep.\n"
+#~| "\n"
+#~ msgid ""
+#~ "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Pentru uz intern: dpkg --assert-support-predepends | --predep-package |\n"
+#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~ "conrep\n"
+#~ "\n"
+
+#, fuzzy, c-format
+#~| msgid "De-configuring %s ...\n"
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "Se deconfigurează %s ...\n"
 
 #~ msgid ""
 #~ "need --display, --query, --list, --get-selections, --config, --set, --set-"

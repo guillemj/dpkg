@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-05 16:32+0100\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>\n"
 "Language-Team: Indonesian <debian-l10n-indonesian@lists.debian.org>\n"
@@ -1185,6 +1185,12 @@ msgstr "gagal membuka log '%s': %s\n"
 #: lib/dpkg/log.c
 #, fuzzy, c-format
 #| msgid "cannot stat file '%s'"
+msgid "cannot get local time to log into '%s': %s"
+msgstr "gagal menata status '%s'"
+
+#: lib/dpkg/log.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
 msgid "cannot write to log file '%s': %s"
 msgstr "gagal menata status '%s'"
 
@@ -2065,7 +2071,7 @@ msgstr "Ada kesalahan saat membuat direktori '%.255s'"
 #: src/archives.c
 #, fuzzy, c-format
 #| msgid "cannot open archive part file `%.250s'"
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
 msgstr "tidak dapat membuka berkas bagian arsip '%.250s'"
 
 #: src/archives.c
@@ -2222,9 +2228,36 @@ msgid "unable to sync file '%.255s'"
 msgstr "gagal sinkronisasi '%.255s'"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
+"%s"
+msgstr ""
+"mengabaikan masalah ketergantungan dengan %s: \n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
+msgid ""
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"dpkg: tidak, gagal memproses %s (--auto-deconfigure mungkin akan membantu):\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
 "%s"
 msgstr ""
 "mengabaikan masalah ketergantungan dengan %s: \n"
@@ -2237,7 +2270,7 @@ msgstr ""
 #| " package %s, to enable %s."
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "mencoba dekonfigurasi paket-paket sangat penting \n"
 "%s, agar dapat menata %s."
@@ -2249,7 +2282,7 @@ msgstr ""
 #| " it in order to enable %s.\n"
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "dpkg: tidak, %s sangat penting, tidak ada dekonfigurasi \n"
 "untuk menata %s. \n"
@@ -2261,7 +2294,7 @@ msgstr ""
 #| " package %s, to enable %s."
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "mencoba dekonfigurasi paket-paket sangat penting \n"
 "%s, agar dapat menata %s."
@@ -2273,7 +2306,7 @@ msgstr ""
 #| " it in order to enable %s.\n"
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "dpkg: tidak, %s sangat penting, tidak ada dekonfigurasi \n"
 "untuk menata %s. \n"
@@ -2284,27 +2317,19 @@ msgstr ""
 #| "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
 #| "%s"
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "dpkg: tidak, gagal memproses %s (--auto-deconfigure mungkin akan membantu):\n"
 "%s"
 
 #: src/archives.c
-#, c-format
-msgid "removal of %.250s"
-msgstr "penghapusan %.250s"
-
-#: src/archives.c
-#, c-format
-msgid "installation of %.250s"
-msgstr "pemasangan %.255s"
-
-#: src/archives.c
 #, fuzzy, c-format
 #| msgid ""
 #| "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr "dpkg: mencoba dekonfigurasi %s, yang akan dikacaukan oleh %s ... \n"
 
 #: src/archives.c
@@ -2663,34 +2688,6 @@ msgstr ""
 
 #: src/configure.c
 #, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: gagal membuang '%.250s': %s"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "Sedang membuang %s ... \n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
-msgid "Saving as %s ...\n"
-msgstr "Sedang membuang %s ... \n"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "cannot rename '%s' to '%s'"
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "gagal mengganti nama '%s' ke '%s'"
-
-#: src/configure.c
-#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "gagal menata status berkas konfig terdistribusi '%.250s' yang baru"
 
@@ -2719,6 +2716,11 @@ msgstr "%s: gagal membuang berkas cadangan lama '%.250s': %s "
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: gagal mengganti nama '%.250s' ke '%.250s': %s "
+
+#: src/configure.c src/unpack.c
+#, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: gagal membuang '%.250s': %s"
 
 #: src/configure.c
 #, c-format
@@ -2871,16 +2873,16 @@ msgstr ""
 "%s: berkas konfigurasi '%.250s' bukan sebuah berkas normal atau nara "
 "simbolik (= '%s') "
 
-#: src/configure.c dpkg-split/split.c
+#: src/configure.c src/verify.c dpkg-split/split.c
 #, fuzzy, c-format
 #| msgid "cannot stat file '%s'"
-msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "gagal menata status '%s'"
 
 #: src/configure.c
 #, fuzzy, c-format
 #| msgid "%s: unable to open conffile %s for hash: %s"
-msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "%s: gagal membuka berkas konfigurasi %s untuk di-hash: %s"
 
 #: src/depcon.c
@@ -3420,31 +3422,21 @@ msgid_plural " %d packages, from the following sections:"
 msgstr[0] " %d paket, dari seksi berikut ini:"
 
 #: src/enquiry.c
-#, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"Versi dpkg dengan dukungan %s bagus belum dikonfigurasi.\n"
-"  Mohon gunakan 'dpkg --configure dpkg', lalu silakan coba lagi.\n"
-
-#: src/enquiry.c
-#, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr ""
-"dpkg tercatat sebagai tidak terpasang, \n"
-"   gagal memeriksa dukungan terhadap '%s'!\n"
-
-#: src/enquiry.c
-msgid "Pre-Depends field"
+#, fuzzy
+#| msgid "Pre-Depends field"
+msgid "the Pre-Depends field"
 msgstr "Ruas Pre-Depends"
 
 #: src/enquiry.c
-msgid "epoch"
-msgstr "epoch"
+#, fuzzy
+#| msgid "epoch in version is not number"
+msgid "epochs in versions"
+msgstr "epoch pada versi bukan suatu angka"
 
 #: src/enquiry.c
-msgid "long filenames"
+#, fuzzy
+#| msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr "nama-berkas panjang"
 
 #: src/enquiry.c
@@ -3452,18 +3444,46 @@ msgid "multiple Conflicts and Replaces"
 msgstr "banyak Conflicts dan Replaces"
 
 #: src/enquiry.c
-msgid "multi-arch"
+msgid "multi-arch fields and semantics"
 msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
+msgid "versioned relationships in the Provides field"
 msgstr ""
 
 #: src/enquiry.c
 #, fuzzy
 #| msgid "Pre-Depends field"
-msgid "Protected field"
+msgid "the Protected field"
 msgstr "Ruas Pre-Depends"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "gagal menata status '%s'"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid ""
+#| "Version of dpkg with working %s support not yet configured.\n"
+#| " Please use 'dpkg --configure dpkg', and then try again.\n"
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"Versi dpkg dengan dukungan %s bagus belum dikonfigurasi.\n"
+"  Mohon gunakan 'dpkg --configure dpkg', lalu silakan coba lagi.\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
+msgstr ""
 
 #: src/enquiry.c
 #, fuzzy, c-format
@@ -3908,6 +3928,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3957,23 +3978,6 @@ msgid ""
 msgstr ""
 "  -h|--help                        Lihat pesan panduan ini.\n"
 "  --version                        Lihat versi.\n"
-"\n"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#| "conrep.\n"
-#| "\n"
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
-"\n"
-msgstr ""
-"Untuk pemakaian internal: dpkg --assert-support-predepends |\n"
-"  --predep-package | --assert-working-epoch | --assert-long-filenames |\n"
-"  --assert-multi-conrep.\n"
 "\n"
 
 #: src/main.c
@@ -4668,6 +4672,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -5182,6 +5187,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -5386,9 +5392,15 @@ msgstr "Sedang dekonfigurasi %s, agar dapat membuang %s ... \n"
 
 #: src/unpack.c
 #, fuzzy, c-format
-#| msgid "De-configuring %s ...\n"
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Sedang dekonfigurasi %s ... \n"
+#| msgid "De-configuring %s, to allow removal of %s ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr "Sedang dekonfigurasi %s, agar dapat membuang %s ... \n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s, to allow removal of %s ...\n"
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "Sedang dekonfigurasi %s, agar dapat membuang %s ... \n"
 
 #: src/unpack.c
 #, fuzzy
@@ -5485,6 +5497,29 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "gagal memasang berkas 'info' baru '%.250s' sebagai '%.250s'"
 
 #: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Sedang membuang %s ... \n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Sedang membuang %s ... \n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot rename '%s' to '%s'"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "gagal mengganti nama '%s' ke '%s'"
+
+#: src/unpack.c
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "gagal menata status berkas '%.250s' yang lama, jadi tidak dibuang: %s"
@@ -5576,6 +5611,12 @@ msgstr "berkas tar dari sistem berkas terkorupsi - arsip paket terkorupsi"
 #| msgid "dpkg-deb: zap possible trailing zeros"
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "dpkg-deb: kemungkinan 'zap' berakhiran banyak nol"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s, to allow removal of %s ...\n"
+msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "Sedang dekonfigurasi %s, agar dapat membuang %s ... \n"
 
 #: src/update.c
 #, fuzzy, c-format
@@ -6951,8 +6992,10 @@ msgstr ""
 #| "\n"
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -7009,6 +7052,12 @@ msgstr "gagal memindai direktori '%.255s'"
 #| msgid "cannot append to %s: %s"
 msgid "cannot append to '%s'"
 msgstr "gagal menambahkan ke %s: %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot get local time to log into '%s'"
+msgstr "gagal memindai direktori '%.255s'"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -7291,6 +7340,12 @@ msgstr "alternatif %s untuk %s tidak terdaftar, tidak dikonfigurasi."
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "There is no program which provides %s."
+msgid "there is no program which provides %s"
+msgstr "tidak ada program yang menyediakan %s."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 #| msgid "%s is dangling, it will be updated with best choice."
 msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr "%s tak jelas statusnya, akan diperbarui dengan pilihan terbaik."
@@ -7362,12 +7417,25 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "no alternatives for %s."
+msgid "selecting alternative %s as choice %s"
+msgstr "tidak ada alternatif untuk %s."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Alternative %s unchanged because choice %s is not available."
+msgid "alternative %s unchanged because choice %s is not available"
 msgstr "Alternatif %s tidak diubah karena pilihan %s tidak tersedia."
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
+#, fuzzy, c-format
+#| msgid "Skip unknown alternative %s."
+msgid "skip unknown alternative %s"
 msgstr "Lewati alternatif %s yang tak dikenal."
 
 #: utils/update-alternatives.c
@@ -7376,8 +7444,9 @@ msgid "line too long or not terminated while trying to read %s"
 msgstr "baris terlalu panjang atau tak diakhiri saat membaca %s"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr "Hindari baris tidak sah: %s"
 
 #: utils/update-alternatives.c
@@ -7536,6 +7605,44 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "penghapusan %.250s"
+
+#, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "pemasangan %.255s"
+
+#, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr ""
+#~ "dpkg tercatat sebagai tidak terpasang, \n"
+#~ "   gagal memeriksa dukungan terhadap '%s'!\n"
+
+#~ msgid "epoch"
+#~ msgstr "epoch"
+
+#, fuzzy, c-format
+#~| msgid ""
+#~| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+#~| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~| "conrep.\n"
+#~| "\n"
+#~ msgid ""
+#~ "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Untuk pemakaian internal: dpkg --assert-support-predepends |\n"
+#~ "  --predep-package | --assert-working-epoch | --assert-long-filenames |\n"
+#~ "  --assert-multi-conrep.\n"
+#~ "\n"
+
+#, fuzzy, c-format
+#~| msgid "De-configuring %s ...\n"
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "Sedang dekonfigurasi %s ... \n"
 
 #~ msgid ""
 #~ "need --display, --query, --list, --get-selections, --config, --set, --set-"

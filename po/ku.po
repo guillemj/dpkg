@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-05 16:32+0100\n"
 "PO-Revision-Date: 2015-04-07 09:50+0200\n"
 "Last-Translator: Erdal Ronahi <erdal.ronahi@gmail.com>\n"
 "Language-Team: Kurdish <ku@li.org>\n"
@@ -1048,6 +1048,11 @@ msgstr "%s nayê xebitandin"
 
 #: lib/dpkg/log.c
 #, fuzzy, c-format
+msgid "cannot get local time to log into '%s': %s"
+msgstr "di xwendina %s de çewtî"
+
+#: lib/dpkg/log.c
+#, fuzzy, c-format
 msgid "cannot write to log file '%s': %s"
 msgstr "di xwendina %s de çewtî"
 
@@ -1866,9 +1871,9 @@ msgid "error creating directory '%.255s'"
 msgstr ""
 
 #: src/archives.c
-#, c-format
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
-msgstr ""
+#, fuzzy, c-format
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
+msgstr "di xwendina %s de çewtî"
 
 #: src/archives.c
 #, c-format
@@ -2013,7 +2018,7 @@ msgstr "afirandina peldankê biserneket"
 #: src/archives.c
 #, fuzzy, c-format
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
 "%s"
 msgstr ""
 "dpkg: pirsgirêkên bindestiyê rakirina %s asteng dikin:\n"
@@ -2022,15 +2027,32 @@ msgstr ""
 #: src/archives.c
 #, c-format
 msgid ""
-"considering deconfiguration of essential\n"
-" package %s, to enable %s"
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
 msgstr ""
+
+#: src/archives.c
+#, fuzzy, c-format
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
+"%s"
+msgstr ""
+"dpkg: pirsgirêkên bindestiyê rakirina %s asteng dikin:\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "Purging configuration files for %s ...\n"
+msgid ""
+"considering deconfiguration of essential\n"
+" package %s, to enable removal of %s"
+msgstr "Pelên veavakirina %s bi tevahî tên rakirin ...\n"
 
 #: src/archives.c
 #, c-format
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 
 #: src/archives.c
@@ -2038,37 +2060,29 @@ msgstr ""
 #| msgid "Purging configuration files for %s ...\n"
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr "Pelên veavakirina %s bi tevahî tên rakirin ...\n"
 
 #: src/archives.c
 #, c-format
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 
 #: src/archives.c
 #, c-format
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 
 #: src/archives.c
 #, fuzzy, c-format
-msgid "removal of %.250s"
-msgstr "pelê `%.250s' nayê rakirin"
-
-#: src/archives.c
-#, c-format
-msgid "installation of %.250s"
-msgstr ""
-
-#: src/archives.c
-#, fuzzy, c-format
 #| msgid "Purging configuration files for %s ...\n"
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr "Pelên veavakirina %s bi tevahî tên rakirin ...\n"
 
 #: src/archives.c
@@ -2397,33 +2411,6 @@ msgstr ""
 
 #: src/configure.c
 #, fuzzy, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s a `%%.255s' serneket"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "%s tê rakirin ...\n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
-msgid "Saving as %s ...\n"
-msgstr "%s tê rakirin ...\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "di xwendina %s de çewtî"
-
-#: src/configure.c
-#, fuzzy, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "nikarî `%.250s' wekî `%.250s' saz bike"
 
@@ -2448,6 +2435,11 @@ msgstr "%s a `%%.255s' serneket"
 #: src/configure.c
 #, fuzzy, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
+msgstr "%s a `%%.255s' serneket"
+
+#: src/configure.c src/unpack.c
+#, fuzzy, c-format
+msgid "%s: failed to remove '%.250s': %s"
 msgstr "%s a `%%.255s' serneket"
 
 #: src/configure.c
@@ -2577,14 +2569,14 @@ msgstr ""
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 
-#: src/configure.c dpkg-split/split.c
+#: src/configure.c src/verify.c dpkg-split/split.c
 #, fuzzy, c-format
-msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "di xwendina %s de çewtî"
 
 #: src/configure.c
 #, fuzzy, c-format
-msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "tmpfile bo vsnpritif nayê vekirin"
 
 #: src/depcon.c
@@ -3051,27 +3043,17 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/enquiry.c
-#, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
+msgid "the Pre-Depends field"
 msgstr ""
 
 #: src/enquiry.c
-#, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr ""
+#, fuzzy
+#| msgid "  Version of %s on system is %s.\n"
+msgid "epochs in versions"
+msgstr "  Guhartoya %s di pergalê de %s e.\n"
 
 #: src/enquiry.c
-msgid "Pre-Depends field"
-msgstr ""
-
-#: src/enquiry.c
-msgid "epoch"
-msgstr ""
-
-#: src/enquiry.c
-msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr ""
 
 #: src/enquiry.c
@@ -3079,15 +3061,37 @@ msgid "multiple Conflicts and Replaces"
 msgstr ""
 
 #: src/enquiry.c
-msgid "multi-arch"
+msgid "multi-arch fields and semantics"
 msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
+msgid "versioned relationships in the Provides field"
 msgstr ""
 
 #: src/enquiry.c
-msgid "Protected field"
+msgid "the Protected field"
+msgstr ""
+
+#: src/enquiry.c
+#, fuzzy, c-format
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "di xwendina %s de çewtî"
+
+#: src/enquiry.c
+#, c-format
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
 msgstr ""
 
 #: src/enquiry.c
@@ -3462,6 +3466,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3476,14 +3481,6 @@ msgstr ""
 msgid ""
 "  -?, --help                       Show this help message.\n"
 "      --version                    Show the version.\n"
-"\n"
-msgstr ""
-
-#: src/main.c
-#, c-format
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
 "\n"
 msgstr ""
 
@@ -4011,6 +4008,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -4418,6 +4416,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -4589,8 +4588,14 @@ msgstr ""
 
 #: src/unpack.c
 #, fuzzy, c-format
-msgid "De-configuring %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
 msgstr "%s tê rakirin ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Purging configuration files for %s ...\n"
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "Pelên veavakirina %s bi tevahî tên rakirin ...\n"
 
 #: src/unpack.c
 #, fuzzy
@@ -4677,6 +4682,28 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr ""
 
 #: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "%s tê rakirin ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Saving as %s ...\n"
+msgstr "%s tê rakirin ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "di xwendina %s de çewtî"
+
+#: src/unpack.c
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
@@ -4757,6 +4784,12 @@ msgstr ""
 #, c-format
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Purging configuration files for %s ...\n"
+msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "Pelên veavakirina %s bi tevahî tên rakirin ...\n"
 
 #: src/update.c
 #, c-format
@@ -5831,8 +5864,10 @@ msgstr ""
 #, c-format
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -5876,6 +5911,11 @@ msgstr "%s nayê xebitandin"
 #, fuzzy, c-format
 msgid "cannot append to '%s'"
 msgstr "di xwendina %s de çewtî"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "cannot get local time to log into '%s'"
+msgstr "%s nayê xebitandin"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6130,6 +6170,11 @@ msgid "alternative %s for %s not registered; not setting"
 msgstr ""
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "there is no program which provides %s"
+msgstr "  Pakêta %s ya ku %s tîne hê nehatiye veavakirin.\n"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr ""
@@ -6184,12 +6229,22 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
 msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip unknown alternative %s."
+msgid "selecting alternative %s as choice %s"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "alternative %s unchanged because choice %s is not available"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "skip unknown alternative %s"
 msgstr ""
 
 #: utils/update-alternatives.c
@@ -6199,7 +6254,7 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr ""
 
 #: utils/update-alternatives.c
@@ -6341,6 +6396,10 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, fuzzy, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "pelê `%.250s' nayê rakirin"
 
 #, fuzzy
 #~ msgid "unable to open lock file %s for testing"

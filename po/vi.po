@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-05 16:32+0100\n"
 "PO-Revision-Date: 2016-01-14 08:22+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
@@ -1128,6 +1128,12 @@ msgstr "không thể mở nhật ký “%s”: %s"
 #: lib/dpkg/log.c
 #, fuzzy, c-format
 #| msgid "cannot stat file '%s'"
+msgid "cannot get local time to log into '%s': %s"
+msgstr "không thể lấy thống kê tập tin “%s”"
+
+#: lib/dpkg/log.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
 msgid "cannot write to log file '%s': %s"
 msgstr "không thể lấy thống kê tập tin “%s”"
 
@@ -1997,8 +2003,9 @@ msgid "error creating directory '%.255s'"
 msgstr "lỗi tạo thư mục “%.255s”"
 
 #: src/archives.c
-#, c-format
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
 msgstr "không thể tính toán giá trị băm MD5 cho tập tin kho tar “%.250s”: %s"
 
 #: src/archives.c
@@ -2160,28 +2167,62 @@ msgid "unable to sync file '%.255s'"
 msgstr "không thể động bộ hóa tập tin “%.255s”"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
 "%s"
 msgstr ""
 "đang lờ vấn đề quan hệ phụ thuộc về %s:\n"
 "%s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
+msgid ""
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"không, không thể xử lý %s (“--auto-deconfigure” [tự động bỏ cấu hình] sẽ có "
+"ích):\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
+"%s"
+msgstr ""
+"đang lờ vấn đề quan hệ phụ thuộc về %s:\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "considering deconfiguration of essential\n"
+#| " package %s, to enable %s"
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "coi như hủy cấu hình của gói cốt yếu %s,\n"
 " để bật %s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, %s is essential, will not deconfigure\n"
+#| " it in order to enable %s"
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "không, %s là cốt yếu, sẽ không bỏ\n"
 " cấu hình nó cốt để bật %s"
@@ -2193,7 +2234,7 @@ msgstr ""
 #| " package %s, to enable %s"
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "coi như hủy cấu hình của gói cốt yếu %s,\n"
 " để bật %s"
@@ -2205,15 +2246,18 @@ msgstr ""
 #| " it in order to enable %s"
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "không, %s là cốt yếu, sẽ không bỏ\n"
 " cấu hình nó cốt để bật %s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "không, không thể xử lý %s (“--auto-deconfigure” [tự động bỏ cấu hình] sẽ có "
@@ -2221,18 +2265,11 @@ msgstr ""
 "%s"
 
 #: src/archives.c
-#, c-format
-msgid "removal of %.250s"
-msgstr "việc gỡ bỏ %.250s"
-
-#: src/archives.c
-#, c-format
-msgid "installation of %.250s"
-msgstr "việc cài đặt %.250s"
-
-#: src/archives.c
-#, c-format
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+#, fuzzy, c-format
+#| msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr "xem xét đến hủy cấu hình %s, cái mà sẽ bị %s làm hỏng …"
 
 #: src/archives.c
@@ -2535,34 +2572,6 @@ msgstr "hệ vỏ conffile"
 
 #: src/configure.c
 #, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: gặp lỗi khi gỡ bỏ “%.250s”: %s"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "Đang gỡ bỏ %s (%s) …\n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
-msgid "Saving as %s ...\n"
-msgstr "Đang gỡ bỏ %s (%s) …\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "cannot append ar member file (%s) to '%s': %s"
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "không thể nối thêm tập tin thành viên ar (%s) thành “%s”: %s"
-
-#: src/configure.c
-#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "không thể lấy thống kê tập tin cấu hình mới phát hành “%.250s”"
 
@@ -2592,6 +2601,11 @@ msgstr "%s: gặp lỗi khi gỡ bỏ bản sao lưu cũ “%.250s”: %s"
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: gặp lỗi khi đổi tên “%.250s” thành “%.250s”: %s"
+
+#: src/configure.c src/unpack.c
+#, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: gặp lỗi khi gỡ bỏ “%.250s”: %s"
 
 #: src/configure.c
 #, c-format
@@ -2729,14 +2743,16 @@ msgstr ""
 "%s: tập tin cấu hình “%.250s” không phải là một tập tin tiêu chuẩn\n"
 "hay liên kết mềm (= “%s”)"
 
-#: src/configure.c dpkg-split/split.c
-#, c-format
-msgid "cannot compute MD5 hash for file '%s': %s"
+#: src/configure.c src/verify.c dpkg-split/split.c
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "không thể tính toán mã băm MD5 cho tập tin “%s”: %s"
 
 #: src/configure.c
-#, c-format
-msgid "%s: unable to open %s for hash: %s"
+#, fuzzy, c-format
+#| msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "%s: không thể mở %s để băm: %s"
 
 #: src/depcon.c
@@ -3283,32 +3299,21 @@ msgid_plural " %d packages, from the following sections:"
 msgstr[0] " %d gói, từ các phần sau:"
 
 #: src/enquiry.c
-#, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"Chưa cấu hình phiên bản dpkg hỗ trợ %s hoạt động.\n"
-" Hãy dùng câu lệnh cấu hình  “dpkg --configure dpkg”,\n"
-" sau đó thử lại.\n"
-
-#: src/enquiry.c
-#, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr ""
-"Theo dữ liệu hiện thời, dpkg không phải được cài đặt. Trong trường hợp này, "
-"không thể kiểm tra có hỗ trợ %s không!\n"
-
-#: src/enquiry.c
-msgid "Pre-Depends field"
+#, fuzzy
+#| msgid "Pre-Depends field"
+msgid "the Pre-Depends field"
 msgstr "Trường “phụ thuộc sẵn”"
 
 #: src/enquiry.c
-msgid "epoch"
-msgstr "kỷ nguyên"
+#, fuzzy
+#| msgid "epoch in version is negative"
+msgid "epochs in versions"
+msgstr "“epoch” trong phiên bản là số âm"
 
 #: src/enquiry.c
-msgid "long filenames"
+#, fuzzy
+#| msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr "tên tập tin dài"
 
 #: src/enquiry.c
@@ -3316,18 +3321,47 @@ msgid "multiple Conflicts and Replaces"
 msgstr "có nhiều trường hợp Xung đột và Thay thế"
 
 #: src/enquiry.c
-msgid "multi-arch"
-msgstr "đa-kiến-trúc"
+msgid "multi-arch fields and semantics"
+msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
-msgstr "Đã cung cấp phiên bản"
+msgid "versioned relationships in the Provides field"
+msgstr ""
 
 #: src/enquiry.c
 #, fuzzy
 #| msgid "Pre-Depends field"
-msgid "Protected field"
+msgid "the Protected field"
 msgstr "Trường “phụ thuộc sẵn”"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "cannot extract package field value from '%s': %s"
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "không thể rút trích giá trị trường của gói từ “%s”: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid ""
+#| "Version of dpkg with working %s support not yet configured.\n"
+#| " Please use 'dpkg --configure dpkg', and then try again.\n"
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"Chưa cấu hình phiên bản dpkg hỗ trợ %s hoạt động.\n"
+" Hãy dùng câu lệnh cấu hình  “dpkg --configure dpkg”,\n"
+" sau đó thử lại.\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
+msgstr ""
 
 #: src/enquiry.c
 #, c-format
@@ -3778,6 +3812,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3841,22 +3876,6 @@ msgid ""
 msgstr ""
 "  -?, --help                       Hiển thị trợ giúp.\n"
 "      --version                    Hiển thị phiên bản.\n"
-"\n"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Assertable features: support-predepends, working-epoch, long-filenames,\n"
-#| "  multi-conrep, multi-arch, versioned-provides.\n"
-#| "\n"
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
-"\n"
-msgstr ""
-"Các tính năng khẳng định: support-predepends, working-epoch, long-"
-"filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides.\n"
 "\n"
 
 #: src/main.c
@@ -4560,6 +4579,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -5023,10 +5043,24 @@ msgstr ""
 "\n"
 
 #: src/trigcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
+#| "  --by-package=<package>           Override trigger awaiter (normally "
+#| "set\n"
+#| "                                     by dpkg).\n"
+#| "  --await                          Package needs to await the "
+#| "processing.\n"
+#| "  --no-await                       No package needs to await the "
+#| "processing.\n"
+#| "  --no-act                         Just test - don't actually change "
+#| "anything.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -5196,9 +5230,16 @@ msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
 msgstr "Đang hủy cấu hình %s (%s), để cho phép gỡ bỏ %s (%s) …\n"
 
 #: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Đang hủy cấu hình %s (%s) …\n"
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr "Đang hủy cấu hình %s (%s), để cho phép gỡ bỏ %s (%s) …\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "Đang hủy cấu hình %s (%s), để cho phép gỡ bỏ %s (%s) …\n"
 
 #: src/unpack.c
 #, fuzzy
@@ -5291,6 +5332,29 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "không thể cài đặt tập tin thông tin mới “%.250s” dưới dạng “%.250s”"
 
 #: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Đang gỡ bỏ %s (%s) …\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Đang gỡ bỏ %s (%s) …\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "không thể nối thêm tập tin thành viên ar (%s) thành “%s”: %s"
+
+#: src/unpack.c
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "không thể lấy thống kê về tập tin cũ “%.250s” nên không xóa bỏ nó: %s"
@@ -5372,6 +5436,12 @@ msgstr "tập tin .tar của hệ thống tập tin bị hỏng — kho lưu gó
 #, c-format
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "không thể sửa đổi các số không chèn thêm có thể được từ dpkg-deb: %s"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "Đang hủy cấu hình %s (%s), để cho phép gỡ bỏ %s (%s) …\n"
 
 #: src/update.c
 #, c-format
@@ -6649,8 +6719,10 @@ msgstr ""
 #| "  --version                show the version.\n"
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -6710,6 +6782,12 @@ msgstr "không thể quét thư mục “%.255s”"
 #, c-format
 msgid "cannot append to '%s'"
 msgstr "không thể nối thêm vào “%s”"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot get local time to log into '%s'"
+msgstr "không thể quét thư mục “%.255s”"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6972,6 +7050,12 @@ msgstr "sự thay thế %s cho %s không được đăng ký nên không đặt"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "There is no program which provides %s."
+msgid "there is no program which provides %s"
+msgstr "Không có chương trình nào cung cấp %s."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 #| msgid "%s/%s is dangling; it will be updated with best choice"
 msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr "%s/%s không được quản lý; nó sẽ được cập nhật với sự lựa chọn tốt nhất"
@@ -7037,12 +7121,25 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "no alternatives for %s"
+msgid "selecting alternative %s as choice %s"
+msgstr "không có thay thế cho %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Alternative %s unchanged because choice %s is not available."
+msgid "alternative %s unchanged because choice %s is not available"
 msgstr "Cái thay thế %s chưa thay đổi vì sự chọn %s không sẵn sàng."
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
+#, fuzzy, c-format
+#| msgid "Skip unknown alternative %s."
+msgid "skip unknown alternative %s"
 msgstr "Bỏ qua cái thay thế không hiểu %s."
 
 #: utils/update-alternatives.c
@@ -7051,8 +7148,9 @@ msgid "line too long or not terminated while trying to read %s"
 msgstr "gặp dòng quá dài hoặc dòng không có chấm dứt, trong khi thử đọc %s"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr "Bỏ qua dòng sai: %s"
 
 #: utils/update-alternatives.c
@@ -7201,6 +7299,48 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "việc gỡ bỏ %.250s"
+
+#, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "việc cài đặt %.250s"
+
+#, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr ""
+#~ "Theo dữ liệu hiện thời, dpkg không phải được cài đặt. Trong trường hợp "
+#~ "này, không thể kiểm tra có hỗ trợ %s không!\n"
+
+#~ msgid "epoch"
+#~ msgstr "kỷ nguyên"
+
+#~ msgid "multi-arch"
+#~ msgstr "đa-kiến-trúc"
+
+#~ msgid "versioned Provides"
+#~ msgstr "Đã cung cấp phiên bản"
+
+#, fuzzy, c-format
+#~| msgid ""
+#~| "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~| "  multi-conrep, multi-arch, versioned-provides.\n"
+#~| "\n"
+#~ msgid ""
+#~ "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Các tính năng khẳng định: support-predepends, working-epoch, long-"
+#~ "filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides.\n"
+#~ "\n"
+
+#, c-format
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "Đang hủy cấu hình %s (%s) …\n"
 
 #~ msgid ""
 #~ "need --display, --query, --list, --get-selections, --config, --set, --set-"
@@ -7374,9 +7514,6 @@ msgstr ""
 
 #~ msgid "failed to chdir to `/' for cleanup"
 #~ msgstr "gặp lỗi khi chdir (chuyển đổi thư mục) sang “/” để dọn dẹp"
-
-#~ msgid "cannot extract package field value from '%s': %s"
-#~ msgstr "không thể rút trích giá trị trường của gói từ “%s”: %s"
 
 #~ msgid "file name '%.50s...' is too long"
 #~ msgstr "tên tập tin “%.50s..” quá dài"

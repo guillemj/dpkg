@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-05 16:32+0100\n"
 "PO-Revision-Date: 2015-06-26 16:11+0200\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.debian.org>\n"
@@ -1147,6 +1147,12 @@ msgstr "`%s' napló nem nyitható meg: %s\n"
 #: lib/dpkg/log.c
 #, fuzzy, c-format
 #| msgid "cannot stat old name `%s': %s"
+msgid "cannot get local time to log into '%s': %s"
+msgstr "a régi `%s' név nem található: %s"
+
+#: lib/dpkg/log.c
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
 msgid "cannot write to log file '%s': %s"
 msgstr "a régi `%s' név nem található: %s"
 
@@ -1997,7 +2003,7 @@ msgstr "hiba az alábbi könyvtár létrehozásakor: `%.255s'"
 #: src/archives.c
 #, fuzzy, c-format
 #| msgid "cannot open archive part file `%.250s'"
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
 msgstr "nem megnyitható archívum rész fájl: `%.250s'"
 
 #: src/archives.c
@@ -2156,7 +2162,26 @@ msgstr "e forrásfájl nem megnyitható: `%.250s'"
 #: src/archives.c
 #, fuzzy, c-format
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
+"%s"
+msgstr ""
+"dpkg: figyelem - nem veszem figyelembe a(z) %s eltávolításával járó "
+"függőségi gondokat:\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+msgid ""
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"dpkg: nem, nem tudom törölni %s-t (--auto-deconfigure segít):\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
 "%s"
 msgstr ""
 "dpkg: figyelem - nem veszem figyelembe a(z) %s eltávolításával járó "
@@ -2167,7 +2192,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "dpkg: figyelem - egy lényeges csomag: %s dekonfigurálását\n"
 " választottad %s eltávolításáért.\n"
@@ -2176,7 +2201,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "dpkg: nem, %s lényeges, nem dekonfigurálom\n"
 " %s eltávolításáért.\n"
@@ -2185,7 +2210,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "dpkg: figyelem - egy lényeges csomag: %s dekonfigurálását\n"
 " választottad %s eltávolításáért.\n"
@@ -2194,7 +2219,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "dpkg: nem, %s lényeges, nem dekonfigurálom\n"
 " %s eltávolításáért.\n"
@@ -2202,7 +2227,7 @@ msgstr ""
 #: src/archives.c
 #, fuzzy, c-format
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "dpkg: nem, nem tudom törölni %s-t (--auto-deconfigure segít):\n"
@@ -2210,17 +2235,9 @@ msgstr ""
 
 #: src/archives.c
 #, fuzzy, c-format
-msgid "removal of %.250s"
-msgstr "olvasási hiba itt: %.250s"
-
-#: src/archives.c
-#, fuzzy, c-format
-msgid "installation of %.250s"
-msgstr "nem tudom telepíteni `%.255s' új verzióját"
-
-#: src/archives.c
-#, fuzzy, c-format
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr "dpkg: %s törlése %s javára...\n"
 
 #: src/archives.c
@@ -2561,34 +2578,6 @@ msgstr ""
 
 #: src/configure.c
 #, fuzzy, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: sikertelen gzip %s futtatás"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "Eltávolítás: %s ...\n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
-msgid "Saving as %s ...\n"
-msgstr "Eltávolítás: %s ...\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "cannot stat new name `%s': %s"
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "az új `%s' név nem behatárolható: %s"
-
-#: src/configure.c
-#, fuzzy, c-format
 #| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "nem érhető el az új terjesztési beállítófájl: %.250s"
@@ -2619,6 +2608,11 @@ msgstr "dpkg: %s: figyelem - a régi `%.250s' mentés törlése meghiúsult: %s\
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr ""
 "dpkg: %s: figyelem - nem sikerült átnevezni `%.250s'-t erre: `%.250s': %s\n"
+
+#: src/configure.c src/unpack.c
+#, fuzzy, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: sikertelen gzip %s futtatás"
 
 #: src/configure.c
 #, fuzzy, c-format
@@ -2770,15 +2764,15 @@ msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 "dpkg: %s: figyelem - `%.250s' konffájl nem sima fájl vagy jlánc (= `%s')\n"
 
-#: src/configure.c dpkg-split/split.c
+#: src/configure.c src/verify.c dpkg-split/split.c
 #, fuzzy, c-format
 #| msgid "cannot stat old name `%s': %s"
-msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "a régi `%s' név nem található: %s"
 
 #: src/configure.c
 #, fuzzy, c-format
-msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "nem tudom megnyitni %s-t írásra: %s"
 
 #: src/depcon.c
@@ -3298,31 +3292,17 @@ msgid_plural " %d packages, from the following sections:"
 msgstr[0] " %d csomag az alábbi szakaszokból:"
 
 #: src/enquiry.c
-#, fuzzy, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"E dpkg verzió epoch támogatása nincs beállítva.\n"
-" Futtasd a `dpkg --configure dpkg'-t, és próbáld újra.\n"
-
-#: src/enquiry.c
-#, fuzzy, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr ""
-"a dpkg nincs bejegyezve telepítettként, az epoch támogatás nem "
-"ellenőrizhető !\n"
-
-#: src/enquiry.c
-msgid "Pre-Depends field"
+msgid "the Pre-Depends field"
 msgstr ""
 
 #: src/enquiry.c
-msgid "epoch"
-msgstr ""
+#, fuzzy
+#| msgid "epoch in version is not number"
+msgid "epochs in versions"
+msgstr "hiányzó szám a verzióban"
 
 #: src/enquiry.c
-msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr ""
 
 #: src/enquiry.c
@@ -3330,15 +3310,40 @@ msgid "multiple Conflicts and Replaces"
 msgstr ""
 
 #: src/enquiry.c
-msgid "multi-arch"
+msgid "multi-arch fields and semantics"
 msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
+msgid "versioned relationships in the Provides field"
 msgstr ""
 
 #: src/enquiry.c
-msgid "Protected field"
+msgid "the Protected field"
+msgstr ""
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "cannot open diversions: %s"
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "nem megnyitható eltérítések: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"E dpkg verzió epoch támogatása nincs beállítva.\n"
+" Futtasd a `dpkg --configure dpkg'-t, és próbáld újra.\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
 msgstr ""
 
 #: src/enquiry.c
@@ -3745,6 +3750,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3791,22 +3797,6 @@ msgstr ""
 "  -h|--help                        Kiírja e súgót.\n"
 "  --version                        Kiírja a verziót.\n"
 "  --license|--licence              Kiírja a licencet.\n"
-"\n"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#| "conrep.\n"
-#| "\n"
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
-"\n"
-msgstr ""
-"Belső használatra: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
 
 #: src/main.c
@@ -4434,6 +4424,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -4911,6 +4902,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -5092,8 +5084,13 @@ msgstr "%s dekonfigurálása, így %s eltávolíthatóvá válik...\n"
 
 #: src/unpack.c
 #, fuzzy, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Eltávolítás: %s ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr "%s dekonfigurálása, így %s eltávolíthatóvá válik...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "%s dekonfigurálása, így %s eltávolíthatóvá válik...\n"
 
 #: src/unpack.c
 #, fuzzy
@@ -5185,6 +5182,29 @@ msgstr "nem tudom telepíteni az új `%.250s' info fájlt, mint `%.250s'"
 
 #: src/unpack.c
 #, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Eltávolítás: %s ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Eltávolítás: %s ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot stat new name `%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "az új `%s' név nem behatárolható: %s"
+
+#: src/unpack.c
+#, fuzzy, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "dpkg: figyelem - nem lelem a régi fájlt: `%.250s' így nem törlöm: %s"
 
@@ -5273,6 +5293,11 @@ msgstr "hibás fájlrendszer tarfájl -- hibás csomag archívum"
 #| msgid "dpkg-deb: zap possible trailing zeros"
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "dpkg-deb: lehetséges vezető 0-ák levágása"
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "%s dekonfigurálása, így %s eltávolíthatóvá válik...\n"
 
 #: src/update.c
 #, fuzzy, c-format
@@ -6524,8 +6549,10 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -6588,6 +6615,12 @@ msgstr "`%.255s' könyvtár nem nézhető át"
 #| msgid "%s: can't open %s: %s"
 msgid "cannot append to '%s'"
 msgstr "%s: %s nem nyitható meg: %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot get local time to log into '%s'"
+msgstr "`%.255s' könyvtár nem nézhető át"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6857,6 +6890,13 @@ msgid "alternative %s for %s not registered; not setting"
 msgstr "%s kiválasztása ehhez: %s nincs bejegyezve, nem törlöm"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "there is no program which provides %s"
+msgstr ""
+"Nincs program, mely ezt adja: %s.\n"
+"Nincs beállítandó.\n"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr ""
@@ -6913,12 +6953,24 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
 msgstr ""
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "Skip unknown alternative %s."
+msgid "selecting alternative %s as choice %s"
+msgstr "Nincs kiválasztás erre: %s."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "alternative %s unchanged because choice %s is not available"
+msgstr ""
+"%s választása erre mutat: %s - melyet nem leltem. Eltávolítom a választási "
+"listából."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "skip unknown alternative %s"
 msgstr "Nem találom a `%s' kiválasztást"
 
 #: utils/update-alternatives.c
@@ -6928,7 +6980,7 @@ msgstr "váratlan fájl vége jel itt: %.250s"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr ""
 
 #: utils/update-alternatives.c
@@ -7081,6 +7133,40 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, fuzzy, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "olvasási hiba itt: %.250s"
+
+#, fuzzy, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "nem tudom telepíteni `%.255s' új verzióját"
+
+#, fuzzy, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr ""
+#~ "a dpkg nincs bejegyezve telepítettként, az epoch támogatás nem "
+#~ "ellenőrizhető !\n"
+
+#, fuzzy, c-format
+#~| msgid ""
+#~| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+#~| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~| "conrep.\n"
+#~| "\n"
+#~ msgid ""
+#~ "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Belső használatra: dpkg --assert-support-predepends | --predep-package |\n"
+#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~ "conrep.\n"
+#~ "\n"
+
+#, fuzzy, c-format
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "Eltávolítás: %s ...\n"
 
 #, fuzzy
 #~ msgid ""
@@ -7860,9 +7946,6 @@ msgstr ""
 
 #~ msgid "--%s needs a <package> argument"
 #~ msgstr "--%s egy <csomag> argumentumot vár"
-
-#~ msgid "cannot open diversions: %s"
-#~ msgstr "nem megnyitható eltérítések: %s"
 
 #~ msgid "rename: rename `%s' to `%s': %s"
 #~ msgstr "átnevezés: `%s' átnevezése erre: `%s': %s"

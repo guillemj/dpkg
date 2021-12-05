@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-05 16:32+0100\n"
 "PO-Revision-Date: 2015-06-26 16:13+0200\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@debian.org>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -1110,6 +1110,12 @@ msgstr "ไม่สามารถเปิดแฟ้มปูม `%s': %s"
 #: lib/dpkg/log.c
 #, fuzzy, c-format
 #| msgid "cannot stat file '%s'"
+msgid "cannot get local time to log into '%s': %s"
+msgstr "ไม่สามารถ stat แฟ้ม '%s'"
+
+#: lib/dpkg/log.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
 msgid "cannot write to log file '%s': %s"
 msgstr "ไม่สามารถ stat แฟ้ม '%s'"
 
@@ -1971,8 +1977,9 @@ msgid "error creating directory '%.255s'"
 msgstr "เกิดข้อผิดพลาดขณะสร้างไดเรกทอรี `%.255s'"
 
 #: src/archives.c
-#, c-format
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
 msgstr "ไม่สามารถคำนวณแฮช MD5 ของแฟ้ม tar '%.255s': %s"
 
 #: src/archives.c
@@ -2121,28 +2128,61 @@ msgid "unable to sync file '%.255s'"
 msgstr "ไม่สามารถ sync แฟ้ม '%.250s'"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
 "%s"
 msgstr ""
 "จะละเลยปัญหาความขึ้นต่อกันของแพกเกจในการ%s:\n"
 "%s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
+msgid ""
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"ไม่ได้ ไม่สามารถดำเนินการ%s ต่อ (--auto-deconfigure ช่วยได้):\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
+"%s"
+msgstr ""
+"จะละเลยปัญหาความขึ้นต่อกันของแพกเกจในการ%s:\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "considering deconfiguration of essential\n"
+#| " package %s, to enable %s"
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "จะพิจารณาถอนคืนค่าตั้งของแพกเกจจำเป็น\n"
 " %s เพื่อให้สามารถ%s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, %s is essential, will not deconfigure\n"
+#| " it in order to enable %s"
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "ไม่ได้ %s เป็นแพกเกจจำเป็น จะไม่ถอนคืนค่าตั้ง\n"
 " เพื่อให้สามารถ%s"
@@ -2154,7 +2194,7 @@ msgstr ""
 #| " package %s, to enable %s"
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "จะพิจารณาถอนคืนค่าตั้งของแพกเกจจำเป็น\n"
 " %s เพื่อให้สามารถ%s"
@@ -2166,33 +2206,29 @@ msgstr ""
 #| " it in order to enable %s"
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "ไม่ได้ %s เป็นแพกเกจจำเป็น จะไม่ถอนคืนค่าตั้ง\n"
 " เพื่อให้สามารถ%s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "ไม่ได้ ไม่สามารถดำเนินการ%s ต่อ (--auto-deconfigure ช่วยได้):\n"
 "%s"
 
 #: src/archives.c
-#, c-format
-msgid "removal of %.250s"
-msgstr "ถอดถอน %.250s"
-
-#: src/archives.c
-#, c-format
-msgid "installation of %.250s"
-msgstr "ติดตั้ง %.250s"
-
-#: src/archives.c
-#, c-format
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+#, fuzzy, c-format
+#| msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr "จะพิจารณาถอนคืนค่าตั้งของ %s ซึ่งจะมีปัญหาเพราะการ%s ..."
 
 #: src/archives.c
@@ -2490,34 +2526,6 @@ msgstr "เชลล์สำหรับแฟ้มค่าตั้ง"
 
 #: src/configure.c
 #, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: ไม่สามารถลบ '%.250s': %s"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "กำลังถอดถอน %s (%s) ...\n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
-msgid "Saving as %s ...\n"
-msgstr "กำลังถอดถอน %s (%s) ...\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "cannot append ar member file (%s) to '%s': %s"
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "ไม่สามารถเพิ่มแฟ้มสมาชิก ar (%s) เข้าใน '%s': %s"
-
-#: src/configure.c
-#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "ไม่สามารถ stat แฟ้มค่าตั้ง '%.250s' ฉบับจัดแจกรุ่นใหม่"
 
@@ -2546,6 +2554,11 @@ msgstr "%s: ไม่สามารถลบแฟ้มสำรองเก�
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: ไม่สามารถเปลี่ยนชื่อ '%.250s' เป็น '%.250s': %s"
+
+#: src/configure.c src/unpack.c
+#, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: ไม่สามารถลบ '%.250s': %s"
 
 #: src/configure.c
 #, c-format
@@ -2679,14 +2692,16 @@ msgstr ""
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr "%s: แฟ้มค่าตั้ง '%.250s' ไม่ใช่แฟ้มธรรมดาหรือ symlink (= '%s')"
 
-#: src/configure.c dpkg-split/split.c
-#, c-format
-msgid "cannot compute MD5 hash for file '%s': %s"
+#: src/configure.c src/verify.c dpkg-split/split.c
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "ไม่สามารถคำนวณแฮช MD5 สำหรับแฟ้ม '%s': %s"
 
 #: src/configure.c
-#, c-format
-msgid "%s: unable to open %s for hash: %s"
+#, fuzzy, c-format
+#| msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "%s: ไม่สามารถเปิด %s เพื่อทำ hash: %s"
 
 #: src/depcon.c
@@ -3214,33 +3229,24 @@ msgid " %d package, from the following section:"
 msgid_plural " %d packages, from the following sections:"
 msgstr[0] " %d แพกเกจ จากหมวดต่อไปนี้:"
 
-#: src/enquiry.c
-#, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"dpkg รุ่นที่รองรับ%s ยังไม่ได้ตั้งค่า\n"
-" กรุณาสั่ง 'dpkg --configure dpkg' แล้วจึงลองใหม่\n"
-
-#: src/enquiry.c
-#, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr "ไม่มีบันทึกว่า dpkg ถูกติดตั้งไว้ จึงไม่สามารถตรวจสอบการรองรับ%s ได้!\n"
-
 # Use leading space for English translation
 #: src/enquiry.c
-msgid "Pre-Depends field"
+#, fuzzy
+#| msgid "Pre-Depends field"
+msgid "the Pre-Depends field"
 msgstr "เขตข้อมูล Pre-Depends"
 
-# Use leading space for English translation
 #: src/enquiry.c
-msgid "epoch"
-msgstr " epoch"
+#, fuzzy
+#| msgid "epoch in version is negative"
+msgid "epochs in versions"
+msgstr "epoch ในเลขรุ่นเป็นค่าลบ"
 
 # Use leading space for English translation
 #: src/enquiry.c
-msgid "long filenames"
+#, fuzzy
+#| msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr "ชื่อแฟ้มยาว"
 
 # Use leading space for English translation
@@ -3249,19 +3255,47 @@ msgid "multiple Conflicts and Replaces"
 msgstr "รายการ Conflicts และ Replaces หลายรายการ"
 
 #: src/enquiry.c
-msgid "multi-arch"
-msgstr "หลากสถาปัตยกรรม"
+msgid "multi-arch fields and semantics"
+msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
-msgstr "การจัดเตรียมแบบระบุรุ่น"
+msgid "versioned relationships in the Provides field"
+msgstr ""
 
 # Use leading space for English translation
 #: src/enquiry.c
 #, fuzzy
 #| msgid "Pre-Depends field"
-msgid "Protected field"
+msgid "the Protected field"
 msgstr "เขตข้อมูล Pre-Depends"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "cannot open diversions: %s"
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "ไม่สามารถเปิดแฟ้ม diversions: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid ""
+#| "Version of dpkg with working %s support not yet configured.\n"
+#| " Please use 'dpkg --configure dpkg', and then try again.\n"
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"dpkg รุ่นที่รองรับ%s ยังไม่ได้ตั้งค่า\n"
+" กรุณาสั่ง 'dpkg --configure dpkg' แล้วจึงลองใหม่\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
+msgstr ""
 
 #: src/enquiry.c
 #, c-format
@@ -3694,6 +3728,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3742,25 +3777,6 @@ msgid ""
 msgstr ""
 "  -?,  --help                      แสดงข้อความช่วยเหลือนี้\n"
 "       --version                   แสดงเลขรุ่น\n"
-"\n"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#| "conrep |\n"
-#| "  --assert-multi-arch | --assert-versioned-provides.\n"
-#| "\n"
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
-"\n"
-msgstr ""
-"สำหรับการใช้งานภายใน: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
-"|\n"
-"  --assert-multi-arch | --assert-versioned-provides\n"
 "\n"
 
 #: src/main.c
@@ -4426,6 +4442,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -4882,10 +4899,24 @@ msgstr ""
 "\n"
 
 #: src/trigcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
+#| "  --by-package=<package>           Override trigger awaiter (normally "
+#| "set\n"
+#| "                                     by dpkg).\n"
+#| "  --await                          Package needs to await the "
+#| "processing.\n"
+#| "  --no-await                       No package needs to await the "
+#| "processing.\n"
+#| "  --no-act                         Just test - don't actually change "
+#| "anything.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -5053,9 +5084,16 @@ msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
 msgstr "กำลังถอนคืนค่าตั้งของ %s (%s) เพื่อให้สามารถถอดถอน %s (%s) ได้ ...\n"
 
 #: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "กำลังถอนคืนค่าตั้งของ %s (%s) ...\n"
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr "กำลังถอนคืนค่าตั้งของ %s (%s) เพื่อให้สามารถถอดถอน %s (%s) ได้ ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "กำลังถอนคืนค่าตั้งของ %s (%s) เพื่อให้สามารถถอดถอน %s (%s) ได้ ...\n"
 
 #: src/unpack.c
 #, fuzzy
@@ -5145,6 +5183,29 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "ไม่สามารถติดตั้งแฟ้มควบคุมใหม่ `%.250s' เป็น `%.250s'"
 
 #: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "กำลังถอดถอน %s (%s) ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "กำลังถอดถอน %s (%s) ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "ไม่สามารถเพิ่มแฟ้มสมาชิก ar (%s) เข้าใน '%s': %s"
+
+#: src/unpack.c
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "ไม่สามารถ stat แฟ้มเก่า '%.250s' จึงจะไม่มีการลบแฟ้มดังกล่าว: %s"
@@ -5224,6 +5285,12 @@ msgstr "แฟ้ม tar สำหรับแฟ้มที่จะติด�
 #, c-format
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "ไม่สามารถตัดไบต์ศูนย์ทั้งหลายข้างท้ายที่อาจจะมีจาก dpkg-deb: %s"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "กำลังถอนคืนค่าตั้งของ %s (%s) เพื่อให้สามารถถอดถอน %s (%s) ได้ ...\n"
 
 #: src/update.c
 #, c-format
@@ -6467,8 +6534,10 @@ msgstr ""
 #| "  --version                show the version.\n"
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -6525,6 +6594,12 @@ msgstr "ไม่สามารถตรวจข้อมูลไดเรก
 #, c-format
 msgid "cannot append to '%s'"
 msgstr "ไม่สามารถเขียนต่อท้าย '%s'"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot get local time to log into '%s'"
+msgstr "ไม่สามารถตรวจข้อมูลไดเรกทอรี `%.255s'"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6787,6 +6862,12 @@ msgstr "ทางเลือก %s สำหรับ %s ไม่ได้ล�
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "There is no program which provides %s."
+msgid "there is no program which provides %s"
+msgstr "ไม่มีโปรแกรมที่จัดเตรียม %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 #| msgid "%s/%s is dangling; it will be updated with best choice"
 msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr "ลิงก์ %s/%s เป็นลิงก์ขาด จะปรับให้เป็นตัวเลือกที่ดีที่สุด"
@@ -6847,12 +6928,25 @@ msgstr "ไม่รู้จักทางเลือกปัจจุบั
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "no alternatives for %s"
+msgid "selecting alternative %s as choice %s"
+msgstr "ไม่มีทางเลือกสำหรับ %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Alternative %s unchanged because choice %s is not available."
+msgid "alternative %s unchanged because choice %s is not available"
 msgstr "ทางเลือก %s ไม่มีการเปลี่ยนแปลง เพราะตัวเลือก %s ไม่มีอยู่"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
+#, fuzzy, c-format
+#| msgid "Skip unknown alternative %s."
+msgid "skip unknown alternative %s"
 msgstr "ข้ามทางเลือก %s ที่ไม่รู้จัก"
 
 #: utils/update-alternatives.c
@@ -6861,8 +6955,9 @@ msgid "line too long or not terminated while trying to read %s"
 msgstr "พบบรรทัดที่ยาวเกินไปหรือไม่ได้ปิดท้ายขณะพยายามอ่าน %s"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr "ข้ามบรรทัดที่ไม่ถูกต้อง: %s"
 
 #: utils/update-alternatives.c
@@ -7008,6 +7103,51 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "ถอดถอน %.250s"
+
+#, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "ติดตั้ง %.250s"
+
+#, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr "ไม่มีบันทึกว่า dpkg ถูกติดตั้งไว้ จึงไม่สามารถตรวจสอบการรองรับ%s ได้!\n"
+
+# Use leading space for English translation
+#~ msgid "epoch"
+#~ msgstr " epoch"
+
+#~ msgid "multi-arch"
+#~ msgstr "หลากสถาปัตยกรรม"
+
+#~ msgid "versioned Provides"
+#~ msgstr "การจัดเตรียมแบบระบุรุ่น"
+
+#, fuzzy, c-format
+#~| msgid ""
+#~| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+#~| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~| "conrep |\n"
+#~| "  --assert-multi-arch | --assert-versioned-provides.\n"
+#~| "\n"
+#~ msgid ""
+#~ "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "สำหรับการใช้งานภายใน: dpkg --assert-support-predepends | --predep-package "
+#~ "|\n"
+#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~ "conrep |\n"
+#~ "  --assert-multi-arch | --assert-versioned-provides\n"
+#~ "\n"
+
+#, c-format
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "กำลังถอนคืนค่าตั้งของ %s (%s) ...\n"
 
 #~ msgid ""
 #~ "need --display, --query, --list, --get-selections, --config, --set, --set-"
@@ -7545,9 +7685,6 @@ msgstr ""
 
 #~ msgid "--%s needs a <package> argument"
 #~ msgstr "--%s ต้องการอาร์กิวเมนต์ <package>"
-
-#~ msgid "cannot open diversions: %s"
-#~ msgstr "ไม่สามารถเปิดแฟ้ม diversions: %s"
 
 #~ msgid "rename: rename `%s' to `%s': %s"
 #~ msgstr "rename: เปลี่ยนชื่อ `%s' ไปเป็น `%s': %s"

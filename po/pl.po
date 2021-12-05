@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.20.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-24 19:49+0200\n"
+"POT-Creation-Date: 2021-12-05 16:32+0100\n"
 "PO-Revision-Date: 2021-04-24 19:50+0200\n"
 "Last-Translator: Łukasz Dulny <bartekchom@poczta.onet.pl>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
@@ -1932,8 +1932,9 @@ msgid "error creating directory '%.255s'"
 msgstr "nie można utworzyć katalogu \"%.255s\""
 
 #: src/archives.c
-#, c-format
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
 msgstr "nie można obliczyć sumy MD5 pliku tar \"%.255s\": %s"
 
 #: src/archives.c
@@ -2094,54 +2095,24 @@ msgid "unable to sync file '%.255s'"
 msgstr "nie można zsynchronizować pliku \"%.255s\""
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
 "%s"
 msgstr ""
 "ignorowanie problemu z zależnościami z %s:\n"
 "%s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
 msgid ""
-"considering deconfiguration of essential\n"
-" package %s, to enable %s"
-msgstr ""
-"rozważanie dekonfiguracji istotnego\n"
-" pakietu %s, aby włączyć %s"
-
-#: src/archives.c
-#, c-format
-msgid ""
-"no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
-msgstr ""
-"niestety, %s jest istotnym pakietem, który nie zostanie\n"
-" zdekonfigurowany, aby włączyć %s"
-
-#: src/archives.c
-#, c-format
-msgid ""
-"considering deconfiguration of protected\n"
-" package %s, to enable %s"
-msgstr ""
-"rozważanie dekonfiguracji chronionego\n"
-" pakietu %s, aby włączyć %s"
-
-#: src/archives.c
-#, c-format
-msgid ""
-"no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
-msgstr ""
-"niestety, %s jest chronionym pakietem, który nie zostanie\n"
-" zdekonfigurowany, aby włączyć %s"
-
-#: src/archives.c
-#, c-format
-msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "niestety, nie można kontynuować przetwarzania %s (--auto-deconfigure może "
@@ -2149,18 +2120,84 @@ msgstr ""
 "%s"
 
 #: src/archives.c
-#, c-format
-msgid "removal of %.250s"
-msgstr "usuwanie %.250s"
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
+"%s"
+msgstr ""
+"ignorowanie problemu z zależnościami z %s:\n"
+"%s"
 
 #: src/archives.c
-#, c-format
-msgid "installation of %.250s"
-msgstr "instalowanie %.250s"
+#, fuzzy, c-format
+#| msgid ""
+#| "considering deconfiguration of essential\n"
+#| " package %s, to enable %s"
+msgid ""
+"considering deconfiguration of essential\n"
+" package %s, to enable removal of %s"
+msgstr ""
+"rozważanie dekonfiguracji istotnego\n"
+" pakietu %s, aby włączyć %s"
 
 #: src/archives.c
-#, c-format
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+#, fuzzy, c-format
+#| msgid ""
+#| "no, %s is essential, will not deconfigure\n"
+#| " it in order to enable %s"
+msgid ""
+"no, %s is essential, will not deconfigure\n"
+" it in order to enable removal of %s"
+msgstr ""
+"niestety, %s jest istotnym pakietem, który nie zostanie\n"
+" zdekonfigurowany, aby włączyć %s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "considering deconfiguration of protected\n"
+#| " package %s, to enable %s"
+msgid ""
+"considering deconfiguration of protected\n"
+" package %s, to enable removal of %s"
+msgstr ""
+"rozważanie dekonfiguracji chronionego\n"
+" pakietu %s, aby włączyć %s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "no, %s is protected, will not deconfigure\n"
+#| " it in order to enable %s"
+msgid ""
+"no, %s is protected, will not deconfigure\n"
+" it in order to enable removal of %s"
+msgstr ""
+"niestety, %s jest chronionym pakietem, który nie zostanie\n"
+" zdekonfigurowany, aby włączyć %s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
+msgid ""
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"niestety, nie można kontynuować przetwarzania %s (--auto-deconfigure może "
+"pomóc):\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr ""
 "rozważanie dekonfiguracji %s, którego zależności zostałyby naruszone przez "
 "%s ..."
@@ -2464,34 +2501,6 @@ msgstr "plik konfiguracyjny powłoki"
 
 #: src/configure.c
 #, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: nie można usunąć \"%.250s\": %s"
-
-#: src/configure.c
-#, c-format
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "Usuwanie przestarzałego pliku konfiguracji %s ...\n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-"Przestarzały plik konfiguracji \"%s\" został zmodyfikowany przez ciebie.\n"
-
-#: src/configure.c
-#, c-format
-msgid "Saving as %s ...\n"
-msgstr "Zapisywanie jako %s ...\n"
-
-#: src/configure.c
-#, c-format
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr ""
-"%s: nie można zmienić nazwy przestarzałego pliku konfiguracyjnego \"%s\" na "
-"\"%s\": %s"
-
-#: src/configure.c
-#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "nie można ustalić stanu nowego pliku konfiguracyjnego \"%.250s\""
 
@@ -2520,6 +2529,11 @@ msgstr "%s: nie można usunąć starej kopii \"%.250s\": %s"
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: nie można zmienić nazwy \"%.250s\" na \"%.250s\": %s"
+
+#: src/configure.c src/unpack.c
+#, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: nie można usunąć \"%.250s\": %s"
 
 #: src/configure.c
 #, c-format
@@ -2659,14 +2673,16 @@ msgstr ""
 "%s: plik konfiguracyjny \"%.250s\" nie jest plikiem ani dowiązaniem (= \"%s"
 "\")"
 
-#: src/configure.c dpkg-split/split.c
-#, c-format
-msgid "cannot compute MD5 hash for file '%s': %s"
+#: src/configure.c src/verify.c dpkg-split/split.c
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "nie można obliczyć sumy MD5 pliku \"%s\": %s"
 
 #: src/configure.c
-#, c-format
-msgid "%s: unable to open %s for hash: %s"
+#, fuzzy, c-format
+#| msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "%s: nie można otworzyć %s dla sprawdzenia sumy kontrolnej: %s"
 
 #: src/depcon.c
@@ -3199,30 +3215,21 @@ msgstr[1] " %d pakiety, z następujących sekcji:"
 msgstr[2] " %d pakietów, z następujących sekcji:"
 
 #: src/enquiry.c
-#, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"Wersja dpkg obsługująca %s nie jest jeszcze skonfigurowana.\n"
-" Należy wykonać \"dpkg --configure dpkg\" i później spróbować ponownie.\n"
-
-#: src/enquiry.c
-#, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr ""
-"nie odnaleziono dpkg w bazie danych, nie można sprawdzić czy obsługuje %s!\n"
-
-#: src/enquiry.c
-msgid "Pre-Depends field"
+#, fuzzy
+#| msgid "Pre-Depends field"
+msgid "the Pre-Depends field"
 msgstr "pole Pre-Depends"
 
 #: src/enquiry.c
-msgid "epoch"
-msgstr "epoka"
+#, fuzzy
+#| msgid "epoch in version is empty"
+msgid "epochs in versions"
+msgstr "epoka w numerze wersji jest pusta"
 
 #: src/enquiry.c
-msgid "long filenames"
+#, fuzzy
+#| msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr "długie nazwy plików"
 
 #: src/enquiry.c
@@ -3230,16 +3237,46 @@ msgid "multiple Conflicts and Replaces"
 msgstr "wielokrotne określenia Conflicts i Replaces"
 
 #: src/enquiry.c
-msgid "multi-arch"
-msgstr "wieloarchitekturowość"
+msgid "multi-arch fields and semantics"
+msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
-msgstr "wersjonowane Provides"
+msgid "versioned relationships in the Provides field"
+msgstr ""
 
 #: src/enquiry.c
-msgid "Protected field"
+#, fuzzy
+#| msgid "Protected field"
+msgid "the Protected field"
 msgstr "pole Protected"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "cannot open diversions: %s"
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "nie można otworzyć listy ominiętych plików: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid ""
+#| "Version of dpkg with working %s support not yet configured.\n"
+#| " Please use 'dpkg --configure dpkg', and then try again.\n"
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"Wersja dpkg obsługująca %s nie jest jeszcze skonfigurowana.\n"
+" Należy wykonać \"dpkg --configure dpkg\" i później spróbować ponownie.\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
+msgstr ""
 
 #: src/enquiry.c
 #, c-format
@@ -3614,7 +3651,46 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "Wersja %2$s programu do zarządzania pakietami Debiana %1$s.\n"
 
 #: src/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
+#| "  --unpack           <.deb file name>... | -R|--recursive <directory>...\n"
+#| "  -A|--record-avail  <.deb file name>... | -R|--recursive <directory>...\n"
+#| "  --configure        <package>... | -a|--pending\n"
+#| "  --triggers-only    <package>... | -a|--pending\n"
+#| "  -r|--remove        <package>... | -a|--pending\n"
+#| "  -P|--purge         <package>... | -a|--pending\n"
+#| "  -V|--verify [<package>...]       Verify the integrity of package(s).\n"
+#| "  --get-selections [<pattern>...]  Get list of selections to stdout.\n"
+#| "  --set-selections                 Set package selections from stdin.\n"
+#| "  --clear-selections               Deselect every non-essential package.\n"
+#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
+#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
+#| "  --clear-avail                    Erase existing available info.\n"
+#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
+#| "  -s|--status [<package>...]       Display package status details.\n"
+#| "  -p|--print-avail [<package>...]  Display available version details.\n"
+#| "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern>...]         List packages concisely.\n"
+#| "  -S|--search <pattern>...         Find package(s) owning file(s).\n"
+#| "  -C|--audit [<package>...]        Check for broken package(s).\n"
+#| "  --yet-to-unpack                  Print packages selected for "
+#| "installation.\n"
+#| "  --predep-package                 Print pre-dependencies to unpack.\n"
+#| "  --add-architecture <arch>        Add <arch> to the list of "
+#| "architectures.\n"
+#| "  --remove-architecture <arch>     Remove <arch> from the list of "
+#| "architectures.\n"
+#| "  --print-architecture             Print dpkg architecture.\n"
+#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+#| "  --assert-<feature>               Assert support for the specified "
+#| "feature.\n"
+#| "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
+#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
+#| "  --force-help                     Show help on forcing.\n"
+#| "  -Dh|--debug=help                 Show help on debugging.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
@@ -3646,6 +3722,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3702,18 +3779,6 @@ msgid ""
 msgstr ""
 "  -?, --help                      Pokazuje ten ekran pomocy.\n"
 "      --version                   Pokazuje informacje o wersji programu.\n"
-"\n"
-
-#: src/main.c
-#, c-format
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
-"\n"
-msgstr ""
-"Funkcje z możliwym do założenia wsparciem: support-predepends, working-"
-"epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
 "\n"
 
 #: src/main.c
@@ -4332,10 +4397,19 @@ msgstr ""
 "\n"
 
 #: src/querycmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
+#| "  --load-avail                     Use available file on --show and --"
+#| "list.\n"
+#| "  --no-pager                       Disables the use of any pager.\n"
+#| "  -f|--showformat=<format>         Use alternative format for --show.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -4790,10 +4864,24 @@ msgstr ""
 "\n"
 
 #: src/trigcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
+#| "  --by-package=<package>           Override trigger awaiter (normally "
+#| "set\n"
+#| "                                     by dpkg).\n"
+#| "  --await                          Package needs to await the "
+#| "processing.\n"
+#| "  --no-await                       No package needs to await the "
+#| "processing.\n"
+#| "  --no-act                         Just test - don't actually change "
+#| "anything.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -4970,9 +5058,18 @@ msgstr ""
 "Dekonfigurowanie pakietu %s (%s), tak żeby można było usunąć %s (%s) ...\n"
 
 #: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Dekonfigurowanie pakietu %s (%s) ...\n"
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr ""
+"Dekonfigurowanie pakietu %s (%s), tak żeby można było usunąć %s (%s) ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr ""
+"Dekonfigurowanie pakietu %s (%s), tak żeby można było usunąć %s (%s) ...\n"
 
 #: src/unpack.c
 msgid "conffile file contains an empty line"
@@ -5064,6 +5161,29 @@ msgstr "pakiet %s zawierał listę plików jako plik informacyjny"
 msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr ""
 "nie można zainstalować nowego pliku informacyjnego \"%.250s\" jako \"%.250s\""
+
+#: src/unpack.c
+#, c-format
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Usuwanie przestarzałego pliku konfiguracji %s ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+"Przestarzały plik konfiguracji \"%s\" został zmodyfikowany przez ciebie.\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Saving as %s ...\n"
+msgstr "Zapisywanie jako %s ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr ""
+"%s: nie można zmienić nazwy przestarzałego pliku konfiguracyjnego \"%s\" na "
+"\"%s\": %s"
 
 #: src/unpack.c
 #, c-format
@@ -6370,11 +6490,30 @@ msgstr ""
 "\n"
 
 #: utils/update-alternatives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --altdir <directory>     change the alternatives directory.\n"
+#| "  --admindir <directory>   change the administrative directory.\n"
+#| "  --instdir <directory>    change the installation directory.\n"
+#| "  --root <directory>       change the filesystem root directory.\n"
+#| "  --log <file>             change the log file.\n"
+#| "  --force                  allow replacing files with alternative links.\n"
+#| "  --skip-auto              skip prompt for alternatives correctly "
+#| "configured\n"
+#| "                           in automatic mode (relevant for --config "
+#| "only)\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --verbose                verbose operation, more output.\n"
+#| "  --debug                  debug output, way more output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -6699,6 +6838,12 @@ msgid "alternative %s for %s not registered; not setting"
 msgstr "alternatywa %s dla %s nie jest zarejestrowana - nie będzie ustawiona"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "There is no program which provides %s."
+msgid "there is no program which provides %s"
+msgstr "Nie znaleziono programu, który dostarcza %s."
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr ""
@@ -6762,12 +6907,25 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "no alternatives for %s"
+msgid "selecting alternative %s as choice %s"
+msgstr "brak alternatyw dla %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Alternative %s unchanged because choice %s is not available."
+msgid "alternative %s unchanged because choice %s is not available"
 msgstr "Niezmieniona alternatywa %s, ponieważ wybór %s jest niedostępny."
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
+#, fuzzy, c-format
+#| msgid "Skip unknown alternative %s."
+msgid "skip unknown alternative %s"
 msgstr "Pominięcie nieznanej alternatywy %s."
 
 #: utils/update-alternatives.c
@@ -6776,8 +6934,9 @@ msgid "line too long or not terminated while trying to read %s"
 msgstr "wiersz jest zbyt długi lub niezakończony podczas próby odczytu %s"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr "Pomijanie nieprawidłowego wiersza: %s"
 
 #: utils/update-alternatives.c
@@ -6927,6 +7086,44 @@ msgstr "Uruchom update-alternatives, aby zmienić wybór alternatyw w systemie"
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "Uruchomienie update-alternatives wymaga uwierzytelnienia"
+
+#, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "usuwanie %.250s"
+
+#, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "instalowanie %.250s"
+
+#, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr ""
+#~ "nie odnaleziono dpkg w bazie danych, nie można sprawdzić czy obsługuje "
+#~ "%s!\n"
+
+#~ msgid "epoch"
+#~ msgstr "epoka"
+
+#~ msgid "multi-arch"
+#~ msgstr "wieloarchitekturowość"
+
+#~ msgid "versioned Provides"
+#~ msgstr "wersjonowane Provides"
+
+#, c-format
+#~ msgid ""
+#~ "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Funkcje z możliwym do założenia wsparciem: support-predepends, working-"
+#~ "epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+
+#, c-format
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "Dekonfigurowanie pakietu %s (%s) ...\n"
 
 #~ msgid ""
 #~ "need --display, --query, --list, --get-selections, --config, --set, --set-"
@@ -7676,9 +7873,6 @@ msgstr "Uruchomienie update-alternatives wymaga uwierzytelnienia"
 
 #~ msgid "--%s needs a <package> argument"
 #~ msgstr "--%s wymaga podania <pakietu> jako argumentu"
-
-#~ msgid "cannot open diversions: %s"
-#~ msgstr "nie można otworzyć listy ominiętych plików: %s"
 
 #~ msgid "rename: rename `%s' to `%s': %s"
 #~ msgstr "rename: zmiana nazwy \"%s\" na \"%s\": %s"
