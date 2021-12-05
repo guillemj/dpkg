@@ -198,6 +198,13 @@ foreach my $id (reverse $log->get_keys()) {
             my $body = qx(git show -s --pretty=tformat:%b $id);
             $commit->{Title} .= "\n$body";
         }
+
+        if ($changelog =~ m{s/([^/]+)/([^/]+)/}) {
+            $commit->{Fixup} = {
+                old => $1,
+                new => $2,
+            };
+        }
     }
 
     # Decide into what section the commit should go.
@@ -273,6 +280,11 @@ foreach my $groupname (@groups, sort @groups_l10n) {
             # Handle the Closes metafield last.
             if (exists $commit->{Closes}) {
                 $title .= " Closes: $commit->{Closes}";
+            }
+
+            # Handle fixups from git notes.
+            if (exists $commit->{Fixup}) {
+                $title =~ s/\Q$commit->{Fixup}{old}\E/$commit->{Fixup}{new}/m;
             }
 
             # Handle mappings.
