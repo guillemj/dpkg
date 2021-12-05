@@ -635,8 +635,6 @@ push @changes_opts, "-O$changes_file";
 
 my $changes = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
 
-printcmd("dpkg-genchanges @changes_opts");
-
 run_cmd('dpkg-genchanges', @changes_opts);
 $changes->load($changes_file);
 
