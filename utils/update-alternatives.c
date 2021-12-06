@@ -2828,7 +2828,7 @@ admindir_init(void)
 	 * by the system package manager. */
 	basedir_env = getenv(ADMINDIR_ENVVAR);
 	if (basedir_env)
-		return strdup(basedir_env);
+		return xasprintf("%s%s", basedir_env, "/alternatives");
 	else
 		return fsys_gen_admindir();
 }
