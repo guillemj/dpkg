@@ -44,11 +44,11 @@ show_usage()
 Usage: $PROGNAME [<option>...] <pathname>
 
 Options:
-  -z,  --zero                   end output line with NUL, not newline.
-       --instdir <directory>    set the root directory.
-       --root <directory>       set the root directory.
-       --version                show the version.
-  -?,  --help                   show this help message.
+  -z, --zero                   end output line with NUL, not newline.
+      --instdir <directory>    set the root directory.
+      --root <directory>       set the root directory.
+      --version                show the version.
+  -?, --help                   show this help message.
 END
 }
 
