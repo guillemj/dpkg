@@ -8,6 +8,21 @@ AT_CLEANUP
 AT_SETUP([dpkg-deb .deb format])
 AT_KEYWORDS([dpkg-deb deb])
 
+AT_DATA([pkg-deb-bogus-empty.deb], [])
+AT_CHECK([
+# Check truncated deb w/ 0 size
+dpkg-deb --info pkg-deb-bogus-empty.deb
+], [2], [], [dpkg-deb: error: unexpected end of file in archive magic version number in pkg-deb-bogus-empty.deb
+])
+
+AT_DATA([pkg-deb-old-bogus-only-version.deb], [0.93
+])
+AT_CHECK([
+# Check truncated old deb w/ only version magic
+dpkg-deb --info pkg-deb-old-bogus-only-version.deb
+], [2], [], [dpkg-deb: error: unexpected end of file in archive control member size in pkg-deb-old-bogus-only-version.deb
+])
+
 DPKG_GEN_CONTROL([pkg-deb-format])
 DPKG_MOD_CONTROL([pkg-deb-format],
                  [s/^Description:.*$/& - deb format support/])

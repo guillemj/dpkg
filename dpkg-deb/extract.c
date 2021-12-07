@@ -124,7 +124,7 @@ extracthalf(const char *debar, const char *dir,
   ar = dpkg_ar_open(debar);
 
   r = read_line(ar->fd, versionbuf, strlen(DPKG_AR_MAGIC), sizeof(versionbuf) - 1);
-  if (r < 0)
+  if (r <= 0)
     read_fail(r, debar, _("archive magic version number"));
 
   if (strcmp(versionbuf, DPKG_AR_MAGIC) == 0) {
@@ -241,7 +241,7 @@ extracthalf(const char *debar, const char *dir,
       ohshit(_("archive has invalid format version: %s"), errstr);
 
     r = read_line(ar->fd, ctrllenbuf, 1, sizeof(ctrllenbuf) - 1);
-    if (r < 0)
+    if (r <= 0)
       read_fail(r, debar, _("archive control member size"));
     if (sscanf(ctrllenbuf, "%jd%c%d", (intmax_t *)&ctrllennum, &nlc, &dummy) != 2 ||
         nlc != '\n')
