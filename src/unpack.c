@@ -630,6 +630,7 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg, struct fsys_namenode *nameno
 
     debug(dbg_conff, "%s: namenode '%s' owned by other %s, remove-on-upgrade ignored",
          __func__, namenode->name, pkg_name(otherpkg, pnaw_always));
+    fsys_node_pkgs_iter_free(iter);
     return;
   }
   fsys_node_pkgs_iter_free(iter);
