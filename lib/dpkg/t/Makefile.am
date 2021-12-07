@@ -4,20 +4,24 @@ AM_CPPFLAGS = \
 	-DADMINDIR=\"$(admindir)\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
-	-I$(top_srcdir)/lib
+	-I$(top_srcdir)/lib \
+	# EOL
 LDADD = \
 	$(top_builddir)/lib/dpkg/libdpkg.la \
-	$(LIBINTL)
+	$(LIBINTL) \
+	# EOL
 
 EXTRA_DIST = \
 	$(test_scripts) \
-	$(nil)
+	# EOL
 
 TEST_ENV_VARS = \
 	DPKG_PROGTAR=$(TAR) \
-	$(nil)
+	# EOL
 
-t_headers_cpp_SOURCES = t-headers-cpp.cc
+t_headers_cpp_SOURCES = \
+	t-headers-cpp.cc \
+	# EOL
 
 # The tests are sorted in order of increasing complexity.
 test_programs = \
@@ -52,13 +56,13 @@ test_programs = \
 	t-fsys-hash \
 	t-trigger \
 	t-mod-db \
-	$(nil)
+	# EOL
 
 test_scripts = \
 	t-tarextract.t \
 	t-treewalk.t \
 	t-trigdeferred.t \
-	$(nil)
+	# EOL
 
 BENCHMARK_LDADD_FLAGS = -lrt $(LDADD)
 
@@ -72,7 +76,7 @@ check_PROGRAMS = \
 	c-tarextract \
 	c-treewalk \
 	c-trigdeferred \
-	$(nil)
+	# EOL
 
 test_tmpdir = t.tmp
 

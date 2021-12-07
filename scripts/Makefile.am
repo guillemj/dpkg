@@ -7,7 +7,8 @@ pkglibexec_SCRIPTS = \
 	# EOL
 
 sbin_SCRIPTS = \
-	dpkg-fsys-usrunmess
+	dpkg-fsys-usrunmess \
+	# EOL
 
 bin_SCRIPTS = \
 	dpkg-architecture \
@@ -28,7 +29,8 @@ bin_SCRIPTS = \
 	dpkg-scansources \
 	dpkg-shlibdeps \
 	dpkg-source \
-	dpkg-vendor
+	dpkg-vendor \
+	# EOL
 
 EXTRA_DIST = \
 	dpkg-architecture.pl \
@@ -53,7 +55,8 @@ EXTRA_DIST = \
 	dpkg-source.pl \
 	dpkg-vendor.pl \
 	$(test_scripts) \
-	$(test_data)
+	$(test_data) \
+	# EOL
 
 nobase_dist_pkgdata_DATA = \
 	sh/dpkg-error.sh \
@@ -67,7 +70,8 @@ CLEANFILES = \
 	$(test_data_objects) \
 	$(pkglibexec_SCRIPTS) \
 	$(sbin_SCRIPTS) \
-	$(bin_SCRIPTS)
+	$(bin_SCRIPTS) \
+	# EOL
 
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
@@ -144,11 +148,12 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Vendor/Default.pm \
 	Dpkg/Vendor/Ubuntu.pm \
 	Dpkg/Version.pm \
-	Dpkg.pm
+	Dpkg.pm \
+	# EOL
 
 EXTRA_DIST += \
 	Test/Dpkg.pm \
-	$(nil)
+	# EOL
 
 # Keep it even if empty to have man3dir correctly set
 man3_MANS =
@@ -164,13 +169,15 @@ do_perl_subst = $(AM_V_GEN) $(SED) \
 	-e "s:our \$$PROGMAKE = .*;:our \$$PROGMAKE = '$(MAKE)';:" \
 	-e "s:our \$$PROGTAR = .*;:our \$$PROGTAR = '$(TAR)';:" \
 	-e "s:our \$$PROGPATCH = .*;:our \$$PROGPATCH = '$(PATCH)';:" \
-	-e "s:our \$$PROGVERSION = .*;:our \$$PROGVERSION = '$(PACKAGE_VERSION)';:"
+	-e "s:our \$$PROGVERSION = .*;:our \$$PROGVERSION = '$(PACKAGE_VERSION)';:" \
+	# EOL
 
 do_shell_subst = $(AM_V_GEN) $(SED) \
 	-e "s:^ADMINDIR=.*$$:ADMINDIR='$(admindir)':" \
 	-e "s:^BACKUPSDIR=.*$$:BACKUPSDIR='$(backupsdir)':" \
 	-e "s:^PKGDATADIR_DEFAULT=.*$$:PKGDATADIR_DEFAULT='$(pkgdatadir)':" \
-	-e "s:^version=['\"][^'\"]*[\"']:version=\"$(PACKAGE_VERSION)\":"
+	-e "s:^version=['\"][^'\"]*[\"']:version=\"$(PACKAGE_VERSION)\":" \
+	# EOL
 
 SUFFIXES = .pl .sh
 
@@ -231,7 +238,8 @@ TEST_ENV_VARS = \
 	DPKG_PROGPATCH=$(PATCH) \
 	DPKG_PROGMAKE=$(MAKE) \
 	DPKG_DATADIR=$(top_srcdir)/data \
-	DPKG_ORIGINS_DIR=$(srcdir)/t/origins
+	DPKG_ORIGINS_DIR=$(srcdir)/t/origins \
+	# EOL
 TEST_COVERAGE = $(PERL_COVERAGE)
 
 test_tmpdir = t.tmp
@@ -284,7 +292,7 @@ test_scripts = \
 	t/dpkg_buildpackage.t \
 	t/merge_changelogs.t \
 	t/mk.t \
-	$(nil)
+	# EOL
 
 test_data = \
 	t/Dpkg_OpenPGP/package_1.0.orig.tar \
@@ -402,7 +410,8 @@ test_data = \
 	t/origins/debian \
 	t/origins/default \
 	t/origins/gnewsense \
-	t/origins/ubuntu
+	t/origins/ubuntu \
+	# EOL
 
 test_data_objects = \
 	t/Dpkg_Shlibs/libobjdump.basictags-amd64.so \
@@ -410,7 +419,7 @@ test_data_objects = \
 	t/Dpkg_Shlibs/libobjdump.basictags-mips.so \
 	t/Dpkg_Shlibs/libobjdump.patterns.so \
 	t/Dpkg_Shlibs/libobjdump.spacesyms.so \
-	$(nil)
+	# EOL
 
 $(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-amd64.so: $(srcdir)/t/Dpkg_Shlibs/basictags.c
 	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libbasictags.so.1 $< \

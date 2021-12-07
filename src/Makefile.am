@@ -5,22 +5,25 @@ AM_CPPFLAGS = \
 	-DADMINDIR=\"$(admindir)\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
-	-I$(top_srcdir)/lib
+	-I$(top_srcdir)/lib \
+	# EOL
 LDADD = \
 	../lib/dpkg/libdpkg.la \
-	$(LIBINTL)
+	$(LIBINTL) \
+	# EOL
 
 
 EXTRA_DIST = \
 	$(test_scripts) \
-	$(nil)
+	# EOL
 
 bin_PROGRAMS = \
 	dpkg \
 	dpkg-divert \
 	dpkg-query \
 	dpkg-statoverride \
-	dpkg-trigger
+	dpkg-trigger \
+	# EOL
 
 dpkg_SOURCES = \
 	actions.h \
@@ -46,32 +49,38 @@ dpkg_SOURCES = \
 	unpack.c \
 	update.c \
 	verify.c \
-	$(nil)
+	# EOL
 
 dpkg_LDADD = \
 	$(LDADD) \
-	$(SELINUX_LIBS)
+	$(SELINUX_LIBS) \
+	# EOL
 
 dpkg_divert_SOURCES = \
-	divertcmd.c
+	divertcmd.c \
+	# EOL
 
 dpkg_query_SOURCES = \
 	actions.h \
-	querycmd.c
+	querycmd.c \
+	# EOL
 
 dpkg_statoverride_SOURCES = \
 	actions.h \
 	force.c force.h \
 	security-mac.h \
 	selinux.c \
-	statcmd.c
+	statcmd.c \
+	# EOL
 
 dpkg_statoverride_LDADD = \
 	$(LDADD) \
-	$(SELINUX_LIBS)
+	$(SELINUX_LIBS) \
+	# EOL
 
 dpkg_trigger_SOURCES = \
-	trigcmd.c
+	trigcmd.c \
+	# EOL
 
 install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(pkgconfdir)/dpkg.cfg.d
@@ -81,7 +90,8 @@ install-data-local:
 test_tmpdir = t.tmp
 
 test_scripts = \
-	t/dpkg_divert.t
+	t/dpkg_divert.t \
+	# EOL
 
 include $(top_srcdir)/check.am
 

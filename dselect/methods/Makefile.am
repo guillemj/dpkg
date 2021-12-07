@@ -9,7 +9,7 @@ nobase_dist_methods_DATA = \
 	ftp/desc.ftp \
 	multicd/names \
 	multicd/desc.multi_cd \
-	$(nil)
+	# EOL
 
 nobase_methods_SCRIPTS = \
 	disk/install \
@@ -21,10 +21,12 @@ nobase_methods_SCRIPTS = \
 	multicd/install \
 	multicd/setup \
 	multicd/update \
-	$(nil)
+	# EOL
 
 perllibdir = $(PERL_LIBDIR)
-nobase_dist_perllib_DATA = Dselect/Ftp.pm
+nobase_dist_perllib_DATA = \
+	Dselect/Ftp.pm \
+	# EOL
 
 EXTRA_DIST = \
 	disk/setup.sh \
@@ -36,14 +38,16 @@ EXTRA_DIST = \
 	multicd/setup.sh \
 	multicd/update.sh \
 	multicd/install.sh \
-	multicd/README.multicd
+	multicd/README.multicd \
+	# EOL
 
 CLEANFILES = \
 	$(nobase_methods_SCRIPTS) \
-	$(nil)
+	# EOL
 
 do_perl_subst = $(AM_V_GEN) $(SED) \
-	-e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):"
+	-e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):" \
+	# EOL
 
 SUFFIXES = .pl .sh
 

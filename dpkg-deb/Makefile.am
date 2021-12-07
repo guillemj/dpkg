@@ -4,7 +4,8 @@ AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
-	-I$(top_srcdir)/lib
+	-I$(top_srcdir)/lib \
+	# EOL
 
 
 bin_PROGRAMS = dpkg-deb
@@ -14,11 +15,13 @@ dpkg_deb_SOURCES = \
 	build.c \
 	extract.c \
 	info.c \
-	main.c
+	main.c \
+	# EOL
 
 dpkg_deb_LDADD = \
 	../lib/dpkg/libdpkg.la \
 	$(LIBINTL) \
 	$(Z_LIBS) \
 	$(LZMA_LIBS) \
-	$(BZ2_LIBS)
+	$(BZ2_LIBS) \
+	# EOL

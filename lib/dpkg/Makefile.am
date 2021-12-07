@@ -1,6 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = . t
+SUBDIRS = \
+	. \
+	t \
+	# EOL
 
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
@@ -9,12 +12,14 @@ AM_CPPFLAGS = \
 	-DDEFAULT_TEXT_DOMAIN=\"@PACKAGE@\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
-	-I$(top_srcdir)/lib
+	-I$(top_srcdir)/lib \
+	# EOL
 
 
 EXTRA_DIST = \
 	libdpkg.map \
-	libdpkg.pc.in
+	libdpkg.pc.in \
+	# EOL
 
 pkgconfigdir = $(devlibdir)/pkgconfig
 pkgconfig_DATA = libdpkg.pc
@@ -24,20 +29,24 @@ devlib_LTLIBRARIES = libdpkg.la
 libdpkg_la_LDFLAGS =
 if HAVE_LINKER_VERSION_SCRIPT
 libdpkg_la_LDFLAGS += \
-	-Wl,--version-script=$(srcdir)/libdpkg.map
+	-Wl,--version-script=$(srcdir)/libdpkg.map \
+	# EOL
 endif
 libdpkg_la_LDFLAGS += $(MD_LIBS)
 libdpkg_la_LIBADD = \
-	../compat/libcompat.la
+	../compat/libcompat.la \
+	# EOL
 if BUILD_SHARED
 libdpkg_la_LIBADD += \
 	$(LIBINTL) \
 	$(Z_LIBS) \
 	$(LZMA_LIBS) \
-	$(BZ2_LIBS)
+	$(BZ2_LIBS) \
+	# EOL
 endif
 EXTRA_libdpkg_la_DEPENDENCIES = \
-	libdpkg.map
+	libdpkg.map \
+	# EOL
 libdpkg_la_SOURCES = \
 	dlist.h \
 	ar.c \
@@ -112,7 +121,8 @@ libdpkg_la_SOURCES = \
 	trigdeferred.c \
 	utils.c \
 	varbuf.c \
-	version.c
+	version.c \
+	# EOL
 
 pkginclude_HEADERS = \
 	ar.h \
@@ -161,4 +171,5 @@ pkginclude_HEADERS = \
 	trigdeferred.h \
 	triglib.h \
 	varbuf.h \
-	version.h
+	version.h \
+	# EOL

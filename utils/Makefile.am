@@ -8,17 +8,18 @@ AM_CPPFLAGS = \
 	-DRUNSTATEDIR=\"$(runstatedir)\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
-	-I$(top_srcdir)/lib
+	-I$(top_srcdir)/lib \
+	# EOL
 
 CLEANFILES = \
 	org.dpkg.pkexec.update-alternatives.policy \
-	$(nil)
+	# EOL
 
 EXTRA_DIST = \
 	README.alternatives \
 	update-alternatives.polkit.in \
 	$(test_scripts) \
-	$(nil)
+	# EOL
 
 pkexecdir = $(datadir)/polkit-1/actions
 pkexec_DATA =
@@ -32,7 +33,7 @@ endif
 
 do_polkit_subst = $(SED) \
 	-e 's,[@]bindir[@],$(bindir),g' \
-	$(nil)
+	# EOL
 
 org.dpkg.pkexec.update-alternatives.policy: update-alternatives.polkit.in Makefile
 	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
@@ -41,18 +42,20 @@ org.dpkg.pkexec.update-alternatives.policy: update-alternatives.polkit.in Makefi
 	  | $(do_polkit_subst) >$@
 
 update_alternatives_SOURCES = \
-	update-alternatives.c
+	update-alternatives.c \
+	# EOL
 
 update_alternatives_CPPFLAGS = \
 	-DALT_TMP_EXT=\".dpkg-tmp\" \
 	-DADMINDIR_ENVVAR=\"DPKG_ADMINDIR\" \
 	-DINSTDIR_ENVVAR=\"DPKG_ROOT\" \
-	$(AM_CPPFLAGS)
+	$(AM_CPPFLAGS) \
+	# EOL
 
 update_alternatives_LDADD = \
 	../lib/compat/libcompat.la \
 	$(LIBINTL) \
-	$(nil)
+	# EOL
 
 sbin_PROGRAMS =
 
@@ -60,14 +63,15 @@ if BUILD_START_STOP_DAEMON
 sbin_PROGRAMS += start-stop-daemon
 
 start_stop_daemon_SOURCES = \
-	start-stop-daemon.c
+	start-stop-daemon.c \
+	# EOL
 
 start_stop_daemon_LDADD = \
 	../lib/compat/libcompat.la \
 	$(SOCKET_LIBS) \
 	$(PS_LIBS) \
 	$(KVM_LIBS) \
-	$(nil)
+	# EOL
 endif
 
 install-data-local:
@@ -89,7 +93,8 @@ TEST_ENV_VARS = \
 
 test_tmpdir = t.tmp
 test_scripts = \
-	t/update_alternatives.t
+	t/update_alternatives.t \
+	# EOL
 
 include $(top_srcdir)/check.am
 

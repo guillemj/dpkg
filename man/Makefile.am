@@ -56,22 +56,25 @@ man_MANS = \
 	dpkg.1 \
 	dpkg.cfg.5 \
 	dsc.5 \
-	$(nil)
+	# EOL
 
 if BUILD_DSELECT
 man_MANS += \
 	dselect.1 \
-	dselect.cfg.5
+	dselect.cfg.5 \
+	# EOL
 endif
 
 if BUILD_START_STOP_DAEMON
 man_MANS += \
-	start-stop-daemon.8
+	start-stop-daemon.8 \
+	# EOL
 endif
 
 if BUILD_UPDATE_ALTERNATIVES
 man_MANS += \
-	update-alternatives.1
+	update-alternatives.1 \
+	# EOL
 endif
 
 CLEANFILES = $(man_MANS)
@@ -158,11 +161,18 @@ PO4A_V = $(PO4A_V_@AM_V@)
 PO4A_V_ = $(PO4A_V_@AM_DEFAULT_V@)
 PO4A_V_0 = @echo "  PO4A   $@";
 
-PO4A_OPTS = --previous --srcdir $(srcdir) --destdir $(builddir) --no-backups \
-            --porefs file --msgmerge-opt=--add-location=file \
-            --package-name dpkg-man --package-version $(PACKAGE_VERSION) \
-            --copyright-holder "$(PACKAGE_COPYRIGHT_HOLDER)" \
-            --msgid-bugs-address $(PACKAGE_BUGREPORT)
+PO4A_OPTS = \
+	--previous \
+	--srcdir $(srcdir) \
+	--destdir $(builddir) \
+	--no-backups \
+	--porefs file \
+	--msgmerge-opt=--add-location=file \
+	--package-name dpkg-man \
+	--package-version $(PACKAGE_VERSION) \
+	--copyright-holder "$(PACKAGE_COPYRIGHT_HOLDER)" \
+	--msgid-bugs-address $(PACKAGE_BUGREPORT) \
+	# EOL
 
 all-local: all-local-@USE_PO4A@
 
@@ -211,8 +221,12 @@ POD2MAN_V = $(POD2MAN_V_@AM_V@)
 POD2MAN_V_ = $(POD2MAN_V_@AM_DEFAULT_V@)
 POD2MAN_V_0 = @echo "  POD2MAN $@";
 
-POD2MAN_OPTS = --utf8 --center='dpkg suite' --release=$(PACKAGE_VERSION) \
-               --date='$(PACKAGE_RELEASE_DATE)'
+POD2MAN_OPTS = \
+	--utf8 \
+	--center='dpkg suite' \
+	--release=$(PACKAGE_VERSION) \
+	--date='$(PACKAGE_RELEASE_DATE)' \
+	# EOL
 
 PODSUBST = $(SED) \
 	-e 's/%PACKAGE%/$(PACKAGE)/g' \
@@ -227,11 +241,11 @@ PODSUBST = $(SED) \
 	-e 's:%PKGCONFDIR%:$(pkgconfdir):g' \
 	-e 's:%PKGLIBDIR%:$(pkglibexecdir):g' \
 	-e 's:%PKGDATADIR%:$(pkgdatadir):g' \
-	$(nil)
+	# EOL
 
 MANFIXUP = $(SED) \
 	-f $(srcdir)/utf8toman.sed \
-	$(nil)
+	# EOL
 
 if BUILD_POD_DOC
 MANGEN = $(POD2MAN_V) filename='$@'; \

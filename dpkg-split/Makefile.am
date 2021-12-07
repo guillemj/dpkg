@@ -5,7 +5,8 @@ AM_CPPFLAGS = \
 	-DADMINDIR=\"$(admindir)\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
-	-I$(top_srcdir)/lib
+	-I$(top_srcdir)/lib \
+	# EOL
 
 
 bin_PROGRAMS = dpkg-split
@@ -16,11 +17,13 @@ dpkg_split_SOURCES = \
 	join.c \
 	main.c \
 	queue.c \
-	split.c
+	split.c \
+	# EOL
 
 dpkg_split_LDADD = \
 	../lib/dpkg/libdpkg.la \
-	$(LIBINTL)
+	$(LIBINTL) \
+	# EOL
 
 install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(admindir)/parts

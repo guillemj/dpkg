@@ -14,7 +14,8 @@ SUBDIRS = \
 	scripts \
 	t-func \
 	po \
-	man
+	man \
+	# EOL
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -31,7 +32,7 @@ dist_aclocal_DATA = \
 	m4/dpkg-progs.m4 \
 	m4/dpkg-types.m4 \
 	m4/dpkg-unicode.m4 \
-	$(nil)
+	# EOL
 
 dist_pkgdata_DATA = \
 	data/pie-compile.specs \
@@ -42,7 +43,7 @@ dist_pkgdata_DATA = \
 	data/ostable \
 	data/abitable \
 	data/tupletable \
-	$(nil)
+	# EOL
 
 dist_doc_DATA = \
 	doc/README.api \
@@ -51,7 +52,7 @@ dist_doc_DATA = \
 	doc/protected-field.txt \
 	doc/rootless-builds.txt \
 	doc/triggers.txt \
-	$(nil)
+	# EOL
 
 EXTRA_DIST = \
 	.gitlab-ci.yml \
@@ -106,7 +107,7 @@ EXTRA_DIST = \
 	tests \
 	$(test_scripts) \
 	$(test_data) \
-	$(nil)
+	# EOL
 
 .PHONY: doc
 
@@ -125,7 +126,8 @@ LCOV_OPTS = -q --rc geninfo_checksum=1 --rc lcov_branch_coverage=1
 LCOV_CAPTURE_OPTS = $(LCOV_OPTS) --no-recursion \
 	-d $(top_builddir)/lib/dpkg \
 	-d $(top_builddir)/src \
-	-d $(top_builddir)/utils
+	-d $(top_builddir)/utils \
+	# EOL
 LCOV_INJECT = $(PERL) -i $(top_srcdir)/doc/lcov-inject.pl
 
 coverage: all
@@ -185,19 +187,19 @@ test_scripts = \
 	t/codespell.t \
 	t/shellcheck.t \
 	t/cppcheck.t \
-	$(nil)
+	# EOL
 
 test_data = \
 	t/critic/perlcriticrc \
 	t/codespell/stopwords \
 	t/cppcheck/cppcheck.supp \
-	$(nil)
+	# EOL
 
 # We need to use absolute paths here due to strict.t invoking a sub-perl,
 # while changing dir to source dir on out-of-tree builds.
 TEST_ENV_VARS = \
 	DPKG_DATADIR=$(abs_top_srcdir)/data \
-	$(nil)
+	# EOL
 
 include $(top_srcdir)/check.am
 
