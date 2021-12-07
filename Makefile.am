@@ -10,7 +10,6 @@ SUBDIRS = \
 	utils \
 	$(MAYBE_DSELECT) \
 	scripts \
-	t-func \
 	po \
 	man \
 	# EOL

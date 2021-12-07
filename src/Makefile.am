@@ -1,5 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
+SUBDIRS = \
+	at \
+	# EOL
+
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DADMINDIR=\"$(admindir)\" \

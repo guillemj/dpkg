@@ -224,13 +224,11 @@ DPKG_ARCHITECTURE
 AC_DEFINE([PACKAGE_RELEASE], [PACKAGE_VERSION " (" ARCHITECTURE ")"],
   [Define the project release information, version and architecture])
 
-AC_CONFIG_TESTDIR([t-func])
+AC_CONFIG_TESTDIR([src/at])
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 
 AC_CONFIG_FILES([
   Makefile
-  t-func/Makefile
-  t-func/atlocal
   dselect/Makefile
   dselect/methods/Makefile
   dselect/po/Makefile.in
@@ -248,6 +246,8 @@ AC_CONFIG_FILES([
   scripts/mk/Makefile
   scripts/po/Makefile.in
   src/Makefile
+  src/at/Makefile
+  src/at/atlocal
   utils/Makefile
 ])
 AC_CONFIG_HEADERS([config.h])
