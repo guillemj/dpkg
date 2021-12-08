@@ -236,7 +236,6 @@ AC_CONFIG_FILES([
   lib/compat/Makefile
   lib/dpkg/Makefile
   lib/dpkg/libdpkg.pc
-  lib/dpkg/t/Makefile
   doc/Doxyfile
   man/Makefile
   po/Makefile.in

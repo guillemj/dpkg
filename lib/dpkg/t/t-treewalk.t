@@ -149,7 +149,7 @@ sub test_treewalker {
 
         $ENV{TREEWALK_SKIP} = $type eq 'skip' ? "$dirtree/cccc" : undef;
 
-        spawn(exec => [ './c-treewalk', $dirtree ],
+        spawn(exec => [ "$builddir/t/c-treewalk", $dirtree ],
               nocheck => 1, to_string => \$stdout, to_error => \$stderr);
         ok($? == 0, "tree walker $type should succeed");
         is($stderr, undef, "tree walker $type stderr is empty");

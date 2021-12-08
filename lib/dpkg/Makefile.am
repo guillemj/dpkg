@@ -1,10 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = \
-	. \
-	t \
-	# EOL
-
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DCONFIGDIR=\"$(pkgconfdir)\" \
@@ -15,8 +10,15 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib \
 	# EOL
 
+# Needed for the test suite
+LDADD = \
+	libdpkg.la \
+	$(LIBINTL) \
+	# EOL
+
 
 EXTRA_DIST = \
+	$(test_scripts) \
 	libdpkg.map \
 	libdpkg.pc.in \
 	# EOL
@@ -173,3 +175,75 @@ pkginclude_HEADERS = \
 	varbuf.h \
 	version.h \
 	# EOL
+
+t_t_headers_cpp_SOURCES = \
+	t/t-headers-cpp.cc \
+	# EOL
+
+# The tests are sorted in order of increasing complexity.
+test_programs = \
+	t/t-test \
+	t/t-test-skip \
+	t/t-macros \
+	t/t-headers-cpp \
+	t/t-c-ctype \
+	t/t-namevalue \
+	t/t-ehandle \
+	t/t-error \
+	t/t-string \
+	t/t-file \
+	t/t-buffer \
+	t/t-path \
+	t/t-progname \
+	t/t-subproc \
+	t/t-command \
+	t/t-pager \
+	t/t-varbuf \
+	t/t-ar \
+	t/t-tar \
+	t/t-deb-version \
+	t/t-arch \
+	t/t-version \
+	t/t-pkginfo \
+	t/t-pkg-list \
+	t/t-pkg-queue \
+	t/t-pkg-hash \
+	t/t-pkg-show \
+	t/t-fsys-dir \
+	t/t-fsys-hash \
+	t/t-trigger \
+	t/t-mod-db \
+	# EOL
+
+test_scripts = \
+	t/t-tarextract.t \
+	t/t-treewalk.t \
+	t/t-trigdeferred.t \
+	# EOL
+
+BENCHMARK_LDADD_FLAGS = \
+	-lrt \
+	$(LDADD) \
+	# EOL
+
+t_b_fsys_hash_LDADD = $(BENCHMARK_LDADD_FLAGS)
+t_b_pkg_hash_LDADD = $(BENCHMARK_LDADD_FLAGS)
+
+check_PROGRAMS = \
+	$(test_programs) \
+	t/b-fsys-hash \
+	t/b-pkg-hash \
+	t/c-tarextract \
+	t/c-treewalk \
+	t/c-trigdeferred \
+	# EOL
+
+TEST_ENV_VARS = \
+	DPKG_PROGTAR=$(TAR) \
+	# EOL
+
+test_tmpdir = t.tmp
+
+include $(top_srcdir)/build-aux/check.am
+
+clean-local: check-clean
