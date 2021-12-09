@@ -42,6 +42,13 @@ vpath-tests:
     - ../configure
     - make check TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
 
+# Test whether we can build the shared library.
+shared-tests:
+  stage: test
+  script:
+    - DPKG_DEVEL_MODE=1 ./configure --enable-shared
+    - make check TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
+
 # Test whether the functional tests pass.
 func-tests:
   stage: test
