@@ -245,7 +245,6 @@ AC_CONFIG_FILES([
   scripts/mk/Makefile
   scripts/po/Makefile.in
   src/Makefile
-  src/at/Makefile
   src/at/atlocal
   utils/Makefile
 ])

@@ -1,10 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = \
-	. \
-	at \
-	# EOL
-
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DADMINDIR=\"$(admindir)\" \
@@ -20,6 +15,8 @@ LDADD = \
 	# EOL
 
 EXTRA_DIST =
+
+DISTCLEANFILES =
 
 bin_PROGRAMS = \
 	dpkg \
@@ -134,6 +131,26 @@ EXTRA_DIST += $(test_scripts)
 
 include $(top_srcdir)/build-aux/tap.am
 
-check-local: tap-check
+EXTRA_DIST += $(srcdir)/at/atlocal.in
+EXTRA_DIST += $(srcdir)/at/package.m4
 
-clean-local: tap-clean
+TESTSUITE_AT = $(srcdir)/at/testsuite.at
+TESTSUITE_AT += $(srcdir)/at/local.at
+TESTSUITE_AT += $(srcdir)/at/deb-format.at
+TESTSUITE_AT += $(srcdir)/at/deb-fields.at
+TESTSUITE_AT += $(srcdir)/at/deb-content.at
+TESTSUITE_AT += $(srcdir)/at/deb-split.at
+EXTRA_DIST += $(TESTSUITE_AT)
+
+TESTSUITE = $(srcdir)/at/testsuite
+EXTRA_DIST += $(TESTSUITE)
+
+DISTCLEANFILES += at/atconfig
+
+include $(top_srcdir)/build-aux/autotest.am
+
+check-local: tap-check autotest-check
+
+installcheck-local: autotest-installcheck
+
+clean-local: tap-clean autotest-clean
