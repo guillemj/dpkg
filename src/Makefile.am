@@ -19,10 +19,7 @@ LDADD = \
 	../lib/compat/libcompat.la \
 	# EOL
 
-
-EXTRA_DIST = \
-	$(test_scripts) \
-	# EOL
+EXTRA_DIST =
 
 bin_PROGRAMS = \
 	dpkg \
@@ -132,6 +129,8 @@ test_tmpdir = t.tmp
 test_scripts = \
 	t/dpkg_divert.t \
 	# EOL
+
+EXTRA_DIST += $(test_scripts)
 
 include $(top_srcdir)/build-aux/tap.am
 
