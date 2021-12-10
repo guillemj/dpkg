@@ -15,32 +15,12 @@ EXTRA_DIST += $(TESTSUITE_AT)
 TESTSUITE = $(srcdir)/testsuite
 EXTRA_DIST += $(TESTSUITE)
 
-DISTCLEANFILES = atconfig
+DISTCLEANFILES =
 
-AUTOTEST_DEPS = atconfig atlocal $(TESTSUITE)
+include $(top_srcdir)/build-aux/autotest.am
 
-# The ":;" works around a Bash 3.2 bug when the output is not writable.
-$(srcdir)/package.m4: $(top_srcdir)/configure.ac
-	:;{ \
-	  echo '# Signature of the current package.' && \
-	  echo 'm4_define([AT_PACKAGE_NAME], [$(PACKAGE_NAME)])' && \
-	  echo 'm4_define([AT_PACKAGE_TARNAME], [$(PACKAGE_TARNAME)])' && \
-	  echo 'm4_define([AT_PACKAGE_VERSION], [$(PACKAGE_VERSION)])' && \
-	  echo 'm4_define([AT_PACKAGE_STRING], [$(PACKAGE_STRING)])' && \
-	  echo 'm4_define([AT_PACKAGE_URL], [$(PACKAGE_URL)])' && \
-	  echo 'm4_define([AT_PACKAGE_BUGREPORT], [$(PACKAGE_BUGREPORT)])'; \
-	} >'$(srcdir)/package.m4'
+check-local: autotest-check
 
-check-local: $(AUTOTEST_DEPS)
-	$(SHELL) '$(TESTSUITE)' $(TESTSUITEFLAGS)
+installcheck-local: autotest-installcheck
 
-installcheck-local: $(AUTOTEST_DEPS)
-	$(SHELL) '$(TESTSUITE)' AUTOTEST_PATH='$(bindir)' $(TESTSUITEFLAGS)
-
-clean-local:
-	test ! -f '$(TESTSUITE)' || $(SHELL) '$(TESTSUITE)' --clean
-
-AUTOTEST = $(AUTOM4TE) --language=autotest
-$(TESTSUITE): $(srcdir)/package.m4 $(TESTSUITE_AT)
-	$(AUTOTEST) -I '$(srcdir)' -o $@.tmp $@.at
-	mv $@.tmp $@
+clean-local: autotest-clean
