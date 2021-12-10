@@ -198,7 +198,9 @@ TEST_ENV_VARS = \
 	DPKG_DATADIR=$(abs_top_srcdir)/data \
 	# EOL
 
-include $(top_srcdir)/build-aux/check.am
+include $(top_srcdir)/build-aux/tap.am
+
+check-local: tap-check
 
 .PHONY: update-po
 
@@ -231,4 +233,4 @@ dist-hook: dist-cpan
 	  git log -C --stat 1.15.0.. >$(distdir)/ChangeLog; \
 	fi
 
-clean-local: doc-clean coverage-clean check-clean
+clean-local: doc-clean coverage-clean tap-clean

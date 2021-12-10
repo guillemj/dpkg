@@ -466,7 +466,9 @@ refresh-test-data: $(test_data_objects)
 	  >$(srcdir)/t/Dpkg_Shlibs/objdump.spacesyms
 	$(OBJDUMP) `which ls` >$(srcdir)/t/Dpkg_Shlibs/objdump.ls
 
-include $(top_srcdir)/build-aux/check.am
+include $(top_srcdir)/build-aux/tap.am
 
-clean-local: check-clean coverage-clean
+check-local: tap-check
+
+clean-local: tap-clean coverage-clean
 	rm -fr man

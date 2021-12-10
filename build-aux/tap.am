@@ -26,10 +26,10 @@ TEST_RUNNER = '\
 	my $$aggregate = $$harness->runtests(@ARGV); \
 	die "FAIL: test suite has errors\n" if $$aggregate->has_errors;'
 
-check-clean:
+tap-clean:
 	[ -z "$(test_tmpdir)" ] || rm -fr $(test_tmpdir)
 
-check-local: $(test_data) $(test_programs) $(test_scripts)
+tap-check: $(test_data) $(test_programs) $(test_scripts)
 	[ -z "$(test_tmpdir)" ] || $(MKDIR_P) $(test_tmpdir)
 	PATH="$(abs_top_builddir)/src:$(abs_top_builddir)/scripts:$(abs_top_builddir)/utils:$(PATH)" \
 	  LC_ALL=C \

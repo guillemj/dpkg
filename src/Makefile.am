@@ -133,6 +133,8 @@ test_scripts = \
 	t/dpkg_divert.t \
 	# EOL
 
-include $(top_srcdir)/build-aux/check.am
+include $(top_srcdir)/build-aux/tap.am
 
-clean-local: check-clean
+check-local: tap-check
+
+clean-local: tap-clean

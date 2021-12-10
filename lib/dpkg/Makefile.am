@@ -245,6 +245,8 @@ TEST_ENV_VARS = \
 
 test_tmpdir = t.tmp
 
-include $(top_srcdir)/build-aux/check.am
+include $(top_srcdir)/build-aux/tap.am
 
-clean-local: check-clean
+check-local: tap-check
+
+clean-local: tap-clean
