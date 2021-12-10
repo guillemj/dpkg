@@ -17,6 +17,8 @@ EXTRA_DIST += $(TESTSUITE)
 
 DISTCLEANFILES = atconfig
 
+AUTOTEST_DEPS = atconfig atlocal $(TESTSUITE)
+
 # The ":;" works around a Bash 3.2 bug when the output is not writable.
 $(srcdir)/package.m4: $(top_srcdir)/configure.ac
 	:;{ \
@@ -29,10 +31,10 @@ $(srcdir)/package.m4: $(top_srcdir)/configure.ac
 	  echo 'm4_define([AT_PACKAGE_BUGREPORT], [$(PACKAGE_BUGREPORT)])'; \
 	} >'$(srcdir)/package.m4'
 
-check-local: atconfig atlocal $(TESTSUITE)
+check-local: $(AUTOTEST_DEPS)
 	$(SHELL) '$(TESTSUITE)' $(TESTSUITEFLAGS)
 
-installcheck-local: atconfig atlocal $(TESTSUITE)
+installcheck-local: $(AUTOTEST_DEPS)
 	$(SHELL) '$(TESTSUITE)' AUTOTEST_PATH='$(bindir)' $(TESTSUITEFLAGS)
 
 clean-local:
