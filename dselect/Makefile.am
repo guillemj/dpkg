@@ -54,6 +54,7 @@ dselect_LDADD = \
 	$(CURSES_LIBS) \
 	../lib/dpkg/libdpkg.la \
 	$(LIBINTL) \
+	../lib/compat/libcompat.la \
 	# EOL
 
 

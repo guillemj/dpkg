@@ -14,6 +14,7 @@ AM_CPPFLAGS = \
 LDADD = \
 	libdpkg.la \
 	$(LIBINTL) \
+	../compat/libcompat.la \
 	# EOL
 
 
