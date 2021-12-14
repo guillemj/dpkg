@@ -12,14 +12,17 @@ fixup_misplaced_alternatives()
   cd "$admindir"
 
   for file in *; do
+    if ! [ -f "$file" ]; then
+      # Ignore anything that is not a file.
+      continue
+    fi
+
     # Check whether this is a known file we do not want to act on.
     case "$file" in
-    alternatives|\
     arch|\
     available|available-old|\
-    cmethopt|methlock|methods|\
+    cmethopt|methlock|\
     diversions|diversions-old|\
-    info|parts|triggers|updates|\
     lock|lock-frontend|\
     statoverride|statoverride-old|\
     status|status-old)
