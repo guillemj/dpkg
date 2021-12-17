@@ -153,7 +153,6 @@ test_tmpdir = t.tmp
 
 test_scripts = \
 	t/dpkg_divert.t \
-	t/dpkg_realpath.t \
 	# EOL
 
 EXTRA_DIST += $(test_scripts)
@@ -169,6 +168,7 @@ TESTSUITE_AT += $(srcdir)/at/deb-format.at
 TESTSUITE_AT += $(srcdir)/at/deb-fields.at
 TESTSUITE_AT += $(srcdir)/at/deb-content.at
 TESTSUITE_AT += $(srcdir)/at/deb-split.at
+TESTSUITE_AT += $(srcdir)/at/realpath.at
 EXTRA_DIST += $(TESTSUITE_AT)
 
 TESTSUITE = $(srcdir)/at/testsuite
