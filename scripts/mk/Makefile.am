@@ -10,9 +10,9 @@ dist_pkgdata_DATA = \
 	vendor.mk \
 	# EOL
 
-do_make_subst = $(AM_V_GEN) $(SED) \
-	-e "s:dpkg_datadir[[:space:]]*=[[:space:]]*[^[:space:]]*:dpkg_datadir = $(pkgdatadir):" \
-	# EOL
+SUFFIXES =
+
+include $(top_srcdir)/build-aux/subst.am
 
 install-data-hook:
 	mv $(DESTDIR)$(pkgdatadir)/default.mk \

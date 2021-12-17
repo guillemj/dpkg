@@ -45,24 +45,9 @@ CLEANFILES = \
 	$(nobase_methods_SCRIPTS) \
 	# EOL
 
-do_perl_subst = $(AM_V_GEN) $(SED) \
-	-e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):" \
-	# EOL
+SUFFIXES =
 
-SUFFIXES = .pl .sh
-
-.pl:
-	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
-	$(do_perl_subst) <$< >$@
-	$(AM_V_at) chmod +x $@
-
-do_shell_subst = $(AM_V_GEN) \
-	cat
-
-.sh: Makefile
-	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
-	$(do_shell_subst) <$< >$@
-	$(AM_V_at) chmod +x $@
+include $(top_srcdir)/build-aux/subst.am
 
 install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/mnt

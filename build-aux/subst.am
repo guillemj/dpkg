@@ -1,0 +1,46 @@
+#
+# Build time variable substitution for generated files.
+#
+
+# Shell support.
+
+do_shell_subst = $(AM_V_GEN) $(SED) \
+	-e "s:^ADMINDIR=.*$$:ADMINDIR='$(admindir)':" \
+	-e "s:^BACKUPSDIR=.*$$:BACKUPSDIR='$(backupsdir)':" \
+	-e "s:^PKGDATADIR_DEFAULT=.*$$:PKGDATADIR_DEFAULT='$(pkgdatadir)':" \
+	-e "s:^version=['\"][^'\"]*[\"']:version=\"$(PACKAGE_VERSION)\":" \
+	# EOL
+
+SUFFIXES += .sh
+
+.sh: Makefile
+	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
+	$(do_shell_subst) <$< >$@
+	$(AM_V_at) chmod +x $@
+
+# Perl support.
+
+do_perl_subst = $(AM_V_GEN) $(SED) \
+	-e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):" \
+	-e "s:our \$$CONFDIR = .*;:our \$$CONFDIR = '$(pkgconfdir)';:" \
+	-e "s:our \$$ADMINDIR = .*;:our \$$ADMINDIR = '$(admindir)';:" \
+	-e "s:our \$$LIBDIR = .*;:our \$$LIBDIR = '$(pkglibexecdir)';:" \
+	-e "s:our \$$DATADIR = .*;:our \$$DATADIR = '$(pkgdatadir)';:" \
+	-e "s:our \$$PROGMAKE = .*;:our \$$PROGMAKE = '$(MAKE)';:" \
+	-e "s:our \$$PROGTAR = .*;:our \$$PROGTAR = '$(TAR)';:" \
+	-e "s:our \$$PROGPATCH = .*;:our \$$PROGPATCH = '$(PATCH)';:" \
+	-e "s:our \$$PROGVERSION = .*;:our \$$PROGVERSION = '$(PACKAGE_VERSION)';:" \
+	# EOL
+
+SUFFIXES += .pl
+
+.pl: Makefile
+	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
+	$(do_perl_subst) <$< >$@
+	$(AM_V_at) chmod +x $@
+
+# Makefile support.
+
+do_make_subst = $(AM_V_GEN) $(SED) \
+	-e "s:dpkg_datadir[[:space:]]*=[[:space:]]*[^[:space:]]*:dpkg_datadir = $(pkgdatadir):" \
+	# EOL
