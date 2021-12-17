@@ -15,8 +15,12 @@ LDADD = \
 	# EOL
 
 EXTRA_DIST =
-
+CLEANFILES =
 DISTCLEANFILES =
+
+nobase_dist_pkgdata_DATA = \
+	sh/dpkg-error.sh \
+	# EOL
 
 bin_PROGRAMS = \
 	dpkg \
@@ -26,6 +30,26 @@ bin_PROGRAMS = \
 	dpkg-split \
 	dpkg-statoverride \
 	dpkg-trigger \
+	# EOL
+
+bin_SCRIPTS = \
+	dpkg-maintscript-helper \
+	dpkg-realpath \
+	# EOL
+
+pkglibexec_SCRIPTS = \
+	dpkg-db-backup \
+	# EOL
+
+EXTRA_DIST += \
+	dpkg-db-backup.sh \
+	dpkg-maintscript-helper.sh \
+	dpkg-realpath.sh \
+	# EOL
+
+CLEANFILES += \
+	$(bin_SCRIPTS) \
+	$(pkglibexec_SCRIPTS) \
 	# EOL
 
 dpkg_SOURCES = \
@@ -115,6 +139,10 @@ dpkg_trigger_SOURCES = \
 	trigger/main.c \
 	# EOL
 
+SUFFIXES =
+
+include $(top_srcdir)/build-aux/subst.am
+
 install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(pkgconfdir)/dpkg.cfg.d
 	$(MKDIR_P) $(DESTDIR)$(admindir)/info
@@ -125,6 +153,7 @@ test_tmpdir = t.tmp
 
 test_scripts = \
 	t/dpkg_divert.t \
+	t/dpkg_realpath.t \
 	# EOL
 
 EXTRA_DIST += $(test_scripts)

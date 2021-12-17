@@ -2,10 +2,6 @@
 
 SUBDIRS = mk po
 
-pkglibexec_SCRIPTS = \
-	dpkg-db-backup \
-	# EOL
-
 sbin_SCRIPTS = \
 	dpkg-fsys-usrunmess \
 	# EOL
@@ -20,11 +16,9 @@ bin_SCRIPTS = \
 	dpkg-genchanges \
 	dpkg-gencontrol \
 	dpkg-gensymbols \
-	dpkg-maintscript-helper \
 	dpkg-mergechangelogs \
 	dpkg-name \
 	dpkg-parsechangelog \
-	dpkg-realpath \
 	dpkg-scanpackages \
 	dpkg-scansources \
 	dpkg-shlibdeps \
@@ -37,18 +31,15 @@ EXTRA_DIST = \
 	dpkg-buildflags.pl \
 	dpkg-buildpackage.pl \
 	dpkg-checkbuilddeps.pl \
-	dpkg-db-backup.sh \
 	dpkg-distaddfile.pl \
 	dpkg-fsys-usrunmess.pl \
 	dpkg-genbuildinfo.pl \
 	dpkg-genchanges.pl \
 	dpkg-gencontrol.pl \
 	dpkg-gensymbols.pl \
-	dpkg-maintscript-helper.sh \
 	dpkg-mergechangelogs.pl \
 	dpkg-name.pl \
 	dpkg-parsechangelog.pl \
-	dpkg-realpath.sh \
 	dpkg-scanpackages.pl \
 	dpkg-scansources.pl \
 	dpkg-shlibdeps.pl \
@@ -58,17 +49,12 @@ EXTRA_DIST = \
 	$(test_data) \
 	# EOL
 
-nobase_dist_pkgdata_DATA = \
-	sh/dpkg-error.sh \
-	# EOL
-
 dist_zshcompletions_DATA = \
 	zsh/_dpkg-parsechangelog \
 	# EOL
 
 CLEANFILES = \
 	$(test_data_objects) \
-	$(pkglibexec_SCRIPTS) \
 	$(sbin_SCRIPTS) \
 	$(bin_SCRIPTS) \
 	# EOL
@@ -260,7 +246,6 @@ test_scripts = \
 	t/Dpkg_Source_Archive.t \
 	t/Dpkg_Source_Package.t \
 	t/Dpkg_Dist_Files.t \
-	t/dpkg_realpath.t \
 	t/dpkg_source.t \
 	t/dpkg_buildpackage.t \
 	t/merge_changelogs.t \
