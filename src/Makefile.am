@@ -149,15 +149,6 @@ install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(admindir)/parts
 	$(MKDIR_P) $(DESTDIR)$(admindir)/updates
 
-test_tmpdir = t.tmp
-
-test_scripts = \
-	# EOL
-
-EXTRA_DIST += $(test_scripts)
-
-include $(top_srcdir)/build-aux/tap.am
-
 EXTRA_DIST += $(srcdir)/at/atlocal.in
 EXTRA_DIST += $(srcdir)/at/package.m4
 
@@ -178,8 +169,8 @@ DISTCLEANFILES += at/atconfig
 
 include $(top_srcdir)/build-aux/autotest.am
 
-check-local: tap-check autotest-check
+check-local: autotest-check
 
 installcheck-local: autotest-installcheck
 
-clean-local: tap-clean autotest-clean
+clean-local: autotest-clean

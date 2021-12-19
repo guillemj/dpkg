@@ -112,7 +112,7 @@ sub test_get_perl_dirs
     if ($test_mode eq 'cpan') {
         return qw(t lib);
     } else {
-        return qw(t src/t lib utils/t scripts dselect);
+        return qw(t lib utils/t scripts dselect);
     }
 }
 
