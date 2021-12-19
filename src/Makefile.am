@@ -152,7 +152,6 @@ install-data-local:
 test_tmpdir = t.tmp
 
 test_scripts = \
-	t/dpkg_divert.t \
 	# EOL
 
 EXTRA_DIST += $(test_scripts)
@@ -169,6 +168,7 @@ TESTSUITE_AT += $(srcdir)/at/deb-fields.at
 TESTSUITE_AT += $(srcdir)/at/deb-content.at
 TESTSUITE_AT += $(srcdir)/at/deb-split.at
 TESTSUITE_AT += $(srcdir)/at/realpath.at
+TESTSUITE_AT += $(srcdir)/at/divert.at
 EXTRA_DIST += $(TESTSUITE_AT)
 
 TESTSUITE = $(srcdir)/at/testsuite
