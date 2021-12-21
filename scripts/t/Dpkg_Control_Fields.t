@@ -342,6 +342,7 @@ my %fields = (
         unordered => 1,
         fields => [
             qw(
+                Architecture
                 Classes
                 Depends
                 Features

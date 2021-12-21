@@ -67,7 +67,7 @@ use constant {
 our %FIELDS = (
     'architecture' => {
         name => 'Architecture',
-        allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES) & (~CTRL_INFO_SRC),
+        allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES | CTRL_TESTS) & (~CTRL_INFO_SRC),
         separator => FIELD_SEP_SPACE,
     },
     'architectures' => {
