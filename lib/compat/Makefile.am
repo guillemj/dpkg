@@ -36,6 +36,7 @@ endif
 libcompat_la_SOURCES = \
 	empty.c \
 	compat.h \
+	compat-zlib.h \
 	gettext.h \
 	# EOL
 

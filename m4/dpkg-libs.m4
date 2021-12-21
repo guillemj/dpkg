@@ -69,10 +69,23 @@ AC_DEFUN([DPKG_WITH_COMPRESS_LIB], [
 ])# DPKG_WITH_COMPRESS_LIB
 
 # DPKG_LIB_Z
-# -------------
-# Check for z library.
+# ----------
+# Check for z-ng and z libraries.
 AC_DEFUN([DPKG_LIB_Z], [
   DPKG_WITH_COMPRESS_LIB([z], [zlib.h], [gzdopen])
+  DPKG_WITH_COMPRESS_LIB([z-ng], [zlib-ng.h], [zng_gzdopen])
+
+  # If we have been requested the stock zlib, override the auto-detection.
+  AS_IF([test "x$with_libz" != "xyes" && test "x$have_libz_ng" = "xyes"], [
+    AC_DEFINE([WITH_GZFILEOP], [yes],
+      [Define to yes to use zlib-ng gzFile IO support])
+    Z_LIBS=$Z_NG_LIBS
+    have_libz_impl="yes (zlib-ng)"
+  ], [test "x$have_libz" = "xyes"], [
+    have_libz_impl="yes (zlib)"
+  ], [
+    have_libz_impl="no"
+  ])
 ])# DPKG_LIB_Z
 
 # DPKG_LIB_LZMA

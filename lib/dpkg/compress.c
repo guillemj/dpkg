@@ -29,8 +29,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#ifdef WITH_LIBZ
-#include <zlib.h>
+#if defined(WITH_LIBZ) || defined(WITH_LIBZ_NG)
+#include <compat-zlib.h>
 #endif
 #ifdef WITH_LIBLZMA
 #include <lzma.h>
@@ -47,7 +47,9 @@
 #include <dpkg/buffer.h>
 #include <dpkg/command.h>
 #include <dpkg/compress.h>
-#if !defined(WITH_LIBZ) || !defined(WITH_LIBLZMA) || !defined(WITH_LIBBZ2)
+#if !(defined(WITH_LIBZ_NG) || defined(WITH_LIBZ)) || \
+    !defined(WITH_LIBLZMA) || \
+    !defined(WITH_LIBBZ2)
 #include <dpkg/subproc.h>
 
 static void DPKG_ATTR_SENTINEL
@@ -145,7 +147,7 @@ fixup_gzip_params(struct compress_params *params)
 		params->type = COMPRESSOR_TYPE_NONE;
 }
 
-#ifdef WITH_LIBZ
+#if defined(WITH_LIBZ_NG) || defined(WITH_LIBZ)
 static void
 decompress_gzip(int fd_in, int fd_out, const char *desc)
 {
