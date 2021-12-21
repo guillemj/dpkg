@@ -669,6 +669,53 @@ my @bin_checksums_fields = qw(
 );
 
 our %FIELD_ORDER = (
+    CTRL_INFO_SRC() => [
+        qw(
+            source
+            section
+            priority
+            maintainer
+            uploaders
+            origin
+            bugs
+        ),
+        @src_vcs_fields,
+        qw(
+            homepage
+            standards-version
+            rules-requires-root
+        ),
+        @src_dep_fields,
+        @src_test_fields,
+        qw(
+            description
+        ),
+    ],
+    CTRL_INFO_PKG() => [
+        qw(
+            package
+            package-type
+            section
+            priority
+            architecture
+            subarchitecture
+            multi-arch
+            essential
+            protected
+            build-essential
+            build-profiles
+            built-for-profiles
+            kernel-version
+        ),
+        @bin_dep_fields,
+        qw(
+            homepage
+            installer-menu-item
+            task
+            tag
+            description
+        ),
+    ],
     CTRL_PKG_SRC() => [
         qw(
             format
@@ -895,6 +942,14 @@ our %FIELD_ORDER = (
             files
         ),
     ],
+    CTRL_FILE_VENDOR() => [
+        qw(
+            vendor
+            vendor-url
+            bugs
+            parent
+        ),
+    ],
     CTRL_FILE_STATUS() => [
         # Same as fieldinfos in lib/dpkg/parse.c
         qw(
@@ -940,6 +995,18 @@ our %FIELD_ORDER = (
             subarchitecture
             tag
             task
+        ),
+    ],
+    CTRL_TESTS() => [
+        qw(
+            test-command
+            tests
+            tests-directory
+            architecture
+            restrictions
+            features
+            classes
+            depends
         ),
     ],
 );

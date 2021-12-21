@@ -20,7 +20,7 @@ use Test::More;
 use Test::Dpkg qw(:paths);
 
 BEGIN {
-    plan tests => 2555;
+    plan tests => 2581;
 
     use_ok('Dpkg::Control::Types');
     use_ok('Dpkg::Control::FieldsCore');
@@ -97,50 +97,55 @@ my @test_fields = qw(
 my %fields = (
     CTRL_INFO_SRC() => {
         name => 'debian/control source stanza',
-        unordered => 1,
         fields => [
             qw(
-                Bugs
-                Homepage
-                Description
-                Origin
+                Source
+                Section
+                Priority
                 Maintainer
                 Uploaders
-                Priority
-                Section
-                Source
-                Standards-Version
+                Origin
+                Bugs
             ),
-            @test_fields,
             @vcs_fields,
+            qw(
+                Homepage
+                Standards-Version
+                Rules-Requires-Root
+            ),
             @src_dep_fields,
+            @test_fields,
+            qw(
+                Description
+            ),
         ],
     },
     CTRL_INFO_PKG() => {
         name => 'debian/control binary stanza',
-        unordered => 1,
         fields => [
             qw(
+                Package
+                Package-Type
+                Section
+                Priority
                 Architecture
+                Subarchitecture
+                Multi-Arch
+                Essential
+                Protected
                 Build-Essential
                 Build-Profiles
                 Built-For-Profiles
-                Description
-                Essential
-                Protected
-                Homepage
-                Installer-Menu-Item
                 Kernel-Version
-                Multi-Arch
-                Package
-                Package-Type
-                Priority
-                Section
-                Subarchitecture
-                Tag
-                Task
             ),
             @bin_dep_fields,
+            qw(
+                Homepage
+                Installer-Menu-Item
+                Task
+                Tag
+                Description
+            ),
         ],
     },
     CTRL_PKG_SRC() => {
@@ -344,17 +349,16 @@ my %fields = (
     },
     CTRL_TESTS() => {
         name => 'debian/tests/control',
-        unordered => 1,
         fields => [
             qw(
-                Architecture
-                Classes
-                Depends
-                Features
-                Restrictions
                 Test-Command
                 Tests
                 Tests-Directory
+                Architecture
+                Restrictions
+                Features
+                Classes
+                Depends
             ),
         ],
     },
@@ -407,13 +411,12 @@ my %fields = (
     },
     CTRL_FILE_VENDOR() => {
         name => 'dpkg origin',
-        unordered => 1,
         fields => [
             qw(
-                Bugs
-                Parent
                 Vendor
                 Vendor-Url
+                Bugs
+                Parent
             ),
         ],
     },
