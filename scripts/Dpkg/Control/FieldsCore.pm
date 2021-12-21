@@ -603,84 +603,323 @@ our %FIELDS = (
     },
 );
 
-my @src_dep_fields = qw(build-depends build-depends-arch build-depends-indep
-    build-conflicts build-conflicts-arch build-conflicts-indep);
-my @bin_dep_fields = qw(pre-depends depends recommends suggests enhances
-    conflicts breaks replaces provides built-using);
-my @src_checksums_fields = qw(checksums-md5 checksums-sha1 checksums-sha256);
-my @bin_checksums_fields = qw(md5sum sha1 sha256);
+my @src_dep_fields = qw(
+    build-depends
+    build-depends-arch
+    build-depends-indep
+    build-conflicts
+    build-conflicts-arch
+    build-conflicts-indep
+);
+my @bin_dep_fields = qw(
+    pre-depends
+    depends
+    recommends
+    suggests
+    enhances
+    conflicts
+    breaks
+    replaces
+    provides
+    built-using
+);
+my @src_checksums_fields = qw(
+    checksums-md5
+    checksums-sha1
+    checksums-sha256
+);
+my @bin_checksums_fields = qw(
+    md5sum
+    sha1
+    sha256
+);
 
 our %FIELD_ORDER = (
     CTRL_PKG_SRC() => [
-        qw(format source binary architecture version origin maintainer
-        uploaders homepage description standards-version vcs-browser
-        vcs-arch vcs-bzr vcs-cvs vcs-darcs vcs-git vcs-hg vcs-mtn
-        vcs-svn testsuite testsuite-triggers), @src_dep_fields,
-        qw(package-list), @src_checksums_fields, qw(files)
+        qw(
+            format
+            source
+            binary
+            architecture
+            version
+            origin
+            maintainer
+            uploaders
+            homepage
+            description
+            standards-version
+            vcs-browser
+            vcs-arch
+            vcs-bzr
+            vcs-cvs
+            vcs-darcs
+            vcs-git
+            vcs-hg
+            vcs-mtn
+            vcs-svn
+            testsuite
+            testsuite-triggers
+        ),
+        @src_dep_fields,
+        qw(
+            package-list
+        ),
+        @src_checksums_fields,
+        qw(
+            files
+        ),
     ],
     CTRL_PKG_DEB() => [
-        qw(package package-type source version built-using kernel-version
-        built-for-profiles auto-built-package architecture subarchitecture
-        installer-menu-item build-essential essential protected origin bugs
-        maintainer installed-size), @bin_dep_fields,
-        qw(section priority multi-arch homepage description tag task)
+        qw(
+            package
+            package-type
+            source
+            version
+            built-using
+            kernel-version
+            built-for-profiles
+            auto-built-package
+            architecture
+            subarchitecture
+            installer-menu-item
+            build-essential
+            essential
+            protected
+            origin
+            bugs
+            maintainer
+            installed-size
+        ),
+        @bin_dep_fields,
+        qw(
+            section
+            priority
+            multi-arch
+            homepage
+            description
+            tag
+            task
+        ),
     ],
     CTRL_INDEX_SRC() => [
-        qw(format package binary architecture version priority section origin
-        maintainer uploaders homepage description standards-version vcs-browser
-        vcs-arch vcs-bzr vcs-cvs vcs-darcs vcs-git vcs-hg vcs-mtn vcs-svn
-        testsuite testsuite-triggers), @src_dep_fields,
-        qw(package-list directory), @src_checksums_fields, qw(files)
+        qw(
+            format
+            package
+            binary
+            architecture
+            version
+            priority
+            section
+            origin
+            maintainer
+            uploaders
+            homepage
+            description
+            standards-version
+            vcs-browser
+            vcs-arch
+            vcs-bzr
+            vcs-cvs
+            vcs-darcs
+            vcs-git
+            vcs-hg
+            vcs-mtn
+            vcs-svn
+            testsuite
+            testsuite-triggers
+        ),
+        @src_dep_fields,
+        qw(
+            package-list
+            directory
+        ),
+        @src_checksums_fields,
+        qw(
+            files
+        ),
     ],
     CTRL_INDEX_PKG() => [
-        qw(package package-type source version built-using kernel-version
-        built-for-profiles auto-built-package architecture subarchitecture
-        installer-menu-item build-essential essential protected origin bugs
-        maintainer installed-size), @bin_dep_fields,
-        qw(filename size), @bin_checksums_fields,
-        qw(section priority multi-arch homepage description tag task)
+        qw(
+            package
+            package-type
+            source
+            version
+            built-using
+            kernel-version
+            built-for-profiles
+            auto-built-package
+            architecture
+            subarchitecture
+            installer-menu-item
+            build-essential
+            essential
+            protected
+            origin
+            bugs
+            maintainer
+            installed-size
+        ),
+        @bin_dep_fields,
+        qw(
+            filename
+            size
+        ),
+        @bin_checksums_fields,
+        qw(
+            section
+            priority
+            multi-arch
+            homepage
+            description
+            tag
+            task
+        ),
     ],
     CTRL_REPO_RELEASE() => [
-        qw(origin label suite codename changelogs date valid-until
-        architectures components description), @bin_checksums_fields
+        qw(
+            origin
+            label
+            suite
+            codename
+            changelogs
+            date
+            valid-until
+            architectures
+            components
+            description
+        ),
+        @bin_checksums_fields
     ],
     CTRL_CHANGELOG() => [
-        qw(source binary-only version distribution urgency maintainer
-        timestamp date closes changes)
+        qw(
+            source
+            binary-only
+            version
+            distribution
+            urgency
+            maintainer
+            timestamp
+            date
+            closes
+            changes
+        ),
     ],
     CTRL_COPYRIGHT_HEADER() => [
-        qw(format upstream-name upstream-contact source disclaimer comment
-        license copyright)
+        qw(
+            format
+            upstream-name
+            upstream-contact
+            source
+            disclaimer
+            comment
+            license
+            copyright
+        ),
     ],
     CTRL_COPYRIGHT_FILES() => [
-        qw(files copyright license comment)
+        qw(
+            files
+            copyright
+            license
+            comment
+        ),
     ],
     CTRL_COPYRIGHT_LICENSE() => [
-        qw(license comment)
+        qw(
+            license
+            comment
+        ),
     ],
     CTRL_FILE_BUILDINFO() => [
-        qw(format source binary architecture version binary-only-changes),
+        qw(
+            format
+            source
+            binary
+            architecture
+            version
+            binary-only-changes
+        ),
         @src_checksums_fields,
-        qw(build-origin build-architecture build-kernel-version build-date
-        build-path build-tainted-by installed-build-depends environment),
+        qw(
+            build-origin
+            build-architecture
+            build-kernel-version
+            build-date
+            build-path
+            build-tainted-by
+            installed-build-depends
+            environment
+        ),
     ],
     CTRL_FILE_CHANGES() => [
-        qw(format date source binary binary-only built-for-profiles architecture
-        version distribution urgency maintainer changed-by description
-        closes changes), @src_checksums_fields, qw(files)
+        qw(
+            format
+            date
+            source
+            binary
+            binary-only
+            built-for-profiles
+            architecture
+            version
+            distribution
+            urgency
+            maintainer
+            changed-by
+            description
+            closes
+            changes
+        ),
+        @src_checksums_fields,
+        qw(
+            files
+        ),
     ],
     CTRL_FILE_STATUS() => [
         # Same as fieldinfos in lib/dpkg/parse.c
-        qw(package essential protected status priority section installed-size
-        origin
-        maintainer bugs architecture multi-arch source version config-version
-        replaces provides depends pre-depends recommends suggests breaks
-        conflicts enhances conffiles description triggers-pending
-        triggers-awaited),
+        qw(
+            package
+            essential
+            protected
+            status
+            priority
+            section
+            installed-size
+            origin
+            maintainer
+            bugs
+            architecture
+            multi-arch
+            source
+            version
+            config-version
+            replaces
+            provides
+            depends
+            pre-depends
+            recommends
+            suggests
+            breaks
+            conflicts
+            enhances
+            conffiles
+            description
+            triggers-pending
+            triggers-awaited
+        ),
         # These are allowed here, but not tracked by lib/dpkg/parse.c.
-        qw(auto-built-package build-essential built-for-profiles built-using
-        homepage installer-menu-item kernel-version package-type
-        subarchitecture tag task)
+        qw(
+            auto-built-package
+            build-essential
+            built-for-profiles
+            built-using
+            homepage
+            installer-menu-item
+            kernel-version
+            package-type
+            subarchitecture
+            tag
+            task
+        ),
     ],
 );
 

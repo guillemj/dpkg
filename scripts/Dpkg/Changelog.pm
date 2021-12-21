@@ -490,7 +490,13 @@ Save the changelog in the given file.
 
 our ( @URGENCIES, %URGENCIES );
 BEGIN {
-    @URGENCIES = qw(low medium high critical emergency);
+    @URGENCIES = qw(
+        low
+        medium
+        high
+        critical
+        emergency
+    );
     my $i = 1;
     %URGENCIES = map { $_ => $i++ } @URGENCIES;
 }

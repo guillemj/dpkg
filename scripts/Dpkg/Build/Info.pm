@@ -50,32 +50,92 @@ the build, but are still not privacy revealing.
 
 my @env_allowed = (
     # Toolchain.
-    qw(CC CPP CXX OBJC OBJCXX PC FC M2C AS LD AR RANLIB MAKE AWK LEX YACC),
+    qw(
+        CC
+        CPP
+        CXX
+        OBJC
+        OBJCXX
+        PC
+        FC
+        M2C
+        AS
+        LD
+        AR
+        RANLIB
+        MAKE
+        AWK
+        LEX
+        YACC
+    ),
     # Toolchain flags.
-    qw(ASFLAGS CFLAGS CPPFLAGS CXXFLAGS OBJCFLAGS OBJCXXFLAGS GCJFLAGS DFLAGS
-       FFLAGS LDFLAGS ARFLAGS MAKEFLAGS),
+    qw(
+        ASFLAGS
+        CFLAGS
+        CPPFLAGS
+        CXXFLAGS
+        OBJCFLAGS
+        OBJCXXFLAGS
+        GCJFLAGS
+        DFLAGS
+        FFLAGS
+        LDFLAGS
+        ARFLAGS
+        MAKEFLAGS
+    ),
     # Dynamic linker, see ld(1).
-    qw(LD_LIBRARY_PATH),
+    qw(
+        LD_LIBRARY_PATH
+    ),
     # Locale, see locale(1).
-    qw(LANG LC_ALL LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY
-       LC_MESSAGES LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
-       LC_IDENTIFICATION),
+    qw(
+        LANG
+        LC_ALL
+        LC_CTYPE
+        LC_NUMERIC
+        LC_TIME
+        LC_COLLATE
+        LC_MONETARY
+        LC_MESSAGES
+        LC_PAPER
+        LC_NAME
+        LC_ADDRESS
+        LC_TELEPHONE
+        LC_MEASUREMENT
+        LC_IDENTIFICATION
+    ),
     # Build flags, see dpkg-buildpackage(1).
-    qw(DEB_BUILD_OPTIONS DEB_BUILD_PROFILES),
+    qw(
+        DEB_BUILD_OPTIONS
+        DEB_BUILD_PROFILES
+    ),
     # DEB_flag_{SET,STRIP,APPEND,PREPEND} will be recorded after being merged
     # with system config and user config.
     # See deb-vendor(1).
-    qw(DEB_VENDOR),
+    qw(
+        DEB_VENDOR
+    ),
     # See dpkg(1).
-    qw(DPKG_ROOT DPKG_ADMINDIR),
+    qw(
+        DPKG_ROOT
+        DPKG_ADMINDIR
+    ),
     # See dpkg-architecture(1).
-    qw(DPKG_DATADIR),
+    qw(
+        DPKG_DATADIR
+    ),
     # See Dpkg::Vendor(3).
-    qw(DPKG_ORIGINS_DIR),
+    qw(
+        DPKG_ORIGINS_DIR
+    ),
     # See dpkg-gensymbols(1).
-    qw(DPKG_GENSYMBOLS_CHECK_LEVEL),
+    qw(
+        DPKG_GENSYMBOLS_CHECK_LEVEL
+    ),
     # See <https://reproducible-builds.org/specs/source-date-epoch>.
-    qw(SOURCE_DATE_EPOCH),
+    qw(
+        SOURCE_DATE_EPOCH
+    ),
 );
 
 sub get_build_env_allowed {
