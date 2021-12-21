@@ -36,7 +36,7 @@ AC_DEFUN([DPKG_LIB_MD], [
 # -------------------------------------------------
 # Check for availability of a compression library.
 AC_DEFUN([DPKG_WITH_COMPRESS_LIB], [
-  AC_ARG_VAR(AS_TR_CPP($1)[_LIBS], [linker flags for $1 library])
+  AC_ARG_VAR(AS_TR_CPP([$1_LIBS]), [linker flags for $1 library])
   AC_ARG_WITH([lib$1],
     [AS_HELP_STRING([--with-lib$1],
       [use $1 library for compression and decompression])],
@@ -51,14 +51,14 @@ AC_DEFUN([DPKG_WITH_COMPRESS_LIB], [
 
     AS_IF([test "x$with_lib$1" != "xno"], [
       AS_IF([test "x$have_lib$1" = "xyes"], [
-        AC_DEFINE([WITH_LIB]AS_TR_CPP($1), 1,
+        AC_DEFINE(AS_TR_CPP([WITH_LIB$1]), 1,
           [Define to 1 to use $1 library rather than console tool])
         AS_IF([test "x$with_lib$1" = "xstatic"], [
           dpkg_$1_libs="-Wl,-Bstatic -l$1 -Wl,-Bdynamic"
         ], [
           dpkg_$1_libs="-l$1"
         ])
-        AS_TR_CPP($1)_LIBS="${AS_TR_CPP($1)_LIBS:+$AS_TR_CPP($1)_LIBS }$dpkg_$1_libs"
+        AS_TR_CPP([$1_LIBS])="${AS_TR_CPP([$1_LIBS]):+$AS_TR_CPP([$1_LIBS]) }$dpkg_$1_libs"
       ], [
         AS_IF([test "x$with_lib$1" != "xcheck"], [
           AC_MSG_FAILURE([lib$1 library or header not found])
