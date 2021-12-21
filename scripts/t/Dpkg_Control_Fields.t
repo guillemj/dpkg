@@ -20,7 +20,7 @@ use Test::More;
 use Test::Dpkg qw(:paths);
 
 BEGIN {
-    plan tests => 2467;
+    plan tests => 2555;
 
     use_ok('Dpkg::Control::Types');
     use_ok('Dpkg::Control::FieldsCore');
@@ -274,10 +274,15 @@ my %fields = (
                 Origin
                 Label
                 Suite
+                Version
                 Codename
                 Changelogs
                 Date
                 Valid-Until
+                NotAutomatic
+                ButAutomaticUpgrades
+                Acquire-By-Hash
+                No-Support-for-Architecture-all
                 Architectures
                 Components
                 Description

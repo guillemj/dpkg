@@ -65,6 +65,10 @@ use constant {
 # Note that fields used only in dpkg's available file are not listed
 # Deprecated fields of dpkg's status file are also not listed
 our %FIELDS = (
+    'acquire-by-hash' => {
+        name => 'Acquire-By-Hash',
+        allowed => CTRL_REPO_RELEASE,
+    },
     'architecture' => {
         name => 'Architecture',
         allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES | CTRL_TESTS) & (~CTRL_INFO_SRC),
@@ -193,6 +197,10 @@ our %FIELDS = (
         separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 10,
+    },
+    'butautomaticupgrades' => {
+        name => 'ButAutomaticUpgrades',
+        allowed => CTRL_REPO_RELEASE,
     },
     'changed-by' => {
         name => 'Changed-By',
@@ -371,6 +379,14 @@ our %FIELDS = (
     'multi-arch' => {
         name => 'Multi-Arch',
         allowed => ALL_PKG,
+    },
+    'no-support-for-architecture-all' => {
+        name => 'No-Support-for-Architecture-all',
+        allowed => CTRL_REPO_RELEASE,
+    },
+    'notautomatic' => {
+        name => 'NotAutomatic',
+        allowed => CTRL_REPO_RELEASE,
     },
     'package' => {
         name => 'Package',
@@ -598,7 +614,7 @@ our %FIELDS = (
     },
     'version' => {
         name => 'Version',
-        allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_BUILDINFO | ALL_CHANGES) &
+        allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_BUILDINFO | ALL_CHANGES | CTRL_REPO_RELEASE) &
                     (~(CTRL_INFO_SRC | CTRL_INFO_PKG)),
     },
 );
@@ -780,10 +796,15 @@ our %FIELD_ORDER = (
             origin
             label
             suite
+            version
             codename
             changelogs
             date
             valid-until
+            notautomatic
+            butautomaticupgrades
+            acquire-by-hash
+            no-support-for-architecture-all
             architectures
             components
             description
