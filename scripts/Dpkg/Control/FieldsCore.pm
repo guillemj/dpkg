@@ -603,6 +603,18 @@ our %FIELDS = (
     },
 );
 
+my @src_vcs_fields = qw(
+    vcs-browser
+    vcs-arch
+    vcs-bzr
+    vcs-cvs
+    vcs-darcs
+    vcs-git
+    vcs-hg
+    vcs-mtn
+    vcs-svn
+);
+
 my @src_dep_fields = qw(
     build-depends
     build-depends-arch
@@ -648,15 +660,9 @@ our %FIELD_ORDER = (
             homepage
             description
             standards-version
-            vcs-browser
-            vcs-arch
-            vcs-bzr
-            vcs-cvs
-            vcs-darcs
-            vcs-git
-            vcs-hg
-            vcs-mtn
-            vcs-svn
+        ),
+        @src_vcs_fields,
+        qw(
             testsuite
             testsuite-triggers
         ),
@@ -716,15 +722,9 @@ our %FIELD_ORDER = (
             homepage
             description
             standards-version
-            vcs-browser
-            vcs-arch
-            vcs-bzr
-            vcs-cvs
-            vcs-darcs
-            vcs-git
-            vcs-hg
-            vcs-mtn
-            vcs-svn
+        ),
+        @src_vcs_fields,
+        qw(
             testsuite
             testsuite-triggers
         ),
