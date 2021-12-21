@@ -245,10 +245,10 @@ foreach my $type (sort keys %fields) {
     foreach my $field (sort keys %known_fields) {
         if ($allowed_fields{$field}) {
             ok(field_is_allowed_in($field, $type),
-               "Field $field allowed for type $type");
+               "Field $field allowed for type $fields{$type}->{name}");
         } else {
             ok(!field_is_allowed_in($field, $type),
-               "Field $field not allowed for type $type");
+               "Field $field not allowed for type $fields{$type}->{name}");
         }
     }
 }
