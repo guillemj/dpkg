@@ -1310,6 +1310,8 @@ sub field_register($$;@) {
         allowed => $types,
         %opts
     };
+
+    return;
 }
 
 =item field_insert_after($type, $ref, @fields)
