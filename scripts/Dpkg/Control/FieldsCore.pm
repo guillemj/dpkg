@@ -61,10 +61,10 @@ use constant {
     FIELD_SEP_LINE => 4,
 };
 
-# The canonical list of fields
+# The canonical list of fields.
 
-# Note that fields used only in dpkg's available file are not listed
-# Deprecated fields of dpkg's status file are also not listed
+# Note that fields used only in dpkg's available file are not listed.
+# Deprecated fields of dpkg's status file are also not listed.
 our %FIELDS = (
     'acquire-by-hash' => {
         name => 'Acquire-By-Hash',
@@ -1299,7 +1299,7 @@ sub field_get_sep_type($) {
 =item field_register($field, $allowed_types, %opts)
 
 Register a new field as being allowed in control information of specified
-types. %opts is optional
+types. %opts is optional.
 
 =cut
 
