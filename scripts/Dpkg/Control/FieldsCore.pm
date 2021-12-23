@@ -369,7 +369,7 @@ our %FIELDS = (
     },
     'maintainer' => {
         name => 'Maintainer',
-        allowed => CTRL_PKG_DEB| CTRL_INDEX_PKG | CTRL_FILE_STATUS | ALL_SRC  | ALL_CHANGES,
+        allowed => CTRL_PKG_DEB | CTRL_INDEX_PKG | CTRL_FILE_STATUS | ALL_SRC  | ALL_CHANGES,
     },
     'md5sum' => {
         # XXX: Wrong capitalization due to historical reasons.
@@ -1305,6 +1305,7 @@ types. %opts is optional.
 
 sub field_register($$;@) {
     my ($field, $types, %opts) = @_;
+
     $field = lc $field;
     $FIELDS{$field} = {
         name => field_capitalize($field),
@@ -1321,13 +1322,17 @@ Place field after another one ($ref) in output of control information of
 type $type.
 
 =cut
+
 sub field_insert_after($$@) {
     my ($type, $field, @fields) = @_;
+
     return 0 if not exists $FIELD_ORDER{$type};
+
     ($field, @fields) = map { lc } ($field, @fields);
     @{$FIELD_ORDER{$type}} = map {
         ($_ eq $field) ? ($_, @fields) : $_
     } @{$FIELD_ORDER{$type}};
+
     return 1;
 }
 
@@ -1337,13 +1342,17 @@ Place field before another one ($ref) in output of control information of
 type $type.
 
 =cut
+
 sub field_insert_before($$@) {
     my ($type, $field, @fields) = @_;
+
     return 0 if not exists $FIELD_ORDER{$type};
+
     ($field, @fields) = map { lc } ($field, @fields);
     @{$FIELD_ORDER{$type}} = map {
         ($_ eq $field) ? (@fields, $_) : $_
     } @{$FIELD_ORDER{$type}};
+
     return 1;
 }
 
