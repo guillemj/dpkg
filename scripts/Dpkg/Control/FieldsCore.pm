@@ -635,6 +635,12 @@ my @bin_dep_fields = qw(
     provides
     built-using
 );
+
+my @src_test_fields = qw(
+    testsuite
+    testsuite-triggers
+);
+
 my @src_checksums_fields = qw(
     checksums-md5
     checksums-sha1
@@ -662,10 +668,7 @@ our %FIELD_ORDER = (
             standards-version
         ),
         @src_vcs_fields,
-        qw(
-            testsuite
-            testsuite-triggers
-        ),
+        @src_test_fields,
         @src_dep_fields,
         qw(
             package-list
@@ -724,10 +727,7 @@ our %FIELD_ORDER = (
             standards-version
         ),
         @src_vcs_fields,
-        qw(
-            testsuite
-            testsuite-triggers
-        ),
+        @src_test_fields,
         @src_dep_fields,
         qw(
             package-list
