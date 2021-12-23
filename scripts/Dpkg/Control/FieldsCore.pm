@@ -49,6 +49,7 @@ use Dpkg::Control::Types;
 use constant {
     ALL_PKG => CTRL_INFO_PKG | CTRL_INDEX_PKG | CTRL_PKG_DEB | CTRL_FILE_STATUS,
     ALL_SRC => CTRL_INFO_SRC | CTRL_INDEX_SRC | CTRL_PKG_SRC,
+    ALL_FILE_MANIFEST => CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES,
     ALL_CHANGES => CTRL_FILE_CHANGES | CTRL_CHANGELOG,
     ALL_COPYRIGHT => CTRL_COPYRIGHT_HEADER | CTRL_COPYRIGHT_FILES | CTRL_COPYRIGHT_LICENSE,
 };
@@ -71,7 +72,7 @@ our %FIELDS = (
     },
     'architecture' => {
         name => 'Architecture',
-        allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES | CTRL_TESTS) & (~CTRL_INFO_SRC),
+        allowed => (ALL_PKG | ALL_SRC | ALL_FILE_MANIFEST | CTRL_TESTS) & (~CTRL_INFO_SRC),
         separator => FIELD_SEP_SPACE,
     },
     'architectures' => {
@@ -86,7 +87,7 @@ our %FIELDS = (
     },
     'binary' => {
         name => 'Binary',
-        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES,
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | ALL_FILE_MANIFEST,
         # XXX: This field values are separated either by space or comma
         # depending on the context.
         separator => FIELD_SEP_SPACE | FIELD_SEP_COMMA,
@@ -216,15 +217,15 @@ our %FIELDS = (
     },
     'checksums-md5' => {
         name => 'Checksums-Md5',
-        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_FILE_BUILDINFO,
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | ALL_FILE_MANIFEST,
     },
     'checksums-sha1' => {
         name => 'Checksums-Sha1',
-        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_FILE_BUILDINFO,
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | ALL_FILE_MANIFEST,
     },
     'checksums-sha256' => {
         name => 'Checksums-Sha256',
-        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_FILE_BUILDINFO,
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | ALL_FILE_MANIFEST,
     },
     'classes' => {
         name => 'Classes',
@@ -329,7 +330,7 @@ our %FIELDS = (
     },
     'format' => {
         name => 'Format',
-        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_COPYRIGHT_HEADER | CTRL_FILE_BUILDINFO,
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | ALL_FILE_MANIFEST | CTRL_COPYRIGHT_HEADER,
     },
     'homepage' => {
         name => 'Homepage',
