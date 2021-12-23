@@ -1052,7 +1052,7 @@ sub field_capitalize($) {
     return join '-', map { ucfirst } split /-/, $field;
 }
 
-=item field_is_official($fname)
+=item $bool = field_is_official($fname)
 
 Returns true if the field is official and known.
 
@@ -1064,7 +1064,7 @@ sub field_is_official($) {
     return exists $FIELDS{$field};
 }
 
-=item field_is_allowed_in($fname, @types)
+=item $bool = field_is_allowed_in($fname, @types)
 
 Returns true (1) if the field $fname is allowed in all the types listed in
 the list. Note that you can use type sets instead of individual types (ex:
@@ -1091,7 +1091,7 @@ sub field_is_allowed_in($@) {
     return 1;
 }
 
-=item field_transfer_single($from, $to, $field)
+=item $new_field = field_transfer_single($from, $to, $field)
 
 If appropriate, copy the value of the field named $field taken from the
 $from Dpkg::Control object to the $to Dpkg::Control object.
@@ -1144,7 +1144,7 @@ sub field_transfer_single($$;$) {
     return;
 }
 
-=item field_transfer_all($from, $to)
+=item @field_list = field_transfer_all($from, $to)
 
 Transfer all appropriate fields from $from to $to. Calls
 field_transfer_single() on all fields available in $from.
@@ -1163,7 +1163,7 @@ sub field_transfer_all($$) {
     return @res;
 }
 
-=item field_ordered_list($type)
+=item @field_list = field_ordered_list($type)
 
 Returns an ordered list of fields for a given type of control information.
 This list can be used to output the fields in a predictable order.
@@ -1226,7 +1226,7 @@ sub field_parse_binary_source($) {
     return ($source, $version);
 }
 
-=item field_list_src_dep()
+=item @field_list = field_list_src_dep()
 
 List of fields that contains dependencies-like information in a source
 Debian package.
@@ -1245,7 +1245,7 @@ sub field_list_src_dep() {
     return @list;
 }
 
-=item field_list_pkg_dep()
+=item @field_list = field_list_pkg_dep()
 
 List of fields that contains dependencies-like information in a binary
 Debian package. The fields that express real dependencies are sorted from
@@ -1265,7 +1265,7 @@ sub field_list_pkg_dep() {
     return @list;
 }
 
-=item field_get_dep_type($field)
+=item $dep_type = field_get_dep_type($field)
 
 Return the type of the dependency expressed by the given field. Can
 either be "normal" for a real dependency field (Pre-Depends, Depends, ...)
@@ -1282,7 +1282,7 @@ sub field_get_dep_type($) {
     return;
 }
 
-=item field_get_sep_type($field)
+=item $sep_type = field_get_sep_type($field)
 
 Return the type of the field value separator. Can be one of FIELD_SEP_UNKNOWN,
 FIELD_SEP_SPACE, FIELD_SEP_COMMA or FIELD_SEP_LINE.
@@ -1316,10 +1316,12 @@ sub field_register($$;@) {
     return;
 }
 
-=item field_insert_after($type, $ref, @fields)
+=item $bool = field_insert_after($type, $ref, @fields)
 
 Place field after another one ($ref) in output of control information of
 type $type.
+
+Return true if the field was inserted, otherwise false.
 
 =cut
 
@@ -1336,10 +1338,12 @@ sub field_insert_after($$@) {
     return 1;
 }
 
-=item field_insert_before($type, $ref, @fields)
+=item $bool = field_insert_before($type, $ref, @fields)
 
 Place field before another one ($ref) in output of control information of
 type $type.
+
+Return true if the field was inserted, otherwise false.
 
 =cut
 
