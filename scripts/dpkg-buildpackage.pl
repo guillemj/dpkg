@@ -33,6 +33,7 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::BuildTypes;
+use Dpkg::BuildAPI qw(get_build_api);
 use Dpkg::BuildOptions;
 use Dpkg::BuildProfiles qw(set_build_profiles);
 use Dpkg::Conf;
@@ -505,7 +506,7 @@ my $ctrl = Dpkg::Control::Info->new();
 
 # Check whether we are doing some kind of rootless build, and sanity check
 # the fields values.
-my %rules_requires_root = parse_rules_requires_root($ctrl->get_source());
+my %rules_requires_root = parse_rules_requires_root($ctrl);
 
 my $pkg = mustsetvar($changelog->{source}, g_('source package'));
 my $version = mustsetvar($changelog->{version}, g_('source version'));
@@ -836,10 +837,18 @@ sub parse_rules_requires_root {
 
     my %rrr;
     my $rrr;
+    my $rrr_default;
     my $keywords_base;
     my $keywords_impl;
 
-    $rrr = $rrr_override // $ctrl->{'Rules-Requires-Root'} // 'binary-targets';
+    if (get_build_api($ctrl) >= 1) {
+        $rrr_default = 'no';
+    } else {
+        $rrr_default = 'binary-targets';
+    }
+
+    my $ctrl_src = $ctrl->get_source();
+    $rrr = $rrr_override // $ctrl_src->{'Rules-Requires-Root'} // $rrr_default;
 
     foreach my $keyword (split ' ', $rrr) {
         if ($keyword =~ m{/}) {
