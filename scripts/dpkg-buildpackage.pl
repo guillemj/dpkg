@@ -1060,6 +1060,9 @@ sub build_target_fallback {
     return if $buildtarget eq 'build';
     return if scalar @debian_rules != 1;
 
+    # Avoid further heuristics in newer dpkg-build-api levels.
+    return if get_build_api($ctrl) >= 1;
+
     # Check if we are building both arch:all and arch:any packages, in which
     # case we now require working build-indep and build-arch targets.
     my $pkg_arch = 0;
