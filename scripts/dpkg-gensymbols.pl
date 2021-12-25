@@ -24,6 +24,7 @@ use warnings;
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Package;
+use Dpkg::BuildAPI qw(get_build_api);
 use Dpkg::Shlibs qw(get_library_paths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
@@ -156,8 +157,10 @@ if (not defined($sourceversion)) {
     my $changelog = changelog_parse();
     $sourceversion = $changelog->{'Version'};
 }
+my $control = Dpkg::Control::Info->new();
+# Initialize the build API level.
+get_build_api($control);
 if (not defined($oppackage)) {
-    my $control = Dpkg::Control::Info->new();
     my @packages = map { $_->{'Package'} } $control->get_packages();
     if (@packages == 0) {
 	error(g_('no package stanza found in control info'));

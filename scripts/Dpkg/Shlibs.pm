@@ -49,6 +49,7 @@ use File::Spec;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Shlibs::Objdump;
+use Dpkg::BuildAPI qw(get_build_api);
 use Dpkg::Path qw(resolve_symlink canonpath);
 use Dpkg::Arch qw(get_build_arch get_host_arch :mappers);
 
@@ -112,10 +113,16 @@ sub setup_library_paths {
             my $realpath = Cwd::realpath($path);
             next unless defined $realpath;
             if ($realpath =~ m/^\Q$cwd\E/) {
-                warning(g_('deprecated use of LD_LIBRARY_PATH with private ' .
-                           'library directory which interferes with ' .
-                           'cross-building, please use -l option instead'));
+                if (get_build_api() >= 1) {
+                    error(g_('use -l option instead of LD_LIBRARY_PATH'));
+                } else {
+                    warning(g_('deprecated use of LD_LIBRARY_PATH with private ' .
+                               'library directory which interferes with ' .
+                               'cross-building, please use -l option instead'));
+                }
             }
+
+            next if get_build_api() >= 1;
 
             # XXX: This should be added to @custom_librarypaths, but as this
             # is deprecated we do not care as the code will go away.

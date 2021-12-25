@@ -41,6 +41,7 @@ use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Substvars;
 use Dpkg::Arch qw(get_host_arch);
+use Dpkg::BuildAPI qw(get_build_api);
 use Dpkg::Deps;
 use Dpkg::Control::Info;
 use Dpkg::Control::Fields;
@@ -76,6 +77,10 @@ my @pkg_dir_to_ignore = ();
 my $host_arch = get_host_arch();
 
 my (@pkg_shlibs, @pkg_symbols, @pkg_root_dirs);
+
+my $control = Dpkg::Control::Info->new();
+# Initialize build API level.
+get_build_api($control);
 
 my ($stdout, %exec);
 foreach (@ARGV) {
@@ -158,7 +163,6 @@ if (-d 'debian') {
     push @pkg_root_dirs, keys %uniq;
 }
 
-my $control = Dpkg::Control::Info->new();
 my $fields = $control->get_source();
 my $bd_value = deps_concat($fields->{'Build-Depends'}, $fields->{'Build-Depends-Arch'});
 my $build_deps = deps_parse($bd_value, build_dep => 1, reduce_restrictions => 1);
