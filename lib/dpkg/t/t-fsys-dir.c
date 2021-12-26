@@ -34,6 +34,10 @@ test_fsys_dir(void)
 
 	test_str(dpkg_fsys_get_dir(), ==, "");
 
+	newdir = dpkg_fsys_set_dir("/testdir//./");
+	test_str(newdir, ==, "/testdir");
+	test_str(dpkg_fsys_get_dir(), ==, "/testdir");
+
 	newdir = dpkg_fsys_set_dir("/testdir");
 	test_str(newdir, ==, "/testdir");
 	test_str(dpkg_fsys_get_dir(), ==, "/testdir");
@@ -46,11 +50,23 @@ test_fsys_dir(void)
 	test_str(dir, ==, "/testdir/testfile");
 	free(dir);
 
+	dir = dpkg_fsys_get_path("/testfile");
+	test_str(dir, ==, "/testdir/testfile");
+	free(dir);
+
+	setenv("DPKG_ROOT", "/testenvdir//./", 1);
+	dpkg_fsys_set_dir(NULL);
+	test_str(dpkg_fsys_get_dir(), ==, "/testenvdir");
+
 	setenv("DPKG_ROOT", "/testenvdir", 1);
 	dpkg_fsys_set_dir(NULL);
 	test_str(dpkg_fsys_get_dir(), ==, "/testenvdir");
 
 	dir = dpkg_fsys_get_path("testfile");
+	test_str(dir, ==, "/testenvdir/testfile");
+	free(dir);
+
+	dir = dpkg_fsys_get_path("/testfile");
 	test_str(dir, ==, "/testenvdir/testfile");
 	free(dir);
 
@@ -61,11 +77,15 @@ test_fsys_dir(void)
 	dir = dpkg_fsys_get_path("testfile");
 	test_str(dir, ==, "/testfile");
 	free(dir);
+
+	dir = dpkg_fsys_get_path("/testfile");
+	test_str(dir, ==, "/testfile");
+	free(dir);
 }
 
 TEST_ENTRY(test)
 {
-	test_plan(10);
+	test_plan(16);
 
 	test_fsys_dir();
 }

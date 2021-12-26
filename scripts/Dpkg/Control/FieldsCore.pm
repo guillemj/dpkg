@@ -18,13 +18,14 @@ package Dpkg::Control::FieldsCore;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 our @EXPORT = qw(
     field_capitalize
     field_is_official
     field_is_allowed_in
     field_transfer_single
     field_transfer_all
+    field_parse_binary_source
     field_list_src_dep
     field_list_pkg_dep
     field_get_dep_type
@@ -844,6 +845,52 @@ sub field_ordered_list($) {
     return ();
 }
 
+=item ($source, $version) = field_parse_binary_source($ctrl)
+
+Parse the B<Source> field in a binary package control stanza. The field
+contains the source package name where it was built from, and optionally
+a space and the source version enclosed in parenthesis if it is different
+from the binary version.
+
+Returns a list with the $source name, and the source $version, or undef
+or an empty list when $ctrl does not contain a binary package control stanza.
+Neither $source nor $version are validated, but that can be done with
+Dpkg::Package::pkg_name_is_illegal() and Dpkg::Version::version_check().
+
+=cut
+
+sub field_parse_binary_source($) {
+    my $ctrl = shift;
+    my $ctrl_type = $ctrl->get_type();
+
+    if ($ctrl_type != CTRL_INDEX_PKG and
+        $ctrl_type != CTRL_PKG_DEB and
+        $ctrl_type != CTRL_FILE_CHANGES and
+        $ctrl_type != CTRL_FILE_BUILDINFO and
+        $ctrl_type != CTRL_FILE_STATUS) {
+        return;
+    }
+
+    my ($source, $version);
+
+    # For .changes and .buildinfo the Source field always exists,
+    # and there is no Package field.
+    if (exists $ctrl->{'Source'}) {
+        $source = $ctrl->{'Source'};
+        if ($source =~ m/^([^ ]+) +\(([^)]*)\)$/) {
+            $source = $1;
+            $version = $2;
+        } else {
+            $version = $ctrl->{'Version'};
+        }
+    } else {
+        $source = $ctrl->{'Package'};
+        $version = $ctrl->{'Version'};
+    }
+
+    return ($source, $version);
+}
+
 =item field_list_src_dep()
 
 List of fields that contains dependencies-like information in a source
@@ -966,6 +1013,10 @@ sub field_insert_before($$@) {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.01 (dpkg 1.21.0)
+
+New function: field_parse_binary_source().
 
 =head2 Version 1.00 (dpkg 1.17.0)
 

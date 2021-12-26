@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-06 21:03+0100\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <debian-l10n-danish@lists.debian.org>\n"
@@ -1142,6 +1142,12 @@ msgstr "kunne ikke åbne loggen '%s': %s"
 #: lib/dpkg/log.c
 #, fuzzy, c-format
 #| msgid "cannot stat file '%s'"
+msgid "cannot get local time to log into '%s': %s"
+msgstr "kan ikke tilgå filen '%s'"
+
+#: lib/dpkg/log.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
 msgid "cannot write to log file '%s': %s"
 msgstr "kan ikke tilgå filen '%s'"
 
@@ -2016,8 +2022,9 @@ msgid "error creating directory '%.255s'"
 msgstr "kunne ikke oprette kataloget '%.255s'"
 
 #: src/archives.c
-#, c-format
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
 msgstr "kan ikke beregne MD5-hash for tar-fil '%.255s': %s"
 
 #: src/archives.c
@@ -2177,28 +2184,61 @@ msgid "unable to sync file '%.255s'"
 msgstr "kan ikke synkronisere fil '%.255s'"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
 "%s"
 msgstr ""
 "ignorerer afhængighedsproblem med %s:\n"
 "%s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
+msgid ""
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"nej, kan ikke fortsætte med %s (--auto-deconfigure vil hjælpe):\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
+"%s"
+msgstr ""
+"ignorerer afhængighedsproblem med %s:\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "considering deconfiguration of essential\n"
+#| " package %s, to enable %s"
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "overvejer afkonfigurering af den essentielle\n"
 " pakke %s for at muliggøre %s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, %s is essential, will not deconfigure\n"
+#| " it in order to enable %s"
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "nej, %s er essentiel, vil ikke afkonfigurere\n"
 " den for at muliggøre %s"
@@ -2210,7 +2250,7 @@ msgstr ""
 #| " package %s, to enable %s"
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "overvejer afkonfigurering af den essentielle\n"
 " pakke %s for at muliggøre %s"
@@ -2222,33 +2262,29 @@ msgstr ""
 #| " it in order to enable %s"
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "nej, %s er essentiel, vil ikke afkonfigurere\n"
 " den for at muliggøre %s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "nej, kan ikke fortsætte med %s (--auto-deconfigure vil hjælpe):\n"
 "%s"
 
 #: src/archives.c
-#, c-format
-msgid "removal of %.250s"
-msgstr "afinstallation af %.250s"
-
-#: src/archives.c
-#, c-format
-msgid "installation of %.250s"
-msgstr "installation af %.255s"
-
-#: src/archives.c
-#, c-format
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+#, fuzzy, c-format
+#| msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr "overvejer at afkonfigurere %s, som ville være i konflikt med %s ..."
 
 #: src/archives.c
@@ -2552,34 +2588,6 @@ msgstr "skal for konfigurationsfil (conffile)"
 
 #: src/configure.c
 #, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: kunne ikke fjerne '%.250s': %s"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "Afinstallerer %s (%s) ...\n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
-msgid "Saving as %s ...\n"
-msgstr "Afinstallerer %s (%s) ...\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "cannot append ar member file (%s) to '%s': %s"
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "kan ikke tilføje ar-medlemsfil (%s) til '%s': %s"
-
-#: src/configure.c
-#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "kan ikke tilgå ny distribueret konfigurationsfil '%.250s'"
 
@@ -2608,6 +2616,11 @@ msgstr "%s: kunne ikke fjerne gammel sikkerhedskopi '%.250s': %s"
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: kunne ikke omdøbe '%.250s' til '%.250s': %s"
+
+#: src/configure.c src/unpack.c
+#, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: kunne ikke fjerne '%.250s': %s"
 
 #: src/configure.c
 #, c-format
@@ -2744,14 +2757,16 @@ msgstr ""
 "%s: konfigurationsfil '%.250s' er hverken en almindelig fil eller symbolsk "
 "lænke (= '%s')"
 
-#: src/configure.c dpkg-split/split.c
-#, c-format
-msgid "cannot compute MD5 hash for file '%s': %s"
+#: src/configure.c src/verify.c dpkg-split/split.c
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "kan ikke beregne MD5-hash for filen '%s': %s"
 
 #: src/configure.c
-#, c-format
-msgid "%s: unable to open %s for hash: %s"
+#, fuzzy, c-format
+#| msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "%s: kan ikke åbne %s til hashning: %s"
 
 #: src/depcon.c
@@ -3286,32 +3301,21 @@ msgstr[0] " %d pakke fra følgende gruppe:"
 msgstr[1] " %d pakker fra følgende grupper:"
 
 #: src/enquiry.c
-#, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"Version af dpkg med fungerende %s-understøttelse er endnu ikke "
-"konfigureret.\n"
-" Kør venligst 'dpkg --configure dpkg', og prøv igen.\n"
-
-#: src/enquiry.c
-#, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr ""
-"dpkg ikke registreret som installeret. Kan ikke kontrollere for %s-"
-"understøttelse!\n"
-
-#: src/enquiry.c
-msgid "Pre-Depends field"
+#, fuzzy
+#| msgid "Pre-Depends field"
+msgid "the Pre-Depends field"
 msgstr "Feltet Pre-Depends"
 
 #: src/enquiry.c
-msgid "epoch"
-msgstr "epoken"
+#, fuzzy
+#| msgid "epoch in version is negative"
+msgid "epochs in versions"
+msgstr "epoke i version er negativ"
 
 #: src/enquiry.c
-msgid "long filenames"
+#, fuzzy
+#| msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr "lange filnavne"
 
 # conflicts og replaces er navne på felter
@@ -3320,18 +3324,47 @@ msgid "multiple Conflicts and Replaces"
 msgstr "flere Conflicts og Replaces"
 
 #: src/enquiry.c
-msgid "multi-arch"
-msgstr "flerarkitektur"
+msgid "multi-arch fields and semantics"
+msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
-msgstr "versioneret Provides"
+msgid "versioned relationships in the Provides field"
+msgstr ""
 
 #: src/enquiry.c
 #, fuzzy
 #| msgid "Pre-Depends field"
-msgid "Protected field"
+msgid "the Protected field"
 msgstr "Feltet Pre-Depends"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "cannot extract package field value from '%s': %s"
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "kan ikke udtrække værdi for pakkefelt fra '%s': %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid ""
+#| "Version of dpkg with working %s support not yet configured.\n"
+#| " Please use 'dpkg --configure dpkg', and then try again.\n"
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"Version af dpkg med fungerende %s-understøttelse er endnu ikke "
+"konfigureret.\n"
+" Kør venligst 'dpkg --configure dpkg', og prøv igen.\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
+msgstr ""
 
 #: src/enquiry.c
 #, c-format
@@ -3773,6 +3806,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3827,25 +3861,6 @@ msgid ""
 msgstr ""
 "  -?, --help                       Vis denne hjælpetekst.\n"
 "      --version                    Vis versionen.\n"
-"\n"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#| "conrep |\n"
-#| "  --assert-multi-arch | --assert-versioned-provides.\n"
-#| "\n"
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
-"\n"
-msgstr ""
-"Til internt brug: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
-"|\n"
-"  --assert-multi-arch | --assert-versioned-provides..\n"
 "\n"
 
 #: src/main.c
@@ -4552,6 +4567,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -5014,10 +5030,24 @@ msgstr ""
 "\n"
 
 #: src/trigcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
+#| "  --by-package=<package>           Override trigger awaiter (normally "
+#| "set\n"
+#| "                                     by dpkg).\n"
+#| "  --await                          Package needs to await the "
+#| "processing.\n"
+#| "  --no-await                       No package needs to await the "
+#| "processing.\n"
+#| "  --no-act                         Just test - don't actually change "
+#| "anything.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -5189,9 +5219,16 @@ msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
 msgstr "Afkonfigurerer %s (%s), så %s (%s) kan afinstalleres ...\n"
 
 #: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Afkonfigurerer %s (%s) ...\n"
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr "Afkonfigurerer %s (%s), så %s (%s) kan afinstalleres ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "Afkonfigurerer %s (%s), så %s (%s) kan afinstalleres ...\n"
 
 #: src/unpack.c
 #, fuzzy
@@ -5287,6 +5324,29 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "kunne ikke installere ny informationsfil '%.250s' som '%.250s'"
 
 #: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Afinstallerer %s (%s) ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Afinstallerer %s (%s) ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "kan ikke tilføje ar-medlemsfil (%s) til '%s': %s"
+
+#: src/unpack.c
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "kunne ikke tilgå den gamle fil '%.250s', så den slettes ikke: %s"
@@ -5371,6 +5431,12 @@ msgstr "ødelagt filsystem-tarfil - ødelagt pakkearkiv"
 #, c-format
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "kan ikke zappe mulige afsluttende nuller fra dpkg-deb: %s"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "Afkonfigurerer %s (%s), så %s (%s) kan afinstalleres ...\n"
 
 #: src/update.c
 #, c-format
@@ -6632,8 +6698,10 @@ msgstr ""
 #| "  --version                show the version.\n"
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -6691,6 +6759,12 @@ msgstr "kunne ikke gennemsøge kataloget '%.255s'"
 #, c-format
 msgid "cannot append to '%s'"
 msgstr "kan ikke føje til '%s'"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot get local time to log into '%s'"
+msgstr "kunne ikke gennemsøge kataloget '%.255s'"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6960,6 +7034,12 @@ msgstr "fjerner manuelt valgt alternativ - skifter %s til automatisk tilstand"
 msgid "alternative %s for %s not registered; not setting"
 msgstr "alternativet %s til %s er ikke registreret, sætter ikke"
 
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "There is no program which provides %s."
+msgid "there is no program which provides %s"
+msgstr "Der er intet program, der giver %s."
+
 # ?
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -7025,12 +7105,25 @@ msgstr "nuværende alternativ %s er ukendt, skifter til %s for lænkegruppen %s"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "no alternatives for %s"
+msgid "selecting alternative %s as choice %s"
+msgstr "ingen alternativer til %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Alternative %s unchanged because choice %s is not available."
+msgid "alternative %s unchanged because choice %s is not available"
 msgstr "Alternativ %s uændret, da valget %s ikke er tilgængeligt."
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
+#, fuzzy, c-format
+#| msgid "Skip unknown alternative %s."
+msgid "skip unknown alternative %s"
 msgstr "Overspring ukendt alternativ %s."
 
 #: utils/update-alternatives.c
@@ -7039,8 +7132,9 @@ msgid "line too long or not terminated while trying to read %s"
 msgstr "linje for lang eller uafsluttet ved forsøg på at læse %s"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr "Spring ugyldig linje over: %s"
 
 #: utils/update-alternatives.c
@@ -7186,6 +7280,51 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "afinstallation af %.250s"
+
+#, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "installation af %.255s"
+
+#, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr ""
+#~ "dpkg ikke registreret som installeret. Kan ikke kontrollere for %s-"
+#~ "understøttelse!\n"
+
+#~ msgid "epoch"
+#~ msgstr "epoken"
+
+#~ msgid "multi-arch"
+#~ msgstr "flerarkitektur"
+
+#~ msgid "versioned Provides"
+#~ msgstr "versioneret Provides"
+
+#, fuzzy, c-format
+#~| msgid ""
+#~| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+#~| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~| "conrep |\n"
+#~| "  --assert-multi-arch | --assert-versioned-provides.\n"
+#~| "\n"
+#~ msgid ""
+#~ "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Til internt brug: dpkg --assert-support-predepends | --predep-package |\n"
+#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~ "conrep |\n"
+#~ "  --assert-multi-arch | --assert-versioned-provides..\n"
+#~ "\n"
+
+#, c-format
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "Afkonfigurerer %s (%s) ...\n"
 
 #~ msgid ""
 #~ "need --display, --query, --list, --get-selections, --config, --set, --set-"
@@ -7343,6 +7482,3 @@ msgstr ""
 
 #~ msgid "failed to chdir to `/' for cleanup"
 #~ msgstr "kunne ikke skifte til kataloget '/' for at rydde op"
-
-#~ msgid "cannot extract package field value from '%s': %s"
-#~ msgstr "kan ikke udtrække værdi for pakkefelt fra '%s': %s"

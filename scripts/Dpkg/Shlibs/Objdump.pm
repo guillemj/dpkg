@@ -488,9 +488,24 @@ sub apply_relocations {
 	# We want to mark as undefined symbols those which are currently
 	# defined but that depend on a copy relocation
 	next if not $sym->{defined};
-	next if not exists $self->{dynrelocs}{$sym->{name}};
-	if ($self->{dynrelocs}{$sym->{name}} =~ /^R_.*_COPY$/) {
+
+        my @relocs;
+
+        # When objdump qualifies the symbol with a version it will use @ when
+        # the symbol is in an undefined section (which we discarded above, or
+        # @@ otherwise.
+        push @relocs, $sym->{name} . '@@' . $sym->{version} if $sym->{version};
+
+        # Symbols that are not versioned, or versioned but shown with objdump
+        # fopm binutils < 2.26, do not have a version appended.
+        push @relocs, $sym->{name};
+
+        foreach my $reloc (@relocs) {
+            next if not exists $self->{dynrelocs}{$reloc};
+            next if not $self->{dynrelocs}{$reloc} =~ /^R_.*_COPY$/;
+
 	    $sym->{defined} = 0;
+            last;
 	}
     }
 }

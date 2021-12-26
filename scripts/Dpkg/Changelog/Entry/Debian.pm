@@ -88,13 +88,15 @@ my $regex_trailer = qr<
 >xo;
 
 my %week_day = map { $_ => 1 } qw(Mon Tue Wed Thu Fri Sat Sun);
-my %month_abbrev = map { $_ => 1 } qw(
+my @month_abbrev = qw(
     Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
 );
-my %month_name = map { $_ => } qw(
+my %month_abbrev = map { $_ => 1 } @month_abbrev;
+my @month_name = qw(
     January February March April May June July
     August September October November December
 );
+my %month_name = map { $month_name[$_] => $month_abbrev[$_] } 0 .. 11;
 
 =head1 METHODS
 

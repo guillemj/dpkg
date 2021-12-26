@@ -162,8 +162,10 @@ usage(void)
 
 	printf(_(
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -175,7 +177,7 @@ usage(void)
 "  --debug                  debug output, way more output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
-));
+), altdir, admdir);
 }
 
 static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1)
@@ -563,9 +565,9 @@ fsys_set_dir(const char *dir)
 }
 
 static char *
-fsys_gen_admindir(const char *basedir)
+fsys_gen_admindir(void)
 {
-	return xasprintf("%s%s/%s", instdir, basedir, "alternatives");
+	return fsys_get_path(ADMINDIR "/alternatives");
 }
 
 static bool
@@ -2318,8 +2320,8 @@ alternative_set_auto(struct alternative *a)
 
 	alternative_set_status(a, ALT_ST_AUTO);
 	if (alternative_choices_count(a) == 0)
-		pr(_("There is no program which provides %s."),
-		   a->master_name);
+		info(_("there is no program which provides %s"),
+		     a->master_name);
 	else
 		new_choice = xstrdup(alternative_get_best(a)->master_file);
 
@@ -2571,12 +2573,15 @@ alternative_set_selection(struct alternative_map *all, const char *name,
 		char *new_choice = NULL;
 
 		if (strcmp(status, "auto") == 0) {
+			info(_("selecting alternative %s as auto"), name);
 			new_choice = alternative_set_auto(a);
 		} else if (alternative_has_choice(a, choice)) {
+			info(_("selecting alternative %s as choice %s"), name,
+			     choice);
 			new_choice = alternative_set_manual(a, choice);
 		} else {
-			pr(_("Alternative %s unchanged because choice "
-			     "%s is not available."), name, choice);
+			info(_("alternative %s unchanged because choice "
+			       "%s is not available"), name, choice);
 		}
 
 		if (new_choice) {
@@ -2590,7 +2595,7 @@ alternative_set_selection(struct alternative_map *all, const char *name,
 			free(new_choice);
 		}
 	} else {
-		pr(_("Skip unknown alternative %s."), name);
+		info(_("skip unknown alternative %s"), name);
 	}
 }
 
@@ -2629,8 +2634,7 @@ alternative_set_selections(FILE *input, const char *desc)
 		while (i < len && !isblank(line[i]))
 			i++;
 		if (i >= len) {
-			printf("[%s %s] ", PROGNAME, "--set-selections");
-			pr(_("Skip invalid line: %s"), line);
+			info(_("skip invalid selection line: %s"), line);
 			continue;
 		}
 		line[i++] = '\0';
@@ -2642,8 +2646,7 @@ alternative_set_selections(FILE *input, const char *desc)
 		while (i < len && !isblank(line[i]))
 			i++;
 		if (i >= len) {
-			printf("[%s %s] ", PROGNAME, "--set-selections");
-			pr(_("Skip invalid line: %s"), line);
+			info(_("skip invalid selection line: %s"), line);
 			continue;
 		}
 		line[i++] = '\0';
@@ -2652,13 +2655,11 @@ alternative_set_selections(FILE *input, const char *desc)
 
 		/* Delimit choice string in the line */
 		if (i >= len) {
-			printf("[%s %s] ", PROGNAME, "--set-selections");
-			pr(_("Skip invalid line: %s"), line);
+			info(_("skip invalid selection line: %s"), line);
 			continue;
 		}
 		choice = line + i;
 
-		printf("[%s %s] ", PROGNAME, "--set-selections");
 		alternative_set_selection(alt_map_obj, name, status, choice);
 	}
 
@@ -2813,7 +2814,7 @@ set_rootdir(const char *dir)
 	log_file = fsys_get_path(LOGDIR "/alternatives.log");
 	altdir = SYSCONFDIR "/alternatives";
 	free(admdir);
-	admdir = fsys_gen_admindir(dir);
+	admdir = fsys_gen_admindir();
 
 	return instdir;
 }
@@ -2821,17 +2822,15 @@ set_rootdir(const char *dir)
 static char *
 admindir_init(void)
 {
-	const char *basedir, *basedir_env;
+	const char *basedir_env;
 
 	/* Try to get the admindir from an environment variable, usually set
 	 * by the system package manager. */
 	basedir_env = getenv(ADMINDIR_ENVVAR);
 	if (basedir_env)
-		basedir = basedir_env;
+		return xasprintf("%s%s", basedir_env, "/alternatives");
 	else
-		basedir = ADMINDIR;
-
-	return fsys_gen_admindir(basedir);
+		return fsys_gen_admindir();
 }
 
 #define MISSING_ARGS(nb) (argc < i + nb + 1)
@@ -3037,6 +3036,8 @@ main(int argc, char **argv)
 		         "display", "query", "list", "get-selections",
 		         "config", "set", "set-selections", "install",
 		         "remove", "all", "remove-all", "auto");
+
+	debug("root=%s admdir=%s altdir=%s", instdir, admdir, altdir);
 
 	/* The following actions might modify the current alternative. */
 	if (action == ACTION_SET ||

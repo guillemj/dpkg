@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-06 21:03+0100\n"
 "PO-Revision-Date: 2017-05-06 12:49+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -1098,6 +1098,12 @@ msgstr "nelze otevřít log „%s“: %s"
 #: lib/dpkg/log.c
 #, fuzzy, c-format
 #| msgid "cannot stat file '%s'"
+msgid "cannot get local time to log into '%s': %s"
+msgstr "nelze volat stat na soubor „%s“"
+
+#: lib/dpkg/log.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
 msgid "cannot write to log file '%s': %s"
 msgstr "nelze volat stat na soubor „%s“"
 
@@ -1953,8 +1959,9 @@ msgid "error creating directory '%.255s'"
 msgstr "chyba při vytváření adresáře „%.255s“"
 
 #: src/archives.c
-#, c-format
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
 msgstr "nelze spočítat MD5 součet tar archivu „%.255s“: %s"
 
 #: src/archives.c
@@ -2106,28 +2113,61 @@ msgid "unable to sync file '%.255s'"
 msgstr "nelze synchronizovat soubor „%.255s“"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
 "%s"
 msgstr ""
 "ignoruji problém se závislostmi akce „%s“:\n"
 "%s"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
+msgid ""
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"ne, nelze pokračovat s akcí „%s“ (pomůže --auto-deconfigure):\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
+"%s"
+msgstr ""
+"ignoruji problém se závislostmi akce „%s“:\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "considering deconfiguration of essential\n"
+#| " package %s, to enable %s"
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "zvažuji dekonfiguraci nezbytného balíku\n"
 " %s, což by umožnilo akci „%s“"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, %s is essential, will not deconfigure\n"
+#| " it in order to enable %s"
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "ne, balík %s je nezbytný, neprovedu jeho dekonfiguraci,\n"
 " která by umožnila akci „%s“"
@@ -2139,7 +2179,7 @@ msgstr ""
 #| " package %s, to enable %s"
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "zvažuji dekonfiguraci nezbytného balíku\n"
 " %s, což by umožnilo akci „%s“"
@@ -2151,33 +2191,29 @@ msgstr ""
 #| " it in order to enable %s"
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "ne, balík %s je nezbytný, neprovedu jeho dekonfiguraci,\n"
 " která by umožnila akci „%s“"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "ne, nelze pokračovat s akcí „%s“ (pomůže --auto-deconfigure):\n"
 "%s"
 
 #: src/archives.c
-#, c-format
-msgid "removal of %.250s"
-msgstr "odstranění %.250s"
-
-#: src/archives.c
-#, c-format
-msgid "installation of %.250s"
-msgstr "instalace %.250s"
-
-#: src/archives.c
-#, c-format
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+#, fuzzy, c-format
+#| msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr "zvažuji dekonfiguraci balíku %s, který by byl porušen akcí „%s“…"
 
 #: src/archives.c
@@ -2476,34 +2512,6 @@ msgstr "shell konfiguračních souborů"
 
 #: src/configure.c
 #, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: nepodařilo se odstranit „%.250s“: %s"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "Odstraňuje se balík %s (%s) …\n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s (%s) ...\n"
-msgid "Saving as %s ...\n"
-msgstr "Odstraňuje se balík %s (%s) …\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "cannot append ar member file (%s) to '%s': %s"
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "nelze připojit soubor „%s“ do aru „%s“: %s"
-
-#: src/configure.c
-#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr ""
 "nelze zjistit stav nového distribučního konfiguračního souboru „%.250s“"
@@ -2533,6 +2541,11 @@ msgstr "%s: nepodařilo se odstranit záložní kopii „%.250s“: %s"
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: nepodařilo se přejmenovat „%.250s“ na „%.250s“: %s"
+
+#: src/configure.c src/unpack.c
+#, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: nepodařilo se odstranit „%.250s“: %s"
 
 #: src/configure.c
 #, c-format
@@ -2669,14 +2682,16 @@ msgstr ""
 "%s: konfigurační soubor „%.250s“ není souborem ani symbolickým odkazem (= "
 "„%s“)"
 
-#: src/configure.c dpkg-split/split.c
-#, c-format
-msgid "cannot compute MD5 hash for file '%s': %s"
+#: src/configure.c src/verify.c dpkg-split/split.c
+#, fuzzy, c-format
+#| msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "nelze spočítat MD5 součet souboru „%s“: %s"
 
 #: src/configure.c
-#, c-format
-msgid "%s: unable to open %s for hash: %s"
+#, fuzzy, c-format
+#| msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "%s: nelze otevřít %s pro hash: %s"
 
 #: src/depcon.c
@@ -3213,31 +3228,21 @@ msgstr[1] " %d balíky z následujících sekcí:"
 msgstr[2] " %d balíků z následujících sekcí:"
 
 #: src/enquiry.c
-#, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"Verze dpkg s funkční podporou pro %s ještě není zkonfigurována.\n"
-" Použijte prosím „dpkg --configure dpkg“ a potom zopakujte\n"
-" tento příkaz.\n"
-
-#: src/enquiry.c
-#, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr ""
-"dpkg není uvedeno jako nainstalované, nelze zkontrolovat podporu pro %s!\n"
-
-#: src/enquiry.c
-msgid "Pre-Depends field"
+#, fuzzy
+#| msgid "Pre-Depends field"
+msgid "the Pre-Depends field"
 msgstr "pole Pre-Depends"
 
 #: src/enquiry.c
-msgid "epoch"
-msgstr "epoch"
+#, fuzzy
+#| msgid "epoch in version is empty"
+msgid "epochs in versions"
+msgstr "epocha ve verzi je prázdná"
 
 #: src/enquiry.c
-msgid "long filenames"
+#, fuzzy
+#| msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr "dlouhá jména souborů"
 
 #: src/enquiry.c
@@ -3245,18 +3250,47 @@ msgid "multiple Conflicts and Replaces"
 msgstr "více Conflicts a Replaces"
 
 #: src/enquiry.c
-msgid "multi-arch"
-msgstr "multi-arch"
+msgid "multi-arch fields and semantics"
+msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
-msgstr "verzované Provides"
+msgid "versioned relationships in the Provides field"
+msgstr ""
 
 #: src/enquiry.c
 #, fuzzy
 #| msgid "Pre-Depends field"
-msgid "Protected field"
+msgid "the Protected field"
 msgstr "pole Pre-Depends"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "cannot open diversions: %s"
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "nelze otevřít soubor s odsuny: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid ""
+#| "Version of dpkg with working %s support not yet configured.\n"
+#| " Please use 'dpkg --configure dpkg', and then try again.\n"
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"Verze dpkg s funkční podporou pro %s ještě není zkonfigurována.\n"
+" Použijte prosím „dpkg --configure dpkg“ a potom zopakujte\n"
+" tento příkaz.\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
+msgstr ""
 
 #: src/enquiry.c
 #, c-format
@@ -3696,6 +3730,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3750,21 +3785,6 @@ msgid ""
 msgstr ""
 "  -?, --help                       zobrazí tuto nápovědu\n"
 "      --version                    zobrazí verzi\n"
-"\n"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Assertable features: support-predepends, working-epoch, long-filenames,\n"
-#| "  multi-conrep, multi-arch, versioned-provides.\n"
-#| "\n"
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
-"\n"
-msgstr ""
-"Předpokládatelné vlastnosti: support-predepends, working-epoch, \n"
-"  long-filenames, multi-conrep, multi-arch, versioned-provides.\n"
 "\n"
 
 #: src/main.c
@@ -4432,6 +4452,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -4878,10 +4899,24 @@ msgstr ""
 "\n"
 
 #: src/trigcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
+#| "  --by-package=<package>           Override trigger awaiter (normally "
+#| "set\n"
+#| "                                     by dpkg).\n"
+#| "  --await                          Package needs to await the "
+#| "processing.\n"
+#| "  --no-await                       No package needs to await the "
+#| "processing.\n"
+#| "  --no-act                         Just test - don't actually change "
+#| "anything.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -5051,9 +5086,16 @@ msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
 msgstr "Dekonfiguruje se %s (%s), aby mohl být odstraněn %s (%s) …\n"
 
 #: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Dekonfiguruje se %s (%s) …\n"
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr "Dekonfiguruje se %s (%s), aby mohl být odstraněn %s (%s) …\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "Dekonfiguruje se %s (%s), aby mohl být odstraněn %s (%s) …\n"
 
 #: src/unpack.c
 #, fuzzy
@@ -5146,6 +5188,29 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "nelze instalovat nový info soubor „%.250s“ jako „%.250s“"
 
 #: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Odstraňuje se balík %s (%s) …\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s (%s) ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Odstraňuje se balík %s (%s) …\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot append ar member file (%s) to '%s': %s"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "nelze připojit soubor „%s“ do aru „%s“: %s"
+
+#: src/unpack.c
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "nelze zjistit stav starého souboru „%.250s“, tudíž jej nemažu: %s"
@@ -5228,6 +5293,12 @@ msgstr "poškozený systémový tar soubor - poškozený balík"
 #, c-format
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "nelze zrušit potenciální koncové nuly z dpkg-deb: %s"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "Dekonfiguruje se %s (%s), aby mohl být odstraněn %s (%s) …\n"
 
 #: src/update.c
 #, c-format
@@ -6464,8 +6535,10 @@ msgstr ""
 #| "  --version                show the version.\n"
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -6521,6 +6594,12 @@ msgstr "nelze otevřít adresář „%s“"
 #, c-format
 msgid "cannot append to '%s'"
 msgstr "nelze připojit k „%s“"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot open directory '%s'"
+msgid "cannot get local time to log into '%s'"
+msgstr "nelze otevřít adresář „%s“"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6783,6 +6862,12 @@ msgstr "alternativa %s pro %s není registrována, nenastavuji"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "There is no program which provides %s."
+msgid "there is no program which provides %s"
+msgstr "Neexistuje program poskytující %s."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 #| msgid "%s/%s is dangling; it will be updated with best choice"
 msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr "%s/%s není zakončený, bude nastaven na nejlepší možnost"
@@ -6847,12 +6932,25 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "no alternatives for %s"
+msgid "selecting alternative %s as choice %s"
+msgstr "pro %s neexistují alternativy"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Alternative %s unchanged because choice %s is not available."
+msgid "alternative %s unchanged because choice %s is not available"
 msgstr "Alternativa %s nebyla změněna, protože volba %s není dostupná."
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
+#, fuzzy, c-format
+#| msgid "Skip unknown alternative %s."
+msgid "skip unknown alternative %s"
 msgstr "Přeskočení neznámé alternativy %s."
 
 #: utils/update-alternatives.c
@@ -6861,8 +6959,9 @@ msgid "line too long or not terminated while trying to read %s"
 msgstr "příliš dlouhý nebo neukončený řádek při pokusu o čtení %s"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr "Přeskočení neplatného řádku: %s"
 
 #: utils/update-alternatives.c
@@ -7008,6 +7107,46 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "odstranění %.250s"
+
+#, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "instalace %.250s"
+
+#, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr ""
+#~ "dpkg není uvedeno jako nainstalované, nelze zkontrolovat podporu pro %s!\n"
+
+#~ msgid "epoch"
+#~ msgstr "epoch"
+
+#~ msgid "multi-arch"
+#~ msgstr "multi-arch"
+
+#~ msgid "versioned Provides"
+#~ msgstr "verzované Provides"
+
+#, fuzzy, c-format
+#~| msgid ""
+#~| "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~| "  multi-conrep, multi-arch, versioned-provides.\n"
+#~| "\n"
+#~ msgid ""
+#~ "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Předpokládatelné vlastnosti: support-predepends, working-epoch, \n"
+#~ "  long-filenames, multi-conrep, multi-arch, versioned-provides.\n"
+#~ "\n"
+
+#, c-format
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "Dekonfiguruje se %s (%s) …\n"
 
 #~ msgid ""
 #~ "need --display, --query, --list, --get-selections, --config, --set, --set-"
@@ -7735,9 +7874,6 @@ msgstr ""
 
 #~ msgid "--%s needs a <package> argument"
 #~ msgstr "--%s vyžaduje jako argument <balík>"
-
-#~ msgid "cannot open diversions: %s"
-#~ msgstr "nelze otevřít soubor s odsuny: %s"
 
 #~ msgid "rename: rename `%s' to `%s': %s"
 #~ msgstr "přejmenování: přejmenování „%s“ na „%s“: %s"

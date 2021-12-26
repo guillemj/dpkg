@@ -15,6 +15,12 @@ TEST_CASES += test-reinclude-subdir
 TEST_CASES += test-same-include-exclude
 TEST_CASES += test-upgrade test-help
 
+build-hook:
+	ln -fsT pkg-somefiles pkg-somefiles/test/share/doc/pkg-symlinked
+
+clean-hook:
+	$(RM) pkg-somefiles/test/share/doc/pkg-symlinked
+
 test-case: $(TEST_CASES)
 
 test-clean:
@@ -28,10 +34,12 @@ test-no-filter:
 
 test-no-doc-sub:
 	# filter out /test/share/doc/*/*; this keeps the actual
-	# /test/share/doc/pkg-somefiles dir around
+	# /test/share/doc/pkg-somefiles dir and
+	# /test/share/doc/pkg-symlinked symlink around.
 	$(DPKG_INSTALL) \
 	  --path-exclude '/test/share/doc/*/*' \
 	  pkg-somefiles.deb
+	test -L "$(DPKG_INSTDIR)/test/share/doc/pkg-symlinked"
 	test -d "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles"
 	test "`ls '$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles'`" = ""
 	test -f "$(DPKG_INSTDIR)/test/lib/pkg-somefiles/run"
@@ -42,6 +50,7 @@ test-no-doc-all:
 	$(DPKG_INSTALL) \
 	  --path-exclude '/test/share/doc/*' \
 	  pkg-somefiles.deb
+	! test -L "$(DPKG_INSTDIR)/test/share/doc/pkg-symlinked"
 	! test -d "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles"
 	test -f "$(DPKG_INSTDIR)/test/lib/pkg-somefiles/run"
 	$(DPKG_PURGE) pkg-somefiles
@@ -52,6 +61,7 @@ test-no-doc-except-copyright:
 	  --path-exclude '/test/share/doc/*/*' \
 	  --path-include '/test/share/doc/*/copyright' \
 	  pkg-somefiles.deb
+	test -L "$(DPKG_INSTDIR)/test/share/doc/pkg-symlinked"
 	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/copyright"
 	! test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/html/index.html"
 	! test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/README"
@@ -66,6 +76,7 @@ test-no-doc-except-copyright-subdir:
 	  --path-exclude '/test/share/doc/*' \
 	  --path-include '/test/share/doc/*/copyright' \
 	  pkg-somefiles.deb
+	test -L "$(DPKG_INSTDIR)/test/share/doc/pkg-symlinked"
 	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/copyright"
 	! test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/html/index.html"
 	! test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/README"
@@ -80,6 +91,7 @@ test-no-doc-except-copyright-and-readme:
 	  --path-include '/test/share/doc/*/copyright' \
 	  --path-include '/test*/READ*' \
 	  pkg-somefiles.deb
+	test -L "$(DPKG_INSTDIR)/test/share/doc/pkg-symlinked"
 	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/copyright"
 	! test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/html/index.html"
 	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/README"
@@ -94,6 +106,7 @@ test-include-only:
 	  --path-include '/test/lib/*/*' \
 	  pkg-somefiles.deb
 	test "`$(DPKG_QUERY) -L pkg-somefiles | wc -l`" = $(DEB_FILES_COUNT)
+	test -L "$(DPKG_INSTDIR)/test/share/doc/pkg-symlinked"
 	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/copyright"
 	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/html/index.html"
 	test -f "$(DPKG_INSTDIR)/test/lib/pkg-somefiles/run"
@@ -140,22 +153,26 @@ test-upgrade:
 	# files are removed/re-added on upgrades
 	$(DPKG_INSTALL) pkg-somefiles.deb
 	test "`$(DPKG_QUERY) -L pkg-somefiles | wc -l`" = $(DEB_FILES_COUNT)
+	test -L "$(DPKG_INSTDIR)/test/share/doc/pkg-symlinked"
 	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/copyright"
 	
 	$(DPKG_INSTALL) \
 	  --path-exclude '/test/share/doc/*' \
 	  pkg-somefiles.deb
+	! test -L "$(DPKG_INSTDIR)/test/share/doc/pkg-symlinked"
 	! test -d "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles"
 	
 	$(DPKG_INSTALL) \
 	  --path-exclude '/test/share/doc/*' \
 	  --path-include '/test/share/doc/*/copyright' \
 	  pkg-somefiles.deb
+	test -L "$(DPKG_INSTDIR)/test/share/doc/pkg-symlinked"
 	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/copyright"
 	! test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/README"
 	
 	$(DPKG_INSTALL) pkg-somefiles.deb
 	test "`$(DPKG_QUERY) -L pkg-somefiles | wc -l`" = $(DEB_FILES_COUNT)
+	test -L "$(DPKG_INSTDIR)/test/share/doc/pkg-symlinked"
 	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/copyright"
 	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/README"
 	$(DPKG_PURGE) pkg-somefiles

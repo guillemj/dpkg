@@ -24,27 +24,30 @@ test_needs_command('shellcheck');
 test_needs_srcdir_switch();
 
 my @todofiles = qw(
-    dselect/methods/disk/install
-    dselect/methods/disk/setup
-    dselect/methods/disk/update
-    dselect/methods/multicd/install
-    dselect/methods/multicd/setup
-    dselect/methods/multicd/update
+    dselect/methods/disk/install.sh
+    dselect/methods/disk/setup.sh
+    dselect/methods/disk/update.sh
+    dselect/methods/multicd/install.sh
+    dselect/methods/multicd/setup.sh
+    dselect/methods/multicd/update.sh
 );
 my @files = qw(
     autogen
-    get-version
-    run-script
+    build-aux/get-version
+    build-aux/run-script
     debian/dpkg.cron.daily
     debian/dpkg.postrm
+    scripts/dpkg-db-backup.sh
     scripts/dpkg-maintscript-helper.sh
     scripts/dpkg-realpath.sh
 );
 my @shellcheck_opts = (
+    '--external-sources', # Allow checking external source files.
     '--exclude=SC1090', # Allow non-constant source.
     '--exclude=SC2039', # Allow local keyword.
     '--exclude=SC2166', # Allow -a and -o.
     '--exclude=SC2034', # Allow unused variables for colors.
+    '--exclude=SC3043', # Allow local keyword.
 );
 
 plan tests => scalar @files;

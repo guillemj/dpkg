@@ -28,16 +28,22 @@ BEGIN {
 
 my $datadir = test_get_data_path();
 
-sub parse_dsc {
-    my $path = shift;
+sub parse_ctrl {
+    my ($type, $path) = @_;
 
-    my $dsc = Dpkg::Control->new(type => CTRL_PKG_SRC);
+    my $ctrl = Dpkg::Control->new(type => $type);
     eval {
-        $dsc->load($path);
+        $ctrl->load($path);
         1;
     } or return;
 
-    return $dsc;
+    return $ctrl;
+}
+
+sub parse_dsc {
+    my $path = shift;
+
+    return parse_ctrl(CTRL_PKG_SRC, $path);
 }
 
 my $c = Dpkg::Control::Info->new("$datadir/control-1");

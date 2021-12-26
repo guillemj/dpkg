@@ -2,4 +2,5 @@
 
 SUBDIRS = \
 	compat \
-	dpkg
+	dpkg \
+	# EOL

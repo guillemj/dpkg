@@ -1,4 +1,3 @@
-#!/bin/sh
 #
 # Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
 # Copyright © 2011-2015 Guillem Jover <guillem@debian.org>
@@ -15,6 +14,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# shellcheck shell=sh
 
 # Standard ANSI colors and attributes.
 COLOR_NORMAL=''

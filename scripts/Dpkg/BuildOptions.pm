@@ -118,7 +118,7 @@ sub set {
     my ($self, $key, $value, $source) = @_;
 
     # Sanity checks
-    if ($key =~ /^(noopt|nostrip|nocheck)$/ && defined($value)) {
+    if ($key =~ /^(terse|noopt|nostrip|nocheck)$/ && defined($value)) {
 	$value = undef;
     } elsif ($key eq 'parallel')  {
 	$value //= '';

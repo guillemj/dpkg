@@ -94,5 +94,7 @@ dpkg_fsys_get_dir(void)
 char *
 dpkg_fsys_get_path(const char *pathpart)
 {
+	pathpart = path_skip_slash_dotslash(pathpart);
+
 	return str_fmt("%s/%s", fsys_dir, pathpart);
 }

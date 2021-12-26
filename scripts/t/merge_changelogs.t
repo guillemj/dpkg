@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 use File::Spec;
 use File::Compare;
@@ -51,9 +51,17 @@ my @input = ("$datadir/ch-old", "$datadir/ch-a", "$datadir/ch-b");
 if ($has_alg_merge) {
     test_merge("$datadir/ch-merged", @input);
     test_merge("$datadir/ch-merged-pr", '-m', @input);
+    test_merge("$datadir/ch-unreleased-merged", '--merge-unreleased',
+        ("$datadir/ch-unreleased-old",
+         "$datadir/ch-unreleased-a",
+         "$datadir/ch-unreleased-b"));
 } else {
     test_merge("$datadir/ch-merged-basic", @input);
     test_merge("$datadir/ch-merged-pr-basic", '-m', @input);
+    test_merge("$datadir/ch-unreleased-merged-basic", '--merge-unreleased',
+        ("$datadir/ch-unreleased-old",
+         "$datadir/ch-unreleased-a",
+         "$datadir/ch-unreleased-b"));
 }
 test_merge("$datadir/ch-badver-merged",  ("$datadir/ch-badver-old",
     "$datadir/ch-badver-a", "$datadir/ch-badver-b"));

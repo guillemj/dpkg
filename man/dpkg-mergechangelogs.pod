@@ -48,6 +48,17 @@ content of the entry).
 
 =over
 
+=item B<--merge-unreleased>
+
+Ignore the version number when the entries are marked as B<UNRELEASED>
+(since dpkg 1.21.0).
+
+This is useful when you have diverging development for versions that have
+not yet been released. For instance 2.1-1 is released, then development
+happens for the new 2.2-1 and then for 2.3-1, where it makes sense to just
+end with a coalesced entry for 2.3-1 including all the development done in
+2.2-1.
+
 =item B<-m>, B<--merge-prereleases>
 
 Drop the part after the last tilde in the version number when doing

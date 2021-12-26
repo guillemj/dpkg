@@ -60,7 +60,7 @@ void dpkg_arch_reset_list(void);
 const char *dpkg_arch_describe(const struct dpkg_arch *arch);
 
 struct dpkg_arch *dpkg_arch_add(const char *name);
-void dpkg_arch_unmark(struct dpkg_arch *arch);
+void dpkg_arch_unmark(const struct dpkg_arch *arch);
 void dpkg_arch_load_list(void);
 void dpkg_arch_save_list(void);
 

@@ -25,6 +25,8 @@
 #include <dpkg/file.h>
 #include <dpkg/fsys.h>
 
+DPKG_BEGIN_DECLS
+
 /*
  * Data structure here is as follows:
  *
@@ -71,5 +73,7 @@ void write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
                            struct fsys_namenode_list *list, enum fsys_namenode_flags mask);
 void write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
                            struct fsys_namenode_list *list, enum fsys_namenode_flags mask);
+
+DPKG_END_DECLS
 
 #endif /* LIBDPKG_DB_FSYS_H */

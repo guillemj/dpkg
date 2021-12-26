@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.20.7.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
-"PO-Revision-Date: 2021-04-08 19:51+0200\n"
+"POT-Creation-Date: 2021-12-06 21:04+0100\n"
+"PO-Revision-Date: 2021-12-05 06:03+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -302,8 +302,10 @@ msgid ""
 "hooks:\n"
 "                                init preclean source build binary buildinfo\n"
 "                                changes postclean check sign done\n"
+"      --buildinfo-file=<file> set the .buildinfo filename to generate.\n"
 "      --buildinfo-option=<opt>\n"
 "                              pass option <opt> to dpkg-genbuildinfo.\n"
+"      --changes-file=<file>   set the .changes filename to generate.\n"
 "  -p, --sign-command=<command>\n"
 "                              command to sign .dsc and/or .changes files\n"
 "                                (default is gpg).\n"
@@ -370,8 +372,12 @@ msgstr ""
 "                      <Befehl> als Hook-<Name> setzen, bekannte Hooks:\n"
 "                        init preclean source build binary buildinfo\n"
 "                        changes postclean check sign done\n"
+"      --buildinfo-file=<Datei>\n"
+"                        den zu erstellenden .buildinfo-Dateinamen setzen\n"
 "  --buildinfo-option=<Opt>\n"
 "                      Option <Opt> an dpkg-genbuildinfo übergeben\n"
+"      --changes-file=<Datei>\n"
+"                      den zu erstellenden .changes-Dateinamen setzen\n"
 "  -p, --sign-command=<Befehl>\n"
 "                      Befehl, um .dsc- und/oder .changes-Dateien zu "
 "signieren\n"
@@ -457,6 +463,21 @@ msgstr ""
 "  --source-option=<Opt>            <Opt> an Dpkg-Source weitergeben\n"
 
 #: scripts/dpkg-buildpackage.pl
+msgid "missing .buildinfo filename"
+msgstr "fehlender .buildinfo-Dateiname"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "passing %s via %s is not supported; please use %s instead"
+msgstr ""
+"übergeben von %s mittels %s wird nicht unterstützt; verwenden Sie "
+"stattdessen »%s«"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "missing .changes filename"
+msgstr "fehlender .changes-Dateiname"
+
+#: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "unknown hook name %s"
 msgstr "unbekannter Hook-Name »%s«"
@@ -534,14 +555,6 @@ msgid ""
 msgstr ""
 "wie gewünscht wird ein Quellpaket ohne vorhergehende Bereinigung erstellt; "
 "es mag unerwünschte Dateien enthalten"
-
-#: scripts/dpkg-buildpackage.pl
-msgid "parse changes file"
-msgstr "Auswerten der changes-Datei"
-
-#: scripts/dpkg-buildpackage.pl
-msgid "dpkg-genchanges"
-msgstr "dpkg-genchanges"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "Press <enter> to start the signing process.\n"
@@ -1269,7 +1282,10 @@ msgid ""
 "\n"
 "Options:\n"
 "  -m, --merge-prereleases  merge pre-releases together, ignores everything\n"
-"                           after the last '~' in the version.\n"
+"                             after the last '~' in the version.\n"
+"      --merge-unreleased   merge UNRELEASED entries together, ignoring "
+"their\n"
+"                             version numbers.\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version.\n"
 msgstr ""
@@ -1279,6 +1295,8 @@ msgstr ""
 "  -m, --merge-prereleases  vorab-Veröffentlichungen zusammenführen,\n"
 "                           alles nach dem letzten »~« in der Version\n"
 "                           ignorieren\n"
+"      --merge-unreleased   UNRELEASED-Einträge zusammenführen, ihre\n"
+"                           Versionnummern ignorieren\n"
 "  -?, --help               diese Hilfemeldung anzeigen\n"
 "      --version            die Version anzeigen\n"
 
@@ -2494,6 +2512,11 @@ msgstr "unbekanntes Changelog-Format %s: %s"
 
 #: scripts/Dpkg/Changelog/Parse.pm
 #, perl-format
+msgid "changelog format %s is not a Dpkg::Changelog class"
+msgstr "Changelog-Format %s ist keine Dpkg::Changelog-Klasse"
+
+#: scripts/Dpkg/Changelog/Parse.pm
+#, perl-format
 msgid "fatal error occurred while parsing %s"
 msgstr "Fataler Fehler beim Auswerten von %s"
 
@@ -2833,8 +2856,8 @@ msgstr ""
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
-msgid "failed to import key in %s"
-msgstr "Fehlschlag beim Import des Schlüssels in %s"
+msgid "cannot import key %s into %s"
+msgstr "Schlüssel %s kann nicht in %s importiert werden"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
@@ -2844,8 +2867,8 @@ msgstr ""
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
-msgid "failed to verify signature on %s"
-msgstr "Fehler beim Überprüfen der Signatur von %s"
+msgid "cannot verify signature %s"
+msgstr "Signatur %s kann nicht überprüft werden"
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -2898,6 +2921,11 @@ msgstr "Definition der dynamischen Symbole konnte nicht ausgewertet werden: %s"
 #, perl-format
 msgid "symbol name unspecified: %s"
 msgstr "Symbolname nicht angegeben: %s"
+
+#: scripts/Dpkg/Shlibs/Symbol.pm
+#, perl-format
+msgid "symver tag with versioned symbol will not match: %s"
+msgstr "symver-Markierung mit versionierten Symbolen wird nicht passen: %s"
 
 #: scripts/Dpkg/Shlibs/Symbol.pm
 #, perl-format
@@ -3490,6 +3518,14 @@ msgstr ""
 "veränderte Programm im Debian-Tarball speichern möchten."
 
 #: scripts/Dpkg/Source/Package/V2.pm
+msgid ""
+"Hint: make sure the version in debian/changelog matches the unpacked source "
+"tree"
+msgstr ""
+"Tipp: Die Version in debian/changelog muss mit dem entpackten Quellbaum "
+"übereinstimmen"
+
+#: scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
 msgid "you can integrate the local changes with %s"
 msgstr "Sie können die lokalen Änderungen mit %s integrieren"
@@ -3954,6 +3990,14 @@ msgstr ""
 "Aktualisieren"
 
 #: scripts/Dpkg/Source/Quilt.pm
+msgid ""
+"if the file is present in the unpacked source, make sure it is also present "
+"in the orig tarball"
+msgstr ""
+"falls die Datei in der entpackten Quelle vorhanden ist, stellen Sie sicher, "
+"dass sie auch im Orig-Tarball vorhanden ist."
+
+#: scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "%s should be a directory or non-existing"
 msgstr "%s sollte ein Verzeichnis sein oder nicht existieren"
@@ -4072,6 +4116,20 @@ msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
+
+#~ msgid "parse changes file"
+#~ msgstr "Auswerten der changes-Datei"
+
+#~ msgid "dpkg-genchanges"
+#~ msgstr "dpkg-genchanges"
+
+#, perl-format
+#~ msgid "failed to import key in %s"
+#~ msgstr "Fehlschlag beim Import des Schlüssels in %s"
+
+#, perl-format
+#~ msgid "failed to verify signature on %s"
+#~ msgstr "Fehler beim Überprüfen der Signatur von %s"
 
 #~ msgid "badly formed package name in files list file, line %d"
 #~ msgstr "ungültiger Paketname in Dateilistendatei, Zeile %d"

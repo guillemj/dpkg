@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-06 21:03+0100\n"
 "PO-Revision-Date: 2015-04-07 09:53+0200\n"
 "Last-Translator: Eric Pareja <xenos@upm.edu.ph>\n"
 "Language-Team: Tagalog <debian-tl@banwa.upm.edu.ph>\n"
@@ -1155,6 +1155,11 @@ msgstr "hindi mabuksan ang talaan`%s': %s\n"
 
 #: lib/dpkg/log.c
 #, fuzzy, c-format
+msgid "cannot get local time to log into '%s': %s"
+msgstr "hindi ma-stat ang `%.255s' (sa `%.255s')"
+
+#: lib/dpkg/log.c
+#, fuzzy, c-format
 msgid "cannot write to log file '%s': %s"
 msgstr "hindi ma-stat ang `%.255s' (sa `%.255s')"
 
@@ -2006,7 +2011,7 @@ msgstr "error sa paglikha ng directory `%.255s'"
 #: src/archives.c
 #, fuzzy, c-format
 #| msgid "cannot open archive part file `%.250s'"
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
 msgstr "hindi mabuksan ang arkibo ng bahaging talaksang `%.250s'"
 
 #: src/archives.c
@@ -2166,7 +2171,27 @@ msgstr "hindi ma-unbuffer ang `%.255s'"
 #: src/archives.c
 #, fuzzy, c-format
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
+"%s"
+msgstr ""
+"dpkg: babala - hindi pinansin ang problemang dependensiya sa pagtanggal ng "
+"%s:\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+msgid ""
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"dpkg: hindi maaaring tanggalin ang %s (makakatulong ang  --auto-"
+"deconfigure):\n"
+" %s"
+
+#: src/archives.c
+#, fuzzy, c-format
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
 "%s"
 msgstr ""
 "dpkg: babala - hindi pinansin ang problemang dependensiya sa pagtanggal ng "
@@ -2177,7 +2202,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "dpkg: babala - inaayunan na tanggalin ang pagkaayos ng kailangang\n"
 " pakete %s, upang maaaring tanggalin ang %s.\n"
@@ -2186,7 +2211,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "dpkg: hindi, %s ay kailangan, hindi ito tatanggalan ng pagkaayos\n"
 " nito upang maaaring tanggalin ang %s.\n"
@@ -2195,7 +2220,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "dpkg: babala - inaayunan na tanggalin ang pagkaayos ng kailangang\n"
 " pakete %s, upang maaaring tanggalin ang %s.\n"
@@ -2204,7 +2229,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "dpkg: hindi, %s ay kailangan, hindi ito tatanggalan ng pagkaayos\n"
 " nito upang maaaring tanggalin ang %s.\n"
@@ -2212,7 +2237,7 @@ msgstr ""
 #: src/archives.c
 #, fuzzy, c-format
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "dpkg: hindi maaaring tanggalin ang %s (makakatulong ang  --auto-"
@@ -2221,17 +2246,9 @@ msgstr ""
 
 #: src/archives.c
 #, fuzzy, c-format
-msgid "removal of %.250s"
-msgstr "error sa pagbasa sa %.250s"
-
-#: src/archives.c
-#, fuzzy, c-format
-msgid "installation of %.250s"
-msgstr "hindi mailuklok ang bagong bersyon ng `%.255s'"
-
-#: src/archives.c
-#, fuzzy, c-format
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr "dpkg: inaayunan ang pagtanggal ng %s pabor sa %s ...\n"
 
 #: src/archives.c
@@ -2589,33 +2606,6 @@ msgstr ""
 
 #: src/configure.c
 #, fuzzy, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: bigo sa pag-exec gzip %s"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "Tinatanggal ang %s ...\n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
-msgid "Saving as %s ...\n"
-msgstr "Tinatanggal ang %s ...\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "hindi ma-stat ang `%.255s' (sa `%.255s')"
-
-#: src/configure.c
-#, fuzzy, c-format
 #| msgid "unable to stat new dist conffile `%.250s'"
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "hindi ma-stat ang bagong dist conffile `%.250s'"
@@ -2646,6 +2636,11 @@ msgstr "dpkg: %s: babala - bigo sa pagtanggal ng lumang backup `%.250s': %s\n"
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr ""
 "dpkg: %s: babala - bigo sa pagpalit ng pangalan ng `%.250s' sa `%.250s': %s\n"
+
+#: src/configure.c src/unpack.c
+#, fuzzy, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: bigo sa pag-exec gzip %s"
 
 #: src/configure.c
 #, fuzzy, c-format
@@ -2800,14 +2795,14 @@ msgstr ""
 "dpkg: %s: babala - conffile `%.250s' ay hindi payak na talaksan o symlink\n"
 " (= `%s')\n"
 
-#: src/configure.c dpkg-split/split.c
+#: src/configure.c src/verify.c dpkg-split/split.c
 #, fuzzy, c-format
-msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "hindi ma-stat ang `%.255s' (sa `%.255s')"
 
 #: src/configure.c
 #, fuzzy, c-format
-msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "dpkg: %s: babala - hindi mabuksan ang conffile %s para sa hash: %s\n"
 
 #: src/depcon.c
@@ -3296,32 +3291,17 @@ msgstr[0] " %d na pakete, mula sa sumusunod na mga seksyon:"
 msgstr[1] " %d na pakete, mula sa sumusunod na mga seksyon:"
 
 #: src/enquiry.c
-#, fuzzy, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"Bersyon ng dpkg na may gumaganang suporta sa epoch ay hindi pa nakaayos.\n"
-" Gamitin po lamang ang `dpkg --configure dpkg', at subukan muli matapos "
-"nito.\n"
-
-#: src/enquiry.c
-#, fuzzy, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr ""
-"hindi nakatalang nakaluklok ang dpkg, hindi masuri kung may suporta sa "
-"epoch !\n"
-
-#: src/enquiry.c
-msgid "Pre-Depends field"
+msgid "the Pre-Depends field"
 msgstr ""
 
 #: src/enquiry.c
-msgid "epoch"
-msgstr ""
+#, fuzzy
+#| msgid "epoch in version is not number"
+msgid "epochs in versions"
+msgstr "epoch sa bersyon ay hindi numero"
 
 #: src/enquiry.c
-msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr ""
 
 #: src/enquiry.c
@@ -3329,15 +3309,40 @@ msgid "multiple Conflicts and Replaces"
 msgstr ""
 
 #: src/enquiry.c
-msgid "multi-arch"
+msgid "multi-arch fields and semantics"
 msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
+msgid "versioned relationships in the Provides field"
 msgstr ""
 
 #: src/enquiry.c
-msgid "Protected field"
+msgid "the Protected field"
+msgstr ""
+
+#: src/enquiry.c
+#, fuzzy, c-format
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "bigo sa pagbukas ng talaksang dibersyon"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"Bersyon ng dpkg na may gumaganang suporta sa epoch ay hindi pa nakaayos.\n"
+" Gamitin po lamang ang `dpkg --configure dpkg', at subukan muli matapos "
+"nito.\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
 msgstr ""
 
 #: src/enquiry.c
@@ -3756,6 +3761,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3868,14 +3874,6 @@ msgstr ""
 msgid ""
 "  -?, --help                       Show this help message.\n"
 "      --version                    Show the version.\n"
-"\n"
-msgstr ""
-
-#: src/main.c
-#, c-format
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
 "\n"
 msgstr ""
 
@@ -4492,6 +4490,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -4931,6 +4930,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -5111,8 +5111,15 @@ msgstr ""
 
 #: src/unpack.c
 #, fuzzy, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Tinatanggal ang %s ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr ""
+"Tinatanggalan ng pagkaayos ang %s, upang maaaring tanggalin ang %s ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr ""
+"Tinatanggalan ng pagkaayos ang %s, upang maaaring tanggalin ang %s ...\n"
 
 #: src/unpack.c
 #, fuzzy
@@ -5208,6 +5215,28 @@ msgstr "hindi mailuklok ang bagong talaksang info `%.250s' bilang `%.250s'"
 
 #: src/unpack.c
 #, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "Tinatanggal ang %s ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Saving as %s ...\n"
+msgstr "Tinatanggal ang %s ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "hindi ma-stat ang `%.255s' (sa `%.255s')"
+
+#: src/unpack.c
+#, fuzzy, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "dpkg: babala - hindi matanggal ang lumang talaksan `%.250s': %s\n"
 
@@ -5295,6 +5324,12 @@ msgstr "sirang filesystem tarfile - sira ang arkibong pakete"
 #| msgid "dpkg-deb: zap possible trailing zeros"
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "dpkg-deb: i-zap ang posibleng susunod na mga sero"
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr ""
+"Tinatanggalan ng pagkaayos ang %s, upang maaaring tanggalin ang %s ...\n"
 
 #: src/update.c
 #, fuzzy, c-format
@@ -6556,8 +6591,10 @@ msgstr ""
 #, c-format
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -6602,6 +6639,12 @@ msgstr "hindi ma-scan ang directory `%.255s'"
 #, fuzzy, c-format
 msgid "cannot append to '%s'"
 msgstr "hindi mabuksan ang talaan`%s': %s\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot get local time to log into '%s'"
+msgstr "hindi ma-scan ang directory `%.255s'"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6862,6 +6905,12 @@ msgid "alternative %s for %s not registered; not setting"
 msgstr ""
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "there is no program which provides %s"
+msgstr ""
+"  %.250s ay nagbibigay ng %.250s ngunit ito'y tatanggalan ng pagkaayos.\n"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr ""
@@ -6916,12 +6965,22 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
 msgstr ""
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "Skip unknown alternative %s."
+msgid "selecting alternative %s as choice %s"
+msgstr "di kilalang uri ng compression `%s'!"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "alternative %s unchanged because choice %s is not available"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "skip unknown alternative %s"
 msgstr "di kilalang uri ng compression `%s'!"
 
 #: utils/update-alternatives.c
@@ -6931,7 +6990,7 @@ msgstr "di inaasahang dulo ng talaksan sa %s sa %.255s"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr ""
 
 #: utils/update-alternatives.c
@@ -7076,6 +7135,24 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, fuzzy, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "error sa pagbasa sa %.250s"
+
+#, fuzzy, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "hindi mailuklok ang bagong bersyon ng `%.255s'"
+
+#, fuzzy, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr ""
+#~ "hindi nakatalang nakaluklok ang dpkg, hindi masuri kung may suporta sa "
+#~ "epoch !\n"
+
+#, fuzzy, c-format
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "Tinatanggal ang %s ...\n"
 
 #, fuzzy
 #~ msgid "unable to set ownership of triggers state directory '%.250s'"
@@ -7834,10 +7911,6 @@ msgstr ""
 #~ msgstr ""
 #~ "--%s ay nangangailangan ng hindi kukulang sa isa na argumentong pangalan "
 #~ "ng pakete"
-
-#, fuzzy
-#~ msgid "cannot open diversions: %s"
-#~ msgstr "bigo sa pagbukas ng talaksang dibersyon"
 
 #, fuzzy
 #~ msgid "rename: rename `%s' to `%s': %s"

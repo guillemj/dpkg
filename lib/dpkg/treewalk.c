@@ -363,7 +363,7 @@ treeroot_visit_node(struct treeroot *tree, struct treenode *node)
  */
 struct treeroot *
 treewalk_open(const char *rootdir, enum treewalk_options options,
-              struct treewalk_funcs *func)
+              const struct treewalk_funcs *func)
 {
 	struct treeroot *tree;
 	struct treenode *root;

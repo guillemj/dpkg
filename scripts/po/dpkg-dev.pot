@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.20.8\n"
+"Project-Id-Version: dpkg 1.21.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-06 21:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -238,8 +238,10 @@ msgid ""
 "hooks:\n"
 "                                init preclean source build binary buildinfo\n"
 "                                changes postclean check sign done\n"
+"      --buildinfo-file=<file> set the .buildinfo filename to generate.\n"
 "      --buildinfo-option=<opt>\n"
 "                              pass option <opt> to dpkg-genbuildinfo.\n"
+"      --changes-file=<file>   set the .changes filename to generate.\n"
 "  -p, --sign-command=<command>\n"
 "                              command to sign .dsc and/or .changes files\n"
 "                                (default is gpg).\n"
@@ -292,6 +294,19 @@ msgid ""
 "  -I, --tar-ignore[=<pattern>]\n"
 "                              filter out files when building tarballs.\n"
 "      --source-option=<opt>   pass option <opt> to dpkg-source.\n"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+msgid "missing .buildinfo filename"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "passing %s via %s is not supported; please use %s instead"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+msgid "missing .changes filename"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
@@ -369,14 +384,6 @@ msgstr ""
 msgid ""
 "building a source package without cleaning up as you asked; it might contain "
 "undesired files"
-msgstr ""
-
-#: scripts/dpkg-buildpackage.pl
-msgid "parse changes file"
-msgstr ""
-
-#: scripts/dpkg-buildpackage.pl
-msgid "dpkg-genchanges"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
@@ -950,7 +957,10 @@ msgid ""
 "\n"
 "Options:\n"
 "  -m, --merge-prereleases  merge pre-releases together, ignores everything\n"
-"                           after the last '~' in the version.\n"
+"                             after the last '~' in the version.\n"
+"      --merge-unreleased   merge UNRELEASED entries together, ignoring "
+"their\n"
+"                             version numbers.\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version.\n"
 msgstr ""
@@ -1941,6 +1951,11 @@ msgstr ""
 
 #: scripts/Dpkg/Changelog/Parse.pm
 #, perl-format
+msgid "changelog format %s is not a Dpkg::Changelog class"
+msgstr ""
+
+#: scripts/Dpkg/Changelog/Parse.pm
+#, perl-format
 msgid "fatal error occurred while parsing %s"
 msgstr ""
 
@@ -2274,7 +2289,7 @@ msgstr ""
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
-msgid "failed to import key in %s"
+msgid "cannot import key %s into %s"
 msgstr ""
 
 #: scripts/Dpkg/OpenPGP.pm
@@ -2284,7 +2299,7 @@ msgstr ""
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
-msgid "failed to verify signature on %s"
+msgid "cannot verify signature %s"
 msgstr ""
 
 #: scripts/Dpkg/Package.pm
@@ -2334,6 +2349,11 @@ msgstr ""
 #: scripts/Dpkg/Shlibs/Symbol.pm
 #, perl-format
 msgid "symbol name unspecified: %s"
+msgstr ""
+
+#: scripts/Dpkg/Shlibs/Symbol.pm
+#, perl-format
+msgid "symver tag with versioned symbol will not match: %s"
 msgstr ""
 
 #: scripts/Dpkg/Shlibs/Symbol.pm
@@ -2887,6 +2907,12 @@ msgid ""
 msgstr ""
 
 #: scripts/Dpkg/Source/Package/V2.pm
+msgid ""
+"Hint: make sure the version in debian/changelog matches the unpacked source "
+"tree"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
 msgid "you can integrate the local changes with %s"
 msgstr ""
@@ -3327,6 +3353,12 @@ msgstr ""
 #: scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "if patch '%s' is correctly applied by quilt, use '%s' to update it"
+msgstr ""
+
+#: scripts/Dpkg/Source/Quilt.pm
+msgid ""
+"if the file is present in the unpacked source, make sure it is also present "
+"in the orig tarball"
 msgstr ""
 
 #: scripts/Dpkg/Source/Quilt.pm

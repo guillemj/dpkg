@@ -3,8 +3,9 @@
 m4_pattern_forbid([^_?DPKG_])
 
 AC_PREREQ(2.60)
-AC_INIT([dpkg], m4_esyscmd([./get-version]), [debian-dpkg@lists.debian.org],
-        [dpkg], [https://wiki.debian.org/Teams/Dpkg])
+AC_INIT([dpkg], m4_esyscmd([build-aux/get-version]),
+        [debian-dpkg@lists.debian.org], [dpkg],
+        [https://wiki.debian.org/Teams/Dpkg])
 DPKG_DIST_IS_RELEASE
 AC_SUBST([PACKAGE_COPYRIGHT_HOLDER], ['Dpkg Developers'])
 AC_SUBST([PACKAGE_VCS_TYPE], [git])
@@ -23,6 +24,7 @@ AM_INIT_AUTOMAKE(
   [-Wall]
   [foreign]
   [nostdinc]
+  [subdir-objects]
   [tar-ustar no-dist-gzip dist-xz]
 )
 AM_SILENT_RULES([yes])
@@ -62,6 +64,8 @@ DPKG_WITH_DIR([pkgconfdir], [${sysconfdir}/${PACKAGE_NAME}],
   [dpkg configuration directory [SYSCONFDIR/dpkg]])
 DPKG_WITH_DIR([admindir], [${localstatedir}/lib/${PACKAGE_NAME}],
   [dpkg database directory [LOCALSTATEDIR/lib/dpkg]])
+DPKG_WITH_DIR([backupsdir], [${localstatedir}/backups],
+  [dpkg database backups directory [LOCALSTATEDIR/backups]])
 DPKG_WITH_DIR([logdir], [${localstatedir}/log],
   [system logging directory [LOCALSTATEDIR/log]])
 DPKG_WITH_DIR([zshcompletionsdir], [${datadir}/zsh/vendor-completions],
@@ -69,9 +73,9 @@ DPKG_WITH_DIR([zshcompletionsdir], [${datadir}/zsh/vendor-completions],
 
 # Set default dpkg-deb values
 DPKG_DEB_COMPRESSOR([xz])
-DPKG_DEB_PROG_TAR
 
 # Checks for programs.
+AC_PROG_SED
 AC_PROG_CC
 DPKG_C_C99
 AC_PROG_CXX
@@ -79,6 +83,7 @@ DPKG_CXX_CXX11
 DPKG_PROG_PATCH
 AC_CHECK_PROGS([DOXYGEN], [doxygen])
 AC_CHECK_PROG([HAVE_DOT], [dot], [YES], [NO])
+DPKG_PROG_TAR
 DPKG_PROG_PO4A
 DPKG_PROG_PERL
 DPKG_PROG_POD2MAN
@@ -103,7 +108,6 @@ AS_IF([test "x$build_start_stop_daemon" = "xyes"], [
 ])
 
 # Checks for header files.
-AC_HEADER_STDC
 AC_CHECK_HEADERS([\
   stddef.h \
   error.h \
@@ -220,15 +224,11 @@ DPKG_ARCHITECTURE
 AC_DEFINE([PACKAGE_RELEASE], [PACKAGE_VERSION " (" ARCHITECTURE ")"],
   [Define the project release information, version and architecture])
 
-AC_CONFIG_TESTDIR([t-func])
+AC_CONFIG_TESTDIR([src/at])
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 
 AC_CONFIG_FILES([
   Makefile
-  t-func/Makefile
-  t-func/atlocal
-  dpkg-deb/Makefile
-  dpkg-split/Makefile
   dselect/Makefile
   dselect/methods/Makefile
   dselect/po/Makefile.in
@@ -236,7 +236,6 @@ AC_CONFIG_FILES([
   lib/compat/Makefile
   lib/dpkg/Makefile
   lib/dpkg/libdpkg.pc
-  lib/dpkg/t/Makefile
   doc/Doxyfile
   man/Makefile
   po/Makefile.in
@@ -246,6 +245,7 @@ AC_CONFIG_FILES([
   scripts/mk/Makefile
   scripts/po/Makefile.in
   src/Makefile
+  src/at/atlocal
   utils/Makefile
 ])
 AC_CONFIG_HEADERS([config.h])
@@ -269,6 +269,7 @@ Configuration:
     devlibdir . . . . . . . . . . : $devlibdir
     pkgconfdir  . . . . . . . . . : $pkgconfdir
     admindir  . . . . . . . . . . : $admindir
+    backupsdir  . . . . . . . . . : $backupsdir
     logdir  . . . . . . . . . . . : $logdir
     perl interpreter  . . . . . . : $PERL
     perl libdir . . . . . . . . . : $PERL_LIBDIR

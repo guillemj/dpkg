@@ -116,6 +116,7 @@ distribution policy.
 =item B<Installed-Size:> I<size>
 
 The approximate total size of the package's installed files, in KiB units.
+The algorithm to compute the size is described in L<deb-substvars(5)>.
 
 =item B<Protected:> B<yes>|B<no>
 
@@ -123,6 +124,8 @@ This field is usually only needed when the answer is B<yes>.
 It denotes a package that is required for proper booting of the system.
 L<dpkg(1)> or any other installation tool will not allow a B<Protected>
 package to be removed (at least not without using one of the force options).
+
+Supported since dpkg 1.20.1.
 
 =item B<Essential:> B<yes>|B<no>
 

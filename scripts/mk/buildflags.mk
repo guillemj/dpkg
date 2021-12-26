@@ -1,5 +1,6 @@
 # This Makefile fragment (since dpkg 1.16.1) defines the following variables:
 #
+#   ASFLAGS: flags for the assembler (since 1.21.0).
 #   CFLAGS: flags for the C compiler.
 #   CPPFLAGS: flags for the C preprocessor.
 #   CXXFLAGS: flags for the C++ compiler.
@@ -19,7 +20,7 @@
 
 dpkg_lazy_eval ?= $$(or $$(value DPKG_CACHE_$(1)),$$(eval DPKG_CACHE_$(1) := $$(shell $(2)))$$(value DPKG_CACHE_$(1)))
 
-DPKG_BUILDFLAGS_LIST = CFLAGS CPPFLAGS CXXFLAGS OBJCFLAGS OBJCXXFLAGS \
+DPKG_BUILDFLAGS_LIST = ASFLAGS CFLAGS CPPFLAGS CXXFLAGS OBJCFLAGS OBJCXXFLAGS \
                        GCJFLAGS DFLAGS FFLAGS FCFLAGS LDFLAGS
 
 define dpkg_buildflags_export_envvar
@@ -30,6 +31,7 @@ endef
 
 $(eval $(call dpkg_buildflags_export_envvar,DEB_BUILD_OPTIONS))
 $(eval $(call dpkg_buildflags_export_envvar,DEB_BUILD_MAINT_OPTIONS))
+$(eval $(call dpkg_buildflags_export_envvar,DEB_BUILD_PATH))
 $(foreach flag,$(DPKG_BUILDFLAGS_LIST),\
   $(foreach operation,SET STRIP APPEND PREPEND,\
     $(eval $(call dpkg_buildflags_export_envvar,DEB_$(flag)_MAINT_$(operation)))))

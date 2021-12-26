@@ -66,18 +66,22 @@ sub usage {
 
 Options:
   -m, --merge-prereleases  merge pre-releases together, ignores everything
-                           after the last '~' in the version.
+                             after the last '~' in the version.
+      --merge-unreleased   merge UNRELEASED entries together, ignoring their
+                             version numbers.
   -?, --help               show this help message.
       --version            show the version.
 "), $Dpkg::PROGNAME;
 }
 
 my $merge_prereleases;
+my $merge_unreleased;
 
 my @options_spec = (
     'help|?' => sub { usage(); exit(0) },
     'version' => sub { version(); exit(0) },
     'merge-prereleases|m' => \$merge_prereleases,
+    'merge-unreleased' => \$merge_unreleased,
 );
 
 {
@@ -151,12 +155,12 @@ exit $exitcode;
 sub get_items_to_merge {
     my @items = (shift @o, shift @a, shift @b);
     my @arrays = (\@o, \@a, \@b);
-    my $minver;
+    my $minitem;
     foreach my $i (0 .. 2) {
-	if (defined $minver and defined $items[$i]) {
-	    my $cmp = compare_versions($minver, $items[$i]->get_version());
+	if (defined $minitem and defined $items[$i]) {
+	    my $cmp = compare_versions($minitem, $items[$i]);
 	    if ($cmp > 0) {
-		$minver = $items[$i]->get_version();
+		$minitem = $items[$i];
 		foreach my $j (0 .. $i - 1) {
 		    unshift @{$arrays[$j]}, $items[$j];
 		    $items[$j] = undef;
@@ -166,7 +170,7 @@ sub get_items_to_merge {
 		$items[$i] = undef;
 	    }
 	} else {
-	    $minver = $items[$i]->get_version() if defined $items[$i];
+	    $minitem = $items[$i] if defined $items[$i];
 	}
     }
     return @items;
@@ -177,21 +181,30 @@ sub get_items_to_merge {
 # on which they are based.
 sub compare_versions {
     my ($a, $b) = @_;
+
     return 0 if not defined $a and not defined $b;
     return 1 if not defined $b;
     return -1 if not defined $a;
-    $a = $a->get_version() if ref($a) and $a->isa('Dpkg::Changelog::Entry');
-    $b = $b->get_version() if ref($b) and $b->isa('Dpkg::Changelog::Entry');
-    # Backports are not real prereleases.
-    $a =~ s/~(bpo|deb)/+$1/;
-    $b =~ s/~(bpo|deb)/+$1/;
-    if ($merge_prereleases) {
-	$a =~ s/~[^~]*$//;
-	$b =~ s/~[^~]*$//;
+
+    my ($av, $bv) = ($a, $b);
+
+    $av = $a->get_version() if ref $a and $a->isa('Dpkg::Changelog::Entry');
+    $bv = $b->get_version() if ref $b and $b->isa('Dpkg::Changelog::Entry');
+
+    if ($merge_unreleased) {
+        return 0 if $a->get_distributions() eq 'UNRELEASED' and
+                    $b->get_distributions() eq 'UNRELEASED';
     }
-    $a = Dpkg::Version->new($a);
-    $b = Dpkg::Version->new($b);
-    return $a <=> $b;
+    # Backports are not real prereleases.
+    $av =~ s/~(bpo|deb)/+$1/;
+    $bv =~ s/~(bpo|deb)/+$1/;
+    if ($merge_prereleases) {
+        $av =~ s/~[^~]*$//;
+        $bv =~ s/~[^~]*$//;
+    }
+    $av = Dpkg::Version->new($av);
+    $bv = Dpkg::Version->new($bv);
+    return $av <=> $bv;
 }
 
 # Merge changelog entries smartly by merging individually the different

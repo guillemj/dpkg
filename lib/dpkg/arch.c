@@ -262,7 +262,7 @@ dpkg_arch_add(const char *name)
  * Unmark a foreign dpkg_arch architecture.
  */
 void
-dpkg_arch_unmark(struct dpkg_arch *arch_remove)
+dpkg_arch_unmark(const struct dpkg_arch *arch_remove)
 {
 	struct dpkg_arch *arch;
 

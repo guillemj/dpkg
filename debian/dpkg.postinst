@@ -1,0 +1,61 @@
+#!/bin/sh
+# See deb-postinst(5).
+
+set -e
+
+# Version 1.21.0 had bogus handling of DPKG_ADMINDIR in update-alternatives,
+# and misplaced them, fix them up.
+fixup_misplaced_alternatives()
+(
+  admindir=${DPKG_ADMINDIR:-/var/lib/dpkg}
+
+  cd "$admindir"
+
+  for file in *; do
+    # Check whether this is a known file we do not want to act on.
+    case "$file" in
+    alternatives|\
+    arch|\
+    available|available-old|\
+    cmethopt|methlock|methods|\
+    diversions|diversions-old|\
+    info|parts|triggers|updates|\
+    lock|lock-frontend|\
+    statoverride|statoverride-old|\
+    status|status-old)
+      # Ignore known files just to make sure.
+      continue
+      ;;
+    *)
+    esac
+
+    # Check whether the file looks like an alternative state file.
+    mode="$(head -1 "$file")"
+    case "$mode" in
+    auto|manual)
+      # Looks like a state file, we will handle this one.
+      echo "Moving misplaced alternative state file $admindir/$file..."
+      mv "$file" "alternatives/$file"
+      ;;
+    *)
+      echo "warning: unknown dpkg database file $admindir/$file is not a misplaced alternative state... leaving as is" 1>&2
+      continue
+      ;;
+    esac
+  done
+)
+
+case "$1" in
+configure)
+  fixup_misplaced_alternatives
+  ;;
+abort-upgrade|abort-deconfigure|abort-remove)
+  ;;
+*)
+  echo "$0 called with unknown argument '$1'" 1>&2
+  exit 1
+  ;;
+esac
+
+#DEBHELPER#
+exit 0

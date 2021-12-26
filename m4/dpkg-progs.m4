@@ -1,4 +1,4 @@
-# serial 1
+# serial 2
 # Copyright © 2005 Scott James Remnant <scott@netsplit.com>
 # Copyright © 2007 Frank Lichtenheld <djpig@debian.org>
 # Copyright © 2007, 2009, 2011 Guillem Jover <guillem@debian.org>
@@ -44,7 +44,7 @@ AC_DEFUN([DPKG_PROG_PO4A], [
   AC_CACHE_CHECK([for po4a >= _PO4A_MIN_VERSION], [ac_cv_path_PO4A], [
     AC_PATH_PROGS_FEATURE_CHECK([PO4A], [po4a], [
       po4aversion=$(LC_ALL=C $ac_path_PO4A --version \
-                      | sed -ne 's/^po4a version \(.*\)\.$/\1/p')
+                      | $SED -ne 's/^po4a version \(.*\)\.$/\1/p')
       AS_VERSION_COMPARE([$po4aversion], [_PO4A_MIN_VERSION],
                          [po4acheck=no], [po4acheck=yes], [po4acheck=yes])
       AS_IF([test "x$po4acheck" = "xyes"], [
@@ -72,18 +72,18 @@ AC_DEFUN([DPKG_PROG_POD2MAN], [
   AM_CONDITIONAL([BUILD_POD_DOC], [test "x$POD2MAN" != "x"])
 ])# DPKG_PROG_POD2MAN
 
-# DPKG_DEB_PROG_TAR
-# -----------------
-# Specify GNU tar program name to use by dpkg-deb. On GNU systems this is
+# DPKG_PROG_TAR
+# -------------
+# Specify GNU tar program name to use by dpkg. On GNU systems this is
 # usually simply tar, on BSD systems this is usually gnutar or gtar.
-AC_DEFUN([DPKG_DEB_PROG_TAR], [
+AC_DEFUN([DPKG_PROG_TAR], [
   AC_ARG_VAR([TAR], [GNU tar program])
   AC_CHECK_PROGS([TAR], [gnutar gtar tar], [tar])
   AS_IF([! $TAR --version 2>/dev/null | grep -q '^tar (GNU tar)'], [
     AC_MSG_ERROR([cannot find a GNU tar program])
   ])
   AC_DEFINE_UNQUOTED([TAR], ["$TAR"], [GNU tar program])
-])# DPKG_DEB_PROG_TAR
+])# DPKG_PROG_TAR
 
 # DPKG_PROG_PATCH
 # ---------------

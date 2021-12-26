@@ -1,7 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = . t
-
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DCONFIGDIR=\"$(pkgconfdir)\" \
@@ -9,12 +7,22 @@ AM_CPPFLAGS = \
 	-DDEFAULT_TEXT_DOMAIN=\"@PACKAGE@\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
-	-I$(top_srcdir)/lib
+	-I$(top_srcdir)/lib \
+	# EOL
+
+# Needed for the test suite
+LDADD = \
+	libdpkg.la \
+	$(LIBINTL) \
+	../compat/libcompat.la \
+	# EOL
 
 
 EXTRA_DIST = \
+	$(test_scripts) \
 	libdpkg.map \
-	libdpkg.pc.in
+	libdpkg.pc.in \
+	# EOL
 
 pkgconfigdir = $(devlibdir)/pkgconfig
 pkgconfig_DATA = libdpkg.pc
@@ -24,20 +32,24 @@ devlib_LTLIBRARIES = libdpkg.la
 libdpkg_la_LDFLAGS =
 if HAVE_LINKER_VERSION_SCRIPT
 libdpkg_la_LDFLAGS += \
-	-Wl,--version-script=$(srcdir)/libdpkg.map
+	-Wl,--version-script=$(srcdir)/libdpkg.map \
+	# EOL
 endif
 libdpkg_la_LDFLAGS += $(MD_LIBS)
 libdpkg_la_LIBADD = \
-	../compat/libcompat.la
+	../compat/libcompat.la \
+	# EOL
 if BUILD_SHARED
 libdpkg_la_LIBADD += \
 	$(LIBINTL) \
 	$(Z_LIBS) \
 	$(LZMA_LIBS) \
-	$(BZ2_LIBS)
+	$(BZ2_LIBS) \
+	# EOL
 endif
 EXTRA_libdpkg_la_DEPENDENCIES = \
-	libdpkg.map
+	libdpkg.map \
+	# EOL
 libdpkg_la_SOURCES = \
 	dlist.h \
 	ar.c \
@@ -112,7 +124,8 @@ libdpkg_la_SOURCES = \
 	trigdeferred.c \
 	utils.c \
 	varbuf.c \
-	version.c
+	version.c \
+	# EOL
 
 pkginclude_HEADERS = \
 	ar.h \
@@ -161,4 +174,79 @@ pkginclude_HEADERS = \
 	trigdeferred.h \
 	triglib.h \
 	varbuf.h \
-	version.h
+	version.h \
+	# EOL
+
+t_t_headers_cpp_SOURCES = \
+	t/t-headers-cpp.cc \
+	# EOL
+
+# The tests are sorted in order of increasing complexity.
+test_programs = \
+	t/t-test \
+	t/t-test-skip \
+	t/t-macros \
+	t/t-headers-cpp \
+	t/t-c-ctype \
+	t/t-namevalue \
+	t/t-ehandle \
+	t/t-error \
+	t/t-string \
+	t/t-file \
+	t/t-buffer \
+	t/t-path \
+	t/t-progname \
+	t/t-subproc \
+	t/t-command \
+	t/t-pager \
+	t/t-varbuf \
+	t/t-ar \
+	t/t-tar \
+	t/t-deb-version \
+	t/t-arch \
+	t/t-version \
+	t/t-pkginfo \
+	t/t-pkg-list \
+	t/t-pkg-queue \
+	t/t-pkg-hash \
+	t/t-pkg-show \
+	t/t-fsys-dir \
+	t/t-fsys-hash \
+	t/t-trigger \
+	t/t-mod-db \
+	# EOL
+
+test_scripts = \
+	t/t-tarextract.t \
+	t/t-treewalk.t \
+	t/t-trigdeferred.t \
+	# EOL
+
+BENCHMARK_LDADD_FLAGS = \
+	-lrt \
+	$(LDADD) \
+	# EOL
+
+t_b_fsys_hash_LDADD = $(BENCHMARK_LDADD_FLAGS)
+t_b_pkg_hash_LDADD = $(BENCHMARK_LDADD_FLAGS)
+
+check_PROGRAMS = \
+	$(test_programs) \
+	t/b-fsys-hash \
+	t/b-pkg-hash \
+	t/c-tarextract \
+	t/c-treewalk \
+	t/c-trigdeferred \
+	# EOL
+
+TEST_ENV_VARS = \
+	DPKG_PROGTAR=$(TAR) \
+	# EOL
+
+test_tmpdir = t.tmp
+
+include $(top_srcdir)/build-aux/tap.am
+
+check-local: tap-check
+
+clean-local: tap-clean

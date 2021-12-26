@@ -33,6 +33,8 @@
 #define TEST_MAIN_DTOR pop_error_context(ehflag_normaltidy)
 #endif
 
+DPKG_BEGIN_DECLS
+
 /**
  * @defgroup dpkg_test Test suite support
  * @ingroup dpkg-internal
@@ -154,6 +156,8 @@ static const char *test_skip_reason;
 	} while (0)
 
 /** @} */
+
+DPKG_END_DECLS
 
 #define TEST_ENTRY(name) \
 static void name(void); \

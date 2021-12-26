@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.16.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-06 21:04+0100\n"
 "PO-Revision-Date: 2014-12-02 20:24+0100\n"
 "Last-Translator: Omar Campagne <ocampagne@gmail.com>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -417,8 +417,10 @@ msgid ""
 "hooks:\n"
 "                                init preclean source build binary buildinfo\n"
 "                                changes postclean check sign done\n"
+"      --buildinfo-file=<file> set the .buildinfo filename to generate.\n"
 "      --buildinfo-option=<opt>\n"
 "                              pass option <opt> to dpkg-genbuildinfo.\n"
+"      --changes-file=<file>   set the .changes filename to generate.\n"
 "  -p, --sign-command=<command>\n"
 "                              command to sign .dsc and/or .changes files\n"
 "                                (default is gpg).\n"
@@ -581,6 +583,21 @@ msgstr ""
 "                 Introduce <opción> a dpkg-source.\n"
 
 #: scripts/dpkg-buildpackage.pl
+msgid "missing .buildinfo filename"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "passing %s via %s is not supported; please use %s instead"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, fuzzy
+#| msgid "parse changes file"
+msgid "missing .changes filename"
+msgstr "tratar el fichero de cambios «changes»"
+
+#: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "unknown hook name %s"
 msgstr "nombre de gancho «%s» desconocido"
@@ -660,14 +677,6 @@ msgid ""
 msgstr ""
 "construyendo un paquete fuente sin limpiar, como ha definido; puede contener "
 "ficheros no deseados"
-
-#: scripts/dpkg-buildpackage.pl
-msgid "parse changes file"
-msgstr "tratar el fichero de cambios «changes»"
-
-#: scripts/dpkg-buildpackage.pl
-msgid "dpkg-genchanges"
-msgstr "dpkg-genchanges"
 
 #: scripts/dpkg-buildpackage.pl
 #, fuzzy
@@ -1523,13 +1532,25 @@ msgstr ""
 "General GNU para condiciones de copia. NO hay ninguna garantía.\n"
 
 #: scripts/dpkg-mergechangelogs.pl
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]\n"
+#| "\n"
+#| "Options:\n"
+#| "  -m, --merge-prereleases  merge pre-releases together, ignores "
+#| "everything\n"
+#| "                           after the last '~' in the version.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version.\n"
 msgid ""
 "Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]\n"
 "\n"
 "Options:\n"
 "  -m, --merge-prereleases  merge pre-releases together, ignores everything\n"
-"                           after the last '~' in the version.\n"
+"                             after the last '~' in the version.\n"
+"      --merge-unreleased   merge UNRELEASED entries together, ignoring "
+"their\n"
+"                             version numbers.\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version.\n"
 msgstr ""
@@ -2918,6 +2939,12 @@ msgid "changelog format %s is unknown: %s"
 msgstr "el formato %s del registro de cambios es desconocido"
 
 #: scripts/Dpkg/Changelog/Parse.pm
+#, fuzzy, perl-format
+#| msgid "changelog format %s is unknown"
+msgid "changelog format %s is not a Dpkg::Changelog class"
+msgstr "el formato %s del registro de cambios es desconocido"
+
+#: scripts/Dpkg/Changelog/Parse.pm
 #, perl-format
 msgid "fatal error occurred while parsing %s"
 msgstr "se ha detectado un error fatal al analizar %s"
@@ -3298,9 +3325,9 @@ msgstr "no se pudo verificar la firma de %s ya que gpg no está instalado"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, fuzzy, perl-format
-#| msgid "Failed to parse line in %s: %s"
-msgid "failed to import key in %s"
-msgstr "Se ha detectado un fallo al analizar la línea en «%s»: %s"
+#| msgid "cannot remove %s"
+msgid "cannot import key %s into %s"
+msgstr "no se ha podido eliminar «%s»"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, fuzzy, perl-format
@@ -3309,9 +3336,10 @@ msgid "cannot verify signature on %s since GnuPG is not installed"
 msgstr "no se pudo verificar la firma de %s ya que gpg no está instalado"
 
 #: scripts/Dpkg/OpenPGP.pm
-#, perl-format
-msgid "failed to verify signature on %s"
-msgstr "se ha detectado un fallo al verificar la firma de %s"
+#, fuzzy, perl-format
+#| msgid "cannot stat file %s"
+msgid "cannot verify signature %s"
+msgstr "no se puede obtener el estado (stat) del fichero «%s»"
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -3364,6 +3392,14 @@ msgstr "No se pudo analizar la definición de símbolo dinámico: %s"
 #, perl-format
 msgid "symbol name unspecified: %s"
 msgstr "el nombre del símbolo no está definido: %s"
+
+#: scripts/Dpkg/Shlibs/Symbol.pm
+#, fuzzy, perl-format
+#| msgid "you can't use symver tag to catch unversioned symbols: %s"
+msgid "symver tag with versioned symbol will not match: %s"
+msgstr ""
+"no puede usar una etiqueta «symver» para encontrar símbolos sin sin "
+"versionar: %s"
 
 #: scripts/Dpkg/Shlibs/Symbol.pm
 #, perl-format
@@ -3997,6 +4033,12 @@ msgstr ""
 "modificado en el archivo tar de Debian"
 
 #: scripts/Dpkg/Source/Package/V2.pm
+msgid ""
+"Hint: make sure the version in debian/changelog matches the unpacked source "
+"tree"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
 msgid "you can integrate the local changes with %s"
 msgstr "puede integrar los cambios locales con %s"
@@ -4477,6 +4519,12 @@ msgstr ""
 "si quilt aplica el parche «%s» adecuadamente, utilice «%s» para actualizarlo"
 
 #: scripts/Dpkg/Source/Quilt.pm
+msgid ""
+"if the file is present in the unpacked source, make sure it is also present "
+"in the orig tarball"
+msgstr ""
+
+#: scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "%s should be a directory or non-existing"
 msgstr "%s debería ser un directorio, o no existir"
@@ -4607,6 +4655,18 @@ msgstr "el número de versión contiene el carácter ilegal «%s»"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "la sección «epoch» del número de versión no es un número: «%s»"
+
+#~ msgid "dpkg-genchanges"
+#~ msgstr "dpkg-genchanges"
+
+#, fuzzy, perl-format
+#~| msgid "Failed to parse line in %s: %s"
+#~ msgid "failed to import key in %s"
+#~ msgstr "Se ha detectado un fallo al analizar la línea en «%s»: %s"
+
+#, perl-format
+#~ msgid "failed to verify signature on %s"
+#~ msgstr "se ha detectado un fallo al verificar la firma de %s"
 
 #~ msgid "error occurred while parsing %s"
 #~ msgstr "se ha detectado un fallo al analizar «%s»"

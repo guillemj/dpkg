@@ -6,9 +6,9 @@ TESTS_DEB := \
 include ../Test.mk
 
 build-hook:
-	ln -sf test-dir pkg-dir-conffile-1/test-path
-	ln -sf test-dir pkg-dir-symlink-ext-1/test-path
-	ln -sf test-dir pkg-dir-symlink-int-1/test-path
+	ln -sfT test-dir pkg-dir-conffile-1/test-path
+	ln -sfT test-dir pkg-dir-symlink-ext-1/test-path
+	ln -sfT test-dir pkg-dir-symlink-int-1/test-path
 
 clean-hook:
 	$(RM) pkg-dir-conffile-1/test-path

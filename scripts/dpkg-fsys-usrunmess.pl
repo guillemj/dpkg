@@ -26,6 +26,7 @@ our $PROGVERSION = '1.21.x';
 our $ADMINDIR = '/var/lib/dpkg/';
 
 use POSIX;
+use File::Temp qw(tempdir);
 use Getopt::Long qw(:config posix_default bundling_values no_ignorecase);
 
 eval q{
@@ -83,6 +84,46 @@ system(qw(dpkg --audit)) == 0
 debug('checking whether dpkg has been interrupted');
 if (glob "$ADMINDIR/updates/*") {
     fatal('dpkg is in an inconsistent state, please fix that');
+}
+
+debug('building regression prevention measures');
+my $tmpdir = tempdir(CLEANUP => 1, TMPDIR => 1);
+my $pkgdir = "$tmpdir/pkg";
+my $pkgfile = "$tmpdir/dpkg-fsys-usrunmess.deb";
+
+mkdir "$pkgdir" or fatal('cannot create temporary package directory');
+mkdir "$pkgdir/DEBIAN" or fatal('cannot create temporary directory');
+open my $ctrl_fh, '>', "$pkgdir/DEBIAN/control"
+    or fatal('cannot create temporary control file');
+print { $ctrl_fh } <<"CTRL";
+Package: dpkg-fsys-usrunmess
+Version: $PROGVERSION
+Architecture: all
+Protected: yes
+Multi-Arch: foreign
+Section: admin
+Priority: optional
+Maintainer: Dpkg Developers <debian-dpkg\@lists.debian.org>
+Installed-Size: 5
+Conflicts: usrmerge
+Provides: usrmerge (= 25)
+Replaces: usrmerge
+Description: prevention measure to avoid unsuspected filesystem breakage
+ This package will prevent automatic migration of the filesystem to the
+ broken merge-/usr-via-aliased-dirs via the usrmerge package.
+ .
+ This package was generated and installed by the dpkg-fsys-usrunmess(8)
+ program.
+
+CTRL
+close $ctrl_fh or fatal('cannot write temporary control file');
+
+system(('dpkg-deb', '-b', $pkgdir, $pkgfile)) == 0
+    or fatal('cannot create prevention package');
+
+if (not $opt_noact) {
+    system(('dpkg', '-GBi', $pkgfile)) == 0
+        or fatal('cannot install prevention package');
 }
 
 my $aliased_regex = '^(' . join('|', @aliased_dirs) . ')/';
@@ -270,17 +311,6 @@ foreach my $dir (@aliased_dirs) {
 mac_relabel();
 
 #
-# Re-configure all packages, so that postinst maintscripts are executed.
-#
-
-debug('reconfigured all packages');
-if (not $opt_noact) {
-    local $ENV{DEBIAN_FRONTEND} = 'noninteractive';
-    system(qw(dpkg --configure --pending)) == 0
-        or fatal("cannot reconfigure packages: $!");
-}
-
-#
 # Cleanup backup directories.
 #
 
@@ -352,20 +382,81 @@ foreach my $dir (keys %deferred_dirnames) {
     $batch_size = 0;
 }
 
+my @dirs_linger;
+
 if (not $opt_noact) {
     foreach my $dirname (reverse sort keys %deferred_dirnames) {
-        rmdir $dirname
-            or sysfatal("cannot remove shadow directory $dirname");
+        next if rmdir $dirname;
+        warning("cannot remove shadow directory $dirname: $!");
+
+        push @dirs_linger, $dirname;
     }
 }
 
 if (not $opt_noact) {
     debug("cleaning up shadow root dir = $sroot");
     rmdir $sroot
-        or sysfatal("cannot remove shadow directory $sroot");
+        or warning("cannot remove shadow directory $sroot: $!");
+}
+
+#
+# Re-configure all packages, so that postinst maintscripts are executed.
+#
+
+my $policypath = '/usr/sbin/dpkg-fsys-usrunmess-policy-rc.d';
+
+debug('installing local policy-rc.d');
+if (not $opt_noact) {
+    open my $policyfh, '>', $policypath
+        or sysfatal("cannot create $policypath");
+    print { $policyfh } <<'POLICYRC';
+#!/bin/sh
+echo "$0: Denied action $2 for service $1"
+exit 101
+POLICYRC
+    close $policyfh or fatal("cannot write $policypath");
+
+    my @alt = (qw(/usr/sbin/policy-rc.d policy-rc.d), $policypath, qw(1000));
+    system(qw(update-alternatives --install), @alt) == 0
+        or fatal("cannot register $policypath");
+
+    system(qw(update-alternatives --set policy-rc.d), $policypath) == 0
+        or fatal("cannot select alternative $policypath");
+}
+
+debug('reconfiguring all packages');
+if (not $opt_noact) {
+    local $ENV{DEBIAN_FRONTEND} = 'noninteractive';
+    system(qw(dpkg --configure --pending)) == 0
+        or fatal("cannot reconfigure packages: $!");
+}
+
+debug('removing local policy-rc.d');
+if (not $opt_noact) {
+    system(qw(update-alternatives --remove policy-rc.d), $policypath) == 0
+        or fatal("cannot unregister $policypath: $!");
+
+    unlink $policypath
+        or warning("cannot remove $policypath");
+
+    # Restore the selections we saved initially.
+    open my $altfh, '|-', qw(update-alternatives --set-selections)
+        or fatal('cannot restore alternatives state');
+    print { $altfh } $_ foreach @selections;
+    close $altfh or fatal('cannot restore alternatives state');
+}
+
+print "\n";
+
+if (@dirs_linger) {
+    warning('lingering directories that could not be removed:');
+    foreach my $dir (@dirs_linger) {
+        warning("  $dir");
+    }
 }
 
 print "Done, hierarchy unmessed, congrats!\n";
+print "Rebooting now is very strongly advised.\n";
 
 print "(Note: you might need to run 'hash -r' in your shell.)\n";
 
@@ -380,6 +471,13 @@ sub debug
     my $msg = shift;
 
     print { \*STDERR } "D: $msg\n";
+}
+
+sub warning
+{
+    my $msg = shift;
+
+    warn "warning: $msg\n";
 }
 
 sub fatal

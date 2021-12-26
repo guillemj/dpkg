@@ -2,12 +2,19 @@
 
 AM_CPPFLAGS = \
 	-idirafter $(top_srcdir)/lib/compat \
-	-I$(top_builddir)
+	-I$(top_builddir) \
+	# EOL
 
 
-noinst_LTLIBRARIES = libcompat-test.la libcompat.la
+noinst_LTLIBRARIES = \
+	libcompat-test.la \
+	libcompat.la \
+	# EOL
 
-libcompat_test_la_CPPFLAGS = $(AM_CPPFLAGS) -DTEST_LIBCOMPAT=1
+libcompat_test_la_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DTEST_LIBCOMPAT=1 \
+	# EOL
 libcompat_test_la_SOURCES = \
 	compat.h \
 	md5.c md5.h \
@@ -19,20 +26,18 @@ libcompat_test_la_SOURCES = \
 	asprintf.c vasprintf.c \
 	alphasort.c \
 	scandir.c \
-	unsetenv.c
+	unsetenv.c \
+	# EOL
 
 if HAVE_SYS_ERRLIST
 libcompat_test_la_SOURCES += strerror.c
 endif
 
-if WITH_LIBSELINUX
-libcompat_test_la_SOURCES += selinux.c
-endif
-
 libcompat_la_SOURCES = \
 	empty.c \
 	compat.h \
-	gettext.h
+	gettext.h \
+	# EOL
 
 if !HAVE_LIBMD_MD5
 libcompat_la_SOURCES += md5.c md5.h
@@ -72,12 +77,6 @@ endif
 
 if !HAVE_STRSIGNAL
 libcompat_la_SOURCES += strsignal.c
-endif
-
-if WITH_LIBSELINUX
-if !HAVE_SETEXECFILECON
-libcompat_la_SOURCES += selinux.c
-endif
 endif
 
 if !HAVE_C99_SNPRINTF

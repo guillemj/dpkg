@@ -22,7 +22,7 @@ BEGIN {
     use_ok('Dpkg::Build::Info');
 }
 
-is(scalar Dpkg::Build::Info::get_build_env_allowed(), 51,
+is(scalar Dpkg::Build::Info::get_build_env_allowed(), 52,
    'allowed environment variables array');
 
 1;

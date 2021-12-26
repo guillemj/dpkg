@@ -7,10 +7,12 @@ dist_pkgdata_DATA = \
 	buildtools.mk \
 	default.mk \
 	pkg-info.mk \
-	vendor.mk
+	vendor.mk \
+	# EOL
 
-do_path_subst = $(AM_V_GEN) sed \
-	-e "s:dpkg_datadir[[:space:]]*=[[:space:]]*[^[:space:]]*:dpkg_datadir = $(pkgdatadir):"
+do_path_subst = $(AM_V_GEN) $(SED) \
+	-e "s:dpkg_datadir[[:space:]]*=[[:space:]]*[^[:space:]]*:dpkg_datadir = $(pkgdatadir):" \
+	# EOL
 
 install-data-hook:
 	mv $(DESTDIR)$(pkgdatadir)/default.mk \

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-04-13 22:16+0200\n"
+"POT-Creation-Date: 2021-12-06 21:03+0100\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -1184,6 +1184,12 @@ msgstr "`%s' 로그 파일을 열 수 없습니다: %s\n"
 #: lib/dpkg/log.c
 #, fuzzy, c-format
 #| msgid "cannot stat file '%s'"
+msgid "cannot get local time to log into '%s': %s"
+msgstr "'%s' 파일의 정보를 읽을 수 없습니다"
+
+#: lib/dpkg/log.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
 msgid "cannot write to log file '%s': %s"
 msgstr "'%s' 파일의 정보를 읽을 수 없습니다"
 
@@ -2066,7 +2072,7 @@ msgstr "`%.255s' 디렉터리를 만드는데 오류가 발생했습니다"
 #: src/archives.c
 #, fuzzy, c-format
 #| msgid "cannot open archive part file `%.250s'"
-msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
 msgstr "아카이브 구성 요소 `%.250s' 파일을 열 수 없습니다"
 
 #: src/archives.c
@@ -2228,9 +2234,37 @@ msgid "unable to sync file '%.255s'"
 msgstr "'%.255s' 파일을 동기화할 수 없습니다"
 
 #: src/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
 msgid ""
-"ignoring dependency problem with %s:\n"
+"ignoring dependency problem with installation of %s:\n"
+"%s"
+msgstr ""
+"%s 패키지의 의존성 문제를 무시합니다:\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
+#| "%s"
+msgid ""
+"no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
+"%s"
+msgstr ""
+"dpkg: 불가, %s 동작을 진행하지 못합니다 (--auto-deconfigure 옵션을 쓰면 동작"
+"할 수도 있습니다):\n"
+"%s"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid ""
+#| "ignoring dependency problem with %s:\n"
+#| "%s"
+msgid ""
+"ignoring dependency problem with removal of %s:\n"
 "%s"
 msgstr ""
 "%s 패키지의 의존성 문제를 무시합니다:\n"
@@ -2243,7 +2277,7 @@ msgstr ""
 #| " package %s, to enable %s."
 msgid ""
 "considering deconfiguration of essential\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "꼭 필요한 패키지 %s의 설정 해제 고려중\n"
 " (%s 활성화하기 위해)."
@@ -2255,7 +2289,7 @@ msgstr ""
 #| " it in order to enable %s.\n"
 msgid ""
 "no, %s is essential, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "dpkg: 불가, %s 패키지는 꼭 필요하므로 %s 활성화하기 위해 \n"
 "설정 해제하지 않겠음.\n"
@@ -2267,7 +2301,7 @@ msgstr ""
 #| " package %s, to enable %s."
 msgid ""
 "considering deconfiguration of protected\n"
-" package %s, to enable %s"
+" package %s, to enable removal of %s"
 msgstr ""
 "꼭 필요한 패키지 %s의 설정 해제 고려중\n"
 " (%s 활성화하기 위해)."
@@ -2279,7 +2313,7 @@ msgstr ""
 #| " it in order to enable %s.\n"
 msgid ""
 "no, %s is protected, will not deconfigure\n"
-" it in order to enable %s"
+" it in order to enable removal of %s"
 msgstr ""
 "dpkg: 불가, %s 패키지는 꼭 필요하므로 %s 활성화하기 위해 \n"
 "설정 해제하지 않겠음.\n"
@@ -2290,7 +2324,7 @@ msgstr ""
 #| "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
 #| "%s"
 msgid ""
-"no, cannot proceed with %s (--auto-deconfigure will help):\n"
+"no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "dpkg: 불가, %s 동작을 진행하지 못합니다 (--auto-deconfigure 옵션을 쓰면 동작"
@@ -2298,20 +2332,12 @@ msgstr ""
 "%s"
 
 #: src/archives.c
-#, c-format
-msgid "removal of %.250s"
-msgstr "%.250s 삭제"
-
-#: src/archives.c
-#, c-format
-msgid "installation of %.250s"
-msgstr "`%.255s' 설치"
-
-#: src/archives.c
 #, fuzzy, c-format
 #| msgid ""
 #| "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
-msgid "considering deconfiguration of %s, which would be broken by %s ..."
+msgid ""
+"considering deconfiguration of %s, which would be broken by installation of "
+"%s ..."
 msgstr ""
 "dpkg: %2$s 패키지에 의해 망가질 수 있는 %1$s 패키지를 설정을 해제하려 합니"
 "다...\n"
@@ -2668,34 +2694,6 @@ msgstr ""
 
 #: src/configure.c
 #, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: '%.250s' 파일을 제거하는데 실패했습니다: %s"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
-msgid "Removing obsolete conffile %s ...\n"
-msgstr "%s 패키지를 지우는 중입니다 ...\n"
-
-#: src/configure.c
-#, c-format
-msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
-msgid "Saving as %s ...\n"
-msgstr "%s 패키지를 지우는 중입니다 ...\n"
-
-#: src/configure.c
-#, fuzzy, c-format
-#| msgid "cannot rename '%s' to '%s'"
-msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "'%s' 파일의 이름을 '%s'(으)로 바꿀 수 없습니다"
-
-#: src/configure.c
-#, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
 msgstr "새로운 배포 설정 파일, `%.250s' 파일의 정보를 읽을 수 없습니다"
 
@@ -2724,6 +2722,11 @@ msgstr "%s: 이전 백업 '%.250s' 파일을 지우는데 실패했습니다: %s
 #, c-format
 msgid "%s: failed to rename '%.250s' to '%.250s': %s"
 msgstr "%s: '%.250s' 파일을 '%.250s' 파일로 이름 바꾸는데 실패했습니다: %s"
+
+#: src/configure.c src/unpack.c
+#, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: '%.250s' 파일을 제거하는데 실패했습니다: %s"
 
 #: src/configure.c
 #, c-format
@@ -2874,16 +2877,16 @@ msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 "%s: 설정 파일 '%.250s'은(는) (= '%s') 일반 파일이나 심볼릭 링크가 아닙니다"
 
-#: src/configure.c dpkg-split/split.c
+#: src/configure.c src/verify.c dpkg-split/split.c
 #, fuzzy, c-format
 #| msgid "cannot stat file '%s'"
-msgid "cannot compute MD5 hash for file '%s': %s"
+msgid "cannot compute MD5 digest for file '%s': %s"
 msgstr "'%s' 파일의 정보를 읽을 수 없습니다"
 
 #: src/configure.c
 #, fuzzy, c-format
 #| msgid "%s: unable to open conffile %s for hash: %s"
-msgid "%s: unable to open %s for hash: %s"
+msgid "%s: unable to open %s to compute its digest: %s"
 msgstr "%s: 해쉬를 위한 설정 파일 %s을(를) 열 수 없습니다: %s"
 
 #: src/depcon.c
@@ -3419,30 +3422,21 @@ msgid_plural " %d packages, from the following sections:"
 msgstr[0] "다음 섹션에서 패키지 %d개:"
 
 #: src/enquiry.c
-#, c-format
-msgid ""
-"Version of dpkg with working %s support not yet configured.\n"
-" Please use 'dpkg --configure dpkg', and then try again.\n"
-msgstr ""
-"%s 기능을 지원하는 dpkg 버전이 아직 설정되지 않았습니다.\n"
-" `dpkg --configure dpkg'를 사용하고 다시 시도해 보십시오.\n"
-
-#: src/enquiry.c
-#, c-format
-msgid "dpkg not recorded as installed, cannot check for %s support!\n"
-msgstr ""
-"dpkg가 설치되지 않은 것으로 나옵니다. %s 기능 지원을 검사할 수 없습니다!\n"
-
-#: src/enquiry.c
-msgid "Pre-Depends field"
+#, fuzzy
+#| msgid "Pre-Depends field"
+msgid "the Pre-Depends field"
 msgstr "Pre-Depends 필드"
 
 #: src/enquiry.c
-msgid "epoch"
-msgstr "epoch"
+#, fuzzy
+#| msgid "epoch in version is not number"
+msgid "epochs in versions"
+msgstr "버전의 epoch가 숫자가 아닙니다"
 
 #: src/enquiry.c
-msgid "long filenames"
+#, fuzzy
+#| msgid "long filenames"
+msgid "long filenames in .deb archives"
 msgstr "긴 파일 이름"
 
 #: src/enquiry.c
@@ -3450,18 +3444,46 @@ msgid "multiple Conflicts and Replaces"
 msgstr "여러 충돌 및 대체"
 
 #: src/enquiry.c
-msgid "multi-arch"
+msgid "multi-arch fields and semantics"
 msgstr ""
 
 #: src/enquiry.c
-msgid "versioned Provides"
+msgid "versioned relationships in the Provides field"
 msgstr ""
 
 #: src/enquiry.c
 #, fuzzy
 #| msgid "Pre-Depends field"
-msgid "Protected field"
+msgid "the Protected field"
 msgstr "Pre-Depends 필드"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot parse dpkg running version '%s': %s"
+msgstr "'%s' 파일의 정보를 읽을 수 없습니다"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid ""
+#| "Version of dpkg with working %s support not yet configured.\n"
+#| " Please use 'dpkg --configure dpkg', and then try again.\n"
+msgid ""
+"Running version of dpkg does not support %s.\n"
+" Please upgrade to at least dpkg %s, and then try again.\n"
+msgstr ""
+"%s 기능을 지원하는 dpkg 버전이 아직 설정되지 않았습니다.\n"
+" `dpkg --configure dpkg'를 사용하고 다시 시도해 보십시오.\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "%s assert options - assert whether features are supported:\n"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "unknown --%s-<feature>"
+msgstr ""
 
 #: src/enquiry.c
 #, fuzzy, c-format
@@ -3903,6 +3925,7 @@ msgid ""
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-help                    Show help on assertions.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
 "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
@@ -3958,22 +3981,6 @@ msgid ""
 msgstr ""
 "  -h|--help                        이 도움말 메시지를 표시합니다.\n"
 "  --version                        버전을 표시합니다.\n"
-
-#: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#| "conrep.\n"
-#| "\n"
-msgid ""
-"Assertable features: support-predepends, working-epoch, long-filenames,\n"
-"  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
-"\n"
-msgstr ""
-"내부 사용을 위해서는: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
-"\n"
 
 #: src/main.c
 #, c-format
@@ -4670,6 +4677,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --load-avail                     Use available file on --show and --list.\n"
 "  --no-pager                       Disables the use of any pager.\n"
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
@@ -5187,6 +5195,7 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  --root=<directory>               Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
@@ -5391,9 +5400,15 @@ msgstr "%2$s을(를) 지우기 위해 %1$s을(를) 설정 해제하는 중입니
 
 #: src/unpack.c
 #, fuzzy, c-format
-#| msgid "De-configuring %s ...\n"
-msgid "De-configuring %s (%s) ...\n"
-msgstr "%s 패키지를 지우는 중입니다 ...\n"
+#| msgid "De-configuring %s, to allow removal of %s ...\n"
+msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
+msgstr "%2$s을(를) 지우기 위해 %1$s을(를) 설정 해제하는 중입니다 ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s, to allow removal of %s ...\n"
+msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "%2$s을(를) 지우기 위해 %1$s을(를) 설정 해제하는 중입니다 ...\n"
 
 #: src/unpack.c
 #, fuzzy
@@ -5491,6 +5506,29 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "새 정보 파일 `%.250s'을(를) `%.250s'(으)로 설치할 수 없습니다"
 
 #: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Removing obsolete conffile %s ...\n"
+msgstr "%s 패키지를 지우는 중입니다 ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Obsolete conffile '%s' has been modified by you.\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Removing %s ...\n"
+msgid "Saving as %s ...\n"
+msgstr "%s 패키지를 지우는 중입니다 ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot rename '%s' to '%s'"
+msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
+msgstr "'%s' 파일의 이름을 '%s'(으)로 바꿀 수 없습니다"
+
+#: src/unpack.c
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "오래된 파일 '%.250s'의 정보를 읽을 수 없으므로 지우지 않습니다: %s"
@@ -5581,6 +5619,12 @@ msgstr "망가진 파일 시스템 tar 파일 - 망가진 패키지 아카이브
 #| msgid "dpkg-deb: zap possible trailing zeros"
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "dpkg-deb: 뒤에 나오는 0을 잘라 버립니다"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s, to allow removal of %s ...\n"
+msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
+msgstr "%2$s을(를) 지우기 위해 %1$s을(를) 설정 해제하는 중입니다 ...\n"
 
 #: src/update.c
 #, fuzzy, c-format
@@ -6968,8 +7012,10 @@ msgstr ""
 #| "\n"
 msgid ""
 "Options:\n"
-"  --altdir <directory>     change the alternatives directory.\n"
-"  --admindir <directory>   change the administrative directory.\n"
+"  --altdir <directory>     change the alternatives directory\n"
+"                             (default is %s).\n"
+"  --admindir <directory>   change the administrative directory\n"
+"                             (default is %s).\n"
 "  --instdir <directory>    change the installation directory.\n"
 "  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
@@ -7025,6 +7071,12 @@ msgstr "`%.255s' 디렉터리를 읽을 수 없습니다"
 #| msgid "cannot append to %s: %s"
 msgid "cannot append to '%s'"
 msgstr "%s 파일에 붙일 수 없습니다: %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot get local time to log into '%s'"
+msgstr "`%.255s' 디렉터리를 읽을 수 없습니다"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -7305,6 +7357,12 @@ msgstr "%2$s의 대체 항목 %1$s 등록되지 않았으므로 설정하지 않
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+#| msgid "There is no program which provides %s."
+msgid "there is no program which provides %s"
+msgstr "%s 제공하는 프로그램이 없습니다."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 #| msgid "%s is dangling, it will be updated with best choice."
 msgid "%s%s/%s is dangling; it will be updated with best choice"
 msgstr "%s이(가) 아무 것도 가리키지 않습니다. 적당히 선택되어 바뀝니다."
@@ -7379,12 +7437,25 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "selecting alternative %s as auto"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "no alternatives for %s."
+msgid "selecting alternative %s as choice %s"
+msgstr "%s의 대체 항목이 없습니다."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Alternative %s unchanged because choice %s is not available."
+msgid "alternative %s unchanged because choice %s is not available"
 msgstr "%s 대체 항목을 바꾸지 않습니다. %s 선택이 없습니다."
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
+#, fuzzy, c-format
+#| msgid "Skip unknown alternative %s."
+msgid "skip unknown alternative %s"
 msgstr "알 수 없는 %s 대체 항목을 건너 뜁니다."
 
 #: utils/update-alternatives.c
@@ -7393,8 +7464,9 @@ msgid "line too long or not terminated while trying to read %s"
 msgstr "%s 파일을 읽는 중 줄이 너무 길거나 줄이 끝나지 않았습니다"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
+#, fuzzy, c-format
+#| msgid "Skip invalid line: %s"
+msgid "skip invalid selection line: %s"
 msgstr "잘못된 줄을 건너 뜁니다: %s"
 
 #: utils/update-alternatives.c
@@ -7553,6 +7625,44 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, c-format
+#~ msgid "removal of %.250s"
+#~ msgstr "%.250s 삭제"
+
+#, c-format
+#~ msgid "installation of %.250s"
+#~ msgstr "`%.255s' 설치"
+
+#, c-format
+#~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
+#~ msgstr ""
+#~ "dpkg가 설치되지 않은 것으로 나옵니다. %s 기능 지원을 검사할 수 없습니다!\n"
+
+#~ msgid "epoch"
+#~ msgstr "epoch"
+
+#, fuzzy, c-format
+#~| msgid ""
+#~| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+#~| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~| "conrep.\n"
+#~| "\n"
+#~ msgid ""
+#~ "Assertable features: support-predepends, working-epoch, long-filenames,\n"
+#~ "  multi-conrep, multi-arch, versioned-provides, protected-field.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "내부 사용을 위해서는: dpkg --assert-support-predepends | --predep-package "
+#~ "|\n"
+#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~ "conrep.\n"
+#~ "\n"
+
+#, fuzzy, c-format
+#~| msgid "De-configuring %s ...\n"
+#~ msgid "De-configuring %s (%s) ...\n"
+#~ msgstr "%s 패키지를 지우는 중입니다 ...\n"
 
 #~ msgid ""
 #~ "need --display, --query, --list, --get-selections, --config, --set, --set-"

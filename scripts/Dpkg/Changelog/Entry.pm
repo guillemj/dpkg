@@ -40,7 +40,7 @@ Dpkg::Changelog::Entry - represents a changelog entry
 =head1 DESCRIPTION
 
 This class represents a changelog entry. It is composed
-of a set of lines with specific purpose: an header line, changes lines, a
+of a set of lines with specific purpose: a header line, changes lines, a
 trailer line. Blank lines can be between those kind of lines.
 
 =head1 METHODS

@@ -1,0 +1,319 @@
+#!/usr/bin/perl
+#
+# gen-changelog
+#
+# Copyright © 2020 Guillem Jover <guillem@debian.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
+use strict;
+use warnings;
+
+use lib 'scripts';
+
+use List::Util qw(uniq);
+use Text::Wrap;
+use Dpkg::IPC;
+use Dpkg::Index;
+
+sub gen_l10n_group
+{
+    my $commit = shift;
+    my $title = $commit->{Title} =~ s/^po: //r;
+
+    if ($title =~ m/^Regenerate/) {
+        # Skip.
+        return;
+    } elsif ($title =~ /^(Update|Add) ([A-Za-z ]+) (program|script|dselect|man page)s? translations?/) {
+        my ($action, $lang, $part) = ($1, $2, $3);
+
+        $part .= 's' if $part ne 'dselect';
+        $commit->{Title} = "$lang ($commit->{Author})";
+
+        return ('l10n', "$action $part translations");
+    } else {
+        return ('main', $commit->{Committer});
+    }
+}
+
+my @sections = qw(
+    main
+    arch
+    port
+    perl-mod
+    doc
+    code-int
+    build-sys
+    pkg
+    test
+    l10n
+);
+
+my %sections = (
+    arch => {
+        title => 'Architecture support',
+        match => qr/^arch: /,
+    },
+    port => {
+        title => 'Portability',
+        type => 'porting',
+    },
+    'perl-mod' => {
+        title => 'Perl modules',
+        match => qr/^(Test|Dpkg).*[,:] /,
+        keep => 1,
+    },
+    doc => {
+        title => 'Documentation',
+        match => qr/^(?:doc|man)[,:] /,
+        keep => 1,
+    },
+    'code-int' => {
+        title => 'Code internals',
+        type => 'internal',
+    },
+    'build-sys' => {
+        title => 'Build system',
+        match => qr/^build: /,
+    },
+    pkg => {
+        title => 'Packaging',
+        match => qr/^debian: /,
+    },
+    test => {
+        title => 'Test suite',
+        match => qr/^(?:test|t): /,
+    },
+    l10n => {
+        title => 'Localization',
+        group => \&gen_l10n_group,
+        match => qr/^po: /,
+    },
+);
+
+my @metafields = qw(
+    Thanks-to
+    Co-Author
+    Based-on-patch-by
+    Improved-by
+    Prompted-by
+    Reported-by
+    Required-by
+    Analysis-by
+    Requested-by
+    Suggested-by
+    Spotted-by
+    Naming-by
+    Ref
+);
+
+my %metafield = (
+    'Co-Author' => 'Co-authored by',
+    'Based-on-patch-by' => 'Based on a patch by',
+    'Improved-by' => 'Improved by',
+    'Prompted-by' => 'Prompted by',
+    'Reported-by' => 'Reported by',
+    'Required-by' => 'Required by',
+    'Analysis-by' => 'Analysis by',
+    'Requested-by' => 'Requested by',
+    'Suggested-by' => 'Suggested by',
+    'Spotted-by' => 'Spotted by',
+    'Naming-by' => 'Naming by',
+    'Thanks-to' => 'Thanks to',
+    'Ref' => 'See',
+);
+
+my %mappings = (
+    'u-a' => 'update-alternatives',
+    's-s-d' => 'start-stop-daemon',
+    'dpkg-m-h' => 'dpkg-maintscript-helper',
+);
+
+my $log_format =
+    'Commit: %H%n' .
+    'Author: %aN%n' .
+    'AuthorEmail: %aE%n' .
+    'Committer: %cN%n' .
+    'CommitterEmail: %cE%n' .
+    'Title: %s%n' .
+    '%(trailers:only,unfold)%N';
+
+my $tag_prev = qx(git describe --abbrev=0);
+chomp $tag_prev;
+
+my $fh_gitlog;
+
+spawn(
+    exec => [
+        qw(git log --first-parent), "--format=tformat:$log_format", "$tag_prev.."
+    ],
+    to_pipe => \$fh_gitlog,
+);
+
+my $log = Dpkg::Index->new(
+    get_key_func => sub { return $_[0]->{Commit} },
+    item_opts => {
+        keep_duplicate => 1,
+        allow_duplicate => 1,
+    },
+);
+$log->parse($fh_gitlog, 'git log');
+
+my %entries;
+my %groups;
+my (@groups, @groups_l10n);
+
+# Analyze the commits and select which group and section to place them in.
+foreach my $id (reverse $log->get_keys()) {
+    my $commit = $log->get_by_key($id);
+    my $title = $commit->{Title};
+    my $group = $commit->{Committer};
+    my $changelog = $commit->{'Changelog'};
+    my $sectmatch = 'main';
+    my $grouptype = 'main';
+
+    # Skip irrelevant commits.
+    if ($title =~ m/^(Bump version to|Release) /) {
+        next;
+    }
+
+    if (defined $changelog) {
+        # Skip silent commits.
+        next if $changelog =~ m/(?:silent|skip|ignore)/;
+
+        # Include the entire commit body for verbose commits.
+        if ($changelog =~ m/(?:verbose|full)/) {
+            my $body = qx(git show -s --pretty=tformat:%b $id);
+            $commit->{Title} .= "\n$body";
+        }
+
+        if ($changelog =~ m{s/([^/]+)/([^/]+)/}) {
+            $commit->{Fixup} = {
+                old => $1,
+                new => $2,
+            };
+        }
+    }
+
+    # Decide into what section the commit should go.
+    foreach my $sectname (keys %sections) {
+        my $section = $sections{$sectname};
+
+        if ((exists $section->{match} and $title =~ m/$section->{match}/) or
+            (exists $section->{type} and defined $changelog and
+             $changelog =~ m/$section->{type}/)) {
+            $sectmatch = $sectname;
+            last;
+        }
+    }
+
+    # Programmatically fix the title, and select the group.
+    if (exists $sections{$sectmatch}->{group}) {
+        ($grouptype, $group) = $sections{$sectmatch}->{group}->($commit);
+        next unless defined $group;
+    }
+
+    # Add the group entries in order, with l10n ones at the end.
+    $groups{$group} = $grouptype;
+    if (not exists $entries{$group}) {
+        if ($grouptype eq 'l10n') {
+            push @groups_l10n, $group;
+        } else {
+            push @groups, $group;
+        }
+    }
+
+    push @{$entries{$group}{$sectmatch}}, $commit;
+}
+
+# Go over the groups and their sections and format them.
+foreach my $groupname (@groups, sort @groups_l10n) {
+    my $grouptype = $groups{$groupname};
+
+    print "\n";
+    print "  [ $groupname ]\n";
+
+    foreach my $sectname (@sections) {
+        my $section = $sections{$sectname};
+
+        next unless exists $entries{$groupname}{$sectname};
+        next if @{$entries{$groupname}{$sectname}} == 0;
+
+        if ($sectname ne 'main' and $grouptype ne 'l10n') {
+            print "  * $sections{$sectname}->{title}:\n";
+        }
+        my @entries;
+        foreach my $commit (@{$entries{$groupname}{$sectname}}) {
+            my $title = $commit->{Title} =~ s/\.$//r . '.';
+
+            # Remove the title prefix if needed.
+            if (exists $section->{match} and not exists $section->{keep}) {
+                $title =~ s/$section->{match}//;
+            }
+
+            # Metafields.
+            if ($grouptype ne 'l10n' and $commit->{Author} ne $commit->{Committer}) {
+                $commit->{'Thanks-to'} = "$commit->{Author} <$commit->{AuthorEmail}>";
+            }
+            foreach my $metafield (@metafields) {
+                next unless exists $commit->{$metafield};
+
+                my $values = $commit->{$metafield};
+                $values = [ $values ] if ref $values ne 'ARRAY';
+
+                foreach my $value (@{$values}) {
+                    $title .= "\n$metafield{$metafield} $value.";
+                }
+            }
+            # Handle the Closes metafield last.
+            if (exists $commit->{Closes}) {
+                $title .= " Closes: $commit->{Closes}";
+            }
+
+            # Handle fixups from git notes.
+            if (exists $commit->{Fixup}) {
+                $title =~ s/\Q$commit->{Fixup}{old}\E/$commit->{Fixup}{new}/m;
+            }
+
+            # Handle mappings.
+            foreach my $mapping (keys %mappings) {
+                $title =~ s/$mapping/$mappings{$mapping}/g;
+            }
+
+            # Select prefix formatting.
+            my ($entry_tab, $body_tab);
+            if ($sectname eq 'main' or $grouptype eq 'l10n') {
+                $entry_tab = '  * ';
+                $body_tab  = '    ';
+            } else {
+                $entry_tab = '    - ';
+                $body_tab  = '      ';
+            }
+
+            local $Text::Wrap::columns = 80;
+            local $Text::Wrap::unexpand = 0;
+            local $Text::Wrap::huge = 'overflow';
+            local $Text::Wrap::break = qr/(?<!Closes:)\s/;
+            push @entries, wrap($entry_tab, $body_tab, $title) . "\n";
+        }
+
+        if ($grouptype eq 'l10n') {
+            print uniq(sort @entries);
+        } else {
+            print @entries;
+        }
+    }
+}
+1;

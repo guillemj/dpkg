@@ -483,7 +483,7 @@ finish_dir_to_symlink()
   fi
   rm "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir"
   find "$DPKG_ROOT$PATHNAME" -mindepth 1 -maxdepth 1 -print0 | \
-    xargs -0 -i% mv -f "%" "$DPKG_ROOT$ABS_SYMLINK_TARGET/"
+    xargs -0 -I% mv -f "%" "$DPKG_ROOT$ABS_SYMLINK_TARGET/"
 
   # Remove the staging directory.
   rmdir "$DPKG_ROOT$PATHNAME"
@@ -541,7 +541,7 @@ ensure_package_owns_file() {
 internal_pkg_must_own_file()
 {
   local PACKAGE="$1"
-  local FILE="${2##$DPKG_ROOT}"
+  local FILE="${2##"$DPKG_ROOT"}"
 
   if [ "$DPKG_MAINTSCRIPT_HELPER_INTERNAL_API" != "$version" ]; then
     error "internal API used by external command"
@@ -603,6 +603,7 @@ export DPKG_ROOT
 PKGDATADIR_DEFAULT=scripts
 PKGDATADIR="${DPKG_DATADIR:-$PKGDATADIR_DEFAULT}"
 
+# shellcheck source=scripts/sh/dpkg-error.sh
 . "$PKGDATADIR/sh/dpkg-error.sh"
 
 setup_colors

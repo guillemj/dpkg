@@ -46,6 +46,10 @@ Check for dpkg database consistency and otherwise abort.
 
 =item *
 
+Generate and install a regression prevention package.
+
+=item *
+
 Get the list of files and alternatives that need to be restored.
 
 =item *
@@ -77,10 +81,6 @@ Relabel MAC information for directories and symlinks if necessary.
 
 =item *
 
-Reconfigure all packages.
-
-=item *
-
 Remove backup symlinks.
 
 =item *
@@ -95,11 +95,28 @@ Remove old deferred directories that are not referenced by dpkg-query.
 
 Remove shadow root directory.
 
+=item *
+
+Register a B<policy-rc.d> to disallow service actions, which means that
+services might need to be restarted afterwards, ideally via a reboot.
+
+=item *
+
+Reconfigure all packages.
+
+=item *
+
+Unregister the B<policy-rc.d> and restore the alternatives state.
+
 =back
 
 B<Note>: When running the program from some shells such as L<bash(1)> or
 L<zsh(1)>, after executing it, you might need to request the shell to
 forget all remembered executable locations with for example C<hash -r>.
+
+B<Note>: Some directories might linger after the migration in case they
+contain untracked files. A list is printed once the script has finished
+for further investigation.
 
 B<Warning>: Note that this operation has the potential to render the system
 unusable or broken in case of a sudden crash or reboot, unexpected state of

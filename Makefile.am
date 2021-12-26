@@ -6,15 +6,13 @@ endif
 
 SUBDIRS = \
 	lib \
-	dpkg-deb \
-	dpkg-split \
 	src \
 	utils \
 	$(MAYBE_DSELECT) \
 	scripts \
-	t-func \
 	po \
-	man
+	man \
+	# EOL
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -31,7 +29,7 @@ dist_aclocal_DATA = \
 	m4/dpkg-progs.m4 \
 	m4/dpkg-types.m4 \
 	m4/dpkg-unicode.m4 \
-	$(nil)
+	# EOL
 
 dist_pkgdata_DATA = \
 	data/pie-compile.specs \
@@ -42,7 +40,7 @@ dist_pkgdata_DATA = \
 	data/ostable \
 	data/abitable \
 	data/tupletable \
-	$(nil)
+	# EOL
 
 dist_doc_DATA = \
 	doc/README.api \
@@ -51,7 +49,7 @@ dist_doc_DATA = \
 	doc/protected-field.txt \
 	doc/rootless-builds.txt \
 	doc/triggers.txt \
-	$(nil)
+	# EOL
 
 EXTRA_DIST = \
 	.gitlab-ci.yml \
@@ -59,11 +57,11 @@ EXTRA_DIST = \
 	ChangeLog.old \
 	README.l10n \
 	autogen \
-	gen-changelog \
-	get-version \
-	run-script \
+	build-aux/gen-changelog \
+	build-aux/get-version \
+	build-aux/lcov-inject \
+	build-aux/run-script \
 	doc/coding-style.txt \
-	doc/lcov-inject.pl \
 	debian/README.bug-usertags \
 	debian/bug-script \
 	debian/changelog \
@@ -76,8 +74,11 @@ EXTRA_DIST = \
 	debian/dpkg.cfg \
 	debian/dpkg.cron.daily \
 	debian/dpkg.docs \
+	debian/dpkg.dpkg-db-backup.service \
+	debian/dpkg.dpkg-db-backup.timer \
 	debian/dpkg.install \
 	debian/dpkg.manpages \
+	debian/dpkg.postinst \
 	debian/dpkg.postrm \
 	debian/dpkg.logrotate \
 	debian/dpkg.lintian-overrides \
@@ -103,7 +104,7 @@ EXTRA_DIST = \
 	tests \
 	$(test_scripts) \
 	$(test_data) \
-	$(nil)
+	# EOL
 
 .PHONY: doc
 
@@ -122,8 +123,9 @@ LCOV_OPTS = -q --rc geninfo_checksum=1 --rc lcov_branch_coverage=1
 LCOV_CAPTURE_OPTS = $(LCOV_OPTS) --no-recursion \
 	-d $(top_builddir)/lib/dpkg \
 	-d $(top_builddir)/src \
-	-d $(top_builddir)/utils
-LCOV_INJECT = $(PERL) -i $(top_srcdir)/doc/lcov-inject.pl
+	-d $(top_builddir)/utils \
+	# EOL
+LCOV_INJECT = $(PERL) -i $(top_srcdir)/build-aux/lcov-inject
 
 coverage: all
 	: # Remove coverage data from any previous run
@@ -182,21 +184,23 @@ test_scripts = \
 	t/codespell.t \
 	t/shellcheck.t \
 	t/cppcheck.t \
-	$(nil)
+	# EOL
 
 test_data = \
 	t/critic/perlcriticrc \
 	t/codespell/stopwords \
 	t/cppcheck/cppcheck.supp \
-	$(nil)
+	# EOL
 
 # We need to use absolute paths here due to strict.t invoking a sub-perl,
 # while changing dir to source dir on out-of-tree builds.
 TEST_ENV_VARS = \
 	DPKG_DATADIR=$(abs_top_srcdir)/data \
-	$(nil)
+	# EOL
 
-include $(top_srcdir)/check.am
+include $(top_srcdir)/build-aux/tap.am
+
+check-local: tap-check
 
 .PHONY: update-po
 
@@ -206,13 +210,19 @@ update-po:
 	$(MAKE) -C dselect/po update-po
 	$(MAKE) -C man update-po
 
-include $(top_srcdir)/cpan.am
+include $(top_srcdir)/build-aux/cpan.am
 
 # If we create the dist tarball from the git repository, make sure
-# that we're not forgetting some files...
+# that we're not forgetting some files, and we are not storing any symlink
+# in the repository (except for the origins/default one) as those degrade
+# to regular files due to automake telling tar to dereference them.
 dist-hook: dist-cpan
 	echo $(VERSION) >$(distdir)/.dist-version
 	if [ -e .git ]; then \
+	  for file in `git ls-tree -r HEAD | grep ^12 | grep -v t/origins/default`; do \
+	    echo "$$file is a symlink packed as a file on the dist tar" >&2 ; \
+	    exit 1 ; \
+	  done ; \
 	  for file in `git ls-files | grep -v .gitignore`; do \
 	    if [ ! -e "$(distdir)/$$file" ]; then \
 	      echo "$$file is missing in $(distdir)" >&2 ; \
@@ -223,4 +233,4 @@ dist-hook: dist-cpan
 	  git log -C --stat 1.15.0.. >$(distdir)/ChangeLog; \
 	fi
 
-clean-local: doc-clean coverage-clean check-clean
+clean-local: doc-clean coverage-clean tap-clean

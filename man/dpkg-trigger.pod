@@ -72,6 +72,11 @@ Show the version and exit.
 Change the location of the B<dpkg> database. The default location is
 I<%ADMINDIR%>.
 
+=item B<--root=>I<directory>
+
+Set the root directory to I<directory>, which sets the administrative
+directory to «I<directory>%ADMINDIR%» (since dpkg 1.21.0).
+
 =item B<--by-package=>I<package>
 
 Override trigger awaiter (normally set by B<dpkg> through the
@@ -124,6 +129,11 @@ memory allocations, etc.
 =head1 ENVIRONMENT
 
 =over
+
+=item B<DPKG_ROOT>
+
+If set and the B<--root> option has not been specified, it will be used as
+the filesystem root directory (since dpkg 1.21.0).
 
 =item B<DPKG_ADMINDIR>
 

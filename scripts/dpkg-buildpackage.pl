@@ -99,8 +99,10 @@ sub usage {
       --hook-<name>=<command> set <command> as the hook <name>, known hooks:
                                 init preclean source build binary buildinfo
                                 changes postclean check sign done
+      --buildinfo-file=<file> set the .buildinfo filename to generate.
       --buildinfo-option=<opt>
                               pass option <opt> to dpkg-genbuildinfo.
+      --changes-file=<file>   set the .changes filename to generate.
   -p, --sign-command=<command>
                               command to sign .dsc and/or .changes files
                                 (default is gpg).
@@ -180,7 +182,9 @@ my $since;
 my $maint;
 my $changedby;
 my $desc;
+my $buildinfo_file;
 my @buildinfo_opts;
+my $changes_file;
 my @changes_opts;
 my %target_legacy_root = map { $_ => 1 } qw(
     clean binary binary-arch binary-indep
@@ -224,10 +228,30 @@ while (@ARGV) {
 	$admindir = $1;
     } elsif (/^--source-option=(.*)$/) {
 	push @source_opts, $1;
+    } elsif (/^--buildinfo-file=(.*)$/) {
+        $buildinfo_file = $1;
+        usageerr(g_('missing .buildinfo filename')) if not length $buildinfo_file;
     } elsif (/^--buildinfo-option=(.*)$/) {
-	push @buildinfo_opts, $1;
+        my $buildinfo_opt = $1;
+        if ($buildinfo_opt =~ m/^-O(.*)/) {
+            warning(g_('passing %s via %s is not supported; please use %s instead'),
+                    '-O', '--buildinfo-option', '--buildinfo-file');
+            $buildinfo_file = $1;
+        } else {
+            push @buildinfo_opts, $buildinfo_opt;
+        }
+    } elsif (/^--changes-file=(.*)$/) {
+        $changes_file = $1;
+        usageerr(g_('missing .changes filename')) if not length $changes_file;
     } elsif (/^--changes-option=(.*)$/) {
-	push @changes_opts, $1;
+        my $changes_opt = $1;
+        if ($changes_opt =~ m/^-O(.*)/) {
+            warning(g_('passing %s via %s is not supported; please use %s instead'),
+                    '-O', '--changes-option', '--changes-file');
+            $changes_file = $1;
+        } else {
+            push @changes_opts, $changes_opt;
+        }
     } elsif (/^(?:-j|--jobs=)(\d*|auto)$/) {
 	$parallel = $1 || '';
 	$parallel_force = 1;
@@ -428,6 +452,11 @@ if (defined $parallel) {
     $build_opts->export();
 }
 
+if ($build_opts->has('terse')) {
+    $ENV{MAKEFLAGS} //= '';
+    $ENV{MAKEFLAGS} .= ' -s';
+}
+
 set_build_profiles(@build_profiles) if @build_profiles;
 
 my $changelog = changelog_parse();
@@ -585,29 +614,29 @@ if (build_has_any(BUILD_BINARY)) {
 
 run_hook('buildinfo', 1);
 
+$buildinfo_file //= "../$pva.buildinfo";
+
 push @buildinfo_opts, "--build=$build_types" if build_has_none(BUILD_DEFAULT);
 push @buildinfo_opts, "--admindir=$admindir" if $admindir;
+push @buildinfo_opts, "-O$buildinfo_file" if $buildinfo_file;
 
 run_cmd('dpkg-genbuildinfo', @buildinfo_opts);
 
 run_hook('changes', 1);
+
+$changes_file //= "../$pva.changes";
 
 push @changes_opts, "--build=$build_types" if build_has_none(BUILD_DEFAULT);
 push @changes_opts, "-m$maint" if defined $maint;
 push @changes_opts, "-e$changedby" if defined $changedby;
 push @changes_opts, "-v$since" if defined $since;
 push @changes_opts, "-C$desc" if defined $desc;
+push @changes_opts, "-O$changes_file";
 
-my $chg = "../$pva.changes";
 my $changes = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
 
-printcmd("dpkg-genchanges @changes_opts >$chg");
-
-open my $changes_fh, '-|', 'dpkg-genchanges', @changes_opts
-    or subprocerr('dpkg-genchanges');
-$changes->parse($changes_fh, g_('parse changes file'));
-$changes->save($chg);
-close $changes_fh or subprocerr(g_('dpkg-genchanges'));
+run_cmd('dpkg-genchanges', @changes_opts);
+$changes->load($changes_file);
 
 run_hook('postclean', $postclean);
 
@@ -622,7 +651,7 @@ info(describe_build($changes->{'Files'}));
 run_hook('check', $check_command);
 
 if ($check_command) {
-    run_cmd($check_command, @check_opts, $chg);
+    run_cmd($check_command, @check_opts, $changes_file);
 }
 
 if ($signpause && ($signsource || $signbuildinfo || $signchanges)) {
@@ -639,12 +668,12 @@ if ($signsource) {
 
     # Recompute the checksums as the .dsc has changed now.
     my $buildinfo = Dpkg::Control->new(type => CTRL_FILE_BUILDINFO);
-    $buildinfo->load("../$pva.buildinfo");
+    $buildinfo->load($buildinfo_file);
     my $checksums = Dpkg::Checksums->new();
     $checksums->add_from_control($buildinfo);
     $checksums->add_from_file("../$pv.dsc", update => 1, key => "$pv.dsc");
     $checksums->export_to_control($buildinfo);
-    $buildinfo->save("../$pva.buildinfo");
+    $buildinfo->save($buildinfo_file);
 }
 if ($signbuildinfo && signfile("$pva.buildinfo")) {
     error(g_('failed to sign %s file'), '.buildinfo');
@@ -655,13 +684,13 @@ if ($signsource or $signbuildinfo) {
     $checksums->add_from_control($changes);
     $checksums->add_from_file("../$pv.dsc", update => 1, key => "$pv.dsc")
         if $signsource;
-    $checksums->add_from_file("../$pva.buildinfo", update => 1, key => "$pva.buildinfo");
+    $checksums->add_from_file($buildinfo_file, update => 1, key => "$pva.buildinfo");
     $checksums->export_to_control($changes);
     delete $changes->{'Checksums-Md5'};
     update_files_field($changes, $checksums, "$pv.dsc")
         if $signsource;
     update_files_field($changes, $checksums, "$pva.buildinfo");
-    $changes->save($chg);
+    $changes->save($changes_file);
 }
 if ($signchanges && signfile("$pva.changes")) {
     error(g_('failed to sign %s file'), '.changes');
@@ -880,7 +909,7 @@ sub signfile {
 sub fileomitted {
     my ($files, $regex) = @_;
 
-    return $files !~ /$regex$/
+    return $files !~ m/$regex$/m
 }
 
 sub describe_build {

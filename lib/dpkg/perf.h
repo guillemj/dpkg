@@ -30,6 +30,8 @@
 #define TEST_OMIT_VARIABLES
 #include <dpkg/test.h>
 
+DPKG_BEGIN_DECLS
+
 struct perf_slot {
 	struct timespec t_ini, t_end;
 };
@@ -69,5 +71,7 @@ perf_ts_slot_print(struct perf_slot *ps, const char *str)
 
 #define perf_ts_slot_start(ps) clock_gettime(CLOCK_MONOTONIC, &((ps)->t_ini))
 #define perf_ts_slot_stop(ps) clock_gettime(CLOCK_MONOTONIC, &((ps)->t_end))
+
+DPKG_END_DECLS
 
 #endif

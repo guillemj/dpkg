@@ -47,9 +47,12 @@ packages are particularly inadequate.
 
 =head1 DESCRIPTION
 
-B<dpkg> is a tool to install, build, remove and manage
-Debian packages. The primary and more user-friendly
-front-end for B<dpkg> is B<aptitude>(8). B<dpkg> itself is
+B<dpkg> is a medium-level tool to install, build, remove and manage
+Debian packages.
+The primary and more user-friendly front-end for B<dpkg>
+as a CLI (command-line interface) is B<apt>(8> and
+as a TUI (terminal user interface) is B<aptitude>(8).
+B<dpkg> itself is
 controlled entirely via command line parameters, which consist of exactly
 one action and zero or more options. The action-parameter tells B<dpkg>
 what to do and options control the behavior of the action in some way.
@@ -407,6 +410,10 @@ Print architecture of packages B<dpkg> installs (for example, “i386”).
 
 Print a newline-separated list of the extra architectures B<dpkg> is
 configured to allow packages to be installed for (since dpkg 1.16.2).
+
+=item B<--assert-help>
+
+Give help about the B<--assert->I<feature> options (since dpkg 1.21.0).
 
 =item B<--assert->I<feature>
 
@@ -902,8 +909,9 @@ starts a character class, which can contain a list of characters, ranges
 and complementations. See B<glob>(7) for detailed information about
 globbing.
 B<Note:> The current implementation might re-include more directories
-and symlinks than needed, to be on the safe side and avoid possible unpack
-failures; future work might fix this.
+and symlinks than needed, in particular when there is a more specific
+re-inclusion, to be on the safe side and avoid possible unpack failures;
+future work might fix this.
 
 This can be used to remove all paths except some particular ones; a typical
 case is:
@@ -936,14 +944,77 @@ Sets the output format for the B<--verify> command (since dpkg 1.17.2).
 
 The only currently supported output format is B<rpm>, which consists
 of a line for every path that failed any check.
-The lines start with 9 characters to report each specific check result,
-a ‘B<?>’ implies the check could not be done (lack of support,
-file permissions, etc), ‘B<.>’ implies the check passed, and
-an alphanumeric character implies a specific check failed; the md5sum
-verification failure (the file contents have changed) is denoted with
-a ‘B<5>’ on the third character.
-The line is followed by a space and an attribute character (currently
-‘B<c>’ for conffiles), another space and the pathname.
+These lines have the following format:
+
+Z<>
+ B<missing  > [B<c>] I<pathname> [B<(>I<error-message>B<)>]
+ B<??5??????> [B<c>] I<pathname>
+
+The first 9 characters are used to report the checks result,
+either a literal B<missing> when the file is not present or its metadata
+cannot be fetched,
+or one of the following special characters that report the result for each
+check:
+
+=over
+
+=item ‘B<?>’
+
+Implies the check could not be done (lack of support, file permissions, etc).
+
+=item ‘B<.>’
+
+Implies the check passed.
+
+=item ‘I<A-Za-z0-9>’
+
+Implies a specific check failed.
+The following positions and alphanumeric characters are currently supported:
+
+=over
+
+=item 1 ‘B<?>’
+
+These checks are currently not supported, will always be ‘B<?>’.
+
+=item 2 ‘B<M>’
+
+The file mode check failed (since dpkg 1.21.0).
+Because pathname metadata is currently not tracked, this check can only be
+partially emulated via a very simple heuristic for pathnames that have a
+known digest, which implies they should be regular files, where the check
+will fail if the pathname is not a regular file on the filesystem.
+This check will currently never succeed as it does not have enough
+information available.
+
+=item 3 ‘B<5>’
+
+The digest check failed, which means the file contents have changed.
+
+=item 4-9 ‘B<?>’
+
+These checks are currently not supported, will always be ‘B<?>’.
+
+=back
+
+=back
+
+The line is followed by a space and an attribute character.
+The following attribute character is supported:
+
+=over
+
+=item ‘B<c>’
+
+The pathname is a conffile.
+
+=back
+
+Finally followed by another space and the pathname.
+
+In case the entry was of the B<missing> type, and the file was not actually
+present on the filesystem, then the line is followed by a space and the
+error message enclosed within parenthesis.
 
 =item B<--status-fd> I<n>
 
@@ -1264,7 +1335,7 @@ whether a package is marked for removing or not, whether it is
 installed or not, etc. See section B<INFORMATION ABOUT PACKAGES>
 for more info.
 
-The status file is backed up daily in I</var/backups>. It can be
+The status file is backed up daily in I<%BACKUPSDIR%>. It can be
 useful if it's lost or corrupted due to filesystems troubles.
 
 =back

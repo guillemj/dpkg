@@ -1,5 +1,5 @@
 # Copyright © 2007-2009 Raphaël Hertzog <hertzog@debian.org>
-# Copyright © 2009, 2012-2015 Guillem Jover <guillem@debian.org>
+# Copyright © 2009, 2012-2019, 2021 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ package Dpkg::Control::HashCore;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -80,7 +80,15 @@ information. Value can be 0 (default) or 1.
 =item allow_duplicate
 
 Configures the parser to allow duplicate fields in the control
-information. Value can be 0 (default) or 1.
+information.
+The last value overrides any previous values.
+Value can be 0 (default) or 1.
+
+=item keep_duplicate
+
+Configure the parser to keep values for duplicate fields found in the control
+information (when B<allow_duplicate> is enabled), as array references.
+Value can be 0 (default) or 1.
 
 =item drop_empty
 
@@ -116,6 +124,7 @@ sub new {
         is_pgp_signed => 0,
         allow_pgp => 0,
         allow_duplicate => 0,
+        keep_duplicate => 0,
         drop_empty => 0,
     };
     bless $self, $class;
@@ -217,8 +226,21 @@ sub parse {
 		unless ($$self->{allow_duplicate}) {
 		    $self->parse_error($desc, g_('duplicate field %s found'), $name);
 		}
-	    }
-	    $self->{$name} = $value;
+                if ($$self->{keep_duplicate}) {
+                    if (ref $self->{$name} ne 'ARRAY') {
+                        # Switch value into an array.
+                        $self->{$name} = [ $self->{$name}, $value ];
+                    } else {
+                        # Append the value.
+                        push @{$self->{$name}}, $value;
+                    }
+                } else {
+                    # Overwrite with last value.
+                    $self->{$name} = $value;
+                }
+            } else {
+                $self->{$name} = $value;
+            }
 	    $cf = $name;
 	} elsif (m/^\s(\s*\S.*)$/) {
 	    my $line = $1;
@@ -432,7 +454,10 @@ sub apply_substvars {
 	        $v =~ s/\s*,\s*$//;
 	    }
 	}
-        $v =~ s/\$\{\}/\$/g; # XXX: what for?
+        # Replace ${} with $, which is otherwise an invalid substitution, but
+        # this then makes it possible to use ${} as an escape sequence such
+        # as ${}{VARIABLE}.
+        $v =~ s/\$\{\}/\$/g;
 
         $self->{$f} = $v;
     }
@@ -545,6 +570,10 @@ sub NEXTKEY {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.02 (dpkg 1.21.0)
+
+New option: "keep_duplicate" in new().
 
 =head2 Version 1.01 (dpkg 1.17.2)
 

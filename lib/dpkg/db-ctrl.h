@@ -25,6 +25,8 @@
 
 #include <dpkg/dpkg-db.h>
 
+DPKG_BEGIN_DECLS
+
 enum pkg_infodb_format {
 	PKG_INFODB_FORMAT_UNKNOWN = -1,
 	PKG_INFODB_FORMAT_LEGACY = 0,
@@ -48,5 +50,7 @@ typedef void pkg_infodb_file_func(const char *filename, const char *filetype);
 
 void pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
                         pkg_infodb_file_func *func);
+
+DPKG_END_DECLS
 
 #endif /* LIBDPKG_DB_CTRL_H */

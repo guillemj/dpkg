@@ -143,6 +143,17 @@ List files installed to your system from I<package-name>. When multiple
 I<package-name>s are listed, the requested lists of files are separated
 by an empty line, with the same order as specified on the argument list.
 
+Each file diversion is printed on its own line after its diverted file,
+prefixed with one of the following localized strings:
+
+Z<>
+  locally diverted to: I<diverted-to>
+  package diverts others to: I<diverted-to>
+  diverted by I<pkg> to: I<diverted-to>
+
+Hint: When machine parsing the output, it is customary to set the locale to
+B<C.UTF-8> to get reproducible results.
+
 This command will not list extra files created by maintainer scripts,
 nor will it list alternatives.
 
@@ -198,6 +209,21 @@ followed by the pathname. As in:
   pkgname1, pkgname2: pathname1
   pkgname3: pathname2
 
+File diversions are printed with the following localized strings:
+
+Z<>
+  diversion by I<pkgname> from: I<diverted-from>
+  diversion by I<pkgname> to: I<diverted-to>
+
+or for local diversions:
+
+Z<>
+  local diversion from: I<diverted-from>
+  local diversion to: I<diverted-to>
+
+Hint: When machine parsing the output, it is customary to set the locale to
+B<C.UTF-8> to get reproducible results.
+
 =item B<-p>, B<--print-avail> [I<package-name>...]
 
 Display details about packages, as found in I<%ADMINDIR%/available>.
@@ -230,6 +256,11 @@ Show the version and exit.
 
 Change the location of the B<dpkg> database. The default location is
 I<%ADMINDIR%>.
+
+=item B<--root=>I<directory>
+
+Set the root directory to I<directory>, which sets the administrative
+directory to «I<directory>%ADMINDIR%» (since dpkg 1.21.0).
 
 =item B<--load-avail>
 
@@ -471,6 +502,11 @@ with «B<$SHELL -c>».
 If B<SHELL> is not set, «B<sh>» will be used instead.
 The B<DPKG_PAGER> overrides the B<PAGER> environment variable
 (since dpkg 1.19.2).
+
+=item B<DPKG_ROOT>
+
+If set and the B<--root> option has not been specified, it will
+be used as the filesystem root directory (since dpkg 1.21.0).
 
 =item B<DPKG_ADMINDIR>
 

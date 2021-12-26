@@ -464,6 +464,10 @@ tar_extractor(struct tar_archive *tar)
 
 		if (tar_header_decode((struct tar_header *)buffer, &h, &tar->err) < 0) {
 			if (h.name[0] == '\0') {
+				/* The checksum failed on the terminating
+				 * End Of Tape block entry of zeros. */
+				dpkg_error_destroy(&tar->err);
+
 				/* End Of Tape. */
 				status = 0;
 			} else {

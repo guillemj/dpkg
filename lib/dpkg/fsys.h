@@ -26,6 +26,8 @@
 
 #include <dpkg/file.h>
 
+DPKG_BEGIN_DECLS
+
 /*
  * Data structure here is as follows:
  *
@@ -139,7 +141,7 @@ struct fsys_namenode_queue {
  * files have entries in the filesdb database, and they refer to each other
  * via these diversion structures.
  *
- * The contested filename's fsys_namenode has an diversion entry with
+ * The contested filename's fsys_namenode has a diversion entry with
  * useinstead set to point to the redirected filename's fsys_namenode; the
  * redirected fsys_namenode has camefrom set to the contested fsys_namenode.
  * Both sides' diversion entries will have pkg set to the package (if any)
@@ -202,5 +204,7 @@ fsys_hash_rev_iter_abort(struct fsys_hash_rev_iter *iter);
 const char *dpkg_fsys_set_dir(const char *dir);
 const char *dpkg_fsys_get_dir(void);
 char *dpkg_fsys_get_path(const char *pathpart);
+
+DPKG_END_DECLS
 
 #endif /* LIBDPKG_FSYS_H */

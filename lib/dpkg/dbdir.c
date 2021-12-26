@@ -27,6 +27,7 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/fsys.h>
 
 static const char *db_dir = ADMINDIR;
 
@@ -52,7 +53,7 @@ dpkg_db_set_dir(const char *dir)
 		if (env)
 			db_dir = env;
 		else
-			db_dir = ADMINDIR;
+			db_dir = dpkg_fsys_get_path(ADMINDIR);
 	} else {
 		db_dir = dir;
 	}

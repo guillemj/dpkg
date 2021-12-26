@@ -105,7 +105,7 @@ sub test_trigdeferred {
     foreach my $test (@deferred) {
         make_file("$admindir/triggers/Unincorp", $test->{original});
 
-        spawn(exec => [ './c-trigdeferred', $admindir ],
+        spawn(exec => [ "$builddir/t/c-trigdeferred", $admindir ],
               nocheck => 1, to_string => \$stdout, error_to_string => \$stderr);
         my $exitcode = $? >> 8;
 

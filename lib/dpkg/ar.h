@@ -25,7 +25,6 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <ar.h>
 
 #include <dpkg/macros.h>
 
