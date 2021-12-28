@@ -1847,12 +1847,6 @@ alternative_config(struct alternative *a, const char *current_choice)
 		pr(_("Nothing to configure."));
 	} else if (opt_skip_auto && a->status == ALT_ST_AUTO) {
 		alternative_display_user(a);
-	} else if (alternative_choices_count(a) == 1 &&
-	           a->status == ALT_ST_AUTO &&
-	           current_choice != NULL) {
-		pr(_("There is only one alternative in link group %s (providing %s): %s"),
-		   a->master_name, a->master_link, current_choice);
-		pr(_("Nothing to configure."));
 	} else {
 		new_choice = alternative_select_choice(a);
 	}
