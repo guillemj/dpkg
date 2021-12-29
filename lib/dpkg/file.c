@@ -195,9 +195,9 @@ file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
 			ohshite(_("unable to lock %s"), desc);
 
 		warnmsg = _("Note: removing the lock file is always wrong, "
-		            "and can end up damaging the\n"
-		            "locked area and the entire system. "
-		            "See <https://wiki.debian.org/Teams/Dpkg/FAQ>.");
+		            "can damage the locked area\n"
+		            "and the entire system. "
+		            "See <https://wiki.debian.org/Teams/Dpkg/FAQ#db-lock>.");
 
 		file_lock_setup(&fl, F_WRLCK);
 		if (fcntl(*lockfd, F_GETLK, &fl) == -1)
