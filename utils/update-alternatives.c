@@ -2443,6 +2443,35 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 	}
 }
 
+static char *
+alternative_install(struct alternative **aptr, struct alternative *inst_alt,
+                    const char *current_choice, struct fileset *fileset)
+{
+	struct alternative *a = *aptr;
+	char *new_choice = NULL;
+
+	if (a->master_link) {
+		/* Alternative already exists, check if anything got
+		 * updated. */
+		alternative_evolve(a, inst_alt, current_choice, fileset);
+		alternative_free(inst_alt);
+	} else {
+		/* Alternative doesn't exist, create from parameters. */
+		alternative_free(a);
+		*aptr = a = inst_alt;
+	}
+	alternative_add_choice(a, fileset);
+	if (a->status == ALT_ST_AUTO) {
+		new_choice = xstrdup(alternative_get_best(a)->master_file);
+	} else {
+		verbose(_("automatic updates of %s/%s are disabled; "
+		          "leaving it alone"), altdir, a->master_name);
+		verbose(_("to return to automatic updates use "
+		          "'%s --auto %s'"), PROGNAME, a->master_name);
+	}
+	return new_choice;
+}
+
 static void
 alternative_update(struct alternative *a,
                    const char *current_choice, const char *new_choice)
@@ -3109,25 +3138,8 @@ main(int argc, char **argv)
 	} else if (action == ACTION_REMOVE_ALL) {
 		alternative_choices_free(a);
 	} else if (action == ACTION_INSTALL) {
-		if (a->master_link) {
-			/* Alternative already exists, check if anything got
-			 * updated. */
-			alternative_evolve(a, inst_alt, current_choice, fileset);
-			alternative_free(inst_alt);
-		} else {
-			/* Alternative doesn't exist, create from parameters. */
-			alternative_free(a);
-			a = inst_alt;
-		}
-		alternative_add_choice(a, fileset);
-		if (a->status == ALT_ST_AUTO) {
-			new_choice = xstrdup(alternative_get_best(a)->master_file);
-		} else {
-			verbose(_("automatic updates of %s/%s are disabled; "
-			          "leaving it alone"), altdir, a->master_name);
-			verbose(_("to return to automatic updates use "
-			          "'%s --auto %s'"), PROGNAME, a->master_name);
-		}
+		new_choice = alternative_install(&a, inst_alt, current_choice,
+		                                 fileset);
 	}
 
 	if (modifies_alt)
