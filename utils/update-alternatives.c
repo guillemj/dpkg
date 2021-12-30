@@ -2906,6 +2906,7 @@ main(int argc, char **argv)
 		} else if (strcmp("--debug", argv[i]) == 0) {
 			opt_verbose = OUTPUT_DEBUG;
 		} else if (strcmp("--install", argv[i]) == 0) {
+			const char *alink, *aname, *apath;
 			char *prio_str, *prio_end;
 			long prio;
 
@@ -2914,9 +2915,12 @@ main(int argc, char **argv)
 				badusage(_("--%s needs <link> <name> <path> "
 					   "<priority>"), argv[i] + 2);
 
+			alink = argv[i + 1];
+			aname = argv[i + 2];
+			apath = argv[i + 3];
 			prio_str = argv[i + 4];
 
-			if (strcmp(argv[i+1], argv[i+3]) == 0)
+			if (strcmp(alink, apath) == 0)
 				badusage(_("<link> and <path> can't be the same"));
 			errno = 0;
 			prio = strtol(prio_str, &prio_end, 10);
@@ -2925,11 +2929,11 @@ main(int argc, char **argv)
 			if (prio < INT_MIN || prio > INT_MAX || errno == ERANGE)
 				badusage(_("priority is out of range"));
 
-			a = alternative_new(argv[i + 2]);
-			inst_alt = alternative_new(argv[i + 2]);
+			a = alternative_new(aname);
+			inst_alt = alternative_new(aname);
 			alternative_set_status(inst_alt, ALT_ST_AUTO);
-			alternative_set_link(inst_alt, argv[i + 1]);
-			fileset = fileset_new(argv[i + 3], prio);
+			alternative_set_link(inst_alt, alink);
+			fileset = fileset_new(apath, prio);
 
 			i += 4;
 		} else if (strcmp("--remove", argv[i]) == 0 ||
