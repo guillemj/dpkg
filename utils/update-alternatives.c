@@ -2921,13 +2921,16 @@ main(int argc, char **argv)
 			prio_str = argv[i + 4];
 
 			if (strcmp(alink, apath) == 0)
-				badusage(_("<link> and <path> can't be the same"));
+				badusage(_("<link> '%s' is the same as <path>"),
+				         alink);
 			errno = 0;
 			prio = strtol(prio_str, &prio_end, 10);
 			if (prio_str == prio_end || *prio_end != '\0')
-				badusage(_("priority must be an integer"));
+				badusage(_("priority '%s' must be an integer"),
+				         prio_str);
 			if (prio < INT_MIN || prio > INT_MAX || errno == ERANGE)
-				badusage(_("priority is out of range"));
+				badusage(_("priority '%s' is out of range"),
+				         prio_str);
 
 			a = alternative_new(aname);
 			inst_alt = alternative_new(aname);
@@ -2983,7 +2986,8 @@ main(int argc, char **argv)
 			spath = argv[i + 3];
 
 			if (strcmp(slink, spath) == 0)
-				badusage(_("<link> and <path> can't be the same"));
+				badusage(_("<link> '%s' is the same as <path>"),
+				         slink);
 			if (strcmp(inst_alt->master_name, sname) == 0)
 				badusage(_("name %s is both primary and slave"),
 				         sname);
