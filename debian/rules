@@ -97,14 +97,6 @@ install: check
 	cp debian/dpkg.lintian-profile \
 	   $(D)/usr/share/lintian/profiles/dpkg/main.profile
 
-define dpkg-installmanl10n
-for f in `sed -e 's:\*:*/*:' -e 's:^:$(D)/:' debian/$(1).manpages`; do \
-  if [ -e $$f ]; then \
-    install -D $$f `echo $$f | sed -e 's:^$(D):debian/$(1):'`; \
-  fi; \
-done
-endef
-
 # Put together the dpkg and dselect packages
 binary-arch: install
 	dh_testdir -a
@@ -116,8 +108,6 @@ binary-arch: install
 	dh_installlogrotate -a --name=alternatives
 	dh_installchangelogs -a ChangeLog*
 	dh_installdocs -a
-	$(call dpkg-installmanl10n,dpkg)
-	$(call dpkg-installmanl10n,dselect)
 	dh_installman -a
 	dh_link -a
 	dh_bugfiles -a -A
@@ -139,7 +129,6 @@ binary-indep: install
 	dh_installchangelogs -i ChangeLog*
 	dh_installdocs -i -Ndpkg-dev
 	dh_installdocs -pdpkg-dev --doc-main-package=dpkg
-	$(call dpkg-installmanl10n,dpkg-dev)
 	dh_installman -i
 	dh_link -i
 	dh_bugfiles -i -A
