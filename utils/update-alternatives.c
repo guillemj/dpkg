@@ -2989,20 +2989,20 @@ main(int argc, char **argv)
 				badusage(_("<link> '%s' is the same as <path>"),
 				         slink);
 			if (strcmp(inst_alt->master_name, sname) == 0)
-				badusage(_("name %s is both primary and slave"),
+				badusage(_("<name> '%s' is both primary and slave"),
 				         sname);
 			if (strcmp(slink, inst_alt->master_link) == 0)
-				badusage(_("link %s is both primary and slave"),
+				badusage(_("<link> '%s' is both primary and slave"),
 				         slink);
 			if (alternative_has_slave(inst_alt, sname))
-				badusage(_("duplicate slave name %s"), sname);
+				badusage(_("duplicate slave <name> '%s'"), sname);
 
 			for (sl = inst_alt->slaves; sl; sl = sl->next) {
 				const char *linkname = sl->link;
 				if (linkname == NULL)
 					linkname = "";
 				if (strcmp(linkname, slink) == 0)
-					badusage(_("duplicate slave link %s"),
+					badusage(_("duplicate slave <link> '%s'"),
 					          slink);
 			}
 
