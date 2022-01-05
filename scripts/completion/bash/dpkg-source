@@ -1,0 +1,113 @@
+#!/bin/bash
+# dpkg-source(1) bash completion
+#
+# Copyright © 2006 Sven Mueller <sven@debian.org>
+# Copyright © 2008-2009 David Paleino <d.paleino@gmail.com>
+# Copyright © 2009-2026 Ville Skyttä <ville.skytta@iki.fi>
+# Copyright © 2009 Guillaume Rousse <rousse@ccr.jussieu.fr>
+# Copyright © 2021-2024 Koichi Murase <myoga.murase@gmail.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+_comp_cmd_dpkg_source()
+{
+  # shellcheck disable=SC2034
+  local cur prev words cword comp_args
+  _comp_initialize -- "$@" || return
+
+  local options word action packopts unpackopts fields
+
+  packopts="-c -l -F -V -T -D -U -W -E -sa -i -I -sk -sr -ss -sA -sK -sP \
+            -sU -sR"
+  unpackopts="-sp -sn -su"
+  options="-x -b --print-format --before-build --after-build --commit $packopts $unpackopts"
+  fields="Format Source Version Binary Maintainer Uploader Architecture \
+          Standards-Version Build-Depends Files"
+
+  action=options
+  for word in "${words[@]:1}"; do
+    if [[ $word == -x ]]; then
+      action=unpack
+    elif [[ $word == -b ]]; then
+      action=pack
+    elif [[ $word == -h ]]; then
+      action=help
+    fi
+  done
+
+  case $action in
+  unpack)
+    case $prev in
+    -x)
+      _comp_compgen_filedir 'dsc'
+      ;;
+    *)
+      _comp_compgen -- -W "$unpackopts"
+      _comp_compgen -a filedir
+      ;;
+    esac
+    return
+    ;;
+  pack)
+    case $prev in
+    -b)
+      _comp_compgen_filedir -d
+      ;;
+    -c | -l | -T | -i | -I)
+      # -c: get controlfile.
+      # -l: get per-version info from this file.
+      # -T: read variables here, not debian/substvars.
+      # -i: <regexp> filter out files to ignore diffs of.
+      # -I: filter out files when building tarballs.
+      # Return directory names and file names.
+      _comp_compgen_filedir
+      ;;
+    -F)
+      # -F: force change log format.
+      _comp_compgen_split -- "$(command ls /usr/lib/dpkg/parsechangelog)"
+      ;;
+    -V)
+      # -V: set a substitution variable.
+      # We don't know anything about possible variables or values
+      # so we don't try to suggest any completion.
+      COMPREPLY=()
+      ;;
+    -D)
+      # -D: override or add a .dsc field and value.
+      # If $cur doesn't contain a = yet, suggest variable names.
+      if [[ $cur == *=* ]]; then
+        # $cur contains a "="
+        COMPREPLY=()
+      else
+        _comp_compgen -- -W "$fields"
+      fi
+      ;;
+    -U)
+      # -U: remove a field.
+      # Suggest possible fieldnames.
+      _comp_compgen -- -W "$fields"
+      ;;
+    *)
+      # shellcheck disable=SC2016
+      _comp_compgen -- -W '$packopts $unpackopts'
+      ;;
+    esac
+    return
+    ;;
+  *)
+    _comp_compgen -- -W "$options"
+    return
+    ;;
+  esac
+} && complete -F _comp_cmd_dpkg_source dpkg-source

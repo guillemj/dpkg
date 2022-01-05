@@ -154,6 +154,7 @@ CLEANFILES += \
 	# EOL
 
 dist_bashcompletions_DATA = \
+	completion/bash/dpkg-source \
 	# EOL
 
 dist_zshcompletions_DATA = \

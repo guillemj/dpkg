@@ -37,7 +37,9 @@ update_alternatives_LDADD = \
 	$(LIBINTL) \
 	# EOL
 
-dist_bashcompletions_DATA +=
+dist_bashcompletions_DATA += \
+	completion/bash/update-alternatives \
+	# EOL
 
 polkitactions_DATA += org.dpkg.pkexec.update-alternatives.policy
 endif

@@ -138,6 +138,7 @@ dpkg_trigger_SOURCES = \
 	# EOL
 
 dist_bashcompletions_DATA = \
+	completion/bash/dpkg \
 	# EOL
 
 SUFFIXES =

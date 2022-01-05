@@ -58,6 +58,7 @@ dselect_LDADD = \
 	# EOL
 
 dist_bashcompletions_DATA = \
+	completion/bash/dselect \
 	# EOL
 
 EXTRA_DIST = \
