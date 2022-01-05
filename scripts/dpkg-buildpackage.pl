@@ -454,7 +454,7 @@ if (defined $parallel) {
 
 if ($build_opts->has('terse')) {
     $ENV{MAKEFLAGS} //= '';
-    $ENV{MAKEFLAGS} .= ' -s';
+    $ENV{MAKEFLAGS} .= ' --no-print-directory';
 }
 
 set_build_profiles(@build_profiles) if @build_profiles;
