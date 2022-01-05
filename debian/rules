@@ -26,7 +26,7 @@ ifeq ($(DEB_HOST_ARCH_OS),linux)
 	confflags += --with-libselinux
 endif
 ifeq (,$(filter terse,$(DEB_BUILD_OPTIONS)))
-	testflags += TESTSUITEFLAGS=--verbose
+	TESTSUITEFLAGS += --verbose
 endif
 
 # Enable parallel test suite
@@ -34,6 +34,8 @@ NUMJOBS = 1
 ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
   NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 endif
+
+testflags = TESTSUITEFLAGS=$(TESTSUITEFLAGS) TEST_PARALLEL=$(NUMJOBS)
 
 D := $(CURDIR)/debian/tmp
 
@@ -60,7 +62,7 @@ execute_after_dh_auto_install:
 	   $(D)/usr/share/lintian/profiles/dpkg/main.profile
 
 override_dh_auto_test:
-	dh_auto_test -- $(testflags) TEST_PARALLEL=$(NUMJOBS)
+	dh_auto_test -- $(testflags)
 
 override_dh_installsystemd:
 	dh_installsystemd -a --name=dpkg-db-backup
