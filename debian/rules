@@ -33,6 +33,7 @@ endif
 NUMJOBS = 1
 ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
   NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+  TESTSUITEFLAGS += -j$(NUMJOBS)
 endif
 
 testflags = TESTSUITEFLAGS=$(TESTSUITEFLAGS) TEST_PARALLEL=$(NUMJOBS)
