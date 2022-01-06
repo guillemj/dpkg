@@ -74,8 +74,8 @@ order(int c)
 		return -1;
 	else if (c)
 		return c + 256;
-	else
-		return 0;
+
+	return 0;
 }
 
 static int
