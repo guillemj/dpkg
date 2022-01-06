@@ -358,13 +358,13 @@ $options{count} = 1;
 $options{offset} = 1;
 my $prev_changelog = changelog_parse(%options);
 
-my $sourceversion = $changelog->{'Binary-Only'} ?
-                    $prev_changelog->{'Version'} : $changelog->{'Version'};
+my $sourceversion = Dpkg::Version->new($changelog->{'Binary-Only'} ?
+                    $prev_changelog->{'Version'} : $changelog->{'Version'});
 my $binaryversion = Dpkg::Version->new($changelog->{'Version'});
 
 # Include .dsc if available.
 my $spackage = $changelog->{'Source'};
-(my $sversion = $sourceversion) =~ s/^\d+://;
+my $sversion = $sourceversion->as_string(omit_epoch => 1);
 
 if (build_has_any(BUILD_SOURCE)) {
     my $dsc = "${spackage}_${sversion}.dsc";
