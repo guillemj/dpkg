@@ -75,17 +75,29 @@ AC_DEFUN([DPKG_LIB_Z], [
   DPKG_WITH_COMPRESS_LIB([z], [zlib.h], [gzdopen])
   DPKG_WITH_COMPRESS_LIB([z-ng], [zlib-ng.h], [zng_gzdopen])
 
+  AC_DEFINE([USE_LIBZ_IMPL_NONE], [0],
+            [Define none as 0 for the zlib implementation enum])
+  AC_DEFINE([USE_LIBZ_IMPL_ZLIB], [1],
+            [Define zlib as 1 for the zlib implementation enum])
+  AC_DEFINE([USE_LIBZ_IMPL_ZLIB_NG], [2],
+            [Define zlib-ng as 2 for the zlib implementation enum])
+
   # If we have been requested the stock zlib, override the auto-detection.
   AS_IF([test "x$with_libz" != "xyes" && test "x$have_libz_ng" = "xyes"], [
     AC_DEFINE([WITH_GZFILEOP], [yes],
       [Define to yes to use zlib-ng gzFile IO support])
     Z_LIBS=$Z_NG_LIBS
+    use_libz_impl="USE_LIBZ_IMPL_ZLIB_NG"
     have_libz_impl="yes (zlib-ng)"
   ], [test "x$have_libz" = "xyes"], [
+    use_libz_impl="USE_LIBZ_IMPL_ZLIB"
     have_libz_impl="yes (zlib)"
   ], [
+    use_libz_impl="USE_LIBZ_IMPL_NONE"
     have_libz_impl="no"
   ])
+  AC_DEFINE_UNQUOTED([USE_LIBZ_IMPL], [$use_libz_impl],
+                     [Define to the zlib implementation to use])
 ])# DPKG_LIB_Z
 
 # DPKG_LIB_LZMA

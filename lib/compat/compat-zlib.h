@@ -21,15 +21,13 @@
 #ifndef COMPAT_ZLIB_H
 #define COMPAT_ZLIB_H
 
-#ifdef WITH_LIBZ_NG
+#if USE_LIBZ_IMPL == USE_LIBZ_IMPL_ZLIB_NG
 #include <zlib-ng.h>
-#else
-#ifdef WITH_LIBZ
+#elif USE_LIBZ_IMPL == USE_LIBZ_IMPL_ZLIB
 #include <zlib.h>
 #endif
-#endif
 
-#ifdef WITH_LIBZ_NG
+#if USE_LIBZ_IMPL == USE_LIBZ_IMPL_ZLIB_NG
 /* Compatibility symbols for zlib-ng. */
 #define gzdopen		zng_gzdopen
 #define gzopen		zng_gzopen
