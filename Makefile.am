@@ -86,6 +86,7 @@ EXTRA_DIST = \
 	debian/dselect.cfg \
 	debian/dselect.docs \
 	debian/dselect.install \
+	debian/dselect.lintian-overrides \
 	debian/dselect.manpages \
 	debian/dselect.postrm \
 	debian/libdpkg-dev.install \
