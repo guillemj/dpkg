@@ -324,9 +324,9 @@ while (@ARGV) {
         $stdout = 1;
     } elsif (m/^-O(.*)$/) {
         $outputfile = $1;
-    } elsif (m/^--buildinfo-id=.*$/) {
+    } elsif (m/^(--buildinfo-id)=.*$/) {
         # Deprecated option
-        warning('--buildinfo-id is deprecated, it is without effect');
+        warning(g_('%s is deprecated; it is without effect'), $1);
     } elsif (m/^--always-include-kernel$/) {
         $use_feature{kernel} = 1;
     } elsif (m/^--always-include-path$/) {
