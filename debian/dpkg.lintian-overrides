@@ -1,1 +1,7 @@
+# Yes.
 dpkg: arch-dep-package-has-big-usr-share
+# On sysvinit systems this is supported by a cron job. Needed for CI systems
+# running old lintian versions.
+dpkg: package-supports-alternative-init-but-no-init.d-script
+# Bogus.
+dpkg: bin-sbin-mismatch usr/sbin/dpkg-fsys-usrunmess usr/sbin/dpkg -> usr/bin/dpkg
