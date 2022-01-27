@@ -479,14 +479,16 @@ sub _generate_patch {
     my $diff = Dpkg::Source::Patch->new(filename => $tmpdiff,
                                         compression => 'none');
     $diff->create();
-    if ($opts{header_from} and -e $opts{header_from}) {
-        my $header_from = Dpkg::Source::Patch->new(
-            filename => $opts{header_from});
-        my $analysis = $header_from->analyze($dir, verbose => 0);
-        $diff->set_header($analysis->{patchheader});
-    } else {
-        $diff->set_header($self->_get_patch_header($dir));
-    }
+    $diff->set_header(sub {
+        if ($opts{header_from} and -e $opts{header_from}) {
+            my $header_from = Dpkg::Source::Patch->new(
+                filename => $opts{header_from});
+            my $analysis = $header_from->analyze($dir, verbose => 0);
+            return $analysis->{patchheader};
+        } else {
+            return $self->_get_patch_header($dir);
+        }
+    });
     $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
             %{$self->{diff_options}},
             handle_binary_func => $opts{handle_binary},

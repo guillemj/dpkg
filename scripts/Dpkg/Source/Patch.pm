@@ -62,6 +62,16 @@ sub set_header {
     *$self->{header} = $header;
 }
 
+sub get_header {
+    my $self = shift;
+
+    if (ref *$self->{header} eq 'CODE') {
+        return *$self->{header}->();
+    } else {
+        return *$self->{header};
+    }
+}
+
 sub add_diff_file {
     my ($self, $old, $new, %opts) = @_;
     $opts{include_timestamp} //= 0;
@@ -125,7 +135,7 @@ sub add_diff_file {
             error(g_("unknown line from diff -u on %s: '%s'"), $new, $_);
         }
 	if (*$self->{empty} and defined(*$self->{header})) {
-	    $self->print(*$self->{header}) or syserr(g_('failed to write'));
+	    $self->print($self->get_header()) or syserr(g_('failed to write'));
 	    *$self->{empty} = 0;
 	}
         print { $self } $_ or syserr(g_('failed to write'));
