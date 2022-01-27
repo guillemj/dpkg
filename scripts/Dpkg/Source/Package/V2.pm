@@ -616,7 +616,7 @@ AUTOGEN_HEADER
     }
 
     my $ch_info = changelog_parse(offset => 0, count => 1,
-        file => File::Spec->catfile($dir, 'debian', 'changelog'));
+        file => $self->{options}{changelog_file});
     return '' if not defined $ch_info;
     my $header = Dpkg::Control->new(type => CTRL_UNKNOWN);
     $header->{'Description'} = "<short summary of the patch>\n";

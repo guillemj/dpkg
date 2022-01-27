@@ -56,7 +56,6 @@ use Dpkg::Vendor qw(run_vendor_hook);
 textdomain('dpkg-dev');
 
 my $controlfile;
-my $changelogfile;
 my $changelogformat;
 
 my $build_format;
@@ -164,7 +163,7 @@ while (@options) {
     } elsif (m/^-c(.*)$/) {
         $controlfile = $1;
     } elsif (m/^-l(.*)$/) {
-        $changelogfile = $1;
+        $options{changelog_file} = $1;
     } elsif (m/^-F([0-9a-z]+)$/) {
         $changelogformat = $1;
     } elsif (m/^-D([^\=:]+)[=:](.*)$/s) {
@@ -228,10 +227,10 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
     $options{ARGV} = \@ARGV;
 
-    $changelogfile ||= "$dir/debian/changelog";
+    $options{changelog_file} ||= "$dir/debian/changelog";
     $controlfile ||= "$dir/debian/control";
 
-    my %ch_options = (file => $changelogfile);
+    my %ch_options = (file => $options{changelog_file});
     $ch_options{changelogformat} = $changelogformat if $changelogformat;
     my $changelog = changelog_parse(%ch_options);
     my $control = Dpkg::Control::Info->new($controlfile);
