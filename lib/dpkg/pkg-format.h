@@ -41,6 +41,8 @@ pkg_format_needs_db_fsys(const struct pkg_format_node *head);
 struct pkg_format_node *pkg_format_parse(const char *fmt,
                                          struct dpkg_error *err);
 void pkg_format_free(struct pkg_format_node *head);
+void pkg_format_print(struct varbuf *vb, const struct pkg_format_node *head,
+                      struct pkginfo *pkg, struct pkgbin *pkgbin);
 void pkg_format_show(const struct pkg_format_node *head,
                      struct pkginfo *pkg, struct pkgbin *pkgbin);
 
