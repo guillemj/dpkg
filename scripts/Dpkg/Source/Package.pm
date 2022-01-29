@@ -323,7 +323,7 @@ Returns the filename of the DSC file.
 
 sub get_filename {
     my $self = shift;
-    return $self->{basedir} . $self->{filename};
+    return File::Spec->catfile($self->{basedir}, $self->{filename});
 }
 
 =item $p->get_files()
@@ -364,7 +364,8 @@ sub check_checksums {
                 $warn_on_weak = 1;
             }
         }
-	$checksums->add_from_file($self->{basedir} . $file, key => $file);
+	my $pathname = File::Spec->catfile($self->{basedir}, $file);
+	$checksums->add_from_file($pathname, key => $file);
     }
 
     warning(g_('source package uses only weak checksums')) if $warn_on_weak;

@@ -324,7 +324,7 @@ sub _upstream_tarball_template {
         sort map {
             compression_get_property($_, 'file_ext')
         } compression_get_list()) . '}';
-    return '../' . $self->get_basename() . ".orig.tar.$ext";
+    return File::Spec->catfile('..', $self->get_basename() . ".orig.tar.$ext");
 }
 
 sub can_build {
