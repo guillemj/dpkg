@@ -210,6 +210,7 @@ test_programs = \
 	t/t-pkg-queue \
 	t/t-pkg-hash \
 	t/t-pkg-show \
+	t/t-pkg-format \
 	t/t-fsys-dir \
 	t/t-fsys-hash \
 	t/t-trigger \
