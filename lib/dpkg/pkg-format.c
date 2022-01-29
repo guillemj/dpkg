@@ -414,11 +414,11 @@ pkg_format_item(struct varbuf *vb,
 }
 
 void
-pkg_format_show(const struct pkg_format_node *head,
-                struct pkginfo *pkg, struct pkgbin *pkgbin)
+pkg_format_print(struct varbuf *vb, const struct pkg_format_node *head,
+                 struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
 	const struct pkg_format_node *node;
-	struct varbuf vb = VARBUF_INIT, fb = VARBUF_INIT, wb = VARBUF_INIT;
+	struct varbuf fb = VARBUF_INIT, wb = VARBUF_INIT;
 
 	for (node = head; node; node = node->next) {
 		bool ok = false;
@@ -457,18 +457,27 @@ pkg_format_show(const struct pkg_format_node *head,
 
 			if ((width != 0) && (len > width))
 				len = width;
-			varbuf_add_buf(&vb, fb.buf, len);
+			varbuf_add_buf(vb, fb.buf, len);
+			varbuf_end_str(vb);
 		}
 
 		varbuf_reset(&fb);
 	}
 
-	if (vb.buf) {
-		varbuf_end_str(&vb);
-		fputs(vb.buf, stdout);
-	}
-
 	varbuf_destroy(&wb);
 	varbuf_destroy(&fb);
+}
+
+void
+pkg_format_show(const struct pkg_format_node *head,
+                struct pkginfo *pkg, struct pkgbin *pkgbin)
+{
+	struct varbuf vb = VARBUF_INIT;
+
+	pkg_format_print(&vb, head, pkg, pkgbin);
+
+	if (vb.buf)
+		fputs(vb.buf, stdout);
+
 	varbuf_destroy(&vb);
 }
