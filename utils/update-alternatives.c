@@ -2094,33 +2094,43 @@ alternative_remove(struct alternative *a, const char *current_choice,
 }
 
 static bool
+alternative_has_broken_symlink(const char *linkname, const char *ref_target)
+{
+	char *target;
+
+	target = fsys_areadlink(linkname);
+	if (!target)
+		return true;
+	if (strcmp(target, ref_target) != 0) {
+		free(target);
+		return true;
+	}
+	free(target);
+	return false;
+}
+
+static bool
 alternative_has_broken_slave(struct slave_link *sl, struct fileset *fs)
 {
 	if (fileset_can_install_slave(fs, sl->name)) {
 		char *wanted;
-		char *sl_altlnk, *sl_current;
+		const char *sl_target;
 
 		/* Verify link -> /etc/alternatives/foo */
-		sl_altlnk = fsys_areadlink(sl->link);
-		if (!sl_altlnk)
-			return true;
 		wanted = xasprintf("%s/%s", altdir, sl->name);
-		if (strcmp(sl_altlnk, wanted) != 0) {
+		if (alternative_has_broken_symlink(sl->link, wanted)) {
 			free(wanted);
-			free(sl_altlnk);
 			return true;
 		}
-		free(sl_altlnk);
+
 		/* Verify /etc/alternatives/foo -> file */
-		sl_current = fsys_areadlink(wanted);
-		free(wanted);
-		if (!sl_current)
-			return true;
-		if (strcmp(sl_current, fileset_get_slave(fs, sl->name)) != 0) {
-			free(sl_current);
+		sl_target = fileset_get_slave(fs, sl->name);
+		if (alternative_has_broken_symlink(wanted, sl_target)) {
+			free(wanted);
 			return true;
 		}
-		free(sl_current);
+
+		free(wanted);
 	} else {
 		char *sl_altlnk;
 
@@ -2143,22 +2153,17 @@ alternative_needs_update(struct alternative *a)
 {
 	enum alternative_update_reason reason = ALT_UPDATE_NO;
 	const char *current;
-	char *altlnk, *wanted;
+	char *wanted;
 	struct fileset *fs;
 	struct slave_link *sl;
 
 	/* Check master link */
-	altlnk = fsys_areadlink(a->master_link);
-	if (!altlnk)
-		return ALT_UPDATE_LINK_BROKEN;
 	wanted = xasprintf("%s/%s", altdir, a->master_name);
-	if (strcmp(altlnk, wanted) != 0) {
+	if (alternative_has_broken_symlink(a->master_link, wanted)) {
 		free(wanted);
-		free(altlnk);
 		return ALT_UPDATE_LINK_BROKEN;
 	}
 	free(wanted);
-	free(altlnk);
 
 	/* Stop if we have an unmanaged alternative */
 	current = alternative_get_current(a);
