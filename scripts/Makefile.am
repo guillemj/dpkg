@@ -50,7 +50,7 @@ EXTRA_DIST = \
 	# EOL
 
 dist_zshcompletions_DATA = \
-	zsh/_dpkg-parsechangelog \
+	completion/zsh/_dpkg-parsechangelog \
 	# EOL
 
 CLEANFILES = \
