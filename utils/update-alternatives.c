@@ -2015,9 +2015,10 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 		free(root_altdir);
 	}
 
+	fn = xasprintf("%s/%s", altdir, name);
+
 	/* Create link in /etc/alternatives. */
 	fntmp = xasprintf("%s/%s" ALT_TMP_EXT, altdir, name);
-	fn = xasprintf("%s/%s", altdir, name);
 	fsys_symlink(file, fntmp);
 	alternative_add_commit_op(a, OPCODE_MV, fntmp, fn);
 	if (fsys_pathname_is_missing(fn))
