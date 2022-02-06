@@ -445,6 +445,7 @@ sub check_original_tarball_signature {
     );
 
     foreach my $asc (@asc) {
+        info(g_('verifying %s'), $asc);
         Dpkg::OpenPGP::verify_signature($asc,
             %opts,
             keyrings => [ $keyring ],
