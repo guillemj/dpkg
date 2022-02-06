@@ -430,11 +430,11 @@ sub do_build {
         }
     }
     if ($tarsign and -e $tarsign) {
-        info(g_('building %s using existing %s'), $sourcepackage, $tarsign);
-        $self->add_file($tarsign);
-
         info(g_('verifying %s using existing %s'), $tarname, $tarsign);
         $self->check_original_tarball_signature($dir, $tarsign);
+
+        info(g_('building %s using existing %s'), $sourcepackage, $tarsign);
+        $self->add_file($tarsign);
     } else {
         my $key = $self->get_upstream_signing_key($dir);
         if (-e $key) {

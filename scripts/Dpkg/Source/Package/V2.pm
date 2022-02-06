@@ -437,11 +437,6 @@ sub _generate_patch {
           $self->_upstream_tarball_template()) unless $tarfile;
 
     if ($opts{usage} eq 'build') {
-        foreach my $origtarfile (@origtarfiles) {
-            info(g_('building %s using existing %s'),
-                 $self->{fields}{'Source'}, $origtarfile);
-        }
-
         if (@origtarsigns) {
             $self->check_original_tarball_signature($dir, @origtarsigns);
         } else {
@@ -449,6 +444,11 @@ sub _generate_patch {
             if (-e $key) {
                 warning(g_('upstream signing key but no upstream tarball signature'));
             }
+        }
+
+        foreach my $origtarfile (@origtarfiles) {
+            info(g_('building %s using existing %s'),
+                 $self->{fields}{'Source'}, $origtarfile);
         }
     }
 
