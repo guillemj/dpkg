@@ -638,6 +638,9 @@ fsys_symlink(const char *filename, const char *linkname)
 
 	root_linkname = fsys_get_path(linkname);
 
+	if (unlink(root_linkname) < 0 && errno != ENOENT)
+		syserr(_("unable to remove '%s'"), root_linkname);
+
 	if (symlink(filename, root_linkname))
 		syserr(_("error creating symbolic link '%.255s'"), root_linkname);
 
@@ -1979,7 +1982,6 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 	/* Create link in /etc/alternatives. */
 	fntmp = xasprintf("%s/%s" ALT_TMP_EXT, altdir, name);
 	fn = xasprintf("%s/%s", altdir, name);
-	fsys_rm(fntmp);
 	fsys_symlink(file, fntmp);
 	alternative_add_commit_op(a, OPCODE_MV, fntmp, fn);
 	free(fntmp);
@@ -1987,7 +1989,6 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 	if (alternative_path_needs_update(linkname, fn)) {
 		/* Create alternative link. */
 		fntmp = xasprintf("%s" ALT_TMP_EXT, linkname);
-		fsys_rm(fntmp);
 		fsys_symlink(fn, fntmp);
 		alternative_add_commit_op(a, OPCODE_MV, fntmp, linkname);
 		free(fntmp);
