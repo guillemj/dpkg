@@ -25,6 +25,7 @@
 #include <compat.h>
 
 #include <sys/types.h>
+#include <sys/time.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
 
@@ -632,6 +633,37 @@ fsys_xreadlink(const char *linkname)
 }
 
 static void
+fsys_set_ref_time(const char *linkname, const char *target)
+{
+#ifdef HAVE_LUTIMES
+	/* If the symlink did not exist, then copy the timestamps
+	 * from the target. This is needed so we can get reproducible
+	 * installations, for programs that track these timestamps on
+	 * their databases. */
+	struct stat st;
+	struct timeval tv[2];
+	char *root_linkname;
+
+	if (fsys_lstat(target, &st) < 0) {
+		if (errno != ENOENT)
+			syserr(_("unable to get file '%s%s' metadata"),
+			       instdir, target);
+		return;
+	}
+
+	tv[0].tv_sec = st.st_mtime;
+	tv[0].tv_usec = 0;
+	tv[1].tv_sec = st.st_mtime;
+	tv[1].tv_usec = 0;
+
+	root_linkname = fsys_get_path(linkname);
+	if (lutimes(root_linkname, tv) < 0 && errno != ENOSYS)
+		syserr(_("cannot set symlink '%s' timestamp"), root_linkname);
+	free(root_linkname);
+#endif
+}
+
+static void
 fsys_symlink(const char *filename, const char *linkname)
 {
 	char *root_linkname;
@@ -813,6 +845,7 @@ struct commit_operation {
 		OPCODE_NOP,
 		OPCODE_RM,
 		OPCODE_MV,
+		OPCODE_REF_TIME,
 	} opcode;
 
 	char *arg_a;
@@ -1894,6 +1927,9 @@ alternative_commit(struct alternative *a)
 		case OPCODE_MV:
 			fsys_mv(op->arg_a, op->arg_b);
 			break;
+		case OPCODE_REF_TIME:
+			fsys_set_ref_time(op->arg_a, op->arg_b);
+			break;
 		}
 	}
 
@@ -1984,6 +2020,8 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 	fn = xasprintf("%s/%s", altdir, name);
 	fsys_symlink(file, fntmp);
 	alternative_add_commit_op(a, OPCODE_MV, fntmp, fn);
+	if (fsys_pathname_is_missing(fn))
+		alternative_add_commit_op(a, OPCODE_REF_TIME, fn, file);
 	free(fntmp);
 
 	if (alternative_path_needs_update(linkname, fn)) {
@@ -1991,6 +2029,8 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 		fntmp = xasprintf("%s" ALT_TMP_EXT, linkname);
 		fsys_symlink(fn, fntmp);
 		alternative_add_commit_op(a, OPCODE_MV, fntmp, linkname);
+		if (fsys_pathname_is_missing(linkname))
+			alternative_add_commit_op(a, OPCODE_REF_TIME, linkname, fn);
 		free(fntmp);
 	}
 	free(fn);
