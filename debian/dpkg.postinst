@@ -3,6 +3,10 @@
 
 set -e
 
+. /usr/share/dpkg/sh/dpkg-error.sh
+
+setup_colors
+
 # Version 1.21.0 had bogus handling of DPKG_ADMINDIR in update-alternatives,
 # and misplaced them, fix them up.
 fixup_misplaced_alternatives()
@@ -41,7 +45,7 @@ fixup_misplaced_alternatives()
       mv "$file" "alternatives/$file"
       ;;
     *)
-      echo "warning: unknown dpkg database file $admindir/$file is not a misplaced alternative state... leaving as is" 1>&2
+      warning "unknown dpkg database file $admindir/$file is not a misplaced alternative state... leaving as is"
       continue
       ;;
     esac
@@ -55,8 +59,7 @@ configure)
 abort-upgrade|abort-deconfigure|abort-remove)
   ;;
 *)
-  echo "$0 called with unknown argument '$1'" 1>&2
-  exit 1
+  error "called with unknown argument '$1'"
   ;;
 esac
 
