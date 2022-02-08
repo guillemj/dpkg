@@ -119,7 +119,7 @@ void baselist::kd_search() {
   echo();
   if (wgetnstr(querywin,newsearchstring,sizeof(newsearchstring)-1) == ERR)
     searchstring[0]= 0;
-  raise(SIGWINCH);
+  resize_window();
   noecho();
   if (whatinfo_height) { touchwin(whatinfowin); refreshinfo(); }
   else if (info_height) { touchwin(infopad); refreshinfo(); }

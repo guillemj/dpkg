@@ -97,12 +97,8 @@ protected:
   // If listpad is null, then we have not started to display yet, and
   // so none of the auto-displaying update routines need to display.
 
-  // SIGWINCH handling
-  void sigwinch_mask(int how);
-  void setupsigwinch();
-
-  static baselist *signallist;
-  static void sigwinchhandler(int);
+  // Window resize handling (via SIGWINCH).
+  void resize_window();
 
   int nitems, ldrawnstart, ldrawnend, showinfo;
   int topofscreen, leftofscreen, cursorline;
