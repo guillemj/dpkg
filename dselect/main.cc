@@ -445,9 +445,14 @@ urqresult urq_menu(void) {
   display_menu_entry(0, 1);
   for (;;) {
     refresh();
-    do
+    do {
       c= getch();
-    while (c == ERR && errno == EINTR);
+      if (c == KEY_RESIZE) {
+        refreshmenu();
+        display_menu_entry(cursor, 1);
+        continue;
+      }
+    } while (c == ERR && errno == EINTR);
     if (c==ERR)  {
       if(errno != 0)
         ohshite(_("failed to getch in main menu"));
