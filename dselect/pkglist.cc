@@ -607,7 +607,8 @@ pkginfo **packagelist::display() {
     interp= (*bindings)(response);
     debug(dbg_general, "packagelist[%p]::display() response=%d interp=%s",
           this, response, interp ? interp->action : "[none]");
-    if (!interp) { beep(); continue; }
+    if (!interp)
+      continue;
     (this->*(interp->pfn))();
     if (interp->qa != qa_noquit) break;
   }

@@ -174,7 +174,8 @@ quitaction methodlist::display() {
     interp= (*bindings)(response);
     debug(dbg_general, "methodlist[%p]::display() response=%d interp=%s",
           this, response, interp ? interp->action : "[none]");
-    if (!interp) { beep(); continue; }
+    if (!interp)
+      continue;
     (this->*(interp->mfn))();
     if (interp->qa != qa_noquit) break;
   }
