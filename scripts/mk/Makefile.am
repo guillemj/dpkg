@@ -14,6 +14,7 @@ SUFFIXES =
 
 include $(top_srcdir)/build-aux/subst.am
 
+# Ideally we'd use '$(SED) -i', but unfortunately that's not portable.
 install-data-hook:
 	$(do_make_subst) <$(DESTDIR)$(pkgdatadir)/default.mk \
 	                 >$(DESTDIR)$(pkgdatadir)/default.mk.new
