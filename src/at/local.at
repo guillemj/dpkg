@@ -120,5 +120,6 @@ m4_define([DPKG_GEN_CONTROL], [
 
 # DPKG_MOD_CONTROL([$pkgname], [$sedexpr])
 m4_define([DPKG_MOD_CONTROL], [
-  $SED -i -e '$2' '$1/DEBIAN/control'
+  $SED -e '$2' <'$1/DEBIAN/control' >'$1/DEBIAN/control.new'
+  mv '$1/DEBIAN/control.new' '$1/DEBIAN/control'
 ])
