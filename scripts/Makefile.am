@@ -168,11 +168,10 @@ endif
 
 # Ideally we'd use '$(SED) -i', but unfortunately that's not portable.
 install-data-hook:
-	mv $(DESTDIR)$(perllibdir)/Dpkg.pm \
-	   $(DESTDIR)$(perllibdir)/Dpkg.pm.tmp
-	$(do_perl_subst) <$(DESTDIR)$(perllibdir)/Dpkg.pm.tmp \
-	                 >$(DESTDIR)$(perllibdir)/Dpkg.pm
-	rm -f $(DESTDIR)$(perllibdir)/Dpkg.pm.tmp
+	$(do_perl_subst) <$(DESTDIR)$(perllibdir)/Dpkg.pm \
+	                 >$(DESTDIR)$(perllibdir)/Dpkg.pm.new
+	mv $(DESTDIR)$(perllibdir)/Dpkg.pm.new \
+	   $(DESTDIR)$(perllibdir)/Dpkg.pm
 
 uninstall-local:
 if BUILD_POD_DOC
