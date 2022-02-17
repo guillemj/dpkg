@@ -19,7 +19,7 @@ package Dpkg::Index;
 use strict;
 use warnings;
 
-our $VERSION = '2.01';
+our $VERSION = '3.00';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -112,7 +112,8 @@ with an intermediary "_");
 
 =item *
 
-for CTRL_TESTS is either the Tests or Test-Command fields;
+for CTRL_TESTS is an integer index (0-based) corresponding to the Tests or
+Test-Command field stanza;
 
 =item *
 
@@ -160,7 +161,7 @@ sub set_options {
             $self->{get_key_func} = sub { return $_[0]->{License}; };
         } elsif ($t == CTRL_TESTS) {
             $self->{get_key_func} = sub {
-                return $_[0]->{Tests} || $_[0]->{'Test-Command'};
+                return scalar @{$self->{order}};
             };
         } elsif ($t == CTRL_INDEX_SRC or $t == CTRL_PKG_SRC) {
             if ($opts{unique_tuple_key} // $self->{unique_tuple_key}) {
@@ -428,6 +429,10 @@ based on their extensions.
 =back
 
 =head1 CHANGES
+
+=head2 Version 3.00 (dpkg 1.21.2)
+
+Change behavior: The CTRL_TESTS key now defaults to a stanza index.
 
 =head2 Version 2.01 (dpkg 1.20.6)
 
