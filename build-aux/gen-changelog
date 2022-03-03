@@ -2,7 +2,7 @@
 #
 # gen-changelog
 #
-# Copyright © 2020 Guillem Jover <guillem@debian.org>
+# Copyright © 2020-2022 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,26 +27,6 @@ use List::Util qw(uniq);
 use Text::Wrap;
 use Dpkg::IPC;
 use Dpkg::Index;
-
-sub gen_l10n_group
-{
-    my $commit = shift;
-    my $title = $commit->{Title} =~ s/^po: //r;
-
-    if ($title =~ m/^Regenerate/) {
-        # Skip.
-        return;
-    } elsif ($title =~ /^(Update|Add) ([A-Za-z ]+) (program|script|dselect|man page)s? translations?/) {
-        my ($action, $lang, $part) = ($1, $2, $3);
-
-        $part .= 's' if $part ne 'dselect';
-        $commit->{Title} = "$lang ($commit->{Author})";
-
-        return ('l10n', "$action $part translations");
-    } else {
-        return ('main', $commit->{Committer});
-    }
-}
 
 my @sections = qw(
     main
@@ -100,7 +80,6 @@ my %sections = (
     },
     l10n => {
         title => 'Localization',
-        group => \&gen_l10n_group,
         match => qr/^po: /,
         sort => 1,
     },
@@ -180,7 +159,7 @@ $log->parse($fh_gitlog, 'git log');
 
 my %entries;
 my %groups;
-my (@groups, @groups_l10n);
+my @groups;
 
 # Analyze the commits and select which group and section to place them in.
 foreach my $id (reverse $log->get_keys()) {
@@ -189,10 +168,12 @@ foreach my $id (reverse $log->get_keys()) {
     my $group = $commit->{Committer};
     my $changelog = $commit->{'Changelog'};
     my $sectmatch = 'main';
-    my $grouptype = 'main';
 
     # Skip irrelevant commits.
-    if ($title =~ m/^(Bump version to|Release) /) {
+    if ($title =~ m/^(?:Bump version to|Release) /) {
+        next;
+    }
+    if ($title =~ m/^po: Regenerate/) {
         next;
     }
 
@@ -226,29 +207,16 @@ foreach my $id (reverse $log->get_keys()) {
         }
     }
 
-    # Programmatically fix the title, and select the group.
-    if (exists $sections{$sectmatch}->{group}) {
-        ($grouptype, $group) = $sections{$sectmatch}->{group}->($commit);
-        next unless defined $group;
-    }
-
     # Add the group entries in order, with l10n ones at the end.
-    $groups{$group} = $grouptype;
     if (not exists $entries{$group}) {
-        if ($grouptype eq 'l10n') {
-            push @groups_l10n, $group;
-        } else {
-            push @groups, $group;
-        }
+        push @groups, $group;
     }
 
     push @{$entries{$group}{$sectmatch}}, $commit;
 }
 
 # Go over the groups and their sections and format them.
-foreach my $groupname (@groups, sort @groups_l10n) {
-    my $grouptype = $groups{$groupname};
-
+foreach my $groupname (@groups) {
     print "\n";
     print "  [ $groupname ]\n";
 
@@ -258,7 +226,7 @@ foreach my $groupname (@groups, sort @groups_l10n) {
         next unless exists $entries{$groupname}{$sectname};
         next if @{$entries{$groupname}{$sectname}} == 0;
 
-        if (exists $sections{$sectname}->{title} and $grouptype ne 'l10n') {
+        if (exists $sections{$sectname}->{title}) {
             print "  * $sections{$sectname}->{title}:\n";
         }
         my @entries;
@@ -271,7 +239,7 @@ foreach my $groupname (@groups, sort @groups_l10n) {
             }
 
             # Metafields.
-            if ($grouptype ne 'l10n' and $commit->{Author} ne $commit->{Committer}) {
+            if ($commit->{Author} ne $commit->{Committer}) {
                 $commit->{'Thanks-to'} = "$commit->{Author} <$commit->{AuthorEmail}>";
             }
             foreach my $metafield (@metafields) {
@@ -301,7 +269,7 @@ foreach my $groupname (@groups, sort @groups_l10n) {
 
             # Select prefix formatting.
             my ($entry_tab, $body_tab);
-            if (not exists $sections{$sectname}->{title} or $grouptype eq 'l10n') {
+            if (not exists $sections{$sectname}->{title}) {
                 $entry_tab = '  * ';
                 $body_tab  = '    ';
             } else {
