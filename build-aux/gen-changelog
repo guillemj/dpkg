@@ -257,7 +257,7 @@ foreach my $groupname (@groups, sort @groups_l10n) {
         next unless exists $entries{$groupname}{$sectname};
         next if @{$entries{$groupname}{$sectname}} == 0;
 
-        if ($sectname ne 'main' and $grouptype ne 'l10n') {
+        if (exists $sections{$sectname}->{title} and $grouptype ne 'l10n') {
             print "  * $sections{$sectname}->{title}:\n";
         }
         my @entries;
@@ -300,7 +300,7 @@ foreach my $groupname (@groups, sort @groups_l10n) {
 
             # Select prefix formatting.
             my ($entry_tab, $body_tab);
-            if ($sectname eq 'main' or $grouptype eq 'l10n') {
+            if (not exists $sections{$sectname}->{title} or $grouptype eq 'l10n') {
                 $entry_tab = '  * ';
                 $body_tab  = '    ';
             } else {
