@@ -102,6 +102,7 @@ my %sections = (
         title => 'Localization',
         group => \&gen_l10n_group,
         match => qr/^po: /,
+        sort => 1,
     },
 );
 
@@ -315,11 +316,11 @@ foreach my $groupname (@groups, sort @groups_l10n) {
             push @entries, wrap($entry_tab, $body_tab, $title) . "\n";
         }
 
-        if ($grouptype eq 'l10n') {
-            print uniq(sort @entries);
-        } else {
-            print @entries;
+        if ($sections{$sectname}->{sort}) {
+            @entries = uniq(sort @entries);
         }
+
+        print @entries;
     }
 }
 1;
