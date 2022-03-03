@@ -152,14 +152,18 @@ my $log_format =
     'Title: %s%n' .
     '%(trailers:only,unfold)%N';
 
-my $tag_prev = qx(git describe --abbrev=0);
+my $tag_prev = $ARGV[0];
+my $tag_next = $ARGV[1] // "";
+
+$tag_prev //= qx(git describe --abbrev=0);
 chomp $tag_prev;
 
 my $fh_gitlog;
 
 spawn(
     exec => [
-        qw(git log --first-parent), "--format=tformat:$log_format", "$tag_prev.."
+        qw(git log --first-parent), "--format=tformat:$log_format",
+        "$tag_prev..$tag_next"
     ],
     to_pipe => \$fh_gitlog,
 );
