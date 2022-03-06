@@ -82,18 +82,20 @@ Print the real name for a diverted file.
 =item B<--admindir> I<directory>
 
 Set the administrative directory to I<directory>.
-Defaults to «I<%ADMINDIR%>».
+Defaults to «I<%ADMINDIR%>» if B<DPKG_ADMINDIR> has not been set.
 
 =item B<--instdir> I<directory>
 
 Set the installation directory, which refers to the directory where
-packages get installed (since dpkg 1.19.2). Defaults to «I</>».
+packages get installed (since dpkg 1.19.2).
+Defaults to «I</>» if B<DPKG_ROOT> has not been set.
 
 =item B<--root> I<directory>
 
 Set the root directory to B<directory>, which sets the installation
 directory to «I<directory>» and the administrative
-directory to «I<directory>B<%ADMINDIR%>» (since dpkg 1.19.2).
+directory to «I<directory>B<%ADMINDIR%>» (since dpkg 1.19.2)
+if B<DPKG_ROOT> has not been set.
 
 =item B<--divert> I<divert-to>
 
