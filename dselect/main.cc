@@ -189,12 +189,13 @@ usage(const struct cmdinfo *ci, const char *value)
   printf(_(
 "Options:\n"
 "      --admindir <directory>       Use <directory> instead of %s.\n"
+"      --instdir <directory>        Use <directory> instead of %s.\n"
 "      --root <directory>           Use <directory> instead of %s.\n"
 "      --expert                     Turn on expert mode.\n"
 "  -D, --debug <file>               Turn on debugging, send output to <file>.\n"
 "      --color <color-spec>         Configure screen colors.\n"
 "      --colour <color-spec>        Ditto.\n"
-), ADMINDIR, "/");
+), ADMINDIR, "/", "/");
 
   printf(_(
 "  -?, --help                       Show this help message.\n"
@@ -322,6 +323,7 @@ extern "C" {
 
 static const struct cmdinfo cmdinfos[]= {
   { "admindir",     0,  1, nullptr,  &admindir, nullptr      },
+  { "instdir",      0,  1, nullptr,  &instdir,  nullptr      },
   { "root",         0,  1, nullptr,  nullptr,   set_root, 1  },
   { "debug",       'D', 1, nullptr,  nullptr,   set_debug    },
   { "expert",      'E', 0, nullptr,  nullptr,   set_expert   },
