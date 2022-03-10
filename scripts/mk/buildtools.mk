@@ -30,7 +30,7 @@ dpkg_datadir = $(srcdir)/mk
 include $(dpkg_datadir)/architecture.mk
 
 # We set the TOOL_FOR_BUILD variables to the specified value, and the TOOL
-# variables (for the host) to the their triplet-prefixed form iff they are
+# variables (for the host) to their triplet-prefixed form iff they are
 # not defined or contain the make built-in defaults. On native builds if
 # TOOL is defined and TOOL_FOR_BUILD is not, we fallback to use TOOL.
 define dpkg_buildtool_setvar
