@@ -37,16 +37,16 @@ define dpkg_buildtool_setvar
 ifeq (,$(findstring $(3),$(DEB_BUILD_OPTIONS)))
 ifeq ($(origin $(1)),default)
 $(1) = $(DEB_HOST_GNU_TYPE)-$(2)
-endif
+else
 $(1) ?= $(DEB_HOST_GNU_TYPE)-$(2)
+endif
 
 # On native build fallback to use TOOL if that's defined.
 ifeq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
-ifdef $(1)
 $(1)_FOR_BUILD ?= $$($(1))
-endif
-endif
+else
 $(1)_FOR_BUILD ?= $(DEB_BUILD_GNU_TYPE)-$(2)
+endif
 else
 $(1) = :
 $(1)_FOR_BUILD = :
