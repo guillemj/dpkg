@@ -24,9 +24,9 @@ DPKG_BUILDFLAGS_LIST = ASFLAGS CFLAGS CPPFLAGS CXXFLAGS OBJCFLAGS OBJCXXFLAGS \
                        GCJFLAGS DFLAGS FFLAGS FCFLAGS LDFLAGS
 
 define dpkg_buildflags_export_envvar
-ifdef $(1)
-DPKG_BUILDFLAGS_EXPORT_ENVVAR += $(1)="$$(value $(1))"
-endif
+  ifdef $(1)
+    DPKG_BUILDFLAGS_EXPORT_ENVVAR += $(1)="$$(value $(1))"
+  endif
 endef
 
 $(eval $(call dpkg_buildflags_export_envvar,DEB_BUILD_OPTIONS))
