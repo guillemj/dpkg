@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.16.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-12-05 16:32+0100\n"
+"POT-Creation-Date: 2022-03-13 20:17+0100\n"
 "PO-Revision-Date: 2021-04-08 04:42+0200\n"
 "Last-Translator: Omar Campagne <ocampagne@gmail.com>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -2064,10 +2064,10 @@ msgstr ""
 #| msgid ""
 #| "A version number may start with a `E<gt>E<gt>', in which case any later "
 #| "version will match, and may specify or omit the Debian packaging revision "
-#| "(separated by a hyphen). Accepted version relationships are \"E<gt>E<gt>"
-#| "\" for greater than, \"E<lt>E<lt>\" for less than, \"E<gt>=\" for greater "
-#| "than or equal to, \"E<lt>=\" for less than or equal to, and \"=\" for "
-#| "equal to."
+#| "(separated by a hyphen). Accepted version relationships are "
+#| "\"E<gt>E<gt>\" for greater than, \"E<lt>E<lt>\" for less than, \"E<gt>=\" "
+#| "for greater than or equal to, \"E<lt>=\" for less than or equal to, and "
+#| "\"=\" for equal to."
 msgid ""
 "A version number may start with a ‘B<E<gt>E<gt>>’, in which case any later "
 "version will match, and may specify or omit the Debian packaging revision "
@@ -2938,8 +2938,12 @@ msgstr ""
 
 #. type: textblock
 #: deb-postinst.pod
-msgid "If I<prerm> fails during upgrade or fails on failed upgrade."
+#, fuzzy
+#| msgid "B<3.> Run I<preinst> script, if provided by the package."
+msgid "If I<prerm> fails during B<upgrade> or fails on B<failed-upgrade>."
 msgstr ""
+"B<3.> Ejecución del script I<preinst> (pre-instalación) del paquete, de "
+"existir."
 
 #. type: =item
 #: deb-postinst.pod
@@ -2948,32 +2952,40 @@ msgstr ""
 
 #. type: textblock
 #: deb-postinst.pod
-msgid "If I<prerm> fails during removal."
-msgstr ""
+#, fuzzy
+#| msgid "I<prerm>"
+msgid "If I<prerm> fails during B<remove>."
+msgstr "I<prerm>"
 
 #. type: =item
 #: deb-postinst.pod
-msgid "I<postinst> B<abort-deconfigure in-favour> I<new-package new-version>"
+msgid ""
+"I<postinst> B<abort-deconfigure> B<in-favour> I<new-package> I<new-version>"
 msgstr ""
 
 #. type: =item
 #: deb-postinst.pod deb-prerm.pod
-msgid "S< >[ B<removing> I<old-package old-version> ]"
+msgid "S< >[ B<removing> I<old-package> I<old-version> ]"
 msgstr ""
 
 #. type: textblock
 #: deb-postinst.pod
-msgid "If I<prerm> fails during deconfiguration of a package."
+#, fuzzy
+#| msgid "B<3.> Run I<preinst> script, if provided by the package."
+msgid "If I<prerm> fails during B<deconfigure in-favour> of a package."
 msgstr ""
+"B<3.> Ejecución del script I<preinst> (pre-instalación) del paquete, de "
+"existir."
 
 #. type: =item
 #: deb-postinst.pod
-msgid "I<postinst> B<abort-remove in-favour> I<new-package new-version>"
+msgid "I<postinst> B<abort-remove> B<in-favour> I<new-package> I<new-version>"
 msgstr ""
 
 #. type: textblock
 #: deb-postinst.pod
-msgid "If I<prerm> fails during replacement due to conflict."
+msgid ""
+"If I<prerm> fails during B<remove in-favour> for replacement due to conflict."
 msgstr ""
 
 #. type: textblock
@@ -3084,32 +3096,45 @@ msgstr ""
 
 #. type: textblock
 #: deb-postrm.pod
-msgid "If I<preinst> fails during install."
-msgstr ""
-
-#. type: =item
-#: deb-postrm.pod
-msgid "I<new-postrm> B<abort-install> I<old-version new-version>"
-msgstr ""
-
-#. type: textblock
-#: deb-postrm.pod
 #, fuzzy
 #| msgid "B<3.> Run I<preinst> script, if provided by the package."
-msgid "If I<preinst> fails during upgrade of removed package."
+msgid "If I<preinst> fails during B<install>."
 msgstr ""
 "B<3.> Ejecución del script I<preinst> (pre-instalación) del paquete, de "
 "existir."
 
 #. type: =item
 #: deb-postrm.pod
-msgid "I<new-postrm> B<abort-upgrade> I<old-version new-version>"
-msgstr ""
+#, fuzzy
+#| msgid "B<--until> I<version>, B<-u>I<version>"
+msgid "I<new-postrm> B<abort-install> I<old-version> I<new-version>"
+msgstr "B<--until> I<versión>, B<-u>I<versión>"
 
 #. type: textblock
 #: deb-postrm.pod
-msgid "If I<preinst> fails during upgrade."
+#, fuzzy
+#| msgid "B<3.> Run I<preinst> script, if provided by the package."
+msgid ""
+"If I<preinst> fails during B<install> for an upgrade of a removed package."
 msgstr ""
+"B<3.> Ejecución del script I<preinst> (pre-instalación) del paquete, de "
+"existir."
+
+#. type: =item
+#: deb-postrm.pod
+#, fuzzy
+#| msgid "B<--until> I<version>, B<-u>I<version>"
+msgid "I<new-postrm> B<abort-upgrade> I<old-version> I<new-version>"
+msgstr "B<--until> I<versión>, B<-u>I<versión>"
+
+#. type: textblock
+#: deb-postrm.pod
+#, fuzzy
+#| msgid "B<3.> Run I<preinst> script, if provided by the package."
+msgid "If I<preinst> fails during B<upgrade>."
+msgstr ""
+"B<3.> Ejecución del script I<preinst> (pre-instalación) del paquete, de "
+"existir."
 
 #. type: textblock
 #: deb-preinst.pod
@@ -3155,18 +3180,22 @@ msgstr "El paquete no está instalado en el sistema."
 #: deb-preinst.pod
 #, fuzzy
 #| msgid "B<--until> I<version>, B<-u>I<version>"
-msgid "I<new-preinst> B<install> I<old-version new-version>"
+msgid "I<new-preinst> B<install> I<old-version> I<new-version>"
 msgstr "B<--until> I<versión>, B<-u>I<versión>"
 
 #. type: textblock
 #: deb-preinst.pod
-msgid "Before removed package is upgraded."
-msgstr ""
+#, fuzzy
+#| msgid "The machine the package is built for."
+msgid "Before a removed package is upgraded."
+msgstr "La máquina para la cual se construye el paquete."
 
 #. type: =item
 #: deb-preinst.pod
-msgid "I<new-preinst> B<upgrade> I<old-version new-version>"
-msgstr ""
+#, fuzzy
+#| msgid "B<--until> I<version>, B<-u>I<version>"
+msgid "I<new-preinst> B<upgrade> I<old-version> I<new-version>"
+msgstr "B<--until> I<versión>, B<-u>I<versión>"
 
 #. type: textblock
 #: deb-preinst.pod
@@ -3237,8 +3266,10 @@ msgstr ""
 
 #. type: =item
 #: deb-prerm.pod
-msgid "I<new-prerm> B<failed-upgrade> I<old-version new-version>"
-msgstr ""
+#, fuzzy
+#| msgid "B<--until> I<version>, B<-u>I<version>"
+msgid "I<new-prerm> B<failed-upgrade> I<old-version> I<new-version>"
+msgstr "B<--until> I<versión>, B<-u>I<versión>"
 
 #. type: textblock
 #: deb-prerm.pod
@@ -3247,7 +3278,7 @@ msgstr ""
 
 #. type: =item
 #: deb-prerm.pod
-msgid "I<prerm> B<deconfigure in-favour> I<new-package new-version>"
+msgid "I<prerm> B<deconfigure> B<in-favour> I<new-package> I<new-version>"
 msgstr ""
 
 #. type: textblock
@@ -3258,7 +3289,7 @@ msgstr ""
 
 #. type: =item
 #: deb-prerm.pod
-msgid "I<prerm> B<remove in-favour> I<new-package new-version>"
+msgid "I<prerm> B<remove> B<in-favour> I<new-package> I<new-version>"
 msgstr ""
 
 #. type: textblock
@@ -5559,8 +5590,8 @@ msgstr ""
 #. type: textblock
 #: deb-src-symbols.pod
 msgid ""
-"Symbols like \"mystack_new@Base\", \"mystack_push@Base\", \"mystack_pop@Base"
-"\" etc.  will be matched by the first pattern while e.g. "
+"Symbols like \"mystack_new@Base\", \"mystack_push@Base\", "
+"\"mystack_pop@Base\" etc.  will be matched by the first pattern while e.g. "
 "\"ng_mystack_new@Base\" won't.  The second pattern will match all symbols "
 "having the string \"private\" in their names and matches will inherit "
 "I<optional> tag from the pattern."
@@ -5856,10 +5887,10 @@ msgstr ""
 #| "After all the substitutions have been done each occurrence of the string "
 #| "B<${}> (which is not a legal substitution) is replaced with a B<$> sign."
 msgid ""
-"After all the substitutions have been done each occurrence of the string B<"
-"${}> (which is not a legal substitution) is replaced with a B<$> sign.  This "
-"can be used as an escape sequence such as B<${}{>I<VARIABLE>B<}> which will "
-"end up as B<${>I<VARIABLE>B<}> on the output."
+"After all the substitutions have been done each occurrence of the string "
+"B<${}> (which is not a legal substitution) is replaced with a B<$> sign.  "
+"This can be used as an escape sequence such as B<${}{>I<VARIABLE>B<}> which "
+"will end up as B<${>I<VARIABLE>B<}> on the output."
 msgstr ""
 "Después de que todas las sustituciones hayan tenido lugar, cada aparición de "
 "la cadena B<${}> (que no es una sustitución legal) se reemplaza por un signo "
@@ -6335,7 +6366,7 @@ msgstr ""
 #, no-wrap
 msgid ""
 "Z<>\n"
-" I<library-soname main-dependency-template>\n"
+" I<library-soname> I<main-dependency-template>\n"
 " [| I<alternative-dependency-template>]\n"
 " [...]\n"
 " [* I<field-name>: I<field-value>]\n"
@@ -9060,11 +9091,11 @@ msgstr "2."
 #. type: textblock
 #: dpkg-buildflags.pod
 msgid ""
-"for the current user with B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> where B<"
-"$XDG_CONFIG_HOME> defaults to B<$HOME/.config>;"
+"for the current user with B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> where "
+"B<$XDG_CONFIG_HOME> defaults to B<$HOME/.config>;"
 msgstr ""
-"Para el usuario actual con B<$XDG_CONFIG_HOME/dpkg/buildflags.conf>, donde B<"
-"$XDG_CONFIG_HOME> tiene como valor predefinido B<$HOME/.config>."
+"Para el usuario actual con B<$XDG_CONFIG_HOME/dpkg/buildflags.conf>, donde "
+"B<$XDG_CONFIG_HOME> tiene como valor predefinido B<$HOME/.config>."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9103,7 +9134,9 @@ msgstr "Los ficheros de configuración pueden contener dos tipos de directivas:"
 
 #. type: =item
 #: dpkg-buildflags.pod
-msgid "B<SET> I<flag value>"
+#, fuzzy
+#| msgid "B<SET> I<flag value>"
+msgid "B<SET> I<flag> I<value>"
 msgstr "B<SET> I<opción valor>"
 
 #. type: textblock
@@ -9113,7 +9146,9 @@ msgstr "Sustituye la opción llamada I<opción> con el valor I<valor>."
 
 #. type: =item
 #: dpkg-buildflags.pod
-msgid "B<STRIP> I<flag value>"
+#, fuzzy
+#| msgid "B<STRIP> I<flag value>"
+msgid "B<STRIP> I<flag> I<value>"
 msgstr "B<STRIP> I<opción valor>"
 
 #. type: textblock
@@ -9126,7 +9161,9 @@ msgstr ""
 
 #. type: =item
 #: dpkg-buildflags.pod
-msgid "B<APPEND> I<flag value>"
+#, fuzzy
+#| msgid "B<APPEND> I<flag value>"
+msgid "B<APPEND> I<flag> I<value>"
 msgstr "B<APPEND> I<opción valor>"
 
 #. type: textblock
@@ -9142,7 +9179,9 @@ msgstr ""
 
 #. type: =item
 #: dpkg-buildflags.pod
-msgid "B<PREPEND> I<flag value>"
+#, fuzzy
+#| msgid "B<PREPEND> I<flag value>"
+msgid "B<PREPEND> I<flag> I<value>"
 msgstr "B<PREPEND> I<opción valor>"
 
 #. type: textblock
@@ -9726,8 +9765,8 @@ msgstr ""
 #| "and disable the \"fortify\" feature you can do this in B<debian/rules>:"
 msgid ""
 "Each area feature can be enabled and disabled in the B<DEB_BUILD_OPTIONS> "
-"and B<DEB_BUILD_MAINT_OPTIONS> environment variable's area value with the ‘B<"
-"+>’ and ‘B<->’ modifier.  For example, to enable the B<hardening> “pie” "
+"and B<DEB_BUILD_MAINT_OPTIONS> environment variable's area value with the "
+"‘B<+>’ and ‘B<->’ modifier.  For example, to enable the B<hardening> “pie” "
 "feature and disable the “fortify” feature you can do this in B<debian/rules>:"
 msgstr ""
 "Cada opción de seguridad se puede activar o desactivar incluyendo el valor "
@@ -12892,7 +12931,9 @@ msgstr ""
 
 #. type: =item
 #: dpkg-deb.pod dpkg.pod
-msgid "B<-x>, B<--extract> I<archive directory>"
+#, fuzzy
+#| msgid "B<-x>, B<--extract> I<archive directory>"
+msgid "B<-x>, B<--extract> I<archive> I<directory>"
 msgstr "B<-x>, B<--extract> I<directorio-archivo>"
 
 #. type: textblock
@@ -12924,7 +12965,9 @@ msgstr ""
 
 #. type: =item
 #: dpkg-deb.pod dpkg.pod
-msgid "B<-X>, B<--vextract> I<archive directory>"
+#, fuzzy
+#| msgid "B<-X>, B<--vextract> I<archive directory>"
+msgid "B<-X>, B<--vextract> I<archive> I<directory>"
 msgstr "B<-X>, B<--vextract> I<directorio-archivo>"
 
 #. type: textblock
@@ -12938,7 +12981,9 @@ msgstr ""
 
 #. type: =item
 #: dpkg-deb.pod
-msgid "B<-R>, B<--raw-extract> I<archive directory>"
+#, fuzzy
+#| msgid "B<-R>, B<--raw-extract> I<archive directory>"
+msgid "B<-R>, B<--raw-extract> I<archive> I<directory>"
 msgstr "B<-R>, B<--raw-extract> I<directorio-archivo>"
 
 #. type: textblock
@@ -13510,13 +13555,15 @@ msgid ""
 msgstr ""
 
 #. type: =item
-#: dpkg-divert.pod
-msgid "B<--list> I<glob-pattern>"
-msgstr "B<--list> I<comodín>"
+#: dpkg-divert.pod dpkg-statoverride.pod
+msgid "B<--list> [I<glob-pattern>]"
+msgstr "B<--list> [I<comodín>]"
 
 #. type: textblock
 #: dpkg-divert.pod
-msgid "List diversions matching I<glob-pattern>."
+#, fuzzy
+#| msgid "List diversions matching I<glob-pattern>."
+msgid "List all diversions, or ones matching I<glob-pattern>."
 msgstr "Lista las redirecciones que encajan con el I<comodín> (patrón «glob»)."
 
 #. type: =item
@@ -13560,14 +13607,14 @@ msgstr "B<--admindir> I<directorio>"
 #| msgid ""
 #| "Set the dpkg data directory to I<directory> (default: I<%ADMINDIR%>)."
 msgid ""
-"Set the administrative directory to I<directory>.  Defaults to «I<%ADMINDIR"
-"%>»."
+"Set the administrative directory to I<directory>.  Defaults to "
+"«I<%ADMINDIR%>» if B<DPKG_ADMINDIR> has not been set."
 msgstr ""
 "Define el directorio de datos de dpkg como I<directorio> (por omisión: I</"
 "var/lib/dpkg>)."
 
 #. type: =item
-#: dpkg-divert.pod dpkg-realpath.pod dpkg-statoverride.pod
+#: dpkg-divert.pod dpkg-realpath.pod dpkg-statoverride.pod dselect.pod
 #: update-alternatives.pod
 #, fuzzy
 #| msgid "B<--admindir> I<directory>"
@@ -13575,10 +13622,11 @@ msgid "B<--instdir> I<directory>"
 msgstr "B<--admindir> I<directorio>"
 
 #. type: textblock
-#: dpkg-divert.pod
+#: dpkg-divert.pod dpkg-statoverride.pod
 msgid ""
 "Set the installation directory, which refers to the directory where packages "
-"get installed (since dpkg 1.19.2). Defaults to «I</>»."
+"get installed (since dpkg 1.19.2).  Defaults to «I</>» if B<DPKG_ROOT> has "
+"not been set."
 msgstr ""
 
 #. type: =item
@@ -13591,11 +13639,18 @@ msgstr "B<--depotdir> I<directorio>"
 
 #. type: textblock
 #: dpkg-divert.pod dpkg-statoverride.pod
+#, fuzzy
+#| msgid ""
+#| "Changing B<root> changes B<instdir> to I<dir> and B<admindir> to I<dir>B</"
+#| "var/lib/dpkg>."
 msgid ""
 "Set the root directory to B<directory>, which sets the installation "
 "directory to «I<directory>» and the administrative directory to "
-"«I<directory>B<%ADMINDIR%>» (since dpkg 1.19.2)."
+"«I<directory>B<%ADMINDIR%>» (since dpkg 1.19.2)  if B<DPKG_ROOT> has not "
+"been set."
 msgstr ""
+"Cambiar B<root> da el valor de I<directorio> a B<instdir>, y el valor "
+"I<dir>B<%ADMINDIR%> a B<admindir>."
 
 #. type: =item
 #: dpkg-divert.pod
@@ -13727,7 +13782,6 @@ msgstr ""
 #. type: =item
 #: dpkg-divert.pod dpkg-maintscript-helper.pod dpkg-query.pod
 #: dpkg-statoverride.pod dpkg-trigger.pod dpkg.pod dselect.pod
-#: update-alternatives.pod
 msgid "B<DPKG_ADMINDIR>"
 msgstr "B<DPKG_ADMINDIR>"
 
@@ -14090,9 +14144,7 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
-msgid ""
-"L<https://wiki.debian.org/Teams/Dpkg/FAQ#Q:_Does_dpkg_support_merged-.2Fusr-"
-"via-aliased-dirs.3F>."
+msgid "L<https://wiki.debian.org/Teams/Dpkg/FAQ#broken-usrmerge>."
 msgstr ""
 
 #. type: textblock
@@ -17809,14 +17861,14 @@ msgstr ""
 "actualiza si se utiliza dselect."
 
 #. type: textblock
-#: dpkg-query.pod dpkg-trigger.pod
+#: dpkg-query.pod
 #, fuzzy
 #| msgid ""
 #| "Change the location of the B<dpkg> database. The default location is I</"
 #| "var/lib/dpkg>."
 msgid ""
-"Change the location of the B<dpkg> database. The default location is I<"
-"%ADMINDIR%>."
+"Change the location of the B<dpkg> database. The default location is "
+"I<%ADMINDIR%>."
 msgstr ""
 "Cambia el directorio con la base de datos de B<dpkg>. Por omisión es I</var/"
 "lib/dpkg>."
@@ -17829,7 +17881,7 @@ msgid "B<--root=>I<directory>"
 msgstr "B<--depotdir> I<directorio>"
 
 #. type: textblock
-#: dpkg-query.pod dpkg-trigger.pod dselect.pod
+#: dpkg-query.pod dpkg-trigger.pod
 #, fuzzy
 #| msgid ""
 #| "Changing B<root> changes B<instdir> to I<dir> and B<admindir> to I<dir>B</"
@@ -17924,8 +17976,8 @@ msgid ""
 "following character, which is useful for “B<\\>” and “B<$>”."
 msgstr ""
 "“B<\\>” posicionado antes de cualquier otro carácter suprime cualquier "
-"significado especial que puede tener el siguiente carácter, útil para “B<"
-"\\>” and “B<$>”."
+"significado especial que puede tener el siguiente carácter, útil para "
+"“B<\\>” and “B<$>”."
 
 #. type: textblock
 #: dpkg-query.pod
@@ -18405,7 +18457,7 @@ msgid ""
 msgstr ""
 
 #. type: textblock
-#: dpkg-query.pod dpkg-trigger.pod dselect.pod
+#: dpkg-query.pod dpkg-trigger.pod
 #, fuzzy
 #| msgid ""
 #| "If set and the B<--admindir> option has not been specified, it will be "
@@ -18499,14 +18551,15 @@ msgstr ""
 #| "is also stored. Defaults to I<%ADMINDIR%>."
 msgid ""
 "Set the root directory to I<directory>, which is the base directory that "
-"pathnames get canonicalized against.  Defaults to «B</>»."
+"pathnames get canonicalized against.  Defaults to «B</>» if B<DPKG_ROOT> has "
+"not been set."
 msgstr ""
 "Cambia el I<directorio> con la base de datos de dpkg, donde también se "
 "guarda la información relativa al fichero «statoverride». Por omisión es «/"
 "var/lib/dpkg»."
 
 #. type: textblock
-#: dpkg-realpath.pod
+#: dpkg-realpath.pod update-alternatives.pod
 #, fuzzy
 #| msgid ""
 #| "If set and the B<--admindir> option has not been specified, it will be "
@@ -19515,11 +19568,11 @@ msgstr "B<--warnings=>I<valor>"
 #| "I<value> is a bit field defining the set of warnings that can be emitted "
 #| "by B<dpkg-shlibdeps>.  Bit 0 (value=1) enables the warning \"symbol "
 #| "I<sym> used by I<binary> found in none of the libraries\", bit 1 "
-#| "(value=2) enables the warning \"package could avoid a useless dependency"
-#| "\" and bit 2 (value=4)  enables the warning \"I<binary> should not be "
-#| "linked against I<library>\".  The default I<value> is 3: the first two "
-#| "warnings are active by default, the last one is not. Set I<value> to 7 if "
-#| "you want all warnings to be active."
+#| "(value=2) enables the warning \"package could avoid a useless "
+#| "dependency\" and bit 2 (value=4)  enables the warning \"I<binary> should "
+#| "not be linked against I<library>\".  The default I<value> is 3: the first "
+#| "two warnings are active by default, the last one is not. Set I<value> to "
+#| "7 if you want all warnings to be active."
 msgid ""
 "I<value> is a bit field defining the set of warnings that can be emitted by "
 "B<dpkg-shlibdeps> (since dpkg 1.14.17).  Bit 0 (value=1) enables the warning "
@@ -21742,8 +21795,8 @@ msgstr ""
 #| "`remotes/origin/`."
 msgid ""
 "Note that by default the new repository will have the same branch checked "
-"out that was checked out in the original source.  (Typically “master”, but "
-"it could be anything.)  Any other branches will be available under I<remotes/"
+"out that was checked out in the original source.  (Typically “main”, but it "
+"could be anything.)  Any other branches will be available under I<remotes/"
 "origin/>."
 msgstr ""
 "Tenga en cuenta que, por omisión, el nuevo repositorio tendrá un «checkout» "
@@ -21791,9 +21844,9 @@ msgid ""
 "default behavior of including all branches and tags. May be specified "
 "multiple times. The I<ref> can be the name of a branch or tag to include. It "
 "may also be any parameter that can be passed to B<git-rev-list>(1). For "
-"example, to include only the master branch, use B<--git-ref=>master. To "
-"include all tags and branches, except for the private branch, use B<--git-"
-"ref=>--all B<--git-ref=>^private"
+"example, to include only the main branch, use B<--git-ref=>main. To include "
+"all tags and branches, except for the private branch, use B<--git-ref=>--all "
+"B<--git-ref=>^private"
 msgstr ""
 "Permite especificar una referencia («ref») de git a incluir en el archivo de "
 "git. Su uso desactiva el comportamiento predefinido de incluir todas las "
@@ -22458,7 +22511,9 @@ msgstr ""
 
 #. type: =item
 #: dpkg-split.pod
-msgid "B<-a>, B<--auto -o> I<complete-output part>"
+#, fuzzy
+#| msgid "B<-a>, B<--auto -o> I<complete-output part>"
+msgid "B<-a>, B<--auto -o> I<complete-output> I<part>"
 msgstr "B<-a>, B<--auto -o> I<salida-completa parte>"
 
 #. type: textblock
@@ -22856,11 +22911,6 @@ msgstr ""
 "Elimina una sustitución para el I<fichero>, esta orden no modifica el estado "
 "del B<fichero>."
 
-#. type: =item
-#: dpkg-statoverride.pod
-msgid "B<--list> [I<glob-pattern>]"
-msgstr "B<--list> [I<comodín>]"
-
 #. type: textblock
 #: dpkg-statoverride.pod
 #, fuzzy
@@ -22897,18 +22947,12 @@ msgstr "Muestra la ayuda de las opciones B<--force->I<algo>."
 #| "is also stored. Defaults to I<%ADMINDIR%>."
 msgid ""
 "Set the administrative directory to I<directory>.  This is where the "
-"I<statoverride> file is stored.  Defaults to «I<%ADMINDIR%>»."
+"I<statoverride> file is stored.  Defaults to «I<%ADMINDIR%>» if "
+"B<DPKG_ADMINDIR> has not been set."
 msgstr ""
 "Cambia el I<directorio> con la base de datos de dpkg, donde también se "
 "guarda la información relativa al fichero «statoverride». Por omisión es «/"
 "var/lib/dpkg»."
-
-#. type: textblock
-#: dpkg-statoverride.pod
-msgid ""
-"Set the installation directory, which refers to the directory where packages "
-"get installed (since dpkg 1.19.2).  Defaults to «I</>»."
-msgstr ""
 
 #. type: =item
 #: dpkg-statoverride.pod dpkg.pod
@@ -23154,6 +23198,19 @@ msgstr ""
 "error por la salida estándar en caso de fallo. Por otra parte, en general es "
 "mejor activar sólo el disparador deseado con B<dpkg-trigger>."
 
+#. type: textblock
+#: dpkg-trigger.pod
+#, fuzzy
+#| msgid ""
+#| "Change the location of the B<dpkg> database. The default location is I</"
+#| "var/lib/dpkg>."
+msgid ""
+"Change the location of the B<dpkg> database.  Defaults to I<%ADMINDIR%> if "
+"B<DPKG_ADMINDIR> has not been set."
+msgstr ""
+"Cambia el directorio con la base de datos de B<dpkg>. Por omisión es I</var/"
+"lib/dpkg>."
+
 #. type: =item
 #: dpkg-trigger.pod
 msgid "B<--by-package=>I<package>"
@@ -23263,13 +23320,13 @@ msgstr "B<dpkg-vendor> [I<opción>...] I<orden>"
 #: dpkg-vendor.pod
 #, fuzzy
 #| msgid ""
-#| "B<dpkg-vendor> is a tool to query information about vendors listed in B<"
-#| "%CONFDIR%/dpkg/origins>. B<%PKGCONFDIR%/origins/default> contains "
+#| "B<dpkg-vendor> is a tool to query information about vendors listed in "
+#| "B<%CONFDIR%/dpkg/origins>. B<%PKGCONFDIR%/origins/default> contains "
 #| "information about the current vendor."
 msgid ""
-"B<dpkg-vendor> is a tool to query information about vendors listed in B<"
-"%PKGCONFDIR%/origins>. B<%PKGCONFDIR%/origins/default> contains information "
-"about the current vendor."
+"B<dpkg-vendor> is a tool to query information about vendors listed in "
+"B<%PKGCONFDIR%/origins>. B<%PKGCONFDIR%/origins/default> contains "
+"information about the current vendor."
 msgstr ""
 "B<dpkg-vendor> es una herramienta para consultar información de los "
 "proveedores listados en B<%PKGCONFDIR%/origins>. B<%PKGCONFDIR%/origins/"
@@ -23801,6 +23858,13 @@ msgstr ""
 "Desempaqueta el paquete, pero no lo configura. Si se introducen las opciones "
 "B<--recursive> o B<-R> el I<fichero-paquete> debe ser un directorio."
 
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"Will process triggers for B<Pre-Depends> unless B<--no-triggers> has been "
+"specified."
+msgstr ""
+
 #. type: =item
 #: dpkg.pod
 msgid "B<--configure> I<package>...|B<-a>|B<--pending>"
@@ -23847,6 +23911,11 @@ msgid "B<2.> Run I<postinst> script, if provided by the package."
 msgstr ""
 "B<2.> Ejecución del script I<postinst> (post-instalación) del paquete, si "
 "existe."
+
+#. type: textblock
+#: dpkg.pod
+msgid "Will process triggers unless B<--no-triggers> has been specified."
+msgstr ""
 
 #. type: =item
 #: dpkg.pod
@@ -24487,7 +24556,7 @@ msgstr "Cancela un B<--no-triggers> previo."
 #: dpkg.pod
 #, fuzzy
 #| msgid "B<--force>"
-msgid "B<--validate->I<thing string>"
+msgid "B<--validate->I<thing> I<string>"
 msgstr "B<--force>"
 
 #. type: textblock
@@ -25421,7 +25490,8 @@ msgstr ""
 msgid ""
 "Set the administrative directory to I<directory>.  This directory contains "
 "many files that give information about status of installed or uninstalled "
-"packages, etc.  Defaults to «I<%ADMINDIR%>»."
+"packages, etc.  Defaults to «I<%ADMINDIR%>» if B<DPKG_ADMINDIR> has not been "
+"set."
 msgstr ""
 "Cambia el directorio de administración predefinido. Éste contiene muchos "
 "ficheros que ofrecen información relativa al estado de paquetes instalados o "
@@ -25465,8 +25535,8 @@ msgstr "B<--root=>I<directorio>"
 #| "var/lib/dpkg>."
 msgid ""
 "Set the root directory to B<directory>, which sets the installation "
-"directory to «I<dir>» and the administrative directory to «I<dir>B<%ADMINDIR"
-"%>»."
+"directory to «I<dir>» and the administrative directory to "
+"«I<dir>B<%ADMINDIR%>»."
 msgstr ""
 "Cambiar B<root> da el valor de I<directorio> a B<instdir>, y el valor "
 "I<dir>B<%ADMINDIR%> a B<admindir>."
@@ -26565,8 +26635,8 @@ msgstr "     B<dpkg -r elvis>\n"
 #, fuzzy
 #| msgid ""
 #| "To install a package, you first need to find it in an archive or CDROM. "
-#| "The \"available\" file shows that the vim package is in section \"editors"
-#| "\":"
+#| "The \"available\" file shows that the vim package is in section "
+#| "\"editors\":"
 msgid ""
 "To install a package, you first need to find it in an archive or CDROM. The "
 "I<available> file shows that the vim package is in section B<editors>:"
@@ -26608,8 +26678,8 @@ msgstr "      B<dpkg --get-selections E<gt>mis-selecciones>\n"
 msgid ""
 "You might transfer this file to another computer, and after having updated "
 "the I<available> file there with your package manager frontend of choice "
-"(see L<https://wiki.debian.org/Teams/Dpkg/FAQ> for more details), for "
-"example:"
+"(see L<https://wiki.debian.org/Teams/Dpkg/FAQ#set-selections> for more "
+"details), for example:"
 msgstr ""
 
 #. type: verbatim
@@ -27257,12 +27327,34 @@ msgstr ""
 #| "there shouldn't be any need to change it."
 msgid ""
 "Changes the directory where the dpkg ‘I<status>’, ‘I<available>’ and similar "
-"files are located.  This defaults to I<%ADMINDIR%> and normally there "
-"shouldn't be any need to change it."
+"files are located.  Defaults to I<%ADMINDIR%> if B<DPKG_ADMINDIR> has not "
+"been set."
 msgstr ""
 "Cambia el directorio donde se ubican los ficheros de dpkg I<status>, "
 "I<available> y otros. Es I<%ADMINDIR%> por omisión y en condiciones normales "
 "no se  debería cambiar."
+
+#. type: textblock
+#: dselect.pod
+msgid ""
+"Set the installation directory, which refers to the directory where packages "
+"get installed (since dpkg 1.21.2).  Defaults to «I</>» if B<DPKG_ROOT> has "
+"not been set."
+msgstr ""
+
+#. type: textblock
+#: dselect.pod
+#, fuzzy
+#| msgid ""
+#| "Changing B<root> changes B<instdir> to I<dir> and B<admindir> to I<dir>B</"
+#| "var/lib/dpkg>."
+msgid ""
+"Set the root directory to I<directory>, which sets the installation "
+"directory to «I<directory>» and the administrative directory to "
+"«I<directory>%ADMINDIR%» (since dpkg 1.21.0)."
+msgstr ""
+"Cambiar B<root> da el valor de I<directorio> a B<instdir>, y el valor "
+"I<dir>B<%ADMINDIR%> a B<admindir>."
 
 #. type: =item
 #: dselect.pod
@@ -27297,8 +27389,8 @@ msgstr ""
 #| "B<--colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:"
 #| "attr>[I<+attr+...>]]"
 msgid ""
-"B<--color> I<screenpart>:[I<foreground>],[I<background>][:I<attr>[I<"
-"+attr>]...]"
+"B<--color> I<screenpart>:[I<foreground>],[I<background>][:"
+"I<attr>[I<+attr>]...]"
 msgstr ""
 "B<--colour>|B<--color> I<parte-de-pantalla:>[I<primer-plano>],[I<fondo>][I<:"
 "attr>[I<+attr+...>]]"
@@ -27310,8 +27402,8 @@ msgstr ""
 #| "B<--colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:"
 #| "attr>[I<+attr+...>]]"
 msgid ""
-"B<--colour> I<screenpart>:[I<foreground>],[I<background>][:I<attr>[I<"
-"+attr>]...]"
+"B<--colour> I<screenpart>:[I<foreground>],[I<background>][:"
+"I<attr>[I<+attr>]...]"
 msgstr ""
 "B<--colour>|B<--color> I<parte-de-pantalla:>[I<primer-plano>],[I<fondo>][I<:"
 "attr>[I<+attr+...>]]"
@@ -28570,10 +28662,23 @@ msgstr "La acción requerida finalizó con éxito."
 #, fuzzy
 #| msgid ""
 #| "If set and the B<--admindir> option has not been specified, it will be "
+#| "used as the base administrative directory."
+msgid ""
+"If set and the B<--instdir> or B<--root> options have not been specified, it "
+"will be used as the filesystem root directory (since dpkg 1.21.0)."
+msgstr ""
+"Si se define, y no se define la opción B<--admindir>, se utiliza como el "
+"directorio base de gestión."
+
+#. type: textblock
+#: dselect.pod
+#, fuzzy
+#| msgid ""
+#| "If set and the B<--admindir> option has not been specified, it will be "
 #| "used as the dpkg data directory."
 msgid ""
-"If set and the B<--admindir> option has not been specified, it will be used "
-"as the B<dpkg> database directory (since dpkg 1.21.0)."
+"If set and the B<--admindir> or B<--root> option have not been specified, it "
+"will be used as the B<dpkg> database directory (since dpkg 1.21.0)."
 msgstr ""
 "Si se define, y no se define la opción B<--admindir>, se utiliza como el "
 "directorio de datos de dpkg."
@@ -30004,7 +30109,9 @@ msgstr ""
 
 #. type: =item
 #: update-alternatives.pod
-msgid "B<--set> I<name path>"
+#, fuzzy
+#| msgid "B<--set> I<name path>"
+msgid "B<--set> I<name> I<path>"
 msgstr "B<--set> I<nombre ruta>"
 
 #. type: textblock
@@ -30023,7 +30130,9 @@ msgstr ""
 
 #. type: =item
 #: update-alternatives.pod
-msgid "B<--remove> I<name path>"
+#, fuzzy
+#| msgid "B<--remove> I<name path>"
+msgid "B<--remove> I<name> I<path>"
 msgstr "B<--remove> I<nombre ruta>"
 
 #. type: textblock
@@ -30231,7 +30340,8 @@ msgstr ""
 #| "the default."
 msgid ""
 "Specifies the administrative directory, when this is to be different from "
-"the default.  Defaults to «I<%ADMINDIR%/alternatives>»"
+"the default.  Defaults to «I<%ADMINDIR%/alternatives>» if "
+"B<%ADMINDIR_ENVVAR%> has not been set."
 msgstr ""
 "Define el directorio administrativo, cuando es diferente del directorio por "
 "omisión."
@@ -30244,7 +30354,8 @@ msgstr ""
 #| "the default."
 msgid ""
 "Specifies the installation directory where alternatives links will be "
-"created (since version 1.20.1).  Defaults to «»."
+"created (since version 1.20.1).  Defaults to «I</>» if B<%INSTDIR_ENVVAR%> "
+"has not been set."
 msgstr ""
 "Define el directorio administrativo, cuando es diferente del directorio por "
 "omisión."
@@ -30254,7 +30365,7 @@ msgstr ""
 msgid ""
 "Specifies the root directory (since version 1.20.1).  This also sets the "
 "alternatives, installation and administrative directories to match.  "
-"Defaults to «»."
+"Defaults to «I</>» if B<%INSTDIR_ENVVAR%> has not been set."
 msgstr ""
 
 #. type: =item
@@ -30344,6 +30455,18 @@ msgid ""
 msgstr ""
 "Se encontraron problemas analizando la línea de órdenes o realizando la "
 "acción requerida."
+
+#. type: =item
+#: update-alternatives.pod
+msgid "B<%INSTDIR_ENVVAR%>"
+msgstr ""
+
+#. type: =item
+#: update-alternatives.pod
+#, fuzzy
+#| msgid "I<%ADMINDIR%/parts>"
+msgid "B<%ADMINDIR_ENVVAR%>"
+msgstr "I<%ADMINDIR%/parts>"
 
 #. type: textblock
 #: update-alternatives.pod
@@ -30720,6 +30843,20 @@ msgstr "B<update-alternatives --auto vi>"
 #| msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgid "B<ln>(1), FHS (the Filesystem Hierarchy Standard)."
 msgstr "B<ln>(1), FHS, el estándar de la jerarquía del sistema de ficheros."
+
+#~ msgid "B<--list> I<glob-pattern>"
+#~ msgstr "B<--list> I<comodín>"
+
+#, fuzzy
+#~| msgid ""
+#~| "If set and the B<--admindir> option has not been specified, it will be "
+#~| "used as the dpkg data directory."
+#~ msgid ""
+#~ "If set and the B<--admindir> option has not been specified, it will be "
+#~ "used as the B<dpkg> database directory (since dpkg 1.21.0)."
+#~ msgstr ""
+#~ "Si se define, y no se define la opción B<--admindir>, se utiliza como el "
+#~ "directorio de datos de dpkg."
 
 #, fuzzy
 #~| msgid "B<Architecture:> I<arch>|B<all>"
@@ -31930,10 +32067,10 @@ msgstr "B<ln>(1), FHS, el estándar de la jerarquía del sistema de ficheros."
 #~ msgid ""
 #~ "A version number may start with a \"E<gt>E<gt>\", in which case any later "
 #~ "version will match, and may specify or omit the Debian packaging revision "
-#~ "(separated by a hyphen). Accepted version relationships are \"E<gt>E<gt>"
-#~ "\" for greater than, \"E<lt>E<lt>\" for less than, \"E<gt>=\" for greater "
-#~ "than or equal to, \"E<lt>=\" for less than or equal to, and \"=\" for "
-#~ "equal to."
+#~ "(separated by a hyphen). Accepted version relationships are "
+#~ "\"E<gt>E<gt>\" for greater than, \"E<lt>E<lt>\" for less than, \"E<gt>=\" "
+#~ "for greater than or equal to, \"E<lt>=\" for less than or equal to, and "
+#~ "\"=\" for equal to."
 #~ msgstr ""
 #~ "Un número de versión puede empezar con «E<gt>E<gt>», en cuyo caso "
 #~ "cualquier versión posterior encajaría, siendo posible omitir el número de "

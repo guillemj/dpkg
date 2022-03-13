@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-12-05 16:32+0100\n"
+"POT-Creation-Date: 2022-03-13 20:17+0100\n"
 "PO-Revision-Date: 2021-04-08 04:43+0200\n"
 "Last-Translator: TAKAHASHI Motonobu <monyo@monyo.com>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -1579,8 +1579,8 @@ msgid ""
 "B<mail>, B<text>, B<x11>, etc."
 msgstr ""
 "パッケージによりインストールされるソフトウェアがどのセクションの分類に属する"
-"かを示すフィールドである。一般的なセクションには \"utils\" や \"net\"、\"mail"
-"\"、\"text\"、\"x11\" などがある。"
+"かを示すフィールドである。一般的なセクションには \"utils\" や "
+"\"net\"、\"mail\"、\"text\"、\"x11\" などがある。"
 
 #. type: =item
 #: deb-control.pod deb-src-control.pod
@@ -2015,10 +2015,10 @@ msgstr ""
 #| msgid ""
 #| "A version number may start with a `E<gt>E<gt>', in which case any later "
 #| "version will match, and may specify or omit the Debian packaging revision "
-#| "(separated by a hyphen). Accepted version relationships are \"E<gt>E<gt>"
-#| "\" for greater than, \"E<lt>E<lt>\" for less than, \"E<gt>=\" for greater "
-#| "than or equal to, \"E<lt>=\" for less than or equal to, and \"=\" for "
-#| "equal to."
+#| "(separated by a hyphen). Accepted version relationships are "
+#| "\"E<gt>E<gt>\" for greater than, \"E<lt>E<lt>\" for less than, \"E<gt>=\" "
+#| "for greater than or equal to, \"E<lt>=\" for less than or equal to, and "
+#| "\"=\" for equal to."
 msgid ""
 "A version number may start with a ‘B<E<gt>E<gt>>’, in which case any later "
 "version will match, and may specify or omit the Debian packaging revision "
@@ -2031,8 +2031,8 @@ msgstr ""
 "にマッチする。バージョン番号には、(ハイフンに続けて) Debian パッケージリビ"
 "ジョンを指定することもできるが、省略しても構わない。「より新しい」を意味する "
 "\"E<gt>E<gt>\"、「より古い」を意味する \"E<lt>E<lt>\"、「同じか新しい」を意味"
-"する \"E<gt>=\"、「同じか古い」を意味する \"E<lt>=\"、「同じ」を意味する \"="
-"\" を使用できる。"
+"する \"E<gt>=\"、「同じか古い」を意味する \"E<lt>=\"、「同じ」を意味する "
+"\"=\" を使用できる。"
 
 #. type: =item
 #: deb-control.pod deb-src-control.pod
@@ -2872,8 +2872,11 @@ msgstr ""
 
 #. type: textblock
 #: deb-postinst.pod
-msgid "If I<prerm> fails during upgrade or fails on failed upgrade."
+#, fuzzy
+#| msgid "B<3.> Run I<preinst> script, if provided by the package."
+msgid "If I<prerm> fails during B<upgrade> or fails on B<failed-upgrade>."
 msgstr ""
+"B<3.> 新しいパッケージが I<preinst> スクリプトを提供している場合、実行する。"
 
 #. type: =item
 #: deb-postinst.pod
@@ -2882,32 +2885,39 @@ msgstr ""
 
 #. type: textblock
 #: deb-postinst.pod
-msgid "If I<prerm> fails during removal."
-msgstr ""
+#, fuzzy
+#| msgid "I<prerm>"
+msgid "If I<prerm> fails during B<remove>."
+msgstr "I<prerm>"
 
 #. type: =item
 #: deb-postinst.pod
-msgid "I<postinst> B<abort-deconfigure in-favour> I<new-package new-version>"
+msgid ""
+"I<postinst> B<abort-deconfigure> B<in-favour> I<new-package> I<new-version>"
 msgstr ""
 
 #. type: =item
 #: deb-postinst.pod deb-prerm.pod
-msgid "S< >[ B<removing> I<old-package old-version> ]"
+msgid "S< >[ B<removing> I<old-package> I<old-version> ]"
 msgstr ""
 
 #. type: textblock
 #: deb-postinst.pod
-msgid "If I<prerm> fails during deconfiguration of a package."
+#, fuzzy
+#| msgid "B<3.> Run I<preinst> script, if provided by the package."
+msgid "If I<prerm> fails during B<deconfigure in-favour> of a package."
 msgstr ""
+"B<3.> 新しいパッケージが I<preinst> スクリプトを提供している場合、実行する。"
 
 #. type: =item
 #: deb-postinst.pod
-msgid "I<postinst> B<abort-remove in-favour> I<new-package new-version>"
+msgid "I<postinst> B<abort-remove> B<in-favour> I<new-package> I<new-version>"
 msgstr ""
 
 #. type: textblock
 #: deb-postinst.pod
-msgid "If I<prerm> fails during replacement due to conflict."
+msgid ""
+"If I<prerm> fails during B<remove in-favour> for replacement due to conflict."
 msgstr ""
 
 #. type: textblock
@@ -3018,31 +3028,42 @@ msgstr ""
 
 #. type: textblock
 #: deb-postrm.pod
-msgid "If I<preinst> fails during install."
-msgstr ""
-
-#. type: =item
-#: deb-postrm.pod
-msgid "I<new-postrm> B<abort-install> I<old-version new-version>"
-msgstr ""
-
-#. type: textblock
-#: deb-postrm.pod
 #, fuzzy
 #| msgid "B<3.> Run I<preinst> script, if provided by the package."
-msgid "If I<preinst> fails during upgrade of removed package."
+msgid "If I<preinst> fails during B<install>."
 msgstr ""
 "B<3.> 新しいパッケージが I<preinst> スクリプトを提供している場合、実行する。"
 
 #. type: =item
 #: deb-postrm.pod
-msgid "I<new-postrm> B<abort-upgrade> I<old-version new-version>"
-msgstr ""
+#, fuzzy
+#| msgid "B<--until> I<version>, B<-u>I<version>"
+msgid "I<new-postrm> B<abort-install> I<old-version> I<new-version>"
+msgstr "B<--until> I<version>, B<-u>I<version>"
 
 #. type: textblock
 #: deb-postrm.pod
-msgid "If I<preinst> fails during upgrade."
+#, fuzzy
+#| msgid "B<3.> Run I<preinst> script, if provided by the package."
+msgid ""
+"If I<preinst> fails during B<install> for an upgrade of a removed package."
 msgstr ""
+"B<3.> 新しいパッケージが I<preinst> スクリプトを提供している場合、実行する。"
+
+#. type: =item
+#: deb-postrm.pod
+#, fuzzy
+#| msgid "B<--until> I<version>, B<-u>I<version>"
+msgid "I<new-postrm> B<abort-upgrade> I<old-version> I<new-version>"
+msgstr "B<--until> I<version>, B<-u>I<version>"
+
+#. type: textblock
+#: deb-postrm.pod
+#, fuzzy
+#| msgid "B<3.> Run I<preinst> script, if provided by the package."
+msgid "If I<preinst> fails during B<upgrade>."
+msgstr ""
+"B<3.> 新しいパッケージが I<preinst> スクリプトを提供している場合、実行する。"
 
 #. type: textblock
 #: deb-preinst.pod
@@ -3088,18 +3109,22 @@ msgstr "パッケージはシステムにインストールされていない。
 #: deb-preinst.pod
 #, fuzzy
 #| msgid "B<--until> I<version>, B<-u>I<version>"
-msgid "I<new-preinst> B<install> I<old-version new-version>"
+msgid "I<new-preinst> B<install> I<old-version> I<new-version>"
 msgstr "B<--until> I<version>, B<-u>I<version>"
 
 #. type: textblock
 #: deb-preinst.pod
-msgid "Before removed package is upgraded."
-msgstr ""
+#, fuzzy
+#| msgid "The machine the package is built for."
+msgid "Before a removed package is upgraded."
+msgstr "パッケージのビルドの対象となるマシン"
 
 #. type: =item
 #: deb-preinst.pod
-msgid "I<new-preinst> B<upgrade> I<old-version new-version>"
-msgstr ""
+#, fuzzy
+#| msgid "B<--until> I<version>, B<-u>I<version>"
+msgid "I<new-preinst> B<upgrade> I<old-version> I<new-version>"
+msgstr "B<--until> I<version>, B<-u>I<version>"
 
 #. type: textblock
 #: deb-preinst.pod
@@ -3170,8 +3195,10 @@ msgstr ""
 
 #. type: =item
 #: deb-prerm.pod
-msgid "I<new-prerm> B<failed-upgrade> I<old-version new-version>"
-msgstr ""
+#, fuzzy
+#| msgid "B<--until> I<version>, B<-u>I<version>"
+msgid "I<new-prerm> B<failed-upgrade> I<old-version> I<new-version>"
+msgstr "B<--until> I<version>, B<-u>I<version>"
 
 #. type: textblock
 #: deb-prerm.pod
@@ -3180,7 +3207,7 @@ msgstr ""
 
 #. type: =item
 #: deb-prerm.pod
-msgid "I<prerm> B<deconfigure in-favour> I<new-package new-version>"
+msgid "I<prerm> B<deconfigure> B<in-favour> I<new-package> I<new-version>"
 msgstr ""
 
 #. type: textblock
@@ -3191,7 +3218,7 @@ msgstr ""
 
 #. type: =item
 #: deb-prerm.pod
-msgid "I<prerm> B<remove in-favour> I<new-package new-version>"
+msgid "I<prerm> B<remove> B<in-favour> I<new-package> I<new-version>"
 msgstr ""
 
 #. type: textblock
@@ -5438,8 +5465,8 @@ msgstr ""
 #. type: textblock
 #: deb-src-symbols.pod
 msgid ""
-"Symbols like \"mystack_new@Base\", \"mystack_push@Base\", \"mystack_pop@Base"
-"\" etc.  will be matched by the first pattern while e.g. "
+"Symbols like \"mystack_new@Base\", \"mystack_push@Base\", "
+"\"mystack_pop@Base\" etc.  will be matched by the first pattern while e.g. "
 "\"ng_mystack_new@Base\" won't.  The second pattern will match all symbols "
 "having the string \"private\" in their names and matches will inherit "
 "I<optional> tag from the pattern."
@@ -5723,10 +5750,10 @@ msgstr ""
 #| "After all the substitutions have been done each occurrence of the string "
 #| "B<${}> (which is not a legal substitution) is replaced with a B<$> sign."
 msgid ""
-"After all the substitutions have been done each occurrence of the string B<"
-"${}> (which is not a legal substitution) is replaced with a B<$> sign.  This "
-"can be used as an escape sequence such as B<${}{>I<VARIABLE>B<}> which will "
-"end up as B<${>I<VARIABLE>B<}> on the output."
+"After all the substitutions have been done each occurrence of the string "
+"B<${}> (which is not a legal substitution) is replaced with a B<$> sign.  "
+"This can be used as an escape sequence such as B<${}{>I<VARIABLE>B<}> which "
+"will end up as B<${>I<VARIABLE>B<}> on the output."
 msgstr ""
 "置換がすべて完了した後で、文字列 B<${}> (これは置換対象ではない) が B<$> 記号"
 "に置き換えられる。"
@@ -5756,8 +5783,8 @@ msgstr ""
 "変数の置換は、各フィールドが解析され、切り出された後の内容に対して行われる。"
 "そのため、置換した結果が複数行にわたる場合も、改行の後にスペースを含めておく"
 "必要はない。これは、置換された変数の内容がフィールドに展開される際に暗黙的に"
-"行われる。例えば \"foo is bar.${Newline}foo is great.\" という内容が B<"
-"${Description}> という変数に格納されており、フィールドの内容が以下のように"
+"行われる。例えば \"foo is bar.${Newline}foo is great.\" という内容が "
+"B<${Description}> という変数に格納されており、フィールドの内容が以下のように"
 "なっていた場合、"
 
 #. type: verbatim
@@ -6185,7 +6212,7 @@ msgstr ""
 #, no-wrap
 msgid ""
 "Z<>\n"
-" I<library-soname main-dependency-template>\n"
+" I<library-soname> I<main-dependency-template>\n"
 " [| I<alternative-dependency-template>]\n"
 " [...]\n"
 " [* I<field-name>: I<field-value>]\n"
@@ -8870,8 +8897,8 @@ msgstr "2."
 #. type: textblock
 #: dpkg-buildflags.pod
 msgid ""
-"for the current user with B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> where B<"
-"$XDG_CONFIG_HOME> defaults to B<$HOME/.config>;"
+"for the current user with B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> where "
+"B<$XDG_CONFIG_HOME> defaults to B<$HOME/.config>;"
 msgstr ""
 "現在のユーザの B<$XDG_CONFIG_HOME/dpkg/buildflags.conf>。B<$XDG_CONFIG_HOME>"
 "のデフォルトは B<$HOME/.config> である。"
@@ -8913,7 +8940,9 @@ msgstr "設定ファイルには、二種類のディレクティブが含まれ
 
 #. type: =item
 #: dpkg-buildflags.pod
-msgid "B<SET> I<flag value>"
+#, fuzzy
+#| msgid "B<SET> I<flag value>"
+msgid "B<SET> I<flag> I<value>"
 msgstr "B<SET> I<flag value>"
 
 #. type: textblock
@@ -8923,7 +8952,9 @@ msgstr "I<flag> という名前のフラグの値を I<value> で上書きする
 
 #. type: =item
 #: dpkg-buildflags.pod
-msgid "B<STRIP> I<flag value>"
+#, fuzzy
+#| msgid "B<STRIP> I<flag value>"
+msgid "B<STRIP> I<flag> I<value>"
 msgstr "B<STRIP> I<flag value>"
 
 #. type: textblock
@@ -8935,7 +8966,9 @@ msgstr ""
 
 #. type: =item
 #: dpkg-buildflags.pod
-msgid "B<APPEND> I<flag value>"
+#, fuzzy
+#| msgid "B<APPEND> I<flag value>"
+msgid "B<APPEND> I<flag> I<value>"
 msgstr "B<APPEND> I<flag value>"
 
 #. type: textblock
@@ -8951,7 +8984,9 @@ msgstr ""
 
 #. type: =item
 #: dpkg-buildflags.pod
-msgid "B<PREPEND> I<flag value>"
+#, fuzzy
+#| msgid "B<PREPEND> I<flag value>"
+msgid "B<PREPEND> I<flag> I<value>"
 msgstr "B<PREPEND> I<flag value>"
 
 #. type: textblock
@@ -9519,8 +9554,8 @@ msgstr ""
 #| "and disable the \"fortify\" feature you can do this in B<debian/rules>:"
 msgid ""
 "Each area feature can be enabled and disabled in the B<DEB_BUILD_OPTIONS> "
-"and B<DEB_BUILD_MAINT_OPTIONS> environment variable's area value with the ‘B<"
-"+>’ and ‘B<->’ modifier.  For example, to enable the B<hardening> “pie” "
+"and B<DEB_BUILD_MAINT_OPTIONS> environment variable's area value with the "
+"‘B<+>’ and ‘B<->’ modifier.  For example, to enable the B<hardening> “pie” "
 "feature and disable the “fortify” feature you can do this in B<debian/rules>:"
 msgstr ""
 "各要塞化機能は、B<DEB_BUILD_MAINT_OPTIONS> 環境変数の B<hardening> 値におい"
@@ -9551,8 +9586,8 @@ msgid ""
 "achieved with:"
 msgstr ""
 "特別な機能 B<all> により、すべての要塞化機能を一度に有効化、無効化することが"
-"できる。次のようにして、すべての機能を無効化した上で \"format\" と \"fortify"
-"\" のみを有効化することができる:"
+"できる。次のようにして、すべての機能を無効化した上で \"format\" と "
+"\"fortify\" のみを有効化することができる:"
 
 #. type: verbatim
 #: dpkg-buildflags.pod
@@ -10370,8 +10405,8 @@ msgid ""
 "This setting defines the current vendor.  If not set, it will discover the "
 "current vendor by reading B<%PKGCONFDIR%/origins/default>."
 msgstr ""
-"現在のベンダを定義する設定。設定されていなかった場合、現在のベンダは B<"
-"%CONFDIR%/dpkg/origins/default> から設定される。"
+"現在のベンダを定義する設定。設定されていなかった場合、現在のベンダは "
+"B<%CONFDIR%/dpkg/origins/default> から設定される。"
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -10828,11 +10863,11 @@ msgid ""
 "option but without leading hyphens) or a comment (if it starts with a "
 "‘B<#>’)."
 msgstr ""
-"オプションはすべて、コマンドラインと B<dselect> の設定ファイル I<%PKGCONFDIR"
-"%/dselect.cfg> もしくは設定ディレクトリ I<%PKGCONFDIR%/dselect.cfg.d/> の両方"
-"で指定できる。設定ファイル中の各行には、オプション (正確にはコマンドラインオ"
-"プションから先頭のダッシュを除いたもの) か、コメント (行が B<#> で始まる場"
-"合) を記述する。"
+"オプションはすべて、コマンドラインと B<dselect> の設定ファイル "
+"I<%PKGCONFDIR%/dselect.cfg> もしくは設定ディレクトリ I<%PKGCONFDIR%/dselect."
+"cfg.d/> の両方で指定できる。設定ファイル中の各行には、オプション (正確にはコ"
+"マンドラインオプションから先頭のダッシュを除いたもの) か、コメント (行が "
+"B<#> で始まる場合) を記述する。"
 
 #. type: =item
 #: dpkg-buildpackage.pod dpkg-genbuildinfo.pod dpkg-genchanges.pod
@@ -12633,7 +12668,9 @@ msgstr ""
 
 #. type: =item
 #: dpkg-deb.pod dpkg.pod
-msgid "B<-x>, B<--extract> I<archive directory>"
+#, fuzzy
+#| msgid "B<-x>, B<--extract> I<archive directory>"
+msgid "B<-x>, B<--extract> I<archive> I<directory>"
 msgstr "B<-x>, B<--extract> I<archive directory>"
 
 #. type: textblock
@@ -12663,7 +12700,9 @@ msgstr "I<directory> (親ディレクトリは含まない) は必要に応じ�
 
 #. type: =item
 #: dpkg-deb.pod dpkg.pod
-msgid "B<-X>, B<--vextract> I<archive directory>"
+#, fuzzy
+#| msgid "B<-X>, B<--vextract> I<archive directory>"
+msgid "B<-X>, B<--vextract> I<archive> I<directory>"
 msgstr "B<-X>, B<--vextract> I<archive directory>"
 
 #. type: textblock
@@ -12677,7 +12716,9 @@ msgstr ""
 
 #. type: =item
 #: dpkg-deb.pod
-msgid "B<-R>, B<--raw-extract> I<archive directory>"
+#, fuzzy
+#| msgid "B<-R>, B<--raw-extract> I<archive directory>"
+msgid "B<-R>, B<--raw-extract> I<archive> I<directory>"
 msgstr "B<-R>, B<--raw-extract> I<archive directory>"
 
 #. type: textblock
@@ -13238,13 +13279,15 @@ msgid ""
 msgstr ""
 
 #. type: =item
-#: dpkg-divert.pod
-msgid "B<--list> I<glob-pattern>"
-msgstr "B<--list> I<glob-pattern>"
+#: dpkg-divert.pod dpkg-statoverride.pod
+msgid "B<--list> [I<glob-pattern>]"
+msgstr "B<--list> [I<glob-pattern>]"
 
 #. type: textblock
 #: dpkg-divert.pod
-msgid "List diversions matching I<glob-pattern>."
+#, fuzzy
+#| msgid "List diversions matching I<glob-pattern>."
+msgid "List all diversions, or ones matching I<glob-pattern>."
 msgstr "I<glob-pattern> にマッチする退避ファイルの一覧を表示する。"
 
 #. type: =item
@@ -13288,14 +13331,14 @@ msgstr "B<--admindir> I<directory>"
 #| msgid ""
 #| "Set the dpkg data directory to I<directory> (default: I<%ADMINDIR%>)."
 msgid ""
-"Set the administrative directory to I<directory>.  Defaults to «I<%ADMINDIR"
-"%>»."
+"Set the administrative directory to I<directory>.  Defaults to "
+"«I<%ADMINDIR%>» if B<DPKG_ADMINDIR> has not been set."
 msgstr ""
 "dpkg データディレクトリを I<directory> (デフォルトは I<%ADMINDIR%>) に設定す"
 "る。"
 
 #. type: =item
-#: dpkg-divert.pod dpkg-realpath.pod dpkg-statoverride.pod
+#: dpkg-divert.pod dpkg-realpath.pod dpkg-statoverride.pod dselect.pod
 #: update-alternatives.pod
 #, fuzzy
 #| msgid "B<--admindir> I<directory>"
@@ -13303,10 +13346,11 @@ msgid "B<--instdir> I<directory>"
 msgstr "B<--admindir> I<directory>"
 
 #. type: textblock
-#: dpkg-divert.pod
+#: dpkg-divert.pod dpkg-statoverride.pod
 msgid ""
 "Set the installation directory, which refers to the directory where packages "
-"get installed (since dpkg 1.19.2). Defaults to «I</>»."
+"get installed (since dpkg 1.19.2).  Defaults to «I</>» if B<DPKG_ROOT> has "
+"not been set."
 msgstr ""
 
 #. type: =item
@@ -13319,11 +13363,18 @@ msgstr "B<--depotdir> I<directory>"
 
 #. type: textblock
 #: dpkg-divert.pod dpkg-statoverride.pod
+#, fuzzy
+#| msgid ""
+#| "Changing B<root> changes B<instdir> to I<dir> and B<admindir> to I<dir>B</"
+#| "var/lib/dpkg>."
 msgid ""
 "Set the root directory to B<directory>, which sets the installation "
 "directory to «I<directory>» and the administrative directory to "
-"«I<directory>B<%ADMINDIR%>» (since dpkg 1.19.2)."
+"«I<directory>B<%ADMINDIR%>» (since dpkg 1.19.2)  if B<DPKG_ROOT> has not "
+"been set."
 msgstr ""
+"B<root> を変更すると、B<instdir> が I<dir> に変更され、B<admindir> が "
+"I<dir>B<%ADMINDIR%> に変更される。"
 
 #. type: =item
 #: dpkg-divert.pod
@@ -13453,7 +13504,6 @@ msgstr ""
 #. type: =item
 #: dpkg-divert.pod dpkg-maintscript-helper.pod dpkg-query.pod
 #: dpkg-statoverride.pod dpkg-trigger.pod dpkg.pod dselect.pod
-#: update-alternatives.pod
 msgid "B<DPKG_ADMINDIR>"
 msgstr "B<DPKG_ADMINDIR>"
 
@@ -13815,9 +13865,7 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
-msgid ""
-"L<https://wiki.debian.org/Teams/Dpkg/FAQ#Q:_Does_dpkg_support_merged-.2Fusr-"
-"via-aliased-dirs.3F>."
+msgid "L<https://wiki.debian.org/Teams/Dpkg/FAQ#broken-usrmerge>."
 msgstr ""
 
 #. type: textblock
@@ -16769,9 +16817,9 @@ msgid ""
 "in parentheses should be the name of the format. For example:"
 msgstr ""
 "B<dpkg-parsechangelog> に新しいパーサを使用させるには、changelog ファイルの末"
-"尾 40 行以内に、次のような Perl の正規表現: “B<\\schangelog-format:\\s"
-"+([0-9a-z]+)\\W>” にマッチする行が含まれている必要がある。括弧内にフォーマッ"
-"トの名称を記載すること。以下に一例を示す:"
+"尾 40 行以内に、次のような Perl の正規表現: “B<\\schangelog-format:"
+"\\s+([0-9a-z]+)\\W>” にマッチする行が含まれている必要がある。括弧内にフォー"
+"マットの名称を記載すること。以下に一例を示す:"
 
 #. type: textblock
 #: dpkg-parsechangelog.pod
@@ -17434,14 +17482,14 @@ msgstr ""
 "I<package-name> を代わりに使用すべきである。"
 
 #. type: textblock
-#: dpkg-query.pod dpkg-trigger.pod
+#: dpkg-query.pod
 #, fuzzy
 #| msgid ""
 #| "Change the location of the B<dpkg> database. The default location is I</"
 #| "var/lib/dpkg>."
 msgid ""
-"Change the location of the B<dpkg> database. The default location is I<"
-"%ADMINDIR%>."
+"Change the location of the B<dpkg> database. The default location is "
+"I<%ADMINDIR%>."
 msgstr ""
 "B<dpkg> データベースの位置を変更する。デフォルトの位置は I<%ADMINDIR%> であ"
 "る。"
@@ -17454,7 +17502,7 @@ msgid "B<--root=>I<directory>"
 msgstr "B<--depotdir> I<directory>"
 
 #. type: textblock
-#: dpkg-query.pod dpkg-trigger.pod dselect.pod
+#: dpkg-query.pod dpkg-trigger.pod
 #, fuzzy
 #| msgid ""
 #| "Changing B<root> changes B<instdir> to I<dir> and B<admindir> to I<dir>B</"
@@ -18026,7 +18074,7 @@ msgid ""
 msgstr ""
 
 #. type: textblock
-#: dpkg-query.pod dpkg-trigger.pod dselect.pod
+#: dpkg-query.pod dpkg-trigger.pod
 #, fuzzy
 #| msgid ""
 #| "If set and the B<--admindir> option has not been specified, it will be "
@@ -18120,13 +18168,14 @@ msgstr ""
 #| "is also stored. Defaults to I<%ADMINDIR%>."
 msgid ""
 "Set the root directory to I<directory>, which is the base directory that "
-"pathnames get canonicalized against.  Defaults to «B</>»."
+"pathnames get canonicalized against.  Defaults to «B</>» if B<DPKG_ROOT> has "
+"not been set."
 msgstr ""
 "dpkg データベースのディレクトリを変更する。statoverride ファイルもここに保存"
 "される。デフォルトは I<%ADMINDIR%> である。"
 
 #. type: textblock
-#: dpkg-realpath.pod
+#: dpkg-realpath.pod update-alternatives.pod
 #, fuzzy
 #| msgid ""
 #| "If set and the B<--admindir> option has not been specified, it will be "
@@ -19099,11 +19148,11 @@ msgstr "B<--warnings=>I<value>"
 #| "I<value> is a bit field defining the set of warnings that can be emitted "
 #| "by B<dpkg-shlibdeps>.  Bit 0 (value=1) enables the warning \"symbol "
 #| "I<sym> used by I<binary> found in none of the libraries\", bit 1 "
-#| "(value=2) enables the warning \"package could avoid a useless dependency"
-#| "\" and bit 2 (value=4)  enables the warning \"I<binary> should not be "
-#| "linked against I<library>\".  The default I<value> is 3: the first two "
-#| "warnings are active by default, the last one is not. Set I<value> to 7 if "
-#| "you want all warnings to be active."
+#| "(value=2) enables the warning \"package could avoid a useless "
+#| "dependency\" and bit 2 (value=4)  enables the warning \"I<binary> should "
+#| "not be linked against I<library>\".  The default I<value> is 3: the first "
+#| "two warnings are active by default, the last one is not. Set I<value> to "
+#| "7 if you want all warnings to be active."
 msgid ""
 "I<value> is a bit field defining the set of warnings that can be emitted by "
 "B<dpkg-shlibdeps> (since dpkg 1.14.17).  Bit 0 (value=1) enables the warning "
@@ -19951,10 +20000,10 @@ msgid ""
 "files from the automatic patch generation."
 msgstr ""
 "指定された perl 形式の正規表現により B<--diff-ignore> のデフォルト値および "
-"(設定されている場合) 現在の値が拡張される。これは、現在の値に \"B<|>I<regexp>"
-"\" を結合することで行われる。このオプションは、B<debian/source/options> に"
-"て、自動パッチ生成によって自動的に生成されるファイルを除外したい場合に有用で"
-"ある。"
+"(設定されている場合) 現在の値が拡張される。これは、現在の値に \"B<|"
+">I<regexp>\" を結合することで行われる。このオプションは、B<debian/source/"
+"options> にて、自動パッチ生成によって自動的に生成されるファイルを除外したい場"
+"合に有用である。"
 
 #. type: =item
 #: dpkg-source.pod
@@ -21262,8 +21311,8 @@ msgstr ""
 #| "`remotes/origin/`."
 msgid ""
 "Note that by default the new repository will have the same branch checked "
-"out that was checked out in the original source.  (Typically “master”, but "
-"it could be anything.)  Any other branches will be available under I<remotes/"
+"out that was checked out in the original source.  (Typically “main”, but it "
+"could be anything.)  Any other branches will be available under I<remotes/"
 "origin/>."
 msgstr ""
 "デフォルトで、新しいリポジトリはオリジナルのソースがチェックアウトされたもの"
@@ -21309,9 +21358,9 @@ msgid ""
 "default behavior of including all branches and tags. May be specified "
 "multiple times. The I<ref> can be the name of a branch or tag to include. It "
 "may also be any parameter that can be passed to B<git-rev-list>(1). For "
-"example, to include only the master branch, use B<--git-ref=>master. To "
-"include all tags and branches, except for the private branch, use B<--git-"
-"ref=>--all B<--git-ref=>^private"
+"example, to include only the main branch, use B<--git-ref=>main. To include "
+"all tags and branches, except for the private branch, use B<--git-ref=>--all "
+"B<--git-ref=>^private"
 msgstr ""
 "git bundle に含める git ref を指定する。このオプションにより、すべてのブラン"
 "チとタグを含めるというデフォルトの挙動が無効となる。これは複数回指定してもよ"
@@ -21779,12 +21828,13 @@ msgid ""
 "comment up to the end of line)."
 msgstr ""
 "このファイルには、アップストリームのソースパッケージに対して適用すべきすべて"
-"のパッチが (適用順序に従って) 並べられる。パッチ名前後の空白は削除される。\"#"
-"\" で始まる行はコメント行と見なされスキップされる。空行も無視される。その他の"
-"行は、(B<debian/patches/> ディレクトリからの相対パスによる) パッチのファイル"
-"名から始まり、これは最初の空白文字もしくは行末まで続く。それに続き quilt のオ"
-"プションを任意で設定することができる。これは最初に空白文字に続いて (それ以降"
-"が行末までコメントであることを示す) \"#\" が現れた位置もしくは行末まで続く。"
+"のパッチが (適用順序に従って) 並べられる。パッチ名前後の空白は削除され"
+"る。\"#\" で始まる行はコメント行と見なされスキップされる。空行も無視される。"
+"その他の行は、(B<debian/patches/> ディレクトリからの相対パスによる) パッチの"
+"ファイル名から始まり、これは最初の空白文字もしくは行末まで続く。それに続き "
+"quilt のオプションを任意で設定することができる。これは最初に空白文字に続いて "
+"(それ以降が行末までコメントであることを示す) \"#\" が現れた位置もしくは行末ま"
+"で続く。"
 
 #. type: textblock
 #: dpkg-source.pod
@@ -21951,7 +22001,9 @@ msgstr ""
 
 #. type: =item
 #: dpkg-split.pod
-msgid "B<-a>, B<--auto -o> I<complete-output part>"
+#, fuzzy
+#| msgid "B<-a>, B<--auto -o> I<complete-output part>"
+msgid "B<-a>, B<--auto -o> I<complete-output> I<part>"
 msgstr "B<-a>, B<--auto -o> I<complete-output part>"
 
 #. type: textblock
@@ -22338,11 +22390,6 @@ msgstr ""
 "I<file> に対する override を削除する。このコマンドで I<file> の状態が変化する"
 "ことはない。"
 
-#. type: =item
-#: dpkg-statoverride.pod
-msgid "B<--list> [I<glob-pattern>]"
-msgstr "B<--list> [I<glob-pattern>]"
-
 #. type: textblock
 #: dpkg-statoverride.pod
 #, fuzzy
@@ -22378,17 +22425,11 @@ msgstr "B<--force->I<thing> オプションに関するヘルプを表示する�
 #| "is also stored. Defaults to I<%ADMINDIR%>."
 msgid ""
 "Set the administrative directory to I<directory>.  This is where the "
-"I<statoverride> file is stored.  Defaults to «I<%ADMINDIR%>»."
+"I<statoverride> file is stored.  Defaults to «I<%ADMINDIR%>» if "
+"B<DPKG_ADMINDIR> has not been set."
 msgstr ""
 "dpkg データベースのディレクトリを変更する。statoverride ファイルもここに保存"
 "される。デフォルトは I<%ADMINDIR%> である。"
-
-#. type: textblock
-#: dpkg-statoverride.pod
-msgid ""
-"Set the installation directory, which refers to the directory where packages "
-"get installed (since dpkg 1.19.2).  Defaults to «I</>»."
-msgstr ""
 
 #. type: =item
 #: dpkg-statoverride.pod dpkg.pod
@@ -22630,6 +22671,19 @@ msgstr ""
 "エラーメッセージが出力される。ただし、普通の使い方としては、単にB<dpkg-"
 "trigger> を用いて使用したいトリガを有効化することが望ましい。"
 
+#. type: textblock
+#: dpkg-trigger.pod
+#, fuzzy
+#| msgid ""
+#| "Change the location of the B<dpkg> database. The default location is I</"
+#| "var/lib/dpkg>."
+msgid ""
+"Change the location of the B<dpkg> database.  Defaults to I<%ADMINDIR%> if "
+"B<DPKG_ADMINDIR> has not been set."
+msgstr ""
+"B<dpkg> データベースの位置を変更する。デフォルトの位置は I<%ADMINDIR%> であ"
+"る。"
+
 #. type: =item
 #: dpkg-trigger.pod
 msgid "B<--by-package=>I<package>"
@@ -22736,13 +22790,13 @@ msgstr "B<dpkg-vendor> [I<option>...] I<command>"
 #: dpkg-vendor.pod
 #, fuzzy
 #| msgid ""
-#| "B<dpkg-vendor> is a tool to query information about vendors listed in B<"
-#| "%CONFDIR%/dpkg/origins>. B<%PKGCONFDIR%/origins/default> contains "
+#| "B<dpkg-vendor> is a tool to query information about vendors listed in "
+#| "B<%CONFDIR%/dpkg/origins>. B<%PKGCONFDIR%/origins/default> contains "
 #| "information about the current vendor."
 msgid ""
-"B<dpkg-vendor> is a tool to query information about vendors listed in B<"
-"%PKGCONFDIR%/origins>. B<%PKGCONFDIR%/origins/default> contains information "
-"about the current vendor."
+"B<dpkg-vendor> is a tool to query information about vendors listed in "
+"B<%PKGCONFDIR%/origins>. B<%PKGCONFDIR%/origins/default> contains "
+"information about the current vendor."
 msgstr ""
 "B<dpkg-vendor> は、B<%PKGCONFDIR%/origins> にリストされたベンダに関する情報を"
 "クエリするツールである。現在のベンダの情報は、B<%PKGCONFDIR%/origins/"
@@ -22819,8 +22873,8 @@ msgid ""
 "This setting defines the current vendor. If not set, it will discover the "
 "current vendor by reading B<%PKGCONFDIR%/origins/default>."
 msgstr ""
-"現在のベンダを定義する設定。設定されていなかった場合、現在のベンダは B<"
-"%CONFDIR%/dpkg/origins/default> から設定される。"
+"現在のベンダを定義する設定。設定されていなかった場合、現在のベンダは "
+"B<%CONFDIR%/dpkg/origins/default> から設定される。"
 
 #. type: textblock
 #: dpkg-vendor.pod
@@ -23267,6 +23321,13 @@ msgstr ""
 "が指定されていた場合、I<package-file> としてファイルではなくディレクトリを指"
 "定すること。"
 
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"Will process triggers for B<Pre-Depends> unless B<--no-triggers> has been "
+"specified."
+msgstr ""
+
 #. type: =item
 #: dpkg.pod
 msgid "B<--configure> I<package>...|B<-a>|B<--pending>"
@@ -23309,6 +23370,11 @@ msgstr ""
 #: dpkg.pod
 msgid "B<2.> Run I<postinst> script, if provided by the package."
 msgstr "B<2.> パッケージが提供している場合、I<postinst> スクリプトを実行する。"
+
+#. type: textblock
+#: dpkg.pod
+msgid "Will process triggers unless B<--no-triggers> has been specified."
+msgstr ""
 
 #. type: =item
 #: dpkg.pod
@@ -23944,7 +24010,7 @@ msgstr "先に指定した B<--no-triggers> を無効にする。"
 #: dpkg.pod
 #, fuzzy
 #| msgid "B<--force>"
-msgid "B<--validate->I<thing string>"
+msgid "B<--validate->I<thing> I<string>"
 msgstr "B<--force>"
 
 #. type: textblock
@@ -24852,7 +24918,8 @@ msgstr ""
 msgid ""
 "Set the administrative directory to I<directory>.  This directory contains "
 "many files that give information about status of installed or uninstalled "
-"packages, etc.  Defaults to «I<%ADMINDIR%>»."
+"packages, etc.  Defaults to «I<%ADMINDIR%>» if B<DPKG_ADMINDIR> has not been "
+"set."
 msgstr ""
 "デフォルトの管理ディレクトリを変更する (デフォルトは I<%ADMINDIR%>)。管理ディ"
 "レクトリには、パッケージのインストール状況に関する情報が格納された多種多様な"
@@ -24896,8 +24963,8 @@ msgstr "B<--root=>I<dir>"
 #| "var/lib/dpkg>."
 msgid ""
 "Set the root directory to B<directory>, which sets the installation "
-"directory to «I<dir>» and the administrative directory to «I<dir>B<%ADMINDIR"
-"%>»."
+"directory to «I<dir>» and the administrative directory to "
+"«I<dir>B<%ADMINDIR%>»."
 msgstr ""
 "B<root> を変更すると、B<instdir> が I<dir> に変更され、B<admindir> が "
 "I<dir>B<%ADMINDIR%> に変更される。"
@@ -25981,8 +26048,8 @@ msgstr "     B<dpkg -r elvis>\n"
 #, fuzzy
 #| msgid ""
 #| "To install a package, you first need to find it in an archive or CDROM. "
-#| "The \"available\" file shows that the vim package is in section \"editors"
-#| "\":"
+#| "The \"available\" file shows that the vim package is in section "
+#| "\"editors\":"
 msgid ""
 "To install a package, you first need to find it in an archive or CDROM. The "
 "I<available> file shows that the vim package is in section B<editors>:"
@@ -26024,8 +26091,8 @@ msgstr "     B<dpkg --get-selections E<gt>myselections>\n"
 msgid ""
 "You might transfer this file to another computer, and after having updated "
 "the I<available> file there with your package manager frontend of choice "
-"(see L<https://wiki.debian.org/Teams/Dpkg/FAQ> for more details), for "
-"example:"
+"(see L<https://wiki.debian.org/Teams/Dpkg/FAQ#set-selections> for more "
+"details), for example:"
 msgstr ""
 
 #. type: verbatim
@@ -26653,11 +26720,11 @@ msgid ""
 "option but without leading hyphens) or a comment (if it starts with a "
 "‘B<#>’)."
 msgstr ""
-"オプションはすべて、コマンドラインと B<dselect> の設定ファイル I<%PKGCONFDIR"
-"%/dselect.cfg> もしくは設定ディレクトリ I<%PKGCONFDIR%/dselect.cfg.d/> の両方"
-"で指定できる。設定ファイル中の各行には、オプション (正確にはコマンドラインオ"
-"プションから先頭のダッシュを除いたもの) か、コメント (行が B<#> で始まる場"
-"合) を記述する。"
+"オプションはすべて、コマンドラインと B<dselect> の設定ファイル "
+"I<%PKGCONFDIR%/dselect.cfg> もしくは設定ディレクトリ I<%PKGCONFDIR%/dselect."
+"cfg.d/> の両方で指定できる。設定ファイル中の各行には、オプション (正確にはコ"
+"マンドラインオプションから先頭のダッシュを除いたもの) か、コメント (行が "
+"B<#> で始まる場合) を記述する。"
 
 #. type: textblock
 #: dselect.pod
@@ -26668,11 +26735,33 @@ msgstr ""
 #| "there shouldn't be any need to change it."
 msgid ""
 "Changes the directory where the dpkg ‘I<status>’, ‘I<available>’ and similar "
-"files are located.  This defaults to I<%ADMINDIR%> and normally there "
-"shouldn't be any need to change it."
+"files are located.  Defaults to I<%ADMINDIR%> if B<DPKG_ADMINDIR> has not "
+"been set."
 msgstr ""
 "dpkg が使用する `I<status>' ファイルや `I<available>' ファイルなどを置くディ"
 "レクトリを変更する。デフォルトは I<%ADMINDIR%> で、通常変更する必要はない。"
+
+#. type: textblock
+#: dselect.pod
+msgid ""
+"Set the installation directory, which refers to the directory where packages "
+"get installed (since dpkg 1.21.2).  Defaults to «I</>» if B<DPKG_ROOT> has "
+"not been set."
+msgstr ""
+
+#. type: textblock
+#: dselect.pod
+#, fuzzy
+#| msgid ""
+#| "Changing B<root> changes B<instdir> to I<dir> and B<admindir> to I<dir>B</"
+#| "var/lib/dpkg>."
+msgid ""
+"Set the root directory to I<directory>, which sets the installation "
+"directory to «I<directory>» and the administrative directory to "
+"«I<directory>%ADMINDIR%» (since dpkg 1.21.0)."
+msgstr ""
+"B<root> を変更すると、B<instdir> が I<dir> に変更され、B<admindir> が "
+"I<dir>B<%ADMINDIR%> に変更される。"
 
 #. type: =item
 #: dselect.pod
@@ -26704,8 +26793,8 @@ msgstr "エキスパートモードを有効にする。つまり、煩雑なヘ
 #| "B<--colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:"
 #| "attr>[I<+attr+...>]]"
 msgid ""
-"B<--color> I<screenpart>:[I<foreground>],[I<background>][:I<attr>[I<"
-"+attr>]...]"
+"B<--color> I<screenpart>:[I<foreground>],[I<background>][:"
+"I<attr>[I<+attr>]...]"
 msgstr ""
 "B<--colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:"
 "attr>[I<+attr+...>]]"
@@ -26717,8 +26806,8 @@ msgstr ""
 #| "B<--colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:"
 #| "attr>[I<+attr+...>]]"
 msgid ""
-"B<--colour> I<screenpart>:[I<foreground>],[I<background>][:I<attr>[I<"
-"+attr>]...]"
+"B<--colour> I<screenpart>:[I<foreground>],[I<background>][:"
+"I<attr>[I<+attr>]...]"
 msgstr ""
 "B<--colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:"
 "attr>[I<+attr+...>]]"
@@ -27920,10 +28009,23 @@ msgstr "指定したアクションが正しく実行された。"
 #, fuzzy
 #| msgid ""
 #| "If set and the B<--admindir> option has not been specified, it will be "
+#| "used as the base administrative directory."
+msgid ""
+"If set and the B<--instdir> or B<--root> options have not been specified, it "
+"will be used as the filesystem root directory (since dpkg 1.21.0)."
+msgstr ""
+"B<--admindir> オプションが指定されていない場合に、この変数が設定されている"
+"と、この値が administrative ディレクトリの起点として使用される。"
+
+#. type: textblock
+#: dselect.pod
+#, fuzzy
+#| msgid ""
+#| "If set and the B<--admindir> option has not been specified, it will be "
 #| "used as the dpkg data directory."
 msgid ""
-"If set and the B<--admindir> option has not been specified, it will be used "
-"as the B<dpkg> database directory (since dpkg 1.21.0)."
+"If set and the B<--admindir> or B<--root> option have not been specified, it "
+"will be used as the B<dpkg> database directory (since dpkg 1.21.0)."
 msgstr ""
 "B<--admindir> オプションが設定されておらず、この変数が設定されている場合、こ"
 "の変数の値が dpkg データディレクトリとして用いられる。"
@@ -29332,7 +29434,9 @@ msgstr ""
 
 #. type: =item
 #: update-alternatives.pod
-msgid "B<--set> I<name path>"
+#, fuzzy
+#| msgid "B<--set> I<name path>"
+msgid "B<--set> I<name> I<path>"
 msgstr "B<--set> I<name path>"
 
 #. type: textblock
@@ -29350,7 +29454,9 @@ msgstr ""
 
 #. type: =item
 #: update-alternatives.pod
-msgid "B<--remove> I<name path>"
+#, fuzzy
+#| msgid "B<--remove> I<name path>"
+msgid "B<--remove> I<name> I<path>"
 msgstr "B<--remove> I<name path>"
 
 #. type: textblock
@@ -29557,7 +29663,8 @@ msgstr "alternatives ディレクトリをデフォルトから変えたいと�
 #| "the default."
 msgid ""
 "Specifies the administrative directory, when this is to be different from "
-"the default.  Defaults to «I<%ADMINDIR%/alternatives>»"
+"the default.  Defaults to «I<%ADMINDIR%/alternatives>» if "
+"B<%ADMINDIR_ENVVAR%> has not been set."
 msgstr "administrative ディレクトリをデフォルトから変えたいときに指定する。"
 
 #. type: textblock
@@ -29568,7 +29675,8 @@ msgstr "administrative ディレクトリをデフォルトから変えたいと
 #| "the default."
 msgid ""
 "Specifies the installation directory where alternatives links will be "
-"created (since version 1.20.1).  Defaults to «»."
+"created (since version 1.20.1).  Defaults to «I</>» if B<%INSTDIR_ENVVAR%> "
+"has not been set."
 msgstr "administrative ディレクトリをデフォルトから変えたいときに指定する。"
 
 #. type: textblock
@@ -29576,7 +29684,7 @@ msgstr "administrative ディレクトリをデフォルトから変えたいと
 msgid ""
 "Specifies the root directory (since version 1.20.1).  This also sets the "
 "alternatives, installation and administrative directories to match.  "
-"Defaults to «»."
+"Defaults to «I</>» if B<%INSTDIR_ENVVAR%> has not been set."
 msgstr ""
 
 #. type: =item
@@ -29661,6 +29769,18 @@ msgid ""
 "Problems were encountered whilst parsing the command line or performing the "
 "action."
 msgstr "コマンドラインの解釈か、アクションの実行時に問題が発生した。"
+
+#. type: =item
+#: update-alternatives.pod
+msgid "B<%INSTDIR_ENVVAR%>"
+msgstr ""
+
+#. type: =item
+#: update-alternatives.pod
+#, fuzzy
+#| msgid "I<%ADMINDIR%/parts>"
+msgid "B<%ADMINDIR_ENVVAR%>"
+msgstr "I<%ADMINDIR%/parts>"
 
 #. type: textblock
 #: update-alternatives.pod
@@ -30030,6 +30150,20 @@ msgstr "B<update-alternatives --auto vi>"
 #| msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgid "B<ln>(1), FHS (the Filesystem Hierarchy Standard)."
 msgstr "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
+
+#~ msgid "B<--list> I<glob-pattern>"
+#~ msgstr "B<--list> I<glob-pattern>"
+
+#, fuzzy
+#~| msgid ""
+#~| "If set and the B<--admindir> option has not been specified, it will be "
+#~| "used as the dpkg data directory."
+#~ msgid ""
+#~ "If set and the B<--admindir> option has not been specified, it will be "
+#~ "used as the B<dpkg> database directory (since dpkg 1.21.0)."
+#~ msgstr ""
+#~ "B<--admindir> オプションが設定されておらず、この変数が設定されている場合、"
+#~ "この変数の値が dpkg データディレクトリとして用いられる。"
 
 #, fuzzy
 #~| msgid "B<Architecture:> I<arch>|B<all>"
@@ -30859,8 +30993,8 @@ msgstr "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 #~ "This setting defines the current vendor.  If not set, it will discover "
 #~ "the current vendor by reading B<\\%%PKGCONFDIR%/origins/default>."
 #~ msgstr ""
-#~ "現在のベンダを定義する設定。設定されていなかった場合、現在のベンダは B<"
-#~ "%CONFDIR%/dpkg/origins/default> から設定される。"
+#~ "現在のベンダを定義する設定。設定されていなかった場合、現在のベンダは "
+#~ "B<%CONFDIR%/dpkg/origins/default> から設定される。"
 
 #, fuzzy
 #~| msgid ""
@@ -31223,10 +31357,10 @@ msgstr "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 #~ msgid ""
 #~ "A version number may start with a \"E<gt>E<gt>\", in which case any later "
 #~ "version will match, and may specify or omit the Debian packaging revision "
-#~ "(separated by a hyphen). Accepted version relationships are \"E<gt>E<gt>"
-#~ "\" for greater than, \"E<lt>E<lt>\" for less than, \"E<gt>=\" for greater "
-#~ "than or equal to, \"E<lt>=\" for less than or equal to, and \"=\" for "
-#~ "equal to."
+#~ "(separated by a hyphen). Accepted version relationships are "
+#~ "\"E<gt>E<gt>\" for greater than, \"E<lt>E<lt>\" for less than, \"E<gt>=\" "
+#~ "for greater than or equal to, \"E<lt>=\" for less than or equal to, and "
+#~ "\"=\" for equal to."
 #~ msgstr ""
 #~ "バージョン番号が \"E<gt>E<gt>\" で始まる場合は、それより新しいバージョンす"
 #~ "べてにマッチする。バージョン番号には、(ハイフンに続けて) Debian パッケージ"
