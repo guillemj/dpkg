@@ -220,6 +220,8 @@ sub check_directory_traversal {
     my ($basedir, $dir) = @_;
 
     my $canon_basedir = realpath($basedir);
+    # On Solaris /dev/null points to /devices/pseudo/mm@0:null.
+    my $canon_devnull = realpath('/dev/null');
     my $check_symlinks = sub {
         my $canon_pathname = realpath($_);
         if (not defined $canon_pathname) {
@@ -227,7 +229,7 @@ sub check_directory_traversal {
 
             syserr(g_("pathname '%s' cannot be canonicalized"), $_);
         }
-        return if $canon_pathname eq '/dev/null';
+        return if $canon_pathname eq $canon_devnull;
         return if $canon_pathname eq $canon_basedir;
         return if $canon_pathname =~ m{^\Q$canon_basedir/\E};
 
