@@ -240,7 +240,7 @@ sub do_extract {
 
     # Extract git bundle.
     info(g_('cloning %s'), $bundle);
-    system('git', 'clone', '--quiet', $dscdir . $bundle, $newdirectory);
+    system('git', 'clone', '--quiet', '--origin=bundle', $dscdir . $bundle, $newdirectory);
     subprocerr('git bundle') if $?;
 
     if (defined $shallow) {
