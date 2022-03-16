@@ -68,6 +68,17 @@ sub _sanity_check {
     return 1;
 }
 
+sub _parse_vcs_git {
+    my $vcs_git = shift;
+    my ($url, $opt, $branch) = split ' ', $vcs_git;
+
+    if (defined $opt && $opt eq '-b' && defined $branch) {
+        return ($url, $branch);
+    } else {
+        return ($url);
+    }
+}
+
 my @module_cmdline = (
     {
         name => '--git-ref=<ref>',
@@ -252,6 +263,18 @@ sub do_extract {
     }
 
     _sanity_check($newdirectory);
+
+    if (defined $fields->{'Vcs-Git'}) {
+        my $remote = 'origin';
+        my ($url, $head) = _parse_vcs_git($fields->{'Vcs-Git'});
+
+        my @git_remote_add = (qw(git -C), $newdirectory, qw(remote add));
+        push @git_remote_add, '-m', $head if defined $head;
+
+        info(g_('setting remote %s to %s'), $remote, $url);
+        system(@git_remote_add, $remote, $url);
+        subprocerr('git remote add') if $?;
+    }
 }
 
 1;
