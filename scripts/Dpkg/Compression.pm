@@ -56,7 +56,7 @@ interact with the set of supported compression methods.
 my $COMP = {
     gzip => {
 	file_ext => 'gz',
-	comp_prog => [ 'gzip', '--no-name' ],
+	comp_prog => [ 'gzip', '-n' ],
 	decomp_prog => [ 'gunzip' ],
 	default_level => 9,
     },
