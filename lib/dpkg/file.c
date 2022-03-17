@@ -49,6 +49,9 @@ file_is_exec(const char *filename)
 	if (stat(filename, &st) < 0)
 		return false;
 
+	if (!S_ISREG(st.st_mode))
+		return false;
+
 	return st.st_mode & 0111;
 }
 
