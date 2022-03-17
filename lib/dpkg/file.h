@@ -48,6 +48,8 @@ struct file_stat {
 	char *gname;
 };
 
+bool file_is_exec(const char *filename);
+
 void file_copy_perms(const char *src, const char *dst);
 
 int

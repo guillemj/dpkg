@@ -37,6 +37,22 @@
 #include <dpkg/file.h>
 
 /**
+ * Check whether a filename is executable.
+ *
+ * @param pathname The filename to check.
+ */
+bool
+file_is_exec(const char *filename)
+{
+	struct stat st;
+
+	if (stat(filename, &st) < 0)
+		return false;
+
+	return st.st_mode & 0111;
+}
+
+/**
  * Copy file ownership and permissions from one file to another.
  *
  * @param src The source filename.
