@@ -83,6 +83,9 @@ find_command(const char *prog)
   const char *path, *path_end;
   size_t path_len;
 
+  if (prog[0] == '/')
+    return file_is_exec(prog);
+
   path_list = getenv("PATH");
   if (!path_list)
     ohshit(_("PATH is not set"));
