@@ -15,9 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+PROGNAME=$(basename "$0")
 ADMINDIR=/var/lib/dpkg
 BACKUPSDIR=/var/backups
 ROTATE=7
+
+PKGDATADIR_DEFAULT=src
+PKGDATADIR="${DPKG_DATADIR:-$PKGDATADIR_DEFAULT}"
+
+# shellcheck source=src/sh/dpkg-error.sh
+. "$PKGDATADIR/sh/dpkg-error.sh"
+
+setup_colors
 
 while [ $# -ne 0 ]; do
   case "$1" in
@@ -26,6 +35,13 @@ while [ $# -ne 0 ]; do
     ;;
   esac
   shift
+done
+
+# Check for required commands availability.
+for cmd in tar savelog; do
+  if ! command -v $cmd >/dev/null; then
+    error "cannot find required program '$cmd'"
+  fi
 done
 
 dbdir="$ADMINDIR"
