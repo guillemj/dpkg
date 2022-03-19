@@ -240,11 +240,7 @@ foreach my $pathname (sort keys %aliased_pathnames) {
 #
 
 if ($opt_prompt) {
-    print "Shadow hierarchy created at '$sroot', ready to proceed (y/N)? ";
-    my $reply = <STDIN>;
-    chomp $reply;
-
-    if ($reply ne 'y' and $reply ne 'yes') {
+    if (!prompt("Shadow hierarchy created at '$sroot', ready to proceed")) {
         print "Aborting migration, shadow hierarchy left in place.\n";
         exit 0;
     }
@@ -537,6 +533,18 @@ sub add_pathname
         debug("adding $origin = $pathname");
         $aliased_pathnames{$pathname} = 1;
     }
+}
+
+sub prompt
+{
+    my $query = shift;
+
+    print "$query (y/N)? ";
+    my $reply = <STDIN>;
+    chomp $reply;
+
+    return 0 if $reply ne 'y' and $reply ne 'yes';
+    return 1;
 }
 
 sub version()
