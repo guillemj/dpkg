@@ -18,6 +18,142 @@ dpkg-deb --info pkg-deb-old-bogus-only-version.deb
 ], [2], [], [dpkg-deb: error: unexpected end of file in archive control member size in pkg-deb-old-bogus-only-version.deb
 ])
 
+DPKG_GEN_CONTROL([pkg-deb-old-format])
+DPKG_MOD_CONTROL([pkg-deb-old-format],
+                 [s/^Description:.*$/& - deb old format support/])
+AT_DATA([pkg-deb-old-format/file-templ], [test
+])
+AT_CHECK([
+# Initialize the template package
+mv pkg-deb-old-format pkg-old-templ
+chmod -R u+w pkg-old-templ
+find pkg-old-templ | xargs touch -t 197001010100.00
+dpkg-deb --deb-format=0.939000 --root-owner-group -Zgzip -b pkg-old-templ >/dev/null
+
+dpkg-deb --fsys-tarfile pkg-old-templ.deb >fsys.tar
+gzip -n fsys.tar
+
+# Create deb-old 0.939
+cp -a pkg-old-templ.deb pkg-old.deb
+
+# Create deb-old-old-old 0.931
+mkdir -p pkg-old-0931-templ/.DEBIAN
+cp -a pkg-old-templ/DEBIAN/* pkg-old-0931-templ/.DEBIAN/
+find pkg-old-0931-templ | xargs touch -t 197001010100.00
+tar czf ctrl-0931.tar.gz --format=gnu --mtime @0 --clamp-mtime --owner root:0 --group root:0 -C pkg-old-0931-templ .DEBIAN
+
+echo '0.931000' >pkg-old-0931.deb
+stat -c '%s' ctrl-0931.tar.gz >>pkg-old-0931.deb
+cat ctrl-0931.tar.gz >>pkg-old-0931.deb
+cat fsys.tar.gz >>pkg-old-0931.deb
+
+# Create deb-old-old template
+mkdir -p pkg-old-0932-templ/DEBIAN
+cp -a pkg-old-templ/DEBIAN/* pkg-old-0932-templ/DEBIAN/
+find pkg-old-0932-templ | xargs touch -t 197001010100.00
+tar czf ctrl-0932.tar.gz --format=gnu --mtime @0 --clamp-mtime --owner root:0 --group root:0 -C pkg-old-0932-templ DEBIAN
+
+# Create deb-old-old 0.932
+echo '0.932000' >pkg-old-0932.deb
+stat -c '%s' ctrl-0932.tar.gz >>pkg-old-0932.deb
+cat ctrl-0932.tar.gz >>pkg-old-0932.deb
+cat fsys.tar.gz >>pkg-old-0932.deb
+
+# Create deb-old-old 0.933
+echo '0.933000' >pkg-old-0933.deb
+stat -c '%s' ctrl-0932.tar.gz >>pkg-old-0933.deb
+cat ctrl-0932.tar.gz >>pkg-old-0933.deb
+cat fsys.tar.gz >>pkg-old-0933.deb
+])
+
+AT_CHECK([
+# Check old package metadata
+dpkg-deb -I pkg-old.deb | $SED -e 's/ *$//'
+], [], [ old Debian package, version 0.939000.
+ size 425 bytes: control archive=277, main archive=135.
+     201 bytes,     7 lines      control
+ Package: pkg-deb-old-format
+ Version: 0.0-1
+ Section: test
+ Priority: extra
+ Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+ Architecture: all
+ Description: test package - deb old format support
+])
+
+AT_CHECK([
+# Check old package metadata
+dpkg-deb -I pkg-old-0931.deb | $SED -e 's/ *$//'
+], [], [ old Debian package, version 0.931000.
+ size 449 bytes: control archive=291, main archive=145.
+     201 bytes,     7 lines      control
+ Package: pkg-deb-old-format
+ Version: 0.0-1
+ Section: test
+ Priority: extra
+ Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+ Architecture: all
+ Description: test package - deb old format support
+])
+
+AT_CHECK([
+# Check old package metadata
+dpkg-deb -I pkg-old-0932.deb | $SED -e 's/ *$//'
+], [], [ old Debian package, version 0.932000.
+ size 449 bytes: control archive=291, main archive=145.
+     201 bytes,     7 lines      control
+ Package: pkg-deb-old-format
+ Version: 0.0-1
+ Section: test
+ Priority: extra
+ Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+ Architecture: all
+ Description: test package - deb old format support
+])
+
+AT_CHECK([
+# Check old package metadata
+dpkg-deb -I pkg-old-0933.deb | $SED -e 's/ *$//'
+], [], [ old Debian package, version 0.933000.
+ size 449 bytes: control archive=291, main archive=145.
+     201 bytes,     7 lines      control
+ Package: pkg-deb-old-format
+ Version: 0.0-1
+ Section: test
+ Priority: extra
+ Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+ Architecture: all
+ Description: test package - deb old format support
+])
+
+AT_CHECK([
+# Check old package contents
+dpkg-deb -c pkg-old.deb
+], [], [drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
+])
+
+AT_CHECK([
+# Check old package contents
+dpkg-deb -c pkg-old-0931.deb
+], [], [drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
+])
+
+AT_CHECK([
+# Check old package contents
+dpkg-deb -c pkg-old-0932.deb
+], [], [drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
+])
+
+AT_CHECK([
+# Check old package contents
+dpkg-deb -c pkg-old-0933.deb
+], [], [drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
+])
+
 AT_CLEANUP
 
 
