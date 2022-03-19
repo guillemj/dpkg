@@ -90,7 +90,7 @@ my $COMP = {
 # Requires GNU gzip >= 1.7 for the --rsyncable option. On AIX GNU gzip is
 # too old. On the BSDs they use their own implementation based on zlib,
 # which does not currently support the --rsyncable option.
-if (any { $Config{osname} eq $_ } qw(linux gnu)) {
+if (any { $Config{osname} eq $_ } qw(linux gnu solaris)) {
     push @{$COMP->{gzip}->{comp_prog}}, '--rsyncable';
 }
 
