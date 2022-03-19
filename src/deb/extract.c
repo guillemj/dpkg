@@ -50,11 +50,13 @@
 
 #include "dpkg-deb.h"
 
-static void movecontrolfiles(const char *thing) {
+static void
+movecontrolfiles(const char *dir, const char *thing)
+{
   char buf[200];
   pid_t pid;
 
-  sprintf(buf, "mv %s/* . && rmdir %s", thing, thing);
+  sprintf(buf, "mv %s/%s/* %s/ && rmdir %s/%s", dir, thing, dir, dir, thing);
   pid = subproc_fork();
   if (pid == 0) {
     command_shell(buf, _("shell command to move files"));
@@ -368,9 +370,9 @@ extracthalf(const char *debar, const char *dir,
       version.minor /= 10;
 
     if (version.minor ==  931)
-      movecontrolfiles(OLDOLDDEBDIR);
+      movecontrolfiles(dir, OLDOLDDEBDIR);
     else if (version.minor == 932 || version.minor == 933)
-      movecontrolfiles(OLDDEBDIR);
+      movecontrolfiles(dir, OLDDEBDIR);
   }
 }
 
