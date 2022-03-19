@@ -185,6 +185,11 @@ extracthalf(const char *debar, const char *dir,
             ohshit(_("archive '%s' uses unknown compression for member '%.*s', "
                      "giving up"),
                    debar, (int)sizeof(arh.ar_name), arh.ar_name);
+
+          if (ctrllennum != 0)
+            ohshit(_("archive '%.250s' contains two control members, giving up"),
+                   debar);
+          ctrllennum = memberlen;
         } else {
           if (adminmember != 1)
             ohshit(_("archive '%s' has premature member '%.*s' before '%s', "
@@ -205,12 +210,6 @@ extracthalf(const char *debar, const char *dir,
                      "giving up"),
                    debar, (int)sizeof(arh.ar_name), arh.ar_name, DATAMEMBER);
           }
-        }
-        if (adminmember == 1) {
-          if (ctrllennum != 0)
-            ohshit(_("archive '%.250s' contains two control members, giving up"),
-                   debar);
-          ctrllennum= memberlen;
         }
         if (!adminmember != !admininfo) {
           if (fd_skip(ar->fd, memberlen + (memberlen & 1), &err) < 0)
