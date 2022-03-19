@@ -38,6 +38,119 @@ DEB_SPLIT_PART_SIZE=214222
 DEB_SPLIT_LAST_LENGTH=183488
 DEB_SPLIT_LAST_SIZE=183694
 
+((DEB_SPLIT_PART_SIZE_VERSION = DEB_SPLIT_PART_SIZE + 2))
+
+AT_CHECK_UNQUOTED([
+# Test debian-split with 2.x version
+cp pkg-split-part.1of10.deb pkg-split-part-version-2x.deb
+ar x pkg-split-part-version-2x.deb debian-split
+sed -e '1c2.999' debian-split >debian-split.new
+mv debian-split.new debian-split
+ar rc pkg-split-part-version-2x.deb debian-split
+ar t pkg-split-part-version-2x.deb
+dpkg-split -I pkg-split-part-version-2x.deb
+], [], [debian-split
+data.1
+pkg-split-part-version-2x.deb:
+    Part format version:            2.999
+    Part of package:                pkg-split
+        ... version:                0.0-1
+        ... architecture:           all
+        ... MD5 checksum:           $DEB_SPLIT_MD5SUM
+        ... length:                 $DEB_SPLIT_LENGTH bytes
+        ... split every:            $DEB_SPLIT_PART_LENGTH bytes
+    Part number:                    1/10
+    Part length:                    $DEB_SPLIT_PART_LENGTH bytes
+    Part offset:                    0 bytes
+    Part file size (used portion):  $DEB_SPLIT_PART_SIZE_VERSION bytes
+
+])
+
+((DEB_SPLIT_PART_SIZE_MAGIC_EXTRA = DEB_SPLIT_PART_SIZE + 10))
+
+AT_CHECK_UNQUOTED([
+# Test debian-split with extra lines
+cp pkg-split-part.1of10.deb pkg-split-part-magic-extra.deb
+ar x pkg-split-part-magic-extra.deb debian-split
+echo "extra line" >>debian-split
+ar rc pkg-split-part-magic-extra.deb debian-split
+ar t pkg-split-part-magic-extra.deb
+dpkg-split -I pkg-split-part-magic-extra.deb
+], [], [debian-split
+data.1
+pkg-split-part-magic-extra.deb:
+    Part format version:            2.1
+    Part of package:                pkg-split
+        ... version:                0.0-1
+        ... architecture:           all
+        ... MD5 checksum:           $DEB_SPLIT_MD5SUM
+        ... length:                 $DEB_SPLIT_LENGTH bytes
+        ... split every:            $DEB_SPLIT_PART_LENGTH bytes
+    Part number:                    1/10
+    Part length:                    $DEB_SPLIT_PART_LENGTH bytes
+    Part offset:                    0 bytes
+    Part file size (used portion):  $DEB_SPLIT_PART_SIZE_MAGIC_EXTRA bytes
+
+])
+
+AT_CHECK([
+# Test missing debian-split
+cp pkg-split-part.1of10.deb pkg-split-part-missing-magic.deb
+ar d pkg-split-part-missing-magic.deb debian-split
+ar t pkg-split-part-missing-magic.deb
+dpkg-split -I pkg-split-part-missing-magic.deb
+], [], [data.1
+file 'pkg-split-part-missing-magic.deb' is not an archive part
+])
+
+AT_CHECK([
+# Test missing data part member
+cp pkg-split-part.1of10.deb pkg-split-part-missing-data.deb
+ar d pkg-split-part-missing-data.deb data.1
+ar t pkg-split-part-missing-data.deb
+dpkg-split -I pkg-split-part-missing-data.deb
+], [2], [debian-split
+], [dpkg-split: error: unexpected end of file in reading data part member ar header in pkg-split-part-missing-data.deb
+])
+
+AT_CHECK([
+# Test duplicate debian-split member
+cp pkg-split-part.1of10.deb pkg-split-part-duplicate-magic.deb
+ar x pkg-split-part-duplicate-magic.deb debian-split
+ar ra debian-split pkg-split-part-duplicate-magic.deb debian-split debian-split
+ar t pkg-split-part-duplicate-magic.deb
+dpkg-split -I pkg-split-part-duplicate-magic.deb
+], [2], [debian-split
+debian-split
+data.1
+], [dpkg-split: error: file 'pkg-split-part-duplicate-magic.deb' is corrupt - second member is not data member
+])
+
+AT_CHECK_UNQUOTED([
+# Test unknown extra member
+cp pkg-split-part.1of10.deb pkg-split-part-extra-member.deb
+echo "some content" >unknown
+ar q pkg-split-part-extra-member.deb unknown
+ar t pkg-split-part-extra-member.deb
+dpkg-split -I pkg-split-part-extra-member.deb
+], [], [debian-split
+data.1
+unknown
+pkg-split-part-extra-member.deb:
+    Part format version:            2.1
+    Part of package:                pkg-split
+        ... version:                0.0-1
+        ... architecture:           all
+        ... MD5 checksum:           $DEB_SPLIT_MD5SUM
+        ... length:                 $DEB_SPLIT_LENGTH bytes
+        ... split every:            $DEB_SPLIT_PART_LENGTH bytes
+    Part number:                    1/10
+    Part length:                    $DEB_SPLIT_PART_LENGTH bytes
+    Part offset:                    0 bytes
+    Part file size (used portion):  $DEB_SPLIT_PART_SIZE bytes
+
+])
+
 AT_CHECK_UNQUOTED([
 # Test getting information about the split parts (parsing verification)
 dpkg-split -I pkg-split-part.1of10.deb
