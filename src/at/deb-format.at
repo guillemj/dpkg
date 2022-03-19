@@ -131,6 +131,32 @@ control.tar
 ])
 
 AT_CHECK([
+# Test duplicate debian-binary member
+cp pkg-templ.deb pkg-duplicate-magic.deb
+ar ra debian-binary pkg-duplicate-magic.deb debian-binary debian-binary
+ar t pkg-duplicate-magic.deb
+dpkg-deb -I pkg-duplicate-magic.deb
+], [2], [debian-binary
+debian-binary
+control.tar
+data.tar
+], [dpkg-deb: error: archive 'pkg-duplicate-magic.deb' has premature member 'debian-binary' before 'control.tar', giving up
+])
+
+AT_CHECK([
+# Test duplicate control member
+cp pkg-templ.deb pkg-duplicate-control.deb
+ar ra control.tar pkg-duplicate-control.deb control.tar control.tar
+ar t pkg-duplicate-control.deb
+dpkg-deb -c pkg-duplicate-control.deb
+], [2], [debian-binary
+control.tar
+control.tar
+data.tar
+], [dpkg-deb: error: archive 'pkg-duplicate-control.deb' contains two control members, giving up
+])
+
+AT_CHECK([
 # Test mixed member (index 1)
 cp pkg-templ.deb pkg-mixed-1-member.deb
 ar ra debian-binary pkg-mixed-1-member.deb unknown
