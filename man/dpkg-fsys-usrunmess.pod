@@ -46,7 +46,8 @@ Check for dpkg database consistency and otherwise abort.
 
 =item *
 
-Generate and install a regression prevention package.
+Generate and install a regression prevention package, if requested on the
+command-line or otherwise on the prompt.
 
 =item *
 
@@ -131,6 +132,17 @@ and consider doing backups beforehand.
 
 Prompt at the time of no return, so that the debug output or the shadow
 hierarchy can be evaluated before proceeding.
+
+=item B<--prevention>
+
+=item B<--no-prevention>
+
+Enables or disables generating and installing a regression prevention package
+into the system.
+If no option has been specified, the action to take will be prompted.
+
+The generated package contains the B<Protected> field set to B<yes> to
+protect against accidental removal of the package.
 
 =item B<-n>, B<--no-act>
 
