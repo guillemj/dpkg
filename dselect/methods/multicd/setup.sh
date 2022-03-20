@@ -102,9 +102,7 @@ getblockdev () {
       loop=",loop"
     fi
     tryblockdevice="$response"
-    if [ $option = multi_cd ]; then
-      fstype=iso9660
-    fi
+    fstype=iso9660
     umount="$mountpoint"
     if mount -rt "$fstype" -o nosuid,nodev$loop "$tryblockdevice" "$mountpoint"
     then
@@ -151,70 +149,61 @@ if [ -f shvar.$option ]; then
   usedevel="$p_usedevel"
 fi
 
-if [ $option = multi_cd ]; then
-  mount >$tp.m
-  sed -n 's/ ([^)]*)$//; s/^[^ ]* on //; s/ type iso9660$//p' <$tp.m >$tp.l
-  ncdroms=$(wc -l <$tp.l)
-  if [ $ncdroms -gt 1 ]; then
-    response=""
-    while [ -z "$response" ]; do
-      echo 'Several CD-ROMs (or other ISO9660 filesystems) are mounted:'
-      grep -E 'type iso9660 \([^)]*\)$' <$tp.m | nl
-      echo -n "Is it any of these ?  Type a number, or 'n' for none.  "
+mount >$tp.m
+sed -n 's/ ([^)]*)$//; s/^[^ ]* on //; s/ type iso9660$//p' <$tp.m >$tp.l
+ncdroms=$(wc -l <$tp.l)
+if [ $ncdroms -gt 1 ]; then
+  response=""
+  while [ -z "$response" ]; do
+    echo 'Several CD-ROMs (or other ISO9660 filesystems) are mounted:'
+    grep -E 'type iso9660 \([^)]*\)$' <$tp.m | nl
+    echo -n "Is it any of these ?  Type a number, or 'n' for none.  "
+    read response
+    response="$(echo \"$response\" | sed -e 's/[ 	]*$//')"
+    if expr "$response" : '[0-9][0-9]*$' >/dev/null && \
+       [ $response -ge 1 -a $response -le $ncdroms ]; then
+             mountpoint="$(sed -n $response'p' <$tp.l)"
+      echo
+    elif expr "$response" : '[Nn]' >/dev/null; then
+      mountpoint=""
+    else
+      response=""
+    fi
+  done
+elif [ $ncdroms = 1 ]; then
+  mountpoint="$(cat $tp.l)"
+  perl -ne 'print if s/ type iso9660 \([^)]*\)$// && s/ on .*$//;' \
+    <$tp.m >$tp.d
+  blockdevice="$(cat $tp.d)"
+  yesno yes \
+    "Found a CD-ROM: $blockdevice, mounted on $mountpoint. Is it the right one?"
+  if [ $yesno = no ]; then
+    echo 'Unmounting it ...'
+    umount="$mountpoint"
+    while true; do
+      echo -n 'Please insert the right disc, and hit return:  '
       read response
-      response="$(echo \"$response\" | sed -e 's/[ 	]*$//')"
-      if expr "$response" : '[0-9][0-9]*$' >/dev/null && \
-         [ $response -ge 1 -a $response -le $ncdroms ]; then
-               mountpoint="$(sed -n $response'p' <$tp.l)"
+      if mount -rt iso9660 -o nosuid,nodev \
+         "$blockdevice" "$mountpoint"; then
         echo
-      elif expr "$response" : '[Nn]' >/dev/null; then
-        mountpoint=""
-      else
-        response=""
+        break
       fi
     done
-  elif [ $ncdroms = 1 ]; then
-    mountpoint="$(cat $tp.l)"
-    perl -ne 'print if s/ type iso9660 \([^)]*\)$// && s/ on .*$//;' \
-      <$tp.m >$tp.d
-    blockdevice="$(cat $tp.d)"
-    yesno yes \
-      "Found a CD-ROM: $blockdevice, mounted on $mountpoint. Is it the right one?"
-    if [ $yesno = no ]; then
-      echo 'Unmounting it ...'
-      umount="$mountpoint"
-      while true; do
-        echo -n 'Please insert the right disc, and hit return:  '
-        read response
-        if mount -rt iso9660 -o nosuid,nodev \
-           "$blockdevice" "$mountpoint"; then
-          echo
-          break
-        fi
-      done
-    fi
   fi
-  if [ -z "$mountpoint" ]; then
-    if [ -b /dev/cdrom ]; then
-      echo 'Found that /dev/cdrom exists and is a block device.'
-      newdefaultdevice=/dev/cdrom
-    fi
-    getblockdev 'Insert the CD-ROM and enter the block device name'
+fi
+if [ -z "$mountpoint" ]; then
+  if [ -b /dev/cdrom ]; then
+    echo 'Found that /dev/cdrom exists and is a block device.'
+    newdefaultdevice=/dev/cdrom
   fi
+  getblockdev 'Insert the CD-ROM and enter the block device name'
 fi
 
 if [ -n "$mountpoint" ]; then
   # We must have $mountpoint
-  if [ $option = multi_cd ]; then
-    echo \
+  echo \
 'All directory names should be entered relative to the root of the CD-ROM.
 '
-  else
-    echo \
-"All directory names should be entered relative to the root of the
-$fstype filesystem on $blockdevice.
-"
-  fi
 fi
 
 # now try to get the users idea where the debian
@@ -226,24 +215,13 @@ while true; do
     multi=yes
   fi
 
-  if [ $option = multi_cd ]; then
-    echo \
+  echo \
 "Need to know where on the CD-ROM the top level of the Debian
 distribution is - this will usually contain the 'dists' directory.
 
 If the CD-ROM is badly organized and doesn't have a straightforward copy of
 the distribution you may answer 'none' and the needed parts will be prompted
 individually."
-  else
-    echo \
-"In order to make it easy to find the relevant files, it is preferred
-to install from a straightforward copy of the Debian distribution.
-To use this, it is required to know where the top level of that copy of the
-distribution is - this directory usually contains the Packages-Master file.
-
-If you do not have a straightforward copy of the distribution available
-just answer 'none' and the needed parts will be prompted individually."
-  fi
 
   defhierbase=none
   if [ -n "$p_hierbase" ]; then
@@ -376,7 +354,7 @@ find_area () {
     check_binary $1 $(echo "$hierbase/dists/$3/$1/binary-$iarch" | sed 's:/\+:/:g')
     debug "THIS_BINARY $this_binary"
   fi
-  if [ $option = multi_cd -a $2 = nf -a -z "$this_binary" ]; then
+  if [ $2 = nf -a -z "$this_binary" ]; then
     echo "
 Note: most CD-ROM distributions of Debian do not include programs
 available in the 'non-free' directory of the distribution site.
