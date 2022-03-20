@@ -133,7 +133,7 @@ since '$p_hierbase/main/binary-$iarch' doesn't seem to exist."
     hierbase=""
     break
   elif [ -d "$mountpoint/$response/main/binary-$iarch" ]; then
-    hierbase="$(echo \"$response\" | sed -e 's:/*$::; s:^/*:/:')"
+    hierbase="$(echo "$response" | sed -e 's:/*$::; s:^/*:/:')"
     break
   fi
   echo \
@@ -210,7 +210,7 @@ Say 'none' if this area is not available."
       continue
       ;;
     esac
-    check_binary $1 "$(echo \"$response\" | sed -e 's:/$::; s:^/*:/:')"
+    check_binary $1 "$(echo "$response" | sed -e 's:/$::; s:^/*:/:')"
   done
   if [ -n "$this_binary" ]; then
     for f in Packages.gz packages.gz Packages packages; do

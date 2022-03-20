@@ -159,7 +159,7 @@ if [ $ncdroms -gt 1 ]; then
     grep -E 'type iso9660 \([^)]*\)$' <$tp.m | nl
     echo -n "Is it any of these ?  Type a number, or 'n' for none.  "
     read response
-    response="$(echo \"$response\" | sed -e 's/[ 	]*$//')"
+    response="$(echo "$response" | sed -e 's/[ 	]*$//')"
     if expr "$response" : '[0-9][0-9]*$' >/dev/null && \
        [ $response -ge 1 -a $response -le $ncdroms ]; then
              mountpoint="$(sed -n $response'p' <$tp.l)"
@@ -266,7 +266,7 @@ nor are you using a multiple media set"
     break
   fi
 
-  hierbase="$(echo \"$response\" | sed -e 's:/$::; s:^/*:/:; s:/\+:/:g;')"
+  hierbase="$(echo "$response" | sed -e 's:/$::; s:^/*:/:; s:/\+:/:g;')"
   debug "hierbase: [$hierbase]"
 
   if [ -n "$multi" ]; then
@@ -387,7 +387,7 @@ Say 'none' if this area is not available."
       continue
       ;;
     esac
-    check_binary $1 "$(echo \"$response\" | sed -e 's:/$::; s:^/*:/:')"
+    check_binary $1 "$(echo "$response" | sed -e 's:/$::; s:^/*:/:')"
   done
   if [ -n "$this_binary" ]; then
     if [ "$multi" = "yes" ]; then
