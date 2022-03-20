@@ -26,9 +26,6 @@ iarch=$(dpkg --admindir $vardir --print-architecture)
 xit=1
 trap '
   rm -f $tp.?
-  if [ -n "$umount" ]; then
-    umount "$umount" >/dev/null 2>&1
-  fi
   exit $xit
 ' 0
 
@@ -76,23 +73,18 @@ If you make a mistake, use the interrupt key ($intrkey) to abort.
 #   The mountpoint for the filesystem containing the stuff
 #   empty or unset if we don't know yet, or if we haven't mounted anything;
 #   may also be empty if ‘directory’ was set.
-#  blockdevice
-#   The actual block device to mount.
 #  fstype
 #   The filesystem type to use.
-#  defaultdevice
-#   The default block device to mount.
 
 if [ -f shvar.$option ]; then
   . ./shvar.$option
-  defaultdevice="$p_blockdev"
 fi
 
 if [ -n "$mountpoint" ]; then
   # We must have $mountpoint
   echo \
 "All directory names should be entered relative to the root of the
-$fstype filesystem on $blockdevice.
+$fstype filesystem.
 "
 fi
 
@@ -285,7 +277,6 @@ read response
 
 exec 3>shvar.$option.new
 
-outputparam p_blockdev "$blockdevice"
 outputparam p_fstype "$fstype"
 outputparam p_mountpoint "$mountpoint"
 outputparam p_hierbase "$hierbase"

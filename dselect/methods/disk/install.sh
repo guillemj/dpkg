@@ -24,16 +24,8 @@ cd "$vardir/methods/disk"
 
 xit=1
 trap '
-  if [ -n "$umount" ]; then
-    umount "$umount" >/dev/null 2>&1
-  fi
   exit $xit
 ' 0
-
-if [ -n "$p_blockdev" ]; then
-  umount="$p_mountpoint"
-  mount -rt "$p_fstype" -o nosuid,nodev "$p_blockdev" "$p_mountpoint"
-fi
 
 predep="$vardir/predep-package"
 while true; do
