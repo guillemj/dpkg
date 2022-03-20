@@ -155,7 +155,7 @@ ncdroms=$(wc -l <$tp.l)
 if [ $ncdroms -gt 1 ]; then
   response=""
   while [ -z "$response" ]; do
-    echo 'Several CD-ROMs (or other ISO9660 filesystems) are mounted:'
+    echo 'Several media discs (ISO9660 filesystems) are mounted:'
     grep -E 'type iso9660 \([^)]*\)$' <$tp.m | nl
     echo -n "Is it any of these ?  Type a number, or 'n' for none.  "
     read response
@@ -176,7 +176,7 @@ elif [ $ncdroms = 1 ]; then
     <$tp.m >$tp.d
   blockdevice="$(cat $tp.d)"
   yesno yes \
-    "Found a CD-ROM: $blockdevice, mounted on $mountpoint. Is it the right one?"
+    "Found a media disc: $blockdevice, mounted on $mountpoint. Is it the right one?"
   if [ $yesno = no ]; then
     echo 'Unmounting it ...'
     umount="$mountpoint"
@@ -196,13 +196,13 @@ if [ -z "$mountpoint" ]; then
     echo 'Found that /dev/cdrom exists and is a block device.'
     newdefaultdevice=/dev/cdrom
   fi
-  getblockdev 'Insert the CD-ROM and enter the block device name'
+  getblockdev 'Insert the media and enter the block device name'
 fi
 
 if [ -n "$mountpoint" ]; then
   # We must have $mountpoint
   echo \
-'All directory names should be entered relative to the root of the CD-ROM.
+'All directory names should be entered relative to the root of the media disc.
 '
 fi
 
@@ -216,10 +216,10 @@ while true; do
   fi
 
   echo \
-"Need to know where on the CD-ROM the top level of the Debian
+"Need to know where on the media disc the top level of the Debian
 distribution is - this will usually contain the 'dists' directory.
 
-If the CD-ROM is badly organized and doesn't have a straightforward copy of
+If the media disc is badly organized and doesn't have a straightforward copy of
 the distribution you may answer 'none' and the needed parts will be prompted
 individually."
 
@@ -233,12 +233,12 @@ individually."
       echo "
 Last time you said '$p_hierbase', but that doesn't look plausible,
 since '$p_hierbase/dists/$dist/main/binary-$iarch' doesn't seem to exist.
-And it does not appear that you're using a multi-CD set."
+And it does not appear that you are using a multiple media set."
     fi
   fi
 
   # at this point defhierbase is set if it looks plausible
-  # if ‘none’ was entered, we assume a CD with a debian/ directory
+  # if ‘none’ was entered, we assume a media with a debian/ directory
 
   if [ none = "$defhierbase" -a -d "$mountpoint/debian/dists/$dist/main/binary-$iarch" ]
   then
@@ -262,7 +262,7 @@ And it does not appear that you're using a multi-CD set."
          -o -n "$multi" ]; then
     echo \
 "Neither $response/dists/$dist/main/binary-$iarch does not exist,
-nor are you using a multi-CD set"
+nor are you using a multiple media set"
     break
   fi
 
@@ -273,7 +273,7 @@ nor are you using a multi-CD set"
     disklabel=$(getdisklabel "$mountpoint" "/$response")
     echo "Ok, this is disc"
     echo "    $disklabel"
-    #echo "Updating multi CD contents file cache ..."
+    #echo "Updating multiple media contents file cache ..."
     #multi_contentsfile="${mountpoint}/${response}/.disk/contents.gz"
     #zcat "$multi_contentsfile" > disk-contents.$option
   fi
@@ -321,7 +321,7 @@ check_binary () {
   fi
 
 # In this special case it is ok for a sub-distribution to not contain any
-# .deb files.  Each CD should contain all Packages.cd files but doesn't
+# .deb files. Each media should contain all Packages.cd files but does not
 # need to contain the .deb files.
 #
 #   if ! { find -L "$mountpoint$2" -name '*.deb' -print \
@@ -356,10 +356,10 @@ find_area () {
   fi
   if [ $2 = nf -a -z "$this_binary" ]; then
     echo "
-Note: most CD-ROM distributions of Debian do not include programs
+Note: most media distributions of Debian do not include programs
 available in the 'non-free' directory of the distribution site.
 This is because these programs have copyrights that prevent
-distribution for profit on a CD-ROM - ie they are not free software.
+distribution for profit on a media - ie they are not free software.
 If you wish to install these programs you'll have to get them from an
 alternative source."
   fi
@@ -412,7 +412,7 @@ If you overlooked it when downloading you should do get it now and
 return to this installation procedure when you have done so: you will
 find one Packages.cd file and one Packages.cd.gz file -- either will do --
 in the 'binary' subdirectory of each area on the FTP sites and
-CD-ROMs. Alternatively (and this will be rather slow) the packages in
+media discs. Alternatively (and this will be rather slow) the packages in
 the distribution area can be scanned - say 'scan' if you want to do so.
 
 You need a separate Packages.cd file from each of the distribution areas

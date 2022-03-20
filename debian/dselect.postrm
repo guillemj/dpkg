@@ -8,7 +8,7 @@ purge_state() {
   admindir=${DPKG_ADMINDIR:-/var/lib/dpkg}
 
   rm -f $admindir/cmethopt 2>/dev/null
-  for method in disk ftp mnt multicd; do
+  for method in disk ftp mnt media; do
     rm -rf $admindir/methods/$method/* 2>/dev/null
   done
 }

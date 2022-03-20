@@ -80,7 +80,7 @@ Options:
   -m, --multiversion       allow multiple versions of a single package.
   -e, --extra-override <file>
                            use extra override file.
-  -M, --medium <medium>    add X-Medium field for dselect multicd access method
+  -M, --medium <medium>    add X-Medium field for dselect media access method
   -?, --help               show this help message.
       --version            show the version.
 "), $Dpkg::PROGNAME;

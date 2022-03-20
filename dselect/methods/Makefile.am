@@ -7,8 +7,8 @@ nobase_dist_methods_DATA = \
 	disk/desc.mounted \
 	ftp/names \
 	ftp/desc.ftp \
-	multicd/names \
-	multicd/desc.multi_cd \
+	media/names \
+	media/desc.media \
 	# EOL
 
 nobase_methods_SCRIPTS = \
@@ -18,9 +18,9 @@ nobase_methods_SCRIPTS = \
 	ftp/install \
 	ftp/setup \
 	ftp/update \
-	multicd/install \
-	multicd/setup \
-	multicd/update \
+	media/install \
+	media/setup \
+	media/update \
 	# EOL
 
 perllibdir = $(PERL_LIBDIR)
@@ -35,10 +35,10 @@ EXTRA_DIST = \
 	ftp/setup.pl \
 	ftp/update.pl \
 	ftp/install.pl \
-	multicd/setup.sh \
-	multicd/update.sh \
-	multicd/install.sh \
-	multicd/README.multicd \
+	media/setup.sh \
+	media/update.sh \
+	media/install.sh \
+	media/README.media \
 	# EOL
 
 CLEANFILES = \
@@ -53,4 +53,4 @@ install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/mnt
 	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/disk
 	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/ftp
-	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/multicd
+	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/media

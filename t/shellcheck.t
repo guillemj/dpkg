@@ -27,9 +27,9 @@ my @todofiles = qw(
     dselect/methods/disk/install.sh
     dselect/methods/disk/setup.sh
     dselect/methods/disk/update.sh
-    dselect/methods/multicd/install.sh
-    dselect/methods/multicd/setup.sh
-    dselect/methods/multicd/update.sh
+    dselect/methods/media/install.sh
+    dselect/methods/media/setup.sh
+    dselect/methods/media/update.sh
 );
 my @files = qw(
     autogen
