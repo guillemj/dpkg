@@ -18,7 +18,7 @@ vardir="$1"
 method=$2
 option=$3
 
-cd "$vardir/methods/disk"
+cd "$vardir/methods/file"
 
 . ./shvar.$option
 

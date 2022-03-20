@@ -18,7 +18,7 @@ vardir="$1"
 method=$2
 option=$3
 
-cd "$vardir/methods/disk"
+cd "$vardir/methods/file"
 tp="$(mktemp --tmpdir $method.XXXXXXXXXX)"
 
 iarch=$(dpkg --admindir $vardir --print-architecture)
