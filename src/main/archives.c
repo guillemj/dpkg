@@ -280,13 +280,13 @@ static void
 tarobject_skip_padding(struct tarcontext *tc, struct tar_entry *te)
 {
   struct dpkg_error err;
-  size_t r;
+  size_t remainder;
 
-  r = te->size % TARBLKSZ;
-  if (r == 0)
+  remainder = te->size % TARBLKSZ;
+  if (remainder == 0)
     return;
 
-  if (fd_skip(tc->backendpipe, TARBLKSZ - r, &err) < 0)
+  if (fd_skip(tc->backendpipe, TARBLKSZ - remainder, &err) < 0)
     ohshit(_("cannot skip padding for file '%.255s': %s"), te->name, err.str);
 }
 
