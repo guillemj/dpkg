@@ -27,6 +27,7 @@ use Dpkg::Changelog::Debian;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Version;
+use Dpkg::Vendor qw(run_vendor_hook);
 
 textdomain('dpkg-dev');
 
@@ -88,6 +89,8 @@ my @options_spec = (
     local $SIG{__WARN__} = sub { usageerr($_[0]) };
     GetOptions(@options_spec);
 }
+
+my $backport_version_regex = run_vendor_hook('backport-version-regex');
 
 my ($old, $new_a, $new_b, $out_file) = @ARGV;
 unless (defined $old and defined $new_a and defined $new_b)
@@ -196,8 +199,10 @@ sub compare_versions {
                     $b->get_distributions() eq 'UNRELEASED';
     }
     # Backports are not real prereleases.
-    $av =~ s/~(bpo|deb)/+$1/;
-    $bv =~ s/~(bpo|deb)/+$1/;
+    if (defined $backport_version_regex) {
+        $a =~ s/$backport_version_regex/+$1/;
+        $b =~ s/$backport_version_regex/+$1/;
+    }
     if ($merge_prereleases) {
         $av =~ s/~[^~]*$//;
         $bv =~ s/~[^~]*$//;
