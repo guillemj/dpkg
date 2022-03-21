@@ -50,6 +50,7 @@ OpenPGP
 RCS
 XDG
 archqual
+backport
 buildinfo
 bzip2
 canonicalized
@@ -66,8 +67,10 @@ dpkg-buildpackage
 dpkg-checkbuilddeps
 dpkg-dev
 dpkg-genbuildinfo
+dpkg-genchanges
 dpkg-gencontrol
 dpkg-parsechangelog
+dpkg-mergechangelog
 dsc
 dup'ed
 env
