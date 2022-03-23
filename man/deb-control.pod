@@ -388,6 +388,18 @@ Note that the archive maintenance software is likely to refuse to accept an
 upload which declares a B<Built-Using> relationship which cannot be satisfied
 within the archive.
 
+=item B<Static-Built-Using:> I<package-list>
+
+This dependency field lists extra source packages that were used during the
+build of this binary package, for static building purposes.
+This is useful to track whether this package might need to be rebuilt when
+source packages listed here have been updated, for example due to security
+updates.
+This field must be a comma-separated list of source package names with strict
+‘B<=>’ version relationships enclosed within parenthesis.
+
+Supported since dpkg 1.21.3.
+
 =item B<Built-For-Profiles:> I<profile-list> (obsolete)
 
 This field used to specify a whitespace separated list of build profiles that

@@ -340,7 +340,7 @@ our %FIELDS = (
         allowed => CTRL_FILE_BUILDINFO,
         separator => FIELD_SEP_COMMA,
         dependency => 'union',
-        dep_order => 11,
+        dep_order => 12,
     },
     'installed-size' => {
         name => 'Installed-Size',
@@ -480,6 +480,13 @@ our %FIELDS = (
     'standards-version' => {
         name => 'Standards-Version',
         allowed => ALL_SRC,
+    },
+    'static-built-using' => {
+        name => 'Static-Built-Using',
+        allowed => ALL_PKG,
+        separator => FIELD_SEP_COMMA,
+        dependency => 'union',
+        dep_order => 11,
     },
     'status' => {
         name => 'Status',
@@ -650,6 +657,7 @@ my @bin_dep_fields = qw(
     replaces
     provides
     built-using
+    static-built-using
 );
 
 my @src_test_fields = qw(
@@ -748,6 +756,7 @@ our %FIELD_ORDER = (
             source
             version
             built-using
+            static-built-using
             kernel-version
             built-for-profiles
             auto-built-package
@@ -808,6 +817,7 @@ our %FIELD_ORDER = (
             source
             version
             built-using
+            static-built-using
             kernel-version
             built-for-profiles
             auto-built-package
@@ -988,6 +998,7 @@ our %FIELD_ORDER = (
             build-essential
             built-for-profiles
             built-using
+            static-built-using
             homepage
             installer-menu-item
             kernel-version
