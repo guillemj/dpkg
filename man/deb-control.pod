@@ -378,15 +378,15 @@ syntax as above (honored since dpkg 1.17.11).
 
 =item B<Built-Using:> I<package-list>
 
-This field lists extra source packages that were used during the build of this
-binary package.  This is an indication to the archive maintenance software that
-these extra source packages must be kept whilst this binary package is
-maintained.
-This field must be a list of source package names with strict ‘B<=>’
-version relationships.  Note that the archive maintenance software is likely to
-refuse to accept an upload which declares a
-B<Built-Using>
-relationship which cannot be satisfied within the archive.
+This dependency field lists extra source packages that were used during the
+build of this binary package, for license compliance purposes.
+This is an indication to the archive maintenance software that these extra
+source packages must be kept whilst this binary package is maintained.
+This field must be a comma-separated list of source package names with strict
+‘B<=>’ version relationships enclosed within parenthesis.
+Note that the archive maintenance software is likely to refuse to accept an
+upload which declares a B<Built-Using> relationship which cannot be satisfied
+within the archive.
 
 =item B<Built-For-Profiles:> I<profile-list> (obsolete)
 
