@@ -1,8 +1,54 @@
-dpkg (1.21.3) UNRELEASED; urgency=medium
+dpkg (1.21.3) unstable; urgency=medium
 
-  *
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+    - Update German scripts translation.
 
- -- Guillem Jover <guillem@debian.org>  Sun, 13 Mar 2022 20:58:52 +0100
+  [ Guillem Jover ]
+  * dpkg-db-backup: Check for required commands before starting.
+  * dpkg: Allow absolute pathnames for configurable external run-time tools.
+    Based on a patch by Adrian Ho <the.gromgit@gmail.com>. Closes: #1007816
+  * dpkg-fsys-usrunmess: Add options and prompt about regression prevention
+    package. Prompted by Paul Wise <pabs@debian.org>.
+  * dpkg-deb: Move duped control member check inside the detection conditional.
+  * dpkg-deb: Fix movecontrol() to take a directory argument.
+  * dselect: Remove non-multi-cd code from multi_cd method.
+  * dselect: Rename multicd method to media.
+  * dselect: Remove left overs for mount support from disk method.
+  * dselect: Remove bogus quote escaping from method setup scripts.
+  * dselect: Rename disk method to file.
+  * scripts: Use backport-version-regex vendor hook instead of hardcoding the
+    marker.
+  * Perl modules:
+    - Dpkg::Source::Package::V3::Git: Name bundle remote as bundle.
+    - Dpkg::Source::Package::V3::Git: Set origin remote to Vcs-Git if present.
+    - Dpkg::Path: Resolve /dev/null before comparing canonicalized pathnames.
+    - Dpkg::Compression: Conditionally use the gzip --rsyncable option.
+    - Dpkg::Compression: Use gzip -n instead of --no-name.
+    - Dpkg::Vendor: Add a new backport-version-regex hook.
+    - Dpkg::Control::Fields: Add Static-Built-Using field support.
+  * Documentation:
+    - man: Clarify Built-Using field purpose and format.
+  * Code internals:
+    - libdpkg: Refactor file_is_exec().
+    - libdpkg: Check that executables are regular files.
+    - dpkg-fsys-usrunmess: Refactor prompting into a new function.
+    - dpkg: Rename r variable to remainder.
+  * Packaging:
+    - Clarify the merged-usr-via-aliased-dirs warning.
+      Prompted by Paul Wise <pabs@debian.org>.
+    - Sync original bug-script merged-usr warning with postinst updates.
+  * Test suite:
+    - Check deb format with duplicate debian-binary and control.tar members.
+    - Add further deb-split format checks.
+    - Place deb-old and deb checks on their own test groups.
+    - Check all currently supported deb-old formats.
+  * Localization:
+    - Update Portuguese man pages translation.
+      Thanks to Américo Monteiro <a_monteiro@gmx.com>. Closes: #1001915
+
+ -- Guillem Jover <guillem@debian.org>  Thu, 24 Mar 2022 21:00:24 +0100
 
 dpkg (1.21.2) unstable; urgency=medium
 
