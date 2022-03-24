@@ -14,8 +14,9 @@ check_merged_usr_via_aliased_dirs()
   for d in /bin /sbin /lib /lib32 /libo32 /libx32 /lib64; do
     linkname="$(readlink $DPKG_ROOT$d || true)"
     if [ "$linkname" = "usr$d" ] || [ "$linkname" = "/usr$d" ]; then
-      warning "System unsupported by dpkg due to merged-usr-via-aliased-dirs."
-      warning "This can imply silent file overwrites and disappearances, and tools misbehavior."
+      warning "This system uses merged-usr-via-aliased-dirs, going behind dpkg's"
+      warning "back, breaking its core assumptions. This can cause silent file"
+      warning "overwrites and disappearances, and its general tools misbehavior."
       warning "See <https://wiki.debian.org/Teams/Dpkg/FAQ#broken-usrmerge>."
       break
     fi
