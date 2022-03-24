@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.15.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-03-13 20:17+0100\n"
+"POT-Creation-Date: 2022-03-24 21:00+0100\n"
 "PO-Revision-Date: 2021-04-08 04:43+0200\n"
 "Last-Translator: Michał Kułach <michal.kulach@gmail.com>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
@@ -2226,13 +2226,14 @@ msgstr "B<Built-Using:> I<lista-pakietów>"
 #| "declares a B<Built-Using> relationship which cannot be satisfied within "
 #| "the archive."
 msgid ""
-"This field lists extra source packages that were used during the build of "
-"this binary package.  This is an indication to the archive maintenance "
-"software that these extra source packages must be kept whilst this binary "
-"package is maintained.  This field must be a list of source package names "
-"with strict ‘B<=>’ version relationships.  Note that the archive maintenance "
-"software is likely to refuse to accept an upload which declares a B<Built-"
-"Using> relationship which cannot be satisfied within the archive."
+"This dependency field lists extra source packages that were used during the "
+"build of this binary package, for license compliance purposes.  This is an "
+"indication to the archive maintenance software that these extra source "
+"packages must be kept whilst this binary package is maintained.  This field "
+"must be a comma-separated list of source package names with strict ‘B<=>’ "
+"version relationships enclosed within parenthesis.  Note that the archive "
+"maintenance software is likely to refuse to accept an upload which declares "
+"a B<Built-Using> relationship which cannot be satisfied within the archive."
 msgstr ""
 "Pola zawierają dodatkowe pakiety źródłowe, które zostały użyte podczas "
 "budowania danego pakietu źródłowego. Jest to wskazówka do oprogramowania "
@@ -2241,6 +2242,48 @@ msgstr ""
 "wskazaniami wersji. Proszę zauważyć, że oprogramowanie zarządzające archiwum "
 "może odmówić zaakceptowania pakietu, który deklaruje zależności B<Built-"
 "Using>, które nie mogą zostać spełnione wewnątrz archiwum."
+
+#. type: =item
+#: deb-control.pod deb-src-control.pod
+#, fuzzy
+#| msgid "B<Built-Using:> I<package-list>"
+msgid "B<Static-Built-Using:> I<package-list>"
+msgstr "B<Built-Using:> I<lista-pakietów>"
+
+#. type: textblock
+#: deb-control.pod
+#, fuzzy
+#| msgid ""
+#| "This field lists extra source packages that were used during the build of "
+#| "this binary package.  This is an indication to the archive maintenance "
+#| "software that these extra source packages must be kept whilst this binary "
+#| "package is maintained.  This field must be a list of source package names "
+#| "with strict (=)  version relationships.  Note that the archive "
+#| "maintenance software is likely to refuse to accept an upload which "
+#| "declares a B<Built-Using> relationship which cannot be satisfied within "
+#| "the archive."
+msgid ""
+"This dependency field lists extra source packages that were used during the "
+"build of this binary package, for static building purposes.  This is useful "
+"to track whether this package might need to be rebuilt when source packages "
+"listed here have been updated, for example due to security updates.  This "
+"field must be a comma-separated list of source package names with strict "
+"‘B<=>’ version relationships enclosed within parenthesis."
+msgstr ""
+"Pola zawierają dodatkowe pakiety źródłowe, które zostały użyte podczas "
+"budowania danego pakietu źródłowego. Jest to wskazówka do oprogramowania "
+"zarządzającego archiwum, że muszą one zostać zachowane, gdy dany pakiet jest "
+"zarządzany. Pole musi być listą pakietów źródłowych z wyraźnymi (=) "
+"wskazaniami wersji. Proszę zauważyć, że oprogramowanie zarządzające archiwum "
+"może odmówić zaakceptowania pakietu, który deklaruje zależności B<Built-"
+"Using>, które nie mogą zostać spełnione wewnątrz archiwum."
+
+#. type: textblock
+#: deb-control.pod
+#, fuzzy
+#| msgid "Cancels a previous B<--no-triggers>."
+msgid "Supported since dpkg 1.21.3."
+msgstr "Anuluje poprzednie B<--no-triggers>."
 
 #. type: =item
 #: deb-control.pod
@@ -13907,7 +13950,9 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
-msgid "Generate and install a regression prevention package."
+msgid ""
+"Generate and install a regression prevention package, if requested on the "
+"command-line or otherwise on the prompt."
 msgstr ""
 
 #. type: textblock
@@ -14028,6 +14073,35 @@ msgstr "B<-K>, B<--stop>"
 msgid ""
 "Prompt at the time of no return, so that the debug output or the shadow "
 "hierarchy can be evaluated before proceeding."
+msgstr ""
+
+#. type: =item
+#: dpkg-fsys-usrunmess.pod
+#, fuzzy
+#| msgid "B<--version>"
+msgid "B<--prevention>"
+msgstr "B<--version>"
+
+#. type: =item
+#: dpkg-fsys-usrunmess.pod
+#, fuzzy
+#| msgid "B<--no-preparation>"
+msgid "B<--no-prevention>"
+msgstr "B<--no-preparation>"
+
+#. type: textblock
+#: dpkg-fsys-usrunmess.pod
+msgid ""
+"Enables or disables generating and installing a regression prevention "
+"package into the system.  If no option has been specified, the action to "
+"take will be prompted."
+msgstr ""
+
+#. type: textblock
+#: dpkg-fsys-usrunmess.pod
+msgid ""
+"The generated package contains the B<Protected> field set to B<yes> to "
+"protect against accidental removal of the package."
 msgstr ""
 
 #. type: =item
@@ -18672,7 +18746,7 @@ msgstr "B<-M>, B<--medium> I<identyfikator-łańcucha>"
 msgid ""
 "Add an B<X-Medium> field containing the value I<id-string> (since dpkg "
 "1.15.5).  This field is required if you want to generate B<Packages.cd> "
-"files for use by the multicd access method of dselect."
+"files for use by the B<media> access method of B<dselect>."
 msgstr ""
 "Dodaje pole X-Medium zawierające wartość I<identyfikator-łańcucha>. Pole to "
 "jest wymagane, jeśli tworzone mają być pliki B<Packages.cd> do użycia z "

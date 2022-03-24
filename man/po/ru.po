@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-03-13 20:17+0100\n"
+"POT-Creation-Date: 2022-03-24 21:00+0100\n"
 "PO-Revision-Date: 2021-04-08 04:44+0200\n"
 "Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -2070,14 +2070,39 @@ msgstr "B<Depends:> E<lt>список пакетовE<gt>"
 #. type: textblock
 #: deb-control.pod
 msgid ""
-"This field lists extra source packages that were used during the build of "
-"this binary package.  This is an indication to the archive maintenance "
-"software that these extra source packages must be kept whilst this binary "
-"package is maintained.  This field must be a list of source package names "
-"with strict ‘B<=>’ version relationships.  Note that the archive maintenance "
-"software is likely to refuse to accept an upload which declares a B<Built-"
-"Using> relationship which cannot be satisfied within the archive."
+"This dependency field lists extra source packages that were used during the "
+"build of this binary package, for license compliance purposes.  This is an "
+"indication to the archive maintenance software that these extra source "
+"packages must be kept whilst this binary package is maintained.  This field "
+"must be a comma-separated list of source package names with strict ‘B<=>’ "
+"version relationships enclosed within parenthesis.  Note that the archive "
+"maintenance software is likely to refuse to accept an upload which declares "
+"a B<Built-Using> relationship which cannot be satisfied within the archive."
 msgstr ""
+
+#. type: =item
+#: deb-control.pod deb-src-control.pod
+#, fuzzy
+#| msgid "B<Depends:> E<lt>package listE<gt>"
+msgid "B<Static-Built-Using:> I<package-list>"
+msgstr "B<Depends:> E<lt>список пакетовE<gt>"
+
+#. type: textblock
+#: deb-control.pod
+msgid ""
+"This dependency field lists extra source packages that were used during the "
+"build of this binary package, for static building purposes.  This is useful "
+"to track whether this package might need to be rebuilt when source packages "
+"listed here have been updated, for example due to security updates.  This "
+"field must be a comma-separated list of source package names with strict "
+"‘B<=>’ version relationships enclosed within parenthesis."
+msgstr ""
+
+#. type: textblock
+#: deb-control.pod
+#, fuzzy
+msgid "Supported since dpkg 1.21.3."
+msgstr "Пакет выбран для установки."
 
 #. type: =item
 #: deb-control.pod
@@ -11065,7 +11090,9 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
-msgid "Generate and install a regression prevention package."
+msgid ""
+"Generate and install a regression prevention package, if requested on the "
+"command-line or otherwise on the prompt."
 msgstr ""
 
 #. type: textblock
@@ -11185,6 +11212,33 @@ msgstr "B<-o>|B<--oknodo>"
 msgid ""
 "Prompt at the time of no return, so that the debug output or the shadow "
 "hierarchy can be evaluated before proceeding."
+msgstr ""
+
+#. type: =item
+#: dpkg-fsys-usrunmess.pod
+#, fuzzy
+msgid "B<--prevention>"
+msgstr "B<dpkg --version>"
+
+#. type: =item
+#: dpkg-fsys-usrunmess.pod
+#, fuzzy
+msgid "B<--no-prevention>"
+msgstr "B<dpkg --version>"
+
+#. type: textblock
+#: dpkg-fsys-usrunmess.pod
+msgid ""
+"Enables or disables generating and installing a regression prevention "
+"package into the system.  If no option has been specified, the action to "
+"take will be prompted."
+msgstr ""
+
+#. type: textblock
+#: dpkg-fsys-usrunmess.pod
+msgid ""
+"The generated package contains the B<Protected> field set to B<yes> to "
+"protect against accidental removal of the package."
 msgstr ""
 
 #. type: =item
@@ -14645,7 +14699,7 @@ msgstr "B<-p>|B<--pidfile> I<pid-файл>"
 msgid ""
 "Add an B<X-Medium> field containing the value I<id-string> (since dpkg "
 "1.15.5).  This field is required if you want to generate B<Packages.cd> "
-"files for use by the multicd access method of dselect."
+"files for use by the B<media> access method of B<dselect>."
 msgstr ""
 
 #. type: =head1

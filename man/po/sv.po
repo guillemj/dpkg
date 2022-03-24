@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.20.9\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-03-13 15:20+0100\n"
+"POT-Creation-Date: 2022-03-24 21:00+0100\n"
 "PO-Revision-Date: 2022-03-13 15:25+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -2175,14 +2175,25 @@ msgstr "B<Built-Using:> I<paketlista>"
 
 #. type: textblock
 #: deb-control.pod
+#, fuzzy
+#| msgid ""
+#| "This field lists extra source packages that were used during the build of "
+#| "this binary package.  This is an indication to the archive maintenance "
+#| "software that these extra source packages must be kept whilst this binary "
+#| "package is maintained.  This field must be a list of source package names "
+#| "with strict ‘B<=>’ version relationships.  Note that the archive "
+#| "maintenance software is likely to refuse to accept an upload which "
+#| "declares a B<Built-Using> relationship which cannot be satisfied within "
+#| "the archive."
 msgid ""
-"This field lists extra source packages that were used during the build of "
-"this binary package.  This is an indication to the archive maintenance "
-"software that these extra source packages must be kept whilst this binary "
-"package is maintained.  This field must be a list of source package names "
-"with strict ‘B<=>’ version relationships.  Note that the archive maintenance "
-"software is likely to refuse to accept an upload which declares a B<Built-"
-"Using> relationship which cannot be satisfied within the archive."
+"This dependency field lists extra source packages that were used during the "
+"build of this binary package, for license compliance purposes.  This is an "
+"indication to the archive maintenance software that these extra source "
+"packages must be kept whilst this binary package is maintained.  This field "
+"must be a comma-separated list of source package names with strict ‘B<=>’ "
+"version relationships enclosed within parenthesis.  Note that the archive "
+"maintenance software is likely to refuse to accept an upload which declares "
+"a B<Built-Using> relationship which cannot be satisfied within the archive."
 msgstr ""
 "Fältet visar ytterligare källkodspaket som användes när binärpaketet "
 "byggdes. Detta anger för hanteringsprogramvaran för arkivet att dessa "
@@ -2191,6 +2202,48 @@ msgstr ""
 "”B<=>” versionsberoenden. Observera att hanteringsprogramvaran för arkivet "
 "troligen kommer att avvisa en insändning som deklarerar en B<Built-Using>-"
 "relation som inte kan uppfyllas inom arkivet."
+
+#. type: =item
+#: deb-control.pod deb-src-control.pod
+#, fuzzy
+#| msgid "B<Built-Using:> I<package-list>"
+msgid "B<Static-Built-Using:> I<package-list>"
+msgstr "B<Built-Using:> I<paketlista>"
+
+#. type: textblock
+#: deb-control.pod
+#, fuzzy
+#| msgid ""
+#| "This field lists extra source packages that were used during the build of "
+#| "this binary package.  This is an indication to the archive maintenance "
+#| "software that these extra source packages must be kept whilst this binary "
+#| "package is maintained.  This field must be a list of source package names "
+#| "with strict ‘B<=>’ version relationships.  Note that the archive "
+#| "maintenance software is likely to refuse to accept an upload which "
+#| "declares a B<Built-Using> relationship which cannot be satisfied within "
+#| "the archive."
+msgid ""
+"This dependency field lists extra source packages that were used during the "
+"build of this binary package, for static building purposes.  This is useful "
+"to track whether this package might need to be rebuilt when source packages "
+"listed here have been updated, for example due to security updates.  This "
+"field must be a comma-separated list of source package names with strict "
+"‘B<=>’ version relationships enclosed within parenthesis."
+msgstr ""
+"Fältet visar ytterligare källkodspaket som användes när binärpaketet "
+"byggdes. Detta anger för hanteringsprogramvaran för arkivet att dessa "
+"ytterligare källkodspaket måste behållas så länge binärpaketet finns i "
+"arkivet. Fältet måste innehålla en lista med källkodspaket med strikta "
+"”B<=>” versionsberoenden. Observera att hanteringsprogramvaran för arkivet "
+"troligen kommer att avvisa en insändning som deklarerar en B<Built-Using>-"
+"relation som inte kan uppfyllas inom arkivet."
+
+#. type: textblock
+#: deb-control.pod
+#, fuzzy
+#| msgid "Supports the B<Protected> field (since dpkg 1.20.1)."
+msgid "Supported since dpkg 1.21.3."
+msgstr "Stöder fältet B<Protected> (sedan dpkg 1.20.1)."
 
 #. type: =item
 #: deb-control.pod
@@ -12763,7 +12816,9 @@ msgstr "Kontrollera att dpkg-databasen är konsistent och annars avsluta."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
-msgid "Generate and install a regression prevention package."
+msgid ""
+"Generate and install a regression prevention package, if requested on the "
+"command-line or otherwise on the prompt."
 msgstr ""
 
 #. type: textblock
@@ -12900,6 +12955,35 @@ msgid ""
 msgstr ""
 "Fråga vid punkten där det inte finns någon återvändo, så att "
 "felsökningsutdata och skugghierarkin kan utvärderas innan man fortsätter."
+
+#. type: =item
+#: dpkg-fsys-usrunmess.pod
+#, fuzzy
+#| msgid "B<--version>"
+msgid "B<--prevention>"
+msgstr "B<--version>"
+
+#. type: =item
+#: dpkg-fsys-usrunmess.pod
+#, fuzzy
+#| msgid "B<--no-preparation>"
+msgid "B<--no-prevention>"
+msgstr "B<--no-preparation>"
+
+#. type: textblock
+#: dpkg-fsys-usrunmess.pod
+msgid ""
+"Enables or disables generating and installing a regression prevention "
+"package into the system.  If no option has been specified, the action to "
+"take will be prompted."
+msgstr ""
+
+#. type: textblock
+#: dpkg-fsys-usrunmess.pod
+msgid ""
+"The generated package contains the B<Protected> field set to B<yes> to "
+"protect against accidental removal of the package."
+msgstr ""
 
 #. type: =item
 #: dpkg-fsys-usrunmess.pod
@@ -17039,10 +17123,15 @@ msgstr "B<-M>, B<--medium> I<idsträng>"
 
 #. type: textblock
 #: dpkg-scanpackages.pod
+#, fuzzy
+#| msgid ""
+#| "Add an B<X-Medium> field containing the value I<id-string> (since dpkg "
+#| "1.15.5).  This field is required if you want to generate B<Packages.cd> "
+#| "files for use by the multicd access method of dselect."
 msgid ""
 "Add an B<X-Medium> field containing the value I<id-string> (since dpkg "
 "1.15.5).  This field is required if you want to generate B<Packages.cd> "
-"files for use by the multicd access method of dselect."
+"files for use by the B<media> access method of B<dselect>."
 msgstr ""
 "Lägg till ett B<X-Medium>-fält som innehåller värdet I<idsträng> (sedan dpkg "
 "1.15.5). Fältet är nödvändigt om du vill generera B<Packages.cd>-filer som "
