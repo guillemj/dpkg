@@ -88,9 +88,9 @@ test_file_slurp(void)
 
 	test_fail(file_is_exec(test_dir));
 	test_fail(file_is_exec(test_file));
-	test_pass(chmod(test_file, 755) == 0);
+	test_pass(chmod(test_file, 0755) == 0);
 	test_pass(file_is_exec(test_file));
-	test_pass(chmod(test_file, 750) == 0);
+	test_pass(chmod(test_file, 0750) == 0);
 	test_pass(file_is_exec(test_file));
 
 	test_pass(unlink(test_file) == 0);
