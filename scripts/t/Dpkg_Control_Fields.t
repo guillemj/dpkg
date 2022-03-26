@@ -182,8 +182,6 @@ my %fields = (
                 Package-Type
                 Source
                 Version
-                Built-Using
-                Static-Built-Using
                 Kernel-Version
                 Built-For-Profiles
                 Auto-Built-Package
@@ -246,8 +244,6 @@ my %fields = (
                 Package-Type
                 Source
                 Version
-                Built-Using
-                Static-Built-Using
                 Kernel-Version
                 Built-For-Profiles
                 Auto-Built-Package

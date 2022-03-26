@@ -755,8 +755,6 @@ our %FIELD_ORDER = (
             package-type
             source
             version
-            built-using
-            static-built-using
             kernel-version
             built-for-profiles
             auto-built-package
@@ -816,8 +814,6 @@ our %FIELD_ORDER = (
             package-type
             source
             version
-            built-using
-            static-built-using
             kernel-version
             built-for-profiles
             auto-built-package
