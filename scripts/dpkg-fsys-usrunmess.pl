@@ -51,6 +51,9 @@ my @options_spec = (
     GetOptions(@options_spec);
 }
 
+# Set a known umask.
+umask 0022;
+
 my @aliased_dirs;
 
 #
