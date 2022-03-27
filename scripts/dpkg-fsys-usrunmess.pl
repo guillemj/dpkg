@@ -152,6 +152,10 @@ foreach my $dir (@aliased_dirs) {
     debug("creating shadow dir = $sroot$dir");
     mkdir "$sroot$dir"
         or sysfatal("cannot create directory $sroot$dir");
+    chmod 0755, "$sroot$dir"
+        or sysfatal("cannot chmod 0755 $sroot$dir");
+    chown 0, 0, "$sroot$dir"
+        or sysfatal("cannot chown 0 0 $sroot$dir");
     push @relabel, "$sroot$dir";
 }
 
