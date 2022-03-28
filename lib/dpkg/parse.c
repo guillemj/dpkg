@@ -84,7 +84,9 @@ const struct fieldinfo fieldinfos[]= {
   { FIELD("Description"),      f_charfield,       w_charfield,      PKGIFPOFF(description)   },
   { FIELD("Triggers-Pending"), f_trigpend,        w_trigpend                                 },
   { FIELD("Triggers-Awaited"), f_trigaw,          w_trigaw                                   },
-  /* Note that aliases are added to the nicknames table. */
+
+  /* The following are the obsolete fields that get remapped to their
+   * modern forms, while emitting an obsolescence warning. */
   { FIELD("Recommended"),      f_obs_dependency,  w_null,           dep_recommends           },
   { FIELD("Optional"),         f_obs_dependency,  w_null,           dep_suggests             },
   { FIELD("Class"),            f_obs_class,       w_null                                     },
