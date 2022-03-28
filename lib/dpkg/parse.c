@@ -85,8 +85,8 @@ const struct fieldinfo fieldinfos[]= {
   { FIELD("Triggers-Pending"), f_trigpend,        w_trigpend                                 },
   { FIELD("Triggers-Awaited"), f_trigaw,          w_trigaw                                   },
   /* Note that aliases are added to the nicknames table. */
-  { FIELD("Recommended"),      f_obs_dependency,  w_null                                     },
-  { FIELD("Optional"),         f_obs_dependency,  w_null                                     },
+  { FIELD("Recommended"),      f_obs_dependency,  w_null,           dep_recommends           },
+  { FIELD("Optional"),         f_obs_dependency,  w_null,           dep_suggests             },
   { FIELD("Class"),            f_obs_class,       w_null                                     },
   { FIELD("Revision"),         f_obs_revision,    w_null                                     },
   { FIELD("Package-Revision"), f_obs_revision,    w_null                                     },
