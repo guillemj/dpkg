@@ -245,6 +245,15 @@ f_priority(struct pkginfo *pkg, struct pkgbin *pkgbin,
 }
 
 void
+f_obs_class(struct pkginfo *pkg, struct pkgbin *pkgbin,
+        struct parsedb_state *ps,
+        const char *value, const struct fieldinfo *fip)
+{
+  parse_warn(ps, _("obsolete '%s' field used"), fip->name);
+  f_priority(pkg, pkgbin, ps, value, fip);
+}
+
+void
 f_status(struct pkginfo *pkg, struct pkgbin *pkgbin,
          struct parsedb_state *ps,
          const char *value, const struct fieldinfo *fip)
@@ -624,6 +633,15 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
     while (c_isspace(*p))
       p++;
   }
+}
+
+void
+f_obs_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                 struct parsedb_state *ps,
+                 const char *value, const struct fieldinfo *fip)
+{
+  parse_warn(ps, _("obsolete '%s' field used"), fip->name);
+  f_dependency(pkg, pkgbin, ps, value, fip);
 }
 
 static const char *
