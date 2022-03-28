@@ -26,6 +26,7 @@ our $PROGVERSION = '1.20.x';
 our $ADMINDIR = '/var/lib/dpkg/';
 
 use POSIX;
+use File::Find;
 use Getopt::Long qw(:config posix_default bundling_values no_ignorecase);
 
 eval q{
@@ -99,6 +100,13 @@ my %aliased_pathnames;
 foreach my $dir (@aliased_dirs) {
     push @search_args, "$dir/*";
 }
+
+# We also need to track /usr/lib/modules to then be able to compute its
+# complement when looking for untracked kernel module files under aliased
+# dirs.
+my %usr_mod_pathnames;
+push @search_args, '/usr/lib/modules/*';
+
 open my $fh_paths, '-|', 'dpkg-query', '--search', @search_args
     or fatal("cannot execute dpkg-query --search: $!");
 while (<$fh_paths>) {
@@ -140,6 +148,30 @@ foreach my $selection (@selections) {
     }
     close $fh_alts;
 }
+
+#
+# Unfortunately we need to special case untracked kernel module files,
+# as these are required for system booting. To reduce potentially moving
+# undesired non-kernel module files (such as apache, python or ruby ones),
+# we only look for sub-dirs starting with a digit, which should match for
+# both Linux and kFreeBSD modules, and also for the modprobe.conf filename.
+#
+
+find({
+    no_chdir => 1,
+    wanted => sub {
+        my $path = $_;
+
+        if (exists $aliased_pathnames{$path}) {
+            # Ignore pathname already handled.
+        } elsif (exists $usr_mod_pathnames{"/usr$path"}) {
+            # Ignore pathname owned elsewhere.
+        } else {
+            add_pathname($path, 'untracked modules');
+        }
+    },
+}, glob '/lib/modules/[0-9]* /lib/modules/modprobe.conf');
+
 
 my $sroot = '/.usrunmess';
 my @relabel;
@@ -499,7 +531,10 @@ sub add_pathname
 {
     my ($pathname, $origin) = @_;
 
-    if ($pathname =~ m/$aliased_regex/) {
+    if ($pathname =~ m{^/usr/lib/modules/}) {
+        debug("tracking $origin = $pathname");
+        $usr_mod_pathnames{$pathname} = 1;
+    } elsif ($pathname =~ m/$aliased_regex/) {
         debug("adding $origin = $pathname");
         $aliased_pathnames{$pathname} = 1;
     }
