@@ -280,9 +280,9 @@ f_version(struct pkginfo *pkg, struct pkgbin *pkgbin,
 }
 
 void
-f_revision(struct pkginfo *pkg, struct pkgbin *pkgbin,
-           struct parsedb_state *ps,
-           const char *value, const struct fieldinfo *fip)
+f_obs_revision(struct pkginfo *pkg, struct pkgbin *pkgbin,
+               struct parsedb_state *ps,
+               const char *value, const struct fieldinfo *fip)
 {
   char *newversion;
 
