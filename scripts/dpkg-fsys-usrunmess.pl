@@ -155,7 +155,7 @@ foreach my $dir (@aliased_dirs) {
 # complement when looking for untracked kernel module files under aliased
 # dirs.
 my %usr_mod_pathnames;
-push @search_args, "/usr/lib/modules/*";
+push @search_args, '/usr/lib/modules/*';
 
 open my $fh_paths, '-|', 'dpkg-query', '--search', @search_args
     or fatal("cannot execute dpkg-query --search: $!");
