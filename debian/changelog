@@ -1,8 +1,34 @@
-dpkg (1.21.5) UNRELEASED; urgency=medium
+dpkg (1.21.5) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * dpkg-fsys-usrunmess: Explicitly set user/group and mode for created dirs.
+    Closes: #1008478
+  * dpkg-fsys-usrunmess: Set a known umask before starting. See #1008478.
+  * dpkg-fsys-usrunmess: Special case untracked kernel module files.
+    Closes: #1008316
+  * Perl modules:
+    - Dpkg::Control::Types: Use bit shifts instead of literals in enum.
+    - Dpkg::Control::Fields: Fix field_register() to return nothing.
+    - Dpkg::Control::Fields: Refactor manifest types into new
+      ALL_FILE_MANIFEST.
+    - Dpkg::Control::Fields: Fix POD to end sentences with a dot.
+    - Dpkg::Control::Fields: Fix POD to add missing spaces and blank lines.
+    - Dpkg::Control::Fields: Document and clarify return types and values in
+      POD.
+  * Code internals:
+    - libdpkg: Rename f_revision() to f_obs_revision().
+    - libdpkg: Warn when parsing obsolete Recommended/Optional/Class fields.
+      Prompted by David Kalnischkies <donkult@debian.org>.
+    - libdpkg: Add missing dependency type to obsolete dependency fields.
+    - libdpkg: Update code comment for obsolete fields.
+  * Test suite:
+    - Add test cases for obsolete fields.
 
- -- Guillem Jover <guillem@debian.org>  Sat, 26 Mar 2022 13:53:19 +0100
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 29 Mar 2022 02:52:14 +0200
 
 dpkg (1.21.4) unstable; urgency=medium
 
