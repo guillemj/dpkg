@@ -1,14 +1,14 @@
 # Swedish translation of dpkg
-# Copyright © 1999-2021 Software in the Public Interest
+# Copyright © 1999-2022 Software in the Public Interest
 # Daniel Nylander <po@danielnylander.se>, 2006, 2008.
 # Peter Krefting <peter@softwolves.pp.se>, 1999-2022.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.17.23\n"
+"Project-Id-Version: dpkg 1.21.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2022-03-29 11:56+0200\n"
-"PO-Revision-Date: 2022-01-15 22:03+0100\n"
+"PO-Revision-Date: 2022-03-28 23:00+0200\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -1021,20 +1021,12 @@ msgid "unable to lock %s"
 msgstr "kunde inte låsa %s"
 
 #: lib/dpkg/file.c
-#, fuzzy
-#| msgid ""
-#| "Note: removing the lock file is always wrong, and can end up damaging "
-#| "the\n"
-#| "locked area and the entire system. See <https://wiki.debian.org/Teams/"
-#| "Dpkg/FAQ>."
 msgid ""
 "Note: removing the lock file is always wrong, can damage the locked area\n"
 "and the entire system. See <https://wiki.debian.org/Teams/Dpkg/FAQ#db-lock>."
 msgstr ""
-"Observera: det är alltid fel att ta bort låsfilen, det kan leda till att "
-"det\n"
-"låsta området och hela systemet skadas. Se <https://wiki.debian.org/Teams/"
-"Dpkg/FAQ>."
+"Observera: det är alltid fel att ta bort låsfilen och kan skada det låsta\n"
+"området och hela systemet. Se <https://wiki.debian.org/Teams/Dpkg/FAQ#db-lock>."
 
 #: lib/dpkg/file.c
 #, c-format
@@ -1074,10 +1066,9 @@ msgid "could not open log '%s': %s"
 msgstr "kunde inte öppna logg \"%s\": %s"
 
 #: lib/dpkg/log.c
-#, fuzzy, c-format
-#| msgid "cannot write to log file '%s': %s"
+#, c-format
 msgid "cannot get local time to log into '%s': %s"
-msgstr "kan skriva till loggfilen \"%s\": %s"
+msgstr "kan inte hämta lokal tid att logga till \"%s\": %s"
 
 #: lib/dpkg/log.c
 #, c-format
@@ -1178,7 +1169,7 @@ msgstr "fel vid öppning av konfigurationskatalogen \"%s\""
 
 #: lib/dpkg/options.c
 msgid "missing program name in argv[0]"
-msgstr ""
+msgstr "programnamn saknas i argv[0]"
 
 #: lib/dpkg/options.c
 #, c-format
@@ -1693,8 +1684,8 @@ msgstr "kunde inte öppna/skapa ny fil för uppskjutna utlösare, \"%.250s\""
 msgid ""
 "syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
 msgstr ""
-"syntaxfel i utlösarfördröjningsfilen \"%.250s\" på rad %d vid tecken %zd "
-"\"%s\""
+"syntaxfel i utlösarfördröjningsfilen \"%.250s\" på rad %d vid tecken %zd \"%s"
+"\""
 
 #: lib/dpkg/trigdeferred.c
 #, c-format
@@ -3206,10 +3197,9 @@ msgid "source file '%.250s' not a plain file"
 msgstr "källfil \"%.250s\" inte en vanlig fil"
 
 #: src/split/split.c src/main/configure.c src/main/verify.c
-#, fuzzy, c-format
-#| msgid "cannot compute MD5 hash for file '%s': %s"
+#, c-format
 msgid "cannot compute MD5 digest for file '%s': %s"
-msgstr "kan inte beräkna MD5-hashvärde för filen \"%s\": %s"
+msgstr "kan inte beräkna MD5-kondensat för filen \"%s\": %s"
 
 #: src/split/split.c
 #, c-format
@@ -3644,20 +3634,7 @@ msgstr ""
 "\n"
 
 #: src/trigger/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
-#| "  --by-package=<package>           Override trigger awaiter (normally "
-#| "set\n"
-#| "                                     by dpkg).\n"
-#| "  --await                          Package needs to await the "
-#| "processing.\n"
-#| "  --no-await                       No package needs to await the "
-#| "processing.\n"
-#| "  --no-act                         Just test - don't actually change "
-#| "anything.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
@@ -3673,6 +3650,7 @@ msgid ""
 msgstr ""
 "Flaggor:\n"
 "  --admindir=<katalog>             Använd <katalog> istället för %s.\n"
+"  --root=<katalog>                 Använd <katalog> istället för %s.\n"
 "  --by-package=<paket>             Överstyr den avvaktande utlösaren (sätts\n"
 "                                   normalt av dpkg).\n"
 "  --await                          Paketet måste vänta på hanteringen.\n"
@@ -3886,15 +3864,7 @@ msgstr ""
 "\n"
 
 #: src/query/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
-#| "  --load-avail                     Use available file on --show and --"
-#| "list.\n"
-#| "  --no-pager                       Disables the use of any pager.\n"
-#| "  -f|--showformat=<format>         Use alternative format for --show.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
@@ -3906,6 +3876,7 @@ msgid ""
 msgstr ""
 "Flaggor:\n"
 "  --admindir=<katalog>             Använd <katalog> i.st.f %s\n"
+"  --root=<katalog>                 Använd <katalog> i.st.f %s\n"
 "  --load-avail                     Använd available-fil i --show och --"
 "list.\n"
 "  --no-pager                       Använd inte någon bläddrare.\n"
@@ -3967,10 +3938,9 @@ msgid "error creating directory '%.255s'"
 msgstr "fel vid skapande av katalogen \"%.255s\""
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "cannot compute MD5 hash for tar file '%.255s': %s"
+#, c-format
 msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
-msgstr "kan inte beräkna MD5-hashvärde för tar-filen \"%.255s\": %s"
+msgstr "kan inte beräkna MD5-kondensat för filen \"%.255s\" i tar-arkivet: %s"
 
 #: src/main/archives.c
 #, c-format
@@ -4134,108 +4104,83 @@ msgid "unable to sync file '%.255s'"
 msgstr "kunde inte synkronisera filen \"%.250s\""
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "ignoring dependency problem with %s:\n"
-#| "%s"
+#, c-format
 msgid ""
 "ignoring dependency problem with installation of %s:\n"
 "%s"
 msgstr ""
-"ignorerar beroendeproblem med %s:\n"
+"ignorerar beroendeproblem med installation av %s:\n"
 "%s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
-#| "%s"
+#, c-format
 msgid ""
 "no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
-"nej, kan fortsätta med %s (--auto-deconfigure hjälper):\n"
+"nej, kan inte fortsätta med installation av %s (--auto-deconfigure hjälper):\n"
 "%s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "ignoring dependency problem with %s:\n"
-#| "%s"
+#, c-format
 msgid ""
 "ignoring dependency problem with removal of %s:\n"
 "%s"
 msgstr ""
-"ignorerar beroendeproblem med %s:\n"
+"ignorerar beroendeproblem med borttagning av %s:\n"
 "%s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "considering deconfiguration of essential\n"
-#| " package %s, to enable %s"
+#, c-format
 msgid ""
 "considering deconfiguration of essential\n"
 " package %s, to enable removal of %s"
 msgstr ""
 "funderar på att avkonfigurera det systemkritiska\n"
-" paketet %s för att aktivera %s"
+" paketet %s för att kunna ta bort %s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "no, %s is essential, will not deconfigure\n"
-#| " it in order to enable %s"
+#, c-format
 msgid ""
 "no, %s is essential, will not deconfigure\n"
 " it in order to enable removal of %s"
 msgstr ""
 "nej, %s är systemkritiskt, kommer inte att avkonfigurera\n"
-" det för att aktivera %s"
+" det för att kunna ta bort %s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "considering deconfiguration of protected\n"
-#| " package %s, to enable %s"
+#, c-format
 msgid ""
 "considering deconfiguration of protected\n"
 " package %s, to enable removal of %s"
 msgstr ""
 "funderar på att avkonfigurera det skyddade\n"
-" paketet %s för att aktivera %s"
+" paketet %s för att kunna ta bort %s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "no, %s is protected, will not deconfigure\n"
-#| " it in order to enable %s"
+#, c-format
 msgid ""
 "no, %s is protected, will not deconfigure\n"
 " it in order to enable removal of %s"
 msgstr ""
 "nej, %s är skyddat, kommer inte att avkonfigurera\n"
-" det för att aktivera %s"
+" det för att kunna ta bort %s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "no, cannot proceed with %s (--auto-deconfigure will help):\n"
-#| "%s"
+#, c-format
 msgid ""
 "no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
-"nej, kan fortsätta med %s (--auto-deconfigure hjälper):\n"
+"nej, kan inte fortsätta med borttagning av %s (--auto-deconfigure hjälper):\n"
 "%s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "considering deconfiguration of %s, which would be broken by %s ..."
+#, c-format
 msgid ""
 "considering deconfiguration of %s, which would be broken by installation of "
 "%s ..."
-msgstr "funderar på att avkonfigurera %s, vilket skulle förstöras av %s ..."
+msgstr "funderar på att avkonfigurera %s, vilket skulle förstöras av installation av %s ..."
 
 #: src/main/archives.c
 #, c-format
@@ -4692,10 +4637,9 @@ msgstr ""
 "(= \"%s\")"
 
 #: src/main/configure.c
-#, fuzzy, c-format
-#| msgid "%s: unable to open %s for hash: %s"
+#, c-format
 msgid "%s: unable to open %s to compute its digest: %s"
-msgstr "%s: kunde inte öppna %s för hashning: %s"
+msgstr "%s: kunde inte öppna %s för att beräkna dess kondensat: %s"
 
 #: src/main/depcon.c
 #, c-format
@@ -4932,22 +4876,16 @@ msgstr[0] " %d paket, från följande avdelning:"
 msgstr[1] " %d paket, från följande avdelningar:"
 
 #: src/main/enquiry.c
-#, fuzzy
-#| msgid "Pre-Depends field"
 msgid "the Pre-Depends field"
-msgstr "\"Pre-Depends\"-fält"
+msgstr "fältet \"Pre-Depends\""
 
 #: src/main/enquiry.c
-#, fuzzy
-#| msgid "epoch in version is empty"
 msgid "epochs in versions"
-msgstr "epok i versionen är tom"
+msgstr "epok i versioner"
 
 #: src/main/enquiry.c
-#, fuzzy
-#| msgid "long filenames"
 msgid "long filenames in .deb archives"
-msgstr "långa filnamn"
+msgstr "långa filnamn i .deb-arkiv"
 
 #: src/main/enquiry.c
 msgid "multiple Conflicts and Replaces"
@@ -4955,45 +4893,39 @@ msgstr "många konflikter och ersätter"
 
 #: src/main/enquiry.c
 msgid "multi-arch fields and semantics"
-msgstr ""
+msgstr "fält och semantik för flera arkitekturer"
 
 #: src/main/enquiry.c
 msgid "versioned relationships in the Provides field"
-msgstr ""
+msgstr "bereoenden med versionsnummer i fältet Provides"
 
 #: src/main/enquiry.c
-#, fuzzy
-#| msgid "Protected field"
 msgid "the Protected field"
-msgstr "Skyddat fält"
+msgstr "fältet Protected"
 
 #: src/main/enquiry.c
-#, fuzzy, c-format
-#| msgid "cannot open diversions: %s"
+#, c-format
 msgid "cannot parse dpkg running version '%s': %s"
-msgstr "kunde inte öppna omdirigeringsfil: %s"
+msgstr "kunde tolka körande dpkg-version \"%s\": %s"
 
 #: src/main/enquiry.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Version of dpkg with working %s support not yet configured.\n"
-#| " Please use 'dpkg --configure dpkg', and then try again.\n"
+#, c-format
 msgid ""
 "Running version of dpkg does not support %s.\n"
 " Please upgrade to at least dpkg %s, and then try again.\n"
 msgstr ""
-"Versionen av dpkg med fungerande stöd för %s är ännu ej konfigurerad.\n"
-" Använd \"dpkg --configure dpkg\" och försök sedan igen.\n"
+"Versionen av dpkg har inte stöd för %s.\n"
+" Uppgradera till åtminstone dpkg %s och försök sedna igen.\n"
 
 #: src/main/enquiry.c
 #, c-format
 msgid "%s assert options - assert whether features are supported:\n"
-msgstr ""
+msgstr "%s-påståendeflaggor - testa om funktioner stöds:\n"
 
 #: src/main/enquiry.c
 #, c-format
 msgid "unknown --%s-<feature>"
-msgstr ""
+msgstr "okänd --%s-<feature>"
 
 #: src/main/enquiry.c
 #, c-format
@@ -5181,46 +5113,7 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "Debian \"%s\" pakethanteringsprogram version %s.\n"
 
 #: src/main/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
-#| "  --unpack           <.deb file name>... | -R|--recursive <directory>...\n"
-#| "  -A|--record-avail  <.deb file name>... | -R|--recursive <directory>...\n"
-#| "  --configure        <package>... | -a|--pending\n"
-#| "  --triggers-only    <package>... | -a|--pending\n"
-#| "  -r|--remove        <package>... | -a|--pending\n"
-#| "  -P|--purge         <package>... | -a|--pending\n"
-#| "  -V|--verify [<package>...]       Verify the integrity of package(s).\n"
-#| "  --get-selections [<pattern>...]  Get list of selections to stdout.\n"
-#| "  --set-selections                 Set package selections from stdin.\n"
-#| "  --clear-selections               Deselect every non-essential package.\n"
-#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
-#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
-#| "  --clear-avail                    Erase existing available info.\n"
-#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-#| "  -s|--status [<package>...]       Display package status details.\n"
-#| "  -p|--print-avail [<package>...]  Display available version details.\n"
-#| "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
-#| "  -l|--list [<pattern>...]         List packages concisely.\n"
-#| "  -S|--search <pattern>...         Find package(s) owning file(s).\n"
-#| "  -C|--audit [<package>...]        Check for broken package(s).\n"
-#| "  --yet-to-unpack                  Print packages selected for "
-#| "installation.\n"
-#| "  --predep-package                 Print pre-dependencies to unpack.\n"
-#| "  --add-architecture <arch>        Add <arch> to the list of "
-#| "architectures.\n"
-#| "  --remove-architecture <arch>     Remove <arch> from the list of "
-#| "architectures.\n"
-#| "  --print-architecture             Print dpkg architecture.\n"
-#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
-#| "  --assert-<feature>               Assert support for the specified "
-#| "feature.\n"
-#| "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
-#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
-#| "  --force-help                     Show help on forcing.\n"
-#| "  -Dh|--debug=help                 Show help on debugging.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
@@ -5288,6 +5181,7 @@ msgstr ""
 "  --remove-architecture <ark>      Ta bort <ark> från arkitekturlistan.\n"
 "  --print-architecture             Visa dpkg-arkitektur.\n"
 "  --print-foreign-architectures    Visa tillåtna oegna arkitekturer.\n"
+"  --assert-help                    Visa hjälp för påståenden.\n"
 "  --assert-<funktion>              Kräv stöd för angiven funktion.\n"
 "  --validate-<sak> <sträng>        Bekräfta en <sak>:s <sträng>.\n"
 "  --compare-versions <a> <rel> <b> Jämför versionsnummer - se nedan.\n"
@@ -5441,8 +5335,8 @@ msgstr ""
 "Skriv dpkg --force-help för en lista över tvingande flaggor;\n"
 "Skriv dpkg-deb --help för hjälp om manipulering av *.deb-filer;\n"
 "\n"
-"Flaggor markerade med [*] ger mycket utdata - kör genom \"less\" eller "
-"\"more\"!"
+"Flaggor markerade med [*] ger mycket utdata - kör genom \"less\" eller \"more"
+"\"!"
 
 #: src/main/main.c
 msgid "Generally helpful progress information"
@@ -5931,11 +5825,6 @@ msgid "read error on standard input"
 msgstr "läsfel på standard in"
 
 #: src/main/select.c
-#, fuzzy
-#| msgid ""
-#| "found unknown packages; this might mean the available database\n"
-#| "is outdated, and needs to be updated through a frontend method;\n"
-#| "please see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ>"
 msgid ""
 "found unknown packages; this might mean the available database\n"
 "is outdated, and needs to be updated through a frontend method;\n"
@@ -5943,7 +5832,7 @@ msgid ""
 msgstr ""
 "upptäckte okända paket; det här kan betyda att available-databasen\n"
 "är föråldrad och behöver uppdateras via ett skal;\n"
-"se FAQ-dokumentet <https://wiki.debian.org/Teams/Dpkg/FAQ>"
+"se FAQ-dokumentet <https://wiki.debian.org/Teams/Dpkg/FAQ#set-selections>"
 
 #: src/main/trigproc.c
 msgid ""
@@ -6066,16 +5955,14 @@ msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
 msgstr "Avkonfigurerar %s (%s), så att vi kan ta bort %s (%s) ...\n"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+#, c-format
 msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
-msgstr "Avkonfigurerar %s (%s), så att vi kan ta bort %s (%s) ...\n"
+msgstr "Avkonfigurerar %s (%s), så att vi kan installera %s (%s) ...\n"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+#, c-format
 msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
-msgstr "Avkonfigurerar %s (%s), så att vi kan ta bort %s (%s) ...\n"
+msgstr "Avkonfigurerar %s (%s), så att vi kan konfigurera %s (%s) ...\n"
 
 #: src/main/unpack.c
 msgid "conffile file contains an empty line"
@@ -6117,8 +6004,8 @@ msgstr "kunde inte öppna temporär kontrollkatalog"
 #, c-format
 msgid "package contains overly-long control info file name (starting '%.50s')"
 msgstr ""
-"paketet innehåller för långt kontrollinformationsfilnamn (börjar på "
-"\"%.50s\")"
+"paketet innehåller för långt kontrollinformationsfilnamn (börjar på \"%.50s"
+"\")"
 
 #: src/main/unpack.c
 #, c-format
@@ -6247,10 +6134,9 @@ msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "kan inte döda möjliga avslutande nollor från dpkg-deb: %s"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+#, c-format
 msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
-msgstr "Avkonfigurerar %s (%s), så att vi kan ta bort %s (%s) ...\n"
+msgstr "Tar bort %s (%s), så att vi kan konfigurera %s (%s) ...\n"
 
 #: src/main/update.c
 #, c-format
@@ -6360,24 +6246,7 @@ msgstr ""
 "  prioritet i automatiskt läge.\n"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --altdir <directory>     change the alternatives directory.\n"
-#| "  --admindir <directory>   change the administrative directory.\n"
-#| "  --instdir <directory>    change the installation directory.\n"
-#| "  --root <directory>       change the filesystem root directory.\n"
-#| "  --log <file>             change the log file.\n"
-#| "  --force                  allow replacing files with alternative links.\n"
-#| "  --skip-auto              skip prompt for alternatives correctly "
-#| "configured\n"
-#| "                           in automatic mode (relevant for --config "
-#| "only)\n"
-#| "  --quiet                  quiet operation, minimal output.\n"
-#| "  --verbose                verbose operation, more output.\n"
-#| "  --debug                  debug output, way more output.\n"
-#| "  --help                   show this help message.\n"
-#| "  --version                show the version.\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --altdir <directory>     change the alternatives directory\n"
@@ -6399,7 +6268,9 @@ msgid ""
 msgstr ""
 "Flaggor:\n"
 "  --altdir <katalog>       ändra alternatives-katalogen.\n"
+"                             (förväl är %s).\n"
 "  --admindir <katalog>     ändra administrativ katalog.\n"
+"                             (förväl är %s).\n"
 "  --instdir <katalog>      ändra installationskatalog.\n"
 "  --root <katalog>         ändra katalog för rotfilsystemet.\n"
 "  --log <fil>              ändra loggfil.\n"
@@ -6445,10 +6316,9 @@ msgid "cannot append to '%s'"
 msgstr "kunde inte lägga till i \"%s\""
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "cannot create log directory '%s'"
+#, c-format
 msgid "cannot get local time to log into '%s'"
-msgstr "kan inte skapa loggkatalogen \"%s\""
+msgstr "kan inte hämta lokal tid för att logga till \"%s\""
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6456,16 +6326,14 @@ msgid "unable to read link '%s%.255s'"
 msgstr "kunde inte läsa länken \"%s%.255s\""
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "unable to create file '%s'"
+#, c-format
 msgid "unable to get file '%s%s' metadata"
-msgstr "kunde inte skapa filen \"%s\""
+msgstr "kunde inte hämta metadata för filen \"%s%s\""
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "cannot divert file '%s' to itself"
+#, c-format
 msgid "cannot set symlink '%s' timestamp"
-msgstr "Kan inte omdirigera filen \"%s\" till sig själv"
+msgstr "Kan inte sätta tidsstämpel för den symboliska länken \"%s\""
 
 #: utils/update-alternatives.c
 msgid "auto mode"
@@ -6713,10 +6581,9 @@ msgid "alternative %s for %s not registered; not setting"
 msgstr "alternativet %s för %s har inte registrerats; ställer inte in"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "There is no program which provides %s."
+#, c-format
 msgid "there is no program which provides %s"
-msgstr "Det finns inga program som tillhandahåller %s."
+msgstr "det finns inga program som tillhandahåller %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6787,25 +6654,22 @@ msgstr ""
 #: utils/update-alternatives.c
 #, c-format
 msgid "selecting alternative %s as auto"
-msgstr ""
+msgstr "väljer alternativet %s som auto"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "no alternatives for %s"
+#, c-format
 msgid "selecting alternative %s as choice %s"
-msgstr "inga alternativ för %s"
+msgstr "väljer alternativet %s som val %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "Alternative %s unchanged because choice %s is not available."
+#, c-format
 msgid "alternative %s unchanged because choice %s is not available"
-msgstr "Alternativet %s oändrat eftersom valet %s inte är tillgängligt."
+msgstr "alternativet %s oändrat eftersom valet %s inte är tillgängligt"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "Skip unknown alternative %s."
+#, c-format
 msgid "skip unknown alternative %s"
-msgstr "Hoppar över okänt alternativ \"%s\"."
+msgstr "hoppar över okänt alternativ \"%s\""
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6813,10 +6677,9 @@ msgid "line too long or not terminated while trying to read %s"
 msgstr "rad för lång eller inte avslutad när %s försökte läsas"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "Skip invalid line: %s"
+#, c-format
 msgid "skip invalid selection line: %s"
-msgstr "Hoppar över trasig rad: %s"
+msgstr "hoppar över trasig valrad: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6882,19 +6745,17 @@ msgstr "--%s behöver <länk> <namn> <sökväg> <prioritet>"
 #: utils/update-alternatives.c
 #, c-format
 msgid "<link> '%s' is the same as <path>"
-msgstr ""
+msgstr "<länken> \"%s\" är samma som <sökväg>"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "priority must be an integer"
+#, c-format
 msgid "priority '%s' must be an integer"
-msgstr "prioriteten måste vara ett heltal"
+msgstr "prioriteten \"%s\" måste vara ett heltal"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "priority is out of range"
+#, c-format
 msgid "priority '%s' is out of range"
-msgstr "prioriteten är utanför tillåtet område"
+msgstr "prioriteten \"%s\" är utanför tillåtet område"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6917,28 +6778,24 @@ msgid "--%s needs <link> <name> <path>"
 msgstr "--%s behöver <länk> <namn> <sökväg>"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "name %s is both primary and slave"
+#, c-format
 msgid "<name> '%s' is both primary and slave"
-msgstr "namnet %s är både primär och slav"
+msgstr "<namnet> \"%s\" är både primär och slav"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "link %s is both primary and slave"
+#, c-format
 msgid "<link> '%s' is both primary and slave"
-msgstr "länken %s är både primär och slav"
+msgstr "<länken> \"%s\" är både primär och slav"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "duplicate slave name %s"
+#, c-format
 msgid "duplicate slave <name> '%s'"
-msgstr "duplicerat slavnamn %s"
+msgstr "duplicerat slav-<namn> \"%s\""
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "duplicate slave link %s"
+#, c-format
 msgid "duplicate slave <link> '%s'"
-msgstr "duplicerad slavlänk %s"
+msgstr "duplicerad slav-<länk> \"%s\""
 
 #: utils/update-alternatives.c
 #, c-format

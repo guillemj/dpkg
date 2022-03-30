@@ -1,14 +1,14 @@
 # Swedish translation of dpkg
-# Copyright © 2007-2021 Software in the Public Interest
+# Copyright © 2007-2022 Software in the Public Interest
 # This file is distributed under the same license as the dpkg package.
 # Peter Krefting <peter@softwolves.pp.se>, 2007-2022.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-dev 1.17.22\n"
+"Project-Id-Version: dpkg-dev 1.21.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2022-03-29 11:56+0200\n"
-"PO-Revision-Date: 2022-01-15 23:26+0100\n"
+"PO-Revision-Date: 2022-03-28 23:12+0200\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -243,76 +243,6 @@ msgid "Usage: %s [<option>...]"
 msgstr "Användning: %s [<flagga>...]"
 
 #: scripts/dpkg-buildpackage.pl
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "      --build=<type>[,...]    specify the build <type>: full, source, "
-#| "binary,\n"
-#| "                                any, all (default is 'full').\n"
-#| "  -F, --build=full            normal full build (source and binary; "
-#| "default).\n"
-#| "  -g, --build=source,all      source and arch-indep build.\n"
-#| "  -G, --build=source,any      source and arch-specific build.\n"
-#| "  -b, --build=binary          binary-only, no source files.\n"
-#| "  -B, --build=any             binary-only, only arch-specific files.\n"
-#| "  -A, --build=all             binary-only, only arch-indep files.\n"
-#| "  -S, --build=source          source-only, no binary files.\n"
-#| "  -nc, --no-pre-clean         do not pre clean source tree (implies -b).\n"
-#| "      --pre-clean             pre clean source tree (default).\n"
-#| "      --no-post-clean         do not post clean source tree (default).\n"
-#| "  -tc, --post-clean           post clean source tree.\n"
-#| "      --sanitize-env          sanitize the build environment.\n"
-#| "  -D, --check-builddeps       check build dependencies and conflicts "
-#| "(default).\n"
-#| "  -d, --no-check-builddeps    do not check build dependencies and "
-#| "conflicts.\n"
-#| "      --ignore-builtin-builddeps\n"
-#| "                              do not check builtin build dependencies.\n"
-#| "  -P, --build-profiles=<profiles>\n"
-#| "                              assume comma-separated build <profiles> as "
-#| "active.\n"
-#| "      --rules-requires-root   assume legacy Rules-Requires-Root field "
-#| "value.\n"
-#| "  -R, --rules-file=<rules>    rules file to execute (default is debian/"
-#| "rules).\n"
-#| "  -T, --rules-target=<target> call debian/rules <target>.\n"
-#| "      --as-root               ensure -T calls the target with root "
-#| "rights.\n"
-#| "  -j, --jobs[=<number>|auto]  jobs to run simultaneously (passed to "
-#| "<rules>),\n"
-#| "                                forced mode.\n"
-#| "  -J, --jobs-try[=<number>|auto]\n"
-#| "                              jobs to run simultaneously (passed to "
-#| "<rules>),\n"
-#| "                                opt-in mode (default is auto).\n"
-#| "  -r, --root-command=<command>\n"
-#| "                              command to gain root rights (default is "
-#| "fakeroot).\n"
-#| "      --check-command=<command>\n"
-#| "                              command to check the .changes file (no "
-#| "default).\n"
-#| "      --check-option=<opt>    pass <opt> to check <command>.\n"
-#| "      --hook-<name>=<command> set <command> as the hook <name>, known "
-#| "hooks:\n"
-#| "                                init preclean source build binary "
-#| "buildinfo\n"
-#| "                                changes postclean check sign done\n"
-#| "      --buildinfo-option=<opt>\n"
-#| "                              pass option <opt> to dpkg-genbuildinfo.\n"
-#| "  -p, --sign-command=<command>\n"
-#| "                              command to sign .dsc and/or .changes files\n"
-#| "                                (default is gpg).\n"
-#| "  -k, --sign-key=<keyid>      the key to use for signing.\n"
-#| "  -ap, --sign-pause           add pause before starting signature "
-#| "process.\n"
-#| "  -us, --unsigned-source      unsigned source package.\n"
-#| "  -ui, --unsigned-buildinfo   unsigned .buildinfo file.\n"
-#| "  -uc, --unsigned-changes     unsigned .buildinfo and .changes file.\n"
-#| "      --no-sign               do not sign any file.\n"
-#| "      --force-sign            force signing the resulting files.\n"
-#| "      --admindir=<directory>  change the administrative directory.\n"
-#| "  -?, --help                  show this help message.\n"
-#| "      --version               show the version."
 msgid ""
 "Options:\n"
 "      --build=<type>[,...]    specify the build <type>: full, source, "
@@ -432,6 +362,10 @@ msgstr ""
 "hakar:\n"
 "                                init preclean source build binary buildinfo\n"
 "                                changes postclean check sign done\n"
+"      --buildinfo-file=<fil>  välj .buildinfo-filnamn att skapa.\n"
+"      --buildinfo-option=<flagga>\n"
+"                              sänd flaggan <flagga> till dpkg-genbuildinfo.\n"
+"      --changes-file=<fil>    välj .changes-filnamn att skapa.\n"
 "  -p, --sign-command=<kommando>\n"
 "                              kommando för att signera .dsc- och/eller\n"
 "                              .changes-filer (förval är gpg).\n"
@@ -516,22 +450,17 @@ msgstr ""
 "                              sänd flaggan <flagga> till dpkg-source.\n"
 
 #: scripts/dpkg-buildpackage.pl
-#, fuzzy
-#| msgid "missing changelog filename"
 msgid "missing .buildinfo filename"
-msgstr "saknat ändringsloggfilnamn"
+msgstr "saknat .buildinfo-filnamn"
 
 #: scripts/dpkg-buildpackage.pl
-#, fuzzy, perl-format
-#| msgid "%s field keyword \"%s\" is uppercase; use \"%s\" instead"
+#, perl-format
 msgid "passing %s via %s is not supported; please use %s instead"
-msgstr "%s-fältet nyckelord \"%s\" har stora bokstäver; använd \"%s\" istället"
+msgstr "sända %s via %s stöds inte; använd \"%s\" istället"
 
 #: scripts/dpkg-buildpackage.pl
-#, fuzzy
-#| msgid "missing changelog filename"
 msgid "missing .changes filename"
-msgstr "saknat ändringsloggfilnamn"
+msgstr "saknat .changes-filnamn"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -545,10 +474,9 @@ msgstr "saknat kommando för haken %s"
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-genbuildinfo.pl
 #: scripts/dpkg-gencontrol.pl
-#, fuzzy, perl-format
-#| msgid "-i%s is deprecated; it is without effect"
+#, perl-format
 msgid "%s is deprecated; it is without effect"
-msgstr "-i%s rekommenderas ej; det har ingen effekt"
+msgstr "%s rekommenderas ej; det har ingen effekt"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -1311,16 +1239,7 @@ msgstr ""
 "eller senare för kopieringsvillkor. Det finns INGEN garanti.\n"
 
 #: scripts/dpkg-mergechangelogs.pl
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]\n"
-#| "\n"
-#| "Options:\n"
-#| "  -m, --merge-prereleases  merge pre-releases together, ignores "
-#| "everything\n"
-#| "                           after the last '~' in the version.\n"
-#| "  -?, --help               show this help message.\n"
-#| "      --version            show the version.\n"
+#, perl-format
 msgid ""
 "Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]\n"
 "\n"
@@ -1337,7 +1256,9 @@ msgstr ""
 "\n"
 "Flaggor:\n"
 "  -m, --merge-prereleases  slå ihop förhandsutgåvor, ignorerar allt\n"
-"                           efter sista \"~\" i versionsnumret.\n"
+"                             efter sista \"~\" i versionsnumret.\n"
+"      --merge-unreleased   slå ihop UNRELEASED-poster, ignorerar deras\n"
+"                             versionsnummer.\n"
 "  -?, --help               visa detta hjälpmeddelande.\n"
 "      --version            visa versionsnummer.\n"
 
@@ -1522,22 +1443,7 @@ msgid "takes no non-option arguments"
 msgstr "tar inga argument som inte är flaggor"
 
 #: scripts/dpkg-scanpackages.pl
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
-#| "Packages\n"
-#| "\n"
-#| "Options:\n"
-#| "  -t, --type <type>        scan for <type> packages (default is 'deb').\n"
-#| "  -a, --arch <arch>        architecture to scan for.\n"
-#| "  -h, --hash <hash-list>   only generate hashes for the specified list.\n"
-#| "  -m, --multiversion       allow multiple versions of a single package.\n"
-#| "  -e, --extra-override <file>\n"
-#| "                           use extra override file.\n"
-#| "  -M, --medium <medium>    add X-Medium field for dselect multicd access "
-#| "method\n"
-#| "  -?, --help               show this help message.\n"
-#| "      --version            show the version.\n"
+#, perl-format
 msgid ""
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
 "Packages\n"
@@ -1565,7 +1471,7 @@ msgstr ""
 "  -e, --extra-override <fil>\n"
 "                           använd extra överstyrningsfil.\n"
 "  -M, --medium <medium>    lägg till X-Medium-fält för dselects:s\n"
-"                           multicd-åtkomstmetod\n"
+"                           media-åtkomstmetod\n"
 "  -?, --help               visa detta hjälpmeddelande.\n"
 "      --version            visa versionsnummer.\n"
 
@@ -2529,10 +2435,9 @@ msgid "changelog format %s is unknown: %s"
 msgstr "ändringsloggformatet %s är okänt: %s"
 
 #: scripts/Dpkg/Changelog/Parse.pm
-#, fuzzy, perl-format
-#| msgid "changelog format %s is unknown: %s"
+#, perl-format
 msgid "changelog format %s is not a Dpkg::Changelog class"
-msgstr "ändringsloggformatet %s är okänt: %s"
+msgstr "ändringsloggformatet %s är inte en Dpkg::Changelog-klasss"
 
 #: scripts/Dpkg/Changelog/Parse.pm
 #, perl-format
@@ -2869,10 +2774,9 @@ msgid "cannot import key in %s since GnuPG is not installed"
 msgstr "kunde importera nyckel i %s eftersom GnuPG inte installerats"
 
 #: scripts/Dpkg/OpenPGP.pm
-#, fuzzy, perl-format
-#| msgid "cannot move %s to %s"
+#, perl-format
 msgid "cannot import key %s into %s"
-msgstr "kan inte flytta %s till %s"
+msgstr "kan inte importera nyckeln %s till %s"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
@@ -2880,10 +2784,9 @@ msgid "cannot verify signature on %s since GnuPG is not installed"
 msgstr "kunde inte verifiera signaturen på %s eftersom GnuPG inte installerats"
 
 #: scripts/Dpkg/OpenPGP.pm
-#, fuzzy, perl-format
-#| msgid "cannot write signature file %s"
+#, perl-format
 msgid "cannot verify signature %s"
-msgstr "kan inte ta skriva signaturfilen %s"
+msgstr "kan inte bekräfta signaturen %s"
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -2937,12 +2840,9 @@ msgid "symbol name unspecified: %s"
 msgstr "symbolnamn ej angivet: %s"
 
 #: scripts/Dpkg/Shlibs/Symbol.pm
-#, fuzzy, perl-format
-#| msgid "you can't use symver tag to catch unversioned symbols: %s"
+#, perl-format
 msgid "symver tag with versioned symbol will not match: %s"
-msgstr ""
-"du kan inte använda symver-taggen för att fånga symboler som inte är "
-"versionerade: %s"
+msgstr "symver-tagg med versionerad symbol kommer inte matcha: %s"
 
 #: scripts/Dpkg/Shlibs/Symbol.pm
 #, perl-format
@@ -3524,6 +3424,8 @@ msgid ""
 "Hint: make sure the version in debian/changelog matches the unpacked source "
 "tree"
 msgstr ""
+"Tips: se till att versionen i debian/changelog motsvarar det uppackade "
+"källkodsträdet"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
@@ -3710,10 +3612,9 @@ msgid "setting up shallow clone"
 msgstr "ställer in grund klon"
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm
-#, fuzzy, perl-format
-#| msgid "unable to rename %s to %s"
+#, perl-format
 msgid "setting remote %s to %s"
-msgstr "kan inte byta namn på %s till %s"
+msgstr "sätter fjärren %s till %s"
 
 #: scripts/Dpkg/Source/Package/V3/Native.pm
 msgid "multiple tarfiles in native source package"
@@ -3991,6 +3892,8 @@ msgid ""
 "if the file is present in the unpacked source, make sure it is also present "
 "in the orig tarball"
 msgstr ""
+"om filen finns i det uppackage källkodsträdet, se till att den också finns "
+"i orig-tarbollen"
 
 #: scripts/Dpkg/Source/Quilt.pm
 #, perl-format
