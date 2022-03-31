@@ -166,11 +166,13 @@ find({
             # Ignore pathname already handled.
         } elsif (exists $usr_mod_pathnames{"/usr$path"}) {
             # Ignore pathname owned elsewhere.
-        } else {
+        } elsif ($path eq '/lib/modules' or
+                 $path eq '/lib/modules/modprobe.conf' or
+                 $path =~ m{^/lib/modules/[0-9]}) {
             add_pathname($path, 'untracked modules');
         }
     },
-}, glob '/lib/modules/[0-9]* /lib/modules/modprobe.conf');
+}, '/lib/modules');
 
 
 my $sroot = '/.usrunmess';
