@@ -115,7 +115,7 @@ test-print-foreign-architecture:
 	$(call stdout_is,$(DPKG) --print-foreign-architectures,$(FOREIGN_ARCH))
 	$(DPKG) --add-architecture foobar
 	$(DPKG) --print-foreign-architectures | cmp ref-arch -
-	# Ensure all/any can't be addded as foreign arch
+	# Ensure all/any can't be added as foreign arch
 	! $(DPKG) --add-architecture all
 	! $(DPKG) --add-architecture any
 	# Ensure the native arch is never considered as
