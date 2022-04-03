@@ -121,7 +121,8 @@ The algorithm to compute the size is described in L<deb-substvars(5)>.
 =item B<Protected:> B<yes>|B<no>
 
 This field is usually only needed when the answer is B<yes>.
-It denotes a package that is required for proper booting of the system.
+It denotes a package that is required mostly for proper booting of the system
+or used for custom system-local meta-packages.
 L<dpkg(1)> or any other installation tool will not allow a B<Protected>
 package to be removed (at least not without using one of the force options).
 
@@ -130,7 +131,9 @@ Supported since dpkg 1.20.1.
 =item B<Essential:> B<yes>|B<no>
 
 This field is usually only needed when the answer is B<yes>.
-It denotes a package that is required for proper operation of the system.
+It denotes a package that is required for the packaging system, for
+proper operation of the system in general or during boot (although the latter
+should be converted to B<Protected> field instead).
 L<dpkg(1)> or any other installation tool will not allow an B<Essential>
 package to be removed (at least not without using one of the force options).
 

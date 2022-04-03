@@ -700,14 +700,18 @@ remain on the system, which will then be forgotten by B<dpkg>.
 
 B<remove-protected>:
 Remove, even if the package is considered protected (since dpkg 1.20.1).
-Protected packages contain mostly important system boot infrastructure.
-Removing them might cause the whole system to be unable to boot, so use
-with caution.
+Protected packages contain mostly important system boot infrastructure or
+are used for custom system-local meta-packages.
+Removing them might cause the whole system to be unable to boot or lose
+required functionality to operate, so use with caution.
 
 B<remove-essential>:
-Remove, even if the package is considered essential. Essential
-packages contain mostly very basic Unix commands. Removing them might
-cause the whole system to stop working, so use with caution.
+Remove, even if the package is considered essential.
+Essential packages contain mostly very basic Unix commands, required for
+the packaging system, for the operation of the system in general or during
+boot (although the latter should be converted to protected packages instead).
+Removing them might cause the whole system to stop working,
+so use with caution.
 
 B<depends>:
 Turn all dependency problems into warnings.
