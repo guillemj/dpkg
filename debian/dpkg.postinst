@@ -27,11 +27,17 @@ check_merged_usr_via_aliased_dirs()
 
   vendor=$(get_vendor)
 
-  # In Debian some people have gotten so offended by the following _warning_
-  # that they have resorted to bullying and abuse. Life's too short, sorry.
-  if [ "$vendor" = "debian" ]; then
+  case "$vendor" in
+  debian)
+    # In Debian some people have gotten so offended by the following _warning_
+    # that they have resorted to bullying and abuse. Life's too short, sorry.
     return
-  fi
+    ;;
+  ubuntu)
+    # Ubuntu does not seem interested in it.
+    return
+    ;;
+  esac
 
   for d in /bin /sbin /lib /lib32 /libo32 /libx32 /lib64; do
     linkname="$(readlink $DPKG_ROOT$d || true)"
