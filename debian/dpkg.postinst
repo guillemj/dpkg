@@ -15,7 +15,7 @@ get_vendor()
   local vendor
 
   if [ -e "$origin" ]; then
-    vendor=$(sed -ne 's/^Vendor: *\([^ ]\+\) */\1/p' "$origin" | tr '[A-Z]' '[a-z]')
+    vendor=$(sed -ne 's/^Vendor: *\([^ ]\+\) */\1/p' "$origin" | tr A-Z a-z)
   fi
 
   echo "${vendor:-default}"
