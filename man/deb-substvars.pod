@@ -90,7 +90,10 @@ B<debian/substvars>
 (or whatever other file is specified using the
 B<-T>
 option). This file consists of lines of the form
-I<name>B<=>I<value>.
+I<name>B<=>I<value> or I<name>B<?=>I<value>.
+The B<=> operator assigns a normal substitution variable, while the B<?=>
+operator (since dpkg 1.21.8) assigns an optional substitution variable
+which will emit no warnings even if unused.
 Trailing whitespace on each line, blank lines, and
 lines starting with a
 B<#>

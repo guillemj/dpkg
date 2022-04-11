@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 51;
+use Test::More tests => 52;
 use Test::Dpkg qw(:paths);
 
 use Dpkg ();
@@ -40,12 +40,14 @@ is($s->get('var1'), 'Some value', 'var1');
 is($s->get('var2'), 'Some other value', 'var2');
 is($s->get('var3'), 'Yet another value', 'var3');
 is($s->get('var4'), undef, 'no var4');
+is($s->get('optional-var5'), 'Optionally used value', 'optional-var5');
 
 # Set automatic variable
 $s->set_as_auto('var_auto', 'auto');
 is($s->get('var_auto'), 'auto', 'get var_auto');
 
 $expected = <<'VARS';
+optional-var5?=Optionally used value
 var1=Some value
 var2=Some other value
 var3=Yet another value

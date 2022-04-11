@@ -1,4 +1,4 @@
-# Copyright © 2006-2009, 2012-2015 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2009, 2012-2020, 2022 Guillem Jover <guillem@debian.org>
 # Copyright © 2007-2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@ package Dpkg::Substvars;
 use strict;
 use warnings;
 
-our $VERSION = '2.00';
+our $VERSION = '2.01';
 
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
@@ -48,6 +48,7 @@ use constant {
     SUBSTVAR_ATTR_USED => 1,
     SUBSTVAR_ATTR_AUTO => 2,
     SUBSTVAR_ATTR_AGED => 4,
+    SUBSTVAR_ATTR_OPT  => 8,
 };
 
 =head1 METHODS
@@ -185,13 +186,18 @@ sub parse {
 
     binmode($fh);
     while (<$fh>) {
+        my $attr;
+
 	next if m/^\s*\#/ || !m/\S/;
 	s/\s*\n$//;
-	if (! m/^(\w[-:0-9A-Za-z]*)\=(.*)$/) {
+	if (! m/^(\w[-:0-9A-Za-z]*)(\?)?\=(.*)$/) {
 	    error(g_('bad line in substvars file %s at line %d'),
 		  $varlistfile, $.);
 	}
-	$self->set($1, $2);
+        if (defined $2) {
+            $attr = (SUBSTVAR_ATTR_USED | SUBSTVAR_ATTR_OPT) if $2 eq '?';
+        }
+        $self->set($1, $3, $attr);
         $count++;
     }
 
@@ -426,7 +432,8 @@ sub output {
     # Store all non-automatic substitutions only
     foreach my $vn (sort keys %{$self->{vars}}) {
 	next if $self->{attr}{$vn} & SUBSTVAR_ATTR_AUTO;
-	my $line = "$vn=" . $self->{vars}{$vn} . "\n";
+        my $op = $self->{attr}{$vn} & SUBSTVAR_ATTR_OPT ? '?=' : '=';
+        my $line = "$vn$op" . $self->{vars}{$vn} . "\n";
 	print { $fh } $line if defined $fh;
 	$str .= $line;
     }
@@ -441,6 +448,10 @@ indicated file.
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.01 (dpkg 1.21.8)
+
+New feature: Add support for optional substitution variables.
 
 =head2 Version 2.00 (dpkg 1.20.0)
 
