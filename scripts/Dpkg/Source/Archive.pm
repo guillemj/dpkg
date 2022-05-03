@@ -21,9 +21,11 @@ use warnings;
 our $VERSION = '0.01';
 
 use Carp;
+use Errno qw(ENOENT);
 use File::Temp qw(tempdir);
 use File::Basename qw(basename);
 use File::Spec;
+use File::Find;
 use Cwd;
 
 use Dpkg ();
@@ -110,19 +112,13 @@ sub extract {
     my %spawn_opts = (wait_child => 1);
 
     # Prepare destination
-    my $tmp;
-    if ($opts{in_place}) {
-        $spawn_opts{chdir} = $dest;
-        $tmp = $dest; # So that fixperms call works
-    } else {
-        my $template = basename($self->get_filename()) .  '.tmp-extract.XXXXX';
-        unless (-e $dest) {
-            # Kludge so that realpath works
-            mkdir($dest) or syserr(g_('cannot create directory %s'), $dest);
-        }
-        $tmp = tempdir($template, DIR => Cwd::realpath("$dest/.."), CLEANUP => 1);
-        $spawn_opts{chdir} = $tmp;
+    my $template = basename($self->get_filename()) .  '.tmp-extract.XXXXX';
+    unless (-e $dest) {
+        # Kludge so that realpath works
+        mkdir($dest) or syserr(g_('cannot create directory %s'), $dest);
     }
+    my $tmp = tempdir($template, DIR => Cwd::realpath("$dest/.."), CLEANUP => 1);
+    $spawn_opts{chdir} = $tmp;
 
     # Prepare stuff that handles the input of tar
     $self->ensure_open('r', delete_sig => [ 'PIPE' ]);
@@ -145,22 +141,94 @@ sub extract {
     # have to be calculated using mount options and other madness.
     fixperms($tmp) unless $opts{no_fixperms};
 
-    # Stop here if we extracted in-place as there's nothing to move around
-    return if $opts{in_place};
+    # If we are extracting "in-place" do not remove the destination directory.
+    if ($opts{in_place}) {
+        my $canon_basedir = Cwd::realpath($dest);
+        # On Solaris /dev/null points to /devices/pseudo/mm@0:null.
+        my $canon_devnull = Cwd::realpath('/dev/null');
+        my $check_symlink = sub {
+            my $pathname = shift;
+            my $canon_pathname = Cwd::realpath($pathname);
+            if (not defined $canon_pathname) {
+                return if $! == ENOENT;
 
-    # Rename extracted directory
-    opendir(my $dir_dh, $tmp) or syserr(g_('cannot opendir %s'), $tmp);
-    my @entries = grep { $_ ne '.' && $_ ne '..' } readdir($dir_dh);
-    closedir($dir_dh);
-    my $done = 0;
-    erasedir($dest);
-    if (scalar(@entries) == 1 && ! -l "$tmp/$entries[0]" && -d _) {
-	rename("$tmp/$entries[0]", $dest)
-	    or syserr(g_('unable to rename %s to %s'),
-	              "$tmp/$entries[0]", $dest);
+                syserr(g_("pathname '%s' cannot be canonicalized"), $pathname);
+            }
+            return if $canon_pathname eq $canon_devnull;
+            return if $canon_pathname eq $canon_basedir;
+            return if $canon_pathname =~ m{^\Q$canon_basedir/\E};
+            warning(g_("pathname '%s' points outside source root (to '%s')"),
+                    $pathname, $canon_pathname);
+        };
+
+        my $move_in_place = sub {
+            my $relpath = File::Spec->abs2rel($File::Find::name, $tmp);
+            my $destpath = File::Spec->catfile($dest, $relpath);
+
+            my ($mode, $atime, $mtime);
+            lstat $File::Find::name
+                or syserr(g_('cannot get source pathname %s metadata'), $File::Find::name);
+            ((undef) x 2, $mode, (undef) x 5, $atime, $mtime) = lstat _;
+            my $src_is_dir = -d _;
+
+            my $dest_exists = 1;
+            if (not lstat $destpath) {
+                if ($! == ENOENT) {
+                    $dest_exists = 0;
+                } else {
+                    syserr(g_('cannot get target pathname %s metadata'), $destpath);
+                }
+            }
+            my $dest_is_dir = -d _;
+            if ($dest_exists) {
+                if ($dest_is_dir && $src_is_dir) {
+                    # Refresh the destination directory attributes with the
+                    # ones from the tarball.
+                    chmod $mode, $destpath
+                        or syserr(g_('cannot change directory %s mode'), $File::Find::name);
+                    utime $atime, $mtime, $destpath
+                        or syserr(g_('cannot change directory %s times'), $File::Find::name);
+
+                    # We should do nothing, and just walk further tree.
+                    return;
+                } elsif ($dest_is_dir) {
+                    rmdir $destpath
+                        or syserr(g_('cannot remove destination directory %s'), $destpath);
+                } else {
+                    $check_symlink->($destpath);
+                    unlink $destpath
+                        or syserr(g_('cannot remove destination file %s'), $destpath);
+                }
+            }
+            # If we are moving a directory, we do not need to walk it.
+            if ($src_is_dir) {
+                $File::Find::prune = 1;
+            }
+            rename $File::Find::name, $destpath
+                or syserr(g_('cannot move %s to %s'), $File::Find::name, $destpath);
+        };
+
+        find({
+            wanted => $move_in_place,
+            no_chdir => 1,
+            dangling_symlinks => 0,
+        }, $tmp);
     } else {
-	rename($tmp, $dest)
-	    or syserr(g_('unable to rename %s to %s'), $tmp, $dest);
+        # Rename extracted directory
+        opendir(my $dir_dh, $tmp) or syserr(g_('cannot opendir %s'), $tmp);
+        my @entries = grep { $_ ne '.' && $_ ne '..' } readdir($dir_dh);
+        closedir($dir_dh);
+
+        erasedir($dest);
+
+        if (scalar(@entries) == 1 && ! -l "$tmp/$entries[0]" && -d _) {
+            rename("$tmp/$entries[0]", $dest)
+                or syserr(g_('unable to rename %s to %s'),
+                          "$tmp/$entries[0]", $dest);
+        } else {
+            rename($tmp, $dest)
+                or syserr(g_('unable to rename %s to %s'), $tmp, $dest);
+        }
     }
     erasedir($tmp);
 }
