@@ -290,7 +290,7 @@ pkg_deconfigure_others(struct pkginfo *pkg)
              pkg_name(deconpil->pkg, pnaw_nonambig),
              versiondescribe(&deconpil->pkg->installed.version, vdew_nonambig),
              pkg_name(pkg, pnaw_nonambig),
-             versiondescribe(&pkg->installed.version, vdew_nonambig));
+             versiondescribe(&pkg->available.version, vdew_nonambig));
     }
 
     trig_activate_packageprocessing(deconpil->pkg);
