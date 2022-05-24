@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-03-13 15:30+0100\n"
+"POT-Creation-Date: 2022-05-24 11:18+0000\n"
 "PO-Revision-Date: 2022-01-15 23:26+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -640,7 +640,7 @@ msgstr "kan inte öppna %s"
 msgid "cannot close %s"
 msgstr "kan inte stänga %s"
 
-#: scripts/dpkg-buildpackage.pl
+#: scripts/dpkg-buildpackage.pl scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "cannot move %s to %s"
 msgstr "kan inte flytta %s till %s"
@@ -680,8 +680,8 @@ msgid ""
 "%s must be updated to support the 'build-arch' and 'build-indep' targets (at "
 "least '%s' seems to be missing)"
 msgstr ""
-"%s måste uppdateras för att stöda målen \"build-arch\" och \"build-"
-"indep\" (åtminstone \"%s\" verkar saknas)"
+"%s måste uppdateras för att stöda målen \"build-arch\" och \"build-indep"
+"\" (åtminstone \"%s\" verkar saknas)"
 
 #: scripts/dpkg-checkbuilddeps.pl
 #, perl-format
@@ -1653,8 +1653,8 @@ msgstr "behöver minst en binär"
 msgid ""
 "cannot find library %s needed by %s (ELF format: '%s' abi: '%s'; RPATH: '%s')"
 msgstr ""
-"hittade inte biblioteket %s som behövs av %s (ELF-format: \"%s\" abi: "
-"\"%s\"; RPATH: \"%s\")"
+"hittade inte biblioteket %s som behövs av %s (ELF-format: \"%s\" abi: \"%s"
+"\"; RPATH: \"%s\")"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -2095,8 +2095,8 @@ msgstr ""
 "                             är \"%s\", värden som stöds: %s).\n"
 "  -z, --compression-level=<nivå>\n"
 "                           komprimeringsnivå att använda (förval är\n"
-"                             \"%d\", värden som stöds: \"1\"-\"9\", "
-"\"best\", \"fast\")"
+"                             \"%d\", värden som stöds: \"1\"-\"9\", \"best"
+"\", \"fast\")"
 
 #: scripts/dpkg-source.pl
 msgid ""
@@ -2779,12 +2779,12 @@ msgstr "tecknet \"%s\" är inte tillåtet"
 msgid "must start with an alphanumeric character"
 msgstr "måste börja med ett alfanumeriskt tecken"
 
-#: scripts/Dpkg/Path.pm
+#: scripts/Dpkg/Path.pm scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "pathname '%s' cannot be canonicalized"
 msgstr "sökvägsnamnet \"%s\" kan inte kanoniseras"
 
-#: scripts/Dpkg/Path.pm
+#: scripts/Dpkg/Path.pm scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "pathname '%s' points outside source root (to '%s')"
 msgstr "sökvägsnamnet \"%s\" pekar till utanför källkodsroten (på \"%s\")"
@@ -2860,6 +2860,40 @@ msgstr "stängning av tar-indata"
 #, perl-format
 msgid "cannot create directory %s"
 msgstr "kan inte skapa katalogen %s"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot get source pathname %s metadata"
+msgstr ""
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot get target pathname %s metadata"
+msgstr ""
+
+#: scripts/Dpkg/Source/Archive.pm
+#, fuzzy, perl-format
+#| msgid "cannot create directory %s"
+msgid "cannot change directory %s mode"
+msgstr "kan inte skapa katalogen %s"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, fuzzy, perl-format
+#| msgid "cannot create directory %s"
+msgid "cannot change directory %s times"
+msgstr "kan inte skapa katalogen %s"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, fuzzy, perl-format
+#| msgid "cannot stat directory %s"
+msgid "cannot remove destination directory %s"
+msgstr "kan inte ta status på katalogen %s"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, fuzzy, perl-format
+#| msgid "cannot seek into file %s"
+msgid "cannot remove destination file %s"
+msgstr "kan inte söka inuti filen %s"
 
 #: scripts/Dpkg/Source/Archive.pm scripts/Dpkg/Source/Package.pm
 #: scripts/Dpkg/Source/Package/V2.pm
@@ -3155,8 +3189,8 @@ msgstr "orig-parametern %s är inte en vanlig fil eller katalog"
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is empty (means no orig, no diff) but source handling style -"
-"s%s wants something"
+"orig argument is empty (means no orig, no diff) but source handling style -s"
+"%s wants something"
 msgstr ""
 "originalargument är tomt (betyder ingen orig, ingen diff) men "
 "källkodshanteringstypen -s%s ber om något"
@@ -4938,8 +4972,8 @@ msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
 #~ "filnamnet \"%s\" trunkerades av cpio; kan inte kontrollera komplett sökväg"
 
 #~ msgid ""
-#~ "tarfile `%s' contains unexpected object listed by tar as `%s'; expected "
-#~ "`%s'"
+#~ "tarfile `%s' contains unexpected object listed by tar as `%s'; expected `"
+#~ "%s'"
 #~ msgstr ""
 #~ "tarfilen \"%s\" innehåller oväntat objekt som tar visar som \"%s\"; "
 #~ "förväntade \"%s\""
