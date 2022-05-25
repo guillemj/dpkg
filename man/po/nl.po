@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.21.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-04-01 02:27+0200\n"
+"POT-Creation-Date: 2022-05-25 08:39+0000\n"
 "PO-Revision-Date: 2022-04-09 21:42+0200\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -687,8 +687,8 @@ msgid ""
 "I<version> is delimited by parenthesis U+00028 ‘B<(>’ and U+0029 ‘B<)>’."
 msgstr ""
 "I<pakket> en I<versie> zijn de naam van het broncodepakket en zijn "
-"versienummer. I<versie> wordt begrensd door de haakjes U+00028 ‘B<(>’ en U"
-"+0029 ‘B<)>’."
+"versienummer. I<versie> wordt begrensd door de haakjes U+00028 ‘B<(>’ en "
+"U+0029 ‘B<)>’."
 
 #. type: textblock
 #: deb-changelog.pod
@@ -810,8 +810,8 @@ msgstr ""
 msgid ""
 "I<day-of-week>B<,> I<dd> I<month> I<yyyy> I<hh>B<:>I<mm>B<:>I<ss> B<+>I<zzzz>"
 msgstr ""
-"I<dag-van-de-week>B<,> I<dd> I<maand> I<jjjj> I<uu>B<:>I<mm>B<:>I<ss> B<"
-"+>I<zzzz>"
+"I<dag-van-de-week>B<,> I<dd> I<maand> I<jjjj> I<uu>B<:>I<mm>B<:>I<ss> "
+"B<+>I<zzzz>"
 
 #. type: textblock
 #: deb-changelog.pod
@@ -2275,7 +2275,6 @@ msgstr ""
 
 #. type: =item
 #: deb-control.pod deb-src-control.pod
-#| msgid "B<Built-Using:> I<package-list>"
 msgid "B<Static-Built-Using:> I<package-list>"
 msgstr "B<Static-Built-Using:> I<pakketlijst>"
 
@@ -2960,8 +2959,6 @@ msgstr "Indien I<prerm> mislukt bij B<remove>."
 
 #. type: =item
 #: deb-postinst.pod
-#| msgid ""
-#| "I<postinst> B<abort-deconfigure in-favour> I<new-package new-version>"
 msgid ""
 "I<postinst> B<abort-deconfigure> B<in-favour> I<new-package> I<new-version>"
 msgstr ""
@@ -5344,8 +5341,8 @@ msgstr ""
 #. type: textblock
 #: deb-src-symbols.pod
 msgid ""
-"Symbols like \"mystack_new@Base\", \"mystack_push@Base\", \"mystack_pop@Base"
-"\" etc.  will be matched by the first pattern while e.g. "
+"Symbols like \"mystack_new@Base\", \"mystack_push@Base\", "
+"\"mystack_pop@Base\" etc.  will be matched by the first pattern while e.g. "
 "\"ng_mystack_new@Base\" won't.  The second pattern will match all symbols "
 "having the string \"private\" in their names and matches will inherit "
 "I<optional> tag from the pattern."
@@ -5402,9 +5399,10 @@ msgstr ""
 "reguliere expressie vergeleken met de rauwe symboolnaam en vervolgens wordt "
 "nagegaan of het een C++-symbool is door het te proberen ontwarren. Als een "
 "basispatroon een mislukking oplevert, betekent dit het mislukken van het "
-"hele patroon. Om die reden zal \"__N3NSA6ClassA7Private11privmethod\\dEi@Base"
-"\" bijvoorbeeld met geen van beide patronen een overeenkomst opleveren, "
-"aangezien het geen geldig C++-symbool is."
+"hele patroon. Om die reden zal "
+"\"__N3NSA6ClassA7Private11privmethod\\dEi@Base\" bijvoorbeeld met geen van "
+"beide patronen een overeenkomst opleveren, aangezien het geen geldig C++-"
+"symbool is."
 
 #. type: textblock
 #: deb-src-symbols.pod
@@ -5585,7 +5583,10 @@ msgstr "deb-substvars - Substitutievariabelen in Debian broncode"
 
 #. type: textblock
 #: deb-substvars.pod
-msgid "B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>"
+#, fuzzy
+#| msgid "B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>"
+msgid ""
+"B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>, variables"
 msgstr "B<debian/substvars>, B<debian/>I<binair-pakket>B<.substvars>"
 
 #. type: textblock
@@ -5601,6 +5602,11 @@ msgstr ""
 "in het geval van B<dpkg-source> en naar standaarduitvoer in het geval van "
 "B<dpkg-gencontrol> en B<dpkg-genchanges>), voeren ze een aantal "
 "variabelesubstituties uit op het uitvoerbestand."
+
+#. type: =head2
+#: deb-substvars.pod
+msgid "Variable Syntax"
+msgstr ""
 
 #. type: textblock
 #: deb-substvars.pod
@@ -5621,19 +5627,76 @@ msgstr ""
 "volledige tekst van het veld opnieuw doorzocht op nog meer uit te voeren "
 "substituties."
 
+#. type: =head2
+#: deb-substvars.pod
+msgid "File Syntax"
+msgstr ""
+
 #. type: textblock
 #: deb-substvars.pod
 msgid ""
-"After all the substitutions have been done each occurrence of the string B<"
-"${}> (which is not a legal substitution) is replaced with a B<$> sign.  This "
-"can be used as an escape sequence such as B<${}{>I<VARIABLE>B<}> which will "
-"end up as B<${>I<VARIABLE>B<}> on the output."
+"Substitution variables can be specified in a file.  These files consist of "
+"lines of the form I<name>B<=>I<value> or I<name>B<?=>I<value>.  The B<=> "
+"operator assigns a normal substitution variable, while the B<?=> operator "
+"(since dpkg 1.21.8) assigns an optional substitution variable which will "
+"emit no warnings even if unused.  Trailing whitespace on each line, blank "
+"lines, and lines starting with a B<#> symbol (comments) are ignored."
+msgstr ""
+
+#. type: =head2
+#: deb-substvars.pod
+msgid "Substitution"
+msgstr ""
+
+#. type: textblock
+#: deb-substvars.pod
+#, fuzzy
+#| msgid ""
+#| "Variables can be set using the B<-V> common option. They can be also "
+#| "specified in the file B<debian/substvars> (or whatever other file is "
+#| "specified using the B<-T> option). This file consists of lines of the "
+#| "form I<name>B<=>I<value>.  Trailing whitespace on each line, blank lines, "
+#| "and lines starting with a B<#> symbol (comments) are ignored."
+msgid ""
+"Variables can be set using the B<-V> common option.  They can be also "
+"specified in the file B<debian/substvars> (or whatever other file is "
+"specified using the B<-T> common option)."
+msgstr ""
+"Variabelen kunnen ingesteld worden met behulp van de algemene optie B<-V>. "
+"Ze kunnen ook opgegeven worden in het bestand B<debian/substvars> (of om het "
+"even welk ander bestand dat opgegeven werd met de optie B<-T>). Dit bestand "
+"bestaat uit regels die de vorm I<naam>B<=>I<waarde> hebben. Witruimte aan "
+"het einde van een regel, lege regels en regels die beginnen met het symbool "
+"B<#> (commentaar) worden genegeerd."
+
+#. type: textblock
+#: deb-substvars.pod
+#, fuzzy
+#| msgid ""
+#| "After all the substitutions have been done each occurrence of the string "
+#| "B<${}> (which is not a legal substitution) is replaced with a B<$> sign.  "
+#| "This can be used as an escape sequence such as B<${}{>I<VARIABLE>B<}> "
+#| "which will end up as B<${>I<VARIABLE>B<}> on the output."
+msgid ""
+"After all the substitutions have been done each occurrence of the string "
+"B<${}> (which is not an actual substitution variable) is replaced with a "
+"B<$> sign.  This can be used as an escape sequence such as B<${}"
+"{>I<VARIABLE>B<}> which will end up as B<${>I<VARIABLE>B<}> on the output."
 msgstr ""
 "Nadat alle substituties uitgevoerd werden, wordt de tekenreeks B<${}> "
 "(hetgeen geen geldige substitutie is) overal waar die voorkomt, vervangen "
 "door het teken B<$>. Dit kan gebruikt worden als een escape-sequentie zoals "
-"B<${}{>I<VARIABLE>B<}>, wat in de uitvoer de vorm zal aannemen van B<"
-"${>I<VARIABLE>B<}>."
+"B<${}{>I<VARIABLE>B<}>, wat in de uitvoer de vorm zal aannemen van "
+"B<${>I<VARIABLE>B<}>."
+
+#. type: textblock
+#: deb-substvars.pod
+msgid ""
+"If a variable is referred to but not defined it generates a warning and an "
+"empty value is assumed."
+msgstr ""
+"Indien er gerefereerd wordt naar een niet-gedefinieerde variabele, wordt een "
+"waarschuwing gegeven en wordt verondersteld dat de waarde ervan leeg is."
 
 #. type: textblock
 #: deb-substvars.pod
@@ -5661,9 +5724,9 @@ msgstr ""
 "Variabelesubstitutie vindt plaats op de inhoud van de velden nadat die "
 "ontleed werden. Indien u dus wenst dat een variabele zich uitstrekt over "
 "meerdere regels, moet u na het regeleinde geen spatie invoegen. Dit gebeurt "
-"impliciet bij de uitvoer van het veld. Indien bijvoorbeeld de variabele B<"
-"${Description}> ingesteld werd op \"foo is bar.${Newline}foo is geweldig.\" "
-"en u het volgende veld heeft:"
+"impliciet bij de uitvoer van het veld. Indien bijvoorbeeld de variabele "
+"B<${Description}> ingesteld werd op \"foo is bar.${Newline}foo is geweldig."
+"\" en u het volgende veld heeft:"
 
 #. type: verbatim
 #: deb-substvars.pod
@@ -5704,25 +5767,16 @@ msgstr ""
 "  Bijkomende tekst.\n"
 "\n"
 
-#. type: textblock
+#. type: =head2
 #: deb-substvars.pod
-msgid ""
-"Variables can be set using the B<-V> common option. They can be also "
-"specified in the file B<debian/substvars> (or whatever other file is "
-"specified using the B<-T> option). This file consists of lines of the form "
-"I<name>B<=>I<value>.  Trailing whitespace on each line, blank lines, and "
-"lines starting with a B<#> symbol (comments) are ignored."
+msgid "Built-in Variable"
 msgstr ""
-"Variabelen kunnen ingesteld worden met behulp van de algemene optie B<-V>. "
-"Ze kunnen ook opgegeven worden in het bestand B<debian/substvars> (of om het "
-"even welk ander bestand dat opgegeven werd met de optie B<-T>). Dit bestand "
-"bestaat uit regels die de vorm I<naam>B<=>I<waarde> hebben. Witruimte aan "
-"het einde van een regel, lege regels en regels die beginnen met het symbool "
-"B<#> (commentaar) worden genegeerd."
 
 #. type: textblock
 #: deb-substvars.pod
-msgid "Additionally, the following standard variables are available:"
+#, fuzzy
+#| msgid "Additionally, the following standard variables are available:"
+msgid "Additionally, the following standard variables are always available:"
 msgstr "Bovendien kunnen de volgende standaardvariabelen gebruikt worden:"
 
 #. type: =item
@@ -6009,15 +6063,6 @@ msgstr "B<dpkg:Version>"
 #: deb-substvars.pod
 msgid "The full version of dpkg (since dpkg 1.13.19)."
 msgstr "De volledige versie van dpkg (sinds dpkg 1.13.19)."
-
-#. type: textblock
-#: deb-substvars.pod
-msgid ""
-"If a variable is referred to but not defined it generates a warning and an "
-"empty value is assumed."
-msgstr ""
-"Indien er gerefereerd wordt naar een niet-gedefinieerde variabele, wordt een "
-"waarschuwing gegeven en wordt verondersteld dat de waarde ervan leeg is."
 
 #. type: =item
 #: deb-substvars.pod
@@ -7023,10 +7068,10 @@ msgstr ""
 "veldnaam, gevolgd door een dubbelepunt (U+003A ‘B<:>’) en nadien de data/"
 "waarde die bij dat veld hoort. De veldnaam wordt gevormd uit US-ASCII-tekens "
 "met uitsluiting van controle-tekens, spatie en dubbelepunt (d.w.z. tekens "
-"uit het bereik U+0021 ‘B<!>’ tot en met U+0039 ‘B<9>’ en uit het bereik U"
-"+003B ‘B<;>’ tot en met U+007E ‘B<~>’). Veldnamen mogen niet beginnen met "
-"het commentaarteken (U+0023 ‘B<#>’) en evenmin met het verbindingsteken (U"
-"+002D ‘B<->’)."
+"uit het bereik U+0021 ‘B<!>’ tot en met U+0039 ‘B<9>’ en uit het bereik "
+"U+003B ‘B<;>’ tot en met U+007E ‘B<~>’). Veldnamen mogen niet beginnen met "
+"het commentaarteken (U+0023 ‘B<#>’) en evenmin met het verbindingsteken "
+"(U+002D ‘B<->’)."
 
 #. type: textblock
 #: deb822.pod
@@ -7038,8 +7083,8 @@ msgid ""
 "might be:"
 msgstr ""
 "Het veld eindigt op het einde van de regel of op het einde van de laatste "
-"vervolgregel (zie later). Er mag horizontale witruimte (U+0020 B<SPATIE> en U"
-"+0009 B<TAB>) voorkomen vlak voor en vlak na de waarde en daar wordt die "
+"vervolgregel (zie later). Er mag horizontale witruimte (U+0020 B<SPATIE> en "
+"U+0009 B<TAB>) voorkomen vlak voor en vlak na de waarde en daar wordt die "
 "genegeerd. Het is gebruikelijk om na de dubbelepunt een enkele spatie te "
 "plaatsen. Een voorbeeld van een veld zou kunnen zijn:"
 
@@ -7111,8 +7156,8 @@ msgid ""
 msgstr ""
 "(uitgevouwen) De waarde van een uitgevouwen veld is een logische regel die "
 "verschillende regels mag beslaan. De regels na de eerste regel worden "
-"vervolgregels genoemd en moeten beginnen met een U+0020 B<SPATIE> of een U"
-"+0009 B<TAB>. Witruimte, met inbegrip van regeleindes, is in de veldwaarde "
+"vervolgregels genoemd en moeten beginnen met een U+0020 B<SPATIE> of een "
+"U+0009 B<TAB>. Witruimte, met inbegrip van regeleindes, is in de veldwaarde "
 "van uitgevouwen velden betekenisloos."
 
 #. type: textblock
@@ -7188,11 +7233,11 @@ msgid ""
 "fields.  Empty lines in field values are usually escaped by representing "
 "them by a U+0020 B<SPACE> followed by a dot (U+002E ‘B<.>’)."
 msgstr ""
-"Paragraafscheidingstekens (lege regels) en regels die enkel bestaan uit U"
-"+0020 B<SPATIE> en U+0009 B<TAB>, mogen in veldwaarden en tussen velden niet "
-"gebruikt worden. Lege regels in veldwaarden worden meestal gemaskeerd door "
-"ze voor te stellen als een U+0020 B<SPATIE> gevolgd door een punt (U+002E "
-"‘B<.>’)."
+"Paragraafscheidingstekens (lege regels) en regels die enkel bestaan uit "
+"U+0020 B<SPATIE> en U+0009 B<TAB>, mogen in veldwaarden en tussen velden "
+"niet gebruikt worden. Lege regels in veldwaarden worden meestal gemaskeerd "
+"door ze voor te stellen als een U+0020 B<SPATIE> gevolgd door een punt "
+"(U+002E ‘B<.>’)."
 
 #. type: textblock
 #: deb822.pod
@@ -8556,8 +8601,8 @@ msgstr "2."
 #. type: textblock
 #: dpkg-buildflags.pod
 msgid ""
-"for the current user with B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> where B<"
-"$XDG_CONFIG_HOME> defaults to B<$HOME/.config>;"
+"for the current user with B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> where "
+"B<$XDG_CONFIG_HOME> defaults to B<$HOME/.config>;"
 msgstr ""
 "voor de huidige gebruiker met B<$XDG_CONFIG_HOME/dpkg/buildflags.conf>, "
 "waarbij B<$XDG_CONFIG_HOME> als standaardwaarde B<$HOME/.config> heeft;"
@@ -9174,8 +9219,8 @@ msgstr "FUNCTIEGEBIEDEN"
 #: dpkg-buildflags.pod
 msgid ""
 "Each area feature can be enabled and disabled in the B<DEB_BUILD_OPTIONS> "
-"and B<DEB_BUILD_MAINT_OPTIONS> environment variable's area value with the ‘B<"
-"+>’ and ‘B<->’ modifier.  For example, to enable the B<hardening> “pie” "
+"and B<DEB_BUILD_MAINT_OPTIONS> environment variable's area value with the "
+"‘B<+>’ and ‘B<->’ modifier.  For example, to enable the B<hardening> “pie” "
 "feature and disable the “fortify” feature you can do this in B<debian/rules>:"
 msgstr ""
 "Elke gebiedsfunctie kan in de gebiedswaarde van de omgevingsvariabelen "
@@ -9672,8 +9717,8 @@ msgstr ""
 "B<LDFLAGS>. Indien de instelling gedeactiveerd is en gcc de vlaggen "
 "injecteert, voegt ze B<-fno-PIE> toe (via I<%PKGDATADIR%/no-pie-compile."
 "specs>) aan B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, "
-"B<GCJFLAGS>, B<FFLAGS> en B<FCFLAGS>, en B<-fno-PIE -no-pie> (via I<"
-"%PKGDATADIR%/no-pie-link.specs>) aan B<LDFLAGS>."
+"B<GCJFLAGS>, B<FFLAGS> en B<FCFLAGS>, en B<-fno-PIE -no-pie> (via "
+"I<%PKGDATADIR%/no-pie-link.specs>) aan B<LDFLAGS>."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -10022,8 +10067,8 @@ msgid ""
 "current vendor by reading B<%PKGCONFDIR%/origins/default>."
 msgstr ""
 "Deze instelling definieert de huidige leverancier. Indien zij niet ingesteld "
-"is, zal gezocht worden naar de huidige leverancier door te gaan lezen in B<"
-"%PKGCONFDIR%/origins/default>."
+"is, zal gezocht worden naar de huidige leverancier door te gaan lezen in "
+"B<%PKGCONFDIR%/origins/default>."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -12777,8 +12822,8 @@ msgstr "B<--admindir> I<map>"
 #. type: textblock
 #: dpkg-divert.pod
 msgid ""
-"Set the administrative directory to I<directory>.  Defaults to «I<%ADMINDIR"
-"%>» if B<DPKG_ADMINDIR> has not been set."
+"Set the administrative directory to I<directory>.  Defaults to "
+"«I<%ADMINDIR%>» if B<DPKG_ADMINDIR> has not been set."
 msgstr ""
 "De administratieve map instellen op I<map>. Standaard is dit «I<%ADMINDIR%>» "
 "indien B<DPKG_ADMINDIR> niet ingesteld werd."
@@ -13315,13 +13360,11 @@ msgstr ""
 
 #. type: =item
 #: dpkg-fsys-usrunmess.pod
-#| msgid "B<--version>"
 msgid "B<--prevention>"
 msgstr "B<--prevention>"
 
 #. type: =item
 #: dpkg-fsys-usrunmess.pod
-#| msgid "B<--no-preparation>"
 msgid "B<--no-prevention>"
 msgstr "B<--no-prevention>"
 
@@ -13376,9 +13419,6 @@ msgstr "Deze instelling bepaalt of de droogloopmodus moet worden geactiveerd."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
-#| msgid ""
-#| "L<https://wiki.debian.org/Teams/Dpkg/FAQ#Q:"
-#| "_Does_dpkg_support_merged-.2Fusr-via-aliased-dirs.3F>."
 msgid "L<https://wiki.debian.org/Teams/Dpkg/FAQ#broken-usrmerge>."
 msgstr "L<https://wiki.debian.org/Teams/Dpkg/FAQ#broken-usrmerge>."
 
@@ -15946,13 +15986,13 @@ msgid ""
 "to map it back to the exact value in this field."
 msgstr ""
 "De datum van het item als een tekenreeks, zoals die voorkomt in het "
-"changelog-bestand. Met een B<strptime>(3)-indeling \"B<%a, %d %b %Y %T %z>"
-"\", maar waarbij het kan zijn dat de dag van de week niet echt overeenkomt "
-"met de werkelijke dag die bekomen wordt uit de rest van de datumtekenreeks. "
-"Indien u een meer accurate representatie van de datum nodig heeft, moet u "
-"gebruik maken van het B<Timestamp>-veld, maar u moet er rekening mee houden "
-"dat het mogelijk is dat het niet meer exact terug omgezet kan worden naar de "
-"waarde van dat veld."
+"changelog-bestand. Met een B<strptime>(3)-indeling \"B<%a, %d %b %Y %T "
+"%z>\", maar waarbij het kan zijn dat de dag van de week niet echt "
+"overeenkomt met de werkelijke dag die bekomen wordt uit de rest van de "
+"datumtekenreeks. Indien u een meer accurate representatie van de datum nodig "
+"heeft, moet u gebruik maken van het B<Timestamp>-veld, maar u moet er "
+"rekening mee houden dat het mogelijk is dat het niet meer exact terug "
+"omgezet kan worden naar de waarde van dat veld."
 
 #. type: =item
 #: dpkg-parsechangelog.pod
@@ -16158,8 +16198,8 @@ msgid ""
 msgstr ""
 "Om er voor te zorgen dat B<dpkg-parsechangelog> dat nieuw ontleedprogramma "
 "uitvoert, moet binnen de laatste 40 regels van het changelog-bestand een "
-"regel toegevoegd worden die voldoet aan de Perl reguliere expressie: “B<"
-"\\schangelog-format:\\s+([0-9a-z]+)\\W>”. Het deel tussen haakjes moet de "
+"regel toegevoegd worden die voldoet aan de Perl reguliere expressie: "
+"“B<\\schangelog-format:\\s+([0-9a-z]+)\\W>”. Het deel tussen haakjes moet de "
 "naam van de indeling zijn. Bijvoorbeeld:"
 
 #. type: textblock
@@ -16773,11 +16813,11 @@ msgstr ""
 #. type: textblock
 #: dpkg-query.pod
 msgid ""
-"Change the location of the B<dpkg> database. The default location is I<"
-"%ADMINDIR%>."
+"Change the location of the B<dpkg> database. The default location is "
+"I<%ADMINDIR%>."
 msgstr ""
-"De locatie van de database van B<dpkg> wijzigen. De standaardlocatie is I<"
-"%ADMINDIR%>."
+"De locatie van de database van B<dpkg> wijzigen. De standaardlocatie is "
+"I<%ADMINDIR%>."
 
 #. type: =item
 #: dpkg-query.pod dpkg-trigger.pod
@@ -16866,8 +16906,8 @@ msgid ""
 "following character, which is useful for “B<\\>” and “B<$>”."
 msgstr ""
 "“B<\\>” voor elk ander letterteken onderdrukt de eventuele bijzondere "
-"betekenis van dat navolgende teken, hetgeen van nut is voor “B<\\>” en “B<"
-"$>”."
+"betekenis van dat navolgende teken, hetgeen van nut is voor “B<\\>” en "
+"“B<$>”."
 
 #. type: textblock
 #: dpkg-query.pod
@@ -17348,8 +17388,8 @@ msgstr ""
 "1.19.2). Om het standaardgedrag te wijzigen, kan deze variabele vooraf "
 "ingesteld worden op een andere waarde, inclusief op een lege tekenreeks, "
 "ofwel kunnen de variabelen B<PAGER> of B<DPKG_PAGER> ingesteld worden om "
-"specifieke opties uit te schakelen met «B<-+>», bijvoorbeeld B<DPKG_PAGER="
-"\"less -+F\">."
+"specifieke opties uit te schakelen met «B<-+>», bijvoorbeeld "
+"B<DPKG_PAGER=\"less -+F\">."
 
 #. type: textblock
 #: dpkg-realpath.pod
@@ -18637,7 +18677,11 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
-msgid "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
+#, fuzzy
+#| msgid "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
+msgid ""
+"B<deb-substvars>(5), B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-"
+"gensymbols>(1)."
 msgstr "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
 
 #. type: textblock
@@ -20651,7 +20695,10 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-source.pod
-msgid "B<deb-src-control>(5), B<deb-changelog>(5), B<dsc>(5)."
+#, fuzzy
+#| msgid "B<deb-src-control>(5), B<deb-changelog>(5), B<dsc>(5)."
+msgid ""
+"B<deb-src-control>(5), B<deb-changelog>(5), B<deb-substvars>(5), B<dsc>(5)."
 msgstr "B<deb-src-control>(5), B<deb-changelog>(5), B<dsc>(5)."
 
 #. type: textblock
@@ -21298,6 +21345,17 @@ msgstr ""
 "Access Controls (MAC) (since dpkg 1.19.5). Op Linux-systemen gebruikt de "
 "implementatie SELinux."
 
+#. type: textblock
+#: dpkg-statoverride.pod
+#, fuzzy
+#| msgid "B<not-root>: Try to (de)install things even when not root."
+msgid ""
+"B<not-root>: Try to (de)install things even when not root (since dpkg "
+"1.21.8)."
+msgstr ""
+"B<not-root>: Proberen om zaken te (de-)installeren, zelfs in opdracht van "
+"een niet-systeembeheerder."
+
 #. type: =item
 #: dpkg-statoverride.pod update-alternatives.pod
 msgid "B<--force>"
@@ -21453,8 +21511,8 @@ msgid ""
 "Change the location of the B<dpkg> database.  Defaults to I<%ADMINDIR%> if "
 "B<DPKG_ADMINDIR> has not been set."
 msgstr ""
-"De locatie van de database van B<dpkg> wijzigen. De standaardlocatie is I<"
-"%ADMINDIR%> indien B<DPKG_ADMINDIR> niet werd ingesteld."
+"De locatie van de database van B<dpkg> wijzigen. De standaardlocatie is "
+"I<%ADMINDIR%> indien B<DPKG_ADMINDIR> niet werd ingesteld."
 
 #. type: =item
 #: dpkg-trigger.pod
@@ -21558,9 +21616,9 @@ msgstr "B<dpkg-vendor> [I<optie>...] I<commando>"
 #. type: textblock
 #: dpkg-vendor.pod
 msgid ""
-"B<dpkg-vendor> is a tool to query information about vendors listed in B<"
-"%PKGCONFDIR%/origins>. B<%PKGCONFDIR%/origins/default> contains information "
-"about the current vendor."
+"B<dpkg-vendor> is a tool to query information about vendors listed in "
+"B<%PKGCONFDIR%/origins>. B<%PKGCONFDIR%/origins/default> contains "
+"information about the current vendor."
 msgstr ""
 "B<dpkg-vendor> is gereedschap om informatie op te vragen over leveranciers "
 "die opgesomd worden in B<%PKGCONFDIR%/origins>. B<%PKGCONFDIR%/origins/"
@@ -21632,8 +21690,8 @@ msgid ""
 "current vendor by reading B<%PKGCONFDIR%/origins/default>."
 msgstr ""
 "Deze instelling definieert de huidige leverancier. Indien dit niet ingesteld "
-"werd, zal er gezocht worden naar de huidige leverancier door in B<%PKGCONFDIR"
-"%/origins/default> te gaan kijken."
+"werd, zal er gezocht worden naar de huidige leverancier door in "
+"B<%PKGCONFDIR%/origins/default> te gaan kijken."
 
 #. type: textblock
 #: dpkg-vendor.pod
@@ -23010,9 +23068,9 @@ msgid ""
 "Display details about I<package-name>, as found in I<%ADMINDIR%/available>. "
 "Users of APT-based frontends should use B<apt show> I<package-name> instead."
 msgstr ""
-"Details weergeven over I<pakketnaam>, zoals die te vinden zijn in I<%ADMINDIR"
-"%/available>. Gebruikers van op APT gebaseerde frontends moeten in plaats "
-"daarvan B<apt show> I<pakketnaam> gebruiken."
+"Details weergeven over I<pakketnaam>, zoals die te vinden zijn in "
+"I<%ADMINDIR%/available>. Gebruikers van op APT gebaseerde frontends moeten "
+"in plaats daarvan B<apt show> I<pakketnaam> gebruiken."
 
 #. type: textblock
 #: dpkg.pod
@@ -23567,8 +23625,8 @@ msgstr "B<--root=>I<map>"
 #: dpkg.pod
 msgid ""
 "Set the root directory to B<directory>, which sets the installation "
-"directory to «I<dir>» and the administrative directory to «I<dir>B<%ADMINDIR"
-"%>»."
+"directory to «I<dir>» and the administrative directory to "
+"«I<dir>B<%ADMINDIR%>»."
 msgstr ""
 "De hoofdmap instellen op B<directory>, hetgeen de installatiemap instelt op "
 "«I<map>» en de administratieve map op «I<map>B<%ADMINDIR%>»."
@@ -24302,8 +24360,8 @@ msgstr ""
 "1.19.2). Om dit standaardgedrag aan te passen kan deze variabele vooraf "
 "ingesteld worden op een andere waarde, met inbegrip van een lege tekenreeks, "
 "of kunnen de variabelen B<PAGER> of B<DPKG_PAGER> ingesteld worden om "
-"specifieke opties uit te schakelen met «B<-+>», bijvoorbeeld B<DPKG_PAGER="
-"\"less -+F\">."
+"specifieke opties uit te schakelen met «B<-+>», bijvoorbeeld "
+"B<DPKG_PAGER=\"less -+F\">."
 
 #. type: textblock
 #: dpkg.pod
@@ -24568,9 +24626,9 @@ msgid ""
 "The status file is backed up daily in I<%BACKUPSDIR%>. It can be useful if "
 "it's lost or corrupted due to filesystems troubles."
 msgstr ""
-"Dagelijks wordt een reservekopie van het statusbestand gemaakt in I<"
-"%BACKUPSDIR%>. Dit kan nuttig zijn mocht het bestand verloren gegaan zijn of "
-"beschadigd ten gevolge van problemen met het bestandssysteem."
+"Dagelijks wordt een reservekopie van het statusbestand gemaakt in "
+"I<%BACKUPSDIR%>. Dit kan nuttig zijn mocht het bestand verloren gegaan zijn "
+"of beschadigd ten gevolge van problemen met het bestandssysteem."
 
 #. type: textblock
 #: dpkg.pod
@@ -25369,8 +25427,8 @@ msgstr ""
 #: dselect.pod
 msgid ""
 "Set the root directory to I<directory>, which sets the installation "
-"directory to «I<directory>» and the administrative directory to «I<directory>"
-"%ADMINDIR%» (since dpkg 1.21.0)."
+"directory to «I<directory>» and the administrative directory to "
+"«I<directory>%ADMINDIR%» (since dpkg 1.21.0)."
 msgstr ""
 "De hoofdmap instellen op B<map>, hetgeen de installatiemap instelt op "
 "«I<map>» en de administratieve map op «I<map>%ADMINDIR%» (sinds dpkg 1.21.0)."
@@ -25401,20 +25459,20 @@ msgstr ""
 #. type: =item
 #: dselect.pod
 msgid ""
-"B<--color> I<screenpart>:[I<foreground>],[I<background>][:I<attr>[I<"
-"+attr>]...]"
+"B<--color> I<screenpart>:[I<foreground>],[I<background>][:"
+"I<attr>[I<+attr>]...]"
 msgstr ""
-"B<--color> I<schermdeel>:[I<voorgrond>],[I<achtergrond>][:I<attr>[I<"
-"+attr>]...]"
+"B<--color> I<schermdeel>:[I<voorgrond>],[I<achtergrond>][:"
+"I<attr>[I<+attr>]...]"
 
 #. type: =item
 #: dselect.pod
 msgid ""
-"B<--colour> I<screenpart>:[I<foreground>],[I<background>][:I<attr>[I<"
-"+attr>]...]"
+"B<--colour> I<screenpart>:[I<foreground>],[I<background>][:"
+"I<attr>[I<+attr>]...]"
 msgstr ""
-"B<--colour> I<schermdeel>:[I<voorgrond>],[I<achtergrond>][:I<attr>[I<"
-"+attr>]...]"
+"B<--colour> I<schermdeel>:[I<voorgrond>],[I<achtergrond>][:"
+"I<attr>[I<+attr>]...]"
 
 #. type: textblock
 #: dselect.pod
@@ -28098,12 +28156,12 @@ msgstr ""
 #: update-alternatives.pod
 msgid ""
 "Specifies the administrative directory, when this is to be different from "
-"the default.  Defaults to «I<%ADMINDIR%/alternatives>» if B<%ADMINDIR_ENVVAR"
-"%> has not been set."
+"the default.  Defaults to «I<%ADMINDIR%/alternatives>» if "
+"B<%ADMINDIR_ENVVAR%> has not been set."
 msgstr ""
 "Specificeert de administratieve map als die anders dan de standaard moet "
-"zijn. Standaard is deze «I<%ADMINDIR%/alternatives>» indien B<"
-"%ADMINDIR_ENVVAR%> niet werd ingesteld."
+"zijn. Standaard is deze «I<%ADMINDIR%/alternatives>» indien "
+"B<%ADMINDIR_ENVVAR%> niet werd ingesteld."
 
 #. type: textblock
 #: update-alternatives.pod
@@ -28113,8 +28171,8 @@ msgid ""
 "has not been set."
 msgstr ""
 "Specificeert de installatiemap waar alternatievenkoppelingen gecreëerd "
-"zullen worden (sinds versie 1.20.1). Standaard is dat «I</>» indien B<"
-"%INSTDIR_ENVVAR%> niet werd ingesteld."
+"zullen worden (sinds versie 1.20.1). Standaard is dat «I</>» indien "
+"B<%INSTDIR_ENVVAR%> niet werd ingesteld."
 
 #. type: textblock
 #: update-alternatives.pod
@@ -28206,7 +28264,6 @@ msgstr "B<%INSTDIR_ENVVAR%>"
 
 #. type: =item
 #: update-alternatives.pod
-#| msgid "I<%ADMINDIR%/parts>"
 msgid "B<%ADMINDIR_ENVVAR%>"
 msgstr "B<%ADMINDIR_ENVVAR%>"
 

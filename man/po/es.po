@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.16.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-04-01 02:27+0200\n"
+"POT-Creation-Date: 2022-05-25 08:39+0000\n"
 "PO-Revision-Date: 2021-04-08 04:42+0200\n"
 "Last-Translator: Omar Campagne <ocampagne@gmail.com>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -5886,7 +5886,8 @@ msgstr "deb-substvars - Sustitución de variables de fuentes de Debian"
 
 #. type: textblock
 #: deb-substvars.pod
-msgid "B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>"
+msgid ""
+"B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>, variables"
 msgstr ""
 
 #. type: textblock
@@ -5902,6 +5903,11 @@ msgstr ""
 "de B<dpkg-source>, y a la salida estándar en el de B<dpkg-gencontrol> y "
 "B<dpkg-genchanges>), realizan algunas sustituciones de variables en el "
 "fichero de salida."
+
+#. type: =head2
+#: deb-substvars.pod
+msgid "Variable Syntax"
+msgstr ""
 
 #. type: textblock
 #: deb-substvars.pod
@@ -5927,6 +5933,48 @@ msgstr ""
 "texto completo del campo tras la sustitución se revisa de nuevo en busca de "
 "más sustituciones."
 
+#. type: =head2
+#: deb-substvars.pod
+msgid "File Syntax"
+msgstr ""
+
+#. type: textblock
+#: deb-substvars.pod
+msgid ""
+"Substitution variables can be specified in a file.  These files consist of "
+"lines of the form I<name>B<=>I<value> or I<name>B<?=>I<value>.  The B<=> "
+"operator assigns a normal substitution variable, while the B<?=> operator "
+"(since dpkg 1.21.8) assigns an optional substitution variable which will "
+"emit no warnings even if unused.  Trailing whitespace on each line, blank "
+"lines, and lines starting with a B<#> symbol (comments) are ignored."
+msgstr ""
+
+#. type: =head2
+#: deb-substvars.pod
+msgid "Substitution"
+msgstr ""
+
+#. type: textblock
+#: deb-substvars.pod
+#, fuzzy
+#| msgid ""
+#| "Variables can be set using the B<-V> common option. They can be also "
+#| "specified in the file B<debian/substvars> (or whatever other file is "
+#| "specified using the B<-T> option). This file consists of lines of the "
+#| "form I<name>B<=>I<value>.  Trailing whitespace on each line, blank lines, "
+#| "and lines starting with a B<#> symbol (comments) are ignored."
+msgid ""
+"Variables can be set using the B<-V> common option.  They can be also "
+"specified in the file B<debian/substvars> (or whatever other file is "
+"specified using the B<-T> common option)."
+msgstr ""
+"Las variables se pueden definir usando la opción común B<-V>. También se "
+"pueden especificar en el fichero B<debian/substvars> (u otro fichero "
+"especificado mediante la opción B<-T>). Este fichero consiste de líneas con "
+"la forma I<nombre>B<=>I<valor>. Los caracteres en blanco al final de cada "
+"línea, las líneas vacías y las líneas que comiencen con el símbolo B<#> "
+"(comentarios) son ignorados."
+
 #. type: textblock
 #: deb-substvars.pod
 #, fuzzy
@@ -5935,13 +5983,22 @@ msgstr ""
 #| "B<${}> (which is not a legal substitution) is replaced with a B<$> sign."
 msgid ""
 "After all the substitutions have been done each occurrence of the string "
-"B<${}> (which is not a legal substitution) is replaced with a B<$> sign.  "
-"This can be used as an escape sequence such as B<${}{>I<VARIABLE>B<}> which "
-"will end up as B<${>I<VARIABLE>B<}> on the output."
+"B<${}> (which is not an actual substitution variable) is replaced with a "
+"B<$> sign.  This can be used as an escape sequence such as B<${}"
+"{>I<VARIABLE>B<}> which will end up as B<${>I<VARIABLE>B<}> on the output."
 msgstr ""
 "Después de que todas las sustituciones hayan tenido lugar, cada aparición de "
 "la cadena B<${}> (que no es una sustitución legal) se reemplaza por un signo "
 "B<$>."
+
+#. type: textblock
+#: deb-substvars.pod
+msgid ""
+"If a variable is referred to but not defined it generates a warning and an "
+"empty value is assumed."
+msgstr ""
+"Si se hace referencia a una variable pero no se define se genera un aviso y "
+"se asume un valor vacío."
 
 #. type: textblock
 #: deb-substvars.pod
@@ -6022,25 +6079,16 @@ msgstr ""
 "  .\n"
 "  Más texto.\n"
 
-#. type: textblock
+#. type: =head2
 #: deb-substvars.pod
-msgid ""
-"Variables can be set using the B<-V> common option. They can be also "
-"specified in the file B<debian/substvars> (or whatever other file is "
-"specified using the B<-T> option). This file consists of lines of the form "
-"I<name>B<=>I<value>.  Trailing whitespace on each line, blank lines, and "
-"lines starting with a B<#> symbol (comments) are ignored."
+msgid "Built-in Variable"
 msgstr ""
-"Las variables se pueden definir usando la opción común B<-V>. También se "
-"pueden especificar en el fichero B<debian/substvars> (u otro fichero "
-"especificado mediante la opción B<-T>). Este fichero consiste de líneas con "
-"la forma I<nombre>B<=>I<valor>. Los caracteres en blanco al final de cada "
-"línea, las líneas vacías y las líneas que comiencen con el símbolo B<#> "
-"(comentarios) son ignorados."
 
 #. type: textblock
 #: deb-substvars.pod
-msgid "Additionally, the following standard variables are available:"
+#, fuzzy
+#| msgid "Additionally, the following standard variables are available:"
+msgid "Additionally, the following standard variables are always available:"
 msgstr ""
 "De manera adicional, las siguientes variables estándar están disponibles:"
 
@@ -6344,15 +6392,6 @@ msgstr "B<dpkg:Version>"
 #| msgid "The full version of dpkg."
 msgid "The full version of dpkg (since dpkg 1.13.19)."
 msgstr "La versión completa de dpkg."
-
-#. type: textblock
-#: deb-substvars.pod
-msgid ""
-"If a variable is referred to but not defined it generates a warning and an "
-"empty value is assumed."
-msgstr ""
-"Si se hace referencia a una variable pero no se define se genera un aviso y "
-"se asume un valor vacío."
 
 #. type: =item
 #: deb-substvars.pod
@@ -20003,7 +20042,11 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
-msgid "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
+#, fuzzy
+#| msgid "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
+msgid ""
+"B<deb-substvars>(5), B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-"
+"gensymbols>(1)."
 msgstr "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
 
 #. type: textblock
@@ -22438,7 +22481,8 @@ msgstr ""
 #: dpkg-source.pod
 #, fuzzy
 #| msgid "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
-msgid "B<deb-src-control>(5), B<deb-changelog>(5), B<dsc>(5)."
+msgid ""
+"B<deb-src-control>(5), B<deb-changelog>(5), B<deb-substvars>(5), B<dsc>(5)."
 msgstr "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
 
 #. type: textblock
@@ -23112,6 +23156,16 @@ msgid ""
 "based security when installing files into the filesystem (since dpkg "
 "1.19.5).  On Linux systems the implementation uses SELinux."
 msgstr ""
+
+#. type: textblock
+#: dpkg-statoverride.pod
+#, fuzzy
+#| msgid "B<not-root>: Try to (de)install things even when not root."
+msgid ""
+"B<not-root>: Try to (de)install things even when not root (since dpkg "
+"1.21.8)."
+msgstr ""
+"B<not-root>: Intenta la (des)instalación incluso si no es el usuario «root»."
 
 #. type: =item
 #: dpkg-statoverride.pod update-alternatives.pod

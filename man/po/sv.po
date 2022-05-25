@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.21.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-04-01 02:27+0200\n"
+"POT-Creation-Date: 2022-05-25 08:39+0000\n"
 "PO-Revision-Date: 2022-03-30 23:17+0200\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -5368,7 +5368,10 @@ msgstr "deb-substvars - Debians källkods-substitueringsvariabler"
 
 #. type: textblock
 #: deb-substvars.pod
-msgid "B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>"
+#, fuzzy
+#| msgid "B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>"
+msgid ""
+"B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>, variables"
 msgstr "B<debian/substvars>, B<debian/>I<binärpaket>B<.substvars>"
 
 #. type: textblock
@@ -5383,6 +5386,11 @@ msgstr ""
 "styrinformation (till control-filen i källkodspaketet B<.dsc> för B<dpkg-"
 "source> och till standard ut för B<dpkg-gencontrol> och B<dpkg-genchanges>) "
 "kommer de utföra viss variabelsubstituering på utdatafilen."
+
+#. type: =head2
+#: deb-substvars.pod
+msgid "Variable Syntax"
+msgstr ""
 
 #. type: textblock
 #: deb-substvars.pod
@@ -5401,18 +5409,74 @@ msgstr ""
 "några - det resulterande innehållet i fältet läses av på nytt efter "
 "substitueringen för att se om det behövs fler substitueringar."
 
+#. type: =head2
+#: deb-substvars.pod
+msgid "File Syntax"
+msgstr ""
+
 #. type: textblock
 #: deb-substvars.pod
 msgid ""
+"Substitution variables can be specified in a file.  These files consist of "
+"lines of the form I<name>B<=>I<value> or I<name>B<?=>I<value>.  The B<=> "
+"operator assigns a normal substitution variable, while the B<?=> operator "
+"(since dpkg 1.21.8) assigns an optional substitution variable which will "
+"emit no warnings even if unused.  Trailing whitespace on each line, blank "
+"lines, and lines starting with a B<#> symbol (comments) are ignored."
+msgstr ""
+
+#. type: =head2
+#: deb-substvars.pod
+msgid "Substitution"
+msgstr ""
+
+#. type: textblock
+#: deb-substvars.pod
+#, fuzzy
+#| msgid ""
+#| "Variables can be set using the B<-V> common option. They can be also "
+#| "specified in the file B<debian/substvars> (or whatever other file is "
+#| "specified using the B<-T> option). This file consists of lines of the "
+#| "form I<name>B<=>I<value>.  Trailing whitespace on each line, blank lines, "
+#| "and lines starting with a B<#> symbol (comments) are ignored."
+msgid ""
+"Variables can be set using the B<-V> common option.  They can be also "
+"specified in the file B<debian/substvars> (or whatever other file is "
+"specified using the B<-T> common option)."
+msgstr ""
+"Variabler kan sättas genom att använda kommandoradsflaggan B<-V>. De kan "
+"även anges i filen B<debian/substvars> (eller vilken som helst annan fil som "
+"anges med flaggan B<-T>). Filen består av rader på formen "
+"I<namn>B<=>I<värde>. Avslutande blanksteg på en rad, blanka rader och rader "
+"som börjar med en B<#>-symbol (kommentarer) ignoreras."
+
+#. type: textblock
+#: deb-substvars.pod
+#, fuzzy
+#| msgid ""
+#| "After all the substitutions have been done each occurrence of the string "
+#| "B<${}> (which is not a legal substitution) is replaced with a B<$> sign.  "
+#| "This can be used as an escape sequence such as B<${}{>I<VARIABLE>B<}> "
+#| "which will end up as B<${>I<VARIABLE>B<}> on the output."
+msgid ""
 "After all the substitutions have been done each occurrence of the string "
-"B<${}> (which is not a legal substitution) is replaced with a B<$> sign.  "
-"This can be used as an escape sequence such as B<${}{>I<VARIABLE>B<}> which "
-"will end up as B<${>I<VARIABLE>B<}> on the output."
+"B<${}> (which is not an actual substitution variable) is replaced with a "
+"B<$> sign.  This can be used as an escape sequence such as B<${}"
+"{>I<VARIABLE>B<}> which will end up as B<${>I<VARIABLE>B<}> on the output."
 msgstr ""
 "När alla substitueringar har utförts ersätts varje förekomst av strängen "
 "B<${}> (som inte är en giltig substituering) med ett B<$>-tecken. Detta kan "
 "användas som en ersättningssekvens såsom B<${}{>I<VARIABEL>B<}> vilket "
 "kommer bli till B<${>I<VARIABLE>B<}> i utdata."
+
+#. type: textblock
+#: deb-substvars.pod
+msgid ""
+"If a variable is referred to but not defined it generates a warning and an "
+"empty value is assumed."
+msgstr ""
+"Om en variabel refereras till men inte definieras kommer en varning att "
+"genereras och ett tomt värde används."
 
 #. type: textblock
 #: deb-substvars.pod
@@ -5483,24 +5547,16 @@ msgstr ""
 "  Mer text.\n"
 "\n"
 
-#. type: textblock
+#. type: =head2
 #: deb-substvars.pod
-msgid ""
-"Variables can be set using the B<-V> common option. They can be also "
-"specified in the file B<debian/substvars> (or whatever other file is "
-"specified using the B<-T> option). This file consists of lines of the form "
-"I<name>B<=>I<value>.  Trailing whitespace on each line, blank lines, and "
-"lines starting with a B<#> symbol (comments) are ignored."
+msgid "Built-in Variable"
 msgstr ""
-"Variabler kan sättas genom att använda kommandoradsflaggan B<-V>. De kan "
-"även anges i filen B<debian/substvars> (eller vilken som helst annan fil som "
-"anges med flaggan B<-T>). Filen består av rader på formen "
-"I<namn>B<=>I<värde>. Avslutande blanksteg på en rad, blanka rader och rader "
-"som börjar med en B<#>-symbol (kommentarer) ignoreras."
 
 #. type: textblock
 #: deb-substvars.pod
-msgid "Additionally, the following standard variables are available:"
+#, fuzzy
+#| msgid "Additionally, the following standard variables are available:"
+msgid "Additionally, the following standard variables are always available:"
 msgstr "I tillägg är följande standardvariabler tillgängliga:"
 
 #. type: =item
@@ -5779,15 +5835,6 @@ msgstr "B<dpkg:Version>"
 #: deb-substvars.pod
 msgid "The full version of dpkg (since dpkg 1.13.19)."
 msgstr "Fullständig version av dpkg (sedan dpkg 1.13.19)."
-
-#. type: textblock
-#: deb-substvars.pod
-msgid ""
-"If a variable is referred to but not defined it generates a warning and an "
-"empty value is assumed."
-msgstr ""
-"Om en variabel refereras till men inte definieras kommer en varning att "
-"genereras och ett tomt värde används."
 
 #. type: =item
 #: deb-substvars.pod
@@ -17931,7 +17978,11 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
-msgid "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
+#, fuzzy
+#| msgid "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
+msgid ""
+"B<deb-substvars>(5), B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-"
+"gensymbols>(1)."
 msgstr "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
 
 #. type: textblock
@@ -19853,7 +19904,10 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-source.pod
-msgid "B<deb-src-control>(5), B<deb-changelog>(5), B<dsc>(5)."
+#, fuzzy
+#| msgid "B<deb-src-control>(5), B<deb-changelog>(5), B<dsc>(5)."
+msgid ""
+"B<deb-src-control>(5), B<deb-changelog>(5), B<deb-substvars>(5), B<dsc>(5)."
 msgstr "B<deb-src-control>(5), B<deb-changelog>(5), B<dsc>(5)."
 
 #. type: textblock
@@ -20465,6 +20519,15 @@ msgstr ""
 "obligatorisk åtkomststyrning (Mandatory Access Controls, MAC) när filer "
 "installeras i filsystemet (sedan dpkg 1.19.5). På Linuxsystem använder "
 "implementationen SELinux."
+
+#. type: textblock
+#: dpkg-statoverride.pod
+#, fuzzy
+#| msgid "B<not-root>: Try to (de)install things even when not root."
+msgid ""
+"B<not-root>: Try to (de)install things even when not root (since dpkg "
+"1.21.8)."
+msgstr "B<not-root>: Försök (av)installera saker även utan att vara root."
 
 #. type: =item
 #: dpkg-statoverride.pod update-alternatives.pod
