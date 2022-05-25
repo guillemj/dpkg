@@ -220,7 +220,7 @@ include $(top_srcdir)/build-aux/cpan.am
 # that we're not forgetting some files, and we are not storing any symlink
 # in the repository (except for the origins/default one) as those degrade
 # to regular files due to automake telling tar to dereference them.
-dist-hook: dist-cpan
+dist-hook:
 	echo $(VERSION) >$(distdir)/.dist-version
 	if [ -e .git ]; then \
 	  for file in `git ls-tree -r HEAD | grep ^12 | grep -v t/origins/default`; do \
