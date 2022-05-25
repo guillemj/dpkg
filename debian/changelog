@@ -1,8 +1,34 @@
-dpkg (1.21.8) UNRELEASED; urgency=medium
+dpkg (1.21.8) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * dpkg-statoverride: Add support for --force-not-root. Closes: #1009069
+    Based on a patch by John Spencer <maillist-dpkg@barfooze.de>.
+  * dpkg: Fix «De-configuring» message to allow configuration to use new
+    version.
+  * Perl modules:
+    - Dpkg::Source::Archive: Prevent directory traversal for in-place extracts.
+      Reported by Max Justicz <max@justi.cz>. Fixes CVE-2022-1664.
+    - Dpkg::Substvars: Add support for optional substvars assigned with ?=.
+  * Documentation:
+    - man: Reference deb-substvar(5) from dpkg-source(1) and dpkg-shlibdeps(1).
+    - man: Structure and clarify deb-substvars(5).
+      Prompted by Niels Thykier <niels@thykier.net>.
+  * Build system:
+    - Unhook dist-cpan from make dist target.
+  * Packaging:
+    - Silence warning about merged-usr-via-aliased-dirs on Ubuntu.
+    - Remove useless [] around tr sets.
+  * Localization:
+    - Update Dutch translations. Closes: #1010031, #1010032, #1010033
+      Thanks to Frans Spiesschaert <Frans.Spiesschaert@yucom.be>.
+    - Update Portuguese man pages translations. Closes: #1011095
+      Thanks to Américo Monteiro <a_monteiro@gmx.com>.
 
- -- Guillem Jover <guillem@debian.org>  Fri, 01 Apr 2022 02:47:46 +0200
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+
+ -- Guillem Jover <guillem@debian.org>  Wed, 25 May 2022 10:39:29 +0200
 
 dpkg (1.21.7) unstable; urgency=medium
 
