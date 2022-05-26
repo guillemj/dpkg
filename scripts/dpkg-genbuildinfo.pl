@@ -28,13 +28,19 @@ use warnings;
 use List::Util qw(any);
 use Cwd;
 use File::Basename;
+use File::Temp;
 use POSIX qw(:fcntl_h :locale_h strftime);
 
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
-use Dpkg::Arch qw(get_build_arch get_host_arch debarch_eq);
+use Dpkg::IPC;
+use Dpkg::Arch qw(
+    get_build_arch
+    get_host_arch
+    debarch_eq debarch_to_gnutriplet
+);
 use Dpkg::Build::Types;
 use Dpkg::Build::Info qw(get_build_env_allowed);
 use Dpkg::BuildOptions;
@@ -247,8 +253,51 @@ sub collect_installed_builddeps {
     return $installed_deps;
 }
 
+sub is_cross_executable {
+    my $host_arch = get_host_arch();
+    my $build_arch = get_build_arch();
+
+    return if $host_arch eq $build_arch;
+
+    # If we are cross-compiling, record whether it was possible to execute
+    # the host architecture by cross-compiling and executing a small
+    # host-arch binary.
+    my $CC = debarch_to_gnutriplet($host_arch) . '-gcc';
+    my $crossprog = 'int main() { write(1, "ok", 2); return 0; }';
+    my ($stdout, $stderr) = ('', '');
+    my $tmpfh = File::Temp->new();
+    spawn(
+        exec => [ $CC, '-w', '-x', 'c', '-o', $tmpfh->filename, '-' ],
+        from_string => \$crossprog,
+        to_string => \$stdout,
+        error_to_string => \$stderr,
+        wait_child => 1,
+        nocheck => 1,
+    );
+    if ($?) {
+       print { *STDOUT } $stdout;
+       print { *STDERR } $stderr;
+       subprocerr("$CC -w -x c -");
+    }
+    close $tmpfh;
+    spawn(
+        exec => [ $tmpfh->filename ],
+        error_to_file => '/dev/null',
+        to_string => \$stdout,
+        wait_child => 1,
+        nocheck => 1,
+    );
+
+    return 1 if $? == 0 && $stdout eq 'ok';
+    return 0;
+}
+
 sub get_build_tainted_by {
     my @tainted = run_vendor_hook('build-tainted-by');
+
+    if (is_cross_executable()) {
+        push @tainted, 'can-execute-cross-built-programs';
+    }
 
     return @tainted;
 }
