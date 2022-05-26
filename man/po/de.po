@@ -11,10 +11,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.21.7\n"
+"Project-Id-Version: dpkg-man 1.21.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2022-05-25 08:39+0000\n"
-"PO-Revision-Date: 2022-04-16 17:45+0200\n"
+"PO-Revision-Date: 2022-05-26 09:51+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -5508,11 +5508,10 @@ msgstr "deb-substvars - Ersetzungsvariablen in Debian-Quellen"
 
 #. type: textblock
 #: deb-substvars.pod
-#, fuzzy
-#| msgid "B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>"
 msgid ""
 "B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>, variables"
-msgstr "B<debian/substvars>, B<debian/>I<Binärpaket>B<.substvars>"
+msgstr ""
+"B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>, Variablen"
 
 #. type: textblock
 #: deb-substvars.pod
@@ -5531,7 +5530,7 @@ msgstr ""
 #. type: =head2
 #: deb-substvars.pod
 msgid "Variable Syntax"
-msgstr ""
+msgstr "Variablen-Syntax"
 
 #. type: textblock
 #: deb-substvars.pod
@@ -5555,7 +5554,7 @@ msgstr ""
 #. type: =head2
 #: deb-substvars.pod
 msgid "File Syntax"
-msgstr ""
+msgstr "Dateisyntax"
 
 #. type: textblock
 #: deb-substvars.pod
@@ -5567,40 +5566,32 @@ msgid ""
 "emit no warnings even if unused.  Trailing whitespace on each line, blank "
 "lines, and lines starting with a B<#> symbol (comments) are ignored."
 msgstr ""
+"Ersetzungsvariablen können in einer Datei festgelegt werden. Diese Dateien "
+"bestehen aus Zeilen der Form I<Name>B<=>I<Wert> oder I<Name>B<?=>I<Wert>. "
+"Der Operator B<=> weist eine normale Ersetzungsvariable zu, während der "
+"Operator B<?=> (seit Dpkg 1.21.8) eine optionale Ersetzungsvariable zuweist, "
+"die keine Warnungen ausgibt, selbst wenn sie nicht verwandt wird. "
+"Leerraumzeichen am Zeilenende, leere Zeilen und Zeilen, die mit dem B<#>-"
+"Symbol starten (Kommentare) werden ignoriert."
 
 #. type: =head2
 #: deb-substvars.pod
 msgid "Substitution"
-msgstr ""
+msgstr "Ersetzungen"
 
 #. type: textblock
 #: deb-substvars.pod
-#, fuzzy
-#| msgid ""
-#| "Variables can be set using the B<-V> common option. They can be also "
-#| "specified in the file B<debian/substvars> (or whatever other file is "
-#| "specified using the B<-T> option). This file consists of lines of the "
-#| "form I<name>B<=>I<value>.  Trailing whitespace on each line, blank lines, "
-#| "and lines starting with a B<#> symbol (comments) are ignored."
 msgid ""
 "Variables can be set using the B<-V> common option.  They can be also "
 "specified in the file B<debian/substvars> (or whatever other file is "
 "specified using the B<-T> common option)."
 msgstr ""
 "Variablen können über die allgemeine Option B<-V> gesetzt werden. Sie können "
-"auch in der B<debian/substvars> (bzw. in der über die Option B<-T> gesetzten "
-"Datei) angegeben werden. Diese Datei besteht aus Zeilen der Form "
-"I<Name>B<=>I<Wert>. Leerraumzeichen am Zeilenende, leere Zeilen und Zeilen, "
-"die mit dem B<#>-Symbol starten (Kommentare) werden ignoriert."
+"auch in der B<debian/substvars> (bzw. in der über die allgemeine Option B<-T> gesetzten "
+"Datei) angegeben werden."
 
 #. type: textblock
 #: deb-substvars.pod
-#, fuzzy
-#| msgid ""
-#| "After all the substitutions have been done each occurrence of the string "
-#| "B<${}> (which is not a legal substitution) is replaced with a B<$> sign.  "
-#| "This can be used as an escape sequence such as B<${}{>I<VARIABLE>B<}> "
-#| "which will end up as B<${>I<VARIABLE>B<}> on the output."
 msgid ""
 "After all the substitutions have been done each occurrence of the string "
 "B<${}> (which is not an actual substitution variable) is replaced with a "
@@ -5608,7 +5599,7 @@ msgid ""
 "{>I<VARIABLE>B<}> which will end up as B<${>I<VARIABLE>B<}> on the output."
 msgstr ""
 "Nachdem alle Ersetzungen erfolgt sind, wird jedes Auftreten der Zeichenkette "
-"B<${}> (die keine erlaubte Ersetzung ist) durch das B<$>-Zeichen ersetzt. "
+"B<${}> (die keine tatsächliche Ersetzungsvariable ist) durch das B<$>-Zeichen ersetzt. "
 "Dies kann als Maskiersequenz wie in B<${}{>I<VARIABLE>B<}> verwandt werden, "
 "was dann zu B<${>I<VARIABLE>B<}> in der Ausgabe wird."
 
@@ -5694,14 +5685,12 @@ msgstr ""
 #. type: =head2
 #: deb-substvars.pod
 msgid "Built-in Variable"
-msgstr ""
+msgstr "Eingebaute Variable"
 
 #. type: textblock
 #: deb-substvars.pod
-#, fuzzy
-#| msgid "Additionally, the following standard variables are available:"
 msgid "Additionally, the following standard variables are always available:"
-msgstr "Zusätzlich sind die folgenden Standardvariablen verfügbar:"
+msgstr "Zusätzlich sind die folgenden Standardvariablen immer verfügbar:"
 
 #. type: =item
 #: deb-substvars.pod
@@ -18467,12 +18456,12 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
-#, fuzzy
-#| msgid "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
 msgid ""
 "B<deb-substvars>(5), B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-"
 "gensymbols>(1)."
-msgstr "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
+msgstr ""
+"B<deb-substvars>(5), B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-"
+"gensymbols>(1)."
 
 #. type: textblock
 #: dpkg-source.pod
@@ -20454,11 +20443,10 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-source.pod
-#, fuzzy
-#| msgid "B<deb-src-control>(5), B<deb-changelog>(5), B<dsc>(5)."
 msgid ""
 "B<deb-src-control>(5), B<deb-changelog>(5), B<deb-substvars>(5), B<dsc>(5)."
-msgstr "B<deb-src-control>(5), B<deb-changelog>(5), B<dsc>(5)."
+msgstr ""
+"B<deb-src-control>(5), B<deb-changelog>(5), B<deb-substvars>(5), B<dsc>(5)."
 
 #. type: textblock
 #: dpkg-split.pod
