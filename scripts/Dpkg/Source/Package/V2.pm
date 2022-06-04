@@ -218,7 +218,7 @@ sub do_extract {
     # Extract main tarball
     info(g_('unpacking %s'), $tarfile);
     my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
-    $tar->extract($newdirectory, no_fixperms => 1,
+    $tar->extract($newdirectory,
                   options => [ '--anchored', '--no-wildcards-match-slash',
                                '--exclude', '*/.pc', '--exclude', '.pc' ]);
     # The .pc exclusion is only needed for 3.0 (quilt) and to avoid
@@ -239,7 +239,7 @@ sub do_extract {
             erasedir("$newdirectory/$subdir");
         }
         $tar = Dpkg::Source::Archive->new(filename => "$dscdir$file");
-        $tar->extract("$newdirectory/$subdir", no_fixperms => 1);
+        $tar->extract("$newdirectory/$subdir");
     }
 
     # Stop here if debianization is not wanted
