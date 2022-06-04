@@ -143,6 +143,7 @@ sub set_build_features {
             format => 1,
             relro => 1,
             bindnow => 0,
+            branch => 1,
         },
     );
 
@@ -338,6 +339,12 @@ sub set_build_features {
 	# relro not implemented on ia64, hppa.
 	$use_feature{hardening}{relro} = 0;
     }
+    if (none { $cpu eq $_ } qw(amd64 arm64)) {
+        # On amd64 use -fcf-protection.
+        # On arm64 use -mbranch-protection=standard.
+        $use_feature{hardening}{branch} = 0;
+    }
+    $flags->set_option_value('hardening-branch-cpu', $cpu);
 
     # Mask features that might be influenced by other flags.
     if ($flags->get_option_value('optimize-level') == 0) {
@@ -553,6 +560,18 @@ sub _add_build_flags {
     # Bindnow
     if ($flags->use_feature('hardening', 'bindnow')) {
 	$flags->append('LDFLAGS', '-Wl,-z,now');
+    }
+
+    # Branch protection
+    if ($flags->use_feature('hardening', 'branch')) {
+        my $cpu = $flags->get_option_value('hardening-branch-cpu');
+        my $flag;
+        if ($cpu eq 'arm64') {
+            $flag = '-mbranch-protection=standard';
+        } elsif ($cpu eq 'amd64') {
+            $flag = '-fcf-protection';
+        }
+        $flags->append($_, $flag) foreach @compile_flags;
     }
 }
 

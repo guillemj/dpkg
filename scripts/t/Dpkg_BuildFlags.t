@@ -109,6 +109,7 @@ my %known_features = (
     ) ],
     hardening => [ qw(
         bindnow
+        branch
         format
         fortify
         pie

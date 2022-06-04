@@ -536,6 +536,15 @@ Disabling B<stackprotector> will also disable this setting.
 This feature has the same requirements as B<stackprotector>, and in
 addition also requires gcc 4.9 and later.
 
+=item B<branch>
+
+This setting (since dpkg 1.22.0; enabled by default) adds B<-fcf-protection>
+on B<amd64> and B<-mbranch-protection=standard> on B<arm64> to
+B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
+B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>.
+This adds branch protection to indirect calls, jumps and returns to check
+whether these are valid at run-time.
+
 =item B<relro>
 
 This setting (since dpkg 1.16.1; enabled by default) adds
