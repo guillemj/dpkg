@@ -247,6 +247,12 @@ sub collect_installed_builddeps {
     return $installed_deps;
 }
 
+sub get_build_tainted_by {
+    my @tainted = run_vendor_hook('build-tainted-by');
+
+    return @tainted;
+}
+
 sub cleansed_environment {
     # Consider only allowed variables which are not supposed to leak
     # local user information.
@@ -447,7 +453,7 @@ if ($use_feature{path}) {
     }
 }
 
-$fields->{'Build-Tainted-By'} = "\n" . join "\n", run_vendor_hook('build-tainted-by');
+$fields->{'Build-Tainted-By'} = "\n" . join "\n", get_build_tainted_by();
 
 $checksums->export_to_control($fields);
 
