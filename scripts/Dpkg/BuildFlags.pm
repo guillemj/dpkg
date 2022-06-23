@@ -251,7 +251,7 @@ sub set {
 
 Update the boolean state of whether a specific feature within a known
 feature area has been enabled. The only currently known feature areas
-are "future", "qa", "sanitize", "hardening" and "reproducible".
+are "future", "qa", "sanitize", "optimize", "hardening" and "reproducible".
 
 =cut
 
