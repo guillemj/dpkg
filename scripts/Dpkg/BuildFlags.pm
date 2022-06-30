@@ -1,4 +1,5 @@
 # Copyright © 2010-2011 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2012-2022 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +19,7 @@ package Dpkg::BuildFlags;
 use strict;
 use warnings;
 
-our $VERSION = '1.04';
+our $VERSION = '1.05';
 
 use Dpkg ();
 use Dpkg::Gettext;
@@ -46,6 +47,9 @@ to query the same information.
 Create a new Dpkg::BuildFlags object. It will be initialized based
 on the value of several configuration files and environment variables.
 
+If the option B<vendor_defaults> is set to false, then no vendor defaults are
+initialized (it defaults to true).
+
 =cut
 
 sub new {
@@ -55,17 +59,18 @@ sub new {
     my $self = {
     };
     bless $self, $class;
-    $self->load_vendor_defaults();
+
+    $opts{vendor_defaults} //= 1;
+
+    if ($opts{vendor_defaults}) {
+        $self->load_vendor_defaults();
+    } else {
+        $self->_init_vendor_defaults();
+    }
     return $self;
 }
 
-=item $bf->load_vendor_defaults()
-
-Reset the flags stored to the default set provided by the vendor.
-
-=cut
-
-sub load_vendor_defaults {
+sub _init_vendor_defaults {
     my $self = shift;
 
     $self->{features} = {};
@@ -108,6 +113,19 @@ sub load_vendor_defaults {
 	FCFLAGS  => 0,
 	LDFLAGS  => 0,
     };
+}
+
+=item $bf->load_vendor_defaults()
+
+Reset the flags stored to the default set provided by the vendor.
+
+=cut
+
+sub load_vendor_defaults {
+    my $self = shift;
+
+    $self->_init_vendor_defaults();
+
     # The vendor hook will add the feature areas build flags.
     run_vendor_hook('update-buildflags', $self);
 }
@@ -459,6 +477,12 @@ sub list {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.05 (dpkg 1.21.14)
+
+New option: 'vendor_defaults' in new().
+
+New method: $bf->load_vendor_defaults().
 
 =head2 Version 1.04 (dpkg 1.20.0)
 
