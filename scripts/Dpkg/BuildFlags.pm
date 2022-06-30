@@ -278,6 +278,23 @@ sub set_feature {
     $self->{features}{$area}{$feature} = $enabled;
 }
 
+=item $bf->use_feature($area, $feature)
+
+Returns true if the given feature within a known feature areas has been
+enabled, and false otherwise.
+The only currently recognized feature areas are "future", "qa", "sanitize",
+"optimize", "hardening" and "reproducible".
+
+=cut
+
+sub use_feature {
+    my ($self, $area, $feature) = @_;
+
+    return 0 if ! $self->has_features($area);
+    return 0 if ! $self->{features}{$area}{$feature};
+    return 1;
+}
+
 =item $bf->strip($flag, $value, $source, $maint)
 
 Update the build flag $flag by stripping the flags listed in $value and
@@ -482,7 +499,7 @@ sub list {
 
 New option: 'vendor_defaults' in new().
 
-New method: $bf->load_vendor_defaults().
+New methods: $bf->load_vendor_defaults(), $bf->use_feature().
 
 =head2 Version 1.04 (dpkg 1.20.0)
 
