@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.21.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-05-25 08:39+0000\n"
+"POT-Creation-Date: 2022-07-01 09:25+0000\n"
 "PO-Revision-Date: 2022-04-09 21:42+0200\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -1723,11 +1723,18 @@ msgstr "B<Protected:> B<yes>|B<no>"
 
 #. type: textblock
 #: deb-control.pod
+#, fuzzy
+#| msgid ""
+#| "This field is usually only needed when the answer is B<yes>.  It denotes "
+#| "a package that is required for proper booting of the system.  L<dpkg(1)> "
+#| "or any other installation tool will not allow a B<Protected> package to "
+#| "be removed (at least not without using one of the force options)."
 msgid ""
 "This field is usually only needed when the answer is B<yes>.  It denotes a "
-"package that is required for proper booting of the system.  L<dpkg(1)> or "
-"any other installation tool will not allow a B<Protected> package to be "
-"removed (at least not without using one of the force options)."
+"package that is required mostly for proper booting of the system or used for "
+"custom system-local meta-packages.  L<dpkg(1)> or any other installation "
+"tool will not allow a B<Protected> package to be removed (at least not "
+"without using one of the force options)."
 msgstr ""
 "Meestal is dit veld enkel nodig als het antwoord B<yes> is. Het duidt een "
 "pakket aan dat vereist is voor het correct opstarten van het systeem. "
@@ -1747,11 +1754,20 @@ msgstr "B<Essential:> B<yes>|B<no>"
 
 #. type: textblock
 #: deb-control.pod
+#, fuzzy
+#| msgid ""
+#| "This field is usually only needed when the answer is B<yes>.  It denotes "
+#| "a package that is required for proper operation of the system.  "
+#| "L<dpkg(1)> or any other installation tool will not allow an B<Essential> "
+#| "package to be removed (at least not without using one of the force "
+#| "options)."
 msgid ""
 "This field is usually only needed when the answer is B<yes>.  It denotes a "
-"package that is required for proper operation of the system.  L<dpkg(1)> or "
-"any other installation tool will not allow an B<Essential> package to be "
-"removed (at least not without using one of the force options)."
+"package that is required for the packaging system, for proper operation of "
+"the system in general or during boot (although the latter should be "
+"converted to B<Protected> field instead).  L<dpkg(1)> or any other "
+"installation tool will not allow an B<Essential> package to be removed (at "
+"least not without using one of the force options)."
 msgstr ""
 "Meestal is dit veld enkel nodig als het antwoord B<yes> is. Het duidt een "
 "pakket aan dat vereist is opdat het systeem behoorlijk zou functioneren. "
@@ -4394,7 +4410,12 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
-msgid "L<deb822(5)>, B<deb-control>(5), B<deb-version>(7), B<dpkg-source>(1)"
+#, fuzzy
+#| msgid ""
+#| "L<deb822(5)>, B<deb-control>(5), B<deb-version>(7), B<dpkg-source>(1)"
+msgid ""
+"I<%PKGDOCDIR%/spec/rootless-builds.txt>, L<deb822(5)>, B<deb-control>(5), "
+"B<deb-version>(7), B<dpkg-source>(1)"
 msgstr "L<deb822(5)>, B<deb-control>(5), B<deb-version>(7), B<dpkg-source>(1)"
 
 #. type: textblock
@@ -6528,7 +6549,9 @@ msgstr ""
 
 #. type: textblock
 #: deb-triggers.pod
-msgid "B<dpkg-trigger>(1), B<dpkg>(1), B<%PKGDOCDIR%/triggers.txt.gz>."
+#, fuzzy
+#| msgid "B<dpkg-trigger>(1), B<dpkg>(1), B<%PKGDOCDIR%/triggers.txt.gz>."
+msgid "B<dpkg-trigger>(1), B<dpkg>(1), B<%PKGDOCDIR%/spec/triggers.txt.gz>."
 msgstr "B<dpkg-trigger>(1), B<dpkg>(1), B<%PKGDOCDIR%/triggers.txt.gz>."
 
 #. type: textblock
@@ -11816,10 +11839,15 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
+#| "genbuildinfo>(1), B<dpkg-genchanges>(1), B<fakeroot>(1), B<lintian>(1), "
+#| "B<gpg>(1)."
 msgid ""
-"B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
-"genbuildinfo>(1), B<dpkg-genchanges>(1), B<fakeroot>(1), B<lintian>(1), "
-"B<gpg>(1)."
+"I<%PKGDOCDIR%/spec/rootless-builds.txt>, B<dpkg-source>(1), B<dpkg-"
+"architecture>(1), B<dpkg-buildflags>(1), B<dpkg-genbuildinfo>(1), B<dpkg-"
+"genchanges>(1), B<fakeroot>(1), B<lintian>(1), B<gpg>(1)."
 msgstr ""
 "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
 "genbuildinfo>(1), B<dpkg-genchanges>(1), B<fakeroot>(1), B<lintian>(1), "
@@ -12442,6 +12470,20 @@ msgstr ""
 
 #. type: =item
 #: dpkg-deb.pod
+#, fuzzy
+#| msgid "B<--git-ref=>I<ref>"
+msgid "B<--threads-max=>I<threads>"
+msgstr "B<--git-ref=>I<ref>"
+
+#. type: textblock
+#: dpkg-deb.pod
+msgid ""
+"Sets the maximum number of threads allowed for compressors that support "
+"multi-threaded operations (since dpkg 1.21.9)."
+msgstr ""
+
+#. type: =item
+#: dpkg-deb.pod
 msgid "B<--root-owner-group>"
 msgstr "B<--root-owner-group>"
 
@@ -12576,6 +12618,18 @@ msgstr ""
 "database, het toewijzen van geheugen, enz."
 
 #. type: =item
+#: dpkg-deb.pod
+#, fuzzy
+#| msgid "B<DPKG_SHELL_REASON>"
+msgid "B<DPKG_DEB_THREADS_MAX>"
+msgstr "B<DPKG_SHELL_REASON>"
+
+#. type: textblock
+#: dpkg-deb.pod
+msgid "The B<--threads-max> option overrides this value."
+msgstr ""
+
+#. type: =item
 #: dpkg-deb.pod dpkg.pod
 msgid "B<TMPDIR>"
 msgstr "B<TMPDIR>"
@@ -12638,7 +12692,11 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-deb.pod
-msgid "B<deb>(5), B<deb-control>(5), B<dpkg>(1), B<dselect>(1)."
+#, fuzzy
+#| msgid "B<deb>(5), B<deb-control>(5), B<dpkg>(1), B<dselect>(1)."
+msgid ""
+"F<%PKGDOCDIR%/spec/rootless-builds.txt>, B<deb>(5), B<deb-control>(5), "
+"B<dpkg>(1), B<dselect>(1)."
 msgstr "B<deb>(5), B<deb-control>(5), B<dpkg>(1), B<dselect>(1)."
 
 #. type: textblock
@@ -21206,12 +21264,20 @@ msgstr "B<--add> I<gebruiker groep modus pad>"
 
 #. type: textblock
 #: dpkg-statoverride.pod
+#, fuzzy
+#| msgid ""
+#| "Add an override for I<path>. I<path> does not need to exist when this "
+#| "command is used; the override will be stored and used later.  Users and "
+#| "groups can be specified by their name (for example B<root> or B<nobody>), "
+#| "or by their number by prepending the number with a ‘B<#>’ (for example "
+#| "B<#0> or B<#65534>).  The I<mode> needs to be specified in octal."
 msgid ""
-"Add an override for I<path>. I<path> does not need to exist when this "
-"command is used; the override will be stored and used later.  Users and "
-"groups can be specified by their name (for example B<root> or B<nobody>), or "
-"by their number by prepending the number with a ‘B<#>’ (for example B<#0> or "
-"B<#65534>).  The I<mode> needs to be specified in octal."
+"Add an override for I<path>. I<path> does not need to exist nor be known to "
+"B<dpkg> when this command is used; the override will be stored and used "
+"later.  Users and groups can be specified by their name (for example B<root> "
+"or B<nobody>), or by their number by prepending the number with a "
+"‘B<#>’ (for example B<#0> or B<#65534>).  The I<mode> needs to be specified "
+"in octal."
 msgstr ""
 "Een statusmodificatie toevoegen voor I<pad>. Het is niet nodig dat I<pad> "
 "reeds bestaat op het ogenblik dat dit commando gebruikt wordt. De "
@@ -21599,7 +21665,9 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-trigger.pod
-msgid "B<dpkg>(1), B<deb-triggers>(5), B<%PKGDOCDIR%/triggers.txt.gz>."
+#, fuzzy
+#| msgid "B<dpkg>(1), B<deb-triggers>(5), B<%PKGDOCDIR%/triggers.txt.gz>."
+msgid "B<dpkg>(1), B<deb-triggers>(5), B<%PKGDOCDIR%/spec/triggers.txt.gz>."
 msgstr "B<dpkg>(1), B<deb-triggers>(5), B<%PKGDOCDIR%/triggers.txt.gz>."
 
 #. type: textblock
@@ -23256,11 +23324,18 @@ msgstr ""
 
 #. type: textblock
 #: dpkg.pod
+#, fuzzy
+#| msgid ""
+#| "B<remove-protected>: Remove, even if the package is considered protected "
+#| "(since dpkg 1.20.1).  Protected packages contain mostly important system "
+#| "boot infrastructure.  Removing them might cause the whole system to be "
+#| "unable to boot, so use with caution."
 msgid ""
 "B<remove-protected>: Remove, even if the package is considered protected "
 "(since dpkg 1.20.1).  Protected packages contain mostly important system "
-"boot infrastructure.  Removing them might cause the whole system to be "
-"unable to boot, so use with caution."
+"boot infrastructure or are used for custom system-local meta-packages.  "
+"Removing them might cause the whole system to be unable to boot or lose "
+"required functionality to operate, so use with caution."
 msgstr ""
 "B<remove-protected>: Het pakket verwijderen, zelfs al wordt het als "
 "beschermd beschouwd (sinds dpkg 1.20.1). Beschermde pakketten bevatten "
@@ -23270,10 +23345,18 @@ msgstr ""
 
 #. type: textblock
 #: dpkg.pod
+#, fuzzy
+#| msgid ""
+#| "B<remove-essential>: Remove, even if the package is considered essential. "
+#| "Essential packages contain mostly very basic Unix commands. Removing them "
+#| "might cause the whole system to stop working, so use with caution."
 msgid ""
-"B<remove-essential>: Remove, even if the package is considered essential. "
-"Essential packages contain mostly very basic Unix commands. Removing them "
-"might cause the whole system to stop working, so use with caution."
+"B<remove-essential>: Remove, even if the package is considered essential.  "
+"Essential packages contain mostly very basic Unix commands, required for the "
+"packaging system, for the operation of the system in general or during boot "
+"(although the latter should be converted to protected packages instead).  "
+"Removing them might cause the whole system to stop working, so use with "
+"caution."
 msgstr ""
 "B<remove-essential>: Het pakket verwijderen, zelfs al wordt het als "
 "essentieel beschouwd. Essentiële pakketten bevatten meestal hele basale Unix "
