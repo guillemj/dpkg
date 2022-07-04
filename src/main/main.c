@@ -757,7 +757,7 @@ int main(int argc, const char *const *argv) {
 
   /* When running as root, make sure our primary group is also root, so
    * that files created by maintainer scripts have correct ownership. */
-  if (!in_force(FORCE_NON_ROOT) && getuid() == 0)
+  if (!in_force(FORCE_NON_ROOT) && getuid() == 0 && getgid() != 0)
     if (setgid(0) < 0)
       ohshite(_("cannot set primary group ID to root"));
 
