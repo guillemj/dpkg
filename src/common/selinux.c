@@ -1,6 +1,6 @@
 /*
  * dpkg - main program for package management
- * selinux.c - SE Linux support
+ * selinux.c - SELinux support
  *
  * Copyright © 2007-2015 Guillem Jover <guillem@debian.org>
  *
