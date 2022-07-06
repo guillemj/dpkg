@@ -449,9 +449,7 @@ sub do_build {
                          'giving up; use -sA, -sK or -sP to override'),
                       $origdir);
             }
-            push_exit_handler(sub { erasedir($origdir) });
             erasedir($origdir);
-            pop_exit_handler();
         } elsif ($! != ENOENT) {
             syserr(g_("unable to check for existence of orig directory '%s'"),
                     $origdir);
