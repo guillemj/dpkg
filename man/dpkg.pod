@@ -879,8 +879,12 @@ be marked selected for deinstallation.
 
 =item B<-E>, B<--skip-same-version>
 
-Don't install the package if the same version of the package is already
-installed.
+Don't install the package if the same version and architecture
+of the package is already installed.
+
+Since dpkg 1.21.10, the architecture is also taken into account,
+which makes it possible to cross-grade packages or install additional
+co-installable instances with the same version, but different architecture.
 
 =item B<--pre-invoke=>I<command>
 

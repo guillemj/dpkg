@@ -1673,7 +1673,7 @@ wanttoinstall(struct pkginfo *pkg)
     return true;
   } else if (rc == 0) {
     /* Same version fully installed. */
-    if (f_skipsame) {
+    if (f_skipsame && pkg->available.arch == pkg->installed.arch) {
       notice(_("version %.250s of %.250s already installed, skipping"),
              versiondescribe(&pkg->installed.version, vdew_nonambig),
              pkg_name(pkg, pnaw_nonambig));
