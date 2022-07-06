@@ -47,6 +47,7 @@ use Carp;
 use File::Temp;
 use File::Copy qw(cp);
 use File::Basename;
+use File::Spec;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -393,7 +394,7 @@ sub find_original_tarballs {
     foreach my $dir ('.', $self->{basedir}, $self->{options}{origtardir}) {
         next unless defined($dir) and -d $dir;
         opendir(my $dir_dh, $dir) or syserr(g_('cannot opendir %s'), $dir);
-        push @tar, map { "$dir/$_" } grep {
+        push @tar, map { File::Spec->catfile($dir, $_) } grep {
 		($opts{include_main} and
 		 /^\Q$basename\E\.orig\.tar\.$opts{extension}$/) or
 		($opts{include_supplementary} and

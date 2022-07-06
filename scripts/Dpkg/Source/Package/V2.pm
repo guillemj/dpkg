@@ -162,8 +162,6 @@ sub do_extract {
     my ($self, $newdirectory) = @_;
     my $fields = $self->{fields};
 
-    my $dscdir = $self->{basedir};
-
     my $basename = $self->get_basename();
     my $basenamerev = $self->get_basename(1);
 
@@ -217,7 +215,9 @@ sub do_extract {
 
     # Extract main tarball
     info(g_('unpacking %s'), $tarfile);
-    my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
+    my $tar = Dpkg::Source::Archive->new(
+        filename => File::Spec->catfile($self->{basedir}, $tarfile),
+    );
     $tar->extract($newdirectory,
                   options => [ '--anchored', '--no-wildcards-match-slash',
                                '--exclude', '*/.pc', '--exclude', '.pc' ]);
@@ -238,7 +238,9 @@ sub do_extract {
                     $subdir);
             erasedir("$newdirectory/$subdir");
         }
-        $tar = Dpkg::Source::Archive->new(filename => "$dscdir$file");
+        $tar = Dpkg::Source::Archive->new(
+            filename => File::Spec->catfile($self->{basedir}, $file),
+        );
         $tar->extract("$newdirectory/$subdir");
     }
 
@@ -248,7 +250,9 @@ sub do_extract {
     # Extract debian tarball after removing the debian directory
     info(g_('unpacking %s'), $debianfile);
     erasedir("$newdirectory/debian");
-    $tar = Dpkg::Source::Archive->new(filename => "$dscdir$debianfile");
+    $tar = Dpkg::Source::Archive->new(
+        filename => File::Spec->catfile($self->{basedir}, $debianfile),
+    );
     $tar->extract($newdirectory, in_place => 1);
 
     # Apply patches (in a separate method as it might be overridden)

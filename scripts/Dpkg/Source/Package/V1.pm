@@ -166,8 +166,6 @@ sub do_extract {
 	         $sourcestyle);
     }
 
-    my $dscdir = $self->{basedir};
-
     my $basename = $self->get_basename();
     my $basenamerev = $self->get_basename(1);
 
@@ -213,7 +211,9 @@ sub do_extract {
         }
 
         info(g_('unpacking %s'), $tarfile);
-        my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
+        my $tar = Dpkg::Source::Archive->new(
+            filename => File::Spec->catfile($self->{basedir}, $tarfile),
+        );
         $tar->extract($expectprefix);
 
         if ($sourcestyle =~ /u/) {
@@ -238,7 +238,7 @@ sub do_extract {
     }
 
     if ($difffile and not $self->{options}{skip_debianization}) {
-        my $patch = "$dscdir$difffile";
+        my $patch = File::Spec->catfile($self->{basedir}, $difffile);
 	info(g_('applying %s'), $difffile);
 	my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
 	my $analysis = $patch_obj->apply($newdirectory, force_timestamp => 1);
