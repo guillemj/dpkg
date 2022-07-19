@@ -128,8 +128,10 @@ sub usage {
   -sa                         source includes orig, always.
   -sd                         source is diff and .dsc only.
   -v<version>                 changes since version <version>.
-  -m, --build-by=<maint>      maintainer for this build is <maint>.
-  -e, --release-by=<maint>    maintainer for this release is <maint>.
+  -m, --source-by=<maint>     maintainer for this source or build is <maint>.
+      --build-by=<maint>      ditto.
+  -e, --release-by=<maint>    maintainer for this change or release is <maint>.
+      --changed-by=<maint>    ditto.
   -C<descfile>                changes are described in <descfile>.
       --changes-option=<opt>  pass option <opt> to dpkg-genchanges.')
     . "\n\n" . g_(
@@ -368,9 +370,9 @@ while (@ARGV) {
 	set_build_type(BUILD_FULL, $_);
     } elsif (/^-v(.*)$/) {
 	$since = $1;
-    } elsif (/^-m(.*)$/ or /^--build-by=(.*)$/) {
+    } elsif (/^-m(.*)$/ or /^--(?:source|build)-by=(.*)$/) {
 	$maint = $1;
-    } elsif (/^-e(.*)$/ or /^--release-by=(.*)$/) {
+    } elsif (/^-e(.*)$/ or /^--(?:changed|release)-by=(.*)$/) {
 	$changedby = $1;
     } elsif (/^-C(.*)$/) {
 	$desc = $1;
