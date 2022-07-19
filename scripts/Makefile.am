@@ -282,6 +282,8 @@ test_data = \
 	t/Dpkg_File/append-me \
 	t/Dpkg_File/dump-partial \
 	t/Dpkg_File/slurp-me \
+	t/Dpkg_OpenPGP/data-file \
+	t/Dpkg_OpenPGP/data-file.asc \
 	t/Dpkg_OpenPGP/package_1.0.orig.tar \
 	t/Dpkg_OpenPGP/package_1.0.orig.tar.asc \
 	t/Dpkg_OpenPGP/package_1.0.orig.tar.sig \

@@ -33,6 +33,22 @@ our @EXPORT = qw(
     openpgp_sig_to_asc
 );
 
+sub is_armored {
+    my $file = shift;
+    my $armored = 0;
+
+    open my $fh, '<', $file or syserr(g_('cannot open %s'), $file);
+    while (<$fh>) {
+        if (m/^-----BEGIN PGP /) {
+            $armored = 1;
+            last;
+        }
+    }
+    close $fh;
+
+    return $armored;
+}
+
 sub _gpg_armor {
     my ($sig, $asc) = @_;
 
@@ -62,18 +78,7 @@ sub openpgp_sig_to_asc
     my ($sig, $asc) = @_;
 
     if (-e $sig) {
-        my $is_openpgp_ascii_armor = 0;
-
-        open my $fh_sig, '<', $sig or syserr(g_('cannot open %s'), $sig);
-        while (<$fh_sig>) {
-            if (m/^-----BEGIN PGP /) {
-                $is_openpgp_ascii_armor = 1;
-                last;
-            }
-        }
-        close $fh_sig;
-
-        if ($is_openpgp_ascii_armor) {
+        if (is_armored($sig)) {
             notice(g_('signature file is already OpenPGP ASCII armor, copying'));
             copy($sig, $asc);
             return $asc;
