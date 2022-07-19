@@ -33,7 +33,7 @@ our @EXPORT = qw(
     openpgp_sig_to_asc
 );
 
-sub _armor_gpg {
+sub _gpg_armor {
     my ($sig, $asc) = @_;
 
     my @gpg_opts = qw(--no-options);
@@ -80,7 +80,7 @@ sub openpgp_sig_to_asc
         }
 
         if (find_command('gpg')) {
-            return _armor_gpg($sig, $asc);
+            return _gpg_armor($sig, $asc);
         } else {
             warning(g_('cannot OpenPGP ASCII armor signature file due to missing gpg'));
         }
@@ -89,7 +89,7 @@ sub openpgp_sig_to_asc
     return;
 }
 
-sub _exec_openpgp
+sub _gpg_exec
 {
     my ($opts, $exec, $errmsg) = @_;
 
@@ -129,17 +129,17 @@ sub _gpg_options_common {
 sub _gpg_import_keys {
     my ($opts, $keyring, @keys) = @_;
 
-    my $gpghome = File::Temp->newdir('dpkg-gpg-import-keys.XXXXXXXX', TMPDIR => 1);
+    my $gpg_home = File::Temp->newdir('dpkg-gpg-import-keys.XXXXXXXX', TMPDIR => 1);
 
     my @exec = qw(gpg);
     push @exec, _gpg_options_common();
-    push @exec, '--homedir', $gpghome;
+    push @exec, '--homedir', $gpg_home;
     push @exec, '--keyring', $keyring;
     push @exec, '--import';
 
     foreach my $key (@keys) {
         my $errmsg = sprintf g_('cannot import key %s into %s'), $key, $keyring;
-        _exec_openpgp($opts, [ @exec, $key ], $errmsg);
+        _gpg_exec($opts, [ @exec, $key ], $errmsg);
     }
 }
 
@@ -164,11 +164,11 @@ sub import_key {
 sub _gpg_verify {
     my ($opts, $data, $sig, @certs) = @_;
 
-    my $gpghome = File::Temp->newdir('dpkg-gpg-verify.XXXXXXXX', TMPDIR => 1);
+    my $gpg_home = File::Temp->newdir('dpkg-gpg-verify.XXXXXXXX', TMPDIR => 1);
 
     my @exec = qw(gpgv);
     push @exec, _gpg_options_weak_digests();
-    push @exec, '--homedir', $gpghome;
+    push @exec, '--homedir', $gpg_home;
     foreach my $cert (@certs) {
         push @exec, '--keyring', $cert;
     }
@@ -176,7 +176,7 @@ sub _gpg_verify {
     push @exec, $data;
 
     my $errmsg = sprintf g_('cannot verify signature for %s'), $data;
-    _exec_openpgp($opts, \@exec, $errmsg);
+    _gpg_exec($opts, \@exec, $errmsg);
 }
 
 sub inline_verify {
