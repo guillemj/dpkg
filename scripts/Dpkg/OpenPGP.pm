@@ -54,6 +54,21 @@ sub new {
     return $self;
 }
 
+sub _gpg_has_keystore {
+    my $self = shift;
+
+    return 1 if ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME}) ||
+                ($ENV{HOME} && -e "$ENV{HOME}/.gnupg");
+    return 0;
+}
+
+sub can_use_secrets {
+    my ($self, $key) = @_;
+
+    return 0 unless $self->{cmd};
+    return $self->_gpg_has_keystore();
+}
+
 sub get_trusted_keyrings {
     my $self = shift;
 
@@ -229,6 +244,28 @@ sub verify {
     my ($self, $data, $sig, @certs) = @_;
 
     return $self->_gpg_verify($data, $sig, undef, @certs);
+}
+
+sub _gpg_inline_sign {
+    my ($self, $data, $inlinesigned, $key) = @_;
+
+    return OPENPGP_MISSING_CMD if ! $self->{cmd};
+
+    my @exec = ($self->{cmd});
+    push @exec, _gpg_options_weak_digests();
+    push @exec, qw(--utf8-strings --textmode --armor);
+    push @exec, '--local-user', $key->handle;
+    push @exec, '--output', $inlinesigned;
+
+    my $rc = $self->_gpg_exec(@exec, '--clearsign', $data);
+    return OPENPGP_KEY_CANNOT_SIGN if $rc;
+    return OPENPGP_OK;
+}
+
+sub inline_sign {
+    my ($self, $data, $inlinesigned, $key) = @_;
+
+    return $self->_gpg_inline_sign($data, $inlinesigned, $key);
 }
 
 1;

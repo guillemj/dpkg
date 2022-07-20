@@ -28,7 +28,9 @@ our @EXPORT = qw(
     OPENPGP_EXPECTED_TEXT
     OPENPGP_OUTPUT_EXISTS
     OPENPGP_MISSING_INPUT
+    OPENPGP_KEY_IS_PROTECTED
     OPENPGP_UNSUPPORTED_SUBCMD
+    OPENPGP_KEY_CANNOT_SIGN
 
     OPENPGP_MISSING_CMD
 
@@ -54,7 +56,9 @@ use constant {
     OPENPGP_EXPECTED_TEXT => 53,
     OPENPGP_OUTPUT_EXISTS => 59,
     OPENPGP_MISSING_INPUT => 61,
+    OPENPGP_KEY_IS_PROTECTED => 67,
     OPENPGP_UNSUPPORTED_SUBCMD => 69,
+    OPENPGP_KEY_CANNOT_SIGN => 79,
 
     OPENPGP_MISSING_CMD => -1,
 };
@@ -68,7 +72,9 @@ my %code2error = (
     OPENPGP_EXPECTED_TEXT() => N_('non-text input where text expected'),
     OPENPGP_OUTPUT_EXISTS() => N_('output file already exists'),
     OPENPGP_MISSING_INPUT() => N_('input file does not exist'),
+    OPENPGP_KEY_IS_PROTECTED() => N_('cannot unlock password-protected key'),
     OPENPGP_UNSUPPORTED_SUBCMD() => N_('unsupported subcommand'),
+    OPENPGP_KEY_CANNOT_SIGN() => N_('key is not signature-capable'),
 
     OPENPGP_MISSING_CMD() => N_('missing OpenPGP implementation'),
 );

@@ -42,6 +42,8 @@ use Dpkg::Version;
 use Dpkg::Control;
 use Dpkg::Control::Info;
 use Dpkg::Changelog::Parse;
+use Dpkg::OpenPGP;
+use Dpkg::OpenPGP::ErrorCodes;
 use Dpkg::OpenPGP::KeyHandle;
 use Dpkg::Path qw(find_command);
 use Dpkg::IPC;
@@ -425,15 +427,8 @@ if ($check_command and not find_command($check_command)) {
     error(g_("check-command '%s' not found"), $check_command);
 }
 
-if ($signcommand) {
-    if (!find_command($signcommand)) {
-        error(g_("sign-command '%s' not found"), $signcommand);
-    }
-} elsif (($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME}) ||
-         ($ENV{HOME} && -e "$ENV{HOME}/.gnupg")) {
-    if (find_command('gpg')) {
-        $signcommand = 'gpg';
-    }
+if ($signcommand and not find_command($signcommand)) {
+    error(g_("sign-command '%s' not found"), $signcommand);
 }
 
 # Default to auto if none of parallel=N, -J or -j have been specified.
@@ -539,7 +534,11 @@ my $signkey = Dpkg::OpenPGP::KeyHandle->new(
 );
 signkey_validate();
 
-if (not $signcommand) {
+my $openpgp = Dpkg::OpenPGP->new(
+    cmd => $signcommand // 'auto',
+);
+
+if (not $openpgp->can_use_secrets($signkey)) {
     $signsource = 0;
     $signbuildinfo = 0;
     $signchanges = 0;
@@ -907,16 +906,13 @@ sub signfile {
     print { $signfh } "\n";
     close $signfh or syserr(g_('cannot close %s'), $signfile);
 
-    system($signcommand, '--utf8-strings', '--textmode', '--armor',
-           '--local-user', $signkey->handle, '--clearsign',
-           '--weak-digest', 'SHA1', '--weak-digest', 'RIPEMD160',
-           '--output', "$signfile.asc", $signfile);
-    my $status = $?;
-    if ($status == 0) {
+    my $status = $openpgp->inline_sign($signfile, "$signfile.asc", $signkey);
+    if ($status == OPENPGP_OK) {
         move("$signfile.asc", "../$file")
             or syserror(g_('cannot move %s to %s'), "$signfile.asc", "../$file");
     } else {
-        error(g_('failed to sign %s file'), $file);
+        error(g_('failed to sign %s file: %s'), $file,
+              openpgp_errorcode_to_string($status));
     }
 
     return $status
