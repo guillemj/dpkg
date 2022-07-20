@@ -109,32 +109,38 @@ sub _exec_openpgp
     }
 }
 
+sub _gpg_import_keys {
+    my ($opts, $keyring, @keys) = @_;
+
+    my $gpghome = File::Temp->newdir('dpkg-gpg-import-keys.XXXXXXXX', TMPDIR => 1);
+
+    my @exec = qw(gpg);
+    push @exec, '--homedir', $gpghome;
+    push @exec, '--no-options', '--no-default-keyring', '-q', '--import';
+    push @exec, '--keyring', $keyring;
+
+    foreach my $key (@keys) {
+        my $errmsg = sprintf g_('cannot import key %s into %s'), $key, $keyring;
+        _exec_openpgp($opts, [ @exec, $key ], $errmsg);
+    }
+}
+
 sub import_key {
     my ($opts, $asc) = @_;
 
     $opts->{require_valid_signature} //= 1;
 
-    my @exec;
     if (find_command('gpg')) {
-        push @exec, 'gpg';
+        _gpg_import_keys($opts, $opts->{keyring}, $asc);
     } elsif ($opts->{require_valid_signature}) {
         error(g_('cannot import key in %s since GnuPG is not installed'),
               $asc);
     } else {
         warning(g_('cannot import key in %s since GnuPG is not installed'),
                 $asc);
-        return;
     }
 
-    my $gpghome = File::Temp->newdir('dpkg-import-key.XXXXXXXX', TMPDIR => 1);
-
-    push @exec, '--homedir', $gpghome;
-    push @exec, '--no-options', '--no-default-keyring', '-q', '--import';
-    push @exec, '--keyring', $opts->{keyring};
-    push @exec, $asc;
-
-    my $errmsg = sprintf g_('cannot import key %s into %s'), $asc, $opts->{keyring};
-    _exec_openpgp($opts, \@exec, $errmsg);
+    return;
 }
 
 sub verify_signature {
