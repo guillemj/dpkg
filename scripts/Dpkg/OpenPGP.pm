@@ -91,11 +91,11 @@ sub openpgp_sig_to_asc
 
 sub _exec_openpgp
 {
-    my ($exec, $exec_opts, $opts, $errmsg) = @_;
+    my ($exec, $opts, $errmsg) = @_;
 
     my ($stdout, $stderr);
     spawn(exec => $exec, wait_child => 1, nocheck => 1, timeout => 10,
-          to_string => \$stdout, error_to_string => \$stderr, %{$exec_opts});
+          to_string => \$stdout, error_to_string => \$stderr);
     if (WIFEXITED($?)) {
         my $status = WEXITSTATUS($?);
         print { *STDERR } "$stdout$stderr" if $status;
@@ -134,7 +134,7 @@ sub import_key {
     push @exec, $asc;
 
     my $errmsg = sprintf g_('cannot import key %s into %s'), $asc, $opts{keyring};
-    _exec_openpgp(\@exec, {}, \%opts, $errmsg);
+    _exec_openpgp(\@exec, \%opts, $errmsg);
 }
 
 sub verify_signature {
@@ -170,7 +170,7 @@ sub verify_signature {
     push @exec, $opts{datafile} if exists $opts{datafile};
 
     my $errmsg = sprintf g_('cannot verify signature %s'), $sig;
-    _exec_openpgp(\@exec, {}, \%opts, $errmsg);
+    _exec_openpgp(\@exec, \%opts, $errmsg);
 }
 
 1;
