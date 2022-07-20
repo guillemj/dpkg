@@ -169,8 +169,8 @@ sub _gpg_verify {
     my @exec = qw(gpgv);
     push @exec, _gpg_options_weak_digests();
     push @exec, '--homedir', $gpghome;
-    foreach my $keyring (@certs) {
-        push @exec, '--keyring', $keyring;
+    foreach my $cert (@certs) {
+        push @exec, '--keyring', $cert;
     }
     push @exec, $sig if defined $sig;
     push @exec, $data;

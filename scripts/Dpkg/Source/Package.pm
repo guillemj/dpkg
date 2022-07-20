@@ -477,21 +477,21 @@ then any problem will result in a fatal error.
 sub check_signature {
     my $self = shift;
     my $dsc = $self->get_filename();
-    my @keyrings;
+    my @certs;
 
     if (length $ENV{HOME} and -r "$ENV{HOME}/.gnupg/trustedkeys.gpg") {
-        push @keyrings, "$ENV{HOME}/.gnupg/trustedkeys.gpg";
+        push @certs, "$ENV{HOME}/.gnupg/trustedkeys.gpg";
     }
     foreach my $vendor_keyring (run_vendor_hook('package-keyrings')) {
         if (-r $vendor_keyring) {
-            push @keyrings, $vendor_keyring;
+            push @certs, $vendor_keyring;
         }
     }
 
     my $opts = {
         require_valid_signature => $self->{options}{require_valid_signature},
     };
-    Dpkg::OpenPGP::inline_verify($opts, $dsc, @keyrings);
+    Dpkg::OpenPGP::inline_verify($opts, $dsc, @certs);
 }
 
 sub describe_cmdline_options {
