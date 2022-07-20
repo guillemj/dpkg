@@ -134,35 +134,18 @@ sub _gpg_import_keys {
     }
 }
 
-sub import_key {
-    my ($opts, $asc) = @_;
-
-    $opts->{require_valid_signature} //= 1;
-
-    if (find_command('gpg')) {
-        _gpg_import_keys($opts, $opts->{keyring}, $asc);
-    } elsif ($opts->{require_valid_signature}) {
-        error(g_('cannot import key in %s since GnuPG is not installed'),
-              $asc);
-    } else {
-        warning(g_('cannot import key in %s since GnuPG is not installed'),
-                $asc);
-    }
-
-    return;
-}
-
 sub _gpg_verify {
     my ($opts, $data, $sig, @certs) = @_;
 
     my $gpg_home = File::Temp->newdir('dpkg-gpg-verify.XXXXXXXX', TMPDIR => 1);
+    my $keyring = File::Temp->new(UNLINK => 1, SUFFIX => '.pgp');
+
+    _gpg_import_keys($opts, $keyring, @certs);
 
     my @exec = qw(gpgv);
     push @exec, _gpg_options_weak_digests();
     push @exec, '--homedir', $gpg_home;
-    foreach my $cert (@certs) {
-        push @exec, '--keyring', $cert;
-    }
+    push @exec, '--keyring', $keyring;
     push @exec, $sig if defined $sig;
     push @exec, $data;
 
