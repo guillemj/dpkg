@@ -28,10 +28,12 @@ use Dpkg::Path qw(find_command);
 our $VERSION = '0.01';
 
 my @BACKENDS = qw(
+    sop
     sq
     gpg
 );
 my %BACKEND = (
+    sop => 'SOP',
     sq => 'Sequoia',
     gpg => 'GnuPG',
 );

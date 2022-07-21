@@ -110,8 +110,8 @@ Recommends:
  build-essential,
  gcc | c-compiler,
  fakeroot,
- gnupg | sq,
- gpgv | sq,
+ gnupg | sq | pgpainless-cli,
+ gpgv | sq | pgpainless-cli,
 # Used by dpkg-mergechangelogs.
  libalgorithm-merge-perl,
 Suggests:
@@ -121,6 +121,9 @@ Breaks:
  debhelper (<< 10.10.1~),
 # Uses new sq features, w/o requiring a hard dependency on sq.
  sq (<< 0.25.0~),
+# Uses required SOP feautres, w/o requiring a hard dependency on pgpainless.
+ pgpainless-cli (<< 1.3.13~),
+ libsop-java-java (<< 4.0.7~),
 Description: Debian package development tools
  This package provides the development tools (including dpkg-source)
  required to unpack, build and upload Debian source packages.
@@ -147,8 +150,8 @@ Recommends:
  xz-utils,
 Suggests:
  debian-keyring,
- gnupg | sq,
- gpgv | sq,
+ gnupg | sq | pgpainless-cli,
+ gpgv | sq | pgpainless-cli,
  gcc | c-compiler,
  binutils,
  patch,
@@ -167,6 +170,9 @@ Breaks:
  dgit (<< 3.13~),
 # Uses new sq features, w/o requiring a hard dependency on sq.
  sq (<< 0.25.0~),
+# Uses required SOP feautres, w/o requiring a hard dependency on pgpainless.
+ pgpainless-cli (<< 1.3.13~),
+ libsop-java-java (<< 4.0.7~),
 Description: Dpkg perl modules
  This package provides the perl modules used by the scripts
  in dpkg-dev. They cover a wide range of functionality. Among them
