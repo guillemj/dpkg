@@ -50,7 +50,7 @@ sub is_armored {
 }
 
 sub _gpg_armor {
-    my ($sig, $asc) = @_;
+    my ($type, $sig, $asc) = @_;
 
     my @gpg_opts = qw(--no-options);
 
@@ -62,7 +62,7 @@ sub _gpg_armor {
         next if $line =~ m/^Version: /;
         next if $line =~ m/^Comment: /;
 
-        $line =~ s/ARMORED FILE/SIGNATURE/;
+        $line =~ s/ARMORED FILE/$type/;
 
         print { $fh_asc } $line;
     }
@@ -71,6 +71,18 @@ sub _gpg_armor {
     close $fh_asc or syserr(g_('cannot write signature file %s'), $asc);
 
     return $asc;
+}
+
+sub armor {
+    my ($type, $bin, $asc) = @_;
+
+    if (find_command('gpg')) {
+        return _gpg_armor($type, $bin, $asc);
+    } else {
+        warning(g_('cannot OpenPGP ASCII armor signature file due to missing gpg'));
+    }
+
+    return;
 }
 
 sub openpgp_sig_to_asc
@@ -84,11 +96,7 @@ sub openpgp_sig_to_asc
             return $asc;
         }
 
-        if (find_command('gpg')) {
-            return _gpg_armor($sig, $asc);
-        } else {
-            warning(g_('cannot OpenPGP ASCII armor signature file due to missing gpg'));
-        }
+        return armor('SIGNATURE', $sig, $asc);
     }
 
     return;
