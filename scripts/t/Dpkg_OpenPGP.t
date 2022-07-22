@@ -25,7 +25,7 @@ use Dpkg::ErrorHandling;
 
 test_needs_command('gpg');
 
-plan tests => 9;
+plan tests => 4;
 
 use_ok('Dpkg::OpenPGP');
 
@@ -46,27 +46,6 @@ $ascfile = "$tmpdir/data-file.asc";
 
 Dpkg::OpenPGP::armor('ARMORED FILE', $binfile, $ascfile);
 ok(compare($ascfile, $reffile) == 0, 'armor binary file into OpenPGP ASCII Armor');
-
-$ascfile = "$tmpdir/package_1.0.orig.tar.enoent";
-is(openpgp_sig_to_asc("$datadir/nonexistent", $ascfile),
-   undef, 'no conversion of inexistent file');
-
-$ascfile = "$tmpdir/package_1.0.orig.tar.sig2asc";
-is(openpgp_sig_to_asc("$datadir/package_1.0.orig.tar.sig", $ascfile),
-   $ascfile, 'conversion from binary sig to armored asc');
-
-ok(compare($ascfile, "$datadir/package_1.0.orig.tar.asc") == 0,
-   'binary signature converted to OpenPGP ASCII Armor');
-
-# Grab the output messages.
-eval {
-    $ascfile = "$tmpdir/package_1.0.orig.tar.asc2asc";
-    is(openpgp_sig_to_asc("$datadir/package_1.0.orig.tar.asc", $ascfile),
-       $ascfile, 'copy instead of converting already armored input');
-};
-
-ok(compare($ascfile, "$datadir/package_1.0.orig.tar.asc") == 0,
-   'OpenPGP ASCII Armor copied to destination');
 
 # TODO: Add actual test cases.
 

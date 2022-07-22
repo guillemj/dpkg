@@ -284,9 +284,6 @@ test_data = \
 	t/Dpkg_File/slurp-me \
 	t/Dpkg_OpenPGP/data-file \
 	t/Dpkg_OpenPGP/data-file.asc \
-	t/Dpkg_OpenPGP/package_1.0.orig.tar \
-	t/Dpkg_OpenPGP/package_1.0.orig.tar.asc \
-	t/Dpkg_OpenPGP/package_1.0.orig.tar.sig \
 	t/Dpkg_Shlibs/basictags.c \
 	t/Dpkg_Shlibs/basictags.symbols \
 	t/Dpkg_Shlibs/ld.so.conf \
@@ -330,6 +327,9 @@ test_data = \
 	t/Dpkg_Source_Patch/index-inert.patch \
 	t/Dpkg_Source_Patch/partial.patch \
 	t/Dpkg_Source_Quilt/parse/debian/patches/series \
+	t/Dpkg_Source_Package/package_1.0.orig.tar \
+	t/Dpkg_Source_Package/package_1.0.orig.tar.asc \
+	t/Dpkg_Source_Package/package_1.0.orig.tar.sig \
 	t/Dpkg_Substvars/substvars1 \
 	t/Dpkg_Substvars/substvars2 \
 	t/dpkg_buildpackage/test-source_0.dsc \

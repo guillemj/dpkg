@@ -34,7 +34,7 @@ is the one that supports the extraction of the source package.
 use strict;
 use warnings;
 
-our $VERSION = '2.01';
+our $VERSION = '2.02';
 our @EXPORT_OK = qw(
     get_default_diff_ignore_regex
     set_default_diff_ignore_regex
@@ -45,7 +45,7 @@ use Exporter qw(import);
 use POSIX qw(:errno_h :sys_wait_h);
 use Carp;
 use File::Temp;
-use File::Copy qw(cp);
+use File::Copy qw(cp copy);
 use File::Basename;
 use File::Spec;
 
@@ -417,6 +417,30 @@ sub get_upstream_signing_key {
     return "$dir/debian/upstream/signing-key.asc";
 }
 
+=item $p->armor_original_tarball_signature($bin, $asc)
+
+Convert a signature from binary to ASCII armored form. If the signature file
+does not exist, it is a no-op. If the signature file is already ASCII armored
+then simply copy it, otherwise convert it from binary to ASCII armored form.
+
+=cut
+
+sub armor_original_tarball_signature {
+    my ($self, $bin, $asc) = @_;
+
+    if (-e $bin) {
+        if (Dpkg::OpenPGP::is_armored($bin)) {
+            notice(g_('signature file is already OpenPGP ASCII armor, copying'));
+            copy($bin, $asc);
+            return $asc;
+        }
+
+        return Dpkg::OpenPGP::armor('SIGNATURE', $bin, $asc);
+    }
+
+    return;
+}
+
 =item $p->check_original_tarball_signature($dir, @asc)
 
 Verify the original upstream tarball signatures @asc using the upstream
@@ -680,6 +704,10 @@ sub write_dsc {
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.02 (dpkg 1.21.10)
+
+New method: armor_original_tarball_signature().
 
 =head2 Version 2.01 (dpkg 1.20.1)
 

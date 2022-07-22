@@ -43,7 +43,6 @@ use Dpkg::Source::Functions qw(erasedir chmod_if_needed fs_time);
 use Dpkg::Vendor qw(run_vendor_hook);
 use Dpkg::Control;
 use Dpkg::Changelog::Parse;
-use Dpkg::OpenPGP;
 
 use parent qw(Dpkg::Source::Package);
 
@@ -421,7 +420,7 @@ sub _generate_patch {
 
         # Check for an upstream signature.
         if (-e "$file.sig" and not -e "$file.asc") {
-            openpgp_sig_to_asc("$file.sig", "$file.asc");
+            $self->armor_original_tarball_signature("$file.sig", "$file.asc");
         }
         if (-e "$file.asc") {
             push @origtarfiles, "$file.asc";

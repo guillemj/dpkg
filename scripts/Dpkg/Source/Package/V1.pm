@@ -36,7 +36,6 @@ use Dpkg::Source::Patch;
 use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
 use Dpkg::Source::Functions qw(erasedir);
 use Dpkg::Source::Package::V3::Native;
-use Dpkg::OpenPGP;
 
 use parent qw(Dpkg::Source::Package);
 
@@ -426,7 +425,7 @@ sub do_build {
     if ($tarname) {
         $self->add_file($tarname);
         if (-e "$tarname.sig" and not -e "$tarname.asc") {
-            openpgp_sig_to_asc("$tarname.sig", "$tarname.asc");
+            $self->armor_original_tarball_signature("$tarname.sig", "$tarname.asc");
         }
     }
     if ($tarsign and -e $tarsign) {

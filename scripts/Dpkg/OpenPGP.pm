@@ -19,9 +19,7 @@ use strict;
 use warnings;
 
 use POSIX qw(:sys_wait_h);
-use Exporter qw(import);
 use File::Temp;
-use File::Copy;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -29,9 +27,6 @@ use Dpkg::IPC;
 use Dpkg::Path qw(find_command);
 
 our $VERSION = '0.01';
-our @EXPORT = qw(
-    openpgp_sig_to_asc
-);
 
 sub is_armored {
     my $file = shift;
@@ -80,23 +75,6 @@ sub armor {
         return _gpg_armor($type, $bin, $asc);
     } else {
         warning(g_('cannot OpenPGP ASCII armor signature file due to missing gpg'));
-    }
-
-    return;
-}
-
-sub openpgp_sig_to_asc
-{
-    my ($sig, $asc) = @_;
-
-    if (-e $sig) {
-        if (is_armored($sig)) {
-            notice(g_('signature file is already OpenPGP ASCII armor, copying'));
-            copy($sig, $asc);
-            return $asc;
-        }
-
-        return armor('SIGNATURE', $sig, $asc);
     }
 
     return;
