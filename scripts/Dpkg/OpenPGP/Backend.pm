@@ -1,4 +1,4 @@
-# Copyright © 2017 Guillem Jover <guillem@debian.org>
+# Copyright © 2017, 2022 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,86 +13,97 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::OpenPGP;
+package Dpkg::OpenPGP::Backend;
 
 use strict;
 use warnings;
 
-use Dpkg::Gettext;
-use Dpkg::ErrorHandling;
-use Dpkg::IPC;
-use Dpkg::Path qw(find_command);
-use Dpkg::OpenPGP::Backend::GnuPG;
-
 our $VERSION = '0.01';
+
+use List::Util qw(first);
+
+use Dpkg::Path qw(find_command);
+use Dpkg::OpenPGP::ErrorCodes;
+
+sub DEFAULT_CMDV {
+    return [];
+}
+
+sub DEFAULT_CMD {
+    return [];
+}
+
+sub _detect_cmd {
+    my ($cmd, $default) = @_;
+
+    if (! defined $cmd || $cmd eq 'auto') {
+        return first { find_command($_) } @{$default};
+    } else {
+        return find_command($cmd);
+    }
+}
 
 sub new {
     my ($this, %opts) = @_;
     my $class = ref($this) || $this;
 
-    my $self = {};
+    my $self = {
+        strict_verify => $opts{strict_verify} // 1,
+    };
     bless $self, $class;
 
-    my %backend_opts = (
-        cmdv => $opts{cmdv} // 'auto',
-        cmd => $opts{cmd} // 'auto',
-    );
-
-    $self->{backend} = Dpkg::OpenPGP::Backend::GnuPG->new(%backend_opts);
+    $self->{cmdv} = _detect_cmd($opts{cmdv}, $self->DEFAULT_CMDV());
+    $self->{cmd} = _detect_cmd($opts{cmd}, $self->DEFAULT_CMD());
 
     return $self;
 }
 
-sub can_use_secrets {
-    my ($self, $key) = @_;
+sub has_backend_cmd {
+    my $self = shift;
 
-    return 0 unless $self->{backend}->has_backend_cmd();
+    return defined $self->{cmd};
+}
 
-    if ($key->type eq 'keyfile') {
-        return 1 if -f $key->handle;
-    } elsif ($key->type eq 'keystore') {
-        return 1 if -e $key->handle;
-    } else {
-        # For IDs we need a keystore.
-        return $self->{backend}->has_keystore();
-    }
+sub has_keystore {
+    my $self = shift;
+
     return 0;
 }
 
 sub get_trusted_keyrings {
     my $self = shift;
 
-    return $self->{backend}->get_trusted_keyrings();
+    return ();
 }
 
 sub armor {
     my ($self, $type, $in, $out) = @_;
 
-    return $self->{backend}->armor($type, $in, $out);
+    return OPENPGP_UNSUPPORTED_SUBCMD;
 }
 
 sub dearmor {
     my ($self, $type, $in, $out) = @_;
 
-    return $self->{backend}->dearmor($type, $in, $out);
+    return OPENPGP_UNSUPPORTED_SUBCMD;
 }
 
 sub inline_verify {
     my ($self, $inlinesigned, $data, @certs) = @_;
 
-    return $self->{backend}->inline_verify($inlinesigned, $data, @certs);
+    return OPENPGP_UNSUPPORTED_SUBCMD;
 }
 
 sub verify {
     my ($self, $data, $sig, @certs) = @_;
 
-    return $self->{backend}->verify($data, $sig, @certs);
+    return OPENPGP_UNSUPPORTED_SUBCMD;
 }
 
 sub inline_sign {
     my ($self, $data, $inlinesigned, $key) = @_;
 
-    return $self->{backend}->inline_sign($data, $inlinesigned, $key);
+    return OPENPGP_UNSUPPORTED_SUBCMD;
 }
 
 1;
