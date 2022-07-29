@@ -91,7 +91,7 @@ sub openpgp_sig_to_asc
 
 sub _exec_openpgp
 {
-    my ($exec, $opts, $errmsg) = @_;
+    my ($opts, $exec, $errmsg) = @_;
 
     my ($stdout, $stderr);
     spawn(exec => $exec, wait_child => 1, nocheck => 1, timeout => 10,
@@ -110,14 +110,14 @@ sub _exec_openpgp
 }
 
 sub import_key {
-    my ($asc, %opts) = @_;
+    my ($opts, $asc) = @_;
 
-    $opts{require_valid_signature} //= 1;
+    $opts->{require_valid_signature} //= 1;
 
     my @exec;
     if (find_command('gpg')) {
         push @exec, 'gpg';
-    } elsif ($opts{require_valid_signature}) {
+    } elsif ($opts->{require_valid_signature}) {
         error(g_('cannot import key in %s since GnuPG is not installed'),
               $asc);
     } else {
@@ -130,17 +130,17 @@ sub import_key {
 
     push @exec, '--homedir', $gpghome;
     push @exec, '--no-options', '--no-default-keyring', '-q', '--import';
-    push @exec, '--keyring', $opts{keyring};
+    push @exec, '--keyring', $opts->{keyring};
     push @exec, $asc;
 
-    my $errmsg = sprintf g_('cannot import key %s into %s'), $asc, $opts{keyring};
-    _exec_openpgp(\@exec, \%opts, $errmsg);
+    my $errmsg = sprintf g_('cannot import key %s into %s'), $asc, $opts->{keyring};
+    _exec_openpgp($opts, \@exec, $errmsg);
 }
 
 sub verify_signature {
-    my ($sig, %opts) = @_;
+    my ($opts, $sig) = @_;
 
-    $opts{require_valid_signature} //= 1;
+    $opts->{require_valid_signature} //= 1;
 
     my @gpg_weak_digest = map {
         (qw(--weak-digest), $_)
@@ -152,7 +152,7 @@ sub verify_signature {
     } elsif (find_command('gpg')) {
         my @gpg_opts = (qw(--no-options --no-default-keyring -q), @gpg_weak_digest);
         push @exec, 'gpg', @gpg_opts, '--verify';
-    } elsif ($opts{require_valid_signature}) {
+    } elsif ($opts->{require_valid_signature}) {
         error(g_('cannot verify signature on %s since GnuPG is not installed'),
               $sig);
     } else {
@@ -163,14 +163,14 @@ sub verify_signature {
 
     my $gpghome = File::Temp->newdir('dpkg-verify-sig.XXXXXXXX', TMPDIR => 1);
     push @exec, '--homedir', $gpghome;
-    foreach my $keyring (@{$opts{keyrings}}) {
+    foreach my $keyring (@{$opts->{keyrings}}) {
         push @exec, '--keyring', $keyring;
     }
     push @exec, $sig;
-    push @exec, $opts{datafile} if exists $opts{datafile};
+    push @exec, $opts->{datafile} if exists $opts->{datafile};
 
     my $errmsg = sprintf g_('cannot verify signature %s'), $sig;
-    _exec_openpgp(\@exec, \%opts, $errmsg);
+    _exec_openpgp($opts, \@exec, $errmsg);
 }
 
 1;
