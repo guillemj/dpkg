@@ -274,7 +274,7 @@ sub parse {
 		    $self->parse_error($desc, g_('unfinished OpenPGP signature'));
                 }
 		# This does not mean the signature is correct, that needs to
-		# be verified by gnupg.
+		# be verified by an OpenPGP backend.
 		$$self->{is_pgp_signed} = 1;
 	    }
 	    last; # Finished parsing one block

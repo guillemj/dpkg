@@ -22,19 +22,29 @@ use Test::Dpkg qw(:paths :needs);
 use File::Compare;
 
 use Dpkg::ErrorHandling;
+use Dpkg::Path qw(find_command);
 use Dpkg::OpenPGP::KeyHandle;
 
-test_needs_command('gpg');
+my @backend_cmds = qw(
+    gpg
+);
+my %backend_cmd = (
+    auto => 'auto',
+    gpg => 'gpg',
+);
+my @cmds = grep { find_command($_) } @backend_cmds;
+if (@cmds == 0) {
+    plan skip_all => "requires at least one backend command: @backend_cmds";
+}
 
-plan tests => 17;
+unshift @cmds, 'auto';
+
+plan tests => 2 + 15 * scalar @cmds;
 
 use_ok('Dpkg::OpenPGP');
 use_ok('Dpkg::OpenPGP::ErrorCodes');
 
 report_options(quiet_warnings => 1);
-
-my $datadir = test_get_data_path();
-my $tempdir = test_get_temp_path();
 
 sub test_diff
 {
@@ -47,51 +57,60 @@ sub test_diff
     ok($res == 0, "$desc ($exp_file vs $gen_file)");
 }
 
-my $openpgp = Dpkg::OpenPGP->new();
+foreach my $cmd (@cmds) {
+    my $datadir = test_get_data_path();
+    my $tempdir = test_get_temp_path();
 
-ok($openpgp->dearmor('PUBLIC KEY BLOCK', "$datadir/dpkg-test-pub.asc", "$tempdir/dpkg-test-pub.pgp") == OPENPGP_OK(),
-    'dearmoring OpenPGP ASCII Armored certificate');
-ok($openpgp->armor('PUBLIC KEY BLOCK', "$tempdir/dpkg-test-pub.pgp", "$tempdir/dpkg-test-pub.asc") == OPENPGP_OK(),
-    'armoring OpenPGP binary certificate');
-test_diff("$datadir/dpkg-test-pub.asc", "$tempdir/dpkg-test-pub.asc",
-    'OpenPGP certificate dearmor/armor round-trip correctly');
+    my $backend = $backend_cmd{$cmd};
+    my $openpgp = Dpkg::OpenPGP->new(
+        backend => $backend,
+        cmd => $cmd,
+    );
 
-ok($openpgp->armor('SIGNATURE', "$datadir/sign-file.sig", "$tempdir/sign-file.asc") == OPENPGP_OK(),
-    'armoring OpenPGP binary signature succeeded');
-ok(compare("$datadir/sign-file.sig", "$tempdir/sign-file.asc") != 0,
-    'armoring OpenPGP ASCII Armor changed the file');
-ok($openpgp->armor('SIGNATURE', "$datadir/sign-file.asc", "$tempdir/sign-file-rearmor.asc") == OPENPGP_OK(),
-    'armoring OpenPGP armored signature succeeded');
-test_diff("$datadir/sign-file.asc", "$tempdir/sign-file-rearmor.asc",
-    'rearmoring OpenPGP ASCII Armor changed the file');
+    ok($openpgp->dearmor('PUBLIC KEY BLOCK', "$datadir/dpkg-test-pub.asc", "$tempdir/dpkg-test-pub.pgp") == OPENPGP_OK(),
+        "($backend:$cmd) dearmoring OpenPGP ASCII Armored certificate");
+    ok($openpgp->armor('PUBLIC KEY BLOCK', "$tempdir/dpkg-test-pub.pgp", "$tempdir/dpkg-test-pub.asc") == OPENPGP_OK(),
+        "($backend:$cmd) armoring OpenPGP binary certificate");
+    test_diff("$datadir/dpkg-test-pub.asc", "$tempdir/dpkg-test-pub.asc",
+        "($backend:$cmd) OpenPGP certificate dearmor/armor round-trip correctly");
 
-ok($openpgp->dearmor('SIGNATURE', "$tempdir/sign-file.asc", "$tempdir/sign-file.sig") == OPENPGP_OK(),
-    'dearmoring OpenPGP armored signature succeeded');
-test_diff("$datadir/sign-file.sig", "$tempdir/sign-file.sig",
-    'dearmored OpenPGP ASCII Armor signature matches');
+    ok($openpgp->armor('SIGNATURE', "$datadir/sign-file.sig", "$tempdir/sign-file.asc") == OPENPGP_OK(),
+        "($backend:$cmd) armoring OpenPGP binary signature succeeded");
+    ok(compare("$datadir/sign-file.sig", "$tempdir/sign-file.asc") != 0,
+        "($backend:$cmd) armoring OpenPGP ASCII Armor changed the file");
+    ok($openpgp->armor('SIGNATURE', "$datadir/sign-file.asc", "$tempdir/sign-file-rearmor.asc") == OPENPGP_OK(),
+        "($backend:$cmd) armoring OpenPGP armored signature succeeded");
+    test_diff("$datadir/sign-file.asc", "$tempdir/sign-file-rearmor.asc",
+        "($backend:$cmd) rearmoring OpenPGP ASCII Armor changed the file");
 
-my $cert = "$datadir/dpkg-test-pub.asc";
+    ok($openpgp->dearmor('SIGNATURE', "$tempdir/sign-file.asc", "$tempdir/sign-file.sig") == OPENPGP_OK(),
+        "($backend:$cmd) dearmoring OpenPGP armored signature succeeded");
+    test_diff("$datadir/sign-file.sig", "$tempdir/sign-file.sig",
+        "($backend:$cmd) dearmored OpenPGP ASCII Armor signature matches");
 
-ok($openpgp->inline_verify("$datadir/sign-file-inline.asc", undef, $cert) == OPENPGP_OK(),
-    'verify OpenPGP ASCII Armor inline signature');
-ok($openpgp->inline_verify("$datadir/sign-file-inline.sig", undef, $cert) == OPENPGP_OK(),
-    'verify OpenPGP binary inline signature');
+    my $cert = "$datadir/dpkg-test-pub.asc";
 
-ok($openpgp->verify("$datadir/sign-file", "$datadir/sign-file.asc", $cert) == OPENPGP_OK(),
-    'verify OpenPGP ASCII Armor detached signature');
-ok($openpgp->verify("$datadir/sign-file", "$datadir/sign-file.sig", $cert) == OPENPGP_OK(),
-    'verify OpenPGP binary detached signature');
+    ok($openpgp->inline_verify("$datadir/sign-file-inline.asc", undef, $cert) == OPENPGP_OK(),
+        "($backend:$cmd) verify OpenPGP ASCII Armor inline signature");
+    ok($openpgp->inline_verify("$datadir/sign-file-inline.sig", undef, $cert) == OPENPGP_OK(),
+        "($backend:$cmd) verify OpenPGP binary inline signature");
 
-my $key = Dpkg::OpenPGP::KeyHandle->new(
-    type => 'keyfile',
-    handle => "$datadir/dpkg-test-sec.asc",
-);
+    ok($openpgp->verify("$datadir/sign-file", "$datadir/sign-file.asc", $cert) == OPENPGP_OK(),
+        "($backend:$cmd) verify OpenPGP ASCII Armor detached signature");
+    ok($openpgp->verify("$datadir/sign-file", "$datadir/sign-file.sig", $cert) == OPENPGP_OK(),
+        "($backend:$cmd) verify OpenPGP binary detached signature");
 
-ok($openpgp->inline_sign("$datadir/sign-file", "$tempdir/sign-file-inline.asc", $key) == OPENPGP_OK(),
-    'inline OpenPGP sign');
-ok($openpgp->inline_verify("$tempdir/sign-file-inline.asc", undef, $cert) == OPENPGP_OK(),
-    'verify generated inline OpenPGP signature');
+    my $key = Dpkg::OpenPGP::KeyHandle->new(
+        type => 'keyfile',
+        handle => "$datadir/dpkg-test-sec.asc",
+    );
 
-# TODO: Add actual test cases.
+    ok($openpgp->inline_sign("$datadir/sign-file", "$tempdir/sign-file-inline.asc", $key) == OPENPGP_OK(),
+        "($backend:$cmd) inline OpenPGP sign");
+    ok($openpgp->inline_verify("$tempdir/sign-file-inline.asc", undef, $cert) == OPENPGP_OK(),
+        "($backend:$cmd) verify generated inline OpenPGP signature");
+
+    # TODO: Add more test cases.
+}
 
 1;

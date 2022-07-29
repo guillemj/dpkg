@@ -545,6 +545,9 @@ signkey_validate();
 
 my $openpgp = Dpkg::OpenPGP->new(
     cmd => $signcommand // 'auto',
+    needs => {
+        keystore => $signkey->needs_keystore(),
+    },
 );
 
 if (not $openpgp->can_use_secrets($signkey)) {

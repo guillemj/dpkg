@@ -212,7 +212,7 @@ sub new {
         fields => Dpkg::Control->new(type => CTRL_PKG_SRC),
         format => Dpkg::Source::Format->new(),
         options => {},
-        checksums => Dpkg::Checksums->new(),
+        checksums => Dpkg::Checksums->new(needs => { api => 'verify' }),
         openpgp => Dpkg::OpenPGP->new(),
     };
     bless $self, $class;

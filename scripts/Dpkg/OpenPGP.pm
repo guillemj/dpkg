@@ -18,13 +18,21 @@ package Dpkg::OpenPGP;
 use strict;
 use warnings;
 
+use List::Util qw(none);
+
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
 use Dpkg::Path qw(find_command);
-use Dpkg::OpenPGP::Backend::GnuPG;
 
 our $VERSION = '0.01';
+
+my @BACKENDS = qw(
+    gpg
+);
+my %BACKEND = (
+    gpg => 'GnuPG',
+);
 
 sub new {
     my ($this, %opts) = @_;
@@ -33,14 +41,65 @@ sub new {
     my $self = {};
     bless $self, $class;
 
+    my $backend = $opts{backend} // 'auto';
     my %backend_opts = (
         cmdv => $opts{cmdv} // 'auto',
         cmd => $opts{cmd} // 'auto',
     );
 
-    $self->{backend} = Dpkg::OpenPGP::Backend::GnuPG->new(%backend_opts);
+    if ($backend eq 'auto') {
+        # Defaults for stateless full API auto-detection.
+        $opts{needs}{api} //= 'full';
+        $opts{needs}{keystore} //= 0;
+
+        if (none { $opts{needs}{api} eq $_ } qw(full verify)) {
+            error(g_('unknown OpenPGP api requested %s'), $opts{needs}{api});
+        }
+
+        $self->{backend} = $self->_auto_backend($opts{needs}, %backend_opts);
+    } elsif (exists $BACKEND{$backend}) {
+        $self->{backend} = $self->_load_backend($BACKEND{$backend}, %backend_opts);
+        if (! $self->{backend}) {
+            error(g_('cannot load OpenPGP backend %s'), $backend);
+        }
+    } else {
+        error(g_('unknown OpenPGP backend %s'), $backend);
+    }
 
     return $self;
+}
+
+sub _load_backend {
+    my ($self, $backend, %opts) = @_;
+
+    my $module = "Dpkg::OpenPGP::Backend::$backend";
+    eval qq{
+        pop \@INC if \$INC[-1] eq '.';
+        require $module;
+    };
+    return if $@;
+
+    return $module->new(%opts);
+}
+
+sub _auto_backend {
+    my ($self, $needs, %opts) = @_;
+
+    foreach my $backend (@BACKENDS) {
+        my $module = $self->_load_backend($BACKEND{$backend}, %opts);
+
+        if ($needs->{api} eq 'verify') {
+            next if ! $module->has_verify_cmd();
+        } else {
+            next if ! $module->has_backend_cmd();
+        }
+        next if $needs->{keystore} && ! $module->has_keystore();
+
+        return $module;
+    }
+
+    # Otherwise load a dummy backend.
+    return Dpkg::OpenPGP::Backend->new();
 }
 
 sub can_use_secrets {
