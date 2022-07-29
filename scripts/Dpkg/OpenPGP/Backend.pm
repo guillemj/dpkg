@@ -64,6 +64,12 @@ sub has_backend_cmd {
     return defined $self->{cmd};
 }
 
+sub has_verify_cmd {
+    my $self = shift;
+
+    return defined $self->{cmd};
+}
+
 sub has_keystore {
     my $self = shift;
 
