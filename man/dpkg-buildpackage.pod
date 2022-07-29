@@ -117,7 +117,7 @@ with B<--check-command>).
 
 =item B<11.>
 
-It runs the B<sign> hook and calls B<gpg> (as long as it
+It runs the B<sign> hook and signs using the OpenPGP backend (as long as it
 is not an UNRELEASED build, or B<--no-sign> is specified) to sign the
 B<.dsc> file (if any, unless
 B<-us> or B<--unsigned-source> is specified), the B<.buildinfo>
@@ -517,15 +517,28 @@ Set the I<filename> for the generated B<.buildinfo> file (since dpkg 1.21.0).
 Pass option I<opt> to B<dpkg-genbuildinfo> (since dpkg 1.18.11).
 Can be used multiple times.
 
+=item B<--sign-backend=>I<sign-backend>
+
+Specify an OpenPGP backend interface to use when invoking the I<sign-command>
+(since dpkg 1.21.10).
+
+The default is B<auto>, where the best current backend available will be used.
+The specific OpenPGP backends supported in order of preference are:
+
+=over 2
+
+=item B<gpg> (from GnuPG)
+
+=back
+
 =item B<-p>, B<--sign-command=>I<sign-command>
 
-When B<dpkg-buildpackage> needs to execute GPG to sign a source
-control (B<.dsc>) file or a B<.changes> file it will run
-I<sign-command> (searching the B<PATH> if necessary) instead of
-B<gpg> (long option since dpkg 1.18.8).
-I<sign-command> will get all the arguments
-that B<gpg> would have gotten. I<sign-command>
-should not contain spaces or any other shell metacharacters.
+When B<dpkg-buildpackage> needs to execute an OpenPGP backend command to
+sign a source control (B<.dsc>) file or a B<.changes> file it will run
+I<sign-command> (searching the B<PATH> if necessary) instead of the
+default or auto-detected backend command (long option since dpkg 1.18.8).
+I<sign-command> will get all the arguments defined by the B<--sign-backend>.
+I<sign-command> should not contain spaces or any other shell metacharacters.
 
 =item B<-k>, B<--sign-keyid=>I<key-id>
 

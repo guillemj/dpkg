@@ -109,6 +109,9 @@ sub usage {
       --buildinfo-option=<opt>
                               pass option <opt> to dpkg-genbuildinfo.
       --changes-file=<file>   set the .changes filename to generate.
+      --sign-backend=<backend>
+                              OpenPGP backend to use to sign
+                                (default is auto).
   -p, --sign-command=<command>
                               command to sign .dsc and/or .changes files
                                 (default is gpg).
@@ -160,6 +163,7 @@ sub usage {
 my $admindir;
 my @debian_rules = ('debian/rules');
 my @rootcommand = ();
+my $signbackend;
 my $signcommand;
 my $preclean = 1;
 my $postclean = 0;
@@ -289,6 +293,8 @@ while (@ARGV) {
     } elsif (/^(--buildinfo-id)=.*$/) {
 	# Deprecated option
 	warning(g_('%s is deprecated; it is without effect'), $1);
+    } elsif (/^--sign-backend=(.*)$/) {
+	$signbackend = $1;
     } elsif (/^(?:-p|--sign-command=)(.*)$/) {
 	$signcommand = $1;
     } elsif (/^--sign-keyfile=(.*)$/) {
@@ -544,6 +550,7 @@ my $signkey = Dpkg::OpenPGP::KeyHandle->new(
 signkey_validate();
 
 my $openpgp = Dpkg::OpenPGP->new(
+    backend => $signbackend // 'auto',
     cmd => $signcommand // 'auto',
     needs => {
         keystore => $signkey->needs_keystore(),
