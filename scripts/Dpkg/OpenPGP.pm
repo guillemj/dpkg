@@ -109,15 +109,33 @@ sub _exec_openpgp
     }
 }
 
+sub _gpg_options_weak_digests {
+    my @gpg_weak_digests = map {
+        (qw(--weak-digest), $_)
+    } qw(SHA1 RIPEMD160);
+
+    return @gpg_weak_digests;
+}
+
+sub _gpg_options_common {
+    my @opts = (
+        qw(--no-options --no-default-keyring -q),
+        _gpg_options_weak_digests(),
+    );
+
+    return @opts;
+}
+
 sub _gpg_import_keys {
     my ($opts, $keyring, @keys) = @_;
 
     my $gpghome = File::Temp->newdir('dpkg-gpg-import-keys.XXXXXXXX', TMPDIR => 1);
 
     my @exec = qw(gpg);
+    push @exec, _gpg_options_common();
     push @exec, '--homedir', $gpghome;
-    push @exec, '--no-options', '--no-default-keyring', '-q', '--import';
     push @exec, '--keyring', $keyring;
+    push @exec, '--import';
 
     foreach my $key (@keys) {
         my $errmsg = sprintf g_('cannot import key %s into %s'), $key, $keyring;
@@ -148,16 +166,11 @@ sub verify_signature {
 
     $opts->{require_valid_signature} //= 1;
 
-    my @gpg_weak_digest = map {
-        (qw(--weak-digest), $_)
-    } qw(SHA1 RIPEMD160);
-
     my @exec;
     if (find_command('gpgv')) {
-        push @exec, 'gpgv', @gpg_weak_digest;
+        push @exec, 'gpgv', _gpg_options_weak_digests();
     } elsif (find_command('gpg')) {
-        my @gpg_opts = (qw(--no-options --no-default-keyring -q), @gpg_weak_digest);
-        push @exec, 'gpg', @gpg_opts, '--verify';
+        push @exec, 'gpg', _gpg_options_common(), '--verify';
     } elsif ($opts->{require_valid_signature}) {
         error(g_('cannot verify signature on %s since GnuPG is not installed'),
               $sig);
