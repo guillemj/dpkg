@@ -445,12 +445,10 @@ sub check_original_tarball_signature {
     }, $upstream_key);
 
     foreach my $asc (@asc) {
+        my $datafile = $asc =~ s/\.asc$//r;
+
         info(g_('verifying %s'), $asc);
-        Dpkg::OpenPGP::verify_signature({
-            %{$opts},
-            keyrings => [ $keyring ],
-            datafile => $asc =~ s/\.asc$//r,
-        }, $asc);
+        Dpkg::OpenPGP::verify($opts, $datafile, $asc, $keyring);
     }
 }
 
@@ -491,10 +489,9 @@ sub check_signature {
     }
 
     my $opts = {
-        keyrings => \@keyrings,
         require_valid_signature => $self->{options}{require_valid_signature},
     };
-    Dpkg::OpenPGP::verify_signature($opts, $dsc);
+    Dpkg::OpenPGP::inline_verify($opts, $dsc, @keyrings);
 }
 
 sub describe_cmdline_options {

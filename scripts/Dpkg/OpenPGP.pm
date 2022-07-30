@@ -162,30 +162,48 @@ sub import_key {
 }
 
 sub _gpg_verify {
-    my ($opts, $sig) = @_;
+    my ($opts, $data, $sig, @certs) = @_;
 
     my $gpghome = File::Temp->newdir('dpkg-gpg-verify.XXXXXXXX', TMPDIR => 1);
 
     my @exec = qw(gpgv);
     push @exec, _gpg_options_weak_digests();
     push @exec, '--homedir', $gpghome;
-    foreach my $keyring (@{$opts->{keyrings}}) {
+    foreach my $keyring (@certs) {
         push @exec, '--keyring', $keyring;
     }
-    push @exec, $sig;
-    push @exec, $opts->{datafile} if exists $opts->{datafile};
+    push @exec, $sig if defined $sig;
+    push @exec, $data;
 
-    my $errmsg = sprintf g_('cannot verify signature %s'), $sig;
+    my $errmsg = sprintf g_('cannot verify signature for %s'), $data;
     _exec_openpgp($opts, \@exec, $errmsg);
 }
 
-sub verify_signature {
-    my ($opts, $sig) = @_;
+sub inline_verify {
+    my ($opts, $data, @certs) = @_;
 
     $opts->{require_valid_signature} //= 1;
 
     if (find_command('gpgv')) {
-        _gpg_verify($opts, $sig);
+        _gpg_verify($opts, $data, undef, @certs);
+    } elsif ($opts->{require_valid_signature}) {
+        error(g_('cannot verify inline signature on %s since GnuPG is not installed'),
+              $data);
+    } else {
+        warning(g_('cannot verify inline signature on %s since GnuPG is not installed'),
+                $data);
+    }
+
+    return;
+}
+
+sub verify {
+    my ($opts, $data, $sig, @certs) = @_;
+
+    $opts->{require_valid_signature} //= 1;
+
+    if (find_command('gpgv')) {
+        _gpg_verify($opts, $data, $sig, @certs);
     } elsif ($opts->{require_valid_signature}) {
         error(g_('cannot verify signature on %s since GnuPG is not installed'),
               $sig);
