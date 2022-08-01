@@ -17,7 +17,6 @@ libcompat_test_la_CPPFLAGS = \
 	# EOL
 libcompat_test_la_SOURCES = \
 	compat.h \
-	md5.c md5.h \
 	strchrnul.c \
 	strnlen.c \
 	strndup.c \
@@ -39,10 +38,6 @@ libcompat_la_SOURCES = \
 	compat-zlib.h \
 	gettext.h \
 	# EOL
-
-if !HAVE_LIBMD_MD5
-libcompat_la_SOURCES += md5.c md5.h
-endif
 
 if !HAVE_GETOPT
 libcompat_la_SOURCES += getopt.c getopt.h

@@ -8,28 +8,21 @@
 # Check for the message digest library.
 AC_DEFUN([DPKG_LIB_MD], [
   AC_ARG_VAR([MD_LIBS], [linker flags for md library])
-  AC_ARG_WITH([libmd],
-    [AS_HELP_STRING([--with-libmd],
-      [use libmd library for message digest functions])],
-    [], [with_libmd=check])
   have_libmd="no"
-  AS_IF([test "x$with_libmd" != "xno"], [
-    AC_CHECK_HEADERS([md5.h], [
-      dpkg_save_libmd_LIBS=$LIBS
-      AC_SEARCH_LIBS([MD5Init], [md])
-      LIBS=$dpkg_save_libmd_LIBS
-      AS_IF([test "x$ac_cv_search_MD5Init" = "xnone required"], [
-        have_libmd="builtin"
-      ], [test "x$ac_cv_search_MD5Init" != "xno"], [
-        have_libmd="yes"
-        MD_LIBS="$ac_cv_search_MD5Init"
-      ])
-    ])
-    AS_IF([test "x$with_libmd" = "xyes" && test "x$have_libmd" = "xno"], [
-      AC_MSG_FAILURE([md5 digest functions not found])
+  AC_CHECK_HEADERS([md5.h], [
+    dpkg_save_libmd_LIBS=$LIBS
+    AC_SEARCH_LIBS([MD5Init], [md])
+    LIBS=$dpkg_save_libmd_LIBS
+    AS_IF([test "x$ac_cv_search_MD5Init" = "xnone required"], [
+      have_libmd="builtin"
+    ], [test "x$ac_cv_search_MD5Init" != "xno"], [
+      have_libmd="yes"
+      MD_LIBS="$ac_cv_search_MD5Init"
     ])
   ])
-  AM_CONDITIONAL([HAVE_LIBMD_MD5], [test "x$have_libmd" != "xno"])
+  AS_IF([test "x$have_libmd" = "xno"], [
+    AC_MSG_FAILURE([md5 digest functions not found])
+  ])
 ])# DPKG_LIB_MD
 
 # DPKG_WITH_COMPRESS_LIB(NAME, HEADER, FUNC)
