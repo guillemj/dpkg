@@ -34,11 +34,11 @@ dpkg-deb --fsys-tarfile pkg-old-templ.deb >fsys.tar
 gzip -n fsys.tar
 
 # Create deb-old 0.939
-cp -a pkg-old-templ.deb pkg-old.deb
+cp pkg-old-templ.deb pkg-old.deb
 
 # Create deb-old-old-old 0.931
 mkdir -p pkg-old-0931-templ/.DEBIAN
-cp -a pkg-old-templ/DEBIAN/* pkg-old-0931-templ/.DEBIAN/
+cp pkg-old-templ/DEBIAN/* pkg-old-0931-templ/.DEBIAN/
 find pkg-old-0931-templ | xargs touch -t 197001010100.00
 tar czf ctrl-0931.tar.gz --format=gnu --mtime @0 --clamp-mtime --owner root:0 --group root:0 -C pkg-old-0931-templ .DEBIAN
 
@@ -49,7 +49,7 @@ cat fsys.tar.gz >>pkg-old-0931.deb
 
 # Create deb-old-old template
 mkdir -p pkg-old-0932-templ/DEBIAN
-cp -a pkg-old-templ/DEBIAN/* pkg-old-0932-templ/DEBIAN/
+cp pkg-old-templ/DEBIAN/* pkg-old-0932-templ/DEBIAN/
 find pkg-old-0932-templ | xargs touch -t 197001010100.00
 tar czf ctrl-0932.tar.gz --format=gnu --mtime @0 --clamp-mtime --owner root:0 --group root:0 -C pkg-old-0932-templ DEBIAN
 
