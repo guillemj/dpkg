@@ -43,7 +43,7 @@ find pkg-old-0931-templ | xargs touch -t 197001010100.00
 tar czf ctrl-0931.tar.gz --format=gnu --mtime @0 --clamp-mtime --owner root:0 --group root:0 -C pkg-old-0931-templ .DEBIAN
 
 echo '0.931000' >pkg-old-0931.deb
-stat -c '%s' ctrl-0931.tar.gz >>pkg-old-0931.deb
+DPKG_FILE_SIZE([ctrl-0931.tar.gz]) >>pkg-old-0931.deb
 cat ctrl-0931.tar.gz >>pkg-old-0931.deb
 cat fsys.tar.gz >>pkg-old-0931.deb
 
@@ -55,13 +55,13 @@ tar czf ctrl-0932.tar.gz --format=gnu --mtime @0 --clamp-mtime --owner root:0 --
 
 # Create deb-old-old 0.932
 echo '0.932000' >pkg-old-0932.deb
-stat -c '%s' ctrl-0932.tar.gz >>pkg-old-0932.deb
+DPKG_FILE_SIZE([ctrl-0932.tar.gz]) >>pkg-old-0932.deb
 cat ctrl-0932.tar.gz >>pkg-old-0932.deb
 cat fsys.tar.gz >>pkg-old-0932.deb
 
 # Create deb-old-old 0.933
 echo '0.933000' >pkg-old-0933.deb
-stat -c '%s' ctrl-0932.tar.gz >>pkg-old-0933.deb
+DPKG_FILE_SIZE([ctrl-0932.tar.gz]) >>pkg-old-0933.deb
 cat ctrl-0932.tar.gz >>pkg-old-0933.deb
 cat fsys.tar.gz >>pkg-old-0933.deb
 ])

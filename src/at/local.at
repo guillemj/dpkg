@@ -35,6 +35,11 @@ m4_define([DPKG_DIVERT_DEL], [DPKG_DIVERT --remove])
 # Macros.
 #
 
+# DPKG_FILE_SIZE()
+m4_define([DPKG_FILE_SIZE], [
+  perl -E 'say -s shift' "$1" dnl
+])
+
 # DPKG_GEN_FSYS()
 m4_define([DPKG_GEN_DB], [
   mkdir -p DPKG_INSTDIR
