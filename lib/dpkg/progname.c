@@ -77,7 +77,7 @@ dpkg_get_progname(void)
 		/* getexecname(3) returns an absolute path, normalize it. */
 		dpkg_set_progname(getexecname());
 #elif defined(HAVE_GETPROCS64)
-		struct progentry64 pe;
+		struct procentry64 pe;
 		pid_t pid = getpid();
 
 		if (getprocs64(&pe, sizeof(pe), NULL, 0, &pid, 1) >= 0)
