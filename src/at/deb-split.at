@@ -17,7 +17,7 @@ AT_CHECK([
 chmod -R u+w pkg-split
 # XXX: Some environments set SIGPIPE to ignore which we cannot reset, and 'yes'
 # does check print error conditions, so we ignore its error message here.
-yes 2>/dev/null | dd of=pkg-split/data-file bs=1024 count=2048 status=none
+yes 2>/dev/null | dd of=pkg-split/data-file bs=1024 count=2048 2>/dev/null
 find pkg-split | xargs touch -t 197001010100.00
 dpkg-deb --root-owner-group -Znone -b pkg-split >/dev/null
 ])
