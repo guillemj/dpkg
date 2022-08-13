@@ -202,6 +202,20 @@ set_compress_type(const struct cmdinfo *cip, const char *value)
     badusage(_("obsolete compression type '%s'; use xz or gzip instead"), value);
 }
 
+static long
+parse_threads_max(const char *str)
+{
+  long value;
+  char *end;
+
+  errno = 0;
+  value = strtol(str, &end, 10);
+  if (str == end || *end != '\0' || errno != 0)
+    return 0;
+
+  return value;
+}
+
 static void
 set_threads_max(const struct cmdinfo *cip, const char *value)
 {
@@ -240,10 +254,15 @@ static const struct cmdinfo cmdinfos[]= {
 
 int main(int argc, const char *const *argv) {
   struct dpkg_error err;
+  char *env;
   int ret;
 
   dpkg_locales_init(PACKAGE);
   dpkg_program_init(BACKEND);
+  /* XXX: Integrate this into options initialization/parsing. */
+  env = getenv("DPKG_DEB_THREADS_MAX");
+  if (str_is_set(env))
+    compress_params.threads_max = parse_threads_max(env);
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
   if (!cipaction) badusage(_("need an action option"));

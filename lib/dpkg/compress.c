@@ -697,25 +697,10 @@ filter_xz_get_memlimit(void)
 	return mt_memlimit;
 }
 
-static long
-parse_threads_max(const char *str)
-{
-	long value;
-	char *end;
-
-	errno = 0;
-	value = strtol(str, &end, 10);
-	if (str == end || *end != '\0' || errno != 0)
-		return 0;
-
-	return value;
-}
-
 static uint32_t
 filter_xz_get_cputhreads(struct compress_params *params)
 {
 	long threads_max;
-	const char *env;
 
 	threads_max = lzma_cputhreads();
 	if (threads_max == 0)
@@ -723,10 +708,6 @@ filter_xz_get_cputhreads(struct compress_params *params)
 
 	if (params->threads_max >= 0)
 		return clamp(params->threads_max, 1, threads_max);
-
-	env = getenv("DPKG_DEB_THREADS_MAX");
-	if (str_is_set(env))
-		return clamp(parse_threads_max(env), 1, threads_max);
 
 	return threads_max;
 }
