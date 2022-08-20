@@ -170,6 +170,20 @@ struct compress_params compress_params = {
   .threads_max = -1,
 };
 
+static long
+parse_compress_level(const char *str)
+{
+  long value;
+  char *end;
+
+  errno = 0;
+  value = strtol(str, &end, 10);
+  if (str == end || *end != '\0' || errno != 0)
+    return 0;
+
+  return value;
+}
+
 static void
 set_compress_level(const struct cmdinfo *cip, const char *value)
 {
@@ -273,6 +287,12 @@ int main(int argc, const char *const *argv) {
   env = getenv("DPKG_DEB_THREADS_MAX");
   if (str_is_set(env))
     compress_params.threads_max = parse_threads_max(env);
+  env = getenv("DPKG_DEB_COMPRESSOR_TYPE");
+  if (str_is_set(env))
+    compress_params.type = parse_compress_type(env);
+  env = getenv("DPKG_DEB_COMPRESSOR_LEVEL");
+  if (str_is_set(env))
+    compress_params.level = parse_compress_level(env);
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
   if (!cipaction) badusage(_("need an action option"));
