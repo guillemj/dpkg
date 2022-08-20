@@ -190,16 +190,26 @@ set_compress_strategy(const struct cmdinfo *cip, const char *value)
     badusage(_("unknown compression strategy '%s'!"), value);
 }
 
+static enum compressor_type
+parse_compress_type(const char *value)
+{
+  enum compressor_type type;
+
+  type = compressor_find_by_name(value);
+  if (type == COMPRESSOR_TYPE_UNKNOWN)
+    badusage(_("unknown compression type '%s'!"), value);
+  if (type == COMPRESSOR_TYPE_LZMA)
+    badusage(_("obsolete compression type '%s'; use xz instead"), value);
+  if (type == COMPRESSOR_TYPE_BZIP2)
+    badusage(_("obsolete compression type '%s'; use xz or gzip instead"), value);
+
+  return type;
+}
+
 static void
 set_compress_type(const struct cmdinfo *cip, const char *value)
 {
-  compress_params.type = compressor_find_by_name(value);
-  if (compress_params.type == COMPRESSOR_TYPE_UNKNOWN)
-    badusage(_("unknown compression type '%s'!"), value);
-  if (compress_params.type == COMPRESSOR_TYPE_LZMA)
-    badusage(_("obsolete compression type '%s'; use xz instead"), value);
-  if (compress_params.type == COMPRESSOR_TYPE_BZIP2)
-    badusage(_("obsolete compression type '%s'; use xz or gzip instead"), value);
+  compress_params.type = parse_compress_type(value);
 }
 
 static long
