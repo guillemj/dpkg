@@ -539,6 +539,8 @@ main(int, const char *const *argv)
   dpkg_options_load(DSELECT, cmdinfos);
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
+  debug(dbg_general, "root=%s admindir=%s", dpkg_fsys_get_dir(), dpkg_db_get_dir());
+
   if (*argv) {
     const char *a;
     while ((a = *argv++) != nullptr) {

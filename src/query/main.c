@@ -44,6 +44,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/debug.h>
 #include <dpkg/pkg-array.h>
 #include <dpkg/pkg-spec.h>
 #include <dpkg/pkg-format.h>
@@ -866,6 +867,8 @@ int main(int argc, const char *const *argv) {
   dpkg_locales_init(PACKAGE);
   dpkg_program_init("dpkg-query");
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
+
+  debug(dbg_general, "root=%s admindir=%s", dpkg_fsys_get_dir(), dpkg_db_get_dir());
 
   if (!cipaction) badusage(_("need an action option"));
 

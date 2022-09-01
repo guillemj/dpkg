@@ -37,6 +37,8 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/debug.h>
+#include <dpkg/fsys.h>
 #include <dpkg/options.h>
 
 #include "dpkg-split.h"
@@ -164,6 +166,8 @@ int main(int argc, const char *const *argv) {
   dpkg_locales_init(PACKAGE);
   dpkg_program_init(SPLITTER);
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
+
+  debug(dbg_general, "root=%s admindir=%s", dpkg_fsys_get_dir(), dpkg_db_get_dir());
 
   if (opt_depotdir == NULL)
     opt_depotdir = dpkg_db_get_path(PARTSDIR);

@@ -736,6 +736,8 @@ int main(int argc, const char *const *argv) {
   dpkg_options_load(DPKG, cmdinfos);
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
+  debug(dbg_general, "root=%s admindir=%s", dpkg_fsys_get_dir(), dpkg_db_get_dir());
+
   /* When running as root, make sure our primary group is also root, so
    * that files created by maintainer scripts have correct ownership. */
   if (!in_force(FORCE_NON_ROOT) && getuid() == 0 && getgid() != 0)

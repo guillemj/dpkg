@@ -40,6 +40,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/debug.h>
 #include <dpkg/string.h>
 #include <dpkg/path.h>
 #include <dpkg/dir.h>
@@ -405,6 +406,8 @@ main(int argc, const char *const *argv)
 	dpkg_program_init("dpkg-statoverride");
 	set_force_default(FORCE_STATCMD_MASK);
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
+
+	debug(dbg_general, "root=%s admindir=%s", dpkg_fsys_get_dir(), dpkg_db_get_dir());
 
 	if (!cipaction)
 		badusage(_("need an action option"));

@@ -40,6 +40,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/debug.h>
 #include <dpkg/arch.h>
 #include <dpkg/file.h>
 #include <dpkg/glob.h>
@@ -864,6 +865,8 @@ main(int argc, const char * const *argv)
 	dpkg_locales_init(PACKAGE);
 	dpkg_program_init("dpkg-divert");
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
+
+	debug(dbg_general, "root=%s admindir=%s", dpkg_fsys_get_dir(), dpkg_db_get_dir());
 
 	env_pkgname = getenv("DPKG_MAINTSCRIPT_PACKAGE");
 	if (opt_pkgname_match_any && env_pkgname)

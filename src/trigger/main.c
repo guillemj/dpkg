@@ -36,6 +36,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/debug.h>
 #include <dpkg/options.h>
 #include <dpkg/trigdeferred.h>
 #include <dpkg/triglib.h>
@@ -254,6 +255,8 @@ main(int argc, const char *const *argv)
 	dpkg_locales_init(PACKAGE);
 	dpkg_program_init("dpkg-trigger");
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
+
+	debug(dbg_general, "root=%s admindir=%s", dpkg_fsys_get_dir(), dpkg_db_get_dir());
 
 	if (!cipaction)
 		setaction(&cmdinfo_trigger, NULL);
