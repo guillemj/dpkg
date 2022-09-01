@@ -1,8 +1,33 @@
-dpkg (1.20.12) UNRELEASED; urgency=medium
+dpkg (1.20.12) bullseye; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * dpkg: Fix conffile removal-on-upgrade handling. Closes: #995387
+  * dpkg: Fix memory leak in remove-on-upgrade handling.
+  * dpkg-fsys-usrunmess: Move forced reconfiguration to the last step.
+    See #991190.
+  * dpkg-fsys-usrunmess: Install a local policy-rc.d to ignore service
+    restarts. Closes: #991190
+  * dpkg-fsys-usrunmess: Do not fail when removing lingering directories.
+  * dpkg-fsys-usrunmess: Fix typo in debug message.
+  * dpkg-fsys-usrunmess: Explicitly set user/group and mode for created dirs.
+    Closes: #1008478
+  * dpkg-fsys-usrunmess: Set a known umask before starting.
+    See #1008478.
+  * dpkg-fsys-usrunmess: Special case untracked kernel module files.
+    Closes: #1008316
+  * dpkg-fsys-usrunmess: Handle /lib/modules itself also being untracked.
+    Closes: #1008764
+  * Architecture support:
+    - Add support for ARCv2 CPU.
+      Based on a patch by Alexey Brodkin <Alexey.Brodkin@synopsys.com>.
+      Closes: #980963
+  * Perl modules:
+    - Dpkg::Shlibs::Objdump: Fix apply_relocations to work with versioned
+      symbols. Closes: #1000421
+  * Localization:
+    - Fix missing newline in Dutch man pages translation.
 
- -- Guillem Jover <guillem@debian.org>  Thu, 01 Sep 2022 04:47:15 +0200
+ -- Guillem Jover <guillem@debian.org>  Thu, 01 Sep 2022 05:38:12 +0200
 
 dpkg (1.20.11) bullseye; urgency=medium
 
