@@ -89,7 +89,7 @@ sub store_config {
 
 sub view_mirrors {
   print <<'MIRRORS';
-Please see <http://ftp.debian.org/debian/README.mirrors.txt> for a current
+Please see <https://www.debian.org/mirror/list> for a current
 list of Debian mirror sites.
 MIRRORS
 }
