@@ -637,7 +637,7 @@ it.\n";
     run_vendor_hook('extend-patch-header', \$text, $ch_info);
     $text .= "\n---
 The information above should follow the Patch Tagging Guidelines, please
-checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+checkout https://dep.debian.net/deps/dep3/ to learn about the format. Here
 are templates for supplementary fields that you might want to add:
 
 Origin: (upstream|backport|vendor|other), (<patch-url>|commit:<commit-id>)
