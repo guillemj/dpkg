@@ -228,7 +228,7 @@ sub add_from_string {
 		  $alg, $checksum);
 	}
 	my ($sum, $size, $file) = ($1, $2, $3);
-	if (not $opts{update} and  exists($checksums->{$file}{$alg})
+	if (not $opts{update} and exists($checksums->{$file}{$alg})
 	    and $checksums->{$file}{$alg} ne $sum) {
 	    error(g_("conflicting checksums '%s' and '%s' for file '%s'"),
 		  $checksums->{$file}{$alg}, $sum, $file);
