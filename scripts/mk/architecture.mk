@@ -1,4 +1,4 @@
-# This Makefile frament (since dpkg 1.16.1) defines all the DEB_HOST_* and
+# This Makefile fragment (since dpkg 1.16.1) defines all the DEB_HOST_* and
 # DEB_BUILD_* variables that dpkg-architecture can return. Existing values
 # of those variables are preserved as per policy.
 
