@@ -149,8 +149,8 @@ sub all_perl_modules
 
 sub test_needs_author
 {
-    if (not $ENV{DPKG_DEVEL_MODE} and not $ENV{AUTHOR_TESTING}) {
-        plan skip_all => 'developer test';
+    if (not $ENV{AUTHOR_TESTING}) {
+        plan skip_all => 'author test';
     }
 }
 

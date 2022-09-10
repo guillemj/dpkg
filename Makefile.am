@@ -212,6 +212,9 @@ include $(top_srcdir)/build-aux/tap.am
 
 check-local: tap-check
 
+authorcheck:
+	AUTHOR_TESTING=1 $(MAKE) check
+
 .PHONY: update-po
 
 update-po:
