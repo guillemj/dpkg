@@ -472,7 +472,6 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
     }
 
     push_leftover(&leftover,namenode);
-    continue;
   }
   write_filelist_except(pkg, &pkg->installed, leftover, 0);
 
