@@ -7,8 +7,9 @@
 # This Makefile fragment also defines a set of "dpkg_vendor_derives_from"
 # macros that can be used to verify if the current vendor derives from
 # another vendor. The unversioned variant defaults to the v0 version if
-# undefined, which can be defined explicitly to one of the versions or the
-# versioned macros can be used directly. The following are example usages:
+# undefined or to the v1 version when on build API 1, otherwise it can be
+# defined explicitly to one of the versions or the versioned macros can be
+# used directly. The following are example usages:
 #
 # - dpkg_vendor_derives_from (since dpkg 1.16.1)
 #
@@ -32,6 +33,9 @@
 #     ...
 #   endif
 
+dpkg_datadir = $(srcdir)/mk
+include $(dpkg_datadir)/buildapi.mk
+
 dpkg_late_eval ?= $(or $(value DPKG_CACHE_$(1)),$(eval DPKG_CACHE_$(1) := $(shell $(2)))$(value DPKG_CACHE_$(1)))
 
 DEB_VENDOR = $(call dpkg_late_eval,DEB_VENDOR,dpkg-vendor --query Vendor)
@@ -40,4 +44,8 @@ DEB_PARENT_VENDOR = $(call dpkg_late_eval,DEB_PARENT_VENDOR,dpkg-vendor --query 
 dpkg_vendor_derives_from_v0 = dpkg-vendor --derives-from $(1) && echo yes || echo no
 dpkg_vendor_derives_from_v1 = $(shell $(dpkg_vendor_derives_from_v0))
 
+ifeq ($(call dpkg_build_api_ge,1),yes)
+dpkg_vendor_derives_from ?= $(dpkg_vendor_derives_from_v1)
+else
 dpkg_vendor_derives_from ?= $(dpkg_vendor_derives_from_v0)
+endif

@@ -26,3 +26,8 @@ install-data-hook:
 	                 >$(DESTDIR)$(pkgdatadir)/buildtools.mk.new
 	mv $(DESTDIR)$(pkgdatadir)/buildtools.mk.new \
 	   $(DESTDIR)$(pkgdatadir)/buildtools.mk
+
+	$(do_make_subst) <$(DESTDIR)$(pkgdatadir)/vendor.mk \
+			 >$(DESTDIR)$(pkgdatadir)/vendor.mk.new
+	mv $(DESTDIR)$(pkgdatadir)/vendor.mk.new \
+	   $(DESTDIR)$(pkgdatadir)/vendor.mk
