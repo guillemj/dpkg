@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 11;
+use Test::More tests => 12;
 use Test::Dpkg qw(:paths);
 
 use File::Spec::Functions qw(rel2abs);
@@ -83,6 +83,8 @@ while (my ($k, $v) = each %arch) {
     $ENV{$k} = $v;
 }
 test_makefile('architecture.mk', 'with envvars');
+
+test_makefile('buildapi.mk');
 
 $ENV{DEB_BUILD_OPTIONS} = 'parallel=16';
 $ENV{TEST_DEB_BUILD_OPTION_PARALLEL} = '16';

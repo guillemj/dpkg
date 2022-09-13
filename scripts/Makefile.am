@@ -399,10 +399,12 @@ test_data = \
 	t/dpkg_source/testsuite_2.dsc \
 	t/dpkg_source/testsuite_3.dsc \
 	t/mk/architecture.mk \
+	t/mk/buildapi.mk \
 	t/mk/buildflags.mk \
 	t/mk/buildopts.mk \
 	t/mk/buildtools.mk \
 	t/mk/debian/changelog \
+	t/mk/debian/control \
 	t/mk/pkg-info.mk \
 	t/mk/vendor-v0.mk \
 	t/mk/vendor-v1.mk \
