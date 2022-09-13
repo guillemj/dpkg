@@ -516,7 +516,7 @@ sub debug
 {
     my $msg = shift;
 
-    print { \*STDERR } "D: $msg\n";
+    print { *STDERR } "D: $msg\n";
 }
 
 sub warning
