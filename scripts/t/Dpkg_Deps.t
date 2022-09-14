@@ -53,10 +53,13 @@ test_dep_parse_option(build_arch => 'linux-any');
 test_dep_parse_option(build_arch => 'unknown-arch');
 
 my $field_multiline = ' , , libgtk2.0-common (= 2.10.13-1)  , libatk1.0-0 (>=
-1.13.2), libc6 (>= 2.5-5), libcairo2 (>= 1.4.0), libcupsys2 (>= 1.2.7),
+1.13.2), libc6 (>= 2.5-5), libcairo2 (>= 1.4.0), libcupsys2 (>= 1.2.7) <profile.a>
+<profile.b
+profile.c>
+<profile.d>,
 libfontconfig1 (>= 2.4.0), libglib2.0-0  (  >= 2.12.9), libgnutls13 (>=
 1.6.3-0), libjpeg62, python (<< 2.5) , , ';
-my $field_multiline_sorted = 'libatk1.0-0 (>= 1.13.2), libc6 (>= 2.5-5), libcairo2 (>= 1.4.0), libcupsys2 (>= 1.2.7), libfontconfig1 (>= 2.4.0), libglib2.0-0 (>= 2.12.9), libgnutls13 (>= 1.6.3-0), libgtk2.0-common (= 2.10.13-1), libjpeg62, python (<< 2.5)';
+my $field_multiline_sorted = 'libatk1.0-0 (>= 1.13.2), libc6 (>= 2.5-5), libcairo2 (>= 1.4.0), libcupsys2 (>= 1.2.7) <profile.a> <profile.b profile.c> <profile.d>, libfontconfig1 (>= 2.4.0), libglib2.0-0 (>= 2.12.9), libgnutls13 (>= 1.6.3-0), libgtk2.0-common (= 2.10.13-1), libjpeg62, python (<< 2.5)';
 
 my $dep_multiline = deps_parse($field_multiline);
 $dep_multiline->sort();

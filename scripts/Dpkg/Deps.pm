@@ -296,6 +296,8 @@ sub deps_parse {
         tests_dep => $options{tests_dep},
     );
 
+    # Merge in a single-line
+    $dep_line =~ s/\s*[\r\n]\s*/ /g;
     # Strip trailing/leading spaces
     $dep_line =~ s/^\s+//;
     $dep_line =~ s/\s+$//;
