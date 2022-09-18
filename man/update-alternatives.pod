@@ -497,9 +497,9 @@ option.
 =head1 QUERY FORMAT
 
 The B<--query> format is using an
-RFC822-like flat format. It's made of I<n> + 1 blocks where I<n> is
+RFC822-like flat format. It's made of I<n> + 1 stanzas where I<n> is
 the number of alternatives available in the queried link group. The first
-block contains the following fields:
+stanza contains the following fields:
 
 =over
 
@@ -534,13 +534,14 @@ value B<none>. It is used if the link doesn't exist.
 
 =back
 
-The other blocks describe the available alternatives in the queried link group:
+The other stanzas describe the available alternatives in the queried
+link group:
 
 =over
 
 =item B<Alternative:> I<path-of-this-alternative>
 
-Path to this block's alternative.
+Path to this stanza's alternative.
 
 =item B<Priority:> I<priority-value>
 

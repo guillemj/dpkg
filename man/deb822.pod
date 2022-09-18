@@ -32,20 +32,20 @@ files (B<dpkg>'s internal databases are in a similar format).
 
 =head1 SYNTAX
 
-A control file consists of one or more paragraphs of fields (the paragraphs
-are also sometimes referred to as stanzas).
-The paragraphs are separated by empty lines.
+A control file consists of one or more stanzas of fields (the stanzas
+sometimes used to be referred to as paragraphs).
+The stanzas are separated by empty lines.
 Parsers may accept lines consisting solely of U+0020 B<SPACE> and
-U+0009 B<TAB> as paragraph separators, but control files should use
+U+0009 B<TAB> as stanza separators, but control files should use
 empty lines.
-Some control files allow only one paragraph; others allow several, in which
-case each paragraph usually refers to a different package.
-(For example, in source packages, the first paragraph refers to the source
-package, and later paragraphs refer to binary packages generated from the
+Some control files allow only one stanza; others allow several, in which
+case each stanza usually refers to a different package.
+(For example, in source packages, the first stanza refers to the source
+package, and later stanzas refer to binary packages generated from the
 source.)
-The ordering of the paragraphs in control files is significant.
+The ordering of the stanzas in control files is significant.
 
-Each paragraph consists of a series of data fields.
+Each stanza consists of a series of data fields.
 Each field consists of the field name followed by a colon
 (U+003A ‘B<:>’), and then the data/value associated with that field.
 The field name is composed of US-ASCII characters excluding control
@@ -75,7 +75,7 @@ Empty field values are only permitted in source package control files
 (I<debian/control>).
 Such fields are ignored.
 
-A paragraph must not contain more than one instance of a particular field name.
+A stanza must not contain more than one instance of a particular field name.
 
 There are three types of fields:
 
@@ -99,7 +99,7 @@ Whitespace, including any newlines, is not significant in the field values
 of folded fields.
 
 This folding method is similar to RFC5322, allowing control files that
-contain only one paragraph and no multiline fields to be read by parsers
+contain only one stanza and no multiline fields to be read by parsers
 written for RFC5322.
 
 =item B<multiline>
@@ -126,7 +126,7 @@ names using mixed case as shown below.
 Field values are case-sensitive unless the description of the field says
 otherwise.
 
-Paragraph separators (empty lines) and lines consisting only of
+Stanza separators (empty lines) and lines consisting only of
 U+0020 B<SPACE> and U+0009 B<TAB>, are not allowed within field
 values or between fields.
 Empty lines in field values are usually escaped by representing them by a

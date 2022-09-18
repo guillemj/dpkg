@@ -33,14 +33,11 @@ Each Debian source package contains the master «B<debian/control>» file,
 and its L<deb822(5)> format is a superset of the B<control> file
 shipped in Debian binary packages, see B<deb-control>(5).
 
-This file contains at least 2 paragraphs, separated by a blank line.
-The first paragraph lists
-all information about the source package in general, while each following
-paragraph describes exactly one binary package. Each paragraph consists of at
-least one field. A field starts with a fieldname, such as
-B<Package>
-or
-B<Section>
+This file contains at least 2 stanzas, separated by a blank line.
+The first stanza lists all information about the source package in general,
+while each following stanza describes exactly one binary package.
+Each stanza consists of at least one field.
+A field starts with a fieldname, such as B<Package> or B<Section>
 (case insensitive), followed by a colon, the body of the field
 (case sensitive unless stated otherwise) and a newline.
 Multi-line fields are also allowed, but each supplementary line, without a
@@ -326,7 +323,7 @@ Note that the
 B<Priority>, B<Section>
 and
 B<Homepage>
-fields can also be in a binary paragraph to override the global value from the
+fields can also be in a binary stanza to override the global value from the
 source package.
 
 =over
@@ -364,10 +361,10 @@ does not build.
 To express that condition, the same restriction formula syntax from the
 B<Build-Depends> field is used (including the angle brackets).
 
-If a binary package paragraph does not contain this field, then it implicitly
+If a binary package stanza does not contain this field, then it implicitly
 means that it builds with all build profiles (including none at all).
 
-In other words, if a binary package paragraph is annotated with a non-empty
+In other words, if a binary package stanza is annotated with a non-empty
 B<Build-Profiles> field, then this binary package is generated if and
 only if the condition expressed by the conjunctive normal form expression
 evaluates to true.
