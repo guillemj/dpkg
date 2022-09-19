@@ -90,14 +90,30 @@ package into the distribution archive by including the string:
 
 =over
 
-B<Closes: Bug#>I<nnnnn>
+B<Closes: #>I<nnnnn>
 
 =back
 
-in the change details (the exact Perl regular expression is
-B</closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/i>).
+in the change details, where B<#>I<nnnnn> is the bug number.
+The exact Perl regular expression is:
+
+=over
+
+B</closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/i>
+
+=back
+
+That is, the string should consist of the word B<closes:> followed by
+a comma-separated list of bug numbers.
+Bug numbers may be preceded by the word B<bug> and/or a B<#> sign,
+as in C<Closes: 42, bug#43, #44, bug 45>.
+The words B<closes:> and B<bug> are not case sensitive.
+The list of bug numbers may span multiple lines.
+
 This information is conveyed via the B<Closes> field in the I<.changes>
 file.
+Where, depending on the archive maintenance software, all the bug numbers
+listed might get automatically closed.
 
 The maintainer name and email address used in the changelog should be the
 details of the person who prepared this release of the package.
