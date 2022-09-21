@@ -92,16 +92,19 @@ if there's no file for the given vendor.
 
 =cut
 
+my $vendor_sep_regex = qr{[^A-Za-z0-9]+};
+
 sub get_vendor_info(;$) {
     my $vendor = shift || 'default';
+    my $vendor_key = lc $vendor =~ s{$vendor_sep_regex}{}gr;
     state %VENDOR_CACHE;
-    return $VENDOR_CACHE{$vendor} if exists $VENDOR_CACHE{$vendor};
+    return $VENDOR_CACHE{$vendor_key} if exists $VENDOR_CACHE{$vendor_key};
 
     my $file = get_vendor_file($vendor);
     return unless $file;
     my $fields = Dpkg::Control::HashCore->new();
     $fields->load($file, compression => 0) or error(g_('%s is empty'), $file);
-    $VENDOR_CACHE{$vendor} = $fields;
+    $VENDOR_CACHE{$vendor_key} = $fields;
     return $fields;
 }
 
@@ -159,8 +162,9 @@ lower-casing then capitalizing, as-is or lower-casing.
 
 sub get_vendor_object {
     my $vendor = shift || get_current_vendor() || 'Default';
+    my $vendor_key = lc $vendor =~ s{$vendor_sep_regex}{}gr;
     state %OBJECT_CACHE;
-    return $OBJECT_CACHE{$vendor} if exists $OBJECT_CACHE{$vendor};
+    return $OBJECT_CACHE{$vendor_key} if exists $OBJECT_CACHE{$vendor_key};
 
     my ($obj, @names);
     push @names, ucfirst $vendor, ucfirst lc $vendor, $vendor, lc $vendor;
@@ -172,7 +176,7 @@ sub get_vendor_object {
             \$obj = Dpkg::Vendor::$name->new();
         };
         unless ($@) {
-            $OBJECT_CACHE{$vendor} = $obj;
+            $OBJECT_CACHE{$vendor_key} = $obj;
             return $obj;
         }
     }
