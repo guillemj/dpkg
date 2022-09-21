@@ -115,9 +115,9 @@ name.
 sub get_vendor_file(;$) {
     my $vendor = shift || 'default';
 
-    my @names = ($vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor)));
+    my @names = (lc $vendor, $vendor, ucfirst lc $vendor, ucfirst $vendor);
     if ($vendor =~ s/\s+/-/) {
-        push @names, $vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor));
+        push @names, lc $vendor, $vendor, ucfirst lc $vendor, ucfirst $vendor;
     }
     foreach my $name (uniq @names) {
         next unless -e "$origins/$name";
