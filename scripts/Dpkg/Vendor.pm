@@ -1,4 +1,5 @@
 # Copyright © 2008-2009 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2008-2009, 2012-2017, 2022 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -165,7 +166,13 @@ If $name is omitted, return the object of the current vendor.
 If no vendor can be identified, then return the Dpkg::Vendor::Default
 object.
 
-The module name will be derived from the vendor name, by capitalizing,
+The module name will be derived from the vendor name, by splitting parts
+around groups of non alphanumeric character (that is B<[^A-Za-z0-9]>)
+separators, by either capitalizing or lower-casing and capitalizing each part
+and then joining them without the separators. So the expected casing is based
+on the one from the B<Vendor> field in the F<origins> file.
+
+In addition, the module name will also be tried by capitalizing,
 lower-casing then capitalizing, as-is or lower-casing.
 
 =cut
@@ -177,6 +184,11 @@ sub get_vendor_object {
     return $OBJECT_CACHE{$vendor_key} if exists $OBJECT_CACHE{$vendor_key};
 
     my ($obj, @names);
+
+    my @vendor_parts = split m{$vendor_sep_regex}, $vendor;
+    push @names, join q{}, map { ucfirst } @vendor_parts;
+    push @names, join q{}, map { ucfirst lc } @vendor_parts;
+
     push @names, ucfirst $vendor, ucfirst lc $vendor, $vendor, lc $vendor;
 
     foreach my $name (uniq @names) {
