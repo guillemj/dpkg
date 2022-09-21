@@ -190,8 +190,10 @@ separators, by either capitalizing or lower-casing and capitalizing each part
 and then joining them without the separators. So the expected casing is based
 on the one from the B<Vendor> field in the F<origins> file.
 
-In addition, the module name will also be tried by capitalizing,
-lower-casing then capitalizing, as-is or lower-casing.
+In addition, for historical and backwards compatibility, the module name
+will also be looked up without non-alphanumeric character stripping, by
+capitalizing, lower-casing then capitalizing, as-is or lower-casing.
+But these name lookups will be removed during the 1.22.x release cycle.
 
 =cut
 
@@ -207,7 +209,15 @@ sub get_vendor_object {
     push @names, join q{}, map { ucfirst } @vendor_parts;
     push @names, join q{}, map { ucfirst lc } @vendor_parts;
 
-    push @names, ucfirst $vendor, ucfirst lc $vendor, $vendor, lc $vendor;
+    # XXX: Backwards compatibility, remove on 1.22.x.
+    my %name_seen = map { $_ => 1 } @names;
+    my @obsolete_names = uniq grep {
+        my $seen = exists $name_seen{$_};
+        $name_seen{$_} = 1;
+        not $seen;
+    } (ucfirst $vendor, ucfirst lc $vendor, $vendor, lc $vendor);
+    my %obsolete_name = map { $_ => 1 } @obsolete_names;
+    push @names, @obsolete_names;
 
     foreach my $name (uniq @names) {
         eval qq{
@@ -217,6 +227,11 @@ sub get_vendor_object {
         };
         unless ($@) {
             $OBJECT_CACHE{$vendor_key} = $obj;
+            if (exists $obsolete_name{$name}) {
+                warning(g_('%s module name is deprecated; ' .
+                           'it should be capitalized with only alphanumeric characters'),
+                        "Dpkg::Vendor::$name");
+            }
             return $obj;
         }
     }
@@ -247,7 +262,8 @@ sub run_vendor_hook {
 =head2 Version 1.02 (dpkg 1.21.10)
 
 Deprecated behavior: get_vendor_file() loading vendor files with no special
-characters remapping.
+characters remapping. get_vendor_object() loading vendor module names with
+no special character stripping.
 
 =head2 Version 1.01 (dpkg 1.17.0)
 
