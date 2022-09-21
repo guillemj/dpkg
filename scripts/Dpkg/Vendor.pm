@@ -113,15 +113,16 @@ name.
 
 sub get_vendor_file(;$) {
     my $vendor = shift || 'default';
-    my $file;
+
     my @names = ($vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor)));
     if ($vendor =~ s/\s+/-/) {
         push @names, $vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor));
     }
     foreach my $name (@names) {
-        $file = "$origins/$name" if -e "$origins/$name";
+        next unless -e "$origins/$name";
+        return "$origins/$name";
     }
-    return $file;
+    return;
 }
 
 =item $name = get_current_vendor()
