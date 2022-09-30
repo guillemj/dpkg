@@ -30,6 +30,7 @@ our @EXPORT_OK = qw(
 );
 
 use Exporter qw(import);
+use List::Util qw(uniq);
 
 use Dpkg ();
 use Dpkg::ErrorHandling;
@@ -118,7 +119,7 @@ sub get_vendor_file(;$) {
     if ($vendor =~ s/\s+/-/) {
         push @names, $vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor));
     }
-    foreach my $name (@names) {
+    foreach my $name (uniq @names) {
         next unless -e "$origins/$name";
         return "$origins/$name";
     }
@@ -161,7 +162,7 @@ sub get_vendor_object {
     my ($obj, @names);
     push @names, $vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor));
 
-    foreach my $name (@names) {
+    foreach my $name (uniq @names) {
         eval qq{
             pop \@INC if \$INC[-1] eq '.';
             require Dpkg::Vendor::$name;
