@@ -254,7 +254,6 @@ sub parse {
 }
 
 1;
-__END__
 
 =back
 
