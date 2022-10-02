@@ -20,7 +20,7 @@ use strict;
 use warnings;
 use feature qw(state);
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 our @EXPORT_OK = qw(
     get_current_vendor
     get_vendor_info
@@ -118,8 +118,10 @@ The vendor filename will be derived from the vendor name, by replacing any
 number of non-alphanumeric characters (that is B<[^A-Za-z0-9]>) into "B<->",
 then lower-casing, as-is, lower-casing then capitalizing, and capitalizing.
 
-In addition the above casing attempts will be tried also first as-is with
-no replacements, and then by replacing only spaces to "B<->".
+In addition, for historical and backwards compatibility, the above casing
+attempts will be tried also first as-is with no replacements, and then by
+replacing only spaces to "B<->".
+But these name lookups will be removed during the 1.22.x release cycle.
 
 =cut
 
@@ -129,12 +131,28 @@ sub get_vendor_file(;$) {
     my @names;
     my $vendor_sep = $vendor =~ s{$vendor_sep_regex}{-}gr;
     push @names, lc $vendor_sep, $vendor_sep, ucfirst lc $vendor_sep, ucfirst $vendor_sep;
-    push @names, lc $vendor, $vendor, ucfirst lc $vendor, ucfirst $vendor;
-    if ($vendor =~ s{\s+}{-}g) {
-        push @names, lc $vendor, $vendor, ucfirst lc $vendor, ucfirst $vendor;
-    }
+
+    # XXX: Backwards compatibility, remove on 1.22.x.
+    my %name_seen = map { $_ => 1 } @names;
+    my @obsolete_names = uniq grep {
+        my $seen = exists $name_seen{$_};
+        $name_seen{$_} = 1;
+        not $seen;
+    } (
+        (lc $vendor, $vendor, ucfirst lc $vendor, ucfirst $vendor),
+        ($vendor =~ s{\s+}{-}g) ?
+        (lc $vendor, $vendor, ucfirst lc $vendor, ucfirst $vendor) : ()
+    );
+    my %obsolete_name = map { $_ => 1 } @obsolete_names;
+    push @names, @obsolete_names;
+
     foreach my $name (uniq @names) {
         next unless -e "$origins/$name";
+        if (exists $obsolete_name{$name}) {
+            warning(g_('%s origin filename is deprecated; ' .
+                       'it should have only alphanumeric or dash characters'),
+                    $name);
+        }
         return "$origins/$name";
     }
     return;
@@ -225,6 +243,11 @@ sub run_vendor_hook {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.02 (dpkg 1.21.10)
+
+Deprecated behavior: get_vendor_file() loading vendor files with no special
+characters remapping.
 
 =head2 Version 1.01 (dpkg 1.17.0)
 
