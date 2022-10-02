@@ -42,9 +42,11 @@ the field.
 The file should be named according to the vendor name.
 The usual convention is to name the vendor file using the vendor name
 in all lowercase, but some variation is permitted.
-Namely, spaces are mapped to dashes (‘B<->’), and the file
-can have the same casing as the value in B<Vendor> field, or it can
-be capitalized.
+Namely, non-alphanumeric characters (‘B<[^A-Za-z0-9]>’) are mapped to
+dashes (‘B<->’), and lower-cased, as-is, lower-cased then capitalized
+and capitalized (since dpkg 1.21.10).
+In addition, the above casing attempts will be tried first as-is with
+no remapping, and then by remapping spaces to dashes (‘B<->’).
 
 =head1 FIELDS
 

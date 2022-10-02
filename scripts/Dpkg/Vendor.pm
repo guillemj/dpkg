@@ -113,13 +113,23 @@ sub get_vendor_info(;$) {
 Check if there's a file for the given vendor and returns its
 name.
 
+The vendor filename will be derived from the vendor name, by replacing any
+number of non-alphanumeric characters (that is B<[^A-Za-z0-9]>) into "B<->",
+then lower-casing, as-is, lower-casing then capitalizing, and capitalizing.
+
+In addition the above casing attempts will be tried also first as-is with
+no replacements, and then by replacing only spaces to "B<->".
+
 =cut
 
 sub get_vendor_file(;$) {
     my $vendor = shift || 'default';
 
-    my @names = (lc $vendor, $vendor, ucfirst lc $vendor, ucfirst $vendor);
-    if ($vendor =~ s/\s+/-/) {
+    my @names;
+    my $vendor_sep = $vendor =~ s{$vendor_sep_regex}{-}gr;
+    push @names, lc $vendor_sep, $vendor_sep, ucfirst lc $vendor_sep, ucfirst $vendor_sep;
+    push @names, lc $vendor, $vendor, ucfirst lc $vendor, ucfirst $vendor;
+    if ($vendor =~ s{\s+}{-}g) {
         push @names, lc $vendor, $vendor, ucfirst lc $vendor, ucfirst $vendor;
     }
     foreach my $name (uniq @names) {
