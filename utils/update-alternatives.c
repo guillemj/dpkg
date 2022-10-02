@@ -2926,6 +2926,7 @@ main(int argc, char **argv)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
+	tzset();
 	umask(022);
 
 	instdir = fsys_set_dir(NULL);
