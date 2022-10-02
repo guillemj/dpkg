@@ -152,6 +152,9 @@ If $name is omitted, return the object of the current vendor.
 If no vendor can be identified, then return the Dpkg::Vendor::Default
 object.
 
+The module name will be derived from the vendor name, by capitalizing,
+lower-casing then capitalizing, as-is or lower-casing.
+
 =cut
 
 sub get_vendor_object {
@@ -160,7 +163,7 @@ sub get_vendor_object {
     return $OBJECT_CACHE{$vendor} if exists $OBJECT_CACHE{$vendor};
 
     my ($obj, @names);
-    push @names, $vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor));
+    push @names, ucfirst $vendor, ucfirst lc $vendor, $vendor, lc $vendor;
 
     foreach my $name (uniq @names) {
         eval qq{
