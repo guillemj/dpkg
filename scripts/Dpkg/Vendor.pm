@@ -114,11 +114,11 @@ name.
 sub get_vendor_file(;$) {
     my $vendor = shift || 'default';
     my $file;
-    my @tries = ($vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor)));
+    my @names = ($vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor)));
     if ($vendor =~ s/\s+/-/) {
-        push @tries, $vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor));
+        push @names, $vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor));
     }
-    foreach my $name (@tries) {
+    foreach my $name (@names) {
         $file = "$origins/$name" if -e "$origins/$name";
     }
     return $file;
