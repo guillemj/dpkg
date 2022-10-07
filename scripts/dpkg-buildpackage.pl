@@ -87,12 +87,12 @@ sub usage {
   -T, --rules-target=<target> call debian/rules <target>.
       --as-root               ensure -T calls the target with root rights.
   -j, --jobs[=<jobs>|auto]    jobs to run simultaneously (passed to <rules>),
-                                forced mode.
+                                (default; default is auto, opt-in mode).
   -J, --jobs-try[=<jobs>|auto]
-                              jobs to run simultaneously (passed to <rules>),
-                                opt-in mode (default is auto).
-      --jobs-force[=<jobs>|auto]
                               alias for -j, --jobs.
+      --jobs-force[=<jobs>|auto]
+                              jobs to run simultaneously (passed to <rules>),
+                                (default is auto, forced mode).
   -r, --root-command=<command>
                               command to gain root rights (default is fakeroot).
       --check-command=<command>
@@ -256,16 +256,10 @@ while (@ARGV) {
         } else {
             push @changes_opts, $changes_opt;
         }
-    } elsif (/^--jobs$/) {
-	$parallel = '';
-	$parallel_force = 1;
-    } elsif (/^(?:-j|--jobs=)(\d*|auto)$/) {
-	$parallel = $1 || '';
-	$parallel_force = 1;
-    } elsif (/^--jobs-try/) {
+    } elsif (/^--jobs(?:-try)?$/) {
 	$parallel = '';
 	$parallel_force = 0;
-    } elsif (/^(?:-J|--jobs-try=)(\d*|auto)$/) {
+    } elsif (/^(?:-[jJ]|--jobs(?:-try)?=)(\d*|auto)$/) {
 	$parallel = $1 || '';
 	$parallel_force = 0;
     } elsif (/^--jobs-force(?:=(\d*|auto))?$/) {

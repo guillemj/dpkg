@@ -302,22 +302,20 @@ conditional builds.
 
 =item B<-j>, B<--jobs>[=I<jobs>|B<auto>]
 
-Number of jobs allowed to be run simultaneously, number of jobs matching
-the number of online processors if B<auto> is specified
-(since dpkg 1.17.10), or unlimited number if I<jobs> is not specified,
-equivalent to the
-B<make>(1)
-option of the same name (since dpkg 1.14.7, long option since dpkg 1.18.8).
-Will add itself to the B<MAKEFLAGS>
-environment variable, which should cause all subsequent make
-invocations to inherit the option, thus forcing the parallel setting on
-the packaging (and possibly the upstream build system if that uses make)
-regardless of their support for parallel builds, which might cause build
-failures.
-Also adds B<parallel=>I<jobs> or
-B<parallel> to the B<DEB_BUILD_OPTIONS> environment variable which
-allows debian/rules files to use this information for their own purposes.
-The B<-j> value will override the B<parallel=>I<jobs> or
+Specifies the number of jobs allowed to be run simultaneously
+(since dpkg 1.14.7, long option since dpkg 1.18.8).
+The number of jobs matching the number of online processors if B<auto> is
+specified (since dpkg 1.17.10), or unlimited number if I<jobs> is not
+specified.
+The default behavior is B<auto> (since dpkg 1.18.11) in non-forced mode
+(since dpkg 1.21.10), and as such it is always safer to use with any
+package including those that are not parallel-build safe.
+Setting the number of jobs to B<1> will restore serial execution.
+
+Will add B<parallel=>I<jobs> or B<parallel> to the B<DEB_BUILD_OPTIONS>
+environment variable which allows debian/rules files to opt-in to use this
+information for their own purposes.
+The I<jobs> value will override the B<parallel=>I<jobs> or
 B<parallel> option in the B<DEB_BUILD_OPTIONS> environment variable.
 Note that the B<auto> value will get replaced by the actual number of
 currently active processors, and as such will not get propagated to any
@@ -325,19 +323,30 @@ child process. If the number of online processors cannot be inferred then
 the code will fallback to using serial execution (since dpkg 1.18.15),
 although this should only happen on exotic and unsupported systems.
 
+Note: Any Makefile that is not parallel-safe should be considered to be buggy.
+These should either be made parallel-safe, or marked as not being safe with
+the L<make(1)> B<.NOTPARALLEL> target.
+
 =item B<-J>, B<--jobs-try>[=I<jobs>|B<auto>]
 
 This option (since dpkg 1.18.2, long option since dpkg 1.18.8) is equivalent
-to the B<-j> option except that it does not set the B<MAKEFLAGS>
-environment variable, and as such it is safer to use with any package
-including those that are not parallel-build safe.
+to the B<-j> above.
 
-B<auto> is the default behavior (since dpkg 1.18.11). Setting the number
-of jobs to 1 will restore a serial behavior.
+Since the behavior for B<-j> changed in dpkg 1.21.10 to the opt-in mode,
+you can use this option instead if you need to guarantee semantics across
+dpkg release series.
 
 =item B<--jobs-force>[=I<jobs>|B<auto>]
 
-This option (since dpkg 1.21.10) is an alias for the B<--jobs> option.
+This option (since dpkg 1.21.10) is equivalent to the B<--jobs> option
+except that it will enable forced parallel mode, by adding the B<make> B<-j>
+option with the computed number of parallel jobs to the B<MAKEFLAGS>
+environment variable.
+
+This should cause all subsequent make invocations to inherit the option,
+thus forcing the parallel setting on the packaging (and possibly the
+upstream build system if that uses L<make(1)>) regardless of their support
+for parallel builds, which might cause build failures.
 
 =item B<-D>, B<--check-builddeps>
 
