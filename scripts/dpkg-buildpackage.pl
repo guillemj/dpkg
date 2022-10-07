@@ -91,6 +91,8 @@ sub usage {
   -J, --jobs-try[=<jobs>|auto]
                               jobs to run simultaneously (passed to <rules>),
                                 opt-in mode (default is auto).
+      --jobs-force[=<jobs>|auto]
+                              alias for -j, --jobs.
   -r, --root-command=<command>
                               command to gain root rights (default is fakeroot).
       --check-command=<command>
@@ -266,6 +268,9 @@ while (@ARGV) {
     } elsif (/^(?:-J|--jobs-try=)(\d*|auto)$/) {
 	$parallel = $1 || '';
 	$parallel_force = 0;
+    } elsif (/^--jobs-force(?:=(\d*|auto))?$/) {
+        $parallel = $1 || '';
+        $parallel_force = 1;
     } elsif (/^(?:-r|--root-command=)(.*)$/) {
 	my $arg = $1;
 	@rootcommand = split ' ', $arg;
