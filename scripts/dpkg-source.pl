@@ -170,7 +170,9 @@ while (@options) {
         $override{$1} = $2;
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1} = 1;
-    } elsif (m/^-(?:i|-diff-ignore(?:$|=))(.*)$/) {
+    } elsif (m/^--diff-ignore$/) {
+        $options{diff_ignore_regex} = $diff_ignore_regex;
+    } elsif (m/^-(?:i|-diff-ignore=)(.*)$/) {
         $options{diff_ignore_regex} = $1 ? $1 : $diff_ignore_regex;
     } elsif (m/^--extend-diff-ignore=(.+)$/) {
 	$diff_ignore_regex .= "|$1";
