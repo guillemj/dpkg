@@ -86,9 +86,9 @@ sub usage {
   -R, --rules-file=<rules>    rules file to execute (default is debian/rules).
   -T, --rules-target=<target> call debian/rules <target>.
       --as-root               ensure -T calls the target with root rights.
-  -j, --jobs[=<number>|auto]  jobs to run simultaneously (passed to <rules>),
+  -j, --jobs[=<jobs>|auto]    jobs to run simultaneously (passed to <rules>),
                                 forced mode.
-  -J, --jobs-try[=<number>|auto]
+  -J, --jobs-try[=<jobs>|auto]
                               jobs to run simultaneously (passed to <rules>),
                                 opt-in mode (default is auto).
   -r, --root-command=<command>
