@@ -357,13 +357,23 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg,
 	atomic_file_open(file);
 
 	while (trk_explicit_f && trk_explicit_fgets(buf, sizeof(buf)) >= 0) {
-		const char *pkgname = pkgbin_name(pkg, pkgbin, pnaw_nonambig);
 		enum trig_options trig_opts;
+		struct pkginfo *pkg_parsed;
+		struct dpkg_error err;
 
 		trig_opts = trig_parse_trigger_options(buf);
 
-		if (strcmp(buf, pkgname) == 0)
+		pkg_parsed = pkg_spec_parse_pkg(buf, &err);
+		if (pkg_parsed == NULL)
+			ohshit(_("trigger interest file '%.250s' syntax error; "
+			         "illegal package name '%.250s': %.250s"),
+			       trk_explicit_fn.buf, buf, err.str);
+
+		if (pkg == pkg_parsed &&
+		    (pkgbin == &pkg_parsed->installed ||
+		     pkgbin == &pkg_parsed->available))
 			continue;
+
 		fprintf(file->fp, "%s%s\n", buf,
 		        trig_dump_trigger_options(trig_opts));
 		empty = false;
