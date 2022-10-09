@@ -141,7 +141,7 @@ parse_awaiter_package(void)
 
 	/* Normalize the bypackage name if there was no error. */
 	if (pkg)
-		bypackage = pkg_name(pkg, pnaw_nonambig);
+		bypackage = pkg_name(pkg, pnaw_same);
 
 	return err.str;
 }

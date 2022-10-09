@@ -380,7 +380,7 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg,
 	}
 	if (signum > 0) {
 		fprintf(file->fp, "%s%s\n",
-		        pkgbin_name(pkg, pkgbin, pnaw_nonambig),
+		        pkgbin_name(pkg, pkgbin, pnaw_same),
 		        trig_dump_trigger_options(opts));
 		empty = false;
 	}
@@ -500,7 +500,7 @@ trig_file_interests_update(void)
 
 	for (tfi = filetriggers.head; tfi; tfi = tfi->inoverall.next)
 		fprintf(file->fp, "%s %s%s\n", trigh.namenode_name(tfi->fnn),
-		        pkgbin_name(tfi->pkg, tfi->pkgbin, pnaw_nonambig),
+		        pkgbin_name(tfi->pkg, tfi->pkgbin, pnaw_same),
 		        trig_dump_trigger_options(tfi->options));
 
 	atomic_file_sync(file);
