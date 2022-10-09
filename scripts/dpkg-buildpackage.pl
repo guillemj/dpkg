@@ -254,9 +254,15 @@ while (@ARGV) {
         } else {
             push @changes_opts, $changes_opt;
         }
+    } elsif (/^--jobs$/) {
+	$parallel = '';
+	$parallel_force = 1;
     } elsif (/^(?:-j|--jobs=)(\d*|auto)$/) {
 	$parallel = $1 || '';
 	$parallel_force = 1;
+    } elsif (/^--jobs-try/) {
+	$parallel = '';
+	$parallel_force = 0;
     } elsif (/^(?:-J|--jobs-try=)(\d*|auto)$/) {
 	$parallel = $1 || '';
 	$parallel_force = 0;
