@@ -51,11 +51,20 @@ test_pkg_show_name(void)
 	pkgname = pkg_name(pkg, pnaw_always);
 	test_pass(pkgname);
 	test_str(pkgname, ==, "test:arch");
+
+	pkgname = pkg_name(pkg, pnaw_same);
+	test_pass(pkgname);
+	test_str(pkgname, ==, "test");
+
+	pkg->installed.multiarch = PKG_MULTIARCH_SAME;
+	pkgname = pkg_name(pkg, pnaw_same);
+	test_pass(pkgname);
+	test_str(pkgname, ==, "test:arch");
 }
 
 TEST_ENTRY(test)
 {
-	test_plan(10);
+	test_plan(14);
 
 	test_pkg_show_name();
 }

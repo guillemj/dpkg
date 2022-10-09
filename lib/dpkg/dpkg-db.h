@@ -412,6 +412,8 @@ enum pkg_name_arch_when {
   pnaw_never,
   /** Display arch only when it's non-ambiguous. */
   pnaw_nonambig,
+  /** Display arch only when it's a Multi-Arch same package. */
+  pnaw_same,
   /** Display arch only when it's a foreign one. */
   pnaw_foreign,
   /** Always display arch. */
