@@ -116,12 +116,19 @@ name.
 
 The vendor filename will be derived from the vendor name, by replacing any
 number of non-alphanumeric characters (that is B<[^A-Za-z0-9]>) into "B<->",
-then lower-casing, as-is, lower-casing then capitalizing, and capitalizing.
+then the resulting name will be tried in sequence by lower-casing it,
+keeping it as is, lower-casing then capitalizing it, and capitalizing it.
 
-In addition, for historical and backwards compatibility, the above casing
-attempts will be tried also first as-is with no replacements, and then by
-replacing only spaces to "B<->".
-But these name lookups will be removed during the 1.22.x release cycle.
+In addition, for historical and backwards compatibility, the name will
+be tried keeping it as is without non-alphanumeric characters remapping,
+then the resulting name will be tried in sequence by lower-casing it,
+keeping it as is, lower-casing then capitalizing it, and capitalizing it.
+And finally the name will be tried by replacing only spaces to "B<->",
+then the resulting name will be tried in sequence by lower-casing it,
+keeping it as is, lower-casing then capitalizing it, and capitalizing it.
+
+But these backwards compatible name lookups will be removed during
+the dpkg 1.22.x release cycle.
 
 =cut
 
