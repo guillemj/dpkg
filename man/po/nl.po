@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.21.7\n"
+"Project-Id-Version: dpkg-man 1.21.9\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2022-07-01 09:25+0000\n"
-"PO-Revision-Date: 2022-04-09 21:42+0200\n"
+"PO-Revision-Date: 2022-09-17 23:12+0200\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
 "Language: nl\n"
@@ -1723,12 +1723,6 @@ msgstr "B<Protected:> B<yes>|B<no>"
 
 #. type: textblock
 #: deb-control.pod
-#, fuzzy
-#| msgid ""
-#| "This field is usually only needed when the answer is B<yes>.  It denotes "
-#| "a package that is required for proper booting of the system.  L<dpkg(1)> "
-#| "or any other installation tool will not allow a B<Protected> package to "
-#| "be removed (at least not without using one of the force options)."
 msgid ""
 "This field is usually only needed when the answer is B<yes>.  It denotes a "
 "package that is required mostly for proper booting of the system or used for "
@@ -1736,8 +1730,9 @@ msgid ""
 "tool will not allow a B<Protected> package to be removed (at least not "
 "without using one of the force options)."
 msgstr ""
-"Meestal is dit veld enkel nodig als het antwoord B<yes> is. Het duidt een "
-"pakket aan dat vereist is voor het correct opstarten van het systeem. "
+"Meestal is dit veld enkel nodig als het antwoord B<yes> is. Het geeft een "
+"pakket aan dat doorgaans vereist is voor het correct opstarten van het "
+"systeem of gebruikt wordt voor aangepaste systeem-lokale metapakketten. "
 "L<dpkg(1)> of om het even welk ander installatiegereedschap zal niet "
 "toestaan dat een pakket van het type B<Protected> verwijderd wordt "
 "(tenminste niet zonder dat één van de forceeropties gebruikt wordt)."
@@ -1754,13 +1749,6 @@ msgstr "B<Essential:> B<yes>|B<no>"
 
 #. type: textblock
 #: deb-control.pod
-#, fuzzy
-#| msgid ""
-#| "This field is usually only needed when the answer is B<yes>.  It denotes "
-#| "a package that is required for proper operation of the system.  "
-#| "L<dpkg(1)> or any other installation tool will not allow an B<Essential> "
-#| "package to be removed (at least not without using one of the force "
-#| "options)."
 msgid ""
 "This field is usually only needed when the answer is B<yes>.  It denotes a "
 "package that is required for the packaging system, for proper operation of "
@@ -1769,8 +1757,10 @@ msgid ""
 "installation tool will not allow an B<Essential> package to be removed (at "
 "least not without using one of the force options)."
 msgstr ""
-"Meestal is dit veld enkel nodig als het antwoord B<yes> is. Het duidt een "
-"pakket aan dat vereist is opdat het systeem behoorlijk zou functioneren. "
+"Meestal is dit veld enkel nodig als het antwoord B<yes> is. Het geeft een "
+"pakket aan dat vereist is voor het verpakkingssysteem, voor de goede werking "
+"van het systeem in het algemeen of tijdens het opstarten (hoewel dit laatste "
+"in plaats daarvan zou moeten worden omgezet naar het veld B<Protected>). "
 "L<dpkg(1)> of om het even welk ander installatiegereedschap zal niet "
 "toestaan dat een pakket van het type B<Essential> verwijderd wordt "
 "(tenminste niet zonder dat één van de forceeropties gebruikt wordt)."
@@ -4410,13 +4400,14 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
-#, fuzzy
 #| msgid ""
 #| "L<deb822(5)>, B<deb-control>(5), B<deb-version>(7), B<dpkg-source>(1)"
 msgid ""
 "I<%PKGDOCDIR%/spec/rootless-builds.txt>, L<deb822(5)>, B<deb-control>(5), "
 "B<deb-version>(7), B<dpkg-source>(1)"
-msgstr "L<deb822(5)>, B<deb-control>(5), B<deb-version>(7), B<dpkg-source>(1)"
+msgstr ""
+"I<%PKGDOCDIR%/spec/rootless-builds.txt>, L<deb822(5)>, B<deb-control>(5), "
+"B<deb-version>(7), B<dpkg-source>(1)"
 
 #. type: textblock
 #: deb-src-files.pod
@@ -5604,11 +5595,10 @@ msgstr "deb-substvars - Substitutievariabelen in Debian broncode"
 
 #. type: textblock
 #: deb-substvars.pod
-#, fuzzy
-#| msgid "B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>"
 msgid ""
 "B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>, variables"
-msgstr "B<debian/substvars>, B<debian/>I<binair-pakket>B<.substvars>"
+msgstr ""
+"B<debian/substvars>, B<debian/>I<binair-pakket>B<.substvars>, variabelen"
 
 #. type: textblock
 #: deb-substvars.pod
@@ -5627,7 +5617,7 @@ msgstr ""
 #. type: =head2
 #: deb-substvars.pod
 msgid "Variable Syntax"
-msgstr ""
+msgstr "Variabelesyntaxis"
 
 #. type: textblock
 #: deb-substvars.pod
@@ -5651,7 +5641,7 @@ msgstr ""
 #. type: =head2
 #: deb-substvars.pod
 msgid "File Syntax"
-msgstr ""
+msgstr "Bestandssyntaxis"
 
 #. type: textblock
 #: deb-substvars.pod
@@ -5663,21 +5653,21 @@ msgid ""
 "emit no warnings even if unused.  Trailing whitespace on each line, blank "
 "lines, and lines starting with a B<#> symbol (comments) are ignored."
 msgstr ""
+"Substitutievariabelen kunnen in een bestand worden opgegeven. Deze bestanden "
+"bestaan uit regels van de vorm I<naam>B<=>I<waarde> of I<naam>B<?"
+"=>I<waarde>. De operator B<=> wijst een normale substitutievariabele toe, "
+"terwijl de operator B<?=> (sinds dpkg 1.21.8) een optionele "
+"substitutievariabele toewijst die geen waarschuwingen geeft, zelfs als deze "
+"niet wordt gebruikt. Resterende witruimte op elke regel, lege regels en "
+"regels die beginnen met het symbool B<#> (commentaar) worden genegeerd."
 
 #. type: =head2
 #: deb-substvars.pod
 msgid "Substitution"
-msgstr ""
+msgstr "Substitutie"
 
 #. type: textblock
 #: deb-substvars.pod
-#, fuzzy
-#| msgid ""
-#| "Variables can be set using the B<-V> common option. They can be also "
-#| "specified in the file B<debian/substvars> (or whatever other file is "
-#| "specified using the B<-T> option). This file consists of lines of the "
-#| "form I<name>B<=>I<value>.  Trailing whitespace on each line, blank lines, "
-#| "and lines starting with a B<#> symbol (comments) are ignored."
 msgid ""
 "Variables can be set using the B<-V> common option.  They can be also "
 "specified in the file B<debian/substvars> (or whatever other file is "
@@ -5685,30 +5675,21 @@ msgid ""
 msgstr ""
 "Variabelen kunnen ingesteld worden met behulp van de algemene optie B<-V>. "
 "Ze kunnen ook opgegeven worden in het bestand B<debian/substvars> (of om het "
-"even welk ander bestand dat opgegeven werd met de optie B<-T>). Dit bestand "
-"bestaat uit regels die de vorm I<naam>B<=>I<waarde> hebben. Witruimte aan "
-"het einde van een regel, lege regels en regels die beginnen met het symbool "
-"B<#> (commentaar) worden genegeerd."
+"even welk ander bestand dat opgegeven wordt met de algemene optie B<-T>)."
 
 #. type: textblock
 #: deb-substvars.pod
-#, fuzzy
-#| msgid ""
-#| "After all the substitutions have been done each occurrence of the string "
-#| "B<${}> (which is not a legal substitution) is replaced with a B<$> sign.  "
-#| "This can be used as an escape sequence such as B<${}{>I<VARIABLE>B<}> "
-#| "which will end up as B<${>I<VARIABLE>B<}> on the output."
 msgid ""
 "After all the substitutions have been done each occurrence of the string "
 "B<${}> (which is not an actual substitution variable) is replaced with a "
 "B<$> sign.  This can be used as an escape sequence such as B<${}"
 "{>I<VARIABLE>B<}> which will end up as B<${>I<VARIABLE>B<}> on the output."
 msgstr ""
-"Nadat alle substituties uitgevoerd werden, wordt de tekenreeks B<${}> "
-"(hetgeen geen geldige substitutie is) overal waar die voorkomt, vervangen "
-"door het teken B<$>. Dit kan gebruikt worden als een escape-sequentie zoals "
-"B<${}{>I<VARIABLE>B<}>, wat in de uitvoer de vorm zal aannemen van "
-"B<${>I<VARIABLE>B<}>."
+"Nadat alle substituties uitgevoerd werden, wordt de tekenreeks B<${}> (wat "
+"geen daadwerkelijke substitutievariabele is) overal waar die voorkomt, "
+"vervangen door het teken B<$>. Dit kan gebruikt worden als een escape-"
+"sequentie zoals B<${}{>I<VARIABELE>B<}>, wat in de uitvoer de vorm zal "
+"aannemen van B<${>I<VARIABELE>B<}>."
 
 #. type: textblock
 #: deb-substvars.pod
@@ -5791,14 +5772,12 @@ msgstr ""
 #. type: =head2
 #: deb-substvars.pod
 msgid "Built-in Variable"
-msgstr ""
+msgstr "Ingebouwde Variabele"
 
 #. type: textblock
 #: deb-substvars.pod
-#, fuzzy
-#| msgid "Additionally, the following standard variables are available:"
 msgid "Additionally, the following standard variables are always available:"
-msgstr "Bovendien kunnen de volgende standaardvariabelen gebruikt worden:"
+msgstr "Daarnaast zijn altijd de volgende standaardvariabelen beschikbaar::"
 
 #. type: =item
 #: deb-substvars.pod
@@ -6549,10 +6528,9 @@ msgstr ""
 
 #. type: textblock
 #: deb-triggers.pod
-#, fuzzy
 #| msgid "B<dpkg-trigger>(1), B<dpkg>(1), B<%PKGDOCDIR%/triggers.txt.gz>."
 msgid "B<dpkg-trigger>(1), B<dpkg>(1), B<%PKGDOCDIR%/spec/triggers.txt.gz>."
-msgstr "B<dpkg-trigger>(1), B<dpkg>(1), B<%PKGDOCDIR%/triggers.txt.gz>."
+msgstr "B<dpkg-trigger>(1), B<dpkg>(1), B<%PKGDOCDIR%/spec/triggers.txt.gz>."
 
 #. type: textblock
 #: deb-version.pod
@@ -11839,19 +11817,14 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
-#| "genbuildinfo>(1), B<dpkg-genchanges>(1), B<fakeroot>(1), B<lintian>(1), "
-#| "B<gpg>(1)."
 msgid ""
 "I<%PKGDOCDIR%/spec/rootless-builds.txt>, B<dpkg-source>(1), B<dpkg-"
 "architecture>(1), B<dpkg-buildflags>(1), B<dpkg-genbuildinfo>(1), B<dpkg-"
 "genchanges>(1), B<fakeroot>(1), B<lintian>(1), B<gpg>(1)."
 msgstr ""
-"B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
-"genbuildinfo>(1), B<dpkg-genchanges>(1), B<fakeroot>(1), B<lintian>(1), "
-"B<gpg>(1)."
+"I<%PKGDOCDIR%/spec/rootless-builds.txt>, B<dpkg-source>(1), B<dpkg-"
+"architecture>(1), B<dpkg-buildflags>(1), B<dpkg-genbuildinfo>(1), B<dpkg-"
+"genchanges>(1), B<fakeroot>(1), B<lintian>(1), B<gpg>(1)."
 
 #. type: textblock
 #: dpkg-checkbuilddeps.pod
@@ -12470,10 +12443,9 @@ msgstr ""
 
 #. type: =item
 #: dpkg-deb.pod
-#, fuzzy
 #| msgid "B<--git-ref=>I<ref>"
 msgid "B<--threads-max=>I<threads>"
-msgstr "B<--git-ref=>I<ref>"
+msgstr "B<--threads-max=>I<threads>"
 
 #. type: textblock
 #: dpkg-deb.pod
@@ -12481,6 +12453,8 @@ msgid ""
 "Sets the maximum number of threads allowed for compressors that support "
 "multi-threaded operations (since dpkg 1.21.9)."
 msgstr ""
+"Stelt het maximum aantal threads in dat is toegestaan voor compressors die "
+"multi-threaded operaties ondersteunen (sinds dpkg 1.21.9)."
 
 #. type: =item
 #: dpkg-deb.pod
@@ -12619,15 +12593,14 @@ msgstr ""
 
 #. type: =item
 #: dpkg-deb.pod
-#, fuzzy
 #| msgid "B<DPKG_SHELL_REASON>"
 msgid "B<DPKG_DEB_THREADS_MAX>"
-msgstr "B<DPKG_SHELL_REASON>"
+msgstr "B<DPKG_DEB_THREADS_MAX>"
 
 #. type: textblock
 #: dpkg-deb.pod
 msgid "The B<--threads-max> option overrides this value."
-msgstr ""
+msgstr "De optie B<--threads-max> heft deze waarde op."
 
 #. type: =item
 #: dpkg-deb.pod dpkg.pod
@@ -12692,12 +12665,13 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
 #| msgid "B<deb>(5), B<deb-control>(5), B<dpkg>(1), B<dselect>(1)."
 msgid ""
 "F<%PKGDOCDIR%/spec/rootless-builds.txt>, B<deb>(5), B<deb-control>(5), "
 "B<dpkg>(1), B<dselect>(1)."
-msgstr "B<deb>(5), B<deb-control>(5), B<dpkg>(1), B<dselect>(1)."
+msgstr ""
+"F<%PKGDOCDIR%/spec/rootless-builds.txt>, B<deb>(5), B<deb-control>(5), "
+"B<dpkg>(1), B<dselect>(1)."
 
 #. type: textblock
 #: dpkg-distaddfile.pod
@@ -18735,12 +18709,13 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
-#, fuzzy
 #| msgid "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
 msgid ""
 "B<deb-substvars>(5), B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-"
 "gensymbols>(1)."
-msgstr "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
+msgstr ""
+"B<deb-substvars>(5), B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-"
+"gensymbols>(1)."
 
 #. type: textblock
 #: dpkg-source.pod
@@ -20753,11 +20728,11 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-source.pod
-#, fuzzy
 #| msgid "B<deb-src-control>(5), B<deb-changelog>(5), B<dsc>(5)."
 msgid ""
 "B<deb-src-control>(5), B<deb-changelog>(5), B<deb-substvars>(5), B<dsc>(5)."
-msgstr "B<deb-src-control>(5), B<deb-changelog>(5), B<dsc>(5)."
+msgstr ""
+"B<deb-src-control>(5), B<deb-changelog>(5), B<deb-substvars>(5), B<dsc>(5)."
 
 #. type: textblock
 #: dpkg-split.pod
@@ -21264,13 +21239,6 @@ msgstr "B<--add> I<gebruiker groep modus pad>"
 
 #. type: textblock
 #: dpkg-statoverride.pod
-#, fuzzy
-#| msgid ""
-#| "Add an override for I<path>. I<path> does not need to exist when this "
-#| "command is used; the override will be stored and used later.  Users and "
-#| "groups can be specified by their name (for example B<root> or B<nobody>), "
-#| "or by their number by prepending the number with a ‘B<#>’ (for example "
-#| "B<#0> or B<#65534>).  The I<mode> needs to be specified in octal."
 msgid ""
 "Add an override for I<path>. I<path> does not need to exist nor be known to "
 "B<dpkg> when this command is used; the override will be stored and used "
@@ -21279,9 +21247,9 @@ msgid ""
 "‘B<#>’ (for example B<#0> or B<#65534>).  The I<mode> needs to be specified "
 "in octal."
 msgstr ""
-"Een statusmodificatie toevoegen voor I<pad>. Het is niet nodig dat I<pad> "
-"reeds bestaat op het ogenblik dat dit commando gebruikt wordt. De "
-"modificatie zal opgeslagen worden en later gebruikt worden. Gebruikers en "
+"Een statusmodificatie toevoegen voor I<pad>. I<pad> moet niet reeds bestaan "
+"of bekend zijn voor B<dpkg> op het ogenblik dat dit commando gebruikt wordt. "
+"De modificatie zal opgeslagen worden en later gebruikt worden. Gebruikers en "
 "groepen kunnen bij hun naam opgegeven worden (bijvoorbeeld B<root> of "
 "B<nobody>), of met hun nummer door voor dat nummer een ‘B<#>’ te plaatsen "
 "(bijvoorbeeld B<#0> of B<#65534>). De I<modus> moet als octaal getal "
@@ -21413,14 +21381,12 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-statoverride.pod
-#, fuzzy
-#| msgid "B<not-root>: Try to (de)install things even when not root."
 msgid ""
 "B<not-root>: Try to (de)install things even when not root (since dpkg "
 "1.21.8)."
 msgstr ""
-"B<not-root>: Proberen om zaken te (de-)installeren, zelfs in opdracht van "
-"een niet-systeembeheerder."
+"B<not-root>: Proberen om zaken te (de-)installeren, zelfs als niet-"
+"systeembeheerder (sinds dpkg 1.21.8)."
 
 #. type: =item
 #: dpkg-statoverride.pod update-alternatives.pod
@@ -21665,10 +21631,9 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-trigger.pod
-#, fuzzy
 #| msgid "B<dpkg>(1), B<deb-triggers>(5), B<%PKGDOCDIR%/triggers.txt.gz>."
 msgid "B<dpkg>(1), B<deb-triggers>(5), B<%PKGDOCDIR%/spec/triggers.txt.gz>."
-msgstr "B<dpkg>(1), B<deb-triggers>(5), B<%PKGDOCDIR%/triggers.txt.gz>."
+msgstr "B<dpkg>(1), B<deb-triggers>(5), B<%PKGDOCDIR%/spec/triggers.txt.gz>."
 
 #. type: textblock
 #: dpkg-vendor.pod
@@ -21684,9 +21649,9 @@ msgstr "B<dpkg-vendor> [I<optie>...] I<commando>"
 #. type: textblock
 #: dpkg-vendor.pod
 msgid ""
-"B<dpkg-vendor> is a tool to query information about vendors listed in "
-"B<%PKGCONFDIR%/origins>. B<%PKGCONFDIR%/origins/default> contains "
-"information about the current vendor."
+"B<dpkg-vendor> is a tool to query information about vendors listed in B<"
+"%PKGCONFDIR%/origins>. B<%PKGCONFDIR%/origins/default> contains information "
+"about the current vendor."
 msgstr ""
 "B<dpkg-vendor> is gereedschap om informatie op te vragen over leveranciers "
 "die opgesomd worden in B<%PKGCONFDIR%/origins>. B<%PKGCONFDIR%/origins/"
@@ -23324,12 +23289,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg.pod
-#, fuzzy
-#| msgid ""
-#| "B<remove-protected>: Remove, even if the package is considered protected "
-#| "(since dpkg 1.20.1).  Protected packages contain mostly important system "
-#| "boot infrastructure.  Removing them might cause the whole system to be "
-#| "unable to boot, so use with caution."
 msgid ""
 "B<remove-protected>: Remove, even if the package is considered protected "
 "(since dpkg 1.20.1).  Protected packages contain mostly important system "
@@ -23339,17 +23298,14 @@ msgid ""
 msgstr ""
 "B<remove-protected>: Het pakket verwijderen, zelfs al wordt het als "
 "beschermd beschouwd (sinds dpkg 1.20.1). Beschermde pakketten bevatten "
-"meestal belangrijke infrastructuur voor de systeemopstart. Ze verwijderen "
-"kan tot gevolg hebben dat het hele systeem niet langer kan opstarten. "
-"Gebruik dit dus met voorzichtigheid."
+"meestal belangrijke infrastructuur voor de systeemopstart of worden gebruikt "
+"voor aangepaste systeem-lokale metapakketten. Ze verwijderen kan tot gevolg "
+"hebben dat het hele systeem niet langer kan opstarten of functionaliteit "
+"verliest die vereist is om te functioneren. Gebruik dit dus met de nodige "
+"voorzichtigheid."
 
 #. type: textblock
 #: dpkg.pod
-#, fuzzy
-#| msgid ""
-#| "B<remove-essential>: Remove, even if the package is considered essential. "
-#| "Essential packages contain mostly very basic Unix commands. Removing them "
-#| "might cause the whole system to stop working, so use with caution."
 msgid ""
 "B<remove-essential>: Remove, even if the package is considered essential.  "
 "Essential packages contain mostly very basic Unix commands, required for the "
@@ -23359,9 +23315,12 @@ msgid ""
 "caution."
 msgstr ""
 "B<remove-essential>: Het pakket verwijderen, zelfs al wordt het als "
-"essentieel beschouwd. Essentiële pakketten bevatten meestal hele basale Unix "
-"commando's. Ze verwijderen kan tot gevolg hebben dat het hele systeem stopt "
-"met werken. Gebruik dit dus met voorzichtigheid."
+"essentieel beschouwd. Essentiële pakketten bevatten meestal zeer elementaire "
+"Unix-commando's, die nodig zijn voor het verpakkingssysteem, voor de werking "
+"van het systeem in het algemeen of tijdens het opstarten (hoewel deze "
+"laatste in plaats daarvan zouden moeten worden geconverteerd naar beschermde "
+"pakketten). Ze verwijderen kan tot gevolg hebben dat het hele systeem stopt "
+"met werken. Gebruik dit dus met de nodige voorzichtigheid."
 
 #. type: textblock
 #: dpkg.pod
@@ -25510,8 +25469,8 @@ msgstr ""
 #: dselect.pod
 msgid ""
 "Set the root directory to I<directory>, which sets the installation "
-"directory to «I<directory>» and the administrative directory to "
-"«I<directory>%ADMINDIR%» (since dpkg 1.21.0)."
+"directory to «I<directory>» and the administrative directory to «I<directory>"
+"%ADMINDIR%» (since dpkg 1.21.0)."
 msgstr ""
 "De hoofdmap instellen op B<map>, hetgeen de installatiemap instelt op "
 "«I<map>» en de administratieve map op «I<map>%ADMINDIR%» (sinds dpkg 1.21.0)."
