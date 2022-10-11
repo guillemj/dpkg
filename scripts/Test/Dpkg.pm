@@ -116,35 +116,32 @@ sub test_get_perl_dirs
     }
 }
 
-sub all_po_files
+sub _test_get_files
 {
-    my $filter = shift // qr/\.(?:po|pot)$/;
+    my ($filter, $dirs) = @_;
     my @files;
-    my $scan_po_files = sub {
+    my $scan_files = sub {
         push @files, $File::Find::name if m/$filter/;
     };
 
-    find($scan_po_files, test_get_po_dirs());
+    find($scan_files, @{$dirs});
 
     return @files;
+}
+
+sub all_po_files
+{
+    return _test_get_files(qr/\.(?:po|pot)$/, [ test_get_po_dirs() ]);
 }
 
 sub all_perl_files
 {
-    my $filter = shift // qr/\.(?:PL|pl|pm|t)$/;
-    my @files;
-    my $scan_perl_files = sub {
-        push @files, $File::Find::name if m/$filter/;
-    };
-
-    find($scan_perl_files, test_get_perl_dirs());
-
-    return @files;
+    return _test_get_files(qr/\.(?:PL|pl|pm|t)$/, [ test_get_perl_dirs() ]);
 }
 
 sub all_perl_modules
 {
-    return all_perl_files(qr/\.pm$/);
+    return _test_get_files(qr/\.pm$/, [ test_get_perl_dirs() ]);
 }
 
 sub test_needs_author
