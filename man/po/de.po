@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.21.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2022-10-10 19:19+0200\n"
-"PO-Revision-Date: 2022-10-10 21:26+0200\n"
+"PO-Revision-Date: 2022-10-12 21:22+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -2763,6 +2763,11 @@ msgid ""
 "capitalizing it (that is upper-casing the first character), and only "
 "capitalizing it."
 msgstr ""
+"Insbesondere werden (seit Dpkg 1.21.10) zuerst nicht alphanumerische Zeichen "
+"(„B<[^A-Za-z0-9]>“) auf Bindestriche („B<->“) abgebildet, dann wird der "
+"daraus entstandene Name der Reihe nach mit folgendem versucht: in "
+"Kleinschreibung, so wie er ist, Kleinschreibung mit großem Anfangsbuchstaben "
+"und nur einem großen Anfangsbuchstaben."
 
 #. type: textblock
 #: deb-origin.pod
@@ -2775,6 +2780,15 @@ msgid ""
 "the resulting name will be tried in sequence by lower-casing it, keeping it "
 "as is, lower-casing then capitalizing it, and only capitalizing it."
 msgstr ""
+"Aus historischen und rückwärtskompatiblen Gründen wird der Name zusätzlich so versucht, "
+"wie er ist, ohne alphanumerische Zeichen umzuwandeln, dann wird der daraus "
+"entstehende Name der Reihe nach mit folgendem versucht: in Kleinschreibung, "
+"so wie er ist, in Kleinschreibung mit großem Anfangsbuchstaben. Und "
+"schließlich wird der Name versucht, indem Leerzeichen auf Bindestriche "
+"(„B<->“) abgebildet werden, dann wird der daraus entstandene Name der Reihe "
+"nach mit folgendem versucht: in Kleinschreibung, so wie er ist, in "
+"Kleinschreibung mit großem Anfangsbuchstaben und nur mit großem "
+"Anfangsbuchstaben."
 
 #. type: textblock
 #: deb-origin.pod
@@ -2782,6 +2796,8 @@ msgid ""
 "But these backwards compatible module lookups will be removed during the "
 "dpkg 1.22.x release cycle."
 msgstr ""
+"Beachten Sie, dass diese rückwärtskompatiblen Modulermittlungen während des "
+"Dpkg 1.22.x-Veröffentlichungszyklusses entfernt werden."
 
 #. type: =item
 #: deb-origin.pod
