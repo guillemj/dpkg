@@ -359,7 +359,7 @@ find_area () {
 Note: most media distributions of Debian do not include programs
 available in the 'non-free' directory of the distribution site.
 This is because these programs have copyrights that prevent
-distribution for profit on a media - ie they are not free software.
+distribution for profit on a media - that is they are not free software.
 If you wish to install these programs you'll have to get them from an
 alternative source."
   fi

@@ -143,7 +143,7 @@ dep_update_best_to_change_stop(perpackagestate *& best, pkginfo *trythis)
       !pkg_is_informative(best->pkg, &best->pkg->available))
     goto yes;
 
-  // Select the package with the lowest priority (ie, the one of whom
+  // Select the package with the lowest priority (i.e., the one of whom
   // we were least sure we wanted it deselected).
   if (trythis->clientdata->spriority > best->spriority)
     return false;
@@ -387,7 +387,7 @@ bool
 packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
 {
   // ‘satisfied’ here for Conflicts and Breaks means that the
-  //  restriction is violated ie that the target package is wanted
+  //  restriction is violated, that is, that the target package is wanted
   int would;
   pkgwant want = PKG_WANT_PURGE;
 
