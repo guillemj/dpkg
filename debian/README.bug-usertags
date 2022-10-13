@@ -25,6 +25,7 @@ db			Issues handling the database.
 file-metadata		File metadata tracking (perm, acl, cap, hash).
 trivial			Bug should be trivial to fix.
 perf			Performance problems.
+new-buildflags		Request for new build flags.
 new-field		Request for new control file fields.
 new-option		Request for new command line option.
 deb-format		Changes to the binary (.deb) format.
@@ -33,7 +34,6 @@ arch			Updates to ‘cputable’, ‘ostable’ and porting patches.
 vendor			Vendor support and needed modifications.
 frontend		Issues or request affecting or required by frontends.
 build			Project build system issues.
-i18n			Conversion to the UTF-8 encoding.
 i18n			Internationalization problems.
 l10n			New or updated translations and bugs affecting
 			  translation. Include the language code in the tag,
@@ -52,9 +52,11 @@ dpkg-architecture
 dpkg-buildflags
 dpkg-buildpackage
 dpkg-checkbuilddeps
+dpkg-db-backup
 dpkg-deb
 dpkg-distaddfile
 dpkg-divert
+dpkg-fsys-usrunmess
 dpkg-genbuildinfo
 dpkg-genchanges
 dpkg-gencontrol
@@ -63,6 +65,7 @@ dpkg-maintscript-helper
 dpkg-mergechangelogs
 dpkg-name
 dpkg-parsechangelog
+dpkg-realpath
 dpkg-query
 dpkg-scanpackages
 dpkg-scansources
@@ -104,7 +107,10 @@ usercategory dpkg-program [hidden]
   + dpkg-split [tag=dpkg-split]
   + dpkg-statoverride [tag=dpkg-statoverride]
   + dpkg-trigger [tag=dpkg-trigger]
+  + dpkg-realpath [tag=dpkg-realpath]
   + dpkg-maintscript-helper [tag=dpkg-maintscript-helper]
+  + dpkg-db-backup [tag=dpkg-db-backup]
+  + dpkg-fsys-usrunmess [tag=dpkg-fsys-usrunmess]
   + update-alternatives [tag=u-a]
   + start-stop-daemon [tag=s-s-d]
   + libdpkg [package=libdpkg-dev]
@@ -142,6 +148,7 @@ usercategory dpkg-class [hidden]
   + Maintainer script handling [maint-script]
   + Performance issue [perf]
   + Trivial fix [trivial]
+  + New build flags [new-buildflags]
   + New control field [new-field]
   + New command line option [new-option]
   + Binary package format [deb-format]
@@ -155,19 +162,23 @@ usercategory dpkg-class [hidden]
   + Documentation [doc]
   + Other [0:]
 
-usercategory dpkg-program-view
+usercategory view-simple
+ * status
+ * dpkg-program
+
+usercategory view-program
  * status
  * dpkg-program
  * severity
  * classification
 
-usercategory dpkg-class-view
+usercategory view-class
  * status
  * dpkg-class
  * severity
  * classification
 
-usercategory dpkg-detail-view
+usercategory view-detail
  * dpkg-status
  * severity
  * dpkg-program
@@ -180,7 +191,7 @@ usercategory normal
  * severity
  * classification
 
-usercategory old-normal
+usercategory traditional
  * status
  * severity
  * classification
