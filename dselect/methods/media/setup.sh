@@ -356,11 +356,12 @@ find_area () {
   fi
   if [ $2 = nf -a -z "$this_binary" ]; then
     echo "
-Note: most media distributions of Debian do not include programs
-available in the 'non-free' directory of the distribution site.
-This is because these programs have copyrights that prevent
-distribution for profit on a media - that is they are not free software.
-If you wish to install these programs you'll have to get them from an
+Note: most media distributions of Debian do not include programs available
+in the 'non-free' directory of the distribution site.
+This is because these programs are under licenses that do not allow source
+modification or prevent distribution for profit on a media, or other
+restrictions that make them not free software.
+If you wish to install these programs you will have to get them from an
 alternative source."
   fi
   while [ -z "$this_binary" ]; do

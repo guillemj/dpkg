@@ -186,6 +186,16 @@ find_area () {
 Note: By default there is no 'local' directory. It is intended for
 packages you made yourself."
   fi
+  if [ $2 = nf -a -z "$this_binary" ]; then
+    echo "
+Note: most media distributions of Debian do not include programs available
+in the 'non-free' directory of the distribution site.
+This is because these programs are under licenses that do not allow source
+modification or prevent distribution for profit on a media, or other
+restrictions that make them not free software.
+If you wish to install these programs you will have to get them from an
+alternative source."
+  fi
   while [ -z "$this_binary" ]; do
     defaultbinary="$4"
     echo "
