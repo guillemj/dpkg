@@ -21,6 +21,7 @@
 use warnings;
 use strict;
 
+use List::Util qw(none);
 use File::Basename;
 use File::Path qw(make_path);
 
@@ -151,8 +152,7 @@ sub getdir($$$)
                 warning(g_("assuming section '%s' for '%s'"), $section,
                         $filename);
             }
-            if ($section ne 'non-free' and $section ne 'contrib' and
-                $section ne 'no-section') {
+            if (none { $section eq $_ } qw(no-section contrib non-free)) {
                 $dir = "unstable/binary-$arch/$section";
             } else {
                 $dir = "$section/binary-$arch";
