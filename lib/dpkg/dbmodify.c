@@ -152,13 +152,28 @@ static const struct fni {
   const char *suffix;
   char **store;
 } fnis[] = {
-  {   LOCKFILE,                   &lockfile           },
-  {   FRONTENDLOCKFILE,           &frontendlockfile   },
-  {   STATUSFILE,                 &statusfile         },
-  {   AVAILFILE,                  &availablefile      },
-  {   UPDATESDIR,                 &updatesdir         },
-  {   UPDATESDIR IMPORTANTTMP,    &importanttmpfile   },
-  {   NULL, NULL                                      }
+  {
+    .suffix = LOCKFILE,
+    .store = &lockfile,
+  }, {
+    .suffix = FRONTENDLOCKFILE,
+    .store = &frontendlockfile,
+  }, {
+    .suffix = STATUSFILE,
+    .store = &statusfile,
+  }, {
+    .suffix = AVAILFILE,
+    .store = &availablefile,
+  }, {
+    .suffix = UPDATESDIR,
+    .store = &updatesdir,
+  }, {
+    .suffix = UPDATESDIR IMPORTANTTMP,
+    .store = &importanttmpfile,
+  }, {
+    .suffix = NULL,
+    .store = NULL,
+  }
 };
 
 void
