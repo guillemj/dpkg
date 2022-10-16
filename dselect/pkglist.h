@@ -29,7 +29,7 @@ enum showpriority {
   dp_none,      // has not been involved in any unsatisfied things
   dp_may,       // has been involved in an unsatisfied Suggests
   dp_should,	// has been involved in an unsatisfied Recommends
-  dp_must       // has been involved in an unsatisfied Depends/Conflicts
+  dp_must,      // has been involved in an unsatisfied Depends/Conflicts
 };
 
 enum selpriority {
@@ -39,7 +39,7 @@ enum selpriority {
   sp_inherit,     // inherited from our parent list
   sp_selecting,   // propagating a selection
   sp_deselecting, // propagating a deselection
-  sp_fixed        // it came from the ‘status’ file and we're not a recursive list
+  sp_fixed,       // it came from the ‘status’ file and we're not a recursive list
   // high
 };
 
@@ -51,7 +51,7 @@ enum ssavailval {        // Availability sorting order, first to last:
   ssa_installed_sameold, //   Same or older version available as installed
   ssa_notinst_seen,      //   Available but not installed
   ssa_notinst_gone,      //   Not available, and only config files left
-  ssa_none=-1
+  ssa_none = -1,
 };
 
 enum ssstateval {      // State sorting order, first to last:
@@ -59,7 +59,7 @@ enum ssstateval {      // State sorting order, first to last:
   sss_installed,       //   Installed
   sss_configfiles,     //   Config files only
   sss_notinstalled,    //   Not installed
-  sss_none=-1
+  sss_none = -1,
 };
 
 struct perpackagestate {
@@ -111,10 +111,27 @@ protected:
   // Misc.
   int nallocated;
   bool recursive, verbose;
-  enum { so_unsorted, so_section, so_priority, so_alpha } sortorder;
-  enum { sso_unsorted, sso_avail, sso_state } statsortorder;
-  enum { ado_none, ado_available, ado_both } archdisplayopt;
-  enum { vdo_none, vdo_available, vdo_both } versiondisplayopt;
+  enum {
+    so_unsorted,
+    so_section,
+    so_priority,
+    so_alpha,
+  } sortorder;
+  enum {
+    sso_unsorted,
+    sso_avail,
+    sso_state,
+  } statsortorder;
+  enum {
+    ado_none,
+    ado_available,
+    ado_both,
+  } archdisplayopt;
+  enum {
+    vdo_none,
+    vdo_available,
+    vdo_both,
+  } versiondisplayopt;
   bool calcssadone, calcsssdone;
   struct perpackagestate *headings;
 

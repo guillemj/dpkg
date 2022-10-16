@@ -393,7 +393,11 @@ extern const struct namevalue wantinfos[];
 
 #include <dpkg/error.h>
 
-enum versiondisplayepochwhen { vdew_never, vdew_nonambig, vdew_always };
+enum versiondisplayepochwhen {
+	vdew_never,
+	vdew_nonambig,
+	vdew_always,
+};
 void varbufversion(struct varbuf *, const struct dpkg_version *,
                    enum versiondisplayepochwhen);
 int parseversion(struct dpkg_version *version, const char *,

@@ -186,8 +186,16 @@ extern colordata color[];
 /* Evil recommends flag variable. */
 extern bool manual_install;
 
-enum urqresult { urqr_normal, urqr_fail, urqr_quitmenu };
-enum quitaction { qa_noquit, qa_quitchecksave, qa_quitnochecksave };
+enum urqresult {
+	urqr_normal,
+	urqr_fail,
+	urqr_quitmenu,
+};
+enum quitaction {
+	qa_noquit,
+	qa_quitchecksave,
+	qa_quitnochecksave,
+};
 
 typedef urqresult urqfunction(void);
 urqfunction urq_list, urq_quit, urq_menu;
