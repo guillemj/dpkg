@@ -81,7 +81,7 @@ DPKG_BEGIN_DECLS
 #define FRONTENDLOCKFILE  "lock-frontend"
 #define DIVERSIONSFILE    "diversions"
 #define STATOVERRIDEFILE  "statoverride"
-#define UPDATESDIR        "updates/"
+#define UPDATESDIR        "updates"
 #define INFODIR           "info"
 #define TRIGGERSDIR       "triggers"
 #define TRIGGERSFILEFILE  "File"

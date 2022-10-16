@@ -168,7 +168,7 @@ static const struct fni {
     .suffix = UPDATESDIR,
     .store = &updatesdir,
   }, {
-    .suffix = UPDATESDIR IMPORTANTTMP,
+    .suffix = UPDATESDIR "/" IMPORTANTTMP,
     .store = &importanttmpfile,
   }, {
     .suffix = NULL,
@@ -190,7 +190,7 @@ modstatdb_init(void)
   }
 
   varbuf_init(&updatefn, strlen(updatesdir) + 1 + IMPORTANTMAXLEN);
-  varbuf_add_str(&updatefn, updatesdir);
+  varbuf_add_dir(&updatefn, updatesdir);
   varbuf_end_str(&updatefn);
   varbuf_snapshot(&updatefn, &updatefn_state);
 
