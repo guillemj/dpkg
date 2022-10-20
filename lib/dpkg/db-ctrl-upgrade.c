@@ -79,8 +79,7 @@ pkg_infodb_link_multiarch_files(void)
 	struct varbuf newname = VARBUF_INIT;
 	struct varbuf_state db_path_state;
 
-	varbuf_add_str(&oldname, pkg_infodb_get_dir());
-	varbuf_add_char(&oldname, '/');
+	varbuf_add_dir(&oldname, pkg_infodb_get_dir());
 	varbuf_end_str(&oldname);
 	varbuf_snapshot(&oldname, &db_path_state);
 

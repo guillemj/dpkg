@@ -560,8 +560,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       p= strrchr(fnvb.buf,'/'); if (!p) continue;
       *p = '\0';
       varbuf_reset(&removevb);
-      varbuf_add_str(&removevb, fnvb.buf);
-      varbuf_add_char(&removevb, '/');
+      varbuf_add_dir(&removevb, fnvb.buf);
       varbuf_end_str(&removevb);
       varbuf_snapshot(&removevb, &removevb_state);
 
