@@ -105,6 +105,14 @@ varbuf_add_buf(struct varbuf *v, const void *s, size_t size)
 }
 
 void
+varbuf_add_dir(struct varbuf *v, const char *dirname)
+{
+  varbuf_add_str(v, dirname);
+  if (v->used == 0 || v->buf[v->used - 1] != '/')
+    varbuf_add_char(v, '/');
+}
+
+void
 varbuf_end_str(struct varbuf *v)
 {
   varbuf_grow(v, 1);

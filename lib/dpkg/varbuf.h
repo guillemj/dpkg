@@ -87,6 +87,7 @@ void varbuf_add_char(struct varbuf *v, int c);
 void varbuf_dup_char(struct varbuf *v, int c, size_t n);
 void varbuf_map_char(struct varbuf *v, int c_src, int c_dst);
 #define varbuf_add_str(v, s) varbuf_add_buf(v, s, strlen(s))
+void varbuf_add_dir(struct varbuf *v, const char *dirname);
 void varbuf_add_buf(struct varbuf *v, const void *s, size_t size);
 void varbuf_end_str(struct varbuf *v);
 const char *varbuf_get_str(struct varbuf *v);
