@@ -392,21 +392,40 @@ test_varbuf_snapshot(void)
 	varbuf_snapshot(&vb, &vbs);
 	test_pass(vb.used == 0);
 	test_pass(vb.used == vbs.used);
+	test_pass(varbuf_rollback_len(&vbs) == 0);
+	test_str(varbuf_rollback_start(&vbs), ==, "");
 
 	varbuf_add_buf(&vb, "1234567890", 10);
+	varbuf_end_str(&vb);
 	test_pass(vb.used == 10);
+	test_pass(varbuf_rollback_len(&vbs) == 10);
+	test_str(varbuf_rollback_start(&vbs), ==, "1234567890");
 	varbuf_rollback(&vbs);
+	varbuf_end_str(&vb);
 	test_pass(vb.used == 0);
+	test_pass(varbuf_rollback_len(&vbs) == 0);
+	test_str(varbuf_rollback_start(&vbs), ==, "");
 
 	varbuf_add_buf(&vb, "1234567890", 10);
+	varbuf_end_str(&vb);
 	test_pass(vb.used == 10);
+	test_pass(varbuf_rollback_len(&vbs) == 10);
+	test_str(varbuf_rollback_start(&vbs), ==, "1234567890");
 	varbuf_snapshot(&vb, &vbs);
 	test_pass(vb.used == 10);
+	test_pass(varbuf_rollback_len(&vbs) == 0);
+	test_str(varbuf_rollback_start(&vbs), ==, "");
 
 	varbuf_add_buf(&vb, "1234567890", 10);
+	varbuf_end_str(&vb);
 	test_pass(vb.used == 20);
+	test_pass(varbuf_rollback_len(&vbs) == 10);
+	test_str(varbuf_rollback_start(&vbs), ==, "1234567890");
 	varbuf_rollback(&vbs);
+	varbuf_end_str(&vb);
 	test_pass(vb.used == 10);
+	test_pass(varbuf_rollback_len(&vbs) == 0);
+	test_str(varbuf_rollback_start(&vbs), ==, "");
 
 	varbuf_destroy(&vb);
 }
@@ -433,7 +452,7 @@ test_varbuf_detach(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(138);
+	test_plan(152);
 
 	test_varbuf_init();
 	test_varbuf_prealloc();

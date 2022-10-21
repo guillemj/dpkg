@@ -200,6 +200,27 @@ varbuf_rollback(struct varbuf_state *vs)
   varbuf_trunc(vs->v, vs->used);
 }
 
+size_t
+varbuf_rollback_len(struct varbuf_state *vs)
+{
+  if (vs->used > vs->v->used)
+    internerr("varbuf state_used(%zu) > used(%zu)", vs->used, vs->v->used);
+  return vs->v->used - vs->used;
+}
+
+const char *
+varbuf_rollback_start(struct varbuf_state *vs)
+{
+  if (vs->v->buf == NULL) {
+    if (vs->used)
+      internerr("varbuf buf(NULL) state_used(%zu) > 0", vs->used);
+    /* XXX: Ideally this would be handled by varbuf always having a valid
+     * buf or switching all users to the getter, but for now this will do. */
+    return "";
+  }
+  return vs->v->buf + vs->used;
+}
+
 char *
 varbuf_detach(struct varbuf *v)
 {
