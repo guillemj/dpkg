@@ -83,7 +83,7 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
       ok = DEP_CHECK_DEFER;
     if (ok == DEP_CHECK_DEFER)
       /* Don't burble about reasons for deferral. */
-      varbuf_rollback(raemsgs, &raemsgs_state);
+      varbuf_rollback(&raemsgs_state);
     if (ok < *rokp) *rokp= ok;
   }
 }
@@ -334,19 +334,19 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 
       trig_path_activate(usenode, pkg);
 
-      varbuf_rollback(&fnvb, &fnvb_state);
+      varbuf_rollback(&fnvb_state);
       varbuf_add_str(&fnvb, DPKGTEMPEXT);
       varbuf_end_str(&fnvb);
       debug(dbg_eachfiledetail, "removal_bulk cleaning temp '%s'", fnvb.buf);
       path_remove_tree(fnvb.buf);
 
-      varbuf_rollback(&fnvb, &fnvb_state);
+      varbuf_rollback(&fnvb_state);
       varbuf_add_str(&fnvb, DPKGNEWEXT);
       varbuf_end_str(&fnvb);
       debug(dbg_eachfiledetail, "removal_bulk cleaning new '%s'", fnvb.buf);
       path_remove_tree(fnvb.buf);
 
-      varbuf_rollback(&fnvb, &fnvb_state);
+      varbuf_rollback(&fnvb_state);
       varbuf_end_str(&fnvb);
 
       debug(dbg_eachfiledetail, "removal_bulk removing '%s'", fnvb.buf);
@@ -602,7 +602,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
         debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry not it");
         continue;
       yes_remove:
-        varbuf_rollback(&removevb, &removevb_state);
+        varbuf_rollback(&removevb_state);
         varbuf_add_str(&removevb, de->d_name);
         varbuf_end_str(&removevb);
         debug(dbg_conffdetail, "removal_bulk conffile dsd entry removing '%s'",

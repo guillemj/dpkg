@@ -43,6 +43,8 @@ struct pkg_deconf_list {
 };
 
 extern struct varbuf_state fname_state;
+extern struct varbuf_state fnametmp_state;
+extern struct varbuf_state fnamenew_state;
 extern struct varbuf fnamevb;
 extern struct varbuf fnametmpvb;
 extern struct varbuf fnamenewvb;

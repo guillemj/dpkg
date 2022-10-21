@@ -106,7 +106,7 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 		/* Skip past the full stop. */
 		filetype = dot + 1;
 
-		varbuf_rollback(&db_path, &db_path_state);
+		varbuf_rollback(&db_path_state);
 		varbuf_add_str(&db_path, db_de->d_name);
 		varbuf_end_str(&db_path);
 		filename = db_path.buf;

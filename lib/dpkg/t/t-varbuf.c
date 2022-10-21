@@ -395,7 +395,7 @@ test_varbuf_snapshot(void)
 
 	varbuf_add_buf(&vb, "1234567890", 10);
 	test_pass(vb.used == 10);
-	varbuf_rollback(&vb, &vbs);
+	varbuf_rollback(&vbs);
 	test_pass(vb.used == 0);
 
 	varbuf_add_buf(&vb, "1234567890", 10);
@@ -405,7 +405,7 @@ test_varbuf_snapshot(void)
 
 	varbuf_add_buf(&vb, "1234567890", 10);
 	test_pass(vb.used == 20);
-	varbuf_rollback(&vb, &vbs);
+	varbuf_rollback(&vbs);
 	test_pass(vb.used == 10);
 
 	varbuf_destroy(&vb);

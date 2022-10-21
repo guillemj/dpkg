@@ -190,13 +190,14 @@ varbuf_trunc(struct varbuf *v, size_t used_size)
 void
 varbuf_snapshot(struct varbuf *v, struct varbuf_state *vs)
 {
+  vs->v = v;
   vs->used = v->used;
 }
 
 void
-varbuf_rollback(struct varbuf *v, struct varbuf_state *vs)
+varbuf_rollback(struct varbuf_state *vs)
 {
-  varbuf_trunc(v, vs->used);
+  varbuf_trunc(vs->v, vs->used);
 }
 
 char *
