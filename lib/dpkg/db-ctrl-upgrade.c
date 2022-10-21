@@ -86,7 +86,7 @@ pkg_infodb_link_multiarch_files(void)
 	varbuf_add_buf(&newname, oldname.buf, oldname.used);
 	varbuf_end_str(&newname);
 
-	db_dir = opendir(oldname.buf);
+	db_dir = opendir(pkg_infodb_get_dir());
 	if (!db_dir)
 		ohshite(_("cannot read info directory"));
 
