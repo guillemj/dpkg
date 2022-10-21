@@ -57,7 +57,8 @@ static FILE *importanttmp;
 static int nextupdate;
 static char *updatesdir;
 static int updateslength;
-static char *updatefnbuf, *updatefnrest;
+static struct varbuf updatefn;
+static struct varbuf_state updatefn_state;
 static struct varbuf uvb;
 
 static int ulist_select(const struct dirent *de) {
@@ -82,7 +83,6 @@ static void cleanupdates(void) {
 
   parsedb(statusfile, pdb_parse_status, NULL);
 
-  *updatefnrest = '\0';
   updateslength= -1;
   cdn = scandir(updatesdir, &cdlist, &ulist_select, alphasort);
   if (cdn == -1) {
@@ -98,17 +98,22 @@ static void cleanupdates(void) {
 
   if (cdn) {
     for (i=0; i<cdn; i++) {
-      strcpy(updatefnrest, cdlist[i]->d_name);
-      parsedb(updatefnbuf, pdb_parse_update, NULL);
+      varbuf_rollback(&updatefn_state);
+      varbuf_add_str(&updatefn, cdlist[i]->d_name);
+      varbuf_end_str(&updatefn);
+      parsedb(updatefn.buf, pdb_parse_update, NULL);
     }
 
     if (cstatus >= msdbrw_write) {
       writedb(statusfile, wdb_must_sync);
 
       for (i=0; i<cdn; i++) {
-        strcpy(updatefnrest, cdlist[i]->d_name);
-        if (unlink(updatefnbuf))
-          ohshite(_("failed to remove incorporated update file %.255s"),updatefnbuf);
+        varbuf_rollback(&updatefn_state);
+        varbuf_add_str(&updatefn, cdlist[i]->d_name);
+        varbuf_end_str(&updatefn);
+        if (unlink(updatefn.buf))
+          ohshite(_("failed to remove incorporated update file %.255s"),
+                  updatefn.buf);
       }
 
       dir_sync_path(updatesdir);
@@ -169,9 +174,10 @@ modstatdb_init(void)
     *fnip->store = dpkg_db_get_path(fnip->suffix);
   }
 
-  updatefnbuf = m_malloc(strlen(updatesdir) + IMPORTANTMAXLEN + 5);
-  strcpy(updatefnbuf, updatesdir);
-  updatefnrest = updatefnbuf + strlen(updatefnbuf);
+  varbuf_init(&updatefn, strlen(updatesdir) + 1 + IMPORTANTMAXLEN);
+  varbuf_add_str(&updatefn, updatesdir);
+  varbuf_end_str(&updatefn);
+  varbuf_snapshot(&updatefn, &updatefn_state);
 
   db_initialized = true;
 }
@@ -188,7 +194,7 @@ modstatdb_done(void)
     free(*fnip->store);
     *fnip->store = NULL;
   }
-  free(updatefnbuf);
+  varbuf_destroy(&updatefn);
 
   db_initialized = false;
 }
@@ -366,15 +372,16 @@ void modstatdb_checkpoint(void) {
   writedb(statusfile, wdb_must_sync);
 
   for (i=0; i<nextupdate; i++) {
-    sprintf(updatefnrest, IMPORTANTFMT, i);
+    varbuf_rollback(&updatefn_state);
+    varbuf_printf(&updatefn, IMPORTANTFMT, i);
 
     /* Have we made a real mess? */
-    if (strlen(updatefnrest) > IMPORTANTMAXLEN)
+    if (varbuf_rollback_len(&updatefn_state) > IMPORTANTMAXLEN)
       internerr("modstatdb update entry name '%s' longer than %d",
-                updatefnrest, IMPORTANTMAXLEN);
+                varbuf_rollback_start(&updatefn_state), IMPORTANTMAXLEN);
 
-    if (unlink(updatefnbuf))
-      ohshite(_("failed to remove my own update file %.255s"),updatefnbuf);
+    if (unlink(updatefn.buf))
+      ohshite(_("failed to remove my own update file %.255s"), updatefn.buf);
   }
 
   dir_sync_path(updatesdir);
@@ -429,17 +436,18 @@ modstatdb_note_core(struct pkginfo *pkg)
   if (fclose(importanttmp))
     ohshite(_("unable to close updated status of '%.250s'"),
             pkg_name(pkg, pnaw_nonambig));
-  sprintf(updatefnrest, IMPORTANTFMT, nextupdate);
-  if (rename(importanttmpfile, updatefnbuf))
+  varbuf_rollback(&updatefn_state);
+  varbuf_printf(&updatefn, IMPORTANTFMT, nextupdate);
+  if (rename(importanttmpfile, updatefn.buf))
     ohshite(_("unable to install updated status of '%.250s'"),
             pkg_name(pkg, pnaw_nonambig));
 
   dir_sync_path(updatesdir);
 
   /* Have we made a real mess? */
-  if (strlen(updatefnrest) > IMPORTANTMAXLEN)
+  if (varbuf_rollback_len(&updatefn_state) > IMPORTANTMAXLEN)
     internerr("modstatdb update entry name '%s' longer than %d",
-              updatefnrest, IMPORTANTMAXLEN);
+              varbuf_rollback_start(&updatefn_state), IMPORTANTMAXLEN);
 
   nextupdate++;
 
