@@ -323,8 +323,10 @@ $dist->load($fileslistfile) if -e $fileslistfile;
 
 foreach my $file ($dist->get_files()) {
     my $f = $file->{filename};
+    my $p = $file->{package};
+    my $a = $file->{arch};
 
-    if (defined $file->{package} && $file->{package_type} eq 'buildinfo') {
+    if (defined $p && $file->{package_type} eq 'buildinfo') {
         # We always distribute the .buildinfo file.
         $checksums->add_from_file("$uploadfilesdir/$f", key => $f);
         next;
@@ -333,17 +335,17 @@ foreach my $file ($dist->get_files()) {
     # If this is a source-only upload, ignore any other artifacts.
     next if build_has_none(BUILD_BINARY);
 
-    if (defined $file->{arch}) {
-        my $arch_all = debarch_eq('all', $file->{arch});
+    if (defined $a) {
+        my $arch_all = debarch_eq('all', $a);
 
         next if build_has_none(BUILD_ARCH_INDEP) and $arch_all;
         next if build_has_none(BUILD_ARCH_DEP) and not $arch_all;
 
-        push @archvalues, $file->{arch} if not $archadded{$file->{arch}}++;
+        push @archvalues, $a if not $archadded{$a}++;
     }
-    if (defined $file->{package} && $file->{package_type} =~ m/^u?deb$/) {
-        $p2f{$file->{package}} //= [];
-        push @{$p2f{$file->{package}}}, $file->{filename};
+    if (defined $p && $file->{package_type} =~ m/^u?deb$/) {
+        $p2f{$p} //= [];
+        push @{$p2f{$p}}, $f;
     }
 
     $checksums->add_from_file("$uploadfilesdir/$f", key => $f);
