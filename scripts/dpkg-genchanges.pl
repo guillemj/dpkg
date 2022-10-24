@@ -218,10 +218,10 @@ $substvars->set_arch_substvars();
 $substvars->load('debian/substvars') if -e 'debian/substvars' and not $substvars_loaded;
 
 my $backport_version_regex = run_vendor_hook('backport-version-regex') // qr/^$/;
+my $is_backport = $changelog->{'Version'} =~ m/$backport_version_regex/;
 
 # Versions with backport markers have a lower version number by definition.
-if (defined($prev_changelog) and
-    $changelog->{'Version'} !~ /$backport_version_regex/ and
+if (! $is_backport && defined $prev_changelog &&
     version_compare_relation($changelog->{'Version'}, REL_LT,
                              $prev_changelog->{'Version'}))
 {
