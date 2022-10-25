@@ -172,7 +172,8 @@ my %global_soname_notfound;
 my %global_soname_used;
 my %global_soname_needed;
 
-# Symfile and objdump caches
+# Cached data.
+my %shlibs_cache;
 my %symfile_cache;
 my %objdump_cache;
 my %symfile_has_soname_cache;
@@ -721,6 +722,10 @@ sub split_soname {
 sub extract_from_shlibs {
     my ($soname, $shlibfile) = @_;
 
+    if (exists $shlibs_cache{$shlibfile}{$soname}) {
+        return $shlibs_cache{$shlibfile}{$soname};
+    }
+
     my $shlibs_re = qr{
         ^\s*
         (?:(\S+):\s+)?              # Optional type
@@ -738,6 +743,7 @@ sub extract_from_shlibs {
     unless (defined $libname) {
 	warning(g_("can't extract name and version from library name '%s'"),
 	        $soname);
+        $shlibs_cache{$shlibfile}{$soname} = undef;
 	return;
     }
     # Open shlibs file
@@ -769,6 +775,7 @@ sub extract_from_shlibs {
 	}
     }
     close($shlibs_fh);
+    $shlibs_cache{$shlibfile}{$soname} = $dep;
     return $dep;
 }
 
