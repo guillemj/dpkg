@@ -169,8 +169,6 @@ sub verify_signature {
     my @exec;
     if (find_command('gpgv')) {
         push @exec, 'gpgv', _gpg_options_weak_digests();
-    } elsif (find_command('gpg')) {
-        push @exec, 'gpg', _gpg_options_common(), '--verify';
     } elsif ($opts->{require_valid_signature}) {
         error(g_('cannot verify signature on %s since GnuPG is not installed'),
               $sig);
