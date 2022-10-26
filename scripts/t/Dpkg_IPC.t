@@ -20,9 +20,9 @@ use Test::More tests => 8;
 
 use File::Temp qw(tempfile);
 
-use_ok('Dpkg::IPC');
+use Dpkg::File;
 
-$/ = undef;
+use_ok('Dpkg::IPC');
 
 my ($tmp1_fh, $tmp1_name) = tempfile(UNLINK => 1);
 my ($tmp2_fh, $tmp2_name) = tempfile(UNLINK => 1);
@@ -52,10 +52,7 @@ ok($pid, 'execute cat program, I/O to filehandles');
 
 wait_child($pid);
 
-open $tmp_fh, '<', $tmp2_name
-    or die "cannot open $tmp2_name: $!";
-$string2 = <$tmp_fh>;
-close $tmp_fh;
+$string2 = file_slurp($tmp2_name);
 
 is($string2, $string1, '{from,to}_handle');
 
@@ -66,10 +63,7 @@ $pid = spawn(exec => 'cat',
 
 ok($pid, 'execute cat program, I/O to filenames and wait');
 
-open $tmp_fh, '<', $tmp2_name
-    or die "cannot open $tmp2_name: $!";
-$string2 = <$tmp_fh>;
-close $tmp_fh;
+$string2 = file_slurp($tmp2_name);
 
 is($string2, $string1, '{from,to}_file');
 

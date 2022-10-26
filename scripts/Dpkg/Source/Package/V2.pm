@@ -350,10 +350,7 @@ sub after_build {
     my $applied = File::Spec->catfile($dir, 'debian', 'patches', '.dpkg-source-applied');
     my $reason = '';
     if (-e $applied) {
-        open(my $applied_fh, '<', $applied)
-            or syserr(g_('cannot read %s'), $applied);
-        $reason = <$applied_fh>;
-        close($applied_fh);
+        $reason = file_slurp($applied);
     }
     my $opt_unapply = $self->{options}{unapply_patches};
     if (($opt_unapply eq 'auto' and $reason =~ /^# During preparation/) or

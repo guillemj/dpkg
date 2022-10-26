@@ -27,7 +27,7 @@ eval q{
     use File::Find;
     use Data::Dumper;
 
-    use Dpkg; # Dummy import to require the presence of Dpkg::*.
+    use Dpkg::File;
 };
 if ($@) {
     warn "Missing Dpkg modules required by the FTP access method.\n\n";
@@ -64,11 +64,7 @@ make_path("$methdir/$CONFIG{dldir}", { mode => 0755 });
 #Read md5sums already calculated
 my %md5sums;
 if (-f "$methdir/md5sums") {
-  local $/;
-  open(my $md5sums_fh, '<', "$methdir/md5sums")
-    or die "couldn't read file $methdir/md5sums";
-  my $code = <$md5sums_fh>;
-  close $md5sums_fh;
+  my $code = file_slurp("$methdir/md5sums");
   my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
   my $res = eval $code;
   if ($@) {

@@ -231,10 +231,8 @@ sub get_db_version {
     my $self = shift;
     my $pc_ver = $self->get_db_file('.version');
     if (-f $pc_ver) {
-        open(my $ver_fh, '<', $pc_ver) or syserr(g_('cannot read %s'), $pc_ver);
-        my $version = <$ver_fh>;
+        my $version = file_slurp($pc_ver);
         chomp $version;
-        close($ver_fh);
         return $version;
     }
     return;

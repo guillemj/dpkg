@@ -37,7 +37,7 @@ eval q{
     use Net::FTP;
     use Data::Dumper;
 
-    use Dpkg; # Dummy import to require the presence of Dpkg::*.
+    use Dpkg::File;
 };
 if ($@) {
     warn "Missing Dpkg modules required by the FTP access method.\n\n";
@@ -62,12 +62,13 @@ sub read_config {
   my $vars = shift;
   my ($code, $conf);
 
-  local($/);
-  open(my $vars_fh, '<', $vars)
-    or die "couldn't open '$vars': $!\n" .
-           "Try to relaunch the 'Access' step in dselect, thanks.\n";
-  $code = <$vars_fh>;
-  close $vars_fh;
+  eval {
+    $code = file_slurp($vars);
+  };
+  if ($@) {
+    warn "$@\n";
+    die "Try to relaunch the 'Access' step in dselect, thanks.\n";
+  }
 
   my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
   $conf = eval $code;
