@@ -197,9 +197,9 @@ test_scripts = \
 	# EOL
 
 test_data = \
-	t/critic/perlcriticrc \
 	t/codespell/stopwords \
 	t/cppcheck/cppcheck.supp \
+	t/critic/perlcriticrc \
 	# EOL
 
 # We need to use absolute paths here due to strict.t invoking a sub-perl,
