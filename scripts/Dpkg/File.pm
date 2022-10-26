@@ -23,6 +23,7 @@ our $VERSION = '0.01';
 our @EXPORT = qw(
     file_slurp
     file_dump
+    file_touch
 );
 
 use Exporter qw(import);
@@ -66,6 +67,13 @@ sub file_dump {
     }
 
     return;
+}
+
+sub file_touch {
+    my $file = shift;
+
+    open my $fh, '>', $file or syserr(g_('cannot create file %s'), $file);
+    close $fh or syserr(g_('cannot write %s'), $file);
 }
 
 1;

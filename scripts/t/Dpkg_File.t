@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 7;
+use Test::More tests => 10;
 use Test::Dpkg qw(:paths);
 
 use File::Compare;
@@ -71,5 +71,10 @@ eval {
     $data = file_slurp("$datadir/non-existent");
 };
 ok($@, 'cannot slurp missing file');
+
+ok(! -e "$tempdir/touched", 'file to be touched does not exist');
+file_touch("$tempdir/touched");
+ok(-e "$tempdir/touched", 'touched file exists');
+ok(-z "$tempdir/touched", 'touched file is empty');
 
 1;
