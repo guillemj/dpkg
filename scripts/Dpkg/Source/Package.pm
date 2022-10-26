@@ -226,6 +226,11 @@ sub new {
         $self->upgrade_object_type(0);
         $self->init_options();
     }
+
+    $self->{openpgp} = Dpkg::OpenPGP->new(
+        require_valid_signature => $self->{options}{require_valid_signature},
+    );
+
     return $self;
 }
 
@@ -429,13 +434,13 @@ sub armor_original_tarball_signature {
     my ($self, $bin, $asc) = @_;
 
     if (-e $bin) {
-        if (Dpkg::OpenPGP::is_armored($bin)) {
+        if ($self->{openpgp}->is_armored($bin)) {
             notice(g_('signature file is already OpenPGP ASCII armor, copying'));
             copy($bin, $asc);
             return $asc;
         }
 
-        return Dpkg::OpenPGP::armor('SIGNATURE', $bin, $asc);
+        return $self->{openpgp}->armor('SIGNATURE', $bin, $asc);
     }
 
     return;
@@ -459,15 +464,11 @@ sub check_original_tarball_signature {
         return;
     }
 
-    my $opts = {
-        require_valid_signature => $self->{options}{require_valid_signature},
-    };
-
     foreach my $asc (@asc) {
         my $datafile = $asc =~ s/\.asc$//r;
 
         info(g_('verifying %s'), $asc);
-        Dpkg::OpenPGP::verify($opts, $datafile, $asc, $upstream_key);
+        $self->{openpgp}->verify($datafile, $asc, $upstream_key);
     }
 }
 
@@ -507,10 +508,7 @@ sub check_signature {
         }
     }
 
-    my $opts = {
-        require_valid_signature => $self->{options}{require_valid_signature},
-    };
-    Dpkg::OpenPGP::inline_verify($opts, $dsc, @certs);
+    $self->{openpgp}->inline_verify($dsc, @certs);
 }
 
 sub describe_cmdline_options {

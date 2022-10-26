@@ -30,8 +30,30 @@ use Dpkg::Path qw(find_command);
 
 our $VERSION = '0.01';
 
+sub new {
+    my ($this, %opts) = @_;
+    my $class = ref($this) || $this;
+
+    my $self = {
+        cmd => $opts{cmd} // 'auto',
+        has_cmd => {},
+        require_valid_signature => $opts{require_valid_signature} // 1,
+    };
+    bless $self, $class;
+
+    if ($self->{cmd} eq 'auto') {
+        foreach my $cmd (qw(gpg gpgv)) {
+            $self->{has_cmd}{$cmd} = 1 if find_command($cmd);
+        }
+    } else {
+        $self->{has_cmd}{$self->{cmd}} = 1 if find_command($self->{cmd});
+    }
+
+    return $self;
+}
+
 sub is_armored {
-    my $file = shift;
+    my ($self, $file) = @_;
     my $armored = 0;
 
     open my $fh, '<', $file or syserr(g_('cannot open %s'), $file);
@@ -121,7 +143,7 @@ sub _pgp_armor_data {
 }
 
 sub armor {
-    my ($type, $bin, $asc) = @_;
+    my ($self, $type, $bin, $asc) = @_;
 
     my $data = file_slurp($bin);
     file_dump($asc, _pgp_armor_data($type, $data));
@@ -130,7 +152,7 @@ sub armor {
 }
 
 sub dearmor {
-    my ($type, $asc, $bin) = @_;
+    my ($self, $type, $asc, $bin) = @_;
 
     my $armor = file_slurp($asc);
     file_dump($bin, _pgp_dearmor_data($type, $armor));
@@ -140,7 +162,7 @@ sub dearmor {
 
 sub _gpg_exec
 {
-    my ($opts, $exec) = @_;
+    my ($self, $exec) = @_;
 
     my ($stdout, $stderr);
     spawn(exec => $exec, wait_child => 1, nocheck => 1, timeout => 10,
@@ -163,7 +185,7 @@ sub _gpg_options_weak_digests {
 }
 
 sub _gpg_verify {
-    my ($opts, $data, $sig, @certs) = @_;
+    my ($self, $data, $sig, @certs) = @_;
 
     my $gpg_home = File::Temp->newdir('dpkg-gpg-verify.XXXXXXXX', TMPDIR => 1);
 
@@ -183,8 +205,8 @@ sub _gpg_verify {
     push @exec, $sig if defined $sig;
     push @exec, $data;
 
-    my $status = _gpg_exec($opts, \@exec);
-    if ($status == 1 or ($status && $opts->{require_valid_signature})) {
+    my $status = $self->_gpg_exec(\@exec);
+    if ($status == 1 or ($status && $self->{require_valid_signature})) {
         error(g_('cannot verify signature for %s'), $data);
     } elsif ($status) {
         warning(g_('cannot verify signature for %s'), $data);
@@ -194,13 +216,11 @@ sub _gpg_verify {
 }
 
 sub inline_verify {
-    my ($opts, $data, @certs) = @_;
+    my ($self, $data, @certs) = @_;
 
-    $opts->{require_valid_signature} //= 1;
-
-    if (find_command('gpgv')) {
-        _gpg_verify($opts, $data, undef, @certs);
-    } elsif ($opts->{require_valid_signature}) {
+    if ($self->{has_cmd}{gpgv}) {
+        $self->_gpg_verify($data, undef, @certs);
+    } elsif ($self->{require_valid_signature}) {
         error(g_('cannot verify inline signature on %s since GnuPG is not installed'),
               $data);
     } else {
@@ -212,13 +232,11 @@ sub inline_verify {
 }
 
 sub verify {
-    my ($opts, $data, $sig, @certs) = @_;
+    my ($self, $data, $sig, @certs) = @_;
 
-    $opts->{require_valid_signature} //= 1;
-
-    if (find_command('gpgv')) {
-        _gpg_verify($opts, $data, $sig, @certs);
-    } elsif ($opts->{require_valid_signature}) {
+    if ($self->{has_cmd}{gpgv}) {
+        $self->_gpg_verify($data, $sig, @certs);
+    } elsif ($self->{require_valid_signature}) {
         error(g_('cannot verify signature on %s since GnuPG is not installed'),
               $sig);
     } else {

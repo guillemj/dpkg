@@ -34,24 +34,26 @@ report_options(quiet_warnings => 1);
 my $datadir = test_get_data_path();
 my $tmpdir = test_get_temp_path();
 
+my $openpgp = Dpkg::OpenPGP->new();
+
 my ($reffile, $binfile, $ascfile);
 
 $binfile = "$datadir/data-file";
 $reffile = "$datadir/data-file.asc";
 
-ok(!Dpkg::OpenPGP::is_armored($binfile), 'file not ASCII Armored');
-ok(Dpkg::OpenPGP::is_armored($reffile), 'file ASCII Armored');
+ok(!$openpgp->is_armored($binfile), 'file not ASCII Armored');
+ok($openpgp->is_armored($reffile), 'file ASCII Armored');
 
 $ascfile = "$tmpdir/data-file.asc";
 
-Dpkg::OpenPGP::armor('ARMORED FILE', $binfile, $ascfile);
+$openpgp->armor('ARMORED FILE', $binfile, $ascfile);
 ok(compare($ascfile, $reffile) == 0, 'armor binary file into OpenPGP ASCII Armor');
 
 $reffile = "$datadir/data-file";
 $ascfile = "$datadir/data-file.asc";
 $binfile = "$tmpdir/data-file";
 
-Dpkg::OpenPGP::dearmor('ARMORED FILE', $ascfile, $binfile);
+$openpgp->dearmor('ARMORED FILE', $ascfile, $binfile);
 ok(compare($binfile, $reffile) == 0, 'dearmor OpenPGP ASCII Armor into binary file');
 
 # TODO: Add actual test cases.
