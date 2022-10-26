@@ -621,9 +621,6 @@ foreach my $file (keys %md5sums) {
   next if -f $file;
   delete $md5sums{$file};
 }
-open(my $md5sums_fh, '>', "$methdir/md5sums")
-  or die "can't open $methdir/md5sums in write mode: $!\n";
-print { $md5sums_fh } Dumper(\%md5sums);
-close $md5sums_fh;
+file_dump("$methdir/md5sums", Dumper(\%md5sums));
 
 exit $exit;

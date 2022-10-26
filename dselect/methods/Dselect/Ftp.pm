@@ -91,10 +91,7 @@ sub store_config {
   # Check that config is completed
   return if not $CONFIG{done};
 
-  open(my $vars_fh, '>', $vars)
-    or die "couldn't open $vars in write mode: $!\n";
-  print { $vars_fh } Dumper(\%CONFIG);
-  close $vars_fh;
+  file_dump($vars, Dumper(\%CONFIG));
 }
 
 sub view_mirrors {

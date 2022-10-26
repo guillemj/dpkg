@@ -24,6 +24,7 @@ use File::Compare;
 use File::Path qw(make_path);
 use File::Copy;
 
+use Dpkg::File;
 use Dpkg::IPC;
 use Dpkg::Build::Types;
 use Dpkg::Substvars;
@@ -127,9 +128,7 @@ sub gen_from_tmpl
 {
     my ($pathname, $tmpl, $substvars) = @_;
 
-    open my $fh, '>', $pathname or die;
-    print { $fh } $substvars->substvars($tmpl);
-    close $fh or die;
+    file_dump($pathname, $substvars->substvars($tmpl));
 }
 
 sub gen_source

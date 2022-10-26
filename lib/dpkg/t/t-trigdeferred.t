@@ -26,6 +26,7 @@ use File::Temp qw(tempdir);
 use File::Basename;
 use File::Find;
 
+use Dpkg::File;
 use Dpkg::IPC;
 
 my $srcdir = $ENV{srcdir} || '.';
@@ -86,14 +87,6 @@ plan tests => scalar(@deferred) * 3;
 # Set a known umask.
 umask 0022;
 
-sub make_file {
-    my ($pathname, $text) = @_;
-
-    open my $fh, '>', $pathname or die "cannot touch $pathname: $!";
-    print { $fh } $text;
-    close $fh;
-}
-
 sub test_trigdeferred {
     my $stdout;
     my $stderr;
@@ -103,7 +96,7 @@ sub test_trigdeferred {
     make_path("$admindir/triggers");
 
     foreach my $test (@deferred) {
-        make_file("$admindir/triggers/Unincorp", $test->{original});
+        file_dump("$admindir/triggers/Unincorp", $test->{original});
 
         spawn(exec => [ "$builddir/t/c-trigdeferred", $admindir ],
               nocheck => 1, to_string => \$stdout, error_to_string => \$stderr);

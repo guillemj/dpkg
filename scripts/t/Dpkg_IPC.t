@@ -26,15 +26,11 @@ use_ok('Dpkg::IPC');
 
 my ($tmp1_fh, $tmp1_name) = tempfile(UNLINK => 1);
 my ($tmp2_fh, $tmp2_name) = tempfile(UNLINK => 1);
-my $tmp_fh;
 
 my $string1 = "foo\nbar\n";
 my $string2;
 
-open $tmp_fh, '>', $tmp1_name
-    or die "cannot open $tmp1_name: $!";
-print { $tmp_fh } $string1;
-close $tmp_fh;
+file_dump($tmp1_name, $string1);
 
 my $pid = spawn(exec => 'cat',
 		from_string => \$string1,

@@ -27,6 +27,7 @@ BEGIN {
 }
 
 use Dpkg;
+use Dpkg::File;
 
 my $tmpdir = test_get_temp_path();
 
@@ -66,17 +67,17 @@ sub test_path_escape
     # base directory.
     make_path($overdir);
     make_path("$overdir/subdir-a/aa");
-    test_touch("$overdir/subdir-a/aa/file-aa", 'aa');
-    test_touch("$overdir/subdir-a/file-a", 'a');
+    file_dump("$overdir/subdir-a/aa/file-aa", 'aa');
+    file_dump("$overdir/subdir-a/file-a", 'a');
     make_path("$overdir/subdir-b/bb");
-    test_touch("$overdir/subdir-b/bb/file-bb", 'bb');
-    test_touch("$overdir/subdir-b/file-b", 'b');
+    file_dump("$overdir/subdir-b/bb/file-bb", 'bb');
+    file_dump("$overdir/subdir-b/file-b", 'b');
     make_path("$overdir/symlink-escape");
-    test_touch("$overdir/symlink-escape/escaped-file", 'escaped');
-    test_touch("$overdir/symlink-nonexistent", 'nonexistent');
+    file_dump("$overdir/symlink-escape/escaped-file", 'escaped');
+    file_dump("$overdir/symlink-nonexistent", 'nonexistent');
     make_path("$overdir/symlink-within");
     make_path("$overdir/supposed-dir");
-    test_touch("$overdir/supposed-dir/supposed-file", 'something');
+    file_dump("$overdir/supposed-dir/supposed-file", 'something');
 
     # Generate overlay tar.
     system($Dpkg::PROGTAR, '-cf', "$overdir.tar", '-C', $overdir, qw(

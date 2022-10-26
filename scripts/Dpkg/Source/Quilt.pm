@@ -29,6 +29,7 @@ use File::Basename;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::File;
 use Dpkg::Source::Patch;
 use Dpkg::Source::Functions qw(erasedir chmod_if_needed fs_time);
 use Dpkg::Vendor qw(get_current_vendor);
@@ -56,26 +57,20 @@ sub setup_db {
     }
     my $file = $self->get_db_file('.version');
     if (not -e $file) {
-        open(my $version_fh, '>', $file) or syserr(g_('cannot write %s'), $file);
-        print { $version_fh } "2\n";
-        close($version_fh);
+        file_dump($file, "2\n");
     }
     # The files below are used by quilt to know where patches are stored
     # and what file contains the patch list (supported by quilt >= 0.48-5
     # in Debian).
     $file = $self->get_db_file('.quilt_patches');
     if (not -e $file) {
-        open(my $qpatch_fh, '>', $file) or syserr(g_('cannot write %s'), $file);
-        print { $qpatch_fh } "debian/patches\n";
-        close($qpatch_fh);
+        file_dump($file, "debian/patches\n");
     }
     $file = $self->get_db_file('.quilt_series');
     if (not -e $file) {
-        open(my $qseries_fh, '>', $file) or syserr(g_('cannot write %s'), $file);
         my $series = $self->get_series_file();
         $series = (File::Spec->splitpath($series))[2];
-        print { $qseries_fh } "$series\n";
-        close($qseries_fh);
+        file_dump($file, "$series\n");
     }
 }
 
