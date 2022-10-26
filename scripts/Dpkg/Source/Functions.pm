@@ -32,6 +32,7 @@ use Errno qw(ENOENT);
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
+use Dpkg::File;
 use Dpkg::IPC;
 
 sub erasedir {
@@ -94,8 +95,7 @@ sub fs_time($) {
     my $file = shift;
     my $is_temp = 0;
     if (not -e $file) {
-	open(my $temp_fh, '>', $file) or syserr(g_('cannot write %s'));
-	close($temp_fh);
+        file_touch($file);
 	$is_temp = 1;
     } else {
 	utime(undef, undef, $file) or

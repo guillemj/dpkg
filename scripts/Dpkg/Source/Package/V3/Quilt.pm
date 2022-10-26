@@ -26,6 +26,7 @@ use File::Copy;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::File;
 use Dpkg::Version;
 use Dpkg::Source::Patch;
 use Dpkg::Source::Functions qw(erasedir chmod_if_needed fs_time);
@@ -149,9 +150,7 @@ sub apply_patches {
         # We're applying the patches in --before-build, remember to unapply
         # them afterwards in --after-build
         my $pc_unapply = $quilt->get_db_file('.dpkg-source-unapply');
-        open(my $unapply_fh, '>', $pc_unapply)
-            or syserr(g_('cannot write %s'), $pc_unapply);
-        close($unapply_fh);
+        file_touch($pc_unapply);
     }
 
     # Apply patches

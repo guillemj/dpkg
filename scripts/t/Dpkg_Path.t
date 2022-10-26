@@ -23,6 +23,8 @@ use Cwd qw(realpath);
 use File::Path qw(make_path rmtree);
 use File::Spec::Functions qw(abs2rel);
 
+use Dpkg::File;
+
 use_ok('Dpkg::Path', 'canonpath', 'resolve_symlink',
        'check_files_are_the_same',
        'check_directory_traversal',
@@ -30,14 +32,6 @@ use_ok('Dpkg::Path', 'canonpath', 'resolve_symlink',
        'guess_pkg_root_dir', 'relative_to_pkg_root');
 
 my $tmpdir = test_get_temp_path();
-
-sub gen_file
-{
-    my ($pathname) = @_;
-
-    open my $fh, '>', $pathname or BAIL_OUT("cannot create file $pathname");
-    close $fh;
-}
 
 make_path("$tmpdir/a/b/c");
 make_path("$tmpdir/a/DEBIAN");
@@ -62,8 +56,8 @@ sub gen_hier_travbase {
     my $basedir = shift;
 
     make_path("$basedir/subdir");
-    gen_file("$basedir/file");
-    gen_file("$basedir/subdir/subfile");
+    file_touch("$basedir/file");
+    file_touch("$basedir/subdir/subfile");
     symlink 'file', "$basedir/symlink-file";
     symlink 'subdir/subfile', "$basedir/symlink-subfile";
 }

@@ -26,6 +26,7 @@ use File::Temp qw(tempdir);
 use File::Basename;
 use File::Find;
 
+use Dpkg::File;
 use Dpkg::IPC;
 
 my $srcdir = $ENV{srcdir} || '.';
@@ -34,13 +35,6 @@ my $tmpdir = 't.tmp/t-treewalk';
 
 # Set a known umask.
 umask 0022;
-
-sub make_file {
-    my ($pathname) = @_;
-
-    open my $fh, '>>', $pathname or die "cannot touch $pathname: $!";
-    close $fh;
-}
 
 # Populate the tree hierarchy.
 sub make_tree {
@@ -52,60 +46,60 @@ sub make_tree {
 
     # Deep tree.
     make_path('aaaa/aaaa/aaaa/aaaa/');
-    make_file('aaaa/aaaa/aaaa/aaaa/abcde');
-    make_file('aaaa/aaaa/aaaa/aaaa/ddddd');
-    make_file('aaaa/aaaa/aaaa/aaaa/wwwwa');
-    make_file('aaaa/aaaa/aaaa/aaaa/wwwwz');
-    make_file('aaaa/aaaa/aaaa/aaaa/zzzzz');
+    file_touch('aaaa/aaaa/aaaa/aaaa/abcde');
+    file_touch('aaaa/aaaa/aaaa/aaaa/ddddd');
+    file_touch('aaaa/aaaa/aaaa/aaaa/wwwwa');
+    file_touch('aaaa/aaaa/aaaa/aaaa/wwwwz');
+    file_touch('aaaa/aaaa/aaaa/aaaa/zzzzz');
 
     # Shallow tree.
     make_path('bbbb/');
-    make_file('bbbb/abcde');
-    make_file('bbbb/ddddd');
-    make_file('bbbb/wwwwa');
-    make_file('bbbb/wwwwz');
-    make_file('bbbb/zzzzz');
+    file_touch('bbbb/abcde');
+    file_touch('bbbb/ddddd');
+    file_touch('bbbb/wwwwa');
+    file_touch('bbbb/wwwwz');
+    file_touch('bbbb/zzzzz');
 
     # Populated tree.
     make_path('cccc/aa/aa/aa/');
     make_path('cccc/aa/aa/bb/aa/');
-    make_file('cccc/aa/aa/bb/aa/file-a');
-    make_file('cccc/aa/aa/bb/aa/file-z');
+    file_touch('cccc/aa/aa/bb/aa/file-a');
+    file_touch('cccc/aa/aa/bb/aa/file-z');
     make_path('cccc/aa/bb/');
     make_path('cccc/bb/aa/');
     make_path('cccc/bb/bb/aa/aa/');
-    make_file('cccc/bb/bb/aa/aa/file-a');
-    make_file('cccc/bb/bb/aa/aa/file-z');
+    file_touch('cccc/bb/bb/aa/aa/file-a');
+    file_touch('cccc/bb/bb/aa/aa/file-z');
     make_path('cccc/bb/bb/bb/');
-    make_file('cccc/bb/bb/bb/file-w');
+    file_touch('cccc/bb/bb/bb/file-w');
     make_path('cccc/cc/aa/');
     make_path('cccc/cc/bb/aa/');
-    make_file('cccc/cc/bb/aa/file-t');
+    file_touch('cccc/cc/bb/aa/file-t');
     make_path('cccc/cc/bb/bb/');
-    make_file('cccc/cc/bb/bb/file-x');
+    file_touch('cccc/cc/bb/bb/file-x');
     make_path('cccc/cc/cc/');
     make_path('cccc/dd/aa/aa/aa/');
-    make_file('cccc/dd/aa/aa/aa/file-y');
+    file_touch('cccc/dd/aa/aa/aa/file-y');
     make_path('cccc/dd/aa/aa/bb/');
-    make_file('cccc/dd/aa/aa/bb/file-o');
+    file_touch('cccc/dd/aa/aa/bb/file-o');
     make_path('cccc/dd/aa/bb/aa/');
-    make_file('cccc/dd/aa/bb/aa/file-k');
+    file_touch('cccc/dd/aa/bb/aa/file-k');
     make_path('cccc/dd/aa/bb/bb/');
-    make_file('cccc/dd/aa/bb/bb/file-l');
+    file_touch('cccc/dd/aa/bb/bb/file-l');
     make_path('cccc/dd/aa/cc/aa/');
-    make_file('cccc/dd/aa/cc/aa/file-s');
+    file_touch('cccc/dd/aa/cc/aa/file-s');
     make_path('cccc/dd/aa/cc/bb/');
-    make_file('cccc/dd/aa/cc/bb/file-u');
+    file_touch('cccc/dd/aa/cc/bb/file-u');
 
     # Tree with symlinks cycles.
     make_path('llll/self/');
-    make_file('llll/file');
+    file_touch('llll/file');
     symlink '..', 'llll/self/loop';
     make_path('llll/real/');
-    make_file('llll/real/file-r');
+    file_touch('llll/real/file-r');
     symlink '../virt', 'llll/real/loop';
     make_path('llll/virt/');
-    make_file('llll/virt/file-v');
+    file_touch('llll/virt/file-v');
     symlink '../real', 'llll/virt/loop';
 
     chdir $cwd;

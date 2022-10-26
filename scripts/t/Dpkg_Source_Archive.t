@@ -31,16 +31,6 @@ use Dpkg::File;
 
 my $tmpdir = test_get_temp_path();
 
-sub test_touch
-{
-    my ($name, $data) = @_;
-
-    open my $fh, '>', $name
-        or die "cannot touch file $name\n";
-    print { $fh } $data if $data;
-    close $fh;
-}
-
 sub test_path_escape
 {
     my $name = shift;
@@ -53,15 +43,15 @@ sub test_path_escape
     # This is the base directory, where we are going to be extracting stuff
     # into, which include traps.
     make_path("$treedir/subdir-a");
-    test_touch("$treedir/subdir-a/file-a");
-    test_touch("$treedir/subdir-a/file-pre-a");
+    file_touch("$treedir/subdir-a/file-a");
+    file_touch("$treedir/subdir-a/file-pre-a");
     make_path("$treedir/subdir-b");
-    test_touch("$treedir/subdir-b/file-b");
-    test_touch("$treedir/subdir-b/file-pre-b");
+    file_touch("$treedir/subdir-b/file-b");
+    file_touch("$treedir/subdir-b/file-pre-b");
     symlink File::Spec->abs2rel($outdir, $treedir), "$treedir/symlink-escape";
     symlink File::Spec->abs2rel("$outdir/nonexistent", $treedir), "$treedir/symlink-nonexistent";
     symlink "$treedir/file", "$treedir/symlink-within";
-    test_touch("$treedir/supposed-dir");
+    file_touch("$treedir/supposed-dir");
 
     # This is the overlay directory, which we'll pack and extract over the
     # base directory.

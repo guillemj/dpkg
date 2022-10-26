@@ -24,6 +24,7 @@ use File::Find;
 use POSIX qw(mkfifo);
 
 use Dpkg ();
+use Dpkg::File;
 use Dpkg::IPC;
 
 use strict;
@@ -47,13 +48,6 @@ if ($tar_version and $tar_version =~ m/^tar \(GNU tar\) (\d+\.\d+)/ and
 # Set a known umask.
 umask 0022;
 
-sub create {
-    my ($pathname) = @_;
-
-    open my $fh, '>>', $pathname or die "cannot touch $pathname: $!";
-    close $fh;
-}
-
 sub tar_create_tree {
     my $type = shift;
 
@@ -65,12 +59,12 @@ sub tar_create_tree {
     my $long_f = 'f' x 22;
 
     # Populate tar hierarchy
-    create('file');
+    file_touch('file');
     link 'file', 'hardlink';
 
     make_path("$long_a/$long_b/$long_c/$long_d/$long_e/");
     make_path("$long_a/$long_b/$long_c/$long_d/$long_e/$long_f/");
-    create("$long_a/$long_b/$long_c/$long_d/$long_e/$long_f/long");
+    file_touch("$long_a/$long_b/$long_c/$long_d/$long_e/$long_f/long");
 
     # POSIX specifies that symlinks have undefined permissions in their
     # mode, so their handling is system dependent. Linux does not honor
