@@ -16,14 +16,18 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 7;
 use Test::Dpkg qw(:paths);
+
+use File::Compare;
+use File::Path qw(rmtree);
 
 BEGIN {
     use_ok('Dpkg::File');
 }
 
 my $datadir = test_get_data_path();
+my $tempdir = test_get_temp_path();
 
 my ($data, $data_ref, $data_fh);
 
@@ -35,6 +39,10 @@ final line
 DATA
 is($data, $data_ref, 'slurped data');
 
+file_dump("$tempdir/slurp-me", $data);
+ok(compare("$tempdir/slurp-me", "$datadir/slurp-me") == 0,
+    'dumped slurped data');
+
 open $data_fh, '<', "$datadir/slurp-me"
     or die "cannot open $datadir/slurp-me for reading: $!";
 my $discard = <$data_fh>;
@@ -45,6 +53,18 @@ next line
 final line
 DATA
 is($data, $data_ref, 'slurped partial data');
+
+file_dump("$tempdir/dump-partial", $data);
+ok(compare("$tempdir/dump-partial", "$datadir/dump-partial") == 0,
+    'dumped slurped partial data');
+
+open $data_fh, '>', "$tempdir/append-me"
+    or die "cannot create $tempdir/append-me: $!";
+print { $data_fh } "append line\n";
+file_dump($data_fh, "new line\nend line\n");
+close $data_fh;
+ok(compare("$tempdir/append-me", "$datadir/append-me") == 0,
+    'dumped appended data');
 
 $data = undef;
 eval {

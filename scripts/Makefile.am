@@ -279,6 +279,8 @@ test_data = \
 	t/Dpkg_Dist_Files/files-byhand \
 	t/Dpkg_Dist_Files/files-fragment-a \
 	t/Dpkg_Dist_Files/files-fragment-b \
+	t/Dpkg_File/append-me \
+	t/Dpkg_File/dump-partial \
 	t/Dpkg_File/slurp-me \
 	t/Dpkg_OpenPGP/package_1.0.orig.tar \
 	t/Dpkg_OpenPGP/package_1.0.orig.tar.asc \

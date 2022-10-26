@@ -22,6 +22,7 @@ use warnings;
 our $VERSION = '0.01';
 our @EXPORT = qw(
     file_slurp
+    file_dump
 );
 
 use Exporter qw(import);
@@ -46,6 +47,25 @@ sub file_slurp {
     close $fh if $doclose;
 
     return $data;
+}
+
+sub file_dump {
+    my ($file, $data) = @_;
+    my $fh;
+    my $doclose = 0;
+
+    if (openhandle($file)) {
+        $fh = $file;
+    } else {
+        open $fh, '>', $file or syserr(g_('cannot create file %s'), $file);
+        $doclose = 1;
+    }
+    print { $fh } $data;
+    if ($doclose) {
+        close $fh or syserr(g_('cannot write %s'), $file);
+    }
+
+    return;
 }
 
 1;
