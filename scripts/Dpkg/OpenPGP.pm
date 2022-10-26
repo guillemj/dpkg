@@ -20,6 +20,7 @@ use warnings;
 
 use POSIX qw(:sys_wait_h);
 use File::Temp;
+use MIME::Base64;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -42,6 +43,80 @@ sub is_armored {
     close $fh;
 
     return $armored;
+}
+
+# _pgp_* functions are strictly for applying or removing ASCII armor.
+# See <https://datatracker.ietf.org/doc/html/rfc4880#section-6> for more
+# details.
+#
+# Note that these _pgp_* functions are only necessary while relying on
+# gpgv, and gpgv itself does not verify multiple signatures correctly
+# (see https://bugs.debian.org/1010955).
+
+sub _pgp_dearmor_data {
+    my ($type, $data) = @_;
+
+    # Note that we ignore an incorrect or absent checksum, following the
+    # guidance of
+    # <https://datatracker.ietf.org/doc/draft-ietf-openpgp-crypto-refresh/>.
+    my $armor_regex = qr{
+        -----BEGIN\ PGP\ \Q$type\E-----[\r\t ]*\n
+        (?:[^:]+:\ [^\n]*[\r\t ]*\n)*
+        [\r\t ]*\n
+        ([a-zA-Z0-9/+\n]+={0,2})[\r\t ]*\n
+        (?:=[a-zA-Z0-9/+]{4}[\r\t ]*\n)?
+        -----END\ PGP\ \Q$type\E-----
+    }xm;
+
+    if ($data =~ m/$armor_regex/) {
+        return decode_base64($1);
+    }
+    return;
+}
+
+sub _pgp_armor_checksum {
+    my ($data) = @_;
+
+    # From the upcoming revision to RFC 4880
+    # <https://datatracker.ietf.org/doc/draft-ietf-openpgp-crypto-refresh/>.
+    #
+    # The resulting three-octet-wide value then gets base64-encoded into
+    # four base64 ASCII characters.
+
+    my $CRC24_INIT = 0xB704CE;
+    my $CRC24_GENERATOR = 0x864CFB;
+
+    my @bytes = unpack 'C*', $data;
+    my $crc = $CRC24_INIT;
+    for my $b (@bytes) {
+        $crc ^= ($b << 16);
+        for (1 .. 8) {
+            $crc <<= 1;
+            if ($crc & 0x1000000) {
+                # Clear bit 25 to avoid overflow.
+                $crc &= 0xffffff;
+                $crc ^= $CRC24_GENERATOR;
+            }
+        }
+    }
+    my $sum = pack 'CCC', ($crc >> 16) & 0xff, ($crc >> 8) & 0xff, $crc & 0xff;
+    return encode_base64($sum, q{});
+}
+
+sub _pgp_armor_data {
+    my ($type, $data) = @_;
+
+    my $out = encode_base64($data, q{}) =~ s/(.{1,64})/$1\n/gr;
+    chomp $out;
+    my $crc = _pgp_armor_checksum($data);
+    my $armor = <<~"ARMOR";
+        -----BEGIN PGP $type-----
+
+        $out
+        =$crc
+        -----END PGP $type-----
+        ARMOR
+    return $armor;
 }
 
 sub _gpg_armor {
