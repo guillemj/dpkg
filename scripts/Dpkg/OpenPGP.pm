@@ -129,6 +129,15 @@ sub armor {
     return $asc;
 }
 
+sub dearmor {
+    my ($type, $asc, $bin) = @_;
+
+    my $armor = file_slurp($asc);
+    file_dump($bin, _pgp_dearmor_data($type, $armor));
+
+    return $bin;
+}
+
 sub _gpg_exec
 {
     my ($opts, $exec, $errmsg) = @_;

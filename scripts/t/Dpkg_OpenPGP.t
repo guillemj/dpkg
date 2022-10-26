@@ -25,7 +25,7 @@ use Dpkg::ErrorHandling;
 
 test_needs_command('gpg');
 
-plan tests => 4;
+plan tests => 5;
 
 use_ok('Dpkg::OpenPGP');
 
@@ -46,6 +46,13 @@ $ascfile = "$tmpdir/data-file.asc";
 
 Dpkg::OpenPGP::armor('ARMORED FILE', $binfile, $ascfile);
 ok(compare($ascfile, $reffile) == 0, 'armor binary file into OpenPGP ASCII Armor');
+
+$reffile = "$datadir/data-file";
+$ascfile = "$datadir/data-file.asc";
+$binfile = "$tmpdir/data-file";
+
+Dpkg::OpenPGP::dearmor('ARMORED FILE', $ascfile, $binfile);
+ok(compare($binfile, $reffile) == 0, 'dearmor OpenPGP ASCII Armor into binary file');
 
 # TODO: Add actual test cases.
 
