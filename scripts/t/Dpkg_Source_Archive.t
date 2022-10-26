@@ -20,7 +20,7 @@ use Test::More tests => 4;
 use Test::Dpkg qw(:paths);
 
 use File::Spec;
-use File::Path qw(make_path rmtree);
+use File::Path qw(make_path);
 
 BEGIN {
     use_ok('Dpkg::Source::Archive');
@@ -29,8 +29,6 @@ BEGIN {
 use Dpkg;
 
 my $tmpdir = test_get_temp_path();
-
-rmtree($tmpdir);
 
 sub test_touch
 {

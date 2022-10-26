@@ -55,7 +55,7 @@ use Exporter qw(import);
 use Cwd;
 use File::Find;
 use File::Basename;
-use File::Path qw(make_path);
+use File::Path qw(make_path rmtree);
 use IPC::Cmd qw(can_run);
 use Test::More;
 
@@ -94,6 +94,7 @@ sub test_get_temp_path
     my $path = shift // _test_get_caller_dir();
     $path = 't.tmp/' . fileparse($path);
 
+    rmtree($path);
     make_path($path);
     return $path;
 }
