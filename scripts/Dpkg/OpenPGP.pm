@@ -166,44 +166,24 @@ sub _gpg_options_weak_digests {
     return @gpg_weak_digests;
 }
 
-sub _gpg_options_common {
-    my @opts = (
-        qw(--no-options --no-default-keyring -q),
-        _gpg_options_weak_digests(),
-    );
-
-    return @opts;
-}
-
-sub _gpg_import_keys {
-    my ($opts, $keyring, @keys) = @_;
-
-    my $gpg_home = File::Temp->newdir('dpkg-gpg-import-keys.XXXXXXXX', TMPDIR => 1);
-
-    my @exec = qw(gpg);
-    push @exec, _gpg_options_common();
-    push @exec, '--homedir', $gpg_home;
-    push @exec, '--keyring', $keyring;
-    push @exec, '--import';
-
-    foreach my $key (@keys) {
-        my $errmsg = sprintf g_('cannot import key %s into %s'), $key, $keyring;
-        _gpg_exec($opts, [ @exec, $key ], $errmsg);
-    }
-}
-
 sub _gpg_verify {
     my ($opts, $data, $sig, @certs) = @_;
 
     my $gpg_home = File::Temp->newdir('dpkg-gpg-verify.XXXXXXXX', TMPDIR => 1);
-    my $keyring = File::Temp->new(UNLINK => 1, SUFFIX => '.pgp');
-
-    _gpg_import_keys($opts, $keyring, @certs);
 
     my @exec = qw(gpgv);
     push @exec, _gpg_options_weak_digests();
     push @exec, '--homedir', $gpg_home;
-    push @exec, '--keyring', $keyring;
+    foreach my $cert (@certs) {
+        my $certring;
+        if ($cert =~ m/\.asc/) {
+            $certring = File::Temp->new(UNLINK => 1, SUFFIX => '.pgp');
+            $self->dearmor('PUBLIC KEY BLOCK', $cert, $certring);
+        } else {
+            $certring = $cert;
+        }
+        push @exec, '--keyring', $certring;
+    }
     push @exec, $sig if defined $sig;
     push @exec, $data;
 
