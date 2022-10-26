@@ -25,6 +25,7 @@ use MIME::Base64;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
+use Dpkg::File;
 use Dpkg::Path qw(find_command);
 
 our $VERSION = '0.01';
@@ -119,40 +120,13 @@ sub _pgp_armor_data {
     return $armor;
 }
 
-sub _gpg_armor {
-    my ($type, $sig, $asc) = @_;
-
-    my @gpg_opts = qw(--no-options);
-
-    open my $fh_asc, '>', $asc
-        or syserr(g_('cannot create signature file %s'), $asc);
-    open my $fh_gpg, '-|', 'gpg', @gpg_opts, '-o', '-', '--enarmor', $sig
-        or syserr(g_('cannot execute %s program'), 'gpg');
-    while (my $line = <$fh_gpg>) {
-        next if $line =~ m/^Version: /;
-        next if $line =~ m/^Comment: /;
-
-        $line =~ s/ARMORED FILE/$type/;
-
-        print { $fh_asc } $line;
-    }
-
-    close $fh_gpg or subprocerr('gpg');
-    close $fh_asc or syserr(g_('cannot write signature file %s'), $asc);
-
-    return $asc;
-}
-
 sub armor {
     my ($type, $bin, $asc) = @_;
 
-    if (find_command('gpg')) {
-        return _gpg_armor($type, $bin, $asc);
-    } else {
-        warning(g_('cannot OpenPGP ASCII armor signature file due to missing gpg'));
-    }
+    my $data = file_slurp($bin);
+    file_dump($asc, _pgp_armor_data($type, $data));
 
-    return;
+    return $asc;
 }
 
 sub _gpg_exec
