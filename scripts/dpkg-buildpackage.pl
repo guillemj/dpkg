@@ -42,6 +42,7 @@ use Dpkg::Version;
 use Dpkg::Control;
 use Dpkg::Control::Info;
 use Dpkg::Changelog::Parse;
+use Dpkg::OpenPGP::KeyHandle;
 use Dpkg::Path qw(find_command);
 use Dpkg::IPC;
 use Dpkg::Vendor qw(run_vendor_hook);
@@ -523,6 +524,19 @@ if (build_has_any(BUILD_ARCH_DEP)) {
 my $pv = "${pkg}_$sversion";
 my $pva = "${pkg}_${sversion}_$arch";
 
+my $signkeytype;
+my $signkeyhandle;
+if (defined $signkeyid) {
+    $signkeytype = 'autoid';
+    $signkeyhandle = $signkeyid;
+} else {
+    $signkeytype = 'userid';
+    $signkeyhandle = $maintainer;
+}
+my $signkey = Dpkg::OpenPGP::KeyHandle->new(
+    type => $signkeytype,
+    handle => $signkeyhandle,
+);
 signkey_validate();
 
 if (not $signcommand) {
@@ -868,17 +882,13 @@ sub update_files_field {
 }
 
 sub signkey_validate {
-    return unless defined $signkeyid;
-    # Make sure this is an hex keyid.
-    return unless $signkeyid =~ m/^(?:0x)?([[:xdigit:]]+)$/;
+    return unless $signkey->type eq 'keyid';
 
-    my $keyid = $1;
-
-    if (length $keyid <= 8) {
+    if (length $signkey->handle <= 8) {
         error(g_('short OpenPGP key IDs are broken; ' .
                  'please use key fingerprints in %s or %s instead'),
               '-k', 'DEB_SIGN_KEYID');
-    } elsif (length $keyid <= 16) {
+    } elsif (length $signkey->handle <= 16) {
         warning(g_('long OpenPGP key IDs are strongly discouraged; ' .
                    'please use key fingerprints in %s or %s instead'),
                 '-k', 'DEB_SIGN_KEYID');
@@ -900,7 +910,7 @@ sub signfile {
     close $signfh or syserr(g_('cannot close %s'), $signfile);
 
     system($signcommand, '--utf8-strings', '--textmode', '--armor',
-           '--local-user', $signkeyid || $maintainer, '--clearsign',
+           '--local-user', $signkey->handle, '--clearsign',
            '--weak-digest', 'SHA1', '--weak-digest', 'RIPEMD160',
            '--output', "$signfile.asc", $signfile);
     my $status = $?;

@@ -106,6 +106,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/IPC.pm \
 	Dpkg/Lock.pm \
 	Dpkg/OpenPGP.pm \
+	Dpkg/OpenPGP/KeyHandle.pm \
 	Dpkg/Package.pm \
 	Dpkg/Path.pm \
 	Dpkg/Shlibs.pm \
@@ -227,6 +228,7 @@ test_scripts = \
 	t/Dpkg_Path.t \
 	t/Dpkg_Vars.t \
 	t/Dpkg_Interface_Storable.t \
+	t/Dpkg_OpenPGP_KeyHandle.t \
 	t/Dpkg_OpenPGP.t \
 	t/Dpkg_Vendor.t \
 	t/Dpkg_Changelog.t \
