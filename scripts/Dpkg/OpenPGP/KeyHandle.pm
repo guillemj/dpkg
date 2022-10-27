@@ -21,7 +21,7 @@ use warnings;
 our $VERSION = '0.01';
 
 use Carp;
-use List::Util qw(none);
+use List::Util qw(any none);
 
 sub new {
     my ($this, %opts) = @_;
@@ -44,7 +44,15 @@ sub _sanitize {
     my ($self) = shift;
 
     my $type = $self->{type};
-    if ($type eq 'auto' or $type eq 'autoid') {
+    if ($type eq 'auto') {
+        if (-e $self->{handle}) {
+            $type = 'keyfile';
+        } else {
+            $type = 'autoid';
+        }
+    }
+
+    if ($type eq 'autoid') {
         if ($self->{handle} =~ m/$keyid_regex/) {
             $self->{handle} = $1;
             $type = 'keyid';
@@ -58,7 +66,7 @@ sub _sanitize {
         }
     }
 
-    if (none { $type eq $_ } qw(userid keyid)) {
+    if (none { $type eq $_ } qw(userid keyid keyfile keystore)) {
         croak "unknown type parameter value $type";
     }
 
@@ -68,7 +76,7 @@ sub _sanitize {
 sub needs_keystore {
     my $self = shift;
 
-    return 1;
+    return any { $self->{type} eq $_ } qw(keyid userid);
 }
 
 sub set {

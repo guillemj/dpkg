@@ -66,7 +66,15 @@ sub can_use_secrets {
     my ($self, $key) = @_;
 
     return 0 unless $self->{cmd};
-    return $self->_gpg_has_keystore();
+    if ($key->type eq 'keyfile') {
+        return 1 if -f $key->handle;
+    } elsif ($key->type eq 'keystore') {
+        return 1 if -e $key->handle;
+    } else {
+        # For IDs we need a keystore.
+        return $self->_gpg_has_keystore();
+    }
+    return 0;
 }
 
 sub get_trusted_keyrings {
@@ -254,7 +262,19 @@ sub _gpg_inline_sign {
     my @exec = ($self->{cmd});
     push @exec, _gpg_options_weak_digests();
     push @exec, qw(--utf8-strings --textmode --armor);
-    push @exec, '--local-user', $key->handle;
+    if ($key->type eq 'keyfile') {
+        # Promote the keyfile keyhandle to a keystore, this way we share the
+        # same gpg-agent and can get any password cached.
+        my $gpg_home = File::Temp->newdir('dpkg-sign.XXXXXXXX', TMPDIR => 1);
+
+        push @exec, '--homedir', $gpg_home;
+        $self->_gpg_exec(@exec, qw(--quiet --no-tty --batch --import), $key->handle);
+        $key->set('keystore', $gpg_home);
+    } elsif ($key->type eq 'keystore') {
+        push @exec, '--homedir', $key->handle;
+    } else {
+        push @exec, '--local-user', $key->handle;
+    }
     push @exec, '--output', $inlinesigned;
 
     my $rc = $self->_gpg_exec(@exec, '--clearsign', $data);

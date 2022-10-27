@@ -26,6 +26,7 @@ use warnings;
 use File::Temp qw(tempdir);
 use File::Basename;
 use File::Copy;
+use File::Glob qw(bsd_glob GLOB_TILDE GLOB_NOCHECK);
 use POSIX qw(:sys_wait_h);
 
 use Dpkg ();
@@ -111,6 +112,7 @@ sub usage {
   -p, --sign-command=<command>
                               command to sign .dsc and/or .changes files
                                 (default is gpg).
+      --sign-keyfile=<file>   the key file to use for signing.
   -k, --sign-keyid=<keyid>    the key id to use for signing.
       --sign-key=<keyid>      alias for -k, --sign-keyid.
   -ap, --sign-pause           add pause before starting signature process.
@@ -170,6 +172,7 @@ my @source_opts;
 my $check_command = $ENV{DEB_CHECK_COMMAND};
 my @check_opts;
 my $signpause;
+my $signkeyfile = $ENV{DEB_SIGN_KEYFILE};
 my $signkeyid = $ENV{DEB_SIGN_KEYID};
 my $signforce = 0;
 my $signreleased = 1;
@@ -288,6 +291,8 @@ while (@ARGV) {
 	warning(g_('%s is deprecated; it is without effect'), $1);
     } elsif (/^(?:-p|--sign-command=)(.*)$/) {
 	$signcommand = $1;
+    } elsif (/^--sign-keyfile=(.*)$/) {
+	$signkeyfile = $1;
     } elsif (/^(?:-k|--sign-keyid=|--sign-key=)(.*)$/) {
 	$signkeyid = $1;
     } elsif (/^--(no-)?check-builddeps$/) {
@@ -522,7 +527,10 @@ my $pva = "${pkg}_${sversion}_$arch";
 
 my $signkeytype;
 my $signkeyhandle;
-if (defined $signkeyid) {
+if (defined $signkeyfile) {
+    $signkeytype = 'keyfile';
+    $signkeyhandle = bsd_glob($signkeyfile, GLOB_TILDE | GLOB_NOCHECK);
+} elsif (defined $signkeyid) {
     $signkeytype = 'autoid';
     $signkeyhandle = $signkeyid;
 } else {

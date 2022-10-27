@@ -535,6 +535,13 @@ Specify an OpenPGP key-ID (either a fingerprint or a user-ID) for the
 secret key to use when signing packages (B<--sign-key> since dpkg 1.18.8,
 B<--sign-keyid> since dpkg 1.21.10).
 
+=item B<--sign-keyfile=>I<key-file>
+
+Specify an OpenPGP I<key-file> containing the secret key to use when signing
+packages (since dpkg 1.21.10).
+
+Note: For security reasons the I<key-file> is best kept locked with a password.
+
 =item B<-us>, B<--unsigned-source>
 
 Do not sign the source package (long option since dpkg 1.18.8).
@@ -637,6 +644,12 @@ Overridden by the B<--check-command> option.
 If set, it will be used to sign the B<.changes>, B<.buildinfo> and B<.dsc>
 files (since dpkg 1.17.2).
 Overridden by the B<--sign-key> option.
+
+=item B<DEB_SIGN_KEYFILE>
+
+If set, it will be used to sign the B<.changes>, B<.buildinfo> and B<.dsc>
+files (since dpkg 1.21.10).
+Overridden by the B<--sign-keyfile> option.
 
 =item B<DEB_BUILD_OPTIONS>
 
