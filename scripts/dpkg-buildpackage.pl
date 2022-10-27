@@ -166,7 +166,7 @@ my @source_opts;
 my $check_command = $ENV{DEB_CHECK_COMMAND};
 my @check_opts;
 my $signpause;
-my $signkey = $ENV{DEB_SIGN_KEYID};
+my $signkeyid = $ENV{DEB_SIGN_KEYID};
 my $signforce = 0;
 my $signreleased = 1;
 my $signsource = 1;
@@ -285,7 +285,7 @@ while (@ARGV) {
     } elsif (/^(?:-p|--sign-command=)(.*)$/) {
 	$signcommand = $1;
     } elsif (/^(?:-k|--sign-key=)(.*)$/) {
-	$signkey = $1;
+	$signkeyid = $1;
     } elsif (/^--(no-)?check-builddeps$/) {
 	$checkbuilddep = !(defined $1 and $1 eq 'no-');
     } elsif (/^-([dD])$/) {
@@ -868,9 +868,9 @@ sub update_files_field {
 }
 
 sub signkey_validate {
-    return unless defined $signkey;
+    return unless defined $signkeyid;
     # Make sure this is an hex keyid.
-    return unless $signkey =~ m/^(?:0x)?([[:xdigit:]]+)$/;
+    return unless $signkeyid =~ m/^(?:0x)?([[:xdigit:]]+)$/;
 
     my $keyid = $1;
 
@@ -900,7 +900,7 @@ sub signfile {
     close $signfh or syserr(g_('cannot close %s'), $signfile);
 
     system($signcommand, '--utf8-strings', '--textmode', '--armor',
-           '--local-user', $signkey || $maintainer, '--clearsign',
+           '--local-user', $signkeyid || $maintainer, '--clearsign',
            '--weak-digest', 'SHA1', '--weak-digest', 'RIPEMD160',
            '--output', "$signfile.asc", $signfile);
     my $status = $?;
