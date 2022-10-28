@@ -111,7 +111,8 @@ sub usage {
   -p, --sign-command=<command>
                               command to sign .dsc and/or .changes files
                                 (default is gpg).
-  -k, --sign-key=<keyid>      the key to use for signing.
+  -k, --sign-keyid=<keyid>    the key id to use for signing.
+      --sign-key=<keyid>      alias for -k, --sign-keyid.
   -ap, --sign-pause           add pause before starting signature process.
   -us, --unsigned-source      unsigned source package.
   -ui, --unsigned-buildinfo   unsigned .buildinfo file.
@@ -287,7 +288,7 @@ while (@ARGV) {
 	warning(g_('%s is deprecated; it is without effect'), $1);
     } elsif (/^(?:-p|--sign-command=)(.*)$/) {
 	$signcommand = $1;
-    } elsif (/^(?:-k|--sign-key=)(.*)$/) {
+    } elsif (/^(?:-k|--sign-keyid=|--sign-key=)(.*)$/) {
 	$signkeyid = $1;
     } elsif (/^--(no-)?check-builddeps$/) {
 	$checkbuilddep = !(defined $1 and $1 eq 'no-');
