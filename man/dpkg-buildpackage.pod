@@ -529,7 +529,8 @@ should not contain spaces or any other shell metacharacters.
 
 =item B<-k>, B<--sign-key=>I<key-id>
 
-Specify a key-ID to use when signing packages (long option since dpkg 1.18.8).
+Specify an OpenPGP key-ID (either a fingerprint or a user-ID) for the
+secret key to use when signing packages (long option since dpkg 1.18.8).
 
 =item B<-us>, B<--unsigned-source>
 
@@ -630,8 +631,8 @@ Overridden by the B<--check-command> option.
 
 =item B<DEB_SIGN_KEYID>
 
-If set, it will be used to sign the B<.changes> and B<.dsc> files
-(since dpkg 1.17.2).
+If set, it will be used to sign the B<.changes>, B<.buildinfo> and B<.dsc>
+files (since dpkg 1.17.2).
 Overridden by the B<--sign-key> option.
 
 =item B<DEB_BUILD_OPTIONS>
