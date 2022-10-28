@@ -29,3 +29,6 @@ tap-check: $(test_data) $(test_programs) $(test_scripts)
 	  $(PERL) $(top_srcdir)/build-aux/test-runner \
 	    $(addprefix $(builddir)/,$(test_programs)) \
 	    $(addprefix $(srcdir)/,$(test_scripts))
+
+authorcheck:
+	AUTHOR_TESTING=1 $(MAKE) check
