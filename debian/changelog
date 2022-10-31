@@ -1,8 +1,372 @@
-dpkg (1.21.2) UNRELEASED; urgency=medium
+dpkg (1.21.10) UNRELEASED; urgency=medium
 
   *
 
- -- Guillem Jover <guillem@debian.org>  Tue, 07 Dec 2021 22:13:18 +0100
+ -- Guillem Jover <guillem@debian.org>  Fri, 01 Jul 2022 11:42:58 +0200
+
+dpkg (1.21.9) unstable; urgency=medium
+
+  [ Guillem Jover ]
+  * dpkg-deb: Add support for --threads-max and DPKG_DEB_THREADS_MAX.
+    Prompted by vv221 on IRC.
+  * Perl modules:
+    - Dpkg::Source::Package::V2: Always fix the permissions for upstream
+      tarballs. Closes: #1012195
+    - Dpkg::BuildFlags: Document optimize feature area.
+  * Documentation:
+    - man: Clarify that statoverrides do not need to be known to dpkg.
+      Closes: #1011510
+    - man: Expand Protected and Essential field use cases. Closes: #1008780
+    - doc: Rename frontend.txt to frontend-api.txt.
+    - doc: Move specifications under doc/spec.
+    - man: Add references to rootless-builds.txt spec.
+  * Code internals:
+    - libdpkg: Refactor command actions for compression.
+  * Build system:
+    - Split the test-runner into its own script.
+
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+    - Update German scripts translation.
+
+ -- Guillem Jover <guillem@debian.org>  Fri, 01 Jul 2022 11:25:58 +0200
+
+dpkg (1.21.8) unstable; urgency=medium
+
+  [ Guillem Jover ]
+  * dpkg-statoverride: Add support for --force-not-root. Closes: #1009069
+    Based on a patch by John Spencer <maillist-dpkg@barfooze.de>.
+  * dpkg: Fix «De-configuring» message to allow configuration to use new
+    version.
+  * Perl modules:
+    - Dpkg::Source::Archive: Prevent directory traversal for in-place extracts.
+      Reported by Max Justicz <max@justi.cz>. Fixes CVE-2022-1664.
+    - Dpkg::Substvars: Add support for optional substvars assigned with ?=.
+  * Documentation:
+    - man: Reference deb-substvar(5) from dpkg-source(1) and dpkg-shlibdeps(1).
+    - man: Structure and clarify deb-substvars(5).
+      Prompted by Niels Thykier <niels@thykier.net>.
+  * Build system:
+    - Unhook dist-cpan from make dist target.
+  * Packaging:
+    - Silence warning about merged-usr-via-aliased-dirs on Ubuntu.
+    - Remove useless [] around tr sets.
+  * Localization:
+    - Update Dutch translations. Closes: #1010031, #1010032, #1010033
+      Thanks to Frans Spiesschaert <Frans.Spiesschaert@yucom.be>.
+    - Update Portuguese man pages translations. Closes: #1011095
+      Thanks to Américo Monteiro <a_monteiro@gmx.com>.
+
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+
+ -- Guillem Jover <guillem@debian.org>  Wed, 25 May 2022 10:39:29 +0200
+
+dpkg (1.21.7) unstable; urgency=medium
+
+  - The “Social Contract §3: We will not hide problems”
+    and “Persuasion through bullying and abuse” release. -
+
+  [ Guillem Jover ]
+  * dpkg-fsys-usrunmess: Handle /lib/modules itself also being untracked.
+    Closes: #1008764
+  * Documentation:
+    - man: Fix typo. Thanks to Peter Krefting <peter@softwolves.pp.se>.
+      See #1008706.
+  * Packaging:
+    - Silence warning about merged-usr-via-aliased-dirs on Debian.
+  * Localization:
+    - Fix gettext parameter reordering syntax for German translation.
+      Closes: #1008671
+    - Update Swedish translations.
+      Thanks to Peter Krefting <peter@softwolves.pp.se>. Closes: #1008706
+
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+
+ -- Guillem Jover <guillem@debian.org>  Fri, 01 Apr 2022 02:27:33 +0200
+
+dpkg (1.21.6) unstable; urgency=medium
+
+  - This also clears a bullying NMU. -
+
+  [ Guillem Jover ]
+  * Documentation:
+    - man: Document untracked kernel module files handling in
+      dpkg-fsys-usrunmess(8).
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 29 Mar 2022 11:56:58 +0200
+
+dpkg (1.21.5) unstable; urgency=medium
+
+  [ Guillem Jover ]
+  * dpkg-fsys-usrunmess: Explicitly set user/group and mode for created dirs.
+    Closes: #1008478
+  * dpkg-fsys-usrunmess: Set a known umask before starting. See #1008478.
+  * dpkg-fsys-usrunmess: Special case untracked kernel module files.
+    Closes: #1008316
+  * Perl modules:
+    - Dpkg::Control::Types: Use bit shifts instead of literals in enum.
+    - Dpkg::Control::Fields: Fix field_register() to return nothing.
+    - Dpkg::Control::Fields: Refactor manifest types into new
+      ALL_FILE_MANIFEST.
+    - Dpkg::Control::Fields: Fix POD to end sentences with a dot.
+    - Dpkg::Control::Fields: Fix POD to add missing spaces and blank lines.
+    - Dpkg::Control::Fields: Document and clarify return types and values in
+      POD.
+  * Code internals:
+    - libdpkg: Rename f_revision() to f_obs_revision().
+    - libdpkg: Warn when parsing obsolete Recommended/Optional/Class fields.
+      Prompted by David Kalnischkies <donkult@debian.org>.
+    - libdpkg: Add missing dependency type to obsolete dependency fields.
+    - libdpkg: Update code comment for obsolete fields.
+  * Test suite:
+    - Add test cases for obsolete fields.
+
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 29 Mar 2022 02:52:14 +0200
+
+dpkg (1.21.4) unstable; urgency=medium
+
+  [ Guillem Jover ]
+  * dpkg-shlibdeps: Require non-empty name and version in SONAME formats.
+  * Perl modules:
+    - Dpkg::Control::Fields: Remove duplicate *Built-Using from field order
+      lists. Reported by David Kalnischkies <donkult@debian.org>.
+  * Documentation:
+    - man: Clarify uses cases for Static-Built-Using.
+      Prompted by Shengjing Zhu <zhsj@debian.org>.
+  * Test suite:
+    - Use actual octal numbers for chmod() calls.
+    - Do not use non-POSIX shell syntax for arithmetic expressions.
+      Based on a patch by Sören Tempel <soeren@soeren-tempel.net>.
+
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+
+ -- Guillem Jover <guillem@debian.org>  Sat, 26 Mar 2022 13:38:44 +0100
+
+dpkg (1.21.3) unstable; urgency=medium
+
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+    - Update German scripts translation.
+
+  [ Guillem Jover ]
+  * dpkg-db-backup: Check for required commands before starting.
+  * dpkg: Allow absolute pathnames for configurable external run-time tools.
+    Based on a patch by Adrian Ho <the.gromgit@gmail.com>. Closes: #1007816
+  * dpkg-fsys-usrunmess: Add options and prompt about regression prevention
+    package. Prompted by Paul Wise <pabs@debian.org>.
+  * dpkg-deb: Move duped control member check inside the detection conditional.
+  * dpkg-deb: Fix movecontrol() to take a directory argument.
+  * dselect: Remove non-multi-cd code from multi_cd method.
+  * dselect: Rename multicd method to media.
+  * dselect: Remove left overs for mount support from disk method.
+  * dselect: Remove bogus quote escaping from method setup scripts.
+  * dselect: Rename disk method to file.
+  * scripts: Use backport-version-regex vendor hook instead of hardcoding the
+    marker.
+  * Perl modules:
+    - Dpkg::Source::Package::V3::Git: Name bundle remote as bundle.
+    - Dpkg::Source::Package::V3::Git: Set origin remote to Vcs-Git if present.
+    - Dpkg::Path: Resolve /dev/null before comparing canonicalized pathnames.
+    - Dpkg::Compression: Conditionally use the gzip --rsyncable option.
+    - Dpkg::Compression: Use gzip -n instead of --no-name.
+    - Dpkg::Vendor: Add a new backport-version-regex hook.
+    - Dpkg::Control::Fields: Add Static-Built-Using field support.
+  * Documentation:
+    - man: Clarify Built-Using field purpose and format.
+  * Code internals:
+    - libdpkg: Refactor file_is_exec().
+    - libdpkg: Check that executables are regular files.
+    - dpkg-fsys-usrunmess: Refactor prompting into a new function.
+    - dpkg: Rename r variable to remainder.
+  * Packaging:
+    - Clarify the merged-usr-via-aliased-dirs warning.
+      Prompted by Paul Wise <pabs@debian.org>.
+    - Sync original bug-script merged-usr warning with postinst updates.
+  * Test suite:
+    - Check deb format with duplicate debian-binary and control.tar members.
+    - Add further deb-split format checks.
+    - Place deb-old and deb checks on their own test groups.
+    - Check all currently supported deb-old formats.
+  * Localization:
+    - Update Portuguese man pages translation.
+      Thanks to Américo Monteiro <a_monteiro@gmx.com>. Closes: #1001915
+
+ -- Guillem Jover <guillem@debian.org>  Thu, 24 Mar 2022 21:00:24 +0100
+
+dpkg (1.21.2) unstable; urgency=medium
+
+  [ Guillem Jover ]
+  * dpkg: Fix memory leak in remove-on-upgrade handling.
+  * dpkg-deb: Fix unexpected end of file conditions on .deb extract.
+  * Use anchor links for the dpkg FAQ URLs.
+  * update-alternatives: Do not skip --config with a single entry.
+    Reported by David Kalnischkies <donkult@debian.org>.
+  * update-alternatives: Refactor alternative_install().
+  * update-alternatives: Use intermediate variables when parsing actions.
+  * update-alternatives: Clarify option parse errors by printing the wrong
+    values.
+  * update-alternatives: Clarify bad usage message by enclosing in angles and
+    quoting arguments.
+  * dpkg-buildpackage: Switch terse make from -s to --no-print-directory.
+    Closes: #1003164
+  * scripts: Unify deprecated command-line option warnings.
+  * dpkg-source: Fix alternate changelog file usage with 2.0 and 3.0 formats.
+    Reported by Umut <ue16@gmx.de> (on IRC).
+  * update-alternatives: Use the target timestamp when the symlink does not
+    exist. Closes: #1004557
+  * dselect: Handle window resizes in help and menu screens. Closes: #382307
+  * dselect: Do not beep on key press errors in method and package list
+    windows. Closes: #533639
+  * dselect: Add support for --instdir.
+  * Perl modules:
+    - Dpkg::Control::FieldsCore: Sort control type entries in %FIELD_ORDER.
+    - Dpkg::Control::FieldsCore: Refactor Vcs fields into a common variable.
+    - Dpkg::Control::FieldsCore: Refactor testsuite fields into a common
+      variable.
+    - Dpkg::Control::FieldsCore: Accept Architecture as a debian/tests/control
+      field.
+    - Dpkg::Control::FieldsCore: Add missing allowed fields for (In)Release
+      files.
+    - Dpkg::Control::FieldsCore: Add field order for all control types.
+    - Dpkg::Index: Switch key function for control tests to be a stanza index.
+      Reported by Paul Gevers <elbrus@debian.org>.
+    - Dpkg::Source::Package: Only generate the patch header if needed.
+      Prompted by Umut <ue16@gmx.de> (on IRC).
+    - Dpkg::Source::Package: Use File::Spec instead of ad-hoc concatenation.
+  * Documentation:
+    - man: Mention on what actions triggers get processed in dpkg(1).
+      Closes: #1001010
+    - man: Clarify that dpkg-divert --list pattern is optional.
+      Thanks to наб <nabijaczleweli@nabijaczleweli.xyz>. Closes: #1001761
+    - man: Use «main» git branch in examples.
+    - man: Markup each individual element independently.
+    - man: Refer to the relevant maintscript actions explicitly.
+    - man: Add a missing preposition to deb-preinst(5).
+    - man: Do not hardcode DPKG_ADMINDIR in update-alternatives.
+    - man: Document that update-alternatives honors DPKG_ROOT.
+    - man: Clarify --admindir and --instdir default values.
+      Reported by Johannes Schauer Marin Rodrigues <josch@debian.org>.
+  * Code internals:
+    - libdpkg: Check that cip is not NULL before dereferencing it.
+    - libdpkg: Add missing symbols to the version map.
+    - libdpkg: Use the amount of available memory instead phys_mem/2.
+      Thanks to Sebastian Andrzej Siewior <sebastian@breakpoint.cc>.
+    - libdpkg: Refactor liblzma memlimit and cputhreads getters.
+    - libdpkg: Dynamically allocate the buffers for de/compression I/O.
+    - libdpkg: Increase I/O memory buffers from 4 to 32 KiB.
+    - libdpkg: Pass struct compress_params as the first argument.
+    - libdpkg: Pass struct compress_params to decompressors.
+    - libdpkg: Refactor pkg_format_print() out from pkg_format_show().
+    - libdpkg: Do not restrict source:* virtual fields to installed packages.
+      Closes: #1004372
+    - libdpkg: Do not allow argv with no arguments.
+    - update-alternatives: Refactor alternative_has_broken_symlink().
+    - update-alternatives: Move symlink removal inside fsys_symlink().
+    - update-alternatives: Move filename generation outside alternative setup.
+    - dselect: Rework windows resize to be signal safe.
+    - scripts: Expand long word list into one entry per line.
+    - scripts/mk: Remove unneeded conditionals.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - scripts/mk: Indent code in Makefile fragments.
+      Thanks to Nicolas Boulenguez <nicolas.boulenguez@free.fr>.
+  * Build system:
+    - Terminate lists in variables with «# EOL».
+    - Move build helper tools into build-aux/.
+    - Reorganize dpkg programs source code under src/.
+    - Move autotest suite under src/.
+    - Move C test suite machinery into lib/dpkg/.
+    - Fix relocated autotest test suite runner.
+    - Fix gitignore for build-aux/ directory.
+    - Namespace Config variable usage.
+      Reported by Павловец Сергей Николаевич
+      <s.pavlovets@ivcmf.by>.
+    - Add gitlab CI test for shared library building.
+    - Link all programs against libcompat.
+      Prompted by Jörg Sonnenberger <joerg@NetBSD.org>.
+    - Remove unused TESTDATA variable from autotest suite.
+    - Rework TAP check hooking into the autotools machinery.
+    - Move EXTRA_DIST close to the files it is acting on.
+    - Refactor autotest dependencies into a new variable.
+    - Refactor autotest machinery into an automake include file.
+    - Fold autotest test suite machinery into src/ from src/at/.
+    - Rename do_path_subst to do_make_subst.
+    - Factor out installation variable substitution into a new subst.am file.
+    - Move shell scripts into src/.
+    - Make AS_TR_* calls more clear.
+    - Support compression library names with dashes.
+    - Add zlib-ng support.
+    - Rename HAVE_LZMA_MT to HAVE_LZMA_MT_ENCODER.
+    - Move zsh completion under a subdirectory.
+    - Switch sed pseudo-in-place replace invocations with copy then move.
+    - Add comment about «sed -i» not being portable.
+      Prompted by Nicolas Boulenguez <nicolas@debian.org>.
+    - Mark libcompat and libdpkg as internal components in changelog.
+    - Support specifying previous and next tags to gen-changelog.
+    - Use non-capturing groups in regex in gen-changelog.
+    - Do not hardcode «main» section for title check in gen-changelog.
+    - Use sort flag instead of hardcoding the section in gen-changelog.
+    - Do not put localization entries on their own changelog group.
+  * Packaging:
+    - Ignore directories for the alternatives state fixup. Closes: #1001695
+    - Update bug-script to clarify usrmerge systems are unsupported.
+    - Install aclocal m4 files into libdpkg-dev.
+    - Install optional localized man pages with dh_installman.
+    - Add a new not-installed file.
+    - Switch to use the dh sequencer.
+    - Make TESTSUITEFLAGS extensible.
+    - Pass -jN to autotools autotest test suite via TESTSUITEFLAGS.
+    - Update lintian overrides.
+    - Use dpkg-error.sh in postinst.
+    - Warn in postinst about merged-/usr-via-aliased-dirs breakage.
+  * Test suite:
+    - Move AT_TESTED to testsuite.at.
+    - Run the tools with --version.
+    - Rename DPKG_GEN_FILE to DPKG_GEN_CTRL_FILE.
+    - Refactor control file template generation.
+    - Rewrite dpkg-realpath test from TAP to autotest.
+    - Rewrite dpkg-divert test from TAP to autotest.
+    - Remove now unused TAP tests support from src/.
+    - Print field type name instead of id in test case description.
+    - Add new pkg-format unit tests.
+    - Fix test_command_exec program invocation.
+      Thanks to Sören Tempel <soeren+git@soeren-tempel.net>.
+    - Use a temporary file instead of unportable «sed -i».
+      Prompted by Nicolas Boulenguez <nicolas@debian.org>.
+    - Add test case for SOURCE_DATE_EPOCH.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - Use «each» instead of «keys» and value fetching.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+  * Localization:
+    - Remove previous msgid for non-fuzzy translations.
+    - Update Catalan translations.
+    - Update Dutch translation. Closes: #1003671, #1003672, #1003673
+      Thanks to Frans Spiesschaert <Frans.Spiesschaert@yucom.be>.
+    - Update Swedish translations. Closes: #1003799, #1007116
+      Thanks to Peter Krefting <peter@softwolves.pp.se>.
+
+  [ Sven Joachim ]
+  * Localization:
+    - Update German dselect translation.
+    - Update German programs translation.
+
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+    - Update German scripts translation.
+
+ -- Guillem Jover <guillem@debian.org>  Sun, 13 Mar 2022 20:17:35 +0100
 
 dpkg (1.21.1) unstable; urgency=medium
 
@@ -168,7 +532,7 @@ dpkg (1.21.0) unstable; urgency=medium
     - dpkg: Mark deb_parse_conffiles() pkg argument as const.
     - libcompat: Remove local setexecfilecon() and require libselinux 2.3.
     - libdpkg: Add missing DPKG_{BEGIN,END}_DECLS in header files.
-    - dpkg: Move SE Linux function declarations into its own header file.
+    - dpkg: Move SELinux function declarations into its own header file.
     - dpkg: Move the command action enum to its own header file.
     - dpkg: Switch from including "main.h" to "force.h".
     - dselect: Rename dme() to display_menu_entry().
@@ -2728,7 +3092,7 @@ dpkg (1.18.11) unstable; urgency=medium
     - Fix M4sh/Autoconf coding style. Add a new section to coding-style.txt
       describing M4sh/Autoconf.
     - Disable C++ exceptions for dselect.
-    - Fix typo in SE Linux library detection code, only affecting static
+    - Fix typo in SELinux library detection code, only affecting static
       mode (not used in Debian). Regression introduced in dpkg 1.18.8.
     - Change --with-* option logic to default to check.
     - Disable -Wtautological-constant-out-of-range-compare (for clang).
@@ -3502,9 +3866,9 @@ dpkg (1.18.1) unstable; urgency=low
     This fixes build failures on armel, armhf, ppc64el and s390x.
   * Do not allow pathnames with embedded newlines in dpkg-deb and dpkg.
     Closes: #720761
-  * Fix setting the SE Linux context when a file has a statoverride.
+  * Fix setting the SELinux context when a file has a statoverride.
     Closes: #786435
-  * Set the SE Linux file context even when the file mode has no file type.
+  * Set the SELinux file context even when the file mode has no file type.
   * Make dpkg-buildpackage -j override any parallel option specified in
     DEB_BUILD_OPTIONS. Regression introduced in dpkg 1.14.15.
   * Honor Pre-Depends, Conflicts and Breaks for packages in unpacked and
@@ -3577,7 +3941,7 @@ dpkg (1.18.0) unstable; urgency=low
     except for --raw-extract which does not yet support it. Closes: #616614
     Based on a patch by Johannes Schauer <j.schauer@email.de>.
   * Add ‘.mailmap’ to the default dpkg-source ignore lists.
-  * Set the SE Linux context on «dpkg-statoverride --update». Closes: #690361
+  * Set the SELinux context on «dpkg-statoverride --update». Closes: #690361
   * Do not fail on dpkg-query -W and -l when multiple arguments match the
     same package. Closes: #588505
   * Change dpkg-maintscript-helper to handle symlinks and pathnames ending in
@@ -5360,7 +5724,7 @@ dpkg (1.16.7) unstable; urgency=low
 dpkg (1.16.6) unstable; urgency=low
 
   [ Guillem Jover ]
-  * Do not translate SE Linux context to human readable form while unpacking,
+  * Do not translate SELinux context to human readable form while unpacking,
     as that might cause the operation to fail if the mcstransd daemon
     stopped running during the transaction. Closes: #679641
     Thanks to Russell Coker <russell@coker.com.au>.
@@ -6597,7 +6961,7 @@ dpkg (1.15.8) unstable; urgency=low
   * Consistently use earlier/later instead of smaller/bigger when describing
     comparison relationships. Closes: #587641
   * Stop exporting DPKG_LIBDIR to maintainer scripts, no need for it anymore.
-  * Assign correct SE Linux label on non-regular files. Based on a patch by
+  * Assign correct SELinux label on non-regular files. Based on a patch by
     Russell Coker <russell@coker.com.au>. Closes: #587949
   * Add -F option to dpkg-buildpackage to be able to explicitly specify a
     normal full build and combine it with -nc. Closes: #547993
@@ -6956,7 +7320,7 @@ dpkg (1.15.6) experimental; urgency=low
     - README.api only in development packages, dpkg-dev and libdpkg-dev.
     - triggers.txt only in dpkg-dev.
   * Move source.lintian-overrides to debian/source/lintian-overrides.
-  * Switch SE Linux support to explicitly set path context. This fixes the
+  * Switch SELinux support to explicitly set path context. This fixes the
     mislabeling of files under <admindir> on conffile extraction or on unpack
     errors, due to improper default context restoration. Closes: #498438
   * Use FIEMAP when available (on Linux based systems) to sort the .list

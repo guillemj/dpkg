@@ -239,12 +239,12 @@ this when parsing non-dependency fields like Conflicts.
 =item virtual (defaults to 0)
 
 If set to 1, allow only virtual package version relations, that is none,
-or “=”.
+or "=".
 This should be set whenever working with Provides fields.
 
 =item build_dep (defaults to 0)
 
-If set to 1, allow build-dep only arch qualifiers, that is “:native”.
+If set to 1, allow build-dep only arch qualifiers, that is ":native".
 This should be set whenever working with build-deps.
 
 =item tests_dep (defaults to 0)
@@ -296,6 +296,8 @@ sub deps_parse {
         tests_dep => $options{tests_dep},
     );
 
+    # Merge in a single-line
+    $dep_line =~ s/\s*[\r\n]\s*/ /g;
     # Strip trailing/leading spaces
     $dep_line =~ s/^\s+//;
     $dep_line =~ s/\s+$//;

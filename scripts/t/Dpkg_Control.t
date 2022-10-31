@@ -55,9 +55,7 @@ open $io, '>', \$io_data or die "canno open io string\n";;
 
 $c->output($io);
 my $expected = 'Source: mysource
-Numeric-Field: 0
-My-Field-One: myvalue1
-My-Field-Two: myvalue2
+Empty-Field:
 Long-Field: line1
  line 2 line 2 line 2
  .
@@ -65,7 +63,9 @@ Long-Field: line1
  .
  ..
  line 4
-Empty-Field:
+My-Field-One: myvalue1
+My-Field-Two: myvalue2
+Numeric-Field: 0
 
 Package: mypackage1
 Architecture: any

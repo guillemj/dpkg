@@ -16,4 +16,32 @@ dpkg-deb -b pkg-package-type-use
 test -n "$(dpkg-deb -f pkg-package-type-use.deb Package-Type)"
 ], [0], [ignore])
 
+DPKG_GEN_CONTROL([pkg-obsolete-fields])
+DPKG_MOD_CONTROL([pkg-obsolete-fields], [s/^Priority:/Class:/])
+DPKG_MOD_CONTROL([pkg-obsolete-fields], [s/^Version: 0.0-1/Version: 0.0/])
+DPKG_MOD_CONTROL([pkg-obsolete-fields], [/^Version:/aRevision: 1])
+DPKG_MOD_CONTROL([pkg-obsolete-fields], [/^Package:/aOptional: suggests])
+DPKG_MOD_CONTROL([pkg-obsolete-fields], [/^Package:/aRecommended: recommends])
+AT_CHECK([
+dpkg-deb -b pkg-obsolete-fields
+], [0], [ignore],
+[dpkg-deb: warning: parsing file 'pkg-obsolete-fields/DEBIAN/control' near line 2 package 'pkg-obsolete-fields':
+ obsolete 'Recommended' field used
+dpkg-deb: warning: parsing file 'pkg-obsolete-fields/DEBIAN/control' near line 3 package 'pkg-obsolete-fields':
+ obsolete 'Optional' field used
+dpkg-deb: warning: parsing file 'pkg-obsolete-fields/DEBIAN/control' near line 5 package 'pkg-obsolete-fields':
+ obsolete 'Revision' field used
+dpkg-deb: warning: parsing file 'pkg-obsolete-fields/DEBIAN/control' near line 7 package 'pkg-obsolete-fields':
+ obsolete 'Class' field used
+dpkg-deb: warning: ignoring 4 warnings about the control file(s)
+])
+AT_CHECK([
+dpkg-deb -f pkg-obsolete-fields.deb \
+  Version Recommends Suggests Priority 2>/dev/null
+], [0], [Version: 0.0-1
+Recommends: recommends
+Suggests: suggests
+Priority: extra
+])
+
 AT_CLEANUP

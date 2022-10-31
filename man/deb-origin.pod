@@ -42,9 +42,23 @@ the field.
 The file should be named according to the vendor name.
 The usual convention is to name the vendor file using the vendor name
 in all lowercase, but some variation is permitted.
-Namely, spaces are mapped to dashes (‘B<->’), and the file
-can have the same casing as the value in B<Vendor> field, or it can
-be capitalized.
+
+Namely (since dpkg 1.21.10), first, non-alphanumeric characters
+(‘B<[^A-Za-z0-9]>’) are mapped to dashes (‘B<->’), then the resulting
+name will be tried in sequence by lower-casing it, keeping it as is,
+lower-casing then capitalizing it (that is upper-casing the first character),
+and only capitalizing it.
+
+In addition, for historical and backwards compatibility, the name will
+be tried keeping it as is without non-alphanumeric characters remapping,
+then the resulting name will be tried in sequence by lower-casing it,
+keeping it as is, lower-casing then capitalizing it, and only capitalizing it.
+And finally the name will be tried by remapping spaces to dashes (‘B<->’),
+then the resulting name will be tried in sequence by lower-casing it,
+keeping it as is, lower-casing then capitalizing it, and only capitalizing it.
+
+But these backwards compatible module lookups will be removed during the
+dpkg 1.22.x release cycle.
 
 =head1 FIELDS
 

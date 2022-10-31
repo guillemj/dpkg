@@ -28,13 +28,19 @@ use warnings;
 use List::Util qw(any);
 use Cwd;
 use File::Basename;
+use File::Temp;
 use POSIX qw(:fcntl_h :locale_h strftime);
 
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
-use Dpkg::Arch qw(get_build_arch get_host_arch debarch_eq);
+use Dpkg::IPC;
+use Dpkg::Arch qw(
+    get_build_arch
+    get_host_arch
+    debarch_eq debarch_to_gnutriplet
+);
 use Dpkg::Build::Types;
 use Dpkg::Build::Info qw(get_build_env_allowed);
 use Dpkg::BuildOptions;
@@ -247,6 +253,55 @@ sub collect_installed_builddeps {
     return $installed_deps;
 }
 
+sub is_cross_executable {
+    my $host_arch = get_host_arch();
+    my $build_arch = get_build_arch();
+
+    return if $host_arch eq $build_arch;
+
+    # If we are cross-compiling, record whether it was possible to execute
+    # the host architecture by cross-compiling and executing a small
+    # host-arch binary.
+    my $CC = debarch_to_gnutriplet($host_arch) . '-gcc';
+    my $crossprog = 'int main() { write(1, "ok", 2); return 0; }';
+    my ($stdout, $stderr) = ('', '');
+    my $tmpfh = File::Temp->new();
+    spawn(
+        exec => [ $CC, '-w', '-x', 'c', '-o', $tmpfh->filename, '-' ],
+        from_string => \$crossprog,
+        to_string => \$stdout,
+        error_to_string => \$stderr,
+        wait_child => 1,
+        nocheck => 1,
+    );
+    if ($?) {
+       print { *STDOUT } $stdout;
+       print { *STDERR } $stderr;
+       subprocerr("$CC -w -x c -");
+    }
+    close $tmpfh;
+    spawn(
+        exec => [ $tmpfh->filename ],
+        error_to_file => '/dev/null',
+        to_string => \$stdout,
+        wait_child => 1,
+        nocheck => 1,
+    );
+
+    return 1 if $? == 0 && $stdout eq 'ok';
+    return 0;
+}
+
+sub get_build_tainted_by {
+    my @tainted = run_vendor_hook('build-tainted-by');
+
+    if (is_cross_executable()) {
+        push @tainted, 'can-execute-cross-built-programs';
+    }
+
+    return @tainted;
+}
+
 sub cleansed_environment {
     # Consider only allowed variables which are not supposed to leak
     # local user information.
@@ -324,9 +379,9 @@ while (@ARGV) {
         $stdout = 1;
     } elsif (m/^-O(.*)$/) {
         $outputfile = $1;
-    } elsif (m/^--buildinfo-id=.*$/) {
+    } elsif (m/^(--buildinfo-id)=.*$/) {
         # Deprecated option
-        warning('--buildinfo-id is deprecated, it is without effect');
+        warning(g_('%s is deprecated; it is without effect'), $1);
     } elsif (m/^--always-include-kernel$/) {
         $use_feature{kernel} = 1;
     } elsif (m/^--always-include-path$/) {
@@ -358,13 +413,13 @@ $options{count} = 1;
 $options{offset} = 1;
 my $prev_changelog = changelog_parse(%options);
 
-my $sourceversion = $changelog->{'Binary-Only'} ?
-                    $prev_changelog->{'Version'} : $changelog->{'Version'};
+my $sourceversion = Dpkg::Version->new($changelog->{'Binary-Only'} ?
+                    $prev_changelog->{'Version'} : $changelog->{'Version'});
 my $binaryversion = Dpkg::Version->new($changelog->{'Version'});
 
 # Include .dsc if available.
 my $spackage = $changelog->{'Source'};
-(my $sversion = $sourceversion) =~ s/^\d+://;
+my $sversion = $sourceversion->as_string(omit_epoch => 1);
 
 if (build_has_any(BUILD_SOURCE)) {
     my $dsc = "${spackage}_${sversion}.dsc";
@@ -447,7 +502,7 @@ if ($use_feature{path}) {
     }
 }
 
-$fields->{'Build-Tainted-By'} = "\n" . join "\n", run_vendor_hook('build-tainted-by');
+$fields->{'Build-Tainted-By'} = "\n" . join "\n", get_build_tainted_by();
 
 $checksums->export_to_control($fields);
 

@@ -18,7 +18,7 @@ vardir="$1"
 method=$2
 option=$3
 
-cd "$vardir/methods/disk"
+cd "$vardir/methods/file"
 
 . ./shvar.$option
 
@@ -34,16 +34,8 @@ fi
 xit=1
 trap '
   rm -f packages-main packages-ctb packages-nf packages-lcl
-  if [ -n "$umount" ]; then
-    umount "$umount" >/dev/null 2>&1
-  fi
   exit $xit
 ' 0
-
-if [ -n "$p_blockdev" ]; then
-  umount="$p_mountpoint"
-  mount -rt "$p_fstype" -o nosuid,nodev "$p_blockdev" "$p_mountpoint"
-fi
 
 updatetype=update
 

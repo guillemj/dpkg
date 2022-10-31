@@ -105,6 +105,7 @@ usage(const struct cmdinfo *cip, const char *value)
 }
 
 #define FORCE_STATCMD_MASK \
+	FORCE_NON_ROOT | \
 	FORCE_SECURITY_MAC | FORCE_STATOVERRIDE_ADD | FORCE_STATOVERRIDE_DEL
 
 static const char *admindir;
@@ -185,9 +186,13 @@ statdb_node_remove(const char *filename)
 static void
 statdb_node_apply(const char *filename, struct file_stat *filestat)
 {
-	if (chown(filename, filestat->uid, filestat->gid) < 0)
+	int rc;
+
+	rc = chown(filename, filestat->uid, filestat->gid);
+	if (forcible_nonroot_error(rc) < 0)
 		ohshite(_("error setting ownership of '%.255s'"), filename);
-	if (chmod(filename, filestat->mode & ~S_IFMT))
+	rc = chmod(filename, filestat->mode & ~S_IFMT);
+	if (forcible_nonroot_error(rc) < 0)
 		ohshite(_("error setting permissions of '%.255s'"), filename);
 
 	dpkg_selabel_load();

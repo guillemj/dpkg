@@ -62,6 +62,20 @@ Architecture: all
 Description: test package
 TMPL_CONTROL
 
+my $tmpl_control_tests = <<'TMPL_CONTROL_TESTS';
+Test-Command: test-unique
+Depends: @, aa
+
+Tests: test-dupe
+Depends: @builddeps@
+
+Test-Command: test-dupe
+Depends: bb, test-binary
+
+Test-Command: test-dupe
+Depends: cc
+TMPL_CONTROL_TESTS
+
 my %default_substvars = (
     'source-name' => 'test-source',
     'source-version' => 0,
@@ -159,7 +173,7 @@ test_build_source($dirname);
 $dirname = gen_source('source-name' => 'testsuite',
                       'source-version' => 2,
                       'source-testsuite' => 'smokepkgtest, unitpkgtest, funcpkgtest',
-                      'control-test' => '');
+                      'control-test' => $tmpl_control_tests);
 test_build_source($dirname);
 
 $dirname = gen_source('source-name' => 'testsuite',

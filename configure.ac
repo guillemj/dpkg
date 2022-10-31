@@ -285,7 +285,7 @@ Configuration:
     libkvm  . . . . . . . . . . . : ${have_libkvm:-no}
     libselinux  . . . . . . . . . : $have_libselinux
     libmd . . . . . . . . . . . . : $have_libmd
-    libz  . . . . . . . . . . . . : $have_libz
+    libz  . . . . . . . . . . . . : $have_libz_impl
     liblzma . . . . . . . . . . . : $have_liblzma
     libbz2  . . . . . . . . . . . : $have_libbz2
     libcurses . . . . . . . . . . : ${have_libcurses:-no}

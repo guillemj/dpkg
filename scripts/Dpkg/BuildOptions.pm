@@ -160,8 +160,8 @@ sub has {
 Parse the $option values, as a set of known features to enable or disable,
 as specified in the $use_feature hash reference.
 
-Each feature is prefixed with a ‘B<+>’ or a ‘B<->’ character as a marker
-to enable or disable it. The special feature “B<all>” can be used to act
+Each feature is prefixed with a 'B<+>' or a 'B<->' character as a marker
+to enable or disable it. The special feature "B<all>" can be used to act
 on all known features.
 
 Unknown or malformed features will emit warnings.

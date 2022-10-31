@@ -1,13 +1,13 @@
 # German translation of the scripts in the dpkg package
 # This file is distributed under the same license as the dpkg package.
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2021.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2022.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-dev 1.20.7.1\n"
+"Project-Id-Version: dpkg-dev 1.21.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-12-06 21:04+0100\n"
-"PO-Revision-Date: 2021-12-05 06:03+0100\n"
+"POT-Creation-Date: 2022-10-10 19:19+0200\n"
+"PO-Revision-Date: 2022-10-10 19:28+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -284,13 +284,15 @@ msgid ""
 "rules).\n"
 "  -T, --rules-target=<target> call debian/rules <target>.\n"
 "      --as-root               ensure -T calls the target with root rights.\n"
-"  -j, --jobs[=<number>|auto]  jobs to run simultaneously (passed to "
+"  -j, --jobs[=<jobs>|auto]    jobs to run simultaneously (passed to "
 "<rules>),\n"
-"                                forced mode.\n"
-"  -J, --jobs-try[=<number>|auto]\n"
+"                                (default; default is auto, opt-in mode).\n"
+"  -J, --jobs-try[=<jobs>|auto]\n"
+"                              alias for -j, --jobs.\n"
+"      --jobs-force[=<jobs>|auto]\n"
 "                              jobs to run simultaneously (passed to "
 "<rules>),\n"
-"                                opt-in mode (default is auto).\n"
+"                                (default is auto, forced mode).\n"
 "  -r, --root-command=<command>\n"
 "                              command to gain root rights (default is "
 "fakeroot).\n"
@@ -353,13 +355,16 @@ msgstr ""
 "aufrufen\n"
 "       --as-root      sicherstellen, dass -T das Ziel mit root-Rechten "
 "aufruft\n"
-"  -j, --jobs[=<Nummer>|auto]\n"
+"  -j, --jobs[=<Aufträge>|auto]\n"
 "                      Aufträge, die simultan laufen sollen (an <rules>\n"
-"                        weitergegeben) (erzwingender Modus)\n"
-"  -J, --jobs-try[=<Nummer>|auto]\n"
-"                      Aufträge, die simultan laufen sollen (an "
-"<rules>                         weitergegeben); Opt-In-Modus (Vorgabe: "
-"auto)\n"
+"                        weitergegeben) (Vorgabe; Vorgabe ist auto,\n"
+"                        Opt-In-Modus)\n"
+"  -J, --jobs-try[=<Aufträge>|auto]\n"
+"                      Alias für -j, --jobs.\n"
+"      --jobs-force[=<Aufträge>|auto]\n"
+"                      Aufträge, die simultan laufen sollen (an <rules>"
+"                       weitergegeben); (Vorgabe ist auto; erzwungener\n"
+"                       Modus)\n"
 "  -r, --root-command=<Befehl>\n"
 "                      Befehl, um root-Rechte zu erhalten (standardmäßig\n"
 "                        fakeroot)\n"
@@ -419,8 +424,12 @@ msgid ""
 "  -sa                         source includes orig, always.\n"
 "  -sd                         source is diff and .dsc only.\n"
 "  -v<version>                 changes since version <version>.\n"
-"  -m, --release-by=<maint>    maintainer for this release is <maint>.\n"
-"  -e, --build-by=<maint>      maintainer for this build is <maint>.\n"
+"  -m, --source-by=<maint>     maintainer for this source or build is "
+"<maint>.\n"
+"      --build-by=<maint>      ditto.\n"
+"  -e, --release-by=<maint>    maintainer for this change or release is "
+"<maint>.\n"
+"      --changed-by=<maint>    ditto.\n"
 "  -C<descfile>                changes are described in <descfile>.\n"
 "      --changes-option=<opt>  pass option <opt> to dpkg-genchanges."
 msgstr ""
@@ -430,8 +439,12 @@ msgstr ""
 "  -sa                     Quelle enthält immer Orig\n"
 "  -sd                     Quelle ist nur diff und .dsc\n"
 "  -v<Version>             Änderungen seit Version <Version>\n"
-"  -m, --release-by=<Betr> <Betr> ist Betreuer des Pakets\n"
-"  -e, --build-by=<Betr>   <Betr> ist Betreuer für die Veröffentlichung\n"
+"  -m, --source-by=<Betr>  <Betr> ist Betreuer für diese Quellen oder diesen "
+"Bau.\n"
+"      --build-by=<Betr>   dito.\n"
+"  -e, --release-by=<Betr> <Betr> ist Betreuer für Änderung oder "
+"Veröffentlichung.\n"
+"      --changed-by=<Betr> dito.\n"
 "  -C<Desc-Datei>          Änderungen sind in <Desc-Datei> beschrieben\n"
 "      --changes-option=<Opt>\n"
 "                          <Opt> an Dpkg-Genchanges weitergeben"
@@ -487,14 +500,16 @@ msgstr "unbekannter Hook-Name »%s«"
 msgid "missing hook %s command"
 msgstr "Fehlender Hook-%s-Befehl"
 
+#: scripts/dpkg-buildpackage.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-gencontrol.pl
+#, perl-format
+msgid "%s is deprecated; it is without effect"
+msgstr "%s ist veraltet; es hat keine Wirkung"
+
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "-s%s is deprecated; always using gpg style interface"
 msgstr "-s%s ist veraltet; es wird immer die GPG-artige Schnittstelle verwandt"
-
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-source.pl
-msgid "-E and -W are deprecated, they are without effect"
-msgstr "-E und -W sind veraltet, sie haben keine Wirkung"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -670,7 +685,7 @@ msgstr "%s kann nicht geöffnet werden"
 msgid "cannot close %s"
 msgstr "%s kann nicht geschlossen werden"
 
-#: scripts/dpkg-buildpackage.pl
+#: scripts/dpkg-buildpackage.pl scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "cannot move %s to %s"
 msgstr "%s kann nicht in %s verschoben werden"
@@ -1069,11 +1084,6 @@ msgstr ""
 #, perl-format
 msgid "illegal package name '%s': %s"
 msgstr "Ungültiger Paketname »%s«: %s"
-
-#: scripts/dpkg-gencontrol.pl
-#, perl-format
-msgid "-i%s is deprecated; it is without effect"
-msgstr "-i%s ist veraltet; es hat keine Wirkung"
 
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
@@ -1500,7 +1510,7 @@ msgid ""
 "  -m, --multiversion       allow multiple versions of a single package.\n"
 "  -e, --extra-override <file>\n"
 "                           use extra override file.\n"
-"  -M, --medium <medium>    add X-Medium field for dselect multicd access "
+"  -M, --medium <medium>    add X-Medium field for dselect media access "
 "method\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version.\n"
@@ -1516,7 +1526,7 @@ msgstr ""
 "erlauben\n"
 "  -e, --extra-override <Datei>\n"
 "                           zusätzliche Override-Datei verwenden\n"
-"  -M, --medium <Medium>    Feld X-Medium für Dselects Multicd-"
+"  -M, --medium <Medium>    Feld X-Medium für Dselects Medien-"
 "Zugriffsmethode\n"
 "                           hinzufügen\n"
 "  -?, --help               diese Hilfemeldung anzeigen\n"
@@ -1977,6 +1987,10 @@ msgstr "%s ist keine unterstützte Kompression"
 #, perl-format
 msgid "%s is not a compression level"
 msgstr "%s ist keine Komprimierungsstufe"
+
+#: scripts/dpkg-source.pl
+msgid "-E and -W are deprecated, they are without effect"
+msgstr "-E und -W sind veraltet, sie haben keine Wirkung"
 
 #: scripts/dpkg-source.pl scripts/dpkg-vendor.pl
 msgid "need an action option"
@@ -2883,12 +2897,12 @@ msgstr "Zeichen »%s« ist nicht erlaubt"
 msgid "must start with an alphanumeric character"
 msgstr "muss mit einem alphanumerischen Zeichen beginnen"
 
-#: scripts/Dpkg/Path.pm
+#: scripts/Dpkg/Path.pm scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "pathname '%s' cannot be canonicalized"
 msgstr "Pfadname „%s“ kann nicht in kanonische Form gebracht werden"
 
-#: scripts/Dpkg/Path.pm
+#: scripts/Dpkg/Path.pm scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "pathname '%s' points outside source root (to '%s')"
 msgstr "Pfadname »%s« zeigt außerhalb der Quellwurzel (nach „%s“)"
@@ -2974,6 +2988,36 @@ msgstr "schließen auf Tar-Eingabe"
 #, perl-format
 msgid "cannot create directory %s"
 msgstr "Verzeichnis %s kann nicht angelegt werden"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot get source pathname %s metadata"
+msgstr "Metadaten des Quellpfadnamens %s können nicht ermittelt werden"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot get target pathname %s metadata"
+msgstr "Metadaten des Zielpfadnamens %s können nicht ermittelt werden"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot change directory %s mode"
+msgstr "Verzeichnismodus von %s kann nicht geändert werden"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot change directory %s times"
+msgstr "Verzeichniszeit von %s kann nicht geändert werden"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot remove destination directory %s"
+msgstr "Zielverzeichnis %s kann nicht entfernt werden"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot remove destination file %s"
+msgstr "Zieldatei %s kann nicht entfernt werden"
 
 #: scripts/Dpkg/Source/Archive.pm scripts/Dpkg/Source/Package.pm
 #: scripts/Dpkg/Source/Package/V2.pm
@@ -3072,6 +3116,11 @@ msgid "upstream tarball signatures but no upstream signing key"
 msgstr ""
 "Tarball-Signatur der Originalautoren aber kein Signaturschlüssel der "
 "Originalautoren"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "verifying %s"
+msgstr "%s wird überprüft"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -3272,8 +3321,8 @@ msgstr "Originalargument %s ist keine gewöhnliche Datei oder Verzeichnis"
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is empty (means no orig, no diff) but source handling style -s"
-"%s wants something"
+"orig argument is empty (means no orig, no diff) but source handling style -"
+"s%s wants something"
 msgstr ""
 "Originalargument ist leer (bedeutet kein Orig., kein Diff), aber bei "
 "Quellenhandhabungsstil -s%s wird etwas verlangt"
@@ -3347,11 +3396,6 @@ msgstr "Berechtigung von »%s« kann nicht geändert werden"
 #, perl-format
 msgid "building %s using existing %s"
 msgstr "%s wird unter Benutzung des existierenden %s gebaut"
-
-#: scripts/Dpkg/Source/Package/V1.pm
-#, perl-format
-msgid "verifying %s using existing %s"
-msgstr "%s wird unter Benutzung des existierenden %s überprüft"
 
 #: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
 msgid "upstream signing key but no upstream tarball signature"
@@ -3717,6 +3761,11 @@ msgstr "%s wird geklont"
 msgid "setting up shallow clone"
 msgstr "ein seichter (shallow) Klon wird eingerichtet"
 
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, perl-format
+msgid "setting remote %s to %s"
+msgstr "ferner %s wird auf %s gesetzt"
+
 #: scripts/Dpkg/Source/Package/V3/Native.pm
 msgid "multiple tarfiles in native source package"
 msgstr "mehrere Tar-Dateien in nativem Quellpaket"
@@ -4061,6 +4110,24 @@ msgstr "Quellpaketname »%s« ist ungültig: »%s«"
 msgid "source package has two conflicting values - %s and %s"
 msgstr "zwei widersprüchliche Werte für Quellpaket - %s und %s"
 
+#: scripts/Dpkg/Vendor.pm
+#, perl-format
+msgid ""
+"%s origin filename is deprecated; it should have only alphanumeric or dash "
+"characters"
+msgstr ""
+"%s-Quell-Dateiname ist veraltet; er sollte nur alphanumerische Zeichen oder "
+"den Bindestrich enthalten"
+
+#: scripts/Dpkg/Vendor.pm
+#, perl-format
+msgid ""
+"%s module name is deprecated; it should be capitalized with only "
+"alphanumeric characters"
+msgstr ""
+"%s-Modulname ist veraltet; er sollte nur aus alphanumerischen Großbuchstaben "
+"bestehen"
+
 #: scripts/Dpkg/Vendor/Debian.pm
 #, perl-format
 msgid "unknown host architecture '%s'"
@@ -4116,6 +4183,10 @@ msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
+
+#, perl-format
+#~ msgid "verifying %s using existing %s"
+#~ msgstr "%s wird unter Benutzung des existierenden %s überprüft"
 
 #~ msgid "parse changes file"
 #~ msgstr "Auswerten der changes-Datei"

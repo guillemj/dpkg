@@ -241,6 +241,8 @@ PODSUBST = $(SED) \
 	-e 's:%PKGCONFDIR%:$(pkgconfdir):g' \
 	-e 's:%PKGLIBDIR%:$(pkglibexecdir):g' \
 	-e 's:%PKGDATADIR%:$(pkgdatadir):g' \
+	-e 's:%INSTDIR_ENVVAR%:DPKG_ROOT:g' \
+	-e 's:%ADMINDIR_ENVVAR%:DPKG_ADMINDIR:g' \
 	# EOL
 
 MANFIXUP = $(SED) \

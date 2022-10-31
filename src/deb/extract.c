@@ -50,11 +50,13 @@
 
 #include "dpkg-deb.h"
 
-static void movecontrolfiles(const char *thing) {
+static void
+movecontrolfiles(const char *dir, const char *thing)
+{
   char buf[200];
   pid_t pid;
 
-  sprintf(buf, "mv %s/* . && rmdir %s", thing, thing);
+  sprintf(buf, "mv %s/%s/* %s/ && rmdir %s/%s", dir, thing, dir, dir, thing);
   pid = subproc_fork();
   if (pid == 0) {
     command_shell(buf, _("shell command to move files"));
@@ -118,7 +120,10 @@ extracthalf(const char *debar, const char *dir,
   char nlc;
   int adminmember = -1;
   bool header_done;
-  enum compressor_type decompressor = COMPRESSOR_TYPE_GZIP;
+  struct compress_params decompress_params = {
+    .type = COMPRESSOR_TYPE_GZIP,
+    .threads_max = compress_params.threads_max,
+  };
 
   ar = dpkg_ar_open(debar);
 
@@ -176,13 +181,18 @@ extracthalf(const char *debar, const char *dir,
           const char *extension = arh.ar_name + strlen(ADMINMEMBER);
 
 	  adminmember = 1;
-          decompressor = compressor_find_by_extension(extension);
-          if (decompressor != COMPRESSOR_TYPE_NONE &&
-              decompressor != COMPRESSOR_TYPE_GZIP &&
-              decompressor != COMPRESSOR_TYPE_XZ)
+          decompress_params.type = compressor_find_by_extension(extension);
+          if (decompress_params.type != COMPRESSOR_TYPE_NONE &&
+              decompress_params.type != COMPRESSOR_TYPE_GZIP &&
+              decompress_params.type != COMPRESSOR_TYPE_XZ)
             ohshit(_("archive '%s' uses unknown compression for member '%.*s', "
                      "giving up"),
                    debar, (int)sizeof(arh.ar_name), arh.ar_name);
+
+          if (ctrllennum != 0)
+            ohshit(_("archive '%.250s' contains two control members, giving up"),
+                   debar);
+          ctrllennum = memberlen;
         } else {
           if (adminmember != 1)
             ohshit(_("archive '%s' has premature member '%.*s' before '%s', "
@@ -193,8 +203,8 @@ extracthalf(const char *debar, const char *dir,
 	    const char *extension = arh.ar_name + strlen(DATAMEMBER);
 
 	    adminmember= 0;
-	    decompressor = compressor_find_by_extension(extension);
-            if (decompressor == COMPRESSOR_TYPE_UNKNOWN)
+            decompress_params.type = compressor_find_by_extension(extension);
+            if (decompress_params.type == COMPRESSOR_TYPE_UNKNOWN)
               ohshit(_("archive '%s' uses unknown compression for member '%.*s', "
                        "giving up"),
                      debar, (int)sizeof(arh.ar_name), arh.ar_name);
@@ -203,12 +213,6 @@ extracthalf(const char *debar, const char *dir,
                      "giving up"),
                    debar, (int)sizeof(arh.ar_name), arh.ar_name, DATAMEMBER);
           }
-        }
-        if (adminmember == 1) {
-          if (ctrllennum != 0)
-            ohshit(_("archive '%.250s' contains two control members, giving up"),
-                   debar);
-          ctrllennum= memberlen;
         }
         if (!adminmember != !admininfo) {
           if (fd_skip(ar->fd, memberlen + (memberlen & 1), &err) < 0)
@@ -296,7 +300,7 @@ extracthalf(const char *debar, const char *dir,
   if (!c2) {
     if (taroption)
       close(p2[0]);
-    decompress_filter(decompressor, p1[0], p2_out,
+    decompress_filter(&decompress_params, p1[0], p2_out,
                       _("decompressing archive '%s' (size=%jd) member '%s'"),
                       ar->name, (intmax_t)ar->size,
                       admininfo ? ADMINMEMBER : DATAMEMBER);
@@ -367,9 +371,9 @@ extracthalf(const char *debar, const char *dir,
       version.minor /= 10;
 
     if (version.minor ==  931)
-      movecontrolfiles(OLDOLDDEBDIR);
+      movecontrolfiles(dir, OLDOLDDEBDIR);
     else if (version.minor == 932 || version.minor == 933)
-      movecontrolfiles(OLDDEBDIR);
+      movecontrolfiles(dir, OLDDEBDIR);
   }
 }
 

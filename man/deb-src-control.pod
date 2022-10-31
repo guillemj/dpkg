@@ -362,7 +362,7 @@ for more information about them).
 This field specifies the conditions for which this binary package does or
 does not build.
 To express that condition, the same restriction formula syntax from the
-B<Build-Depends> field is used.
+B<Build-Depends> field is used (including the angle brackets).
 
 If a binary package paragraph does not contain this field, then it implicitly
 means that it builds with all build profiles (including none at all).
@@ -372,7 +372,7 @@ B<Build-Profiles> field, then this binary package is generated if and
 only if the condition expressed by the conjunctive normal form expression
 evaluates to true.
 
-=item B<Protected:> B<Byes>|B<no>
+=item B<Protected:> B<yes>|B<no>
 
 =item B<Essential:> B<yes>|B<no>
 
@@ -409,6 +409,8 @@ package.
 
 =item B<Built-Using:> I<package-list>
 
+=item B<Static-Built-Using:> I<package-list>
+
 These fields declare relationships between packages. They are discussed in
 the
 B<deb-control>(5)
@@ -426,9 +428,8 @@ for B<deb-control>(5).
 
 These fields are used by the debian-installer in B<udeb>s and are
 usually not needed.
-See /usr/share/doc/debian-installer/devel/modules.txt from the
-B<debian-installer>
-package for more details about them.
+For more details about them, see
+L<https://salsa.debian.org/installer-team/debian-installer/-/raw/master/doc/devel/modules.txt>.
 
 =back
 
@@ -505,6 +506,7 @@ fields with B<Private->, such as B<XB-Private-New-Field>.
 
 =head1 SEE ALSO
 
+I<%PKGDOCDIR%/spec/rootless-builds.txt>,
 L<deb822(5)>,
 B<deb-control>(5),
 B<deb-version>(7),

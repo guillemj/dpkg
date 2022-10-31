@@ -22,6 +22,7 @@ our $VERSION = '0.01';
 
 use Cwd;
 use File::Basename;
+use File::Spec;
 use File::Temp qw(tempfile);
 
 use Dpkg::Gettext;
@@ -41,7 +42,6 @@ sub do_extract {
     my $sourcestyle = $self->{options}{sourcestyle};
     my $fields = $self->{fields};
 
-    my $dscdir = $self->{basedir};
     my $basename = $self->get_basename();
     my $basenamerev = $self->get_basename(1);
 
@@ -65,7 +65,9 @@ sub do_extract {
     }
 
     info(g_('unpacking %s'), $tarfile);
-    my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
+    my $tar = Dpkg::Source::Archive->new(
+        filename => File::Spec->catfile($self->{basedir}, $tarfile),
+    );
     $tar->extract($newdirectory);
 }
 

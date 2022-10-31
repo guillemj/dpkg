@@ -49,6 +49,7 @@ use Dpkg::Control::Types;
 use constant {
     ALL_PKG => CTRL_INFO_PKG | CTRL_INDEX_PKG | CTRL_PKG_DEB | CTRL_FILE_STATUS,
     ALL_SRC => CTRL_INFO_SRC | CTRL_INDEX_SRC | CTRL_PKG_SRC,
+    ALL_FILE_MANIFEST => CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES,
     ALL_CHANGES => CTRL_FILE_CHANGES | CTRL_CHANGELOG,
     ALL_COPYRIGHT => CTRL_COPYRIGHT_HEADER | CTRL_COPYRIGHT_FILES | CTRL_COPYRIGHT_LICENSE,
 };
@@ -60,14 +61,18 @@ use constant {
     FIELD_SEP_LINE => 4,
 };
 
-# The canonical list of fields
+# The canonical list of fields.
 
-# Note that fields used only in dpkg's available file are not listed
-# Deprecated fields of dpkg's status file are also not listed
+# Note that fields used only in dpkg's available file are not listed.
+# Deprecated fields of dpkg's status file are also not listed.
 our %FIELDS = (
+    'acquire-by-hash' => {
+        name => 'Acquire-By-Hash',
+        allowed => CTRL_REPO_RELEASE,
+    },
     'architecture' => {
         name => 'Architecture',
-        allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES) & (~CTRL_INFO_SRC),
+        allowed => (ALL_PKG | ALL_SRC | ALL_FILE_MANIFEST | CTRL_TESTS) & (~CTRL_INFO_SRC),
         separator => FIELD_SEP_SPACE,
     },
     'architectures' => {
@@ -82,7 +87,7 @@ our %FIELDS = (
     },
     'binary' => {
         name => 'Binary',
-        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES,
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | ALL_FILE_MANIFEST,
         # XXX: This field values are separated either by space or comma
         # depending on the context.
         separator => FIELD_SEP_SPACE | FIELD_SEP_COMMA,
@@ -194,6 +199,10 @@ our %FIELDS = (
         dependency => 'union',
         dep_order => 10,
     },
+    'butautomaticupgrades' => {
+        name => 'ButAutomaticUpgrades',
+        allowed => CTRL_REPO_RELEASE,
+    },
     'changed-by' => {
         name => 'Changed-By',
         allowed => CTRL_FILE_CHANGES,
@@ -208,15 +217,15 @@ our %FIELDS = (
     },
     'checksums-md5' => {
         name => 'Checksums-Md5',
-        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_FILE_BUILDINFO,
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | ALL_FILE_MANIFEST,
     },
     'checksums-sha1' => {
         name => 'Checksums-Sha1',
-        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_FILE_BUILDINFO,
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | ALL_FILE_MANIFEST,
     },
     'checksums-sha256' => {
         name => 'Checksums-Sha256',
-        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_FILE_BUILDINFO,
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | ALL_FILE_MANIFEST,
     },
     'classes' => {
         name => 'Classes',
@@ -321,7 +330,7 @@ our %FIELDS = (
     },
     'format' => {
         name => 'Format',
-        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_COPYRIGHT_HEADER | CTRL_FILE_BUILDINFO,
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | ALL_FILE_MANIFEST | CTRL_COPYRIGHT_HEADER,
     },
     'homepage' => {
         name => 'Homepage',
@@ -332,7 +341,7 @@ our %FIELDS = (
         allowed => CTRL_FILE_BUILDINFO,
         separator => FIELD_SEP_COMMA,
         dependency => 'union',
-        dep_order => 11,
+        dep_order => 12,
     },
     'installed-size' => {
         name => 'Installed-Size',
@@ -360,7 +369,7 @@ our %FIELDS = (
     },
     'maintainer' => {
         name => 'Maintainer',
-        allowed => CTRL_PKG_DEB| CTRL_INDEX_PKG | CTRL_FILE_STATUS | ALL_SRC  | ALL_CHANGES,
+        allowed => CTRL_PKG_DEB | CTRL_INDEX_PKG | CTRL_FILE_STATUS | ALL_SRC  | ALL_CHANGES,
     },
     'md5sum' => {
         # XXX: Wrong capitalization due to historical reasons.
@@ -371,6 +380,14 @@ our %FIELDS = (
     'multi-arch' => {
         name => 'Multi-Arch',
         allowed => ALL_PKG,
+    },
+    'no-support-for-architecture-all' => {
+        name => 'No-Support-for-Architecture-all',
+        allowed => CTRL_REPO_RELEASE,
+    },
+    'notautomatic' => {
+        name => 'NotAutomatic',
+        allowed => CTRL_REPO_RELEASE,
     },
     'package' => {
         name => 'Package',
@@ -464,6 +481,13 @@ our %FIELDS = (
     'standards-version' => {
         name => 'Standards-Version',
         allowed => ALL_SRC,
+    },
+    'static-built-using' => {
+        name => 'Static-Built-Using',
+        allowed => ALL_PKG,
+        separator => FIELD_SEP_COMMA,
+        dependency => 'union',
+        dep_order => 11,
     },
     'status' => {
         name => 'Status',
@@ -598,89 +622,400 @@ our %FIELDS = (
     },
     'version' => {
         name => 'Version',
-        allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_BUILDINFO | ALL_CHANGES) &
+        allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_BUILDINFO | ALL_CHANGES | CTRL_REPO_RELEASE) &
                     (~(CTRL_INFO_SRC | CTRL_INFO_PKG)),
     },
 );
 
-my @src_dep_fields = qw(build-depends build-depends-arch build-depends-indep
-    build-conflicts build-conflicts-arch build-conflicts-indep);
-my @bin_dep_fields = qw(pre-depends depends recommends suggests enhances
-    conflicts breaks replaces provides built-using);
-my @src_checksums_fields = qw(checksums-md5 checksums-sha1 checksums-sha256);
-my @bin_checksums_fields = qw(md5sum sha1 sha256);
+my @src_vcs_fields = qw(
+    vcs-browser
+    vcs-arch
+    vcs-bzr
+    vcs-cvs
+    vcs-darcs
+    vcs-git
+    vcs-hg
+    vcs-mtn
+    vcs-svn
+);
+
+my @src_dep_fields = qw(
+    build-depends
+    build-depends-arch
+    build-depends-indep
+    build-conflicts
+    build-conflicts-arch
+    build-conflicts-indep
+);
+my @bin_dep_fields = qw(
+    pre-depends
+    depends
+    recommends
+    suggests
+    enhances
+    conflicts
+    breaks
+    replaces
+    provides
+    built-using
+    static-built-using
+);
+
+my @src_test_fields = qw(
+    testsuite
+    testsuite-triggers
+);
+
+my @src_checksums_fields = qw(
+    checksums-md5
+    checksums-sha1
+    checksums-sha256
+);
+my @bin_checksums_fields = qw(
+    md5sum
+    sha1
+    sha256
+);
 
 our %FIELD_ORDER = (
-    CTRL_PKG_DEB() => [
-        qw(package package-type source version built-using kernel-version
-        built-for-profiles auto-built-package architecture subarchitecture
-        installer-menu-item build-essential essential protected origin bugs
-        maintainer installed-size), @bin_dep_fields,
-        qw(section priority multi-arch homepage description tag task)
+    CTRL_INFO_SRC() => [
+        qw(
+            source
+            section
+            priority
+            maintainer
+            uploaders
+            origin
+            bugs
+        ),
+        @src_vcs_fields,
+        qw(
+            homepage
+            standards-version
+            rules-requires-root
+        ),
+        @src_dep_fields,
+        @src_test_fields,
+        qw(
+            description
+        ),
     ],
-    CTRL_INDEX_PKG() => [
-        qw(package package-type source version built-using kernel-version
-        built-for-profiles auto-built-package architecture subarchitecture
-        installer-menu-item build-essential essential protected origin bugs
-        maintainer installed-size), @bin_dep_fields,
-        qw(filename size), @bin_checksums_fields,
-        qw(section priority multi-arch homepage description tag task)
+    CTRL_INFO_PKG() => [
+        qw(
+            package
+            package-type
+            section
+            priority
+            architecture
+            subarchitecture
+            multi-arch
+            essential
+            protected
+            build-essential
+            build-profiles
+            built-for-profiles
+            kernel-version
+        ),
+        @bin_dep_fields,
+        qw(
+            homepage
+            installer-menu-item
+            task
+            tag
+            description
+        ),
     ],
     CTRL_PKG_SRC() => [
-        qw(format source binary architecture version origin maintainer
-        uploaders homepage description standards-version vcs-browser
-        vcs-arch vcs-bzr vcs-cvs vcs-darcs vcs-git vcs-hg vcs-mtn
-        vcs-svn testsuite testsuite-triggers), @src_dep_fields,
-        qw(package-list), @src_checksums_fields, qw(files)
+        qw(
+            format
+            source
+            binary
+            architecture
+            version
+            origin
+            maintainer
+            uploaders
+            homepage
+            description
+            standards-version
+        ),
+        @src_vcs_fields,
+        @src_test_fields,
+        @src_dep_fields,
+        qw(
+            package-list
+        ),
+        @src_checksums_fields,
+        qw(
+            files
+        ),
+    ],
+    CTRL_PKG_DEB() => [
+        qw(
+            package
+            package-type
+            source
+            version
+            kernel-version
+            built-for-profiles
+            auto-built-package
+            architecture
+            subarchitecture
+            installer-menu-item
+            build-essential
+            essential
+            protected
+            origin
+            bugs
+            maintainer
+            installed-size
+        ),
+        @bin_dep_fields,
+        qw(
+            section
+            priority
+            multi-arch
+            homepage
+            description
+            tag
+            task
+        ),
     ],
     CTRL_INDEX_SRC() => [
-        qw(format package binary architecture version priority section origin
-        maintainer uploaders homepage description standards-version vcs-browser
-        vcs-arch vcs-bzr vcs-cvs vcs-darcs vcs-git vcs-hg vcs-mtn vcs-svn
-        testsuite testsuite-triggers), @src_dep_fields,
-        qw(package-list directory), @src_checksums_fields, qw(files)
-    ],
-    CTRL_FILE_BUILDINFO() => [
-        qw(format source binary architecture version binary-only-changes),
+        qw(
+            format
+            package
+            binary
+            architecture
+            version
+            priority
+            section
+            origin
+            maintainer
+            uploaders
+            homepage
+            description
+            standards-version
+        ),
+        @src_vcs_fields,
+        @src_test_fields,
+        @src_dep_fields,
+        qw(
+            package-list
+            directory
+        ),
         @src_checksums_fields,
-        qw(build-origin build-architecture build-kernel-version build-date
-        build-path build-tainted-by installed-build-depends environment),
+        qw(
+            files
+        ),
     ],
-    CTRL_FILE_CHANGES() => [
-        qw(format date source binary binary-only built-for-profiles architecture
-        version distribution urgency maintainer changed-by description
-        closes changes), @src_checksums_fields, qw(files)
+    CTRL_INDEX_PKG() => [
+        qw(
+            package
+            package-type
+            source
+            version
+            kernel-version
+            built-for-profiles
+            auto-built-package
+            architecture
+            subarchitecture
+            installer-menu-item
+            build-essential
+            essential
+            protected
+            origin
+            bugs
+            maintainer
+            installed-size
+        ),
+        @bin_dep_fields,
+        qw(
+            filename
+            size
+        ),
+        @bin_checksums_fields,
+        qw(
+            section
+            priority
+            multi-arch
+            homepage
+            description
+            tag
+            task
+        ),
+    ],
+    CTRL_REPO_RELEASE() => [
+        qw(
+            origin
+            label
+            suite
+            version
+            codename
+            changelogs
+            date
+            valid-until
+            notautomatic
+            butautomaticupgrades
+            acquire-by-hash
+            no-support-for-architecture-all
+            architectures
+            components
+            description
+        ),
+        @bin_checksums_fields
     ],
     CTRL_CHANGELOG() => [
-        qw(source binary-only version distribution urgency maintainer
-        timestamp date closes changes)
+        qw(
+            source
+            binary-only
+            version
+            distribution
+            urgency
+            maintainer
+            timestamp
+            date
+            closes
+            changes
+        ),
+    ],
+    CTRL_COPYRIGHT_HEADER() => [
+        qw(
+            format
+            upstream-name
+            upstream-contact
+            source
+            disclaimer
+            comment
+            license
+            copyright
+        ),
+    ],
+    CTRL_COPYRIGHT_FILES() => [
+        qw(
+            files
+            copyright
+            license
+            comment
+        ),
+    ],
+    CTRL_COPYRIGHT_LICENSE() => [
+        qw(
+            license
+            comment
+        ),
+    ],
+    CTRL_FILE_BUILDINFO() => [
+        qw(
+            format
+            source
+            binary
+            architecture
+            version
+            binary-only-changes
+        ),
+        @src_checksums_fields,
+        qw(
+            build-origin
+            build-architecture
+            build-kernel-version
+            build-date
+            build-path
+            build-tainted-by
+            installed-build-depends
+            environment
+        ),
+    ],
+    CTRL_FILE_CHANGES() => [
+        qw(
+            format
+            date
+            source
+            binary
+            binary-only
+            built-for-profiles
+            architecture
+            version
+            distribution
+            urgency
+            maintainer
+            changed-by
+            description
+            closes
+            changes
+        ),
+        @src_checksums_fields,
+        qw(
+            files
+        ),
+    ],
+    CTRL_FILE_VENDOR() => [
+        qw(
+            vendor
+            vendor-url
+            bugs
+            parent
+        ),
     ],
     CTRL_FILE_STATUS() => [
         # Same as fieldinfos in lib/dpkg/parse.c
-        qw(package essential protected status priority section installed-size
-        origin
-        maintainer bugs architecture multi-arch source version config-version
-        replaces provides depends pre-depends recommends suggests breaks
-        conflicts enhances conffiles description triggers-pending
-        triggers-awaited),
+        qw(
+            package
+            essential
+            protected
+            status
+            priority
+            section
+            installed-size
+            origin
+            maintainer
+            bugs
+            architecture
+            multi-arch
+            source
+            version
+            config-version
+            replaces
+            provides
+            depends
+            pre-depends
+            recommends
+            suggests
+            breaks
+            conflicts
+            enhances
+            conffiles
+            description
+            triggers-pending
+            triggers-awaited
+        ),
         # These are allowed here, but not tracked by lib/dpkg/parse.c.
-        qw(auto-built-package build-essential built-for-profiles built-using
-        homepage installer-menu-item kernel-version package-type
-        subarchitecture tag task)
+        qw(
+            auto-built-package
+            build-essential
+            built-for-profiles
+            built-using
+            static-built-using
+            homepage
+            installer-menu-item
+            kernel-version
+            package-type
+            subarchitecture
+            tag
+            task
+        ),
     ],
-    CTRL_REPO_RELEASE() => [
-        qw(origin label suite codename changelogs date valid-until
-        architectures components description), @bin_checksums_fields
-    ],
-    CTRL_COPYRIGHT_HEADER() => [
-        qw(format upstream-name upstream-contact source disclaimer comment
-        license copyright)
-    ],
-    CTRL_COPYRIGHT_FILES() => [
-        qw(files copyright license comment)
-    ],
-    CTRL_COPYRIGHT_LICENSE() => [
-        qw(license comment)
+    CTRL_TESTS() => [
+        qw(
+            test-command
+            tests
+            tests-directory
+            architecture
+            restrictions
+            features
+            classes
+            depends
+        ),
     ],
 );
 
@@ -717,7 +1052,7 @@ sub field_capitalize($) {
     return join '-', map { ucfirst } split /-/, $field;
 }
 
-=item field_is_official($fname)
+=item $bool = field_is_official($fname)
 
 Returns true if the field is official and known.
 
@@ -729,7 +1064,7 @@ sub field_is_official($) {
     return exists $FIELDS{$field};
 }
 
-=item field_is_allowed_in($fname, @types)
+=item $bool = field_is_allowed_in($fname, @types)
 
 Returns true (1) if the field $fname is allowed in all the types listed in
 the list. Note that you can use type sets instead of individual types (ex:
@@ -756,7 +1091,7 @@ sub field_is_allowed_in($@) {
     return 1;
 }
 
-=item field_transfer_single($from, $to, $field)
+=item $new_field = field_transfer_single($from, $to, $field)
 
 If appropriate, copy the value of the field named $field taken from the
 $from Dpkg::Control object to the $to Dpkg::Control object.
@@ -809,7 +1144,7 @@ sub field_transfer_single($$;$) {
     return;
 }
 
-=item field_transfer_all($from, $to)
+=item @field_list = field_transfer_all($from, $to)
 
 Transfer all appropriate fields from $from to $to. Calls
 field_transfer_single() on all fields available in $from.
@@ -828,7 +1163,7 @@ sub field_transfer_all($$) {
     return @res;
 }
 
-=item field_ordered_list($type)
+=item @field_list = field_ordered_list($type)
 
 Returns an ordered list of fields for a given type of control information.
 This list can be used to output the fields in a predictable order.
@@ -891,7 +1226,7 @@ sub field_parse_binary_source($) {
     return ($source, $version);
 }
 
-=item field_list_src_dep()
+=item @field_list = field_list_src_dep()
 
 List of fields that contains dependencies-like information in a source
 Debian package.
@@ -910,7 +1245,7 @@ sub field_list_src_dep() {
     return @list;
 }
 
-=item field_list_pkg_dep()
+=item @field_list = field_list_pkg_dep()
 
 List of fields that contains dependencies-like information in a binary
 Debian package. The fields that express real dependencies are sorted from
@@ -930,7 +1265,7 @@ sub field_list_pkg_dep() {
     return @list;
 }
 
-=item field_get_dep_type($field)
+=item $dep_type = field_get_dep_type($field)
 
 Return the type of the dependency expressed by the given field. Can
 either be "normal" for a real dependency field (Pre-Depends, Depends, ...)
@@ -947,7 +1282,7 @@ sub field_get_dep_type($) {
     return;
 }
 
-=item field_get_sep_type($field)
+=item $sep_type = field_get_sep_type($field)
 
 Return the type of the field value separator. Can be one of FIELD_SEP_UNKNOWN,
 FIELD_SEP_SPACE, FIELD_SEP_COMMA or FIELD_SEP_LINE.
@@ -964,49 +1299,64 @@ sub field_get_sep_type($) {
 =item field_register($field, $allowed_types, %opts)
 
 Register a new field as being allowed in control information of specified
-types. %opts is optional
+types. %opts is optional.
 
 =cut
 
 sub field_register($$;@) {
     my ($field, $types, %opts) = @_;
+
     $field = lc $field;
     $FIELDS{$field} = {
         name => field_capitalize($field),
         allowed => $types,
         %opts
     };
+
+    return;
 }
 
-=item field_insert_after($type, $ref, @fields)
+=item $bool = field_insert_after($type, $ref, @fields)
 
 Place field after another one ($ref) in output of control information of
 type $type.
 
+Return true if the field was inserted, otherwise false.
+
 =cut
+
 sub field_insert_after($$@) {
     my ($type, $field, @fields) = @_;
+
     return 0 if not exists $FIELD_ORDER{$type};
+
     ($field, @fields) = map { lc } ($field, @fields);
     @{$FIELD_ORDER{$type}} = map {
         ($_ eq $field) ? ($_, @fields) : $_
     } @{$FIELD_ORDER{$type}};
+
     return 1;
 }
 
-=item field_insert_before($type, $ref, @fields)
+=item $bool = field_insert_before($type, $ref, @fields)
 
 Place field before another one ($ref) in output of control information of
 type $type.
 
+Return true if the field was inserted, otherwise false.
+
 =cut
+
 sub field_insert_before($$@) {
     my ($type, $field, @fields) = @_;
+
     return 0 if not exists $FIELD_ORDER{$type};
+
     ($field, @fields) = map { lc } ($field, @fields);
     @{$FIELD_ORDER{$type}} = map {
         ($_ eq $field) ? (@fields, $_) : $_
     } @{$FIELD_ORDER{$type}};
+
     return 1;
 }
 

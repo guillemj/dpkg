@@ -58,6 +58,7 @@ struct compress_params {
 	enum compressor_type type;
 	enum compressor_strategy strategy;
 	int level;
+	int threads_max;
 };
 
 enum compressor_type compressor_find_by_name(const char *name);
@@ -71,7 +72,7 @@ enum compressor_strategy compressor_get_strategy(const char *name);
 bool compressor_check_params(struct compress_params *params,
                              struct dpkg_error *err);
 
-void decompress_filter(enum compressor_type type, int fd_in, int fd_out,
+void decompress_filter(struct compress_params *params, int fd_in, int fd_out,
                        const char *desc, ...)
                        DPKG_ATTR_PRINTF(4);
 void compress_filter(struct compress_params *params, int fd_in, int fd_out,

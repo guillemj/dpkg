@@ -22,6 +22,7 @@
 #include <config.h>
 #include <compat.h>
 
+#include <errno.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -119,7 +120,7 @@ void baselist::kd_search() {
   echo();
   if (wgetnstr(querywin,newsearchstring,sizeof(newsearchstring)-1) == ERR)
     searchstring[0]= 0;
-  raise(SIGWINCH);
+  resize_window();
   noecho();
   if (whatinfo_height) { touchwin(whatinfowin); refreshinfo(); }
   else if (info_height) { touchwin(infopad); refreshinfo(); }
@@ -156,10 +157,10 @@ baselist::displayerror(const char *str)
 void baselist::displayhelp(const struct helpmenuentry *helpmenu, int key) {
   int maxx, maxy, i, nextkey;
 
-  getmaxyx(stdscr,maxy,maxx);
   wbkgdset(stdscr, ' ' | part_attr[helpscreen]);
   clearok(stdscr,TRUE);
   for (;;) {
+    getmaxyx(stdscr, maxy, maxx);
     werase(stdscr);
     const struct helpmenuentry *hme = helpmenu;
     while (hme->key && hme->key != key)
@@ -196,7 +197,15 @@ _("Press ? for help menu, . for next topic, <space> to exit help."));
       nextkey= helpmenu[0].key;
     }
     refresh();
-    key= getch();
+    do {
+      int curkey = key;
+
+      key = getch();
+      if (key == KEY_RESIZE) {
+        resize_window();
+        key = curkey;
+      }
+    } while (key == ERR && errno == EINTR);
     if (key == EOF) ohshite(_("error reading keyboard in help"));
     if (key == ' ' || key == 'q') {
       break;

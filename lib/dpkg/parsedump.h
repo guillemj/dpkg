@@ -103,9 +103,15 @@ typedef void freadfunction(struct pkginfo *pkg, struct pkgbin *pkgbin,
 freadfunction f_name;
 freadfunction f_charfield;
 freadfunction f_priority;
+freadfunction f_obs_class;
 freadfunction f_section;
 freadfunction f_status;
-freadfunction f_boolean, f_dependency, f_conffiles, f_version, f_revision;
+freadfunction f_boolean;
+freadfunction f_dependency;
+freadfunction f_conffiles;
+freadfunction f_version;
+freadfunction f_obs_revision;
+freadfunction f_obs_dependency;
 freadfunction f_configversion;
 freadfunction f_multiarch;
 freadfunction f_architecture;

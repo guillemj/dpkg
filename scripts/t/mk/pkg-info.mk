@@ -7,3 +7,5 @@ test:
 	test "$(DEB_VERSION_UPSTREAM_REVISION)" = "2:3.4-5-6"
 	test "$(DEB_VERSION_UPSTREAM)" = "2:3.4-5"
 	test "$(DEB_DISTRIBUTION)" = "suite"
+	test '$(SOURCE_DATE_EPOCH)' = '$(TEST_SOURCE_DATE_EPOCH)'
+	test "$${SOURCE_DATE_EPOCH}" = '$(TEST_SOURCE_DATE_EPOCH)'

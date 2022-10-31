@@ -121,7 +121,8 @@ The algorithm to compute the size is described in L<deb-substvars(5)>.
 =item B<Protected:> B<yes>|B<no>
 
 This field is usually only needed when the answer is B<yes>.
-It denotes a package that is required for proper booting of the system.
+It denotes a package that is required mostly for proper booting of the system
+or used for custom system-local meta-packages.
 L<dpkg(1)> or any other installation tool will not allow a B<Protected>
 package to be removed (at least not without using one of the force options).
 
@@ -130,7 +131,9 @@ Supported since dpkg 1.20.1.
 =item B<Essential:> B<yes>|B<no>
 
 This field is usually only needed when the answer is B<yes>.
-It denotes a package that is required for proper operation of the system.
+It denotes a package that is required for the packaging system, for
+proper operation of the system in general or during boot (although the latter
+should be converted to B<Protected> field instead).
 L<dpkg(1)> or any other installation tool will not allow an B<Essential>
 package to be removed (at least not without using one of the force options).
 
@@ -219,9 +222,8 @@ setting a different binary version via «B<dpkg-gencontrol -v>».
 =item B<Installer-Menu-Item:> I<value>
 
 These fields are used by the debian-installer and are usually not needed.
-See /usr/share/doc/debian-installer/devel/modules.txt from the
-B<debian-installer>
-package for more details about them.
+For more details about them, see
+L<https://salsa.debian.org/installer-team/debian-installer/-/raw/master/doc/devel/modules.txt>.
 
 =item B<Depends:> I<package-list>
 
@@ -378,15 +380,30 @@ syntax as above (honored since dpkg 1.17.11).
 
 =item B<Built-Using:> I<package-list>
 
-This field lists extra source packages that were used during the build of this
-binary package.  This is an indication to the archive maintenance software that
-these extra source packages must be kept whilst this binary package is
-maintained.
-This field must be a list of source package names with strict ‘B<=>’
-version relationships.  Note that the archive maintenance software is likely to
-refuse to accept an upload which declares a
-B<Built-Using>
-relationship which cannot be satisfied within the archive.
+This dependency field lists extra source packages that were used during the
+build of this binary package, for license compliance purposes.
+This is an indication to the archive maintenance software that these extra
+source packages must be kept whilst this binary package is maintained.
+This field must be a comma-separated list of source package names with strict
+‘B<=>’ version relationships enclosed within parenthesis.
+Note that the archive maintenance software is likely to refuse to accept an
+upload which declares a B<Built-Using> relationship which cannot be satisfied
+within the archive.
+
+=item B<Static-Built-Using:> I<package-list>
+
+This dependency field lists extra source packages that were used during the
+build of this binary package, for static building purposes (for example
+linking against static libraries, builds for source-centered languages such
+as Go or Rust, usage of header-only C/C++ libraries, injecting data blobs
+into code, etc.).
+This is useful to track whether this package might need to be rebuilt when
+source packages listed here have been updated, for example due to security
+updates.
+This field must be a comma-separated list of source package names with strict
+‘B<=>’ version relationships enclosed within parenthesis.
+
+Supported since dpkg 1.21.3.
 
 =item B<Built-For-Profiles:> I<profile-list> (obsolete)
 

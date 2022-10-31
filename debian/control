@@ -6,7 +6,7 @@ Uploaders: Guillem Jover <guillem@debian.org>
 Homepage: https://wiki.debian.org/Teams/Dpkg
 Vcs-Browser: https://git.dpkg.org/cgit/dpkg/dpkg.git
 Vcs-Git: https://git.dpkg.org/git/dpkg/dpkg.git
-Standards-Version: 4.6.0
+Standards-Version: 4.6.1
 Rules-Requires-Root: no
 Build-Depends:
  debhelper-compat (= 13),
@@ -15,6 +15,7 @@ Build-Depends:
  gettext (>= 0.19.7),
 # Needed for --porefs defaults, conditional addenda and mode=eof.
  po4a (>= 0.59),
+ libmd-dev,
  zlib1g-dev,
  libbz2-dev,
  liblzma-dev,
@@ -23,6 +24,25 @@ Build-Depends:
 # Needed for the functional test.
  bzip2 <!nocheck>,
  xz-utils <!nocheck>,
+# Needed for the test suite in author mode.
+ fakeroot <pkg.dpkg.author-testing>,
+ gpg <pkg.dpkg.author-testing>,
+ cppcheck <pkg.dpkg.author-testing>,
+ shellcheck <pkg.dpkg.author-testing>,
+ aspell <pkg.dpkg.author-testing>,
+ aspell-en <pkg.dpkg.author-testing>,
+ codespell <pkg.dpkg.author-testing>,
+ i18nspector <pkg.dpkg.author-testing>,
+ libtest-minimumversion-perl <pkg.dpkg.author-testing>,
+ libtest-perl-critic-perl <pkg.dpkg.author-testing>,
+ libtest-pod-coverage-perl <pkg.dpkg.author-testing>,
+ libtest-pod-perl <pkg.dpkg.author-testing>,
+ libtest-spelling-perl <pkg.dpkg.author-testing>,
+ libtest-strict-perl <pkg.dpkg.author-testing>,
+ libtest-synopsis-perl <pkg.dpkg.author-testing>,
+# Needed for code coverage reports.
+ lcov <pkg.dpkg.code-coverage>,
+ libdevel-cover-perl <pkg.dpkg.code-coverage>,
 
 Package: dpkg
 Architecture: any

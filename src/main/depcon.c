@@ -313,7 +313,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
   struct pkginfo *pkg_pos;
   int nconflicts;
 
-  /* Use this buffer so that when internationalisation comes along we
+  /* Use this buffer so that when internationalization comes along we
    * don't have to rewrite the code completely, only redo the sprintf strings
    * (assuming we have the fancy argument-number-specifiers).
    * Allow 250x3 for package names, versions, &c, + 250 for ourselves. */

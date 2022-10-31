@@ -692,37 +692,161 @@ int
 cmpversions(const char *const *argv)
 {
   struct relationinfo {
-    const char *string;
-    /* These values are exit status codes, so 0 = true, 1 = false. */
+    const char *op;
+    /* These values are exit status codes. */
     int if_lesser, if_equal, if_greater;
     int if_none_a, if_none_both, if_none_b;
     bool obsolete;
   };
 
   static const struct relationinfo relationinfos[]= {
-    /*             < = > !a!2!b  */
-    { "le",        0,0,1, 0,0,1  },
-    { "lt",        0,1,1, 0,1,1  },
-    { "eq",        1,0,1, 1,0,1  },
-    { "ne",        0,1,0, 0,1,0  },
-    { "ge",        1,0,0, 1,0,0  },
-    { "gt",        1,1,0, 1,1,0  },
+    {
+      .op = "le",
+      .if_lesser = EXIT_SUCCESS,
+      .if_equal = EXIT_SUCCESS,
+      .if_greater = EXIT_FAILURE,
+      .if_none_a = EXIT_SUCCESS,
+      .if_none_both = EXIT_SUCCESS,
+      .if_none_b = EXIT_FAILURE,
+    }, {
+      .op = "lt",
+      .if_lesser = EXIT_SUCCESS,
+      .if_equal = EXIT_FAILURE,
+      .if_greater = EXIT_FAILURE,
+      .if_none_a = EXIT_SUCCESS,
+      .if_none_both = EXIT_FAILURE,
+      .if_none_b = EXIT_FAILURE,
+    }, {
+      .op = "eq",
+      .if_lesser = EXIT_FAILURE,
+      .if_equal = EXIT_SUCCESS,
+      .if_greater = EXIT_FAILURE,
+      .if_none_a = EXIT_FAILURE,
+      .if_none_both = EXIT_SUCCESS,
+      .if_none_b = EXIT_FAILURE,
+    }, {
+      .op = "ne",
+      .if_lesser = EXIT_SUCCESS,
+      .if_equal = EXIT_FAILURE,
+      .if_greater = EXIT_SUCCESS,
+      .if_none_a = EXIT_SUCCESS,
+      .if_none_both = EXIT_FAILURE,
+      .if_none_b = EXIT_SUCCESS,
+    }, {
+      .op = "ge",
+      .if_lesser = EXIT_FAILURE,
+      .if_equal = EXIT_SUCCESS,
+      .if_greater = EXIT_SUCCESS,
+      .if_none_a = EXIT_FAILURE,
+      .if_none_both = EXIT_SUCCESS,
+      .if_none_b = EXIT_SUCCESS,
+    }, {
+      .op = "gt",
+      .if_lesser = EXIT_FAILURE,
+      .if_equal = EXIT_FAILURE,
+      .if_greater = EXIT_SUCCESS,
+      .if_none_a = EXIT_FAILURE,
+      .if_none_both = EXIT_FAILURE,
+      .if_none_b = EXIT_SUCCESS,
+    },
 
     /* These treat an empty version as later than any version. */
-    { "le-nl",     0,0,1, 1,0,0  },
-    { "lt-nl",     0,1,1, 1,1,0  },
-    { "ge-nl",     1,0,0, 0,0,1  },
-    { "gt-nl",     1,1,0, 0,1,1  },
+    {
+      .op = "le-nl",
+      .if_lesser = EXIT_SUCCESS,
+      .if_equal = EXIT_SUCCESS,
+      .if_greater = EXIT_FAILURE,
+      .if_none_a = EXIT_FAILURE,
+      .if_none_both = EXIT_SUCCESS,
+      .if_none_b = EXIT_SUCCESS,
+    }, {
+      .op = "lt-nl",
+      .if_lesser = EXIT_SUCCESS,
+      .if_equal = EXIT_FAILURE,
+      .if_greater = EXIT_FAILURE,
+      .if_none_a = EXIT_FAILURE,
+      .if_none_both = EXIT_FAILURE,
+      .if_none_b = EXIT_SUCCESS,
+    }, {
+      .op = "ge-nl",
+      .if_lesser = EXIT_FAILURE,
+      .if_equal = EXIT_SUCCESS,
+      .if_greater = EXIT_SUCCESS,
+      .if_none_a = EXIT_SUCCESS,
+      .if_none_both = EXIT_SUCCESS,
+      .if_none_b = EXIT_FAILURE,
+    }, {
+      .op = "gt-nl",
+      .if_lesser = EXIT_FAILURE,
+      .if_equal = EXIT_FAILURE,
+      .if_greater = EXIT_SUCCESS,
+      .if_none_a = EXIT_SUCCESS,
+      .if_none_both = EXIT_FAILURE,
+      .if_none_b = EXIT_FAILURE,
+    },
 
     /* For compatibility with dpkg control file syntax. */
-    { "<",         0,0,1, 0,0,1, .obsolete = true },
-    { "<=",        0,0,1, 0,0,1  },
-    { "<<",        0,1,1, 0,1,1  },
-    { "=",         1,0,1, 1,0,1  },
-    { ">",         1,0,0, 1,0,0, .obsolete = true },
-    { ">=",        1,0,0, 1,0,0  },
-    { ">>",        1,1,0, 1,1,0  },
-    { NULL                       }
+    {
+      .op = "<",
+      .if_lesser = EXIT_SUCCESS,
+      .if_equal = EXIT_SUCCESS,
+      .if_greater = EXIT_FAILURE,
+      .if_none_a = EXIT_SUCCESS,
+      .if_none_both = EXIT_SUCCESS,
+      .if_none_b = EXIT_FAILURE,
+      .obsolete = true,
+    }, {
+      .op = "<=",
+      .if_lesser = EXIT_SUCCESS,
+      .if_equal = EXIT_SUCCESS,
+      .if_greater = EXIT_FAILURE,
+      .if_none_a = EXIT_SUCCESS,
+      .if_none_both = EXIT_SUCCESS,
+      .if_none_b = EXIT_FAILURE,
+    }, {
+      .op = "<<",
+      .if_lesser = EXIT_SUCCESS,
+      .if_equal = EXIT_FAILURE,
+      .if_greater = EXIT_FAILURE,
+      .if_none_a = EXIT_SUCCESS,
+      .if_none_both = EXIT_FAILURE,
+      .if_none_b = EXIT_FAILURE,
+    }, {
+      .op = "=",
+      .if_lesser = EXIT_FAILURE,
+      .if_equal = EXIT_SUCCESS,
+      .if_greater = EXIT_FAILURE,
+      .if_none_a = EXIT_FAILURE,
+      .if_none_both = EXIT_SUCCESS,
+      .if_none_b = EXIT_FAILURE,
+    }, {
+      .op = ">",
+      .if_lesser = EXIT_FAILURE,
+      .if_equal = EXIT_SUCCESS,
+      .if_greater = EXIT_SUCCESS,
+      .if_none_a = EXIT_FAILURE,
+      .if_none_both = EXIT_SUCCESS,
+      .if_none_b = EXIT_SUCCESS,
+      .obsolete = true,
+    }, {
+      .op = ">=",
+      .if_lesser = EXIT_FAILURE,
+      .if_equal = EXIT_SUCCESS,
+      .if_greater = EXIT_SUCCESS,
+      .if_none_a = EXIT_FAILURE,
+      .if_none_both = EXIT_SUCCESS,
+      .if_none_b = EXIT_SUCCESS,
+    }, {
+      .op = ">>",
+      .if_lesser = EXIT_FAILURE,
+      .if_equal = EXIT_FAILURE,
+      .if_greater = EXIT_SUCCESS,
+      .if_none_a = EXIT_FAILURE,
+      .if_none_both = EXIT_FAILURE,
+      .if_none_b = EXIT_SUCCESS,
+    }, {
+      .op = NULL,
+    }
   };
 
   const struct relationinfo *rip;
@@ -734,13 +858,15 @@ cmpversions(const char *const *argv)
     badusage(_("--compare-versions takes three arguments:"
              " <version> <relation> <version>"));
 
-  for (rip=relationinfos; rip->string && strcmp(rip->string,argv[1]); rip++);
+  for (rip = relationinfos; rip->op && strcmp(rip->op, argv[1]); rip++)
+    ;
 
-  if (!rip->string) badusage(_("--compare-versions bad relation"));
+  if (!rip->op)
+    badusage(_("--compare-versions bad relation"));
 
   if (rip->obsolete)
     warning(_("--%s used with obsolete relation operator '%s'"),
-            cipaction->olong, rip->string);
+            cipaction->olong, rip->op);
 
   if (*argv[0] && strcmp(argv[0],"<unknown>")) {
     if (parseversion(&a, argv[0], &err) < 0) {

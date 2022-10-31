@@ -20,7 +20,7 @@ use Test::More;
 use Test::Dpkg qw(:paths);
 
 BEGIN {
-    plan tests => 2467;
+    plan tests => 2603;
 
     use_ok('Dpkg::Control::Types');
     use_ok('Dpkg::Control::FieldsCore');
@@ -30,177 +30,440 @@ BEGIN {
 #my $datadir = test_get_data_path();
 
 my @src_dep_fields = qw(
-    Build-Depends Build-Depends-Arch Build-Depends-Indep
-    Build-Conflicts Build-Conflicts-Arch Build-Conflicts-Indep
+    Build-Depends
+    Build-Depends-Arch
+    Build-Depends-Indep
+    Build-Conflicts
+    Build-Conflicts-Arch
+    Build-Conflicts-Indep
 );
 my @bin_dep_normal_fields = qw(
-    Pre-Depends Depends Recommends Suggests Enhances
+    Pre-Depends
+    Depends
+    Recommends
+    Suggests
+    Enhances
 );
 my @bin_dep_union_fields = qw(
-    Conflicts Breaks Replaces Provides Built-Using
+    Conflicts
+    Breaks
+    Replaces
+    Provides
+    Built-Using
+    Static-Built-Using
 );
-my @bin_dep_fields = (@bin_dep_normal_fields, @bin_dep_union_fields);
+my @bin_dep_fields = (
+    @bin_dep_normal_fields,
+    @bin_dep_union_fields,
+);
 my @src_checksums = qw(
-    Checksums-Md5 Checksums-Sha1 Checksums-Sha256
+    Checksums-Md5
+    Checksums-Sha1
+    Checksums-Sha256
 );
 my @bin_checksums = qw(
-    MD5sum SHA1 SHA256
+    MD5sum
+    SHA1
+    SHA256
 );
-my @src_files = (@src_checksums, qw(Files));
-my @bin_files = (qw(Filename Size), @bin_checksums);
+my @src_files = (
+    @src_checksums,
+    qw(
+        Files
+    ),
+);
+my @bin_files = (
+    qw(
+        Filename
+        Size
+    ),
+    @bin_checksums,
+);
 my @vcs_fields = qw(
-    Vcs-Browser Vcs-Arch Vcs-Bzr Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn
+    Vcs-Browser
+    Vcs-Arch
+    Vcs-Bzr
+    Vcs-Cvs
+    Vcs-Darcs
+    Vcs-Git
+    Vcs-Hg
+    Vcs-Mtn
     Vcs-Svn
 );
 my @test_fields = qw(
-    Testsuite Testsuite-Triggers
+    Testsuite
+    Testsuite-Triggers
 );
 
 my %fields = (
     CTRL_INFO_SRC() => {
         name => 'debian/control source stanza',
-        unordered => 1,
         fields => [
-            qw(Bugs Homepage Description Origin Maintainer Uploaders
-               Priority Section Source Standards-Version),
-            @test_fields, @vcs_fields, @src_dep_fields
+            qw(
+                Source
+                Section
+                Priority
+                Maintainer
+                Uploaders
+                Origin
+                Bugs
+            ),
+            @vcs_fields,
+            qw(
+                Homepage
+                Standards-Version
+                Rules-Requires-Root
+            ),
+            @src_dep_fields,
+            @test_fields,
+            qw(
+                Description
+            ),
         ],
     },
     CTRL_INFO_PKG() => {
         name => 'debian/control binary stanza',
-        unordered => 1,
         fields => [
-            qw(Architecture Build-Essential Build-Profiles Built-For-Profiles
-               Description Essential Protected Homepage
-               Installer-Menu-Item Kernel-Version Multi-Arch
-               Package Package-Type Priority Section Subarchitecture
-               Tag Task), @bin_dep_fields
+            qw(
+                Package
+                Package-Type
+                Section
+                Priority
+                Architecture
+                Subarchitecture
+                Multi-Arch
+                Essential
+                Protected
+                Build-Essential
+                Build-Profiles
+                Built-For-Profiles
+                Kernel-Version
+            ),
+            @bin_dep_fields,
+            qw(
+                Homepage
+                Installer-Menu-Item
+                Task
+                Tag
+                Description
+            ),
         ],
     },
     CTRL_PKG_SRC() => {
         name => '.dsc',
         fields => [
-            qw(Format Source Binary Architecture Version Origin Maintainer
-               Uploaders Homepage Description Standards-Version),
-            @vcs_fields, @test_fields, @src_dep_fields,
-            qw(Package-List),
-            @src_files
+            qw(
+                Format
+                Source
+                Binary
+                Architecture
+                Version
+                Origin
+                Maintainer
+                Uploaders
+                Homepage
+                Description
+                Standards-Version
+            ),
+            @vcs_fields,
+            @test_fields,
+            @src_dep_fields,
+            qw(
+                Package-List
+            ),
+            @src_files,
         ],
     },
     CTRL_PKG_DEB() => {
         name => 'DEBIAN/control',
         fields => [
-            qw(Package Package-Type Source Version Built-Using Kernel-Version
-               Built-For-Profiles Auto-Built-Package Architecture
-               Subarchitecture Installer-Menu-Item
-               Build-Essential Essential Protected Origin Bugs
-               Maintainer Installed-Size), @bin_dep_fields,
-            qw(Section Priority Multi-Arch Homepage Description Tag Task)
+            qw(
+                Package
+                Package-Type
+                Source
+                Version
+                Kernel-Version
+                Built-For-Profiles
+                Auto-Built-Package
+                Architecture
+                Subarchitecture
+                Installer-Menu-Item
+                Build-Essential
+                Essential
+                Protected
+                Origin
+                Bugs
+                Maintainer
+                Installed-Size
+            ),
+            @bin_dep_fields,
+            qw(
+                Section
+                Priority
+                Multi-Arch
+                Homepage
+                Description
+                Tag
+                Task
+            ),
         ],
     },
     CTRL_INDEX_SRC() => {
         name => 'Sources',
         fields => [
-            qw(Format Package Binary Architecture Version Priority Section
-               Origin Maintainer Uploaders Homepage Description
-               Standards-Version),
-            @vcs_fields, @test_fields, @src_dep_fields,
-            qw(Package-List Directory),
-            @src_files
+            qw(
+                Format
+                Package
+                Binary
+                Architecture
+                Version
+                Priority
+                Section
+                Origin
+                Maintainer
+                Uploaders
+                Homepage
+                Description
+                Standards-Version
+            ),
+            @vcs_fields,
+            @test_fields,
+            @src_dep_fields,
+            qw(
+                Package-List
+                Directory
+            ),
+            @src_files,
         ],
     },
     CTRL_INDEX_PKG() => {
         name => 'Packages',
         fields => [
-            qw(Package Package-Type Source Version Built-Using Kernel-Version
-               Built-For-Profiles Auto-Built-Package Architecture
-               Subarchitecture Installer-Menu-Item
-               Build-Essential Essential Protected Origin Bugs
-               Maintainer Installed-Size), @bin_dep_fields, @bin_files,
-            qw(Section Priority Multi-Arch Homepage Description Tag Task)
+            qw(
+                Package
+                Package-Type
+                Source
+                Version
+                Kernel-Version
+                Built-For-Profiles
+                Auto-Built-Package
+                Architecture
+                Subarchitecture
+                Installer-Menu-Item
+                Build-Essential
+                Essential
+                Protected
+                Origin
+                Bugs
+                Maintainer
+                Installed-Size
+            ),
+            @bin_dep_fields,
+            @bin_files,
+            qw(
+                Section
+                Priority
+                Multi-Arch
+                Homepage
+                Description
+                Tag
+                Task
+            ),
         ],
     },
     CTRL_REPO_RELEASE() => {
         name => 'Release',
         fields => [
-            qw(Origin Label Suite Codename Changelogs Date Valid-Until
-               Architectures Components Description),
-            @bin_checksums
+            qw(
+                Origin
+                Label
+                Suite
+                Version
+                Codename
+                Changelogs
+                Date
+                Valid-Until
+                NotAutomatic
+                ButAutomaticUpgrades
+                Acquire-By-Hash
+                No-Support-for-Architecture-all
+                Architectures
+                Components
+                Description
+            ),
+            @bin_checksums,
         ],
     },
     CTRL_CHANGELOG() => {
         name => 'debian/changelog',
         fields => [
-            qw(Source Binary-Only Version Distribution Urgency Maintainer
-               Timestamp Date Closes Changes)
+            qw(
+                Source
+                Binary-Only
+                Version
+                Distribution
+                Urgency
+                Maintainer
+                Timestamp
+                Date
+                Closes
+                Changes
+            ),
         ],
     },
     CTRL_COPYRIGHT_HEADER() => {
         name => 'debian/copyright Format stanza',
         fields => [
-            qw(Format Upstream-Name Upstream-Contact Source Disclaimer Comment
-               License Copyright)
+            qw(
+                Format
+                Upstream-Name
+                Upstream-Contact
+                Source
+                Disclaimer
+                Comment
+                License
+                Copyright
+            ),
         ],
     },
     CTRL_COPYRIGHT_FILES() => {
         name => 'debian/copyright Files stanza',
         fields => [
-            qw(Files Copyright License Comment)
+            qw(
+                Files
+                Copyright
+                License
+                Comment
+            ),
         ],
     },
     CTRL_COPYRIGHT_LICENSE() => {
         name => 'debian/copyright License stanza',
         fields => [
-            qw(License Comment)
+            qw(
+                License
+                Comment
+            ),
         ],
     },
     CTRL_TESTS() => {
         name => 'debian/tests/control',
-        unordered => 1,
         fields => [
-            qw(Classes Depends Features Restrictions Test-Command Tests
-               Tests-Directory)
+            qw(
+                Test-Command
+                Tests
+                Tests-Directory
+                Architecture
+                Restrictions
+                Features
+                Classes
+                Depends
+            ),
         ],
     },
     CTRL_FILE_BUILDINFO() => {
         name => '.buildinfo',
         fields => [
-            qw(Format Source Binary Architecture Version Binary-Only-Changes),
+            qw(
+                Format
+                Source
+                Binary
+                Architecture
+                Version
+                Binary-Only-Changes
+            ),
             @src_checksums,
-            qw(Build-Origin Build-Architecture Build-Kernel-Version
-               Build-Date Build-Path Build-Tainted-By
-               Installed-Build-Depends Environment)
+            qw(
+                Build-Origin
+                Build-Architecture
+                Build-Kernel-Version
+                Build-Date
+                Build-Path
+                Build-Tainted-By
+                Installed-Build-Depends
+                Environment
+            ),
         ],
     },
     CTRL_FILE_CHANGES() => {
         name => '.changes',
         fields => [
-            qw(Format Date Source Binary Binary-Only Built-For-Profiles
-               Architecture Version Distribution Urgency Maintainer
-               Changed-By Description Closes Changes),
-            @src_files
+            qw(
+                Format
+                Date
+                Source
+                Binary
+                Binary-Only
+                Built-For-Profiles
+                Architecture
+                Version
+                Distribution
+                Urgency
+                Maintainer
+                Changed-By
+                Description
+                Closes
+                Changes
+            ),
+            @src_files,
         ],
     },
     CTRL_FILE_VENDOR() => {
         name => 'dpkg origin',
-        unordered => 1,
         fields => [
-            qw(Bugs Parent Vendor Vendor-Url)
+            qw(
+                Vendor
+                Vendor-Url
+                Bugs
+                Parent
+            ),
         ],
     },
     CTRL_FILE_STATUS() => {
         name => 'dpkg status',
         fields => [
-            qw(Package Essential Protected Status Priority Section
-               Installed-Size
-               Origin Maintainer Bugs Architecture Multi-Arch Source
-               Version Config-Version
-               Replaces Provides Depends Pre-Depends
-               Recommends Suggests Breaks Conflicts Enhances
-               Conffiles Description Triggers-Pending Triggers-Awaited
-               Auto-Built-Package Build-Essential Built-For-Profiles
-               Built-Using Homepage Installer-Menu-Item Kernel-Version
-               Package-Type Subarchitecture Tag Task)
+            qw(
+                Package
+                Essential
+                Protected
+                Status
+                Priority
+                Section
+                Installed-Size
+                Origin
+                Maintainer
+                Bugs
+                Architecture
+                Multi-Arch
+                Source
+                Version
+                Config-Version
+                Replaces
+                Provides
+                Depends
+                Pre-Depends
+                Recommends
+                Suggests
+                Breaks
+                Conflicts
+                Enhances
+                Conffiles
+                Description
+                Triggers-Pending
+                Triggers-Awaited
+                Auto-Built-Package
+                Build-Essential
+                Built-For-Profiles
+                Built-Using
+                Static-Built-Using
+                Homepage
+                Installer-Menu-Item
+                Kernel-Version
+                Package-Type
+                Subarchitecture
+                Tag
+                Task
+            ),
         ],
     },
 );
@@ -245,10 +508,10 @@ foreach my $type (sort keys %fields) {
     foreach my $field (sort keys %known_fields) {
         if ($allowed_fields{$field}) {
             ok(field_is_allowed_in($field, $type),
-               "Field $field allowed for type $type");
+               "Field $field allowed for type $fields{$type}->{name}");
         } else {
             ok(!field_is_allowed_in($field, $type),
-               "Field $field not allowed for type $type");
+               "Field $field not allowed for type $fields{$type}->{name}");
         }
     }
 }

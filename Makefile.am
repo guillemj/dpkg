@@ -45,10 +45,15 @@ dist_pkgdata_DATA = \
 dist_doc_DATA = \
 	doc/README.api \
 	doc/README.feature-removal-schedule \
-	doc/frontend.txt \
-	doc/protected-field.txt \
-	doc/rootless-builds.txt \
-	doc/triggers.txt \
+	# EOL
+
+docspecdir = $(docdir)/spec
+
+dist_docspec_DATA = \
+	doc/spec/frontend-api.txt \
+	doc/spec/protected-field.txt \
+	doc/spec/rootless-builds.txt \
+	doc/spec/triggers.txt \
 	# EOL
 
 EXTRA_DIST = \
@@ -61,6 +66,7 @@ EXTRA_DIST = \
 	build-aux/get-version \
 	build-aux/lcov-inject \
 	build-aux/run-script \
+	build-aux/test-runner \
 	doc/coding-style.txt \
 	debian/README.bug-usertags \
 	debian/bug-script \
@@ -86,11 +92,15 @@ EXTRA_DIST = \
 	debian/dselect.cfg \
 	debian/dselect.docs \
 	debian/dselect.install \
+	debian/dselect.lintian-overrides \
 	debian/dselect.manpages \
 	debian/dselect.postrm \
+	debian/dselect.preinst \
+	debian/dselect.prerm \
 	debian/libdpkg-dev.install \
 	debian/libdpkg-perl.install \
 	debian/source/format \
+	debian/not-installed \
 	debian/rules \
 	debian/shlibs.default \
 	debian/shlibs.override \
@@ -202,6 +212,9 @@ include $(top_srcdir)/build-aux/tap.am
 
 check-local: tap-check
 
+authorcheck:
+	AUTHOR_TESTING=1 $(MAKE) check
+
 .PHONY: update-po
 
 update-po:
@@ -216,7 +229,7 @@ include $(top_srcdir)/build-aux/cpan.am
 # that we're not forgetting some files, and we are not storing any symlink
 # in the repository (except for the origins/default one) as those degrade
 # to regular files due to automake telling tar to dereference them.
-dist-hook: dist-cpan
+dist-hook:
 	echo $(VERSION) >$(distdir)/.dist-version
 	if [ -e .git ]; then \
 	  for file in `git ls-tree -r HEAD | grep ^12 | grep -v t/origins/default`; do \

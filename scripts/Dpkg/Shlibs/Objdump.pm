@@ -497,7 +497,7 @@ sub apply_relocations {
         push @relocs, $sym->{name} . '@@' . $sym->{version} if $sym->{version};
 
         # Symbols that are not versioned, or versioned but shown with objdump
-        # fopm binutils < 2.26, do not have a version appended.
+        # from binutils < 2.26, do not have a version appended.
         push @relocs, $sym->{name};
 
         foreach my $reloc (@relocs) {

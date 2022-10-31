@@ -157,28 +157,28 @@ quitaction methodlist::display() {
 
   debug(dbg_general, "methodlist[%p]::display()", this);
 
-  setupsigwinch();
   startdisplay();
 
   debug(dbg_general, "methodlist[%p]::display() entering loop", this);
   for (;;) {
     if (whatinfo_height) wcursyncup(whatinfowin);
     if (doupdate() == ERR) ohshite(_("doupdate failed"));
-    signallist= this;
-    sigwinch_mask(SIG_UNBLOCK);
-    do
-    response= getch();
-    while (response == ERR && errno == EINTR);
-    sigwinch_mask(SIG_BLOCK);
+    do {
+      response = getch();
+      if (response == KEY_RESIZE) {
+        resize_window();
+        continue;
+      }
+    } while (response == ERR && errno == EINTR);
     if (response == ERR) ohshite(_("getch failed"));
     interp= (*bindings)(response);
     debug(dbg_general, "methodlist[%p]::display() response=%d interp=%s",
           this, response, interp ? interp->action : "[none]");
-    if (!interp) { beep(); continue; }
+    if (!interp)
+      continue;
     (this->*(interp->mfn))();
     if (interp->qa != qa_noquit) break;
   }
-  pop_cleanup(ehflag_normaltidy); // unset the SIGWINCH handler
   enddisplay();
 
   debug(dbg_general, "methodlist[%p]::display() done", this);

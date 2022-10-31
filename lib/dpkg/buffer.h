@@ -37,7 +37,7 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
-#define DPKG_BUFFER_SIZE 4096
+#define DPKG_BUFFER_SIZE		(32 * 1024)
 
 #define BUFFER_WRITE_VBUF		1
 #define BUFFER_WRITE_FD			2

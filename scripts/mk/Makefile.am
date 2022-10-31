@@ -10,19 +10,18 @@ dist_pkgdata_DATA = \
 	vendor.mk \
 	# EOL
 
-do_path_subst = $(AM_V_GEN) $(SED) \
-	-e "s:dpkg_datadir[[:space:]]*=[[:space:]]*[^[:space:]]*:dpkg_datadir = $(pkgdatadir):" \
-	# EOL
+SUFFIXES =
 
+include $(top_srcdir)/build-aux/subst.am
+
+# Ideally we'd use '$(SED) -i', but unfortunately that's not portable.
 install-data-hook:
-	mv $(DESTDIR)$(pkgdatadir)/default.mk \
-	   $(DESTDIR)$(pkgdatadir)/default.mk.tmp
-	$(do_path_subst) <$(DESTDIR)$(pkgdatadir)/default.mk.tmp \
-	                 >$(DESTDIR)$(pkgdatadir)/default.mk
-	rm -f $(DESTDIR)$(pkgdatadir)/default.mk.tmp
+	$(do_make_subst) <$(DESTDIR)$(pkgdatadir)/default.mk \
+	                 >$(DESTDIR)$(pkgdatadir)/default.mk.new
+	mv $(DESTDIR)$(pkgdatadir)/default.mk.new \
+	   $(DESTDIR)$(pkgdatadir)/default.mk
 
-	mv $(DESTDIR)$(pkgdatadir)/buildtools.mk \
-	   $(DESTDIR)$(pkgdatadir)/buildtools.mk.tmp
-	$(do_path_subst) <$(DESTDIR)$(pkgdatadir)/buildtools.mk.tmp \
-	                 >$(DESTDIR)$(pkgdatadir)/buildtools.mk
-	rm -f $(DESTDIR)$(pkgdatadir)/buildtools.mk.tmp
+	$(do_make_subst) <$(DESTDIR)$(pkgdatadir)/buildtools.mk \
+	                 >$(DESTDIR)$(pkgdatadir)/buildtools.mk.new
+	mv $(DESTDIR)$(pkgdatadir)/buildtools.mk.new \
+	   $(DESTDIR)$(pkgdatadir)/buildtools.mk

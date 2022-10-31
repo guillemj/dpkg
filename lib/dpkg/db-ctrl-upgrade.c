@@ -77,17 +77,18 @@ pkg_infodb_link_multiarch_files(void)
 	struct varbuf pkgname = VARBUF_INIT;
 	struct varbuf oldname = VARBUF_INIT;
 	struct varbuf newname = VARBUF_INIT;
-	struct varbuf_state db_path_state;
+	struct varbuf_state oldname_state;
+	struct varbuf_state newname_state;
 
-	varbuf_add_str(&oldname, pkg_infodb_get_dir());
-	varbuf_add_char(&oldname, '/');
+	varbuf_add_dir(&oldname, pkg_infodb_get_dir());
 	varbuf_end_str(&oldname);
-	varbuf_snapshot(&oldname, &db_path_state);
+	varbuf_snapshot(&oldname, &oldname_state);
 
 	varbuf_add_buf(&newname, oldname.buf, oldname.used);
 	varbuf_end_str(&newname);
+	varbuf_snapshot(&newname, &newname_state);
 
-	db_dir = opendir(oldname.buf);
+	db_dir = opendir(pkg_infodb_get_dir());
 	if (!db_dir)
 		ohshite(_("cannot read info directory"));
 
@@ -131,11 +132,11 @@ pkg_infodb_link_multiarch_files(void)
 		/* Skip past the full stop. */
 		filetype = dot + 1;
 
-		varbuf_rollback(&oldname, &db_path_state);
+		varbuf_rollback(&oldname_state);
 		varbuf_add_str(&oldname, db_de->d_name);
 		varbuf_end_str(&oldname);
 
-		varbuf_rollback(&newname, &db_path_state);
+		varbuf_rollback(&newname_state);
 		varbuf_add_pkgbin_name(&newname, pkg, &pkg->installed, pnaw_always);
 		varbuf_add_char(&newname, '.');
 		varbuf_add_str(&newname, filetype);

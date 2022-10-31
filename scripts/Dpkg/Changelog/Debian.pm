@@ -146,7 +146,8 @@ sub parse {
     my $expect = FIRST_HEADING;
     my $entry = Dpkg::Changelog::Entry::Debian->new();
     my @blanklines = ();
-    my $unknowncounter = 1; # to make version unique, e.g. for using as id
+    # To make version unique, for example for using as id.
+    my $unknowncounter = 1;
     local $_;
 
     while (<$fh>) {
@@ -254,7 +255,6 @@ sub parse {
 }
 
 1;
-__END__
 
 =back
 

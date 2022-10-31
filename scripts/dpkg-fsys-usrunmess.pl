@@ -27,6 +27,7 @@ our $ADMINDIR = '/var/lib/dpkg/';
 
 use POSIX;
 use File::Temp qw(tempdir);
+use File::Find;
 use Getopt::Long qw(:config posix_default bundling_values no_ignorecase);
 
 eval q{
@@ -39,18 +40,23 @@ if ($@) {
 
 my $opt_noact = length $ENV{DPKG_USRUNMESS_NOACT} ? 1 : 0;
 my $opt_prompt = 0;
+my $opt_prevent = -1;
 
 my @options_spec = (
     'help|?' => sub { usage(); exit 0; },
     'version' => sub { version(); exit 0; },
     'dry-run|no-act|n' => \$opt_noact,
     'prompt|p' => \$opt_prompt,
+    'prevention!' => \$opt_prevent,
 );
 
 {
     local $SIG{__WARN__} = sub { usageerr($_[0]) };
     GetOptions(@options_spec);
 }
+
+# Set a known umask.
+umask 0022;
 
 my @aliased_dirs;
 
@@ -86,16 +92,20 @@ if (glob "$ADMINDIR/updates/*") {
     fatal('dpkg is in an inconsistent state, please fix that');
 }
 
-debug('building regression prevention measures');
-my $tmpdir = tempdir(CLEANUP => 1, TMPDIR => 1);
-my $pkgdir = "$tmpdir/pkg";
-my $pkgfile = "$tmpdir/dpkg-fsys-usrunmess.deb";
+$opt_prevent = prompt('Generate and install a regression prevention package')
+    if $opt_prevent < 0;
 
-mkdir "$pkgdir" or fatal('cannot create temporary package directory');
-mkdir "$pkgdir/DEBIAN" or fatal('cannot create temporary directory');
-open my $ctrl_fh, '>', "$pkgdir/DEBIAN/control"
-    or fatal('cannot create temporary control file');
-print { $ctrl_fh } <<"CTRL";
+if ($opt_prevent) {
+    debug('building regression prevention measures');
+    my $tmpdir = tempdir(CLEANUP => 1, TMPDIR => 1);
+    my $pkgdir = "$tmpdir/pkg";
+    my $pkgfile = "$tmpdir/dpkg-fsys-usrunmess.deb";
+
+    mkdir "$pkgdir" or fatal('cannot create temporary package directory');
+    mkdir "$pkgdir/DEBIAN" or fatal('cannot create temporary directory');
+    open my $ctrl_fh, '>', "$pkgdir/DEBIAN/control"
+        or fatal('cannot create temporary control file');
+    print { $ctrl_fh } <<"CTRL";
 Package: dpkg-fsys-usrunmess
 Version: $PROGVERSION
 Architecture: all
@@ -116,14 +126,17 @@ Description: prevention measure to avoid unsuspected filesystem breakage
  program.
 
 CTRL
-close $ctrl_fh or fatal('cannot write temporary control file');
+    close $ctrl_fh or fatal('cannot write temporary control file');
 
-system(('dpkg-deb', '-b', $pkgdir, $pkgfile)) == 0
-    or fatal('cannot create prevention package');
+    system(('dpkg-deb', '-b', $pkgdir, $pkgfile)) == 0
+        or fatal('cannot create prevention package');
 
-if (not $opt_noact) {
-    system(('dpkg', '-GBi', $pkgfile)) == 0
-        or fatal('cannot install prevention package');
+    if (not $opt_noact) {
+        system(('dpkg', '-GBi', $pkgfile)) == 0
+            or fatal('cannot install prevention package');
+    }
+} else {
+    print "Will not generate and install a regression prevention package.\n";
 }
 
 my $aliased_regex = '^(' . join('|', @aliased_dirs) . ')/';
@@ -137,6 +150,13 @@ my %aliased_pathnames;
 foreach my $dir (@aliased_dirs) {
     push @search_args, "$dir/*";
 }
+
+# We also need to track /usr/lib/modules to then be able to compute its
+# complement when looking for untracked kernel module files under aliased
+# dirs.
+my %usr_mod_pathnames;
+push @search_args, '/usr/lib/modules/*';
+
 open my $fh_paths, '-|', 'dpkg-query', '--search', @search_args
     or fatal("cannot execute dpkg-query --search: $!");
 while (<$fh_paths>) {
@@ -179,6 +199,32 @@ foreach my $selection (@selections) {
     close $fh_alts;
 }
 
+#
+# Unfortunately we need to special case untracked kernel module files,
+# as these are required for system booting. To reduce potentially moving
+# undesired non-kernel module files (such as apache, python or ruby ones),
+# we only look for sub-dirs starting with a digit, which should match for
+# both Linux and kFreeBSD modules, and also for the modprobe.conf filename.
+#
+
+find({
+    no_chdir => 1,
+    wanted => sub {
+        my $path = $_;
+
+        if (exists $aliased_pathnames{$path}) {
+            # Ignore pathname already handled.
+        } elsif (exists $usr_mod_pathnames{"/usr$path"}) {
+            # Ignore pathname owned elsewhere.
+        } elsif ($path eq '/lib/modules' or
+                 $path eq '/lib/modules/modprobe.conf' or
+                 $path =~ m{^/lib/modules/[0-9]}) {
+            add_pathname($path, 'untracked modules');
+        }
+    },
+}, '/lib/modules');
+
+
 my $sroot = '/.usrunmess';
 my @relabel;
 
@@ -193,6 +239,10 @@ foreach my $dir (@aliased_dirs) {
     debug("creating shadow dir = $sroot$dir");
     mkdir "$sroot$dir"
         or sysfatal("cannot create directory $sroot$dir");
+    chmod 0755, "$sroot$dir"
+        or sysfatal("cannot chmod 0755 $sroot$dir");
+    chown 0, 0, "$sroot$dir"
+        or sysfatal("cannot chown 0 0 $sroot$dir");
     push @relabel, "$sroot$dir";
 }
 
@@ -240,11 +290,7 @@ foreach my $pathname (sort keys %aliased_pathnames) {
 #
 
 if ($opt_prompt) {
-    print "Shadow hierarchy created at '$sroot', ready to proceed (y/N)? ";
-    my $reply = <STDIN>;
-    chomp $reply;
-
-    if ($reply ne 'y' and $reply ne 'yes') {
+    if (!prompt("Shadow hierarchy created at '$sroot', ready to proceed")) {
         print "Aborting migration, shadow hierarchy left in place.\n";
         exit 0;
     }
@@ -470,7 +516,7 @@ sub debug
 {
     my $msg = shift;
 
-    print { \*STDERR } "D: $msg\n";
+    print { *STDERR } "D: $msg\n";
 }
 
 sub warning
@@ -533,10 +579,25 @@ sub add_pathname
 {
     my ($pathname, $origin) = @_;
 
-    if ($pathname =~ m/$aliased_regex/) {
+    if ($pathname =~ m{^/usr/lib/modules/}) {
+        debug("tracking $origin = $pathname");
+        $usr_mod_pathnames{$pathname} = 1;
+    } elsif ($pathname =~ m/$aliased_regex/) {
         debug("adding $origin = $pathname");
         $aliased_pathnames{$pathname} = 1;
     }
+}
+
+sub prompt
+{
+    my $query = shift;
+
+    print "$query (y/N)? ";
+    my $reply = <STDIN>;
+    chomp $reply;
+
+    return 0 if $reply ne 'y' and $reply ne 'yes';
+    return 1;
 }
 
 sub version()
@@ -550,11 +611,13 @@ sub usage
 'Usage: %s [<option>...]'
     . "\n\n" .
 'Options:
-  -p, --prompt      prompt before the point of no return.
-  -n, --no-act      just check and create the new structure, no switch.
-      --dry-run     ditto.
-  -?, --help        show this help message.
-      --version     show the version.'
+  -p, --prompt         prompt before the point of no return.
+      --prevention     enable regression prevention package installation.
+      --no-prevention  disable regression prevention package installation.
+  -n, --no-act         just check and create the new structure, no switch.
+      --dry-run        ditto.
+  -?, --help           show this help message.
+      --version        show the version.'
     . "\n", $PROGNAME;
 }
 

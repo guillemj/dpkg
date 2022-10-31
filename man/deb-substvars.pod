@@ -26,7 +26,7 @@ deb-substvars - Debian source substitution variables
 
 =head1 SYNOPSIS
 
-B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>
+B<debian/substvars>, B<debian/>I<binary-package>B<.substvars>, variables
 
 =head1 DESCRIPTION
 
@@ -40,6 +40,8 @@ and to standard output for
 B<dpkg-gencontrol> and B<dpkg-genchanges>)
 they perform some variable substitutions on the output file.
 
+=head2 Variable Syntax
+
 A variable substitution has the form
 B<${>I<variable-name>B<}>.
 Variable names consist of alphanumerics (a-zA-Z0-9), hyphens (-) and
@@ -49,14 +51,34 @@ Variable substitutions are performed repeatedly
 until none are left; the full text of the field after the substitution
 is rescanned to look for more substitutions.
 
+=head2 File Syntax
+
+Substitution variables can be specified in a file.
+These files consist of lines of the form I<name>B<=>I<value> or
+I<name>B<?=>I<value>.
+The B<=> operator assigns a normal substitution variable, while the B<?=>
+operator (since dpkg 1.21.8) assigns an optional substitution variable
+which will emit no warnings even if unused.
+Trailing whitespace on each line, blank lines, and lines starting with a
+B<#> symbol (comments) are ignored.
+
+=head2 Substitution
+
+Variables can be set using the B<-V> common option.
+They can be also specified in the file B<debian/substvars>
+(or whatever other file is specified using the B<-T> common option).
+
 After all the substitutions have been done each occurrence of the
 string
 B<${}>
-(which is not a legal substitution) is replaced with a
+(which is not an actual substitution variable) is replaced with a
 B<$>
 sign.
 This can be used as an escape sequence such as B<${}{>I<VARIABLE>B<}> which
 will end up as B<${>I<VARIABLE>B<}> on the output.
+
+If a variable is referred to but not defined it generates a warning
+and an empty value is assumed.
 
 While variable substitution is done on all control fields, some of those
 fields are used and needed during the build when the substitution did not
@@ -83,20 +105,9 @@ It will result in:
   .
   More text.
 
-Variables can be set using the
-B<-V>
-common option. They can be also specified in the file
-B<debian/substvars>
-(or whatever other file is specified using the
-B<-T>
-option). This file consists of lines of the form
-I<name>B<=>I<value>.
-Trailing whitespace on each line, blank lines, and
-lines starting with a
-B<#>
-symbol (comments) are ignored.
+=head2 Built-in Variable
 
-Additionally, the following standard variables are available:
+Additionally, the following standard variables are always available:
 
 =over
 
@@ -177,7 +188,7 @@ control file field.
 
 The value of the source stanza field
 I<fieldname>
-(which must be given in the canonical capitalisation; since dpkg 1.18.11).
+(which must be given in the canonical capitalization; since dpkg 1.18.11).
 Setting these variables has no effect other than on places where they
 are expanded explicitly.
 These variables are only available when generating binary control files.
@@ -186,7 +197,7 @@ These variables are only available when generating binary control files.
 
 The value of the output field
 I<fieldname>
-(which must be given in the canonical capitalisation). Setting these
+(which must be given in the canonical capitalization). Setting these
 variables has no effect other than on places where they are expanded
 explicitly.
 
@@ -219,9 +230,6 @@ The upstream version of dpkg (since dpkg 1.13.19).
 The full version of dpkg (since dpkg 1.13.19).
 
 =back
-
-If a variable is referred to but not defined it generates a warning
-and an empty value is assumed.
 
 =head1 FILES
 

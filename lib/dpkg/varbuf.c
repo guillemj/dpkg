@@ -105,6 +105,14 @@ varbuf_add_buf(struct varbuf *v, const void *s, size_t size)
 }
 
 void
+varbuf_add_dir(struct varbuf *v, const char *dirname)
+{
+  varbuf_add_str(v, dirname);
+  if (v->used == 0 || v->buf[v->used - 1] != '/')
+    varbuf_add_char(v, '/');
+}
+
+void
 varbuf_end_str(struct varbuf *v)
 {
   varbuf_grow(v, 1);
@@ -182,13 +190,35 @@ varbuf_trunc(struct varbuf *v, size_t used_size)
 void
 varbuf_snapshot(struct varbuf *v, struct varbuf_state *vs)
 {
+  vs->v = v;
   vs->used = v->used;
 }
 
 void
-varbuf_rollback(struct varbuf *v, struct varbuf_state *vs)
+varbuf_rollback(struct varbuf_state *vs)
 {
-  varbuf_trunc(v, vs->used);
+  varbuf_trunc(vs->v, vs->used);
+}
+
+size_t
+varbuf_rollback_len(struct varbuf_state *vs)
+{
+  if (vs->used > vs->v->used)
+    internerr("varbuf state_used(%zu) > used(%zu)", vs->used, vs->v->used);
+  return vs->v->used - vs->used;
+}
+
+const char *
+varbuf_rollback_start(struct varbuf_state *vs)
+{
+  if (vs->v->buf == NULL) {
+    if (vs->used)
+      internerr("varbuf buf(NULL) state_used(%zu) > 0", vs->used);
+    /* XXX: Ideally this would be handled by varbuf always having a valid
+     * buf or switching all users to the getter, but for now this will do. */
+    return "";
+  }
+  return vs->v->buf + vs->used;
 }
 
 char *

@@ -170,7 +170,7 @@ perl -e '
 	$| = 1;
 	my ($vardir, $mountpoint, $hierbase, $mount, $umount) = @ARGV;
 	my $line;
-	my $AVAIL = "$vardir/methods/multicd/available";
+	my $AVAIL = "$vardir/methods/media/available";
 	my $STATUS = "$vardir/status";
 	my %Installed, %Filename, %Medium;
 	print "Get currently installed package versions...";
@@ -268,7 +268,7 @@ perl -e '
 
 		if ($?) {
 			print "\nThe dpkg run produced errors. Please state whether to\n",
-				  "continue with the next CD. [Y/n]: ";
+			      "continue with the next media disc. [Y/n]: ";
 			$answer = <STDIN>;
 			exit 1 if $answer =~ /^n/i;
 			$ouch = $?;

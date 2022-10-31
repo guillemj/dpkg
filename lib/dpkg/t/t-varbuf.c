@@ -242,6 +242,47 @@ test_varbuf_map_char(void)
 }
 
 static void
+test_varbuf_add_dir(void)
+{
+	struct varbuf vb;
+
+	varbuf_init(&vb, 10);
+
+	varbuf_add_dir(&vb, "");
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, "/");
+	varbuf_add_dir(&vb, "");
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, "/");
+	varbuf_add_dir(&vb, "aa");
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, "/aa/");
+	varbuf_add_dir(&vb, "");
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, "/aa/");
+
+	varbuf_reset(&vb);
+
+	varbuf_add_dir(&vb, "/foo/bar");
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, "/foo/bar/");
+
+	varbuf_reset(&vb);
+
+	varbuf_add_dir(&vb, "/foo/bar/");
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, "/foo/bar/");
+	varbuf_add_dir(&vb, "quux");
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, "/foo/bar/quux/");
+	varbuf_add_dir(&vb, "zoo");
+	varbuf_end_str(&vb);
+	test_str(vb.buf, ==, "/foo/bar/quux/zoo/");
+
+	varbuf_destroy(&vb);
+}
+
+static void
 test_varbuf_end_str(void)
 {
 	struct varbuf vb;
@@ -351,21 +392,40 @@ test_varbuf_snapshot(void)
 	varbuf_snapshot(&vb, &vbs);
 	test_pass(vb.used == 0);
 	test_pass(vb.used == vbs.used);
+	test_pass(varbuf_rollback_len(&vbs) == 0);
+	test_str(varbuf_rollback_start(&vbs), ==, "");
 
 	varbuf_add_buf(&vb, "1234567890", 10);
+	varbuf_end_str(&vb);
 	test_pass(vb.used == 10);
-	varbuf_rollback(&vb, &vbs);
+	test_pass(varbuf_rollback_len(&vbs) == 10);
+	test_str(varbuf_rollback_start(&vbs), ==, "1234567890");
+	varbuf_rollback(&vbs);
+	varbuf_end_str(&vb);
 	test_pass(vb.used == 0);
+	test_pass(varbuf_rollback_len(&vbs) == 0);
+	test_str(varbuf_rollback_start(&vbs), ==, "");
 
 	varbuf_add_buf(&vb, "1234567890", 10);
+	varbuf_end_str(&vb);
 	test_pass(vb.used == 10);
+	test_pass(varbuf_rollback_len(&vbs) == 10);
+	test_str(varbuf_rollback_start(&vbs), ==, "1234567890");
 	varbuf_snapshot(&vb, &vbs);
 	test_pass(vb.used == 10);
+	test_pass(varbuf_rollback_len(&vbs) == 0);
+	test_str(varbuf_rollback_start(&vbs), ==, "");
 
 	varbuf_add_buf(&vb, "1234567890", 10);
+	varbuf_end_str(&vb);
 	test_pass(vb.used == 20);
-	varbuf_rollback(&vb, &vbs);
+	test_pass(varbuf_rollback_len(&vbs) == 10);
+	test_str(varbuf_rollback_start(&vbs), ==, "1234567890");
+	varbuf_rollback(&vbs);
+	varbuf_end_str(&vb);
 	test_pass(vb.used == 10);
+	test_pass(varbuf_rollback_len(&vbs) == 0);
+	test_str(varbuf_rollback_start(&vbs), ==, "");
 
 	varbuf_destroy(&vb);
 }
@@ -392,7 +452,7 @@ test_varbuf_detach(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(130);
+	test_plan(152);
 
 	test_varbuf_init();
 	test_varbuf_prealloc();
@@ -403,6 +463,7 @@ TEST_ENTRY(test)
 	test_varbuf_add_char();
 	test_varbuf_dup_char();
 	test_varbuf_map_char();
+	test_varbuf_add_dir();
 	test_varbuf_end_str();
 	test_varbuf_get_str();
 	test_varbuf_printf();

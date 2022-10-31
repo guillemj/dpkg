@@ -122,10 +122,13 @@ and B<--showformat> for a way to configure the output format.
 Just like the B<--list> option this will list all packages matching
 the given patterns. However the output can be customized using the
 B<--showformat> option.
-The default output format gives one line per matching package, each line
-having the name (extended with the architecture qualifier for
-B<Multi-Arch> B<same> packages) and installed version of the package,
+
+The default output format gives one line per matching package,
+each line consisting of the package name and its installed version,
 separated by a tab.
+The package name will be architecture qualified for packages with a
+B<Multi-Arch> field with the value B<same> or with a foreign architecture,
+which is an architecture that is neither the native one nor B<all>.
 
 =item B<-s>, B<--status> [I<package-name>...]
 
@@ -385,8 +388,9 @@ fields in control files):
 It contains the binary package name with a possible architecture qualifier
 like “libc6:amd64” (since dpkg 1.16.2).
 An architecture qualifier will be present to make the package name unambiguous,
-for example if the package has a B<Multi-Arch> field with a value of
-B<same> or the package is of a foreign architecture.
+for packages with a B<Multi-Arch> field with the value B<same> or
+with a foreign architecture, which is an architecture that is neither
+the native one nor B<all>.
 
 =item B<binary:Synopsis>
 

@@ -147,7 +147,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --path-exclude=<pattern>   Do not install paths which match a shell pattern.\n"
 "  --path-include=<pattern>   Re-include a pattern after a previous exclusion.\n"
 "  -O|--selected-only         Skip packages not selected for install/upgrade.\n"
-"  -E|--skip-same-version     Skip packages whose same version is installed.\n"
+"  -E|--skip-same-version     Skip packages with same installed version/arch.\n"
 "  -G|--refuse-downgrade      Skip packages with earlier version than installed.\n"
 "  -B|--auto-deconfigure      Install even if it would break some other package.\n"
 "  --[no-]triggers            Skip or force consequential trigger processing.\n"
@@ -757,7 +757,7 @@ int main(int argc, const char *const *argv) {
 
   /* When running as root, make sure our primary group is also root, so
    * that files created by maintainer scripts have correct ownership. */
-  if (!in_force(FORCE_NON_ROOT) && getuid() == 0)
+  if (!in_force(FORCE_NON_ROOT) && getuid() == 0 && getgid() != 0)
     if (setgid(0) < 0)
       ohshite(_("cannot set primary group ID to root"));
 

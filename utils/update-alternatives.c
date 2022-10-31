@@ -25,6 +25,7 @@
 #include <compat.h>
 
 #include <sys/types.h>
+#include <sys/time.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
 
@@ -632,11 +633,45 @@ fsys_xreadlink(const char *linkname)
 }
 
 static void
+fsys_set_ref_time(const char *linkname, const char *target)
+{
+#ifdef HAVE_LUTIMES
+	/* If the symlink did not exist, then copy the timestamps
+	 * from the target. This is needed so we can get reproducible
+	 * installations, for programs that track these timestamps on
+	 * their databases. */
+	struct stat st;
+	struct timeval tv[2];
+	char *root_linkname;
+
+	if (fsys_lstat(target, &st) < 0) {
+		if (errno != ENOENT)
+			syserr(_("unable to get file '%s%s' metadata"),
+			       instdir, target);
+		return;
+	}
+
+	tv[0].tv_sec = st.st_mtime;
+	tv[0].tv_usec = 0;
+	tv[1].tv_sec = st.st_mtime;
+	tv[1].tv_usec = 0;
+
+	root_linkname = fsys_get_path(linkname);
+	if (lutimes(root_linkname, tv) < 0 && errno != ENOSYS)
+		syserr(_("cannot set symlink '%s' timestamp"), root_linkname);
+	free(root_linkname);
+#endif
+}
+
+static void
 fsys_symlink(const char *filename, const char *linkname)
 {
 	char *root_linkname;
 
 	root_linkname = fsys_get_path(linkname);
+
+	if (unlink(root_linkname) < 0 && errno != ENOENT)
+		syserr(_("unable to remove '%s'"), root_linkname);
 
 	if (symlink(filename, root_linkname))
 		syserr(_("error creating symbolic link '%.255s'"), root_linkname);
@@ -810,6 +845,7 @@ struct commit_operation {
 		OPCODE_NOP,
 		OPCODE_RM,
 		OPCODE_MV,
+		OPCODE_REF_TIME,
 	} opcode;
 
 	char *arg_a;
@@ -1847,12 +1883,6 @@ alternative_config(struct alternative *a, const char *current_choice)
 		pr(_("Nothing to configure."));
 	} else if (opt_skip_auto && a->status == ALT_ST_AUTO) {
 		alternative_display_user(a);
-	} else if (alternative_choices_count(a) == 1 &&
-	           a->status == ALT_ST_AUTO &&
-	           current_choice != NULL) {
-		pr(_("There is only one alternative in link group %s (providing %s): %s"),
-		   a->master_name, a->master_link, current_choice);
-		pr(_("Nothing to configure."));
 	} else {
 		new_choice = alternative_select_choice(a);
 	}
@@ -1896,6 +1926,9 @@ alternative_commit(struct alternative *a)
 			break;
 		case OPCODE_MV:
 			fsys_mv(op->arg_a, op->arg_b);
+			break;
+		case OPCODE_REF_TIME:
+			fsys_set_ref_time(op->arg_a, op->arg_b);
 			break;
 		}
 	}
@@ -1982,20 +2015,23 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 		free(root_altdir);
 	}
 
+	fn = xasprintf("%s/%s", altdir, name);
+
 	/* Create link in /etc/alternatives. */
 	fntmp = xasprintf("%s/%s" ALT_TMP_EXT, altdir, name);
-	fn = xasprintf("%s/%s", altdir, name);
-	fsys_rm(fntmp);
 	fsys_symlink(file, fntmp);
 	alternative_add_commit_op(a, OPCODE_MV, fntmp, fn);
+	if (fsys_pathname_is_missing(fn))
+		alternative_add_commit_op(a, OPCODE_REF_TIME, fn, file);
 	free(fntmp);
 
 	if (alternative_path_needs_update(linkname, fn)) {
 		/* Create alternative link. */
 		fntmp = xasprintf("%s" ALT_TMP_EXT, linkname);
-		fsys_rm(fntmp);
 		fsys_symlink(fn, fntmp);
 		alternative_add_commit_op(a, OPCODE_MV, fntmp, linkname);
+		if (fsys_pathname_is_missing(linkname))
+			alternative_add_commit_op(a, OPCODE_REF_TIME, linkname, fn);
 		free(fntmp);
 	}
 	free(fn);
@@ -2100,33 +2136,43 @@ alternative_remove(struct alternative *a, const char *current_choice,
 }
 
 static bool
+alternative_has_broken_symlink(const char *linkname, const char *ref_target)
+{
+	char *target;
+
+	target = fsys_areadlink(linkname);
+	if (!target)
+		return true;
+	if (strcmp(target, ref_target) != 0) {
+		free(target);
+		return true;
+	}
+	free(target);
+	return false;
+}
+
+static bool
 alternative_has_broken_slave(struct slave_link *sl, struct fileset *fs)
 {
 	if (fileset_can_install_slave(fs, sl->name)) {
 		char *wanted;
-		char *sl_altlnk, *sl_current;
+		const char *sl_target;
 
 		/* Verify link -> /etc/alternatives/foo */
-		sl_altlnk = fsys_areadlink(sl->link);
-		if (!sl_altlnk)
-			return true;
 		wanted = xasprintf("%s/%s", altdir, sl->name);
-		if (strcmp(sl_altlnk, wanted) != 0) {
+		if (alternative_has_broken_symlink(sl->link, wanted)) {
 			free(wanted);
-			free(sl_altlnk);
 			return true;
 		}
-		free(sl_altlnk);
+
 		/* Verify /etc/alternatives/foo -> file */
-		sl_current = fsys_areadlink(wanted);
-		free(wanted);
-		if (!sl_current)
-			return true;
-		if (strcmp(sl_current, fileset_get_slave(fs, sl->name)) != 0) {
-			free(sl_current);
+		sl_target = fileset_get_slave(fs, sl->name);
+		if (alternative_has_broken_symlink(wanted, sl_target)) {
+			free(wanted);
 			return true;
 		}
-		free(sl_current);
+
+		free(wanted);
 	} else {
 		char *sl_altlnk;
 
@@ -2149,22 +2195,17 @@ alternative_needs_update(struct alternative *a)
 {
 	enum alternative_update_reason reason = ALT_UPDATE_NO;
 	const char *current;
-	char *altlnk, *wanted;
+	char *wanted;
 	struct fileset *fs;
 	struct slave_link *sl;
 
 	/* Check master link */
-	altlnk = fsys_areadlink(a->master_link);
-	if (!altlnk)
-		return ALT_UPDATE_LINK_BROKEN;
 	wanted = xasprintf("%s/%s", altdir, a->master_name);
-	if (strcmp(altlnk, wanted) != 0) {
+	if (alternative_has_broken_symlink(a->master_link, wanted)) {
 		free(wanted);
-		free(altlnk);
 		return ALT_UPDATE_LINK_BROKEN;
 	}
 	free(wanted);
-	free(altlnk);
 
 	/* Stop if we have an unmanaged alternative */
 	current = alternative_get_current(a);
@@ -2447,6 +2488,35 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 		alternative_evolve_slave(a, cur_choice, sl, fs);
 		alternative_copy_slave(a, sl);
 	}
+}
+
+static char *
+alternative_install(struct alternative **aptr, struct alternative *inst_alt,
+                    const char *current_choice, struct fileset *fileset)
+{
+	struct alternative *a = *aptr;
+	char *new_choice = NULL;
+
+	if (a->master_link) {
+		/* Alternative already exists, check if anything got
+		 * updated. */
+		alternative_evolve(a, inst_alt, current_choice, fileset);
+		alternative_free(inst_alt);
+	} else {
+		/* Alternative doesn't exist, create from parameters. */
+		alternative_free(a);
+		*aptr = a = inst_alt;
+	}
+	alternative_add_choice(a, fileset);
+	if (a->status == ALT_ST_AUTO) {
+		new_choice = xstrdup(alternative_get_best(a)->master_file);
+	} else {
+		verbose(_("automatic updates of %s/%s are disabled; "
+		          "leaving it alone"), altdir, a->master_name);
+		verbose(_("to return to automatic updates use "
+		          "'%s --auto %s'"), PROGNAME, a->master_name);
+	}
+	return new_choice;
 }
 
 static void
@@ -2856,6 +2926,7 @@ main(int argc, char **argv)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
+	tzset();
 	umask(022);
 
 	instdir = fsys_set_dir(NULL);
@@ -2883,6 +2954,7 @@ main(int argc, char **argv)
 		} else if (strcmp("--debug", argv[i]) == 0) {
 			opt_verbose = OUTPUT_DEBUG;
 		} else if (strcmp("--install", argv[i]) == 0) {
+			const char *alink, *aname, *apath;
 			char *prio_str, *prio_end;
 			long prio;
 
@@ -2891,22 +2963,28 @@ main(int argc, char **argv)
 				badusage(_("--%s needs <link> <name> <path> "
 					   "<priority>"), argv[i] + 2);
 
+			alink = argv[i + 1];
+			aname = argv[i + 2];
+			apath = argv[i + 3];
 			prio_str = argv[i + 4];
 
-			if (strcmp(argv[i+1], argv[i+3]) == 0)
-				badusage(_("<link> and <path> can't be the same"));
+			if (strcmp(alink, apath) == 0)
+				badusage(_("<link> '%s' is the same as <path>"),
+				         alink);
 			errno = 0;
 			prio = strtol(prio_str, &prio_end, 10);
 			if (prio_str == prio_end || *prio_end != '\0')
-				badusage(_("priority must be an integer"));
+				badusage(_("priority '%s' must be an integer"),
+				         prio_str);
 			if (prio < INT_MIN || prio > INT_MAX || errno == ERANGE)
-				badusage(_("priority is out of range"));
+				badusage(_("priority '%s' is out of range"),
+				         prio_str);
 
-			a = alternative_new(argv[i + 2]);
-			inst_alt = alternative_new(argv[i + 2]);
+			a = alternative_new(aname);
+			inst_alt = alternative_new(aname);
 			alternative_set_status(inst_alt, ALT_ST_AUTO);
-			alternative_set_link(inst_alt, argv[i + 1]);
-			fileset = fileset_new(argv[i + 3], prio);
+			alternative_set_link(inst_alt, alink);
+			fileset = fileset_new(apath, prio);
 
 			i += 4;
 		} else if (strcmp("--remove", argv[i]) == 0 ||
@@ -2956,22 +3034,23 @@ main(int argc, char **argv)
 			spath = argv[i + 3];
 
 			if (strcmp(slink, spath) == 0)
-				badusage(_("<link> and <path> can't be the same"));
+				badusage(_("<link> '%s' is the same as <path>"),
+				         slink);
 			if (strcmp(inst_alt->master_name, sname) == 0)
-				badusage(_("name %s is both primary and slave"),
+				badusage(_("<name> '%s' is both primary and slave"),
 				         sname);
 			if (strcmp(slink, inst_alt->master_link) == 0)
-				badusage(_("link %s is both primary and slave"),
+				badusage(_("<link> '%s' is both primary and slave"),
 				         slink);
 			if (alternative_has_slave(inst_alt, sname))
-				badusage(_("duplicate slave name %s"), sname);
+				badusage(_("duplicate slave <name> '%s'"), sname);
 
 			for (sl = inst_alt->slaves; sl; sl = sl->next) {
 				const char *linkname = sl->link;
 				if (linkname == NULL)
 					linkname = "";
 				if (strcmp(linkname, slink) == 0)
-					badusage(_("duplicate slave link %s"),
+					badusage(_("duplicate slave <link> '%s'"),
 					          slink);
 			}
 
@@ -3115,25 +3194,8 @@ main(int argc, char **argv)
 	} else if (action == ACTION_REMOVE_ALL) {
 		alternative_choices_free(a);
 	} else if (action == ACTION_INSTALL) {
-		if (a->master_link) {
-			/* Alternative already exists, check if anything got
-			 * updated. */
-			alternative_evolve(a, inst_alt, current_choice, fileset);
-			alternative_free(inst_alt);
-		} else {
-			/* Alternative doesn't exist, create from parameters. */
-			alternative_free(a);
-			a = inst_alt;
-		}
-		alternative_add_choice(a, fileset);
-		if (a->status == ALT_ST_AUTO) {
-			new_choice = xstrdup(alternative_get_best(a)->master_file);
-		} else {
-			verbose(_("automatic updates of %s/%s are disabled; "
-			          "leaving it alone"), altdir, a->master_name);
-			verbose(_("to return to automatic updates use "
-			          "'%s --auto %s'"), PROGNAME, a->master_name);
-		}
+		new_choice = alternative_install(&a, inst_alt, current_choice,
+		                                 fileset);
 	}
 
 	if (modifies_alt)

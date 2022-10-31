@@ -58,37 +58,37 @@ between Dpkg::Control and Dpkg::Control::Fields.
 use constant {
     CTRL_UNKNOWN => 0,
     # First control block in debian/control.
-    CTRL_INFO_SRC => 1,
+    CTRL_INFO_SRC => 1 << 0,
     # Subsequent control blocks in debian/control.
-    CTRL_INFO_PKG => 2,
+    CTRL_INFO_PKG => 1 << 1,
     # Entry in repository's Sources files.
-    CTRL_INDEX_SRC => 4,
+    CTRL_INDEX_SRC => 1 << 2,
     # Entry in repository's Packages files.
-    CTRL_INDEX_PKG => 8,
+    CTRL_INDEX_PKG => 1 << 3,
     # .dsc file of source package.
-    CTRL_PKG_SRC => 16,
+    CTRL_PKG_SRC => 1 << 4,
     # DEBIAN/control in binary packages.
-    CTRL_PKG_DEB => 32,
+    CTRL_PKG_DEB => 1 << 5,
     # .changes file.
-    CTRL_FILE_CHANGES => 64,
+    CTRL_FILE_CHANGES => 1 << 6,
     # File in $Dpkg::CONFDIR/origins.
-    CTRL_FILE_VENDOR => 128,
+    CTRL_FILE_VENDOR => 1 << 7,
     # $Dpkg::ADMINDIR/status.
-    CTRL_FILE_STATUS => 256,
+    CTRL_FILE_STATUS => 1 << 8,
     # Output of dpkg-parsechangelog.
-    CTRL_CHANGELOG => 512,
+    CTRL_CHANGELOG => 1 << 9,
     # Repository's (In)Release file.
-    CTRL_REPO_RELEASE => 1024,
+    CTRL_REPO_RELEASE => 1 << 10,
     # Header control block in debian/copyright.
-    CTRL_COPYRIGHT_HEADER => 2048,
+    CTRL_COPYRIGHT_HEADER => 1 << 11,
     # Files control block in debian/copyright.
-    CTRL_COPYRIGHT_FILES => 4096,
+    CTRL_COPYRIGHT_FILES => 1 << 12,
     # License control block in debian/copyright.
-    CTRL_COPYRIGHT_LICENSE => 8192,
+    CTRL_COPYRIGHT_LICENSE => 1 << 13,
     # Package test suite control file in debian/tests/control.
-    CTRL_TESTS => 16384,
+    CTRL_TESTS => 1 << 14,
     # .buildinfo file
-    CTRL_FILE_BUILDINFO => 32768,
+    CTRL_FILE_BUILDINFO => 1 << 15,
 };
 
 =head1 CHANGES

@@ -47,6 +47,7 @@ use Carp;
 use File::Temp;
 use File::Copy qw(cp);
 use File::Basename;
+use File::Spec;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -323,7 +324,7 @@ Returns the filename of the DSC file.
 
 sub get_filename {
     my $self = shift;
-    return $self->{basedir} . $self->{filename};
+    return File::Spec->catfile($self->{basedir}, $self->{filename});
 }
 
 =item $p->get_files()
@@ -364,7 +365,8 @@ sub check_checksums {
                 $warn_on_weak = 1;
             }
         }
-	$checksums->add_from_file($self->{basedir} . $file, key => $file);
+	my $pathname = File::Spec->catfile($self->{basedir}, $file);
+	$checksums->add_from_file($pathname, key => $file);
     }
 
     warning(g_('source package uses only weak checksums')) if $warn_on_weak;
@@ -392,7 +394,7 @@ sub find_original_tarballs {
     foreach my $dir ('.', $self->{basedir}, $self->{options}{origtardir}) {
         next unless defined($dir) and -d $dir;
         opendir(my $dir_dh, $dir) or syserr(g_('cannot opendir %s'), $dir);
-        push @tar, map { "$dir/$_" } grep {
+        push @tar, map { File::Spec->catfile($dir, $_) } grep {
 		($opts{include_main} and
 		 /^\Q$basename\E\.orig\.tar\.$opts{extension}$/) or
 		($opts{include_supplementary} and
@@ -443,6 +445,7 @@ sub check_original_tarball_signature {
     );
 
     foreach my $asc (@asc) {
+        info(g_('verifying %s'), $asc);
         Dpkg::OpenPGP::verify_signature($asc,
             %opts,
             keyrings => [ $keyring ],

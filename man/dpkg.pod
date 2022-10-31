@@ -50,7 +50,7 @@ packages are particularly inadequate.
 B<dpkg> is a medium-level tool to install, build, remove and manage
 Debian packages.
 The primary and more user-friendly front-end for B<dpkg>
-as a CLI (command-line interface) is B<apt>(8> and
+as a CLI (command-line interface) is B<apt>(8) and
 as a TUI (terminal user interface) is B<aptitude>(8).
 B<dpkg> itself is
 controlled entirely via command line parameters, which consist of exactly
@@ -198,6 +198,9 @@ Unpack the package, but don't configure it. If B<--recursive> or
 B<-R> option is specified, I<package-file> must refer to a
 directory instead.
 
+Will process triggers for B<Pre-Depends> unless B<--no-triggers> has
+been specified.
+
 =item B<--configure> I<package>...|B<-a>|B<--pending>
 
 Configure a package which has been unpacked but not yet configured.
@@ -215,6 +218,8 @@ the old conffiles, so that they can be restored if
 something goes wrong.
 
 B<2.> Run I<postinst> script, if provided by the package.
+
+Will process triggers unless B<--no-triggers> has been specified.
 
 =item B<--triggers-only> I<package>...|B<-a>|B<--pending>
 
@@ -248,6 +253,8 @@ B<2.> Remove the installed files
 
 B<3.> Run I<postrm> script
 
+Will process triggers unless B<--no-triggers> has been specified.
+
 =item B<-P>, B<--purge> I<package>...|B<-a>|B<--pending>
 
 Purge an installed or already removed package. This removes everything,
@@ -270,6 +277,8 @@ B<1.> Remove the package, if not already removed. See B<--remove>
 for detailed information about how this is done.
 
 B<2.> Run I<postrm> script.
+
+Will process triggers unless B<--no-triggers> has been specified.
 
 =item B<-V>, B<--verify> [I<package-name>...]
 
@@ -454,7 +463,7 @@ Supports the B<Protected> field (since dpkg 1.20.1).
 
 =back
 
-=item B<--validate->I<thing string>
+=item B<--validate->I<thing> I<string>
 
 Validate that the I<thing> I<string> has a correct syntax
 (since dpkg 1.18.16).
@@ -546,11 +555,11 @@ List contents of a deb package.
 
 Extract control-information from a package.
 
-=item B<-x>, B<--extract> I<archive directory>
+=item B<-x>, B<--extract> I<archive> I<directory>
 
 Extract the files contained by package.
 
-=item B<-X>, B<--vextract> I<archive directory>
+=item B<-X>, B<--vextract> I<archive> I<directory>
 
 Extract and display the filenames contained by a package.
 
@@ -646,7 +655,7 @@ debugging values.
      10000   Trigger activation and processing
      20000   Lots of output regarding triggers
      40000   Silly amounts of output regarding triggers
-      1000   Lots of drivel about e.g. the dpkg/info dir
+      1000   Lots of drivel about for example the dpkg/info dir
       2000   Insane amounts of drivel
 
 =item B<--force->I<things>
@@ -682,7 +691,8 @@ package depends.
 B<hold>:
 Allow automatic installs, upgrades or removals of packages even when marked
 to be on “hold”.
-B<Note:> This does not prevent these actions when requested explicitly.
+B<Note:> When these actions are requested explicitly, the “hold” package
+selection state always gets ignored.
 
 B<remove-reinstreq>:
 Remove a package, even if it's broken and marked to require
@@ -691,14 +701,18 @@ remain on the system, which will then be forgotten by B<dpkg>.
 
 B<remove-protected>:
 Remove, even if the package is considered protected (since dpkg 1.20.1).
-Protected packages contain mostly important system boot infrastructure.
-Removing them might cause the whole system to be unable to boot, so use
-with caution.
+Protected packages contain mostly important system boot infrastructure or
+are used for custom system-local meta-packages.
+Removing them might cause the whole system to be unable to boot or lose
+required functionality to operate, so use with caution.
 
 B<remove-essential>:
-Remove, even if the package is considered essential. Essential
-packages contain mostly very basic Unix commands. Removing them might
-cause the whole system to stop working, so use with caution.
+Remove, even if the package is considered essential.
+Essential packages contain mostly very basic Unix commands, required for
+the packaging system, for the operation of the system in general or during
+boot (although the latter should be converted to protected packages instead).
+Removing them might cause the whole system to stop working,
+so use with caution.
 
 B<depends>:
 Turn all dependency problems into warnings.
@@ -841,7 +855,7 @@ installed. This is an alias of B<--refuse-downgrade>.
 Set the administrative directory to I<directory>.
 This directory contains many files that give information about status of
 installed or uninstalled packages, etc.
-Defaults to «I<%ADMINDIR%>».
+Defaults to «I<%ADMINDIR%>» if B<DPKG_ADMINDIR> has not been set.
 
 =item B<--instdir=>I<dir>
 
@@ -866,8 +880,12 @@ be marked selected for deinstallation.
 
 =item B<-E>, B<--skip-same-version>
 
-Don't install the package if the same version of the package is already
-installed.
+Don't install the package if the same version and architecture
+of the package is already installed.
+
+Since dpkg 1.21.10, the architecture is also taken into account,
+which makes it possible to cross-grade packages or install additional
+co-installable instances with the same version, but different architecture.
 
 =item B<--pre-invoke=>I<command>
 
@@ -1404,7 +1422,8 @@ To make a local copy of the package selection states:
 
 You might transfer this file to another computer, and after having updated
 the I<available> file there with your package manager frontend of choice
-(see L<https://wiki.debian.org/Teams/Dpkg/FAQ> for more details), for example:
+(see L<https://wiki.debian.org/Teams/Dpkg/FAQ#set-selections> for more
+details), for example:
 
 =over
 

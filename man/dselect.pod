@@ -89,12 +89,18 @@ with a ‘B<#>’).
 
 Changes the directory where the dpkg ‘I<status>’,
 ‘I<available>’ and similar files are located.
-This defaults to I<%ADMINDIR%>
-and normally there shouldn't be any need to change it.
+Defaults to I<%ADMINDIR%> if B<DPKG_ADMINDIR> has not been set.
+
+=item B<--instdir> I<directory>
+
+Set the installation directory, which refers to the directory where
+packages get installed (since dpkg 1.21.2).
+Defaults to «I</>» if B<DPKG_ROOT> has not been set.
 
 =item B<--root> I<directory>
 
-Set the root directory to I<directory>, which sets the administrative
+Set the root directory to I<directory>, which sets the installation
+directory to «I<directory>» and the administrative
 directory to «I<directory>%ADMINDIR%» (since dpkg 1.21.0).
 
 =item B<-D>I<file>, B<--debug> I<file>
@@ -205,7 +211,7 @@ Choose and configure an access method to access package repositories.
 
 By default, B<dselect> provides several methods such
 as I<multi_cd>, I<mounted> or I<ftp>, but other
-packages may provide additional methods, eg. the I<apt> access method
+packages may provide additional methods, for example the I<apt> access method
 provided by the B<apt>(8) package.
 
 The use of the I<apt> access method is strongly recommended.
@@ -629,13 +635,13 @@ memory allocations, etc.
 
 =item B<DPKG_ROOT>
 
-If set and the B<--root> option has not been specified, it will
-be used as the filesystem root directory (since dpkg 1.21.0).
+If set and the B<--instdir> or B<--root> options have not been specified,
+it will be used as the filesystem root directory (since dpkg 1.21.0).
 
 =item B<DPKG_ADMINDIR>
 
-If set and the B<--admindir> option has not been specified, it will
-be used as the B<dpkg> database directory (since dpkg 1.21.0).
+If set and the B<--admindir> or B<--root> option have not been specified,
+it will be used as the B<dpkg> database directory (since dpkg 1.21.0).
 
 =item B<HOME>
 

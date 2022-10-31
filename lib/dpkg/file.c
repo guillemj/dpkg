@@ -37,6 +37,25 @@
 #include <dpkg/file.h>
 
 /**
+ * Check whether a filename is executable.
+ *
+ * @param pathname The filename to check.
+ */
+bool
+file_is_exec(const char *filename)
+{
+	struct stat st;
+
+	if (stat(filename, &st) < 0)
+		return false;
+
+	if (!S_ISREG(st.st_mode))
+		return false;
+
+	return st.st_mode & 0111;
+}
+
+/**
  * Copy file ownership and permissions from one file to another.
  *
  * @param src The source filename.
@@ -195,9 +214,9 @@ file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
 			ohshite(_("unable to lock %s"), desc);
 
 		warnmsg = _("Note: removing the lock file is always wrong, "
-		            "and can end up damaging the\n"
-		            "locked area and the entire system. "
-		            "See <https://wiki.debian.org/Teams/Dpkg/FAQ>.");
+		            "can damage the locked area\n"
+		            "and the entire system. "
+		            "See <https://wiki.debian.org/Teams/Dpkg/FAQ#db-lock>.");
 
 		file_lock_setup(&fl, F_WRLCK);
 		if (fcntl(*lockfd, F_GETLK, &fl) == -1)

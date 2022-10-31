@@ -290,7 +290,7 @@ pkg_deconfigure_others(struct pkginfo *pkg)
              pkg_name(deconpil->pkg, pnaw_nonambig),
              versiondescribe(&deconpil->pkg->installed.version, vdew_nonambig),
              pkg_name(pkg, pnaw_nonambig),
-             versiondescribe(&pkg->installed.version, vdew_nonambig));
+             versiondescribe(&pkg->available.version, vdew_nonambig));
     }
 
     trig_activate_packageprocessing(deconpil->pkg);
@@ -636,7 +636,7 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg, struct fsys_namenode *nameno
   fsys_node_pkgs_iter_free(iter);
 
   /* Remove DPKGDISTEXT variant if still present. */
-  varbuf_rollback(&cdrext, &cdrext_state);
+  varbuf_rollback(&cdrext_state);
   varbuf_add_str(&cdrext, DPKGDISTEXT);
   varbuf_end_str(&cdrext);
 
@@ -661,7 +661,7 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg, struct fsys_namenode *nameno
   }
 
   /* Otherwise, preserve the modified conffile. */
-  varbuf_rollback(&cdrext, &cdrext_state);
+  varbuf_rollback(&cdrext_state);
   varbuf_add_str(&cdrext, DPKGOLDEXT);
   varbuf_end_str(&cdrext);
 
@@ -710,7 +710,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
 
     usenode = namenodetouse(namenode, pkg, &pkg->installed);
 
-    varbuf_rollback(&fnamevb, &fname_state);
+    varbuf_rollback(&fname_state);
     varbuf_add_str(&fnamevb, usenode->name);
     varbuf_end_str(&fnamevb);
 
@@ -1189,7 +1189,7 @@ pkg_remove_backup_files(struct pkginfo *pkg, struct fsys_namenode_list *newfiles
     if (strcmp(usenode->name, "/.") == 0)
       continue;
 
-    varbuf_rollback(&fnametmpvb, &fname_state);
+    varbuf_rollback(&fnametmp_state);
     varbuf_add_str(&fnametmpvb, usenode->name);
     varbuf_add_str(&fnametmpvb, DPKGTEMPEXT);
     varbuf_end_str(&fnametmpvb);

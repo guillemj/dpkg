@@ -115,7 +115,7 @@ test-print-foreign-architecture:
 	$(call stdout_is,$(DPKG) --print-foreign-architectures,$(FOREIGN_ARCH))
 	$(DPKG) --add-architecture foobar
 	$(DPKG) --print-foreign-architectures | cmp ref-arch -
-	# Ensure all/any can't be addded as foreign arch
+	# Ensure all/any can't be added as foreign arch
 	! $(DPKG) --add-architecture all
 	! $(DPKG) --add-architecture any
 	# Ensure the native arch is never considered as
@@ -769,8 +769,8 @@ test-dpkg-output: ma-setup
 	$(call stdout_is,$(DPKG_QUERY) -f'$${Package}' -W pkg-ma-shared-files:$(NATIVE_ARCH),pkg-ma-shared-files)
 	$(call stdout_is,$(DPKG_QUERY) -f'$${Package}' -W pkg-ma-shared-files:$(FOREIGN_ARCH),pkg-ma-shared-files)
 	$(call stdout_has,$(DPKG_QUERY) -W,^pkg-ma-shared-files:$(FOREIGN_ARCH)	1.0$)
-	$(call stdout_has,$(DPKG_QUERY) --search $(common_file),(\, |^)pkg-ma-shared-files:$(NATIVE_ARCH)(\, |: ))
-	$(call stdout_has,$(DPKG_QUERY) --search $(common_file),(\, |^)pkg-ma-shared-files:$(FOREIGN_ARCH)(\, |: ))
+	$(call stdout_has,$(DPKG_QUERY) --search $(common_file),(, |^)pkg-ma-shared-files:$(NATIVE_ARCH)(, |: ))
+	$(call stdout_has,$(DPKG_QUERY) --search $(common_file),(, |^)pkg-ma-shared-files:$(FOREIGN_ARCH)(, |: ))
 	$(call stdout_has,$(DPKG_QUERY) --list,^ii  pkg-ma-shared-files:$(NATIVE_ARCH))
 	$(call stdout_has,$(DPKG_QUERY) --list,^ii  pkg-ma-shared-files:$(FOREIGN_ARCH) )
 	$(call stdout_has,$(DPKG) --get-selections,^pkg-ma-shared-files:$(NATIVE_ARCH)	+install$)

@@ -1,0 +1,34 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use TAP::Harness;
+
+my $srcroot = $ENV{abs_top_srcdir};
+my $binroot = $ENV{abs_top_builddir};
+
+# Setup the environment
+$ENV{LC_ALL} = 'C';
+$ENV{DPKG_COLORS} = 'never';
+$ENV{PATH} = "$binroot/src:$binroot/scripts:$binroot/utils:$ENV{PATH}";
+
+my $harness = TAP::Harness->new({
+    exec => sub {
+        my (undef, $test) = @_;
+        return [ $test ] if $test !~ m/\.t$/ and -x $test;
+        return
+    },
+    lib => [
+        "$srcroot/scripts",
+        "$srcroot/dselect/methods"
+    ],
+    color => 1,
+    verbosity => $ENV{TEST_VERBOSE},
+    jobs => $ENV{TEST_PARALLEL},
+    failures => 1,
+});
+
+my $aggregate = $harness->runtests(@ARGV);
+die "FAIL: test suite has errors\n" if $aggregate->has_errors;
+1;

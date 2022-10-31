@@ -180,7 +180,7 @@ buffer_copy(struct buffer_data *read_data,
             off_t limit, struct dpkg_error *err)
 {
 	char *buf;
-	int bufsize = 32768;
+	int bufsize = DPKG_BUFFER_SIZE;
 	off_t bytesread = 0, byteswritten = 0;
 	off_t totalread = 0, totalwritten = 0;
 

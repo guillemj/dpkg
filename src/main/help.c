@@ -34,6 +34,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
+#include <dpkg/file.h>
 #include <dpkg/db-fsys.h>
 
 #include "main.h"
@@ -78,10 +79,12 @@ bool
 find_command(const char *prog)
 {
   struct varbuf filename = VARBUF_INIT;
-  struct stat stab;
   const char *path_list;
   const char *path, *path_end;
   size_t path_len;
+
+  if (prog[0] == '/')
+    return file_is_exec(prog);
 
   path_list = getenv("PATH");
   if (!path_list)
@@ -98,7 +101,7 @@ find_command(const char *prog)
     varbuf_add_str(&filename, prog);
     varbuf_end_str(&filename);
 
-    if (stat(filename.buf, &stab) == 0 && (stab.st_mode & 0111)) {
+    if (file_is_exec(filename.buf)) {
       varbuf_destroy(&filename);
       return true;
     }

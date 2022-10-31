@@ -398,7 +398,6 @@ sub wait_child {
 }
 
 1;
-__END__
 
 =back
 

@@ -86,11 +86,13 @@ sub usage {
   -R, --rules-file=<rules>    rules file to execute (default is debian/rules).
   -T, --rules-target=<target> call debian/rules <target>.
       --as-root               ensure -T calls the target with root rights.
-  -j, --jobs[=<number>|auto]  jobs to run simultaneously (passed to <rules>),
-                                forced mode.
-  -J, --jobs-try[=<number>|auto]
+  -j, --jobs[=<jobs>|auto]    jobs to run simultaneously (passed to <rules>),
+                                (default; default is auto, opt-in mode).
+  -J, --jobs-try[=<jobs>|auto]
+                              alias for -j, --jobs.
+      --jobs-force[=<jobs>|auto]
                               jobs to run simultaneously (passed to <rules>),
-                                opt-in mode (default is auto).
+                                (default is auto, forced mode).
   -r, --root-command=<command>
                               command to gain root rights (default is fakeroot).
       --check-command=<command>
@@ -128,8 +130,10 @@ sub usage {
   -sa                         source includes orig, always.
   -sd                         source is diff and .dsc only.
   -v<version>                 changes since version <version>.
-  -m, --release-by=<maint>    maintainer for this release is <maint>.
-  -e, --build-by=<maint>      maintainer for this build is <maint>.
+  -m, --source-by=<maint>     maintainer for this source or build is <maint>.
+      --build-by=<maint>      ditto.
+  -e, --release-by=<maint>    maintainer for this change or release is <maint>.
+      --changed-by=<maint>    ditto.
   -C<descfile>                changes are described in <descfile>.
       --changes-option=<opt>  pass option <opt> to dpkg-genchanges.')
     . "\n\n" . g_(
@@ -252,12 +256,15 @@ while (@ARGV) {
         } else {
             push @changes_opts, $changes_opt;
         }
-    } elsif (/^(?:-j|--jobs=)(\d*|auto)$/) {
-	$parallel = $1 || '';
-	$parallel_force = 1;
-    } elsif (/^(?:-J|--jobs-try=)(\d*|auto)$/) {
+    } elsif (/^--jobs(?:-try)?$/) {
+	$parallel = '';
+	$parallel_force = 0;
+    } elsif (/^(?:-[jJ]|--jobs(?:-try)?=)(\d*|auto)$/) {
 	$parallel = $1 || '';
 	$parallel_force = 0;
+    } elsif (/^--jobs-force(?:=(\d*|auto))?$/) {
+        $parallel = $1 || '';
+        $parallel_force = 1;
     } elsif (/^(?:-r|--root-command=)(.*)$/) {
 	my $arg = $1;
 	@rootcommand = split ' ', $arg;
@@ -272,9 +279,9 @@ while (@ARGV) {
 	usageerr(g_('missing hook %s command'), $hook_name)
 	    if not defined $hook_cmd;
 	$hook{$hook_name} = $hook_cmd;
-    } elsif (/^--buildinfo-id=.*$/) {
+    } elsif (/^(--buildinfo-id)=.*$/) {
 	# Deprecated option
-	warning('--buildinfo-id is deprecated, it is without effect');
+	warning(g_('%s is deprecated; it is without effect'), $1);
     } elsif (/^(?:-p|--sign-command=)(.*)$/) {
 	$signcommand = $1;
     } elsif (/^(?:-k|--sign-key=)(.*)$/) {
@@ -368,15 +375,15 @@ while (@ARGV) {
 	set_build_type(BUILD_FULL, $_);
     } elsif (/^-v(.*)$/) {
 	$since = $1;
-    } elsif (/^-m(.*)$/ or /^--release-by=(.*)$/) {
+    } elsif (/^-m(.*)$/ or /^--(?:source|build)-by=(.*)$/) {
 	$maint = $1;
-    } elsif (/^-e(.*)$/ or /^--build-by=(.*)$/) {
+    } elsif (/^-e(.*)$/ or /^--(?:changed|release)-by=(.*)$/) {
 	$changedby = $1;
     } elsif (/^-C(.*)$/) {
 	$desc = $1;
     } elsif (m/^-[EW]$/) {
 	# Deprecated option
-	warning(g_('-E and -W are deprecated, they are without effect'));
+	warning(g_('%s is deprecated; it is without effect'), $_);
     } elsif (/^-R(.*)$/ or /^--rules-file=(.*)$/) {
 	my $arg = $1;
 	@debian_rules = split ' ', $arg;
@@ -454,7 +461,7 @@ if (defined $parallel) {
 
 if ($build_opts->has('terse')) {
     $ENV{MAKEFLAGS} //= '';
-    $ENV{MAKEFLAGS} .= ' -s';
+    $ENV{MAKEFLAGS} .= ' --no-print-directory';
 }
 
 set_build_profiles(@build_profiles) if @build_profiles;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-12-06 21:04+0100\n"
+"POT-Creation-Date: 2022-07-01 09:25+0000\n"
 "PO-Revision-Date: 2015-04-07 07:02+0200\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 1.5\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: scripts/dpkg-architecture.pl scripts/dpkg-buildflags.pl
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
@@ -570,14 +570,17 @@ msgstr "неизвестное имя ловушки %s"
 msgid "missing hook %s command"
 msgstr "отсутствует команда для ловушки %s"
 
+#: scripts/dpkg-buildpackage.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-gencontrol.pl
+#, fuzzy, perl-format
+#| msgid "-i%s is deprecated; it is without effect"
+msgid "%s is deprecated; it is without effect"
+msgstr "-i%s устарел, ничего не изменится"
+
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "-s%s is deprecated; always using gpg style interface"
 msgstr "-s%s устарел; всегда используется интерфейс как у gpg"
-
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-source.pl
-msgid "-E and -W are deprecated, they are without effect"
-msgstr "-E и -W устарели, они ничего не изменят"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -749,7 +752,7 @@ msgstr "не удалось открыть %s"
 msgid "cannot close %s"
 msgstr "не удалось закрыть %s"
 
-#: scripts/dpkg-buildpackage.pl
+#: scripts/dpkg-buildpackage.pl scripts/Dpkg/Source/Archive.pm
 #, fuzzy, perl-format
 #| msgid "cannot rename %s to %s"
 msgid "cannot move %s to %s"
@@ -1207,11 +1210,6 @@ msgstr ""
 #, perl-format
 msgid "illegal package name '%s': %s"
 msgstr "недопустимое имя пакета «%s»: %s"
-
-#: scripts/dpkg-gencontrol.pl
-#, perl-format
-msgid "-i%s is deprecated; it is without effect"
-msgstr "-i%s устарел, ничего не изменится"
 
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
@@ -1721,7 +1719,22 @@ msgid "takes no non-option arguments"
 msgstr "не принимает необязательные параметры"
 
 #: scripts/dpkg-scanpackages.pl
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
+#| "Packages\n"
+#| "\n"
+#| "Options:\n"
+#| "  -t, --type <type>        scan for <type> packages (default is 'deb').\n"
+#| "  -a, --arch <arch>        architecture to scan for.\n"
+#| "  -h, --hash <hash-list>   only generate hashes for the specified list.\n"
+#| "  -m, --multiversion       allow multiple versions of a single package.\n"
+#| "  -e, --extra-override <file>\n"
+#| "                           use extra override file.\n"
+#| "  -M, --medium <medium>    add X-Medium field for dselect multicd access "
+#| "method\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version.\n"
 msgid ""
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
 "Packages\n"
@@ -1733,7 +1746,7 @@ msgid ""
 "  -m, --multiversion       allow multiple versions of a single package.\n"
 "  -e, --extra-override <file>\n"
 "                           use extra override file.\n"
-"  -M, --medium <medium>    add X-Medium field for dselect multicd access "
+"  -M, --medium <medium>    add X-Medium field for dselect media access "
 "method\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version.\n"
@@ -2236,6 +2249,10 @@ msgstr "неподдерживаемый метод сжатия %s"
 #, perl-format
 msgid "%s is not a compression level"
 msgstr "%s не является степенью сжатия"
+
+#: scripts/dpkg-source.pl
+msgid "-E and -W are deprecated, they are without effect"
+msgstr "-E и -W устарели, они ничего не изменят"
 
 #: scripts/dpkg-source.pl scripts/dpkg-vendor.pl
 msgid "need an action option"
@@ -3210,12 +3227,12 @@ msgstr "символ «%s» запрещён"
 msgid "must start with an alphanumeric character"
 msgstr "должно начинаться с латинской буквы или цифры"
 
-#: scripts/Dpkg/Path.pm
+#: scripts/Dpkg/Path.pm scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "pathname '%s' cannot be canonicalized"
 msgstr ""
 
-#: scripts/Dpkg/Path.pm
+#: scripts/Dpkg/Path.pm scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "pathname '%s' points outside source root (to '%s')"
 msgstr ""
@@ -3299,6 +3316,40 @@ msgstr "закрытие ввода tar"
 #, perl-format
 msgid "cannot create directory %s"
 msgstr "не удалось создать каталог %s"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot get source pathname %s metadata"
+msgstr ""
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot get target pathname %s metadata"
+msgstr ""
+
+#: scripts/Dpkg/Source/Archive.pm
+#, fuzzy, perl-format
+#| msgid "cannot create directory %s"
+msgid "cannot change directory %s mode"
+msgstr "не удалось создать каталог %s"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, fuzzy, perl-format
+#| msgid "cannot create directory %s"
+msgid "cannot change directory %s times"
+msgstr "не удалось создать каталог %s"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, fuzzy, perl-format
+#| msgid "cannot stat directory %s"
+msgid "cannot remove destination directory %s"
+msgstr "не удалось выполнить функцию stat для каталога %s"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, fuzzy, perl-format
+#| msgid "cannot stat file %s"
+msgid "cannot remove destination file %s"
+msgstr "не удалось выполнить функцию stat для файла %s"
 
 #: scripts/Dpkg/Source/Archive.pm scripts/Dpkg/Source/Package.pm
 #: scripts/Dpkg/Source/Package/V2.pm
@@ -3614,8 +3665,8 @@ msgstr "orig параметр %s не является обычным файло
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is empty (means no orig, no diff) but source handling style -s"
-"%s wants something"
+"orig argument is empty (means no orig, no diff) but source handling style -"
+"s%s wants something"
 msgstr ""
 "orig параметр пуст (то есть не orig и не diff), но указана команда что-то "
 "сделать -s%s"
@@ -4074,6 +4125,12 @@ msgstr "клонируется %s"
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 msgid "setting up shallow clone"
 msgstr "настройка поверхностного клона"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, fuzzy, perl-format
+#| msgid "unable to rename %s to %s"
+msgid "setting remote %s to %s"
+msgstr "невозможно переименовать %s в %s"
 
 #: scripts/Dpkg/Source/Package/V3/Native.pm
 #, fuzzy

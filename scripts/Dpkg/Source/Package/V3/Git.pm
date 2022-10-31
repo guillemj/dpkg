@@ -26,6 +26,7 @@ our $VERSION = '0.02';
 
 use Cwd qw(abs_path getcwd);
 use File::Basename;
+use File::Spec;
 use File::Temp qw(tempdir);
 
 use Dpkg::Gettext;
@@ -66,6 +67,17 @@ sub _sanity_check {
     }
 
     return 1;
+}
+
+sub _parse_vcs_git {
+    my $vcs_git = shift;
+    my ($url, $opt, $branch) = split ' ', $vcs_git;
+
+    if (defined $opt && $opt eq '-b' && defined $branch) {
+        return ($url, $branch);
+    } else {
+        return ($url);
+    }
 }
 
 my @module_cmdline = (
@@ -206,7 +218,6 @@ sub do_extract {
     my ($self, $newdirectory) = @_;
     my $fields = $self->{fields};
 
-    my $dscdir = $self->{basedir};
     my $basenamerev = $self->get_basename(1);
 
     my @files = $self->get_files();
@@ -240,18 +251,33 @@ sub do_extract {
 
     # Extract git bundle.
     info(g_('cloning %s'), $bundle);
-    system('git', 'clone', '--quiet', $dscdir . $bundle, $newdirectory);
+    my $bundle_path = File::Spec->catfile($self->{basedir}, $bundle);
+    system('git', 'clone', '--quiet', '--origin=bundle', $bundle_path, $newdirectory);
     subprocerr('git bundle') if $?;
 
     if (defined $shallow) {
         # Move shallow info file into place, so git does not
         # try to follow parents of shallow refs.
         info(g_('setting up shallow clone'));
-        system('cp', '-f',  $dscdir . $shallow, "$newdirectory/.git/shallow");
+        my $shallow_orig = File::Spec->catfile($self->{basedir}, $shallow);
+        my $shallow_dest = File::Spec->catfile($newdirectory, '.git', 'shallow');
+        system('cp', '-f',  $shallow_orig, $shallow_dest);
         subprocerr('cp') if $?;
     }
 
     _sanity_check($newdirectory);
+
+    if (defined $fields->{'Vcs-Git'}) {
+        my $remote = 'origin';
+        my ($url, $head) = _parse_vcs_git($fields->{'Vcs-Git'});
+
+        my @git_remote_add = (qw(git -C), $newdirectory, qw(remote add));
+        push @git_remote_add, '-m', $head if defined $head;
+
+        info(g_('setting remote %s to %s'), $remote, $url);
+        system(@git_remote_add, $remote, $url);
+        subprocerr('git remote add') if $?;
+    }
 }
 
 1;

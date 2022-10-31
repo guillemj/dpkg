@@ -280,13 +280,13 @@ static void
 tarobject_skip_padding(struct tarcontext *tc, struct tar_entry *te)
 {
   struct dpkg_error err;
-  size_t r;
+  size_t remainder;
 
-  r = te->size % TARBLKSZ;
-  if (r == 0)
+  remainder = te->size % TARBLKSZ;
+  if (remainder == 0)
     return;
 
-  if (fd_skip(tc->backendpipe, TARBLKSZ - r, &err) < 0)
+  if (fd_skip(tc->backendpipe, TARBLKSZ - remainder, &err) < 0)
     ohshit(_("cannot skip padding for file '%.255s': %s"), te->name, err.str);
 }
 
@@ -307,6 +307,8 @@ tarobject_skip_entry(struct tarcontext *tc, struct tar_entry *ti)
 }
 
 struct varbuf_state fname_state;
+struct varbuf_state fnametmp_state;
+struct varbuf_state fnamenew_state;
 struct varbuf fnamevb;
 struct varbuf fnametmpvb;
 struct varbuf fnamenewvb;
@@ -598,16 +600,16 @@ tarobject_matches(struct tarcontext *tc,
 }
 
 void setupfnamevbs(const char *filename) {
-  varbuf_rollback(&fnamevb, &fname_state);
+  varbuf_rollback(&fname_state);
   varbuf_add_str(&fnamevb, filename);
   varbuf_end_str(&fnamevb);
 
-  varbuf_rollback(&fnametmpvb, &fname_state);
+  varbuf_rollback(&fnametmp_state);
   varbuf_add_str(&fnametmpvb, filename);
   varbuf_add_str(&fnametmpvb, DPKGTEMPEXT);
   varbuf_end_str(&fnametmpvb);
 
-  varbuf_rollback(&fnamenewvb, &fname_state);
+  varbuf_rollback(&fnamenew_state);
   varbuf_add_str(&fnamenewvb, filename);
   varbuf_add_str(&fnamenewvb, DPKGNEWEXT);
   varbuf_end_str(&fnamenewvb);
@@ -1586,6 +1588,8 @@ archivefiles(const char *const *argv)
   varbuf_add_str(&fnamenewvb, instdir);
 
   varbuf_snapshot(&fnamevb, &fname_state);
+  varbuf_snapshot(&fnametmpvb, &fnametmp_state);
+  varbuf_snapshot(&fnamenewvb, &fnamenew_state);
 
   ensure_diversions();
   ensure_statoverrides(STATDB_PARSE_NORMAL);
@@ -1673,7 +1677,7 @@ wanttoinstall(struct pkginfo *pkg)
     return true;
   } else if (rc == 0) {
     /* Same version fully installed. */
-    if (f_skipsame) {
+    if (f_skipsame && pkg->available.arch == pkg->installed.arch) {
       notice(_("version %.250s of %.250s already installed, skipping"),
              versiondescribe(&pkg->installed.version, vdew_nonambig),
              pkg_name(pkg, pnaw_nonambig));

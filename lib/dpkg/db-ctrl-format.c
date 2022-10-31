@@ -135,8 +135,7 @@ pkg_infodb_get_file(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
 	format = pkg_infodb_get_format();
 
 	varbuf_reset(&vb);
-	varbuf_add_str(&vb, pkg_infodb_get_dir());
-	varbuf_add_char(&vb, '/');
+	varbuf_add_dir(&vb, pkg_infodb_get_dir());
 	varbuf_add_str(&vb, pkg->set->name);
 	if (pkgbin->multiarch == PKG_MULTIARCH_SAME &&
 	    format == PKG_INFODB_FORMAT_MULTIARCH)

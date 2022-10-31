@@ -48,70 +48,14 @@ void mywerase(WINDOW *win) {
   wmove(win,0,0);
 }
 
-baselist *baselist::signallist = nullptr;
-void baselist::sigwinchhandler(int) {
-  int save_errno = errno;
-  struct winsize size;
-  debug(dbg_general, "baselist::sigwinchhandler(), signallist=%p", signallist);
-  baselist *p= signallist;
-  p->enddisplay();
-  endwin(); initscr();
-  if (ioctl(fileno(stdout), TIOCGWINSZ, &size) != 0) ohshite(_("ioctl(TIOCGWINSZ) failed"));
-  resizeterm(size.ws_row, size.ws_col); wrefresh(curscr);
-  p->startdisplay();
-  if (doupdate() == ERR) ohshite(_("doupdate in SIGWINCH handler failed"));
-  errno = save_errno;
-}
-
-static void cu_sigwinch(int, void **argv) {
-  struct sigaction *osigactp = static_cast<struct sigaction *>(argv[0]);
-  sigset_t *oblockedp = static_cast<sigset_t *>(argv[1]);
-
-  if (sigaction(SIGWINCH, osigactp, nullptr))
-    ohshite(_("failed to restore old SIGWINCH sigact"));
-  delete osigactp;
-  if (sigprocmask(SIG_SETMASK, oblockedp, nullptr))
-    ohshite(_("failed to restore old signal mask"));
-  delete oblockedp;
-}
-
 void
-baselist::sigwinch_mask(int how)
+baselist::resize_window()
 {
-  sigset_t sigwinchset;
-  sigemptyset(&sigwinchset);
-  sigaddset(&sigwinchset,SIGWINCH);
-
-  int rc = sigprocmask(how, &sigwinchset, nullptr);
-  if (rc < 0) {
-    if (how == SIG_UNBLOCK)
-      ohshite(_("failed to unblock SIGWINCH"));
-    else
-      ohshite(_("failed to block SIGWINCH"));
-  }
-}
-
-void
-baselist::setupsigwinch()
-{
-  struct sigaction *osigactp = new(struct sigaction);
-  sigset_t *oblockedp = new(sigset_t);
-  if (sigprocmask(0, nullptr, oblockedp))
-    ohshite(_("failed to get old signal mask"));
-  if (sigaction(SIGWINCH, nullptr, osigactp))
-    ohshite(_("failed to get old SIGWINCH sigact"));
-
-  push_cleanup(cu_sigwinch, ~0, 2, osigactp, oblockedp);
-
-  sigwinch_mask(SIG_BLOCK);
-
-  struct sigaction nsigact;
-  memset(&nsigact,0,sizeof(nsigact));
-  nsigact.sa_handler= sigwinchhandler;
-  sigemptyset(&nsigact.sa_mask);
-//nsigact.sa_flags= SA_INTERRUPT;
-  if (sigaction(SIGWINCH, &nsigact, nullptr))
-    ohshite(_("failed to set new SIGWINCH sigact"));
+  debug(dbg_general, "baselist::resize_window(), baselist=%p", this);
+  enddisplay();
+  startdisplay();
+  if (doupdate() == ERR)
+    ohshite(_("cannot update screen after window resize"));
 }
 
 void

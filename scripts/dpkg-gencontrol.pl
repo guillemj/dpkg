@@ -117,8 +117,8 @@ while (@ARGV) {
         $stdout= 1;
     } elsif (m/^-O(.+)$/) {
         $outputfile = $1;
-    } elsif (m/^-i([sp][sp]?)$/) {
-        warning(g_('-i%s is deprecated; it is without effect'), $1);
+    } elsif (m/^-i[sp][sp]?$/) {
+        warning(g_('%s is deprecated; it is without effect'), $_);
     } elsif (m/^-F([0-9a-z]+)$/) {
         $changelogformat=$1;
     } elsif (m/^-D([^\=:]+)[=:]/p) {

@@ -1,6 +1,6 @@
 /*
  * dpkg - main program for package management
- * selinux.c - SE Linux support
+ * selinux.c - SELinux support
  *
  * Copyright © 2007-2015 Guillem Jover <guillem@debian.org>
  *
@@ -44,6 +44,33 @@
 static struct selabel_handle *sehandle;
 #endif
 
+#ifdef WITH_LIBSELINUX
+static int DPKG_ATTR_PRINTF(2)
+log_callback(int type, const char *fmt, ...)
+{
+	va_list ap;
+	char *msg;
+
+	switch (type) {
+	case SELINUX_ERROR:
+	case SELINUX_WARNING:
+	case SELINUX_AVC:
+		break;
+	default:
+		return 0;
+	}
+
+	va_start(ap, fmt);
+	m_vasprintf(&msg, fmt, ap);
+	va_end(ap);
+
+	warning("selinux: %s", msg);
+	free(msg);
+
+	return 0;
+}
+#endif
+
 void
 dpkg_selabel_load(void)
 {
@@ -65,9 +92,9 @@ dpkg_selabel_load(void)
 		if (rc < 0)
 			ohshit(_("cannot open security status notification channel"));
 
-		/* XXX: We could use selinux_set_callback() to redirect the
-		 * errors from the other SELinux calls, but that does not seem
-		 * worth it right now. */
+		selinux_set_callback(SELINUX_CB_LOG, (union selinux_callback) {
+			.func_log = log_callback,
+		});
 	} else if (selinux_enabled && selinux_status_updated()) {
 		/* The SELinux policy got updated in the kernel, usually after
 		 * upgrading the package shipping it, we need to reload. */

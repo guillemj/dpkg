@@ -15,8 +15,12 @@ LDADD = \
 	# EOL
 
 EXTRA_DIST =
-
+CLEANFILES =
 DISTCLEANFILES =
+
+nobase_dist_pkgdata_DATA = \
+	sh/dpkg-error.sh \
+	# EOL
 
 bin_PROGRAMS = \
 	dpkg \
@@ -26,6 +30,26 @@ bin_PROGRAMS = \
 	dpkg-split \
 	dpkg-statoverride \
 	dpkg-trigger \
+	# EOL
+
+bin_SCRIPTS = \
+	dpkg-maintscript-helper \
+	dpkg-realpath \
+	# EOL
+
+pkglibexec_SCRIPTS = \
+	dpkg-db-backup \
+	# EOL
+
+EXTRA_DIST += \
+	dpkg-db-backup.sh \
+	dpkg-maintscript-helper.sh \
+	dpkg-realpath.sh \
+	# EOL
+
+CLEANFILES += \
+	$(bin_SCRIPTS) \
+	$(pkglibexec_SCRIPTS) \
 	# EOL
 
 dpkg_SOURCES = \
@@ -115,21 +139,15 @@ dpkg_trigger_SOURCES = \
 	trigger/main.c \
 	# EOL
 
+SUFFIXES =
+
+include $(top_srcdir)/build-aux/subst.am
+
 install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(pkgconfdir)/dpkg.cfg.d
 	$(MKDIR_P) $(DESTDIR)$(admindir)/info
 	$(MKDIR_P) $(DESTDIR)$(admindir)/parts
 	$(MKDIR_P) $(DESTDIR)$(admindir)/updates
-
-test_tmpdir = t.tmp
-
-test_scripts = \
-	t/dpkg_divert.t \
-	# EOL
-
-EXTRA_DIST += $(test_scripts)
-
-include $(top_srcdir)/build-aux/tap.am
 
 EXTRA_DIST += $(srcdir)/at/atlocal.in
 EXTRA_DIST += $(srcdir)/at/package.m4
@@ -140,6 +158,8 @@ TESTSUITE_AT += $(srcdir)/at/deb-format.at
 TESTSUITE_AT += $(srcdir)/at/deb-fields.at
 TESTSUITE_AT += $(srcdir)/at/deb-content.at
 TESTSUITE_AT += $(srcdir)/at/deb-split.at
+TESTSUITE_AT += $(srcdir)/at/realpath.at
+TESTSUITE_AT += $(srcdir)/at/divert.at
 EXTRA_DIST += $(TESTSUITE_AT)
 
 TESTSUITE = $(srcdir)/at/testsuite
@@ -149,8 +169,8 @@ DISTCLEANFILES += at/atconfig
 
 include $(top_srcdir)/build-aux/autotest.am
 
-check-local: tap-check autotest-check
+check-local: autotest-check
 
 installcheck-local: autotest-installcheck
 
-clean-local: tap-clean autotest-clean
+clean-local: autotest-clean

@@ -46,7 +46,7 @@ AC_DEFUN([DPKG_DECL_SYS_ERRLIST], [
 # Define HAVE_DECL to 1 if declared in HEADER
 AC_DEFUN([DPKG_CHECK_DECL], [
   AC_CHECK_DECL([$1], [
-    AC_DEFINE([HAVE_]AS_TR_CPP($1), [1],
+    AC_DEFINE(AS_TR_CPP([HAVE_$1]), [1],
       [Define to 1 if ']$1[' is declared in <$2>])
   ], [], [[#include <$2>]])
 ])# DPKG_CHECK_DECL

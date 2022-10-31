@@ -681,8 +681,6 @@ sub debarch_list_parse
 
 1;
 
-__END__
-
 =back
 
 =head1 CHANGES

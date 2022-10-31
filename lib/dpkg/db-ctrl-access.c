@@ -72,8 +72,7 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	else
 		pkgname = pkgbin_name(pkg, pkgbin, pnaw_never);
 
-	varbuf_add_str(&db_path, pkg_infodb_get_dir());
-	varbuf_add_char(&db_path, '/');
+	varbuf_add_dir(&db_path, pkg_infodb_get_dir());
 	varbuf_end_str(&db_path);
 	varbuf_snapshot(&db_path, &db_path_state);
 
@@ -107,7 +106,7 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 		/* Skip past the full stop. */
 		filetype = dot + 1;
 
-		varbuf_rollback(&db_path, &db_path_state);
+		varbuf_rollback(&db_path_state);
 		varbuf_add_str(&db_path, db_de->d_name);
 		varbuf_end_str(&db_path);
 		filename = db_path.buf;

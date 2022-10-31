@@ -3,6 +3,54 @@
 
 set -e
 
+PROGNAME=dpkg
+
+. /usr/share/dpkg/sh/dpkg-error.sh
+
+setup_colors
+
+get_vendor()
+{
+  local origin="$DPKG_ROOT/etc/dpkg/origins/default"
+  local vendor
+
+  if [ -e "$origin" ]; then
+    vendor=$(sed -ne 's/^Vendor: *\([^ ]\+\) */\1/p' "$origin" | tr A-Z a-z)
+  fi
+
+  echo "${vendor:-default}"
+}
+
+check_merged_usr_via_aliased_dirs()
+{
+  local vendor
+
+  vendor=$(get_vendor)
+
+  case "$vendor" in
+  debian)
+    # In Debian some people have gotten so offended by the following _warning_
+    # that they have resorted to bullying and abuse. Life's too short, sorry.
+    return
+    ;;
+  ubuntu)
+    # Ubuntu does not seem interested in it.
+    return
+    ;;
+  esac
+
+  for d in /bin /sbin /lib /lib32 /libo32 /libx32 /lib64; do
+    linkname="$(readlink $DPKG_ROOT$d || true)"
+    if [ "$linkname" = "usr$d" ] || [ "$linkname" = "/usr$d" ]; then
+      warning "This system uses merged-usr-via-aliased-dirs, going behind dpkg's"
+      warning "back, breaking its core assumptions. This can cause silent file"
+      warning "overwrites and disappearances, and its general tools misbehavior."
+      warning "See <https://wiki.debian.org/Teams/Dpkg/FAQ#broken-usrmerge>."
+      break
+    fi
+  done
+}
+
 # Version 1.21.0 had bogus handling of DPKG_ADMINDIR in update-alternatives,
 # and misplaced them, fix them up.
 fixup_misplaced_alternatives()
@@ -12,14 +60,17 @@ fixup_misplaced_alternatives()
   cd "$admindir"
 
   for file in *; do
+    if ! [ -f "$file" ]; then
+      # Ignore anything that is not a file.
+      continue
+    fi
+
     # Check whether this is a known file we do not want to act on.
     case "$file" in
-    alternatives|\
     arch|\
     available|available-old|\
-    cmethopt|methlock|methods|\
+    cmethopt|methlock|\
     diversions|diversions-old|\
-    info|parts|triggers|updates|\
     lock|lock-frontend|\
     statoverride|statoverride-old|\
     status|status-old)
@@ -38,7 +89,7 @@ fixup_misplaced_alternatives()
       mv "$file" "alternatives/$file"
       ;;
     *)
-      echo "warning: unknown dpkg database file $admindir/$file is not a misplaced alternative state... leaving as is" 1>&2
+      warning "unknown dpkg database file $admindir/$file is not a misplaced alternative state... leaving as is"
       continue
       ;;
     esac
@@ -48,12 +99,13 @@ fixup_misplaced_alternatives()
 case "$1" in
 configure)
   fixup_misplaced_alternatives
+
+  check_merged_usr_via_aliased_dirs
   ;;
 abort-upgrade|abort-deconfigure|abort-remove)
   ;;
 *)
-  echo "$0 called with unknown argument '$1'" 1>&2
-  exit 1
+  error "called with unknown argument '$1'"
   ;;
 esac
 

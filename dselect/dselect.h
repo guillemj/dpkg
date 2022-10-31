@@ -97,12 +97,8 @@ protected:
   // If listpad is null, then we have not started to display yet, and
   // so none of the auto-displaying update routines need to display.
 
-  // SIGWINCH handling
-  void sigwinch_mask(int how);
-  void setupsigwinch();
-
-  static baselist *signallist;
-  static void sigwinchhandler(int);
+  // Window resize handling (via SIGWINCH).
+  void resize_window();
 
   int nitems, ldrawnstart, ldrawnend, showinfo;
   int topofscreen, leftofscreen, cursorline;
@@ -190,8 +186,16 @@ extern colordata color[];
 /* Evil recommends flag variable. */
 extern bool manual_install;
 
-enum urqresult { urqr_normal, urqr_fail, urqr_quitmenu };
-enum quitaction { qa_noquit, qa_quitchecksave, qa_quitnochecksave };
+enum urqresult {
+	urqr_normal,
+	urqr_fail,
+	urqr_quitmenu,
+};
+enum quitaction {
+	qa_noquit,
+	qa_quitchecksave,
+	qa_quitnochecksave,
+};
 
 typedef urqresult urqfunction(void);
 urqfunction urq_list, urq_quit, urq_menu;

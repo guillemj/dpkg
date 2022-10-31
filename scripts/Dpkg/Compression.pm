@@ -35,6 +35,7 @@ our @EXPORT = qw(
 
 use Exporter qw(import);
 use Config;
+use List::Util qw(any);
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -53,10 +54,9 @@ interact with the set of supported compression methods.
 =cut
 
 my $COMP = {
-    # Requires gzip >= 1.7 for the --rsyncable option.
     gzip => {
 	file_ext => 'gz',
-	comp_prog => [ 'gzip', '--no-name', '--rsyncable' ],
+	comp_prog => [ 'gzip', '-n' ],
 	decomp_prog => [ 'gunzip' ],
 	default_level => 9,
     },
@@ -79,6 +79,20 @@ my $COMP = {
 	default_level => 6,
     },
 };
+
+# The gzip --rsyncable option is not universally supported, so we need to
+# conditionally use it. Ideally we would invoke 'gzip --help' and check
+# whether the option is supported, but that would imply forking and executing
+# that process for any module that ends up loading this one, which is not
+# acceptable performance-wise. Instead we will approximate it by osname, which
+# is not ideal, but better than nothing.
+#
+# Requires GNU gzip >= 1.7 for the --rsyncable option. On AIX GNU gzip is
+# too old. On the BSDs they use their own implementation based on zlib,
+# which does not currently support the --rsyncable option.
+if (any { $Config{osname} eq $_ } qw(linux gnu solaris)) {
+    push @{$COMP->{gzip}->{comp_prog}}, '--rsyncable';
+}
 
 my $default_compression = 'xz';
 my $default_compression_level = undef;

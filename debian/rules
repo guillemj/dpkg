@@ -10,159 +10,75 @@ WFLAGS := \
 	-Wno-unused-parameter \
 	# EOL
 
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export DEB_CFLAGS_MAINT_APPEND = $(WFLAGS)
+export DEB_CXXFLAGS_MAINT_APPEND = $(WFLAGS)
+
 # Use the in-tree dpkg-buildflags
 dpkg_buildflags = \
-	DEB_BUILD_MAINT_OPTIONS="hardening=+all" \
+	DEB_BUILD_MAINT_OPTIONS="$(DEB_BUILD_MAINT_OPTIONS)" \
 	DEB_CFLAGS_MAINT_APPEND="$(WFLAGS)" \
 	DEB_CXXFLAGS_MAINT_APPEND="$(WFLAGS)" \
 	$(CURDIR)/build-aux/run-script scripts/dpkg-buildflags.pl
-
-DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
-DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
-DEB_HOST_ARCH_OS    ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
-DEB_HOST_MULTIARCH  ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
-
-# Support cross-compiling.
-ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
-	confflags += --build=$(DEB_HOST_GNU_TYPE)
-else
-	confflags += --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE)
-endif
 
 # Do not enable everything on all platforms.
 ifeq ($(DEB_HOST_ARCH_OS),linux)
 	confflags += --with-libselinux
 endif
 ifeq (,$(filter terse,$(DEB_BUILD_OPTIONS)))
-	confflags += --disable-silent-rules
-	testflags += TESTSUITEFLAGS=--verbose
+	TESTSUITEFLAGS += --verbose
 endif
 
 # Enable parallel test suite
 NUMJOBS = 1
 ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
   NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-  MAKEFLAGS += -j$(NUMJOBS)
+  TESTSUITEFLAGS += -j$(NUMJOBS)
 endif
+
+testflags = TESTSUITEFLAGS=$(TESTSUITEFLAGS) TEST_PARALLEL=$(NUMJOBS)
 
 D := $(CURDIR)/debian/tmp
 
-# Configure the build tree
-build-tree/config.status:
-	dh_testdir
-	dh_autoreconf
+%:
+	dh $@ --builddirectory=build-tree
 
-	install -d build-tree
-	cd build-tree && ../configure $(confflags) \
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		$(confflags) \
 		$(shell $(dpkg_buildflags) --export=configure) \
-		--prefix=/usr \
-		--mandir=\$${datadir}/man \
-		--infodir=\$${datadir}/info \
-		--sysconfdir=/etc \
 		--sbindir=/sbin \
-		--localstatedir=/var \
-		--runstatedir=/run \
 		--libexecdir=\$${exec_prefix}/lib \
 		--with-devlibdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH) \
-		--without-libmd \
 		--with-libz \
 		--with-liblzma \
-		--with-libbz2
+		--with-libbz2 \
+		# EOL
 
-# Build the package in build-tree
-build-indep build-arch build: build-tree/config.status
-	dh_testdir
-
-	cd build-tree && $(MAKE)
-
-# Run the test suites
-check: build
-	dh_testdir
-
-ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	cd build-tree && $(MAKE) $(testflags) TEST_PARALLEL=$(NUMJOBS) check
-endif
-
-# Install the package underneath debian/tmp
-install: check
-	dh_testdir
-	dh_testroot
-	dh_prep
-	dh_installdirs
-
-	cd build-tree && $(MAKE) DESTDIR=$(D) install
-
+execute_after_dh_auto_install:
 	# Special-case the lintian profile, as dh cannot rename on install.
 	mkdir -p $(D)/usr/share/lintian/profiles/dpkg
 	cp debian/dpkg.lintian-profile \
 	   $(D)/usr/share/lintian/profiles/dpkg/main.profile
 
-define dpkg-installmanl10n
-for f in `sed -e 's:\*:*/*:' -e 's:^:$(D)/:' debian/$(1).manpages`; do \
-  if [ -e $$f ]; then \
-    install -D $$f `echo $$f | sed -e 's:^$(D):debian/$(1):'`; \
-  fi; \
-done
-endef
+override_dh_auto_test:
+	dh_auto_test -- $(testflags)
 
-# Put together the dpkg and dselect packages
-binary-arch: install
-	dh_testdir -a
-	dh_testroot -a
-	dh_install -a
-	dh_installcron -a
+override_dh_installsystemd:
 	dh_installsystemd -a --name=dpkg-db-backup
-	dh_installlogrotate -a
-	dh_installlogrotate -a --name=alternatives
-	dh_installchangelogs -a ChangeLog*
-	dh_installdocs -a
-	$(call dpkg-installmanl10n,dpkg)
-	$(call dpkg-installmanl10n,dselect)
-	dh_installman -a
-	dh_link -a
-	dh_bugfiles -a -A
-	dh_lintian -a
-	dh_strip -a
-	dh_compress -a
-	dh_fixperms -a
-	dh_installdeb -a
-	dh_shlibdeps -a
-	dh_gencontrol -a
-	dh_md5sums -a
-	dh_builddeb -a
 
-# Put together the dpkg-dev package
-binary-indep: install
-	dh_testdir -i
-	dh_testroot -i
-	dh_install -i
-	dh_installchangelogs -i ChangeLog*
-	dh_installdocs -i -Ndpkg-dev
+execute_after_dh_installlogrotate:
+	dh_installlogrotate --name=alternatives
+
+override_dh_installdocs:
+	dh_installdocs -Ndpkg-dev
 	dh_installdocs -pdpkg-dev --doc-main-package=dpkg
-	$(call dpkg-installmanl10n,dpkg-dev)
-	dh_installman -i
-	dh_link -i
-	dh_bugfiles -i -A
-	dh_lintian -i
-	dh_perl -i
-	dh_compress -i
-	dh_fixperms -i
-	dh_installdeb -i
-	dh_gencontrol -i
-	dh_md5sums -i
-	dh_builddeb -i
 
-binary: binary-arch binary-indep
+override_dh_installchangelogs:
+	dh_installchangelogs ChangeLog*
 
+override_dh_bugfiles:
+	dh_bugfiles -A
 
-# Clean up the mess we made
-clean:
-	dh_testdir
-
-	[ ! -f Makefile ] || $(MAKE) distclean
-	rm -rf build-tree
-	dh_autoreconf_clean
-	dh_clean
-
-
-.PHONY: build check install binary-arch binary-indep binary clean
+override_dh_compress:
+	dh_compress -Xspec/

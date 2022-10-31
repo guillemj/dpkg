@@ -26,6 +26,7 @@
 #include <dpkg/file.h>
 
 #include <sys/types.h>
+#include <sys/stat.h>
 
 #include <errno.h>
 #include <unistd.h>
@@ -63,7 +64,6 @@ test_file_slurp(void)
 	test_error(err);
 	varbuf_destroy(&vb);
 	test_pass(rmdir(test_dir) == 0);
-	free(test_dir);
 
 	test_file = test_alloc(strdup("test.XXXXXX"));
 	fd = mkstemp(test_file);
@@ -86,13 +86,21 @@ test_file_slurp(void)
 	test_pass(err.type == DPKG_MSG_NONE);
 	varbuf_destroy(&vb);
 
+	test_fail(file_is_exec(test_dir));
+	test_fail(file_is_exec(test_file));
+	test_pass(chmod(test_file, 0755) == 0);
+	test_pass(file_is_exec(test_file));
+	test_pass(chmod(test_file, 0750) == 0);
+	test_pass(file_is_exec(test_file));
+
 	test_pass(unlink(test_file) == 0);
 	free(test_file);
+	free(test_dir);
 }
 
 TEST_ENTRY(test)
 {
-	test_plan(26);
+	test_plan(32);
 
 	test_file_slurp();
 }

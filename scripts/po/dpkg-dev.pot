@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.21.1\n"
+"Project-Id-Version: dpkg 1.21.9\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2021-12-06 21:04+0100\n"
+"POT-Creation-Date: 2022-07-01 09:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -319,13 +319,15 @@ msgstr ""
 msgid "missing hook %s command"
 msgstr ""
 
+#: scripts/dpkg-buildpackage.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-gencontrol.pl
+#, perl-format
+msgid "%s is deprecated; it is without effect"
+msgstr ""
+
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "-s%s is deprecated; always using gpg style interface"
-msgstr ""
-
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-source.pl
-msgid "-E and -W are deprecated, they are without effect"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
@@ -488,7 +490,7 @@ msgstr ""
 msgid "cannot close %s"
 msgstr ""
 
-#: scripts/dpkg-buildpackage.pl
+#: scripts/dpkg-buildpackage.pl scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "cannot move %s to %s"
 msgstr ""
@@ -783,11 +785,6 @@ msgstr ""
 #: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
 #, perl-format
 msgid "illegal package name '%s': %s"
-msgstr ""
-
-#: scripts/dpkg-gencontrol.pl
-#, perl-format
-msgid "-i%s is deprecated; it is without effect"
 msgstr ""
 
 #: scripts/dpkg-gencontrol.pl
@@ -1124,7 +1121,7 @@ msgid ""
 "  -m, --multiversion       allow multiple versions of a single package.\n"
 "  -e, --extra-override <file>\n"
 "                           use extra override file.\n"
-"  -M, --medium <medium>    add X-Medium field for dselect multicd access "
+"  -M, --medium <medium>    add X-Medium field for dselect media access "
 "method\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version.\n"
@@ -1501,6 +1498,10 @@ msgstr ""
 #: scripts/Dpkg/Compression/Process.pm
 #, perl-format
 msgid "%s is not a compression level"
+msgstr ""
+
+#: scripts/dpkg-source.pl
+msgid "-E and -W are deprecated, they are without effect"
 msgstr ""
 
 #: scripts/dpkg-source.pl scripts/dpkg-vendor.pl
@@ -2315,12 +2316,12 @@ msgstr ""
 msgid "must start with an alphanumeric character"
 msgstr ""
 
-#: scripts/Dpkg/Path.pm
+#: scripts/Dpkg/Path.pm scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "pathname '%s' cannot be canonicalized"
 msgstr ""
 
-#: scripts/Dpkg/Path.pm
+#: scripts/Dpkg/Path.pm scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "pathname '%s' points outside source root (to '%s')"
 msgstr ""
@@ -2396,6 +2397,36 @@ msgstr ""
 #: scripts/Dpkg/Source/Archive.pm scripts/Dpkg/Source/Patch.pm
 #, perl-format
 msgid "cannot create directory %s"
+msgstr ""
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot get source pathname %s metadata"
+msgstr ""
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot get target pathname %s metadata"
+msgstr ""
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot change directory %s mode"
+msgstr ""
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot change directory %s times"
+msgstr ""
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot remove destination directory %s"
+msgstr ""
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot remove destination file %s"
 msgstr ""
 
 #: scripts/Dpkg/Source/Archive.pm scripts/Dpkg/Source/Package.pm
@@ -2681,8 +2712,8 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is empty (means no orig, no diff) but source handling style -s"
-"%s wants something"
+"orig argument is empty (means no orig, no diff) but source handling style -"
+"s%s wants something"
 msgstr ""
 
 #: scripts/Dpkg/Source/Package/V1.pm
@@ -3090,6 +3121,11 @@ msgstr ""
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 msgid "setting up shallow clone"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, perl-format
+msgid "setting remote %s to %s"
 msgstr ""
 
 #: scripts/Dpkg/Source/Package/V3/Native.pm

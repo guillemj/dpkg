@@ -4,8 +4,7 @@
 # DPKG_BUILD_SHARED_LIBS()
 # ----------------------
 AC_DEFUN([DPKG_BUILD_SHARED_LIBS], [
-  m4_pattern_allow([DPKG_DEVEL_MODE])
-  AS_IF([test "$enable_shared" = "yes" && test -z "$DPKG_DEVEL_MODE"], [
+  AS_IF([test "$enable_shared" = "yes" && test -z "$AUTHOR_TESTING"], [
     AC_MSG_ERROR([building libdpkg as a shared library is not supported])
   ])
   AM_CONDITIONAL([BUILD_SHARED], [test "$enable_shared" = "yes"])
@@ -27,16 +26,16 @@ AC_DEFUN([DPKG_BUILD_PROG], [
   AC_MSG_CHECKING([whether to build $1])
   AC_ARG_ENABLE([$1],
     [AS_HELP_STRING([--disable-$1], [do not build or use $1])],
-    [build_]AS_TR_SH([$1])[=$enable_]AS_TR_SH([$1]),
-    [build_]AS_TR_SH([$1])[=yes])
-  AM_CONDITIONAL([BUILD_]AS_TR_CPP([$1]),
-    [test "x$build_]AS_TR_SH([$1])[" = "xyes"])
-  AS_IF([test "x$build_]AS_TR_SH([$1])[" = "xyes"], [
-    AC_DEFINE([BUILD_]AS_TR_CPP([$1]), [1], [Define to 1 if $1 is compiled.])
+    [AS_TR_SH([build_$1])=$AS_TR_SH([enable_$1])],
+    [AS_TR_SH([build_$1])=yes])
+  AM_CONDITIONAL(AS_TR_CPP([BUILD_$1]),
+    [test "x$AS_TR_SH([build_$1])" = "xyes"])
+  AS_IF([test "x$AS_TR_SH([build_$1])" = "xyes"], [
+    AC_DEFINE(AS_TR_CPP([BUILD_$1]), [1], [Define to 1 if $1 is compiled.])
   ], [
-    AC_DEFINE([BUILD_]AS_TR_CPP([$1]), [0])
+    AC_DEFINE(AS_TR_CPP([BUILD_$1]), [0])
   ])
-  AC_MSG_RESULT([$build_]AS_TR_SH([$1]))
+  AC_MSG_RESULT([$AS_TR_SH([build_$1])])
 ])# DPKG_BUILD_PROG
 
 # DPKG_BUILD_DEVEL_DOCS()

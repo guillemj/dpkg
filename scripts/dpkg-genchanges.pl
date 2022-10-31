@@ -44,6 +44,7 @@ use Dpkg::Vars;
 use Dpkg::Changelog::Parse;
 use Dpkg::Dist::Files;
 use Dpkg::Version;
+use Dpkg::Vendor qw(run_vendor_hook);
 
 textdomain('dpkg-dev');
 
@@ -216,14 +217,16 @@ $substvars->set_vendor_substvars();
 $substvars->set_arch_substvars();
 $substvars->load('debian/substvars') if -e 'debian/substvars' and not $substvars_loaded;
 
+my $backport_version_regex = run_vendor_hook('backport-version-regex') // qr/^$/;
+
+# Versions with backport markers have a lower version number by definition.
 if (defined($prev_changelog) and
+    $changelog->{'Version'} !~ /$backport_version_regex/ and
     version_compare_relation($changelog->{'Version'}, REL_LT,
                              $prev_changelog->{'Version'}))
 {
     warning(g_('the current version (%s) is earlier than the previous one (%s)'),
-	$changelog->{'Version'}, $prev_changelog->{'Version'})
-        # Backports have lower version number by definition.
-        unless $changelog->{'Version'} =~ /~(?:bpo|deb)/;
+            $changelog->{'Version'}, $prev_changelog->{'Version'});
 }
 
 # Scan control info of source package

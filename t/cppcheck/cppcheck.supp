@@ -42,7 +42,7 @@ syntaxError:lib/dpkg/t/*.c
 identicalInnerCondition:lib/dpkg/fsys-hash.c:96
 
 // BUG: False positive, the macros from lib/dpkg/dlist.h use the tail member.
-unusedStructMember:lib/dpkg/triglib.c:378
+unusedStructMember:lib/dpkg/triglib.c:377
 
 // BUG: False positive, does not understand non-returning functors.
 negativeIndex:src/deb/build.c
@@ -62,6 +62,3 @@ va_end_missing:lib/dpkg/parsehelp.c:68
 
 // BUG: False positive, due to our local va_copy().
 va_list_usedBeforeStarted:lib/compat/vasprintf.c
-
-// BUG: False positive, SIGWINCH is not a fatal signal.
-unreachableCode:dselect/basecmds.cc:123

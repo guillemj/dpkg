@@ -1,0 +1,50 @@
+#!/bin/sh
+# See deb-preinst(5).
+
+set -e
+
+: "${DPKG_ADMINDIR:=/var/lib/dpkg}"
+
+# Rename state directories to match renamed method names.
+rename_method_state_dir() {
+  methodoldname="$1"
+  methodoldopt="$2"
+  methodnewname="$3"
+  methodnewopt="$4"
+  methodsdir="$DPKG_ADMINDIR/methods"
+
+  if [ -d "$methodsdir/$methodoldname" ]; then
+    if [ -e "$methodsdir/$methodnewname" ]; then
+      rm -rf "$methodsdir/$methodoldname"
+    else
+      if [ -e "$methodsdir/$methodoldname/shvar.$methodoldopt" ]; then
+        cp -a "$methodsdir/$methodoldname/shvar.$methodoldopt" \
+              "$methodsdir/$methodoldname/shvar.$methodnewopt"
+      fi
+      mv "$methodsdir/$methodoldname" "$methodsdir/$methodnewname"
+      rm -f "$methodsdir/$methodnewname/shvar.$methodoldopt"
+    fi
+    # Update the currently selected method and option if needed.
+    sed -i -e "s/^$methodoldname $methodoldopt/$methodnewname $methodnewopt/" \
+      "$DPKG_ADMINDIR/cmethopt"
+  fi
+}
+
+case "$1" in
+install|upgrade)
+  if [ -n "$2" ]; then
+    rename_method_state_dir disk mounted file file
+    rename_method_state_dir multicd multi_cd media media
+  fi
+  ;;
+abort-upgrade)
+  ;;
+*)
+  echo "$0 called with unknown argument '$1'" 1>&2
+  exit 1
+  ;;
+esac
+
+#DEBHELPER#
+
+exit 0

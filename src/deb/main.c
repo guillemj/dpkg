@@ -105,6 +105,7 @@ usage(const struct cmdinfo *cip, const char *value)
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
+"      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when building.\n"
@@ -166,7 +167,22 @@ struct compress_params compress_params = {
   .type = DPKG_DEB_DEFAULT_COMPRESSOR,
   .strategy = COMPRESSOR_STRATEGY_NONE,
   .level = -1,
+  .threads_max = -1,
 };
+
+static long
+parse_compress_level(const char *str)
+{
+  long value;
+  char *end;
+
+  errno = 0;
+  value = strtol(str, &end, 10);
+  if (str == end || *end != '\0' || errno != 0)
+    return 0;
+
+  return value;
+}
 
 static void
 set_compress_level(const struct cmdinfo *cip, const char *value)
@@ -188,16 +204,46 @@ set_compress_strategy(const struct cmdinfo *cip, const char *value)
     badusage(_("unknown compression strategy '%s'!"), value);
 }
 
+static enum compressor_type
+parse_compress_type(const char *value)
+{
+  enum compressor_type type;
+
+  type = compressor_find_by_name(value);
+  if (type == COMPRESSOR_TYPE_UNKNOWN)
+    badusage(_("unknown compression type '%s'!"), value);
+  if (type == COMPRESSOR_TYPE_LZMA)
+    badusage(_("obsolete compression type '%s'; use xz instead"), value);
+  if (type == COMPRESSOR_TYPE_BZIP2)
+    badusage(_("obsolete compression type '%s'; use xz or gzip instead"), value);
+
+  return type;
+}
+
 static void
 set_compress_type(const struct cmdinfo *cip, const char *value)
 {
-  compress_params.type = compressor_find_by_name(value);
-  if (compress_params.type == COMPRESSOR_TYPE_UNKNOWN)
-    badusage(_("unknown compression type '%s'!"), value);
-  if (compress_params.type == COMPRESSOR_TYPE_LZMA)
-    badusage(_("obsolete compression type '%s'; use xz instead"), value);
-  if (compress_params.type == COMPRESSOR_TYPE_BZIP2)
-    badusage(_("obsolete compression type '%s'; use xz or gzip instead"), value);
+  compress_params.type = parse_compress_type(value);
+}
+
+static long
+parse_threads_max(const char *str)
+{
+  long value;
+  char *end;
+
+  errno = 0;
+  value = strtol(str, &end, 10);
+  if (str == end || *end != '\0' || errno != 0)
+    return 0;
+
+  return value;
+}
+
+static void
+set_threads_max(const struct cmdinfo *cip, const char *value)
+{
+  compress_params.threads_max = dpkg_options_parse_arg_int(cip, value);
 }
 
 static const struct cmdinfo cmdinfos[]= {
@@ -218,6 +264,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "verbose",       'v', 0, &opt_verbose,   NULL,         NULL,          1 },
   { "nocheck",       0,   0, &nocheckflag,   NULL,         NULL,          1 },
   { "root-owner-group",    0, 0, &opt_root_owner_group,    NULL, NULL,    1 },
+  { "threads-max",   0,   1, NULL,           NULL,         set_threads_max  },
   { "uniform-compression", 0, 0, &opt_uniform_compression, NULL, NULL,    1 },
   { "no-uniform-compression", 0, 0, &opt_uniform_compression, NULL, NULL, 0 },
   { NULL,            'z', 1, NULL,           NULL,         set_compress_level },
@@ -231,10 +278,21 @@ static const struct cmdinfo cmdinfos[]= {
 
 int main(int argc, const char *const *argv) {
   struct dpkg_error err;
+  char *env;
   int ret;
 
   dpkg_locales_init(PACKAGE);
   dpkg_program_init(BACKEND);
+  /* XXX: Integrate this into options initialization/parsing. */
+  env = getenv("DPKG_DEB_THREADS_MAX");
+  if (str_is_set(env))
+    compress_params.threads_max = parse_threads_max(env);
+  env = getenv("DPKG_DEB_COMPRESSOR_TYPE");
+  if (str_is_set(env))
+    compress_params.type = parse_compress_type(env);
+  env = getenv("DPKG_DEB_COMPRESSOR_LEVEL");
+  if (str_is_set(env))
+    compress_params.level = parse_compress_level(env);
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
   if (!cipaction) badusage(_("need an action option"));

@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 10;
+use Test::More tests => 11;
 use Test::Dpkg qw(:paths);
 
 use File::Spec::Functions qw(rel2abs);
@@ -74,10 +74,14 @@ sub cmd_get_vars {
 
 my %arch = cmd_get_vars($ENV{PERL}, "$srcdir/dpkg-architecture.pl", '-f');
 
-delete $ENV{$_} foreach keys %arch;
-$ENV{"TEST_$_"} = $arch{$_} foreach keys %arch;
+while (my ($k, $v) = each %arch) {
+    delete $ENV{$k};
+    $ENV{"TEST_$k"} = $v;
+}
 test_makefile('architecture.mk', 'without envvars');
-$ENV{$_} = $arch{$_} foreach keys %arch;
+while (my ($k, $v) = each %arch) {
+    $ENV{$k} = $v;
+}
 test_makefile('architecture.mk', 'with envvars');
 
 $ENV{DEB_BUILD_OPTIONS} = 'parallel=16';
@@ -88,8 +92,10 @@ delete $ENV{TEST_DEB_BUILD_OPTION_PARALLEL};
 
 my %buildflag = cmd_get_vars($ENV{PERL}, "$srcdir/dpkg-buildflags.pl");
 
-delete $ENV{$_} foreach keys %buildflag;
-$ENV{"TEST_$_"} = $buildflag{$_} foreach keys %buildflag;
+while (my ($var, $flags) = each %buildflag) {
+    delete $ENV{$var};
+    $ENV{"TEST_$var"} = $flags;
+}
 test_makefile('buildflags.mk');
 
 my %buildtools = (
@@ -112,11 +118,11 @@ my %buildtools = (
     PKG_CONFIG => 'pkg-config',
 );
 
-foreach my $tool (keys %buildtools) {
-    delete $ENV{$tool};
-    $ENV{"TEST_$tool"} = "$ENV{DEB_HOST_GNU_TYPE}-$buildtools{$tool}";
-    delete $ENV{"${tool}_FOR_BUILD"};
-    $ENV{"TEST_${tool}_FOR_BUILD"} = "$ENV{DEB_BUILD_GNU_TYPE}-$buildtools{$tool}";
+while (my ($var, $tool) = each %buildtools) {
+    delete $ENV{$var};
+    $ENV{"TEST_$var"} = "$ENV{DEB_HOST_GNU_TYPE}-$tool";
+    delete $ENV{"${var}_FOR_BUILD"};
+    $ENV{"TEST_${var}_FOR_BUILD"} = "$ENV{DEB_BUILD_GNU_TYPE}-$tool";
 }
 test_makefile('buildtools.mk', 'without envvars');
 
@@ -131,6 +137,14 @@ foreach my $tool (keys %buildtools) {
     delete $ENV{"${tool}_FOR_BUILD"};
 }
 
+delete $ENV{SOURCE_DATE_EPOCH};
+# Timestamp in seconds since the epoch from date in test debian/changelog
+# entry: «Tue, 04 Aug 2015 16:13:50 +0200».
+$ENV{TEST_SOURCE_DATE_EPOCH} = 1438697630;
+test_makefile('pkg-info.mk');
+
+$ENV{SOURCE_DATE_EPOCH} = 100;
+$ENV{TEST_SOURCE_DATE_EPOCH} = 100;
 test_makefile('pkg-info.mk');
 
 test_makefile('vendor.mk');

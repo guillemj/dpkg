@@ -49,8 +49,8 @@ overrides.
 
 =item B<--add> I<user group mode path>
 
-Add an override for I<path>. I<path> does not need to exist
-when this command is used; the override will be stored and used later.
+Add an override for I<path>. I<path> does not need to exist nor be known to
+B<dpkg> when this command is used; the override will be stored and used later.
 Users and groups can be specified by their name (for example B<root>
 or B<nobody>), or by their number by prepending the number with a
 ‘B<#>’ (for example B<#0> or B<#65534>).
@@ -91,19 +91,20 @@ Show the version and exit.
 
 Set the administrative directory to I<directory>.
 This is where the I<statoverride> file is stored.
-Defaults to «I<%ADMINDIR%>».
+Defaults to «I<%ADMINDIR%>» if B<DPKG_ADMINDIR> has not been set.
 
 =item B<--instdir> I<directory>
 
 Set the installation directory, which refers to the directory where
 packages get installed (since dpkg 1.19.2).
-Defaults to «I</>».
+Defaults to «I</>» if B<DPKG_ROOT> has not been set.
 
 =item B<--root> I<directory>
 
 Set the root directory to B<directory>, which sets the installation
 directory to «I<directory>» and the administrative
-directory to «I<directory>B<%ADMINDIR%>» (since dpkg 1.19.2).
+directory to «I<directory>B<%ADMINDIR%>» (since dpkg 1.19.2)
+if B<DPKG_ROOT> has not been set.
 
 =item B<--force->I<things>
 
@@ -132,6 +133,9 @@ B<security-mac>(*):
 Use platform-specific Mandatory Access Controls (MAC) based security when
 installing files into the filesystem (since dpkg 1.19.5).
 On Linux systems the implementation uses SELinux.
+
+B<not-root>:
+Try to (de)install things even when not root (since dpkg 1.21.8).
 
 =item B<--force>
 

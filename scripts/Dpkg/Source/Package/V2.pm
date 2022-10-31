@@ -162,8 +162,6 @@ sub do_extract {
     my ($self, $newdirectory) = @_;
     my $fields = $self->{fields};
 
-    my $dscdir = $self->{basedir};
-
     my $basename = $self->get_basename();
     my $basenamerev = $self->get_basename(1);
 
@@ -217,8 +215,10 @@ sub do_extract {
 
     # Extract main tarball
     info(g_('unpacking %s'), $tarfile);
-    my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
-    $tar->extract($newdirectory, no_fixperms => 1,
+    my $tar = Dpkg::Source::Archive->new(
+        filename => File::Spec->catfile($self->{basedir}, $tarfile),
+    );
+    $tar->extract($newdirectory,
                   options => [ '--anchored', '--no-wildcards-match-slash',
                                '--exclude', '*/.pc', '--exclude', '.pc' ]);
     # The .pc exclusion is only needed for 3.0 (quilt) and to avoid
@@ -238,8 +238,10 @@ sub do_extract {
                     $subdir);
             erasedir("$newdirectory/$subdir");
         }
-        $tar = Dpkg::Source::Archive->new(filename => "$dscdir$file");
-        $tar->extract("$newdirectory/$subdir", no_fixperms => 1);
+        $tar = Dpkg::Source::Archive->new(
+            filename => File::Spec->catfile($self->{basedir}, $file),
+        );
+        $tar->extract("$newdirectory/$subdir");
     }
 
     # Stop here if debianization is not wanted
@@ -248,7 +250,9 @@ sub do_extract {
     # Extract debian tarball after removing the debian directory
     info(g_('unpacking %s'), $debianfile);
     erasedir("$newdirectory/debian");
-    $tar = Dpkg::Source::Archive->new(filename => "$dscdir$debianfile");
+    $tar = Dpkg::Source::Archive->new(
+        filename => File::Spec->catfile($self->{basedir}, $debianfile),
+    );
     $tar->extract($newdirectory, in_place => 1);
 
     # Apply patches (in a separate method as it might be overridden)
@@ -324,7 +328,7 @@ sub _upstream_tarball_template {
         sort map {
             compression_get_property($_, 'file_ext')
         } compression_get_list()) . '}';
-    return '../' . $self->get_basename() . ".orig.tar.$ext";
+    return File::Spec->catfile('..', $self->get_basename() . ".orig.tar.$ext");
 }
 
 sub can_build {
@@ -433,11 +437,6 @@ sub _generate_patch {
           $self->_upstream_tarball_template()) unless $tarfile;
 
     if ($opts{usage} eq 'build') {
-        foreach my $origtarfile (@origtarfiles) {
-            info(g_('building %s using existing %s'),
-                 $self->{fields}{'Source'}, $origtarfile);
-        }
-
         if (@origtarsigns) {
             $self->check_original_tarball_signature($dir, @origtarsigns);
         } else {
@@ -445,6 +444,11 @@ sub _generate_patch {
             if (-e $key) {
                 warning(g_('upstream signing key but no upstream tarball signature'));
             }
+        }
+
+        foreach my $origtarfile (@origtarfiles) {
+            info(g_('building %s using existing %s'),
+                 $self->{fields}{'Source'}, $origtarfile);
         }
     }
 
@@ -479,14 +483,16 @@ sub _generate_patch {
     my $diff = Dpkg::Source::Patch->new(filename => $tmpdiff,
                                         compression => 'none');
     $diff->create();
-    if ($opts{header_from} and -e $opts{header_from}) {
-        my $header_from = Dpkg::Source::Patch->new(
-            filename => $opts{header_from});
-        my $analysis = $header_from->analyze($dir, verbose => 0);
-        $diff->set_header($analysis->{patchheader});
-    } else {
-        $diff->set_header($self->_get_patch_header($dir));
-    }
+    $diff->set_header(sub {
+        if ($opts{header_from} and -e $opts{header_from}) {
+            my $header_from = Dpkg::Source::Patch->new(
+                filename => $opts{header_from});
+            my $analysis = $header_from->analyze($dir, verbose => 0);
+            return $analysis->{patchheader};
+        } else {
+            return $self->_get_patch_header($dir);
+        }
+    });
     $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
             %{$self->{diff_options}},
             handle_binary_func => $opts{handle_binary},
@@ -616,7 +622,7 @@ AUTOGEN_HEADER
     }
 
     my $ch_info = changelog_parse(offset => 0, count => 1,
-        file => File::Spec->catfile($dir, 'debian', 'changelog'));
+        file => $self->{options}{changelog_file});
     return '' if not defined $ch_info;
     my $header = Dpkg::Control->new(type => CTRL_UNKNOWN);
     $header->{'Description'} = "<short summary of the patch>\n";
@@ -635,15 +641,16 @@ it.\n";
     run_vendor_hook('extend-patch-header', \$text, $ch_info);
     $text .= "\n---
 The information above should follow the Patch Tagging Guidelines, please
-checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+checkout https://dep.debian.net/deps/dep3/ to learn about the format. Here
 are templates for supplementary fields that you might want to add:
 
-Origin: <vendor|upstream|other>, <url of original patch>
-Bug: <url in upstream bugtracker>
+Origin: (upstream|backport|vendor|other), (<patch-url>|commit:<commit-id>)
+Bug: <upstream-bugtracker-url>
 Bug-Debian: https://bugs.debian.org/<bugnumber>
 Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
-Forwarded: <no|not-needed|url proving that it has been forwarded>
-Reviewed-By: <name and email of someone who approved the patch>
+Forwarded: (no|not-needed|<patch-forwarded-url>)
+Applied-Upstream: <version>, (<commit-url>|commit:<commid-id>)
+Reviewed-By: <name and email of someone who approved/reviewed the patch>
 Last-Update: $yyyy_mm_dd\n\n";
     return $text;
 }

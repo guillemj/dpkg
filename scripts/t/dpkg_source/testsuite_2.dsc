@@ -6,6 +6,7 @@ Version: 2
 Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
 Standards-Version: 1.0
 Testsuite: autopkgtest, funcpkgtest, smokepkgtest, unitpkgtest
+Testsuite-Triggers: @builddeps@, aa, bb, cc
 Package-List:
  test-binary deb test optional arch=all
 Checksums-Sha1:

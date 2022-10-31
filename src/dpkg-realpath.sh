@@ -22,10 +22,10 @@ PROGNAME=$(basename "$0")
 version="unknown"
 EOL="\n"
 
-PKGDATADIR_DEFAULT=scripts
+PKGDATADIR_DEFAULT=src
 PKGDATADIR="${DPKG_DATADIR:-$PKGDATADIR_DEFAULT}"
 
-# shellcheck source=scripts/sh/dpkg-error.sh
+# shellcheck source=src/sh/dpkg-error.sh
 . "$PKGDATADIR/sh/dpkg-error.sh"
 
 show_version()

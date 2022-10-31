@@ -86,6 +86,8 @@ sub run_hook {
         umask 0022;
         # Reset locale to a sane default.
         $ENV{LC_COLLATE} = 'C.UTF-8';
+    } elsif ($hook eq 'backport-version-regex') {
+        return qr/~(bpo|deb)/;
     } else {
         return $self->SUPER::run_hook($hook, @params);
     }

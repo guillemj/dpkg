@@ -1,32 +1,130 @@
 # Dpkg helper macros
 
 m4_pattern_forbid([^DPKG_])
+m4_pattern_allow([^DPKG_ROOT$])
+m4_pattern_allow([^DPKG_DATADIR$])
 
-# DPKG_GEN_CONTROL([$pkgname])
-m4_define([DPKG_GEN_CONTROL], [
-  mkdir -p '$1/DEBIAN'
+#
+# Options.
+#
 
-  cat >'$1/DEBIAN/control' <<CTRL_TEMPL
-Package: $1
+m4_define([DPKG_INSTDIR], [dpkginst])
+m4_define([DPKG_ADMINDIR], [dpkgdb])
+
+# DPKG_OPTIONS_COMMON
+m4_define([DPKG_OPTIONS_COMMON], [dnl
+  --admindir=DPKG_ADMINDIR dnl
+])
+
+# DPKG_DIVERT_OPTIONS
+m4_define([DPKG_DIVERT_OPTIONS], [dnl
+  --instdir=DPKG_INSTDIR dnl
+])
+
+# DPKG_DIVERT(...)
+m4_define([DPKG_DIVERT],
+  [dpkg-divert DPKG_OPTIONS_COMMON DPKG_DIVERT_OPTIONS])
+
+# DPKG_DIVERT_ADD(...)
+m4_define([DPKG_DIVERT_ADD], [DPKG_DIVERT --add])
+
+# DPKG_DIVERT_DEL(...)
+m4_define([DPKG_DIVERT_DEL], [DPKG_DIVERT --remove])
+
+#
+# Macros.
+#
+
+# DPKG_FILE_SIZE()
+m4_define([DPKG_FILE_SIZE], [
+  perl -E 'say -s shift' "$1" dnl
+])
+
+# DPKG_GEN_FSYS()
+m4_define([DPKG_GEN_DB], [
+  mkdir -p DPKG_INSTDIR
+])
+
+# DPKG_GEN_FSYS_DIR([$dirname])
+m4_define([DPKG_GEN_FSYS_DIR], [
+  mkdir -p "DPKG_INSTDIR/$1"
+])
+
+# DPKG_GEN_FSYS_FILE([$filename], [$contents])
+m4_define([DPKG_GEN_FSYS_FILE], [
+  mkdir -p "DPKG_INSTDIR/$(dirname '$1')"
+  AT_DATA([DPKG_INSTDIR/$1], [$2])
+])
+
+# DPKG_GEN_FSYS_LINK([$pathname], [$target])
+m4_define([DPKG_GEN_FSYS_LINK], [
+  ln "DPKG_INSTDIR/$1" "DPKG:INSTDIR/$2"
+])
+
+# DPKG_CHECK_FSYS_PATH_EXISTS([$pathname])
+m4_define([DPKG_CHECK_FSYS_PATH_EXISTS], [
+  AT_CHECK([test -e "DPKG_INSTDIR/$1"])
+])
+
+# DPKG_CHECK_FSYS_PATH_MISSING([$pathname])
+m4_define([DPKG_CHECK_FSYS_PATH_MISSING], [
+  AT_CHECK([test -e "DPKG_INSTDIR/$1"], [1])
+])
+
+# DPKG_MOD_FSYS_MODE([$mode], [$pathname])
+m4_define([DPKG_MOD_FSYS_MODE], [
+  chmod $1 "DPKG_INSTDIR/$2"
+])
+
+# DPKG_TMPL_CONTROL([$pkgname])
+m4_define([DPKG_TMPL_CONTROL],
+[Package: $1
 Version: 0.0-1
 Section: test
 Priority: extra
 Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
 Architecture: all
-Description: test package
-CTRL_TEMPL
+Description: test package])
+
+# DPKG_GEN_DB_STATUS([$contents])
+m4_define([DPKG_GEN_DB_STATUS], [
+  mkdir -p "DPKG_ADMINDIR"
+  AT_DATA([DPKG_ADMINDIR/status], [$1])
 ])
 
-# DPKG_MOD_CONTROL([$pkgname], [$sedexpr])
-m4_define([DPKG_MOD_CONTROL], [
-  $SED -i -e '$2' '$1/DEBIAN/control'
+# DPKG_GEN_DB_DIVERSIONS([$contents])
+m4_define([DPKG_GEN_DB_DIVERSIONS], [
+  mkdir -p "DPKG_ADMINDIR"
+  AT_DATA([DPKG_ADMINDIR/diversions], [$1])
 ])
 
-# DPKG_GEN_FILE([$pkgname], [$file], [$contents])
-m4_define([DPKG_GEN_FILE], [
+# DPKG_GEN_DB_INFO_FILE([$pkg], [$file], [$contents])
+m4_define([DPKG_GEN_DB_INFO_FILE], [
+  mkdir -p "DPKG_ADMINDIR/info"
+  AT_DATA([DPKG_ADMINDIR/info/$1.$2], [$3])
+])
+
+# DPKG_MOD_DB_MODE([$mode], [$pathname])
+m4_define([DPKG_MOD_DB_MODE], [
+  chmod $1 "DPKG_ADMINDIR/$2"
+])
+
+# DPKG_GEN_CTRL_FILE([$pkgname], [$file], [$contents])
+m4_define([DPKG_GEN_CTRL_FILE], [
   mkdir -p '$1/DEBIAN'
 
   cat >'$1/DEBIAN/$2' <<CTRL_TEMPL
 $3
 CTRL_TEMPL
+])
+
+# DPKG_GEN_CONTROL([$pkgname])
+m4_define([DPKG_GEN_CONTROL], [
+  DPKG_GEN_CTRL_FILE([$1], [control], [DPKG_TMPL_CONTROL([$1])])
+])
+
+# DPKG_MOD_CONTROL([$pkgname], [$sedexpr])
+m4_define([DPKG_MOD_CONTROL], [
+  $SED -e '$2' <'$1/DEBIAN/control' >'$1/DEBIAN/control.new'
+  mv '$1/DEBIAN/control.new' '$1/DEBIAN/control'
 ])

@@ -585,7 +585,6 @@ pkginfo **packagelist::display() {
 
   debug(dbg_general, "packagelist[%p]::display()", this);
 
-  setupsigwinch();
   startdisplay();
 
   if (!expertmode)
@@ -596,22 +595,23 @@ pkginfo **packagelist::display() {
     if (whatinfo_height) wcursyncup(whatinfowin);
     if (doupdate() == ERR)
       ohshite(_("doupdate failed"));
-    signallist= this;
-    sigwinch_mask(SIG_UNBLOCK);
-    do
-    response= getch();
-    while (response == ERR && errno == EINTR);
-    sigwinch_mask(SIG_BLOCK);
+    do {
+      response = getch();
+      if (response == KEY_RESIZE) {
+        resize_window();
+        continue;
+      }
+    } while (response == ERR && errno == EINTR);
     if (response == ERR)
       ohshite(_("getch failed"));
     interp= (*bindings)(response);
     debug(dbg_general, "packagelist[%p]::display() response=%d interp=%s",
           this, response, interp ? interp->action : "[none]");
-    if (!interp) { beep(); continue; }
+    if (!interp)
+      continue;
     (this->*(interp->pfn))();
     if (interp->qa != qa_noquit) break;
   }
-  pop_cleanup(ehflag_normaltidy); // unset the SIGWINCH handler
   enddisplay();
 
   if (interp->qa == qa_quitnochecksave ||
