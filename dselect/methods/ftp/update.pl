@@ -21,7 +21,6 @@ use warnings;
 
 eval q{
     pop @INC if $INC[-1] eq '.';
-    use Net::FTP;
 
     use Dpkg; # Dummy import to require the presence of Dpkg::*.
 };

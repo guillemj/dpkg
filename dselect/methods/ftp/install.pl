@@ -24,7 +24,6 @@ use File::Basename;
 
 eval q{
     pop @INC if $INC[-1] eq '.';
-    use Net::FTP;
     use File::Find;
     use Data::Dumper;
 
