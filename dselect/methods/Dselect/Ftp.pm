@@ -32,8 +32,15 @@ our @EXPORT = qw(
 
 use Exporter qw(import);
 use Carp;
-use Net::FTP;
-use Data::Dumper;
+
+eval q{
+    use Net::FTP;
+    use Data::Dumper;
+};
+if ($@) {
+    warn "Missing 'perl' package required by the FTP access method.\n\n";
+    exit 1;
+}
 
 our %CONFIG;
 
