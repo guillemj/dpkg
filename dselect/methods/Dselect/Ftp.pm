@@ -35,7 +35,7 @@ use Carp;
 use Net::FTP;
 use Data::Dumper;
 
-my %CONFIG;
+our %CONFIG;
 
 sub nb {
   my $nb = shift;
