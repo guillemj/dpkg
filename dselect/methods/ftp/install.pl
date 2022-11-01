@@ -27,10 +27,11 @@ eval q{
     use Net::FTP;
     use File::Find;
     use Data::Dumper;
+
+    use Dpkg; # Dummy import to require the presence of Dpkg::*.
 };
 if ($@) {
-    warn "Please install the 'perl' package if you want to use the\n" .
-         "FTP access method of dselect.\n\n";
+    warn "Missing Dpkg modules required by the FTP access method.\n\n";
     exit 1;
 }
 

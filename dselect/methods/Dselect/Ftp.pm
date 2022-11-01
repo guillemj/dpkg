@@ -36,9 +36,11 @@ use Carp;
 eval q{
     use Net::FTP;
     use Data::Dumper;
+
+    use Dpkg; # Dummy import to require the presence of Dpkg::*.
 };
 if ($@) {
-    warn "Missing 'perl' package required by the FTP access method.\n\n";
+    warn "Missing Dpkg modules required by the FTP access method.\n\n";
     exit 1;
 }
 
