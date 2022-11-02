@@ -162,17 +162,17 @@ sub dearmor {
 
 sub _gpg_exec
 {
-    my ($self, $exec) = @_;
+    my ($self, @exec) = @_;
 
     my ($stdout, $stderr);
-    spawn(exec => $exec, wait_child => 1, nocheck => 1, timeout => 10,
+    spawn(exec => \@exec, wait_child => 1, nocheck => 1, timeout => 10,
           to_string => \$stdout, error_to_string => \$stderr);
     if (WIFEXITED($?)) {
         my $status = WEXITSTATUS($?);
         print { *STDERR } "$stdout$stderr" if $status;
         return $status;
     } else {
-        subprocerr("@{$exec}");
+        subprocerr("@exec");
     }
 }
 
@@ -205,7 +205,7 @@ sub _gpg_verify {
     push @exec, $sig if defined $sig;
     push @exec, $data;
 
-    my $status = $self->_gpg_exec(\@exec);
+    my $status = $self->_gpg_exec(@exec);
     if ($status == 1 or ($status && $self->{require_valid_signature})) {
         error(g_('cannot verify signature for %s'), $data);
     } elsif ($status) {
