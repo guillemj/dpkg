@@ -54,6 +54,16 @@ sub new {
     return $self;
 }
 
+sub get_trusted_keyrings {
+    my $self = shift;
+
+    my @keyrings;
+    if (length $ENV{HOME} and -r "$ENV{HOME}/.gnupg/trustedkeys.gpg") {
+        push @keyrings, "$ENV{HOME}/.gnupg/trustedkeys.gpg";
+    }
+    return @keyrings;
+}
+
 # _pgp_* functions are strictly for applying or removing ASCII armor.
 # See <https://datatracker.ietf.org/doc/html/rfc4880#section-6> for more
 # details.

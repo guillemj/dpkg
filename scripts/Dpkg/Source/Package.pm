@@ -500,9 +500,8 @@ sub check_signature {
     my $dsc = $self->get_filename();
     my @certs;
 
-    if (length $ENV{HOME} and -r "$ENV{HOME}/.gnupg/trustedkeys.gpg") {
-        push @certs, "$ENV{HOME}/.gnupg/trustedkeys.gpg";
-    }
+    push @certs, $self->{openpgp}->get_trusted_keyrings();
+
     foreach my $vendor_keyring (run_vendor_hook('package-keyrings')) {
         if (-r $vendor_keyring) {
             push @certs, $vendor_keyring;
