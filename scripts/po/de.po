@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-10-10 19:19+0200\n"
-"PO-Revision-Date: 2022-10-10 19:28+0200\n"
+"POT-Creation-Date: 2022-11-04 19:51+0100\n"
+"PO-Revision-Date: 2022-11-04 19:59+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -362,8 +362,9 @@ msgstr ""
 "  -J, --jobs-try[=<Aufträge>|auto]\n"
 "                      Alias für -j, --jobs.\n"
 "      --jobs-force[=<Aufträge>|auto]\n"
-"                      Aufträge, die simultan laufen sollen (an <rules>"
-"                       weitergegeben); (Vorgabe ist auto; erzwungener\n"
+"                      Aufträge, die simultan laufen sollen (an "
+"<rules>                       weitergegeben); (Vorgabe ist auto; "
+"erzwungener\n"
 "                       Modus)\n"
 "  -r, --root-command=<Befehl>\n"
 "                      Befehl, um root-Rechte zu erhalten (standardmäßig\n"
@@ -816,11 +817,10 @@ msgstr ""
 
 #: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
 #: scripts/dpkg-gencontrol.pl scripts/dpkg-mergechangelogs.pl
-#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Source/Functions.pm
+#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/File.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Interface/Storable.pm
 #: scripts/Dpkg/Source/BinaryFiles.pm scripts/Dpkg/Source/Package.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Package/V3/Quilt.pm
-#: scripts/Dpkg/Source/Quilt.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot write %s"
 msgstr "%s kann nicht geschrieben werden"
@@ -2296,7 +2296,7 @@ msgstr "»%s« ist keine gültige Architektur in der Liste »%s«"
 #: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
 #: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
 #: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
+#: scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot read %s"
 msgstr "%s kann nicht gelesen werden"
@@ -2789,6 +2789,11 @@ msgstr "Unterprozess %s fehlgeschlagen mit unbekanntem Exit-Code %d"
 msgid "Use --help for program usage information."
 msgstr "Verwenden Sie --help für Programmbenutzungsinformationen"
 
+#: scripts/Dpkg/File.pm
+#, perl-format
+msgid "cannot create file %s"
+msgstr "Datei %s kann nicht erstellt werden"
+
 #: scripts/Dpkg/IPC.pm
 #, perl-format
 msgid "pipe for %s"
@@ -2839,50 +2844,20 @@ msgstr "Fehler beim Erlangen einer Schreibsperre auf %s"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
-msgid "cannot create signature file %s"
-msgstr "Signaturdatei %s kann nicht angelegt werden"
+msgid "cannot verify signature for %s"
+msgstr "Signatur für %s kann nicht überprüft werden"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
-msgid "cannot execute %s program"
-msgstr "Programm %s kann nicht ausgeführt werden"
-
-#: scripts/Dpkg/OpenPGP.pm
-#, perl-format
-msgid "cannot write signature file %s"
-msgstr "Signaturdatei %s kann nicht geschrieben werden"
-
-#: scripts/Dpkg/OpenPGP.pm
-msgid "signature file is already OpenPGP ASCII armor, copying"
-msgstr "Signaturdatei ist bereits OpenPGP-ASCII-Armor, sie wird kopiert"
-
-#: scripts/Dpkg/OpenPGP.pm
-msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
+msgid "cannot verify inline signature on %s since GnuPG is not installed"
 msgstr ""
-"OpenPGP-ASCII-Armor-Signaturdatei kann wegen fehlendem GPG nicht geöffnet "
-"werden"
-
-#: scripts/Dpkg/OpenPGP.pm
-#, perl-format
-msgid "cannot import key in %s since GnuPG is not installed"
-msgstr ""
-"Schlüssel kann nicht in %s importiert werden, da GnuPG nicht installiert ist"
-
-#: scripts/Dpkg/OpenPGP.pm
-#, perl-format
-msgid "cannot import key %s into %s"
-msgstr "Schlüssel %s kann nicht in %s importiert werden"
+"eingebettete Signatur von %s kann nicht überprüft werden, da GnuPG nicht installiert ist"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
 msgid "cannot verify signature on %s since GnuPG is not installed"
 msgstr ""
 "Signatur von %s kann nicht überprüft werden, da GnuPG nicht installiert ist"
-
-#: scripts/Dpkg/OpenPGP.pm
-#, perl-format
-msgid "cannot verify signature %s"
-msgstr "Signatur %s kann nicht überprüft werden"
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -3110,6 +3085,10 @@ msgid "%s and %s fields are required to compute the source basename"
 msgstr ""
 "Die Felder %s und %s werden benötigt, um den »basename« der Quelle zu "
 "ermitteln"
+
+#: scripts/Dpkg/Source/Package.pm
+msgid "signature file is already OpenPGP ASCII armor, copying"
+msgstr "Signaturdatei ist bereits OpenPGP-ASCII-Armor, sie wird kopiert"
 
 #: scripts/Dpkg/Source/Package.pm
 msgid "upstream tarball signatures but no upstream signing key"
@@ -4183,6 +4162,33 @@ msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
+
+#, perl-format
+#~ msgid "cannot create signature file %s"
+#~ msgstr "Signaturdatei %s kann nicht angelegt werden"
+
+#, perl-format
+#~ msgid "cannot execute %s program"
+#~ msgstr "Programm %s kann nicht ausgeführt werden"
+
+#, perl-format
+#~ msgid "cannot write signature file %s"
+#~ msgstr "Signaturdatei %s kann nicht geschrieben werden"
+
+#~ msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
+#~ msgstr ""
+#~ "OpenPGP-ASCII-Armor-Signaturdatei kann wegen fehlendem GPG nicht geöffnet "
+#~ "werden"
+
+#, perl-format
+#~ msgid "cannot import key in %s since GnuPG is not installed"
+#~ msgstr ""
+#~ "Schlüssel kann nicht in %s importiert werden, da GnuPG nicht installiert "
+#~ "ist"
+
+#, perl-format
+#~ msgid "cannot import key %s into %s"
+#~ msgstr "Schlüssel %s kann nicht in %s importiert werden"
 
 #, perl-format
 #~ msgid "verifying %s using existing %s"
