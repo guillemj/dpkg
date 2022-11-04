@@ -31,23 +31,25 @@ use Dpkg::OpenPGP::ErrorCodes;
 
 our $VERSION = '0.01';
 
+sub _detect_cmd {
+    my ($cmd, $default) = @_;
+
+    if (! defined $cmd || $cmd eq 'auto') {
+        return find_command($default);
+    } else {
+        return find_command($cmd);
+    }
+}
+
 sub new {
     my ($this, %opts) = @_;
     my $class = ref($this) || $this;
 
     my $self = {
-        cmd => $opts{cmd} // 'auto',
-        has_cmd => {},
+        cmdv => _detect_cmd($opts{cmdv}, 'gpgv'),
+        cmd => _detect_cmd($opts{cmd}, 'gpg'),
     };
     bless $self, $class;
-
-    if ($self->{cmd} eq 'auto') {
-        foreach my $cmd (qw(gpg gpgv)) {
-            $self->{has_cmd}{$cmd} = 1 if find_command($cmd);
-        }
-    } else {
-        $self->{has_cmd}{$self->{cmd}} = 1 if find_command($self->{cmd});
-    }
 
     return $self;
 }
@@ -176,15 +178,15 @@ sub _gpg_options_weak_digests {
 sub _gpg_verify {
     my ($self, $signeddata, $sig, $data, @certs) = @_;
 
-    return OPENPGP_MISSING_CMD if ! $self->{has_cmd}{gpgv} || ! $self->{has_cmd}{gpg};
+    return OPENPGP_MISSING_CMD if ! $self->{cmdv} || ! $self->{cmd};
 
     my $gpg_home = File::Temp->newdir('dpkg-gpg-verify.XXXXXXXX', TMPDIR => 1);
 
     my @exec;
-    if ($self->{has_cmd}{gpgv}) {
-        push @exec, qw(gpgv);
+    if ($self->{cmdv}) {
+        push @exec, $self->{cmdv};
     } else {
-        push @exec, qw(gpg);
+        push @exec, $self->{cmd};
         push @exec, qw(--no-options --no-default-keyring --batch --quiet);
     }
     push @exec, _gpg_options_weak_digests();
@@ -196,7 +198,7 @@ sub _gpg_verify {
         push @exec, '--keyring', $certring;
     }
     push @exec, '--output', $data if defined $data;
-    if (! $self->{has_cmd}{gpgv}) {
+    if (! $self->{cmdv}) {
         push @exec, '--verify';
     }
     push @exec, $sig if defined $sig;
