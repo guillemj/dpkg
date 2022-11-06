@@ -285,8 +285,13 @@ test_data = \
 	t/Dpkg_File/append-me \
 	t/Dpkg_File/dump-partial \
 	t/Dpkg_File/slurp-me \
-	t/Dpkg_OpenPGP/data-file \
-	t/Dpkg_OpenPGP/data-file.asc \
+	t/Dpkg_OpenPGP/dpkg-test-pub.asc \
+	t/Dpkg_OpenPGP/dpkg-test-sec.asc \
+	t/Dpkg_OpenPGP/sign-file \
+	t/Dpkg_OpenPGP/sign-file-inline.asc \
+	t/Dpkg_OpenPGP/sign-file-inline.sig \
+	t/Dpkg_OpenPGP/sign-file.asc \
+	t/Dpkg_OpenPGP/sign-file.sig \
 	t/Dpkg_Shlibs/basictags.c \
 	t/Dpkg_Shlibs/basictags.symbols \
 	t/Dpkg_Shlibs/ld.so.conf \
