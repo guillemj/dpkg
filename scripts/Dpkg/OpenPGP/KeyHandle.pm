@@ -65,6 +65,12 @@ sub _sanitize {
     return;
 }
 
+sub needs_keystore {
+    my $self = shift;
+
+    return 1;
+}
+
 sub set {
     my ($self, $type, $handle) = @_;
 

@@ -33,6 +33,7 @@ our @EXPORT = qw(
     OPENPGP_KEY_CANNOT_SIGN
 
     OPENPGP_MISSING_CMD
+    OPENPGP_NEEDS_KEYSTORE
 
     openpgp_errorcode_to_string
 );
@@ -61,6 +62,7 @@ use constant {
     OPENPGP_KEY_CANNOT_SIGN => 79,
 
     OPENPGP_MISSING_CMD => -1,
+    OPENPGP_NEEDS_KEYSTORE => -2,
 };
 
 my %code2error = (
@@ -77,6 +79,7 @@ my %code2error = (
     OPENPGP_KEY_CANNOT_SIGN() => N_('key is not signature-capable'),
 
     OPENPGP_MISSING_CMD() => N_('missing OpenPGP implementation'),
+    OPENPGP_NEEDS_KEYSTORE() => N_('specified key needs a keystore'),
 );
 
 sub openpgp_errorcode_to_string
