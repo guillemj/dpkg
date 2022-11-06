@@ -176,11 +176,17 @@ sub _gpg_options_weak_digests {
 sub _gpg_verify {
     my ($self, $signeddata, $sig, $data, @certs) = @_;
 
-    return OPENPGP_MISSING_CMD unless $self->{has_cmd}{gpgv};
+    return OPENPGP_MISSING_CMD if ! $self->{has_cmd}{gpgv} || ! $self->{has_cmd}{gpg};
 
     my $gpg_home = File::Temp->newdir('dpkg-gpg-verify.XXXXXXXX', TMPDIR => 1);
 
-    my @exec = qw(gpgv);
+    my @exec;
+    if ($self->{has_cmd}{gpgv}) {
+        push @exec, qw(gpgv);
+    } else {
+        push @exec, qw(gpg);
+        push @exec, qw(--no-options --no-default-keyring --batch --quiet);
+    }
     push @exec, _gpg_options_weak_digests();
     push @exec, '--homedir', $gpg_home;
     foreach my $cert (@certs) {
@@ -190,6 +196,9 @@ sub _gpg_verify {
         push @exec, '--keyring', $certring;
     }
     push @exec, '--output', $data if defined $data;
+    if (! $self->{has_cmd}{gpgv}) {
+        push @exec, '--verify';
+    }
     push @exec, $sig if defined $sig;
     push @exec, $signeddata;
 
