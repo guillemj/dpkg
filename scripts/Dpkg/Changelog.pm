@@ -223,7 +223,7 @@ to return. See section L<"RANGE SELECTION">.
 
 =cut
 
-sub __sanity_check_range {
+sub _sanitize_range {
     my ($self, $r) = @_;
     my $data = $self->{data};
 
@@ -371,7 +371,7 @@ sub _data_range {
 
     return [ @$data ] if $self->_is_full_range($range);
 
-    $self->__sanity_check_range($range);
+    $self->_sanitize_range($range);
 
     my ($start, $end);
     if (defined($range->{count})) {
