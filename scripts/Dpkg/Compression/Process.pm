@@ -118,7 +118,7 @@ sub get_uncompress_cmdline {
     return (@{compression_get_property($self->{compression}, 'decomp_prog')});
 }
 
-sub _sanity_check {
+sub _check_opts {
     my ($self, %opts) = @_;
     # Check for proper cleaning before new start
     error(g_('Dpkg::Compression::Process can only start one subprocess at a time'))
@@ -149,7 +149,7 @@ properly close the sub-process (and verify that it exited without error).
 sub compress {
     my ($self, %opts) = @_;
 
-    $self->_sanity_check(%opts);
+    $self->_check_opts(%opts);
     my @prog = $self->get_compress_cmdline();
     $opts{exec} = \@prog;
     $self->{cmdline} = "@prog";
@@ -172,7 +172,7 @@ properly close the sub-process (and verify that it exited without error).
 sub uncompress {
     my ($self, %opts) = @_;
 
-    $self->_sanity_check(%opts);
+    $self->_check_opts(%opts);
     my @prog = $self->get_uncompress_cmdline();
     $opts{exec} = \@prog;
     $self->{cmdline} = "@prog";

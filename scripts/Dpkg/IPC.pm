@@ -145,7 +145,7 @@ array to their default dispositions before calling exec.
 
 =cut
 
-sub _sanity_check_opts {
+sub _check_opts {
     my (%opts) = @_;
 
     croak 'exec parameter is mandatory in spawn()'
@@ -208,7 +208,7 @@ sub spawn {
     my (%opts) = @_;
     my @prog;
 
-    _sanity_check_opts(%opts);
+    _check_opts(%opts);
     $opts{close_in_child} //= [];
     if (ref($opts{exec}) =~ /ARRAY/) {
 	push @prog, @{$opts{exec}};
