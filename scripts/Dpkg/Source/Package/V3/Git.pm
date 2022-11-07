@@ -53,7 +53,7 @@ sub prerequisites {
              'git is not in the PATH'));
 }
 
-sub _sanity_check {
+sub _check_workdir {
     my $srcdir = shift;
 
     if (! -d "$srcdir/.git") {
@@ -128,7 +128,7 @@ sub do_build {
     my ($dirname, $updir) = fileparse($dir);
     my $basenamerev = $self->get_basename(1);
 
-    _sanity_check($dir);
+    _check_workdir($dir);
 
     my $old_cwd = getcwd();
     chdir $dir or syserr(g_("unable to chdir to '%s'"), $dir);
@@ -265,7 +265,7 @@ sub do_extract {
         subprocerr('cp') if $?;
     }
 
-    _sanity_check($newdirectory);
+    _check_workdir($newdirectory);
 
     if (defined $fields->{'Vcs-Git'}) {
         my $remote = 'origin';
