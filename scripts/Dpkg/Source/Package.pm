@@ -213,6 +213,7 @@ sub new {
         format => Dpkg::Source::Format->new(),
         options => {},
         checksums => Dpkg::Checksums->new(),
+        openpgp => Dpkg::OpenPGP->new(),
     };
     bless $self, $class;
     if (exists $args{options}) {
@@ -227,9 +228,11 @@ sub new {
         $self->init_options();
     }
 
-    $self->{openpgp} = Dpkg::OpenPGP->new(
-        require_valid_signature => $self->{options}{require_valid_signature},
-    );
+    if ($self->{options}{require_valid_signature}) {
+        $self->{report_verify} = \&error;
+    } else {
+        $self->{report_verify} = \&warning;
+    }
 
     return $self;
 }
@@ -440,7 +443,7 @@ sub armor_original_tarball_signature {
             return $asc;
         }
 
-        return $self->{openpgp}->armor('SIGNATURE', $bin, $asc);
+        return $asc if $self->{openpgp}->armor('SIGNATURE', $bin, $asc) == 0;
     }
 
     return;
@@ -468,7 +471,11 @@ sub check_original_tarball_signature {
         my $datafile = $asc =~ s/\.asc$//r;
 
         info(g_('verifying %s'), $asc);
-        $self->{openpgp}->verify($datafile, $asc, $upstream_key);
+        my $rc = $self->{openpgp}->verify($datafile, $asc, $upstream_key);
+        if ($rc) {
+            $self->{report_verify}->(g_('cannot verify upstream tarball signature for %s: %s'),
+                                     $datafile, openpgp_errorcode_to_string($rc));
+        }
     }
 }
 
@@ -508,7 +515,11 @@ sub check_signature {
         }
     }
 
-    $self->{openpgp}->inline_verify($dsc, @certs);
+    my $rc = $self->{openpgp}->inline_verify($dsc, @certs);
+    if ($rc) {
+        $self->{report_verify}->(g_('cannot verify inline signature for %s: %s'),
+                                 $dsc, openpgp_errorcode_to_string($rc));
+    }
 }
 
 sub describe_cmdline_options {

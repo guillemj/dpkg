@@ -25,9 +25,10 @@ use Dpkg::ErrorHandling;
 
 test_needs_command('gpg');
 
-plan tests => 5;
+plan tests => 8;
 
 use_ok('Dpkg::OpenPGP');
+use_ok('Dpkg::OpenPGP::ErrorCodes');
 
 report_options(quiet_warnings => 1);
 
@@ -46,14 +47,16 @@ ok($openpgp->is_armored($reffile), 'file ASCII Armored');
 
 $ascfile = "$tmpdir/data-file.asc";
 
-$openpgp->armor('ARMORED FILE', $binfile, $ascfile);
+ok($openpgp->armor('ARMORED FILE', $binfile, $ascfile) == OPENPGP_OK(),
+    'armoring succeeded');
 ok(compare($ascfile, $reffile) == 0, 'armor binary file into OpenPGP ASCII Armor');
 
 $reffile = "$datadir/data-file";
 $ascfile = "$datadir/data-file.asc";
 $binfile = "$tmpdir/data-file";
 
-$openpgp->dearmor('ARMORED FILE', $ascfile, $binfile);
+ok($openpgp->dearmor('ARMORED FILE', $ascfile, $binfile) == OPENPGP_OK(),
+   'dearmoring succeeded');
 ok(compare($binfile, $reffile) == 0, 'dearmor OpenPGP ASCII Armor into binary file');
 
 # TODO: Add actual test cases.

@@ -27,6 +27,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::IPC;
 use Dpkg::File;
 use Dpkg::Path qw(find_command);
+use Dpkg::OpenPGP::ErrorCodes;
 
 our $VERSION = '0.01';
 
@@ -37,7 +38,6 @@ sub new {
     my $self = {
         cmd => $opts{cmd} // 'auto',
         has_cmd => {},
-        require_valid_signature => $opts{require_valid_signature} // 1,
     };
     bless $self, $class;
 
@@ -146,18 +146,22 @@ sub armor {
     my ($self, $type, $bin, $asc) = @_;
 
     my $data = file_slurp($bin);
-    file_dump($asc, _pgp_armor_data($type, $data));
+    my $armor = _pgp_armor_data($type, $data);
+    return OPENPGP_BAD_DATA unless defined $armor;
+    file_dump($asc, $armor);
 
-    return $asc;
+    return OPENPGP_OK;
 }
 
 sub dearmor {
     my ($self, $type, $asc, $bin) = @_;
 
     my $armor = file_slurp($asc);
-    file_dump($bin, _pgp_dearmor_data($type, $armor));
+    my $data = _pgp_dearmor_data($type, $armor);
+    return OPENPGP_BAD_DATA unless defined $data;
+    file_dump($bin, $data);
 
-    return $bin;
+    return OPENPGP_OK;
 }
 
 sub _gpg_exec
@@ -187,6 +191,8 @@ sub _gpg_options_weak_digests {
 sub _gpg_verify {
     my ($self, $data, $sig, @certs) = @_;
 
+    return OPENPGP_MISSING_CMD unless $self->{has_cmd}{gpgv};
+
     my $gpg_home = File::Temp->newdir('dpkg-gpg-verify.XXXXXXXX', TMPDIR => 1);
 
     my @exec = qw(gpgv);
@@ -206,45 +212,20 @@ sub _gpg_verify {
     push @exec, $data;
 
     my $status = $self->_gpg_exec(@exec);
-    if ($status == 1 or ($status && $self->{require_valid_signature})) {
-        error(g_('cannot verify signature for %s'), $data);
-    } elsif ($status) {
-        warning(g_('cannot verify signature for %s'), $data);
-    }
-
-    return;
+    return OPENPGP_NO_SIG if $status;
+    return OPENPGP_OK;
 }
 
 sub inline_verify {
     my ($self, $data, @certs) = @_;
 
-    if ($self->{has_cmd}{gpgv}) {
-        $self->_gpg_verify($data, undef, @certs);
-    } elsif ($self->{require_valid_signature}) {
-        error(g_('cannot verify inline signature on %s since GnuPG is not installed'),
-              $data);
-    } else {
-        warning(g_('cannot verify inline signature on %s since GnuPG is not installed'),
-                $data);
-    }
-
-    return;
+    return $self->_gpg_verify($data, undef, @certs);
 }
 
 sub verify {
     my ($self, $data, $sig, @certs) = @_;
 
-    if ($self->{has_cmd}{gpgv}) {
-        $self->_gpg_verify($data, $sig, @certs);
-    } elsif ($self->{require_valid_signature}) {
-        error(g_('cannot verify signature on %s since GnuPG is not installed'),
-              $sig);
-    } else {
-        warning(g_('cannot verify signature on %s since GnuPG is not installed'),
-                $sig);
-    }
-
-    return;
+    return $self->_gpg_verify($data, $sig, @certs);
 }
 
 1;
