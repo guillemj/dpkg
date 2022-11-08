@@ -1,0 +1,84 @@
+# Copyright © 2022 Guillem Jover <guillem@debian.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+package Dpkg::OpenPGP::ErrorCodes;
+
+use strict;
+use warnings;
+
+our $VERSION = '0.01';
+our @EXPORT = qw(
+    OPENPGP_OK
+    OPENPGP_NO_SIG
+    OPENPGP_MISSING_ARG
+    OPENPGP_UNSUPPORTED_OPTION
+    OPENPGP_BAD_DATA
+    OPENPGP_EXPECTED_TEXT
+    OPENPGP_OUTPUT_EXISTS
+    OPENPGP_MISSING_INPUT
+    OPENPGP_UNSUPPORTED_SUBCMD
+
+    OPENPGP_MISSING_CMD
+
+    openpgp_errorcode_to_string
+);
+
+use Exporter qw(import);
+
+use Dpkg::Gettext;
+
+# Error codes based on
+# https://ietf.org/archive/id/draft-dkg-openpgp-stateless-cli-04.html#section-6
+#
+# Local error codes use a negative number, as that should not conflict with
+# the SOP exit codes.
+
+use constant {
+    OPENPGP_OK => 0,
+    OPENPGP_NO_SIG => 3,
+    OPENPGP_MISSING_ARG => 19,
+    OPENPGP_UNSUPPORTED_OPTION => 37,
+    OPENPGP_BAD_DATA => 41,
+    OPENPGP_EXPECTED_TEXT => 53,
+    OPENPGP_OUTPUT_EXISTS => 59,
+    OPENPGP_MISSING_INPUT => 61,
+    OPENPGP_UNSUPPORTED_SUBCMD => 69,
+
+    OPENPGP_MISSING_CMD => -1,
+};
+
+my %code2error = (
+    OPENPGP_OK() => N_('success'),
+    OPENPGP_NO_SIG() => N_('no acceptable signature found'),
+    OPENPGP_MISSING_ARG() => N_('missing required argument'),
+    OPENPGP_UNSUPPORTED_OPTION() => N_('unsupported option'),
+    OPENPGP_BAD_DATA() => N_('invalid data type'),
+    OPENPGP_EXPECTED_TEXT() => N_('non-text input where text expected'),
+    OPENPGP_OUTPUT_EXISTS() => N_('output file already exists'),
+    OPENPGP_MISSING_INPUT() => N_('input file does not exist'),
+    OPENPGP_UNSUPPORTED_SUBCMD() => N_('unsupported subcommand'),
+
+    OPENPGP_MISSING_CMD() => N_('missing OpenPGP implementation'),
+);
+
+sub openpgp_errorcode_to_string
+{
+    my $code = shift;
+
+    return gettext($code2error{$code}) if exists $code2error{$code};
+    return sprintf g_('error code %d'), $code;
+}
+
+1;
