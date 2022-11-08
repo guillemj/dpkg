@@ -174,7 +174,7 @@ BEGIN {
 
 =item $msgid = N_($msgid)
 
-A pseudo function that servers as a marked for automated extraction of
+A pseudo function that servers as a marker for automated extraction of
 messages, but does not call gettext(). The run-time translation is done
 at a different place in the code.
 
