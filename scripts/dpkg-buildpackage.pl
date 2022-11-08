@@ -919,7 +919,6 @@ sub signfile {
             or syserror(g_('cannot move %s to %s'), "$signfile.asc", "../$file");
     }
 
-    print "\n";
     return $status
 }
 
