@@ -683,9 +683,7 @@ if ($signpause && ($signsource || $signbuildinfo || $signchanges)) {
 run_hook('sign', $signsource || $signbuildinfo || $signchanges);
 
 if ($signsource) {
-    if (signfile("$pv.dsc")) {
-        error(g_('failed to sign %s file'), '.dsc');
-    }
+    signfile("$pv.dsc");
 
     # Recompute the checksums as the .dsc has changed now.
     my $buildinfo = Dpkg::Control->new(type => CTRL_FILE_BUILDINFO);
@@ -696,8 +694,8 @@ if ($signsource) {
     $checksums->export_to_control($buildinfo);
     $buildinfo->save($buildinfo_file);
 }
-if ($signbuildinfo && signfile("$pva.buildinfo")) {
-    error(g_('failed to sign %s file'), '.buildinfo');
+if ($signbuildinfo) {
+    signfile("$pva.buildinfo");
 }
 if ($signsource or $signbuildinfo) {
     # Recompute the checksums as the .dsc and/or .buildinfo have changed.
@@ -713,8 +711,8 @@ if ($signsource or $signbuildinfo) {
     update_files_field($changes, $checksums, "$pva.buildinfo");
     $changes->save($changes_file);
 }
-if ($signchanges && signfile("$pva.changes")) {
-    error(g_('failed to sign %s file'), '.changes');
+if ($signchanges) {
+    signfile("$pva.changes");
 }
 
 if (not $signreleased) {
@@ -917,6 +915,8 @@ sub signfile {
     if ($status == 0) {
         move("$signfile.asc", "../$file")
             or syserror(g_('cannot move %s to %s'), "$signfile.asc", "../$file");
+    } else {
+        error(g_('failed to sign %s file'), $file);
     }
 
     return $status
