@@ -558,12 +558,12 @@ sub setopmode {
 
 sub print_option {
     my $opt = shift;
-    my $help;
 
+    my $help = gettext($opt->{help});
     if (length $opt->{name} > 25) {
-        $help .= sprintf "  %-25s\n%s%s.\n", $opt->{name}, ' ' x 27, $opt->{help};
+        return sprintf "  %-25s\n%s%s.\n", $opt->{name}, ' ' x 27, $help;
     } else {
-        $help .= sprintf "  %-25s%s.\n", $opt->{name}, $opt->{help};
+        return sprintf "  %-25s%s.\n", $opt->{name}, $help;
     }
 }
 
