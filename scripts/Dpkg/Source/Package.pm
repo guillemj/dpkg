@@ -515,7 +515,7 @@ sub check_signature {
         }
     }
 
-    my $rc = $self->{openpgp}->inline_verify($dsc, @certs);
+    my $rc = $self->{openpgp}->inline_verify($dsc, undef, @certs);
     if ($rc) {
         $self->{report_verify}->(g_('cannot verify inline signature for %s: %s'),
                                  $dsc, openpgp_errorcode_to_string($rc));

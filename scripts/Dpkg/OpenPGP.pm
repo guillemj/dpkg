@@ -189,7 +189,7 @@ sub _gpg_options_weak_digests {
 }
 
 sub _gpg_verify {
-    my ($self, $data, $sig, @certs) = @_;
+    my ($self, $signeddata, $sig, $data, @certs) = @_;
 
     return OPENPGP_MISSING_CMD unless $self->{has_cmd}{gpgv};
 
@@ -208,8 +208,9 @@ sub _gpg_verify {
         }
         push @exec, '--keyring', $certring;
     }
+    push @exec, '--output', $data if defined $data;
     push @exec, $sig if defined $sig;
-    push @exec, $data;
+    push @exec, $signeddata;
 
     my $status = $self->_gpg_exec(@exec);
     return OPENPGP_NO_SIG if $status;
@@ -217,15 +218,15 @@ sub _gpg_verify {
 }
 
 sub inline_verify {
-    my ($self, $data, @certs) = @_;
+    my ($self, $inlinesigned, $data, @certs) = @_;
 
-    return $self->_gpg_verify($data, undef, @certs);
+    return $self->_gpg_verify($inlinesigned, undef, $data, @certs);
 }
 
 sub verify {
     my ($self, $data, $sig, @certs) = @_;
 
-    return $self->_gpg_verify($data, $sig, @certs);
+    return $self->_gpg_verify($data, $sig, undef, @certs);
 }
 
 1;
