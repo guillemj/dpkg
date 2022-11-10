@@ -184,13 +184,9 @@ sub _gpg_verify {
     push @exec, _gpg_options_weak_digests();
     push @exec, '--homedir', $gpg_home;
     foreach my $cert (@certs) {
-        my $certring;
-        if ($cert =~ m/\.asc/) {
-            $certring = File::Temp->new(UNLINK => 1, SUFFIX => '.pgp');
-            $self->dearmor('PUBLIC KEY BLOCK', $cert, $certring);
-        } else {
-            $certring = $cert;
-        }
+        my $certring = File::Temp->new(UNLINK => 1, SUFFIX => '.pgp');
+        my $rc = $self->dearmor('PUBLIC KEY BLOCK', $cert, $certring);
+        $certring = $cert if $rc;
         push @exec, '--keyring', $certring;
     }
     push @exec, '--output', $data if defined $data;
