@@ -52,22 +52,6 @@ sub new {
     return $self;
 }
 
-sub is_armored {
-    my ($self, $file) = @_;
-    my $armored = 0;
-
-    open my $fh, '<', $file or syserr(g_('cannot open %s'), $file);
-    while (<$fh>) {
-        if (m/^-----BEGIN PGP /) {
-            $armored = 1;
-            last;
-        }
-    }
-    close $fh;
-
-    return $armored;
-}
-
 # _pgp_* functions are strictly for applying or removing ASCII armor.
 # See <https://datatracker.ietf.org/doc/html/rfc4880#section-6> for more
 # details.
