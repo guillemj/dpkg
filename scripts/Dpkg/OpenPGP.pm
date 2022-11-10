@@ -143,23 +143,24 @@ sub _pgp_armor_data {
 }
 
 sub armor {
-    my ($self, $type, $bin, $asc) = @_;
+    my ($self, $type, $in, $out) = @_;
 
-    my $data = file_slurp($bin);
+    my $raw_data = file_slurp($in);
+    my $data = _pgp_dearmor_data($type, $raw_data) // $raw_data;
     my $armor = _pgp_armor_data($type, $data);
     return OPENPGP_BAD_DATA unless defined $armor;
-    file_dump($asc, $armor);
+    file_dump($out, $armor);
 
     return OPENPGP_OK;
 }
 
 sub dearmor {
-    my ($self, $type, $asc, $bin) = @_;
+    my ($self, $type, $in, $out) = @_;
 
-    my $armor = file_slurp($asc);
+    my $armor = file_slurp($in);
     my $data = _pgp_dearmor_data($type, $armor);
     return OPENPGP_BAD_DATA unless defined $data;
-    file_dump($bin, $data);
+    file_dump($out, $data);
 
     return OPENPGP_OK;
 }
