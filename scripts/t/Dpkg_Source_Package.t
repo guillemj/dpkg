@@ -22,6 +22,7 @@ use Test::Dpkg qw(:paths :needs);
 use File::Compare;
 
 use Dpkg::ErrorHandling;
+use Dpkg::OpenPGP::ErrorCodes;
 
 test_needs_command('gpg');
 
@@ -42,8 +43,8 @@ is($p->armor_original_tarball_signature("$datadir/nonexistent", $ascfile),
    undef, 'no conversion of inexistent file');
 
 $ascfile = "$tmpdir/package_1.0.orig.tar.sig2asc";
-ok(defined $p->armor_original_tarball_signature("$datadir/package_1.0.orig.tar.sig", $ascfile),
-   'conversion from binary sig to armored asc');
+is($p->armor_original_tarball_signature("$datadir/package_1.0.orig.tar.sig", $ascfile),
+   OPENPGP_OK, 'conversion from binary sig to armored asc');
 
 ok(compare($ascfile, "$datadir/package_1.0.orig.tar.asc") == 0,
    'binary signature converted to OpenPGP ASCII Armor');
@@ -51,8 +52,8 @@ ok(compare($ascfile, "$datadir/package_1.0.orig.tar.asc") == 0,
 # Grab the output messages.
 eval {
     $ascfile = "$tmpdir/package_1.0.orig.tar.asc2asc";
-    ok(defined $p->armor_original_tarball_signature("$datadir/package_1.0.orig.tar.asc", $ascfile),
-       'copy instead of converting already armored input');
+    is($p->armor_original_tarball_signature("$datadir/package_1.0.orig.tar.asc", $ascfile),
+       OPENPGP_OK, 'copy instead of converting already armored input');
 };
 
 ok(compare($ascfile, "$datadir/package_1.0.orig.tar.asc") == 0,

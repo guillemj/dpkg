@@ -45,7 +45,7 @@ use Exporter qw(import);
 use POSIX qw(:errno_h :sys_wait_h);
 use Carp;
 use File::Temp;
-use File::Copy qw(cp copy);
+use File::Copy qw(cp);
 use File::Basename;
 use File::Spec;
 
@@ -437,13 +437,7 @@ sub armor_original_tarball_signature {
     my ($self, $bin, $asc) = @_;
 
     if (-e $bin) {
-        if ($self->{openpgp}->is_armored($bin)) {
-            notice(g_('signature file is already OpenPGP ASCII armor, copying'));
-            copy($bin, $asc);
-            return $asc;
-        }
-
-        return $asc if $self->{openpgp}->armor('SIGNATURE', $bin, $asc) == 0;
+        return $self->{openpgp}->armor('SIGNATURE', $bin, $asc);
     }
 
     return;
