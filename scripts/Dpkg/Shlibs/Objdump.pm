@@ -101,6 +101,7 @@ use constant {
     ELF_MACH_XTENSA         => 94,
     ELF_MACH_MICROBLAZE     => 189,
     ELF_MACH_ARCV2          => 195,
+    ELF_MACH_LOONGARCH      => 258,
     ELF_MACH_AVR_OLD        => 0x1057,
     ELF_MACH_OR1K_OLD       => 0x8472,
     ELF_MACH_ALPHA          => 0x9026,
@@ -124,6 +125,11 @@ use constant {
     ELF_FLAG_ARM_EABI_MASK  => 0xff000000,
 
     ELF_FLAG_IA64_ABI64     => 0x00000010,
+
+    ELF_FLAG_LOONGARCH_SOFT_FLOAT     => 0x00000001,
+    ELF_FLAG_LOONGARCH_SINGLE_FLOAT   => 0x00000002,
+    ELF_FLAG_LOONGARCH_DOUBLE_FLOAT   => 0x00000003,
+    ELF_FLAG_LOONGARCH_ABI_MASK       => 0x00000007,
 
     ELF_FLAG_MIPS_ABI2      => 0x00000020,
     ELF_FLAG_MIPS_32BIT     => 0x00000100,
@@ -158,6 +164,7 @@ my %elf_mach_map = (
 # behavior, and we do not drop dependencies.
 my %elf_flags_mask = (
     ELF_MACH_IA64()     => ELF_FLAG_IA64_ABI64,
+    ELF_MACH_LOONGARCH() => ELF_FLAG_LOONGARCH_ABI_MASK,
     ELF_MACH_MIPS()     => ELF_FLAG_MIPS_ABI_MASK | ELF_FLAG_MIPS_ABI2,
     ELF_MACH_PPC64()    => ELF_FLAG_PPC64_ABI64,
 );
