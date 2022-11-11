@@ -28,6 +28,7 @@ use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         get_host_gnu_type
                         get_valid_arches));
 
+my $KNOWN_ARCHES_TOTAL = 554;
 my @valid_arches = get_valid_arches();
 
 sub get_valid_wildcards
@@ -187,7 +188,8 @@ foreach my $arch (@valid_arches) {
               "bijective triplet $triplet to tuple @tuple");
 }
 
-is(scalar @valid_arches, 554, 'expected amount of known architectures');
+is(scalar @valid_arches, $KNOWN_ARCHES_TOTAL,
+    'expected amount of known architectures');
 
 {
     local $ENV{CC} = 'false';
