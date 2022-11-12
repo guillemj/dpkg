@@ -74,82 +74,85 @@ sub has_object {
 }
 
 use constant {
+    # ELF Class.
     ELF_BITS_NONE           => 0,
     ELF_BITS_32             => 1,
     ELF_BITS_64             => 2,
 
+    # ELF Data encoding.
     ELF_ORDER_NONE          => 0,
     ELF_ORDER_2LSB          => 1,
     ELF_ORDER_2MSB          => 2,
 
-    ELF_MACH_SPARC          => 2,
-    ELF_MACH_MIPS           => 8,
-    ELF_MACH_SPARC64_OLD    => 11,
-    ELF_MACH_SPARC32PLUS    => 18,
-    ELF_MACH_PPC64          => 21,
-    ELF_MACH_S390           => 22,
-    ELF_MACH_ARM            => 40,
-    ELF_MACH_ALPHA_OLD      => 41,
-    ELF_MACH_SH             => 42,
-    ELF_MACH_SPARC64        => 43,
-    ELF_MACH_IA64           => 50,
-    ELF_MACH_AVR            => 83,
-    ELF_MACH_M32R           => 88,
-    ELF_MACH_MN10300        => 89,
-    ELF_MACH_MN10200        => 90,
-    ELF_MACH_OR1K           => 92,
-    ELF_MACH_XTENSA         => 94,
-    ELF_MACH_MICROBLAZE     => 189,
-    ELF_MACH_ARCV2          => 195,
-    ELF_MACH_AVR_OLD        => 0x1057,
-    ELF_MACH_OR1K_OLD       => 0x8472,
-    ELF_MACH_ALPHA          => 0x9026,
-    ELF_MACH_M32R_CYGNUS    => 0x9041,
-    ELF_MACH_S390_OLD       => 0xa390,
-    ELF_MACH_XTENSA_OLD     => 0xabc7,
-    ELF_MACH_MICROBLAZE_OLD => 0xbaab,
-    ELF_MACH_MN10300_CYGNUS => 0xbeef,
-    ELF_MACH_MN10200_CYGNUS => 0xdead,
+    # ELF Machine.
+    EM_SPARC                => 2,
+    EM_MIPS                 => 8,
+    EM_SPARC64_OLD          => 11,
+    EM_SPARC32PLUS          => 18,
+    EM_PPC64                => 21,
+    EM_S390                 => 22,
+    EM_ARM                  => 40,
+    EM_ALPHA_OLD            => 41,
+    EM_SH                   => 42,
+    EM_SPARC64              => 43,
+    EM_IA64                 => 50,
+    EM_AVR                  => 83,
+    EM_M32R                 => 88,
+    EM_MN10300              => 89,
+    EM_MN10200              => 90,
+    EM_OR1K                 => 92,
+    EM_XTENSA               => 94,
+    EM_MICROBLAZE           => 189,
+    EM_ARCV2                => 195,
+    EM_AVR_OLD              => 0x1057,
+    EM_OR1K_OLD             => 0x8472,
+    EM_ALPHA                => 0x9026,
+    EM_M32R_CYGNUS          => 0x9041,
+    EM_S390_OLD             => 0xa390,
+    EM_XTENSA_OLD           => 0xabc7,
+    EM_MICROBLAZE_OLD       => 0xbaab,
+    EM_MN10300_CYGNUS       => 0xbeef,
+    EM_MN10200_CYGNUS       => 0xdead,
 
-    ELF_VERSION_NONE        => 0,
-    ELF_VERSION_CURRENT     => 1,
+    # ELF Version.
+    EV_NONE                 => 0,
+    EV_CURRENT              => 1,
 
-    # List of processor flags that might influence the ABI.
+    # ELF Flags (might influence the ABI).
+    EF_ARM_ALIGN8           => 0x00000040,
+    EF_ARM_NEW_ABI          => 0x00000080,
+    EF_ARM_OLD_ABI          => 0x00000100,
+    EF_ARM_SOFT_FLOAT       => 0x00000200,
+    EF_ARM_HARD_FLOAT       => 0x00000400,
+    EF_ARM_EABI_MASK        => 0xff000000,
 
-    ELF_FLAG_ARM_ALIGN8     => 0x00000040,
-    ELF_FLAG_ARM_NEW_ABI    => 0x00000080,
-    ELF_FLAG_ARM_OLD_ABI    => 0x00000100,
-    ELF_FLAG_ARM_SOFT_FLOAT => 0x00000200,
-    ELF_FLAG_ARM_HARD_FLOAT => 0x00000400,
-    ELF_FLAG_ARM_EABI_MASK  => 0xff000000,
+    EF_IA64_ABI64           => 0x00000010,
 
-    ELF_FLAG_IA64_ABI64     => 0x00000010,
+    EF_MIPS_ABI2            => 0x00000020,
+    EF_MIPS_32BIT           => 0x00000100,
+    EF_MIPS_FP64            => 0x00000200,
+    EF_MIPS_NAN2008         => 0x00000400,
+    EF_MIPS_ABI_MASK        => 0x0000f000,
+    EF_MIPS_ARCH_MASK       => 0xf0000000,
 
-    ELF_FLAG_MIPS_ABI2      => 0x00000020,
-    ELF_FLAG_MIPS_32BIT     => 0x00000100,
-    ELF_FLAG_MIPS_FP64      => 0x00000200,
-    ELF_FLAG_MIPS_NAN2008   => 0x00000400,
-    ELF_FLAG_MIPS_ABI_MASK  => 0x0000f000,
-    ELF_FLAG_MIPS_ARCH_MASK => 0xf0000000,
+    EF_PPC64_ABI64          => 0x00000003,
 
-    ELF_FLAG_PPC64_ABI64    => 0x00000003,
-
-    ELF_FLAG_SH_MACH_MASK   => 0x0000001f,
+    EF_SH_MACH_MASK         => 0x0000001f,
 };
 
 # These map alternative or old machine IDs to their canonical form.
 my %elf_mach_map = (
-    ELF_MACH_ALPHA_OLD()        => ELF_MACH_ALPHA,
-    ELF_MACH_AVR_OLD()          => ELF_MACH_AVR,
-    ELF_MACH_M32R_CYGNUS()      => ELF_MACH_M32R,
-    ELF_MACH_MICROBLAZE_OLD()   => ELF_MACH_MICROBLAZE,
-    ELF_MACH_MN10200_CYGNUS()   => ELF_MACH_MN10200,
-    ELF_MACH_MN10300_CYGNUS()   => ELF_MACH_MN10300,
-    ELF_MACH_OR1K_OLD()         => ELF_MACH_OR1K,
-    ELF_MACH_S390_OLD()         => ELF_MACH_S390,
-    ELF_MACH_SPARC32PLUS()      => ELF_MACH_SPARC,
-    ELF_MACH_SPARC64_OLD()      => ELF_MACH_SPARC64,
-    ELF_MACH_XTENSA_OLD()       => ELF_MACH_XTENSA,
+    EM_ALPHA_OLD()          => EM_ALPHA,
+    EM_AVR_OLD()            => EM_AVR,
+    EM_M32R_CYGNUS()        => EM_M32R,
+    EM_MICROBLAZE_OLD()     => EM_MICROBLAZE,
+    EM_MN10200_CYGNUS()     => EM_MN10200,
+    EM_MN10300_CYGNUS()     => EM_MN10300,
+    EM_OR1K_OLD()           => EM_OR1K,
+    EM_S390_OLD()           => EM_S390,
+    EM_SPARC32PLUS()        => EM_SPARC,
+    EM_SPARC64_OLD()        => EM_SPARC64,
+    EM_XTENSA_OLD()         => EM_XTENSA,
 );
 
 # These masks will try to expose processor flags that are ABI incompatible,
@@ -157,9 +160,9 @@ my %elf_mach_map = (
 # always better to not mask a flag, because that preserves the historical
 # behavior, and we do not drop dependencies.
 my %elf_flags_mask = (
-    ELF_MACH_IA64()     => ELF_FLAG_IA64_ABI64,
-    ELF_MACH_MIPS()     => ELF_FLAG_MIPS_ABI_MASK | ELF_FLAG_MIPS_ABI2,
-    ELF_MACH_PPC64()    => ELF_FLAG_PPC64_ABI64,
+    EM_IA64()               => EF_IA64_ABI64,
+    EM_MIPS()               => EF_MIPS_ABI_MASK | EF_MIPS_ABI2,
+    EM_PPC64()              => EF_PPC64_ABI64,
 );
 
 sub get_format {
@@ -185,7 +188,7 @@ sub get_format {
     @elf{qw(magic bits endian vertype osabi verabi)} = unpack 'a4C5', $header;
 
     return unless $elf{magic} eq "\x7fELF";
-    return unless $elf{vertype} == ELF_VERSION_CURRENT;
+    return unless $elf{vertype} == EV_CURRENT;
 
     my ($elf_word, $elf_endian);
     if ($elf{bits} == ELF_BITS_32) {
