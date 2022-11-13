@@ -39,8 +39,44 @@
  * page cache may be purged, not everything will be reclaimed that might be
  * reclaimed, watermarks are considered.
  */
-static const char str_MemAvailable[] = "MemAvailable";
-static const size_t len_MemAvailable = sizeof(str_MemAvailable) - 1;
+
+struct meminfo_field {
+	const char *name;
+	ssize_t len;
+	int tag;
+	uint64_t value;
+};
+#define MEMINFO_FIELD(name, tag) name, sizeof(name) - 1, tag, 0
+
+static struct meminfo_field *
+meminfo_find_field(struct meminfo_field *fields, const size_t nfields,
+               const char *fieldname, const ssize_t fieldlen)
+{
+	size_t f;
+
+	for (f = 0; f < nfields; f++) {
+		if (fieldlen != fields[f].len)
+			continue;
+		if (strncmp(fieldname, fields[f].name, fields[f].len) != 0)
+			continue;
+
+		return &fields[f];
+	}
+
+	return NULL;
+}
+
+static uint64_t
+meminfo_sum_fields(const struct meminfo_field *fields, const size_t nfields)
+{
+	uint64_t sum = 0;
+	size_t f;
+
+	for (f = 0; f < nfields; f++)
+		sum += fields[f].value;
+
+	return sum;
+}
 
 int
 meminfo_get_available_from_file(const char *filename, uint64_t *val)
@@ -49,6 +85,13 @@ meminfo_get_available_from_file(const char *filename, uint64_t *val)
 	char *str;
 	ssize_t bytes;
 	int fd;
+	struct meminfo_field fields[] = {
+		{ MEMINFO_FIELD("MemFree", DPKG_BIT(0)) },
+		{ MEMINFO_FIELD("Buffers", DPKG_BIT(1)) },
+		{ MEMINFO_FIELD("Cached", DPKG_BIT(2)) },
+	};
+	const int want_tags = DPKG_BIT(array_count(fields)) - 1;
+	int seen_tags = 0;
 
 	*val = 0;
 
@@ -66,14 +109,16 @@ meminfo_get_available_from_file(const char *filename, uint64_t *val)
 
 	str = buf;
 	while (1) {
+		struct meminfo_field *field;
 		char *end;
 
 		end = strchr(str, ':');
 		if (end == 0)
 			break;
 
-		if ((end - str) == len_MemAvailable &&
-		    strncmp(str, str_MemAvailable, len_MemAvailable) == 0) {
+		field = meminfo_find_field(fields, array_count(fields),
+		                           str, end - str);
+		if (field) {
 			intmax_t num;
 
 			str = end + 1;
@@ -91,16 +136,25 @@ meminfo_get_available_from_file(const char *filename, uint64_t *val)
 			/* This should not overflow, but just in case. */
 			if (num < (INTMAX_MAX / 1024))
 				num *= 1024;
-			*val = num;
-			return MEMINFO_OK;
+
+			field->value = num;
+			seen_tags |= field->tag;
 		}
+
+		if (seen_tags == want_tags)
+			break;
 
 		end = strchr(end + 1, '\n');
 		if (end == 0)
 			break;
 		str = end + 1;
 	}
-	return MEMINFO_NO_INFO;
+
+	if (seen_tags != want_tags)
+		return MEMINFO_NO_INFO;
+
+	*val = meminfo_sum_fields(fields, array_count(fields));
+	return MEMINFO_OK;
 }
 
 int

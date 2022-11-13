@@ -76,7 +76,7 @@ test_meminfo(void)
 	pathname = test_data_file("meminfo-ok");
 	rc = meminfo_get_available_from_file(pathname, &mem);
 	test_pass(rc == MEMINFO_OK);
-	test_pass(mem == 10838016UL);
+	test_pass(mem == 3919974400UL);
 	free(pathname);
 }
 
