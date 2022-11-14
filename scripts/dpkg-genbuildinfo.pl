@@ -263,7 +263,10 @@ sub is_cross_executable {
     # the host architecture by cross-compiling and executing a small
     # host-arch binary.
     my $CC = debarch_to_gnutriplet($host_arch) . '-gcc';
-    my $crossprog = 'int main() { write(1, "ok", 2); return 0; }';
+    my $crossprog = <<~'CROSSPROG';
+        #include <unistd.h>
+        int main() { write(1, "ok", 2); return 0; }
+    CROSSPROG
     my ($stdout, $stderr) = ('', '');
     my $tmpfh = File::Temp->new();
     spawn(
