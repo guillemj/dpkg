@@ -62,6 +62,7 @@ TESTS_PASS += t-conflict-provide-replace-virtual-multiarch
 TESTS_PASS += t-conflict-provide-replace-interface
 TESTS_PASS += t-predepends-no-triggers
 TESTS_PASS += t-triggers
+TESTS_PASS += t-triggers-db
 TESTS_PASS += t-triggers-configure
 TESTS_PASS += t-triggers-path
 TESTS_PASS += t-triggers-depends
