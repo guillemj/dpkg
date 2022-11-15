@@ -6,17 +6,13 @@ variables:
 before_script:
   - apt update -qq
   - apt install -qq -y eatmydata
-  - eatmydata apt install -qq -y --no-install-recommends
-    git ca-certificates
-  - eatmydata apt build-dep -qq -y .
+  - eatmydata apt -P pkg.dpkg.author-release build-dep -qq -y .
   - ./autogen
 
 # Test whether the release can be done.
 dist-check:
   stage: test
   script:
-    - eatmydata apt install -qq -y --no-install-recommends
-      libmodule-build-perl
     - ./configure
     - make distcheck
 
