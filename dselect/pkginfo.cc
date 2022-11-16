@@ -172,7 +172,7 @@ void packagelist::redrawinfo() {
   whatinfovb.reset();
   werase(infopad); wmove(infopad,0,0);
 
-  debug(dbg_general, "packagelist[%p]::redrawinfo(); #=%jd",
+  debug(dbg_general, "packagelist[%p]::redrawinfo(); #=%zd",
         this, currentinfo - baseinfo);
 
   (this->*currentinfo->display)();
