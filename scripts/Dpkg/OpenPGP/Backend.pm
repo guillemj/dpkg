@@ -29,6 +29,10 @@ sub DEFAULT_CMDV {
     return [];
 }
 
+sub DEFAULT_CMDSTORE {
+    return [];
+}
+
 sub DEFAULT_CMD {
     return [];
 }
@@ -53,6 +57,7 @@ sub new {
     bless $self, $class;
 
     $self->{cmdv} = _detect_cmd($opts{cmdv}, $self->DEFAULT_CMDV());
+    $self->{cmdstore} = _detect_cmd($opts{cmdstore}, $self->DEFAULT_CMDSTORE());
     $self->{cmd} = _detect_cmd($opts{cmd}, $self->DEFAULT_CMD());
 
     return $self;
@@ -74,6 +79,13 @@ sub has_keystore {
     my $self = shift;
 
     return 0;
+}
+
+sub can_use_key {
+    my ($self, $key) = @_;
+
+    return $self->has_keystore() if $key->needs_keystore();
+    return 1;
 }
 
 sub get_trusted_keyrings {

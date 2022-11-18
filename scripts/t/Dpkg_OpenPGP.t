@@ -107,10 +107,14 @@ foreach my $cmd (@cmds) {
         handle => "$datadir/dpkg-test-sec.asc",
     );
 
-    ok($openpgp->inline_sign("$datadir/sign-file", "$tempdir/sign-file-inline.asc", $key) == OPENPGP_OK(),
-        "($backend:$cmd) inline OpenPGP sign");
-    ok($openpgp->inline_verify("$tempdir/sign-file-inline.asc", undef, $cert) == OPENPGP_OK(),
-        "($backend:$cmd) verify generated inline OpenPGP signature");
+    SKIP: {
+        skip 'cannot use secrets', 2 unless $openpgp->can_use_secrets($key);
+
+        ok($openpgp->inline_sign("$datadir/sign-file", "$tempdir/sign-file-inline.asc", $key) == OPENPGP_OK(),
+            "($backend:$cmd) inline OpenPGP sign");
+        ok($openpgp->inline_verify("$tempdir/sign-file-inline.asc", undef, $cert) == OPENPGP_OK(),
+            "($backend:$cmd) verify generated inline OpenPGP signature");
+    };
 
     # TODO: Add more test cases.
 }

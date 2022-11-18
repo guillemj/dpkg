@@ -108,16 +108,10 @@ sub can_use_secrets {
     my ($self, $key) = @_;
 
     return 0 unless $self->{backend}->has_backend_cmd();
-
-    if ($key->type eq 'keyfile') {
-        return 1 if -f $key->handle;
-    } elsif ($key->type eq 'keystore') {
-        return 1 if -e $key->handle;
-    } else {
-        # For IDs we need a keystore.
-        return $self->{backend}->has_keystore();
-    }
-    return 0;
+    return 0 if $key->type eq 'keyfile' && ! -f $key->handle;
+    return 0 if $key->type eq 'keystore' && ! -e $key->handle;
+    return 0 unless $self->{backend}->can_use_key($key);
+    return 1;
 }
 
 sub get_trusted_keyrings {

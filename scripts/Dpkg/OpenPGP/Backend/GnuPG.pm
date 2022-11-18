@@ -36,16 +36,34 @@ sub DEFAULT_CMDV {
     return [ qw(gpgv) ];
 }
 
+sub DEFAULT_CMDSTORE {
+    return [ qw(gpg-agent) ];
+}
+
 sub DEFAULT_CMD {
     return [ qw(gpg) ];
+}
+
+sub has_backend_cmd {
+    my $self = shift;
+
+    return defined $self->{cmd} && defined $self->{cmdstore};
 }
 
 sub has_keystore {
     my $self = shift;
 
+    return 0 if not defined $self->{cmdstore};
     return 1 if ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME}) ||
                 ($ENV{HOME} && -e "$ENV{HOME}/.gnupg");
     return 0;
+}
+
+sub can_use_key {
+    my ($self, $key) = @_;
+
+    # With gpg, a secret key always requires gpg-agent (the key store).
+    return $self->has_keystore();
 }
 
 sub has_verify_cmd {
@@ -234,7 +252,7 @@ sub verify {
 sub inline_sign {
     my ($self, $data, $inlinesigned, $key) = @_;
 
-    return OPENPGP_MISSING_CMD if ! $self->{cmd};
+    return OPENPGP_MISSING_CMD if ! $self->has_backend_cmd();
 
     my @exec = ($self->{cmd});
     push @exec, _gpg_options_weak_digests();
