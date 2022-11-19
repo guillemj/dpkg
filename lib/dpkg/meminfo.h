@@ -33,9 +33,19 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
-int
+enum meminfo_error_code {
+	MEMINFO_OK = 0,
+	MEMINFO_NO_FILE = -1,
+	MEMINFO_NO_DATA = -2,
+	MEMINFO_INT_NEG = -3,
+	MEMINFO_INT_MAX = -4,
+	MEMINFO_NO_UNIT = -5,
+	MEMINFO_NO_INFO = -6,
+};
+
+enum meminfo_error_code
 meminfo_get_available_from_file(const char *filename, uint64_t *val);
-int
+enum meminfo_error_code
 meminfo_get_available(uint64_t *val);
 
 /** @} */

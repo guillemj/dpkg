@@ -54,13 +54,13 @@ meminfo_get_available_from_file(const char *filename, uint64_t *val)
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return -1;
+		return MEMINFO_NO_FILE;
 
 	bytes = fd_read(fd, buf, sizeof(buf));
 	close(fd);
 
 	if (bytes <= 0)
-		return -1;
+		return MEMINFO_NO_DATA;
 
 	buf[bytes] = '\0';
 
@@ -80,19 +80,19 @@ meminfo_get_available_from_file(const char *filename, uint64_t *val)
 			errno = 0;
 			num = strtoimax(str, &end, 10);
 			if (num <= 0)
-				return -1;
+				return MEMINFO_INT_NEG;
 			if ((num == INTMAX_MAX) && errno == ERANGE)
-				return -1;
+				return MEMINFO_INT_MAX;
 			/* It should end with ' kB\n'. */
 			if (*end != ' ' || *(end + 1) != 'k' ||
 			    *(end + 2) != 'B')
-				return -1;
+				return MEMINFO_NO_UNIT;
 
 			/* This should not overflow, but just in case. */
 			if (num < (INTMAX_MAX / 1024))
 				num *= 1024;
 			*val = num;
-			return 0;
+			return MEMINFO_OK;
 		}
 
 		end = strchr(end + 1, '\n');
@@ -100,7 +100,7 @@ meminfo_get_available_from_file(const char *filename, uint64_t *val)
 			break;
 		str = end + 1;
 	}
-	return -1;
+	return MEMINFO_NO_INFO;
 }
 
 int
@@ -109,6 +109,6 @@ meminfo_get_available(uint64_t *val)
 #ifdef __linux__
 	return meminfo_get_available_from_file("/proc/meminfo", val);
 #else
-	return -1;
+	return MEMINFO_NO_FILE;
 #endif
 }
