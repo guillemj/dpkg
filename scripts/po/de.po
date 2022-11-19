@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-11-04 19:51+0100\n"
-"PO-Revision-Date: 2022-11-04 19:59+0100\n"
+"POT-Creation-Date: 2022-11-19 15:24+0100\n"
+"PO-Revision-Date: 2022-11-19 17:02+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -308,10 +308,15 @@ msgid ""
 "      --buildinfo-option=<opt>\n"
 "                              pass option <opt> to dpkg-genbuildinfo.\n"
 "      --changes-file=<file>   set the .changes filename to generate.\n"
+"      --sign-backend=<backend>\n"
+"                              OpenPGP backend to use to sign\n"
+"                                (default is auto).\n"
 "  -p, --sign-command=<command>\n"
 "                              command to sign .dsc and/or .changes files\n"
 "                                (default is gpg).\n"
-"  -k, --sign-key=<keyid>      the key to use for signing.\n"
+"      --sign-keyfile=<file>   the key file to use for signing.\n"
+"  -k, --sign-keyid=<keyid>    the key id to use for signing.\n"
+"      --sign-key=<keyid>      alias for -k, --sign-keyid.\n"
 "  -ap, --sign-pause           add pause before starting signature process.\n"
 "  -us, --unsigned-source      unsigned source package.\n"
 "  -ui, --unsigned-buildinfo   unsigned .buildinfo file.\n"
@@ -384,12 +389,19 @@ msgstr ""
 "                      Option <Opt> an dpkg-genbuildinfo übergeben\n"
 "      --changes-file=<Datei>\n"
 "                      den zu erstellenden .changes-Dateinamen setzen\n"
+"      --sign-backend=<Backend>\n"
+"                      Zum Signieren zu verwendendes OpenPGP-Backend\n"
+"                      (Vorgabe ist auto).\n"
 "  -p, --sign-command=<Befehl>\n"
 "                      Befehl, um .dsc- und/oder .changes-Dateien zu "
 "signieren\n"
 "                        (standardmäßig gpg)\n"
-"  -k, --sign-key=<Schlüssel-ID>\n"
-"                      Für die Signierung zu verwendender Schlüssel\n"
+"      --sign-keyfile=<Datei>\n"
+"                      der zum Signieren zu verwendende Schlüssel.\n"
+"  -k, --sign-keyid=<Schlüsselkennung>\n"
+"                      die zum Signieren zu verwendende Schlüsselkennung.\n"
+"      --sign-key=<Schlüsselkennung>\n"
+"                      Alias für -k, --sign-keyid.\n"
 "  -ap, --sign-pause   Pause vor Beginn des Signaturprozesses einfügen\n"
 "  -us, --unsigned-source\n"
 "                      unsigniertes Quellpaket\n"
@@ -577,11 +589,6 @@ msgid "Press <enter> to start the signing process.\n"
 msgstr "Drücken Sie die <Eingabetaste>, um den Signierprozess zu starten\n"
 
 #: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "failed to sign %s file"
-msgstr "Signieren der %s-Datei fehlgeschlagen"
-
-#: scripts/dpkg-buildpackage.pl
 msgid "not signing UNRELEASED build; use --force-sign to override"
 msgstr ""
 "UNRELEASED-Bau nicht signiert; verwenden Sie --force-sign zum Übersteuern"
@@ -673,7 +680,7 @@ msgstr ""
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
 #: scripts/dpkg-genbuildinfo.pl scripts/dpkg-name.pl scripts/Dpkg/Arch.pm
-#: scripts/Dpkg/IPC.pm scripts/Dpkg/OpenPGP.pm scripts/Dpkg/Shlibs.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs.pm
 #, perl-format
 msgid "cannot open %s"
 msgstr "%s kann nicht geöffnet werden"
@@ -690,6 +697,11 @@ msgstr "%s kann nicht geschlossen werden"
 #, perl-format
 msgid "cannot move %s to %s"
 msgstr "%s kann nicht in %s verschoben werden"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "failed to sign %s file: %s"
+msgstr "Signieren der %s-Datei fehlgeschlagen: %s"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "source-only upload: Debian-native package"
@@ -2844,20 +2856,75 @@ msgstr "Fehler beim Erlangen einer Schreibsperre auf %s"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
-msgid "cannot verify signature for %s"
-msgstr "Signatur für %s kann nicht überprüft werden"
+msgid "unknown OpenPGP api requested %s"
+msgstr "unbekanntes OpenPGP-API erbeten %s"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
-msgid "cannot verify inline signature on %s since GnuPG is not installed"
-msgstr ""
-"eingebettete Signatur von %s kann nicht überprüft werden, da GnuPG nicht installiert ist"
+msgid "cannot load OpenPGP backend %s"
+msgstr "OpenPGP-Backend %s kann nicht geladen werden"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
-msgid "cannot verify signature on %s since GnuPG is not installed"
-msgstr ""
-"Signatur von %s kann nicht überprüft werden, da GnuPG nicht installiert ist"
+msgid "unknown OpenPGP backend %s"
+msgstr "unbekanntes OpenPGP-Backend %s"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "success"
+msgstr "Erfolg"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "no acceptable signature found"
+msgstr "keine akzeptierbaren Signaturen gefunden"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "missing required argument"
+msgstr "benötigtes Argument fehlt"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "unsupported option"
+msgstr "nicht unterstützte Option"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "invalid data type"
+msgstr "ungültiger Datentyp"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "non-text input where text expected"
+msgstr "Eingabe kein Text, obwohl Text erwartet"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "output file already exists"
+msgstr "Ausgabedatei existiert bereits"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "input file does not exist"
+msgstr "Eingabedatei existiert nicht"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "cannot unlock password-protected key"
+msgstr "Passwort-geschützter Schlüssel kann nicht entsperrt werden"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "unsupported subcommand"
+msgstr "nicht unterstützter Unterbefehl"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "key is not signature-capable"
+msgstr "Schlüssel kann nicht zum Signieren verwandt werden"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "missing OpenPGP implementation"
+msgstr "fehlende OpenPGP-Implementierung"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "specified key needs a keystore"
+msgstr "angegebener Schlüssel benötigt einen Schlüsselspeicher"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+#, perl-format
+msgid "error code %d"
+msgstr "Fehler-Code %d"
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -3087,10 +3154,6 @@ msgstr ""
 "ermitteln"
 
 #: scripts/Dpkg/Source/Package.pm
-msgid "signature file is already OpenPGP ASCII armor, copying"
-msgstr "Signaturdatei ist bereits OpenPGP-ASCII-Armor, sie wird kopiert"
-
-#: scripts/Dpkg/Source/Package.pm
 msgid "upstream tarball signatures but no upstream signing key"
 msgstr ""
 "Tarball-Signatur der Originalautoren aber kein Signaturschlüssel der "
@@ -3100,6 +3163,16 @@ msgstr ""
 #, perl-format
 msgid "verifying %s"
 msgstr "%s wird überprüft"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "cannot verify upstream tarball signature for %s: %s"
+msgstr "Tarball-Signatur der Originalautoren für %s kann nicht überprüft werden: %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "cannot verify inline signature for %s: %s"
+msgstr "eingebettete Signatur für %s kann nicht überprüft werden: %s"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -4164,8 +4237,19 @@ msgid "epoch part of the version number is not a number: '%s'"
 msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
 
 #, perl-format
-#~ msgid "cannot create signature file %s"
-#~ msgstr "Signaturdatei %s kann nicht angelegt werden"
+#~ msgid "cannot verify inline signature on %s since GnuPG is not installed"
+#~ msgstr ""
+#~ "eingebettete Signatur von %s kann nicht überprüft werden, da GnuPG nicht "
+#~ "installiert ist"
+
+#, perl-format
+#~ msgid "cannot verify signature on %s since GnuPG is not installed"
+#~ msgstr ""
+#~ "Signatur von %s kann nicht überprüft werden, da GnuPG nicht installiert "
+#~ "ist"
+
+#~ msgid "signature file is already OpenPGP ASCII armor, copying"
+#~ msgstr "Signaturdatei ist bereits OpenPGP-ASCII-Armor, sie wird kopiert"
 
 #, perl-format
 #~ msgid "cannot execute %s program"
