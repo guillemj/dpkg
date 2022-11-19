@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.21.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-11-04 19:51+0100\n"
-"PO-Revision-Date: 2022-11-04 21:16+0100\n"
+"POT-Creation-Date: 2022-11-19 15:24+0100\n"
+"PO-Revision-Date: 2022-11-19 16:48+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -9358,8 +9358,8 @@ msgstr ""
 
 #. type: =item
 #: dpkg-buildflags.pod
-msgid "lto"
-msgstr "lto"
+msgid "B<lto>"
+msgstr "B<lto>"
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -10484,14 +10484,14 @@ msgstr "B<11.>"
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid ""
-"It runs the B<sign> hook and calls B<gpg> (as long as it is not an "
-"UNRELEASED build, or B<--no-sign> is specified) to sign the B<.dsc> file (if "
-"any, unless B<-us> or B<--unsigned-source> is specified), the B<.buildinfo> "
-"file (unless B<-ui>, B<--unsigned-buildinfo>, B<-uc> or B<--unsigned-"
-"changes> is specified) and the B<.changes> file (unless B<-uc> or B<--"
-"unsigned-changes> is specified)."
+"It runs the B<sign> hook and signs using the OpenPGP backend (as long as it "
+"is not an UNRELEASED build, or B<--no-sign> is specified) to sign the B<."
+"dsc> file (if any, unless B<-us> or B<--unsigned-source> is specified), the "
+"B<.buildinfo> file (unless B<-ui>, B<--unsigned-buildinfo>, B<-uc> or B<--"
+"unsigned-changes> is specified) and the B<.changes> file (unless B<-uc> or "
+"B<--unsigned-changes> is specified)."
 msgstr ""
-"Der Hook B<sign> wird ausgeführt und B<gpg> aufgerufen (so lange es sich "
+"Der Hook B<sign> wird ausgeführt und mittels eines OpenPGP-Backends signiert (so lange es sich "
 "nicht um einen „UNRELEASED“-Bau handelt oder B<--no-sign> angegeben wurde), "
 "um die B<.dsc>-Datei (falls vorhanden und B<-us> oder B<--unsigned-source> "
 "nicht angegeben wurde), die B<.buildinfo>-Datei (falls B<-ui>, B<--unsigned-"
@@ -10825,7 +10825,7 @@ msgid ""
 "1.17.17).  The architecture of the machine we build on is determined "
 "automatically, and is also the default for the host machine."
 msgstr ""
-"Spezifiziert die Debian-Architektur, für die gebaut wird (lange Option seit "
+"Gibt die Debian-Architektur, für die gebaut wird, an (lange Option seit "
 "Dpkg 1.17.17). Die Architektur der Maschine, auf der gebaut wird, wird "
 "automatisch bestimmt, und ist auch die Voreinstellung für die Wirtmaschine "
 "(„host machine“)."
@@ -11396,39 +11396,104 @@ msgstr ""
 
 #. type: =item
 #: dpkg-buildpackage.pod
+msgid "B<--sign-backend=>I<sign-backend>"
+msgstr "B<--sign-backend=>I<Signatur-Backend>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"Specify an OpenPGP backend interface to use when invoking the I<sign-"
+"command> (since dpkg 1.21.10)."
+msgstr ""
+"Gibt eine OpenPGP-Backend-Schnittstelle an, die beim Aufruf von I<sign-"
+"command> verwandt wird (seit Dpkg 1.21.10)."
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"The default is B<auto>, where the best current backend available will be "
+"used.  The specific OpenPGP backends supported in order of preference are:"
+msgstr ""
+"Die Vorgabe ist B<auto>, bei der das beste derzeit verfügbare Backend "
+"verwandt wird. Die bestimmten unterstützten OpenPGP-Backends in bevorzugter "
+"Reihenfolge sind:"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<sq> (from Sequoia-PGP)"
+msgstr "B<sq> (von Sequoia-PGP)"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<gpg> (from GnuPG)"
+msgstr "B<gpg> (von GnuPG)"
+
+#. type: =item
+#: dpkg-buildpackage.pod
 msgid "B<-p>, B<--sign-command=>I<sign-command>"
 msgstr "B<-p>, B<--sign-command=>I<Signaturbefehl>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid ""
-"When B<dpkg-buildpackage> needs to execute GPG to sign a source control (B<."
-"dsc>) file or a B<.changes> file it will run I<sign-command> (searching the "
-"B<PATH> if necessary) instead of B<gpg> (long option since dpkg 1.18.8).  "
-"I<sign-command> will get all the arguments that B<gpg> would have gotten. "
+"When B<dpkg-buildpackage> needs to execute an OpenPGP backend command to "
+"sign a source control (B<.dsc>) file or a B<.changes> file it will run "
+"I<sign-command> (searching the B<PATH> if necessary) instead of the default "
+"or auto-detected backend command (long option since dpkg 1.18.8).  I<sign-"
+"command> will get all the arguments defined by the B<--sign-backend>.  "
 "I<sign-command> should not contain spaces or any other shell metacharacters."
 msgstr ""
-"Wenn B<dpkg-buildpackage> GPG zum Signieren einer Quellsteuerdatei (B<.dsc>) "
-"oder einer B<.changes>-Datei benötigt, wird es statt B<gpg> den "
+"Wenn B<dpkg-buildpackage> ein OpenPGP-Backend-Befehl zum Signieren einer Quellsteuerdatei (B<.dsc>) "
+"oder einer B<.changes>-Datei benötigt, wird es statt des standardmäßigen oder automatisch erkannten Backend-Befehls den "
 "I<Signaturbefehl> ausführen (und dabei falls notwendig den B<PATH> "
 "durchsuchen) (lange Option seit Dpkg 1.18.8). I<Signaturbefehl> wird alle "
-"Argumente erhalten, die B<gpg> erhalten hätte. I<Signaturbefehl> sollte "
+"Argumente erhalten, die durch B<--sign-backend> definiert sind. I<Signaturbefehl> sollte "
 "keine Leerzeichen oder andere Metazeichen der Shell enthalten."
 
 #. type: =item
 #: dpkg-buildpackage.pod
-msgid "B<-k>, B<--sign-key=>I<key-id>"
-msgstr "B<-k>, B<--sign-key=>I<Schlüsselkennung>"
+msgid "B<-k>, B<--sign-keyid=>I<key-id>"
+msgstr "B<-k>, B<--sign-keyid=>I<Schlüsselkennung>"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<--sign-key=>I<key-id>"
+msgstr "B<--sign-key=>I<Schlüsselkennung>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid ""
 "Specify an OpenPGP key-ID (either a fingerprint or a user-ID) for the secret "
-"key to use when signing packages (long option since dpkg 1.18.8)."
+"key to use when signing packages (B<--sign-key> since dpkg 1.18.8, B<--sign-"
+"keyid> since dpkg 1.21.10)."
 msgstr ""
 "Geben Sie eine OpenPGP-Schlüsselkennung (entweder einen Fingerabdruck oder "
-"eine Benutzerkennung) für den geheimen Schlüssel zur Signatur von Paketen an (lange Option "
-"seit Dpkg 1.18.8)."
+"eine Benutzerkennung) für den geheimen Schlüssel zur Signatur von Paketen an "
+"(B<--sign-key> seit Dpkg 1.18.8, B<--sign-keyid> seit Dpkg 1.21.10)."
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<--sign-keyfile=>I<key-file>"
+msgstr "B<--sign-keyfile=>I<Schlüsseldatei>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"Specify an OpenPGP I<key-file> containing the secret key to use when signing "
+"packages (since dpkg 1.21.10)."
+msgstr ""
+"Geben Sie eine OpenPGP-I<Schlüsseldatei>, die "
+"den geheimen Schlüssel zur Signatur von Paketen enthält, an "
+"(seit Dpkg 1.21.10)."
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"Note: For security reasons the I<key-file> is best kept locked with a "
+"password."
+msgstr ""
+"Hinweis: Aus Sicherheitsgründen wird die I<Schlüsseldatei> am besten mit "
+"einem Passwort gesperrt."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -11657,9 +11722,24 @@ msgid ""
 "If set, it will be used to sign the B<.changes>, B<.buildinfo> and B<.dsc> "
 "files (since dpkg 1.17.2).  Overridden by the B<--sign-key> option."
 msgstr ""
-"Falls gesetzt, wird er zum Signieren der B<.changes>-, B<.buildinfo>- und B<.dsc>-Dateien "
-"verwandt (seit Dpkg 1.17.2). Wird durch die Option B<--sign-key> außer Kraft "
-"gesetzt."
+"Falls gesetzt, wird er zum Signieren der B<.changes>-, B<.buildinfo>- und B<."
+"dsc>-Dateien verwandt (seit Dpkg 1.17.2). Wird durch die Option B<--sign-"
+"key> außer Kraft gesetzt."
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<DEB_SIGN_KEYFILE>"
+msgstr "B<DEB_SIGN_KEYFILE>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"If set, it will be used to sign the B<.changes>, B<.buildinfo> and B<.dsc> "
+"files (since dpkg 1.21.10).  Overridden by the B<--sign-keyfile> option."
+msgstr ""
+"Falls gesetzt, wird er zum Signieren der B<.changes>-, B<.buildinfo>- und B<."
+"dsc>-Dateien verwandt (seit Dpkg 1.21.10). Wird durch die Option B<--sign-"
+"keyfile> außer Kraft gesetzt."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -11864,11 +11944,11 @@ msgstr ""
 msgid ""
 "I<%PKGDOCDIR%/spec/rootless-builds.txt>, B<dpkg-source>(1), B<dpkg-"
 "architecture>(1), B<dpkg-buildflags>(1), B<dpkg-genbuildinfo>(1), B<dpkg-"
-"genchanges>(1), B<fakeroot>(1), B<lintian>(1), B<gpg>(1)."
+"genchanges>(1), B<fakeroot>(1), B<lintian>(1), B<sq>(1), B<gpg>(1)."
 msgstr ""
 "I<%PKGDOCDIR%/spec/rootless-builds.txt>, B<dpkg-source>(1), B<dpkg-"
 "architecture>(1), B<dpkg-buildflags>(1), B<dpkg-genbuildinfo>(1), B<dpkg-"
-"genchanges>(1), B<fakeroot>(1), B<lintian>(1), B<gpg>(1)."
+"genchanges>(1), B<fakeroot>(1), B<lintian>(1), B<sq>(1), B<gpg>(1)."
 
 #. type: textblock
 #: dpkg-checkbuilddeps.pod
@@ -28558,6 +28638,9 @@ msgid "B<ln>(1), FHS (the Filesystem Hierarchy Standard)."
 msgstr ""
 "B<ln>(1), FHS (der Dateisystem-Hierarchie-Standard, Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid "lto"
+#~ msgstr "lto"
 
 #, fuzzy
 #~ msgid ""
