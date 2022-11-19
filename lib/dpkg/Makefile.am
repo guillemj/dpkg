@@ -20,6 +20,7 @@ LDADD = \
 
 EXTRA_DIST = \
 	$(test_scripts) \
+	$(test_data) \
 	libdpkg.map \
 	libdpkg.pc.in \
 	# EOL
@@ -196,6 +197,7 @@ test_programs = \
 	t/t-string \
 	t/t-file \
 	t/t-buffer \
+	t/t-meminfo \
 	t/t-path \
 	t/t-progname \
 	t/t-subproc \
@@ -223,6 +225,13 @@ test_scripts = \
 	t/t-tarextract.t \
 	t/t-treewalk.t \
 	t/t-trigdeferred.t \
+	# EOL
+
+test_data = \
+	t/data/meminfo-no-data \
+	t/data/meminfo-no-info \
+	t/data/meminfo-no-unit \
+	t/data/meminfo-ok \
 	# EOL
 
 BENCHMARK_LDADD_FLAGS = \
