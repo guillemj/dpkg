@@ -86,6 +86,7 @@ libdpkg_la_SOURCES = \
 	glob.c \
 	i18n.c i18n.h \
 	log.c \
+	meminfo.c \
 	mlib.c \
 	namevalue.c \
 	nfmalloc.c \
@@ -150,6 +151,7 @@ pkginclude_HEADERS = \
 	fsys.h \
 	glob.h \
 	macros.h \
+	meminfo.h \
 	namevalue.h \
 	options.h \
 	pager.h \
