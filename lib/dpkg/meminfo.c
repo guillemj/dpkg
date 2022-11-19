@@ -34,7 +34,6 @@
 #include <dpkg/fdio.h>
 #include <dpkg/meminfo.h>
 
-#ifdef __linux__
 /*
  * An estimate of how much memory is available. Swap will not be used, the
  * page cache may be purged, not everything will be reclaimed that might be
@@ -44,7 +43,7 @@ static const char str_MemAvailable[] = "MemAvailable";
 static const size_t len_MemAvailable = sizeof(str_MemAvailable) - 1;
 
 int
-meminfo_get_available(uint64_t *val)
+meminfo_get_available_from_file(const char *filename, uint64_t *val)
 {
 	char buf[4096];
 	char *str;
@@ -53,7 +52,7 @@ meminfo_get_available(uint64_t *val)
 
 	*val = 0;
 
-	fd = open("/proc/meminfo", O_RDONLY);
+	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return -1;
 
@@ -103,10 +102,13 @@ meminfo_get_available(uint64_t *val)
 	}
 	return -1;
 }
-#else
+
 int
 meminfo_get_available(uint64_t *val)
 {
+#ifdef __linux__
+	return meminfo_get_available_from_file("/proc/meminfo", val);
+#else
 	return -1;
-}
 #endif
+}

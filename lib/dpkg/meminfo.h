@@ -34,6 +34,8 @@ DPKG_BEGIN_DECLS
  */
 
 int
+meminfo_get_available_from_file(const char *filename, uint64_t *val);
+int
 meminfo_get_available(uint64_t *val);
 
 /** @} */
