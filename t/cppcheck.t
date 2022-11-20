@@ -32,6 +32,7 @@ plan tests => 1;
 my @cppcheck_opts = (qw(
   --quiet --force --error-exitcode=2
   --inline-suppr
+  --std=c99 --std=c++03
   --suppressions-list=t/cppcheck/cppcheck.supp
 ), (
   '--enable=warning,performance,portability,style',
