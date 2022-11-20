@@ -163,7 +163,7 @@ public:
   void startdisplay();
   void enddisplay();
 
-  baselist(keybindings *);
+  explicit baselist(keybindings *);
   virtual ~baselist();
 };
 
