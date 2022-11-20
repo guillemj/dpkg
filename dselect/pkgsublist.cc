@@ -108,6 +108,7 @@ void packagelist::addunavailable(deppossi *possi) {
     internerr("deppossi from package %s has nullptr clientdata's uprec",
               pkg_name(possi->up->up, pnaw_always));
 
+  // cppcheck-suppress[constVariable]: false positive, operator() modifies it.
   varbuf& vb= possi->up->up->clientdata->relations;
   vb(possi->ed->name);
   vb(_(" does not appear to be available\n"));

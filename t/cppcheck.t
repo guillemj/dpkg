@@ -31,6 +31,7 @@ plan tests => 1;
 #  -Ilib
 my @cppcheck_opts = (qw(
   --quiet --force --error-exitcode=2
+  --inline-suppr
   --suppressions-list=t/cppcheck/cppcheck.supp
 ), (
   '--enable=warning,performance,portability,style',
