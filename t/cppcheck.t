@@ -30,7 +30,7 @@ plan tests => 1;
 #  -DLIBDPKG_VOLATILE_API=1
 #  -Ilib
 my @cppcheck_opts = (qw(
-  -q --force --error-exitcode=2
+  --quiet --force --error-exitcode=2
   --suppressions-list=t/cppcheck/cppcheck.supp
 ), (
   '--enable=warning,performance,portability,style',
