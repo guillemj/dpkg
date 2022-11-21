@@ -39,7 +39,7 @@
 /**
  * Check whether a filename is executable.
  *
- * @param pathname The filename to check.
+ * @param filename The filename to check.
  */
 bool
 file_is_exec(const char *filename)
