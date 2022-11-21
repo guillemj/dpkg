@@ -129,11 +129,11 @@ doc-clean:
 .PHONY: coverage coverage-clean
 
 if COVERAGE_ENABLED
-LCOV_OPTS = -q --rc geninfo_checksum=1 --rc lcov_branch_coverage=1
+LCOV_OPTS = --quiet --rc geninfo_checksum=1 --rc lcov_branch_coverage=1
 LCOV_CAPTURE_OPTS = $(LCOV_OPTS) --no-recursion \
-	-d $(top_builddir)/lib/dpkg \
-	-d $(top_builddir)/src \
-	-d $(top_builddir)/utils \
+	--directory $(top_builddir)/lib/dpkg \
+	--directory $(top_builddir)/src \
+	--directory $(top_builddir)/utils \
 	# EOL
 LCOV_INJECT = $(PERL) -i $(top_srcdir)/build-aux/lcov-inject
 
@@ -143,21 +143,26 @@ coverage: all
 	find -name '*.gcda' -o -name '*.gcov' | xargs rm -f
 
 	: # Initialize data
-	$(LCOV) $(LCOV_CAPTURE_OPTS) -c -o dpkg_base.lcov -i
+	$(LCOV) $(LCOV_CAPTURE_OPTS) --capture --initial \
+	  --output-file dpkg_base.lcov
 	: # Run test cases
 	$(MAKE) -C lib/dpkg check
 	$(MAKE) -C src check
 	$(MAKE) -C utils check
 	: # Merge test coverage data
-	$(LCOV) $(LCOV_CAPTURE_OPTS) -c -o dpkg_test.lcov
-	$(LCOV) $(LCOV_OPTS) -a dpkg_base.lcov -a dpkg_test.lcov \
-	  -o dpkg_merge.lcov
-	$(LCOV) $(LCOV_OPTS) -r dpkg_merge.lcov '/usr/include/*' -o dpkg.lcov
+	$(LCOV) $(LCOV_CAPTURE_OPTS) --capture \
+	  --output-file dpkg_test.lcov
+	$(LCOV) $(LCOV_OPTS) \
+	  --add-tracefile dpkg_base.lcov \
+	  --add-tracefile dpkg_test.lcov \
+	  --output-file dpkg_merge.lcov
+	$(LCOV) $(LCOV_OPTS) --remove dpkg_merge.lcov '/usr/include/*' \
+	  --output-file dpkg.lcov
 	: # Generate reports
-	$(LCOV) $(LCOV_OPTS) -l dpkg.lcov
+	$(LCOV) $(LCOV_OPTS) --list dpkg.lcov
 	$(LCOV_GENHTML) $(LCOV_OPTS) \
 	  --legend --title "dpkg $(VERSION) C code coverage" \
-	  -o doc/coverage dpkg.lcov
+	  --output-directory doc/coverage dpkg.lcov
 
 	$(MAKE) -C scripts $@
 
