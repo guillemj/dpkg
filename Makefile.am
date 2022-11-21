@@ -132,7 +132,14 @@ if COVERAGE_ENABLED
 LCOV_OPTS = --quiet --rc geninfo_checksum=1 --rc lcov_branch_coverage=1
 LCOV_CAPTURE_OPTS = $(LCOV_OPTS) --no-recursion \
 	--directory $(top_builddir)/lib/dpkg \
-	--directory $(top_builddir)/src \
+	--directory $(top_builddir)/src/common \
+	--directory $(top_builddir)/src/deb \
+	--directory $(top_builddir)/src/split \
+	--directory $(top_builddir)/src/divert \
+	--directory $(top_builddir)/src/query \
+	--directory $(top_builddir)/src/trigger \
+	--directory $(top_builddir)/src/statoverride \
+	--directory $(top_builddir)/src/main \
 	--directory $(top_builddir)/utils \
 	# EOL
 LCOV_INJECT = $(PERL) -i $(top_srcdir)/build-aux/lcov-inject
