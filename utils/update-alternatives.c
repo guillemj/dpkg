@@ -2265,6 +2265,8 @@ static void
 alternative_map_add(struct alternative_map *am, const char *key,
                     struct alternative *a)
 {
+	alternative_ref(a);
+
 	if (am->key == NULL) {
 		am->key = key;
 		am->item = a;
@@ -2292,6 +2294,8 @@ alternative_map_load_names(struct alternative_map *alt_map_obj)
 			continue;
 		}
 		alternative_map_add(alt_map_obj, a_new->master_name, a_new);
+
+		alternative_unref(a_new);
 	}
 	altdb_free_namelist(table, count);
 }
@@ -2313,14 +2317,13 @@ alternative_map_load_tree(struct alternative_map *alt_map_links,
 			continue;
 		}
 		alternative_map_add(alt_map_links, a_new->master_link, a_new);
-		alternative_ref(a_new);
 		alternative_map_add(alt_map_parent, a_new->master_name, a_new);
 		for (sl = a_new->slaves; sl; sl = sl->next) {
-			alternative_ref(a_new);
 			alternative_map_add(alt_map_links, sl->link, a_new);
-			alternative_ref(a_new);
 			alternative_map_add(alt_map_parent, sl->name, a_new);
 		}
+
+		alternative_unref(a_new);
 	}
 	altdb_free_namelist(table, count);
 }
