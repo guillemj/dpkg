@@ -164,6 +164,7 @@ test_pkg_hash(void)
 		}
 	}
 	pkg_hash_iter_free(iter);
+	test_pass(pkginstance == 5);
 
 	pkg_hash_reset();
 	test_pass(pkg_hash_count_set() == 0);
@@ -172,7 +173,7 @@ test_pkg_hash(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(71);
+	test_plan(72);
 
 	test_pkg_hash();
 }
