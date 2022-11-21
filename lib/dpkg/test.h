@@ -64,7 +64,7 @@ test_alloc(void *ptr, const char *reason)
 	test_alloc((ptr), "cannot allocate memory for " #ptr " in " __FILE__ ":" test_stringify(__LINE__))
 
 #define test_try(jmp) \
-	push_error_context_jump(&(jmp), NULL, "test try"); \
+	push_error_context_jump(&(jmp), DPKG_NULL, "test try"); \
 	if (!setjmp((jmp)))
 #define test_catch \
 	else
@@ -87,7 +87,7 @@ static inline bool
 test_is_verbose(void)
 {
 	const char *verbose = getenv("TEST_VERBOSE");
-	return verbose != NULL && strcmp(verbose, "1") == 0;
+	return verbose != DPKG_NULL && strcmp(verbose, "1") == 0;
 }
 
 #ifndef TEST_OMIT_VARIABLES
