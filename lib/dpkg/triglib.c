@@ -358,12 +358,14 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg,
 
 	while (trk_explicit_f && trk_explicit_fgets(buf, sizeof(buf)) >= 0) {
 		const char *pkgname = pkgbin_name(pkg, pkgbin, pnaw_nonambig);
-		size_t len = strlen(pkgname);
+		enum trig_options trig_opts;
 
-		if (strncmp(buf, pkgname, len) == 0 && len < sizeof(buf) &&
-		    (buf[len] == '\0' || buf[len] == '/'))
+		trig_opts = trig_parse_trigger_options(buf);
+
+		if (strcmp(buf, pkgname) == 0)
 			continue;
-		fprintf(file->fp, "%s\n", buf);
+		fprintf(file->fp, "%s%s\n", buf,
+		        trig_dump_trigger_options(trig_opts));
 		empty = false;
 	}
 	if (signum > 0) {
