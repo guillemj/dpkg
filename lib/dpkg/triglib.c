@@ -186,6 +186,38 @@ invalid:
 	return &tki_unknown;
 }
 
+static const char *
+trig_dump_trigger_options(enum trig_options opts)
+{
+	if (opts == TRIG_NOAWAIT)
+		return "/noawait";
+	return "";
+}
+
+/*
+ * Modifies the trigger string by removing the options at the ‘/’ delimiter
+ * and truncating it with a NUL character.
+ */
+static enum trig_options
+trig_parse_trigger_options(char *trigger)
+{
+	char *slash;
+
+	slash = strchr(trigger, '/');
+	if (slash == NULL)
+		return TRIG_AWAIT;
+
+	*slash++ = '\0';
+	if (strcmp("noawait", slash) == 0)
+		return TRIG_NOAWAIT;
+	if (strcmp("await", slash) == 0)
+		return TRIG_AWAIT;
+
+	/* XXX: Should perhaps warn or error for unknown keywords. */
+
+	return TRIG_AWAIT;
+}
+
 /*
  * Calling sequence is:
  *  trig_activate_start(triggername);
@@ -296,17 +328,9 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 
 	while (trk_explicit_fgets(buf, sizeof(buf)) >= 0) {
 		struct dpkg_error err;
-		char *slash;
-		bool noawait = false;
-		slash = strchr(buf, '/');
-		if (slash && strcmp("/noawait", slash) == 0) {
-			noawait = true;
-			*slash = '\0';
-		}
-		if (slash && strcmp("/await", slash) == 0) {
-			noawait = false;
-			*slash = '\0';
-		}
+		enum trig_options opts;
+
+		opts = trig_parse_trigger_options(buf);
 
 		pend = pkg_spec_parse_pkg(buf, &err);
 		if (pend == NULL)
@@ -314,7 +338,7 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 			         "illegal package name '%.250s': %.250s"),
 			       trk_explicit_fn.buf, buf, err.str);
 
-		trig_record_activation(pend, noawait ? NULL : aw,
+		trig_record_activation(pend, opts == TRIG_NOAWAIT ? NULL : aw,
 		                       trk_explicit_trig);
 	}
 }
@@ -345,7 +369,7 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg,
 	if (signum > 0) {
 		fprintf(file->fp, "%s%s\n",
 		        pkgbin_name(pkg, pkgbin, pnaw_nonambig),
-		        (opts == TRIG_NOAWAIT) ? "/noawait" : "");
+		        trig_dump_trigger_options(opts));
 		empty = false;
 	}
 
@@ -465,7 +489,7 @@ trig_file_interests_update(void)
 	for (tfi = filetriggers.head; tfi; tfi = tfi->inoverall.next)
 		fprintf(file->fp, "%s %s%s\n", trigh.namenode_name(tfi->fnn),
 		        pkgbin_name(tfi->pkg, tfi->pkgbin, pnaw_nonambig),
-		        (tfi->options == TRIG_NOAWAIT) ? "/noawait" : "");
+		        trig_dump_trigger_options(tfi->options));
 
 	atomic_file_sync(file);
 	atomic_file_close(file);
@@ -511,23 +535,15 @@ trig_file_interests_ensure(void)
 	push_cleanup(cu_closestream, ~0, 1, f);
 	while (fgets_checked(linebuf, sizeof(linebuf), f, triggersfilefile) >= 0) {
 		struct dpkg_error err;
-		char *slash;
-		enum trig_options trig_opts = TRIG_AWAIT;
+		enum trig_options trig_opts;
+
 		space = strchr(linebuf, ' ');
 		if (!space || linebuf[0] != '/')
 			ohshit(_("syntax error in file triggers file '%.250s'"),
 			       triggersfilefile);
 		*space++ = '\0';
 
-		slash = strchr(space, '/');
-		if (slash && strcmp("/noawait", slash) == 0) {
-			trig_opts = TRIG_NOAWAIT;
-			*slash = '\0';
-		}
-		if (slash && strcmp("/await", slash) == 0) {
-			trig_opts = TRIG_AWAIT;
-			*slash = '\0';
-		}
+		trig_opts = trig_parse_trigger_options(space);
 
 		pkg = pkg_spec_parse_pkg(space, &err);
 		if (pkg == NULL)
