@@ -1,7 +1,7 @@
 # Copied from /usr/share/perl5/Debconf/Gettext.pm
 #
 # Copyright © 2000 Joey Hess <joeyh@debian.org>
-# Copyright © 2007, 2009-2010, 2012-2017 Guillem Jover <guillem@debian.org>
+# Copyright © 2007-2022 Guillem Jover <guillem@debian.org>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -30,9 +30,10 @@ use strict;
 use warnings;
 use feature qw(state);
 
-our $VERSION = '2.00';
+our $VERSION = '2.01';
 our @EXPORT = qw(
     textdomain
+    gettext
     ngettext
     g_
     P_
@@ -95,6 +96,12 @@ Compatibility textdomain() fallback when Locale::gettext is not available.
 If $new_domain is not undef, it will set the current domain to $new_domain.
 Returns the current domain, after possibly changing it.
 
+=item $trans = gettext($msgid)
+
+Compatibility gettext() fallback when Locale::gettext is not available.
+
+Returns $msgid.
+
 =item $trans = ngettext($msgid, $msgid_plural, $n)
 
 Compatibility ngettext() fallback when Locale::gettext is not available.
@@ -141,6 +148,10 @@ BEGIN {
             $domain = $new_domain if defined $new_domain;
 
             return $domain;
+        };
+        *gettext = sub {
+            my $msgid = shift;
+            return $msgid;
         };
         *ngettext = sub {
             my ($msgid, $msgid_plural, $n) = @_;
@@ -189,6 +200,10 @@ sub N_
 }
 
 =head1 CHANGES
+
+=head2 Version 2.01 (dpkg 1.21.10)
+
+New function: gettext().
 
 =head2 Version 2.00 (dpkg 1.20.0)
 
