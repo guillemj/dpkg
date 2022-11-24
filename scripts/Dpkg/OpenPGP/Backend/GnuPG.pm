@@ -206,7 +206,7 @@ sub _gpg_options_weak_digests {
 sub _gpg_verify {
     my ($self, $signeddata, $sig, $data, @certs) = @_;
 
-    return OPENPGP_MISSING_CMD if ! $self->{cmdv} || ! $self->{cmd};
+    return OPENPGP_MISSING_CMD if ! $self->has_verify_cmd();
 
     my $gpg_home = File::Temp->newdir('dpkg-gpg-verify.XXXXXXXX', TMPDIR => 1);
 
