@@ -41,27 +41,51 @@
 
 #if DPKG_GCC_VERSION >= 0x0300
 #define DPKG_ATTR_UNUSED	__attribute__((unused))
+#else
+#define DPKG_ATTR_UNUSED
+#endif
+
+#if DPKG_GCC_VERSION >= 0x0300
 #define DPKG_ATTR_CONST		__attribute__((const))
+#else
+#define DPKG_ATTR_CONST
+#endif
+
+#if DPKG_GCC_VERSION >= 0x0300
 #define DPKG_ATTR_PURE		__attribute__((pure))
+#else
+#define DPKG_ATTR_PURE
+#endif
+
+#if DPKG_GCC_VERSION >= 0x0300
 #define DPKG_ATTR_MALLOC	__attribute__((malloc))
+#else
+#define DPKG_ATTR_MALLOC
+#endif
+
+#if DPKG_GCC_VERSION >= 0x0300
 #define DPKG_ATTR_NORET		__attribute__((noreturn))
+#else
+#define DPKG_ATTR_NORET
+#endif
+
+#if DPKG_GCC_VERSION >= 0x0300
 #define DPKG_ATTR_PRINTF(n)	__attribute__((format(printf, n, n + 1)))
 #define DPKG_ATTR_VPRINTF(n)	__attribute__((format(printf, n, 0)))
 #else
-#define DPKG_ATTR_UNUSED
-#define DPKG_ATTR_CONST
-#define DPKG_ATTR_PURE
-#define DPKG_ATTR_MALLOC
-#define DPKG_ATTR_NORET
 #define DPKG_ATTR_PRINTF(n)
 #define DPKG_ATTR_VPRINTF(n)
 #endif
 
 #if DPKG_GCC_VERSION > 0x0302
 #define DPKG_ATTR_NONNULL(...)	__attribute__((nonnull(__VA_ARGS__)))
-#define DPKG_ATTR_REQRET	__attribute__((warn_unused_result))
 #else
 #define DPKG_ATTR_NONNULL(...)
+#endif
+
+#if DPKG_GCC_VERSION > 0x0302
+#define DPKG_ATTR_REQRET	__attribute__((warn_unused_result))
+#else
 #define DPKG_ATTR_REQRET
 #endif
 
