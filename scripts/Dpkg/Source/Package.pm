@@ -59,6 +59,7 @@ use Dpkg::Path qw(check_files_are_the_same check_directory_traversal);
 use Dpkg::Vendor qw(run_vendor_hook);
 use Dpkg::Source::Format;
 use Dpkg::OpenPGP;
+use Dpkg::OpenPGP::ErrorCodes;
 
 my $diff_ignore_default_regex = '
 # Ignore general backup files
