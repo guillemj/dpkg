@@ -213,8 +213,8 @@ sub new {
         fields => Dpkg::Control->new(type => CTRL_PKG_SRC),
         format => Dpkg::Source::Format->new(),
         options => {},
-        checksums => Dpkg::Checksums->new(needs => { api => 'verify' }),
-        openpgp => Dpkg::OpenPGP->new(),
+        checksums => Dpkg::Checksums->new(),
+        openpgp => Dpkg::OpenPGP->new(needs => { api => 'verify' }),
     };
     bless $self, $class;
     if (exists $args{options}) {
