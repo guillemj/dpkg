@@ -8,17 +8,17 @@ m4_pattern_allow([^DPKG_DATADIR$])
 # Options.
 #
 
-m4_define([DPKG_INSTDIR], [dpkginst])
-m4_define([DPKG_ADMINDIR], [dpkgdb])
+m4_define([DPKG_DIR_INST], [dpkginst])
+m4_define([DPKG_DIR_ADMIN], [dpkgdb])
 
 # DPKG_OPTIONS_COMMON
 m4_define([DPKG_OPTIONS_COMMON], [dnl
-  --admindir=DPKG_ADMINDIR dnl
+  --admindir=DPKG_DIR_ADMIN dnl
 ])
 
 # DPKG_DIVERT_OPTIONS
 m4_define([DPKG_DIVERT_OPTIONS], [dnl
-  --instdir=DPKG_INSTDIR dnl
+  --instdir=DPKG_DIR_INST dnl
 ])
 
 # DPKG_DIVERT(...)
@@ -42,38 +42,38 @@ m4_define([DPKG_FILE_SIZE], [
 
 # DPKG_GEN_FSYS()
 m4_define([DPKG_GEN_DB], [
-  mkdir -p DPKG_INSTDIR
+  mkdir -p DPKG_DIR_INST
 ])
 
 # DPKG_GEN_FSYS_DIR([$dirname])
 m4_define([DPKG_GEN_FSYS_DIR], [
-  mkdir -p "DPKG_INSTDIR/$1"
+  mkdir -p "DPKG_DIR_INST/$1"
 ])
 
 # DPKG_GEN_FSYS_FILE([$filename], [$contents])
 m4_define([DPKG_GEN_FSYS_FILE], [
-  mkdir -p "DPKG_INSTDIR/$(dirname '$1')"
-  AT_DATA([DPKG_INSTDIR/$1], [$2])
+  mkdir -p "DPKG_DIR_INST/$(dirname '$1')"
+  AT_DATA([DPKG_DIR_INST/$1], [$2])
 ])
 
 # DPKG_GEN_FSYS_LINK([$pathname], [$target])
 m4_define([DPKG_GEN_FSYS_LINK], [
-  ln "DPKG_INSTDIR/$1" "DPKG_INSTDIR/$2"
+  ln "DPKG_DIR_INST/$1" "DPKG_DIR_INST/$2"
 ])
 
 # DPKG_CHECK_FSYS_PATH_EXISTS([$pathname])
 m4_define([DPKG_CHECK_FSYS_PATH_EXISTS], [
-  AT_CHECK([test -e "DPKG_INSTDIR/$1"])
+  AT_CHECK([test -e "DPKG_DIR_INST/$1"])
 ])
 
 # DPKG_CHECK_FSYS_PATH_MISSING([$pathname])
 m4_define([DPKG_CHECK_FSYS_PATH_MISSING], [
-  AT_CHECK([test -e "DPKG_INSTDIR/$1"], [1])
+  AT_CHECK([test -e "DPKG_DIR_INST/$1"], [1])
 ])
 
 # DPKG_MOD_FSYS_MODE([$mode], [$pathname])
 m4_define([DPKG_MOD_FSYS_MODE], [
-  chmod $1 "DPKG_INSTDIR/$2"
+  chmod $1 "DPKG_DIR_INST/$2"
 ])
 
 # DPKG_TMPL_CONTROL([$pkgname])
@@ -88,25 +88,25 @@ Description: test package])
 
 # DPKG_GEN_DB_STATUS([$contents])
 m4_define([DPKG_GEN_DB_STATUS], [
-  mkdir -p "DPKG_ADMINDIR"
-  AT_DATA([DPKG_ADMINDIR/status], [$1])
+  mkdir -p "DPKG_DIR_ADMIN"
+  AT_DATA([DPKG_DIR_ADMIN/status], [$1])
 ])
 
 # DPKG_GEN_DB_DIVERSIONS([$contents])
 m4_define([DPKG_GEN_DB_DIVERSIONS], [
-  mkdir -p "DPKG_ADMINDIR"
-  AT_DATA([DPKG_ADMINDIR/diversions], [$1])
+  mkdir -p "DPKG_DIR_ADMIN"
+  AT_DATA([DPKG_DIR_ADMIN/diversions], [$1])
 ])
 
 # DPKG_GEN_DB_INFO_FILE([$pkg], [$file], [$contents])
 m4_define([DPKG_GEN_DB_INFO_FILE], [
-  mkdir -p "DPKG_ADMINDIR/info"
-  AT_DATA([DPKG_ADMINDIR/info/$1.$2], [$3])
+  mkdir -p "DPKG_DIR_ADMIN/info"
+  AT_DATA([DPKG_DIR_ADMIN/info/$1.$2], [$3])
 ])
 
 # DPKG_MOD_DB_MODE([$mode], [$pathname])
 m4_define([DPKG_MOD_DB_MODE], [
-  chmod $1 "DPKG_ADMINDIR/$2"
+  chmod $1 "DPKG_DIR_ADMIN/$2"
 ])
 
 # DPKG_GEN_CTRL_FILE([$pkgname], [$file], [$contents])

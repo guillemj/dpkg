@@ -171,7 +171,7 @@ AT_CHECK([DPKG_DIVERT --rename --add /testdir/foo], [], [stdout])
 AT_CHECK([grep -q "Adding.*local.*diversion.* /testdir/foo.* /testdir/foo.distrib" stdout])
 DPKG_CHECK_FSYS_PATH_MISSING([/testdir/foo])
 DPKG_CHECK_FSYS_PATH_EXISTS([/testdir/foo.distrib])
-AT_CHECK([diff -u ref-diversions DPKG_ADMINDIR/diversions])
+AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -189,7 +189,7 @@ AT_CHECK([DPKG_DIVERT --no-rename --add /testdir/foo], [], [stdout])
 AT_CHECK([grep -q "Adding.*local.*diversion.* /testdir/foo.* /testdir/foo.distrib" stdout])
 DPKG_CHECK_FSYS_PATH_EXISTS([/testdir/foo])
 DPKG_CHECK_FSYS_PATH_MISSING([/testdir/foo.distrib])
-AT_CHECK([diff -u ref-diversions DPKG_ADMINDIR/diversions])
+AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -206,7 +206,7 @@ AT_DATA([ref-diversions], [/testdir/foo
 AT_CHECK([DPKG_DIVERT --quiet --rename --add /testdir/foo])
 DPKG_CHECK_FSYS_PATH_MISSING([/testdir/foo])
 DPKG_CHECK_FSYS_PATH_EXISTS([/testdir/foo.distrib])
-AT_CHECK([diff -u ref-diversions DPKG_ADMINDIR/diversions])
+AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -219,7 +219,7 @@ DPKG_GEN_DB_DIVERSIONS([])
 AT_CHECK([DPKG_DIVERT --quiet --rename --test /testdir/foo])
 DPKG_CHECK_FSYS_PATH_EXISTS([/testdir/foo])
 DPKG_CHECK_FSYS_PATH_MISSING([/testdir/foo.distrib])
-AT_CHECK([cat DPKG_ADMINDIR/diversions])
+AT_CHECK([cat DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -236,7 +236,7 @@ AT_DATA([ref-diversions], [/testdir/foo
 AT_CHECK([DPKG_DIVERT --quiet --rename /testdir/foo])
 DPKG_CHECK_FSYS_PATH_MISSING([/testdir/foo])
 DPKG_CHECK_FSYS_PATH_MISSING([/testdir/foo.distrib])
-AT_CHECK([diff -u ref-diversions DPKG_ADMINDIR/diversions])
+AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -253,7 +253,7 @@ AT_DATA([ref-diversions], [/testdir/foo
 AT_CHECK([DPKG_DIVERT --quiet --local --rename /testdir/foo])
 DPKG_CHECK_FSYS_PATH_MISSING([/testdir/foo])
 DPKG_CHECK_FSYS_PATH_EXISTS([/testdir/foo.distrib])
-AT_CHECK([diff -u ref-diversions DPKG_ADMINDIR/diversions])
+AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -267,7 +267,7 @@ bash
 ])
 
 AT_CHECK([DPKG_DIVERT --quiet --rename --package bash /testdir/foo])
-AT_CHECK([diff -u ref-diversions DPKG_ADMINDIR/diversions])
+AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -285,7 +285,7 @@ AT_DATA([ref-diversions], [/testdir/foo
 AT_CHECK([DPKG_DIVERT --quiet --rename /testdir/foo])
 DPKG_CHECK_FSYS_PATH_MISSING([/testdir/foo])
 DPKG_CHECK_FSYS_PATH_EXISTS([/testdir/foo.distrib])
-AT_CHECK([diff -u ref-diversions DPKG_ADMINDIR/diversions])
+AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -298,7 +298,7 @@ DPKG_GEN_DB_DIVERSIONS([])
 
 AT_CHECK([DPKG_DIVERT --quiet --rename /testdir/foo], [2], [], [stderr])
 AT_CHECK([grep -q 'error: rename involves overwriting' stderr])
-AT_CHECK([cat DPKG_ADMINDIR/diversions])
+AT_CHECK([cat DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -312,7 +312,7 @@ AT_DATA([ref-diversions], [/testdir/zoo/foo
 ])
 
 AT_CHECK([DPKG_DIVERT --quiet --rename --add /testdir/zoo/foo])
-AT_CHECK([diff -u ref-diversions DPKG_ADMINDIR/diversions])
+AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -335,7 +335,7 @@ AT_CHECK([DPKG_DIVERT --quiet --rename --divert /testdir/rodir/bar --add /testdi
          [2], [], [stderr])
 AT_CHECK([grep -q 'error: .* Permission denied' stderr])
 
-AT_CHECK([cat DPKG_ADMINDIR/diversions])
+AT_CHECK([cat DPKG_DIR_ADMIN/diversions])
 
 DPKG_MOD_FSYS_MODE([755], [/testdir/rodir])
 AT_CLEANUP
@@ -357,10 +357,10 @@ AT_CHECK([DPKG_DIVERT --quiet --rename --divert /testdir/nadir/foo --add /testdi
          [2], [], [stderr])
 AT_CHECK([grep -q 'error: .* Permission denied' stderr])
 
-AT_CHECK([cat DPKG_ADMINDIR/diversions])
+AT_CHECK([cat DPKG_DIR_ADMIN/diversions])
 
 # On FreeBSD «rm -rf» cannot traverse a directory with mode 000.
-rmdir DPKG_INSTDIR/testdir/nadir
+rmdir DPKG_DIR_INST/testdir/nadir
 
 AT_CLEANUP
 
@@ -440,7 +440,7 @@ coreutils
 AT_CHECK([DPKG_DIVERT --quiet --rename --package coreutils --add /testdir/foo])
 DPKG_CHECK_FSYS_PATH_EXISTS([/testdir/foo])
 DPKG_CHECK_FSYS_PATH_MISSING([/testdir/foo.distrib])
-AT_CHECK([diff -u ref-diversions DPKG_ADMINDIR/diversions])
+AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -487,7 +487,7 @@ AT_CHECK([DPKG_DIVERT --rename --divert /testdir/foo.distrib --remove /testdir/f
          [], [stdout])
 AT_CHECK([grep -qE 'Removing .*/testdir/foo' stdout])
 
-AT_CHECK([diff -u ref-diversions DPKG_ADMINDIR/diversions])
+AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -510,7 +510,7 @@ AT_CHECK([DPKG_DIVERT --quiet --no-rename --add /testdir/baz])
 AT_CHECK([DPKG_DIVERT --no-rename --remove /testdir/bar], [], [stdout])
 AT_CHECK([grep -qE 'Removing .* /testdir/bar' stdout])
 
-AT_CHECK([diff -u ref-diversions DPKG_ADMINDIR/diversions])
+AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -532,7 +532,7 @@ AT_CHECK([DPKG_DIVERT --quiet --no-rename --package bash /testdir/baz])
 
 AT_CHECK([DPKG_DIVERT --no-rename --quiet --package bash --remove /testdir/baz])
 
-AT_CHECK([diff -u ref-diversions DPKG_ADMINDIR/diversions])
+AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -552,12 +552,12 @@ AT_CHECK([DPKG_DIVERT --test --rename --remove /testdir/foo], [], [stdout])
 AT_CHECK([grep -q 'Removing .*/testdir/foo' stdout])
 DPKG_CHECK_FSYS_PATH_MISSING([/testdir/foo])
 DPKG_CHECK_FSYS_PATH_EXISTS([/testdir/foo.distrib])
-AT_CHECK([diff -u ref-diversions DPKG_ADMINDIR/diversions])
+AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
 AT_CHECK([DPKG_DIVERT --quiet --rename --remove /testdir/foo])
 DPKG_CHECK_FSYS_PATH_EXISTS([/testdir/foo])
 DPKG_CHECK_FSYS_PATH_MISSING([/testdir/foo.distrib])
-AT_CHECK([cat DPKG_ADMINDIR/diversions])
+AT_CHECK([cat DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
 
@@ -617,7 +617,7 @@ AT_SKIP_IF([test -n "$FAKEROOTKEY" || test "$(id -u)" = 0])
 AT_SKIP_IF([! test -c /dev/full])
 
 DPKG_GEN_DB_DIVERSIONS([])
-ln -s /dev/full DPKG_ADMINDIR/diversions-new
+ln -s /dev/full DPKG_DIR_ADMIN/diversions-new
 
 AT_CHECK([DPKG_DIVERT --rename --add /testdir/foo], [2], [stdout], [stderr])
 AT_CHECK([grep -q 'Adding' stdout])
@@ -629,8 +629,8 @@ AT_SETUP([dpkg-divert db (pathname is dir)])
 AT_KEYWORDS([dpkg-divert db])
 
 DPKG_GEN_DB_DIVERSIONS([])
-rm -f DPKG_ADMINDIR/diversions-new
-mkdir DPKG_ADMINDIR/diversions-old
+rm -f DPKG_DIR_ADMIN/diversions-new
+mkdir DPKG_DIR_ADMIN/diversions-old
 
 AT_CHECK([DPKG_DIVERT --rename --add /testdir/foo], [2], [stdout], [stderr])
 AT_CHECK([grep -q 'Adding' stdout])
