@@ -84,6 +84,9 @@ void setobsolete(const struct cmdinfo *cip, const char *value);
 #define OBSOLETE(longopt, shortopt) \
  { longopt, shortopt, 0, NULL, NULL, setobsolete, 0, NULL, NULL }
 
+void
+set_admindir(const struct cmdinfo *cip, const char *value);
+
 /** @} */
 
 DPKG_END_DECLS

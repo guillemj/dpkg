@@ -92,6 +92,7 @@ libdpkg_la_SOURCES = \
 	namevalue.c \
 	nfmalloc.c \
 	options.c \
+	options-dirs.c \
 	options-parsers.c \
 	pager.c \
 	parse.c \
