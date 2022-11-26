@@ -190,7 +190,7 @@ verify_package(struct pkginfo *pkg)
 		fnn = namenodetouse(file->namenode, pkg, &pkg->installed);
 
 		varbuf_reset(&filename);
-		varbuf_add_str(&filename, instdir);
+		varbuf_add_str(&filename, dpkg_fsys_get_dir());
 		varbuf_add_str(&filename, fnn->name);
 		varbuf_end_str(&filename);
 

@@ -425,7 +425,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
     break;
   case TAR_FILETYPE_HARDLINK:
     varbuf_reset(&hardlinkfn);
-    varbuf_add_str(&hardlinkfn, instdir);
+    varbuf_add_str(&hardlinkfn, dpkg_fsys_get_dir());
     linknode = fsys_hash_find_node(te->linkname, 0);
     varbuf_add_str(&hardlinkfn,
                    namenodetouse(linknode, tc->pkg, &tc->pkg->available)->name);
@@ -639,7 +639,7 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
   /* But is it to the same dir? */
   varbuf_reset(symlinkfn);
   if (ti->linkname[0] == '/') {
-    varbuf_add_str(symlinkfn, instdir);
+    varbuf_add_str(symlinkfn, dpkg_fsys_get_dir());
   } else {
     lastslash= strrchr(fname, '/');
     if (lastslash == NULL)
@@ -1583,9 +1583,9 @@ archivefiles(const char *const *argv)
   varbuf_reset(&fnametmpvb);
   varbuf_reset(&fnamenewvb);
 
-  varbuf_add_str(&fnamevb, instdir);
-  varbuf_add_str(&fnametmpvb, instdir);
-  varbuf_add_str(&fnamenewvb, instdir);
+  varbuf_add_str(&fnamevb, dpkg_fsys_get_dir());
+  varbuf_add_str(&fnametmpvb, dpkg_fsys_get_dir());
+  varbuf_add_str(&fnamenewvb, dpkg_fsys_get_dir());
 
   varbuf_snapshot(&fnamevb, &fname_state);
   varbuf_snapshot(&fnametmpvb, &fnametmp_state);

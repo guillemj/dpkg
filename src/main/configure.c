@@ -705,7 +705,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 	int loopprotect;
 
 	varbuf_reset(result);
-	varbuf_add_str(result, instdir);
+	varbuf_add_str(result, dpkg_fsys_get_dir());
 	varbuf_add_str(result, in);
 	varbuf_end_str(result);
 
@@ -764,7 +764,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 
 			if (target.buf[0] == '/') {
 				varbuf_reset(result);
-				varbuf_add_str(result, instdir);
+				varbuf_add_str(result, dpkg_fsys_get_dir());
 				debug(dbg_conffdetail,
 				      "conffderef readlink absolute");
 			} else {

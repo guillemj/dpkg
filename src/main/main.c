@@ -200,7 +200,7 @@ int f_triggers = 0;
 
 int errabort = 50;
 static const char *admindir;
-const char *instdir;
+static const char *instdir;
 struct pkg_list *ignoredependss = NULL;
 
 #define DBG_DEF(n, d) \

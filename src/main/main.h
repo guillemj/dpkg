@@ -76,7 +76,6 @@ extern int f_triggers;
 
 extern bool abort_processing;
 extern int errabort;
-extern const char *instdir;
 extern struct pkg_list *ignoredependss;
 
 struct invoke_hook {

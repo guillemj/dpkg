@@ -776,7 +776,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
           struct stat tmp_stat;
 
           varbuf_reset(&cfilename);
-          varbuf_add_str(&cfilename, instdir);
+          varbuf_add_str(&cfilename, dpkg_fsys_get_dir());
           varbuf_add_str(&cfilename, cfile->namenode->name);
           varbuf_end_str(&cfilename);
 

@@ -52,7 +52,7 @@ static const char printforhelp[] = N_(
 "Use --help for help about diverting files.");
 
 static const char *admindir;
-const char *instdir;
+static const char *instdir;
 
 static bool opt_pkgname_match_any = true;
 static const char *opt_pkgname = NULL;

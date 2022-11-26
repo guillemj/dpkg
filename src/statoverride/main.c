@@ -109,7 +109,7 @@ usage(const char *const *argv)
 	FORCE_SECURITY_MAC | FORCE_STATOVERRIDE_ADD | FORCE_STATOVERRIDE_DEL
 
 static const char *admindir;
-const char *instdir;
+static const char *instdir;
 
 static int opt_verbose = 1;
 static int opt_update = 0;

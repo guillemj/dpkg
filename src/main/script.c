@@ -96,6 +96,7 @@ setexecute(const char *path, struct stat *stab)
 static const char *
 maintscript_pre_exec(struct command *cmd)
 {
+	const char *instdir = dpkg_fsys_get_dir();
 	const char *admindir = dpkg_db_get_dir();
 	const char *changedir;
 	size_t instdirlen = strlen(instdir);
