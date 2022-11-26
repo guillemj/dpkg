@@ -215,9 +215,12 @@ do_trigger(const char *const *argv)
 }
 
 static int
-do_check(void)
+do_check(const char *const *argv)
 {
 	enum trigdef_update_status uf;
+
+	if (*argv)
+		badusage(_("--%s takes no arguments"), "check-supported");
 
 	uf = trigdef_update_start(TDUF_NO_LOCK_OK);
 	switch (uf) {
@@ -261,10 +264,7 @@ main(int argc, const char *const *argv)
 	admindir = dpkg_db_set_dir(admindir);
 
 	if (f_check) {
-		if (*argv)
-			badusage(_("--%s takes no arguments"),
-			         "check-supported");
-		return do_check();
+		ret = do_check(argv);
 	} else {
 		ret = do_trigger(argv);
 	}
