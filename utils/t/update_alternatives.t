@@ -340,7 +340,7 @@ call_ua_dirs(
     expected => "root=/rootdir_opt admdir=/rootdir_opt$DEFAULT_ADMINDIR",
 );
 
-# DPKG_ROOT + options
+# ENV_ROOT + options
 call_ua_dirs(
     env => { $rootdir_envvar => '/rootdir_env' },
     params => [ qw(--root /rootdir_opt) ],
