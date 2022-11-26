@@ -48,13 +48,8 @@ dpkg_fsys_set_dir(const char *dir)
 {
 	char *fsys_dir_new;
 
-	if (dir == NULL) {
-		const char *env;
-
-		env = getenv("DPKG_ROOT");
-		if (env)
-			dir = env;
-	}
+	if (dir == NULL)
+		dir = getenv("DPKG_ROOT");
 
 	if (dir == NULL) {
 		fsys_dir = "";
