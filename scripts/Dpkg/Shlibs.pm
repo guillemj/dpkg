@@ -168,7 +168,9 @@ sub find_library {
 	my $checkdir = "$root$dir";
 	if (-e "$checkdir/$lib") {
 	    my $libformat = Dpkg::Shlibs::Objdump::get_format("$checkdir/$lib");
-	    if ($format eq $libformat) {
+            if (not defined $libformat) {
+                warning(g_("unknown executable format in file '%s'"), "$checkdir/$lib");
+            } elsif ($format eq $libformat) {
 		push @libs, canonpath("$checkdir/$lib");
 	    } else {
 		debug(1, "Skipping lib $checkdir/$lib, libabi=0x%s != objabi=0x%s",
