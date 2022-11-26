@@ -178,6 +178,43 @@ static const struct trigdefmeths tdm_add = {
 };
 
 static int
+do_trigger(const char *const *argv)
+{
+	const char *badname;
+	enum trigdef_update_flags tduf;
+	enum trigdef_update_status tdus;
+
+	if (!*argv || argv[1])
+		badusage(_("takes one argument, the trigger name"));
+
+	badname = parse_awaiter_package();
+	if (badname)
+		badusage(_("illegal awaited package name '%.250s': %.250s"),
+		         bypackage, badname);
+
+	activate = argv[0];
+	badname = trig_name_is_illegal(activate);
+	if (badname)
+		badusage(_("invalid trigger name '%.250s': %.250s"),
+		         activate, badname);
+
+	trigdef_set_methods(&tdm_add);
+
+	tduf = TDUF_NO_LOCK_OK;
+	if (!f_noact)
+		tduf |= TDUF_WRITE | TDUF_WRITE_IF_EMPTY;
+	tdus = trigdef_update_start(tduf);
+	if (tdus >= 0) {
+		trigdef_parse();
+		if (!done_trig)
+			trigdef_update_printf("%s %s\n", activate, bypackage);
+		trigdef_process_done();
+	}
+
+	return 0;
+}
+
+static int
 do_check(void)
 {
 	enum trigdef_update_status uf;
@@ -214,9 +251,7 @@ static const struct cmdinfo cmdinfos[] = {
 int
 main(int argc, const char *const *argv)
 {
-	const char *badname;
-	enum trigdef_update_flags tduf;
-	enum trigdef_update_status tdus;
+	int ret;
 
 	dpkg_locales_init(PACKAGE);
 	dpkg_program_init("dpkg-trigger");
@@ -230,37 +265,12 @@ main(int argc, const char *const *argv)
 			badusage(_("--%s takes no arguments"),
 			         "check-supported");
 		return do_check();
-	}
-
-	if (!*argv || argv[1])
-		badusage(_("takes one argument, the trigger name"));
-
-	badname = parse_awaiter_package();
-	if (badname)
-		badusage(_("illegal awaited package name '%.250s': %.250s"),
-		         bypackage, badname);
-
-	activate = argv[0];
-	badname = trig_name_is_illegal(activate);
-	if (badname)
-		badusage(_("invalid trigger name '%.250s': %.250s"),
-		         activate, badname);
-
-	trigdef_set_methods(&tdm_add);
-
-	tduf = TDUF_NO_LOCK_OK;
-	if (!f_noact)
-		tduf |= TDUF_WRITE | TDUF_WRITE_IF_EMPTY;
-	tdus = trigdef_update_start(tduf);
-	if (tdus >= 0) {
-		trigdef_parse();
-		if (!done_trig)
-			trigdef_update_printf("%s %s\n", activate, bypackage);
-		trigdef_process_done();
+	} else {
+		ret = do_trigger(argv);
 	}
 
 	dpkg_program_done();
 	dpkg_locales_done();
 
-	return 0;
+	return ret;
 }
