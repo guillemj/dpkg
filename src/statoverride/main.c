@@ -293,7 +293,7 @@ statoverride_add(const char *const *argv)
 		struct stat st;
 		struct varbuf realfilename = VARBUF_INIT;
 
-		varbuf_add_str(&realfilename, instdir);
+		varbuf_add_str(&realfilename, dpkg_fsys_get_dir());
 		varbuf_add_str(&realfilename, filename);
 		varbuf_end_str(&realfilename);
 

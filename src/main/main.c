@@ -763,9 +763,9 @@ int main(int argc, const char *const *argv) {
   admindir = dpkg_db_set_dir(admindir);
 
   /* Always set environment, to avoid possible security risks. */
-  if (setenv("DPKG_ADMINDIR", admindir, 1) < 0)
+  if (setenv("DPKG_ADMINDIR", dpkg_db_get_dir(), 1) < 0)
     ohshite(_("unable to setenv for subprocesses"));
-  if (setenv("DPKG_ROOT", instdir, 1) < 0)
+  if (setenv("DPKG_ROOT", dpkg_fsys_get_dir(), 1) < 0)
     ohshite(_("unable to setenv for subprocesses"));
   force_string = get_force_string();
   if (setenv("DPKG_FORCE", force_string, 1) < 0)

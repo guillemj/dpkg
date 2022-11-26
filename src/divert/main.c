@@ -147,7 +147,7 @@ file_init(struct file *f, const char *filename)
 {
 	struct varbuf usefilename = VARBUF_INIT;
 
-	varbuf_add_str(&usefilename, instdir);
+	varbuf_add_str(&usefilename, dpkg_fsys_get_dir());
 	varbuf_add_str(&usefilename, filename);
 	varbuf_end_str(&usefilename);
 
