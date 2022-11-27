@@ -200,7 +200,7 @@ int f_triggers = 0;
 
 int errabort = 50;
 static const char *admindir;
-const char *instdir= "";
+const char *instdir;
 struct pkg_list *ignoredependss = NULL;
 
 #define DBG_DEF(n, d) \
@@ -759,6 +759,7 @@ int main(int argc, const char *const *argv) {
 
   if (!cipaction) badusage(_("need an action option"));
 
+  instdir = dpkg_fsys_set_dir(instdir);
   admindir = dpkg_db_set_dir(admindir);
 
   /* Always set environment, to avoid possible security risks. */
