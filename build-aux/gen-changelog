@@ -33,6 +33,7 @@ my @sections = qw(
     arch
     port
     perl-mod
+    make-mod
     doc
     code-int
     build-sys
@@ -54,6 +55,10 @@ my %sections = (
         title => 'Perl modules',
         match => qr/^(?:Test|Dpkg|Dselect).*[,:] /,
         keep => 1,
+    },
+    'make-mod' => {
+        title => 'Make fragments',
+        match => qr{^scripts/mk: },
     },
     doc => {
         title => 'Documentation',
