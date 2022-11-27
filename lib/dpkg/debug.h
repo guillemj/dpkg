@@ -56,6 +56,7 @@ enum debugflags {
 
 void debug_set_output(FILE *output, const char *filename);
 void debug_set_mask(int mask);
+int debug_parse_mask(const char *str);
 bool debug_has_flag(int flag);
 void debug(int flag, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
 

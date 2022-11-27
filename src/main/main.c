@@ -230,7 +230,6 @@ static const struct debuginfo {
 static void
 set_debug(const struct cmdinfo *cpi, const char *value)
 {
-  char *endp;
   long mask;
   const struct debuginfo *dip;
 
@@ -250,12 +249,9 @@ set_debug(const struct cmdinfo *cpi, const char *value)
     exit(0);
   }
 
-  errno = 0;
-  mask = strtol(value, &endp, 8);
-  if (value == endp || *endp || mask < 0 || errno == ERANGE)
+  mask = debug_parse_mask(value);
+  if (mask < 0)
     badusage(_("--%s requires a positive octal argument"), cpi->olong);
-
-  debug_set_mask(mask);
 }
 
 static void

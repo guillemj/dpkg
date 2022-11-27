@@ -22,7 +22,9 @@
 #include <config.h>
 #include <compat.h>
 
+#include <errno.h>
 #include <stdarg.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 #include <dpkg/dpkg.h>
@@ -57,6 +59,28 @@ debug_set_mask(int mask)
 	debug_mask = mask;
 	if (!debug_output)
 		debug_output = stderr;
+}
+
+/**
+ * Parse the debugging mask.
+ *
+ * The mask is parsed from the specified string and sets the global debugging
+ * mask. If there is any error while parsing a negative number is returned.
+ */
+int
+debug_parse_mask(const char *str)
+{
+	char *endp;
+	long mask;
+
+	errno = 0;
+	mask = strtol(str, &endp, 8);
+	if (str == endp || *endp || mask < 0 || errno == ERANGE)
+		return -1;
+
+	debug_set_mask(mask);
+
+	return mask;
 }
 
 /**
