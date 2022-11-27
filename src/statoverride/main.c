@@ -272,6 +272,8 @@ statoverride_add(const char *const *argv)
 	if (strchr(path, '\n'))
 		badusage(_("path may not contain newlines"));
 
+	ensure_statoverrides(STATDB_PARSE_LAX);
+
 	filename = path_cleanup(path);
 
 	filestat = statdb_node_find(filename);
@@ -322,6 +324,8 @@ statoverride_remove(const char *const *argv)
 	if (!path || argv[1])
 		badusage(_("--%s needs a single argument"), "remove");
 
+	ensure_statoverrides(STATDB_PARSE_LAX);
+
 	filename = path_cleanup(path);
 
 	if (!statdb_node_remove(filename)) {
@@ -351,6 +355,8 @@ statoverride_list(const char *const *argv)
 	const char *thisarg;
 	struct glob_node *glob_list = NULL;
 	int ret = 1;
+
+	ensure_statoverrides(STATDB_PARSE_LAX);
 
 	while ((thisarg = *argv++)) {
 		char *pattern = path_cleanup(thisarg);
@@ -421,8 +427,6 @@ main(int argc, const char *const *argv)
 
 	if (!cipaction)
 		badusage(_("need an action option"));
-
-	ensure_statoverrides(STATDB_PARSE_LAX);
 
 	ret = cipaction->action(argv);
 
