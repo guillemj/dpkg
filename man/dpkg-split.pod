@@ -172,6 +172,19 @@ Specifies an alternative directory for the queue of parts awaiting
 automatic reassembly. The default is
 B<%ADMINDIR%/parts>.
 
+=item B<--admindir> I<directory>
+
+Set the administrative directory to I<directory> (since dpkg 1.21.10).
+This is where the I<statoverride> file is stored.
+Defaults to «I<%ADMINDIR%>» if B<DPKG_ADMINDIR> has not been set.
+
+=item B<--root> I<directory>
+
+Set the root directory to B<directory> (since dpkg 1.21.10),
+which sets the installation directory to «I<directory>» and
+the administrative directory to «I<directory>B<%ADMINDIR%>»
+if B<DPKG_ROOT> has not been set.
+
 =item B<-S>, B<--partsize> I<kibibytes>
 
 Specifies the maximum part size when splitting, in kibibytes (1024
@@ -248,6 +261,16 @@ memory allocations, etc.
 =head1 ENVIRONMENT
 
 =over
+
+=item B<DPKG_ROOT>
+
+If set and B<--root> option has not been specified,
+it will be used as the filesystem root directory (since dpkg 1.21.10).
+
+=item B<DPKG_ADMINDIR>
+
+If set and the B<--admindir> or B<--root> options have not been specified,
+it will be used as the B<dpkg> data directory (since dpkg 1.21.10).
 
 =item B<DPKG_DEBUG>
 

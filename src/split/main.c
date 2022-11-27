@@ -80,13 +80,15 @@ usage(const char *const *argv)
 
   printf(_(
 "Options:\n"
-"  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
-"  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
-"  -o|--output <file>               Filename, for -j (default is\n"
+"      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
+"      --admindir <directory>       Use <directory> instead of %s.\n"
+"      --root <directory>           Use <directory> instead of %s.\n"
+"  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
+"  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
-"  -Q|--npquiet                     Be quiet when -a is not a part.\n"
-"  --msdos                          Generate 8.3 filenames.\n"
-"\n"), ADMINDIR, PARTSDIR);
+"  -Q, --npquiet                    Be quiet when -a is not a part.\n"
+"      --msdos                      Generate 8.3 filenames.\n"
+"\n"), ADMINDIR, PARTSDIR, ADMINDIR, "/");
 
   printf(_(
 "Exit status:\n"
@@ -146,6 +148,8 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION("help",    '?',  0,  usage),
   ACTION("version",  0,   0,  printversion),
 
+  { "admindir",      0,   1,  NULL, NULL,             set_admindir,   0   },
+  { "root",          0,   1,  NULL, NULL,             set_root,       0   },
   { "depotdir",      0,   1,  NULL, &opt_depotdir,    NULL                },
   { "partsize",     'S',  1,  NULL, NULL,             set_part_size       },
   { "output",       'o',  1,  NULL, &opt_outputfile,  NULL                },
