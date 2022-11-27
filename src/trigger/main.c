@@ -95,7 +95,7 @@ usage(const struct cmdinfo *ci, const char *value)
 
 static const char *admindir;
 static const char *instdir;
-static int f_noact, f_check;
+static int f_noact;
 static int f_await = 1;
 
 static const char *bypackage, *activate;
@@ -238,14 +238,18 @@ do_check(const char *const *argv)
 	}
 }
 
+static const struct cmdinfo cmdinfo_trigger =
+	ACTION("trigger",          0,  0, do_trigger);
+
 static const struct cmdinfo cmdinfos[] = {
+	ACTION("check-supported",  0,  0, do_check),
+
 	{ "admindir",        0,   1, NULL,     &admindir },
 	{ "root",            0,   1, NULL,     NULL,       set_root, 0 },
 	{ "by-package",      'f', 1, NULL,     &bypackage },
 	{ "await",           0,   0, &f_await, NULL,       NULL, 1 },
 	{ "no-await",        0,   0, &f_await, NULL,       NULL, 0 },
 	{ "no-act",          0,   0, &f_noact, NULL,       NULL, 1 },
-	{ "check-supported", 0,   0, &f_check, NULL,       NULL, 1 },
 	{ "help",            '?', 0, NULL,     NULL,       usage   },
 	{ "version",         0,   0, NULL,     NULL,       printversion  },
 	{  NULL  }
@@ -263,11 +267,10 @@ main(int argc, const char *const *argv)
 	instdir = dpkg_fsys_set_dir(instdir);
 	admindir = dpkg_db_set_dir(admindir);
 
-	if (f_check) {
-		ret = do_check(argv);
-	} else {
-		ret = do_trigger(argv);
-	}
+	if (!cipaction)
+		setaction(&cmdinfo_trigger, NULL);
+
+	ret = cipaction->action(argv);
 
 	dpkg_program_done();
 	dpkg_locales_done();
