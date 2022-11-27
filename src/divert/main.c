@@ -482,6 +482,9 @@ diversion_add(const char *const *argv)
 
 	diversion_check_filename(filename);
 
+	modstatdb_open(msdbrw_readonly);
+	ensure_diversions();
+
 	file_init(&file_from, filename);
 	file_stat(&file_from);
 
@@ -521,6 +524,8 @@ diversion_add(const char *const *argv)
 
 			file_destroy(&file_from);
 			file_destroy(&file_to);
+
+			modstatdb_shutdown();
 
 			return 0;
 		}
@@ -570,6 +575,8 @@ diversion_add(const char *const *argv)
 
 	file_destroy(&file_from);
 	file_destroy(&file_to);
+
+	modstatdb_shutdown();
 
 	return 0;
 }
@@ -622,6 +629,9 @@ diversion_remove(const char *const *argv)
 
 	diversion_check_filename(filename);
 
+	modstatdb_open(msdbrw_readonly);
+	ensure_diversions();
+
 	namenode = fsys_hash_find_node(filename, FHFF_NONE);
 
 	if (namenode == NULL || namenode->divert == NULL ||
@@ -629,6 +639,7 @@ diversion_remove(const char *const *argv)
 		if (opt_verbose > 0)
 			printf(_("No diversion '%s', none removed.\n"),
 			       diversion_current(filename));
+		modstatdb_shutdown();
 		return 0;
 	}
 
@@ -661,6 +672,7 @@ diversion_remove(const char *const *argv)
 		if (opt_verbose > 0)
 			printf(_("Ignoring request to remove shared diversion '%s'.\n"),
 			       diversion_describe(contest));
+		modstatdb_shutdown();
 		return 0;
 	}
 
@@ -685,6 +697,8 @@ diversion_remove(const char *const *argv)
 	file_destroy(&file_from);
 	file_destroy(&file_to);
 
+	modstatdb_shutdown();
+
 	return 0;
 }
 
@@ -695,6 +709,9 @@ diversion_list(const char *const *argv)
 	struct fsys_namenode *namenode;
 	struct glob_node *glob_list = NULL;
 	const char *pattern;
+
+	modstatdb_open(msdbrw_readonly);
+	ensure_diversions();
 
 	while ((pattern = *argv++))
 		glob_list_prepend(&glob_list, m_strdup(pattern));
@@ -729,6 +746,8 @@ diversion_list(const char *const *argv)
 
 	glob_list_free(glob_list);
 
+	modstatdb_shutdown();
+
 	return 0;
 }
 
@@ -743,6 +762,9 @@ diversion_truename(const char *const *argv)
 
 	diversion_check_filename(filename);
 
+	modstatdb_open(msdbrw_readonly);
+	ensure_diversions();
+
 	namenode = fsys_hash_find_node(filename, FHFF_NONE);
 
 	/* Print the given name if file is not diverted. */
@@ -750,6 +772,8 @@ diversion_truename(const char *const *argv)
 		printf("%s\n", namenode->divert->useinstead->name);
 	else
 		printf("%s\n", filename);
+
+	modstatdb_shutdown();
 
 	return 0;
 }
@@ -765,6 +789,9 @@ diversion_listpackage(const char *const *argv)
 
 	diversion_check_filename(filename);
 
+	modstatdb_open(msdbrw_readonly);
+	ensure_diversions();
+
 	namenode = fsys_hash_find_node(filename, FHFF_NONE);
 
 	/* Print nothing if file is not diverted. */
@@ -777,6 +804,8 @@ diversion_listpackage(const char *const *argv)
 		printf("LOCAL\n");
 	else
 		printf("%s\n", namenode->divert->pkgset->name);
+
+	modstatdb_shutdown();
 
 	return 0;
 }
@@ -862,12 +891,7 @@ main(int argc, const char * const *argv)
 	if (!cipaction)
 		setaction(&cmdinfo_add, NULL);
 
-	modstatdb_open(msdbrw_readonly);
-	ensure_diversions();
-
 	ret = cipaction->action(argv);
-
-	modstatdb_shutdown();
 
 	dpkg_program_done();
 	dpkg_locales_done();
