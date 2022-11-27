@@ -54,6 +54,7 @@ enum debugflags {
 	dbg_triggersstupid = 040000,
 };
 
+void dpkg_debug_init(void);
 void debug_set_output(FILE *output, const char *filename);
 void debug_set_mask(int mask);
 int debug_parse_mask(const char *str);

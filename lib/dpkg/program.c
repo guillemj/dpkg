@@ -26,6 +26,7 @@
 #include <stdio.h>
 
 #include <dpkg/progname.h>
+#include <dpkg/debug.h>
 #include <dpkg/report.h>
 #include <dpkg/ehandle.h>
 #include <dpkg/program.h>
@@ -40,6 +41,7 @@ dpkg_program_init(const char *progname)
 {
 	dpkg_set_progname(progname);
 	dpkg_set_report_buffer(stdout);
+	dpkg_debug_init();
 
 	push_error_context();
 
