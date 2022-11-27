@@ -54,8 +54,8 @@
 static const char printforhelp[] = N_(
 "Use --help for help about overriding file stat information.");
 
-static void DPKG_ATTR_NORET
-printversion(const struct cmdinfo *cip, const char *value)
+static int
+printversion(const char *const *argv)
 {
 	printf(_("Debian %s version %s.\n"), dpkg_get_progname(),
 	       PACKAGE_RELEASE);
@@ -66,11 +66,11 @@ printversion(const struct cmdinfo *cip, const char *value)
 
 	m_output(stdout, _("<standard output>"));
 
-	exit(0);
+	return 0;
 }
 
-static void DPKG_ATTR_NORET
-usage(const struct cmdinfo *cip, const char *value)
+static int
+usage(const char *const *argv)
 {
 	printf(_(
 "Usage: %s [<option> ...] <command>\n"
@@ -101,7 +101,7 @@ usage(const struct cmdinfo *cip, const char *value)
 
 	m_output(stdout, _("<standard output>"));
 
-	exit(0);
+	return 0;
 }
 
 #define FORCE_STATCMD_MASK \
@@ -397,6 +397,8 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("add",    0, act_install,   statoverride_add),
 	ACTION("remove", 0, act_remove,    statoverride_remove),
 	ACTION("list",   0, act_listfiles, statoverride_list),
+	ACTION("help",   '?', act_help,    usage),
+	ACTION("version", 0,  act_version, printversion),
 
 	{ "admindir",   0,   1,  NULL,         &admindir, NULL          },
 	{ "instdir",    0,   1,  NULL,         NULL,      set_instdir,  0 },
@@ -407,8 +409,6 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "no-force",   0,   2,  NULL,         NULL,      set_force_option, 0 },
 	{ "refuse",     0,   2,  NULL,         NULL,      set_force_option, 0 },
 	{ "update",     0,   0,  &opt_update,  NULL,      NULL, 1       },
-	{ "help",       '?', 0,  NULL,         NULL,      usage         },
-	{ "version",    0,   0,  NULL,         NULL,      printversion  },
 	{  NULL,        0                                               }
 };
 

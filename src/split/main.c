@@ -41,8 +41,8 @@
 
 #include "dpkg-split.h"
 
-static void DPKG_ATTR_NORET
-printversion(const struct cmdinfo *cip, const char *value)
+static int
+printversion(const char *const *argv)
 {
   printf(_("Debian '%s' package split/join tool; version %s.\n"),
          SPLITTER, PACKAGE_RELEASE);
@@ -53,11 +53,11 @@ printversion(const struct cmdinfo *cip, const char *value)
 
   m_output(stdout, _("<standard output>"));
 
-  exit(0);
+  return 0;
 }
 
-static void DPKG_ATTR_NORET
-usage(const struct cmdinfo *cip, const char *value)
+static int
+usage(const char *const *argv)
 {
   printf(_(
 "Usage: %s [<option> ...] <command>\n"
@@ -97,7 +97,7 @@ usage(const struct cmdinfo *cip, const char *value)
 
   m_output(stdout, _("<standard output>"));
 
-  exit(0);
+  return 0;
 }
 
 static const char printforhelp[] = N_("Type dpkg-split --help for help.");
@@ -144,9 +144,9 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION("auto",    'a',  0,  do_auto),
   ACTION("listq",   'l',  0,  do_queue),
   ACTION("discard", 'd',  0,  do_discard),
+  ACTION("help",    '?',  0,  usage),
+  ACTION("version",  0,   0,  printversion),
 
-  { "help",         '?',  0,  NULL, NULL,             usage               },
-  { "version",       0,   0,  NULL, NULL,             printversion        },
   { "depotdir",      0,   1,  NULL, &opt_depotdir,    NULL                },
   { "partsize",     'S',  1,  NULL, NULL,             set_part_size       },
   { "output",       'o',  1,  NULL, &opt_outputfile,  NULL                },

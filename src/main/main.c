@@ -55,8 +55,8 @@
 #include "main.h"
 #include "filters.h"
 
-static void DPKG_ATTR_NORET
-printversion(const struct cmdinfo *ci, const char *value)
+static int
+printversion(const char *const *argv)
 {
   if (f_robot) {
     printf("%s", PACKAGE_VERSION);
@@ -70,7 +70,7 @@ printversion(const struct cmdinfo *ci, const char *value)
 
   m_output(stdout, _("<standard output>"));
 
-  exit(0);
+  return 0;
 }
 
 /*
@@ -78,8 +78,8 @@ printversion(const struct cmdinfo *ci, const char *value)
  * dpkg --command-fd
  */
 
-static void DPKG_ATTR_NORET
-usage(const struct cmdinfo *ci, const char *value)
+static int
+usage(const char *const *argv)
 {
   printf(_(
 "Usage: %s [<option>...] <command>\n"
@@ -181,7 +181,7 @@ usage(const struct cmdinfo *ci, const char *value)
 
   m_output(stdout, _("<standard output>"));
 
-  exit(0);
+  return 0;
 }
 
 static const char printforhelp[] = N_(
@@ -571,6 +571,8 @@ static const struct cmdinfo cmdinfos[]= {
 /*
   ACTION( "command-fd",                   'c', act_commandfd,   commandfd     ),
 */
+  ACTION( "help",                           '?', act_help,                 usage),
+  ACTION( "version",                         0,  act_version,              printversion),
 
   { "pre-invoke",        0,   1, NULL,          NULL,      set_invoke_hook, 0, &pre_invoke_hooks },
   { "post-invoke",       0,   1, NULL,          NULL,      set_invoke_hook, 0, &post_invoke_hooks },
@@ -606,8 +608,6 @@ static const struct cmdinfo cmdinfos[]= {
   { "refuse",            0,   2, NULL,          NULL,      set_force_option,   0 },
   { "no-force",          0,   2, NULL,          NULL,      set_force_option,   0 },
   { "debug",             'D', 1, NULL,          NULL,      set_debug,     0 },
-  { "help",              '?', 0, NULL,          NULL,      usage,         0 },
-  { "version",           0,   0, NULL,          NULL,      printversion,  0 },
   ACTIONBACKEND( "build",		'b', BACKEND),
   ACTIONBACKEND( "contents",		'c', BACKEND),
   ACTIONBACKEND( "control",		'e', BACKEND),

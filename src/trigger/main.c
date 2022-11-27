@@ -44,8 +44,8 @@
 static const char printforhelp[] = N_(
 "Type dpkg-trigger --help for help about this utility.");
 
-static void DPKG_ATTR_NORET
-printversion(const struct cmdinfo *ci, const char *value)
+static int
+printversion(const char *const *argv)
 {
 	printf(_("Debian %s package trigger utility version %s.\n"),
 	       dpkg_get_progname(), PACKAGE_RELEASE);
@@ -56,11 +56,11 @@ printversion(const struct cmdinfo *ci, const char *value)
 
 	m_output(stdout, _("<standard output>"));
 
-	exit(0);
+	return 0;
 }
 
-static void DPKG_ATTR_NORET
-usage(const struct cmdinfo *ci, const char *value)
+static int
+usage(const char *const *argv)
 {
 	printf(_(
 "Usage: %s [<option>...] <trigger-name>\n"
@@ -90,7 +90,7 @@ usage(const struct cmdinfo *ci, const char *value)
 
 	m_output(stdout, _("<standard output>"));
 
-	exit(0);
+	return 0;
 }
 
 static const char *admindir;
@@ -243,6 +243,8 @@ static const struct cmdinfo cmdinfo_trigger =
 
 static const struct cmdinfo cmdinfos[] = {
 	ACTION("check-supported",  0,  0, do_check),
+	ACTION("help",            '?', 0, usage),
+	ACTION("version",          0,  0, printversion),
 
 	{ "admindir",        0,   1, NULL,     &admindir },
 	{ "root",            0,   1, NULL,     NULL,       set_root, 0 },
@@ -250,8 +252,6 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "await",           0,   0, &f_await, NULL,       NULL, 1 },
 	{ "no-await",        0,   0, &f_await, NULL,       NULL, 0 },
 	{ "no-act",          0,   0, &f_noact, NULL,       NULL, 1 },
-	{ "help",            '?', 0, NULL,     NULL,       usage   },
-	{ "version",         0,   0, NULL,     NULL,       printversion  },
 	{  NULL  }
 };
 

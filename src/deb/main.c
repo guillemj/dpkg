@@ -47,8 +47,8 @@
 
 const char *showformat = "${Package}\t${Version}\n";
 
-static void DPKG_ATTR_NORET
-printversion(const struct cmdinfo *cip, const char *value)
+static int
+printversion(const char *const *argv)
 {
   printf(_("Debian '%s' package archive backend version %s.\n"),
          BACKEND, PACKAGE_RELEASE);
@@ -58,11 +58,11 @@ printversion(const struct cmdinfo *cip, const char *value)
 
   m_output(stdout, _("<standard output>"));
 
-  exit(0);
+  return 0;
 }
 
-static void DPKG_ATTR_NORET
-usage(const struct cmdinfo *cip, const char *value)
+static int
+usage(const char *const *argv)
 {
   printf(_(
 "Usage: %s [<option>...] <command>\n"
@@ -132,7 +132,7 @@ usage(const struct cmdinfo *cip, const char *value)
 
   m_output(stdout, _("<standard output>"));
 
-  exit(0);
+  return 0;
 }
 
 static const char printforhelp[] =
@@ -258,6 +258,8 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION("ctrl-tarfile",  0,   0, do_ctrltarfile),
   ACTION("fsys-tarfile",  0,   0, do_fsystarfile),
   ACTION("show",          'W', 0, do_showinfo),
+  ACTION("help",          '?', 0, usage),
+  ACTION("version",       0,   0, printversion),
 
   { "deb-format",    0,   1, NULL,           NULL,         set_deb_format   },
   { "debug",         'D', 0, &debugflag,     NULL,         NULL,          1 },
@@ -271,8 +273,6 @@ static const struct cmdinfo cmdinfos[]= {
   { NULL,            'Z', 1, NULL,           NULL,         set_compress_type  },
   { NULL,            'S', 1, NULL,           NULL,         set_compress_strategy },
   { "showformat",    0,   1, NULL,           &showformat,  NULL             },
-  { "help",          '?', 0, NULL,           NULL,         usage            },
-  { "version",       0,   0, NULL,           NULL,         printversion     },
   {  NULL,           0,   0, NULL,           NULL,         NULL             }
 };
 

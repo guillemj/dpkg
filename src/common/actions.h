@@ -70,6 +70,9 @@ enum action {
 	act_avreplace,
 	act_avmerge,
 	act_forgetold,
+
+	act_help,
+	act_version,
 };
 
 #endif /* DPKG_ACTIONS_H */

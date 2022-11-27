@@ -778,8 +778,8 @@ set_no_pager(const struct cmdinfo *ci, const char *value)
   pager_enable(false);
 }
 
-static void DPKG_ATTR_NORET
-printversion(const struct cmdinfo *ci, const char *value)
+static int
+printversion(const char *const *argv)
 {
   printf(_("Debian %s package management program query tool version %s.\n"),
          DPKGQUERY, PACKAGE_RELEASE);
@@ -789,11 +789,11 @@ printversion(const struct cmdinfo *ci, const char *value)
 
   m_output(stdout, _("<standard output>"));
 
-  exit(0);
+  return 0;
 }
 
-static void DPKG_ATTR_NORET
-usage(const struct cmdinfo *ci, const char *value)
+static int
+usage(const char *const *argv)
 {
   printf(_(
 "Usage: %s [<option>...] <command>\n"
@@ -839,7 +839,7 @@ usage(const struct cmdinfo *ci, const char *value)
 
   m_output(stdout, _("<standard output>"));
 
-  exit(0);
+  return 0;
 }
 
 static const char printforhelp[] = N_(
@@ -858,14 +858,14 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "control-path",                   'c', act_controlpath,   control_path    ),
   ACTION( "control-list",                    0,  act_controllist,   control_list    ),
   ACTION( "control-show",                    0,  act_controlshow,   control_show    ),
+  ACTION( "help",                           '?', act_help,          usage           ),
+  ACTION( "version",                         0,  act_version,       printversion    ),
 
   { "admindir",   0,   1, NULL, &admindir,   NULL          },
   { "root",       0,   1, NULL, NULL,        set_root, 0   },
   { "load-avail", 0,   0, &opt_loadavail, NULL, NULL, 1    },
   { "showformat", 'f', 1, NULL, &showformat, NULL          },
   { "no-pager",   0,   0, NULL, NULL,        set_no_pager  },
-  { "help",       '?', 0, NULL, NULL,        usage         },
-  { "version",    0,   0, NULL, NULL,        printversion  },
   {  NULL,        0,   0, NULL, NULL,        NULL          }
 };
 

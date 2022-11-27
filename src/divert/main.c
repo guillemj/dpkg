@@ -63,8 +63,8 @@ static int opt_test = 0;
 static int opt_rename = -1;
 
 
-static void
-printversion(const struct cmdinfo *cip, const char *value)
+static int
+printversion(const char *const *argv)
 {
 	printf(_("Debian %s version %s.\n"), dpkg_get_progname(),
 	       PACKAGE_RELEASE);
@@ -75,11 +75,11 @@ printversion(const struct cmdinfo *cip, const char *value)
 
 	m_output(stdout, _("<standard output>"));
 
-	exit(0);
+	return 0;
 }
 
-static void
-usage(const struct cmdinfo *cip, const char *value)
+static int
+usage(const char *const *argv)
 {
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
@@ -118,7 +118,7 @@ usage(const struct cmdinfo *cip, const char *value)
 
 	m_output(stdout, _("<standard output>"));
 
-	exit(0);
+	return 0;
 }
 
 static void
@@ -855,6 +855,8 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("list",        0, 0, diversion_list),
 	ACTION("listpackage", 0, 0, diversion_listpackage),
 	ACTION("truename",    0, 0, diversion_truename),
+	ACTION("help",        '?', 0, usage),
+	ACTION("version",     0,   0, printversion),
 
 	{ "admindir",   0,   1,  NULL,         &admindir, NULL          },
 	{ "instdir",    0,   1,  NULL,         NULL,      set_instdir,  0 },
@@ -866,8 +868,6 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "rename",     0,   0,  &opt_rename,  NULL,      NULL, 1       },
 	{ "no-rename",  0,   0,  &opt_rename,  NULL,      NULL, 0       },
 	{ "test",       0,   0,  &opt_test,    NULL,      NULL, 1       },
-	{ "help",      '?',  0,  NULL,         NULL,      usage         },
-	{ "version",    0,   0,  NULL,         NULL,      printversion  },
 	{  NULL,        0                                               }
 };
 
