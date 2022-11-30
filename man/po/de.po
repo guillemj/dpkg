@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.21.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-11-28 18:32+0100\n"
-"PO-Revision-Date: 2022-11-28 19:49+0100\n"
+"POT-Creation-Date: 2022-11-30 17:20+0100\n"
+"PO-Revision-Date: 2022-11-30 17:33+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -12987,7 +12987,8 @@ msgid "Print the real name for a diverted file."
 msgstr "Zeigt den echten Namen für eine umgeleitete Datei an."
 
 #. type: =item
-#: dpkg-divert.pod dpkg-statoverride.pod dselect.pod update-alternatives.pod
+#: dpkg-divert.pod dpkg-split.pod dpkg-statoverride.pod dselect.pod
+#: update-alternatives.pod
 msgid "B<--admindir> I<directory>"
 msgstr "B<--admindir> I<Verzeichnis>"
 
@@ -13018,8 +13019,8 @@ msgstr ""
 "falls B<DPKG_ROOT> nicht gesetzt wurde."
 
 #. type: =item
-#: dpkg-divert.pod dpkg-realpath.pod dpkg-statoverride.pod dselect.pod
-#: update-alternatives.pod
+#: dpkg-divert.pod dpkg-realpath.pod dpkg-split.pod dpkg-statoverride.pod
+#: dselect.pod update-alternatives.pod
 msgid "B<--root> I<directory>"
 msgstr "B<--root> I<Verzeichnis>"
 
@@ -13146,7 +13147,7 @@ msgstr ""
 
 #. type: =item
 #: dpkg-divert.pod dpkg-maintscript-helper.pod dpkg-query.pod dpkg-realpath.pod
-#: dpkg-statoverride.pod dpkg-trigger.pod dpkg.pod dselect.pod
+#: dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod dpkg.pod dselect.pod
 msgid "B<DPKG_ROOT>"
 msgstr "B<DPKG_ROOT>"
 
@@ -13161,7 +13162,7 @@ msgstr ""
 "1.19.2)."
 
 #. type: =item
-#: dpkg-divert.pod dpkg-maintscript-helper.pod dpkg-query.pod
+#: dpkg-divert.pod dpkg-maintscript-helper.pod dpkg-query.pod dpkg-split.pod
 #: dpkg-statoverride.pod dpkg-trigger.pod dpkg.pod dselect.pod
 msgid "B<DPKG_ADMINDIR>"
 msgstr "B<DPKG_ADMINDIR>"
@@ -21082,6 +21083,29 @@ msgstr ""
 "automatisches Wiederzusammenführen warten, an. Standardmäßig ist dies "
 "B<%ADMINDIR%/parts>."
 
+#. type: textblock
+#: dpkg-split.pod
+msgid ""
+"Set the administrative directory to I<directory> (since dpkg 1.21.10).  This "
+"is where the I<statoverride> file is stored.  Defaults to «I<%ADMINDIR%>» if "
+"B<DPKG_ADMINDIR> has not been set."
+msgstr ""
+"Setzt das administrative Verzeichnis auf I<Verzeichnis> (seit Dpkg 1.21.10). Hier wird auch die "
+"Datei I<statoverride> gelagert. Standardmäßig „I<%ADMINDIR%>“, falls "
+"B<DPKG_ADMINDIR> nicht gesetzt wurde."
+
+#. type: textblock
+#: dpkg-split.pod
+msgid ""
+"Set the root directory to B<directory> (since dpkg 1.21.10), which sets the "
+"installation directory to «I<directory>» and the administrative directory to "
+"«I<directory>B<%ADMINDIR%>» if B<DPKG_ROOT> has not been set."
+msgstr ""
+"Setzt das Wurzelverzeichnis auf I<Verzeichnis> (seit Dpkg 1.21.10), wodurch das "
+"Installationsverzeichnis auf „I<Verzeichnis>“ und das administrative "
+"Verzeichnis auf „I<Verzeichnis>B<%ADMINDIR%>“ gesetzt wird"
+", falls B<DPKG_ROOT> nicht gesetzt wurde."
+
 #. type: =item
 #: dpkg-split.pod
 msgid "B<-S>, B<--partsize> I<kibibytes>"
@@ -21199,6 +21223,25 @@ msgstr ""
 "Befehlszeilenaufrufs, einer Datei, die wie ein Paketteil aussah, aber "
 "beschädigt war oder Wechselwirkungen mit dem System, wie Zugriffe auf die "
 "Datenbank, Speicherzuweisungen usw."
+
+#. type: textblock
+#: dpkg-split.pod
+msgid ""
+"If set and B<--root> option has not been specified, it will be used as the "
+"filesystem root directory (since dpkg 1.21.10)."
+msgstr ""
+"Falls gesetzt und die Option B<--root> nicht angegeben wurde, wird dies als "
+"Dateisystemwurzelverzeichnis verwandt (seit Dpkg 1.21.10)."
+
+#. type: textblock
+#: dpkg-split.pod
+msgid ""
+"If set and the B<--admindir> or B<--root> options have not been specified, "
+"it will be used as the B<dpkg> data directory (since dpkg 1.21.10)."
+msgstr ""
+"Falls gesetzt und die Option B<--admindir> oder B<--root> nicht verwandt "
+"wurde, wird dies als Datenverzeichnis von B<dpkg> verwandt (seit Dpkg "
+"1.21.10)."
 
 #. type: textblock
 #: dpkg-split.pod
