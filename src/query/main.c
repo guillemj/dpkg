@@ -58,9 +58,6 @@
 
 #include "actions.h"
 
-static const char *admindir;
-static const char *instdir;
-
 static const char *showformat = "${binary:Package}\t${Version}\n";
 
 static int opt_loadavail = 0;
@@ -766,13 +763,6 @@ control_show(const char *const *argv)
 }
 
 static void
-set_root(const struct cmdinfo *cip, const char *value)
-{
-  instdir = dpkg_fsys_set_dir(value);
-  admindir = dpkg_fsys_get_path(ADMINDIR);
-}
-
-static void
 set_no_pager(const struct cmdinfo *ci, const char *value)
 {
   pager_enable(false);
@@ -861,7 +851,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "help",                           '?', act_help,          usage           ),
   ACTION( "version",                         0,  act_version,       printversion    ),
 
-  { "admindir",   0,   1, NULL, &admindir,   NULL          },
+  { "admindir",   0,   1, NULL, NULL,        set_admindir, 0 },
   { "root",       0,   1, NULL, NULL,        set_root, 0   },
   { "load-avail", 0,   0, &opt_loadavail, NULL, NULL, 1    },
   { "showformat", 'f', 1, NULL, &showformat, NULL          },
@@ -876,9 +866,6 @@ int main(int argc, const char *const *argv) {
   dpkg_locales_init(PACKAGE);
   dpkg_program_init("dpkg-query");
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
-
-  instdir = dpkg_fsys_set_dir(instdir);
-  admindir = dpkg_db_set_dir(admindir);
 
   if (!cipaction) badusage(_("need an action option"));
 

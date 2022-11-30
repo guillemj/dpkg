@@ -21,13 +21,41 @@
 #include <config.h>
 #include <compat.h>
 
+#include <stdlib.h>
+
 #include <dpkg/macros.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/fsys.h>
 #include <dpkg/options.h>
+
+void
+set_instdir(const struct cmdinfo *cip, const char *value)
+{
+	/* Make sure the database is initialized before the root directory,
+	 * otherwise, on first use it would get initialized based on the
+	 * newly set root directory. */
+	dpkg_db_get_dir();
+
+	dpkg_fsys_set_dir(value);
+}
 
 void
 set_admindir(const struct cmdinfo *cip, const char *value)
 {
 	dpkg_db_set_dir(value);
+}
+
+void
+set_root(const struct cmdinfo *cip, const char *value)
+{
+	char *db_dir;
+
+	/* Initialize the root directory. */
+	dpkg_fsys_set_dir(value);
+
+	/* Set the database directory based on the new root directory. */
+	db_dir = dpkg_fsys_get_path(ADMINDIR);
+	dpkg_db_set_dir(db_dir);
+	free(db_dir);
 }

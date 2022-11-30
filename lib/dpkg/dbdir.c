@@ -29,15 +29,39 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/fsys.h>
 
-static const char *db_dir = ADMINDIR;
+static char *db_dir;
+
+/**
+ * Allocate the default on-disk database directory.
+ *
+ * The directory defaults to the value from environment variable
+ * DPKG_ADMINDIR, and if not set the built-in default ADMINDIR.
+ *
+ * @return The database directory.
+ */
+static char *
+dpkg_db_new_dir(void)
+{
+	const char *env;
+	char *dir;
+
+	/* Make sure the filesystem root directory is initialized. */
+	dpkg_fsys_get_dir();
+
+	env = getenv("DPKG_ADMINDIR");
+	if (env)
+		dir = m_strdup(env);
+	else
+		dir = dpkg_fsys_get_path(ADMINDIR);
+
+	return dir;
+}
 
 /**
  * Set current on-disk database directory.
  *
- * The directory is initially set to ADMINDIR, this function can be used to
- * set the directory to a new value, or to set it to a default value if dir
- * is NULL. For the latter the order is, value from environment variable
- * DPKG_ADMINDIR, and then the built-in default ADMINDIR,
+ * This function can be used to set the directory to a new value, or to
+ * reset it to a default value if dir is NULL.
  *
  * @param dir The new database directory, or NULL to set to default.
  *
@@ -46,17 +70,15 @@ static const char *db_dir = ADMINDIR;
 const char *
 dpkg_db_set_dir(const char *dir)
 {
-	if (dir == NULL) {
-		const char *env;
+	char *dir_new;
 
-		env = getenv("DPKG_ADMINDIR");
-		if (env)
-			db_dir = env;
-		else
-			db_dir = dpkg_fsys_get_path(ADMINDIR);
-	} else {
-		db_dir = dir;
-	}
+	if (dir == NULL)
+		dir_new = dpkg_db_new_dir();
+	else
+		dir_new = m_strdup(dir);
+
+	free(db_dir);
+	db_dir = dir_new;
 
 	return db_dir;
 }
@@ -64,11 +86,17 @@ dpkg_db_set_dir(const char *dir)
 /**
  * Get current on-disk database directory.
  *
+ * This function will take care of initializing the directory if it has not
+ * been initialized before.
+ *
  * @return The current database directory.
  */
 const char *
 dpkg_db_get_dir(void)
 {
+	if (db_dir == NULL)
+		db_dir = dpkg_db_new_dir();
+
 	return db_dir;
 }
 
@@ -85,5 +113,5 @@ dpkg_db_get_dir(void)
 char *
 dpkg_db_get_path(const char *pathpart)
 {
-	return str_fmt("%s/%s", db_dir, pathpart);
+	return str_fmt("%s/%s", dpkg_db_get_dir(), pathpart);
 }

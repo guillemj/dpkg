@@ -103,7 +103,6 @@ usage(const char *const *argv)
 static const char printforhelp[] = N_("Type dpkg-split --help for help.");
 
 off_t opt_maxpartsize = SPLITPARTDEFMAX;
-static const char *admindir;
 const char *opt_depotdir;
 const char *opt_outputfile = NULL;
 int opt_npquiet = 0;
@@ -162,7 +161,6 @@ int main(int argc, const char *const *argv) {
   dpkg_program_init(SPLITTER);
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
-  admindir = dpkg_db_set_dir(admindir);
   if (opt_depotdir == NULL)
     opt_depotdir = dpkg_db_get_path(PARTSDIR);
 

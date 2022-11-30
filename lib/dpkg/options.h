@@ -85,7 +85,11 @@ void setobsolete(const struct cmdinfo *cip, const char *value);
  { longopt, shortopt, 0, NULL, NULL, setobsolete, 0, NULL, NULL }
 
 void
+set_instdir(const struct cmdinfo *cip, const char *value);
+void
 set_admindir(const struct cmdinfo *cip, const char *value);
+void
+set_root(const struct cmdinfo *cip, const char *value);
 
 /** @} */
 

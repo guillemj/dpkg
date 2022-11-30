@@ -199,8 +199,6 @@ int f_autodeconf=0, f_nodebsig=0;
 int f_triggers = 0;
 
 int errabort = 50;
-static const char *admindir;
-static const char *instdir;
 struct pkg_list *ignoredependss = NULL;
 
 #define DBG_DEF(n, d) \
@@ -274,19 +272,6 @@ set_verify_format(const struct cmdinfo *cip, const char *value)
 {
   if (!verify_set_output(value))
     badusage(_("unknown verify output format '%s'"), value);
-}
-
-static void
-set_instdir(const struct cmdinfo *cip, const char *value)
-{
-  instdir = dpkg_fsys_set_dir(value);
-}
-
-static void
-set_root(const struct cmdinfo *cip, const char *value)
-{
-  instdir = dpkg_fsys_set_dir(value);
-  admindir = dpkg_fsys_get_path(ADMINDIR);
 }
 
 static void
@@ -597,7 +582,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "robot",             0,   0, &f_robot,      NULL,      NULL,    1 },
   { "root",              0,   1, NULL,          NULL,      set_root,      0 },
   { "abort-after",       0,   1, &errabort,     NULL,      set_integer,   0 },
-  { "admindir",          0,   1, NULL,          &admindir, NULL,          0 },
+  { "admindir",          0,   1, NULL,          NULL,      set_admindir,  0 },
   { "instdir",           0,   1, NULL,          NULL,      set_instdir,   0 },
   { "ignore-depends",    0,   1, NULL,          NULL,      set_ignore_depends, 0 },
   { "force",             0,   2, NULL,          NULL,      set_force_option,   1 },
@@ -758,9 +743,6 @@ int main(int argc, const char *const *argv) {
       ohshite(_("cannot set primary group ID to root"));
 
   if (!cipaction) badusage(_("need an action option"));
-
-  instdir = dpkg_fsys_set_dir(instdir);
-  admindir = dpkg_db_set_dir(admindir);
 
   /* Always set environment, to avoid possible security risks. */
   if (setenv("DPKG_ADMINDIR", dpkg_db_get_dir(), 1) < 0)

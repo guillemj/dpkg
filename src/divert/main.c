@@ -51,9 +51,6 @@
 static const char printforhelp[] = N_(
 "Use --help for help about diverting files.");
 
-static const char *admindir;
-static const char *instdir;
-
 static bool opt_pkgname_match_any = true;
 static const char *opt_pkgname = NULL;
 static const char *opt_divertto = NULL;
@@ -833,19 +830,6 @@ set_divertto(const struct cmdinfo *cip, const char *value)
 		badusage(_("divert-to may not contain newlines"));
 }
 
-static void
-set_instdir(const struct cmdinfo *cip, const char *value)
-{
-	instdir = dpkg_fsys_set_dir(value);
-}
-
-static void
-set_root(const struct cmdinfo *cip, const char *value)
-{
-	instdir = dpkg_fsys_set_dir(value);
-	admindir = dpkg_fsys_get_path(ADMINDIR);
-}
-
 static const struct cmdinfo cmdinfo_add =
 	ACTION("add",         0, 0, diversion_add);
 
@@ -858,7 +842,7 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("help",        '?', 0, usage),
 	ACTION("version",     0,   0, printversion),
 
-	{ "admindir",   0,   1,  NULL,         &admindir, NULL          },
+	{ "admindir",   0,   1,  NULL,         NULL,      set_admindir, 0 },
 	{ "instdir",    0,   1,  NULL,         NULL,      set_instdir,  0 },
 	{ "root",       0,   1,  NULL,         NULL,      set_root,     0 },
 	{ "divert",     0,   1,  NULL,         NULL,      set_divertto  },
@@ -880,9 +864,6 @@ main(int argc, const char * const *argv)
 	dpkg_locales_init(PACKAGE);
 	dpkg_program_init("dpkg-divert");
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
-
-	instdir = dpkg_fsys_set_dir(instdir);
-	admindir = dpkg_db_set_dir(admindir);
 
 	env_pkgname = getenv("DPKG_MAINTSCRIPT_PACKAGE");
 	if (opt_pkgname_match_any && env_pkgname)

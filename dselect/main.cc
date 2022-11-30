@@ -64,9 +64,6 @@ static const char printforhelp[] = N_("Type dselect --help for help.");
 
 bool expertmode = false;
 
-static const char *admindir;
-static const char *instdir;
-
 static keybindings packagelistbindings(packagelist_kinterps,packagelist_korgbindings);
 
 struct table_t {
@@ -228,13 +225,6 @@ usage(const struct cmdinfo *ci, const char *value)
 extern "C" {
 
   static void
-  set_root(const struct cmdinfo*, const char *v)
-  {
-    instdir = dpkg_fsys_set_dir(v);
-    admindir = dpkg_fsys_get_path(ADMINDIR);
-  }
-
-  static void
   set_debug(const struct cmdinfo*, const char *v)
   {
     FILE *fp;
@@ -322,8 +312,8 @@ extern "C" {
 } /* End of extern "C" */
 
 static const struct cmdinfo cmdinfos[]= {
-  { "admindir",     0,  1, nullptr,  &admindir, nullptr      },
-  { "instdir",      0,  1, nullptr,  &instdir,  nullptr      },
+  { "admindir",     0,  1, nullptr,  nullptr,   set_admindir, 1 },
+  { "instdir",      0,  1, nullptr,  nullptr,   set_instdir, 1 },
   { "root",         0,  1, nullptr,  nullptr,   set_root, 1  },
   { "debug",       'D', 1, nullptr,  nullptr,   set_debug    },
   { "expert",      'E', 0, nullptr,  nullptr,   set_expert   },
@@ -548,9 +538,6 @@ main(int, const char *const *argv)
 
   dpkg_options_load(DSELECT, cmdinfos);
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
-
-  instdir = dpkg_fsys_set_dir(instdir);
-  admindir = dpkg_db_set_dir(admindir);
 
   if (*argv) {
     const char *a;

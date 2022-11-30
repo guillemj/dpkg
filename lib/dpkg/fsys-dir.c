@@ -28,16 +28,38 @@
 #include <dpkg/path.h>
 #include <dpkg/fsys.h>
 
-static const char *fsys_dir = "";
-static char *fsys_dir_alloc;
+static char *fsys_dir;
+
+/**
+ * Allocate the default on-disk filesystem root directory.
+ *
+ * The directory defaults to the value from environment variable
+ * DPKG_ROOT, and if not set the built-in default "".
+ *
+ * @return The filesystem root directory.
+ */
+static char *
+dpkg_fsys_new_dir(void)
+{
+	const char *env;
+	char *dir;
+
+	env = getenv("DPKG_ROOT");
+	if (env == NULL) {
+		dir = m_strdup("");
+	} else {
+		dir = m_strdup(env);
+		path_trim_slash_slashdot(dir);
+	}
+
+	return dir;
+}
 
 /**
  * Set current on-disk filesystem root directory.
  *
- * The directory is initially set to "", this function can be used to
- * set the directory to a new value, or to set it to a default value if dir
- * is NULL. For the latter the order is, value from environment variable
- * DPKG_ROOT, and then the built-in default "",
+ * This function can be used to set the directory to a new value, or to
+ * reset it to a default value if dir is NULL.
  *
  * @param dir The new filesystem root directory, or NULL to set to default.
  *
@@ -46,21 +68,17 @@ static char *fsys_dir_alloc;
 const char *
 dpkg_fsys_set_dir(const char *dir)
 {
-	char *fsys_dir_new;
-
-	if (dir == NULL)
-		dir = getenv("DPKG_ROOT");
+	char *dir_new;
 
 	if (dir == NULL) {
-		fsys_dir = "";
-		fsys_dir_new = NULL;
+		dir_new = dpkg_fsys_new_dir();
 	} else {
-		fsys_dir = fsys_dir_new = m_strdup(dir);
-		path_trim_slash_slashdot(fsys_dir_new);
+		dir_new = m_strdup(dir);
+		path_trim_slash_slashdot(dir_new);
 	}
 
-	free(fsys_dir_alloc);
-	fsys_dir_alloc = fsys_dir_new;
+	free(fsys_dir);
+	fsys_dir = dir_new;
 
 	return fsys_dir;
 }
@@ -68,11 +86,17 @@ dpkg_fsys_set_dir(const char *dir)
 /**
  * Get current on-disk filesystem root directory.
  *
+ * This function will take care of initializing the directory if it has not
+ * been initialized before.
+ *
  * @return The current filesystem root directory.
  */
 const char *
 dpkg_fsys_get_dir(void)
 {
+	if (fsys_dir == NULL)
+		fsys_dir = dpkg_fsys_new_dir();
+
 	return fsys_dir;
 }
 
@@ -91,5 +115,5 @@ dpkg_fsys_get_path(const char *pathpart)
 {
 	pathpart = path_skip_slash_dotslash(pathpart);
 
-	return str_fmt("%s/%s", fsys_dir, pathpart);
+	return str_fmt("%s/%s", dpkg_fsys_get_dir(), pathpart);
 }

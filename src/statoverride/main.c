@@ -108,24 +108,8 @@ usage(const char *const *argv)
 	FORCE_NON_ROOT | \
 	FORCE_SECURITY_MAC | FORCE_STATOVERRIDE_ADD | FORCE_STATOVERRIDE_DEL
 
-static const char *admindir;
-static const char *instdir;
-
 static int opt_verbose = 1;
 static int opt_update = 0;
-
-static void
-set_instdir(const struct cmdinfo *cip, const char *value)
-{
-	instdir = dpkg_fsys_set_dir(value);
-}
-
-static void
-set_root(const struct cmdinfo *cip, const char *value)
-{
-	instdir = dpkg_fsys_set_dir(value);
-	admindir = dpkg_fsys_get_path(ADMINDIR);
-}
 
 static char *
 path_cleanup(const char *path)
@@ -400,7 +384,7 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("help",   '?', act_help,    usage),
 	ACTION("version", 0,  act_version, printversion),
 
-	{ "admindir",   0,   1,  NULL,         &admindir, NULL          },
+	{ "admindir",   0,   1,  NULL,         NULL,      set_admindir, 0 },
 	{ "instdir",    0,   1,  NULL,         NULL,      set_instdir,  0 },
 	{ "root",       0,   1,  NULL,         NULL,      set_root,     0 },
 	{ "quiet",      0,   0,  &opt_verbose, NULL,      NULL, 0       },
@@ -421,9 +405,6 @@ main(int argc, const char *const *argv)
 	dpkg_program_init("dpkg-statoverride");
 	set_force_default(FORCE_STATCMD_MASK);
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
-
-	instdir = dpkg_fsys_set_dir(instdir);
-	admindir = dpkg_db_set_dir(admindir);
 
 	if (!cipaction)
 		badusage(_("need an action option"));

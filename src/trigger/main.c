@@ -93,20 +93,11 @@ usage(const char *const *argv)
 	return 0;
 }
 
-static const char *admindir;
-static const char *instdir;
 static int f_noact;
 static int f_await = 1;
 
 static const char *bypackage, *activate;
 static bool done_trig, ctrig;
-
-static void
-set_root(const struct cmdinfo *cip, const char *value)
-{
-	instdir = dpkg_fsys_set_dir(value);
-	admindir = dpkg_fsys_get_path(ADMINDIR);
-}
 
 static void
 yespackage(const char *awname)
@@ -246,7 +237,7 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("help",            '?', 0, usage),
 	ACTION("version",          0,  0, printversion),
 
-	{ "admindir",        0,   1, NULL,     &admindir },
+	{ "admindir",        0,   1, NULL,     NULL,       set_admindir, 0 },
 	{ "root",            0,   1, NULL,     NULL,       set_root, 0 },
 	{ "by-package",      'f', 1, NULL,     &bypackage },
 	{ "await",           0,   0, &f_await, NULL,       NULL, 1 },
@@ -263,9 +254,6 @@ main(int argc, const char *const *argv)
 	dpkg_locales_init(PACKAGE);
 	dpkg_program_init("dpkg-trigger");
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
-
-	instdir = dpkg_fsys_set_dir(instdir);
-	admindir = dpkg_db_set_dir(admindir);
 
 	if (!cipaction)
 		setaction(&cmdinfo_trigger, NULL);
