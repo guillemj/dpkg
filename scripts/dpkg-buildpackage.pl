@@ -202,13 +202,33 @@ my @buildinfo_opts;
 my $changes_file;
 my @changes_opts;
 my %target_legacy_root = map { $_ => 1 } qw(
-    clean binary binary-arch binary-indep
+    clean
+    binary
+    binary-arch
+    binary-indep
 );
 my %target_official =  map { $_ => 1 } qw(
-    clean build build-arch build-indep binary binary-arch binary-indep
+    clean
+    build
+    build-arch
+    build-indep
+    binary
+    binary-arch
+    binary-indep
 );
 my @hook_names = qw(
-    init preclean source build binary buildinfo changes postclean check sign done
+    preinit
+    init
+    preclean
+    source
+    build
+    binary
+    buildinfo
+    changes
+    postclean
+    check
+    sign
+    done
 );
 my %hook;
 $hook{$_} = undef foreach @hook_names;
