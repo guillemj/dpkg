@@ -40,6 +40,7 @@ consists of the following steps:
 
 =item B<1.>
 
+It runs the B<preinit> hook before reading any source file.
 It prepares the build environment by setting various environment
 variables (see B<ENVIRONMENT>), runs the B<init> hook, and calls
 B<dpkg-source --before-build> (unless B<-T> or B<--target>
@@ -486,6 +487,8 @@ their commands fail, so watch out for unintended consequences.
 The current I<hook-name> supported are:
 
 =over
+
+=item B<preinit>
 
 =item B<init>
 

@@ -103,8 +103,8 @@ sub usage {
                               command to check the .changes file (no default).
       --check-option=<opt>    pass <opt> to check <command>.
       --hook-<name>=<command> set <command> as the hook <name>, known hooks:
-                                init preclean source build binary buildinfo
-                                changes postclean check sign done
+                                preinit init preclean source build binary
+                                buildinfo changes postclean check sign done
       --buildinfo-file=<file> set the .buildinfo filename to generate.
       --buildinfo-option=<opt>
                               pass option <opt> to dpkg-genbuildinfo.
@@ -467,6 +467,12 @@ if ($signcommand and not find_command($signcommand)) {
 if (not defined $parallel and not $build_opts->has('parallel')) {
     $parallel = 'auto';
 }
+
+#
+# Prepare the environment.
+#
+
+run_hook('preinit', 1);
 
 if (defined $parallel) {
     if ($parallel eq 'auto') {
