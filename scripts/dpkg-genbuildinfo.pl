@@ -36,6 +36,7 @@ use Dpkg::Gettext;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
+use Dpkg::Path qw(find_command);
 use Dpkg::Arch qw(
     get_build_arch
     get_host_arch
@@ -263,6 +264,12 @@ sub is_cross_executable {
     # the host architecture by cross-compiling and executing a small
     # host-arch binary.
     my $CC = debarch_to_gnutriplet($host_arch) . '-gcc';
+
+    # If we do not have a cross-compiler, we might be in the process of
+    # building one or cross-compiling using a language other than C/C++,
+    # and aborting the build is then not very useful.
+    return if ! find_command($CC);
+
     my $crossprog = <<~'CROSSPROG';
         #include <unistd.h>
         int main() { write(1, "ok", 2); return 0; }
