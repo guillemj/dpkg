@@ -100,6 +100,7 @@ EXTRA_DIST = \
 	debian/libdpkg-dev.install \
 	debian/libdpkg-perl.install \
 	debian/source/format \
+	debian/source/lintian-overrides \
 	debian/not-installed \
 	debian/rules \
 	debian/shlibs.default \
