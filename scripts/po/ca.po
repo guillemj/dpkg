@@ -2,14 +2,14 @@
 # Copyright © 2006, 2010 Software in the Public Interest, Inc.
 # This file is distributed under the same license as the dpkg package.
 # Jordi Mallach <jordi@debian.org>, 2006, 2010.
-# Guillem Jover <guillem@debian.org>, 2010-2011, 2014-2015, 2017, 2019, 2022.
+# Guillem Jover <guillem@debian.org>, 2010-2022.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-dev 1.21.2\n"
+"Project-Id-Version: dpkg-dev 1.21.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-07-01 09:25+0000\n"
-"PO-Revision-Date: 2022-02-27 02:38+0100\n"
+"POT-Creation-Date: 2022-12-01 01:27+0100\n"
+"PO-Revision-Date: 2022-12-01 12:08+0100\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
 "Language: ca\n"
@@ -292,13 +292,15 @@ msgid ""
 "rules).\n"
 "  -T, --rules-target=<target> call debian/rules <target>.\n"
 "      --as-root               ensure -T calls the target with root rights.\n"
-"  -j, --jobs[=<number>|auto]  jobs to run simultaneously (passed to "
+"  -j, --jobs[=<jobs>|auto]    jobs to run simultaneously (passed to "
 "<rules>),\n"
-"                                forced mode.\n"
-"  -J, --jobs-try[=<number>|auto]\n"
+"                                (default; default is auto, opt-in mode).\n"
+"  -J, --jobs-try[=<jobs>|auto]\n"
+"                              alias for -j, --jobs.\n"
+"      --jobs-force[=<jobs>|auto]\n"
 "                              jobs to run simultaneously (passed to "
 "<rules>),\n"
-"                                opt-in mode (default is auto).\n"
+"                                (default is auto, forced mode).\n"
 "  -r, --root-command=<command>\n"
 "                              command to gain root rights (default is "
 "fakeroot).\n"
@@ -314,10 +316,15 @@ msgid ""
 "      --buildinfo-option=<opt>\n"
 "                              pass option <opt> to dpkg-genbuildinfo.\n"
 "      --changes-file=<file>   set the .changes filename to generate.\n"
+"      --sign-backend=<backend>\n"
+"                              OpenPGP backend to use to sign\n"
+"                                (default is auto).\n"
 "  -p, --sign-command=<command>\n"
 "                              command to sign .dsc and/or .changes files\n"
 "                                (default is gpg).\n"
-"  -k, --sign-key=<keyid>      the key to use for signing.\n"
+"      --sign-keyfile=<file>   the key file to use for signing.\n"
+"  -k, --sign-keyid=<keyid>    the key id to use for signing.\n"
+"      --sign-key=<keyid>      alias for -k, --sign-keyid.\n"
 "  -ap, --sign-pause           add pause before starting signature process.\n"
 "  -us, --unsigned-source      unsigned source package.\n"
 "  -ui, --unsigned-buildinfo   unsigned .buildinfo file.\n"
@@ -370,13 +377,17 @@ msgstr ""
 "adequat.\n"
 "      --as-root               assegura que -T crida l'objectiu amb permisos\n"
 "                                de superusuari.\n"
-"  -j, --jobs[=<número>|auto]  especifica les feines a executar "
+"  -j, --jobs[=<feines>|auto]  especifica les feines a executar "
 "simultàniament\n"
-"                                (es passa a <regles>), mode forçat.\n"
-"  -J, --jobs-try[=<número>|auto]\n"
+"                                (es passa a <regles>), (predeterminat;\n"
+"                                 predeterminat a auto, mode opcional).\n"
+"  -J, --jobs-try[=<feines>|auto]\n"
+"                              alias per a -j, --jobs.\n"
+"      --jobs-force[=<feines>|auto]\n"
 "                              especifica les feines a executar "
 "simultàniament\n"
-"                                (es passa a <regles>), mode opcional.\n"
+"                                (es passa a <regles>), (predeterminat a auto,\n"
+"                                 mode forçat).\n"
 "  -r, --root-command=<ordre-assolir-superusuari>\n"
 "                              ordre per assolir privilegis de superusuari\n"
 "                                (predeterminat a fakeroot).\n"
@@ -389,14 +400,19 @@ msgstr ""
 "                                <nom-lligam>, s'admeten:\n"
 "                                init preclean source build binary changes\n"
 "                                postclean check sign done\n"
-"      --buildinfo-file=<file> estableix el fitxer .buildinfo a generar.\n"
-"      --buildinfo-option=<opt>\n"
+"      --buildinfo-file=<fitxer>\n"
+"                              estableix el fitxer .buildinfo a generar.\n"
+"      --buildinfo-option=<opció>\n"
 "                              passa l'opció <opt> a dpkg-genbuildinfo.\n"
-"      --changes-file=<file>   estableix el fitxer .changes a generar.\n"
+"      --changes-file=<fitxer> estableix el fitxer .changes a generar.\n"
+"      --sign-backend=<fons>   empra fons d'OpenPGP per signatures\n"
+"                                (predeterminat a auto).\n"
 "  -p, --sign-command=<ordre-signat>\n"
 "                              ordre per signar els fitxer .dsc i/o .changes\n"
 "                                (predeterminat a gpg).\n"
-"  -k, --sign-key=<id-clau>    la clau a emprar per signar.\n"
+"      --sign-keyfile=<fitxer> el fitxer de clau a emprar per signar.\n"
+"  -k, --sign-keyid=<id-clau>  l'identificador de clau a emprar per signar.\n"
+"      --sign-key=<id-clau>    alias per -k, --sign-keyid.\n"
 "  -ap, --sign-pause           afegeix una pausa abans de signar.\n"
 "  -us, --unsigned-source      paquet font sense signar.\n"
 "  -ui, --unsigned-buildinfo   fitxer .buildinfo sense signar.\n"
@@ -429,8 +445,12 @@ msgid ""
 "  -sa                         source includes orig, always.\n"
 "  -sd                         source is diff and .dsc only.\n"
 "  -v<version>                 changes since version <version>.\n"
-"  -m, --release-by=<maint>    maintainer for this release is <maint>.\n"
-"  -e, --build-by=<maint>      maintainer for this build is <maint>.\n"
+"  -m, --source-by=<maint>     maintainer for this source or build is "
+"<maint>.\n"
+"      --build-by=<maint>      ditto.\n"
+"  -e, --release-by=<maint>    maintainer for this change or release is "
+"<maint>.\n"
+"      --changed-by=<maint>    ditto.\n"
 "  -C<descfile>                changes are described in <descfile>.\n"
 "      --changes-option=<opt>  pass option <opt> to dpkg-genchanges."
 msgstr ""
@@ -440,10 +460,15 @@ msgstr ""
 "  -sa                         el font inclou l'orig, sempre.\n"
 "  -sd                         el font és només el diff i el .dsc.\n"
 "  -v<versió>                  inclou canvis des de la versió <versió>.\n"
-"  -m, --release-by=<mantenidor>\n"
-"                              el mantenidor del llançament és <mantenidor>.\n"
-"  -e, --build-by=<mantenidor> el mantenidor de la construcció és "
-"<mantenidor>.\n"
+"  -m, --source-by=<mantenidor>\n"
+"                              el mantenidor del codi o de la construcció és\n"
+"                                <mantenidor>.\n"
+"      --build-by=<mantenidor> ídem.\n"
+"  -e, --release-by=<mantenidor>\n"
+"                              el mantenidor d'aquest canvi o llançament és\n"
+"                                <mantenidor>.\n"
+"      --changed-by=<mantenidor>\n"
+"                              ídem.\n"
 "  -C<fitxerdesc>              els canvis es descriuen a <fitxerdesc>.\n"
 "      --changes-option=<opció>\n"
 "                              passa l'opció <opció> a dpkg-genchanges."
@@ -576,11 +601,6 @@ msgid "Press <enter> to start the signing process.\n"
 msgstr "Premeu la tecla de <retorn> per a començar el procés de signat.\n"
 
 #: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "failed to sign %s file"
-msgstr "no s'ha pogut signar el fitxer «%s»"
-
-#: scripts/dpkg-buildpackage.pl
 msgid "not signing UNRELEASED build; use --force-sign to override"
 msgstr ""
 "no es signarà la construcció UNRELEASED; empreu --force-sign per a forçar-ho"
@@ -668,7 +688,7 @@ msgstr ""
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
 #: scripts/dpkg-genbuildinfo.pl scripts/dpkg-name.pl scripts/Dpkg/Arch.pm
-#: scripts/Dpkg/IPC.pm scripts/Dpkg/OpenPGP.pm scripts/Dpkg/Shlibs.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs.pm
 #, perl-format
 msgid "cannot open %s"
 msgstr "no es pot obrir %s"
@@ -685,6 +705,11 @@ msgstr "no es pot tancar %s"
 #, perl-format
 msgid "cannot move %s to %s"
 msgstr "no es pot moure %s a %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "failed to sign %s file: %s"
+msgstr "no s'ha pogut signar el fitxer «%s»: %s"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "source-only upload: Debian-native package"
@@ -813,11 +838,10 @@ msgstr ""
 
 #: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
 #: scripts/dpkg-gencontrol.pl scripts/dpkg-mergechangelogs.pl
-#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Source/Functions.pm
+#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/File.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Interface/Storable.pm
 #: scripts/Dpkg/Source/BinaryFiles.pm scripts/Dpkg/Source/Package.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Package/V3/Quilt.pm
-#: scripts/Dpkg/Source/Quilt.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot write %s"
 msgstr "no es pot escriure %s"
@@ -1513,22 +1537,7 @@ msgid "takes no non-option arguments"
 msgstr "no accepta cap argument que no siguen opcions"
 
 #: scripts/dpkg-scanpackages.pl
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
-#| "Packages\n"
-#| "\n"
-#| "Options:\n"
-#| "  -t, --type <type>        scan for <type> packages (default is 'deb').\n"
-#| "  -a, --arch <arch>        architecture to scan for.\n"
-#| "  -h, --hash <hash-list>   only generate hashes for the specified list.\n"
-#| "  -m, --multiversion       allow multiple versions of a single package.\n"
-#| "  -e, --extra-override <file>\n"
-#| "                           use extra override file.\n"
-#| "  -M, --medium <medium>    add X-Medium field for dselect multicd access "
-#| "method\n"
-#| "  -?, --help               show this help message.\n"
-#| "      --version            show the version.\n"
+#, perl-format
 msgid ""
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
 "Packages\n"
@@ -1557,7 +1566,7 @@ msgstr ""
 "  -e, --extra-override <fitxer>\n"
 "                           empra el fitxer de substitució extra.\n"
 "  -M, --medium <mitjà>     afegeix el camp X-Medium per al mètode d'accés\n"
-"                             multicd de dselect.\n"
+"                             dels suports de dselect.\n"
 "  -?, --help               mostra quest missatge d'ajuda.\n"
 "      --version            mostra la versió.\n"
 
@@ -2317,7 +2326,7 @@ msgstr "«%s» no és una cadena d'arquitectura vàlida a la llista «%s»"
 #: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
 #: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
 #: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
+#: scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot read %s"
 msgstr "no es pot llegir %s"
@@ -2807,6 +2816,11 @@ msgstr "el subprocés «%s» ha fallat amb el codi d'estat desconegut %d"
 msgid "Use --help for program usage information."
 msgstr "Empreu --help per a obtenir informació d'ús del programa."
 
+#: scripts/Dpkg/File.pm
+#, perl-format
+msgid "cannot create file %s"
+msgstr "no es pot crear el fitxer «%s»"
+
 #: scripts/Dpkg/IPC.pm
 #, perl-format
 msgid "pipe for %s"
@@ -2857,47 +2871,75 @@ msgstr "no s'ha pogut obtenir el blocatge d'escriptura per a %s"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
-msgid "cannot create signature file %s"
-msgstr "no es pot crear el fitxer de signatura %s"
+msgid "unknown OpenPGP api requested %s"
+msgstr "l'api OpenPGP %s és desconeguda"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
-msgid "cannot execute %s program"
-msgstr "no es pot executar el programa %s"
+msgid "cannot load OpenPGP backend %s"
+msgstr "no es pot carregar el fons d'OpenPGP %s"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
-msgid "cannot write signature file %s"
-msgstr "no es pot escriure el fitxer de signatura «%s»"
+msgid "unknown OpenPGP backend %s"
+msgstr "el fons d'OpenPGP %s és desconegut"
 
-#: scripts/Dpkg/OpenPGP.pm
-msgid "signature file is already OpenPGP ASCII armor, copying"
-msgstr "el fitxer de signatura ja és armat en OpenPGP ASCII, s'esta copiant"
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "success"
+msgstr "amb èxit"
 
-#: scripts/Dpkg/OpenPGP.pm
-msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
-msgstr ""
-"no es pot armar el fitxer de signatura en OpenPGP ASCII ja que manca gpg"
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "no acceptable signature found"
+msgstr "no s'ha trobat una signatura acceptable"
 
-#: scripts/Dpkg/OpenPGP.pm
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "missing required argument"
+msgstr "manca un argument requerit"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "unsupported option"
+msgstr "l'opció no s'admet"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "invalid data type"
+msgstr "el tipus de dades no és vàlid"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "non-text input where text expected"
+msgstr "s'ha trobat entrada que no és text on s'esperava text"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "output file already exists"
+msgstr "el fitxer de sortida ja existeix"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "input file does not exist"
+msgstr "el fitxer d'entrada no existeix"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "cannot unlock password-protected key"
+msgstr "no es pot desblocar la clau protegida amb contrasenya"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "unsupported subcommand"
+msgstr "subordre no admesa"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "key is not signature-capable"
+msgstr "la clau no te la capacitat de signar"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "missing OpenPGP implementation"
+msgstr "no es troba la implementació d'OpenPGP"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "specified key needs a keystore"
+msgstr "la clau especificada necessita un magatzem de claus"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 #, perl-format
-msgid "cannot import key in %s since GnuPG is not installed"
-msgstr "no es pot importar la clau a %s perquè GnuPG no està instal·lat"
-
-#: scripts/Dpkg/OpenPGP.pm
-#, perl-format
-msgid "cannot import key %s into %s"
-msgstr "no es pot importar la clau %s a %s"
-
-#: scripts/Dpkg/OpenPGP.pm
-#, perl-format
-msgid "cannot verify signature on %s since GnuPG is not installed"
-msgstr "no es pot verificar la signatura de %s perquè GnuPG no està instal·lat"
-
-#: scripts/Dpkg/OpenPGP.pm
-#, perl-format
-msgid "cannot verify signature %s"
-msgstr "no es pot verificar la signatura «%s»"
+msgid "error code %d"
+msgstr "codi d'error %d"
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -2930,7 +2972,7 @@ msgstr ""
 "ús obsolet de LD_LIBRARY_PATH amb directori de biblioteques privades que "
 "interfereix amb la compilació creuada, empreu l'opció -l en el seu lloc"
 
-#: scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/Dpkg/Shlibs.pm scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
 msgid "unknown executable format in file '%s'"
 msgstr "el format del fitxer executable «%s» és desconegut"
@@ -3004,36 +3046,32 @@ msgstr "no es pot crear el directori %s"
 #: scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "cannot get source pathname %s metadata"
-msgstr ""
+msgstr "no es poden obtenir les metadades del nom de camí origen %s"
 
 #: scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "cannot get target pathname %s metadata"
-msgstr ""
+msgstr "no es poden obtenir les metadades del nom de camí destí %s"
 
 #: scripts/Dpkg/Source/Archive.pm
-#, fuzzy, perl-format
-#| msgid "cannot create directory %s"
+#, perl-format
 msgid "cannot change directory %s mode"
-msgstr "no es pot crear el directori %s"
+msgstr "no es pot canviar el mode del directori %s"
 
 #: scripts/Dpkg/Source/Archive.pm
-#, fuzzy, perl-format
-#| msgid "cannot create directory %s"
+#, perl-format
 msgid "cannot change directory %s times"
-msgstr "no es pot crear el directori %s"
+msgstr "no es poden canviar els temps del directori %s"
 
 #: scripts/Dpkg/Source/Archive.pm
-#, fuzzy, perl-format
-#| msgid "cannot stat directory %s"
+#, perl-format
 msgid "cannot remove destination directory %s"
-msgstr "no es pot fer «stat» sobre el fitxer %s"
+msgstr "no es eliminar el directori de destí %s"
 
 #: scripts/Dpkg/Source/Archive.pm
-#, fuzzy, perl-format
-#| msgid "cannot seek into file %s"
+#, perl-format
 msgid "cannot remove destination file %s"
-msgstr "no es pot reposicionar al fitxer «%s»"
+msgstr "no es pot eliminar el fitxer de destí %s"
 
 #: scripts/Dpkg/Source/Archive.pm scripts/Dpkg/Source/Package.pm
 #: scripts/Dpkg/Source/Package/V2.pm
@@ -3129,6 +3167,21 @@ msgstr "els camps %s i %s són necessaris per calcular el nom base del font"
 msgid "upstream tarball signatures but no upstream signing key"
 msgstr ""
 "hi ha signatura d'arxiu tar original però no hi ha clau de signatura original"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "verifying %s"
+msgstr "s'està verificant %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "cannot verify upstream tarball signature for %s: %s"
+msgstr "no es pot verificar la signatura d'arxiu tar original «%s»: %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "cannot verify inline signature for %s: %s"
+msgstr "no es pot verificar la signatura en línia «%s»: %s"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -3403,11 +3456,6 @@ msgstr "no es poden establir els permisos d'execució en «%s»"
 #, perl-format
 msgid "building %s using existing %s"
 msgstr "s'està construint %s emprant %s existent"
-
-#: scripts/Dpkg/Source/Package/V1.pm
-#, perl-format
-msgid "verifying %s using existing %s"
-msgstr "s'està verificant %s emprant %s existent"
 
 #: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
 msgid "upstream signing key but no upstream tarball signature"
@@ -3771,13 +3819,12 @@ msgstr "s'està clonant %s"
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 msgid "setting up shallow clone"
-msgstr "s'esta preparant un clon sense profunditat"
+msgstr "s'està preparant un clon sense profunditat"
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm
-#, fuzzy, perl-format
-#| msgid "unable to rename %s to %s"
+#, perl-format
 msgid "setting remote %s to %s"
-msgstr "no es pot canviar el nom de %s a %s"
+msgstr "no es pot configurar el remot %s a %s"
 
 #: scripts/Dpkg/Source/Package/V3/Native.pm
 msgid "multiple tarfiles in native source package"
@@ -4122,6 +4169,24 @@ msgstr "el nom del paquet font «%s» no és legal: %s"
 msgid "source package has two conflicting values - %s and %s"
 msgstr "el paquet font té dos valors contradictoris - %s i %s"
 
+#: scripts/Dpkg/Vendor.pm
+#, perl-format
+msgid ""
+"%s origin filename is deprecated; it should have only alphanumeric or dash "
+"characters"
+msgstr ""
+"el nom de fitxer de l'origen %s és obsolet; només pot contenir caràcters "
+"alfanumèrics o guió"
+
+#: scripts/Dpkg/Vendor.pm
+#, perl-format
+msgid ""
+"%s module name is deprecated; it should be capitalized with only "
+"alphanumeric characters"
+msgstr ""
+"el nom de fitxer del mòdul %s és obsolet; ha de ser una paraula amb "
+"majúscula inicial i només pot contenir caràcters alfanumèrics"
+
 #: scripts/Dpkg/Vendor/Debian.pm
 #, perl-format
 msgid "unknown host architecture '%s'"
@@ -4179,8 +4244,36 @@ msgid "epoch part of the version number is not a number: '%s'"
 msgstr "l'època en la versió no és un número: «%s»"
 
 #, perl-format
-#~ msgid "verifying %s"
-#~ msgstr "s'està verificant %s"
+#~ msgid "cannot execute %s program"
+#~ msgstr "no es pot executar el programa %s"
+
+#, perl-format
+#~ msgid "cannot write signature file %s"
+#~ msgstr "no es pot escriure el fitxer de signatura «%s»"
+
+#~ msgid "signature file is already OpenPGP ASCII armor, copying"
+#~ msgstr "el fitxer de signatura ja és armat en OpenPGP ASCII, s'esta copiant"
+
+#~ msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
+#~ msgstr ""
+#~ "no es pot armar el fitxer de signatura en OpenPGP ASCII ja que manca gpg"
+
+#, perl-format
+#~ msgid "cannot import key in %s since GnuPG is not installed"
+#~ msgstr "no es pot importar la clau a %s perquè GnuPG no està instal·lat"
+
+#, perl-format
+#~ msgid "cannot import key %s into %s"
+#~ msgstr "no es pot importar la clau %s a %s"
+
+#, perl-format
+#~ msgid "cannot verify signature on %s since GnuPG is not installed"
+#~ msgstr ""
+#~ "no es pot verificar la signatura de %s perquè GnuPG no està instal·lat"
+
+#, perl-format
+#~ msgid "verifying %s using existing %s"
+#~ msgstr "s'està verificant %s emprant %s existent"
 
 #~ msgid "parse changes file"
 #~ msgstr "analitza un fitxer de canvis"

@@ -3,14 +3,14 @@
 # Antoni Bella <bella5@teleline.es>, 2001-2002.
 # Jordi Mallach <jordi@debian.org>, 2002-2006, 2008-2010, 2015.
 # Jordà Polo <jorda@ettin.org>, 2006.
-# Guillem Jover <guillem@debian.org>, 2006, 2009-2010, 2012-2015, 2017, 2019.
+# Guillem Jover <guillem@debian.org>, 2006-2022.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.21.2\n"
+"Project-Id-Version: dpkg 1.21.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-07-01 09:25+0000\n"
-"PO-Revision-Date: 2022-02-27 03:35+0100\n"
+"POT-Creation-Date: 2022-12-01 01:27+0100\n"
+"PO-Revision-Date: 2022-12-01 12:08+0100\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
 "Language: ca\n"
@@ -678,6 +678,11 @@ msgstr "número de versió del format amb component secundari buit"
 msgid "format version followed by junk"
 msgstr "número de versió del format seguit de brossa"
 
+#: lib/dpkg/debug.c
+#, c-format
+msgid "cannot parse debug mask from environment variable %s"
+msgstr "no es pot analitzar la màscara de depuració de la variable d'entorn %s"
+
 #: lib/dpkg/dir.c
 #, c-format
 msgid "unable to get file descriptor for directory '%s'"
@@ -1008,7 +1013,7 @@ msgstr "el paquet de l'activador esperat «%.255s» és duplicat"
 #: lib/dpkg/file.c
 #, c-format
 msgid "unable to stat source file '%.250s'"
-msgstr "no es pot fer «stat» al fitxer font «%.250s»"
+msgstr "no es pot fer «stat» al fitxer origen «%.250s»"
 
 #: lib/dpkg/file.c
 #, c-format
@@ -2673,32 +2678,7 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  -v, --verbose                    Enable verbose output.\n"
-#| "  -D, --debug                      Enable debugging output.\n"
-#| "      --showformat=<format>        Use alternative format for --show.\n"
-#| "      --deb-format=<format>        Select archive format.\n"
-#| "                                     Allowed values: 0.939000, 2.0 "
-#| "(default).\n"
-#| "      --nocheck                    Suppress control file check (build "
-#| "bad\n"
-#| "                                     packages).\n"
-#| "      --root-owner-group           Forces the owner and groups to root.\n"
-#| "      --[no-]uniform-compression   Use the compression params on all "
-#| "members.\n"
-#| "  -z#                              Set the compression level when "
-#| "building.\n"
-#| "  -Z<type>                         Set the compression type used when "
-#| "building.\n"
-#| "                                     Allowed types: gzip, xz, none.\n"
-#| "  -S<strategy>                     Set the compression strategy when "
-#| "building.\n"
-#| "                                     Allowed values: none; extreme (xz);\n"
-#| "                                     filtered, huffman, rle, fixed "
-#| "(gzip).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -2733,6 +2713,7 @@ msgstr ""
 "      --nocheck              Suprimeix la comprovació del fitxer de control\n"
 "                               (construeix un paquet erroni).\n"
 "      --root-owner-group     Força el propietari i el grup a «root».\n"
+"      --threads-max=<fils>   Empra com a mínim <fils> amb el compressor.\n"
 "      --[no-]uniform-compression\n"
 "                             Empra els paràmetres de compressió en tots els\n"
 "                               elements.\n"
@@ -3136,21 +3117,25 @@ msgstr ""
 #, c-format
 msgid ""
 "Options:\n"
-"  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
-"  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
-"  -o|--output <file>               Filename, for -j (default is\n"
+"      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
+"      --admindir <directory>       Use <directory> instead of %s.\n"
+"      --root <directory>           Use <directory> instead of %s.\n"
+"  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
+"  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
-"  -Q|--npquiet                     Be quiet when -a is not a part.\n"
-"  --msdos                          Generate 8.3 filenames.\n"
+"  -Q, --npquiet                    Be quiet when -a is not a part.\n"
+"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "Opcions:\n"
-"  --depotdir <directori>           Empra <directori> en comptes de %s/%s.\n"
-"  -S|--partsize <mida>             En KiB, per a -s (per defecte és 450).\n"
-"  -o|--output <fitxer>             Per a -j (per defecte és\n"
+"      --depotdir <directori>       Empra <directori> en comptes de %s/%s.\n"
+"      --admindir <directori>       Empra <directori> en comptes de %s.\n"
+"      --root <directori>           Empra <directori> en comptes de %s.\n"
+"  -S, --partsize <mida>            En KiB, per a -s (per defecte és 450).\n"
+"  -o, --output <fitxer>            Per a -j (per defecte és\n"
 "                                     <paquet>_<versió>_<arquitectura>.deb)\n"
-"  -Q|--npquiet                     Sigues silenciós quan -a no és una part.\n"
-"  --msdos                          Genera noms de fitxer en format 8.3.\n"
+"  -Q, --npquiet                    Sigues silenciós quan -a no és una part.\n"
+"      --msdos                      Genera noms de fitxer en format 8.3.\n"
 "\n"
 
 #: src/split/main.c
@@ -3312,16 +3297,16 @@ msgstr "<dpkg-deb --info canonada>"
 #: src/split/split.c
 #, c-format
 msgid "unable to open source file '%.250s'"
-msgstr "no es pot obrir el fitxer font «%.250s»"
+msgstr "no es pot obrir el fitxer origen «%.250s»"
 
 #: src/split/split.c
 msgid "unable to fstat source file"
-msgstr "no es pot fer «fstat» al fitxer font"
+msgstr "no es pot fer «fstat» al fitxer origen"
 
 #: src/split/split.c
 #, c-format
 msgid "source file '%.250s' not a plain file"
-msgstr "el fitxer font «%.250s» no és un fitxer normal"
+msgstr "el fitxer origen «%.250s» no és un fitxer normal"
 
 #: src/split/split.c src/main/configure.c src/main/verify.c
 #, c-format
@@ -3347,11 +3332,11 @@ msgstr ""
 
 #: src/split/split.c
 msgid "--split needs a source filename argument"
-msgstr "--split necessita un nom de fitxer font com a argument"
+msgstr "--split necessita un nom de fitxer origen com a argument"
 
 #: src/split/split.c
 msgid "--split takes at most a source filename and destination prefix"
-msgstr "--split pren com molt un nom de fitxer font i un prefix de destí"
+msgstr "--split pren com molt un nom de fitxer origen i un prefix de destí"
 
 #: src/divert/main.c
 msgid "Use --help for help about diverting files."
@@ -3809,14 +3794,6 @@ msgstr ""
 "s'ha d'executar des d'un script de mantenidor (o amb una opció --by-package)"
 
 #: src/trigger/main.c
-msgid "triggers data directory not yet created"
-msgstr "encara no s'ha creat el directori de dades dels activadors"
-
-#: src/trigger/main.c
-msgid "trigger records not yet in existence"
-msgstr "encara no existeixen els registres dels activadors"
-
-#: src/trigger/main.c
 msgid "takes one argument, the trigger name"
 msgstr "només accepta un argument, el nom de l'activador"
 
@@ -3829,6 +3806,14 @@ msgstr "el nom de paquet esperat «%.255s» és il·legal: %.250s"
 #, c-format
 msgid "invalid trigger name '%.250s': %.250s"
 msgstr "el nom d'activador «%.250s» no és vàlid: %.250s»"
+
+#: src/trigger/main.c
+msgid "triggers data directory not yet created"
+msgstr "encara no s'ha creat el directori de dades dels activadors"
+
+#: src/trigger/main.c
+msgid "trigger records not yet in existence"
+msgstr "encara no existeixen els registres dels activadors"
 
 #: src/query/main.c src/main/select.c
 #, c-format
@@ -5438,7 +5423,8 @@ msgid ""
 "exclusion.\n"
 "  -O|--selected-only         Skip packages not selected for install/"
 "upgrade.\n"
-"  -E|--skip-same-version     Skip packages whose same version is installed.\n"
+"  -E|--skip-same-version     Skip packages with same installed version/"
+"arch.\n"
 "  -G|--refuse-downgrade      Skip packages with earlier version than "
 "installed.\n"
 "  -B|--auto-deconfigure      Install even if it would break some other "
@@ -5481,9 +5467,8 @@ msgstr ""
 "                                prèvia.\n"
 "  -O|--selected-only         Omet els paquets no seleccionats per a\n"
 "                               instal·lació o actualització.\n"
-"  -E|--skip-same-version     Omet els paquets que ja tinguen la mateixa "
-"versió\n"
-"                               instal·lada.\n"
+"  -E|--skip-same-version     Omet els paquets amb la mateixa versió i\n"
+"                               arquitectura instal·lada.\n"
 "  -G|--refuse-downgrade      Omet els paquets amb una versió anterior que "
 "la\n"
 "                               instal·lada.\n"
@@ -6595,10 +6580,9 @@ msgid "unable to read link '%s%.255s'"
 msgstr "no es pot llegir l'enllaç «%s%.255s»"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "unable to get file '%s' metadata"
+#, c-format
 msgid "unable to get file '%s%s' metadata"
-msgstr "no es poden obtenir les metadades del fitxer «%s»"
+msgstr "no es poden obtenir les metadades del fitxer «%s%s»"
 
 #: utils/update-alternatives.c
 #, c-format
