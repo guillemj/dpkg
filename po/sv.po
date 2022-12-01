@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.9\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-10-01 21:48+0100\n"
+"POT-Creation-Date: 2022-12-01 11:11+0000\n"
 "PO-Revision-Date: 2022-10-01 21:50+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -656,6 +656,12 @@ msgstr "formatversion med tom underkomponent"
 #: lib/dpkg/deb-version.c
 msgid "format version followed by junk"
 msgstr "formatversion följs av skräp"
+
+#: lib/dpkg/debug.c
+#, fuzzy, c-format
+#| msgid "Useful environment variables:\n"
+msgid "cannot parse debug mask from environment variable %s"
+msgstr "Användbara miljövariabler:\n"
 
 #: lib/dpkg/dir.c
 #, c-format
@@ -1685,8 +1691,8 @@ msgstr "kunde inte öppna/skapa ny fil för uppskjutna utlösare, \"%.250s\""
 msgid ""
 "syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
 msgstr ""
-"syntaxfel i utlösarfördröjningsfilen \"%.250s\" på rad %d vid tecken %zd \"%s"
-"\""
+"syntaxfel i utlösarfördröjningsfilen \"%.250s\" på rad %d vid tecken %zd "
+"\"%s\""
 
 #: lib/dpkg/trigdeferred.c
 #, c-format
@@ -3010,15 +3016,26 @@ msgstr ""
 "\n"
 
 #: src/split/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
+#| "  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
+#| "  -o|--output <file>               Filename, for -j (default is\n"
+#| "                                     <package>_<version>_<arch>.deb).\n"
+#| "  -Q|--npquiet                     Be quiet when -a is not a part.\n"
+#| "  --msdos                          Generate 8.3 filenames.\n"
+#| "\n"
 msgid ""
 "Options:\n"
-"  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
-"  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
-"  -o|--output <file>               Filename, for -j (default is\n"
+"      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
+"      --admindir <directory>       Use <directory> instead of %s.\n"
+"      --root <directory>           Use <directory> instead of %s.\n"
+"  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
+"  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
-"  -Q|--npquiet                     Be quiet when -a is not a part.\n"
-"  --msdos                          Generate 8.3 filenames.\n"
+"  -Q, --npquiet                    Be quiet when -a is not a part.\n"
+"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "Flaggor:\n"
@@ -3667,14 +3684,6 @@ msgstr ""
 "måste anropas från ett utvecklarskript (eller med flaggan --by-package)"
 
 #: src/trigger/main.c
-msgid "triggers data directory not yet created"
-msgstr "utlösardatakatalogen har inte skapats ännu"
-
-#: src/trigger/main.c
-msgid "trigger records not yet in existence"
-msgstr "utlösarposter finns inte ännu"
-
-#: src/trigger/main.c
 msgid "takes one argument, the trigger name"
 msgstr "tar bara ett argument, namnet på utlösaren"
 
@@ -3687,6 +3696,14 @@ msgstr "ogiltigt namn \"%.250s\" på paket som väntas på: %.250s"
 #, c-format
 msgid "invalid trigger name '%.250s': %.250s"
 msgstr "ogiltigt utlösarnamn \"%.250s\": %.250s"
+
+#: src/trigger/main.c
+msgid "triggers data directory not yet created"
+msgstr "utlösardatakatalogen har inte skapats ännu"
+
+#: src/trigger/main.c
+msgid "trigger records not yet in existence"
+msgstr "utlösarposter finns inte ännu"
 
 #: src/query/main.c src/main/select.c
 #, c-format
@@ -5342,8 +5359,8 @@ msgstr ""
 "Skriv dpkg --force-help för en lista över tvingande flaggor;\n"
 "Skriv dpkg-deb --help för hjälp om manipulering av *.deb-filer;\n"
 "\n"
-"Flaggor markerade med [*] ger mycket utdata - kör genom \"less\" eller \"more"
-"\"!"
+"Flaggor markerade med [*] ger mycket utdata - kör genom \"less\" eller "
+"\"more\"!"
 
 #: src/main/main.c
 msgid "Generally helpful progress information"
@@ -6011,8 +6028,8 @@ msgstr "kunde inte öppna temporär kontrollkatalog"
 #, c-format
 msgid "package contains overly-long control info file name (starting '%.50s')"
 msgstr ""
-"paketet innehåller för långt kontrollinformationsfilnamn (börjar på \"%.50s"
-"\")"
+"paketet innehåller för långt kontrollinformationsfilnamn (börjar på "
+"\"%.50s\")"
 
 #: src/main/unpack.c
 #, c-format

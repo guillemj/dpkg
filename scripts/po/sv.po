@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.9\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-10-01 21:53+0100\n"
+"POT-Creation-Date: 2022-12-01 11:11+0000\n"
 "PO-Revision-Date: 2022-10-01 21:57+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -243,6 +243,78 @@ msgid "Usage: %s [<option>...]"
 msgstr "Användning: %s [<flagga>...]"
 
 #: scripts/dpkg-buildpackage.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "      --build=<type>[,...]    specify the build <type>: full, source, "
+#| "binary,\n"
+#| "                                any, all (default is 'full').\n"
+#| "  -F, --build=full            normal full build (source and binary; "
+#| "default).\n"
+#| "  -g, --build=source,all      source and arch-indep build.\n"
+#| "  -G, --build=source,any      source and arch-specific build.\n"
+#| "  -b, --build=binary          binary-only, no source files.\n"
+#| "  -B, --build=any             binary-only, only arch-specific files.\n"
+#| "  -A, --build=all             binary-only, only arch-indep files.\n"
+#| "  -S, --build=source          source-only, no binary files.\n"
+#| "  -nc, --no-pre-clean         do not pre clean source tree (implies -b).\n"
+#| "      --pre-clean             pre clean source tree (default).\n"
+#| "      --no-post-clean         do not post clean source tree (default).\n"
+#| "  -tc, --post-clean           post clean source tree.\n"
+#| "      --sanitize-env          sanitize the build environment.\n"
+#| "  -D, --check-builddeps       check build dependencies and conflicts "
+#| "(default).\n"
+#| "  -d, --no-check-builddeps    do not check build dependencies and "
+#| "conflicts.\n"
+#| "      --ignore-builtin-builddeps\n"
+#| "                              do not check builtin build dependencies.\n"
+#| "  -P, --build-profiles=<profiles>\n"
+#| "                              assume comma-separated build <profiles> as "
+#| "active.\n"
+#| "      --rules-requires-root   assume legacy Rules-Requires-Root field "
+#| "value.\n"
+#| "  -R, --rules-file=<rules>    rules file to execute (default is debian/"
+#| "rules).\n"
+#| "  -T, --rules-target=<target> call debian/rules <target>.\n"
+#| "      --as-root               ensure -T calls the target with root "
+#| "rights.\n"
+#| "  -j, --jobs[=<number>|auto]  jobs to run simultaneously (passed to "
+#| "<rules>),\n"
+#| "                                forced mode.\n"
+#| "  -J, --jobs-try[=<number>|auto]\n"
+#| "                              jobs to run simultaneously (passed to "
+#| "<rules>),\n"
+#| "                                opt-in mode (default is auto).\n"
+#| "  -r, --root-command=<command>\n"
+#| "                              command to gain root rights (default is "
+#| "fakeroot).\n"
+#| "      --check-command=<command>\n"
+#| "                              command to check the .changes file (no "
+#| "default).\n"
+#| "      --check-option=<opt>    pass <opt> to check <command>.\n"
+#| "      --hook-<name>=<command> set <command> as the hook <name>, known "
+#| "hooks:\n"
+#| "                                init preclean source build binary "
+#| "buildinfo\n"
+#| "                                changes postclean check sign done\n"
+#| "      --buildinfo-file=<file> set the .buildinfo filename to generate.\n"
+#| "      --buildinfo-option=<opt>\n"
+#| "                              pass option <opt> to dpkg-genbuildinfo.\n"
+#| "      --changes-file=<file>   set the .changes filename to generate.\n"
+#| "  -p, --sign-command=<command>\n"
+#| "                              command to sign .dsc and/or .changes files\n"
+#| "                                (default is gpg).\n"
+#| "  -k, --sign-key=<keyid>      the key to use for signing.\n"
+#| "  -ap, --sign-pause           add pause before starting signature "
+#| "process.\n"
+#| "  -us, --unsigned-source      unsigned source package.\n"
+#| "  -ui, --unsigned-buildinfo   unsigned .buildinfo file.\n"
+#| "  -uc, --unsigned-changes     unsigned .buildinfo and .changes file.\n"
+#| "      --no-sign               do not sign any file.\n"
+#| "      --force-sign            force signing the resulting files.\n"
+#| "      --admindir=<directory>  change the administrative directory.\n"
+#| "  -?, --help                  show this help message.\n"
+#| "      --version               show the version."
 msgid ""
 "Options:\n"
 "      --build=<type>[,...]    specify the build <type>: full, source, "
@@ -276,13 +348,15 @@ msgid ""
 "rules).\n"
 "  -T, --rules-target=<target> call debian/rules <target>.\n"
 "      --as-root               ensure -T calls the target with root rights.\n"
-"  -j, --jobs[=<number>|auto]  jobs to run simultaneously (passed to "
+"  -j, --jobs[=<jobs>|auto]    jobs to run simultaneously (passed to "
 "<rules>),\n"
-"                                forced mode.\n"
-"  -J, --jobs-try[=<number>|auto]\n"
+"                                (default; default is auto, opt-in mode).\n"
+"  -J, --jobs-try[=<jobs>|auto]\n"
+"                              alias for -j, --jobs.\n"
+"      --jobs-force[=<jobs>|auto]\n"
 "                              jobs to run simultaneously (passed to "
 "<rules>),\n"
-"                                opt-in mode (default is auto).\n"
+"                                (default is auto, forced mode).\n"
 "  -r, --root-command=<command>\n"
 "                              command to gain root rights (default is "
 "fakeroot).\n"
@@ -298,10 +372,15 @@ msgid ""
 "      --buildinfo-option=<opt>\n"
 "                              pass option <opt> to dpkg-genbuildinfo.\n"
 "      --changes-file=<file>   set the .changes filename to generate.\n"
+"      --sign-backend=<backend>\n"
+"                              OpenPGP backend to use to sign\n"
+"                                (default is auto).\n"
 "  -p, --sign-command=<command>\n"
 "                              command to sign .dsc and/or .changes files\n"
 "                                (default is gpg).\n"
-"  -k, --sign-key=<keyid>      the key to use for signing.\n"
+"      --sign-keyfile=<file>   the key file to use for signing.\n"
+"  -k, --sign-keyid=<keyid>    the key id to use for signing.\n"
+"      --sign-key=<keyid>      alias for -k, --sign-keyid.\n"
 "  -ap, --sign-pause           add pause before starting signature process.\n"
 "  -us, --unsigned-source      unsigned source package.\n"
 "  -ui, --unsigned-buildinfo   unsigned .buildinfo file.\n"
@@ -558,11 +637,6 @@ msgid "Press <enter> to start the signing process.\n"
 msgstr "Tryck <enter> för att inleda signeringsproceduren.\n"
 
 #: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "failed to sign %s file"
-msgstr "misslyckades att signera %s-fil"
-
-#: scripts/dpkg-buildpackage.pl
 msgid "not signing UNRELEASED build; use --force-sign to override"
 msgstr ""
 "signerar inte \"UNRELEASED\"-bygge; använd --force-sign för att överstyra"
@@ -650,7 +724,7 @@ msgstr ""
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
 #: scripts/dpkg-genbuildinfo.pl scripts/dpkg-name.pl scripts/Dpkg/Arch.pm
-#: scripts/Dpkg/IPC.pm scripts/Dpkg/OpenPGP.pm scripts/Dpkg/Shlibs.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs.pm
 #, perl-format
 msgid "cannot open %s"
 msgstr "kan inte öppna %s"
@@ -667,6 +741,12 @@ msgstr "kan inte stänga %s"
 #, perl-format
 msgid "cannot move %s to %s"
 msgstr "kan inte flytta %s till %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, fuzzy, perl-format
+#| msgid "failed to sign %s file"
+msgid "failed to sign %s file: %s"
+msgstr "misslyckades att signera %s-fil"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "source-only upload: Debian-native package"
@@ -703,8 +783,8 @@ msgid ""
 "%s must be updated to support the 'build-arch' and 'build-indep' targets (at "
 "least '%s' seems to be missing)"
 msgstr ""
-"%s måste uppdateras för att stöda målen \"build-arch\" och \"build-indep"
-"\" (åtminstone \"%s\" verkar saknas)"
+"%s måste uppdateras för att stöda målen \"build-arch\" och \"build-"
+"indep\" (åtminstone \"%s\" verkar saknas)"
 
 #: scripts/dpkg-checkbuilddeps.pl
 #, perl-format
@@ -792,11 +872,10 @@ msgstr "filnamn, sektion och prioritet kan inte innehålla blanktecken"
 
 #: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
 #: scripts/dpkg-gencontrol.pl scripts/dpkg-mergechangelogs.pl
-#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Source/Functions.pm
+#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/File.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Interface/Storable.pm
 #: scripts/Dpkg/Source/BinaryFiles.pm scripts/Dpkg/Source/Package.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Package/V3/Quilt.pm
-#: scripts/Dpkg/Source/Quilt.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot write %s"
 msgstr "kan inte skriva %s"
@@ -1676,8 +1755,8 @@ msgstr "behöver minst en binär"
 msgid ""
 "cannot find library %s needed by %s (ELF format: '%s' abi: '%s'; RPATH: '%s')"
 msgstr ""
-"hittade inte biblioteket %s som behövs av %s (ELF-format: \"%s\" abi: \"%s"
-"\"; RPATH: \"%s\")"
+"hittade inte biblioteket %s som behövs av %s (ELF-format: \"%s\" abi: "
+"\"%s\"; RPATH: \"%s\")"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -2122,8 +2201,8 @@ msgstr ""
 "                             är \"%s\", värden som stöds: %s).\n"
 "  -z, --compression-level=<nivå>\n"
 "                           komprimeringsnivå att använda (förval är\n"
-"                             \"%d\", värden som stöds: \"1\"-\"9\", \"best"
-"\", \"fast\")"
+"                             \"%d\", värden som stöds: \"1\"-\"9\", "
+"\"best\", \"fast\")"
 
 #: scripts/dpkg-source.pl
 msgid ""
@@ -2220,7 +2299,7 @@ msgstr "\"%s\" är inte en giltig arkitektur i listan \"%s\""
 #: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
 #: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
 #: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
+#: scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot read %s"
 msgstr "kan inte läsa %s"
@@ -2708,6 +2787,12 @@ msgstr "underprocessen %s misslyckades med okänd felkod %d"
 msgid "Use --help for program usage information."
 msgstr "Använd --help för hjälp om hur du använder programmet."
 
+#: scripts/Dpkg/File.pm
+#, fuzzy, perl-format
+#| msgid "cannot stat file %s"
+msgid "cannot create file %s"
+msgstr "kan inte ta status på filen %s"
+
 #: scripts/Dpkg/IPC.pm
 #, perl-format
 msgid "pipe for %s"
@@ -2756,47 +2841,89 @@ msgid "failed to get a write lock on %s"
 msgstr "misslyckades få ett skrivlås på %s"
 
 #: scripts/Dpkg/OpenPGP.pm
-#, perl-format
-msgid "cannot create signature file %s"
+#, fuzzy, perl-format
+#| msgid "unknown option or argument %s"
+msgid "unknown OpenPGP api requested %s"
+msgstr "okänd flagga eller argument %s"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "cannot open file %s"
+msgid "cannot load OpenPGP backend %s"
+msgstr "kan inte öppna filen %s"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "unknown option or argument %s"
+msgid "unknown OpenPGP backend %s"
+msgstr "okänd flagga eller argument %s"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "success"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+#, fuzzy
+#| msgid "cannot create signature file %s"
+msgid "no acceptable signature found"
 msgstr "kan inte skapa signaturfil %s"
 
-#: scripts/Dpkg/OpenPGP.pm
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "missing required argument"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+#, fuzzy
+#| msgid "%s is not a supported compression"
+msgid "unsupported option"
+msgstr "%s är inte en komprimering som stöds"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "invalid data type"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+#, fuzzy
+#| msgid "one to three arguments expected"
+msgid "non-text input where text expected"
+msgstr "ett till tre argument förväntades"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "output file already exists"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+#, fuzzy
+#| msgid "patch file '%s' doesn't exist"
+msgid "input file does not exist"
+msgstr "patchfilen \"%s\" finns inte"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "cannot unlock password-protected key"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+#, fuzzy
+#| msgid "unsupported checksum '%s'"
+msgid "unsupported subcommand"
+msgstr "kontrollsumman \"%s\" stöds ej"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "key is not signature-capable"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "missing OpenPGP implementation"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "specified key needs a keystore"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 #, perl-format
-msgid "cannot execute %s program"
-msgstr "kunde inte exekvera programmet %s"
-
-#: scripts/Dpkg/OpenPGP.pm
-#, perl-format
-msgid "cannot write signature file %s"
-msgstr "kan inte ta skriva signaturfilen %s"
-
-#: scripts/Dpkg/OpenPGP.pm
-msgid "signature file is already OpenPGP ASCII armor, copying"
-msgstr "signaturfilen är redan OpenPGP-ASCII-sköld, kopierar"
-
-#: scripts/Dpkg/OpenPGP.pm
-msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
-msgstr "kan inte OpenPGP-ASCII-skydda signaturfilen då gpg saknas"
-
-#: scripts/Dpkg/OpenPGP.pm
-#, perl-format
-msgid "cannot import key in %s since GnuPG is not installed"
-msgstr "kunde importera nyckel i %s eftersom GnuPG inte installerats"
-
-#: scripts/Dpkg/OpenPGP.pm
-#, perl-format
-msgid "cannot import key %s into %s"
-msgstr "kan inte importera nyckeln %s till %s"
-
-#: scripts/Dpkg/OpenPGP.pm
-#, perl-format
-msgid "cannot verify signature on %s since GnuPG is not installed"
-msgstr "kunde inte verifiera signaturen på %s eftersom GnuPG inte installerats"
-
-#: scripts/Dpkg/OpenPGP.pm
-#, perl-format
-msgid "cannot verify signature %s"
-msgstr "kan inte bekräfta signaturen %s"
+msgid "error code %d"
+msgstr ""
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -2829,7 +2956,7 @@ msgstr ""
 "ej rekommenderad användning av LD_LIBRARY_PATH med privat biblioteksktalog "
 "som stör kryssbyggning, använd flaggan -l istället"
 
-#: scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/Dpkg/Shlibs.pm scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
 msgid "unknown executable format in file '%s'"
 msgstr "okänt format på exekverbar fil \"%s\""
@@ -3022,6 +3149,24 @@ msgstr "fälten %s och %s behövs för att beräkna basnamn för källkod"
 msgid "upstream tarball signatures but no upstream signing key"
 msgstr ""
 "signaturer för uppströms-tarbollen, men ingen uppströmssigneringsnyckel"
+
+#: scripts/Dpkg/Source/Package.pm
+#, fuzzy, perl-format
+#| msgid "applying %s"
+msgid "verifying %s"
+msgstr "tillämpar %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, fuzzy, perl-format
+#| msgid "cannot verify signature %s"
+msgid "cannot verify upstream tarball signature for %s: %s"
+msgstr "kan inte bekräfta signaturen %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, fuzzy, perl-format
+#| msgid "cannot verify signature %s"
+msgid "cannot verify inline signature for %s: %s"
+msgstr "kan inte bekräfta signaturen %s"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -3222,8 +3367,8 @@ msgstr "orig-parametern %s är inte en vanlig fil eller katalog"
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is empty (means no orig, no diff) but source handling style -s"
-"%s wants something"
+"orig argument is empty (means no orig, no diff) but source handling style -"
+"s%s wants something"
 msgstr ""
 "originalargument är tomt (betyder ingen orig, ingen diff) men "
 "källkodshanteringstypen -s%s ber om något"
@@ -3294,11 +3439,6 @@ msgstr "kunde inte ändra beroenden på \"%s\""
 #, perl-format
 msgid "building %s using existing %s"
 msgstr "bygger %s med befintlig %s"
-
-#: scripts/Dpkg/Source/Package/V1.pm
-#, perl-format
-msgid "verifying %s using existing %s"
-msgstr "bekräftar %s med befintlig %s"
 
 #: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
 msgid "upstream signing key but no upstream tarball signature"
@@ -3999,6 +4139,20 @@ msgstr "namnet på källkodspaketet \"%s\" är ogiltigt: %s"
 msgid "source package has two conflicting values - %s and %s"
 msgstr "källkodspaketet har två emotsägande värden - %s och %s"
 
+#: scripts/Dpkg/Vendor.pm
+#, perl-format
+msgid ""
+"%s origin filename is deprecated; it should have only alphanumeric or dash "
+"characters"
+msgstr ""
+
+#: scripts/Dpkg/Vendor.pm
+#, perl-format
+msgid ""
+"%s module name is deprecated; it should be capitalized with only "
+"alphanumeric characters"
+msgstr ""
+
 #: scripts/Dpkg/Vendor/Debian.pm
 #, perl-format
 msgid "unknown host architecture '%s'"
@@ -4054,3 +4208,34 @@ msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
+
+#, perl-format
+#~ msgid "cannot execute %s program"
+#~ msgstr "kunde inte exekvera programmet %s"
+
+#, perl-format
+#~ msgid "cannot write signature file %s"
+#~ msgstr "kan inte ta skriva signaturfilen %s"
+
+#~ msgid "signature file is already OpenPGP ASCII armor, copying"
+#~ msgstr "signaturfilen är redan OpenPGP-ASCII-sköld, kopierar"
+
+#~ msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
+#~ msgstr "kan inte OpenPGP-ASCII-skydda signaturfilen då gpg saknas"
+
+#, perl-format
+#~ msgid "cannot import key in %s since GnuPG is not installed"
+#~ msgstr "kunde importera nyckel i %s eftersom GnuPG inte installerats"
+
+#, perl-format
+#~ msgid "cannot import key %s into %s"
+#~ msgstr "kan inte importera nyckeln %s till %s"
+
+#, perl-format
+#~ msgid "cannot verify signature on %s since GnuPG is not installed"
+#~ msgstr ""
+#~ "kunde inte verifiera signaturen på %s eftersom GnuPG inte installerats"
+
+#, perl-format
+#~ msgid "verifying %s using existing %s"
+#~ msgstr "bekräftar %s med befintlig %s"

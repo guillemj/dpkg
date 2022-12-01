@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-07-01 09:25+0000\n"
+"POT-Creation-Date: 2022-12-01 11:11+0000\n"
 "PO-Revision-Date: 2015-06-26 16:13+0200\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@debian.org>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -660,6 +660,11 @@ msgstr "เลขรุ่นของรูปแบบแพกเกจไม
 #: lib/dpkg/deb-version.c
 msgid "format version followed by junk"
 msgstr "เลขรุ่นของรูปแบบแพกเกจมีค่าขยะต่อท้าย"
+
+#: lib/dpkg/debug.c
+#, c-format
+msgid "cannot parse debug mask from environment variable %s"
+msgstr ""
 
 #: lib/dpkg/dir.c
 #, c-format
@@ -3154,15 +3159,26 @@ msgstr ""
 "\n"
 
 #: src/split/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
+#| "  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
+#| "  -o|--output <file>               Filename, for -j (default is\n"
+#| "                                     <package>_<version>_<arch>.deb).\n"
+#| "  -Q|--npquiet                     Be quiet when -a is not a part.\n"
+#| "  --msdos                          Generate 8.3 filenames.\n"
+#| "\n"
 msgid ""
 "Options:\n"
-"  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
-"  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
-"  -o|--output <file>               Filename, for -j (default is\n"
+"      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
+"      --admindir <directory>       Use <directory> instead of %s.\n"
+"      --root <directory>           Use <directory> instead of %s.\n"
+"  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
+"  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
-"  -Q|--npquiet                     Be quiet when -a is not a part.\n"
-"  --msdos                          Generate 8.3 filenames.\n"
+"  -Q, --npquiet                    Be quiet when -a is not a part.\n"
+"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "ตัวเลือก:\n"
@@ -3833,14 +3849,6 @@ msgid "must be called from a maintainer script (or with a --by-package option)"
 msgstr "ใช้เรียกจากสคริปต์ผู้ดูแลแพกเกจเท่านั้น (หรือโดยใช้ตัวเลือก --by-package)"
 
 #: src/trigger/main.c
-msgid "triggers data directory not yet created"
-msgstr "ยังไม่ได้สร้างไดเรกทอรีข้อมูลการสะกิด"
-
-#: src/trigger/main.c
-msgid "trigger records not yet in existence"
-msgstr "ยังไม่มีระเบียนการสะกิด"
-
-#: src/trigger/main.c
 msgid "takes one argument, the trigger name"
 msgstr "รับอาร์กิวเมนต์แค่ตัวเดียว คือชื่อของการสะกิด"
 
@@ -3853,6 +3861,14 @@ msgstr "ชื่อแพกเกจที่รอคอย '%.255s' ไม�
 #, c-format
 msgid "invalid trigger name '%.250s': %.250s"
 msgstr "ชื่อการสะกิด `%.255s' ไม่ถูกต้อง: %.250s"
+
+#: src/trigger/main.c
+msgid "triggers data directory not yet created"
+msgstr "ยังไม่ได้สร้างไดเรกทอรีข้อมูลการสะกิด"
+
+#: src/trigger/main.c
+msgid "trigger records not yet in existence"
+msgstr "ยังไม่มีระเบียนการสะกิด"
 
 #: src/query/main.c src/main/select.c
 #, c-format
@@ -5523,7 +5539,8 @@ msgid ""
 "exclusion.\n"
 "  -O|--selected-only         Skip packages not selected for install/"
 "upgrade.\n"
-"  -E|--skip-same-version     Skip packages whose same version is installed.\n"
+"  -E|--skip-same-version     Skip packages with same installed version/"
+"arch.\n"
 "  -G|--refuse-downgrade      Skip packages with earlier version than "
 "installed.\n"
 "  -B|--auto-deconfigure      Install even if it would break some other "

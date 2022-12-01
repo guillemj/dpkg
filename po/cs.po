@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-07-01 09:25+0000\n"
+"POT-Creation-Date: 2022-12-01 11:11+0000\n"
 "PO-Revision-Date: 2017-05-06 12:49+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -667,6 +667,11 @@ msgstr "verze formátu s prázdnou vedlejší pozicí"
 #: lib/dpkg/deb-version.c
 msgid "format version followed by junk"
 msgstr "verze formátu následovaná smetím"
+
+#: lib/dpkg/debug.c
+#, c-format
+msgid "cannot parse debug mask from environment variable %s"
+msgstr ""
 
 #: lib/dpkg/dir.c
 #, c-format
@@ -3126,15 +3131,26 @@ msgstr ""
 "\n"
 
 #: src/split/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
+#| "  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
+#| "  -o|--output <file>               Filename, for -j (default is\n"
+#| "                                     <package>_<version>_<arch>.deb).\n"
+#| "  -Q|--npquiet                     Be quiet when -a is not a part.\n"
+#| "  --msdos                          Generate 8.3 filenames.\n"
+#| "\n"
 msgid ""
 "Options:\n"
-"  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
-"  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
-"  -o|--output <file>               Filename, for -j (default is\n"
+"      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
+"      --admindir <directory>       Use <directory> instead of %s.\n"
+"      --root <directory>           Use <directory> instead of %s.\n"
+"  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
+"  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
-"  -Q|--npquiet                     Be quiet when -a is not a part.\n"
-"  --msdos                          Generate 8.3 filenames.\n"
+"  -Q, --npquiet                    Be quiet when -a is not a part.\n"
+"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "Volby:\n"
@@ -3809,14 +3825,6 @@ msgstr ""
 "musí být zavolán z konfiguračního skriptu (nebo s parametrem --by-package)"
 
 #: src/trigger/main.c
-msgid "triggers data directory not yet created"
-msgstr "datový adresář pro spouštěče ještě není vytvořen"
-
-#: src/trigger/main.c
-msgid "trigger records not yet in existence"
-msgstr "záznamy spouštěčů zatím neexistují"
-
-#: src/trigger/main.c
 msgid "takes one argument, the trigger name"
 msgstr "vyžaduje jeden parametr, název spouštěče"
 
@@ -3829,6 +3837,14 @@ msgstr "nedovolené jméno očekávajícího balíku „%.250s“: %.250s"
 #, c-format
 msgid "invalid trigger name '%.250s': %.250s"
 msgstr "neplatné jméno spouštěče „%.250s“: %.250s"
+
+#: src/trigger/main.c
+msgid "triggers data directory not yet created"
+msgstr "datový adresář pro spouštěče ještě není vytvořen"
+
+#: src/trigger/main.c
+msgid "trigger records not yet in existence"
+msgstr "záznamy spouštěčů zatím neexistují"
 
 #: src/query/main.c src/main/select.c
 #, c-format
@@ -5517,7 +5533,8 @@ msgid ""
 "exclusion.\n"
 "  -O|--selected-only         Skip packages not selected for install/"
 "upgrade.\n"
-"  -E|--skip-same-version     Skip packages whose same version is installed.\n"
+"  -E|--skip-same-version     Skip packages with same installed version/"
+"arch.\n"
 "  -G|--refuse-downgrade      Skip packages with earlier version than "
 "installed.\n"
 "  -B|--auto-deconfigure      Install even if it would break some other "

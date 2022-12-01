@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.9\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-07-01 09:25+0000\n"
+"POT-Creation-Date: 2022-12-01 11:11+0000\n"
 "PO-Revision-Date: 2022-09-17 17:55+0200\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -664,6 +664,12 @@ msgstr "formaat van het versienummer bevat een lege onderversiecomponent"
 #: lib/dpkg/deb-version.c
 msgid "format version followed by junk"
 msgstr "formaat van het versienummer eindigt met rommel"
+
+#: lib/dpkg/debug.c
+#, fuzzy, c-format
+#| msgid "Useful environment variables:\n"
+msgid "cannot parse debug mask from environment variable %s"
+msgstr "Handige omgevingsvariabelen:\n"
 
 #: lib/dpkg/dir.c
 #, c-format
@@ -3085,15 +3091,26 @@ msgstr ""
 "\n"
 
 #: src/split/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
+#| "  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
+#| "  -o|--output <file>               Filename, for -j (default is\n"
+#| "                                     <package>_<version>_<arch>.deb).\n"
+#| "  -Q|--npquiet                     Be quiet when -a is not a part.\n"
+#| "  --msdos                          Generate 8.3 filenames.\n"
+#| "\n"
 msgid ""
 "Options:\n"
-"  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
-"  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
-"  -o|--output <file>               Filename, for -j (default is\n"
+"      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
+"      --admindir <directory>       Use <directory> instead of %s.\n"
+"      --root <directory>           Use <directory> instead of %s.\n"
+"  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
+"  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
-"  -Q|--npquiet                     Be quiet when -a is not a part.\n"
-"  --msdos                          Generate 8.3 filenames.\n"
+"  -Q, --npquiet                    Be quiet when -a is not a part.\n"
+"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "Opties:\n"
@@ -3749,14 +3766,6 @@ msgstr ""
 "by-package)"
 
 #: src/trigger/main.c
-msgid "triggers data directory not yet created"
-msgstr "gegevensmap voor triggers nog niet aangemaakt"
-
-#: src/trigger/main.c
-msgid "trigger records not yet in existence"
-msgstr "triggerregister bestaat nog niet"
-
-#: src/trigger/main.c
 msgid "takes one argument, the trigger name"
 msgstr "verwacht slechts een argument, de naam van de trigger"
 
@@ -3769,6 +3778,14 @@ msgstr "ongeldige naam voor pakket waarop gewacht wordt '%.250s': %.250s"
 #, c-format
 msgid "invalid trigger name '%.250s': %.250s"
 msgstr "ongeldige triggernaam '%.250s': %.250s"
+
+#: src/trigger/main.c
+msgid "triggers data directory not yet created"
+msgstr "gegevensmap voor triggers nog niet aangemaakt"
+
+#: src/trigger/main.c
+msgid "trigger records not yet in existence"
+msgstr "triggerregister bestaat nog niet"
 
 #: src/query/main.c src/main/select.c
 #, c-format
@@ -5346,7 +5363,51 @@ msgstr ""
 "\n"
 
 #: src/main/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>     Use <directory> instead of %s.\n"
+#| "  --root=<directory>         Install on a different root directory.\n"
+#| "  --instdir=<directory>      Change installation dir without changing "
+#| "admin dir.\n"
+#| "  --pre-invoke=<command>     Set a pre-invoke hook.\n"
+#| "  --post-invoke=<command>    Set a post-invoke hook.\n"
+#| "  --path-exclude=<pattern>   Do not install paths which match a shell "
+#| "pattern.\n"
+#| "  --path-include=<pattern>   Re-include a pattern after a previous "
+#| "exclusion.\n"
+#| "  -O|--selected-only         Skip packages not selected for install/"
+#| "upgrade.\n"
+#| "  -E|--skip-same-version     Skip packages whose same version is "
+#| "installed.\n"
+#| "  -G|--refuse-downgrade      Skip packages with earlier version than "
+#| "installed.\n"
+#| "  -B|--auto-deconfigure      Install even if it would break some other "
+#| "package.\n"
+#| "  --[no-]triggers            Skip or force consequential trigger "
+#| "processing.\n"
+#| "  --verify-format=<format>   Verify output format (supported: 'rpm').\n"
+#| "  --no-pager                 Disables the use of any pager.\n"
+#| "  --no-debsig                Do not try to verify package signatures.\n"
+#| "  --no-act|--dry-run|--simulate\n"
+#| "                             Just say what we would do - don't do it.\n"
+#| "  -D|--debug=<octal>         Enable debugging (see -Dhelp or --"
+#| "debug=help).\n"
+#| "  --status-fd <n>            Send status change updates to file "
+#| "descriptor <n>.\n"
+#| "  --status-logger=<command>  Send status change updates to <command>'s "
+#| "stdin.\n"
+#| "  --log=<filename>           Log status changes and actions to "
+#| "<filename>.\n"
+#| "  --ignore-depends=<package>[,...]\n"
+#| "                             Ignore dependencies involving <package>.\n"
+#| "  --force-<thing>[,...]      Override problems (see --force-help).\n"
+#| "  --no-force-<thing>[,...]   Stop when problems encountered.\n"
+#| "  --refuse-<thing>[,...]     Ditto.\n"
+#| "  --abort-after <n>          Abort after encountering <n> errors.\n"
+#| "  --robot                    Use machine-readable output on some "
+#| "commands.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -5361,7 +5422,8 @@ msgid ""
 "exclusion.\n"
 "  -O|--selected-only         Skip packages not selected for install/"
 "upgrade.\n"
-"  -E|--skip-same-version     Skip packages whose same version is installed.\n"
+"  -E|--skip-same-version     Skip packages with same installed version/"
+"arch.\n"
 "  -G|--refuse-downgrade      Skip packages with earlier version than "
 "installed.\n"
 "  -B|--auto-deconfigure      Install even if it would break some other "

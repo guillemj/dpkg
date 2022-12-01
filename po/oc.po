@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.20.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-07-01 09:25+0000\n"
+"POT-Creation-Date: 2022-12-01 11:11+0000\n"
 "PO-Revision-Date: 2021-04-20 12:41+0200\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: Occitan\n"
@@ -651,6 +651,11 @@ msgstr "version de format sens component segondari"
 #: lib/dpkg/deb-version.c
 msgid "format version followed by junk"
 msgstr "version de format seguida de quin que siá"
+
+#: lib/dpkg/debug.c
+#, c-format
+msgid "cannot parse debug mask from environment variable %s"
+msgstr ""
 
 #: lib/dpkg/dir.c
 #, c-format
@@ -2867,12 +2872,14 @@ msgstr ""
 #, c-format
 msgid ""
 "Options:\n"
-"  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
-"  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
-"  -o|--output <file>               Filename, for -j (default is\n"
+"      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
+"      --admindir <directory>       Use <directory> instead of %s.\n"
+"      --root <directory>           Use <directory> instead of %s.\n"
+"  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
+"  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
-"  -Q|--npquiet                     Be quiet when -a is not a part.\n"
-"  --msdos                          Generate 8.3 filenames.\n"
+"  -Q, --npquiet                    Be quiet when -a is not a part.\n"
+"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 
@@ -3432,14 +3439,6 @@ msgid "must be called from a maintainer script (or with a --by-package option)"
 msgstr ""
 
 #: src/trigger/main.c
-msgid "triggers data directory not yet created"
-msgstr ""
-
-#: src/trigger/main.c
-msgid "trigger records not yet in existence"
-msgstr ""
-
-#: src/trigger/main.c
 msgid "takes one argument, the trigger name"
 msgstr "a beson d'un sol paramètre, lo nom de l'accion diferida (« trigger »)"
 
@@ -3451,6 +3450,14 @@ msgstr ""
 #: src/trigger/main.c
 #, c-format
 msgid "invalid trigger name '%.250s': %.250s"
+msgstr ""
+
+#: src/trigger/main.c
+msgid "triggers data directory not yet created"
+msgstr ""
+
+#: src/trigger/main.c
+msgid "trigger records not yet in existence"
 msgstr ""
 
 #: src/query/main.c src/main/select.c
@@ -4901,7 +4908,8 @@ msgid ""
 "exclusion.\n"
 "  -O|--selected-only         Skip packages not selected for install/"
 "upgrade.\n"
-"  -E|--skip-same-version     Skip packages whose same version is installed.\n"
+"  -E|--skip-same-version     Skip packages with same installed version/"
+"arch.\n"
 "  -G|--refuse-downgrade      Skip packages with earlier version than "
 "installed.\n"
 "  -B|--auto-deconfigure      Install even if it would break some other "

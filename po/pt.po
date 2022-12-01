@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-07-01 09:25+0000\n"
+"POT-Creation-Date: 2022-12-01 11:11+0000\n"
 "PO-Revision-Date: 2019-08-25 10:45+0100\n"
 "Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
@@ -669,6 +669,12 @@ msgstr "formato de versão com componente menor vazio"
 #: lib/dpkg/deb-version.c
 msgid "format version followed by junk"
 msgstr "formato de versão seguido de lixo"
+
+#: lib/dpkg/debug.c
+#, fuzzy, c-format
+#| msgid "Useful environment variables:\n"
+msgid "cannot parse debug mask from environment variable %s"
+msgstr "Variáveis de ambiente úteis:\n"
 
 #: lib/dpkg/dir.c
 #, c-format
@@ -3119,15 +3125,26 @@ msgstr ""
 "\n"
 
 #: src/split/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
+#| "  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
+#| "  -o|--output <file>               Filename, for -j (default is\n"
+#| "                                     <package>_<version>_<arch>.deb).\n"
+#| "  -Q|--npquiet                     Be quiet when -a is not a part.\n"
+#| "  --msdos                          Generate 8.3 filenames.\n"
+#| "\n"
 msgid ""
 "Options:\n"
-"  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
-"  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
-"  -o|--output <file>               Filename, for -j (default is\n"
+"      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
+"      --admindir <directory>       Use <directory> instead of %s.\n"
+"      --root <directory>           Use <directory> instead of %s.\n"
+"  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
+"  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
-"  -Q|--npquiet                     Be quiet when -a is not a part.\n"
-"  --msdos                          Generate 8.3 filenames.\n"
+"  -Q, --npquiet                    Be quiet when -a is not a part.\n"
+"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "Opções:\n"
@@ -3820,14 +3837,6 @@ msgstr ""
 "package)"
 
 #: src/trigger/main.c
-msgid "triggers data directory not yet created"
-msgstr "o directório de dados de 'triggers' ainda não foi criado"
-
-#: src/trigger/main.c
-msgid "trigger records not yet in existence"
-msgstr "ainda não existem registos de 'trigger'"
-
-#: src/trigger/main.c
 msgid "takes one argument, the trigger name"
 msgstr "leva um argumento, o nome do 'trigger'"
 
@@ -3840,6 +3849,14 @@ msgstr "nome '%.250s' ilegal de pacote esperado: %.250s"
 #, c-format
 msgid "invalid trigger name '%.250s': %.250s"
 msgstr "nome '%.250s' de 'trigger' inválido: %.250s"
+
+#: src/trigger/main.c
+msgid "triggers data directory not yet created"
+msgstr "o directório de dados de 'triggers' ainda não foi criado"
+
+#: src/trigger/main.c
+msgid "trigger records not yet in existence"
+msgstr "ainda não existem registos de 'trigger'"
 
 #: src/query/main.c src/main/select.c
 #, c-format
@@ -5535,7 +5552,8 @@ msgid ""
 "exclusion.\n"
 "  -O|--selected-only         Skip packages not selected for install/"
 "upgrade.\n"
-"  -E|--skip-same-version     Skip packages whose same version is installed.\n"
+"  -E|--skip-same-version     Skip packages with same installed version/"
+"arch.\n"
 "  -G|--refuse-downgrade      Skip packages with earlier version than "
 "installed.\n"
 "  -B|--auto-deconfigure      Install even if it would break some other "

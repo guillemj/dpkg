@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-07-01 09:25+0000\n"
+"POT-Creation-Date: 2022-12-01 11:11+0000\n"
 "PO-Revision-Date: 2016-01-14 08:22+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
@@ -673,6 +673,11 @@ msgstr "định dạng của phiên bản có thành phần số nhỏ (minor) t
 #: lib/dpkg/deb-version.c
 msgid "format version followed by junk"
 msgstr "phiên bản định dạng theo sau bởi rác"
+
+#: lib/dpkg/debug.c
+#, c-format
+msgid "cannot parse debug mask from environment variable %s"
+msgstr ""
 
 #: lib/dpkg/dir.c
 #, c-format
@@ -3209,15 +3214,26 @@ msgstr ""
 " \n"
 
 #: src/split/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
+#| "  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
+#| "  -o|--output <file>               Filename, for -j (default is\n"
+#| "                                     <package>_<version>_<arch>.deb).\n"
+#| "  -Q|--npquiet                     Be quiet when -a is not a part.\n"
+#| "  --msdos                          Generate 8.3 filenames.\n"
+#| "\n"
 msgid ""
 "Options:\n"
-"  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
-"  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
-"  -o|--output <file>               Filename, for -j (default is\n"
+"      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
+"      --admindir <directory>       Use <directory> instead of %s.\n"
+"      --root <directory>           Use <directory> instead of %s.\n"
+"  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
+"  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
-"  -Q|--npquiet                     Be quiet when -a is not a part.\n"
-"  --msdos                          Generate 8.3 filenames.\n"
+"  -Q, --npquiet                    Be quiet when -a is not a part.\n"
+"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "Tùy chọn:\n"
@@ -3902,14 +3918,6 @@ msgid "must be called from a maintainer script (or with a --by-package option)"
 msgstr "phải được gọi từ văn lệnh bảo trì (hoặc với một tùy chọn --by-package)"
 
 #: src/trigger/main.c
-msgid "triggers data directory not yet created"
-msgstr "chưa tạo thư mục dữ liệu cho các bẫy"
-
-#: src/trigger/main.c
-msgid "trigger records not yet in existence"
-msgstr "bản ghi của bẫy chưa tồn tại"
-
-#: src/trigger/main.c
 msgid "takes one argument, the trigger name"
 msgstr "chấp nhận một đối số, tên bẫy"
 
@@ -3922,6 +3930,14 @@ msgstr "tên gói đã đợi không hợp lệ “%.250s”: %.250s"
 #, c-format
 msgid "invalid trigger name '%.250s': %.250s"
 msgstr "tên bẫy không hợp lệ “%.250s”: %.250s"
+
+#: src/trigger/main.c
+msgid "triggers data directory not yet created"
+msgstr "chưa tạo thư mục dữ liệu cho các bẫy"
+
+#: src/trigger/main.c
+msgid "trigger records not yet in existence"
+msgstr "bản ghi của bẫy chưa tồn tại"
 
 #: src/query/main.c src/main/select.c
 #, c-format
@@ -5673,7 +5689,8 @@ msgid ""
 "exclusion.\n"
 "  -O|--selected-only         Skip packages not selected for install/"
 "upgrade.\n"
-"  -E|--skip-same-version     Skip packages whose same version is installed.\n"
+"  -E|--skip-same-version     Skip packages with same installed version/"
+"arch.\n"
 "  -G|--refuse-downgrade      Skip packages with earlier version than "
 "installed.\n"
 "  -B|--auto-deconfigure      Install even if it would break some other "

@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.16.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-07-01 09:25+0000\n"
+"POT-Creation-Date: 2022-12-01 11:11+0000\n"
 "PO-Revision-Date: 2014-12-02 20:24+0100\n"
 "Last-Translator: Omar Campagne <ocampagne@gmail.com>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -399,13 +399,15 @@ msgid ""
 "rules).\n"
 "  -T, --rules-target=<target> call debian/rules <target>.\n"
 "      --as-root               ensure -T calls the target with root rights.\n"
-"  -j, --jobs[=<number>|auto]  jobs to run simultaneously (passed to "
+"  -j, --jobs[=<jobs>|auto]    jobs to run simultaneously (passed to "
 "<rules>),\n"
-"                                forced mode.\n"
-"  -J, --jobs-try[=<number>|auto]\n"
+"                                (default; default is auto, opt-in mode).\n"
+"  -J, --jobs-try[=<jobs>|auto]\n"
+"                              alias for -j, --jobs.\n"
+"      --jobs-force[=<jobs>|auto]\n"
 "                              jobs to run simultaneously (passed to "
 "<rules>),\n"
-"                                opt-in mode (default is auto).\n"
+"                                (default is auto, forced mode).\n"
 "  -r, --root-command=<command>\n"
 "                              command to gain root rights (default is "
 "fakeroot).\n"
@@ -421,10 +423,15 @@ msgid ""
 "      --buildinfo-option=<opt>\n"
 "                              pass option <opt> to dpkg-genbuildinfo.\n"
 "      --changes-file=<file>   set the .changes filename to generate.\n"
+"      --sign-backend=<backend>\n"
+"                              OpenPGP backend to use to sign\n"
+"                                (default is auto).\n"
 "  -p, --sign-command=<command>\n"
 "                              command to sign .dsc and/or .changes files\n"
 "                                (default is gpg).\n"
-"  -k, --sign-key=<keyid>      the key to use for signing.\n"
+"      --sign-keyfile=<file>   the key file to use for signing.\n"
+"  -k, --sign-keyid=<keyid>    the key id to use for signing.\n"
+"      --sign-key=<keyid>      alias for -k, --sign-keyid.\n"
 "  -ap, --sign-pause           add pause before starting signature process.\n"
 "  -us, --unsigned-source      unsigned source package.\n"
 "  -ui, --unsigned-buildinfo   unsigned .buildinfo file.\n"
@@ -526,8 +533,12 @@ msgid ""
 "  -sa                         source includes orig, always.\n"
 "  -sd                         source is diff and .dsc only.\n"
 "  -v<version>                 changes since version <version>.\n"
-"  -m, --release-by=<maint>    maintainer for this release is <maint>.\n"
-"  -e, --build-by=<maint>      maintainer for this build is <maint>.\n"
+"  -m, --source-by=<maint>     maintainer for this source or build is "
+"<maint>.\n"
+"      --build-by=<maint>      ditto.\n"
+"  -e, --release-by=<maint>    maintainer for this change or release is "
+"<maint>.\n"
+"      --changed-by=<maint>    ditto.\n"
 "  -C<descfile>                changes are described in <descfile>.\n"
 "      --changes-option=<opt>  pass option <opt> to dpkg-genchanges."
 msgstr ""
@@ -688,12 +699,6 @@ msgid "Press <enter> to start the signing process.\n"
 msgstr "Pulse la tecla Intro para iniciar el proceso de firmado\n"
 
 #: scripts/dpkg-buildpackage.pl
-#, fuzzy, perl-format
-#| msgid "failed to sign .changes file"
-msgid "failed to sign %s file"
-msgstr "fallo al firmar el fichero «.changes»"
-
-#: scripts/dpkg-buildpackage.pl
 msgid "not signing UNRELEASED build; use --force-sign to override"
 msgstr ""
 "no se firmará una construcción de tipo «UNRELEASED», utilice --force-sign "
@@ -781,7 +786,7 @@ msgstr ""
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
 #: scripts/dpkg-genbuildinfo.pl scripts/dpkg-name.pl scripts/Dpkg/Arch.pm
-#: scripts/Dpkg/IPC.pm scripts/Dpkg/OpenPGP.pm scripts/Dpkg/Shlibs.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs.pm
 #, perl-format
 msgid "cannot open %s"
 msgstr "no se puede abrir «%s»"
@@ -799,6 +804,12 @@ msgstr "no se puede cerrar «%s»"
 #| msgid "cannot remove %s"
 msgid "cannot move %s to %s"
 msgstr "no se ha podido eliminar «%s»"
+
+#: scripts/dpkg-buildpackage.pl
+#, fuzzy, perl-format
+#| msgid "failed to sign .changes file"
+msgid "failed to sign %s file: %s"
+msgstr "fallo al firmar el fichero «.changes»"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "source-only upload: Debian-native package"
@@ -951,11 +962,10 @@ msgstr ""
 
 #: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
 #: scripts/dpkg-gencontrol.pl scripts/dpkg-mergechangelogs.pl
-#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Source/Functions.pm
+#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/File.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Interface/Storable.pm
 #: scripts/Dpkg/Source/BinaryFiles.pm scripts/Dpkg/Source/Package.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Package/V3/Quilt.pm
-#: scripts/Dpkg/Source/Quilt.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot write %s"
 msgstr "no se pudo escribir «%s»"
@@ -2697,7 +2707,7 @@ msgstr "«%s» no es una cadena de arquitectura legal"
 #: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
 #: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
 #: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
+#: scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot read %s"
 msgstr "no se puede leer %s"
@@ -3242,6 +3252,12 @@ msgstr "%s falló con el código de salida desconocido %d"
 msgid "Use --help for program usage information."
 msgstr "Use --help para obtener información del uso de este programa."
 
+#: scripts/Dpkg/File.pm
+#, fuzzy, perl-format
+#| msgid "cannot stat file %s"
+msgid "cannot create file %s"
+msgstr "no se puede obtener el estado (stat) del fichero «%s»"
+
 #: scripts/Dpkg/IPC.pm
 #, perl-format
 msgid "pipe for %s"
@@ -3294,53 +3310,88 @@ msgstr "se ha detectado un fallo al verificar la firma de %s"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, fuzzy, perl-format
+#| msgid "unknown option or argument %s"
+msgid "unknown OpenPGP api requested %s"
+msgstr "el argumento u opción «%s» es desconocido"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "cannot open file %s"
+msgid "cannot load OpenPGP backend %s"
+msgstr "no se ha podido abrir el fichero «%s»"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "unknown option or argument %s"
+msgid "unknown OpenPGP backend %s"
+msgstr "el argumento u opción «%s» es desconocido"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "success"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+#, fuzzy
 #| msgid "cannot create directory %s"
-msgid "cannot create signature file %s"
+msgid "no acceptable signature found"
 msgstr "no se puede crear el directorio «%s»"
 
-#: scripts/Dpkg/OpenPGP.pm
-#, fuzzy, perl-format
-#| msgid "cannot write %s"
-msgid "cannot execute %s program"
-msgstr "no se pudo escribir «%s»"
-
-#: scripts/Dpkg/OpenPGP.pm
-#, fuzzy, perl-format
-#| msgid "cannot stat file %s"
-msgid "cannot write signature file %s"
-msgstr "no se puede obtener el estado (stat) del fichero «%s»"
-
-#: scripts/Dpkg/OpenPGP.pm
-msgid "signature file is already OpenPGP ASCII armor, copying"
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "missing required argument"
 msgstr ""
 
-#: scripts/Dpkg/OpenPGP.pm
-msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+#, fuzzy
+#| msgid "%s is not a supported compression"
+msgid "unsupported option"
+msgstr "%s no es una compresión compatible"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "invalid data type"
 msgstr ""
 
-#: scripts/Dpkg/OpenPGP.pm
-#, fuzzy, perl-format
-#| msgid "could not verify signature on %s since gpg isn't installed"
-msgid "cannot import key in %s since GnuPG is not installed"
-msgstr "no se pudo verificar la firma de %s ya que gpg no está instalado"
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+#, fuzzy
+#| msgid "one to three arguments expected"
+msgid "non-text input where text expected"
+msgstr "Se esperan de uno a tres argumentos"
 
-#: scripts/Dpkg/OpenPGP.pm
-#, fuzzy, perl-format
-#| msgid "cannot remove %s"
-msgid "cannot import key %s into %s"
-msgstr "no se ha podido eliminar «%s»"
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "output file already exists"
+msgstr ""
 
-#: scripts/Dpkg/OpenPGP.pm
-#, fuzzy, perl-format
-#| msgid "could not verify signature on %s since gpg isn't installed"
-msgid "cannot verify signature on %s since GnuPG is not installed"
-msgstr "no se pudo verificar la firma de %s ya que gpg no está instalado"
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+#, fuzzy
+#| msgid "patch file '%s' doesn't exist"
+msgid "input file does not exist"
+msgstr "el fichero de parche «%s» no existe"
 
-#: scripts/Dpkg/OpenPGP.pm
-#, fuzzy, perl-format
-#| msgid "cannot stat file %s"
-msgid "cannot verify signature %s"
-msgstr "no se puede obtener el estado (stat) del fichero «%s»"
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "cannot unlock password-protected key"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+#, fuzzy
+#| msgid "unsupported checksum '%s'"
+msgid "unsupported subcommand"
+msgstr "suma de control no soportada `%s'"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "key is not signature-capable"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "missing OpenPGP implementation"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "specified key needs a keystore"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+#, perl-format
+msgid "error code %d"
+msgstr ""
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -3371,7 +3422,7 @@ msgid ""
 "interferes with cross-building, please use -l option instead"
 msgstr ""
 
-#: scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/Dpkg/Shlibs.pm scripts/Dpkg/Shlibs/Objdump.pm
 #, fuzzy, perl-format
 #| msgid "cannot exec format parser: %s"
 msgid "unknown executable format in file '%s'"
@@ -3587,6 +3638,24 @@ msgstr ""
 #: scripts/Dpkg/Source/Package.pm
 msgid "upstream tarball signatures but no upstream signing key"
 msgstr ""
+
+#: scripts/Dpkg/Source/Package.pm
+#, fuzzy, perl-format
+#| msgid "applying %s"
+msgid "verifying %s"
+msgstr "aplicando «%s»"
+
+#: scripts/Dpkg/Source/Package.pm
+#, fuzzy, perl-format
+#| msgid "cannot stat file %s"
+msgid "cannot verify upstream tarball signature for %s: %s"
+msgstr "no se puede obtener el estado (stat) del fichero «%s»"
+
+#: scripts/Dpkg/Source/Package.pm
+#, fuzzy, perl-format
+#| msgid "cannot stat file %s"
+msgid "cannot verify inline signature for %s: %s"
+msgstr "no se puede obtener el estado (stat) del fichero «%s»"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -3881,12 +3950,6 @@ msgstr "no se han podido cambiar los permisos de «%s»"
 #: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
 msgid "building %s using existing %s"
-msgstr "construyendo «%s» usando «%s», que está presente en el sistema"
-
-#: scripts/Dpkg/Source/Package/V1.pm
-#, fuzzy, perl-format
-#| msgid "building %s using existing %s"
-msgid "verifying %s using existing %s"
 msgstr "construyendo «%s» usando «%s», que está presente en el sistema"
 
 #: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
@@ -4635,6 +4698,20 @@ msgstr "el nombre de paquete fuente «%s» no es válido: %s"
 msgid "source package has two conflicting values - %s and %s"
 msgstr "el paquete fuente tiene dos valores en conflicto: «%s» y «%s»"
 
+#: scripts/Dpkg/Vendor.pm
+#, perl-format
+msgid ""
+"%s origin filename is deprecated; it should have only alphanumeric or dash "
+"characters"
+msgstr ""
+
+#: scripts/Dpkg/Vendor.pm
+#, perl-format
+msgid ""
+"%s module name is deprecated; it should be capitalized with only "
+"alphanumeric characters"
+msgstr ""
+
 #: scripts/Dpkg/Vendor/Debian.pm
 #, perl-format
 msgid "unknown host architecture '%s'"
@@ -4696,6 +4773,36 @@ msgstr "el número de versión contiene el carácter ilegal «%s»"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "la sección «epoch» del número de versión no es un número: «%s»"
+
+#, fuzzy, perl-format
+#~| msgid "cannot write %s"
+#~ msgid "cannot execute %s program"
+#~ msgstr "no se pudo escribir «%s»"
+
+#, fuzzy, perl-format
+#~| msgid "cannot stat file %s"
+#~ msgid "cannot write signature file %s"
+#~ msgstr "no se puede obtener el estado (stat) del fichero «%s»"
+
+#, fuzzy, perl-format
+#~| msgid "could not verify signature on %s since gpg isn't installed"
+#~ msgid "cannot import key in %s since GnuPG is not installed"
+#~ msgstr "no se pudo verificar la firma de %s ya que gpg no está instalado"
+
+#, fuzzy, perl-format
+#~| msgid "cannot remove %s"
+#~ msgid "cannot import key %s into %s"
+#~ msgstr "no se ha podido eliminar «%s»"
+
+#, fuzzy, perl-format
+#~| msgid "could not verify signature on %s since gpg isn't installed"
+#~ msgid "cannot verify signature on %s since GnuPG is not installed"
+#~ msgstr "no se pudo verificar la firma de %s ya que gpg no está instalado"
+
+#, fuzzy, perl-format
+#~| msgid "building %s using existing %s"
+#~ msgid "verifying %s using existing %s"
+#~ msgstr "construyendo «%s» usando «%s», que está presente en el sistema"
 
 #~ msgid "dpkg-genchanges"
 #~ msgstr "dpkg-genchanges"

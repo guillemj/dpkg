@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-07-01 09:25+0000\n"
+"POT-Creation-Date: 2022-12-01 11:11+0000\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: quad-nrg.net <yodesy@quad-nrg.net>\n"
 "Language-Team: Greek <debian-l10n-greek@lists.debian.org>\n"
@@ -721,6 +721,11 @@ msgstr ""
 #, fuzzy
 msgid "format version followed by junk"
 msgstr "αριθμός έκδοσης"
+
+#: lib/dpkg/debug.c
+#, c-format
+msgid "cannot parse debug mask from environment variable %s"
+msgstr ""
 
 #: lib/dpkg/dir.c
 #, fuzzy, c-format
@@ -3335,12 +3340,14 @@ msgstr ""
 #| "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgid ""
 "Options:\n"
-"  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
-"  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
-"  -o|--output <file>               Filename, for -j (default is\n"
+"      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
+"      --admindir <directory>       Use <directory> instead of %s.\n"
+"      --root <directory>           Use <directory> instead of %s.\n"
+"  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
+"  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
-"  -Q|--npquiet                     Be quiet when -a is not a part.\n"
-"  --msdos                          Generate 8.3 filenames.\n"
+"  -Q, --npquiet                    Be quiet when -a is not a part.\n"
+"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "Επιλογές:\n"
@@ -4048,18 +4055,6 @@ msgstr ""
 
 #: src/trigger/main.c
 #, fuzzy
-#| msgid "%s: triggers data directory not yet created\n"
-msgid "triggers data directory not yet created"
-msgstr "%s: ο κατάλογος δεδομένων των triggers δεν έχει ακόμα δημιουργηθεί\n"
-
-#: src/trigger/main.c
-#, fuzzy
-#| msgid "%s: trigger records not yet in existence\n"
-msgid "trigger records not yet in existence"
-msgstr "%s: αρχεία των trigger δεν υπάρχουν ακόμα\n"
-
-#: src/trigger/main.c
-#, fuzzy
 msgid "takes one argument, the trigger name"
 msgstr "dpkg-trigger παίρνει ένα όρισμα, το όνομα του trigger"
 
@@ -4073,6 +4068,18 @@ msgstr "dpkg-trigger: μη θεμιτό όνομα πακέτου σε αναμ�
 #, fuzzy, c-format
 msgid "invalid trigger name '%.250s': %.250s"
 msgstr "dpkg-trigger: μη έγκυρο όνομα trigger `%.250s': %.250s"
+
+#: src/trigger/main.c
+#, fuzzy
+#| msgid "%s: triggers data directory not yet created\n"
+msgid "triggers data directory not yet created"
+msgstr "%s: ο κατάλογος δεδομένων των triggers δεν έχει ακόμα δημιουργηθεί\n"
+
+#: src/trigger/main.c
+#, fuzzy
+#| msgid "%s: trigger records not yet in existence\n"
+msgid "trigger records not yet in existence"
+msgstr "%s: αρχεία των trigger δεν υπάρχουν ακόμα\n"
 
 #: src/query/main.c src/main/select.c
 #, fuzzy, c-format
@@ -5851,7 +5858,8 @@ msgid ""
 "exclusion.\n"
 "  -O|--selected-only         Skip packages not selected for install/"
 "upgrade.\n"
-"  -E|--skip-same-version     Skip packages whose same version is installed.\n"
+"  -E|--skip-same-version     Skip packages with same installed version/"
+"arch.\n"
 "  -G|--refuse-downgrade      Skip packages with earlier version than "
 "installed.\n"
 "  -B|--auto-deconfigure      Install even if it would break some other "
