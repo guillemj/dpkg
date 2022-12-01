@@ -180,6 +180,7 @@ str_strip_quotes(char *str)
  * Trim possible ending spaces in string.
  *
  * @param str The string to act on.
+ * @param str_end The end of the string to act on.
  *
  * @return A pointer to the end of the trimmed string.
  */
