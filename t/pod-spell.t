@@ -65,6 +65,7 @@ decompressor
 dep
 deps
 dpkg
+dpkg-buildapi
 dpkg-buildflags
 dpkg-buildpackage
 dpkg-checkbuilddeps

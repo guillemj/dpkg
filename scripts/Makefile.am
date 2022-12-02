@@ -9,6 +9,7 @@ sbin_SCRIPTS = \
 bin_SCRIPTS = \
 	dpkg-architecture \
 	dpkg-buildflags \
+	dpkg-buildapi \
 	dpkg-buildpackage \
 	dpkg-checkbuilddeps \
 	dpkg-distaddfile \
@@ -28,6 +29,7 @@ bin_SCRIPTS = \
 
 EXTRA_DIST = \
 	dpkg-architecture.pl \
+	dpkg-buildapi.pl \
 	dpkg-buildflags.pl \
 	dpkg-buildpackage.pl \
 	dpkg-checkbuilddeps.pl \
