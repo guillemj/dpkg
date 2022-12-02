@@ -71,31 +71,22 @@ or the output will get messed up.
 Dpkg C/C++ coding style 2016-01-29
 =======================
 
-C language extensions
-~~~~~~~~~~~~~~~~~~~~~
+Standards
+~~~~~~~~~
 
-The code base assumes C89 plus the following C99 extensions:
+The C code base assumes C99, except for the following features:
 
- * Designated initializers.
- * Compound literals.
- * Trailing comma in enum.
- * Variadic macros.
- * Working bool type in <stdbool.h>.
- * Working %j and %z printf modifiers.
- * Magic __func__ variable.
+ - Variable length arrays.
+ - Mixed declaration and code.
 
-Those are checked at build time, and it will abort in case a needed extension
-is not supported.
+The C++ code base assumes C++03, plus the following C++11 extension:
 
-C++ language extensions
-~~~~~~~~~~~~~~~~~~~~~~~
+ + Null pointer keyword (nullptr).
 
-The code base assumes C++03 plus the following C++11 extension:
-
- * Null pointer keyword (nullptr).
-
-This is checked at build time, and it will use compatibility code in case the
-needed extension is not supported.
+The required features are checked at build time, and it will either use
+compatibility code in case the needed extensions are not supported and it
+is possible to support them, otherwise it will abort in case a needed one
+cannot be used.
 
 General
 ~~~~~~~
