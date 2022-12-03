@@ -10,5 +10,13 @@ fi
 srcdir="$(pwd)"
 
 cd $AUTOPKGTEST_TMP
-"$srcdir/configure" --disable-nls --disable-dselect
+"$srcdir/configure" \
+  --disable-nls \
+  --disable-dselect \
+  --prefix=/usr \
+  --sbindir=/sbin \
+  --libexecdir='${exec_prefix}/lib' \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  # EOL
 make installcheck TESTSUITEFLAGS=--verbose
