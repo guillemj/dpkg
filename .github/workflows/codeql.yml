@@ -1,0 +1,50 @@
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ ci-analysis ]
+  workflow_dispatch:
+  schedule:
+    - cron: '20 13 * * 4'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    container: debian:sid
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'c-cpp' ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Get build dependencies
+      run: |
+        apt update
+        apt install -qq -y --no-install-recommends git ca-certificates curl
+        apt build-dep -qq -y .
+
+    - name: Build project
+      run: |
+        echo "1.23.x" >.dist-version
+        echo "$GITHUB_SHA" >.dist-vcs-id
+        ./autogen && ./configure
+        make -j4
+
+    - name: Perform CodeQL analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:${{matrix.language}}"
