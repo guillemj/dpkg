@@ -38,8 +38,8 @@
 unsigned int
 str_fnv_hash(const char *str)
 {
-	register unsigned int h = FNV_OFFSET_BASIS;
-	register unsigned int p = FNV_MIXING_PRIME;
+	unsigned int h = FNV_OFFSET_BASIS;
+	unsigned int p = FNV_MIXING_PRIME;
 
 	while (*str) {
 		h ^= *str++;
