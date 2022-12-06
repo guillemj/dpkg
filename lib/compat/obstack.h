@@ -163,8 +163,14 @@ struct obstack		/* control current object in current chunk */
   /* These prototypes vary based on `use_extra_arg', and we use
      casts to the prototypeless function type in all assignments,
      but having prototypes here quiets -Wstrict-prototypes.  */
-  struct _obstack_chunk *(*chunkfun) (void *, long);
-  void (*freefun) (void *, struct _obstack_chunk *);
+  union {
+    void *(*arg1) (size_t);
+    void *(*arg2) (void *, size_t);
+  } chunkfun;
+  union {
+    void (*arg1) (void *);
+    void (*arg2) (void *, void *);
+  } freefun;
   void *extra_arg;		/* first arg for chunk alloc/dealloc funcs */
   unsigned use_extra_arg:1;	/* chunk alloc/dealloc funcs take extra arg */
   unsigned maybe_empty_object:1;/* There is a possibility that the current
@@ -243,10 +249,10 @@ extern int obstack_exit_failure;
 		    (void (*) (void *, void *)) (freefun), (arg))
 
 #define obstack_chunkfun(h, newchunkfun) \
-  ((h) -> chunkfun = (struct _obstack_chunk *(*)(void *, long)) (newchunkfun))
+  ((h) -> chunkfun.arg2 = (struct _obstack_chunk *(*)(void *, size_t)) (newchunkfun))
 
 #define obstack_freefun(h, newfreefun) \
-  ((h) -> freefun = (void (*)(void *, struct _obstack_chunk *)) (newfreefun))
+  ((h) -> freefun.arg2 = (void (*)(void *, struct _obstack_chunk *)) (newfreefun))
 
 #define obstack_1grow_fast(h,achar) (*((h)->next_free)++ = (achar))
 
