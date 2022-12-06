@@ -70,8 +70,8 @@
     ((void) (Category), dgettext (Domainname, Msgid))
 # define ngettext(Msgid1, Msgid2, N) \
     ((N) == 1 \
-     ? ((void) (Msgid2), (const char *) (Msgid1)) \
-     : ((void) (Msgid1), (const char *) (Msgid2)))
+     ? (const char *)(Msgid1) \
+     : (const char *)(Msgid2))
 # define dngettext(Domainname, Msgid1, Msgid2, N) \
     ((void) (Domainname), ngettext (Msgid1, Msgid2, N))
 # define dcngettext(Domainname, Msgid1, Msgid2, N, Category) \
