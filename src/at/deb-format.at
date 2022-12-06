@@ -160,6 +160,11 @@ AT_CLEANUP
 AT_SETUP([dpkg-deb .deb format 2.x])
 AT_KEYWORDS([dpkg-deb deb])
 
+AT_SKIP_IF([! command -v xz >/dev/null])
+AT_SKIP_IF([! command -v gzip >/dev/null])
+AT_SKIP_IF([! command -v bzip2 >/dev/null])
+AT_SKIP_IF([! command -v lzma >/dev/null])
+
 AT_DATA([pkg-deb-bogus-empty.deb], [])
 AT_CHECK([
 # Check truncated deb w/ 0 size
