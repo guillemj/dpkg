@@ -632,7 +632,7 @@ create_notify_socket(void)
 	su.sun_family = AF_UNIX;
 	strncpy(su.sun_path, sockname, sizeof(su.sun_path) - 1);
 
-	rc = bind(fd, &su, sizeof(su));
+	rc = bind(fd, (struct sockaddr *)&su, sizeof(su));
 	if (rc < 0)
 		fatale("cannot bind to notification socket");
 
