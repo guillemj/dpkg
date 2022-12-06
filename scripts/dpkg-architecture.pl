@@ -106,78 +106,78 @@ sub check_arch_coherency
 }
 
 use constant {
-    DEB_NONE                    => 0,
+    INFO_NONE                   => 0,
 
-    DEB_BUILD_INFO              => 0b00001,
-    DEB_BUILD_ARCH_INFO         => 0b00010,
-    DEB_BUILD_ARCH_ATTR         => 0b00100,
-    DEB_BUILD_MULTIARCH_INFO    => 0b01000,
-    DEB_BUILD_GNU_INFO          => 0b10000,
-    DEB_BUILD_ANY               => 0b11111,
+    INFO_BUILD_ARCH_NAME        => 0b00001,
+    INFO_BUILD_ARCH_TUPLE       => 0b00010,
+    INFO_BUILD_ARCH_ATTR        => 0b00100,
+    INFO_BUILD_MULTIARCH        => 0b01000,
+    INFO_BUILD_GNU_TUPLE        => 0b10000,
+    INFO_BUILD_MASK             => 0b11111,
 
-    DEB_HOST_INFO               => 0b0000100000,
-    DEB_HOST_ARCH_INFO          => 0b0001000000,
-    DEB_HOST_ARCH_ATTR          => 0b0010000000,
-    DEB_HOST_MULTIARCH_INFO     => 0b0100000000,
-    DEB_HOST_GNU_INFO           => 0b1000000000,
-    DEB_HOST_ANY                => 0b1111100000,
+    INFO_HOST_ARCH_NAME         => 0b0000100000,
+    INFO_HOST_ARCH_TUPLE        => 0b0001000000,
+    INFO_HOST_ARCH_ATTR         => 0b0010000000,
+    INFO_HOST_MULTIARCH         => 0b0100000000,
+    INFO_HOST_GNU_TUPLE         => 0b1000000000,
+    INFO_HOST_MASK              => 0b1111100000,
 
-    DEB_TARGET_INFO             => 0b000010000000000,
-    DEB_TARGET_ARCH_INFO        => 0b000100000000000,
-    DEB_TARGET_ARCH_ATTR        => 0b001000000000000,
-    DEB_TARGET_MULTIARCH_INFO   => 0b010000000000000,
-    DEB_TARGET_GNU_INFO         => 0b100000000000000,
-    DEB_TARGET_ANY              => 0b111110000000000,
+    INFO_TARGET_ARCH_NAME       => 0b000010000000000,
+    INFO_TARGET_ARCH_TUPLE      => 0b000100000000000,
+    INFO_TARGET_ARCH_ATTR       => 0b001000000000000,
+    INFO_TARGET_MULTIARCH       => 0b010000000000000,
+    INFO_TARGET_GNU_TUPLE       => 0b100000000000000,
+    INFO_TARGET_MASK            => 0b111110000000000,
 
-    DEB_ALL                     => 0b111111111111111,
+    INFO_ALL                    => 0b111111111111111,
 };
 
 my %arch_deps = (
-    DEB_BUILD_ANY+0 => DEB_BUILD_INFO,
-    DEB_HOST_ANY+0 => DEB_HOST_INFO,
-    DEB_TARGET_ANY+0 => DEB_TARGET_INFO,
+    INFO_BUILD_MASK+0 => INFO_BUILD_ARCH_NAME,
+    INFO_HOST_MASK+0 => INFO_HOST_ARCH_NAME,
+    INFO_TARGET_MASK+0 => INFO_TARGET_ARCH_NAME,
 );
 
 my %arch_vars = (
-    DEB_BUILD_ARCH => DEB_BUILD_INFO,
-    DEB_BUILD_ARCH_ABI => DEB_BUILD_ARCH_INFO,
-    DEB_BUILD_ARCH_LIBC => DEB_BUILD_ARCH_INFO,
-    DEB_BUILD_ARCH_OS => DEB_BUILD_ARCH_INFO,
-    DEB_BUILD_ARCH_CPU => DEB_BUILD_ARCH_INFO,
-    DEB_BUILD_ARCH_BITS => DEB_BUILD_ARCH_ATTR,
-    DEB_BUILD_ARCH_ENDIAN => DEB_BUILD_ARCH_ATTR,
-    DEB_BUILD_MULTIARCH => DEB_BUILD_MULTIARCH_INFO,
-    DEB_BUILD_GNU_CPU => DEB_BUILD_GNU_INFO,
-    DEB_BUILD_GNU_SYSTEM => DEB_BUILD_GNU_INFO,
-    DEB_BUILD_GNU_TYPE => DEB_BUILD_GNU_INFO,
-    DEB_HOST_ARCH => DEB_HOST_INFO,
-    DEB_HOST_ARCH_ABI => DEB_HOST_ARCH_INFO,
-    DEB_HOST_ARCH_LIBC => DEB_HOST_ARCH_INFO,
-    DEB_HOST_ARCH_OS => DEB_HOST_ARCH_INFO,
-    DEB_HOST_ARCH_CPU => DEB_HOST_ARCH_INFO,
-    DEB_HOST_ARCH_BITS => DEB_HOST_ARCH_ATTR,
-    DEB_HOST_ARCH_ENDIAN => DEB_HOST_ARCH_ATTR,
-    DEB_HOST_MULTIARCH => DEB_HOST_MULTIARCH_INFO,
-    DEB_HOST_GNU_CPU => DEB_HOST_GNU_INFO,
-    DEB_HOST_GNU_SYSTEM => DEB_HOST_GNU_INFO,
-    DEB_HOST_GNU_TYPE => DEB_HOST_GNU_INFO,
-    DEB_TARGET_ARCH => DEB_TARGET_INFO,
-    DEB_TARGET_ARCH_ABI => DEB_TARGET_ARCH_INFO,
-    DEB_TARGET_ARCH_LIBC => DEB_TARGET_ARCH_INFO,
-    DEB_TARGET_ARCH_OS => DEB_TARGET_ARCH_INFO,
-    DEB_TARGET_ARCH_CPU => DEB_TARGET_ARCH_INFO,
-    DEB_TARGET_ARCH_BITS => DEB_TARGET_ARCH_ATTR,
-    DEB_TARGET_ARCH_ENDIAN => DEB_TARGET_ARCH_ATTR,
-    DEB_TARGET_MULTIARCH => DEB_TARGET_MULTIARCH_INFO,
-    DEB_TARGET_GNU_CPU => DEB_TARGET_GNU_INFO,
-    DEB_TARGET_GNU_SYSTEM => DEB_TARGET_GNU_INFO,
-    DEB_TARGET_GNU_TYPE => DEB_TARGET_GNU_INFO,
+    DEB_BUILD_ARCH          => INFO_BUILD_ARCH_NAME,
+    DEB_BUILD_ARCH_ABI      => INFO_BUILD_ARCH_TUPLE,
+    DEB_BUILD_ARCH_LIBC     => INFO_BUILD_ARCH_TUPLE,
+    DEB_BUILD_ARCH_OS       => INFO_BUILD_ARCH_TUPLE,
+    DEB_BUILD_ARCH_CPU      => INFO_BUILD_ARCH_TUPLE,
+    DEB_BUILD_ARCH_BITS     => INFO_BUILD_ARCH_ATTR,
+    DEB_BUILD_ARCH_ENDIAN   => INFO_BUILD_ARCH_ATTR,
+    DEB_BUILD_MULTIARCH     => INFO_BUILD_MULTIARCH,
+    DEB_BUILD_GNU_CPU       => INFO_BUILD_GNU_TUPLE,
+    DEB_BUILD_GNU_SYSTEM    => INFO_BUILD_GNU_TUPLE,
+    DEB_BUILD_GNU_TYPE      => INFO_BUILD_GNU_TUPLE,
+    DEB_HOST_ARCH           => INFO_HOST_ARCH_NAME,
+    DEB_HOST_ARCH_ABI       => INFO_HOST_ARCH_TUPLE,
+    DEB_HOST_ARCH_LIBC      => INFO_HOST_ARCH_TUPLE,
+    DEB_HOST_ARCH_OS        => INFO_HOST_ARCH_TUPLE,
+    DEB_HOST_ARCH_CPU       => INFO_HOST_ARCH_TUPLE,
+    DEB_HOST_ARCH_BITS      => INFO_HOST_ARCH_ATTR,
+    DEB_HOST_ARCH_ENDIAN    => INFO_HOST_ARCH_ATTR,
+    DEB_HOST_MULTIARCH      => INFO_HOST_MULTIARCH,
+    DEB_HOST_GNU_CPU        => INFO_HOST_GNU_TUPLE,
+    DEB_HOST_GNU_SYSTEM     => INFO_HOST_GNU_TUPLE,
+    DEB_HOST_GNU_TYPE       => INFO_HOST_GNU_TUPLE,
+    DEB_TARGET_ARCH         => INFO_TARGET_ARCH_NAME,
+    DEB_TARGET_ARCH_ABI     => INFO_TARGET_ARCH_TUPLE,
+    DEB_TARGET_ARCH_LIBC    => INFO_TARGET_ARCH_TUPLE,
+    DEB_TARGET_ARCH_OS      => INFO_TARGET_ARCH_TUPLE,
+    DEB_TARGET_ARCH_CPU     => INFO_TARGET_ARCH_TUPLE,
+    DEB_TARGET_ARCH_BITS    => INFO_TARGET_ARCH_ATTR,
+    DEB_TARGET_ARCH_ENDIAN  => INFO_TARGET_ARCH_ATTR,
+    DEB_TARGET_MULTIARCH    => INFO_TARGET_MULTIARCH,
+    DEB_TARGET_GNU_CPU      => INFO_TARGET_GNU_TUPLE,
+    DEB_TARGET_GNU_SYSTEM   => INFO_TARGET_GNU_TUPLE,
+    DEB_TARGET_GNU_TYPE     => INFO_TARGET_GNU_TUPLE,
 );
 
 my %known_print_format = map { $_ => 1 } qw(shell make);
 my $print_format = 'shell';
 
-my $req_vars = DEB_ALL;
+my $req_info = INFO_ALL;
 my $req_host_arch = '';
 my $req_host_gnu_type = '';
 my $req_target_arch = '';
@@ -193,7 +193,7 @@ my $force = 0;
 
 sub action_needs($) {
   my $bits = shift;
-  return (($req_vars & $bits) == $bits);
+  return (($req_info & $bits) == $bits);
 }
 
 @ARGV = normalize_options(args => \@ARGV, delim => '-c');
@@ -217,19 +217,19 @@ while (@ARGV) {
 	$req_match_endian = shift;
     } elsif ($arg eq '-e' or $arg eq '--equal') {
 	$req_eq_arch = shift;
-	$req_vars = $arch_vars{DEB_HOST_ARCH};
+        $req_info = $arch_vars{DEB_HOST_ARCH};
 	$action = 'equal';
     } elsif ($arg eq '-i' or $arg eq '--is') {
 	$req_is_arch = shift;
-	$req_vars = $arch_vars{DEB_HOST_ARCH};
+        $req_info = $arch_vars{DEB_HOST_ARCH};
 	$action = 'is';
     } elsif ($arg eq '-u' or $arg eq '--print-unset') {
-	$req_vars = DEB_NONE;
+        $req_info = INFO_NONE;
 	$action = 'print-unset';
     } elsif ($arg eq '-l' or $arg eq '--list') {
 	$action = 'list';
     } elsif ($arg eq '-s' or $arg eq '--print-set') {
-	$req_vars = DEB_ALL;
+        $req_info = INFO_ALL;
 	$action = 'print-set';
     } elsif ($arg eq '--print-format') {
         $print_format = shift;
@@ -242,13 +242,13 @@ while (@ARGV) {
 	error(g_('%s is not a supported variable name'), $varname)
 	    unless (exists $arch_vars{$varname});
 	$req_variable_to_print = "$varname";
-	$req_vars = $arch_vars{$varname};
+        $req_info = $arch_vars{$varname};
         $action = 'query';
     } elsif ($arg eq '-c' or $arg eq '--command') {
        $action = 'command';
        last;
     } elsif ($arg eq '-L' or $arg eq '--list-known') {
-        $req_vars = 0;
+        $req_info = 0;
         $action = 'list-known';
     } elsif ($arg eq '-?' or $arg eq '--help') {
         usage();
@@ -263,8 +263,8 @@ while (@ARGV) {
 
 # Handle variable dependencies
 foreach my $k (keys %arch_deps) {
-    if ($req_vars & $k) {
-        $req_vars |= $arch_deps{$k};
+    if ($req_info & $k) {
+        $req_info |= $arch_deps{$k};
     }
 }
 
@@ -273,7 +273,7 @@ my %v;
 foreach my $k (keys %arch_vars) {
     next if not length $ENV{$k} or $force;
     $v{$k} = $ENV{$k};
-    $req_vars &= ~$arch_vars{$k};
+    $req_info &= ~$arch_vars{$k};
 }
 
 #
@@ -281,17 +281,17 @@ foreach my $k (keys %arch_vars) {
 #
 
 $v{DEB_BUILD_ARCH} = get_raw_build_arch()
-    if (action_needs(DEB_BUILD_INFO));
+    if (action_needs(INFO_BUILD_ARCH_NAME));
 ($v{DEB_BUILD_ARCH_ABI}, $v{DEB_BUILD_ARCH_LIBC},
  $v{DEB_BUILD_ARCH_OS}, $v{DEB_BUILD_ARCH_CPU}) = debarch_to_debtuple($v{DEB_BUILD_ARCH})
-    if (action_needs(DEB_BUILD_ARCH_INFO));
+    if (action_needs(INFO_BUILD_ARCH_TUPLE));
 ($v{DEB_BUILD_ARCH_BITS}, $v{DEB_BUILD_ARCH_ENDIAN}) = debarch_to_abiattrs($v{DEB_BUILD_ARCH})
-    if (action_needs(DEB_BUILD_ARCH_ATTR));
+    if (action_needs(INFO_BUILD_ARCH_ATTR));
 
 $v{DEB_BUILD_MULTIARCH} = debarch_to_multiarch($v{DEB_BUILD_ARCH})
-    if (action_needs(DEB_BUILD_MULTIARCH_INFO));
+    if (action_needs(INFO_BUILD_MULTIARCH));
 
-if (action_needs(DEB_BUILD_GNU_INFO)) {
+if (action_needs(INFO_BUILD_GNU_TUPLE)) {
   $v{DEB_BUILD_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_BUILD_ARCH});
   ($v{DEB_BUILD_GNU_CPU}, $v{DEB_BUILD_GNU_SYSTEM}) = split(/-/, $v{DEB_BUILD_GNU_TYPE}, 2);
 }
@@ -307,17 +307,17 @@ if (action_needs(DEB_BUILD_GNU_INFO)) {
 # Proceed to compute the host variables if needed.
 
 $v{DEB_HOST_ARCH} = $req_host_arch || get_raw_host_arch()
-    if (action_needs(DEB_HOST_INFO));
+    if (action_needs(INFO_HOST_ARCH_NAME));
 ($v{DEB_HOST_ARCH_ABI}, $v{DEB_HOST_ARCH_LIBC},
  $v{DEB_HOST_ARCH_OS}, $v{DEB_HOST_ARCH_CPU}) = debarch_to_debtuple($v{DEB_HOST_ARCH})
-    if (action_needs(DEB_HOST_ARCH_INFO));
+    if (action_needs(INFO_HOST_ARCH_TUPLE));
 ($v{DEB_HOST_ARCH_BITS}, $v{DEB_HOST_ARCH_ENDIAN}) = debarch_to_abiattrs($v{DEB_HOST_ARCH})
-    if (action_needs(DEB_HOST_ARCH_ATTR));
+    if (action_needs(INFO_HOST_ARCH_ATTR));
 
 $v{DEB_HOST_MULTIARCH} = debarch_to_multiarch($v{DEB_HOST_ARCH})
-    if (action_needs(DEB_HOST_MULTIARCH_INFO));
+    if (action_needs(INFO_HOST_MULTIARCH));
 
-if (action_needs(DEB_HOST_GNU_INFO)) {
+if (action_needs(INFO_HOST_GNU_TUPLE)) {
     if ($req_host_gnu_type eq '') {
         $v{DEB_HOST_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_HOST_ARCH});
     } else {
@@ -344,17 +344,17 @@ if (action_needs(DEB_HOST_GNU_INFO)) {
 # Proceed to compute the target variables if needed.
 
 $v{DEB_TARGET_ARCH} = $req_target_arch || $v{DEB_HOST_ARCH} || $req_host_arch || get_raw_host_arch()
-    if (action_needs(DEB_TARGET_INFO));
+    if (action_needs(INFO_TARGET_ARCH_NAME));
 ($v{DEB_TARGET_ARCH_ABI}, $v{DEB_TARGET_ARCH_LIBC},
  $v{DEB_TARGET_ARCH_OS}, $v{DEB_TARGET_ARCH_CPU}) = debarch_to_debtuple($v{DEB_TARGET_ARCH})
-    if (action_needs(DEB_TARGET_ARCH_INFO));
+    if (action_needs(INFO_TARGET_ARCH_TUPLE));
 ($v{DEB_TARGET_ARCH_BITS}, $v{DEB_TARGET_ARCH_ENDIAN}) = debarch_to_abiattrs($v{DEB_TARGET_ARCH})
-    if (action_needs(DEB_TARGET_ARCH_ATTR));
+    if (action_needs(INFO_TARGET_ARCH_ATTR));
 
 $v{DEB_TARGET_MULTIARCH} = debarch_to_multiarch($v{DEB_TARGET_ARCH})
-    if (action_needs(DEB_TARGET_MULTIARCH_INFO));
+    if (action_needs(INFO_TARGET_MULTIARCH));
 
-if (action_needs(DEB_TARGET_GNU_INFO)) {
+if (action_needs(INFO_TARGET_GNU_TUPLE)) {
     if ($req_target_gnu_type eq '') {
         $v{DEB_TARGET_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_TARGET_ARCH});
     } else {
