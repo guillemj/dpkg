@@ -149,7 +149,7 @@ struct _obstack_chunk		/* Lives at front of each chunk. */
 
 struct obstack		/* control current object in current chunk */
 {
-  long	chunk_size;		/* preferred size to allocate chunks in */
+  size_t chunk_size;		/* preferred size to allocate chunks in */
   struct _obstack_chunk *chunk;	/* address of current struct obstack_chunk */
   char	*object_base;		/* address of object we are building */
   char	*next_free;		/* where to add next char to current object */
@@ -159,7 +159,7 @@ struct obstack		/* control current object in current chunk */
     PTR_INT_TYPE tempint;
     void *tempptr;
   } temp;			/* Temporary for some macros.  */
-  int   alignment_mask;		/* Mask of alignment for each object. */
+  size_t alignment_mask;	/* Mask of alignment for each object. */
   /* These prototypes vary based on `use_extra_arg', and we use
      casts to the prototypeless function type in all assignments,
      but having prototypes here quiets -Wstrict-prototypes.  */
@@ -178,13 +178,13 @@ struct obstack		/* control current object in current chunk */
 
 /* Declare the external functions we use; they are in obstack.c.  */
 
-extern void _obstack_newchunk (struct obstack *, int);
-extern int _obstack_begin (struct obstack *, int, int,
-			    void *(*) (long), void (*) (void *));
-extern int _obstack_begin_1 (struct obstack *, int, int,
-			     void *(*) (void *, long),
+extern void _obstack_newchunk (struct obstack *, size_t);
+extern int _obstack_begin (struct obstack *, size_t, size_t,
+			    void *(*) (size_t), void (*) (void *));
+extern int _obstack_begin_1 (struct obstack *, size_t, size_t,
+			     void *(*) (void *, size_t),
 			     void (*) (void *, void *), void *);
-extern int _obstack_memory_used (struct obstack *);
+extern size_t _obstack_memory_used (struct obstack *);
 
 /* The default name of the function for freeing a chunk is 'obstack_free',
    but gnulib users can override this by defining '__obstack_free'.  */
@@ -224,22 +224,22 @@ extern int obstack_exit_failure;
 /* To prevent prototype warnings provide complete argument list.  */
 #define obstack_init(h)						\
   _obstack_begin ((h), 0, 0,					\
-		  (void *(*) (long)) obstack_chunk_alloc,	\
+		  (void *(*) (size_t)) obstack_chunk_alloc,	\
 		  (void (*) (void *)) obstack_chunk_free)
 
 #define obstack_begin(h, size)					\
   _obstack_begin ((h), (size), 0,				\
-		  (void *(*) (long)) obstack_chunk_alloc,	\
+		  (void *(*) (size_t)) obstack_chunk_alloc,	\
 		  (void (*) (void *)) obstack_chunk_free)
 
 #define obstack_specify_allocation(h, size, alignment, chunkfun, freefun)  \
   _obstack_begin ((h), (size), (alignment),				   \
-		  (void *(*) (long)) (chunkfun),			   \
+		  (void *(*) (size_t)) (chunkfun),			   \
 		  (void (*) (void *)) (freefun))
 
 #define obstack_specify_allocation_with_arg(h, size, alignment, chunkfun, freefun, arg) \
   _obstack_begin_1 ((h), (size), (alignment),				\
-		    (void *(*) (void *, long)) (chunkfun),		\
+		    (void *(*) (void *, size_t)) (chunkfun),		\
 		    (void (*) (void *, void *)) (freefun), (arg))
 
 #define obstack_chunkfun(h, newchunkfun) \
@@ -270,17 +270,17 @@ extern int obstack_exit_failure;
 # define obstack_object_size(OBSTACK)					\
   __extension__								\
   ({ struct obstack const *__o = (OBSTACK);				\
-     (unsigned) (__o->next_free - __o->object_base); })
+     (size_t) (__o->next_free - __o->object_base); })
 
 # define obstack_room(OBSTACK)						\
   __extension__								\
   ({ struct obstack const *__o = (OBSTACK);				\
-     (unsigned) (__o->chunk_limit - __o->next_free); })
+     (size_t) (__o->chunk_limit - __o->next_free); })
 
 # define obstack_make_room(OBSTACK,length)				\
 __extension__								\
 ({ struct obstack *__o = (OBSTACK);					\
-   int __len = (length);						\
+   size_t __len = (length);						\
    if (__o->chunk_limit - __o->next_free < __len)			\
      _obstack_newchunk (__o, __len);					\
    (void) 0; })
@@ -296,7 +296,7 @@ __extension__								\
 # define obstack_grow(OBSTACK,where,length)				\
 __extension__								\
 ({ struct obstack *__o = (OBSTACK);					\
-   int __len = (length);						\
+   size_t __len = (length);						\
    if (__o->next_free + __len > __o->chunk_limit)			\
      _obstack_newchunk (__o, __len);					\
    memcpy (__o->next_free, where, __len);				\
@@ -306,7 +306,7 @@ __extension__								\
 # define obstack_grow0(OBSTACK,where,length)				\
 __extension__								\
 ({ struct obstack *__o = (OBSTACK);					\
-   int __len = (length);						\
+   size_t __len = (length);						\
    if (__o->next_free + __len + 1 > __o->chunk_limit)			\
      _obstack_newchunk (__o, __len + 1);				\
    memcpy (__o->next_free, where, __len);				\
@@ -357,7 +357,7 @@ __extension__								\
 # define obstack_blank(OBSTACK,length)					\
 __extension__								\
 ({ struct obstack *__o = (OBSTACK);					\
-   int __len = (length);						\
+   size_t __len = (length);						\
    if (__o->chunk_limit - __o->next_free < __len)			\
      _obstack_newchunk (__o, __len);					\
    obstack_blank_fast (__o, __len);					\
@@ -392,8 +392,8 @@ __extension__								\
    __o1->next_free							\
      = __PTR_ALIGN (__o1->object_base, __o1->next_free,			\
 		    __o1->alignment_mask);				\
-   if (__o1->next_free - (char *)__o1->chunk				\
-       > __o1->chunk_limit - (char *)__o1->chunk)			\
+   if ((size_t) (__o1->next_free - (char *)__o1->chunk)			\
+       > (size_t) (__o1->chunk_limit - (char *)__o1->chunk))		\
      __o1->next_free = __o1->chunk_limit;				\
    __o1->object_base = __o1->next_free;					\
    __value; })
@@ -409,10 +409,10 @@ __extension__								\
 #else /* not __GNUC__ or not __STDC__ */
 
 # define obstack_object_size(h) \
- (unsigned) ((h)->next_free - (h)->object_base)
+ (size_t) ((h)->next_free - (h)->object_base)
 
 # define obstack_room(h)		\
- (unsigned) ((h)->chunk_limit - (h)->next_free)
+ (size_t) ((h)->chunk_limit - (h)->next_free)
 
 # define obstack_empty_p(h) \
  ((h)->chunk->prev == 0							\
@@ -490,8 +490,8 @@ __extension__								\
   (h)->next_free							\
     = __PTR_ALIGN ((h)->object_base, (h)->next_free,			\
 		   (h)->alignment_mask),				\
-  (((h)->next_free - (char *) (h)->chunk				\
-    > (h)->chunk_limit - (char *) (h)->chunk)				\
+  (((size_t) ((h)->next_free - (char *) (h)->chunk)			\
+    > (size_t) ((h)->chunk_limit - (char *) (h)->chunk))			\
    ? ((h)->next_free = (h)->chunk_limit) : 0),				\
   (h)->object_base = (h)->next_free,					\
   (h)->temp.tempptr)
