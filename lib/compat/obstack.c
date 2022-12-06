@@ -251,8 +251,6 @@ _obstack_newchunk (struct obstack *h, int length)
   struct _obstack_chunk *new_chunk;
   long	new_size;
   long obj_size = h->next_free - h->object_base;
-  long i;
-  long already;
   char *object_base;
 
   /* Compute size for new chunk.  */
@@ -272,25 +270,8 @@ _obstack_newchunk (struct obstack *h, int length)
   object_base =
     __PTR_ALIGN ((char *) new_chunk, new_chunk->contents, h->alignment_mask);
 
-  /* Move the existing object to the new chunk.
-     Word at a time is fast and is safe if the object
-     is sufficiently aligned.  */
-  if (h->alignment_mask + 1 >= DEFAULT_ALIGNMENT)
-    {
-      for (i = obj_size / sizeof (COPYING_UNIT) - 1;
-	   i >= 0; i--)
-	((COPYING_UNIT *)object_base)[i]
-	  = ((COPYING_UNIT *)h->object_base)[i];
-      /* We used to copy the odd few remaining bytes as one extra COPYING_UNIT,
-	 but that can cross a page boundary on a machine
-	 which does not do strict alignment for COPYING_UNITS.  */
-      already = obj_size / sizeof (COPYING_UNIT) * sizeof (COPYING_UNIT);
-    }
-  else
-    already = 0;
-  /* Copy remaining bytes one by one.  */
-  for (i = already; i < obj_size; i++)
-    object_base[i] = h->object_base[i];
+  /* Move the existing object to the new chunk.  */
+  memcpy(object_base, h->object_base, obj_size);
 
   /* If the object just copied was the only data in OLD_CHUNK,
      free that chunk and remove it from the chain.
