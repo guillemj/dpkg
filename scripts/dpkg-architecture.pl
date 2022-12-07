@@ -233,8 +233,8 @@ while (@ARGV) {
         %req_vars = %arch_vars{$varname};
         $action = 'query';
     } elsif ($arg eq '-c' or $arg eq '--command') {
-       $action = 'command';
-       last;
+        $action = 'command';
+        last;
     } elsif ($arg eq '-L' or $arg eq '--list-known') {
         %req_vars = ();
         $action = 'list-known';
