@@ -344,6 +344,7 @@ test_data = \
 	t/Dpkg_Source_Package/package_1.0.orig.tar.sig \
 	t/Dpkg_Substvars/substvars1 \
 	t/Dpkg_Substvars/substvars2 \
+	t/dpkg_buildpackage/dpkgdb/status \
 	t/dpkg_buildpackage/test-source_0.dsc \
 	t/dpkg_buildpackage/test-source_0_all.changes \
 	t/dpkg_buildpackage/test-source_0_any.changes \
