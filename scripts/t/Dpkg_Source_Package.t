@@ -24,7 +24,7 @@ use File::Compare;
 use Dpkg::ErrorHandling;
 use Dpkg::OpenPGP::ErrorCodes;
 
-test_needs_command('gpg');
+test_needs_openpgp_backend();
 
 plan tests => 6;
 
