@@ -25,22 +25,13 @@ use Dpkg::ErrorHandling;
 use Dpkg::Path qw(find_command);
 use Dpkg::OpenPGP::KeyHandle;
 
-my @backend_cmds = qw(
-    gpg
-    sq
-    pgpainless-cli
-);
 my %backend_cmd = (
     auto => 'auto',
     gpg => 'gpg',
     sq => 'sq',
     'pgpainless-cli' => 'sop',
 );
-my @cmds = grep { find_command($_) } @backend_cmds;
-if (@cmds == 0) {
-    plan skip_all => "requires at least one backend command: @backend_cmds";
-}
-
+my @cmds = test_needs_openpgp_backend();
 unshift @cmds, 'auto';
 
 plan tests => 2 + 15 * scalar @cmds;
