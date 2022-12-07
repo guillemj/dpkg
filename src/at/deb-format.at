@@ -10,6 +10,8 @@ AT_CLEANUP
 AT_SETUP([dpkg-deb .deb format 0.93x])
 AT_KEYWORDS([dpkg-deb deb-old])
 
+AT_SKIP_IF([! command -v gzip >/dev/null])
+
 AT_DATA([pkg-deb-old-bogus-only-version.deb], [0.93
 ])
 AT_CHECK([
