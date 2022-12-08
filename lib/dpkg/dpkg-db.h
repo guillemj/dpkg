@@ -346,15 +346,15 @@ enum parsedbflags {
   /** Perform laxer version parsing. */
   pdb_lax_version_parser	= DPKG_BIT(6),
   /** Perform laxer control stanza parsing. */
-  pdb_lax_stanza_parser		= DPKG_BIT(9),
+  pdb_lax_stanza_parser		= DPKG_BIT(7),
   /** Perform laxer parsing, used to transition to stricter parsing. */
   pdb_lax_parser		= pdb_lax_stanza_parser | pdb_lax_version_parser,
   /** Close file descriptor on context destruction. */
-  pdb_close_fd			= DPKG_BIT(7),
+  pdb_close_fd			= DPKG_BIT(8),
   /** Interpret filename ‘-’ as stdin. */
-  pdb_dash_is_stdin		= DPKG_BIT(8),
+  pdb_dash_is_stdin		= DPKG_BIT(9),
   /** Allow empty/missing files. */
-  pdb_allow_empty		= DPKG_BIT(9),
+  pdb_allow_empty		= DPKG_BIT(10),
 
   /* Standard operations. */
 
