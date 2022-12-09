@@ -55,6 +55,18 @@
 #define LIBCOMPAT_ATTR_VPRINTF(n)
 #endif
 
+#if LIBCOMPAT_GCC_VERSION >= 0x0300
+#define LIBCOMPAT_ATTR_NORET		__attribute__((noreturn))
+#else
+#define LIBCOMPAT_ATTR_NORET
+#endif
+
+#if LIBCOMPAT_GCC_VERSION >= 0x0400
+#define LIBCOMPAT_ATTR_SENTINEL		__attribute__((sentinel))
+#else
+#define LIBCOMPAT_ATTR_SENTINEL
+#endif
+
 /* For C++, define a __func__ fallback in case it's not natively supported. */
 #if defined(__cplusplus) && __cplusplus < 201103L
 # if LIBCOMPAT_GCC_VERSION >= 0x0200
