@@ -292,7 +292,7 @@ static int schedule_length;
 static struct schedule_item *schedule = NULL;
 
 
-static void DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_PRINTF(1)
 debug(const char *format, ...)
 {
 	va_list arglist;
@@ -305,7 +305,7 @@ debug(const char *format, ...)
 	va_end(arglist);
 }
 
-static void DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_PRINTF(1)
 info(const char *format, ...)
 {
 	va_list arglist;
@@ -318,7 +318,7 @@ info(const char *format, ...)
 	va_end(arglist);
 }
 
-static void DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_PRINTF(1)
 warning(const char *format, ...)
 {
 	va_list arglist;
@@ -329,7 +329,7 @@ warning(const char *format, ...)
 	va_end(arglist);
 }
 
-static void DPKG_ATTR_NORET DPKG_ATTR_VPRINTF(2)
+static void LIBCOMPAT_ATTR_NORET LIBCOMPAT_ATTR_VPRINTF(2)
 fatalv(int errno_fatal, const char *format, va_list args)
 {
 	va_list args_copy;
@@ -349,7 +349,7 @@ fatalv(int errno_fatal, const char *format, va_list args)
 		exit(2);
 }
 
-static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_NORET LIBCOMPAT_ATTR_PRINTF(1)
 fatal(const char *format, ...)
 {
 	va_list args;
@@ -358,7 +358,7 @@ fatal(const char *format, ...)
 	fatalv(0, format, args);
 }
 
-static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_NORET LIBCOMPAT_ATTR_PRINTF(1)
 fatale(const char *format, ...)
 {
 	va_list args;
@@ -369,7 +369,7 @@ fatale(const char *format, ...)
 
 #define BUG(...) bug(__FILE__, __LINE__, __func__, __VA_ARGS__)
 
-static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(4)
+static void LIBCOMPAT_ATTR_NORET LIBCOMPAT_ATTR_PRINTF(4)
 bug(const char *file, int line, const char *func, const char *format, ...)
 {
 	va_list arglist;
@@ -963,7 +963,7 @@ do_version(void)
 	printf("Written by Marek Michalkiewicz, public domain.\n");
 }
 
-static void DPKG_ATTR_NORET
+static void LIBCOMPAT_ATTR_NORET
 badusage(const char *msg)
 {
 	if (msg)
@@ -2706,7 +2706,7 @@ do_stop_summary(int retry_nr)
 	printf(".\n");
 }
 
-static void DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_PRINTF(1)
 set_what_stop(const char *format, ...)
 {
 	va_list arglist;

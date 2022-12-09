@@ -181,7 +181,7 @@ usage(void)
 ), altdir, admdir);
 }
 
-static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_NORET LIBCOMPAT_ATTR_PRINTF(1)
 error(char const *fmt, ...)
 {
 	va_list args;
@@ -194,7 +194,7 @@ error(char const *fmt, ...)
 	exit(2);
 }
 
-static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_NORET LIBCOMPAT_ATTR_PRINTF(1)
 syserr(char const *fmt, ...)
 {
 	va_list args;
@@ -207,7 +207,7 @@ syserr(char const *fmt, ...)
 	exit(2);
 }
 
-static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_NORET LIBCOMPAT_ATTR_PRINTF(1)
 badusage(char const *fmt, ...)
 {
 	va_list args;
@@ -223,7 +223,7 @@ badusage(char const *fmt, ...)
 	exit(2);
 }
 
-static void DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_PRINTF(1)
 warning(char const *fmt, ...)
 {
 	va_list args;
@@ -238,7 +238,7 @@ warning(char const *fmt, ...)
 	fprintf(stderr, "\n");
 }
 
-static void DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_PRINTF(1)
 debug(char const *fmt, ...)
 {
 	va_list args;
@@ -253,7 +253,7 @@ debug(char const *fmt, ...)
 	fprintf(stderr, "\n");
 }
 
-static void DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_PRINTF(1)
 verbose(char const *fmt, ...)
 {
 	va_list args;
@@ -268,7 +268,7 @@ verbose(char const *fmt, ...)
 	printf("\n");
 }
 
-static void DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_PRINTF(1)
 info(char const *fmt, ...)
 {
 	va_list args;
@@ -283,7 +283,7 @@ info(char const *fmt, ...)
 	printf("\n");
 }
 
-static void DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_PRINTF(1)
 pr(char const *fmt, ...)
 {
 	va_list args;
@@ -336,7 +336,7 @@ xstrndup(const char *str, size_t n)
 	return new_str;
 }
 
-static char * DPKG_ATTR_VPRINTF(1)
+static char * LIBCOMPAT_ATTR_VPRINTF(1)
 xvasprintf(const char *fmt, va_list args)
 {
 	char *str;
@@ -347,7 +347,7 @@ xvasprintf(const char *fmt, va_list args)
 	return str;
 }
 
-static char * DPKG_ATTR_PRINTF(1)
+static char * LIBCOMPAT_ATTR_PRINTF(1)
 xasprintf(const char *fmt, ...)
 {
 	va_list args;
@@ -438,7 +438,7 @@ xrename(const char *src, const char *dst)
 		syserr(_("unable to install '%.250s' as '%.250s'"), src, dst);
 }
 
-static void DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_PRINTF(1)
 xunlink_args(const char *fmt, ...)
 {
 	va_list args;
@@ -498,7 +498,7 @@ make_path(const char *pathname, mode_t mode)
 	return 0;
 }
 
-static void DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_PRINTF(1)
 log_msg(const char *fmt, ...)
 {
 	va_list args;
@@ -707,7 +707,7 @@ fsys_rm(const char *f)
 	free(root_f);
 }
 
-static void DPKG_ATTR_PRINTF(1)
+static void LIBCOMPAT_ATTR_PRINTF(1)
 fsys_rm_args(const char *fmt, ...)
 {
 	va_list args;
@@ -1265,7 +1265,7 @@ struct altdb_context {
 	char *filename;
 	enum altdb_flags flags;
 	bool modified;
-	void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(2)
+	void LIBCOMPAT_ATTR_NORET LIBCOMPAT_ATTR_PRINTF(2)
 	     (*bad_format)(struct altdb_context *, const char *format, ...);
 	jmp_buf on_error;
 };
@@ -1354,7 +1354,7 @@ altdb_get_line(struct altdb_context *ctx, const char *name)
 	return buf;
 }
 
-static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(2)
+static void LIBCOMPAT_ATTR_NORET LIBCOMPAT_ATTR_PRINTF(2)
 altdb_parse_error(struct altdb_context *ctx, const char *format, ...)
 {
 	char *msg;
@@ -1367,7 +1367,7 @@ altdb_parse_error(struct altdb_context *ctx, const char *format, ...)
 	error(_("%s corrupt: %s"), ctx->filename, msg);
 }
 
-static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(2)
+static void LIBCOMPAT_ATTR_NORET LIBCOMPAT_ATTR_PRINTF(2)
 altdb_parse_stop(struct altdb_context *ctx, const char *format, ...)
 {
 	longjmp(ctx->on_error, 1);
