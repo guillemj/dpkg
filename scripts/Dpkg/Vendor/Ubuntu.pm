@@ -24,6 +24,8 @@ use warnings;
 
 our $VERSION = '0.01';
 
+use List::Util qw(any);
+
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Control::Types;
@@ -114,6 +116,10 @@ sub set_build_features {
 
     require Dpkg::Arch;
     my $arch = Dpkg::Arch::get_host_arch();
+
+    if (any { $_ eq $arch } qw(amd64 arm64 ppc64el s390x)) {
+        $flags->set_feature('optimize', 'lto', 1);
+    }
 
     if ($arch eq 'ppc64el' && $flags->get_option_value('optimize-level') != 0) {
         $flags->set_option_value('optimize-level', 3);

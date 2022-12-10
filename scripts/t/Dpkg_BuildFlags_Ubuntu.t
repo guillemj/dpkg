@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 16;
+use Test::More tests => 18;
 
 BEGIN {
     use_ok('Dpkg::BuildFlags');
@@ -33,6 +33,15 @@ sub test_optflag
     }
 }
 
+sub test_ltoflag
+{
+    my $bf = shift;
+
+    # Test the LTO flags enabled by default on some arches.
+    ok($bf->get('LDFLAGS') =~ m/-flto=auto -ffat-lto-objects/,
+        "LDFLAGS contains LTO flags on $ENV{DEB_HOST_ARCH}");
+}
+
 my $bf;
 
 # Force loading the Dpkg::Vendor::Ubuntu module.
@@ -43,6 +52,7 @@ $ENV{DEB_HOST_ARCH} = 'amd64';
 $bf = Dpkg::BuildFlags->new();
 
 test_optflag($bf, '-O2');
+test_ltoflag($bf);
 
 # Test the overlaid Ubuntu-specific linker flag.
 ok($bf->get('LDFLAGS') =~ m/-Wl,-Bsymbolic-functions/,
@@ -53,5 +63,6 @@ $ENV{DEB_HOST_ARCH} = 'ppc64el';
 $bf = Dpkg::BuildFlags->new();
 
 test_optflag($bf, '-O3');
+test_ltoflag($bf);
 
 1;
