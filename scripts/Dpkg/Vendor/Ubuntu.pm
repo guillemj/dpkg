@@ -107,7 +107,7 @@ sub run_hook {
             require Dpkg::Arch;
 
             my $arch = Dpkg::Arch::get_host_arch();
-            if (Dpkg::Arch::debarch_eq($arch, 'ppc64el')) {
+            if ($arch eq 'ppc64el') {
 		for my $flag (qw(CFLAGS CXXFLAGS OBJCFLAGS OBJCXXFLAGS GCJFLAGS
 		                 FFLAGS FCFLAGS)) {
                     my $value = $flags->get($flag);
