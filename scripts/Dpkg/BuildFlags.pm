@@ -486,7 +486,7 @@ sub is_maintainer_modified {
 
 Returns true if the given area of features is known, and false otherwise.
 The only currently recognized feature areas are "future", "qa", "sanitize",
-"hardening" and "reproducible".
+"optimize", "hardening" and "reproducible".
 
 =cut
 
