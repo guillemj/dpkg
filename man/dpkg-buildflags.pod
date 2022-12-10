@@ -182,8 +182,9 @@ the flag is set/modified by an environment-specific configuration.
 
 Print any information that can be useful to explain the behaviour of the
 program: current vendor, relevant environment variables, feature areas,
-state of all feature flags, and the compiler flags with their origin
-(since dpkg 1.19.0).
+state of all feature flags, whether a feature is handled as a builtin
+default by the compiler (since dpkg dpkg 1.21.14),
+and the compiler flags with their origin (since dpkg 1.19.0).
 
 For example:
 
@@ -195,10 +196,18 @@ For example:
  Features:
   bug=no
   canary=no
+ Builtins:
+
+ Area: hardening
+ Features:
+  pie=no
+ Builtins:
+  pie=yes
 
  Area: reproducible
  Features:
   timeless=no
+ Builtins:
 
  Flag: CFLAGS
  Value: -O0 -Wall
@@ -211,6 +220,9 @@ For example:
 =item B<--query-features> I<area>
 
 Print the features enabled for a given area (since dpkg 1.16.2).
+If the feature is handled (even if only on some architectures) as a
+builtin default by the compiler, then a B<Builtin> field is printed
+(since dpkg 1.21.14).
 The only currently recognized
 areas on Debian and derivatives are B<future>, B<qa>, B<reproducible>,
 B<sanitize> and B<hardening>, see the B<FEATURE AREAS>
@@ -222,6 +234,7 @@ For example:
 
  Feature: pie
  Enabled: yes
+ Builtin: yes
 
  Feature: stackprotector
  Enabled: yes

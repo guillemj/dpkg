@@ -434,8 +434,8 @@ sub _add_build_flags {
 
     # Set used features to their builtin setting if unset.
     foreach my $area (sort keys %builtin_feature) {
-        foreach my $feature (keys %{$builtin_feature{$area}}) {
-            $use_feature{$area}{$feature} //= $builtin_feature{$area}{$feature};
+        while (my ($feature, $state) = each %{$builtin_feature{$area}}) {
+            $flags->set_builtin($area, $feature, $state);
         }
     }
 

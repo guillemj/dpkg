@@ -118,11 +118,13 @@ if ($action eq 'list') {
     exit 1 unless $build_flags->has_features($param);
 
     my %features = $build_flags->get_features($param);
+    my %builtins = $build_flags->get_builtins($param);
     my $para_shown = 0;
     foreach my $feature (sort keys %features) {
         print $para_shown++ ? "\n" : '';
         printf "Feature: %s\n", $feature;
-        printf "Enabled: %s\n", $features{$feature} ? 'yes' : 'no';
+        printf "Enabled: %s\n", $features{$feature} // $builtins{$feature} ? 'yes' : 'no';
+        printf "Builtin: %s\n", $builtins{$feature} ? 'yes' : 'no' if exists $builtins{$feature};
     }
 } elsif ($action =~ m/^export-(.*)$/) {
     my $export_type = $1;
@@ -160,8 +162,13 @@ if ($action eq 'list') {
         print "Area: $area\n";
         print "Features:\n";
         my %features = $build_flags->get_features($area);
+        my %builtins = $build_flags->get_builtins($area);
         foreach my $feature (sort keys %features) {
-            printf " %s=%s\n", $feature, $features{$feature} ? 'yes' : 'no';
+            printf " %s=%s\n", $feature, $features{$feature} // $builtins{$feature} ? 'yes' : 'no';
+        }
+        print "Builtins:\n";
+        foreach my $feature (sort keys %builtins) {
+            printf " %s=%s\n", $feature, $builtins{$feature} ? 'yes' : 'no';
         }
     }
 
@@ -197,10 +204,17 @@ if ($action eq 'list') {
     foreach my $area (sort $build_flags->get_feature_areas()) {
 	my $fs;
 	my %features = $build_flags->get_features($area);
+	my %builtins = $build_flags->get_builtins($area);
 	foreach my $feature (sort keys %features) {
-	    $fs .= sprintf(' %s=%s', $feature, $features{$feature} ? 'yes' : 'no');
+	    $fs .= sprintf(' %s=%s', $feature, $features{$feature} // $builtins{$feature} ? 'yes' : 'no');
 	}
 	print report(REPORT_STATUS, "$area features:$fs");
+        my $bs = q{};
+        foreach my $feature (sort keys %builtins) {
+            next if ! exists $builtins{$feature};
+            $bs .= sprintf(' %s=%s', $feature, $builtins{$feature} ? 'yes' : 'no');
+        }
+        print report(REPORT_STATUS, "$area builtins:$bs");
     }
     # Then the resulting values (with their origin):
     foreach my $flag ($build_flags->list()) {
