@@ -175,11 +175,17 @@ sub _add_build_flags {
 
     my $default_flags;
     my $default_d_flags;
+    my $optimize_level;
     if ($opts_build->has('noopt')) {
-        $default_flags = '-g -O0';
+        $optimize_level = 0;
+    } else {
+        $optimize_level = 2;
+    }
+    $flags->set_option_value('optimize-level', $optimize_level);
+    $default_flags = "-g -O$optimize_level";
+    if ($optimize_level == 0) {
         $default_d_flags = '-fdebug';
     } else {
-        $default_flags = '-g -O2';
         $default_d_flags = '-frelease';
     }
     $flags->append($_, $default_flags) foreach @compile_flags;
@@ -234,14 +240,14 @@ sub _add_build_flags {
 
     ## Area: reproducible
 
-    my $build_path;
-
     # Mask features that might have an unsafe usage.
     if ($use_feature{reproducible}{fixfilepath} or
         $use_feature{reproducible}{fixdebugpath}) {
         require Cwd;
 
-        $build_path = $ENV{DEB_BUILD_PATH} || Cwd::getcwd();
+        my $build_path =$ENV{DEB_BUILD_PATH} || Cwd::getcwd();
+
+        $flags->set_option_value('build-path', $build_path);
 
         # If we have any unsafe character in the path, disable the flag,
         # so that we do not need to worry about escaping the characters
@@ -260,6 +266,7 @@ sub _add_build_flags {
     # Avoid storing the build path in the binaries.
     if ($use_feature{reproducible}{fixfilepath} or
         $use_feature{reproducible}{fixdebugpath}) {
+        my $build_path = $flags->get_option_value('build-path');
         my $map;
 
         # -ffile-prefix-map is a superset of -fdebug-prefix-map, prefer it
@@ -366,7 +373,7 @@ sub _add_build_flags {
     }
 
     # Mask features that might be influenced by other flags.
-    if ($opts_build->has('noopt')) {
+    if ($flags->get_option_value('optimize-level') == 0) {
       # glibc 2.16 and later warn when using -O0 and _FORTIFY_SOURCE.
       $use_feature{hardening}{fortify} = 0;
     }
