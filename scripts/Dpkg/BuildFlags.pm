@@ -74,6 +74,7 @@ sub _init_vendor_defaults {
     my $self = shift;
 
     $self->{features} = {};
+    $self->{builtins} = {};
     $self->{optvals} = {};
     $self->{flags} = {
 	ASFLAGS => '',
@@ -294,6 +295,35 @@ sub use_feature {
     return 0 if ! $self->has_features($area);
     return 0 if ! $self->{features}{$area}{$feature};
     return 1;
+}
+
+=item $bf->set_builtin($area, $feature, $enabled)
+
+Update the boolean state of whether a specific feature within a known
+feature area is handled (even if only in some architectures) as a builtin
+default by the compiler.
+
+=cut
+
+sub set_builtin {
+    my ($self, $area, $feature, $enabled) = @_;
+    $self->{builtins}{$area}{$feature} = $enabled;
+}
+
+=item $bf->get_builtins($area)
+
+Return, for the given area, a hash with keys as feature names, and values
+as booleans indicating whether the feature is handled as a builtin default
+by the compiler or not. Only features that might be handled as builtins on
+some architectures are returned as part of the hash. Missing features mean
+they are currently never handled as builtins by the compiler.
+
+=cut
+
+sub get_builtins {
+    my ($self, $area) = @_;
+    return if ! exists $self->{builtins}{$area};
+    return %{$self->{builtins}{$area}};
 }
 
 =item $bf->set_option_value($option, $value)
@@ -526,7 +556,8 @@ sub list {
 
 New option: 'vendor_defaults' in new().
 
-New methods: $bf->load_vendor_defaults(), $bf->use_feature().
+New methods: $bf->load_vendor_defaults(), $bf->use_feature(),
+$bf->set_builtin(), $bf->get_builtins().
 
 =head2 Version 1.04 (dpkg 1.20.0)
 
