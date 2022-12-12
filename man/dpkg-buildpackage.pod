@@ -326,10 +326,6 @@ child process. If the number of online processors cannot be inferred then
 the code will fallback to using serial execution (since dpkg 1.18.15),
 although this should only happen on exotic and unsupported systems.
 
-Note: Any Makefile that is not parallel-safe should be considered to be buggy.
-These should either be made parallel-safe, or marked as not being safe with
-the L<make(1)> B<.NOTPARALLEL> target.
-
 =item B<-J>, B<--jobs-try>[=I<jobs>|B<auto>]
 
 This option (since dpkg 1.18.2, long option since dpkg 1.18.8) is equivalent
@@ -350,6 +346,10 @@ This should cause all subsequent make invocations to inherit the option,
 thus forcing the parallel setting on the packaging (and possibly the
 upstream build system if that uses L<make(1)>) regardless of their support
 for parallel builds, which might cause build failures.
+
+Note: Any Makefile that is not parallel-safe should be considered to be buggy.
+These should either be made parallel-safe, or marked as not being safe with
+the L<make(1)> B<.NOTPARALLEL> target.
 
 =item B<-D>, B<--check-builddeps>
 
