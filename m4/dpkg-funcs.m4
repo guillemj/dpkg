@@ -36,7 +36,7 @@ AC_DEFUN([DPKG_FUNC_FSYNC_DIR], [
 #include <stddef.h>
 #include <dirent.h>
 #include <unistd.h>
-]], [[
+      ]], [[
 	int fd;
 	DIR *dir = opendir(".");
 	if (dir == NULL)
@@ -97,7 +97,7 @@ int test_vsnprintf(const char *fmt, ...)
 
 	return n;
 }
-]], [[
+      ]], [[
 	int n;
 
 	n = snprintf(NULL, 0, "format %s %d", "string", 10);
@@ -175,9 +175,11 @@ AC_DEFUN([DPKG_USE_DISK_PREALLOCATE], [
 AC_DEFUN([DPKG_CHECK_PROGNAME], [
   AC_MSG_CHECKING([for program_invocation_short_name])
   AC_LINK_IFELSE([
-    AC_LANG_PROGRAM(
-      [[#include <errno.h>]],
-      [[const char *p = program_invocation_short_name;]])
+    AC_LANG_PROGRAM([[
+#include <errno.h>
+    ]], [[
+const char *p = program_invocation_short_name;
+    ]])
   ], [
     AC_DEFINE([HAVE_PROGRAM_INVOCATION_SHORT_NAME], [1],
       [Define to 1 if you have program_invocation_short_name])
@@ -188,9 +190,11 @@ AC_DEFUN([DPKG_CHECK_PROGNAME], [
 
   AC_MSG_CHECKING([for __progname])
   AC_LINK_IFELSE([
-    AC_LANG_PROGRAM(
-      [[extern char *__progname;]],
-      [[printf("%s", __progname);]])
+    AC_LANG_PROGRAM([[
+extern char *__progname;
+    ]], [[
+printf("%s", __progname);
+    ]])
   ], [
     AC_DEFINE([HAVE___PROGNAME], [1], [Define to 1 if you have __progname])
     AC_MSG_RESULT([yes])
