@@ -636,12 +636,29 @@ filter_xz_get_cputhreads(struct compress_params *params)
 static void
 filter_unxz_init(struct io_lzma *io, lzma_stream *s)
 {
+#ifdef HAVE_LZMA_MT_DECODER
+	lzma_mt mt_options = {
+		.flags = 0,
+		.block_size = 0,
+		.timeout = 0,
+		.filters = NULL,
+	};
+#else
 	uint64_t memlimit = UINT64_MAX;
+#endif
 	lzma_ret ret;
 
 	io->status |= DPKG_STREAM_DECOMPRESS;
 
+#ifdef HAVE_LZMA_MT_DECODER
+	mt_options.memlimit_stop = UINT64_MAX;
+	mt_options.memlimit_threading = filter_xz_get_memlimit();
+	mt_options.threads = filter_xz_get_cputhreads(io->params);
+
+	ret = lzma_stream_decoder_mt(s, &mt_options);
+#else
 	ret = lzma_stream_decoder(s, memlimit, 0);
+#endif
 	if (ret != LZMA_OK)
 		filter_lzma_error(io, ret);
 }
@@ -748,12 +765,19 @@ decompress_xz(struct compress_params *params, int fd_in, int fd_out,
               const char *desc)
 {
 	struct command cmd;
+	char *threads_opt = NULL;
 
 	command_decompress_init(&cmd, XZ, desc);
+
+	if (params->threads_max > 0) {
+		threads_opt = str_fmt("-T%d", params->threads_max);
+		command_add_arg(&cmd, threads_opt);
+	}
 
 	fd_fd_filter(&cmd, fd_in, fd_out, env_xz);
 
 	command_destroy(&cmd);
+	free(threads_opt);
 }
 
 static void

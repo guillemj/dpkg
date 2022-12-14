@@ -102,6 +102,10 @@ AC_DEFUN([DPKG_LIB_LZMA], [
     AC_DEFINE([HAVE_LZMA_MT_ENCODER], [1],
       [xz multithreaded compression support])
   ])
+  AC_CHECK_LIB([lzma], [lzma_stream_decoder_mt], [
+    AC_DEFINE([HAVE_LZMA_MT_DECODER], [1],
+      [xz multithreaded decompression support])
+  ])
 ])# DPKG_LIB_LZMA
 
 # DPKG_LIB_BZ2
