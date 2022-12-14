@@ -191,6 +191,7 @@ const char *p = program_invocation_short_name;
   AC_MSG_CHECKING([for __progname])
   AC_LINK_IFELSE([
     AC_LANG_PROGRAM([[
+#include <stdio.h>
 extern char *__progname;
     ]], [[
 printf("%s", __progname);
