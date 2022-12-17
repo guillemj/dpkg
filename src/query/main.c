@@ -401,7 +401,7 @@ print_status(const char *const *argv)
   modstatdb_open(msdbrw_readonly);
 
   if (!*argv) {
-    writedb_records(stdout, _("<standard output>"), 0);
+    writedb_stanzas(stdout, _("<standard output>"), 0);
   } else {
     while ((thisarg = *argv++) != NULL) {
       pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
@@ -416,7 +416,7 @@ print_status(const char *const *argv)
                pkg_name(pkg, pnaw_nonambig));
         failures++;
       } else {
-        writerecord(stdout, _("<standard output>"), pkg, &pkg->installed);
+        write_stanza(stdout, _("<standard output>"), pkg, &pkg->installed);
       }
 
       if (*argv != NULL)
@@ -446,7 +446,7 @@ print_avail(const char *const *argv)
   modstatdb_open(msdbrw_readonly | msdbrw_available_readonly);
 
   if (!*argv) {
-    writedb_records(stdout, _("<standard output>"), wdb_dump_available);
+    writedb_stanzas(stdout, _("<standard output>"), wdb_dump_available);
   } else {
     while ((thisarg = *argv++) != NULL) {
       pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
@@ -456,7 +456,7 @@ print_avail(const char *const *argv)
                pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
         failures++;
       } else {
-        writerecord(stdout, _("<standard output>"), pkg, &pkg->available);
+        write_stanza(stdout, _("<standard output>"), pkg, &pkg->available);
       }
 
       if (*argv != NULL)

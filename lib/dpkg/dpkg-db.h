@@ -455,8 +455,9 @@ const char *pkg_priority_name(const struct pkginfo *pkg);
 
 /*** from dump.c ***/
 
-void writerecord(FILE*, const char*,
-                 const struct pkginfo *, const struct pkgbin *);
+void
+write_stanza(FILE *, const char *,
+             const struct pkginfo *, const struct pkgbin *);
 
 enum writedb_flags {
   /** Dump ‘available’ in-core structures, not ‘status’. */
@@ -465,13 +466,15 @@ enum writedb_flags {
   wdb_must_sync			= DPKG_BIT(1),
 };
 
-void writedb_records(FILE *fp, const char *filename, enum writedb_flags flags);
+void
+writedb_stanzas(FILE *fp, const char *filename, enum writedb_flags flags);
 void writedb(const char *filename, enum writedb_flags flags);
 
 /* Note: The varbufs must have been initialized and will not be
  * NUL-terminated. */
-void varbufrecord(struct varbuf *, const struct pkginfo *,
-                  const struct pkgbin *);
+void
+varbuf_stanza(struct varbuf *, const struct pkginfo *,
+              const struct pkgbin *);
 void varbufdependency(struct varbuf *vb, struct dependency *dep);
 
 /*** from depcon.c ***/

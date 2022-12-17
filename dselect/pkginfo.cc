@@ -139,7 +139,8 @@ void packagelist::itd_statuscontrol() {
     severalinfoblurb();
   } else {
     varbuf vb;
-    varbufrecord(&vb,table[cursorline]->pkg,&table[cursorline]->pkg->installed);
+    varbuf_stanza(&vb, table[cursorline]->pkg,
+                  &table[cursorline]->pkg->installed);
     debug(dbg_general, "packagelist[%p]::idt_statuscontrol(); '%s'",
           this, vb.string());
     waddstr(infopad,vb.string());
@@ -154,7 +155,8 @@ void packagelist::itd_availablecontrol() {
     severalinfoblurb();
   } else {
     varbuf vb;
-    varbufrecord(&vb,table[cursorline]->pkg,&table[cursorline]->pkg->available);
+    varbuf_stanza(&vb, table[cursorline]->pkg,
+                  &table[cursorline]->pkg->available);
     debug(dbg_general, "packagelist[%p]::idt_availablecontrol(); '%s'",
           this, vb.string());
     waddstr(infopad,vb.string());

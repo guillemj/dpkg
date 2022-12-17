@@ -463,8 +463,8 @@ varbuf_add_arbfield(struct varbuf *vb, const struct arbitraryfield *arbfield,
 }
 
 void
-varbufrecord(struct varbuf *vb,
-             const struct pkginfo *pkg, const struct pkgbin *pkgbin)
+varbuf_stanza(struct varbuf *vb,
+              const struct pkginfo *pkg, const struct pkgbin *pkgbin)
 {
   const struct fieldinfo *fip;
   const struct arbitraryfield *afp;
@@ -478,12 +478,12 @@ varbufrecord(struct varbuf *vb,
 }
 
 void
-writerecord(FILE *file, const char *filename,
-            const struct pkginfo *pkg, const struct pkgbin *pkgbin)
+write_stanza(FILE *file, const char *filename,
+             const struct pkginfo *pkg, const struct pkgbin *pkgbin)
 {
   struct varbuf vb = VARBUF_INIT;
 
-  varbufrecord(&vb, pkg, pkgbin);
+  varbuf_stanza(&vb, pkg, pkgbin);
   varbuf_end_str(&vb);
 
   if (fputs(vb.buf, file) < 0)
@@ -494,7 +494,7 @@ writerecord(FILE *file, const char *filename,
 }
 
 void
-writedb_records(FILE *fp, const char *filename, enum writedb_flags flags)
+writedb_stanzas(FILE *fp, const char *filename, enum writedb_flags flags)
 {
   static char writebuf[8192];
 
@@ -517,15 +517,15 @@ writedb_records(FILE *fp, const char *filename, enum writedb_flags flags)
     pkg = array.pkgs[i];
     pkgbin = (flags & wdb_dump_available) ? &pkg->available : &pkg->installed;
 
-    /* Don't dump records which have no useful content. */
+    /* Don't dump stanzas which have no useful content. */
     if (!pkg_is_informative(pkg, pkgbin))
       continue;
 
-    varbufrecord(&vb, pkg, pkgbin);
+    varbuf_stanza(&vb, pkg, pkgbin);
     varbuf_add_char(&vb, '\n');
     varbuf_end_str(&vb);
     if (fputs(vb.buf, fp) < 0)
-      ohshite(_("failed to write %s database record about '%.50s' to '%.250s'"),
+      ohshite(_("failed to write %s database stanza about '%s' to '%s'"),
               which, pkgbin_name(pkg, pkgbin, pnaw_nonambig), filename);
     varbuf_reset(&vb);
   }
@@ -546,7 +546,7 @@ writedb(const char *filename, enum writedb_flags flags)
   file = atomic_file_new(filename, atomic_flags);
   atomic_file_open(file);
 
-  writedb_records(file->fp, filename, flags);
+  writedb_stanzas(file->fp, filename, flags);
 
   if (flags & wdb_must_sync)
     atomic_file_sync(file);

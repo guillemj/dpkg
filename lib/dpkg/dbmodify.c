@@ -434,7 +434,7 @@ modstatdb_note_core(struct pkginfo *pkg)
     internerr("modstatdb status '%d' is not writable", cstatus);
 
   varbuf_reset(&uvb);
-  varbufrecord(&uvb, pkg, &pkg->installed);
+  varbuf_stanza(&uvb, pkg, &pkg->installed);
 
   if (fwrite(uvb.buf, 1, uvb.used, importanttmp) != uvb.used)
     ohshite(_("unable to write updated status of '%.250s'"),

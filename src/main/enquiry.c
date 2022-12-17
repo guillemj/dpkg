@@ -582,7 +582,7 @@ predeppackage(const char *const *argv)
   } while (dep);
 
   /* OK, we've found it - pkg has no unsatisfied pre-dependencies! */
-  writerecord(stdout, _("<standard output>"), pkg, &pkg->available);
+  write_stanza(stdout, _("<standard output>"), pkg, &pkg->available);
 
   m_output(stdout, _("<standard output>"));
 
