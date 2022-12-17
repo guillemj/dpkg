@@ -73,12 +73,12 @@ if (-f "$methdir/md5sums") {
   if (ref($res)) { %md5sums = %{$res} }
 }
 
-# get a block
+# Get a stanza.
 # returns a ref to a hash containing flds->fld contents
 # white space from the ends of lines is removed and newlines added
 # (no trailing newline).
 # die's if something unexpected happens
-sub getblk {
+sub get_stanza {
     my $fh = shift;
     my %flds;
     my $fld;
@@ -116,7 +116,7 @@ sub procstatus {
     my (%flds, $fld);
     open(my $status_fh, '<', "$vardir/status") or
         die 'Could not open status file';
-    while (%flds = getblk($status_fh), %flds) {
+    while (%flds = get_stanza($status_fh), %flds) {
 	if($flds{'status'} =~ /^install ok/) {
 	    my $cs = (split(/ /, $flds{'status'}))[2];
 	    if (($cs eq 'not-installed') ||
@@ -158,7 +158,7 @@ sub procpkgfile {
     my (@files, @sizes, @md5sums, $pkg, $ver, $nfs, $fld);
     my(%flds);
     open(my $pkgfile_fh, '<', $fn) or die "could not open package file $fn";
-    while (%flds = getblk($pkgfile_fh), %flds) {
+    while (%flds = get_stanza($pkgfile_fh), %flds) {
 	$pkg = $flds{'package'};
 	$ver = $curpkgs{$pkg};
 	@files = split(/[\s\n]+/, $flds{'filename'});
@@ -466,7 +466,7 @@ sub getdebinfo($) {
     if($type == 1) {
 	open(my $pkgfile_fh, '-|', "dpkg-deb --field $fn")
 	    or die "cannot create pipe for 'dpkg-deb --field $fn'";
-	my %fields = getblk($pkgfile_fh);
+	my %fields = get_stanza($pkgfile_fh);
 	close($pkgfile_fh);
 	$pkg = $fields{'package'};
 	$ver = $fields{'version'};
