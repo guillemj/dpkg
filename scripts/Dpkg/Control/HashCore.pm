@@ -39,7 +39,7 @@ use overload
 
 =head1 NAME
 
-Dpkg::Control::HashCore - parse and manipulate a block of RFC822-like fields
+Dpkg::Control::HashCore - parse and manipulate a stanza of deb822 fields
 
 =head1 DESCRIPTION
 
@@ -277,7 +277,8 @@ sub parse {
 		# be verified by an OpenPGP backend.
 		$$self->{is_pgp_signed} = 1;
 	    }
-	    last; # Finished parsing one block
+            # Finished parsing one stanza.
+            last;
         } elsif ($armor =~ m/^-----BEGIN PGP SIGNED MESSAGE-----[\r\t ]*$/) {
             $expect_pgp_sig = 1;
             if ($$self->{allow_pgp} and not $parabody) {

@@ -74,12 +74,12 @@ information is not yet known.
 
 =item CTRL_INFO_SRC
 
-Corresponds to the first block of information in a F<debian/control> file in
+Corresponds to the first stanza in a F<debian/control> file in
 a Debian source package.
 
 =item CTRL_INFO_PKG
 
-Corresponds to subsequent blocks of information in a F<debian/control> file
+Corresponds to subsequent stanza in a F<debian/control> file
 in a Debian source package.
 
 =item CTRL_REPO_RELEASE
@@ -88,12 +88,12 @@ Corresponds to a F<Release> file in a repository.
 
 =item CTRL_INDEX_SRC
 
-Corresponds to an entry in a F<Sources> file of a source package
+Corresponds to a stanza in a F<Sources> file of a source package
 repository.
 
 =item CTRL_INDEX_PKG
 
-Corresponds to an entry in a F<Packages> file of a binary package
+Corresponds to a stanza in a F<Packages> file of a binary package
 repository.
 
 =item CTRL_PKG_SRC
@@ -119,7 +119,7 @@ Corresponds to a vendor file in $Dpkg::CONFDIR/origins/.
 
 =item CTRL_FILE_STATUS
 
-Corresponds to an entry in dpkg's F<status> file ($Dpkg::ADMINDIR/status).
+Corresponds to a stanza in dpkg's F<status> file ($Dpkg::ADMINDIR/status).
 
 =item CTRL_CHANGELOG
 
@@ -127,17 +127,17 @@ Corresponds to the output of dpkg-parsechangelog.
 
 =item CTRL_COPYRIGHT_HEADER
 
-Corresponds to the header control block in a F<debian/copyright> file in
+Corresponds to the header stanza in a F<debian/copyright> file in
 machine readable format.
 
 =item CTRL_COPYRIGHT_FILES
 
-Corresponds to a files control block in a F<debian/copyright> file in
+Corresponds to a files stanza in a F<debian/copyright> file in
 machine readable format.
 
 =item CTRL_COPYRIGHT_LICENSE
 
-Corresponds to a license control block in a F<debian/copyright> file in
+Corresponds to a license stanza in a F<debian/copyright> file in
 machine readable format.
 
 =item CTRL_TESTS
@@ -208,9 +208,9 @@ sub set_options {
         } elsif ($t == CTRL_REPO_RELEASE) {
             $$self->{name} = sprintf(g_("repository's %s file"), 'Release');
         } elsif ($t == CTRL_INDEX_SRC) {
-            $$self->{name} = sprintf(g_("entry in repository's %s file"), 'Sources');
+            $$self->{name} = sprintf(g_("stanza in repository's %s file"), 'Sources');
         } elsif ($t == CTRL_INDEX_PKG) {
-            $$self->{name} = sprintf(g_("entry in repository's %s file"), 'Packages');
+            $$self->{name} = sprintf(g_("stanza in repository's %s file"), 'Packages');
         } elsif ($t == CTRL_PKG_SRC) {
             $$self->{name} = sprintf(g_('%s file'), '.dsc');
         } elsif ($t == CTRL_PKG_DEB) {
@@ -222,7 +222,7 @@ sub set_options {
         } elsif ($t == CTRL_FILE_VENDOR) {
             $$self->{name} = g_('vendor file');
         } elsif ($t == CTRL_FILE_STATUS) {
-            $$self->{name} = g_("entry in dpkg's status file");
+            $$self->{name} = g_("stanza in dpkg's status file");
         }
         $self->set_output_order(field_ordered_list($opts{type}));
     }

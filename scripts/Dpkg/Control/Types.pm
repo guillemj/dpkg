@@ -57,9 +57,9 @@ between Dpkg::Control and Dpkg::Control::Fields.
 
 use constant {
     CTRL_UNKNOWN => 0,
-    # First control block in debian/control.
+    # First control stanza in debian/control.
     CTRL_INFO_SRC => 1 << 0,
-    # Subsequent control blocks in debian/control.
+    # Subsequent control stanza in debian/control.
     CTRL_INFO_PKG => 1 << 1,
     # Entry in repository's Sources files.
     CTRL_INDEX_SRC => 1 << 2,
@@ -79,11 +79,11 @@ use constant {
     CTRL_CHANGELOG => 1 << 9,
     # Repository's (In)Release file.
     CTRL_REPO_RELEASE => 1 << 10,
-    # Header control block in debian/copyright.
+    # Header control stanza in debian/copyright.
     CTRL_COPYRIGHT_HEADER => 1 << 11,
-    # Files control block in debian/copyright.
+    # Files control stanza in debian/copyright.
     CTRL_COPYRIGHT_FILES => 1 << 12,
-    # License control block in debian/copyright.
+    # License control stanza in debian/copyright.
     CTRL_COPYRIGHT_LICENSE => 1 << 13,
     # Package test suite control file in debian/tests/control.
     CTRL_TESTS => 1 << 14,

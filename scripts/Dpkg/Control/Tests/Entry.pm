@@ -74,7 +74,7 @@ sub parse {
     return if not $self->SUPER::parse($fh, $desc);
 
     if (not exists $self->{'Tests'} and not exists $self->{'Test-Command'}) {
-        $self->parse_error($desc, g_('block lacks either %s or %s fields'),
+        $self->parse_error($desc, g_('stanza lacks either %s or %s fields'),
                            'Tests', 'Test-Command');
     }
 

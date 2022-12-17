@@ -185,7 +185,7 @@ Manage (list of known) control fields.
 
 =item L<Dpkg::Control::Hash>
 
-Parse and manipulate a block of RFC822-like fields.
+Parse and manipulate a stanza of deb822 fields.
 
 =item L<Dpkg::Control::Info>
 

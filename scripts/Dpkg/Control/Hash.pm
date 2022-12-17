@@ -30,7 +30,7 @@ use parent qw(Dpkg::Control::HashCore);
 
 =head1 NAME
 
-Dpkg::Control::Hash - parse and manipulate a block of RFC822-like fields
+Dpkg::Control::Hash - parse and manipulate a stanza of deb822 fields
 
 =head1 DESCRIPTION
 
