@@ -793,7 +793,15 @@ compress_xz(struct compress_params *params, int fd_in, int fd_out,
 		command_add_arg(&cmd, "-e");
 
 	if (params->threads_max > 0) {
-		threads_opt = str_fmt("-T%d", params->threads_max);
+		/* The xz -T1 option selects a single-threaded mode which
+		 * generates different output than in multi-threaded mode.
+		 * To avoid the non-reproducible output we pass -T+1
+		 * (supported with xz >= 5.4.0) to request multi-threaded
+		 * mode with a single thread. */
+		if (params->threads_max == 1)
+			threads_opt = m_strdup("-T+1");
+		else
+			threads_opt = str_fmt("-T%d", params->threads_max);
 		command_add_arg(&cmd, threads_opt);
 	}
 
