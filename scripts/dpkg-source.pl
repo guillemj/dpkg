@@ -160,6 +160,10 @@ while (@options) {
 	usageerr(g_('%s is not a compression level'), $comp_level)
 	    unless compression_is_valid_level($comp_level);
 	compression_set_default_level($comp_level);
+    } elsif (m/^--threads-max=(.*)$/) {
+        my $threads = $1;
+        $options{comp_threads} = $threads;
+        compression_set_threads($threads);
     } elsif (m/^-c(.*)$/) {
         $controlfile = $1;
     } elsif (m/^-l(.*)$/) {
@@ -654,6 +658,8 @@ sub usage {
     get_format_help()
     . "\n" . g_(
 'General options:
+      --threads-max=<threads>
+                           use at most <threads> with compressor.
   -q                       quiet mode.
   -?, --help               show this help message.
       --version            show the version.')
