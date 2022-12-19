@@ -793,6 +793,10 @@ compress_xz(struct compress_params *params, int fd_in, int fd_out,
 		command_add_arg(&cmd, "-e");
 
 	if (params->threads_max > 0) {
+		/* Do not let xz fallback to single-threaded mode, to avoid
+		 * non-reproducible output. */
+		command_add_arg(&cmd, "--no-adjust");
+
 		/* The xz -T1 option selects a single-threaded mode which
 		 * generates different output than in multi-threaded mode.
 		 * To avoid the non-reproducible output we pass -T+1
