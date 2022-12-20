@@ -1,4 +1,5 @@
 # Copyright © 2008-2010 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2008-2022 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -105,17 +106,22 @@ and its standard output.
 
 sub get_compress_cmdline {
     my $self = shift;
-    my @prog = (@{compression_get_property($self->{compression}, 'comp_prog')});
-    my $level = '-' . $self->{compression_level};
-    $level = '--' . $self->{compression_level}
-	    if $self->{compression_level} !~ m/^[1-9]$/;
-    push @prog, $level;
+
+    my @prog = @{compression_get_property($self->{compression}, 'comp_prog')};
+    my $level = $self->{compression_level};
+    if ($level =~ m/^[1-9]$/) {
+        push @prog, "-$level";
+    } else {
+        push @prog, "--$level";
+    }
     return @prog;
 }
 
 sub get_uncompress_cmdline {
     my $self = shift;
-    return (@{compression_get_property($self->{compression}, 'decomp_prog')});
+
+    my @prog = @{compression_get_property($self->{compression}, 'decomp_prog')};
+    return @prog;
 }
 
 sub _check_opts {
