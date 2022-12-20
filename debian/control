@@ -24,7 +24,8 @@ Build-Depends:
  libncurses-dev (>= 6.1+20180210),
 # Needed for the functional test.
  bzip2 <!nocheck>,
- xz-utils <!nocheck>,
+# Version needed for multi-threaded decompressor support.
+ xz-utils (>= 5.4.0) <!nocheck>,
 # Needed for the author release process.
  git <pkg.dpkg.author-release>,
  ca-certificates <pkg.dpkg.author-release>,
@@ -104,7 +105,8 @@ Depends:
 # Version needed for --clamp-mtime.
  tar (>= 1.28-1),
  bzip2,
- xz-utils,
+# Version needed for multi-threaded decompressor support.
+ xz-utils (>= 5.4.0),
 # Version needed for git-style diff support.
  patch (>= 2.7),
  make,
@@ -150,7 +152,8 @@ Recommends:
 # Used by Dpkg::Gettext.
  liblocale-gettext-perl,
  bzip2,
- xz-utils,
+# Version needed for multi-threaded decompressor support.
+ xz-utils (>= 5.4.0),
 Suggests:
  debian-keyring,
  gnupg | sq | pgpainless-cli,

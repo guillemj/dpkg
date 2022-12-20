@@ -34,6 +34,8 @@ our @EXPORT = qw(
     compression_get_level
     compression_set_level
     compression_is_valid_level
+    compression_get_threads
+    compression_set_threads
     compression_get_cmdline_compress
     compression_get_cmdline_decompress
 );
@@ -101,6 +103,7 @@ if (any { $Config{osname} eq $_ } qw(linux gnu solaris)) {
 
 my $default_compression = 'xz';
 my $default_compression_level = undef;
+my $default_compression_threads = 0;
 
 my $regex = join '|', map { $_->{file_ext} } values %COMP;
 my $compression_re_file_ext = qr/(?:$regex)/;
@@ -311,6 +314,32 @@ sub compression_is_valid_level {
     return $level =~ /^([1-9]|fast|best)$/;
 }
 
+=item $threads = compression_get_threads()
+
+Return the number of threads to use for compression and decompression.
+
+=cut
+
+sub compression_get_threads {
+    return $default_compression_threads;
+}
+
+=item compression_set_threads($threads)
+
+Change the threads to use for compression and decompression. Passing C<undef>
+or B<0> requests to use automatic mode, based on the current CPU cores on
+the system.
+
+=cut
+
+sub compression_set_threads {
+    my $threads = shift;
+
+    error(g_('compression threads %s is not a number'), $threads)
+        if defined $threads && $threads !~ m/^\d+$/;
+    $default_compression_threads = $threads;
+}
+
 =item @exec = compression_get_cmdline_compress($comp)
 
 Returns a list ready to be passed to C<exec>, its first element is the
@@ -335,6 +364,14 @@ sub compression_get_cmdline_compress {
     } else {
         push @prog, "--$level";
     }
+    my $threads = compression_get_threads();
+    if ($comp eq 'xz') {
+        # The xz -T1 option selects a single-threaded mode which generates
+        # different output than in multi-threaded mode. To avoid the
+        # non-reproducible output we pass -T+1 (supported with xz >= 5.4.0)
+        # to request multi-threaded mode with a single thread.
+        push @prog, $threads == 1 ? '-T+1' : "-T$threads";
+    }
     return @prog;
 }
 
@@ -356,6 +393,12 @@ sub compression_get_cmdline_decompress {
         unless compression_is_supported($comp);
 
     my @prog = @{$COMP{$comp}{decomp_prog}};
+
+    my $threads = compression_get_threads();
+    if ($comp eq 'xz') {
+        push @prog, "-T$threads";
+    }
+
     return @prog;
 }
 
@@ -366,8 +409,9 @@ sub compression_get_cmdline_decompress {
 =head2 Version 2.01 (dpkg 1.21.14)
 
 New functions: compression_get_file_extension(), compression_get_level(),
-compression_set_level(), compression_get_cmdline_compress() and
-compression_get_cmdline_decompress().
+compression_set_level(), compression_get_cmdline_compress(),
+compression_get_cmdline_decompress(), compression_get_threads() and
+compression_set_threads().
 
 Deprecated functions: compression_get_property().
 
