@@ -78,7 +78,7 @@ meminfo_sum_fields(const struct meminfo_field *fields, const size_t nfields)
 	return sum;
 }
 
-int
+enum meminfo_error_code
 meminfo_get_available_from_file(const char *filename, uint64_t *val)
 {
 	char buf[4096];
@@ -157,7 +157,7 @@ meminfo_get_available_from_file(const char *filename, uint64_t *val)
 	return MEMINFO_OK;
 }
 
-int
+enum meminfo_error_code
 meminfo_get_available(uint64_t *val)
 {
 #ifdef __linux__
