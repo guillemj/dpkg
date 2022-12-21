@@ -236,7 +236,7 @@ sub do_extract {
                 error(g_('format v3.0 (git) uses only one .gitshallow file'));
             }
         } else {
-            error(g_('format v3.0 (git) unknown file: %s', $file));
+            error(g_('format v3.0 (git) unknown file: %s'), $file);
         }
     }
     if (! defined $bundle) {
