@@ -142,10 +142,17 @@ properties currently include "file_ext" for the file extension,
 "comp_prog" for the name of the compression program and "decomp_prog" for
 the name of the decompression program.
 
+This function is deprecated, please switch to one of the new specialized
+getters instead.
+
 =cut
 
 sub compression_get_property {
     my ($comp, $property) = @_;
+
+    warnings::warnif('deprecated',
+        'Dpkg::Compression::compression_get_property() is deprecated, ' .
+        'use one of the specialized getters instead');
     return unless compression_is_supported($comp);
     return $COMP{$comp}{$property} if exists $COMP{$comp}{$property};
     return;
@@ -361,6 +368,8 @@ sub compression_get_cmdline_decompress {
 New functions: compression_get_file_extension(), compression_get_level(),
 compression_set_level(), compression_get_cmdline_compress() and
 compression_get_cmdline_decompress().
+
+Deprecated functions: compression_get_property().
 
 =head2 Version 2.00 (dpkg 1.20.0)
 
