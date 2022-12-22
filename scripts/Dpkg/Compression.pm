@@ -53,7 +53,7 @@ interact with the set of supported compression methods.
 
 =cut
 
-my $COMP = {
+my %COMP = (
     gzip => {
 	file_ext => 'gz',
 	comp_prog => [ 'gzip', '-n' ],
@@ -78,7 +78,7 @@ my $COMP = {
 	decomp_prog => [ 'unxz' ],
 	default_level => 6,
     },
-};
+);
 
 # The gzip --rsyncable option is not universally supported, so we need to
 # conditionally use it. Ideally we would invoke 'gzip --help' and check
@@ -91,13 +91,13 @@ my $COMP = {
 # too old. On the BSDs they use their own implementation based on zlib,
 # which does not currently support the --rsyncable option.
 if (any { $Config{osname} eq $_ } qw(linux gnu solaris)) {
-    push @{$COMP->{gzip}->{comp_prog}}, '--rsyncable';
+    push @{$COMP{gzip}{comp_prog}}, '--rsyncable';
 }
 
 my $default_compression = 'xz';
 my $default_compression_level = undef;
 
-my $regex = join '|', map { $_->{file_ext} } values %$COMP;
+my $regex = join '|', map { $_->{file_ext} } values %COMP;
 my $compression_re_file_ext = qr/(?:$regex)/;
 
 =head1 FUNCTIONS
@@ -111,7 +111,7 @@ Returns a list of supported compression methods (sorted alphabetically).
 =cut
 
 sub compression_get_list {
-    my @list = sort keys %$COMP;
+    my @list = sort keys %COMP;
     return @list;
 }
 
@@ -125,7 +125,7 @@ known and supported.
 sub compression_is_supported {
     my $comp = shift;
 
-    return exists $COMP->{$comp};
+    return exists $COMP{$comp};
 }
 
 =item compression_get_property($comp, $property)
@@ -142,7 +142,7 @@ the name of the decompression program.
 sub compression_get_property {
     my ($comp, $property) = @_;
     return unless compression_is_supported($comp);
-    return $COMP->{$comp}{$property} if exists $COMP->{$comp}{$property};
+    return $COMP{$comp}{$property} if exists $COMP{$comp}{$property};
     return;
 }
 
