@@ -157,7 +157,7 @@ filename based on its file extension.
 sub compression_guess_from_filename {
     my $filename = shift;
     foreach my $comp (compression_get_list()) {
-	my $ext = compression_get_property($comp, 'file_ext');
+        my $ext = $COMP{$comp}{file_ext};
         if ($filename =~ /^(.*)\.\Q$ext\E$/) {
 	    return $comp;
         }
@@ -230,7 +230,7 @@ sub compression_get_default_level {
     if (defined $default_compression_level) {
         return $default_compression_level;
     } else {
-        return compression_get_property($default_compression, 'default_level');
+        return $COMP{$default_compression}{default_level};
     }
 }
 
