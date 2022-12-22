@@ -106,21 +106,13 @@ and its standard output.
 sub get_compress_cmdline {
     my $self = shift;
 
-    my @prog = @{compression_get_property($self->{compression}, 'comp_prog')};
-    my $level = compression_get_level($self->{compression});
-    if ($level =~ m/^[1-9]$/) {
-        push @prog, "-$level";
-    } else {
-        push @prog, "--$level";
-    }
-    return @prog;
+    return compression_get_cmdline_compress($self->{compression});
 }
 
 sub get_uncompress_cmdline {
     my $self = shift;
 
-    my @prog = @{compression_get_property($self->{compression}, 'decomp_prog')};
-    return @prog;
+    return compression_get_cmdline_decompress($self->{compression});
 }
 
 sub _check_opts {

@@ -34,6 +34,8 @@ our @EXPORT = qw(
     compression_get_level
     compression_set_level
     compression_is_valid_level
+    compression_get_cmdline_compress
+    compression_get_cmdline_decompress
 );
 
 use Exporter qw(import);
@@ -302,6 +304,54 @@ sub compression_is_valid_level {
     return $level =~ /^([1-9]|fast|best)$/;
 }
 
+=item @exec = compression_get_cmdline_compress($comp)
+
+Returns a list ready to be passed to C<exec>, its first element is the
+program name for compression and the following elements are parameters
+for the program.
+
+When executed the program will act as a filter between its standard input
+and its standard output.
+
+=cut
+
+sub compression_get_cmdline_compress {
+    my $comp = shift;
+
+    error(g_('%s is not a supported compression'), $comp)
+        unless compression_is_supported($comp);
+
+    my @prog = @{$COMP{$comp}{comp_prog}};
+    my $level = compression_get_level($comp);
+    if ($level =~ m/^[1-9]$/) {
+        push @prog, "-$level";
+    } else {
+        push @prog, "--$level";
+    }
+    return @prog;
+}
+
+=item @exec = compression_get_cmdline_decompress($comp)
+
+Returns a list ready to be passed to C<exec>, its first element is the
+program name for decompression and the following elements are parameters
+for the program.
+
+When executed the program will act as a filter between its standard input
+and its standard output.
+
+=cut
+
+sub compression_get_cmdline_decompress {
+    my $comp = shift;
+
+    error(g_('%s is not a supported compression'), $comp)
+        unless compression_is_supported($comp);
+
+    my @prog = @{$COMP{$comp}{decomp_prog}};
+    return @prog;
+}
+
 =back
 
 =head1 CHANGES
@@ -309,7 +359,8 @@ sub compression_is_valid_level {
 =head2 Version 2.01 (dpkg 1.21.14)
 
 New functions: compression_get_file_extension(), compression_get_level(),
-and compression_set_level().
+compression_set_level(), compression_get_cmdline_compress() and
+compression_get_cmdline_decompress().
 
 =head2 Version 2.00 (dpkg 1.20.0)
 
