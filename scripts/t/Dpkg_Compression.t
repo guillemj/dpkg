@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 42;
+use Test::More tests => 48;
 use Test::Dpkg qw(:paths);
 
 use IPC::Cmd qw(can_run);
@@ -126,6 +126,15 @@ is(compression_get_file_extension('gzip'), 'gz', 'gzip file ext');
 is(compression_get_file_extension('xz'), 'xz', 'xz file ext');
 is(compression_get_file_extension('bzip2'), 'bz2', 'bzip2 file ext');
 is(compression_get_file_extension('lzma'), 'lzma', 'lzma file ext');
+
+is(compression_get_level('gzip'), 9, 'gzip level is 9');
+compression_set_level('gzip', 1);
+is(compression_get_level('gzip'), 1, 'gzip level is now 1');
+compression_set_level('gzip');
+is(compression_get_level('gzip'), 9, 'gzip level is back to 9');
+is(compression_get_level('xz'), 6, 'xz level is 6');
+is(compression_get_level('bzip2'), 9, 'bzip2 level is 9');
+is(compression_get_level('lzma'), 6, 'lzma level is 6');
 
 my $ext_regex = compression_get_file_extension_regex();
 

@@ -31,6 +31,8 @@ our @EXPORT = qw(
     compression_set_default
     compression_get_default_level
     compression_set_default_level
+    compression_get_level
+    compression_set_level
     compression_is_valid_level
 );
 
@@ -249,6 +251,45 @@ sub compression_set_default_level {
     $default_compression_level = $level;
 }
 
+=item $level = compression_get_level($comp)
+
+Return the compression level used when compressing data with a specific
+compressor. The value returned is the specific compression level if it has
+been set, otherwise the global default compression level if it has been set,
+falling back to the specific default compression level.
+
+=cut
+
+sub compression_get_level {
+    my $comp = shift;
+
+    error(g_('%s is not a supported compression'), $comp)
+        unless compression_is_supported($comp);
+
+    return $COMP{$comp}{level} //
+           $default_compression_level //
+           $COMP{$comp}{default_level};
+}
+
+=item compression_set_level($comp, $level)
+
+Change the compression level for a specific compressor. Passing undef as
+the level will reset it to the specific default compressor level, otherwise
+errors out if the level is not valid (see C<compression_is_valid_level>).
+
+=cut
+
+sub compression_set_level {
+    my ($comp, $level) = @_;
+
+    error(g_('%s is not a supported compression'), $comp)
+        unless compression_is_supported($comp);
+    error(g_('%s is not a compression level'), $level)
+        if defined $level && ! compression_is_valid_level($level);
+
+    $COMP{$comp}{level} = $level;
+}
+
 =item compression_is_valid_level($level)
 
 Returns a boolean indicating whether $level is a valid compression level
@@ -267,7 +308,8 @@ sub compression_is_valid_level {
 
 =head2 Version 2.01 (dpkg 1.21.14)
 
-New functions: compression_get_file_extension().
+New functions: compression_get_file_extension(), compression_get_level(),
+and compression_set_level().
 
 =head2 Version 2.00 (dpkg 1.20.0)
 

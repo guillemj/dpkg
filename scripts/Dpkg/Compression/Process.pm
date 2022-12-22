@@ -86,9 +86,8 @@ B<Dpkg::Compression>).
 
 sub set_compression_level {
     my ($self, $level) = @_;
-    error(g_('%s is not a compression level'), $level)
-	    unless compression_is_valid_level($level);
-    $self->{compression_level} = $level;
+
+    compression_set_level($self->{compression}, $level);
 }
 
 =item @exec = $proc->get_compress_cmdline()
@@ -108,7 +107,7 @@ sub get_compress_cmdline {
     my $self = shift;
 
     my @prog = @{compression_get_property($self->{compression}, 'comp_prog')};
-    my $level = $self->{compression_level};
+    my $level = compression_get_level($self->{compression});
     if ($level =~ m/^[1-9]$/) {
         push @prog, "-$level";
     } else {
