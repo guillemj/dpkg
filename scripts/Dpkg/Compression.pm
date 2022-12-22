@@ -196,16 +196,18 @@ sub compression_get_file_extension {
 Return the default compression method. It is "xz" unless
 C<compression_set_default> has been used to change it.
 
+=cut
+
+sub compression_get_default {
+    return $default_compression;
+}
+
 =item compression_set_default($comp)
 
 Change the default compression method. Errors out if the
 given compression method is not supported.
 
 =cut
-
-sub compression_get_default {
-    return $default_compression;
-}
 
 sub compression_set_default {
     my $method = shift;
@@ -220,12 +222,6 @@ Return the default compression level used when compressing data. It's "9"
 for "gzip" and "bzip2", "6" for "xz" and "lzma", unless
 C<compression_set_default_level> has been used to change it.
 
-=item compression_set_default_level($level)
-
-Change the default compression level. Passing undef as the level will
-reset it to the compressor specific default, otherwise errors out if the
-level is not valid (see C<compression_is_valid_level>).
-
 =cut
 
 sub compression_get_default_level {
@@ -235,6 +231,14 @@ sub compression_get_default_level {
         return compression_get_property($default_compression, 'default_level');
     }
 }
+
+=item compression_set_default_level($level)
+
+Change the default compression level. Passing undef as the level will
+reset it to the compressor specific default, otherwise errors out if the
+level is not valid (see C<compression_is_valid_level>).
+
+=cut
 
 sub compression_set_default_level {
     my $level = shift;
