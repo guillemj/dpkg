@@ -347,7 +347,7 @@ sub get_filename {
 	    return *$self->{filename};
 	} else {
 	    return *$self->{filename} . '.' .
-	           compression_get_property($comp, 'file_ext');
+	           compression_get_file_extension($comp);
 	}
     } else {
 	return *$self->{filename};

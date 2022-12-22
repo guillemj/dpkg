@@ -271,8 +271,7 @@ sub init_options {
     $self->{options}{compression} //= 'xz';
     $self->{options}{comp_level} //= compression_get_property($self->{options}{compression},
                                                               'default_level');
-    $self->{options}{comp_ext} //= compression_get_property($self->{options}{compression},
-                                                            'file_ext');
+    $self->{options}{comp_ext} //= compression_get_file_extension($self->{options}{compression});
 }
 
 sub initialize {

@@ -1,5 +1,5 @@
+# Copyright © 2007-2022 Guillem Jover <guillem@debian.org>
 # Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
-# Copyright © 2010-2013 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,13 +19,14 @@ package Dpkg::Compression;
 use strict;
 use warnings;
 
-our $VERSION = '2.00';
+our $VERSION = '2.01';
 our @EXPORT = qw(
     compression_is_supported
     compression_get_list
     compression_get_property
     compression_guess_from_filename
     compression_get_file_extension_regex
+    compression_get_file_extension
     compression_get_default
     compression_set_default
     compression_get_default_level
@@ -175,6 +176,21 @@ sub compression_get_file_extension_regex {
     return $compression_re_file_ext;
 }
 
+=item $ext = compression_get_file_extension($comp)
+
+Return the file extension for the compressor $comp.
+
+=cut
+
+sub compression_get_file_extension {
+    my $comp = shift;
+
+    error(g_('%s is not a supported compression'), $comp)
+        unless compression_is_supported($comp);
+
+    return $COMP{$comp}{file_ext};
+}
+
 =item $comp = compression_get_default()
 
 Return the default compression method. It is "xz" unless
@@ -242,6 +258,10 @@ sub compression_is_valid_level {
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.01 (dpkg 1.21.14)
+
+New functions: compression_get_file_extension().
 
 =head2 Version 2.00 (dpkg 1.20.0)
 

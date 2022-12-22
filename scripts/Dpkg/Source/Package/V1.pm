@@ -69,7 +69,7 @@ sub init_options {
     # V1.0 only supports gzip compression.
     $self->{options}{compression} //= 'gzip';
     $self->{options}{comp_level} //= compression_get_property('gzip', 'default_level');
-    $self->{options}{comp_ext} //= compression_get_property('gzip', 'file_ext');
+    $self->{options}{comp_ext} //= compression_get_file_extension('gzip');
 }
 
 my @module_cmdline = (
