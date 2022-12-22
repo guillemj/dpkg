@@ -218,8 +218,10 @@ sub compression_set_default {
 
 =item $level = compression_get_default_level()
 
-Return the default compression level used when compressing data. It's "9"
-for "gzip" and "bzip2", "6" for "xz" and "lzma", unless
+Return the global default compression level used when compressing data if
+it has been set, otherwise the default level for the default compressor.
+
+It's "9" for "gzip" and "bzip2", "6" for "xz" and "lzma", unless
 C<compression_set_default_level> has been used to change it.
 
 =cut
@@ -234,9 +236,9 @@ sub compression_get_default_level {
 
 =item compression_set_default_level($level)
 
-Change the default compression level. Passing undef as the level will
-reset it to the compressor specific default, otherwise errors out if the
-level is not valid (see C<compression_is_valid_level>).
+Change the global default compression level. Passing undef as the level will
+reset it to the global default compressor specific default, otherwise errors
+out if the level is not valid (see C<compression_is_valid_level>).
 
 =cut
 
