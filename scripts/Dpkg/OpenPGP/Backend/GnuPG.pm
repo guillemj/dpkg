@@ -257,7 +257,10 @@ sub inline_sign {
     my @exec = ($self->{cmd});
     push @exec, _gpg_options_weak_digests();
     push @exec, qw(--utf8-strings --textmode --armor);
+    # Set conformance level.
     push @exec, '--openpgp';
+    # Set secure algorithm preferences.
+    push @exec, '--personal-digest-preferences', 'SHA512 SHA384 SHA256 SHA224';
     if ($key->type eq 'keyfile') {
         # Promote the keyfile keyhandle to a keystore, this way we share the
         # same gpg-agent and can get any password cached.
