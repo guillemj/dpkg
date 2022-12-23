@@ -103,6 +103,12 @@
 #define DPKG_ATTR_SENTINEL
 #endif
 
+#if DPKG_GCC_VERSION >= 0x0801 || __has_attribute(__nonstring__)
+#define DPKG_ATTR_NONSTRING	__attribute__((__nonstring__))
+#else
+#define DPKG_ATTR_NONSTRING
+#endif
+
 #if defined(__cplusplus) && __cplusplus >= 201103L
 #define DPKG_ATTR_THROW(exception)
 #define DPKG_ATTR_NOEXCEPT		noexcept

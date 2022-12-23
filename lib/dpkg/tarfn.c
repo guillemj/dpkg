@@ -62,25 +62,25 @@
 	(type)tar_atosl(str, sizeof(str), TAR_TYPE_MIN(type), TAR_TYPE_MAX(type))
 
 struct tar_header {
-	char name[100];
-	char mode[8];
-	char uid[8];
-	char gid[8];
-	char size[12];
-	char mtime[12];
-	char checksum[8];
+	char name[100] DPKG_ATTR_NONSTRING;
+	char mode[8] DPKG_ATTR_NONSTRING;
+	char uid[8] DPKG_ATTR_NONSTRING;
+	char gid[8] DPKG_ATTR_NONSTRING;
+	char size[12] DPKG_ATTR_NONSTRING;
+	char mtime[12] DPKG_ATTR_NONSTRING;
+	char checksum[8] DPKG_ATTR_NONSTRING;
 	char linkflag;
-	char linkname[100];
+	char linkname[100] DPKG_ATTR_NONSTRING;
 
 	/* Only valid on ustar and gnu. */
-	char magic[8];
-	char user[32];
-	char group[32];
-	char devmajor[8];
-	char devminor[8];
+	char magic[8] DPKG_ATTR_NONSTRING;
+	char user[32] DPKG_ATTR_NONSTRING;
+	char group[32] DPKG_ATTR_NONSTRING;
+	char devmajor[8] DPKG_ATTR_NONSTRING;
+	char devminor[8] DPKG_ATTR_NONSTRING;
 
 	/* Only valid on ustar. */
-	char prefix[155];
+	char prefix[155] DPKG_ATTR_NONSTRING;
 };
 
 static inline uintmax_t
