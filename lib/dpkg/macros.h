@@ -70,9 +70,11 @@
 #endif
 
 #if DPKG_GCC_VERSION >= 0x0300
-#define DPKG_ATTR_PRINTF(n)	__attribute__((format(printf, n, n + 1)))
-#define DPKG_ATTR_VPRINTF(n)	__attribute__((format(printf, n, 0)))
+#define DPKG_ATTR_FMT(t, f, a)	__attribute__((format(t, f, a)))
+#define DPKG_ATTR_PRINTF(n)	DPKG_ATTR_FMT(printf, n, n + 1)
+#define DPKG_ATTR_VPRINTF(n)	DPKG_ATTR_FMT(printf, n, 0)
 #else
+#define DPKG_ATTR_FMT(t, f, a)
 #define DPKG_ATTR_PRINTF(n)
 #define DPKG_ATTR_VPRINTF(n)
 #endif

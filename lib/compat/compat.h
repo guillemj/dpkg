@@ -48,9 +48,11 @@
 #endif
 
 #if LIBCOMPAT_GCC_VERSION >= 0x0300
-#define LIBCOMPAT_ATTR_PRINTF(n)	__attribute__((format(printf, n, n + 1)))
-#define LIBCOMPAT_ATTR_VPRINTF(n)	__attribute__((format(printf, n, 0)))
+#define LIBCOMPAT_ATTR_FMT(t, f, a)	__attribute__((format(t, f, a)))
+#define LIBCOMPAT_ATTR_PRINTF(n)	LIBCOMPAT_ATTR_FMT(printf, n, n + 1)
+#define LIBCOMPAT_ATTR_VPRINTF(n)	LIBCOMPAT_ATTR_FMT(printf, n, 0)
 #else
+#define LIBCOMPAT_ATTR_FMT(t, f, a)
 #define LIBCOMPAT_ATTR_PRINTF(n)
 #define LIBCOMPAT_ATTR_VPRINTF(n)
 #endif
