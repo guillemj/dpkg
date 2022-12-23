@@ -33,43 +33,49 @@
 
 /* Language definitions. */
 
+/* Supported since gcc 5.1.0 and clang 2.9.0. For attributes that appeared
+ * before these versions, in addition we need to do version checks.  */
+#ifndef __has_attribute
+#define __has_attribute(x)	0
+#endif
+
 #ifdef __GNUC__
 #define DPKG_GCC_VERSION (__GNUC__ << 8 | __GNUC_MINOR__)
 #else
 #define DPKG_GCC_VERSION 0
 #endif
 
-#if DPKG_GCC_VERSION >= 0x0300
+#if DPKG_GCC_VERSION >= 0x0300 || __has_attribute(__unused__)
 #define DPKG_ATTR_UNUSED	__attribute__((__unused__))
 #else
 #define DPKG_ATTR_UNUSED
 #endif
 
-#if DPKG_GCC_VERSION >= 0x0300
+#if DPKG_GCC_VERSION >= 0x0300 || __has_attribute(__const__)
 #define DPKG_ATTR_CONST		__attribute__((__const__))
 #else
 #define DPKG_ATTR_CONST
 #endif
 
-#if DPKG_GCC_VERSION >= 0x0300
+#if DPKG_GCC_VERSION >= 0x0300 || __has_attribute(__pure__)
 #define DPKG_ATTR_PURE		__attribute__((__pure__))
 #else
 #define DPKG_ATTR_PURE
 #endif
 
-#if DPKG_GCC_VERSION >= 0x0300
+#if DPKG_GCC_VERSION >= 0x0300 || __has_attribute(__malloc__)
 #define DPKG_ATTR_MALLOC	__attribute__((__malloc__))
 #else
 #define DPKG_ATTR_MALLOC
 #endif
 
-#if DPKG_GCC_VERSION >= 0x0300
+#if DPKG_GCC_VERSION >= 0x0300 || __has_attribute(__noreturn__)
 #define DPKG_ATTR_NORET		__attribute__((__noreturn__))
 #else
 #define DPKG_ATTR_NORET
 #endif
 
-#if DPKG_GCC_VERSION >= 0x0300
+#if DPKG_GCC_VERSION >= 0x0300 || __has_attribute(__format__)
 #define DPKG_ATTR_FMT(t, f, a)	__attribute__((__format__(t, f, a)))
 #define DPKG_ATTR_PRINTF(n)	DPKG_ATTR_FMT(__printf__, n, n + 1)
 #define DPKG_ATTR_VPRINTF(n)	DPKG_ATTR_FMT(__printf__, n, 0)
@@ -79,19 +85,19 @@
 #define DPKG_ATTR_VPRINTF(n)
 #endif
 
-#if DPKG_GCC_VERSION > 0x0302
+#if DPKG_GCC_VERSION > 0x0302 || __has_attribute(__nonnull__)
 #define DPKG_ATTR_NONNULL(...)	__attribute__((__nonnull__(__VA_ARGS__)))
 #else
 #define DPKG_ATTR_NONNULL(...)
 #endif
 
-#if DPKG_GCC_VERSION > 0x0302
+#if DPKG_GCC_VERSION > 0x0302 || __has_attribute(__warn_unused_result__)
 #define DPKG_ATTR_REQRET	__attribute__((__warn_unused_result__))
 #else
 #define DPKG_ATTR_REQRET
 #endif
 
-#if DPKG_GCC_VERSION >= 0x0400
+#if DPKG_GCC_VERSION >= 0x0400 || __has_attribute(__sentinel__)
 #define DPKG_ATTR_SENTINEL	__attribute__((__sentinel__))
 #else
 #define DPKG_ATTR_SENTINEL

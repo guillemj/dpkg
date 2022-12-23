@@ -41,13 +41,19 @@
 
 /* Language definitions. */
 
+/* Supported since gcc 5.1.0 and clang 2.9.0. For attributes that appeared
+ * before these versions, in addition we need to do version checks.  */
+#ifndef __has_attribute
+#define __has_attribute(x)	0
+#endif
+
 #ifdef __GNUC__
 #define LIBCOMPAT_GCC_VERSION (__GNUC__ << 8 | __GNUC_MINOR__)
 #else
 #define LIBCOMPAT_GCC_VERSION 0
 #endif
 
-#if LIBCOMPAT_GCC_VERSION >= 0x0300
+#if LIBCOMPAT_GCC_VERSION >= 0x0300 || __has_attribute(__format__)
 #define LIBCOMPAT_ATTR_FMT(t, f, a)	__attribute__((__format__(t, f, a)))
 #define LIBCOMPAT_ATTR_PRINTF(n)	LIBCOMPAT_ATTR_FMT(__printf__, n, n + 1)
 #define LIBCOMPAT_ATTR_VPRINTF(n)	LIBCOMPAT_ATTR_FMT(__printf__, n, 0)
@@ -57,13 +63,13 @@
 #define LIBCOMPAT_ATTR_VPRINTF(n)
 #endif
 
-#if LIBCOMPAT_GCC_VERSION >= 0x0300
+#if LIBCOMPAT_GCC_VERSION >= 0x0300 || __has_attribute(__noreturn__)
 #define LIBCOMPAT_ATTR_NORET		__attribute__((__noreturn__))
 #else
 #define LIBCOMPAT_ATTR_NORET
 #endif
 
-#if LIBCOMPAT_GCC_VERSION >= 0x0400
+#if LIBCOMPAT_GCC_VERSION >= 0x0400 || __has_attribute(__sentinel__)
 #define LIBCOMPAT_ATTR_SENTINEL		__attribute__((__sentinel__))
 #else
 #define LIBCOMPAT_ATTR_SENTINEL
