@@ -40,39 +40,39 @@
 #endif
 
 #if DPKG_GCC_VERSION >= 0x0300
-#define DPKG_ATTR_UNUSED	__attribute__((unused))
+#define DPKG_ATTR_UNUSED	__attribute__((__unused__))
 #else
 #define DPKG_ATTR_UNUSED
 #endif
 
 #if DPKG_GCC_VERSION >= 0x0300
-#define DPKG_ATTR_CONST		__attribute__((const))
+#define DPKG_ATTR_CONST		__attribute__((__const__))
 #else
 #define DPKG_ATTR_CONST
 #endif
 
 #if DPKG_GCC_VERSION >= 0x0300
-#define DPKG_ATTR_PURE		__attribute__((pure))
+#define DPKG_ATTR_PURE		__attribute__((__pure__))
 #else
 #define DPKG_ATTR_PURE
 #endif
 
 #if DPKG_GCC_VERSION >= 0x0300
-#define DPKG_ATTR_MALLOC	__attribute__((malloc))
+#define DPKG_ATTR_MALLOC	__attribute__((__malloc__))
 #else
 #define DPKG_ATTR_MALLOC
 #endif
 
 #if DPKG_GCC_VERSION >= 0x0300
-#define DPKG_ATTR_NORET		__attribute__((noreturn))
+#define DPKG_ATTR_NORET		__attribute__((__noreturn__))
 #else
 #define DPKG_ATTR_NORET
 #endif
 
 #if DPKG_GCC_VERSION >= 0x0300
-#define DPKG_ATTR_FMT(t, f, a)	__attribute__((format(t, f, a)))
-#define DPKG_ATTR_PRINTF(n)	DPKG_ATTR_FMT(printf, n, n + 1)
-#define DPKG_ATTR_VPRINTF(n)	DPKG_ATTR_FMT(printf, n, 0)
+#define DPKG_ATTR_FMT(t, f, a)	__attribute__((__format__(t, f, a)))
+#define DPKG_ATTR_PRINTF(n)	DPKG_ATTR_FMT(__printf__, n, n + 1)
+#define DPKG_ATTR_VPRINTF(n)	DPKG_ATTR_FMT(__printf__, n, 0)
 #else
 #define DPKG_ATTR_FMT(t, f, a)
 #define DPKG_ATTR_PRINTF(n)
@@ -80,19 +80,19 @@
 #endif
 
 #if DPKG_GCC_VERSION > 0x0302
-#define DPKG_ATTR_NONNULL(...)	__attribute__((nonnull(__VA_ARGS__)))
+#define DPKG_ATTR_NONNULL(...)	__attribute__((__nonnull__(__VA_ARGS__)))
 #else
 #define DPKG_ATTR_NONNULL(...)
 #endif
 
 #if DPKG_GCC_VERSION > 0x0302
-#define DPKG_ATTR_REQRET	__attribute__((warn_unused_result))
+#define DPKG_ATTR_REQRET	__attribute__((__warn_unused_result__))
 #else
 #define DPKG_ATTR_REQRET
 #endif
 
 #if DPKG_GCC_VERSION >= 0x0400
-#define DPKG_ATTR_SENTINEL	__attribute__((sentinel))
+#define DPKG_ATTR_SENTINEL	__attribute__((__sentinel__))
 #else
 #define DPKG_ATTR_SENTINEL
 #endif
