@@ -74,6 +74,7 @@ sub _init_vendor_defaults {
     my $self = shift;
 
     $self->{features} = {};
+    $self->{optvals} = {};
     $self->{flags} = {
 	ASFLAGS => '',
 	CPPFLAGS => '',
@@ -293,6 +294,32 @@ sub use_feature {
     return 0 if ! $self->has_features($area);
     return 0 if ! $self->{features}{$area}{$feature};
     return 1;
+}
+
+=item $bf->set_option_value($option, $value)
+
+B<Private> method to set the value of a build option.
+Do not use outside of the dpkg project.
+
+=cut
+
+sub set_option_value {
+    my ($self, $option, $value) = @_;
+
+    $self->{optvals}{$option} = $value;
+}
+
+=item $bf->get_option_value($option)
+
+B<Private> method to get the value of a build option.
+Do not use outside of the dpkg project.
+
+=cut
+
+sub get_option_value {
+    my ($self, $option) = @_;
+
+    return $self->{optvals}{$option};
 }
 
 =item $bf->strip($flag, $value, $source, $maint)
