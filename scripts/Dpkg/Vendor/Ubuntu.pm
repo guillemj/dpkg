@@ -99,27 +99,24 @@ sub run_hook {
         # Run the Debian hook to add hardening flags
         $self->SUPER::run_hook($hook, $flags);
 
-        require Dpkg::BuildOptions;
-
-	my $build_opts = Dpkg::BuildOptions->new();
-
-	if (!$build_opts->has('noopt')) {
-            require Dpkg::Arch;
-
-            my $arch = Dpkg::Arch::get_host_arch();
-            if ($arch eq 'ppc64el') {
-		for my $flag (qw(CFLAGS CXXFLAGS OBJCFLAGS OBJCXXFLAGS GCJFLAGS
-		                 FFLAGS FCFLAGS)) {
-                    my $value = $flags->get($flag);
-                    $value =~ s/-O[0-9]/-O3/;
-                    $flags->set($flag, $value);
-		}
-	    }
-	}
 	# Per https://wiki.ubuntu.com/DistCompilerFlags
         $flags->prepend('LDFLAGS', '-Wl,-Bsymbolic-functions');
     } else {
         return $self->SUPER::run_hook($hook, @params);
+    }
+}
+
+# Override Debian default features.
+sub set_build_features {
+    my ($self, $flags) = @_;
+
+    $self->SUPER::set_build_features($flags);
+
+    require Dpkg::Arch;
+    my $arch = Dpkg::Arch::get_host_arch();
+
+    if ($arch eq 'ppc64el' && $flags->get_option_value('optimize-level') != 0) {
+        $flags->set_option_value('optimize-level', 3);
     }
 }
 
