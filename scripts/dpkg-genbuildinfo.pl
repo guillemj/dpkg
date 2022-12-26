@@ -42,7 +42,7 @@ use Dpkg::Arch qw(
     get_host_arch
     debarch_eq debarch_to_gnutriplet
 );
-use Dpkg::Build::Types;
+use Dpkg::BuildTypes;
 use Dpkg::Build::Info qw(get_build_env_allowed);
 use Dpkg::BuildOptions;
 use Dpkg::BuildFlags;

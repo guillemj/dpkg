@@ -26,7 +26,7 @@ use File::Copy;
 
 use Dpkg::File;
 use Dpkg::IPC;
-use Dpkg::Build::Types;
+use Dpkg::BuildTypes;
 use Dpkg::Substvars;
 
 test_needs_command('fakeroot');

@@ -19,7 +19,7 @@ use warnings;
 use Test::More tests => 39;
 
 BEGIN {
-    use_ok('Dpkg::Build::Types');
+    use_ok('Dpkg::BuildTypes');
 }
 
 ok(build_is(BUILD_DEFAULT | BUILD_FULL), 'build is default full');

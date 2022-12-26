@@ -32,7 +32,7 @@ use POSIX qw(:sys_wait_h);
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Build::Types;
+use Dpkg::BuildTypes;
 use Dpkg::BuildOptions;
 use Dpkg::BuildProfiles qw(set_build_profiles);
 use Dpkg::Conf;

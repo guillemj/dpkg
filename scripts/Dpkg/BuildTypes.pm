@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Build::Types;
+package Dpkg::BuildTypes;
 
 use strict;
 use warnings;
@@ -46,11 +46,11 @@ use Dpkg::ErrorHandling;
 
 =head1 NAME
 
-Dpkg::Build::Types - track build types
+Dpkg::BuildTypes - track build types
 
 =head1 DESCRIPTION
 
-The Dpkg::Build::Types module is used by various tools to track and decide
+The Dpkg::BuildTypes module is used by various tools to track and decide
 what artifacts need to be built.
 
 The build types are bit constants that are exported by default. Multiple
