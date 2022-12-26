@@ -62,10 +62,10 @@ CLEANFILES = \
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
 	Dpkg/Arch.pm \
+	Dpkg/BuildEnv.pm \
 	Dpkg/BuildFlags.pm \
 	Dpkg/BuildOptions.pm \
 	Dpkg/BuildProfiles.pm \
-	Dpkg/Build/Env.pm \
 	Dpkg/Build/Info.pm \
 	Dpkg/Build/Types.pm \
 	Dpkg/Changelog.pm \
@@ -215,11 +215,11 @@ test_scripts = \
 	t/Dpkg_Package.t \
 	t/Dpkg_Shlibs_Cppfilt.t \
 	t/Dpkg_Shlibs.t \
+	t/Dpkg_BuildEnv.t \
 	t/Dpkg_BuildFlags.t \
 	t/Dpkg_BuildFlags_Ubuntu.t \
 	t/Dpkg_BuildOptions.t \
 	t/Dpkg_BuildProfiles.t \
-	t/Dpkg_Build_Env.t \
 	t/Dpkg_Build_Info.t \
 	t/Dpkg_Build_Types.t \
 	t/Dpkg_Checksums.t \

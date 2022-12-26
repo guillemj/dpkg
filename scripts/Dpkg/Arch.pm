@@ -101,7 +101,7 @@ use List::Util qw(any);
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Build::Env;
+use Dpkg::BuildEnv;
 
 my (@cpu, @os);
 my (%cputable, %ostable);
@@ -152,7 +152,7 @@ if available.
 
 sub get_build_arch()
 {
-    return Dpkg::Build::Env::get('DEB_BUILD_ARCH') || get_raw_build_arch();
+    return Dpkg::BuildEnv::get('DEB_BUILD_ARCH') || get_raw_build_arch();
 }
 
 {
@@ -234,7 +234,7 @@ if available.
 
 sub get_host_arch()
 {
-    return Dpkg::Build::Env::get('DEB_HOST_ARCH') || get_raw_host_arch();
+    return Dpkg::BuildEnv::get('DEB_HOST_ARCH') || get_raw_host_arch();
 }
 
 =item @arch_list = get_valid_arches()

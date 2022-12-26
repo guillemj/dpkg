@@ -24,7 +24,7 @@ use warnings;
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(:DEFAULT report REPORT_STATUS);
-use Dpkg::Build::Env;
+use Dpkg::BuildEnv;
 use Dpkg::BuildFlags;
 use Dpkg::Vendor qw(get_current_vendor);
 
@@ -152,7 +152,7 @@ if ($action eq 'list') {
     # also show which ones could have set to modify it).
     printf "Vendor: %s\n", Dpkg::Vendor::get_current_vendor() || 'undefined';
     print "Environment:\n";
-    for my $envvar (Dpkg::Build::Env::list_accessed()) {
+    for my $envvar (Dpkg::BuildEnv::list_accessed()) {
         print " $envvar=$ENV{$envvar}\n" if exists $ENV{$envvar};
     }
 
@@ -191,7 +191,7 @@ if ($action eq 'list') {
     # First print all environment variables that might have changed the
     # results (only existing ones, might make sense to add an option to
     # also show which ones could have set to modify it).
-    my @envvars = Dpkg::Build::Env::list_accessed();
+    my @envvars = Dpkg::BuildEnv::list_accessed();
     for my $envvar (@envvars) {
 	if (exists $ENV{$envvar}) {
 	    printf report(REPORT_STATUS, 'environment variable %s=%s',
