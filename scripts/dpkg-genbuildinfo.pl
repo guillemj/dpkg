@@ -43,10 +43,10 @@ use Dpkg::Arch qw(
     debarch_eq debarch_to_gnutriplet
 );
 use Dpkg::BuildTypes;
-use Dpkg::Build::Info qw(get_build_env_allowed);
 use Dpkg::BuildOptions;
 use Dpkg::BuildFlags;
 use Dpkg::BuildProfiles qw(get_build_profiles);
+use Dpkg::BuildInfo qw(get_build_env_allowed);
 use Dpkg::Control::Info;
 use Dpkg::Control::Fields;
 use Dpkg::Control;

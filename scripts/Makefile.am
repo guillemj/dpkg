@@ -64,6 +64,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Arch.pm \
 	Dpkg/BuildEnv.pm \
 	Dpkg/BuildFlags.pm \
+	Dpkg/BuildInfo.pm \
 	Dpkg/BuildOptions.pm \
 	Dpkg/BuildProfiles.pm \
 	Dpkg/BuildTypes.pm \
@@ -218,10 +219,10 @@ test_scripts = \
 	t/Dpkg_BuildEnv.t \
 	t/Dpkg_BuildFlags.t \
 	t/Dpkg_BuildFlags_Ubuntu.t \
+	t/Dpkg_BuildInfo.t \
 	t/Dpkg_BuildOptions.t \
 	t/Dpkg_BuildProfiles.t \
 	t/Dpkg_BuildTypes.t \
-	t/Dpkg_Build_Info.t \
 	t/Dpkg_Checksums.t \
 	t/Dpkg_ErrorHandling.t \
 	t/Dpkg_Exit.t \

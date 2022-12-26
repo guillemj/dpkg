@@ -1,4 +1,4 @@
-# Copyright © 2016 Guillem Jover <guillem@debian.org>
+# Copyright © 2016-2022 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,13 +18,15 @@ package Dpkg::Build::Info;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 our @EXPORT_OK = qw(
     get_build_env_whitelist
     get_build_env_allowed
 );
 
 use Exporter qw(import);
+
+use Dpkg::BuildInfo;
 
 =encoding utf8
 
@@ -37,6 +39,8 @@ Dpkg::Build::Info - handle build information
 The Dpkg::Build::Info module provides functions to handle the build
 information.
 
+This module is deprecated, use Dpkg::BuildInfo instead.
+
 =head1 FUNCTIONS
 
 =over 4
@@ -46,118 +50,37 @@ information.
 Get an array with the allowed list of environment variables that can affect
 the build, but are still not privacy revealing.
 
+This is a deprecated alias for Dpkg::BuildInfo::get_build_env_allowed().
+
 =cut
 
-my @env_allowed = (
-    # Toolchain.
-    qw(
-        CC
-        CPP
-        CXX
-        OBJC
-        OBJCXX
-        PC
-        FC
-        M2C
-        AS
-        LD
-        AR
-        RANLIB
-        MAKE
-        AWK
-        LEX
-        YACC
-    ),
-    # Toolchain flags.
-    qw(
-        ASFLAGS
-        CFLAGS
-        CPPFLAGS
-        CXXFLAGS
-        OBJCFLAGS
-        OBJCXXFLAGS
-        GCJFLAGS
-        DFLAGS
-        FFLAGS
-        LDFLAGS
-        ARFLAGS
-        MAKEFLAGS
-    ),
-    # Dynamic linker, see ld(1).
-    qw(
-        LD_LIBRARY_PATH
-    ),
-    # Locale, see locale(1).
-    qw(
-        LANG
-        LC_ALL
-        LC_CTYPE
-        LC_NUMERIC
-        LC_TIME
-        LC_COLLATE
-        LC_MONETARY
-        LC_MESSAGES
-        LC_PAPER
-        LC_NAME
-        LC_ADDRESS
-        LC_TELEPHONE
-        LC_MEASUREMENT
-        LC_IDENTIFICATION
-    ),
-    # Build flags, see dpkg-buildpackage(1).
-    qw(
-        DEB_BUILD_OPTIONS
-        DEB_BUILD_PROFILES
-    ),
-    # DEB_flag_{SET,STRIP,APPEND,PREPEND} will be recorded after being merged
-    # with system config and user config.
-    # See deb-vendor(1).
-    qw(
-        DEB_VENDOR
-    ),
-    # See dpkg(1).
-    qw(
-        DPKG_ROOT
-        DPKG_ADMINDIR
-    ),
-    # See dpkg-architecture(1).
-    qw(
-        DPKG_DATADIR
-    ),
-    # See Dpkg::Vendor(3).
-    qw(
-        DPKG_ORIGINS_DIR
-    ),
-    # See dpkg-gensymbols(1).
-    qw(
-        DPKG_GENSYMBOLS_CHECK_LEVEL
-    ),
-    # See <https://reproducible-builds.org/specs/source-date-epoch>.
-    qw(
-        SOURCE_DATE_EPOCH
-    ),
-);
-
 sub get_build_env_allowed {
-    return @env_allowed;
+    warnings::warnif('deprecated',
+        'Dpkg::Build::Info::get_build_env_allowed() is deprecated, ' .
+        'use Dpkg::BuildInfo::get_build_env_allowed() instead');
+    return Dpkg::BuildInfo::get_build_env_allowed();
 }
 
 =item @envvars = get_build_env_whitelist()
 
-This is a deprecated alias for get_build_env_allowed().
+This is a deprecated alias for Dpkg::BuildInfo::get_build_env_allowed().
 
 =cut
 
 sub get_build_env_whitelist {
     warnings::warnif('deprecated',
         'Dpkg::Build::Info::get_build_env_whitelist() is deprecated, ' .
-        'use get_build_env_allowed() instead');
-    return get_build_env_allowed();
+        'use Dpkg::BuildInfo::get_build_env_allowed() instead');
+    return Dpkg::BuildInfo::get_build_env_allowed();
 }
 
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.02 (dpkg 1.21.14)
+
+Deprecate module: replaced by Dpkg::BuildInfo.
 
 =head2 Version 1.01 (dpkg 1.20.1)
 

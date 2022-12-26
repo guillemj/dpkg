@@ -19,10 +19,10 @@ use warnings;
 use Test::More tests => 2;
 
 BEGIN {
-    use_ok('Dpkg::Build::Info');
+    use_ok('Dpkg::BuildInfo');
 }
 
-is(scalar Dpkg::Build::Info::get_build_env_allowed(), 52,
+is(scalar Dpkg::BuildInfo::get_build_env_allowed(), 52,
    'allowed environment variables array');
 
 1;
