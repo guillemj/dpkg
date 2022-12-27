@@ -134,7 +134,7 @@ sub new {
     *$self->{compression} = 'auto';
     *$self->{compressor} = Dpkg::Compression::Process->new();
     *$self->{add_comp_ext} = $args{add_compression_extension} ||
-	    $args{add_comp_ext} || 0;
+        $args{add_comp_ext} || 0;
     *$self->{allow_sigpipe} = 0;
     if (exists $args{filename}) {
 	$self->set_filename($args{filename});
@@ -398,7 +398,7 @@ sub _open_for_write {
 
     if ($self->use_compression()) {
 	*$self->{compressor}->compress(from_pipe => \$filehandle,
-		to_file => $self->get_filename(), %opts);
+            to_file => $self->get_filename(), %opts);
     } else {
 	CORE::open($filehandle, '>', $self->get_filename)
 	    or syserr(g_('cannot write %s'), $self->get_filename());

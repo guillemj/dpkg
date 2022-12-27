@@ -226,7 +226,7 @@ given compression method is not supported.
 sub compression_set_default {
     my $method = shift;
     error(g_('%s is not a supported compression'), $method)
-            unless compression_is_supported($method);
+        unless compression_is_supported($method);
     $default_compression = $method;
 }
 

@@ -302,7 +302,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 	my $sect = $pkg->{'Section'} || $src_sect;
 	my $prio = $pkg->{'Priority'} || $src_prio;
 	my $type = $pkg->{'Package-Type'} ||
-	        $pkg->get_custom_field('Package-Type') || 'deb';
+            $pkg->get_custom_field('Package-Type') || 'deb';
         my $arch = $pkg->{'Architecture'};
         my $profile = $pkg->{'Build-Profiles'};
 

@@ -551,14 +551,16 @@ sub get_symbol {
 
 sub get_exported_dynamic_symbols {
     my $self = shift;
-    return grep { $_->{defined} && $_->{dynamic} && !$_->{local} }
-	    values %{$self->{dynsyms}};
+    return grep {
+        $_->{defined} && $_->{dynamic} && !$_->{local}
+    } values %{$self->{dynsyms}};
 }
 
 sub get_undefined_dynamic_symbols {
     my $self = shift;
-    return grep { (!$_->{defined}) && $_->{dynamic} }
-	    values %{$self->{dynsyms}};
+    return grep {
+        (!$_->{defined}) && $_->{dynamic}
+    } values %{$self->{dynsyms}};
 }
 
 sub get_needed_libraries {

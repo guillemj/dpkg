@@ -237,10 +237,10 @@ sub process_dsc {
     # The priority for the source package is the highest priority of the
     # binary packages it produces.
     my @binary_by_priority = sort {
-	    ($override{$a} ? $priority{$override{$a}[O_PRIORITY]} : 0)
-		<=>
-	    ($override{$b} ? $priority{$override{$b}[O_PRIORITY]} : 0)
-	} @binary;
+        ($override{$a} ? $priority{$override{$a}[O_PRIORITY]} : 0)
+        <=>
+        ($override{$b} ? $priority{$override{$b}[O_PRIORITY]} : 0)
+    } @binary;
     my $priority_override = $override{$binary_by_priority[-1]};
     my $priority = $priority_override
 			? $priority_override->[O_PRIORITY]

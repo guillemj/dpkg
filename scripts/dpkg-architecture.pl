@@ -180,8 +180,8 @@ my $action = 'list';
 my $force = 0;
 
 sub action_needs($) {
-  my $bits = shift;
-  return (($req_info & $bits) == $bits);
+    my $bits = shift;
+    return (($req_info & $bits) == $bits);
 }
 
 @ARGV = normalize_options(args => \@ARGV, delim => '-c');
