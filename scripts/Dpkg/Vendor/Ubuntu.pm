@@ -85,7 +85,6 @@ sub run_hook {
             'insert_after', CTRL_CHANGELOG, 'Closes', 'Launchpad-Bugs-Fixed',
         ];
         return @field_ops;
-
     } elsif ($hook eq 'post-process-changelog-entry') {
         my $fields = shift @params;
 
@@ -94,7 +93,6 @@ sub run_hook {
         if (scalar(@$bugs)) {
             $fields->{'Launchpad-Bugs-Fixed'} = join(' ', @$bugs);
         }
-
     } elsif ($hook eq 'update-buildflags') {
 	my $flags = shift @params;
 
@@ -123,7 +121,6 @@ sub run_hook {
     } else {
         return $self->SUPER::run_hook($hook, @params);
     }
-
 }
 
 =head1 PUBLIC FUNCTIONS

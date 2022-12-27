@@ -110,7 +110,6 @@ edit_config($methdir);
 my $ftp;
 sub download() {
  foreach (@{$CONFIG{site}}) {
-
     $ftp = do_connect(ftpsite => $_->[0],
                       ftpdir => $_->[1],
                       passive => $_->[3],

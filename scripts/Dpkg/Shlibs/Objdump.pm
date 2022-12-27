@@ -445,7 +445,6 @@ my $dynsym_re = qr<
 sub parse_dynamic_symbol {
     my ($self, $line) = @_;
     if ($line =~ $dynsym_re) {
-
 	my ($flags, $sect, $ver, $vis, $name) = ($1, $2, $3, $4, $5);
 
 	# Special case if version is missing but extra visibility

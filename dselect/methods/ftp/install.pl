@@ -312,11 +312,9 @@ if($totsize == 0) {
 }
 
 sub download() {
-
  my $i = 0;
 
  foreach my $site (@{$CONFIG{site}}) {
-
     my @getfiles = grep { $pkgfiles{$_}[2] == $i } keys %downloads;
     my @pre_dist = (); # Directory to add before $fn
 

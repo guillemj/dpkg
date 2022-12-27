@@ -55,7 +55,6 @@ sub nb {
   } else {
     return sprintf('%.2fb', $nb);
   }
-
 }
 
 sub read_config {
@@ -367,7 +366,6 @@ sub do_mdtm {
 
 	# get the date components from the output of 'ls -l'
 	if ($files[0] =~ $ls_l_re) {
-
             my($month_name, $day, $year_or_time, $month, $hours, $minutes,
 	       $year);
 

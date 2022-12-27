@@ -121,7 +121,6 @@ sub parse {
 	    $cdata->parse_error($desc, g_("stanza lacks the '%s' field"),
 	                        'Architecture');
 	}
-
     }
 }
 

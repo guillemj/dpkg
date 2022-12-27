@@ -230,9 +230,7 @@ unless (defined($options{opmode})) {
 }
 
 if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
-
     $options{ARGV} = \@ARGV;
-
     $options{changelog_file} ||= "$dir/debian/changelog";
     $controlfile ||= "$dir/debian/control";
 
@@ -445,9 +443,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 		       override => \%override,
 		       substvars => $substvars);
     exit(0);
-
 } elsif ($options{opmode} eq 'extract') {
-
     # Check command line
     unless (scalar(@ARGV)) {
         usageerr(g_('--%s needs at least one argument, the .dsc'),

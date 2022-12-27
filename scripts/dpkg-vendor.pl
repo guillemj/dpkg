@@ -89,26 +89,20 @@ unless (defined($info)) {
 }
 
 if ($action eq 'is') {
-
     exit(0) if lc($param) eq lc($info->{'Vendor'});
     exit(1);
-
 } elsif ($action eq 'derives-from') {
-
     exit(0) if lc($param) eq lc($info->{'Vendor'});
     while (defined($info) && exists $info->{'Parent'}) {
         $info = get_vendor_info($info->{'Parent'});
         exit(0) if lc($param) eq lc($info->{'Vendor'});
     }
     exit(1);
-
 } elsif ($action eq 'query') {
-
     if (exists $info->{$param}) {
         print $info->{$param} . "\n";
         exit(0);
     } else {
         exit(1);
     }
-
 }

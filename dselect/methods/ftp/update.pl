@@ -73,7 +73,6 @@ my $packages_modified = 0;
 
 sub download {
 foreach (@{$CONFIG{site}}) {
-
    my $site = $_;
 
         $ftp = do_connect(ftpsite => $_->[0],
