@@ -126,12 +126,10 @@ sub load_override {
 	$override{$package}[O_SECTION] = $section;
 	if (!defined $maintainer) {
 	    # do nothing
-	}
-	elsif ($maintainer =~ /^(.*\S)\s*=>\s*(.*)$/) {
+        } elsif ($maintainer =~ /^(.*\S)\s*=>\s*(.*)$/) {
 	    $override{$package}[O_MAINT_FROM] = [split m{\s*//\s*}, $1];
 	    $override{$package}[O_MAINT_TO] = $2;
-	}
-	else {
+        } else {
 	    $override{$package}[O_MAINT_TO] = $maintainer;
 	}
     }
@@ -145,8 +143,7 @@ sub load_src_override {
 
     if (defined $user_file) {
 	$file = $user_file;
-    }
-    elsif (defined $regular_file) {
+    } elsif (defined $regular_file) {
         my $comp = compression_guess_from_filename($regular_file);
         if (defined($comp)) {
 	    $file = $regular_file;
@@ -156,8 +153,7 @@ sub load_src_override {
 	    $file = "$regular_file.src";
         }
         return unless -e $file;
-    }
-    else {
+    } else {
 	return;
     }
 

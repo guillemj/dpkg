@@ -278,45 +278,43 @@ sub _arch_is_superset {
     my $p_arch_neg = defined $p and $p->[0] =~ /^!/;
     my $q_arch_neg = defined $q and $q->[0] =~ /^!/;
 
-    # If "p" has no arches, it is a superset of q and we should fall through
-    # to the version check.
     if (not defined $p) {
+        # If "p" has no arches, it is a superset of q and we should fall through
+        # to the version check.
         return 1;
-    }
-    # If q has no arches, it is a superset of p and there are no useful
-    # implications.
-    elsif (not defined $q) {
+    } elsif (not defined $q) {
+        # If q has no arches, it is a superset of p and there are no useful
+        # implications.
         return 0;
-    }
-    # Both have arches.  If neither are negated, we know nothing useful
-    # unless q is a subset of p.
-    elsif (not $p_arch_neg and not $q_arch_neg) {
+    } elsif (not $p_arch_neg and not $q_arch_neg) {
+        # Both have arches.  If neither are negated, we know nothing useful
+        # unless q is a subset of p.
+
         my %p_arches = map { $_ => 1 } @{$p};
         my $subset = 1;
         for my $arch (@{$q}) {
             $subset = 0 unless $p_arches{$arch};
         }
         return 0 unless $subset;
-    }
-    # If both are negated, we know nothing useful unless p is a subset of
-    # q (and therefore has fewer things excluded, and therefore is more
-    # general).
-    elsif ($p_arch_neg and $q_arch_neg) {
+    } elsif ($p_arch_neg and $q_arch_neg) {
+        # If both are negated, we know nothing useful unless p is a subset of
+        # q (and therefore has fewer things excluded, and therefore is more
+        # general).
+
         my %q_arches = map { $_ => 1 } @{$q};
         my $subset = 1;
         for my $arch (@{$p}) {
             $subset = 0 unless $q_arches{$arch};
         }
         return 0 unless $subset;
-    }
-    # If q is negated and p isn't, we'd need to know the full list of
-    # arches to know if there's any relationship, so bail.
-    elsif (not $p_arch_neg and $q_arch_neg) {
+    } elsif (not $p_arch_neg and $q_arch_neg) {
+        # If q is negated and p isn't, we'd need to know the full list of
+        # arches to know if there's any relationship, so bail.
         return 0;
-    }
-    # If p is negated and q isn't, q is a subset of p if none of the
-    # negated arches in p are present in q.
-    elsif ($p_arch_neg and not $q_arch_neg) {
+    } elsif ($p_arch_neg and not $q_arch_neg) {
+        # If p is negated and q isn't, q is a subset of p if none of the
+        # negated arches in p are present in q.
+
         my %q_arches = map { $_ => 1 } @{$q};
         my $subset = 1;
         for my $arch (@{$p}) {
