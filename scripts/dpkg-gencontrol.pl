@@ -98,7 +98,7 @@ sub usage {
 }
 
 while (@ARGV) {
-    $_=shift(@ARGV);
+    $_ = shift @ARGV;
     if (m/^-p/p) {
         $oppackage = ${^POSTMATCH};
         my $err = pkg_name_is_illegal($oppackage);
@@ -112,19 +112,19 @@ while (@ARGV) {
     } elsif (m/^-f/p) {
         $fileslistfile = ${^POSTMATCH};
     } elsif (m/^-v(.+)$/) {
-        $forceversion= $1;
+        $forceversion = $1;
     } elsif (m/^-O$/) {
-        $stdout= 1;
+        $stdout = 1;
     } elsif (m/^-O(.+)$/) {
         $outputfile = $1;
     } elsif (m/^-i[sp][sp]?$/) {
         warning(g_('%s is deprecated; it is without effect'), $_);
     } elsif (m/^-F([0-9a-z]+)$/) {
-        $changelogformat=$1;
+        $changelogformat = $1;
     } elsif (m/^-D([^\=:]+)[=:]/p) {
         $override{$1} = ${^POSTMATCH};
     } elsif (m/^-U([^\=:]+)$/) {
-        $remove{$1}= 1;
+        $remove{$1} = 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/p) {
         $substvars->set_as_used($1, ${^POSTMATCH});
     } elsif (m/^-T(.*)$/) {

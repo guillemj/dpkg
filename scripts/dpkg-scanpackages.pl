@@ -264,7 +264,7 @@ foreach my $fn (@archives) {
 load_override($override) if defined $override;
 load_override_extra($options{'extra-override'}) if defined $options{'extra-override'};
 
-my @missingover=();
+my @missingover = ();
 
 my $records_written = 0;
 for my $p (sort keys %packages) {

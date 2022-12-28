@@ -167,7 +167,7 @@ sub parse {
 	    foreach my $error ($entry->parse_header()) {
 		$self->parse_error($file, $., $error, $_);
 	    }
-	    $expect= START_CHANGES;
+            $expect = START_CHANGES;
 	    @blanklines = ();
 	} elsif (m/^(?:;;\s*)?Local variables:/io) {
             # Save any trailing Emacs variables at end of file.

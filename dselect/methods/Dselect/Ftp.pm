@@ -254,7 +254,7 @@ sub do_connect {
 	$ftp = Net::FTP->new($remotehost, Passive => $opts{passive});
 	if(!$ftp || !$ftp->ok) {
 	  print "Failed to connect\n";
-	  $exit=1;
+	  $exit = 1;
 	}
 	if (!$exit) {
 #    $ftp->debug(1);
@@ -275,11 +275,11 @@ sub do_connect {
 		    $rpass = $opts{password};
 	    }
 	    if(!$ftp->login($remoteuser, $rpass))
-	    { print $ftp->message() . "\n"; $exit=1; }
+	    { print $ftp->message() . "\n"; $exit = 1; }
 	}
 	if (!$exit) {
 	    print "Setting transfer mode to binary...\n";
-	    if(!$ftp->binary()) { print $ftp->message . "\n"; $exit=1; }
+	    if(!$ftp->binary()) { print $ftp->message . "\n"; $exit = 1; }
 	}
 	if (!$exit) {
 	    print "Cd to '$opts{ftpdir}'...\n";

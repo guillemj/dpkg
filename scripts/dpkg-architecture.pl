@@ -224,7 +224,7 @@ while (@ARGV) {
         error(g_('%s is not a supported print format'), $print_format)
             unless exists $known_print_format{$print_format};
     } elsif ($arg eq '-f' or $arg eq '--force') {
-        $force=1;
+        $force = 1;
     } elsif ($arg eq '-q' or $arg eq '--query') {
 	my $varname = shift;
 	error(g_('%s is not a supported variable name'), $varname)

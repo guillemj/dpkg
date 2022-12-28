@@ -129,7 +129,7 @@ sub usage {
 
 
 while (@ARGV) {
-    $_=shift(@ARGV);
+    $_ = shift @ARGV;
     if (m/^--build=(.*)$/) {
         set_build_type_from_options($1, $_);
     } elsif (m/^-b$/) {
@@ -145,9 +145,9 @@ while (@ARGV) {
     } elsif (m/^-g$/) {
 	set_build_type(BUILD_SOURCE | BUILD_ARCH_INDEP, $_);
     } elsif (m/^-s([iad])$/) {
-        $sourcestyle= $1;
+        $sourcestyle = $1;
     } elsif (m/^-q$/) {
-        $quiet= 1;
+        $quiet = 1;
     } elsif (m/^-c(.*)$/) {
 	$controlfile = $1;
     } elsif (m/^-l(.*)$/) {

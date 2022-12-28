@@ -191,7 +191,7 @@ sub do_build {
 
     # Create the git bundle.
     my $bundlefile = "$basenamerev.git";
-    my @bundle_arg=$self->{options}{git_ref} ?
+    my @bundle_arg = $self->{options}{git_ref} ?
         (@{$self->{options}{git_ref}}) : '--all';
     info(g_('bundling: %s'), join(' ', @bundle_arg));
     system('git', 'bundle', 'create', "$old_cwd/$bundlefile",

@@ -44,7 +44,7 @@ ok($format_string eq '6.0', 'implied minor');
 
 my %format_bogus = (
     'a' => 'require numerical major',
-    '7.a'=> 'require numerical minor',
+    '7.a' => 'require numerical minor',
     '.5' => 'require non-empty major',
     '7.' => 'require non-empty minor',
     '7.0 ()' => 'require non-empty variant',

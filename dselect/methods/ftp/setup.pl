@@ -44,7 +44,7 @@ if ($option eq 'manual') {
 
 #Defaults
 my $arch = qx(dpkg --print-architecture);
-$arch='i386' if $?;
+$arch = 'i386' if $?;
 chomp $arch;
 
 my $logname = qx(whoami);
@@ -132,13 +132,13 @@ sub download() {
 
 	foreach my $line (@dirlst) {
 	    if($line =~ /Packages/) {
-		$got_pkgfile=1;
+		$got_pkgfile = 1;
 	    }
 	}
 	if( !$got_pkgfile) {
 	    print "Warning: Could not find a Packages file in $dir\n",
 	    "This may not be a problem if the directory is a symbolic link\n";
-	    $problem=1;
+	    $problem = 1;
 	}
     }
     print "Closing ftp connection...\n";

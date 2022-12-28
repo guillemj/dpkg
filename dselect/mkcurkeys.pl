@@ -43,8 +43,8 @@ close($override_fh);
 
 my $let = 'A';
 for my $i (1 .. 26) {
-    $name{$i}= "^$let";
-    $base{$i}= '';
+    $name{$i} = "^$let";
+    $base{$i} = '';
     $let++;
 }
 
@@ -55,7 +55,7 @@ while (<$header_fh>) {
     s/\s+$//;
     m/#define KEY_(\w+)\s+\d+\s+/p || next;
     my $rhs = ${^POSTMATCH};
-    $k= "KEY_$1";
+    $k = "KEY_$1";
     $base{$k} = capit($1);
     $rhs =~ s/(\w)[\(\)]/$1/g;
     $rhs =~ s/\w+ \((\w+)\)/$1/;
@@ -84,9 +84,9 @@ END
 my ($comma);
 
 for my $i (33 .. 126) {
-    $k= $i;
+    $k = $i;
     $v = pack('C', $i);
-    if ($v eq ',') { $comma=$k; next; }
+    if ($v eq ',') { $comma = $k; next; }
     p($k, $v);
 }
 
@@ -98,9 +98,9 @@ for my $k (sort {
                 $a cmp $b
                 } keys %base) {
     ## use critic
-    $v= $base{$k};
-    $v= $name{$k} if defined($name{$k});
-    $v= $over{$k} if defined($over{$k});
+    $v = $base{$k};
+    $v = $name{$k} if defined($name{$k});
+    $v = $over{$k} if defined($over{$k});
     next if $v eq '[elide]';
     p($k, $v);
 }

@@ -294,8 +294,8 @@ unless ($quiet) {
     my $file_label;
 
     # Compare template symbols files before and after
-    my $before = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
-    my $after = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
+    my $before = File::Temp->new(TEMPLATE => 'dpkg-gensymbolsXXXXXX');
+    my $after = File::Temp->new(TEMPLATE => 'dpkg-gensymbolsXXXXXX');
     if ($ref_symfile->{file}) {
         $file_label = $ref_symfile->{file};
     } else {
