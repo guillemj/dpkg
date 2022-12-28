@@ -173,11 +173,17 @@ if (not defined($oppackage)) {
 
 my $symfile = Dpkg::Shlibs::SymbolFile->new(arch => $host_arch);
 my $ref_symfile = Dpkg::Shlibs::SymbolFile->new(arch => $host_arch);
+my @source_symbol_files = (
+    $input,
+    $output,
+    "debian/$oppackage.symbols.$host_arch",
+    "debian/symbols.$host_arch",
+    "debian/$oppackage.symbols",
+    'debian/symbols',
+);
+
 # Load source-provided symbol information
-foreach my $file ($input, $output, "debian/$oppackage.symbols.$host_arch",
-    "debian/symbols.$host_arch", "debian/$oppackage.symbols",
-    'debian/symbols')
-{
+foreach my $file (@source_symbol_files) {
     if (defined $file and -e $file) {
 	debug(1, "Using references symbols from $file");
 	$symfile->load($file);
