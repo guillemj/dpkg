@@ -583,8 +583,16 @@ sub apply {
     $opts{force_timestamp} //= 1;
     $opts{remove_backup} //= 1;
     $opts{create_dirs} //= 1;
-    $opts{options} ||= [ '-t', '-F', '0', '-N', '-p1', '-u',
-            '-V', 'never', '-b', '-z', '.dpkg-orig'];
+    $opts{options} ||= [
+        '-t',
+        '-F', '0',
+        '-N',
+        '-p1',
+        '-u',
+        '-V', 'never',
+        '-b',
+        '-z', '.dpkg-orig',
+    ];
     $opts{add_options} //= [];
     push @{$opts{options}}, @{$opts{add_options}};
     # Check the diff and create missing directories
@@ -634,8 +642,18 @@ sub check_apply {
     my ($self, $destdir, %opts) = @_;
     # Set default values to options
     $opts{create_dirs} //= 1;
-    $opts{options} ||= [ '--dry-run', '-s', '-t', '-F', '0', '-N', '-p1', '-u',
-            '-V', 'never', '-b', '-z', '.dpkg-orig'];
+    $opts{options} ||= [
+        '--dry-run',
+        '-s',
+        '-t',
+        '-F', '0',
+        '-N',
+        '-p1',
+        '-u',
+        '-V', 'never',
+        '-b',
+        '-z', '.dpkg-orig',
+    ];
     $opts{add_options} //= [];
     push @{$opts{options}}, @{$opts{add_options}};
     # Check the diff and create missing directories

@@ -45,8 +45,12 @@ sub get_cppfilt {
     if (exists $cppfilts{$type}) {
 	$filt = $cppfilts{$type};
     } else {
-	$filt = { from => undef, to => undef,
-	            last_symbol => '', last_result => '' };
+        $filt = {
+            from => undef,
+            to => undef,
+            last_symbol => '',
+            last_result => '',
+        };
 	$filt->{pid} = spawn(exec => [ 'c++filt', "--format=$type" ],
 	                     from_pipe => \$filt->{from},
 	                     to_pipe => \$filt->{to});

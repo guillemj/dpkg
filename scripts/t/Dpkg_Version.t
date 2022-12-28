@@ -27,11 +27,13 @@ use Dpkg::Version;
 report_options(quiet_warnings => 1);
 
 my @tests = <DATA>;
-my @ops = ('<', '<<', 'lt',
-	   '<=', 'le',
-	   '=', 'eq',
-	   '>=', 'ge',
-	   '>', '>>', 'gt');
+my @ops = qw(
+    < << lt
+    <= le
+    = eq
+    >= ge
+    > >> gt
+);
 
 plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 27;
 

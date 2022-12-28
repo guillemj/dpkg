@@ -53,10 +53,12 @@ sub create {
     my $mtime = $opts{source_date} // $ENV{SOURCE_DATE_EPOCH} || time;
     # Call tar creation process
     $spawn_opts{delete_env} = [ 'TAR_OPTIONS' ];
-    $spawn_opts{exec} = [ $Dpkg::PROGTAR, '-cf', '-', '--format=gnu', '--sort=name',
-                          '--mtime', "\@$mtime", '--clamp-mtime', '--null',
-                          '--numeric-owner', '--owner=0', '--group=0',
-                          @{$opts{options}}, '-T', '-' ];
+    $spawn_opts{exec} = [
+        $Dpkg::PROGTAR, '-cf', '-', '--format=gnu', '--sort=name',
+                        '--mtime', "\@$mtime", '--clamp-mtime', '--null',
+                        '--numeric-owner', '--owner=0', '--group=0',
+                        @{$opts{options}}, '-T', '-',
+    ];
     *$self->{pid} = spawn(%spawn_opts);
     *$self->{cwd} = getcwd();
 }
@@ -126,8 +128,10 @@ sub extract {
 
     # Call tar extraction process
     $spawn_opts{delete_env} = [ 'TAR_OPTIONS' ];
-    $spawn_opts{exec} = [ $Dpkg::PROGTAR, '-xf', '-', '--no-same-permissions',
-                          '--no-same-owner', @{$opts{options}} ];
+    $spawn_opts{exec} = [
+        $Dpkg::PROGTAR, '-xf', '-', '--no-same-permissions',
+                        '--no-same-owner', @{$opts{options}},
+    ];
     spawn(%spawn_opts);
     $self->close();
 

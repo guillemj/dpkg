@@ -44,15 +44,16 @@ my %packages;
 my %overridden;
 my @checksums;
 
-my %options = (help            => sub { usage(); exit 0; },
-	       version         => sub { version(); exit 0; },
-	       type            => undef,
-	       arch            => undef,
-	       hash            => undef,
-	       multiversion    => 0,
-	       'extra-override'=> undef,
-               medium          => undef,
-	      );
+my %options = (
+    help            => sub { usage(); exit 0; },
+    version         => sub { version(); exit 0; },
+    type            => undef,
+    arch            => undef,
+    hash            => undef,
+    multiversion    => 0,
+    'extra-override' => undef,
+    medium          => undef,
+);
 
 my @options_spec = (
     'help|?',
