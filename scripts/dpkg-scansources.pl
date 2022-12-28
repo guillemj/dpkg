@@ -239,17 +239,17 @@ sub process_dsc {
         ($override{$b} ? $priority{$override{$b}[O_PRIORITY]} : 0)
     } @binary;
     my $priority_override = $override{$binary_by_priority[-1]};
-    my $priority = $priority_override
-			? $priority_override->[O_PRIORITY]
-			: undef;
+    my $priority = $priority_override ?
+                   $priority_override->[O_PRIORITY] :
+                   undef;
     $fields->{Priority} = $priority if defined $priority;
 
     # For the section override, first check for a record from the source
     # override file, else use the regular override file.
     my $section_override = $override{"source/$source"} || $override{$source};
-    my $section = $section_override
-			? $section_override->[O_SECTION]
-			: undef;
+    my $section = $section_override ?
+                  $section_override->[O_SECTION] :
+                  undef;
     $fields->{Section} = $section if defined $section;
 
     # For the maintainer override, use the override record for the first
