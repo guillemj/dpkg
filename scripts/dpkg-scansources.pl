@@ -99,7 +99,7 @@ sub load_override {
 
     my $comp_file = Dpkg::Compression::FileHandle->new(filename => $file);
     while (<$comp_file>) {
-    	s/#.*//;
+        s/#.*//;
 	next if /^\s*$/;
 	s/\s+$//;
 
@@ -160,7 +160,7 @@ sub load_src_override {
     debug(1, "source override file $file");
     my $comp_file = Dpkg::Compression::FileHandle->new(filename => $file);
     while (<$comp_file>) {
-    	s/#.*//;
+        s/#.*//;
 	next if /^\s*$/;
 	s/\s+$//;
 
