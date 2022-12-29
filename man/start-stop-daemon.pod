@@ -491,8 +491,8 @@ food, running as user food, with pid in food.pid):
 =over
 
  start-stop-daemon --start --oknodo --user food --name food \
- 	--pidfile %RUNSTATEDIR%/food.pid --startas /usr/sbin/food \
- 	--chuid food -- --daemon
+   --pidfile %RUNSTATEDIR%/food.pid --startas /usr/sbin/food \
+   --chuid food -- --daemon
 
 =back
 
@@ -501,7 +501,7 @@ Send B<SIGTERM> to B<food> and wait up to 5 seconds for it to stop:
 =over
 
  start-stop-daemon --stop --oknodo --user food --name food \
- 	--pidfile %RUNSTATEDIR%/food.pid --retry 5
+   --pidfile %RUNSTATEDIR%/food.pid --retry 5
 
 =back
 
@@ -510,6 +510,6 @@ Demonstration of a custom schedule for stopping B<food>:
 =over
 
  start-stop-daemon --stop --oknodo --user food --name food \
- 	--pidfile %RUNSTATEDIR%/food.pid --retry=TERM/30/KILL/5
+   --pidfile %RUNSTATEDIR%/food.pid --retry=TERM/30/KILL/5
 
 =back
