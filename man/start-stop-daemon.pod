@@ -371,6 +371,9 @@ The priority can be optionally specified by appending a B<:>
 followed by the value. The default I<priority> is 0. The currently
 supported policy values are B<other>, B<fifo> and B<rr>.
 
+This option might do nothing on some systems,
+where POSIX process scheduling is not supported.
+
 =item B<-I>, B<--iosched> I<class>B<:>I<priority>
 
 This alters the IO scheduler class and priority of the process before starting
@@ -379,6 +382,9 @@ The priority can be optionally specified by appending a B<:> followed
 by the value. The default I<priority> is 4, unless I<class> is B<idle>,
 then I<priority> will always be 7. The currently supported values for
 I<class> are B<idle>, B<best-effort> and B<real-time>.
+
+This option might do nothing on some systems,
+where Linux IO scheduling is not supported.
 
 =item B<-k>, B<--umask> I<mask>
 
