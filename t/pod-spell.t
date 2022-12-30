@@ -43,6 +43,7 @@ for my $file (@files) {
 
 __DATA__
 CVS
+Devuan
 DSC
 Dpkg
 IPC

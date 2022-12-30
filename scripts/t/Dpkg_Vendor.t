@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 # Delete variables that can affect the tests.
 delete $ENV{DEB_VENDOR};
@@ -32,6 +32,8 @@ is($vendor, 'Debian', 'Check current vendor name');
 
 $obj = get_vendor_object();
 is(ref($obj), 'Dpkg::Vendor::Debian', 'Check current vendor object');
+$obj = get_vendor_object('Devuan');
+is(ref($obj), 'Dpkg::Vendor::Devuan', 'Check Devuan vendor object');
 $obj = get_vendor_object('gNewSense');
 is(ref($obj), 'Dpkg::Vendor::Debian', 'Check parent fallback vendor object');
 $obj = get_vendor_object('Ubuntu');

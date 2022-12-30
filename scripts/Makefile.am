@@ -138,6 +138,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Vendor.pm \
 	Dpkg/Vendor/Debian.pm \
 	Dpkg/Vendor/Default.pm \
+	Dpkg/Vendor/Devuan.pm \
 	Dpkg/Vendor/Ubuntu.pm \
 	Dpkg/Version.pm \
 	Dpkg.pm \
@@ -383,6 +384,7 @@ test_data = \
 	t/mock-bin/dpkg \
 	t/mock-bin/gcc \
 	t/origins/debian \
+	t/origins/devuan \
 	t/origins/default \
 	t/origins/gnewsense \
 	t/origins/ubuntu \
