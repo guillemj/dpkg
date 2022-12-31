@@ -242,7 +242,6 @@ int packagelist::resolvedepcon(dependency *depends) {
   if (!depends->up->clientdata) return 0;
 
   switch (depends->type) {
-
   case dep_provides:
   case dep_replaces:
     return 0;

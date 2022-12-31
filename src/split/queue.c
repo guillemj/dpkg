@@ -230,7 +230,6 @@ do_auto(const char *const *argv)
 
     dir_sync_path(opt_depotdir);
   } else {
-
     /* We have all the parts. */
     reassemble(partlist, opt_outputfile);
 
@@ -241,7 +240,6 @@ do_auto(const char *const *argv)
         if (unlink(partlist[i]->filename))
           ohshite(_("unable to delete used-up depot file '%.250s'"),
                   partlist[i]->filename);
-
   }
 
   m_output(stderr, _("<standard error>"));

@@ -166,7 +166,6 @@ maintscript_set_exec_context(struct command *cmd)
 #else
 	return 0;
 #endif
-
 }
 
 static int

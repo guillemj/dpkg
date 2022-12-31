@@ -651,9 +651,7 @@ void removal_bulk(struct pkginfo *pkg) {
     pkg_set_want(pkg, PKG_WANT_PURGE);
     dpkg_version_blank(&pkg->configversion);
   } else if (pkg->want == PKG_WANT_PURGE) {
-
     removal_bulk_remove_configfiles(pkg);
-
   }
 
   /* I.e., either of the two branches above. */

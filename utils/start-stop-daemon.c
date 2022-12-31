@@ -2326,7 +2326,6 @@ do_pidfile(const char *name)
 				fatal("matching only on non-root pidfile %s is insecure", name);
 			if (st.st_mode & 0002)
 				fatal("matching on world-writable pidfile %s is insecure", name);
-
 		}
 
 		if (fscanf(f, "%d", &pid) == 1)
