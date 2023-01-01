@@ -44,31 +44,31 @@ sub test_patch_escape {
 
 # This is CVE-2014-0471 with GNU patch >= 2.7
 test_patch_escape('c-style-parsed', "\tmp", 'c-style.patch',
-                  'Patch cannot escape using known c-style encoded filename');
+                  'patch(1) prevents escape using known c-style encoded filename');
 
 # This is CVE-2014-0471 with GNU patch < 2.7
 test_patch_escape('c-style-unknown', '\\tmp', 'c-style.patch',
-                  'Patch cannot escape using unknown c-style encoded filename');
+                  'patch(1) prevents escape using unknown c-style encoded filename');
 
 # This is CVE-2014-3865
 test_patch_escape('index-alone', 'symlink', 'index-alone.patch',
-                  'Patch cannot escape using Index: w/o ---/+++ header');
+                  'patch(1) prevents escape using Index: w/o ---/+++ header');
 test_patch_escape('index-+++', 'symlink', 'index-+++.patch',
-                  'Patch cannot escape using Index: w/ only +++ header');
+                  'patch(1) prevents escape using Index: w/ only +++ header');
 test_patch_escape('index-inert', 'symlink', 'index-inert.patch',
-                  'Patch should not fail to apply using an inert Index:');
+                  'patch(1) should not fail to apply using an inert Index:');
 ok(-e "$tmpdir/index-inert-tree/inert-file",
-   'Patch with inert Index: applies correctly');
+   'patch(1) applies correctly with inert Index:');
 
 # This is CVE-2014-3864
 test_patch_escape('partial', 'symlink', 'partial.patch',
-                  'Patch cannot escape using partial +++ header');
+                  'patch(1) prevents escape using partial +++ header');
 
 test_patch_escape('ghost-hunk', 'symlink', 'ghost-hunk.patch',
-                  'Patch cannot escape using a disabling hunk');
+                  'patch(1) prevents escape using a disabling hunk');
 
 # This is CVE-2017-8283
 test_patch_escape('indent-header', 'symlink', 'indent-header.patch',
-                  'Patch cannot escape indented hunks');
+                  'patch(1) prevents escape using indented hunks');
 
 1;
