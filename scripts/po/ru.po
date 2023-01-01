@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-12-19 01:07+0000\n"
+"POT-Creation-Date: 2023-01-01 22:47+0000\n"
 "PO-Revision-Date: 2015-04-07 07:02+0200\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -2255,7 +2255,6 @@ msgid "%s is not a supported compression"
 msgstr "неподдерживаемый метод сжатия %s"
 
 #: scripts/dpkg-source.pl scripts/Dpkg/Compression.pm
-#: scripts/Dpkg/Compression/Process.pm
 #, perl-format
 msgid "%s is not a compression level"
 msgstr "%s не является степенью сжатия"
@@ -2522,6 +2521,8 @@ msgstr ""
 #| "      --version            show the version."
 msgid ""
 "General options:\n"
+"      --threads-max=<threads>\n"
+"                           use at most <threads> with compressor.\n"
 "  -q                       quiet mode.\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version."
@@ -2631,12 +2632,12 @@ msgstr "неизвестное свойство %s в переменной %s: %
 msgid "incorrect value in %s option of %s variable: %s"
 msgstr "некорректное значение в параметре %s переменной %s: %s"
 
-#: scripts/Dpkg/Build/Types.pm
+#: scripts/Dpkg/BuildTypes.pm
 #, perl-format
 msgid "cannot combine %s and %s"
 msgstr "не удалось объединить %s и %s"
 
-#: scripts/Dpkg/Build/Types.pm
+#: scripts/Dpkg/BuildTypes.pm
 #, fuzzy, perl-format
 #| msgid "unknown file type"
 msgid "unknown build type %s"
@@ -2886,6 +2887,11 @@ msgstr "несовпадение контрольных сумм «%s» и «%s�
 msgid "conflicting file sizes '%u' and '%u' for file '%s'"
 msgstr "несовпадение размеров «%u» и «%u» для файла «%s»"
 
+#: scripts/Dpkg/Compression.pm
+#, perl-format
+msgid "compression threads %s is not a number"
+msgstr ""
+
 #: scripts/Dpkg/Compression/Process.pm
 #, perl-format
 msgid "%s is not a supported compression method"
@@ -2944,8 +2950,9 @@ msgid "repository's %s file"
 msgstr "элемент в файле репозитория %s"
 
 #: scripts/Dpkg/Control.pm
-#, perl-format
-msgid "entry in repository's %s file"
+#, fuzzy, perl-format
+#| msgid "entry in repository's %s file"
+msgid "stanza in repository's %s file"
 msgstr "элемент в файле репозитория %s"
 
 #: scripts/Dpkg/Control.pm
@@ -2968,7 +2975,9 @@ msgid "vendor file"
 msgstr "файл производителя"
 
 #: scripts/Dpkg/Control.pm
-msgid "entry in dpkg's status file"
+#, fuzzy
+#| msgid "entry in dpkg's status file"
+msgid "stanza in dpkg's status file"
 msgstr "элемент в файле состояния dpkg"
 
 #: scripts/Dpkg/Control/FieldsCore.pm
@@ -3026,20 +3035,21 @@ msgid "write error on control data"
 msgstr "ошибка записи управляющих данных"
 
 #: scripts/Dpkg/Control/Info.pm
-#, fuzzy
+#, fuzzy, perl-format
 #| msgid "first block lacks a source field"
-msgid "first block lacks a Source field"
+msgid "first stanza lacks a '%s' field"
 msgstr "в первом блоке отсутствует поле исходника"
 
 #: scripts/Dpkg/Control/Info.pm
-#, perl-format
-msgid "block lacks the '%s' field"
+#, fuzzy, perl-format
+#| msgid "block lacks the '%s' field"
+msgid "stanza lacks the '%s' field"
 msgstr "в блоке отсутствует поле «%s»"
 
 #: scripts/Dpkg/Control/Tests/Entry.pm
 #, fuzzy, perl-format
 #| msgid "block lacks the '%s' field"
-msgid "block lacks either %s or %s fields"
+msgid "stanza lacks either %s or %s fields"
 msgstr "в блоке отсутствует поле «%s»"
 
 #: scripts/Dpkg/Deps.pm

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.21.13\n"
+"Project-Id-Version: dpkg 1.21.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-12-19 01:07+0000\n"
+"POT-Creation-Date: 2023-01-01 22:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1505,7 +1505,6 @@ msgid "%s is not a supported compression"
 msgstr ""
 
 #: scripts/dpkg-source.pl scripts/Dpkg/Compression.pm
-#: scripts/Dpkg/Compression/Process.pm
 #, perl-format
 msgid "%s is not a compression level"
 msgstr ""
@@ -1688,6 +1687,8 @@ msgstr ""
 #: scripts/dpkg-source.pl
 msgid ""
 "General options:\n"
+"      --threads-max=<threads>\n"
+"                           use at most <threads> with compressor.\n"
 "  -q                       quiet mode.\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version."
@@ -1769,12 +1770,12 @@ msgstr ""
 msgid "incorrect value in %s option of %s variable: %s"
 msgstr ""
 
-#: scripts/Dpkg/Build/Types.pm
+#: scripts/Dpkg/BuildTypes.pm
 #, perl-format
 msgid "cannot combine %s and %s"
 msgstr ""
 
-#: scripts/Dpkg/Build/Types.pm
+#: scripts/Dpkg/BuildTypes.pm
 #, perl-format
 msgid "unknown build type %s"
 msgstr ""
@@ -2005,6 +2006,11 @@ msgstr ""
 msgid "conflicting file sizes '%u' and '%u' for file '%s'"
 msgstr ""
 
+#: scripts/Dpkg/Compression.pm
+#, perl-format
+msgid "compression threads %s is not a number"
+msgstr ""
+
 #: scripts/Dpkg/Compression/Process.pm
 #, perl-format
 msgid "%s is not a supported compression method"
@@ -2059,7 +2065,7 @@ msgstr ""
 
 #: scripts/Dpkg/Control.pm
 #, perl-format
-msgid "entry in repository's %s file"
+msgid "stanza in repository's %s file"
 msgstr ""
 
 #: scripts/Dpkg/Control.pm
@@ -2080,7 +2086,7 @@ msgid "vendor file"
 msgstr ""
 
 #: scripts/Dpkg/Control.pm
-msgid "entry in dpkg's status file"
+msgid "stanza in dpkg's status file"
 msgstr ""
 
 #: scripts/Dpkg/Control/FieldsCore.pm
@@ -2136,17 +2142,18 @@ msgid "write error on control data"
 msgstr ""
 
 #: scripts/Dpkg/Control/Info.pm
-msgid "first block lacks a Source field"
+#, perl-format
+msgid "first stanza lacks a '%s' field"
 msgstr ""
 
 #: scripts/Dpkg/Control/Info.pm
 #, perl-format
-msgid "block lacks the '%s' field"
+msgid "stanza lacks the '%s' field"
 msgstr ""
 
 #: scripts/Dpkg/Control/Tests/Entry.pm
 #, perl-format
-msgid "block lacks either %s or %s fields"
+msgid "stanza lacks either %s or %s fields"
 msgstr ""
 
 #: scripts/Dpkg/Deps.pm

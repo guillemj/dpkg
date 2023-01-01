@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.16.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-12-19 01:07+0000\n"
+"POT-Creation-Date: 2023-01-01 22:47+0000\n"
 "PO-Revision-Date: 2021-04-08 04:42+0200\n"
 "Last-Translator: Omar Campagne <ocampagne@gmail.com>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -3752,18 +3752,18 @@ msgstr ""
 #| "field, insert a dot after the space. Lines starting with a B<'#'> are "
 #| "treated as comments."
 msgid ""
-"This file contains at least 2 paragraphs, separated by a blank line.  The "
-"first paragraph lists all information about the source package in general, "
-"while each following paragraph describes exactly one binary package. Each "
-"paragraph consists of at least one field. A field starts with a fieldname, "
-"such as B<Package> or B<Section> (case insensitive), followed by a colon, "
-"the body of the field (case sensitive unless stated otherwise) and a "
-"newline.  Multi-line fields are also allowed, but each supplementary line, "
-"without a fieldname, should start with at least one space. The content of "
-"the multi-line fields is generally joined to a single line by the tools "
-"(except in the case of the B<Description> field, see below). To insert empty "
-"lines into a multi-line field, insert a dot after the space.  Lines starting "
-"with a ‘B<#>’ are treated as comments."
+"This file contains at least 2 stanzas, separated by a blank line.  The first "
+"stanza lists all information about the source package in general, while each "
+"following stanza describes exactly one binary package.  Each stanza consists "
+"of at least one field.  A field starts with a fieldname, such as B<Package> "
+"or B<Section> (case insensitive), followed by a colon, the body of the field "
+"(case sensitive unless stated otherwise) and a newline.  Multi-line fields "
+"are also allowed, but each supplementary line, without a fieldname, should "
+"start with at least one space. The content of the multi-line fields is "
+"generally joined to a single line by the tools (except in the case of the "
+"B<Description> field, see below). To insert empty lines into a multi-line "
+"field, insert a dot after the space.  Lines starting with a ‘B<#>’ are "
+"treated as comments."
 msgstr ""
 "Cada paquete fuente de Debian incluye el fichero maestro «control», que "
 "contiene al menos 2 párrafos separados por una línea en blanco. El primer "
@@ -4357,9 +4357,14 @@ msgstr "CAMPOS BINARIOS"
 
 #. type: textblock
 #: deb-src-control.pod
+#, fuzzy
+#| msgid ""
+#| "Note that the B<Priority>, B<Section> and B<Homepage> fields can also be "
+#| "in a binary paragraph to override the global value from the source "
+#| "package."
 msgid ""
 "Note that the B<Priority>, B<Section> and B<Homepage> fields can also be in "
-"a binary paragraph to override the global value from the source package."
+"a binary stanza to override the global value from the source package."
 msgstr ""
 "Tenga en cuenta que los campos B<Priority>, B<Section> y B<Homepage> también "
 "se pueden incluir en una párrafo binario para sustituir el valor global del "
@@ -4421,15 +4426,14 @@ msgstr ""
 #. type: textblock
 #: deb-src-control.pod
 msgid ""
-"If a binary package paragraph does not contain this field, then it "
-"implicitly means that it builds with all build profiles (including none at "
-"all)."
+"If a binary package stanza does not contain this field, then it implicitly "
+"means that it builds with all build profiles (including none at all)."
 msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
 msgid ""
-"In other words, if a binary package paragraph is annotated with a non-empty "
+"In other words, if a binary package stanza is annotated with a non-empty "
 "B<Build-Profiles> field, then this binary package is generated if and only "
 "if the condition expressed by the conjunctive normal form expression "
 "evaluates to true."
@@ -7533,23 +7537,22 @@ msgstr ""
 #. type: textblock
 #: deb822.pod
 msgid ""
-"A control file consists of one or more paragraphs of fields (the paragraphs "
-"are also sometimes referred to as stanzas).  The paragraphs are separated by "
-"empty lines.  Parsers may accept lines consisting solely of U+0020 B<SPACE> "
-"and U+0009 B<TAB> as paragraph separators, but control files should use "
-"empty lines.  Some control files allow only one paragraph; others allow "
-"several, in which case each paragraph usually refers to a different "
-"package.  (For example, in source packages, the first paragraph refers to "
-"the source package, and later paragraphs refer to binary packages generated "
-"from the source.)  The ordering of the paragraphs in control files is "
-"significant."
+"A control file consists of one or more stanzas of fields (the stanzas "
+"sometimes used to be referred to as paragraphs).  The stanzas are separated "
+"by empty lines.  Parsers may accept lines consisting solely of U+0020 "
+"B<SPACE> and U+0009 B<TAB> as stanza separators, but control files should "
+"use empty lines.  Some control files allow only one stanza; others allow "
+"several, in which case each stanza usually refers to a different package.  "
+"(For example, in source packages, the first stanza refers to the source "
+"package, and later stanzas refer to binary packages generated from the "
+"source.)  The ordering of the stanzas in control files is significant."
 msgstr ""
 
 #. type: textblock
 #: deb822.pod
 msgid ""
-"Each paragraph consists of a series of data fields.  Each field consists of "
-"the field name followed by a colon (U+003A ‘B<:>’), and then the data/value "
+"Each stanza consists of a series of data fields.  Each field consists of the "
+"field name followed by a colon (U+003A ‘B<:>’), and then the data/value "
 "associated with that field.  The field name is composed of US-ASCII "
 "characters excluding control characters, space, and colon (i.e., characters "
 "in the ranges U+0021 ‘B<!>’ through U+0039 ‘B<9>’, and U+003B ‘B<;>’ through "
@@ -7591,8 +7594,7 @@ msgstr ""
 #. type: textblock
 #: deb822.pod
 msgid ""
-"A paragraph must not contain more than one instance of a particular field "
-"name."
+"A stanza must not contain more than one instance of a particular field name."
 msgstr ""
 
 #. type: textblock
@@ -7633,7 +7635,7 @@ msgstr ""
 #: deb822.pod
 msgid ""
 "This folding method is similar to RFC5322, allowing control files that "
-"contain only one paragraph and no multiline fields to be read by parsers "
+"contain only one stanza and no multiline fields to be read by parsers "
 "written for RFC5322."
 msgstr ""
 
@@ -7681,10 +7683,10 @@ msgstr ""
 #. type: textblock
 #: deb822.pod
 msgid ""
-"Paragraph separators (empty lines) and lines consisting only of U+0020 "
-"B<SPACE> and U+0009 B<TAB>, are not allowed within field values or between "
-"fields.  Empty lines in field values are usually escaped by representing "
-"them by a U+0020 B<SPACE> followed by a dot (U+002E ‘B<.>’)."
+"Stanza separators (empty lines) and lines consisting only of U+0020 B<SPACE> "
+"and U+0009 B<TAB>, are not allowed within field values or between fields.  "
+"Empty lines in field values are usually escaped by representing them by a "
+"U+0020 B<SPACE> followed by a dot (U+002E ‘B<.>’)."
 msgstr ""
 
 #. type: textblock
@@ -9623,8 +9625,9 @@ msgstr "B<query>"
 msgid ""
 "Print any information that can be useful to explain the behaviour of the "
 "program: current vendor, relevant environment variables, feature areas, "
-"state of all feature flags, and the compiler flags with their origin (since "
-"dpkg 1.19.0)."
+"state of all feature flags, whether a feature is handled as a builtin "
+"default by the compiler (since dpkg dpkg 1.21.14), and the compiler flags "
+"with their origin (since dpkg 1.19.0)."
 msgstr ""
 "Muestra toda la información que puede ser útil para explicar el "
 "comportamiento de B<dpkg-buildflags>: variables de entorno pertinentes, el "
@@ -9656,6 +9659,19 @@ msgid ""
 " Features:\n"
 "  bug=no\n"
 "  canary=no\n"
+" Builtins:\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: dpkg-buildflags.pod
+#, no-wrap
+msgid ""
+" Area: hardening\n"
+" Features:\n"
+"  pie=no\n"
+" Builtins:\n"
+"  pie=yes\n"
 "\n"
 msgstr ""
 
@@ -9666,6 +9682,7 @@ msgid ""
 " Area: reproducible\n"
 " Features:\n"
 "  timeless=no\n"
+" Builtins:\n"
 "\n"
 msgstr ""
 
@@ -9702,11 +9719,13 @@ msgstr "B<--query-features> I<área>"
 #| "recognized area is B<hardening>. Exits with 0 if the area is known "
 #| "otherwise exits with 1."
 msgid ""
-"Print the features enabled for a given area (since dpkg 1.16.2).  The only "
-"currently recognized areas on Debian and derivatives are B<future>, B<qa>, "
-"B<reproducible>, B<sanitize> and B<hardening>, see the B<FEATURE AREAS> "
-"section for more details.  Exits with 0 if the area is known otherwise exits "
-"with 1."
+"Print the features enabled for a given area (since dpkg 1.16.2).  If the "
+"feature is handled (even if only on some architectures) as a builtin default "
+"by the compiler, then a B<Builtin> field is printed (since dpkg 1.21.14).  "
+"The only currently recognized areas on Debian and derivatives are B<future>, "
+"B<qa>, B<reproducible>, B<sanitize> and B<hardening>, see the B<FEATURE "
+"AREAS> section for more details.  Exits with 0 if the area is known "
+"otherwise exits with 1."
 msgstr ""
 "Muestra las funcionalidades activas para el área dada. La única sección "
 "actualmente admitida es B<hardening>. Cierra con un valor de cero si el área "
@@ -9733,6 +9752,7 @@ msgstr ""
 msgid ""
 " Feature: pie\n"
 " Enabled: yes\n"
+" Builtin: yes\n"
 "\n"
 msgstr ""
 "  Feature: pie\n"
@@ -13552,7 +13572,7 @@ msgid ""
 msgstr ""
 
 #. type: =item
-#: dpkg-deb.pod
+#: dpkg-deb.pod dpkg-source.pod
 #, fuzzy
 #| msgid "B<--git-ref=>I<ref>"
 msgid "B<--threads-max=>I<threads>"
@@ -14857,6 +14877,7 @@ msgstr ""
 
 #. type: =item
 #: dpkg-genbuildinfo.pod dpkg-genchanges.pod dpkg-gensymbols.pod
+#: dpkg-source.pod
 msgid "B<-q>"
 msgstr "B<-q>"
 
@@ -17333,9 +17354,9 @@ msgstr "B<--format> I<formato-salida>"
 msgid ""
 "Set the output format. Currently supported values are B<dpkg> and "
 "B<rfc822>.  B<dpkg> is the classic output format (from before this option "
-"existed) and the default. It consists of one paragraph in Debian control "
-"format (see B<deb-control>(5)). If more than one entry is requested, then "
-"most fields are taken from the first entry (usually the most recent entry), "
+"existed) and the default. It consists of one stanza in Debian control format "
+"(see B<deb-control>(5)). If more than one entry is requested, then most "
+"fields are taken from the first entry (usually the most recent entry), "
 "except otherwise stated:"
 msgstr ""
 "Define el formato de la salidA. Los valores compatibles son I<dpkg> y "
@@ -17455,9 +17476,14 @@ msgstr "Pueden que aparezcan campos adicionales definidos por el usuario."
 
 #. type: textblock
 #: dpkg-parsechangelog.pod
+#, fuzzy
+#| msgid ""
+#| "The B<rfc822> format uses the same fields but outputs a separate "
+#| "paragraph for each changelog entry so that all metadata for each entry is "
+#| "preserved."
 msgid ""
-"The B<rfc822> format uses the same fields but outputs a separate paragraph "
-"for each changelog entry so that all metadata for each entry is preserved."
+"The B<rfc822> format uses the same fields but outputs a separate stanza for "
+"each changelog entry so that all metadata for each entry is preserved."
 msgstr ""
 "El formato B<rfc822> emplea los mismos campos, pero devuelve por la salida "
 "un párrafo por cada entrada en el registro de cambios, de forma que se "
@@ -19297,7 +19323,7 @@ msgstr ""
 #| "file); see B<deb-override>(5)."
 msgid ""
 "The I<override-file>, if given, is used to set priorities in the resulting "
-"index records and to override the maintainer field given in the I<.dsc> "
+"index stanzas and to override the maintainer field given in the I<.dsc> "
 "files.  The file can be compressed (since dpkg 1.15.5).  See B<deb-"
 "override>(5)  for the format of this file."
 msgstr ""
@@ -19375,8 +19401,12 @@ msgstr "B<-n>, B<--no-sort>"
 
 #. type: textblock
 #: dpkg-scansources.pod
+#, fuzzy
+#| msgid ""
+#| "Don't sort the index records. Normally they are sorted by source package "
+#| "name."
 msgid ""
-"Don't sort the index records. Normally they are sorted by source package "
+"Do not sort the index stanzas.  Normally they are sorted by source package "
 "name."
 msgstr ""
 "Evita ordenar los registros del índice de fuentes. Habitualmente, se ordena "
@@ -21098,6 +21128,25 @@ msgid ""
 "Turns the bad source package version check into a non-fatal warning (since "
 "dpkg 1.17.7).  This option should only be necessary when extracting ancient "
 "source packages with broken versions, just for backwards compatibility."
+msgstr ""
+
+#. type: =head2
+#: dpkg-source.pod
+#, fuzzy
+#| msgid "B<Extract options>"
+msgid "Generic general options"
+msgstr "B<Opciones de extracción>"
+
+#. type: textblock
+#: dpkg-source.pod
+msgid ""
+"Sets the maximum number of threads allowed for compressors that support "
+"multi-threaded operations (since dpkg 1.21.14)."
+msgstr ""
+
+#. type: textblock
+#: dpkg-source.pod
+msgid "Sets quiet mode to suppress warnings."
 msgstr ""
 
 #. type: =head1
@@ -30001,6 +30050,13 @@ msgstr ""
 "opcionalmente añadiendo B<:>, seguido del valor. La I<prioridad> por omisión "
 "es 0. Las directrices compatibles son B<other>, B<fifo> y B<rr>."
 
+#. type: textblock
+#: start-stop-daemon.pod
+msgid ""
+"This option might do nothing on some systems, where POSIX process scheduling "
+"is not supported."
+msgstr ""
+
 #. type: =item
 #: start-stop-daemon.pod
 msgid "B<-I>, B<--iosched> I<class>B<:>I<priority>"
@@ -30028,6 +30084,13 @@ msgstr ""
 "al final, seguido del valor. La I<prioridad> predefinida es 4, a menos que "
 "la I<clase> sea B<idle>. En tal caso, la prioridad será siempre 7. Los "
 "valores posibles para la I<clase> son B<idle>, B<best-effort> y B<real-time>."
+
+#. type: textblock
+#: start-stop-daemon.pod
+msgid ""
+"This option might do nothing on some systems, where Linux IO scheduling is "
+"not supported."
+msgstr ""
 
 #. type: =item
 #: start-stop-daemon.pod
@@ -30191,8 +30254,8 @@ msgstr ""
 #| "\t--chuid food -- --daemon\n"
 msgid ""
 " start-stop-daemon --start --oknodo --user food --name food \\\n"
-" \t--pidfile %RUNSTATEDIR%/food.pid --startas /usr/sbin/food \\\n"
-" \t--chuid food -- --daemon\n"
+"   --pidfile %RUNSTATEDIR%/food.pid --startas /usr/sbin/food \\\n"
+"   --chuid food -- --daemon\n"
 "\n"
 msgstr ""
 "start-stop-daemon --start --oknodo --user food --name food \\\n"
@@ -30212,7 +30275,7 @@ msgstr "Envía B<SIGTERM> a B<food> y espera 5 segundos para su finalización:"
 #| "\t--pidfile /run/food.pid --retry 5\n"
 msgid ""
 " start-stop-daemon --stop --oknodo --user food --name food \\\n"
-" \t--pidfile %RUNSTATEDIR%/food.pid --retry 5\n"
+"   --pidfile %RUNSTATEDIR%/food.pid --retry 5\n"
 "\n"
 msgstr ""
 "start-stop-daemon --stop --oknodo --user food --name food \\\n"
@@ -30232,7 +30295,7 @@ msgstr ""
 #| "\t--pidfile /run/food.pid --retry=TERM/30/KILL/5\n"
 msgid ""
 " start-stop-daemon --stop --oknodo --user food --name food \\\n"
-" \t--pidfile %RUNSTATEDIR%/food.pid --retry=TERM/30/KILL/5\n"
+"   --pidfile %RUNSTATEDIR%/food.pid --retry=TERM/30/KILL/5\n"
 "\n"
 msgstr ""
 "start-stop-daemon --stop --oknodo --user food --name food \\\n"
@@ -31070,8 +31133,8 @@ msgstr "FORMATO DE CONSULTA"
 #| "contains the following fields:"
 msgid ""
 "The B<--query> format is using an RFC822-like flat format. It's made of I<n> "
-"+ 1 blocks where I<n> is the number of alternatives available in the queried "
-"link group. The first block contains the following fields:"
+"+ 1 stanzas where I<n> is the number of alternatives available in the "
+"queried link group. The first stanza contains the following fields:"
 msgstr ""
 "El formato de consulta de B<update-alternatives --query> utiliza un formato "
 "simple de tipo RFC822. Se compone de I<n> + 1 bloques, donde I<n> es el "
@@ -31156,8 +31219,12 @@ msgstr ""
 
 #. type: textblock
 #: update-alternatives.pod
+#, fuzzy
+#| msgid ""
+#| "The other blocks describe the available alternatives in the queried link "
+#| "group:"
 msgid ""
-"The other blocks describe the available alternatives in the queried link "
+"The other stanzas describe the available alternatives in the queried link "
 "group:"
 msgstr ""
 "Los siguientes bloques describen las alternativas disponibles en el grupo de "
@@ -31170,7 +31237,9 @@ msgstr "B<Alternative:> I<ruta-a-esta-alternativa>"
 
 #. type: textblock
 #: update-alternatives.pod
-msgid "Path to this block's alternative."
+#, fuzzy
+#| msgid "Path to this block's alternative."
+msgid "Path to this stanza's alternative."
 msgstr "Ruta a la alternativa de este bloque."
 
 #. type: =item

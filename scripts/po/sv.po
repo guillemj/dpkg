@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.9\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-12-19 01:07+0000\n"
+"POT-Creation-Date: 2023-01-01 22:47+0000\n"
 "PO-Revision-Date: 2022-10-01 21:57+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -2006,7 +2006,6 @@ msgid "%s is not a supported compression"
 msgstr "%s är inte en komprimering som stöds"
 
 #: scripts/dpkg-source.pl scripts/Dpkg/Compression.pm
-#: scripts/Dpkg/Compression/Process.pm
 #, perl-format
 msgid "%s is not a compression level"
 msgstr "%s är inte en komprimeringsnivå"
@@ -2230,8 +2229,16 @@ msgstr ""
 "  --ignore-bad-version     tillåt felaktiga versionsnummer i källkodspaket."
 
 #: scripts/dpkg-source.pl
+#, fuzzy
+#| msgid ""
+#| "General options:\n"
+#| "  -q                       quiet mode.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version."
 msgid ""
 "General options:\n"
+"      --threads-max=<threads>\n"
+"                           use at most <threads> with compressor.\n"
 "  -q                       quiet mode.\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version."
@@ -2329,12 +2336,12 @@ msgstr "okänd funktion %s i variabeln %s: %s"
 msgid "incorrect value in %s option of %s variable: %s"
 msgstr "felaktigt värde i flaggan %s i variabeln %s: %s"
 
-#: scripts/Dpkg/Build/Types.pm
+#: scripts/Dpkg/BuildTypes.pm
 #, perl-format
 msgid "cannot combine %s and %s"
 msgstr "kan inte kombinera %s och %s"
 
-#: scripts/Dpkg/Build/Types.pm
+#: scripts/Dpkg/BuildTypes.pm
 #, perl-format
 msgid "unknown build type %s"
 msgstr "okänd byggtyp %s"
@@ -2569,6 +2576,11 @@ msgstr "motsägande kontrollsummor \"%s\" och \"%s\" för filen \"%s\""
 msgid "conflicting file sizes '%u' and '%u' for file '%s'"
 msgstr "motsägande filstorlekar \"%u\" och \"%u\" för filen \"%s\""
 
+#: scripts/Dpkg/Compression.pm
+#, perl-format
+msgid "compression threads %s is not a number"
+msgstr ""
+
 #: scripts/Dpkg/Compression/Process.pm
 #, perl-format
 msgid "%s is not a supported compression method"
@@ -2622,8 +2634,9 @@ msgid "repository's %s file"
 msgstr "förrådets %s-fil"
 
 #: scripts/Dpkg/Control.pm
-#, perl-format
-msgid "entry in repository's %s file"
+#, fuzzy, perl-format
+#| msgid "entry in repository's %s file"
+msgid "stanza in repository's %s file"
 msgstr "post i arkivets fil %s"
 
 #: scripts/Dpkg/Control.pm
@@ -2644,7 +2657,9 @@ msgid "vendor file"
 msgstr "distributörsfil"
 
 #: scripts/Dpkg/Control.pm
-msgid "entry in dpkg's status file"
+#, fuzzy
+#| msgid "entry in dpkg's status file"
+msgid "stanza in dpkg's status file"
 msgstr "post i dpkg:s statusfil"
 
 #: scripts/Dpkg/Control/FieldsCore.pm
@@ -2700,17 +2715,21 @@ msgid "write error on control data"
 msgstr "skrivfel i styrdata"
 
 #: scripts/Dpkg/Control/Info.pm
-msgid "first block lacks a Source field"
+#, fuzzy, perl-format
+#| msgid "first block lacks a Source field"
+msgid "first stanza lacks a '%s' field"
 msgstr "första blocket saknar Source-fält"
 
 #: scripts/Dpkg/Control/Info.pm
-#, perl-format
-msgid "block lacks the '%s' field"
+#, fuzzy, perl-format
+#| msgid "block lacks the '%s' field"
+msgid "stanza lacks the '%s' field"
 msgstr "blocket saknar fältet \"%s\""
 
 #: scripts/Dpkg/Control/Tests/Entry.pm
-#, perl-format
-msgid "block lacks either %s or %s fields"
+#, fuzzy, perl-format
+#| msgid "block lacks either %s or %s fields"
+msgid "stanza lacks either %s or %s fields"
 msgstr "blocket saknar antingen fältet %s eller %s"
 
 #: scripts/Dpkg/Deps.pm

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-12-19 01:07+0000\n"
+"POT-Creation-Date: 2023-01-01 22:47+0000\n"
 "PO-Revision-Date: 2022-12-01 12:08+0100\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -2021,7 +2021,6 @@ msgid "%s is not a supported compression"
 msgstr "%s no es una compressió admesa"
 
 #: scripts/dpkg-source.pl scripts/Dpkg/Compression.pm
-#: scripts/Dpkg/Compression/Process.pm
 #, perl-format
 msgid "%s is not a compression level"
 msgstr "%s no és un nivell de compressió"
@@ -2252,8 +2251,16 @@ msgstr ""
 "  --ignore-bad-version     permet versions de font no vàlides."
 
 #: scripts/dpkg-source.pl
+#, fuzzy
+#| msgid ""
+#| "General options:\n"
+#| "  -q                       quiet mode.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version."
 msgid ""
 "General options:\n"
+"      --threads-max=<threads>\n"
+"                           use at most <threads> with compressor.\n"
 "  -q                       quiet mode.\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version."
@@ -2357,12 +2364,12 @@ msgstr "característica %s desconeguda a la variable %s: %s"
 msgid "incorrect value in %s option of %s variable: %s"
 msgstr "el valor en l'opció %s de la variable %s no és correcte: %s"
 
-#: scripts/Dpkg/Build/Types.pm
+#: scripts/Dpkg/BuildTypes.pm
 #, perl-format
 msgid "cannot combine %s and %s"
 msgstr "no es pot combinar %s amb %s"
 
-#: scripts/Dpkg/Build/Types.pm
+#: scripts/Dpkg/BuildTypes.pm
 #, perl-format
 msgid "unknown build type %s"
 msgstr "tipus de construcció «%s» desconegut"
@@ -2597,6 +2604,11 @@ msgstr "sumes de verificació contradictòries «%s» i «%s» pel fitxer «%s»
 msgid "conflicting file sizes '%u' and '%u' for file '%s'"
 msgstr "mides de fitxer contradictòries «%u» i «%u» pel fitxer «%s»"
 
+#: scripts/Dpkg/Compression.pm
+#, perl-format
+msgid "compression threads %s is not a number"
+msgstr ""
+
 #: scripts/Dpkg/Compression/Process.pm
 #, perl-format
 msgid "%s is not a supported compression method"
@@ -2650,8 +2662,9 @@ msgid "repository's %s file"
 msgstr "fitxer de dipòsit %s"
 
 #: scripts/Dpkg/Control.pm
-#, perl-format
-msgid "entry in repository's %s file"
+#, fuzzy, perl-format
+#| msgid "entry in repository's %s file"
+msgid "stanza in repository's %s file"
 msgstr "entrada al fitxer de dipòsit %s"
 
 #: scripts/Dpkg/Control.pm
@@ -2672,7 +2685,9 @@ msgid "vendor file"
 msgstr "fitxer de proveïdor"
 
 #: scripts/Dpkg/Control.pm
-msgid "entry in dpkg's status file"
+#, fuzzy
+#| msgid "entry in dpkg's status file"
+msgid "stanza in dpkg's status file"
 msgstr "entrada al fitxer d'estat del dpkg"
 
 #: scripts/Dpkg/Control/FieldsCore.pm
@@ -2730,17 +2745,21 @@ msgid "write error on control data"
 msgstr "s'ha produït un error d'escriptura en les dades de control"
 
 #: scripts/Dpkg/Control/Info.pm
-msgid "first block lacks a Source field"
+#, fuzzy, perl-format
+#| msgid "first block lacks a Source field"
+msgid "first stanza lacks a '%s' field"
 msgstr "el primer bloc no conté un camp Source"
 
 #: scripts/Dpkg/Control/Info.pm
-#, perl-format
-msgid "block lacks the '%s' field"
+#, fuzzy, perl-format
+#| msgid "block lacks the '%s' field"
+msgid "stanza lacks the '%s' field"
 msgstr "el bloc no conté el camp «%s»"
 
 #: scripts/Dpkg/Control/Tests/Entry.pm
-#, perl-format
-msgid "block lacks either %s or %s fields"
+#, fuzzy, perl-format
+#| msgid "block lacks either %s or %s fields"
+msgid "stanza lacks either %s or %s fields"
 msgstr "el bloc no conté els camps «%s» o «%s»"
 
 #: scripts/Dpkg/Deps.pm

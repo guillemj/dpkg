@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2022-12-19 01:07+0000\n"
+"POT-Creation-Date: 2023-01-01 22:47+0000\n"
 "PO-Revision-Date: 2015-09-08 15:39+0200\n"
 "Last-Translator: Sébastien Poher <sbphr@volted.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -2286,7 +2286,6 @@ msgid "%s is not a supported compression"
 msgstr "%s n'est pas une compression gérée"
 
 #: scripts/dpkg-source.pl scripts/Dpkg/Compression.pm
-#: scripts/Dpkg/Compression/Process.pm
 #, perl-format
 msgid "%s is not a compression level"
 msgstr "%s n'est pas un niveau de compression"
@@ -2562,6 +2561,8 @@ msgstr ""
 #| "      --version            show the version."
 msgid ""
 "General options:\n"
+"      --threads-max=<threads>\n"
+"                           use at most <threads> with compressor.\n"
 "  -q                       quiet mode.\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version."
@@ -2669,12 +2670,12 @@ msgstr "fonctionnalité %s inconnue dans la variable %s : %s"
 msgid "incorrect value in %s option of %s variable: %s"
 msgstr "valeur incorrecte dans l'option %s de la variable %s : %s"
 
-#: scripts/Dpkg/Build/Types.pm
+#: scripts/Dpkg/BuildTypes.pm
 #, perl-format
 msgid "cannot combine %s and %s"
 msgstr "impossible de combiner %s et %s"
 
-#: scripts/Dpkg/Build/Types.pm
+#: scripts/Dpkg/BuildTypes.pm
 #, fuzzy, perl-format
 #| msgid "unknown file type"
 msgid "unknown build type %s"
@@ -2928,6 +2929,11 @@ msgstr ""
 msgid "conflicting file sizes '%u' and '%u' for file '%s'"
 msgstr "conflit de taille de fichiers %u et %u pour le fichier %s"
 
+#: scripts/Dpkg/Compression.pm
+#, perl-format
+msgid "compression threads %s is not a number"
+msgstr ""
+
 #: scripts/Dpkg/Compression/Process.pm
 #, perl-format
 msgid "%s is not a supported compression method"
@@ -2985,8 +2991,9 @@ msgid "repository's %s file"
 msgstr "entrée dans le fichier %s de dépôt"
 
 #: scripts/Dpkg/Control.pm
-#, perl-format
-msgid "entry in repository's %s file"
+#, fuzzy, perl-format
+#| msgid "entry in repository's %s file"
+msgid "stanza in repository's %s file"
 msgstr "entrée dans le fichier %s de dépôt"
 
 #: scripts/Dpkg/Control.pm
@@ -3009,7 +3016,9 @@ msgid "vendor file"
 msgstr "fichier du fournisseur (« vendor »)"
 
 #: scripts/Dpkg/Control.pm
-msgid "entry in dpkg's status file"
+#, fuzzy
+#| msgid "entry in dpkg's status file"
+msgid "stanza in dpkg's status file"
 msgstr "entrée dans le fichier d'état de dpkg"
 
 #: scripts/Dpkg/Control/FieldsCore.pm
@@ -3068,18 +3077,21 @@ msgid "write error on control data"
 msgstr "erreur d'écriture sur des données de contrôle"
 
 #: scripts/Dpkg/Control/Info.pm
-msgid "first block lacks a Source field"
+#, fuzzy, perl-format
+#| msgid "first block lacks a Source field"
+msgid "first stanza lacks a '%s' field"
 msgstr "le premier bloc ne comporte pas de champ Source"
 
 #: scripts/Dpkg/Control/Info.pm
-#, perl-format
-msgid "block lacks the '%s' field"
+#, fuzzy, perl-format
+#| msgid "block lacks the '%s' field"
+msgid "stanza lacks the '%s' field"
 msgstr "le bloc ne comporte pas de champ « %s »"
 
 #: scripts/Dpkg/Control/Tests/Entry.pm
 #, fuzzy, perl-format
 #| msgid "block lacks the '%s' field"
-msgid "block lacks either %s or %s fields"
+msgid "stanza lacks either %s or %s fields"
 msgstr "le bloc ne comporte pas de champ « %s »"
 
 #: scripts/Dpkg/Deps.pm
