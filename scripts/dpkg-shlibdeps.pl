@@ -133,15 +133,13 @@ foreach (@ARGV) {
 	push @exclude, $1;
     } elsif (m/^-/) {
 	usageerr(g_("unknown option '%s'"), $_);
+    } elsif (exists $exec{$_}) {
+        # Affect the binary to the most important field
+        if ($depstrength{$dependencyfield} > $depstrength{$exec{$_}}) {
+           $exec{$_} = $dependencyfield;
+        }
     } else {
-	if (exists $exec{$_}) {
-	    # Affect the binary to the most important field
-	    if ($depstrength{$dependencyfield} > $depstrength{$exec{$_}}) {
-		$exec{$_} = $dependencyfield;
-	    }
-	} else {
-	    $exec{$_} = $dependencyfield;
-	}
+        $exec{$_} = $dependencyfield;
     }
 }
 usageerr(g_('need at least one executable')) unless scalar keys %exec;

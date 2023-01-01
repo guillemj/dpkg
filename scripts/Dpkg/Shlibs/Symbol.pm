@@ -115,23 +115,19 @@ sub parse_symbolspec {
 	    $symbol_templ = $2;
 	    $symbol = $2;
 	    $rest = $3;
-	} else {
-	    if ($symbol =~ m/^(\S+)(.*)$/) {
-		$symbol_templ = $1;
-		$symbol = $1;
-		$rest = $2;
-	    }
+	} elsif ($symbol =~ m/^(\S+)(.*)$/) {
+            $symbol_templ = $1;
+            $symbol = $1;
+            $rest = $2;
 	}
 	error(g_('symbol name unspecified: %s'), $symbolspec) if (!$symbol);
-    } else {
+    } elsif ($symbolspec =~ m/^(\S+)(.*)$/) {
 	# No tag specification. Symbol name is up to the first space
 	# foobarsymbol@Base 1.0 1
-	if ($symbolspec =~ m/^(\S+)(.*)$/) {
-	    $symbol = $1;
-	    $rest = $2;
-	} else {
-	    return 0;
-	}
+        $symbol = $1;
+        $rest = $2;
+    } else {
+        return 0;
     }
     $self->{symbol} = $symbol;
     $self->{symbol_templ} = $symbol_templ;
@@ -463,12 +459,10 @@ sub mark_found_in_library {
 	# Symbol reappeared somehow
 	$self->{deprecated} = 0;
 	$self->{minver} = $minver if (not $self->is_optional());
-    } else {
+    } elsif (version_compare($minver, $self->{minver}) < 0) {
 	# We assume that the right dependency information is already
 	# there.
-	if (version_compare($minver, $self->{minver}) < 0) {
-	    $self->{minver} = $minver;
-	}
+        $self->{minver} = $minver;
     }
     # Never remove arch tags from patterns
     if (not $self->is_pattern()) {

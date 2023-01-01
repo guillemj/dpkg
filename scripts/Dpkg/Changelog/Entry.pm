@@ -154,16 +154,14 @@ sub extend_part {
 	} else {
 	    push @{$self->{$part}}, $value;
 	}
+    } elsif (defined $self->{$part}) {
+        if (ref($value)) {
+            $self->{$part} = [ $self->{$part}, @$value ];
+        } else {
+            $self->{$part} .= $value;
+        }
     } else {
-	if (defined($self->{$part})) {
-	    if (ref($value)) {
-		$self->{$part} = [ $self->{$part}, @$value ];
-	    } else {
-		$self->{$part} .= $value;
-	    }
-	} else {
-	    $self->{$part} = $value;
-	}
+        $self->{$part} = $value;
     }
 }
 

@@ -297,16 +297,14 @@ if($totsize == 0) {
 	    if ($rsize + $totsize > $avsp) {
 		print "no room for: $fn\n";
 		delete $downloads{$fn};
-	    } else {
-		if(yesno($def, $downloads{$fn}
-			 ? "download: $fn ${rsize}k/${csize}k (total = ${totsize}k)"
-			 : "download: $fn ${rsize}k (total = ${totsize}k)")) {
-		    $def = 'y';
-		    $totsize += $rsize;
-		} else {
-		    $def = 'n';
-		    delete $downloads{$fn};
-		}
+            } elsif (yesno($def, $downloads{$fn}
+                           ? "download: $fn ${rsize}k/${csize}k (total = ${totsize}k)"
+                           : "download: $fn ${rsize}k (total = ${totsize}k)")) {
+                $def = 'y';
+                $totsize += $rsize;
+            } else {
+                $def = 'n';
+                delete $downloads{$fn};
 	    }
 	}
     }
@@ -588,13 +586,11 @@ sub removeinstalled {
 	    my($pkg, $ver) = getdebinfo($fn);
 	    if(!defined($pkg) || !defined($ver)) {
 		print "Could not get info for: $dir/$fn\n";
-	    } else {
-		if ($curpkgs{$pkg} and dcmpvers($ver, 'le', $curpkgs{$pkg})) {
-		    print "deleting: $dir/$fn\n";
-		    unlink $fn;
-		} else {
-		    print "leaving: $dir/$fn\n";
-		}
+            } elsif ($curpkgs{$pkg} and dcmpvers($ver, 'le', $curpkgs{$pkg})) {
+                print "deleting: $dir/$fn\n";
+                unlink $fn;
+            } else {
+                print "leaving: $dir/$fn\n";
 	    }
 	} else {
 	    print "non-debian: $dir/$fn\n";

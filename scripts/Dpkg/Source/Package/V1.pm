@@ -347,18 +347,16 @@ sub do_build {
 	# creating a native .tar.gz
 	if ($origtargz) {
 	    $sourcestyle =~ y/aA/pP/; # .orig.tar.<ext>
-	} else {
-	    if (stat($origdir)) {
-		unless (-d _) {
-                    error(g_("unpacked orig '%s' exists but is not a directory"),
-		          $origdir);
-                }
-		$sourcestyle =~ y/aA/rR/; # .orig directory
-	    } elsif ($! != ENOENT) {
-		syserr(g_("unable to stat putative unpacked orig '%s'"), $origdir);
-	    } else {
-		$sourcestyle =~ y/aA/nn/; # Native tar.gz
-	    }
+        } elsif (stat($origdir)) {
+            unless (-d _) {
+                error(g_("unpacked orig '%s' exists but is not a directory"),
+                      $origdir);
+            }
+            $sourcestyle =~ y/aA/rR/; # .orig directory
+        } elsif ($! != ENOENT) {
+            syserr(g_("unable to stat putative unpacked orig '%s'"), $origdir);
+        } else {
+            $sourcestyle =~ y/aA/nn/; # Native tar.gz
 	}
     }
 

@@ -482,12 +482,10 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     unless ($options{no_check}) {
         if ($srcpkg->is_signed()) {
             $srcpkg->check_signature();
+        } elsif ($options{require_valid_signature}) {
+            error(g_("%s doesn't contain a valid OpenPGP signature"), $dsc);
         } else {
-            if ($options{require_valid_signature}) {
-                error(g_("%s doesn't contain a valid OpenPGP signature"), $dsc);
-            } else {
-                warning(g_('extracting unsigned source package (%s)'), $dsc);
-            }
+            warning(g_('extracting unsigned source package (%s)'), $dsc);
         }
         $srcpkg->check_checksums();
     }

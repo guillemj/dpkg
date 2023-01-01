@@ -180,13 +180,11 @@ sub parse_features {
             my $value = ($1 eq '+') ? 1 : 0;
             if ($feature eq 'all') {
                 $use_feature->{$_} = $value foreach keys %{$use_feature};
+            } elsif (exists $use_feature->{$feature}) {
+                $use_feature->{$feature} = $value;
             } else {
-                if (exists $use_feature->{$feature}) {
-                    $use_feature->{$feature} = $value;
-                } else {
-                    warning(g_('unknown %s feature in %s variable: %s'),
-                            $option, $self->{envvar}, $feature);
-                }
+                warning(g_('unknown %s feature in %s variable: %s'),
+                        $option, $self->{envvar}, $feature);
             }
         } else {
             warning(g_('incorrect value in %s option of %s variable: %s'),

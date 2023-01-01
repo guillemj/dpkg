@@ -438,12 +438,10 @@ sub implies {
             if (defined $implication) {
                 if (not defined $res) {
                     $res = $implication;
+                } elsif ($implication) {
+                    $res = 1;
                 } else {
-                    if ($implication) {
-                        $res = 1;
-                    } else {
-                        $res = 0;
-                    }
+                    $res = 0;
                 }
                 last if defined $res and $res == 1;
             }
