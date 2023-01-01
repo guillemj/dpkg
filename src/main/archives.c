@@ -1686,19 +1686,17 @@ wanttoinstall(struct pkginfo *pkg)
     } else {
       return true;
     }
+  } else if (in_force(FORCE_DOWNGRADE)) {
+    warning(_("downgrading %.250s from %.250s to %.250s"),
+            pkg_name(pkg, pnaw_nonambig),
+            versiondescribe(&pkg->installed.version, vdew_nonambig),
+            versiondescribe(&pkg->available.version, vdew_nonambig));
+    return true;
   } else {
-    if (in_force(FORCE_DOWNGRADE)) {
-      warning(_("downgrading %.250s from %.250s to %.250s"),
-              pkg_name(pkg, pnaw_nonambig),
-              versiondescribe(&pkg->installed.version, vdew_nonambig),
-              versiondescribe(&pkg->available.version, vdew_nonambig));
-      return true;
-    } else {
-      notice(_("will not downgrade %.250s from %.250s to %.250s, skipping"),
-             pkg_name(pkg, pnaw_nonambig),
-             versiondescribe(&pkg->installed.version, vdew_nonambig),
-             versiondescribe(&pkg->available.version, vdew_nonambig));
-      return false;
-    }
+    notice(_("will not downgrade %.250s from %.250s to %.250s, skipping"),
+           pkg_name(pkg, pnaw_nonambig),
+           versiondescribe(&pkg->installed.version, vdew_nonambig),
+           versiondescribe(&pkg->available.version, vdew_nonambig));
+    return false;
   }
 }

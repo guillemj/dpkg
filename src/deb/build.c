@@ -177,10 +177,9 @@ file_treewalk_feed(const char *dir, int fd_out)
     if (S_ISLNK(treenode_get_mode(node))) {
       fi = file_info_new(nodename);
       file_info_list_append(&symlist, &symlist_end, fi);
-    } else {
-      if (fd_write(fd_out, nodename, strlen(nodename) + 1) < 0)
-        ohshite(_("failed to write filename to tar pipe (%s)"),
-                _("data member"));
+    } else if (fd_write(fd_out, nodename, strlen(nodename) + 1) < 0) {
+      ohshite(_("failed to write filename to tar pipe (%s)"),
+              _("data member"));
     }
 
     free(nodename);

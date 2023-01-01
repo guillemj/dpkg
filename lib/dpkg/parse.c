@@ -896,11 +896,10 @@ void copy_dependency_links(struct pkginfo *pkg,
     for (dop= dyp->list; dop; dop= dop->next) {
       if (dop->rev_prev)
         dop->rev_prev->rev_next = dop->rev_next;
+      else if (available)
+        dop->ed->depended.available = dop->rev_next;
       else
-        if (available)
-          dop->ed->depended.available = dop->rev_next;
-        else
-          dop->ed->depended.installed = dop->rev_next;
+        dop->ed->depended.installed = dop->rev_next;
       if (dop->rev_next)
         dop->rev_next->rev_prev = dop->rev_prev;
     }

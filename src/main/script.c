@@ -358,13 +358,11 @@ maintscript_fallback(struct pkginfo *pkg,
 		}
 		warning(_("unable to stat %s '%.250s': %s"),
 		        cmd.name, oldscriptpath, strerror(errno));
-	} else {
-		if (!maintscript_exec(pkg, &pkg->installed, &cmd, &stab, SUBPROC_WARN)) {
-			command_destroy(&cmd);
-			free(buf);
-			post_script_tasks();
-			return 1;
-		}
+	} else if (!maintscript_exec(pkg, &pkg->installed, &cmd, &stab, SUBPROC_WARN)) {
+		command_destroy(&cmd);
+		free(buf);
+		post_script_tasks();
+		return 1;
 	}
 	notice(_("trying script from the new package instead ..."));
 
