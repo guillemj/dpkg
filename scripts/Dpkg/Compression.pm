@@ -366,6 +366,10 @@ sub compression_get_cmdline_compress {
     }
     my $threads = compression_get_threads();
     if ($comp eq 'xz') {
+        # Do not let xz fallback to single-threaded mode, to avoid
+        # non-reproducible output.
+        push @prog, '--no-adjust';
+
         # The xz -T1 option selects a single-threaded mode which generates
         # different output than in multi-threaded mode. To avoid the
         # non-reproducible output we pass -T+1 (supported with xz >= 5.4.0)
