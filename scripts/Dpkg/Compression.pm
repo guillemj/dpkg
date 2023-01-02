@@ -366,6 +366,10 @@ sub compression_get_cmdline_compress {
     }
     my $threads = compression_get_threads();
     if ($comp eq 'xz') {
+        # Do not generate warnings when adjusting memory usage, nor
+        # exit with non-zero due to those not emitted warnings.
+        push @prog, qw(--quiet --no-warn);
+
         # Do not let xz fallback to single-threaded mode, to avoid
         # non-reproducible output.
         push @prog, '--no-adjust';
