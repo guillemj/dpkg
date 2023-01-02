@@ -427,7 +427,7 @@ sub _add_build_flags {
     ## Area: hardening
 
     # PIE
-    my $use_pie = $flags->use_feature('hardening', 'pie');
+    my $use_pie = $flags->get_feature('hardening', 'pie');
     my %hardening_builtins = $flags->get_builtins('hardening');
     if (defined $use_pie && $use_pie && ! $hardening_builtins{pie}) {
 	my $flag = "-specs=$Dpkg::DATADIR/pie-compile.specs";
