@@ -55,9 +55,9 @@ This is a deprecated alias for Dpkg::BuildInfo::get_build_env_allowed().
 =cut
 
 sub get_build_env_allowed {
-    warnings::warnif('deprecated',
-        'Dpkg::Build::Info::get_build_env_allowed() is deprecated, ' .
-        'use Dpkg::BuildInfo::get_build_env_allowed() instead');
+    #warnings::warnif('deprecated',
+    #    'Dpkg::Build::Info::get_build_env_allowed() is deprecated, ' .
+    #    'use Dpkg::BuildInfo::get_build_env_allowed() instead');
     return Dpkg::BuildInfo::get_build_env_allowed();
 }
 

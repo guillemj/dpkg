@@ -153,9 +153,9 @@ getters instead.
 sub compression_get_property {
     my ($comp, $property) = @_;
 
-    warnings::warnif('deprecated',
-        'Dpkg::Compression::compression_get_property() is deprecated, ' .
-        'use one of the specialized getters instead');
+    #warnings::warnif('deprecated',
+    #    'Dpkg::Compression::compression_get_property() is deprecated, ' .
+    #    'use one of the specialized getters instead');
     return unless compression_is_supported($comp);
     return $COMP{$comp}{$property} if exists $COMP{$comp}{$property};
     return;
