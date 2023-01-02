@@ -793,6 +793,11 @@ compress_xz(struct compress_params *params, int fd_in, int fd_out,
 		command_add_arg(&cmd, "-e");
 
 	if (params->threads_max > 0) {
+		/* Do not generate warnings when adjusting memory usage, nor
+		 * exit with non-zero due to those not emitted warnings. */
+		command_add_arg(&cmd, "--quiet");
+		command_add_arg(&cmd, "--no-warn");
+
 		/* Do not let xz fallback to single-threaded mode, to avoid
 		 * non-reproducible output. */
 		command_add_arg(&cmd, "--no-adjust");
