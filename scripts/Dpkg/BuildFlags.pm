@@ -19,7 +19,7 @@ package Dpkg::BuildFlags;
 use strict;
 use warnings;
 
-our $VERSION = '1.05';
+our $VERSION = '1.06';
 
 use Dpkg ();
 use Dpkg::Gettext;
@@ -278,6 +278,22 @@ are "future", "qa", "sanitize", "optimize", "hardening" and "reproducible".
 sub set_feature {
     my ($self, $area, $feature, $enabled) = @_;
     $self->{features}{$area}{$feature} = $enabled;
+}
+
+=item $bf->get_feature($area, $feature)
+
+Returns the value for the given feature within a known feature area.
+This is relevant for builtin features where the feature has a ternary
+state of true, false and undef, and where the latter cannot be retrieved
+with use_feature().
+
+=cut
+
+sub get_feature {
+    my ($self, $area, $feature) = @_;
+
+    return if ! $self->has_features($area);
+    return $self->{features}{$area}{$feature};
 }
 
 =item $bf->use_feature($area, $feature)
@@ -551,6 +567,10 @@ sub list {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.06 (dpkg 1.21.15)
+
+New method: $bf->get_feature().
 
 =head2 Version 1.05 (dpkg 1.21.14)
 
