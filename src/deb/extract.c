@@ -53,15 +53,16 @@
 static void
 movecontrolfiles(const char *dir, const char *thing)
 {
-  char buf[200];
+  char *cmd;
   pid_t pid;
 
-  sprintf(buf, "mv %s/%s/* %s/ && rmdir %s/%s", dir, thing, dir, dir, thing);
+  cmd = str_fmt("mv %s/%s/* %s/ && rmdir %s/%s", dir, thing, dir, dir, thing);
   pid = subproc_fork();
   if (pid == 0) {
-    command_shell(buf, _("shell command to move files"));
+    command_shell(cmd, _("shell command to move files"));
   }
   subproc_reap(pid, _("shell command to move files"), 0);
+  free(cmd);
 }
 
 static void DPKG_ATTR_NORET
