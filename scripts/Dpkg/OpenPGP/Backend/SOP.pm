@@ -28,8 +28,6 @@ use Dpkg::OpenPGP::ErrorCodes;
 
 use parent qw(Dpkg::OpenPGP::Backend);
 
-# - Once "sqop" fixes armor idempotency, add as alternative.
-#   Ref: https://gitlab.com/sequoia-pgp/sequoia-sop/-/issues/20
 # - Once "gosop" implements inline-verify and inline-sign, add as alternative.
 #   Ref: https://github.com/ProtonMail/gosop/issues/6
 # - Once "hop" implements the new SOP draft, add as alternative.
@@ -42,7 +40,7 @@ use parent qw(Dpkg::OpenPGP::Backend);
 #   Ref: https://gitlab.com/dkg/openpgp-stateless-cli/-/issues/42
 
 sub DEFAULT_CMD {
-    return [ qw(pgpainless-cli) ];
+    return [ qw(sqop pgpainless-cli) ];
 }
 
 sub _sop_exec

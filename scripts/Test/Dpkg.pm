@@ -188,6 +188,7 @@ sub test_needs_openpgp_backend
     my @backends = qw(
         gpg
         sq
+        sqop
         pgpainless-cli
     );
     my @cmds = grep { can_run($_) } @backends;

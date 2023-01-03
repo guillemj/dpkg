@@ -29,6 +29,7 @@ my %backend_cmd = (
     auto => 'auto',
     gpg => 'gpg',
     sq => 'sq',
+    sqop => 'sop',
     'pgpainless-cli' => 'sop',
 );
 my @cmds = test_needs_openpgp_backend();
