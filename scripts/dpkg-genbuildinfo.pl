@@ -285,9 +285,9 @@ sub is_cross_executable {
         nocheck => 1,
     );
     if ($?) {
-       print { *STDOUT } $stdout;
-       print { *STDERR } $stderr;
-       subprocerr("$CC -w -x c -");
+        print { *STDOUT } $stdout;
+        print { *STDERR } $stderr;
+        subprocerr("$CC -w -x c -");
     }
     close $tmpfh;
     spawn(
