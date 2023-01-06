@@ -378,12 +378,12 @@ if $maint is defined and true.
 
 sub strip {
     my ($self, $flag, $value, $src, $maint) = @_;
-    foreach my $tostrip (split(/\s+/, $value)) {
-	next unless length $tostrip;
-	$self->{flags}->{$flag} =~ s/(^|\s+)\Q$tostrip\E(\s+|$)/ /g;
-    }
-    $self->{flags}->{$flag} =~ s/^\s+//g;
-    $self->{flags}->{$flag} =~ s/\s+$//g;
+
+    my %strip = map { $_ => 1 } split /\s+/, $value;
+
+    $self->{flags}->{$flag} = join q{ }, grep {
+        ! exists $strip{$_}
+    } split q{ }, $self->{flags}{$flag};
     $self->{origin}->{$flag} = $src if defined $src;
     $self->{maintainer}->{$flag} = $maint if $maint;
 }

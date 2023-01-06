@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 28;
+use Test::More tests => 34;
 
 BEGIN {
     $ENV{DEB_BUILD_ARCH} = 'amd64';
@@ -38,6 +38,41 @@ $bf->strip('DPKGFLAGS', '-On', 'user', undef);
 is($bf->get('DPKGFLAGS'), '-Wflag -fsome', 'get stripped flag');
 is($bf->get_origin('DPKGFLAGS'), 'user', 'flag has a user origin');
 ok(!$bf->is_maintainer_modified('DPKGFLAGS'), 'strip marked flag as non-maint modified');
+
+my @strip_tests = (
+    {
+        value => '-fsingle',
+        strip => '-fsingle',
+        exp => '',
+    }, {
+        value => '-fdupe -fdupe',
+        strip => '-fdupe',
+        exp => '',
+    }, {
+        value => '-Wa -fdupe -fdupe -Wb',
+        strip => '-fdupe',
+        exp => '-Wa -Wb',
+    }, {
+        value => '-fdupe -Wa -Wb -fdupe',
+        strip => '-fdupe',
+        exp => '-Wa -Wb',
+    }, {
+        value => '-fdupe -Wa -fdupe -Wb',
+        strip => '-fdupe',
+        exp => '-Wa -Wb',
+    }, {
+        value => '-Wa -fdupe -Wb -fdupe',
+        strip => '-fdupe',
+        exp => '-Wa -Wb',
+    }
+);
+
+foreach my $test (@strip_tests) {
+    $bf->set('DPKGSTRIPFLAGS', $test->{value}, 'system');
+    $bf->strip('DPKGSTRIPFLAGS', $test->{strip}, 'user', undef);
+    is($bf->get('DPKGSTRIPFLAGS'), $test->{exp},
+        "strip flag '$test->{strip}' from '$test->{value}' to '$test->{exp}'");
+}
 
 $bf->append('DPKGFLAGS', '-Wl,other', 'vendor', 0);
 is($bf->get('DPKGFLAGS'), '-Wflag -fsome -Wl,other', 'get appended flag');
