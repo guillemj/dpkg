@@ -106,9 +106,10 @@ enum dpkg_stream_filter {
 	DPKG_STREAM_DECOMPRESS	= 2,
 };
 
-enum dpkg_stream_status {
+enum dpkg_stream_action {
 	DPKG_STREAM_INIT	= 0,
 	DPKG_STREAM_RUN		= 1,
+	DPKG_STREAM_FINISH	= 2,
 };
 #endif
 
@@ -493,8 +494,7 @@ struct io_lzma {
 	struct compress_params *params;
 
 	enum dpkg_stream_filter filter;
-	enum dpkg_stream_status status;
-	lzma_action action;
+	enum dpkg_stream_action action;
 
 	void (*init)(struct io_lzma *io, lzma_stream *s);
 	int (*code)(struct io_lzma *io, lzma_stream *s);
@@ -511,33 +511,33 @@ dpkg_lzma_strerror(struct io_lzma *io, lzma_ret code)
 	case LZMA_MEM_ERROR:
 		return strerror(ENOMEM);
 	case LZMA_MEMLIMIT_ERROR:
-		if (io->status == DPKG_STREAM_RUN)
+		if (io->action == DPKG_STREAM_RUN)
 			return _("memory usage limit reached");
 		return impossible;
 	case LZMA_OPTIONS_ERROR:
 		if (io->filter == DPKG_STREAM_COMPRESS &&
-		    io->status == DPKG_STREAM_INIT)
+		    io->action == DPKG_STREAM_INIT)
 			return _("unsupported compression preset");
 		if (io->filter == DPKG_STREAM_DECOMPRESS &&
-		    io->status == DPKG_STREAM_RUN)
+		    io->action == DPKG_STREAM_RUN)
 			return _("unsupported options in file header");
 		return impossible;
 	case LZMA_DATA_ERROR:
-		if (io->status == DPKG_STREAM_RUN)
+		if (io->action == DPKG_STREAM_RUN)
 			return _("compressed data is corrupt");
 		return impossible;
 	case LZMA_BUF_ERROR:
-		if (io->status == DPKG_STREAM_RUN)
+		if (io->action == DPKG_STREAM_RUN)
 			return _("unexpected end of input");
 		return impossible;
 	case LZMA_FORMAT_ERROR:
 		if (io->filter == DPKG_STREAM_DECOMPRESS &&
-		    io->status == DPKG_STREAM_RUN)
+		    io->action == DPKG_STREAM_RUN)
 			return _("file format not recognized");
 		return impossible;
 	case LZMA_UNSUPPORTED_CHECK:
 		if (io->filter == DPKG_STREAM_COMPRESS &&
-		    io->status == DPKG_STREAM_INIT)
+		    io->action == DPKG_STREAM_INIT)
 			return _("unsupported type of integrity check");
 		return impossible;
 	default:
@@ -560,20 +560,19 @@ filter_lzma(struct io_lzma *io, int fd_in, int fd_out)
 	s.next_out = buf_out;
 	s.avail_out = buf_size;
 
-	io->action = LZMA_RUN;
-	io->status = DPKG_STREAM_INIT;
+	io->action = DPKG_STREAM_INIT;
 	io->init(io, &s);
-	io->status = DPKG_STREAM_RUN;
+	io->action = DPKG_STREAM_RUN;
 
 	do {
 		ssize_t len;
 
-		if (s.avail_in == 0 && io->action != LZMA_FINISH) {
+		if (s.avail_in == 0 && io->action != DPKG_STREAM_FINISH) {
 			len = fd_read(fd_in, buf_in, buf_size);
 			if (len < 0)
 				ohshite(_("%s: lzma read error"), io->desc);
 			if (len == 0)
-				io->action = LZMA_FINISH;
+				io->action = DPKG_STREAM_FINISH;
 			s.next_in = buf_in;
 			s.avail_in = len;
 		}
@@ -724,8 +723,16 @@ static int
 filter_lzma_code(struct io_lzma *io, lzma_stream *s)
 {
 	lzma_ret ret;
+	lzma_action action;
 
-	ret = lzma_code(s, io->action);
+	if (io->action == DPKG_STREAM_RUN)
+		action = LZMA_RUN;
+	else if (io->action == DPKG_STREAM_FINISH)
+		action = LZMA_FINISH;
+	else
+		internerr("unknown stream filter action %d\n", io->action);
+
+	ret = lzma_code(s, action);
 	if (ret != LZMA_OK && ret != LZMA_STREAM_END)
 		filter_lzma_error(io, ret);
 
