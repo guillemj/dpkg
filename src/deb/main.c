@@ -187,13 +187,7 @@ parse_compress_level(const char *str)
 static void
 set_compress_level(const struct cmdinfo *cip, const char *value)
 {
-  long level;
-
-  level = dpkg_options_parse_arg_int(cip, value);
-  if (level < 0 || level > 9)
-    badusage(_("invalid compression level for -%c: %ld"), cip->oshort, level);
-
-  compress_params.level = level;
+  compress_params.level = dpkg_options_parse_arg_int(cip, value);
 }
 
 static void

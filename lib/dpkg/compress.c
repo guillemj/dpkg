@@ -1028,6 +1028,12 @@ compressor_check_params(struct compress_params *params, struct dpkg_error *err)
 {
 	compressor_fixup_params(params);
 
+	if (params->level > 9) {
+		dpkg_put_error(err, _("invalid compression level %d"),
+		               params->level);
+		return false;
+	}
+
 	if (params->strategy == COMPRESSOR_STRATEGY_NONE)
 		return true;
 
