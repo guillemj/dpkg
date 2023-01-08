@@ -100,6 +100,18 @@ command_decompress_init(struct command *cmd, const char *name, const char *desc)
 }
 #endif
 
+#if defined(WITH_LIBLZMA)
+enum dpkg_stream_filter {
+	DPKG_STREAM_COMPRESS	= 1,
+	DPKG_STREAM_DECOMPRESS	= 2,
+};
+
+enum dpkg_stream_status {
+	DPKG_STREAM_INIT	= 0,
+	DPKG_STREAM_RUN		= 1,
+};
+#endif
+
 struct compressor {
 	const char *name;
 	const char *extension;
@@ -475,19 +487,12 @@ static const struct compressor compressor_bzip2 = {
 #define XZ		"xz"
 
 #ifdef WITH_LIBLZMA
-enum dpkg_stream_status {
-	DPKG_STREAM_INIT	= DPKG_BIT(1),
-	DPKG_STREAM_RUN		= DPKG_BIT(2),
-	DPKG_STREAM_COMPRESS	= DPKG_BIT(3),
-	DPKG_STREAM_DECOMPRESS	= DPKG_BIT(4),
-	DPKG_STREAM_FILTER	= DPKG_STREAM_COMPRESS | DPKG_STREAM_DECOMPRESS,
-};
-
 struct io_lzma {
 	const char *desc;
 
 	struct compress_params *params;
 
+	enum dpkg_stream_filter filter;
 	enum dpkg_stream_status status;
 	lzma_action action;
 
@@ -506,29 +511,33 @@ dpkg_lzma_strerror(struct io_lzma *io, lzma_ret code)
 	case LZMA_MEM_ERROR:
 		return strerror(ENOMEM);
 	case LZMA_MEMLIMIT_ERROR:
-		if (io->status & DPKG_STREAM_RUN)
+		if (io->status == DPKG_STREAM_RUN)
 			return _("memory usage limit reached");
 		return impossible;
 	case LZMA_OPTIONS_ERROR:
-		if (io->status == (DPKG_STREAM_INIT | DPKG_STREAM_COMPRESS))
+		if (io->filter == DPKG_STREAM_COMPRESS &&
+		    io->status == DPKG_STREAM_INIT)
 			return _("unsupported compression preset");
-		if (io->status == (DPKG_STREAM_RUN | DPKG_STREAM_DECOMPRESS))
+		if (io->filter == DPKG_STREAM_DECOMPRESS &&
+		    io->status == DPKG_STREAM_RUN)
 			return _("unsupported options in file header");
 		return impossible;
 	case LZMA_DATA_ERROR:
-		if (io->status & DPKG_STREAM_RUN)
+		if (io->status == DPKG_STREAM_RUN)
 			return _("compressed data is corrupt");
 		return impossible;
 	case LZMA_BUF_ERROR:
-		if (io->status & DPKG_STREAM_RUN)
+		if (io->status == DPKG_STREAM_RUN)
 			return _("unexpected end of input");
 		return impossible;
 	case LZMA_FORMAT_ERROR:
-		if (io->status == (DPKG_STREAM_RUN | DPKG_STREAM_DECOMPRESS))
+		if (io->filter == DPKG_STREAM_DECOMPRESS &&
+		    io->status == DPKG_STREAM_RUN)
 			return _("file format not recognized");
 		return impossible;
 	case LZMA_UNSUPPORTED_CHECK:
-		if (io->status == (DPKG_STREAM_INIT | DPKG_STREAM_COMPRESS))
+		if (io->filter == DPKG_STREAM_COMPRESS &&
+		    io->status == DPKG_STREAM_INIT)
 			return _("unsupported type of integrity check");
 		return impossible;
 	default:
@@ -554,7 +563,7 @@ filter_lzma(struct io_lzma *io, int fd_in, int fd_out)
 	io->action = LZMA_RUN;
 	io->status = DPKG_STREAM_INIT;
 	io->init(io, &s);
-	io->status = (io->status & DPKG_STREAM_FILTER) | DPKG_STREAM_RUN;
+	io->status = DPKG_STREAM_RUN;
 
 	do {
 		ssize_t len;
@@ -649,7 +658,7 @@ filter_unxz_init(struct io_lzma *io, lzma_stream *s)
 #endif
 	lzma_ret ret;
 
-	io->status |= DPKG_STREAM_DECOMPRESS;
+	io->filter = DPKG_STREAM_DECOMPRESS;
 
 #ifdef HAVE_LZMA_MT_DECODER
 	mt_options.memlimit_stop = UINT64_MAX;
@@ -681,7 +690,7 @@ filter_xz_init(struct io_lzma *io, lzma_stream *s)
 #endif
 	lzma_ret ret;
 
-	io->status |= DPKG_STREAM_COMPRESS;
+	io->filter = DPKG_STREAM_COMPRESS;
 
 	preset = io->params->level;
 	if (io->params->strategy == COMPRESSOR_STRATEGY_EXTREME)
@@ -842,7 +851,7 @@ filter_unlzma_init(struct io_lzma *io, lzma_stream *s)
 	uint64_t memlimit = UINT64_MAX;
 	lzma_ret ret;
 
-	io->status |= DPKG_STREAM_DECOMPRESS;
+	io->filter = DPKG_STREAM_DECOMPRESS;
 
 	ret = lzma_alone_decoder(s, memlimit);
 	if (ret != LZMA_OK)
@@ -856,7 +865,7 @@ filter_lzma_init(struct io_lzma *io, lzma_stream *s)
 	lzma_options_lzma options;
 	lzma_ret ret;
 
-	io->status |= DPKG_STREAM_COMPRESS;
+	io->filter = DPKG_STREAM_COMPRESS;
 
 	preset = io->params->level;
 	if (io->params->strategy == COMPRESSOR_STRATEGY_EXTREME)
