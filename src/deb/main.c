@@ -109,7 +109,7 @@ usage(const char *const *argv)
 "      --[no-]uniform-compression   Use the compression params on all members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when building.\n"
-"                                     Allowed types: gzip, xz, none.\n"
+"                                     Allowed types: gzip, xz, zstd, none.\n"
 "  -S<strategy>                     Set the compression strategy when building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
@@ -297,6 +297,7 @@ int main(int argc, const char *const *argv) {
   if (opt_uniform_compression &&
       (compress_params.type != COMPRESSOR_TYPE_NONE &&
        compress_params.type != COMPRESSOR_TYPE_GZIP &&
+       compress_params.type != COMPRESSOR_TYPE_ZSTD &&
        compress_params.type != COMPRESSOR_TYPE_XZ))
     badusage(_("unsupported compression type '%s' with uniform compression"),
              compressor_get_name(compress_params.type));

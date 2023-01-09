@@ -4,7 +4,7 @@
  *
  * Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2004 Scott James Remnant <scott@netsplit.com>
- * Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2023 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,13 @@
 #ifdef WITH_LIBLZMA
 #include <lzma.h>
 #endif
+#ifdef WITH_LIBZSTD
+#include <zstd.h>
+#define DPKG_ZSTD_MAX_LEVEL ZSTD_maxCLevel()
+#else
+#define DPKG_ZSTD_MAX_LEVEL 22
+#define ZSTD_CLEVEL_DEFAULT 3
+#endif
 #ifdef WITH_LIBBZ2
 #include <bzlib.h>
 #endif
@@ -50,6 +57,7 @@
 #include <dpkg/compress.h>
 #if USE_LIBZ_IMPL == USE_LIBZ_IMPL_NONE || \
     !defined(WITH_LIBLZMA) || \
+    !defined(WITH_LIBZSTD) || \
     !defined(WITH_LIBBZ2)
 #include <dpkg/subproc.h>
 
@@ -100,7 +108,7 @@ command_decompress_init(struct command *cmd, const char *name, const char *desc)
 }
 #endif
 
-#if defined(WITH_LIBLZMA)
+#if defined(WITH_LIBLZMA) || defined(WITH_LIBZSTD)
 enum dpkg_stream_filter {
 	DPKG_STREAM_COMPRESS	= 1,
 	DPKG_STREAM_DECOMPRESS	= 2,
@@ -962,6 +970,330 @@ static const struct compressor compressor_lzma = {
 };
 
 /*
+ * ZStandard compressor.
+ */
+
+#define ZSTD		"zstd"
+
+#ifdef WITH_LIBZSTD
+struct io_zstd_stream {
+	enum dpkg_stream_filter filter;
+	enum dpkg_stream_action action;
+	enum dpkg_stream_status status;
+
+	union {
+		ZSTD_CCtx *c;
+		ZSTD_DCtx *d;
+	} ctx;
+
+	const uint8_t *next_in;
+	size_t avail_in;
+	uint8_t *next_out;
+	size_t avail_out;
+};
+
+struct io_zstd {
+	const char *desc;
+
+	struct compress_params *params;
+
+	void (*init)(struct io_zstd *io, struct io_zstd_stream *s);
+	void (*code)(struct io_zstd *io, struct io_zstd_stream *s);
+	void (*done)(struct io_zstd *io, struct io_zstd_stream *s);
+};
+
+static void DPKG_ATTR_NORET
+filter_zstd_error(struct io_zstd *io, size_t ret)
+{
+	ohshit(_("%s: zstd error: %s"), io->desc, ZSTD_getErrorName(ret));
+}
+
+static uint32_t
+filter_zstd_get_cputhreads(struct compress_params *params)
+{
+	ZSTD_bounds workers;
+	long threads_max = 1;
+
+	/* The shared library has not been built with multi-threading. */
+	workers = ZSTD_cParam_getBounds(ZSTD_c_nbWorkers);
+	if (workers.upperBound == 0)
+		return 1;
+
+#ifdef _SC_NPROCESSORS_ONLN
+	threads_max = sysconf(_SC_NPROCESSORS_ONLN);
+	if (threads_max < 0)
+		return 1;
+#endif
+
+	if (params->threads_max >= 0)
+		return clamp(params->threads_max, 1, threads_max);
+
+	return threads_max;
+}
+
+static size_t
+filter_zstd_get_buf_in_size(struct io_zstd_stream *s)
+{
+	if (s->filter == DPKG_STREAM_DECOMPRESS)
+		return ZSTD_DStreamInSize();
+	else
+		return ZSTD_CStreamInSize();
+}
+
+static size_t
+filter_zstd_get_buf_out_size(struct io_zstd_stream *s)
+{
+	if (s->filter == DPKG_STREAM_DECOMPRESS)
+		return ZSTD_DStreamOutSize();
+	else
+		return ZSTD_CStreamOutSize();
+}
+
+static void
+filter_unzstd_init(struct io_zstd *io, struct io_zstd_stream *s)
+{
+	s->filter = DPKG_STREAM_DECOMPRESS;
+	s->action = DPKG_STREAM_RUN;
+	s->status = DPKG_STREAM_OK;
+
+	s->ctx.d = ZSTD_createDCtx();
+	if (s->ctx.d == NULL)
+		ohshit(_("%s: cannot create zstd decompression context"),
+		       io->desc);
+}
+
+static void
+filter_unzstd_code(struct io_zstd *io, struct io_zstd_stream *s)
+{
+	ZSTD_inBuffer buf_in = { s->next_in, s->avail_in, 0 };
+	ZSTD_outBuffer buf_out = { s->next_out, s->avail_out, 0 };
+	size_t ret;
+
+	ret = ZSTD_decompressStream(s->ctx.d, &buf_out, &buf_in);
+	if (ZSTD_isError(ret))
+		filter_zstd_error(io, ret);
+
+	s->next_in += buf_in.pos;
+	s->avail_in -= buf_in.pos;
+	s->next_out += buf_out.pos;
+	s->avail_out -= buf_out.pos;
+
+	if (ret == 0)
+		s->status = DPKG_STREAM_END;
+}
+
+static void
+filter_unzstd_done(struct io_zstd *io, struct io_zstd_stream *s)
+{
+	ZSTD_freeDCtx(s->ctx.d);
+}
+
+static void
+filter_zstd_init(struct io_zstd *io, struct io_zstd_stream *s)
+{
+	int clevel = io->params->level;
+	uint32_t nthreads;
+	size_t ret;
+
+	s->filter = DPKG_STREAM_COMPRESS;
+	s->action = DPKG_STREAM_RUN;
+	s->status = DPKG_STREAM_OK;
+
+	s->ctx.c = ZSTD_createCCtx();
+	if (s->ctx.c == NULL)
+		ohshit(_("%s: cannot create zstd compression context"),
+		       io->desc);
+
+	ret = ZSTD_CCtx_setParameter(s->ctx.c, ZSTD_c_compressionLevel, clevel);
+	if (ZSTD_isError(ret))
+		filter_zstd_error(io, ret);
+	ret = ZSTD_CCtx_setParameter(s->ctx.c, ZSTD_c_checksumFlag, 1);
+	if (ZSTD_isError(ret))
+		filter_zstd_error(io, ret);
+
+	nthreads = filter_zstd_get_cputhreads(io->params);
+	if (nthreads > 1)
+		ZSTD_CCtx_setParameter(s->ctx.c, ZSTD_c_nbWorkers, nthreads);
+}
+
+static void
+filter_zstd_code(struct io_zstd *io, struct io_zstd_stream *s)
+{
+	ZSTD_inBuffer buf_in = { s->next_in, s->avail_in, 0 };
+	ZSTD_outBuffer buf_out = { s->next_out, s->avail_out, 0 };
+	ZSTD_EndDirective action;
+	size_t ret;
+
+	if (s->action == DPKG_STREAM_FINISH)
+		action = ZSTD_e_end;
+	else
+		action = ZSTD_e_continue;
+
+	ret = ZSTD_compressStream2(s->ctx.c, &buf_out, &buf_in, action);
+	if (ZSTD_isError(ret))
+		filter_zstd_error(io, ret);
+
+	s->next_in += buf_in.pos;
+	s->avail_in -= buf_in.pos;
+	s->next_out += buf_out.pos;
+	s->avail_out -= buf_out.pos;
+
+	if (s->action == DPKG_STREAM_FINISH && ret == 0)
+		s->status = DPKG_STREAM_END;
+}
+
+static void
+filter_zstd_done(struct io_zstd *io, struct io_zstd_stream *s)
+{
+	ZSTD_freeCCtx(s->ctx.c);
+}
+
+static void
+filter_zstd(struct io_zstd *io, int fd_in, int fd_out)
+{
+	ssize_t buf_in_size;
+	ssize_t buf_out_size;
+	uint8_t *buf_in;
+	uint8_t *buf_out;
+	struct io_zstd_stream s = {
+		.action = DPKG_STREAM_INIT,
+	};
+
+	io->init(io, &s);
+
+	buf_in_size = filter_zstd_get_buf_in_size(&s);
+	buf_in = m_malloc(buf_in_size);
+	buf_out_size = filter_zstd_get_buf_out_size(&s);
+	buf_out = m_malloc(buf_out_size);
+
+	s.next_out = buf_out;
+	s.avail_out = buf_out_size;
+
+	do {
+		ssize_t len;
+
+		if (s.avail_in == 0 && s.action != DPKG_STREAM_FINISH) {
+			len = fd_read(fd_in, buf_in, buf_in_size);
+			if (len < 0)
+				ohshite(_("%s: zstd read error"), io->desc);
+			if (len < buf_in_size)
+				s.action = DPKG_STREAM_FINISH;
+			s.next_in = buf_in;
+			s.avail_in = len;
+		}
+
+		io->code(io, &s);
+
+		if (s.avail_out == 0 || s.status == DPKG_STREAM_END) {
+			len = fd_write(fd_out, buf_out, s.next_out - buf_out);
+			if (len < 0)
+				ohshite(_("%s: zstd write error"), io->desc);
+			s.next_out = buf_out;
+			s.avail_out = buf_out_size;
+		}
+	} while (s.status != DPKG_STREAM_END);
+
+	io->done(io, &s);
+
+	free(buf_in);
+	free(buf_out);
+
+	if (close(fd_out))
+		ohshite(_("%s: zstd close error"), io->desc);
+}
+
+static void
+decompress_zstd(struct compress_params *params, int fd_in, int fd_out,
+                const char *desc)
+{
+	struct io_zstd io;
+
+	io.init = filter_unzstd_init;
+	io.code = filter_unzstd_code;
+	io.done = filter_unzstd_done;
+	io.desc = desc;
+	io.params = params;
+
+	filter_zstd(&io, fd_in, fd_out);
+}
+
+static void
+compress_zstd(struct compress_params *params, int fd_in, int fd_out,
+              const char *desc)
+{
+	struct io_zstd io;
+
+	io.init = filter_zstd_init;
+	io.code = filter_zstd_code;
+	io.done = filter_zstd_done;
+	io.desc = desc;
+	io.params = params;
+
+	filter_zstd(&io, fd_in, fd_out);
+}
+#else
+static const char *env_zstd[] = {
+	"ZSTD_CLEVEL",
+	"ZSTD_NBTHREADS",
+	NULL,
+};
+
+static void
+decompress_zstd(struct compress_params *params, int fd_in, int fd_out,
+                const char *desc)
+{
+	struct command cmd;
+	char *threads_opt = NULL;
+
+	command_decompress_init(&cmd, ZSTD, desc);
+	command_add_arg(&cmd, "-q");
+
+	if (params->threads_max > 0) {
+		threads_opt = str_fmt("-T%d", params->threads_max);
+		command_add_arg(&cmd, threads_opt);
+	}
+
+	fd_fd_filter(&cmd, fd_in, fd_out, env_zstd);
+
+	command_destroy(&cmd);
+	free(threads_opt);
+}
+
+static void
+compress_zstd(struct compress_params *params, int fd_in, int fd_out,
+              const char *desc)
+{
+	struct command cmd;
+	char *threads_opt = NULL;
+
+	command_compress_init(&cmd, ZSTD, desc, params->level);
+	command_add_arg(&cmd, "-q");
+
+	if (params->level > 19)
+		command_add_arg(&cmd, "--ultra");
+
+	if (params->threads_max > 0) {
+		threads_opt = str_fmt("-T%d", params->threads_max);
+		command_add_arg(&cmd, threads_opt);
+	}
+
+	fd_fd_filter(&cmd, fd_in, fd_out, env_zstd);
+
+	command_destroy(&cmd);
+	free(threads_opt);
+}
+#endif
+
+static const struct compressor compressor_zstd = {
+	.name = "zstd",
+	.extension = ".zst",
+	.default_level = ZSTD_CLEVEL_DEFAULT,
+	.fixup_params = fixup_none_params,
+	.compress = compress_zstd,
+	.decompress = decompress_zstd,
+};
+
+/*
  * Generic compressor filter.
  */
 
@@ -969,6 +1301,7 @@ static const struct compressor *compressor_array[] = {
 	[COMPRESSOR_TYPE_NONE] = &compressor_none,
 	[COMPRESSOR_TYPE_GZIP] = &compressor_gzip,
 	[COMPRESSOR_TYPE_XZ] = &compressor_xz,
+	[COMPRESSOR_TYPE_ZSTD] = &compressor_zstd,
 	[COMPRESSOR_TYPE_BZIP2] = &compressor_bzip2,
 	[COMPRESSOR_TYPE_LZMA] = &compressor_lzma,
 };
@@ -1053,7 +1386,10 @@ compressor_check_params(struct compress_params *params, struct dpkg_error *err)
 {
 	compressor_fixup_params(params);
 
-	if (params->level > 9) {
+	if ((params->type == COMPRESSOR_TYPE_ZSTD &&
+	     params->level > DPKG_ZSTD_MAX_LEVEL) ||
+	    (params->type != COMPRESSOR_TYPE_ZSTD &&
+	     params->level > 9)) {
 		dpkg_put_error(err, _("invalid compression level %d"),
 		               params->level);
 		return false;

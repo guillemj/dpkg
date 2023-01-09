@@ -45,6 +45,7 @@ libdpkg_la_LIBADD += \
 	$(LIBINTL) \
 	$(Z_LIBS) \
 	$(LZMA_LIBS) \
+	$(ZSTD_LIBS) \
 	$(BZ2_LIBS) \
 	# EOL
 endif

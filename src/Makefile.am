@@ -100,6 +100,7 @@ dpkg_deb_LDADD = \
 	$(LDADD) \
 	$(Z_LIBS) \
 	$(LZMA_LIBS) \
+	$(ZSTD_LIBS) \
 	$(BZ2_LIBS) \
 	# EOL
 

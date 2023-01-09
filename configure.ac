@@ -97,6 +97,7 @@ DPKG_LIB_MD
 DPKG_LIB_Z
 DPKG_LIB_BZ2
 DPKG_LIB_LZMA
+DPKG_LIB_ZSTD
 DPKG_LIB_SELINUX
 AS_IF([test "x$build_dselect" = "xyes"], [
   DPKG_LIB_CURSES
@@ -287,6 +288,7 @@ Configuration:
     libmd . . . . . . . . . . . . : $have_libmd
     libz  . . . . . . . . . . . . : $have_libz_impl
     liblzma . . . . . . . . . . . : $have_liblzma
+    libzstd . . . . . . . . . . . : $have_libzstd
     libbz2  . . . . . . . . . . . : $have_libbz2
     libcurses . . . . . . . . . . : ${have_libcurses:-no}
 CONFIG

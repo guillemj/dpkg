@@ -169,6 +169,7 @@ AT_KEYWORDS([dpkg-deb deb])
 
 AT_SKIP_IF([! command -v xz >/dev/null])
 AT_SKIP_IF([! command -v gzip >/dev/null])
+AT_SKIP_IF([! command -v zstd >/dev/null])
 AT_SKIP_IF([! command -v bzip2 >/dev/null])
 AT_SKIP_IF([! command -v lzma >/dev/null])
 
@@ -198,6 +199,8 @@ gzip -c control.tar >control.tar.gz
 gzip -c data.tar >data.tar.gz
 xz -c control.tar >control.tar.xz
 xz -c data.tar >data.tar.xz
+zstd -c control.tar >control.tar.zst
+zstd -c data.tar >data.tar.zst
 bzip2 -c data.tar >data.tar.bz2
 lzma -c data.tar >data.tar.lzma
 touch _ignore
@@ -442,6 +445,19 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 ])
 
 AT_CHECK([
+# Test control.tar.zst member
+ar rc pkg-control-zst.deb debian-binary control.tar.zst data.tar.zst
+ar t pkg-control-zst.deb
+dpkg-deb -c pkg-control-zst.deb
+], [], [debian-binary
+control.tar.zst
+data.tar.zst
+drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root    641345 1970-01-01 00:00 ./ChangeLog.old
+-rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
+])
+
+AT_CHECK([
 # Test data.tar member
 ar rc pkg-data-none.deb debian-binary control.tar.gz data.tar
 ar t pkg-data-none.deb
@@ -475,6 +491,19 @@ dpkg-deb -c pkg-data-xz.deb
 ], [], [debian-binary
 control.tar.gz
 data.tar.xz
+drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root    641345 1970-01-01 00:00 ./ChangeLog.old
+-rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
+])
+
+AT_CHECK([
+# Test data.tar.zst member
+ar rc pkg-data-zst.deb debian-binary control.tar.gz data.tar.zst
+ar t pkg-data-zst.deb
+dpkg-deb -c pkg-data-zst.deb
+], [], [debian-binary
+control.tar.gz
+data.tar.zst
 drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 -rw-r--r-- root/root    641345 1970-01-01 00:00 ./ChangeLog.old
 -rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
@@ -556,6 +585,15 @@ dpkg-deb --ctrl-tarfile pkg-comp-xz.deb >ctrl-xz.tar
 dpkg-deb --fsys-tarfile pkg-comp-xz.deb >fsys-xz.tar
 cmp ctrl-xz.tar control.tar
 cmp fsys-xz.tar data.tar
+])
+
+AT_CHECK([
+# Test building and extracting zstd compressed archive
+dpkg-deb --uniform-compression --root-owner-group -Zzstd -b pkg-templ pkg-comp-zstd.deb >/dev/null
+dpkg-deb --ctrl-tarfile pkg-comp-zstd.deb >ctrl-zstd.tar
+dpkg-deb --fsys-tarfile pkg-comp-zstd.deb >fsys-zstd.tar
+cmp ctrl-zstd.tar control.tar
+cmp fsys-zstd.tar data.tar
 ])
 
 AT_CLEANUP

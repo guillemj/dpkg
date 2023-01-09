@@ -254,8 +254,11 @@ The default for this field is “${Package}\t${Version}\n”.
 =item B<-z>I<compress-level>
 
 Specify which compression level to use on the compressor backend, when
-building a package (default is 9 for gzip, 6 for xz).
-The accepted values are 0-9 with: 0 being mapped to compressor none for gzip.
+building a package (default is 9 for gzip, 6 for xz, 3 for zstd).
+The accepted values are compressor specific.
+For gzip, from 0-9 with 0 being mapped to compressor none.
+For xz from 0-9.
+For zstd from 0-22, with levels from 20 to 22 enabling its ultra mode.
 Before dpkg 1.16.2 level 0 was equivalent to compressor none for all
 compressors.
 
@@ -270,6 +273,7 @@ gzip (since dpkg 1.17.0) and B<extreme> for xz.
 
 Specify which compression type to use when building a package.
 Allowed values are B<gzip>, B<xz> (since dpkg 1.15.6),
+B<zstd> (since dpkg 1.21.18)
 and B<none> (default is B<xz>).
 
 =item B<--[no-]uniform-compression>
@@ -278,8 +282,8 @@ Specify that the same compression parameters should be used for all archive
 members (i.e. B<control.tar> and B<data.tar>; since dpkg 1.17.6).
 Otherwise only the
 B<data.tar> member will use those parameters. The only supported
-compression types allowed to be uniformly used are B<none>, B<gzip>
-and B<xz>.
+compression types allowed to be uniformly used are B<none>, B<gzip>,
+B<xz> and B<zstd>.
 The B<--no-uniform-compression> option disables uniform compression
 (since dpkg 1.19.0).
 Uniform compression is the default (since dpkg 1.19.0).

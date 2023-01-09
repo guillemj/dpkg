@@ -108,6 +108,13 @@ AC_DEFUN([DPKG_LIB_LZMA], [
   ])
 ])# DPKG_LIB_LZMA
 
+# DPKG_LIB_ZSTD
+# ------------
+# Check for zstd library.
+AC_DEFUN([DPKG_LIB_ZSTD], [
+  DPKG_WITH_COMPRESS_LIB([zstd], [zstd.h], [ZSTD_compressStream2])
+])# DPKG_LIB_ZSTD
+
 # DPKG_LIB_BZ2
 # ------------
 # Check for bz2 library.
