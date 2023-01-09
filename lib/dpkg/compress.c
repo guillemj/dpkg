@@ -111,6 +111,12 @@ enum dpkg_stream_action {
 	DPKG_STREAM_RUN		= 1,
 	DPKG_STREAM_FINISH	= 2,
 };
+
+enum dpkg_stream_status {
+	DPKG_STREAM_OK,
+	DPKG_STREAM_END,
+	DPKG_STREAM_ERROR,
+};
 #endif
 
 struct compressor {
@@ -495,9 +501,10 @@ struct io_lzma {
 
 	enum dpkg_stream_filter filter;
 	enum dpkg_stream_action action;
+	enum dpkg_stream_status status;
 
 	void (*init)(struct io_lzma *io, lzma_stream *s);
-	int (*code)(struct io_lzma *io, lzma_stream *s);
+	void (*code)(struct io_lzma *io, lzma_stream *s);
 	void (*done)(struct io_lzma *io, lzma_stream *s);
 };
 
@@ -552,7 +559,6 @@ filter_lzma(struct io_lzma *io, int fd_in, int fd_out)
 	uint8_t *buf_out;
 	size_t buf_size = DPKG_BUFFER_SIZE;
 	lzma_stream s = LZMA_STREAM_INIT;
-	lzma_ret ret;
 
 	buf_in = m_malloc(buf_size);
 	buf_out = m_malloc(buf_size);
@@ -560,6 +566,7 @@ filter_lzma(struct io_lzma *io, int fd_in, int fd_out)
 	s.next_out = buf_out;
 	s.avail_out = buf_size;
 
+	io->status = DPKG_STREAM_OK;
 	io->action = DPKG_STREAM_INIT;
 	io->init(io, &s);
 	io->action = DPKG_STREAM_RUN;
@@ -577,16 +584,16 @@ filter_lzma(struct io_lzma *io, int fd_in, int fd_out)
 			s.avail_in = len;
 		}
 
-		ret = io->code(io, &s);
+		io->code(io, &s);
 
-		if (s.avail_out == 0 || ret == LZMA_STREAM_END) {
+		if (s.avail_out == 0 || io->status == DPKG_STREAM_END) {
 			len = fd_write(fd_out, buf_out, s.next_out - buf_out);
 			if (len < 0)
 				ohshite(_("%s: lzma write error"), io->desc);
 			s.next_out = buf_out;
 			s.avail_out = buf_size;
 		}
-	} while (ret != LZMA_STREAM_END);
+	} while (io->status != DPKG_STREAM_END);
 
 	io->done(io, &s);
 
@@ -719,7 +726,7 @@ filter_xz_init(struct io_lzma *io, lzma_stream *s)
 		filter_lzma_error(io, ret);
 }
 
-static int
+static void
 filter_lzma_code(struct io_lzma *io, lzma_stream *s)
 {
 	lzma_ret ret;
@@ -733,10 +740,11 @@ filter_lzma_code(struct io_lzma *io, lzma_stream *s)
 		internerr("unknown stream filter action %d\n", io->action);
 
 	ret = lzma_code(s, action);
-	if (ret != LZMA_OK && ret != LZMA_STREAM_END)
-		filter_lzma_error(io, ret);
 
-	return ret;
+	if (ret == LZMA_STREAM_END)
+		io->status = DPKG_STREAM_END;
+	else if (ret != LZMA_OK)
+		filter_lzma_error(io, ret);
 }
 
 static void
