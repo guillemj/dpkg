@@ -28,6 +28,7 @@ AT_DATA([pkg-deb-old-format/file-templ], [test
 AT_CHECK([
 # Initialize the template package
 mv pkg-deb-old-format pkg-old-templ
+cp -a $top_srcdir/ChangeLog.old pkg-old-templ/
 chmod -R u+w pkg-old-templ
 find pkg-old-templ | xargs touch -t 197001010100.00
 dpkg-deb --deb-format=0.939000 --root-owner-group -Zgzip -b pkg-old-templ >/dev/null
@@ -72,7 +73,7 @@ AT_CHECK([
 # Check old package metadata
 dpkg-deb -I pkg-old.deb | $SED -e 's/ *$//'
 ], [], [ old Debian package, version 0.939000.
- size 421 bytes: control archive=274, main archive=134.
+ size 174621 bytes: control archive=274, main archive=174334.
      201 bytes,     7 lines      control
  Package: pkg-deb-old-format
  Version: 0.0-1
@@ -87,7 +88,7 @@ AT_CHECK([
 # Check old package metadata
 dpkg-deb -I pkg-old-0931.deb | $SED -e 's/ *$//'
 ], [], [ old Debian package, version 0.931000.
- size 449 bytes: control archive=291, main archive=145.
+ size 175522 bytes: control archive=291, main archive=175218.
      201 bytes,     7 lines      control
  Package: pkg-deb-old-format
  Version: 0.0-1
@@ -102,7 +103,7 @@ AT_CHECK([
 # Check old package metadata
 dpkg-deb -I pkg-old-0932.deb | $SED -e 's/ *$//'
 ], [], [ old Debian package, version 0.932000.
- size 449 bytes: control archive=291, main archive=145.
+ size 175522 bytes: control archive=291, main archive=175218.
      201 bytes,     7 lines      control
  Package: pkg-deb-old-format
  Version: 0.0-1
@@ -117,7 +118,7 @@ AT_CHECK([
 # Check old package metadata
 dpkg-deb -I pkg-old-0933.deb | $SED -e 's/ *$//'
 ], [], [ old Debian package, version 0.933000.
- size 449 bytes: control archive=291, main archive=145.
+ size 175522 bytes: control archive=291, main archive=175218.
      201 bytes,     7 lines      control
  Package: pkg-deb-old-format
  Version: 0.0-1
@@ -132,6 +133,7 @@ AT_CHECK([
 # Check old package contents
 dpkg-deb -c pkg-old.deb
 ], [], [drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root    641345 1970-01-01 00:00 ./ChangeLog.old
 -rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
 ])
 
@@ -139,6 +141,7 @@ AT_CHECK([
 # Check old package contents
 dpkg-deb -c pkg-old-0931.deb
 ], [], [drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root    641345 1970-01-01 00:00 ./ChangeLog.old
 -rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
 ])
 
@@ -146,6 +149,7 @@ AT_CHECK([
 # Check old package contents
 dpkg-deb -c pkg-old-0932.deb
 ], [], [drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root    641345 1970-01-01 00:00 ./ChangeLog.old
 -rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
 ])
 
@@ -153,6 +157,7 @@ AT_CHECK([
 # Check old package contents
 dpkg-deb -c pkg-old-0933.deb
 ], [], [drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root    641345 1970-01-01 00:00 ./ChangeLog.old
 -rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
 ])
 
@@ -182,6 +187,7 @@ AT_DATA([pkg-deb-format/file-templ], [test
 AT_CHECK([
 # Initialize the template package
 mv pkg-deb-format pkg-templ
+cp -a $top_srcdir/ChangeLog.old pkg-templ/
 chmod -R u+w pkg-templ
 find pkg-templ | xargs touch -t 197001010100.00
 dpkg-deb --uniform-compression --root-owner-group -Znone -b pkg-templ >/dev/null
@@ -211,7 +217,7 @@ dpkg-deb -I pkg-version-2x.deb | $SED -e 's/ *$//'
 control.tar
 data.tar
  new Debian package, version 2.999.
- size 20674 bytes: control archive=10240 bytes.
+ size 655554 bytes: control archive=10240 bytes.
      193 bytes,     7 lines      control
  Package: pkg-deb-format
  Version: 0.0-1
@@ -235,7 +241,7 @@ dpkg-deb -I pkg-magic-extra.deb | $SED -e 's/ *$//'
 control.tar
 data.tar
  new Debian package, version 2.0.
- size 20684 bytes: control archive=10240 bytes.
+ size 655564 bytes: control archive=10240 bytes.
      193 bytes,     7 lines      control
  Package: pkg-deb-format
  Version: 0.0-1
@@ -355,7 +361,7 @@ control.tar
 data.tar
 unknown
  new Debian package, version 2.0.
- size 20732 bytes: control archive=10240 bytes.
+ size 655612 bytes: control archive=10240 bytes.
      193 bytes,     7 lines      control
  Package: pkg-deb-format
  Version: 0.0-1
@@ -378,7 +384,7 @@ _ignore
 control.tar
 data.tar
  new Debian package, version 2.0.
- size 20732 bytes: control archive=10240 bytes.
+ size 655612 bytes: control archive=10240 bytes.
      193 bytes,     7 lines      control
  Package: pkg-deb-format
  Version: 0.0-1
@@ -411,7 +417,7 @@ dpkg-deb -I pkg-control-none.deb | $SED -e 's/ *$//'
 control.tar
 data.tar
  new Debian package, version 2.0.
- size 20672 bytes: control archive=10240 bytes.
+ size 655552 bytes: control archive=10240 bytes.
      193 bytes,     7 lines      control
  Package: pkg-deb-format
  Version: 0.0-1
@@ -431,6 +437,7 @@ dpkg-deb -c pkg-control-xz.deb
 control.tar.xz
 data.tar.xz
 drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root    641345 1970-01-01 00:00 ./ChangeLog.old
 -rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
 ])
 
@@ -443,6 +450,7 @@ dpkg-deb -c pkg-data-none.deb
 control.tar.gz
 data.tar
 drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root    641345 1970-01-01 00:00 ./ChangeLog.old
 -rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
 ])
 
@@ -455,6 +463,7 @@ dpkg-deb -c pkg-data-gz.deb
 control.tar.gz
 data.tar.gz
 drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root    641345 1970-01-01 00:00 ./ChangeLog.old
 -rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
 ])
 
@@ -467,6 +476,7 @@ dpkg-deb -c pkg-data-xz.deb
 control.tar.gz
 data.tar.xz
 drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root    641345 1970-01-01 00:00 ./ChangeLog.old
 -rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
 ])
 
@@ -479,6 +489,7 @@ dpkg-deb -c pkg-data-bz2.deb
 control.tar.gz
 data.tar.bz2
 drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root    641345 1970-01-01 00:00 ./ChangeLog.old
 -rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
 ])
 
@@ -491,6 +502,7 @@ dpkg-deb -c pkg-data-lzma.deb
 control.tar.gz
 data.tar.lzma
 drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root    641345 1970-01-01 00:00 ./ChangeLog.old
 -rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
 ])
 
@@ -505,7 +517,7 @@ dpkg-deb -c pkg-mixed-comp.deb
 control.tar.xz
 data.tar.gz
  new Debian package, version 2.0.
- size 682 bytes: control archive=336 bytes.
+ size 175756 bytes: control archive=336 bytes.
      193 bytes,     7 lines      control
  Package: pkg-deb-format
  Version: 0.0-1
@@ -515,7 +527,35 @@ data.tar.gz
  Architecture: all
  Description: test package - deb format support
 drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root    641345 1970-01-01 00:00 ./ChangeLog.old
 -rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
+])
+
+AT_CHECK([
+# Test building and extracting none compressed archive
+dpkg-deb --uniform-compression --root-owner-group -Znone -b pkg-templ pkg-comp-none.deb >/dev/null
+dpkg-deb --ctrl-tarfile pkg-comp-none.deb >ctrl-none.tar
+dpkg-deb --fsys-tarfile pkg-comp-none.deb >fsys-none.tar
+cmp ctrl-none.tar control.tar
+cmp fsys-none.tar data.tar
+])
+
+AT_CHECK([
+# Test building and extracting gzip compressed archive
+dpkg-deb --uniform-compression --root-owner-group -Zgzip -b pkg-templ pkg-comp-gzip.deb >/dev/null
+dpkg-deb --ctrl-tarfile pkg-comp-gzip.deb >ctrl-gzip.tar
+dpkg-deb --fsys-tarfile pkg-comp-gzip.deb >fsys-gzip.tar
+cmp ctrl-gzip.tar control.tar
+cmp fsys-gzip.tar data.tar
+])
+
+AT_CHECK([
+# Test building and extracting xz compressed archive
+dpkg-deb --uniform-compression --root-owner-group -Zxz -b pkg-templ pkg-comp-xz.deb >/dev/null
+dpkg-deb --ctrl-tarfile pkg-comp-xz.deb >ctrl-xz.tar
+dpkg-deb --fsys-tarfile pkg-comp-xz.deb >fsys-xz.tar
+cmp ctrl-xz.tar control.tar
+cmp fsys-xz.tar data.tar
 ])
 
 AT_CLEANUP
