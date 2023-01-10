@@ -1,8 +1,27 @@
-dpkg (1.21.18) UNRELEASED; urgency=medium
+dpkg (1.21.18) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * Perl modules:
+    - Dpkg::BuildFlags: Fix strip method to always work with duplicates.
+      Closes: #1028044
+  * Documentation:
+    - man: Add a note to dpkg-fsys-usrunmess(8) about Debian support.
+      Closes: #1008486
+  * Code internals:
+    - libdpkg: Move compression level max bound check from dpkg-deb.
+    - libdpkg: Switch dpkg_lzma_strerror() to use struct io_lzma.
+    - libdpkg: Split compression filter operation tracking from its status.
+    - libdpkg: Generalize compression stream action handling.
+    - libdpkg: Abstract compression stream status tracking.
+    - libdpkg: Add zstd support for .deb archives. Closes: #892664
+  * Build system:
+    - Update .mailmap mappings.
+  * Packaging:
+    - Update copyright years.
+  * Test suite:
+    - Add dpkg-deb build and extract tests.
 
- -- Guillem Jover <guillem@debian.org>  Thu, 05 Jan 2023 12:43:18 +0100
+ -- Guillem Jover <guillem@debian.org>  Tue, 10 Jan 2023 18:46:37 +0100
 
 dpkg (1.21.17) unstable; urgency=medium
 
