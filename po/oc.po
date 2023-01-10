@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.20.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-01-05 11:33+0000\n"
+"POT-Creation-Date: 2023-01-10 17:46+0000\n"
 "PO-Revision-Date: 2021-04-20 12:41+0200\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: Occitan\n"
@@ -313,6 +313,45 @@ msgstr "%s : error de tampadura LZMA"
 #, c-format
 msgid "%s: lzma error: %s"
 msgstr "%s : error LZMA : %s"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: lzma error: %s"
+msgid "%s: zstd error: %s"
+msgstr "%s : error LZMA : %s"
+
+#: lib/dpkg/compress.c
+#, c-format
+msgid "%s: cannot create zstd decompression context"
+msgstr ""
+
+#: lib/dpkg/compress.c
+#, c-format
+msgid "%s: cannot create zstd compression context"
+msgstr ""
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: lzma read error"
+msgid "%s: zstd read error"
+msgstr "%s : error de lectura LZMA"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: lzma write error"
+msgid "%s: zstd write error"
+msgstr "%s : error d'escritura LZMA"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: lzma close error"
+msgid "%s: zstd close error"
+msgstr "%s : error de tampadura LZMA"
+
+#: lib/dpkg/compress.c
+#, c-format
+msgid "invalid compression level %d"
+msgstr ""
 
 #: lib/dpkg/compress.c
 msgid "unknown compression strategy"
@@ -2530,7 +2569,7 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed types: gzip, xz, none.\n"
+"                                     Allowed types: gzip, xz, zstd, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
@@ -2575,11 +2614,6 @@ msgstr ""
 #: src/deb/main.c
 #, c-format
 msgid "unknown deb format version: %s"
-msgstr ""
-
-#: src/deb/main.c
-#, c-format
-msgid "invalid compression level for -%c: %ld"
 msgstr ""
 
 #: src/deb/main.c

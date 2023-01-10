@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-01-05 11:33+0000\n"
+"POT-Creation-Date: 2023-01-10 17:46+0000\n"
 "PO-Revision-Date: 2017-05-06 12:49+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -314,6 +314,48 @@ msgstr "%s: chyba lzma při zavírání"
 #, c-format
 msgid "%s: lzma error: %s"
 msgstr "%s: chyba lzma: %s"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: lzma error: %s"
+msgid "%s: zstd error: %s"
+msgstr "%s: chyba lzma: %s"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "cannot close decompressor pipe"
+msgid "%s: cannot create zstd decompression context"
+msgstr "nelze zavřít dekompresní rouru"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "cannot close decompressor pipe"
+msgid "%s: cannot create zstd compression context"
+msgstr "nelze zavřít dekompresní rouru"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: lzma read error"
+msgid "%s: zstd read error"
+msgstr "%s: chyba lzma při čtení"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: lzma write error"
+msgid "%s: zstd write error"
+msgstr "%s: chyba lzma při zápisu"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: lzma close error"
+msgid "%s: zstd close error"
+msgstr "%s: chyba lzma při zavírání"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "invalid compression level for -%c: %ld"
+msgid "invalid compression level %d"
+msgstr "neplatná úroveň komprese pro -%c: %ld"
 
 #: lib/dpkg/compress.c
 msgid "unknown compression strategy"
@@ -2740,7 +2782,7 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed types: gzip, xz, none.\n"
+"                                     Allowed types: gzip, xz, zstd, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
@@ -2814,11 +2856,6 @@ msgstr "neplatná verze formátu deb balíku: %s"
 #, c-format
 msgid "unknown deb format version: %s"
 msgstr "neznámá verze formátu deb balíku: „%s“"
-
-#: src/deb/main.c
-#, c-format
-msgid "invalid compression level for -%c: %ld"
-msgstr "neplatná úroveň komprese pro -%c: %ld"
 
 #: src/deb/main.c
 #, c-format

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-01-05 11:33+0000\n"
+"POT-Creation-Date: 2023-01-10 17:46+0000\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Håvard Korsvoll <korsvoll@skulelinux.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -334,6 +334,43 @@ msgid "%s: lzma error: %s"
 msgstr ""
 "%s: Feil ved behandling av %s (--%s):\n"
 " %s\n"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+msgid "%s: zstd error: %s"
+msgstr ""
+"%s: Feil ved behandling av %s (--%s):\n"
+" %s\n"
+
+#: lib/dpkg/compress.c
+#, c-format
+msgid "%s: cannot create zstd decompression context"
+msgstr ""
+
+#: lib/dpkg/compress.c
+#, c-format
+msgid "%s: cannot create zstd compression context"
+msgstr ""
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+msgid "%s: zstd read error"
+msgstr "%s: intern gzip-feil: «%s»"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+msgid "%s: zstd write error"
+msgstr "%s: intern gzip-feil: «%s»"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+msgid "%s: zstd close error"
+msgstr "%s: intern gzip-feil: «%s»"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+msgid "invalid compression level %d"
+msgstr "ugyldig heiltal for --%s: «%.250s»"
 
 #: lib/dpkg/compress.c
 #, fuzzy
@@ -2783,7 +2820,7 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed types: gzip, xz, none.\n"
+"                                     Allowed types: gzip, xz, zstd, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
@@ -2832,11 +2869,6 @@ msgstr "arkivet manglar punktum i versjonsnummeret"
 #, fuzzy, c-format
 msgid "unknown deb format version: %s"
 msgstr "ukjent val --%s"
-
-#: src/deb/main.c
-#, fuzzy, c-format
-msgid "invalid compression level for -%c: %ld"
-msgstr "ugyldig heiltal for --%s: «%.250s»"
 
 #: src/deb/main.c
 #, fuzzy, c-format

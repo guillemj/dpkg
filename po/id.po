@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-01-05 11:33+0000\n"
+"POT-Creation-Date: 2023-01-10 17:46+0000\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>\n"
 "Language-Team: Indonesian <debian-l10n-indonesian@lists.debian.org>\n"
@@ -345,6 +345,46 @@ msgstr ""
 #| msgid "%s: warning: %s\n"
 msgid "%s: lzma error: %s"
 msgstr "%s: peringatan: %s\n"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: warning: %s\n"
+msgid "%s: zstd error: %s"
+msgstr "%s: peringatan: %s\n"
+
+#: lib/dpkg/compress.c
+#, c-format
+msgid "%s: cannot create zstd decompression context"
+msgstr ""
+
+#: lib/dpkg/compress.c
+#, c-format
+msgid "%s: cannot create zstd compression context"
+msgstr ""
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error"
+msgid "%s: zstd read error"
+msgstr "%s: ada galat internal saat membaca gzip"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip write error"
+msgid "%s: zstd write error"
+msgstr "%s: ada galat internal saat menulis gzip"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "%s: internal gzip read error"
+msgid "%s: zstd close error"
+msgstr "%s: ada galat internal saat membaca gzip"
+
+#: lib/dpkg/compress.c
+#, fuzzy, c-format
+#| msgid "invalid compression level for -%c: %ld"
+msgid "invalid compression level %d"
+msgstr "tingkat kompresi untuk -%c tidak sah: %ld"
 
 #: lib/dpkg/compress.c
 #, fuzzy
@@ -2878,7 +2918,7 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed types: gzip, xz, none.\n"
+"                                     Allowed types: gzip, xz, zstd, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
@@ -2956,11 +2996,6 @@ msgstr "arsip tidak mengandung titik pada nomor versinya"
 #| msgid "unknown option '%s'"
 msgid "unknown deb format version: %s"
 msgstr "pilihan '%s' tak dikenal"
-
-#: src/deb/main.c
-#, c-format
-msgid "invalid compression level for -%c: %ld"
-msgstr "tingkat kompresi untuk -%c tidak sah: %ld"
 
 #: src/deb/main.c
 #, fuzzy, c-format
