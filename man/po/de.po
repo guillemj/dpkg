@@ -11,10 +11,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.21.16\n"
+"Project-Id-Version: dpkg-man 1.21.19\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2023-01-10 17:46+0000\n"
-"PO-Revision-Date: 2023-01-03 12:26+0100\n"
+"PO-Revision-Date: 2023-01-11 08:34+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -6880,18 +6880,6 @@ msgstr ""
 
 #. type: textblock
 #: deb.pod
-#, fuzzy
-#| msgid ""
-#| "The second required member is named B<control.tar>.  It is a tar archive "
-#| "containing the package control information, either not compressed "
-#| "(supported since dpkg 1.17.6), or compressed with gzip (with B<.gz> "
-#| "extension) or xz (with B<.xz> extension, supported since 1.17.6), as a "
-#| "series of plain files, of which the file B<control> is mandatory and "
-#| "contains the core control information, the B<md5sums>, B<conffiles>, "
-#| "B<triggers>, B<shlibs> and B<symbols> files contain optional control "
-#| "information, and the B<preinst>, B<postinst>, B<prerm> and B<postrm> "
-#| "files are optional maintainer scripts.  The control tarball may "
-#| "optionally contain an entry for ‘B<.>’, the current directory."
 msgid ""
 "The second required member is named B<control.tar>.  It is a tar archive "
 "containing the package control information, either not compressed (supported "
@@ -6908,7 +6896,8 @@ msgstr ""
 "Das zweite erforderliche Element heißt B<control.tar>. Es ist ein Tar-Archiv "
 "(entweder nicht komprimiert (wird seit Dpkg 1.17.6 unterstützt) oder mit "
 "Gzip (mit der Endung B<.gz>) bzw. Xz (mit der Endung B<.xz>, seit Dpkg "
-"1.17.6 unterstützt) komprimiert), das die Steuerinformationen als eine Reihe "
+"1.17.6 unterstützt) komprimiert) oder Zstd (mit der Endung B<.zst>, seit "
+"Dpkg 1.21.18 unterstützt), das die Steuerinformationen als eine Reihe "
 "von normalen Dateien enthält, von denen die Datei B<control> zwingend "
 "erforderlich ist und die Kern-Steuerinformationen enthält. Die Dateien "
 "B<md5sums>, B<conffiles>, B<triggers>, B<shlibs> und B<symbols> enthalten "
@@ -6919,14 +6908,6 @@ msgstr ""
 
 #. type: textblock
 #: deb.pod
-#, fuzzy
-#| msgid ""
-#| "The third, last required member is named B<data.tar>.  It contains the "
-#| "filesystem as a tar archive, either not compressed (supported since dpkg "
-#| "1.10.24), or compressed with gzip (with B<.gz> extension), xz (with B<."
-#| "xz> extension, supported since dpkg 1.15.6), bzip2 (with B<.bz2> "
-#| "extension, supported since dpkg 1.10.24) or lzma (with B<.lzma> "
-#| "extension, supported since dpkg 1.13.25)."
 msgid ""
 "The third, last required member is named B<data.tar>.  It contains the "
 "filesystem as a tar archive, either not compressed (supported since dpkg "
@@ -6938,8 +6919,9 @@ msgid ""
 msgstr ""
 "Das dritte, letzte zwingend benötigte Element heißt B<data.tar>. Es enthält "
 "das Dateisystem als Tar-Archiv, entweder unkomprimiert (seit Dpkg 1.10.24 "
-"unterstützt) oder mit gzip (Dateiendung B<.gz>), xz (Dateiendung B<.xz> seit "
-"Dpkg 1.15.6 unterstützt),bzip2 (Dateiendung B<.bz2>, seit Dpkg 1.10.24 "
+"unterstützt) oder mit gzip (Dateiendung B<.gz>), xz (Dateiendung B<.xz>, seit "
+"Dpkg 1.15.6 unterstützt), zstd (Dateiendung B<.zst>, seit Dpkg 1.21.18 "
+"unterstützt), bzip2 (Dateiendung B<.bz2>, seit Dpkg 1.10.24 "
 "unterstützt) oder lzma (Dateiendung B<.lzma>, seit Dpkg 1.13.25 unterstützt) "
 "komprimiert."
 
@@ -12548,12 +12530,6 @@ msgstr "B<-z>I<Komprimierstufe>"
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid ""
-#| "Specify which compression level to use on the compressor backend, when "
-#| "building a package (default is 9 for gzip, 6 for xz).  The accepted "
-#| "values are 0-9 with: 0 being mapped to compressor none for gzip.  Before "
-#| "dpkg 1.16.2 level 0 was equivalent to compressor none for all compressors."
 msgid ""
 "Specify which compression level to use on the compressor backend, when "
 "building a package (default is 9 for gzip, 6 for xz, 3 for zstd).  The "
@@ -12564,8 +12540,10 @@ msgid ""
 msgstr ""
 "Gibt die Komprimierstufe an, die im Komprimier-Backendprogramm beim Bau "
 "eines Pakets verwendet werden soll. Standardmäßig ist dies 9 für Gzip, 6 für "
-"Xz. Die akzeptierten Werte innerhalb von 0-9 sind: 0 wird auf den "
-"Komprimierer „none“ für Gzip einstellen. Vor Dpkg 1.16.2 war die Stufe 0 "
+"Xz, 3 für Zstd). Die akzeptierten Werte hängen vom Komprimierer ab. Für Gzip "
+"von 0-9, wobei 0 auf den Komprimierer „none“ abgebildet wird. Für Xz von 0-"
+"9. Für Zstd von 0-22, wobei die Stufen von 20-22 den Ultramodus "
+"aktivieren. Vor Dpkg 1.16.2 war die Stufe 0 "
 "äquivalent zu dem Komprimierer „none“ für alle Komprimierer."
 
 #. type: =item
@@ -12593,18 +12571,13 @@ msgstr "B<-Z>I<Komprimierart>"
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid ""
-#| "Specify which compression type to use when building a package.  Allowed "
-#| "values are B<gzip>, B<xz> (since dpkg 1.15.6), and B<none> (default is "
-#| "B<xz>)."
 msgid ""
 "Specify which compression type to use when building a package.  Allowed "
 "values are B<gzip>, B<xz> (since dpkg 1.15.6), B<zstd> (since dpkg 1.21.18)  "
 "and B<none> (default is B<xz>)."
 msgstr ""
 "Gibt die Art der Komprimierung beim Bau eines Pakets an. Erlaubte Werte sind "
-"B<gzip>, B<xz> (seit Dpkg 1.15.6) und B<none> (voreingestellt ist B<xz>)."
+"B<gzip>, B<xz> (seit Dpkg 1.15.6), B<zstd> (seit Dpkg 1.21.18) und B<none> (voreingestellt ist B<xz>)."
 
 #. type: =item
 #: dpkg-deb.pod
@@ -12613,15 +12586,6 @@ msgstr "B<--[no-]uniform-compression>"
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid ""
-#| "Specify that the same compression parameters should be used for all "
-#| "archive members (i.e. B<control.tar> and B<data.tar>; since dpkg "
-#| "1.17.6).  Otherwise only the B<data.tar> member will use those "
-#| "parameters. The only supported compression types allowed to be uniformly "
-#| "used are B<none>, B<gzip> and B<xz>.  The B<--no-uniform-compression> "
-#| "option disables uniform compression (since dpkg 1.19.0).  Uniform "
-#| "compression is the default (since dpkg 1.19.0)."
 msgid ""
 "Specify that the same compression parameters should be used for all archive "
 "members (i.e. B<control.tar> and B<data.tar>; since dpkg 1.17.6).  Otherwise "
@@ -12635,7 +12599,7 @@ msgstr ""
 "h. B<control.tar> und B<data.tar>; seit Dpkg 1.17.6) verwandt werden sollen. "
 "Andernfalls wird nur der Teil B<data.tar> diese Parameter verwenden. Die "
 "einzigen unterstützten Kompressionstypen, die übergreifend benutzt werden "
-"dürfen, sind B<none>, B<gzip> und B<xz>. Die Option B<--no-uniform-"
+"dürfen, sind B<none>, B<gzip>, B<xz> und B<zstd>. Die Option B<--no-uniform-"
 "compression> deaktiviert die übergreifende Komprimierung (seit Dpkg 1.19.0). "
 "Übergreifende Komprimierung ist die Vorgabe (seit Dpkg 1.19.0)."
 
@@ -13450,6 +13414,12 @@ msgid ""
 "some of its maintainers might not fix issues or intentionally remove non-"
 "usrmerged support, so you will need decide and pick your poison."
 msgstr ""
+"B<Hinweis>: Das technische Komitee von Debian hat verkündigt, dass nach der "
+"Veröffentlichung von Bookworm das Layout ohne vereinigtes usr (»non-"
+"usrmerged«) nicht mehr unterstützt wird. Daher könnten einige ihrer Betreuer "
+"Probleme nicht beheben oder bewusst Unterstützung für nicht zusammengeführte "
+"usr entfernen. Daher müssen Sie sich entscheiden und das Gift Ihrer Wahl "
+"wählen."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
