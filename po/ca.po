@@ -3,14 +3,14 @@
 # Antoni Bella <bella5@teleline.es>, 2001-2002.
 # Jordi Mallach <jordi@debian.org>, 2002-2006, 2008-2010, 2015.
 # Jordà Polo <jorda@ettin.org>, 2006.
-# Guillem Jover <guillem@debian.org>, 2006-2022.
+# Guillem Jover <guillem@debian.org>, 2006-2023.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.21.10\n"
+"Project-Id-Version: dpkg 1.21.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2023-01-10 17:46+0000\n"
-"PO-Revision-Date: 2022-12-01 12:08+0100\n"
+"PO-Revision-Date: 2023-01-11 23:20+0100\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
 "Language: ca\n"
@@ -317,46 +317,39 @@ msgid "%s: lzma error: %s"
 msgstr "%s: s'ha produït un error en lzma: %s"
 
 #: lib/dpkg/compress.c
-#, fuzzy, c-format
-#| msgid "%s: lzma error: %s"
+#, c-format
 msgid "%s: zstd error: %s"
-msgstr "%s: s'ha produït un error en lzma: %s"
+msgstr "%s: s'ha produït un error en zstd: %s"
 
 #: lib/dpkg/compress.c
-#, fuzzy, c-format
-#| msgid "cannot close decompressor pipe"
+#, c-format
 msgid "%s: cannot create zstd decompression context"
-msgstr "no es pot tancar el conducte de descompressió"
+msgstr "%s: no es pot crear el context de descompressió de zstd"
 
 #: lib/dpkg/compress.c
-#, fuzzy, c-format
-#| msgid "cannot close decompressor pipe"
+#, c-format
 msgid "%s: cannot create zstd compression context"
-msgstr "no es pot tancar el conducte de descompressió"
+msgstr "%s: no es pot crear el context de compressió de zstd"
 
 #: lib/dpkg/compress.c
-#, fuzzy, c-format
-#| msgid "%s: lzma read error"
+#, c-format
 msgid "%s: zstd read error"
-msgstr "%s: s'ha produït un error de lectura de lzma"
+msgstr "%s: s'ha produït un error de lectura de zstd"
 
 #: lib/dpkg/compress.c
-#, fuzzy, c-format
-#| msgid "%s: lzma write error"
+#, c-format
 msgid "%s: zstd write error"
-msgstr "%s: s'ha produït un error d'escriptura de lzma"
+msgstr "%s: s'ha produït un error d'escriptura de zstd"
 
 #: lib/dpkg/compress.c
-#, fuzzy, c-format
-#| msgid "%s: lzma close error"
+#, c-format
 msgid "%s: zstd close error"
-msgstr "%s: s'ha produït un error en tancar lzma"
+msgstr "%s: s'ha produït un error en tancar zstd"
 
 #: lib/dpkg/compress.c
-#, fuzzy, c-format
-#| msgid "invalid compression level for -%c: %ld"
+#, c-format
 msgid "invalid compression level %d"
-msgstr "nivell de compressió invàlid per a -%c: %ld"
+msgstr "el nivell de compressió %d no és vàlid"
 
 #: lib/dpkg/compress.c
 msgid "unknown compression strategy"
@@ -765,11 +758,10 @@ msgstr ""
 "no es pot establir emmagatzemament intermedi al fitxer de la base de dades %s"
 
 #: lib/dpkg/dump.c
-#, fuzzy, c-format
-#| msgid "failed to write %s database record about '%.50s' to '%.250s'"
+#, c-format
 msgid "failed to write %s database stanza about '%s' to '%s'"
 msgstr ""
-"no s'ha pogut escriure el registre de la base de dades %s sobre «%.50s» a "
+"no s'ha pogut escriure l'estrofa de la base de dades %s sobre «%.50s» a "
 "«%.250s»"
 
 #: lib/dpkg/ehandle.c utils/update-alternatives.c
@@ -828,7 +820,7 @@ msgstr "li manca un valor"
 #: lib/dpkg/fields.c
 #, c-format
 msgid "has invalid value '%.50s'"
-msgstr "hi ha un valor invàlid «%.50s»"
+msgstr "el valor «%.50s» no és vàlid"
 
 #: lib/dpkg/fields.c
 msgid "has trailing junk"
@@ -1717,7 +1709,7 @@ msgstr "la capçalera tar s'ha llegit parcialment"
 
 #: lib/dpkg/tarfn.c
 msgid "invalid tar header with empty name field"
-msgstr "la capçalera tar és invàlida amb un nom de camp buit"
+msgstr "la capçalera tar amb un nom de camp buit no és vàlida"
 
 #: lib/dpkg/tarfn.c
 #, c-format
@@ -2721,34 +2713,7 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  -v, --verbose                    Enable verbose output.\n"
-#| "  -D, --debug                      Enable debugging output.\n"
-#| "      --showformat=<format>        Use alternative format for --show.\n"
-#| "      --deb-format=<format>        Select archive format.\n"
-#| "                                     Allowed values: 0.939000, 2.0 "
-#| "(default).\n"
-#| "      --nocheck                    Suppress control file check (build "
-#| "bad\n"
-#| "                                     packages).\n"
-#| "      --root-owner-group           Forces the owner and groups to root.\n"
-#| "      --threads-max=<threads>      Use at most <threads> with "
-#| "compressor.\n"
-#| "      --[no-]uniform-compression   Use the compression params on all "
-#| "members.\n"
-#| "  -z#                              Set the compression level when "
-#| "building.\n"
-#| "  -Z<type>                         Set the compression type used when "
-#| "building.\n"
-#| "                                     Allowed types: gzip, xz, none.\n"
-#| "  -S<strategy>                     Set the compression strategy when "
-#| "building.\n"
-#| "                                     Allowed values: none; extreme (xz);\n"
-#| "                                     filtered, huffman, rle, fixed "
-#| "(gzip).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -2789,7 +2754,7 @@ msgstr ""
 "                               elements.\n"
 "  -z#                        Estableix el nivell de compressió.\n"
 "  -Z<tipus>                  Estableix el tipus de compressió.\n"
-"                               Tipus permesos: gzip, xz, none.\n"
+"                               Tipus permesos: gzip, xz, zstd, none.\n"
 "  -S<estratègia>             Estableix l'estratègia de compressió.\n"
 "                               Valors permesos: none; extreme (xz);\n"
 "                               filtered, huffman, rle, fixed (gzip).\n"
