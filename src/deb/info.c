@@ -141,6 +141,7 @@ info_list(const char *debar, const char *dir)
     if (S_ISREG(stab.st_mode)) {
       char interpreter[INTERPRETER_MAX + 1];
       int lines, c;
+      int exec_mark = (S_IXUSR & stab.st_mode) ? '*' : ' ';
 
       cc = fopen(controlfile.buf, "r");
       if (!cc)
@@ -167,7 +168,7 @@ info_list(const char *debar, const char *dir)
       fclose(cc);
       printf(_(" %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"),
              (intmax_t)stab.st_size, lines,
-             (S_IXUSR & stab.st_mode) ? '*' : ' ',
+             exec_mark,
              cdep->d_name, interpreter);
     } else {
       printf(_("     not a plain file          %.255s\n"), cdep->d_name);
