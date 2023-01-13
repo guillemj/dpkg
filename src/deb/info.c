@@ -166,10 +166,13 @@ info_list(const char *debar, const char *dir)
       if (ferror(cc))
         ohshite(_("failed to read '%.255s' (in '%.255s')"), cdep->d_name, dir);
       fclose(cc);
-      printf(_(" %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"),
-             (intmax_t)stab.st_size, lines,
-             exec_mark,
-             cdep->d_name, interpreter);
+      if (str_is_set(interpreter))
+        printf(_(" %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"),
+               (intmax_t)stab.st_size, lines, exec_mark, cdep->d_name,
+               interpreter);
+      else
+        printf(_(" %7jd bytes, %5d lines   %c  %.127s\n"),
+               (intmax_t)stab.st_size, lines, exec_mark, cdep->d_name);
     } else {
       printf(_("     not a plain file          %.255s\n"), cdep->d_name);
     }

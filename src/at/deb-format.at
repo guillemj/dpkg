@@ -72,7 +72,7 @@ cat fsys.tar.gz >>pkg-old-0933.deb
 
 AT_CHECK([
 # Check old package metadata
-dpkg-deb -I pkg-old.deb | $SED -e 's/ *$//'
+dpkg-deb -I pkg-old.deb
 ], [], [ old Debian package, version 0.939000.
  size 174621 bytes: control archive=274, main archive=174334.
      201 bytes,     7 lines      control
@@ -87,7 +87,7 @@ dpkg-deb -I pkg-old.deb | $SED -e 's/ *$//'
 
 AT_CHECK([
 # Check old package metadata
-dpkg-deb -I pkg-old-0931.deb | $SED -e 's/ *$//'
+dpkg-deb -I pkg-old-0931.deb
 ], [], [ old Debian package, version 0.931000.
  size 175522 bytes: control archive=291, main archive=175218.
      201 bytes,     7 lines      control
@@ -102,7 +102,7 @@ dpkg-deb -I pkg-old-0931.deb | $SED -e 's/ *$//'
 
 AT_CHECK([
 # Check old package metadata
-dpkg-deb -I pkg-old-0932.deb | $SED -e 's/ *$//'
+dpkg-deb -I pkg-old-0932.deb
 ], [], [ old Debian package, version 0.932000.
  size 175522 bytes: control archive=291, main archive=175218.
      201 bytes,     7 lines      control
@@ -117,7 +117,7 @@ dpkg-deb -I pkg-old-0932.deb | $SED -e 's/ *$//'
 
 AT_CHECK([
 # Check old package metadata
-dpkg-deb -I pkg-old-0933.deb | $SED -e 's/ *$//'
+dpkg-deb -I pkg-old-0933.deb
 ], [], [ old Debian package, version 0.933000.
  size 175522 bytes: control archive=291, main archive=175218.
      201 bytes,     7 lines      control
@@ -216,8 +216,7 @@ echo 2.999 >debian-binary
 ar rc pkg-version-2x.deb debian-binary
 ar t pkg-version-2x.deb
 ar x pkg-templ.deb debian-binary
-# XXX: Ideally we would have no need to strip trailing spaces.
-dpkg-deb -I pkg-version-2x.deb | $SED -e 's/ *$//'
+dpkg-deb -I pkg-version-2x.deb
 ], [], [debian-binary
 control.tar
 data.tar
@@ -240,8 +239,7 @@ echo "extra line" >>debian-binary
 ar rc pkg-magic-extra.deb debian-binary
 ar t pkg-magic-extra.deb
 ar x pkg-templ.deb debian-binary
-# XXX: Ideally we would have no need to strip trailing spaces.
-dpkg-deb -I pkg-magic-extra.deb | $SED -e 's/ *$//'
+dpkg-deb -I pkg-magic-extra.deb
 ], [], [debian-binary
 control.tar
 data.tar
@@ -359,8 +357,7 @@ AT_CHECK([
 cp pkg-templ.deb pkg-extra-member.deb
 ar q pkg-extra-member.deb unknown
 ar t pkg-extra-member.deb
-# XXX: Ideally we would have no need to strip trailing spaces.
-dpkg-deb -I pkg-extra-member.deb | $SED -e 's/ *$//'
+dpkg-deb -I pkg-extra-member.deb
 ], [], [debian-binary
 control.tar
 data.tar
@@ -382,8 +379,7 @@ AT_CHECK([
 cp pkg-templ.deb pkg-under-member.deb
 ar ra debian-binary pkg-under-member.deb _ignore
 ar t pkg-under-member.deb
-# XXX: Ideally we would have no need to strip trailing spaces.
-dpkg-deb -I pkg-under-member.deb | $SED -e 's/ *$//'
+dpkg-deb -I pkg-under-member.deb
 ], [], [debian-binary
 _ignore
 control.tar
@@ -416,8 +412,7 @@ AT_CHECK([
 # Test control.tar member
 ar rc pkg-control-none.deb debian-binary control.tar data.tar
 ar t pkg-control-none.deb
-# XXX: Ideally we would have no need to strip trailing spaces.
-dpkg-deb -I pkg-control-none.deb | $SED -e 's/ *$//'
+dpkg-deb -I pkg-control-none.deb
 ], [], [debian-binary
 control.tar
 data.tar
@@ -541,8 +536,7 @@ AT_CHECK([
 # Test non-uniform data.tar/control.tar member compression
 ar rc pkg-mixed-comp.deb debian-binary control.tar.xz data.tar.gz
 ar t pkg-mixed-comp.deb
-# XXX: Ideally we would have no need to strip trailing spaces.
-dpkg-deb -I pkg-mixed-comp.deb | $SED -e 's/ *$//'
+dpkg-deb -I pkg-mixed-comp.deb
 dpkg-deb -c pkg-mixed-comp.deb
 ], [], [debian-binary
 control.tar.xz
