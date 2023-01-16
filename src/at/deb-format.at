@@ -28,7 +28,8 @@ AT_DATA([pkg-deb-old-format/file-templ], [test
 AT_CHECK([
 # Initialize the template package
 mv pkg-deb-old-format pkg-old-templ
-cp -a $top_srcdir/ChangeLog.old pkg-old-templ/
+cp $top_srcdir/ChangeLog.old pkg-old-templ/
+chmod 0644 pkg-old-templ/ChangeLog.old
 chmod -R u+w pkg-old-templ
 find pkg-old-templ | xargs touch -t 197001010100.00
 dpkg-deb --deb-format=0.939000 --root-owner-group -Zgzip -b pkg-old-templ >/dev/null
@@ -188,7 +189,8 @@ AT_DATA([pkg-deb-format/file-templ], [test
 AT_CHECK([
 # Initialize the template package
 mv pkg-deb-format pkg-templ
-cp -a $top_srcdir/ChangeLog.old pkg-templ/
+cp $top_srcdir/ChangeLog.old pkg-templ/
+chmod 0644 pkg-templ/ChangeLog.old
 chmod -R u+w pkg-templ
 find pkg-templ | xargs touch -t 197001010100.00
 dpkg-deb --uniform-compression --root-owner-group -Znone -b pkg-templ >/dev/null
