@@ -213,6 +213,9 @@ sub _gpg_verify {
     my @exec;
     if ($self->{cmdv}) {
         push @exec, $self->{cmdv};
+        # We need to touch the trustedkeys.gpg keyring, otherwise gpgv will
+        # emit an error about the trustedkeys.kbx file being of unknown type.
+        file_touch("$gpg_home/trustedkeys.gpg");
     } else {
         push @exec, $self->{cmd};
         push @exec, qw(--no-options --no-default-keyring --batch --quiet);
