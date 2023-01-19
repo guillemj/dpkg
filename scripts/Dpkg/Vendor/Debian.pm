@@ -94,6 +94,10 @@ sub run_hook {
     }
 }
 
+sub init_build_features {
+    my ($self, $use_feature, $builtin_feature) = @_;
+}
+
 sub set_build_features {
     my ($self, $flags) = @_;
 
@@ -138,6 +142,8 @@ sub set_build_features {
             pie => 1,
         },
     );
+
+    $self->init_build_features(\%use_feature, \%builtin_feature);
 
     ## Setup
 
