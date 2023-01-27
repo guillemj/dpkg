@@ -3,22 +3,24 @@
 # This file is distributed under the same license as the dpkg package.
 #
 # Copyrights:
-# Kov Chai <tchaikov@sjtu.edu.cn>, 2005,2006.
+# Kov Chai <tchaikov@sjtu.edu.cn>, 2005, 2006.
 # Hiweed Leng <hiweed@163.com>, 2004.
 # Carlos Z.F. Liu <carlosliu@users.sourceforge.net>, 2004.
+# Boyuan Yang <byang@debian.org>, 2023.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dselect 1.13\n"
+"Project-Id-Version: dselect 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2023-01-24 22:39+0000\n"
-"PO-Revision-Date: 2006-05-06 20:11+0800\n"
-"Last-Translator: Kov Chai <tchaikov@sjtu.edu.cn>\n"
+"PO-Revision-Date: 2023-01-27 15:29-0500\n"
+"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: dselect/basecmds.cc
 msgid "Search for ? "
@@ -35,7 +37,7 @@ msgstr "帮助："
 #: dselect/basecmds.cc
 msgid "Press ? for help menu, . for next topic, <space> to exit help."
 msgstr ""
-"摁 ? 可以弹出帮助菜单，用 . 来进入下个主题，通过 <空格> 就能退出帮助界面。"
+"摁下 ? 可以弹出帮助菜单，用 . 来进入下个主题，通过 <空格> 就能退出帮助界面。"
 
 #: dselect/basecmds.cc
 msgid "Help information is available under the following topics:"
@@ -55,7 +57,7 @@ msgstr "在帮助界面读取键盘输入时出错"
 
 #: dselect/baselist.cc
 msgid "cannot update screen after window resize"
-msgstr ""
+msgstr "无法在窗口缩放后更新屏幕"
 
 #: dselect/baselist.cc
 msgid "failed to allocate colour pair"
@@ -90,7 +92,6 @@ msgid "failed to create query window"
 msgstr "创建查询窗口失败"
 
 #: dselect/baselist.cc
-#, fuzzy
 msgid "Keybindings"
 msgstr "键位绑定"
 
@@ -203,10 +204,8 @@ msgid "Search for a package whose name contains a string"
 msgstr "搜索软件包名字含有特定字符串的软件包"
 
 #: dselect/bindings.cc
-#, fuzzy
-#| msgid "Repeat last search."
 msgid "Repeat last search"
-msgstr "重复上次的搜索。"
+msgstr "重复上次的搜索"
 
 #: dselect/bindings.cc
 msgid "Swap sort order priority/section"
@@ -241,9 +240,8 @@ msgid "Revert to directly requested state for all packages"
 msgstr "把所有软件包的状态恢复到所要求的值"
 
 #: dselect/bindings.cc
-#, fuzzy
 msgid "Revert to currently installed state for all packages"
-msgstr "把所有软件包的状态恢复到所要求的值"
+msgstr "把所有软件包的状态恢复到当前的安装状态"
 
 #: dselect/bindings.cc
 msgid "Select currently-highlighted access method"
@@ -258,7 +256,6 @@ msgid "Keystrokes"
 msgstr "按键操作"
 
 #: dselect/helpmsgs.cc
-#, fuzzy
 msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  j, Down-arrow         k, Up-arrow             move highlight\n"
@@ -290,7 +287,7 @@ msgid ""
 "   D     set all to Directly requested state  n, \\  repeat last search\n"
 msgstr ""
 "移动按键：下一个/前一个，顶端/底端，上移/下移，后移/前移：\n"
-"  n，下箭头             p，上箭头               移动高亮所在的条目\n"
+"  j, 下箭头             k，上箭头               移动高亮所在的条目\n"
 "  N，Page-down，空格    P，Page-up，Backspace   让列表滚动一页\n"
 "  ^n                    ^p                      让列表滚动一行\n"
 "  t，Home               e，End                  跳到列表的顶端/底端\n"
@@ -306,15 +303,16 @@ msgstr ""
 " - ，Delete  卸载                   :, G  取消保持：升级或者仍然不安装\n"
 " _           删除并清除配置\n"
 "                                             其它：\n"
-"退出，改动状态(注意，都是大写！)：            ?, F1     请求帮助\n"
+"退出，改动状态(注意，都是大写！)：            ?, F1     请求帮助（也可用 "
+"Help）\n"
 "  回车    确认并退出(复查依赖问题)            i, I      切换或滚动相关信息的"
 "显示\n"
 "   Q     确认并退出(忽略依赖问题)             o, O      滚动排序的各个选项\n"
-" X, Esc  退出程序，把之前的改动作废           v, V      修改状态显示的选项\n"
+" X, Esc  退出程序，把之前的改动作废           v, A, V   修改状态显示的选项\n"
 "   R     把所有软件包的状态恢复到修改前       ^l        重画屏幕\n"
 "   U     把所有软件包的状态改成建议值         /         搜索 (用回车取消搜"
 "索)\n"
-"   D     把所有软件包的状态改成到所要求的值   \\        重复上次的搜索\n"
+"   D     把所有软件包的状态改成到所要求的值   n, \\      重复上次的搜索\n"
 
 #: dselect/helpmsgs.cc
 msgid "Introduction to package selections"
@@ -421,42 +419,6 @@ msgid "Introduction to conflict/dependency resolution sub-list"
 msgstr "用于解决冲突/依赖问题的子列表的简介"
 
 #: dselect/helpmsgs.cc
-#, fuzzy
-#| msgid ""
-#| "Dependency/conflict resolution - introduction.\n"
-#| "\n"
-#| "One or more of your choices have raised a conflict or dependency problem "
-#| "-\n"
-#| "some packages should only be installed in conjunction with certain "
-#| "others, and\n"
-#| "some combinations of packages may not be installed together.\n"
-#| "\n"
-#| "You will see a sub-list containing the packages involved.  The bottom "
-#| "half of\n"
-#| "the display shows relevant conflicts and dependencies; use 'i' to cycle "
-#| "between\n"
-#| "that, the package descriptions and the internal control information.\n"
-#| "\n"
-#| "A set of 'suggested' packages has been calculated, and the initial "
-#| "markings in\n"
-#| "this sub-list have been set to match those, so you can just hit Return "
-#| "to\n"
-#| "accept the suggestions if you wish.  You may abort the change(s) which "
-#| "caused\n"
-#| "the problem(s), and go back to the main list, by pressing capital 'X'.\n"
-#| "\n"
-#| "You can also move around the list and change the markings so that they "
-#| "are more\n"
-#| "like what you want, and you can 'reject' my suggestions by using the "
-#| "capital\n"
-#| "'D' or 'R' keys (see the keybindings help screen).  You can use capital "
-#| "'Q' to\n"
-#| "force me to accept the situation currently displayed, in case you want "
-#| "to\n"
-#| "override a recommendation or think that the program is mistaken.\n"
-#| "\n"
-#| "Press <space> to leave help and enter the sub-list; remember: press '?' "
-#| "for help.\n"
 msgid ""
 "Dependency/conflict resolution - introduction.\n"
 "\n"
@@ -513,7 +475,7 @@ msgstr ""
 "键(参考按键绑定的帮助界面)，来“拒绝”我\n"
 "提出的建议。当您希望忽略我的建议或是认为\n"
 "本软件出错时，您还可以摁大写的“Q”来强制\n"
-"我接受当前显示的设定。\n"
+"接受当前显示的设定。\n"
 "\n"
 "请摁 <空格> 离开帮助系统并进入子列表。\n"
 "请记住：需要帮助时，摁“?”键。\n"
@@ -523,7 +485,6 @@ msgid "Display, part 1: package listing and status chars"
 msgstr "显示部位 1：软件包列表及状态简写"
 
 #: dselect/helpmsgs.cc
-#, fuzzy
 msgid ""
 "The top half of the screen shows a list of packages.  For each package you "
 "see\n"
@@ -567,17 +528,18 @@ msgstr ""
 "               “-”，  即没有安装，但是残留有其配置文件；\n"
 "     处于这些状态    { “U”，即已解压缩但还未进行配置；\n"
 "         的软件包    { “C”，即不完全配置(其间有错误发生)；\n"
-"     都是有故障的    { “I”，即部分安装(其间有错误发生)。\n"
-"原有标记：列表显示出来之前软件包就被要求设置的成状态；\n"
-"当前标记：现在软件包被要求设置的成状态：\n"
+"     （或多或少）    { “I”，即部分安装(其间有错误发生)；\n"
+"     都是有故障的    { “W”，“t”，触发器正等待响应。\n"
+"原有标记：列表显示出来之前软件包就被要求设置的状态；\n"
+"当前标记：现在软件包被要求设置的状态：\n"
 "  “*”：将其标记为安装或升级；\n"
 "  “-”：将其标记为删除，但是将保留它的配置文件；\n"
-"  “=”：维持原状：软件包将不动分毫；\n"
+"  “=”：维持原状：软件包将不被安装、升级或删除；\n"
 "  “_”：将其标记为完全清除，连同配置一起删除；\n"
-"  “n”：软件包是新的，尚未标记过。\n"
+"  “n”：软件包是新的，尚未被标记过。\n"
 "\n"
 "另外界面上还显示有软件包的优先级、所属大类、名称、已安装\n"
-"的版本号和当前可用的版本号（使用 shift-v 可以开启或关闭其\n"
+"的版本号和当前可用的版本号（使用 Shift-v 可以开启或关闭其\n"
 "显示)，以及简要的介绍。\n"
 
 #: dselect/helpmsgs.cc
@@ -674,7 +636,6 @@ msgid "Keystrokes for method selection"
 msgstr "选择安装手段的按键操作"
 
 #: dselect/helpmsgs.cc
-#, fuzzy
 msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  j, Down-arrow         k, Up-arrow             move highlight\n"
@@ -699,14 +660,14 @@ msgid ""
 "  \\                repeat last search\n"
 msgstr ""
 "移动按键：下一个/前一个，顶端/底端，上移/下移，后移/前移：\n"
-"  n，下箭头             p，上箭头               移动高亮所在的条目\n"
+"  j, 下箭头             k，上箭头               移动高亮所在的条目\n"
 "  N，Page-down，空格    P，Page-up，Backspace   让列表滚动一页\n"
 "  ^n                    ^p                      让列表滚动一行\n"
 "  t，Home               e，End                  跳到列表的顶端/底端\n"
 "  u                     d                       让相关信息滚动一页\n"
 "  ^u                    ^d                      让相关信息滚动一行\n"
-"  B，左箭头             F，右箭头               让显示内容左右平移 1/3 的屏幕"
-"宽度\n"
+"  B，左箭头             F，右箭头               让显示内容左右平移 1/3 屏幕宽"
+"度\n"
 "  ^b                    ^f                      让显示内容左右平移一个字符宽"
 "度\n"
 "(在软件包列表界面也使用同样的按键设置。)\n"
@@ -783,7 +744,7 @@ msgstr "配置[C]"
 
 #: dselect/main.cc
 msgid "Configure any packages that are unconfigured."
-msgstr "对所有还未配置的软件包进行配置"
+msgstr "对所有还未配置的软件包进行配置。"
 
 #: dselect/main.cc
 msgid "r"
@@ -795,7 +756,7 @@ msgstr "删除[R]"
 
 #: dselect/main.cc
 msgid "Remove unwanted software."
-msgstr "删除不需要的软件包"
+msgstr "删除不需要的软件包。"
 
 #: dselect/main.cc
 msgid "q"
@@ -807,7 +768,7 @@ msgstr "退出[Q]"
 
 #: dselect/main.cc
 msgid "Quit dselect."
-msgstr "退出 dselect 程序"
+msgstr "退出 dselect 程序。"
 
 #: dselect/main.cc
 msgid "menu"
@@ -819,48 +780,33 @@ msgid "Debian '%s' package handling frontend version %s.\n"
 msgstr "Debian “%s” 软件包操作前端 %s 版。\n"
 
 #: dselect/main.cc
-#, fuzzy
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"
 msgstr ""
 "这是自由软件；要获知复制该软件的前提和条件，请参阅 GNU 公共许可证的\n"
 "第二版或其更新的版本。该软件【不】提供任何担保。\n"
-"请通过执行 %s --licence 来查看版权和许可证的细节。\n"
 
 #: dselect/main.cc
 msgid "<standard output>"
-msgstr ""
+msgstr "<标准输出>"
 
 #: dselect/main.cc
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [<option> ...] [<action> ...]\n"
-#| "\n"
+#, c-format
 msgid ""
 "Usage: %s [<option>...] [<command>...]\n"
 "\n"
 msgstr ""
-"用法：%s [<选项> ...] [<操作> ...]\n"
+"用法：%s [<选项> ...] [<命令> ...]\n"
 "\n"
 
 #: dselect/main.cc
 #, c-format
 msgid "Commands:\n"
-msgstr ""
+msgstr "命令：\n"
 
 #: dselect/main.cc
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir <directory>     Use <directory> instead of %s.\n"
-#| "  --expert                   Turn on expert mode.\n"
-#| "  --debug <file> | -D<file>  Turn on debugging, sending output to "
-#| "<file>.\n"
-#| "  --colour | --color screenpart:[foreground],[background][:"
-#| "attr[+attr+..]]\n"
-#| "                             Configure screen colours.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "      --admindir <directory>       Use <directory> instead of %s.\n"
@@ -874,22 +820,22 @@ msgid ""
 msgstr ""
 "选项：\n"
 "  --admindir <目录>          使用 <目录> 而非 %s。\n"
+"  --instdir <目录>           使用 <目录> 而非 %s。\n"
+"  --root <目录>              使用 <目录> 而非 %s。\n"
 "  --expert                   开启专家模式。\n"
-"  --debug <文件> | -D<文件>  打开调试信息，并把输出送到 <文件>。\n"
-"  --colour | --color 显示区块:[前景],[背景][:属性[+属性+..]]\n"
-"                             设置显示所用的配色。\n"
-"\n"
+"  -D, --debug <文件>         打开调试信息，并把输出送到 <文件>。\n"
+"      --color <颜色配置>     配置屏幕显示所用的配色。\n"
+"      --colour <颜色配置>    同上。\n"
 
 #: dselect/main.cc
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -?, --help                       Show this help message.\n"
 "      --version                    Show the version.\n"
 "\n"
 msgstr ""
-"  --help                     显示本帮助信息。\n"
-"  --version                  显示版本信息。\n"
-"  --license | --license      显示许可证。\n"
+"  -?, --help                       显示本帮助信息。\n"
+"      --version                    显示版本信息。\n"
 "\n"
 
 #: dselect/main.cc
@@ -897,23 +843,22 @@ msgstr ""
 msgid ""
 "<color-spec> is <screen-part>:[<foreground>],[<background>][:"
 "<attr>[+<attr>]...]\n"
-msgstr ""
+msgstr "<颜色配置> 是 <显示区块>:[<前景>],[<背景>][:<属性>[+<属性>]...]\n"
 
 #: dselect/main.cc
-#, fuzzy, c-format
-#| msgid "Screenparts:\n"
+#, c-format
 msgid "<screen-part> is:"
-msgstr "显示部位：\n"
+msgstr "<显示区块> 是："
 
 #: dselect/main.cc
 #, c-format
 msgid "<color> is:"
-msgstr ""
+msgstr "<颜色> 是："
 
 #: dselect/main.cc
 #, c-format
 msgid "<attr> is:"
-msgstr ""
+msgstr "<属性> 是："
 
 #: dselect/main.cc
 #, c-format
@@ -921,20 +866,17 @@ msgid "couldn't open debug file '%.255s'\n"
 msgstr "无法打开调试信息文件“%.255s”\n"
 
 #: dselect/main.cc
-#, fuzzy, c-format
-#| msgid "Invalid %s `%s'\n"
+#, c-format
 msgid "invalid %s '%s'"
-msgstr "无效的 %s “%s”\n"
+msgstr "无效的 %s “%s”"
 
 #: dselect/main.cc
 msgid "screen part"
 msgstr "显示部分"
 
 #: dselect/main.cc
-#, fuzzy
-#| msgid "Null colour specification\n"
 msgid "null colour specification"
-msgstr "未指定颜色\n"
+msgstr "未指定颜色"
 
 #: dselect/main.cc
 msgid "colour"
@@ -1032,9 +974,8 @@ msgid "getch failed"
 msgstr "getch 失败"
 
 #: dselect/methlist.cc
-#, fuzzy
 msgid "Explanation"
-msgstr "后面安装手段的说明"
+msgstr "说明"
 
 #: dselect/methlist.cc
 msgid "No explanation available."
@@ -1050,33 +991,27 @@ msgstr ""
 
 #: dselect/method.cc
 msgid "cannot unlock access method area"
-msgstr ""
+msgstr "无法解锁安装手段区域"
 
 #: dselect/method.cc
-#, fuzzy
-#| msgid " does not appear to be available\n"
 msgid "no access methods are available"
-msgstr " 看上去应该不可用\n"
+msgstr "没有可用的安装手段"
 
 #: dselect/method.cc
 msgid "requested operation requires superuser privilege"
-msgstr ""
+msgstr "请求的操作需要超级用户特权"
 
 #: dselect/method.cc
-#, fuzzy
-#| msgid "Choose the access method to use."
 msgid "cannot open or create access method lockfile"
-msgstr "选择所使用的安装来源。"
+msgstr "无法打开或创建安装手段锁文件"
 
 #: dselect/method.cc
 msgid "the access method area is already locked"
-msgstr ""
+msgstr "安装手段区域已被锁定"
 
 #: dselect/method.cc
-#, fuzzy
-#| msgid "dselect - list of access methods"
 msgid "cannot lock access method area"
-msgstr "dselect - 安装手段的列表"
+msgstr "无法锁定安装手段区域"
 
 #: dselect/method.cc
 #, c-format
@@ -1084,9 +1019,8 @@ msgid "Press <enter> to continue.\n"
 msgstr "请摁 <回车> 继续。\n"
 
 #: dselect/method.cc
-#, fuzzy
 msgid "<standard error>"
-msgstr "写标准错误输出时出错"
+msgstr "<标准错误>"
 
 #: dselect/method.cc
 msgid "error reading acknowledgement of program failure message"
@@ -1094,7 +1028,7 @@ msgstr "读取程序的错误提示时出错"
 
 #: dselect/method.cc
 msgid "no access method is selected or configured"
-msgstr ""
+msgstr "未选中或配置安装手段"
 
 #: dselect/method.cc
 msgid "update available list script"
@@ -1107,7 +1041,7 @@ msgstr "软件包安装脚本"
 #: dselect/method.cc
 #, c-format
 msgid "running %s %s ...\n"
-msgstr ""
+msgstr "正在运行 %s %s ...\n"
 
 #: dselect/method.cc
 msgid "query/setup script"
@@ -1148,10 +1082,8 @@ msgid "non-digit where digit wanted"
 msgstr "在本该有数字的地方没有发现数字"
 
 #: dselect/methparse.cc
-#, fuzzy
-#| msgid "EOF in index string"
 msgid "end of file in index string"
-msgstr "在索引字串中发现了 EOF"
+msgstr "在索引字串中发现了文件结束符"
 
 #: dselect/methparse.cc
 msgid "index string too long"
@@ -1162,10 +1094,8 @@ msgid "newline before option name start"
 msgstr "在选项名开始前就发现了换行符"
 
 #: dselect/methparse.cc
-#, fuzzy
-#| msgid "newline before option name start"
 msgid "end of file before option name start"
-msgstr "在选项名开始前就发现了换行符"
+msgstr "在选项名开始前就发现了文件结束符"
 
 #: dselect/methparse.cc
 msgid "nonalpha where option name start wanted"
@@ -1176,26 +1106,20 @@ msgid "non-alphanum in option name"
 msgstr "在选项名中发现了既不是字母也不是数字的字符"
 
 #: dselect/methparse.cc
-#, fuzzy
-#| msgid "EOF in option name"
 msgid "end of file in option name"
-msgstr "在选项名中发现了 EOF"
+msgstr "在选项名中发现了文件结束符"
 
 #: dselect/methparse.cc
 msgid "newline before summary"
 msgstr "在概述前发现了换行符"
 
 #: dselect/methparse.cc
-#, fuzzy
-#| msgid "newline before summary"
 msgid "end of file before summary"
 msgstr "在概述前发现了换行符"
 
 #: dselect/methparse.cc
-#, fuzzy
-#| msgid "EOF in summary - missing newline"
 msgid "end of file in summary - missing newline"
-msgstr "在概述中发现了 EOF - 本该是换行符的"
+msgstr "在概述中发现了文件结束符 - 本该是换行符的"
 
 #: dselect/methparse.cc
 #, c-format
@@ -1278,19 +1202,19 @@ msgstr "部分安装"
 
 #: dselect/pkgdisplay.cc
 msgid "unpacked (not set up)"
-msgstr "已解压缩(尚未设置)"
+msgstr "已解压缩（尚未设置）"
 
 #: dselect/pkgdisplay.cc
 msgid "half configured (config failed)"
-msgstr ""
+msgstr "不完全配置（配置失败）"
 
 #: dselect/pkgdisplay.cc
 msgid "awaiting trigger processing"
-msgstr ""
+msgstr "等待触发处理"
 
 #: dselect/pkgdisplay.cc
 msgid "triggered"
-msgstr ""
+msgstr "已触发"
 
 #: dselect/pkgdisplay.cc
 msgid "installed"
@@ -1338,7 +1262,7 @@ msgstr "预依赖于"
 
 #: dselect/pkgdisplay.cc
 msgid "breaks"
-msgstr ""
+msgstr "破坏"
 
 #: dselect/pkgdisplay.cc
 msgid "conflicts with"
@@ -1394,7 +1318,7 @@ msgstr "新的"
 
 #: dselect/pkgdisplay.cc
 msgid "Upgradable"
-msgstr ""
+msgstr "可升级"
 
 #: dselect/pkgdisplay.cc
 msgid "Obsolete/local"
@@ -1421,26 +1345,20 @@ msgid "Newly available packages"
 msgstr "新的可用软件包"
 
 #: dselect/pkgdisplay.cc
-#, fuzzy
-#| msgid "Newly available packages"
 msgid "Upgradable packages"
-msgstr "新的可用软件包"
+msgstr "可升级的软件包"
 
 #: dselect/pkgdisplay.cc
-#, fuzzy
-#| msgid "Obsolete and local packages present on system"
 msgid "Obsolete and locally created packages"
-msgstr "系统中安装这些的软件包是已淘汰的和本地的"
+msgstr "已过时和本地创建的软件包"
 
 #: dselect/pkgdisplay.cc
 msgid "Installed packages"
 msgstr "已经安装的软件包"
 
 #: dselect/pkgdisplay.cc
-#, fuzzy
-#| msgid "Up to date installed packages"
 msgid "Available not installed packages"
-msgstr "安装了的软件包版本是最新的"
+msgstr "可用未安装软件包"
 
 #: dselect/pkgdisplay.cc
 msgid "Removed and no longer available packages"
@@ -1491,16 +1409,12 @@ msgid "Package"
 msgstr "软件包名"
 
 #: dselect/pkgdisplay.cc
-#, fuzzy
-#| msgid "Avail.ver"
 msgid "Avail.arch"
-msgstr "可用版本"
+msgstr "可用架构"
 
 #: dselect/pkgdisplay.cc
-#, fuzzy
-#| msgid "Inst.ver"
 msgid "Inst.arch"
-msgstr "安装版本"
+msgstr "已安装架构"
 
 #: dselect/pkgdisplay.cc
 msgid "Avail.ver"
@@ -1594,30 +1508,24 @@ msgstr ""
 "标记了。"
 
 #: dselect/pkginfo.cc
-#, fuzzy
 msgid "Interrelationships"
 msgstr "软件包的相互关系"
 
 #: dselect/pkginfo.cc
-#, fuzzy
 msgid "No description available."
-msgstr "无相关介绍。"
+msgstr "无可用介绍。"
 
 #: dselect/pkginfo.cc
-#, fuzzy
 msgid "Installed control file information"
-msgstr "为下面软件包安装的控制信息"
+msgstr "已安装软件包的控制文件信息"
 
 #: dselect/pkginfo.cc
-#, fuzzy
 msgid "Available control file information"
-msgstr "可用的控制信息的版本"
+msgstr "可用软件包的控制文件信息"
 
 #: dselect/pkglist.cc
-#, fuzzy
-#| msgid "Installed packages"
 msgid "there are no packages"
-msgstr "已经安装的软件包"
+msgstr "没有软件包"
 
 #: dselect/pkglist.cc
 msgid "invalid search option given"
