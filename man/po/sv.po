@@ -1,13 +1,13 @@
 # Manual page for dpkg
-# Copyright 1999-2022 Software in the Public Interest
-# Peter Krefting <peter@softwolves.pp.se>, 1999-2022.
+# Copyright 1999-2023 Software in the Public Interest
+# Peter Krefting <peter@softwolves.pp.se>, 1999-2023.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.21.9\n"
+"Project-Id-Version: dpkg-man 1.21.19\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2023-01-10 17:46+0000\n"
-"PO-Revision-Date: 2022-10-01 22:19+0100\n"
+"PO-Revision-Date: 2023-01-28 17:19+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -500,7 +500,7 @@ msgstr ""
 #. type: =item
 #: deb-buildinfo.pod
 msgid "B<can-execute-cross-built-programs>"
-msgstr ""
+msgstr "B<can-execute-cross-built-programs>"
 
 #. type: textblock
 #: deb-buildinfo.pod
@@ -508,13 +508,13 @@ msgid ""
 "The system can execute cross built programs, either directly or via some "
 "emulation layer."
 msgstr ""
+"Systemet kan köra korskompilerade program, antingen direkt eller via ett "
+"emuleringslager."
 
 #. type: textblock
 #: deb-buildinfo.pod
-#, fuzzy
-#| msgid "Supported since dpkg 1.21.3."
 msgid "Since dpkg 1.21.10."
-msgstr "Stöds sedan dpkg 1.21.3."
+msgstr "Stöds sedan dpkg 1.21.10."
 
 #. type: =item
 #: deb-buildinfo.pod
@@ -759,10 +759,8 @@ msgstr ""
 
 #. type: textblock
 #: deb-changelog.pod
-#, fuzzy
-#| msgid "B<Closes: Bug#>I<nnnnn>"
 msgid "B<Closes: #>I<nnnnn>"
-msgstr "B<Closes: Bug#>I<nnnnn>"
+msgstr "B<Closes: #>I<nnnnn>"
 
 #. type: textblock
 #: deb-changelog.pod
@@ -770,11 +768,13 @@ msgid ""
 "in the change details, where B<#>I<nnnnn> is the bug number.  The exact Perl "
 "regular expression is:"
 msgstr ""
+"i ändringsdetaljerna, där B<#>I<nnnnn> är felrapportsnumret. Exakt Perl-"
+"reguljärt uttryck är:"
 
 #. type: textblock
 #: deb-changelog.pod
 msgid "B</closes:\\s*(?:bug)?\\#?\\s?\\d+(?:,\\s*(?:bug)?\\#?\\s?\\d+)*/i>"
-msgstr ""
+msgstr "B</closes:\\s*(?:bug)?\\#?\\s?\\d+(?:,\\s*(?:bug)?\\#?\\s?\\d+)*/i>"
 
 #. type: textblock
 #: deb-changelog.pod
@@ -785,6 +785,11 @@ msgid ""
 "The words B<closes:> and B<bug> are not case sensitive.  The list of bug "
 "numbers may span multiple lines."
 msgstr ""
+"Det vill säga, strängen bör bestå av ordet B<closes:> följt av en "
+"kommaavdelad lista med felrapportsnummer. Felrapporterna kan föregås av "
+"ordet B<bug> och/eller tecknet B<#>, som i C<Closes: 42, bug#43, #44, bug "
+"45>. Ordet B<closes:> och B<bug> är inte skiftlägeskänsliga. Listan med "
+"relrapportsnummer kan fortsätta över flera rader."
 
 #. type: textblock
 #: deb-changelog.pod
@@ -793,6 +798,9 @@ msgid ""
 "file.  Where, depending on the archive maintenance software, all the bug "
 "numbers listed might get automatically closed."
 msgstr ""
+"Informationen vidareförs via fältet B<Closes> i I<.changes>-filen. Där, "
+"beroende på vilken arkivhanteringsprogramvra som används, alla listade "
+"felrapporter kan stängas automatiskt."
 
 #. type: textblock
 #: deb-changelog.pod
@@ -1942,19 +1950,14 @@ msgstr "B<Installer-Menu-Item:> I<värde>"
 
 #. type: textblock
 #: deb-control.pod
-#, fuzzy
-#| msgid ""
-#| "These fields are used by the debian-installer and are usually not "
-#| "needed.  See /usr/share/doc/debian-installer/devel/modules.txt from the "
-#| "B<debian-installer> package for more details about them."
 msgid ""
 "These fields are used by the debian-installer and are usually not needed.  "
 "For more details about them, see L<https://salsa.debian.org/installer-team/"
 "debian-installer/-/raw/master/doc/devel/modules.txt>."
 msgstr ""
-"Dessa fält används av debian-installer och behövs normalt inte. Se /usr/"
-"share/doc/debian-installer/devel/modules.txt från paketet B<debian-"
-"installer> för mer information om dem."
+"Dessa fält används av debian-installer och behövs normalt inte. För mer "
+"information om dem, se L<https://salsa.debian.org/installer-team/debian-"
+"installer/-/raw/master/doc/devel/modules.txt>."
 
 #. type: =item
 #: deb-control.pod deb-src-control.pod
@@ -2677,13 +2680,6 @@ msgstr ""
 
 #. type: textblock
 #: deb-origin.pod
-#, fuzzy
-#| msgid ""
-#| "The file should be named according to the vendor name.  The usual "
-#| "convention is to name the vendor file using the vendor name in all "
-#| "lowercase, but some variation is permitted.  Namely, spaces are mapped to "
-#| "dashes (‘B<->’), and the file can have the same casing as the value in "
-#| "B<Vendor> field, or it can be capitalized."
 msgid ""
 "The file should be named according to the vendor name.  The usual convention "
 "is to name the vendor file using the vendor name in all lowercase, but some "
@@ -2692,9 +2688,7 @@ msgstr ""
 "Filen bör namnges i enlighet med återförsäljarens namn. Den vanliga "
 "konventionen är att namnge återförsäljarfilen genom att använda "
 "återförsäljarens namn skrivet med bara små bokstäver, men en viss variation "
-"tillåts. Nämligen att blanksteg ersätts med bindestreck (”B<->”) och filen "
-"kan ha samma blandning av små och stora bokstäver som fältet B<Vendor>, "
-"eller kan skrivas med bara stora bokstäver."
+"tillåts."
 
 #. type: textblock
 #: deb-origin.pod
@@ -2705,6 +2699,10 @@ msgid ""
 "capitalizing it (that is upper-casing the first character), and only "
 "capitalizing it."
 msgstr ""
+"Nämligen (sedan dpkg 1.21.10), först att icke-alfanumeriska tecken (”B<[^A-"
+"Za-z0-9]>”) ersätts med bindestreck (”B<->”), varefter namnet som skapas "
+"kommer testas först med små bokstäver, som det är, göras om till små "
+"bokstäver med första bokstaven stor, och bara stora bokstäver."
 
 #. type: textblock
 #: deb-origin.pod
@@ -2717,6 +2715,13 @@ msgid ""
 "the resulting name will be tried in sequence by lower-casing it, keeping it "
 "as is, lower-casing then capitalizing it, and only capitalizing it."
 msgstr ""
+"Dessutom, av historiska orskaer, kan namnet testas som det är utan att icke-"
+"alfanumeriska tecken ersätts, och därefter testas namnet först med små "
+"bokstäver, som det är, så med inledande stor bokstav och med stora "
+"bokstäver. Till sist kommer det att testas med att ersätta blanksteg med "
+"bindestreck (”B<->”), varefter namnet som skapas kommer testas först med små "
+"bokstäver, som det är, göras om till små bokstäver med första bokstaven "
+"stor, och bara stora bokstäver."
 
 #. type: textblock
 #: deb-origin.pod
@@ -2724,6 +2729,8 @@ msgid ""
 "But these backwards compatible module lookups will be removed during the "
 "dpkg 1.22.x release cycle."
 msgstr ""
+"Dessa bakåtkompatibla moduluppslagningar kommer dock att tas bort under "
+"utgivningscykeln för dpkg 1.22.x."
 
 #. type: =item
 #: deb-origin.pod
@@ -3495,20 +3502,6 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
-#, fuzzy
-#| msgid ""
-#| "This file contains at least 2 paragraphs, separated by a blank line.  The "
-#| "first paragraph lists all information about the source package in "
-#| "general, while each following paragraph describes exactly one binary "
-#| "package. Each paragraph consists of at least one field. A field starts "
-#| "with a fieldname, such as B<Package> or B<Section> (case insensitive), "
-#| "followed by a colon, the body of the field (case sensitive unless stated "
-#| "otherwise) and a newline.  Multi-line fields are also allowed, but each "
-#| "supplementary line, without a fieldname, should start with at least one "
-#| "space. The content of the multi-line fields is generally joined to a "
-#| "single line by the tools (except in the case of the B<Description> field, "
-#| "see below). To insert empty lines into a multi-line field, insert a dot "
-#| "after the space.  Lines starting with a ‘B<#>’ are treated as comments."
 msgid ""
 "This file contains at least 2 stanzas, separated by a blank line.  The first "
 "stanza lists all information about the source package in general, while each "
@@ -4045,11 +4038,6 @@ msgstr "BINÄRFÄLT"
 
 #. type: textblock
 #: deb-src-control.pod
-#, fuzzy
-#| msgid ""
-#| "Note that the B<Priority>, B<Section> and B<Homepage> fields can also be "
-#| "in a binary paragraph to override the global value from the source "
-#| "package."
 msgid ""
 "Note that the B<Priority>, B<Section> and B<Homepage> fields can also be in "
 "a binary stanza to override the global value from the source package."
@@ -4103,11 +4091,6 @@ msgstr "B<Build-Profiles:> I<begränsningsformel>"
 
 #. type: textblock
 #: deb-src-control.pod
-#, fuzzy
-#| msgid ""
-#| "This field specifies the conditions for which this binary package does or "
-#| "does not build.  To express that condition, the same restriction formula "
-#| "syntax from the B<Build-Depends> field is used."
 msgid ""
 "This field specifies the conditions for which this binary package does or "
 "does not build.  To express that condition, the same restriction formula "
@@ -4116,15 +4099,10 @@ msgid ""
 msgstr ""
 "Det här fältet anger villkor för när binärpaketet ska eller inte ska byggas. "
 "För att uttrycka villkoret används samma syntax för begränsningsformeln som "
-"för fältet B<Build-Depends>."
+"för fältet B<Build-Depends> (inklusive vinkelparenteserna)."
 
 #. type: textblock
 #: deb-src-control.pod
-#, fuzzy
-#| msgid ""
-#| "If a binary package paragraph does not contain this field, then it "
-#| "implicitly means that it builds with all build profiles (including none "
-#| "at all)."
 msgid ""
 "If a binary package stanza does not contain this field, then it implicitly "
 "means that it builds with all build profiles (including none at all)."
@@ -4134,12 +4112,6 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
-#, fuzzy
-#| msgid ""
-#| "In other words, if a binary package paragraph is annotated with a non-"
-#| "empty B<Build-Profiles> field, then this binary package is generated if "
-#| "and only if the condition expressed by the conjunctive normal form "
-#| "expression evaluates to true."
 msgid ""
 "In other words, if a binary package stanza is annotated with a non-empty "
 "B<Build-Profiles> field, then this binary package is generated if and only "
@@ -4181,19 +4153,14 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
-#, fuzzy
-#| msgid ""
-#| "These fields are used by the debian-installer in B<udeb>s and are usually "
-#| "not needed.  See /usr/share/doc/debian-installer/devel/modules.txt from "
-#| "the B<debian-installer> package for more details about them."
 msgid ""
 "These fields are used by the debian-installer in B<udeb>s and are usually "
 "not needed.  For more details about them, see L<https://salsa.debian.org/"
 "installer-team/debian-installer/-/raw/master/doc/devel/modules.txt>."
 msgstr ""
 "Dessa fält används av debian-installer i B<udeb>-formatet och behövs normalt "
-"inte. Se /usr/share/doc/debian-installer/devel/modules.txt från paketet "
-"B<debian-installer> för mer information om dem."
+"inte. För mer information om dem, se  L<https://salsa.debian.org/installer-"
+"team/debian-installer/-/raw/master/doc/devel/modules.txt>."
 
 #. type: =head1
 #: deb-src-control.pod
@@ -5263,13 +5230,6 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-symbols.pod
-#, fuzzy
-#| msgid ""
-#| "Symbols like \"mystack_new@Base\", \"mystack_push@Base\", "
-#| "\"mystack_pop@Base\" etc.  will be matched by the first pattern while e."
-#| "g. \"ng_mystack_new@Base\" won't.  The second pattern will match all "
-#| "symbols having the string \"private\" in their names and matches will "
-#| "inherit I<optional> tag from the pattern."
 msgid ""
 "Symbols like \"mystack_new@Base\", \"mystack_push@Base\", "
 "\"mystack_pop@Base\", etc., will be matched by the first pattern while "
@@ -5278,9 +5238,9 @@ msgid ""
 "inherit I<optional> tag from the pattern."
 msgstr ""
 "Symboler som \"mystack_new@Base\", \"mystack_push@Base\", "
-"\"mystack_pop@Base\" osv. kommer att träffas av det första mönstret medan t."
-"ex \"ng_mystack_new@Base\" inte gör det. Det andra mönstret motsvarar alla "
-"symbolen som innehåller strängen \"private\" i sina namn och träffar kommer "
+"\"mystack_pop@Base\" osv. kommer att träffas av det första mönstret medan "
+"\"ng_mystack_new@Base\" inte gör det. Det andra mönstret motsvarar alla "
+"symboler som innehåller strängen \"private\" i sina namn och träffar kommer "
 "att ärva I<optional>-taggen från mönstret."
 
 #. type: textblock
@@ -5869,13 +5829,6 @@ msgstr "B<S:>I<fältnamn>"
 
 #. type: textblock
 #: deb-substvars.pod
-#, fuzzy
-#| msgid ""
-#| "The value of the source stanza field I<fieldname> (which must be given in "
-#| "the canonical capitalisation; since dpkg 1.18.11).  Setting these "
-#| "variables has no effect other than on places where they are expanded "
-#| "explicitly.  These variables are only available when generating binary "
-#| "control files."
 msgid ""
 "The value of the source stanza field I<fieldname> (which must be given in "
 "the canonical capitalization; since dpkg 1.18.11).  Setting these variables "
@@ -5894,11 +5847,6 @@ msgstr "B<F:>I<fältnamn>"
 
 #. type: textblock
 #: deb-substvars.pod
-#, fuzzy
-#| msgid ""
-#| "The value of the output field I<fieldname> (which must be given in the "
-#| "canonical capitalisation). Setting these variables has no effect other "
-#| "than on places where they are expanded explicitly."
 msgid ""
 "The value of the output field I<fieldname> (which must be given in the "
 "canonical capitalization). Setting these variables has no effect other than "
@@ -5998,18 +5946,14 @@ msgstr "B<DEBIAN/symbols>"
 
 #. type: textblock
 #: deb-symbols.pod
-#, fuzzy
-#| msgid ""
-#| "The symbol files are shipped in Debian binary packages, and its format is "
-#| "a subset of the template symbol files used by B<dpkg-gensymbols>(1)  in "
-#| "Debian source packages."
 msgid ""
 "The symbol files are shipped in Debian binary packages, and its format is a "
 "subset of the template symbol files used by B<dpkg-gensymbols>(1)  in Debian "
 "source packages, see L<deb-src-symbols(5)>."
 msgstr ""
 "Symbolfiler medföljer Debianbinärpaket och dess format är en undermängd av "
-"symbolfilmallarna som används av B<dpkg-gensymbols>(1) i Debiankällkodspaket."
+"symbolfilmallarna som används av B<dpkg-gensymbols>(1) i "
+"Debiankällkodspaket, se L<deb-src-symbols(5)>."
 
 #. type: textblock
 #: deb-symbols.pod
@@ -6204,16 +6148,12 @@ msgstr ""
 
 #. type: textblock
 #: deb-symbols.pod
-#, fuzzy
-#| msgid ""
-#| "L<https://wiki.debian.org/Projects/ImprovedDpkgShlibdeps>, B<dpkg-"
-#| "shlibdeps>(1), B<dpkg-gensymbols>(1)."
 msgid ""
 "L<https://wiki.debian.org/Projects/ImprovedDpkgShlibdeps>, L<deb-src-"
 "symbols(5)>, B<dpkg-shlibdeps>(1), B<dpkg-gensymbols>(1)."
 msgstr ""
-"L<https://wiki.debian.org/Projects/ImprovedDpkgShlibdeps>, B<dpkg-"
-"shlibdeps>(1), B<dpkg-gensymbols>(1)."
+"L<https://wiki.debian.org/Projects/ImprovedDpkgShlibdeps>, L<deb-src-"
+"symbols(5)>, B<dpkg-shlibdeps>(1), B<dpkg-gensymbols>(1)."
 
 #. type: textblock
 #: deb-triggers.pod
@@ -6420,10 +6360,8 @@ msgstr ""
 
 #. type: textblock
 #: deb-triggers.pod
-#, fuzzy
-#| msgid "B<dpkg-trigger>(1), B<dpkg>(1), B<%PKGDOCDIR%/spec/triggers.txt.gz>."
 msgid "B<dpkg-trigger>(1), B<dpkg>(1), B<%PKGDOCDIR%/spec/triggers.txt>."
-msgstr "B<dpkg-trigger>(1), B<dpkg>(1), B<%PKGDOCDIR%/spec/triggers.txt.gz>."
+msgstr "B<dpkg-trigger>(1), B<dpkg>(1), B<%PKGDOCDIR%/spec/triggers.txt>."
 
 #. type: textblock
 #: deb-version.pod
@@ -6766,18 +6704,6 @@ msgstr ""
 
 #. type: textblock
 #: deb.pod
-#, fuzzy
-#| msgid ""
-#| "The second required member is named B<control.tar>.  It is a tar archive "
-#| "containing the package control information, either not compressed "
-#| "(supported since dpkg 1.17.6), or compressed with gzip (with B<.gz> "
-#| "extension) or xz (with B<.xz> extension, supported since 1.17.6), as a "
-#| "series of plain files, of which the file B<control> is mandatory and "
-#| "contains the core control information, the B<md5sums>, B<conffiles>, "
-#| "B<triggers>, B<shlibs> and B<symbols> files contain optional control "
-#| "information, and the B<preinst>, B<postinst>, B<prerm> and B<postrm> "
-#| "files are optional maintainer scripts.  The control tarball may "
-#| "optionally contain an entry for ‘B<.>’, the current directory."
 msgid ""
 "The second required member is named B<control.tar>.  It is a tar archive "
 "containing the package control information, either not compressed (supported "
@@ -6794,23 +6720,16 @@ msgstr ""
 "Den andra nödvändiga posten heter B<control.tar>. Det är ett tar-arkiv som "
 "innehåller paketets styrinformation, antingen okomprimerat (stöds sedan dpkg "
 "1.17.6), eller komprimerat med gzip (med filtillägget B<.gz>) eller xz (med "
-"filtillägget B<.xz>, stöds sedan 1.17-6), lagrade som ett antal vanliga "
-"filer, av vilka filen B<control> krävs och innehåller grundläggande "
-"styrinformation, filerna B<md5sums>, B<conffiles>, B<triggers>, B<shlibs> "
-"och B<symbols> innehåller valfri styrinformation, och filerna B<preinst>, "
-"B<postinst>, B<prerm> och B<postrm> är valfria utvecklarskript. Tarbollen "
-"control kan eventuellt innehålla en post för ”B<.>”, den aktuella katalogen."
+"filtillägget B<.xz>, stöds sedan 1.17.6), zstd (med filtillägget B<.zst>, "
+"stöds sedan dpkg 1.21.18), lagrade som ett antal vanliga filer, av vilka "
+"filen B<control> krävs och innehåller grundläggande styrinformation, filerna "
+"B<md5sums>, B<conffiles>, B<triggers>, B<shlibs> och B<symbols> innehåller "
+"valfri styrinformation, och filerna B<preinst>, B<postinst>, B<prerm> och "
+"B<postrm> är valfria utvecklarskript. Tarbollen control kan eventuellt "
+"innehålla en post för ”B<.>”, den aktuella katalogen."
 
 #. type: textblock
 #: deb.pod
-#, fuzzy
-#| msgid ""
-#| "The third, last required member is named B<data.tar>.  It contains the "
-#| "filesystem as a tar archive, either not compressed (supported since dpkg "
-#| "1.10.24), or compressed with gzip (with B<.gz> extension), xz (with B<."
-#| "xz> extension, supported since dpkg 1.15.6), bzip2 (with B<.bz2> "
-#| "extension, supported since dpkg 1.10.24) or lzma (with B<.lzma> "
-#| "extension, supported since dpkg 1.13.25)."
 msgid ""
 "The third, last required member is named B<data.tar>.  It contains the "
 "filesystem as a tar archive, either not compressed (supported since dpkg "
@@ -6822,10 +6741,11 @@ msgid ""
 msgstr ""
 "Den tredje och sista nödvändiga posten heter B<data.tar>. Den innehåller "
 "filsystemet som ett tar-arkiv, antingen okomprimerat (stöds sedan dpkg "
-"1.10.24), eller komprimerat med gzip (med filslutet B<.gz>), xz (med "
-"filslutet B<.xz>, stöds sedan dpkg 1.15.6), bzip2 (med filslutet B<.bz2>, "
-"stöds sedan dpkg 1.10.24) eller lzma (med filslutet B<.lzma>, stöds sedan "
-"dpkg 1.13.25)."
+"1.10.24), eller komprimerat med gzip (med filtillägget B<.gz>), xz (med "
+"filtillägget B<.xz>, stöds sedan dpkg 1.15.6), zstd (med filtillägget B<."
+"zst>, stöds sedan dpkg 1.21.18), bzip2 (med filtillägget B<.bz2>, stöds "
+"sedan dpkg 1.10.24) eller lzma (med filtillägget B<.lzma>, stöds sedan dpkg "
+"1.13.25)."
 
 #. type: textblock
 #: deb.pod
@@ -6924,18 +6844,6 @@ msgstr "SYNTAX"
 
 #. type: textblock
 #: deb822.pod
-#, fuzzy
-#| msgid ""
-#| "A control file consists of one or more paragraphs of fields (the "
-#| "paragraphs are also sometimes referred to as stanzas).  The paragraphs "
-#| "are separated by empty lines.  Parsers may accept lines consisting solely "
-#| "of U+0020 B<SPACE> and U+0009 B<TAB> as paragraph separators, but control "
-#| "files should use empty lines.  Some control files allow only one "
-#| "paragraph; others allow several, in which case each paragraph usually "
-#| "refers to a different package.  (For example, in source packages, the "
-#| "first paragraph refers to the source package, and later paragraphs refer "
-#| "to binary packages generated from the source.)  The ordering of the "
-#| "paragraphs in control files is significant."
 msgid ""
 "A control file consists of one or more stanzas of fields (the stanzas "
 "sometimes used to be referred to as paragraphs).  The stanzas are separated "
@@ -6947,28 +6855,18 @@ msgid ""
 "package, and later stanzas refer to binary packages generated from the "
 "source.)  The ordering of the stanzas in control files is significant."
 msgstr ""
-"Styrfilen består av ett eller flera stycken med fält (styckena kallas ibland "
-"även för strofer, ”stanza”). Styckena avdelas av tomma rader. Tolkar kan "
-"tillåta rader som består enbart av U+0020 B<SPACE> och U+0009 B<TAB> som "
-"styckeavdelare, men styrfiler bör använda tomma rader. Vissa styrfiler "
-"tillåter bara ett enda stycke; andra tillåter flera, i vilket fall varje "
-"enskilt stycke vanligen gäller ett separat paket. (Till exempel, i "
-"källkodspaket gäller det första stycket för källkodspaketet, och senare "
-"stycken binärpaketen som skapats från källkoden.) Ordningen på styckena i "
-"styrfilerna har betydelse."
+"Styrfilen består av ett eller flera stycken med fält (styckena kallas "
+"”stanza” (strof) eller ”paragraph” på engelska). Styckena avdelas av tomma "
+"rader. Tolkar kan tillåta rader som består enbart av U+0020 B<SPACE> och "
+"U+0009 B<TAB> som styckeavdelare, men styrfiler bör använda tomma rader. "
+"Vissa styrfiler tillåter bara ett enda stycke; andra tillåter flera, i "
+"vilket fall varje enskilt stycke vanligen gäller ett separat paket. (Till "
+"exempel, i källkodspaket gäller det första stycket för källkodspaketet, och "
+"senare stycken binärpaketen som skapats från källkoden.) Ordningen på "
+"styckena i styrfilerna har betydelse."
 
 #. type: textblock
 #: deb822.pod
-#, fuzzy
-#| msgid ""
-#| "Each paragraph consists of a series of data fields.  Each field consists "
-#| "of the field name followed by a colon (U+003A ‘B<:>’), and then the data/"
-#| "value associated with that field.  The field name is composed of US-ASCII "
-#| "characters excluding control characters, space, and colon (i.e., "
-#| "characters in the ranges U+0021 ‘B<!>’ through U+0039 ‘B<9>’, and U+003B "
-#| "‘B<;>’ through U+007E ‘B<~>’, inclusive).  Field names must not begin "
-#| "with the comment character (U+0023 ‘B<#>’), nor with the hyphen character "
-#| "(U+002D ‘B<->’)."
 msgid ""
 "Each stanza consists of a series of data fields.  Each field consists of the "
 "field name followed by a colon (U+003A ‘B<:>’), and then the data/value "
@@ -7026,10 +6924,6 @@ msgstr ""
 
 #. type: textblock
 #: deb822.pod
-#, fuzzy
-#| msgid ""
-#| "A paragraph must not contain more than one instance of a particular field "
-#| "name."
 msgid ""
 "A stanza must not contain more than one instance of a particular field name."
 msgstr ""
@@ -7076,11 +6970,6 @@ msgstr ""
 
 #. type: textblock
 #: deb822.pod
-#, fuzzy
-#| msgid ""
-#| "This folding method is similar to RFC5322, allowing control files that "
-#| "contain only one paragraph and no multiline fields to be read by parsers "
-#| "written for RFC5322."
 msgid ""
 "This folding method is similar to RFC5322, allowing control files that "
 "contain only one stanza and no multiline fields to be read by parsers "
@@ -7144,12 +7033,6 @@ msgstr ""
 
 #. type: textblock
 #: deb822.pod
-#, fuzzy
-#| msgid ""
-#| "Paragraph separators (empty lines) and lines consisting only of U+0020 "
-#| "B<SPACE> and U+0009 B<TAB>, are not allowed within field values or "
-#| "between fields.  Empty lines in field values are usually escaped by "
-#| "representing them by a U+0020 B<SPACE> followed by a dot (U+002E ‘B<.>’)."
 msgid ""
 "Stanza separators (empty lines) and lines consisting only of U+0020 B<SPACE> "
 "and U+0009 B<TAB>, are not allowed within field values or between fields.  "
@@ -7158,8 +7041,8 @@ msgid ""
 msgstr ""
 "Styckeavdelare (tomma rader) och rader som endast består av +0020 B<SPACE> "
 "och U+0009 B<TAB>, tillåts inte inuti fältvärden eller mellan fält. Tomma "
-"rader i fätnamn citeras vanligtvis genom att representera dem med ett U+0020 "
-"B<SPACE> följt av en punkt (U+002E ”B<.>”)."
+"rader i fältvärden citeras vanligtvis genom att representera dem med ett "
+"U+0020 B<SPACE> följt av en punkt (U+002E ”B<.>”)."
 
 #. type: textblock
 #: deb822.pod
@@ -8810,23 +8693,18 @@ msgstr "B<--query>"
 
 #. type: textblock
 #: dpkg-buildflags.pod
-#, fuzzy
-#| msgid ""
-#| "Print any information that can be useful to explain the behaviour of the "
-#| "program: current vendor, relevant environment variables, feature areas, "
-#| "state of all feature flags, and the compiler flags with their origin "
-#| "(since dpkg 1.19.0)."
 msgid ""
 "Print any information that can be useful to explain the behaviour of the "
 "program: current vendor, relevant environment variables, feature areas, "
 "state of all feature flags, whether a feature is handled as a builtin "
-"default by the compiler (since dpkg dpkg 1.21.14), and the compiler flags "
-"with their origin (since dpkg 1.19.0)."
+"default by the compiler (since dpkg 1.21.14), and the compiler flags with "
+"their origin (since dpkg 1.19.0)."
 msgstr ""
 "Srkiv ut information som kan vara användbar för att förklara programmets "
 "beteende: aktuell återförsäljare, relevanta miljövariabler, "
-"funktionsområden, status för alla funktionsflaggor, och kompilatorflaggorna "
-"med sina ursprung (sedan dpkg 1.19.0)."
+"funktionsområden, status för alla funktionsflaggor, huruvida en funktion "
+"hanteras av ett inbyggt förval av kompilatorn (sedan dpkg 1.21.14) och "
+"kompilatorflaggorna med sina ursprung (sedan dpkg 1.19.0)."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -8849,13 +8727,7 @@ msgstr ""
 
 #. type: verbatim
 #: dpkg-buildflags.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| " Area: qa\n"
-#| " Features:\n"
-#| "  bug=no\n"
-#| "  canary=no\n"
-#| "\n"
+#, no-wrap
 msgid ""
 " Area: qa\n"
 " Features:\n"
@@ -8868,17 +8740,12 @@ msgstr ""
 " Features:\n"
 "  bug=no\n"
 "  canary=no\n"
+" Builtins:\n"
 "\n"
 
 #. type: verbatim
 #: dpkg-buildflags.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| " Area: qa\n"
-#| " Features:\n"
-#| "  bug=no\n"
-#| "  canary=no\n"
-#| "\n"
+#, no-wrap
 msgid ""
 " Area: hardening\n"
 " Features:\n"
@@ -8887,20 +8754,16 @@ msgid ""
 "  pie=yes\n"
 "\n"
 msgstr ""
-" Area: qa\n"
+" Area: hardening\n"
 " Features:\n"
-"  bug=no\n"
-"  canary=no\n"
+"  pie=no\n"
+" Builtins:\n"
+"  pie=yes\n"
 "\n"
 
 #. type: verbatim
 #: dpkg-buildflags.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| " Area: reproducible\n"
-#| " Features:\n"
-#| "  timeless=no\n"
-#| "\n"
+#, no-wrap
 msgid ""
 " Area: reproducible\n"
 " Features:\n"
@@ -8911,6 +8774,7 @@ msgstr ""
 " Area: reproducible\n"
 " Features:\n"
 "  timeless=no\n"
+" Builtins:\n"
 "\n"
 
 #. type: verbatim
@@ -8948,13 +8812,6 @@ msgstr "B<--query-features> I<område>"
 
 #. type: textblock
 #: dpkg-buildflags.pod
-#, fuzzy
-#| msgid ""
-#| "Print the features enabled for a given area (since dpkg 1.16.2).  The "
-#| "only currently recognized areas on Debian and derivatives are B<future>, "
-#| "B<qa>, B<reproducible>, B<sanitize> and B<hardening>, see the B<FEATURE "
-#| "AREAS> section for more details.  Exits with 0 if the area is known "
-#| "otherwise exits with 1."
 msgid ""
 "Print the features enabled for a given area (since dpkg 1.16.2).  If the "
 "feature is handled (even if only on some architectures) as a builtin default "
@@ -8964,8 +8821,10 @@ msgid ""
 "AREAS> section for more details.  Exits with 0 if the area is known "
 "otherwise exits with 1."
 msgstr ""
-"Skriv ut funktioner aktiverade för ett givet område (sedan dpkg 1.16.2). De "
-"enda för närvarande kända områdena på Debian och dess derivat är B<future>, "
+"Skriv ut funktioner aktiverade för ett givet område (sedan dpkg 1.16.2). Om "
+"funktionen hanteras (även om bara av några arkitekturer) som ett inbyggt "
+"förval av kompilatorn visas fältet B<Bultin> (sedan dpkg 1.21.14). De enda "
+"för närvarande kända områdena på Debian och dess derivat är B<future>, "
 "B<qa>, B<reproducible>, B<sanitize> och B<hardening>, se avsnittet "
 "B<FUNKTIONSOMRÅDEN> för fler detaljer. Avslutar med 0 om området är känt, "
 "avslutar annars med 1."
@@ -8979,11 +8838,7 @@ msgstr ""
 
 #. type: verbatim
 #: dpkg-buildflags.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| " Feature: pie\n"
-#| " Enabled: yes\n"
-#| "\n"
+#, no-wrap
 msgid ""
 " Feature: pie\n"
 " Enabled: yes\n"
@@ -8992,6 +8847,7 @@ msgid ""
 msgstr ""
 " Feature: pie\n"
 " Enabled: yes\n"
+" Builtin: yes\n"
 "\n"
 
 #. type: verbatim
@@ -9310,7 +9166,7 @@ msgstr ""
 #. type: =item
 #: dpkg-buildflags.pod
 msgid "B<lto>"
-msgstr ""
+msgstr "B<lto>"
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9641,17 +9497,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-buildflags.pod
-#, fuzzy
-#| msgid ""
-#| "Position Independent Executable are needed to take advantage of Address "
-#| "Space Layout Randomization, supported by some kernel versions. While ASLR "
-#| "can already be enforced for data areas in the stack and heap (brk and "
-#| "mmap), the code areas must be compiled as position-independent. Shared "
-#| "libraries already do this (B<-fPIC>), so they gain ASLR automatically, "
-#| "but binary .text regions need to be build PIE to gain ASLR. When this "
-#| "happens, ROP (Return Oriented Programming) attacks are much harder since "
-#| "there are no static locations to bounce off of during a memory corruption "
-#| "attack."
 msgid ""
 "Position Independent Executable (PIE) is needed to take advantage of Address "
 "Space Layout Randomization (ASLR), supported by some kernel versions.  While "
@@ -10409,14 +10254,6 @@ msgstr "B<11.>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "It runs the B<sign> hook and calls B<gpg> (as long as it is not an "
-#| "UNRELEASED build, or B<--no-sign> is specified) to sign the B<.dsc> file "
-#| "(if any, unless B<-us> or B<--unsigned-source> is specified), the B<."
-#| "buildinfo> file (unless B<-ui>, B<--unsigned-buildinfo>, B<-uc> or B<--"
-#| "unsigned-changes> is specified) and the B<.changes> file (unless B<-uc> "
-#| "or B<--unsigned-changes> is specified)."
 msgid ""
 "It runs the B<sign> hook and signs using the OpenPGP backend (as long as it "
 "is not an UNRELEASED build, or B<--no-sign> is specified) to sign the B<."
@@ -10425,12 +10262,12 @@ msgid ""
 "unsigned-changes> is specified) and the B<.changes> file (unless B<-uc> or "
 "B<--unsigned-changes> is specified)."
 msgstr ""
-"Kör kroken B<sign> och anropar B<gpg> (såvida det inte är ett UNRELEASED-"
-"bygge eller om B<--no-sign> angavs) för att signera B<.dsc>-filen (om sådan "
-"finns, såvida inte B<-us> eller B<--unsigned-source> anges), B<.buildinfo>-"
-"filen (såvida inte B<-ui>, B<--unsigned-buildinfo>, B<-uc> eller B<--"
-"unsigned-changes> anges) och B<.changes>-filen (såvida inte B<-uc> eller B<--"
-"unsigned-changes> anges)."
+"Kör kroken B<sign> och signerar med OpenPGP-programmet (såvida det inte är "
+"ett UNRELEASED-bygge, eller om B<--no-sign> angavs) för att signera B<.dsc>-"
+"filen (om sådan finns, såvida inte B<-us> eller B<--unsigned-source> anges), "
+"B<.buildinfo>-filen (såvida inte B<-ui>, B<--unsigned-buildinfo>, B<-uc> "
+"eller B<--unsigned-changes> anges) och B<.changes>-filen (såvida inte B<-uc> "
+"eller B<--unsigned-changes> anges)."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -10463,10 +10300,6 @@ msgstr "B<--build=>I<typ>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "Specifies the build I<type> from a comma-separated list of components "
-#| "(since dpkg 1.18.5).  Passed to B<dpkg-genchanges>."
 msgid ""
 "Specifies the build I<type> from a comma-separated list of components (since "
 "dpkg 1.18.5).  All the specified components get combined to select the "
@@ -10474,7 +10307,9 @@ msgid ""
 "changes> file generated.  Passed to B<dpkg-genchanges>."
 msgstr ""
 "Anger bygg-I<type> från en kommaavdelad lista med komponenter (sedan dpkg "
-"1.18.5). Sänds vidare till B<dpkg-genchanges>."
+"1.18.5). Alla angivna komponenter kombineras för att välja den byggtypen som "
+"ska användas i den enda körningen, vilket leder till en enda byggkörning som "
+"skapar en F<.changes>-fil. Sänds vidare till B<dpkg-genchanges>."
 
 #. type: textblock
 #: dpkg-buildpackage.pod dpkg-genbuildinfo.pod dpkg-genchanges.pod
@@ -10716,47 +10551,33 @@ msgstr ""
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<-e>, B<--build-by=>I<maintainer-address>"
 msgid "B<--build-by=>I<maintainer-address>"
-msgstr "B<-e>, B<--build-by=>I<paketansvarige-adress>"
+msgstr "B<--build-by=>I<paketansvarige-adress>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<-m>, B<--release-by=>I<maintainer-address>"
 msgid "B<--source-by=>I<maintainer-address> (since dpkg 1.21.10)"
-msgstr "B<-m>, B<--release-by=>I<paketansvarige-adress>"
+msgstr " B<--source-by=>I<paketansvarige-adress> (sedan dpkg 1.21.10)"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "Passed unchanged to B<dpkg-genchanges>. See its manual page."
 msgid "Pass as B<-m> to B<dpkg-genchanges>. See its manual page."
-msgstr ""
-"Sänds vidare utan ändringar till B<dpkg-genchanges>. Se dess manualsida."
+msgstr "Sänds som B<-m> till B<dpkg-genchanges>. Se dess manualsida."
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<-m>, B<--release-by=>I<maintainer-address>"
 msgid "B<--release-by=>I<maintainer-address>"
-msgstr "B<-m>, B<--release-by=>I<paketansvarige-adress>"
+msgstr "B<--release-by=>I<paketansvarige-adress>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<-m>, B<--release-by=>I<maintainer-address>"
 msgid "B<--changed-by=>I<maintainer-address> (since dpkg 1.21.10)"
-msgstr "B<-m>, B<--release-by=>I<paketansvarige-adress>"
+msgstr "B<--changed-by=>I<paketansvarige-adress> (sedan dpkg 1.21.10)"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "Passed unchanged to B<dpkg-genchanges>. See its manual page."
 msgid "Pass as B<-e> to B<dpkg-genchanges>. See its manual page."
-msgstr ""
-"Sänds vidare utan ändringar till B<dpkg-genchanges>. Se dess manualsida."
+msgstr "Sänds som B<-e> till B<dpkg-genchanges>. Se dess manualsida."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -10849,30 +10670,17 @@ msgid ""
 "parallel-build safe.  Setting the number of jobs to B<1> will restore serial "
 "execution."
 msgstr ""
+"Antalet jobb som tillåts att köras samtidigt (sedan dpkg 1.14.7, lång flagga "
+"sedan dpkg 1.18.8). Antal jobb motsvarande antalet tillgängliga processorer "
+"om B<auto> anges (sedan dpkg 1.17.10), eller ett obegränsat antal om I<jobb> "
+"inte anges. Förvalt beteende är B<auto> (sedan dpkg 1.18.11) i icke-tvingat "
+"läge (sedan dpkg 1.21.10), och som sådant är det alltid säkrare att använda "
+"med alla paket, däribland de som inte kan byggas parallellt på ett säkert "
+"sätt. Om antal jobb sätts till B<1> kommer seriell exekvering att "
+"återställas."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "Number of jobs allowed to be run simultaneously, number of jobs matching "
-#| "the number of online processors if B<auto> is specified (since dpkg "
-#| "1.17.10), or unlimited number if I<jobs> is not specified, equivalent to "
-#| "the B<make>(1)  option of the same name (since dpkg 1.14.7, long option "
-#| "since dpkg 1.18.8).  Will add itself to the B<MAKEFLAGS> environment "
-#| "variable, which should cause all subsequent make invocations to inherit "
-#| "the option, thus forcing the parallel setting on the packaging (and "
-#| "possibly the upstream build system if that uses make)  regardless of "
-#| "their support for parallel builds, which might cause build failures.  "
-#| "Also adds B<parallel=>I<jobs> or B<parallel> to the B<DEB_BUILD_OPTIONS> "
-#| "environment variable which allows debian/rules files to use this "
-#| "information for their own purposes.  The B<-j> value will override the "
-#| "B<parallel=>I<jobs> or B<parallel> option in the B<DEB_BUILD_OPTIONS> "
-#| "environment variable.  Note that the B<auto> value will get replaced by "
-#| "the actual number of currently active processors, and as such will not "
-#| "get propagated to any child process. If the number of online processors "
-#| "cannot be inferred then the code will fallback to using serial execution "
-#| "(since dpkg 1.18.15), although this should only happen on exotic and "
-#| "unsupported systems."
 msgid ""
 "Will add B<parallel=>I<jobs> or B<parallel> to the B<DEB_BUILD_OPTIONS> "
 "environment variable which allows debian/rules files to opt-in to use this "
@@ -10885,24 +10693,16 @@ msgid ""
 "dpkg 1.18.15), although this should only happen on exotic and unsupported "
 "systems."
 msgstr ""
-"Antalet jobb som tillåts att köras samtidigt, antal jobb motsvarande antalet "
-"tillgängliga processorer om B<auto> anges (sedan dpkg 1.17.10), eller ett "
-"obegränsat antal om I<jobb> inte anges, motsvarar B<make>(1)-flaggan med "
-"samma namn (sedan dpkg 1.14.7, lång flagga sedan dpkg 1.18.8). Lägger till "
-"sig själv i miljövariabeln B<MAKEFLAGS>, vilket får alla påföljande make-"
-"anrop att ärva flaggan, vilket därmed tvingar parallelliseringsinställningen "
-"för paketeringen (och möjligen också uppströms-byggsystemet ocm det använder "
-"make) oberoende av huruvida det stöder parallella byggen, något som möjligen "
-"kan leda till fel i bygget. Lägger även till flaggan B<parallel=>I<jobb> "
-"eller B<parallel> till miljövariabeln B<DEB_BUILD_OPTIONS>, vilket gör det "
-"möjligt för debian/rules-filer att använda informationen för egna ändamål. "
-"Värdet för B<-j> kommer att överstyra värdet B<parallel=>I<jobb> eller "
-"B<parallel> i miljövariabeln B<DEB_BUILD_OPTIONS>. Observera att B<auto>-"
-"värdet kommer ersättas av det faktiska antalet för närvarande aktiva "
-"processorer, och därför inte kommer sändas med till barnprocesser. Om "
-"antalet tillgängliga processorer inte kan tas fram kommer koden att falla "
-"tillbaka till seriell exekvering (sedan dpkg 1.18.15), även om detta bara "
-"borde ske på exotiska och icke stödda system."
+"Lägger till B<parallel=>I<jobb> eller B<parallel> till miljövariabeln "
+"B<DEB_BUILD_OPTIONS>, vilket gör det möjligt för debian/rules-filer att "
+"använda informationen för egna ändamål om de önskar. Värdet för I<jobb> "
+"kommer att överstyra värdet B<parallel=>I<jobb> eller B<parallel> i "
+"miljövariabeln B<DEB_BUILD_OPTIONS>. Observera att B<auto>-värdet kommer "
+"ersättas av det faktiska antalet för närvarande aktiva processorer, och "
+"därför inte kommer sändas med till barnprocesser. Om antalet tillgängliga "
+"processorer inte kan tas fram kommer koden att falla tillbaka till seriell "
+"exekvering (sedan dpkg 1.18.15), även om detta bara borde ske på exotiska "
+"och icke stödda system."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -10915,6 +10715,8 @@ msgid ""
 "This option (since dpkg 1.18.2, long option since dpkg 1.18.8) is equivalent "
 "to the B<-j> above."
 msgstr ""
+"Den här flaggan (sedan dpkg 1.18.2, lång flagga sedan dpkg 1.18.8) motsvarar "
+"B<-j> ovan."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -10923,13 +10725,14 @@ msgid ""
 "can use this option instead if you need to guarantee semantics across dpkg "
 "release series."
 msgstr ""
+"Eftersom beteendet för B<-j> ändrades i dpkg 1.21.10 till att vara valfritt "
+"kan du använda den här flaggan istället om du måste garantera semantiken "
+"över flera dpkg-utgivningsserier."
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<-J>, B<--jobs-try>[=I<jobs>|B<auto>]"
 msgid "B<--jobs-force>[=I<jobs>|B<auto>]"
-msgstr "B<-J>, B<--jobs-try>[=I<jobb>|B<auto>]"
+msgstr "B<--jobs-force>[=I<jobs>|B<auto>]"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -10939,6 +10742,10 @@ msgid ""
 "option with the computed number of parallel jobs to the B<MAKEFLAGS> "
 "environment variable."
 msgstr ""
+"Den här flaggan (sedan dpkg 1.12.10) motsvarar flaggan B<--jobs> med "
+"undantaget att det aktiverar tvingat parallellt läge, genom att lägga till "
+"B<make> B<-j>-flaggan med antalet beräknade parallella jobb i miljövariabeln "
+"B<MAKEFLAGS>."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -10948,6 +10755,10 @@ msgid ""
 "upstream build system if that uses L<make(1)>) regardless of their support "
 "for parallel builds, which might cause build failures."
 msgstr ""
+"Detta borde göra så att alla senare make-anrop ärver flaggan och därmed "
+"påtvinga parallelliseringsinställningen i paketeringen (och möjligen "
+"uppströmsbyggsystemet om det det använder L<make(1)>), oberoende av om det "
+"stöder parallella bygg, något som kan komma att orsaka byggfel."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -10956,6 +10767,9 @@ msgid ""
 "buggy.  These should either be made parallel-safe, or marked as not being "
 "safe with the L<make(1)> B<.NOTPARALLEL> target."
 msgstr ""
+"Observera: Makefiler som inte kan köras parallellt bör anses felaktiga. De "
+"bör antingen göras säkra för parallellisering, eller markeras som osäkra med "
+"L<make(1)>-målet B<.NOTPARALLEL>."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -11329,23 +11143,17 @@ msgstr ""
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<-p>, B<--sign-command=>I<sign-command>"
 msgid "B<--sign-backend=>I<sign-backend>"
-msgstr "B<-p>, B<--sign-command=>I<signeringskommando>"
+msgstr "B<--sign-backend=>I<signeringsfunktion>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "Specify a key-ID to use when signing packages (long option since dpkg "
-#| "1.18.8)."
 msgid ""
 "Specify an OpenPGP backend interface to use when invoking the I<sign-"
 "command> (since dpkg 1.21.10)."
 msgstr ""
-"Ange nyckel-id att använda vid signering av paket (lång flagga sedand dpkg "
-"1.18.8)."
+"Ange ett OpenPGP-funktionsgränssnitt att använda när I<sign-command> körs "
+"(sedan dpkg 1.21.10)."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -11353,21 +11161,24 @@ msgid ""
 "The default is B<auto>, where the best current backend available will be "
 "used.  The specific OpenPGP backends supported in order of preference are:"
 msgstr ""
+"Förvalet är B<auto>, där det bästa för närvarande tillgängliga funktionen "
+"kommer användas. De specifika OpenPGP-funktioner som stöds är, med det bästa "
+"först:"
 
 #. type: =item
 #: dpkg-buildpackage.pod
 msgid "B<sop> (any conforming Stateless OpenPGP implementation)"
-msgstr ""
+msgstr "B<sop> (valfri korrekt implementation av ”Stateless OpenPGP”)"
 
 #. type: =item
 #: dpkg-buildpackage.pod
 msgid "B<sq> (from Sequoia-PGP)"
-msgstr ""
+msgstr "B<sq> (från Sequoia-PGP)"
 
 #. type: =item
 #: dpkg-buildpackage.pod
 msgid "B<gpg> (from GnuPG)"
-msgstr ""
+msgstr "B<gpg> (från GnuPG)"
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -11376,14 +11187,6 @@ msgstr "B<-p>, B<--sign-command=>I<signeringskommando>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "When B<dpkg-buildpackage> needs to execute GPG to sign a source control "
-#| "(B<.dsc>) file or a B<.changes> file it will run I<sign-command> "
-#| "(searching the B<PATH> if necessary) instead of B<gpg> (long option since "
-#| "dpkg 1.18.8).  I<sign-command> will get all the arguments that B<gpg> "
-#| "would have gotten. I<sign-command> should not contain spaces or any other "
-#| "shell metacharacters."
 msgid ""
 "When B<dpkg-buildpackage> needs to execute an OpenPGP backend command to "
 "sign a source control (B<.dsc>) file or a B<.changes> file it will run "
@@ -11392,26 +11195,23 @@ msgid ""
 "command> will get all the arguments defined by the B<--sign-backend>.  "
 "I<sign-command> should not contain spaces or any other shell metacharacters."
 msgstr ""
-"När B<dpkg-buildpackage> måste exekvera GPG för att signera ett "
-"källkodsstyrfil (B<.dsc>) eller en B<.changes>-fil kör det "
-"I<signeringskommando> (det letar i B<PATH> om så behövs) istället för B<gpg> "
-"(lång flagga sedan dpkg 1.18.8). I<signeringskommando> får alla de argument "
-"B<gpg> skulle ha fått. I<signeringskommando> får inte innehålla blanksteg "
-"eller andra skalmetatecken."
+"När B<dpkg-buildpackage> måste exekvera en OpenGPG-funktion för att signera "
+"ett källkodsstyrfil (B<.dsc>) eller en B<.changes>-fil kör det "
+"I<signeringskommando> (det letar i B<PATH> om så behövs) istället för "
+"förvalet eller autodetekterat funktionskommando (lång flagga sedan dpkg "
+"1.18.8). I<signeringskommando> får alla de argument som anges av B<--sign-"
+"backend>. I<signeringskommando> bör inte innehålla blanksteg eller andra "
+"skalmetatecken."
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<-k>, B<--sign-key=>I<key-id>"
 msgid "B<-k>, B<--sign-keyid=>I<key-id>"
-msgstr "B<-k>, B<--sign-key=>I<nyckel-id>"
+msgstr "B<-k>, B<--sign-keyid=>I<nyckel-id>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<-k>, B<--sign-key=>I<key-id>"
 msgid "B<--sign-key=>I<key-id>"
-msgstr "B<-k>, B<--sign-key=>I<nyckel-id>"
+msgstr "B<--sign-key=>I<nyckel-id>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -11420,26 +11220,23 @@ msgid ""
 "key to use when signing packages (B<--sign-key> since dpkg 1.18.8, B<--sign-"
 "keyid> since dpkg 1.21.10)."
 msgstr ""
+"Ange en Open PGP-nyckel-id (antingen ett fingeravtryck eller ett användar-"
+"ID) för den hemliga nyckeln att använda vid signering av paket (B<--sign-"
+"key> sedan dpkg 1.18.8, B<--sign-keyid> sedan dpkg 1.21.10)."
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<-k>, B<--sign-key=>I<key-id>"
 msgid "B<--sign-keyfile=>I<key-file>"
-msgstr "B<-k>, B<--sign-key=>I<nyckel-id>"
+msgstr "B<--sign-keyfile=>I<nyckelfil>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "Specify a key-ID to use when signing packages (long option since dpkg "
-#| "1.18.8)."
 msgid ""
 "Specify an OpenPGP I<key-file> containing the secret key to use when signing "
 "packages (since dpkg 1.21.10)."
 msgstr ""
-"Ange nyckel-id att använda vid signering av paket (lång flagga sedand dpkg "
-"1.18.8)."
+"Ange en OpenPGP-I<nyckelfil> som innehåller den hemliga nyckeln att använda "
+"vid signering av paket (sedan dpkg 1.21-10)."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -11447,6 +11244,8 @@ msgid ""
 "Note: For security reasons the I<key-file> is best kept locked with a "
 "password."
 msgstr ""
+"Observera: Av säkerhetsskäl är det bäst att håll I<nyckelfil> låst med ett "
+"lösenord."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -11668,36 +11467,26 @@ msgstr "B<DEB_SIGN_KEYID>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "If set, it will be used to sign the B<.changes> and B<.dsc> files (since "
-#| "dpkg 1.17.2).  Overridden by the B<--sign-key> option."
 msgid ""
 "If set, it will be used to sign the B<.changes>, B<.buildinfo> and B<.dsc> "
 "files (since dpkg 1.17.2).  Overridden by the B<--sign-key> option."
 msgstr ""
-"Används för att signera filerna B<.changes> och B<.dsc> om satt (sedan dpkg "
-"1.17.2). Överstyrs av flaggan B<--sign-key>."
+"Används för att signera filerna B<.changes>, B<.buildinfo> och B<.dsc>-"
+"filerna om satt (sedan dpkg 1.17.2). Överstyrs av flaggan B<--sign-key>."
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<DEB_SIGN_KEYID>"
 msgid "B<DEB_SIGN_KEYFILE>"
-msgstr "B<DEB_SIGN_KEYID>"
+msgstr "B<DEB_SIGN_KEYFILE>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "If set, it will be used to sign the B<.changes> and B<.dsc> files (since "
-#| "dpkg 1.17.2).  Overridden by the B<--sign-key> option."
 msgid ""
 "If set, it will be used to sign the B<.changes>, B<.buildinfo> and B<.dsc> "
 "files (since dpkg 1.21.10).  Overridden by the B<--sign-keyfile> option."
 msgstr ""
-"Används för att signera filerna B<.changes> och B<.dsc> om satt (sedan dpkg "
-"1.17.2). Överstyrs av flaggan B<--sign-key>."
+"Används för att signera filerna B<.changes>, B<.buildinfo> och B<.dsc>-"
+"filerna om satt (sedan dpkg 1.21.10). Överstyrs av flaggan B<--sign-keyfile>."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -11894,11 +11683,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "I<%PKGDOCDIR%/spec/rootless-builds.txt>, B<dpkg-source>(1), B<dpkg-"
-#| "architecture>(1), B<dpkg-buildflags>(1), B<dpkg-genbuildinfo>(1), B<dpkg-"
-#| "genchanges>(1), B<fakeroot>(1), B<lintian>(1), B<gpg>(1)."
 msgid ""
 "I<%PKGDOCDIR%/spec/rootless-builds.txt>, B<dpkg-source>(1), B<dpkg-"
 "architecture>(1), B<dpkg-buildflags>(1), B<dpkg-genbuildinfo>(1), B<dpkg-"
@@ -11907,7 +11691,8 @@ msgid ""
 msgstr ""
 "I<%PKGDOCDIR%/spec/rootless-builds.txt>, B<dpkg-source>(1), B<dpkg-"
 "architecture>(1), B<dpkg-buildflags>(1), B<dpkg-genbuildinfo>(1), B<dpkg-"
-"genchanges>(1), B<fakeroot>(1), B<lintian>(1), B<gpg>(1)."
+"genchanges>(1), B<fakeroot>(1), B<lintian>(1), L<https://datatracker.ietf."
+"org/doc/draft-dkg-openpgp-stateless-cli/>, B<sq>(1), B<gpg>(1)."
 
 #. type: textblock
 #: dpkg-checkbuilddeps.pod
@@ -12427,12 +12212,6 @@ msgstr "B<-z>I<komprimeringsnivå>"
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid ""
-#| "Specify which compression level to use on the compressor backend, when "
-#| "building a package (default is 9 for gzip, 6 for xz).  The accepted "
-#| "values are 0-9 with: 0 being mapped to compressor none for gzip.  Before "
-#| "dpkg 1.16.2 level 0 was equivalent to compressor none for all compressors."
 msgid ""
 "Specify which compression level to use on the compressor backend, when "
 "building a package (default is 9 for gzip, 6 for xz, 3 for zstd).  The "
@@ -12442,9 +12221,11 @@ msgid ""
 "was equivalent to compressor none for all compressors."
 msgstr ""
 "Ange vilken komprimeringsnivå som ska användas i komprimeringsfunktionen när "
-"ett paket byggs (standard är 9 för gzip, 6 för xz). Giltiga värden är 0-9 "
-"där: 0 mappas mot komprimeraren ingen för gzip.Före dpkg 1.16.2 var nivå 0 "
-"komprimeraren ingen för alla komprimerare."
+"ett paket byggs (standard är 9 för gzip, 6 för xz, 3 för zstd). Giltiga "
+"värden är specifika för packaren. För gzip, 0-9 där 0 mappas mot "
+"komprimeraren ingen. För xz 0-9. För zstd 0-22, där nivåerna 20 till 22 "
+"aktiverar dess ultraläge. Före dpkg 1.16.2 var nivå 0 komprimeraren ingen "
+"för alla komprimerare."
 
 #. type: =item
 #: dpkg-deb.pod
@@ -12471,18 +12252,14 @@ msgstr "B<-Z>I<komprimeringstyp>"
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid ""
-#| "Specify which compression type to use when building a package.  Allowed "
-#| "values are B<gzip>, B<xz> (since dpkg 1.15.6), and B<none> (default is "
-#| "B<xz>)."
 msgid ""
 "Specify which compression type to use when building a package.  Allowed "
 "values are B<gzip>, B<xz> (since dpkg 1.15.6), B<zstd> (since dpkg 1.21.18)  "
 "and B<none> (default is B<xz>)."
 msgstr ""
 "Ange vilken komprimeringstyp som ska användas när ett paket byggs. Tillåtna "
-"värden är B<gzip>, B<xz> (Sedan dpkg 1.15.6) och B<none> (förval är B<xz>)."
+"värden är B<gzip>, B<xz> (Sedan dpkg 1.15.6), B<zstd> (sedan dpkg 1.21.18) "
+"och B<none> (förval är B<xz>)."
 
 #. type: =item
 #: dpkg-deb.pod
@@ -12491,15 +12268,6 @@ msgstr "B<--[no-]uniform-compression>"
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid ""
-#| "Specify that the same compression parameters should be used for all "
-#| "archive members (i.e. B<control.tar> and B<data.tar>; since dpkg "
-#| "1.17.6).  Otherwise only the B<data.tar> member will use those "
-#| "parameters. The only supported compression types allowed to be uniformly "
-#| "used are B<none>, B<gzip> and B<xz>.  The B<--no-uniform-compression> "
-#| "option disables uniform compression (since dpkg 1.19.0).  Uniform "
-#| "compression is the default (since dpkg 1.19.0)."
 msgid ""
 "Specify that the same compression parameters should be used for all archive "
 "members (i.e. B<control.tar> and B<data.tar>; since dpkg 1.17.6).  Otherwise "
@@ -12512,9 +12280,10 @@ msgstr ""
 "Ange att samma komprimeringsparametrar ska användas för alla arkivmedlemmar "
 "(dvs. B<control.tar> och B<data.tar>; sedan dpkg 1.17.6). I annat fall "
 "kommer endast medlemmen B<data.tar> att använda parametrarna. De enda "
-"komprimeringstyper som kan användas enhetligt är B<none>, B<gzip> och B<xz>. "
-"Flaggan B<--no-uniform-compression> inaktiverar enhetlig komprimering (sedan "
-"dpkg 1.19.0). Enhetlig komprimering är förval (sedan dpkg 1.19.0)."
+"komprimeringstyper som kan användas enhetligt är B<none>, B<gzip>, B<xz> och "
+"B<zstd>. Flaggan B<--no-uniform-compression> inaktiverar enhetlig "
+"komprimering (sedan dpkg 1.19.0). Enhetlig komprimering är förval (sedan "
+"dpkg 1.19.0)."
 
 #. type: =item
 #: dpkg-deb.pod dpkg-source.pod
@@ -12675,45 +12444,33 @@ msgstr "Flaggan B<--threads-max> överstyr denna variabel."
 
 #. type: =item
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid "B<DPKG_DEB_THREADS_MAX>"
 msgid "B<DPKG_DEB_COMPRESSOR_TYPE>"
-msgstr "B<DPKG_DEB_THREADS_MAX>"
+msgstr "B<DPKG_DEB_COMPRESSOR_TYPE>"
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid "Set the target GNU system type (since dpkg 1.17.14)."
 msgid "Sets the compressor type to use (since dpkg 1.21.10)."
-msgstr "Sätt mål-GNU-systemtypen (sedan dpkg 1.17.14)."
+msgstr "Ange packartyp att använda (sedan dpkg 1.21.10)."
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid "The B<--threads-max> option overrides this value."
 msgid "The B<-Z> option overrides this value."
-msgstr "Flaggan B<--threads-max> överstyr denna variabel."
+msgstr "Flaggan B<-Z> överstyr denna variabel."
 
 #. type: =item
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid "B<DPKG_GENSYMBOLS_CHECK_LEVEL>"
 msgid "B<DPKG_DEB_COMPRESSOR_LEVEL>"
-msgstr "B<DPKG_GENSYMBOLS_CHECK_LEVEL>"
+msgstr "B<DPKG_DEB_COMPRESSOR_LEVEL>"
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid "Set the target GNU system type (since dpkg 1.17.14)."
 msgid "Sets the compressor level to use (since dpkg 1.21.10)."
-msgstr "Sätt mål-GNU-systemtypen (sedan dpkg 1.17.14)."
+msgstr "Anger pakarnivå att använda (sedan dpkg 1.21.10)."
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid "The B<--threads-max> option overrides this value."
 msgid "The B<-z> option overrides this value."
-msgstr "Flaggan B<--threads-max> överstyr denna variabel."
+msgstr "Flaggan B<-z> överstyr denna variabel."
 
 #. type: =item
 #: dpkg-deb.pod dpkg.pod
@@ -13153,10 +12910,8 @@ msgstr ""
 #. type: =item
 #: dpkg-divert.pod dpkg-query.pod dpkg-split.pod dpkg-statoverride.pod
 #: dpkg-trigger.pod dpkg.pod
-#, fuzzy
-#| msgid "B<DPKG_PAGER>"
 msgid "B<DPKG_DEBUG>"
-msgstr "B<DPKG_PAGER>"
+msgstr "B<DPKG_DEBUG>"
 
 #. type: textblock
 #: dpkg-divert.pod dpkg-query.pod dpkg-split.pod dpkg-statoverride.pod
@@ -13166,6 +12921,9 @@ msgid ""
 "accepted flags are described in the B<dpkg --debug> option, but not all "
 "these flags might have an effect on this program."
 msgstr ""
+"Anger felsökningsmasken (sedan dpkg 1.21.10) från ett oktalt värde. De "
+"flaggor som för närvarande godtas beskrivs i flaggan B<dpkg --debug>, men "
+"alla dess flaggor påverkar inte nödvändigtvis detta program."
 
 #. type: =item
 #: dpkg-divert.pod
@@ -13210,13 +12968,6 @@ msgstr "Kataloger kan inte omdirigeras med B<dpkg-divert>."
 
 #. type: textblock
 #: dpkg-divert.pod
-#, fuzzy
-#| msgid ""
-#| "Care should be taken when diverting shared libraries, B<ldconfig>(8)  "
-#| "creates a symbolic link based on the DT_SONAME field embedded in the "
-#| "library.  Because B<ldconfig> doesn't honour diverts (only B<dpkg> does), "
-#| "the symlink may end up pointing at the diverted library, if a diverted "
-#| "library has the same SONAME as the undiverted one."
 msgid ""
 "Care should be taken when diverting shared libraries, B<ldconfig>(8)  "
 "creates a symbolic link based on the DT_SONAME field embedded in the "
@@ -13331,6 +13082,11 @@ msgid ""
 "some of its maintainers might not fix issues or intentionally remove non-"
 "usrmerged support, so you will need decide and pick your poison."
 msgstr ""
+"B<Observera>: I Debian har dess tech-ctte bestämt att i utgåvan efter "
+"bookworm så kommer inte filsystem som inte har usrmerged-layouten att "
+"stödas, och att några av deras paketansvariga kanske inte kommer rätta "
+"problem eller medvetet ta bort stöd för icke-usrmerged, så du måste bestämma "
+"dig för vad som passar dig bäst."
 
 #. type: textblock
 #: dpkg-fsys-usrunmess.pod
@@ -15234,6 +14990,9 @@ msgid ""
 "shipped in the new packages, or B<dpkg> will not be able to remove them on "
 "purge."
 msgstr ""
+"Observera: De symboliska länkar och kataloger som skapas vid dessa växlingar "
+"måste sändas med i de nya paketen, om inte kommer B<dpkg> inte att kunna ta "
+"bort dem vid en rensning."
 
 #. type: =head2
 #: dpkg-maintscript-helper.pod
@@ -15951,16 +15710,12 @@ msgstr "Parserflaggor"
 
 #. type: textblock
 #: dpkg-parsechangelog.pod
-#, fuzzy
-#| msgid ""
-#| "The following options can be used to influence the output of the "
-#| "changelog parser, e.g. the range of entries or the format of the output."
 msgid ""
 "The following options can be used to influence the output of the changelog "
 "parser, for example the range of entries or the format of the output."
 msgstr ""
 "Följande flaggor kan användas för att styra utdata från ändringsloggtolken, "
-"t.ex. omfånget av poster eller formatet på utdata."
+"till exempel omfånget av poster eller formatet på utdata."
 
 #. type: =item
 #: dpkg-parsechangelog.pod
@@ -15969,14 +15724,6 @@ msgstr "B<--format> I<utdataformat>"
 
 #. type: textblock
 #: dpkg-parsechangelog.pod
-#, fuzzy
-#| msgid ""
-#| "Set the output format. Currently supported values are B<dpkg> and "
-#| "B<rfc822>.  B<dpkg> is the classic output format (from before this option "
-#| "existed) and the default. It consists of one paragraph in Debian control "
-#| "format (see B<deb-control>(5)). If more than one entry is requested, then "
-#| "most fields are taken from the first entry (usually the most recent "
-#| "entry), except otherwise stated:"
 msgid ""
 "Set the output format. Currently supported values are B<dpkg> and "
 "B<rfc822>.  B<dpkg> is the classic output format (from before this option "
@@ -16106,11 +15853,6 @@ msgstr "Ytterligare användardefinierade fält kan finnas."
 
 #. type: textblock
 #: dpkg-parsechangelog.pod
-#, fuzzy
-#| msgid ""
-#| "The B<rfc822> format uses the same fields but outputs a separate "
-#| "paragraph for each changelog entry so that all metadata for each entry is "
-#| "preserved."
 msgid ""
 "The B<rfc822> format uses the same fields but outputs a separate stanza for "
 "each changelog entry so that all metadata for each entry is preserved."
@@ -16557,6 +16299,8 @@ msgid ""
 "given patterns. However the output can be customized using the B<--"
 "showformat> option."
 msgstr ""
+"Precis som flaggan B<--list> kommer paket som matchar de givna mönstren att "
+"visas. Utdatat kan dock skräddarsys med flaggan B<--showformat>."
 
 #. type: textblock
 #: dpkg-query.pod
@@ -16567,6 +16311,11 @@ msgid ""
 "B<Multi-Arch> field with the value B<same> or with a foreign architecture, "
 "which is an architecture that is neither the native one nor B<all>."
 msgstr ""
+"Standardutdataformatet är en rad per paket som träffas, där varje rad "
+"innehåller paketnamnet och installerad version av paketet, avdelat med ett "
+"tabulatortecken. Paketnamnen kommer vra utökat med arkitektursbeskrivning "
+"för paket med ett B<Multi-Arch>-fält med värdet B<same>, eller med en oegen "
+"arkitektur, det vill säga en arkitektur som varken är den egna eller B<all>."
 
 #. type: =item
 #: dpkg-query.pod
@@ -16727,7 +16476,7 @@ msgstr ""
 "Sök efter paket som äger filer som motsvarar det angivna mönstret. Alla "
 "skalets vanliga jokertecken kan användas i mönstret, där asterisk (B<*>) och "
 "frågetecken (B<?>) kommer motsvara ett snedstreck, och omvänt snedstreck "
-"(B<\\>) kommer användsa som ett ersättningstecken."
+"(B<\\>) kommer använda som ett ersättningstecken."
 
 #. type: textblock
 #: dpkg-query.pod
@@ -17129,13 +16878,6 @@ msgstr "B<binary:Package>"
 
 #. type: textblock
 #: dpkg-query.pod
-#, fuzzy
-#| msgid ""
-#| "It contains the binary package name with a possible architecture "
-#| "qualifier like “libc6:amd64” (since dpkg 1.16.2).  An architecture "
-#| "qualifier will be present to make the package name unambiguous, for "
-#| "example if the package has a B<Multi-Arch> field with a value of B<same> "
-#| "or the package is of a foreign architecture."
 msgid ""
 "It contains the binary package name with a possible architecture qualifier "
 "like “libc6:amd64” (since dpkg 1.16.2).  An architecture qualifier will be "
@@ -17145,9 +16887,9 @@ msgid ""
 msgstr ""
 "Innehåller binärpaketnamnet med en möjlig arkitekturkvalificerare, såsom "
 "”libc6:amd64” (sedan dpkg 1.16.2). En arkitekturkvalificerare kommer "
-"förekomma för att göra paketnamnet otvetydigt, till exempel om paketet har "
-"ett B<Multi-Arch>-fält med värdet B<same>, eller om paket kommer från en "
-"oegen arkitektur."
+"förekomma för att göra paketnamnet otvetydigt, för paket med ett B<Multi-"
+"Arch>-fält med värdet B<same> eller om paket kommer från en oegen "
+"arkitektur, det vill säga en arkitektur som varken är den egna eller B<all>."
 
 #. type: =item
 #: dpkg-query.pod
@@ -17720,12 +17462,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-scansources.pod
-#, fuzzy
-#| msgid ""
-#| "The I<override-file>, if given, is used to set priorities in the "
-#| "resulting index records and to override the maintainer field given in the "
-#| "I<.dsc> files.  The file can be compressed (since dpkg 1.15.5).  See "
-#| "B<deb-override>(5)  for the format of this file."
 msgid ""
 "The I<override-file>, if given, is used to set priorities in the resulting "
 "index stanzas and to override the maintainer field given in the I<.dsc> "
@@ -17733,7 +17469,7 @@ msgid ""
 "override>(5)  for the format of this file."
 msgstr ""
 "I<Överstyrningsfil>en, om den anges, används för att ställa in prioriteter i "
-"de skapade indexposterna, samt för att ersätta fält de paketansvariga ger i "
+"de skapade indexstyckena, samt för att ersätta fält de paketansvariga ger i "
 "I<.dsc>-filerna. Filen kan vara komprimerad (sedan dpkg 1.15.5). Se B<deb-"
 "override>(5) för en beskrivning av formatet för denna fil."
 
@@ -17785,15 +17521,11 @@ msgstr "B<-n>, B<--no-sort>"
 
 #. type: textblock
 #: dpkg-scansources.pod
-#, fuzzy
-#| msgid ""
-#| "Don't sort the index records. Normally they are sorted by source package "
-#| "name."
 msgid ""
 "Do not sort the index stanzas.  Normally they are sorted by source package "
 "name."
 msgstr ""
-"Sortera inte indexposterna. De sorteras normalt efter namn på "
+"Sortera inte indexstyckena. De sorteras normalt efter namn på "
 "källkodspaketet."
 
 #. type: textblock
@@ -18988,17 +18720,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-source.pod
-#, fuzzy
-#| msgid ""
-#| "This is very helpful in cutting out extraneous files that get included in "
-#| "the diff, e.g. if you maintain your source in a revision control system "
-#| "and want to use a checkout to build a source package without including "
-#| "the additional files and directories that it will usually contain (e.g. "
-#| "CVS/, .cvsignore, .svn/). The default regex is already very exhaustive, "
-#| "but if you need to replace it, please note that by default it can match "
-#| "any part of a path, so if you want to match the begin of a filename or "
-#| "only full filenames, you will need to provide the necessary anchors (e.g. "
-#| "‘(^|/)’, ‘($|/)’) yourself."
 msgid ""
 "This is very helpful in cutting out extraneous files that get included in "
 "the diff, for example if you maintain your source in a revision control "
@@ -19011,14 +18732,14 @@ msgid ""
 "anchors (e.g. ‘(^|/)’, ‘($|/)’) yourself."
 msgstr ""
 "Flaggan är mycket användbar för att utesluta extrafiler som kommer med i "
-"diffen, t.ex om du underhåller din källkod i ett versionshanteringssystem "
-"och vill använda en utcheckning för att bygga ett källkodspaket utan att ta "
-"med de ytterligare filer och det normalt innehåller (t.ex CVS/, .cvsignore, ."
-"svn/). Det förvalda reguljära uttrycket täcker redan in många av dessa, men "
-"om du ändrar det, kom ihåg att det som standard kan träffa alla delar av "
-"filnamnet. Så, om du träffa bara början av ett filnamn eller hela filnamn "
-"måste du själv lägga till de förankringar som är nödvändiga (t.ex ”(^|/)”, "
-"”($|/)”)."
+"diffen, till exempel om du underhåller din källkod i ett "
+"versionshanteringssystem och vill använda en utcheckning för att bygga ett "
+"källkodspaket utan att ta med de ytterligare filer och det normalt "
+"innehåller (t.ex CVS/, .cvsignore, .svn/). Det förvalda reguljära uttrycket "
+"täcker redan in många av dessa, men om du ändrar det, kom ihåg att det som "
+"standard kan träffa alla delar av filnamnet. Så, om du träffa bara början av "
+"ett filnamn eller hela filnamn måste du själv lägga till de förankringar som "
+"är nödvändiga (t.ex ”(^|/)”, ”($|/)”)."
 
 #. type: =item
 #: dpkg-source.pod
@@ -19205,28 +18926,22 @@ msgstr ""
 
 #. type: =head2
 #: dpkg-source.pod
-#, fuzzy
-#| msgid "Generic extract options"
 msgid "Generic general options"
-msgstr "Generiska extraheringsflaggor"
+msgstr "Generiska generella flaggor"
 
 #. type: textblock
 #: dpkg-source.pod
-#, fuzzy
-#| msgid ""
-#| "Sets the maximum number of threads allowed for compressors that support "
-#| "multi-threaded operations (since dpkg 1.21.9)."
 msgid ""
 "Sets the maximum number of threads allowed for compressors that support "
 "multi-threaded operations (since dpkg 1.21.14)."
 msgstr ""
 "Anger det maximala antalet trådar som tillåts för komprimerare som stöder "
-"flertrådad körning (sedan dpkg 1.21.9)."
+"flertrådad körning (sedan dpkg 1.21.14)."
 
 #. type: textblock
 #: dpkg-source.pod
 msgid "Sets quiet mode to suppress warnings."
-msgstr ""
+msgstr "Väljer tyst läge för att dölja varningar."
 
 #. type: =head1
 #: dpkg-source.pod
@@ -20859,49 +20574,34 @@ msgstr "B<--depotdir> I<katalog>"
 
 #. type: textblock
 #: dpkg-split.pod
-#, fuzzy
-#| msgid ""
-#| "Specifies an alternative directory for the queue of parts awaiting "
-#| "automatic reassembly. The default is B<%ADMINDIR%>."
 msgid ""
 "Specifies an alternative directory for the queue of parts awaiting automatic "
 "reassembly. The default is B<%ADMINDIR%/parts>."
 msgstr ""
 "Anger en alternativ katalog för kön av delar som väntar på automatisk "
-"sammanslagning. Förvalet är B<%ADMINDIR%>."
+"sammanslagning. Förvalet är B<%ADMINDIR%/parts>."
 
 #. type: textblock
 #: dpkg-split.pod
-#, fuzzy
-#| msgid ""
-#| "Set the administrative directory to I<directory>.  This is where the "
-#| "I<statoverride> file is stored.  Defaults to «I<%ADMINDIR%>» if "
-#| "B<DPKG_ADMINDIR> has not been set."
 msgid ""
 "Set the administrative directory to I<directory> (since dpkg 1.21.10).  This "
 "is where the I<statoverride> file is stored.  Defaults to «I<%ADMINDIR%>» if "
 "B<DPKG_ADMINDIR> has not been set."
 msgstr ""
-"Ställ den administrativa katalogen till I<katalog>. Det är här "
-"I<statoverride>-filen lagras. Förval är ”I<%ADMINDIR%>” om B<DPKG_ADMINDIR> "
-"inte har satts."
+"Ställ den administrativa katalogen till I<katalog> (sedan dpkg 1.21.10). Det "
+"är här I<statoverride>-filen lagras. Förval är ”I<%ADMINDIR%>” om "
+"B<DPKG_ADMINDIR> inte har satts."
 
 #. type: textblock
 #: dpkg-split.pod
-#, fuzzy
-#| msgid ""
-#| "Set the root directory to B<directory>, which sets the installation "
-#| "directory to «I<directory>» and the administrative directory to "
-#| "«I<directory>B<%ADMINDIR%>» (since dpkg 1.19.2)  if B<DPKG_ROOT> has not "
-#| "been set."
 msgid ""
 "Set the root directory to B<directory> (since dpkg 1.21.10), which sets the "
 "installation directory to «I<directory>» and the administrative directory to "
 "«I<directory>B<%ADMINDIR%>» if B<DPKG_ROOT> has not been set."
 msgstr ""
-"Sätt rotkatalogen till B<katalog>, vilket sätter installationskatalogen till "
-"”I<katalog>” och den administrativa katalogen till "
-"”I<katalog>B<%ADMINDIR%>” (sedan dpkg 1.19.2) om B<DPKG_ROOT> inte har satts."
+"Sätt rotkatalogen till B<katalog> (sedan dpkg 1.21.10), vilket sätter "
+"installationskatalogen till ”I<katalog>” och den administrativa katalogen "
+"till ”I<katalog>B<%ADMINDIR%>” om B<DPKG_ROOT> inte har satts."
 
 #. type: =item
 #: dpkg-split.pod
@@ -21017,29 +20717,21 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-split.pod
-#, fuzzy
-#| msgid ""
-#| "If set and the B<--root> option has not been specified, it will be used "
-#| "as the filesystem root directory (since dpkg 1.21.0)."
 msgid ""
 "If set and B<--root> option has not been specified, it will be used as the "
 "filesystem root directory (since dpkg 1.21.10)."
 msgstr ""
 "Om satt och flaggan B<--root> inte har angivits används det som filsystemets "
-"rotkatalog (sedan dpkg 1.21.0)."
+"rotkatalog (sedan dpkg 1.21.10)."
 
 #. type: textblock
 #: dpkg-split.pod
-#, fuzzy
-#| msgid ""
-#| "If set and the B<--admindir> or B<--root> option have not been specified, "
-#| "it will be used as the B<dpkg> database directory (since dpkg 1.21.0)."
 msgid ""
 "If set and the B<--admindir> or B<--root> options have not been specified, "
 "it will be used as the B<dpkg> data directory (since dpkg 1.21.10)."
 msgstr ""
 "Om satt, och flaggorna B<--admindir> och B<-root> inte har angivits, används "
-"värdet som administrativ katalog för B<dpkg> (sedan dpkg 1.21.0)."
+"värdet som administrativ katalog för B<dpkg> (sedan dpkg 1.21.10)."
 
 #. type: textblock
 #: dpkg-split.pod
@@ -21516,10 +21208,8 @@ msgstr "Ett test eller ett påstående returnerade falskt."
 
 #. type: textblock
 #: dpkg-trigger.pod
-#, fuzzy
-#| msgid "B<dpkg>(1), B<deb-triggers>(5), B<%PKGDOCDIR%/spec/triggers.txt.gz>."
 msgid "B<dpkg>(1), B<deb-triggers>(5), B<%PKGDOCDIR%/spec/triggers.txt>."
-msgstr "B<dpkg>(1), B<deb-triggers>(5), B<%PKGDOCDIR%/spec/triggers.txt.gz>."
+msgstr "B<dpkg>(1), B<deb-triggers>(5), B<%PKGDOCDIR%/spec/triggers.txt>."
 
 #. type: textblock
 #: dpkg-vendor.pod
@@ -22997,23 +22687,7 @@ msgstr ""
 
 #. type: verbatim
 #: dpkg.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| "    Number   Description\n"
-#| "         1   Generally helpful progress information\n"
-#| "         2   Invocation and status of maintainer scripts\n"
-#| "        10   Output for each file processed\n"
-#| "       100   Lots of output for each file processed\n"
-#| "        20   Output for each configuration file\n"
-#| "       200   Lots of output for each configuration file\n"
-#| "        40   Dependencies and conflicts\n"
-#| "       400   Lots of dependencies/conflicts output\n"
-#| "     10000   Trigger activation and processing\n"
-#| "     20000   Lots of output regarding triggers\n"
-#| "     40000   Silly amounts of output regarding triggers\n"
-#| "      1000   Lots of drivel about e.g. the dpkg/info dir\n"
-#| "      2000   Insane amounts of drivel\n"
-#| "\n"
+#, no-wrap
 msgid ""
 "    Number   Description\n"
 "         1   Generally helpful progress information\n"
@@ -23043,7 +22717,7 @@ msgstr ""
 "     10000   Aktivering och hantering av utlösare\n"
 "     20000   Massvis av utdata om utlösare\n"
 "     40000   Dumma mängder utdata om utlösare\n"
-"      1000   Massvis av pladder om bl.a dpkg/info-katalogen\n"
+"      1000   Massvis av pladder om till exempel dpkg/info-katalogen\n"
 "      2000   Knäppa mängder pladder\n"
 "\n"
 
@@ -23106,19 +22780,14 @@ msgstr ""
 
 #. type: textblock
 #: dpkg.pod
-#, fuzzy
-#| msgid ""
-#| "B<hold>: Allow automatic installs, upgrades or removals of packages even "
-#| "when marked to be on “hold”.  B<Note:> This does not prevent these "
-#| "actions when requested explicitly."
 msgid ""
 "B<hold>: Allow automatic installs, upgrades or removals of packages even "
 "when marked to be on “hold”.  B<Note:> When these actions are requested "
 "explicitly, the “hold” package selection state always gets ignored."
 msgstr ""
 "B<hold>: Tillåt automatiska installationer, uppgraderingar eller "
-"borttagningar av paket även när de är märkts som ”håll”. B<Obervera:> Detta "
-"förhindrar inte dessa åtgärder när de anges explicit."
+"borttagningar av paket även när de är märkts som ”håll”. B<Obervera:> När "
+"dessa åtgärder anges explicit ignoreras alltid paketvalstatusen ”håll”."
 
 #. type: textblock
 #: dpkg.pod
@@ -23520,15 +23189,12 @@ msgstr "B<-E>, B<--skip-same-version>"
 
 #. type: textblock
 #: dpkg.pod
-#, fuzzy
-#| msgid ""
-#| "Don't install the package if the same version of the package is already "
-#| "installed."
 msgid ""
 "Don't install the package if the same version and architecture of the "
 "package is already installed."
 msgstr ""
-"Installera inte paketet om samma version av paketet redan är installerat."
+"Installera inte paketet om samma version och arkitektur av paketet redan är "
+"installerat."
 
 #. type: textblock
 #: dpkg.pod
@@ -23537,6 +23203,9 @@ msgid ""
 "it possible to cross-grade packages or install additional co-installable "
 "instances with the same version, but different architecture."
 msgstr ""
+"Sedan dpkg 1.21.10 tar även arkitekturen med i beräkningen, vilket gör det "
+"möjligt att korsgradera paket eller installera ytterligare sidoinstallerbara "
+"instanser med samma version, men olika arkitektur."
 
 #. type: =item
 #: dpkg.pod
@@ -24164,6 +23833,8 @@ msgid ""
 "Sets the debug mask (since dpkg 1.21.10) from an octal value.  The currently "
 "accepted flags are described in the B<--debug> option."
 msgstr ""
+"Anger felsökningsmasken (sedan dpkg 1.21.10) från ett oktalt värde. De "
+"flaggor som för närvarande godtas beskrivs i flaggan B<--debug>."
 
 #. type: textblock
 #: dpkg.pod
@@ -25484,11 +25155,6 @@ msgstr ""
 
 #. type: textblock
 #: dselect.pod
-#, fuzzy
-#| msgid ""
-#| "By default, B<dselect> provides several methods such as I<multi_cd>, "
-#| "I<mounted> or I<ftp>, but other packages may provide additional methods, "
-#| "eg. the I<apt> access method provided by the B<apt>(8) package."
 msgid ""
 "By default, B<dselect> provides several methods such as I<multi_cd>, "
 "I<mounted> or I<ftp>, but other packages may provide additional methods, for "
@@ -25496,7 +25162,7 @@ msgid ""
 msgstr ""
 "Som standard ger B<dselect> flera olika metoder, såsom I<multi_cd>, "
 "I<mounted> och I<ftp>, men andra paket kan tillhandahålla ytterligare "
-"metoder, t.ex ges åtkomstmetoden I<apt> av paketet B<apt>."
+"metoder, till exempel ges åtkomstmetoden I<apt> av paketet B<apt>(8)."
 
 #. type: textblock
 #: dselect.pod
@@ -27040,6 +26706,8 @@ msgid ""
 "This option might do nothing on some systems, where POSIX process scheduling "
 "is not supported."
 msgstr ""
+"Det är möjligt att flaggan inte gör något på system där POSIX-"
+"processschemaläggning inte stöds."
 
 #. type: =item
 #: start-stop-daemon.pod
@@ -27068,6 +26736,8 @@ msgid ""
 "This option might do nothing on some systems, where Linux IO scheduling is "
 "not supported."
 msgstr ""
+"Det är möjligt att flaggan inte gör något på system där Linux-I/O-"
+"schemaläggning inte stöds."
 
 #. type: =item
 #: start-stop-daemon.pod
@@ -27214,12 +26884,7 @@ msgstr ""
 
 #. type: verbatim
 #: start-stop-daemon.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| " start-stop-daemon --start --oknodo --user food --name food \\\n"
-#| " \t--pidfile %RUNSTATEDIR%/food.pid --startas /usr/sbin/food \\\n"
-#| " \t--chuid food -- --daemon\n"
-#| "\n"
+#, no-wrap
 msgid ""
 " start-stop-daemon --start --oknodo --user food --name food \\\n"
 "   --pidfile %RUNSTATEDIR%/food.pid --startas /usr/sbin/food \\\n"
@@ -27227,8 +26892,8 @@ msgid ""
 "\n"
 msgstr ""
 " start-stop-daemon --start --oknodo --user food --name food \\\n"
-" \t--pidfile %RUNSTATEDIR%/food.pid --startas /usr/sbin/food \\\n"
-" \t--chuid food -- --daemon\n"
+"   --pidfile %RUNSTATEDIR%/food.pid --startas /usr/sbin/food \\\n"
+"   --chuid food -- --daemon\n"
 "\n"
 
 #. type: textblock
@@ -27240,18 +26905,14 @@ msgstr ""
 
 #. type: verbatim
 #: start-stop-daemon.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| " start-stop-daemon --stop --oknodo --user food --name food \\\n"
-#| " \t--pidfile %RUNSTATEDIR%/food.pid --retry 5\n"
-#| "\n"
+#, no-wrap
 msgid ""
 " start-stop-daemon --stop --oknodo --user food --name food \\\n"
 "   --pidfile %RUNSTATEDIR%/food.pid --retry 5\n"
 "\n"
 msgstr ""
 " start-stop-daemon --stop --oknodo --user food --name food \\\n"
-" \t--pidfile %RUNSTATEDIR%/food.pid --retry 5\n"
+"   --pidfile %RUNSTATEDIR%/food.pid --retry 5\n"
 "\n"
 
 #. type: textblock
@@ -27261,18 +26922,14 @@ msgstr "Demonstration av ett skräddarsytt schema för att avsluta B<food>:"
 
 #. type: verbatim
 #: start-stop-daemon.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| " start-stop-daemon --stop --oknodo --user food --name food \\\n"
-#| " \t--pidfile %RUNSTATEDIR%/food.pid --retry=TERM/30/KILL/5\n"
-#| "\n"
+#, no-wrap
 msgid ""
 " start-stop-daemon --stop --oknodo --user food --name food \\\n"
 "   --pidfile %RUNSTATEDIR%/food.pid --retry=TERM/30/KILL/5\n"
 "\n"
 msgstr ""
 " start-stop-daemon --stop --oknodo --user food --name food \\\n"
-" \t--pidfile %RUNSTATEDIR%/food.pid --retry=TERM/30/KILL/5\n"
+"   --pidfile %RUNSTATEDIR%/food.pid --retry=TERM/30/KILL/5\n"
 "\n"
 
 #. type: textblock
@@ -28035,19 +27692,14 @@ msgstr "FRÅGEFORMAT"
 
 #. type: textblock
 #: update-alternatives.pod
-#, fuzzy
-#| msgid ""
-#| "The B<--query> format is using an RFC822-like flat format. It's made of "
-#| "I<n> + 1 blocks where I<n> is the number of alternatives available in the "
-#| "queried link group. The first block contains the following fields:"
 msgid ""
 "The B<--query> format is using an RFC822-like flat format. It's made of I<n> "
 "+ 1 stanzas where I<n> is the number of alternatives available in the "
 "queried link group. The first stanza contains the following fields:"
 msgstr ""
 "Formatet för B<--query> använder ett RFC822-liknande platt format. Det "
-"består av I<n> + 1 block där I<n> är antalet tillgängliga alternativ i den "
-"efterfrågade länkgruppen. Det första blocket innehåller följande fält:"
+"består av I<n> + 1 stycken där I<n> är antalet tillgängliga alternativ i den "
+"efterfrågade länkgruppen. Det första stycket innehåller följande fält:"
 
 #. type: =item
 #: update-alternatives.pod
@@ -28128,15 +27780,11 @@ msgstr ""
 
 #. type: textblock
 #: update-alternatives.pod
-#, fuzzy
-#| msgid ""
-#| "The other blocks describe the available alternatives in the queried link "
-#| "group:"
 msgid ""
 "The other stanzas describe the available alternatives in the queried link "
 "group:"
 msgstr ""
-"Övriga block beskriver tillgängliga alternativ i den efterfrågade "
+"Övriga stycken beskriver tillgängliga alternativ i den efterfrågade "
 "länkgruppen:"
 
 #. type: =item
@@ -28146,10 +27794,8 @@ msgstr "B<Alternative:> I<sökväg-till-alternativet>"
 
 #. type: textblock
 #: update-alternatives.pod
-#, fuzzy
-#| msgid "Path to this block's alternative."
 msgid "Path to this stanza's alternative."
-msgstr "Sökväg till alternativet som beskrivs i blocket."
+msgstr "Sökväg till alternativet som beskrivs i stycket."
 
 #. type: =item
 #: update-alternatives.pod
@@ -28341,51 +27987,3 @@ msgstr ""
 #: update-alternatives.pod
 msgid "B<ln>(1), FHS (the Filesystem Hierarchy Standard)."
 msgstr "B<ln>(1), FHS (the Filesystem Hierarchy Standard)."
-
-#~ msgid ""
-#~ "in the change details (the exact Perl regular expression is B</closes:"
-#~ "\\s*(?:bug)?\\#?\\s?\\d+(?:,\\s*(?:bug)?\\#?\\s?\\d+)*/i>).  This "
-#~ "information is conveyed via the B<Closes> field in the I<.changes> file."
-#~ msgstr ""
-#~ "i ändringsdetaljerna (det exakta reguljära uttrycket i Perlformat är B</"
-#~ "closes:\\s*(?:bug)?\\#?\\s?\\d+(?:,\\s*(?:bug)?\\#?\\s?\\d+)*/i>). Denna "
-#~ "information vidareförs via fältet B<Closes> i I<.changes>-filen."
-
-#~ msgid "B<Protected:> B<Byes>|B<no>"
-#~ msgstr "B<Protected:> B<yes>|B<no>"
-
-#~ msgid "lto"
-#~ msgstr "lto"
-
-#~ msgid ""
-#~ "This option (since dpkg 1.18.2, long option since dpkg 1.18.8) is "
-#~ "equivalent to the B<-j> option except that it does not set the "
-#~ "B<MAKEFLAGS> environment variable, and as such it is safer to use with "
-#~ "any package including those that are not parallel-build safe."
-#~ msgstr ""
-#~ "Den här flaggan (sedan dpkg 1.18.2, lång flagga sedan dpkg 1.18.8) "
-#~ "motsvarar flaggan B<-j> förutom att den inte sätter miljövariabeln "
-#~ "B<MAKEFILES>, och som sådan är den säkrare att använda för alla paket "
-#~ "inklusive de som inte säkert kan parallellbyggas."
-
-#~ msgid ""
-#~ "B<auto> is the default behavior (since dpkg 1.18.11). Setting the number "
-#~ "of jobs to 1 will restore a serial behavior."
-#~ msgstr ""
-#~ "B<auto> är standardbeteende (sedan dpkg 1.18.11). Om du sätter antalet "
-#~ "jobb till 1 återställs seriellt beteende."
-
-#~ msgid ""
-#~ "Just like the B<--list> option this will list all packages matching the "
-#~ "given patterns. However the output can be customized using the B<--"
-#~ "showformat> option.  The default output format gives one line per "
-#~ "matching package, each line having the name (extended with the "
-#~ "architecture qualifier for B<Multi-Arch> B<same> packages) and installed "
-#~ "version of the package, separated by a tab."
-#~ msgstr ""
-#~ "Precis som flaggan B<--list> kommer paket som matchar de givna mönstren "
-#~ "att visas. Utdatat kan dock skräddarsys med flaggan B<--showformat>. "
-#~ "Standardutdataformatet är en rad per paket som träffas, där varje rad "
-#~ "innehåller namn (utökat med arkitektursbeskrivning för B<Multi-Arch> "
-#~ "B<same>-paket) och installerad version av paketet, avdelat med ett "
-#~ "tabulatortecken."
