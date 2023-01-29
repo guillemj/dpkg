@@ -2,23 +2,26 @@
 # Eungkyu Song <eungkyu@sparcs.kaist.ac.kr>, 2001.
 # Changwoo Ryu <cwryu@debian.org>, 2004.
 # Sunjae Park <darehanl@gmail.com>, 2007.
+# Sangdo Jun <sebuls@gmail.com>, 2023.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dselect 1.17.0\n"
+"Project-Id-Version: dselect 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2023-01-24 22:39+0000\n"
-"PO-Revision-Date: 2007-09-16 22:55-0400\n"
-"Last-Translator: Sunjae Park <darehanl@gmail.com>\n"
+"PO-Revision-Date: 2023-01-29 11:18+0100\n"
+"Last-Translator: Sangdo Jun <sebuls@gmail.com>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: dselect/basecmds.cc
 msgid "Search for ? "
-msgstr "무엇을 찾으십니까 ? "
+msgstr "무엇을 찾나요 ? "
 
 #: dselect/basecmds.cc
 msgid "Error: "
@@ -42,8 +45,6 @@ msgid ""
 "Press a key from the list above, <space> or 'q' to exit help,\n"
 "  or '.' (full stop) to read each help page in turn. "
 msgstr ""
-"위의 목록에 따라 키를 누르십시오. 도움말을 나가려면 <space>나 q를,\n"
-"  각 도움말 페이지를 순서대로 읽으려면 . 키를 누르십시오."
 
 #: dselect/basecmds.cc
 msgid "error reading keyboard in help"
@@ -93,7 +94,7 @@ msgstr "키바인딩"
 #: dselect/baselist.cc
 #, c-format
 msgid "  -- %d%%, press "
-msgstr "  -- %d%%, "
+msgstr ""
 
 # FIXME: bad msgid
 #: dselect/baselist.cc
@@ -178,15 +179,15 @@ msgstr "목록을 뒤로 스크롤"
 
 #: dselect/bindings.cc
 msgid "Mark package(s) for installation"
-msgstr "설치하는 꾸러미 표시"
+msgstr "설치하는 패키지 표시"
 
 #: dselect/bindings.cc
 msgid "Mark package(s) for deinstallation"
-msgstr "지우는 꾸러미 표시"
+msgstr "지우는 패키지 표시"
 
 #: dselect/bindings.cc
 msgid "Mark package(s) for deinstall and purge"
-msgstr "지우는 꾸러미 및 깨끗이 할 꾸러미 표시"
+msgstr "지우는 패키지 및 깨끗이 할 패키지 표시"
 
 #: dselect/bindings.cc
 msgid "Make highlight more specific"
@@ -198,13 +199,11 @@ msgstr "반전 표시를 덜 분명하게"
 
 #: dselect/bindings.cc
 msgid "Search for a package whose name contains a string"
-msgstr "이름에 특정 문자열이 들어 있는 꾸러미를 찾습니다"
+msgstr "이름에 특정 문자열이 들어 있는 패키지를 찾습니다"
 
 #: dselect/bindings.cc
-#, fuzzy
-#| msgid "Repeat last search."
 msgid "Repeat last search"
-msgstr "마지막 찾기 반복."
+msgstr "마지막 검색 반복"
 
 #: dselect/bindings.cc
 msgid "Swap sort order priority/section"
@@ -228,20 +227,19 @@ msgstr "중단 - 바꾸지 않고 끝내기"
 
 #: dselect/bindings.cc
 msgid "Revert to old state for all packages"
-msgstr "모든 꾸러미를 이전 상태로 되돌림"
+msgstr "모든 패키지를 이전 상태로 되돌림"
 
 #: dselect/bindings.cc
 msgid "Revert to suggested state for all packages"
-msgstr "모든 꾸러미를 제안 상태로 되돌림"
+msgstr "모든 패키지를 제안 상태로 되돌림"
 
 #: dselect/bindings.cc
 msgid "Revert to directly requested state for all packages"
-msgstr "모든 꾸러미를 제안 상태로 직접 되돌림"
+msgstr "모든 패키지를 제안 상태로 직접 되돌림"
 
 #: dselect/bindings.cc
-#, fuzzy
 msgid "Revert to currently installed state for all packages"
-msgstr "모든 꾸러미를 제안 상태로 직접 되돌림"
+msgstr ""
 
 #: dselect/bindings.cc
 msgid "Select currently-highlighted access method"
@@ -256,38 +254,6 @@ msgid "Keystrokes"
 msgstr "키 입력"
 
 #: dselect/helpmsgs.cc
-#, fuzzy
-#| msgid ""
-#| "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
-#| "  j, Down-arrow         k, Up-arrow             move highlight\n"
-#| "  N, Page-down, Space   P, Page-up, Backspace   scroll list by 1 page\n"
-#| "  ^n                    ^p                      scroll list by 1 line\n"
-#| "  t, Home               e, End                  jump to top/end of list\n"
-#| "  u                     d                       scroll info by 1 page\n"
-#| "  ^u                    ^d                      scroll info by 1 line\n"
-#| "  B, Left-arrow         F, Right-arrow          pan display by 1/3 "
-#| "screen\n"
-#| "  ^b                    ^f                      pan display by 1 "
-#| "character\n"
-#| "\n"
-#| "Mark packages for later processing:\n"
-#| " +, Insert  install or upgrade      =, H  hold in present state\n"
-#| " -, Delete  remove                  :, G  unhold: upgrade or leave "
-#| "uninstalled\n"
-#| " _          remove & purge config\n"
-#| "                                             Miscellaneous:\n"
-#| "Quit, exit, overwrite (note capitals!):       ?, F1 request help (also "
-#| "Help)\n"
-#| " Return  Confirm, quit (check dependencies)   i, I  toggle/cycle info "
-#| "displays\n"
-#| "   Q     Confirm, quit (override dep.s)       o, O  cycle through sort "
-#| "options\n"
-#| " X, Esc  eXit, abandoning any changes made    v, V  change status display "
-#| "opts\n"
-#| "   R     Revert to state before this list      ^l   redraw display\n"
-#| "   U     set all to sUggested state             /   search (Return to "
-#| "cancel)\n"
-#| "   D     set all to Directly requested state  n, \\  repeat last search\n"
 msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  j, Down-arrow         k, Up-arrow             move highlight\n"
@@ -318,37 +284,10 @@ msgid ""
 "cancel)\n"
 "   D     set all to Directly requested state  n, \\  repeat last search\n"
 msgstr ""
-"이동 키: 이전/다음, 처음/끝, 위/아래, 앞/뒤:\n"
-"  j, 아래 화살표         k, 위 화살표            반전 막대 이동\n"
-"  N, Page-down, 스페이스 P, Page-up, 백스페이스  한 페이지 단위로 목록 스크"
-"롤\n"
-"  ^n                     ^p                      한 줄 단위로 목록 스크롤\n"
-"  t, Home                e, End                  목록의 처음/끝으로 이동합니"
-"다\n"
-"  u                      d                       한 페이지 단위로 정보 스크"
-"롤\n"
-"  ^u                     ^d                      한 줄 단위로 정보 스크롤\n"
-"  B, 왼쪽 화살표         F, 오른쪽 화살표        창을 화면의 1/3 좌우로 이"
-"동\n"
-"  ^b                     ^f                      창을 한 글자만큼 화면 좌우 "
-"이동\n"
-"\n"
-"나중에 처리할 꾸러미 표시:\n"
-" +, Insert  설치 혹은 업그레이드    =, H  현재 상태로 고정\n"
-" -, Delete  지우기                 :, G  고정해제: 업그레이드 혹은 남겨두기\n"
-" _          지우기 및 설정 깨끗이\n"
-"                                             그 외:\n"
-"끝내기, 나감, 덮어쓰기 (대문자 유의!):        ?, F1 도움말 요청 (혹은 Help)\n"
-" Return  확인, 끝내기 (의존성 검사)           i, I  정보 화면 토글/순환\n"
-"   Q     확인, 끝내기 (의존성 무시)           o, O  정렬 옵션 순환\n"
-" X, Esc  나가기, 어떠한 바뀐 사항도 무시      v, V  상태 표시 옵션 바꾸기\n"
-"   R     이 목록 전 상태로 되돌리기            ^l   화면 다시 그리기\n"
-"   U     모두 제안하는 상태로                   /   찾기 (취소하려면 엔터)\n"
-"   D     모두 직접 요청된 상태로                \\  마지막 찾기 반복\n"
 
 #: dselect/helpmsgs.cc
 msgid "Introduction to package selections"
-msgstr "꾸러미 선택에 관한 안내"
+msgstr "패키지 선택에 관한 안내"
 
 #: dselect/helpmsgs.cc
 msgid ""
@@ -380,32 +319,32 @@ msgid ""
 "\n"
 "Press <space> to leave help and enter the list now.\n"
 msgstr ""
-"주요 꾸러미 목록입니다.\n"
+"주요 패키지 목록입니다.\n"
 "\n"
-"여기에는 설치되었거나 설치할 수 있는 꾸러미의 목록이 나타납니다.  커서키를\n"
+"여기에는 설치되었거나 설치할 수 있는 패키지의 목록이 나타납니다.  커서키를\n"
 "사용하여 목록을 살펴볼 수 있고, 설치(`+' 사용)나 설치해제(`-' 사용)를\n"
-"하도록 꾸러미에 표시할 수 있습니다.  꾸러미를 하나씩 표시할 수도 있고 그룹\n"
-"단위로 표시할 수도 있습니다. 최초에는 `모든 꾸러미' 줄이 선택되어 있습니다.\n"
-"`+', `-' 등은 반전 막대에 해당되는 모든 꾸러미에 영향을 미칩니다.\n"
+"하도록 패키지에 표시할 수 있습니다.  패키지를 하나씩 표시할 수도 있고 그룹\n"
+"단위로 표시할 수도 있습니다. 최초에는 `모든 패키지' 줄이 선택되어 있습니다.\n"
+"`+', `-' 등은 반전 막대에 해당되는 모든 패키지에 영향을 미칩니다.\n"
 "\n"
 "선택을 어떻게 하느냐에 따라 충돌이나 의존성 문제를 일으킬 수도 있습니다.\n"
-"이 경우 그 문제에 해당되는 꾸러미의 목록이 나타납니다. 그 안에서 문제를\n"
+"이 경우 그 문제에 해당되는 패키지의 목록이 나타납니다. 그 안에서 문제를\n"
 "해결하면 됩니다.\n"
 "\n"
 "키 입력 방법 및 화면 구성에 대한 도움말을 읽어 보십시오.  다양한 온라인\n"
 "도움말을 볼 수 있으니 잘 이용하십시오 - 언제든지 도움말이 필요하면 `?'를\n"
 "누르십시오.\n"
 "\n"
-"꾸러미 선택을 마치면, <enter>를 눌러 해당 바뀐 사항을 확정하십시오.\n"
+"패키지 선택을 마치면, <enter>를 눌러 해당 바뀐 사항을 확정하십시오.\n"
 "'Q'를 누르면 바뀐 사항을 저장하지 않고 마칩니다.  충돌이나 의존성에\n"
 "관해 마지막 검사를 하게 되고, 거기에서도 그 충돌이나 의존성에 관련된\n"
-"꾸러미 목록이 나타납니다.\n"
+"패키지 목록이 나타납니다.\n"
 "\n"
-"<space>를 누르시면 도움말을 나가서 꾸러미 목록으로 들어갑니다.\n"
+"<space>를 누르시면 도움말을 나가서 패키지 목록으로 들어갑니다.\n"
 
 #: dselect/helpmsgs.cc
 msgid "Introduction to read-only package list browser"
-msgstr "꾸러미 목록 읽기 전용 브라우저 소개"
+msgstr "패키지 목록 읽기 전용 브라우저 소개"
 
 #: dselect/helpmsgs.cc
 msgid ""
@@ -427,18 +366,18 @@ msgid ""
 "\n"
 "Press <space> to leave help and enter the list now.\n"
 msgstr ""
-"주 꾸러미 목록입니다.\n"
+"주 패키지 목록입니다.\n"
 "\n"
-"여기에는 설치되었거나 설치할 수 있는 꾸러미 목록이 나타납니다.  꾸러미\n"
+"여기에는 설치되었거나 설치할 수 있는 패키지 목록이 나타납니다.  패키지\n"
 "상태를 바꿀 수 있는 권한이 없기 때문에, 지금은 읽기-전용 모드입니다.\n"
 "커서 키를 사용해 목록 사이를 이동할 수 있고 (`키 입력' 도움말 화면을\n"
-"보십시오), 꾸러미의 상태를 보거나 꾸러미의 정보를 읽어 볼 수 있습니다.\n"
+"보십시오), 패키지의 상태를 보거나 패키지의 정보를 읽어 볼 수 있습니다.\n"
 "\n"
 "키 입력 방법 및 화면 구성에 대한 도움말을 읽어 보십시오.  다양한 온라인\n"
 "도움말을 볼 수 있으니 이용하십시오 - 언제든지 도움말이 필요하면 `?'를\n"
 "누르십시오.\n"
 "\n"
-"꾸러미 찾아보기를 마치고, 'Q'를 누르거나 <enter>를 누르면 끝납니다.\n"
+"패키지 찾아보기를 마치고, 'Q'를 누르거나 <enter>를 누르면 끝납니다.\n"
 "\n"
 "도움말을 종료하고 목록으로 들아가려면 <space>를 누르십시오.\n"
 
@@ -447,42 +386,6 @@ msgid "Introduction to conflict/dependency resolution sub-list"
 msgstr "충돌/의존성 해결 하위 목록 소개"
 
 #: dselect/helpmsgs.cc
-#, fuzzy
-#| msgid ""
-#| "Dependency/conflict resolution - introduction.\n"
-#| "\n"
-#| "One or more of your choices have raised a conflict or dependency problem "
-#| "-\n"
-#| "some packages should only be installed in conjunction with certain "
-#| "others, and\n"
-#| "some combinations of packages may not be installed together.\n"
-#| "\n"
-#| "You will see a sub-list containing the packages involved.  The bottom "
-#| "half of\n"
-#| "the display shows relevant conflicts and dependencies; use 'i' to cycle "
-#| "between\n"
-#| "that, the package descriptions and the internal control information.\n"
-#| "\n"
-#| "A set of 'suggested' packages has been calculated, and the initial "
-#| "markings in\n"
-#| "this sub-list have been set to match those, so you can just hit Return "
-#| "to\n"
-#| "accept the suggestions if you wish.  You may abort the change(s) which "
-#| "caused\n"
-#| "the problem(s), and go back to the main list, by pressing capital 'X'.\n"
-#| "\n"
-#| "You can also move around the list and change the markings so that they "
-#| "are more\n"
-#| "like what you want, and you can 'reject' my suggestions by using the "
-#| "capital\n"
-#| "'D' or 'R' keys (see the keybindings help screen).  You can use capital "
-#| "'Q' to\n"
-#| "force me to accept the situation currently displayed, in case you want "
-#| "to\n"
-#| "override a recommendation or think that the program is mistaken.\n"
-#| "\n"
-#| "Press <space> to leave help and enter the sub-list; remember: press '?' "
-#| "for help.\n"
 msgid ""
 "Dependency/conflict resolution - introduction.\n"
 "\n"
@@ -516,41 +419,12 @@ msgid ""
 "Press <space> to leave help and enter the sub-list; remember: press '?' for "
 "help.\n"
 msgstr ""
-"의존성/충돌 해결 - 소개.\n"
-"\n"
-"선택하신 내용 중에 하나 이상의 꾸러미에서 충돌이나 의존성 문제가 발생했습니"
-"다\n"
-"- 어떤 꾸러미는 어떤 꾸러미와 같이 설치해야 하기도 하고 동시에 설치할 수 없"
-"는\n"
-"꾸러미도 있습니다.\n"
-"\n"
-"이 문제와 관련된 꾸러미의 하위 목록이 나타날 것입니다. 화면 아래 부분을 보"
-"면\n"
-"관련된 충돌 및 의존성 문제가 있습니다.  `i' 키를 사용하면 꾸러미 설명 및 내"
-"부\n"
-"제어 정보도 여기에서 차례대로 볼 수 있습니다.\n"
-"\n"
-"`제안한' 꾸러미를 계산해서, 여기 하위 목록에서 이미 초기값으로 표시되어\n"
-"있습니다.  그러므로 Return키를 누르기만 하면 그 제안을 그대로 받아들이게\n"
-"됩니다.  문제가 된 선택 사항을 취소하고 주요 목록으로 돌아가려면, 대문자 "
-"`X'를\n"
-"누르면 됩니다.\n"
-"\n"
-"목록을 돌아다니면서 꾸러미 선택을 원하는 대로 바꿀 수 있습니다.  또 제안한\n"
-"내용을 거부하려면 대문자 `D'나 `R' 키를 누르면 됩니다 (키 입력 도움말\n"
-"화면을 참고).  대문자 `Q' 키를 누르면 현재 표시된 상태를 강제로 받아들이게\n"
-"됩니다.  추천한 사항이나 프로그램의 실수라고 생각되는 부분까지도 무시하려면\n"
-"`Q'를 사용하십시오.\n"
-"\n"
-"도움말에서 빠져나가서 하위 목록으로 들어가려면 <space>를 누르십시오.\n"
-"기억하세요.  도움이 필요하면 `?'키를 누르십시오.\n"
 
 #: dselect/helpmsgs.cc
 msgid "Display, part 1: package listing and status chars"
-msgstr "화면 구성 첫번째: 꾸러미 목록 및 상태를 나타내는 문자"
+msgstr "화면 구성 첫번째: 패키지 목록 및 상태를 나타내는 문자"
 
 #: dselect/helpmsgs.cc
-#, fuzzy
 msgid ""
 "The top half of the screen shows a list of packages.  For each package you "
 "see\n"
@@ -582,31 +456,6 @@ msgid ""
 "available version numbers (shift-V to display/hide) and summary "
 "description.\n"
 msgstr ""
-"화면의 상단에는 꾸러미의 목록이 표시됩니다.  각 꾸러미에 대해서 꾸러미의\n"
-"현재 상태에 대한 4개의 열이 있고 거기에 상태 표기가 있습니다.  간략한\n"
-"모드에서는 (자세히 표시하려면 `v'를 사용하십시오) 한 개의 문자로 표기합니"
-"다.\n"
-"왼쪽부터 오른쪽으로:\n"
-"\n"
-" 오류 플래그: 공백 - 오류 없음 (꾸러미는 망가진 상태일 수도 있음 - 아래 참"
-"고)\n"
-"               `R' - 설치중에 심각한 오류, 다시 설치해야 함.\n"
-" 설치 상태:   공백 - 설치 안 함.\n"
-"               `*' - 설치함.\n"
-"                     `-'  - 설치되지 않았으나 설정 파일 남김.\n"
-"       다음 상태의 { `U'  - 압축 풀었지만 설정하지 않음.\n"
-"          꾸러미는 { `C'  - 일부만 설정 (오류 발생).\n"
-"       망가진 상태 { `I'  - 일부만 설치 (오류 발생).\n"
-" 과거 표시: 이 목록을 표시하기 전에 꾸러미에 대해 요청한 상태.\n"
-" 표시: 이 꾸러미에 대해 요청한 상태:\n"
-"  `*': 설치 혹은 업그레이드 표시.\n"
-"  `-': 지우기 표시, 하지만 설정 파일 남기기.\n"
-"  `=': 고정: 꾸러미를 어떻게도 처리하지 않기.\n"
-"  `_': 완전히 지우기 표시 - 설정 파일도 지우기.\n"
-"  `n': 아직 설치/지우기를 표시하지 않은 새로운 꾸러미.\n"
-"\n"
-"각 꾸러미의 우선순위, 섹션, 이름, 설치된 버전과 사용 가능한 버전 (shift-V를\n"
-"누르면 보이기/숨기기) 및 요약된 설명을 표시합니다.\n"
 
 #: dselect/helpmsgs.cc
 msgid "Display, part 2: list highlight; information display"
@@ -638,21 +487,21 @@ msgid ""
 "  Use the 'i' key to cycle through the displays, and 'I' to hide the\n"
 "  information display or expand it to use almost all of the screen.\n"
 msgstr ""
-"* 반전 막대: 꾸러미 목록에서 한 줄이 반전됩니다.  `+', `-' 및 `_'을 누르면 "
+"* 반전 막대: 패키지 목록에서 한 줄이 반전됩니다.  `+', `-' 및 `_'을 누르면 "
 "이\n"
-"  줄에 있는 꾸러미(혹은 꾸러미 그룹)에 표시를 합니다.\n"
+"  줄에 있는 패키지(혹은 패키지 그룹)에 표시를 합니다.\n"
 "\n"
-"* 화면 가운데에 창을 구분하는 줄에는 현재 반전된 꾸러미의 상태에 대한 간략"
+"* 화면 가운데에 창을 구분하는 줄에는 현재 반전된 패키지의 상태에 대한 간략"
 "한\n"
 "  설명, 혹은 반전된 줄이 그룹이라면 그 그룹의 설명을 표시합니다.  상태 표시\n"
-"  문자가 무슨 뜻인지 잘 모르겠다면, 해당되는 꾸러미로 이동해서 이 구분하는\n"
+"  문자가 무슨 뜻인지 잘 모르겠다면, 해당되는 패키지로 이동해서 이 구분하는\n"
 "  줄을 들여다 보십시오.  아니면 `v' 키를 눌러 자세한 설명을 보십시오 (다시\n"
 "  `v'를 누르면 간략한 설명으로 돌아갑니다).\n"
 "\n"
-"* 화면의 하단에는 현재 반전된 꾸러미의 정보가 더 많이 나타납니다 (꾸러미 한\n"
+"* 화면의 하단에는 현재 반전된 패키지의 정보가 더 많이 나타납니다 (패키지 한\n"
 "  개의 경우).\n"
 "\n"
-"  여기에는 꾸러미의 자세한 설명, 꾸러미의 자세한 내부 정보 (설치된 버전 혹"
+"  여기에는 패키지의 자세한 설명, 패키지의 자세한 내부 정보 (설치된 버전 혹"
 "은\n"
 "  사용 가능한 버전), 혹은 충돌 및 의존성 정보를 표시할 수 있습니다\n"
 "  (충돌/의존성 해결 하위 목록의 경우).\n"
@@ -688,7 +537,7 @@ msgid ""
 "help\n"
 "menu reachable by pressing '?'.\n"
 msgstr ""
-"dselect와 dpkg에서는, 여러 곳에서 꾸러미 파일을 가져와서 자동으로\n"
+"dselect와 dpkg에서는, 여러 곳에서 패키지 파일을 가져와서 자동으로\n"
 "설치할 수 있습니다.\n"
 "\n"
 "이 목록에서는 그러한 설치 방법중에 무엇을 사용할 지 선택합니다.\n"
@@ -746,7 +595,7 @@ msgstr ""
 "동\n"
 "  ^b                     ^f                      창을 한 글자만큼 화면 좌우 "
 "이동\n"
-"(꾸러미 목록 표시할 때의 이동 키와 동일합니다.)\n"
+"(패키지 목록 표시할 때의 이동 키와 동일합니다.)\n"
 "\n"
 "끝내기:\n"
 " Return, Enter     이 설치 방법을 선택하고 설정 창으로 돌아갑니다\n"
@@ -784,7 +633,7 @@ msgstr "업데이트(U)"
 
 #: dselect/main.cc
 msgid "Update list of available packages, if possible."
-msgstr "이용 가능한 꾸러미 목록을 업데이트합니다."
+msgstr "이용 가능한 패키지 목록을 업데이트합니다."
 
 #: dselect/main.cc
 msgid "s"
@@ -796,7 +645,7 @@ msgstr "선택(S)"
 
 #: dselect/main.cc
 msgid "Request which packages you want on your system."
-msgstr "시스템에 설치하려는 꾸러미를 선택합니다."
+msgstr "시스템에 설치하려는 패키지를 선택합니다."
 
 #: dselect/main.cc
 msgid "i"
@@ -808,7 +657,7 @@ msgstr "설치(I)"
 
 #: dselect/main.cc
 msgid "Install and upgrade wanted packages."
-msgstr "선택한 꾸러미를 설치하고 업그레이드합니다."
+msgstr "선택한 패키지를 설치하고 업그레이드합니다."
 
 #: dselect/main.cc
 msgid "c"
@@ -820,7 +669,7 @@ msgstr "설정(C)"
 
 #: dselect/main.cc
 msgid "Configure any packages that are unconfigured."
-msgstr "설정하지 않은 꾸러미를 설정합니다."
+msgstr "설정하지 않은 패키지를 설정합니다."
 
 #: dselect/main.cc
 msgid "r"
@@ -832,7 +681,7 @@ msgstr "지우기(R)"
 
 #: dselect/main.cc
 msgid "Remove unwanted software."
-msgstr "원하지 않는 꾸러미를 지웁니다."
+msgstr "원하지 않는 패키지를 지웁니다."
 
 #: dselect/main.cc
 msgid "q"
@@ -853,32 +702,25 @@ msgstr "메뉴"
 #: dselect/main.cc
 #, c-format
 msgid "Debian '%s' package handling frontend version %s.\n"
-msgstr "데비안 `%s' 꾸러미 처리 프론트엔드 버전 %s.\n"
+msgstr "데비안 `%s' 패키지 처리 프론트엔드 버전 %s.\n"
 
 #: dselect/main.cc
-#, fuzzy
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"
 msgstr ""
-"자유 소프트웨어입니다. 복사 조건에 관해서는 GNU General Public License\n"
-"version 2이상을 보십시오. 어떤 보증도 하지 않습니다.\n"
-"저작권 관련 정보를 보려면 %s --licence를 참고하십시오.\n"
 
 #: dselect/main.cc
 msgid "<standard output>"
 msgstr ""
 
 #: dselect/main.cc
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [<option> ...] [<action> ...]\n"
-#| "\n"
+#, c-format
 msgid ""
 "Usage: %s [<option>...] [<command>...]\n"
 "\n"
 msgstr ""
-"사용법: %s [<option> ...] [<action> ...]\n"
+"사용법: %s [<option>...] [<command>...]\n"
 "\n"
 
 #: dselect/main.cc
@@ -887,17 +729,7 @@ msgid "Commands:\n"
 msgstr ""
 
 #: dselect/main.cc
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir <directory>     Use <directory> instead of %s.\n"
-#| "  --expert                   Turn on expert mode.\n"
-#| "  --debug <file> | -D<file>  Turn on debugging, sending output to "
-#| "<file>.\n"
-#| "  --colour | --color screenpart:[foreground],[background][:"
-#| "attr[+attr+..]]\n"
-#| "                             Configure screen colours.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "      --admindir <directory>       Use <directory> instead of %s.\n"
@@ -909,25 +741,14 @@ msgid ""
 "      --color <color-spec>         Configure screen colors.\n"
 "      --colour <color-spec>        Ditto.\n"
 msgstr ""
-"옵션:\n"
-"  --admindir <directory>     %s 대신 <directory> 사용.\n"
-"  --expert                   고급 모드를 사용.\n"
-"  --debug <file> | -D<file>  디버깅 사용하여 <file>로 출력을 보냅니다.\n"
-"  --colour | --color screenpart:[foreground],[background][:attr[+attr+..]]\n"
-"                             화면색 설정.\n"
-"\n"
 
 #: dselect/main.cc
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -?, --help                       Show this help message.\n"
 "      --version                    Show the version.\n"
 "\n"
 msgstr ""
-"  --help                     이 도움말 메시지 봄.\n"
-"  --version                  버전을 봄.\n"
-"  --license | --licence      저작권 관련 정보를 봄.\n"
-"\n"
 
 #: dselect/main.cc
 #, c-format
@@ -937,10 +758,9 @@ msgid ""
 msgstr ""
 
 #: dselect/main.cc
-#, fuzzy, c-format
-#| msgid "Screenparts:\n"
+#, c-format
 msgid "<screen-part> is:"
-msgstr "화면 구성 요소:\n"
+msgstr ""
 
 #: dselect/main.cc
 #, c-format
@@ -958,20 +778,17 @@ msgid "couldn't open debug file '%.255s'\n"
 msgstr "디버그 파일 `%.255s'을(를) 열 수 없습니다\n"
 
 #: dselect/main.cc
-#, fuzzy, c-format
-#| msgid "Invalid %s `%s'\n"
+#, c-format
 msgid "invalid %s '%s'"
-msgstr "올바르지 않은 %s `%s'\n"
+msgstr "올바르지 않은 %s `%s'"
 
 #: dselect/main.cc
 msgid "screen part"
 msgstr "화면 구성 요소"
 
 #: dselect/main.cc
-#, fuzzy
-#| msgid "Null colour specification\n"
 msgid "null colour specification"
-msgstr "색 지정이 없습니다\n"
+msgstr "색 지정이 없습니다"
 
 #: dselect/main.cc
 msgid "colour"
@@ -996,11 +813,11 @@ msgid ""
 "or make do with the per-package management tool %s.\n"
 msgstr ""
 "TERM 변수를 정확히 설정하든지 더 나은 터미널을 사용하든지,\n"
-"각 꾸러미 별로 개별적인 관리 도구 %s 이용하십시오.\n"
+"각 패키지 별로 개별적인 관리 도구 %s 이용하십시오.\n"
 
 #: dselect/main.cc
 msgid "terminal lacks necessary features, giving up"
-msgstr "터미널에 필수적인 기능이 빠져 있습니다. 그만둡니다."
+msgstr "터미널에 필수적인 기능이 빠져 있습니다. 그만둡니다"
 
 #: dselect/main.cc
 msgid ""
@@ -1045,7 +862,7 @@ msgstr "알 수 없는 명령 문자열 `%.50s'"
 
 #: dselect/methlist.cc
 msgid "Abbrev."
-msgstr "약어"
+msgstr "약어."
 
 #: dselect/methlist.cc dselect/pkgdisplay.cc dselect/pkginfo.cc
 msgid "Description"
@@ -1090,30 +907,24 @@ msgstr ""
 
 # FIXME: bad msgid
 #: dselect/method.cc
-#, fuzzy
-#| msgid " does not appear to be available\n"
 msgid "no access methods are available"
-msgstr " 꾸러미는 이용할 수 없는 것으로 보입니다\n"
+msgstr ""
 
 #: dselect/method.cc
 msgid "requested operation requires superuser privilege"
 msgstr ""
 
 #: dselect/method.cc
-#, fuzzy
-#| msgid "Choose the access method to use."
 msgid "cannot open or create access method lockfile"
-msgstr "설치 방법을 선택합니다."
+msgstr ""
 
 #: dselect/method.cc
 msgid "the access method area is already locked"
 msgstr ""
 
 #: dselect/method.cc
-#, fuzzy
-#| msgid "dselect - list of access methods"
 msgid "cannot lock access method area"
-msgstr "dselect - 설치 방법 목록"
+msgstr ""
 
 #: dselect/method.cc
 #, c-format
@@ -1121,9 +932,8 @@ msgid "Press <enter> to continue.\n"
 msgstr "계속하려면 <enter> 키를 누르십시오.\n"
 
 #: dselect/method.cc
-#, fuzzy
 msgid "<standard error>"
-msgstr "표준 오류에 쓰기 오류가 발생했습니다"
+msgstr ""
 
 #: dselect/method.cc
 msgid "error reading acknowledgement of program failure message"
@@ -1185,10 +995,8 @@ msgid "non-digit where digit wanted"
 msgstr "숫자가 들어가야 할 곳에 숫자가 아닌 문자"
 
 #: dselect/methparse.cc
-#, fuzzy
-#| msgid "EOF in index string"
 msgid "end of file in index string"
-msgstr "인덱스 문자열에서 파일이 끝났습니다"
+msgstr "인덱스 문자열에 파일 끝"
 
 #: dselect/methparse.cc
 msgid "index string too long"
@@ -1199,10 +1007,8 @@ msgid "newline before option name start"
 msgstr "옵션 이름이 시작하기 전에 줄바꿈이 있습니다"
 
 #: dselect/methparse.cc
-#, fuzzy
-#| msgid "newline before option name start"
 msgid "end of file before option name start"
-msgstr "옵션 이름이 시작하기 전에 줄바꿈이 있습니다"
+msgstr "옵션 이름이 시작하기 전에 파일 끝이 있습니다"
 
 #: dselect/methparse.cc
 msgid "nonalpha where option name start wanted"
@@ -1213,26 +1019,20 @@ msgid "non-alphanum in option name"
 msgstr "옵션 이름에 영문자나 숫자가 아닌 문자가 있습니다"
 
 #: dselect/methparse.cc
-#, fuzzy
-#| msgid "EOF in option name"
 msgid "end of file in option name"
-msgstr "옵션 이름 중에 파일이 끝났습니다"
+msgstr "옵션 이름에 파일 끝"
 
 #: dselect/methparse.cc
 msgid "newline before summary"
 msgstr "요약 전에 줄바꿈 문자가 있습니다"
 
 #: dselect/methparse.cc
-#, fuzzy
-#| msgid "newline before summary"
 msgid "end of file before summary"
-msgstr "요약 전에 줄바꿈 문자가 있습니다"
+msgstr "요약 전에 파일 끝이 있습니다"
 
 #: dselect/methparse.cc
-#, fuzzy
-#| msgid "EOF in summary - missing newline"
 msgid "end of file in summary - missing newline"
-msgstr "요약에 파일이 끝났습니다 - 줄바꿈이 빠졌습니다"
+msgstr "요약에 파일 끝 - 줄바꿈이 빠졌습니다"
 
 #: dselect/methparse.cc
 #, c-format
@@ -1271,7 +1071,7 @@ msgstr "새 옵션 파일(`%.250s')을 쓸 수 없습니다"
 
 #: dselect/pkgdisplay.cc
 msgid "new package"
-msgstr "새 꾸러미"
+msgstr "새 패키지"
 
 #: dselect/pkgdisplay.cc
 msgid "install"
@@ -1295,7 +1095,7 @@ msgstr "깨끗이"
 #. * a single space.
 #: dselect/pkgdisplay.cc
 msgid " "
-msgstr " "
+msgstr ""
 
 #: dselect/pkgdisplay.cc
 msgid "REINSTALL"
@@ -1359,40 +1159,39 @@ msgstr "분류안됨"
 
 #: dselect/pkgdisplay.cc
 msgid "suggests"
-msgstr "꾸러미는 다음 꾸러미를 제안:"
+msgstr "패키지는 다음 패키지를 제안"
 
 #: dselect/pkgdisplay.cc
 msgid "recommends"
-msgstr "꾸러미는 다음 꾸러미를 추천:"
+msgstr "패키지는 다음 패키지를 추천"
 
 #: dselect/pkgdisplay.cc
 msgid "depends on"
-msgstr "꾸러미는 다음 꾸러미에 의존:"
+msgstr "패키지는 다음 패키지에 의존"
 
 #: dselect/pkgdisplay.cc
 msgid "pre-depends on"
-msgstr "꾸러미는 다음 꾸러미에 선의존:"
+msgstr "패키지는 다음 패키지에 선의존"
 
 #: dselect/pkgdisplay.cc
-#, fuzzy
 msgid "breaks"
-msgstr "망가뜨림"
+msgstr ""
 
 #: dselect/pkgdisplay.cc
 msgid "conflicts with"
-msgstr "꾸러미는 다음 꾸러미와 충돌:"
+msgstr "패키지는 다음 패키지와 충돌"
 
 #: dselect/pkgdisplay.cc
 msgid "provides"
-msgstr "꾸러미는 다음 꾸러미의 기능을 제공:"
+msgstr "패키지는 다음 패키지의 기능을 제공"
 
 #: dselect/pkgdisplay.cc
 msgid "replaces"
-msgstr "꾸러미는 다음 꾸러미를 대치:"
+msgstr "패키지는 다음 패키지를 대치"
 
 #: dselect/pkgdisplay.cc
 msgid "enhances"
-msgstr "꾸러미는 다음 꾸러미를 확장:"
+msgstr "패키지는 다음 패키지를 확장"
 
 #: dselect/pkgdisplay.cc
 msgid "Req"
@@ -1452,45 +1251,39 @@ msgstr "지움"
 
 #: dselect/pkgdisplay.cc
 msgid "Brokenly installed packages"
-msgstr "깨져서 설치된 꾸러미"
+msgstr "깨져서 설치된 패키지"
 
 #: dselect/pkgdisplay.cc
 msgid "Newly available packages"
-msgstr "새롭게 이용가능한 꾸러미"
+msgstr "새롭게 이용가능한 패키지"
 
 #: dselect/pkgdisplay.cc
-#, fuzzy
-#| msgid "Newly available packages"
 msgid "Upgradable packages"
-msgstr "새롭게 이용가능한 꾸러미"
+msgstr "업그레이드 가능한 패키지"
 
 #: dselect/pkgdisplay.cc
-#, fuzzy
-#| msgid "Obsolete and local packages present on system"
 msgid "Obsolete and locally created packages"
-msgstr "시스템에 있지만 오래전 꾸러미 및 로컬 꾸러미"
+msgstr ""
 
 #: dselect/pkgdisplay.cc
 msgid "Installed packages"
-msgstr "설치한 꾸러미"
+msgstr "설치한 패키지"
 
 #: dselect/pkgdisplay.cc
-#, fuzzy
-#| msgid "Up to date installed packages"
 msgid "Available not installed packages"
-msgstr "업데이트해 설치된 꾸러미"
+msgstr ""
 
 #: dselect/pkgdisplay.cc
 msgid "Removed and no longer available packages"
-msgstr "지워서 더 이상 이용할 수 없는 꾸러미"
+msgstr "지워서 더 이상 이용할 수 없는 패키지"
 
 #: dselect/pkgdisplay.cc
 msgid "Removed packages (configuration still present)"
-msgstr "지운 꾸러미 (설정 파일이 여전히 남아있음)"
+msgstr "지운 패키지 (설정 파일이 여전히 남아있음)"
 
 #: dselect/pkgdisplay.cc
 msgid "Purged packages and those never installed"
-msgstr "깨끗이 한 꾸러미 및 설치한 적이 없는 꾸러미"
+msgstr "깨끗이 한 패키지 및 설치한 적이 없는 패키지"
 
 #: dselect/pkgdisplay.cc
 msgid "Purged"
@@ -1502,7 +1295,7 @@ msgstr "오류"
 
 #: dselect/pkgdisplay.cc
 msgid "Installed?"
-msgstr "설치 여부"
+msgstr "설치되었나요?"
 
 #: dselect/pkgdisplay.cc
 msgid "Old mark"
@@ -1526,19 +1319,15 @@ msgstr "우선순위"
 
 #: dselect/pkgdisplay.cc
 msgid "Package"
-msgstr "꾸러미"
+msgstr "패키지"
 
 #: dselect/pkgdisplay.cc
-#, fuzzy
-#| msgid "Avail.ver"
 msgid "Avail.arch"
-msgstr "이용가능"
+msgstr ""
 
 #: dselect/pkgdisplay.cc
-#, fuzzy
-#| msgid "Inst.ver"
 msgid "Inst.arch"
-msgstr "설치버전"
+msgstr ""
 
 #: dselect/pkgdisplay.cc
 msgid "Avail.ver"
@@ -1550,15 +1339,15 @@ msgstr "설치버전"
 
 #: dselect/pkgdisplay.cc
 msgid "dselect - recursive package listing"
-msgstr "dselect - 재귀 꾸러미 목록"
+msgstr "dselect - 재귀 패키지 목록"
 
 #: dselect/pkgdisplay.cc
 msgid "dselect - inspection of package states"
-msgstr "dselect - 꾸러미 상태 감시"
+msgstr "dselect - 패키지 상태 감시"
 
 #: dselect/pkgdisplay.cc
 msgid "dselect - main package listing"
-msgstr "dselect - 주요 꾸러미 목록"
+msgstr "dselect - 주요 패키지 목록"
 
 #: dselect/pkgdisplay.cc
 msgid " (by section)"
@@ -1623,18 +1412,18 @@ msgid ""
 "You can use 'o' and 'O' to change the sort order and give yourself the "
 "opportunity to mark packages in different kinds of groups."
 msgstr ""
-"반전 막대가 있는 줄은 많은 꾸러미에 영향을 미칩니다.  설치, 지우기, 고정 등"
-"을 요청하면 거기에 해당되는 꾸러미 모두가 영향을 받습니다.\n"
+"반전 막대가 있는 줄은 많은 패키지에 영향을 미칩니다.  설치, 지우기, 고정 등"
+"을 요청하면 거기에 해당되는 패키지 모두가 영향을 받습니다.\n"
 "\n"
-"반전 막대를 꾸러미가 위치한 줄로 옮기면 각 꾸러미에 대한 정보를 볼 수 있습니"
+"반전 막대를 패키지가 위치한 줄로 옮기면 각 패키지에 대한 정보를 볼 수 있습니"
 "다.\n"
-"`o'와 `O'를 누르면 정렬 순서를 바꾸거나 다른 종류의 그룹의 꾸러미 표시를 할 "
+"`o'와 `O'를 누르면 정렬 순서를 바꾸거나 다른 종류의 그룹의 패키지 표시를 할 "
 "수 있습니다."
 
 # FIXME: bad msgid
 #: dselect/pkginfo.cc
 msgid "Interrelationships"
-msgstr "꾸러미 관계"
+msgstr "패키지 관계"
 
 # FIXME: bad msgid
 #: dselect/pkginfo.cc
@@ -1643,17 +1432,15 @@ msgstr "상세 설명 없음."
 
 #: dselect/pkginfo.cc
 msgid "Installed control file information"
-msgstr "설치된 제어 파일 정보 "
+msgstr "설치된 제어 파일 정보"
 
 #: dselect/pkginfo.cc
 msgid "Available control file information"
 msgstr "현재 있는 제어 파일 정보"
 
 #: dselect/pkglist.cc
-#, fuzzy
-#| msgid "Installed packages"
 msgid "there are no packages"
-msgstr "설치한 꾸러미"
+msgstr "패키지 없음"
 
 #: dselect/pkglist.cc
 msgid "invalid search option given"
@@ -1666,7 +1453,7 @@ msgstr "정규식에 오류"
 # FIXME: bad msgid
 #: dselect/pkgsublist.cc
 msgid " does not appear to be available\n"
-msgstr " 꾸러미는 이용할 수 없는 것으로 보입니다\n"
+msgstr " 패키지는 이용할 수 없는 것으로 보입니다\n"
 
 #: dselect/pkgsublist.cc
 msgid " or "
@@ -1678,218 +1465,34 @@ msgstr "모두"
 
 #: dselect/pkgtop.cc
 msgid "All packages"
-msgstr "모든 꾸러미"
+msgstr "모든 패키지"
 
 #: dselect/pkgtop.cc
 #, c-format
 msgid "%s packages without a section"
-msgstr "섹션에 속하지 않은 %s 꾸러미"
+msgstr "섹션에 속하지 않은 %s 패키지"
 
 #: dselect/pkgtop.cc
 #, c-format
 msgid "%s packages in section %s"
-msgstr "%s 꾸러미 (섹션 %s에 속하는 꾸러미)"
+msgstr "%s 패키지 (섹션 %s에 속하는 패키지)"
 
 #: dselect/pkgtop.cc
 #, c-format
 msgid "%s %s packages"
-msgstr "%s %s 꾸러미"
+msgstr "%s %s 패키지"
 
 #: dselect/pkgtop.cc
 #, c-format
 msgid "%s %s packages without a section"
-msgstr "섹션에 속하지 않은 %s %s 꾸러미"
+msgstr "섹션에 속하지 않은 %s %s 패키지"
 
 #: dselect/pkgtop.cc
 #, c-format
 msgid "%s %s packages in section %s"
-msgstr "%s %s 꾸러미 (%s 섹션)"
+msgstr "%s %s 패키지 (%s 섹션)"
 
 #: dselect/pkgtop.cc
 #, c-format
 msgid "%-*s %s%s%s;  %s (was: %s).  %s"
 msgstr "%-*s %s%s%s,  %s (이전상태: %s).  %s"
-
-#~ msgid "ioctl(TIOCGWINSZ) failed"
-#~ msgstr "ioctl(TIOCGWINSZ)이 실패했습니다"
-
-#~ msgid "doupdate in SIGWINCH handler failed"
-#~ msgstr "SIGWINCH 핸들러에서 doupdate가 실패했습니다"
-
-#~ msgid "failed to restore old SIGWINCH sigact"
-#~ msgstr "과거의 SIGWINCH 시그널 액션을 복구하는 데 실패했습니다"
-
-#~ msgid "failed to restore old signal mask"
-#~ msgstr "과거의 시그널 마스크를 복구하는 데 실패했습니다"
-
-#~ msgid "failed to unblock SIGWINCH"
-#~ msgstr "SIGWINCH 시그널의 블록을 해제하는 데 실패했습니다"
-
-#~ msgid "failed to block SIGWINCH"
-#~ msgstr "SIGWINCH을 블록하는 데 실패했습니다"
-
-#~ msgid "failed to get old signal mask"
-#~ msgstr "과거의 시그널 마스크를 얻어 오는 데 실패했습니다"
-
-#~ msgid "failed to get old SIGWINCH sigact"
-#~ msgstr "과거의 SIGWINCH 시그널 액션을 얻어 오는 데 실패했습니다"
-
-#~ msgid "failed to set new SIGWINCH sigact"
-#~ msgstr "새 SIGWINCH 시그널 액션을 설정하는 데 실패했습니다"
-
-#~ msgid ""
-#~ "\n"
-#~ "\n"
-#~ "%s: %s\n"
-#~ msgstr ""
-#~ "\n"
-#~ "\n"
-#~ "%s: %s\n"
-
-#~ msgid "failed to re-block SIGWINCH"
-#~ msgstr "SIGWINCH 시그널을 블록을 다시 설정하는 데 실패했습니다"
-
-#, fuzzy
-#~| msgid "Section"
-#~ msgid "Actions:\n"
-#~ msgstr "섹션"
-
-#~ msgid "Colours:\n"
-#~ msgstr "색:\n"
-
-#~ msgid "Attributes:\n"
-#~ msgstr "속성:\n"
-
-#~ msgid "EOF before option name start"
-#~ msgstr "옵션 이름이 시작하기 전에 파일이 끝났습니다"
-
-#~ msgid "EOF before summary"
-#~ msgstr "요약 전에 파일이 끝났습니다"
-
-#~ msgid "!Bug!"
-#~ msgstr "!버그!"
-
-#~ msgid "Updated"
-#~ msgstr "업데이트한"
-
-#~ msgid "Up-to-date"
-#~ msgstr "최신"
-
-#~ msgid "Updated packages (newer version is available)"
-#~ msgstr "업데이트한 꾸러미 (새로운 버전이 있음)"
-
-#~ msgid "Available packages (not currently installed)"
-#~ msgstr "이용 가능한 꾸러미 (아직 설치되지 않음)"
-
-#~ msgid ""
-#~ "Actions:\n"
-#~ "  access update select install config remove quit\n"
-#~ "\n"
-#~ msgstr ""
-#~ "동작:\n"
-#~ "  access update select install config remove quit\n"
-#~ "\n"
-
-#~ msgid "unable to open new option file `%.250s'"
-#~ msgstr "새 옵션 파일(`%.250s')을 열 수 없습니다"
-
-#~ msgid "unable to close new option file `%.250s'"
-#~ msgstr "새 옵션 파일(`%.250s')을 닫을 수 없습니다"
-
-#~ msgid "unable to install new option as `%.250s'"
-#~ msgstr "새 옵션을 `%.250s' 파일에 설치할 수 없습니다"
-
-#~ msgid "returned error exit status %d.\n"
-#~ msgstr "오류 상태값 %d번을 리턴했습니다.\n"
-
-#~ msgid "was interrupted.\n"
-#~ msgstr "인터럽트되었습니다.\n"
-
-#~ msgid "was terminated by a signal: %s.\n"
-#~ msgstr "시그널때문에 강제로 끝났습니다: %s.\n"
-
-#~ msgid "(It left a coredump.)\n"
-#~ msgstr "(메모리 덤프를 남겼습니다.)\n"
-
-#~ msgid "failed with an unknown wait return code %d.\n"
-#~ msgstr "알 수 없는 wait 리턴 코드 %d번으로 실패했습니다.\n"
-
-#~ msgid "unable to run %.250s process `%.250s'"
-#~ msgstr "%.250s 프로세스 `%.250s'을(를) 실행할 수 없습니다"
-
-#~ msgid "failed config"
-#~ msgstr "설정 실패"
-
-#~ msgid "unable to wait for %.250s"
-#~ msgstr "%.250s 프로세스를 wait할 수 없습니다"
-
-#~ msgid "got wrong child's status - asked for %ld, got %ld"
-#~ msgstr "하위 프로세스의 리턴값이 틀렸습니다 - %ld 요청, %ld 리턴"
-
-#~ msgid "Recommended"
-#~ msgstr "추천"
-
-#~ msgid "Contrib"
-#~ msgstr "기여"
-
-#~ msgid "Rec"
-#~ msgstr "추천"
-
-#~ msgid "Ctb"
-#~ msgstr "기여"
-
-#~ msgid ""
-#~ "baselist::startdisplay() done ...\n"
-#~ "\n"
-#~ " xmax=%d, ymax=%d;\n"
-#~ "\n"
-#~ " title_height=%d, colheads_height=%d, list_height=%d;\n"
-#~ " thisstate_height=%d, info_height=%d, whatinfo_height=%d;\n"
-#~ "\n"
-#~ " colheads_row=%d, thisstate_row=%d, info_row=%d;\n"
-#~ " whatinfo_row=%d, list_row=%d;\n"
-#~ "\n"
-#~ msgstr ""
-#~ "baselist::startdisplay() 완료 ...\n"
-#~ "\n"
-#~ " xmax=%d, ymax=%d,\n"
-#~ "\n"
-#~ " title_height=%d, colheads_height=%d, list_height=%d,\n"
-#~ " thisstate_height=%d, info_height=%d, whatinfo_height=%d,\n"
-#~ "\n"
-#~ " colheads_row=%d, thisstate_row=%d, info_row=%d,\n"
-#~ " whatinfo_row=%d, list_row=%d,\n"
-#~ "\n"
-
-#~ msgid "[none]"
-#~ msgstr "[없음]"
-
-#~ msgid "error un-catching signal %d: %s\n"
-#~ msgstr "시그널 %d번을 가로채지 않게 만드는 데 오류가 발생했습니다: %s\n"
-
-#~ msgid "unable to ignore signal %d before running %.250s"
-#~ msgstr "%2$.250s 실행에 앞서 시그널 %1$d번을 무시할 수 없습니다"
-
-#~ msgid "(no clientdata)"
-#~ msgstr "(클라이언트 데이터 없음)"
-
-#~ msgid "<null>"
-#~ msgstr "<비어있음>"
-
-# FIXME: bad msgid
-#~ msgid "interrelationships affecting "
-#~ msgstr "꾸러미 관계가 다음에 영향을 미칩니다: "
-
-# FIXME: bad msgid
-#~ msgid "description of "
-#~ msgstr "설명 : "
-
-# FIXME: bad msgid
-#~ msgid "description"
-#~ msgstr "상세 설명"
-
-#~ msgid "currently installed control info"
-#~ msgstr "현재 설치된 제어 정보"
-
-#~ msgid "available version of control info for "
-#~ msgstr "제어 정보의 유효 버전 : "
