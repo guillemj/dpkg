@@ -289,7 +289,7 @@ if ($compare || ! $quiet) {
 
 unless ($quiet) {
     require File::Temp;
-    require Digest::MD5;
+    require File::Compare;
 
     my $file_label;
 
@@ -306,12 +306,9 @@ unless ($quiet) {
 
     seek $before, 0, 0;
     seek $after, 0, 0;
-    my ($md5_before, $md5_after) = (Digest::MD5->new(), Digest::MD5->new());
-    $md5_before->addfile($before);
-    $md5_after->addfile($after);
 
     # Output diffs between symbols files if any
-    if ($md5_before->hexdigest() ne $md5_after->hexdigest()) {
+    if (File::Compare::compare($before, $after) != 0) {
 	if (not defined($output)) {
 	    warning(g_('the generated symbols file is empty'));
 	} elsif (defined($ref_symfile->{file})) {
