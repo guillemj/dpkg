@@ -23,7 +23,6 @@ use strict;
 use warnings;
 
 use List::Util qw(any all none);
-use Encode;
 use POSIX qw(:errno_h :locale_h);
 
 use Dpkg ();
@@ -137,8 +136,10 @@ sub format_desc
     # XXX: This does not correctly truncate characters based on their width,
     # but on the number of characters which will not work for wide ones. But
     # we do not have anything better in perl core.
-    my $line = encode_utf8(sprintf('%-10s - %-.65s', $pkgname,
-                                   decode_utf8($desc)));
+    utf8::decode($desc);
+    my $line = sprintf '%-10s - %-.65s', $pkgname, $desc;
+    utf8::encode($line);
+
     $line .= " ($pkgtype)" if $pkgtype ne 'deb';
 
     return $line;
