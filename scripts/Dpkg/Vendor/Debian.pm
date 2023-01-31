@@ -107,6 +107,7 @@ sub set_build_features {
     my %use_feature = (
         future => {
             lfs => 0,
+            time64 => 0,
         },
         qa => {
             bug => 0,
@@ -164,6 +165,8 @@ sub set_build_features {
 
     my $arch = Dpkg::Arch::get_host_arch();
     my ($abi, $libc, $os, $cpu) = Dpkg::Arch::debarch_to_debtuple($arch);
+    my ($abi_bits, $abi_endian) = Dpkg::Arch::debarch_to_abiattrs($arch);
+    my $cpu_bits = Dpkg::Arch::debarch_to_cpubits($arch);
 
     unless (defined $abi and defined $libc and defined $os and defined $cpu) {
         warning(g_("unknown host architecture '%s'"), $arch);
@@ -172,10 +175,18 @@ sub set_build_features {
 
     ## Area: future
 
-    if ($use_feature{future}{lfs}) {
-        my ($abi_bits, $abi_endian) = Dpkg::Arch::debarch_to_abiattrs($arch);
-        my $cpu_bits = Dpkg::Arch::debarch_to_cpubits($arch);
+    if ($use_feature{future}{time64}) {
+        if (any { $cpu eq $_ } qw(arc or1k) or
+            $abi_bits != 32 or
+            $cpu_bits != 32) {
+            $use_feature{future}{time64} = 0;
+        } else {
+            # On glibc 64-bit time_t support requires LFS.
+            $use_feature{future}{lfs} = 1;
+        }
+    }
 
+    if ($use_feature{future}{lfs}) {
         if ($abi_bits != 32 or $cpu_bits != 32) {
             $use_feature{future}{lfs} = 0;
         }
@@ -337,6 +348,10 @@ sub _add_build_flags {
     if ($flags->use_feature('future', 'lfs')) {
         $flags->append('CPPFLAGS',
                        '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+    }
+
+    if ($flags->use_feature('future', 'time64')) {
+        $flags->append('CPPFLAGS', '-D_TIME_BITS=64');
     }
 
     ## Area: qa
