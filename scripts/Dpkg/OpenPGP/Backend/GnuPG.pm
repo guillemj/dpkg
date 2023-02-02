@@ -294,7 +294,7 @@ sub inline_sign {
     push @exec, '--output', $inlinesigned;
 
     my $rc = $self->_gpg_exec(@exec, '--clearsign', $data);
-    return OPENPGP_KEY_CANNOT_SIGN if $rc;
+    return OPENPGP_CMD_CANNOT_SIGN if $rc;
     return OPENPGP_OK;
 }
 
