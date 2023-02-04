@@ -63,8 +63,8 @@ enum screenparts {
 };
 
 struct column {
-	column(): title(nullptr), x(0), width(0) {};
-	void blank() { title = nullptr; x = 0; width = 0; };
+	column(): title(nullptr), x(0), width(0) {}
+	void blank() { title = nullptr; x = 0; width = 0; }
 
 	const char *title;
 	int x;

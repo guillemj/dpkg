@@ -226,4 +226,4 @@ const struct helpmenuentry *methodlist::helpmenulist() {
     {  0                             }
   };
   return list;
-};
+}
