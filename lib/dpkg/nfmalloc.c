@@ -38,7 +38,7 @@ static bool dbobs_init = false;
 /* We use lots of mem, so use a large chunk. */
 #define CHUNK_SIZE 8192
 
-#define OBSTACK_INIT if (!dbobs_init) { nfobstack_init(); }
+#define OBSTACK_INIT do { if (!dbobs_init) { nfobstack_init(); } } while (0)
 
 static void nfobstack_init(void) {
   obstack_init(&db_obs);
