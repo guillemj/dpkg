@@ -1,14 +1,14 @@
 # Occitan translation of Dpkg.
 # Copyright © 1994-2021 Dpkg Developers
 # This file is distributed under the same license as the dpkg package.
-# Quentin PAGÈS <quentinantonin@free.fr>, 2021.
+# Quentin PAGÈS <quentinantonin@free.fr>, 2021, 2023.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.20.8\n"
+"Project-Id-Version: dpkg 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2023-01-24 22:39+0000\n"
-"PO-Revision-Date: 2021-04-20 12:41+0200\n"
+"PO-Revision-Date: 2023-02-05 23:42+0100\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: Occitan\n"
 "Language: oc\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: lib/dpkg/ar.c
 msgid "failed to fstat archive"
@@ -25,12 +25,12 @@ msgstr "fracàs de « fstat » sus l'archiu"
 #: lib/dpkg/ar.c
 #, c-format
 msgid "failed to read archive '%.255s'"
-msgstr ""
+msgstr "lectura impossibla de l’archiu « %.255s »"
 
 #: lib/dpkg/ar.c lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to create '%.255s'"
-msgstr ""
+msgstr "creacion impossibla de l’archiu « %.255s »"
 
 #: lib/dpkg/ar.c lib/dpkg/dir.c src/split/join.c src/split/queue.c
 #: src/divert/main.c utils/update-alternatives.c
@@ -63,7 +63,7 @@ msgstr "la talha del membre ar %jd es tròp importanta"
 #: lib/dpkg/ar.c
 #, c-format
 msgid "ar member time %jd too large"
-msgstr ""
+msgstr "la talha del membre ar %jd es tròp importanta"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -92,16 +92,18 @@ msgstr "deu començar per un caractèr alfanumeric"
 #, c-format
 msgid "character '%c' not allowed (only letters, digits and characters '%s')"
 msgstr ""
+"lo caractèr « %c » es pas permés (sonque las letras, nombres e los caractèrs "
+"« %s »)"
 
 #: lib/dpkg/arch.c
 msgctxt "architecture"
 msgid "<none>"
-msgstr ""
+msgstr "<Pas cap>"
 
 #: lib/dpkg/arch.c
 msgctxt "architecture"
 msgid "<empty>"
-msgstr ""
+msgstr "<void>"
 
 #: lib/dpkg/arch.c
 msgid "error writing to architecture list"
@@ -110,7 +112,7 @@ msgstr "error al moment de l'escritura de la lista d'arquitecturas"
 #: lib/dpkg/atomic-file.c
 #, c-format
 msgid "cannot create base directory for %s"
-msgstr ""
+msgstr "creacion impossibla del repertòri de basa per %s"
 
 #: lib/dpkg/atomic-file.c
 #, c-format
@@ -135,7 +137,7 @@ msgstr "impossible de sincronizar lo novèl fichièr « %.250s »"
 #: lib/dpkg/atomic-file.c
 #, c-format
 msgid "unable to close new file '%.250s'"
-msgstr ""
+msgstr "tampadura impossibla del fichièr novèl « %.2505s »"
 
 #: lib/dpkg/atomic-file.c
 #, c-format
@@ -205,7 +207,7 @@ msgstr "%s : error d'escritura intèrna de gzip"
 #: lib/dpkg/compress.c
 #, c-format
 msgid "%s: internal gzip read error: %s"
-msgstr ""
+msgstr "%s : error intèrna de lectura gzip : %s"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -315,43 +317,39 @@ msgid "%s: lzma error: %s"
 msgstr "%s : error LZMA : %s"
 
 #: lib/dpkg/compress.c
-#, fuzzy, c-format
-#| msgid "%s: lzma error: %s"
+#, c-format
 msgid "%s: zstd error: %s"
-msgstr "%s : error LZMA : %s"
+msgstr "%s : error zstd : %s"
 
 #: lib/dpkg/compress.c
 #, c-format
 msgid "%s: cannot create zstd decompression context"
-msgstr ""
+msgstr "%s : creacion impossibla del contèxte de descompression zstd"
 
 #: lib/dpkg/compress.c
 #, c-format
 msgid "%s: cannot create zstd compression context"
-msgstr ""
+msgstr "%s : creacion impossibla del contèxte de compression zstd"
 
 #: lib/dpkg/compress.c
-#, fuzzy, c-format
-#| msgid "%s: lzma read error"
+#, c-format
 msgid "%s: zstd read error"
-msgstr "%s : error de lectura LZMA"
+msgstr "%s : error de lectura zstd"
 
 #: lib/dpkg/compress.c
-#, fuzzy, c-format
-#| msgid "%s: lzma write error"
+#, c-format
 msgid "%s: zstd write error"
-msgstr "%s : error d'escritura LZMA"
+msgstr "%s : error d'escritura zstd"
 
 #: lib/dpkg/compress.c
-#, fuzzy, c-format
-#| msgid "%s: lzma close error"
+#, c-format
 msgid "%s: zstd close error"
-msgstr "%s : error de tampadura LZMA"
+msgstr "%s : error de tampadura zstd"
 
 #: lib/dpkg/compress.c
 #, c-format
 msgid "invalid compression level %d"
-msgstr ""
+msgstr "nivèl de compression invalid %d"
 
 #: lib/dpkg/compress.c
 msgid "unknown compression strategy"
@@ -363,6 +361,8 @@ msgid ""
 "updates directory contains file '%.250s' whose name is too long (length=%d, "
 "max=%d)"
 msgstr ""
+"lo repertòri de mesa a jorn conten un fichièr « %.250s » que son nom es tròp "
+"long (longorr=%d, max=%d)"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -375,12 +375,12 @@ msgstr ""
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot create the dpkg updates directory %s"
-msgstr ""
+msgstr "creacion impossibla del repertòri de mesa a jorn dpkg %s"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot scan updates directory '%.255s'"
-msgstr ""
+msgstr "analisi impossibla del repertòri de mesas a jorn « %.255s »"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -407,6 +407,7 @@ msgstr ""
 #, c-format
 msgid "unable to check lock file for dpkg database directory %s"
 msgstr ""
+"verificacion impossibla del varrolh del repertòri de basa de donadas dpkg %s"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -422,14 +423,15 @@ msgstr ""
 #, c-format
 msgid "you do not have permission to lock the dpkg database directory %s"
 msgstr ""
+"avètz pas l’autorizacion verrolhar lo repertòri de basa de donadas dpkg %s"
 
 #: lib/dpkg/dbmodify.c
 msgid "dpkg frontend lock"
-msgstr ""
+msgstr "verrolh d’interfàcia frontala dpkg"
 
 #: lib/dpkg/dbmodify.c
 msgid "dpkg database lock"
-msgstr ""
+msgstr "verrolh de basa de donadas dpkg"
 
 #: lib/dpkg/dbmodify.c
 msgid "requested operation requires superuser privilege"
@@ -438,17 +440,18 @@ msgstr "l'operacion demandada requesís los privilègis del superutilizaire"
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "cannot create the dpkg database directory %s"
-msgstr ""
+msgstr "creacion impossibla del repertòri de mesa a jorn dpkg %s"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to access the dpkg database directory %s"
-msgstr ""
+msgstr "accès impossible al repertòri de basa de donadas dpkg %s"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "required read/write access to the dpkg database directory %s"
 msgstr ""
+"accès lectura/escritura requerit al repertòri de basa de donadas dpkg %s"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -458,37 +461,37 @@ msgstr "fracàs de la supression de mon pròpri fichièr de mesa a jorn %.255s"
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to write updated status of '%.250s'"
-msgstr ""
+msgstr "escritura impossibla del estat novèl de « %.250s »"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to flush updated status of '%.250s'"
-msgstr ""
+msgstr "impossible d’eliminar l’estat novèl de « %.250s »"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to truncate for updated status of '%.250s'"
-msgstr ""
+msgstr "impossible de troncar l’estat novèl de « %.250s »"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fsync updated status of '%.250s'"
-msgstr ""
+msgstr "impossible de sincronizar l’estat novèl « %.250s »"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to close updated status of '%.250s'"
-msgstr ""
+msgstr "impossible de tampar l’estat novèl « %.250s »"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to install updated status of '%.250s'"
-msgstr ""
+msgstr "impossible d'installar l’estat novèl de « %.250s »"
 
 #: lib/dpkg/db-ctrl-access.c
 #, c-format
 msgid "unable to check existence of '%.250s'"
-msgstr ""
+msgstr "impossible de verificar l'existéncia de « %.250s »"
 
 #: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
 msgid "cannot read info directory"
@@ -503,51 +506,59 @@ msgstr "error que s'es producha en ensajant de dobrir %.250s"
 #, c-format
 msgid "corrupt info database format file '%s'"
 msgstr ""
+"informacions corrompudas dins lo fichièr de format de basa de donadas « %s »"
 
 #: lib/dpkg/db-ctrl-format.c
 #, c-format
 msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
 msgstr ""
+"lo format de basa de donadas (%d) conten d’avarias o es tròp recent ; "
+"ensajatz d’obténer un dpkg mai recent"
 
 #: lib/dpkg/db-ctrl-upgrade.c
 #, c-format
 msgid "info file %s/%s not associated to any package"
-msgstr ""
+msgstr "lo fichièr d'informacions %s/%s es pas ligat a cap de paquet"
 
 #: lib/dpkg/db-ctrl-upgrade.c src/main/archives.c
 #, c-format
 msgid "error creating hard link '%.255s'"
-msgstr ""
+msgstr "error en creant lo ligam fisic « %.255s »"
 
 #: lib/dpkg/db-ctrl-upgrade.c
 #, c-format
 msgid "error while writing '%s'"
-msgstr ""
+msgstr "error en escrivent « %s »"
 
 #: lib/dpkg/db-fsys-digest.c
 #, c-format
 msgid "control file '%s' for package '%s' is missing final newline"
 msgstr ""
+"manca una linha novèla al contraròtle de fichièr « %s » pel paquet « %s »"
 
 #: lib/dpkg/db-fsys-digest.c
 #, c-format
 msgid "control file '%s' for package '%s' is missing value"
-msgstr ""
+msgstr "manca una valor al fichièr de contraròtle « %s » pel paquet « %s »"
 
 #: lib/dpkg/db-fsys-digest.c
 #, c-format
 msgid "control file '%s' for package '%s' is missing value separator"
 msgstr ""
+"manca un separador de valor al fichièr de contraròtle « %s » pel paquet "
+"« %s »"
 
 #: lib/dpkg/db-fsys-digest.c
 #, c-format
 msgid "control file '%s' for package '%s' contains empty filename"
 msgstr ""
+"lo fichièr de contraròtle « %s » pel paquet « %s » conten un nom de fichièr "
+"void"
 
 #: lib/dpkg/db-fsys-digest.c
 #, c-format
 msgid "loading control file '%s' for package '%s'"
-msgstr ""
+msgstr "cargament del fichièr de contraròtle « %s » pel paquet « %s »"
 
 #: lib/dpkg/db-fsys-divert.c
 msgid "failed to open diversions file"
@@ -565,7 +576,7 @@ msgstr ""
 #: lib/dpkg/db-fsys-files.c
 #, c-format
 msgid "loading files list file for package '%s'"
-msgstr ""
+msgstr "cargament del fichièr de la lista dels fichièrs pel paquet « %s »"
 
 #: lib/dpkg/db-fsys-files.c
 #, c-format
@@ -591,11 +602,11 @@ msgid "(Reading database ... "
 msgstr "(Lectura de la basa de donadas... "
 
 #: lib/dpkg/db-fsys-files.c
-#, fuzzy, c-format
+#, c-format
 msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "%d fichièr o repertòri actualament installat.)\n"
-msgstr[1] ""
+msgstr[1] "%d fichièrs o repertòris actualament installats.)\n"
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
@@ -605,12 +616,12 @@ msgstr ""
 #: lib/dpkg/db-fsys-override.c
 #, c-format
 msgid "invalid statoverride gid %s"
-msgstr ""
+msgstr "lo fichièr de las autorizacions amb lo gid %s es pas valable"
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
 msgid "invalid statoverride mode %s"
-msgstr ""
+msgstr "lo mòde %s del fichièr de las autorizacions es pas valable"
 
 #: lib/dpkg/db-fsys-override.c
 msgid "failed to open statoverride file"
@@ -623,7 +634,7 @@ msgstr "fracàs de « fstat » sul fichièr de las permissions (statoverride)"
 #: lib/dpkg/db-fsys-override.c
 #, c-format
 msgid "reading statoverride file '%.250s'"
-msgstr ""
+msgstr "lectura del fichièr de las autorizacions « %.250s »"
 
 #: lib/dpkg/db-fsys-override.c
 msgid "statoverride file is missing final newline"
@@ -725,7 +736,7 @@ msgstr "impossible de sincronizar lo fichièr « %.250s »"
 #: lib/dpkg/dump.c
 #, c-format
 msgid "failed to write details of '%.50s' to '%.250s'"
-msgstr ""
+msgstr "fracàs de l’escritura dels detalhs de « %.50s » de « %.250s »"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -749,6 +760,8 @@ msgid ""
 "%s%s%s: %s%s:%s\n"
 " %s\n"
 msgstr ""
+"%s%s%s : %s%s :%s\n"
+" %s\n"
 
 #: lib/dpkg/ehandle.c
 msgid "out of memory for new error context"
@@ -756,7 +769,7 @@ msgstr "manca de memòria per un novèl contèxte d'error"
 
 #: lib/dpkg/ehandle.c
 msgid "error while cleaning up"
-msgstr ""
+msgstr "error en netejant"
 
 #: lib/dpkg/ehandle.c
 msgid "too many nested errors during error recovery"
@@ -772,7 +785,7 @@ msgstr "manca de memòria per una dintrada netejada novèla amb fòrça paramèt
 
 #: lib/dpkg/ehandle.c
 msgid "unrecoverable fatal error, aborting"
-msgstr ""
+msgstr "error critica pas recuperabla, abandon"
 
 #: lib/dpkg/ehandle.c
 msgid "outside error context, aborting"
@@ -788,12 +801,12 @@ msgstr "error intèrna"
 
 #: lib/dpkg/fields.c
 msgid "is missing a value"
-msgstr ""
+msgstr "li manca una valor"
 
 #: lib/dpkg/fields.c
 #, c-format
 msgid "has invalid value '%.50s'"
-msgstr ""
+msgstr "a una valor invalida « %.50s »"
 
 #: lib/dpkg/fields.c
 msgid "has trailing junk"
@@ -802,7 +815,7 @@ msgstr ""
 #: lib/dpkg/fields.c
 #, c-format
 msgid "invalid package name in '%s' field: %s"
-msgstr ""
+msgstr "nom de paquet invalid al camp « %s » : %s"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -842,17 +855,17 @@ msgstr ""
 #: lib/dpkg/fields.c
 #, c-format
 msgid "word in '%s' field: %s"
-msgstr ""
+msgstr "mot al camp « %s » : %s"
 
 #: lib/dpkg/fields.c
 #, c-format
 msgid "obsolete '%s' field used"
-msgstr ""
+msgstr "camp « %s » obsolèt"
 
 #: lib/dpkg/fields.c
 #, c-format
 msgid "value for '%s' field not allowed in this context"
-msgstr ""
+msgstr "valor del camp « %s » pas autorizada al contèxt"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -872,12 +885,12 @@ msgstr ""
 #: lib/dpkg/fields.c
 #, c-format
 msgid "'%s' field value '%.250s'"
-msgstr ""
+msgstr "camp « %s » valor « %.250s »"
 
 #: lib/dpkg/fields.c
 #, c-format
 msgid "value for '%s' field has malformed line '%.*s'"
-msgstr ""
+msgstr "lo camp « %s » conten una linha mal formada « %.*s »"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -974,27 +987,27 @@ msgstr ""
 #: lib/dpkg/fields.c
 #, c-format
 msgid "alternatives ('|') not allowed in '%s' field"
-msgstr ""
+msgstr "alternativas ('|') pas autorizadas al cam camp « %s »"
 
 #: lib/dpkg/fields.c
 #, c-format
 msgid "illegal pending trigger name '%.255s': %s"
-msgstr ""
+msgstr "nom d'accion illegal diferit « %.255s » : %s"
 
 #: lib/dpkg/fields.c
 #, c-format
 msgid "duplicate pending trigger '%.255s'"
-msgstr ""
+msgstr "accion diferida en doble « %.255s »"
 
 #: lib/dpkg/fields.c
 #, c-format
 msgid "illegal package name in awaited trigger '%.255s': %s"
-msgstr ""
+msgstr "nom de paquet illegal dins l'accion diferidas  « %.255s » : %s"
 
 #: lib/dpkg/fields.c
 #, c-format
 msgid "duplicate awaited trigger package '%.255s'"
-msgstr ""
+msgstr "accion diferida en doble « %.255s »"
 
 #: lib/dpkg/file.c
 #, c-format
@@ -1073,12 +1086,12 @@ msgstr "impossible de dobrir lo fichièr %s"
 
 #: lib/dpkg/file.c
 msgid "pager to show file"
-msgstr ""
+msgstr "afichador per mostar lo fichièr"
 
 #: lib/dpkg/file.c
 #, c-format
 msgid "cannot write file %s into the pager"
-msgstr ""
+msgstr "escritura impossibla del fichièr %s dins l’afichador"
 
 #: lib/dpkg/log.c
 #, c-format
@@ -1094,7 +1107,7 @@ msgstr "impossible d'apondre lo fichièr membre ar (%s) a « %s » : « %s�
 #: lib/dpkg/log.c
 #, c-format
 msgid "cannot write to log file '%s': %s"
-msgstr ""
+msgstr "escritura impossibla del fichièr de log « %s » : %s"
 
 #: lib/dpkg/log.c
 msgid "<package status and progress file descriptor>"
@@ -1126,7 +1139,7 @@ msgstr "impossible de crear un tub"
 #: lib/dpkg/mlib.c
 #, c-format
 msgid "error writing to '%s'"
-msgstr ""
+msgstr "error d'escritura sus '%s'"
 
 #: lib/dpkg/mlib.c
 #, c-format
@@ -1177,12 +1190,12 @@ msgstr "'%s' requerís pas de paramètre"
 #: lib/dpkg/options.c
 #, c-format
 msgid "read error in configuration file '%.255s'"
-msgstr ""
+msgstr "error en legissent lo fichièr de configuracion « %.255s »"
 
 #: lib/dpkg/options.c
 #, c-format
 msgid "error closing configuration file '%.255s'"
-msgstr ""
+msgstr "error en tampant lo fichièr de configuracion « %.255s »"
 
 #: lib/dpkg/options.c
 #, c-format
@@ -1191,7 +1204,7 @@ msgstr "error al moment de la dobertura del repertòri de configuracion '%s'"
 
 #: lib/dpkg/options.c
 msgid "missing program name in argv[0]"
-msgstr ""
+msgstr "nom del programa absent dins argv[0]"
 
 #: lib/dpkg/options.c
 #, c-format
@@ -1226,17 +1239,17 @@ msgstr "l'opcion -%c pren pas de valor en paramètre"
 #: lib/dpkg/options.c src/split/main.c
 #, c-format
 msgid "invalid integer for --%s: '%.250s'"
-msgstr ""
+msgstr "entièr incorrècte per --%s « %.250s »"
 
 #: lib/dpkg/options.c
 #, c-format
 msgid "invalid integer for -%c: '%.250s'"
-msgstr ""
+msgstr "entièr incorrècte per --%c ; « %.250s »"
 
 #: lib/dpkg/options.c
 #, c-format
 msgid "obsolete option '--%s'"
-msgstr ""
+msgstr "opcion obsolèta « --%s »"
 
 #: lib/dpkg/options.c
 #, c-format
@@ -1246,42 +1259,42 @@ msgstr "accions conflictualas -%c (--%s) et -%c (--%s)"
 #: lib/dpkg/parse.c
 #, c-format
 msgid "duplicate value for '%s' field"
-msgstr ""
+msgstr "valor en doble pel camp « %s »"
 
 #: lib/dpkg/parse.c
 #, c-format
 msgid "user-defined field name '%.*s' too short"
-msgstr ""
+msgstr "lo camp causit per l’utilizaire « %.*s » es tròp cort"
 
 #: lib/dpkg/parse.c
 #, c-format
 msgid "duplicate value for user-defined field '%.*s'"
-msgstr ""
+msgstr "valor en doble pel camp causit per l’utilizaire « %.*s »"
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
 #, c-format
 msgid "missing '%s' field"
-msgstr ""
+msgstr "camp « %s » mancant"
 
 #: lib/dpkg/parse.c lib/dpkg/parsehelp.c
 #, c-format
 msgid "empty value for '%s' field"
-msgstr ""
+msgstr "valor voida pel camp « %s »"
 
 #: lib/dpkg/parse.c
 #, c-format
 msgid "package has '%s' field but is missing architecture"
-msgstr ""
+msgstr "lo paquet a un camp « %s » mas li manca l’arquitectura"
 
 #: lib/dpkg/parse.c
 #, c-format
 msgid "package has '%s' field but is architecture '%s'"
-msgstr ""
+msgstr "lo paquet a un camp « %s » mas son arquitectura es « %s »"
 
 #: lib/dpkg/parse.c
 #, c-format
 msgid "'%s' field present for package with inappropriate '%s' field"
-msgstr ""
+msgstr "camp « %s »  present pel paquet amb un camp « %s » inapropriat"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1337,6 +1350,8 @@ msgstr ""
 #, c-format
 msgid "failed to open package info file '%.255s' for reading"
 msgstr ""
+"la lectura del fichièr d’informacion del paquet « info » « %.255s » a pas "
+"reüssit"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1346,7 +1361,7 @@ msgstr ""
 #: lib/dpkg/parse.c
 #, c-format
 msgid "reading package info file '%s': %s"
-msgstr ""
+msgstr "lectura del fichièr d’info del fichièr « %s » : %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1360,7 +1375,7 @@ msgstr "lector del fichièr d'informacions de paquet « %.255s »"
 
 #: lib/dpkg/parse.c
 msgid "empty field name"
-msgstr ""
+msgstr "nom de camp void"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1420,7 +1435,7 @@ msgstr ""
 #: lib/dpkg/parse.c
 #, c-format
 msgid "no package information in '%.255s'"
-msgstr ""
+msgstr "cap d'informacion de paquet dins « %.255s »"
 
 #: lib/dpkg/parsehelp.c
 #, c-format
@@ -1443,7 +1458,7 @@ msgstr "deu començar per un caractèr alfanumeric"
 #: lib/dpkg/parsehelp.c
 msgctxt "version"
 msgid "<none>"
-msgstr ""
+msgstr "<pas cap>"
 
 #: lib/dpkg/parsehelp.c
 msgid "version string is empty"
@@ -1475,11 +1490,11 @@ msgstr "res aprèp los dos punts (:) dins lo numèro de la version"
 
 #: lib/dpkg/parsehelp.c
 msgid "revision number is empty"
-msgstr ""
+msgstr "numèro de version es void"
 
 #: lib/dpkg/parsehelp.c
 msgid "version number is empty"
-msgstr ""
+msgstr "lo numèro de version es void"
 
 #: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
@@ -1496,11 +1511,11 @@ msgstr "caractèr pas valable dins lo numèro de revision"
 #: lib/dpkg/path-remove.c
 #, c-format
 msgid "unable to securely remove '%.255s'"
-msgstr ""
+msgstr "supression segura impossibla de « %.255s »"
 
 #: lib/dpkg/path-remove.c
 msgid "rm command for cleanup"
-msgstr ""
+msgstr "comanda rm pel netejatge"
 
 #: lib/dpkg/pkg-format.c
 #, c-format
@@ -1608,35 +1623,35 @@ msgstr ""
 
 #: lib/dpkg/tarfn.c
 msgid "invalid tar header size field"
-msgstr ""
+msgstr "camp talha de l’entèsta tar invalid"
 
 #: lib/dpkg/tarfn.c
 msgid "invalid tar header mtime field"
-msgstr ""
+msgstr "camp mtime de l’entèsta tar invalid"
 
 #: lib/dpkg/tarfn.c
 msgid "invalid tar header uid field"
-msgstr ""
+msgstr "camp uid de l’entèsta tar invalid"
 
 #: lib/dpkg/tarfn.c
 msgid "invalid tar header gid field"
-msgstr ""
+msgstr "camp gid de l’entèsta tar invalid"
 
 #: lib/dpkg/tarfn.c
 msgid "invalid tar header checksum field"
-msgstr ""
+msgstr "camp soma de contraròtle de l’entèsta tar invalid"
 
 #: lib/dpkg/tarfn.c
 msgid "invalid tar header checksum"
-msgstr ""
+msgstr "soma de contraròtle de l’entèsta tar invalida"
 
 #: lib/dpkg/tarfn.c
 msgid "partially read tar header"
-msgstr ""
+msgstr "entèsta tar parcialament legida"
 
 #: lib/dpkg/tarfn.c
 msgid "invalid tar header with empty name field"
-msgstr ""
+msgstr "entèsta tar invalida amb un camp nom void"
 
 #: lib/dpkg/tarfn.c
 #, c-format
@@ -1814,7 +1829,7 @@ msgstr "nom d'accion diferida que conten un caractèr invalid"
 #: lib/dpkg/utils.c
 #, c-format
 msgid "read error in '%.250s'"
-msgstr ""
+msgstr "error de lectura dins « %.250s »"
 
 #: lib/dpkg/utils.c
 #, c-format
@@ -1842,7 +1857,7 @@ msgstr ""
 
 #: src/common/force.c
 msgid "Set all force options"
-msgstr ""
+msgstr "Definir totas las opcions « force »"
 
 #: src/common/force.c
 msgid "Use MAC based security if available"
@@ -1850,7 +1865,7 @@ msgstr ""
 
 #: src/common/force.c
 msgid "Replace a package with a lower version"
-msgstr ""
+msgstr "Remplaçar un paquet per una version mai baissa"
 
 #: src/common/force.c
 msgid "Configure any package which may help this one"
@@ -1922,7 +1937,7 @@ msgstr ""
 
 #: src/common/force.c
 msgid "Always install missing config files"
-msgstr ""
+msgstr "Totjorn installar los fichièrs de configuracion mancants"
 
 #: src/common/force.c
 msgid "Offer to replace config files with no new versions"
@@ -1954,11 +1969,11 @@ msgstr ""
 
 #: src/common/force.c
 msgid "Remove a protected package"
-msgstr ""
+msgstr "Suprimir un paquet protegit"
 
 #: src/common/force.c
 msgid "Remove an essential package"
-msgstr ""
+msgstr "Suprimir un paquet essencial"
 
 #: src/common/force.c
 #, c-format
@@ -1992,6 +2007,9 @@ msgid ""
 "Currently enabled options:\n"
 " %s\n"
 msgstr ""
+"\n"
+"Opcions actualament activadas :\n"
+" %s\n"
 
 #: src/common/force.c
 #, c-format
@@ -2147,7 +2165,7 @@ msgstr ""
 
 #: src/deb/build.c
 msgid "package architecture is missing or empty"
-msgstr ""
+msgstr "l'arquitectura del paquet es mancanta o voida"
 
 #: src/deb/build.c
 #, c-format
@@ -2173,7 +2191,7 @@ msgstr ""
 
 #: src/deb/build.c
 msgid "compressing tar member"
-msgstr ""
+msgstr "compression del membre tar"
 
 #: src/deb/build.c
 msgid "<compress> from tar -cf"
@@ -2237,7 +2255,7 @@ msgstr ""
 #: src/deb/build.c
 #, c-format
 msgid "error writing '%s'"
-msgstr ""
+msgstr "error en escrivent « %s »"
 
 #: src/deb/build.c
 #, c-format
@@ -2246,7 +2264,7 @@ msgstr ""
 
 #: src/deb/extract.c
 msgid "shell command to move files"
-msgstr ""
+msgstr "comanda shell per desplaçar los fichièrs"
 
 #: src/deb/extract.c src/split/main.c
 #, c-format
@@ -2260,7 +2278,7 @@ msgstr "error de lectura de %s dempuèi lo fichièr %.255s"
 
 #: src/deb/extract.c
 msgid "archive magic version number"
-msgstr ""
+msgstr "numèro de version d’archive magic"
 
 #: src/deb/extract.c
 msgid "archive member header"
@@ -2451,7 +2469,7 @@ msgstr[1] ""
 #: src/deb/info.c utils/update-alternatives.c
 #, c-format
 msgid "cannot scan directory '%.255s'"
-msgstr ""
+msgstr "analisi impossibla del repertòri « %.255s »"
 
 #: src/deb/info.c
 #, c-format
@@ -2461,7 +2479,7 @@ msgstr ""
 #: src/deb/info.c
 #, c-format
 msgid "cannot open '%.255s' (in '%.255s')"
-msgstr ""
+msgstr "impossible de dobrir « %.255s » (dins « %.255s »)"
 
 #: src/deb/info.c
 #, c-format
@@ -2490,7 +2508,7 @@ msgstr ""
 #: src/deb/info.c src/main/main.c
 #, c-format
 msgid "--%s takes exactly one argument"
-msgstr ""
+msgstr "--%s a besonh d'exactament un paramètre"
 
 #: src/deb/main.c
 #, c-format
@@ -2505,6 +2523,8 @@ msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"
 msgstr ""
+"Aquò's un logicial liure ; reportatz-vos a la segonda version o\n"
+"posteriora per las condicions de còpia. I a PAS CAP de garantida.\n"
 
 #: src/deb/main.c src/divert/main.c src/query/main.c src/main/main.c
 #, c-format
@@ -2512,6 +2532,8 @@ msgid ""
 "Usage: %s [<option>...] <command>\n"
 "\n"
 msgstr ""
+"Sintaxi : %s [<opcion> ...] <comanda>\n"
+"\n"
 
 #: src/deb/main.c
 #, c-format
@@ -2609,22 +2631,22 @@ msgstr ""
 #: src/deb/main.c
 #, c-format
 msgid "invalid deb format version: %s"
-msgstr ""
+msgstr "format de version deb invalid : %s"
 
 #: src/deb/main.c
 #, c-format
 msgid "unknown deb format version: %s"
-msgstr ""
+msgstr "format de version deb desconegut : %s"
 
 #: src/deb/main.c
 #, c-format
 msgid "unknown compression strategy '%s'!"
-msgstr ""
+msgstr "estrategia « %s » de compression desconeguda !"
 
 #: src/deb/main.c
 #, c-format
 msgid "unknown compression type '%s'!"
-msgstr ""
+msgstr "tipe de compression « %s » desconegut !"
 
 #: src/deb/main.c
 #, c-format
@@ -2644,7 +2666,7 @@ msgstr "requerís una opcion d'accion"
 #: src/deb/main.c
 #, c-format
 msgid "invalid compressor parameters: %s"
-msgstr ""
+msgstr "paramètres de compression invalids : %s"
 
 #: src/deb/main.c
 #, c-format
@@ -2724,15 +2746,15 @@ msgstr ""
 
 #: src/split/info.c
 msgid "archive total size"
-msgstr ""
+msgstr "talha totala de l’archiu"
 
 #: src/split/info.c
 msgid "archive part offset"
-msgstr ""
+msgstr "desplaçament de la part de l'archiu"
 
 #: src/split/info.c
 msgid "archive part numbers"
-msgstr ""
+msgstr "numèro de la part de l’archiu"
 
 #: src/split/info.c
 #, c-format
@@ -2741,7 +2763,7 @@ msgstr ""
 
 #: src/split/info.c
 msgid "number of archive parts"
-msgstr ""
+msgstr "nombre de la part de l’archiu"
 
 #: src/split/info.c
 #, c-format
@@ -2750,7 +2772,7 @@ msgstr ""
 
 #: src/split/info.c
 msgid "archive parts number"
-msgstr ""
+msgstr "nombre de parts de l'archiu"
 
 #: src/split/info.c
 #, c-format
@@ -2759,7 +2781,7 @@ msgstr ""
 
 #: src/split/info.c
 msgid "package architecture"
-msgstr ""
+msgstr "arquitectura del paquet"
 
 #: src/split/info.c
 #, c-format
@@ -2789,7 +2811,7 @@ msgstr ""
 #: src/split/info.c
 #, c-format
 msgid "cannot open archive part file '%.250s'"
-msgstr ""
+msgstr "dubertura impossibla del fichièr de la part de l'archiu « %.250s »"
 
 #: src/split/info.c
 #, c-format
@@ -2817,7 +2839,7 @@ msgstr ""
 #: src/split/info.c
 msgctxt "architecture"
 msgid "<unknown>"
-msgstr ""
+msgstr "<desconeguda>"
 
 #: src/split/info.c src/split/join.c
 #, c-format
@@ -2859,7 +2881,7 @@ msgstr ""
 #: src/split/join.c src/split/split.c
 #, c-format
 msgid "done\n"
-msgstr ""
+msgstr "fach\n"
 
 #: src/split/join.c
 #, c-format
@@ -3001,7 +3023,7 @@ msgstr "Partida %d del paquet %s mesa en fila (manca encara "
 
 #: src/split/queue.c
 msgid " and "
-msgstr ""
+msgstr " e "
 
 #: src/split/queue.c
 #, c-format
@@ -3026,7 +3048,7 @@ msgstr ""
 #: src/split/queue.c
 #, c-format
 msgid " %s (%jd bytes)\n"
-msgstr ""
+msgstr " %s (%jd octets)\n"
 
 #: src/split/queue.c
 #, c-format
@@ -3050,7 +3072,7 @@ msgstr ""
 #: src/split/queue.c
 #, c-format
 msgid "(total %jd bytes)\n"
-msgstr ""
+msgstr "(total %jd octets)\n"
 
 #: src/split/queue.c
 #, c-format
@@ -3179,7 +3201,7 @@ msgstr "analisi impossibla del fichièr « %s »"
 #: src/divert/main.c
 #, c-format
 msgid "error checking '%s'"
-msgstr ""
+msgstr "error de verificacion de « %s »"
 
 #: src/divert/main.c
 #, c-format
@@ -3191,12 +3213,12 @@ msgstr ""
 #: src/divert/main.c utils/update-alternatives.c
 #, c-format
 msgid "unable to create file '%s'"
-msgstr ""
+msgstr "impossible de crear lo fichièr « %s »"
 
 #: src/divert/main.c
 #, c-format
 msgid "cannot copy '%s' to '%s': %s"
-msgstr ""
+msgstr "còpia impossibla de « %s » dins « %s » : %s"
 
 #: src/divert/main.c
 #, c-format
@@ -3279,7 +3301,7 @@ msgstr ""
 #: src/divert/main.c
 #, c-format
 msgid "Adding '%s'\n"
-msgstr ""
+msgstr "Apondon de « %s »\n"
 
 #: src/divert/main.c
 #, c-format
@@ -3372,27 +3394,27 @@ msgstr "supression del / final"
 #: src/statoverride/main.c
 #, c-format
 msgid "user '%s' does not exist"
-msgstr ""
+msgstr "L'utilizaire « %s » existís pas"
 
 #: src/statoverride/main.c
 #, c-format
 msgid "group '%s' does not exist"
-msgstr ""
+msgstr "Lo grop « %s » existís pas"
 
 #: src/statoverride/main.c src/main/archives.c
 #, c-format
 msgid "error setting ownership of '%.255s'"
-msgstr ""
+msgstr "error de parametratge dels freches de « %.255s »"
 
 #: src/statoverride/main.c src/main/archives.c
 #, c-format
 msgid "error setting permissions of '%.255s'"
-msgstr ""
+msgstr "error de parametratge de las autorizacions de « %.255s »"
 
 #: src/statoverride/main.c
 #, c-format
 msgid "--%s needs four arguments"
-msgstr ""
+msgstr "«%s» requerís 4 paramètres"
 
 #: src/statoverride/main.c
 msgid "path may not contain newlines"
@@ -3516,7 +3538,7 @@ msgstr ""
 
 #: src/query/main.c
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: src/query/main.c
 msgid "Version"
@@ -3528,7 +3550,7 @@ msgstr "Arquitectura"
 
 #: src/query/main.c
 msgid "Description"
-msgstr ""
+msgstr "Descripcion"
 
 #: src/query/main.c
 msgid "showing package list on pager"
@@ -3585,7 +3607,7 @@ msgstr "--%s a besonh d'al mens un nom de paquet coma paramètre"
 #: src/query/main.c src/main/enquiry.c src/main/verify.c
 #, c-format
 msgid "package '%s' is not installed"
-msgstr ""
+msgstr "lo paquet « %s » es pas installat"
 
 #: src/query/main.c
 #, c-format
@@ -3698,18 +3720,18 @@ msgstr ""
 #, c-format
 msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr ""
-"impossible de copiar las donadas extrachas per « %.250s » cap a « %.255s » : "
+"impossible de copiar las donadas extrachas per « %.255s » cap a « %.255s » : "
 "%s"
 
 #: src/main/archives.c
 #, c-format
 msgid "error closing/writing '%.255s'"
-msgstr ""
+msgstr "error pendent la tampadura/escritura de « %.255s »"
 
 #: src/main/archives.c
 #, c-format
 msgid "error creating pipe '%.255s'"
-msgstr ""
+msgstr "error en creant lo pipe « %.255s »"
 
 #: src/main/archives.c
 #, c-format
@@ -3868,7 +3890,7 @@ msgstr ""
 #: src/main/archives.c
 #, c-format
 msgid "unable to install new version of '%.255s'"
-msgstr ""
+msgstr "installacion de la nòva version de « %.255s » impossibla"
 
 #: src/main/archives.c
 #, c-format
@@ -4012,7 +4034,7 @@ msgstr ""
 #: src/main/archives.c
 #, c-format
 msgid "yes, will remove %s in favour of %s"
-msgstr ""
+msgstr "òc, suprimirà %s al benefici de %s"
 
 #: src/main/archives.c
 #, c-format
@@ -4040,7 +4062,7 @@ msgstr "--%s a besonh d'al mens un fichièr archiu de paquet coma paramètre"
 #: src/main/archives.c src/main/unpack.c
 #, c-format
 msgid "cannot access archive '%s'"
-msgstr ""
+msgstr "accès impossibla a l’archiu « %s »"
 
 #: src/main/archives.c
 #, c-format
@@ -4050,7 +4072,7 @@ msgstr ""
 #: src/main/archives.c
 #, c-format
 msgid "Selecting previously unselected package %s.\n"
-msgstr ""
+msgstr "Seleccion del paquet precedentament pas seleccionat %s.\n"
 
 #: src/main/archives.c
 #, c-format
@@ -4102,7 +4124,7 @@ msgstr ""
 #: src/main/configure.c
 #, c-format
 msgid "Configuration file '%s'\n"
-msgstr ""
+msgstr "Fichièr de configuracion « %s »\n"
 
 #: src/main/configure.c
 #, c-format
@@ -4119,17 +4141,17 @@ msgstr ""
 #: src/main/configure.c
 #, c-format
 msgid "     Not modified since installation.\n"
-msgstr ""
+msgstr "     Pas modificat dempuèi l'installacion.\n"
 
 #: src/main/configure.c
 #, c-format
 msgid " ==> Modified (by you or by a script) since installation.\n"
-msgstr ""
+msgstr " ==> Modificat (per vos o un script) dempuèi l'installacion.\n"
 
 #: src/main/configure.c
 #, c-format
 msgid " ==> Deleted (by you or by a script) since installation.\n"
-msgstr ""
+msgstr " ==> Suprimit (per vos o un script) dempuèi l'installacion.\n"
 
 #: src/main/configure.c
 #, c-format
@@ -4197,7 +4219,7 @@ msgstr "[defaut=O]"
 
 #: src/main/configure.c
 msgid "[no default]"
-msgstr ""
+msgstr "[pas de causida per defaut]"
 
 #: src/main/configure.c
 msgid "error writing to stderr, discovered before conffile prompt"
@@ -4285,7 +4307,7 @@ msgstr ""
 #: src/main/configure.c utils/update-alternatives.c
 #, c-format
 msgid "unable to install '%.250s' as '%.250s'"
-msgstr ""
+msgstr "impossible d'installar « %.250s » coma « %.250s »"
 
 #: src/main/configure.c
 #, c-format
@@ -4351,8 +4373,7 @@ msgid ""
 "%s: unable to stat config file '%s'\n"
 " (= '%s'): %s"
 msgstr ""
-"%s : impossible d'analisar lo fichièr de  configuracion « %s » (= « %s ») : "
-"%s"
+"%s : impossible d'analisar lo fichièr de configuracion « %s » (= « %s ») : %s"
 
 #: src/main/configure.c
 #, c-format
@@ -4505,7 +4526,7 @@ msgstr "  %.250s provesís %.250s e deu èsser installat.\n"
 #: src/main/depcon.c
 #, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
-msgstr "  « %.250s » provesís « %.250s » e es present coma  « %s ».\n"
+msgstr "  « %.250s » provesís « %.250s » e es present coma « %s ».\n"
 
 #: src/main/enquiry.c
 msgid ""
@@ -4613,7 +4634,7 @@ msgstr ""
 #: src/main/enquiry.c
 msgctxt "section"
 msgid "<unknown>"
-msgstr ""
+msgstr "<desconegut>"
 
 #: src/main/enquiry.c
 #, c-format
@@ -4628,22 +4649,16 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/main/enquiry.c
-#, fuzzy
-#| msgid "Pre-Depends field"
 msgid "the Pre-Depends field"
-msgstr "camp Pre-Depends"
+msgstr "lo camp Pre-Depends"
 
 #: src/main/enquiry.c
-#, fuzzy
-#| msgid "epoch in version is too big"
 msgid "epochs in versions"
-msgstr "l'epòca (epoch) dins la version es tròp granda"
+msgstr "l'epòca (epoch) dins las versions"
 
 #: src/main/enquiry.c
-#, fuzzy
-#| msgid "long filenames"
 msgid "long filenames in .deb archives"
-msgstr "noms de fichièrs longs"
+msgstr "noms de fichièrs longs dins los archius .deb"
 
 #: src/main/enquiry.c
 msgid "multiple Conflicts and Replaces"
@@ -4658,30 +4673,22 @@ msgid "versioned relationships in the Provides field"
 msgstr ""
 
 #: src/main/enquiry.c
-#, fuzzy
-#| msgid "Pre-Depends field"
 msgid "the Protected field"
-msgstr "camp Pre-Depends"
+msgstr "lo camp Pre-Depends"
 
 #: src/main/enquiry.c
-#, fuzzy, c-format
-#| msgid "cannot skip padding for file '%.255s': %s"
+#, c-format
 msgid "cannot parse dpkg running version '%s': %s"
-msgstr ""
-"impossible de far pas cap de complement (« padding ») pel fichièr "
-"« %.255s » : %s"
+msgstr "impossible d'analisar la version de dpkg en execucion « %s » : %s"
 
 #: src/main/enquiry.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Version of dpkg with working %s support not yet configured.\n"
-#| " Please use 'dpkg --configure dpkg', and then try again.\n"
+#, c-format
 msgid ""
 "Running version of dpkg does not support %s.\n"
 " Please upgrade to at least dpkg %s, and then try again.\n"
 msgstr ""
-"La version de dpkg que gerís %s es pas encara configurada.\n"
-"Utilizatz « dpkg --configure dpkg » e ensajatz tornarmai.\n"
+"La version de dpkg en execucion gerís pas %s.\n"
+" Metatz a nivèl a la darrièra version dpkg %s e ensajatz tornarmai.\n"
 
 #: src/main/enquiry.c
 #, c-format
@@ -4806,7 +4813,7 @@ msgstr ""
 
 #: src/main/help.c
 msgid "not installed"
-msgstr ""
+msgstr "pas installat"
 
 #: src/main/help.c
 msgid "not installed but configs remain"
@@ -4839,7 +4846,7 @@ msgstr "installat"
 
 #: src/main/help.c
 msgid "PATH is not set"
-msgstr ""
+msgstr "PATH es pas definit"
 
 #: src/main/help.c
 #, c-format
@@ -5105,12 +5112,12 @@ msgstr ""
 #: src/main/main.c
 #, c-format
 msgid "architecture '%s' is illegal: %s"
-msgstr ""
+msgstr "l'arquitectura « %s » es illegala : %s"
 
 #: src/main/main.c
 #, c-format
 msgid "architecture '%s' is reserved and cannot be added"
-msgstr ""
+msgstr "l'arquitectura « %s » es reservada e se pòt pas apondre"
 
 #: src/main/main.c
 #, c-format
@@ -5306,7 +5313,7 @@ msgstr ""
 #: src/main/remove.c
 #, c-format
 msgid "Would remove or purge %s (%s) ...\n"
-msgstr ""
+msgstr "Suprimiriá o purgariá %s (%s) ...\n"
 
 #: src/main/remove.c
 #, c-format
@@ -5330,7 +5337,7 @@ msgstr ""
 #: src/main/remove.c
 #, c-format
 msgid "unable to securely remove '%.250s'"
-msgstr ""
+msgstr "supression segura impossibla de « %.250s »"
 
 #: src/main/remove.c
 #, c-format
@@ -5340,7 +5347,7 @@ msgstr ""
 #: src/main/remove.c
 #, c-format
 msgid "Purging configuration files for %s (%s) ...\n"
-msgstr ""
+msgstr "Purga dels fichièrs de configuracion per %s (%s)...\n"
 
 #: src/main/remove.c
 #, c-format
@@ -5428,7 +5435,7 @@ msgstr "i a pas d'escript dins aquesta version novèla del paquet - abandon"
 
 #: src/main/script.c
 msgid "... it looks like that went OK"
-msgstr ""
+msgstr "... sembla que tot s'es ben passat"
 
 #: src/main/select.c
 #, c-format
@@ -5523,12 +5530,12 @@ msgstr ""
 #: src/main/trigproc.c
 #, c-format
 msgid "Processing triggers for %s (%s) ...\n"
-msgstr "Tractament de las accions diferidas per  %s (%s) ...\n"
+msgstr "Tractament de las accions diferidas per %s (%s) ...\n"
 
 #: src/main/unpack.c
 #, c-format
 msgid ".../%s"
-msgstr ""
+msgstr ".../%s"
 
 #: src/main/unpack.c
 #, c-format
@@ -5675,7 +5682,7 @@ msgstr ""
 #: src/main/unpack.c
 #, c-format
 msgid "Saving as %s ...\n"
-msgstr ""
+msgstr "Enregistrament coma %s...\n"
 
 #: src/main/unpack.c
 #, c-format
@@ -5692,7 +5699,7 @@ msgstr ""
 #: src/main/unpack.c
 #, c-format
 msgid "unable to delete old directory '%.250s': %s"
-msgstr "impossible de suprimir l'ancian repertòri  « %.250s » : %s"
+msgstr "impossible de suprimir l'ancian repertòri « %.250s » : %s"
 
 #: src/main/unpack.c
 #, c-format
@@ -5753,7 +5760,7 @@ msgstr "Descompression de %s (%s)...\n"
 #: src/main/unpack.c
 #, c-format
 msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr ""
+msgstr "Descompression de %s (%s) sus (%s)...\n"
 
 #: src/main/unpack.c
 msgid "package filesystem archive extraction"
@@ -5894,12 +5901,12 @@ msgstr "fracàs de l'espèra del sosprocessus %s"
 #: utils/update-alternatives.c
 #, c-format
 msgid "unable to remove '%s'"
-msgstr ""
+msgstr "impossible de suprimir « %s »"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "cannot create log directory '%s'"
-msgstr ""
+msgstr "impossible de crear lo repertòri de log %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -5917,10 +5924,9 @@ msgid "unable to read link '%s%.255s'"
 msgstr ""
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "unable to open file '%s'"
+#, c-format
 msgid "unable to get file '%s%s' metadata"
-msgstr "impossible de dobrir lo fichièr « %s »"
+msgstr "impossible d'obténer las metadonadas del fichièr « %s%s »"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6170,10 +6176,9 @@ msgid "alternative %s for %s not registered; not setting"
 msgstr ""
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "There is no program which provides %s."
+#, c-format
 msgid "there is no program which provides %s"
-msgstr "Existís pas cap de programa que provesís %s."
+msgstr "i a cap de programa que provesís %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6296,7 +6301,7 @@ msgstr ""
 #: utils/update-alternatives.c
 #, c-format
 msgid "alternative path %s%s doesn't exist"
-msgstr ""
+msgstr "lo camin alternatiu « %s%s » existís pas"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6316,12 +6321,12 @@ msgstr ""
 #: utils/update-alternatives.c
 #, c-format
 msgid "two commands specified: --%s and --%s"
-msgstr ""
+msgstr "las doas comandas especificadas : --%s e --%s"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "unknown argument '%s'"
-msgstr ""
+msgstr "argument desconegut « %s »"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6336,33 +6341,32 @@ msgstr ""
 #: utils/update-alternatives.c
 #, c-format
 msgid "priority '%s' must be an integer"
-msgstr ""
+msgstr "la prioritat « %s » deu èsser un entièr"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "field width is out of range"
+#, c-format
 msgid "priority '%s' is out of range"
-msgstr "largor de camp fòra limits"
+msgstr "la prioritat « %s » es fòra interval"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "--%s needs <name> <path>"
-msgstr ""
+msgstr "--%s requerís <name> <path>"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "--%s needs <name>"
-msgstr ""
+msgstr "--%s requerís <name>"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "--%s only allowed with --%s"
-msgstr ""
+msgstr "--%s sonque permés amb --%s"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "--%s needs <link> <name> <path>"
-msgstr ""
+msgstr "--%s requerís <link> <name> <path>"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6397,11 +6401,13 @@ msgstr "--%s a besonh d'un paramètre <file>"
 msgid ""
 "need --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s or --%s"
 msgstr ""
+"requèron --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s o "
+"--%s"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "no alternatives for %s"
-msgstr ""
+msgstr "cap d’alternativa per %s"
 
 #: utils/update-alternatives.c
 msgid "<standard input>"
@@ -6415,15 +6421,12 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
-#, c-format
 #~ msgid "removal of %.250s"
 #~ msgstr "la supression de %.250s"
 
-#, c-format
 #~ msgid "installation of %.250s"
 #~ msgstr "l'installacion de %.250s"
 
-#, c-format
 #~ msgid "dpkg not recorded as installed, cannot check for %s support!\n"
 #~ msgstr ""
 #~ "dpkg pas enregistrat coma installat, impossible de verificar la gestion "
