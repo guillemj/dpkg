@@ -32,6 +32,7 @@ my @codespell_skip = qw(
   *.gmo
   *.add
   *.cache
+  *.policy
   *~
   .libs
   .deps
