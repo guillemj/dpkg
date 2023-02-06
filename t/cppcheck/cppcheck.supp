@@ -11,12 +11,20 @@ variableScope
 // TODO: While perhaps valid there are many to handle right away.
 constParameter
 
+// TODO: Will fix in 1.22.x.
+badBitmaskCheck:lib/dpkg/fields.c
+identicalInnerCondition:lib/dpkg/fsys-hash.c
+knownConditionTrueFalse:lib/dpkg/tarfn.c
+
 // Ignore, this is an imported module.
 unusedStructMember:lib/compat/obstack.c
 nullPointerArithmetic:lib/compat/obstack.c
 
 // Ignore, the code is used only for its binary artifacts.
 uninitMemberVar:*/Dpkg_Shlibs/patterns.cpp
+
+// BUG: False positive.
+unusedStructMember:lib/dpkg/compress.c
 
 // BUG: False positive, it gets triggered even with -Ilib.
 unknownMacro:lib/dpkg/string.h
@@ -26,6 +34,10 @@ unknownMacro:utils/*.c
 syntaxError:lib/dpkg/t/*.c
 
 // BUG: False positive, does not understand non-returning functors.
+nullPointerArithmeticRedundantCheck:lib/dpkg/db-fsys-files.c
+nullPointerArithmeticRedundantCheck:lib/dpkg/db-fsys-override.c
+nullPointerRedundantCheck:lib/dpkg/db-fsys-override.c
+nullPointerRedundantCheck:lib/dpkg/ehandle.c
 nullPointerRedundantCheck:src/deb/build.c
 nullPointerRedundantCheck:src/main/enquiry.c
 nullPointerRedundantCheck:src/main/unpack.c
