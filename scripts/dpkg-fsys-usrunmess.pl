@@ -22,7 +22,7 @@ use warnings;
 use feature qw(state);
 
 our ($PROGNAME) = $0 =~ m{(?:.*/)?([^/]*)};
-our $PROGVERSION = '1.21.x';
+our $PROGVERSION = '1.22.x';
 our $ADMINDIR = '/var/lib/dpkg/';
 
 use POSIX;
