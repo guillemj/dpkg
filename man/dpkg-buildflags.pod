@@ -622,6 +622,13 @@ This has the effect of removing the build path from any generated file.
 If both B<fixdebugpath> and B<fixfilepath> are set, this option
 takes precedence, because it is a superset of the former.
 
+B<Note>: If the build process captures the build flags into the resulting
+built objects, that will make the package unreproducible.
+And while disabling this option might make some of the objects reproducible
+again this would also require disabling B<fixdebugpath>, which might make
+any generated debug symbols objects unreproducible.
+The ideal fix is to stop capturing build flags.
+
 =item B<fixdebugpath>
 
 This setting (enabled by default) adds
@@ -631,6 +638,8 @@ B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is
 set to the top-level directory of the package being built.
 This has the effect of removing the build path from any generated debug
 symbols.
+
+B<Note>: This feature has similar reproducible properties as B<fixfilepath>.
 
 =back
 
