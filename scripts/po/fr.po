@@ -4,14 +4,15 @@
 #
 # Translators:
 # Frédéric Bothamy <frederic.bothamy@free.fr>, 2005-2007.
-# Christian Perrier <bubulle@debian.org>, 2008, 2009, 2010, 2011, 2012.
-# Steve Petruzzello <dlist@bluewin.ch>, 2014
+# Christian Perrier <bubulle@debian.org>, 2008-2012.
+# Steve Petruzzello <dlist@bluewin.ch>, 2014.
+# Sébastien Poher <sebastien@volted.net>, 2014-2015, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-02-07 11:18+0000\n"
-"PO-Revision-Date: 2023-02-05 23:48+0100\n"
+"POT-Creation-Date: 2023-01-24 22:39+0000\n"
+"PO-Revision-Date: 2023-02-10 02:16+0100\n"
 "Last-Translator: Sébastien Poher <sebastien@volted.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -128,8 +129,8 @@ msgstr ""
 "       --print-format <format>\n"
 "                              utilise <format> pour les options --print-set "
 "et --print-unset,\n"
-"                              les valeurs acceptées sont: shell (par défaut) "
-"et make.\n"
+"                              les valeurs acceptées sont : shell (par "
+"défaut) et make.\n"
 "  -f, --force                             drapeau de forçage (outrepasse les "
 "variables définies dans l'environnement)."
 
@@ -169,7 +170,7 @@ msgstr "%s n'est pas un format d’affichage pris en charge"
 #: scripts/dpkg-architecture.pl
 #, perl-format
 msgid "%s is not a supported variable name"
-msgstr "%s n'est pas le nom d'une variable reconnue"
+msgstr "%s n'est pas le nom d'une variable pris en charge"
 
 #: scripts/dpkg-architecture.pl scripts/dpkg-buildflags.pl
 #: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
@@ -342,97 +343,102 @@ msgid ""
 "      --version               show the version."
 msgstr ""
 "Options:\n"
-"      --build=<type>[,...]    spécifie le <type> de construction: full (par "
+"      --build=<type>[,...]    spécifie le <type> de construction : full (par "
 "défaut), source,\n"
-"                                 binary, any, all.\n"
-"  -F, --build=full             construction complète normale (sources et "
+"                              binary, any, all.\n"
+"  -F, --build=full            construction complète normale (sources et "
 "binaires) (défaut).\n"
-"  -g, --build=source,all             source et binaires indépendants de "
+"  -g, --build=source,all      source et binaires indépendants de "
 "l'architecture.\n"
-"  -G, --build=source,any             source et binaires dépendants de "
+"  -G, --build=source,any      source et binaires dépendants de "
 "l'architecture.\n"
-"  -b, --build=binary             binaire uniquement sans construire les "
+"  -b, --build=binary          binaire uniquement sans construire les "
 "sources.\n"
-"  -B, --build=any             binaire uniquement sans fichiers indépendants\n"
-"                   de l'architecture.\n"
+"  -B, --build=any             binaire uniquement seulement les fichiers "
+"spécifiques\n"
+"                   à l'architecture.\n"
 "  -A, --build=all             binaire uniquement, seulement les fichiers "
 "indépendants\n"
 "                   de l'architecture.\n"
-"  -S, --build=source             source uniquement, pas de fichiers "
-"binaires.\n"
-"  -nc, --no-pre-clean            ne pas nettoyer l'arborescence source "
+"  -S, --build=source          source uniquement, pas de fichiers binaires.\n"
+"  -nc, --no-pre-clean         ne pas nettoyer l'arborescence source "
 "(implique -b).\n"
-"     --pre-clean         pré-nettoyer l’arborescence source (par défaut).\n"
-"     --no-post-clean       ne pas nettoyer l’arborescence source ensuite "
+"     --pre-clean              pré-nettoyer l’arborescence source (par "
+"défaut).\n"
+"     --no-post-clean          ne pas nettoyer l’arborescence source ensuite "
 "(par défaut).\n"
-"  -tc            nettoyer l'arborescence source une fois terminé.\n"
-"      --sanitize-env          nettoyer l’environment de construction.\n"
-"  -D, --check-builddeps             contrôler les dépendances et les "
+"  -tc                         nettoyer l'arborescence source une fois "
+"terminé.\n"
+"      --sanitize-env          nettoyer l’environnement de construction.\n"
+"  -D, --check-builddeps       contrôler les dépendances et les conflits de\n"
+"                              construction (défaut).\n"
+"  -d, --no-check-builddeps    ne pas contrôler les dépendances et les "
 "conflits de\n"
-"                   construction (défaut).\n"
-"  -d, --no-check-builddeps             ne pas contrôler les dépendances et "
-"les conflits de\n"
-"                   construction.\n"
+"                              construction.\n"
 "      --ignore-builtin-builddeps\n"
 "                              ne pas contrôler les dépendances de "
 "constructions internes.\n"
 "  -P, --build-profiles=<profils>    considérer les profils de construction "
 "donnés\n"
-"            comme actifs (liste séparée par des virgules).\n"
+"                              comme actifs (liste séparée par des "
+"virgules).\n"
 "      --rules-requires-root   considère que la valeur de l’ancien champ "
 "Rules-Requires-Root\n"
 "                    est définie.\n"
-"  -R, --rules-file=<rules>      fichier rules à exécuter (par défaut : "
-"debian/rules).\n"
-"  -T, --rules-target=<cible>      appeler debian/rules <cible> avec "
-"l'environnement adapté.\n"
+"  -R, --rules-file=<rules>    fichier rules à exécuter (par défaut : debian/"
+"rules).\n"
+"  -T, --rules-target=<cible>  appeler debian/rules <cible>.\n"
 "      --as-root  garantir que -T appelle la cible avec les droits du\n"
 "                   superutilisateur.\n"
-"  -j, --jobs[=<jobs>|auto]   indiquer le nombre de travaux à exécuter "
+"  -j, --jobs[=<jobs>|auto]    indiquer le nombre de travaux à exécuter "
 "simultanément\n"
-"                   (passé à <rules>)(defaut; auto par défaut, spécifiez tout "
-"autre choix).\n"
+"                   (passé à <rules>)(défaut ; auto par défaut, spécifiez "
+"tout autre choix).\n"
 "  -J, --jobs-try[=<jobs>|auto]\n"
 "                              alias pour -j, --jobs.\n"
 "      --jobs-force[=<jobs>|auto]\n"
 "                              indiquer le nombre de travaux à exécuter "
 "simultanément\n"
-"                              (passé à <rules>), mode forcé.\n"
+"                              (passé à <rules>).\n"
 "  -r, --root-command=<command>\n"
-"                 commande permettant d'obtenir les privilèges du\n"
-"                   superutilisateur (fakeroot par défaut).\n"
+"                              commande permettant d'obtenir les privilèges "
+"du\n"
+"                              superutilisateur (fakeroot par défaut).\n"
 "  --check-command=<check-command>\n"
-"                 commande pour vérifier le fichier .changes (pas de valeur "
-"par défaut)\n"
+"                              commande pour vérifier le fichier .changes "
+"(pas de valeur par défaut).\n"
 "  --check-option=<opt>\n"
 "                 passe <opt> à <check-command>\n"
-"      --hook-<name>=<commande>  défini <commande> en tant que crochet pour "
-"<nom>,\n"
-"                                les crochets valables sont:\n"
+"      --hook-<name>=<commande>  définir <commande> en tant que point "
+"d'ancrage pour <nom>,\n"
+"                                les point d'ancrages valables sont :\n"
 "                                init preclean source build binary buildinfo\n"
 "                                changes postclean check sign done\n"
-"      --buildinfo-file=<file> défini le nom de fichier .buildinfo à "
+"      --buildinfo-file=<fichier> définir le nom de fichier .buildinfo à "
 "générer.\n"
 "      --buildinfo-option=<opt>\n"
-"                              passer l’option <opt> à dpkg-genbuildinfo.\n"
-"      --changes-file=<file>   défini le nom de fichier .changes à générer.\n"
+"                                passer l’option <opt> à dpkg-genbuildinfo.\n"
+"      --changes-file=<fichier>  définir le nom de fichier .changes à "
+"générer.\n"
 "      --sign-backend=<backend>\n"
-"                              backend OpenPGP à utiliser pour signer\n"
+"                                backend OpenPGP à utiliser pour signer\n"
 "                                (auto par défaut).\n"
-"  -p, --sign-command=<command>\n"
-"                 commande permettant de signer les fichiers .dsc\n"
-"                   et/ou les fichiers .changes (par défaut : gpg).\n"
-"      --sign-keyfile=<file>   la clé à utiliser pour signer.\n"
-"  -k, --sign-keyid=<keyid>      clé d’identité à utiliser pour signer.\n"
-"      --sign-key=<keyid>      alias pour -k, --sign-keyid.\n"
-"  -ap, --sign-pause           ajouter une pause avant le processus de "
+"  -p, --sign-command=<commande>\n"
+"                                commande permettant de signer les fichiers ."
+"dsc\n"
+"                                et/ou les fichiers .changes (par défaut : "
+"gpg).\n"
+"      --sign-keyfile=<fichier>  la clé à utiliser pour signer.\n"
+"  -k, --sign-keyid=<keyid>      identifiant de clé à utiliser pour signer.\n"
+"      --sign-key=<keyid>        alias pour -k, --sign-keyid.\n"
+"  -ap, --sign-pause             ajouter une pause avant le processus de "
 "signature.\n"
-"  -us, --unsigned-source      paquet source non signé.\n"
-"  -ui, --unsigned-buildinfo   fichier .buildinfo non signé.\n"
-"  -uc, --unsigned-changesfichier .changes non signé.\n"
-"      --no-sign               ne signer aucun fichier.\n"
-"      --force-sign\n"
-"                 force la signature des fichers résultants\n"
+"  -us, --unsigned-source        paquet source non signé.\n"
+"  -ui, --unsigned-buildinfo     fichier .buildinfo non signé.\n"
+"  -uc, --unsigned-changes       fichier .changes non signé.\n"
+"      --no-sign                 ne signer aucun fichier.\n"
+"      --force-sign              forcer la signature des fichiers "
+"résultants.\n"
 "      --admindir=<répertoire>\n"
 "                 modifier le répertoire administratif.\n"
 "  -?, --help     afficher ce message d'aide.\n"
@@ -477,12 +483,12 @@ msgstr ""
 "dsc.\n"
 "  -v<version>    modifications depuis la version <version>.\n"
 "  -m, --source-by=<maint>       le responsable du paquet est <maint>.\n"
-"      --build-by=<maint>      idem.\n"
-"  -e, --release-by=<maint>       le responsable de la version courante est "
+"      --build-by=<maint>        idem.\n"
+"  -e, --release-by=<maint>      le responsable de la version courante est "
 "<maint>.\n"
 "      --changed-by=<maint>      idem.\n"
 "  -C<fichdesc>   modifications décrites dans <fichdesc>.\n"
-"      --changes-option=<opt>  passer l'option <opt> à dpkg-genchanges."
+"      --changes-option=<opt>    passer l'option <opt> à dpkg-genchanges."
 
 #: scripts/dpkg-buildpackage.pl
 msgid ""
@@ -508,7 +514,7 @@ msgstr ""
 "                 logiciel de compression à utiliser pour les\n"
 "                 sources (gz|xz|bzip2|lzma).\n"
 "  -i, --diff-ignore[=<regex>]    ignorer les différences dans les fichiers "
-"correspondant\n"
+"correspondants.\n"
 "                  à l'expression régulière.\n"
 "  -I, --tar-ignore[=<motif>]    ignorer ces fichiers en construisant les "
 "archives tar.\n"
@@ -523,7 +529,8 @@ msgstr "nom de fichier .buildinfo manquant"
 #, perl-format
 msgid "passing %s via %s is not supported; please use %s instead"
 msgstr ""
-"passer %s par %s n'est pas pris en charge ; veuillez utiliser %s à la place"
+"passer %s à l’aide de %s n'est pas pris en charge ; veuillez utiliser %s à "
+"la place"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "missing .changes filename"
@@ -532,7 +539,7 @@ msgstr "nom de fichier .changes manquant"
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "unknown hook name %s"
-msgstr "nom de crochet inconnu %s"
+msgstr "nom de point d'ancrage inconnu %s"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -543,7 +550,7 @@ msgstr "la commande du point d'ancrage %s est manquante"
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
 msgid "%s is deprecated; it is without effect"
-msgstr "%s est déprécié ; il est sans effet"
+msgstr "%s est obsolète ; il est sans effet"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -596,7 +603,7 @@ msgstr "debian/rules n'est pas exécutable ; corrigé"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "build dependencies/conflicts unsatisfied; aborting"
-msgstr "dépendances de construction et conflits non satisfaits ; échec"
+msgstr "dépendances de construction et conflits non satisfaits ; abandon"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "(Use -d flag to override.)"
@@ -617,7 +624,7 @@ msgstr "Appuyez sur <Entrée> pour commencer le processus de signature\n"
 #: scripts/dpkg-buildpackage.pl
 msgid "not signing UNRELEASED build; use --force-sign to override"
 msgstr ""
-"construction non-publiée (UNRELEASED) non signée ; veuillez utiliser --force-"
+"construction non publiée (UNRELEASED) non signée ; veuillez utiliser --force-"
 "sign pour passer outre"
 
 #: scripts/dpkg-buildpackage.pl
@@ -660,13 +667,13 @@ msgstr ""
 #, perl-format
 msgid "%s field keyword \"%s\" is uppercase; use \"%s\" instead"
 msgstr ""
-"le mot clé « %s » du champ %s est en majuscule ; utilisez « %s » à la place"
+"le mot clé « %s » du champ %s est en majuscule ; utilisez « %s » à la place"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "%s field keyword \"%s\" is invalid; use \"%s\" instead"
 msgstr ""
-"le mot clé « %s » du champ %s n’est pas valable ; utilisez « %s » à la place"
+"le mot clé « %s » du champ %s n’est pas valable ; utilisez « %s » à la place"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -696,8 +703,8 @@ msgid ""
 "short OpenPGP key IDs are broken; please use key fingerprints in %s or %s "
 "instead"
 msgstr ""
-"les identifiants courts des clés OpenPGP ne fonctionnent plus ; veuillez "
-"utiliser les empreintes de clés dans %s ou %s à la place"
+"les identifiants courts des clés OpenPGP ne fonctionnent plus ; veuillez "
+"utiliser les empreintes de clé dans %s ou %s à la place"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -706,7 +713,7 @@ msgid ""
 "in %s or %s instead"
 msgstr ""
 "il est fortement déconseillé d'utiliser des identifiants de clé OpenPGP "
-"longs ; veuillez plutôt utiliser les empreintes de clé dans %s ou %s"
+"longs ; veuillez plutôt utiliser les empreintes de clé dans %s ou %s"
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
 #: scripts/dpkg-genbuildinfo.pl scripts/dpkg-name.pl scripts/Dpkg/Arch.pm
@@ -731,7 +738,7 @@ msgstr "impossible de déplacer %s vers %s"
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "failed to sign %s file: %s"
-msgstr "échec de la signature du fichier %s : %s"
+msgstr "échec de la signature du fichier %s : %s"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "source-only upload: Debian-native package"
@@ -777,7 +784,7 @@ msgstr ""
 #: scripts/dpkg-checkbuilddeps.pl
 #, perl-format
 msgid "Usage: %s [<option>...] [<control-file>]"
-msgstr "Utilisation : %s [<option>...] <fichier de contrôle>"
+msgstr "Utilisation : %s [<option>...] <fichier-contrôle>"
 
 #: scripts/dpkg-checkbuilddeps.pl
 msgid ""
@@ -819,8 +826,8 @@ msgstr ""
 msgid ""
 "<control-file> is the control file to process (default: debian/control)."
 msgstr ""
-"<fichier de contrôle> est le fichier de contrôle à traiter (par défaut, "
-"debian/control)."
+"<fichier-contrôle> est le fichier de contrôle à traiter (par défaut, debian/"
+"control)."
 
 #: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-shlibdeps.pl
 #: scripts/dpkg-source.pl
@@ -831,12 +838,12 @@ msgstr "impossible d'analyser le champ %s"
 #: scripts/dpkg-checkbuilddeps.pl
 #, perl-format
 msgid "Unmet build dependencies: %s"
-msgstr "Dépendances de construction non satisfaites : %s"
+msgstr "Dépendances de construction non satisfaites : %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
 #, perl-format
 msgid "Build conflicts: %s"
-msgstr "Conflits de construction : %s"
+msgstr "Conflits de construction : %s"
 
 #: scripts/dpkg-distaddfile.pl
 #, perl-format
@@ -897,31 +904,32 @@ msgid ""
 "      --version            show the version.\n"
 msgstr ""
 "Options :\n"
-"  --build=<type>[,...]         spécifie le <type> de construction: full, "
-"source, binary,\n"
-"                             any, all (la valeur par défaut est « full »).\n"
-"  -c<fichier-de-contrôle>         obtient des informations de contrôle à "
+"  --build=<type>[,...]         spécifier le <type> de construction : "
+"full,                                  source, binary,\n"
+"                                 any, all (la valeur par défaut est "
+"« full »).\n"
+"  -c<fichier-contrôle>         obtenir des informations de contrôle à partir "
+"de ce fichier.\n"
+"  -l<fichier-changelog>        obtenir des informations par version "
+"à                                  partir de ce journal de modifications.\n"
+"  -f<fichier-des-fichiers>         obtenir la liste des fichiers .deb à "
 "partir de ce fichier.\n"
-"  -l<fichier-de-changements>         obtient des informations par version à "
-"partir de ce fichier.\n"
-"  -f<fichier-de-liste-des-fichiers>         obtient la liste des fichiers ."
-"deb à partir de ce fichier.\n"
-"  -F<format-du-changelog>         force le format du fichiers de "
-"changements.\n"
-"  -O[<fichier-info-de-construction>]         écrire sur la sortie standard "
-"(ou <fichier-info-de-construction>).\n"
-"  -u<repertoire-televersement>         répertoire avec les fichiers (par "
-"défaut, '..').\n"
+"  -F<format-du-changelog>       forcer le format du journal de "
+"modifications.\n"
+"  -O[<fichier-info-de-construction>]     écrire sur la sortie standard (ou "
+"<fichier-info-de-construction>).\n"
+"  -u<repertoire-televersement>           répertoire avec les fichiers "
+"(par                                          défaut, '..').\n"
 "  --always-include-kernel         inclut toujours Build-Kernel-Version.\n"
-"  --always-include-path         inclut toujours Build-Path.\n"
-"  --admindir=<répertoire> changer le répertoire d'administration.\n"
-"  -?, --help         affiche ce message d'aide.\n"
-"      --version         affiche la version.\n"
+"  --always-include-path           inclut toujours Build-Path.\n"
+"  --admindir=<répertoire>         changer le répertoire d'administration.\n"
+"  -?, --help         afficher ce message d'aide.\n"
+"      --version      afficher la version.\n"
 
 #: scripts/dpkg-genbuildinfo.pl
 msgid "binary build with no binary artifacts found; .buildinfo is meaningless"
 msgstr ""
-"construction binaire sans artefacts binaires trouvés ; .buildinfo n’a pas "
+"construction binaire sans artefacts binaires trouvés ; .buildinfo n’a pas "
 "d’effet"
 
 #: scripts/dpkg-genbuildinfo.pl
@@ -962,8 +970,8 @@ msgid ""
 "      --version            show the version.\n"
 msgstr ""
 "Options :\n"
-"  --build=<type>[,...]     spécifie le <type> de construction: full, source, "
-"binary,\n"
+"  --build=<type>[,...]     spécifier le <type> de construction : full, "
+"source, binary,\n"
 "                             any, all (« full » par défaut).\n"
 "  -g                       source et binaires indépendants de "
 "l'architecture.\n"
@@ -974,7 +982,7 @@ msgstr ""
 "  -A                       binaires indépendants de l'architecture "
 "uniquement.\n"
 "  -S                       source uniquement.\n"
-"  -c<fichier-control>      obtenir les informations de contrôle dans ce "
+"  -c<fichier-contrôle>      obtenir les informations de contrôle dans ce "
 "fichier.\n"
 "  -l<fichier-changelog>    obtenir les informations de version dans ce "
 "fichier.\n"
@@ -996,15 +1004,15 @@ msgstr ""
 "  -sd                      inclure seulement un diff et un .dsc dans les "
 "sources.\n"
 "  -q                       silence - pas d'information sur stderr.\n"
-"  -F<changelogformat>      modifier le format du changelog.\n"
+"  -F<format-changelog>      modifier le format du changelog.\n"
 "  -V<nom>=<valeur>         définir une variable de substitution.\n"
 "  -T<varlistfile>          lire les variables de substitution dans ce "
 "fichier,\n"
 "                             pas dans debian/substvars.\n"
 "  -D<champ>=<valeur>       remplacer ou ajouter une paire champ / valeur.\n"
 "  -U<champ>                supprimer un champ.\n"
-"  -O[<nom-fichier>]           écrire sur la sortie standard (par defaut) ou\n"
-"                                  dans <nom_fichier>.\n"
+"  -O[<nom-fichier>]           écrire sur la sortie standard (par défaut) ou\n"
+"                                  dans <nom-fichier>.\n"
 "  -?, --help               afficher ce message d'aide.\n"
 "      --version            afficher la version.\n"
 
@@ -1135,11 +1143,11 @@ msgid ""
 msgstr ""
 "Options :\n"
 "  -p<paquet>                 afficher le fichier de contrôle du paquet.\n"
-"  -c<fichier_de_contrôle>    obtenir les informations de contrôle dans ce "
+"  -c<fichier-contrôle>    obtenir les informations de contrôle dans ce "
 "fichier.\n"
-"  -l<fichier_changelog>      obtenir les informations par version de ce "
+"  -l<fichier-changelog>      obtenir les informations par version de ce "
 "fichier.\n"
-"  -F<changelogformat>        forcer le format de changelog.\n"
+"  -F<format-changelog>        forcer le format de changelog.\n"
 "  -v<forceversion>           définir la version du paquet binaire.\n"
 "  -f<fichier-des-fichiers>   écrire la liste des fichiers dans ce fichier, "
 "plutôt que dans debian/files.\n"
@@ -1202,7 +1210,7 @@ msgstr "champ %s du paquet %s : "
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
 msgid "parsing package '%s' %s field: %s"
-msgstr "analyse du champ %s du paquet « %s » : %s"
+msgstr "analyse du champ %s du paquet « %s » : %s"
 
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
@@ -1227,7 +1235,7 @@ msgstr "stat de %s impossible"
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
 msgid "cannot install output control file '%s'"
-msgstr "impossible d'installer le nouveau fichier de contrôle en sortie %s"
+msgstr "impossible d'installer le nouveau fichier de contrôle de sortie %s"
 
 #: scripts/dpkg-gensymbols.pl
 msgid ""
@@ -1274,7 +1282,7 @@ msgstr ""
 "  -P<rep-constr-paquet>      répertoire de construction temporaire au lieu "
 "de\n"
 "                           debian/tmp.\n"
-"  -e<bibliotheque>         Afficher explicitement les bibliothèques à\n"
+"  -e<bibliotheque>         afficher explicitement les bibliothèques à\n"
 "                           rechercher.\n"
 "  -v<version>              version des paquets (par défaut, la version "
 "extraite de\n"
@@ -1282,7 +1290,7 @@ msgstr ""
 "  -c<niveau>               comparer les symboles générés avec le fichier de "
 "référence\n"
 "                           dans le répertoire debian.\n"
-"                           Échoue si les différences sont trop importantes\n"
+"                           échouer si les différences sont trop importantes\n"
 "                           (le niveau va de 0 pour aucun contrôle à 4 pour "
 "tous\n"
 "                           les contrôles). Par défaut, le niveau de contrôle "
@@ -1400,7 +1408,7 @@ msgstr ""
 "  -m, --merge-prereleases  fusionner les versions préliminaires en\n"
 "                           ignorant ce qui suit le dernier caractère\n"
 "                           « ~ » dans la version.\n"
-"      --merge-unreleased   fusionner les entrées UNRELEASED ensemble\n"
+"      --merge-unreleased   fusionner les entrées UNRELEASED\n"
 "                           en ignorant leur numéro de version.\n"
 "  -?, --help, -?           afficher ce message d'aide.\n"
 "      --version            afficher la version.\n"
@@ -1450,7 +1458,7 @@ msgstr ""
 "\n"
 "modification de fichier.deb en <paquet>_<version>_<architecture>."
 "<type_paquet>\n"
-"selon la « convention des 'underscores' ».\n"
+"selon la « convention des 'underscores' ».\n"
 
 #: scripts/dpkg-name.pl
 #, perl-format
@@ -1531,14 +1539,13 @@ msgid ""
 "      --version            show the version."
 msgstr ""
 "Options :\n"
-"  -l, --file       <fichier-journal-modifications>\n"
-"                           obtient des informations par version à partir de "
+"  -l, --file       <fichier-changelog>\n"
+"                           obtenir des informations par version à partir de "
 "ce fichier.\n"
-"  -F <format-journal-modifications> force le format du journal des "
-"modifications.\n"
-"  -S, --show-field <champ> affiche les valeurs de <champ>.\n"
-"  -?, --help affiche ce message d'aide.\n"
-"      --version affiche la version."
+"  -F <format-changelog> forcer le format du journal des modifications.\n"
+"  -S, --show-field <champ> afficher les valeurs de <champ>.\n"
+"  -?, --help afficher ce message d'aide.\n"
+"      --version afficher la version."
 
 #: scripts/dpkg-parsechangelog.pl
 msgid ""
@@ -1564,7 +1571,7 @@ msgstr ""
 "      --format <format-sortie>\n"
 "                                définir le format de sortie (« dpkg » par "
 "défaut).\n"
-"      --reverse            inclut tous les changements dans l’ordre "
+"      --reverse            inclure tous les changements dans l’ordre "
 "inverse.\n"
 "      --all                     inclure tous les "
 "changements.                                \n"
@@ -1587,7 +1594,7 @@ msgstr ""
 
 #: scripts/dpkg-parsechangelog.pl
 msgid "-L is obsolete; it is without effect"
-msgstr "-L est obsolète ; ce paramètre est sans effet"
+msgstr "-L est obsolète ; ce paramètre est sans effet"
 
 #: scripts/dpkg-parsechangelog.pl
 msgid "bad changelog format name"
@@ -1698,12 +1705,12 @@ msgstr "de un à trois paramètres sont attendus"
 #: scripts/dpkg-scanpackages.pl
 #, perl-format
 msgid "unsupported checksum '%s'"
-msgstr "somme de contrôle non supportée « %s »"
+msgstr "somme de contrôle non prise en charge « %s »"
 
 #: scripts/dpkg-scanpackages.pl
 #, perl-format
 msgid "binary path %s not found"
-msgstr "chemin de binaire %s non trouvé"
+msgstr "chemin du binaire %s non trouvé"
 
 #: scripts/dpkg-scanpackages.pl
 #, perl-format
@@ -1721,7 +1728,7 @@ msgstr "impossible de fermer la sortie standard"
 #: scripts/dpkg-scanpackages.pl
 msgid "Packages with multiple instances but no --multiversion specified:"
 msgstr ""
-"Paquets avec plusieurs instances mais --multiversion n’est pas spécifié :"
+"Paquets avec plusieurs instances mais --multiversion n’est pas spécifié :"
 
 #: scripts/dpkg-scanpackages.pl
 msgid "Packages in override file with incorrect old maintainer value:"
@@ -1835,8 +1842,8 @@ msgstr "au moins un exécutable est nécessaire"
 msgid ""
 "cannot find library %s needed by %s (ELF format: '%s' abi: '%s'; RPATH: '%s')"
 msgstr ""
-"impossible de trouver la bibliothèque %s requise par %s (format ELF : « %s » "
-"abi : « %s » ; RPATH : « %s »)"
+"impossible de trouver la bibliothèque %s requise par %s (format ELF : « %s » "
+"abi_: « %s » ; RPATH : « %s »)"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -2236,16 +2243,16 @@ msgid ""
 msgstr ""
 "Commandes :\n"
 "  -x, --extract <nom-fichier>.dsc [<rep-sortie>]\n"
-"                           extrait le paquet source.\n"
-"  -b, --build <rep>     construit le paquet source.\n"
-"      --print-format <rep>     imprime le format à utiliser pour le paquet "
+"                           extraction du paquet source.\n"
+"  -b, --build <rep>        construction du paquet source.\n"
+"      --print-format <rep> afficher le format à utiliser pour le paquet "
 "source.\n"
-"      --before-build <rep>     exécute le hook correspondant au format du "
-"paquet source.\n"
-"      --after-build <rep>    exécute le hook de format de paquet source "
-"correspondant.\n"
+"      --before-build <rep> exécuter le point d'ancrage correspondant au "
+"format du paquet source.\n"
+"      --after-build <rep>  exécuter le point d'ancrage de format de paquet "
+"source correspondant.\n"
 "      --commit [<rep> [<nom-patch>]]\n"
-"                           enregistre les changements en amont dans un "
+"                           enregistrer les changements en amont dans un "
 "nouveau patch."
 
 #: scripts/dpkg-source.pl
@@ -2275,11 +2282,11 @@ msgid ""
 "                             supported are: '1'-'9', 'best', 'fast')"
 msgstr ""
 "Options de construction :\n"
-"  -c<fichier-control>      obtenir les informations de contrôle de ce "
+"  -c<fichier-contrôle>     obtenir les informations de contrôle de ce "
 "fichier.\n"
 "  -l<fichier-changelog>    obtenir les informations de version de ce "
 "fichier.\n"
-"  -F<changelogformat>      forcer le format du changelog.\n"
+"  -F<format-changelog>     forcer le format du changelog.\n"
 "  --format=<source-format> définir le format à utiliser pour le paquet "
 "source.\n"
 "  -V<nom>=<valeur>         définir une variable de substitution.\n"
@@ -2288,15 +2295,15 @@ msgstr ""
 "dsc.\n"
 "  -U<champ>                supprimer un champ.\n"
 "  -i, --diff-ignore[=<regex>]\n"
-"                            ignorer les différences sur les fichiers\n"
-"                            (par défaut : %s).\n"
-"  -I, --tar-ignore[=<pattern>]\n"
+"                           ignorer les différences sur les fichiers\n"
+"                             (par défaut : %s).\n"
+"  -I, --tar-ignore[=<motif>]\n"
 "                           exclure des fichiers en construisant les\n"
-"                           tarballs (par défaut : %s).\n"
+"                           archives (par défaut : %s).\n"
 "  -Z, --compression=<compression>\n"
 "                           compression à utiliser (par défaut : « %s »,\n"
 "                             les valeurs gérées sont : %s)\n"
-"  -z, --compression-level=<level>\n"
+"  -z, --compression-level=<niveau>\n"
 "                           niveau de compression à utiliser (par défaut, "
 "« %d » ,\n"
 "                             les valeurs gérées sont : « 1 » - « 9 », "
@@ -2316,18 +2323,18 @@ msgid ""
 "checksums\n"
 "  --ignore-bad-version     allow bad source package versions."
 msgstr ""
-"Options d'extraction :\n"
+"Options d'extraction :\n"
 "  --no-copy         ne pas copier les archives .orig\n"
-"  --no-check        ne vérifie pas la signature et les sommes de contrôle "
-"avant le décompactage\n"
+"  --no-check        ne pas vérifier la signature et les sommes de contrôle "
+"avant la décompression\n"
 "  --no-overwrite-dir        ne pas écraser le répertoire lors de "
 "l'extraction\n"
-"  --require-valid-signature     abandonne si le paquet n'a pas de signature "
-"valide\n"
+"  --require-valid-signature     abandonner si le paquet n'a pas de signature "
+"valable\n"
 "  --require-strong-checksums\n"
-"                           abandonne si le paquet ne contient pas de somme "
+"                           abandonner si le paquet ne contient pas de somme "
 "de contrôle forte\n"
-"  --ignore-bad-version        autorise les mauvaises versions du paquet "
+"  --ignore-bad-version        autoriser les mauvaises versions du paquet "
 "source."
 
 #: scripts/dpkg-source.pl
@@ -2341,11 +2348,11 @@ msgid ""
 msgstr ""
 "Options générales :\n"
 "      --threads-max=<threads>\n"
-"                           utilise au maximum <threads> avec le "
+"                           utiliser au maximum <threads> avec le "
 "compresseur.\n"
 "  -q                     mode silencieux.\n"
-"  -?, --help        affiche ce message d'aide.\n"
-"      --version          affiche la version."
+"  -?, --help             afficher ce message d'aide.\n"
+"      --version          afficher la version."
 
 #: scripts/dpkg-source.pl
 msgid ""
@@ -2353,7 +2360,7 @@ msgid ""
 "use --format with --help to see them."
 msgstr ""
 "Des options de construction et d'extraction spécifiques au format source "
-"sont disponibles ;\n"
+"sont disponibles ;\n"
 "utilisez --format avec --help pour les voir."
 
 #: scripts/dpkg-vendor.pl
@@ -2367,9 +2374,9 @@ msgid ""
 "  --version               show the version."
 msgstr ""
 "Commandes:\n"
-"  --is <fabriquant>             renvoie « vrai » si le fabriquant actuel est "
-"<vendor>.\n"
-"  --derives-from <fabriquant>   renvoie « vrai » si le fabriquant actuel "
+"  --is <fabriquant>             renvoyer « vrai » si le fabriquant actuel "
+"est <vendor>.\n"
+"  --derives-from <fabriquant>   renvoyer « vrai » si le fabriquant actuel "
 "provient de <fabriquant>.\n"
 "  --query <champ>               afficher le contenu du champ propre au "
 "fabriquant.\n"
@@ -2515,13 +2522,13 @@ msgstr ""
 #: scripts/Dpkg/Changelog.pm
 #, perl-format
 msgid "'since' option specifies most recent version '%s', ignoring"
-msgstr "l'option « since » spécifie la version la plus récente « %s », abandon"
+msgstr "l'option « since » spécifie la version la plus récente « %s », ignorée"
 
 #: scripts/Dpkg/Changelog.pm
 #, perl-format
 msgid "'until' option specifies oldest version '%s', ignoring"
 msgstr ""
-"l'option « until » spécifie la version la plus ancienne « %s », abandon"
+"l'option « until » spécifie la version la plus ancienne « %s », ignorée"
 
 #: scripts/Dpkg/Changelog/Debian.pm
 msgid "first heading"
@@ -2644,7 +2651,7 @@ msgstr "impossible de chercher dans le fichier %s"
 #: scripts/Dpkg/Changelog/Parse.pm
 #, perl-format
 msgid "changelog format %s is unknown: %s"
-msgstr "le format du journal des modifications %s est inconnu : %s"
+msgstr "le format du journal des modifications %s est inconnu : %s"
 
 #: scripts/Dpkg/Changelog/Parse.pm
 #, perl-format
@@ -2697,7 +2704,7 @@ msgstr "conflit de taille de fichiers %u et %u pour le fichier %s"
 #: scripts/Dpkg/Compression.pm
 #, perl-format
 msgid "compression threads %s is not a number"
-msgstr "le nombre de processus de compression %s n'est pas un nombre valable"
+msgstr "le nombre de processus de compression %s n'est pas un nombre"
 
 #: scripts/Dpkg/Compression/Process.pm
 #, perl-format
@@ -2733,15 +2740,15 @@ msgstr "version analysée de changelog"
 
 #: scripts/Dpkg/Control.pm
 msgid "header stanza of copyright file"
-msgstr "ligne d'en-tête du fichier de copyright"
+msgstr "paragraphe d'en-tête du fichier de copyright"
 
 #: scripts/Dpkg/Control.pm
 msgid "files stanza of copyright file"
-msgstr "ligne fichiers du fichier de copyright"
+msgstr "paragraphe des fichiers du fichier de copyright"
 
 #: scripts/Dpkg/Control.pm
 msgid "license stanza of copyright file"
-msgstr "ligne de licence du fichier de copyright"
+msgstr "paragraphe de licence du fichier de copyright"
 
 #: scripts/Dpkg/Control.pm
 msgid "package's tests control file"
@@ -2755,7 +2762,7 @@ msgstr "le fichier %s du dépôt"
 #: scripts/Dpkg/Control.pm
 #, perl-format
 msgid "stanza in repository's %s file"
-msgstr "entrée dans le fichier %s de dépôt"
+msgstr "paragraphe dans le fichier %s de dépôt"
 
 #: scripts/Dpkg/Control.pm
 #, perl-format
@@ -2776,7 +2783,7 @@ msgstr "fichier du fournisseur (« vendor »)"
 
 #: scripts/Dpkg/Control.pm
 msgid "stanza in dpkg's status file"
-msgstr "entrée dans le fichier d'état de dpkg"
+msgstr "paragraphe dans le fichier d'état de dpkg"
 
 #: scripts/Dpkg/Control/FieldsCore.pm
 #, perl-format
@@ -2803,7 +2810,7 @@ msgstr "champ %s en double"
 
 #: scripts/Dpkg/Control/HashCore.pm
 msgid "continued value line not in field"
-msgstr "la ligne continuée n'est pas dans le champ"
+msgstr "la ligne prolongée de valeur n'est pas dans le champ"
 
 #: scripts/Dpkg/Control/HashCore.pm
 msgid "expected OpenPGP signature, found end of file after blank line"
@@ -2827,7 +2834,7 @@ msgstr "signature OpenPGP non autorisée ici"
 #: scripts/Dpkg/Control/HashCore.pm
 msgid "line with unknown format (not field-colon-value)"
 msgstr ""
-"ligne de format inconnu, format différent de « champ-deux points-valeur »"
+"ligne de format inconnu, format différent de « champ-deux_points-valeur »"
 
 #: scripts/Dpkg/Control/HashCore.pm
 msgid "write error on control data"
@@ -2856,17 +2863,17 @@ msgstr "impossible d'analyser la dépendance %s"
 #: scripts/Dpkg/Deps.pm
 #, perl-format
 msgid "virtual dependency contains invalid relation: %s"
-msgstr "la dépendance virtuelle contient une relation non valable : %s"
+msgstr "la dépendance virtuelle contient une relation non valable : %s"
 
 #: scripts/Dpkg/Deps.pm
 msgid "an union dependency can only contain simple dependencies"
-msgstr "une union de dépendances ne peut pas contenir de simple dépendances"
+msgstr "une dépendance d’union ne peut contenir que des dépendances simples"
 
 #: scripts/Dpkg/Dist/Files.pm
 #, perl-format
 msgid "badly formed file name in files list file, line %d"
 msgstr ""
-"nom de fichier mal formé dans le fichier listant les fichiers à ligne %d"
+"nom de fichier mal formé dans le fichier listant les fichiers, ligne %d"
 
 #: scripts/Dpkg/Dist/Files.pm
 #, perl-format
@@ -2909,7 +2916,7 @@ msgstr "erreur"
 #: scripts/Dpkg/ErrorHandling.pm
 #, perl-format
 msgid "%s subprocess returned exit status %d"
-msgstr "le sous-processus %s a retourné le statut de sortie %d"
+msgstr "le sous-processus %s a retourné l’état de sortie %d"
 
 #: scripts/Dpkg/ErrorHandling.pm
 #, perl-format
@@ -2982,17 +2989,17 @@ msgstr "impossible d'obtenir un verrouillage en écriture sur %s"
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
 msgid "unknown OpenPGP api requested %s"
-msgstr "api OpenPGP inconnue demandée %s"
+msgstr "API OpenPGP inconnue demandée %s"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
 msgid "cannot load OpenPGP backend %s"
-msgstr "impossible de charger le backend OpenPGP %s"
+msgstr "impossible de charger le dorsal OpenPGP %s"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
 msgid "unknown OpenPGP backend %s"
-msgstr "backend OpenPGP inconnu %s"
+msgstr "dorsal OpenPGP inconnu %s"
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 msgid "success"
@@ -3081,7 +3088,7 @@ msgid ""
 "deprecated use of LD_LIBRARY_PATH with private library directory which "
 "interferes with cross-building, please use -l option instead"
 msgstr ""
-"utilisation dépréciée de LD_LIBRARY_PATH avec un répertoire de bibliothèque "
+"utilisation obsolète de LD_LIBRARY_PATH avec un répertoire de bibliothèque "
 "privé qui interfère avec la construction croisée, veuillez utiliser l'option "
 "-l à la place"
 
@@ -3108,7 +3115,7 @@ msgstr "nom de symbole non précisé : %s"
 #: scripts/Dpkg/Shlibs/Symbol.pm
 #, perl-format
 msgid "symver tag with versioned symbol will not match: %s"
-msgstr "la balise symver avec le symbole versionné ne correspondra pas : %s"
+msgstr "la balise symver avec le symbole versionné ne correspondra pas : %s"
 
 #: scripts/Dpkg/Shlibs/Symbol.pm
 #, perl-format
@@ -3283,8 +3290,8 @@ msgstr ""
 #: scripts/Dpkg/Source/Package.pm
 msgid "upstream tarball signatures but no upstream signing key"
 msgstr ""
-"l'archive tarball dispose de signature de l’amont mais pas il n’y a pas de "
-"clé de signature de l’amont"
+"l'archive amont dispose de signatures mais pas il n’y a pas de clé de "
+"signature de l’amont"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -3294,13 +3301,12 @@ msgstr "vérification de %s"
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "cannot verify upstream tarball signature for %s: %s"
-msgstr ""
-"impossible de vérifier la signature de l'archive tarball amont pour %s : %s"
+msgstr "impossible de vérifier la signature de l'archive amont pour %s : %s"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "cannot verify inline signature for %s: %s"
-msgstr "impossible de vérifier la signature en ligne de %s : %s"
+msgstr "impossible de vérifier la signature en ligne de %s : %s"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -3374,7 +3380,7 @@ msgstr ""
 
 #: scripts/Dpkg/Source/Package/V1.pm
 msgid "leave original source packed in current directory"
-msgstr "laisse la source originale empaquetée dans le répertoire courant"
+msgstr "laisser la source originale empaquetée dans le répertoire courant"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 msgid "do not copy original source to current directory"
@@ -3386,7 +3392,7 @@ msgstr "extraire aussi l’arborescence source d’origine"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 msgid "do not apply debian diff to upstream sources"
-msgstr "ne pas appliquer le différentiel debian aux sources amont"
+msgstr "ne pas appliquer le diff debian aux sources amont"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -3630,7 +3636,7 @@ msgstr "inclure l'horodatage dans le patch"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "include binary files in the tarball"
-msgstr "inclure les fichiers binaires dans l'archive tarball"
+msgstr "inclure les fichiers binaires dans l'archive"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "do not prepare build tree by applying patches"
@@ -3649,7 +3655,7 @@ msgstr ""
 
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "create an empty original tarball if missing"
-msgstr "créer une archive tarball original vide s’elle est absente"
+msgstr "créer une archive originale vide si elle est absente"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "record generated patches, instead of aborting"
@@ -3755,7 +3761,7 @@ msgid ""
 "Hint: make sure the version in debian/changelog matches the unpacked source "
 "tree"
 msgstr ""
-"Conseil : assurez-vous que la version dans « debian/changelog » correspond à "
+"Conseil : assurez-vous que la version dans « debian/changelog » correspond à "
 "l'arbre source extrait"
 
 #: scripts/Dpkg/Source/Package/V2.pm
@@ -3807,7 +3813,7 @@ msgstr "Saisissez le nom du fichier de différences : "
 
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "no patch name given; cannot proceed"
-msgstr "aucun nom de patch n'est indiqué ; impossible de poursuivre"
+msgstr "aucun nom de patch n'est indiqué ; impossible de poursuivre"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "cannot find an editor"
@@ -3976,7 +3982,7 @@ msgstr "utiliser un seul patch de débianisation"
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 msgid "accept quilt metadata <version> even if unknown"
 msgstr ""
-"accepter les métadonnées de Quilt en <version> même si elles sont inconnues"
+"accepter les métadonnées de Quilt en <version> même si elle est inconnue"
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 #, perl-format
@@ -4165,9 +4171,8 @@ msgid ""
 "diff '%s' patches files multiple times; split the diff in multiple files or "
 "merge the hunks into a single one"
 msgstr ""
-"le différentiel « %s » corrige les fichiers plusieurs fois ; divisez le "
-"fichier de différences en plusieurs fichiers ou fusionnez les fichiers en un "
-"seul"
+"le diff « %s » corrige les fichiers plusieurs fois ; divisez le fichier de "
+"différences en plusieurs fichiers ou fusionnez les fichiers en un seul"
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
@@ -4288,7 +4293,7 @@ msgstr "fichier substvars %s : ligne %d mal formée"
 #: scripts/Dpkg/Substvars.pm
 #, perl-format
 msgid "invalid source version %s"
-msgstr "version source invalide dans %s"
+msgstr "version source non autorisée dans %s"
 
 #: scripts/Dpkg/Substvars.pm
 #, perl-format
@@ -4326,7 +4331,7 @@ msgid ""
 "%s origin filename is deprecated; it should have only alphanumeric or dash "
 "characters"
 msgstr ""
-"le nom de fichier d'origine %s est déprécié ; il ne doit comporter que des "
+"le nom de fichier d'origine %s est obsolète ; il ne doit comporter que des "
 "caractères alphanumériques ou des tirets"
 
 #: scripts/Dpkg/Vendor.pm
@@ -4335,7 +4340,7 @@ msgid ""
 "%s module name is deprecated; it should be capitalized with only "
 "alphanumeric characters"
 msgstr ""
-"le nom du module %s est déprécié ; il doit être écrit en majuscules et ne "
+"le nom du module %s est obsolète ; il doit être écrit en capitales et ne "
 "comporter que des caractères alphanumériques"
 
 #: scripts/Dpkg/Vendor/Debian.pm
