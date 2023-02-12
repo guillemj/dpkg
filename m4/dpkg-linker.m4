@@ -51,7 +51,11 @@ AC_DEFUN([DPKG_LINKER_VERSION_SCRIPT], [
     save_LDFLAGS=$LDFLAGS
     LDFLAGS="$LDFLAGS -Wl,--version-script=conftest.map"
     AC_LINK_IFELSE([
-      AC_LANG_PROGRAM([], [])
+      AC_LANG_PROGRAM([[
+extern int symbol(void);
+int symbol(void) { return 0; }
+]], [[
+]])
     ], [
       dpkg_cv_version_script=yes
     ], [
