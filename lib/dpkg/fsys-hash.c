@@ -89,11 +89,9 @@ fsys_hash_find_node(const char *name, enum fsys_hash_find_flags flags)
 			          (*pointerp)->name);
 
 		if (strcmp((*pointerp)->name + 1, name) == 0)
-			break;
+			return *pointerp;
 		pointerp = &(*pointerp)->next;
 	}
-	if (*pointerp)
-		return *pointerp;
 
 	if (flags & FHFF_NONE)
 		return NULL;
