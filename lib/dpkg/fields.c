@@ -43,13 +43,13 @@
 /**
  * Flags to parse a name associated to a value.
  */
-enum parse_nv_flags {
+enum parse_nv_mode {
   /** Expect no more words (default). */
   PARSE_NV_LAST		= 0,
   /** Expect another word after the parsed name. */
-  PARSE_NV_NEXT		= DPKG_BIT(0),
+  PARSE_NV_NEXT		= 1,
   /** Do not fail if there is no name with an associated value found. */
-  PARSE_NV_FALLBACK	= DPKG_BIT(1),
+  PARSE_NV_FALLBACK	= 2,
 };
 
 /**
@@ -57,11 +57,11 @@ enum parse_nv_flags {
  *
  * Gets a pointer to the string to parse in @a strp, and modifies the pointer
  * to the string to point to the end of the parsed text. If no value is found
- * for the name and #PARSE_NV_FALLBACK is set in @a flags then @a strp is set
+ * for the name and @a flags is set to #PARSE_NV_FALLBACK then @a strp is set
  * to NULL and returns -1, otherwise a parse error is emitted.
  */
 static int
-parse_nv(struct parsedb_state *ps, enum parse_nv_flags flags,
+parse_nv(struct parsedb_state *ps, enum parse_nv_mode parse_mode,
          const char **strp, const struct namevalue *nv_head)
 {
   const char *str_start = *strp, *str_end;
@@ -76,7 +76,7 @@ parse_nv(struct parsedb_state *ps, enum parse_nv_flags flags,
   nv = namevalue_find_by_name(nv_head, str_start);
   if (nv == NULL) {
     /* We got no match, skip further string validation. */
-    if (!(flags & PARSE_NV_FALLBACK))
+    if (parse_mode != PARSE_NV_FALLBACK)
       return dpkg_put_error(&ps->err, _("has invalid value '%.50s'"), str_start);
 
     str_end = NULL;
@@ -88,7 +88,7 @@ parse_nv(struct parsedb_state *ps, enum parse_nv_flags flags,
     value = nv->value;
   }
 
-  if (!(flags & PARSE_NV_NEXT) && str_is_set(str_end))
+  if (parse_mode != PARSE_NV_NEXT && str_is_set(str_end))
     return dpkg_put_error(&ps->err, _("has trailing junk"));
 
   *strp = str_end;
@@ -231,8 +231,7 @@ f_priority(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
   if (!*value) return;
 
-  priority = parse_nv(ps, PARSE_NV_LAST | PARSE_NV_FALLBACK, &str,
-                      priorityinfos);
+  priority = parse_nv(ps, PARSE_NV_FALLBACK, &str, priorityinfos);
   if (dpkg_has_error(&ps->err))
     parse_error(ps, _("word in '%s' field: %s"), fip->name, ps->err.str);
 
