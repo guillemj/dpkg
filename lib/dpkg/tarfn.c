@@ -120,9 +120,6 @@ tar_atol8(const char *s, size_t size)
 		s++;
 	}
 
-	if (s < end)
-		return tar_ret_errno(EINVAL, 0);
-
 	return tar_ret_errno(0, n);
 }
 
