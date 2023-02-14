@@ -89,7 +89,7 @@ libdpkg_la_SOURCES = \
 	i18n.c i18n.h \
 	log.c \
 	meminfo.c \
-	mlib.c \
+	mustlib.c \
 	namevalue.c \
 	nfmalloc.c \
 	options.c \

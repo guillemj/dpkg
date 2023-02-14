@@ -135,7 +135,7 @@ void cu_closedir(int argc, void **argv);
 void cu_closefd(int argc, void **argv);
 void cu_filename(int argc, void **argv);
 
-/*** from mlib.c ***/
+/*** from mustlib.c ***/
 
 void setcloexec(int fd, const char *fn);
 void *m_malloc(size_t);
