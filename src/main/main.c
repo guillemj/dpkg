@@ -640,10 +640,11 @@ commandfd(const char *const *argv)
   if (in == NULL)
     ohshite(_("couldn't open '%i' for stream"), (int)infd);
 
+  lno = 0;
+
   for (;;) {
     bool mode = false;
     int argc= 1;
-    lno= 0;
 
     push_error_context();
 
