@@ -1177,10 +1177,8 @@ parse_schedule_item(const char *string, struct schedule_item *item)
 static void
 parse_schedule(const char *schedule_str)
 {
-	char item_buf[20];
 	const char *slash;
-	int count, repeatat;
-	size_t str_len;
+	int count;
 
 	count = 0;
 	for (slash = schedule_str; *slash; slash++)
@@ -1202,9 +1200,14 @@ parse_schedule(const char *schedule_str)
 		schedule[2].value = SIGKILL;
 		schedule[3] = schedule[1];
 	} else {
+		int repeatat;
+
 		count = 0;
 		repeatat = -1;
 		while (*schedule_str) {
+			char item_buf[20];
+			size_t str_len;
+
 			slash = strchrnul(schedule_str, '/');
 			str_len = (size_t)(slash - schedule_str);
 			if (str_len >= sizeof(item_buf))
