@@ -297,11 +297,10 @@ tarobject_skip_entry(struct tarcontext *tc, struct tar_entry *ti)
    * file data and set it to oblivion. */
   if (ti->type == TAR_FILETYPE_FILE) {
     struct dpkg_error err;
-    char fnamebuf[256];
 
     if (fd_skip(tc->backendpipe, ti->size, &err) < 0)
       ohshit(_("cannot skip file '%.255s' (replaced or excluded?) from pipe: %s"),
-             path_quote_filename(fnamebuf, ti->name, 256), err.str);
+             ti->name, err.str);
     tarobject_skip_padding(tc, ti);
   }
 }
@@ -354,8 +353,6 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
 
   struct dpkg_error err;
   struct fsys_namenode *linknode;
-  char fnamebuf[256];
-  char fnamenewbuf[256];
   char *newhash;
   int rc;
 
@@ -379,8 +376,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
     newhash = nfmalloc(MD5HASHLEN + 1);
     if (fd_fd_copy_and_md5(tc->backendpipe, fd, newhash, te->size, &err) < 0)
       ohshit(_("cannot copy extracted data for '%.255s' to '%.255s': %s"),
-             path_quote_filename(fnamebuf, te->name, 256),
-             path_quote_filename(fnamenewbuf, fnamenewvb.buf, 256), err.str);
+             te->name, fnamenewvb.buf, err.str);
     namenode->newhash = newhash;
     debug(dbg_eachfiledetail, "tarobject file digest=%s", namenode->newhash);
 
@@ -460,13 +456,12 @@ tarobject_hash(struct tarcontext *tc, struct tar_entry *te,
 {
   if (te->type == TAR_FILETYPE_FILE) {
     struct dpkg_error err;
-    char fnamebuf[256];
     char *newhash;
 
     newhash = nfmalloc(MD5HASHLEN + 1);
     if (fd_md5(tc->backendpipe, newhash, te->size, &err) < 0)
       ohshit(_("cannot compute MD5 digest for file '%.255s' in tar archive: %s"),
-             path_quote_filename(fnamebuf, te->name, 256), err.str);
+             te->name, err.str);
     tarobject_skip_padding(tc, te);
 
     namenode->newhash = newhash;
