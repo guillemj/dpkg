@@ -69,7 +69,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
     nullptr
   };
   const char *const *ccpp;
-  int methodlen, c, baselen;
+  int methodlen, baselen;
   char *pathinmeth, *pathbuf, *pathmeth;
   DIR *dir;
   FILE *names, *descfile;
@@ -98,7 +98,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
   debug(dbg_general, "readmethods('%s',...) directory open", pathbase);
 
   while ((dent = readdir(dir)) != nullptr) {
-    c= dent->d_name[0];
+    int c = dent->d_name[0];
     debug(dbg_general, "readmethods('%s',...) considering '%s' ...",
           pathbase, dent->d_name);
     if (c != '_' && !c_isalpha(c))

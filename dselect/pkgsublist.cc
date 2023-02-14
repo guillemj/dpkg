@@ -181,14 +181,14 @@ packagelist::add(dependency *depends, showpriority displayimportance)
 void repeatedlydisplay(packagelist *sub,
                        showpriority initial,
                        packagelist *unredisplay) {
-  pkginfo **newl;
-  keybindings *kb;
-
   debug(dbg_general, "repeatedlydisplay(packagelist[%p])", sub);
   if (sub->resolvesuggest() != 0 && sub->deletelessimp_anyleft(initial)) {
     debug(dbg_general, "repeatedlydisplay(packagelist[%p]) once", sub);
     if (unredisplay) unredisplay->enddisplay();
     for (;;) {
+      pkginfo **newl;
+      keybindings *kb;
+
       /* Reset manual_install flag now that resolvesuggest() has seen it. */
       manual_install = false;
       newl= sub->display();

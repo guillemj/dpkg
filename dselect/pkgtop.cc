@@ -138,7 +138,7 @@ void packagelist::redrawthisstate() {
 }
 
 void packagelist::redraw1itemsel(int index, int selected) {
-  int i, indent, j;
+  int i;
   const char *p;
   const struct pkginfo *pkg= table[index]->pkg;
   int screenline = index - topofscreen;
@@ -242,6 +242,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
         pkg->installed.description ? pkg->installed.description : "";
     while (i>0 && *p && *p != '\n') { waddnstr(listpad,p,1); i--; p++; }
   } else {
+    int j, indent;
     const char *section= pkg->section;
     const char *priority= pkgprioritystring(pkg);
 

@@ -81,11 +81,12 @@ int packagelist::resolvesuggest() {
   // Return 2 if we made a change due to a Recommended, Depends or Conflicts,
   // or 1 if we offered or made a change because of an Optional line.
   debug(dbg_general, "packagelist[%p]::resolvesuggest()", this);
-  int changemade, maxchangemade;
-  maxchangemade= 0;
+  int maxchangemade = 0;
+
   for (;;) {
-    changemade= 0;
+    int changemade = 0;
     int index;
+
     for (index=0; index<nitems; index++) {
       if (!table[index]->pkg->set->name)
         continue;

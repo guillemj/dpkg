@@ -581,7 +581,6 @@ pkginfo **packagelist::display() {
   // returns 0 if no recursive check is desired.
   int response, index;
   const keybindings::interpretation *interp;
-  pkginfo **retl;
 
   debug(dbg_general, "packagelist[%p]::display()", this);
 
@@ -621,7 +620,7 @@ pkginfo **packagelist::display() {
   }
 
   if (recursive) {
-    retl= new pkginfo*[nitems+1];
+    pkginfo **retl = new pkginfo*[nitems + 1];
     for (index=0; index<nitems; index++) retl[index]= table[index]->pkg;
     retl[nitems] = nullptr;
     debug(dbg_general, "packagelist[%p]::display() done, retl=%p", this, retl);

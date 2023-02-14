@@ -80,14 +80,13 @@ static void cu_unlockmethod(int, void**) {
 }
 
 static enum urqresult ensureoptions(void) {
-  const char *const *ccpp;
   dselect_option *newoptions;
   int nread;
 
   if (!options) {
     newoptions = nullptr;
     nread= 0;
-    for (ccpp= methoddirectories; *ccpp; ccpp++)
+    for (const char *const *ccpp = methoddirectories; *ccpp; ccpp++)
       readmethods(*ccpp, &newoptions, &nread);
     if (!newoptions) {
       sthfailed(_("no access methods are available"));

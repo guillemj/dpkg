@@ -104,7 +104,7 @@ packagelist::reallywant(pkgwant nwarg, struct perpackagestate *pkgstate)
 void
 packagelist::setwant(pkgwant nwarg)
 {
-  int index, bot;
+  int bot;
   pkgwant nw;
 
   if (modstatdb_get_status() == msdbrw_readonly) {
@@ -123,7 +123,7 @@ packagelist::setwant(pkgwant nwarg)
     packagelist *sub = new packagelist(bindings, nullptr);
 
     affectedrange(&top,&bot);
-    for (index= top; index < bot; index++) {
+    for (int index = top; index < bot; index++) {
       if (!table[index]->pkg->set->name)
         continue;
       nw= reallywant(nwarg,table[index]);
@@ -135,7 +135,7 @@ packagelist::setwant(pkgwant nwarg)
     }
 
     repeatedlydisplay(sub,dp_may,this);
-    for (index=top; index < bot; index++)
+    for (int index = top; index < bot; index++)
       redraw1item(index);
   }
   movecursorafter(bot);

@@ -267,8 +267,8 @@ extern "C" {
   set_color(const struct cmdinfo*, const char *string)
   {
     char *s;
-    char *colours, *attributes, *attrib, *colourname;
-    int screenpart, aval;
+    char *colours, *attributes;
+    int screenpart;
 
     s = m_strdup(string); // strtok modifies strings, keep string const
     screenpart= findintable(screenparttable, strtok(s, ":"), _("screen part"));
@@ -281,6 +281,8 @@ extern "C" {
     }
 
     if (colours != nullptr && strlen(colours)) {
+      char *colourname;
+
       colourname= strtok(colours, ",");
       if (colourname != nullptr && strlen(colourname)) {
         // normalize attributes to prevent confusion
@@ -295,9 +297,11 @@ extern "C" {
     }
 
     if (attributes != nullptr && strlen(attributes)) {
-      for (attrib= strtok(attributes, "+");
+      for (char *attrib = strtok(attributes, "+");
            attrib != nullptr && strlen(attrib);
            attrib = strtok(nullptr, "+")) {
+               int aval;
+
                aval=findintable(attrtable, attrib, _("colour attribute"));
                if (aval == A_NORMAL) // set to normal
                        color[screenpart].attr= aval;
