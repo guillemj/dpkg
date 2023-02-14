@@ -394,7 +394,6 @@ parse_find_pkg_slot(struct parsedb_state *ps,
                     struct pkginfo *new_pkg, struct pkgbin *new_pkgbin)
 {
   struct pkgset *db_set;
-  struct pkginfo *db_pkg;
 
   db_set = parse_find_set_slot(ps, new_pkg, new_pkgbin);
 
@@ -432,6 +431,8 @@ parse_find_pkg_slot(struct parsedb_state *ps,
     /* If we are doing an update, from the log or a new package, then
      * handle cross-grades. */
     if (pkgset_installed_instances(db_set) == 1) {
+      struct pkginfo *db_pkg;
+
       db_pkg = pkg_hash_get_singleton(db_set);
 
       if (db_pkg->installed.multiarch == PKG_MULTIARCH_SAME &&

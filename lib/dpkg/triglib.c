@@ -101,7 +101,6 @@ void
 trig_clear_awaiters(struct pkginfo *notpend)
 {
 	struct trigaw *ta;
-	struct pkginfo *aw;
 
 	if (notpend->trigpend_head)
 		internerr("package %s has pending triggers",
@@ -110,6 +109,8 @@ trig_clear_awaiters(struct pkginfo *notpend)
 	ta = notpend->othertrigaw_head;
 	notpend->othertrigaw_head = NULL;
 	for (; ta; ta = ta->samepend_next) {
+		struct pkginfo *aw;
+
 		aw = ta->aw;
 		if (!aw)
 			continue;
@@ -317,7 +318,6 @@ static void
 trk_explicit_activate_awaiter(struct pkginfo *aw)
 {
 	char buf[1024];
-	struct pkginfo *pend;
 
 	if (!trk_explicit_f)
 		return;
@@ -327,6 +327,7 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 		        trk_explicit_fn.buf);
 
 	while (trk_explicit_fgets(buf, sizeof(buf)) >= 0) {
+		struct pkginfo *pend;
 		struct dpkg_error err;
 		enum trig_options opts;
 

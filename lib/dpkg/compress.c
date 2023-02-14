@@ -65,10 +65,11 @@ static void
 fd_fd_filter(struct command *cmd, int fd_in, int fd_out, const char *delenv[])
 {
 	pid_t pid;
-	int i;
 
 	pid = subproc_fork();
 	if (pid == 0) {
+		int i;
+
 		if (fd_in != 0) {
 			m_dup2(fd_in, 0);
 			close(fd_in);

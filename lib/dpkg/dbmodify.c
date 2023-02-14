@@ -79,7 +79,7 @@ static int ulist_select(const struct dirent *de) {
 
 static void cleanupdates(void) {
   struct dirent **cdlist;
-  int cdn, i;
+  int cdn;
 
   parsedb(statusfile, pdb_parse_status, NULL);
 
@@ -97,6 +97,8 @@ static void cleanupdates(void) {
   }
 
   if (cdn) {
+    int i;
+
     for (i=0; i<cdn; i++) {
       varbuf_rollback(&updatefn_state);
       varbuf_add_str(&updatefn, cdlist[i]->d_name);

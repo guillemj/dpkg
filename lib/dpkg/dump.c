@@ -499,8 +499,6 @@ writedb_stanzas(FILE *fp, const char *filename, enum writedb_flags flags)
   static char writebuf[8192];
 
   struct pkg_array array;
-  struct pkginfo *pkg;
-  struct pkgbin *pkgbin;
   const char *which;
   struct varbuf vb = VARBUF_INIT;
   int i;
@@ -514,6 +512,9 @@ writedb_stanzas(FILE *fp, const char *filename, enum writedb_flags flags)
   pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
 
   for (i = 0; i < array.n_pkgs; i++) {
+    struct pkginfo *pkg;
+    struct pkgbin *pkgbin;
+
     pkg = array.pkgs[i];
     pkgbin = (flags & wdb_dump_available) ? &pkg->available : &pkg->installed;
 

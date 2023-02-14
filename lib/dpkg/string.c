@@ -33,10 +33,11 @@ str_concat(char *dst, ...)
 {
 	va_list args;
 	const char *src;
-	size_t len;
 
 	va_start(args, dst);
 	while ((src = va_arg(args, const char *))) {
+		size_t len;
+
 		len = strlen(src);
 		memcpy(dst, src, len);
 		dst += len;

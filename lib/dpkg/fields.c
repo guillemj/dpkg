@@ -355,14 +355,16 @@ f_conffiles(struct pkginfo *pkg, struct pkgbin *pkgbin,
 {
   static const char obsolete_str[]= "obsolete";
   static const char remove_on_upgrade_str[] = "remove-on-upgrade";
-  struct conffile **lastp, *newlink;
-  const char *endent, *endfn, *hashstart;
-  int c, namelen, hashlen;
-  bool obsolete, remove_on_upgrade;
-  char *newptr;
+  struct conffile **lastp;
 
   lastp = &pkgbin->conffiles;
   while (*value) {
+    struct conffile *newlink;
+    const char *endent, *endfn, *hashstart;
+    char *newptr;
+    int c, namelen, hashlen;
+    bool obsolete, remove_on_upgrade;
+
     c= *value++;
     if (c == '\n') continue;
     if (c != ' ')
@@ -415,14 +417,10 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
              struct parsedb_state *ps,
              const char *value, const struct fieldinfo *fip)
 {
-  char c1, c2;
   const char *p, *emsg;
-  const char *depnamestart, *versionstart;
-  int depnamelength, versionlength;
   static struct varbuf depname, version;
 
-  struct dependency *dyp, **ldypp;
-  struct deppossi *dop, **ldopp;
+  struct dependency **ldypp;
 
   /* Empty fields are ignored. */
   if (!*value)
@@ -435,6 +433,9 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
    /* Loop creating new struct dependency's. */
   for (;;) {
+    struct deppossi **ldopp;
+    struct dependency *dyp;
+
     dyp = nfmalloc(sizeof(*dyp));
     /* Set this to NULL for now, as we don't know what our real
      * struct pkginfo address (in the database) is going to be yet. */
@@ -445,6 +446,10 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
     /* Loop creating new struct deppossi's. */
     for (;;) {
+      const char *depnamestart;
+      int depnamelength;
+      struct deppossi *dop;
+
       depnamestart= p;
       /* Skip over package name characters. */
       while (*p && !c_isspace(*p) && *p != ':' && *p != '(' && *p != ',' &&
@@ -527,11 +532,17 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
       /* See if we have a versioned relation. */
       if (*p == '(') {
+        char c1;
+        const char *versionstart;
+        int versionlength;
+
         p++;
         while (c_isspace(*p))
           p++;
         c1= *p;
         if (c1 == '<' || c1 == '>') {
+          char c2;
+
           c2= *++p;
           dop->verrel = (c1 == '<') ? DPKG_RELATION_LT : DPKG_RELATION_GT;
           if (c2 == '=') {
@@ -685,7 +696,7 @@ f_trigpend(struct pkginfo *pend, struct pkgbin *pkgbin,
            struct parsedb_state *ps,
            const char *value, const struct fieldinfo *fip)
 {
-  const char *word, *emsg;
+  const char *word;
 
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps,
@@ -693,6 +704,8 @@ f_trigpend(struct pkginfo *pend, struct pkgbin *pkgbin,
                 fip->name);
 
   while ((word = scan_word(&value))) {
+    const char *emsg;
+
     emsg = trig_name_is_illegal(word);
     if (emsg)
       parse_error(ps,
@@ -710,7 +723,6 @@ f_trigaw(struct pkginfo *aw, struct pkgbin *pkgbin,
          const char *value, const struct fieldinfo *fip)
 {
   const char *word;
-  struct pkginfo *pend;
 
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps,
@@ -718,6 +730,7 @@ f_trigaw(struct pkginfo *aw, struct pkgbin *pkgbin,
                 fip->name);
 
   while ((word = scan_word(&value))) {
+    struct pkginfo *pend;
     struct dpkg_error err;
 
     pend = pkg_spec_parse_pkg(word, &err);

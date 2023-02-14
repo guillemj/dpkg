@@ -78,8 +78,6 @@ void
 ensure_packagefiles_available(struct pkginfo *pkg)
 {
   const char *filelistfile;
-  struct fsys_namenode_list **lendp;
-  char *loaded_list_end, *thisline, *nextline, *ptr;
   struct varbuf buf = VARBUF_INIT;
   struct dpkg_error err = DPKG_ERROR_INIT;
 
@@ -117,12 +115,16 @@ ensure_packagefiles_available(struct pkginfo *pkg)
   }
 
   if (buf.used) {
+    struct fsys_namenode_list **lendp;
+    char *loaded_list_end, *thisline;
+
     loaded_list_end = buf.buf + buf.used;
 
     lendp = &pkg->files;
     thisline = buf.buf;
     while (thisline < loaded_list_end) {
       struct fsys_namenode *namenode;
+      char *nextline, *ptr;
 
       ptr = memchr(thisline, '\n', loaded_list_end - thisline);
       if (ptr == NULL)
@@ -249,7 +251,6 @@ pkg_files_optimize_load(struct pkg_array *array)
 
 void ensure_allinstfiles_available(void) {
   struct pkg_array array;
-  struct pkginfo *pkg;
   struct progress progress;
   int i;
 
@@ -266,7 +267,8 @@ void ensure_allinstfiles_available(void) {
   pkg_files_optimize_load(&array);
 
   for (i = 0; i < array.n_pkgs; i++) {
-    pkg = array.pkgs[i];
+    struct pkginfo *pkg = array.pkgs[i];
+
     ensure_packagefiles_available(pkg);
 
     if (saidread == PKG_FILESDB_LOAD_INPROGRESS)

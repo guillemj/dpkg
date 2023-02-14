@@ -249,8 +249,6 @@ trigdef_parse(void)
 void
 trigdef_process_done(void)
 {
-	int r;
-
 	if (old_deferred) {
 		if (ferror(old_deferred))
 			ohshite(_("error reading triggers deferred file '%.250s'"),
@@ -260,6 +258,8 @@ trigdef_process_done(void)
 	}
 
 	if (trig_new_deferred) {
+		int r;
+
 		if (ferror(trig_new_deferred))
 			ohshite(_("unable to write new triggers deferred "
 			          "file '%.250s'"), newfn.buf);
