@@ -283,8 +283,6 @@ print_forceinfo(const struct forceinfo *fi)
 void
 parse_force(const char *value, bool set)
 {
-	const char *comma;
-	size_t l;
 	const struct forceinfo *fip;
 
 	if (strcmp(value, "help") == 0) {
@@ -318,6 +316,9 @@ parse_force(const char *value, bool set)
 	}
 
 	for (;;) {
+		const char *comma;
+		size_t l;
+
 		comma = strchrnul(value, ',');
 		l = (size_t)(comma - value);
 		for (fip = forceinfos; fip->name; fip++)

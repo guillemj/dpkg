@@ -250,8 +250,6 @@ static int
 listpackages(const char *const *argv)
 {
   struct pkg_array array;
-  struct pkginfo *pkg;
-  int i;
   int rc = 0;
   struct list_format fmt;
   struct pager *pager;
@@ -269,7 +267,11 @@ listpackages(const char *const *argv)
   pager = pager_spawn(_("showing package list on pager"));
 
   if (!*argv) {
+    int i;
+
     for (i = 0; i < array.n_pkgs; i++) {
+      struct pkginfo *pkg;
+
       pkg = array.pkgs[i];
       if (pkg->status == PKG_STAT_NOTINSTALLED)
         array.pkgs[i] = NULL;
@@ -332,10 +334,7 @@ searchoutput(struct fsys_namenode *namenode)
 static int
 searchfiles(const char *const *argv)
 {
-  struct fsys_namenode *namenode;
-  struct fsys_hash_iter *iter;
   const char *thisarg;
-  int found;
   int failures = 0;
   struct varbuf path = VARBUF_INIT;
   static struct varbuf vb;
@@ -348,7 +347,8 @@ searchfiles(const char *const *argv)
   ensure_diversions();
 
   while ((thisarg = *argv++) != NULL) {
-    found= 0;
+    struct fsys_namenode *namenode;
+    int found = 0;
 
     if (!strchr("*[?/",*thisarg)) {
       varbuf_reset(&vb);
@@ -369,6 +369,8 @@ searchfiles(const char *const *argv)
       namenode = fsys_hash_find_node(path.buf, 0);
       found += searchoutput(namenode);
     } else {
+      struct fsys_hash_iter *iter;
+
       iter = fsys_hash_iter_new();
       while ((namenode = fsys_hash_iter_next(iter)) != NULL) {
         if (fnmatch(thisarg,namenode->name,0)) continue;
@@ -394,8 +396,6 @@ searchfiles(const char *const *argv)
 static int
 print_status(const char *const *argv)
 {
-  const char *thisarg;
-  struct pkginfo *pkg;
   int failures = 0;
 
   modstatdb_open(msdbrw_readonly);
@@ -403,7 +403,11 @@ print_status(const char *const *argv)
   if (!*argv) {
     writedb_stanzas(stdout, _("<standard output>"), 0);
   } else {
+    const char *thisarg;
+
     while ((thisarg = *argv++) != NULL) {
+      struct pkginfo *pkg;
+
       pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
 
       if (pkg->status == PKG_STAT_NOTINSTALLED &&
@@ -439,8 +443,6 @@ print_status(const char *const *argv)
 static int
 print_avail(const char *const *argv)
 {
-  const char *thisarg;
-  struct pkginfo *pkg;
   int failures = 0;
 
   modstatdb_open(msdbrw_readonly | msdbrw_available_readonly);
@@ -448,7 +450,11 @@ print_avail(const char *const *argv)
   if (!*argv) {
     writedb_stanzas(stdout, _("<standard output>"), wdb_dump_available);
   } else {
+    const char *thisarg;
+
     while ((thisarg = *argv++) != NULL) {
+      struct pkginfo *pkg;
+
       pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
 
       if (!pkg_is_informative(pkg, &pkg->available)) {
@@ -560,10 +566,8 @@ showpackages(const char *const *argv)
 {
   struct dpkg_error err;
   struct pkg_array array;
-  struct pkginfo *pkg;
   struct pkg_format_node *fmt;
   bool fmt_needs_db_fsys;
-  int i;
   int rc = 0;
 
   fmt = pkg_format_parse(showformat, &err);
@@ -585,9 +589,13 @@ showpackages(const char *const *argv)
   pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
 
   if (!*argv) {
+    int i;
+
     if (fmt_needs_db_fsys)
       ensure_allinstfiles_available_quiet();
     for (i = 0; i < array.n_pkgs; i++) {
+      struct pkginfo *pkg;
+
       pkg = array.pkgs[i];
       if (pkg->status == PKG_STAT_NOTINSTALLED)
         continue;

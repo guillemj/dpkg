@@ -153,7 +153,6 @@ filesavespackage(struct fsys_namenode_list *file,
                  struct pkginfo *pkgbeinginstalled)
 {
   struct fsys_node_pkgs_iter *iter;
-  struct pkgset *divpkgset;
   struct pkginfo *thirdpkg;
 
   debug(dbg_eachfiledetail, "filesavespackage file '%s' package %s",
@@ -164,6 +163,8 @@ filesavespackage(struct fsys_namenode_list *file,
    * we're installing then they're not actually the same file, so
    * we can't disappear the package - it is saved by this file. */
   if (file->namenode->divert && file->namenode->divert->useinstead) {
+    struct pkgset *divpkgset;
+
     divpkgset = file->namenode->divert->pkgset;
     if (divpkgset == pkgtobesaved->set || divpkgset == pkgbeinginstalled->set) {
       debug(dbg_eachfiledetail,"filesavespackage ... diverted -- save!");
@@ -619,7 +620,6 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
 {
   struct stat oldstab, newstab;
   int statr;
-  const char *lastslash;
 
   statr= stat(fname, &oldstab);
   if (statr) {
@@ -636,6 +636,8 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
   if (ti->linkname[0] == '/') {
     varbuf_add_str(symlinkfn, dpkg_fsys_get_dir());
   } else {
+    const char *lastslash;
+
     lastslash= strrchr(fname, '/');
     if (lastslash == NULL)
       internerr("tar entry filename '%s' does not contain '/'", fname);

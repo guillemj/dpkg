@@ -229,9 +229,10 @@ static void
 set_debug(const struct cmdinfo *cpi, const char *value)
 {
   long mask;
-  const struct debuginfo *dip;
 
   if (*value == 'h') {
+    const struct debuginfo *dip;
+
     printf(_(
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"

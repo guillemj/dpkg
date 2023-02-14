@@ -38,7 +38,7 @@
 
 void reassemble(struct partinfo **partlist, const char *outputfile) {
   struct dpkg_error err;
-  int fd_out, fd_in;
+  int fd_out;
   int i;
 
   printf(P_("Putting package %s together from %d part: ",
@@ -51,6 +51,7 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
     ohshite(_("unable to open output file '%.250s'"), outputfile);
   for (i=0; i<partlist[0]->maxpartn; i++) {
     struct partinfo *pi = partlist[i];
+    int fd_in;
 
     fd_in = open(pi->filename, O_RDONLY);
     if (fd_in < 0)

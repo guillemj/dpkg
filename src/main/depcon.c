@@ -311,7 +311,6 @@ depisok(struct dependency *dep, struct varbuf *whynot,
   struct deppossi *possi;
   struct deppossi *provider;
   struct pkginfo *pkg_pos;
-  int nconflicts;
 
   /* Use this buffer so that when internationalization comes along we
    * don't have to rewrite the code completely, only redo the sprintf strings
@@ -538,6 +537,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 
     return false;
   } else {
+    int nconflicts;
+
     /* It's conflicts or breaks. There's only one main alternative,
      * but we also have to consider Providers. We return ‘false’ as soon
      * as we find something that matches the conflict, and only describe

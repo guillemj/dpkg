@@ -374,8 +374,6 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 	static struct varbuf namesarg;
 
 	struct varbuf depwhynot = VARBUF_INIT;
-	struct trigpend *tp;
-	struct pkginfo *gaveup;
 
 	debug(dbg_triggers, "trigproc %s", pkg_name(pkg, pnaw_always));
 
@@ -385,6 +383,8 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 	pkg->clientdata->trigprocdeferred = NULL;
 
 	if (pkg->trigpend_head) {
+		struct pkginfo *gaveup;
+		struct trigpend *tp;
 		enum dep_check ok;
 
 		if (pkg->status != PKG_STAT_TRIGGERSPENDING &&

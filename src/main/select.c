@@ -62,8 +62,7 @@ getselections(const char *const *argv)
 {
   struct pkg_array array;
   struct pkginfo *pkg;
-  const char *thisarg;
-  int i, found;
+  int i;
 
   modstatdb_open(msdbrw_readonly);
 
@@ -78,8 +77,11 @@ getselections(const char *const *argv)
       getsel1package(pkg);
     }
   } else {
+    const char *thisarg;
+
     while ((thisarg= *argv++)) {
       struct pkg_spec pkgspec;
+      int found;
 
       found= 0;
       pkg_spec_init(&pkgspec, PKG_SPEC_PATTERNS | PKG_SPEC_ARCH_WILDCARD);

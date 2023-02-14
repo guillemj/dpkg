@@ -171,7 +171,6 @@ packages(const char *const *argv)
 
 void process_queue(void) {
   struct pkg_list *rundown;
-  struct pkginfo *volatile pkg;
   volatile enum action action_todo;
   jmp_buf ejbuf;
   enum pkg_istobe istobe = PKG_ISTOBE_NORMAL;
@@ -219,6 +218,8 @@ void process_queue(void) {
   }
 
   while (!pkg_queue_is_empty(&queue)) {
+    struct pkginfo *volatile pkg;
+
     pkg = pkg_queue_pop(&queue);
     if (!pkg)
       continue; /* Duplicate, which we removed earlier. */

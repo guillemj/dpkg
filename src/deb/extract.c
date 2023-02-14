@@ -119,8 +119,6 @@ extracthalf(const char *debar, const char *dir,
   int p1[2], p2[2];
   int p2_out;
   char nlc;
-  int adminmember = -1;
-  bool header_done;
   struct compress_params decompress_params = {
     .type = COMPRESSOR_TYPE_GZIP,
     .threads_max = compress_params.threads_max,
@@ -133,8 +131,10 @@ extracthalf(const char *debar, const char *dir,
     read_fail(r, debar, _("archive magic version number"));
 
   if (strcmp(versionbuf, DPKG_AR_MAGIC) == 0) {
+    int adminmember = -1;
+    bool header_done = false;
+
     ctrllennum= 0;
-    header_done = false;
     for (;;) {
       struct dpkg_ar_hdr arh;
 

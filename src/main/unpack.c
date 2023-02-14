@@ -854,8 +854,7 @@ static void
 pkg_update_fields(struct pkginfo *pkg, struct fsys_namenode_queue *newconffiles)
 {
   struct dependency *newdeplist, **newdeplistlastp;
-  struct dependency *newdep, *dep;
-  struct deppossi **newpossilastp, *possi, *newpossi;
+  struct dependency *dep;
   struct conffile **iconffileslastp, *newiconff;
   struct fsys_namenode_list *cfile;
 
@@ -866,6 +865,9 @@ pkg_update_fields(struct pkginfo *pkg, struct fsys_namenode_queue *newconffiles)
   newdeplist = NULL;
   newdeplistlastp = &newdeplist;
   for (dep = pkg->available.depends; dep; dep = dep->next) {
+    struct deppossi **newpossilastp, *possi;
+    struct dependency *newdep;
+
     newdep = nfmalloc(sizeof(*newdep));
     newdep->up = pkg;
     newdep->next = NULL;
@@ -873,6 +875,8 @@ pkg_update_fields(struct pkginfo *pkg, struct fsys_namenode_queue *newconffiles)
     newpossilastp = &newdep->list;
 
     for (possi = dep->list; possi; possi = possi->next) {
+      struct deppossi *newpossi;
+
       newpossi = nfmalloc(sizeof(*newpossi));
       newpossi->up = newdep;
       newpossi->ed = possi->ed;

@@ -81,7 +81,6 @@ find_command(const char *prog)
   struct varbuf filename = VARBUF_INIT;
   const char *path_list;
   const char *path, *path_end;
-  size_t path_len;
 
   if (prog[0] == '/')
     return file_is_exec(prog);
@@ -91,6 +90,8 @@ find_command(const char *prog)
     ohshit(_("PATH is not set"));
 
   for (path = path_list; path; path = *path_end ? path_end + 1 : NULL) {
+    size_t path_len;
+
     path_end = strchrnul(path, ':');
     path_len = (size_t)(path_end - path);
 
@@ -336,9 +337,10 @@ void
 pkg_conffiles_mark_old(struct pkginfo *pkg)
 {
   const struct conffile *conff;
-  struct fsys_namenode *namenode;
 
   for (conff = pkg->installed.conffiles; conff; conff = conff->next) {
+    struct fsys_namenode *namenode;
+
     namenode = fsys_hash_find_node(conff->name, 0); /* XXX */
     namenode->flags |= FNNF_OLD_CONFF;
     if (!namenode->oldhash)

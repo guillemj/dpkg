@@ -85,10 +85,11 @@ info_spew(const char *debar, const char *dir, const char *const *argv)
   struct dpkg_error err;
   const char *component;
   struct varbuf controlfile = VARBUF_INIT;
-  int fd;
   int re= 0;
 
   while ((component = *argv++) != NULL) {
+    int fd;
+
     varbuf_reset(&controlfile);
     varbuf_printf(&controlfile, "%s/%s", dir, component);
 
@@ -117,20 +118,19 @@ info_spew(const char *debar, const char *dir, const char *const *argv)
 static void
 info_list(const char *debar, const char *dir)
 {
-  char interpreter[INTERPRETER_MAX+1], *p;
-  int il, lines;
   struct varbuf controlfile = VARBUF_INIT;
-  struct dirent **cdlist, *cdep;
+  struct dirent **cdlist;
   int cdn, n;
   FILE *cc;
-  struct stat stab;
-  int c;
 
   cdn = scandir(dir, &cdlist, &ilist_select, alphasort);
   if (cdn == -1)
     ohshite(_("cannot scan directory '%.255s'"), dir);
 
   for (n = 0; n < cdn; n++) {
+    struct dirent *cdep;
+    struct stat stab;
+
     cdep = cdlist[n];
 
     varbuf_reset(&controlfile);
@@ -139,6 +139,9 @@ info_list(const char *debar, const char *dir)
     if (stat(controlfile.buf, &stab))
       ohshite(_("cannot stat '%.255s' (in '%.255s')"), cdep->d_name, dir);
     if (S_ISREG(stab.st_mode)) {
+      char interpreter[INTERPRETER_MAX + 1];
+      int lines, c;
+
       cc = fopen(controlfile.buf, "r");
       if (!cc)
         ohshite(_("cannot open '%.255s' (in '%.255s')"), cdep->d_name, dir);
@@ -146,6 +149,9 @@ info_list(const char *debar, const char *dir)
       interpreter[0] = '\0';
       if (getc(cc) == '#') {
         if (getc(cc) == '!') {
+          char *p;
+          int il;
+
           while ((c= getc(cc))== ' ');
           p=interpreter; *p++='#'; *p++='!'; il=2;
           while (il < INTERPRETER_MAX && !c_isspace(c) && c != EOF) {
@@ -178,6 +184,8 @@ info_list(const char *debar, const char *dir)
       ohshite(_("failed to read '%.255s' (in '%.255s')"), CONTROLFILE, dir);
     warning(_("no 'control' file in control archive!"));
   } else {
+    int lines, c;
+
     lines= 1;
     while ((c= getc(cc))!= EOF) {
       if (lines)
@@ -212,13 +220,14 @@ info_field(const char *debar, const char *dir, const char *const *fields,
 
   for (i = 0; fields[i]; i++) {
     const struct fieldinfo *field;
-    const struct arbitraryfield *arbfield;
 
     varbuf_reset(&str);
     field = find_field_info(fieldinfos, fields[i]);
     if (field) {
       field->wcall(&str, pkg, &pkg->available, fieldflags, field);
     } else {
+      const struct arbitraryfield *arbfield;
+
       arbfield = find_arbfield_info(pkg->available.arbs, fields[i]);
       if (arbfield)
         varbuf_add_arbfield(&str, arbfield, fieldflags);
