@@ -105,7 +105,6 @@ main (argc, argv)
      int argc;
      char **argv;
 {
-  int c;
   int digit_optind = 0;
 
   while (1)
@@ -122,6 +121,7 @@ main (argc, argv)
 	{"file", 1, 0, 0},
 	{0, 0, 0, 0}
       };
+      int c;
 
       c = getopt_long (argc, argv, "abc:d:0123456789",
 		       long_options, &option_index);
