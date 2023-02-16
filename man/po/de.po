@@ -11,10 +11,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.21.19\n"
+"Project-Id-Version: dpkg-man 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-01-10 17:46+0000\n"
-"PO-Revision-Date: 2023-01-11 08:34+0100\n"
+"POT-Creation-Date: 2023-02-13 05:05+0100\n"
+"PO-Revision-Date: 2023-02-16 17:05+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -5944,7 +5944,7 @@ msgstr ""
 #. type: textblock
 #: deb-substvars.pod
 msgid ""
-"B<Note:> Take into account that this can only ever be an approximation, as "
+"B<Note>: Take into account that this can only ever be an approximation, as "
 "the actual size used on the installed system will depend greatly on the "
 "filesystem used and its parameters, which might end up using either more or "
 "less space than the specified in this field."
@@ -6897,8 +6897,8 @@ msgstr ""
 "(entweder nicht komprimiert (wird seit Dpkg 1.17.6 unterstützt) oder mit "
 "Gzip (mit der Endung B<.gz>) bzw. Xz (mit der Endung B<.xz>, seit Dpkg "
 "1.17.6 unterstützt) komprimiert) oder Zstd (mit der Endung B<.zst>, seit "
-"Dpkg 1.21.18 unterstützt), das die Steuerinformationen als eine Reihe "
-"von normalen Dateien enthält, von denen die Datei B<control> zwingend "
+"Dpkg 1.21.18 unterstützt), das die Steuerinformationen als eine Reihe von "
+"normalen Dateien enthält, von denen die Datei B<control> zwingend "
 "erforderlich ist und die Kern-Steuerinformationen enthält. Die Dateien "
 "B<md5sums>, B<conffiles>, B<triggers>, B<shlibs> und B<symbols> enthalten "
 "bestimmte optionale Steuerinformationen und die Dateien B<preinst>, "
@@ -6919,11 +6919,10 @@ msgid ""
 msgstr ""
 "Das dritte, letzte zwingend benötigte Element heißt B<data.tar>. Es enthält "
 "das Dateisystem als Tar-Archiv, entweder unkomprimiert (seit Dpkg 1.10.24 "
-"unterstützt) oder mit gzip (Dateiendung B<.gz>), xz (Dateiendung B<.xz>, seit "
-"Dpkg 1.15.6 unterstützt), zstd (Dateiendung B<.zst>, seit Dpkg 1.21.18 "
-"unterstützt), bzip2 (Dateiendung B<.bz2>, seit Dpkg 1.10.24 "
-"unterstützt) oder lzma (Dateiendung B<.lzma>, seit Dpkg 1.13.25 unterstützt) "
-"komprimiert."
+"unterstützt) oder mit gzip (Dateiendung B<.gz>), xz (Dateiendung B<.xz>, "
+"seit Dpkg 1.15.6 unterstützt), zstd (Dateiendung B<.zst>, seit Dpkg 1.21.18 "
+"unterstützt), bzip2 (Dateiendung B<.bz2>, seit Dpkg 1.10.24 unterstützt) "
+"oder lzma (Dateiendung B<.lzma>, seit Dpkg 1.13.25 unterstützt) komprimiert."
 
 #. type: textblock
 #: deb.pod
@@ -9829,7 +9828,7 @@ msgid ""
 "libraries B<-fPIC> is always passed last (so that it overrides any previous "
 "B<-PIE>) to compilation flags such as B<CFLAGS>, and B<-shared> is passed "
 "last (so that it overrides any previous B<-pie>) to linking flags such as "
-"B<LDFLAGS>. B<Note:> This should not be needed with the default gcc specs "
+"B<LDFLAGS>. B<Note>: This should not be needed with the default gcc specs "
 "machinery."
 msgstr ""
 "Falls es notwendig ist, diese Schalter manuell zu setzen und die GCC-"
@@ -9927,6 +9926,24 @@ msgstr ""
 "Falls sowohl B<fixdebugpath> als auch B<fixfilepath> gesetzt sind, hat diese "
 "Option Vorrang, da sie eine Obermenge erster ist."
 
+#. type: textblock
+#: dpkg-buildflags.pod
+msgid ""
+"B<Note>: If the build process captures the build flags into the resulting "
+"built objects, that will make the package unreproducible.  And while "
+"disabling this option might make some of the objects reproducible again this "
+"would also require disabling B<fixdebugpath>, which might make any generated "
+"debug symbols objects unreproducible.  The ideal fix is to stop capturing "
+"build flags."
+msgstr ""
+"B<Hinweis>: Falls der Bauprozess die Bauschalter in die resultierenden "
+"gebauten Objekte erfasst, dann wird das Paket nicht mehr reproduzierbar. Die "
+"Deaktivierung dieser Option könnte einige der Objekte wieder reproduzierbar "
+"machen, würde dafür aber auch die Deaktivierung von B<fixdebugpath> benötigen, "
+"wodurch sämtliche erstellten Fehlersuchsymbole nicht mehr reproduzierbar "
+"wären. Die beste Korrektur besteht darin, die Bauschalter nicht mehr zu "
+"erfassen."
+
 #. type: =item
 #: dpkg-buildflags.pod
 msgid "B<fixdebugpath>"
@@ -9947,6 +9964,14 @@ msgstr ""
 "B<BUILDPATH> auf das oberste Verzeichnis des bauenden Pakets gesetzt wird. "
 "Dies führt dazu, dass der Baupfad aus allen erstellten Debug-Symbolen "
 "entfernt wird."
+
+#. type: textblock
+#: dpkg-buildflags.pod
+msgid ""
+"B<Note>: This feature has similar reproducible properties as B<fixfilepath>."
+msgstr ""
+"B<Hinweis>: Dies Funktion hat ähnliche Reproduzierbarkeitseigenschaften wie "
+"B<fixfilepath>."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -10330,7 +10355,7 @@ msgstr ""
 "Schritten:"
 
 #. type: =item
-#: dpkg-buildpackage.pod
+#: dpkg-buildpackage.pod dpkg.pod
 msgid "B<1.>"
 msgstr "B<1.>"
 
@@ -10347,7 +10372,7 @@ msgstr ""
 "verwandt)."
 
 #. type: =item
-#: dpkg-buildpackage.pod
+#: dpkg-buildpackage.pod dpkg.pod
 msgid "B<2.>"
 msgstr "B<2.>"
 
@@ -10361,7 +10386,7 @@ msgstr ""
 "B<-d> oder B<--no-check-builddeps> nicht angegeben ist)."
 
 #. type: =item
-#: dpkg-buildpackage.pod
+#: dpkg-buildpackage.pod dpkg.pod
 msgid "B<3.>"
 msgstr "B<3.>"
 
@@ -10380,7 +10405,7 @@ msgstr ""
 "oder B<--no-pre-clean> nicht angegeben ist)."
 
 #. type: =item
-#: dpkg-buildpackage.pod
+#: dpkg-buildpackage.pod dpkg.pod
 msgid "B<4.>"
 msgstr "B<4.>"
 
@@ -10396,7 +10421,7 @@ msgstr ""
 "B<source> (Quell-)Bau erbeten wurde)."
 
 #. type: =item
-#: dpkg-buildpackage.pod
+#: dpkg-buildpackage.pod dpkg.pod
 msgid "B<5.>"
 msgstr "B<5.>"
 
@@ -10426,7 +10451,7 @@ msgstr ""
 "mit B<--build> oder äquivalenten Optionen erbeten wurde)."
 
 #. type: =item
-#: dpkg-buildpackage.pod
+#: dpkg-buildpackage.pod dpkg.pod
 msgid "B<6.>"
 msgstr "B<6.>"
 
@@ -10595,7 +10620,7 @@ msgstr "Baut das Quellpaket."
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid ""
-"B<Note:> When using this value standalone and if what you want is simply to "
+"B<Note>: When using this value standalone and if what you want is simply to "
 "(re-)build the source package from a clean source tree, using B<dpkg-source> "
 "directly is always a better option as it does not require any build "
 "dependencies to be installed which are otherwise needed to be able to call "
@@ -11041,11 +11066,11 @@ msgstr ""
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid ""
-"Note: Any Makefile that is not parallel-safe should be considered to be "
+"B<Note>: Any Makefile that is not parallel-safe should be considered to be "
 "buggy.  These should either be made parallel-safe, or marked as not being "
 "safe with the L<make(1)> B<.NOTPARALLEL> target."
 msgstr ""
-"Hinweis: Jedes Makefile, das kein sicheres paralleles Bauen unterstützt, "
+"B<Hinweis>: Jedes Makefile, das kein sicheres paralleles Bauen unterstützt, "
 "sollte als fehlerhaft betrachtet werden. Entweder sollte es korrigiert "
 "werden, so dass sicheres paralleles Bauen ermöglicht wird, oder es sollte "
 "mit dem Ziel B<.NOTPARALLEL> von L<make(1)> als unsicher markiert werden."
@@ -11307,7 +11332,7 @@ msgstr ""
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid ""
-"B<Note:> Hooks can affect the build process, and cause build failures if "
+"B<Note>: Hooks can affect the build process, and cause build failures if "
 "their commands fail, so watch out for unintended consequences."
 msgstr ""
 "B<Hinweis>: Hooks können den Bauprozess beeinflussen und zu Baufehlern "
@@ -11529,10 +11554,10 @@ msgstr ""
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid ""
-"Note: For security reasons the I<key-file> is best kept locked with a "
+"B<Note>: For security reasons the I<key-file> is best kept locked with a "
 "password."
 msgstr ""
-"Hinweis: Aus Sicherheitsgründen wird die I<Schlüsseldatei> am besten mit "
+"B<Hinweis>: Aus Sicherheitsgründen wird die I<Schlüsseldatei> am besten mit "
 "einem Passwort gesperrt."
 
 #. type: =item
@@ -12541,10 +12566,10 @@ msgstr ""
 "Gibt die Komprimierstufe an, die im Komprimier-Backendprogramm beim Bau "
 "eines Pakets verwendet werden soll. Standardmäßig ist dies 9 für Gzip, 6 für "
 "Xz, 3 für Zstd). Die akzeptierten Werte hängen vom Komprimierer ab. Für Gzip "
-"von 0-9, wobei 0 auf den Komprimierer „none“ abgebildet wird. Für Xz von 0-"
-"9. Für Zstd von 0-22, wobei die Stufen von 20-22 den Ultramodus "
-"aktivieren. Vor Dpkg 1.16.2 war die Stufe 0 "
-"äquivalent zu dem Komprimierer „none“ für alle Komprimierer."
+"von 0-9, wobei 0 auf den Komprimierer „none“ abgebildet wird. Für Xz von "
+"0-9. Für Zstd von 0-22, wobei die Stufen von 20-22 den Ultramodus "
+"aktivieren. Vor Dpkg 1.16.2 war die Stufe 0 äquivalent zu dem Komprimierer "
+"„none“ für alle Komprimierer."
 
 #. type: =item
 #: dpkg-deb.pod
@@ -12577,7 +12602,8 @@ msgid ""
 "and B<none> (default is B<xz>)."
 msgstr ""
 "Gibt die Art der Komprimierung beim Bau eines Pakets an. Erlaubte Werte sind "
-"B<gzip>, B<xz> (seit Dpkg 1.15.6), B<zstd> (seit Dpkg 1.21.18) und B<none> (voreingestellt ist B<xz>)."
+"B<gzip>, B<xz> (seit Dpkg 1.15.6), B<zstd> (seit Dpkg 1.21.18) und B<none> "
+"(voreingestellt ist B<xz>)."
 
 #. type: =item
 #: dpkg-deb.pod
@@ -13273,7 +13299,7 @@ msgstr ""
 #. type: textblock
 #: dpkg-divert.pod
 msgid ""
-"B<Note:> B<dpkg-divert> preserves the old copy of this file, with extension "
+"B<Note>: B<dpkg-divert> preserves the old copy of this file, with extension "
 "I<-old>, before replacing it with the new one."
 msgstr ""
 "B<Hinweis>: B<dpkg-divert> erhält die alte Kopie dieser Datei, mit der "
@@ -14747,7 +14773,7 @@ msgstr ""
 #. type: textblock
 #: dpkg-gensymbols.pod dpkg-shlibdeps.pod
 msgid ""
-"B<Note:> Use this option instead of setting B<LD_LIBRARY_PATH>, as that "
+"B<Note>: Use this option instead of setting B<LD_LIBRARY_PATH>, as that "
 "environment variable is used to control the run-time linker and abusing it "
 "to set the shared library paths at build-time can be problematic when cross-"
 "compiling for example."
@@ -15223,10 +15249,10 @@ msgstr "Eine Conffile entfernen"
 #. type: textblock
 #: dpkg-maintscript-helper.pod
 msgid ""
-"Note: This can be replaced in most cases by the C<remove-on-upgrade> flag in "
-"F<DEBIAN/conffiles> (since dpkg 1.20.6), see L<deb-conffiles(5)>."
+"B<Note>: This can be replaced in most cases by the C<remove-on-upgrade> flag "
+"in F<DEBIAN/conffiles> (since dpkg 1.20.6), see L<deb-conffiles(5)>."
 msgstr ""
-"Hinweis: In den meisten Fällen kann dies durch den Schalter C<remove-on-"
+"B<Hinweis>: In den meisten Fällen kann dies durch den Schalter C<remove-on-"
 "upgrade> in F<DEBIAN/conffiles> (seit Dpkg 1.20.6) ersetzt werden, siehe "
 "L<deb-conffiles(5)>."
 
@@ -15385,11 +15411,11 @@ msgstr ""
 #. type: textblock
 #: dpkg-maintscript-helper.pod
 msgid ""
-"Note: The symlinks and directories created during these switches need to be "
-"shipped in the new packages, or B<dpkg> will not be able to remove them on "
-"purge."
+"B<Note>: The symlinks and directories created during these switches need to "
+"be shipped in the new packages, or B<dpkg> will not be able to remove them "
+"on purge."
 msgstr ""
-"Hinweis: Die während dieser Schalter erstellten Symlinks und Verzeichnisse "
+"B<Hinweis>: Die während dieser Schalter erstellten Symlinks und Verzeichnisse "
 "müssen in dem neuen Paket ausgeliefert werden oder B<dpkg> wird nicht in der "
 "Lage sein, sie beim endgültigen Löschen zu entfernen."
 
@@ -15923,9 +15949,9 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-name.pod
-msgid "B<Warning:> I<Use this option with care, it is messy.>"
+msgid "B<Warning>: Use this option with care, it is messy."
 msgstr ""
-"B<Warnung>: I<Verwenden Sie diese Option mit Vorsicht, sie ist unordentlich.>"
+"B<Warnung>: Verwenden Sie diese Option mit Vorsicht, sie ist unordentlich."
 
 #. type: =item
 #: dpkg-name.pod
@@ -15943,8 +15969,8 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-name.pod
-msgid "B<Warning:> I<Use this option with care.>"
-msgstr "B<Warnung>: I<Verwenden Sie diese Option mit Vorsicht.>"
+msgid "B<Warning>: Use this option with care."
+msgstr "B<Warnung>: Verwenden Sie diese Option mit Vorsicht."
 
 #. type: =item
 #: dpkg-name.pod
@@ -16292,10 +16318,10 @@ msgstr ""
 #. type: textblock
 #: dpkg-parsechangelog.pod
 msgid ""
-"B<Note:> For the B<dpkg> format the first entry will be the most ancient "
+"B<Note>: For the B<dpkg> format the first entry will be the most ancient "
 "entry."
 msgstr ""
-"Beachten Sie: Für das B<dpkg>-Format ist der erste Eintrag der älteste "
+"B<Hinweis>: Für das B<dpkg>-Format ist der erste Eintrag der älteste "
 "Eintrag."
 
 #. type: =item
@@ -16306,7 +16332,7 @@ msgstr "B<--all>"
 #. type: textblock
 #: dpkg-parsechangelog.pod
 msgid ""
-"Include all changes.  B<Note:> Other options have no effect when this is in "
+"Include all changes.  B<Note>: Other options have no effect when this is in "
 "use."
 msgstr ""
 "nimmt alle Änderungen auf. B<Hinweis>: Andere Optionen haben keine Wirkung, "
@@ -16812,10 +16838,10 @@ msgstr ""
 #. type: textblock
 #: dpkg-query.pod
 msgid ""
-"Hint: When machine parsing the output, it is customary to set the locale to "
-"B<C.UTF-8> to get reproducible results."
+"B<Hint>: When machine parsing the output, it is customary to set the locale "
+"to B<C.UTF-8> to get reproducible results."
 msgstr ""
-"Tipp: Wenn Maschinen die Ausgabe auswerten, ist es üblich, die Locale auf "
+"B<Tipp>: Wenn Maschinen die Ausgabe auswerten, ist es üblich, die Locale auf "
 "B<C.UTF-8> zu setzen, um reproduzierbare Ausgaben zu erhalten."
 
 #. type: textblock
@@ -17727,7 +17753,7 @@ msgstr ""
 #. type: textblock
 #: dpkg-scanpackages.pod
 msgid ""
-"B<Note:> If you want to access the generated Packages file with B<apt>(8)  "
+"B<Note>: If you want to access the generated Packages file with B<apt>(8)  "
 "you will probably need to compress the file with B<xz>(1)  (generating a "
 "Packages.xz file), B<bzip2>(1)  (generating a Packages.bz2 file) or "
 "B<gzip>(1)  (generating a Packages.gz file).  B<apt>(8)  ignores "
@@ -17936,14 +17962,14 @@ msgstr ""
 #. type: textblock
 #: dpkg-scansources.pod
 msgid ""
-"B<Note:> Since the override file is indexed by binary, not source packages, "
+"B<Note>: Since the override file is indexed by binary, not source packages, "
 "there's a bit of a problem here. The current implementation uses the highest "
 "priority of all the binary packages produced by a I<.dsc> file for the "
 "priority of the source package, and the override entry for the first binary "
 "package listed in the I<.dsc> file to modify maintainer information. This "
 "might change."
 msgstr ""
-"B<Beachten Sie>: Da die Override-Datei nach Binär- und nicht Quellpaketen "
+"B<Hinweis>: Da die Override-Datei nach Binär- und nicht Quellpaketen "
 "indiziert wird, gibt es ein hier kleines Problem. Die aktuelle "
 "Implementierung verwendet die höchste Priorität aller von einer I<.dsc>-"
 "Datei erzeugten Binärpakete für die Priorität des Quellpakets, und den "
@@ -17966,7 +17992,7 @@ msgstr ""
 #. type: textblock
 #: dpkg-scansources.pod
 msgid ""
-"B<Note:> If you want to access the generated Sources file with B<apt>(8)  "
+"B<Note>: If you want to access the generated Sources file with B<apt>(8)  "
 "you will probably need to compress the file with B<gzip>(1)  (generating a "
 "Sources.gz file).  B<apt>(8)  ignores uncompressed Sources files except on "
 "local access (i.e.  B<file://> sources)."
@@ -19311,7 +19337,7 @@ msgstr ""
 #. type: textblock
 #: dpkg-source.pod
 msgid ""
-"B<Note:> While they have similar purposes, B<-i> and B<-I> have very "
+"B<Note>: While they have similar purposes, B<-i> and B<-I> have very "
 "different syntax and semantics. B<-i> can only be specified once and takes a "
 "perl compatible regular expression which is matched against the full "
 "relative path of each file. B<-I> can specified multiple times and takes a "
@@ -20039,7 +20065,7 @@ msgstr ""
 #. type: textblock
 #: dpkg-source.pod
 msgid ""
-"B<Note:> B<dpkg-source> B<--before-build> (and B<--build>) will ensure that "
+"B<Note>: B<dpkg-source> B<--before-build> (and B<--build>) will ensure that "
 "all patches listed in the series file are applied so that a package build "
 "always has all patches applied. It does this by finding unapplied patches "
 "(they are listed in the B<series> file but not in B<.pc/applied-patches>), "
@@ -20780,7 +20806,7 @@ msgstr ""
 #. type: textblock
 #: dpkg-source.pod
 msgid ""
-"B<Note:> B<format> options are not accepted in this file, you should use "
+"B<Note>: B<format> options are not accepted in this file, you should use "
 "B<debian/source/format> instead."
 msgstr ""
 "B<Hinweis>: B<--format>-Optionen werden in dieser Datei nicht akzeptiert, "
@@ -21519,56 +21545,75 @@ msgstr ""
 #. type: textblock
 #: dpkg-statoverride.pod
 msgid ""
-"I<Warning: These options are mostly intended to be used by experts only.  "
+"B<Warning>: These options are mostly intended to be used by experts only.  "
 "Using them without fully understanding their effects may break your whole "
-"system.>"
+"system."
 msgstr ""
-"I<Warnung: Diese Optionen sind hauptsächlich für den Einsatz durch Experten "
+"B<Warnung>: Diese Optionen sind hauptsächlich für den Einsatz durch Experten "
 "gedacht. Der Einsatz ohne komplettes Verständnis der Auswirkungen kann Ihr "
-"gesamtes System zerstören.>"
+"gesamtes System zerstören."
+
+#. type: =item
+#: dpkg-statoverride.pod dpkg.pod
+msgid "B<all>:"
+msgstr "B<all>:"
 
 #. type: textblock
 #: dpkg-statoverride.pod dpkg.pod
-msgid "B<all>: Turns on (or off) all force options."
-msgstr "B<all>: Schaltet alle „force“-Optionen ein (oder aus)."
+msgid "Turns on (or off) all force options."
+msgstr "Schaltet alle „force“-Optionen ein (oder aus)."
+
+#. type: =item
+#: dpkg-statoverride.pod dpkg.pod
+msgid "B<statoverride-add>:"
+msgstr "B<statoverride-add>:"
 
 #. type: textblock
 #: dpkg-statoverride.pod dpkg.pod
-msgid ""
-"B<statoverride-add>: Overwrite an existing stat override when adding it "
-"(since dpkg 1.19.5)."
+msgid "Overwrite an existing stat override when adding it (since dpkg 1.19.5)."
 msgstr ""
-"B<statoverride-add>: Überschreibt eine existierende Status-Hinwegsetzung "
+"Überschreibt eine existierende Status-Hinwegsetzung "
 "beim Hinzufügen (seit Dpkg 1.19.5)."
 
+#. type: =item
+#: dpkg-statoverride.pod dpkg.pod
+msgid "B<statoverride-remove>:"
+msgstr "B<statoverride-remove>:"
+
 #. type: textblock
 #: dpkg-statoverride.pod dpkg.pod
-msgid ""
-"B<statoverride-remove>: Ignore a missing stat override when removing it "
-"(since dpkg 1.19.5)."
+msgid "Ignore a missing stat override when removing it (since dpkg 1.19.5)."
 msgstr ""
-"B<statoverride-remove>: Ignoriert eine fehlende Status-Hinwegsetzung beim "
+"Ignoriert eine fehlende Status-Hinwegsetzung beim "
 "Entfernen (seit Dpkg 1.19.5)."
+
+#. type: =item
+#: dpkg-statoverride.pod dpkg.pod
+msgid "B<security-mac>(*):"
+msgstr "B<security-mac>(*):"
 
 #. type: textblock
 #: dpkg-statoverride.pod dpkg.pod
 msgid ""
-"B<security-mac>(*): Use platform-specific Mandatory Access Controls (MAC) "
-"based security when installing files into the filesystem (since dpkg "
-"1.19.5).  On Linux systems the implementation uses SELinux."
+"Use platform-specific Mandatory Access Controls (MAC) based security when "
+"installing files into the filesystem (since dpkg 1.19.5).  On Linux systems "
+"the implementation uses SELinux."
 msgstr ""
-"B<security-mac>(*): Verwendet plattformspezifische „Mandatory Access Control "
+"Verwendet plattformspezifische „Mandatory Access Control "
 "(MAC)“-basierende Sicherheit bei der Installation von Dateien in das "
 "Dateisystem (seit Dpkg 1.19.5). Auf Linux-Systemen verwendet die "
 "Implementierung SELinux."
 
+#. type: =item
+#: dpkg-statoverride.pod dpkg.pod
+msgid "B<not-root>:"
+msgstr "B<not-root>:"
+
 #. type: textblock
 #: dpkg-statoverride.pod
-msgid ""
-"B<not-root>: Try to (de)install things even when not root (since dpkg "
-"1.21.8)."
+msgid "Try to (de)install things even when not root (since dpkg 1.21.8)."
 msgstr ""
-"B<not-root>: Versucht Sachen zu (de)installieren, selbst falls nicht root "
+"Versucht Sachen zu (de)installieren, selbst falls nicht root "
 "(seit Dpkg 1.21.8)."
 
 #. type: =item
@@ -21647,7 +21692,7 @@ msgstr ""
 #. type: textblock
 #: dpkg-statoverride.pod
 msgid ""
-"B<Note:> B<dpkg-statoverride> preserves the old copy of this file, with "
+"B<Note>: B<dpkg-statoverride> preserves the old copy of this file, with "
 "extension “-old”, before replacing it with the new one."
 msgstr ""
 "B<Hinweis>: B<dpkg-statoverride> erhält die alte Kopie dieser Datei mit der "
@@ -22271,45 +22316,45 @@ msgstr "Die Installation besteht aus folgenden Schritten:"
 
 #. type: textblock
 #: dpkg.pod
-msgid "B<1.> Extract the control files of the new package."
-msgstr "B<1.> Die Steuerdateien aus dem neuen Paket wird entnommen."
+msgid "Extract the control files of the new package."
+msgstr "Die Steuerdateien aus dem neuen Paket wird entnommen."
 
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<2.> If another version of the same package was installed before the new "
+"If another version of the same package was installed before the new "
 "installation, execute I<prerm> script of the old package."
 msgstr ""
-"B<2.> Falls eine andere Version des gleichen Pakets vor der neuen "
+"Falls eine andere Version des gleichen Pakets vor der neuen "
 "Installation installiert war, dann wird das I<prerm>-Skript des alten "
 "Paketes ausgeführt."
 
 #. type: textblock
 #: dpkg.pod
-msgid "B<3.> Run I<preinst> script, if provided by the package."
+msgid "Run I<preinst> script, if provided by the package."
 msgstr ""
-"B<3.> Das I<preinst>-Skript wird ausgeführt, falls dies vom Paket "
+"Das I<preinst>-Skript wird ausgeführt, falls dies vom Paket "
 "bereitgestellt wird."
 
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<4.> Unpack the new files, and at the same time back up the old files, so "
-"that if something goes wrong, they can be restored."
+"Unpack the new files, and at the same time back up the old files, so that if "
+"something goes wrong, they can be restored."
 msgstr ""
-"B<4.> Die neuen Dateien werden entpackt und gleichzeitig die alten Dateien "
+"Die neuen Dateien werden entpackt und gleichzeitig die alten Dateien "
 "gesichert, so dass diese, falls etwas schief geht, wiederhergestellt werden "
 "können."
 
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<5.> If another version of the same package was installed before the new "
+"If another version of the same package was installed before the new "
 "installation, execute the I<postrm> script of the old package. Note that "
 "this script is executed after the I<preinst> script of the new package, "
 "because new files are written at the same time old files are removed."
 msgstr ""
-"B<5.> Falls eine andere Version des gleichen Pakets vor der neuen "
+"Falls eine andere Version des gleichen Pakets vor der neuen "
 "Installation installiert war, dann wird das I<postrm>-Skript des alten "
 "Paketes ausgeführt. Beachten Sie, dass dieses Skript nach dem I<preinst>-"
 "Skript des neuen Pakets ausgeführt wird, da neue Dateien zeitgleich zu der "
@@ -22318,10 +22363,10 @@ msgstr ""
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<6.> Configure the package. See B<--configure> for detailed information "
-"about how this is done."
+"Configure the package. See B<--configure> for detailed information about how "
+"this is done."
 msgstr ""
-"B<6.> Das Paket wird konfiguriert. Lesen Sie B<--configure> für detaillierte "
+"Das Paket wird konfiguriert. Lesen Sie B<--configure> für detaillierte "
 "Informationen, wie dies geschieht."
 
 #. type: =item
@@ -22381,18 +22426,18 @@ msgstr "Die Konfiguration besteht aus folgenden Schritten:"
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<1.> Unpack the conffiles, and at the same time back up the old conffiles, "
-"so that they can be restored if something goes wrong."
+"Unpack the conffiles, and at the same time back up the old conffiles, so "
+"that they can be restored if something goes wrong."
 msgstr ""
-"B<1.> Die Conffiles werden entpackt und gleichzeitig die alten Conffiles "
+"Die Conffiles werden entpackt und gleichzeitig die alten Conffiles "
 "gesichert, so dass diese, falls etwas schief geht, wiederhergestellt werden "
 "können."
 
 #. type: textblock
 #: dpkg.pod
-msgid "B<2.> Run I<postinst> script, if provided by the package."
+msgid "Run I<postinst> script, if provided by the package."
 msgstr ""
-"B<2.> Das I<postinst>-Skript wird ausgeführt, falls dies vom Paket "
+"Das I<postinst>-Skript wird ausgeführt, falls dies vom Paket "
 "bereitgestellt wird."
 
 #. type: textblock
@@ -22455,18 +22500,18 @@ msgstr "Entfernung eines Paketes besteht aus den folgenden Schritten:"
 
 #. type: textblock
 #: dpkg.pod
-msgid "B<1.> Run I<prerm> script"
-msgstr "B<1.> Das I<prerm>-Skript wird ausgeführt"
+msgid "Run I<prerm> script."
+msgstr "Das I<prerm>-Skript wird ausgeführt."
 
 #. type: textblock
 #: dpkg.pod
-msgid "B<2.> Remove the installed files"
-msgstr "B<2.> Die installierten Dateien werden entfernt"
+msgid "Remove the installed files."
+msgstr "Die installierten Dateien werden entfernt."
 
 #. type: textblock
 #: dpkg.pod
-msgid "B<3.> Run I<postrm> script"
-msgstr "B<3.> Das I<postrm>-Skript wird ausgeführt"
+msgid "Run I<postrm> script."
+msgstr "Das I<postrm>-Skript wird ausgeführt."
 
 #. type: =item
 #: dpkg.pod
@@ -22492,7 +22537,7 @@ msgstr ""
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<Note:> Some configuration files might be unknown to B<dpkg> because they "
+"B<Note>: Some configuration files might be unknown to B<dpkg> because they "
 "are created and handled separately through the configuration scripts. In "
 "that case, B<dpkg> won't remove them by itself, but the package's I<postrm> "
 "script (which is called by B<dpkg>), has to take care of their removal "
@@ -22516,16 +22561,11 @@ msgstr "Endgültiges Löschen eines Paketes besteht aus den folgenden Schritten:
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<1.> Remove the package, if not already removed. See B<--remove> for "
-"detailed information about how this is done."
+"Remove the package, if not already removed. See B<--remove> for detailed "
+"information about how this is done."
 msgstr ""
-"B<1.> Das Paket wird entfernt, falls es noch nicht entfernt ist. Lesen Sie "
+"Das Paket wird entfernt, falls es noch nicht entfernt ist. Lesen Sie "
 "B<--remove> für detaillierte Informationen, wie dies erfolgt."
-
-#. type: textblock
-#: dpkg.pod
-msgid "B<2.> Run I<postrm> script."
-msgstr "B<2.> Das I<postrm>-Skript wird ausgeführt."
 
 #. type: =item
 #: dpkg.pod
@@ -22769,10 +22809,10 @@ msgstr ""
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<Note:> This command makes use of both the available file and the package "
+"B<Note>: This command makes use of both the available file and the package "
 "selections."
 msgstr ""
-"B<Beachten Sie>: Dieser Befehl verwendet sowohl die Datei „available“ als "
+"B<Hinweis>: Dieser Befehl verwendet sowohl die Datei „available“ als "
 "auch die Paketauswahlen."
 
 #. type: =item
@@ -23087,7 +23127,7 @@ msgstr ""
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<Note:> Additional options set on the command line, and through this file "
+"B<Note>: Additional options set on the command line, and through this file "
 "descriptor, are not reset for subsequent commands executed during the same "
 "run."
 msgstr ""
@@ -23384,82 +23424,106 @@ msgstr ""
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"I<Warning: These options are mostly intended to be used by experts only. "
+"B<Warning>: These options are mostly intended to be used by experts only. "
 "Using them without fully understanding their effects may break your whole "
-"system.>"
+"system."
 msgstr ""
-"I<Warnung: Diese Optionen sind hauptsächlich für den Einsatz durch Experten "
+"B<Warnung>: Diese Optionen sind hauptsächlich für den Einsatz durch Experten "
 "gedacht. Der Einsatz ohne komplettes Verständnis der Effekte kann Ihr "
-"gesamtes System zerstören.>"
+"gesamtes System zerstören."
+
+#. type: =item
+#: dpkg.pod
+msgid "B<downgrade>(*):"
+msgstr "B<downgrade>(*):"
 
 #. type: textblock
 #: dpkg.pod
-msgid ""
-"B<downgrade>(*): Install a package, even if newer version of it is already "
-"installed."
+msgid "Install a package, even if newer version of it is already installed."
 msgstr ""
-"B<downgrade>(*): Installiert ein Paket, selbst wenn eine neuere Version "
+"Installiert ein Paket, selbst wenn eine neuere Version "
 "davon bereits installiert ist."
 
+# FIXME present> → present
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"I<Warning: At present> B<dpkg> I<does not do any dependency checking on "
+"B<Warning>: At present> B<dpkg> does not do any dependency checking on "
 "downgrades and therefore will not warn you if the downgrade breaks the "
 "dependency of some other package. This can have serious side effects, "
 "downgrading essential system components can even make your whole system "
-"unusable. Use with care.>"
+"unusable. Use with care."
 msgstr ""
-"I<Warnung: Derzeit führt> B<dpkg> I<keine Abhängigkeitsüberprüfung bei der "
+"B<Warnung>: Derzeit führt B<dpkg> keine Abhängigkeitsüberprüfung bei der "
 "Installation älterer Versionen (als bereits installiert) durch (sog. "
 "Downgrade) und wird Sie daher nicht warnen, falls dadurch die Abhängigkeit "
 "eines anderen Pakets nicht mehr erfüllt ist. Dies kann ernsthafte "
 "Nebeneffekte haben, ein Downgrade einer essenziellen Systemkomponente kann "
 "Ihr gesamtes System unbrauchbar machen. Verwenden Sie diese Option mit "
-"Vorsicht.>"
+"Vorsicht."
+
+#. type: =item
+#: dpkg.pod
+msgid "B<configure-any>:"
+msgstr "B<configure-any>:"
 
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<configure-any>: Configure also any unpacked but unconfigured packages on "
-"which the current package depends."
+"Configure also any unpacked but unconfigured packages on which the current "
+"package depends."
 msgstr ""
-"B<configure-any>: Konfiguriert auch jedes entpackte, aber unkonfigurierte "
+"Konfiguriert auch jedes entpackte, aber unkonfigurierte "
 "Paket, von dem das aktuelle Paket abhängt."
 
+#. type: =item
+#: dpkg.pod
+msgid "B<hold>:"
+msgstr "B<hold>:"
+
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<hold>: Allow automatic installs, upgrades or removals of packages even "
-"when marked to be on “hold”.  B<Note:> When these actions are requested "
-"explicitly, the “hold” package selection state always gets ignored."
+"Allow automatic installs, upgrades or removals of packages even when marked "
+"to be on “hold”.  B<Note>: When these actions are requested explicitly, the "
+"“hold” package selection state always gets ignored."
 msgstr ""
-"B<hold>: Erlaubt automatische Installationen, Upgrades und Entfernungen von "
-"Paketen, selbst wenn sie mit „halten“ markiert sind. B<Beachten Sie>: Wenn "
+"Erlaubt automatische Installationen, Upgrades und Entfernungen von "
+"Paketen, selbst wenn sie mit „halten“ markiert sind. B<Hinweis>: Wenn "
 "diese Aktionen explizit angefordert werden, wird der Paketauswahlzustand "
 "„halten“ immer ignoriert."
 
-#. type: textblock
+#. type: =item
 #: dpkg.pod
-msgid ""
-"B<remove-reinstreq>: Remove a package, even if it's broken and marked to "
-"require reinstallation. This may, for example, cause parts of the package to "
-"remain on the system, which will then be forgotten by B<dpkg>."
-msgstr ""
-"B<remove-reinstreq>: Entfernt ein Paket, selbst falls es defekt ist und zur "
-"Neuinstallation markiert ist. Dies kann beispielsweise dazu führen, dass "
-"Teile des Pakets auf dem System bleiben und von B<dpkg> vergessen werden."
+msgid "B<remove-reinstreq>:"
+msgstr "B<remove-reinstreq>:"
 
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<remove-protected>: Remove, even if the package is considered protected "
-"(since dpkg 1.20.1).  Protected packages contain mostly important system "
-"boot infrastructure or are used for custom system-local meta-packages.  "
-"Removing them might cause the whole system to be unable to boot or lose "
-"required functionality to operate, so use with caution."
+"Remove a package, even if it's broken and marked to require reinstallation. "
+"This may, for example, cause parts of the package to remain on the system, "
+"which will then be forgotten by B<dpkg>."
 msgstr ""
-"B<remove-protected>: Entfernt, selbst falls das Paket als geschützt "
+"Entfernt ein Paket, selbst falls es defekt ist und zur "
+"Neuinstallation markiert ist. Dies kann beispielsweise dazu führen, dass "
+"Teile des Pakets auf dem System bleiben und von B<dpkg> vergessen werden."
+
+#. type: =item
+#: dpkg.pod
+msgid "B<remove-protected>:"
+msgstr "B<remove-protected>:"
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"Remove, even if the package is considered protected (since dpkg 1.20.1).  "
+"Protected packages contain mostly important system boot infrastructure or "
+"are used for custom system-local meta-packages.  Removing them might cause "
+"the whole system to be unable to boot or lose required functionality to "
+"operate, so use with caution."
+msgstr ""
+"Entfernt, selbst falls das Paket als geschützt "
 "betrachtet wird (seit Dpkg 1.20.1). Geschützte Pakete enthalten "
 "hauptsächlich wichtige Teile der Systemstartinfrastruktur oder werden für "
 "angepasste systemlokale Metapakete verwandt. Diese zu entfernen kann dazu "
@@ -23467,17 +23531,21 @@ msgstr ""
 "Funktionalität zu Betrieb verlieren kann - verwenden Sie diese Option daher "
 "mit Vorsicht."
 
+#. type: =item
+#: dpkg.pod
+msgid "B<remove-essential>:"
+msgstr "B<remove-essential>:"
+
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<remove-essential>: Remove, even if the package is considered essential.  "
-"Essential packages contain mostly very basic Unix commands, required for the "
-"packaging system, for the operation of the system in general or during boot "
-"(although the latter should be converted to protected packages instead).  "
-"Removing them might cause the whole system to stop working, so use with "
-"caution."
+"Remove, even if the package is considered essential.  Essential packages "
+"contain mostly very basic Unix commands, required for the packaging system, "
+"for the operation of the system in general or during boot (although the "
+"latter should be converted to protected packages instead).  Removing them "
+"might cause the whole system to stop working, so use with caution."
 msgstr ""
-"B<remove-essential>: Entfernt, selbst falls das Paket als essenziell "
+"Entfernt, selbst falls das Paket als essenziell "
 "betrachtet wird. Essenzielle Pakete enthalten hauptsächlich sehr "
 "grundlegende Unix-Befehle. Diese werden für das Paketierungssystem, für den "
 "Betrieb des Systems im Allgemeinen oder während des Systemstarts benötigt "
@@ -23485,146 +23553,205 @@ msgstr ""
 "werden). Diese zu entfernen kann dazu führen, dass das gesamte System nicht "
 "mehr arbeitet - verwenden Sie diese Option daher mit Vorsicht."
 
+#. type: =item
+#: dpkg.pod
+msgid "B<depends>:"
+msgstr "B<depends>:"
+
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<depends>: Turn all dependency problems into warnings.  This affects the "
-"B<Pre-Depends> and B<Depends> fields."
+"Turn all dependency problems into warnings.  This affects the B<Pre-Depends> "
+"and B<Depends> fields."
 msgstr ""
-"B<depends>: Verwandelt alle Abhängigkeitsprobleme in Warnungen. Dies "
+"Verwandelt alle Abhängigkeitsprobleme in Warnungen. Dies "
 "betrifft die Felder B<Pre-Depends> und B<Depends>."
 
+#. type: =item
+#: dpkg.pod
+msgid "B<depends-version>:"
+msgstr "B<depends-version>:"
+
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<depends-version>: Don't care about versions when checking dependencies.  "
-"This affects the B<Pre-Depends> and B<Depends> fields."
+"Don't care about versions when checking dependencies.  This affects the "
+"B<Pre-Depends> and B<Depends> fields."
 msgstr ""
-"B<depends-version>: Ignoriert Versionen bei der Prüfung von Abhängigkeiten. "
+"Ignoriert Versionen bei der Prüfung von Abhängigkeiten. "
 "Dies betrifft die Felder B<Pre-Depends> und B<Depends>."
 
-#. type: textblock
+#. type: =item
 #: dpkg.pod
-msgid ""
-"B<breaks>: Install, even if this would break another package (since dpkg "
-"1.14.6).  This affects the B<Breaks> field."
-msgstr ""
-"B<breaks>: Installiert, selbst falls dies ein anderes Paket beschädigt (seit "
-"Dpkg 1.14.6). Dies betrifft das Feld B<Breaks>."
+msgid "B<breaks>:"
+msgstr "B<breaks>:"
 
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<conflicts>: Install, even if it conflicts with another package. This is "
-"dangerous, for it will usually cause overwriting of some files.  This "
-"affects the B<Conflicts> field."
+"Install, even if this would break another package (since dpkg 1.14.6).  This "
+"affects the B<Breaks> field."
 msgstr ""
-"B<conflicts>: Installiert, selbst wenn es mit einem anderen Paket in "
+"Installiert, selbst falls dies ein anderes Paket beschädigt (seit "
+"Dpkg 1.14.6). Dies betrifft das Feld B<Breaks>."
+
+#. type: =item
+#: dpkg.pod
+msgid "B<conflicts>:"
+msgstr "B<conflicts>:"
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"Install, even if it conflicts with another package. This is dangerous, for "
+"it will usually cause overwriting of some files.  This affects the "
+"B<Conflicts> field."
+msgstr ""
+"Installiert, selbst wenn es mit einem anderen Paket in "
 "Konflikt steht. Dies ist gefährlich, da dies gewöhnlich dazu führt, dass "
 "einige Dateien überschrieben werden. Dies betrifft das Feld B<Conflicts>."
 
-#. type: textblock
+#. type: =item
 #: dpkg.pod
-msgid ""
-"B<confmiss>: Always install the missing conffile without prompting. This is "
-"dangerous, since it means not preserving a change (removing) made to the "
-"file."
-msgstr ""
-"B<confmiss>: Installiert die fehlende Conffile immer ohne Rückfrage. Dies "
-"ist gefährlich, da es bedeutet, dass eine Änderung (die Entfernung) an der "
-"Datei nicht erhalten wird."
+msgid "B<confmiss>:"
+msgstr "B<confmiss>:"
 
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<confnew>: If a conffile has been modified and the version in the package "
-"did change, always install the new version without prompting, unless the B<--"
-"force-confdef> is also specified, in which case the default action is "
-"preferred."
+"Always install the missing conffile without prompting. This is dangerous, "
+"since it means not preserving a change (removing) made to the file."
 msgstr ""
-"B<confnew>: Falls eine Conffile modifiziert wurde und sich die Version im "
+"Installiert die fehlende Conffile immer ohne Rückfrage. Dies "
+"ist gefährlich, da es bedeutet, dass eine Änderung (die Entfernung) an der "
+"Datei nicht erhalten wird."
+
+#. type: =item
+#: dpkg.pod
+msgid "B<confnew>:"
+msgstr "B<confnew>:"
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"If a conffile has been modified and the version in the package did change, "
+"always install the new version without prompting, unless the B<--force-"
+"confdef> is also specified, in which case the default action is preferred."
+msgstr ""
+"Falls eine Conffile modifiziert wurde und sich die Version im "
 "Paket geändert hat, wird immer die neue Version ohne Rückfrage installiert, "
 "es sei denn, B<--force-confdef> ist ebenfalls angegeben, in welchem Falle "
 "die Standardaktion bevorzugt wird."
 
-#. type: textblock
+#. type: =item
 #: dpkg.pod
-msgid ""
-"B<confold>: If a conffile has been modified and the version in the package "
-"did change, always keep the old version without prompting, unless the B<--"
-"force-confdef> is also specified, in which case the default action is "
-"preferred."
-msgstr ""
-"B<confold>: Falls eine Conffile modifiziert wurde und sich die Version im "
-"Paket geändert hat, wird immer die alte Version ohne Rückfrage behalten, es "
-"sei denn, B<--force-confdef> ist ebenfalls angegeben, in welchem Falle die "
-"Standardaktion bevorzugt wird."
+msgid "B<confold>:"
+msgstr "B<confold>:"
 
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<confdef>: If a conffile has been modified and the version in the package "
-"did change, always choose the default action without prompting. If there is "
-"no default action it will stop to ask the user unless B<--force-confnew> or "
-"B<--force-confold> is also been given, in which case it will use that to "
-"decide the final action."
+"If a conffile has been modified and the version in the package did change, "
+"always keep the old version without prompting, unless the B<--force-confdef> "
+"is also specified, in which case the default action is preferred."
 msgstr ""
-"B<confdef>: Falls eine Conffile verändert wurde und sich die Version im "
+"Falls eine Conffile modifiziert wurde und sich die Version im "
+"Paket geändert hat, wird immer die alte Version ohne Rückfrage behalten, es "
+"sei denn, B<--force-confdef> ist ebenfalls angegeben, in welchem Falle die "
+"Standardaktion bevorzugt wird."
+
+#. type: =item
+#: dpkg.pod
+msgid "B<confdef>:"
+msgstr "B<confdef>:"
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"If a conffile has been modified and the version in the package did change, "
+"always choose the default action without prompting. If there is no default "
+"action it will stop to ask the user unless B<--force-confnew> or B<--force-"
+"confold> is also been given, in which case it will use that to decide the "
+"final action."
+msgstr ""
+"Falls eine Conffile verändert wurde und sich die Version im "
 "Paket geändert hat, wird immer die Standardaktion ohne Rückfrage gewählt. "
 "Falls es keine Standardaktion gibt, wird angehalten, um den Benutzer zu "
 "fragen, es sei denn, B<--force-confnew> oder B<--force-confold> sind "
 "ebenfalls angegeben, in welchem Falle dies verwendet wird, um die "
 "letztendliche Aktion zu bestimmen."
 
+#. type: =item
+#: dpkg.pod
+msgid "B<confask>:"
+msgstr "B<confask>:"
+
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<confask>: If a conffile has been modified always offer to replace it with "
-"the version in the package, even if the version in the package did not "
-"change (since dpkg 1.15.8).  If any of B<--force-confnew>, B<--force-"
-"confold>, or B<--force-confdef> is also given, it will be used to decide the "
-"final action."
+"If a conffile has been modified always offer to replace it with the version "
+"in the package, even if the version in the package did not change (since "
+"dpkg 1.15.8).  If any of B<--force-confnew>, B<--force-confold>, or B<--"
+"force-confdef> is also given, it will be used to decide the final action."
 msgstr ""
-"B<confask>: Falls eine Conffile verändert wurde, wird immer angeboten, sie "
+"Falls eine Conffile verändert wurde, wird immer angeboten, sie "
 "durch die Version aus dem Paket zu ersetzen, selbst falls sich die Version "
 "in dem Paket nicht geändert hat (seit Dpkg 1.15.8). Falls auch einer von B<--"
 "force-confnew>, B<--force-confold> oder B<--force-confdef> angegeben wird, "
 "wird sie dazu verwandt, die letztendliche Aktion zu ermitteln."
 
+#. type: =item
+#: dpkg.pod
+msgid "B<overwrite>:"
+msgstr "B<overwrite>:"
+
 #. type: textblock
 #: dpkg.pod
-msgid "B<overwrite>: Overwrite one package's file with another's file."
+msgid "Overwrite one package's file with another's file."
 msgstr ""
-"B<overwrite>: Überschreibt die Datei aus einem Paket mit einer Datei aus "
+"Überschreibt die Datei aus einem Paket mit einer Datei aus "
 "einem anderen Paket."
 
+#. type: =item
+#: dpkg.pod
+msgid "B<overwrite-dir>:"
+msgstr "B<overwrite-dir>:"
+
 #. type: textblock
 #: dpkg.pod
-msgid ""
-"B<overwrite-dir>: Overwrite one package's directory with another's file."
+msgid "Overwrite one package's directory with another's file."
 msgstr ""
-"B<overwrite-dir>: Überschreibt das Verzeichnis aus einem Paket mit einer "
+"Überschreibt das Verzeichnis aus einem Paket mit einer "
 "Datei aus einem anderen Paket."
 
+#. type: =item
+#: dpkg.pod
+msgid "B<overwrite-diverted>:"
+msgstr "B<overwrite-diverted>:"
+
 #. type: textblock
 #: dpkg.pod
-msgid ""
-"B<overwrite-diverted>: Overwrite a diverted file with an undiverted version."
+msgid "Overwrite a diverted file with an undiverted version."
 msgstr ""
-"B<overwrite-diverted>: Überschreibt eine umgeleitete („diverted“) Datei mit "
+"Überschreibt eine umgeleitete („diverted“) Datei mit "
 "einer nicht umgeleiteten."
+
+#. type: =item
+#: dpkg.pod
+msgid "B<unsafe-io>:"
+msgstr "B<unsafe-io>:"
 
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<unsafe-io>: Do not perform safe I/O operations when unpacking (since dpkg "
-"1.15.8.6).  Currently this implies not performing file system syncs before "
-"file renames, which is known to cause substantial performance degradation on "
-"some file systems, unfortunately the ones that require the safe I/O on the "
-"first place due to their unreliable behaviour causing zero-length files on "
-"abrupt system crashes."
+"Do not perform safe I/O operations when unpacking (since dpkg 1.15.8.6).  "
+"Currently this implies not performing file system syncs before file renames, "
+"which is known to cause substantial performance degradation on some file "
+"systems, unfortunately the ones that require the safe I/O on the first place "
+"due to their unreliable behaviour causing zero-length files on abrupt system "
+"crashes."
 msgstr ""
-"B<unsafe-io>: Führt beim Entpacken keine sicheren E/A-Aktionen durch (seit "
+"Führt beim Entpacken keine sicheren E/A-Aktionen durch (seit "
 "Dpkg 1.15.8.6). Derzeit impliziert dies, dass vor Dateiumbenennungen kein "
 "Systemsync durchgeführt wird. Dieser Sync führt bei einigen Dateisystemen zu "
 "erheblichen Leistungseinbußen, unglücklicherweise bei solchen, die überhaupt "
@@ -23650,65 +23777,86 @@ msgstr ""
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"I<Warning: Using this option might improve performance at the cost of losing "
-"data, use with care.>"
+"B<Warning>: Using this option might improve performance at the cost of "
+"losing data, use with care."
 msgstr ""
-"I<Warnung: Die Verwendung dieser Option kann die Leistung erhöhen, "
+"B<Warnung>: Die Verwendung dieser Option kann die Leistung erhöhen, "
 "allerdings können dabei Daten verloren gehen. Verwenden Sie die Option "
-"vorsichtig.>"
+"vorsichtig."
+
+#. type: =item
+#: dpkg.pod
+msgid "B<script-chrootless>:"
+msgstr "B<script-chrootless>:"
 
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<script-chrootless>: Run maintainer scripts without B<chroot>(2)ing into "
-"B<instdir> even if the package does not support this mode of operation "
-"(since dpkg 1.18.5)."
+"Run maintainer scripts without B<chroot>(2)ing into B<instdir> even if the "
+"package does not support this mode of operation (since dpkg 1.18.5)."
 msgstr ""
-"B<script-chrootless>: Führt Skripte aus, ohne per B<chroot>(2) in das "
+"Führt Skripte aus, ohne per B<chroot>(2) in das "
 "B<instdir> zu wechseln, selbst falls das Paket diese Vorgehensweise nicht "
 "unterstützt (seit Dpkg 1.18.5)."
 
 #. type: textblock
 #: dpkg.pod
-msgid "I<Warning: This can destroy your host system, use with extreme care.>"
+msgid "B<Warning>: This can destroy your host system, use with extreme care."
 msgstr ""
-"I<Warnung: Dies kann Ihr Wirtsystem beschädigen, passen Sie sehr gut auf!>"
+"I<Warnung>: Dies kann Ihr Wirtsystem beschädigen, passen Sie sehr gut auf!"
+
+#. type: =item
+#: dpkg.pod
+msgid "B<architecture>:"
+msgstr "B<architecture>:"
 
 #. type: textblock
 #: dpkg.pod
-msgid "B<architecture>: Process even packages with wrong or no architecture."
+msgid "Process even packages with wrong or no architecture."
 msgstr ""
-"B<architecture>: Verarbeitet sogar Pakete mit der falschen oder keiner "
+"Verarbeitet sogar Pakete mit der falschen oder keiner "
 "Architektur."
 
-#. type: textblock
+#. type: =item
 #: dpkg.pod
-msgid ""
-"B<bad-version>: Process even packages with wrong versions (since dpkg "
-"1.16.1)."
-msgstr ""
-"B<bad-version>: Verarbeitet sogar Pakete mit falschen Versionen (seit Dpkg "
-"1.16.1)."
+msgid "B<bad-version>:"
+msgstr "B<bad-version>:"
 
 #. type: textblock
 #: dpkg.pod
-msgid ""
-"B<bad-path>: B<PATH> is missing important programs, so problems are likely."
+msgid "Process even packages with wrong versions (since dpkg 1.16.1)."
 msgstr ""
-"B<bad-path>: Im B<PATH> fehlen wichtige Programme, daher sind Probleme "
+"Verarbeitet sogar Pakete mit falschen Versionen (seit Dpkg "
+"1.16.1)."
+
+#. type: =item
+#: dpkg.pod
+msgid "B<bad-path>:"
+msgstr "B<bad-path>:"
+
+#. type: textblock
+#: dpkg.pod
+msgid "B<PATH> is missing important programs, so problems are likely."
+msgstr ""
+"Im B<PATH> fehlen wichtige Programme, daher sind Probleme "
 "wahrscheinlich."
 
 #. type: textblock
 #: dpkg.pod
-msgid "B<not-root>: Try to (de)install things even when not root."
+msgid "Try to (de)install things even when not root."
 msgstr ""
-"B<not-root>: Versucht Sachen zu (de)installieren, selbst falls nicht root."
+"Versucht Sachen zu (de)installieren, selbst falls nicht root."
+
+#. type: =item
+#: dpkg.pod
+msgid "B<bad-verify>:"
+msgstr "B<bad-verify>:"
 
 #. type: textblock
 #: dpkg.pod
-msgid "B<bad-verify>: Install a package even if it fails authenticity check."
+msgid "Install a package even if it fails authenticity check."
 msgstr ""
-"B<bad-verify>: Installiert ein Paket, selbst wenn die Authentizitätsprüfung "
+"Installiert ein Paket, selbst wenn die Authentizitätsprüfung "
 "fehlschlägt."
 
 #. type: =item
@@ -23912,7 +24060,7 @@ msgstr ""
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"B<Note:> Front-ends might call B<dpkg> several times per invocation, which "
+"B<Note>: Front-ends might call B<dpkg> several times per invocation, which "
 "might run the hooks more times than expected."
 msgstr ""
 "B<Hinweis>: Oberflächen könnten B<dpkg> mehrere Male pro Ausführung "
@@ -23942,12 +24090,11 @@ msgstr ""
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"I<Warning: Take into account that depending on the excluded paths you might "
-"completely break your system, use with caution.>"
+"B<Warning>: Take into account that depending on the excluded paths you might "
+"completely break your system, use with caution."
 msgstr ""
-"I<Warnung: Beachten Sie, dass abhängig von den ausgeschlossenen Pfaden Sie "
+"B<Warnung>: Beachten Sie, dass abhängig von den ausgeschlossenen Pfaden Sie "
 "Ihr System komplett beschädigen könnten. Verwenden Sie dies daher vorsichtig."
-">"
 
 #. type: textblock
 #: dpkg.pod
@@ -23958,7 +24105,7 @@ msgid ""
 "usual, ‘?’ matches any single character (again, including ‘/’).  And ‘[’ "
 "starts a character class, which can contain a list of characters, ranges and "
 "complementations. See B<glob>(7) for detailed information about globbing.  "
-"B<Note:> The current implementation might re-include more directories and "
+"B<Note>: The current implementation might re-include more directories and "
 "symlinks than needed, in particular when there is a more specific re-"
 "inclusion, to be on the safe side and avoid possible unpack failures; future "
 "work might fix this."
@@ -24041,9 +24188,9 @@ msgstr ""
 
 #. type: textblock
 #: dpkg.pod
-msgid "Hint: make sure the globs are not expanded by your shell."
+msgid "B<Hint>: make sure the globs are not expanded by your shell."
 msgstr ""
-"Tipp: Stellen Sie sicher, dass die Metazeichen nicht durch Ihre Shell "
+"B<Tipp>: Stellen Sie sicher, dass die Metazeichen nicht durch Ihre Shell "
 "expandiert werden."
 
 #. type: =item
@@ -24945,10 +25092,10 @@ msgstr "Um eine lokale Kopie der Paketauswahl-Zustände zu erstellen:"
 #: dpkg.pod
 #, no-wrap
 msgid ""
-" dpkg --get-selections> myselections\n"
+" dpkg --get-selections >myselections\n"
 "\n"
 msgstr ""
-" dpkg --get-selections> meine_auswahl\n"
+" dpkg --get-selections >meine_auswahl\n"
 "\n"
 
 #. type: textblock
@@ -24984,13 +25131,13 @@ msgstr "Oder mit Dpkg 1.17.6 oder älter:"
 #, no-wrap
 msgid ""
 " avail=$(mktemp)\n"
-" apt-cache dumpavail> \"$avail\"\n"
+" apt-cache dumpavail >\"$avail\"\n"
 " dpkg --merge-avail \"$avail\"\n"
 " rm \"$avail\"\n"
 "\n"
 msgstr ""
 " avail=$(mktemp)\n"
-" apt-cache dumpavail> \"$avail\"\n"
+" apt-cache dumpavail >\"$avail\"\n"
 " dpkg --merge-avail \"$avail\"\n"
 " rm \"$avail\"\n"
 "\n"
@@ -25280,10 +25427,10 @@ msgstr ""
 #. type: textblock
 #: dsc.pod
 msgid ""
-"Rationale: this field is needed because otherwise to be able to get the test "
-"dependencies, each source package would need to be unpacked."
+"B<Rationale>: this field is needed because otherwise to be able to get the "
+"test dependencies, each source package would need to be unpacked."
 msgstr ""
-"Hintergrund: Dieses Feld wird benötigt, da andernfalls jedes Quellpaket "
+"B<Hintergrund>: Dieses Feld wird benötigt, da andernfalls jedes Quellpaket "
 "entpackt werden müsste, um die Testabhängigkeiten zu ermitteln."
 
 #. type: textblock
@@ -26867,7 +27014,7 @@ msgstr ""
 #. type: textblock
 #: start-stop-daemon.pod
 msgid ""
-"B<Note:> Unless B<--pid> or B<--pidfile> are specified, B<start-stop-daemon> "
+"B<Note>: Unless B<--pid> or B<--pidfile> are specified, B<start-stop-daemon> "
 "behaves similar to B<killall>(1).  B<start-stop-daemon> will scan the "
 "process table looking for any processes which match the process name, parent "
 "pid, uid, and/or gid (if specified). Any matching process will prevent B<--"
@@ -27013,7 +27160,7 @@ msgstr "Prüft, ob ein Prozess die Datei I<PID-Datei> angelegt hat."
 #. type: textblock
 #: start-stop-daemon.pod
 msgid ""
-"B<Note:> Using this matching option alone might cause unintended processes "
+"B<Note>: Using this matching option alone might cause unintended processes "
 "to be acted on, if the old process terminated without being able to remove "
 "the I<pidfile>."
 msgstr ""
@@ -27024,7 +27171,7 @@ msgstr ""
 #. type: textblock
 #: start-stop-daemon.pod
 msgid ""
-"B<Warning:> Using this match option with a world-writable pidfile or using "
+"B<Warning>: Using this match option with a world-writable pidfile or using "
 "it alone with a daemon that writes the pidfile as an unprivileged (non-"
 "root)  user will be refused with an error (since version 1.19.3) as this is "
 "a security risk, because either any user can write to it, or if the daemon "
@@ -27061,7 +27208,7 @@ msgstr ""
 #. type: textblock
 #: start-stop-daemon.pod
 msgid ""
-"B<Note:> This might not work as intended with interpreted scripts, as the "
+"B<Note>: This might not work as intended with interpreted scripts, as the "
 "executable will point to the interpreter. Take into account processes "
 "running from inside a chroot will also be matched, so other match "
 "restrictions might be needed."
@@ -27090,7 +27237,7 @@ msgstr ""
 #. type: textblock
 #: start-stop-daemon.pod
 msgid ""
-"B<Note:> On most systems this information is retrieved from the process comm "
+"B<Note>: On most systems this information is retrieved from the process comm "
 "name from the kernel, which tends to have a relatively short length limit "
 "(assuming more than 15 characters is non-portable)."
 msgstr ""
@@ -27115,7 +27262,7 @@ msgstr ""
 #. type: textblock
 #: start-stop-daemon.pod
 msgid ""
-"B<Note:> Using this matching option alone will cause all processes matching "
+"B<Note>: Using this matching option alone will cause all processes matching "
 "the user to be acted on."
 msgstr ""
 "B<Hinweis>: Wird diese Abgleichoption alleine verwandt, wird auf alle "
@@ -27341,7 +27488,7 @@ msgstr ""
 #. type: textblock
 #: start-stop-daemon.pod
 msgid ""
-"B<Warning: start-stop-daemon> cannot check the exit status if the process "
+"B<Warning>: B<start-stop-daemon> cannot check the exit status if the process "
 "fails to execute for B<any> reason. This is a last resort, and is only meant "
 "for programs that either make no sense forking on their own, or where it's "
 "not feasible to add the code for them to do this themselves."
@@ -27570,7 +27717,7 @@ msgstr ""
 #. type: textblock
 #: start-stop-daemon.pod
 msgid ""
-"B<Note:> This feature may not work in all cases. Most notably when the "
+"B<Note>: This feature may not work in all cases. Most notably when the "
 "program being executed forks from its main process. Because of this, it is "
 "usually only useful when combined with the B<--background> option."
 msgstr ""
@@ -27823,7 +27970,7 @@ msgid ""
 "information about that file in the alternatives system.  B<update-"
 "alternatives> is usually called from the following Debian package maintainer "
 "scripts, B<postinst> (configure) to install the alternative and from "
-"B<prerm> and B<postrm> (remove) to remove the alternative.  B<Note:> in most "
+"B<prerm> and B<postrm> (remove) to remove the alternative.  B<Note>: in most "
 "(if not all) cases no other maintainer script actions should call B<update-"
 "alternatives>, in particular neither of B<upgrade> nor B<disappear>, as any "
 "other such action can lose the manual state of an alternative, or make the "
@@ -27836,7 +27983,7 @@ msgstr ""
 "Alternatives-System zu aktualisieren. B<update-alternatives> wird "
 "normalerweise in den folgenden Debian-Paketbetreuerskripten aufgerufen: "
 "B<postinst> (configure), um die Alternative zu installieren und von B<prerm> "
-"und B<postrm> (remove), um die Alternative zu entfernen. B<Hinweis:> In den "
+"und B<postrm> (remove), um die Alternative zu entfernen. B<Hinweis>: In den "
 "meisten (wenn nicht allen) Fällen sollte keine weitere Betreuerskriptaktion "
 "B<update-alternatives> aufrufen, insbesondere weder B<upgrade> noch "
 "B<disappear>, da jede dieser anderen Aktionen zum Verlust des manuellen "
@@ -28810,6 +28957,9 @@ msgid "B<ln>(1), FHS (the Filesystem Hierarchy Standard)."
 msgstr ""
 "B<ln>(1), FHS (der Dateisystem-Hierarchie-Standard, Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid "B<3.> Run I<postrm> script"
+#~ msgstr "B<3.> Das I<postrm>-Skript wird ausgeführt"
 
 #~ msgid "lto"
 #~ msgstr "lto"
@@ -31928,9 +32078,6 @@ msgstr ""
 #~ "versucht vorsichtig mit Ihrer Info-Dir-Datei zu sein, aber nur bis es sie "
 #~ "schreibt. Sie sollten eine Sicherheitskopie anlegen, bevor sie dies "
 #~ "Skript verwenden."
-
-#~ msgid "B<--unsafe>"
-#~ msgstr "B<--unsafe>"
 
 #~ msgid "Set some additional possibly useful options."
 #~ msgstr "Stellt einige zusätzliche möglicherweise nützliche Optionen ein."
