@@ -70,6 +70,7 @@ Override the flag named I<flag> to have the value I<value>.
 =item B<STRIP> I<flag> I<value>
 
 Strip from the flag named I<flag> all the build flags listed in I<value>.
+Since dpkg 1.16.1.
 
 =item B<APPEND> I<flag> I<value>
 
@@ -80,6 +81,7 @@ A space is prepended to the appended value if the flag's current value is non-em
 
 Extend the flag named I<flag> by prepending the options given in I<value>.
 A space is appended to the prepended value if the flag's current value is non-empty.
+Since dpkg 1.16.1.
 
 =back
 
@@ -275,10 +277,12 @@ Options for the C++ compiler. Same as B<CFLAGS>.
 =item B<OBJCFLAGS>
 
 Options for the Objective C compiler. Same as B<CFLAGS>.
+Since dpkg 1.17.7.
 
 =item B<OBJCXXFLAGS>
 
 Options for the Objective C++ compiler. Same as B<CXXFLAGS>.
+Since dpkg 1.17.7.
 
 =item B<GCJFLAGS>
 
@@ -295,6 +299,7 @@ Options for the Fortran 77 compiler. A subset of B<CFLAGS>.
 =item B<FCFLAGS>
 
 Options for the Fortran 9x compiler. Same as B<FFLAGS>.
+Since dpkg 1.17.7.
 
 =item B<LDFLAGS>
 
@@ -337,8 +342,9 @@ reasons.
 
 =item B<lfs>
 
-This setting (disabled by default) enables Large File Support on 32-bit
-architectures where their ABI does not include LFS by default, by adding
+This setting (since dpkg 1.10.0; disabled by default) enables
+Large File Support on 32-bit architectures where their ABI does
+not include LFS by default, by adding
 B<-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64> to B<CPPFLAGS>.
 
 =back
@@ -352,8 +358,9 @@ problems in the source code or build system.
 
 =item B<bug>
 
-This setting (disabled by default) adds any warning option that reliably
-detects problematic source code. The warnings are fatal.
+This setting (since dpkg 1.17.4; disabled by default) adds any warning
+option that reliably detects problematic source code.
+The warnings are fatal.
 The only currently supported flags are B<CFLAGS> and B<CXXFLAGS>
 with flags set to B<-Werror=array-bounds>, B<-Werror=clobbered>,
 B<-Werror=implicit-function-declaration> and
@@ -361,9 +368,10 @@ B<-Werror=volatile-register-var>.
 
 =item B<canary>
 
-This setting (disabled by default) adds dummy canary options to the build
-flags, so that the build logs can be checked for how the build flags
-propagate and to allow finding any omission of normal build flag settings.
+This setting (since dpkg 1.17.14; disabled by default) adds dummy canary
+options to the build flags, so that the build logs can be checked for how
+the build flags propagate and to allow finding any omission of normal
+build flag settings.
 The only currently supported flags are B<CPPFLAGS>, B<CFLAGS>,
 B<OBJCFLAGS>, B<CXXFLAGS> and B<OBJCXXFLAGS> with flags set
 to B<-D__DEB_CANARY_>I<flag>_I<random-id>B<__>, and
@@ -402,24 +410,28 @@ even functionality.
 
 =item B<address>
 
-This setting (disabled by default) adds B<-fsanitize=address> to
+This setting (since dpkg 1.18.0; disabled by default) adds
+B<-fsanitize=address> to
 B<LDFLAGS> and B<-fsanitize=address -fno-omit-frame-pointer> to
 B<CFLAGS> and B<CXXFLAGS>.
 
 =item B<thread>
 
-This setting (disabled by default) adds B<-fsanitize=thread> to
+This setting (since dpkg 1.18.0; disabled by default) adds
+B<-fsanitize=thread> to
 B<CFLAGS>, B<CXXFLAGS> and B<LDFLAGS>.
 
 =item B<leak>
 
-This setting (disabled by default) adds B<-fsanitize=leak> to
+This setting (since dpkg 1.18.0; disabled by default) adds
+B<-fsanitize=leak> to
 B<LDFLAGS>. It gets automatically disabled if either the B<address>
 or the B<thread> features are enabled, as they imply it.
 
 =item B<undefined>
 
-This setting (disabled by default) adds B<-fsanitize=undefined> to
+This setting (since dpkg 1.18.0; disabled by default) adds
+B<-fsanitize=undefined> to
 B<CFLAGS>, B<CXXFLAGS> and B<LDFLAGS>.
 
 =back
@@ -436,7 +448,7 @@ that support them.
 
 =item B<format>
 
-This setting (enabled by default) adds
+This setting (since dpkg 1.16.1; enabled by default) adds
 B<-Wformat -Werror=format-security>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS> and B<OBJCXXFLAGS>.
 This will warn about improper format
@@ -450,7 +462,7 @@ input and contains ‘%n’.
 
 =item B<fortify>
 
-This setting (enabled by default) adds
+This setting (since dpkg 1.16.1; enabled by default) adds
 B<-D_FORTIFY_SOURCE=2>
 to B<CPPFLAGS>. During code generation the compiler
 knows a great deal of information about buffer sizes (where possible), and
@@ -468,8 +480,8 @@ glibc 2.16 and later.
 
 =item B<stackprotector>
 
-This setting (enabled by default if stackprotectorstrong is not in use) adds
-B<-fstack-protector --param=ssp-buffer-size=4>
+This setting (since dpkg 1.16.1; enabled by default if stackprotectorstrong
+is not in use) adds B<-fstack-protector --param=ssp-buffer-size=4>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>.
 This adds safety checks against stack
@@ -484,7 +496,7 @@ B<-nostdlib> or B<-ffreestanding> or similar.
 
 =item B<stackprotectorstrong>
 
-This setting (enabled by default) adds
+This setting (since dpkg 1.17.11; enabled by default) adds
 B<-fstack-protector-strong>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>.
@@ -498,7 +510,7 @@ addition also requires gcc 4.9 and later.
 
 =item B<relro>
 
-This setting (enabled by default) adds
+This setting (since dpkg 1.16.1; enabled by default) adds
 B<-Wl,-z,relro>
 to B<LDFLAGS>.  During program load, several ELF memory sections need
 to be written to by the linker. This flags the loader to turn these
@@ -508,7 +520,7 @@ B<bindnow> will become disabled as well.
 
 =item B<bindnow>
 
-This setting (disabled by default) adds
+This setting (since dpkg 1.16.1; disabled by default) adds
 B<-Wl,-z,now>
 to B<LDFLAGS>. During program load, all dynamic symbols are resolved,
 allowing for the entire PLT to be marked read-only (due to B<relro>
@@ -516,7 +528,8 @@ above). The option cannot become enabled if B<relro> is not enabled.
 
 =item B<pie>
 
-This setting (with no global default since dpkg 1.18.23, as it is enabled
+This setting (since dpkg 1.16.1; with no global default since dpkg 1.18.23,
+as it is enabled
 by default now by gcc on the amd64, arm64, armel, armhf, hurd-i386, i386,
 kfreebsd-amd64, kfreebsd-i386, mips, mipsel, mips64el, powerpc, ppc64,
 ppc64el, riscv64, s390x, sparc and sparc64 Debian architectures) adds
@@ -604,7 +617,7 @@ architectures that support them.
 
 =item B<timeless>
 
-This setting (enabled by default) adds
+This setting (since dpkg 1.17.14; enabled by default) adds
 B<-Wdate-time>
 to B<CPPFLAGS>.
 This will cause warnings when the B<__TIME__>, B<__DATE__> and
@@ -612,7 +625,7 @@ B<__TIMESTAMP__> macros are used.
 
 =item B<fixfilepath>
 
-This setting (enabled by default) adds
+This setting (since dpkg 1.19.1; enabled by default) adds
 B<-ffile-prefix-map=>I<BUILDPATH>B<=.>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is
@@ -631,7 +644,7 @@ The ideal fix is to stop capturing build flags.
 
 =item B<fixdebugpath>
 
-This setting (enabled by default) adds
+This setting (since dpkg 1.18.5; enabled by default) adds
 B<-fdebug-prefix-map=>I<BUILDPATH>B<=.>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is
@@ -656,14 +669,14 @@ by package maintainers to change the resulting build flags.
 
 =item B<DEB_>I<flag>B<_SET>
 
-=item B<DEB_>I<flag>B<_MAINT_SET>
+=item B<DEB_>I<flag>B<_MAINT_SET> (since dpkg 1.16.1)
 
 This variable can be used to force the value returned for the given
 I<flag>.
 
-=item B<DEB_>I<flag>B<_STRIP>
+=item B<DEB_>I<flag>B<_STRIP> (since dpkg 1.16.1)
 
-=item B<DEB_>I<flag>B<_MAINT_STRIP>
+=item B<DEB_>I<flag>B<_MAINT_STRIP> (since dpkg 1.16.1)
 
 This variable can be used to provide a space separated list of options
 that will be stripped from the set of flags returned for the given
@@ -671,21 +684,21 @@ I<flag>.
 
 =item B<DEB_>I<flag>B<_APPEND>
 
-=item B<DEB_>I<flag>B<_MAINT_APPEND>
+=item B<DEB_>I<flag>B<_MAINT_APPEND> (since dpkg 1.16.1)
 
 This variable can be used to append supplementary options to the value
 returned for the given I<flag>.
 
-=item B<DEB_>I<flag>B<_PREPEND>
+=item B<DEB_>I<flag>B<_PREPEND> (since dpkg 1.16.1)
 
-=item B<DEB_>I<flag>B<_MAINT_PREPEND>
+=item B<DEB_>I<flag>B<_MAINT_PREPEND> (since dpkg 1.16.1)
 
 This variable can be used to prepend supplementary options to the value
 returned for the given I<flag>.
 
 =item B<DEB_BUILD_OPTIONS>
 
-=item B<DEB_BUILD_MAINT_OPTIONS>
+=item B<DEB_BUILD_MAINT_OPTIONS> (since dpkg 1.16.1)
 
 These variables can be used by a user or maintainer to disable/enable
 various area features that affect build flags.
