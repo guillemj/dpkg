@@ -80,7 +80,10 @@ sub _add_entry {
     my ($self, $file) = @_;
     my $cwd = *$self->{cwd};
     croak 'call create() first' unless *$self->{tar_input};
-    $file = $1 if ($file =~ /^\Q$cwd\E\/(.+)$/); # Relative names
+    if ($file =~ m{^\Q$cwd\E/(.+)$}) {
+        # Make pathname relative to the source root directory.
+        $file = $1;
+    }
     print({ *$self->{tar_input} } "$file\0")
         or syserr(g_('write on tar input'));
 }
