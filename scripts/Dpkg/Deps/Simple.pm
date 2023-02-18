@@ -165,6 +165,7 @@ sub parse_string {
         $pkgname_re = qr/[a-zA-Z0-9][a-zA-Z0-9+.-]*/;
     }
 
+    ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
     return if not $dep =~
            m{^\s*                           # skip leading whitespace
               ($pkgname_re)                 # package name

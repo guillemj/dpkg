@@ -206,6 +206,7 @@ sub process_dsc {
     my ($prefix, $file) = @_;
 
     my $basename = $file;
+    ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
     my $dir = ($basename =~ s{^(.*)/}{}) ? $1 : '';
     $dir = "$prefix$dir";
     $dir =~ s{/+$}{};

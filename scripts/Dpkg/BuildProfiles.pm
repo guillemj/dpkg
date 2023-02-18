@@ -115,6 +115,7 @@ sub evaluate_restriction_formula {
         foreach my $restriction (@$restrlist) {
             next if $restriction !~ m/^(!)?(.+)/;
 
+            ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
             my $negated = defined $1 && $1 eq '!';
             my $profile = $2;
             my $found = any { $_ eq $profile } @{$profiles};

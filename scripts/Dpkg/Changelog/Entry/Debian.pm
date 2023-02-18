@@ -172,6 +172,7 @@ sub parse_header {
 		push @errors, sprintf(g_("bad key-value after ';': '%s'"), $opt);
 		next;
 	    }
+            ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
 	    my ($k, $v) = (field_capitalize($1), $2);
 	    if (exists $f->{$k}) {
 		push @errors, sprintf(g_('repeated key-value %s'), $k);

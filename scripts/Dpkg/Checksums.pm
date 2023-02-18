@@ -228,6 +228,7 @@ sub add_from_string {
 	    error(g_('invalid line in %s checksums string: %s'),
 		  $alg, $checksum);
 	}
+        ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
 	my ($sum, $size, $file) = ($1, $2, $3);
 	if (not $opts{update} and exists($checksums->{$file}{$alg})
 	    and $checksums->{$file}{$alg} ne $sum) {

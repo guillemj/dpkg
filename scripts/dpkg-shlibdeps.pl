@@ -753,6 +753,7 @@ sub extract_from_shlibs {
     while (<$shlibs_fh>) {
 	s/\s*\n$//;
 	next if m/^\#/;
+        ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
 	if (!m/$shlibs_re/) {
 	    warning(g_("shared libs info file '%s' line %d: bad line '%s'"),
 	            $shlibfile, $., $_);

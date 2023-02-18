@@ -192,6 +192,7 @@ sub parse {
 	    error(g_('bad line in substvars file %s at line %d'),
 		  $varlistfile, $.);
 	}
+        ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
         if (defined $2) {
             $attr = (SUBSTVAR_ATTR_USED | SUBSTVAR_ATTR_OPT) if $2 eq '?';
         }

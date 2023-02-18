@@ -96,6 +96,7 @@ sub merge {
             warning(g_('invalid flag in %s: %s'), $source, $_);
             next;
         }
+        ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
 	$count += $self->set($1, $2, $source);
     }
     return $count;
