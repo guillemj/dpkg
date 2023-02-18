@@ -476,6 +476,8 @@ package Dpkg::Control::HashCore::Tie;
 use strict;
 use warnings;
 
+our $VERSION = '0.01';
+
 use Dpkg::Control::FieldsCore;
 
 use Carp;

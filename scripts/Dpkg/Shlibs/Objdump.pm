@@ -247,6 +247,8 @@ use strict;
 use warnings;
 use feature qw(state);
 
+our $VERSION = '0.01';
+
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Path qw(find_command);
