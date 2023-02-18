@@ -70,6 +70,7 @@ my @policies = qw(
     Miscellanea::ProhibitUselessNoCritic
     Modules::ProhibitConditionalUseStatements
     Modules::ProhibitEvilModules
+    Modules::ProhibitMultiplePackages
     Modules::RequireBarewordIncludes
     Modules::RequireEndWithOne
     Modules::RequireExplicitPackage
