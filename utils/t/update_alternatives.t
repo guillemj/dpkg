@@ -269,8 +269,11 @@ sub check_choice {
     if (defined $id) {
 	# Check status
 	call_ua([ '--query', "$main_name" ], to_string => \$output, test_id => $msg);
-	$output =~ /^Status: (.*)$/im;
-	is($1, $mode, "$msg: status is not $mode.");
+        my $status = q{};
+        if ($output =~ /^Status: (.*)$/im) {
+            $status = $1;
+        }
+        is($status, $mode, "$msg: status is not $mode.");
 	# Check links
 	my $alt = $choices[$id];
 	check_link("$altdir/$main_name", $alt->{path}, $msg);
