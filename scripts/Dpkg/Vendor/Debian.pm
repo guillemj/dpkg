@@ -38,6 +38,8 @@ package Dpkg::Vendor::Debian 0.01;
 use strict;
 use warnings;
 
+use List::Util qw(any none);
+
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -248,21 +250,21 @@ sub set_build_features {
     }
 
     # Mask features that are not available on certain architectures.
-    if ($os !~ /^(?:linux|kfreebsd|knetbsd|hurd)$/ or
-	$cpu =~ /^(?:hppa|avr32)$/) {
+    if (none { $os eq $_ } qw(linux kfreebsd knetbsd hurd) or
+        any { $cpu eq $_ } qw(hppa avr32)) {
 	# Disabled on non-(linux/kfreebsd/knetbsd/hurd).
 	# Disabled on hppa, avr32
 	#  (#574716).
 	$use_feature{hardening}{pie} = 0;
     }
-    if ($cpu =~ /^(?:ia64|alpha|hppa|nios2)$/ or $arch eq 'arm') {
+    if (any { $cpu eq $_ } qw(ia64 alpha hppa nios2) or $arch eq 'arm') {
 	# Stack protector disabled on ia64, alpha, hppa, nios2.
 	#   "warning: -fstack-protector not supported for this target"
 	# Stack protector disabled on arm (ok on armel).
 	#   compiler supports it incorrectly (leads to SEGV)
 	$use_feature{hardening}{stackprotector} = 0;
     }
-    if ($cpu =~ /^(?:ia64|hppa|avr32)$/) {
+    if (any { $cpu eq $_ } qw(ia64 hppa avr32)) {
 	# relro not implemented on ia64, hppa, avr32.
 	$use_feature{hardening}{relro} = 0;
     }

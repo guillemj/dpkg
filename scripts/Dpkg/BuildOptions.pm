@@ -34,6 +34,8 @@ package Dpkg::BuildOptions 1.02;
 use strict;
 use warnings;
 
+use List::Util qw(any);
+
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::BuildEnv;
@@ -119,7 +121,7 @@ sub set {
     my ($self, $key, $value, $source) = @_;
 
     # Sanity checks
-    if ($key =~ /^(terse|noopt|nostrip|nocheck)$/ && defined($value)) {
+    if (any { $_ eq $key } qw(terse noopt nostrip nocheck) and defined $value) {
 	$value = undef;
     } elsif ($key eq 'parallel')  {
 	$value //= '';
