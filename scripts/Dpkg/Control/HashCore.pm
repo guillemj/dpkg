@@ -208,7 +208,7 @@ sub parse {
     while (<$fh>) {
         # In the common case there will be just a trailing \n character,
         # so using chomp here which is very fast will avoid the latter
-        # s/// doing anything, which gives usa significant speed up.
+        # s/// doing anything, which gives us a significant speed up.
 	chomp;
         my $armor = $_;
         s/\s+$//;
