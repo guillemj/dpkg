@@ -201,7 +201,7 @@ foreach (keys %{$src_fields}) {
         # field, only initialize the description substvars.
         $substvars->set_desc_substvars($src_fields->{$_});
     } else {
-        field_transfer_single($src_fields, $fields);
+        field_transfer_single($src_fields, $fields, $_);
     }
 }
 $substvars->set_field_substvars($src_fields, 'S');
@@ -227,7 +227,7 @@ foreach (keys %{$pkg}) {
 	    $fields->{$_} = $host_arch;
 	}
     } else {
-        field_transfer_single($pkg, $fields);
+        field_transfer_single($pkg, $fields, $_);
     }
 }
 
@@ -243,7 +243,7 @@ foreach (keys %{$changelog}) {
         # That field must not be copied from changelog even if it's
         # allowed in the binary package control information
     } else {
-        field_transfer_single($changelog, $fields);
+        field_transfer_single($changelog, $fields, $_);
     }
 }
 

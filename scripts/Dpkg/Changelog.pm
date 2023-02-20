@@ -523,7 +523,7 @@ sub _format_dpkg {
 	} elsif (/^Closes$/i) {
 	    $closes{$_} = 1 foreach (split(/\s+/, $opts->{Closes}));
 	} else {
-	    field_transfer_single($opts, $f);
+            field_transfer_single($opts, $f, $_);
 	}
     }
 
@@ -541,7 +541,7 @@ sub _format_dpkg {
 	    if (/^Closes$/i) {
 		$closes{$_} = 1 foreach (split(/\s+/, $opts->{Closes}));
 	    } elsif (not exists $f->{$_}) { # Don't overwrite an existing field
-		field_transfer_single($opts, $f);
+                field_transfer_single($opts, $f, $_);
 	    }
 	}
     }
@@ -574,7 +574,7 @@ sub _format_rfc822 {
 	# handle optional fields
 	my $opts = $entry->get_optional_fields();
 	foreach (keys %$opts) {
-	    field_transfer_single($opts, $f) unless exists $f->{$_};
+	    field_transfer_single($opts, $f, $_) unless exists $f->{$_};
 	}
 
         run_vendor_hook('post-process-changelog-entry', $f);

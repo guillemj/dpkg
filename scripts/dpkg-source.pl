@@ -289,7 +289,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 	    $dep->sort() if $type eq 'union';
 	    $fields->{$_} = $dep->output();
 	} else {
-            field_transfer_single($src_fields, $fields);
+            field_transfer_single($src_fields, $fields, $_);
 	}
     }
 
@@ -352,7 +352,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
             } elsif (m/^(?:Homepage|Description)$/) {
                 # Do not overwrite the same field from the source entry
             } else {
-                field_transfer_single($pkg, $fields);
+                field_transfer_single($pkg, $fields, $_);
             }
 	}
     }
@@ -401,7 +401,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 	} elsif (m/^Maintainer$/i) {
             # Do not replace the field coming from the source entry
 	} else {
-            field_transfer_single($changelog, $fields);
+            field_transfer_single($changelog, $fields, $_);
 	}
     }
 

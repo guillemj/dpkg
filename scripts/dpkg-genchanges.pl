@@ -242,7 +242,7 @@ foreach (keys %{$src_fields}) {
         # initialize the description substvars.
         $substvars->set_desc_substvars($v);
     } else {
-        field_transfer_single($src_fields, $fields);
+        field_transfer_single($src_fields, $fields, $_);
     }
 }
 
@@ -409,7 +409,7 @@ foreach my $pkg ($control->get_packages()) {
         } elsif (m/^Description$/) {
             # Description in changes is computed, do not copy this field
 	} else {
-            field_transfer_single($pkg, $fields);
+            field_transfer_single($pkg, $fields, $_);
 	}
     }
 }
@@ -422,7 +422,7 @@ foreach (keys %{$changelog}) {
     } elsif (m/^Maintainer$/i) {
 	$fields->{'Changed-By'} = $v;
     } else {
-        field_transfer_single($changelog, $fields);
+        field_transfer_single($changelog, $fields, $_);
     }
 }
 
