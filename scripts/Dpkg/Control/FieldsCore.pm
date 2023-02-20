@@ -27,7 +27,7 @@ CTRL_* constants exported by Dpkg::Control.
 
 =cut
 
-package Dpkg::Control::FieldsCore 1.01;
+package Dpkg::Control::FieldsCore 1.02;
 
 use strict;
 use warnings;
@@ -1114,7 +1114,12 @@ added to $to otherwise.
 
 sub field_transfer_single($$;$) {
     my ($from, $to, $field) = @_;
-    $field //= $_;
+    if (not defined $field) {
+        warnings::warnif('deprecated',
+            'using Dpkg::Control::Fields::field_transfer_single() with an ' .
+            'an implicit field argument is deprecated');
+        $field = $_;
+    }
     my ($from_type, $to_type) = ($from->get_type(), $to->get_type());
     $field = field_capitalize($field);
 
@@ -1364,6 +1369,10 @@ sub field_insert_before($$@) {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.02 (dpkg 1.22.0)
+
+Deprecate argument: field_transfer_single() implicit argument usage.
 
 =head2 Version 1.01 (dpkg 1.21.0)
 
