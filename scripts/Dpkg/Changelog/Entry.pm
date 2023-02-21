@@ -240,7 +240,7 @@ sub get_distributions {
     return;
 }
 
-=item $fields = $entry->get_optional_fields()
+=item $ctrl = $entry->get_optional_fields()
 
 Return a set of optional fields exposed by the changelog entry.
 It always returns a Dpkg::Control object (possibly empty though).
