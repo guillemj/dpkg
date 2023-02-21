@@ -66,8 +66,8 @@ my %pkg2file;
 my %file2ctrlsec;
 # Package to priority map, from control file.
 my %file2ctrlpri;
-my %sourcedefault; # - default values as taken from source (used for Section,
-                   #   Priority and Maintainer)
+# Default values taken from source (used for Section, Priority and Maintainer).
+my %sourcedefault;
 
 my @descriptions;
 
