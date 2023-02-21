@@ -272,24 +272,26 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
           $controlfile) unless defined $src_fields;
     my $src_sect = $src_fields->{'Section'} || 'unknown';
     my $src_prio = $src_fields->{'Priority'} || 'unknown';
-    foreach (keys %{$src_fields}) {
-	my $v = $src_fields->{$_};
-	if (m/^Source$/i) {
+    foreach my $f (keys %{$src_fields}) {
+        my $v = $src_fields->{$f};
+
+        if ($f =~ m/^Source$/i) {
             set_source_name($v);
-	    $fields->{$_} = $v;
-	} elsif (m/^Uploaders$/i) {
-	    ($fields->{$_} = $v) =~ s/\s*[\r\n]\s*/ /g; # Merge in a single-line
-	} elsif (m/^Build-(?:Depends|Conflicts)(?:-Arch|-Indep)?$/i) {
+            $fields->{$f} = $v;
+        } elsif ($f =~ m/^Uploaders$/i) {
+            # Merge in a single-line.
+            ($fields->{$f} = $v) =~ s/\s*[\r\n]\s*/ /g;
+        } elsif ($f =~ m/^Build-(?:Depends|Conflicts)(?:-Arch|-Indep)?$/i) {
 	    my $dep;
-	    my $type = field_get_dep_type($_);
+            my $type = field_get_dep_type($f);
 	    $dep = deps_parse($v, build_dep => 1, union => $type eq 'union');
-	    error(g_('cannot parse %s field'), $_) unless defined $dep;
+            error(g_('cannot parse %s field'), $f) unless defined $dep;
 	    my $facts = Dpkg::Deps::KnownFacts->new();
 	    $dep->simplify_deps($facts);
 	    $dep->sort() if $type eq 'union';
-	    $fields->{$_} = $dep->output();
+            $fields->{$f} = $dep->output();
 	} else {
-            field_transfer_single($src_fields, $fields, $_);
+            field_transfer_single($src_fields, $fields, $f);
 	}
     }
 
@@ -329,9 +331,10 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
         push @pkglist, $pkg_summary;
 	push @binarypackages, $p;
-	foreach (keys %{$pkg}) {
-	    my $v = $pkg->{$_};
-            if (m/^Architecture$/) {
+        foreach my $f (keys %{$pkg}) {
+            my $v = $pkg->{$f};
+
+            if ($f =~ m/^Architecture$/) {
                 # Gather all binary architectures in one set. 'any' and 'all'
                 # are special-cased as they need to be the only ones in the
                 # current stanza if present.
@@ -349,10 +352,10 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
                         push(@sourcearch, $a) unless $archadded{$a}++;
                     }
                 }
-            } elsif (m/^(?:Homepage|Description)$/) {
+            } elsif ($f =~ m/^(?:Homepage|Description)$/) {
                 # Do not overwrite the same field from the source entry
             } else {
-                field_transfer_single($pkg, $fields, $_);
+                field_transfer_single($pkg, $fields, $f);
             }
 	}
     }
@@ -385,23 +388,23 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     set_testsuite_fields($fields, @binarypackages);
 
     # Scan fields of dpkg-parsechangelog
-    foreach (keys %{$changelog}) {
-        my $v = $changelog->{$_};
+    foreach my $f (keys %{$changelog}) {
+        my $v = $changelog->{$f};
 
-	if (m/^Source$/) {
+        if ($f =~ m/^Source$/) {
             set_source_name($v);
-	    $fields->{$_} = $v;
-	} elsif (m/^Version$/) {
+            $fields->{$f} = $v;
+        } elsif ($f =~ m/^Version$/) {
 	    my ($ok, $error) = version_check($v);
             error($error) unless $ok;
-	    $fields->{$_} = $v;
-	} elsif (m/^Binary-Only$/) {
+            $fields->{$f} = $v;
+        } elsif ($f =~ m/^Binary-Only$/) {
 	    error(g_('building source for a binary-only release'))
 	        if $v eq 'yes' and $options{opmode} eq 'build';
-	} elsif (m/^Maintainer$/i) {
+        } elsif ($f =~ m/^Maintainer$/i) {
             # Do not replace the field coming from the source entry
 	} else {
-            field_transfer_single($changelog, $fields, $_);
+            field_transfer_single($changelog, $fields, $f);
 	}
     }
 

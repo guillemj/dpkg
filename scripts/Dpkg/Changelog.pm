@@ -518,12 +518,13 @@ sub _format_dpkg {
     # handle optional fields
     my $opts = $src->get_optional_fields();
     my %closes;
-    foreach (keys %$opts) {
-	if (/^Urgency$/i) { # Already dealt
-	} elsif (/^Closes$/i) {
+    foreach my $f (keys %{$opts}) {
+        if ($f =~ /^Urgency$/i) {
+            # Already handled.
+        } elsif ($f =~ /^Closes$/i) {
 	    $closes{$_} = 1 foreach (split(/\s+/, $opts->{Closes}));
 	} else {
-            field_transfer_single($opts, $c, $_);
+            field_transfer_single($opts, $c, $f);
 	}
     }
 
@@ -537,11 +538,12 @@ sub _format_dpkg {
 
 	# handle optional fields
 	$opts = $bin->get_optional_fields();
-	foreach (keys %$opts) {
-	    if (/^Closes$/i) {
+        foreach my $f (keys %{$opts}) {
+            if ($f =~ /^Closes$/i) {
 		$closes{$_} = 1 foreach (split(/\s+/, $opts->{Closes}));
-	    } elsif (not exists $c->{$_}) { # Don't overwrite an existing field
-                field_transfer_single($opts, $c, $_);
+            } elsif (not exists $c->{$f}) {
+                # Don't overwrite an existing field
+                field_transfer_single($opts, $c, $f);
 	    }
 	}
     }
@@ -573,8 +575,8 @@ sub _format_rfc822 {
 
 	# handle optional fields
 	my $opts = $entry->get_optional_fields();
-	foreach (keys %$opts) {
-            field_transfer_single($opts, $c, $_) unless exists $c->{$_};
+        foreach my $f (keys %{$opts}) {
+            field_transfer_single($opts, $c, $f) unless exists $c->{$f};
 	}
 
         run_vendor_hook('post-process-changelog-entry', $c);

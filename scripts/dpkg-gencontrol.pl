@@ -193,29 +193,30 @@ $substvars->set_msg_prefix(sprintf(g_('package %s: '), $pkg->{Package}));
 
 # Scan source package
 my $src_fields = $control->get_source();
-foreach (keys %{$src_fields}) {
-    if (m/^Source$/) {
-        set_source_name($src_fields->{$_});
-    } elsif (m/^Description$/) {
+foreach my $f (keys %{$src_fields}) {
+    if ($f =~ m/^Source$/) {
+        set_source_name($src_fields->{$f});
+    } elsif ($f =~ m/^Description$/) {
         # Description in binary packages is not inherited, do not copy this
         # field, only initialize the description substvars.
-        $substvars->set_desc_substvars($src_fields->{$_});
+        $substvars->set_desc_substvars($src_fields->{$f});
     } else {
-        field_transfer_single($src_fields, $fields, $_);
+        field_transfer_single($src_fields, $fields, $f);
     }
 }
 $substvars->set_field_substvars($src_fields, 'S');
 
 # Scan binary package
-foreach (keys %{$pkg}) {
-    my $v = $pkg->{$_};
-    if (field_get_dep_type($_)) {
+foreach my $f (keys %{$pkg}) {
+    my $v = $pkg->{$f};
+
+    if (field_get_dep_type($f)) {
 	# Delay the parsing until later
-    } elsif (m/^Architecture$/) {
+    } elsif ($f =~ m/^Architecture$/) {
 	my $host_arch = get_host_arch();
 
 	if (debarch_eq('all', $v)) {
-	    $fields->{$_} = $v;
+            $fields->{$f} = $v;
 	} else {
 	    my @archlist = debarch_list_parse($v, positive => 1);
 
@@ -224,26 +225,26 @@ foreach (keys %{$pkg}) {
 			 "appear in package '%s' architecture list (%s)"),
 		      $host_arch, $oppackage, "@archlist");
 	    }
-	    $fields->{$_} = $host_arch;
+            $fields->{$f} = $host_arch;
 	}
     } else {
-        field_transfer_single($pkg, $fields, $_);
+        field_transfer_single($pkg, $fields, $f);
     }
 }
 
 # Scan fields of dpkg-parsechangelog
-foreach (keys %{$changelog}) {
-    my $v = $changelog->{$_};
+foreach my $f (keys %{$changelog}) {
+    my $v = $changelog->{$f};
 
-    if (m/^Source$/) {
+    if ($f =~ m/^Source$/) {
         set_source_name($v);
-    } elsif (m/^Version$/) {
+    } elsif ($f =~ m/^Version$/) {
         # Already handled previously.
-    } elsif (m/^Maintainer$/) {
+    } elsif ($f =~ m/^Maintainer$/) {
         # That field must not be copied from changelog even if it's
         # allowed in the binary package control information
     } else {
-        field_transfer_single($changelog, $fields, $_);
+        field_transfer_single($changelog, $fields, $f);
     }
 }
 

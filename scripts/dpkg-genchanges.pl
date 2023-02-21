@@ -234,18 +234,18 @@ if (! $is_backport && defined $prev_changelog &&
 
 # Scan control info of source package
 my $src_fields = $control->get_source();
-foreach (keys %{$src_fields}) {
-    my $v = $src_fields->{$_};
-    if (m/^Source$/) {
+foreach my $f (keys %{$src_fields}) {
+    my $v = $src_fields->{$f};
+    if ($f =~ m/^Source$/) {
         set_source_name($v);
-    } elsif (m/^Section$|^Priority$/i) {
-        $sourcedefault{$_} = $v;
-    } elsif (m/^Description$/i) {
+    } elsif ($f =~ m/^Section$|^Priority$/i) {
+        $sourcedefault{$f} = $v;
+    } elsif ($f =~ m/^Description$/i) {
         # Description in changes is computed, do not copy this field, only
         # initialize the description substvars.
         $substvars->set_desc_substvars($v);
     } else {
-        field_transfer_single($src_fields, $fields, $_);
+        field_transfer_single($src_fields, $fields, $f);
     }
 }
 
@@ -394,14 +394,14 @@ foreach my $pkg ($control->get_packages()) {
     # List of files for this binary package.
     my @files = @{$pkg2file{$p}};
 
-    foreach (keys %{$pkg}) {
-	my $v = $pkg->{$_};
+    foreach my $f (keys %{$pkg}) {
+        my $v = $pkg->{$f};
 
-	if (m/^Section$/) {
+        if ($f =~ m/^Section$/) {
             $file2ctrlsec{$_} = $v foreach @files;
-	} elsif (m/^Priority$/) {
+        } elsif ($f =~ m/^Priority$/) {
             $file2ctrlpri{$_} = $v foreach @files;
-	} elsif (m/^Architecture$/) {
+        } elsif ($f =~ m/^Architecture$/) {
 	    if (build_has_any(BUILD_ARCH_DEP) and
 	        (any { debarch_is($host_arch, $_) } debarch_list_parse($v, positive => 1))) {
 		$v = $host_arch;
@@ -409,23 +409,23 @@ foreach my $pkg ($control->get_packages()) {
 		$v = '';
 	    }
 	    push(@archvalues, $v) if $v and not $archadded{$v}++;
-        } elsif (m/^Description$/) {
+        } elsif ($f =~ m/^Description$/) {
             # Description in changes is computed, do not copy this field
 	} else {
-            field_transfer_single($pkg, $fields, $_);
+            field_transfer_single($pkg, $fields, $f);
 	}
     }
 }
 
 # Scan fields of dpkg-parsechangelog
-foreach (keys %{$changelog}) {
-    my $v = $changelog->{$_};
-    if (m/^Source$/i) {
+foreach my $f (keys %{$changelog}) {
+    my $v = $changelog->{$f};
+    if ($f =~ m/^Source$/i) {
         set_source_name($v);
-    } elsif (m/^Maintainer$/i) {
+    } elsif ($f =~ m/^Maintainer$/i) {
 	$fields->{'Changed-By'} = $v;
     } else {
-        field_transfer_single($changelog, $fields, $_);
+        field_transfer_single($changelog, $fields, $f);
     }
 }
 
