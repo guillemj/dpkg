@@ -314,8 +314,8 @@ sub find_build_file($) {
     my $host_arch = get_host_arch();
     my ($abi, $libc, $host_os, $cpu) = debarch_to_debtuple($host_arch);
     my @files;
-    foreach my $f ("$base.$host_arch", "$base.$host_os", "$base") {
-        push @files, $f if -f $f;
+    foreach my $fn ("$base.$host_arch", "$base.$host_os", "$base") {
+        push @files, $fn if -f $fn;
     }
     return @files if wantarray;
     return $files[0] if scalar @files;
