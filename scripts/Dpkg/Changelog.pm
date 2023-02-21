@@ -519,9 +519,9 @@ sub _format_dpkg {
     my $opts = $src->get_optional_fields();
     my %closes;
     foreach my $f (keys %{$opts}) {
-        if ($f =~ /^Urgency$/i) {
+        if ($f eq 'Urgency') {
             # Already handled.
-        } elsif ($f =~ /^Closes$/i) {
+        } elsif ($f eq 'Closes') {
 	    $closes{$_} = 1 foreach (split(/\s+/, $opts->{Closes}));
 	} else {
             field_transfer_single($opts, $c, $f);
@@ -539,7 +539,7 @@ sub _format_dpkg {
 	# handle optional fields
 	$opts = $bin->get_optional_fields();
         foreach my $f (keys %{$opts}) {
-            if ($f =~ /^Closes$/i) {
+            if ($f eq 'Closes') {
 		$closes{$_} = 1 foreach (split(/\s+/, $opts->{Closes}));
             } elsif (not exists $c->{$f}) {
                 # Don't overwrite an existing field

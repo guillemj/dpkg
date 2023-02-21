@@ -236,11 +236,11 @@ if (! $is_backport && defined $prev_changelog &&
 my $src_fields = $control->get_source();
 foreach my $f (keys %{$src_fields}) {
     my $v = $src_fields->{$f};
-    if ($f =~ m/^Source$/) {
+    if ($f eq 'Source') {
         set_source_name($v);
-    } elsif ($f =~ m/^Section$|^Priority$/i) {
+    } elsif (any { $f eq $_ } qw(Section Priority)) {
         $sourcedefault{$f} = $v;
-    } elsif ($f =~ m/^Description$/i) {
+    } elsif ($f eq 'Description') {
         # Description in changes is computed, do not copy this field, only
         # initialize the description substvars.
         $substvars->set_desc_substvars($v);
@@ -397,11 +397,11 @@ foreach my $pkg ($control->get_packages()) {
     foreach my $f (keys %{$pkg}) {
         my $v = $pkg->{$f};
 
-        if ($f =~ m/^Section$/) {
+        if ($f eq 'Section') {
             $file2ctrlsec{$_} = $v foreach @files;
-        } elsif ($f =~ m/^Priority$/) {
+        } elsif ($f eq 'Priority') {
             $file2ctrlpri{$_} = $v foreach @files;
-        } elsif ($f =~ m/^Architecture$/) {
+        } elsif ($f eq 'Architecture') {
 	    if (build_has_any(BUILD_ARCH_DEP) and
 	        (any { debarch_is($host_arch, $_) } debarch_list_parse($v, positive => 1))) {
 		$v = $host_arch;
@@ -409,7 +409,7 @@ foreach my $pkg ($control->get_packages()) {
 		$v = '';
 	    }
 	    push(@archvalues, $v) if $v and not $archadded{$v}++;
-        } elsif ($f =~ m/^Description$/) {
+        } elsif ($f eq 'Description') {
             # Description in changes is computed, do not copy this field
 	} else {
             field_transfer_single($pkg, $fields, $f);
@@ -420,9 +420,9 @@ foreach my $pkg ($control->get_packages()) {
 # Scan fields of dpkg-parsechangelog
 foreach my $f (keys %{$changelog}) {
     my $v = $changelog->{$f};
-    if ($f =~ m/^Source$/i) {
+    if ($f eq 'Source') {
         set_source_name($v);
-    } elsif ($f =~ m/^Maintainer$/i) {
+    } elsif ($f eq 'Maintainer') {
 	$fields->{'Changed-By'} = $v;
     } else {
         field_transfer_single($changelog, $fields, $f);

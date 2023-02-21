@@ -194,9 +194,9 @@ $substvars->set_msg_prefix(sprintf(g_('package %s: '), $pkg->{Package}));
 # Scan source package
 my $src_fields = $control->get_source();
 foreach my $f (keys %{$src_fields}) {
-    if ($f =~ m/^Source$/) {
+    if ($f eq 'Source') {
         set_source_name($src_fields->{$f});
-    } elsif ($f =~ m/^Description$/) {
+    } elsif ($f eq 'Description') {
         # Description in binary packages is not inherited, do not copy this
         # field, only initialize the description substvars.
         $substvars->set_desc_substvars($src_fields->{$f});
@@ -212,7 +212,7 @@ foreach my $f (keys %{$pkg}) {
 
     if (field_get_dep_type($f)) {
 	# Delay the parsing until later
-    } elsif ($f =~ m/^Architecture$/) {
+    } elsif ($f eq 'Architecture') {
 	my $host_arch = get_host_arch();
 
 	if (debarch_eq('all', $v)) {
@@ -236,11 +236,11 @@ foreach my $f (keys %{$pkg}) {
 foreach my $f (keys %{$changelog}) {
     my $v = $changelog->{$f};
 
-    if ($f =~ m/^Source$/) {
+    if ($f eq 'Source') {
         set_source_name($v);
-    } elsif ($f =~ m/^Version$/) {
+    } elsif ($f eq 'Version') {
         # Already handled previously.
-    } elsif ($f =~ m/^Maintainer$/) {
+    } elsif ($f eq 'Maintainer') {
         # That field must not be copied from changelog even if it's
         # allowed in the binary package control information
     } else {

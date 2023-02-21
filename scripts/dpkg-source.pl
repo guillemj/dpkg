@@ -275,13 +275,13 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     foreach my $f (keys %{$src_fields}) {
         my $v = $src_fields->{$f};
 
-        if ($f =~ m/^Source$/i) {
+        if ($f eq 'Source') {
             set_source_name($v);
             $fields->{$f} = $v;
-        } elsif ($f =~ m/^Uploaders$/i) {
+        } elsif ($f eq 'Uploaders') {
             # Merge in a single-line.
             ($fields->{$f} = $v) =~ s/\s*[\r\n]\s*/ /g;
-        } elsif ($f =~ m/^Build-(?:Depends|Conflicts)(?:-Arch|-Indep)?$/i) {
+        } elsif (any { $f eq $_ } field_list_src_dep()) {
 	    my $dep;
             my $type = field_get_dep_type($f);
 	    $dep = deps_parse($v, build_dep => 1, union => $type eq 'union');
@@ -334,7 +334,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
         foreach my $f (keys %{$pkg}) {
             my $v = $pkg->{$f};
 
-            if ($f =~ m/^Architecture$/) {
+            if ($f eq 'Architecture') {
                 # Gather all binary architectures in one set. 'any' and 'all'
                 # are special-cased as they need to be the only ones in the
                 # current stanza if present.
@@ -352,7 +352,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
                         push(@sourcearch, $a) unless $archadded{$a}++;
                     }
                 }
-            } elsif ($f =~ m/^(?:Homepage|Description)$/) {
+            } elsif (any { $f eq $_ } qw(Homepage Description)) {
                 # Do not overwrite the same field from the source entry
             } else {
                 field_transfer_single($pkg, $fields, $f);
@@ -391,17 +391,17 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     foreach my $f (keys %{$changelog}) {
         my $v = $changelog->{$f};
 
-        if ($f =~ m/^Source$/) {
+        if ($f eq 'Source') {
             set_source_name($v);
             $fields->{$f} = $v;
-        } elsif ($f =~ m/^Version$/) {
+        } elsif ($f eq 'Version') {
 	    my ($ok, $error) = version_check($v);
             error($error) unless $ok;
             $fields->{$f} = $v;
-        } elsif ($f =~ m/^Binary-Only$/) {
+        } elsif ($f eq 'Binary-Only') {
 	    error(g_('building source for a binary-only release'))
 	        if $v eq 'yes' and $options{opmode} eq 'build';
-        } elsif ($f =~ m/^Maintainer$/i) {
+        } elsif ($f eq 'Maintainer') {
             # Do not replace the field coming from the source entry
 	} else {
             field_transfer_single($changelog, $fields, $f);
