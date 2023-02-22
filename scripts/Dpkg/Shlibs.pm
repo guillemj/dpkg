@@ -186,8 +186,8 @@ sub find_library {
             } elsif ($format eq $libformat) {
 		push @libs, canonpath("$checkdir/$lib");
 	    } else {
-		debug(1, "Skipping lib $checkdir/$lib, libabi=0x%s != objabi=0x%s",
-		      unpack('H*', $libformat), unpack('H*', $format));
+                debug(1, "Skipping lib $checkdir/$lib, libabi=<%s> != objabi=<%s>",
+                      $libformat, $format);
 	    }
 	}
     }

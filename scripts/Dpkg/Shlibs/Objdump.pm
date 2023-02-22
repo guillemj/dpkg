@@ -166,6 +166,31 @@ use constant {
     EF_SH_MACH_MASK         => 0x0000001f,
 };
 
+# These map machine IDs to their name.
+my %elf_mach_name = (
+    EM_NONE()               => 'none',
+    EM_386()                => 'i386',
+    EM_68K()                => 'm68k',
+    EM_AARCH64()            => 'arm64',
+    EM_ALPHA()              => 'alpha',
+    EM_ARCV2()              => 'arcv2',
+    EM_ARM()                => 'arm',
+    EM_IA64()               => 'ia64',
+    EM_LOONGARCH()          => 'loong',
+    EM_MIPS()               => 'mips',
+    EM_NIOS32()             => 'nios2',
+    EM_OR1K()               => 'or1k',
+    EM_PARISC()             => 'hppa',
+    EM_PPC()                => 'ppc',
+    EM_PPC64()              => 'ppc64',
+    EM_RISCV()              => 'riscv',
+    EM_S390()               => 's390',
+    EM_SH()                 => 'sh',
+    EM_SPARC()              => 'sparc',
+    EM_SPARC64()            => 'sparc64',
+    EM_X86_64()             => 'amd64',
+);
+
 # These map alternative or old machine IDs to their canonical form.
 my %elf_mach_map = (
     EM_ALPHA_OLD()          => EM_ALPHA,
@@ -213,17 +238,22 @@ sub get_format {
     return unless $elf{magic} eq "\x7fELF";
     return unless $elf{vertype} == EV_CURRENT;
 
+    my %abi;
     my ($elf_word, $elf_endian);
     if ($elf{bits} == ELF_BITS_32) {
+        $abi{bits} = 32;
         $elf_word = 'L';
     } elsif ($elf{bits} == ELF_BITS_64) {
+        $abi{bits} = 64;
         $elf_word = 'Q';
     } else {
         return;
     }
     if ($elf{endian} == ELF_ORDER_2LSB) {
+        $abi{endian} = 'l';
         $elf_endian = '<';
     } elsif ($elf{endian} == ELF_ORDER_2MSB) {
+        $abi{endian} = 'b';
         $elf_endian = '>';
     } else {
         return;
@@ -235,13 +265,14 @@ sub get_format {
 
     # Canonicalize the machine ID.
     $elf{mach} = $elf_mach_map{$elf{mach}} // $elf{mach};
+    $abi{mach} = $elf_mach_name{$elf{mach}} // $elf{mach};
 
     # Mask any processor flags that might not change the architecture ABI.
-    $elf{flags} &= $elf_flags_mask{$elf{mach}} // 0;
+    $abi{flags} = $elf{flags} & ($elf_flags_mask{$elf{mach}} // 0);
 
-    # Repack for easy comparison, as a big-endian byte stream, so that
-    # unpacking for output gives meaningful results.
-    $format{$file} = pack 'C2(SL)>', @elf{qw(bits endian mach flags)};
+    # Normalize into a colon-separated string for easy comparison, and easy
+    # debugging aid.
+    $format{$file} = join ':', 'ELF', @abi{qw(bits endian mach flags)};
 
     return $format{$file};
 }

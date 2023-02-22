@@ -202,12 +202,13 @@ foreach my $file (keys %exec) {
 	    $global_soname_notfound{$soname} = 1;
 	    my $msg = g_('cannot find library %s needed by %s (ELF ' .
 	                 "format: '%s' abi: '%s'; RPATH: '%s')");
-	    my $exec_abi = unpack 'H*', $obj->{exec_abi};
 	    if (scalar(split_soname($soname))) {
-		errormsg($msg, $soname, $file, $obj->{format}, $exec_abi, join(':', @{$obj->{RPATH}}));
+                errormsg($msg, $soname, $file, $obj->{format}, $obj->{exec_abi},
+                         join(':', @{$obj->{RPATH}}));
 		$error_count++;
 	    } else {
-		warning($msg, $soname, $file, $obj->{format}, $exec_abi, join(':', @{$obj->{RPATH}}));
+                warning($msg, $soname, $file, $obj->{format}, $obj->{exec_abi},
+                        join(':', @{$obj->{RPATH}}));
 	    }
 	    next;
 	}
