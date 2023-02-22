@@ -99,10 +99,15 @@ use constant {
     ELF_ORDER_2MSB          => 2,
 
     # ELF Machine.
+    EM_NONE                 => 0,
     EM_SPARC                => 2,
+    EM_386                  => 3,
+    EM_68K                  => 4,
     EM_MIPS                 => 8,
     EM_SPARC64_OLD          => 11,
+    EM_PARISC               => 15,
     EM_SPARC32PLUS          => 18,
+    EM_PPC                  => 20,
     EM_PPC64                => 21,
     EM_S390                 => 22,
     EM_ARM                  => 40,
@@ -110,12 +115,16 @@ use constant {
     EM_SH                   => 42,
     EM_SPARC64              => 43,
     EM_IA64                 => 50,
+    EM_X86_64               => 62,
     EM_OR1K                 => 92,
+    EM_AARCH64              => 183,
     EM_ARCV2                => 195,
+    EM_RISCV                => 243,
     EM_LOONGARCH            => 258,
     EM_OR1K_OLD             => 0x8472,
     EM_ALPHA                => 0x9026,
     EM_S390_OLD             => 0xa390,
+    EM_NIOS32               => 0xfebb,
 
     # ELF Version.
     EV_NONE                 => 0,
