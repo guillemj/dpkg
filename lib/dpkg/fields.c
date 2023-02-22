@@ -86,10 +86,10 @@ parse_nv(struct parsedb_state *ps, enum parse_nv_mode parse_mode,
     while (c_isspace(str_end[0]))
       str_end++;
     value = nv->value;
-  }
 
-  if (parse_mode != PARSE_NV_NEXT && str_is_set(str_end))
-    return dpkg_put_error(&ps->err, _("has trailing junk"));
+    if (parse_mode != PARSE_NV_NEXT && str_is_set(str_end))
+      return dpkg_put_error(&ps->err, _("has trailing junk"));
+  }
 
   *strp = str_end;
 
