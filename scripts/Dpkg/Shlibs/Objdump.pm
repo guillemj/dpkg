@@ -110,20 +110,12 @@ use constant {
     EM_SH                   => 42,
     EM_SPARC64              => 43,
     EM_IA64                 => 50,
-    EM_MN10300              => 89,
-    EM_MN10200              => 90,
     EM_OR1K                 => 92,
-    EM_XTENSA               => 94,
-    EM_MICROBLAZE           => 189,
     EM_ARCV2                => 195,
     EM_LOONGARCH            => 258,
     EM_OR1K_OLD             => 0x8472,
     EM_ALPHA                => 0x9026,
     EM_S390_OLD             => 0xa390,
-    EM_XTENSA_OLD           => 0xabc7,
-    EM_MICROBLAZE_OLD       => 0xbaab,
-    EM_MN10300_CYGNUS       => 0xbeef,
-    EM_MN10200_CYGNUS       => 0xdead,
 
     # ELF Version.
     EV_NONE                 => 0,
@@ -159,14 +151,10 @@ use constant {
 # These map alternative or old machine IDs to their canonical form.
 my %elf_mach_map = (
     EM_ALPHA_OLD()          => EM_ALPHA,
-    EM_MICROBLAZE_OLD()     => EM_MICROBLAZE,
-    EM_MN10200_CYGNUS()     => EM_MN10200,
-    EM_MN10300_CYGNUS()     => EM_MN10300,
     EM_OR1K_OLD()           => EM_OR1K,
     EM_S390_OLD()           => EM_S390,
     EM_SPARC32PLUS()        => EM_SPARC,
     EM_SPARC64_OLD()        => EM_SPARC64,
-    EM_XTENSA_OLD()         => EM_XTENSA,
 );
 
 # These masks will try to expose processor flags that are ABI incompatible,
