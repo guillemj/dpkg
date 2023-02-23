@@ -94,10 +94,11 @@ usage(const char *const *argv)
 	return 0;
 }
 
-static int f_noact;
-static int f_await = 1;
+static int opt_noact;
+static int opt_await = 1;
+static const char *opt_bypackage;
 
-static const char *bypackage, *activate;
+static const char *activate;
 static bool done_trig, ctrig;
 
 static void
@@ -112,10 +113,10 @@ parse_awaiter_package(void)
 	struct dpkg_error err = DPKG_ERROR_INIT;
 	struct pkginfo *pkg;
 
-	if (!f_await)
-		bypackage = "-";
+	if (!opt_await)
+		opt_bypackage = "-";
 
-	if (bypackage == NULL) {
+	if (opt_bypackage == NULL) {
 		const char *pkgname, *archname;
 
 		pkgname = getenv("DPKG_MAINTSCRIPT_PACKAGE");
@@ -125,15 +126,15 @@ parse_awaiter_package(void)
 			           " (or with a --by-package option)"));
 
 		pkg = pkg_spec_find_pkg(pkgname, archname, &err);
-	} else if (strcmp(bypackage, "-") == 0) {
+	} else if (strcmp(opt_bypackage, "-") == 0) {
 		pkg = NULL;
 	} else {
-		pkg = pkg_spec_parse_pkg(bypackage, &err);
+		pkg = pkg_spec_parse_pkg(opt_bypackage, &err);
 	}
 
 	/* Normalize the bypackage name if there was no error. */
 	if (pkg)
-		bypackage = pkg_name(pkg, pnaw_same);
+		opt_bypackage = pkg_name(pkg, pnaw_same);
 
 	return err.str;
 }
@@ -145,14 +146,14 @@ tdm_add_trig_begin(const char *trig)
 	trigdef_update_printf("%s", trig);
 	if (!ctrig || done_trig)
 		return;
-	yespackage(bypackage);
+	yespackage(opt_bypackage);
 	done_trig = true;
 }
 
 static void
 tdm_add_package(const char *awname)
 {
-	if (ctrig && strcmp(awname, bypackage) == 0)
+	if (ctrig && strcmp(awname, opt_bypackage) == 0)
 		return;
 	yespackage(awname);
 }
@@ -182,7 +183,7 @@ do_trigger(const char *const *argv)
 	badname = parse_awaiter_package();
 	if (badname)
 		badusage(_("illegal awaited package name '%.250s': %.250s"),
-		         bypackage, badname);
+		         opt_bypackage, badname);
 
 	activate = argv[0];
 	badname = trig_name_is_illegal(activate);
@@ -193,13 +194,13 @@ do_trigger(const char *const *argv)
 	trigdef_set_methods(&tdm_add);
 
 	tduf = TDUF_NO_LOCK_OK;
-	if (!f_noact)
+	if (!opt_noact)
 		tduf |= TDUF_WRITE | TDUF_WRITE_IF_EMPTY;
 	tdus = trigdef_update_start(tduf);
 	if (tdus >= 0) {
 		trigdef_parse();
 		if (!done_trig)
-			trigdef_update_printf("%s %s\n", activate, bypackage);
+			trigdef_update_printf("%s %s\n", activate, opt_bypackage);
 		trigdef_process_done();
 	}
 
@@ -238,12 +239,12 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("help",            '?', 0, usage),
 	ACTION("version",          0,  0, printversion),
 
-	{ "admindir",        0,   1, NULL,     NULL,       set_admindir, 0 },
-	{ "root",            0,   1, NULL,     NULL,       set_root, 0 },
-	{ "by-package",      'f', 1, NULL,     &bypackage },
-	{ "await",           0,   0, &f_await, NULL,       NULL, 1 },
-	{ "no-await",        0,   0, &f_await, NULL,       NULL, 0 },
-	{ "no-act",          0,   0, &f_noact, NULL,       NULL, 1 },
+	{ "admindir",        0,   1, NULL,       NULL,       set_admindir, 0 },
+	{ "root",            0,   1, NULL,       NULL,       set_root, 0 },
+	{ "by-package",      'f', 1, NULL,       &opt_bypackage },
+	{ "await",           0,   0, &opt_await, NULL,       NULL, 1 },
+	{ "no-await",        0,   0, &opt_await, NULL,       NULL, 0 },
+	{ "no-act",          0,   0, &opt_noact, NULL,       NULL, 1 },
 	{  NULL  }
 };
 
