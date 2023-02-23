@@ -138,6 +138,13 @@
 #define DPKG_ATTR_NONSTRING
 #endif
 
+#if __has_attribute(__enum_extensibility__)
+#define DPKG_ATTR_ENUM_FLAGS \
+	__attribute__((__enum_extensibility__(closed),__flag_enum__))
+#else
+#define DPKG_ATTR_ENUM_FLAGS
+#endif
+
 #if defined(__cplusplus) && __cplusplus >= 201103L
 #define DPKG_ATTR_THROW(exception)
 #define DPKG_ATTR_NOEXCEPT		noexcept

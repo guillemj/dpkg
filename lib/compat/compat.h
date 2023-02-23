@@ -75,6 +75,13 @@
 #define LIBCOMPAT_ATTR_SENTINEL
 #endif
 
+#if __has_attribute(__enum_extensibility__)
+#define LIBCOMPAT_ATTR_ENUM_FLAGS \
+	__attribute__((__enum_extensibility__(closed),__flag_enum__))
+#else
+#define LIBCOMPAT_ATTR_ENUM_FLAGS
+#endif
+
 /* For C++, define a __func__ fallback in case it's not natively supported. */
 #if defined(__cplusplus) && __cplusplus < 201103L
 # if LIBCOMPAT_GCC_VERSION >= 0x0200
