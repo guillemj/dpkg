@@ -274,7 +274,7 @@ enum modstatdb_rw {
   /* Now some optional flags (starting at bit 8): */
   msdbrw_available_readonly	= DPKG_BIT(8),
   msdbrw_available_write	= DPKG_BIT(9),
-  msdbrw_available_mask		= 0xff00,
+  msdbrw_available_mask		= 0x0300,
 };
 
 void modstatdb_init(void);

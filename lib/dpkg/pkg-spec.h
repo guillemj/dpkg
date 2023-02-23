@@ -45,7 +45,7 @@ enum pkg_spec_flags {
 	/* How to consider the lack of an arch qualifier. */
 	PKG_SPEC_ARCH_SINGLE	= DPKG_BIT(8),
 	PKG_SPEC_ARCH_WILDCARD	= DPKG_BIT(9),
-	PKG_SPEC_ARCH_MASK	= 0xff00,
+	PKG_SPEC_ARCH_MASK	= 0x0300,
 };
 
 struct pkg_spec {
