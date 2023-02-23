@@ -56,8 +56,8 @@ struct pkginfo;
 enum fsys_hash_find_flags {
 	/** Do not need to copy filename. */
 	FHFF_NOCOPY			= DPKG_BIT(0),
-	/** The find function might return NULL. */
-	FHFF_NONE			= DPKG_BIT(1),
+	/** Do not insert the item if it is not found, and return NULL. */
+	FHFF_NONEW			= DPKG_BIT(1),
 };
 
 enum fsys_namenode_flags {

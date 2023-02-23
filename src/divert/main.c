@@ -630,7 +630,7 @@ diversion_remove(const char *const *argv)
 	modstatdb_open(msdbrw_readonly);
 	ensure_diversions();
 
-	namenode = fsys_hash_find_node(filename, FHFF_NONE);
+	namenode = fsys_hash_find_node(filename, FHFF_NONEW);
 
 	if (namenode == NULL || namenode->divert == NULL ||
 	    namenode->divert->useinstead == NULL) {
@@ -763,7 +763,7 @@ diversion_truename(const char *const *argv)
 	modstatdb_open(msdbrw_readonly);
 	ensure_diversions();
 
-	namenode = fsys_hash_find_node(filename, FHFF_NONE);
+	namenode = fsys_hash_find_node(filename, FHFF_NONEW);
 
 	/* Print the given name if file is not diverted. */
 	if (namenode && namenode->divert && namenode->divert->useinstead)
@@ -790,7 +790,7 @@ diversion_listpackage(const char *const *argv)
 	modstatdb_open(msdbrw_readonly);
 	ensure_diversions();
 
-	namenode = fsys_hash_find_node(filename, FHFF_NONE);
+	namenode = fsys_hash_find_node(filename, FHFF_NONEW);
 
 	/* Print nothing if file is not diverted. */
 	if (namenode == NULL || namenode->divert == NULL)
