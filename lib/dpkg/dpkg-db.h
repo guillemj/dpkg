@@ -263,7 +263,7 @@ char *dpkg_db_get_path(const char *pathpart);
 
 /*** from dbmodify.c ***/
 
-enum modstatdb_rw {
+enum DPKG_ATTR_ENUM_FLAGS modstatdb_rw {
   msdbrw_unset			= -1,
 
   /* Those marked with «return» are possible returns from modstatdb_open(). */
@@ -332,7 +332,7 @@ pkg_hash_report(FILE *);
 
 /*** from parse.c ***/
 
-enum parsedbflags {
+enum DPKG_ATTR_ENUM_FLAGS parsedbflags {
   /** Parse a single control stanza. */
   pdb_single_stanza		= DPKG_BIT(0),
   /** Store in ‘available’ in-core structures, not ‘status’. */
@@ -461,7 +461,7 @@ void
 write_stanza(FILE *, const char *,
              const struct pkginfo *, const struct pkgbin *);
 
-enum writedb_flags {
+enum DPKG_ATTR_ENUM_FLAGS writedb_flags {
   /** No flags. */
   wdb_none			= 0,
   /** Dump ‘available’ in-core structures, not ‘status’. */

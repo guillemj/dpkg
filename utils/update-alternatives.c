@@ -1255,7 +1255,7 @@ alternative_remove_choice(struct alternative *a, const char *file)
  * Alternatives Database Load/Store functions.
  */
 
-enum altdb_flags {
+enum LIBCOMPAT_ATTR_ENUM_FLAGS altdb_flags {
 	ALTDB_LAX_PARSER = 1 << 0,
 	ALTDB_WARN_PARSER = 1 << 1,
 };

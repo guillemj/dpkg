@@ -61,7 +61,7 @@ struct dpkg_version {
  * Enum constants for the supported relation operations that can be done
  * on Debian versions.
  */
-enum dpkg_relation {
+enum DPKG_ATTR_ENUM_FLAGS dpkg_relation {
 	/** The “none” relation, sentinel value. */
 	DPKG_RELATION_NONE	= 0,
 	/** Equality relation (‘=’). */

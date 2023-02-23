@@ -33,7 +33,7 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
-enum trigdef_update_flags {
+enum DPKG_ATTR_ENUM_FLAGS trigdef_update_flags {
 	TDUF_NO_LOCK_OK		= DPKG_BIT(0),
 	TDUF_WRITE		= DPKG_BIT(1),
 	TDUF_NO_LOCK		= TDUF_NO_LOCK_OK | TDUF_WRITE,

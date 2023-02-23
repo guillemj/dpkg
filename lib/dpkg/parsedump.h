@@ -118,7 +118,7 @@ freadfunction f_architecture;
 freadfunction f_trigpend, f_trigaw;
 freadfunction f_archives;
 
-enum fwriteflags {
+enum DPKG_ATTR_ENUM_FLAGS fwriteflags {
 	/** No flags. */
 	fw_none			= 0,
 	/** Print field header and trailing newline. */

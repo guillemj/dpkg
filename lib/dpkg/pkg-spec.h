@@ -38,7 +38,7 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
-enum pkg_spec_flags {
+enum DPKG_ATTR_ENUM_FLAGS pkg_spec_flags {
 	/** Recognize glob patterns. */
 	PKG_SPEC_PATTERNS	= DPKG_BIT(0),
 

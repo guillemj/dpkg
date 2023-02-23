@@ -38,7 +38,7 @@ DPKG_BEGIN_DECLS
  * XXX: We do not use DPKG_BIT() here, because the octal values are part
  * of the current output interface.
  */
-enum debugflags {
+enum DPKG_ATTR_ENUM_FLAGS debugflags {
 	dbg_general = 01,
 	dbg_scripts = 02,
 	dbg_eachfile = 010,

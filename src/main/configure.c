@@ -58,7 +58,7 @@
 
 #include "main.h"
 
-enum conffopt {
+enum DPKG_ATTR_ENUM_FLAGS conffopt {
 	CFOF_PROMPT		= DPKG_BIT(0),
 	CFOF_KEEP		= DPKG_BIT(1),
 	CFOF_INSTALL		= DPKG_BIT(2),

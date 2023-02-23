@@ -190,7 +190,7 @@ enum action_code {
 	ACTION_STATUS,
 };
 
-enum match_code {
+enum LIBCOMPAT_ATTR_ENUM_FLAGS match_code {
 	MATCH_NONE	= 0,
 	MATCH_PID	= 1 << 0,
 	MATCH_PPID	= 1 << 1,

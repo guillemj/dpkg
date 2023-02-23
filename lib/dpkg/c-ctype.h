@@ -29,7 +29,7 @@ DPKG_BEGIN_DECLS
 
 #define C_CTYPE_BIT(bit)	(1 << (bit))
 
-enum c_ctype_bit {
+enum DPKG_ATTR_ENUM_FLAGS c_ctype_bit {
 	C_CTYPE_BLANK = C_CTYPE_BIT(0),
 	C_CTYPE_WHITE = C_CTYPE_BIT(1),
 	C_CTYPE_SPACE = C_CTYPE_BIT(2),

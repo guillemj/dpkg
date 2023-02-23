@@ -33,7 +33,7 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
-enum subproc_flags {
+enum DPKG_ATTR_ENUM_FLAGS subproc_flags {
 	/** Default subprocess flags. */
 	SUBPROC_NORMAL		= 0,
 	/** Emit a warning instead of an error. */

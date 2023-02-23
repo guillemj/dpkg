@@ -36,7 +36,7 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
-enum treewalk_options {
+enum DPKG_ATTR_ENUM_FLAGS treewalk_options {
 	TREEWALK_NONE = 0,
 	TREEWALK_FORCE_STAT = DPKG_BIT(0),
 	TREEWALK_FOLLOW_LINKS = DPKG_BIT(1),
