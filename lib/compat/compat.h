@@ -147,6 +147,10 @@ extern "C" {
 #define unsetenv test_unsetenv
 #endif
 
+#if !HAVE_DECL_SYS_SIGLIST
+extern const char *const sys_siglist[];
+#endif
+
 #if TEST_LIBCOMPAT || !defined(HAVE_C99_SNPRINTF)
 int snprintf(char *str, size_t n, char const *fmt, ...)
 	LIBCOMPAT_ATTR_PRINTF(3);
