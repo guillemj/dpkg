@@ -115,6 +115,41 @@ info_spew(const char *debar, const char *dir, const char *const *argv)
               "%d requested control components are missing", re), re);
 }
 
+static char *
+info_interpreter(FILE *cc, int *lines)
+{
+  char interpreter[INTERPRETER_MAX + 1];
+  int c;
+
+  *lines = 0;
+  interpreter[0] = '\0';
+  if (getc(cc) == '#' && getc(cc) == '!') {
+    char *p;
+    int il;
+
+    while ((c = getc(cc)) == ' ')
+      ;
+    p = interpreter;
+    *p++ = '#';
+    *p++ = '!';
+    il = 2;
+    while (il < INTERPRETER_MAX && !c_isspace(c) && c != EOF) {
+      *p++ = c;
+      il++;
+      c = getc(cc);
+    }
+    *p = '\0';
+    if (c == '\n')
+      (*lines)++;
+  }
+  while ((c = getc(cc)) != EOF) {
+    if (c == '\n')
+      (*lines)++;
+  }
+
+  return m_strdup(interpreter);
+}
+
 static void
 info_list(const char *debar, const char *dir)
 {
@@ -139,30 +174,16 @@ info_list(const char *debar, const char *dir)
     if (stat(controlfile.buf, &stab))
       ohshite(_("cannot stat '%.255s' (in '%.255s')"), cdep->d_name, dir);
     if (S_ISREG(stab.st_mode)) {
-      char interpreter[INTERPRETER_MAX + 1];
-      int lines, c;
       int exec_mark = (S_IXUSR & stab.st_mode) ? '*' : ' ';
+      char *interpreter;
+      int lines;
 
       cc = fopen(controlfile.buf, "r");
       if (!cc)
         ohshite(_("cannot open '%.255s' (in '%.255s')"), cdep->d_name, dir);
-      lines = 0;
-      interpreter[0] = '\0';
-      if (getc(cc) == '#') {
-        if (getc(cc) == '!') {
-          char *p;
-          int il;
 
-          while ((c= getc(cc))== ' ');
-          p=interpreter; *p++='#'; *p++='!'; il=2;
-          while (il < INTERPRETER_MAX && !c_isspace(c) && c != EOF) {
-            *p++= c; il++; c= getc(cc);
-          }
-          *p = '\0';
-          if (c=='\n') lines++;
-        }
-      }
-      while ((c= getc(cc))!= EOF) { if (c == '\n') lines++; }
+      interpreter = info_interpreter(cc, &lines);
+
       if (ferror(cc))
         ohshite(_("failed to read '%.255s' (in '%.255s')"), cdep->d_name, dir);
       fclose(cc);
@@ -173,6 +194,8 @@ info_list(const char *debar, const char *dir)
       else
         printf(_(" %7jd bytes, %5d lines   %c  %.127s\n"),
                (intmax_t)stab.st_size, lines, exec_mark, cdep->d_name);
+
+      free(interpreter);
     } else {
       printf(_("     not a plain file          %.255s\n"), cdep->d_name);
     }
