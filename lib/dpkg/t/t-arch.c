@@ -104,7 +104,9 @@ test_dpkg_arch_find(void)
 	test_str(arch->name, ==, "");
 
 	/* Test for an unknown type. */
+	DPKG_IGNORE_WARNING_ASSIGN_ENUM();
 	test_pass(dpkg_arch_get(1000) == NULL);
+	DPKG_ACCEPT_WARNING_ASSIGN_ENUM();
 
 	/* New valid architectures are marked unknown. */
 	arch = dpkg_arch_find("foobar");

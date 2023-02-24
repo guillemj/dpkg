@@ -57,8 +57,10 @@ test_pkginfo_eflags(void)
 	pkg_clear_eflags(&pkg, PKG_EFLAG_REINSTREQ);
 	test_pass(pkg.eflag == PKG_EFLAG_OK);
 
+	DPKG_IGNORE_WARNING_ASSIGN_ENUM();
 	pkg_set_eflags(&pkg, 0x11);
 	test_pass(pkg.eflag == 0x11);
+	DPKG_ACCEPT_WARNING_ASSIGN_ENUM();
 	pkg_reset_eflags(&pkg);
 	test_pass(pkg.eflag == PKG_EFLAG_OK);
 }
