@@ -28,7 +28,7 @@
 #include <dpkg/test.h>
 #include <dpkg/ehandle.h>
 
-jmp_buf global_handler_jump;
+static jmp_buf global_handler_jump;
 
 static void
 printer_empty(const char *msg, const void *data)

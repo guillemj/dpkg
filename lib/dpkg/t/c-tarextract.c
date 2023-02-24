@@ -105,7 +105,7 @@ tar_object(struct tar_archive *tar, struct tar_entry *te)
 	return 0;
 }
 
-struct tar_operations tar_ops = {
+static struct tar_operations tar_ops = {
 	.read = tar_read,
 	.extract_file = tar_object,
 	.link = tar_object,
