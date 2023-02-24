@@ -264,6 +264,8 @@ char *dpkg_db_get_path(const char *pathpart);
 /*** from dbmodify.c ***/
 
 enum modstatdb_rw {
+  msdbrw_unset			= -1,
+
   /* Those marked with «return» are possible returns from modstatdb_open(). */
   msdbrw_readonly,			/* «return» */
   msdbrw_needsuperuserlockonly,		/* «return» */
@@ -460,6 +462,8 @@ write_stanza(FILE *, const char *,
              const struct pkginfo *, const struct pkgbin *);
 
 enum writedb_flags {
+  /** No flags. */
+  wdb_none			= 0,
   /** Dump ‘available’ in-core structures, not ‘status’. */
   wdb_dump_available		= DPKG_BIT(0),
   /** Must sync the written file. */

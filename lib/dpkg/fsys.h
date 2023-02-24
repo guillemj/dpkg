@@ -54,6 +54,8 @@ struct pkginfo;
  * Flags to fsys_hash_find_node().
  */
 enum fsys_hash_find_flags {
+	/** No flags. */
+	FHFF_NONE			= 0,
 	/** Do not need to copy filename. */
 	FHFF_NOCOPY			= DPKG_BIT(0),
 	/** Do not insert the item if it is not found, and return NULL. */
@@ -61,6 +63,8 @@ enum fsys_hash_find_flags {
 };
 
 enum fsys_namenode_flags {
+	/** No flags. */
+	FNNF_NONE			= 0,
 	/** In the newconffiles list. */
 	FNNF_NEW_CONFF			= DPKG_BIT(0),
 	/** In the new filesystem archive. */

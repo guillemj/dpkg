@@ -119,6 +119,8 @@ freadfunction f_trigpend, f_trigaw;
 freadfunction f_archives;
 
 enum fwriteflags {
+	/** No flags. */
+	fw_none			= 0,
 	/** Print field header and trailing newline. */
 	fw_printheader		= DPKG_BIT(0),
 };
