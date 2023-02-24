@@ -620,7 +620,7 @@ bool
 parse_stanza(struct parsedb_state *ps, struct field_state *fs,
              parse_field_func *parse_field, void *parse_obj)
 {
-  int c;
+  int c = '\0';
 
   /* Skip adjacent new lines. */
   while (!parse_at_eof(ps)) {
