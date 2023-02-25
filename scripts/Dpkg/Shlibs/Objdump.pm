@@ -104,6 +104,7 @@ use constant {
     EM_XTENSA               => 94,
     EM_MICROBLAZE           => 189,
     EM_ARCV2                => 195,
+    EM_LOONGARCH            => 258,
     EM_AVR_OLD              => 0x1057,
     EM_OR1K_OLD             => 0x8472,
     EM_ALPHA                => 0x9026,
@@ -127,6 +128,11 @@ use constant {
     EF_ARM_EABI_MASK        => 0xff000000,
 
     EF_IA64_ABI64           => 0x00000010,
+
+    EF_LOONGARCH_SOFT_FLOAT     => 0x00000001,
+    EF_LOONGARCH_SINGLE_FLOAT   => 0x00000002,
+    EF_LOONGARCH_DOUBLE_FLOAT   => 0x00000003,
+    EF_LOONGARCH_ABI_MASK       => 0x00000007,
 
     EF_MIPS_ABI2            => 0x00000020,
     EF_MIPS_32BIT           => 0x00000100,
@@ -161,6 +167,7 @@ my %elf_mach_map = (
 # behavior, and we do not drop dependencies.
 my %elf_flags_mask = (
     EM_IA64()               => EF_IA64_ABI64,
+    EM_LOONGARCH()          => EF_LOONGARCH_ABI_MASK,
     EM_MIPS()               => EF_MIPS_ABI_MASK | EF_MIPS_ABI2,
     EM_PPC64()              => EF_PPC64_ABI64,
 );

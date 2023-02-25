@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 18407;
+use Test::More tests => 18900;
 
 use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         debarch_eq debarch_is debarch_is_wildcard
@@ -28,7 +28,7 @@ use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         get_host_gnu_type
                         get_valid_arches));
 
-my $KNOWN_ARCHES_TOTAL = 554;
+my $KNOWN_ARCHES_TOTAL = 569;
 my @valid_arches = get_valid_arches();
 
 sub get_valid_wildcards
