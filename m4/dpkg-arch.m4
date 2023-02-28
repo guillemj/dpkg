@@ -1,6 +1,6 @@
-# serial 1
+# serial 2
 # Copyright © 2005 Scott James Remnant <scott@netsplit.com>
-# Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2023 Guillem Jover <guillem@debian.org>
 
 # _DPKG_ARCHITECTURE([DEB_VAR], [sh_var])
 # ---------------------------------------
@@ -65,3 +65,36 @@ AC_DEFUN([DPKG_ARCHITECTURE], [
   AC_DEFINE_UNQUOTED([ARCHITECTURE], ["${dpkg_arch}"],
     [Set this to the canonical dpkg architecture name.])
 ])# DPKG_ARCHITECTURE
+
+# DPKG_ARCH_ABI
+# -------------
+# Determine parts of the Debian architecture ABI for the host system,
+# so that it can be printed during configure.
+AC_DEFUN([DPKG_ARCH_ABI], [
+  AC_CHECK_SIZEOF([short])
+  AC_CHECK_SIZEOF([int])
+  AC_CHECK_SIZEOF([long])
+  AC_CHECK_SIZEOF([long long])
+  AC_CHECK_SIZEOF([float])
+  AC_CHECK_SIZEOF([double])
+  AC_CHECK_SIZEOF([long double])
+  AC_CHECK_SIZEOF([void *])
+
+  AC_CHECK_ALIGNOF([max_align_t])
+
+  AC_C_CHAR_UNSIGNED
+  AS_IF([test "$ac_cv_c_char_unsigned" = yes],
+    [dpkg_char_sign=unsigned],
+    [dpkg_char_sign=signed]
+  )
+
+  AC_C_BIGENDIAN
+  AS_CASE([$ac_cv_c_bigendian],
+    [yes], [dpkg_arch_endian=big],
+    [no], [dpkg_arch_endian=little],
+    [dpkg_arch_endian=$ac_cv_c_bigendian]
+  )
+
+  AC_COMPUTE_INT([dpkg_char_bits], [CHAR_BIT], [#include <limits.h>])
+  dpkg_arch_bits=$((ac_cv_sizeof_void_p * dpkg_char_bits))
+])# DPKG_ARCH_ABI

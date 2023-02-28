@@ -150,7 +150,7 @@ AS_IF([test "x$build_dselect" = "xyes"], [
 ])
 
 # Checks for typedefs, structures, and compiler characteristics.
-AC_C_BIGENDIAN
+DPKG_ARCH_ABI
 AC_C_CONST
 AC_C_INLINE
 AC_C_VOLATILE
@@ -254,6 +254,24 @@ AC_OUTPUT
 cat <<CONFIG
 
 Configuration:
+  Arch attributes:
+    cpu name  . . . . . . . . . . : ${cpu_type}
+    os name . . . . . . . . . . . : ${os_type}
+    arch name . . . . . . . . . . : ${dpkg_arch}
+    arch bits . . . . . . . . . . : ${dpkg_arch_bits}
+    arch endian . . . . . . . . . : ${dpkg_arch_endian}
+    char bits . . . . . . . . . . : ${dpkg_char_bits}
+    char sign . . . . . . . . . . : ${dpkg_char_sign}
+    sizeof(short) . . . . . . . . : ${ac_cv_sizeof_short}
+    sizeof(int) . . . . . . . . . : ${ac_cv_sizeof_int}
+    sizeof(long)  . . . . . . . . : ${ac_cv_sizeof_long}
+    sizeof(long long) . . . . . . : ${ac_cv_sizeof_long_long}
+    sizeof(float) . . . . . . . . : ${ac_cv_sizeof_float}
+    sizeof(double)  . . . . . . . : ${ac_cv_sizeof_double}
+    sizeof(long double) . . . . . : ${ac_cv_sizeof_long_double}
+    sizeof(void *)  . . . . . . . : ${ac_cv_sizeof_void_p}
+    alignof(max_align_t)  . . . . : ${ac_cv_alignof_max_align_t}
+
   Features:
     native language support . . . : $USE_NLS
     unicode support . . . . . . . : $USE_UNICODE
