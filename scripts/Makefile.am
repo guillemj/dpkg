@@ -158,6 +158,12 @@ SUFFIXES =
 
 include $(top_srcdir)/build-aux/subst.am
 
+POD2MAN_OPTS = \
+	--utf8 \
+	--release=$(PACKAGE_VERSION) \
+	--date='$(PACKAGE_RELEASE_DATE)' \
+	# EOL
+
 install-data-local:
 if BUILD_POD_DOC
 # Install manual pages for perl modules manually as make can't deal
@@ -166,7 +172,7 @@ if BUILD_POD_DOC
 	$(MKDIR_P) $(DESTDIR)$(man3dir)
 	for module in $(nobase_dist_perllib_DATA); do \
 	  name=`echo $$module | $(SED) -e 's|/|::|g' -e 's/\.pm$$//'`; \
-	  $(POD2MAN) --utf8 --center=libdpkg-perl --release=$(VERSION) \
+	  $(POD2MAN) $(POD2MAN_OPTS) --center=libdpkg-perl \
 	    --name="$$name" --section=$(man_perl_section) $(srcdir)/$$module \
 	    >$(DESTDIR)$(man3dir)/$$name.$(man_perl_section); \
 	  test -s $(DESTDIR)$(man3dir)/$$name.$(man_perl_section) || \
