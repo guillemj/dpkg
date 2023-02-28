@@ -56,6 +56,8 @@ what artifacts need to be built.
 The build types are bit constants that are exported by default. Multiple
 types can be ORed.
 
+B<Note>: This is a private module, its API can change at any time.
+
 =head1 CONSTANTS
 
 =over 4

@@ -55,6 +55,7 @@ archqual
 backport
 buildinfo
 bzip2
+bzr
 canonicalized
 checksum
 checksums
@@ -74,6 +75,7 @@ dpkg-gencontrol
 dpkg-parsechangelog
 dpkg-mergechangelog
 dsc
+dselect
 dup'ed
 env
 envvar
@@ -90,6 +92,7 @@ lzma
 modelines
 multiarch
 nocheck
+objdump
 qa
 quiesced
 reportfile

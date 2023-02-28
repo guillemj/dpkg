@@ -13,6 +13,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::OpenPGP::ErrorCodes - OpenPGP error codes
+
+=head1 DESCRIPTION
+
+This module provides error codes handling to be used by the various
+OpenPGP backends.
+
+B<Note>: This is a private module, its API can change at any time.
+
+=cut
+
 package Dpkg::OpenPGP::ErrorCodes;
 
 use strict;
@@ -92,5 +107,13 @@ sub openpgp_errorcode_to_string
     return gettext($code2error{$code}) if exists $code2error{$code};
     return sprintf g_('error code %d'), $code;
 }
+
+=head1 CHANGES
+
+=head2 Version 0.xx
+
+This is a private module.
+
+=cut
 
 1;

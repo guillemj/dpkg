@@ -34,6 +34,8 @@ Dpkg::BuildEnv - track build environment
 The Dpkg::BuildEnv module is used by dpkg-buildflags to track the build
 environment variables being used and modified.
 
+B<Note>: This is a private module, its API can change at any time.
+
 =head1 FUNCTIONS
 
 =over 4

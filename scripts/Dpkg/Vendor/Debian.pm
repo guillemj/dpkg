@@ -43,6 +43,8 @@ Dpkg::Vendor::Debian - Debian vendor class
 This vendor class customizes the behaviour of dpkg scripts for Debian
 specific behavior and policies.
 
+B<Note>: This is a private module, its API can change at any time.
+
 =cut
 
 sub run_hook {

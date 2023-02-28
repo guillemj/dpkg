@@ -176,8 +176,10 @@ if BUILD_POD_DOC
 	  $(POD2MAN) $(POD2MAN_OPTS) --center=libdpkg-perl \
 	    --name="$$name" --section=$(man_perl_section) $(srcdir)/$$module \
 	    >$(DESTDIR)$(man3dir)/$$name.$(man_perl_section); \
-	  test -s $(DESTDIR)$(man3dir)/$$name.$(man_perl_section) || \
-	  rm -f $(DESTDIR)$(man3dir)/$$name.$(man_perl_section); \
+	  if ! [ -s "$(DESTDIR)$(man3dir)/$$name.$(man_perl_section)" ]; then \
+	    echo "error: empty $(man3dir)/$$name.$(man_perl_section)" 2>&1; \
+	    exit 1; \
+	  fi; \
 	done
 endif
 

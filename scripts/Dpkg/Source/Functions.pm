@@ -13,6 +13,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Source::Functions - miscellaneous source package handling functions
+
+=head1 DESCRIPTION
+
+This module provides a set of miscellaneous helper functions to handle
+source packages.
+
+B<Note>: This is a private module, its API can change at any time.
+
+=cut
+
 package Dpkg::Source::Functions;
 
 use strict;
@@ -120,5 +135,13 @@ sub is_binary($) {
 
     return $res >= 0;
 }
+
+=head1 CHANGES
+
+=head2 Version 0.xx
+
+This is a private module.
+
+=cut
 
 1;

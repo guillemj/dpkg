@@ -14,6 +14,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Source::Patch - represent a patch file
+
+=head1 DESCRIPTION
+
+This module provides a class to handle patch files.
+
+B<Note>: This is a private module, its API can change at any time.
+
+=cut
+
 package Dpkg::Source::Patch;
 
 use strict;
@@ -693,5 +707,13 @@ sub get_type {
         -S _ && return g_('named socket');
     }
 }
+
+=head1 CHANGES
+
+=head2 Version 0.xx
+
+This is a private module.
+
+=cut
 
 1;

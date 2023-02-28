@@ -14,14 +14,26 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Control::HashCore::Tie;
+=encoding utf8
 
-# This class is used to tie a hash. It implements hash-like functions by
-# normalizing the name of fields received in keys (using
-# Dpkg::Control::Fields::field_capitalize). It also stores the order in
-# which fields have been added in order to be able to dump them in the
-# same order. But the order information is stored in a parent object of
-# type Dpkg::Control.
+=head1 NAME
+
+Dpkg::Control::HashCore::Tie - ties a Dpkg::Control::Hash object
+
+=head1 DESCRIPTION
+
+This module provides a class that is used to tie a hash.
+It implements hash-like functions by normalizing the name of fields received
+in keys (using Dpkg::Control::Fields::field_capitalize).
+It also stores the order in which fields have been added in order to be able
+to dump them in the same order.
+But the order information is stored in a parent object of type Dpkg::Control.
+
+B<Note>: This is a private module, its API can change at any time.
+
+=cut
+
+package Dpkg::Control::HashCore::Tie;
 
 use strict;
 use warnings;
@@ -40,10 +52,16 @@ use parent -norequire, qw(Tie::ExtraHash);
 # Dpkg::Control::Hash, hence ensuring that reference gets DESTROYed
 # properly.
 
-# Dpkg::Control::Hash->new($parent)
-#
-# Return a reference to a tied hash implementing storage of simple
-# "field: value" mapping as used in many Debian-specific files.
+=head1 FUNCTIONS
+
+=over 4
+
+=item Dpkg::Control::Hash->new($parent)
+
+Return a reference to a tied hash implementing storage of simple
+"field: value" mapping as used in many Debian-specific files.
+
+=cut
 
 sub new {
     my $class = shift;
@@ -125,5 +143,15 @@ sub NEXTKEY {
     }
     return;
 }
+
+=back
+
+=head1 CHANGES
+
+=head2 Version 0.xx
+
+This is a private module.
+
+=cut
 
 1;

@@ -14,6 +14,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Shlibs - shared library location handling
+
+=head1 DESCRIPTION
+
+This module provides functions to locate shared libraries.
+
+B<Note>: This is a private module, its API can change at any time.
+
+=cut
+
 package Dpkg::Shlibs;
 
 use strict;
@@ -180,5 +194,13 @@ sub find_library {
     }
     return @libs;
 }
+
+=head1 CHANGES
+
+=head2 Version 0.xx
+
+This is a private module.
+
+=cut
 
 1;

@@ -14,6 +14,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Shlibs::Objdump - symbol support via objdump
+
+=head1 DESCRIPTION
+
+This module provides a class that wraps objdump to handle symbols and
+their attributes from a shared object.
+
+B<Note>: This is a private module, its API can change at any time.
+
+=cut
+
 package Dpkg::Shlibs::Objdump;
 
 use strict;
@@ -241,5 +256,13 @@ sub is_elf {
     close($file_fh);
     return $result;
 }
+
+=head1 CHANGES
+
+=head2 Version 0.xx
+
+This is a private module.
+
+=cut
 
 1;

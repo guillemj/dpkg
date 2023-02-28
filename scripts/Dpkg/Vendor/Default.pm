@@ -44,6 +44,8 @@ extended period of time. If you run an important distribution that makes
 use of vendor hooks, you'd better submit them for integration so that
 we avoid breaking your code.
 
+B<Note>: This is a private module, its API can change at any time.
+
 =head1 METHODS
 
 =over 4

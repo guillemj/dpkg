@@ -13,6 +13,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::OpenPGP::Backend::GnuPG - OpenPGP backend for GnuPG
+
+=head1 DESCRIPTION
+
+This module provides a class that implements the OpenPGP backend
+for GnuPG.
+
+B<Note>: This is a private module, its API can change at any time.
+
+=cut
+
 package Dpkg::OpenPGP::Backend::GnuPG;
 
 use strict;
@@ -297,5 +312,13 @@ sub inline_sign {
     return OPENPGP_CMD_CANNOT_SIGN if $rc;
     return OPENPGP_OK;
 }
+
+=head1 CHANGES
+
+=head2 Version 0.xx
+
+This is a private module.
+
+=cut
 
 1;
