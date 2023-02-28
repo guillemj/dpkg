@@ -6531,7 +6531,7 @@ dpkg (1.16.4) unstable; urgency=low
     Closes: #675613, #676061, #676062, #676107, #676118, #676122
   * Do not reset Multi-Arch field in the update log when removing the package.
     Closes: #676496
-  * Fix dpkg-split to honour the DPKG_ADMINDIR environment variable.
+  * Fix dpkg-split to honor the DPKG_ADMINDIR environment variable.
 
   [ Updated man pages translations ]
   * German (Helge Kreutzmann).
@@ -6568,7 +6568,7 @@ dpkg (1.16.3) unstable; urgency=low
     floats, the latter being susceptible to parsing errors depending on the
     current locale (although this was only affecting the old deb format).
   * Ignore the minor format version number for deb-split format, unifying
-    the behaviour with the deb format.
+    the behavior with the deb format.
   * Add support for an abitable containing arch attribute overrides.
   * Add x32 support to abitable, ostable and triplettable. Closes: #667037
   * Fix start-stop-daemon to work with relative --exec arguments and --chdir.
@@ -6615,7 +6615,7 @@ dpkg (1.16.2) unstable; urgency=low
   [ Guillem Jover ]
   * Move <config.h> and <compat.h> to the top of trigdeferred.l to properly
     use the configured features and compat code.
-  * Honour --disable-nls when the system lacks obstack support, by updating
+  * Honor --disable-nls when the system lacks obstack support, by updating
     the obstack compat module from gnulib.
   * Link the libdpkg unit tests with libcompat and libintl, so that systems
     needing them will compile correctly.
@@ -6647,7 +6647,7 @@ dpkg (1.16.2) unstable; urgency=low
     Thanks to Matt Kraai <kraai@ftbfs.org>.
   * Return correct status on start-stop-daemon --status when using --pidfile.
   * Treat dpkg-deb compression level independently for each backend. This
-    has the effect of changing the current behaviour for level 0 on all
+    has the effect of changing the current behavior for level 0 on all
     compressors except gzip.
   * Add new dpkg-deb -S option to specify the compression strategy. The only
     currently supported value is “extreme” for xz. Closes: #647915
@@ -6678,7 +6678,7 @@ dpkg (1.16.2) unstable; urgency=low
   * Do not print bogus errno string for invalid package names in dpkg
     --ignore-depends option.
   * Change dpkg-query to not load the available file by default for --list
-    and --show, add a new --load-avail option to expose the old behaviour.
+    and --show, add a new --load-avail option to expose the old behavior.
   * Only allow setting selections via «dpkg --set-selections» for known
     packages (i.e. those present in either the status or available files).
   * Always ignore older versions when parsing the available file, not only
@@ -6954,7 +6954,7 @@ dpkg (1.16.1) unstable; urgency=low
     from dpkg which were being treated as dpkg commands.
   * Remove reference to --nocheck dpkg-deb option from dpkg man page as
     the latter does not pass it to the former.
-  * Clarify the current dpkg behaviour when running the dpkg-deb and
+  * Clarify the current dpkg behavior when running the dpkg-deb and
     dpkg-query back-ends, of not passing through back-end specific options
     when running them from dpkg. Closes: #610940
   * Use “unselected” as an adjective in dpkg output messages instead of
@@ -7008,7 +7008,7 @@ dpkg (1.16.1) unstable; urgency=low
     debian/rules.
   * Use the perl interpreter found by configure to call dpkg-architecture.pl
     in the m4 DPKG_ARCHITECTURE macro.
-  * Add new --verbose option to dpkg-deb and change --extract to honour it.
+  * Add new --verbose option to dpkg-deb and change --extract to honor it.
     Closes: #293280
   * Add new --raw-extract option to dpkg-deb combining --control and
     --extract. Closes: #552123
@@ -7973,7 +7973,7 @@ dpkg (1.15.6) experimental; urgency=low
   * Document “dpkg-query -l” abbreviated state information in the man page.
     Based on a patch by Marc-Jano Knopp <pub_br_debian.org@marc-jano.de>.
     Closes: #383869
-  * Honour LINGUAS environment variable when installing translated man pages.
+  * Honor LINGUAS environment variable when installing translated man pages.
   * Allow disabling at configure time Unicode ncurses support for dselect.
     Based on a patch by Yuri Vasilevski <yvasilev@gentoo.org>.
 
@@ -9810,7 +9810,7 @@ dpkg (1.14.10) unstable; urgency=low
 
   [ Guillem Jover ]
   * Add support for Package-Type in dpkg-name.
-  * Restore cross compilation support by honouring the environment host and
+  * Restore cross compilation support by honoring the environment host and
     arch variables to override the default values on the dpkg-dev scripts.
 
   [ Updated man pages translations ]
@@ -10077,7 +10077,7 @@ dpkg (1.14.5) unstable; urgency=low
       and remove redundant reference to GNU.
     - Fix explanation of dpkg-source '-b' option, remove a reference to
       checking for a missing empty string argument, and add a reference
-      to '-sX' arguments affecting the behaviour. Closes: #428167
+      to '-sX' arguments affecting the behavior. Closes: #428167
     - Remove documented dpkg-gencontrol options in dpkg-source left over
       from the man pages split.
 
@@ -10722,7 +10722,7 @@ dpkg (1.13.17) unstable; urgency=low
   * Don't try to compile in SELinux support on GNU/kFreeBSD amd64.
   * Add new quiet option to dpkg-source to suppress warnings. Closes: #355065
   * Do not expand architecture aliases anymore in .dsc files.
-  * Change start-stop-daemon's --exec behaviour again on GNU/Linux to compare
+  * Change start-stop-daemon's --exec behavior again on GNU/Linux to compare
     the referred file pointed by the '/proc/<pid>/exe' symlink, stripping
     any ' (deleted)' string and stating the result. Closes: #354867
 
@@ -10815,7 +10815,7 @@ dpkg (1.13.14) experimental; urgency=low
   * Add command descriptions in the synopsis, and add a usage example for
     -f in the dpkg-query manpage. Thanks for the initial patch to
     Philippe Batailler. Closes: #352091
-  * Document about the default log file, the behaviour in case of multiple
+  * Document about the default log file, the behavior in case of multiple
     --log options and add a reference to dpkg.cfg manpage in the dpkg manpage.
     Thanks to James R. Van Zandt. Closes: #350440
   * Escape ` and ' in manpages otherwise they are converted to quotation
@@ -11001,7 +11001,7 @@ dpkg (1.13.12) experimental; urgency=low
   * Add support for architecture wildcards, but for now they will only be
     exposed in debian/control files, not in binary nor source packages.
     Closes: #291939
-  * Change start-stop-daemon's --exec option behaviour on GNU/Linux to
+  * Change start-stop-daemon's --exec option behavior on GNU/Linux to
     compare the filename pointed by '/proc/<pid>/exe' instead of the inode
     and device numbers. Thanks to Vasilis Vasaitis <v.vasaitis@sms.ed.ac.uk>.
     Closes: #337942

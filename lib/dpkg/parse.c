@@ -399,7 +399,7 @@ parse_find_pkg_slot(struct parsedb_state *ps,
 
   if (ps->type == pdb_file_available) {
     /* If there's a single package installed and the new package is not
-     * “Multi-Arch: same”, then we preserve the previous behaviour of
+     * “Multi-Arch: same”, then we preserve the previous behavior of
      * possible architecture switch, for example from native to all. */
     if (pkgset_installed_instances(db_set) == 1 &&
         new_pkgbin->multiarch != PKG_MULTIARCH_SAME)

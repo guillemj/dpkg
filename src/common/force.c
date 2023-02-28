@@ -289,7 +289,7 @@ parse_force(const char *value, bool set)
 		char *force_string = get_force_string();
 
 		printf(_(
-"%s forcing options - control behaviour when problems found:\n"
+"%s forcing options - control behavior when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"), dpkg_get_progname());

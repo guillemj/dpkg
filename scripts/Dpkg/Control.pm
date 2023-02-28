@@ -150,7 +150,7 @@ use parent qw(Dpkg::Control::Hash);
 =head1 METHODS
 
 All the methods of Dpkg::Control::Hash are available. Those listed below
-are either new or overridden with a different behaviour.
+are either new or overridden with a different behavior.
 
 =over 4
 

@@ -48,7 +48,7 @@ sub usage {
   --origin <flag>    output the origin of the flag to stdout:
                      value is one of vendor, system, user, env.
   --status           output a synopsis with all parameters affecting the
-                     program behaviour, the resulting flags and their origin.
+                     program behavior, the resulting flags and their origin.
   --query            like --status, but in deb822 format.
   --query-features <area>
                      output the status of features for the given area.

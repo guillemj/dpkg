@@ -179,7 +179,7 @@ sub deps_concat {
 
 This function parses the dependency line and returns an object, either a
 Dpkg::Deps::AND or a Dpkg::Deps::Union. Various options can alter the
-behaviour of that function.
+behavior of that function.
 
 =over 4
 

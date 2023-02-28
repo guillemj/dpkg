@@ -59,7 +59,7 @@ Dpkg::Compression::FileHandle - class dealing transparently with file compressio
 Dpkg::Compression::FileHandle is a class that can be used
 like any filehandle and that deals transparently with compressed
 files. By default, the compression scheme is guessed from the filename
-but you can override this behaviour with the method C<set_compression>.
+but you can override this behavior with the method C<set_compression>.
 
 If you don't open the file explicitly, it will be auto-opened on the
 first read or write operation based on the filename set at creation time

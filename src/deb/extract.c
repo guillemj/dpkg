@@ -366,7 +366,7 @@ extracthalf(const char *debar, const char *dir,
   if (c1 != -1)
     subproc_reap(c1, _("paste"), 0);
   if (version.major == 0 && admininfo) {
-    /* Handle the version as a float to preserve the behaviour of old code,
+    /* Handle the version as a float to preserve the behavior of old code,
      * because even if the format is defined to be padded by 0's that might
      * not have been always true for really ancient versions... */
     while (version.minor && (version.minor % 10) == 0)

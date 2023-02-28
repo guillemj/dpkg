@@ -25,7 +25,7 @@ Dpkg::Vendor::Ubuntu - Ubuntu vendor class
 
 =head1 DESCRIPTION
 
-This vendor class customizes the behaviour of dpkg scripts for Ubuntu
+This vendor class customizes the behavior of dpkg scripts for Ubuntu
 specific behavior and policies.
 
 B<Note>: This is a private module, its API can change at any time.
