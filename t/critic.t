@@ -27,6 +27,7 @@ my @policies = qw(
     BuiltinFunctions::ProhibitBooleanGrep
     BuiltinFunctions::ProhibitLvalueSubstr
     BuiltinFunctions::ProhibitReverseSortBlock
+    BuiltinFunctions::ProhibitShiftRef
     BuiltinFunctions::ProhibitSleepViaSelect
     BuiltinFunctions::ProhibitStringySplit
     BuiltinFunctions::ProhibitUniversalCan
@@ -50,8 +51,10 @@ my @policies = qw(
     ControlStructures::ProhibitMutatingListFunctions
     ControlStructures::ProhibitNegativeExpressionsInUnlessAndUntilConditions
     ControlStructures::ProhibitUntilBlocks
+    ControlStructures::ProhibitYadaOperator
     Documentation::RequirePackageMatchesPodName
     Documentation::RequirePodSections
+    InputOutput::ProhibitBarewordDirHandles
     InputOutput::ProhibitBarewordFileHandles
     InputOutput::ProhibitInteractiveTest
     InputOutput::ProhibitJoinedReadline
@@ -88,6 +91,7 @@ my @policies = qw(
     Subroutines::ProtectPrivateSubs
     TestingAndDebugging::ProhibitNoStrict
     TestingAndDebugging::ProhibitNoWarnings
+    TestingAndDebugging::ProhibitProlongedStrictureOverride
     TestingAndDebugging::RequireTestLabels
     TestingAndDebugging::RequireUseStrict
     TestingAndDebugging::RequireUseWarnings
