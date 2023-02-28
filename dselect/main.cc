@@ -113,7 +113,7 @@ static const struct table_t screenparttable[]= {
   {nullptr, 0},
 };
 
-/* Historical (patriotic?) colours. */
+/* Original colours. */
 struct colordata color[]= {
   /* fore      back            attr */
   {COLOR_WHITE,        COLOR_BLACK,    0			}, // default, not used
