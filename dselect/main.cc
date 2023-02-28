@@ -71,7 +71,7 @@ struct table_t {
   const int num;
 };
 
-static const struct table_t colourtable[]= {
+static const struct table_t colortable[] = {
   {"black",	COLOR_BLACK	},
   {"red",	COLOR_RED	},
   {"green",	COLOR_GREEN	},
@@ -113,7 +113,7 @@ static const struct table_t screenparttable[]= {
   {nullptr, 0},
 };
 
-/* Original colours. */
+/* Original colors. */
 struct colordata color[]= {
   /* fore      back            attr */
   {COLOR_WHITE,        COLOR_BLACK,    0			}, // default, not used
@@ -207,8 +207,8 @@ usage(const struct cmdinfo *ci, const char *value)
   fputs("\n", stdout);
 
   printf(_("<color> is:"));
-  for (i=0; colourtable[i].name; i++)
-    printf(" %s", colourtable[i].name);
+  for (i = 0; colortable[i].name; i++)
+    printf(" %s", colortable[i].name);
   fputs("\n", stdout);
 
   printf(_("<attr> is:"));
@@ -267,32 +267,32 @@ extern "C" {
   set_color(const struct cmdinfo*, const char *string)
   {
     char *s;
-    char *colours, *attributes;
+    char *colors, *attributes;
     int screenpart;
 
     s = m_strdup(string); // strtok modifies strings, keep string const
     screenpart= findintable(screenparttable, strtok(s, ":"), _("screen part"));
-    colours = strtok(nullptr, ":");
+    colors = strtok(nullptr, ":");
     attributes = strtok(nullptr, ":");
 
-    if ((colours == nullptr || ! strlen(colours)) &&
+    if ((colors == nullptr || ! strlen(colors)) &&
         (attributes == nullptr || ! strlen(attributes))) {
-       ohshit(_("null colour specification"));
+       ohshit(_("missing color specification"));
     }
 
-    if (colours != nullptr && strlen(colours)) {
-      char *colourname;
+    if (colors != nullptr && strlen(colors)) {
+      char *colorname;
 
-      colourname= strtok(colours, ",");
-      if (colourname != nullptr && strlen(colourname)) {
+      colorname = strtok(colors, ",");
+      if (colorname != nullptr && strlen(colorname)) {
         // normalize attributes to prevent confusion
         color[screenpart].attr= A_NORMAL;
-       color[screenpart].fore=findintable(colourtable, colourname, _("colour"));
+        color[screenpart].fore = findintable(colortable, colorname, _("color"));
       }
-      colourname = strtok(nullptr, ",");
-      if (colourname != nullptr && strlen(colourname)) {
+      colorname = strtok(nullptr, ",");
+      if (colorname != nullptr && strlen(colorname)) {
         color[screenpart].attr= A_NORMAL;
-        color[screenpart].back=findintable(colourtable, colourname, _("colour"));
+        color[screenpart].back = findintable(colortable, colorname, _("color"));
       }
     }
 
@@ -302,7 +302,7 @@ extern "C" {
            attrib = strtok(nullptr, "+")) {
                int aval;
 
-               aval=findintable(attrtable, attrib, _("colour attribute"));
+               aval = findintable(attrtable, attrib, _("color attribute"));
                if (aval == A_NORMAL) // set to normal
                        color[screenpart].attr= aval;
                else // add to existing attribs

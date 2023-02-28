@@ -133,7 +133,7 @@ void baselist::startdisplay() {
     printf("allocing\n");
     for (i = 1; i < numscreenparts; i++) {
        if (init_pair(i, color[i].fore, color[i].back) != OK)
-         ohshite(_("failed to allocate colour pair"));
+         ohshite(_("cannot allocate color pair"));
        part_attr[i] = COLOR_PAIR(i) | color[i].attr;
     }
   } else {
