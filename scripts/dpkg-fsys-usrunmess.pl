@@ -623,11 +623,11 @@ sub usage
 
 sub usageerr
 {
-    my $msg = shift;
+    my ($msg, @args) = @_;
 
     state $printforhelp = 'Use --help for program usage information.';
 
-    $msg = sprintf $msg, @_ if @_;
+    $msg = sprintf $msg, @args if @args;
     warn "$PROGNAME: error: $msg\n";
     warn "$printforhelp\n";
     exit 2;

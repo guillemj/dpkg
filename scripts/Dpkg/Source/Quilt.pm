@@ -271,8 +271,9 @@ sub get_series_file {
 }
 
 sub get_db_file {
-    my $self = shift;
-    return File::Spec->catfile($self->{dir}, '.pc', @_);
+    my ($self, $file) = @_;
+
+    return File::Spec->catfile($self->{dir}, '.pc', $file);
 }
 
 sub get_db_dir {
@@ -281,8 +282,9 @@ sub get_db_dir {
 }
 
 sub get_patch_file {
-    my $self = shift;
-    return File::Spec->catfile($self->{dir}, 'debian', 'patches', @_);
+    my ($self, $file) = @_;
+
+    return File::Spec->catfile($self->{dir}, 'debian', 'patches', $file);
 }
 
 sub get_patch_dir {

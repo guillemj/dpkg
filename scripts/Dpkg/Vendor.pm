@@ -260,8 +260,10 @@ Run a hook implemented by the current vendor object.
 =cut
 
 sub run_vendor_hook {
+    my @args = @_;
     my $vendor_obj = get_vendor_object();
-    $vendor_obj->run_hook(@_);
+
+    $vendor_obj->run_hook(@args);
 }
 
 =back

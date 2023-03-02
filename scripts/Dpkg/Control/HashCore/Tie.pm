@@ -64,10 +64,10 @@ Return a reference to a tied hash implementing storage of simple
 =cut
 
 sub new {
-    my $class = shift;
+    my ($class, @args) = @_;
     my $hash = {};
 
-    tie %{$hash}, $class, @_; ## no critic (Miscellanea::ProhibitTies)
+    tie %{$hash}, $class, @args; ## no critic (Miscellanea::ProhibitTies)
     return $hash;
 }
 

@@ -56,9 +56,9 @@ Creates a new object.
 =cut
 
 sub new {
-    my $this = shift;
+    my ($this, @deps) = @_;
     my $class = ref($this) || $this;
-    my $self = { list => [ @_ ] };
+    my $self = { list => [ @deps ] };
 
     bless $self, $class;
     return $self;
@@ -84,9 +84,9 @@ Adds new dependency objects at the end of the list.
 =cut
 
 sub add {
-    my $self = shift;
+    my ($self, @deps) = @_;
 
-    push @{$self->{list}}, @_;
+    push @{$self->{list}}, @deps;
 }
 
 =item $dep->get_deps()

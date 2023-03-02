@@ -891,10 +891,12 @@ sub my_find_library {
 my %cached_pkgmatch = ();
 
 sub find_packages {
+    my @paths = @_;
+
     my @files;
     my $pkgmatch = {};
 
-    foreach my $path (@_) {
+    foreach my $path (@paths) {
 	if (exists $cached_pkgmatch{$path}) {
 	    $pkgmatch->{$path} = $cached_pkgmatch{$path};
 	} else {

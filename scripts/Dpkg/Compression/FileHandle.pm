@@ -209,9 +209,10 @@ sub READLINE {
 }
 
 sub OPEN {
-    my ($self) = shift;
-    if (scalar(@_) == 2) {
-	my ($mode, $filename) = @_;
+    my ($self, @args) = @_;
+
+    if (scalar @args == 2) {
+        my ($mode, $filename) = @args;
 	$self->set_filename($filename);
 	if ($mode eq '>') {
 	    $self->_open_for_write();
@@ -229,10 +230,10 @@ sub OPEN {
 }
 
 sub CLOSE {
-    my ($self) = shift;
+    my ($self, @args) = @_;
     my $ret = 1;
     if (defined *$self->{file}) {
-	$ret = *$self->{file}->close(@_) if *$self->{file}->opened();
+        $ret = *$self->{file}->close(@args) if *$self->{file}->opened();
     } else {
 	$ret = 0;
     }
@@ -241,34 +242,39 @@ sub CLOSE {
 }
 
 sub FILENO {
-    my ($self) = shift;
-    return *$self->{file}->fileno(@_) if defined *$self->{file};
+    my ($self, @args) = @_;
+
+    return *$self->{file}->fileno(@args) if defined *$self->{file};
     return;
 }
 
 sub EOF {
     # Since perl 5.12, an integer parameter is passed describing how the
     # function got called, just ignore it.
-    my ($self, $param) = (shift, shift);
-    return *$self->{file}->eof(@_) if defined *$self->{file};
+    my ($self, $param, @args) = @_;
+
+    return *$self->{file}->eof(@args) if defined *$self->{file};
     return 1;
 }
 
 sub SEEK {
-    my ($self) = shift;
-    return *$self->{file}->seek(@_) if defined *$self->{file};
+    my ($self, @args) = @_;
+
+    return *$self->{file}->seek(@args) if defined *$self->{file};
     return 0;
 }
 
 sub TELL {
-    my ($self) = shift;
-    return *$self->{file}->tell(@_) if defined *$self->{file};
+    my ($self, @args) = @_;
+
+    return *$self->{file}->tell(@args) if defined *$self->{file};
     return -1;
 }
 
 sub BINMODE {
-    my ($self) = shift;
-    return *$self->{file}->binmode(@_) if defined *$self->{file};
+    my ($self, @args) = @_;
+
+    return *$self->{file}->binmode(@args) if defined *$self->{file};
     return;
 }
 

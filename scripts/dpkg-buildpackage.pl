@@ -830,8 +830,10 @@ sub parse_rules_requires_root {
 }
 
 sub run_cmd {
-    printcmd(@_);
-    system @_ and subprocerr("@_");
+    my @cmd = @_;
+
+    printcmd(@cmd);
+    system @cmd and subprocerr("@cmd");
 }
 
 sub rules_requires_root {

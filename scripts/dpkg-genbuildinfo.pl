@@ -142,9 +142,9 @@ sub parse_status {
 }
 
 sub append_deps {
-    my $pkgs = shift;
+    my ($pkgs, @deps) = @_;
 
-    foreach my $dep_str (@_) {
+    foreach my $dep_str (@deps) {
         next unless $dep_str;
 
         my $deps = deps_parse($dep_str, reduce_restrictions => 1,
@@ -154,8 +154,10 @@ sub append_deps {
         # We add every sub-dependencies as we cannot know which package in
         # an OR dependency has been effectively used.
         deps_iterate($deps, sub {
+            my $pkg = shift;
+
             push @{$pkgs},
-                $_[0]->{package} . (defined $_[0]->{archqual} ? ':' . $_[0]->{archqual} : '');
+                $pkg->{package} . (defined $pkg->{archqual} ? ':' . $pkg->{archqual} : '');
             1
         });
     }

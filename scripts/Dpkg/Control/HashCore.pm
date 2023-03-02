@@ -179,9 +179,9 @@ Prints an error message and dies on syntax parse errors.
 =cut
 
 sub parse_error {
-    my ($self, $file, $msg) = (shift, shift, shift);
+    my ($self, $file, $msg, @args) = @_;
 
-    $msg = sprintf($msg, @_) if (@_);
+    $msg = sprintf $msg, @args if @args;
     error(g_('syntax error in %s at line %d: %s'), $file, $., $msg);
 }
 

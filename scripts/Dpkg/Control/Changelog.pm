@@ -48,9 +48,9 @@ Create a new empty set of changelog related fields.
 =cut
 
 sub new {
-    my $this = shift;
+    my ($this, @args) = @_;
     my $class = ref($this) || $this;
-    my $self = Dpkg::Control->new(type => CTRL_CHANGELOG, @_);
+    my $self = Dpkg::Control->new(type => CTRL_CHANGELOG, @args);
     return bless $self, $class;
 }
 

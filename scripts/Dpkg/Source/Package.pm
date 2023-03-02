@@ -621,9 +621,9 @@ sub before_build {
 }
 
 sub build {
-    my $self = shift;
+    my ($self, @args) = @_;
 
-    $self->do_build(@_);
+    $self->do_build(@args);
 }
 
 sub after_build {
@@ -652,9 +652,9 @@ sub add_file {
 }
 
 sub commit {
-    my $self = shift;
+    my ($self, @args) = @_;
 
-    $self->do_commit(@_);
+    $self->do_commit(@args);
 }
 
 sub do_commit {
