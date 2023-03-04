@@ -181,9 +181,15 @@ sub add_site {
   chomp $email;
   my $dir = '/debian';
 
-  push (@{$CONFIG{site}}, [ '', $dir, [ 'dists/stable/main',
-                                        'dists/stable/contrib',
-                                        'dists/stable/non-free' ],
+    push (@{$CONFIG{site}}, [
+        '',
+        $dir,
+        [
+            'dists/stable/main',
+            'dists/stable/contrib',
+            'dists/stable/non-free-firmware',
+            'dists/stable/non-free',
+        ],
                                $pas, $user, $email ]);
   edit_site($CONFIG{site}[@{$CONFIG{site}} - 1]);
 }

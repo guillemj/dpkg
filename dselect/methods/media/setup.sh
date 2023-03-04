@@ -452,6 +452,7 @@ Where is the _$1_ 'Packages.cd' file (if none is available, say 'none')
 
 find_area main main "$distribution" "$p_main_binary" "$p_main_packages"
 find_area contrib ctb "$distribution" "$p_ctb_binary" "$p_ctb_packages"
+find_area non-free-firmware nff "$distribution" "$p_nff_binary" "$p_nff_packages"
 find_area non-free nf "$distribution" "$p_nf_binary" "$p_nf_packages"
 find_area local lcl local "$p_lcl_binary" "$p_lcl_packages"
 
@@ -472,6 +473,9 @@ outputparam p_main_disk "$main_disk"
 outputparam p_ctb_packages "$ctb_packages"
 outputparam p_ctb_binary "$ctb_binary"
 outputparam p_ctb_disk "$ctb_disk"
+outputparam p_nff_packages "$nff_packages"
+outputparam p_nff_binary "$nff_binary"
+outputparam p_nff_disk "$nff_disk"
 outputparam p_nf_packages "$nf_packages"
 outputparam p_nf_binary "$nf_binary"
 outputparam p_nf_disk "$nf_disk"

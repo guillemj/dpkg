@@ -278,6 +278,7 @@ Where is the _$1_ 'Packages' file (if none is available, say 'none')
 
 find_area main main main "$p_main_binary" "$p_main_packages"
 find_area contrib ctb contrib "$p_ctb_binary" "$p_ctb_packages"
+find_area non-free-firmware nff non-free-firmware "$p_nff_binary" "$p_nff_packages"
 find_area non-free nf non-free "$p_nf_binary" "$p_nf_packages"
 find_area local lcl local "$p_lcl_binary" "$p_lcl_packages"
 
@@ -297,6 +298,8 @@ outputparam p_ctb_packages "$ctb_packages"
 outputparam p_ctb_binary "$ctb_binary"
 outputparam p_nf_packages "$nf_packages"
 outputparam p_nf_binary "$nf_binary"
+outputparam p_nff_packages "$nff_packages"
+outputparam p_nff_binary "$nff_binary"
 outputparam p_lcl_packages "$lcl_packages"
 outputparam p_lcl_binary "$lcl_binary"
 
