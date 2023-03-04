@@ -183,12 +183,12 @@ sub procpkgfile {
 }
 
 print "\nProcessing Package files...\n";
-my ($fn, $i, $j);
+my ($i, $j);
 $i = 0;
 foreach my $site (@{$CONFIG{site}}) {
   $j = 0;
   foreach my $dist (@{$site->[2]}) {
-    $fn = $dist;
+    my $fn = $dist;
     $fn =~ tr#/#_#;
     $fn = "Packages.$site->[0].$fn";
     if (-f $fn) {
@@ -413,6 +413,7 @@ if($totsize != 0) {
               if (yesno('y', "\nDo you want to retry downloading at once")) {
 		  # get the first $fn that foreach would give:
 		  # this is the one that got interrupted.
+                my $fn;
 		MY_ITER: foreach my $ffn (keys(%downloads)) {
 		    $fn = $ffn;
 		    last MY_ITER;
