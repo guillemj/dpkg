@@ -85,7 +85,7 @@ sub parse_tagspec {
     if ($tagspec =~ /^\s*\((.*?)\)(.*)$/ && $1) {
 	# (tag1=t1 value|tag2|...|tagN=tNp)
 	# Symbols ()|= cannot appear in the tag names and values
-	my $tagspec = $1;
+	$tagspec = $1;
 	my $rest = ($2) ? $2 : '';
 	my @tags = split(/\|/, $tagspec);
 
