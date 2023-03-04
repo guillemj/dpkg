@@ -51,7 +51,6 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
     my @data = @$changes;
     ok(@data, 'data is not empty');
 
-    my $str;
     if ($file eq "$datadir/countme") {
 	# test range options
 	cmp_ok(@data, '==', 7, 'no options -> count');
@@ -357,6 +356,7 @@ Xb-Userfield2: foobar
 	skip('avoid spurious warning with only one entry', 2)
 	    if @data == 1;
 
+        my $str;
 	my $oldest_version = $data[-1]->{Version};
 	$str = $changes->format_range('dpkg', { since => $oldest_version });
 
