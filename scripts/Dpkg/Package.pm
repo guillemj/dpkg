@@ -1,5 +1,6 @@
 # Copyright © 2006 Frank Lichtenheld <djpig@debian.org>
-# Copyright © 2007,2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2007-2009, 2012-2013 Guillem Jover <guillem@debian.org>
+# Copyright © 2007 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,10 +23,14 @@ use warnings;
 our $VERSION = '0.01';
 our @EXPORT = qw(
     pkg_name_is_illegal
+
+    get_source_package
+    set_source_package
 );
 
 use Exporter qw(import);
 
+use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 sub pkg_name_is_illegal($) {
@@ -42,6 +47,29 @@ sub pkg_name_is_illegal($) {
     }
 
     return;
+}
+
+# XXX: Eventually the following functions should be moved as methods for
+# Dpkg::Source::Package.
+
+my $sourcepackage;
+
+sub get_source_package {
+    return $sourcepackage;
+}
+
+sub set_source_package {
+    my $name = shift;
+
+    my $err = pkg_name_is_illegal($name);
+    error(g_("source package name '%s' is illegal: %s"), $name, $err) if $err;
+
+    if (not defined $sourcepackage) {
+        $sourcepackage = $name;
+    } elsif ($name ne $sourcepackage) {
+        error(g_('source package has two conflicting values - %s and %s'),
+              $sourcepackage, $name);
+    }
 }
 
 1;

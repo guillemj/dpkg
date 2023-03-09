@@ -31,14 +31,13 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Lock;
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is debarch_list_parse);
-use Dpkg::Package;
 use Dpkg::BuildProfiles qw(get_build_profiles);
 use Dpkg::Deps;
 use Dpkg::Control;
 use Dpkg::Control::Info;
 use Dpkg::Control::Fields;
 use Dpkg::Substvars;
-use Dpkg::Vars;
+use Dpkg::Package;
 use Dpkg::Changelog::Parse;
 use Dpkg::Dist::Files;
 

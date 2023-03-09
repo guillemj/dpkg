@@ -45,7 +45,7 @@ use Dpkg::Control::Tests;
 use Dpkg::Control::Fields;
 use Dpkg::Substvars;
 use Dpkg::Version;
-use Dpkg::Vars;
+use Dpkg::Package;
 use Dpkg::Changelog::Parse;
 use Dpkg::Source::Format;
 use Dpkg::Source::Package qw(get_default_diff_ignore_regex

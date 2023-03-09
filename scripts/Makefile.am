@@ -137,7 +137,6 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Source/Patch.pm \
 	Dpkg/Source/Quilt.pm \
 	Dpkg/Substvars.pm \
-	Dpkg/Vars.pm \
 	Dpkg/Vendor.pm \
 	Dpkg/Vendor/Debian.pm \
 	Dpkg/Vendor/Default.pm \
@@ -241,7 +240,6 @@ test_scripts = \
 	t/Dpkg_Conf.t \
 	t/Dpkg_Deps.t \
 	t/Dpkg_Path.t \
-	t/Dpkg_Vars.t \
 	t/Dpkg_Interface_Storable.t \
 	t/Dpkg_OpenPGP_KeyHandle.t \
 	t/Dpkg_OpenPGP.t \

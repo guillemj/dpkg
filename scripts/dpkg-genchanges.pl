@@ -40,7 +40,7 @@ use Dpkg::Control::Info;
 use Dpkg::Control::Fields;
 use Dpkg::Control;
 use Dpkg::Substvars;
-use Dpkg::Vars;
+use Dpkg::Package;
 use Dpkg::Changelog::Parse;
 use Dpkg::Dist::Files;
 use Dpkg::Version;
