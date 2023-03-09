@@ -24,8 +24,8 @@ our $VERSION = '0.01';
 our @EXPORT = qw(
     pkg_name_is_illegal
 
-    get_source_package
-    set_source_package
+    get_source_name
+    set_source_name
 );
 
 use Exporter qw(import);
@@ -52,23 +52,23 @@ sub pkg_name_is_illegal($) {
 # XXX: Eventually the following functions should be moved as methods for
 # Dpkg::Source::Package.
 
-my $sourcepackage;
+my $source_name;
 
-sub get_source_package {
-    return $sourcepackage;
+sub get_source_name {
+    return $source_name;
 }
 
-sub set_source_package {
+sub set_source_name {
     my $name = shift;
 
     my $err = pkg_name_is_illegal($name);
     error(g_("source package name '%s' is illegal: %s"), $name, $err) if $err;
 
-    if (not defined $sourcepackage) {
-        $sourcepackage = $name;
-    } elsif ($name ne $sourcepackage) {
+    if (not defined $source_name) {
+        $source_name = $name;
+    } elsif ($name ne $source_name) {
         error(g_('source package has two conflicting values - %s and %s'),
-              $sourcepackage, $name);
+              $source_name, $name);
     }
 }
 

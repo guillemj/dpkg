@@ -275,7 +275,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     foreach (keys %{$src_fields}) {
 	my $v = $src_fields->{$_};
 	if (m/^Source$/i) {
-	    set_source_package($v);
+            set_source_name($v);
 	    $fields->{$_} = $v;
 	} elsif (m/^Uploaders$/i) {
 	    ($fields->{$_} = $v) =~ s/\s*[\r\n]\s*/ /g; # Merge in a single-line
@@ -389,7 +389,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
         my $v = $changelog->{$_};
 
 	if (m/^Source$/) {
-	    set_source_package($v);
+            set_source_name($v);
 	    $fields->{$_} = $v;
 	} elsif (m/^Version$/) {
 	    my ($ok, $error) = version_check($v);
@@ -437,7 +437,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
     # Write the .dsc
     my $dscname = $srcpkg->get_basename(1) . '.dsc';
-    info(g_('building %s in %s'), get_source_package(), $dscname);
+    info(g_('building %s in %s'), get_source_name(), $dscname);
     $srcpkg->write_dsc(filename => $dscname,
 		       remove => \%remove,
 		       override => \%override,

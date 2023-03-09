@@ -234,7 +234,7 @@ my $src_fields = $control->get_source();
 foreach (keys %{$src_fields}) {
     my $v = $src_fields->{$_};
     if (m/^Source$/) {
-        set_source_package($v);
+        set_source_name($v);
     } elsif (m/^Section$|^Priority$/i) {
         $sourcedefault{$_} = $v;
     } elsif (m/^Description$/i) {
@@ -255,7 +255,7 @@ if (build_has_any(BUILD_SOURCE)) {
     warning(g_('missing Section for source files')) if $sec eq '-';
     warning(g_('missing Priority for source files')) if $pri eq '-';
 
-    my $spackage = get_source_package();
+    my $spackage = get_source_name();
     (my $sversion = $substvars->get('source:Version')) =~ s/^\d+://;
 
     my $dsc = "${spackage}_${sversion}.dsc";
@@ -418,7 +418,7 @@ foreach my $pkg ($control->get_packages()) {
 foreach (keys %{$changelog}) {
     my $v = $changelog->{$_};
     if (m/^Source$/i) {
-	set_source_package($v);
+        set_source_name($v);
     } elsif (m/^Maintainer$/i) {
 	$fields->{'Changed-By'} = $v;
     } else {
@@ -502,7 +502,7 @@ $checksums->export_to_control($fields);
 # redundant with the Files field
 delete $fields->{'Checksums-Md5'};
 
-$fields->{'Source'} = get_source_package();
+$fields->{'Source'} = get_source_name();
 if ($fields->{'Version'} ne $substvars->get('source:Version')) {
     $fields->{'Source'} .= ' (' . $substvars->get('source:Version') . ')';
 }

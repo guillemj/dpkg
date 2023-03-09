@@ -195,7 +195,7 @@ $substvars->set_msg_prefix(sprintf(g_('package %s: '), $pkg->{Package}));
 my $src_fields = $control->get_source();
 foreach (keys %{$src_fields}) {
     if (m/^Source$/) {
-	set_source_package($src_fields->{$_});
+        set_source_name($src_fields->{$_});
     } elsif (m/^Description$/) {
         # Description in binary packages is not inherited, do not copy this
         # field, only initialize the description substvars.
@@ -236,7 +236,7 @@ foreach (keys %{$changelog}) {
     my $v = $changelog->{$_};
 
     if (m/^Source$/) {
-	set_source_package($v);
+        set_source_name($v);
     } elsif (m/^Version$/) {
         # Already handled previously.
     } elsif (m/^Maintainer$/) {
@@ -326,7 +326,7 @@ if ($pkg_type eq 'udeb') {
     }
 }
 
-my $sourcepackage = get_source_package();
+my $sourcepackage = get_source_name();
 my $binarypackage = $override{'Package'} // $fields->{'Package'};
 my $verdiff = $binaryversion ne $sourceversion;
 if ($binarypackage ne $sourcepackage || $verdiff) {
