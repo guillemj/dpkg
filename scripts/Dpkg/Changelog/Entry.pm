@@ -13,6 +13,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Changelog::Entry - represents a changelog entry
+
+=head1 DESCRIPTION
+
+This class represents a changelog entry. It is composed
+of a set of lines with specific purpose: a header line, changes lines, a
+trailer line. Blank lines can be between those kind of lines.
+
+=cut
+
 package Dpkg::Changelog::Entry;
 
 use strict;
@@ -30,18 +44,6 @@ use overload
     '""' => \&output,
     'eq' => sub { defined($_[1]) and "$_[0]" eq "$_[1]" },
     fallback => 1;
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Changelog::Entry - represents a changelog entry
-
-=head1 DESCRIPTION
-
-This class represents a changelog entry. It is composed
-of a set of lines with specific purpose: a header line, changes lines, a
-trailer line. Blank lines can be between those kind of lines.
 
 =head1 METHODS
 

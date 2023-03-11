@@ -24,6 +24,20 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Gettext - convenience wrapper around Locale::gettext
+
+=head1 DESCRIPTION
+
+The Dpkg::Gettext module is a convenience wrapper over the Locale::gettext
+module, to guarantee we always have working gettext functions, and to add
+some commonly used aliases.
+
+=cut
+
 package Dpkg::Gettext;
 
 use strict;
@@ -41,18 +55,6 @@ our @EXPORT = qw(
 );
 
 use Exporter qw(import);
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Gettext - convenience wrapper around Locale::gettext
-
-=head1 DESCRIPTION
-
-The Dpkg::Gettext module is a convenience wrapper over the Locale::gettext
-module, to guarantee we always have working gettext functions, and to add
-some commonly used aliases.
 
 =head1 ENVIRONMENT
 

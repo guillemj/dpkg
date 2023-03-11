@@ -19,8 +19,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Deps::KnownFacts;
-
 =encoding utf8
 
 =head1 NAME
@@ -33,6 +31,8 @@ This class represents a list of installed packages and a list of virtual
 packages provided (by the set of installed packages).
 
 =cut
+
+package Dpkg::Deps::KnownFacts;
 
 use strict;
 use warnings;

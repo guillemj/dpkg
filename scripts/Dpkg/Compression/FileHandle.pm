@@ -14,26 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Compression::FileHandle;
-
-use strict;
-use warnings;
-
-our $VERSION = '1.01';
-
-use Carp;
-
-use Dpkg::Compression;
-use Dpkg::Compression::Process;
-use Dpkg::Gettext;
-use Dpkg::ErrorHandling;
-
-use parent qw(IO::File Tie::Handle);
-
-# Useful reference to understand some kludges required to
-# have the class behave like a filehandle
-# http://blog.woobling.org/2009/10/are-filehandles-objects.html
-
 =encoding utf8
 
 =head1 NAME
@@ -87,6 +67,28 @@ first read or write operation based on the filename set at creation time
 
 Once a file has been opened, the filehandle must be closed before being
 able to open another file.
+
+=cut
+
+package Dpkg::Compression::FileHandle;
+
+use strict;
+use warnings;
+
+our $VERSION = '1.01';
+
+use Carp;
+
+use Dpkg::Compression;
+use Dpkg::Compression::Process;
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling;
+
+use parent qw(IO::File Tie::Handle);
+
+# Useful reference to understand some kludges required to
+# have the class behave like a filehandle
+# http://blog.woobling.org/2009/10/are-filehandles-objects.html
 
 =head1 STANDARD FUNCTIONS
 

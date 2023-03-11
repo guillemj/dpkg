@@ -14,6 +14,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Exit - program exit handlers
+
+=head1 DESCRIPTION
+
+The Dpkg::Exit module provides support functions to run handlers on exit.
+
+=cut
+
 package Dpkg::Exit;
 
 use strict;
@@ -29,16 +41,6 @@ our @EXPORT_OK = qw(
 use Exporter qw(import);
 
 my @handlers = ();
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Exit - program exit handlers
-
-=head1 DESCRIPTION
-
-The Dpkg::Exit module provides support functions to run handlers on exit.
 
 =head1 FUNCTIONS
 

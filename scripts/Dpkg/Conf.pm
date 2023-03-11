@@ -13,6 +13,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Conf - parse dpkg configuration files
+
+=head1 DESCRIPTION
+
+The Dpkg::Conf object can be used to read options from a configuration
+file. It can export an array that can then be parsed exactly like @ARGV.
+
+=cut
+
 package Dpkg::Conf;
 
 use strict;
@@ -30,17 +43,6 @@ use parent qw(Dpkg::Interface::Storable);
 use overload
     '@{}' => sub { return [ $_[0]->get_options() ] },
     fallback => 1;
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Conf - parse dpkg configuration files
-
-=head1 DESCRIPTION
-
-The Dpkg::Conf object can be used to read options from a configuration
-file. It can export an array that can then be parsed exactly like @ARGV.
 
 =head1 METHODS
 

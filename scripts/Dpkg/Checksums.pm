@@ -15,6 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Checksums - generate and manipulate file checksums
+
+=head1 DESCRIPTION
+
+This module provides a class that can generate and manipulate
+various file checksums as well as some methods to query information
+about supported checksums.
+
+=cut
+
 package Dpkg::Checksums;
 
 use strict;
@@ -32,18 +46,6 @@ use Digest;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Checksums - generate and manipulate file checksums
-
-=head1 DESCRIPTION
-
-This module provides a class that can generate and manipulate
-various file checksums as well as some methods to query information
-about supported checksums.
 
 =head1 FUNCTIONS
 

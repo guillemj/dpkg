@@ -14,6 +14,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Changelog::Entry::Debian - represents a Debian changelog entry
+
+=head1 DESCRIPTION
+
+This class represents a Debian changelog entry.
+It implements the generic interface Dpkg::Changelog::Entry.
+Only functions specific to this implementation are described below,
+the rest are inherited.
+
+=cut
+
 package Dpkg::Changelog::Entry::Debian;
 
 use strict;
@@ -36,21 +51,6 @@ use Dpkg::Changelog::Entry;
 use Dpkg::Version;
 
 use parent qw(Dpkg::Changelog::Entry);
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Changelog::Entry::Debian - represents a Debian changelog entry
-
-=head1 DESCRIPTION
-
-This class represents a Debian changelog entry.
-It implements the generic interface Dpkg::Changelog::Entry.
-Only functions specific to this implementation are described below,
-the rest are inherited.
-
-=cut
 
 my $name_chars = qr/[-+0-9a-z.]/i;
 

@@ -13,6 +13,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Control::Fields - manage (list of official) control fields
+
+=head1 DESCRIPTION
+
+The module contains a list of vendor-neutral and vendor-specific fieldnames
+with associated meta-data explaining in which type of control information
+they are allowed. The vendor-neutral fieldnames and all functions are
+inherited from Dpkg::Control::FieldsCore.
+
+=cut
+
 package Dpkg::Control::Fields;
 
 use strict;
@@ -44,19 +59,6 @@ foreach my $op (run_vendor_hook('register-custom-fields')) {
         croak "vendor hook register-custom-fields sent bad data: @$op";
     }
 }
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Control::Fields - manage (list of official) control fields
-
-=head1 DESCRIPTION
-
-The module contains a list of vendor-neutral and vendor-specific fieldnames
-with associated meta-data explaining in which type of control information
-they are allowed. The vendor-neutral fieldnames and all functions are
-inherited from Dpkg::Control::FieldsCore.
 
 =head1 CHANGES
 

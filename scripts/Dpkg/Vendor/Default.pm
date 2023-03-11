@@ -13,17 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Vendor::Default;
-
-use strict;
-use warnings;
-
-our $VERSION = '0.01';
-
-# If you use this file as template to create a new vendor class, please
-# uncomment the following lines
-#use parent qw(Dpkg::Vendor::Default);
-
 =encoding utf8
 
 =head1 NAME
@@ -45,6 +34,19 @@ use of vendor hooks, you'd better submit them for integration so that
 we avoid breaking your code.
 
 B<Note>: This is a private module, its API can change at any time.
+
+=cut
+
+package Dpkg::Vendor::Default;
+
+use strict;
+use warnings;
+
+our $VERSION = '0.01';
+
+# If you use this file as template to create a new vendor class, please
+# uncomment the following lines
+#use parent qw(Dpkg::Vendor::Default);
 
 =head1 METHODS
 

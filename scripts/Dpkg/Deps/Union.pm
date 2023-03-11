@@ -19,8 +19,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Deps::Union;
-
 =encoding utf8
 
 =head1 NAME
@@ -33,6 +31,8 @@ This class represents a list of relationships.
 It inherits from Dpkg::Deps::Multiple.
 
 =cut
+
+package Dpkg::Deps::Union;
 
 use strict;
 use warnings;

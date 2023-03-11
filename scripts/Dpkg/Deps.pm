@@ -19,8 +19,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Deps;
-
 =encoding utf8
 
 =head1 NAME
@@ -35,13 +33,9 @@ dependencies.
 The most important function is deps_parse(), it turns a dependency line in
 a set of Dpkg::Deps::{Simple,AND,OR,Union} objects depending on the case.
 
-=head1 FUNCTIONS
-
-All the deps_* functions are exported by default.
-
-=over 4
-
 =cut
+
+package Dpkg::Deps;
 
 use strict;
 use warnings;
@@ -69,6 +63,12 @@ use Dpkg::Deps::Union;
 use Dpkg::Deps::AND;
 use Dpkg::Deps::OR;
 use Dpkg::Deps::KnownFacts;
+
+=head1 FUNCTIONS
+
+All the deps_* functions are exported by default.
+
+=over 4
 
 =item deps_eval_implication($rel_p, $v_p, $rel_q, $v_q)
 

@@ -14,8 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Source::Format;
-
 =encoding utf8
 
 =head1 NAME
@@ -28,6 +26,8 @@ This module provides a class that can manipulate Debian source
 package F<debian/source/format> files.
 
 =cut
+
+package Dpkg::Source::Format;
 
 use strict;
 use warnings;

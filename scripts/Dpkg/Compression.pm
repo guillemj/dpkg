@@ -14,6 +14,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Compression - simple database of available compression methods
+
+=head1 DESCRIPTION
+
+This modules provides a few public functions and a public regex to
+interact with the set of supported compression methods.
+
+=cut
+
 package Dpkg::Compression;
 
 use strict;
@@ -46,19 +59,6 @@ use List::Util qw(any);
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Compression - simple database of available compression methods
-
-=head1 DESCRIPTION
-
-This modules provides a few public functions and a public regex to
-interact with the set of supported compression methods.
-
-=cut
 
 my %COMP = (
     gzip => {

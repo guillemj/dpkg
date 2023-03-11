@@ -19,8 +19,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Deps::AND;
-
 =encoding utf8
 
 =head1 NAME
@@ -33,6 +31,8 @@ This class represents a list of dependencies that must be met at the same
 time. It inherits from Dpkg::Deps::Multiple.
 
 =cut
+
+package Dpkg::Deps::AND;
 
 use strict;
 use warnings;

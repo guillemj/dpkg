@@ -14,6 +14,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Control::Info - parse files like debian/control
+
+=head1 DESCRIPTION
+
+It provides a class to access data of files that follow the same
+syntax as F<debian/control>.
+
+=cut
+
 package Dpkg::Control::Info;
 
 use strict;
@@ -29,17 +42,6 @@ use parent qw(Dpkg::Interface::Storable);
 
 use overload
     '@{}' => sub { return [ $_[0]->{source}, @{$_[0]->{packages}} ] };
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Control::Info - parse files like debian/control
-
-=head1 DESCRIPTION
-
-It provides a class to access data of files that follow the same
-syntax as F<debian/control>.
 
 =head1 METHODS
 

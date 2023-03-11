@@ -13,15 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Vendor::Devuan;
-
-use strict;
-use warnings;
-
-our $VERSION = '0.01';
-
-use parent qw(Dpkg::Vendor::Debian);
-
 =encoding utf8
 
 =head1 NAME
@@ -36,6 +27,15 @@ specific behavior and policies.
 B<Note>: This is a private module, its API can change at any time.
 
 =cut
+
+package Dpkg::Vendor::Devuan;
+
+use strict;
+use warnings;
+
+our $VERSION = '0.01';
+
+use parent qw(Dpkg::Vendor::Debian);
 
 sub run_hook {
     my ($self, $hook, @params) = @_;

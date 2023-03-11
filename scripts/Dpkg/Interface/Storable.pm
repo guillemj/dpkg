@@ -13,6 +13,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Interface::Storable - common methods related to object serialization
+
+=head1 DESCRIPTION
+
+Dpkg::Interface::Storable is only meant to be used as parent
+class for other classes. It provides common methods that are
+all implemented on top of two basic methods parse() and output().
+
+=cut
+
 package Dpkg::Interface::Storable;
 
 use strict;
@@ -28,18 +42,6 @@ use Dpkg::ErrorHandling;
 use overload
     '""' => \&_stringify,
     'fallback' => 1;
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Interface::Storable - common methods related to object serialization
-
-=head1 DESCRIPTION
-
-Dpkg::Interface::Storable is only meant to be used as parent
-class for other classes. It provides common methods that are
-all implemented on top of two basic methods parse() and output().
 
 =head1 BASE METHODS
 

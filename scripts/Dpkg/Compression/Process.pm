@@ -14,6 +14,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Compression::Process - run compression/decompression processes
+
+=head1 DESCRIPTION
+
+This module provides an object oriented interface to run and manage
+compression/decompression processes.
+
+=cut
+
 package Dpkg::Compression::Process;
 
 use strict;
@@ -27,17 +40,6 @@ use Dpkg::Compression;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::IPC;
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Compression::Process - run compression/decompression processes
-
-=head1 DESCRIPTION
-
-This module provides an object oriented interface to run and manage
-compression/decompression processes.
 
 =head1 METHODS
 

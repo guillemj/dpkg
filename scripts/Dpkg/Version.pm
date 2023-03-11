@@ -16,6 +16,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Version - handling and comparing dpkg-style version numbers
+
+=head1 DESCRIPTION
+
+The Dpkg::Version module provides pure-Perl routines to compare
+dpkg-style version numbers (as used in Debian packages) and also
+an object oriented interface overriding perl operators
+to do the right thing when you compare Dpkg::Version object between
+them.
+
+=cut
+
 package Dpkg::Version;
 
 use strict;
@@ -58,20 +74,6 @@ use overload
     '""'  => sub { return $_[0]->as_string(); },
     'bool' => sub { return $_[0]->is_valid(); },
     'fallback' => 1;
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Version - handling and comparing dpkg-style version numbers
-
-=head1 DESCRIPTION
-
-The Dpkg::Version module provides pure-Perl routines to compare
-dpkg-style version numbers (as used in Debian packages) and also
-an object oriented interface overriding perl operators
-to do the right thing when you compare Dpkg::Version object between
-them.
 
 =head1 METHODS
 

@@ -13,6 +13,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Control::Hash - parse and manipulate a stanza of deb822 fields
+
+=head1 DESCRIPTION
+
+This module is just like Dpkg::Control::HashCore, with vendor-specific
+field knowledge.
+
+=cut
+
 package Dpkg::Control::Hash;
 
 use strict;
@@ -25,17 +38,6 @@ use Dpkg::ErrorHandling;
 use Dpkg::Control::Fields; # Force execution of vendor hook.
 
 use parent qw(Dpkg::Control::HashCore);
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Control::Hash - parse and manipulate a stanza of deb822 fields
-
-=head1 DESCRIPTION
-
-This module is just like Dpkg::Control::HashCore, with vendor-specific
-field knowledge.
 
 =head1 CHANGES
 

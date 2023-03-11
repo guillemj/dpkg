@@ -19,8 +19,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Deps::Multiple;
-
 =encoding utf8
 
 =head1 NAME
@@ -33,6 +31,8 @@ The Dpkg::Deps::Multiple module provides objects implementing various types
 of dependencies. It is the base class for Dpkg::Deps::{AND,OR,Union}.
 
 =cut
+
+package Dpkg::Deps::Multiple;
 
 use strict;
 use warnings;

@@ -13,17 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Control::Changelog;
-
-use strict;
-use warnings;
-
-our $VERSION = '1.00';
-
-use Dpkg::Control;
-
-use parent qw(Dpkg::Control);
-
 =encoding utf8
 
 =head1 NAME
@@ -34,6 +23,19 @@ Dpkg::Control::Changelog - represent info fields output by dpkg-parsechangelog
 
 This class derives directly from Dpkg::Control with the type
 CTRL_CHANGELOG.
+
+=cut
+
+package Dpkg::Control::Changelog;
+
+use strict;
+use warnings;
+
+our $VERSION = '1.00';
+
+use Dpkg::Control;
+
+use parent qw(Dpkg::Control);
 
 =head1 METHODS
 

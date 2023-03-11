@@ -19,8 +19,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Deps::Simple;
-
 =encoding utf8
 
 =head1 NAME
@@ -68,11 +66,9 @@ is no restriction formula. Otherwise it is an array ref.
 
 =back
 
-=head1 METHODS
-
-=over 4
-
 =cut
+
+package Dpkg::Deps::Simple;
 
 use strict;
 use warnings;
@@ -88,6 +84,10 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use parent qw(Dpkg::Interface::Storable);
+
+=head1 METHODS
+
+=over 4
 
 =item $dep = Dpkg::Deps::Simple->new([$dep[, %opts]]);
 

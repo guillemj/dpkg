@@ -19,8 +19,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Deps::OR;
-
 =encoding utf8
 
 =head1 NAME
@@ -33,6 +31,8 @@ This class represents a list of dependencies of which only one must be met
 for the dependency to be true. It inherits from Dpkg::Deps::Multiple.
 
 =cut
+
+package Dpkg::Deps::OR;
 
 use strict;
 use warnings;

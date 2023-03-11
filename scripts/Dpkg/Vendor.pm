@@ -14,6 +14,34 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Vendor - get access to some vendor specific information
+
+=head1 DESCRIPTION
+
+The files in $Dpkg::CONFDIR/origins/ can provide information about various
+vendors who are providing Debian packages. Currently those files look like
+this:
+
+  Vendor: Debian
+  Vendor-URL: https://www.debian.org/
+  Bugs: debbugs://bugs.debian.org
+
+If the vendor derives from another vendor, the file should document
+the relationship by listing the base distribution in the Parent field:
+
+  Parent: Debian
+
+The file should be named according to the vendor name. The usual convention
+is to name the vendor file using the vendor name in all lowercase, but some
+variation is permitted. Namely, spaces are mapped to dashes ('-'), and the
+file can have the same casing as the Vendor field, or it can be capitalized.
+
+=cut
+
 package Dpkg::Vendor;
 
 use strict;
@@ -41,32 +69,6 @@ use Dpkg::Control::HashCore;
 
 my $origins = "$Dpkg::CONFDIR/origins";
 $origins = $ENV{DPKG_ORIGINS_DIR} if $ENV{DPKG_ORIGINS_DIR};
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Vendor - get access to some vendor specific information
-
-=head1 DESCRIPTION
-
-The files in $Dpkg::CONFDIR/origins/ can provide information about various
-vendors who are providing Debian packages. Currently those files look like
-this:
-
-  Vendor: Debian
-  Vendor-URL: https://www.debian.org/
-  Bugs: debbugs://bugs.debian.org
-
-If the vendor derives from another vendor, the file should document
-the relationship by listing the base distribution in the Parent field:
-
-  Parent: Debian
-
-The file should be named according to the vendor name. The usual convention
-is to name the vendor file using the vendor name in all lowercase, but some
-variation is permitted. Namely, spaces are mapped to dashes ('-'), and the
-file can have the same casing as the Vendor field, or it can be capitalized.
 
 =head1 FUNCTIONS
 

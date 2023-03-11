@@ -14,6 +14,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Substvars - handle variable substitution in strings
+
+=head1 DESCRIPTION
+
+It provides a class which is able to substitute variables in strings.
+
+=cut
+
 package Dpkg::Substvars;
 
 use strict;
@@ -31,18 +43,6 @@ use Dpkg::Gettext;
 use parent qw(Dpkg::Interface::Storable);
 
 my $maxsubsts = 50;
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Substvars - handle variable substitution in strings
-
-=head1 DESCRIPTION
-
-It provides a class which is able to substitute variables in strings.
-
-=cut
 
 use constant {
     SUBSTVAR_ATTR_USED => 1,

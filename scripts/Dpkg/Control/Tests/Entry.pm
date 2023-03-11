@@ -13,6 +13,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Control::Tests::Entry - represents a test suite entry
+
+=head1 DESCRIPTION
+
+This class represents a test suite entry.
+
+=cut
+
 package Dpkg::Control::Tests::Entry;
 
 use strict;
@@ -25,16 +37,6 @@ use Dpkg::ErrorHandling;
 use Dpkg::Control;
 
 use parent qw(Dpkg::Control);
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Control::Tests::Entry - represents a test suite entry
-
-=head1 DESCRIPTION
-
-This class represents a test suite entry.
 
 =head1 METHODS
 

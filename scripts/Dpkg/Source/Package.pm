@@ -14,8 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Source::Package;
-
 =encoding utf8
 
 =head1 NAME
@@ -30,6 +28,8 @@ of source packages, the only API that is officially supported
 is the one that supports the extraction of the source package.
 
 =cut
+
+package Dpkg::Source::Package;
 
 use strict;
 use warnings;

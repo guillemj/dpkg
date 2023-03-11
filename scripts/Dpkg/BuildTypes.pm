@@ -14,6 +14,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::BuildTypes - track build types
+
+=head1 DESCRIPTION
+
+The Dpkg::BuildTypes module is used by various tools to track and decide
+what artifacts need to be built.
+
+The build types are bit constants that are exported by default. Multiple
+types can be ORed.
+
+B<Note>: This is a private module, its API can change at any time.
+
+=cut
+
 package Dpkg::BuildTypes;
 
 use strict;
@@ -41,22 +59,6 @@ use Exporter qw(import);
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::BuildTypes - track build types
-
-=head1 DESCRIPTION
-
-The Dpkg::BuildTypes module is used by various tools to track and decide
-what artifacts need to be built.
-
-The build types are bit constants that are exported by default. Multiple
-types can be ORed.
-
-B<Note>: This is a private module, its API can change at any time.
 
 =head1 CONSTANTS
 

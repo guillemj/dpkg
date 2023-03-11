@@ -13,6 +13,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::BuildInfo - handle build information
+
+=head1 DESCRIPTION
+
+The Dpkg::BuildInfo module provides functions to handle the build
+information.
+
+=cut
+
 package Dpkg::BuildInfo;
 
 use strict;
@@ -24,17 +37,6 @@ our @EXPORT_OK = qw(
 );
 
 use Exporter qw(import);
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::BuildInfo - handle build information
-
-=head1 DESCRIPTION
-
-The Dpkg::BuildInfo module provides functions to handle the build
-information.
 
 =head1 FUNCTIONS
 

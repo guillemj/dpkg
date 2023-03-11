@@ -11,6 +11,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Control::Types - export CTRL_* constants
+
+=head1 DESCRIPTION
+
+You should not use this module directly. Instead you more likely
+want to use Dpkg::Control which also re-exports the same constants.
+
+This module has been introduced solely to avoid a dependency loop
+between Dpkg::Control and Dpkg::Control::Fields.
+
+B<Note>: This is a private module, its API can change at any time.
+
+=cut
+
 package Dpkg::Control::Types;
 
 use strict;
@@ -38,24 +56,6 @@ our @EXPORT = qw(
 );
 
 use Exporter qw(import);
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Control::Types - export CTRL_* constants
-
-=head1 DESCRIPTION
-
-You should not use this module directly. Instead you more likely
-want to use Dpkg::Control which also re-exports the same constants.
-
-This module has been introduced solely to avoid a dependency loop
-between Dpkg::Control and Dpkg::Control::Fields.
-
-B<Note>: This is a private module, its API can change at any time.
-
-=cut
 
 use constant {
     CTRL_UNKNOWN => 0,

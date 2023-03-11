@@ -13,6 +13,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Control::Tests - parse files like debian/tests/control
+
+=head1 DESCRIPTION
+
+It provides a class to access data of files that follow the same
+syntax as F<debian/tests/control>.
+
+=cut
+
 package Dpkg::Control::Tests;
 
 use strict;
@@ -25,17 +38,6 @@ use Dpkg::Control::Tests::Entry;
 use Dpkg::Index;
 
 use parent qw(Dpkg::Index);
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Control::Tests - parse files like debian/tests/control
-
-=head1 DESCRIPTION
-
-It provides a class to access data of files that follow the same
-syntax as F<debian/tests/control>.
 
 =head1 METHODS
 

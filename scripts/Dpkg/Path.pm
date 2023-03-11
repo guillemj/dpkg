@@ -14,6 +14,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Path - some common path handling functions
+
+=head1 DESCRIPTION
+
+It provides some functions to handle various path.
+
+=cut
+
 package Dpkg::Path;
 
 use strict;
@@ -43,16 +55,6 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Arch qw(get_host_arch debarch_to_debtuple);
 use Dpkg::IPC;
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Path - some common path handling functions
-
-=head1 DESCRIPTION
-
-It provides some functions to handle various path.
 
 =head1 FUNCTIONS
 

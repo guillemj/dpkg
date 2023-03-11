@@ -14,6 +14,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::BuildFlags - query build flags
+
+=head1 DESCRIPTION
+
+This class is used by dpkg-buildflags and can be used
+to query the same information.
+
+=cut
+
 package Dpkg::BuildFlags;
 
 use strict;
@@ -26,17 +39,6 @@ use Dpkg::Gettext;
 use Dpkg::BuildEnv;
 use Dpkg::ErrorHandling;
 use Dpkg::Vendor qw(run_vendor_hook);
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::BuildFlags - query build flags
-
-=head1 DESCRIPTION
-
-This class is used by dpkg-buildflags and can be used
-to query the same information.
 
 =head1 METHODS
 

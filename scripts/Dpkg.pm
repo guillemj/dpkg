@@ -11,8 +11,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg;
-
 =encoding utf8
 
 =head1 NAME
@@ -27,6 +25,8 @@ this system installation.
 It is also the entry point to the Dpkg module hierarchy.
 
 =cut
+
+package Dpkg;
 
 use strict;
 use warnings;

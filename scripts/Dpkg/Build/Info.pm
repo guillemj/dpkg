@@ -13,6 +13,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Build::Info - handle build information
+
+=head1 DESCRIPTION
+
+The Dpkg::Build::Info module provides functions to handle the build
+information.
+
+This module is deprecated, use Dpkg::BuildInfo instead.
+
+=cut
+
 package Dpkg::Build::Info;
 
 use strict;
@@ -27,19 +42,6 @@ our @EXPORT_OK = qw(
 use Exporter qw(import);
 
 use Dpkg::BuildInfo;
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Build::Info - handle build information
-
-=head1 DESCRIPTION
-
-The Dpkg::Build::Info module provides functions to handle the build
-information.
-
-This module is deprecated, use Dpkg::BuildInfo instead.
 
 =head1 FUNCTIONS
 

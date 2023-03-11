@@ -13,16 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::BuildEnv;
-
-use strict;
-use warnings;
-
-our $VERSION = '0.01';
-
-my %env_modified = ();
-my %env_accessed = ();
-
 =encoding utf8
 
 =head1 NAME
@@ -35,6 +25,18 @@ The Dpkg::BuildEnv module is used by dpkg-buildflags to track the build
 environment variables being used and modified.
 
 B<Note>: This is a private module, its API can change at any time.
+
+=cut
+
+package Dpkg::BuildEnv;
+
+use strict;
+use warnings;
+
+our $VERSION = '0.01';
+
+my %env_modified = ();
+my %env_accessed = ();
 
 =head1 FUNCTIONS
 

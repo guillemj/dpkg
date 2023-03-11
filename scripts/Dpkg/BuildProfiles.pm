@@ -13,6 +13,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::BuildProfiles - handle build profiles
+
+=head1 DESCRIPTION
+
+The Dpkg::BuildProfiles module provides functions to handle the build
+profiles.
+
+=cut
+
 package Dpkg::BuildProfiles;
 
 use strict;
@@ -33,17 +46,6 @@ use Dpkg::BuildEnv;
 
 my $cache_profiles;
 my @build_profiles;
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::BuildProfiles - handle build profiles
-
-=head1 DESCRIPTION
-
-The Dpkg::BuildProfiles module provides functions to handle the build
-profiles.
 
 =head1 FUNCTIONS
 

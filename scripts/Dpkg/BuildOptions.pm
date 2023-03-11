@@ -15,17 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::BuildOptions;
-
-use strict;
-use warnings;
-
-our $VERSION = '1.02';
-
-use Dpkg::Gettext;
-use Dpkg::ErrorHandling;
-use Dpkg::BuildEnv;
-
 =encoding utf8
 
 =head1 NAME
@@ -37,6 +26,19 @@ Dpkg::BuildOptions - parse and update build options
 This class can be used to manipulate options stored
 in environment variables like DEB_BUILD_OPTIONS and
 DEB_BUILD_MAINT_OPTIONS.
+
+=cut
+
+package Dpkg::BuildOptions;
+
+use strict;
+use warnings;
+
+our $VERSION = '1.02';
+
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling;
+use Dpkg::BuildEnv;
 
 =head1 METHODS
 

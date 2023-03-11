@@ -15,6 +15,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::IPC - helper functions for IPC
+
+=head1 DESCRIPTION
+
+Dpkg::IPC offers helper functions to allow you to execute
+other programs in an easy, yet flexible way, while hiding
+all the gory details of IPC (Inter-Process Communication)
+from you.
+
+=cut
+
 package Dpkg::IPC;
 
 use strict;
@@ -31,19 +46,6 @@ use Exporter qw(import);
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::IPC - helper functions for IPC
-
-=head1 DESCRIPTION
-
-Dpkg::IPC offers helper functions to allow you to execute
-other programs in an easy, yet flexible way, while hiding
-all the gory details of IPC (Inter-Process Communication)
-from you.
 
 =head1 FUNCTIONS
 

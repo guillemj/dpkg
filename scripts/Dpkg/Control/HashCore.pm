@@ -14,28 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Control::HashCore;
-
-use strict;
-use warnings;
-
-our $VERSION = '1.02';
-
-use Dpkg::Gettext;
-use Dpkg::ErrorHandling;
-use Dpkg::Control::FieldsCore;
-use Dpkg::Control::HashCore::Tie;
-
-# This module cannot use Dpkg::Control::Fields, because that one makes use
-# of Dpkg::Vendor which at the same time uses this module, which would turn
-# into a compilation error. We can use Dpkg::Control::FieldsCore instead.
-
-use parent qw(Dpkg::Interface::Storable);
-
-use overload
-    '%{}' => sub { ${$_[0]}->{fields} },
-    'eq' => sub { "$_[0]" eq "$_[1]" };
-
 =encoding utf8
 
 =head1 NAME
@@ -61,6 +39,30 @@ modified. Empty lines and lines containing only dots are prefixed with
 
 During parsing, trailing spaces are stripped on all lines while leading
 spaces are stripped only on the first line of each field.
+
+=cut
+
+package Dpkg::Control::HashCore;
+
+use strict;
+use warnings;
+
+our $VERSION = '1.02';
+
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling;
+use Dpkg::Control::FieldsCore;
+use Dpkg::Control::HashCore::Tie;
+
+# This module cannot use Dpkg::Control::Fields, because that one makes use
+# of Dpkg::Vendor which at the same time uses this module, which would turn
+# into a compilation error. We can use Dpkg::Control::FieldsCore instead.
+
+use parent qw(Dpkg::Interface::Storable);
+
+use overload
+    '%{}' => sub { ${$_[0]}->{fields} },
+    'eq' => sub { "$_[0]" eq "$_[1]" };
 
 =head1 METHODS
 

@@ -18,20 +18,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::Vendor::Debian;
-
-use strict;
-use warnings;
-
-our $VERSION = '0.01';
-
-use Dpkg;
-use Dpkg::Gettext;
-use Dpkg::ErrorHandling;
-use Dpkg::Control::Types;
-
-use parent qw(Dpkg::Vendor::Default);
-
 =encoding utf8
 
 =head1 NAME
@@ -46,6 +32,20 @@ specific behavior and policies.
 B<Note>: This is a private module, its API can change at any time.
 
 =cut
+
+package Dpkg::Vendor::Debian;
+
+use strict;
+use warnings;
+
+our $VERSION = '0.01';
+
+use Dpkg;
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling;
+use Dpkg::Control::Types;
+
+use parent qw(Dpkg::Vendor::Default);
 
 sub run_hook {
     my ($self, $hook, @params) = @_;

@@ -13,6 +13,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Control::FieldsCore - manage (list of official) control fields
+
+=head1 DESCRIPTION
+
+The modules contains a list of fieldnames with associated meta-data explaining
+in which type of control information they are allowed. The types are the
+CTRL_* constants exported by Dpkg::Control.
+
+=cut
+
 package Dpkg::Control::FieldsCore;
 
 use strict;
@@ -1018,18 +1032,6 @@ our %FIELD_ORDER = (
         ),
     ],
 );
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::Control::FieldsCore - manage (list of official) control fields
-
-=head1 DESCRIPTION
-
-The modules contains a list of fieldnames with associated meta-data explaining
-in which type of control information they are allowed. The types are the
-CTRL_* constants exported by Dpkg::Control.
 
 =head1 FUNCTIONS
 
