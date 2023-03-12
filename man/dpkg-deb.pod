@@ -400,6 +400,20 @@ B<dpkg>
 proper to ensure that all the files are correctly placed and the
 package's scripts run and its status and contents recorded.
 
+=head1 SECURITY
+
+Examining untrusted package archives or extracting them into staging
+directories should be considered a security boundary, and any breakage
+of that boundary stemming from these operations should be considered a
+security vulnerability.
+But handling untrusted package archives should not be done lightly,
+as the surface area includes any compression library supported,
+in addition to the archive formats and control files themselves.
+Performing these operations over untrusted data as root is strongly
+discouraged.
+
+Building package archives should only be performed over trusted data.
+
 =head1 BUGS
 
 B<dpkg-deb -I>

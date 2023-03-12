@@ -307,6 +307,21 @@ filename format should not be relied upon.
 
 =back
 
+=head1 SECURITY
+
+Examining or joining untrusted split package archives should be considered
+a security boundary, and any breakage of that boundary stemming from these
+operations should be considered a security vulnerability.
+Performing these operations over untrusted data as root is strongly
+discouraged.
+
+Auto-accumulating and discarding split package parts are considered
+privileged operations that might allow root escalation.
+These operations must never be delegated to an untrusted user or be done
+on untrusted packages, as that might allow root access to the system.
+
+Splitting package archives should only be performed over trusted data.
+
 =head1 BUGS
 
 Full details of the packages in the queue are impossible to get

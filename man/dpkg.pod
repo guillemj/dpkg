@@ -1440,6 +1440,26 @@ useful if it's lost or corrupted due to filesystems troubles.
 
 The format and contents of a binary package are described in B<deb>(5).
 
+=head1 SECURITY
+
+Any operation that needs write access to the database or the filesystem
+is considered a privileged operation that might allow root escalation.
+These operations must never be delegated to an untrusted user or be done
+on untrusted packages, as that might allow root access to the system.
+
+Some operations (such as package verification) might need root privileges
+to be able to access files on the filesystem that would otherwise be
+inaccessible due to restricted permissions, but should otherwise work
+normally and produce appropriate messages in those cases.
+
+Query operations should never require root, and delegating their execution
+to unprivileged users via some gain-root command can have security
+implications (such as privilege escalation), for example when a pager is
+automatically invoked by the tool.
+
+See also the B<SECURITY> section of the L<dpkg-deb(1)> and L<dpkg-split(1)>
+manual pages.
+
 =head1 BUGS
 
 B<--no-act> usually gives less information than might be helpful.
