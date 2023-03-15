@@ -42,10 +42,6 @@ use Dpkg::Arch qw(get_host_arch);
 
 use parent qw(Dpkg::Interface::Storable);
 
-# Needed by the deprecated key, which is a correct use.
-no if $Dpkg::Version::VERSION ge '1.02',
-    warnings => qw(Dpkg::Version::semantic_change::overload::bool);
-
 my %internal_symbol = (
     __bss_end__ => 1,                   # arm
     __bss_end => 1,                     # arm
