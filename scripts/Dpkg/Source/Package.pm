@@ -29,12 +29,11 @@ is the one that supports the extraction of the source package.
 
 =cut
 
-package Dpkg::Source::Package;
+package Dpkg::Source::Package 2.02;
 
 use strict;
 use warnings;
 
-our $VERSION = '2.02';
 our @EXPORT_OK = qw(
     get_default_diff_ignore_regex
     set_default_diff_ignore_regex

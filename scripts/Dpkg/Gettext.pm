@@ -38,13 +38,12 @@ some commonly used aliases.
 
 =cut
 
-package Dpkg::Gettext;
+package Dpkg::Gettext 2.01;
 
 use strict;
 use warnings;
 use feature qw(state);
 
-our $VERSION = '2.01';
 our @EXPORT = qw(
     textdomain
     gettext

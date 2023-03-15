@@ -25,12 +25,10 @@ This class represents a test suite entry.
 
 =cut
 
-package Dpkg::Control::Tests::Entry;
+package Dpkg::Control::Tests::Entry 1.00;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.00';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

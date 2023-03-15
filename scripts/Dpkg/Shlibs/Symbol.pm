@@ -29,12 +29,10 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::Shlibs::Symbol;
+package Dpkg::Shlibs::Symbol 0.01;
 
 use strict;
 use warnings;
-
-our $VERSION = '0.01';
 
 use Storable ();
 use List::Util qw(any);

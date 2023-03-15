@@ -28,12 +28,11 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::Getopt;
+package Dpkg::Getopt 0.02;
 
 use strict;
 use warnings;
 
-our $VERSION = '0.02';
 our @EXPORT = qw(
     normalize_options
 );

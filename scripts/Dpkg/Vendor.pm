@@ -42,13 +42,12 @@ file can have the same casing as the Vendor field, or it can be capitalized.
 
 =cut
 
-package Dpkg::Vendor;
+package Dpkg::Vendor 1.02;
 
 use strict;
 use warnings;
 use feature qw(state);
 
-our $VERSION = '1.02';
 our @EXPORT_OK = qw(
     get_current_vendor
     get_vendor_info

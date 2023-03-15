@@ -28,12 +28,11 @@ inherited from Dpkg::Control::FieldsCore.
 
 =cut
 
-package Dpkg::Control::Fields;
+package Dpkg::Control::Fields 1.00;
 
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
 our @EXPORT = @Dpkg::Control::FieldsCore::EXPORT;
 
 use Carp;

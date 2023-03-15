@@ -28,12 +28,11 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Test::Dpkg;
+package Test::Dpkg 0.00;
 
 use strict;
 use warnings;
 
-our $VERSION = '0.00';
 our @EXPORT_OK = qw(
     all_po_files
     all_perl_files

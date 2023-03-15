@@ -26,12 +26,11 @@ information.
 
 =cut
 
-package Dpkg::BuildInfo;
+package Dpkg::BuildInfo 1.00;
 
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
 our @EXPORT_OK = qw(
     get_build_env_allowed
 );

@@ -30,13 +30,12 @@ to import specific symbol subsets.
 
 =cut
 
-package Dpkg::Arch;
+package Dpkg::Arch 1.03;
 
 use strict;
 use warnings;
 use feature qw(state);
 
-our $VERSION = '1.03';
 our @EXPORT_OK = qw(
     get_raw_build_arch
     get_raw_host_arch

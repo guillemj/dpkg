@@ -26,12 +26,11 @@ It provides some functions to handle various path.
 
 =cut
 
-package Dpkg::Path;
+package Dpkg::Path 1.05;
 
 use strict;
 use warnings;
 
-our $VERSION = '1.05';
 our @EXPORT_OK = qw(
     canonpath
     resolve_symlink

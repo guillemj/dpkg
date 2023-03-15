@@ -29,12 +29,10 @@ add the ability to fill this object with changelog entries.
 
 =cut
 
-package Dpkg::Changelog;
+package Dpkg::Changelog 2.00;
 
 use strict;
 use warnings;
-
-our $VERSION = '2.00';
 
 use Carp;
 

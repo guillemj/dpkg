@@ -28,12 +28,10 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::Dist::Files;
+package Dpkg::Dist::Files 0.01;
 
 use strict;
 use warnings;
-
-our $VERSION = '0.01';
 
 use IO::Dir;
 

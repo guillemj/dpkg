@@ -25,13 +25,12 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::ErrorHandling;
+package Dpkg::ErrorHandling 0.02;
 
 use strict;
 use warnings;
 use feature qw(state);
 
-our $VERSION = '0.02';
 our @EXPORT_OK = qw(
     REPORT_PROGNAME
     REPORT_COMMAND

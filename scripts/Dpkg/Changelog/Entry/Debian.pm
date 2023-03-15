@@ -29,12 +29,11 @@ the rest are inherited.
 
 =cut
 
-package Dpkg::Changelog::Entry::Debian;
+package Dpkg::Changelog::Entry::Debian 2.00;
 
 use strict;
 use warnings;
 
-our $VERSION = '2.00';
 our @EXPORT_OK = qw(
     match_header
     match_trailer

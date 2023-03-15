@@ -28,12 +28,11 @@ This module is deprecated, use Dpkg::BuildInfo instead.
 
 =cut
 
-package Dpkg::Build::Info;
+package Dpkg::Build::Info 1.02;
 
 use strict;
 use warnings;
 
-our $VERSION = '1.02';
 our @EXPORT_OK = qw(
     get_build_env_whitelist
     get_build_env_allowed

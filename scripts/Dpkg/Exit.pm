@@ -26,12 +26,11 @@ The Dpkg::Exit module provides support functions to run handlers on exit.
 
 =cut
 
-package Dpkg::Exit;
+package Dpkg::Exit 2.00;
 
 use strict;
 use warnings;
 
-our $VERSION = '2.00';
 our @EXPORT_OK = qw(
     push_exit_handler
     pop_exit_handler

@@ -32,13 +32,12 @@ them.
 
 =cut
 
-package Dpkg::Version;
+package Dpkg::Version 1.03;
 
 use strict;
 use warnings;
 use warnings::register qw(semantic_change::overload::bool);
 
-our $VERSION = '1.03';
 our @EXPORT = qw(
     version_compare
     version_compare_relation

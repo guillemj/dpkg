@@ -26,12 +26,10 @@ It provides a class which is able to substitute variables in strings.
 
 =cut
 
-package Dpkg::Substvars;
+package Dpkg::Substvars 2.01;
 
 use strict;
 use warnings;
-
-our $VERSION = '2.01';
 
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);

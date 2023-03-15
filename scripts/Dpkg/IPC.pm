@@ -30,12 +30,11 @@ from you.
 
 =cut
 
-package Dpkg::IPC;
+package Dpkg::IPC 1.02;
 
 use strict;
 use warnings;
 
-our $VERSION = '1.02';
 our @EXPORT = qw(
     spawn
     wait_child

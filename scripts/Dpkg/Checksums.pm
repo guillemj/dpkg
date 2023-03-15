@@ -29,12 +29,11 @@ about supported checksums.
 
 =cut
 
-package Dpkg::Checksums;
+package Dpkg::Checksums 1.04;
 
 use strict;
 use warnings;
 
-our $VERSION = '1.04';
 our @EXPORT = qw(
     checksums_is_supported
     checksums_get_list

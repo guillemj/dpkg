@@ -112,12 +112,11 @@ Corresponds to a package tests control file in F<debian/tests/control>.
 
 =cut
 
-package Dpkg::Control;
+package Dpkg::Control 1.03;
 
 use strict;
 use warnings;
 
-our $VERSION = '1.03';
 our @EXPORT = qw(
     CTRL_UNKNOWN
     CTRL_INFO_SRC

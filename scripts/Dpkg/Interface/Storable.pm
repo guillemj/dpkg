@@ -27,12 +27,10 @@ all implemented on top of two basic methods parse() and output().
 
 =cut
 
-package Dpkg::Interface::Storable;
+package Dpkg::Interface::Storable 1.01;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.01';
 
 use Carp;
 

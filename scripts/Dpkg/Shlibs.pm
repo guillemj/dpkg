@@ -28,13 +28,12 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::Shlibs;
+package Dpkg::Shlibs 0.03;
 
 use strict;
 use warnings;
 use feature qw(state);
 
-our $VERSION = '0.03';
 our @EXPORT_OK = qw(
     blank_library_paths
     setup_library_paths

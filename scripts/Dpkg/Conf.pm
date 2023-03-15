@@ -26,12 +26,10 @@ file. It can export an array that can then be parsed exactly like @ARGV.
 
 =cut
 
-package Dpkg::Conf;
+package Dpkg::Conf 1.04;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.04';
 
 use Carp;
 

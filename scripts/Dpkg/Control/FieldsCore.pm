@@ -27,12 +27,11 @@ CTRL_* constants exported by Dpkg::Control.
 
 =cut
 
-package Dpkg::Control::FieldsCore;
+package Dpkg::Control::FieldsCore 1.01;
 
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
 our @EXPORT = qw(
     field_capitalize
     field_is_official

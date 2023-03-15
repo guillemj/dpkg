@@ -27,12 +27,10 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::Source::Quilt;
+package Dpkg::Source::Quilt 0.02;
 
 use strict;
 use warnings;
-
-our $VERSION = '0.02';
 
 use List::Util qw(any none);
 use File::Spec;

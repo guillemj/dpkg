@@ -27,7 +27,7 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::OpenPGP;
+package Dpkg::OpenPGP 0.01;
 
 use strict;
 use warnings;
@@ -38,8 +38,6 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
 use Dpkg::Path qw(find_command);
-
-our $VERSION = '0.01';
 
 my @BACKENDS = qw(
     sop

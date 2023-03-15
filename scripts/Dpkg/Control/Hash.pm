@@ -26,12 +26,10 @@ field knowledge.
 
 =cut
 
-package Dpkg::Control::Hash;
+package Dpkg::Control::Hash 1.00;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.00';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

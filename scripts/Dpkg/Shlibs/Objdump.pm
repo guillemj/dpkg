@@ -29,13 +29,11 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::Shlibs::Objdump;
+package Dpkg::Shlibs::Objdump 0.01;
 
 use strict;
 use warnings;
 use feature qw(state);
-
-our $VERSION = '0.01';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

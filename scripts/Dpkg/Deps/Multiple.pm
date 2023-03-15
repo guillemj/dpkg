@@ -32,12 +32,10 @@ of dependencies. It is the base class for Dpkg::Deps::{AND,OR,Union}.
 
 =cut
 
-package Dpkg::Deps::Multiple;
+package Dpkg::Deps::Multiple 1.02;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.02';
 
 use Carp;
 

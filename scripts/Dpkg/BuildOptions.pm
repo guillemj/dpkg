@@ -29,12 +29,10 @@ DEB_BUILD_MAINT_OPTIONS.
 
 =cut
 
-package Dpkg::BuildOptions;
+package Dpkg::BuildOptions 1.02;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.02';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

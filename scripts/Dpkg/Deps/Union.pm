@@ -32,12 +32,10 @@ It inherits from Dpkg::Deps::Multiple.
 
 =cut
 
-package Dpkg::Deps::Union;
+package Dpkg::Deps::Union 1.00;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.00';
 
 use parent qw(Dpkg::Deps::Multiple);
 

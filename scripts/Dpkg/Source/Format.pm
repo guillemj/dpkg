@@ -27,12 +27,10 @@ package F<debian/source/format> files.
 
 =cut
 
-package Dpkg::Source::Format;
+package Dpkg::Source::Format 1.00;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.00';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

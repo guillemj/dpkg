@@ -26,12 +26,11 @@ It is also the entry point to the Dpkg module hierarchy.
 
 =cut
 
-package Dpkg;
+package Dpkg 2.00;
 
 use strict;
 use warnings;
 
-our $VERSION = '2.00';
 our @EXPORT_OK = qw(
     $PROGNAME
     $PROGVERSION

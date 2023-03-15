@@ -26,12 +26,11 @@ profiles.
 
 =cut
 
-package Dpkg::BuildProfiles;
+package Dpkg::BuildProfiles 1.00;
 
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
 our @EXPORT_OK = qw(
     get_build_profiles
     set_build_profiles

@@ -24,12 +24,11 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dselect::Ftp;
+package Dselect::Ftp 0.02;
 
 use strict;
 use warnings;
 
-our $VERSION = '0.02';
 our @EXPORT = qw(
     %CONFIG
     yesno

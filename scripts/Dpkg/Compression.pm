@@ -27,12 +27,11 @@ interact with the set of supported compression methods.
 
 =cut
 
-package Dpkg::Compression;
+package Dpkg::Compression 2.01;
 
 use strict;
 use warnings;
 
-our $VERSION = '2.01';
 our @EXPORT = qw(
     compression_is_supported
     compression_get_list

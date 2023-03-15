@@ -35,13 +35,12 @@ a set of Dpkg::Deps::{Simple,AND,OR,Union} objects depending on the case.
 
 =cut
 
-package Dpkg::Deps;
+package Dpkg::Deps 1.07;
 
 use strict;
 use warnings;
 use feature qw(current_sub);
 
-our $VERSION = '1.07';
 our @EXPORT = qw(
     deps_concat
     deps_parse

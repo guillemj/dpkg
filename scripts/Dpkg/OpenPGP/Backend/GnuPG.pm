@@ -28,12 +28,10 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::OpenPGP::Backend::GnuPG;
+package Dpkg::OpenPGP::Backend::GnuPG 0.01;
 
 use strict;
 use warnings;
-
-our $VERSION = '0.01';
 
 use POSIX qw(:sys_wait_h);
 use File::Temp;

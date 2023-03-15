@@ -27,12 +27,10 @@ to query the same information.
 
 =cut
 
-package Dpkg::BuildFlags;
+package Dpkg::BuildFlags 1.06;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.06';
 
 use Dpkg ();
 use Dpkg::Gettext;

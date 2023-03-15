@@ -26,12 +26,10 @@ This class represent a set of Dpkg::Control objects.
 
 =cut
 
-package Dpkg::Index;
+package Dpkg::Index 3.00;
 
 use strict;
 use warnings;
-
-our $VERSION = '3.00';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

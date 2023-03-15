@@ -29,12 +29,11 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::Control::Types;
+package Dpkg::Control::Types 0.01;
 
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
 our @EXPORT = qw(
     CTRL_UNKNOWN
     CTRL_INFO_SRC

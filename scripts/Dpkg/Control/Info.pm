@@ -27,12 +27,10 @@ syntax as F<debian/control>.
 
 =cut
 
-package Dpkg::Control::Info;
+package Dpkg::Control::Info 1.01;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.01';
 
 use Dpkg::Control;
 use Dpkg::ErrorHandling;

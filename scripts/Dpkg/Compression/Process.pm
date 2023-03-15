@@ -27,12 +27,10 @@ compression/decompression processes.
 
 =cut
 
-package Dpkg::Compression::Process;
+package Dpkg::Compression::Process 1.00;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.00';
 
 use Carp;
 

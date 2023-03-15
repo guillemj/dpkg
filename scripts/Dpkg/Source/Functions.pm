@@ -28,12 +28,11 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::Source::Functions;
+package Dpkg::Source::Functions 0.01;
 
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
 our @EXPORT_OK = qw(
     erasedir
     fixperms

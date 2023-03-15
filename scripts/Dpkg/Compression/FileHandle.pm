@@ -70,12 +70,10 @@ able to open another file.
 
 =cut
 
-package Dpkg::Compression::FileHandle;
+package Dpkg::Compression::FileHandle 1.01;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.01';
 
 use Carp;
 

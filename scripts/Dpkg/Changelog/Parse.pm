@@ -28,12 +28,11 @@ of dpkg-parsechangelog.
 
 =cut
 
-package Dpkg::Changelog::Parse;
+package Dpkg::Changelog::Parse 2.01;
 
 use strict;
 use warnings;
 
-our $VERSION = '2.01';
 our @EXPORT = qw(
     changelog_parse
 );

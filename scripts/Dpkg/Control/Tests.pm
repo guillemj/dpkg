@@ -26,12 +26,10 @@ syntax as F<debian/tests/control>.
 
 =cut
 
-package Dpkg::Control::Tests;
+package Dpkg::Control::Tests 1.00;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.00';
 
 use Dpkg::Control;
 use Dpkg::Control::Tests::Entry;

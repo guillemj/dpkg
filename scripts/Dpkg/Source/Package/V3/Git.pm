@@ -28,12 +28,10 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::Source::Package::V3::Git;
+package Dpkg::Source::Package::V3::Git 0.02;
 
 use strict;
 use warnings;
-
-our $VERSION = '0.02';
 
 use Cwd qw(abs_path getcwd);
 use File::Basename;

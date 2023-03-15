@@ -26,12 +26,10 @@ CTRL_CHANGELOG.
 
 =cut
 
-package Dpkg::Control::Changelog;
+package Dpkg::Control::Changelog 1.00;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.00';
 
 use Dpkg::Control;
 

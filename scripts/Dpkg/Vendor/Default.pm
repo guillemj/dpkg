@@ -37,12 +37,10 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::Vendor::Default;
+package Dpkg::Vendor::Default 0.01;
 
 use strict;
 use warnings;
-
-our $VERSION = '0.01';
 
 # If you use this file as template to create a new vendor class, please
 # uncomment the following lines

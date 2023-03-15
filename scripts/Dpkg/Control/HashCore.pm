@@ -42,12 +42,10 @@ spaces are stripped only on the first line of each field.
 
 =cut
 
-package Dpkg::Control::HashCore;
+package Dpkg::Control::HashCore 1.02;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.02';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

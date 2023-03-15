@@ -32,12 +32,11 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::BuildTypes;
+package Dpkg::BuildTypes 0.02;
 
 use strict;
 use warnings;
 
-our $VERSION = '0.02';
 our @EXPORT = qw(
     BUILD_DEFAULT
     BUILD_SOURCE

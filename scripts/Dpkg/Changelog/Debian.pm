@@ -42,12 +42,10 @@ future.
 
 =cut
 
-package Dpkg::Changelog::Debian;
+package Dpkg::Changelog::Debian 1.00;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.00';
 
 use Dpkg::Gettext;
 use Dpkg::File;

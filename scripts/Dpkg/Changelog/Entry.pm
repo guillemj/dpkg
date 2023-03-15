@@ -27,12 +27,10 @@ trailer line. Blank lines can be between those kind of lines.
 
 =cut
 
-package Dpkg::Changelog::Entry;
+package Dpkg::Changelog::Entry 1.01;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.01';
 
 use Carp;
 

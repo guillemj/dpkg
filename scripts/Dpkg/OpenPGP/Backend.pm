@@ -28,12 +28,10 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::OpenPGP::Backend;
+package Dpkg::OpenPGP::Backend 0.01;
 
 use strict;
 use warnings;
-
-our $VERSION = '0.01';
 
 use List::Util qw(first);
 

@@ -68,12 +68,10 @@ is no restriction formula. Otherwise it is an array ref.
 
 =cut
 
-package Dpkg::Deps::Simple;
+package Dpkg::Deps::Simple 1.02;
 
 use strict;
 use warnings;
-
-our $VERSION = '1.02';
 
 use Carp;
 

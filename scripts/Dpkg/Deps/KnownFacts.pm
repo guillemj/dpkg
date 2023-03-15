@@ -32,12 +32,10 @@ packages provided (by the set of installed packages).
 
 =cut
 
-package Dpkg::Deps::KnownFacts;
+package Dpkg::Deps::KnownFacts 2.00;
 
 use strict;
 use warnings;
-
-our $VERSION = '2.00';
 
 use Dpkg::Version;
 

@@ -28,12 +28,10 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dpkg::Source::Package::V2;
+package Dpkg::Source::Package::V2 0.01;
 
 use strict;
 use warnings;
-
-our $VERSION = '0.01';
 
 use List::Util qw(first);
 use Cwd;
