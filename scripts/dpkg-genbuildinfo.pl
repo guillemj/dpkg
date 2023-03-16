@@ -500,7 +500,9 @@ $fields->{'Build-Architecture'} = get_build_arch();
 $fields->{'Build-Date'} = get_build_date();
 
 if ($use_feature{kernel}) {
-    my (undef, undef, $kern_rel, $kern_ver, undef) = POSIX::uname();
+    my ($kern_rel, $kern_ver);
+
+    ((undef) x 2, $kern_rel, $kern_ver, undef) = POSIX::uname();
     $fields->{'Build-Kernel-Version'} = "$kern_rel $kern_ver";
 }
 

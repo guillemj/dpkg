@@ -170,7 +170,7 @@ is(debarch_to_cpubits(undef), undef, 'undef CPU bits');
 is(debarch_to_cpubits('i386'), 32, 'i386 CPU bits');
 is(debarch_to_cpubits('amd64'), 64, 'amd64 CPU bits');
 
-is(debtuple_to_debarch(undef, undef, undef, undef), undef, 'undef debtuple');
+is(debtuple_to_debarch((undef) x 4), undef, 'undef debtuple');
 is(debtuple_to_debarch('base', 'gnu', 'linux', 'amd64'), 'amd64', 'known debtuple');
 is(debtuple_to_debarch('unknown', 'unknown', 'unknown', 'unknown'), undef, 'unknown debtuple');
 

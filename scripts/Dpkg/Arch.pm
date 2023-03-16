@@ -521,7 +521,9 @@ sub debarch_to_abiattrs($)
 sub debarch_to_cpubits($)
 {
     my $arch = shift;
-    my (undef, undef, undef, $cpu) = debarch_to_debtuple($arch);
+    my $cpu;
+
+    ((undef) x 3, $cpu) = debarch_to_debtuple($arch);
 
     if (defined $cpu) {
         return $cpubits{$cpu};
