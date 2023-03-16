@@ -36,6 +36,7 @@ package Dpkg::Version 1.03;
 
 use strict;
 use warnings;
+# Currently unused, but not removed to not generate warnings on users.
 use warnings::register qw(semantic_change::overload::bool);
 
 our @EXPORT = qw(
@@ -129,11 +130,12 @@ stored is valid ($v->is_valid()) and false otherwise.
 B<Notice>: Between dpkg 1.15.7.2 and 1.19.1 this overload used to return
 $v->as_string() if $v->is_valid(), a breaking change in behavior that caused
 "0" versions to be evaluated as false. To catch any possibly intended code
-that relied on those semantics, this overload will emit a warning with
-category "Dpkg::Version::semantic_change::overload::bool" until dpkg 1.20.x.
-Once fixed, or for already valid code the warning can be quiesced with
+that relied on those semantics, this overload emitted a warning with category
+"Dpkg::Version::semantic_change::overload::bool" between dpkg 1.19.1 and
+1.20.0. Once fixed, or for already valid code the warning could be quiesced
+for that specific versions with
 
-  no if $Dpkg::Version::VERSION ge '1.02',
+  no if $Dpkg::Version::VERSION eq '1.02',
      warnings => qw(Dpkg::Version::semantic_change::overload::bool);
 
 added after the C<use Dpkg::Version>.
