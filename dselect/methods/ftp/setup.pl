@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# Copyright © 1996 Andy Guy <awpguy@acs.ucalgary.ca>
+# Copyright © 1996 Andy Guy <andy@cyteen.org>
 # Copyright © 1998 Martin Schulze <joey@infodrom.north.de>
 # Copyright © 1999, 2009 Raphaël Hertzog <hertzog@debian.org>
 #
