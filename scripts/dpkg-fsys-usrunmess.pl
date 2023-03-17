@@ -31,7 +31,6 @@ use File::Find;
 use Getopt::Long qw(:config posix_default bundling_values no_ignorecase);
 
 eval q{
-    pop @INC if $INC[-1] eq '.';
     use File::FcntlLock;
 };
 if ($@) {

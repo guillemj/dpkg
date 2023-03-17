@@ -51,7 +51,6 @@ sub file_lock($$) {
     # package which bump the perl ABI impossible as these packages cannot
     # be installed alongside.
     eval q{
-        pop @INC if $INC[-1] eq '.';
         use File::FcntlLock;
     };
     if ($@) {

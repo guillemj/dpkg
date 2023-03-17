@@ -90,7 +90,6 @@ sub _load_backend {
 
     my $module = "Dpkg::OpenPGP::Backend::$backend";
     eval qq{
-        pop \@INC if \$INC[-1] eq '.';
         require $module;
     };
     return if $@;

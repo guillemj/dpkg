@@ -305,7 +305,6 @@ sub upgrade_object_type {
     my $module = "Dpkg::Source::Package::V$major";
     $module .= '::' . ucfirst $variant if defined $variant;
     eval qq{
-        pop \@INC if \$INC[-1] eq '.';
         require $module;
         \$minor = \$${module}::CURRENT_MINOR_VERSION;
     };

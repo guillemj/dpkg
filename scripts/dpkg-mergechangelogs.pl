@@ -40,7 +40,6 @@ sub join_lines($);
 
 BEGIN {
     eval q{
-        pop @INC if $INC[-1] eq '.';
         use Algorithm::Merge qw(merge);
     };
     if ($@) {
