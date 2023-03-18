@@ -130,6 +130,20 @@ sub usage {
 "), $Dpkg::PROGNAME;
 }
 
+sub format_desc
+{
+    my ($pkgname, $pkgtype, $desc) = @_;
+
+    # XXX: This does not correctly truncate characters based on their width,
+    # but on the number of characters which will not work for wide ones. But
+    # we do not have anything better in perl core.
+    my $line = encode_utf8(sprintf('%-10s - %-.65s', $pkgname,
+                                   decode_utf8($desc)));
+    $line .= " ($pkgtype)" if $pkgtype ne 'deb';
+
+    return $line;
+}
+
 
 while (@ARGV) {
     $_ = shift @ARGV;
@@ -387,9 +401,7 @@ foreach my $pkg ($control->get_packages()) {
 
     # Add description of all binary packages
     $d = $substvars->substvars($d);
-    my $desc = encode_utf8(sprintf('%-10s - %-.65s', $p, decode_utf8($d)));
-    $desc .= " ($pkg_type)" if $pkg_type ne 'deb';
-    push @descriptions, $desc;
+    push @descriptions, format_desc($p, $pkg_type, $d);
 
     # List of files for this binary package.
     my @files = @{$pkg2file{$p}};
