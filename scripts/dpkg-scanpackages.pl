@@ -220,7 +220,7 @@ sub process_deb {
     GetOptions(\%options, @options_spec);
 }
 
-if (not (@ARGV >= 1 and @ARGV <= 3)) {
+if (not 1 <= @ARGV <= 3) {
     usageerr(g_('one to three arguments expected'));
 }
 

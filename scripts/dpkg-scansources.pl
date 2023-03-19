@@ -287,7 +287,7 @@ sub process_dsc {
 }
 
 usageerr(g_('one to three arguments expected'))
-    if @ARGV < 1 or @ARGV > 3;
+    if not 1 <= @ARGV <= 3;
 
 push @ARGV, undef if @ARGV < 2;
 push @ARGV, '' if @ARGV < 3;

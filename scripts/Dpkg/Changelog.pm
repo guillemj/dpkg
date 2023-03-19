@@ -438,7 +438,7 @@ sub abort_early {
 	}
 	my $start = my $end = $offset;
 	$end += $count-1 if $count > 0;
-	return ($start < @$data and $end < @$data);
+        return $start < @{$data} > $end;
     }
 
     return unless defined($r->{since}) or defined($r->{from});
