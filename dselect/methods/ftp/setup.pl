@@ -28,7 +28,7 @@ if ($@) {
     exit 1;
 }
 
-use Dselect::Ftp;
+use Dselect::Method::Ftp;
 
 # deal with arguments
 my $vardir = $ARGV[0];

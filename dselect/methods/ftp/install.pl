@@ -34,7 +34,7 @@ if ($@) {
     exit 1;
 }
 
-use Dselect::Ftp;
+use Dselect::Method::Ftp;
 
 my $ftp;
 
