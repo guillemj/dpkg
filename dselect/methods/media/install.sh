@@ -30,9 +30,6 @@ debug() {
   true
 }
 iarch=$(dpkg --print-architecture)
-ismulti() {
-  test -e "$1/.disk/info" || test -e "$1$2/.disk/info"
-}
 
 # 1/ mountpoint
 # 2/ hierarchy

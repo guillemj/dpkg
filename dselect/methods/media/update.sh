@@ -30,10 +30,6 @@ cd "$vardir/methods/$method"
 debug() {
   true
 }
-ismulti() {
-  debug $1 $2
-  test -e "$1/.disk/info" || test -e "$1$2/.disk/info"
-}
 
 packages=0
 for f in main ctb nf lcl; do
