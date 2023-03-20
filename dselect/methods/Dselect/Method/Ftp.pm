@@ -115,29 +115,29 @@ MIRRORS
 }
 
 sub edit_config {
-  my $methdir = shift;
+  my ($method, $methdir) = @_;
   my $i;
 
-  #Get a config for ftp sites
+  # Get a config for the sites.
   while(1) {
     $i = 1;
-    print "\n\nList of selected ftp sites :\n";
+    print "\n\nList of selected $method sites :\n";
     foreach (@{$CONFIG{site}}) {
-      print "$i. ftp://$_->[0]$_->[1] @{$_->[2]}\n";
+      print "$i. $method://$_->[0]$_->[1] @{$_->[2]}\n";
       $i++;
     }
     print "\nEnter a command (a=add e=edit d=delete q=quit m=mirror list) \n";
     print 'eventually followed by a site number : ';
     chomp($_ = <STDIN>);
     /q/i && last;
-    /a/i && add_site();
+    /a/i && add_site($method);
     /d\s*(\d+)/i &&
     do {
          splice(@{$CONFIG{site}}, $1 - 1, 1) if ($1 <= @{$CONFIG{site}});
          next;};
     /e\s*(\d+)/i &&
     do {
-         edit_site($CONFIG{site}[$1 - 1]) if ($1 <= @{$CONFIG{site}});
+         edit_site($method, $CONFIG{site}[$1 - 1]) if $1 <= @{$CONFIG{site}};
          next; };
     /m/i && view_mirrors();
   }
@@ -173,6 +173,8 @@ sub edit_config {
 }
 
 sub add_site {
+    my $method = shift;
+
   my $pas = 1;
   my $user = 'anonymous';
   my $email = qx(whoami);
@@ -191,15 +193,15 @@ sub add_site {
             'dists/stable/non-free',
         ],
                                $pas, $user, $email ]);
-  edit_site($CONFIG{site}[@{$CONFIG{site}} - 1]);
+    edit_site($method, $CONFIG{site}[@{$CONFIG{site}} - 1]);
 }
 
 sub edit_site {
-  my $site = shift;
+  my ($method, $site) = @_;
 
   local($_);
 
-  print "\nEnter ftp site [$site->[0]] : ";
+  print "\nEnter $method site [$site->[0]] : ";
   chomp($_ = <STDIN>);
   $site->[0] = $_ || $site->[0];
 
@@ -211,11 +213,11 @@ sub edit_site {
   chomp($_ = <STDIN>);
   $site->[4] = $_ || $site->[4];
 
-  print <<'EOF';
+  print <<"EOF";
 
-If you're using anonymous ftp to retrieve files, enter your email
+If you are using anonymous $method to retrieve files, enter your email
 address for use as a password. Otherwise enter your password,
-or "?" if you want dselect-ftp to prompt you each time.
+or "?" if you want the $method method to prompt you each time.
 
 EOF
 

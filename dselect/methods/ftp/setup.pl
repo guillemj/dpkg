@@ -102,9 +102,9 @@ EOM
 
 if (! $CONFIG{done}) {
   view_mirrors() if (yesno('y', 'Would you like to see a list of ftp mirrors'));
-  add_site();
+  add_site('ftp');
 }
-edit_config($methdir);
+edit_config('ftp', $methdir);
 
 my $ftp;
 sub download() {
