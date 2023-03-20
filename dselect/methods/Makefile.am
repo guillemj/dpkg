@@ -25,6 +25,7 @@ nobase_methods_SCRIPTS = \
 
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
+	Dselect/Method.pm \
 	Dselect/Method/Ftp.pm \
 	# EOL
 

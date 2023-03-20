@@ -28,6 +28,7 @@ if ($@) {
     exit 1;
 }
 
+use Dselect::Method;
 use Dselect::Method::Ftp;
 
 # deal with arguments
