@@ -95,8 +95,6 @@ EXTRA_DIST = \
 	debian/dselect.lintian-overrides \
 	debian/dselect.manpages \
 	debian/dselect.postrm \
-	debian/dselect.preinst \
-	debian/dselect.prerm \
 	debian/libdpkg-dev.install \
 	debian/libdpkg-perl.install \
 	debian/source/format \
