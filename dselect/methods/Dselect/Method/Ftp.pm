@@ -15,7 +15,7 @@
 
 =head1 NAME
 
-Dselect::Ftp - dselect FTP method support
+Dselect::Method::Ftp - dselect FTP method support
 
 =head1 DESCRIPTION
 
@@ -25,7 +25,7 @@ B<Note>: This is a private module, its API can change at any time.
 
 =cut
 
-package Dselect::Ftp 0.02;
+package Dselect::Method::Ftp 0.01;
 
 use strict;
 use warnings;
