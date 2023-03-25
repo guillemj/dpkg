@@ -33,6 +33,35 @@
 
 /* Language definitions. */
 
+/* Supported since clang 1.0. */
+#ifndef __has_warning
+#define __has_warning(w) (0)
+#endif
+
+#define DPKG_PRAGMA(x) _Pragma(#x)
+
+#if defined(__clang__)
+#define DPKG_PRAGMA_CC(x) DPKG_PRAGMA(clang x)
+#elif defined(__GNUC__)
+#define DPKG_PRAGMA_CC(x) DPKG_PRAGMA(GCC x)
+#else
+#define DPKG_PRAGMA_CC(x)
+#endif
+
+#define DPKG_IGNORE_WARNING(w) \
+       DPKG_PRAGMA_CC(diagnostic push); \
+       DPKG_PRAGMA_CC(diagnostic ignored w)
+#define DPKG_ACCEPT_WARNING() \
+       DPKG_PRAGMA_CC(diagnostic pop)
+
+#if __has_warning("-Wassign-enum")
+#define DPKG_IGNORE_WARNING_ASSIGN_ENUM()	DPKG_IGNORE_WARNING("-Wassign-enum")
+#define DPKG_ACCEPT_WARNING_ASSIGN_ENUM()	DPKG_ACCEPT_WARNING()
+#else
+#define DPKG_IGNORE_WARNING_ASSIGN_ENUM()
+#define DPKG_ACCEPT_WARNING_ASSIGN_ENUM()
+#endif
+
 /* Supported since gcc 5.1.0 and clang 2.9.0. For attributes that appeared
  * before these versions, in addition we need to do version checks.  */
 #ifndef __has_attribute
