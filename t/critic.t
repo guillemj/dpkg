@@ -54,6 +54,7 @@ my @policies = qw(
     ControlStructures::ProhibitYadaOperator
     Documentation::RequirePackageMatchesPodName
     Documentation::RequirePodSections
+    InputOutput::ProhibitBacktickOperators
     InputOutput::ProhibitBarewordDirHandles
     InputOutput::ProhibitBarewordFileHandles
     InputOutput::ProhibitInteractiveTest
@@ -76,6 +77,7 @@ my @policies = qw(
     Modules::RequireExplicitPackage
     Modules::RequireFilenameMatchesPackage
     NamingConventions::Capitalization
+    NamingConventions::ProhibitAmbiguousNames
     Objects::ProhibitIndirectSyntax
     RegularExpressions::ProhibitCaptureWithoutTest
     RegularExpressions::ProhibitSingleCharAlternation

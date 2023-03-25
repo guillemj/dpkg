@@ -11,6 +11,14 @@ program-extensions = .pl .t
 lib_sections = NAME | DESCRIPTION | CHANGES
 script_sections = NAME | SYNOPSIS | DESCRIPTION
 
+[InputOutput::ProhibitBacktickOperators]
+# TODO: Add new Dpkg::Program module and switch those to it ?
+only_in_void_context = 1
+
+[NamingConventions::ProhibitAmbiguousNames]
+# Allow set(), which is the common name for a setter.
+forbid = abstract bases close contract last left no record right second
+
 [RegularExpressions::ProhibitUnusualDelimiters]
 allow_all_brackets = 1
 
@@ -64,9 +72,6 @@ allow_if_string_contains_single_quote = 1
 # Not relevant anymore, the mentioned problems were fixed in Perl 5.14.
 [-ErrorHandling::RequireCheckingReturnValueOfEval]
 
-# TODO: Check it out, add new Dpkg::Program module?
-[-InputOutput::ProhibitBacktickOperators]
-
 # Needed, using <>/<@ARGV> is not correct, Prompt is not a core module.
 [-InputOutput::ProhibitExplicitStdin]
 
@@ -78,9 +83,6 @@ allow_if_string_contains_single_quote = 1
 
 # BUG: Too many false positives; non-modules all trigger.
 [-Modules::RequireVersionVar]
-
-# These are fine.
-[-NamingConventions::ProhibitAmbiguousNames]
 
 # We work primarily with ASCII, so we need to specify the exact characters
 # to match.
