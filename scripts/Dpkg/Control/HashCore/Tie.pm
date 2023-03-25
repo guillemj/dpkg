@@ -128,7 +128,7 @@ sub FIRSTKEY {
 }
 
 sub NEXTKEY {
-    my ($self, $last) = @_;
+    my ($self, $prev) = @_;
     my $parent = $self->[1];
     my $found = 0;
 
@@ -136,7 +136,7 @@ sub NEXTKEY {
         if ($found) {
             return $key if exists $self->[0]->{lc $key};
         } else {
-            $found = 1 if $key eq $last;
+            $found = 1 if $key eq $prev;
         }
     }
     return;
