@@ -198,6 +198,23 @@ AC_DEFUN([DPKG_LIB_CURSES], [
   have_libcurses=yes
 ])# DPKG_LIB_CURSES
 
+# DPKG_LIB_RT
+# -----------
+# Check for rt library
+AC_DEFUN([DPKG_LIB_RT], [
+  AC_ARG_VAR([RT_LIBS], [linker flags for rt library])dnl
+  have_librt="no"
+  dpkg_save_librt_LIBS=$LIBS
+  AC_SEARCH_LIBS([clock_gettime], [rt])
+  LIBS=$dpkg_save_librt_LIBS
+  AS_IF([test "x$ac_cv_search_clock_gettime" = "xnone required"], [
+    have_librt="builtin"
+  ], [test "x$ac_cv_search_clock_gettime" != "xno"], [
+    have_librt="yes"
+    RT_LIBS="$ac_cv_search_clock_gettime"
+  ])
+])# DPKG_LIB_RT
+
 # DPKG_LIB_SOCKET
 # ---------------
 # Check for socket library

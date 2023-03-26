@@ -237,7 +237,7 @@ test_data = \
 	# EOL
 
 BENCHMARK_LDADD_FLAGS = \
-	-lrt \
+	$(RT_LIBS) \
 	$(LDADD) \
 	# EOL
 

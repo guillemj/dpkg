@@ -93,6 +93,7 @@ DPKG_CODE_COVERAGE
 AC_SYS_LARGEFILE
 
 # Checks for libraries.
+DPKG_LIB_RT
 DPKG_LIB_MD
 DPKG_LIB_Z
 DPKG_LIB_BZ2
@@ -297,6 +298,7 @@ Configuration:
     dselect . . . . . . . . . . . : $build_dselect
 
   System Libraries:
+    librt . . . . . . . . . . . . : $have_librt
     libsocket . . . . . . . . . . : ${have_libsocket:-no}
     libps . . . . . . . . . . . . : ${have_libps:-no}
     libkvm  . . . . . . . . . . . : ${have_libkvm:-no}
