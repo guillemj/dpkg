@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 55;
+use Test::More tests => 56;
 use Test::Dpkg qw(:paths);
 
 use Dpkg ();
@@ -171,10 +171,56 @@ eval {
 };
 $output = $@ // q{};
 is($output,
-   'Dpkg_Substvars.t: error: test too many substitutions ' .
-   "- recursive ? - in 'Cycle reference \${ref2}'\n",
+   'Dpkg_Substvars.t: error: test too many ${ref0} substitutions ' .
+   "(recursive?) in 'Cycle reference \${ref1}'\n",
    'recursive cyclic expansion is limited');
 
+# Recursive replace: Billion laughs.
+$s->set('ex0', ':)');
+$s->set('ex1', '${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}');
+$s->set('ex2', '${ex1}${ex1}${ex1}${ex1}${ex1}${ex1}${ex1}${ex1}${ex1}${ex1}');
+$s->set('ex3', '${ex2}${ex2}${ex2}${ex2}${ex2}${ex2}${ex2}${ex2}${ex2}${ex2}');
+$s->set('ex4', '${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}');
+$s->set('ex5', '${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}');
+$s->set('ex6', '${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}');
+$s->set('ex7', '${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}');
+$s->set('ex8', '${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}');
+$s->set('ex9', '${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}');
+
+eval {
+    $s->substvars('Billion laughs ${ex9}');
+    1;
+};
+$output = $@ // q{};
+is($output,
+   'Dpkg_Substvars.t: error: test too many ${ex1} substitutions ' .
+   "(recursive?) in 'Billion laughs :):):):):):):):):):):):):):)" .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   ':):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+   '${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}' .
+   '${ex2}${ex2}${ex2}${ex2}${ex2}' .
+   '${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}' .
+   '${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}' .
+   '${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}' .
+   '${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}' .
+   '${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}' .
+   '${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}' .
+   "'\n",
+   'recursive or exponential expansion is limited');
 
 # Strange input
 is($s->substvars('Nothing to $ ${substitute  here}, is it ${}?, it ${is'),

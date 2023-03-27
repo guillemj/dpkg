@@ -47,6 +47,7 @@ use constant {
     SUBSTVAR_ATTR_AUTO => 2,
     SUBSTVAR_ATTR_AGED => 4,
     SUBSTVAR_ATTR_OPT  => 8,
+    SUBSTVAR_ATTR_DEEP => 16,
 };
 
 =head1 METHODS
@@ -102,6 +103,7 @@ sub set {
     my ($self, $key, $value, $attr) = @_;
 
     $attr //= 0;
+    $attr |= SUBSTVAR_ATTR_DEEP if length $value && $value =~ m{\$};
 
     $self->{vars}{$key} = $value;
     $self->{attr}{$key} = $attr;
@@ -321,29 +323,30 @@ Substitutes variables in $string and return the result in $newstring.
 
 sub substvars {
     my ($self, $v, %opts) = @_;
+    my %seen;
     my $lhs;
     my $vn;
     my $rhs = '';
-    my $count = 0;
     $opts{msg_prefix} //= $self->{msg_prefix};
     $opts{no_warn} //= 0;
 
     while ($v =~ m/^(.*?)\$\{([-:0-9a-z]+)\}(.*)$/si) {
-        # If we have consumed more from the leftover data, then
-        # reset the recursive counter.
-        $count = 0 if (length($3) < length($rhs));
-
-        if ($count >= $maxsubsts) {
-            error($opts{msg_prefix} .
-                  g_("too many substitutions - recursive ? - in '%s'"), $v);
-        }
         $lhs = $1;
         $vn = $2;
         $rhs = $3;
+
         if (defined($self->{vars}{$vn})) {
             $v = $lhs . $self->{vars}{$vn} . $rhs;
             $self->mark_as_used($vn);
-            $count++;
+
+            if ($self->{attr}{$vn} & SUBSTVAR_ATTR_DEEP) {
+                $seen{$vn}++;
+            }
+            if (exists $seen{$vn} && $seen{$vn} >= $maxsubsts) {
+                error($opts{msg_prefix} .
+                      g_("too many \${%s} substitutions (recursive?) in '%s'"),
+                      $vn, $v);
+            }
 
             if ($self->{attr}{$vn} & SUBSTVAR_ATTR_AGED) {
                 error($opts{msg_prefix} .
