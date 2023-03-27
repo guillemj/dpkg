@@ -42,7 +42,7 @@ AT_CHECK_UNQUOTED([
 # Test debian-split with 2.x version
 cp pkg-split-part.1of10.deb pkg-split-part-version-2x.deb
 ar x pkg-split-part-version-2x.deb debian-split
-sed -e '1c2.999' debian-split >debian-split.new
+$SED -e '1c2.999' debian-split >debian-split.new
 mv debian-split.new debian-split
 ar rc pkg-split-part-version-2x.deb debian-split
 ar t pkg-split-part-version-2x.deb
