@@ -90,5 +90,3 @@ $ENV{DEB_HOST_ARCH} = 'amd64';
 $ENV{DEB_BUILD_MAINT_OPTIONS} = 'optimize=-lto';
 $bf = Dpkg::BuildFlags->new();
 test_no_ltoflag($bf);
-
-1;

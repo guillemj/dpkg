@@ -23,5 +23,3 @@ BEGIN {
 }
 
 # TODO: Add actual test cases.
-
-1;

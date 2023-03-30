@@ -85,5 +85,3 @@ ok(build_has_none(BUILD_SOURCE), 'build binary has_none source');
 set_build_type(BUILD_FULL, '--build=full', nocheck => 1);
 ok(build_has_any(BUILD_SOURCE), 'build full has_any source');
 ok(build_has_all(BUILD_BINARY), 'build full has_all binary');
-
-1;

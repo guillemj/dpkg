@@ -117,5 +117,3 @@ $conf->load("$datadir/config-mixed");
 $conf->filter(remove => sub { $_[0] =~ m/^--option/ },
               keep => sub { $_[0] =~ m/^--/ });
 is($conf->output, $expected_filter, 'Filter keep and remove');
-
-1;

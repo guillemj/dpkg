@@ -120,5 +120,3 @@ sub test_path_escape
 test_path_escape('in-place');
 
 # TODO: Add actual test cases.
-
-1;

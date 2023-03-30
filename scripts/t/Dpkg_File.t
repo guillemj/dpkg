@@ -76,5 +76,3 @@ ok(! -e "$tempdir/touched", 'file to be touched does not exist');
 file_touch("$tempdir/touched");
 ok(-e "$tempdir/touched", 'touched file exists');
 ok(-z "$tempdir/touched", 'touched file is empty');
-
-1;

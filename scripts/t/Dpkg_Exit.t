@@ -64,5 +64,3 @@ Dpkg::Exit::push_exit_handler(\&exit_handler);
 Dpkg::Exit::push_exit_handler(\&ini_handler);
 
 kill 'INT', $$;
-
-1;

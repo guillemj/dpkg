@@ -70,5 +70,3 @@ test_patch_escape('ghost-hunk', 'symlink', 'ghost-hunk.patch',
 # This is CVE-2017-8283
 test_patch_escape('indent-header', 'symlink', 'indent-header.patch',
                   'patch(1) prevents escape using indented hunks');
-
-1;

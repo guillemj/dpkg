@@ -34,5 +34,3 @@ $quilt = Dpkg::Source::Quilt->new("$datadir/parse");
 is_deeply(\@series_got, \@series_exp, 'Parsed series file matches ref');
 
 # TODO: Add actual test cases.
-
-1;

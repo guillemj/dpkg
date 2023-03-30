@@ -57,5 +57,3 @@ is_deeply([ parse_build_profiles('<nocheck nodoc> <stage1>') ], $formula,
 set_build_profiles(qw(nocheck stage1));
 is_deeply([ get_build_profiles() ], [ qw(nocheck stage1) ],
     'get active build profiles explicitly set');
-
-1;

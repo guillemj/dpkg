@@ -46,5 +46,3 @@ ok(!Dpkg::BuildEnv::has('DPKG_TEST_VAR_Z'), 'variables is not present');
 
 is(scalar Dpkg::BuildEnv::list_accessed(), 3, '2 accessed variables');
 is(scalar Dpkg::BuildEnv::list_modified(), 1, '1 modified variable');
-
-1;

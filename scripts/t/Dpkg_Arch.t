@@ -199,5 +199,3 @@ is(scalar @valid_arches, $KNOWN_ARCHES_TOTAL,
     is(get_host_gnu_type(), 'CC -dumpmachine',
        'CC does not report expected synthetic result for -dumpmachine');
 }
-
-1;

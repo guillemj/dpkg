@@ -61,5 +61,3 @@ foreach my $format_bogus (sort keys %format_bogus) {
 };
 
 # TODO: Add actual test cases.
-
-1;

@@ -150,5 +150,3 @@ test_makefile('pkg-info.mk');
 test_makefile('vendor.mk');
 test_makefile('vendor-v0.mk');
 test_makefile('vendor-v1.mk');
-
-1;

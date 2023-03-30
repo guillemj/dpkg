@@ -217,5 +217,3 @@ test_build($basename, BUILD_ARCH_INDEP);
 test_build($basename, BUILD_ARCH_DEP);
 test_build($basename, BUILD_BINARY);
 test_build($basename, BUILD_FULL);
-
-1;

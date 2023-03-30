@@ -130,5 +130,3 @@ foreach my $area (sort keys %known_features) {
 }
 
 # TODO: Add more test cases.
-
-1;

@@ -88,5 +88,3 @@ foreach my $ref_key (@ref_keys) {
 }
 
 # TODO: Add actual test cases.
-
-1;

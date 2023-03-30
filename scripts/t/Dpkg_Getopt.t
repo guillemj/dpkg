@@ -36,5 +36,3 @@ is_deeply(\@ARGV, \@expect_argv, 'unbundle long options');
                           delim => '--');
 @expect_argv = qw(-a aa -b bb --option-a oa -- --opt=arg -dval);
 is_deeply(\@ARGV, \@expect_argv, 'unbundle options with delimiter');
-
-1;

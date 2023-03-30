@@ -112,5 +112,3 @@ foreach my $cmd (@cmds) {
 
     # TODO: Add more test cases.
 }
-
-1;

@@ -182,5 +182,3 @@ test_build_source($dirname);
 $dirname = gen_source('source-name' => 'testsuite',
                       'source-version' => 3);
 test_build_source($dirname);
-
-1;

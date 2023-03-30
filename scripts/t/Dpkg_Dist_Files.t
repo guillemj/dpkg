@@ -212,5 +212,3 @@ $dist->load("$datadir/files-byhand") or error('cannot parse file');
 $dist->filter(remove => sub { $_[0]->{section} eq 'text' },
               keep => sub { $_[0]->{priority} eq 'optional' });
 is($dist->output(), $expected, 'Filter remove section text, keep priority optional');
-
-1;

@@ -40,5 +40,3 @@ is(get_source_name(), 'source', 'reset/get same source package name');
 
 eval { set_source_name('other') };
 ok($@, 'cannot set different source package name');
-
-1;

@@ -505,8 +505,6 @@ print "Rebooting now is very strongly advised.\n";
 
 print "(Note: you might need to run 'hash -r' in your shell.)\n";
 
-1;
-
 ##
 ## Functions
 ##

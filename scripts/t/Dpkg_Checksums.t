@@ -147,5 +147,3 @@ foreach my $alg (keys %str_checksum) {
     is($ctrl_export->{"Checksums-$alg"}, $str_checksum{$alg},
        "Export checksum $alg to a control object");
 }
-
-1;

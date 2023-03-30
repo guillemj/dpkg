@@ -595,5 +595,3 @@ if ($stdout) {
     rename "$outputfile.new", $outputfile
         or syserr(g_("cannot install output buildinfo file '%s'"), $outputfile);
 }
-
-1;

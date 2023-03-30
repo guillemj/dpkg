@@ -60,5 +60,3 @@ ok(compare($ascfile, "$datadir/package_1.0.orig.tar.asc") == 0,
    'OpenPGP ASCII Armor copied to destination');
 
 # TODO: Add actual test cases.
-
-1;
