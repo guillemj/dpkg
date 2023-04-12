@@ -534,15 +534,15 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 
 AT_CHECK([
 # Test non-uniform data.tar/control.tar member compression
-ar rc pkg-mixed-comp.deb debian-binary control.tar.xz data.tar.gz
+ar rc pkg-mixed-comp.deb debian-binary control.tar data.tar.gz
 ar t pkg-mixed-comp.deb
 dpkg-deb -I pkg-mixed-comp.deb
 dpkg-deb -c pkg-mixed-comp.deb
 ], [], [debian-binary
-control.tar.xz
+control.tar
 data.tar.gz
  new Debian package, version 2.0.
- size 175756 bytes: control archive=336 bytes.
+ size 185660 bytes: control archive=10240 bytes.
      193 bytes,     7 lines      control
  Package: pkg-deb-format
  Version: 0.0-1
