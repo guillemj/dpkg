@@ -7,6 +7,12 @@ SED=@SED@
 TAR=@TAR@
 PERL=@PERL@
 
+if ! command -v lzma >/dev/null && command -v xz >/dev/null; then
+  lzma() {
+    xz --format=lzma "$@"
+  }
+fi
+
 # Setup a sane environment
 
 umask 0022
