@@ -154,7 +154,8 @@ packages(const char *const *argv)
     enqueue_pending();
   } else {
     if (!*argv)
-      badusage(_("--%s needs at least one package name argument"), cipaction->olong);
+      badusage(_("--%s (without --pending) needs at least one package name argument"),
+               cipaction->olong);
 
     enqueue_specified(argv);
   }
