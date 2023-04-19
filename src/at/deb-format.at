@@ -164,6 +164,34 @@ dpkg-deb -c pkg-old-0933.deb
 
 AT_CLEANUP
 
+m4_define([DPKG_GEN_PKG_DEB_FORMAT_TEMPL], [
+  DPKG_GEN_CONTROL([pkg-deb-format])
+  DPKG_MOD_CONTROL([pkg-deb-format],
+                   [s/^Description:.*$/& - deb format support/])
+  AT_DATA([pkg-deb-format/file-templ], [test
+])
+  AT_CHECK([
+  # Initialize the template package
+  mv pkg-deb-format pkg-templ
+  cp $top_srcdir/ChangeLog.old pkg-templ/
+  chmod 0644 pkg-templ/ChangeLog.old
+  chmod -R u+w pkg-templ
+  find pkg-templ | xargs touch -t 197001010100.00
+  dpkg-deb --uniform-compression --root-owner-group -Znone -b pkg-templ >/dev/null
+
+  # Extract the base members
+  ar x pkg-templ.deb
+  gzip -c control.tar >control.tar.gz
+  gzip -c data.tar >data.tar.gz
+  xz -c control.tar >control.tar.xz
+  xz -c data.tar >data.tar.xz
+  zstd -c control.tar >control.tar.zst
+  zstd -c data.tar >data.tar.zst
+  bzip2 -c data.tar >data.tar.bz2
+  lzma -c data.tar >data.tar.lzma
+  ])
+])
+
 
 AT_SETUP([dpkg-deb .deb format 2.x])
 AT_KEYWORDS([dpkg-deb deb])
@@ -183,31 +211,7 @@ dpkg-deb --info pkg-deb-bogus-empty.deb
 
 AT_DATA([unknown], [])
 
-DPKG_GEN_CONTROL([pkg-deb-format])
-DPKG_MOD_CONTROL([pkg-deb-format],
-                 [s/^Description:.*$/& - deb format support/])
-AT_DATA([pkg-deb-format/file-templ], [test
-])
-AT_CHECK([
-# Initialize the template package
-mv pkg-deb-format pkg-templ
-cp $top_srcdir/ChangeLog.old pkg-templ/
-chmod 0644 pkg-templ/ChangeLog.old
-chmod -R u+w pkg-templ
-find pkg-templ | xargs touch -t 197001010100.00
-dpkg-deb --uniform-compression --root-owner-group -Znone -b pkg-templ >/dev/null
-
-# Extract the base members
-ar x pkg-templ.deb
-gzip -c control.tar >control.tar.gz
-gzip -c data.tar >data.tar.gz
-xz -c control.tar >control.tar.xz
-xz -c data.tar >data.tar.xz
-zstd -c control.tar >control.tar.zst
-zstd -c data.tar >data.tar.zst
-bzip2 -c data.tar >data.tar.bz2
-lzma -c data.tar >data.tar.lzma
-])
+DPKG_GEN_PKG_DEB_FORMAT_TEMPL()
 
 AT_CHECK([
 # Test debian-binary with 2.x versions
