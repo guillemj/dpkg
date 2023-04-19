@@ -181,6 +181,8 @@ dpkg-deb --info pkg-deb-bogus-empty.deb
 ], [2], [], [dpkg-deb: error: unexpected end of file in archive magic version number in pkg-deb-bogus-empty.deb
 ])
 
+AT_DATA([unknown], [])
+
 DPKG_GEN_CONTROL([pkg-deb-format])
 DPKG_MOD_CONTROL([pkg-deb-format],
                  [s/^Description:.*$/& - deb format support/])
@@ -205,8 +207,6 @@ zstd -c control.tar >control.tar.zst
 zstd -c data.tar >data.tar.zst
 bzip2 -c data.tar >data.tar.bz2
 lzma -c data.tar >data.tar.lzma
-touch _ignore
-touch unknown
 ])
 
 AT_CHECK([
@@ -374,6 +374,7 @@ unknown
  Description: test package - deb format support
 ])
 
+AT_DATA([_ignore], [])
 AT_CHECK([
 # Test _ member
 cp pkg-templ.deb pkg-under-member.deb
