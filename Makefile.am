@@ -244,7 +244,7 @@ dist-hook:
 	    echo "$$file is a symlink packed as a file on the dist tar" >&2 ; \
 	    exit 1 ; \
 	  done ; \
-	  for file in `git ls-files | grep -v .gitignore`; do \
+	  for file in `git ls-files | grep -vE '\.git(ignore|-blame)'`; do \
 	    if [ ! -e "$(distdir)/$$file" ]; then \
 	      echo "$$file is missing in $(distdir)" >&2 ; \
 	      exit 1 ; \

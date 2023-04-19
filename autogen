@@ -2,4 +2,8 @@
 
 set -e
 
+if [ -e .git ] && command -v git >/dev/null 2>&1; then
+  git config blame.ignoreRevsFile .git-blame-ignore-revs
+fi
+
 autoreconf --force --install
