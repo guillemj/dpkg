@@ -44,6 +44,17 @@ prep_pkg(struct pkgset *set, struct pkginfo *pkg)
 }
 
 static void
+prep_virtpkg(struct pkgset *set, struct pkginfo *pkg)
+{
+	pkg_blank(pkg);
+
+	pkgset_blank(set);
+	pkgset_link_pkg(set, pkg);
+
+	set->name = "test-virt";
+}
+
+static void
 test_field(struct pkginfo *pkg, const char *fmt, const char *exp)
 {
 	struct pkg_format_node *head;
@@ -96,6 +107,12 @@ test_pkg_format_virtual_fields(void)
 
 	test_field(&pkg, "${binary:Summary}",
 	                 "short synopsis -- some package");
+
+	prep_virtpkg(&pkgset, &pkg);
+	test_field(&pkg, "${source:Package}_${source:Version}",
+	                 "test-virt_");
+	test_field(&pkg, "${source:Upstream-Version}",
+	                 "");
 }
 
 static void
@@ -116,7 +133,7 @@ test_pkg_format_virtual_fields_db_fsys(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(20);
+	test_plan(24);
 
 	test_pkg_format_real_fields();
 	test_pkg_format_virtual_fields();
