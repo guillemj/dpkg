@@ -242,7 +242,7 @@ tar_header_get_unix_mode(struct tar_header *h)
 		break;
 	}
 
-	mode |= TAR_ATOUL(h->mode, mode_t);
+	mode |= TAR_ATOUL(h->mode, mode_t) & 07777;
 
 	return mode;
 }
