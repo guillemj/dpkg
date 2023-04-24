@@ -47,6 +47,10 @@
 #define __has_attribute(x)	0
 #endif
 
+#ifndef __has_include
+#define __has_include(x)	0
+#endif
+
 #ifdef __GNUC__
 #define LIBCOMPAT_GCC_VERSION (__GNUC__ << 8 | __GNUC_MINOR__)
 #else

@@ -33,6 +33,10 @@
 
 /* Language definitions. */
 
+#ifndef __has_include
+#define __has_include(x)	0
+#endif
+
 /* Supported since clang 1.0. */
 #ifndef __has_warning
 #define __has_warning(w) (0)
