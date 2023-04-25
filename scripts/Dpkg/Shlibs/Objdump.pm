@@ -154,6 +154,13 @@ use constant {
 
     EF_PPC64_ABI64          => 0x00000003,
 
+    EF_RISCV_FLOAT_ABI_SOFT     => 0x0000,
+    EF_RISCV_FLOAT_ABI_SINGLE   => 0x0002,
+    EF_RISCV_FLOAT_ABI_DOUBLE   => 0x0004,
+    EF_RISCV_FLOAT_ABI_QUAD     => 0x0006,
+    EF_RISCV_FLOAT_ABI_MASK     => 0x0006,
+    EF_RISCV_RVE                => 0x0008,
+
     EF_SH_MACH_MASK         => 0x0000001f,
 };
 
@@ -175,6 +182,7 @@ my %elf_flags_mask = (
     EM_LOONGARCH()          => EF_LOONGARCH_ABI_MASK,
     EM_MIPS()               => EF_MIPS_ABI_MASK | EF_MIPS_ABI2,
     EM_PPC64()              => EF_PPC64_ABI64,
+    EM_RISCV()              => EF_RISCV_FLOAT_ABI_MASK | EF_RISCV_RVE,
 );
 
 sub get_format {
