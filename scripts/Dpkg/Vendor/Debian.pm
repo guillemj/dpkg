@@ -262,10 +262,9 @@ sub set_build_features {
 
     # Mask features that are not available on certain architectures.
     if (none { $os eq $_ } qw(linux kfreebsd knetbsd hurd) or
-        any { $cpu eq $_ } qw(hppa avr32)) {
+        $cpu eq 'hppa') {
 	# Disabled on non-(linux/kfreebsd/knetbsd/hurd).
-	# Disabled on hppa, avr32
-	#  (#574716).
+        # Disabled on hppa.
 	$use_feature{hardening}{pie} = 0;
     }
     if (any { $cpu eq $_ } qw(ia64 alpha hppa nios2) or $arch eq 'arm') {
@@ -275,8 +274,8 @@ sub set_build_features {
 	#   compiler supports it incorrectly (leads to SEGV)
 	$use_feature{hardening}{stackprotector} = 0;
     }
-    if (any { $cpu eq $_ } qw(ia64 hppa avr32)) {
-	# relro not implemented on ia64, hppa, avr32.
+    if (any { $cpu eq $_ } qw(ia64 hppa)) {
+	# relro not implemented on ia64, hppa.
 	$use_feature{hardening}{relro} = 0;
     }
 

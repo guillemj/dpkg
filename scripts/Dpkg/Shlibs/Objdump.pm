@@ -110,8 +110,6 @@ use constant {
     EM_SH                   => 42,
     EM_SPARC64              => 43,
     EM_IA64                 => 50,
-    EM_AVR                  => 83,
-    EM_M32R                 => 88,
     EM_MN10300              => 89,
     EM_MN10200              => 90,
     EM_OR1K                 => 92,
@@ -119,10 +117,8 @@ use constant {
     EM_MICROBLAZE           => 189,
     EM_ARCV2                => 195,
     EM_LOONGARCH            => 258,
-    EM_AVR_OLD              => 0x1057,
     EM_OR1K_OLD             => 0x8472,
     EM_ALPHA                => 0x9026,
-    EM_M32R_CYGNUS          => 0x9041,
     EM_S390_OLD             => 0xa390,
     EM_XTENSA_OLD           => 0xabc7,
     EM_MICROBLAZE_OLD       => 0xbaab,
@@ -163,8 +159,6 @@ use constant {
 # These map alternative or old machine IDs to their canonical form.
 my %elf_mach_map = (
     EM_ALPHA_OLD()          => EM_ALPHA,
-    EM_AVR_OLD()            => EM_AVR,
-    EM_M32R_CYGNUS()        => EM_M32R,
     EM_MICROBLAZE_OLD()     => EM_MICROBLAZE,
     EM_MN10200_CYGNUS()     => EM_MN10200,
     EM_MN10300_CYGNUS()     => EM_MN10300,
