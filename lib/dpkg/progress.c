@@ -39,10 +39,9 @@ progress_init(struct progress *progress, const char *text, int max)
 
 	progress->on_tty = isatty(1);
 
+	fputs(text, stdout);
 	if (progress->on_tty)
-		printf("%s\r", text);
-	else
-		printf("%s", text);
+		putchar('\r');
 }
 
 void
@@ -63,12 +62,14 @@ progress_step(struct progress *progress)
 
 	progress->last_percent = cur_percent;
 
-	printf("%s%d%%\r", progress->text, cur_percent);
+	fputs(progress->text, stdout);
+	printf("%d%%", cur_percent);
+	putchar('\r');
 }
 
 void
 progress_done(struct progress *progress)
 {
 	if (progress->on_tty)
-		printf("%s", progress->text);
+		fputs(progress->text, stdout);
 }
