@@ -152,6 +152,8 @@ use constant {
     EF_MIPS_ABI_MASK        => 0x0000f000,
     EF_MIPS_ARCH_MASK       => 0xf0000000,
 
+    EF_OR1K_NODELAY         => 0x00000001,
+
     EF_PPC64_ABI64          => 0x00000003,
 
     EF_RISCV_FLOAT_ABI_SOFT     => 0x0000,
@@ -181,6 +183,7 @@ my %elf_flags_mask = (
     EM_IA64()               => EF_IA64_ABI64,
     EM_LOONGARCH()          => EF_LOONGARCH_ABI_MASK,
     EM_MIPS()               => EF_MIPS_ABI_MASK | EF_MIPS_ABI2,
+    EM_OR1K()               => EF_OR1K_NODELAY,
     EM_PPC64()              => EF_PPC64_ABI64,
     EM_RISCV()              => EF_RISCV_FLOAT_ABI_MASK | EF_RISCV_RVE,
 );
