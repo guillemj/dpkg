@@ -17,6 +17,7 @@ LDADD = \
 	../compat/libcompat.la \
 	# EOL
 
+DISTCLEANFILES =
 
 EXTRA_DIST = \
 	$(test_scripts) \
@@ -30,10 +31,21 @@ pkgconfig_DATA = libdpkg.pc
 
 devlib_LTLIBRARIES = libdpkg.la
 
+EXTRA_libdpkg_la_DEPENDENCIES = \
+	libdpkg.map \
+	# EOL
+
 libdpkg_la_LDFLAGS =
 if HAVE_LINKER_VERSION_SCRIPT
 libdpkg_la_LDFLAGS += \
 	-Wl,--version-script=$(srcdir)/libdpkg.map \
+	# EOL
+else
+libdpkg_la_LDFLAGS += \
+	-export-symbols libdpkg.sym \
+	# EOL
+EXTRA_libdpkg_la_DEPENDENCIES += \
+	libdpkg.sym \
 	# EOL
 endif
 libdpkg_la_LDFLAGS += $(MD_LIBS)
@@ -49,9 +61,6 @@ libdpkg_la_LIBADD += \
 	$(BZ2_LIBS) \
 	# EOL
 endif
-EXTRA_libdpkg_la_DEPENDENCIES = \
-	libdpkg.map \
-	# EOL
 libdpkg_la_SOURCES = \
 	dlist.h \
 	ar.c \
@@ -181,6 +190,19 @@ pkginclude_HEADERS = \
 	varbuf.h \
 	version.h \
 	# EOL
+
+DISTCLEANFILES += \
+	libdpkg.sym \
+	# EOL
+
+# Generate a simple libtool symbol export list to be used as a fallback if
+# there is no version script support.
+libdpkg.sym: libdpkg.map
+	$(AM_V_GEN) $(SED) -n \
+	  -e 's/#.*$$//g' \
+	  -e 's/^[[:space:]]\{1,\}\([A-Za-z0-9_]\{1,\}\);/\1/p' \
+	  $(srcdir)/libdpkg.map \
+	  >$@
 
 t_t_headers_cpp_SOURCES = \
 	t/t-headers-cpp.cc \
