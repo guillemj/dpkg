@@ -35,7 +35,9 @@ EXTRA_libdpkg_la_DEPENDENCIES = \
 	libdpkg.map \
 	# EOL
 
-libdpkg_la_LDFLAGS =
+libdpkg_la_LDFLAGS = \
+	-no-undefined \
+	# EOL
 if HAVE_LINKER_VERSION_SCRIPT
 libdpkg_la_LDFLAGS += \
 	-Wl,--version-script=$(srcdir)/libdpkg.map \
