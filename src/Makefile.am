@@ -39,10 +39,12 @@ bin_SCRIPTS = \
 
 pkglibexec_SCRIPTS = \
 	dpkg-db-backup \
+	dpkg-db-keeper \
 	# EOL
 
 EXTRA_DIST += \
 	dpkg-db-backup.sh \
+	dpkg-db-keeper.sh \
 	dpkg-maintscript-helper.sh \
 	dpkg-realpath.sh \
 	# EOL
