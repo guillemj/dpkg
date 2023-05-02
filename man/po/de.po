@@ -11,10 +11,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.21.20\n"
+"Project-Id-Version: dpkg-man 1.22.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-04-23 06:01+0200\n"
-"PO-Revision-Date: 2023-04-23 06:40+0200\n"
+"POT-Creation-Date: 2023-05-02 18:14+0200\n"
+"PO-Revision-Date: 2023-05-02 21:03+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -3381,6 +3381,19 @@ msgstr "I<Name>-I<Version>.so"
 #: deb-shlibs.pod
 msgid "where I<name> is usually prefixed by B<lib>."
 msgstr "wobei I<Name> normalerweise B<lib> vorangestellt wird."
+
+#. type: textblock
+#: deb-shlibs.pod
+msgid ""
+"The former tends to be used by shared libraries with stable interfaces.  The "
+"latter by shared libraries with unstable interfaces, where the whole version "
+"becomes part of the SONAME and needs to be specified in full when linking "
+"against those libraries."
+msgstr ""
+"Ersteres wird eher von dynamischen Bibliotheken mit stabilen Schnittstellen "
+"verwandt. Letzteres von dynamischen Bibliotheken mit instabilen "
+"Schnittstellen, bei denen die gesamte Version Teil des SONAME wird und "
+"vollständig beim Linken gegen diese Bibliotheken angegeben werden muss."
 
 #. type: textblock
 #: deb-shlibs.pod
@@ -12045,6 +12058,21 @@ msgstr ""
 "unabhängige Binärpakete baut) wird es auf das Ziel B<build> zurückfallen, "
 "falls B<make -f debian/rules -qn> I<Bauziel> den Rückgabewert 2 liefert."
 
+#. type: =head1
+#: dpkg-buildpackage.pod dpkg-deb.pod dpkg-query.pod dpkg-source.pod
+#: dpkg-split.pod dpkg.pod
+msgid "SECURITY"
+msgstr "SICHERHEIT"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"Building binary or source packages should only be performed over trusted "
+"source data."
+msgstr ""
+"Das Bauen von Binär- oder Quellpaketen sollte nur mittels vertrauenswürdigen "
+"Quelldaten erfolgen."
+
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid ""
@@ -12903,6 +12931,33 @@ msgstr ""
 "müssen B<dpkg> selber verwenden, um sicherzustellen, dass alle Dateien an "
 "den richtigen Ort platziert werden, die Paketskripte ausgeführt werden und "
 "sein Status und Inhalt aufgezeichnet wird."
+
+#. type: textblock
+#: dpkg-deb.pod
+msgid ""
+"Examining untrusted package archives or extracting them into staging "
+"directories should be considered a security boundary, and any breakage of "
+"that boundary stemming from these operations should be considered a security "
+"vulnerability.  But handling untrusted package archives should not be done "
+"lightly, as the surface area includes any compression library supported, in "
+"addition to the archive formats and control files themselves.  Performing "
+"these operations over untrusted data as root is strongly discouraged."
+msgstr ""
+"Untersuchen nicht vertrauenswürdiger Paketarchive oder ihr Entpacken in ein "
+"Arbeitsverzeichnis sollte als Sicherheitsgrenze betrachtet werden und jede "
+"Verletzung dieser Grenze, die aus diesen Aktionen resultiert, sollte als "
+"Sicherheitsverwundbarkeit betrachtet werden. Allerdings sollte der Umgang "
+"mit nicht vertrauenswürdigen Paketarchiven nicht leichtherzig erfolgen, da "
+"die Oberfläche alle unterstützten Komprimierungsbibliotheken umfasst, "
+"zusätzliche zu den Archivformaten und Steuerdateien selbst. Es wird "
+"nachdrücklich davon abgeraten, diese Aktionen auf nicht vertrauenswürdigen "
+"Daten als Root durchzuführen."
+
+#. type: textblock
+#: dpkg-deb.pod
+msgid "Building package archives should only be performed over trusted data."
+msgstr ""
+"Das Bauen von Paketarchiven sollte nur mit vertrauenswürdigen Daten erfolgen."
 
 #. type: textblock
 #: dpkg-deb.pod
@@ -17676,6 +17731,20 @@ msgstr ""
 "+F\">."
 
 #. type: textblock
+#: dpkg-query.pod dpkg.pod
+msgid ""
+"Query operations should never require root, and delegating their execution "
+"to unprivileged users via some gain-root command can have security "
+"implications (such as privilege escalation), for example when a pager is "
+"automatically invoked by the tool."
+msgstr ""
+"Abfrageaktionen sollten niemals Root benötigen und die Übertragung ihrer "
+"Ausführung auf nichtprivilegierte Benutzer mittels eines Werde-Root-Befehls "
+"kann Sicherheitsauswirkungen haben (wie eine Privilegieneskalation), "
+"beispielsweise wenn ein Seitenanzeigeprogramm von einem Werkzeug automatisch "
+"aufgerufen wird."
+
+#. type: textblock
 #: dpkg-realpath.pod
 msgid "dpkg-realpath - print the resolved pathname with DPKG_ROOT support"
 msgstr ""
@@ -20942,6 +21011,36 @@ msgstr ""
 #. type: textblock
 #: dpkg-source.pod
 msgid ""
+"Examining untrusted source packages or extracting them into staging "
+"directories should be considered a security boundary, and any breakage of "
+"that boundary stemming from these operations should be considered a security "
+"vulnerability.  But handling untrusted source packages should not be done "
+"lightly, as the surface area includes any compression command supported, "
+"commands to handle specific data formats (such as L<tar(1)> or L<patch(1)>)  "
+"in addition to the source package formats and control files themselves.  "
+"Performing these operations over untrusted data as root is strongly "
+"discouraged."
+msgstr ""
+"Untersuchen nicht vertrauenswürdiger Quellpakete oder ihr Entpacken in ein "
+"Arbeitsverzeichnis sollte als Sicherheitsgrenze betrachtet werden und jede "
+"Verletzung dieser Grenze, die aus diesen Aktionen resultiert, sollte als "
+"Sicherheitsverwundbarkeit betrachtet werden. Allerdings sollte der Umgang "
+"mit nicht vertrauenswürdigen Quellpaketen nicht leichtherzig erfolgen, da "
+"die Oberfläche alle unterstützten Komprimierungsbefehle und Befehle zum "
+"Umgang mit bestimmten Datenformaten (wie L<tar(1)> oder L<patch(1)>) umfasst, "
+"zusätzliche zu den Quellpaketformaten und Steuerdateien selbst. Es wird "
+"nachdrücklich davon abgeraten, diese Aktionen auf nicht vertrauenswürdigen "
+"Daten als Root durchzuführen."
+
+#. type: textblock
+#: dpkg-source.pod
+msgid "Building source packages should only be performed over trusted data."
+msgstr ""
+"Das Bauen von Quellpaketen sollte nur mit vertrauenswürdigen Daten erfolgen."
+
+#. type: textblock
+#: dpkg-source.pod
+msgid ""
 "The point at which field overriding occurs compared to certain standard "
 "output field settings is rather confused."
 msgstr ""
@@ -21429,6 +21528,37 @@ msgstr ""
 "split>-Format vor und sind sehr wahrscheinlich für andere Programme nicht "
 "nützlich, und in keinem Fall sollte sich auf das Format der Dateinamen "
 "verlassen werden."
+
+#. type: textblock
+#: dpkg-split.pod
+msgid ""
+"Examining or joining untrusted split package archives should be considered a "
+"security boundary, and any breakage of that boundary stemming from these "
+"operations should be considered a security vulnerability.  Performing these "
+"operations over untrusted data as root is strongly discouraged."
+msgstr ""
+"Untersuchen oder zusammensetzen nicht vertrauenswürdiger getrennter "
+"Paketarchive sollte als Sicherheitsgrenze betrachtet werden und jede "
+"Verletzung dieser Grenze, die aus diesen Aktionen resultiert, sollte als "
+"Sicherheitsverwundbarkeit betrachtet werden. Es wird nachdrücklich davon "
+"abgeraten, diese Aktionen auf nicht vertrauenswürdigen Daten als Root "
+"durchzuführen."
+
+#. type: textblock
+#: dpkg-split.pod
+msgid ""
+"Auto-accumulating and discarding split package parts are considered "
+"privileged operations that might allow root escalation.  These operations "
+"must never be delegated to an untrusted user or be done on untrusted "
+"packages, as that might allow root access to the system."
+msgstr ""
+
+#. type: textblock
+#: dpkg-split.pod
+msgid "Splitting package archives should only be performed over trusted data."
+msgstr ""
+"Das Aufteilen von Paketarchiven sollte nur mit vertrauenswürdigen Daten "
+"erfolgen."
 
 #. type: textblock
 #: dpkg-split.pod
@@ -25027,6 +25157,33 @@ msgstr ""
 
 #. type: textblock
 #: dpkg.pod
+msgid ""
+"Any operation that needs write access to the database or the filesystem is "
+"considered a privileged operation that might allow root escalation.  These "
+"operations must never be delegated to an untrusted user or be done on "
+"untrusted packages, as that might allow root access to the system."
+msgstr ""
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"Some operations (such as package verification) might need root privileges to "
+"be able to access files on the filesystem that would otherwise be "
+"inaccessible due to restricted permissions, but should otherwise work "
+"normally and produce appropriate messages in those cases."
+msgstr ""
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"See also the B<SECURITY> section of the L<dpkg-deb(1)> and L<dpkg-split(1)> "
+"manual pages."
+msgstr ""
+"Siehe auch den Abschnitt B<SICHERHEIT> der Handbuchseiten L<dpkg-deb(1)> und "
+"L<dpkg-split(1)>."
+
+#. type: textblock
+#: dpkg.pod
 msgid "B<--no-act> usually gives less information than might be helpful."
 msgstr ""
 "B<--no-act> gibt gewöhnlich weniger Informationen, als hilfreich sein "
@@ -27548,7 +27705,7 @@ msgid ""
 "Wait for the background process to send a readiness notification before "
 "considering the service started (since version 1.19.3).  This implements "
 "parts of the systemd readiness protocol, as specified in the B<sd_notify>(3) "
-"man page.  The following variables are supported:"
+"manual page.  The following variables are supported:"
 msgstr ""
 "Wartet, dass der Hintergrundprozess eine Bereitschaftsbenachrichtigung "
 "sendet, bevor der Dienst als gestartet betrachtet wird (seit Version "
@@ -28033,8 +28190,8 @@ msgstr ""
 msgid ""
 "It is often useful for a number of alternatives to be synchronized, so that "
 "they are changed as a group; for example, when several versions of the "
-"B<vi>(1)  editor are installed, the man page referenced by I</usr/share/man/"
-"man1/vi.1> should correspond to the executable referenced by I</usr/bin/"
+"B<vi>(1)  editor are installed, the manual page referenced by I</usr/share/"
+"man/man1/vi.1> should correspond to the executable referenced by I</usr/bin/"
 "vi>.  B<update-alternatives> handles this by means of I<master> and I<slave> "
 "links; when the master is changed, any associated slaves are changed too.  A "
 "master link and its associated slaves make up a I<link> I<group>."
