@@ -69,13 +69,22 @@ I<metadata> lists zero or more comma-separated I<keyword>=I<value>
 items.
 Each keyword can contain only minus and case insensitive alphanumeric
 characters, as they need to be mapped to B<deb822>(5) field names.
-The only I<keyword>s currently supported by B<dpkg> are B<urgency>
-and B<binary-only>.
-B<urgency>'s value is used for the B<Urgency> field in the
+The only I<keyword>s currently supported by B<dpkg> are:
+
+=over
+
+=item B<urgency>
+
+Its value is used for the B<Urgency> field in the
 I<.changes> file for the upload.
-B<binary-only> with a B<yes> value, is used to denote that this
+
+=item B<binary-only>
+
+With a B<yes> value, it is used to denote that this
 changelog entry is for a binary-only non-maintainer upload (an automatic
 binary rebuild with the only change being the changelog entry).
+
+=back
 
 The change details may in fact be any series of lines starting with
 at least two spaces (U+0020 B<SPACE>), but conventionally each
