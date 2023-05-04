@@ -60,7 +60,7 @@ for f in main ctb nf lcl; do
   *)
     packagesfile="$p_mountpoint$this_packages"
     case "$packagesfile" in
-    *.gz | *.Z | *.GZ | *.z)
+    *.gz)
       echo -n "Uncompressing $packagesfile ... "
       zcat <"$packagesfile" >packages-$f
       echo done.
