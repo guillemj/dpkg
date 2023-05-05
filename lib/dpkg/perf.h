@@ -47,7 +47,7 @@ perf_ts_sub(struct timespec *a, struct timespec *b, struct timespec *res)
 	}
 }
 
-static void
+static inline void
 perf_ts_mark_print(const char *str)
 {
 	struct timespec ts;
@@ -57,7 +57,7 @@ perf_ts_mark_print(const char *str)
 	printf("%lu.%.9lu: %s\n", ts.tv_sec, ts.tv_nsec, str);
 }
 
-static void
+static inline void
 perf_ts_slot_print(struct perf_slot *ps, const char *str)
 {
 	struct timespec t_res;
