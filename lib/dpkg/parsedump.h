@@ -26,6 +26,7 @@
 #include <stdint.h>
 
 #include <dpkg/error.h>
+#include <dpkg/dpkg-db.h>
 
 DPKG_BEGIN_DECLS
 

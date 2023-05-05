@@ -48,6 +48,7 @@ DPKG_BEGIN_DECLS
  */
 
 struct pkginfo;
+struct pkgbin;
 
 void ensure_diversions(void);
 

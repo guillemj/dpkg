@@ -23,6 +23,8 @@
 
 #include <dpkg/macros.h>
 
+#include <stdarg.h>
+
 DPKG_BEGIN_DECLS
 
 /**
