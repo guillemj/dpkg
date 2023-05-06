@@ -205,6 +205,17 @@ my %elf_mach_map = (
 # always better to not mask a flag, because that preserves the historical
 # behavior, and we do not drop dependencies.
 my %elf_flags_mask = (
+    # XXX: The mask for ARM had to be disabled due to objects in the wild
+    # with EABIv4, while EABIv5 is the current one, and the soft and hard
+    # flags not always being set on armel and armhf respectively, although
+    # the Tag_ABI_VFP_args in the ARM attribute section should always be
+    # present on armhf, and there are even cases where both soft and hard
+    # float flags are set at the same time(!). Once these are confirmed to
+    # be fixed, we could reconsider enabling the below for a more strict
+    # ABI mismatch check. See #853793.
+#   EM_ARM()                => EF_ARM_EABI_MASK |
+#                              EF_ARM_NEW_ABI | EF_ARM_OLD_ABI |
+#                              EF_ARM_SOFT_FLOAT | EF_ARM_HARD_FLOAT,
     EM_IA64()               => EF_IA64_ABI64,
     EM_LOONGARCH()          => EF_LOONGARCH_ABI_MASK,
     EM_MIPS()               => EF_MIPS_ABI_MASK | EF_MIPS_ABI2,
