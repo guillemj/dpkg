@@ -63,7 +63,7 @@ sub new {
 
 sub setup_db {
     my $self = shift;
-    my $db_dir = $self->get_db_file();
+    my $db_dir = $self->get_db_dir();
     if (not -d $db_dir) {
         mkdir $db_dir or syserr(g_('cannot mkdir %s'), $db_dir);
     }
@@ -271,12 +271,13 @@ sub get_series_file {
 sub get_db_file {
     my ($self, $file) = @_;
 
-    return File::Spec->catfile($self->{dir}, '.pc', $file);
+    return File::Spec->catfile($self->get_db_dir(), $file);
 }
 
 sub get_db_dir {
     my $self = shift;
-    return $self->get_db_file();
+
+    return File::Spec->catfile($self->{dir}, '.pc');
 }
 
 sub get_patch_file {
