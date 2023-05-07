@@ -124,7 +124,7 @@ sub add_diff_file {
     my $diffgen;
     my $diff_pid = spawn(
         exec => [ 'diff', '-u', @options, '--', $old, $new ],
-        env => { LC_ALL => 'C', LANG => 'C', TZ => 'UTC0' },
+        env => { LC_ALL => 'C', TZ => 'UTC0' },
         to_pipe => \$diffgen,
     );
     # Check diff and write it in patch file
@@ -616,7 +616,7 @@ sub apply {
     spawn(
 	exec => [ $Dpkg::PROGPATCH, @{$opts{options}} ],
 	chdir => $destdir,
-	env => { LC_ALL => 'C', LANG => 'C', PATCH_GET => '0' },
+        env => { LC_ALL => 'C', PATCH_GET => '0' },
 	delete_env => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
 	wait_child => 1,
 	nocheck => 1,
@@ -676,7 +676,7 @@ sub check_apply {
     my $patch_pid = spawn(
 	exec => [ $Dpkg::PROGPATCH, @{$opts{options}} ],
 	chdir => $destdir,
-	env => { LC_ALL => 'C', LANG => 'C', PATCH_GET => '0' },
+        env => { LC_ALL => 'C', PATCH_GET => '0' },
 	delete_env => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
 	from_handle => $self->get_filehandle(),
 	to_file => '/dev/null',
