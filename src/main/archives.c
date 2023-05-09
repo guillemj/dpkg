@@ -195,10 +195,10 @@ filesavespackage(struct fsys_namenode_list *file,
         thirdpkg->set == pkgtobesaved->set)
       continue;
 
-    /* If !fileslistvalid then we've already disappeared this one, so
-     * we shouldn't try to make it take over this shared directory. */
     debug(dbg_eachfiledetail,"filesavespackage ...  is 3rd package");
 
+    /* If !files_list_valid then we have already disappeared this one,
+     * so we should not try to make it take over this shared directory. */
     if (!thirdpkg->files_list_valid) {
       debug(dbg_eachfiledetail, "process_archive ... already disappeared!");
       continue;
