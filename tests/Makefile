@@ -47,6 +47,7 @@ TESTS_PASS += t-dir-leftover-parents
 TESTS_PASS += t-dir-leftover-conffile
 TESTS_PASS += t-disappear
 TESTS_PASS += t-disappear-depended
+TESTS_PASS += t-disappear-diverted
 TESTS_PASS += t-disappear-empty
 TESTS_PASS += t-provides
 TESTS_PASS += t-provides-self
