@@ -35,6 +35,7 @@ TESTS_PASS += t-unpack-symlink
 TESTS_PASS += t-unpack-hardlink
 TESTS_PASS += t-unpack-divert-hardlink
 TESTS_PASS += t-unpack-divert-nowarn
+TESTS_PASS += t-unpack-divert-overwrite
 TESTS_PASS += t-unpack-fifo
 ifdef DPKG_AS_ROOT
 # No permissions for devices
@@ -48,6 +49,7 @@ TESTS_PASS += t-dir-leftover-conffile
 TESTS_PASS += t-disappear
 TESTS_PASS += t-disappear-depended
 TESTS_PASS += t-disappear-diverted
+TESTS_PASS += t-disappear-diverted-other
 TESTS_PASS += t-disappear-empty
 TESTS_PASS += t-provides
 TESTS_PASS += t-provides-self
