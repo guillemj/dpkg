@@ -452,9 +452,9 @@ my %files; # package-version => files...
 sub chkdeb($) {
     my ($fn) = @_;
     # check to see if it is a .deb file
-    if(!system("dpkg-deb --info $fn 2>&1 >/dev/null && dpkg-deb --contents $fn 2>&1 >/dev/null")) {
+    if (!system "dpkg-deb --info $fn >/dev/null 2>&1 && dpkg-deb --contents $fn >/dev/null 2>&1") {
 	return 1;
-    } elsif(!system("dpkg-split --info $fn 2>&1 >/dev/null")) {
+    } elsif (!system "dpkg-split --info $fn >/dev/null 2>&1") {
 	return 2;
     }
     return 0;
