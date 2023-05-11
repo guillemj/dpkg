@@ -241,6 +241,7 @@ sub set_build_features {
         arm64
         armel
         armhf
+        hurd-amd64
         hurd-i386
         i386
         kfreebsd-amd64
