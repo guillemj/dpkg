@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-05-02 18:14+0200\n"
-"PO-Revision-Date: 2023-05-05 17:32+0200\n"
+"POT-Creation-Date: 2023-05-11 16:59+0200\n"
+"PO-Revision-Date: 2023-05-11 18:07+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -135,20 +135,40 @@ msgstr ""
 #: deb-buildinfo.pod
 msgid ""
 "The name of the B<.buildinfo> file will depend on the type of build and will "
-"be as specific as necessary but not more; for a build that includes B<any> "
-"the name will be I<source-name>B<_>I<binary-version>B<_>I<arch>B<."
-"buildinfo>, or otherwise for a build that includes B<all> the name will be "
-"I<source-name>B<_>I<binary-version>B<_>B<all.buildinfo>, or otherwise for a "
-"build that includes B<source> the name will be I<source-name>B<_>I<source-"
-"version>B<_>B<source.buildinfo>."
+"be as specific as necessary but not more; the name will be:"
 msgstr ""
 "Der Name der B<.buildinfo>-Datei wird von der Art des Baus abhängen und wird "
-"so spezifisch wie notwendig sein, aber nicht mehr; für einen Bau, der B<any> "
-"enthält, wird der Name I<Quellname>B<_>I<Binärversion>B<_>I<Arch>B<."
-"buildinfo> oder andernfalls für einen Bau, der B<all> enthält, wird der Name "
-"I<Quellname>B<_>I<Quellversion>B<_>B<all.buildinfo> oder andernfalls für "
-"einen Bau, der B<source> enthält, wird der Name "
-"I<Quellname>B<_>I<Binärversion>B<_>B<source.buildinfo> lauten."
+"so spezifisch wie notwendig sein, aber nicht mehr; der Name wird"
+
+#. type: =item
+#: deb-buildinfo.pod
+msgid "I<source-name>B<_>I<binary-version>B<_>I<arch>B<.buildinfo>"
+msgstr "I<Quellname>B<_>I<Binärversion>B<_>I<Arch>B<.buildinfo>"
+
+#. type: textblock
+#: deb-buildinfo.pod dpkg-buildpackage.pod
+msgid "for a build that includes B<any>"
+msgstr "lauten, wenn ein Bau B<any> einschließt und andernfalls"
+
+#. type: =item
+#: deb-buildinfo.pod
+msgid "I<source-name>B<_>I<binary-version>B<_>B<all.buildinfo>"
+msgstr "I<Quellname>B<_>I<Binärversion>B<_>B<all.buildinfo>"
+
+#. type: textblock
+#: deb-buildinfo.pod dpkg-buildpackage.pod
+msgid "otherwise for a build that includes B<all>"
+msgstr "wenn ein Bau B<all> einschließt und andernfalls"
+
+#. type: =item
+#: deb-buildinfo.pod
+msgid "I<source-name>B<_>I<source-version>B<_>B<source.buildinfo>"
+msgstr "I<Quellname>B<_>I<Quellversion>B<_>B<source.buildinfo>"
+
+#. type: textblock
+#: deb-buildinfo.pod dpkg-buildpackage.pod
+msgid "otherwise for a build that includes B<source>"
+msgstr "wenn ein Bau B<source> einschließt."
 
 #. type: =head1
 #: deb-buildinfo.pod deb-changes.pod deb-control.pod deb-origin.pod dsc.pod
@@ -729,21 +749,42 @@ msgid ""
 "I<metadata> lists zero or more comma-separated I<keyword>=I<value> items.  "
 "Each keyword can contain only minus and case insensitive alphanumeric "
 "characters, as they need to be mapped to B<deb822>(5) field names.  The only "
-"I<keyword>s currently supported by B<dpkg> are B<urgency> and B<binary-"
-"only>.  B<urgency>'s value is used for the B<Urgency> field in the I<."
-"changes> file for the upload.  B<binary-only> with a B<yes> value, is used "
-"to denote that this changelog entry is for a binary-only non-maintainer "
-"upload (an automatic binary rebuild with the only change being the changelog "
-"entry)."
+"I<keyword>s currently supported by B<dpkg> are:"
 msgstr ""
 "I<Metadaten> listet eine oder mehrere durch Kommata getrennte "
 "I<Schlüssel>=I<Wert>-Objekte auf. Jeder Schlüssel darf nur Minus und "
 "alphanumerische Zeichen (Groß-/Kleinschreibung egal) enthalten, da diese auf "
 "B<deb822>(5)-Feldnamen abgebildet werden müssen. Die einzigen von B<dpkg> "
-"derzeit verstandenen I<Schlüsselwörter> sind B<urgency> und B<binary-only>. "
-"Der Wert von B<urgency> wird für das Feld B<Urgency> in der Datei I<."
-"changes> für den Upload verwandt. B<binary-only> mit einem Wert von B<yes> "
-"wird verwandt, um anzuzeigen, dass dieser Changelog-Eintrag für einen rein-"
+"derzeit verstandenen I<Schlüsselwörter> sind:"
+
+#. type: =item
+#: deb-changelog.pod
+msgid "B<urgency>"
+msgstr "B<urgency>"
+
+#. type: textblock
+#: deb-changelog.pod
+msgid ""
+"Its value is used for the B<Urgency> field in the I<.changes> file for the "
+"upload."
+msgstr ""
+"Der Wert wird für das Feld B<Urgency> in der Datei I<."
+"changes> für den Upload verwandt."
+
+#. type: =item
+#: deb-changelog.pod
+msgid "B<binary-only>"
+msgstr "B<binary-only>"
+
+#. type: textblock
+#: deb-changelog.pod
+msgid ""
+"With a B<yes> value, it is used to denote that this changelog entry is for a "
+"binary-only non-maintainer upload (an automatic binary rebuild with the only "
+"change being the changelog entry)."
+msgstr ""
+"Wird mit einem Wert von B<yes> "
+"verwandt, um anzuzeigen, dass dieser Changelog-Eintrag für einen rein-"
 "binären nicht-Betreuer-Upload (ein automatischer binärer Neubau, wo die "
 "einzige Änderung der Changelog-Eintrag darstellt) ist."
 
@@ -4614,7 +4655,7 @@ msgstr ""
 "nichts durchführen. Dieses Ziel darf keine Root-Privilegien benötigen."
 
 #. type: =item
-#: deb-src-rules.pod
+#: deb-src-rules.pod dpkg-buildpackage.pod
 msgid "B<build>"
 msgstr "B<build>"
 
@@ -10410,10 +10451,12 @@ msgstr "B<1.>"
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid ""
-"It prepares the build environment by setting various environment variables "
-"(see B<ENVIRONMENT>), runs the B<init> hook, and calls B<dpkg-source --"
-"before-build> (unless B<-T> or B<--target> has been used)."
+"It runs the B<preinit> hook before reading any source file.  It prepares the "
+"build environment by setting various environment variables (see "
+"B<ENVIRONMENT>), runs the B<init> hook, and calls B<dpkg-source --before-"
+"build> (unless B<-T> or B<--target> has been used)."
 msgstr ""
+"Es wird der Hook B<preinit> ausgeführt, bevor irgendeine Quelldatei gelesen wird. "
 "Die Bauumgebung wird vorbereitet, indem verschiedene Umgebungsvariablen "
 "gesetzt werden (siehe B<UMGEBUNG>), führt den B<init>-Hook aus und ruft "
 "B<dpkg-source --before-build> auf (es sei denn, B<-T> oder B<--target> wurde "
@@ -10524,24 +10567,34 @@ msgstr "B<7.>"
 msgid ""
 "It runs the B<changes> hook and calls B<dpkg-genchanges> to generate a B<."
 "changes> file.  The name of the B<.changes> file will depend on the type of "
-"build and will be as specific as necessary but not more; for a build that "
-"includes B<any> the name will be I<source-name>B<_>I<binary-"
-"version>B<_>I<arch>B<.changes>, or otherwise for a build that includes "
-"B<all> the name will be I<source-name>B<_>I<binary-version>B<_>B<all."
-"changes>, or otherwise for a build that includes B<source> the name will be "
-"I<source-name>B<_>I<source-version>B<_>B<source.changes>.  Many B<dpkg-"
-"buildpackage> options are forwarded to B<dpkg-genchanges>."
+"build and will be as specific as necessary but not more; the name will be:"
 msgstr ""
-"Die B<changes>-Hooks werden ausgeführt und B<dpkg-genchanges> aufgerufen, um "
-"eine B<.changes>-Datei zu erstellen. Der Name der B<.changes>-Datei wird von "
-"der Art des Baus abhängen und wird so spezifisch wie notwendig sein, aber "
-"nicht mehr; für einen Bau, der B<any> enthält, wird der Name "
-"I<Quellname>B<_>I<Binärversion>B<_>I<Arch>B<.changes> oder andernfalls für "
-"einen Bau, der B<all> enthält, wird der Name "
-"I<Quellname>B<_>I<Binärversion>B<_>B<all.changes> oder andernfalls für einen "
-"Bau, der B<source> enthält, wird der Name "
-"I<Quellname>B<_>I<Quellversion>B<_>B<source.changes> lauten. Viele Optionen "
-"von B<dpkg-buildpackage> werden an B<dpkg-genchanges> weitergegeben."
+"Der Hook B<changes> wird ausgeführt und B<dpkg-genchanges> aufgerufen, um "
+"eine B<.changes>-Datei zu erstellen. Der Name der B<.changes>-Datei hängt "
+"von der Art des Baus ab und wird so spezifisch wie notwendig sein, aber "
+"nicht mehr; der Name wird"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "I<source-name>B<_>I<binary-version>B<_>I<arch>B<.changes>"
+msgstr "I<Quellname>B<_>I<Binärversion>B<_>I<Arch>B<.changes>"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "I<source-name>B<_>I<binary-version>B<_>B<all.changes>"
+msgstr "I<Quellname>B<_>I<Binärversion>B<_>B<all.changes>"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "I<source-name>B<_>I<source-version>B<_>B<source.changes>."
+msgstr "I<Quellname>B<_>I<Quellversion>B<_>B<source.changes>."
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid "Many B<dpkg-buildpackage> options are forwarded to B<dpkg-genchanges>."
+msgstr ""
+"Viele Optionen von B<dpkg-buildpackage> werden an B<dpkg-genchanges> "
+"weitergeleitet."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -11392,14 +11445,50 @@ msgstr ""
 msgid "The current I<hook-name> supported are:"
 msgstr "Die derzeit unterstützten I<Hook-Name>n sind:"
 
-#. type: textblock
+#. type: =item
 #: dpkg-buildpackage.pod
-msgid ""
-"B<init preclean source build binary buildinfo changes postclean check sign "
-"done>"
-msgstr ""
-"B<init preclean source build binary buildinfo changes postclean check sign "
-"done>"
+msgid "B<preinit>"
+msgstr "B<preinit>"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<init>"
+msgstr "B<init>"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<preclean>"
+msgstr "B<preclean>"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<buildinfo>"
+msgstr "B<buildinfo>"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<changes>"
+msgstr "B<changes>"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<postclean>"
+msgstr "B<postclean>"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<check>"
+msgstr "B<check>"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<sign>"
+msgstr "B<sign>"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<done>"
+msgstr "B<done>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -16942,10 +17031,14 @@ msgstr ""
 #: dpkg-query.pod
 msgid ""
 "B<Hint>: When machine parsing the output, it is customary to set the locale "
-"to B<C.UTF-8> to get reproducible results."
+"to B<C.UTF-8> to get reproducible results. On some systems this might also "
+"require adapting the B<LANGUAGE> environment variable appropriately if it is "
+"already set (see L<locale(7)>)."
 msgstr ""
 "B<Tipp>: Wenn Maschinen die Ausgabe auswerten, ist es üblich, die Locale auf "
-"B<C.UTF-8> zu setzen, um reproduzierbare Ausgaben zu erhalten."
+"B<C.UTF-8> zu setzen, um reproduzierbare Ausgaben zu erhalten. Auf einigen "
+"Systemen könnte es auch notwendig sein, die Umgebungsvariable B<LANGUAGE> "
+"geeignet anzupassen, falls sie bereits gesetzt ist (siehe L<locale(7)>)."
 
 #. type: textblock
 #: dpkg-query.pod
@@ -17123,6 +17216,15 @@ msgstr ""
 "  lokale Umleitung von: I<umgeleitet-von>\n"
 "  lokale Umleitung zu: I<umgeleitet-zu>\n"
 "\n"
+
+#. type: textblock
+#: dpkg-query.pod
+msgid ""
+"B<Hint>: When machine parsing the output, it is customary to set the locale "
+"to B<C.UTF-8> to get reproducible results."
+msgstr ""
+"B<Tipp>: Wenn Maschinen die Ausgabe auswerten, ist es üblich, die Locale auf "
+"B<C.UTF-8> zu setzen, um reproduzierbare Ausgaben zu erhalten."
 
 #. type: =item
 #: dpkg-query.pod
@@ -21027,10 +21129,10 @@ msgstr ""
 "Sicherheitsverwundbarkeit betrachtet werden. Allerdings sollte der Umgang "
 "mit nicht vertrauenswürdigen Quellpaketen nicht leichtherzig erfolgen, da "
 "die Oberfläche alle unterstützten Komprimierungsbefehle und Befehle zum "
-"Umgang mit bestimmten Datenformaten (wie L<tar(1)> oder L<patch(1)>) umfasst, "
-"zusätzliche zu den Quellpaketformaten und Steuerdateien selbst. Es wird "
-"nachdrücklich davon abgeraten, diese Aktionen auf nicht vertrauenswürdigen "
-"Daten als Root durchzuführen."
+"Umgang mit bestimmten Datenformaten (wie L<tar(1)> oder L<patch(1)>) "
+"umfasst, zusätzliche zu den Quellpaketformaten und Steuerdateien selbst. Es "
+"wird nachdrücklich davon abgeraten, diese Aktionen auf nicht "
+"vertrauenswürdigen Daten als Root durchzuführen."
 
 #. type: textblock
 #: dpkg-source.pod
@@ -26239,11 +26341,11 @@ msgstr "Wählt und konfiguriert eine Zugriffsmethode für Paketdepots."
 #. type: textblock
 #: dselect.pod
 msgid ""
-"By default, B<dselect> provides several methods such as I<multi_cd>, "
-"I<mounted> or I<ftp>, but other packages may provide additional methods, for "
-"example the I<apt> access method provided by the B<apt>(8) package."
+"By default, B<dselect> provides several methods such as I<media>, I<file> or "
+"I<ftp>, but other packages may provide additional methods, for example the "
+"I<apt> access method provided by the B<apt>(8) package."
 msgstr ""
-"Standardmäßig stellt B<dselect> mehrere Methoden wie I<multi_cd>, I<mounted> "
+"Standardmäßig stellt B<dselect> mehrere Methoden wie I<media>, I<file> "
 "oder I<ftp> zur Verfügung, aber andere Pakete können zusätzliche Methoden "
 "bereitstellen, z.B. stellt das B<apt>-Paket die I<apt>(8)-Zugriffsmethode "
 "bereit."
@@ -29169,6 +29271,54 @@ msgstr ""
 "B<ln>(1), FHS (der Dateisystem-Hierarchie-Standard, Filesystem Hierarchy "
 "Standard)."
 
+#~ msgid ""
+#~ "The name of the B<.buildinfo> file will depend on the type of build and "
+#~ "will be as specific as necessary but not more; for a build that includes "
+#~ "B<any> the name will be I<source-name>B<_>I<binary-version>B<_>I<arch>B<."
+#~ "buildinfo>, or otherwise for a build that includes B<all> the name will "
+#~ "be I<source-name>B<_>I<binary-version>B<_>B<all.buildinfo>, or otherwise "
+#~ "for a build that includes B<source> the name will be I<source-"
+#~ "name>B<_>I<source-version>B<_>B<source.buildinfo>."
+#~ msgstr ""
+#~ "Der Name der B<.buildinfo>-Datei wird von der Art des Baus abhängen und "
+#~ "wird so spezifisch wie notwendig sein, aber nicht mehr; für einen Bau, "
+#~ "der B<any> enthält, wird der Name "
+#~ "I<Quellname>B<_>I<Binärversion>B<_>I<Arch>B<.buildinfo> oder andernfalls "
+#~ "für einen Bau, der B<all> enthält, wird der Name "
+#~ "I<Quellname>B<_>I<Quellversion>B<_>B<all.buildinfo> oder andernfalls für "
+#~ "einen Bau, der B<source> enthält, wird der Name "
+#~ "I<Quellname>B<_>I<Binärversion>B<_>B<source.buildinfo> lauten."
+
+#~ msgid ""
+#~ "It runs the B<changes> hook and calls B<dpkg-genchanges> to generate a B<."
+#~ "changes> file.  The name of the B<.changes> file will depend on the type "
+#~ "of build and will be as specific as necessary but not more; for a build "
+#~ "that includes B<any> the name will be I<source-name>B<_>I<binary-"
+#~ "version>B<_>I<arch>B<.changes>, or otherwise for a build that includes "
+#~ "B<all> the name will be I<source-name>B<_>I<binary-version>B<_>B<all."
+#~ "changes>, or otherwise for a build that includes B<source> the name will "
+#~ "be I<source-name>B<_>I<source-version>B<_>B<source.changes>.  Many B<dpkg-"
+#~ "buildpackage> options are forwarded to B<dpkg-genchanges>."
+#~ msgstr ""
+#~ "Die B<changes>-Hooks werden ausgeführt und B<dpkg-genchanges> aufgerufen, "
+#~ "um eine B<.changes>-Datei zu erstellen. Der Name der B<.changes>-Datei "
+#~ "wird von der Art des Baus abhängen und wird so spezifisch wie notwendig "
+#~ "sein, aber nicht mehr; für einen Bau, der B<any> enthält, wird der Name "
+#~ "I<Quellname>B<_>I<Binärversion>B<_>I<Arch>B<.changes> oder andernfalls "
+#~ "für einen Bau, der B<all> enthält, wird der Name "
+#~ "I<Quellname>B<_>I<Binärversion>B<_>B<all.changes> oder andernfalls für "
+#~ "einen Bau, der B<source> enthält, wird der Name "
+#~ "I<Quellname>B<_>I<Quellversion>B<_>B<source.changes> lauten. Viele "
+#~ "Optionen von B<dpkg-buildpackage> werden an B<dpkg-genchanges> "
+#~ "weitergegeben."
+
+#~ msgid ""
+#~ "B<init preclean source build binary buildinfo changes postclean check "
+#~ "sign done>"
+#~ msgstr ""
+#~ "B<init preclean source build binary buildinfo changes postclean check "
+#~ "sign done>"
+
 #~ msgid "B<3.> Run I<postrm> script"
 #~ msgstr "B<3.> Das I<postrm>-Skript wird ausgeführt"
 
@@ -30089,9 +30239,6 @@ msgstr ""
 #~ msgid "The B<.buildinfo> filename by default has the following form:"
 #~ msgstr ""
 #~ "Der Dateiname von B<.buildinfo> hat standardmäßig die folgende Form:"
-
-#~ msgid "I<source-name>B<_>I<source-version>B<_>I<buildinfo-id>B<.buildinfo>"
-#~ msgstr "I<Quellname>B<_>I<Quellversion>B<_>I<Buildinfo-ID>B<.buildinfo>"
 
 #~ msgid ""
 #~ "where I<buildinfo-id> is composed of the build time formatted as "
