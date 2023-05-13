@@ -75,11 +75,15 @@ cat ctrl-0932.tar.gz >>pkg-old-0933.deb
 cat fsys.tar.gz >>pkg-old-0933.deb
 ])
 
-AT_CHECK([
+DEB_OLD_CTRL_SIZE=$(DPKG_FILE_SIZE([ctrl.tar.gz]))
+DEB_OLD_FSYS_SIZE=$(DPKG_FILE_SIZE([fsys.tar.gz]))
+DEB_OLD_SIZE=$(DPKG_FILE_SIZE([pkg-old.deb]))
+
+AT_CHECK_UNQUOTED([
 # Check old package metadata
 dpkg-deb -I pkg-old.deb
 ], [], [ old Debian package, version 0.939000.
- size 174621 bytes: control archive=274, main archive=174334.
+ size $DEB_OLD_SIZE bytes: control archive=$DEB_OLD_CTRL_SIZE, main archive=$DEB_OLD_FSYS_SIZE.
      201 bytes,     7 lines      control
  Package: pkg-deb-old-format
  Version: 0.0-1
@@ -90,11 +94,14 @@ dpkg-deb -I pkg-old.deb
  Description: test package - deb old format support
 ])
 
-AT_CHECK([
+DEB_OLD_0931_SIZE=$(DPKG_FILE_SIZE([pkg-old-0931.deb]))
+DEB_OLD_0931_CTRL_SIZE=$(DPKG_FILE_SIZE([ctrl-0931.tar.gz]))
+
+AT_CHECK_UNQUOTED([
 # Check old package metadata
 dpkg-deb -I pkg-old-0931.deb
 ], [], [ old Debian package, version 0.931000.
- size 175522 bytes: control archive=291, main archive=175218.
+ size $DEB_OLD_0931_SIZE bytes: control archive=$DEB_OLD_0931_CTRL_SIZE, main archive=$DEB_OLD_FSYS_SIZE.
      201 bytes,     7 lines      control
  Package: pkg-deb-old-format
  Version: 0.0-1
@@ -105,11 +112,14 @@ dpkg-deb -I pkg-old-0931.deb
  Description: test package - deb old format support
 ])
 
-AT_CHECK([
+DEB_OLD_0932_SIZE=$(DPKG_FILE_SIZE([pkg-old-0932.deb]))
+DEB_OLD_0932_CTRL_SIZE=$(DPKG_FILE_SIZE([ctrl-0932.tar.gz]))
+
+AT_CHECK_UNQUOTED([
 # Check old package metadata
 dpkg-deb -I pkg-old-0932.deb
 ], [], [ old Debian package, version 0.932000.
- size 175522 bytes: control archive=291, main archive=175218.
+ size $DEB_OLD_0932_SIZE bytes: control archive=$DEB_OLD_0932_CTRL_SIZE, main archive=$DEB_OLD_FSYS_SIZE.
      201 bytes,     7 lines      control
  Package: pkg-deb-old-format
  Version: 0.0-1
@@ -120,11 +130,14 @@ dpkg-deb -I pkg-old-0932.deb
  Description: test package - deb old format support
 ])
 
-AT_CHECK([
+DEB_OLD_0933_SIZE=$(DPKG_FILE_SIZE([pkg-old-0933.deb]))
+DEB_OLD_0933_CTRL_SIZE=$DEB_OLD_0932_CTRL_SIZE
+
+AT_CHECK_UNQUOTED([
 # Check old package metadata
 dpkg-deb -I pkg-old-0933.deb
 ], [], [ old Debian package, version 0.933000.
- size 175522 bytes: control archive=291, main archive=175218.
+ size $DEB_OLD_0933_SIZE bytes: control archive=$DEB_OLD_0933_CTRL_SIZE, main archive=$DEB_OLD_FSYS_SIZE.
      201 bytes,     7 lines      control
  Package: pkg-deb-old-format
  Version: 0.0-1
@@ -454,9 +467,12 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 -rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
 ])
 
-AT_CHECK([
-# Test non-uniform data.tar/control.tar member compression
+# Create .deb with non-uniform data.tar/control.tar member compression
 ar rc pkg-mixed-comp.deb debian-binary control.tar data.tar.gz
+DEB_MIXED_COMP_SIZE=$(DPKG_FILE_SIZE([pkg-mixed-comp.deb]))
+
+AT_CHECK_UNQUOTED([
+# Test non-uniform data.tar/control.tar member compression
 ar t pkg-mixed-comp.deb
 dpkg-deb -I pkg-mixed-comp.deb
 dpkg-deb -c pkg-mixed-comp.deb
@@ -464,7 +480,7 @@ dpkg-deb -c pkg-mixed-comp.deb
 control.tar
 data.tar.gz
  new Debian package, version 2.0.
- size 185660 bytes: control archive=10240 bytes.
+ size $DEB_MIXED_COMP_SIZE bytes: control archive=10240 bytes.
      193 bytes,     7 lines      control
  Package: pkg-deb-format
  Version: 0.0-1
