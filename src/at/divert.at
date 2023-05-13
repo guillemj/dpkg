@@ -7,76 +7,76 @@ AT_CHECK([dpkg-divert --version], [], [ignore])
 AT_CHECK([dpkg-divert --help], [], [ignore])
 
 AT_CHECK([dpkg-divert --admindir], [2], [], [stderr])
-AT_CHECK([grep -qE '(takes a value|needs.*argument)' stderr])
+AT_CHECK([$EGREP -q '(takes a value|needs.*argument)' stderr])
 
 AT_CHECK([DPKG_DIVERT --jachsmitbju], [2], [], [stderr])
-AT_CHECK([grep -q 'unknown option' stderr])
+AT_CHECK([$GREP -q 'unknown option' stderr])
 
 AT_CHECK([DPKG_DIVERT --add --remove], [2], [], [stderr])
-AT_CHECK([grep -qE '(conflicting|two).*remove.*add.*' stderr])
+AT_CHECK([$EGREP -q '(conflicting|two).*remove.*add.*' stderr])
 
 AT_CHECK([DPKG_DIVERT --divert], [2], [], [stderr])
-AT_CHECK([grep -qE '(takes a value|needs.*argument)' stderr])
+AT_CHECK([$EGREP -q '(takes a value|needs.*argument)' stderr])
 
 AT_CHECK([DPKG_DIVERT --divert foo], [2], [], [stderr])
-AT_CHECK([grep -q 'absolute' stderr])
+AT_CHECK([$GREP -q 'absolute' stderr])
 
 AT_CHECK([DPKG_DIVERT --divert "/foo
 bar"], [2], [], [stderr])
-AT_CHECK([grep -q 'newline' stderr])
+AT_CHECK([$GREP -q 'newline' stderr])
 
 AT_CHECK([DPKG_DIVERT --package], [2], [], [stderr])
-AT_CHECK([grep -qE '(takes a value|needs.*argument)' stderr])
+AT_CHECK([$EGREP -q '(takes a value|needs.*argument)' stderr])
 
 AT_CHECK([DPKG_DIVERT --package "foo
 bar"], [2], [], [stderr])
-AT_CHECK([grep -q 'newline' stderr])
+AT_CHECK([$GREP -q 'newline' stderr])
 
 AT_CHECK([DPKG_DIVERT --add], [2], [], [stderr])
-AT_CHECK([grep -q 'needs a single argument' stderr])
+AT_CHECK([$GREP -q 'needs a single argument' stderr])
 
 AT_CHECK([DPKG_DIVERT --add foo], [2], [], [stderr])
-AT_CHECK([grep -q 'absolute' stderr])
+AT_CHECK([$GREP -q 'absolute' stderr])
 
 AT_CHECK([DPKG_DIVERT --add "/foo
 bar"], [2], [], [stderr])
-AT_CHECK([grep -q 'newline' stderr])
+AT_CHECK([$GREP -q 'newline' stderr])
 
 AT_CHECK([DPKG_DIVERT --add "/testdir"], [2], [], [stderr])
-AT_CHECK([grep -qE 'director(y|ies)' stderr])
+AT_CHECK([$EGREP -q 'director(y|ies)' stderr])
 
 AT_CHECK([DPKG_DIVERT --add --divert bar /foo/bar], [2], [], [stderr])
-AT_CHECK([grep -q 'absolute' stderr])
+AT_CHECK([$GREP -q 'absolute' stderr])
 
 AT_CHECK([DPKG_DIVERT --remove], [2], [], [stderr])
-AT_CHECK([grep -q 'needs a single argument' stderr])
+AT_CHECK([$GREP -q 'needs a single argument' stderr])
 
 AT_CHECK([DPKG_DIVERT --remove foo], [2], [], [stderr])
-AT_CHECK([grep -q 'absolute' stderr])
+AT_CHECK([$GREP -q 'absolute' stderr])
 
 AT_CHECK([DPKG_DIVERT --remove "/foo
 bar"], [2], [], [stderr])
-AT_CHECK([grep -q 'newline' stderr])
+AT_CHECK([$GREP -q 'newline' stderr])
 
 AT_CHECK([DPKG_DIVERT --listpackage], [2], [], [stderr])
-AT_CHECK([grep -q 'needs a single argument' stderr])
+AT_CHECK([$GREP -q 'needs a single argument' stderr])
 
 AT_CHECK([DPKG_DIVERT --listpackage foo], [2], [], [stderr])
-AT_CHECK([grep -q 'absolute' stderr])
+AT_CHECK([$GREP -q 'absolute' stderr])
 
 AT_CHECK([DPKG_DIVERT --listpackage "/foo
 bar"], [2], [], [stderr])
-AT_CHECK([grep -q 'newline' stderr])
+AT_CHECK([$GREP -q 'newline' stderr])
 
 AT_CHECK([DPKG_DIVERT --truename], [2], [], [stderr])
-AT_CHECK([grep -q 'needs a single argument' stderr])
+AT_CHECK([$GREP -q 'needs a single argument' stderr])
 
 AT_CHECK([DPKG_DIVERT --truename foo], [2], [], [stderr])
-AT_CHECK([grep -q 'absolute' stderr])
+AT_CHECK([$GREP -q 'absolute' stderr])
 
 AT_CHECK([DPKG_DIVERT --truename "/foo
 bar"], [2], [], [stderr])
-AT_CHECK([grep -q 'newline' stderr])
+AT_CHECK([$GREP -q 'newline' stderr])
 
 AT_CLEANUP
 
@@ -168,7 +168,7 @@ AT_DATA([ref-diversions], [/testdir/foo
 ])
 
 AT_CHECK([DPKG_DIVERT --rename --add /testdir/foo], [], [stdout])
-AT_CHECK([grep -q "Adding.*local.*diversion.* /testdir/foo.* /testdir/foo.distrib" stdout])
+AT_CHECK([$GREP -q "Adding.*local.*diversion.* /testdir/foo.* /testdir/foo.distrib" stdout])
 DPKG_CHECK_FSYS_PATH_MISSING([/testdir/foo])
 DPKG_CHECK_FSYS_PATH_EXISTS([/testdir/foo.distrib])
 AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
@@ -186,7 +186,7 @@ AT_DATA([ref-diversions], [/testdir/foo
 ])
 
 AT_CHECK([DPKG_DIVERT --no-rename --add /testdir/foo], [], [stdout])
-AT_CHECK([grep -q "Adding.*local.*diversion.* /testdir/foo.* /testdir/foo.distrib" stdout])
+AT_CHECK([$GREP -q "Adding.*local.*diversion.* /testdir/foo.* /testdir/foo.distrib" stdout])
 DPKG_CHECK_FSYS_PATH_EXISTS([/testdir/foo])
 DPKG_CHECK_FSYS_PATH_MISSING([/testdir/foo.distrib])
 AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
@@ -297,7 +297,7 @@ DPKG_GEN_FSYS_FILE([/testdir/foo.distrib], [])
 DPKG_GEN_DB_DIVERSIONS([])
 
 AT_CHECK([DPKG_DIVERT --quiet --rename /testdir/foo], [2], [], [stderr])
-AT_CHECK([grep -q 'error: rename involves overwriting' stderr])
+AT_CHECK([$GREP -q 'error: rename involves overwriting' stderr])
 AT_CHECK([cat DPKG_DIR_ADMIN/diversions])
 
 AT_CLEANUP
@@ -329,11 +329,11 @@ DPKG_GEN_DB_DIVERSIONS([])
 
 AT_CHECK([DPKG_DIVERT --quiet --rename --add /testdir/rodir/foo],
          [2], [], [stderr])
-AT_CHECK([grep -q 'error: .* Permission denied' stderr])
+AT_CHECK([$GREP -q 'error: .* Permission denied' stderr])
 
 AT_CHECK([DPKG_DIVERT --quiet --rename --divert /testdir/rodir/bar --add /testdir/bar],
          [2], [], [stderr])
-AT_CHECK([grep -q 'error: .* Permission denied' stderr])
+AT_CHECK([$GREP -q 'error: .* Permission denied' stderr])
 
 AT_CHECK([cat DPKG_DIR_ADMIN/diversions])
 
@@ -351,11 +351,11 @@ DPKG_MOD_FSYS_MODE([000], [/testdir/nadir])
 DPKG_GEN_DB_DIVERSIONS([])
 
 AT_CHECK([DPKG_DIVERT --rename --add /testdir/nadir/foo], [2], [], [stderr])
-AT_CHECK([grep -q 'error: .* Permission denied' stderr])
+AT_CHECK([$GREP -q 'error: .* Permission denied' stderr])
 
 AT_CHECK([DPKG_DIVERT --quiet --rename --divert /testdir/nadir/foo --add /testdir/foo],
          [2], [], [stderr])
-AT_CHECK([grep -q 'error: .* Permission denied' stderr])
+AT_CHECK([$GREP -q 'error: .* Permission denied' stderr])
 
 AT_CHECK([cat DPKG_DIR_ADMIN/diversions])
 
@@ -371,30 +371,30 @@ DPKG_GEN_FSYS_DIR([/testdir])
 DPKG_GEN_DB_DIVERSIONS([])
 
 AT_CHECK([DPKG_DIVERT --rename --add /testdir/foo], [], [stdout])
-AT_CHECK([grep -q 'Adding' stdout])
+AT_CHECK([$GREP -q 'Adding' stdout])
 
 AT_CHECK([DPKG_DIVERT --rename --add /testdir/foo], [], [stdout])
-AT_CHECK([grep -q 'Leaving' stdout])
+AT_CHECK([$GREP -q 'Leaving' stdout])
 
 AT_CHECK([DPKG_DIVERT --rename --add /testdir/foo], [], [stdout])
-AT_CHECK([grep -q 'Leaving' stdout])
+AT_CHECK([$GREP -q 'Leaving' stdout])
 
 AT_CHECK([DPKG_DIVERT --divert /testdir/foo.bar /testdir/foo],
          [2], [], [stderr])
-AT_CHECK([grep -q 'clashes' stderr])
+AT_CHECK([$GREP -q 'clashes' stderr])
 
 AT_CHECK([DPKG_DIVERT --package foobar /testdir/foo], [2], [], [stderr])
-AT_CHECK([grep -q 'clashes' stderr])
+AT_CHECK([$GREP -q 'clashes' stderr])
 
 AT_CHECK([DPKG_DIVERT --divert /testdir/foo.distrib /testdir/bar],
          [2], [], [stderr])
-AT_CHECK([grep -q 'clashes' stderr])
+AT_CHECK([$GREP -q 'clashes' stderr])
 
 AT_CHECK([DPKG_DIVERT /testdir/foo.distrib], [2], [], [stderr])
-AT_CHECK([grep -q 'clashes' stderr])
+AT_CHECK([$GREP -q 'clashes' stderr])
 
 AT_CHECK([DPKG_DIVERT --divert /testdir/foo /testdir/bar], [2], [], [stderr])
-AT_CHECK([grep -q 'clashes' stderr])
+AT_CHECK([$GREP -q 'clashes' stderr])
 
 AT_CLEANUP
 
@@ -405,15 +405,15 @@ DPKG_GEN_FSYS_DIR([/testdir])
 DPKG_GEN_DB_DIVERSIONS([])
 
 AT_CHECK([DPKG_DIVERT --rename --add /testdir/foo], [], [stdout])
-AT_CHECK([grep -q 'Adding' stdout])
+AT_CHECK([$GREP -q 'Adding' stdout])
 AT_CHECK([DPKG_DIVERT --rename --add /testdir/bar], [], [stdout])
-AT_CHECK([grep -q 'Adding' stdout])
+AT_CHECK([$GREP -q 'Adding' stdout])
 
 AT_CHECK([DPKG_DIVERT --rename --add /testdir/foo], [], [stdout])
-AT_CHECK([grep -q 'Leaving' stdout])
+AT_CHECK([$GREP -q 'Leaving' stdout])
 AT_CHECK([DPKG_DIVERT --rename --package foobar --add /testdir/bar],
          [2], [], [stderr])
-AT_CHECK([grep -q 'clashes' stderr])
+AT_CHECK([$GREP -q 'clashes' stderr])
 
 AT_CLEANUP
 
@@ -450,7 +450,7 @@ AT_KEYWORDS([dpkg-divert remove])
 DPKG_GEN_DB_DIVERSIONS([])
 
 AT_CHECK([DPKG_DIVERT --no-rename --remove /bin/sh], [], [stdout])
-AT_CHECK([grep -q 'No diversion' stdout])
+AT_CHECK([$GREP -q 'No diversion' stdout])
 
 AT_CHECK([DPKG_DIVERT --quiet --no-rename --remove /bin/sh])
 
@@ -474,18 +474,18 @@ AT_CHECK([DPKG_DIVERT --quiet --no-rename --add /testdir/baz])
 
 AT_CHECK([DPKG_DIVERT --divert /testdir/foo.my --remove /testdir/foo],
          [2], [], [stderr])
-AT_CHECK([grep -q 'mismatch on divert-to' stderr])
+AT_CHECK([$GREP -q 'mismatch on divert-to' stderr])
 
 AT_CHECK([DPKG_DIVERT --package baz --remove /testdir/foo], [2], [], [stderr])
-AT_CHECK([grep -q 'mismatch on package' stderr])
+AT_CHECK([$GREP -q 'mismatch on package' stderr])
 
 AT_CHECK([DPKG_DIVERT --package baz --divert /testdir/foo.my --remove /testdir/foo],
          [2], [], [stderr])
-AT_CHECK([grep -qE 'mismatch on (package|divert-to)' stderr])
+AT_CHECK([$EGREP -q 'mismatch on (package|divert-to)' stderr])
 
 AT_CHECK([DPKG_DIVERT --rename --divert /testdir/foo.distrib --remove /testdir/foo],
          [], [stdout])
-AT_CHECK([grep -qE 'Removing .*/testdir/foo' stdout])
+AT_CHECK([$EGREP -q 'Removing .*/testdir/foo' stdout])
 
 AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
@@ -508,7 +508,7 @@ AT_CHECK([DPKG_DIVERT --quiet --no-rename --add /testdir/bar])
 AT_CHECK([DPKG_DIVERT --quiet --no-rename --add /testdir/baz])
 
 AT_CHECK([DPKG_DIVERT --no-rename --remove /testdir/bar], [], [stdout])
-AT_CHECK([grep -qE 'Removing .* /testdir/bar' stdout])
+AT_CHECK([$EGREP -q 'Removing .* /testdir/bar' stdout])
 
 AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
 
@@ -549,7 +549,7 @@ AT_DATA([ref-diversions], [/testdir/foo
 AT_CHECK([DPKG_DIVERT --quiet --rename /testdir/foo])
 
 AT_CHECK([DPKG_DIVERT --test --rename --remove /testdir/foo], [], [stdout])
-AT_CHECK([grep -q 'Removing .*/testdir/foo' stdout])
+AT_CHECK([$GREP -q 'Removing .*/testdir/foo' stdout])
 DPKG_CHECK_FSYS_PATH_MISSING([/testdir/foo])
 DPKG_CHECK_FSYS_PATH_EXISTS([/testdir/foo.distrib])
 AT_CHECK([diff -u ref-diversions DPKG_DIR_ADMIN/diversions])
@@ -572,7 +572,7 @@ DPKG_GEN_DB_DIVERSIONS([])
 DPKG_MOD_DB_MODE([000], [diversions])
 
 AT_CHECK([DPKG_DIVERT --list], [2], [], [stderr])
-AT_CHECK([grep -qE '(cannot|failed).*open' stderr])
+AT_CHECK([$EGREP -q '(cannot|failed).*open' stderr])
 
 DPKG_MOD_DB_MODE([644], [diversions])
 AT_CLEANUP
@@ -584,14 +584,14 @@ DPKG_GEN_DB_DIVERSIONS([/bin/sh
 ])
 
 AT_CHECK([DPKG_DIVERT --list], [2], [], [stderr])
-AT_CHECK([grep -qE '(corrupt|unexpected end of file)' stderr])
+AT_CHECK([$EGREP -q '(corrupt|unexpected end of file)' stderr])
 
 DPKG_GEN_DB_DIVERSIONS([/bin/sh
 bash
 ])
 
 AT_CHECK([DPKG_DIVERT --list], [2], [], [stderr])
-AT_CHECK([grep -qE '(corrupt|unexpected end of file)' stderr])
+AT_CHECK([$EGREP -q '(corrupt|unexpected end of file)' stderr])
 
 AT_CLEANUP
 
@@ -604,8 +604,8 @@ DPKG_GEN_DB_DIVERSIONS([])
 DPKG_MOD_DB_MODE([500])
 
 AT_CHECK([DPKG_DIVERT --rename --add /testdir/foo], [2], [stdout], [stderr])
-AT_CHECK([grep -q 'Adding' stdout])
-AT_CHECK([grep -q 'create.*new' stderr])
+AT_CHECK([$GREP -q 'Adding' stdout])
+AT_CHECK([$GREP -q 'create.*new' stderr])
 
 DPKG_MOD_DB_MODE([755])
 AT_CLEANUP
@@ -620,8 +620,8 @@ DPKG_GEN_DB_DIVERSIONS([])
 ln -s /dev/full DPKG_DIR_ADMIN/diversions-new
 
 AT_CHECK([DPKG_DIVERT --rename --add /testdir/foo], [2], [stdout], [stderr])
-AT_CHECK([grep -q 'Adding' stdout])
-AT_CHECK([grep -qE '(write|flush|close).*new' stderr])
+AT_CHECK([$GREP -q 'Adding' stdout])
+AT_CHECK([$EGREP -q '(write|flush|close).*new' stderr])
 
 AT_CLEANUP
 
@@ -633,7 +633,7 @@ rm -f DPKG_DIR_ADMIN/diversions-new
 mkdir DPKG_DIR_ADMIN/diversions-old
 
 AT_CHECK([DPKG_DIVERT --rename --add /testdir/foo], [2], [stdout], [stderr])
-AT_CHECK([grep -q 'Adding' stdout])
-AT_CHECK([grep -q 'remov.*old' stderr])
+AT_CHECK([$GREP -q 'Adding' stdout])
+AT_CHECK([$GREP -q 'remov.*old' stderr])
 
 AT_CLEANUP
