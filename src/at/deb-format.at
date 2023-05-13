@@ -34,11 +34,16 @@ chmod -R u+w pkg-old-templ
 find pkg-old-templ | xargs touch -t 197001010100.00
 dpkg-deb --deb-format=0.939000 --root-owner-group -Zgzip -b pkg-old-templ >/dev/null
 
+dpkg-deb --ctrl-tarfile pkg-old-templ.deb >ctrl.tar
 dpkg-deb --fsys-tarfile pkg-old-templ.deb >fsys.tar
+gzip -n ctrl.tar
 gzip -n fsys.tar
 
 # Create deb-old 0.939
-cp pkg-old-templ.deb pkg-old.deb
+echo '0.939000' >pkg-old.deb
+DPKG_FILE_SIZE([ctrl.tar.gz]) >>pkg-old.deb
+cat ctrl.tar.gz >>pkg-old.deb
+cat fsys.tar.gz >>pkg-old.deb
 
 # Create deb-old-old-old 0.931
 mkdir -p pkg-old-0931-templ/.DEBIAN
