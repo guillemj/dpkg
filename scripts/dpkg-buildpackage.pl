@@ -660,8 +660,6 @@ if (build_has_any(BUILD_SOURCE)) {
     run_cmd('dpkg-source', @source_opts, '-b', '.');
 }
 
-run_hook('build', build_has_any(BUILD_BINARY));
-
 my $build_types = get_build_options_from_type();
 
 if (build_has_any(BUILD_BINARY)) {
@@ -669,10 +667,18 @@ if (build_has_any(BUILD_BINARY)) {
     # targets. This is a temporary measure to not break too many packages
     # on a flag day.
     build_target_fallback($ctrl);
+}
 
-    # If we are building rootless, there is no need to call the build target
-    # independently as non-root.
-    run_cmd(@debian_rules, $buildtarget) if rules_requires_root($binarytarget);
+# If we are building rootless, there is no need to call the build target
+# independently as non-root.
+if (build_has_any(BUILD_BINARY) && rules_requires_root($binarytarget)) {
+    run_hook('build', 1);
+    run_cmd(@debian_rules, $buildtarget);
+} else {
+    run_hook('build', 0);
+}
+
+if (build_has_any(BUILD_BINARY)) {
     run_hook('binary', 1);
     run_rules_cond_root($binarytarget);
 }
