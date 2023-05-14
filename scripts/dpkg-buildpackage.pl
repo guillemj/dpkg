@@ -683,17 +683,14 @@ if (build_has_any(BUILD_BINARY)) {
     run_rules_cond_root($binarytarget);
 }
 
-run_hook('buildinfo', 1);
-
 $buildinfo_file //= "../$pva.buildinfo";
 
 push @buildinfo_opts, "--build=$build_types" if build_has_none(BUILD_DEFAULT);
 push @buildinfo_opts, "--admindir=$admindir" if $admindir;
 push @buildinfo_opts, "-O$buildinfo_file" if $buildinfo_file;
 
+run_hook('buildinfo', 1);
 run_cmd('dpkg-genbuildinfo', @buildinfo_opts);
-
-run_hook('changes', 1);
 
 $changes_file //= "../$pva.changes";
 
@@ -706,6 +703,7 @@ push @changes_opts, "-O$changes_file";
 
 my $changes = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
 
+run_hook('changes', 1);
 run_cmd('dpkg-genchanges', @changes_opts);
 $changes->load($changes_file);
 
