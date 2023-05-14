@@ -646,13 +646,17 @@ foreach my $call_target (@call_target) {
 }
 exit 0 if scalar @call_target;
 
-run_hook('preclean', $preclean);
+run_hook('preclean', {
+    enabled => $preclean,
+});
 
 if ($preclean) {
     run_rules_cond_root('clean');
 }
 
-run_hook('source', build_has_any(BUILD_SOURCE));
+run_hook('source', {
+    enabled => build_has_any(BUILD_SOURCE),
+});
 
 if (build_has_any(BUILD_SOURCE)) {
     warning(g_('building a source package without cleaning up as you asked; ' .
@@ -675,7 +679,9 @@ if (build_has_any(BUILD_BINARY) && rules_requires_root($binarytarget)) {
     run_hook('build');
     run_cmd(@debian_rules, $buildtarget);
 } else {
-    run_hook('build', 0);
+    run_hook('build', {
+        enabled => 0,
+    });
 }
 
 if (build_has_any(BUILD_BINARY)) {
@@ -707,7 +713,9 @@ run_hook('changes');
 run_cmd('dpkg-genchanges', @changes_opts);
 $changes->load($changes_file);
 
-run_hook('postclean', $postclean);
+run_hook('postclean', {
+    enabled => $postclean,
+});
 
 if ($postclean) {
     run_rules_cond_root('clean');
@@ -717,7 +725,9 @@ run_cmd('dpkg-source', @source_opts, '--after-build', '.');
 
 info(describe_build($changes->{'Files'}));
 
-run_hook('check', $check_command);
+run_hook('check', {
+    enabled => $check_command,
+});
 
 if ($check_command) {
     run_cmd($check_command, @check_opts, $changes_file);
@@ -728,7 +738,9 @@ if ($signpause && ($signsource || $signbuildinfo || $signchanges)) {
     getc();
 }
 
-run_hook('sign', $signsource || $signbuildinfo || $signchanges);
+run_hook('sign', {
+    enabled => $signsource || $signbuildinfo || $signchanges,
+});
 
 if ($signsource) {
     signfile("$pv.dsc");
@@ -886,9 +898,9 @@ sub run_rules_cond_root {
 }
 
 sub run_hook {
-    my ($name, $enabled) = @_;
+    my ($name, $opts) = @_;
     my $cmd = $hook{$name};
-    $enabled //= 1;
+    $opts->{enabled} //= 1;
 
     return if not $cmd;
 
@@ -896,7 +908,7 @@ sub run_hook {
 
     my %hook_vars = (
         '%' => '%',
-        'a' => $enabled ? 1 : 0,
+        'a' => $opts->{enabled} ? 1 : 0,
         'p' => $pkg,
         'v' => $version,
         's' => $sversion,
