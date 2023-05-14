@@ -472,7 +472,7 @@ if (not defined $parallel and not $build_opts->has('parallel')) {
 # Prepare the environment.
 #
 
-run_hook('preinit', 1);
+run_hook('preinit');
 
 if (defined $parallel) {
     if ($parallel eq 'auto') {
@@ -612,7 +612,7 @@ if ($sanitize_env) {
 # Preparation of environment stops here
 #
 
-run_hook('init', 1);
+run_hook('init');
 
 if (not -x 'debian/rules') {
     warning(g_('debian/rules is not executable; fixing that'));
@@ -672,14 +672,14 @@ if (build_has_any(BUILD_BINARY)) {
 # If we are building rootless, there is no need to call the build target
 # independently as non-root.
 if (build_has_any(BUILD_BINARY) && rules_requires_root($binarytarget)) {
-    run_hook('build', 1);
+    run_hook('build');
     run_cmd(@debian_rules, $buildtarget);
 } else {
     run_hook('build', 0);
 }
 
 if (build_has_any(BUILD_BINARY)) {
-    run_hook('binary', 1);
+    run_hook('binary');
     run_rules_cond_root($binarytarget);
 }
 
@@ -689,7 +689,7 @@ push @buildinfo_opts, "--build=$build_types" if build_has_none(BUILD_DEFAULT);
 push @buildinfo_opts, "--admindir=$admindir" if $admindir;
 push @buildinfo_opts, "-O$buildinfo_file" if $buildinfo_file;
 
-run_hook('buildinfo', 1);
+run_hook('buildinfo');
 run_cmd('dpkg-genbuildinfo', @buildinfo_opts);
 
 $changes_file //= "../$pva.changes";
@@ -703,7 +703,7 @@ push @changes_opts, "-O$changes_file";
 
 my $changes = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
 
-run_hook('changes', 1);
+run_hook('changes');
 run_cmd('dpkg-genchanges', @changes_opts);
 $changes->load($changes_file);
 
@@ -767,7 +767,7 @@ if (not $signreleased) {
     warning(g_('not signing UNRELEASED build; use --force-sign to override'));
 }
 
-run_hook('done', 1);
+run_hook('done');
 
 sub mustsetvar {
     my ($var, $text) = @_;
@@ -888,6 +888,7 @@ sub run_rules_cond_root {
 sub run_hook {
     my ($name, $enabled) = @_;
     my $cmd = $hook{$name};
+    $enabled //= 1;
 
     return if not $cmd;
 
