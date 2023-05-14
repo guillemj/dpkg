@@ -481,6 +481,9 @@ always be executed even if the following action is not performed (except
 for the B<binary> hook).
 All the hooks will run in the unpacked source directory.
 
+Some hooks can receive addition information through environment variables
+(since dpkg 1.22.0).
+
 B<Note>: Hooks can affect the build process, and cause build failures if
 their commands fail, so watch out for unintended consequences.
 
@@ -496,17 +499,35 @@ The current I<hook-name> supported are:
 
 =item B<source>
 
+Gets B<DPKG_BUILDPACKAGE_HOOK_SOURCE_OPTIONS> with the space-separated lists
+of options that will passed to the B<dpkg-source> call.
+
 =item B<build>
+
+Gets B<DPKG_BUILDPACKAGE_HOOK_BUILD_TARGET> with the name of the
+B<debian/rules> build target called, but only if called.
 
 =item B<binary>
 
+Gets B<DPKG_BUILDPACKAGE_HOOK_BINARY_TARGET> with the name of the
+B<debian/rules> binary target called, but only if called.
+
 =item B<buildinfo>
 
+Gets B<DPKG_BUILDPACKAGE_HOOK_BUILDINFO_OPTIONS> with the space-separated lists
+of options that will passed to the B<dpkg-genbuildinfo> call.
+
 =item B<changes>
+
+Gets B<DPKG_BUILDPACKAGE_HOOK_CHANGES_OPTIONS> with the space-separated lists
+of options that will passed to the B<dpkg-genchanges> call.
 
 =item B<postclean>
 
 =item B<check>
+
+Gets B<DPKG_BUILDPACKAGE_HOOK_CHECK_OPTIONS> with the space-separated lists
+of options that will passed to the check command call.
 
 =item B<sign>
 

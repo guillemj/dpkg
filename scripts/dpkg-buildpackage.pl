@@ -656,6 +656,9 @@ if ($preclean) {
 
 run_hook('source', {
     enabled => build_has_any(BUILD_SOURCE),
+    env => {
+        DPKG_BUILDPACKAGE_HOOK_SOURCE_OPTIONS => join(' ', @source_opts),
+    },
 });
 
 if (build_has_any(BUILD_SOURCE)) {
@@ -676,7 +679,11 @@ if (build_has_any(BUILD_BINARY)) {
 # If we are building rootless, there is no need to call the build target
 # independently as non-root.
 if (build_has_any(BUILD_BINARY) && rules_requires_root($binarytarget)) {
-    run_hook('build');
+    run_hook('build', {
+        env => {
+            DPKG_BUILDPACKAGE_HOOK_BUILD_TARGET => $buildtarget,
+        },
+    });
     run_cmd(@debian_rules, $buildtarget);
 } else {
     run_hook('build', {
@@ -685,7 +692,11 @@ if (build_has_any(BUILD_BINARY) && rules_requires_root($binarytarget)) {
 }
 
 if (build_has_any(BUILD_BINARY)) {
-    run_hook('binary');
+    run_hook('binary', {
+        env => {
+            DPKG_BUILDPACKAGE_HOOK_BINARY_TARGET => $binarytarget,
+        },
+    });
     run_rules_cond_root($binarytarget);
 }
 
@@ -695,7 +706,11 @@ push @buildinfo_opts, "--build=$build_types" if build_has_none(BUILD_DEFAULT);
 push @buildinfo_opts, "--admindir=$admindir" if $admindir;
 push @buildinfo_opts, "-O$buildinfo_file" if $buildinfo_file;
 
-run_hook('buildinfo');
+run_hook('buildinfo', {
+    env => {
+        DPKG_BUILDPACKAGE_HOOK_BUILDINFO_OPTIONS => join(' ', @buildinfo_opts),
+    },
+});
 run_cmd('dpkg-genbuildinfo', @buildinfo_opts);
 
 $changes_file //= "../$pva.changes";
@@ -709,7 +724,11 @@ push @changes_opts, "-O$changes_file";
 
 my $changes = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
 
-run_hook('changes');
+run_hook('changes', {
+    env => {
+        DPKG_BUILDPACKAGE_HOOK_CHANGES_OPTIONS => join(' ', @changes_opts),
+    },
+});
 run_cmd('dpkg-genchanges', @changes_opts);
 $changes->load($changes_file);
 
@@ -727,6 +746,9 @@ info(describe_build($changes->{'Files'}));
 
 run_hook('check', {
     enabled => $check_command,
+    env => {
+        DPKG_BUILDPACKAGE_HOOK_CHECK_OPTIONS => join(' ', @check_opts),
+    },
 });
 
 if ($check_command) {
@@ -927,6 +949,9 @@ sub run_hook {
     };
 
     $cmd =~ s/\%(.)/$subst_hook_var->($1)/eg;
+
+    # Set any environment variables for this hook invocation.
+    local @ENV{keys %{$opts->{env}}} = values %{$opts->{env}};
 
     run_cmd($cmd);
 }
