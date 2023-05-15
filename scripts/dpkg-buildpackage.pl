@@ -950,6 +950,8 @@ sub run_hook {
 
     $cmd =~ s/\%(.)/$subst_hook_var->($1)/eg;
 
+    $opts->{env}{DPKG_BUILDPACKAGE_HOOK_NAME} = $name;
+
     # Set any environment variables for this hook invocation.
     local @ENV{keys %{$opts->{env}}} = values %{$opts->{env}};
 

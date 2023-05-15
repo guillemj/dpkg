@@ -198,7 +198,7 @@ sub test_build
         done
     );
     my @hook_opts = map {
-        "--hook-$_=$datadir/hook n=$_ a=%a p=%p v=%v s=%s u=%u >>../$basename\_$typename.hook"
+        "--hook-$_=$datadir/hook a=%a p=%p v=%v s=%s u=%u >>../$basename\_$typename.hook"
     } @hook_names;
 
     chdir $dirname;
