@@ -605,10 +605,12 @@ The specific OpenPGP backends supported in order of preference are:
 =item B<-p>, B<--sign-command=>I<sign-command>
 
 When B<dpkg-buildpackage> needs to execute an OpenPGP backend command to
-sign a source control (B<.dsc>) file or a B<.changes> file it will run
+sign a source control (B<.dsc>) file, a B<.buildinfo> file or a B<.changes>
+file it will run
 I<sign-command> (searching the B<PATH> if necessary) instead of the
 default or auto-detected backend command (long option since dpkg 1.18.8).
-I<sign-command> will get all the arguments defined by the B<--sign-backend>.
+I<sign-command> will get all the backend specific arguments according to
+the B<--sign-backend> selected.
 I<sign-command> should not contain spaces or any other shell metacharacters.
 
 =item B<-k>, B<--sign-keyid=>I<key-id>
