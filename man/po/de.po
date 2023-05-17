@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-05-11 16:59+0200\n"
-"PO-Revision-Date: 2023-05-11 18:07+0200\n"
+"POT-Creation-Date: 2023-05-17 18:13+0200\n"
+"PO-Revision-Date: 2023-05-17 19:31+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -768,8 +768,8 @@ msgid ""
 "Its value is used for the B<Urgency> field in the I<.changes> file for the "
 "upload."
 msgstr ""
-"Der Wert wird für das Feld B<Urgency> in der Datei I<."
-"changes> für den Upload verwandt."
+"Der Wert wird für das Feld B<Urgency> in der Datei I<.changes> für den "
+"Upload verwandt."
 
 #. type: =item
 #: deb-changelog.pod
@@ -783,10 +783,10 @@ msgid ""
 "binary-only non-maintainer upload (an automatic binary rebuild with the only "
 "change being the changelog entry)."
 msgstr ""
-"Wird mit einem Wert von B<yes> "
-"verwandt, um anzuzeigen, dass dieser Changelog-Eintrag für einen rein-"
-"binären nicht-Betreuer-Upload (ein automatischer binärer Neubau, wo die "
-"einzige Änderung der Changelog-Eintrag darstellt) ist."
+"Wird mit einem Wert von B<yes> verwandt, um anzuzeigen, dass dieser "
+"Changelog-Eintrag für einen rein-binären nicht-Betreuer-Upload (ein "
+"automatischer binärer Neubau, wo die einzige Änderung der Changelog-Eintrag "
+"darstellt) ist."
 
 #. type: textblock
 #: deb-changelog.pod
@@ -10456,11 +10456,11 @@ msgid ""
 "B<ENVIRONMENT>), runs the B<init> hook, and calls B<dpkg-source --before-"
 "build> (unless B<-T> or B<--target> has been used)."
 msgstr ""
-"Es wird der Hook B<preinit> ausgeführt, bevor irgendeine Quelldatei gelesen wird. "
-"Die Bauumgebung wird vorbereitet, indem verschiedene Umgebungsvariablen "
-"gesetzt werden (siehe B<UMGEBUNG>), führt den B<init>-Hook aus und ruft "
-"B<dpkg-source --before-build> auf (es sei denn, B<-T> oder B<--target> wurde "
-"verwandt)."
+"Es wird der Hook B<preinit> ausgeführt, bevor irgendeine Quelldatei gelesen "
+"wird. Die Bauumgebung wird vorbereitet, indem verschiedene "
+"Umgebungsvariablen gesetzt werden (siehe B<UMGEBUNG>), der B<init>-"
+"Hook ausgeführt und B<dpkg-source --before-build> aufgerufen wird (es sei denn, B<-T> oder "
+"B<--target> wurde verwandt)."
 
 #. type: =item
 #: dpkg-buildpackage.pod dpkg.pod
@@ -11433,6 +11433,17 @@ msgstr ""
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid ""
+"Some hooks can receive addition information through environment variables "
+"(since dpkg 1.22.0).  All hooks get the hook name in the "
+"B<DPKG_BUILDPACKAGE_HOOK_NAME> environment variable (since dpkg 1.22.0)."
+msgstr ""
+"Einige Hooks können zusätzliche Informationen über Umgebungsvariablen "
+"erhalten (seit Dpkg 1.22.0). Alle Hooks erhalten den Hook-Namen in der "
+"Umgebungsvariablen B<DPKG_BUILDPACKAGE_HOOK_NAME> (seit Dpkg 1.22.0)."
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
 "B<Note>: Hooks can affect the build process, and cause build failures if "
 "their commands fail, so watch out for unintended consequences."
 msgstr ""
@@ -11460,15 +11471,64 @@ msgstr "B<init>"
 msgid "B<preclean>"
 msgstr "B<preclean>"
 
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"Gets B<DPKG_BUILDPACKAGE_HOOK_SOURCE_OPTIONS> with the space-separated lists "
+"of options that will passed to the B<dpkg-source> call."
+msgstr ""
+"Erhält B<DPKG_BUILDPACKAGE_HOOK_SOURCE_OPTIONS> mit einer Leerzeichen-"
+"getrennten Liste von Optionen, die an den Aufruf von B<dpkg-source> "
+"übergeben werden."
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"Gets B<DPKG_BUILDPACKAGE_HOOK_BUILD_TARGET> with the name of the B<debian/"
+"rules> build target called, but only if called."
+msgstr ""
+"Erhält B<DPKG_BUILDPACKAGE_HOOK_BUILD_TARGET> mit den Namen des von B<debian/"
+"rules> aufgerufenen Bauziels, aber nur, wenn eines aufgerufen wurde."
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"Gets B<DPKG_BUILDPACKAGE_HOOK_BINARY_TARGET> with the name of the B<debian/"
+"rules> binary target called, but only if called."
+msgstr ""
+"Erhält B<DPKG_BUILDPACKAGE_HOOK_BINARY_TARGET> mit dem Namen des von "
+"B<debian/rules> aufgerufenen Binärziels, aber nur, wenn eines aufgerufen "
+"wurde."
+
 #. type: =item
 #: dpkg-buildpackage.pod
 msgid "B<buildinfo>"
 msgstr "B<buildinfo>"
 
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"Gets B<DPKG_BUILDPACKAGE_HOOK_BUILDINFO_OPTIONS> with the space-separated "
+"lists of options that will passed to the B<dpkg-genbuildinfo> call."
+msgstr ""
+"Erhält B<DPKG_BUILDPACKAGE_HOOK_BUILDINFO_OPTIONS> mit einer Leerzeichen-"
+"getrennten Liste von Optionen, die an den Aufruf von B<dpkg-genbuildinfo> "
+"übergeben werden."
+
 #. type: =item
 #: dpkg-buildpackage.pod
 msgid "B<changes>"
 msgstr "B<changes>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"Gets B<DPKG_BUILDPACKAGE_HOOK_CHANGES_OPTIONS> with the space-separated "
+"lists of options that will passed to the B<dpkg-genchanges> call."
+msgstr ""
+"Erhält B<DPKG_BUILDPACKAGE_HOOK_CHANGES_OPTIONS> mit einer Leerzeichen-"
+"getrennten Liste von Optionen, die an den Aufruf von B<dpkg-genchanges> "
+"übergeben werden."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -11479,6 +11539,16 @@ msgstr "B<postclean>"
 #: dpkg-buildpackage.pod
 msgid "B<check>"
 msgstr "B<check>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"Gets B<DPKG_BUILDPACKAGE_HOOK_CHECK_OPTIONS> with the space-separated lists "
+"of options that will passed to the check command call."
+msgstr ""
+"Erhält B<DPKG_BUILDPACKAGE_HOOK_CHECK_OPTIONS> mit einer Leerzeichen-"
+"getrennten Liste von Optionen, die an den Aufruf des Befehls »check« "
+"übergeben werden."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -11653,18 +11723,19 @@ msgstr "B<-p>, B<--sign-command=>I<Signaturbefehl>"
 #: dpkg-buildpackage.pod
 msgid ""
 "When B<dpkg-buildpackage> needs to execute an OpenPGP backend command to "
-"sign a source control (B<.dsc>) file or a B<.changes> file it will run "
-"I<sign-command> (searching the B<PATH> if necessary) instead of the default "
-"or auto-detected backend command (long option since dpkg 1.18.8).  I<sign-"
-"command> will get all the arguments defined by the B<--sign-backend>.  "
-"I<sign-command> should not contain spaces or any other shell metacharacters."
+"sign a source control (B<.dsc>) file, a B<.buildinfo> file or a B<.changes> "
+"file it will run I<sign-command> (searching the B<PATH> if necessary) "
+"instead of the default or auto-detected backend command (long option since "
+"dpkg 1.18.8).  I<sign-command> will get all the backend specific arguments "
+"according to the B<--sign-backend> selected.  I<sign-command> should not "
+"contain spaces or any other shell metacharacters."
 msgstr ""
 "Wenn B<dpkg-buildpackage> ein OpenPGP-Backend-Befehl zum Signieren einer "
-"Quellsteuerdatei (B<.dsc>) oder einer B<.changes>-Datei benötigt, wird es "
+"Quellsteuerdatei (B<.dsc>), einer B<.buildinfo>-Datei oder einer B<.changes>-Datei benötigt, wird es "
 "statt des standardmäßigen oder automatisch erkannten Backend-Befehls den "
 "I<Signaturbefehl> ausführen (und dabei falls notwendig den B<PATH> "
 "durchsuchen) (lange Option seit Dpkg 1.18.8). I<Signaturbefehl> wird alle "
-"Argumente erhalten, die durch B<--sign-backend> definiert sind. "
+"Backend-spezifischen Argumente gemäß des ausgewählten B<--sign-backend> erhalten. "
 "I<Signaturbefehl> sollte keine Leerzeichen oder andere Metazeichen der Shell "
 "enthalten."
 
@@ -26345,8 +26416,8 @@ msgid ""
 "I<ftp>, but other packages may provide additional methods, for example the "
 "I<apt> access method provided by the B<apt>(8) package."
 msgstr ""
-"Standardmäßig stellt B<dselect> mehrere Methoden wie I<media>, I<file> "
-"oder I<ftp> zur Verfügung, aber andere Pakete können zusätzliche Methoden "
+"Standardmäßig stellt B<dselect> mehrere Methoden wie I<media>, I<file> oder "
+"I<ftp> zur Verfügung, aber andere Pakete können zusätzliche Methoden "
 "bereitstellen, z.B. stellt das B<apt>-Paket die I<apt>(8)-Zugriffsmethode "
 "bereit."
 
