@@ -355,12 +355,18 @@ test_data = \
 	t/Dpkg_Substvars/substvars1 \
 	t/Dpkg_Substvars/substvars2 \
 	t/dpkg_buildpackage/dpkgdb/status \
+	t/dpkg_buildpackage/hook \
 	t/dpkg_buildpackage/test-source_0.dsc \
 	t/dpkg_buildpackage/test-source_0_all.changes \
+	t/dpkg_buildpackage/test-source_0_all.hook \
 	t/dpkg_buildpackage/test-source_0_any.changes \
+	t/dpkg_buildpackage/test-source_0_any.hook \
 	t/dpkg_buildpackage/test-source_0_binary.changes \
+	t/dpkg_buildpackage/test-source_0_binary.hook \
 	t/dpkg_buildpackage/test-source_0_full.changes \
+	t/dpkg_buildpackage/test-source_0_full.hook \
 	t/dpkg_buildpackage/test-source_0_source.changes \
+	t/dpkg_buildpackage/test-source_0_source.hook \
 	t/dpkg_source/testsuite_0.dsc \
 	t/dpkg_source/testsuite_1.dsc \
 	t/dpkg_source/testsuite_2.dsc \
