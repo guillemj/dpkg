@@ -178,6 +178,7 @@ sub set_build_features {
         # On glibc, new ports default to time64, old ports currently default
         # to time32, so we track the latter as that is a list that is not
         # going to grow further, and might shrink.
+        # On musl libc based systems all ports use time64.
         my %time32_arch = map { $_ => 1 } qw(
             arm
             armeb
@@ -208,7 +209,8 @@ sub set_build_features {
             sparc
         );
         if ($abi_bits != 32 or
-            not exists $time32_arch{$arch}) {
+            not exists $time32_arch{$arch} or
+            $libc eq 'musl') {
             $use_feature{future}{time64} = 0;
         } elsif ($libc eq 'gnu') {
             # On glibc 64-bit time_t support requires LFS.
