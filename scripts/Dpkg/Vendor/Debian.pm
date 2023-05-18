@@ -175,8 +175,40 @@ sub set_build_features {
     ## Area: future
 
     if ($use_feature{future}{time64}) {
-        if (any { $cpu eq $_ } qw(arc or1k) or
-            $abi_bits != 32) {
+        # On glibc, new ports default to time64, old ports currently default
+        # to time32, so we track the latter as that is a list that is not
+        # going to grow further, and might shrink.
+        my %time32_arch = map { $_ => 1 } qw(
+            arm
+            armeb
+            armel
+            armhf
+            hppa
+            i386
+            hurd-i386
+            kfreebsd-i386
+            m68k
+            mips
+            mipsel
+            mipsn32
+            mipsn32el
+            mipsn32r6
+            mipsn32r6el
+            mipsr6
+            mipsr6el
+            nios2
+            powerpc
+            powerpcel
+            powerpcspe
+            s390
+            sh3
+            sh3eb
+            sh4
+            sh4eb
+            sparc
+        );
+        if ($abi_bits != 32 or
+            not exists $time32_arch{$arch}) {
             $use_feature{future}{time64} = 0;
         } elsif ($libc eq 'gnu') {
             # On glibc 64-bit time_t support requires LFS.
