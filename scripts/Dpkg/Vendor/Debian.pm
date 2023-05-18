@@ -178,7 +178,7 @@ sub set_build_features {
         if (any { $cpu eq $_ } qw(arc or1k) or
             $abi_bits != 32) {
             $use_feature{future}{time64} = 0;
-        } else {
+        } elsif ($libc eq 'gnu') {
             # On glibc 64-bit time_t support requires LFS.
             $use_feature{future}{lfs} = 1;
         }
