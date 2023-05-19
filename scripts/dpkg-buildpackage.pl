@@ -931,10 +931,10 @@ sub run_hook {
     my %hook_vars = (
         '%' => '%',
         'a' => $opts->{enabled} ? 1 : 0,
-        'p' => $pkg,
-        'v' => $version,
-        's' => $sversion,
-        'u' => $uversion,
+        'p' => $pkg // q{},
+        'v' => $version // q{},
+        's' => $sversion // q{},
+        'u' => $uversion // q{},
     );
 
     my $subst_hook_var = sub {
