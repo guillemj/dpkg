@@ -171,6 +171,10 @@ sub set_build_features {
         warning(g_("unknown host architecture '%s'"), $arch);
         ($abi, $os, $cpu) = ('', '', '');
     }
+    unless (defined $abi_bits and defined $abi_endian) {
+        warning(g_("unknown abi attributes for architecture '%s'"), $arch);
+        ($abi_bits, $abi_endian) = (0, 'unknown');
+    }
 
     ## Area: future
 
