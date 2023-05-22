@@ -762,6 +762,15 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
      * backup/restore operation and were rudely interrupted.
      * So, we see if we have .dpkg-tmp, and if so we restore it. */
     if (rename(fnametmpvb.buf,fnamevb.buf)) {
+      /* Trying to remove a directory or a file on a read-only filesystem,
+       * even if non-existent, always returns EROFS. */
+      if (errno == EROFS) {
+        /* If the file does not exist the access() function will remap the
+         * EROFS into an ENOENT, otherwise restore EROFS to fail with that. */
+        if (access(fnametmpvb.buf, F_OK) == 0)
+          errno = EROFS;
+      }
+
       if (errno != ENOENT && errno != ENOTDIR)
         ohshite(_("unable to clean up mess surrounding '%.255s' before "
                   "installing another version"), ti->name);
