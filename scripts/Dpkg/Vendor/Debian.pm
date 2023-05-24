@@ -107,6 +107,8 @@ sub set_build_features {
     my %use_feature = (
         future => {
             lfs => 0,
+        },
+        abi => {
             time64 => 0,
         },
         qa => {
@@ -176,9 +178,9 @@ sub set_build_features {
         ($abi_bits, $abi_endian) = (0, 'unknown');
     }
 
-    ## Area: future
+    ## Area: abi
 
-    if ($use_feature{future}{time64}) {
+    if ($use_feature{abi}{time64}) {
         # On glibc, new ports default to time64, old ports currently default
         # to time32, so we track the latter as that is a list that is not
         # going to grow further, and might shrink.
@@ -215,12 +217,14 @@ sub set_build_features {
         if ($abi_bits != 32 or
             not exists $time32_arch{$arch} or
             $libc eq 'musl') {
-            $use_feature{future}{time64} = 0;
+            $use_feature{abi}{time64} = 0;
         } elsif ($libc eq 'gnu') {
             # On glibc 64-bit time_t support requires LFS.
             $use_feature{future}{lfs} = 1;
         }
     }
+
+    ## Area: future
 
     if ($use_feature{future}{lfs}) {
         if ($abi_bits != 32) {
@@ -395,7 +399,9 @@ sub _add_build_flags {
                        '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
     }
 
-    if ($flags->use_feature('future', 'time64')) {
+    ## Area: abi
+
+    if ($flags->use_feature('abi', 'time64')) {
         $flags->append('CPPFLAGS', '-D_TIME_BITS=64');
     }
 

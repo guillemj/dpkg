@@ -87,6 +87,8 @@ ok($bf->is_maintainer_modified('DPKGFLAGS'), 'prepend marked flag as maint modif
 my %known_features = (
     future => [ qw(
         lfs
+    ) ],
+    abi => [ qw(
         time64
     ) ],
     hardening => [ qw(

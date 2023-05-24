@@ -349,12 +349,19 @@ Large File Support on 32-bit architectures where their ABI does
 not include LFS by default, by adding
 B<-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64> to B<CPPFLAGS>.
 
+=head2 abi
+
+Several compile-time options (detailed below) can be used to enable features
+that can change the ABI of a package, but cannot be enabled by default due to
+backwards compatibility reasons unless coordinated or checked individually.
+
 =item B<time64>
 
 This setting (since dpkg 1.22.0; disabled by default) enables 64-bit time_t
 support on 32-bit architectures where their ABI does not include it by
 default, by adding B<-D_TIME_BITS=64> to B<CPPFLAGS>.
-This setting automatically enables the B<lfs> feature as it requires it.
+This setting automatically enables the B<lfs> feature in the B<future> area
+as it requires it.
 
 =back
 
