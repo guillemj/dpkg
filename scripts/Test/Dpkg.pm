@@ -214,6 +214,9 @@ my %openpgp_command = (
     'rsop' => {
         backend => 'sop',
     },
+    'gosop' => {
+        backend => 'sop',
+    },
     'pgpainless-cli' => {
         backend => 'sop',
     },

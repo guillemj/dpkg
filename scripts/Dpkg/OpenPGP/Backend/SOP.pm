@@ -56,7 +56,7 @@ use parent qw(Dpkg::OpenPGP::Backend);
 #   Ref: https://gitlab.com/dkg/openpgp-stateless-cli/-/issues/42
 
 sub DEFAULT_CMD {
-    return [ qw(sqop rsop pgpainless-cli) ];
+    return [ qw(sqop rsop gosop pgpainless-cli) ];
 }
 
 sub _sop_exec
