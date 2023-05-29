@@ -25,7 +25,7 @@ use File::Temp;
 use Dpkg::IPC;
 
 my $srcdir = $ENV{srcdir} || '.';
-my $datadir = "$srcdir/t/merge_changelogs";
+my $datadir = "$srcdir/t/dpkg_mergechangelogs";
 
 sub test_merge {
     my ($expected_file, @options) = @_;

@@ -264,7 +264,7 @@ test_scripts = \
 	t/Dpkg_Dist_Files.t \
 	t/dpkg_source.t \
 	t/dpkg_buildpackage.t \
-	t/merge_changelogs.t \
+	t/dpkg_mergechangelogs.t \
 	t/mk.t \
 	# EOL
 
@@ -367,26 +367,26 @@ test_data = \
 	t/dpkg_buildpackage/test-source_0_full.hook \
 	t/dpkg_buildpackage/test-source_0_source.changes \
 	t/dpkg_buildpackage/test-source_0_source.hook \
+	t/dpkg_mergechangelogs/ch-a \
+	t/dpkg_mergechangelogs/ch-b \
+	t/dpkg_mergechangelogs/ch-badver-a \
+	t/dpkg_mergechangelogs/ch-badver-b \
+	t/dpkg_mergechangelogs/ch-badver-merged \
+	t/dpkg_mergechangelogs/ch-badver-old \
+	t/dpkg_mergechangelogs/ch-merged \
+	t/dpkg_mergechangelogs/ch-merged-basic \
+	t/dpkg_mergechangelogs/ch-merged-pr \
+	t/dpkg_mergechangelogs/ch-merged-pr-basic \
+	t/dpkg_mergechangelogs/ch-old \
+	t/dpkg_mergechangelogs/ch-unreleased-a \
+	t/dpkg_mergechangelogs/ch-unreleased-b \
+	t/dpkg_mergechangelogs/ch-unreleased-merged \
+	t/dpkg_mergechangelogs/ch-unreleased-merged-basic \
+	t/dpkg_mergechangelogs/ch-unreleased-old \
 	t/dpkg_source/testsuite_0.dsc \
 	t/dpkg_source/testsuite_1.dsc \
 	t/dpkg_source/testsuite_2.dsc \
 	t/dpkg_source/testsuite_3.dsc \
-	t/merge_changelogs/ch-a \
-	t/merge_changelogs/ch-b \
-	t/merge_changelogs/ch-badver-a \
-	t/merge_changelogs/ch-badver-b \
-	t/merge_changelogs/ch-badver-merged \
-	t/merge_changelogs/ch-badver-old \
-	t/merge_changelogs/ch-merged \
-	t/merge_changelogs/ch-merged-basic \
-	t/merge_changelogs/ch-merged-pr \
-	t/merge_changelogs/ch-merged-pr-basic \
-	t/merge_changelogs/ch-old \
-	t/merge_changelogs/ch-unreleased-a \
-	t/merge_changelogs/ch-unreleased-b \
-	t/merge_changelogs/ch-unreleased-merged \
-	t/merge_changelogs/ch-unreleased-merged-basic \
-	t/merge_changelogs/ch-unreleased-old \
 	t/mk/architecture.mk \
 	t/mk/buildflags.mk \
 	t/mk/buildopts.mk \
