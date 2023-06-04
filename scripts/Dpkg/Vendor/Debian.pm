@@ -106,9 +106,13 @@ sub set_build_features {
     # Default feature states.
     my %use_feature = (
         future => {
+            # XXX: Should start a deprecation cycle at some point.
             lfs => 0,
         },
         abi => {
+            # XXX: This is set to undef so that we can handle the alias from
+            # the future feature area.
+            lfs => undef,
             time64 => 0,
         },
         qa => {
@@ -220,17 +224,20 @@ sub set_build_features {
             $use_feature{abi}{time64} = 0;
         } elsif ($libc eq 'gnu') {
             # On glibc 64-bit time_t support requires LFS.
-            $use_feature{future}{lfs} = 1;
+            $use_feature{abi}{lfs} = 1;
         }
     }
 
-    ## Area: future
-
-    if ($use_feature{future}{lfs}) {
+    # XXX: Handle lfs alias from future abi feature area.
+    $use_feature{abi}{lfs} //= $use_feature{future}{lfs};
+    if ($use_feature{abi}{lfs}) {
         if ($abi_bits != 32) {
-            $use_feature{future}{lfs} = 0;
+            $use_feature{abi}{lfs} = 0;
         }
     }
+    # XXX: Once the feature is set in the abi area, we always override the
+    # one in the future area.
+    $use_feature{future}{lfs} = $use_feature{abi}{lfs};
 
     ## Area: reproducible
 
@@ -392,14 +399,12 @@ sub _add_build_flags {
     $flags->append($_, $default_flags) foreach @compile_flags;
     $flags->append('DFLAGS', $default_d_flags);
 
-    ## Area: future
+    ## Area: abi
 
-    if ($flags->use_feature('future', 'lfs')) {
+    if ($flags->use_feature('abi', 'lfs')) {
         $flags->append('CPPFLAGS',
                        '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
     }
-
-    ## Area: abi
 
     if ($flags->use_feature('abi', 'time64')) {
         $flags->append('CPPFLAGS', '-D_TIME_BITS=64');
