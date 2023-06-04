@@ -169,6 +169,30 @@ AC_DEFUN([DPKG_COMPILER_SANITIZER], [
   ])
 ])
 
+# DPKG_COMPILER_ANALYZER
+# ----------------------
+# Add configure option to enable compiler analyzer support options.
+# Note: This is only intended for development use, as enabling this option
+# unconditionally can generate large amounts of false positivies that
+# require sentient triage intervention.
+AC_DEFUN([DPKG_COMPILER_ANALYZER], [
+  AC_ARG_ENABLE([compiler-analyzer],
+    [AS_HELP_STRING([--enable-compiler-analyzer],
+      [Enable compiler analyzer support])],
+    [], [enable_compiler_analyzer=no])
+
+  AS_IF([test "x$enable_compiler_analyzer" = "xyes"], [
+    DPKG_CHECK_COMPILER_FLAG([-fanalyzer])
+    AC_LANG_PUSH([C++])
+    DPKG_CHECK_COMPILER_FLAG([-fanalyzer])
+    AC_LANG_POP([C++])
+
+    LDFLAGS="$COMPILER_CFLAGS $LDFLAGS"
+    CFLAGS="$COMPILER_CFLAGS $CFLAGS"
+    CXXFLAGS="$COMPILER_CXXFLAGS $CXXFLAGS"
+  ])
+])
+
 # DPKG_COMPILER_OPTIMIZATIONS
 # ---------------------------
 # Add configure option to disable optimizations.
