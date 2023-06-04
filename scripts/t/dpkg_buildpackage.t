@@ -87,6 +87,9 @@ my $tmpl_rules = <<'TMPL_RULES';
 DI := debian/${binary-name-all}
 DA := debian/${binary-name-any}
 
+# fakeroot confuses ASAN link order check.
+export ASAN_OPTIONS = verify_asan_link_order=0
+
 clean:
 	rm -f debian/files
 	rm -rf $(DI) $(DA)

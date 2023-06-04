@@ -21,7 +21,7 @@ unit-tests:
   stage: test
   script:
     - eatmydata apt -P pkg.dpkg.author-testing build-dep -qq -y .
-    - ./configure
+    - ./configure --enable-compiler-sanitizer
     - make authorcheck TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
 
 # Test whether the unit tests pass on a VPATH build.
@@ -44,7 +44,7 @@ shared-tests:
 func-tests:
   stage: test
   script:
-    - ./configure
+    - ./configure --enable-compiler-sanitizer
     - make
     - cd tests
     - echo "DPKG_BUILDTREE = $(realpath ..)" >>.pkg-tests.conf

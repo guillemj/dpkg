@@ -139,6 +139,36 @@ AC_DEFUN([DPKG_COMPILER_WARNINGS], [
   ])
 ])
 
+# DPKG_CHECK_COMPILER_SANITIZER
+# -----------------------------
+# Check whether the compiler sanitizer options are supported.
+AC_DEFUN([DPKG_CHECK_COMPILER_SANITIZER], [
+  DPKG_CHECK_COMPILER_FLAG([-fsanitize=address])
+  DPKG_CHECK_COMPILER_FLAG([-fsanitize=leak])
+  DPKG_CHECK_COMPILER_FLAG([-fsanitize=undefined])
+])
+
+# DPKG_COMPILER_SANITIZER
+# -----------------------
+# Add configure option to enable compiler sanitizer support options.
+AC_DEFUN([DPKG_COMPILER_SANITIZER], [
+  AC_ARG_ENABLE([compiler-sanitizer],
+    [AS_HELP_STRING([--enable-compiler-sanitizer],
+      [Enable compiler sanitizer support])],
+    [], [enable_compiler_sanitizer=no])
+
+  AS_IF([test "x$enable_compiler_sanitizer" = "xyes"], [
+    DPKG_CHECK_COMPILER_SANITIZER
+    AC_LANG_PUSH([C++])
+    DPKG_CHECK_COMPILER_SANITIZER
+    AC_LANG_POP([C++])
+
+    LDFLAGS="$DPKG_COMPILER_CFLAGS $LDFLAGS"
+    CFLAGS="$DPKG_COMPILER_CFLAGS $CFLAGS"
+    CXXFLAGS="$DPKG_COMPILER_CXXFLAGS $CXXFLAGS"
+  ])
+])
+
 # DPKG_COMPILER_OPTIMIZATIONS
 # ---------------------------
 # Add configure option to disable optimizations.
