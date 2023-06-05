@@ -91,6 +91,7 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
   DPKG_CHECK_COMPILER_FLAG([-Wswitch-bool])
   DPKG_CHECK_COMPILER_FLAG([-Wvla])
   DPKG_CHECK_COMPILER_FLAG([-Wwrite-strings])
+  DPKG_CHECK_COMPILER_FLAG([-Wxor-used-as-pow])
 
   AC_LANG_CASE(
   [C], [
@@ -102,6 +103,7 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
     DPKG_CHECK_COMPILER_FLAG([-Wc2x-extensions])
     DPKG_CHECK_COMPILER_FLAG([-Wpre-c2x-compat])
     DPKG_CHECK_COMPILER_FLAG([-Wdeclaration-after-statement])
+    DPKG_CHECK_COMPILER_FLAG([-Wenum-int-mismatch])
     DPKG_CHECK_COMPILER_FLAG([-Wmissing-prototypes])
     DPKG_CHECK_COMPILER_FLAG([-Wnested-externs])
     DPKG_CHECK_COMPILER_FLAG([-Wold-style-definition])
