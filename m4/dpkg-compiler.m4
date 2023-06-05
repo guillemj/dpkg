@@ -12,14 +12,16 @@ AC_DEFUN([DPKG_CHECK_COMPILER_FLAG], [
     m4_define([dpkg_compiler], [$CC])
     m4_define([dpkg_varname], [CFLAGS])
     m4_define([dpkg_varname_save], [dpkg_save_CFLAGS])
-    m4_define([dpkg_varname_export], [COMPILER_CFLAGS])
+    m4_define([dpkg_varname_export], [DPKG_COMPILER_CFLAGS])
+    m4_pattern_allow([DPKG_COMPILER_CFLAGS])
     AS_VAR_PUSHDEF([dpkg_varname_cache], [dpkg_cv_cflags_$1])
   ],
   [C++], [
     m4_define([dpkg_compiler], [$CXX])
     m4_define([dpkg_varname], [CXXFLAGS])
     m4_define([dpkg_varname_save], [dpkg_save_CXXFLAGS])
-    m4_define([dpkg_varname_export], [COMPILER_CXXFLAGS])
+    m4_define([dpkg_varname_export], [DPKG_COMPILER_CXXFLAGS])
+    m4_pattern_allow([DPKG_COMPILER_CXXFLAGS])
     AS_VAR_PUSHDEF([dpkg_varname_cache], [dpkg_cv_cxxflags_$1])
   ])
   AC_CACHE_CHECK([whether ]dpkg_compiler[ accepts $1], [dpkg_varname_cache], [
@@ -132,8 +134,8 @@ AC_DEFUN([DPKG_COMPILER_WARNINGS], [
     DPKG_CHECK_COMPILER_WARNINGS
     AC_LANG_POP([C++])
 
-    CFLAGS="$COMPILER_CFLAGS $CFLAGS"
-    CXXFLAGS="$COMPILER_CXXFLAGS $CXXFLAGS"
+    CFLAGS="$DPKG_COMPILER_CFLAGS $CFLAGS"
+    CXXFLAGS="$DPKG_COMPILER_CXXFLAGS $CXXFLAGS"
   ])
 ])
 
