@@ -248,11 +248,11 @@ B<Essential> field, that is a B<yes> value.
 
 =back
 
-=item B<Files:> (required)
+=item B<Files:> (required, weak)
 
-=item B<Checksums-Sha1:> (required)
+=item B<Checksums-Sha1:> (required, weak)
 
-=item B<Checksums-Sha256:> (required)
+=item B<Checksums-Sha256:> (required, strong)
 
 =item S< >I<checksum> I<size> I<filename>
 
@@ -271,6 +271,9 @@ file name.
 These fields list all files that make up the source package.
 The list of files in these fields must match the list of files in the
 other related fields.
+
+B<Note>: The MD5 and SHA-1 checksums are considered weak,
+and should never be assumed to be sufficient for secure verification.
 
 =back
 

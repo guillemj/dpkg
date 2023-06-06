@@ -181,9 +181,14 @@ This field lists all files that make up the upload.
 The list of files in this field must match the list of files in the
 other related B<Checksums> fields.
 
-=item B<Checksums-Sha1:> (required)
+B<Note>: The MD5 checksum is considered weak,
+and should never be assumed to be sufficient for secure verification,
+but this field cannot be omitted as it provides metadata not available
+anywhere else.
 
-=item B<Checksums-Sha256:> (required)
+=item B<Checksums-Sha1:> (required, weak)
+
+=item B<Checksums-Sha256:> (required, strong)
 
 =item S< >I<checksum> I<size> I<filename>
 
@@ -201,6 +206,9 @@ the checksum, the file size, and the file name.
 These fields list all files that make up the upload.
 The list of files in these fields must match the list of files in the
 B<Files> field and the other related B<Checksums> fields.
+
+B<Note>: The SHA-1 checksum is considered weak,
+and should never be assumed to be sufficient for secure verification.
 
 =back
 

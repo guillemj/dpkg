@@ -127,11 +127,11 @@ single full stop (‘.’) and all lines are indented by one space
 character.
 The exact content depends on the changelog format.
 
-=item B<Checksums-Md5:> (required)
+=item B<Checksums-Md5:> (required, weak)
 
-=item B<Checksums-Sha1:> (required)
+=item B<Checksums-Sha1:> (required, weak)
 
-=item B<Checksums-Sha256:> (required)
+=item B<Checksums-Sha256:> (required, strong)
 
 =item S< >I<checksum> I<size> I<filename>
 
@@ -140,6 +140,9 @@ for each one.
 These fields have the same syntax and differ only in the checksum algorithm
 used: MD5 for B<Checksums-Md5>, SHA-1 for B<Checksums-Sha1> and
 SHA-256 for B<Checksums-Sha256>.
+
+B<Note>: The MD5 and SHA-1 checksums are considered weak,
+and should never be assumed to be sufficient for secure verification.
 
 The first line of the field value (the part on the same line as the field
 name followed by a colon) is always empty.
