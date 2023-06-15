@@ -115,7 +115,7 @@ my %buildtools = (
     NM => 'nm',
     AR => 'ar',
     RANLIB => 'ranlib',
-    PKG_CONFIG => 'pkg-config',
+    PKG_CONFIG => 'pkgconf',
 );
 
 while (my ($var, $tool) = each %buildtools) {
