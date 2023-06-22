@@ -100,6 +100,20 @@ varbuf_get_str(struct varbuf *v)
 }
 
 void
+varbuf_set_buf(struct varbuf *v, const void *buf, size_t size)
+{
+	varbuf_reset(v);
+	varbuf_add_buf(v, buf, size);
+	varbuf_end_str(v);
+}
+
+void
+varbuf_set_varbuf(struct varbuf *v, struct varbuf *other)
+{
+	varbuf_set_buf(v, other->buf, other->used);
+}
+
+void
 varbuf_add_varbuf(struct varbuf *v, const struct varbuf *other)
 {
 	varbuf_grow(v, other->used);
