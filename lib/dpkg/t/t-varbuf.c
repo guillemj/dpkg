@@ -155,6 +155,31 @@ test_varbuf_trunc(void)
 }
 
 static void
+test_varbuf_add_varbuf(void)
+{
+	struct varbuf vb, cb;
+
+	varbuf_init(&vb, 5);
+	varbuf_init(&cb, 0);
+
+	varbuf_add_str(&vb, "1234567890");
+	varbuf_add_varbuf(&cb, &vb);
+	test_pass(cb.used == 10);
+	test_pass(cb.size >= cb.used);
+	test_mem(cb.buf, ==, "1234567890", 10);
+
+	varbuf_reset(&vb);
+	varbuf_add_str(&vb, "abcde");
+	varbuf_add_varbuf(&cb, &vb);
+	test_pass(cb.used == 15);
+	test_pass(cb.size >= cb.used);
+	test_mem(cb.buf, ==, "1234567890abcde", 15);
+
+	varbuf_destroy(&cb);
+	varbuf_destroy(&vb);
+}
+
+static void
 test_varbuf_add_buf(void)
 {
 	struct varbuf vb;
@@ -452,13 +477,14 @@ test_varbuf_detach(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(152);
+	test_plan(158);
 
 	test_varbuf_init();
 	test_varbuf_prealloc();
 	test_varbuf_new();
 	test_varbuf_grow();
 	test_varbuf_trunc();
+	test_varbuf_add_varbuf();
 	test_varbuf_add_buf();
 	test_varbuf_add_char();
 	test_varbuf_dup_char();

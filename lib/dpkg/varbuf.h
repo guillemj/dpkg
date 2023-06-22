@@ -83,6 +83,7 @@ void varbuf_reset(struct varbuf *v);
 void varbuf_destroy(struct varbuf *v);
 void varbuf_free(struct varbuf *v);
 
+void varbuf_add_varbuf(struct varbuf *v, const struct varbuf *other);
 void varbuf_add_char(struct varbuf *v, int c);
 void varbuf_dup_char(struct varbuf *v, int c, size_t n);
 void varbuf_map_char(struct varbuf *v, int c_src, int c_dst);

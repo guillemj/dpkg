@@ -100,6 +100,14 @@ varbuf_get_str(struct varbuf *v)
 }
 
 void
+varbuf_add_varbuf(struct varbuf *v, const struct varbuf *other)
+{
+	varbuf_grow(v, other->used);
+	memcpy(v->buf + v->used, other->buf, other->used);
+	v->used += other->used;
+}
+
+void
 varbuf_add_char(struct varbuf *v, int c)
 {
 	varbuf_grow(v, 1);
