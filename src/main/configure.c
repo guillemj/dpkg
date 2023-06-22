@@ -784,7 +784,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				      "conffderef readlink relative to '%.*s'",
 				      (int)result->used, result->buf);
 			}
-			varbuf_add_buf(result, target.buf, target.used);
+			varbuf_add_varbuf(result, &target);
 			varbuf_end_str(result);
 		} else {
 			warning(_("%s: conffile '%.250s' is not a plain file or symlink (= '%s')"),

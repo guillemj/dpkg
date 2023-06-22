@@ -729,7 +729,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
          * that's the only line. */
         varbuf_end_str(&oemsgs);
         varbuf_add_str(aemsgs, _("; however:\n"));
-        varbuf_add_str(aemsgs, oemsgs.buf);
+        varbuf_add_varbuf(aemsgs, &oemsgs);
       } else {
         varbuf_add_str(aemsgs, ".\n");
       }
