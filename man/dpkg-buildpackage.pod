@@ -740,13 +740,49 @@ Overridden by the B<--sign-keyfile> option.
 
 =item B<DEB_BUILD_OPTIONS>
 
-If set, it will contain a space-separated list of options that might
-affect the build process in I<debian/rules>, and the behavior of some
-dpkg commands.
+If set, it will contain a space-separated list of options that affect
+the behavior of some dpkg tools involved in package building,
+and might affect the package build process if the code in F<debian/rules>
+honors them.
 
-With B<nocheck> the B<DEB_CHECK_COMMAND> variable will be ignored.
-With B<parallel=>I<N> the parallel jobs will be set to I<N>,
-overridden by the B<--jobs-try> option.
+The following are the options known and supported by dpkg tools,
+other options honored by F<debian/rules> might be defined by distribution
+specific policies.
+
+=over
+
+=item B<parallel=>I<N>
+
+The F<debian/rules> in the packaging might use this option to set up
+the build process to use I<N> parallel jobs.
+It is overridden by the B<--jobs> and B<--jobs-force> options.
+
+=item B<nocheck>
+
+B<dpkg-buildpackage> will ignore the B<DEB_CHECK_COMMAND> variable.
+The F<debian/rules> in the packaging is not expected to run test suites
+during the build.
+
+=item B<noopt>
+
+If F<debian/rules> calls B<dpkg-buildflags> to set up the build flags,
+those will be set to not enable any optimizations.
+
+=item B<nostrip>
+
+The F<debian/rules> in the packaging should ensure that objects do not get
+the debugging information stripped.
+If F<debian/rules> includes the B<mk/buildtools.mk> make fragment the
+B<STRIP> make variable will respect this option.
+
+=item B<terse>
+
+B<dpkg-buildpackage> will append the B<--no-print-directory> L<make(1)>
+flag to the B<MAKEFLAGS> environment variable.
+The F<debian/rules> in the packaging should reduce verbosity, while not
+being completely quiet.
+
+=back
 
 =item B<DEB_BUILD_PROFILES>
 
