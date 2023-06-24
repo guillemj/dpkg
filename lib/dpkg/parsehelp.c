@@ -275,7 +275,7 @@ parseversion(struct dpkg_version *rversion, const char *string,
   ptr = rversion->version;
   if (!*ptr)
     return dpkg_put_error(err, _("version number is empty"));
-  if (*ptr && !c_isdigit(*ptr++))
+  if (!c_isdigit(*ptr++))
     return dpkg_put_warn(err, _("version number does not start with digit"));
   for (; *ptr; ptr++) {
     if (!c_isdigit(*ptr) && !c_isalpha(*ptr) && strchr(".-+~:", *ptr) == NULL)
