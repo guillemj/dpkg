@@ -58,7 +58,7 @@ statdb_parse_uid(const char *str)
 			ohshit(_("invalid statoverride uid %s"), str);
 		uid = (uid_t)value;
 	} else {
-		struct passwd *pw = getpwnam(str);
+		const struct passwd *pw = getpwnam(str);
 
 		if (pw == NULL)
 			uid = (uid_t)-1;
@@ -84,7 +84,7 @@ statdb_parse_gid(const char *str)
 			ohshit(_("invalid statoverride gid %s"), str);
 		gid = (gid_t)value;
 	} else {
-		struct group *gr = getgrnam(str);
+		const struct group *gr = getgrnam(str);
 
 		if (gr == NULL)
 			gid = (gid_t)-1;

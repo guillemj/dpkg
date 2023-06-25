@@ -543,7 +543,7 @@ _getopt_internal_r (int argc, char **argv, const char *optstring,
 
   {
     char c = *d->__nextchar++;
-    char *temp = strchr (optstring, c);
+    const char *temp = strchr (optstring, c);
 
     /* Increment `optind' when we start to process its last character.  */
     if (*d->__nextchar == '\0')

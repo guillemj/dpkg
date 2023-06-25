@@ -60,7 +60,7 @@ write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	atomic_file_open(file);
 
 	for (; list; list = list->next) {
-		 struct fsys_namenode *namenode = list->namenode;
+		const struct fsys_namenode *namenode = list->namenode;
 
 		if (mask && (namenode->flags & mask))
 			continue;
