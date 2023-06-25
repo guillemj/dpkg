@@ -109,6 +109,7 @@ void packagelist::addunavailable(deppossi *possi) {
               pkg_name(possi->up->up, pnaw_always));
 
   // cppcheck-suppress[constVariable]: false positive, operator() modifies it.
+  // cppcheck-suppress[constVariableReference]: idem, new name for the same.
   varbuf& vb= possi->up->up->clientdata->relations;
   vb(possi->ed->name);
   vb(_(" does not appear to be available\n"));
