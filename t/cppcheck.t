@@ -34,6 +34,8 @@ my @cppcheck_opts = (qw(
   --inline-suppr
   --std=c99 --std=c++03
   --suppressions-list=t/cppcheck/cppcheck.supp
+  -D_DIRENT_HAVE_D_TYPE=1
+  -DWITH_LIBSELINUX=1
 ), (
   '--enable=warning,performance,portability,style',
   '--template=\'{file}:{line}: {severity} ({id}): {message}\''
