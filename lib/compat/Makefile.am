@@ -40,10 +40,10 @@ libcompat_la_SOURCES = \
 	# EOL
 
 if !HAVE_GETOPT
-libcompat_la_SOURCES += getopt.c getopt.h
+libcompat_la_SOURCES += getopt.c getopt.h getopt_int.h
 else
 if !HAVE_GETOPT_LONG
-libcompat_la_SOURCES += getopt.c getopt.h
+libcompat_la_SOURCES += getopt.c getopt.h getopt_int.h
 endif
 endif
 

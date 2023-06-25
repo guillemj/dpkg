@@ -114,12 +114,6 @@ extern int getopt_long (int argc, char *const *argv, const char *shortopts,
 extern int getopt_long_only (int argc, char *const *argv,
 			     const char *shortopts,
 		             const struct option *longopts, int *longind);
-
-/* Internal only.  Users should not call this directly.  */
-extern int _getopt_internal (int argc, char *const *argv,
-			     const char *shortopts,
-		             const struct option *longopts, int *longind,
-			     int long_only);
 #else /* not __STDC__ */
 extern int getopt ();
 extern int getopt_long ();
