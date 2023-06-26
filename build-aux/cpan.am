@@ -44,7 +44,3 @@ dist-cpan:
 	: # Cleanup the CPAN source tree.
 	find $(CPAN_DIST) -type d ! -perm -200 -exec chmod u+w {} ';'
 	rm -rf $(CPAN_DIST)
-
-# Ignore the CPAN archive for distcleancheck.
-distcleancheck_listfiles = \
-	find -type f \( -name $(CPAN_DIST_ARCHIVE) -o -print \)
