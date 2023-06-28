@@ -59,6 +59,7 @@ TESTS_PASS += t-breaks
 TESTS_PASS += t-breaks-protected
 TESTS_PASS += t-breaks-essential
 TESTS_PASS += t-conflicts
+TESTS_PASS += t-conflicts-replaces
 TESTS_PASS += t-conflict-provide-replace-real
 TESTS_PASS += t-conflict-provide-replace-virtual
 TESTS_PASS += t-conflict-provide-replace-virtual-multiarch
