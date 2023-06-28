@@ -20,7 +20,6 @@ TESTS_MANUAL += t-conffile-prompt
 TESTS_FAIL :=
 TESTS_FAIL += t-dir-leftover-deadlock
 TESTS_FAIL += t-dir-shared-replaces-lost
-TESTS_FAIL += t-conffile-divert-conffile
 TESTS_FAIL += t-breaks-multiarch
 
 TESTS_PASS :=
@@ -87,6 +86,7 @@ TESTS_PASS += t-conffile-forcenew
 TESTS_PASS += t-conffile-forceask
 TESTS_PASS += t-conffile-root-option
 TESTS_PASS += t-conffile-divert-normal
+TESTS_PASS += t-conffile-divert-conffile
 TESTS_PASS += t-conffile-conflict
 TESTS_PASS += t-conffile-replaces
 TESTS_PASS += t-conffile-replaces-upgrade
