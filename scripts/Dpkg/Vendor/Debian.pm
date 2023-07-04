@@ -283,8 +283,17 @@ sub set_build_features {
         kfreebsd-amd64
         kfreebsd-i386
         mips
-        mipsel
+        mips64
         mips64el
+        mips64r6
+        mips64r6el
+        mipsel
+        mipsn32
+        mipsn32el
+        mipsn32r6
+        mipsn32r6el
+        mipsr6
+        mipsr6el
         powerpc
         ppc64
         ppc64el
