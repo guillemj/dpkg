@@ -22,4 +22,4 @@ while (<$nm>) {
 close $nm;
 
 push @cmds, $input, $output;
-exec @cmds;
+exec { $cmds[0] } @cmds;
