@@ -32,6 +32,7 @@ use File::Basename qw(dirname);
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::IPC;
 use Dpkg::Path qw(relative_to_pkg_root guess_pkg_root_dir
 		  check_files_are_the_same get_control_path);
 use Dpkg::Version;
@@ -909,17 +910,16 @@ sub find_packages {
     }
     return $pkgmatch unless scalar(@files);
 
-    my $pid = open(my $dpkg_fh, '-|');
-    syserr(g_('cannot fork for %s'), 'dpkg-query --search') unless defined $pid;
-    if (!$pid) {
-	# Child process running dpkg --search and discarding errors
-	close STDERR;
-	open STDERR, '>', '/dev/null'
-	    or syserr(g_('cannot open file %s'), '/dev/null');
-	$ENV{LC_ALL} = 'C';
-	exec 'dpkg-query', '--search', '--', @files
-	    or syserr(g_('unable to execute %s'), 'dpkg');
-    }
+    # Child process running dpkg --search and discarding errors
+    my $dpkg_fh;
+    my $pid = spawn(
+        exec => [ 'dpkg-query', '--search', '--', @files ],
+        env => {
+            LC_ALL => 'C',
+        },
+        to_pipe => \$dpkg_fh,
+        error_to_file => '/dev/null',
+    );
     while (<$dpkg_fh>) {
 	chomp;
 	if (m/^local diversion |^diversion by/) {
@@ -936,5 +936,7 @@ sub find_packages {
 	}
     }
     close($dpkg_fh);
+    wait_child($pid, nocheck => 1, cmdline => 'dpkg-query --search');
+
     return $pkgmatch;
 }
