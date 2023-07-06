@@ -30,103 +30,6 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 
-void
-varbuf_add_char(struct varbuf *v, int c)
-{
-	varbuf_grow(v, 1);
-	v->buf[v->used++] = c;
-}
-
-void
-varbuf_dup_char(struct varbuf *v, int c, size_t n)
-{
-	if (n == 0)
-		return;
-	varbuf_grow(v, n);
-	memset(v->buf + v->used, c, n);
-	v->used += n;
-}
-
-void
-varbuf_map_char(struct varbuf *v, int c_src, int c_dst)
-{
-	size_t i;
-
-	for (i = 0; i < v->used; i++)
-		if (v->buf[i] == c_src)
-			v->buf[i] = c_dst;
-}
-
-int
-varbuf_printf(struct varbuf *v, const char *fmt, ...)
-{
-	int r;
-	va_list args;
-
-	va_start(args, fmt);
-	r = varbuf_vprintf(v, fmt, args);
-	va_end(args);
-
-	return r;
-}
-
-int
-varbuf_vprintf(struct varbuf *v, const char *fmt, va_list args)
-{
-	va_list args_copy;
-	int needed, r;
-
-	va_copy(args_copy, args);
-	needed = vsnprintf(NULL, 0, fmt, args_copy);
-	va_end(args_copy);
-
-	if (needed < 0)
-		ohshite(_("error formatting string into varbuf variable"));
-
-	varbuf_grow(v, needed + 1);
-
-	r = vsnprintf(v->buf + v->used, needed + 1, fmt, args);
-	if (r < 0)
-		ohshite(_("error formatting string into varbuf variable"));
-
-	v->used += r;
-
-	return r;
-}
-
-void
-varbuf_add_buf(struct varbuf *v, const void *s, size_t size)
-{
-	if (size == 0)
-		return;
-	varbuf_grow(v, size);
-	memcpy(v->buf + v->used, s, size);
-	v->used += size;
-}
-
-void
-varbuf_add_dir(struct varbuf *v, const char *dirname)
-{
-	varbuf_add_str(v, dirname);
-	if (v->used == 0 || v->buf[v->used - 1] != '/')
-		varbuf_add_char(v, '/');
-}
-
-void
-varbuf_end_str(struct varbuf *v)
-{
-	varbuf_grow(v, 1);
-	v->buf[v->used] = '\0';
-}
-
-const char *
-varbuf_get_str(struct varbuf *v)
-{
-	varbuf_end_str(v);
-
-	return v->buf;
-}
-
 struct varbuf *
 varbuf_new(size_t size)
 {
@@ -147,12 +50,6 @@ varbuf_init(struct varbuf *v, size_t size)
 		v->buf = m_malloc(size);
 	else
 		v->buf = NULL;
-}
-
-void
-varbuf_reset(struct varbuf *v)
-{
-	v->used = 0;
 }
 
 void
@@ -186,6 +83,109 @@ varbuf_trunc(struct varbuf *v, size_t used_size)
 		internerr("varbuf new_used(%zu) > size(%zu)", used_size, v->size);
 
 	v->used = used_size;
+}
+
+void
+varbuf_reset(struct varbuf *v)
+{
+	v->used = 0;
+}
+
+const char *
+varbuf_get_str(struct varbuf *v)
+{
+	varbuf_end_str(v);
+
+	return v->buf;
+}
+
+void
+varbuf_add_char(struct varbuf *v, int c)
+{
+	varbuf_grow(v, 1);
+	v->buf[v->used++] = c;
+}
+
+void
+varbuf_dup_char(struct varbuf *v, int c, size_t n)
+{
+	if (n == 0)
+		return;
+	varbuf_grow(v, n);
+	memset(v->buf + v->used, c, n);
+	v->used += n;
+}
+
+void
+varbuf_map_char(struct varbuf *v, int c_src, int c_dst)
+{
+	size_t i;
+
+	for (i = 0; i < v->used; i++)
+		if (v->buf[i] == c_src)
+			v->buf[i] = c_dst;
+}
+
+void
+varbuf_add_dir(struct varbuf *v, const char *dirname)
+{
+	varbuf_add_str(v, dirname);
+	if (v->used == 0 || v->buf[v->used - 1] != '/')
+		varbuf_add_char(v, '/');
+}
+
+void
+varbuf_add_buf(struct varbuf *v, const void *s, size_t size)
+{
+	if (size == 0)
+		return;
+	varbuf_grow(v, size);
+	memcpy(v->buf + v->used, s, size);
+	v->used += size;
+}
+
+void
+varbuf_end_str(struct varbuf *v)
+{
+	varbuf_grow(v, 1);
+	v->buf[v->used] = '\0';
+}
+
+int
+varbuf_vprintf(struct varbuf *v, const char *fmt, va_list args)
+{
+	va_list args_copy;
+	int needed, r;
+
+	va_copy(args_copy, args);
+	needed = vsnprintf(NULL, 0, fmt, args_copy);
+	va_end(args_copy);
+
+	if (needed < 0)
+		ohshite(_("error formatting string into varbuf variable"));
+
+	varbuf_grow(v, needed + 1);
+
+	r = vsnprintf(v->buf + v->used, needed + 1, fmt, args);
+	if (r < 0)
+		ohshite(_("error formatting string into varbuf variable"));
+
+	v->used += r;
+
+	return r;
+}
+
+int
+varbuf_printf(struct varbuf *v, const char *fmt, ...)
+{
+	int r;
+	va_list args;
+
+	va_start(args, fmt);
+	r = varbuf_vprintf(v, fmt, args);
+	va_end(args);
+
+	return r;
 }
 
 void
