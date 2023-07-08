@@ -25,6 +25,9 @@ DPKG_ENV = \
   PATH=$(DPKG_PATH) \
   $(DPKG_MAINTSCRIPT_DEBUG)
 
+# eatmydata confuses ASAN link order check.
+export ASAN_OPTIONS = verify_asan_link_order=0
+
 ifdef DPKG_BUILDTREE
 export DPKG_DATADIR := $(DPKG_BUILDTREE)/src
 DPKG_ENV += \
