@@ -176,7 +176,7 @@ AC_DEFUN([DPKG_COMPILER_SANITIZER], [
 # ----------------------
 # Add configure option to enable compiler analyzer support options.
 # Note: This is only intended for development use, as enabling this option
-# unconditionally can generate large amounts of false positivies that
+# unconditionally can generate large amounts of false positives that
 # require sentient triage intervention.
 AC_DEFUN([DPKG_COMPILER_ANALYZER], [
   AC_ARG_ENABLE([compiler-analyzer],
