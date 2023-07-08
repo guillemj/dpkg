@@ -306,6 +306,7 @@ extracthalf(const char *debar, const char *dir,
                       _("decompressing archive '%s' (size=%jd) member '%s'"),
                       ar->name, (intmax_t)ar->size,
                       admininfo ? ADMINMEMBER : DATAMEMBER);
+    dpkg_ar_close(ar);
     exit(0);
   }
   close(p1[0]);
