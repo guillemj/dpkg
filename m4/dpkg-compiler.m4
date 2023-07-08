@@ -146,8 +146,8 @@ AC_DEFUN([DPKG_COMPILER_WARNINGS], [
 # -----------------------------
 # Check whether the compiler sanitizer options are supported.
 AC_DEFUN([DPKG_CHECK_COMPILER_SANITIZER], [
+  DPKG_CHECK_COMPILER_FLAG([-fno-omit-frame-pointer])
   DPKG_CHECK_COMPILER_FLAG([-fsanitize=address])
-  DPKG_CHECK_COMPILER_FLAG([-fsanitize=leak])
   DPKG_CHECK_COMPILER_FLAG([-fsanitize=undefined])
 ])
 
