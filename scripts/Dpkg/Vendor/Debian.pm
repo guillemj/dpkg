@@ -147,6 +147,10 @@ sub set_build_features {
     );
 
     my %builtin_feature = (
+        abi => {
+            lfs => 0,
+            time64 => 0,
+        },
         hardening => {
             pie => 1,
         },
@@ -202,6 +206,49 @@ sub set_build_features {
         $builtin_feature{hardening}{pie} = 0;
     }
 
+    if ($abi_bits != 32) {
+        $builtin_feature{abi}{lfs} = 1;
+    }
+
+    # On glibc, new ports default to time64, old ports currently default
+    # to time32, so we track the latter as that is a list that is not
+    # going to grow further, and might shrink.
+    # On musl libc based systems all ports use time64.
+    my %time32_arch = map { $_ => 1 } qw(
+        arm
+        armeb
+        armel
+        armhf
+        hppa
+        i386
+        hurd-i386
+        kfreebsd-i386
+        m68k
+        mips
+        mipsel
+        mipsn32
+        mipsn32el
+        mipsn32r6
+        mipsn32r6el
+        mipsr6
+        mipsr6el
+        nios2
+        powerpc
+        powerpcel
+        powerpcspe
+        s390
+        sh3
+        sh3eb
+        sh4
+        sh4eb
+        sparc
+    );
+    if ($abi_bits != 32 or
+        not exists $time32_arch{$arch} or
+        $libc eq 'musl') {
+        $builtin_feature{abi}{time64} = 1;
+    }
+
     $self->init_build_features(\%use_feature, \%builtin_feature);
 
     ## Setup
@@ -219,57 +266,13 @@ sub set_build_features {
 
     ## Area: abi
 
-    if ($use_feature{abi}{time64}) {
-        # On glibc, new ports default to time64, old ports currently default
-        # to time32, so we track the latter as that is a list that is not
-        # going to grow further, and might shrink.
-        # On musl libc based systems all ports use time64.
-        my %time32_arch = map { $_ => 1 } qw(
-            arm
-            armeb
-            armel
-            armhf
-            hppa
-            i386
-            hurd-i386
-            kfreebsd-i386
-            m68k
-            mips
-            mipsel
-            mipsn32
-            mipsn32el
-            mipsn32r6
-            mipsn32r6el
-            mipsr6
-            mipsr6el
-            nios2
-            powerpc
-            powerpcel
-            powerpcspe
-            s390
-            sh3
-            sh3eb
-            sh4
-            sh4eb
-            sparc
-        );
-        if ($abi_bits != 32 or
-            not exists $time32_arch{$arch} or
-            $libc eq 'musl') {
-            $use_feature{abi}{time64} = 0;
-        } elsif ($libc eq 'gnu') {
-            # On glibc 64-bit time_t support requires LFS.
-            $use_feature{abi}{lfs} = 1;
-        }
+    if ($use_feature{abi}{time64} && ! $builtin_feature{abi}{time64}) {
+        # On glibc 64-bit time_t support requires LFS.
+        $use_feature{abi}{lfs} = 1 if $libc eq 'gnu';
     }
 
     # XXX: Handle lfs alias from future abi feature area.
     $use_feature{abi}{lfs} //= $use_feature{future}{lfs};
-    if ($use_feature{abi}{lfs}) {
-        if ($abi_bits != 32) {
-            $use_feature{abi}{lfs} = 0;
-        }
-    }
     # XXX: Once the feature is set in the abi area, we always override the
     # one in the future area.
     $use_feature{future}{lfs} = $use_feature{abi}{lfs};
@@ -401,12 +404,13 @@ sub _add_build_flags {
 
     ## Area: abi
 
-    if ($flags->use_feature('abi', 'lfs')) {
+    my %abi_builtins = $flags->get_builtins('abi');
+    if ($flags->use_feature('abi', 'lfs') && ! $abi_builtins{lfs}) {
         $flags->append('CPPFLAGS',
                        '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
     }
 
-    if ($flags->use_feature('abi', 'time64')) {
+    if ($flags->use_feature('abi', 'time64') && ! $abi_builtins{time64}) {
         $flags->append('CPPFLAGS', '-D_TIME_BITS=64');
     }
 
