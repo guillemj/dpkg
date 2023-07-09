@@ -152,21 +152,6 @@ sub set_build_features {
         },
     );
 
-    $self->init_build_features(\%use_feature, \%builtin_feature);
-
-    ## Setup
-
-    require Dpkg::BuildOptions;
-
-    # Adjust features based on user or maintainer's desires.
-    my $opts_build = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_OPTIONS');
-    my $opts_maint = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_MAINT_OPTIONS');
-
-    foreach my $area (sort keys %use_feature) {
-        $opts_build->parse_features($area, $use_feature{$area});
-        $opts_maint->parse_features($area, $use_feature{$area});
-    }
-
     require Dpkg::Arch;
 
     my $arch = Dpkg::Arch::get_host_arch();
@@ -180,6 +165,56 @@ sub set_build_features {
     unless (defined $abi_bits and defined $abi_endian) {
         warning(g_("unknown abi attributes for architecture '%s'"), $arch);
         ($abi_bits, $abi_endian) = (0, 'unknown');
+    }
+
+    # Mask builtin features that are not enabled by default in the compiler.
+    my %builtin_pie_arch = map { $_ => 1 } qw(
+        amd64
+        arm64
+        armel
+        armhf
+        hurd-amd64
+        hurd-i386
+        i386
+        kfreebsd-amd64
+        kfreebsd-i386
+        mips
+        mips64
+        mips64el
+        mips64r6
+        mips64r6el
+        mipsel
+        mipsn32
+        mipsn32el
+        mipsn32r6
+        mipsn32r6el
+        mipsr6
+        mipsr6el
+        powerpc
+        ppc64
+        ppc64el
+        riscv64
+        s390x
+        sparc
+        sparc64
+    );
+    if (not exists $builtin_pie_arch{$arch}) {
+        $builtin_feature{hardening}{pie} = 0;
+    }
+
+    $self->init_build_features(\%use_feature, \%builtin_feature);
+
+    ## Setup
+
+    require Dpkg::BuildOptions;
+
+    # Adjust features based on user or maintainer's desires.
+    my $opts_build = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_OPTIONS');
+    my $opts_maint = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_MAINT_OPTIONS');
+
+    foreach my $area (sort keys %use_feature) {
+        $opts_build->parse_features($area, $use_feature{$area});
+        $opts_maint->parse_features($area, $use_feature{$area});
     }
 
     ## Area: abi
@@ -281,41 +316,6 @@ sub set_build_features {
     }
 
     ## Area: hardening
-
-    # Mask builtin features that are not enabled by default in the compiler.
-    my %builtin_pie_arch = map { $_ => 1 } qw(
-        amd64
-        arm64
-        armel
-        armhf
-        hurd-amd64
-        hurd-i386
-        i386
-        kfreebsd-amd64
-        kfreebsd-i386
-        mips
-        mips64
-        mips64el
-        mips64r6
-        mips64r6el
-        mipsel
-        mipsn32
-        mipsn32el
-        mipsn32r6
-        mipsn32r6el
-        mipsr6
-        mipsr6el
-        powerpc
-        ppc64
-        ppc64el
-        riscv64
-        s390x
-        sparc
-        sparc64
-    );
-    if (not exists $builtin_pie_arch{$arch}) {
-        $builtin_feature{hardening}{pie} = 0;
-    }
 
     # Mask features that are not available on certain architectures.
     if (none { $os eq $_ } qw(linux kfreebsd knetbsd hurd) or
