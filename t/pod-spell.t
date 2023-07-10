@@ -64,6 +64,7 @@ debian
 decompressor
 dep
 deps
+dir
 dpkg
 dpkg-buildapi
 dpkg-buildflags

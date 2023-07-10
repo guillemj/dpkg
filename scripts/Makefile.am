@@ -11,6 +11,7 @@ bin_SCRIPTS = \
 	dpkg-buildflags \
 	dpkg-buildapi \
 	dpkg-buildpackage \
+	dpkg-buildtree \
 	dpkg-checkbuilddeps \
 	dpkg-distaddfile \
 	dpkg-genbuildinfo \
@@ -32,6 +33,7 @@ EXTRA_DIST = \
 	dpkg-buildapi.pl \
 	dpkg-buildflags.pl \
 	dpkg-buildpackage.pl \
+	dpkg-buildtree.pl \
 	dpkg-checkbuilddeps.pl \
 	dpkg-distaddfile.pl \
 	dpkg-fsys-usrunmess.pl \
@@ -70,6 +72,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/BuildInfo.pm \
 	Dpkg/BuildOptions.pm \
 	Dpkg/BuildProfiles.pm \
+	Dpkg/BuildTree.pm \
 	Dpkg/BuildTypes.pm \
 	Dpkg/Build/Info.pm \
 	Dpkg/Changelog.pm \
@@ -235,6 +238,7 @@ test_scripts = \
 	t/Dpkg_BuildInfo.t \
 	t/Dpkg_BuildOptions.t \
 	t/Dpkg_BuildProfiles.t \
+	t/Dpkg_BuildTree.t \
 	t/Dpkg_BuildTypes.t \
 	t/Dpkg_Checksums.t \
 	t/Dpkg_ErrorHandling.t \

@@ -32,6 +32,7 @@ man_MANS = \
 	dpkg-buildapi.1 \
 	dpkg-buildflags.1 \
 	dpkg-buildpackage.1 \
+	dpkg-buildtree.1 \
 	dpkg-checkbuilddeps.1 \
 	dpkg-deb.1 \
 	dpkg-distaddfile.1 \
@@ -121,6 +122,7 @@ EXTRA_DIST += \
 	dpkg-buildapi.pod \
 	dpkg-buildflags.pod \
 	dpkg-buildpackage.pod \
+	dpkg-buildtree.pod \
 	dpkg-checkbuilddeps.pod \
 	dpkg-deb.pod \
 	dpkg-distaddfile.pod \
