@@ -136,7 +136,6 @@ maintscript_pre_exec(struct command *cmd)
 			varbuf_add_char(&args, ' ');
 			varbuf_add_str(&args, *argv);
 		}
-		varbuf_end_str(&args);
 		debug(dbg_scripts, "fork/exec %s (%s )", cmd->filename,
 		      varbuf_str(&args));
 		varbuf_destroy(&args);

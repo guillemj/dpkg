@@ -431,7 +431,6 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
                    namenodetouse(linknode, tc->pkg, &tc->pkg->available)->name);
     if (linknode->flags & (FNNF_DEFERRED_RENAME | FNNF_NEW_CONFF))
       varbuf_add_str(&hardlinkfn, DPKGNEWEXT);
-    varbuf_end_str(&hardlinkfn);
     if (link(hardlinkfn.buf, path))
       ohshite(_("error creating hard link '%.255s'"), te->name);
     namenode->newhash = linknode->newhash;
@@ -598,17 +597,14 @@ tarobject_matches(struct tarcontext *tc,
 void setupfnamevbs(const char *filename) {
   varbuf_rollback(&fname_state);
   varbuf_add_str(&fnamevb, filename);
-  varbuf_end_str(&fnamevb);
 
   varbuf_rollback(&fnametmp_state);
   varbuf_add_str(&fnametmpvb, filename);
   varbuf_add_str(&fnametmpvb, DPKGTEMPEXT);
-  varbuf_end_str(&fnametmpvb);
 
   varbuf_rollback(&fnamenew_state);
   varbuf_add_str(&fnamenewvb, filename);
   varbuf_add_str(&fnamenewvb, DPKGNEWEXT);
-  varbuf_end_str(&fnamenewvb);
 
   debug(dbg_eachfiledetail, "setupvnamevbs main='%s' tmp='%s' new='%s'",
         fnamevb.buf, fnametmpvb.buf, fnamenewvb.buf);
@@ -643,7 +639,6 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
     varbuf_set_buf(symlinkfn, fname, (lastslash - fname) + 1);
   }
   varbuf_add_str(symlinkfn, ti->linkname);
-  varbuf_end_str(symlinkfn);
 
   statr= stat(symlinkfn->buf, &newstab);
   if (statr) {
@@ -1322,7 +1317,6 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
     return;
   }
 
-  varbuf_end_str(&why);
 
   if (fixbydeconf && f_autodeconf) {
     ensure_package_clientdata(fixbydeconf);
@@ -1416,7 +1410,6 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
             continue;
           if (depisok(pdep->up, &removalwhy, NULL, NULL, false))
             continue;
-          varbuf_end_str(&removalwhy);
           if (!try_remove_can(pdep, fixbyrm, varbuf_str(&removalwhy)))
             break;
         }
@@ -1433,7 +1426,6 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                 continue;
               if (depisok(pdep->up, &removalwhy, NULL, NULL, false))
                 continue;
-              varbuf_end_str(&removalwhy);
               notice(_("may have trouble removing %s, as it provides %s ..."),
                      pkg_name(fixbyrm, pnaw_nonambig),
                      providecheck->list->ed->name);
@@ -1471,7 +1463,6 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       fixbyrm->clientdata->istobe = PKG_ISTOBE_NORMAL;
     }
   }
-  varbuf_end_str(&conflictwhy);
   notice(_("regarding %s containing %s:\n%s"), pfilename,
          pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
          varbuf_str(&conflictwhy));

@@ -209,7 +209,6 @@ tar_header_get_prefix_name(struct tar_header *h)
 	varbuf_add_strn(&path, h->prefix, sizeof(h->prefix));
 	varbuf_add_char(&path, '/');
 	varbuf_add_strn(&path, h->name, sizeof(h->name));
-	varbuf_end_str(&path);
 
 	return path.buf;
 }

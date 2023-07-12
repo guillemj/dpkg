@@ -74,7 +74,6 @@ log_message(const char *fmt, ...)
 	varbuf_add_char(&log, ' ');
 	varbuf_vprintf(&log, fmt, args);
 	varbuf_add_char(&log, '\n');
-	varbuf_end_str(&log);
 	va_end(args);
 
 	if (fd_write(logfd, log.buf, log.used) < 0)

@@ -280,7 +280,6 @@ statoverride_add(const char *const *argv)
 
 		varbuf_add_str(&realfilename, dpkg_fsys_get_dir());
 		varbuf_add_str(&realfilename, filename);
-		varbuf_end_str(&realfilename);
 
 		if (stat(varbuf_str(&realfilename), &st) == 0) {
 			(*filestat)->mode |= st.st_mode & S_IFMT;

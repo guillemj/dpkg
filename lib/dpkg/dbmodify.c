@@ -102,7 +102,6 @@ static void cleanupdates(void) {
     for (i=0; i<cdn; i++) {
       varbuf_rollback(&updatefn_state);
       varbuf_add_str(&updatefn, cdlist[i]->d_name);
-      varbuf_end_str(&updatefn);
       parsedb(updatefn.buf, pdb_parse_update, NULL);
     }
 
@@ -112,7 +111,6 @@ static void cleanupdates(void) {
       for (i=0; i<cdn; i++) {
         varbuf_rollback(&updatefn_state);
         varbuf_add_str(&updatefn, cdlist[i]->d_name);
-        varbuf_end_str(&updatefn);
         if (unlink(updatefn.buf))
           ohshite(_("failed to remove incorporated update file %.255s"),
                   updatefn.buf);
@@ -193,7 +191,6 @@ modstatdb_init(void)
 
   varbuf_init(&updatefn, strlen(updatesdir) + 1 + IMPORTANTMAXLEN);
   varbuf_add_dir(&updatefn, updatesdir);
-  varbuf_end_str(&updatefn);
   varbuf_snapshot(&updatefn, &updatefn_state);
 
   db_initialized = true;

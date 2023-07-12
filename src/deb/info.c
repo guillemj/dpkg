@@ -259,7 +259,6 @@ info_field(const char *debar, const char *dir, const char *const *fields,
       if (arbfield)
         varbuf_add_arbfield(&str, arbfield, fieldflags);
     }
-    varbuf_end_str(&str);
 
     if (fieldflags & fw_printheader)
       printf("%s", varbuf_str(&str));

@@ -142,7 +142,6 @@ pkg_infodb_get_file(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
 		varbuf_add_archqual(&vb, pkgbin->arch);
 	varbuf_add_char(&vb, '.');
 	varbuf_add_str(&vb, filetype);
-	varbuf_end_str(&vb);
 
 	return vb.buf;
 }

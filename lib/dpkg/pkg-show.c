@@ -80,7 +80,6 @@ varbuf_add_pkgbin_name(struct varbuf *vb,
 	varbuf_add_str(vb, pkg->set->name);
 	if (pkgbin_name_needs_arch(pkgbin, pnaw))
 		varbuf_add_archqual(vb, pkgbin->arch);
-	varbuf_end_str(vb);
 }
 
 const char *
@@ -410,7 +409,6 @@ varbuf_add_source_version(struct varbuf *vb,
 
 	pkg_source_version(&version, pkg, pkgbin);
 	varbufversion(vb, &version, vdew_nonambig);
-	varbuf_end_str(vb);
 }
 
 void
@@ -434,7 +432,6 @@ pkg_source_version(struct dpkg_version *version,
 		version_str++;
 		len = strcspn(version_str, ")");
 		varbuf_add_buf(&vb, version_str, len);
-		varbuf_end_str(&vb);
 
 		if (parseversion(version, varbuf_str(&vb), &err) < 0)
 			ohshit(_("version '%s' has bad syntax: %s"),

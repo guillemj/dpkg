@@ -238,19 +238,15 @@ test_varbuf_add_str(void)
 	varbuf_init(&vb, 5);
 
 	varbuf_add_str(&vb, "1234567890");
-	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, "1234567890");
 
 	varbuf_add_str(&vb, "abcd");
-	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, "1234567890abcd");
 
 	varbuf_add_strn(&vb, "1234567890", 5);
-	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, "1234567890abcd12345");
 
 	varbuf_add_strn(&vb, "abcd", 0);
-	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, "1234567890abcd12345");
 
 	varbuf_destroy(&vb);

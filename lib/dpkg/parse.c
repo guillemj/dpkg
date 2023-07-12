@@ -589,7 +589,6 @@ parsedb_load(struct parsedb_state *ps)
     if (size < 0)
       ohshit(_("reading package info file '%s': %s"), ps->filename, err.str);
 
-    varbuf_end_str(&buf);
 
     ps->dataptr = varbuf_detach(&buf);
     ps->endptr = ps->dataptr + size;

@@ -192,7 +192,6 @@ verify_package(struct pkginfo *pkg)
 
 		varbuf_set_str(&filename, dpkg_fsys_get_dir());
 		varbuf_add_str(&filename, fnn->name);
-		varbuf_end_str(&filename);
 
 		memset(&checks, 0, sizeof(checks));
 

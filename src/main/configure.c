@@ -477,7 +477,6 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 			        strerror(errno));
 
 		varbuf_add_str(&cdr, DPKGDISTEXT);
-		varbuf_end_str(&cdr);
 		strcpy(cdr2rest, DPKGNEWEXT);
 		trig_path_activate(usenode, pkg);
 		if (rename(cdr2.buf, cdr.buf))
@@ -608,13 +607,11 @@ deferred_configure(struct pkginfo *pkg)
 	ok = breakses_ok(pkg, &aemsgs) ? ok : DEP_CHECK_HALT;
 	if (ok == DEP_CHECK_HALT) {
 		sincenothing = 0;
-		varbuf_end_str(&aemsgs);
 		notice(_("dependency problems prevent configuration of %s:\n%s"),
 		       pkg_name(pkg, pnaw_nonambig), varbuf_str(&aemsgs));
 		varbuf_destroy(&aemsgs);
 		ohshit(_("dependency problems - leaving unconfigured"));
 	} else if (aemsgs.used) {
-		varbuf_end_str(&aemsgs);
 		notice(_("%s: dependency problems, but configuring anyway as you requested:\n%s"),
 		       pkg_name(pkg, pnaw_nonambig), varbuf_str(&aemsgs));
 	}
@@ -703,7 +700,6 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 
 	varbuf_set_str(result, dpkg_fsys_get_dir());
 	varbuf_add_str(result, in);
-	varbuf_end_str(result);
 
 	loopprotect = 0;
 
@@ -781,7 +777,6 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				      varbuf_str(result));
 			}
 			varbuf_add_varbuf(result, &target);
-			varbuf_end_str(result);
 		} else {
 			warning(_("%s: conffile '%.250s' is not a plain file or symlink (= '%s')"),
 			        pkg_name(pkg, pnaw_nonambig), in, result->buf);

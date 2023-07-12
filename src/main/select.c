@@ -156,7 +156,6 @@ setselections(const char *const *argv)
         ohshit(_("unexpected end of file in package name at line %d"), lno);
       if (c == '\n') ohshit(_("unexpected end of line in package name at line %d"),lno);
     }
-    varbuf_end_str(&namevb);
 
     while (c != EOF && c_isspace(c)) {
       c= getchar();
@@ -170,7 +169,6 @@ setselections(const char *const *argv)
       varbuf_add_char(&selvb, c);
       c= getchar();
     }
-    varbuf_end_str(&selvb);
 
     while (c != EOF && c != '\n') {
       c= getchar();

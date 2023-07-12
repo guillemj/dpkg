@@ -355,7 +355,6 @@ searchfiles(const char *const *argv)
       varbuf_add_char(&vb, '*');
       varbuf_add_str(&vb, thisarg);
       varbuf_add_char(&vb, '*');
-      varbuf_end_str(&vb);
       thisarg= vb.buf;
     }
     if (!strpbrk(thisarg, "*[?\\")) {

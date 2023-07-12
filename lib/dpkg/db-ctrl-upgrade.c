@@ -81,7 +81,6 @@ pkg_infodb_link_multiarch_files(void)
 	struct varbuf_state newname_state;
 
 	varbuf_add_dir(&oldname, pkg_infodb_get_dir());
-	varbuf_end_str(&oldname);
 	varbuf_snapshot(&oldname, &oldname_state);
 
 	varbuf_set_varbuf(&newname, &oldname);
@@ -131,13 +130,11 @@ pkg_infodb_link_multiarch_files(void)
 
 		varbuf_rollback(&oldname_state);
 		varbuf_add_str(&oldname, db_de->d_name);
-		varbuf_end_str(&oldname);
 
 		varbuf_rollback(&newname_state);
 		varbuf_add_pkgbin_name(&newname, pkg, &pkg->installed, pnaw_always);
 		varbuf_add_char(&newname, '.');
 		varbuf_add_str(&newname, filetype);
-		varbuf_end_str(&newname);
 
 		if (link(oldname.buf, newname.buf) && errno != EEXIST)
 			ohshite(_("error creating hard link '%.255s'"),

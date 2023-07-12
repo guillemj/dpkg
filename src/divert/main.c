@@ -147,7 +147,6 @@ file_init(struct file *f, const char *filename)
 
 	varbuf_add_str(&usefilename, dpkg_fsys_get_dir());
 	varbuf_add_str(&usefilename, filename);
-	varbuf_end_str(&usefilename);
 
 	f->name = varbuf_detach(&usefilename);
 	f->stat_state = FILE_STAT_INVALID;

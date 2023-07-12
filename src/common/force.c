@@ -254,7 +254,6 @@ get_force_string(void)
 			varbuf_add_char(&vb, ',');
 		varbuf_add_str(&vb, fip->name);
 	}
-	varbuf_end_str(&vb);
 
 	return varbuf_detach(&vb);
 }

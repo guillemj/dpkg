@@ -73,7 +73,6 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 		pkgname = pkgbin_name(pkg, pkgbin, pnaw_never);
 
 	varbuf_add_dir(&db_path, pkg_infodb_get_dir());
-	varbuf_end_str(&db_path);
 	varbuf_snapshot(&db_path, &db_path_state);
 
 	db_dir = opendir(db_path.buf);
@@ -108,7 +107,6 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
 		varbuf_rollback(&db_path_state);
 		varbuf_add_str(&db_path, db_de->d_name);
-		varbuf_end_str(&db_path);
 		filename = db_path.buf;
 
 		func(filename, filetype);

@@ -434,7 +434,6 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 			}
 
 			sincenothing = 0;
-			varbuf_end_str(&depwhynot);
 			notice(_("dependency problems prevent processing "
 			         "triggers for %s:\n%s"),
 			       pkg_name(pkg, pnaw_nonambig),
@@ -442,7 +441,6 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 			varbuf_destroy(&depwhynot);
 			ohshit(_("dependency problems - leaving triggers unprocessed"));
 		} else if (depwhynot.used) {
-			varbuf_end_str(&depwhynot);
 			notice(_("%s: dependency problems, but processing "
 			         "triggers anyway as you requested:\n%s"),
 			       pkg_name(pkg, pnaw_nonambig),
@@ -464,7 +462,6 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 			varbuf_add_char(&namesarg, ' ');
 			varbuf_add_str(&namesarg, tp->name);
 		}
-		varbuf_end_str(&namesarg);
 
 		/* Setting the status to half-configured
 		 * causes modstatdb_note to clear pending triggers. */

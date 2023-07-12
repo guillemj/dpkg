@@ -53,7 +53,6 @@ file_readlink(const char *slink, struct varbuf *content, size_t content_len)
 		return linksize;
 
 	varbuf_trunc(content, linksize);
-	varbuf_end_str(content);
 
 	return linksize;
 }

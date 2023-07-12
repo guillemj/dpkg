@@ -103,8 +103,6 @@ varbuf_str(struct varbuf *v)
 	if (v->buf == NULL)
 		return "";
 
-	varbuf_end_str(v);
-
 	return v->buf;
 }
 
@@ -113,7 +111,6 @@ varbuf_set_buf(struct varbuf *v, const void *buf, size_t size)
 {
 	varbuf_reset(v);
 	varbuf_add_buf(v, buf, size);
-	varbuf_end_str(v);
 }
 
 void
@@ -176,13 +173,6 @@ varbuf_add_buf(struct varbuf *v, const void *s, size_t size)
 	varbuf_grow(v, size + 1);
 	memcpy(v->buf + v->used, s, size);
 	v->used += size;
-	v->buf[v->used] = '\0';
-}
-
-void
-varbuf_end_str(struct varbuf *v)
-{
-	varbuf_grow(v, 1);
 	v->buf[v->used] = '\0';
 }
 

@@ -244,7 +244,6 @@ pkg_check_depcon(struct pkginfo *pkg, const char *pfilename)
           while (fixbytrigaw->trigaw.head)
             trigproc(fixbytrigaw->trigaw.head->pend, TRIGPROC_REQUIRED);
         } else {
-          varbuf_end_str(&depprobwhy);
           notice(_("regarding %s containing %s, pre-dependency problem:\n%s"),
                  pfilename, pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
                  varbuf_str(&depprobwhy));
@@ -636,7 +635,6 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg, struct fsys_namenode *nameno
   /* Remove DPKGDISTEXT variant if still present. */
   varbuf_rollback(&cdrext_state);
   varbuf_add_str(&cdrext, DPKGDISTEXT);
-  varbuf_end_str(&cdrext);
 
   if (unlink(cdrext.buf) < 0 && errno != ENOENT)
     warning(_("%s: failed to remove '%.250s': %s"),
@@ -661,7 +659,6 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg, struct fsys_namenode *nameno
   /* Otherwise, preserve the modified conffile. */
   varbuf_rollback(&cdrext_state);
   varbuf_add_str(&cdrext, DPKGOLDEXT);
-  varbuf_end_str(&cdrext);
 
   printf(_("Obsolete conffile '%s' has been modified by you.\n"), cdr.buf);
   printf(_("Saving as %s ...\n"), cdrext.buf);
@@ -710,7 +707,6 @@ pkg_remove_old_files(struct pkginfo *pkg,
 
     varbuf_rollback(&fname_state);
     varbuf_add_str(&fnamevb, usenode->name);
-    varbuf_end_str(&fnamevb);
 
     if (!stat(fnamevb.buf, &stab) && S_ISDIR(stab.st_mode)) {
       debug(dbg_eachfiledetail, "process_archive: %s is a directory",
@@ -775,7 +771,6 @@ pkg_remove_old_files(struct pkginfo *pkg,
 
           varbuf_set_str(&cfilename, dpkg_fsys_get_dir());
           varbuf_add_str(&cfilename, cfile->namenode->name);
-          varbuf_end_str(&cfilename);
 
           if (lstat(varbuf_str(&cfilename), &tmp_stat) == 0) {
             struct file_ondisk_id *file_ondisk_id;
@@ -1036,7 +1031,6 @@ pkg_disappear_others(struct pkginfo *pkg)
       if (depisok(pdep->up, &depprobwhy, NULL, NULL, false))
         continue;
 
-      varbuf_end_str(&depprobwhy);
       debug(dbg_veryverbose,"process_archive cannot disappear: %s",
             varbuf_str(&depprobwhy));
       break;
@@ -1060,7 +1054,6 @@ pkg_disappear_others(struct pkginfo *pkg)
           if (depisok(pdep->up, &depprobwhy, NULL, NULL, false))
             continue;
 
-          varbuf_end_str(&depprobwhy);
           debug(dbg_veryverbose,
                 "process_archive cannot disappear (provides %s): %s",
                 providecheck->list->ed->name, varbuf_str(&depprobwhy));
@@ -1193,7 +1186,6 @@ pkg_remove_backup_files(struct pkginfo *pkg, struct fsys_namenode_list *newfiles
     varbuf_rollback(&fnametmp_state);
     varbuf_add_str(&fnametmpvb, usenode->name);
     varbuf_add_str(&fnametmpvb, DPKGTEMPEXT);
-    varbuf_end_str(&fnametmpvb);
     path_remove_tree(varbuf_str(&fnametmpvb));
   }
 }

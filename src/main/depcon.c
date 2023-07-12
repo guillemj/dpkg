@@ -176,7 +176,6 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
       varbuf_add_str(&str_pkgs, " <- ");
       varbuf_add_pkgbin_name(&str_pkgs, sol->pkg, &sol->pkg->installed, pnaw_nonambig);
     }
-    varbuf_end_str(&str_pkgs);
     debug(dbg_depcondetail, "findbreakcyclerecursive %s %s",
           pkg_name(pkg, pnaw_always), varbuf_str(&str_pkgs));
     varbuf_destroy(&str_pkgs);
@@ -242,7 +241,6 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
   struct varbuf depstr = VARBUF_INIT;
 
   varbufdependency(&depstr, dep);
-  varbuf_end_str(&depstr);
 
   switch (dep->type) {
   case dep_depends:
@@ -285,7 +283,7 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
  * empty though - it will be reset before use.
  *
  * If depisok returns false for ‘not OK’ it will contain a description,
- * newline-terminated BUT NOT NUL-TERMINATED, of the reason.
+ * newline and NUL terminated, of the reason.
  *
  * If depisok returns true it will contain garbage.
  * allowunconfigd should be non-zero during the ‘Pre-Depends’ checking

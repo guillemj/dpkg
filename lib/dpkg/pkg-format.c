@@ -361,7 +361,6 @@ virt_source_upstream_version(struct varbuf *vb,
 
 	if (version.version)
 		varbuf_add_str(vb, version.version);
-	varbuf_end_str(vb);
 }
 
 static const struct fieldinfo virtinfos[] = {
@@ -449,7 +448,6 @@ pkg_format_print(struct varbuf *vb, const struct pkg_format_node *head,
 			if ((width != 0) && (len > width))
 				len = width;
 			varbuf_add_buf(vb, varbuf_str(&fb), len);
-			varbuf_end_str(vb);
 		}
 
 		varbuf_reset(&fb);
