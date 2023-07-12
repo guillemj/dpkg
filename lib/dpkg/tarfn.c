@@ -204,8 +204,14 @@ tar_atosl(const char *s, size_t size, intmax_t min, intmax_t max)
 static char *
 tar_header_get_prefix_name(struct tar_header *h)
 {
-	return str_fmt("%.*s/%.*s", (int)sizeof(h->prefix), h->prefix,
-	               (int)sizeof(h->name), h->name);
+	struct varbuf path = VARBUF_INIT;
+
+	varbuf_add_strn(&path, h->prefix, sizeof(h->prefix));
+	varbuf_add_char(&path, '/');
+	varbuf_add_strn(&path, h->name, sizeof(h->name));
+	varbuf_end_str(&path);
+
+	return path.buf;
 }
 
 static mode_t
