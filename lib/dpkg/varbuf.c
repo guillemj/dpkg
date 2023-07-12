@@ -46,10 +46,12 @@ varbuf_init(struct varbuf *v, size_t size)
 {
 	v->used = 0;
 	v->size = size;
-	if (size)
+	if (size) {
 		v->buf = m_malloc(size);
-	else
+		v->buf[0] = '\0';
+	} else {
 		v->buf = NULL;
+	}
 }
 
 void
@@ -83,12 +85,16 @@ varbuf_trunc(struct varbuf *v, size_t used_size)
 		internerr("varbuf new_used(%zu) > size(%zu)", used_size, v->size);
 
 	v->used = used_size;
+	if (v->buf)
+		v->buf[v->used] = '\0';
 }
 
 void
 varbuf_reset(struct varbuf *v)
 {
 	v->used = 0;
+	if (v->buf)
+		v->buf[0] = '\0';
 }
 
 const char *
@@ -119,16 +125,18 @@ varbuf_set_varbuf(struct varbuf *v, struct varbuf *other)
 void
 varbuf_add_varbuf(struct varbuf *v, const struct varbuf *other)
 {
-	varbuf_grow(v, other->used);
+	varbuf_grow(v, other->used + 1);
 	memcpy(v->buf + v->used, other->buf, other->used);
 	v->used += other->used;
+	v->buf[v->used] = '\0';
 }
 
 void
 varbuf_add_char(struct varbuf *v, int c)
 {
-	varbuf_grow(v, 1);
+	varbuf_grow(v, 2);
 	v->buf[v->used++] = c;
+	v->buf[v->used] = '\0';
 }
 
 void
@@ -136,9 +144,10 @@ varbuf_dup_char(struct varbuf *v, int c, size_t n)
 {
 	if (n == 0)
 		return;
-	varbuf_grow(v, n);
+	varbuf_grow(v, n + 1);
 	memset(v->buf + v->used, c, n);
 	v->used += n;
+	v->buf[v->used] = '\0';
 }
 
 void
@@ -164,9 +173,10 @@ varbuf_add_buf(struct varbuf *v, const void *s, size_t size)
 {
 	if (size == 0)
 		return;
-	varbuf_grow(v, size);
+	varbuf_grow(v, size + 1);
 	memcpy(v->buf + v->used, s, size);
 	v->used += size;
+	v->buf[v->used] = '\0';
 }
 
 void

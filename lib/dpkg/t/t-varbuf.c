@@ -331,34 +331,26 @@ test_varbuf_add_dir(void)
 	varbuf_init(&vb, 10);
 
 	varbuf_add_dir(&vb, "");
-	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, "/");
 	varbuf_add_dir(&vb, "");
-	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, "/");
 	varbuf_add_dir(&vb, "aa");
-	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, "/aa/");
 	varbuf_add_dir(&vb, "");
-	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, "/aa/");
 
 	varbuf_reset(&vb);
 
 	varbuf_add_dir(&vb, "/foo/bar");
-	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, "/foo/bar/");
 
 	varbuf_reset(&vb);
 
 	varbuf_add_dir(&vb, "/foo/bar/");
-	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, "/foo/bar/");
 	varbuf_add_dir(&vb, "quux");
-	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, "/foo/bar/quux/");
 	varbuf_add_dir(&vb, "zoo");
-	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, "/foo/bar/quux/zoo/");
 
 	varbuf_destroy(&vb);
@@ -378,7 +370,6 @@ test_varbuf_end_str(void)
 
 	varbuf_trunc(&vb, 10);
 
-	varbuf_end_str(&vb);
 	test_pass(vb.used == 10);
 	test_pass(vb.size >= vb.used + 1);
 	test_pass(vb.buf[10] == '\0');
@@ -478,18 +469,15 @@ test_varbuf_snapshot(void)
 	test_str(varbuf_rollback_start(&vbs), ==, "");
 
 	varbuf_add_buf(&vb, "1234567890", 10);
-	varbuf_end_str(&vb);
 	test_pass(vb.used == 10);
 	test_pass(varbuf_rollback_len(&vbs) == 10);
 	test_str(varbuf_rollback_start(&vbs), ==, "1234567890");
 	varbuf_rollback(&vbs);
-	varbuf_end_str(&vb);
 	test_pass(vb.used == 0);
 	test_pass(varbuf_rollback_len(&vbs) == 0);
 	test_str(varbuf_rollback_start(&vbs), ==, "");
 
 	varbuf_add_buf(&vb, "1234567890", 10);
-	varbuf_end_str(&vb);
 	test_pass(vb.used == 10);
 	test_pass(varbuf_rollback_len(&vbs) == 10);
 	test_str(varbuf_rollback_start(&vbs), ==, "1234567890");
@@ -499,12 +487,10 @@ test_varbuf_snapshot(void)
 	test_str(varbuf_rollback_start(&vbs), ==, "");
 
 	varbuf_add_buf(&vb, "1234567890", 10);
-	varbuf_end_str(&vb);
 	test_pass(vb.used == 20);
 	test_pass(varbuf_rollback_len(&vbs) == 10);
 	test_str(varbuf_rollback_start(&vbs), ==, "1234567890");
 	varbuf_rollback(&vbs);
-	varbuf_end_str(&vb);
 	test_pass(vb.used == 10);
 	test_pass(varbuf_rollback_len(&vbs) == 0);
 	test_str(varbuf_rollback_start(&vbs), ==, "");
