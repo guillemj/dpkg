@@ -1,4 +1,4 @@
-# Copyright © 207, 2022 Guillem Jover <guillem@debian.org>
+# Copyright © 2007, 2022 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
