@@ -70,8 +70,7 @@ log_message(const char *fmt, ...)
 	strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", &tm);
 
 	va_start(args, fmt);
-	varbuf_reset(&log);
-	varbuf_add_str(&log, time_str);
+	varbuf_set_str(&log, time_str);
 	varbuf_add_char(&log, ' ');
 	varbuf_vprintf(&log, fmt, args);
 	varbuf_add_char(&log, '\n');

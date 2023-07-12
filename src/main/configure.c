@@ -393,9 +393,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	}
 	md5hash(pkg, currenthash, cdr.buf);
 
-	varbuf_reset(&cdr2);
-	varbuf_add_str(&cdr2, cdr.buf);
-	varbuf_end_str(&cdr2);
+	varbuf_set_varbuf(&cdr2, &cdr);
 	/* XXX: Make sure there's enough room for extensions. */
 	varbuf_grow(&cdr2, 50);
 	cdr2rest = cdr2.buf + strlen(cdr.buf);
@@ -704,8 +702,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 	ssize_t r;
 	int loopprotect;
 
-	varbuf_reset(result);
-	varbuf_add_str(result, dpkg_fsys_get_dir());
+	varbuf_set_str(result, dpkg_fsys_get_dir());
 	varbuf_add_str(result, in);
 	varbuf_end_str(result);
 
@@ -763,8 +760,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 			      r, target.buf);
 
 			if (target.buf[0] == '/') {
-				varbuf_reset(result);
-				varbuf_add_str(result, dpkg_fsys_get_dir());
+				varbuf_set_str(result, dpkg_fsys_get_dir());
 				debug(dbg_conffdetail,
 				      "conffderef readlink absolute");
 			} else {

@@ -288,8 +288,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 
       usenode = namenodetouse(namenode, pkg, &pkg->installed);
 
-      varbuf_reset(&fnvb);
-      varbuf_add_str(&fnvb, dpkg_fsys_get_dir());
+      varbuf_set_str(&fnvb, dpkg_fsys_get_dir());
       varbuf_add_str(&fnvb, usenode->name);
       varbuf_end_str(&fnvb);
       varbuf_snapshot(&fnvb, &fnvb_state);
@@ -418,8 +417,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
 
     usenode = namenodetouse(namenode, pkg, &pkg->installed);
 
-    varbuf_reset(&fnvb);
-    varbuf_add_str(&fnvb, dpkg_fsys_get_dir());
+    varbuf_set_str(&fnvb, dpkg_fsys_get_dir());
     varbuf_add_str(&fnvb, usenode->name);
     varbuf_end_str(&fnvb);
 

@@ -95,8 +95,7 @@ find_command(const char *prog)
     path_end = strchrnul(path, ':');
     path_len = (size_t)(path_end - path);
 
-    varbuf_reset(&filename);
-    varbuf_add_buf(&filename, path, path_len);
+    varbuf_set_buf(&filename, path, path_len);
     if (path_len)
       varbuf_add_char(&filename, '/');
     varbuf_add_str(&filename, prog);

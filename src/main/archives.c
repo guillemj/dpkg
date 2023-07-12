@@ -421,8 +421,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
     debug(dbg_eachfiledetail, "tarobject blockdev");
     break;
   case TAR_FILETYPE_HARDLINK:
-    varbuf_reset(&hardlinkfn);
-    varbuf_add_str(&hardlinkfn, dpkg_fsys_get_dir());
+    varbuf_set_str(&hardlinkfn, dpkg_fsys_get_dir());
     linknode = fsys_hash_find_node(te->linkname, 0);
     varbuf_add_str(&hardlinkfn,
                    namenodetouse(linknode, tc->pkg, &tc->pkg->available)->name);
@@ -632,16 +631,15 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
     return false;
 
   /* But is it to the same dir? */
-  varbuf_reset(symlinkfn);
   if (ti->linkname[0] == '/') {
-    varbuf_add_str(symlinkfn, dpkg_fsys_get_dir());
+    varbuf_set_str(symlinkfn, dpkg_fsys_get_dir());
   } else {
     const char *lastslash;
 
     lastslash= strrchr(fname, '/');
     if (lastslash == NULL)
       internerr("tar entry filename '%s' does not contain '/'", fname);
-    varbuf_add_buf(symlinkfn, fname, (lastslash - fname) + 1);
+    varbuf_set_buf(symlinkfn, fname, (lastslash - fname) + 1);
   }
   varbuf_add_str(symlinkfn, ti->linkname);
   varbuf_end_str(symlinkfn);

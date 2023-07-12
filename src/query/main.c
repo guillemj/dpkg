@@ -361,9 +361,7 @@ searchfiles(const char *const *argv)
     if (!strpbrk(thisarg, "*[?\\")) {
       /* Trim trailing ‘/’ and ‘/.’ from the argument if it is not
        * a pattern, just a pathname. */
-      varbuf_reset(&path);
-      varbuf_add_str(&path, thisarg);
-      varbuf_end_str(&path);
+      varbuf_set_str(&path, thisarg);
       varbuf_trunc(&path, path_trim_slash_slashdot(path.buf));
 
       namenode = fsys_hash_find_node(path.buf, 0);

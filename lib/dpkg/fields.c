@@ -461,9 +461,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
                     _("'%s' field, missing package name, or garbage where "
                       "package name expected"), fip->name);
 
-      varbuf_reset(&depname);
-      varbuf_add_buf(&depname, depnamestart, depnamelength);
-      varbuf_end_str(&depname);
+      varbuf_set_buf(&depname, depnamestart, depnamelength);
 
       emsg = pkg_name_is_illegal(depname.buf);
       if (emsg)
@@ -500,9 +498,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
           parse_error(ps, _("'%s' field, missing architecture name, or garbage "
                             "where architecture name expected"), fip->name);
 
-        varbuf_reset(&arch);
-        varbuf_add_buf(&arch, archstart, archlength);
-        varbuf_end_str(&arch);
+        varbuf_set_buf(&arch, archstart, archlength);
 
         dop->arch_is_implicit = false;
         dop->arch = dpkg_arch_find(arch.buf);
@@ -609,9 +605,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
                       _("'%s' field, reference to '%.255s': "
                         "version contains '%c' instead of '%c'"),
                       fip->name, depname.buf, *p, ')');
-        varbuf_reset(&version);
-        varbuf_add_buf(&version, versionstart, versionlength);
-        varbuf_end_str(&version);
+        varbuf_set_buf(&version, versionstart, versionlength);
         if (parse_db_version(ps, &dop->version, version.buf) < 0)
           parse_problem(ps,
                         _("'%s' field, reference to '%.255s': version '%s'"),
@@ -682,9 +676,7 @@ scan_word(const char **valp)
     break;
   }
 
-  varbuf_reset(&word);
-  varbuf_add_buf(&word, start, end - start);
-  varbuf_end_str(&word);
+  varbuf_set_buf(&word, start, end - start);
 
   *valp = p;
 

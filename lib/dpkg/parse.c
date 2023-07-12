@@ -127,9 +127,7 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
       parse_error(ps,
                   _("duplicate value for '%s' field"), fip->name);
 
-    varbuf_reset(&fs->value);
-    varbuf_add_buf(&fs->value, fs->valuestart, fs->valuelen);
-    varbuf_end_str(&fs->value);
+    varbuf_set_buf(&fs->value, fs->valuestart, fs->valuelen);
 
     fip->rcall(pkg_obj->pkg, pkg_obj->pkgbin, ps, fs->value.buf, fip);
   } else {

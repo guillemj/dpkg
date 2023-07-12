@@ -194,14 +194,13 @@ test_varbuf_add_varbuf(void)
 	varbuf_init(&vb, 5);
 	varbuf_init(&cb, 0);
 
-	varbuf_add_str(&vb, "1234567890");
+	varbuf_set_str(&vb, "1234567890");
 	varbuf_add_varbuf(&cb, &vb);
 	test_pass(cb.used == 10);
 	test_pass(cb.size >= cb.used);
 	test_mem(cb.buf, ==, "1234567890", 10);
 
-	varbuf_reset(&vb);
-	varbuf_add_str(&vb, "abcde");
+	varbuf_set_str(&vb, "abcde");
 	varbuf_add_varbuf(&cb, &vb);
 	test_pass(cb.used == 15);
 	test_pass(cb.size >= cb.used);

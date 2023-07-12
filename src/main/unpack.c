@@ -614,10 +614,7 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg, struct fsys_namenode *nameno
     return;
   }
 
-  varbuf_reset(&cdrext);
-  varbuf_add_str(&cdrext, cdr.buf);
-  varbuf_end_str(&cdrext);
-
+  varbuf_set_varbuf(&cdrext, &cdr);
   varbuf_snapshot(&cdrext, &cdrext_state);
 
   iter = fsys_node_pkgs_iter_new(namenode);
@@ -775,8 +772,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
         if (cfile->namenode->file_ondisk_id == NULL) {
           struct stat tmp_stat;
 
-          varbuf_reset(&cfilename);
-          varbuf_add_str(&cfilename, dpkg_fsys_get_dir());
+          varbuf_set_str(&cfilename, dpkg_fsys_get_dir());
           varbuf_add_str(&cfilename, cfile->namenode->name);
           varbuf_end_str(&cfilename);
 
