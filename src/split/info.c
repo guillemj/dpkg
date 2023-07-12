@@ -85,8 +85,7 @@ static char *nextline(char **ripp, const char *fn, const char *what) {
 struct partinfo *
 read_info(struct dpkg_ar *ar, struct partinfo *ir)
 {
-  static char *readinfobuf= NULL;
-  static size_t readinfobuflen= 0;
+  static struct varbuf format_member = VARBUF_INIT;
 
   size_t thisilen;
   intmax_t templong;
@@ -117,27 +116,27 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
     ohshit(_("file '%.250s' is corrupt - bad magic at end of first header"),
            ar->name);
   thisilen = dpkg_ar_member_get_size(ar, &arh);
-  if (thisilen >= readinfobuflen) {
-    readinfobuflen = thisilen + 2;
-    readinfobuf= m_realloc(readinfobuf,readinfobuflen);
-  }
-  rc = fd_read(ar->fd, readinfobuf, thisilen + (thisilen & 1));
+
+  varbuf_reset(&format_member);
+  varbuf_grow(&format_member, thisilen + 2);
+
+  rc = fd_read(ar->fd, format_member.buf, thisilen + (thisilen & 1));
   if (rc != (ssize_t)(thisilen + (thisilen & 1)))
     read_fail(rc, ar->name, "reading header member");
   if (thisilen & 1) {
-    int c = readinfobuf[thisilen];
+    int c = format_member.buf[thisilen];
 
     if (c != '\n')
       ohshit(_("file '%.250s' is corrupt - bad padding character (code %d)"),
              ar->name, c);
   }
-  readinfobuf[thisilen] = '\0';
-  if (memchr(readinfobuf,0,thisilen))
+  varbuf_trunc(&format_member, thisilen);
+  if (memchr(format_member.buf, 0, thisilen))
     ohshit(_("file '%.250s' is corrupt - nulls in info section"), ar->name);
 
   ir->filename = ar->name;
 
-  rip= readinfobuf;
+  rip = format_member.buf;
   err = deb_version_parse(&ir->fmtversion,
                           nextline(&rip, ar->name, _("format version number")));
   if (err)
