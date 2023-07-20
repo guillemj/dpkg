@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-05-17 18:13+0200\n"
-"PO-Revision-Date: 2023-05-17 19:31+0200\n"
+"POT-Creation-Date: 2023-07-20 17:51+0200\n"
+"PO-Revision-Date: 2023-07-20 19:09+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -4416,7 +4416,7 @@ msgid ""
 " Vcs-Browser: https://git.dpkg.org/cgit/dpkg/dpkg.git\n"
 " Vcs-Git: https://git.dpkg.org/git/dpkg/dpkg.git\n"
 " Standards-Version: 3.7.3\n"
-" Build-Depends: pkg-config, debhelper (>= 4.1.81),\n"
+" Build-Depends: pkgconf, debhelper (>= 4.1.81),\n"
 "  libselinux1-dev (>= 1.28-4) [!linux-any]\n"
 "\n"
 msgstr ""
@@ -4431,7 +4431,7 @@ msgstr ""
 " Vcs-Browser: https://git.dpkg.org/cgit/dpkg/dpkg.git\n"
 " Vcs-Git: https://git.dpkg.org/git/dpkg/dpkg.git\n"
 " Standards-Version: 3.7.3\n"
-" Build-Depends: pkg-config, debhelper (>= 4.1.81),\n"
+" Build-Depends: pkgconf, debhelper (>= 4.1.81),\n"
 "  libselinux1-dev (>= 1.28-4) [!linux-any]\n"
 "\n"
 
@@ -7475,6 +7475,15 @@ msgstr ""
 "Führt eine I<Befehlszeichenkette> in einer Umgebung aus, in der alle "
 "Variablen auf die festgelegten Werte gesetzt sind."
 
+#. type: textblock
+#: dpkg-architecture.pod
+msgid ""
+"If the I<command-string> contains shell metacharacters, then it will be "
+"invoked through the system bourne shell."
+msgstr ""
+"Falls die I<Befehlszeichenkette> Shell-Metazeichen enthält, dann wird sie "
+"durch die System-Bourne-Shell aufgerufen."
+
 #. type: =item
 #: dpkg-architecture.pod
 msgid "B<-L>, B<--list-known>"
@@ -10458,9 +10467,9 @@ msgid ""
 msgstr ""
 "Es wird der Hook B<preinit> ausgeführt, bevor irgendeine Quelldatei gelesen "
 "wird. Die Bauumgebung wird vorbereitet, indem verschiedene "
-"Umgebungsvariablen gesetzt werden (siehe B<UMGEBUNG>), der B<init>-"
-"Hook ausgeführt und B<dpkg-source --before-build> aufgerufen wird (es sei denn, B<-T> oder "
-"B<--target> wurde verwandt)."
+"Umgebungsvariablen gesetzt werden (siehe B<UMGEBUNG>), der B<init>-Hook "
+"ausgeführt und B<dpkg-source --before-build> aufgerufen wird (es sei denn, "
+"B<-T> oder B<--target> wurde verwandt)."
 
 #. type: =item
 #: dpkg-buildpackage.pod dpkg.pod
@@ -11731,13 +11740,13 @@ msgid ""
 "contain spaces or any other shell metacharacters."
 msgstr ""
 "Wenn B<dpkg-buildpackage> ein OpenPGP-Backend-Befehl zum Signieren einer "
-"Quellsteuerdatei (B<.dsc>), einer B<.buildinfo>-Datei oder einer B<.changes>-Datei benötigt, wird es "
-"statt des standardmäßigen oder automatisch erkannten Backend-Befehls den "
-"I<Signaturbefehl> ausführen (und dabei falls notwendig den B<PATH> "
-"durchsuchen) (lange Option seit Dpkg 1.18.8). I<Signaturbefehl> wird alle "
-"Backend-spezifischen Argumente gemäß des ausgewählten B<--sign-backend> erhalten. "
-"I<Signaturbefehl> sollte keine Leerzeichen oder andere Metazeichen der Shell "
-"enthalten."
+"Quellsteuerdatei (B<.dsc>), einer B<.buildinfo>-Datei oder einer B<.changes>-"
+"Datei benötigt, wird es statt des standardmäßigen oder automatisch erkannten "
+"Backend-Befehls den I<Signaturbefehl> ausführen (und dabei falls notwendig "
+"den B<PATH> durchsuchen) (lange Option seit Dpkg 1.18.8). I<Signaturbefehl> "
+"wird alle Backend-spezifischen Argumente gemäß des ausgewählten B<--sign-"
+"backend> erhalten. I<Signaturbefehl> sollte keine Leerzeichen oder andere "
+"Metazeichen der Shell enthalten."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -12032,23 +12041,106 @@ msgstr ""
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid ""
-"If set, it will contain a space-separated list of options that might affect "
-"the build process in I<debian/rules>, and the behavior of some dpkg commands."
+"If set, it will contain a space-separated list of options that affect the "
+"behavior of some dpkg tools involved in package building, and might affect "
+"the package build process if the code in F<debian/rules> honors them."
 msgstr ""
 "Falls gesetzt, wird sie eine durch Leerraumzeichen getrennte Liste von "
-"Optionen enthalten, die den Bauprozess in I<debian/rules> und das Verhalten "
-"einiger Dpkg-Befehle beeinflussen könnten."
+"Optionen enthalten, die das Verhalten einiger im Paketbau beteiligter Dpkg-"
+"Werkzeuge beeinflusst und möglicherweise den Paketbauprozess beeinflusst, "
+"falls der Code in F<debian/rules> sie berücksichtigt."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid ""
-"With B<nocheck> the B<DEB_CHECK_COMMAND> variable will be ignored.  With "
-"B<parallel=>I<N> the parallel jobs will be set to I<N>, overridden by the "
-"B<--jobs-try> option."
+"The following are the options known and supported by dpkg tools, other "
+"options honored by F<debian/rules> might be defined by distribution specific "
+"policies."
 msgstr ""
-"Mit B<nocheck> wird die Variable B<DEB_CHECK_COMMAND> ignoriert. Mit "
-"B<parallel=>I<N> werden die parallelen Aufträge auf I<N> gesetzt, was durch "
-"die Option B<--jobs-try> außer Kraft gesetzt wird."
+"Die folgenden Optionen sind den Dpkg-Werkzeugen bekannt und werden von ihnen "
+"unterstützt, andere von F<debian/rules> berücksichtigte Optionen könnnten in "
+"Distributions-spezifischen Richtlinien definiert sein."
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<parallel=>I<N>"
+msgstr "B<parallel=>I<N>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"The F<debian/rules> in the packaging might use this option to set up the "
+"build process to use I<N> parallel jobs.  It is overridden by the B<--jobs> "
+"and B<--jobs-force> options."
+msgstr ""
+"Das F<debian/rules> in der Paketierung könnte diese Option zur Einrichtung "
+"des Bauprozesses für die Verwendung von I<N> parallelen Aufträgen verwenden. "
+"Sie wird von den Optionen B<--jobs> und B<--jobs-force> außer Kraft gesetzt."
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<nocheck>"
+msgstr "B<nocheck>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"B<dpkg-buildpackage> will ignore the B<DEB_CHECK_COMMAND> variable.  The "
+"F<debian/rules> in the packaging is not expected to run test suites during "
+"the build."
+msgstr ""
+"B<dpkg-buildpackage> wird die Variable B<DEB_CHECK_COMMAND> ignorieren. Es "
+"wird nicht erwartet, dass das F<debian/rules> in der Paketierung die Test-"
+"Sammlungen während des Baus ausführt."
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<noopt>"
+msgstr "B<noopt>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"If F<debian/rules> calls B<dpkg-buildflags> to set up the build flags, those "
+"will be set to not enable any optimizations."
+msgstr ""
+"Falls F<debian/rules> B<dpkg-buildflags> zum Einrichten der Bauschalter "
+"aufruft, werden diese gesetzt, damit keine Optimierungen aktiviert werden."
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<nostrip>"
+msgstr "B<nostrip>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"The F<debian/rules> in the packaging should ensure that objects do not get "
+"the debugging information stripped.  If F<debian/rules> includes the B<mk/"
+"buildtools.mk> make fragment the B<STRIP> make variable will respect this "
+"option."
+msgstr ""
+"Das F<debian/rules> in der Paketierung sollte sicherstellen, dass die "
+"Fehlersuchinformationen nicht von Objekten entfernt werden. Falls F<debian/"
+"rules> das Make-Fragment B<mk/buildtools.mk> einbindet, dann wir die Make-"
+"Variable B<STRIP> diese Option respektieren."
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<terse>"
+msgstr "B<terse>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"B<dpkg-buildpackage> will append the B<--no-print-directory> L<make(1)> flag "
+"to the B<MAKEFLAGS> environment variable.  The F<debian/rules> in the "
+"packaging should reduce verbosity, while not being completely quiet."
+msgstr ""
+"B<dpkg-buildpackage> wird den Schalter B<--no-print-directory> von "
+"L<make(1)> an die Umgebungsvariable B<MAKEFLAGS> anhängen. Das F<debian/"
+"rules> in der Paketierung sollte die Ausführlichkeit reduzieren, aber nicht "
+"komplett still sein."
 
 #. type: =item
 #: dpkg-buildpackage.pod dpkg-checkbuilddeps.pod
@@ -22951,13 +23043,16 @@ msgid ""
 "Currently the only functional check performed is an md5sum verification of "
 "the file contents against the stored value in the files database.  It will "
 "only get checked if the database contains the file md5sum. To check for any "
-"missing metadata in the database, the B<--audit> command can be used."
+"missing metadata in the database, the B<--audit> command can be used.  This "
+"is only an integrity check and should not be considered as any kind of "
+"security verification."
 msgstr ""
 "Derzeit ist die einzige funktionale Prüfung eine Md5sum-Überprüfung der "
 "Dateiinhalte mit dem gespeicherten Wert in der Datei-Datenbank. Er wird nur "
 "geprüft, falls die Datenbank die Md5sum der Datei enthält. Um auf fehlende "
 "Metadaten in der Datenbank zu prüfen, kann der Befehl B<--audit> verwandt "
-"werden."
+"werden. Dies ist nur eine Integritätsprüfung und sollte nicht als irgend "
+"eine Art von Sicherheitsüberprüfung angesehen werden."
 
 #. type: textblock
 #: dpkg.pod
@@ -24667,10 +24762,14 @@ msgstr "3 ‚B<5>‘"
 
 #. type: textblock
 #: dpkg.pod
-msgid "The digest check failed, which means the file contents have changed."
+msgid ""
+"The digest check failed, which means the file contents have changed.  This "
+"is only an integrity check and should not be considered as any kind of "
+"security verification."
 msgstr ""
-"Die Hashüberprüfung schlug fehl, was bedeutet, dass sich der Inhalt geändert "
-"hat."
+"Die Hash-Überprüfung schlug fehl. Das bedeutet, dass sich der Dateiinhalt "
+"geändert hat. Dies ist nur eine Integritätsprüfung und sollte nicht als "
+"irgend eine Art von Sicherheitsüberpüfung angesehen werden."
 
 #. type: =item
 #: dpkg.pod
@@ -29341,6 +29440,20 @@ msgid "B<ln>(1), FHS (the Filesystem Hierarchy Standard)."
 msgstr ""
 "B<ln>(1), FHS (der Dateisystem-Hierarchie-Standard, Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid ""
+#~ "With B<nocheck> the B<DEB_CHECK_COMMAND> variable will be ignored.  With "
+#~ "B<parallel=>I<N> the parallel jobs will be set to I<N>, overridden by the "
+#~ "B<--jobs-try> option."
+#~ msgstr ""
+#~ "Mit B<nocheck> wird die Variable B<DEB_CHECK_COMMAND> ignoriert. Mit "
+#~ "B<parallel=>I<N> werden die parallelen Aufträge auf I<N> gesetzt, was "
+#~ "durch die Option B<--jobs-try> außer Kraft gesetzt wird."
+
+#~ msgid "The digest check failed, which means the file contents have changed."
+#~ msgstr ""
+#~ "Die Hashüberprüfung schlug fehl, was bedeutet, dass sich der Inhalt "
+#~ "geändert hat."
 
 #~ msgid ""
 #~ "The name of the B<.buildinfo> file will depend on the type of build and "
