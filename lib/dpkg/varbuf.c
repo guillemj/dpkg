@@ -92,7 +92,7 @@ varbuf_reset(struct varbuf *v)
 }
 
 const char *
-varbuf_get_str(struct varbuf *v)
+varbuf_str(struct varbuf *v)
 {
 	if (v->buf == NULL)
 		return "";

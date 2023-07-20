@@ -83,6 +83,8 @@ void varbuf_reset(struct varbuf *v);
 void varbuf_destroy(struct varbuf *v);
 void varbuf_free(struct varbuf *v);
 
+const char *varbuf_str(struct varbuf *v);
+
 void varbuf_set_varbuf(struct varbuf *v, struct varbuf *other);
 void varbuf_set_buf(struct varbuf *v, const void *buf, size_t size);
 #define varbuf_set_str(v, s) varbuf_set_buf(v, s, strlen(s))
@@ -97,7 +99,6 @@ void varbuf_map_char(struct varbuf *v, int c_src, int c_dst);
 void varbuf_add_dir(struct varbuf *v, const char *dirname);
 void varbuf_add_buf(struct varbuf *v, const void *s, size_t size);
 void varbuf_end_str(struct varbuf *v);
-const char *varbuf_get_str(struct varbuf *v);
 
 int varbuf_printf(struct varbuf *v, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
 int varbuf_vprintf(struct varbuf *v, const char *fmt, va_list va)
@@ -182,7 +183,7 @@ varbuf::operator()(const char *s)
 inline const char *
 varbuf::string()
 {
-	return varbuf_get_str(this);
+	return varbuf_str(this);
 }
 #endif
 

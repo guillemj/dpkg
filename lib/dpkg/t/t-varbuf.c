@@ -388,7 +388,7 @@ test_varbuf_end_str(void)
 }
 
 static void
-test_varbuf_get_str(void)
+test_varbuf_str(void)
 {
 	struct varbuf vb;
 	const char *str;
@@ -396,7 +396,7 @@ test_varbuf_get_str(void)
 	varbuf_init(&vb, 10);
 
 	varbuf_add_buf(&vb, "1234567890", 10);
-	str = varbuf_get_str(&vb);
+	str = varbuf_str(&vb);
 	test_pass(vb.buf == str);
 	test_pass(vb.used == 10);
 	test_pass(vb.buf[vb.used] == '\0');
@@ -405,7 +405,7 @@ test_varbuf_get_str(void)
 	test_str(str, ==, "1234567890");
 
 	varbuf_add_buf(&vb, "abcde", 5);
-	str = varbuf_get_str(&vb);
+	str = varbuf_str(&vb);
 	test_pass(vb.buf == str);
 	test_pass(vb.used == 15);
 	test_pass(vb.buf[vb.used] == '\0');
@@ -550,7 +550,7 @@ TEST_ENTRY(test)
 	test_varbuf_map_char();
 	test_varbuf_add_dir();
 	test_varbuf_end_str();
-	test_varbuf_get_str();
+	test_varbuf_str();
 	test_varbuf_printf();
 	test_varbuf_reset();
 	test_varbuf_snapshot();
