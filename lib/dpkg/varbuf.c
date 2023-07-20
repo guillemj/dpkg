@@ -94,6 +94,9 @@ varbuf_reset(struct varbuf *v)
 const char *
 varbuf_get_str(struct varbuf *v)
 {
+	if (v->buf == NULL)
+		return "";
+
 	varbuf_end_str(v);
 
 	return v->buf;
