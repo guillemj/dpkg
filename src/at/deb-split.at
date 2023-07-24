@@ -113,9 +113,8 @@ dpkg-split -I pkg-split-part-missing-data.deb
 
 AT_CHECK([
 # Test duplicate debian-split member
-cp pkg-split-part.1of10.deb pkg-split-part-duplicate-magic.deb
-ar x pkg-split-part-duplicate-magic.deb debian-split
-ar ra debian-split pkg-split-part-duplicate-magic.deb debian-split debian-split
+ar x pkg-split-part.1of10.deb debian-split data.1
+ar qc pkg-split-part-duplicate-magic.deb debian-split debian-split data.1
 ar t pkg-split-part-duplicate-magic.deb
 dpkg-split -I pkg-split-part-duplicate-magic.deb
 ], [2], [debian-split

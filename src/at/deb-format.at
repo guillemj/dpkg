@@ -302,8 +302,7 @@ control.tar
 
 AT_CHECK([
 # Test duplicate debian-binary member
-cp pkg-templ.deb pkg-duplicate-magic.deb
-ar ra debian-binary pkg-duplicate-magic.deb debian-binary debian-binary
+ar qc pkg-duplicate-magic.deb debian-binary debian-binary control.tar data.tar
 ar t pkg-duplicate-magic.deb
 dpkg-deb -I pkg-duplicate-magic.deb
 ], [2], [debian-binary
@@ -315,8 +314,7 @@ data.tar
 
 AT_CHECK([
 # Test duplicate control member
-cp pkg-templ.deb pkg-duplicate-control.deb
-ar ra control.tar pkg-duplicate-control.deb control.tar control.tar
+ar qc pkg-duplicate-control.deb debian-binary control.tar control.tar data.tar
 ar t pkg-duplicate-control.deb
 dpkg-deb -c pkg-duplicate-control.deb
 ], [2], [debian-binary
@@ -328,8 +326,7 @@ data.tar
 
 AT_CHECK([
 # Test mixed member (index 1)
-cp pkg-templ.deb pkg-mixed-1-member.deb
-ar ra debian-binary pkg-mixed-1-member.deb unknown
+ar qc pkg-mixed-1-member.deb debian-binary unknown control.tar data.tar
 ar t pkg-mixed-1-member.deb
 dpkg-deb -I pkg-mixed-1-member.deb
 ], [2], [debian-binary
@@ -341,8 +338,7 @@ data.tar
 
 AT_CHECK([
 # Test mixed member (index 2)
-cp pkg-templ.deb pkg-mixed-2-member.deb
-ar ra control.tar pkg-mixed-2-member.deb unknown
+ar qc pkg-mixed-2-member.deb debian-binary control.tar unknown data.tar
 ar t pkg-mixed-2-member.deb
 dpkg-deb -c pkg-mixed-2-member.deb
 ], [2], [debian-binary
@@ -389,8 +385,7 @@ unknown
 AT_DATA([_ignore], [])
 AT_CHECK([
 # Test _ member
-cp pkg-templ.deb pkg-under-member.deb
-ar ra debian-binary pkg-under-member.deb _ignore
+ar qc pkg-under-member.deb debian-binary _ignore control.tar data.tar
 ar t pkg-under-member.deb
 dpkg-deb -I pkg-under-member.deb
 ], [], [debian-binary
