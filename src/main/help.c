@@ -35,6 +35,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
 #include <dpkg/file.h>
+#include <dpkg/command.h>
 #include <dpkg/db-fsys.h>
 
 #include "main.h"
@@ -75,42 +76,6 @@ namenodetouse(struct fsys_namenode *namenode, struct pkginfo *pkg,
   return fnn;
 }
 
-bool
-find_command(const char *prog)
-{
-  struct varbuf filename = VARBUF_INIT;
-  const char *path_list;
-  const char *path, *path_end;
-
-  if (prog[0] == '/')
-    return file_is_exec(prog);
-
-  path_list = getenv("PATH");
-  if (!path_list)
-    ohshit(_("PATH is not set"));
-
-  for (path = path_list; path; path = *path_end ? path_end + 1 : NULL) {
-    size_t path_len;
-
-    path_end = strchrnul(path, ':');
-    path_len = (size_t)(path_end - path);
-
-    varbuf_set_buf(&filename, path, path_len);
-    if (path_len)
-      varbuf_add_char(&filename, '/');
-    varbuf_add_str(&filename, prog);
-    varbuf_end_str(&filename);
-
-    if (file_is_exec(filename.buf)) {
-      varbuf_destroy(&filename);
-      return true;
-    }
-  }
-
-  varbuf_destroy(&filename);
-  return false;
-}
-
 /**
  * Verify that some programs can be found in the PATH.
  */
@@ -139,7 +104,7 @@ void checkpath(void) {
   int warned= 0;
 
   for (prog = prog_list; *prog; prog++) {
-    if (!find_command(*prog)) {
+    if (!command_in_path(*prog)) {
       warning(_("'%s' not found in PATH or not executable"), *prog);
       warned++;
     }

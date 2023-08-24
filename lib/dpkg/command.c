@@ -28,6 +28,8 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/i18n.h>
 #include <dpkg/string.h>
+#include <dpkg/varbuf.h>
+#include <dpkg/file.h>
 #include <dpkg/path.h>
 #include <dpkg/command.h>
 
@@ -208,4 +210,47 @@ command_shell(const char *cmd, const char *name)
 
 	execlp(shell, shell, mode, "--", cmd, NULL);
 	ohshite(_("unable to execute %s (%s)"), name, cmd);
+}
+
+/**
+ * Check whether a command can be found in PATH.
+ *
+ * @param cmd The command name to check. This is a relative pathname.
+ *
+ * @return A boolean denoting whether the command has been found.
+ */
+bool
+command_in_path(const char *cmd)
+{
+	struct varbuf filename = VARBUF_INIT;
+	const char *path_list;
+	const char *path, *path_end;
+
+	if (cmd[0] == '/')
+		return file_is_exec(cmd);
+
+	path_list = getenv("PATH");
+	if (!path_list)
+		ohshit(_("PATH is not set"));
+
+	for (path = path_list; path; path = *path_end ? path_end + 1 : NULL) {
+		size_t path_len;
+
+		path_end = strchrnul(path, ':');
+		path_len = (size_t)(path_end - path);
+
+		varbuf_set_buf(&filename, path, path_len);
+		if (path_len)
+			varbuf_add_char(&filename, '/');
+		varbuf_add_str(&filename, cmd);
+		varbuf_end_str(&filename);
+
+		if (file_is_exec(filename.buf)) {
+			varbuf_destroy(&filename);
+			return true;
+		}
+	}
+
+	varbuf_destroy(&filename);
+	return false;
 }

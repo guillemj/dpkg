@@ -46,6 +46,7 @@
 #include <dpkg/pkg.h>
 #include <dpkg/pkg-queue.h>
 #include <dpkg/path.h>
+#include <dpkg/command.h>
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
 #include <dpkg/dir.h>
@@ -132,7 +133,7 @@ deb_verify(const char *filename)
 
   /* We have to check on every unpack, in case the debsig-verify package
    * gets installed or removed. */
-  if (!find_command(DEBSIGVERIFY))
+  if (!command_in_path(DEBSIGVERIFY))
     return;
 
   printf(_("Authenticating %s ...\n"), filename);

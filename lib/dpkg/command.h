@@ -58,6 +58,8 @@ void command_exec(struct command *cmd) DPKG_ATTR_NORET;
 
 void command_shell(const char *cmd, const char *name) DPKG_ATTR_NORET;
 
+bool command_in_path(const char *cmd);
+
 /** @} */
 
 DPKG_END_DECLS

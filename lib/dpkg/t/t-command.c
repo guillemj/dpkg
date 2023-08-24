@@ -186,6 +186,91 @@ test_command_exec(void)
 }
 
 static void
+test_command_in_path(void)
+{
+	char *path_a, *path_b, *path_noexec;
+	char *oldpath, *newpath = NULL;
+	bool ret;
+	int rc;
+
+	path_a = test_data_file("command/path-a");
+	path_b = test_data_file("command/path-b");
+	path_noexec = test_data_file("command/path-noexec");
+
+	oldpath = getenv("PATH");
+
+	setenv("PATH", "", 1);
+	ret = command_in_path("cmd");
+	test_pass(ret == false);
+	ret = command_in_path("cmd-a");
+	test_pass(ret == false);
+	ret = command_in_path("cmd-b");
+	test_pass(ret == false);
+	ret = command_in_path("cmd-noexec");
+	test_pass(ret == false);
+
+	setenv("PATH", "/nonexistent", 1);
+	ret = command_in_path("cmd");
+	test_pass(ret == false);
+	ret = command_in_path("cmd-a");
+	test_pass(ret == false);
+	ret = command_in_path("cmd-b");
+	test_pass(ret == false);
+	ret = command_in_path("cmd-noexec");
+	test_pass(ret == false);
+
+	setenv("PATH", path_a, 1);
+	ret = command_in_path("cmd");
+	test_pass(ret == true);
+	ret = command_in_path("cmd-a");
+	test_pass(ret == true);
+	ret = command_in_path("cmd-b");
+	test_pass(ret == false);
+	ret = command_in_path("cmd-noexec");
+	test_pass(ret == false);
+
+	setenv("PATH", path_b, 1);
+	ret = command_in_path("cmd");
+	test_pass(ret == true);
+	ret = command_in_path("cmd-a");
+	test_pass(ret == false);
+	ret = command_in_path("cmd-b");
+	test_pass(ret == true);
+	ret = command_in_path("cmd-noexec");
+	test_pass(ret == false);
+
+	setenv("PATH", path_noexec, 1);
+	ret = command_in_path("cmd");
+	test_pass(ret == false);
+	ret = command_in_path("cmd-a");
+	test_pass(ret == false);
+	ret = command_in_path("cmd-b");
+	test_pass(ret == false);
+	ret = command_in_path("cmd-noexec");
+	test_pass(ret == false);
+
+	rc = asprintf(&newpath, "/nonexistent:%s:%s:%s", path_a, path_b, path_noexec);
+	if (rc < 0)
+		test_bail("cannot allocate new PATH variable");
+	setenv("PATH", newpath, 1);
+	ret = command_in_path("cmd");
+	test_pass(ret == true);
+	ret = command_in_path("cmd-a");
+	test_pass(ret == true);
+	ret = command_in_path("cmd-b");
+	test_pass(ret == true);
+	ret = command_in_path("cmd-noexec");
+	test_pass(ret == false);
+
+	setenv("PATH", oldpath, 1);
+
+	free(path_a);
+	free(path_b);
+	free(path_noexec);
+	free(newpath);
+}
+
+static void
 test_command_shell(void)
 {
 	pid_t pid;
@@ -213,7 +298,7 @@ test_command_shell(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(49);
+	test_plan(73);
 
 	test_command_init();
 	test_command_grow_argv();
@@ -221,5 +306,6 @@ TEST_ENTRY(test)
 	test_command_add_argl();
 	test_command_add_args();
 	test_command_exec();
+	test_command_in_path();
 	test_command_shell();
 }

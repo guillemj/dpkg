@@ -223,7 +223,6 @@ bool force_conflicts(struct deppossi *possi);
 void
 conffile_mark_obsolete(struct pkginfo *pkg, struct fsys_namenode *namenode);
 void pkg_conffiles_mark_old(struct pkginfo *pkg);
-bool find_command(const char *prog);
 void checkpath(void);
 
 struct fsys_namenode *

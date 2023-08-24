@@ -254,6 +254,12 @@ test_scripts = \
 	# EOL
 
 test_data = \
+	t/data/command/path-a/cmd \
+	t/data/command/path-a/cmd-a \
+	t/data/command/path-b/cmd \
+	t/data/command/path-b/cmd-b \
+	t/data/command/path-noexec/cmd \
+	t/data/command/path-noexec/cmd-noexec \
 	t/data/meminfo-no-data \
 	t/data/meminfo-no-info \
 	t/data/meminfo-no-unit \
