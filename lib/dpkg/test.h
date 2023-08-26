@@ -83,6 +83,19 @@ test_get_envdir(const char *envvar)
 #define test_get_builddir() \
 	test_get_envdir("builddir")
 
+static inline char *
+test_data_file(const char *filename)
+{
+	char *pathname;
+	int rc;
+
+	rc = asprintf(&pathname, "%s/t/data/%s", test_get_srcdir(), filename);
+	if (rc < 0)
+		test_bail("cannot allocate data filename");
+
+	return pathname;
+}
+
 static inline bool
 test_is_verbose(void)
 {

@@ -24,19 +24,6 @@
 #include <dpkg/test.h>
 #include <dpkg/meminfo.h>
 
-static char *
-test_data_file(const char *filename)
-{
-	char *pathname;
-	int rc;
-
-	rc = asprintf(&pathname, "%s/t/data/%s", test_get_srcdir(), filename);
-	if (rc < 0)
-		test_bail("cannot allocate data filename");
-
-	return pathname;
-}
-
 static void
 test_meminfo(void)
 {
