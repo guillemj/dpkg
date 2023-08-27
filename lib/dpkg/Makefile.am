@@ -128,6 +128,7 @@ libdpkg_la_SOURCES = \
 	strvec.c \
 	strwide.c \
 	subproc.c \
+	sysuser.c \
 	tarfn.c \
 	test.h \
 	treewalk.c \
@@ -185,6 +186,7 @@ pkginclude_HEADERS = \
 	string.h \
 	strvec.h \
 	subproc.h \
+	sysuser.h \
 	tarfn.h \
 	treewalk.h \
 	trigdeferred.h \

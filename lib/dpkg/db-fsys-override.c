@@ -38,6 +38,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/fdio.h>
 #include <dpkg/debug.h>
+#include <dpkg/sysuser.h>
 #include <dpkg/db-fsys.h>
 
 uid_t
@@ -55,7 +56,7 @@ statdb_parse_uid(const char *str)
 			ohshit(_("invalid statoverride uid %s"), str);
 		uid = (uid_t)value;
 	} else {
-		const struct passwd *pw = getpwnam(str);
+		const struct passwd *pw = dpkg_sysuser_from_name(str);
 
 		if (pw == NULL)
 			uid = (uid_t)-1;
@@ -81,7 +82,7 @@ statdb_parse_gid(const char *str)
 			ohshit(_("invalid statoverride gid %s"), str);
 		gid = (gid_t)value;
 	} else {
-		const struct group *gr = getgrnam(str);
+		const struct group *gr = dpkg_sysgroup_from_name(str);
 
 		if (gr == NULL)
 			gid = (gid_t)-1;
