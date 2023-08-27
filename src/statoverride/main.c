@@ -45,6 +45,7 @@
 #include <dpkg/path.h>
 #include <dpkg/dir.h>
 #include <dpkg/glob.h>
+#include <dpkg/sysuser.h>
 #include <dpkg/db-fsys.h>
 #include <dpkg/options.h>
 
@@ -195,7 +196,7 @@ statdb_node_print(FILE *out, struct fsys_namenode *file)
 	if (!filestat)
 		return;
 
-	pw = getpwuid(filestat->uid);
+	pw = dpkg_sysuser_from_uid(filestat->uid);
 	if (pw)
 		fprintf(out, "%s ", pw->pw_name);
 	else if (filestat->uname)
@@ -203,7 +204,7 @@ statdb_node_print(FILE *out, struct fsys_namenode *file)
 	else
 		fprintf(out, "#%d ", filestat->uid);
 
-	gr = getgrgid(filestat->gid);
+	gr = dpkg_sysgroup_from_gid(filestat->gid);
 	if (gr)
 		fprintf(out, "%s ", gr->gr_name);
 	else if (filestat->gname)
