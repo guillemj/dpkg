@@ -21,9 +21,15 @@
 #include <config.h>
 #include <compat.h>
 
+#include <stdbool.h>
+#include <stdlib.h>
 #include <string.h>
 
+#include <dpkg/fsys.h>
 #include <dpkg/sysuser.h>
+
+#define DPKG_PATH_PASSWD "/etc/passwd"
+#define DPKG_PATH_GROUP "/etc/group"
 
 /* Cache UID 0 called "root" in most systems.
  * Cache GID 0 called "root" in most systems,
@@ -57,6 +63,41 @@ dpkg_sysuser_copy(struct passwd *pw_old)
 	return pw_new;
 }
 
+typedef bool dpkg_sysuser_match_func(struct passwd *pw, const void *match);
+
+static struct passwd *
+dpkg_sysuser_find(dpkg_sysuser_match_func *matcher, const void *match)
+{
+	const char *pathname;
+	char *root_pathname;
+	FILE *fp;
+	struct passwd *pw;
+
+	pathname = getenv("DPKG_PATH_PASSWD");
+	if (pathname == NULL)
+		pathname = DPKG_PATH_PASSWD;
+	root_pathname = dpkg_fsys_get_path(pathname);
+
+	fp = fopen(root_pathname, "r");
+	free(root_pathname);
+	if (fp == NULL)
+		return NULL;
+	while ((pw = fgetpwent(fp)))
+		if (matcher(pw, match) == 0)
+			break;
+	fclose(fp);
+
+	return pw;
+}
+
+static bool
+dpkg_sysuser_match_uname(struct passwd *pw, const void *match)
+{
+	const char *uname = match;
+
+	return strcmp(pw->pw_name, uname) == 0;
+}
+
 struct passwd *
 dpkg_sysuser_from_name(const char *uname)
 {
@@ -66,7 +107,7 @@ dpkg_sysuser_from_name(const char *uname)
 	if (is_root && root_pw != NULL)
 		return root_pw;
 
-	pw = getpwnam(uname);
+	pw = dpkg_sysuser_find(dpkg_sysuser_match_uname, uname);
 
 	if (is_root)
 		root_pw = dpkg_sysuser_copy(pw);
@@ -74,10 +115,18 @@ dpkg_sysuser_from_name(const char *uname)
 	return pw;
 }
 
+static bool
+dpkg_sysuser_match_uid(struct passwd *pw, const void *match)
+{
+	const uid_t *uid = match;
+
+	return pw->pw_uid == *uid;
+}
+
 struct passwd *
 dpkg_sysuser_from_uid(uid_t uid)
 {
-	return getpwuid(uid);
+	return dpkg_sysuser_find(dpkg_sysuser_match_uid, &uid);
 }
 
 /*
@@ -106,6 +155,41 @@ dpkg_sysgroup_copy(struct group *gr_old)
 	return gr_new;
 }
 
+typedef bool dpkg_sysgroup_match_func(struct group *gr, const void *match);
+
+static struct group *
+dpkg_sysgroup_find(dpkg_sysgroup_match_func *matcher, const void *match)
+{
+	const char *pathname;
+	char *root_pathname;
+	FILE *fp;
+	struct group *gr;
+
+	pathname = getenv("DPKG_PATH_GROUP");
+	if (pathname == NULL)
+		pathname = DPKG_PATH_GROUP;
+	root_pathname = dpkg_fsys_get_path(pathname);
+
+	fp = fopen(root_pathname, "r");
+	free(root_pathname);
+	if (fp == NULL)
+		return NULL;
+	while ((gr = fgetgrent(fp)))
+		if (matcher(gr, match) == 0)
+			break;
+	fclose(fp);
+
+	return gr;
+}
+
+static bool
+dpkg_sysgroup_match_gname(struct group *gr, const void *match)
+{
+	const char *gname = match;
+
+	return strcmp(gr->gr_name, gname) == 0;
+}
+
 struct group *
 dpkg_sysgroup_from_name(const char *gname)
 {
@@ -115,7 +199,7 @@ dpkg_sysgroup_from_name(const char *gname)
 	if (is_root && root_gr != NULL)
 		return root_gr;
 
-	gr = getgrnam(gname);
+	gr = dpkg_sysgroup_find(dpkg_sysgroup_match_gname, gname);
 
 	if (is_root)
 		root_gr = dpkg_sysgroup_copy(gr);
@@ -123,8 +207,16 @@ dpkg_sysgroup_from_name(const char *gname)
 	return gr;
 }
 
+static bool
+dpkg_sysgroup_match_gid(struct group *gr, const void *match)
+{
+	const gid_t *gid = match;
+
+	return gr->gr_gid == *gid;
+}
+
 struct group *
 dpkg_sysgroup_from_gid(gid_t gid)
 {
-	return getgrgid(gid);
+	return dpkg_sysgroup_find(dpkg_sysgroup_match_gid, &gid);
 }
