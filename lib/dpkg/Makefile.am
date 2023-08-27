@@ -234,6 +234,7 @@ test_programs = \
 	t/t-error \
 	t/t-string \
 	t/t-strvec \
+	t/t-sysuser \
 	t/t-file \
 	t/t-buffer \
 	t/t-meminfo \
