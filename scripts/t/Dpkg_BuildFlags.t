@@ -114,6 +114,7 @@ my %known_features = (
         fortify
         pie
         relro
+        stackclash
         stackprotector
         stackprotectorstrong
     ) ],

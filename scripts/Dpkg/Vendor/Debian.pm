@@ -139,6 +139,7 @@ sub set_build_features {
             pie => undef,
             stackprotector => 1,
             stackprotectorstrong => 1,
+            stackclash => 1,
             fortify => 1,
             format => 1,
             relro => 1,
@@ -334,6 +335,10 @@ sub set_build_features {
 	# Stack protector disabled on arm (ok on armel).
 	#   compiler supports it incorrectly (leads to SEGV)
 	$use_feature{hardening}{stackprotector} = 0;
+    }
+    if (none { $cpu eq $_ } qw(amd64 arm64 armhf armel)) {
+        # Stack clash protector only available on amd64 and arm.
+        $use_feature{hardening}{stackclash} = 0;
     }
     if (any { $cpu eq $_ } qw(ia64 hppa)) {
 	# relro not implemented on ia64, hppa.
@@ -535,6 +540,12 @@ sub _add_build_flags {
         $flags->append($_, $flag) foreach @compile_flags;
     } elsif ($flags->use_feature('hardening', 'stackprotector')) {
 	my $flag = '-fstack-protector --param=ssp-buffer-size=4';
+        $flags->append($_, $flag) foreach @compile_flags;
+    }
+
+    # Stack clash
+    if ($flags->use_feature('hardening', 'stackclash')) {
+        my $flag = '-fstack-clash-protection';
         $flags->append($_, $flag) foreach @compile_flags;
     }
 

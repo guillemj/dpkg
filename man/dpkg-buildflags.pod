@@ -536,6 +536,14 @@ Disabling B<stackprotector> will also disable this setting.
 This feature has the same requirements as B<stackprotector>, and in
 addition also requires gcc 4.9 and later.
 
+=item B<stackclask>
+
+This setting (since dpkg 1.22.0; enabled by default) adds
+B<-fstack-clash-protection> on B<amd64>, B<arm64>, B<armhf> and B<armel> to
+B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
+B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>.
+This adds code to prevent stack clash style attacks.
+
 =item B<branch>
 
 This setting (since dpkg 1.22.0; enabled by default) adds B<-fcf-protection>
