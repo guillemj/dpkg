@@ -33,7 +33,7 @@ use Dpkg::Deps;
 
 use constant {
     DEFAULT_BUILD_API => '0',
-    MAX_BUILD_API => '0',
+    MAX_BUILD_API => '1',
 };
 
 my $build_api;

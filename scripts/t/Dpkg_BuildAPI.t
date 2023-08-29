@@ -88,6 +88,6 @@ test_parse_ctrl_invalid('ctrl-api-gt-max', 'API level > max');
 test_parse_ctrl_invalid('ctrl-api-no-int', 'API level is not an integer');
 
 test_parse_ctrl('ctrl-api-default', 0, 'default API level');
-test_parse_ctrl('ctrl-api-explicit', 0, 'explicit API level');
+test_parse_ctrl('ctrl-api-explicit', 1, 'explicit API level');
 
 # TODO: Add more test cases.
