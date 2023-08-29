@@ -66,7 +66,7 @@ override_dh_auto_test:
 	dh_auto_test -- $(testflags)
 
 override_dh_installsystemd:
-	dh_installsystemd -a --name=dpkg-db-backup
+	dh_installsystemd -a --name=dpkg-db-backup --no-start
 
 execute_after_dh_installlogrotate:
 	dh_installlogrotate --name=alternatives
