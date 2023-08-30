@@ -24,7 +24,7 @@ test-case:
 	$(DPKG_INSTALL) pkg-normal.deb
 	test -e $(DPKG_INSTDIR)/test-dir/test-normal
 	! test -e $(DPKG_INSTDIR)/test-dir/test-normal.distrib
-	# Should have been disappered now.
+	# Should have been disappeared now.
 	$(call pkg_is_not_installed,pkg-disappear)
 	$(DPKG_PURGE) pkg-normal
 	! test -e $(DPKG_INSTDIR)/test-dir/test-normal
@@ -41,7 +41,7 @@ test-case:
 	$(DPKG_INSTALL) pkg-normal.deb
 	test -e $(DPKG_INSTDIR)/test-dir/test-normal
 	test -e $(DPKG_INSTDIR)/test-dir/test-normal.distrib
-	# Should have been disappered now, as it is diverted by a 3rd package.
+	# Should have been disappeared now, as it is diverted by a 3rd package.
 	$(call pkg_is_not_installed,pkg-disappear)
 	$(DPKG_PURGE) pkg-normal
 	test -e $(DPKG_INSTDIR)/test-dir/test-normal

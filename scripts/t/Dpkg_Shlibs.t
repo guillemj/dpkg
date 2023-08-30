@@ -485,7 +485,7 @@ is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol11_optional@Base',
 		  symbol_templ => 'symbol11_optional@Base',
 		  minver => '1.1', dep_id => 1, deprecated => '100.MISSING',
 		  tags => { optional => undef }, tagorder => [ 'optional' ]),
-	    'disappered optional symbol gets deprecated');
+	    'disappeared optional symbol gets deprecated');
 
 $sym_file->merge_symbols($tags_obj_i386, '101.MISSING');
 $sym = $sym_file->lookup_symbol('symbol11_optional@Base', ['libbasictags.so.1'], 1);

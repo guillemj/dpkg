@@ -15,7 +15,7 @@ test-case:
 	# Should disappear now that it is not being depended on.
 	$(DPKG_INSTALL) pkg-disappear.deb
 	$(DPKG_INSTALL) pkg-normal.deb
-	# Should have been disappered now.
+	# Should have been disappeared now.
 	$(call pkg_is_not_installed,pkg-disappear)
 
 test-clean:
