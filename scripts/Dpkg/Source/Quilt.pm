@@ -247,7 +247,7 @@ sub get_db_version {
 
 sub find_problems {
     my $self = shift;
-    my $patch_dir = $self->get_patch_file();
+    my $patch_dir = $self->get_patch_dir();
     if (-e $patch_dir and not -d _) {
         return sprintf(g_('%s should be a directory or non-existing'), $patch_dir);
     }
@@ -283,12 +283,13 @@ sub get_db_dir {
 sub get_patch_file {
     my ($self, $file) = @_;
 
-    return File::Spec->catfile($self->{dir}, 'debian', 'patches', $file);
+    return File::Spec->catfile($self->get_patch_dir(), $file);
 }
 
 sub get_patch_dir {
     my $self = shift;
-    return $self->get_patch_file();
+
+    return File::Spec->catfile($self->{dir}, 'debian', 'patches');
 }
 
 ## METHODS BELOW ARE INTERNAL ##
