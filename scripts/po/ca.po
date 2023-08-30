@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-02-07 11:18+0000\n"
+"POT-Creation-Date: 2023-08-30 03:38+0000\n"
 "PO-Revision-Date: 2023-01-11 23:19+0100\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -19,14 +19,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n!=1;\n"
 
-#: scripts/dpkg-architecture.pl scripts/dpkg-buildflags.pl
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
-#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
-#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
-#: scripts/dpkg-gensymbols.pl scripts/dpkg-mergechangelogs.pl
-#: scripts/dpkg-name.pl scripts/dpkg-parsechangelog.pl
-#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
-#: scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl scripts/dpkg-vendor.pl
+#: scripts/dpkg-architecture.pl scripts/dpkg-buildapi.pl
+#: scripts/dpkg-buildflags.pl scripts/dpkg-buildpackage.pl
+#: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-distaddfile.pl
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+#: scripts/dpkg-mergechangelogs.pl scripts/dpkg-name.pl
+#: scripts/dpkg-parsechangelog.pl scripts/dpkg-scanpackages.pl
+#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl
+#: scripts/dpkg-vendor.pl
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s versió %s.\n"
@@ -166,10 +167,10 @@ msgstr "%s no és un mètode de format de mostra admès"
 msgid "%s is not a supported variable name"
 msgstr "%s no és un nom de variable gestionat"
 
-#: scripts/dpkg-architecture.pl scripts/dpkg-buildflags.pl
-#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
-#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
-#: scripts/dpkg-gensymbols.pl scripts/dpkg-name.pl
+#: scripts/dpkg-architecture.pl scripts/dpkg-buildapi.pl
+#: scripts/dpkg-buildflags.pl scripts/dpkg-distaddfile.pl
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl scripts/dpkg-name.pl
 #: scripts/dpkg-parsechangelog.pl scripts/dpkg-shlibdeps.pl
 #: scripts/dpkg-vendor.pl
 #, perl-format
@@ -185,11 +186,46 @@ msgstr ""
 "el tipus de sistema GNU %s especificat no correspon amb el tipus de sistema "
 "del CC %s, proveu a especificar una variable d'entorn CC correcta"
 
-#: scripts/dpkg-architecture.pl scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
+#: scripts/dpkg-architecture.pl scripts/Dpkg/IPC.pm
 #: scripts/Dpkg/Shlibs/Cppfilt.pm
 #, perl-format
 msgid "unable to execute %s"
 msgstr "no es pot executar %s"
+
+#: scripts/dpkg-buildapi.pl
+#, fuzzy, perl-format
+#| msgid "Usage: %s [<option>...]"
+msgid "Usage: %s [<option>...]\n"
+msgstr "Forma d'ús: %s [<opció>…]"
+
+#: scripts/dpkg-buildapi.pl
+#, fuzzy
+#| msgid ""
+#| "Usage: %s [<option>...] <filename> <section> <priority>\n"
+#| "\n"
+#| "Options:\n"
+#| "  -f<files-list-file>      write files here instead of debian/files.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version.\n"
+msgid ""
+"\n"
+"Options:\n"
+"  -c<control-file>         get control info from this file.\n"
+"  -?, --help               show this help message.\n"
+"  -v, --version            show the version.\n"
+msgstr ""
+"Forma d'ús: %s [<opció>…] <nom-de-fitxer> <secció> <prioritat>\n"
+"\n"
+"Opcions:\n"
+"  -f<fitxer-de-fitxers>    escriu fitxers aquí en comptes de debian/files.\n"
+"  -?, --help               mostra aquest missatge d'ajuda.\n"
+"      --version            mostra la versió.\n"
+
+#: scripts/dpkg-buildapi.pl
+#, fuzzy
+#| msgid "one to three arguments expected"
+msgid "no arguments accepted"
+msgstr "s'esperen d'un a tres arguments"
 
 #: scripts/dpkg-buildflags.pl
 #, perl-format
@@ -197,13 +233,35 @@ msgid "Usage: %s [<command>]"
 msgstr "Format d'ús: %s [<ordre>]"
 
 #: scripts/dpkg-buildflags.pl
+#, fuzzy
+#| msgid ""
+#| "Commands:\n"
+#| "  --get <flag>       output the requested flag to stdout.\n"
+#| "  --origin <flag>    output the origin of the flag to stdout:\n"
+#| "                     value is one of vendor, system, user, env.\n"
+#| "  --status           output a synopsis with all parameters affecting the\n"
+#| "                     program behaviour, the resulting flags and their "
+#| "origin.\n"
+#| "  --query            like --status, but in deb822 format.\n"
+#| "  --query-features <area>\n"
+#| "                     output the status of features for the given area.\n"
+#| "  --list             output a list of the flags supported by the current "
+#| "vendor.\n"
+#| "  --export=(sh|make|cmdline|configure)\n"
+#| "                     output something convenient to import the "
+#| "compilation\n"
+#| "                     flags in a shell script, in make, or in a command "
+#| "line.\n"
+#| "  --dump             output all compilation flags with their values.\n"
+#| "  --help             show this help message.\n"
+#| "  --version          show the version.\n"
 msgid ""
 "Commands:\n"
 "  --get <flag>       output the requested flag to stdout.\n"
 "  --origin <flag>    output the origin of the flag to stdout:\n"
 "                     value is one of vendor, system, user, env.\n"
 "  --status           output a synopsis with all parameters affecting the\n"
-"                     program behaviour, the resulting flags and their "
+"                     program behavior, the resulting flags and their "
 "origin.\n"
 "  --query            like --status, but in deb822 format.\n"
 "  --query-features <area>\n"
@@ -260,6 +318,85 @@ msgid "Usage: %s [<option>...]"
 msgstr "Forma d'ús: %s [<opció>…]"
 
 #: scripts/dpkg-buildpackage.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "      --build=<type>[,...]    specify the build <type>: full, source, "
+#| "binary,\n"
+#| "                                any, all (default is 'full').\n"
+#| "  -F, --build=full            normal full build (source and binary; "
+#| "default).\n"
+#| "  -g, --build=source,all      source and arch-indep build.\n"
+#| "  -G, --build=source,any      source and arch-specific build.\n"
+#| "  -b, --build=binary          binary-only, no source files.\n"
+#| "  -B, --build=any             binary-only, only arch-specific files.\n"
+#| "  -A, --build=all             binary-only, only arch-indep files.\n"
+#| "  -S, --build=source          source-only, no binary files.\n"
+#| "  -nc, --no-pre-clean         do not pre clean source tree (implies -b).\n"
+#| "      --pre-clean             pre clean source tree (default).\n"
+#| "      --no-post-clean         do not post clean source tree (default).\n"
+#| "  -tc, --post-clean           post clean source tree.\n"
+#| "      --sanitize-env          sanitize the build environment.\n"
+#| "  -D, --check-builddeps       check build dependencies and conflicts "
+#| "(default).\n"
+#| "  -d, --no-check-builddeps    do not check build dependencies and "
+#| "conflicts.\n"
+#| "      --ignore-builtin-builddeps\n"
+#| "                              do not check builtin build dependencies.\n"
+#| "  -P, --build-profiles=<profiles>\n"
+#| "                              assume comma-separated build <profiles> as "
+#| "active.\n"
+#| "      --rules-requires-root   assume legacy Rules-Requires-Root field "
+#| "value.\n"
+#| "  -R, --rules-file=<rules>    rules file to execute (default is debian/"
+#| "rules).\n"
+#| "  -T, --rules-target=<target> call debian/rules <target>.\n"
+#| "      --as-root               ensure -T calls the target with root "
+#| "rights.\n"
+#| "  -j, --jobs[=<jobs>|auto]    jobs to run simultaneously (passed to "
+#| "<rules>),\n"
+#| "                                (default; default is auto, opt-in mode).\n"
+#| "  -J, --jobs-try[=<jobs>|auto]\n"
+#| "                              alias for -j, --jobs.\n"
+#| "      --jobs-force[=<jobs>|auto]\n"
+#| "                              jobs to run simultaneously (passed to "
+#| "<rules>),\n"
+#| "                                (default is auto, forced mode).\n"
+#| "  -r, --root-command=<command>\n"
+#| "                              command to gain root rights (default is "
+#| "fakeroot).\n"
+#| "      --check-command=<command>\n"
+#| "                              command to check the .changes file (no "
+#| "default).\n"
+#| "      --check-option=<opt>    pass <opt> to check <command>.\n"
+#| "      --hook-<name>=<command> set <command> as the hook <name>, known "
+#| "hooks:\n"
+#| "                                init preclean source build binary "
+#| "buildinfo\n"
+#| "                                changes postclean check sign done\n"
+#| "      --buildinfo-file=<file> set the .buildinfo filename to generate.\n"
+#| "      --buildinfo-option=<opt>\n"
+#| "                              pass option <opt> to dpkg-genbuildinfo.\n"
+#| "      --changes-file=<file>   set the .changes filename to generate.\n"
+#| "      --sign-backend=<backend>\n"
+#| "                              OpenPGP backend to use to sign\n"
+#| "                                (default is auto).\n"
+#| "  -p, --sign-command=<command>\n"
+#| "                              command to sign .dsc and/or .changes files\n"
+#| "                                (default is gpg).\n"
+#| "      --sign-keyfile=<file>   the key file to use for signing.\n"
+#| "  -k, --sign-keyid=<keyid>    the key id to use for signing.\n"
+#| "      --sign-key=<keyid>      alias for -k, --sign-keyid.\n"
+#| "  -ap, --sign-pause           add pause before starting signature "
+#| "process.\n"
+#| "  -us, --unsigned-source      unsigned source package.\n"
+#| "  -ui, --unsigned-buildinfo   unsigned .buildinfo file.\n"
+#| "  -uc, --unsigned-changes     unsigned .buildinfo and .changes file.\n"
+#| "      --no-sign               do not sign any file.\n"
+#| "      --force-sign            force signing the resulting files.\n"
+#| "      --admindir=<directory>  change the administrative directory.\n"
+#| "  -?, --help                  show this help message.\n"
+#| "      --version               show the version."
 msgid ""
 "Options:\n"
 "      --build=<type>[,...]    specify the build <type>: full, source, "
@@ -311,8 +448,8 @@ msgid ""
 "      --check-option=<opt>    pass <opt> to check <command>.\n"
 "      --hook-<name>=<command> set <command> as the hook <name>, known "
 "hooks:\n"
-"                                init preclean source build binary buildinfo\n"
-"                                changes postclean check sign done\n"
+"                                preinit init preclean source build binary\n"
+"                                buildinfo changes postclean check sign done\n"
 "      --buildinfo-file=<file> set the .buildinfo filename to generate.\n"
 "      --buildinfo-option=<opt>\n"
 "                              pass option <opt> to dpkg-genbuildinfo.\n"
@@ -1582,8 +1719,8 @@ msgstr "  %s (el paquet especifica %s, i no %s)"
 msgid "unconditional maintainer override for %s"
 msgstr "substitució de mantenidor incondicional per a %s"
 
-#: scripts/dpkg-scanpackages.pl scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/dpkg-scanpackages.pl scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/Shlibs/Objdump/Object.pm
 #, perl-format
 msgid "cannot fork for %s"
 msgstr "no es pot fer «fork» per a %s"
@@ -2327,6 +2464,25 @@ msgstr ""
 msgid "'%s' is not a legal architecture in list '%s'"
 msgstr "«%s» no és una cadena d'arquitectura vàlida a la llista «%s»"
 
+#: scripts/Dpkg/BuildAPI.pm
+msgid "dpkg build API level needs an exact version"
+msgstr ""
+
+#: scripts/Dpkg/BuildAPI.pm
+#, perl-format
+msgid "dpkg build API level with conflicting versions: %s vs %s"
+msgstr ""
+
+#: scripts/Dpkg/BuildAPI.pm
+#, perl-format
+msgid "invalid dpkg build API level '%s'"
+msgstr ""
+
+#: scripts/Dpkg/BuildAPI.pm
+#, perl-format
+msgid "dpkg build API level '%s' greater than max '%s'"
+msgstr ""
+
 #: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
 #: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
 #: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
@@ -2947,6 +3103,10 @@ msgid "specified key needs a keystore"
 msgstr "la clau especificada necessita un magatzem de claus"
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "OpenPGP backend command cannot sign"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 #, perl-format
 msgid "error code %d"
 msgstr "codi d'error %d"
@@ -2964,6 +3124,16 @@ msgstr "el caràcter «%s» no és permès"
 msgid "must start with an alphanumeric character"
 msgstr "ha de començar amb un caràcter alfanumèric"
 
+#: scripts/Dpkg/Package.pm
+#, perl-format
+msgid "source package name '%s' is illegal: %s"
+msgstr "el nom del paquet font «%s» no és legal: %s"
+
+#: scripts/Dpkg/Package.pm
+#, perl-format
+msgid "source package has two conflicting values - %s and %s"
+msgstr "el paquet font té dos valors contradictoris - %s i %s"
+
 #: scripts/Dpkg/Path.pm scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "pathname '%s' cannot be canonicalized"
@@ -2975,6 +3145,10 @@ msgid "pathname '%s' points outside source root (to '%s')"
 msgstr "el nom de camí «%s» apunta fora de l'arrel del codi font (a «%s»)"
 
 #: scripts/Dpkg/Shlibs.pm
+msgid "use -l option instead of LD_LIBRARY_PATH"
+msgstr ""
+
+#: scripts/Dpkg/Shlibs.pm
 msgid ""
 "deprecated use of LD_LIBRARY_PATH with private library directory which "
 "interferes with cross-building, please use -l option instead"
@@ -2982,17 +3156,17 @@ msgstr ""
 "ús obsolet de LD_LIBRARY_PATH amb directori de biblioteques privades que "
 "interfereix amb la compilació creuada, empreu l'opció -l en el seu lloc"
 
-#: scripts/Dpkg/Shlibs.pm scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/Dpkg/Shlibs.pm scripts/Dpkg/Shlibs/Objdump/Object.pm
 #, perl-format
 msgid "unknown executable format in file '%s'"
 msgstr "el format del fitxer executable «%s» és desconegut"
 
-#: scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/Dpkg/Shlibs/Objdump/Object.pm
 #, perl-format
 msgid "couldn't parse dynamic relocation record: %s"
 msgstr "no s'ha pogut analitzar el registre dinàmic de reubicació: %s"
 
-#: scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/Dpkg/Shlibs/Objdump/Object.pm
 #, perl-format
 msgid "couldn't parse dynamic symbol definition: %s"
 msgstr "no s'ha pogut analitzar la definició dinàmica del símbol: %s"
@@ -4150,8 +4324,9 @@ msgid "invalid source version %s"
 msgstr "la versió del font %s no és vàlida"
 
 #: scripts/Dpkg/Substvars.pm
-#, perl-format
-msgid "too many substitutions - recursive ? - in '%s'"
+#, fuzzy, perl-format
+#| msgid "too many substitutions - recursive ? - in '%s'"
+msgid "too many ${%s} substitutions (recursive?) in '%s'"
 msgstr "massa substitucions (recursives?) a «%s»"
 
 #: scripts/Dpkg/Substvars.pm
@@ -4168,16 +4343,6 @@ msgstr "la variable de substitució ${%s} s'utilitza, però no s'ha definit"
 #, perl-format
 msgid "substitution variable ${%s} unused, but is defined"
 msgstr "la variable de substitució ${%s} no s'utilitza, però s'ha definit"
-
-#: scripts/Dpkg/Vars.pm
-#, perl-format
-msgid "source package name '%s' is illegal: %s"
-msgstr "el nom del paquet font «%s» no és legal: %s"
-
-#: scripts/Dpkg/Vars.pm
-#, perl-format
-msgid "source package has two conflicting values - %s and %s"
-msgstr "el paquet font té dos valors contradictoris - %s i %s"
 
 #: scripts/Dpkg/Vendor.pm
 #, perl-format
@@ -4200,6 +4365,12 @@ msgstr ""
 #: scripts/Dpkg/Vendor/Debian.pm
 #, perl-format
 msgid "unknown host architecture '%s'"
+msgstr "arquitectura de l'amfitrió '%s' desconeguda"
+
+#: scripts/Dpkg/Vendor/Debian.pm
+#, fuzzy, perl-format
+#| msgid "unknown host architecture '%s'"
+msgid "unknown abi attributes for architecture '%s'"
 msgstr "arquitectura de l'amfitrió '%s' desconeguda"
 
 #: scripts/Dpkg/Vendor/Ubuntu.pm

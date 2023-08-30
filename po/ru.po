@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-02-07 11:18+0000\n"
+"POT-Creation-Date: 2023-08-30 03:38+0000\n"
 "PO-Revision-Date: 2023-02-06 00:01+0100\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -181,6 +181,10 @@ msgstr "ошибка позиционирования"
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "не удалось запустить %s (%s)"
+
+#: lib/dpkg/command.c
+msgid "PATH is not set"
+msgstr "не задана переменная окружения PATH"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -1131,35 +1135,35 @@ msgstr "<состояние пакета и дескриптор файла хо
 msgid "unable to write to status fd %d"
 msgstr "не удалось произвести запись в файловый дескриптор состояния %d"
 
-#: lib/dpkg/mlib.c utils/update-alternatives.c
+#: lib/dpkg/mustlib.c utils/update-alternatives.c
 msgid "failed to allocate memory"
 msgstr "не удалось выделить память"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "не удалось создать копию дескриптора файла %d"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for std%s"
 msgstr "не удалось создать копию дескриптора потока std%s"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 msgid "failed to create pipe"
 msgstr "не удалось создать канал"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "error writing to '%s'"
 msgstr "ошибка записи в «%s»"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "не удалось прочитать флаги дескриптора файла %.250s"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "не удалось установить флаг close-on-exec файла %.250s"
@@ -1585,6 +1589,13 @@ msgstr "недопустимое имя пакета в описателе «%s%
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "недопустимое имя архитектуры в описателе «%s:%s»: %s"
 
+#. TRANSLATORS: This is part of the progress output, it is a decimal
+#. * percentage.
+#: lib/dpkg/progress.c
+#, c-format
+msgid "%d%%"
+msgstr ""
+
 #: lib/dpkg/report.c utils/update-alternatives.c
 msgid "warning"
 msgstr "предупреждение"
@@ -1884,14 +1895,14 @@ msgid "unexpected end of file reading '%.250s'"
 msgstr "неожиданный конец файла при чтении «%.250s»"
 
 #: lib/dpkg/varbuf.c
-msgid "error formatting string into varbuf variable"
-msgstr "ошибка при форматировании строки в переменную varbuf"
-
-#: lib/dpkg/varbuf.c
 #, c-format
 msgid "cannot grow varbuf to size %zu; it would overflow"
 msgstr ""
 "не удалось расширить varbuf до размера %zu; это бы вызвало переполнение"
+
+#: lib/dpkg/varbuf.c
+msgid "error formatting string into varbuf variable"
+msgstr "ошибка при форматировании строки в переменную varbuf"
 
 #: src/common/force.c
 msgid "Set all force options"
@@ -2021,9 +2032,15 @@ msgid "Remove an essential package"
 msgstr "Удалить пакет первой необходимости"
 
 #: src/common/force.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "%s forcing options - control behaviour when problems found:\n"
+#| "  warn but continue:  --force-<thing>,<thing>,...\n"
+#| "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-"
+#| "<thing>,...\n"
+#| " Forcing things:\n"
 msgid ""
-"%s forcing options - control behaviour when problems found:\n"
+"%s forcing options - control behavior when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"
@@ -2567,6 +2584,12 @@ msgstr "ошибка чтения файла «%.255s» (в «%.255s»)"
 #: src/deb/info.c
 #, c-format
 msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgstr " %7jd байт(а), %5d строк   %c  %-20.127s %.127s\n"
+
+#: src/deb/info.c
+#, fuzzy, c-format
+#| msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgid " %7jd bytes, %5d lines   %c  %.127s\n"
 msgstr " %7jd байт(а), %5d строк   %c  %-20.127s %.127s\n"
 
 #: src/deb/info.c
@@ -3891,7 +3914,7 @@ msgstr ""
 msgid "package '%s' is not available"
 msgstr "пакет «%s» недоступен"
 
-#: src/query/main.c src/main/packages.c
+#: src/query/main.c
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s требует указания хотя бы одного имени пакета"
@@ -5219,10 +5242,6 @@ msgid "installed"
 msgstr "установлен"
 
 #: src/main/help.c
-msgid "PATH is not set"
-msgstr "не задана переменная окружения PATH"
-
-#: src/main/help.c
 #, c-format
 msgid "'%s' not found in PATH or not executable"
 msgstr ""
@@ -5675,6 +5694,12 @@ msgstr ""
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending не принимает аргументов, помимо параметров"
+
+#: src/main/packages.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s (without --pending) needs at least one package name argument"
+msgstr "--%s требует указания хотя бы одного имени пакета"
 
 #: src/main/packages.c
 #, c-format

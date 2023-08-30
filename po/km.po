@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-02-07 11:18+0000\n"
+"POT-Creation-Date: 2023-08-30 03:38+0000\n"
 "PO-Revision-Date: 2015-04-07 09:50+0200\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -196,6 +196,11 @@ msgstr "បាន​បរាជ័យ​ទៅ exec tar"
 #, fuzzy, c-format
 msgid "unable to execute %s (%s)"
 msgstr "មិន​អាច​ប្រតិបត្តិ %s"
+
+#: lib/dpkg/command.c
+#, fuzzy
+msgid "PATH is not set"
+msgstr "dpkg - កំហុស​ ៖ PATH មិន​បាន​កំណត់​ ។\n"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -1205,36 +1210,36 @@ msgstr ""
 msgid "unable to write to status fd %d"
 msgstr "មិន​អាច​សរសេរ​ស្ថានភាព​ដែល​បាន​ធ្វើឲ្យ​ទាន់សម័យ​របស់`%.250s'"
 
-#: lib/dpkg/mlib.c utils/update-alternatives.c
+#: lib/dpkg/mustlib.c utils/update-alternatives.c
 #, fuzzy
 msgid "failed to allocate memory"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បង្កើត​ថត"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "បរាជ័យ​ dup សម្រាប់​ fd %d"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for std%s"
 msgstr "បានបរាជ័យ​ក្នុងការ​ចម្លង​សម្រាប់ std %s"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 msgid "failed to create pipe"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បង្កើត​បំពង់"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, fuzzy, c-format
 msgid "error writing to '%s'"
 msgstr "កំហុស​​ក្នុង​ការសរសេរ `%s'"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "មិនអាច​អាន​ទង់​កម្មវិធី​ពណ៌នា​ឯកសារ សម្រាប់ %.250s បានឡើយ"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "មិនអាចកំណត់​ទង់​បិទនៅពេល​ប្រតិបត្តិ សម្រាប់​ %.250s បានឡើ"
@@ -1671,6 +1676,13 @@ msgstr "ឈ្មោះ​កញ្ចប់​មិន​ត្រឹមត្
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "ឈ្មោះ​កញ្ចប់​មិន​ត្រឹមត្រូវ​នៅ​បន្ទាត់ %d ៖ %.250s"
 
+#. TRANSLATORS: This is part of the progress output, it is a decimal
+#. * percentage.
+#: lib/dpkg/progress.c
+#, c-format
+msgid "%d%%"
+msgstr ""
+
 #: lib/dpkg/report.c utils/update-alternatives.c
 msgid "warning"
 msgstr "ការ​ព្រមាន​"
@@ -1975,12 +1987,12 @@ msgid "unexpected end of file reading '%.250s'"
 msgstr "ចុង​ឯកសារ​ដែល​មិន​រំពឹង​ទុក​នៅ​ក្នុង %.250s"
 
 #: lib/dpkg/varbuf.c
-msgid "error formatting string into varbuf variable"
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
 msgstr ""
 
 #: lib/dpkg/varbuf.c
-#, c-format
-msgid "cannot grow varbuf to size %zu; it would overflow"
+msgid "error formatting string into varbuf variable"
 msgstr ""
 
 #: src/common/force.c
@@ -2110,7 +2122,7 @@ msgstr ""
 #: src/common/force.c
 #, c-format
 msgid ""
-"%s forcing options - control behaviour when problems found:\n"
+"%s forcing options - control behavior when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"
@@ -2683,6 +2695,12 @@ msgstr "បាន​បរាជ័យ​ក្នុង​ការ​អាន
 #, fuzzy, c-format
 #| msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgstr " %7ld បៃ %5d បន្ទាត់   %c  %-20.127s %.127s\n"
+
+#: src/deb/info.c
+#, fuzzy, c-format
+#| msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgid " %7jd bytes, %5d lines   %c  %.127s\n"
 msgstr " %7ld បៃ %5d បន្ទាត់   %c  %-20.127s %.127s\n"
 
 #: src/deb/info.c
@@ -4041,7 +4059,7 @@ msgstr ""
 msgid "package '%s' is not available"
 msgstr "មិន​មាន​កញ្ចប់ `%s' ។\n"
 
-#: src/query/main.c src/main/packages.c
+#: src/query/main.c
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s ត្រូវការ​យ៉ាងហោច​ណាស់​អាគុយម៉ង​ឈ្មោះ​កញ្ចប់​មួយ"
@@ -5407,11 +5425,6 @@ msgid "installed"
 msgstr "បាន​ដំឡើង​"
 
 #: src/main/help.c
-#, fuzzy
-msgid "PATH is not set"
-msgstr "dpkg - កំហុស​ ៖ PATH មិន​បាន​កំណត់​ ។\n"
-
-#: src/main/help.c
 #, fuzzy, c-format
 msgid "'%s' not found in PATH or not executable"
 msgstr "dpkg ៖ `%s' រក​មិន​ឃើញ​នៅ​លើ PATH ។\n"
@@ -5799,6 +5812,12 @@ msgstr ""
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --ការ​រង់ចាំមិន​ត្រូវការ​អាគុយម៉ង់​ដែល​គ្មាន​ជម្រើស"
+
+#: src/main/packages.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s (without --pending) needs at least one package name argument"
+msgstr "--%s ត្រូវការ​យ៉ាងហោច​ណាស់​អាគុយម៉ង​ឈ្មោះ​កញ្ចប់​មួយ"
 
 #: src/main/packages.c
 #, c-format

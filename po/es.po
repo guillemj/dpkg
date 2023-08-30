@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.16.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-02-07 11:18+0000\n"
+"POT-Creation-Date: 2023-08-30 03:38+0000\n"
 "PO-Revision-Date: 2017-11-08 00:59+0100\n"
 "Last-Translator: Javier Fernandez-Sanguino <jfs@debian.org>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -248,6 +248,10 @@ msgstr "fallo al buscar"
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "no se puede ejecutar %s (%s)"
+
+#: lib/dpkg/command.c
+msgid "PATH is not set"
+msgstr "no se ha establecido la variable PATH."
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -1263,37 +1267,37 @@ msgstr "<estado de paquete y descriptor de progreso de fichero>"
 msgid "unable to write to status fd %d"
 msgstr "no se puede escribir al descriptor de fichero de estado %d"
 
-#: lib/dpkg/mlib.c utils/update-alternatives.c
+#: lib/dpkg/mustlib.c utils/update-alternatives.c
 msgid "failed to allocate memory"
 msgstr "fallo al asignar memoria"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "fallo al efectuar `dup' para `fd' %d"
 
 # FIXME: std%s is completely unsuitable for translation. sv
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for std%s"
 msgstr "fallo al efectuar `dup' para std%s"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 msgid "failed to create pipe"
 msgstr "fallo al crear tubería"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "error writing to '%s'"
 msgstr "error al escribir en `%s'"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr ""
 "no se pueden leer las propiedades del descriptor de ficheros para `%.250s'"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "no se puede establecer el atributo close-on-exec para `%.250s'"
@@ -1742,6 +1746,13 @@ msgstr "nombre de paquete ilegal en el valor '%s%s%s': %s"
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "nombre de arquitectura ilegal en el valor '%s:%s': %s"
 
+#. TRANSLATORS: This is part of the progress output, it is a decimal
+#. * percentage.
+#: lib/dpkg/progress.c
+#, c-format
+msgid "%d%%"
+msgstr ""
+
 #: lib/dpkg/report.c utils/update-alternatives.c
 msgid "warning"
 msgstr "atención"
@@ -2071,13 +2082,13 @@ msgid "unexpected end of file reading '%.250s'"
 msgstr "fin de fichero inesperado al leer '%.250s'"
 
 #: lib/dpkg/varbuf.c
-msgid "error formatting string into varbuf variable"
-msgstr "error al formatear la cadena en una variable «varbuf»"
-
-#: lib/dpkg/varbuf.c
 #, c-format
 msgid "cannot grow varbuf to size %zu; it would overflow"
 msgstr ""
+
+#: lib/dpkg/varbuf.c
+msgid "error formatting string into varbuf variable"
+msgstr "error al formatear la cadena en una variable «varbuf»"
 
 #: src/common/force.c
 msgid "Set all force options"
@@ -2213,9 +2224,15 @@ msgid "Remove an essential package"
 msgstr "Elimina un paquete esencial."
 
 #: src/common/force.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "%s forcing options - control behaviour when problems found:\n"
+#| "  warn but continue:  --force-<thing>,<thing>,...\n"
+#| "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-"
+#| "<thing>,...\n"
+#| " Forcing things:\n"
 msgid ""
-"%s forcing options - control behaviour when problems found:\n"
+"%s forcing options - control behavior when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"
@@ -2767,6 +2784,12 @@ msgstr "fallo al leer `%.255s' (en `%.255s')"
 #: src/deb/info.c
 #, c-format
 msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgstr " %7jd bytes, %5d líneas  %c  %-20.127s %.127s\n"
+
+#: src/deb/info.c
+#, fuzzy, c-format
+#| msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgid " %7jd bytes, %5d lines   %c  %.127s\n"
 msgstr " %7jd bytes, %5d líneas  %c  %-20.127s %.127s\n"
 
 #: src/deb/info.c
@@ -4209,7 +4232,7 @@ msgstr ""
 msgid "package '%s' is not available"
 msgstr "ell paquete `%s' no está disponible."
 
-#: src/query/main.c src/main/packages.c
+#: src/query/main.c
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s necesita al menos un nombre de paquete como parámetro"
@@ -5636,10 +5659,6 @@ msgid "installed"
 msgstr "instalado"
 
 #: src/main/help.c
-msgid "PATH is not set"
-msgstr "no se ha establecido la variable PATH."
-
-#: src/main/help.c
 #, c-format
 msgid "'%s' not found in PATH or not executable"
 msgstr "`%s' no se ha encontrado en el PATH o no es ejecutable"
@@ -6164,6 +6183,12 @@ msgstr ""
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending no toma ningún parámetro que no sea una opción"
+
+#: src/main/packages.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s (without --pending) needs at least one package name argument"
+msgstr "--%s necesita al menos un nombre de paquete como parámetro"
 
 #: src/main/packages.c
 #, c-format

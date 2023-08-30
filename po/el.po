@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-02-07 11:18+0000\n"
+"POT-Creation-Date: 2023-08-30 03:38+0000\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: quad-nrg.net <yodesy@quad-nrg.net>\n"
 "Language-Team: Greek <debian-l10n-greek@lists.debian.org>\n"
@@ -204,6 +204,11 @@ msgstr "απέτυχε η εκτέλεση της tar"
 #, fuzzy, c-format
 msgid "unable to execute %s (%s)"
 msgstr "αδύνατη η εκτέλεση %s"
+
+#: lib/dpkg/command.c
+#, fuzzy
+msgid "PATH is not set"
+msgstr "dpkg - σφάλμα: το PATH δεν έχει οριστεί.\n"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -1237,35 +1242,35 @@ msgstr "<package status and progress file descriptor>"
 msgid "unable to write to status fd %d"
 msgstr "αδυναμία εγγραφής της ενημερωμένης κατάστασης του `%.250s'"
 
-#: lib/dpkg/mlib.c utils/update-alternatives.c
+#: lib/dpkg/mustlib.c utils/update-alternatives.c
 msgid "failed to allocate memory"
 msgstr "αποτυχία ανάθεσης μνήμης"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "αποτυχία αντιγραφής για το fd%d"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for std%s"
 msgstr "αποτυχία αντιγραφής για το std%s"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 msgid "failed to create pipe"
 msgstr "αποτυχία δημιουργίας σωλήνωσης"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, fuzzy, c-format
 msgid "error writing to '%s'"
 msgstr "σφάλμα κατά την εγγραφή `%s'"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "αδύνατη η ανάγνωση των σημάνσεων περιγραφέα αρχείου του %.250s"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "αδύνατο να τεθεί η σήμανση close-on-exec για το %.250s"
@@ -1714,6 +1719,13 @@ msgstr "μη έγκυρο όνομα πακέτου για τον αναμενό
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "μη έγκυρο όνομα πακέτου για τον αναμενόμενο trigger `%.255s': %s"
 
+#. TRANSLATORS: This is part of the progress output, it is a decimal
+#. * percentage.
+#: lib/dpkg/progress.c
+#, c-format
+msgid "%d%%"
+msgstr ""
+
 #: lib/dpkg/report.c utils/update-alternatives.c
 #, fuzzy
 msgid "warning"
@@ -2039,12 +2051,12 @@ msgid "unexpected end of file reading '%.250s'"
 msgstr "απρόσμενο τέλος αρχείου στο %.250s"
 
 #: lib/dpkg/varbuf.c
-msgid "error formatting string into varbuf variable"
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
 msgstr ""
 
 #: lib/dpkg/varbuf.c
-#, c-format
-msgid "cannot grow varbuf to size %zu; it would overflow"
+msgid "error formatting string into varbuf variable"
 msgstr ""
 
 #: src/common/force.c
@@ -2174,7 +2186,7 @@ msgstr ""
 #: src/common/force.c
 #, c-format
 msgid ""
-"%s forcing options - control behaviour when problems found:\n"
+"%s forcing options - control behavior when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"
@@ -2767,6 +2779,12 @@ msgstr "απέτυχε η ανάγνωση `%.255s' (στο `%.255s')"
 #, fuzzy, c-format
 #| msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgstr " %7ld bytes, %5d γραμμές   %c  %-20.127s %.127s\n"
+
+#: src/deb/info.c
+#, fuzzy, c-format
+#| msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgid " %7jd bytes, %5d lines   %c  %.127s\n"
 msgstr " %7ld bytes, %5d γραμμές   %c  %-20.127s %.127s\n"
 
 #: src/deb/info.c
@@ -4216,7 +4234,7 @@ msgstr ""
 msgid "package '%s' is not available"
 msgstr "Το πακέτο `%s' δεν είναι διαθέσιμο.\n"
 
-#: src/query/main.c src/main/packages.c
+#: src/query/main.c
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s χρειάζεται τουλάχιστον ένα όρισμα ονόματος πακέτου"
@@ -5673,11 +5691,6 @@ msgid "installed"
 msgstr "εγκατεστημένο"
 
 #: src/main/help.c
-#, fuzzy
-msgid "PATH is not set"
-msgstr "dpkg - σφάλμα: το PATH δεν έχει οριστεί.\n"
-
-#: src/main/help.c
 #, fuzzy, c-format
 msgid "'%s' not found in PATH or not executable"
 msgstr "dpkg: το `%s' δε βρέθηκε στο PATH.\n"
@@ -6167,6 +6180,12 @@ msgstr ""
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending δεν παίρνει κανένα όρισμα μη επιλογής"
+
+#: src/main/packages.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s (without --pending) needs at least one package name argument"
+msgstr "--%s χρειάζεται τουλάχιστον ένα όρισμα ονόματος πακέτου"
 
 #: src/main/packages.c
 #, c-format

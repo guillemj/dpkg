@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-02-07 11:18+0000\n"
+"POT-Creation-Date: 2023-08-30 03:38+0000\n"
 "PO-Revision-Date: 2015-04-07 07:02+0200\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -19,14 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: scripts/dpkg-architecture.pl scripts/dpkg-buildflags.pl
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
-#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
-#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
-#: scripts/dpkg-gensymbols.pl scripts/dpkg-mergechangelogs.pl
-#: scripts/dpkg-name.pl scripts/dpkg-parsechangelog.pl
-#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
-#: scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl scripts/dpkg-vendor.pl
+#: scripts/dpkg-architecture.pl scripts/dpkg-buildapi.pl
+#: scripts/dpkg-buildflags.pl scripts/dpkg-buildpackage.pl
+#: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-distaddfile.pl
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+#: scripts/dpkg-mergechangelogs.pl scripts/dpkg-name.pl
+#: scripts/dpkg-parsechangelog.pl scripts/dpkg-scanpackages.pl
+#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl
+#: scripts/dpkg-vendor.pl
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s, версия %s.\n"
@@ -178,10 +179,10 @@ msgstr "неподдерживаемый метод сжатия %s"
 msgid "%s is not a supported variable name"
 msgstr "%s не является поддерживаемым именем переменной"
 
-#: scripts/dpkg-architecture.pl scripts/dpkg-buildflags.pl
-#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
-#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
-#: scripts/dpkg-gensymbols.pl scripts/dpkg-name.pl
+#: scripts/dpkg-architecture.pl scripts/dpkg-buildapi.pl
+#: scripts/dpkg-buildflags.pl scripts/dpkg-distaddfile.pl
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl scripts/dpkg-name.pl
 #: scripts/dpkg-parsechangelog.pl scripts/dpkg-shlibdeps.pl
 #: scripts/dpkg-vendor.pl
 #, perl-format
@@ -200,11 +201,46 @@ msgstr ""
 "указанный системный тип GNU %s не совпадает с системным типом gcc %s, "
 "попробуйте задать правильное значение в переменной окружения CC"
 
-#: scripts/dpkg-architecture.pl scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
+#: scripts/dpkg-architecture.pl scripts/Dpkg/IPC.pm
 #: scripts/Dpkg/Shlibs/Cppfilt.pm
 #, perl-format
 msgid "unable to execute %s"
 msgstr "невозможно выполнить %s"
+
+#: scripts/dpkg-buildapi.pl
+#, fuzzy, perl-format
+#| msgid "Usage: %s [<option>...]"
+msgid "Usage: %s [<option>...]\n"
+msgstr "Использование: %s [<параметр>...]"
+
+#: scripts/dpkg-buildapi.pl
+#, fuzzy
+#| msgid ""
+#| "Usage: %s [<option>...] <filename> <section> <priority>\n"
+#| "\n"
+#| "Options:\n"
+#| "  -f<files-list-file>      write files here instead of debian/files.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version.\n"
+msgid ""
+"\n"
+"Options:\n"
+"  -c<control-file>         get control info from this file.\n"
+"  -?, --help               show this help message.\n"
+"  -v, --version            show the version.\n"
+msgstr ""
+"Использование: %s [<параметр>...] <имя_файла> <секция> <приоритет>\n"
+"\n"
+"Параметры:\n"
+"  -f<файл-списка>        записать файлы в ук. файл, а не в debian/files\n"
+"  -?, --help               показать это сообщение\n"
+"      --version            показать версию\n"
+
+#: scripts/dpkg-buildapi.pl
+#, fuzzy
+#| msgid "one to three arguments expected"
+msgid "no arguments accepted"
+msgstr "ожидается от 1 до 3 аргументов"
 
 #: scripts/dpkg-buildflags.pl
 #, perl-format
@@ -240,7 +276,7 @@ msgid ""
 "  --origin <flag>    output the origin of the flag to stdout:\n"
 "                     value is one of vendor, system, user, env.\n"
 "  --status           output a synopsis with all parameters affecting the\n"
-"                     program behaviour, the resulting flags and their "
+"                     program behavior, the resulting flags and their "
 "origin.\n"
 "  --query            like --status, but in deb822 format.\n"
 "  --query-features <area>\n"
@@ -386,8 +422,8 @@ msgid ""
 "      --check-option=<opt>    pass <opt> to check <command>.\n"
 "      --hook-<name>=<command> set <command> as the hook <name>, known "
 "hooks:\n"
-"                                init preclean source build binary buildinfo\n"
-"                                changes postclean check sign done\n"
+"                                preinit init preclean source build binary\n"
+"                                buildinfo changes postclean check sign done\n"
 "      --buildinfo-file=<file> set the .buildinfo filename to generate.\n"
 "      --buildinfo-option=<opt>\n"
 "                              pass option <opt> to dpkg-genbuildinfo.\n"
@@ -1788,8 +1824,8 @@ msgstr "  %s (в пакете указано %s, а не %s)"
 msgid "unconditional maintainer override for %s"
 msgstr "безусловное переназначение сопровождающего для %s"
 
-#: scripts/dpkg-scanpackages.pl scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/dpkg-scanpackages.pl scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/Shlibs/Objdump/Object.pm
 #, perl-format
 msgid "cannot fork for %s"
 msgstr "не удалось выполнить fork для %s"
@@ -2599,6 +2635,25 @@ msgstr ""
 msgid "'%s' is not a legal architecture in list '%s'"
 msgstr "«%s» не является разрешённой строкой архитектуры"
 
+#: scripts/Dpkg/BuildAPI.pm
+msgid "dpkg build API level needs an exact version"
+msgstr ""
+
+#: scripts/Dpkg/BuildAPI.pm
+#, perl-format
+msgid "dpkg build API level with conflicting versions: %s vs %s"
+msgstr ""
+
+#: scripts/Dpkg/BuildAPI.pm
+#, perl-format
+msgid "invalid dpkg build API level '%s'"
+msgstr ""
+
+#: scripts/Dpkg/BuildAPI.pm
+#, perl-format
+msgid "dpkg build API level '%s' greater than max '%s'"
+msgstr ""
+
 #: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
 #: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
 #: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
@@ -3271,6 +3326,10 @@ msgid "specified key needs a keystore"
 msgstr ""
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "OpenPGP backend command cannot sign"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 #, perl-format
 msgid "error code %d"
 msgstr ""
@@ -3288,6 +3347,16 @@ msgstr "символ «%s» запрещён"
 msgid "must start with an alphanumeric character"
 msgstr "должно начинаться с латинской буквы или цифры"
 
+#: scripts/Dpkg/Package.pm
+#, perl-format
+msgid "source package name '%s' is illegal: %s"
+msgstr "имя пакета с исходным кодом «%s» некорректно: %s"
+
+#: scripts/Dpkg/Package.pm
+#, perl-format
+msgid "source package has two conflicting values - %s and %s"
+msgstr "пакет с исходным кодом содержит два конфликтующих значения: %s и %s"
+
 #: scripts/Dpkg/Path.pm scripts/Dpkg/Source/Archive.pm
 #, perl-format
 msgid "pathname '%s' cannot be canonicalized"
@@ -3299,23 +3368,27 @@ msgid "pathname '%s' points outside source root (to '%s')"
 msgstr ""
 
 #: scripts/Dpkg/Shlibs.pm
+msgid "use -l option instead of LD_LIBRARY_PATH"
+msgstr ""
+
+#: scripts/Dpkg/Shlibs.pm
 msgid ""
 "deprecated use of LD_LIBRARY_PATH with private library directory which "
 "interferes with cross-building, please use -l option instead"
 msgstr ""
 
-#: scripts/Dpkg/Shlibs.pm scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/Dpkg/Shlibs.pm scripts/Dpkg/Shlibs/Objdump/Object.pm
 #, fuzzy, perl-format
 #| msgid "cannot exec format parser: %s"
 msgid "unknown executable format in file '%s'"
 msgstr "не удалось запустить анализатор формата: %s"
 
-#: scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/Dpkg/Shlibs/Objdump/Object.pm
 #, perl-format
 msgid "couldn't parse dynamic relocation record: %s"
 msgstr "не удалось проанализировать запись динамического перераспределения: %s"
 
-#: scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/Dpkg/Shlibs/Objdump/Object.pm
 #, perl-format
 msgid "couldn't parse dynamic symbol definition: %s"
 msgstr "не удалось проанализировать определение динамического символа: %s"
@@ -4524,8 +4597,9 @@ msgid "invalid source version %s"
 msgstr "версия исходного кода"
 
 #: scripts/Dpkg/Substvars.pm
-#, perl-format
-msgid "too many substitutions - recursive ? - in '%s'"
+#, fuzzy, perl-format
+#| msgid "too many substitutions - recursive ? - in '%s'"
+msgid "too many ${%s} substitutions (recursive?) in '%s'"
 msgstr "слишком много подстановок (рекурсия?) в «%s»"
 
 #: scripts/Dpkg/Substvars.pm
@@ -4546,16 +4620,6 @@ msgstr "неиспользуемая подстановочная перемен
 msgid "substitution variable ${%s} unused, but is defined"
 msgstr "неиспользуемая подстановочная переменная ${%s}"
 
-#: scripts/Dpkg/Vars.pm
-#, perl-format
-msgid "source package name '%s' is illegal: %s"
-msgstr "имя пакета с исходным кодом «%s» некорректно: %s"
-
-#: scripts/Dpkg/Vars.pm
-#, perl-format
-msgid "source package has two conflicting values - %s and %s"
-msgstr "пакет с исходным кодом содержит два конфликтующих значения: %s и %s"
-
 #: scripts/Dpkg/Vendor.pm
 #, perl-format
 msgid ""
@@ -4573,6 +4637,12 @@ msgstr ""
 #: scripts/Dpkg/Vendor/Debian.pm
 #, perl-format
 msgid "unknown host architecture '%s'"
+msgstr "неизвестная архитектура узла «%s»"
+
+#: scripts/Dpkg/Vendor/Debian.pm
+#, fuzzy, perl-format
+#| msgid "unknown host architecture '%s'"
+msgid "unknown abi attributes for architecture '%s'"
 msgstr "неизвестная архитектура узла «%s»"
 
 #: scripts/Dpkg/Vendor/Ubuntu.pm

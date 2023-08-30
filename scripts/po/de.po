@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-07-16 19:21+0200\n"
+"POT-Creation-Date: 2023-08-30 03:38+0000\n"
 "PO-Revision-Date: 2023-07-16 19:33+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -16,14 +16,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: scripts/dpkg-architecture.pl scripts/dpkg-buildflags.pl
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
-#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
-#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
-#: scripts/dpkg-gensymbols.pl scripts/dpkg-mergechangelogs.pl
-#: scripts/dpkg-name.pl scripts/dpkg-parsechangelog.pl
-#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
-#: scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl scripts/dpkg-vendor.pl
+#: scripts/dpkg-architecture.pl scripts/dpkg-buildapi.pl
+#: scripts/dpkg-buildflags.pl scripts/dpkg-buildpackage.pl
+#: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-distaddfile.pl
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+#: scripts/dpkg-mergechangelogs.pl scripts/dpkg-name.pl
+#: scripts/dpkg-parsechangelog.pl scripts/dpkg-scanpackages.pl
+#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl
+#: scripts/dpkg-vendor.pl
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s Version %s\n"
@@ -159,10 +160,10 @@ msgstr "%s ist keine unterstütztes Print-Format"
 msgid "%s is not a supported variable name"
 msgstr "%s ist kein unterstützter Variablenname"
 
-#: scripts/dpkg-architecture.pl scripts/dpkg-buildflags.pl
-#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
-#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
-#: scripts/dpkg-gensymbols.pl scripts/dpkg-name.pl
+#: scripts/dpkg-architecture.pl scripts/dpkg-buildapi.pl
+#: scripts/dpkg-buildflags.pl scripts/dpkg-distaddfile.pl
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl scripts/dpkg-name.pl
 #: scripts/dpkg-parsechangelog.pl scripts/dpkg-shlibdeps.pl
 #: scripts/dpkg-vendor.pl
 #, perl-format
@@ -178,11 +179,46 @@ msgstr ""
 "angegebener GNU-Systemtyp %s passt nicht zu CC-Systemtyp %s, versuchen Sie, "
 "eine korrekte CC-Umgebungsvariable zu setzen"
 
-#: scripts/dpkg-architecture.pl scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
+#: scripts/dpkg-architecture.pl scripts/Dpkg/IPC.pm
 #: scripts/Dpkg/Shlibs/Cppfilt.pm
 #, perl-format
 msgid "unable to execute %s"
 msgstr "%s konnte nicht ausgeführt werden"
+
+#: scripts/dpkg-buildapi.pl
+#, fuzzy, perl-format
+#| msgid "Usage: %s [<option>...]"
+msgid "Usage: %s [<option>...]\n"
+msgstr "Aufruf: %s [<Option> …]"
+
+#: scripts/dpkg-buildapi.pl
+#, fuzzy
+#| msgid ""
+#| "Usage: %s [<option>...] <filename> <section> <priority>\n"
+#| "\n"
+#| "Options:\n"
+#| "  -f<files-list-file>      write files here instead of debian/files.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version.\n"
+msgid ""
+"\n"
+"Options:\n"
+"  -c<control-file>         get control info from this file.\n"
+"  -?, --help               show this help message.\n"
+"  -v, --version            show the version.\n"
+msgstr ""
+"Aufruf: %s [<Option> …] <Dateiname> <Sektion> <Priorität>\n"
+"\n"
+"Optionen:\n"
+"  -f<Dateilistedatei>      Dateien hierrein statt in debian/files schreiben\n"
+"  -?, --help               diese Hilfemeldung anzeigen\n"
+"      --version            die Version anzeigen\n"
+
+#: scripts/dpkg-buildapi.pl
+#, fuzzy
+#| msgid "one to three arguments expected"
+msgid "no arguments accepted"
+msgstr "ein bis drei Argumente erwartet"
 
 #: scripts/dpkg-buildflags.pl
 #, perl-format
@@ -1554,7 +1590,7 @@ msgstr "  %s (laut Paket %s, nicht %s)"
 msgid "unconditional maintainer override for %s"
 msgstr "bedingungslose Übersteuerung (»override«) des Betreuers für %s"
 
-#: scripts/dpkg-scanpackages.pl scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
+#: scripts/dpkg-scanpackages.pl scripts/Dpkg/IPC.pm
 #: scripts/Dpkg/Shlibs/Objdump/Object.pm
 #, perl-format
 msgid "cannot fork for %s"
@@ -2308,6 +2344,25 @@ msgstr ""
 msgid "'%s' is not a legal architecture in list '%s'"
 msgstr "»%s« ist keine gültige Architektur in der Liste »%s«"
 
+#: scripts/Dpkg/BuildAPI.pm
+msgid "dpkg build API level needs an exact version"
+msgstr ""
+
+#: scripts/Dpkg/BuildAPI.pm
+#, perl-format
+msgid "dpkg build API level with conflicting versions: %s vs %s"
+msgstr ""
+
+#: scripts/Dpkg/BuildAPI.pm
+#, perl-format
+msgid "invalid dpkg build API level '%s'"
+msgstr ""
+
+#: scripts/Dpkg/BuildAPI.pm
+#, perl-format
+msgid "dpkg build API level '%s' greater than max '%s'"
+msgstr ""
+
 #: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
 #: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
 #: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
@@ -2971,6 +3026,10 @@ msgstr "Pfadname „%s“ kann nicht in kanonische Form gebracht werden"
 #, perl-format
 msgid "pathname '%s' points outside source root (to '%s')"
 msgstr "Pfadname »%s« zeigt außerhalb der Quellwurzel (nach „%s“)"
+
+#: scripts/Dpkg/Shlibs.pm
+msgid "use -l option instead of LD_LIBRARY_PATH"
+msgstr ""
 
 #: scripts/Dpkg/Shlibs.pm
 msgid ""

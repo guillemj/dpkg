@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-02-07 11:18+0000\n"
+"POT-Creation-Date: 2023-08-30 03:38+0000\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: Tshewang Norbu <bumthap2006@hotmail.com>\n"
 "Language-Team: Dzongkha <pgeyleg@dit.gov.bt>\n"
@@ -203,6 +203,11 @@ msgstr "ཊར་ལག་ལེན་འཐབ་ནི་ལུ་འཐུས
 #, fuzzy, c-format
 msgid "unable to execute %s (%s)"
 msgstr "%s ལག་ལེན་འཐབ་མ་ཚུགས།"
+
+#: lib/dpkg/command.c
+#, fuzzy
+msgid "PATH is not set"
+msgstr "dpkg - འཛོལ་བ: འགྲུལ་ལམ་འདི་གཞི་སྒྲིག་མ་འབད་བས།\n"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -1217,36 +1222,36 @@ msgstr ""
 msgid "unable to write to status fd %d"
 msgstr " `%.250s' གི་དུས་མཐུན་བཟོ་ཡོད་པའི་གནས་ཚད་འབྲི་མ་ཚུགས།"
 
-#: lib/dpkg/mlib.c utils/update-alternatives.c
+#: lib/dpkg/mustlib.c utils/update-alternatives.c
 #, fuzzy
 msgid "failed to allocate memory"
 msgstr "སྣོད་ཐོ་གསར་བསྐྲུན་འབད་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "fd %d གི་དོན་ལུ་ཌུཔ་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for std%s"
 msgstr "std%s གི་དོན་ལུ་ཌུཔ་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 msgid "failed to create pipe"
 msgstr "རྒྱུད་དུང་གསར་བསྐྲུན་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, fuzzy, c-format
 msgid "error writing to '%s'"
 msgstr "`%s' འབྲིཝ་ད་འཛོལ་བ།"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "%.250s གི་དོན་ལུ་ ཡིག་སྣོད་འགྲེལ་བཤདཔ་ཟུར་རྟགས་ཚུ་ལྷག་མ་ཚུགས།"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "%.250s གི་དོན་ལུ་ ལག་ལེན་འཐབ་ནིའི་-གུ་-ཁ་བསྡམ་ནི་ཟུར་རྟགས་གཞི་སྒྲིག་འབད་མ་ཚུགས།"
@@ -1684,6 +1689,13 @@ msgstr "གྲལ་ཐིག་ %d གུ་ལུ་ཁྲིམས་འག�
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "གྲལ་ཐིག་ %d གུ་ལུ་ཁྲིམས་འགལ་ཐུམ་སྒྲིལ་མིང་: %.250s"
 
+#. TRANSLATORS: This is part of the progress output, it is a decimal
+#. * percentage.
+#: lib/dpkg/progress.c
+#, c-format
+msgid "%d%%"
+msgstr ""
+
 #: lib/dpkg/report.c utils/update-alternatives.c
 msgid "warning"
 msgstr "ཉེན་བརྡ།"
@@ -1988,12 +2000,12 @@ msgid "unexpected end of file reading '%.250s'"
 msgstr "%.250s ནང་ལུ་ཡིག་སྣོད་ཀྱི་རེ་བ་མེད་པའི་མཇུག"
 
 #: lib/dpkg/varbuf.c
-msgid "error formatting string into varbuf variable"
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
 msgstr ""
 
 #: lib/dpkg/varbuf.c
-#, c-format
-msgid "cannot grow varbuf to size %zu; it would overflow"
+msgid "error formatting string into varbuf variable"
 msgstr ""
 
 #: src/common/force.c
@@ -2123,7 +2135,7 @@ msgstr ""
 #: src/common/force.c
 #, c-format
 msgid ""
-"%s forcing options - control behaviour when problems found:\n"
+"%s forcing options - control behavior when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"
@@ -2704,6 +2716,12 @@ msgstr "`%.255s' ལྷག་ནི་ལུ་འཐུས་ཤོར་འབ
 #, fuzzy, c-format
 #| msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgstr " %7ld བཱ་འིཊིསི་ %5d གྲལ་ཐིག་ཚུ་   %c  %-20.127s %.127s\n"
+
+#: src/deb/info.c
+#, fuzzy, c-format
+#| msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgid " %7jd bytes, %5d lines   %c  %.127s\n"
 msgstr " %7ld བཱ་འིཊིསི་ %5d གྲལ་ཐིག་ཚུ་   %c  %-20.127s %.127s\n"
 
 #: src/deb/info.c
@@ -4093,7 +4111,7 @@ msgstr ""
 msgid "package '%s' is not available"
 msgstr "ཐུམ་སྒྲིལ་ `%s' འདི་འཐོབ་ཚུགསཔ་མེད།\n"
 
-#: src/query/main.c src/main/packages.c
+#: src/query/main.c
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s ལུ་ཉུང་མཐའ་ཐུམ་སྒྲིལ་མིང་གི་སྒྲུབ་རྟགས་གཅིག་དགོ"
@@ -5486,11 +5504,6 @@ msgid "installed"
 msgstr "གཞི་བཙུགས་འབད་ཡོདཔ།"
 
 #: src/main/help.c
-#, fuzzy
-msgid "PATH is not set"
-msgstr "dpkg - འཛོལ་བ: འགྲུལ་ལམ་འདི་གཞི་སྒྲིག་མ་འབད་བས།\n"
-
-#: src/main/help.c
 #, fuzzy, c-format
 msgid "'%s' not found in PATH or not executable"
 msgstr "dpkg: `%s' འདི་འགྲུལ་ལམ་གུ་མ་འཐོབ།\n"
@@ -5892,6 +5905,12 @@ msgstr ""
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --བསྣར་ནི་འདི་གིས་གདམ་ཁ་-མིན་པའི་སྒྲུབ་རྟགས་ག་ནི་ཡང་མི་འབག"
+
+#: src/main/packages.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s (without --pending) needs at least one package name argument"
+msgstr "--%s ལུ་ཉུང་མཐའ་ཐུམ་སྒྲིལ་མིང་གི་སྒྲུབ་རྟགས་གཅིག་དགོ"
 
 #: src/main/packages.c
 #, c-format

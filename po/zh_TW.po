@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-02-07 11:18+0000\n"
+"POT-Creation-Date: 2023-08-30 03:38+0000\n"
 "PO-Revision-Date: 2018-04-15 07:06+0800\n"
 "Last-Translator: 林博仁 <Buo.Ren.Lin@gmail.com>\n"
 "Language-Team: Chinese (traditional) <debian-l10n-chinese@lists.debian.org>\n"
@@ -181,6 +181,10 @@ msgstr "移動讀寫頭錯誤"
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "執行 %s 錯誤 (%s)"
+
+#: lib/dpkg/command.c
+msgid "PATH is not set"
+msgstr "沒有設定 PATH"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -1154,35 +1158,35 @@ msgstr "<套件的狀態及進展的檔案重導>"
 msgid "unable to write to status fd %d"
 msgstr "無法寫到檔案描述 %d 上"
 
-#: lib/dpkg/mlib.c utils/update-alternatives.c
+#: lib/dpkg/mustlib.c utils/update-alternatives.c
 msgid "failed to allocate memory"
 msgstr "無法配置記憶體"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "無法替 fd %d dup"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for std%s"
 msgstr "無法替 std%s dup"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 msgid "failed to create pipe"
 msgstr "無法建立輸出入轉向"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "error writing to '%s'"
 msgstr "'%s' 寫入錯誤"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "無法讀取 %.250s 的檔案重導的設定"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "無法在 %.250s 上設定 close-on-exec"
@@ -1608,6 +1612,13 @@ msgstr "在描述資料 '%s%s%s' 裡有不合法的套件名稱：%s"
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "在描述資料 '%s:%s' 裡有不合法的硬體平台名稱：%s"
 
+#. TRANSLATORS: This is part of the progress output, it is a decimal
+#. * percentage.
+#: lib/dpkg/progress.c
+#, c-format
+msgid "%d%%"
+msgstr ""
+
 #: lib/dpkg/report.c utils/update-alternatives.c
 msgid "warning"
 msgstr "警告"
@@ -1918,13 +1929,13 @@ msgid "unexpected end of file reading '%.250s'"
 msgstr "在 %.250s 中有預期之外的檔案結束符號"
 
 #: lib/dpkg/varbuf.c
-msgid "error formatting string into varbuf variable"
-msgstr "將字串格式化存入 varbuf 變數時，發生錯誤"
-
-#: lib/dpkg/varbuf.c
 #, c-format
 msgid "cannot grow varbuf to size %zu; it would overflow"
 msgstr ""
+
+#: lib/dpkg/varbuf.c
+msgid "error formatting string into varbuf variable"
+msgstr "將字串格式化存入 varbuf 變數時，發生錯誤"
 
 #: src/common/force.c
 msgid "Set all force options"
@@ -2053,9 +2064,15 @@ msgid "Remove an essential package"
 msgstr "移除核心套件"
 
 #: src/common/force.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "%s forcing options - control behaviour when problems found:\n"
+#| "  warn but continue:  --force-<thing>,<thing>,...\n"
+#| "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-"
+#| "<thing>,...\n"
+#| " Forcing things:\n"
 msgid ""
-"%s forcing options - control behaviour when problems found:\n"
+"%s forcing options - control behavior when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"
@@ -2588,6 +2605,12 @@ msgstr "無法讀取 `%.255s'（位於 `%.255s'）"
 #: src/deb/info.c
 #, c-format
 msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgstr " %7jd 位元組，%5d 行    %c  %-20.127s %.127s\n"
+
+#: src/deb/info.c
+#, fuzzy, c-format
+#| msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgid " %7jd bytes, %5d lines   %c  %.127s\n"
 msgstr " %7jd 位元組，%5d 行    %c  %-20.127s %.127s\n"
 
 #: src/deb/info.c
@@ -3944,7 +3967,7 @@ msgstr ""
 msgid "package '%s' is not available"
 msgstr "無法取得套件 '%s'"
 
-#: src/query/main.c src/main/packages.c
+#: src/query/main.c
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s 需要至少一個套件名稱作為參數"
@@ -5295,10 +5318,6 @@ msgid "installed"
 msgstr "安裝完畢"
 
 #: src/main/help.c
-msgid "PATH is not set"
-msgstr "沒有設定 PATH"
-
-#: src/main/help.c
 #, c-format
 msgid "'%s' not found in PATH or not executable"
 msgstr "在 PATH 中找不到或無法執行 '%s'"
@@ -5773,6 +5792,12 @@ msgstr "您必須使用套件本身的名字，而不是直接引用完整的檔
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending 不需任何不是選項的參數"
+
+#: src/main/packages.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s (without --pending) needs at least one package name argument"
+msgstr "--%s 需要至少一個套件名稱作為參數"
 
 #: src/main/packages.c
 #, c-format

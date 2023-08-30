@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-02-07 11:18+0000\n"
+"POT-Creation-Date: 2023-08-30 03:38+0000\n"
 "PO-Revision-Date: 2015-04-07 10:02+0200\n"
 "Last-Translator: Safir Šećerović <sapphire@linux.org.ba>\n"
 "Language-Team: Bosnian <lokal@linux.org.ba>\n"
@@ -211,6 +211,10 @@ msgstr ""
 #: src/main/unpack.c utils/update-alternatives.c
 #, c-format
 msgid "unable to execute %s (%s)"
+msgstr ""
+
+#: lib/dpkg/command.c
+msgid "PATH is not set"
 msgstr ""
 
 #: lib/dpkg/compress.c
@@ -1191,35 +1195,35 @@ msgstr ""
 msgid "unable to write to status fd %d"
 msgstr ""
 
-#: lib/dpkg/mlib.c utils/update-alternatives.c
+#: lib/dpkg/mustlib.c utils/update-alternatives.c
 msgid "failed to allocate memory"
 msgstr ""
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr ""
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for std%s"
 msgstr ""
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 msgid "failed to create pipe"
 msgstr ""
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "error writing to '%s'"
 msgstr ""
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr ""
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr ""
@@ -1643,6 +1647,13 @@ msgstr ""
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr ""
 
+#. TRANSLATORS: This is part of the progress output, it is a decimal
+#. * percentage.
+#: lib/dpkg/progress.c
+#, c-format
+msgid "%d%%"
+msgstr ""
+
 #: lib/dpkg/report.c utils/update-alternatives.c
 msgid "warning"
 msgstr "upozorenje"
@@ -1944,12 +1955,12 @@ msgstr ""
 "Konfiguracijska datoteka `%s'"
 
 #: lib/dpkg/varbuf.c
-msgid "error formatting string into varbuf variable"
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
 msgstr ""
 
 #: lib/dpkg/varbuf.c
-#, c-format
-msgid "cannot grow varbuf to size %zu; it would overflow"
+msgid "error formatting string into varbuf variable"
 msgstr ""
 
 #: src/common/force.c
@@ -2075,7 +2086,7 @@ msgstr ""
 #: src/common/force.c
 #, c-format
 msgid ""
-"%s forcing options - control behaviour when problems found:\n"
+"%s forcing options - control behavior when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"
@@ -2586,6 +2597,11 @@ msgstr ""
 #: src/deb/info.c
 #, c-format
 msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgstr ""
+
+#: src/deb/info.c
+#, c-format
+msgid " %7jd bytes, %5d lines   %c  %.127s\n"
 msgstr ""
 
 #: src/deb/info.c
@@ -3716,7 +3732,7 @@ msgstr ""
 msgid "package '%s' is not available"
 msgstr ""
 
-#: src/query/main.c src/main/packages.c
+#: src/query/main.c
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr ""
@@ -4907,10 +4923,6 @@ msgid "installed"
 msgstr ""
 
 #: src/main/help.c
-msgid "PATH is not set"
-msgstr ""
-
-#: src/main/help.c
 #, c-format
 msgid "'%s' not found in PATH or not executable"
 msgstr ""
@@ -5214,6 +5226,11 @@ msgstr ""
 #: src/main/packages.c
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
+msgstr ""
+
+#: src/main/packages.c
+#, c-format
+msgid "--%s (without --pending) needs at least one package name argument"
 msgstr ""
 
 #: src/main/packages.c

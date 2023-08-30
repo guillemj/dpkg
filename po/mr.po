@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-02-07 11:18+0000\n"
+"POT-Creation-Date: 2023-08-30 03:38+0000\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Priti Patil <prithisd@gmail.com>\n"
 "Language-Team: Marathi <janabhaaratii@cdacmumbai.in>\n"
@@ -194,6 +194,11 @@ msgstr "टार इक्सइसी करता आले नाही"
 #, fuzzy, c-format
 msgid "unable to execute %s (%s)"
 msgstr "%s अमलात आणण्यास असमर्थ आहे"
+
+#: lib/dpkg/command.c
+#, fuzzy
+msgid "PATH is not set"
+msgstr "डिपिकेजी - दोष: पाथ निश्चित केलेला नाही.\n"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -1201,36 +1206,36 @@ msgstr ""
 msgid "unable to write to status fd %d"
 msgstr "`%.250s' ची सुधारित स्थिती लिहिता येत नाही"
 
-#: lib/dpkg/mlib.c utils/update-alternatives.c
+#: lib/dpkg/mustlib.c utils/update-alternatives.c
 #, fuzzy
 msgid "failed to allocate memory"
 msgstr "निर्देशिका बनवता आली नाही"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "एफ़डी %d साठी डीयुपी करणे अयशस्वी"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for std%s"
 msgstr "एसटीडी%s साठी डीयुपी करणे अयशस्वी"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 msgid "failed to create pipe"
 msgstr "पाइप बनवणे अयशस्वी"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, fuzzy, c-format
 msgid "error writing to '%s'"
 msgstr "`%s' लिहिताना त्रुटी"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "%.250s साठी फाईलडीस्क्रिप्टर फ्लॅग वाचणे जमत नाही"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "%.250s साठी क्लोज-ऑन-इअेक्सइसी फ्लॅग निश्चित करणे जमत नाही"
@@ -1667,6 +1672,13 @@ msgstr "बेकायदेशीर पॅकेजचे नाव %d ओळ
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "बेकायदेशीर पॅकेजचे नाव %d ओळीवर: %.250s"
 
+#. TRANSLATORS: This is part of the progress output, it is a decimal
+#. * percentage.
+#: lib/dpkg/progress.c
+#, c-format
+msgid "%d%%"
+msgstr ""
+
 #: lib/dpkg/report.c utils/update-alternatives.c
 msgid "warning"
 msgstr "धोक्याची सुचना"
@@ -1970,12 +1982,12 @@ msgid "unexpected end of file reading '%.250s'"
 msgstr "%.250s मधील फाइलचा अनपेक्षित शेवट"
 
 #: lib/dpkg/varbuf.c
-msgid "error formatting string into varbuf variable"
+#, c-format
+msgid "cannot grow varbuf to size %zu; it would overflow"
 msgstr ""
 
 #: lib/dpkg/varbuf.c
-#, c-format
-msgid "cannot grow varbuf to size %zu; it would overflow"
+msgid "error formatting string into varbuf variable"
 msgstr ""
 
 #: src/common/force.c
@@ -2105,7 +2117,7 @@ msgstr ""
 #: src/common/force.c
 #, c-format
 msgid ""
-"%s forcing options - control behaviour when problems found:\n"
+"%s forcing options - control behavior when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"
@@ -2673,6 +2685,11 @@ msgstr "`%.255s' (`%.255s' मधील) वाचता आली नाही"
 #: src/deb/info.c
 #, fuzzy, c-format
 msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgstr " %7ld बाइट्स, %5d ओळी %c %-20.127s %.127s\n"
+
+#: src/deb/info.c
+#, fuzzy, c-format
+msgid " %7jd bytes, %5d lines   %c  %.127s\n"
 msgstr " %7ld बाइट्स, %5d ओळी %c %-20.127s %.127s\n"
 
 #: src/deb/info.c
@@ -3986,7 +4003,7 @@ msgstr ""
 msgid "package '%s' is not available"
 msgstr "पॅकेज `%s' हे उपलब्ध नाही.\n"
 
-#: src/query/main.c src/main/packages.c
+#: src/query/main.c
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s कमित कमी एका पॅकेजच्या नावाच्या आर्ग्युमेन्टची/पर्यायीची आवशक्यता आहे"
@@ -5362,11 +5379,6 @@ msgid "installed"
 msgstr "स्थापना झाली आहे"
 
 #: src/main/help.c
-#, fuzzy
-msgid "PATH is not set"
-msgstr "डिपिकेजी - दोष: पाथ निश्चित केलेला नाही.\n"
-
-#: src/main/help.c
 #, fuzzy, c-format
 msgid "'%s' not found in PATH or not executable"
 msgstr "डिपिकेजी: पाथवर `%s' मिळाले नाहित.\n"
@@ -5760,6 +5772,12 @@ msgstr ""
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --पेन्डिंग कोणतिही अपर्यायी आर्ग्युमेन्ट घेत नाही"
+
+#: src/main/packages.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s (without --pending) needs at least one package name argument"
+msgstr "--%s कमित कमी एका पॅकेजच्या नावाच्या आर्ग्युमेन्टची/पर्यायीची आवशक्यता आहे"
 
 #: src/main/packages.c
 #, c-format

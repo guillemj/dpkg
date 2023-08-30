@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-02-07 11:18+0000\n"
+"POT-Creation-Date: 2023-08-30 03:38+0000\n"
 "PO-Revision-Date: 2023-01-27 15:39-0500\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -186,6 +186,10 @@ msgstr "重定位文件读写偏移失败"
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "无法执行 %s (%s)"
+
+#: lib/dpkg/command.c
+msgid "PATH is not set"
+msgstr "没有设置 PATH 环境变量"
 
 #: lib/dpkg/compress.c
 #, c-format
@@ -1111,35 +1115,35 @@ msgstr "<软件包状态和进度文件描述符>"
 msgid "unable to write to status fd %d"
 msgstr "无法写入状态文件描述符 %d"
 
-#: lib/dpkg/mlib.c utils/update-alternatives.c
+#: lib/dpkg/mustlib.c utils/update-alternatives.c
 msgid "failed to allocate memory"
 msgstr "分配内存失败"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "无法 dup 文件描述符 %d"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "failed to dup for std%s"
 msgstr "无法 dup std%s"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 msgid "failed to create pipe"
 msgstr "无法建立管道"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "error writing to '%s'"
 msgstr "写入 %s 出错"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "无法读取 %.250s 的 filedescriptor 标志位"
 
-#: lib/dpkg/mlib.c
+#: lib/dpkg/mustlib.c
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "无法设置 %.250s 的 close-on-exec 标志位"
@@ -1548,6 +1552,13 @@ msgstr "在说明符 '%s%s%s' 中包含非法软件包名: %s"
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "在说明符 '%s:%s' 中有非法体系结构名: %s"
 
+#. TRANSLATORS: This is part of the progress output, it is a decimal
+#. * percentage.
+#: lib/dpkg/progress.c
+#, c-format
+msgid "%d%%"
+msgstr ""
+
 #: lib/dpkg/report.c utils/update-alternatives.c
 msgid "warning"
 msgstr "警告"
@@ -1835,13 +1846,13 @@ msgid "unexpected end of file reading '%.250s'"
 msgstr "读取 %.250s 时遭遇未预期的文件结束符"
 
 #: lib/dpkg/varbuf.c
-msgid "error formatting string into varbuf variable"
-msgstr "将字符串格式化为 varbuf 变量时出错"
-
-#: lib/dpkg/varbuf.c
 #, c-format
 msgid "cannot grow varbuf to size %zu; it would overflow"
 msgstr "无法将 varbuf 的大小增长至 %zu；将发生溢出"
+
+#: lib/dpkg/varbuf.c
+msgid "error formatting string into varbuf variable"
+msgstr "将字符串格式化为 varbuf 变量时出错"
 
 #: src/common/force.c
 msgid "Set all force options"
@@ -1967,9 +1978,15 @@ msgid "Remove an essential package"
 msgstr "移除一个必需的软件包"
 
 #: src/common/force.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "%s forcing options - control behaviour when problems found:\n"
+#| "  warn but continue:  --force-<thing>,<thing>,...\n"
+#| "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-"
+#| "<thing>,...\n"
+#| " Forcing things:\n"
 msgid ""
-"%s forcing options - control behaviour when problems found:\n"
+"%s forcing options - control behavior when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"
@@ -2487,6 +2504,12 @@ msgstr "读取 %.255s (于 %.255s 目录)失败"
 #: src/deb/info.c
 #, c-format
 msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgstr " %7jd 字节，%5d 行   %c  %-20.127s %.127s\n"
+
+#: src/deb/info.c
+#, fuzzy, c-format
+#| msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+msgid " %7jd bytes, %5d lines   %c  %.127s\n"
 msgstr " %7jd 字节，%5d 行   %c  %-20.127s %.127s\n"
 
 #: src/deb/info.c
@@ -3749,7 +3772,7 @@ msgstr "使用 dpkg --info (= dpkg-deb --info) 来检测打包好的文件，\n"
 msgid "package '%s' is not available"
 msgstr "软件包 %s 现在不可用"
 
-#: src/query/main.c src/main/packages.c
+#: src/query/main.c
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s 需要至少一个软件包名作为参数"
@@ -5018,10 +5041,6 @@ msgid "installed"
 msgstr "已安装"
 
 #: src/main/help.c
-msgid "PATH is not set"
-msgstr "没有设置 PATH 环境变量"
-
-#: src/main/help.c
 #, c-format
 msgid "'%s' not found in PATH or not executable"
 msgstr "在 PATH 环境变量中找不到 %s 或没有可执行权限"
@@ -5419,6 +5438,12 @@ msgstr ""
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending 不需要任何不是选项的参数"
+
+#: src/main/packages.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s (without --pending) needs at least one package name argument"
+msgstr "--%s 需要至少一个软件包名作为参数"
 
 #: src/main/packages.c
 #, c-format
