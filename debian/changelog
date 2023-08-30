@@ -1,8 +1,332 @@
-dpkg (1.22.0) UNRELEASED; urgency=medium
+dpkg (1.22.0) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * dpkg: Do not reset the line number for each --command-fd parsed command.
+  * dselect: Add non-free-firmware archive area support.
+  * dselect: Relicense ftp method from GPL-2 to GPL-2+.
+  * dpkg-deb: Do not print trailing spaces in --info output.
+  * dpkg: Clarify that commands can take package-name or --pending in error
+    message. Closes: #1034466
+  * Remove avr32, m32r and tilegx obsolete architectures.
+    See Linux commit 26202873bb51fafdaa51be3e8de7aab9beb49f70 (avr32).
+    See Linux commit 553b085c2075f6a4a2591108554f830fa61e881f (m32r).
+    See Linux commit bb9d812643d8a121df7d614a2b9c60193a92deb0 (tile).
+  * dpkg-db-keeper: Add helper script to assist with tracking database changes.
+  * dpkg-buildpackage: Add support for new preinit hook. Closes: #1023753
+  * dselect: Remove handling of .GZ, .Z and .z compressed Package files.
+  * dselect: Fix stdout+stderr discarding redirection in ftp method.
+    Prompted by shellcheck.
+  * dpkg-buildpackage: Fix build hook action substitution string handling.
+  * dpkg-buildpackage: Set the hook options in an environment variable.
+    Closes: #902856
+  * dpkg-buildpackage: Set DPKG_BUILDPACKAGE_HOOK_NAME envvar for hooks.
+  * dpkg-buildpackage: Handle missing information for hook substitutions.
+  * dpkg-deb: Fix short lived memory leak after fork().
+  * Switch from pkg-config to pkgconf.
+  * dpkg: Handle non-existent .dpkg-tmp files on read-only filesystems.
+    Closes: #1030149
+  * dpkg-buildpackage: Fix R³ namespace check to only refuse unknown dpkg
+    keywords. Closes: #1036865
+  * dpkg-buildapi: New tool to fetch the dpkg-build-api level.
+  * dpkg-shlibdeps: On dpkg-build-api >= 1 require -l instead of
+    LD_LIBRARY_PATH.
+  * dpkg-buildpackage: On dpkg-build-api >= 1 default R³ to no.
+  * dpkg-buildpackage: On dpkg-build-api >= 1 avoid build target heuristics.
+  * Mark dpkg-build-api level 1 as stable.
+  * Architecture support:
+    - Restore "arch: Add support for loong64 CPU". Closes: #1028654
+  * Perl modules:
+    - Dpkg::OpenPGP::ErrorCodes: Add new OPENPGP_CMD_CANNOT_SIGN error code.
+    - Dpkg::OpenPGP::Backend::GnuPG: On signing failure use
+      OPENPGP_CMD_CANNOT_SIGN. Closes: #1030271
+    - Dpkg::Shlibs::Objdump::Object: Split from Dpkg::Shlibs::Objdump.
+    - Dpkg::Control::HashCore::Tie: Split from Dpkg::Control::HashCore.
+    - Dpkg::Vars: Fold into Dpkg::Package.
+    - Dpkg::Package: Rename source_package symbols to source_name.
+    - Dpkg::Changelog::Parse: Fix indentation of copyright and license notice.
+    - Dpkg::Version: Update POD for removed semantic_change::overload::bool
+      warning.
+    - Dpkg::Gettext: Relicense from BSD-2 to GPL-2+.
+    - Dpkg::Source::Archive: Fix file normalization for relative pathnames.
+    - Dpkg::Source::Archive: Reflow regex match in _add_entry().
+    - Dpkg::Control::FieldsCore: Deprecate implicit field_transfer_single()
+      argument.
+    - Dselect::Method::Ftp: Rename from Dselect::Ftp.
+    - Dselect::Method::Ftp: Modify config and site subs towards method
+      independence.
+    - Dselect::Method: Move to be generic functions from Dselect::Ftp.
+    - Dselect::Method::Ftp: Update package name.
+    - Dpkg::Vendor::Debian: Add time64 feature in the future area.
+      Based on a patch by Helge Deller <deller@gmx.de>. Closes: #1030159
+    - Dpkg::Control::HashCore::Tie: Rename $last to $prev.
+    - Dpkg::Substvars: Handle exponential expansion gracefully.
+    - Dpkg::Shlibs::Objdump: Remove unsupported ELF machine types.
+    - Dpkg::Shlibs::Objdump: Add ELF machine types for all supported arches.
+    - Dpkg::Shlibs::Objdump: Add RISC-V ELF ABI tracking.
+    - Dpkg::Shlibs::Objdump: Add OR1K ELF ABI tracking.
+    - Dpkg::Shlibs::Objdump: Switch get_format() to return a colon-separated
+      string.
+    - Dpkg::Shlibs::Objdump: Add back the ARM ABI mismatch mask but commented
+      out. See #853793.
+    - Dpkg::Source::Quilt: Switch get_db_file() to be based off get_db_dir().
+    - Dpkg::Vendor::Debian: Mark PIE as builtin on hurd-amd64.
+    - Dpkg::Vendor::Debian: Only use ABI bits to suppress LFS or time64
+      features.
+    - Dpkg::Vendor::Debian: Only enable LFS when time64 is enabled for glibc.
+    - Dpkg::Vendor::Debian: Invert time64 suppression list logic.
+    - Dpkg::Vendor::Debian: Ignore musl libc systems for time64 suppression.
+    - Dpkg::Vendor::Debian: Add fallback values for ABI attributes.
+    - Dpkg::Source::Package::V2: Mark single-debian-patch as not needing
+      forwarding. Closes: #1038121
+    - Dpkg::Vendor::Debian: Sync builtin pie arches with gcc-13.
+    - Dpkg::Vendor::Debian: Move time64 buildflags feature from future to abi.
+      Suggested by Steve Langasek <vorlon@debian.org>.
+    - Dpkg::Vendor::Debian: Move lfs from future to abi area and create an
+      alias. Suggested by Steve Langasek <vorlon@debian.org>.
+    - Dpkg::Vendor::Debian: Move builtin default setup before
+      init_build_features().
+    - Dpkg::Vendor::Debian: Handle abi feature flags as builtin.
+    - Dpkg::Vendor::Debian: Add support for new hardening branch feature.
+      Closes: #1021292
+    - Dpkg::Vendor::Debian: Add support for new stackclash hardening feature.
+      Closes: #918914
+    - Dpkg::Source::Quilt: Switch get_patch_file() to be based off
+      get_patch_dir().
+    - Dpkg::BuildAPI: New module.
+  * Make fragments:
+    - Add new buildapi.mk support.
+    - On dpkg-build-api >= 1 default to dpkg_vendor_derives_from_v1.
+    - On dpkg-build-api >= 1 include buildtools.mk in default.mk.
+  * Documentation:
+    - man: Add notes about reproducibility properties for path fixing build
+      features. Prompted by Sven Joachim <svenjoac@gmx.de>.
+    - man: Itemize remaining lists.
+    - man: Unify admonition markup and formatting.
+    - man: Move shell redirection operator close to the redirected file.
+    - man: Add versions where build flag features were added.
+    - doc: Update triggers spec.
+    - man: Fix OpenPGP backends list in dpkg-buildpackage(1).
+    - doc: Use «honor» and «behavior» uniformly in documentation and output.
+    - man: Clarify that dpkg-reconfigure is part of the debconf project.
+    - doc: Add a Status field to frontend-api spec.
+    - man: Clarify shared library name formats and their purpose.
+    - man: Add SECURITY sections.
+    - man: Spell out «manual page».
+    - man: Clarify C.UTF-8 locale setting hint. Closes: #1028296
+    - man: Update methods provided by dselect(1).
+    - man: Turn buildinfo filename format selection into a list.
+    - man: Itemize supported deb-changelog(5) keyword/value entries.
+    - doc: Move Perl version baseline as the first perl coding style
+      subsection.
+    - doc: Clarify required C/C++ standards.
+    - doc: Require POSIX.1-2008.
+    - man: Mention .buildinfo in dpkg-buildpackage --sign-command description.
+    - doc: Fix typo.
+    - man: Document known DEB_BUILD_OPTIONS options. Closes: #1038888
+    - man: Clarify the md5sums checks as integrity and not security checks.
+      Prompted by Sebastian Andrzej Siewior <sebastian@breakpoint.cc>.
+    - man: Clarify dpkg-architecture -c option.
+      Prompted by Paul Wise <pabs@debian.org>.
+    - man: Document version when new programs where introduced.
+    - man: Fix typo in future lfs feature introduction version.
+    - man: Open up dpkg-build-api level 1.
+  * Code internals:
+    - libdpkg: Move early return into the loop.
+    - libdpkg: Remove impossible condition.
+    - libdpkg: Turn bitmask parse_nv_flags into an actual enum parse_nv_mode.
+    - libdpkg: Move parse_nv() next word check inside else block.
+    - dpkg: Remove path_quote_filename() usage.
+    - dselect: Reduce variables scope.
+    - libcompat: Reduce variables scope.
+    - libdpkg: Reduce variables scope.
+    - update-alternatives: Reduce variables scope.
+    - src: Reduce variables scope.
+    - libdpkg: Rename mlib module to mustlib.
+    - dselect: Remove unused trailing semicolons.
+    - libdpkg: Surround macro within a do-while block.
+    - perl: Add $VERSION to all embedded perl packages.
+    - perl: Add POD to all private modules. Closes: #1030660
+    - perl: Move POD sections before what they describe.
+    - scripts: Unpack function arguments.
+    - scripts: Remove duplicate variable declaration.
+    - dselect: Reduce variable scope to avoid shadowing.
+    - perl: Move $VERSION into package keyword.
+    - perl: Remove unused Dpkg::Version semantic_change warning suppression.
+    - scripts: Use «(undef) x N» to ignore tuples or function returns.
+    - perl: Stop removing «.» from @INC before loading modules.
+    - dpkg-scansources: Reorder captured variable and regex match.
+    - perl: Use List::Util instead of fixed string matches within a regex.
+    - perl: Pass $_ explicitly to field_transfer_single().
+    - perl: Rename filename related variables to distinguish them from field
+      ones.
+    - dpkg-genchanges: Move comment describing %sourcedefault before
+      declaration.
+    - perl: Rename Dpkg::Control variables from $f to $c or $ctrl.
+    - perl: Use an $f variable for fields instead of the topic variable.
+    - perl: Use fixed string comparisons for field name matches.
+    - scripts: Switch code to use chained comparisons.
+    - dselect: Update Andy Guy email address.
+    - dselect: Remove unused ismulti() function from media method actions.
+    - dpkg-deb: Use intermediate variable for exec mark on --info output.
+    - dpkg-deb: Refactor maintscript interpreter parser.
+    - dpkg-deb, dpkg-query: Rename option flags to opt_NAME.
+    - dpkg-trigger: Rename CLI option variables from f_ to opt_.
+    - libcompat: Declare variables before definitions.
+    - libdpkg: Make local variables static.
+    - libdpkg: Rename FHFF_NONE to FHFF_NONEW.
+    - libdpkg: Switch bitmasks enumerations into precise masks.
+    - libdpkg: Add enumerations for the default, unset and max cases.
+    - libdpkg: Add warning suppression macros.
+    - lib: Add an enum flags attribute.
+    - lib, src, utils: Use new enum flag C attributes.
+    - libdpkg: Unconditionally initialize c variable in parse_stanza().
+    - start-stop-daemon: Initialize variables in run_stop_schedule().
+    - dpkg-genchanges: Refactor .changes file description formatting into a
+      function.
+    - dpkg-genchanges: Replace Encode usage with utf8 encode/decode functions.
+    - dpkg-gensymbols: Use File::Compare instead of Digest::MD5.
+    - dselect: Reword odd code comment.
+    - dselect: Use «color» uniformly in variables and comments.
+    - libdpkg: Handle missing Version when formatting source:Upstream-Version.
+      Reported by John Scott <jscott@posteo.net>.
+    - perl: Remove «1;» from end of script in programs.
+    - libdpkg: Pass -- after sh -c to avoid bogus option parsing.
+      Prompted by Joe Simmons-Talbott <josimmon@redhat.com> (on libc-alpha).
+    - libdpkg: Mask the mode from the tar entry to only the file mode bits.
+    - lib: Define __has_include fallback if the compiler does not support it.
+    - libdpkg: Simplify progress output by using fputs() and putchar().
+    - libdpkg: Mark the progress percentage for translation. See #1034378.
+    - dpkg-buildpackage: Turn items into lists for easier extensibility.
+    - libdpkg: Make headers self-contained.
+      Thanks to Simon Richter <sjr@debian.org>.
+    - libdpkg: Mark functions in headers as inline.
+      Thanks to Simon Richter <sjr@debian.org>.
+    - scripts: Do not set LANG unnecessarily.
+    - dpkg: Move comment next to the code it is describing.
+    - dpkg-buildpackage: Move hook invocation closer to artifact creation.
+    - dpkg-buildpackage: Default the enabled run_hook() parameter to true.
+    - dpkg-buildpackage: Turn the run_hook() enabled argument into a hash
+      option.
+    - libcompat: Use ptrdiff_t directly instead of using a macro.
+    - libcompat: Update getopt code from gnulib.
+    - libdpkg: Remove redundant check.
+    - lib, src: Add const qualifiers to variables.
+    - dselect: Add constVariableReference as a cppcheck suppression.
+    - libdpkg: Fix varbuf memory leak in pkg_source_version().
+    - dpkg-shlibdeps: Switch from exec() to Dpkg::IPC::spawn().
+      Prompted by Paul Wise <pabs@debian.org>.
+    - libdpkg: Fix coding style for varbuf module.
+    - libdpkg: Reorder varbuf functions.
+    - libdpkg: Add varbuf_add_varbuf() function.
+    - libdpkg: Add varbuf_add_strn().
+    - libdpkg: Add varbuf setter functions.
+    - libdpkg: Switch ustar filename construction to use varbuf_add_strn().
+    - dpkg-split: Use varbuf instead of ad-hoc allocation in read_info.
+    - Use varbuf_add_varbuf() instead of varbuf_add_buf()/_str().
+    - Use varbuf_set_*() instead of ad-hoc initialization.
+    - libdpkg: Generalize command_in_path() from find_command().
+  * Build system:
+    - Fix version script linker support detection.
+    - Enable -Wextra-semi compilation warning.
+    - Explicitly set the date when generating perl module man pages.
+    - Bump minimal Perl version to 5.32.1.
+    - Enable more compiler warnings.
+    - Remove unused AC_SIZEOF checks.
+    - Check for the host architecture attributes during configure.
+    - Detect whether we need librt for clock_gettime().
+    - Use an export symbols file if there is no version script support.
+    - Add -no-undefined libtool flag.
+    - Add support for .git-blame-ignore-revs file.
+    - Fix typo in .gitignore filename by renaming it.
+      Thanks to Simon Richter <sjr@debian.org>.
+    - Remove vim swap file entry from .gitignore.
+    - Ignore tags files.
+      Based on a patch by Simon Richter <sjr@debian.org>.
+    - Add perl prefixes into the Code Internals changelog section.
+    - Namespace COMPILER_*FLAGS with DPKG_.
+    - Add support for compiler sanitizer flags.
+    - Add support for compiler analyzer flags.
+    - Add new gcc-13 warnings.
+    - Warn on alloca() usage.
+    - Remove distcleancheck_listfiles override for CPAN dist-cpan target.
+    - Avoid Perl's exec() falling back to system().
+      Thanks to Paul Wise <pabs@debian.org>.
+      See https://perldoc.perl.org/functions/exec.html.
+  * Packaging:
+    - Merge copyright statements for the same holder.
+    - Remove executable permissions from maintscripts in source.
+    - Remove no longer needed alternatives fixup from postint.
+    - Remove no longer needed maintscripts for method renames.
+    - Fix removal of file method state directory on purge.
+    - Wrap fields in debian/tests/control file.
+    - Set Persistent=true for dpkg-db-backup systemd timer.
+      Thanks to Teemu Likonen <tlikonen@iki.fi>. Closes: #1041730
+    - Do not start the dpkg-db-backup timer during installation.
+  * Test suite:
+    - Update perlcritic checks and suppressions.
+    - Disable perlcritic checks that are not relevant.
+    - Reduce scope of variable to avoid shadowing others.
+    - Do not use potentially bogus variable value.
+    - Enable perlcritic RegularExpressions::ProhibitCaptureWithoutTest.
+    - Disable -Wassign-enum for tests using out of range enum values.
+    - Make some perlcritic checks more strict.
+    - Update rationale for perlcritic check suppressions.
+    - Use the TAR detected at configure time in autotests.
+    - Use the SED detected at configure time in autotests.
+    - Use m4 to implement seq instead of assuming GNU seq is present.
+    - Add missing argument to DPKG_FILE_SIZE m4 function.
+    - Add more substvar recursive replace cases.
+    - Define lzma based on xz if missing.
+    - Switch deb non-uniform members test to use uncompressed control.tar.
+    - Use AT_DATA instead of touch to create empty files.
+    - Refactor deb-format package template generation into a new macro.
+    - Split deb-format tests per compressor.
+    - Fix t-disappear-depended test.
+    - Add cases for disappearing with diversions.
+    - Add cases for disappearance on diverted overwrites and third parties.
+      Suggested by Simon Richter <sjr@debian.org>.
+    - Quote command variables in case these contain spaces.
+    - Use the GREP/EGREP detected at configure time in autotests.
+    - Pass -n to gzip for all invocations.
+    - Generate the pkg-old.deb from controlled parts.
+    - Compute the sizes for «dpkg-deb -I» output dynamically.
+    - Add test cases for dpkg-buildpackage hook support.
+    - Use dpkg-buildpackage --no-sign instead of each --unsigned-* option.
+    - Add new stop words for codespell 2.2.5.
+    - Update cppcheck suppressions for 2.11.
+    - Define macros to help cppcheck analyze code.
+    - Fix varbuf memory leak in t-pkg-format test.
+    - Rename merge_changlogs test to match the command being tested.
+    - Add new test case checking Conflicts with Replaces.
+    - Fix t-conffile-divert-conffile case.
+    - Use «ar qc» to create archives with duplicate members.
+    - Move test_data_file() to test.h.
+  * Localization:
+    - Add Portuguese scripts translations.
+      Thanks to Américo Monteiro <a_monteiro@gmx.com>. Closes: #1032562
+    - Clarify license for translation files.
+    - Fix Project-Id-Version to match the gettext domain.
+    - Unify translation header description.
+    - Update Dutch header boilerplate with an actual copyright line.
+    - Update French scripts translation.
+      Thanks to Sébastien Poher <sebastien@volted.net>.
+    - Update Romanian dselect translation.
+      Thanks to Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>.
+      Closes: #1040869
+    - Use Dpkg Developers instead of listing them individually.
 
- -- Guillem Jover <guillem@debian.org>  Tue, 07 Feb 2023 12:37:47 +0100
+  [ Helge Kreutzmann ]
+  * man: Remove a now superfluous character from dpkg(1).
+  * Localization:
+    - Update German man pages translation.
+    - Update German scripts translation.
+
+  [ Sven Joachim ]
+  * Localization:
+    - Update German dselect translation.
+    - Update German programs translation.
+
+ -- Guillem Jover <guillem@debian.org>  Wed, 30 Aug 2023 05:39:24 +0200
 
 dpkg (1.21.20) unstable; urgency=medium
 
