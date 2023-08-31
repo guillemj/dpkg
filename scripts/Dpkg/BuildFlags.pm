@@ -73,45 +73,25 @@ sub new {
 sub _init_vendor_defaults {
     my $self = shift;
 
+    my @flags = qw(
+        ASFLAGS
+        CPPFLAGS
+        CFLAGS
+        CXXFLAGS
+        OBJCFLAGS
+        OBJCXXFLAGS
+        DFLAGS
+        FFLAGS
+        FCFLAGS
+        LDFLAGS
+    );
+
     $self->{features} = {};
     $self->{builtins} = {};
     $self->{optvals} = {};
-    $self->{flags} = {
-	ASFLAGS => '',
-	CPPFLAGS => '',
-	CFLAGS   => '',
-	CXXFLAGS => '',
-	OBJCFLAGS   => '',
-	OBJCXXFLAGS => '',
-	DFLAGS   => '',
-	FFLAGS   => '',
-	FCFLAGS  => '',
-	LDFLAGS  => '',
-    };
-    $self->{origin} = {
-	ASFLAGS => 'vendor',
-	CPPFLAGS => 'vendor',
-	CFLAGS   => 'vendor',
-	CXXFLAGS => 'vendor',
-	OBJCFLAGS   => 'vendor',
-	OBJCXXFLAGS => 'vendor',
-	DFLAGS   => 'vendor',
-	FFLAGS   => 'vendor',
-	FCFLAGS  => 'vendor',
-	LDFLAGS  => 'vendor',
-    };
-    $self->{maintainer} = {
-	ASFLAGS => 0,
-	CPPFLAGS => 0,
-	CFLAGS   => 0,
-	CXXFLAGS => 0,
-	OBJCFLAGS   => 0,
-	OBJCXXFLAGS => 0,
-	DFLAGS   => 0,
-	FFLAGS   => 0,
-	FCFLAGS  => 0,
-	LDFLAGS  => 0,
-    };
+    $self->{flags} = { map { $_ => '' } @flags };
+    $self->{origin} = { map { $_ => 'vendor' } @flags };
+    $self->{maintainer} = { map { $_ => 0 } @flags };
 }
 
 =item $bf->load_vendor_defaults()
