@@ -76,7 +76,6 @@ my @env_allowed = (
         CXXFLAGS
         OBJCFLAGS
         OBJCXXFLAGS
-        GCJFLAGS
         DFLAGS
         FFLAGS
         LDFLAGS

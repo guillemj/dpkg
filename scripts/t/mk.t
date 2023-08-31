@@ -107,7 +107,6 @@ my %buildtools = (
     CXX => 'g++',
     OBJC => 'gcc',
     OBJCXX => 'g++',
-    GCJ => 'gcj',
     F77 => 'gfortran',
     FC => 'gfortran',
     LD => 'ld',

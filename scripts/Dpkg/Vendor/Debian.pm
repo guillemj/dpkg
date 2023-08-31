@@ -397,7 +397,6 @@ sub _add_build_flags {
         OBJCXXFLAGS
         FFLAGS
         FCFLAGS
-        GCJFLAGS
     );
 
     my $default_flags;

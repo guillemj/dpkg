@@ -22,5 +22,5 @@ BEGIN {
     use_ok('Dpkg::BuildInfo');
 }
 
-is(scalar Dpkg::BuildInfo::get_build_env_allowed(), 52,
+is(scalar Dpkg::BuildInfo::get_build_env_allowed(), 51,
    'allowed environment variables array');

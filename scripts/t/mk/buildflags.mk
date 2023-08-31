@@ -10,7 +10,6 @@ test:
 	test "$(DFLAGS)" = "$(TEST_DFLAGS)"
 	test "$(FCFLAGS)" = "$(TEST_FCFLAGS)"
 	test "$(FFLAGS)" = "$(TEST_FFLAGS)"
-	test "$(GCJFLAGS)" = "$(TEST_GCJFLAGS)"
 	test "$(LDFLAGS)" = "$(TEST_LDFLAGS)"
 	test "$(OBJCFLAGS)" = "$(TEST_OBJCFLAGS)"
 	test "$(OBJCXXFLAGS)" = "$(TEST_OBJCXXFLAGS)"

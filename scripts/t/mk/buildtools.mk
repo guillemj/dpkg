@@ -11,8 +11,6 @@ test:
 	test "$(OBJC_FOR_BUILD)" = "$(TEST_OBJC_FOR_BUILD)"
 	test "$(OBJCXX)" = "$(TEST_OBJCXX)"
 	test "$(OBJCXX_FOR_BUILD)" = "$(TEST_OBJCXX_FOR_BUILD)"
-	test "$(GCJ)" = "$(TEST_GCJ)"
-	test "$(GCJ_FOR_BUILD)" = "$(TEST_GCJ_FOR_BUILD)"
 	test "$(F77)" = "$(TEST_F77)"
 	test "$(F77_FOR_BUILD)" = "$(TEST_F77_FOR_BUILD)"
 	test "$(FC)" = "$(TEST_FC)"

@@ -7,7 +7,6 @@
 #   CXX: C++ compiler.
 #   OBJC: Objective C compiler.
 #   OBJCXX: Objective C++ compiler.
-#   GCJ: GNU Java compiler.
 #   F77: Fortran 77 compiler.
 #   FC: Fortran 9x compiler.
 #   LD: linker.
@@ -64,7 +63,6 @@ $(eval $(call dpkg_buildtool_setvar,CC,gcc))
 $(eval $(call dpkg_buildtool_setvar,CXX,g++))
 $(eval $(call dpkg_buildtool_setvar,OBJC,gcc))
 $(eval $(call dpkg_buildtool_setvar,OBJCXX,g++))
-$(eval $(call dpkg_buildtool_setvar,GCJ,gcj))
 $(eval $(call dpkg_buildtool_setvar,F77,gfortran))
 $(eval $(call dpkg_buildtool_setvar,FC,gfortran))
 $(eval $(call dpkg_buildtool_setvar,LD,ld))

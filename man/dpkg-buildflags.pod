@@ -286,10 +286,6 @@ Since dpkg 1.17.7.
 Options for the Objective C++ compiler. Same as B<CXXFLAGS>.
 Since dpkg 1.17.7.
 
-=item B<GCJFLAGS>
-
-Options for the GNU Java compiler (gcj). A subset of B<CFLAGS>.
-
 =item B<DFLAGS>
 
 Options for the D compiler (ldc or gdc). Since dpkg 1.20.6.
@@ -420,7 +416,7 @@ artifacts.
 
 This setting (since dpkg 1.21.0; disabled by default) enables
 Link Time Optimization by adding B<-flto=auto -ffat-lto-objects> to
-B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>,
+B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS>, B<FCFLAGS> and B<LDFLAGS>.
 
 =back
@@ -511,7 +507,7 @@ glibc 2.16 and later.
 This setting (since dpkg 1.16.1; enabled by default if stackprotectorstrong
 is not in use) adds B<-fstack-protector --param=ssp-buffer-size=4>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
-B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>.
+B<FFLAGS> and B<FCFLAGS>.
 This adds safety checks against stack
 overwrites. This renders many potential code injection attacks into
 aborting situations. In the best case this turns code injection
@@ -527,7 +523,7 @@ B<-nostdlib> or B<-ffreestanding> or similar.
 This setting (since dpkg 1.17.11; enabled by default) adds
 B<-fstack-protector-strong>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
-B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>.
+B<FFLAGS> and B<FCFLAGS>.
 This is a stronger variant of B<stackprotector>, but without significant
 performance penalties.
 
@@ -541,7 +537,7 @@ addition also requires gcc 4.9 and later.
 This setting (since dpkg 1.22.0; enabled by default) adds
 B<-fstack-clash-protection> on B<amd64>, B<arm64>, B<armhf> and B<armel> to
 B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
-B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>.
+B<FFLAGS> and B<FCFLAGS>.
 This adds code to prevent stack clash style attacks.
 
 =item B<branch>
@@ -549,7 +545,7 @@ This adds code to prevent stack clash style attacks.
 This setting (since dpkg 1.22.0; enabled by default) adds B<-fcf-protection>
 on B<amd64> and B<-mbranch-protection=standard> on B<arm64> to
 B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
-B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>.
+B<FFLAGS> and B<FCFLAGS>.
 This adds branch protection to indirect calls, jumps and returns to check
 whether these are valid at run-time.
 
@@ -584,12 +580,12 @@ by itself or not.
 When the setting is enabled and gcc injects the flags, it adds nothing.
 When the setting is enabled and gcc does not inject the flags, it adds
 B<-fPIE> (via I<%PKGDATADIR%/pie-compiler.specs>) to B<CFLAGS>,
-B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>,
+B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS>, and
 B<-fPIE -pie> (via I<%PKGDATADIR%/pie-link.specs>) to B<LDFLAGS>.
 When the setting is disabled and gcc injects the flags, it adds
 B<-fno-PIE> (via I<%PKGDATADIR%/no-pie-compile.specs>) to B<CFLAGS>,
-B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>,
+B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS>, and
 B<-fno-PIE -no-pie> (via I<%PKGDATADIR%/no-pie-link.specs>) to
 B<LDFLAGS>.
@@ -673,7 +669,7 @@ B<__TIMESTAMP__> macros are used.
 This setting (since dpkg 1.19.1; enabled by default) adds
 B<-ffile-prefix-map=>I<BUILDPATH>B<=.>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
-B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is
+B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is
 set to the top-level directory of the package being built.
 This has the effect of removing the build path from any generated file.
 
@@ -692,7 +688,7 @@ The ideal fix is to stop capturing build flags.
 This setting (since dpkg 1.18.5; enabled by default) adds
 B<-fdebug-prefix-map=>I<BUILDPATH>B<=.>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
-B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is
+B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is
 set to the top-level directory of the package being built.
 This has the effect of removing the build path from any generated debug
 symbols.
