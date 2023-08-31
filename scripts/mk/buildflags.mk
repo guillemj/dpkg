@@ -19,8 +19,18 @@
 
 dpkg_lazy_eval ?= $$(or $$(value DPKG_CACHE_$(1)),$$(eval DPKG_CACHE_$(1) := $$(shell $(2)))$$(value DPKG_CACHE_$(1)))
 
-DPKG_BUILDFLAGS_LIST = ASFLAGS CFLAGS CPPFLAGS CXXFLAGS OBJCFLAGS OBJCXXFLAGS \
-                       DFLAGS FFLAGS FCFLAGS LDFLAGS
+DPKG_BUILDFLAGS_LIST = \
+  ASFLAGS \
+  CFLAGS \
+  CPPFLAGS \
+  CXXFLAGS \
+  OBJCFLAGS \
+  OBJCXXFLAGS \
+  DFLAGS \
+  FFLAGS \
+  FCFLAGS \
+  LDFLAGS \
+  # EOL
 
 define dpkg_buildflags_export_envvar
   ifdef $(1)
