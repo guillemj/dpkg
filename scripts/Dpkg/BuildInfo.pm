@@ -71,14 +71,23 @@ my @env_allowed = (
     # Toolchain flags.
     qw(
         ASFLAGS
+        ASFLAGS_FOR_BUILD
         CFLAGS
+        CFLAGS_FOR_BUILD
         CPPFLAGS
+        CPPFLAGS_FOR_BUILD
         CXXFLAGS
+        CXXFLAGS_FOR_BUILD
         OBJCFLAGS
+        OBJCFLAGS_FOR_BUILD
         OBJCXXFLAGS
+        OBJCXXFLAGS_FOR_BUILD
         DFLAGS
+        DFLAGS_FOR_BUILD
         FFLAGS
+        FFLAGS_FOR_BUILD
         LDFLAGS
+        LDFLAGS_FOR_BUILD
         ARFLAGS
         MAKEFLAGS
     ),

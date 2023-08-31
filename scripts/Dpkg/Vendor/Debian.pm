@@ -412,7 +412,9 @@ sub _add_build_flags {
     }
 
     $flags->append($_, $default_flags) foreach @compile_flags;
+    $flags->append($_ . '_FOR_BUILD', $default_flags) foreach @compile_flags;
     $flags->append('DFLAGS', $default_d_flags);
+    $flags->append('DFLAGS_FOR_BUILD', $default_d_flags);
 
     ## Area: abi
 
