@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.22.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2023-08-30 17:19+0200\n"
-"PO-Revision-Date: 2023-08-30 20:57+0200\n"
+"PO-Revision-Date: 2023-08-31 18:19+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -8647,6 +8647,11 @@ msgid ""
 "the environment variable B<DPKG_BUILD_API>, which will override these if "
 "both are present, and might emit a warning in case they are different."
 msgstr ""
+"Die Erklärung dieser API-Stufe erfolgt über die Bauabhängigkeiten, entweder "
+"in B<Build-Depends>, B<Build-Depends-Indep> oder B<Build-Depends-Arch> oder "
+"mittels der Umgebungsvariablen B<DPKG_BUILD_API>, die diese außer Kraft "
+"setzen wird, falls beide vorhanden sind und eine Warnung ausgeben lassen "
+"könnte, falls sie verschieden sind."
 
 #. type: =head1
 #: dpkg-build-api.pod
@@ -8664,6 +8669,8 @@ msgid ""
 "This level is still under development, and cannot be declared via build-"
 "dependencies."
 msgstr ""
+"Diese Stufe ist noch in Entwicklung und kann nicht mittels Baubhängigkeiten "
+"erklärt werden."
 
 #. type: =item
 #: dpkg-build-api.pod
@@ -8686,6 +8693,8 @@ msgid ""
 "B<dpkg-shlibdeps> no longer uses the B<LD_LIBRARY_PATH> environment "
 "variable.  The B<-l> option should be used instead."
 msgstr ""
+"B<dpkg-shlibdeps> verwendet die Umgebungsvariable B<LD_LIBRARY_PATH> nicht "
+"mehr. Stattdessen sollte die Option B<-l> verwandt werden."
 
 #. type: textblock
 #: dpkg-build-api.pod
@@ -8694,6 +8703,9 @@ msgid ""
 "restore the B<v0> behavior B<Rules-Requires-Root> should be set to B<binary-"
 "targets>."
 msgstr ""
+"B<dpkg-buildpackage> setzt standardmäßig B<Rules-Requires-Root> auf B<no>. "
+"Um das Verhalten aus B<v0> wiederherzustellen, sollte B<Rules-Requires-Root> "
+"auf B<binary-targets> gesetzt werden."
 
 #. type: textblock
 #: dpkg-build-api.pod
@@ -8713,6 +8725,10 @@ msgid ""
 "B<dpkg_vendor_derives_from> macro.  To restore the B<v0> behavior set "
 "B<dpkg_vendor_derives_from> to B<dpkg_vendor_derives_from_v0>."
 msgstr ""
+"B<vendor.mk> verwendet standardmäßig B<dpkg_vendor_derives_from_v1> für das "
+"Makro B<dpkg_vendor_derives_from>. Um das Verhalten aus B<v0> "
+"wiederherzustellen, setzen Sie B<dpkg_vendor_derives_from> auf "
+"B<dpkg_vendor_derives_from_v0>."
 
 #. type: textblock
 #: dpkg-build-api.pod
@@ -8732,6 +8748,10 @@ msgid ""
 "updates, which tend to require longer deprecation cycles and/or coordinated "
 "transitions."
 msgstr ""
+"Dies ist die aktuelle globale Stufe, äquivalent zur Festlegung von eins. Die "
+"bereitgestellten Schnittstellen und Verhalten unterliegen den normalen "
+"globalen Schnittstellenaktualisierungen, die zu längeren Zyklen für die "
+"Missbilligung und/oder koordinierte Übergänge neigen."
 
 #. type: textblock
 #: dpkg-build-api.pod
@@ -8798,6 +8818,11 @@ msgid ""
 "F<debian/rules>, otherwise build drivers (such as L<dpkg-buildpackage(1)>) "
 "cannot access it."
 msgstr ""
+"Die zu verwendende Bau-API-Stufe. Dies ist zur internen Verwendung von "
+"Werkzeugen, die F<debian/rules> ausführt, gedacht, um das mehrfache "
+"Auswerten von F<debian/control> zu vermeiden und die globale Bau-API-Stufe "
+"nicht aus F<debian/rules> zu setzen. Andernfalls können Bau-Treiber (wie "
+"L<dpkg-buildpackage(1)>) nicht darauf zugreifen."
 
 #. type: =item
 #: dpkg-buildapi.pod
@@ -8807,7 +8832,7 @@ msgstr "B<%PKGDATADIR%/buildapi.mk>"
 #. type: textblock
 #: dpkg-buildapi.pod
 msgid "Makefile snippet that will parse the build API level."
-msgstr ""
+msgstr "Makefile-Schnippsel, das die Bau-API-Stufe auswerten wird."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9566,7 +9591,7 @@ msgstr ""
 #. type: =head2
 #: dpkg-buildflags.pod
 msgid "abi"
-msgstr ""
+msgstr "abi"
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9606,6 +9631,8 @@ msgid ""
 "When this feature is enabled it will override the value from the same "
 "feature in the B<future> feature area."
 msgstr ""
+"Wenn diese Funktionalität aktiviert ist, wird sie den Wert aus der gleichen "
+"Funktionalität im Funktionalitätsbereich B<future> außer Kraft setzen."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9649,6 +9676,10 @@ msgid ""
 "the B<lfs> feature in the B<abi> area, use that instead.  The feature from "
 "the B<abi> area overrides this setting."
 msgstr ""
+"Diese Einstellung (seit Dpkg  1.19.0; standardmäßig deaktiviert) ist jetzt "
+"ein Alias für die Funktionalität B<lfs> im Bereich B<abi>; verwenden Sie "
+"stattdessen letzteres. Die Funktionalität aus dem Bereich B<abi> setzt diese "
+"Einstellung außer Kraft."
 
 #. type: =head2
 #: dpkg-buildflags.pod
