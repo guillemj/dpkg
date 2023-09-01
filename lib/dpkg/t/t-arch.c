@@ -170,23 +170,19 @@ test_dpkg_arch_varbuf_archqual(void)
 	struct varbuf vb = VARBUF_INIT;
 
 	varbuf_add_archqual(&vb, dpkg_arch_get(DPKG_ARCH_NONE));
-	varbuf_end_str(&vb);
-	test_str(vb.buf, ==, "");
+	test_str(varbuf_str(&vb), ==, "");
 	varbuf_reset(&vb);
 
 	varbuf_add_archqual(&vb, dpkg_arch_get(DPKG_ARCH_EMPTY));
-	varbuf_end_str(&vb);
-	test_str(vb.buf, ==, "");
+	test_str(varbuf_str(&vb), ==, "");
 	varbuf_reset(&vb);
 
 	varbuf_add_archqual(&vb, dpkg_arch_get(DPKG_ARCH_ALL));
-	varbuf_end_str(&vb);
-	test_str(vb.buf, ==, ":all");
+	test_str(varbuf_str(&vb), ==, ":all");
 	varbuf_reset(&vb);
 
 	varbuf_add_archqual(&vb, dpkg_arch_get(DPKG_ARCH_WILDCARD));
-	varbuf_end_str(&vb);
-	test_str(vb.buf, ==, ":any");
+	test_str(varbuf_str(&vb), ==, ":any");
 	varbuf_reset(&vb);
 
 	varbuf_destroy(&vb);

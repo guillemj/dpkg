@@ -436,9 +436,9 @@ pkg_source_version(struct dpkg_version *version,
 		varbuf_add_buf(&vb, version_str, len);
 		varbuf_end_str(&vb);
 
-		if (parseversion(version, vb.buf, &err) < 0)
+		if (parseversion(version, varbuf_str(&vb), &err) < 0)
 			ohshit(_("version '%s' has bad syntax: %s"),
-			       vb.buf, err.str);
+			       varbuf_str(&vb), err.str);
 
 		varbuf_destroy(&vb);
 	}

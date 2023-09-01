@@ -247,7 +247,7 @@ pkg_check_depcon(struct pkginfo *pkg, const char *pfilename)
           varbuf_end_str(&depprobwhy);
           notice(_("regarding %s containing %s, pre-dependency problem:\n%s"),
                  pfilename, pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
-                 depprobwhy.buf);
+                 varbuf_str(&depprobwhy));
           if (!force_depends(dsearch->list))
             ohshit(_("pre-dependency problem - not installing %.250s"),
                    pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
@@ -719,10 +719,10 @@ pkg_remove_old_files(struct pkginfo *pkg,
         continue;
     }
 
-    if (lstat(fnamevb.buf, &oldfs)) {
+    if (lstat(varbuf_str(&fnamevb), &oldfs)) {
       if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
         warning(_("could not stat old file '%.250s' so not deleting it: %s"),
-                fnamevb.buf, strerror(errno));
+                varbuf_str(&fnamevb), strerror(errno));
       continue;
     }
     if (S_ISDIR(oldfs.st_mode)) {
@@ -732,7 +732,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
       if (strcmp(usenode->name, "/.") == 0)
         continue;
 
-      if (rmdir(fnamevb.buf)) {
+      if (rmdir(varbuf_str(&fnamevb))) {
         warning(_("unable to delete old directory '%.250s': %s"),
                 namenode->name, strerror(errno));
       } else if ((namenode->flags & FNNF_OLD_CONFF)) {
@@ -762,7 +762,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
       /* If we can't stat the old or new file, or it's a directory,
        * we leave it up to the normal code. */
       debug(dbg_eachfile, "process_archive: checking %s for same files on "
-            "upgrade/downgrade", fnamevb.buf);
+            "upgrade/downgrade", varbuf_str(&fnamevb));
 
       for (cfile = newfiles_queue->head; cfile; cfile = cfile->next) {
         /* If the file has been filtered then treat it as if it didn't exist
@@ -777,7 +777,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
           varbuf_add_str(&cfilename, cfile->namenode->name);
           varbuf_end_str(&cfilename);
 
-          if (lstat(cfilename.buf, &tmp_stat) == 0) {
+          if (lstat(varbuf_str(&cfilename), &tmp_stat) == 0) {
             struct file_ondisk_id *file_ondisk_id;
 
             file_ondisk_id = nfmalloc(sizeof(*file_ondisk_id));
@@ -800,11 +800,11 @@ pkg_remove_old_files(struct pkginfo *pkg,
             oldfs.st_ino == cfile->namenode->file_ondisk_id->id_ino) {
           if (sameas)
             warning(_("old file '%.250s' is the same as several new files! "
-                      "(both '%.250s' and '%.250s')"), fnamevb.buf,
+                      "(both '%.250s' and '%.250s')"), varbuf_str(&fnamevb),
                     sameas->namenode->name, cfile->namenode->name);
           sameas = cfile;
           debug(dbg_eachfile, "process_archive: not removing %s, "
-                "since it matches %s", fnamevb.buf, cfile->namenode->name);
+                "since it matches %s", varbuf_str(&fnamevb), cfile->namenode->name);
         }
       }
 
@@ -839,7 +839,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
 
       trig_path_activate(usenode, pkg);
 
-      if (secure_unlink_statted(fnamevb.buf, &oldfs)) {
+      if (secure_unlink_statted(varbuf_str(&fnamevb), &oldfs)) {
         warning(_("unable to securely remove old file '%.250s': %s"),
                 namenode->name, strerror(errno));
       }
@@ -1038,7 +1038,7 @@ pkg_disappear_others(struct pkginfo *pkg)
 
       varbuf_end_str(&depprobwhy);
       debug(dbg_veryverbose,"process_archive cannot disappear: %s",
-            depprobwhy.buf);
+            varbuf_str(&depprobwhy));
       break;
     }
     if (!pdep) {
@@ -1063,7 +1063,7 @@ pkg_disappear_others(struct pkginfo *pkg)
           varbuf_end_str(&depprobwhy);
           debug(dbg_veryverbose,
                 "process_archive cannot disappear (provides %s): %s",
-                providecheck->list->ed->name, depprobwhy.buf);
+                providecheck->list->ed->name, varbuf_str(&depprobwhy));
           goto break_from_both_loops_at_once;
         }
       }
@@ -1194,7 +1194,7 @@ pkg_remove_backup_files(struct pkginfo *pkg, struct fsys_namenode_list *newfiles
     varbuf_add_str(&fnametmpvb, usenode->name);
     varbuf_add_str(&fnametmpvb, DPKGTEMPEXT);
     varbuf_end_str(&fnametmpvb);
-    path_remove_tree(fnametmpvb.buf);
+    path_remove_tree(varbuf_str(&fnametmpvb));
   }
 }
 

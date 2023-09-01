@@ -428,8 +428,7 @@ pkg_format_print(struct varbuf *vb, const struct pkg_format_node *head,
 			if (fip) {
 				fip->wcall(&wb, pkg, pkgbin, 0, fip);
 
-				varbuf_end_str(&wb);
-				pkg_format_item(&fb, node, wb.buf);
+				pkg_format_item(&fb, node, varbuf_str(&wb));
 				varbuf_reset(&wb);
 				ok = true;
 			} else {
@@ -449,7 +448,7 @@ pkg_format_print(struct varbuf *vb, const struct pkg_format_node *head,
 
 			if ((width != 0) && (len > width))
 				len = width;
-			varbuf_add_buf(vb, fb.buf, len);
+			varbuf_add_buf(vb, varbuf_str(&fb), len);
 			varbuf_end_str(vb);
 		}
 

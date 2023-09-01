@@ -242,10 +242,7 @@ varbuf_rollback_start(struct varbuf_state *vs)
 		if (vs->used)
 			internerr("varbuf buf(NULL) state_used(%zu) > 0",
 			          vs->used);
-		/* XXX: Ideally this would be handled by varbuf always having
-		 * a valid buf or switching all users to the getter, but for
-		 * now this will do. */
-		return "";
+		return varbuf_str(vs->v);
 	}
 	return vs->v->buf + vs->used;
 }

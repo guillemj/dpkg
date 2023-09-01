@@ -1336,7 +1336,7 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
            pkg_name(fixbydeconf, pnaw_nonambig),
            pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
 
-    ok = try_deconfigure_can(fixbydeconf, dep->list, pkg, why.buf);
+    ok = try_deconfigure_can(fixbydeconf, dep->list, pkg, varbuf_str(&why));
     if (ok == 1) {
       notice(_("yes, will deconfigure %s (broken by %s)"),
              pkg_name(fixbydeconf, pnaw_nonambig),
@@ -1344,7 +1344,8 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
     }
   } else {
     notice(_("regarding %s containing %s:\n%s"), pfilename,
-           pkgbin_name(pkg, &pkg->available, pnaw_nonambig), why.buf);
+           pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
+           varbuf_str(&why));
     ok= 0;
   }
   varbuf_destroy(&why);
@@ -1416,7 +1417,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
           if (depisok(pdep->up, &removalwhy, NULL, NULL, false))
             continue;
           varbuf_end_str(&removalwhy);
-          if (!try_remove_can(pdep,fixbyrm,removalwhy.buf))
+          if (!try_remove_can(pdep, fixbyrm, varbuf_str(&removalwhy)))
             break;
         }
         if (!pdep) {
@@ -1436,7 +1437,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
               notice(_("may have trouble removing %s, as it provides %s ..."),
                      pkg_name(fixbyrm, pnaw_nonambig),
                      providecheck->list->ed->name);
-              if (!try_remove_can(pdep,fixbyrm,removalwhy.buf))
+              if (!try_remove_can(pdep, fixbyrm, varbuf_str(&removalwhy)))
                 goto break_from_both_loops_at_once;
             }
           }
@@ -1472,7 +1473,8 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
   }
   varbuf_end_str(&conflictwhy);
   notice(_("regarding %s containing %s:\n%s"), pfilename,
-         pkgbin_name(pkg, &pkg->available, pnaw_nonambig), conflictwhy.buf);
+         pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
+         varbuf_str(&conflictwhy));
   if (!force_conflicts(dep->list))
     ohshit(_("conflicting packages - not installing %.250s"),
            pkgbin_name(pkg, &pkg->available, pnaw_nonambig));

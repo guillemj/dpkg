@@ -437,14 +437,16 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 			varbuf_end_str(&depwhynot);
 			notice(_("dependency problems prevent processing "
 			         "triggers for %s:\n%s"),
-			       pkg_name(pkg, pnaw_nonambig), depwhynot.buf);
+			       pkg_name(pkg, pnaw_nonambig),
+			       varbuf_str(&depwhynot));
 			varbuf_destroy(&depwhynot);
 			ohshit(_("dependency problems - leaving triggers unprocessed"));
 		} else if (depwhynot.used) {
 			varbuf_end_str(&depwhynot);
 			notice(_("%s: dependency problems, but processing "
 			         "triggers anyway as you requested:\n%s"),
-			       pkg_name(pkg, pnaw_nonambig), depwhynot.buf);
+			       pkg_name(pkg, pnaw_nonambig),
+			       varbuf_str(&depwhynot));
 			varbuf_destroy(&depwhynot);
 		}
 
@@ -472,7 +474,7 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 		if (!f_noact) {
 			sincenothing = 0;
 			maintscript_postinst(pkg, "triggered",
-			                     namesarg.buf + 1, NULL);
+			                     varbuf_str(&namesarg) + 1, NULL);
 		}
 
 		post_postinst_tasks(pkg, PKG_STAT_INSTALLED);

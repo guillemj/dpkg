@@ -610,13 +610,13 @@ deferred_configure(struct pkginfo *pkg)
 		sincenothing = 0;
 		varbuf_end_str(&aemsgs);
 		notice(_("dependency problems prevent configuration of %s:\n%s"),
-		       pkg_name(pkg, pnaw_nonambig), aemsgs.buf);
+		       pkg_name(pkg, pnaw_nonambig), varbuf_str(&aemsgs));
 		varbuf_destroy(&aemsgs);
 		ohshit(_("dependency problems - leaving unconfigured"));
 	} else if (aemsgs.used) {
 		varbuf_end_str(&aemsgs);
 		notice(_("%s: dependency problems, but configuring anyway as you requested:\n%s"),
-		       pkg_name(pkg, pnaw_nonambig), aemsgs.buf);
+		       pkg_name(pkg, pnaw_nonambig), varbuf_str(&aemsgs));
 	}
 	varbuf_destroy(&aemsgs);
 	sincenothing = 0;
@@ -777,8 +777,8 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 					r++;
 				varbuf_trunc(result, r);
 				debug(dbg_conffdetail,
-				      "conffderef readlink relative to '%.*s'",
-				      (int)result->used, result->buf);
+				      "conffderef readlink relative to '%s'",
+				      varbuf_str(result));
 			}
 			varbuf_add_varbuf(result, &target);
 			varbuf_end_str(result);

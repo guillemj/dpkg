@@ -177,21 +177,23 @@ setselections(const char *const *argv)
       if (!c_isspace(c))
         ohshit(_("unexpected data after package and selection at line %d"),lno);
     }
-    pkg = pkg_spec_parse_pkg(namevb.buf, &err);
+    pkg = pkg_spec_parse_pkg(varbuf_str(&namevb), &err);
     if (pkg == NULL)
       ohshit(_("illegal package name at line %d: %.250s"), lno, err.str);
 
     if (!pkg_is_informative(pkg, &pkg->installed) &&
         !pkg_is_informative(pkg, &pkg->available)) {
       db_possibly_outdated = true;
-      warning(_("package not in status nor available database at line %d: %.250s"), lno, namevb.buf);
+      warning(_("package not in status nor available database at line %d: %.250s"),
+              lno, varbuf_str(&namevb));
       lno++;
       continue;
     }
 
-    nv = namevalue_find_by_name(wantinfos, selvb.buf);
+    nv = namevalue_find_by_name(wantinfos, varbuf_str(&selvb));
     if (nv == NULL)
-      ohshit(_("unknown wanted status at line %d: %.250s"), lno, selvb.buf);
+      ohshit(_("unknown wanted status at line %d: %.250s"),
+             lno, varbuf_str(&selvb));
 
     pkg_set_want(pkg, nv->value);
     if (c == EOF) break;

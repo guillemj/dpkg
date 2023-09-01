@@ -329,7 +329,7 @@ varbuf_diversion(struct varbuf *str, const char *pkgname,
 			              filename, divertto, pkgname);
 	}
 
-	return str->buf;
+	return varbuf_str(str);
 }
 
 static const char *
@@ -349,7 +349,7 @@ diversion_current(const char *filename)
 		return varbuf_diversion(&str, opt_pkgname, filename, opt_divertto);
 	}
 
-	return str.buf;
+	return varbuf_str(&str);
 }
 
 static const char *

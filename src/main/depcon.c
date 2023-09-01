@@ -178,7 +178,7 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
     }
     varbuf_end_str(&str_pkgs);
     debug(dbg_depcondetail, "findbreakcyclerecursive %s %s",
-          pkg_name(pkg, pnaw_always), str_pkgs.buf);
+          pkg_name(pkg, pnaw_always), varbuf_str(&str_pkgs));
     varbuf_destroy(&str_pkgs);
   }
   thislink.pkg= pkg;

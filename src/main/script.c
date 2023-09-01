@@ -138,7 +138,7 @@ maintscript_pre_exec(struct command *cmd)
 		}
 		varbuf_end_str(&args);
 		debug(dbg_scripts, "fork/exec %s (%s )", cmd->filename,
-		      args.buf);
+		      varbuf_str(&args));
 		varbuf_destroy(&args);
 	}
 	if (instdirlen == 0 || in_force(FORCE_SCRIPT_CHROOTLESS))

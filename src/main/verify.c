@@ -196,7 +196,7 @@ verify_package(struct pkginfo *pkg)
 
 		memset(&checks, 0, sizeof(checks));
 
-		if (verify_file(filename.buf, fnn, pkg, &checks) > 0)
+		if (verify_file(varbuf_str(&filename), fnn, pkg, &checks) > 0)
 			verify_output(fnn, &checks);
 	}
 

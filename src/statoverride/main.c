@@ -282,12 +282,12 @@ statoverride_add(const char *const *argv)
 		varbuf_add_str(&realfilename, filename);
 		varbuf_end_str(&realfilename);
 
-		if (stat(realfilename.buf, &st) == 0) {
+		if (stat(varbuf_str(&realfilename), &st) == 0) {
 			(*filestat)->mode |= st.st_mode & S_IFMT;
-			statdb_node_apply(realfilename.buf, *filestat);
+			statdb_node_apply(varbuf_str(&realfilename), *filestat);
 		} else if (opt_verbose) {
 			warning(_("--update given but %s does not exist"),
-			        realfilename.buf);
+			        varbuf_str(&realfilename));
 		}
 
 		varbuf_destroy(&realfilename);

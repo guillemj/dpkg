@@ -63,7 +63,7 @@ test_field(struct pkginfo *pkg, const char *fmt, const char *exp)
 	head = pkg_format_parse(fmt, NULL);
 	test_pass(head);
 	pkg_format_print(&vb, head, pkg, &pkg->installed);
-	test_str(vb.buf, ==, exp);
+	test_str(varbuf_str(&vb), ==, exp);
 	pkg_format_free(head);
 	varbuf_destroy(&vb);
 }
