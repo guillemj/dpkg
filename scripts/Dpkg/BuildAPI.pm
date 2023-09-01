@@ -13,6 +13,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::BuildAPI - handle build API versions
+
+=head1 DESCRIPTION
+
+The Dpkg::BuildAPI module provides functions to fetch the current dpkg
+build API level.
+
+B<Note>: This is a private module, its API can change at any time.
+
+=cut
+
 package Dpkg::BuildAPI 0.01;
 
 use strict;
@@ -37,17 +52,6 @@ use constant {
 };
 
 my $build_api;
-
-=encoding utf8
-
-=head1 NAME
-
-Dpkg::BuildAPI - handle build API versions
-
-=head1 DESCRIPTION
-
-The Dpkg::BuildAPI module provides functions to fetch the current dpkg
-build API level.
 
 =head1 FUNCTIONS
 
