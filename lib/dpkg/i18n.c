@@ -43,7 +43,7 @@ dpkg_locales_init(const char *package)
 
 #if defined(__APPLE__) && defined(__MACH__)
 	/*
-	 * On Mac OS X, the libintl code needs to call into the CoreFoundation
+	 * On macOS, the libintl code needs to call into the CoreFoundation
 	 * framework, which is internally threaded, to initialize some caches.
 	 * This is a problem when that first call is done after a fork(3),
 	 * because per POSIX, only one thread will survive, leaving the

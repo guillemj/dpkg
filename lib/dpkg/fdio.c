@@ -109,7 +109,7 @@ fd_allocate_size(int fd, off_t offset, off_t len)
 		return 0;
 
 #if defined(HAVE_F_PREALLOCATE)
-	/* On Mac OS X. */
+	/* On macOS. */
 	fstore_t fs;
 
 	fd_preallocate_setup(&fs, F_ALLOCATECONTIG, offset, len);
