@@ -247,6 +247,7 @@ PODSUBST = $(SED) \
 	-e 's:%PKGDATADIR%:$(pkgdatadir):g' \
 	-e 's:%INSTDIR_ENVVAR%:DPKG_ROOT:g' \
 	-e 's:%ADMINDIR_ENVVAR%:DPKG_ADMINDIR:g' \
+	-e 's:%DEB_DEFAULT_COMPRESSOR%:$(DEB_DEFAULT_COMPRESSOR):g' \
 	# EOL
 
 MANFIXUP = $(SED) \
