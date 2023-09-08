@@ -22,6 +22,7 @@ ROTATE=7
 
 PKGDATADIR_DEFAULT=src
 PKGDATADIR="${DPKG_DATADIR:-$PKGDATADIR_DEFAULT}"
+TAR="${TAR:-tar}"
 
 # shellcheck source=src/sh/dpkg-error.sh
 . "$PKGDATADIR/sh/dpkg-error.sh"
@@ -38,8 +39,8 @@ while [ $# -ne 0 ]; do
 done
 
 # Check for required commands availability.
-for cmd in tar savelog; do
-  if ! command -v $cmd >/dev/null; then
+for cmd in "$TAR" savelog; do
+  if ! command -v "$cmd" >/dev/null; then
     error "cannot find required program '$cmd'"
   fi
 done
@@ -78,9 +79,9 @@ if cd $BACKUPSDIR ; then
   # XXX: Ideally we'd use --warning=none instead of discarding stderr, but
   # as of GNU tar 1.27.1, it does not seem to work reliably (see #749307).
   if ! test -e ${dbalt}.tar.0 ||
-     ! tar -df ${dbalt}.tar.0 -C $dbdir $dbalt >/dev/null 2>&1 ;
+     ! $TAR -df ${dbalt}.tar.0 -C $dbdir $dbalt >/dev/null 2>&1 ;
   then
-    tar -cf ${dbalt}.tar -C $dbdir $dbalt >/dev/null 2>&1
+    $TAR -cf ${dbalt}.tar -C $dbdir $dbalt >/dev/null 2>&1
     savelog -c "$ROTATE" ${dbalt}.tar >/dev/null
   fi
 fi
