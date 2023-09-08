@@ -114,7 +114,7 @@ sub finish {
     my $self = shift;
 
     close(*$self->{tar_input}) or syserr(g_('close on tar input'));
-    wait_child(*$self->{pid}, cmdline => 'tar -cf -');
+    wait_child(*$self->{pid}, cmdline => "$Dpkg::PROGTAR -cf -");
     delete *$self->{pid};
     delete *$self->{tar_input};
     delete *$self->{cwd};
