@@ -87,7 +87,7 @@ usage(const char *const *argv)
 "      --root <directory>           Use <directory> instead of %s.\n"
 "  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
 "  -o, --output <file>              Filename, for -j (default is\n"
-"                                     <package>_<version>_<arch>.deb).\n"
+"                                     <package>_<version>_<arch>" DEBEXT ").\n"
 "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
 "      --msdos                      Generate 8.3 filenames.\n"
 "\n"), ADMINDIR, PARTSDIR, ADMINDIR, "/");

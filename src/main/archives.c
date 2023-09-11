@@ -1545,7 +1545,7 @@ archivefiles(const char *const *argv)
 
         /* Check if it looks like a .deb file. */
         nodename = treenode_get_pathname(node);
-        if (strcmp(nodename + strlen(nodename) - 4, ".deb") != 0)
+        if (strcmp(nodename + strlen(nodename) - 4, DEBEXT) != 0)
           continue;
 
         arglist = m_realloc(arglist, sizeof(char *) * (nfiles + 2));

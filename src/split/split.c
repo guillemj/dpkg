@@ -199,11 +199,11 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 
 			refname = str_fmt("%dof%d", curpart, nparts);
 			prefix_max = max(8 - strlen(refname), 0);
-			varbuf_printf(&file_dst, "%s/%.*s%.8s.deb",
+			varbuf_printf(&file_dst, "%s/%.*s%.8s" DEBEXT,
 			              prefixdir, prefix_max, prefix, refname);
 			free(refname);
 		} else {
-			varbuf_printf(&file_dst, "%s.%dof%d.deb",
+			varbuf_printf(&file_dst, "%s.%dof%d" DEBEXT,
 			              prefix, curpart, nparts);
 		}
 
