@@ -509,10 +509,18 @@ sub analyze {
 	    $dirtocreate{$dirname} = 1;
 	}
 
-	if (-e $fn and not -f _) {
-	    error(g_("diff '%s' patches something which is not a plain file"),
-	          $diff);
-	}
+        if (-e $fn) {
+            if (not -f _) {
+                error(g_("diff '%s' patches something which is not a plain file"),
+                      $diff);
+            }
+            # Note: We cannot use "stat _" due to Time::HiRes.
+            my $nlink = (stat $fn)[3];
+            if ($nlink > 1) {
+                warning(g_("diff '%s' patches hard link %s which can have " .
+                           'unintended consequences'), $diff, $fn);
+            }
+        }
 
 	if ($filepatched{$fn}) {
             $filepatched{$fn}++;
