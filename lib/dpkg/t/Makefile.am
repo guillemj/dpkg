@@ -48,6 +48,7 @@ test_programs = \
 	t-pkg-queue \
 	t-pkg-hash \
 	t-pkg-show \
+	t-pkg-format \
 	t-fsys-dir \
 	t-fsys-hash \
 	t-trigger \
