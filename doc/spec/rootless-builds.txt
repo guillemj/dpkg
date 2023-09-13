@@ -28,12 +28,12 @@ We add a new field to the "Source" stanza of debian/control:
 The case sensitive values are defined as:
 
  * If "no", then "debian/rules binary" will not require root at all (not even
-   fakeroot).
+   fakeroot). This is the default in dpkg-build-api level >= 1.
    - If the "no" keyword is used, it MUST be the only keyword in that field
      and MUST appear exactly once.
 
  * If "binary-targets", then "debian/rules binary" (etc.) must always be run
-   under (fake)root. This is the default/status quo.
+   under (fake)root. This is the status quo, default in dpkg-build-api level 0.
 
  * <implementations-keywords> will be a space separated list of keywords which
    define when root is required.
