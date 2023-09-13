@@ -359,7 +359,8 @@ virt_source_upstream_version(struct varbuf *vb,
 
 	pkg_source_version(&version, pkg, pkgbin);
 
-	varbuf_add_str(vb, version.version);
+	if (version.version)
+		varbuf_add_str(vb, version.version);
 	varbuf_end_str(vb);
 }
 
