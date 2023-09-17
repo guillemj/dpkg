@@ -236,7 +236,7 @@ group of such symbols is I<non-virtual thunks> which have architecture
 specific offsets embedded in their mangled names. A common instance of this
 case is a virtual destructor which under diamond inheritance needs a
 non-virtual thunk symbol. For example, even if _ZThn8_N3NSB6ClassDD1Ev@Base on
-32bit architectures will probably be _ZThn16_N3NSB6ClassDD1Ev@Base on 64bit
+32-bit architectures will probably be _ZThn16_N3NSB6ClassDD1Ev@Base on 64-bit
 ones, it can be matched with a single I<c++> pattern:
 
  libdummy.so.1 libdummy1 #MINVER#
@@ -357,8 +357,8 @@ to create a common I<package>.symbols file which includes architecture
 specific symbol files:
 
   common_symbol1@Base 1.0
- (arch=amd64 ia64 alpha)#include "package.symbols.64bit"
- (arch=!amd64 !ia64 !alpha)#include "package.symbols.32bit"
+ (arch=amd64 ia64 alpha)#include "package.symbols.64-bit"
+ (arch=!amd64 !ia64 !alpha)#include "package.symbols.32-bit"
   common_symbol2@Base 1.0
 
 =back
