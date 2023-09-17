@@ -1872,7 +1872,7 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 	else {
 		/* Tests indicate that this never happens, since
 		 * kvm_getargv itself cuts of tailing stuff. This is
-		 * not what the manpage says, however. */
+		 * not what the manual page says, however. */
 		strncpy(buf, *pid_argv_p, (end_argv_0_p - start_argv_0_p));
 		buf[(end_argv_0_p - start_argv_0_p) + 1] = '\0';
 		start_argv_0_p = buf;
