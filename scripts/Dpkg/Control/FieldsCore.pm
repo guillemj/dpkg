@@ -21,7 +21,7 @@ Dpkg::Control::FieldsCore - manage (list of official) control fields
 
 =head1 DESCRIPTION
 
-The modules contains a list of fieldnames with associated meta-data explaining
+The modules contains a list of field names with associated meta-data explaining
 in which type of control information they are allowed. The types are the
 CTRL_* constants exported by Dpkg::Control.
 
