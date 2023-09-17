@@ -64,7 +64,7 @@ sub new {
 =item $proc->set_compression($comp)
 
 Select the compression method to use. It errors out if the method is not
-supported according to C<compression_is_supported> (of
+supported according to compression_is_supported() (of
 B<Dpkg::Compression>).
 
 =cut
@@ -79,7 +79,7 @@ sub set_compression {
 =item $proc->set_compression_level($level)
 
 Select the compression level to use. It errors out if the level is not
-valid according to C<compression_is_valid_level> (of
+valid according to compression_is_valid_level() (of
 B<Dpkg::Compression>).
 
 =cut
@@ -94,7 +94,7 @@ sub set_compression_level {
 
 =item @exec = $proc->get_uncompress_cmdline()
 
-Returns a list ready to be passed to C<exec>, its first element is the
+Returns a list ready to be passed to exec(), its first element is the
 program name (either for compression or decompression) and the following
 elements are parameters for the program.
 
@@ -136,9 +136,9 @@ sub _check_opts {
 Starts a compressor program. You must indicate where it will read its
 uncompressed data from and where it will write its compressed data to.
 This is accomplished by passing one parameter C<to_*> and one parameter
-C<from_*> as accepted by B<Dpkg::IPC::spawn>.
+C<from_*> as accepted by Dpkg::IPC::spawn().
 
-You must call C<wait_end_process> after having called this method to
+You must call wait_end_process() after having called this method to
 properly close the sub-process (and verify that it exited without error).
 
 =cut
@@ -159,9 +159,9 @@ sub compress {
 Starts a decompressor program. You must indicate where it will read its
 compressed data from and where it will write its uncompressed data to.
 This is accomplished by passing one parameter C<to_*> and one parameter
-C<from_*> as accepted by B<Dpkg::IPC::spawn>.
+C<from_*> as accepted by Dpkg::IPC::spawn().
 
-You must call C<wait_end_process> after having called this method to
+You must call wait_end_process() after having called this method to
 properly close the sub-process (and verify that it exited without error).
 
 =cut
@@ -179,10 +179,10 @@ sub uncompress {
 
 =item $proc->wait_end_process(%opts)
 
-Call B<Dpkg::IPC::wait_child> to wait until the sub-process has exited
+Call Dpkg::IPC::wait_child() to wait until the sub-process has exited
 and verify its return code. Any given option will be forwarded to
-the C<wait_child> function. Most notably you can use the "nocheck" option
-to verify the return code yourself instead of letting C<wait_child> do
+the wait_child() function. Most notably you can use the "nocheck" option
+to verify the return code yourself instead of letting wait_child() do
 it for you.
 
 =cut

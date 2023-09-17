@@ -107,7 +107,7 @@ Returns the number of changelog entries that have been parsed with success.
 =item $c->reset_parse_errors()
 
 Can be used to delete all information about errors occurred during
-previous L<parse> runs.
+previous parse() runs.
 
 =cut
 
@@ -139,7 +139,7 @@ sub parse_error {
 
 =item $c->get_parse_errors()
 
-Returns all error messages from the last L<parse> run.
+Returns all error messages from the last parse() run.
 If called in scalar context returns a human readable
 string representation. If called in list context returns
 an array of arrays. Each of these arrays contains

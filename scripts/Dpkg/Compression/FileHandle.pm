@@ -59,11 +59,11 @@ Dpkg::Compression::FileHandle - class dealing transparently with file compressio
 Dpkg::Compression::FileHandle is a class that can be used
 like any filehandle and that deals transparently with compressed
 files. By default, the compression scheme is guessed from the filename
-but you can override this behavior with the method C<set_compression>.
+but you can override this behavior with the method set_compression().
 
 If you don't open the file explicitly, it will be auto-opened on the
 first read or write operation based on the filename set at creation time
-(or later with the C<set_filename> method).
+(or later with the set_filename() method).
 
 Once a file has been opened, the filehandle must be closed before being
 able to open another file.
@@ -92,11 +92,11 @@ use parent qw(IO::File Tie::Handle);
 
 The standard functions acting on filehandles should accept a
 Dpkg::Compression::FileHandle object transparently including
-C<open> (only when using the variant with 3 parameters), C<close>,
-C<binmode>, C<eof>, C<fileno>, C<getc>, C<print>, C<printf>, C<read>,
-C<sysread>, C<say>, C<write>, C<syswrite>, C<seek>, C<sysseek>, C<tell>.
+open() (only when using the variant with 3 parameters), close(),
+binmode(), eof(), fileno(), getc(), print(), printf(), read(),
+sysread(), say(), write(), syswrite(), seek(), sysseek(), tell().
 
-Note however that C<seek> and C<sysseek> will only work on uncompressed
+Note however that seek() and sysseek() will only work on uncompressed
 files as compressed files are really pipes to the compressor programs
 and you can't seek on a pipe.
 
@@ -300,7 +300,7 @@ sub set_compression {
 =item $fh->set_compression_level($level)
 
 Indicate the desired compression level. It should be a value accepted
-by the function C<compression_is_valid_level> of B<Dpkg::Compression>.
+by the function compression_is_valid_level() of B<Dpkg::Compression>.
 
 =cut
 
@@ -364,7 +364,7 @@ sub get_filename {
 
 Returns "0" if no compression is used and the compression method used
 otherwise. If the compression is set to "auto", the value returned
-depends on the extension of the filename obtained with the B<get_filename>
+depends on the extension of the filename obtained with the get_filename()
 method.
 
 =cut
