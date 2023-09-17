@@ -217,7 +217,7 @@ in the order in which they have been parsed.
 Returns an array (if called in list context) or a reference to an array of
 Dpkg::Changelog::Entry objects which each represent one entry of the
 changelog. $range is a hash reference describing the range of entries
-to return. See section L<"RANGE SELECTION">.
+to return. See section L</RANGE SELECTION>.
 
 =cut
 
@@ -590,7 +590,7 @@ sub _format_rfc822 {
 =item $control = $c->format_range($format, $range)
 
 Formats the changelog into Dpkg::Control::Changelog objects representing the
-entries selected by the optional range specifier (see L<"RANGE SELECTION">
+entries selected by the optional range specifier (see L</RANGE SELECTION>
 for details). In scalar context returns a Dpkg::Index object containing the
 selected entries, in list context returns an array of Dpkg::Control::Changelog
 objects.
