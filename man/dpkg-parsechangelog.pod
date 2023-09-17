@@ -50,9 +50,11 @@ B<debian/changelog>.
 
 =item B<-F> I<changelog-format>
 
-Specifies the format of the changelog. By default the format is read
+Specifies the format of the changelog.
+By default the format is read
 from a special line near the bottom of the changelog or failing that
-defaults to the B<debian> standard format. See also
+defaults to the B<debian> standard format.
+See also
 B<CHANGELOG FORMATS>.
 
 =item B<-L> I<libdir>
@@ -86,11 +88,13 @@ of the output.
 
 =item B<--format> I<output-format>
 
-Set the output format. Currently supported values are
+Set the output format.
+Currently supported values are
 B<dpkg> and B<rfc822>.
 B<dpkg> is the classic output format (from before this
-option existed) and the default. It consists of one stanza
-in Debian control format (see L<deb-control(5)>). If more
+option existed) and the default.
+It consists of one stanza in Debian control format (see L<deb-control(5)>).
+If more
 than one entry is requested, then most fields are taken from the
 first entry (usually the most recent entry), except otherwise stated:
 
@@ -143,10 +147,12 @@ The Closes fields of all included entries are merged.
 
 =item B<Changes:> I<changelog-entries>
 
-The text of all changelog entries is concatenated. To make
+The text of all changelog entries is concatenated.
+To make
 this field a valid Debian control format multiline field
 empty lines are replaced with a single full stop and all lines
-is intended by one space character. The exact content depends
+is intended by one space character.
+The exact content depends
 on the changelog format.
 
 =back
@@ -212,7 +218,8 @@ a parser for that alternative format.
 In order to have B<dpkg-parsechangelog> run the new parser, a line must
 be included within the last 40 lines of the changelog file, matching the Perl
 regular expression: “B<\schangelog-format:\s+([0-9a-z]+)\W>”.
-The part in parentheses should be the name of the format. For example:
+The part in parentheses should be the name of the format.
+For example:
 
 =over
 
@@ -238,7 +245,8 @@ leaves a blank line between individual change notes, these blank lines
 should be stripped out, so as to make the resulting output compact.
 
 If the changelog format does not contain date or package name information
-this information should be omitted from the output. The parser should not
+this information should be omitted from the output.
+The parser should not
 attempt to synthesize it or find it from other sources.
 
 If the changelog does not have the expected format the parser should

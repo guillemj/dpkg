@@ -41,12 +41,15 @@ L<dpkg(1)>, and cannot be set at the command line.
 
 You can specify the host architecture by providing one or both of the options
 B<--host-arch> and B<--host-type>, otherwise the B<DEB_HOST_ARCH> variable
-is used if set (and B<--force> not being specified). The default is
+is used if set (and B<--force> not being specified).
+The default is
 determined by an external call to L<gcc(1)>,
 or the same as the build architecture if B<CC> or gcc are both not
-available. One out of B<--host-arch> and B<--host-type> is
+available.
+One out of B<--host-arch> and B<--host-type> is
 sufficient, the value of the
-other will be set to a usable default. Indeed, it is often better to only
+other will be set to a usable default.
+Indeed, it is often better to only
 specify one, because B<dpkg-architecture> will warn you if your choice
 does not match the default.
 
@@ -57,7 +60,8 @@ does not match the default.
 =item B<-l>, B<--list>
 
 Print the environment variables, one each line, in the format
-I<VARIABLE=value>. This is the default action.
+I<VARIABLE=value>.
+This is the default action.
 
 =item B<-e>, B<--equal> I<architecture>
 
@@ -81,7 +85,8 @@ Print the value of a single variable.
 
 =item B<-s>, B<--print-set>
 
-Print an export command. This can be used to set the environment variables
+Print an export command.
+This can be used to set the environment variables
 using the POSIX shell or make B<eval>, depending on the output format.
 
 =item B<-u>, B<--print-unset>
@@ -141,12 +146,14 @@ the specified architecture wildcard (since dpkg 1.17.14).
 =item B<-B>, B<--match-bits> I<architecture-bits>
 
 Restrict the architectures listed by B<--list-known> to ones with the
-specified CPU bits (since dpkg 1.17.14). Either B<32> or B<64>.
+specified CPU bits (since dpkg 1.17.14).
+Either B<32> or B<64>.
 
 =item B<-E>, B<--match-endian> I<architecture-endianness>
 
 Restrict the architectures listed by B<--list-known> to ones with the
-specified endianness (since dpkg 1.17.14). Either B<little> or B<big>.
+specified endianness (since dpkg 1.17.14).
+Either B<little> or B<big>.
 
 =item B<--print-format> I<format>
 
@@ -157,7 +164,8 @@ Sets the output format for B<--print-set> and B<--print-unset>
 
 Values set by existing environment variables with the same name as used by
 the scripts are honored (i.e. used by B<dpkg-architecture>), except if
-this force flag is present. This allows the user
+this force flag is present.
+This allows the user
 to override a value even when the call to B<dpkg-architecture> is buried
 in some other script (for example L<dpkg-buildpackage(1)>).
 
@@ -185,7 +193,8 @@ and to build (or run emulated) code for the target architecture.
 =item Debian architecture
 
 The Debian architecture string, which specifies the binary tree in the
-FTP archive. Examples: i386, sparc, hurd-i386.
+FTP archive.
+Examples: i386, sparc, hurd-i386.
 
 =item Debian architecture tuple
 
@@ -386,7 +395,8 @@ paths (since dpkg 1.17.14).
 =head2 Architecture tables
 
 All these files have to be present for B<dpkg-architecture> to
-work. Their location can be overridden at runtime with the environment
+work.
+Their location can be overridden at runtime with the environment
 variable B<DPKG_DATADIR>.
 These tables contain a format B<Version> pseudo-field on their first
 line to mark their format, so that parsers can check if they understand
@@ -431,7 +441,8 @@ B<dpkg-architecture> outputs (since dpkg 1.16.1).
 =head1 EXAMPLES
 
 B<dpkg-buildpackage> accepts the B<-a> option and passes it to
-B<dpkg-architecture>. Other examples:
+B<dpkg-architecture>.
+Other examples:
 
 =over
 
@@ -465,10 +476,13 @@ Check if the current or specified host architecture is a Linux system:
 =head2 Usage in debian/rules
 
 The environment variables set by B<dpkg-architecture> are passed to
-I<debian/rules> as make variables (see make documentation). However,
+I<debian/rules> as make variables (see make documentation).
+However,
 you should not rely on them, as this breaks manual invocation of the
-script. Instead, you should always initialize them using
-B<dpkg-architecture> with the B<-q> option. Here are some examples,
+script.
+Instead, you should always initialize them using
+B<dpkg-architecture> with the B<-q> option.
+Here are some examples,
 which also show how you can improve the cross compilation support in your
 package:
 

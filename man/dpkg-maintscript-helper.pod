@@ -50,7 +50,8 @@ some tasks that B<dpkg> can't (yet) handle natively either because of
 design decisions or due to current limitations.
 
 Many of those tasks require coordinated actions from several maintainer
-scripts (B<preinst>, B<postinst>, B<prerm>, B<postrm>). To
+scripts (B<preinst>, B<postinst>, B<prerm>, B<postrm>).
+To
 avoid mistakes the same call simply needs to be put in all scripts and the
 program will automatically adapt its behavior based on the environment
 variable B<DPKG_MAINTSCRIPT_NAME> and on the maintainer scripts arguments
@@ -65,9 +66,11 @@ This program was introduced in dpkg 1.15.7.
 =item I<prior-version>
 
 Defines the latest version of the package whose upgrade should trigger the
-operation. It is important to calculate I<prior-version> correctly so
+operation.
+It is important to calculate I<prior-version> correctly so
 that the operations are correctly performed even if the user rebuilt the
-package with a local version. If I<prior-version> is empty or omitted,
+package with a local version.
+If I<prior-version> is empty or omitted,
 then the operation is tried on every upgrade (note: it's safer to give
 the version and have the operation tried only once).
 
@@ -75,12 +78,15 @@ If the conffile has not been shipped for several versions, and you are
 now modifying the maintainer scripts to clean up the obsolete file,
 I<prior-version> should be based on the version of the package that
 you are now preparing, not the first version of the package that lacked
-the conffile. This applies to all other actions in the same way.
+the conffile.
+This applies to all other actions in the same way.
 
 For example, for a conffile removed in version B<2.0-1> of a package,
-I<prior-version> should be set to B<2.0-1~>. This will cause the
+I<prior-version> should be set to B<2.0-1~>.
+This will cause the
 conffile to be removed even if the user rebuilt the previous version
-B<1.0-1> as B<1.0-1local1>. Or a package switching a path from
+B<1.0-1> as B<1.0-1local1>.
+Or a package switching a path from
 a symlink (shipped in version B<1.0-1>) to a directory (shipped in
 version B<2.0-1>), but only performing the actual switch in the
 maintainer scripts in version B<3.0-1>, should set I<prior-version>
@@ -110,10 +116,12 @@ program after B<-->.
 
 When upgrading a package, B<dpkg> will not automatically remove a conffile
 (a configuration file for which B<dpkg> should preserve user changes) if
-it is not present in the newer version. There are two principal reasons for
+it is not present in the newer version.
+There are two principal reasons for
 this; the first is that the conffile could've been dropped by accident and
 the next version could restore it, users wouldn't want their changes
-thrown away. The second is to allow packages to transition files from a
+thrown away.
+The second is to allow packages to transition files from a
 dpkg-maintained conffile to a file maintained by the package's maintainer
 scripts, usually with a tool like debconf or ucf.
 
@@ -128,8 +136,9 @@ B<Note>: This can be replaced in most cases by the C<remove-on-upgrade>
 flag in F<DEBIAN/conffiles> (since dpkg 1.20.6), see L<deb-conffiles(5)>.
 
 If a conffile is completely removed, it should be removed from disk,
-unless the user has modified it. If there are local modifications, they
-should be preserved. If the package upgrades aborts, the newly obsolete
+unless the user has modified it.
+If there are local modifications, they should be preserved.
+If the package upgrades aborts, the newly obsolete
 conffile should not disappear.
 
 All of this is implemented by putting the following shell snippet in the
@@ -147,17 +156,20 @@ I<conffile> is the filename of the conffile to remove.
 
 Current implementation: in the B<preinst>, it checks if the conffile
 was modified and renames it either to I<conffile>B<.dpkg-remove> (if not
-modified) or to I<conffile>B<.dpkg-backup> (if modified). In the
+modified) or to I<conffile>B<.dpkg-backup> (if modified).
+In the
 B<postinst>, the latter file is renamed to I<conffile>B<.dpkg-bak>
 and kept for reference as it contains user modifications but the former will
-be removed. If the package upgrade aborts, the B<postrm> reinstalls the
-original conffile. During purge, the B<postrm> will also delete the
+be removed.
+If the package upgrade aborts, the B<postrm> reinstalls the original conffile.
+During purge, the B<postrm> will also delete the
 B<.dpkg-bak> file kept up to now.
 
 =head2 Renaming a conffile
 
 If a conffile is moved from one location to another, you need to make sure
-you move across any changes the user has made. This may seem a simple
+you move across any changes the user has made.
+This may seem a simple
 change to the B<preinst> script at first, however that will result in
 the user being prompted by B<dpkg> to approve the conffile edits even
 though they are not responsible of them.
@@ -179,16 +191,19 @@ conffile to rename.
 
 Current implementation: the B<preinst> checks if the conffile has been
 modified, if yes it's left on place otherwise it's renamed to
-I<old-conffile>B<.dpkg-remove>. On configuration, the B<postinst>
+I<old-conffile>B<.dpkg-remove>.
+On configuration, the B<postinst>
 removes I<old-conffile>B<.dpkg-remove> and renames I<old-conffile>
-to I<new-conffile> if I<old-conffile> is still available. On
+to I<new-conffile> if I<old-conffile> is still available.
+On
 abort-upgrade/abort-install, the B<postrm> renames
 I<old-conffile>B<.dpkg-remove> back to I<old-conffile> if required.
 
 =head1 SYMLINK AND DIRECTORY SWITCHES
 
 When upgrading a package, B<dpkg> will not automatically switch a symlink
-to a directory or vice-versa. Downgrades are not supported and the path
+to a directory or vice-versa.
+Downgrades are not supported and the path
 will be left as is.
 
 B<Note>: The symlinks and directories created during these switches need to
@@ -198,7 +213,8 @@ on purge.
 =head2 Switching a symlink to directory
 
 If a symlink is switched to a real directory, you need to make sure
-before unpacking that the symlink is removed. This may seem a simple
+before unpacking that the symlink is removed.
+This may seem a simple
 change to the B<preinst> script at first, however that will result
 in some problems in case of admin local customization of the symlink
 or when downgrading the package.
@@ -217,21 +233,25 @@ Z<>
 
 I<pathname> is the absolute name of the old symlink (the path will be a
 directory at the end of the installation) and I<old-target> is
-the target name of the former symlink at I<pathname>. It can either be
+the target name of the former symlink at I<pathname>.
+It can either be
 absolute or relative to the directory containing I<pathname>.
 
 Current implementation: the B<preinst> checks if the symlink exists
 and points to I<old-target>, if not then it's left in place, otherwise
-it's renamed to I<pathname>B<.dpkg-backup>. On configuration,
+it's renamed to I<pathname>B<.dpkg-backup>.
+On configuration,
 the B<postinst> removes I<pathname>B<.dpkg-backup> if
-I<pathname>B<.dpkg-backup> is still a symlink. On
+I<pathname>B<.dpkg-backup> is still a symlink.
+On
 abort-upgrade/abort-install, the B<postrm> renames
 I<pathname>B<.dpkg-backup> back to I<pathname> if required.
 
 =head2 Switching a directory to symlink
 
 If a real directory is switched to a symlink, you need to make sure
-before unpacking that the directory is removed. This may seem a simple
+before unpacking that the directory is removed.
+This may seem a simple
 change to the B<preinst> script at first, however that will result
 in some problems in case the directory contains conffiles, pathnames
 owned by other packages, locally created pathnames, or when downgrading
@@ -251,7 +271,8 @@ Z<>
 
 I<pathname> is the absolute name of the old directory (the path
 will be a symlink at the end of the installation) and I<new-target> is
-the target of the new symlink at I<pathname>. It can either be absolute
+the target of the new symlink at I<pathname>.
+It can either be absolute
 or relative to the directory containing I<pathname>.
 
 Current implementation: the B<preinst> checks if the directory
@@ -259,13 +280,15 @@ exists, does not contain conffiles, pathnames owned by other packages,
 or locally created pathnames, if not then it's left in place, otherwise
 it's renamed to I<pathname>B<.dpkg-backup>, and an empty staging
 directory named I<pathname> is created, marked with a file so that
-dpkg can track it. On configuration, the B<postinst> finishes the
+dpkg can track it.
+On configuration, the B<postinst> finishes the
 switch if I<pathname>B<.dpkg-backup> is still a directory and
 I<pathname> is the staging directory; it removes the staging directory
 mark file, moves the newly created files inside the staging directory
 to the symlink target I<new-target>/, replaces the now empty staging
 directory I<pathname> with a symlink to I<new-target>, and
-removes I<pathname>B<.dpkg-backup>. On
+removes I<pathname>B<.dpkg-backup>.
+On
 abort-upgrade/abort-install, the B<postrm> renames
 I<pathname>B<.dpkg-backup> back to I<pathname> if required.
 
@@ -273,11 +296,13 @@ I<pathname>B<.dpkg-backup> back to I<pathname> if required.
 
 When using a packaging helper, please check if it has native
 B<dpkg-maintscript-helper> integration, which might make your life
-easier. See for example L<dh_installdeb(1)>.
+easier.
+See for example L<dh_installdeb(1)>.
 
 Given that B<dpkg-maintscript-helper> is used in the B<preinst>,
 using it unconditionally requires a pre-dependency to ensure that the
-required version of B<dpkg> has been unpacked before. The required version
+required version of B<dpkg> has been unpacked before.
+The required version
 depends on the command used, for B<rm_conffile> and B<mv_conffile>
 it is 1.15.7.2, for B<symlink_to_dir> and B<dir_to_symlink>
 it is 1.17.14:
@@ -302,7 +327,8 @@ Z<>
 
 =back
 
-The command B<supports> will return 0 on success, 1 otherwise. The
+The command B<supports> will return 0 on success, 1 otherwise.
+The
 B<supports> command will check if the environment variables as set
 by dpkg and required by the script are present, and will consider it a
 failure in case the environment is not sufficient.

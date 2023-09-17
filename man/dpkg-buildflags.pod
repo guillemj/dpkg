@@ -86,7 +86,8 @@ Since dpkg 1.16.1.
 =back
 
 The configuration files can contain comments on lines starting with a hash
-(#). Empty lines are also ignored.
+(#).
+Empty lines are also ignored.
 
 This program was introduced in dpkg 1.15.7.
 
@@ -96,14 +97,17 @@ This program was introduced in dpkg 1.15.7.
 
 =item B<--dump>
 
-Print to standard output all compilation flags and their values. It prints
+Print to standard output all compilation flags and their values.
+It prints
 one flag per line separated from its value by an equal sign
-(“I<flag>=I<value>”). This is the default action.
+(“I<flag>=I<value>”).
+This is the default action.
 
 =item B<--list>
 
 Print the list of flags supported by the current vendor
-(one per line). See the L</SUPPORTED FLAGS> section for more
+(one per line).
+See the L</SUPPORTED FLAGS> section for more
 information about them.
 
 =item B<--status>
@@ -114,29 +118,34 @@ current vendor, state of all feature flags.
 Also print the resulting compiler flags with their origin.
 
 This is intended to be run from B<debian/rules>, so that the build log
-keeps a clear trace of the build flags used. This can be useful to diagnose
+keeps a clear trace of the build flags used.
+This can be useful to diagnose
 problems related to them.
 
 =item B<--export=>I<format>
 
 Print to standard output commands that can be used to export all the
-compilation flags for some particular tool. If the I<format> value is not
-given, B<sh> is assumed. Only compilation flags starting with an
+compilation flags for some particular tool.
+If the I<format> value is not given, B<sh> is assumed.
+Only compilation flags starting with an
 upper case character are included, others are assumed to not be suitable
-for the environment. Supported formats:
+for the environment.
+Supported formats:
 
 =over
 
 =item B<sh>
 
 Shell commands to set and export all the compilation flags in the
-environment. The flag values are quoted so the output is ready for
+environment.
+The flag values are quoted so the output is ready for
 evaluation by a shell.
 
 =item B<cmdline>
 
 Arguments to pass to a build program's command line to use all the
-compilation flags (since dpkg 1.17.0). The flag values are quoted in
+compilation flags (since dpkg 1.17.0).
+The flag values are quoted in
 shell syntax.
 
 =item B<configure>
@@ -146,20 +155,23 @@ This is a legacy alias for B<cmdline>.
 =item B<make>
 
 Make directives to set and export all the compilation flags in the
-environment. Output can be written to a Makefile fragment and
+environment.
+Output can be written to a Makefile fragment and
 evaluated using an B<include> directive.
 
 =back
 
 =item B<--get> I<flag>
 
-Print the value of the flag on standard output. Exits with 0
+Print the value of the flag on standard output.
+Exits with 0
 if the flag is known otherwise exits with 1.
 
 =item B<--origin> I<flag>
 
-Print the origin of the value that is returned by B<--get>. Exits
-with 0 if the flag is known otherwise exits with 1. The origin can be one
+Print the origin of the value that is returned by B<--get>.
+Exits with 0 if the flag is known otherwise exits with 1.
+The origin can be one
 of the following values:
 
 =over
@@ -316,7 +328,8 @@ objects (if the linker is called directly, then
 B<-Wl>
 and
 B<,>
-have to be stripped from these options). Default value: empty.
+have to be stripped from these options).
+Default value: empty.
 
 =item B<ASFLAGS_FOR_BUILD>
 
@@ -530,7 +543,8 @@ B<CFLAGS>, B<CXXFLAGS> and B<LDFLAGS>.
 
 This setting (since dpkg 1.18.0; disabled by default) adds
 B<-fsanitize=leak> to
-B<LDFLAGS>. It gets automatically disabled if either the B<address>
+B<LDFLAGS>.
+It gets automatically disabled if either the B<address>
 or the B<thread> features are enabled, as they imply it.
 
 =item B<undefined>
@@ -558,7 +572,8 @@ B<-Wformat -Werror=format-security>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS> and B<OBJCXXFLAGS>.
 This will warn about improper format
 string uses, and will fail when format functions are used in a way
-that represent possible security problems. At present, this warns about
+that represent possible security problems.
+At present, this warns about
 calls to B<printf> and B<scanf> functions where the format string is
 not a string literal and there are no format arguments, as in
 B<printf(foo);> instead of B<printf("%s", foo);>
@@ -569,16 +584,20 @@ input and contains ‘%n’.
 
 This setting (since dpkg 1.16.1; enabled by default) adds
 B<-D_FORTIFY_SOURCE=2>
-to B<CPPFLAGS>. During code generation the compiler
+to B<CPPFLAGS>.
+During code generation the compiler
 knows a great deal of information about buffer sizes (where possible), and
 attempts to replace insecure unlimited length buffer function calls with
-length-limited ones. This is especially useful for old, crufty code.
+length-limited ones.
+This is especially useful for old, crufty code.
 Additionally, format strings in writable memory that contain ‘%n’ are
-blocked. If an application depends on such a format string, it will need
+blocked.
+If an application depends on such a format string, it will need
 to be worked around.
 
 Note that for this option to have any effect, the source must also
-be compiled with B<-O1> or higher. If the environment variable
+be compiled with B<-O1> or higher.
+If the environment variable
 B<DEB_BUILD_OPTIONS> contains I<noopt>, then B<fortify>
 support will be disabled, due to new warnings being issued by
 glibc 2.16 and later.
@@ -590,8 +609,9 @@ is not in use) adds B<-fstack-protector --param=ssp-buffer-size=4>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS>.
 This adds safety checks against stack
-overwrites. This renders many potential code injection attacks into
-aborting situations. In the best case this turns code injection
+overwrites.
+This renders many potential code injection attacks into aborting situations.
+In the best case this turns code injection
 vulnerabilities into denial of service or into non-issues (depending on
 the application).
 
@@ -634,19 +654,24 @@ whether these are valid at run-time.
 
 This setting (since dpkg 1.16.1; enabled by default) adds
 B<-Wl,-z,relro>
-to B<LDFLAGS>.  During program load, several ELF memory sections need
-to be written to by the linker. This flags the loader to turn these
-sections read-only before turning over control to the program. Most
-notably this prevents GOT overwrite attacks. If this option is disabled,
+to B<LDFLAGS>.
+During program load,
+several ELF memory sections need to be written to by the linker.
+This flags the loader to turn these sections read-only before turning over
+control to the program.
+Most notably this prevents GOT overwrite attacks.
+If this option is disabled,
 B<bindnow> will become disabled as well.
 
 =item B<bindnow>
 
 This setting (since dpkg 1.16.1; disabled by default) adds
 B<-Wl,-z,now>
-to B<LDFLAGS>. During program load, all dynamic symbols are resolved,
+to B<LDFLAGS>.
+During program load, all dynamic symbols are resolved,
 allowing for the entire PLT to be marked read-only (due to B<relro>
-above). The option cannot become enabled if B<relro> is not enabled.
+above).
+The option cannot become enabled if B<relro> is not enabled.
 
 =item B<pie>
 
@@ -682,7 +707,8 @@ harder since there are no static locations to bounce off of during a
 memory corruption attack.
 
 PIE is not compatible with B<-fPIC>, so in general care must be taken
-when building shared objects. But because the PIE flags emitted get injected
+when building shared objects.
+But because the PIE flags emitted get injected
 via gcc specs files, it should always be safe to unconditionally set them
 regardless of the object type being compiled or linked.
 
@@ -707,7 +733,8 @@ Can be linked into any program and shared library.
 =back
 
 If there is a need to set these flags manually, bypassing the gcc specs
-injection, there are several things to take into account. Unconditionally
+injection, there are several things to take into account.
+Unconditionally
 and explicitly passing B<-fPIE>, B<-fpie> or B<-pie> to a
 build-system using libtool is safe as these flags will get stripped
 when building shared libraries.
@@ -716,14 +743,16 @@ might need to make sure that when building the shared libraries B<-fPIC>
 is always passed last (so that it overrides any previous B<-PIE>) to
 compilation flags such as B<CFLAGS>, and B<-shared> is passed last
 (so that it overrides any previous B<-pie>) to linking flags such as
-B<LDFLAGS>. B<Note>: This should not be needed with the default
+B<LDFLAGS>.
+B<Note>: This should not be needed with the default
 gcc specs machinery.
 
 Additionally, since PIE is implemented via a general register, some
 register starved architectures (but not including i386 anymore since
 optimizations implemented in gcc E<gt>= 5) can see performance losses of up to
 15% in very text-segment-heavy application workloads; most workloads
-see less than 1%. Architectures with more general registers (e.g. amd64)
+see less than 1%.
+Architectures with more general registers (e.g. amd64)
 do not see as high a worst-case penalty.
 
 =back
@@ -732,7 +761,8 @@ do not see as high a worst-case penalty.
 
 The compile-time options detailed below can be used to help improve
 build reproducibility or provide additional warning messages during
-compilation. Except as noted below, these are enabled by default for
+compilation.
+Except as noted below, these are enabled by default for
 architectures that support them.
 
 =over
@@ -782,8 +812,10 @@ B<Note>: This feature has similar reproducible properties as B<fixfilepath>.
 
 There are 2 sets of environment variables doing the same operations, the
 first one (DEB_I<flag>_I<op>) should never be used within
-B<debian/rules>. It's meant for any user that wants to rebuild the
-source package with different build flags. The second set
+B<debian/rules>.
+It's meant for any user that wants to rebuild the source package with
+different build flags.
+The second set
 (DEB_I<flag>_MAINT_I<op>) should only be used in B<debian/rules>
 by package maintainers to change the resulting build flags.
 
@@ -919,14 +951,16 @@ You should call B<dpkg-buildflags> or include B<buildflags.mk>
 from the B<debian/rules> file to obtain the needed build flags to
 pass to the build system.
 Note that older versions of B<dpkg-buildpackage> (before dpkg 1.16.1)
-exported these flags automatically. However, you should not rely on this,
+exported these flags automatically.
+However, you should not rely on this,
 since this breaks manual invocation of B<debian/rules>.
 
 For packages with autoconf-like build systems, you can pass the relevant
 options to configure or L<make(1)> directly, as shown above.
 
 For other build systems, or when you need more fine-grained control
-about which flags are passed where, you can use B<--get>. Or you
+about which flags are passed where, you can use B<--get>.
+Or you
 can include B<buildflags.mk> instead, which takes care of calling
 B<dpkg-buildflags> and storing the build flags in make variables.
 

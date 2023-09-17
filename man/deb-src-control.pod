@@ -44,11 +44,13 @@ A field starts with a field name, such as B<Package> or B<Section>
 (case insensitive), followed by a colon, the body of the field
 (case sensitive unless stated otherwise) and a newline.
 Multi-line fields are also allowed, but each supplementary line, without a
-field name, should start with at least one space. The content of the multi-line
+field name, should start with at least one space.
+The content of the multi-line
 fields is generally joined to a single line by the tools (except in the case of
 the
 B<Description>
-field, see below). To insert empty lines into a multi-line
+field, see below).
+To insert empty lines into a multi-line
 field, insert a dot after the space.
 Lines starting with a ‘B<#>’ are treated as comments.
 
@@ -59,9 +61,11 @@ Lines starting with a ‘B<#>’ are treated as comments.
 =item B<Source:> I<source-package-name> (required)
 
 The value of this field is the name of the source package, and should
-match the name of the source package in the debian/changelog file. A package
+match the name of the source package in the debian/changelog file.
+A package
 name must consist only of lowercase letters (a-z), digits (0-9), plus (+) and
-minus (-) signs, and periods (.). Package names must be at least two characters
+minus (-) signs, and periods (.).
+Package names must be at least two characters
 long and must start with a lowercase alphanumeric character (a-z0-9).
 
 =item B<Maintainer:> I<fullname-email> (recommended)
@@ -98,9 +102,11 @@ The upstream project home page URL.
 
 =item B<Bugs:> I<url>
 
-The I<url> of the bug tracking system for this package. The current
+The I<url> of the bug tracking system for this package.
+The current
 used format is I<bts-type>B<://>I<bts-address>, like
-B<debbugs://bugs.debian.org>. This field is usually not needed.
+B<debbugs://bugs.debian.org>.
+This field is usually not needed.
 
 =item B<Rules-Requires-Root:> B<no>|B<binary-targets>|I<impl-keywords>
 
@@ -169,9 +175,11 @@ B<debian/tests/control> or copied literally to the source control file.
 =item B<Vcs-Svn:> I<url>
 
 The I<url> of the Version Control System repository used to maintain this
-package. Currently supported are B<Arch>, B<Bzr> (Bazaar), B<Cvs>,
+package.
+Currently supported are B<Arch>, B<Bzr> (Bazaar), B<Cvs>,
 B<Darcs>, B<Git>, B<Hg> (Mercurial), B<Mtn> (Monotone) and
-B<Svn> (Subversion). Usually this field points to the latest version
+B<Svn> (Subversion).
+Usually this field points to the latest version
 of the package, such as the main branch or the trunk.
 
 =item B<Vcs-Browser:> I<url>
@@ -181,7 +189,8 @@ repository.
 
 =item B<Origin:> I<name>
 
-The name of the distribution this package is originating from. This field is
+The name of the distribution this package is originating from.
+This field is
 usually not needed.
 
 =item B<Section:> I<section>
@@ -218,15 +227,17 @@ package.
 =item B<Build-Depends-Arch:> I<package-list>
 
 Same as B<Build-Depends>, but they are only needed when building the
-architecture dependent packages. The B<Build-Depends> are also
-installed in this case. This field is supported since dpkg 1.16.4; in
+architecture dependent packages.
+The B<Build-Depends> are also installed in this case.
+This field is supported since dpkg 1.16.4; in
 order to build with older dpkg versions, B<Build-Depends>
 should be used instead.
 
 =item B<Build-Depends-Indep:> I<package-list>
 
 Same as B<Build-Depends>, but they are only needed when building the
-architecture independent packages. The B<Build-Depends> are also
+architecture independent packages.
+The B<Build-Depends> are also
 installed in this case.
 
 =item B<Build-Conflicts:> I<package-list>
@@ -241,7 +252,8 @@ used for source-only builds.
 =item B<Build-Conflicts-Arch:> I<package-list>
 
 Same as B<Build-Conflicts>, but only when building the architecture
-dependent packages. This field is supported since dpkg 1.16.4; in
+dependent packages.
+This field is supported since dpkg 1.16.4; in
 order to build with older dpkg versions, B<Build-Conflicts> should
 be used instead.
 
@@ -309,11 +321,14 @@ equal to, ‘B<E<lt>=>’ for less than or equal to, and ‘B<=>’
 for equal to.
 
 An architecture specification consists of one or more architecture names,
-separated by whitespace. Exclamation marks may be prepended to each of the
+separated by whitespace.
+Exclamation marks may be prepended to each of the
 names, meaning “NOT”.
 
 A restriction formula consists of one or more restriction lists, separated
-by whitespace. Each restriction list is enclosed in angle brackets. Items
+by whitespace.
+Each restriction list is enclosed in angle brackets.
+Items
 in the restriction list are build profile names, separated by whitespace
 and can be prefixed with an exclamation mark, meaning “NOT”.
 A restriction formula represents a disjunctive normal form expression.
@@ -321,7 +336,8 @@ A restriction formula represents a disjunctive normal form expression.
 Note that dependencies on packages in the
 B<build-essential>
 set can be omitted and that declaring build conflicts against them is
-impossible. A list of these packages is in the build-essential package.
+impossible.
+A list of these packages is in the build-essential package.
 
 =head1 BINARY FIELDS
 
@@ -336,7 +352,8 @@ source package.
 
 =item B<Package:> I<binary-package-name> (required)
 
-This field is used to name the binary package name. The same restrictions as
+This field is used to name the binary package name.
+The same restrictions as
 to a source package name apply.
 
 =item B<Package-Type:> B<deb>|B<udeb>|I<type>
@@ -348,14 +365,18 @@ More types might be added in the future.
 
 =item B<Architecture:> I<arch>|B<all>|B<any> (required)
 
-The architecture specifies on which type of hardware this package runs. For
+The architecture specifies on which type of hardware this package runs.
+For
 packages that run on all architectures, use the
 B<any>
-value. For packages that are architecture independent, such as shell and Perl
+value.
+For packages that are architecture independent, such as shell and Perl
 scripts or documentation, use the
 B<all>
-value. To restrict the packages to a certain set of architectures, specify the
-architecture names, separated by a space. It's also possible to put
+value.
+To restrict the packages to a certain set of architectures, specify the
+architecture names, separated by a space.
+It's also possible to put
 architecture wildcards in that list (see
 L<dpkg-architecture(1)>
 for more information about them).
@@ -414,7 +435,8 @@ package.
 
 =item B<Static-Built-Using:> I<package-list>
 
-These fields declare relationships between packages. They are discussed in
+These fields declare relationships between packages.
+They are discussed in
 the
 L<deb-control(5)>
 manual page.
@@ -438,8 +460,9 @@ L<https://salsa.debian.org/installer-team/debian-installer/-/raw/master/doc/deve
 
 =head1 USER-DEFINED FIELDS
 
-It is allowed to add additional user-defined fields to the control file. The
-tools will ignore these fields. If you want the fields to be copied over to
+It is allowed to add additional user-defined fields to the control file.
+The tools will ignore these fields.
+If you want the fields to be copied over to
 the output files, such as the binary packages, you need to use a custom naming
 scheme: the fields should start with an B<X>, followed by zero or more of
 the letters B<SBC> and a hyphen.
@@ -463,13 +486,15 @@ L<deb-changes(5)>.
 =back
 
 Note that the B<X>[B<SBC>]B<-> prefixes are stripped when the
-fields are copied over to the output files. A field B<XC-Approved-By>
+fields are copied over to the output files.
+A field B<XC-Approved-By>
 will appear as B<Approved-By> in the changes file and will not appear
 in the binary or source package control files.
 
 Take into account that these user-defined fields will be using the global
 namespace, which might at some point in the future collide with officially
-recognized fields. To avoid such potential situation you can prefix those
+recognized fields.
+To avoid such potential situation you can prefix those
 fields with B<Private->, such as B<XB-Private-New-Field>.
 
 =head1 EXAMPLE

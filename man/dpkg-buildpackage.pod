@@ -33,7 +33,8 @@ B<dpkg-buildpackage>
 =head1 DESCRIPTION
 
 B<dpkg-buildpackage>
-is a program that automates the process of building a Debian package. It
+is a program that automates the process of building a Debian package.
+It
 consists of the following steps:
 
 =over
@@ -54,7 +55,8 @@ are satisfied (unless B<-d> or B<--no-check-builddeps> is specified).
 =item B<3.>
 
 If one or more specific targets have been selected with the B<-T> or
-B<--target> option, it calls those targets and stops here. Otherwise it
+B<--target> option, it calls those targets and stops here.
+Otherwise it
 runs the B<preclean> hook and calls B<fakeroot debian/rules clean> to
 clean the build-tree (unless B<-nc> or B<--no-pre-clean>
 is specified).
@@ -263,19 +265,22 @@ Requires that the target be run with root rights.
 
 =item B<-e>I<maintainer-address>
 
-Passed unchanged to B<dpkg-genchanges>. See its manual page.
+Passed unchanged to B<dpkg-genchanges>.
+See its manual page.
 
 =item B<--build-by=>I<maintainer-address>
 
 =item B<--source-by=>I<maintainer-address> (since dpkg 1.21.10)
 
-Pass as B<-m> to B<dpkg-genchanges>. See its manual page.
+Pass as B<-m> to B<dpkg-genchanges>.
+See its manual page.
 
 =item B<--release-by=>I<maintainer-address>
 
 =item B<--changed-by=>I<maintainer-address> (since dpkg 1.21.10)
 
-Pass as B<-e> to B<dpkg-genchanges>. See its manual page.
+Pass as B<-e> to B<dpkg-genchanges>.
+See its manual page.
 
 =item B<-a>, B<--host-arch> I<architecture>
 
@@ -310,7 +315,8 @@ default GNU system type of the target Debian architecture.
 Specify the profile(s) we build, as a comma-separated list (since dpkg 1.17.2,
 long option since dpkg 1.18.8).
 The default
-behavior is to build for no specific profile. Also sets them (as a space
+behavior is to build for no specific profile.
+Also sets them (as a space
 separated list) as the B<DEB_BUILD_PROFILES> environment variable which
 allows, for example, B<debian/rules> files to use this information for
 conditional builds.
@@ -334,7 +340,8 @@ The I<jobs> value will override the B<parallel=>I<jobs> or
 B<parallel> option in the B<DEB_BUILD_OPTIONS> environment variable.
 Note that the B<auto> value will get replaced by the actual number of
 currently active processors, and as such will not get propagated to any
-child process. If the number of online processors cannot be inferred then
+child process.
+If the number of online processors cannot be inferred then
 the code will fallback to using serial execution (since dpkg 1.18.15),
 although this should only happen on exotic and unsupported systems.
 
@@ -464,7 +471,8 @@ as I<rules-file>).
 Command used to check the B<.changes> file itself and any artifact built
 referenced in the file (since dpkg 1.17.6).
 The command should take the B<.changes> pathname
-as an argument. This command will usually be B<lintian>.
+as an argument.
+This command will usually be B<lintian>.
 
 =item B<--check-option=>I<opt>
 
@@ -681,7 +689,8 @@ or other internal heuristics.
 
 =item B<-Z>, B<--compression=>I<compressor>
 
-Passed unchanged to B<dpkg-source>. See its manual page.
+Passed unchanged to B<dpkg-source>.
+See its manual page.
 
 =item B<--source-option=>I<opt>
 
@@ -822,7 +831,8 @@ standalone should be supported.
 =item B<DEB_TARGET_*>
 
 B<dpkg-architecture> is called with the B<-a> and B<-t>
-parameters forwarded. Any variable that is output by its B<-s>
+parameters forwarded.
+Any variable that is output by its B<-s>
 option is integrated in the build environment.
 
 =item B<DEB_RULES_REQUIRES_ROOT>
@@ -869,13 +879,15 @@ User configuration file.
 Between dpkg 1.14.17 and 1.16.1, B<dpkg-buildpackage>
 exported compiler flags (B<CFLAGS>, B<CXXFLAGS>, B<FFLAGS>,
 B<CPPFLAGS> and B<LDFLAGS>) with values as returned
-by B<dpkg-buildflags>. This is no longer the case.
+by B<dpkg-buildflags>.
+This is no longer the case.
 
 =head2 Default build targets
 
 B<dpkg-buildpackage> is using the B<build-arch> and
-B<build-indep> targets since dpkg 1.16.2. Those targets are thus
-mandatory. But to avoid breakages of existing packages, and ease
+B<build-indep> targets since dpkg 1.16.2.
+Those targets are thus mandatory.
+But to avoid breakages of existing packages, and ease
 the transition, if the source package does not build both architecture
 independent and dependent binary packages (since dpkg 1.18.8) it will
 fallback to use the B<build> target if B<make -f debian/rules -qn>

@@ -36,7 +36,8 @@ The file is an B<ar> archive with a magic value of B<!E<lt>archE<gt>>.
 The file names might contain a trailing slash (since dpkg 1.15.6).
 
 The first member is named B<debian-split> and contains a series
-of lines, separated by newlines. Currently eight lines are present:
+of lines, separated by newlines.
+Currently eight lines are present:
 
 =over
 
@@ -81,14 +82,17 @@ format version number to be increased and additional lines to be present,
 and should ignore these if this is the case.
 
 If the major format version number has changed, an incompatible change has
-been made and the program should stop. If it has not, then the program should
+been made and the program should stop.
+If it has not, then the program should
 be able to safely continue, unless it encounters an unexpected member
 in the archive (except at the end), as described below.
 
 The second, last required member is named B<data.>I<N>, where I<N>
-denotes the part number. It contains the raw part data.
+denotes the part number.
+It contains the raw part data.
 
-These members must occur in this exact order. Current implementations
+These members must occur in this exact order.
+Current implementations
 should ignore any additional members after B<data.>I<N>.
 Further members may be defined in the future, and (if possible) will be
 placed after these two.

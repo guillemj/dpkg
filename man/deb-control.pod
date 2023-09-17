@@ -43,7 +43,8 @@ or
 B<Version>
 (case insensitive), followed by a colon, and the body of the field
 (case sensitive unless stated otherwise).
-Fields are delimited only by field tags. In other words, field text
+Fields are delimited only by field tags.
+In other words, field text
 may be multiple lines in length, but the installation tools will
 generally join lines when processing the body of the field (except
 in the case of the
@@ -69,8 +70,9 @@ More types might be added in the future.
 =item B<Version:> I<version-string> (required)
 
 Typically, this is the original package's version number in whatever form
-the program's author uses. It may also include a Debian revision number
-(for non-native packages). The exact format and sorting algorithm
+the program's author uses.
+It may also include a Debian revision number (for non-native packages).
+The exact format and sorting algorithm
 are described in
 L<deb-version(7)>.
 
@@ -85,8 +87,9 @@ software that was packaged.
 =item S< >I<long-description>
 
 The format for the package description is a short brief summary on the
-first line (after the B<Description> field). The following lines should be
-used as a longer, more detailed description. Each line of the long description
+first line (after the B<Description> field).
+The following lines should be used as a longer, more detailed description.
+Each line of the long description
 must be preceded by a space, and blank lines in the long description must
 contain a single ‘B<.>’ following the preceding space.
 
@@ -161,7 +164,8 @@ The name of the distribution this package is originating from.
 
 =item B<Bugs:> I<url>
 
-The I<url> of the bug tracking system for this package. The current
+The I<url> of the bug tracking system for this package.
+The current
 used format is I<bts-type>B<://>I<bts-address>, like
 B<debbugs://bugs.debian.org>.
 
@@ -171,7 +175,8 @@ The upstream project home page I<url>.
 
 =item B<Tag:> I<tag-list>
 
-List of tags describing the qualities of the package. The description and
+List of tags describing the qualities of the package.
+The description and
 list of supported tags can be found in the B<debtags> package.
 
 =item B<Multi-Arch:> B<no>|B<same>|B<foreign>|B<allowed>
@@ -229,12 +234,14 @@ L<https://salsa.debian.org/installer-team/debian-installer/-/raw/master/doc/deve
 =item B<Depends:> I<package-list>
 
 List of packages that are required for this package to provide a
-non-trivial amount of functionality. The package maintenance software
+non-trivial amount of functionality.
+The package maintenance software
 will not allow a package to be installed if the packages listed in its
 B<Depends>
 field aren't installed (at least not without using the force options).
 In an installation, the postinst scripts of packages listed in B<Depends>
-fields are run before those of the packages which depend on them. On the
+fields are run before those of the packages which depend on them.
+On the
 opposite, in a removal, the prerm script of a package is run before
 those of the packages listed in its B<Depends> field.
 
@@ -242,14 +249,16 @@ those of the packages listed in its B<Depends> field.
 
 List of packages that must be installed
 B<and>
-configured before this one can be installed. This is usually used in the
+configured before this one can be installed.
+This is usually used in the
 case where this package requires another package for running its preinst
 script.
 
 =item B<Recommends:> I<package-list>
 
 Lists packages that would be found together with this one in all but
-unusual installations. The package maintenance software will warn the
+unusual installations.
+The package maintenance software will warn the
 user if they install a package without those listed in its
 B<Recommends>
 field.
@@ -268,7 +277,8 @@ B<Pre-Depends>,
 B<Recommends>
 and
 B<Suggests>
-fields is a list of groups of alternative packages. Each group is a list
+fields is a list of groups of alternative packages.
+Each group is a list
 of packages separated by vertical bar (or “pipe”) symbols,
 ‘B<|>’.
 The groups are separated by commas.
@@ -298,7 +308,8 @@ for equal to.
 =item B<Breaks:> I<package-list>
 
 Lists packages that this one breaks, for example by exposing bugs
-when the named packages rely on this one. The package maintenance
+when the named packages rely on this one.
+The package maintenance
 software will not allow broken packages to be configured; generally
 the resolution is to upgrade the packages named in a
 B<Breaks>
@@ -307,15 +318,18 @@ field.
 =item B<Conflicts:> I<package-list>
 
 Lists packages that conflict with this one, for example by containing
-files with the same names. The package maintenance software will not
-allow conflicting packages to be installed at the same time. Two
+files with the same names.
+The package maintenance software will not allow conflicting packages to be
+installed at the same time.
+Two
 conflicting packages should each include a
 B<Conflicts>
 line mentioning the other.
 
 =item B<Replaces:> I<package-list>
 
-List of packages files from which this one replaces. This is used for
+List of packages files from which this one replaces.
+This is used for
 allowing this package to overwrite the files of another package and
 is usually used with the
 B<Conflicts>
@@ -423,7 +437,8 @@ The only currently used reason is B<debug-symbols>.
 
 =item B<Build-Ids:> I<elf-build-id-list>
 
-This field specifies a whitespace separated list of ELF build-ids. These
+This field specifies a whitespace separated list of ELF build-ids.
+These
 are unique identifiers for semantically identical ELF objects, for each
 of these within the package.
 

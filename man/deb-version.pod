@@ -31,14 +31,16 @@ deb-version - Debian package version number format
 =head1 DESCRIPTION
 
 Version numbers as used for Debian binary and source packages
-consist of three components. These are:
+consist of three components.
+These are:
 
 =over
 
 =item I<epoch>
 
-This is a single (generally small) unsigned integer.  It
-may be omitted, in which case zero is assumed.  If it is
+This is a single (generally small) unsigned integer.
+It may be omitted, in which case zero is assumed.
+If it is
 omitted then the I<upstream-version> may not
 contain any colons.
 
@@ -48,10 +50,12 @@ previous version numbering schemes, to be left behind.
 
 =item I<upstream-version>
 
-This is the main part of the version number.  It is
+This is the main part of the version number.
+It is
 usually the version number of the original (“upstream”)
 package from which the I<.deb> file has been made,
-if this is applicable.  Usually this will be in the same
+if this is applicable.
+Usually this will be in the same
 format as that specified by the upstream author(s);
 however, it may need to be reformatted to fit into the
 package management system's format and comparison
@@ -59,14 +63,16 @@ scheme.
 
 The comparison behavior of the package management system
 with respect to the I<upstream-version> is
-described below. The I<upstream-version>
+described below.
+The I<upstream-version>
 portion of the version number is mandatory.
 
 The I<upstream-version> may contain only
 alphanumerics (“A-Za-z0-9”) and the characters
 B<.> B<+> B<-> B<:> B<~>
 (full stop, plus, hyphen, colon, tilde) and should
-start with a digit.  If there is no
+start with a digit.
+If there is no
 I<debian-revision> then hyphens are not allowed;
 if there is no I<epoch> then colons are not
 allowed.
@@ -74,7 +80,8 @@ allowed.
 =item I<debian-revision>
 
 This part of the version number specifies the version of
-the Debian package based on the upstream version.  It
+the Debian package based on the upstream version.
+It
 may contain only alphanumerics and the characters
 B<+> B<.> B<~>
 (plus, full stop, tilde) and is
@@ -95,7 +102,8 @@ I<upstream-version> is increased.
 Dpkg will break the version
 number apart at the last hyphen in the string (if there
 is one) to determine the I<upstream-version> and
-I<debian-revision>. The absence of a
+I<debian-revision>.
+The absence of a
 I<debian-revision> compares earlier than the
 presence of one (but note that the I<debian-revision>
 is the least significant part of the version number).
@@ -111,17 +119,20 @@ same algorithm:
 The strings are compared from left to right.
 
 First the initial part of each string consisting entirely of
-non-digit characters is determined.  These two parts (one of
-which may be empty) are compared lexically.  If a difference
-is found it is returned.  The lexical comparison is a
+non-digit characters is determined.
+These two parts (one of which may be empty) are compared lexically.
+If a difference is found it is returned.
+The lexical comparison is a
 comparison of ASCII values modified so that all the letters
 sort earlier than all the non-letters and so that a tilde
-sorts before anything, even the end of a part.  For example,
+sorts before anything, even the end of a part.
+For example,
 the following parts are in sorted order: ‘~~’, ‘~~a’, ‘~’,
 the empty part, ‘a’.
 
 Then the initial part of the remainder of each string which
-consists entirely of digit characters is determined.  The
+consists entirely of digit characters is determined.
+The
 numerical values of these two parts are compared, and any
 difference found is returned as the result of the comparison.
 For these purposes an empty string (which can only occur at
@@ -134,7 +145,8 @@ difference is found or both strings are exhausted.
 
 Note that the purpose of epochs is to allow us to leave behind
 mistakes in version numbering, and to cope with situations
-where the version numbering scheme changes.  It is
+where the version numbering scheme changes.
+It is
 B<not> intended to cope with version numbers containing
 strings of letters which the package management system cannot
 interpret (such as ‘ALPHA’ or ‘pre-’), or with

@@ -40,10 +40,13 @@ Thus
 B<Pre-Depends>, B<Depends>, B<Recommends> and B<Suggests>
 are simplified in this
 order by removing dependencies which are known to be true according to the
-stronger dependencies already parsed. It will also remove any self-dependency
+stronger dependencies already parsed.
+It will also remove any self-dependency
 (in fact it will remove any dependency which evaluates to true given the
-current version of the package as installed). Logically it keeps the
-intersection of multiple dependencies on the same package. The order
+current version of the package as installed).
+Logically it keeps the intersection of multiple dependencies on the same
+package.
+The order
 of dependencies is preserved as best as possible: if any dependency
 must be discarded due to another dependency appearing further
 in the field, the superseding dependency will take the place of the
@@ -68,7 +71,8 @@ Sets the version number of the binary package which will be generated.
 
 =item B<-V>I<name>B<=>I<value>
 
-Set an output substitution variable. See L<deb-substvars(5)> for
+Set an output substitution variable.
+See L<deb-substvars(5)> for
 discussion of output substitution.
 
 =item B<-T>I<substvars-file>
@@ -90,13 +94,15 @@ Remove an output control file field.
 
 =item B<-c>I<control-file>
 
-Specifies the main source control file to read information from. The
+Specifies the main source control file to read information from.
+The
 default is
 B<debian/control>.
 
 =item B<-l>I<changelog-file>
 
-Specifies the changelog file to read information from. The
+Specifies the changelog file to read information from.
+The
 default is
 B<debian/changelog>.
 
@@ -107,7 +113,8 @@ B<debian/files>.
 
 =item B<-F>I<changelog-format>
 
-Specifies the format of the changelog. See L<dpkg-parsechangelog(1)>
+Specifies the format of the changelog.
+See L<dpkg-parsechangelog(1)>
 for information about alternative formats.
 
 =item B<-p>I<package>
@@ -127,9 +134,12 @@ instead of the normal package_version_arch.deb filename.
 =item B<-is>, B<-ip>, B<-isp>
 
 These options are ignored for compatibility with older versions of the dpkg
-build scripts but are now deprecated. Previously they were used to tell
+build scripts but are now deprecated.
+Previously they were used to tell
 B<dpkg-gencontrol> to include the Section and Priority fields in the
-control file. This is now the default behavior. If you want to
+control file.
+This is now the default behavior.
+If you want to
 get the old behavior you can use the
 B<-U>
 option to delete the fields from the control file.

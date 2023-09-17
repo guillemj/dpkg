@@ -109,18 +109,21 @@ Error flags:
 =back
 
 An uppercase status or error letter indicates the package is likely to
-cause severe problems. Please refer to L<dpkg(1)> for information
+cause severe problems.
+Please refer to L<dpkg(1)> for information
 about the above states and flags.
 
 The output format of this option is not configurable, but varies
-automatically to fit the terminal width. It is intended for human
-readers, and is not easily machine-readable. See B<-W> (B<--show>)
+automatically to fit the terminal width.
+It is intended for human readers, and is not easily machine-readable.
+See B<-W> (B<--show>)
 and B<--showformat> for a way to configure the output format.
 
 =item B<-W>, B<--show> [I<package-name-pattern>...]
 
 Just like the B<--list> option this will list all packages matching
-the given patterns. However the output can be customized using the
+the given patterns.
+However the output can be customized using the
 B<--showformat> option.
 
 The default output format gives one line per matching package,
@@ -132,7 +135,8 @@ which is an architecture that is neither the native one nor B<all>.
 
 =item B<-s>, B<--status> [I<package-name>...]
 
-Report status of specified packages. This just displays the entry in
+Report status of specified packages.
+This just displays the entry in
 the installed package status database.
 If no I<package-name> is specified it will display all package entries
 in the status database (since dpkg 1.19.1).
@@ -142,7 +146,8 @@ on the argument list.
 
 =item B<-L>, B<--listfiles> I<package-name>...
 
-List files installed to your system from I<package-name>. When multiple
+List files installed to your system from I<package-name>.
+When multiple
 I<package-name>s are listed, the requested lists of files are separated
 by an empty line, with the same order as specified on the argument list.
 
@@ -155,7 +160,8 @@ Z<>
   diverted by I<pkg> to: I<diverted-to>
 
 B<Hint>: When machine parsing the output, it is customary to set the locale to
-B<C.UTF-8> to get reproducible results. On some systems this might also
+B<C.UTF-8> to get reproducible results.
+On some systems this might also
 require adapting the B<LANGUAGE> environment variable appropriately if it
 is already set (see L<locale(7)>).
 
@@ -183,7 +189,8 @@ file if it is present.
 B<Warning>: this command is deprecated as it gives direct access to the
 internal dpkg database, please switch to use B<--control-list> and
 B<--control-show> instead for all cases where those commands might
-give the same end result. Although, as long as there is still at least
+give the same end result.
+Although, as long as there is still at least
 one case where this command is needed (i.e. when having to remove a
 damaging postrm maintainer script), and while there is no good solution
 for that, this command will not get removed.
@@ -209,7 +216,8 @@ nor will it list alternatives.
 The output format consists of one line per matching pattern, with a list
 of packages owning the pathname separated by a comma (U+002C ‘B<,>’) and
 a space (U+0020 ‘B< >’), followed by a colon (U+003A ‘B<:>’) and a space,
-followed by the pathname. As in:
+followed by the pathname.
+As in:
 
   pkgname1, pkgname2: pathname1
   pkgname3: pathname2
@@ -259,7 +267,8 @@ Show the version and exit.
 
 =item B<--admindir=>I<dir>
 
-Change the location of the B<dpkg> database. The default location is
+Change the location of the B<dpkg> database.
+The default location is
 I<%ADMINDIR%>.
 
 =item B<--root=>I<directory>
@@ -301,9 +310,11 @@ and “B<$>”.
 
 Package information can be included by inserting
 variable references to package fields using the syntax
-“B<${>I<field>[B<;>I<width>]B<}>”. Fields are
+“B<${>I<field>[B<;>I<width>]B<}>”.
+Fields are
 printed right-aligned unless the width is negative in which case left
-alignment will be used. The following I<field>s are recognized but
+alignment will be used.
+The following I<field>s are recognized but
 they are not necessarily available in the status file (only internal
 fields or fields stored in the binary package end up in it):
 
@@ -452,8 +463,10 @@ It contains the source package upstream version for this binary package
 
 The default format string is “B<${binary:Package}\t${Version}\n>”.
 Actually, all other fields found in the status file (i.e. user defined
-fields) can be requested, too. They will be printed as-is, though, no
-conversion nor error checking is done on them. To get the name of the
+fields) can be requested, too.
+They will be printed as-is, though,
+no conversion nor error checking is done on them.
+To get the name of the
 B<dpkg> maintainer and the installed version, you could run:
 
 =over

@@ -38,8 +38,10 @@ is the utility used to set up and update the list of diversions.
 File I<diversions> are a way of forcing
 L<dpkg(1)>
 not to install a file into its
-location, but to a I<diverted> location. Diversions can be used through the
-Debian package scripts to move a file away when it causes a conflict. System
+location, but to a I<diverted> location.
+Diversions can be used through the Debian package scripts to move a file
+away when it causes a conflict.
+System
 administrators can also use it to override some package's configuration file,
 or whenever some files (which aren't marked as “conffiles”) need to be
 preserved by B<dpkg>, when installing a newer version of a package which
@@ -106,13 +108,15 @@ provided by other packages, will be diverted.
 
 Specifies that all packages' versions of this file are diverted.
 This means, that there are no exceptions, and whatever package is installed,
-the file is diverted. This can be used by an admin to install a locally
+the file is diverted.
+This can be used by an admin to install a locally
 modified version.
 
 =item B<--package> I<package>
 
 I<package> is the name of a package whose copy of I<file> will not
-be diverted. i.e. I<file> will be diverted for all packages except
+be diverted.
+i.e. I<file> will be diverted for all packages except
 I<package>.
 
 =item B<--quiet>
@@ -121,7 +125,8 @@ Quiet mode, i.e. no verbose output.
 
 =item B<--rename>
 
-Actually move the file aside (or back). B<dpkg-divert> will abort operation
+Actually move the file aside (or back).
+B<dpkg-divert> will abort operation
 in case the destination file already exists.
 This is the common behavior used for diversions of files from the
 non-B<Essential> package set (see B<--no-rename> for more details).
@@ -205,7 +210,8 @@ B<never>.
 
 =item I<%ADMINDIR%/diversions>
 
-File which contains the current list of diversions of the system. It is
+File which contains the current list of diversions of the system.
+It is
 located in the B<dpkg> administration directory, along with other files
 important to B<dpkg>, such as I<status> or I<available>.
 
@@ -217,7 +223,8 @@ I<-old>, before replacing it with the new one.
 =head1 NOTES
 
 When adding, default is B<--local> and B<--divert>
-I<original>B<.distrib>. When removing, B<--package> or
+I<original>B<.distrib>.
+When removing, B<--package> or
 B<--local> and B<--divert> must match if specified.
 
 Directories can't be diverted with B<dpkg-divert>.

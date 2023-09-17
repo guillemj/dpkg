@@ -44,7 +44,8 @@ Z<>
   I<symbol> I<minimal-version> [I<id-of-dependency-template>]
 
 The I<library-soname> is exactly the value of the SONAME field
-as exported by L<objdump(1)>. A I<dependency-template> is a
+as exported by L<objdump(1)>.
+A I<dependency-template> is a
 dependency where I<#MINVER#> is dynamically replaced either by
 a version check like “(E<gt>= I<minimal-version>)” or by nothing (if
 an unversioned dependency is deemed sufficient).
@@ -53,13 +54,15 @@ Each exported I<symbol> (listed as I<name>@I<version>, with
 I<version> being “Base” if the library is not versioned) is associated
 to a I<minimal-version> of its dependency template (the main dependency
 template is always used and will end up being combined with the dependency
-template referenced by I<id-of-dependency-template> if present). The
+template referenced by I<id-of-dependency-template> if present).
+The
 first alternative dependency template is numbered 1, the second one 2,
 etc.
 Each column is separated by exactly a single whitespace.
 
 Each entry for a library can also have some fields of meta-information.
-Those fields are stored on lines starting with an asterisk. Currently,
+Those fields are stored on lines starting with an asterisk.
+Currently,
 the only valid fields are:
 
 =over
@@ -85,7 +88,8 @@ It indicates what internal symbol groups should be ignored, as a whitespace
 separated list, so that the symbols contained in those groups get
 included in the output file (since dpkg 1.20.1).
 This should only be necessary for toolchain
-packages providing those internal symbols. The available groups are
+packages providing those internal symbols.
+The available groups are
 system dependent, for ELF and GNU-based systems these are B<aeabi>
 and B<gomp>.
 

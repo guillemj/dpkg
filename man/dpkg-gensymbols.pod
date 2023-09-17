@@ -32,12 +32,14 @@ B<dpkg-gensymbols>
 
 B<dpkg-gensymbols>
 scans a temporary build tree (debian/tmp by default) looking for libraries
-and generates a I<symbols> file describing them. This file, if
+and generates a I<symbols> file describing them.
+This file, if
 non-empty, is then installed in the DEBIAN subdirectory of the build tree
 so that it ends up included in the control information of the package.
 
 When generating those files, it uses as input some symbols files
-provided by the maintainer. It looks for the following files (and uses the
+provided by the maintainer.
+It looks for the following files (and uses the
 first that is found):
 
 =over
@@ -61,10 +63,12 @@ debian/symbols
 =back
 
 The main interest of those files is to provide the minimal version
-associated to each symbol provided by the libraries. Usually it
+associated to each symbol provided by the libraries.
+Usually it
 corresponds to the first version of that package that provided the symbol,
 but it can be manually incremented by the maintainer if the ABI of the
-symbol is extended without breaking backwards compatibility. It's the
+symbol is extended without breaking backwards compatibility.
+It's the
 responsibility of the maintainer to keep those files up-to-date and
 accurate, but B<dpkg-gensymbols> helps with that.
 
@@ -80,12 +84,14 @@ This program was introduced in dpkg 1.14.8.
 
 The base interchange format of the symbols file is described in
 L<deb-symbols(5)>, which is used by the symbols files included in
-binary packages. These are generated from template symbols files
+binary packages.
+These are generated from template symbols files
 with a format based on the former, described in L<deb-src-symbols(5)>
 and included in source packages.
 
 The symbols files are really useful only if they reflect the evolution of
-the package through several releases. Thus the maintainer has to update
+the package through several releases.
+Thus the maintainer has to update
 them every time that a new symbol is added so that its associated minimal
 version matches reality.
 
@@ -96,7 +102,8 @@ using those symbols and linking against the new version, stop working
 with the old version.
 
 In most cases, the diff applies directly to the
-debian/I<package>.symbols file. That said, further tweaks are usually
+debian/I<package>.symbols file.
+That said, further tweaks are usually
 needed: it's recommended for example to drop the Debian revision
 from the minimal version so that backports with a lower version number
 but the same upstream version still satisfy the generated dependencies.
@@ -105,17 +112,20 @@ added by the Debian specific change, then one should suffix the version
 with ‘B<~>’.
 
 Before applying any patch to the symbols file, the maintainer should
-double-check that it's sane. Public symbols are not supposed to disappear,
+double-check that it's sane.
+Public symbols are not supposed to disappear,
 so the patch should ideally only add new lines.
 
 Note that you can put comments in symbols files.
 
 Do not forget to check if old symbol versions need to be increased.
-There is no way B<dpkg-gensymbols> can warn about this. Blindly
+There is no way B<dpkg-gensymbols> can warn about this.
+Blindly
 applying the diff or assuming there is nothing to change if there is
 no diff, without checking for such changes, can lead to packages with
 loose dependencies that claim they can work with older packages they
-cannot work with. This will introduce hard to find bugs with (partial)
+cannot work with.
+This will introduce hard to find bugs with (partial)
 upgrades.
 
 =head2 Good library management
@@ -143,10 +153,12 @@ workaround).
 =back
 
 While maintaining the symbols file, it's easy to notice appearance and
-disappearance of symbols. But it's more difficult to catch incompatible
-API and ABI change. Thus the maintainer should read thoroughly the
+disappearance of symbols.
+But it's more difficult to catch incompatible API and ABI change.
+Thus the maintainer should read thoroughly the
 upstream changelog looking for cases where the rules of good library
-management have been broken. If potential problems are discovered,
+management have been broken.
+If potential problems are discovered,
 the upstream author should be notified as an upstream fix is always better
 than a Debian specific work-around.
 
@@ -160,18 +172,21 @@ Scan I<package-build-dir> instead of debian/tmp.
 
 =item B<-p>I<package>
 
-Define the package name. Required if more than one binary package is listed in
+Define the package name.
+Required if more than one binary package is listed in
 debian/control (or if there's no debian/control file).
 
 =item B<-v>I<version>
 
-Define the package version. Defaults to the version extracted from
-debian/changelog. Required if called outside of a source package tree.
+Define the package version.
+Defaults to the version extracted from debian/changelog.
+Required if called outside of a source package tree.
 
 =item B<-e>I<library-file>
 
 Only analyze libraries explicitly listed instead of finding all public
-libraries. You can use shell patterns used for pathname expansions (see
+libraries.
+You can use shell patterns used for pathname expansions (see
 the L<File::Glob> manual page for details) in I<library-file>
 to match multiple libraries with a single argument (otherwise you need
 multiple B<-e>).
@@ -181,7 +196,8 @@ multiple B<-e>).
 Prepend
 I<directory>
 to the list of directories to search for private shared libraries
-(since dpkg 1.19.1). This option can be used multiple times.
+(since dpkg 1.19.1).
+This option can be used multiple times.
 
 B<Note>: Use this option instead of setting B<LD_LIBRARY_PATH>,
 as that environment variable is used to control the run-time linker
@@ -202,7 +218,8 @@ B<debian/tmp/DEBIAN/symbols>
 I<package-build-dir>B</DEBIAN/symbols>
 if
 B<-P>
-was used). If I<filename> is pre-existing, its contents are used as
+was used).
+If I<filename> is pre-existing, its contents are used as
 basis for the generated symbols file.
 You can use this feature to update a symbols file so that it matches a
 newer upstream version of your library.
@@ -210,7 +227,8 @@ newer upstream version of your library.
 =item B<-t>
 
 Write the symbol file in template mode rather than the format compatible with
-L<deb-symbols(5)>. The main difference is that in the template mode symbol
+L<deb-symbols(5)>.
+The main difference is that in the template mode symbol
 names and tags are written in their original form contrary to the
 post-processed symbol names with tags stripped in the compatibility mode.
 Moreover, some symbols might be omitted when writing a standard
@@ -220,7 +238,9 @@ symbols are always written to the symbol file template.
 =item B<-c>I<[0-4]>
 
 Define the checks to do when comparing the generated symbols file with the
-template file used as starting point. By default the level is 1. Increasing
+template file used as starting point.
+By default the level is 1.
+Increasing
 levels do more checks and include all checks of lower levels.
 
 =over
@@ -254,25 +274,29 @@ B<DPKG_GENSYMBOLS_CHECK_LEVEL>.
 
 Keep quiet and never generate a diff between generated symbols file and the
 template file used as starting point or show any warnings about new/lost
-libraries or new/lost symbols. This option only disables informational output
+libraries or new/lost symbols.
+This option only disables informational output
 but not the checks themselves (see B<-c> option).
 
 =item B<-a>I<arch>
 
-Assume I<arch> as host architecture when processing symbol files. Use this
+Assume I<arch> as host architecture when processing symbol files.
+Use this
 option to generate a symbol file or diff for any architecture provided its
 binaries are already available.
 
 =item B<-d>
 
-Enable debug mode. Numerous messages are displayed to explain what
+Enable debug mode.
+Numerous messages are displayed to explain what
 B<dpkg-gensymbols>
 does.
 
 =item B<-V>
 
-Enable verbose mode. The generated symbols file contains deprecated
-symbols as comments. Furthermore in template mode, pattern symbols
+Enable verbose mode.
+The generated symbols file contains deprecated symbols as comments.
+Furthermore in template mode, pattern symbols
 are followed by comments listing real symbols that have matched the
 pattern.
 

@@ -35,12 +35,15 @@ This manual page documents the
 B<dpkg-name>
 program which provides an easy way to rename
 B<Debian>
-packages into their full package names. A full package name consists of
+packages into their full package names.
+A full package name consists of
 I<package>B<_>I<version>B<_>I<architecture>B<.>I<package-type>
-as specified in the control file of the package. The I<version> part
+as specified in the control file of the package.
+The I<version> part
 of the filename
 consists of the upstream version information optionally followed by a
-hyphen and the revision information. The I<package-type> part comes
+hyphen and the revision information.
+The I<package-type> part comes
 from that field if present or fallbacks to B<deb>.
 
 =head1 OPTIONS
@@ -62,10 +65,12 @@ destination filename.
 
 =item B<-s>, B<--subdir> [I<dir>]
 
-Files will be moved into a subdirectory. If the directory given as argument exists
+Files will be moved into a subdirectory.
+If the directory given as argument exists
 the files will be moved into that directory otherwise the name of
 the target directory is extracted from the section field in the
-control part of the package. The target directory will be
+control part of the package.
+The target directory will be
 «unstable/binary-I<architecture>/I<section>».
 If the section is not found in the control, then B<no-section> is assumed,
 and in this case, as well as for sections B<non-free> and B<contrib>
@@ -77,7 +82,8 @@ B<Warning>: Use this option with care, it is messy.
 
 =item B<-c>, B<--create-dir>
 
-This option can used together with the B<-s> option. If a target
+This option can used together with the B<-s> option.
+If a target
 directory isn't found it will be created automatically.
 
 B<Warning>: Use this option with care.
@@ -115,7 +121,8 @@ The accepted values are: B<0> and B<1> (default).
 Some packages don't follow the name structure
 I<package>B<_>I<version>B<_>I<architecture>B<.deb>.
 Packages renamed by B<dpkg-name>
-will follow this structure. Generally this will have no impact on how
+will follow this structure.
+Generally this will have no impact on how
 packages are installed by
 L<dselect(1)>/L<dpkg(1)>,
 but other installation tools

@@ -48,13 +48,16 @@ behaves similar to
 L<killall(1)>.
 B<start-stop-daemon>
 will scan the process table looking for any processes which
-match the process name, parent pid, uid, and/or gid (if specified). Any
+match the process name, parent pid, uid, and/or gid (if specified).
+Any
 matching process will prevent
 B<--start>
-from starting the daemon. All matching processes will be sent the TERM
+from starting the daemon.
+All matching processes will be sent the TERM
 signal (or the one specified via B<--signal> or B<--retry>) if
 B<--stop>
-is specified. For daemons which have long-lived children
+is specified.
+For daemons which have long-lived children
 which need to live through a
 B<--stop>,
 you must specify a pidfile.
@@ -94,7 +97,8 @@ B<start-stop-daemon>
 exits with error status 1
 (0 if
 B<--oknodo>
-is specified). If
+is specified).
+If
 B<--retry>
 is specified, then
 B<start-stop-daemon>
@@ -151,17 +155,20 @@ Using I</dev/null> is exempt from these checks.
 
 =item B<-x>, B<--exec> I<executable>
 
-Check for processes that are instances of this I<executable>. The
+Check for processes that are instances of this I<executable>.
+The
 I<executable> argument should be an absolute pathname.
 
 B<Note>: This might
 not work as intended with interpreted scripts, as the executable will point
-to the interpreter. Take into account processes running from inside a chroot
+to the interpreter.
+Take into account processes running from inside a chroot
 will also be matched, so other match restrictions might be needed.
 
 =item B<-n>, B<--name> I<process-name>
 
-Check for processes with the name I<process-name>. The I<process-name>
+Check for processes with the name I<process-name>.
+The I<process-name>
 is usually the process filename, but it could have been changed by the
 process itself.
 
@@ -200,8 +207,10 @@ B<--stop>,
 specifies that
 B<start-stop-daemon>
 is to check whether the process(es)
-do finish. It will check repeatedly whether any matching processes
-are running, until none are. If the processes do not exit it will
+do finish.
+It will check repeatedly whether any matching processes are running,
+until none are.
+If the processes do not exit it will
 then take further action as determined by the schedule.
 
 If
@@ -265,7 +274,8 @@ Do not print informational messages; only display error messages.
 
 =item B<-c>, B<--chuid> I<username>|I<uid>[B<:>I<group>|I<gid>]
 
-Change to this username/uid before starting the process. You can also
+Change to this username/uid before starting the process.
+You can also
 specify a group by appending a
 B<:>,
 then the group or gid in the same way
@@ -275,7 +285,8 @@ When using this option
 you must realize that the primary and supplemental groups are set as well,
 even if the
 B<--group>
-option is not specified. The
+option is not specified.
+The
 B<--group>
 option is only for
 groups that the user isn't normally a member of (like adding per process
@@ -286,21 +297,24 @@ B<nobody>).
 
 Change directory and chroot to
 I<root>
-before starting the process. Please note that the pidfile is also written
+before starting the process.
+Please note that the pidfile is also written
 after the chroot.
 
 =item B<-d>, B<--chdir> I<path>
 
 Change directory to
 I<path>
-before starting the process. This is done after the chroot if the
-B<-r>|B<--chroot> option is set. When not specified,
+before starting the process.
+This is done after the chroot if the B<-r>|B<--chroot> option is set.
+When not specified,
 B<start-stop-daemon>
 will change directory to the root directory before starting the process.
 
 =item B<-b>, B<--background>
 
-Typically used with programs that don't detach on their own. This option
+Typically used with programs that don't detach on their own.
+This option
 will force
 B<start-stop-daemon>
 to fork before starting the process, and force it into the background.
@@ -308,7 +322,8 @@ to fork before starting the process, and force it into the background.
 B<Warning>: B<start-stop-daemon>
 cannot check the exit status if the process fails to execute for
 B<any>
-reason. This is a last resort, and is only meant for programs that either
+reason.
+This is a last resort, and is only meant for programs that either
 make no sense forking on their own, or where it's not feasible to add the
 code for them to do this themselves.
 
@@ -368,7 +383,9 @@ This alters the priority of the process before starting it.
 This alters the process scheduler policy and priority of the process before
 starting it (since version 1.15.0).
 The priority can be optionally specified by appending a B<:>
-followed by the value. The default I<priority> is 0. The currently
+followed by the value.
+The default I<priority> is 0.
+The currently
 supported policy values are B<other>, B<fifo> and B<rr>.
 
 This option might do nothing on some systems,
@@ -379,8 +396,10 @@ where POSIX process scheduling is not supported.
 This alters the IO scheduler class and priority of the process before starting
 it (since version 1.15.0).
 The priority can be optionally specified by appending a B<:> followed
-by the value. The default I<priority> is 4, unless I<class> is B<idle>,
-then I<priority> will always be 7. The currently supported values for
+by the value.
+The default I<priority> is 4, unless I<class> is B<idle>,
+then I<priority> will always be 7.
+The currently supported values for
 I<class> are B<idle>, B<best-effort> and B<real-time>.
 
 This option might do nothing on some systems,
@@ -392,18 +411,21 @@ This sets the umask of the process before starting it (since version 1.13.22).
 
 =item B<-m>, B<--make-pidfile>
 
-Used when starting a program that does not create its own pid file. This
+Used when starting a program that does not create its own pid file.
+This
 option will make
 B<start-stop-daemon>
 create the file referenced with
 B<--pidfile>
-and place the pid into it just before executing the process. Note, the
+and place the pid into it just before executing the process.
+Note, the
 file will only be removed when stopping the program if
 B<--remove-pidfile> is used.
 
 B<Note>:
-This feature may not work in all cases. Most notably when the program
-being executed forks from its main process. Because of this, it is usually
+This feature may not work in all cases.
+Most notably when the program being executed forks from its main process.
+Because of this, it is usually
 only useful when combined with the
 B<--background>
 option.
@@ -430,7 +452,8 @@ Print verbose informational messages.
 
 =item B<0>
 
-The requested action was performed. If
+The requested action was performed.
+If
 B<--oknodo>
 was specified, it's also possible that nothing had to be done.
 This can happen when

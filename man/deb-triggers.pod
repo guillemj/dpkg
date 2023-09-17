@@ -33,7 +33,8 @@ A package declares its relationship to some trigger(s) by including
 a I<triggers> file in its control archive (i.e. I<DEBIAN/triggers>
 during package creation).
 
-This file contains directives, one per line. Leading and trailing whitespace
+This file contains directives, one per line.
+Leading and trailing whitespace
 and everything after the first B<#> on any line will be trimmed, and
 empty lines will be ignored.
 
@@ -47,7 +48,8 @@ The trigger control directives currently supported are:
 
 =item B<interest-noawait> I<trigger-name>
 
-Specifies that the package is interested in the named trigger. All
+Specifies that the package is interested in the named trigger.
+All
 triggers in which a package is interested must be listed using this
 directive in the triggers control file.
 
@@ -68,7 +70,8 @@ by the trigger is not crucial.
 =item B<activate-noawait> I<trigger-name>
 
 Arranges that changes to this package's state will activate the
-specified trigger. The trigger will be activated at the start of
+specified trigger.
+The trigger will be activated at the start of
 the following operations: unpack, configure, remove (including for
 the benefit of a conflicting package), purge and deconfigure.
 
@@ -81,7 +84,8 @@ by the trigger is not crucial.
 
 If this package disappears during the unpacking of another package
 the trigger will be activated when the disappearance is noted
-towards the end of the unpack. Trigger processing, and transition
+towards the end of the unpack.
+Trigger processing, and transition
 from triggers-awaited to installed, does not cause activations.
 In the case of unpack, triggers mentioned in both the old and new
 versions of the package will be activated.
