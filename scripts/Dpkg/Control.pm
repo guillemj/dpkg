@@ -21,7 +21,7 @@ Dpkg::Control - parse and manipulate official control-like information
 
 =head1 DESCRIPTION
 
-The Dpkg::Control object is a smart version of Dpkg::Control::Hash.
+The Dpkg::Control object is a smart version of L<Dpkg::Control::Hash>.
 It associates a type to the control information. That type can be
 used to know what fields are allowed and in what order they must be
 output.
@@ -149,7 +149,7 @@ use parent qw(Dpkg::Control::Hash);
 
 =head1 METHODS
 
-All the methods of Dpkg::Control::Hash are available. Those listed below
+All the methods of L<Dpkg::Control::Hash> are available. Those listed below
 are either new or overridden with a different behavior.
 
 =over 4

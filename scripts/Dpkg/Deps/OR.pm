@@ -28,7 +28,7 @@ Dpkg::Deps::OR - list of OR dependencies
 =head1 DESCRIPTION
 
 This class represents a list of dependencies of which only one must be met
-for the dependency to be true. It inherits from Dpkg::Deps::Multiple.
+for the dependency to be true. It inherits from L<Dpkg::Deps::Multiple>.
 
 =cut
 
@@ -102,8 +102,8 @@ sub implies {
 =item $dep->get_evaluation($facts)
 
 Evaluates the dependency given a list of installed packages and a list of
-virtual packages provided. These lists are part of the Dpkg::Deps::KnownFacts
-object given as parameters.
+virtual packages provided. These lists are part of the
+L<Dpkg::Deps::KnownFacts> object given as parameters.
 
 Returns 1 when it's true, 0 when it's false, undef when some information
 is lacking to conclude.
@@ -134,7 +134,7 @@ sub get_evaluation {
 =item $dep->simplify_deps($facts, @assumed_deps)
 
 Simplifies the dependency as much as possible given the list of facts (see
-object Dpkg::Deps::KnownFacts) and a list of other dependencies that are
+object L<Dpkg::Deps::KnownFacts>) and a list of other dependencies that are
 known to be true.
 
 =cut

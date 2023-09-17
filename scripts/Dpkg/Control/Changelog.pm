@@ -21,7 +21,7 @@ Dpkg::Control::Changelog - represent info fields output by dpkg-parsechangelog
 
 =head1 DESCRIPTION
 
-This class derives directly from Dpkg::Control with the type
+This class derives directly from L<Dpkg::Control> with the type
 CTRL_CHANGELOG.
 
 =cut

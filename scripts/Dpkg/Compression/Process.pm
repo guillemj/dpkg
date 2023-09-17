@@ -65,7 +65,7 @@ sub new {
 
 Select the compression method to use. It errors out if the method is not
 supported according to compression_is_supported() (of
-B<Dpkg::Compression>).
+L<Dpkg::Compression>).
 
 =cut
 
@@ -80,7 +80,7 @@ sub set_compression {
 
 Select the compression level to use. It errors out if the level is not
 valid according to compression_is_valid_level() (of
-B<Dpkg::Compression>).
+L<Dpkg::Compression>).
 
 =cut
 

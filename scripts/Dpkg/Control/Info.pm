@@ -133,7 +133,7 @@ loads from the standard input.
 
 =item $c->get_source()
 
-Returns a Dpkg::Control object containing the fields concerning the
+Returns a L<Dpkg::Control> object containing the fields concerning the
 source package.
 
 =cut
@@ -145,7 +145,7 @@ sub get_source {
 
 =item $c->get_pkg_by_idx($idx)
 
-Returns a Dpkg::Control object containing the fields concerning the binary
+Returns a L<Dpkg::Control> object containing the fields concerning the binary
 package numbered $idx (starting at 1).
 
 =cut
@@ -157,7 +157,7 @@ sub get_pkg_by_idx {
 
 =item $c->get_pkg_by_name($name)
 
-Returns a Dpkg::Control object containing the fields concerning the binary
+Returns a L<Dpkg::Control> object containing the fields concerning the binary
 package named $name.
 
 =cut
@@ -173,7 +173,7 @@ sub get_pkg_by_name {
 
 =item $c->get_packages()
 
-Returns a list containing the Dpkg::Control objects for all binary packages.
+Returns a list containing the L<Dpkg::Control> objects for all binary packages.
 
 =cut
 
@@ -206,7 +206,7 @@ Return a string representation of the content.
 
 =item @{$c}
 
-Return a list of Dpkg::Control objects, the first one is corresponding to
+Return a list of L<Dpkg::Control> objects, the first one is corresponding to
 source information and the following ones are the binary packages
 information.
 

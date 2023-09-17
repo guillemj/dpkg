@@ -556,8 +556,8 @@ sub reduce_profiles {
 =item $dep->get_evaluation($facts)
 
 Evaluates the dependency given a list of installed packages and a list of
-virtual packages provided. These lists are part of the Dpkg::Deps::KnownFacts
-object given as parameters.
+virtual packages provided. These lists are part of the
+L<Dpkg::Deps::KnownFacts> object given as parameters.
 
 Returns 1 when it's true, 0 when it's false, undef when some information
 is lacking to conclude.
@@ -574,7 +574,7 @@ sub get_evaluation {
 =item $dep->simplify_deps($facts, @assumed_deps)
 
 Simplifies the dependency as much as possible given the list of facts (see
-class Dpkg::Deps::KnownFacts) and a list of other dependencies that are
+class L<Dpkg::Deps::KnownFacts>) and a list of other dependencies that are
 known to be true.
 
 =cut

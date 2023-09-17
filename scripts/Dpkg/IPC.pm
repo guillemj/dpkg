@@ -59,7 +59,7 @@ Returns the pid of the child process (unless the wait_child
 option was given).
 
 Any error will cause the function to exit with one of the
-Dpkg::ErrorHandling functions.
+L<Dpkg::ErrorHandling> functions.
 
 Options:
 
@@ -88,7 +88,7 @@ dup'ed from the handle.
 
 =item from_pipe, to_pipe, error_to_pipe
 
-Scalar reference or object based on IO::Handle. A pipe will be opened for
+Scalar reference or object based on L<IO::Handle>. A pipe will be opened for
 each of the two options and either the reading (C<to_pipe> and
 C<error_to_pipe>) or the writing end (C<from_pipe>) will be returned in
 the referenced scalar. Standard input/output/error of the child process
@@ -418,4 +418,4 @@ Mark the module as public.
 
 =head1 SEE ALSO
 
-Dpkg, Dpkg::ErrorHandling
+L<Dpkg>, L<Dpkg::ErrorHandling>.

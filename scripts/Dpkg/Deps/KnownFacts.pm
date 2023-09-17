@@ -152,7 +152,7 @@ sub _find_virtual_packages {
 
 =item $facts->evaluate_simple_dep()
 
-This method is private and should not be used except from within Dpkg::Deps.
+This method is private and should not be used except from within L<Dpkg::Deps>.
 
 =cut
 

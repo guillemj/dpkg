@@ -705,4 +705,4 @@ Mark the module as public.
 
 =head1 SEE ALSO
 
-dpkg-architecture(1).
+L<dpkg-architecture(1)>.

@@ -300,7 +300,7 @@ sub set_desc_substvars {
 
 =item $s->set_field_substvars($ctrl, $prefix)
 
-Defines field variables from a Dpkg::Control object, with each variable
+Defines field variables from a L<Dpkg::Control> object, with each variable
 having the form "${$prefix:$field}".
 
 They will never be warned about when unused.

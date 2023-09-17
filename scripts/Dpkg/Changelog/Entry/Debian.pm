@@ -23,7 +23,7 @@ Dpkg::Changelog::Entry::Debian - represents a Debian changelog entry
 =head1 DESCRIPTION
 
 This class represents a Debian changelog entry.
-It implements the generic interface Dpkg::Changelog::Entry.
+It implements the generic interface L<Dpkg::Changelog::Entry>.
 Only functions specific to this implementation are described below,
 the rest are inherited.
 
@@ -297,7 +297,7 @@ sub get_distributions {
 =item $ctrl = $entry->get_optional_fields()
 
 Return a set of optional fields exposed by the changelog entry.
-It always returns a Dpkg::Control object (possibly empty though).
+It always returns a L<Dpkg::Control> object (possibly empty though).
 
 =cut
 
@@ -361,7 +361,7 @@ sub get_timestamp {
 
 =item $time = $entry->get_timepiece()
 
-Return the timestamp of the changelog entry as a Time::Piece object.
+Return the timestamp of the changelog entry as a L<Time::Piece> object.
 
 This function might return undef if there was no timestamp.
 

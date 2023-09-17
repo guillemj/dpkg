@@ -22,7 +22,7 @@ Dpkg::Index - generic index of control information
 
 =head1 DESCRIPTION
 
-This class represent a set of Dpkg::Control objects.
+This class represent a set of L<Dpkg::Control> objects.
 
 =cut
 
@@ -261,7 +261,7 @@ parsed. Handles compressed files transparently based on their extensions.
 =item $item = $index->new_item()
 
 Creates a new item. Mainly useful for derived objects that would want
-to override this method to return something else than a Dpkg::Control
+to override this method to return something else than a L<Dpkg::Control>
 object.
 
 =cut

@@ -248,7 +248,7 @@ sub add_from_string {
 
 =item $ck->add_from_control($control, %opts)
 
-Read checksums from Checksums-* fields stored in the Dpkg::Control object
+Read checksums from Checksums-* fields stored in the L<Dpkg::Control> object
 $control. It uses $self->add_from_string() on the field values to do the
 actual work.
 
@@ -360,7 +360,7 @@ sub has_strong_checksums {
 =item $ck->export_to_string($alg, %opts)
 
 Return a multi-line string containing the checksums of type $alg. The
-string can be stored as-is in a Checksum-* field of a Dpkg::Control
+string can be stored as-is in a Checksum-* field of a L<Dpkg::Control>
 object.
 
 =cut
@@ -379,7 +379,7 @@ sub export_to_string {
 
 =item $ck->export_to_control($control, %opts)
 
-Export the checksums in the Checksums-* fields of the Dpkg::Control
+Export the checksums in the Checksums-* fields of the L<Dpkg::Control>
 $control object.
 
 =cut

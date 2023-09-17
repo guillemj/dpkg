@@ -135,7 +135,7 @@ sub arch_is_concerned {
 Simplifies the dependencies to contain only information relevant to the
 given architecture. The non-relevant sub-dependencies are simply removed.
 
-This trims off the architecture restriction list of Dpkg::Deps::Simple
+This trims off the architecture restriction list of L<Dpkg::Deps::Simple>
 objects.
 
 =cut
@@ -188,7 +188,7 @@ sub profile_is_concerned {
 Simplifies the dependencies to contain only information relevant to the
 given profile. The non-relevant sub-dependencies are simply removed.
 
-This trims off the profile restriction list of Dpkg::Deps::Simple objects.
+This trims off the profile restriction list of L<Dpkg::Deps::Simple> objects.
 
 =cut
 
@@ -206,7 +206,7 @@ sub reduce_profiles {
 =item $dep->is_empty()
 
 Returns true if the dependency is empty and doesn't contain any useful
-information. This is true when a (descendant of) Dpkg::Deps::Multiple
+information. This is true when a (descendant of) L<Dpkg::Deps::Multiple>
 contains an empty list of dependencies.
 
 =cut

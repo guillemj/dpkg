@@ -73,13 +73,13 @@ All the deps_* functions are exported by default.
 
 ($rel_p, $v_p) and ($rel_q, $v_q) express two dependencies as (relation,
 version). The relation variable can have the following values that are
-exported by Dpkg::Version: REL_EQ, REL_LT, REL_LE, REL_GT, REL_GT.
+exported by L<Dpkg::Version>: REL_EQ, REL_LT, REL_LE, REL_GT, REL_GT.
 
 This functions returns 1 if the "p" dependency implies the "q"
 dependency. It returns 0 if the "p" dependency implies that "q" is
 not satisfied. It returns undef when there's no implication.
 
-The $v_p and $v_q parameter should be Dpkg::Version objects.
+The $v_p and $v_q parameter should be L<Dpkg::Version> objects.
 
 =cut
 
@@ -178,7 +178,7 @@ sub deps_concat {
 =item $dep = deps_parse($line, %options)
 
 This function parses the dependency line and returns an object, either a
-Dpkg::Deps::AND or a Dpkg::Deps::Union. Various options can alter the
+L<Dpkg::Deps::AND> or a L<Dpkg::Deps::Union>. Various options can alter the
 behavior of that function.
 
 =over 4
@@ -232,8 +232,8 @@ them if set.
 
 =item union (defaults to 0)
 
-If set to 1, returns a Dpkg::Deps::Union instead of a Dpkg::Deps::AND. Use
-this when parsing non-dependency fields like Conflicts.
+If set to 1, returns a L<Dpkg::Deps::Union> instead of a L<Dpkg::Deps::AND>.
+Use this when parsing non-dependency fields like Conflicts.
 
 =item virtual (defaults to 0)
 
@@ -432,19 +432,19 @@ sub deps_compare {
 
 =head1 CLASSES - Dpkg::Deps::*
 
-There are several kind of dependencies. A Dpkg::Deps::Simple dependency
+There are several kind of dependencies. A L<Dpkg::Deps::Simple> dependency
 represents a single dependency statement (it relates to one package only).
-Dpkg::Deps::Multiple dependencies are built on top of this class
-and combine several dependencies in different manners. Dpkg::Deps::AND
-represents the logical "AND" between dependencies while Dpkg::Deps::OR
-represents the logical "OR". Dpkg::Deps::Multiple objects can contain
-Dpkg::Deps::Simple object as well as other Dpkg::Deps::Multiple objects.
+L<Dpkg::Deps::Multiple> dependencies are built on top of this class
+and combine several dependencies in different manners. L<Dpkg::Deps::AND>
+represents the logical "AND" between dependencies while L<Dpkg::Deps::OR>
+represents the logical "OR". L<Dpkg::Deps::Multiple> objects can contain
+L<Dpkg::Deps::Simple> object as well as other L<Dpkg::Deps::Multiple> objects.
 
 In practice, the code is only meant to handle the realistic cases which,
 given Debian's dependencies structure, imply those restrictions: AND can
 contain Simple or OR objects, OR can only contain Simple objects.
 
-Dpkg::Deps::KnownFacts is a special class that is used while evaluating
+L<Dpkg::Deps::KnownFacts> is a special class that is used while evaluating
 dependencies and while trying to simplify them. It represents a set of
 installed packages along with the virtual packages that they might
 provide.

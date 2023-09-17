@@ -39,14 +39,14 @@ use parent qw(Dpkg::Index);
 
 =head1 METHODS
 
-All the methods of Dpkg::Index are available. Those listed below are either
+All the methods of L<Dpkg::Index> are available. Those listed below are either
 new or overridden with a different behavior.
 
 =over 4
 
 =item $c = Dpkg::Control::Tests->new(%opts)
 
-Create a new Dpkg::Control::Tests object, which inherits from Dpkg::Index.
+Create a new Dpkg::Control::Tests object, which inherits from L<Dpkg::Index>.
 
 =cut
 

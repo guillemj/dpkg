@@ -86,7 +86,7 @@ sub get_vendor_dir {
 
 =item $fields = get_vendor_info($name)
 
-Returns a Dpkg::Control object with the information parsed from the
+Returns a L<Dpkg::Control> object with the information parsed from the
 corresponding vendor file in $Dpkg::CONFDIR/origins/. If $name is omitted,
 it will use $Dpkg::CONFDIR/origins/default which is supposed to be a symlink
 to the vendor of the currently installed operating system. Returns undef
@@ -189,7 +189,7 @@ sub get_current_vendor() {
 
 Return the Dpkg::Vendor::* object of the corresponding vendor.
 If $name is omitted, return the object of the current vendor.
-If no vendor can be identified, then return the Dpkg::Vendor::Default
+If no vendor can be identified, then return the L<Dpkg::Vendor::Default>
 object.
 
 The module name will be derived from the vendor name, by splitting parts
@@ -284,7 +284,7 @@ Mark the module as public.
 
 =head1 SEE ALSO
 
-deb-origin(5).
+L<deb-origin(5)>.
 
 =cut
 

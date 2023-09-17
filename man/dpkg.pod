@@ -50,15 +50,15 @@ packages are particularly inadequate.
 B<dpkg> is a medium-level tool to install, build, remove and manage
 Debian packages.
 The primary and more user-friendly front-end for B<dpkg>
-as a CLI (command-line interface) is B<apt>(8) and
-as a TUI (terminal user interface) is B<aptitude>(8).
+as a CLI (command-line interface) is L<apt(8)> and
+as a TUI (terminal user interface) is L<aptitude(8)>.
 B<dpkg> itself is
 controlled entirely via command line parameters, which consist of exactly
 one action and zero or more options. The action-parameter tells B<dpkg>
 what to do and options control the behavior of the action in some way.
 
-B<dpkg> can also be used as a front-end to B<dpkg-deb>(1) and
-B<dpkg-query>(1). The list of supported actions can be found later on
+B<dpkg> can also be used as a front-end to L<dpkg-deb(1)> and
+L<dpkg-query(1)>. The list of supported actions can be found later on
 in the B<ACTIONS> section. If any such action is encountered B<dpkg>
 just runs B<dpkg-deb> or B<dpkg-query> with the parameters given
 to it, but no specific options are currently passed to them, to use
@@ -224,7 +224,7 @@ If B<-a> or B<--pending> is given instead of I<package>,
 all unpacked but unconfigured packages are configured.
 
 To reconfigure a package which has already been configured, try the
-B<dpkg-reconfigure>(8) command instead (which is part of the B<debconf>
+L<dpkg-reconfigure(8)> command instead (which is part of the B<debconf>
 project).
 
 Configuring consists of the following steps:
@@ -487,7 +487,7 @@ Supports epochs in version strings (since dpkg 1.4.0.7).
 
 =item B<long-filenames>
 
-Supports long filenames in B<deb>(5) archives (since dpkg 1.4.1.17).
+Supports long filenames in L<deb(5)> archives (since dpkg 1.4.1.17).
 
 =item B<multi-conrep>
 
@@ -582,7 +582,7 @@ in a dotted numerical format, with no newline.
 
 =item B<dpkg-deb actions>
 
-See B<dpkg-deb>(1) for more information about the following actions,
+See L<dpkg-deb(1)> for more information about the following actions,
 and other actions and options not exposed by the B<dpkg> front-end.
 
 =over
@@ -627,7 +627,7 @@ Show information about a package.
 
 =item B<dpkg-query actions>
 
-See B<dpkg-query>(1) for more information about the following actions,
+See L<dpkg-query(1)> for more information about the following actions,
 and other actions and options not exposed by the B<dpkg> front-end.
 
 =over
@@ -871,7 +871,7 @@ losing data, use with care.
 
 =item B<script-chrootless>:
 
-Run maintainer scripts without B<chroot>(2)ing into B<instdir> even
+Run maintainer scripts without L<chroot(2)>ing into B<instdir> even
 if the package does not support this mode of operation (since dpkg 1.18.5).
 
 B<Warning>: This can destroy your host system, use with extreme care.
@@ -938,7 +938,7 @@ Defaults to «I<%ADMINDIR%>» if B<DPKG_ADMINDIR> has not been set.
 
 Set the installation directory, which refers to the directory where
 packages are to be installed. B<instdir> is also the directory passed
-to B<chroot>(2) before running package's installation scripts, which
+to L<chroot(2)> before running package's installation scripts, which
 means that the scripts see B<instdir> as a root directory.
 Defaults to «I</>».
 
@@ -1001,7 +1001,7 @@ For example, «I</usr/*/READ*>» matches
 As usual, ‘?’ matches any single character (again, including ‘/’).
 And ‘[’
 starts a character class, which can contain a list of characters, ranges
-and complementations. See B<glob>(7) for detailed information about
+and complementations. See L<glob(7)> for detailed information about
 globbing.
 B<Note>: The current implementation might re-include more directories
 and symlinks than needed, in particular when there is a more specific
@@ -1024,7 +1024,7 @@ The filters are applied when unpacking the binary packages, and as such
 only have knowledge of the type of object currently being filtered
 (e.g. a normal file or a directory) and have not visibility of what
 objects will come next.
-Because these filters have side effects (in contrast to B<find>(1)
+Because these filters have side effects (in contrast to L<find(1)>
 filters), excluding an exact pathname that happens to be a directory object
 like I</usr/share/doc> will not have the desired result, and only that
 pathname will be excluded (which could be automatically reincluded if the
@@ -1326,9 +1326,9 @@ The value is intended to be prepended to any path maintainer scripts
 operate on.
 During normal operation, this variable is empty.
 When installing packages into a different B<instdir>, B<dpkg>
-normally invokes maintainer scripts using B<chroot>(2) and leaves
+normally invokes maintainer scripts using L<chroot(2)> and leaves
 this variable empty, but if B<--force-script-chrootless> is
-specified then the B<chroot>(2) call is skipped and B<instdir>
+specified then the L<chroot(2)> call is skipped and B<instdir>
 is non-empty.
 
 =item B<DPKG_ADMINDIR>
@@ -1442,7 +1442,7 @@ useful if it's lost or corrupted due to filesystems troubles.
 
 =back
 
-The format and contents of a binary package are described in B<deb>(5).
+The format and contents of a binary package are described in L<deb(5)>.
 
 =head1 SECURITY
 
@@ -1470,7 +1470,7 @@ B<--no-act> usually gives less information than might be helpful.
 
 =head1 EXAMPLES
 
-To list installed packages related to the editor B<vi>(1) (note that
+To list installed packages related to the editor L<vi(1)> (note that
 B<dpkg-query> does not load the I<available> file anymore by
 default, and the B<dpkg-query> B<--load-avail> option should
 be used instead for that):
@@ -1560,7 +1560,7 @@ set the selection state on the requested packages. You will need some
 other application to actually download and install the requested
 packages. For example, run B<apt-get dselect-upgrade>.
 
-Ordinarily, you will find that B<dselect>(1) provides a more
+Ordinarily, you will find that L<dselect(1)> provides a more
 convenient way to modify the package selection states.
 
 =head1 ADDITIONAL FUNCTIONALITY
@@ -1570,16 +1570,16 @@ following packages: B<apt>, B<aptitude> and B<debsums>.
 
 =head1 SEE ALSO
 
-B<aptitude>(8),
-B<apt>(8),
-B<dselect>(1),
-B<dpkg-deb>(1),
-B<dpkg-query>(1),
-B<deb>(5),
-B<deb-control>(5),
+L<aptitude(8)>,
+L<apt(8)>,
+L<dselect(1)>,
+L<dpkg-deb(1)>,
+L<dpkg-query(1)>,
+L<deb(5)>,
+L<deb-control(5)>,
 B<dpkg.cfg>(5),
 and
-B<dpkg-reconfigure>(8).
+L<dpkg-reconfigure(8)>.
 
 =head1 AUTHORS
 

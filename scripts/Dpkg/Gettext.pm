@@ -25,7 +25,7 @@ Dpkg::Gettext - convenience wrapper around Locale::gettext
 
 =head1 DESCRIPTION
 
-The Dpkg::Gettext module is a convenience wrapper over the Locale::gettext
+The Dpkg::Gettext module is a convenience wrapper over the L<Locale::gettext>
 module, to guarantee we always have working gettext functions, and to add
 some commonly used aliases.
 
@@ -85,20 +85,20 @@ our $DEFAULT_TEXT_DOMAIN = 'dpkg-dev';
 
 =item $domain = textdomain($new_domain)
 
-Compatibility textdomain() fallback when Locale::gettext is not available.
+Compatibility textdomain() fallback when L<Locale::gettext> is not available.
 
 If $new_domain is not undef, it will set the current domain to $new_domain.
 Returns the current domain, after possibly changing it.
 
 =item $trans = gettext($msgid)
 
-Compatibility gettext() fallback when Locale::gettext is not available.
+Compatibility gettext() fallback when L<Locale::gettext> is not available.
 
 Returns $msgid.
 
 =item $trans = ngettext($msgid, $msgid_plural, $n)
 
-Compatibility ngettext() fallback when Locale::gettext is not available.
+Compatibility ngettext() fallback when L<Locale::gettext> is not available.
 
 Returns $msgid if $n is 1 or $msgid_plural otherwise.
 

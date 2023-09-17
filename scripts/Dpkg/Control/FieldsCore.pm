@@ -23,7 +23,7 @@ Dpkg::Control::FieldsCore - manage (list of official) control fields
 
 The modules contains a list of field names with associated meta-data explaining
 in which type of control information they are allowed. The types are the
-CTRL_* constants exported by Dpkg::Control.
+CTRL_* constants exported by L<Dpkg::Control>.
 
 =cut
 
@@ -1095,7 +1095,7 @@ sub field_is_allowed_in($@) {
 =item $new_field = field_transfer_single($from, $to, $field)
 
 If appropriate, copy the value of the field named $field taken from the
-$from Dpkg::Control object to the $to Dpkg::Control object.
+$from L<Dpkg::Control> object to the $to L<Dpkg::Control> object.
 
 Official fields are copied only if the field is allowed in both types of
 objects. Custom fields are treated in a specific manner. When the target

@@ -24,7 +24,7 @@ Dpkg::Control::Fields - manage (list of official) control fields
 The module contains a list of vendor-neutral and vendor-specific field names
 with associated meta-data explaining in which type of control information
 they are allowed. The vendor-neutral field names and all functions are
-inherited from Dpkg::Control::FieldsCore.
+inherited from L<Dpkg::Control::FieldsCore>.
 
 =cut
 

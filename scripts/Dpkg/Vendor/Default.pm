@@ -24,7 +24,7 @@ Dpkg::Vendor::Default - default vendor class
 A vendor class is used to provide vendor specific behaviour
 in various places. This is the default class used in case
 there's none for the current vendor or in case the vendor could
-not be identified (see Dpkg::Vendor documentation).
+not be identified (see L<Dpkg::Vendor> documentation).
 
 It provides some hooks that are called by various dpkg-* tools.
 If you need a new hook, please file a bug against dpkg-dev and explain
@@ -74,7 +74,7 @@ supported hooks are:
 
 =item before-source-build ($srcpkg)
 
-The first parameter is a Dpkg::Source::Package object. The hook is called
+The first parameter is a L<Dpkg::Source::Package> object. The hook is called
 just before the execution of $srcpkg->build().
 
 =item package-keyrings ()
@@ -111,10 +111,10 @@ but returns a (possibly empty) list of vendor-specific B<Build-Conflicts>.
 
 =item register-custom-fields ()
 
-The hook is called in Dpkg::Control::Fields to register custom fields.
+The hook is called in L<Dpkg::Control::Fields> to register custom fields.
 You should return a list of arrays. Each array is an operation to perform.
 The first item is the name of the operation and corresponds
-to a field_* function provided by Dpkg::Control::Fields. The remaining
+to a field_* function provided by L<Dpkg::Control::Fields>. The remaining
 fields are the parameters that are passed unchanged to the corresponding
 function.
 
@@ -122,15 +122,15 @@ Known operations are "register", "insert_after" and "insert_before".
 
 =item post-process-changelog-entry ($fields)
 
-The hook is called in Dpkg::Changelog to post-process a
-Dpkg::Changelog::Entry after it has been created and filled with the
+The hook is called in L<Dpkg::Changelog> to post-process a
+L<Dpkg::Changelog::Entry> after it has been created and filled with the
 appropriate values.
 
 =item update-buildflags ($flags)
 
-The hook is called in Dpkg::BuildFlags to allow the vendor to override
+The hook is called in L<Dpkg::BuildFlags> to allow the vendor to override
 the default values set for the various build flags. $flags is a
-Dpkg::BuildFlags object.
+L<Dpkg::BuildFlags> object.
 
 =item builtin-system-build-paths ()
 

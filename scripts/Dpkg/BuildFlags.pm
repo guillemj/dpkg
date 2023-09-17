@@ -140,7 +140,7 @@ sub load_user_config {
 =item $bf->load_environment_config()
 
 Update flags based on user directives stored in the environment. See
-dpkg-buildflags(1) for details.
+L<dpkg-buildflags(1)> for details.
 
 =cut
 
@@ -170,7 +170,7 @@ sub load_environment_config {
 =item $bf->load_maintainer_config()
 
 Update flags based on maintainer directives stored in the environment. See
-dpkg-buildflags(1) for details.
+L<dpkg-buildflags(1)> for details.
 
 =cut
 
@@ -407,7 +407,7 @@ sub prepend {
 =item $bf->update_from_conffile($file, $source)
 
 Update the current build flags based on the configuration directives
-contained in $file. See dpkg-buildflags(1) for the format of the directives.
+contained in $file. See L<dpkg-buildflags(1)> for the format of the directives.
 
 $source is the origin recorded for any build flag set or modified.
 

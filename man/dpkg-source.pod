@@ -163,7 +163,7 @@ the source tree's top level directory.
 
 =item B<-F>I<changelog-format>
 
-Specifies the format of the changelog. See B<dpkg-parsechangelog>(1)
+Specifies the format of the changelog. See L<dpkg-parsechangelog(1)>
 for information about alternative formats.
 
 =item B<--format=>I<value>
@@ -174,7 +174,7 @@ It does override any format given in B<debian/source/format>.
 =item B<-V>I<name>B<=>I<value>
 
 Set an output substitution variable.
-See B<deb-substvars>(5) for a discussion of output substitution.
+See L<deb-substvars(5)> for a discussion of output substitution.
 
 =item B<-T>I<substvars-file>
 
@@ -247,7 +247,7 @@ some auto-generated files from the automatic patch generation.
 =item B<-I>[I<file-pattern>], B<--tar-ignore>[=I<file-pattern>]
 
 If this option is specified, the pattern will be passed to
-B<tar>(1)'s
+L<tar(1)>'s
 B<--exclude>
 option when it is called to generate a .orig.tar or .tar file
 (B<--tar-ignore> since dpkg 1.15.6).
@@ -586,10 +586,10 @@ options and always expects patches that can be applied with the B<-p1>
 option of B<patch>. It will thus emit a warning when it encounters
 such options, and the build is likely to fail.
 
-Note that B<lintian>(1) will emit unconditional warnings when using
+Note that L<lintian(1)> will emit unconditional warnings when using
 vendor series due to a controversial Debian specific ruling, which should
 not affect any external usage; to silence these, the dpkg lintian profile
-can be used by passing «B<--profile dpkg>» to B<lintian>(1).
+can be used by passing «B<--profile dpkg>» to L<lintian(1)>.
 
 The timestamp of all patched files is reset to the extraction time of
 the source package (this avoids timestamp skews leading to problems
@@ -821,7 +821,7 @@ B<Building>
 Before going any further, some checks are done to ensure that we
 don't have any non-ignored uncommitted changes.
 
-B<git-bundle>(1) is used to generate a bundle of the git repository.
+L<git-bundle(1)> is used to generate a bundle of the git repository.
 By default, all branches and tags in the repository are included in the
 bundle.
 
@@ -835,7 +835,7 @@ Allows specifying a git ref to include in the git bundle. Use disables
 the default behavior of including all branches and tags. May be specified
 multiple times. The I<ref> can be the name of a branch or tag to
 include. It may also be any parameter that can be passed to
-B<git-rev-list>(1). For example, to include only
+L<git-rev-list(1)>. For example, to include only
 the main branch, use B<--git-ref=>main. To include all tags and
 branches, except for the private branch, use B<--git-ref=>--all
 B<--git-ref=>^private
@@ -936,7 +936,7 @@ The accepted values are: B<0> and B<1> (default).
 =item B<SOURCE_DATE_EPOCH>
 
 If set, it will be used as the timestamp (as seconds since the epoch) to
-clamp the mtime in the B<tar>(5) file entries.
+clamp the mtime in the L<tar(5)> file entries.
 
 =item B<VISUAL>
 
@@ -1057,7 +1057,7 @@ standard output field settings is rather confused.
 
 =head1 SEE ALSO
 
-B<deb-src-control>(5),
-B<deb-changelog>(5),
-B<deb-substvars>(5),
-B<dsc>(5).
+L<deb-src-control(5)>,
+L<deb-changelog(5)>,
+L<deb-substvars(5)>,
+L<dsc(5)>.

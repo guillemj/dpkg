@@ -38,8 +38,8 @@ use parent qw(Dpkg::Control);
 
 =head1 METHODS
 
-All the methods of Dpkg::Control are available. Those listed below are either
-new or overridden with a different behavior.
+All the methods of L<Dpkg::Control> are available. Those listed below are
+either new or overridden with a different behavior.
 
 =over 4
 

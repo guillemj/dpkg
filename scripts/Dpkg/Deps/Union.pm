@@ -28,7 +28,7 @@ Dpkg::Deps::Union - list of unrelated dependencies
 =head1 DESCRIPTION
 
 This class represents a list of relationships.
-It inherits from Dpkg::Deps::Multiple.
+It inherits from L<Dpkg::Deps::Multiple>.
 
 =cut
 

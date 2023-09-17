@@ -75,7 +75,7 @@ sub _changelog_detect_format {
 =item $fields = changelog_parse(%opt)
 
 This function will parse a changelog. In list context, it returns as many
-Dpkg::Control objects as the parser did create. In scalar context, it will
+L<Dpkg::Control> objects as the parser did create. In scalar context, it will
 return only the first one. If the parser did not return any data, it will
 return an empty list in list context or undef on scalar context. If the
 parser failed, it will die. Any parse errors will be printed as warnings
@@ -89,7 +89,7 @@ The default output format is "dpkg" but it can be overridden with $opt{format}.
 The parsing itself is done by a parser module (searched in the standard
 perl library directories. That module is named according to the format that
 it is able to parse, with the name capitalized. By default it is either
-Dpkg::Changelog::Debian (from the "debian" format) or the format name looked
+L<Dpkg::Changelog::Debian> (from the "debian" format) or the format name looked
 up in the 40 last lines of the changelog itself (extracted with this perl
 regular expression "\schangelog-format:\s+([0-9a-z]+)\W"). But it can be
 overridden with $opt{changelogformat}.

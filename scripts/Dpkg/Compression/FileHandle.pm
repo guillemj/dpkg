@@ -102,7 +102,7 @@ and you can't seek on a pipe.
 
 =head1 FileHandle METHODS
 
-The class inherits from IO::File so all methods that work on this
+The class inherits from L<IO::File> so all methods that work on this
 class should work for Dpkg::Compression::FileHandle too. There
 may be exceptions though.
 
@@ -283,7 +283,7 @@ sub BINMODE {
 =item $fh->set_compression($comp)
 
 Defines the compression method used. $comp should one of the methods supported by
-B<Dpkg::Compression> or "none" or "auto". "none" indicates that the file is
+L<Dpkg::Compression> or "none" or "auto". "none" indicates that the file is
 uncompressed and "auto" indicates that the method must be guessed based
 on the filename extension used.
 
@@ -300,7 +300,7 @@ sub set_compression {
 =item $fh->set_compression_level($level)
 
 Indicate the desired compression level. It should be a value accepted
-by the function compression_is_valid_level() of B<Dpkg::Compression>.
+by the function compression_is_valid_level() of L<Dpkg::Compression>.
 
 =cut
 

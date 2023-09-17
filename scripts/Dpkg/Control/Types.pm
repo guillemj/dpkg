@@ -20,10 +20,10 @@ Dpkg::Control::Types - export CTRL_* constants
 =head1 DESCRIPTION
 
 You should not use this module directly. Instead you more likely
-want to use Dpkg::Control which also re-exports the same constants.
+want to use L<Dpkg::Control> which also re-exports the same constants.
 
 This module has been introduced solely to avoid a dependency loop
-between Dpkg::Control and Dpkg::Control::Fields.
+between L<Dpkg::Control> and L<Dpkg::Control::Fields>.
 
 B<Note>: This is a private module, its API can change at any time.
 

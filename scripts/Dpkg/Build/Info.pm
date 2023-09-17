@@ -24,7 +24,7 @@ Dpkg::Build::Info - handle build information
 The Dpkg::Build::Info module provides functions to handle the build
 information.
 
-This module is deprecated, use Dpkg::BuildInfo instead.
+This module is deprecated, use L<Dpkg::BuildInfo> instead.
 
 =cut
 
@@ -81,7 +81,7 @@ sub get_build_env_whitelist {
 
 =head2 Version 1.02 (dpkg 1.21.14)
 
-Deprecate module: replaced by Dpkg::BuildInfo.
+Deprecate module: replaced by L<Dpkg::BuildInfo>.
 
 =head2 Version 1.01 (dpkg 1.20.1)
 

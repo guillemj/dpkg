@@ -69,7 +69,7 @@ and it writes the same string to $fh (if it's defined).
 
 Initialize the object with the data stored in the file. The file can be
 compressed, it will be decompressed on the fly by using a
-Dpkg::Compression::FileHandle object. If $opts{compression} is false the
+L<Dpkg::Compression::FileHandle> object. If $opts{compression} is false the
 decompression support will be disabled. If $filename is "-", then the
 standard input is read (no compression is allowed in that case).
 
@@ -103,7 +103,7 @@ sub load {
 
 Store the object in the file. If the filename ends with a known
 compression extension, it will be compressed on the fly by using a
-Dpkg::Compression::FileHandle object. If $opts{compression} is false the
+L<Dpkg::Compression::FileHandle> object. If $opts{compression} is false the
 compression support will be disabled. If $filename is "-", then the
 standard output is used (data are written uncompressed in that case).
 

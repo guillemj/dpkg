@@ -21,7 +21,7 @@ Dpkg::Control::Hash - parse and manipulate a stanza of deb822 fields
 
 =head1 DESCRIPTION
 
-This module is just like Dpkg::Control::HashCore, with vendor-specific
+This module is just like L<Dpkg::Control::HashCore>, with vendor-specific
 field knowledge.
 
 =cut

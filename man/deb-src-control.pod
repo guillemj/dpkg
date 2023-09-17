@@ -31,7 +31,7 @@ B<debian/control>
 
 Each Debian source package contains the master «B<debian/control>» file,
 and its L<deb822(5)> format is a superset of the B<control> file
-shipped in Debian binary packages, see B<deb-control>(5).
+shipped in Debian binary packages, see L<deb-control(5)>.
 
 This file contains at least 2 stanzas, separated by a blank line.
 The first stanza lists all information about the source package in general,
@@ -142,7 +142,7 @@ expose an interface that is used to run a command under (fake)root.
 =item B<Testsuite-Triggers:> I<package-list>
 
 These fields are described in the
-B<dsc>(5)
+L<dsc(5)>
 manual page, as they are generated from information inferred from
 B<debian/tests/control> or copied literally to the source control file.
 
@@ -256,7 +256,7 @@ Each group is a list of packages separated by vertical bar (or “pipe”)
 symbols, ‘B<|>’.
 The groups are separated by commas ‘B<,>’, and can end with a
 trailing comma that will be eliminated when generating the fields
-for B<deb-control>(5) (since dpkg 1.10.14).
+for L<deb-control(5)> (since dpkg 1.10.14).
 Commas are to be read as “AND”, and pipes as “OR”, with pipes
 binding more tightly.
 Each package name is optionally followed by an architecture qualifier
@@ -275,7 +275,7 @@ and
 B<Build-Conflicts-Indep>
 fields is a list of comma-separated package names, where the comma is read
 as an “AND”, and where the list can end with a trailing comma that will
-be eliminated when generating the fields for B<deb-control>(5)
+be eliminated when generating the fields for L<deb-control(5)>
 (since dpkg 1.10.14).
 Specifying alternative packages using a “pipe” is not supported.
 Each package name is optionally followed by a version number specification in
@@ -351,7 +351,7 @@ B<all>
 value. To restrict the packages to a certain set of architectures, specify the
 architecture names, separated by a space. It's also possible to put
 architecture wildcards in that list (see
-B<dpkg-architecture>(1)
+L<dpkg-architecture(1)>
 for more information about them).
 
 =item B<Build-Profiles:> I<restriction-formula>
@@ -382,7 +382,7 @@ evaluates to true.
 =item B<Description:> I<short-description> (recommended)
 
 These fields are described in the
-B<deb-control>(5)
+L<deb-control(5)>
 manual page, as they are copied literally to the control file of the binary
 package.
 
@@ -410,12 +410,12 @@ package.
 
 These fields declare relationships between packages. They are discussed in
 the
-B<deb-control>(5)
+L<deb-control(5)>
 manual page.
 When these fields are found in I<debian/control> they can also end with
 a trailing comma (since dpkg 1.10.14), have architecture specifications and
 restriction formulas which will all get reduced when generating the fields
-for B<deb-control>(5).
+for L<deb-control(5)>.
 
 =item B<Subarchitecture:> I<value>
 
@@ -442,17 +442,17 @@ the letters B<SBC> and a hyphen.
 
 =item B<S>
 
-The field will appear in the source package control file, see B<dsc>(5).
+The field will appear in the source package control file, see L<dsc(5)>.
 
 =item B<B>
 
 The field will appear in the control file in the binary package, see
-B<deb-control>(5).
+L<deb-control(5)>.
 
 =item B<C>
 
 The field will appear in the upload control (.changes) file, see
-B<deb-changes>(5).
+L<deb-changes(5)>.
 
 =back
 
@@ -505,6 +505,6 @@ fields with B<Private->, such as B<XB-Private-New-Field>.
 
 I<%PKGDOCDIR%/spec/rootless-builds.txt>,
 L<deb822(5)>,
-B<deb-control>(5),
-B<deb-version>(7),
-B<dpkg-source>(1)
+L<deb-control(5)>,
+L<deb-version(7)>,
+L<dpkg-source(1)>

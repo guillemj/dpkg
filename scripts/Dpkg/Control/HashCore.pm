@@ -22,10 +22,10 @@ Dpkg::Control::HashCore - parse and manipulate a stanza of deb822 fields
 
 =head1 DESCRIPTION
 
-The Dpkg::Control::Hash class is a hash-like representation of a set of
+The L<Dpkg::Control::Hash> class is a hash-like representation of a set of
 RFC822-like fields. The fields names are case insensitive and are always
 capitalized the same when output (see field_capitalize() function in
-Dpkg::Control::Fields).
+L<Dpkg::Control::Fields>).
 The order in which fields have been set is remembered and is used
 to be able to dump back the same content. The output order can also be
 overridden if needed.
@@ -424,7 +424,7 @@ sub set_output_order {
 =item $c->apply_substvars($substvars)
 
 Update all fields by replacing the variables references with
-the corresponding value stored in the Dpkg::Substvars object.
+the corresponding value stored in the L<Dpkg::Substvars> object.
 
 =cut
 
