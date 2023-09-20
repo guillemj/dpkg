@@ -252,7 +252,7 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 		if (thisline >= loaded_list_end)
 			ohshit(_("unexpected end of line in statoverride file"));
 
-		fnn = fsys_hash_find_node(thisline, 0);
+		fnn = fsys_hash_find_node(thisline, FHFF_NONE);
 		if (fnn->statoverride)
 			ohshit(_("multiple statoverrides present for file '%.250s'"),
 			       thisline);

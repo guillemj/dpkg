@@ -50,7 +50,7 @@ test_fsys_nodes(void)
 	test_pass(fnn->oldhash == NULL);
 	test_pass(fnn->newhash == NULL);
 
-	fnn = fsys_hash_find_node("//./test/path/bb", 0);
+	fnn = fsys_hash_find_node("//./test/path/bb", FHFF_NONE);
 	test_pass(fnn != NULL);
 	test_pass(fsys_hash_entries() == 2);
 	test_str(fnn->name, ==, "/test/path/bb");
@@ -58,7 +58,7 @@ test_fsys_nodes(void)
 	test_pass(fnn->oldhash == NULL);
 	test_pass(fnn->newhash == NULL);
 
-	fnn = fsys_hash_find_node("/test/path/cc", 0);
+	fnn = fsys_hash_find_node("/test/path/cc", FHFF_NONE);
 	test_pass(fnn != NULL);
 	test_pass(fsys_hash_entries() == 3);
 	test_str(fnn->name, ==, "/test/path/cc");

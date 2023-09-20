@@ -364,7 +364,7 @@ searchfiles(const char *const *argv)
       varbuf_set_str(&path, thisarg);
       varbuf_trunc(&path, path_trim_slash_slashdot(path.buf));
 
-      namenode = fsys_hash_find_node(path.buf, 0);
+      namenode = fsys_hash_find_node(path.buf, FHFF_NONE);
       found += searchoutput(namenode);
     } else {
       struct fsys_hash_iter *iter;

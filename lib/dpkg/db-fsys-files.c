@@ -140,7 +140,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
                pkg_name(pkg, pnaw_nonambig));
       *ptr = '\0';
 
-      namenode = fsys_hash_find_node(thisline, 0);
+      namenode = fsys_hash_find_node(thisline, FHFF_NONE);
       lendp = pkg_files_add_file(pkg, namenode, lendp);
       thisline = nextline;
     }

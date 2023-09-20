@@ -395,7 +395,7 @@ deb_parse_conffiles(const struct pkginfo *pkg, const char *control_conffiles,
       }
     }
 
-    namenode = fsys_hash_find_node(conffilename, 0);
+    namenode = fsys_hash_find_node(conffilename, FHFF_NONE);
     namenode->oldhash = NEWCONFFILEFLAG;
     newconff = tar_fsys_namenode_queue_push(newconffiles, namenode);
 

@@ -125,7 +125,7 @@ parse_filehash_buffer(struct varbuf *buf,
 		      thisline, filename);
 
 		/* Add the file to the list. */
-		namenode = fsys_hash_find_node(filename, 0);
+		namenode = fsys_hash_find_node(filename, FHFF_NONE);
 		namenode->newhash = nfstrsave(thisline);
 	}
 }

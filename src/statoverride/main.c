@@ -149,7 +149,7 @@ statdb_node_find(const char *filename)
 {
 	struct fsys_namenode *file;
 
-	file = fsys_hash_find_node(filename, 0);
+	file = fsys_hash_find_node(filename, FHFF_NONE);
 
 	return &file->statoverride;
 }

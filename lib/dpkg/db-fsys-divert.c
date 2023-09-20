@@ -104,11 +104,11 @@ ensure_diversions(void)
 		oicontest = nfmalloc(sizeof(*oicontest));
 		oialtname = nfmalloc(sizeof(*oialtname));
 
-		oialtname->camefrom = fsys_hash_find_node(linebuf, 0);
+		oialtname->camefrom = fsys_hash_find_node(linebuf, FHFF_NONE);
 		oialtname->useinstead = NULL;
 
 		fgets_must(linebuf, sizeof(linebuf), file, diversionsname);
-		oicontest->useinstead = fsys_hash_find_node(linebuf, 0);
+		oicontest->useinstead = fsys_hash_find_node(linebuf, FHFF_NONE);
 		oicontest->camefrom = NULL;
 
 		fgets_must(linebuf, sizeof(linebuf), file, diversionsname);

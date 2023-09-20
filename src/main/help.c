@@ -305,7 +305,7 @@ pkg_conffiles_mark_old(struct pkginfo *pkg)
   for (conff = pkg->installed.conffiles; conff; conff = conff->next) {
     struct fsys_namenode *namenode;
 
-    namenode = fsys_hash_find_node(conff->name, 0); /* XXX */
+    namenode = fsys_hash_find_node(conff->name, FHFF_NONE); /* XXX */
     namenode->flags |= FNNF_OLD_CONFF;
     if (!namenode->oldhash)
       namenode->oldhash = conff->hash;

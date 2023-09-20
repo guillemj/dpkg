@@ -546,7 +546,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       if (rc == -1)
         continue;
 
-      namenode = fsys_hash_find_node(conff->name, 0);
+      namenode = fsys_hash_find_node(conff->name, FHFF_NONE);
       usenode = namenodetouse(namenode, pkg, &pkg->installed);
 
       trig_path_activate(usenode, pkg);
