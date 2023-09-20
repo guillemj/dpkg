@@ -36,12 +36,12 @@ test_fsys_nodes(void)
 
 	fsys_hash_init();
 
-	fnn = fsys_hash_find_node("/nonexistent", FHFF_NONEW);
+	fnn = fsys_hash_find_node("/nonexistent", FHFF_NO_NEW);
 	test_pass(fnn == NULL);
 	test_pass(fsys_hash_entries() == 0);
 
 	name = "/test/path/aa";
-	fnn = fsys_hash_find_node(name, FHFF_NOCOPY);
+	fnn = fsys_hash_find_node(name, FHFF_NO_COPY);
 	test_pass(fnn != NULL);
 	test_pass(fsys_hash_entries() == 1);
 	test_pass(fnn->name == name);
@@ -81,21 +81,21 @@ test_fsys_nodes(void)
 
 	fsys_hash_init();
 	test_pass(fsys_hash_entries() == 3);
-	fnn = fsys_hash_find_node("/test/path/aa", FHFF_NONEW);
+	fnn = fsys_hash_find_node("/test/path/aa", FHFF_NO_NEW);
 	test_pass(fnn != NULL);
-	fnn = fsys_hash_find_node("/test/path/bb", FHFF_NONEW);
+	fnn = fsys_hash_find_node("/test/path/bb", FHFF_NO_NEW);
 	test_pass(fnn != NULL);
-	fnn = fsys_hash_find_node("/test/path/cc", FHFF_NONEW);
+	fnn = fsys_hash_find_node("/test/path/cc", FHFF_NO_NEW);
 	test_pass(fnn != NULL);
 	test_pass(fsys_hash_entries() == 3);
 
 	fsys_hash_reset();
 	test_pass(fsys_hash_entries() == 0);
-	fnn = fsys_hash_find_node("/test/path/aa", FHFF_NONEW);
+	fnn = fsys_hash_find_node("/test/path/aa", FHFF_NO_NEW);
 	test_pass(fnn == NULL);
-	fnn = fsys_hash_find_node("/test/path/bb", FHFF_NONEW);
+	fnn = fsys_hash_find_node("/test/path/bb", FHFF_NO_NEW);
 	test_pass(fnn == NULL);
-	fnn = fsys_hash_find_node("/test/path/cc", FHFF_NONEW);
+	fnn = fsys_hash_find_node("/test/path/cc", FHFF_NO_NEW);
 	test_pass(fnn == NULL);
 	test_pass(fsys_hash_entries() == 0);
 }

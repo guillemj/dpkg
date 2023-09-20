@@ -383,7 +383,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	char *cdr2rest;
 	int rc;
 
-	usenode = namenodetouse(fsys_hash_find_node(conff->name, FHFF_NOCOPY),
+	usenode = namenodetouse(fsys_hash_find_node(conff->name, FHFF_NO_COPY),
                                 pkg, &pkg->installed);
 
 	rc = conffderef(pkg, &cdr, usenode->name);

@@ -159,7 +159,7 @@ statdb_node_remove(const char *filename)
 {
 	struct fsys_namenode *file;
 
-	file = fsys_hash_find_node(filename, FHFF_NONEW);
+	file = fsys_hash_find_node(filename, FHFF_NO_NEW);
 	if (!file || !file->statoverride)
 		return 0;
 

@@ -93,12 +93,12 @@ fsys_hash_find_node(const char *name, enum fsys_hash_find_flags flags)
 		pointerp = &(*pointerp)->next;
 	}
 
-	if (flags & FHFF_NONEW)
+	if (flags & FHFF_NO_NEW)
 		return NULL;
 
 	newnode = nfmalloc(sizeof(*newnode));
 	memset(newnode, 0, sizeof(*newnode));
-	if ((flags & FHFF_NOCOPY) && name > orig_name && name[-1] == '/') {
+	if ((flags & FHFF_NO_COPY) && name > orig_name && name[-1] == '/') {
 		newnode->name = name - 1;
 	} else {
 		char *newname = nfmalloc(strlen(name) + 2);
