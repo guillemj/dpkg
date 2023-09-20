@@ -9,7 +9,8 @@ test -z "$(dpkg-deb -f pkg-package-type-void.deb Package-Type)"
 ], [0], [ignore])
 
 DPKG_GEN_CONTROL([pkg-package-type-use])
-DPKG_MOD_CONTROL([pkg-package-type-use], [/^Package:/aPackage-Type: udeb])
+DPKG_MOD_CONTROL([pkg-package-type-use], [/^Package:/a\
+Package-Type: udeb])
 AT_CHECK([
 dpkg-deb -b pkg-package-type-use
 # Test presence of Package-Type field.
@@ -19,9 +20,12 @@ test -n "$(dpkg-deb -f pkg-package-type-use.deb Package-Type)"
 DPKG_GEN_CONTROL([pkg-obsolete-fields])
 DPKG_MOD_CONTROL([pkg-obsolete-fields], [s/^Priority:/Class:/])
 DPKG_MOD_CONTROL([pkg-obsolete-fields], [s/^Version: 0.0-1/Version: 0.0/])
-DPKG_MOD_CONTROL([pkg-obsolete-fields], [/^Version:/aRevision: 1])
-DPKG_MOD_CONTROL([pkg-obsolete-fields], [/^Package:/aOptional: suggests])
-DPKG_MOD_CONTROL([pkg-obsolete-fields], [/^Package:/aRecommended: recommends])
+DPKG_MOD_CONTROL([pkg-obsolete-fields], [/^Version:/a\
+Revision: 1])
+DPKG_MOD_CONTROL([pkg-obsolete-fields], [/^Package:/a\
+Optional: suggests])
+DPKG_MOD_CONTROL([pkg-obsolete-fields], [/^Package:/a\
+Recommended: recommends])
 AT_CHECK([
 dpkg-deb -b pkg-obsolete-fields
 ], [0], [ignore],

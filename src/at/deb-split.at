@@ -42,7 +42,8 @@ DEB_SPLIT_PART_SIZE_VERSION=$((DEB_SPLIT_PART_SIZE + 2))
 AT_CHECK_UNQUOTED([
 # Test debian-split with 2.x version
 ar x pkg-split-part.1of10.deb debian-split
-$SED -e '1c2.999' debian-split >debian-split.new
+$SED -e '1c\
+2.999' debian-split >debian-split.new
 mv debian-split.new debian-split
 ar qc pkg-split-part-version-2x.deb debian-split data.1
 ar t pkg-split-part-version-2x.deb
