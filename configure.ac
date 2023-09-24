@@ -75,6 +75,8 @@ DPKG_WITH_DIR([zshcompletionsdir], [${datadir}/zsh/vendor-completions],
 DPKG_DEB_COMPRESSOR([xz])
 
 # Checks for programs.
+DPKG_PROG_SHELL
+DPKG_PROG_PAGER
 AC_PROG_SED
 AC_PROG_GREP
 AC_PROG_EGREP
@@ -286,6 +288,8 @@ Configuration:
     mmap loaders  . . . . . . . . : $enable_mmap
     disk pre-allocation . . . . . : $enable_disk_preallocate
     default dpkg-deb compressor . : $with_deb_compressor
+    default shell interpreter . . : $DPKG_SHELL
+    default pager program . . . . : $DPKG_PAGER
 
   Paths:
     devlibdir . . . . . . . . . . : $devlibdir

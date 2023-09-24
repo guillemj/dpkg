@@ -1,7 +1,32 @@
-# serial 2
+# serial 3
 # Copyright © 2005 Scott James Remnant <scott@netsplit.com>
 # Copyright © 2007 Frank Lichtenheld <djpig@debian.org>
-# Copyright © 2007, 2009, 2011 Guillem Jover <guillem@debian.org>
+# Copyright © 2007-2023 Guillem Jover <guillem@debian.org>
+
+# DPKG_PROG_SHELL
+# ---------------
+# Locate a POSIX shell interpreter to use in dpkg.
+AC_DEFUN([DPKG_PROG_SHELL], [
+  AC_ARG_VAR([DPKG_SHELL], [default POSIX shell interpreter used by dpkg])
+  AS_IF([test -z "$DPKG_SHELL"], [
+    DPKG_SHELL=sh
+  ])
+
+  AC_SUBST([DPKG_DEFAULT_SHELL], [$DPKG_SHELL])
+  AC_DEFINE_UNQUOTED([DPKG_DEFAULT_SHELL], ["$DPKG_SHELL"],
+    [POSIX shell interpreter used by dpkg])
+])# DPKG_PROG_SHELL
+
+# DPKG_PROG_PAGER
+# ---------------
+# Locate a pager program to use in dpkg.
+AC_DEFUN([DPKG_PROG_PAGER], [
+  AC_ARG_VAR([DPKG_PAGER], [default pager program used by dpkg])
+
+  AC_SUBST([DPKG_DEFAULT_PAGER], [$DPKG_PAGER])
+  AC_DEFINE_UNQUOTED([DPKG_DEFAULT_PAGER], ["$DPKG_PAGER"],
+    [pager program used by dpkg])
+])# DPKG_PROG_PAGER
 
 # DPKG_PROG_PERL
 # --------------

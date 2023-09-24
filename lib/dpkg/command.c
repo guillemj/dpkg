@@ -206,7 +206,7 @@ command_shell(const char *cmd, const char *name)
 	}
 
 	if (str_is_unset(shell))
-		shell = DEFAULTSHELL;
+		shell = DPKG_DEFAULT_SHELL;
 
 	execlp(shell, shell, mode, "--", cmd, NULL);
 	ohshite(_("unable to execute %s (%s)"), name, cmd);

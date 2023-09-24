@@ -81,7 +81,7 @@ namenodetouse(struct fsys_namenode *namenode, struct pkginfo *pkg,
  */
 void checkpath(void) {
   static const char *const prog_list[] = {
-    DEFAULTSHELL,
+    DPKG_DEFAULT_SHELL,
     RM,
     TAR,
     DIFF,

@@ -57,7 +57,7 @@ test_pager_get_exec(void)
 		default_pager = pager_get_exec();
 		dup2(origfd, STDOUT_FILENO);
 		test_str(pager, ==, "test-pager");
-		test_str(default_pager, ==, DEFAULTPAGER);
+		test_str(default_pager, ==, DPKG_DEFAULT_PAGER);
 	}
 
 	/* Test stdout not being a tty. */

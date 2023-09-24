@@ -61,7 +61,7 @@ pager_get_exec(void)
 	if (str_is_unset(pager))
 		pager = getenv("PAGER");
 	if (str_is_unset(pager))
-		pager = DEFAULTPAGER;
+		pager = DPKG_DEFAULT_PAGER;
 
 	return pager;
 }

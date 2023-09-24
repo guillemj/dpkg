@@ -968,7 +968,7 @@ co-installable instances with the same version, but different architecture.
 
 =item B<--post-invoke=>I<command>
 
-Set an invoke hook I<command> to be run via “sh -c” before or
+Set an invoke hook I<command> to be run via “%DPKG_DEFAULT_SHELL% -c” before or
 after the B<dpkg> run for the I<unpack>, I<configure>, I<install>,
 I<triggers-only>,
 I<remove> and
@@ -1150,7 +1150,7 @@ B<configure>, B<trigproc>, B<disappear>, B<remove>, B<purge>.
 =item B<--status-logger>=I<command>
 
 Send machine-readable package status and progress information to the
-shell I<command>'s standard input, to be run via “sh -c”
+shell I<command>'s standard input, to be run via “%DPKG_DEFAULT_SHELL% -c”
 (since dpkg 1.16.0).
 This option can be specified multiple times.
 The output format used is the same as in B<--status-fd>.
@@ -1275,7 +1275,7 @@ or when spawning a command via a shell.
 The program B<dpkg> will execute when running a pager,
 which will be executed with «B<$SHELL -c>»,
 for example when displaying the conffile differences.
-If B<SHELL> is not set, «B<sh>» will be used instead.
+If B<SHELL> is not set, «B<%DPKG_DEFAULT_SHELL%>» will be used instead.
 The B<DPKG_PAGER> overrides the B<PAGER> environment variable
 (since dpkg 1.19.2).
 
