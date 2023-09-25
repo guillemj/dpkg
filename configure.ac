@@ -285,7 +285,7 @@ Configuration:
     build shared libraries  . . . : $enable_shared
     mmap loaders  . . . . . . . . : $enable_mmap
     disk pre-allocation . . . . . : $enable_disk_preallocate
-    default dpkg-deb compressor . : $with_dpkg_deb_compressor
+    default dpkg-deb compressor . : $with_deb_compressor
 
   Paths:
     devlibdir . . . . . . . . . . : $devlibdir

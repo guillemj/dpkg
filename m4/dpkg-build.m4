@@ -72,15 +72,15 @@ AC_DEFUN([DPKG_WITH_DIR], [
 # -------------------
 # Change default «dpkg-deb --build» compressor.
 AC_DEFUN([DPKG_DEB_COMPRESSOR], [
-  AC_ARG_WITH([dpkg-deb-compressor],
-    [AS_HELP_STRING([--with-dpkg-deb-compressor=COMP],
+  AC_ARG_WITH([deb-compressor],
+    [AS_HELP_STRING([--with-deb-compressor=COMP],
       [change default dpkg-deb build compressor])],
-    [with_dpkg_deb_compressor=$withval], [with_dpkg_deb_compressor=$1])
-  AS_CASE([$with_dpkg_deb_compressor],
+    [with_deb_compressor=$withval], [with_deb_compressor=$1])
+  AS_CASE([$with_deb_compressor],
     [gzip|xz], [:],
-    [AC_MSG_ERROR([unsupported default compressor $with_dpkg_deb_compressor])])
-  AC_DEFINE_UNQUOTED([DPKG_DEB_DEFAULT_COMPRESSOR],
-    [COMPRESSOR_TYPE_]AS_TR_CPP(${with_dpkg_deb_compressor}),
+    [AC_MSG_ERROR([unsupported default compressor $with_deb_compressor])])
+  AC_DEFINE_UNQUOTED([DEB_DEFAULT_COMPRESSOR],
+    [COMPRESSOR_TYPE_]AS_TR_CPP(${with_deb_compressor}),
     [default dpkg-deb build compressor])
 ]) # DPKG_DEB_COMPRESSOR
 

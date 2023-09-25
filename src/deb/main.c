@@ -164,7 +164,7 @@ set_deb_format(const struct cmdinfo *cip, const char *value)
 }
 
 struct compress_params compress_params = {
-  .type = DPKG_DEB_DEFAULT_COMPRESSOR,
+  .type = DEB_DEFAULT_COMPRESSOR,
   .strategy = COMPRESSOR_STRATEGY_NONE,
   .level = -1,
   .threads_max = -1,
