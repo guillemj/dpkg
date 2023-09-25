@@ -116,7 +116,7 @@ static int opt_force = 0;
 static void
 version(void)
 {
-	printf(_("Debian %s version %s.\n"), PROGNAME, VERSION);
+	printf(_("%s version %s.\n"), PROGNAME, VERSION);
 	printf("\n");
 
 	printf(_(
