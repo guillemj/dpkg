@@ -13,10 +13,10 @@ mkdir -p aa/bb/cc
 mkdir -p zz/yy/xx
 mkdir -p usr/bin
 AT_DATA([aa/bb/cc/file], [])
-ln -sfT aa/bb/cc/file zz/yy/xx/symlink-rel
-ln -sfT /aa/bb/cc/file zz/yy/xx/symlink-abs
+ln -sf aa/bb/cc/file zz/yy/xx/symlink-rel
+ln -sf /aa/bb/cc/file zz/yy/xx/symlink-abs
 AT_DATA([usr/bin/a-shell], [])
-ln -sfT /usr/bin/a-shell usr/bin/sh
+ln -sf /usr/bin/a-shell usr/bin/sh
 
 tmpdir="$(DPKG_CWD)"
 export DPKG_ROOT=
