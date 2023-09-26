@@ -305,6 +305,9 @@ int main(int argc, const char *const *argv) {
     badusage(_("unsupported deb format '%d.%d' with non-uniform compression"),
              deb_format.major, deb_format.minor);
 
+  if (deb_format.major == 0)
+    compress_params = compress_params_deb0;
+
   if (opt_uniform_compression &&
       (compress_params.type != COMPRESSOR_TYPE_NONE &&
        compress_params.type != COMPRESSOR_TYPE_GZIP &&
