@@ -174,7 +174,7 @@
  * to use either NULL or nullptr would be too cumbersome. Non-header files
  * should use the appropriate constant directly.
  */
-#if defined(__cplusplus)
+#if defined(__cplusplus) || __STDC_VERSION__ > 201710L
 #define DPKG_NULL      nullptr
 #else
 #define DPKG_NULL      NULL
