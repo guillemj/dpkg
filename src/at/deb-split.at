@@ -26,6 +26,7 @@ dpkg-split -S 210 -s pkg-split.deb pkg-split-part
 for p in DPKG_SEQ([10]); do
   test -f pkg-split-part.${p}of10.deb
 done
+ar x pkg-split-part.1of10.deb data.1
 ], [], [Splitting package pkg-split into 10 parts: 1 2 3 4 5 6 7 8 9 10 done
 ])
 
@@ -40,11 +41,10 @@ DEB_SPLIT_PART_SIZE_VERSION=$((DEB_SPLIT_PART_SIZE + 2))
 
 AT_CHECK_UNQUOTED([
 # Test debian-split with 2.x version
-cp pkg-split-part.1of10.deb pkg-split-part-version-2x.deb
-ar x pkg-split-part-version-2x.deb debian-split
+ar x pkg-split-part.1of10.deb debian-split
 $SED -e '1c2.999' debian-split >debian-split.new
 mv debian-split.new debian-split
-ar rc pkg-split-part-version-2x.deb debian-split
+ar qc pkg-split-part-version-2x.deb debian-split data.1
 ar t pkg-split-part-version-2x.deb
 dpkg-split -I pkg-split-part-version-2x.deb
 ], [], [debian-split
@@ -68,10 +68,9 @@ DEB_SPLIT_PART_SIZE_MAGIC_EXTRA=$((DEB_SPLIT_PART_SIZE + 10))
 
 AT_CHECK_UNQUOTED([
 # Test debian-split with extra lines
-cp pkg-split-part.1of10.deb pkg-split-part-magic-extra.deb
-ar x pkg-split-part-magic-extra.deb debian-split
+ar x pkg-split-part.1of10.deb debian-split
 echo "extra line" >>debian-split
-ar rc pkg-split-part-magic-extra.deb debian-split
+ar qc pkg-split-part-magic-extra.deb debian-split data.1
 ar t pkg-split-part-magic-extra.deb
 dpkg-split -I pkg-split-part-magic-extra.deb
 ], [], [debian-split

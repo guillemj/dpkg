@@ -223,9 +223,8 @@ DPKG_GEN_PKG_DEB_FORMAT_TEMPL()
 
 AT_CHECK([
 # Test debian-binary with 2.x versions
-cp pkg-templ.deb pkg-version-2x.deb
 echo 2.999 >debian-binary
-ar rc pkg-version-2x.deb debian-binary
+ar qc pkg-version-2x.deb debian-binary control.tar data.tar
 ar t pkg-version-2x.deb
 ar x pkg-templ.deb debian-binary
 dpkg-deb -I pkg-version-2x.deb
@@ -246,9 +245,8 @@ data.tar
 
 AT_CHECK([
 # Test debian-binary with extra lines
-cp pkg-templ.deb pkg-magic-extra.deb
 echo "extra line" >>debian-binary
-ar rc pkg-magic-extra.deb debian-binary
+ar qc pkg-magic-extra.deb debian-binary control.tar data.tar
 ar t pkg-magic-extra.deb
 ar x pkg-templ.deb debian-binary
 dpkg-deb -I pkg-magic-extra.deb
@@ -407,7 +405,7 @@ data.tar
 AT_CHECK([
 # Test data.tar.bad member
 dd if=/dev/zero of=data.tar.bad bs=1K count=4 status=none
-ar rc pkg-data-bad.deb debian-binary control.tar.gz data.tar.bad
+ar qc pkg-data-bad.deb debian-binary control.tar.gz data.tar.bad
 ar t pkg-data-bad.deb
 dpkg-deb -c pkg-data-bad.deb
 ], [2], [debian-binary
@@ -418,7 +416,7 @@ data.tar.bad
 
 AT_CHECK([
 # Test control.tar member
-ar rc pkg-control-none.deb debian-binary control.tar data.tar
+ar qc pkg-control-none.deb debian-binary control.tar data.tar
 ar t pkg-control-none.deb
 dpkg-deb -I pkg-control-none.deb
 ], [], [debian-binary
@@ -438,7 +436,7 @@ data.tar
 
 AT_CHECK([
 # Test data.tar member
-ar rc pkg-data-none.deb debian-binary control.tar.gz data.tar
+ar qc pkg-data-none.deb debian-binary control.tar.gz data.tar
 ar t pkg-data-none.deb
 dpkg-deb -c pkg-data-none.deb
 ], [], [debian-binary
@@ -451,7 +449,7 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 
 AT_CHECK([
 # Test data.tar.gz member
-ar rc pkg-data-gz.deb debian-binary control.tar.gz data.tar.gz
+ar qc pkg-data-gz.deb debian-binary control.tar.gz data.tar.gz
 ar t pkg-data-gz.deb
 dpkg-deb -c pkg-data-gz.deb
 ], [], [debian-binary
@@ -463,7 +461,7 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 ])
 
 # Create .deb with non-uniform data.tar/control.tar member compression
-ar rc pkg-mixed-comp.deb debian-binary control.tar data.tar.gz
+ar qc pkg-mixed-comp.deb debian-binary control.tar data.tar.gz
 DEB_MIXED_COMP_SIZE=$(DPKG_FILE_SIZE([pkg-mixed-comp.deb]))
 
 AT_CHECK_UNQUOTED([
@@ -525,7 +523,7 @@ xz -c data.tar >data.tar.xz
 
 AT_CHECK([
 # Test control.tar.xz member
-ar rc pkg-control-xz.deb debian-binary control.tar.xz data.tar.xz
+ar qc pkg-control-xz.deb debian-binary control.tar.xz data.tar.xz
 ar t pkg-control-xz.deb
 dpkg-deb -c pkg-control-xz.deb
 ], [], [debian-binary
@@ -538,7 +536,7 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 
 AT_CHECK([
 # Test data.tar.xz member
-ar rc pkg-data-xz.deb debian-binary control.tar.gz data.tar.xz
+ar qc pkg-data-xz.deb debian-binary control.tar.gz data.tar.xz
 ar t pkg-data-xz.deb
 dpkg-deb -c pkg-data-xz.deb
 ], [], [debian-binary
@@ -576,7 +574,7 @@ zstd -c data.tar >data.tar.zst
 
 AT_CHECK([
 # Test control.tar.zst member
-ar rc pkg-control-zst.deb debian-binary control.tar.zst data.tar.zst
+ar qc pkg-control-zst.deb debian-binary control.tar.zst data.tar.zst
 ar t pkg-control-zst.deb
 dpkg-deb -c pkg-control-zst.deb
 ], [], [debian-binary
@@ -589,7 +587,7 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 
 AT_CHECK([
 # Test data.tar.zst member
-ar rc pkg-data-zst.deb debian-binary control.tar.gz data.tar.zst
+ar qc pkg-data-zst.deb debian-binary control.tar.gz data.tar.zst
 ar t pkg-data-zst.deb
 dpkg-deb -c pkg-data-zst.deb
 ], [], [debian-binary
@@ -626,7 +624,7 @@ bzip2 -c data.tar >data.tar.bz2
 
 AT_CHECK([
 # Test data.tar.bz2 member
-ar rc pkg-data-bz2.deb debian-binary control.tar.gz data.tar.bz2
+ar qc pkg-data-bz2.deb debian-binary control.tar.gz data.tar.bz2
 ar t pkg-data-bz2.deb
 dpkg-deb -c pkg-data-bz2.deb
 ], [], [debian-binary
@@ -654,7 +652,7 @@ lzma -c data.tar >data.tar.lzma
 
 AT_CHECK([
 # Test data.tar.lzma member
-ar rc pkg-data-lzma.deb debian-binary control.tar.gz data.tar.lzma
+ar qc pkg-data-lzma.deb debian-binary control.tar.gz data.tar.lzma
 ar t pkg-data-lzma.deb
 dpkg-deb -c pkg-data-lzma.deb
 ], [], [debian-binary
