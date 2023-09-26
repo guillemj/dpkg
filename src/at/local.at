@@ -42,6 +42,11 @@ m4_define([DPKG_SEQ], [dnl
   m4_for([i], [1], [$1], [], [i ])dnl
 ])
 
+# DPKG_CWD()
+m4_define([DPKG_CWD], [dnl
+  $PERL -MCwd=realpath,getcwd -E 'say realpath(getcwd())'dnl
+])
+
 # DPKG_FILE_SIZE($filename)
 m4_define([DPKG_FILE_SIZE], [
   $PERL -E 'say -s shift' "$1" dnl
