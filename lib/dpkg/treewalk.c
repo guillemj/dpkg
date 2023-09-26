@@ -374,7 +374,7 @@ treewalk_open(const char *rootdir, enum treewalk_options options,
 	if (func)
 		tree->func = *func;
 	else
-		tree->func = (struct treewalk_funcs){ };
+		tree->func = TREEWALK_OBJECT;
 
 	root = treenode_root_new(rootdir);
 	treenode_stat(root, lstat);

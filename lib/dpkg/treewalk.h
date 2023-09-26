@@ -54,6 +54,8 @@ struct treewalk_funcs {
 	treenode_skip_func *skip;
 };
 
+#define TREEWALK_OBJECT		(struct treewalk_funcs){ }
+
 struct treeroot *
 treewalk_open(const char *rootdir, enum treewalk_options options,
               const struct treewalk_funcs *funcs);
