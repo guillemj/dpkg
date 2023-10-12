@@ -63,6 +63,7 @@ enum DPKG_ATTR_ENUM_FLAGS dpkg_tar_options {
 void extracthalf(const char *debar, const char *dir,
                  enum dpkg_tar_options taroption, int admininfo);
 
+extern struct compress_params compress_params_deb0;
 extern struct compress_params compress_params;
 
 #define ARCHIVEVERSION		"2.0"

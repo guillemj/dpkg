@@ -163,6 +163,13 @@ set_deb_format(const struct cmdinfo *cip, const char *value)
     badusage(_("unknown deb format version: %s"), value);
 }
 
+struct compress_params compress_params_deb0 = {
+  .type = COMPRESSOR_TYPE_GZIP,
+  .strategy = COMPRESSOR_STRATEGY_NONE,
+  .level = -1,
+  .threads_max = -1,
+};
+
 struct compress_params compress_params = {
   .type = DEB_DEFAULT_COMPRESSOR,
   .strategy = COMPRESSOR_STRATEGY_NONE,
