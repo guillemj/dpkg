@@ -294,6 +294,10 @@ int main(int argc, const char *const *argv) {
   if (!compressor_check_params(&compress_params, &err))
     badusage(_("invalid compressor parameters: %s"), err.str);
 
+  if (!opt_uniform_compression && deb_format.major == 0)
+    badusage(_("unsupported deb format '%d.%d' with non-uniform compression"),
+             deb_format.major, deb_format.minor);
+
   if (opt_uniform_compression &&
       (compress_params.type != COMPRESSOR_TYPE_NONE &&
        compress_params.type != COMPRESSOR_TYPE_GZIP &&
