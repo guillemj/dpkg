@@ -184,6 +184,7 @@ sub set_build_features {
         i386
         kfreebsd-amd64
         kfreebsd-i386
+        loong64
         mips
         mips64
         mips64el
