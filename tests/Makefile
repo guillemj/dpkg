@@ -118,6 +118,7 @@ endif
 # By default do nothing
 all help::
 	@echo "Run 'make test' to run all the tests"
+	@echo "Run 'make installtest' to run all the tests as installed"
 	@echo "Run 'make <test-id>-test' to run a specifict test"
 	@echo "Run 'make clean' to remove all intermediary files"
 	@echo ""
@@ -134,9 +135,12 @@ $(build_targets)::
 
 test_targets = $(addsuffix -test,$(TESTS))
 
+test:: export DPKG_BUILDTREE=$(realpath ..)
 test:: $(test_targets)
 $(test_targets)::
 	$(MAKE) -C $(subst -test,,$@) test
+
+installtest: $(test_targets)
 
 .PHONY: test $(test_targets)
 

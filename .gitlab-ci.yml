@@ -46,6 +46,4 @@ func-tests:
   script:
     - ./configure
     - make
-    - cd tests
-    - echo "DPKG_BUILDTREE = $(realpath ..)" >>.pkg-tests.conf
-    - eatmydata make test
+    - eatmydata make -C tests installtest
