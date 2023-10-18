@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-08-30 17:19+0200\n"
-"PO-Revision-Date: 2023-08-31 18:19+0200\n"
+"POT-Creation-Date: 2023-10-18 15:43+0200\n"
+"PO-Revision-Date: 2023-10-18 16:31+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -1495,7 +1495,8 @@ msgstr ""
 
 #. type: =head1
 #: deb-changes.pod deb-control.pod dpkg-buildpackage.pod dpkg-deb.pod
-#: dpkg-name.pod dpkg-source.pod dpkg-split.pod dpkg.pod dsc.pod dselect.pod
+#: dpkg-name.pod dpkg-parsechangelog.pod dpkg-source.pod dpkg-split.pod
+#: dpkg.pod dsc.pod dselect.pod
 msgid "BUGS"
 msgstr "FEHLER"
 
@@ -8761,7 +8762,9 @@ msgstr "B<deb-src-control>(5)."
 #. type: textblock
 #: dpkg-buildapi.pod
 msgid "dpkg-buildapi - returns the build API level to use during package build"
-msgstr "dpkg-buildapi - liefert die während des Paketbaus zu verwendende Bau-API-Stufe zurück"
+msgstr ""
+"dpkg-buildapi - liefert die während des Paketbaus zu verwendende Bau-API-"
+"Stufe zurück"
 
 #. type: textblock
 #: dpkg-buildapi.pod
@@ -9467,17 +9470,6 @@ msgstr ""
 
 #. type: =item
 #: dpkg-buildflags.pod
-msgid "B<GCJFLAGS>"
-msgstr "B<GCJFLAGS>"
-
-#. type: textblock
-#: dpkg-buildflags.pod
-msgid "Options for the GNU Java compiler (gcj). A subset of B<CFLAGS>."
-msgstr ""
-"Optionen für den GNU-Java-Compiler (gcj). Eine Untermenge von B<CFLAGS>."
-
-#. type: =item
-#: dpkg-buildflags.pod
 msgid "B<DFLAGS>"
 msgstr "B<DFLAGS>"
 
@@ -9603,8 +9595,8 @@ msgid ""
 msgstr ""
 "Mehrere Optionen zur Kompilierung (Details weiter unten) können verwandt "
 "werden, um das ABI eines Paketes zu ändern. Dies kann standardmäßig aufgrund "
-"von Rückwärtskompatibilität nicht aktiviert sein, außer dies wird koordiniert "
-"oder einzeln geprüft."
+"von Rückwärtskompatibilität nicht aktiviert sein, außer dies wird "
+"koordiniert oder einzeln geprüft."
 
 # FIXME: Why is this bold but not the others?
 #. type: =item
@@ -9768,13 +9760,13 @@ msgstr "B<lto>"
 msgid ""
 "This setting (since dpkg 1.21.0; disabled by default) enables Link Time "
 "Optimization by adding B<-flto=auto -ffat-lto-objects> to B<CFLAGS>, "
-"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS>, "
-"B<FCFLAGS> and B<LDFLAGS>."
+"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<FFLAGS>, B<FCFLAGS> and "
+"B<LDFLAGS>."
 msgstr ""
 "Diese Einstellung (seit Dpkg 1.21.0; standardmäßig deaktiviert) aktiviert "
 "Link Time Optimization (Optimierung zum Link-Zeitpunkt), indem B<-flto=auto -"
 "ffat-lto-objects> zu B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, "
-"B<GCJFLAGS>, B<FFLAGS>, B<FCFLAGS> und B<LDFLAGS> hinzugefügt wird."
+"B<FFLAGS>, B<FCFLAGS> und B<LDFLAGS> hinzugefügt wird."
 
 #. type: =head2
 #: dpkg-buildflags.pod
@@ -9958,16 +9950,16 @@ msgstr "B<stackprotector>"
 msgid ""
 "This setting (since dpkg 1.16.1; enabled by default if stackprotectorstrong "
 "is not in use) adds B<-fstack-protector --param=ssp-buffer-size=4> to "
-"B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> "
-"and B<FCFLAGS>.  This adds safety checks against stack overwrites. This "
-"renders many potential code injection attacks into aborting situations. In "
-"the best case this turns code injection vulnerabilities into denial of "
-"service or into non-issues (depending on the application)."
+"B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<FFLAGS> and "
+"B<FCFLAGS>.  This adds safety checks against stack overwrites. This renders "
+"many potential code injection attacks into aborting situations. In the best "
+"case this turns code injection vulnerabilities into denial of service or "
+"into non-issues (depending on the application)."
 msgstr ""
 "Diese Einstellung (seit Dpkg 1.16.1; standardmäßig aktiviert falls "
 "„stackprotectorstrong“ nicht verwandt wird) fügt B<-fstack-protector --"
 "param=ssp-buffer-size=4> zu B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
-"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu. Dies fügt "
+"B<OBJCXXFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu. Dies fügt "
 "Sicherheitsprüfungen gegen die Überschreibung des Stapelspeichers (Stacks) "
 "hinzu. Damit werden viele mögliche Code-Einfügeangriffe zu "
 "Abbruchsituationen. Im besten Fall werden damit Code-Einfügungsangriffe zu "
@@ -9995,12 +9987,12 @@ msgstr "B<stackprotectorstrong>"
 msgid ""
 "This setting (since dpkg 1.17.11; enabled by default) adds B<-fstack-"
 "protector-strong> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, "
-"B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>.  This is a stronger variant of "
-"B<stackprotector>, but without significant performance penalties."
+"B<FFLAGS> and B<FCFLAGS>.  This is a stronger variant of B<stackprotector>, "
+"but without significant performance penalties."
 msgstr ""
 "Diese Einstellung (seit Dpkg 1.17.11; standardmäßig aktiviert) fügt B<-"
 "fstack-protector-strong> zu B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
-"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu. Dies ist eine "
+"B<OBJCXXFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu. Dies ist eine "
 "stärkere Variante von B<stackprotector>, allerdings ohne signifikante "
 "Einbußen bei der Leistung."
 
@@ -10029,12 +10021,12 @@ msgstr "B<stackclash>"
 msgid ""
 "This setting (since dpkg 1.22.0; enabled by default) adds B<-fstack-clash-"
 "protection> on B<amd64>, B<arm64>, B<armhf> and B<armel> to B<CFLAGS>, "
-"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and "
-"B<FCFLAGS>.  This adds code to prevent stack clash style attacks."
+"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<FFLAGS> and B<FCFLAGS>.  This "
+"adds code to prevent stack clash style attacks."
 msgstr ""
 "Diese Einstellung (seit Dpkg 1.22.11; standardmäßig aktiviert) fügt B<-"
 "fstack-clash-protection> auf B<amd64>, B<arm64>, B<armhf> und B<armel> zu "
-"B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> "
+"B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<FFLAGS> "
 "und B<FCFLAGS> hinzu. Dies ergänzt Code, um Stack-Konflikt-artige Angriffe "
 "zu verhindern."
 
@@ -10048,13 +10040,13 @@ msgstr "B<branch>"
 msgid ""
 "This setting (since dpkg 1.22.0; enabled by default) adds B<-fcf-protection> "
 "on B<amd64> and B<-mbranch-protection=standard> on B<arm64> to B<CFLAGS>, "
-"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and "
-"B<FCFLAGS>.  This adds branch protection to indirect calls, jumps and "
-"returns to check whether these are valid at run-time."
+"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<FFLAGS> and B<FCFLAGS>.  This "
+"adds branch protection to indirect calls, jumps and returns to check whether "
+"these are valid at run-time."
 msgstr ""
 "Diese Einstellung (seit Dpkg 1.22.0; standardmäßig aktiviert) fügt B<-fcf-"
 "protection> auf B<amd64> und B<-mbranch-protection=standard> auf B<arm64> zu "
-"B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> "
+"B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<FFLAGS> "
 "und B<FCFLAGS> hinzu. Dies ergänzt Branch-Schutz zu indirekten Aufrufen, "
 "Sprüngen und Rückkehrwerten, um zu prüfen, ob diese zur Laufzeit gültig sind."
 
@@ -10117,13 +10109,12 @@ msgid ""
 "architecture the flags by itself or not.  When the setting is enabled and "
 "gcc injects the flags, it adds nothing.  When the setting is enabled and gcc "
 "does not inject the flags, it adds B<-fPIE> (via I<%PKGDATADIR%/pie-compiler."
-"specs>) to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, "
-"B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>, and B<-fPIE -pie> (via I<%PKGDATADIR%/"
-"pie-link.specs>) to B<LDFLAGS>.  When the setting is disabled and gcc "
-"injects the flags, it adds B<-fno-PIE> (via I<%PKGDATADIR%/no-pie-compile."
-"specs>) to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, "
-"B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>, and B<-fno-PIE -no-pie> (via "
-"I<%PKGDATADIR%/no-pie-link.specs>) to B<LDFLAGS>."
+"specs>) to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<FFLAGS> "
+"and B<FCFLAGS>, and B<-fPIE -pie> (via I<%PKGDATADIR%/pie-link.specs>) to "
+"B<LDFLAGS>.  When the setting is disabled and gcc injects the flags, it adds "
+"B<-fno-PIE> (via I<%PKGDATADIR%/no-pie-compile.specs>) to B<CFLAGS>, "
+"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<FFLAGS> and B<FCFLAGS>, and B<-"
+"fno-PIE -no-pie> (via I<%PKGDATADIR%/no-pie-link.specs>) to B<LDFLAGS>."
 msgstr ""
 "Diese Einstellung (seit Dpkg 1.16.1; seit Dpkg 1.18.23 ohne globale Vorgabe, "
 "da sie jetzt standardmäßig durch GCC auf den Debian-Architekturen Amd64, "
@@ -10136,11 +10127,11 @@ msgstr ""
 "Schalter einspeist, fügt dies nichts hinzu. Wenn die Einstellung aktiviert "
 "ist und GCC den Schalter nicht einspeist, dann fügt es B<-fPIE> (mittels "
 "I<%PKGDATADIR%/pie-compiler.specs>) zu B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
-"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und B<FCFLAGS> und B<-fPIE -pie> "
+"B<OBJCXXFLAGS>, B<FFLAGS> und B<FCFLAGS> und B<-fPIE -pie> "
 "(mittels I<%PKGDATADIR%/pie-link.specs>) zu B<LDFLAGS> hinzu.  Wenn die "
 "Einstellung deaktiviert ist und GCC den Schalter einspeist, dann fügt es B<-"
 "fno-PIE> (mittels I<%PKGDATADIR%/no-pie-compile.specs>) zu B<CFLAGS>, "
-"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und "
+"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<FFLAGS> und "
 "B<FCFLAGS> und B<-fno-PIE -no-pie> (mittels I<%PKGDATADIR%/no-pie-link."
 "specs>) zu B<LDFLAGS> hinzu."
 
@@ -10320,13 +10311,13 @@ msgstr "B<fixfilepath>"
 msgid ""
 "This setting (since dpkg 1.19.1; enabled by default) adds B<-ffile-prefix-"
 "map=>I<BUILDPATH>B<=.> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
-"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is "
-"set to the top-level directory of the package being built.  This has the "
-"effect of removing the build path from any generated file."
+"B<OBJCXXFLAGS>, B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is set to the "
+"top-level directory of the package being built.  This has the effect of "
+"removing the build path from any generated file."
 msgstr ""
 "Diese Einstellung (seit Dpkg 1.19.1; standardmäßig aktiviert) fügt B<-ffile-"
 "prefix-map=>I<BUILDPATH>B<=.> zu B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
-"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu, wobei "
+"B<OBJCXXFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu, wobei "
 "B<BUILDPATH> auf das oberste Verzeichnis des bauenden Pakets gesetzt wird. "
 "Dies führt dazu, dass der Baupfad aus allen erstellten Dateien entfernt wird."
 
@@ -10367,13 +10358,13 @@ msgstr "B<fixdebugpath>"
 msgid ""
 "This setting (since dpkg 1.18.5; enabled by default) adds B<-fdebug-prefix-"
 "map=>I<BUILDPATH>B<=.> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
-"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is "
-"set to the top-level directory of the package being built.  This has the "
-"effect of removing the build path from any generated debug symbols."
+"B<OBJCXXFLAGS>, B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is set to the "
+"top-level directory of the package being built.  This has the effect of "
+"removing the build path from any generated debug symbols."
 msgstr ""
 "Diese Einstellung (seit Dpkg 1.18.5; standardmäßig aktiviert) fügt B<-fdebug-"
 "prefix-map=>I<BUILDPATH>B<=.> zu B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
-"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu, wobei "
+"B<OBJCXXFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu, wobei "
 "B<BUILDPATH> auf das oberste Verzeichnis des bauenden Pakets gesetzt wird. "
 "Dies führt dazu, dass der Baupfad aus allen erstellten Debug-Symbolen "
 "entfernt wird."
@@ -11923,7 +11914,7 @@ msgid "B<%p>"
 msgstr "B<%p>"
 
 #. type: textblock
-#: dpkg-buildpackage.pod
+#: dpkg-buildpackage.pod dpkg-parsechangelog.pod
 msgid "The source package name."
 msgstr "Der Quellpaketname."
 
@@ -12527,12 +12518,13 @@ msgstr "B<DEB_RULES_REQUIRES_ROOT>"
 #: dpkg-buildpackage.pod
 msgid ""
 "This variable is set to the value obtained from the B<Rules-Requires-Root> "
-"field or from the command-line.  When set, it will be a valid value for the "
-"B<Rules-Requires-Root> field.  It is used to notify B<debian/rules> whether "
-"the B<rootless-builds.txt> specification is supported."
+"field, the dpkg-build-api level or from the command-line.  When set, it will "
+"be a valid value for the B<Rules-Requires-Root> field.  It is used to notify "
+"B<debian/rules> whether the B<rootless-builds.txt> specification is "
+"supported."
 msgstr ""
-"Diese Variable wird auf den Wert, der aus dem Feld B<Rules-Requires-Root> "
-"oder von der Befehlszeile erhalten wird, gesetzt. Wenn gesetzt, wird er ein "
+"Diese Variable wird auf den Wert, der aus dem Feld B<Rules-Requires-Root>, "
+"der Dpkg-Bau-API-Stufe oder von der Befehlszeile erhalten wird, gesetzt. Wenn gesetzt, wird er ein "
 "gültiger Wert für das Feld B<Rules-Requires-Root> sein. Er wird dazu "
 "verwandt, B<debian/rules> anzugeben, ob die Spezifikation B<rootless-builds."
 "txt> unterstützt wird."
@@ -13244,11 +13236,11 @@ msgstr "B<-Z>I<Komprimierart>"
 msgid ""
 "Specify which compression type to use when building a package.  Allowed "
 "values are B<gzip>, B<xz> (since dpkg 1.15.6), B<zstd> (since dpkg 1.21.18)  "
-"and B<none> (default is B<xz>)."
+"and B<none> (default is B<%DEB_DEFAULT_COMPRESSOR%>)."
 msgstr ""
 "Gibt die Art der Komprimierung beim Bau eines Pakets an. Erlaubte Werte sind "
 "B<gzip>, B<xz> (seit Dpkg 1.15.6), B<zstd> (seit Dpkg 1.21.18) und B<none> "
-"(voreingestellt ist B<xz>)."
+"(voreingestellt ist B<%DEB_DEFAULT_COMPRESSOR%>)."
 
 #. type: =item
 #: dpkg-deb.pod
@@ -16867,10 +16859,28 @@ msgstr "B<Source:> I<Paketname>"
 msgid "B<Version:> I<version>"
 msgstr "B<Version:> I<Version>"
 
+#. type: textblock
+#: dpkg-parsechangelog.pod
+msgid ""
+"The source version number.  B<Note>: For binary-only releases there might be "
+"no corresponding source release."
+msgstr ""
+"Die Quellversionsnummer: B<Hinweis>: Für rein-binäre Veröffentlichungen "
+"könnte es keine entsprechende Quellveröffentlichung geben."
+
 #. type: =item
 #: dpkg-parsechangelog.pod
 msgid "B<Distribution:> I<target-distribution>"
 msgstr "B<Distribution:> I<Ziel-Distribution>"
+
+#. type: textblock
+#: dpkg-parsechangelog.pod
+msgid ""
+"A space-separated list of one or more distribution names where this version "
+"should be installed when it is uploaded."
+msgstr ""
+"Eine Leerzeichen-getrennte Liste eines oder mehrerer Distributionsname(n), "
+"bei denen diese Version installiert werden sollte, wenn es hochgeladen wird."
 
 #. type: =item
 #: dpkg-parsechangelog.pod
@@ -16891,6 +16901,16 @@ msgstr ""
 #: dpkg-parsechangelog.pod
 msgid "B<Maintainer:> I<author>"
 msgstr "B<Maintainer:> I<Autor>"
+
+#. type: textblock
+#: dpkg-parsechangelog.pod
+msgid ""
+"The name and email address of the person who prepared these changes, they "
+"are B<not> necessarily those of the uploader or the usual package maintainer."
+msgstr ""
+"Der Name und die E-Mail-Adresse der Person, die diese Änderungen erstellt "
+"hat. Dies sind B<nicht> notwendigerweise die Daten des Uploaders oder des "
+"normalen Paketbetreuers."
 
 #. type: =item
 #: dpkg-parsechangelog.pod
@@ -17224,6 +17244,19 @@ msgstr ""
 "das Quellpaket, wie beispielsweise die Dringlichkeit („urgency“) und die "
 "Distribution des Uploads, die Änderungen seit einer bestimmten "
 "Veröffentlichung und die Quellversionsnummer selbst, zu erhalten."
+
+#. type: textblock
+#: dpkg-parsechangelog.pod
+msgid ""
+"The B<Maintainer> field has a confusing name matching the field in the "
+"F<debian/control> file but not its exact semantics, where its meaning would "
+"be better represented by the B<Changed-By> field name used in the F<."
+"changes> file."
+msgstr ""
+"Das Feld B<Maintainer> hat einen verwirrenden Namen. Es vergleicht mit dem "
+"Feld in der Datei F<debian/control>, verfügt aber nicht über die gleiche "
+"Semantik, bei der seine Bedeutung besser durch den in der Datei F<.changes> "
+"verwandten Feldnamen B<Changed-By> dargestellt würde."
 
 #. type: textblock
 #: dpkg-parsechangelog.pod
@@ -20806,7 +20839,8 @@ msgid ""
 "the B<quilt> patch system and integrates it in the patch system under the "
 "name I<patch-name>. If the name is missing, it will be asked interactively. "
 "If I<patch-file> is given, it is used as the patch corresponding to the "
-"local changes to integrate. Once integrated, an editor is launched so that "
+"local changes to integrate. Once integrated, an editor (the first one found "
+"from B<sensible-editor>, C<$VISUAL>, C<$EDITOR>, B<vi>) is launched so that "
 "you can edit the meta-information in the patch header."
 msgstr ""
 "Erstellt einen Patch, der den lokalen Änderungen entspricht, die nicht vom "
@@ -20814,7 +20848,7 @@ msgstr ""
 "I<Patch-Name> in das Patch-System. Falls der Name fehlt, wird er interaktiv "
 "erfragt. Falls I<Patch-Datei> angegeben ist, wird er als Patch, der zu den "
 "lokalen Änderungen, die integriert werden sollen, gehört, verwandt. Sobald "
-"der Patch integriert wurde, wird ein Editor gestartet, so dass Sie die "
+"der Patch integriert wurde, wird ein Editor (der erste aus B<sensible-editor>, C<$VISUAL>, C<$EDITOR>, B<vi>) gestartet, so dass Sie die "
 "Metainformationen in den Kopfzeilen des Patches einfügen können."
 
 #. type: textblock
@@ -29775,6 +29809,13 @@ msgid "B<ln>(1), FHS (the Filesystem Hierarchy Standard)."
 msgstr ""
 "B<ln>(1), FHS (der Dateisystem-Hierarchie-Standard, Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid "B<GCJFLAGS>"
+#~ msgstr "B<GCJFLAGS>"
+
+#~ msgid "Options for the GNU Java compiler (gcj). A subset of B<CFLAGS>."
+#~ msgstr ""
+#~ "Optionen für den GNU-Java-Compiler (gcj). Eine Untermenge von B<CFLAGS>."
 
 #~ msgid ""
 #~ "With B<nocheck> the B<DEB_CHECK_COMMAND> variable will be ignored.  With "
