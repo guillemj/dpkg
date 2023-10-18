@@ -45,7 +45,7 @@ use parent qw(Dpkg::Deps::Multiple);
 
 =item $dep->output([$fh])
 
-The output method uses ", " to join the list of sub-dependencies.
+The output() method uses ", " to join the list of sub-dependencies.
 
 =cut
 

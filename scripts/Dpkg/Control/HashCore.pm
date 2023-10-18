@@ -24,7 +24,7 @@ Dpkg::Control::HashCore - parse and manipulate a stanza of deb822 fields
 
 The Dpkg::Control::Hash class is a hash-like representation of a set of
 RFC822-like fields. The fields names are case insensitive and are always
-capitalized the same when output (see field_capitalize function in
+capitalized the same when output (see field_capitalize() function in
 Dpkg::Control::Fields).
 The order in which fields have been set is remembered and is used
 to be able to dump back the same content. The output order can also be
