@@ -39,7 +39,7 @@ use File::Basename;
 use File::Spec;
 use File::Path qw(make_path);
 use File::Compare;
-use Fcntl ':mode';
+use Fcntl qw(:mode);
 use Time::HiRes qw(stat);
 
 use Dpkg;
