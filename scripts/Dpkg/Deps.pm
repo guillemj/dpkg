@@ -453,28 +453,28 @@ provide.
 
 =head2 Version 1.07 (dpkg 1.20.0)
 
-New option: Add virtual option to Dpkg::Deps::deps_parse().
+New option: Add virtual option to deps_parse().
 
 =head2 Version 1.06 (dpkg 1.18.7; module version bumped on dpkg 1.18.24)
 
-New option: Add tests_dep option to Dpkg::Deps::deps_parse().
+New option: Add tests_dep option to deps_parse().
 
 =head2 Version 1.05 (dpkg 1.17.14)
 
-New function: Dpkg::Deps::deps_iterate().
+New function: deps_iterate().
 
 =head2 Version 1.04 (dpkg 1.17.10)
 
 New options: Add use_profiles, build_profiles, reduce_profiles and
-reduce_restrictions to Dpkg::Deps::deps_parse().
+reduce_restrictions to deps_parse().
 
 =head2 Version 1.03 (dpkg 1.17.0)
 
-New option: Add build_arch option to Dpkg::Deps::deps_parse().
+New option: Add build_arch option to deps_parse().
 
 =head2 Version 1.02 (dpkg 1.17.0)
 
-New function: Dpkg::Deps::deps_concat()
+New function: deps_concat()
 
 =head2 Version 1.01 (dpkg 1.16.1)
 
