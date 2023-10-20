@@ -240,7 +240,7 @@ If you overlooked it when downloading you should do get it now and
 return to this installation procedure when you have done so: you will
 find one Packages file and one Packages.gz file -- either will do --
 in the 'binary-$iarch' subdirectory of each area on the FTP sites and
-CD-ROMs. Alternatively (and this will be rather slow) the packages in
+media discs. Alternatively (and this will be rather slow) the packages in
 the distribution area can be scanned - say 'scan' if you want to do so.
 
 You need a separate Packages file from each of the distribution areas
