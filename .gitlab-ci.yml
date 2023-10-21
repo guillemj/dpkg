@@ -16,13 +16,20 @@ dist-check:
     - ./configure
     - make distcheck
 
-# Test whether the unit tests pass.
-unit-tests:
+# Test whether the author checks pass.
+author-check:
   stage: test
   script:
     - eatmydata apt -P pkg.dpkg.author-testing build-dep -qq -y .
-    - ./configure --enable-compiler-sanitizer
+    - ./configure
     - make authorcheck TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
+
+# Test whether the sanitized unit tests pass.
+unit-tests:
+  stage: test
+  script:
+    - ./configure --enable-compiler-sanitizer
+    - make -C lib check TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
 
 # Test whether the unit tests pass on a VPATH build.
 vpath-tests:
