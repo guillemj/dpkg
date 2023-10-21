@@ -538,7 +538,7 @@ log_msg(const char *fmt, ...)
 }
 
 /*
- * Filesystem access for alernative handling.
+ * Filesystem access for alternative handling.
  */
 
 static char *
