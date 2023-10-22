@@ -1535,7 +1535,7 @@ To see the entries in I<%ADMINDIR%/available> of two packages:
 
 =over
 
- dpkg --print-avail elvis vim | less
+ dpkg --print-avail vim neovim | less
 
 =back
 
@@ -1543,26 +1543,26 @@ To search the listing of packages yourself:
 
 =over
 
- less %ADMINDIR%/available
+ dpkg --print-avail | less
 
 =back
 
-To remove an installed elvis package:
+To remove an installed neovim package:
 
 =over
 
- dpkg -r elvis
+ dpkg -r neovim
 
 =back
 
-To install a package, you first need to find it in an archive or
-media disc. The I<available> file shows that the vim package is in section
-B<editors>:
+To install a package, you first need to find it in an archive or media disc.
+When using an archive based on a pool structure,
+knowing the archive area and the name of the package is enough to infer
+the pathname:
 
 =over
 
- cd /media/bdrom/pool/main/v/vim
- dpkg -i vim_4.5-3.deb
+ dpkg -i /media/bdrom/pool/main/v/vim/vim_9.0.2018-1_amd64.deb
 
 =back
 
@@ -1582,17 +1582,6 @@ details), for example:
 =over
 
  apt-cache dumpavail | dpkg --merge-avail
-
-=back
-
-or with dpkg 1.17.6 and earlier:
-
-=over
-
- avail=$(mktemp)
- apt-cache dumpavail >"$avail"
- dpkg --merge-avail "$avail"
- rm "$avail"
 
 =back
 
