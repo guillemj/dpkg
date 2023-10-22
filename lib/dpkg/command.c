@@ -208,7 +208,11 @@ command_shell(const char *cmd, const char *name)
 	if (str_is_unset(shell))
 		shell = DPKG_DEFAULT_SHELL;
 
+#if HAVE_DPKG_SHELL_WITH_DASH_DASH
 	execlp(shell, shell, mode, "--", cmd, NULL);
+#else
+	execlp(shell, shell, mode, cmd, NULL);
+#endif
 	ohshite(_("unable to execute %s (%s)"), name, cmd);
 }
 

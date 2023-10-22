@@ -5,16 +5,37 @@
 
 # DPKG_PROG_SHELL
 # ---------------
-# Locate a POSIX shell interpreter to use in dpkg.
+# Locate a POSIX shell interpreter to use in dpkg. It should support
+# passing -- after -c for robust argument parsing.
 AC_DEFUN([DPKG_PROG_SHELL], [
   AC_ARG_VAR([DPKG_SHELL], [default POSIX shell interpreter used by dpkg])
-  AS_IF([test -z "$DPKG_SHELL"], [
+  AC_CACHE_CHECK([for a POSIX sh that supports -- after -c], [ac_cv_path_DPKG_SHELL], [
+    AC_PATH_PROGS_FEATURE_CHECK([DPKG_SHELL], [sh dash bsh ksh bash], [
+      shellcheck=$(test -x $ac_path_DPKG_SHELL && \
+        $ac_path_DPKG_SHELL -c -- "echo yes" 2>/dev/null)
+      AS_IF([test "x$shellcheck" = "xyes"], [
+        ac_cv_path_DPKG_SHELL="$(AS_BASENAME([$ac_path_DPKG_SHELL]))"
+        ac_path_DPKG_SHELL_found=:
+      ])
+    ], [
+      ac_cv_path_DPKG_SHELL=none
+    ])
+  ])
+  dnl We could not find any shell supporting --, fallback to sh.
+  AS_IF([test "$ac_cv_path_DPKG_SHELL" = "none"], [
     DPKG_SHELL=sh
+    dpkg_shell_supports_dash_dash=0
+  ], [
+    DPKG_SHELL=$ac_cv_path_DPKG_SHELL
+    dpkg_shell_supports_dash_dash=1
   ])
 
   AC_SUBST([DPKG_DEFAULT_SHELL], [$DPKG_SHELL])
   AC_DEFINE_UNQUOTED([DPKG_DEFAULT_SHELL], ["$DPKG_SHELL"],
     [POSIX shell interpreter used by dpkg])
+  AC_DEFINE_UNQUOTED([HAVE_DPKG_SHELL_WITH_DASH_DASH],
+    [$dpkg_shell_supports_dash_dash],
+    [POSIX shell interpreter used by dpkg supports -- after -c])
 ])# DPKG_PROG_SHELL
 
 # DPKG_PROG_PAGER
