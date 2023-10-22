@@ -404,7 +404,7 @@ data.tar
 
 AT_CHECK([
 # Test data.tar.bad member
-dd if=/dev/zero of=data.tar.bad bs=1K count=4 status=none
+$PERL -E 'print "\0" x 4096' >data.tar.bad
 ar qc pkg-data-bad.deb debian-binary control.tar.gz data.tar.bad
 ar t pkg-data-bad.deb
 dpkg-deb -c pkg-data-bad.deb
