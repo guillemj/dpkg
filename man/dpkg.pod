@@ -1448,6 +1448,52 @@ useful if it's lost or corrupted due to filesystems troubles.
 
 The format and contents of a binary package are described in L<deb(5)>.
 
+=head2 Filesystem filenames
+
+During unpacking and configuration B<dpkg> uses various filenames for
+backup and rollback purposes.
+The following is a simplified explanation of how these filenames get used
+during package installation.
+
+=over
+
+=item F<*.dpkg-new>
+
+During unpack, B<dpkg> extracts new filesystem objects into
+I<pathname>B<.dpkg-new>
+(except for existing directories or symlinks to directories which get skipped),
+once that is done and after having performed backups of the old objects,
+the objects get renamed to I<pathname>.
+
+=item F<*.dpkg-tmp>
+
+During unpack, B<dpkg> makes backups of the old filesystem objects into
+I<pathname>B<.dpkg-tmp> after extracting the new objects.
+These backups are performed as either a rename for directories
+(but only if they switch file type),
+a new symlink copy for symlinks,
+or a hard link for any other filesystem object,
+except for conffiles which get no backups because they are processed
+at a later stage.
+
+In case of needing to rollback, these backups get used to restore the
+previous contents of the objects.
+These get removed automatically after the installation is complete.
+
+=item F<*.dpkg-old>
+
+During configuration, when installing a new version,
+B<dpkg> cam make a backup of the previous modified conffile into
+I<pathname>B<.dpkg-old>.
+
+=item F<*.dpkg-dist>
+
+During configuration, when keeping the old version,
+B<dpkg> can make a backup of the new unmodified conffile into
+I<pathname>B<.dpkg-dist>.
+
+=back
+
 =head1 SECURITY
 
 Any operation that needs write access to the database or the filesystem
