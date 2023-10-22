@@ -40,9 +40,10 @@ AC_DEFUN([DPKG_PROG_SHELL], [
 
 # DPKG_PROG_PAGER
 # ---------------
-# Locate a pager program to use in dpkg.
+# Locate a pager program to use in dpkg, if none are found we default to cat.
 AC_DEFUN([DPKG_PROG_PAGER], [
   AC_ARG_VAR([DPKG_PAGER], [default pager program used by dpkg])
+  AC_CHECK_PROGS([DPKG_PAGER], [pager less more], [cat])
 
   AC_SUBST([DPKG_DEFAULT_PAGER], [$DPKG_PAGER])
   AC_DEFINE_UNQUOTED([DPKG_DEFAULT_PAGER], ["$DPKG_PAGER"],
