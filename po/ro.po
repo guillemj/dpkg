@@ -21,10 +21,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.21.20\n"
+"Project-Id-Version: dpkg 1.22.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2023-08-30 03:38+0000\n"
-"PO-Revision-Date: 2023-02-05 23:26+0100\n"
+"PO-Revision-Date: 2023-10-04 11:08+0200\n"
 "Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
 "Language: ro\n"
@@ -170,7 +170,7 @@ msgstr "eroare la crearea noului fișier de copie de rezervă „%s”"
 #: src/main/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
-msgstr "nu se poate șterge „%.250s”"
+msgstr "nu se poate elimina „%.250s”"
 
 #: lib/dpkg/atomic-file.c
 #, c-format
@@ -200,10 +200,8 @@ msgid "unable to execute %s (%s)"
 msgstr "nu se poate executa %s (%s)"
 
 #: lib/dpkg/command.c
-#, fuzzy
-#| msgid "error: PATH is not set."
 msgid "PATH is not set"
-msgstr "eroare: PATH nu este setat."
+msgstr "variabila PATH nu este definită"
 
 # R-GC, scrie:
 # idei, pentru o traducere mai bună
@@ -408,7 +406,7 @@ msgstr "nu se poate scana directorul cu actualizări „%.255s”"
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "failed to remove incorporated update file %.255s"
-msgstr "eșec la ștergerea fișierului cu actualizări încorporat %.255s"
+msgstr "eșec la eliminarea fișierului cu actualizări încorporat %.255s"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -484,7 +482,7 @@ msgstr ""
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "failed to remove my own update file %.255s"
-msgstr "eșec la ștergerea propriului fișier cu actualizări %.255s"
+msgstr "eșec la eliminarea propriului fișier cu actualizări %.255s"
 
 # R-GC, scrie:
 # am impresia că variabila „%.250s”,
@@ -626,16 +624,16 @@ msgstr "se încarcă fișierul de control „%s” pentru pachetul „%s”"
 
 #: lib/dpkg/db-fsys-divert.c
 msgid "failed to open diversions file"
-msgstr "eșec la deschiderea fișierului de redirectări"
+msgstr "eșec la deschiderea fișierului de redirecționări"
 
 #: lib/dpkg/db-fsys-divert.c
 msgid "failed to fstat diversions file"
-msgstr "nu s-a putut obține starea fișierului de redirectări"
+msgstr "nu s-a putut obține starea fișierului de redirecționări"
 
 #: lib/dpkg/db-fsys-divert.c
 #, c-format
 msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr "redirectări conflictuale care implică „%.250s” sau „%.250s”"
+msgstr "redirecționări conflictuale care implică „%.250s” sau „%.250s”"
 
 #: lib/dpkg/db-fsys-files.c
 #, c-format
@@ -1716,7 +1714,7 @@ msgstr "nume de arhitectură ilegal în specificatorul „%s:%s”: %s"
 #: lib/dpkg/progress.c
 #, c-format
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 #: lib/dpkg/report.c utils/update-alternatives.c
 msgid "warning"
@@ -1744,10 +1742,25 @@ msgstr "nu poate converti secvența de multiocteți „%s” într-un caracter l
 # în realitate autorul vrea să spună altceva....
 # A se vedea traducerea catalană făcută de
 # resposabilul actual al «dpkg»
+# ***********
+# Aici, blocul de cod unde apare mesajul:
+# „static int signo_ignores[] = { SIGQUIT, SIGINT };
+# static struct sigaction sa_save[array_count(signo_ignores)];
+# static void
+# subproc_reset_signal(int sig, struct sigaction *sa_old)
+# {
+# 	if (sigaction(sig, sa_old, NULL)) {
+# 		fprintf(stderr, _("error un-catching signal %s: %s\n"),
+# 		        strsignal(sig), strerror(errno));
+# 		onerr_abort++;
+# 	}
+# }”
+# ***************
+# Demoment, am ales această situație de compromis!
 #: lib/dpkg/subproc.c
 #, c-format
 msgid "error un-catching signal %s: %s\n"
-msgstr "a apărut o eroare la dealocarea semnalului %s: %s\n"
+msgstr "a apărut o eroare la gestionarea semnalului %s: %s\n"
 
 #: lib/dpkg/subproc.c
 #, c-format
@@ -1869,7 +1882,7 @@ msgstr "tip de antet tar necunoscut „%c”"
 #: lib/dpkg/treewalk.c
 #, c-format
 msgid "cannot stat pathname '%s'"
-msgstr "nu s-a putut efectua stat() asupra elementului final din cale „%s”"
+msgstr "nu s-a putut efectua stat() asupra elementului final din ruta „%s”"
 
 #: lib/dpkg/treewalk.c
 #, c-format
@@ -1902,7 +1915,7 @@ msgstr ""
 
 #: lib/dpkg/trigdeferred.c
 msgid "triggers database lock"
-msgstr "blocarea bazei de date a declanșatorlor"
+msgstr "blocarea bazei de date a declanșatorilor"
 
 #: lib/dpkg/trigdeferred.c
 #, c-format
@@ -2004,16 +2017,19 @@ msgid "syntax error in file triggers file '%.250s'"
 msgstr "eroare de sintaxă în fișierul cu declanșatori fișier „%.250s”"
 
 #: lib/dpkg/triglib.c
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "file triggers record mentions illegal package name '%.250s' (for interest in "
 "file '%.250s'): %.250s"
 msgstr ""
 "înregistrarea declanșatorilor de fișier menționează un nume ilegal de pachet "
-"„%.250s” (pentru interes față de fișierul „%.250s”): %.250s"
+"„%.250s” (în fișierul „%.250s”): %.250s"
 
+# R-GC, scrie:
+# se pare că „ci = informații de control”, după
+# o minte „luminată”
 #: lib/dpkg/triglib.c
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "triggers ci file '%.250s' contains illegal trigger syntax in trigger name "
 "'%.250s': %.250s"
@@ -2022,22 +2038,24 @@ msgstr ""
 "sintaxă ilegală în numele declanșatorului „%.250s”: %.250s"
 
 #: lib/dpkg/triglib.c
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers ci file '%.250s'"
 msgstr ""
-"nu se poate deschide fișierul de informații de control al declanșatorului "
+"nu se poate deschide fișierul de informații de control ale declanșatorilor "
 "„%.250s”"
 
 #: lib/dpkg/triglib.c
-#, fuzzy
 msgid "triggers ci file contains unknown directive syntax"
 msgstr ""
-"fișierul cu declanșatori ci conține o sintaxă necunoscută pentru directive"
+"fișierul cu informațiile de control ale declanșatorilor conține o sintaxă "
+"necunoscută pentru directive"
 
 #: lib/dpkg/triglib.c
-#, fuzzy, c-format
+#, c-format
 msgid "triggers ci file contains unknown directive '%.250s'"
-msgstr "fișierul cu declanșatori ci conține o directivă necunoscută „%.250s”"
+msgstr ""
+"fișierul cu informațiile de control ale declanșatorilor conține o directivă "
+"necunoscută „%.250s”"
 
 #: lib/dpkg/triglib.c
 #, c-format
@@ -2089,7 +2107,7 @@ msgstr "Activează toate opțiunile de forțare"
 
 #: src/common/force.c
 msgid "Use MAC based security if available"
-msgstr "Utilizeazăi securitatea bazată pe MAC, dacă este disponibilă"
+msgstr "Utilizează securitatea bazată pe MAC, dacă este disponibilă"
 
 #: src/common/force.c
 msgid "Replace a package with a lower version"
@@ -2137,7 +2155,7 @@ msgstr "Suprascrie un fișier dintr-un pachet cu altul"
 
 #: src/common/force.c
 msgid "Overwrite a diverted file with an undiverted version"
-msgstr "Suprascrie un fișier redirecționat cu o versiune neredirecționată."
+msgstr "Suprascrie un fișier redirecționat cu o versiune neredirecționată"
 
 #: src/common/force.c
 msgid "Overwrite one package's directory with another's file"
@@ -2218,13 +2236,7 @@ msgid "Remove an essential package"
 msgstr "Elimină un pachet esențial"
 
 #: src/common/force.c
-#, fuzzy, c-format
-#| msgid ""
-#| "%s forcing options - control behaviour when problems found:\n"
-#| "  warn but continue:  --force-<thing>,<thing>,...\n"
-#| "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-"
-#| "<thing>,...\n"
-#| " Forcing things:\n"
+#, c-format
 msgid ""
 "%s forcing options - control behavior when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2234,7 +2246,7 @@ msgstr ""
 "Opțiunile de forțare ale %s - controlează comportamentul atunci când sunt\n"
 "găsite probleme:\n"
 "  avertizează, dar continuă: --force-<lucru>,<lucru>,...\n"
-"  se oprește cu eroare: --refuse-<lucru>,<lucru>,... | --no-force-"
+"  se oprește cu eroare:      --refuse-<lucru>,<lucru>,... | --no-force-"
 "<lucru>,...\n"
 " Lucruri ce se pot forța:\n"
 
@@ -2317,7 +2329,7 @@ msgstr "element de control"
 #: src/deb/build.c
 #, c-format
 msgid "newline not allowed in pathname '%s'"
-msgstr "nu este permisă o linie nouă în numele căii „%s”"
+msgstr "nu este permisă o linie nouă în numele rutei „%s”"
 
 #: src/deb/build.c
 msgid "data member"
@@ -2389,7 +2401,7 @@ msgstr "linia cu numele fișierului conffile „%s” are spații în alb la în
 #: src/deb/build.c src/main/unpack.c
 #, c-format
 msgid "conffile name '%s' is not an absolute pathname"
-msgstr "numele fișierului conffile „%s” nu este un nume de cale absolut"
+msgstr "numele fișierului conffile „%s” nu este un nume de rută absolută"
 
 #: src/deb/build.c src/main/unpack.c
 #, c-format
@@ -2419,8 +2431,7 @@ msgstr "nu se poate verifica starea fișierului conffile „%.250s”"
 #: src/deb/build.c
 #, c-format
 msgid "conffile '%s' is present but is requested to be removed"
-msgstr ""
-"fișierul conffile „%.250s” este prezent, dar se solicită să fie eliminat"
+msgstr "fișierul conffile „%s” este prezent, dar se solicită să fie eliminat"
 
 #: src/deb/build.c
 #, c-format
@@ -2519,7 +2530,7 @@ msgstr "eșec la crearea fișierului temporar (%s)"
 #: src/deb/build.c
 #, c-format
 msgid "failed to unlink temporary file (%s), %s"
-msgstr "eșec la ștergerea fișierului temporar (%s), %s"
+msgstr "eșec la eliminarea legăturii fișierului temporar (%s), %s"
 
 #: src/deb/build.c
 #, c-format
@@ -2674,7 +2685,7 @@ msgstr "nu se poate închide conducta de decomprimare"
 #: src/deb/extract.c
 #, c-format
 msgid "decompressing archive '%s' (size=%jd) member '%s'"
-msgstr "se decomprimă arhiva „%s” (dimensiunee=%jd) membru „%s”"
+msgstr "se decomprimă arhiva „%s” (dimensiune=%jd) membru „%s”"
 
 #: src/deb/extract.c
 msgid "failed to create directory"
@@ -2683,7 +2694,7 @@ msgstr "eșec la crearea directorului"
 #: src/deb/extract.c
 #, c-format
 msgid "unexpected pre-existing pathname %s"
-msgstr "nume de cale preexistent neașteptat %s"
+msgstr "nume de rută preexistent neașteptat %s"
 
 #: src/deb/extract.c
 msgid "failed to chdir to directory"
@@ -2785,10 +2796,9 @@ msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgstr " %7jd octeți, %5d linii   %c  %-20.127s %.127s\n"
 
 #: src/deb/info.c
-#, fuzzy, c-format
-#| msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+#, c-format
 msgid " %7jd bytes, %5d lines   %c  %.127s\n"
-msgstr " %7jd octeți, %5d linii   %c  %-20.127s %.127s\n"
+msgstr " %7jd octeți, %5d linii   %c  %.127s\n"
 
 #: src/deb/info.c
 #, c-format
@@ -3494,7 +3504,7 @@ msgstr "Pachete ne-reasamblate încă:\n"
 #: src/split/queue.c
 #, c-format
 msgid " Package %s: part(s) "
-msgstr " Pachetul %s: partea(țile) "
+msgstr " Pachetul %s: partea/părțile "
 
 #: src/split/queue.c
 #, c-format
@@ -3548,8 +3558,8 @@ msgstr "nu se poate calcula suma de control MD5 pentru fișierul „%s”: %s"
 msgid "Splitting package %s into %d part: "
 msgid_plural "Splitting package %s into %d parts: "
 msgstr[0] "Se împarte pachetul %s în %d parte: "
-msgstr[1] "Se împarte pachetul %s în %d părți"
-msgstr[2] "Se împarte pachetul %s în %d de părți"
+msgstr[1] "Se împarte pachetul %s în %d părți: "
+msgstr[2] "Se împarte pachetul %s în %d de părți: "
 
 #: src/split/split.c
 msgid ""
@@ -3592,12 +3602,12 @@ msgid ""
 "\n"
 msgstr ""
 "Comenzi:\n"
-"  [--add] <fișier>           adaugă o redirectare\n"
-"  --remove <fișier>          șterge redirectarea\n"
-"  --list [<glob-pattern>]    afișează redirectările de fișiere\n"
-"  --listpackage <fișier>     afișează ce pachet redirectează fișierul "
+"  [--add] <fișier>           adaugă o redirecționare\n"
+"  --remove <fișier>          elimină redirecționarea\n"
+"  --list [<glob-pattern>]    afișează redirecționările de fișiere\n"
+"  --listpackage <fișier>     afișează ce pachet redirecționează fișierul "
 "<fișier>\n"
-"  --truename <fișier>        indică fișierul redirectat\n"
+"  --truename <fișier>        indică fișierul redirecționat\n"
 "\n"
 
 #: src/divert/main.c
@@ -3623,31 +3633,26 @@ msgstr ""
 "Opțiuni:\n"
 "  --package <pachet>       numele pachetului a cărui copie a fișierului "
 "<fișier>\n"
-"                           nu va fi redirectată\n"
-"  --local                  toate versiunile pachetului sunt redirectate\n"
+"                           nu va fi redirecționată\n"
+"  --local                  toate versiunile pachetului sunt redirecționate\n"
 "  --divert <redirect-la>   numele folosit de celelalte versiuni ale "
 "pachetului\n"
 "  --rename                 chiar mută fișierul de-o parte (sau înapoi)\n"
 "  --no-rename              nu mută fișierul de-o parte (sau înapoi) "
 "(implicit)\n"
 "  --admindir <director>    configurează directorul cu fișierele de "
-"redirectări\n"
+"redirecționări\n"
 "  --instdir <director>     stabilește directorul rădăcină, dar nu și "
 "directorul\n"
 "                           administrativ\n"
-"  --root <director>        stabilește dir. rădăcină al sistemului de "
+"  --root <director>        stabilește directorul rădăcină al sistemului de "
 "fișiere\n"
-"  --test                   nu face nimic, doar demonstrează, ce s-ar face\n"
+"  --test                   nu face nimic, doar arată, ce s-ar face\n"
 "  --quiet                  operare silențioasă, minim de mesaje\n"
 "  --help                   afișează acest mesaj de ajutor\n"
 "  --version                afișează versiunea programului\n"
 "\n"
 
-# R-GC, scrie:
-# Pînă aici, am tradus, actualizat și revizat fișierul.
-# *****
-# La următoarea versiune a «dpkg», sper s-a
-# ajung pînă la sfârșitul fișierului.
 #: src/divert/main.c
 #, c-format
 msgid ""
@@ -3656,22 +3661,24 @@ msgid ""
 "Package preinst/postrm scripts should always specify --package and --"
 "divert.\n"
 msgstr ""
-"La adăugare implicite sunt --local și --divert <original>.distrib.\n"
-"La ștergere --package sau --local și --divert trebuie să se\n"
+"La adăugare implicite sunt „--local” și „--divert <original>.distrib”.\n"
+"La eliminare „--package” sau „--local” și „--divert” trebuie să se\n"
 "potrivească dacă sunt specificate.\n"
 "Scripturile preinst/postrm din pachete ar trebui să specifice\n"
-"întotdeauna --package și --divert.\n"
+"întotdeauna „--package” și „--divert”.\n"
 
 #: src/divert/main.c
 msgid ""
 "please specify --no-rename explicitly, the default will change to --rename "
 "in 1.20.x"
 msgstr ""
+"vă rugăm să specificați „--no-rename” în mod explicit, valoarea implicită se "
+"va schimba în „--rename” începând cu versiunea 1.20.x"
 
 #: src/divert/main.c utils/update-alternatives.c
 #, c-format
 msgid "cannot stat file '%s'"
-msgstr "stat imposibil pentru fișierul „%s”"
+msgstr "nu se poate obține starea fișierului „%s”"
 
 #: src/divert/main.c
 #, c-format
@@ -3688,16 +3695,14 @@ msgstr ""
 "  un alt fișier „%s”, lucru nepermis"
 
 #: src/divert/main.c utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "unable to write file '%s'"
+#, c-format
 msgid "unable to create file '%s'"
-msgstr "nu se poate scrie fișierul „%s”"
+msgstr "nu se poate crea fișierul „%s”"
 
 #: src/divert/main.c
-#, fuzzy, c-format
-#| msgid "cannot rename '%s' to '%s'"
+#, c-format
 msgid "cannot copy '%s' to '%s': %s"
-msgstr "nu se poate redenumi „%s” în „%s”"
+msgstr "nu se poate copia „%s” în „%s”: %s"
 
 #: src/divert/main.c
 #, c-format
@@ -3707,13 +3712,12 @@ msgstr "nu se poate redenumi „%s” în „%s”"
 #: src/divert/main.c
 #, c-format
 msgid "rename: remove duplicate old link '%s'"
-msgstr "redenumire: șterge vechea legătură duplicată „%s”"
+msgstr "rename: se elimină vechea legătură duplicată „%s”"
 
 #: src/divert/main.c
-#, fuzzy, c-format
-#| msgid "unable to open source file `%.250s'"
+#, c-format
 msgid "unable to remove copied source file '%s'"
-msgstr "nu se poate deschide fișierul sursă „%.250s”"
+msgstr "nu se poate elimina fișierul sursă copiat „%s”"
 
 #: src/divert/main.c
 #, c-format
@@ -3722,53 +3726,51 @@ msgstr "numele de fișier „%s” nu este absolut"
 
 #: src/divert/main.c
 msgid "file may not contain newlines"
-msgstr "numele de fișier nu poate conține caractere newline"
+msgstr "fișierul nu poate conține caractere de linie nouă"
 
 #: src/divert/main.c
 #, c-format
 msgid "local diversion of %s"
-msgstr "redirectare locală a lui %s"
+msgstr "redirecționare locală a lui %s"
 
 #: src/divert/main.c
 #, c-format
 msgid "local diversion of %s to %s"
-msgstr "redirectare locală a lui %s către %s"
+msgstr "redirecționare locală a lui %s către %s"
 
 #: src/divert/main.c
 #, c-format
 msgid "diversion of %s by %s"
-msgstr "redirectare a lui %s de către %s"
+msgstr "redirecționare a lui %s de către %s"
 
 #: src/divert/main.c
 #, c-format
 msgid "diversion of %s to %s by %s"
-msgstr "redirectare a lui %s către %s de către %s"
+msgstr "redirecționare a lui %s către %s de către %s"
 
 #: src/divert/main.c
 #, c-format
 msgid "any diversion of %s"
-msgstr "orice redirectare a lui %s"
+msgstr "orice redirecționare a lui %s"
 
 #: src/divert/main.c
 #, c-format
 msgid "any diversion of %s to %s"
-msgstr "orice redirectare a lui %s către %s"
+msgstr "orice redirecționare a lui %s către %s"
 
 #: src/divert/main.c src/statoverride/main.c
 #, c-format
 msgid "--%s needs a single argument"
-msgstr "--%s necesită un singur argument"
+msgstr "„--%s” necesită un singur argument"
 
 #: src/divert/main.c
-#, fuzzy
-#| msgid "Cannot divert directories"
 msgid "cannot divert directories"
-msgstr "Nu se pot redirecta directoare"
+msgstr "nu se pot redirecționa directoare"
 
 #: src/divert/main.c
 #, c-format
 msgid "cannot divert file '%s' to itself"
-msgstr "nu se poate redirecta fișierul „%s” către el însuși"
+msgstr "nu se poate redirecționa fișierul „%s” către el însuși"
 
 #: src/divert/main.c
 #, c-format
@@ -3778,7 +3780,7 @@ msgstr "Se părăsește „%s”\n"
 #: src/divert/main.c
 #, c-format
 msgid "'%s' clashes with '%s'"
-msgstr "„%s” se ciocnește cu „%s”"
+msgstr "„%s” intră în conflict cu „%s”"
 
 #: src/divert/main.c
 #, c-format
@@ -3786,10 +3788,11 @@ msgid "Adding '%s'\n"
 msgstr "Se adaugă „%s”\n"
 
 #: src/divert/main.c
-#, fuzzy, c-format
-#| msgid "ignoring request to remove %.250s which isn't installed."
+#, c-format
 msgid "Ignoring request to rename file '%s' owned by diverting package '%s'\n"
-msgstr "se ignoră cererea de ștergere a lui %.250s care nu este instalat."
+msgstr ""
+"Se ignoră cererea de redenumire a fișierului „%s” deținut de pachetul de "
+"redirecționare „%s”\n"
 
 #: src/divert/main.c
 #, c-format
@@ -3797,11 +3800,13 @@ msgid ""
 "diverting file '%s' from an Essential package with rename is dangerous, use "
 "--no-rename"
 msgstr ""
+"redirecționarea fișierului „%s” dintr-un pachet Essential cu «rename» este "
+"periculoasă, utilizați „--no-rename”"
 
 #: src/divert/main.c
 #, c-format
 msgid "No diversion '%s', none removed.\n"
-msgstr "Nu există redirectare „%s”, nu s-a șters nimic.\n"
+msgstr "Nu există redirecționarea „%s”, nu s-a șters nimic.\n"
 
 #: src/divert/main.c
 #, c-format
@@ -3810,8 +3815,8 @@ msgid ""
 "  when removing '%s'\n"
 "  found '%s'"
 msgstr ""
-"nepotrivire la redirectare-către\n"
-"  la ștergerea lui „%s”\n"
+"nepotrivire la redirecționarea-către\n"
+"  la eliminarea lui „%s”\n"
 "  a fost găsit „%s”"
 
 #: src/divert/main.c
@@ -3822,43 +3827,35 @@ msgid ""
 "  found '%s'"
 msgstr ""
 "nepotrivire la pachet\n"
-"  la ștergerea lui „%s”\n"
+"  la eliminarea lui „%s”\n"
 "  s-a găsit „%s”"
 
 #: src/divert/main.c
-#, fuzzy, c-format
-#| msgid "ignoring request to remove %.250s which isn't installed."
+#, c-format
 msgid "Ignoring request to remove shared diversion '%s'.\n"
-msgstr "se ignoră cererea de ștergere a lui %.250s care nu este instalat."
+msgstr "Se ignoră cererea de eliminare a redirecționării partajate „%s”.\n"
 
 #: src/divert/main.c
 #, c-format
 msgid "Removing '%s'\n"
-msgstr "Se șterge „%s”\n"
+msgstr "Se elimină „%s”\n"
 
 #: src/divert/main.c
 msgid "package may not contain newlines"
-msgstr "pachetul nu poate conține caractere newline"
+msgstr "pachetul nu poate conține caractere de linie nouă"
 
 #: src/divert/main.c
 msgid "divert-to may not contain newlines"
-msgstr "redirectare-către nu poate conține caractere newline"
+msgstr "redirecționarea-către nu poate conține caractere de linie nouă"
 
 #: src/statoverride/main.c
-#, fuzzy
-#| msgid "Use --help for help about querying packages."
 msgid "Use --help for help about overriding file stat information."
-msgstr "Folosiți --help pentru ajutor despre interogarea pachetelor"
+msgstr ""
+"Folosiți „--help” pentru a obține ajutor cu privire la înlocuirea "
+"informațiilor privind starea fișierelor."
 
 #: src/statoverride/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  --add <owner> <group> <mode> <file>\n"
-#| "                           add a new entry into the database.\n"
-#| "  --remove <file>          remove file from the database.\n"
-#| "  --list [<glob-pattern>]  list current overrides in the database.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  --add <owner> <group> <mode> <path>\n"
@@ -3868,23 +3865,14 @@ msgid ""
 "\n"
 msgstr ""
 "Comenzi:\n"
-"  --add <proprietar> <grup> <mod> <fișier>\n"
-"                           adaugă o poziție nouă în baza de date.\n"
-"  --remove <fișier>        șterge fișierul din baza de date.\n"
+"  --add <proprietar> <grup> <mod> <ruta>\n"
+"                           adaugă o intrare de <rută> nouă în baza de date.\n"
+"  --remove <ruta>        elimină <ruta> din baza de date.\n"
 "  --list [<model-glob>]    listează înlocuirile din baza de date.\n"
 "\n"
 
 #: src/statoverride/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir <directory>   set the directory with the statoverride file.\n"
-#| "  --update                 immediately update file permissions.\n"
-#| "  --force                  force an action even if a sanity check fails.\n"
-#| "  --quiet                  quiet operation, minimal output.\n"
-#| "  --help                   show this help message.\n"
-#| "  --version                show the version.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
@@ -3903,111 +3891,106 @@ msgstr ""
 "Opțiuni:\n"
 "  --admindir <director>    configurează directorul cu fișierul "
 "statoverride.\n"
+"  --instdir <director>     stabilește directorul rădăcină, dar nu și "
+"directorul\n"
+"                           de administrare.\n"
+"  --root <director>        stabilește directorul sistemului de fișiere "
+"rădăcină.\n"
 "  --update                 actualizează imediat permisiunile fișierelor.\n"
-"  --force                  forțează o acțiune chiar dacă verificările "
-"eșuează.\n"
-"  --quiet                  operare silențioasă, minim de mesaje.\n"
-"  --help                   afișează acest ajutor.\n"
+"  --force                  alias învechit pentru „--force-all”.\n"
+"  --force-<lucru>[,...]    trece peste probleme; a se vedea „--force-"
+"help”).\n"
+"  --no-force-<lucru>[,...] se oprește atunci când apar probleme.\n"
+"  --refuse-<lucru>[,...]   la fel ca „--no-force-<lucru>”.\n"
+"  --quiet                  operare silențioasă, minim de mesaje la ieșire.\n"
+"  --help                   afișează acest mesaj de ajutor.\n"
 "  --version                afișează versiunea.\n"
+"\n"
 
 #: src/statoverride/main.c
 msgid "stripping trailing /"
-msgstr "se șterge / de la final"
+msgstr "se elimină „/” de la final"
 
 #: src/statoverride/main.c
-#, fuzzy, c-format
-#| msgid "cannot stat file '%s'"
+#, c-format
 msgid "user '%s' does not exist"
-msgstr "stat imposibil pentru fișierul „%s”"
+msgstr "utilizatorul „%s” nu există."
 
 #: src/statoverride/main.c
-#, fuzzy, c-format
-#| msgid "cannot stat file '%s'"
+#, c-format
 msgid "group '%s' does not exist"
-msgstr "stat imposibil pentru fișierul „%s”"
+msgstr "grupul „%s” nu există"
 
 #: src/statoverride/main.c src/main/archives.c
 #, c-format
 msgid "error setting ownership of '%.255s'"
-msgstr "eroare la setarea apartenenței pentru „%.255s”"
+msgstr "eroare la stabilirea proprietarului pentru „%.255s”"
 
 #: src/statoverride/main.c src/main/archives.c
 #, c-format
 msgid "error setting permissions of '%.255s'"
-msgstr "eroare la setarea permisiunilor pentru „%.255s”"
+msgstr "eroare la stabilirea permisiunilor pentru „%.255s”"
 
 #: src/statoverride/main.c
-#, fuzzy, c-format
-#| msgid "--add needs four arguments"
+#, c-format
 msgid "--%s needs four arguments"
-msgstr "--add necesită patru argumente"
+msgstr "„--%s” necesită patru argumente"
 
 #: src/statoverride/main.c
-#, fuzzy
-#| msgid "package may not contain newlines"
 msgid "path may not contain newlines"
-msgstr "pachetul nu poate conține caractere newline"
+msgstr "ruta nu poate conține caractere de linie nouă"
 
 #: src/statoverride/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "An override for '%s' already exists, but --force specified so will be "
-#| "ignored."
+#, c-format
 msgid ""
 "an override for '%s' already exists, but --force specified so will be ignored"
 msgstr ""
-"O înlocuire pentru „%s” există deja, dar s-a specificat --force, deci va fi "
-"ignorată."
+"o înlocuire pentru „%s” există deja, dar s-a specificat „--force”, deci va "
+"fi ignorată"
 
 #: src/statoverride/main.c
-#, fuzzy, c-format
-#| msgid "An override for '%s' already exists, aborting."
+#, c-format
 msgid "an override for '%s' already exists; aborting"
-msgstr "Există deja o înlocuire pentru „%s”, se întrerupe."
+msgstr "există deja o înlocuire pentru „%s”; se întrerupe"
 
 #: src/statoverride/main.c
 #, c-format
 msgid "--update given but %s does not exist"
-msgstr "s-a dat --update dar %s nu există"
+msgstr "s-a dat „--update”, dar %s nu există"
 
 #: src/statoverride/main.c
-#, fuzzy
-#| msgid "No override present."
 msgid "no override present"
-msgstr "Nu este prezentă nici o înlocuire."
+msgstr "nu este prezentă nici o înlocuire"
 
 #: src/statoverride/main.c
 msgid "--update is useless for --remove"
 msgstr "--update este inutil pentru --remove"
 
 #: src/statoverride/main.c
-#, fuzzy, c-format
-#| msgid "obsolete option '--%s', please use '--%s' instead."
+#, c-format
 msgid "deprecated --%s option; use --%s instead"
-msgstr "opțiune învechită „--%s”, folosiți „--%s” în schimb."
+msgstr "opțiunea „--%s” este învechită, folosiți „--%s” în schimb"
 
 #: src/trigger/main.c
 msgid "Type dpkg-trigger --help for help about this utility."
-msgstr "Tastați dpkg-trigger --help pentru ajutor despre acest utilitar."
+msgstr "Tastați «dpkg-trigger --help» pentru ajutor despre acest instrument."
 
 #: src/trigger/main.c
 #, c-format
 msgid "Debian %s package trigger utility version %s.\n"
-msgstr "Debian %s, unealta pentru declanșatori de pachete versiunea %s.\n"
+msgstr ""
+"Ustensila de interogare și activare a declanșatorilor din pachetele Debian, "
+"%s versiunea %s.\n"
 
 #: src/trigger/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [<options> ...] <trigger-name>\n"
-#| "       %s [<options> ...] <command>\n"
-#| "\n"
+#, c-format
 msgid ""
 "Usage: %s [<option>...] <trigger-name>\n"
 "       %s [<option>...] <command>\n"
 "\n"
 msgstr ""
-"Utilizare: %s [<opțiuni> ...] <nume-declanșator>\n"
-"           %s [<opțiuni> ...] <comandă>\n"
+"Utilizare: %s [<opțiune> ...] <nume-declanșator>\n"
+"           %s [<opțiune> ...] <comandă>\n"
 "\n"
 
 #: src/trigger/main.c
@@ -4019,23 +4002,13 @@ msgid ""
 "\n"
 msgstr ""
 "Comenzi:\n"
-"  --check-supported                Verifică dacă actualul dpkg are suport\n"
-"                                     pentru declanșatori.\n"
+"  --check-supported            Verifică dacă actualul dpkg are suport "
+"pentru\n"
+"                               declanșatori.\n"
 "\n"
 
 #: src/trigger/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
-#| "  --by-package=<package>           Override trigger awaiter (normally "
-#| "set\n"
-#| "                                     by dpkg).\n"
-#| "  --no-await                       No package needs to await the "
-#| "processing.\n"
-#| "  --no-act                         Just test - don't actually change "
-#| "anything.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
@@ -4050,57 +4023,49 @@ msgid ""
 "\n"
 msgstr ""
 "Opțiuni:\n"
-"  --admindir=<director>            Folosește <director> în loc de %s.\n"
-"  --by-package=<pachet>            Suprascrie pe cel ce așteaptă "
-"declanșatorul\n"
-"                                     (în mod normal setat de dpkg).\n"
-"  --no-await                       Nici un pachet nu trebuie să aștepte\n"
-"                                     procesarea.\n"
-"  --no-act                         Doar testează - nu schimba nimic.\n"
+"  --admindir=<director>        Folosește <director> în loc de %s.\n"
+"  --root=<director>            Folosește <director> în loc de %s.\n"
+"  --by-package=<pachet>        Suprascrie timpul de așteptare al "
+"declanșatorului\n"
+"                               (în mod normal stabilit de dpkg).\n"
+"  --await                      Pachetul trebuie să aștepte procesarea.\n"
+"  --no-await                   Nici un pachet nu trebuie să aștepte "
+"procesarea.\n"
+"  --no-act                     Doar testează - nu schimbă nimic.\n"
 "\n"
 
 #: src/trigger/main.c
-#, fuzzy
-#| msgid ""
-#| "dpkg-trigger must be called from a maintainer script (or with a --by-"
-#| "package option)"
 msgid "must be called from a maintainer script (or with a --by-package option)"
 msgstr ""
-"dpkg-trigger trebuie să fie apelat dintr-un script de mentenanță (sau cu o "
-"opțiune --by-package)"
+"trebuie să fie apelat dintr-un script al responsabilului de pachet (sau cu "
+"opțiunea „--by-package”)"
 
 #: src/trigger/main.c
 msgid "takes one argument, the trigger name"
 msgstr "acceptă un argument, numele declanșatorului"
 
 #: src/trigger/main.c
-#, fuzzy, c-format
-#| msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
+#, c-format
 msgid "illegal awaited package name '%.250s': %.250s"
-msgstr "dpkg-trigger: nume nevalid de pachet așteptat „%.250s”: %.250s"
+msgstr "numele pachetului așteptat „%.250s” nu este valid: %.250s"
 
 #: src/trigger/main.c
 #, c-format
 msgid "invalid trigger name '%.250s': %.250s"
-msgstr "nume de declanșator nevalid „%.250s”: %.250s"
+msgstr "numele declanșatorului „%.250s” nu este valid: %.250s"
 
 #: src/trigger/main.c
-#, fuzzy
-#| msgid "%s: triggers data directory not yet created\n"
 msgid "triggers data directory not yet created"
-msgstr "%s: directorul cu date despre declanșatori nu este creat încă\n"
+msgstr "directorul cu date despre declanșatori nu a fost încă creat"
 
 #: src/trigger/main.c
-#, fuzzy
-#| msgid "%s: trigger records not yet in existence\n"
 msgid "trigger records not yet in existence"
-msgstr "%s: înregistrările declanșatorilor nu există încă\n"
+msgstr "înregistrările declanșatorilor nu există încă"
 
 #: src/query/main.c src/main/select.c
-#, fuzzy, c-format
-#| msgid "No packages found matching %s.\n"
+#, c-format
 msgid "no packages found matching %s"
-msgstr "Nu au fost găsite pachete care să se potrivească cu %s.\n"
+msgstr "nu au fost găsite pachete care să se potrivească cu %s"
 
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
@@ -4115,9 +4080,9 @@ msgid ""
 "pend\n"
 "|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
-"Dorit=necUnoscut/Instalează/șteRge/curăță(P)/păstrează(H)\n"
-"| Stare=Ne/Inst/fișCfg/desfăcUt/jum-conF/jum-inst(H)/așteaptă-decl(W)/decl-"
-"în-aștepT\n"
+"Dorit=necUnoscut/Instalează/elimină(R)/curăță(P)/păstrează(H)\n"
+"| Stare=Ne/Inst/fișCfg/despachetat(U)/jum-conF/jum-inst(H)/așteaptă-decl(W)/"
+"decl-în-aștepT\n"
 "|/ Ero?=(nimic)/Reinst-nec (St,Ero: majuscule=rău)\n"
 
 #: src/query/main.c
@@ -4129,84 +4094,73 @@ msgid "Version"
 msgstr "Versiune"
 
 #: src/query/main.c
-#, fuzzy
-#| msgid "package name"
 msgid "Architecture"
-msgstr "numele pachetului"
+msgstr "Arhitectură"
 
 #: src/query/main.c
 msgid "Description"
 msgstr "Descriere"
 
 #: src/query/main.c
-#, fuzzy
-#| msgid "long filenames"
 msgid "showing package list on pager"
-msgstr "denumiri lungi de fișiere"
+msgstr "afișarea listei de pachete în paginator"
 
 #: src/query/main.c
 #, c-format
 msgid "diversion by %s from: %s\n"
-msgstr "redirectare de către %s de la: %s\n"
+msgstr "redirecționare de către %s de la: %s\n"
 
 #: src/query/main.c
 #, c-format
 msgid "diversion by %s to: %s\n"
-msgstr "redirectare de către %s către: %s\n"
+msgstr "redirecționare de către %s către: %s\n"
 
 #: src/query/main.c
 #, c-format
 msgid "local diversion from: %s\n"
-msgstr "redirectare locală de la: %s\n"
+msgstr "redirecționare locală de la: %s\n"
 
 #: src/query/main.c
 #, c-format
 msgid "local diversion to: %s\n"
-msgstr "redirectare locală către: %s\n"
+msgstr "redirecționare locală către: %s\n"
 
 #: src/query/main.c
 msgid "--search needs at least one file name pattern argument"
-msgstr "--search necesită cel puțin șablonul numelui de fișier ca argument"
-
-#: src/query/main.c
-#, fuzzy, c-format
-#| msgid "No packages found matching %s.\n"
-msgid "no path found matching pattern %s"
-msgstr "Nu au fost găsite pachete care să se potrivească cu %s.\n"
-
-#: src/query/main.c
-#, fuzzy, c-format
-#| msgid "Package `%s' is not installed and no info is available.\n"
-msgid "package '%s' is not installed and no information is available"
 msgstr ""
-"Pachetul „%s” nu este instalat și nu este disponibilă nici o informație.\n"
+"opțiunea „--search” are nevoie de cel puțin un argument de model de nume de "
+"fișier"
 
 #: src/query/main.c
-#, fuzzy
-#| msgid ""
-#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+#, c-format
+msgid "no path found matching pattern %s"
+msgstr "nu s-a găsit nicio rută care să corespundă modelului %s"
+
+#: src/query/main.c
+#, c-format
+msgid "package '%s' is not installed and no information is available"
+msgstr "pachetul „%s” nu este instalat și nu este disponibilă nicio informație"
+
+#: src/query/main.c
 msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
 msgstr ""
-"Folosiți dpkg --info (= dpkg-deb --info) ca să examinați fișierele arhivei,\n"
-"și dpkg --contents (= dpkg-deb --contents) ca să-i afișați conținutul.\n"
+"Folosiți „dpkg --info” (= «dpkg-deb --info») ca să examinați fișierele "
+"arhivei.\n"
 
 #: src/query/main.c
-#, fuzzy, c-format
-#| msgid "Package `%s' is not available.\n"
+#, c-format
 msgid "package '%s' is not available"
-msgstr "Pachetul „%s” nu este disponibil.\n"
+msgstr "pachetul „%s” nu este disponibil"
 
 #: src/query/main.c
 #, c-format
 msgid "--%s needs at least one package name argument"
-msgstr "--%s necesită cel puțin un nume de pachet ca argument"
+msgstr "opțiunea „--%s” necesită cel puțin un nume de pachet ca argument"
 
 #: src/query/main.c src/main/enquiry.c src/main/verify.c
-#, fuzzy, c-format
-#| msgid "Package `%s' is not installed.\n"
+#, c-format
 msgid "package '%s' is not installed"
-msgstr "Pachetul „%s” nu este instalat.\n"
+msgstr "pachetul „%s” nu este instalat"
 
 #: src/query/main.c
 #, c-format
@@ -4216,28 +4170,24 @@ msgstr "Pachetul „%s” nu conține nici un fișier (!)\n"
 #: src/query/main.c
 #, c-format
 msgid "locally diverted to: %s\n"
-msgstr "redirectat local către: %s\n"
+msgstr "redirecționat local către: %s\n"
 
 #: src/query/main.c
 #, c-format
 msgid "package diverts others to: %s\n"
-msgstr "pachetul redirectează altele către: %s\n"
+msgstr "pachetul redirecționează altele către: %s\n"
 
 #: src/query/main.c
 #, c-format
 msgid "diverted by %s to: %s\n"
-msgstr "redirectat de %s către: %s\n"
+msgstr "redirecționat de %s către: %s\n"
 
 #: src/query/main.c
-#, fuzzy
-#| msgid ""
-#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
 "Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
-"Folosiți dpkg --info (= dpkg-deb --info) ca să examinați fișierele arhivei,\n"
-"și dpkg --contents (= dpkg-deb --contents) ca să-i afișați conținutul.\n"
+"Folosiți „dpkg --contents” (= «dpkg-deb --contents») ca să-i afișați "
+"conținutul.\n"
 
 #: src/query/main.c
 #, c-format
@@ -4245,43 +4195,29 @@ msgid "control file contains %c"
 msgstr "fișierul de control conține %c"
 
 #: src/query/main.c
-#, fuzzy, c-format
-#| msgid "--%s needs at least one package name argument"
+#, c-format
 msgid "--%s takes one package name argument"
-msgstr "--%s necesită cel puțin un nume de pachet ca argument"
+msgstr "opțiunea „--%s” necesită cel puțin un nume de pachet ca argument"
 
 #: src/query/main.c
-#, fuzzy, c-format
-#| msgid "--contents takes exactly one argument"
+#, c-format
 msgid "--%s takes exactly two arguments"
-msgstr "--contents ia exact un argument"
+msgstr "opțiunea „--%s” ia exact două argumente"
 
 #: src/query/main.c
-#, fuzzy, c-format
-#| msgid "cannot stat file '%s'"
+#, c-format
 msgid "control file '%s' does not exist"
-msgstr "stat imposibil pentru fișierul „%s”"
+msgstr "fișierul de control „%s” nu există"
 
 #: src/query/main.c
 #, c-format
 msgid "Debian %s package management program query tool version %s.\n"
 msgstr ""
-"Debian „%s”, program de administrarea a pachetelor, unealta de interogare "
-"versiunea %s.\n"
+"Instrumentul de interogare a programului de gestionare a pachetelor Debian, "
+"%s versiunea %s.\n"
 
 #: src/query/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -s|--status <package> ...        Display package status details.\n"
-#| "  -p|--print-avail <package> ...   Display available version details.\n"
-#| "  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
-#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
-#| "  -W|--show <pattern> ...          Show information on package(s).\n"
-#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-#| "  -c|--control-path <package> [<file>]\n"
-#| "                                   Print path for package control file.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -s, --status [<package>...]      Display package status details.\n"
@@ -4298,28 +4234,29 @@ msgid ""
 "\n"
 msgstr ""
 "Comenzi:\n"
-"  -s|--status <pachet> ...        Afișează detalii despre starea "
+"  -s,--status [<pachet>...]       Afișează detalii despre starea "
 "pachetului.\n"
-"  -p|--print-avail <pachet> ...   Afișează detalii despre versiunile "
+"  -p,--print-avail [<pachet>...]  Afișează detalii despre versiunile "
 "disponibile.\n"
-"  -L|--listfiles <pachet> ...     Afișează fișierele care aparțin "
-"pachetului(elor).\n"
-"  -l|--list [<șablon> ...]        Afișează concis pachetele.\n"
-"  -W|--show <șablon> ...          Arată informații despre pachet(e).\n"
-"  -S|--search <șablon> ...        Găsește pachetul(ele) de care aparține "
-"fișierul(ele).\n"
-"  -c|--control-path <pachet> [<fișier>]\n"
-"                                  Afișează calea pentru fișierul de control "
-"al pachetului.\n"
+"  -L,--listfiles [<pachet>...]    Afișează fișierele care aparțin "
+"pachetelor.\n"
+"  -l,--list [<șablon>...]         Afișează concis pachetele.\n"
+"  -W,--show [<șablon>...]         Afișează informații despre pachet(e).\n"
+"  -S,--search [<șablon>...]       Găsește pachetele de care aparține "
+"fișierele.\n"
+"      --control-list <pachet>     Imprimă lista de fișiere de control a "
+"pachetului.\n"
+"      --control-show <pachet> <fișier>\n"
+"                                  Afișează fișierul de control al "
+"pachetului.\n"
+"  -c,--control-path <pachet> [<fișier>]\n"
+"                                  Afișează ruta pentru fișierul de control "
+"al\n"
+"                                  pachetului.\n"
 "\n"
 
 #: src/query/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
-#| "  -f|--showformat=<format>         Use alternative format for --show.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
@@ -4331,8 +4268,14 @@ msgid ""
 msgstr ""
 "Opțiuni:\n"
 "  --admindir=<director>            Folosește <director> în loc de %s\n"
-"  -f|--showformat=<format>         Folosește formatul alternativ pentru --"
-"show\n"
+"  --root=<directory>               Folosește <director> în loc de %s\n"
+"  --load-avail                     Utilizează fișierul disponibil "
+"«available» cu\n"
+"                                   „--show” și „--list”\n"
+"  --no-pager                       Dezactivează utilizarea oricărui "
+"paginator\n"
+"  -f|--showformat=<format>         Folosește formatul alternativ pentru „--"
+"show”n\n"
 "\n"
 
 #: src/query/main.c
@@ -4342,30 +4285,28 @@ msgstr ""
 
 #: src/main/archives.c
 msgid "error reading from dpkg-deb pipe"
-msgstr "eroare la citirea din pipa dpkg-deb"
+msgstr "eroare la citirea din conducta «dpkg-deb»"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "can't mmap package info file `%.255s'"
+#, c-format
 msgid "cannot skip padding for file '%.255s': %s"
-msgstr "mmap imposibil pentru fișierul info „%.255s”"
+msgstr "nu se poate omite completarea fișierului „%.255s”: %s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "skipped unpacking file '%.255s' (replaced or excluded?)"
+#, c-format
 msgid "cannot skip file '%.255s' (replaced or excluded?) from pipe: %s"
-msgstr "s-a omis despachetarea fișierului „%.255s” (înlocuit sau exclus?)"
+msgstr ""
+"nu se poate omite fișierul „%.255s” (înlocuit sau exclus?) de la conducta: %s"
 
 #: src/main/archives.c
 #, c-format
 msgid "unable to create '%.255s' (while processing '%.255s')"
-msgstr "eșec la crearea „%.255s” (în timpul procesării „%.255s”)"
+msgstr "nu se poate crea „%.255s” (în timpul procesării „%.255s”)"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "%s: failed to rename '%.250s' to '%.250s': %s"
+#, c-format
 msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
-msgstr "%s: eșec la redenumirea lui „%.250s” în „%.250s”: %s"
+msgstr "nu se pot copia datele extrase pentru „%.255s” în „%.255s”: %s"
 
 #: src/main/archives.c
 #, c-format
@@ -4375,7 +4316,7 @@ msgstr "eroare la închiderea/scrierea „%.255s”"
 #: src/main/archives.c
 #, c-format
 msgid "error creating pipe '%.255s'"
-msgstr "eroare la crearea pipei „%.255s”"
+msgstr "eroare la crearea conductei „%.255s”"
 
 #: src/main/archives.c
 #, c-format
@@ -4393,20 +4334,21 @@ msgid "error creating directory '%.255s'"
 msgstr "eroare la crearea directorului „%.255s”"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "cannot open archive part file `%.250s'"
+#, c-format
 msgid "cannot compute MD5 digest for file '%.255s' in tar archive: %s"
-msgstr "nu se poate deschide fișierul parte de arhivă „%.250s”"
+msgstr ""
+"nu se poate calcula suma de control MD5 pentru fișierul „%.255s” din arhiva "
+"tar: %s"
 
 #: src/main/archives.c
 #, c-format
 msgid "error setting timestamps of '%.255s'"
-msgstr "eroare la setarea marcajului de timp pentru „%.255s”"
+msgstr "eroare la stabilirea marcajului de timp pentru „%.255s”"
 
 #: src/main/archives.c
 #, c-format
 msgid "error setting ownership of symlink '%.255s'"
-msgstr "eroare la setarea apartenenței legăturii simbolice „%.255s”"
+msgstr "eroare la stabilirea proprietarului legăturii simbolice „%.255s”"
 
 #: src/main/archives.c
 #, c-format
@@ -4416,22 +4358,36 @@ msgstr "nu se poate citi legătura „%.255s”"
 #: src/main/archives.c src/main/configure.c
 #, c-format
 msgid "symbolic link '%.250s' size has changed from %jd to %zd"
-msgstr ""
+msgstr "dimensiunea legăturii simbolice „%.250s” s-a schimbat de la %jd la %zd"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+#, c-format
 msgid ""
 "trying to overwrite shared '%.250s', which is different from other instances "
 "of package %.250s"
 msgstr ""
-"se încearcă suprascrierea „%.250s”, care este și în pachetul %.250s %.250s"
+"se încearcă suprascrierea pachetului partajat „%.250s”, care este diferit de "
+"alte instanțe ale pachetului %.250s"
 
+# R-GC, scrie:
+# definția pentru «dereference» găsită în
+# pagina: <https://en.wikipedia.org/wiki/Pointer_(computer_programming)>, este:
+# „ A pointer references a location in memory, and obtaining the value stored at that location is known as dereferencing the pointer. As an analogy, a page number in a book's index could be considered a pointer to the corresponding page; dereferencing such a pointer would be done by flipping to the page with the given page number and reading the text found on that page.”
+# *****
+# rezumînd, acest cuvînt înseannă:
+# „parcurgerea, citirea conținutului locului (adresei) indicate (de un indicator)”
+# =====
+# poate într-o versiune viitoare a acestui fișier,
+# eu (sau altcineva) voi „îndrăznii” să fac
+# înlocuirea pertinentă. Am urmat tendința
+# celorlalte echipe de traducere de-a lăsa
+# acest cuvînt netradus...
 #: src/main/archives.c
 #, c-format
 msgid "failed to stat (dereference) existing symlink '%.250s'"
 msgstr ""
-"eșec la stat (dereference) pentru legătura simbolică existentă „%.250s”"
+"nu s-a reușit să se obțină starea (dereference) legăturii simbolice "
+"existente „%.250s”"
 
 #: src/main/archives.c
 #, c-format
@@ -4439,20 +4395,20 @@ msgid ""
 "failed to stat (dereference) proposed new symlink target '%.250s' for "
 "symlink '%.250s'"
 msgstr ""
-"eșec la stat (dereference) pentru ținta legăturii simbolice nou propuse "
-"„%.250s” pentru legătura simbolică „%.250s”"
+"nu s-a reușit să se obțină starea (dereference) pentru ținta legăturii "
+"simbolice nou propuse „%.250s” pentru legătura simbolică „%.250s”"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "cannot open archive part file '%.250s'"
+#, c-format
 msgid "newline not allowed in archive object name '%.255s'"
-msgstr "nu se poate deschide fișierul parte de arhivă „%.250s”"
+msgstr "nu este permisă linia nouă în numele obiectului de arhivă „%.255s”"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "conffile '%.250s' does not appear in package"
+#, c-format
 msgid "conffile '%s' marked for removal on upgrade, shipped in package"
-msgstr "fișierul conffile „%.250s” nu apare în pachet"
+msgstr ""
+"fișierul conffile „%s” marcat pentru eliminare la actualizare, este livrat "
+"în pachet"
 
 #: src/main/archives.c
 #, c-format
@@ -4460,21 +4416,20 @@ msgid ""
 "trying to overwrite '%.250s', which is the diverted version of "
 "'%.250s' (package: %.100s)"
 msgstr ""
-"se încearcă suprascrierea lui „%.250s”, care este o versiune redirectată a "
-"lui „%.250s” (pachetul: %.100s)"
+"se încearcă suprascrierea lui „%.250s”, care este o versiune redirecționată "
+"a lui „%.250s” (pachetul: %.100s)"
 
 #: src/main/archives.c
 #, c-format
 msgid "trying to overwrite '%.250s', which is the diverted version of '%.250s'"
 msgstr ""
-"se încearcă suprascrierea lui „%.250s”, care este versiunea redirectată a "
+"se încearcă suprascrierea lui „%.250s”, care este versiunea redirecționată a "
 "lui „%.250s”"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "unable to stat '%.255s' (which I was about to install)"
+#, c-format
 msgid "unable to stat '%.255s' (which was about to be installed)"
-msgstr "stat imposibil pentru „%.255s” (care urma să fie instalat)"
+msgstr "nu se poate obține starea lui „%.255s” (care urma să fie instalat)"
 
 #: src/main/archives.c
 #, c-format
@@ -4489,7 +4444,8 @@ msgstr ""
 #, c-format
 msgid "unable to stat restored '%.255s' before installing another version"
 msgstr ""
-"stat imposibil pentru „%.255s” restaurat înaintea instalării altei versiuni"
+"nu se poate efectua stat() asupra „%.255s” restaurat, înaintea instalării "
+"altei versiuni"
 
 #: src/main/archives.c
 #, c-format
@@ -4497,16 +4453,14 @@ msgid "archive contained object '%.255s' of unknown type 0x%x"
 msgstr "arhiva conține obiectul „%.255s” de tip necunoscut 0x%x"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "Replacing files in old package %s ...\n"
+#, c-format
 msgid "Replacing files in old package %s (%s) ...\n"
-msgstr "Se înlocuiesc fișierele din pachetul vechi %s ...\n"
+msgstr "Se înlocuiesc fișierele din pachetul vechi %s (%s) ...\n"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "Replaced by files in installed package %s ...\n"
+#, c-format
 msgid "Replaced by files in installed package %s (%s) ...\n"
-msgstr "Înlocuite de fișierele din pachetul instalat %s ...\n"
+msgstr "Înlocuite de fișierele din pachetul instalat %s (%s) ...\n"
 
 #: src/main/archives.c
 #, c-format
@@ -4521,7 +4475,8 @@ msgstr ""
 #, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr ""
-"se încearcă suprascrierea „%.250s”, care este și în pachetul %.250s %.250s"
+"se încearcă suprascrierea lui „%.250s”, care este și în pachetul %.250s "
+"%.250s"
 
 #: src/main/archives.c
 #, c-format
@@ -4531,19 +4486,21 @@ msgstr "nu se poate îndepărta „%.255s” pentru instalarea noii versiuni"
 #: src/main/archives.c
 #, c-format
 msgid "unable to make backup symlink for '%.255s'"
-msgstr "nu se poate crea legătură simbolică copie de siguranță pentru „%.255s”"
+msgstr ""
+"nu se poate face copia de rezervă a legăturii simbolice pentru „%.255s”"
 
 #: src/main/archives.c
 #, c-format
 msgid "unable to chown backup symlink for '%.255s'"
 msgstr ""
-"chown imposibil pentru legătura simbolică copie de siguranță pentru „%.255s”"
+"nu se poate executa chown asupra copiei de rezervă a legăturii simbolice "
+"pentru „%.255s”"
 
 #: src/main/archives.c
 #, c-format
 msgid "unable to make backup link of '%.255s' before installing new version"
 msgstr ""
-"nu se poate face legătură copie de siguranță lui „%.255s” înainte de "
+"nu se poate face copia de rezervă a legăturii lui „%.255s” înainte de "
 "instalarea noii versiuni"
 
 #: src/main/archives.c
@@ -4559,131 +4516,103 @@ msgstr "nu se poate deschide '%.255s'"
 #: src/main/archives.c
 #, c-format
 msgid "unable to sync file '%.255s'"
-msgstr "sync imposibil pentru fișierul „%.255s”"
+msgstr "nu se poate efectua sync() asupra fișierului „%.255s”"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "ignoring dependency problem with %s:\n"
-#| "%s"
+#, c-format
 msgid ""
 "ignoring dependency problem with installation of %s:\n"
 "%s"
 msgstr ""
-"se ignoră problema de dependență cu %s:\n"
+"se ignoră problema de dependență cu instalarea lui %s:\n"
 "%s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
-#| "%s"
+#, c-format
 msgid ""
 "no, cannot proceed with installation of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
-"dpkg: nu, nu se poate purcede la %s (--auto-deconfigure va ajuta):\n"
+"nu, nu se poate continua cu instalarea lui %s („--auto-deconfigure” poate fi "
+"de ajutor):\n"
 "%s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "ignoring dependency problem with %s:\n"
-#| "%s"
+#, c-format
 msgid ""
 "ignoring dependency problem with removal of %s:\n"
 "%s"
 msgstr ""
-"se ignoră problema de dependență cu %s:\n"
+"se ignoră problema de dependență cu eliminarea lui %s:\n"
 "%s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "considering deconfiguration of essential\n"
-#| " package %s, to enable %s."
+#, c-format
 msgid ""
 "considering deconfiguration of essential\n"
 " package %s, to enable removal of %s"
 msgstr ""
 "se consideră deconfigurarea pachetului\n"
-" esențial %s, pentru a permite %s."
+" esențial %s, pentru a permite eliminarea lui %s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: no, %s is essential, will not deconfigure\n"
-#| " it in order to enable %s.\n"
+#, c-format
 msgid ""
 "no, %s is essential, will not deconfigure\n"
 " it in order to enable removal of %s"
 msgstr ""
-"dpkg: nu, %s este esențial, nu va fi deconfigurat\n"
-" pentru a permite %s.\n"
+"nu, %s este esențial, nu va fi deconfigurat\n"
+" pentru a permite eliminarea lui %s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "considering deconfiguration of essential\n"
-#| " package %s, to enable %s."
+#, c-format
 msgid ""
 "considering deconfiguration of protected\n"
 " package %s, to enable removal of %s"
 msgstr ""
 "se consideră deconfigurarea pachetului\n"
-" esențial %s, pentru a permite %s."
+" protejat %s, pentru a permite eliminarea lui %s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: no, %s is essential, will not deconfigure\n"
-#| " it in order to enable %s.\n"
+#, c-format
 msgid ""
 "no, %s is protected, will not deconfigure\n"
 " it in order to enable removal of %s"
 msgstr ""
-"dpkg: nu, %s este esențial, nu va fi deconfigurat\n"
-" pentru a permite %s.\n"
+"nu, %s este protejat, nu va fi deconfigurat\n"
+" pentru a permite eliminarea lui %s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
-#| "%s"
+#, c-format
 msgid ""
 "no, cannot proceed with removal of %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
-"dpkg: nu, nu se poate purcede la %s (--auto-deconfigure va ajuta):\n"
+"nu, nu se poate purcede la eliminarea lui %s (--auto-deconfigure poate fi de "
+"ajutor):\n"
 "%s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
+#, c-format
 msgid ""
 "considering deconfiguration of %s, which would be broken by installation of "
 "%s ..."
 msgstr ""
-"dpkg: se ia în considerare deconfigurarea lui %s care ar fi corupt de "
-"%s ...\n"
+"se ia în considerare deconfigurarea lui %s care ar fi corupt de instalarea "
+"lui %s ..."
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
+#, c-format
 msgid "yes, will deconfigure %s (broken by %s)"
-msgstr "dpkg: da, se va deconfigura %s (corupt de %s).\n"
+msgstr "da, se va deconfigura %s (corupt de %s)"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: regarding %s containing %s:\n"
-#| "%s"
+#, c-format
 msgid ""
 "regarding %s containing %s:\n"
 "%s"
 msgstr ""
-"dpkg: cu privire la %s conținând %s:\n"
+"cu privire la %s care conține %s:\n"
 "%s"
 
 #: src/main/archives.c
@@ -4705,46 +4634,41 @@ msgid "installing %.250s would break existing software"
 msgstr "instalarea lui %.250s ar duce la coruperea programelor existente"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "dpkg: considering removing %s in favour of %s ...\n"
+#, c-format
 msgid "considering removing %s in favour of %s ..."
-msgstr "dpkg: se ia în considerare ștergerea lui %s în favoarea lui %s ...\n"
+msgstr "se ia în considerare eliminarea lui %s în favoarea lui %s ..."
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "%s is not properly installed - ignoring any dependencies on it.\n"
+#, c-format
 msgid "%s is not properly installed; ignoring any dependencies on it"
-msgstr "%s nu este corect instalat - ignor orice dependență față de acesta.\n"
+msgstr ""
+"%s nu este instalat în mod corespunzător; se ignoră orice dependențe de "
+"acesta"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
+#, c-format
 msgid "may have trouble removing %s, as it provides %s ..."
 msgstr ""
-"dpkg: ar putea apărea probleme la eliminarea %s, deoarece furnizează %s ...\n"
+"ar putea apărea probleme la eliminarea lui %s, deoarece acesta furnizează "
+"%s ..."
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: package %s requires reinstallation, but will remove anyway as you "
-#| "requested.\n"
+#, c-format
 msgid ""
 "package %s requires reinstallation, but will remove anyway as you requested"
 msgstr ""
-"dpkg: pachetul %s necesită reinstalare, dar va fi șters, așa cum ați "
-"solicitat.\n"
+"pachetul %s necesită reinstalare, dar va fi eliminat oricum, așa cum ați "
+"solicitat"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "dpkg: package %s requires reinstallation, will not remove.\n"
+#, c-format
 msgid "package %s requires reinstallation, will not remove"
-msgstr "dpkg: pachetul %s necesită reinstalare, nu va fi înlăturat.\n"
+msgstr "pachetul %s necesită reinstalare, nu va fi eliminat"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "dpkg: yes, will remove %s in favour of %s.\n"
+#, c-format
 msgid "yes, will remove %s in favour of %s"
-msgstr "dpkg: da, %s va fi șters în favoarea lui %s.\n"
+msgstr "da, se va elimina %s în favoarea lui %s"
 
 #: src/main/archives.c
 #, c-format
@@ -4753,12 +4677,12 @@ msgstr "conflict între pachete - nu se instalează %.250s"
 
 #: src/main/archives.c
 msgid "ignoring conflict, may proceed anyway!"
-msgstr "se ignoră conflictul, se va continua oricum!"
+msgstr "se ignoră conflictul, se poate continua oricum!"
 
 #: src/main/archives.c
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
-msgstr "--%s --recursive necesită cel puțin o cale ca argument"
+msgstr "„--%s --recursive” necesită cel puțin o rută ca argument"
 
 #: src/main/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
@@ -4767,51 +4691,44 @@ msgstr "s-au căutat, dar nu s-au găsit pachete (fișiere de tip *.deb)"
 #: src/main/archives.c
 #, c-format
 msgid "--%s needs at least one package archive file argument"
-msgstr "--%s necesită cel puțin un fișier-arhivă de pachet ca argument"
+msgstr "„--%s” necesită cel puțin un fișier-arhivă de pachet ca argument"
 
 #: src/main/archives.c src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "cannot access archive"
+#, c-format
 msgid "cannot access archive '%s'"
-msgstr "nu se poate accesa arhiva"
+msgstr "nu se poate accesa arhiva „%s”"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "conffile '%s' is not a plain file"
+#, c-format
 msgid "archive '%s' is not a regular file"
-msgstr "fișierul conffile „%s” nu este fișier propriu-zis"
+msgstr "arhiva „%s” nu este un fișier obișnuit"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "Selecting previously deselected package %s.\n"
+#, c-format
 msgid "Selecting previously unselected package %s.\n"
-msgstr "Se selectează pachetul %s, deselectat anterior.\n"
+msgstr "Se selectează pachetul neselectat anterior %s.\n"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "Skipping deselected package %s.\n"
+#, c-format
 msgid "Skipping unselected package %s.\n"
-msgstr "Se omite pachetul deselectat %s.\n"
+msgstr "Se omite pachetul neselectat %s.\n"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "Version %.250s of %.250s already installed, skipping.\n"
+#, c-format
 msgid "version %.250s of %.250s already installed, skipping"
-msgstr "Versiunea %.250s a lui %.250s este deja instalată, se omite.\n"
+msgstr "versiunea %.250s a lui %.250s este deja instalată, se omite"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "downgrading %.250s from %.250s to %.250s."
+#, c-format
 msgid "downgrading %.250s from %.250s to %.250s"
-msgstr "se retrogradează %.250s de la %.250s la %.250s."
+msgstr "se retrogradează %.250s de la %.250s la %.250s"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
+#, c-format
 msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
 msgstr ""
-"Nu se va retrograda %.250s de la versiunea %.250s la versiunea %.250s, se "
-"omite.\n"
+"nu se va retrograda %.250s de la versiunea %.250s la versiunea %.250s, se "
+"omite"
 
 #: src/main/cleanup.c
 #, c-format
@@ -4819,93 +4736,63 @@ msgid ""
 "unable to remove newly-installed version of '%.250s' to allow reinstallation "
 "of backup copy"
 msgstr ""
-"nu se poate șterge versiunea nou-instalată a lui „%.250s” pentru a permite "
-"reinstalarea copiei de siguranță"
+"nu se poate elimina versiunea nou-instalată a lui „%.250s” pentru a permite "
+"reinstalarea copiei de rezervă"
 
 #: src/main/cleanup.c
 #, c-format
 msgid "unable to restore backup version of '%.250s'"
-msgstr "nu se poate restaura versiunea de siguranță a lui „%.250s”"
+msgstr "nu se poate restaura versiunea de rezervă a lui „%.250s”"
 
 #: src/main/cleanup.c
 #, c-format
 msgid "unable to remove backup copy of '%.250s'"
-msgstr "nu se poate șterge copia de siguranță a lui „%.250s”"
+msgstr "nu se poate elimina copia de rezervă a lui „%.250s”"
 
 #: src/main/cleanup.c
 #, c-format
 msgid "unable to remove newly-installed version of '%.250s'"
-msgstr "nu se poate șterge versiunea nou-instalată a lui „%.250s”"
+msgstr "nu se poate elimina versiunea nou-instalată a lui „%.250s”"
 
 #: src/main/cleanup.c
 #, c-format
 msgid "unable to remove newly-extracted version of '%.250s'"
-msgstr "nu se poate șterge versiunea nou-extrasă a lui „%.250s”"
+msgstr "nu se poate elimina versiunea nou-extrasă a lui „%.250s”"
 
 #: src/main/configure.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Configuration file `%s'"
+#, c-format
 msgid "Configuration file '%s'\n"
-msgstr ""
-"\n"
-"Fișier de configurare „%s”"
+msgstr "Fișier de configurare „%s”\n"
 
 #: src/main/configure.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Configuration file `%s'"
+#, c-format
 msgid "Configuration file '%s' (actually '%s')\n"
-msgstr ""
-"\n"
-"Fișier de configurare „%s”"
+msgstr "Fișier de configurare „%s” (de fapt, „%s”)\n"
 
 #: src/main/configure.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| " ==> File on system created by you or by a script.\n"
-#| " ==> File also in package provided by package maintainer.\n"
+#, c-format
 msgid ""
 " ==> File on system created by you or by a script.\n"
 " ==> File also in package provided by package maintainer.\n"
 msgstr ""
-"\n"
 " ==> Fișierul din sistem creat de dumneavoastră sau de un script.\n"
 " ==> Fișierul este, de asemenea, prezent în pachetul furnizat de "
 "responsabilul pachetului.\n"
 
 #: src/main/configure.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "     Not modified since installation.\n"
+#, c-format
 msgid "     Not modified since installation.\n"
-msgstr ""
-"\n"
-"     Nemodificat de la instalare.\n"
+msgstr "    Nemodificat de la instalare.\n"
 
 #: src/main/configure.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| " ==> Modified (by you or by a script) since installation.\n"
+#, c-format
 msgid " ==> Modified (by you or by a script) since installation.\n"
-msgstr ""
-"\n"
-" ==> Modificat (de dumneavoastră sau de un script) de la instalare.\n"
+msgstr " ==> Modificat (de dumneavoastră sau de un script) după instalare.\n"
 
 #: src/main/configure.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| " ==> Deleted (by you or by a script) since installation.\n"
+#, c-format
 msgid " ==> Deleted (by you or by a script) since installation.\n"
-msgstr ""
-"\n"
-" ==> Șters (de dumneavoastră sau de un script) de la instalare.\n"
+msgstr " ==> Șters (de dumneavoastră sau de un script) după instalare.\n"
 
 #: src/main/configure.c
 #, c-format
@@ -4915,7 +4802,8 @@ msgstr " ==> Distribuitorul pachetului a furnizat o versiune actualizată.\n"
 #: src/main/configure.c
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
-msgstr "     Versiunea din pachet este aceiași ca la ultima instalare.\n"
+msgstr ""
+"     Versiunea din pachet este aceeași cu cea de la ultima instalare.\n"
 
 #: src/main/configure.c
 #, c-format
@@ -4930,12 +4818,12 @@ msgstr " ==> Se folosește actualul fișier vechi, așa cum ați cerut.\n"
 #: src/main/configure.c
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
-msgstr " ==> Implicit se păstrează vechiul fișier de configurare.\n"
+msgstr " ==> Se păstrează vechiul fișier de configurare ca implicit.\n"
 
 #: src/main/configure.c
 #, c-format
 msgid " ==> Using new config file as default.\n"
-msgstr " ==> Implicit se folosește noul fișier de configurare.\n"
+msgstr " ==> Se folosește noul fișier de configurare ca implicit.\n"
 
 #: src/main/configure.c
 #, c-format
@@ -4977,26 +4865,27 @@ msgstr "[nimic implicit]"
 #: src/main/configure.c
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr ""
-"eroare la scrierea către stderr, descoperită înainte de promptul despre "
-"fișierul conffile"
+"eroare la scrierea la ieșirea standard, descoperită înainte de promptul "
+"despre fișierul conffile"
 
 #: src/main/configure.c
 msgid "read error on stdin at conffile prompt"
-msgstr "eroare de citire de la stdin la promptul despre fișierul conffile"
+msgstr ""
+"eroare de citire de la intrarea standard din promptul despre fișierul "
+"conffile"
 
 #: src/main/configure.c
-#, fuzzy
-#| msgid "read error on stdin at conffile prompt"
 msgid "end of file on stdin at conffile prompt"
-msgstr "eroare de citire de la stdin la promptul despre fișierul conffile"
+msgstr ""
+"sfârșit de fișier la intrarea standard în promptul despre fișierul conffile"
 
 #: src/main/configure.c
 msgid "conffile difference visualizer"
-msgstr ""
+msgstr "vizualizarea diferențelor din conffile"
 
 #: src/main/configure.c
 msgid "Useful environment variables:\n"
-msgstr ""
+msgstr "Variabile de mediu utile:\n"
 
 #: src/main/configure.c
 msgid "Type 'exit' when you're done.\n"
@@ -5004,17 +4893,19 @@ msgstr "Tastați „exit” când ați terminat.\n"
 
 #: src/main/configure.c
 msgid "conffile shell"
-msgstr ""
+msgstr "shell de conffile"
 
 #: src/main/configure.c
 #, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
-msgstr "stat imposibil pentru noul fișier conffile „%.250s”"
+msgstr ""
+"nu se poate obține starea noului fișier conffile furnizat cu distribuția "
+"„%.250s”"
 
 #: src/main/configure.c
 #, c-format
 msgid "unable to stat current installed conffile '%.250s'"
-msgstr "stat imposibil pentru actualul fișier conffile instalat „%.250s”"
+msgstr "nu se poate obține starea actualului fișier conffile instalat „%.250s”"
 
 #: src/main/configure.c
 #, c-format
@@ -5030,7 +4921,7 @@ msgstr ""
 #: src/main/configure.c
 #, c-format
 msgid "%s: failed to remove old backup '%.250s': %s"
-msgstr "%s: eșec la ștergerea vechii copii de siguranță „%.250s”: %s"
+msgstr "%s: eșec la eliminarea vechii copii de rezervă „%.250s”: %s"
 
 #: src/main/configure.c
 #, c-format
@@ -5040,17 +4931,17 @@ msgstr "%s: eșec la redenumirea lui „%.250s” în „%.250s”: %s"
 #: src/main/configure.c src/main/unpack.c
 #, c-format
 msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: eșec la ștergerea lui „%.250s”: %s"
+msgstr "%s: eșec la eliminarea lui „%.250s”: %s"
 
 #: src/main/configure.c
 #, c-format
 msgid "%s: failed to remove old distributed version '%.250s': %s"
-msgstr "%s: eșec la ștergerea vechii versiuni distribuite „%.250s”: %s"
+msgstr "%s: eșec la eliminarea vechii versiuni de la distribuiția „%.250s”: %s"
 
 #: src/main/configure.c
 #, c-format
 msgid "%s: failed to remove '%.250s' (before overwrite): %s"
-msgstr "%s: eșec la ștergerea „%.250s” (înainte de suprascriere): %s"
+msgstr "%s: eșec la eliminarea „%.250s” (înainte de suprascriere): %s"
 
 #: src/main/configure.c
 #, c-format
@@ -5087,32 +4978,28 @@ msgstr ""
 " nu se poate configura (starea curentă „%.250s”)"
 
 #: src/main/configure.c
-#, fuzzy, c-format
-#| msgid ""
-#| "package %.250s is not ready for configuration\n"
-#| " cannot configure (current status `%.250s')"
+#, c-format
 msgid ""
 "package %s cannot be configured because %s is not ready (current status '%s')"
 msgstr ""
-"pachetul %.250s nu este pregătit pentru configurare\n"
-" nu se poate configura (starea curentă „%.250s”)"
+"pachetul %s nu poate fi configurat deoarece %s nu este gata (starea curentă "
+"„%s”)"
 
 #: src/main/configure.c
 #, c-format
 msgid ""
 "package %s %s cannot be configured because %s is at a different version (%s)"
 msgstr ""
+"pachetul %s %s nu poate fi configurat deoarece versiunea de %s este diferită "
+"(%s)"
 
 #: src/main/configure.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: dependency problems prevent configuration of %s:\n"
-#| "%s"
+#, c-format
 msgid ""
 "dependency problems prevent configuration of %s:\n"
 "%s"
 msgstr ""
-"dpkg: probleme de dependențe preîntâmpină configurarea lui %s:\n"
+"probleme de dependență împiedică configurarea lui %s:\n"
 "%s"
 
 #: src/main/configure.c
@@ -5120,34 +5007,26 @@ msgid "dependency problems - leaving unconfigured"
 msgstr "probleme de dependențe - se lasă neconfigurat"
 
 #: src/main/configure.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: %s: dependency problems, but configuring anyway as you requested:\n"
-#| "%s"
+#, c-format
 msgid ""
 "%s: dependency problems, but configuring anyway as you requested:\n"
 "%s"
 msgstr ""
-"dpkg: %s: probleme de dependențe, dar totuși se configurează, așa cum ați "
-"cerut:\n"
+"%s: probleme de dependență, dar se configurează oricum, așa cum ați cerut:\n"
 "%s"
 
 #: src/main/configure.c
-#, fuzzy
-#| msgid ""
-#| "Package is in a very bad inconsistent state - you should\n"
-#| " reinstall it before attempting configuration."
 msgid ""
 "package is in a very bad inconsistent state; you should\n"
 " reinstall it before attempting configuration"
 msgstr ""
-"Pachetul este într-o stare de inconsistență foarte \n"
-"rea - ar trebui să-l reinstalați înainte de a încerca configurarea."
+"pachetul este într-o stare de inconsistență foarte \n"
+" gravă - ar trebui să-l reinstalați înainte de a încerca configurarea"
 
 #: src/main/configure.c
 #, c-format
 msgid "Setting up %s (%s) ...\n"
-msgstr "Se pregătește %s (%s) ...\n"
+msgstr "Se configurează %s (%s) ...\n"
 
 #: src/main/configure.c
 #, c-format
@@ -5155,7 +5034,7 @@ msgid ""
 "%s: unable to stat config file '%s'\n"
 " (= '%s'): %s"
 msgstr ""
-"%s: stat imposibil pentru fișierul de configurare „%s”\n"
+"%s: nu se poate obține starea fișierului de configurare „%s”\n"
 " (= „%s”): %s"
 
 #: src/main/configure.c
@@ -5173,7 +5052,7 @@ msgid ""
 "%s: unable to readlink conffile '%s'\n"
 " (= '%s'): %s"
 msgstr ""
-"%s: readlink imposibil pentru fișierul conffile „%s”\n"
+"%s: nu se poate citi legătura pentru conffile „%s”\n"
 " (= „%s”): %s"
 
 #: src/main/configure.c
@@ -5182,30 +5061,37 @@ msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
 " ('%s' is a symlink to '%s')"
 msgstr ""
-"%s: fișierul conffile „%.250s” arată către un nume de fișier degenerat\n"
-" („%s” este legătură simbolică spre „%s”)"
+"%s: fișierul conffile „%.250s” arată către un nume de fișier corupt\n"
+" („%s” este o legătură simbolică la „%s”)"
 
 #: src/main/configure.c
 #, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
-"%s: fișierul conffile „%.250s” nu este fișier sau legătură simbolică (= „%s”)"
+"%s: fișierul conffile „%.250s” nu este un fișier obișnuit sau o legătură "
+"simbolică (= „%s”)"
 
 #: src/main/configure.c
-#, fuzzy, c-format
-#| msgid "%s: unable to open conffile %s for hash: %s"
+#, c-format
 msgid "%s: unable to open %s to compute its digest: %s"
-msgstr "%s: nu se poate deschide fișierul conffile %s pentru hash: %s"
+msgstr ""
+"%s: nu se poate deschide %s pentru a calcula suma de control a acestuia: %s"
 
 #: src/main/depcon.c
 #, c-format
 msgid "%s depends on %s"
 msgstr "%s depinde de %s"
 
+# R-GC, scrie:
+# traducere schimbată de la:
+# „%s ante-depinde de %s”
+# ***
+# există o diferență subtilă între
+# «ante» și «pre».
 #: src/main/depcon.c
 #, c-format
 msgid "%s pre-depends on %s"
-msgstr "%s ante-depinde de %s"
+msgstr "%s pre-depinde de %s"
 
 #: src/main/depcon.c
 #, c-format
@@ -5235,7 +5121,7 @@ msgstr "%s îmbunătățește %s"
 #: src/main/depcon.c
 #, c-format
 msgid "  %.250s is to be removed.\n"
-msgstr "  %.250s va fi șters.\n"
+msgstr "  %.250s va fi eliminat.\n"
 
 #: src/main/depcon.c
 #, c-format
@@ -5265,7 +5151,7 @@ msgstr "  %.250s este despachetat, dar este versiunea %.250s.\n"
 #: src/main/depcon.c
 #, c-format
 msgid "  %.250s latest configured version is %.250s.\n"
-msgstr "  %.250s ultima versiune configurată este %.250s.\n"
+msgstr "  ultima versiune configurată de %.250s este %.250s.\n"
 
 #: src/main/depcon.c
 #, c-format
@@ -5275,7 +5161,7 @@ msgstr "  %.250s este %s.\n"
 #: src/main/depcon.c
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
-msgstr "  %.250s furnizează %.250s dar va fi șters.\n"
+msgstr "  %.250s furnizează %.250s dar va fi eliminat.\n"
 
 #: src/main/depcon.c
 #, c-format
@@ -5295,7 +5181,7 @@ msgstr "  %.250s nu este instalat.\n"
 #: src/main/depcon.c
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
-msgstr "  %.250s (versiunea %.250s) este pe cale să fie instalat.\n"
+msgstr "  %.250s (versiunea %.250s) urmează să fie instalat.\n"
 
 #: src/main/depcon.c
 #, c-format
@@ -5305,7 +5191,7 @@ msgstr "  %.250s (versiunea %.250s) este prezent și %s.\n"
 #: src/main/depcon.c
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
-msgstr "  %.250s furnizează %.250s și este pe cale să fie instalat.\n"
+msgstr "  %.250s furnizează %.250s și urmează să fie instalat.\n"
 
 #: src/main/depcon.c
 #, c-format
@@ -5329,9 +5215,9 @@ msgid ""
 "menu option in dselect for them to work:\n"
 msgstr ""
 "Următoarele pachete au fost despachetate dar încă nu au fost configurate.\n"
-"Ele trebuie configurate folosind dpkg --configure sau opțiunea configurare "
-"din\n"
-"meniul programului dselect, pentru a fi funcționale:\n"
+"Ele trebuie configurate folosind «dpkg --configure» sau opțiunea "
+"configurare\n"
+"din meniul programului «dselect», pentru a fi funcționale:\n"
 
 #: src/main/enquiry.c
 msgid ""
@@ -5339,10 +5225,12 @@ msgid ""
 "configuring them the first time.  The configuration should be retried using\n"
 "dpkg --configure <package> or the configure menu option in dselect:\n"
 msgstr ""
-"Următoarele pachete sunt configurate doar pe jumătate, probabil datorită \n"
-"unor probleme la prima lor configurare. Configurarea ar trebui reîncercată \n"
-"folosind dpkg --configure <pachet> sau opțiunea configurare din meniul lui "
-"dselect:\n"
+"Următoarele pachete sunt configurate doar pe jumătate, probabil datorită "
+"unor\n"
+"probleme la prima lor configurare. Configurarea ar trebui reîncercată "
+"folosind\n"
+"«dpkg --configure <pachet>» sau opțiunea configurare din meniul lui "
+"«dselect»:\n"
 
 #: src/main/enquiry.c
 msgid ""
@@ -5353,7 +5241,7 @@ msgstr ""
 "Următoarele pachete sunt instalate doar pe jumătate, datorită problemelor "
 "din \n"
 "timpul instalării. Instalarea probabil poate fi terminată dacă se repetă.\n"
-"Pachetele pot fi șterse folosind dselect sau dpkg --remove:\n"
+"Pachetele pot fi șterse folosind «dselect» sau «dpkg --remove»:\n"
 
 #: src/main/enquiry.c
 msgid ""
@@ -5361,9 +5249,10 @@ msgid ""
 "have activated in other packages.  This processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
-"Următoarele pachete așteptă procesarea unor declanșatori pe care i-au\n"
-"activat în alte pachete. Această procesare poate fi cerută folosind\n"
-"dselect sau dpkg --configure --pending (sau dpkg --triggers-only):\n"
+"Următoarele pachete sunt în așteptarea procesării declanșatorilor care au "
+"fost\n"
+"activați din alte pachete.  Această procesare poate fi solicitată folosind\n"
+"«dselect» sau «dpkg --configure --pending» (sau «dpkg --triggers-only»):\n"
 
 #: src/main/enquiry.c
 msgid ""
@@ -5373,27 +5262,31 @@ msgid ""
 msgstr ""
 "Următoarele pachete au fost declanșate, dar procesarea declanșatorilor nu\n"
 "s-a efectuat încă. Procesarea declanșatorilor poate fi cerută folosind\n"
-"dselect sau dpkg --configure --pending (sau dpkg --triggers-only):\n"
+"«dselect» sau «dpkg --configure --pending» (sau «dpkg --triggers-only»):\n"
 
 #: src/main/enquiry.c
 msgid ""
 "The following packages are missing the list control file in the\n"
 "database, they need to be reinstalled:\n"
 msgstr ""
+"Următoarele pachete lipsesc din fișierul de control al listei\n"
+"din baza de date, acestea trebuie reinstalate:\n"
 
 #: src/main/enquiry.c
 msgid ""
 "The following packages are missing the md5sums control file in the\n"
 "database, they need to be reinstalled:\n"
 msgstr ""
+"Următoarele pachete lipsesc din fișierul de control „md5sums”\n"
+"din baza de date, acestea trebuie reinstalate:\n"
 
 #: src/main/enquiry.c
 msgid "The following packages do not have an architecture:\n"
-msgstr ""
+msgstr "Următoarele pachete nu au o arhitectură:\n"
 
 #: src/main/enquiry.c
 msgid "The following packages have an illegal architecture:\n"
-msgstr ""
+msgstr "Următoarele pachete au o arhitectură ilegală:\n"
 
 #: src/main/enquiry.c
 msgid ""
@@ -5401,23 +5294,26 @@ msgid ""
 "cause dependency issues on front-ends. This can be fixed by registering\n"
 "the foreign architecture with dpkg --add-architecture:\n"
 msgstr ""
+"Următoarele pachete au o arhitectură străină necunoscută, ceea ce va cauza\n"
+"probleme de dependență în interfețele cu «dpkg». Acest lucru poate fi "
+"rezolvat\n"
+"prin înregistrarea arhitecturii străine cu «dpkg --add-architecture»:\n"
 
 #: src/main/enquiry.c
 msgid ""
 "Another process has locked the database for writing, and might currently be\n"
 "modifying it, some of the following problems might just be due to that.\n"
 msgstr ""
-"Un alt proces a blocat baza de date pentru scriere și ar putea să o "
+"Un alt proces a blocat baza de date pentru scriere și s-ar putea să o "
 "modifice\n"
-"în acest moment. Unele din problemele următoare ar putea fi din această\n"
-"cauză.\n"
+"în acest moment; unele dintre problemele următoare s-ar putea să se "
+"datoreze\n"
+"acestui fapt.\n"
 
 #: src/main/enquiry.c
-#, fuzzy
-#| msgid "<unknown>"
 msgctxt "section"
 msgid "<unknown>"
-msgstr "<necunoscut>"
+msgstr "<necunoscută>"
 
 #: src/main/enquiry.c
 #, c-format
@@ -5433,212 +5329,189 @@ msgstr[1] " %d pachete, din următoarele secțiuni:"
 msgstr[2] " %d de pachete, din următoarele secțiuni:"
 
 #: src/main/enquiry.c
-#, fuzzy
-#| msgid "Pre-Depends field"
 msgid "the Pre-Depends field"
-msgstr "câmpul Pre-Depends"
+msgstr "câmpul „Pre-Depends”"
 
 # „epoch” este un număr care se poate pune în fața versiunii unui
 # pachet (separat cu două puncte pentru a forța dpkg să considere
 # pachetul ca având o versiune mai mare. ex: 2:1.4.2
+# *****
+# R-GC, scrie:
+# acest comentariu a fost scris de predecesorii
+# mei în traducerea «dpkg», pe cînd mesajul
+# era: „epoch in version is not number”.
 #: src/main/enquiry.c
-#, fuzzy
-#| msgid "epoch in version is not number"
 msgid "epochs in versions"
-msgstr "epoca din versiune nu este număr"
+msgstr "epoca din versiuni"
 
 #: src/main/enquiry.c
-#, fuzzy
-#| msgid "long filenames"
 msgid "long filenames in .deb archives"
-msgstr "denumiri lungi de fișiere"
+msgstr "nume de fișier lungi în arhivele .deb"
 
 #: src/main/enquiry.c
 msgid "multiple Conflicts and Replaces"
-msgstr "multiple Conflicts și Replaces"
+msgstr "multiple „Conflicts” și „Replaces”"
 
 #: src/main/enquiry.c
 msgid "multi-arch fields and semantics"
-msgstr ""
+msgstr "câmpuri și semantice multi-arhitectură"
 
 #: src/main/enquiry.c
 msgid "versioned relationships in the Provides field"
-msgstr ""
+msgstr "relații cu versiuni „versionate” în câmpul „Provides”"
 
 #: src/main/enquiry.c
-#, fuzzy
-#| msgid "Pre-Depends field"
 msgid "the Protected field"
-msgstr "câmpul Pre-Depends"
+msgstr "câmpul „Protected”"
 
 #: src/main/enquiry.c
-#, fuzzy, c-format
-#| msgid "cannot stat file '%s'"
+#, c-format
 msgid "cannot parse dpkg running version '%s': %s"
-msgstr "stat imposibil pentru fișierul „%s”"
+msgstr "nu se poate analiza versiunea de dpkg care rulează „%s”: %s"
 
 #: src/main/enquiry.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Version of dpkg with working %s support not yet configured.\n"
-#| " Please use 'dpkg --configure dpkg', and then try again.\n"
+#, c-format
 msgid ""
 "Running version of dpkg does not support %s.\n"
 " Please upgrade to at least dpkg %s, and then try again.\n"
 msgstr ""
-"O versiune de dpkg cu suport funcțional pentru %s nu este configurată încă.\n"
-" Folosiți „dpkg --configure dpkg” și apoi încercați din nou.\n"
+"Versiunea în execuție de dpkg nu admite %s .\n"
+" Actualizați cel puțin la dpkg %s, și apoi încercați din nou.\n"
 
 #: src/main/enquiry.c
 #, c-format
 msgid "%s assert options - assert whether features are supported:\n"
-msgstr ""
+msgstr "opțiunile de afirmare %s - afirmă dacă sunt admise caracteristicile:\n"
 
 #: src/main/enquiry.c
 #, c-format
 msgid "unknown --%s-<feature>"
-msgstr ""
+msgstr "„--%s-<caracteristică>” necunoscută"
 
 #: src/main/enquiry.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: cannot see how to satisfy pre-dependency:\n"
-#| " %s\n"
+#, c-format
 msgid ""
 "cannot see how to satisfy pre-dependency:\n"
 " %s"
 msgstr ""
-"dpkg: nu se vede cum s-ar putea satisface ante-dependența:\n"
-" %s\n"
+"nu se întrevede cum se poate satisface pre-dependența:\n"
+" %s"
 
 #: src/main/enquiry.c
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
-"nu se poate satisface ante-dependența pentru %.250s (necesară datorită lui "
+"nu se poate satisface pre-dependența pentru %.250s (necesară datorită lui "
 "%.250s)"
 
 #: src/main/enquiry.c
-#, fuzzy, c-format
-#| msgid "--%s needs at least one package name argument"
+#, c-format
 msgid "--%s takes one <pkgname> argument"
-msgstr "--%s necesită cel puțin un nume de pachet ca argument"
+msgstr "„--%s” ia un <nume-de-pachet> ca argument"
 
 #: src/main/enquiry.c
-#, fuzzy, c-format
-#| msgid "Package `%s' is not installed.\n"
+#, c-format
 msgid "package name '%s' is invalid: %s"
-msgstr "Pachetul „%s” nu este instalat.\n"
+msgstr "numele pachetului „%s” nu este valid: %s"
 
+# R-GC, scrie:
+# consider că unii au o imaginație ffbogată...:
+# «trigname = trigger-name»; așa că cel puțin
+# „din cînd în cînd” o imaginație „mai săracă”
+# ar ajuta multt să ne înțelem mai bine și mai ușor ;-)
 #: src/main/enquiry.c
-#, fuzzy, c-format
-#| msgid "--%s needs at least one package name argument"
+#, c-format
 msgid "--%s takes one <trigname> argument"
-msgstr "--%s necesită cel puțin un nume de pachet ca argument"
+msgstr "„--%s” ia un <nume-de-declanșator> ca argument"
 
 #: src/main/enquiry.c
-#, fuzzy, c-format
-#| msgid "trigger name contains invalid character"
+#, c-format
 msgid "trigger name '%s' is invalid: %s"
-msgstr "numele de declanșator conține un caracter nevalid"
+msgstr "numele de declanșator „%s”nu este valid: %s"
 
 #: src/main/enquiry.c
-#, fuzzy, c-format
-#| msgid "--%s needs at least one package name argument"
+#, c-format
 msgid "--%s takes one <archname> argument"
-msgstr "--%s necesită cel puțin un nume de pachet ca argument"
+msgstr "„--%s” ia un <nume-de-arhitectură> ca argument"
 
 #: src/main/enquiry.c
 #, c-format
 msgid "architecture name '%s' is invalid: %s"
-msgstr ""
+msgstr "numele arhitecturii „%s” nu este valid: %s"
 
 #: src/main/enquiry.c
-#, fuzzy, c-format
-#| msgid "--%s takes no arguments"
+#, c-format
 msgid "--%s takes one <version> argument"
-msgstr "--%s nu ia argumente"
+msgstr "--%s ia un <șir-de-versiune> ca argument"
 
 #: src/main/enquiry.c
-#, fuzzy, c-format
-#| msgid "version '%s' has bad syntax: %s"
+#, c-format
 msgid "version '%s' has bad syntax"
-msgstr "versiunea %s are sintaxa greșită: %s"
+msgstr "versiunea „%s” are sintaxa greșită"
 
 #: src/main/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
-msgstr "--compare-versions ia trei argumente: <versiune> <relație> <versiune>"
+msgstr ""
+"„--compare-versions” ia trei argumente: <versiune> <relație> <versiune>"
 
 #: src/main/enquiry.c
 msgid "--compare-versions bad relation"
-msgstr "--compare-versions relație nevalidă"
+msgstr "relație nevalidă a opțiunii „--compare-versions”"
 
 #: src/main/enquiry.c
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
-msgstr ""
+msgstr "„--%s” folosită cu operatorul de relație învechit „%s”"
 
 #: src/main/errors.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: failed to allocate memory for new entry in list of failed packages."
+#, c-format
 msgid "failed to allocate memory for new entry in list of failed packages: %s"
 msgstr ""
-"dpkg: eșec la alocarea memoriei pentru noua intrare în lista pachetelor "
-"eșuate."
+"eșec la alocarea memoriei pentru noua intrare în lista pachetelor eșuate: %s"
 
 #: src/main/errors.c
-#, fuzzy
-#| msgid "dpkg: too many errors, stopping\n"
 msgid "too many errors, stopping"
-msgstr "dpkg: prea multe erori, se întrerupe\n"
+msgstr "prea multe erori, se oprește"
 
 #: src/main/errors.c
-#, fuzzy, c-format
-#| msgid ""
-#| "%s: error processing %s (--%s):\n"
-#| " %s\n"
+#, c-format
 msgid ""
 "error processing package %s (--%s):\n"
 " %s"
 msgstr ""
-"%s: eroare la procesarea %s (--%s):\n"
-" %s\n"
+"eroare la procesarea pachetului %s (--%s):\n"
+" %s"
 
 #: src/main/errors.c
-#, fuzzy, c-format
-#| msgid ""
-#| "%s: error processing %s (--%s):\n"
-#| " %s\n"
+#, c-format
 msgid ""
 "error processing archive %s (--%s):\n"
 " %s"
 msgstr ""
-"%s: eroare la procesarea %s (--%s):\n"
-" %s\n"
+"eroare la procesarea arhivei %s (--%s):\n"
+" %s"
 
 #: src/main/errors.c
 msgid "Errors were encountered while processing:\n"
-msgstr "Erori întâlnite în timpul prelucrării:\n"
+msgstr "Erori întâlnite în timpul procesării:\n"
 
 #: src/main/errors.c
 msgid "Processing was halted because there were too many errors.\n"
-msgstr "Prelucrarea a fost oprită deoarece au fost prea multe erori.\n"
+msgstr "Procesarea a fost oprită deoarece au fost prea multe erori.\n"
 
 #: src/main/errors.c
-#, fuzzy, c-format
-#| msgid "Package %s was on hold, processing it anyway as you requested\n"
+#, c-format
 msgid "package %s was on hold, processing it anyway as you requested"
-msgstr "Pachetul %s a fost reținut, va fi oricum procesat cum ați cerut\n"
+msgstr "pachetul %s a fost reținut, va fi oricum procesat cum ați cerut"
 
 #: src/main/errors.c
 #, c-format
 msgid ""
 "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
 msgstr ""
-"Pachetul %s este reținut, nu se atinge. Folosiți --force-hold pentru al "
-"forța.\n"
+"Pachetul %s este reținut, nu se atinge.  Folosiți „--force-hold” pentru a "
+"anula acest comportament.\n"
 
 #: src/main/help.c
 msgid "not installed"
@@ -5646,11 +5519,11 @@ msgstr "neinstalat"
 
 #: src/main/help.c
 msgid "not installed but configs remain"
-msgstr "neinstalat dar fișierele de configurare rămân"
+msgstr "neinstalat dar configurația sa a rămas"
 
 #: src/main/help.c
 msgid "broken due to failed removal or installation"
-msgstr "deteriorat datorită eșecului la îndepărtare sau instalare"
+msgstr "deteriorat datorită eșecului la eliminare sau instalare"
 
 #: src/main/help.c
 msgid "unpacked but not configured"
@@ -5662,7 +5535,7 @@ msgstr "deteriorat datorită eșecului scriptului postinst"
 
 #: src/main/help.c
 msgid "awaiting trigger processing by another package"
-msgstr "așteaptă procesarea declanșatorilor de către un alt pachet"
+msgstr "se așteaptă procesarea declanșatorilor pentru un alt pachet"
 
 #: src/main/help.c
 msgid "triggered"
@@ -5673,78 +5546,42 @@ msgid "installed"
 msgstr "instalat"
 
 #: src/main/help.c
-#, fuzzy, c-format
-#| msgid "'%s' not found in PATH or not executable."
+#, c-format
 msgid "'%s' not found in PATH or not executable"
-msgstr "„%s” nu a fost găsit în PATH sau nu este executabil."
+msgstr "„%s” nu a fost găsit în PATH sau nu este executabil"
 
 #: src/main/help.c
-#, fuzzy, c-format
-#| msgid "'%s' not found in PATH or not executable."
+#, c-format
 msgid ""
 "%d expected program not found in PATH or not executable\n"
 "%s"
 msgid_plural ""
 "%d expected programs not found in PATH or not executable\n"
 "%s"
-msgstr[0] "„%s” nu a fost găsit în PATH sau nu este executabil."
-msgstr[1] "„%s” nu a fost găsit în PATH sau nu este executabil."
-msgstr[2] "„%s” nu a fost găsit în PATH sau nu este executabil."
+msgstr[0] ""
+"%d program așteptat nu a fost găsit în PATH sau nu este executabil\n"
+"%s"
+msgstr[1] ""
+"%d programe așteptate nu au fost găsite în PATH sau nu sunt executabile\n"
+"%s"
+msgstr[2] ""
+"%d de programe așteptate nu au fost găsite în PATH sau nu sunt executabile\n"
+"%s"
 
 #: src/main/help.c
-#, fuzzy
-#| msgid ""
-#| "%d expected program not found in PATH or not executable.\n"
-#| "NB: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /"
-#| "sbin."
-#| msgid_plural ""
-#| "%d expected programs not found in PATH or not executable.\n"
-#| "NB: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /"
-#| "sbin."
 msgid ""
 "Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin"
 msgstr ""
-"%d program nu a fost găsit în PATH sau nu este executabil.\n"
-"NB: PATH pentru utilizatorul root ar trebui să conțină /usr/local/sbin, /usr/"
-"sbin și /sbin."
+"NOTĂ: Variabila de mediu PATH a utilizatorului root ar trebui să conțină „/"
+"usr/local/sbin”, „/usr/sbin” și „/sbin”"
 
 #: src/main/main.c
 #, c-format
 msgid "Debian '%s' package management program version %s.\n"
-msgstr "Debian „%s”, programul de administrare a pachetelor versiunea %s.\n"
+msgstr "Programul „%s” de administrare a pachetelor Debian versiunea %s.\n"
 
 #: src/main/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -i|--install       <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --unpack           <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --configure        <package> ... | -a|--pending\n"
-#| "  --triggers-only    <package> ... | -a|--pending\n"
-#| "  -r|--remove        <package> ... | -a|--pending\n"
-#| "  -P|--purge         <package> ... | -a|--pending\n"
-#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
-#| "  --set-selections                 Set package selections from stdin.\n"
-#| "  --clear-selections               Deselect every non-essential package.\n"
-#| "  --update-avail <Packages-file>   Replace available packages info.\n"
-#| "  --merge-avail <Packages-file>    Merge with info from file.\n"
-#| "  --clear-avail                    Erase existing available info.\n"
-#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-#| "  -s|--status <package> ...        Display package status details.\n"
-#| "  -p|--print-avail <package> ...   Display available version details.\n"
-#| "  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
-#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
-#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-#| "  -C|--audit                       Check for broken package(s).\n"
-#| "  --print-architecture             Print dpkg architecture.\n"
-#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
-#| "  --force-help                     Show help on forcing.\n"
-#| "  -Dh|--debug=help                 Show help on debugging.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
@@ -5793,33 +5630,49 @@ msgstr ""
 "  --triggers-only   <pachet> ...    | -a|--pending\n"
 "  -r|--remove       <pachet> ...    | -a|--pending\n"
 "  -P|--purge        <pachet> ...    | -a|--pending\n"
+"  -V|--verify [<pachet>...]         Verifică integritatea pachetelor.\n"
 "  --get-selections [<șablon> ...]   Afișează lista selecțiilor la ieșirea\n"
 "                                    standard.\n"
-"  --set-selections                  Activează selecțiile pachetelor de la\n"
+"  --set-selections                  Definește selecțiile de pachete de la\n"
 "                                    intrarea standard.\n"
 "  --clear-selections                Deselectează orice pachet neesențial.\n"
 "  --update-avail <fișier-Packages>  Înlocuiește informațiile pachetelor\n"
 "                                    disponibile.\n"
 "  --merge-avail <fișier-Packages>   Fuzionează cu informațiile din fișier.\n"
-"  --clear-avail                     Șterge informațiile disponibile\n"
-"                                    existente.\n"
-"  --forget-old-unavail              Uită de pachetele neinstalate și\n"
-"                                    indisponibile\n"
+"  --clear-avail                     Șterge informațiile disponibile "
+"existente.\n"
+"  --forget-old-unavail              Uită de pachetele neinstalate și care "
+"nu\n"
+"                                    sunt disponibile\n"
 "  -s|--status <pachet> ...          Afișează detalii despre starea "
 "pachetului\n"
 "  -p|--print-avail <pachet> ...     Afișează detalii despre versiunile \n"
 "                                    disponibile\n"
-"  -L|--listfiles <pachet> ...       Afișează fișierele aparținând\n"
-"                                    pachetului(pachetelor)\n"
-"  -l|--list [<șablon> ...]          Afișează concis pachetele\n"
+"  -L|--listfiles <pachet> ...       Listează fișierele aparținând "
+"pachetului/\n"
+"                                    pachetelor\n"
+"  -l|--list [<șablon> ...]          Listează concis pachetele\n"
 "  -S|--search <șablon> ...          Caută pachetul(pachetele) care conțin\n"
 "                                    fișierul(fișierele)\n"
-"  -C|--audit                        Verifică dacă există pachet(pachete)\n"
-"                                    deteriorate\n"
+"  -C|--audit                        Verifică dacă există pachete "
+"deteriorate\n"
+"  --yet-to-unpack                   Afișează pachetele selectate pentru "
+"instalare\n"
+"  --predep-package                  Afișează pre-dependențele de "
+"despachetat.\n"
+"  --add-architecture <arch>         Adaugă <arch> la lista de arhitecturi.\n"
+"  --remove-architecture <arch>      Elimină <arch> de la lista de "
+"arhitecturi.\n"
 "  --print-architecture              Afișează arhitectura dpkg\n"
-"  --compare-versions <a> <op> <b>   Compară numerele de versiune - vezi jos\n"
-"  --force-help                      Ajutor pentru forțare.\n"
-"  -Dh|--debug=help                  Ajutor pentru depanare\n"
+"  --print-foreign-architectures     Afișează arhitecturile străine permise.\n"
+"  --assert-help                     Afișează ajutor pentru aserțiuni.\n"
+"  --assert-<caracteristică>         Confirmă suportul pentru caracteristica\n"
+"                                    specificată.\n"
+"  --validate-<lucru> <șir>          Validează un <șir> de <lucruri>.\n"
+"  --compare-versions <a> <op> <b>   Compară numerele de versiune - vedeți "
+"mai jos\n"
+"  --force-help                      Afișează ajutorul pentru forțare.\n"
+"  -Dh|--debug=help                  Afișează ajutorul pentru depanare\n"
 "\n"
 
 #: src/main/main.c
@@ -5828,14 +5681,11 @@ msgid ""
 "Validatable things: pkgname, archname, trigname, version.\n"
 "\n"
 msgstr ""
+"Lucruri validabile: „pkgname”, „archname”, „trigname”, „version”.\n"
+"\n"
 
 #: src/main/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
-#| " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --"
-#| "help).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Use dpkg with -b, --build, -c, --contents, -e, --control, -I, --info,\n"
 "  -f, --field, -x, --extract, -X, --vextract, --ctrl-tarfile, --fsys-"
@@ -5843,49 +5693,14 @@ msgid ""
 "on archives (type %s --help).\n"
 "\n"
 msgstr ""
-"Folosiți dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
-" -x|--extract|-X|--vextract|--fsys-tarfile asupra arhivelor (tastați %s --"
-"help.)\n"
+"Folosiți dpkg cu -b, --build, -c, --contents, -e, --control, -I, --info,\n"
+"  -f, --field, -x, --extract, -X, --vextract, --ctrl-tarfile, --fsys-"
+"tarfile\n"
+"asupra arhivelor (tastați «%s --help»).\n"
 "\n"
 
 #: src/main/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir=<directory>     Use <directory> instead of %s.\n"
-#| "  --root=<directory>         Install on a different root directory.\n"
-#| "  --instdir=<directory>      Change installation dir without changing "
-#| "admin dir.\n"
-#| "  --path-exclude=<pattern>   Do not install paths which match a shell "
-#| "pattern.\n"
-#| "  --path-include=<pattern>   Re-include a pattern after a previous "
-#| "exclusion.\n"
-#| "  -O|--selected-only         Skip packages not selected for install/"
-#| "upgrade.\n"
-#| "  -E|--skip-same-version     Skip packages whose same version is "
-#| "installed.\n"
-#| "  -G|--refuse-downgrade      Skip packages with earlier version than "
-#| "installed.\n"
-#| "  -B|--auto-deconfigure      Install even if it would break some other "
-#| "package.\n"
-#| "  --[no-]triggers            Skip or force consequential trigger "
-#| "processing.\n"
-#| "  --no-debsig                Do not try to verify package signatures.\n"
-#| "  --no-act|--dry-run|--simulate\n"
-#| "                             Just say what we would do - don't do it.\n"
-#| "  -D|--debug=<octal>         Enable debugging (see -Dhelp or --"
-#| "debug=help).\n"
-#| "  --status-fd <n>            Send status change updates to file "
-#| "descriptor <n>.\n"
-#| "  --log=<filename>           Log status changes and actions to "
-#| "<filename>.\n"
-#| "  --ignore-depends=<package>,...\n"
-#| "                             Ignore dependencies involving <package>.\n"
-#| "  --force-...                Override problems (see --force-help).\n"
-#| "  --no-force-...|--refuse-...\n"
-#| "                             Stop when problems encountered.\n"
-#| "  --abort-after <n>          Abort after encountering <n> errors.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -5930,39 +5745,53 @@ msgid ""
 msgstr ""
 "Opțiuni:\n"
 "  --admindir=<director>      Folosește <director> în loc de %s.\n"
-"  --root=<director>          Instalează pornind de la o altă rădăcină.\n"
+"  --root=<director>          Instalează pe un alt director rădăcină.\n"
 "  --instdir=<director>       Schimbă directorul de instalare fără "
 "schimbarea\n"
-"                             directorului admin.\n"
-"  --path-exclude=<model>     Nu instala căile care corespund cu modelul\n"
-"                             shell\n"
+"                             directorului de administrare.\n"
+"  --pre-invoke=<comandă>     Stabilește un cârlig de pre-invocare.\n"
+"  --post-invoke=<comandă>    Stabilește un cârlig de post-invocare.\n"
+"  --path-exclude=<model>     Nu instalează rutele care corespund cu modelul "
+"shell\n"
 "  --path-include=<model>     Re-include un model după o excludere "
 "anterioară\n"
-"  -O|--selected-only         Sari peste pachetele neselectate pentru\n"
+"  -O|--selected-only         Sare peste pachetele neselectate pentru\n"
 "                             instalare/actualizare.\n"
-"  -E|--skip-same-version     Sari peste pachetele cu aceiași versiune "
-"instalată.\n"
-"  -G|--refuse-downgrade      Sari peste pachetele cu versiune anterioară\n"
+"  -E|--skip-same-version     Sare peste pachetele cu aceiași versiune/"
+"arhitectură\n"
+"                             instalată.\n"
+"  -G|--refuse-downgrade      Sare peste pachetele cu versiune anterioară\n"
 "                             celor instalate.\n"
 "  -B|--auto-deconfigure      Instalează chiar dacă s-ar strica alte "
 "pachete.\n"
-"  --[no-]triggers            Sare peste, sau forțează, procesarea\n"
-"                             consecutivă a declanșatorilor.\n"
-"  --no-debsig                Nu încerca verificarea semnăturii pachetelor.\n"
+"  --[no-]triggers            Sare peste, sau forțează, procesarea "
+"consecutivă a\n"
+"                             declanșatorilor.\n"
+"  --verify-format=<format>   Verifică formatul de ieșire (acceptat: „rpm”).\n"
+"  --no-pager                 Dezactivează utilizarea oricărui paginator.\n"
+"  --no-debsig                Nu încearcă verificarea semnăturii pachetelor.\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             Doar spune ce s-ar face - fără a face\n"
-"  -D|--debug=<octal>         Activează depanarea - vezi -Dhelp sau\n"
-"                             --debug=help\n"
-"  --status-fd <n>            Trimite actualizări despre schimbarea\n"
-"                             stării la descriptorul de fișier <n>\n"
-"  --log=<nume fișier>        Scrie schimbările de stare și acțiunile\n"
-"                             în jurnal, fișierul <nume fișier>\n"
+"  -D|--debug=<octal>         Activează depanarea - vedeți „-Dhelp” sau\n"
+"                             „--debug=help”\n"
+"  --status-fd <n>            Trimite actualizări despre schimbarea stării "
+"la\n"
+"                             descriptorul de fișier <n>\n"
+"  --status-logger=<comanda>  Trimite actualizări ale modificărilor de stare "
+"la\n"
+"                             intrarea standard a <comenzii>.\n"
+"  --log=<nume fișier>        Scrie schimbările de stare și acțiunile în "
+"jurnalul\n"
+"                             <nume fișier>\n"
 "  --ignore-depends=<pachet>,...\n"
 "                             Ignoră dependențele care implică <pachet>\n"
-"  --force-...                Treci peste probleme (vedeți --force-help).\n"
-"  --no-force-...|--refuse-...\n"
-"                             Oprește-te la apariția unei probleme\n"
+"  --force-<lucru>[,...]      Trece peste probleme (vedeți „--force-help”).\n"
+"  --no-force-<lucru>[,...]   Se oprește la apariția unei probleme\n"
+"  --refuse-<lucru>[,...]     Idem\n"
 "  --abort-after <n>          Abandonează după apariția a <n> erori\n"
+"  --robot                    Utilizează o ieșire care poate fi citită "
+"automat în\n"
+"                             unele comenzi.\n"
 "\n"
 
 #: src/main/main.c
@@ -5976,7 +5805,7 @@ msgid ""
 "syntax).\n"
 "\n"
 msgstr ""
-"Operatorii de comparare pentru --compare-versions sunt:\n"
+"Operatorii de comparare pentru „--compare-versions” sunt:\n"
 "  lt le eq ne ge gt       (lipsa versiunii înseamnă versiune anterioară "
 "oricărei versiuni);\n"
 "  lt-nl le-nl ge-nl gt-nl (lipsa versiunii înseamnă versiune posterioară "
@@ -5986,24 +5815,13 @@ msgstr ""
 "\n"
 
 #: src/main/main.c
-#, fuzzy, c-format
-#| msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
+#, c-format
 msgid "Use 'apt' or 'aptitude' for user-friendly package management.\n"
 msgstr ""
-"Pentru o interfață mai prietenoasă folosiți „dselect” sau „aptitude”.\n"
+"Utilizați «apt» sau «aptitude» pentru o gestionare a pachetelor mai "
+"prietenoasă.\n"
 
 #: src/main/main.c
-#, fuzzy
-#| msgid ""
-#| "Type dpkg --help for help about installing and deinstalling packages "
-#| "[*];\n"
-#| "Use `dselect' or `aptitude' for user-friendly package management;\n"
-#| "Type dpkg -Dhelp for a list of dpkg debug flag values;\n"
-#| "Type dpkg --force-help for a list of forcing options;\n"
-#| "Type dpkg-deb --help for help about manipulating *.deb files;\n"
-#| "\n"
-#| "Options marked [*] produce a lot of output - pipe it through `less' or "
-#| "`more' !"
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use 'apt' or 'aptitude' for user-friendly package management;\n"
@@ -6014,73 +5832,70 @@ msgid ""
 "Options marked [*] produce a lot of output - pipe it through 'less' or "
 "'more' !"
 msgstr ""
-"Tastați dpkg --help pentru ajutor privind instalarea și dezinstalarea "
+"Tastați «dpkg --help» pentru ajutor privind instalarea și dezinstalarea "
 "pachetelor [*];\n"
-"Folosiți „dselect” sau „aptitude” pentru o administrare prietenoasă a "
+"Folosiți «apt» sau «aptitude» pentru o administrare prietenoasă a "
 "pachetelor;\n"
-"Tastați dpkg -Dhelp pentru o listă a valorilor fanioanelor de depanare ale "
-"lui dpkg;\n"
-"Tastați dpkg --force-help pentru o listă a opțiunilor de forțare;\n"
-"Tastați dpkg-deb --help pentru ajutor privind manipularea fișierelor *.deb;\n"
+"Tastați «dpkg -Dhelp» pentru o listă a valorilor fanioanelor de depanare ale "
+"lui «dpkg»;\n"
+"Tastați «dpkg --force-help» pentru o listă a opțiunilor de forțare;\n"
+"Tastați «dpkg-deb --help» pentru ajutor privind manipularea fișierelor *."
+"deb;\n"
 "\n"
-"Opțiunile marcate cu [*] produc foarte mult text - redirectați prin „less” "
-"sau „more” !"
+"Opțiunile marcate cu [*] produc foarte mult text - redirectați prin «less» "
+"sau «more» !"
 
 #: src/main/main.c
 msgid "Generally helpful progress information"
-msgstr ""
+msgstr "Informații de progres în general utile"
 
 #: src/main/main.c
-#, fuzzy
-#| msgid "unable to setenv for maintainer script"
 msgid "Invocation and status of maintainer scripts"
-msgstr "setenv imposibil pentru scriptul maintainer"
+msgstr "Invocarea și starea scripturilor responsabilului de pachet"
 
 #: src/main/main.c
 msgid "Output for each file processed"
-msgstr ""
+msgstr "Ieșirea pentru fiecare fișier procesat"
 
 #: src/main/main.c
 msgid "Lots of output for each file processed"
-msgstr ""
+msgstr "O mulțime de date de ieșire pentru fiecare fișier procesat"
 
 #: src/main/main.c
-#, fuzzy
-#| msgid "read error in configuration file `%.255s'"
 msgid "Output for each configuration file"
-msgstr "eroare de citire în fișierul de configurare „%.255s”"
+msgstr "Ieșirea pentru fiecare fișier de configurare"
 
 #: src/main/main.c
 msgid "Lots of output for each configuration file"
-msgstr ""
+msgstr "O mulțime de date de ieșire pentru fiecare fișier de configurare"
 
 #: src/main/main.c
 msgid "Dependencies and conflicts"
-msgstr ""
+msgstr "Dependențe și conflicte"
 
 #: src/main/main.c
 msgid "Lots of dependencies/conflicts output"
-msgstr ""
+msgstr "O mulțime de date de ieșire pentru dependențe și conflicte"
 
 #: src/main/main.c
 msgid "Trigger activation and processing"
-msgstr ""
+msgstr "Activarea și procesarea declanșatorilor"
 
 #: src/main/main.c
 msgid "Lots of output regarding triggers"
-msgstr ""
+msgstr "O mulțime de date de ieșire privind declanșatorii"
 
 #: src/main/main.c
 msgid "Silly amounts of output regarding triggers"
-msgstr ""
+msgstr "Cantități absurde de ieșire în ceea ce privește declanșatorii"
 
 #: src/main/main.c
 msgid "Lots of drivel about eg the dpkg/info directory"
-msgstr ""
+msgstr "O mulțime de fleacuri despre, de exemplu, directorul dpkg/info"
 
 #: src/main/main.c
 msgid "Insane amounts of drivel"
-msgstr ""
+msgstr "Cantități nebănuite de informații absurde"
 
 #: src/main/main.c
 #, c-format
@@ -6089,6 +5904,9 @@ msgid ""
 "\n"
 " Number  Ref. in source   Description\n"
 msgstr ""
+"Opțiunea de depanare %s, „--debug=<octal>” sau „-D<octal>”:\n"
+"\n"
+" Număr  Ref. în sursă   Descriere\n"
 
 #: src/main/main.c
 #, c-format
@@ -6097,26 +5915,27 @@ msgid ""
 "Debugging options can be mixed using bitwise-or.\n"
 "Note that the meanings and values are subject to change.\n"
 msgstr ""
+"\n"
+"Opțiunile de depanare pot fi amestecate folosind un „or” între ele.\n"
+"Rețineți că semnificațiile și valorile pot fi modificate.\n"
 
 #: src/main/main.c
-#, fuzzy, c-format
-#| msgid "--debug requires an octal argument"
+#, c-format
 msgid "--%s requires a positive octal argument"
-msgstr "--debug necesită un argument octal"
+msgstr "„--%s” necesită un argument octal pozitiv"
 
 #: src/main/main.c
-#, fuzzy, c-format
-#| msgid "unknown option '%s'"
+#, c-format
 msgid "unknown verify output format '%s'"
-msgstr "opțiune necunoscută „%s”"
+msgstr ""
+"opțiunea pentru formatul de ieșire de verificare „%s” nu este cunoscută"
 
 #: src/main/main.c
-#, fuzzy, c-format
-#| msgid "null package name in --ignore-depends comma-separated list `%.250s'"
+#, c-format
 msgid "null package name in --%s comma-separated list '%.250s'"
 msgstr ""
-"lipsește numele de pachet în lista separată prin virgule „%.250s” de la --"
-"ignore-depends"
+"lipsește numele de pachet în lista separată prin virgule „%.250s” de la "
+"opțiunea „--%s”"
 
 #: src/main/main.c
 #, c-format
@@ -6124,35 +5943,34 @@ msgid "error executing hook '%s', exit code %d"
 msgstr "eroare la executarea cârligului „%s”, cod de ieșire %d"
 
 #: src/main/main.c
-#, fuzzy
-#| msgid "status"
 msgid "status logger"
-msgstr "stare"
+msgstr "jurnalul de stare"
 
 #: src/main/main.c
 #, c-format
 msgid "architecture '%s' is illegal: %s"
-msgstr ""
+msgstr "arhitectura „%s” este ilegală: %s"
 
 #: src/main/main.c
 #, c-format
 msgid "architecture '%s' is reserved and cannot be added"
-msgstr ""
+msgstr "arhitectura „%s” este rezervată și nu poate fi adăugată"
 
 #: src/main/main.c
 #, c-format
 msgid "cannot remove non-foreign architecture '%s'"
-msgstr ""
+msgstr "nu se poate elimina arhitectura non-străină „%s”"
 
 #: src/main/main.c
 #, c-format
 msgid "removing architecture '%s' currently in use by database"
-msgstr ""
+msgstr "se elimină arhitectura „%s” folosită în prezent de baza de date"
 
 #: src/main/main.c
 #, c-format
 msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr ""
+"nu se poate elimina arhitectura „%s” folosită în prezent de baza de date"
 
 #: src/main/main.c
 #, c-format
@@ -6160,20 +5978,17 @@ msgid "couldn't open '%i' for stream"
 msgstr "nu s-a putut deschide „%i” pentru fluxul de date"
 
 #: src/main/main.c
-#, fuzzy, c-format
-#| msgid "unexpected eof before end of line %d"
+#, c-format
 msgid "unexpected end of file before end of line %d"
-msgstr "eof neașteptat înainte de terminarea liniei %d"
+msgstr "sfârșit de fișier neașteptat înainte de terminarea liniei %d"
 
 #: src/main/main.c
 msgid "cannot set primary group ID to root"
-msgstr ""
+msgstr "nu se poate stabili ID-ul grupului primar la root"
 
 #: src/main/main.c src/main/script.c
-#, fuzzy
-#| msgid "unable to setenv for maintainer script"
 msgid "unable to setenv for subprocesses"
-msgstr "setenv imposibil pentru scriptul maintainer"
+msgstr "nu se poate efectua setenv() pentru subprocese"
 
 #: src/main/packages.c
 msgid ""
@@ -6186,13 +6001,13 @@ msgstr ""
 #: src/main/packages.c
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
-msgstr "--%s --pending nu ia argumente care nu sunt opțiuni"
+msgstr "„--%s --pending” nu ia argumente care nu sunt opțiuni"
 
 #: src/main/packages.c
-#, fuzzy, c-format
-#| msgid "--%s needs at least one package name argument"
+#, c-format
 msgid "--%s (without --pending) needs at least one package name argument"
-msgstr "--%s necesită cel puțin un nume de pachet ca argument"
+msgstr ""
+"„--%s” (fără „--pending”) necesită cel puțin un nume de pachet ca argument"
 
 #: src/main/packages.c
 #, c-format
@@ -6221,18 +6036,17 @@ msgstr ""
 #: src/main/packages.c
 #, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
-msgstr "  Pachetul %s care furnizează %s va fi șters.\n"
+msgstr "  Pachetul %s care furnizează %s va fi eliminat.\n"
 
 #: src/main/packages.c
 #, c-format
 msgid "  Package %s is to be removed.\n"
-msgstr "  Pachetul %s va fi șters.\n"
+msgstr "  Pachetul %s va fi eliminat.\n"
 
 #: src/main/packages.c
-#, fuzzy, c-format
-#| msgid "  Version of %s on system is %s.\n"
+#, c-format
 msgid "  Version of %s on system, provided by %s, is %s.\n"
-msgstr "  Versiunea lui %s în sistem este %s.\n"
+msgstr "  Versiunea lui %s în sistem, furnizată de %s, este %s.\n"
 
 #: src/main/packages.c
 #, c-format
@@ -6251,10 +6065,9 @@ msgid "  Package %s awaits trigger processing.\n"
 msgstr "  Pachetul %s așteaptă procesarea declanșatorilor.\n"
 
 #: src/main/packages.c
-#, fuzzy, c-format
-#| msgid "dpkg: also configuring `%s' (required by `%s')\n"
+#, c-format
 msgid "also configuring '%s' (required by '%s')"
-msgstr "dpkg: se configurează și „%s” (cerut de „%s”)\n"
+msgstr "se configurează și „%s” (cerut de „%s”)"
 
 #: src/main/packages.c
 #, c-format
@@ -6279,7 +6092,7 @@ msgstr "  Pachetul %s nu este instalat.\n"
 #: src/main/packages.c
 #, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
-msgstr "  %s (%s) îl corupe pe %s și este %s.\n"
+msgstr "  %s (%s) corupe %s și este %s.\n"
 
 #: src/main/packages.c
 #, c-format
@@ -6295,51 +6108,46 @@ msgstr "  Versiunea lui %s care va fi configurată este %s.\n"
 msgid " depends on "
 msgstr " depinde de "
 
+# R-GC, scrie:
+# de moment las nemodificată traducerea
+# acestui mesaj; cred c-ar fi mai adecvată
+# traducerea ca:
+# „totuși, însă, cu toate aceste”; în această
+# ordine.
 #: src/main/packages.c
 msgid "; however:\n"
 msgstr "; dar:\n"
 
 #: src/main/remove.c
-#, fuzzy, c-format
-#| msgid "ignoring request to remove %.250s which isn't installed."
+#, c-format
 msgid "ignoring request to remove %.250s which isn't installed"
-msgstr "se ignoră cererea de ștergere a lui %.250s care nu este instalat."
+msgstr "se ignoră cererea de eliminare a lui %.250s care nu este instalat"
 
 #: src/main/remove.c
-#, fuzzy, c-format
-#| msgid ""
-#| "ignoring request to remove %.250s, only the config\n"
-#| " files of which are on the system. Use --purge to remove them too."
+#, c-format
 msgid ""
 "ignoring request to remove %.250s, only the config\n"
 " files of which are on the system; use --purge to remove them too"
 msgstr ""
-"se ignoră cererea de îndepărtare a lui %.250s, din care doar\n"
-" fișierele de configurare sunt pe sistem. Folosiți --purge pentru a le "
+"se ignoră cererea de eliminare a lui %.250s, din care doar\n"
+" fișierele de configurare sunt pe sistem. Folosiți „--purge” pentru a le "
 "elimina."
 
 #: src/main/remove.c
-#, fuzzy
-#| msgid "This is an essential package - it should not be removed."
 msgid "this is an essential package; it should not be removed"
-msgstr "Acest pachet este esențial - nu ar trebui șters."
+msgstr "acesta este un pachet esențial; nu ar trebui să fie eliminat"
 
 #: src/main/remove.c
-#, fuzzy
-#| msgid "This is an essential package - it should not be removed."
 msgid "this is a protected package; it should not be removed"
-msgstr "Acest pachet este esențial - nu ar trebui șters."
+msgstr "acesta este un pachet protejat; nu ar trebui să fie eliminat"
 
 #: src/main/remove.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: dependency problems prevent removal of %s:\n"
-#| "%s"
+#, c-format
 msgid ""
 "dependency problems prevent removal of %s:\n"
 "%s"
 msgstr ""
-"dpkg: problemele de dependență preîntâmpină ștergerea lui %s:\n"
+"probleme de dependențe împiedică eliminarea lui %s:\n"
 "%s"
 
 #: src/main/remove.c
@@ -6347,40 +6155,31 @@ msgid "dependency problems - not removing"
 msgstr "probleme de dependență - nu se elimină"
 
 #: src/main/remove.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
-#| "%s"
+#, c-format
 msgid ""
 "%s: dependency problems, but removing anyway as you requested:\n"
 "%s"
 msgstr ""
-"dpkg: %s: probleme de dependență, dar se elimină oricum, așa cum ați cerut:\n"
+"%s: probleme de dependență, dar se elimină oricum, așa cum ați cerut:\n"
 "%s"
 
 #: src/main/remove.c
-#, fuzzy
-#| msgid ""
-#| "Package is in a very bad inconsistent state - you should\n"
-#| " reinstall it before attempting a removal."
 msgid ""
 "package is in a very bad inconsistent state; you should\n"
 " reinstall it before attempting a removal"
 msgstr ""
-"Pachetul este într-o stare inconsistentă avansată - ar trebui să-l\n"
-" reinstalați înainte de a încerca să-l ștergeți."
+"pachetul este într-o stare inconsistentă avansată - ar trebui să-l\n"
+" reinstalați înainte de a încerca să-l eliminați."
 
 #: src/main/remove.c
-#, fuzzy, c-format
-#| msgid "Would remove or purge %s ...\n"
+#, c-format
 msgid "Would remove or purge %s (%s) ...\n"
-msgstr "S-ar îndepărta sau curăța %s ...\n"
+msgstr "Ar elimina sau curăța %s (%s) ..:\n"
 
 #: src/main/remove.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
+#, c-format
 msgid "Removing %s (%s) ...\n"
-msgstr "Se șterge %s ...\n"
+msgstr "Se elimină %s (%s) ...\n"
 
 #: src/main/remove.c src/main/unpack.c
 #, c-format
@@ -6393,36 +6192,34 @@ msgid ""
 "while removing %.250s, unable to remove directory '%.250s': %s - directory "
 "may be a mount point?"
 msgstr ""
-"în timpul ștergerii %.250s, nu s-a putut șterge directorul „%.250s”: %s - "
-"poate directorul este un punct de montare?"
+"la eliminarea lui %.250s, nu s-a putut șterge directorul '%.250s': %s - este "
+"posibil ca directorul să fie un punct de montare?"
 
 #: src/main/remove.c
 #, c-format
 msgid "unable to securely remove '%.250s'"
-msgstr "nu se poate șterge în siguranță „%.250s”"
+msgstr "nu se poate elimina în siguranță „%.250s”"
 
 #: src/main/remove.c
-#, fuzzy, c-format
-#| msgid "while removing %.250s, directory '%.250s' not empty so not removed."
+#, c-format
 msgid "while removing %.250s, directory '%.250s' not empty so not removed"
 msgstr ""
-"la ștergerea lui %.250s, directorul „%.250s” nu este gol, deci nu a fost "
-"șters."
+"la eliminarea lui %.250s, directorul „%.250s” nu este gol, deci nu a fost "
+"șters"
 
 #: src/main/remove.c
-#, fuzzy, c-format
-#| msgid "Purging configuration files for %s ...\n"
+#, c-format
 msgid "Purging configuration files for %s (%s) ...\n"
-msgstr "Curăț fișierele de configurare pentru %s ...\n"
+msgstr "Se curăță fișierele de configurare pentru %s (%s) ...\n"
 
 #: src/main/remove.c
 #, c-format
 msgid "cannot remove old config file '%.250s' (= '%.250s')"
-msgstr "nu se poate șterge vechiul fișier de configurare „%.250s” (= „%.250s”)"
+msgstr ""
+"nu se poate elimina vechiul fișier de configurare „%.250s” (= „%.250s”)"
 
 #: src/main/remove.c
-#, fuzzy, c-format
-#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
+#, c-format
 msgid "cannot read config file directory '%.250s' (from '%.250s')"
 msgstr ""
 "nu se poate citi directorul fișierului de configurare „%.250s” (din „%.250s”)"
@@ -6431,96 +6228,92 @@ msgstr ""
 #, c-format
 msgid "cannot remove old backup config file '%.250s' (of '%.250s')"
 msgstr ""
-"nu se poate îndepărta copia de siguranță a vechiului fișier de configurare "
+"nu se poate elimina copia de rezervăă a vechiului fișier de configurare "
 "„%.250s” (a lui „%.250s”)"
 
 #: src/main/remove.c
 msgid "cannot remove old files list"
-msgstr "nu se poate șterge lista fișierelor vechi"
+msgstr "nu se poate elimina lista fișierelor vechi"
 
 #: src/main/remove.c
 msgid "can't remove old postrm script"
-msgstr "nu se poate înlătura vechiul script postrm"
+msgstr "nu se poate elimina vechiul script „postrm”"
 
 #: src/main/script.c
 #, c-format
 msgid "unable to set execute permissions on '%.250s'"
-msgstr "nu se pot seta drepturi de execuție pentru „%.250s”"
+msgstr "nu se pot stabili permisiuni de execuție în „%.250s”"
 
 #: src/main/script.c
 msgid "admindir must be inside instdir for dpkg to work properly"
 msgstr ""
+"directorul de administrare „admindir”, trebuie să fie în interiorul "
+"directorului de instalare „instdir” pentru ca «dpkg» să funcționeze corect"
 
 #: src/main/script.c
 msgid ""
 "not enough privileges to change root directory with --force-not-root, "
 "consider using --force-script-chrootless?"
 msgstr ""
+"nu aveți suficiente privilegii pentru a schimba directorul rădăcină cu „--"
+"force-not-root”, luați în considerare utilizarea „--force-script-chrootless”?"
 
 #: src/main/script.c
 #, c-format
 msgid "failed to chroot to '%.250s'"
-msgstr "eșec la chroot în „%.250s”"
+msgstr "eșec la executarea «chroot» în „%.250s”"
 
 #: src/main/script.c
 msgid "unable to setenv for maintainer script"
-msgstr "setenv imposibil pentru scriptul maintainer"
+msgstr "nu se poate efectua setenv() pentru scriptul responsabilului de pachet"
 
 #: src/main/script.c
-#, fuzzy
-#| msgid "unable to setenv for maintainer script"
 msgid "cannot set security execution context for maintainer script"
-msgstr "setenv imposibil pentru scriptul maintainer"
+msgstr ""
+"nu se poate stabili contextul de execuție de securitate pentru scriptul de "
+"responsabilului de pachet"
 
 #: src/main/script.c
-#, fuzzy, c-format
-#| msgid "installed %s script"
+#, c-format
 msgid "installed %s package %s script"
-msgstr "script %s instalat"
+msgstr "s-a instalat scriptul %s pachetului %s"
 
 #: src/main/script.c
 #, c-format
 msgid "unable to stat %s '%.250s'"
-msgstr "stat imposibil pentru %s „%.250s”"
+msgstr "nu se poate obține starea pentru %s „%.250s”"
 
 #: src/main/script.c
-#, fuzzy, c-format
-#| msgid "new %s script"
+#, c-format
 msgid "new %s package %s script"
-msgstr "script %s nou"
+msgstr "script %s nou al pachetului %s"
 
 #: src/main/script.c
-#, fuzzy, c-format
-#| msgid "old %s script"
+#, c-format
 msgid "old %s package %s script"
-msgstr "script %s vechi"
+msgstr "script %s vechi al pachetului %s"
 
 #: src/main/script.c
 #, c-format
 msgid "unable to stat %s '%.250s': %s"
-msgstr "stat imposibil pentru %s „%.250s”: %s"
+msgstr "nu se poate obține starea pentru %s „%.250s”: %s"
 
 #: src/main/script.c
-#, fuzzy
-#| msgid "dpkg - trying script from the new package instead ...\n"
 msgid "trying script from the new package instead ..."
-msgstr "dpkg - încerc în schimb scriptul din pachetul nou ...\n"
+msgstr "se încearcă scriptul din noul pachet în schimb ..."
 
 #: src/main/script.c
 msgid "there is no script in the new version of the package - giving up"
-msgstr "nu există nici un script versiunea nouă a pachetului - se renunță"
+msgstr "nu există nici un script în noua versiune a pachetului - se renunță"
 
 #: src/main/script.c
-#, fuzzy
-#| msgid "dpkg: ... it looks like that went OK.\n"
 msgid "... it looks like that went OK"
-msgstr "dpkg: ... pare să fi fost bine.\n"
+msgstr "... se pare că totul a mers bine"
 
 #: src/main/select.c
-#, fuzzy, c-format
-#| msgid "unexpected end of line in package name at line %d"
+#, c-format
 msgid "unexpected end of file in package name at line %d"
-msgstr "sfârșit de linie neașteptat în numele pachetului la linia %d"
+msgstr "sfârșit neașteptat de fișier în numele pachetului la linia %d"
 
 #: src/main/select.c
 #, c-format
@@ -6528,10 +6321,9 @@ msgid "unexpected end of line in package name at line %d"
 msgstr "sfârșit de linie neașteptat în numele pachetului la linia %d"
 
 #: src/main/select.c
-#, fuzzy, c-format
-#| msgid "unexpected end of line after package name at line %d"
+#, c-format
 msgid "unexpected end of file after package name at line %d"
-msgstr "sfârșit de linie neașteptat după numele pachetului la linia %d"
+msgstr "sfârșit neașteptat de fișier după numele pachetului la linia %d"
 
 #: src/main/select.c
 #, c-format
@@ -6549,15 +6341,16 @@ msgid "illegal package name at line %d: %.250s"
 msgstr "nume ilegal de pachet la linia %d: %.250s"
 
 #: src/main/select.c
-#, fuzzy, c-format
-#| msgid "illegal package name at line %d: %.250s"
+#, c-format
 msgid "package not in status nor available database at line %d: %.250s"
-msgstr "nume ilegal de pachet la linia %d: %.250s"
+msgstr ""
+"pachetul nu se află în fișierul „status” și nici în baza de date disponibilă "
+"la linia %d: %.250s"
 
 #: src/main/select.c
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
-msgstr "stare cerută necunoscută la lina %d: %.250s"
+msgstr "stare căutată necunoscută la linia %d: %.250s"
 
 #: src/main/select.c
 msgid "read error on standard input"
@@ -6569,19 +6362,18 @@ msgid ""
 "is outdated, and needs to be updated through a frontend method;\n"
 "please see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ#set-selections>"
 msgstr ""
+"s-au găsit pachete necunoscute; acest lucru ar putea însemna că\n"
+"baza de date disponibilă este învechită și trebuie actualizată\n"
+"printr-o metodă de interfață de utilizator cu «dpkg»;\n"
+"consultați FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ#set-selections>"
 
 #: src/main/trigproc.c
-#, fuzzy
-#| msgid ""
-#| "%s: cycle found while processing triggers:\n"
-#| " chain of packages whose triggers are or may be responsible:\n"
 msgid ""
 "cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:"
 msgstr ""
-"%s: a fost găsit un ciclu în timpul procesării declanșatorilor:\n"
-" lanțul de pachete ale căror declanșatori sunt sau ar putea fi "
-"responsabili:\n"
+"a fost găsit un ciclu în timpul procesării declanșatorilor:\n"
+" lanțul de pachete ale căror declanșatori sunt sau ar putea fi responsabili:"
 
 #: src/main/trigproc.c
 #, c-format
@@ -6590,47 +6382,40 @@ msgid ""
 " packages' pending triggers which are or may be unresolvable:\n"
 msgstr ""
 "\n"
-" declanșatori în așteptare ai pachetelor care ar putea fi nerezolvabili:\n"
+" declanșatori în așteptare ai pachetelor care sunt sau pot fi "
+"nerezolvabile:\n"
 
 #: src/main/trigproc.c
 msgid "triggers looping, abandoned"
-msgstr "declanșatorii erau în buclă, se renunță"
+msgstr "declanșatorii au intrat în buclă, se renunță"
 
 #: src/main/trigproc.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: dependency problems prevent configuration of %s:\n"
-#| "%s"
+#, c-format
 msgid ""
 "dependency problems prevent processing triggers for %s:\n"
 "%s"
 msgstr ""
-"dpkg: probleme de dependențe preîntâmpină configurarea lui %s:\n"
+"probleme de dependențe împiedică procesarea declanșatorilor pentru %s:\n"
 "%s"
 
 #: src/main/trigproc.c
-#, fuzzy
-#| msgid "dependency problems - leaving unconfigured"
 msgid "dependency problems - leaving triggers unprocessed"
-msgstr "probleme de dependențe - se lasă neconfigurat"
+msgstr "probleme de dependență - se lasă declanșatorii neprocesați"
 
 #: src/main/trigproc.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
-#| "%s"
+#, c-format
 msgid ""
 "%s: dependency problems, but processing triggers anyway as you requested:\n"
 "%s"
 msgstr ""
-"dpkg: %s: probleme de dependență, dar se elimină oricum, așa cum ați cerut:\n"
+"%s: probleme de dependență, dar se procesează declanșatorii oricum, așa cum "
+"ați cerut:\n"
 "%s"
 
 #: src/main/trigproc.c
-#, fuzzy, c-format
-#| msgid "Processing triggers for %s ...\n"
+#, c-format
 msgid "Processing triggers for %s (%s) ...\n"
-msgstr "Se procesează declanșatorii pentru %s ...\n"
+msgstr "Se procesează declanșatorii pentru %s (%s) ...\n"
 
 #: src/main/unpack.c
 #, c-format
@@ -6644,11 +6429,11 @@ msgstr "eroare la asigurarea că „%.250s” nu există"
 
 #: src/main/unpack.c
 msgid "split package reassembly"
-msgstr ""
+msgstr "reasamblarea pachetului divizat"
 
 #: src/main/unpack.c
 msgid "reassembled package file"
-msgstr "fișier pachet reasamblat"
+msgstr "fișier de pachet reasamblat"
 
 #: src/main/unpack.c
 #, c-format
@@ -6662,24 +6447,19 @@ msgstr "Se autentifică %s ...\n"
 
 #: src/main/unpack.c
 msgid "package signature verification"
-msgstr ""
+msgstr "verificarea semnăturii pachetului"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "Verification on package %s failed!"
+#, c-format
 msgid "verification on package %s failed!"
-msgstr "Verificarea pachetului %s a eșuat!"
+msgstr "verificarea pachetului %s a eșuat!"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Verification on package %s failed,\n"
-#| "but installing anyway as you requested.\n"
+#, c-format
 msgid ""
 "verification on package %s failed; but installing anyway as you requested"
 msgstr ""
-"Verificarea pachetului %s a eșuat,\n"
-"dar va fi instalat oricum, așa cum ați cerut.\n"
+"verificarea pachetului %s a eșuat; dar se instalează oricum așa cum ați cerut"
 
 #: src/main/unpack.c
 #, c-format
@@ -6687,49 +6467,44 @@ msgid "passed\n"
 msgstr "verificat\n"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: regarding %s containing %s, pre-dependency problem:\n"
-#| "%s"
+#, c-format
 msgid ""
 "regarding %s containing %s, pre-dependency problem:\n"
 "%s"
 msgstr ""
-"dpkg: referitor la %s conținând %s, probleme de ante-dependență:\n"
+"cu privire la %s care conține %s, problemă de pre-dependență:\n"
 "%s"
 
 #: src/main/unpack.c
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
-msgstr "problemă de ante-dependență - nu se instalează %.250s"
+msgstr "problemă de pre-dependență - nu se instalează %.250s"
 
 #: src/main/unpack.c
 msgid "ignoring pre-dependency problem!"
-msgstr "se ignoră problema de ante-dependență!"
+msgstr "se ignoră problema de pre-dependență!"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "De-configuring %s, to allow removal of %s ...\n"
+#, c-format
 msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr "Se deconfigurează %s, pentru a fi permite ștergerea lui %s ...\n"
+msgstr ""
+"Se deconfigurează %s (%s), pentru a fi permite eliminarea lui %s (%s) ...\n"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "De-configuring %s, to allow removal of %s ...\n"
+#, c-format
 msgid "De-configuring %s (%s), to allow installation of %s (%s) ...\n"
-msgstr "Se deconfigurează %s, pentru a fi permite ștergerea lui %s ...\n"
+msgstr ""
+"Se deconfigurează %s (%s), pentru a fi permite instalarea lui %s (%s) ...\n"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "De-configuring %s, to allow removal of %s ...\n"
+#, c-format
 msgid "De-configuring %s (%s), to allow configuration of %s (%s) ...\n"
-msgstr "Se deconfigurează %s, pentru a fi permite ștergerea lui %s ...\n"
+msgstr ""
+"Se deconfigurează %s (%s), pentru a permite configurarea lui %s  (%s)...\n"
 
 #: src/main/unpack.c
-#, fuzzy
-#| msgid "statoverride file contains empty line"
 msgid "conffile file contains an empty line"
-msgstr "fișierul statoverride conține linie goală"
+msgstr "fișierul conffile conține o linie goală"
 
 #: src/main/unpack.c utils/update-alternatives.c
 #, c-format
@@ -6745,13 +6520,13 @@ msgstr "eroare la închiderea lui %.250s"
 #, c-format
 msgid "old version of package has overly-long info file name starting '%.250s'"
 msgstr ""
-"versiunea veche a pachetului are nume de fișier info prea lung care începe "
-"cu „%.250s”"
+"versiunea veche a pachetului are un nume de fișier info prea lung care "
+"începe cu „%.250s”"
 
 #: src/main/unpack.c
 #, c-format
 msgid "unable to remove obsolete info file '%.250s'"
-msgstr "nu se poate șterge fișierul info învechit „%.250s”"
+msgstr "nu se poate elimina fișierul info învechit „%.250s”"
 
 #: src/main/unpack.c
 #, c-format
@@ -6760,30 +6535,35 @@ msgstr "nu se poate instala (presupusul) fișier info nou „%.250s”"
 
 #: src/main/unpack.c
 msgid "unable to open temp control directory"
-msgstr "nu se poate deschide directorul temp de control"
+msgstr "nu se poate deschide directorul de control temporal"
 
 #: src/main/unpack.c
 #, c-format
 msgid "package contains overly-long control info file name (starting '%.50s')"
 msgstr ""
-"pachetul conține un fișier info de control cu un nume prea lung (începe cu "
-"„%.50s”)"
+"pachetul conține un fișier info de control cu un nume prea lung (care începe "
+"cu „%.50s”)"
 
 #: src/main/unpack.c
 #, c-format
 msgid "package control info contained directory '%.250s'"
 msgstr "info de control a pachetului conținea directorul „%.250s”"
 
-# Analiza codului arată că traducerea asta este corectă
+# Analiza codului arată că traducerea asta este corectă  -- ante-traducătorii fișierului
+# *****
+# R-GC, scrie:
+# S-au pe-aproape de-a fi corectă;
+# cred că în definitv nici autorul mesajului,
+# nu știe ce ... vrea să însemne asta!!!
 #: src/main/unpack.c
 #, c-format
 msgid "package control info rmdir of '%.250s' didn't say not a dir"
-msgstr "rmdir pentru „%.250s” nu a semnalat că nu este director"
+msgstr "«rmdir» pentru „%.250s” nu a semnalat că nu este director"
 
 #: src/main/unpack.c
 #, c-format
 msgid "package %s contained list as info file"
-msgstr "pachetul %s a conținut listă ca și fișier info"
+msgstr "pachetul %s conține „list” ca fișier de informații"
 
 #: src/main/unpack.c
 #, c-format
@@ -6791,32 +6571,30 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "nu se poate instala noul fișier info „%.250s” ca „%.250s”"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
+#, c-format
 msgid "Removing obsolete conffile %s ...\n"
-msgstr "Se șterge %s ...\n"
+msgstr "Se elimină fișierul conffile învechit %s ...\n"
 
 #: src/main/unpack.c
 #, c-format
 msgid "Obsolete conffile '%s' has been modified by you.\n"
-msgstr ""
+msgstr "Fișierul conffile învechit „%s” a fost modificat de dvs.\n"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "Removing %s ...\n"
+#, c-format
 msgid "Saving as %s ...\n"
-msgstr "Se șterge %s ...\n"
+msgstr "Se salvează ca %s ...\n"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "cannot rename '%s' to '%s'"
+#, c-format
 msgid "%s: cannot rename obsolete conffile '%s' to '%s': %s"
-msgstr "nu se poate redenumi „%s” în „%s”"
+msgstr "%s: nu se poate redenumi fișierul conffile învechit „%s” în „%s”: %s"
 
 #: src/main/unpack.c
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
-msgstr "nu s-a putut accesa fișierul vechi „%.250s” așa că nu se șterge: %s"
+msgstr ""
+"nu s-a putut obține starea fișierului vechi „%.250s” așa că nu se șterge: %s"
 
 #: src/main/unpack.c
 #, c-format
@@ -6832,7 +6610,7 @@ msgstr ""
 #: src/main/unpack.c
 #, c-format
 msgid "unable to stat other new file '%.250s'"
-msgstr "stat imposibil pentru alt fișier nou „%.250s”"
+msgstr "nu se poate efectua stat() pentru un alt fișier nou „%.250s”"
 
 #: src/main/unpack.c
 #, c-format
@@ -6846,7 +6624,7 @@ msgstr ""
 #: src/main/unpack.c
 #, c-format
 msgid "unable to securely remove old file '%.250s': %s"
-msgstr "nu se poate șterge în siguranță fișierul vechi „%.250s”: „%s”"
+msgstr "nu se poate elimina în siguranță fișierul vechi „%.250s”: %s"
 
 #: src/main/unpack.c
 #, c-format
@@ -6854,10 +6632,8 @@ msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Se notează dispariția lui %s, care a fost înlocuit complet.)\n"
 
 #: src/main/unpack.c
-#, fuzzy
-#| msgid "control information length"
 msgid "package control information extraction"
-msgstr "lungimea informației de control"
+msgstr "extragerea informațiilor de control al pachetului"
 
 #: src/main/unpack.c
 #, c-format
@@ -6867,85 +6643,73 @@ msgstr "Informații înregistrate despre %s de la %s.\n"
 #: src/main/unpack.c
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
-msgstr "arhitectura pachetului (%s) nu se potrivește cu sistemul (%s)"
+msgstr "arhitectura pachetului (%s) nu se potrivește cu cea asistemului (%s)"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "Preparing to replace %s %s (using %s) ...\n"
+#, c-format
 msgid "Preparing to unpack %s ...\n"
-msgstr "Se pregătește înlocuirea lui %s %s (folosind %s) ...\n"
+msgstr "Se pregătește pentru despachetare %s ...\n"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "Unpacking %s (from %s) ...\n"
+#, c-format
 msgid "Unpacking %s (%s) ...\n"
-msgstr "Se despachetează %s (din %s) ...\n"
+msgstr "Se despachetează %s (%s) ...\n"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "Unpacking %s (from %s) ...\n"
+#, c-format
 msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr "Se despachetează %s (din %s) ...\n"
+msgstr "Se despachetează %s (%s) peste (%s) ...\n"
 
 #: src/main/unpack.c
-#, fuzzy
-#| msgid "dpkg-deb field extraction"
 msgid "package filesystem archive extraction"
-msgstr "extragerea câmpului de către dpkg-deb"
+msgstr "extragerea arhivei sistemului de fișiere din pachet"
 
 #: src/main/unpack.c
-#, fuzzy
-#| msgid "corrupted filesystem tarfile - corrupted package archive"
 msgid "corrupted filesystem tarfile in package archive"
-msgstr ""
-"sistemul de fișiere al fișierului tar este corupt - arhiva pachetului este "
-"coruptă"
+msgstr "fișier tar de sistem de fișiere corupt în arhiva de pachete"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "dpkg-deb: zap possible trailing zeros"
+#, c-format
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr "dpkg-deb: ștergere a posibilelor zerouri de la sfârșit"
+msgstr "nu se pot elimina eventualele zerouri de final din dpkg-deb: %s"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "De-configuring %s, to allow removal of %s ...\n"
+#, c-format
 msgid "Removing %s (%s), to allow configuration of %s (%s) ...\n"
-msgstr "Se deconfigurează %s, pentru a fi permite ștergerea lui %s ...\n"
+msgstr "Se elimină %s (%s), pentru a permite configurarea lui %s (%s) ...\n"
 
 #: src/main/update.c
-#, fuzzy, c-format
-#| msgid "--%s needs exactly one Packages file argument"
+#, c-format
 msgid "--%s takes at most one Packages-file argument"
-msgstr "--%s necesită exact un fișier Packages ca argument"
+msgstr "„--%s” ia cel mult un fișier „Packages” ca argument"
 
 #: src/main/update.c
-#, fuzzy, c-format
-#| msgid "unable to access dpkg status area for bulk available update"
+#, c-format
 msgid "unable to access dpkg database directory '%s' for bulk available update"
 msgstr ""
-"nu se poate accesa zona de stare a lui dpkg pentru actualizarea bulk "
-"available"
+"nu se poate accesa directorul bazei de date dpkg „%s” pentru actualizarea "
+"disponibilă în masă"
 
 #: src/main/update.c
-#, fuzzy, c-format
-#| msgid "unable to access dpkg status area for bulk available update"
+#, c-format
 msgid ""
 "required write access to dpkg database directory '%s' for bulk available "
 "update"
 msgstr ""
-"nu se poate accesa zona de stare a lui dpkg pentru actualizarea bulk "
-"available"
+"acces de scriere necesar la directorul bazei de date dpkg „%s” pentru "
+"actualizarea disponibilă în masă"
 
 #: src/main/update.c
 #, c-format
 msgid "Replacing available packages info, using %s.\n"
-msgstr "Se înlocuiește info cu pachetele disponibile folosind %s.\n"
+msgstr ""
+"Se înlocuiesc informațiile despre pachetele disponibile, folosind %s.\n"
 
 #: src/main/update.c
 #, c-format
 msgid "Updating available packages info, using %s.\n"
-msgstr "Se actualizează info cu pachetele disponibile folosind %s.\n"
+msgstr ""
+"Se actualizează informațiile despre pachetele disponibile, folosind %s.\n"
 
 #: src/main/update.c
 #, c-format
@@ -6956,60 +6720,15 @@ msgstr[1] "Informațiile despre %d pachete au fost actualizate.\n"
 msgstr[2] "Informațiile despre %d de pachete au fost actualizate.\n"
 
 #: src/main/update.c
-#, fuzzy, c-format
-#| msgid ""
-#| "obsolete '--%s' option, unavailable packages are automatically cleaned up."
+#, c-format
 msgid ""
 "obsolete '--%s' option; unavailable packages are automatically cleaned up"
 msgstr ""
-"opțiune învechită „--%s”, pachetele indisponibile sunt curățate automat."
+"opțiune învechită „--%s”; pachetele care nu mai sunt disponibile sunt "
+"curățate automat."
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [<option> ...] <command>\n"
-#| "\n"
-#| "Commands:\n"
-#| "  --install <link> <name> <path> <priority>\n"
-#| "    [--slave <link> <name> <path>] ...\n"
-#| "                           add a group of alternatives to the system.\n"
-#| "  --remove <name> <path>   remove <path> from the <name> group "
-#| "alternative.\n"
-#| "  --remove-all <name>      remove <name> group from the alternatives "
-#| "system.\n"
-#| "  --auto <name>            switch the master link <name> to automatic "
-#| "mode.\n"
-#| "  --display <name>         display information about the <name> group.\n"
-#| "  --query <name>           machine parseable version of --display "
-#| "<name>.\n"
-#| "  --list <name>            display all targets of the <name> group.\n"
-#| "  --config <name>          show alternatives for the <name> group and ask "
-#| "the\n"
-#| "                           user to select which one to use.\n"
-#| "  --set <name> <path>      set <path> as alternative for <name>.\n"
-#| "  --all                    call --config on all alternatives.\n"
-#| "\n"
-#| "<link> is the symlink pointing to %s/<name>.\n"
-#| "  (e.g. /usr/bin/pager)\n"
-#| "<name> is the master name for this link group.\n"
-#| "  (e.g. pager)\n"
-#| "<path> is the location of one of the alternative target files.\n"
-#| "  (e.g. /usr/bin/less)\n"
-#| "<priority> is an integer; options with higher numbers have higher "
-#| "priority in\n"
-#| "  automatic mode.\n"
-#| "\n"
-#| "Options:\n"
-#| "  --altdir <directory>     change the alternatives directory.\n"
-#| "  --admindir <directory>   change the administrative directory.\n"
-#| "  --skip-auto              skip prompt for alternatives correctly "
-#| "configured\n"
-#| "                           in automatic mode (relevant for --config "
-#| "only)\n"
-#| "  --verbose                verbose operation, more output.\n"
-#| "  --quiet                  quiet operation, minimal output.\n"
-#| "  --help                   show this help message.\n"
-#| "  --version                show the version.\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  --install <link> <name> <path> <priority>\n"
@@ -7031,46 +6750,29 @@ msgid ""
 "  --all                    call --config on all alternatives.\n"
 "\n"
 msgstr ""
-"Utilizare: %s [<opțiune> ...] <comanda>\n"
-"\n"
 "Comenzi:\n"
-"  --install <legătură> <nume> <cale> <prioritate>\n"
-"    [--slave <legătură> <nume> <cale>] ...\n"
+"  --install <legătură> <nume> <rută> <prioritate>\n"
+"    [--slave <legătură> <nume> <rută>] ...\n"
 "                           adaugă un grup de alternative în sistem.\n"
-"  --remove <nume> <cale>   șterge <cale> din grupul de alternative <nume>.\n"
-"  --remove-all <nume>      șterge grupul <nume> din sistemul de "
+"  --remove <nume> <rută>   elimină <ruta> din grupul de alternative <nume>.\n"
+"  --remove-all <nume>      elimină grupul <nume> din sistemul de "
 "alternative.\n"
 "  --auto <nume>            schimbă legătura primară <nume> pe modul "
 "automat.\n"
 "  --display <nume>         afișează informații despre grupul <nume>.\n"
-"  --query <nume>           variantă parsabilă pentru --display <nume>.\n"
+"  --query <nume>           variantă analizabilă pentru „--display <nume>”.\n"
 "  --list <nume>            afișează toate țintele grupului <nume>.\n"
-"  --config <nume>          afișează alternativele pentru grupul <nume> "
-"pentru ca\n"
-"                           utilizatorul să poată selecta pe cea de folosit.\n"
-"  --set <nume> <cale>      configurează <cale> ca alternativă pentru "
+"  --get-selections         listează numele de alternative principale și "
+"starea\n"
+"                           acestora.\n"
+"  --set-selections         citește starea alternativelor de la intrarea "
+"standard\n"
+"  --config <nume>          afișează alternativele pentru grupul <nume> și "
+"cere\n"
+"                           utilizatorului să o selecteze pe cea de folosit.\n"
+"  --set <nume> <rută>      configurează <ruta> ca alternativă pentru "
 "<nume>.\n"
-"  --all                    execută --config pentru toate alternativele.\n"
-"\n"
-"<legătură> este legătura simbolică spre %s/<nume>.\n"
-"  (ex.: /usr/bin/pager)\n"
-"<nume> este numele primar al acestui grup de legături.\n"
-"  (ex.: pager)\n"
-"<cale> este locația unuia din fișierele țintă ale grupului de alternative.\n"
-"  (ex.: /usr/bin/less)\n"
-"<prioritate> este un întreg; opțiunile cu numere mai mari au prioritatea "
-"mai\n"
-"  mare în modul automat.\n"
-"\n"
-"Opțiuni:\n"
-"  --altdir <director>      schimbă directorul de alternative.\n"
-"  --admindir <director>    schimbă directorul de administrare.\n"
-"  --skip-auto              nu întreba în cazul alternativelor configurate "
-"corect\n"
-"  --verbose                mai multe mesaje la ieșire.\n"
-"  --quiet                  operare silențioasă, minim de mesaje la ieșire.\n"
-"  --help                   afișează acest ajutor\n"
-"  --version                afișează versiunea\n"
+"  --all                    execută „--config” pentru toate alternativele.\n"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -7086,18 +6788,19 @@ msgid ""
 "  automatic mode.\n"
 "\n"
 msgstr ""
+"<legătură> este legătura simbolică spre %s/<nume>.\n"
+"  (ex.: /usr/bin/pager)\n"
+"<nume> este numele primar al acestui grup de legături.\n"
+"  (ex.: pager)\n"
+"<rută> este locația unuia din fișierele țintă ale grupului de alternative.\n"
+"  (ex.: /usr/bin/less)\n"
+"<prioritate> este un întreg; opțiunile cu numere mai mari au o prioritate "
+"mai\n"
+"  mare în modul automat.\n"
+"\n"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir <directory>   set the directory with the statoverride file.\n"
-#| "  --update                 immediately update file permissions.\n"
-#| "  --force                  force an action even if a sanity check fails.\n"
-#| "  --quiet                  quiet operation, minimal output.\n"
-#| "  --help                   show this help message.\n"
-#| "  --version                show the version.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --altdir <directory>     change the alternatives directory\n"
@@ -7118,73 +6821,76 @@ msgid ""
 "  --version                show the version.\n"
 msgstr ""
 "Opțiuni:\n"
-"  --admindir <director>    configurează directorul cu fișierul "
-"statoverride.\n"
-"  --update                 actualizează imediat permisiunile fișierelor.\n"
-"  --force                  forțează o acțiune chiar dacă verificările "
-"eșuează.\n"
-"  --quiet                  operare silențioasă, minim de mesaje.\n"
-"  --help                   afișează acest ajutor.\n"
-"  --version                afișează versiunea.\n"
+"  --altdir <director>      schimbă directorul de alternative.\n"
+"                           (implicit este %s).\n"
+"  --admindir <director>    schimbă directorul de administrare.\n"
+"                           (implicit este %s).\n"
+"  --instdir <director>     schimbă directorul de instalare.\n"
+"  --root <director>        schimbă directorul rădăcină al sistemului de "
+"fișiere.\n"
+"  --log <fișier>           definește locația și numele fișierului jurnal.\n"
+"  --force                  permite înlocuirea fișierelor cu legături "
+"alternative\n"
+"  --skip-auto              nu întreba în cazul alternativelor configurate "
+"corect\n"
+"                           în modul automat (relevant doar pentru „--"
+"config”)\n"
+"  --quiet                  operare silențioasă, minim de mesaje la ieșire.\n"
+"  --verbose                mai multe mesaje la ieșire.\n"
+"  --debug                  ieșire de depanare, mult mai multe mesaje la "
+"ieșire.\n"
+"  --help                   afișează acest ajutor\n"
+"  --version                afișează versiunea\n"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "Use --help for help about querying packages."
+#, c-format
 msgid "Use '%s --help' for program usage information."
-msgstr "Folosiți --help pentru ajutor despre interogarea pachetelor"
+msgstr "Folosiți «%s --help» pentru informații despre utilizarea programului."
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "malloc failed (%ld bytes)"
+#, c-format
 msgid "malloc failed (%zu bytes)"
-msgstr "malloc a eșuat (%ld octeți)"
+msgstr "«malloc» a eșuat (%zu octeți)"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "wait for subprocess %s failed"
-msgstr "așteptarea după sub-procesul %s a eșuat"
+msgstr "comanda «wait» pentru sub-procesul %s a eșuat"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "unable to remove %s: %s"
+#, c-format
 msgid "unable to remove '%s'"
-msgstr "nu se poate șterge %s: %s"
+msgstr "nu se poate elimina „%s”"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "cannot scan directory '%.255s'"
+#, c-format
 msgid "cannot create log directory '%s'"
-msgstr "nu se poate examina directorul „%.255s”"
+msgstr "nu se poate crea directorul de jurnal „%s”"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "cannot append to %s: %s"
+#, c-format
 msgid "cannot append to '%s'"
-msgstr "nu se poate adăuga la %s: %s"
+msgstr "nu se poate adăuga la „%s”"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "cannot scan directory '%.255s'"
+#, c-format
 msgid "cannot get local time to log into '%s'"
-msgstr "nu se poate examina directorul „%.255s”"
+msgstr "nu se poate obține ora locală pentru a se înregistra în „%s”"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "unable to read link '%.255s'"
+#, c-format
 msgid "unable to read link '%s%.255s'"
-msgstr "nu se poate citi legătura „%.255s”"
+msgstr "nu se poate citi legătura „%s%.255s”"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "unable to write file '%s'"
+#, c-format
 msgid "unable to get file '%s%s' metadata"
-msgstr "nu se poate scrie fișierul „%s”"
+msgstr "nu se pot obține metadatele fișierului „%s%s”"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "cannot divert file '%s' to itself"
+#, c-format
 msgid "cannot set symlink '%s' timestamp"
-msgstr "nu se poate redirecta fișierul „%s” către el însuși"
+msgstr "nu se poate fixa marca de timp pentru legătura simbolică „%s”"
 
 #: utils/update-alternatives.c
 msgid "auto mode"
@@ -7218,17 +6924,17 @@ msgstr "%s corupt: %s"
 #, c-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr ""
-"caracterele newline sunt interzise în fișierele update-alternatives (%s)"
+"caracterele de linie nouă sunt interzise în fișierele „update-"
+"alternatives” (%s)"
 
 #: utils/update-alternatives.c
 msgid "slave name"
 msgstr "nume sclav"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "duplicate slave %s"
+#, c-format
 msgid "duplicate slave name %s"
-msgstr "sclavul %s este duplicat"
+msgstr "nume de sclav duplicat %s"
 
 #: utils/update-alternatives.c
 msgid "slave link"
@@ -7242,7 +6948,7 @@ msgstr "legătura sclav este aceiași cu legătura principală %s"
 #: utils/update-alternatives.c
 #, c-format
 msgid "duplicate slave link %s"
-msgstr "legătura sclav %s este duplicată"
+msgstr "legătură sclav duplicată %s"
 
 #: utils/update-alternatives.c
 msgid "master file"
@@ -7251,19 +6957,16 @@ msgstr "fișier master"
 #: utils/update-alternatives.c
 #, c-format
 msgid "duplicate path %s"
-msgstr "calea %s este duplicată"
+msgstr "rută duplicată %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "alternative %s (part of link group %s) doesn't exist. Removing from list "
-#| "of alternatives."
+#, c-format
 msgid ""
 "alternative %s (part of link group %s) doesn't exist; removing from list of "
 "alternatives"
 msgstr ""
-"alternativa %s (parte a grupului de legături %s) nu există. Se șterge din "
-"lista de alternative."
+"alternativa %s (parte a grupului de legături %s) nu există; se elimină din "
+"lista de alternative"
 
 #: utils/update-alternatives.c
 msgid "priority"
@@ -7279,10 +6982,9 @@ msgid "priority of %s: %s"
 msgstr "prioritatea lui %s: %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "priority of %s: %s"
+#, c-format
 msgid "priority of %s is out of range: %s"
-msgstr "prioritatea lui %s: %s"
+msgstr "prioritatea lui %s este în afara intervalului: %s"
 
 #: utils/update-alternatives.c
 msgid "status"
@@ -7297,60 +6999,52 @@ msgid "master link"
 msgstr "legătura master"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "discarding obsolete slave link %s (%s)."
+#, c-format
 msgid "discarding obsolete slave link %s (%s)"
-msgstr "se renunță la legătura-sclav învechită %s (%s)."
+msgstr "se renunță la legătura-sclav învechită %s (%s)"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "cannot scan updates directory '%.255s'"
+#, c-format
 msgid "cannot create administrative directory '%s'"
-msgstr "nu se poate scana directorul cu actualizări „%.255s”"
+msgstr "nu se poate crea directorul administrativ „%s”"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "unable to flush file '%s'"
-msgstr "eșec la flush pentru fișierul „%s”"
+msgstr "nu se poate efectua flush() pentru fișierul „%s”"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "cannot stat file '%s'"
+#, c-format
 msgid "cannot stat file '%s%s'"
-msgstr "stat imposibil pentru fișierul „%s”"
+msgstr "nu se poate obține starea fișierului „%s: %s”"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "Current 'best' version is '%s'."
+#, c-format
 msgid "  link best version is %s"
-msgstr "Cea mai „bună” versiune în prezent este „%s”."
+msgstr "  cea mai bună versiune a legăturii este %s"
 
 #: utils/update-alternatives.c
-#, fuzzy
-#| msgid "No versions available."
 msgid "  link best version not available"
-msgstr "Nici o versiune disponibilă."
+msgstr "  cea mai bună versiune a legăturii nu este disponibilă"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
-msgstr " legătura indică acum spre %s"
+msgstr "  legătura indică în prezent spre %s"
 
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr " legătura este absentă acum"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "  %.250s is %s.\n"
+#, c-format
 msgid "  link %s is %s"
-msgstr "  %.250s este %s.\n"
+msgstr "  legătura %s este %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "  slave %s: %s"
+#, c-format
 msgid "  slave %s is %s"
-msgstr "  sclav %s: %s"
+msgstr "  sclavul %s este %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -7376,7 +7070,7 @@ msgstr "Selecție"
 
 #: utils/update-alternatives.c
 msgid "Path"
-msgstr "Cale"
+msgstr "Rută"
 
 #: utils/update-alternatives.c
 msgid "Priority"
@@ -7387,12 +7081,10 @@ msgid "Status"
 msgstr "Stare"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Press enter to keep the current choice[*], or type selection number: "
+#, c-format
 msgid "Press <enter> to keep the current choice[*], or type selection number: "
 msgstr ""
-"Apăsați ENTER pentru a păstra varianta curentă[*], sau introduceți numărul "
+"Apăsați <Enter> pentru a păstra selecția curentă[*], sau introduceți numărul "
 "selecției: "
 
 #: utils/update-alternatives.c
@@ -7405,176 +7097,147 @@ msgid "Nothing to configure."
 msgstr "Nimic de configurat."
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "not replacing %s with a link."
+#, c-format
 msgid "not replacing %s with a link"
-msgstr "nu se înlocuiește %s cu o legătură."
+msgstr "nu se înlocuiește %s cu o legătură"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "cannot scan updates directory '%.255s'"
+#, c-format
 msgid "cannot create alternatives directory '%s'"
-msgstr "nu se poate scana directorul cu actualizări „%.255s”"
+msgstr "nu se poate crea directorul de alternative „%s”"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "can't install unknown choice %s"
-msgstr "nu se poate instala varianta necunoscută %s"
+msgstr "nu se poate instala varianta de selecție necunoscută %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "skip creation of %s because associated file %s (of link group %s) doesn't "
-#| "exist."
+#, c-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist"
 msgstr ""
 "se omite crearea lui %s deoarece fișierul %s asociat (din grupul de legături "
-"%s) nu există."
+"%s) nu există"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "not replacing %s with a link."
+#, c-format
 msgid "not removing %s since it's not a symlink"
-msgstr "nu se înlocuiește %s cu o legătură."
+msgstr "nu se elimină %s, deoarece nu este o legătură simbolică"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "alternative %s for %s not registered, not removing."
+#, c-format
 msgid "alternative %s for %s not registered; not removing"
-msgstr "alternativa %s pentru %s nu este înregistrată, nu se șterge."
+msgstr "alternativa %s pentru %s nu este înregistrată, nu se elimină"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr "se șterge alternativa selectată manual - se comută %s pe modul automat"
+msgstr ""
+"se elimină alternativa selectată manual - se comută %s pe modul automat"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "alternative %s for %s not registered, not setting."
+#, c-format
 msgid "alternative %s for %s not registered; not setting"
-msgstr "alternativa %s pentru %s nu este înregistrată, nu se configurează."
+msgstr "alternativa %s pentru %s nu este înregistrată, nu se configurează"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "There is no program which provides %s."
+#, c-format
 msgid "there is no program which provides %s"
-msgstr "Nu există nici un program care să furnizeze %s"
+msgstr "nu există nici un program care să furnizeze %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "%s is dangling, it will be updated with best choice."
+#, c-format
 msgid "%s%s/%s is dangling; it will be updated with best choice"
-msgstr "%s este desfăcută, va fi actualizată cu cea mai bună opțiune."
+msgstr "%s%s/%s este desfăcută, va fi actualizată cu cea mai bună opțiune"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "%s has been changed (manually or by a script). Switching to manual "
-#| "updates only."
+#, c-format
 msgid ""
 "%s%s/%s has been changed (manually or by a script); switching to manual "
 "updates only"
 msgstr ""
-"%s a fost schimbată (manual sau de un script). Se comută pe actualizare "
-"strict manuală."
+"%s%s/%s a fost schimbată (manual sau de un script); se comută pe actualizare "
+"strict manuală"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "setting up automatic selection of %s."
+#, c-format
 msgid "setting up automatic selection of %s"
-msgstr "se configurează selecția automată pentru %s."
+msgstr "se configurează selecția automată pentru %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "renaming %s slave link from %s to %s."
+#, c-format
 msgid "renaming %s slave link from %s%s to %s%s"
-msgstr "se redenumește legătura sclav %s din %s în %s."
+msgstr "se redenumește legătura sclav %s din %s%s în %s%s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "renaming %s link from %s to %s."
+#, c-format
 msgid "renaming %s link from %s%s to %s%s"
-msgstr "se redenumește legătura %s din %s în %s."
+msgstr "se redenumește legătura %s din %s%s în %s%s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "automatic updates of %s are disabled, leaving it alone."
+#, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr ""
-"actualizările automate pentru %s sunt dezactivate, va fi lăsată în pace."
+"actualizările automate pentru %s%s sunt dezactivate, nu se vor face "
+"modificări"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "to return to automatic updates use `update-alternatives --auto %s'."
+#, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
-msgstr ""
-"pentru a reveni la actualizarea automată folosiți „update-alternatives --"
-"auto %s”."
+msgstr "pentru a reveni la actualizarea automată folosiți «%s --auto %s»"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "using %s to provide %s (%s) in %s."
+#, c-format
 msgid "using %s to provide %s (%s) in auto mode"
-msgstr "se folosește „%s” pentru a furniza %s (%s) în %s."
+msgstr "se folosește %s pentru a furniza %s (%s) în modul automat"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "using %s to provide %s (%s) in %s."
+#, c-format
 msgid "using %s to provide %s (%s) in manual mode"
-msgstr "se folosește „%s” pentru a furniza %s (%s) în %s."
+msgstr "se folosește %s pentru a furniza %s (%s) în modul manual"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "forcing reinstallation of alternative %s because link group %s is broken."
+#, c-format
 msgid "updating alternative %s because link group %s has changed slave links"
 msgstr ""
-"se forțează reinstalarea alternativei %s pentru că grupul de legături %s "
-"este defect."
+"se actualizează alternativa %s deoarece grupul de legături %s a schimbat "
+"legăturile de sclavi"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "forcing reinstallation of alternative %s because link group %s is broken."
+#, c-format
 msgid ""
 "forcing reinstallation of alternative %s because link group %s is broken"
 msgstr ""
 "se forțează reinstalarea alternativei %s pentru că grupul de legături %s "
-"este defect."
+"este defect"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "current alternative %s is unknown, switching to %s for link group %s."
+#, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 "alternativa curentă %s este necunoscută, se comută pe %s pentru grupul de "
-"legături %s."
+"legături %s"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "selecting alternative %s as auto"
-msgstr ""
+msgstr "se selectează alternativa %s ca automată"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "no alternatives for %s."
+#, c-format
 msgid "selecting alternative %s as choice %s"
-msgstr "nu există alternative pentru %s."
+msgstr "se selectează alternativa %s ca variantă %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "Alternative %s unchanged because choice %s is not available."
+#, c-format
 msgid "alternative %s unchanged because choice %s is not available"
-msgstr "Alternativa %s neschimbată deoarece opțiunea %s nu este disponibilă."
+msgstr "alternativa %s neschimbată, deoarece opțiunea %s nu este disponibilă"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "Skip unknown alternative %s."
+#, c-format
 msgid "skip unknown alternative %s"
-msgstr "Omite alternativa necunoscută „%s”."
+msgstr "omite alternativa necunoscută „%s”"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -7582,16 +7245,14 @@ msgid "line too long or not terminated while trying to read %s"
 msgstr "linie prea lungă sau neterminată în timp ce se încerca citirea %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "Skip invalid line: %s"
+#, c-format
 msgid "skip invalid selection line: %s"
-msgstr "Omite linie nevalidă: %s"
+msgstr "omite linia de selecție nevalidă: %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "alternative name (%s) must not contain '/' and spaces."
+#, c-format
 msgid "alternative name (%s) must not contain '/' and spaces"
-msgstr "numele de alternativă (%s) nu poate conține „/” și spații."
+msgstr "numele de alternativă (%s) nu poate conține „/” și spații"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -7601,48 +7262,42 @@ msgstr "legătura alternativă nu este absolută așa cum ar trebui să fie: %s"
 #: utils/update-alternatives.c
 #, c-format
 msgid "alternative path is not absolute as it should be: %s"
-msgstr "calea alternativă nu este absolută așa cum ar trebui să fie: %s"
+msgstr "ruta alternativă nu este absolută așa cum ar trebui să fie: %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "alternative %s can't be master: %s"
+#, c-format
 msgid "alternative %s can't be master: it is a slave of %s"
-msgstr "alternativa %s nu poate fi master: %s"
+msgstr "alternativa %s nu poate fi master: este un sclav al lui %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "alternative link %s is already managed by %s."
+#, c-format
 msgid "alternative link %s is already managed by %s"
-msgstr "legătura alternativă %s este deja administrată de %s."
+msgstr "legătura alternativă %s este deja administrată de %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "alternative path %s doesn't exist."
+#, c-format
 msgid "alternative path %s%s doesn't exist"
-msgstr "calea alternativă %s nu există."
+msgstr "ruta alternativă %s%s nu există"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "alternative %s can't be slave of %s: %s"
+#, c-format
 msgid "alternative %s can't be slave of %s: it is a master alternative"
-msgstr "alternativa %s nu poate fi sclav pentru %s: %s"
+msgstr "alternativa %s nu poate fi sclavul lui %s: este o alternativă master"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "alternative %s can't be master: %s"
+#, c-format
 msgid "alternative %s can't be slave of %s: it is a slave of %s"
-msgstr "alternativa %s nu poate fi master: %s"
+msgstr "alternativa %s nu poate fi sclavul lui %s: este sclavul lui %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "alternative link %s is already managed by %s."
+#, c-format
 msgid "alternative link %s is already managed by %s (slave of %s)"
-msgstr "legătura alternativă %s este deja administrată de %s."
+msgstr "legătura alternativă %s este deja gestionată de %s (sclavul lui %s)"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "two commands specified: --%s and --%s"
-msgstr "au fost specificate două comenzi: --%s și --%s"
+msgstr "au fost specificate două comenzi: „--%s” și „--%s”"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -7650,102 +7305,96 @@ msgid "unknown argument '%s'"
 msgstr "argument necunoscut „%s”"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "--install needs <link> <name> <path> <priority>"
+#, c-format
 msgid "--%s needs <link> <name> <path> <priority>"
-msgstr "--install necesită <legătură> <nume> <cale> <prioritate>"
+msgstr "„--%s” necesită <legătură> <nume> <rută> <prioritate>"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "<link> '%s' is the same as <path>"
-msgstr ""
+msgstr "<legătura> „%s” este identică cu <ruta>"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "priority must be an integer"
+#, c-format
 msgid "priority '%s' must be an integer"
-msgstr "prioritatea trebuie să fie un număr întreg"
+msgstr "prioritatea „%s” trebuie să fie un număr întreg"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "priority of %s: %s"
+#, c-format
 msgid "priority '%s' is out of range"
-msgstr "prioritatea lui %s: %s"
+msgstr "prioritatea „%s” este în afara intervalului"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "--%s needs <name> <path>"
-msgstr "--%s necesită <nume> <cale>"
+msgstr "„--%s” necesită <nume> <rută>"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "--%s needs <name>"
-msgstr "--%s necesită <nume>"
+msgstr "„--%s” necesită <nume>"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "--slave only allowed with --install"
+#, c-format
 msgid "--%s only allowed with --%s"
-msgstr "--slave este permis doar cu --install"
+msgstr "„--%s” este permis doar cu „--%s”"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "--slave needs <link> <name> <path>"
+#, c-format
 msgid "--%s needs <link> <name> <path>"
-msgstr "--slave necesită <legătură> <nume> <cale>"
+msgstr "„--%s” necesită <legătură> <nume> <rută>"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "name %s is both primary and slave"
+#, c-format
 msgid "<name> '%s' is both primary and slave"
-msgstr "numele %s este atât primar cât și sclav"
+msgstr "<numele> „%s” este atât primar cât și sclav"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "link %s is both primary and slave"
+#, c-format
 msgid "<link> '%s' is both primary and slave"
-msgstr "legătura %s este atât primară cât și sclavă"
+msgstr "<legătura> „%s” este atât primară cât și sclavă"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "duplicate slave %s"
+#, c-format
 msgid "duplicate slave <name> '%s'"
-msgstr "sclavul %s este duplicat"
+msgstr "<nume> de sclav duplicat „%s”"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "duplicate slave link %s"
+#, c-format
 msgid "duplicate slave <link> '%s'"
-msgstr "legătura sclav %s este duplicată"
+msgstr "<legătură> sclav duplicată „%s”"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <file> argument"
-msgstr "--%s necesită un argument <fișier>"
+msgstr "„--%s” necesită un argument <fișier>"
 
 #: utils/update-alternatives.c
 #, c-format
 msgid ""
 "need --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s, --%s or --%s"
 msgstr ""
+"necesită „--%s”, „--%s”, „--%s”, „--%s”, „--%s”, „--%s”, „--%s”, „--%s”, „--"
+"%s”, „--%s”, „--%s” sau „--%s”"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "no alternatives for %s."
+#, c-format
 msgid "no alternatives for %s"
-msgstr "nu există alternative pentru %s."
+msgstr "nu există alternative pentru %s"
 
 #: utils/update-alternatives.c
 msgid "<standard input>"
-msgstr "<standard input>"
+msgstr "<intrarea standard>"
 
 #: utils/update-alternatives.polkit.in
 msgid "Run update-alternatives to modify system alternative selections"
 msgstr ""
+"Rulați «update-alternatives» pentru a modifica selecțiile alternative ale "
+"sistemului"
 
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
-msgstr ""
+msgstr "Autentificarea este necesară pentru a rula «update-alternatives»"
 
 #, fuzzy, c-format
 #~| msgid "There is only one alternative in link group %s: %s"
