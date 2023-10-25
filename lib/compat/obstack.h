@@ -277,7 +277,7 @@ extern int obstack_exit_failure;
 __extension__								\
 ({ struct obstack *__o = (OBSTACK);					\
    size_t __len = (length);						\
-   if (__o->chunk_limit - __o->next_free < __len)			\
+   if ((size_t) (__o->chunk_limit - __o->next_free) < __len)		\
      _obstack_newchunk (__o, __len);					\
    (void) 0; })
 
