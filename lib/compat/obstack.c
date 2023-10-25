@@ -101,6 +101,7 @@ int obstack_exit_failure = EXIT_FAILURE;
 #ifndef EXIT_FAILURE
 #define EXIT_FAILURE 1
 #endif
+extern int volatile exit_failure;
 int volatile exit_failure = EXIT_FAILURE;
 #  define obstack_exit_failure exit_failure
 # endif
