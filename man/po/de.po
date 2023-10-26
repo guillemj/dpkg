@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-10-20 13:59+0200\n"
-"PO-Revision-Date: 2023-10-21 14:28+0200\n"
+"POT-Creation-Date: 2023-10-26 18:33+0200\n"
+"PO-Revision-Date: 2023-10-26 19:09+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -8903,8 +8903,8 @@ msgid ""
 "temporarily by the user with environment variables (see section L</"
 "ENVIRONMENT>);"
 msgstr ""
-"temporär durch den Benutzer mittels Umgebungsvariablen (siehe Abschnitt "
-"L</UMGEBUNG>)"
+"temporär durch den Benutzer mittels Umgebungsvariablen (siehe Abschnitt L</"
+"UMGEBUNG>)"
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9026,8 +9026,8 @@ msgid ""
 "the L</SUPPORTED FLAGS> section for more information about them."
 msgstr ""
 "Gibt die Liste der vom aktuellen Lieferanten unterstützten Schalter (einen "
-"pro Zeile) aus. Lesen Sie den Abschnitt L</UNTERSTÜTZTE SCHALTER> für weitere "
-"Informationen über sie."
+"pro Zeile) aus. Lesen Sie den Abschnitt L</UNTERSTÜTZTE SCHALTER> für "
+"weitere Informationen über sie."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -15419,8 +15419,8 @@ msgstr ""
 "Untersucht nur die explizit aufgeführten Bibliotheken, statt nach allen "
 "öffentlichen Bibliotheken zu suchen. Sie können Shell-Muster, die zur "
 "Expansion von Pfadnamen verwandt werden (siehe die Handbuchseite L<File::"
-"Glob> für weitere Details) in I<Bibliotheksdatei> verwenden, um "
-"mehrere Bibliotheken mit einem einzelnen Argument abzugleichen (andernfalls "
+"Glob> für weitere Details) in I<Bibliotheksdatei> verwenden, um mehrere "
+"Bibliotheken mit einem einzelnen Argument abzugleichen (andernfalls "
 "benötigen Sie mehrere B<-e>)."
 
 #. type: =item
@@ -18299,13 +18299,13 @@ msgstr "B<DPKG_PAGER>"
 #: dpkg-query.pod
 msgid ""
 "Sets the pager command to use (since dpkg 1.19.1), which will be executed "
-"with «B<$SHELL -c>».  If B<SHELL> is not set, «B<sh>» will be used instead.  "
-"The B<DPKG_PAGER> overrides the B<PAGER> environment variable (since dpkg "
-"1.19.2)."
+"with «B<$SHELL -c>».  If B<SHELL> is not set, «B<%DPKG_DEFAULT_SHELL%>» will "
+"be used instead.  The B<DPKG_PAGER> overrides the B<PAGER> environment "
+"variable (since dpkg 1.19.2)."
 msgstr ""
 "Setzt den zu verwendenden Pager-Befehl (seit Dpkg 1.19.1), der mit „B<$SHELL "
 "-c>“ ausgeführt wird. Falls B<SHELL> nicht gesetzt ist, wird stattdessen "
-"„B<sh>“ verwandt. B<DPKG_PAGER> setzt die Umgebungsvariable B<PAGER> außer "
+"„B<%DPKG_DEFAULT_SHELL%>“ verwandt. B<DPKG_PAGER> setzt die Umgebungsvariable B<PAGER> außer "
 "Kraft (seit Dpkg 1.19.2)."
 
 #. type: textblock
@@ -18486,9 +18486,9 @@ msgstr ""
 "erstellt eine Packages-Datei, die von L<apt(8)>, L<dselect(1)> usw. "
 "verwendet wird, um dem Benutzer mitzuteilen, welche Pakete zur Installation "
 "verfügbar sind. Diese Packages-Dateien sind die gleichen, die auch auf den "
-"Debian-Archiv-Sites und physischen Medien vorliegen. Sie können selbst B<dpkg-"
-"scanpackages> verwenden, falls Sie ein Verzeichnis von lokalen Paketen zur "
-"Installation auf einem Cluster von Maschinen anlegen."
+"Debian-Archiv-Sites und physischen Medien vorliegen. Sie können selbst "
+"B<dpkg-scanpackages> verwenden, falls Sie ein Verzeichnis von lokalen "
+"Paketen zur Installation auf einem Cluster von Maschinen anlegen."
 
 #. type: textblock
 #: dpkg-scanpackages.pod
@@ -24848,23 +24848,23 @@ msgstr "B<--post-invoke=>I<Befehl>"
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"Set an invoke hook I<command> to be run via “sh -c” before or after the "
-"B<dpkg> run for the I<unpack>, I<configure>, I<install>, I<triggers-only>, "
-"I<remove> and I<purge> actions (since dpkg 1.15.4), and I<add-architecture> "
-"and I<remove-architecture> actions (since dpkg 1.17.19).  This option can be "
-"specified multiple times. The order the options are specified is preserved, "
-"with the ones from the configuration files taking precedence.  The "
-"environment variable B<DPKG_HOOK_ACTION> is set for the hooks to the current "
-"B<dpkg> action."
+"Set an invoke hook I<command> to be run via “%DPKG_DEFAULT_SHELL% -c” before "
+"or after the B<dpkg> run for the I<unpack>, I<configure>, I<install>, "
+"I<triggers-only>, I<remove> and I<purge> actions (since dpkg 1.15.4), and "
+"I<add-architecture> and I<remove-architecture> actions (since dpkg "
+"1.17.19).  This option can be specified multiple times. The order the "
+"options are specified is preserved, with the ones from the configuration "
+"files taking precedence.  The environment variable B<DPKG_HOOK_ACTION> is "
+"set for the hooks to the current B<dpkg> action."
 msgstr ""
-"Setzt einen Aufruf-Hook I<Befehl>, der via „sh -c“ vor oder nach dem B<dpkg>-"
+"Setzt einen Aufruf-Hook I<Befehl>, der via „%DPKG_DEFAULT_SHELL% -c“ vor oder nach dem B<dpkg>-"
 "Aufruf der B<dpkg>-Aktionen I<unpack>, I<configure>, I<install>, I<triggers-"
-"only>, I<remove> und I<purge> (seit Dpkg 1.15.4;) und Aktionen I<add-architecture> "
-"Und I<remove-architecture> (seit Dpkg 1.17.19). Diese Option kann mehrfach angegeben "
-"werden. Die Reihenfolge der Optionen bleibt erhalten, wobei Einträge aus den "
-"Konfigurationsdateien Vorrang haben. Die Umgebungsvariable "
-"B<DPKG_HOOK_ACTION> wird für die Hooks auf die aktuelle B<dpkg>-Aktion "
-"gesetzt."
+"only>, I<remove> und I<purge> (seit Dpkg 1.15.4;) und Aktionen I<add-"
+"architecture> Und I<remove-architecture> (seit Dpkg 1.17.19). Diese Option "
+"kann mehrfach angegeben werden. Die Reihenfolge der Optionen bleibt "
+"erhalten, wobei Einträge aus den Konfigurationsdateien Vorrang haben. Die "
+"Umgebungsvariable B<DPKG_HOOK_ACTION> wird für die Hooks auf die aktuelle "
+"B<dpkg>-Aktion gesetzt."
 
 #. type: textblock
 #: dpkg.pod
@@ -25259,12 +25259,12 @@ msgstr "B<--status-logger>=I<Befehl>"
 #: dpkg.pod
 msgid ""
 "Send machine-readable package status and progress information to the shell "
-"I<command>'s standard input, to be run via “sh -c” (since dpkg 1.16.0).  "
-"This option can be specified multiple times.  The output format used is the "
-"same as in B<--status-fd>."
+"I<command>'s standard input, to be run via “%DPKG_DEFAULT_SHELL% -c” (since "
+"dpkg 1.16.0).  This option can be specified multiple times.  The output "
+"format used is the same as in B<--status-fd>."
 msgstr ""
 "Schickt maschinenlesbare Paketstatus- und Fortschrittsinformationen an die "
-"Standardeingabe des I<Befehl>s der Shell, was dann mittels „sh -c“ "
+"Standardeingabe des I<Befehl>s der Shell, was dann mittels „DPKG_DEFAULT_SHELL% -c“ "
 "ausgeführt wird (seit Dpkg 1.16.0). Diese Option kann mehrfach angegeben "
 "werden. Das verwandte Ausgabeformat ist identisch zu dem in B<--status-fd>."
 
@@ -25463,13 +25463,13 @@ msgstr ""
 msgid ""
 "The program B<dpkg> will execute when running a pager, which will be "
 "executed with «B<$SHELL -c>», for example when displaying the conffile "
-"differences.  If B<SHELL> is not set, «B<sh>» will be used instead.  The "
-"B<DPKG_PAGER> overrides the B<PAGER> environment variable (since dpkg "
-"1.19.2)."
+"differences.  If B<SHELL> is not set, «B<%DPKG_DEFAULT_SHELL%>» will be used "
+"instead.  The B<DPKG_PAGER> overrides the B<PAGER> environment variable "
+"(since dpkg 1.19.2)."
 msgstr ""
 "Das Programm, das B<dpkg> ausführen wird, wenn es einen Pager mit „B<$SHELL -"
 "c>“ ausführt, beispielsweise zur Anzeige von Conffile-Dateiunterschieden. "
-"Falls B<SHELL> nicht gesetzt ist, wird stattdessen „B<sh>“ verwandt. "
+"Falls B<SHELL> nicht gesetzt ist, wird stattdessen „B<%DPKG_DEFAULT_SHELL%>“ verwandt. "
 "B<DPKG_PAGER> setzt die Umgebungsvariable B<PAGER> außer Kraft (seit Dpkg "
 "1.19.2)."
 
@@ -25800,6 +25800,106 @@ msgid "The format and contents of a binary package are described in L<deb(5)>."
 msgstr ""
 "Das Format und die Inhalte eines Binärpakets sind in L<deb(5)> beschrieben."
 
+#. type: =head2
+#: dpkg.pod
+msgid "Filesystem filenames"
+msgstr "Dateisystem-Dateinamen"
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"During unpacking and configuration B<dpkg> uses various filenames for backup "
+"and rollback purposes.  The following is a simplified explanation of how "
+"these filenames get used during package installation."
+msgstr ""
+"Während des Entpackens und Konfigurierens verwendet B<dpkg> verschiedene "
+"Dateinamen zum Zwecke der Sicherung und zum Zurücksetzen. Es folgt eine "
+"vereinfachte Erklärung wie diese Dateinamen während der Paketinstallation "
+"verwandt werden."
+
+#. type: =item
+#: dpkg.pod
+msgid "F<*.dpkg-new>"
+msgstr "F<*.dpkg-new>"
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"During unpack, B<dpkg> extracts new filesystem objects into I<pathname>B<."
+"dpkg-new> (except for existing directories or symlinks to directories which "
+"get skipped), once that is done and after having performed backups of the "
+"old objects, the objects get renamed to I<pathname>."
+msgstr ""
+"Während des Entpackens extrahiert B<dpkg> Dateisystemobjekte in "
+"I<Pfadnamen>B<.dpkg-new> (außer für bestehende Verzeichnisse oder Symlinks "
+"auf Verzeichnisse, die übersprungen werden). Sobald dies erledigt ist und "
+"nachdem Sicherungskopien der alten Objekte erstellt wurden, werden die "
+"Objekte in I<Pfadnamen> umbenannt."
+
+#. type: =item
+#: dpkg.pod
+msgid "F<*.dpkg-tmp>"
+msgstr "F<*.dpkg-tmp>"
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"During unpack, B<dpkg> makes backups of the old filesystem objects into "
+"I<pathname>B<.dpkg-tmp> after extracting the new objects.  These backups are "
+"performed as either a rename for directories (but only if they switch file "
+"type), a new symlink copy for symlinks, or a hard link for any other "
+"filesystem object, except for conffiles which get no backups because they "
+"are processed at a later stage."
+msgstr ""
+"Während des Entpackens legt B<dpkg> Sicherungskopien alter "
+"Dateisystemobjekte in I<Pfadname>B<.dpkg-tmp> nach dem Extrahieren der neuen "
+"Objekte an. Diese Sicherungskopien werden entweder durch Umbenennung für "
+"Verzeichnisse (aber nur wenn diese den Dateityp ändern), einer neuen Symlink-"
+"Kopie für Symlinks oder harte Links für alle anderen Dateisystemobjekte "
+"angelegt, außer für Conffiles, von denen keine Sicherungskopie angelegt "
+"wird, da sie in einer späteren Stufe verarbeitet werden."
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"In case of needing to rollback, these backups get used to restore the "
+"previous contents of the objects.  These get removed automatically after the "
+"installation is complete."
+msgstr ""
+"Falls zurückgesetzt werden muss, werden diese Sicherungskopien dazu "
+"verwandt, die vorherigen Inhalte der Objekte wiederherzustellen. Diese "
+"werden nach Abschluss der Installation automatisch entfernt."
+
+#. type: =item
+#: dpkg.pod
+msgid "F<*.dpkg-old>"
+msgstr "F<*.dpkg-old>"
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"During configuration, when installing a new version, B<dpkg> can make a "
+"backup of the previous modified conffile into I<pathname>B<.dpkg-old>."
+msgstr ""
+"Während der Konfiguration, bei der Installation einer neuen Version, kann "
+"B<dpkg> eine Sicherungskopie der vorherigen geänderten Conffile in "
+"I<Pfadname>B<.dpkg-old> anlegen."
+
+#. type: =item
+#: dpkg.pod
+msgid "F<*.dpkg-dist>"
+msgstr "F<*.dpkg-dist>"
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"During configuration, when keeping the old version, B<dpkg> can make a "
+"backup of the new unmodified conffile into I<pathname>B<.dpkg-dist>."
+msgstr ""
+"Während der Konfiguration, beim Beibehalten der alten Version, kann B<dpkg> "
+"eine Sicherungskopie der neuen unveränderten Conffile in I<Pfadname>B<.dpkg-"
+"dist> anlegen."
+
 #. type: textblock
 #: dpkg.pod
 msgid ""
@@ -25876,10 +25976,10 @@ msgstr "Um die Einträge von zwei Paketen in I<%ADMINDIR%/available> zu sehen:"
 #: dpkg.pod
 #, no-wrap
 msgid ""
-" dpkg --print-avail elvis vim | less\n"
+" dpkg --print-avail vim neovim | less\n"
 "\n"
 msgstr ""
-" dpkg --print-avail elvis vim | less\n"
+" dpkg --print-avail vim neovim | less\n"
 "\n"
 
 #. type: textblock
@@ -25891,48 +25991,48 @@ msgstr "Wenn Sie die Liste der Pakete selbst durchsuchen wollen:"
 #: dpkg.pod
 #, no-wrap
 msgid ""
-" less %ADMINDIR%/available\n"
+" dpkg --print-avail | less\n"
 "\n"
 msgstr ""
-" less %ADMINDIR%/available\n"
+" dpkg --print-avail | less\n"
 "\n"
 
 #. type: textblock
 #: dpkg.pod
-msgid "To remove an installed elvis package:"
-msgstr "Um ein installiertes Elvis-Paket zu entfernen:"
+msgid "To remove an installed neovim package:"
+msgstr "Um ein installiertes Neovim-Paket zu entfernen:"
 
 #. type: verbatim
 #: dpkg.pod
 #, no-wrap
 msgid ""
-" dpkg -r elvis\n"
+" dpkg -r neovim\n"
 "\n"
 msgstr ""
-" dpkg -r elvis\n"
+" dpkg -r neovim\n"
 "\n"
 
 #. type: textblock
 #: dpkg.pod
 msgid ""
-"To install a package, you first need to find it in an archive or media disc. "
-"The I<available> file shows that the vim package is in section B<editors>:"
+"To install a package, you first need to find it in an archive or media "
+"disc.  When using an archive based on a pool structure, knowing the archive "
+"area and the name of the package is enough to infer the pathname:"
 msgstr ""
 "Um ein Paket zu installieren, müssen Sie es erst in einem Archiv oder auf "
-"einem physischen Medium finden. Die Datei I<available> zeigt, dass das vim-Paket in der "
-"Sektion B<editors> ist:"
+"einem physischen Medium finden. Wenn Sie ein auf einer Pool-Struktur "
+"basierendes Archiv verwenden, reicht es, den Archivbereich und den "
+"Paketnamen zu kennen, um den Pfadnamen abzuleiten:"
 
 # FIXME Is "bdrom" the correct path?
 #. type: verbatim
 #: dpkg.pod
 #, no-wrap
 msgid ""
-" cd /media/bdrom/pool/main/v/vim\n"
-" dpkg -i vim_4.5-3.deb\n"
+" dpkg -i /media/bdrom/pool/main/v/vim/vim_9.0.2018-1_amd64.deb\n"
 "\n"
 msgstr ""
-" cd /media/bdrom/pool/main/v/vim\n"
-" dpkg -i vim_4.5-3.deb\n"
+" dpkg -i /media/bdrom/pool/main/v/vim/vim_9.0.2018-1_amd64.deb\n"
 "\n"
 
 #. type: textblock
@@ -25971,27 +26071,6 @@ msgid ""
 "\n"
 msgstr ""
 " apt-cache dumpavail | dpkg --merge-avail\n"
-"\n"
-
-#. type: textblock
-#: dpkg.pod
-msgid "or with dpkg 1.17.6 and earlier:"
-msgstr "Oder mit Dpkg 1.17.6 oder älter:"
-
-#. type: verbatim
-#: dpkg.pod
-#, no-wrap
-msgid ""
-" avail=$(mktemp)\n"
-" apt-cache dumpavail >\"$avail\"\n"
-" dpkg --merge-avail \"$avail\"\n"
-" rm \"$avail\"\n"
-"\n"
-msgstr ""
-" avail=$(mktemp)\n"
-" apt-cache dumpavail >\"$avail\"\n"
-" dpkg --merge-avail \"$avail\"\n"
-" rm \"$avail\"\n"
 "\n"
 
 #. type: textblock
@@ -26043,10 +26122,10 @@ msgstr "ZUSÄTZLICHE FUNKTIONALITÄT"
 #: dpkg.pod
 msgid ""
 "Additional functionality can be gained by installing any of the following "
-"packages: B<apt>, B<aptitude> and B<debsums>."
+"packages: B<apt>, B<aptitude> and B<debsig-verify>."
 msgstr ""
 "Zusätzliche Funktionalität kann durch die Installation jedes der folgenden "
-"Pakete erhalten werden: B<apt>, B<aptitude> und B<debsums>."
+"Pakete erhalten werden: B<apt>, B<aptitude> und B<debsig-verify>."
 
 #. type: textblock
 #: dpkg.pod
@@ -26284,8 +26363,8 @@ msgid ""
 "page."
 msgstr ""
 "Diese Felder geben die Beziehungen zwischen dem Quellpaket und Paketen, die "
-"daraus gebaut werden, an. Sie werden in der Handbuchseite L<deb-src-control(5)> "
-"beschrieben."
+"daraus gebaut werden, an. Sie werden in der Handbuchseite L<deb-src-"
+"control(5)> beschrieben."
 
 #. type: =item
 #: dsc.pod
@@ -26554,8 +26633,8 @@ msgstr ""
 "konfiguriert werden, um verfügbare Paketinformationen und installierbare "
 "Pakete aus Paketdepots zu holen. Abhängig von der verwendeten "
 "Zugriffsmethode können diese Depots öffentliche Archiv-Server im Internet, "
-"lokale Archiv-Server oder physische Medien sein. Die empfohlene Zugriffsmethode ist "
-"I<apt>, die vom Paket L<apt(8)> bereitgestellt wird."
+"lokale Archiv-Server oder physische Medien sein. Die empfohlene "
+"Zugriffsmethode ist I<apt>, die vom Paket L<apt(8)> bereitgestellt wird."
 
 #. type: textblock
 #: dselect.pod
@@ -28738,10 +28817,10 @@ msgstr "B<update-alternatives> [I<Option> …] I<Befehl>"
 #: update-alternatives.pod
 msgid ""
 "B<update-alternatives> creates, removes, maintains and displays information "
-"about the symbolic links comprising the Debian alternatives system."
+"about the symbolic links comprising the alternatives system."
 msgstr ""
 "B<update-alternatives> erzeugt, entfernt, verwaltet und zeigt die "
-"Informationen über die symbolischen Links, die das „Debian Alternativ-"
+"Informationen über die symbolischen Links, die das „Alternativ-"
 "System“ bilden, an."
 
 #. type: textblock
@@ -28765,18 +28844,17 @@ msgstr ""
 #. type: textblock
 #: update-alternatives.pod
 msgid ""
-"Debian's alternatives system aims to solve this problem.  A generic name in "
-"the filesystem is shared by all files providing interchangeable "
-"functionality.  The alternatives system and the system administrator "
-"together determine which actual file is referenced by this generic name.  "
-"For example, if the text editors L<ed(1)> and L<nvi(1)> are both installed "
-"on the system, the alternatives system will cause the generic name I</usr/"
-"bin/editor> to refer to I</usr/bin/nvi> by default. The system administrator "
-"can override this and cause it to refer to I</usr/bin/ed> instead, and the "
-"alternatives system will not alter this setting until explicitly requested "
-"to do so."
+"The alternatives system aims to solve this problem.  A generic name in the "
+"filesystem is shared by all files providing interchangeable functionality.  "
+"The alternatives system and the system administrator together determine "
+"which actual file is referenced by this generic name.  For example, if the "
+"text editors L<ed(1)> and L<nvi(1)> are both installed on the system, the "
+"alternatives system will cause the generic name I</usr/bin/editor> to refer "
+"to I</usr/bin/nvi> by default. The system administrator can override this "
+"and cause it to refer to I</usr/bin/ed> instead, and the alternatives system "
+"will not alter this setting until explicitly requested to do so."
 msgstr ""
-"Debians Alternativ-System hat das Ziel, dieses Problem zu lösen. Ein "
+"Das Alternativ-System hat das Ziel, dieses Problem zu lösen. Ein "
 "generischer Name im Dateisystem wird von allen Dateien, die austauschbare "
 "Funktionalität bereitstellen, verwendet. Das Alternativ-System bestimmt "
 "zusammen mit dem Systemadministrator, welche Datei tatsächlich durch diesen "
@@ -29802,6 +29880,31 @@ msgstr ""
 "L<ln(1)>, FHS (der Dateisystem-Hierarchie-Standard, Filesystem Hierarchy "
 "Standard)."
 
+#, no-wrap
+#~ msgid ""
+#~ " less %ADMINDIR%/available\n"
+#~ "\n"
+#~ msgstr ""
+#~ " less %ADMINDIR%/available\n"
+#~ "\n"
+
+#~ msgid "or with dpkg 1.17.6 and earlier:"
+#~ msgstr "Oder mit Dpkg 1.17.6 oder älter:"
+
+#, no-wrap
+#~ msgid ""
+#~ " avail=$(mktemp)\n"
+#~ " apt-cache dumpavail >\"$avail\"\n"
+#~ " dpkg --merge-avail \"$avail\"\n"
+#~ " rm \"$avail\"\n"
+#~ "\n"
+#~ msgstr ""
+#~ " avail=$(mktemp)\n"
+#~ " apt-cache dumpavail >\"$avail\"\n"
+#~ " dpkg --merge-avail \"$avail\"\n"
+#~ " rm \"$avail\"\n"
+#~ "\n"
+
 #~ msgid ""
 #~ "B<deb822>(5), B<deb-version>(7), B<deb-changes>(5), B<dpkg-"
 #~ "parsechangelog>(1)."
@@ -30218,9 +30321,6 @@ msgstr ""
 #~ msgid "dpkg-deb"
 #~ msgstr "dpkg-deb"
 
-#~ msgid "dpkg-divert"
-#~ msgstr "dpkg-divert"
-
 #~ msgid "dpkg-genchanges"
 #~ msgstr "dpkg-genchanges"
 
@@ -30235,9 +30335,6 @@ msgstr ""
 
 #~ msgid "dpkg-mergechangelogs"
 #~ msgstr "dpkg-mergechangelogs"
-
-#~ msgid "dpkg-name"
-#~ msgstr "dpkg-name"
 
 #~ msgid "dpkg-parsechangelog"
 #~ msgstr "dpkg-parsechangelog"
