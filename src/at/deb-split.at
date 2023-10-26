@@ -45,7 +45,7 @@ ar x pkg-split-part.1of10.deb debian-split
 $SED -e '1c\
 2.999' debian-split >debian-split.new
 mv debian-split.new debian-split
-ar qc pkg-split-part-version-2x.deb debian-split data.1
+ar qSc pkg-split-part-version-2x.deb debian-split data.1
 ar t pkg-split-part-version-2x.deb
 dpkg-split -I pkg-split-part-version-2x.deb
 ], [], [debian-split
@@ -71,7 +71,7 @@ AT_CHECK_UNQUOTED([
 # Test debian-split with extra lines
 ar x pkg-split-part.1of10.deb debian-split
 echo "extra line" >>debian-split
-ar qc pkg-split-part-magic-extra.deb debian-split data.1
+ar qSc pkg-split-part-magic-extra.deb debian-split data.1
 ar t pkg-split-part-magic-extra.deb
 dpkg-split -I pkg-split-part-magic-extra.deb
 ], [], [debian-split
@@ -94,7 +94,7 @@ pkg-split-part-magic-extra.deb:
 AT_CHECK([
 # Test missing debian-split
 cp pkg-split-part.1of10.deb pkg-split-part-missing-magic.deb
-ar d pkg-split-part-missing-magic.deb debian-split
+ar dS pkg-split-part-missing-magic.deb debian-split
 ar t pkg-split-part-missing-magic.deb
 dpkg-split -I pkg-split-part-missing-magic.deb
 ], [], [data.1
@@ -104,7 +104,7 @@ file 'pkg-split-part-missing-magic.deb' is not an archive part
 AT_CHECK([
 # Test missing data part member
 cp pkg-split-part.1of10.deb pkg-split-part-missing-data.deb
-ar d pkg-split-part-missing-data.deb data.1
+ar dS pkg-split-part-missing-data.deb data.1
 ar t pkg-split-part-missing-data.deb
 dpkg-split -I pkg-split-part-missing-data.deb
 ], [2], [debian-split
@@ -114,7 +114,7 @@ dpkg-split -I pkg-split-part-missing-data.deb
 AT_CHECK([
 # Test duplicate debian-split member
 ar x pkg-split-part.1of10.deb debian-split data.1
-ar qc pkg-split-part-duplicate-magic.deb debian-split debian-split data.1
+ar qSc pkg-split-part-duplicate-magic.deb debian-split debian-split data.1
 ar t pkg-split-part-duplicate-magic.deb
 dpkg-split -I pkg-split-part-duplicate-magic.deb
 ], [2], [debian-split
@@ -127,7 +127,7 @@ AT_CHECK_UNQUOTED([
 # Test unknown extra member
 cp pkg-split-part.1of10.deb pkg-split-part-extra-member.deb
 echo "some content" >unknown
-ar q pkg-split-part-extra-member.deb unknown
+ar qS pkg-split-part-extra-member.deb unknown
 ar t pkg-split-part-extra-member.deb
 dpkg-split -I pkg-split-part-extra-member.deb
 ], [], [debian-split

@@ -224,7 +224,7 @@ DPKG_GEN_PKG_DEB_FORMAT_TEMPL()
 AT_CHECK([
 # Test debian-binary with 2.x versions
 echo 2.999 >debian-binary
-ar qc pkg-version-2x.deb debian-binary control.tar data.tar
+ar qSc pkg-version-2x.deb debian-binary control.tar data.tar
 ar t pkg-version-2x.deb
 ar x pkg-templ.deb debian-binary
 dpkg-deb -I pkg-version-2x.deb
@@ -246,7 +246,7 @@ data.tar
 AT_CHECK([
 # Test debian-binary with extra lines
 echo "extra line" >>debian-binary
-ar qc pkg-magic-extra.deb debian-binary control.tar data.tar
+ar qSc pkg-magic-extra.deb debian-binary control.tar data.tar
 ar t pkg-magic-extra.deb
 ar x pkg-templ.deb debian-binary
 dpkg-deb -I pkg-magic-extra.deb
@@ -268,7 +268,7 @@ data.tar
 AT_CHECK([
 # Test missing debian-binary member
 cp pkg-templ.deb pkg-missing-magic.deb
-ar d pkg-missing-magic.deb debian-binary
+ar dS pkg-missing-magic.deb debian-binary
 ar t pkg-missing-magic.deb
 dpkg-deb -I pkg-missing-magic.deb
 ], [2], [control.tar
@@ -279,7 +279,7 @@ data.tar
 AT_CHECK([
 # Test missing control member
 cp pkg-templ.deb pkg-missing-control.deb
-ar d pkg-missing-control.deb control.tar
+ar dS pkg-missing-control.deb control.tar
 ar t pkg-missing-control.deb
 dpkg-deb -I pkg-missing-control.deb
 ], [2], [debian-binary
@@ -290,7 +290,7 @@ data.tar
 AT_CHECK([
 # Test missing data member
 cp pkg-templ.deb pkg-missing-data.deb
-ar d pkg-missing-data.deb data.tar
+ar dS pkg-missing-data.deb data.tar
 ar t pkg-missing-data.deb
 dpkg-deb -c pkg-missing-data.deb
 ], [2], [debian-binary
@@ -300,7 +300,7 @@ control.tar
 
 AT_CHECK([
 # Test duplicate debian-binary member
-ar qc pkg-duplicate-magic.deb debian-binary debian-binary control.tar data.tar
+ar qSc pkg-duplicate-magic.deb debian-binary debian-binary control.tar data.tar
 ar t pkg-duplicate-magic.deb
 dpkg-deb -I pkg-duplicate-magic.deb
 ], [2], [debian-binary
@@ -312,7 +312,7 @@ data.tar
 
 AT_CHECK([
 # Test duplicate control member
-ar qc pkg-duplicate-control.deb debian-binary control.tar control.tar data.tar
+ar qSc pkg-duplicate-control.deb debian-binary control.tar control.tar data.tar
 ar t pkg-duplicate-control.deb
 dpkg-deb -c pkg-duplicate-control.deb
 ], [2], [debian-binary
@@ -324,7 +324,7 @@ data.tar
 
 AT_CHECK([
 # Test mixed member (index 1)
-ar qc pkg-mixed-1-member.deb debian-binary unknown control.tar data.tar
+ar qSc pkg-mixed-1-member.deb debian-binary unknown control.tar data.tar
 ar t pkg-mixed-1-member.deb
 dpkg-deb -I pkg-mixed-1-member.deb
 ], [2], [debian-binary
@@ -336,7 +336,7 @@ data.tar
 
 AT_CHECK([
 # Test mixed member (index 2)
-ar qc pkg-mixed-2-member.deb debian-binary control.tar unknown data.tar
+ar qSc pkg-mixed-2-member.deb debian-binary control.tar unknown data.tar
 ar t pkg-mixed-2-member.deb
 dpkg-deb -c pkg-mixed-2-member.deb
 ], [2], [debian-binary
@@ -361,7 +361,7 @@ control.tar
 AT_CHECK([
 # Test extra member
 cp pkg-templ.deb pkg-extra-member.deb
-ar q pkg-extra-member.deb unknown
+ar qS pkg-extra-member.deb unknown
 ar t pkg-extra-member.deb
 dpkg-deb -I pkg-extra-member.deb
 ], [], [debian-binary
@@ -383,7 +383,7 @@ unknown
 AT_DATA([_ignore], [])
 AT_CHECK([
 # Test _ member
-ar qc pkg-under-member.deb debian-binary _ignore control.tar data.tar
+ar qSc pkg-under-member.deb debian-binary _ignore control.tar data.tar
 ar t pkg-under-member.deb
 dpkg-deb -I pkg-under-member.deb
 ], [], [debian-binary
@@ -405,7 +405,7 @@ data.tar
 AT_CHECK([
 # Test data.tar.bad member
 $PERL -E 'print "\0" x 4096' >data.tar.bad
-ar qc pkg-data-bad.deb debian-binary control.tar.gz data.tar.bad
+ar qSc pkg-data-bad.deb debian-binary control.tar.gz data.tar.bad
 ar t pkg-data-bad.deb
 dpkg-deb -c pkg-data-bad.deb
 ], [2], [debian-binary
@@ -416,7 +416,7 @@ data.tar.bad
 
 AT_CHECK([
 # Test control.tar member
-ar qc pkg-control-none.deb debian-binary control.tar data.tar
+ar qSc pkg-control-none.deb debian-binary control.tar data.tar
 ar t pkg-control-none.deb
 dpkg-deb -I pkg-control-none.deb
 ], [], [debian-binary
@@ -436,7 +436,7 @@ data.tar
 
 AT_CHECK([
 # Test data.tar member
-ar qc pkg-data-none.deb debian-binary control.tar.gz data.tar
+ar qSc pkg-data-none.deb debian-binary control.tar.gz data.tar
 ar t pkg-data-none.deb
 dpkg-deb -c pkg-data-none.deb
 ], [], [debian-binary
@@ -449,7 +449,7 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 
 AT_CHECK([
 # Test data.tar.gz member
-ar qc pkg-data-gz.deb debian-binary control.tar.gz data.tar.gz
+ar qSc pkg-data-gz.deb debian-binary control.tar.gz data.tar.gz
 ar t pkg-data-gz.deb
 dpkg-deb -c pkg-data-gz.deb
 ], [], [debian-binary
@@ -461,7 +461,7 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 ])
 
 # Create .deb with non-uniform data.tar/control.tar member compression
-ar qc pkg-mixed-comp.deb debian-binary control.tar data.tar.gz
+ar qSc pkg-mixed-comp.deb debian-binary control.tar data.tar.gz
 DEB_MIXED_COMP_SIZE=$(DPKG_FILE_SIZE([pkg-mixed-comp.deb]))
 
 AT_CHECK_UNQUOTED([
@@ -523,7 +523,7 @@ xz -c data.tar >data.tar.xz
 
 AT_CHECK([
 # Test control.tar.xz member
-ar qc pkg-control-xz.deb debian-binary control.tar.xz data.tar.xz
+ar qSc pkg-control-xz.deb debian-binary control.tar.xz data.tar.xz
 ar t pkg-control-xz.deb
 dpkg-deb -c pkg-control-xz.deb
 ], [], [debian-binary
@@ -536,7 +536,7 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 
 AT_CHECK([
 # Test data.tar.xz member
-ar qc pkg-data-xz.deb debian-binary control.tar.gz data.tar.xz
+ar qSc pkg-data-xz.deb debian-binary control.tar.gz data.tar.xz
 ar t pkg-data-xz.deb
 dpkg-deb -c pkg-data-xz.deb
 ], [], [debian-binary
@@ -574,7 +574,7 @@ zstd -c data.tar >data.tar.zst
 
 AT_CHECK([
 # Test control.tar.zst member
-ar qc pkg-control-zst.deb debian-binary control.tar.zst data.tar.zst
+ar qSc pkg-control-zst.deb debian-binary control.tar.zst data.tar.zst
 ar t pkg-control-zst.deb
 dpkg-deb -c pkg-control-zst.deb
 ], [], [debian-binary
@@ -587,7 +587,7 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 
 AT_CHECK([
 # Test data.tar.zst member
-ar qc pkg-data-zst.deb debian-binary control.tar.gz data.tar.zst
+ar qSc pkg-data-zst.deb debian-binary control.tar.gz data.tar.zst
 ar t pkg-data-zst.deb
 dpkg-deb -c pkg-data-zst.deb
 ], [], [debian-binary
@@ -624,7 +624,7 @@ bzip2 -c data.tar >data.tar.bz2
 
 AT_CHECK([
 # Test data.tar.bz2 member
-ar qc pkg-data-bz2.deb debian-binary control.tar.gz data.tar.bz2
+ar qSc pkg-data-bz2.deb debian-binary control.tar.gz data.tar.bz2
 ar t pkg-data-bz2.deb
 dpkg-deb -c pkg-data-bz2.deb
 ], [], [debian-binary
@@ -652,7 +652,7 @@ lzma -c data.tar >data.tar.lzma
 
 AT_CHECK([
 # Test data.tar.lzma member
-ar qc pkg-data-lzma.deb debian-binary control.tar.gz data.tar.lzma
+ar qSc pkg-data-lzma.deb debian-binary control.tar.gz data.tar.lzma
 ar t pkg-data-lzma.deb
 dpkg-deb -c pkg-data-lzma.deb
 ], [], [debian-binary
