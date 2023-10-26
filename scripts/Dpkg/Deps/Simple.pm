@@ -111,6 +111,9 @@ Defaults to 0.
 Specifies whether the parser should consider it a tests dependency.
 Defaults to 0.
 
+This option implicitly (and forcibly) enables C<build_dep> because test
+dependencies are based on build dependencies (since dpkg 1.22.1).
+
 =back
 
 =cut
@@ -126,6 +129,10 @@ sub new {
     $self->{build_arch} = $opts{build_arch};
     $self->{build_dep} = $opts{build_dep} // 0;
     $self->{tests_dep} = $opts{tests_dep} // 0;
+    if ($self->{tests_dep}) {
+        $self->{build_dep} = 1;
+    }
+
     $self->parse_string($arg) if defined $arg;
     return $self;
 }

@@ -252,6 +252,9 @@ If set to 1, allow tests-specific package names in dependencies, that is
 "@" and "@builddeps@" (since dpkg 1.18.7). This should be set whenever
 working with dependency fields from F<debian/tests/control>.
 
+This option implicitly (and forcibly) enables C<build_dep> because test
+dependencies are based on build dependencies (since dpkg 1.22.1).
+
 =back
 
 =cut
@@ -285,6 +288,9 @@ sub deps_parse {
     }
     if ($options{reduce_profiles}) {
         $options{build_profiles} //= [ get_build_profiles() ];
+    }
+    if ($options{tests_dep}) {
+        $options{build_dep} = 1;
     }
 
     # Options for Dpkg::Deps::Simple.
