@@ -135,8 +135,7 @@ m4_define([DPKG_GEN_CONTROL], [
   DPKG_GEN_CTRL_FILE([$1], [control], [DPKG_TMPL_CONTROL([$1])])
 ])
 
-# DPKG_MOD_CONTROL([$pkgname], [$sedexpr])
+# DPKG_MOD_CONTROL([$pkgname], [$perlexpr])
 m4_define([DPKG_MOD_CONTROL], [
-  $SED -e '$2' <'$1/DEBIAN/control' >'$1/DEBIAN/control.new'
-  mv '$1/DEBIAN/control.new' '$1/DEBIAN/control'
+  $PERL -p -i -E '$2' '$1/DEBIAN/control'
 ])

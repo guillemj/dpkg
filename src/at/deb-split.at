@@ -11,7 +11,7 @@ AT_KEYWORDS([dpkg-split deb-split])
 
 DPKG_GEN_CONTROL([pkg-split])
 DPKG_MOD_CONTROL([pkg-split],
-                 [s/^Description:.*$/& - normal package to be split/])
+                 [s/^Description:.*$/$& - normal package to be split/])
 AT_CHECK([
 # Initialize the template package
 chmod -R u+w pkg-split
@@ -42,9 +42,7 @@ DEB_SPLIT_PART_SIZE_VERSION=$((DEB_SPLIT_PART_SIZE + 2))
 AT_CHECK_UNQUOTED([
 # Test debian-split with 2.x version
 ar x pkg-split-part.1of10.deb debian-split
-$SED -e '1c\
-2.999' debian-split >debian-split.new
-mv debian-split.new debian-split
+$PERL -p -i -E 's/.*/2.999/ if $. == 1' debian-split
 ar qSc pkg-split-part-version-2x.deb debian-split data.1
 ar t pkg-split-part-version-2x.deb
 dpkg-split -I pkg-split-part-version-2x.deb
