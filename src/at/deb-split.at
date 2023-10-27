@@ -92,7 +92,7 @@ pkg-split-part-magic-extra.deb:
 AT_CHECK([
 # Test missing debian-split
 cp pkg-split-part.1of10.deb pkg-split-part-missing-magic.deb
-ar dS pkg-split-part-missing-magic.deb debian-split
+ar d pkg-split-part-missing-magic.deb debian-split
 ar t pkg-split-part-missing-magic.deb
 dpkg-split -I pkg-split-part-missing-magic.deb
 ], [], [data.1
@@ -102,7 +102,7 @@ file 'pkg-split-part-missing-magic.deb' is not an archive part
 AT_CHECK([
 # Test missing data part member
 cp pkg-split-part.1of10.deb pkg-split-part-missing-data.deb
-ar dS pkg-split-part-missing-data.deb data.1
+ar d pkg-split-part-missing-data.deb data.1
 ar t pkg-split-part-missing-data.deb
 dpkg-split -I pkg-split-part-missing-data.deb
 ], [2], [debian-split

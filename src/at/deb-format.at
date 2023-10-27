@@ -268,7 +268,7 @@ data.tar
 AT_CHECK([
 # Test missing debian-binary member
 cp pkg-templ.deb pkg-missing-magic.deb
-ar dS pkg-missing-magic.deb debian-binary
+ar d pkg-missing-magic.deb debian-binary
 ar t pkg-missing-magic.deb
 dpkg-deb -I pkg-missing-magic.deb
 ], [2], [control.tar
@@ -279,7 +279,7 @@ data.tar
 AT_CHECK([
 # Test missing control member
 cp pkg-templ.deb pkg-missing-control.deb
-ar dS pkg-missing-control.deb control.tar
+ar d pkg-missing-control.deb control.tar
 ar t pkg-missing-control.deb
 dpkg-deb -I pkg-missing-control.deb
 ], [2], [debian-binary
@@ -290,7 +290,7 @@ data.tar
 AT_CHECK([
 # Test missing data member
 cp pkg-templ.deb pkg-missing-data.deb
-ar dS pkg-missing-data.deb data.tar
+ar d pkg-missing-data.deb data.tar
 ar t pkg-missing-data.deb
 dpkg-deb -c pkg-missing-data.deb
 ], [2], [debian-binary
