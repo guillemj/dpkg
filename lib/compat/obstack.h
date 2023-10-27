@@ -354,7 +354,7 @@ __extension__								\
 __extension__								\
 ({ struct obstack *__o = (OBSTACK);					\
    size_t __len = (length);						\
-   if (__o->chunk_limit - __o->next_free < __len)			\
+   if ((size_t) (__o->chunk_limit - __o->next_free) < __len)		\
      _obstack_newchunk (__o, __len);					\
    obstack_blank_fast (__o, __len);					\
    (void) 0; })
@@ -465,7 +465,7 @@ __extension__								\
 
 # define obstack_blank(h,length)					\
 ( (h)->temp.tempint = (length),						\
-  (((h)->chunk_limit - (h)->next_free < (h)->temp.tempint)		\
+  (((size_t) ((h)->chunk_limit - (h)->next_free) < (h)->temp.tempint)	\
    ? (_obstack_newchunk ((h), (h)->temp.tempint), 0) : 0),		\
   obstack_blank_fast (h, (h)->temp.tempint))
 
@@ -487,7 +487,7 @@ __extension__								\
     = __PTR_ALIGN ((h)->object_base, (h)->next_free,			\
 		   (h)->alignment_mask),				\
   (((size_t) ((h)->next_free - (char *) (h)->chunk)			\
-    > (size_t) ((h)->chunk_limit - (char *) (h)->chunk))			\
+    > (size_t) ((h)->chunk_limit - (char *) (h)->chunk))		\
    ? ((h)->next_free = (h)->chunk_limit) : 0),				\
   (h)->object_base = (h)->next_free,					\
   (h)->temp.tempptr)
@@ -495,7 +495,7 @@ __extension__								\
 # define obstack_free(h,obj)						\
 ( (h)->temp.tempint = (char *) (obj) - (char *) (h)->chunk,		\
   ((((h)->temp.tempint > 0						\
-    && (h)->temp.tempint < (h)->chunk_limit - (char *) (h)->chunk))	\
+    && (h)->temp.tempint < (size_t) ((h)->chunk_limit - (char *) (h)->chunk)))	\
    ? (int) ((h)->next_free = (h)->object_base				\
 	    = (h)->temp.tempint + (char *) (h)->chunk)			\
    : (((__obstack_free) ((h), (h)->temp.tempint + (char *) (h)->chunk), 0), 0)))
