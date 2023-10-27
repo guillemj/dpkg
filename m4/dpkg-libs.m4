@@ -217,7 +217,7 @@ AC_DEFUN([DPKG_LIB_RT], [
 
 # DPKG_LIB_SOCKET
 # ---------------
-# Check for socket library
+# Check for Solaris socket library
 AC_DEFUN([DPKG_LIB_SOCKET], [
   AC_ARG_VAR([SOCKET_LIBS], [linker flags for socket library])dnl
   have_libsocket="no"
