@@ -21,6 +21,10 @@
  */
 
 #include <config.h>
+/* On at least Solaris <= 11.3 procfs is not compatible with LFS. */
+#if !DPKG_STRUCTURED_PROCFS_SUPPORTS_LFS
+#undef _FILE_OFFSET_BITS
+#endif
 #include <compat.h>
 
 #include <dpkg/macros.h>
@@ -49,8 +53,13 @@
 #  error Unknown architecture - cannot build start-stop-daemon
 #endif
 
+#if defined(OS_NetBSD)
 /* NetBSD needs this to expose struct proc. */
 #define _KMEMUSER 1
+#elif defined(OS_Solaris)
+/* Solaris needs this to expose the new structured procfs API. */
+#define _STRUCTURED_PROC 1
+#endif
 
 #ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>
@@ -1610,7 +1619,7 @@ proc_status_field(pid_t pid, const char *field)
 
 	return value;
 }
-#elif defined(OS_AIX)
+#elif (defined(OS_Solaris) || defined(OS_AIX)) && HAVE_STRUCT_PSINFO
 static bool
 proc_get_psinfo(pid_t pid, struct psinfo *psinfo)
 {
@@ -1741,7 +1750,7 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 
 	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
 }
-#elif defined(OS_AIX)
+#elif (defined(OS_Solaris) || defined(OS_AIX)) && HAVE_STRUCT_PSINFO
 static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
 {
@@ -1934,7 +1943,7 @@ pid_is_child(pid_t pid, pid_t ppid)
 
 	return (pid_t)info.pbi_ppid == ppid;
 }
-#elif defined(OS_AIX)
+#elif (defined(OS_Solaris) || defined(OS_AIX)) && HAVE_STRUCT_PSINFO
 static bool
 pid_is_child(pid_t pid, pid_t ppid)
 {
@@ -2043,7 +2052,7 @@ pid_is_user(pid_t pid, uid_t uid)
 
 	return info.pbi_ruid == uid;
 }
-#elif defined(OS_AIX)
+#elif (defined(OS_Solaris) || defined(OS_AIX)) && HAVE_STRUCT_PSINFO
 static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
@@ -2168,7 +2177,7 @@ pid_is_cmd(pid_t pid, const char *name)
 
 	return false;
 }
-#elif defined(OS_AIX)
+#elif (defined(OS_Solaris) || defined(OS_AIX)) && HAVE_STRUCT_PSINFO
 static bool
 pid_is_cmd(pid_t pid, const char *name)
 {

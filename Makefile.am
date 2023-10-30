@@ -24,6 +24,7 @@ dist_aclocal_DATA = \
 	m4/dpkg-compiler.m4 \
 	m4/dpkg-coverage.m4 \
 	m4/dpkg-funcs.m4 \
+	m4/dpkg-headers.m4 \
 	m4/dpkg-libs.m4 \
 	m4/dpkg-linker.m4 \
 	m4/dpkg-progs.m4 \

@@ -127,7 +127,6 @@ AC_CHECK_HEADERS([\
   sys/syscall.h \
   sys/user.h \
   sys/mkdev.h \
-  sys/procfs.h \
   sys/pstat.h \
   linux/fiemap.h \
 ])
@@ -143,6 +142,7 @@ AS_CASE([$host_os],
     ])
   ]
 )
+DPKG_CHECK_HEADER_SYS_PROCFS
 AC_CHECK_HEADERS([sys/proc.h], [], [], [
 #ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>
@@ -164,6 +164,7 @@ AC_TYPE_MODE_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 DPKG_TYPE_PTRDIFF_T
+DPKG_TYPE_STRUCT_PSINFO
 DPKG_DECL_SYS_SIGLIST
 DPKG_DECL_SYS_ERRLIST
 
