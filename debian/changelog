@@ -1,8 +1,119 @@
-dpkg (1.22.1) UNRELEASED; urgency=medium
+dpkg (1.22.1) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * dpkg-deb: Reject --no-uniform-compression with format 0.939000.
+  * dpkg-deb: Force deb format 0.939000 to use gzip compression.
+  * update-alternatives: Fix typo in comment.
+  * update-alternatives: Unvendor documentation and --version output.
+  * scripts: Remove unused GCJ and GCJFLAGS support.
+  * scripts: Add basic support for _FOR_BUILD build flags.
+  * Perl modules:
+    - Dpkg::BuildAPI: Move DESCRIPTION before package declaration.
+    - Dpkg::Source::Archive: Use $Dpkg::PROGTAR instead of tar in error
+      message.
+    - Dpkg::Source::Patch: Warn when patching hard linked files.
+    - Dpkg::Vendor::Debian: Mark loong64 as having pie builtin.
+      Thanks to yalingfang <fangyaling@loongson.cn>. Closes: #1053778
+    - Dpkg::BuildFlags: Refactor flags initialization by using a single list.
+    - Dpkg::Deps: Implicitly enable build_deps option on tests_deps.
+      Closes: #1053481
+    - Dpkg::Vendor::Debian: Fix stackclash condition to enable the feature
+      on armhf and armel. Closes: #1054583
+  * Make fragments:
+    - Wrap DPKG_BUILDFLAGS_LIST into one entry per line.
+  * Documentation:
+    - man: Fix typo in stackclash feature name in dpkg-buildflags(1).
+    - doc: Fix typos in code comments.
+    - doc: Use macOS instead of Mac OS X in code comments.
+    - man: Document the list of editors tried on dpkg-source --commit.
+      Closes: #1051209
+    - doc: Update R³ default values to take dpkg-build-api into account.
+    - man: Clarify Maintainer field in dpkg-parsechangelog(1). See #1053705.
+    - man: Document all dpkg-parsechangelog(1) output fields.
+    - doc, man: Use manual page instead of manpage.
+    - doc, man: Use field name or field-name instead of fieldname.
+    - man: Use web interface instead of both terms concatenated.
+    - man: Hyphenate 32-bit and 64-bit.
+    - doc, man: Use L</> markup for inter link references.
+    - doc: Use name() POD syntax instead of C<>, B<> or L<> for function names.
+    - doc: Use name() POD syntax instead of a bare function name.
+    - doc: Simplify references in CHANGES sections.
+    - doc, man: Use L<> for manual page references.
+    - doc, man: Use media discs instead of CD-ROM.
+    - man: Use /media/bdrom instead of /media/cdrom.
+    - man: Fix grammar in dpkg --force-confdef description.
+    - man: Avoid redundant action list in dpkg invoke hook description.
+    - man: Document the intermediary filenames used during unpack and
+      configure. Prompted by Florian Weimer <fweimer@redhat.com>.
+      See https://sourceware.org/pipermail/libc-alpha/2023-October/152245.html.
+    - man: Update dpkg EXAMPLES section.
+    - man: Recommend debsig-verify instead of debsums for additional
+      functionality.
+    - doc: Clarify compiler flag variables are for the host.
+  * Code internals:
+    - src: Use DEBEXT instead of hard-coding ".deb".
+    - dpkg-deb: Initialize threads_max in no-uniform-compression mode.
+    - dpkg-deb: Refactor legacy compress_params.
+    - libdpkg: Refactor struct treewalk_funcs compound initializer into a
+      macro.
+    - libdpkg: Initialize TREEWALK_OBJECT with a 0.
+    - libdpkg: Define DPKG_NULL to nullptr on C23 mode.
+    - libcompat: Fix comparison of integers of different sign in
+      obstack_blank().
+    - libcompat: Declare exit_failure as an extern variable.
+  * Build system:
+    - Remove dpkg prefix from default deb compressor configure knobs.
+    - Parametrize dpkg-deb default compressor in man page.
+    - Use TAR variable from configure instead of hard-coded tar.
+    - Split sanitizer CI unit tests from author checks.
+    - Rename the shared library CI tests to shlib-tests.
+    - Run make in parallel for autotest and TAP CI test jobs.
+    - Make default shell and pager selectable at configure time.
+    - Handle almost-POSIX shells that do not support -- after -c.
+      See https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=274650.
+    - Check for available pagers during configure.
+    - Add comment for the system the DPKG_LIB_SOCKET m4 macro is needed.
+  * Packaging:
+    - Do not stop the dpkg-db-backup timer and service during upgrade.
+      Closes: #1051085
+    - Fix typos in debian/control comments.
+  * Test suite:
+    - Update cppcheck suppressions for 2.12.0.
+    - Add installtest target and make test use the build tree programs.
+    - Add new DPKG_CWD m4 macro.
+    - Do not use -T for ln calls.
+    - Generate the .deb from scratch instead of adapting them.
+    - Update suppressions for codespell 2.2.6.
+    - Use «\\n» after «a» and «c» sed commands.
+    - Use perl instead of dd to create a zero-filled file.
+    - Pass argument S to ar to avoid generating a symbol table.
+    - Replace SED usage with PERL.
+    - Include <sys/mkdev.h> on Solaris for major() and minor().
+  * Localization:
+    - Update Dutch translations.
+      Thanks to Frans Spiesschaert <Frans.Spiesschaert@yucom.be>.
+      Closes: #1053235, #1053236, #1053237
+    - Update Portuguese man pages translation.
+      Thanks to Américo Monteiro <a_monteiro@gmx.com>. Closes: #1051634
+    - Update Romanian dselect translation.
+      Thanks to Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>.
+      Closes: #1053364
+    - Update Romanian programs translation.
+      Thanks to Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>.
+      Closes: #1054196
+    - Update Swedish translations.
+      Thanks to Peter Krefting <peter@softwolves.pp.se>. Closes: #1054510
 
- -- Guillem Jover <guillem@debian.org>  Wed, 30 Aug 2023 06:07:32 +0200
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+    - Update German scripts translation.
+
+  [ Sven Joachim ]
+  * Localization:
+    - Update German programs translation.
+
+ -- Guillem Jover <guillem@debian.org>  Mon, 30 Oct 2023 04:14:22 +0100
 
 dpkg (1.22.0) unstable; urgency=medium
 
