@@ -126,6 +126,7 @@ AC_CHECK_HEADERS([\
   sys/param.h \
   sys/syscall.h \
   sys/user.h \
+  sys/mkdev.h \
   sys/procfs.h \
   sys/pstat.h \
   linux/fiemap.h \

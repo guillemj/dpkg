@@ -25,6 +25,9 @@
 #if HAVE_SYS_SYSMACROS_H
 #include <sys/sysmacros.h> /* Needed on AIX for major()/minor(). */
 #endif
+#if HAVE_SYS_MKDEV_H
+#include <sys/mkdev.h> /* Needed on Solaris for major()/minor(). */
+#endif
 
 #include <fcntl.h>
 #include <stdint.h>
