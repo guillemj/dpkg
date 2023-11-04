@@ -192,6 +192,14 @@ AC_DEFUN([DPKG_LIB_CURSES], [
   ], [
     _DPKG_CHECK_LIB_CURSES_NARROW()
   ])
+  dnl Check whether linking against the curses library also exposes the tinfo
+  dnl symbols, otherwise explicitly link against it.
+  dpkg_save_curses_LIBS=$LIBS
+  LIBS="$CURSES_LIBS"
+  AC_SEARCH_LIBS([tigetstr], [tinfo], [
+    CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }-ltinfo"
+  ])
+  LIBS=$dpkg_save_curses_LIBS
   AS_IF([test "x$have_curses_header" != "xyes"], [
     AC_MSG_FAILURE([curses header not found])
   ])
