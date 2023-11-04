@@ -552,7 +552,6 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
                         _("'%s' field, reference to '%.255s':\n"
                           " bad version relationship %c%c"),
                         fip->name, depname.buf, c1, c2);
-            dop->verrel = DPKG_RELATION_NONE;
           } else {
             parse_warn(ps,
                        _("'%s' field, reference to '%.255s':\n"
