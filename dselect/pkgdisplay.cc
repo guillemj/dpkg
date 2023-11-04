@@ -189,9 +189,9 @@ void packagelist::setwidths() {
 }
 
 void packagelist::redrawtitle() {
-  int x, y DPKG_ATTR_UNUSED;
-
   if (title_height) {
+    int x, y DPKG_ATTR_UNUSED;
+
     mywerase(titlewin);
     mvwaddnstr(titlewin,0,0,
                recursive ?  _("dselect - recursive package listing") :

@@ -105,7 +105,6 @@ void
 packagelist::setwant(pkgwant nwarg)
 {
   int bot;
-  pkgwant nw;
 
   if (modstatdb_get_status() == msdbrw_readonly) {
     beep();
@@ -119,6 +118,7 @@ packagelist::setwant(pkgwant nwarg)
     bot= cursorline+1;
   } else {
     int top;
+    pkgwant nw;
 
     packagelist *sub = new packagelist(bindings, nullptr);
 

@@ -501,8 +501,6 @@ make_path(const char *pathname, mode_t mode)
 static void LIBCOMPAT_ATTR_PRINTF(1)
 log_msg(const char *fmt, ...)
 {
-	va_list args;
-
 	if (fh_log == NULL) {
 		fh_log = fopen(log_file, "a");
 		if (fh_log == NULL && errno == ENOENT) {
@@ -520,6 +518,7 @@ log_msg(const char *fmt, ...)
 	}
 
 	if (fh_log) {
+		va_list args;
 		char timestamp[64];
 		time_t now;
 		struct tm tm;
@@ -1812,7 +1811,7 @@ alternative_select_choice(struct alternative *a)
 	char *ret, selection[_POSIX_PATH_MAX];
 	struct fileset *best, *fs;
 	int n_choices;
-	int len, idx;
+	int len;
 
 	n_choices = alternative_choices_count(a);
 	current = alternative_get_current(a);
@@ -1824,6 +1823,8 @@ alternative_select_choice(struct alternative *a)
 		len = max(len, (int)strlen(fs->master_file) + 1);
 
 	for (;;) {
+		int idx;
+
 		pr(P_("There is %d choice for the alternative %s (providing %s).",
 		      "There are %d choices for the alternative %s (providing %s).",
 		      n_choices), n_choices, a->master_name, a->master_link);

@@ -345,12 +345,13 @@ discard_parts(struct partqueue *queue, enum discard_which which,
 int
 do_discard(const char *const *argv)
 {
-  const char *thisarg;
   struct partqueue *queue;
-  struct partqueue *pq;
 
   queue = scandepot();
   if (*argv) {
+    const char *thisarg;
+    struct partqueue *pq;
+
     for (pq= queue; pq; pq= pq->nextinqueue)
       if (pq->info.md5sum)
         mustgetpartinfo(pq->info.filename,&pq->info);

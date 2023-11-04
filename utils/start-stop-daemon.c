@@ -665,7 +665,6 @@ wait_for_notify(int fd)
 {
 	struct timespec startat, now, elapsed, timeout, timeout_orig;
 	fd_set fdrs;
-	int rc;
 
 	timeout.tv_sec = notify_timeout;
 	timeout.tv_nsec = 0;
@@ -674,6 +673,8 @@ wait_for_notify(int fd)
 	timespec_gettime(&startat);
 
 	while (timeout.tv_sec >= 0 && timeout.tv_nsec >= 0) {
+		int rc;
+
 		FD_ZERO(&fdrs);
 		FD_SET(fd, &fdrs);
 
@@ -2452,9 +2453,9 @@ do_procinit(void)
 	enum status_code prog_status = STATUS_DEAD;
 
 	while ((count = pstat_getproc(pst, sizeof(pst[0]), 10, idx)) > 0) {
-		enum status_code pid_status;
-
 		for (i = 0; i < count; i++) {
+			enum status_code pid_status;
+
 			pid_status = pid_check(pst[i].pst_pid);
 			if (pid_status < prog_status)
 				prog_status = pid_status;
@@ -2755,12 +2756,14 @@ static bool
 do_stop_timeout(int timeout, int *n_killed, int *n_notkilled)
 {
 	struct timespec stopat, before, after, interval, maxinterval;
-	int rc, ratio;
+	int ratio;
 
 	timespec_gettime(&stopat);
 	stopat.tv_sec += timeout;
 	ratio = 1;
 	for (;;) {
+		int rc;
+
 		timespec_gettime(&before);
 		if (timespec_cmp(&before, &stopat, >))
 			return false;

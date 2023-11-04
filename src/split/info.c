@@ -265,14 +265,15 @@ int
 do_info(const char *const *argv)
 {
   const char *thisarg;
-  struct partinfo *pi, ps;
-  struct dpkg_ar *part;
 
   if (!*argv)
     badusage(_("--%s requires one or more part file arguments"),
              cipaction->olong);
 
   while ((thisarg= *argv++)) {
+    struct partinfo *pi, ps;
+    struct dpkg_ar *part;
+
     part = dpkg_ar_open(thisarg);
     if (!part)
       ohshite(_("cannot open archive part file '%.250s'"), thisarg);
