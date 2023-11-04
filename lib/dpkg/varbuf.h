@@ -57,7 +57,7 @@ struct varbuf {
 	char *buf;
 
 #ifdef __cplusplus
-	varbuf(size_t _size = 0);
+	explicit varbuf(size_t _size = 0);
 	~varbuf();
 	void init(size_t _size = 0);
 	void reset();
