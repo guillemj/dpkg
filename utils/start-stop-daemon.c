@@ -365,6 +365,8 @@ fatal(const char *format, ...)
 
 	va_start(args, format);
 	fatalv(0, format, args);
+	/* cppcheck-suppress[va_end_missing]:
+	 * False positive, fatalv() is non-returning. */
 }
 
 static void LIBCOMPAT_ATTR_NORET LIBCOMPAT_ATTR_PRINTF(1)
@@ -374,6 +376,8 @@ fatale(const char *format, ...)
 
 	va_start(args, format);
 	fatalv(errno, format, args);
+	/* cppcheck-suppress[va_end_missing]:
+	 * False positive, fatalv() is non-returning. */
 }
 
 #define BUG(...) bug(__FILE__, __LINE__, __func__, __VA_ARGS__)

@@ -50,11 +50,15 @@ void *
 nfmalloc(size_t size)
 {
   OBSTACK_INIT;
+  /* cppcheck-suppress[nullPointerArithmetic]:
+   * False positive, imported module. */
   return obstack_alloc(&db_obs, size);
 }
 
 char *nfstrsave(const char *string) {
   OBSTACK_INIT;
+  /* cppcheck-suppress[nullPointerArithmetic]:
+   * False positive, imported module. */
   return obstack_copy0 (&db_obs, string, strlen(string));
 }
 
@@ -62,11 +66,15 @@ char *
 nfstrnsave(const char *string, size_t size)
 {
   OBSTACK_INIT;
+  /* cppcheck-suppress[nullPointerArithmetic]:
+   * False positive, imported module. */
   return obstack_copy0(&db_obs, string, size);
 }
 
 void nffreeall(void) {
   if (dbobs_init) {
+    /* cppcheck-suppress[nullPointerArithmetic,pointerLessThanZero]:
+     * False positive, imported module. */
     obstack_free(&db_obs, NULL);
     dbobs_init = false;
   }

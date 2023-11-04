@@ -194,6 +194,8 @@ pkg_hash_get_pkg(struct pkgset *set, const struct dpkg_arch *arch)
   /* Match the slot with the most appropriate architecture. The installed
    * architecture always has preference over the available one, as there's
    * a small time window on cross-grades, where they might differ. */
+  /* cppcheck-suppress[knownConditionTrueFalse,knownPointerToBool]:
+   * False positive, the condition always ends up being false. */
   for (pkgp = &pkg; *pkgp; pkgp = &(*pkgp)->arch_next) {
     if ((*pkgp)->installed.arch == arch)
       return *pkgp;

@@ -25,10 +25,6 @@ test_needs_srcdir_switch();
 
 plan tests => 1;
 
-# XXX: We should add the following to @cppcheck_opts, but then cppcheck emits
-# tons of false positives due to not understanding non-returning functions.
-#  -DLIBDPKG_VOLATILE_API=1
-#  -Ilib
 my @cppcheck_opts = (qw(
   --quiet
   --force
@@ -36,8 +32,15 @@ my @cppcheck_opts = (qw(
   --inline-suppr
   --suppressions-list=t/cppcheck/cppcheck.supp
   --std=c99 --std=c++03
+  -Ilib
+  -Ilib/compat
+  -Isrc/common
+  -I.
+  -D__GNUC__=12
+  -D__GNUC_MINOR__=0
   -D_DIRENT_HAVE_D_TYPE=1
   -DWITH_LIBSELINUX=1
+  -DLIBDPKG_VOLATILE_API=1
 ), (
   '--enable=warning,performance,portability,style',
   '--template=\'{file}:{line}: {severity} ({id}): {message}\''

@@ -89,6 +89,8 @@ tar_pool_alloc(size_t size)
     tar_pool_init = true;
   }
 
+  /* cppcheck-suppress[nullPointerArithmetic]:
+   * False positive, imported module. */
   return obstack_alloc(&tar_pool, size);
 }
 
@@ -108,6 +110,8 @@ static void
 tar_pool_release(void)
 {
   if (tar_pool_init) {
+    /* cppcheck-suppress[nullPointerArithmetic,pointerLessThanZero]:
+     * False positive, imported module. */
     obstack_free(&tar_pool, NULL);
     tar_pool_init = false;
   }

@@ -411,8 +411,6 @@ static const struct trigkindinfo tki_explicit = {
 /*---------- File triggers. ----------*/
 
 static struct {
-	/* cppcheck-suppress[unusedStructMember]:
-	 * False positive, macros from dlist.h use the tail member. */
 	struct trigfileint *head, *tail;
 } filetriggers;
 
