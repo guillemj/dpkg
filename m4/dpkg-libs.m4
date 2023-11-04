@@ -196,10 +196,12 @@ AC_DEFUN([DPKG_LIB_CURSES], [
   dnl symbols, otherwise explicitly link against it.
   dpkg_save_curses_LIBS=$LIBS
   LIBS="$CURSES_LIBS"
-  AC_SEARCH_LIBS([tigetstr], [tinfo], [
-    CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }-ltinfo"
-  ])
+  AC_SEARCH_LIBS([tigetstr], [tinfo])
   LIBS=$dpkg_save_curses_LIBS
+  AS_IF([test "x$ac_cv_search_tigetstr" != "xnone required" && \
+         test "x$ac_cv_search_tigetstr" != "xno"], [
+    CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }$ac_cv_search_tigetstr"
+  ])
   AS_IF([test "x$have_curses_header" != "xyes"], [
     AC_MSG_FAILURE([curses header not found])
   ])
