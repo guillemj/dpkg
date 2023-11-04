@@ -171,9 +171,13 @@ npgettext_aux (const char *domain,
 
 #include <string.h>
 
+/* We do not want VLAs, which have a terrible failure mode on stack
+ * exhaustion. */
+#if 0
 #define _LIBGETTEXT_HAVE_VARIABLE_SIZE_ARRAYS \
   (((__GNUC__ >= 3 || __GNUG__ >= 2) && !__STRICT_ANSI__) \
    /* || __STDC_VERSION__ >= 199901L */ )
+#endif
 
 #if !_LIBGETTEXT_HAVE_VARIABLE_SIZE_ARRAYS
 #include <stdlib.h>
