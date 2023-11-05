@@ -1937,12 +1937,12 @@ pid_is_child(pid_t pid, pid_t ppid)
 static bool
 pid_is_child(pid_t pid, pid_t ppid)
 {
-	struct proc_bsdinfo info;
+	struct proc_bsdinfo pbi;
 
-	if (proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &info, sizeof(info)) < 0)
+	if (proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &pbi, sizeof(pbi)) < 0)
 		return false;
 
-	return (pid_t)info.pbi_ppid == ppid;
+	return (pid_t)pbi.pbi_ppid == ppid;
 }
 #elif (defined(OS_Solaris) || defined(OS_AIX)) && HAVE_STRUCT_PSINFO
 static bool
@@ -2046,12 +2046,12 @@ pid_is_user(pid_t pid, uid_t uid)
 static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
-	struct proc_bsdinfo info;
+	struct proc_bsdinfo pbi;
 
-	if (proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &info, sizeof(info)) < 0)
+	if (proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &pbi, sizeof(pbi)) < 0)
 		return false;
 
-	return info.pbi_ruid == uid;
+	return pbi.pbi_ruid == uid;
 }
 #elif (defined(OS_Solaris) || defined(OS_AIX)) && HAVE_STRUCT_PSINFO
 static bool
