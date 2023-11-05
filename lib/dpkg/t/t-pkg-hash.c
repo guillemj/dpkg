@@ -57,8 +57,8 @@ test_pkg_hash(void)
 	test_pass(pkg_hash_count_pkg() == 1);
 
 	set = pkg_hash_find_set("pkg-bb");
-	pkg_set_status(&set->pkg, PKG_STAT_INSTALLED);
 	test_pass(set != NULL);
+	pkg_set_status(&set->pkg, PKG_STAT_INSTALLED);
 	test_str(set->name, ==, "pkg-bb");
 	test_pass(pkg_hash_count_set() == 2);
 	test_pass(pkg_hash_count_pkg() == 2);
@@ -71,8 +71,8 @@ test_pkg_hash(void)
 
 	arch = dpkg_arch_find("arch-xx");
 	pkg = pkg_hash_find_pkg("pkg-aa", arch);
-	pkg_set_status(pkg, PKG_STAT_INSTALLED);
 	test_pass(pkg != NULL);
+	pkg_set_status(pkg, PKG_STAT_INSTALLED);
 	test_str(pkg->set->name, ==, "pkg-aa");
 	test_str(pkg->installed.arch->name, ==, "arch-xx");
 	test_str(pkg->available.arch->name, ==, "arch-xx");
@@ -90,8 +90,8 @@ test_pkg_hash(void)
 
 	arch = dpkg_arch_find("arch-zz");
 	pkg = pkg_hash_find_pkg("pkg-aa", arch);
-	pkg_set_status(pkg, PKG_STAT_UNPACKED);
 	test_pass(pkg != NULL);
+	pkg_set_status(pkg, PKG_STAT_UNPACKED);
 	test_str(pkg->set->name, ==, "pkg-aa");
 	test_str(pkg->installed.arch->name, ==, "arch-zz");
 	test_str(pkg->available.arch->name, ==, "arch-zz");
