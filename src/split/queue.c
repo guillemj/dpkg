@@ -252,19 +252,22 @@ do_queue(const char *const *argv)
 {
   struct partqueue *queue;
   struct partqueue *pq;
-  const char *head;
   struct stat stab;
   off_t bytes;
+  bool part_found;
 
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
   queue = scandepot();
 
-  head= N_("Junk files left around in the depot directory:\n");
+  part_found = false;
   for (pq= queue; pq; pq= pq->nextinqueue) {
     if (pq->info.md5sum) continue;
-    fputs(gettext(head),stdout); head= "";
+    if (!part_found) {
+      printf(_("Junk files left around in the depot directory:\n"));
+      part_found = true;
+    }
     if (lstat(pq->info.filename,&stab))
       ohshit(_("unable to stat '%.250s'"), pq->info.filename);
     if (S_ISREG(stab.st_mode)) {
@@ -274,16 +277,21 @@ do_queue(const char *const *argv)
       printf(_(" %s (not a plain file)\n"),pq->info.filename);
     }
   }
-  if (!*head) putchar('\n');
+  if (part_found)
+    putchar('\n');
 
-  head= N_("Packages not yet reassembled:\n");
+  part_found = false;
   for (pq= queue; pq; pq= pq->nextinqueue) {
     struct partinfo ti;
     int i;
 
     if (!pq->info.md5sum) continue;
     mustgetpartinfo(pq->info.filename,&ti);
-    fputs(gettext(head),stdout); head= "";
+    if (!part_found) {
+      printf(_("Packages not yet reassembled:\n"));
+      part_found = false;
+    }
+
     printf(_(" Package %s: part(s) "), ti.package);
     bytes= 0;
     for (i=0; i<ti.maxpartn; i++) {
