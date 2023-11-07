@@ -79,10 +79,6 @@ my $host_arch = get_host_arch();
 
 my (@pkg_shlibs, @pkg_symbols, @pkg_root_dirs);
 
-my $control = Dpkg::Control::Info->new();
-# Initialize build API level.
-get_build_api($control);
-
 my ($stdout, %exec);
 foreach (@ARGV) {
     if (m/^-T(.*)$/) {
@@ -163,6 +159,10 @@ if (-d 'debian') {
     my %uniq = map { guess_pkg_root_dir($_) => 1 } (@pkg_symbols, @pkg_shlibs);
     push @pkg_root_dirs, keys %uniq;
 }
+
+my $control = Dpkg::Control::Info->new();
+# Initialize build API level.
+get_build_api($control);
 
 foreach my $libdir (@priv_lib_dirs) {
     Dpkg::Shlibs::add_library_dir($libdir);
