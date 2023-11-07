@@ -72,6 +72,7 @@ my $ignore_missing_info = 0;
 my $warnings = WARN_SYM_NOT_FOUND | WARN_DEP_AVOIDABLE;
 my $debug = 0;
 my @exclude = ();
+my @priv_lib_dirs = ();
 my @pkg_dir_to_search = ();
 my @pkg_dir_to_ignore = ();
 my $host_arch = get_host_arch();
@@ -91,7 +92,7 @@ foreach (@ARGV) {
     } elsif (m/^-L(.*)$/) {
 	$shlibslocal = $1;
     } elsif (m/^-l(.*)$/) {
-	Dpkg::Shlibs::add_library_dir($1);
+        push @priv_lib_dirs, $1;
     } elsif (m/^-S(.*)$/) {
 	push @pkg_dir_to_search, $1;
     } elsif (m/^-I(.*)$/) {
@@ -161,6 +162,10 @@ if (-d 'debian') {
     push @pkg_shlibs, grep { !ignore_pkgdir($_) } glob 'debian/*/DEBIAN/shlibs';
     my %uniq = map { guess_pkg_root_dir($_) => 1 } (@pkg_symbols, @pkg_shlibs);
     push @pkg_root_dirs, keys %uniq;
+}
+
+foreach my $libdir (@priv_lib_dirs) {
+    Dpkg::Shlibs::add_library_dir($libdir);
 }
 
 my $fields = $control->get_source();
