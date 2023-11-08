@@ -279,6 +279,8 @@ Configuration:
     sizeof(double)  . . . . . . . : ${ac_cv_sizeof_double}
     sizeof(long double) . . . . . : ${ac_cv_sizeof_long_double}
     sizeof(void *)  . . . . . . . : ${ac_cv_sizeof_void_p}
+    sizeof(off_t) . . . . . . . . : ${ac_cv_sizeof_off_t}
+    sizeof(time_t)  . . . . . . . : ${ac_cv_sizeof_time_t}
     alignof(max_align_t)  . . . . : ${ac_cv_alignof_max_align_t}
 
   Features:
