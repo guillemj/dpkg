@@ -219,6 +219,7 @@ sub set_build_features {
     # On musl libc based systems all ports use time64.
     my %time32_arch = map { $_ => 1 } qw(
         arm
+        arm64ilp32
         armeb
         armel
         armhf
