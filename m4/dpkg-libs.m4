@@ -146,7 +146,7 @@ AC_DEFUN([DPKG_LIB_SELINUX], [
           AC_MSG_FAILURE([libselinux header not found])
         ])
       ])
-      AC_CHECK_LIB([selinux], [setexecfilecon], [], [
+      AC_CHECK_LIB([selinux], [setexecfilecon], [:], [
         AC_MSG_FAILURE([libselinux does not support setexecfilecon()])
       ])
     ], [
