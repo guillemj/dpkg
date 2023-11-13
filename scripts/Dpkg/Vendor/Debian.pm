@@ -324,9 +324,9 @@ sub set_build_features {
     ## Area: hardening
 
     # Mask features that are not available on certain architectures.
-    if (none { $os eq $_ } qw(linux kfreebsd knetbsd hurd) or
+    if (none { $os eq $_ } qw(linux kfreebsd hurd) or
         any { $cpu eq $_ } qw(alpha hppa ia64)) {
-	# Disabled on non-(linux/kfreebsd/knetbsd/hurd).
+	# Disabled on non-(linux/kfreebsd/hurd).
         # Disabled on alpha, hppa, ia64.
 	$use_feature{hardening}{pie} = 0;
     }
