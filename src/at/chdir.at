@@ -5,6 +5,26 @@
 m4_foreach_w([CMD], [dpkg dpkg-divert dpkg-statoverride], [
   m4_define([CMD_PRINT_DIRS], [DPKG_DEBUG=1 CMD --version])
 
+  AT_SETUP([CMD chdir opts normalize])
+  AT_KEYWORDS([CMD command-line chdir])
+
+  DPKG_ROOT=
+  DPKG_ADMINDIR=
+
+  AT_CHECK_UNQUOTED(
+    [CMD_PRINT_DIRS --root=/],
+    [], [ignore],
+    [D000001: root=$DEFAULT_ROOTDIR admindir=$DEFAULT_ADMINDIR
+])
+
+  AT_CHECK_UNQUOTED(
+    [CMD_PRINT_DIRS --root=//./..///../././..///],
+    [], [ignore],
+    [D000001: root=$DEFAULT_ROOTDIR admindir=$DEFAULT_ADMINDIR
+])
+
+  AT_CLEANUP
+
   AT_SETUP([CMD chdir opts])
   AT_KEYWORDS([CMD command-line chdir])
 

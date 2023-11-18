@@ -27,6 +27,7 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/file.h>
 #include <dpkg/fsys.h>
 
 static char *db_dir;
@@ -50,7 +51,7 @@ dpkg_db_new_dir(void)
 
 	env = getenv("DPKG_ADMINDIR");
 	if (env)
-		dir = m_strdup(env);
+		dir = file_canonicalize(env);
 	else
 		dir = dpkg_fsys_get_path(ADMINDIR);
 
@@ -75,7 +76,7 @@ dpkg_db_set_dir(const char *dir)
 	if (dir == NULL)
 		dir_new = dpkg_db_new_dir();
 	else
-		dir_new = m_strdup(dir);
+		dir_new = file_canonicalize(dir);
 
 	free(db_dir);
 	db_dir = dir_new;
