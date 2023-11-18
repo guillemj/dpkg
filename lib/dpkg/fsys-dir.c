@@ -25,10 +25,25 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/string.h>
+#include <dpkg/file.h>
 #include <dpkg/path.h>
 #include <dpkg/fsys.h>
 
 static char *fsys_dir;
+
+static char *
+dpkg_fsys_normalize_dir(const char *dir)
+{
+	char *dir_new;
+
+	dir_new = file_canonicalize(dir);
+	path_trim_slash_slashdot(dir_new);
+
+	if (strcmp(dir_new, "/") == 0)
+		dir_new[0] = '\0';
+
+	return dir_new;
+}
 
 /**
  * Allocate the default on-disk filesystem root directory.
@@ -48,8 +63,7 @@ dpkg_fsys_new_dir(void)
 	if (env == NULL) {
 		dir = m_strdup("");
 	} else {
-		dir = m_strdup(env);
-		path_trim_slash_slashdot(dir);
+		dir = dpkg_fsys_normalize_dir(env);
 	}
 
 	return dir;
@@ -73,8 +87,7 @@ dpkg_fsys_set_dir(const char *dir)
 	if (dir == NULL) {
 		dir_new = dpkg_fsys_new_dir();
 	} else {
-		dir_new = m_strdup(dir);
-		path_trim_slash_slashdot(dir_new);
+		dir_new = dpkg_fsys_normalize_dir(dir);
 	}
 
 	free(fsys_dir);
