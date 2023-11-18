@@ -35,10 +35,12 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/dir.h>
+#include <dpkg/fsys.h>
 #include <dpkg/varbuf.h>
 #include <dpkg/arch.h>
 
 #define DPKG_DB_ARCH_FILE "arch"
+#define DPKG_DB_ARCH_NATIVE_FILE "arch-native"
 
 /**
  * Verify if the architecture name is valid.
@@ -279,6 +281,39 @@ dpkg_arch_unmark(const struct dpkg_arch *arch_remove)
 }
 
 /**
+ * Load the native architecture name for a non-default root directory.
+ */
+void
+dpkg_arch_load_native(void)
+{
+	struct varbuf arch_line = VARBUF_INIT;
+	struct dpkg_arch *arch;
+	char *archfile;
+	int rc;
+
+	/* We only honor this file on chroots, for the non-chroot case
+	 * the builtin arch is always honored. */
+	if (str_is_unset(dpkg_fsys_get_dir()))
+		return;
+
+	archfile = dpkg_db_get_path(DPKG_DB_ARCH_NATIVE_FILE);
+	rc = file_slurp(archfile, &arch_line, NULL);
+	free(archfile);
+	if (rc < 0)
+		return;
+
+	if (arch_line.used == 0)
+		return;
+
+	if (arch_line.buf[arch_line.used - 1] == '\n')
+		varbuf_trunc(&arch_line, arch_line.used - 1);
+
+	/* Override the native architecture name. */
+	arch = dpkg_arch_get(DPKG_ARCH_NATIVE);
+	arch->name = varbuf_detach(&arch_line);
+}
+
+/**
  * Load the architecture database.
  */
 void
@@ -287,6 +322,8 @@ dpkg_arch_load_list(void)
 	FILE *fp;
 	char *archfile;
 	char archname[_POSIX2_LINE_MAX];
+
+	dpkg_arch_load_native();
 
 	archfile = dpkg_db_get_path(DPKG_DB_ARCH_FILE);
 	fp = fopen(archfile, "r");

@@ -162,6 +162,7 @@ TESTSUITE_AT += $(srcdir)/at/deb-split.at
 TESTSUITE_AT += $(srcdir)/at/realpath.at
 TESTSUITE_AT += $(srcdir)/at/divert.at
 TESTSUITE_AT += $(srcdir)/at/chdir.at
+TESTSUITE_AT += $(srcdir)/at/dpkg-arch.at
 EXTRA_DIST += $(TESTSUITE_AT)
 
 TESTSUITE = $(srcdir)/at/testsuite
