@@ -94,9 +94,6 @@ DPKG_BEGIN_DECLS
 #define IMPORTANTFMT      "%04d"
 #define MAXUPDATES         250
 
-#define DEFAULTSHELL        "sh"
-#define DEFAULTPAGER        "pager"
-
 #define MD5HASHLEN           32
 #define MAXTRIGDIRECTIVE     256
 
