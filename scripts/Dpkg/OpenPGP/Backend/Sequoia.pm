@@ -93,7 +93,7 @@ sub inline_verify
     return OPENPGP_MISSING_CMD unless $self->{cmd};
 
     my @opts;
-    push @opts, map { ('--signer-cert', $_) } @certs;
+    push @opts, map { ('--signer-file', $_) } @certs;
     push @opts, '--output', $data if defined $data;
 
     my $rc = $self->_sq_exec(qw(verify), @opts, $inlinesigned);
@@ -108,7 +108,7 @@ sub verify
     return OPENPGP_MISSING_CMD unless $self->{cmd};
 
     my @opts;
-    push @opts, map { ('--signer-cert', $_) } @certs;
+    push @opts, map { ('--signer-file', $_) } @certs;
     push @opts, '--detached', $sig;
 
     my $rc = $self->_sq_exec(qw(verify), @opts, $data);
@@ -125,7 +125,7 @@ sub inline_sign
 
     my @opts;
     push @opts, '--cleartext-signature';
-    push @opts, '--signer-key', $key->handle;
+    push @opts, '--signer-file', $key->handle;
     push @opts, '--output', $inlinesigned;
 
     my $rc = $self->_sq_exec('sign', @opts, $data);
