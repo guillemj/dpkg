@@ -7,6 +7,13 @@ PROGNAME=dpkg
 
 . /usr/share/dpkg/sh/dpkg-error.sh
 
+create_db_native_arch()
+{
+  local admindir=${DPKG_ADMINDIR:-/var/lib/dpkg}
+
+  echo "$DPKG_MAINTSCRIPT_ARCH" >$admindir/arch-native
+}
+
 setup_aliases()
 {
   local prog=start-stop-daemon
@@ -20,6 +27,7 @@ setup_aliases()
 
 case "$1" in
 configure)
+  create_db_native_arch
   setup_aliases
   ;;
 abort-upgrade|abort-deconfigure|abort-remove)
