@@ -735,9 +735,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				return -1;
 			}
 
-			varbuf_reset(&target);
-			varbuf_grow(&target, stab.st_size + 1);
-			linksize = readlink(result->buf, target.buf, target.size);
+			linksize = file_readlink(result->buf, &target, stab.st_size);
 			if (linksize < 0) {
 				warning(_("%s: unable to readlink conffile '%s'\n"
 				          " (= '%s'): %s"),
@@ -754,8 +752,6 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				if (linksize > stab.st_size)
 					return -1;
 			}
-			varbuf_trunc(&target, linksize);
-			varbuf_end_str(&target);
 
 			debug(dbg_conffdetail,
 			      "conffderef readlink gave %zd, '%s'",

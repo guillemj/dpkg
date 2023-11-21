@@ -37,6 +37,25 @@
 #include <dpkg/file.h>
 
 /**
+ * Read the symlink content into a varbuf.
+ *
+ */
+ssize_t
+file_readlink(const char *slink, struct varbuf *content, size_t content_len)
+{
+	ssize_t linksize;
+
+	varbuf_reset(content);
+	varbuf_grow(content, content_len + 1);
+
+	linksize = readlink(slink, content->buf, content->size);
+	varbuf_trunc(content, linksize);
+	varbuf_end_str(content);
+
+	return linksize;
+}
+
+/**
  * Check whether a filename is executable.
  *
  * @param filename The filename to check.

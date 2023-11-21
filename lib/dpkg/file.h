@@ -48,6 +48,9 @@ struct file_stat {
 	char *gname;
 };
 
+ssize_t
+file_readlink(const char *slink, struct varbuf *content, size_t content_len);
+
 bool file_is_exec(const char *filename);
 
 void file_copy_perms(const char *src, const char *dst);
