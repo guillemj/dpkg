@@ -37,9 +37,11 @@
 int
 secure_unlink_statted(const char *pathname, const struct stat *stab)
 {
-	if (S_ISREG(stab->st_mode) ? (stab->st_mode & 07000) :
-	    !(S_ISLNK(stab->st_mode) || S_ISDIR(stab->st_mode) ||
-	      S_ISFIFO(stab->st_mode) || S_ISSOCK(stab->st_mode))) {
+	mode_t mode = stab->st_mode;
+
+	if (S_ISREG(mode) ? (mode & 07000) :
+	    !(S_ISLNK(mode) || S_ISDIR(mode) ||
+	      S_ISFIFO(mode) || S_ISSOCK(mode))) {
 		if (chmod(pathname, 0600))
 			return -1;
 	}
