@@ -326,9 +326,9 @@ sub set_build_features {
 
     # Mask features that are not available on certain architectures.
     if (none { $os eq $_ } qw(linux kfreebsd knetbsd hurd) or
-        $cpu eq 'hppa') {
+        any { $cpu eq $_ } qw(alpha hppa ia64)) {
 	# Disabled on non-(linux/kfreebsd/knetbsd/hurd).
-        # Disabled on hppa.
+        # Disabled on alpha, hppa, ia64.
 	$use_feature{hardening}{pie} = 0;
     }
     if (any { $cpu eq $_ } qw(ia64 alpha hppa nios2) or $arch eq 'arm') {
