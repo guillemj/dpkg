@@ -109,13 +109,16 @@ This field is used to indicate whether the B<debian/rules> file requires
 =item B<no>
 
 The binary targets will not require (fake)root at all.
+This is the default in B<dpkg-build-api> level >= 1.
 
 =item B<binary-targets>
 
 The binary targets must always be run under (fake)root.
-This value is the default when the field is omitted; adding the field
-with an explicit B<binary-targets> while not strictly needed, marks
-it as having been analyzed for this requirement.
+This value is the default in B<dpkg-build-api> level 0,
+when the field is omitted;
+adding the field with an explicit B<binary-targets>,
+while not strictly needed,
+marks it as having been analyzed for this requirement.
 
 =item I<impl-keywords>
 
