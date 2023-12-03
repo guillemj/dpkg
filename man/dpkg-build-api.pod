@@ -65,14 +65,15 @@ The B<-l> option should be used instead.
 
 =item *
 
-B<dpkg-buildpackage> defaults to B<Rules-Requires-Root> to B<no>.
+B<dpkg-buildpackage> defaults to B<Rules-Requires-Root> value B<no>.
 To restore the B<v0> behavior B<Rules-Requires-Root> should be set to
 B<binary-targets>.
 
 =item *
 
-B<dpkg-buildpackage> requires all required F<debian/rules> targets.
-That is B<clean>, B<build>, B<build-indep>, B<build-arch>,
+B<dpkg-buildpackage> expects all required F<debian/rules> targets to be
+supported and no longer has backwards compatibility fallback code.
+The required targets are B<clean>, B<build>, B<build-indep>, B<build-arch>,
 B<binary-indep> and B<binary-arch>.
 
 =item *
