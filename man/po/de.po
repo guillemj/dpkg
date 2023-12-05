@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-10-30 03:13+0000\n"
-"PO-Revision-Date: 2023-10-30 18:46+0100\n"
+"POT-Creation-Date: 2023-12-05 20:34+0100\n"
+"PO-Revision-Date: 2023-12-05 21:07+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -3791,8 +3791,11 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
-msgid "The binary targets will not require (fake)root at all."
-msgstr "Die Binärziele werden überhaupt kein (fake)root benötigen."
+msgid ""
+"The binary targets will not require (fake)root at all.  This is the default "
+"in B<dpkg-build-api> level >= 1."
+msgstr "Die Binärziele werden überhaupt kein (fake)root benötigen. "
+"Dies ist in B<dpkg-build-api> Stufe >=1 die Vorgabe."
 
 #. type: =item
 #: deb-src-control.pod
@@ -3803,12 +3806,12 @@ msgstr "B<binary-targets>"
 #: deb-src-control.pod
 msgid ""
 "The binary targets must always be run under (fake)root.  This value is the "
-"default when the field is omitted; adding the field with an explicit "
-"B<binary-targets> while not strictly needed, marks it as having been "
-"analyzed for this requirement."
+"default in B<dpkg-build-api> level 0, when the field is omitted; adding the "
+"field with an explicit B<binary-targets>, while not strictly needed, marks "
+"it as having been analyzed for this requirement."
 msgstr ""
 "Die Binärziele müssen immer unter (fake)root ausgeführt werden. Dieser Wert "
-"ist die Vorgabe, wenn die Datei fehlt. Die Aufnahme dieses Feldes mit einem "
+"ist in B<dpkg-build-api> Stufe 0 die Vorgabe, wenn die Datei fehlt. Die Aufnahme dieses Feldes mit einem "
 "expliziten B<binary-targets> ist zwar streng genommen nicht notwendig, "
 "markiert aber, dass es darauf untersucht wurde."
 
@@ -8703,23 +8706,25 @@ msgstr ""
 #. type: textblock
 #: dpkg-build-api.pod
 msgid ""
-"B<dpkg-buildpackage> defaults to B<Rules-Requires-Root> to B<no>.  To "
+"B<dpkg-buildpackage> defaults to B<Rules-Requires-Root> value B<no>.  To "
 "restore the B<v0> behavior B<Rules-Requires-Root> should be set to B<binary-"
 "targets>."
 msgstr ""
-"B<dpkg-buildpackage> setzt standardmäßig B<Rules-Requires-Root> auf B<no>. "
+"B<dpkg-buildpackage> setzt standardmäßig den Wert von B<Rules-Requires-Root> auf B<no>. "
 "Um das Verhalten aus B<v0> wiederherzustellen, sollte B<Rules-Requires-Root> "
 "auf B<binary-targets> gesetzt werden."
 
 #. type: textblock
 #: dpkg-build-api.pod
 msgid ""
-"B<dpkg-buildpackage> requires all required F<debian/rules> targets.  That is "
-"B<clean>, B<build>, B<build-indep>, B<build-arch>, B<binary-indep> and "
-"B<binary-arch>."
+"B<dpkg-buildpackage> expects all required F<debian/rules> targets to be "
+"supported and no longer has backwards compatibility fallback code.  The "
+"required targets are B<clean>, B<build>, B<build-indep>, B<build-arch>, "
+"B<binary-indep> and B<binary-arch>."
 msgstr ""
-"B<dpkg-buildpackage> benötigt alle benötigten Ziele in F<debian/rules>. Das "
-"heißt, B<clean>, B<build>, B<build-indep>, B<build-arch>, B<binary-indep> "
+"B<dpkg-buildpackage> erwartet, dass alle benötigten Ziele in F<debian/rules> "
+"unterstützt werden. Es hat keinen rückwärtskompatiblen Rückfall-Code mehr. "
+"Die benötigten Ziele sind B<clean>, B<build>, B<build-indep>, B<build-arch>, B<binary-indep> "
 "und B<binary-arch>."
 
 #. type: textblock
@@ -9407,7 +9412,9 @@ msgstr "B<ASFLAGS>"
 #: dpkg-buildflags.pod
 msgid ""
 "Options for the host assembler.  Default value: empty.  Since dpkg 1.21.0."
-msgstr "Optionen für den Assembler des Rechners. Standardwert: leer. Seit Dpkg 1.21.0."
+msgstr ""
+"Optionen für den Assembler des Rechners. Standardwert: leer. Seit Dpkg "
+"1.21.0."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9421,9 +9428,10 @@ msgid ""
 "includes B<-g> and the default optimization level (B<-O2> usually, or B<-O0> "
 "if the B<DEB_BUILD_OPTIONS> environment variable defines I<noopt>)."
 msgstr ""
-"Optionen für den C-Compiler des Rechners. Der vom Lieferanten gesetzte Standardwert "
-"enthält I<-g> und die Standard-Optimierungsstufe (normalerweise I<-O2> oder "
-"B<-O0>, falls die Umgebungsvariable B<DEB_BUILD_OPTIONS> I<noopt> definiert)."
+"Optionen für den C-Compiler des Rechners. Der vom Lieferanten gesetzte "
+"Standardwert enthält I<-g> und die Standard-Optimierungsstufe (normalerweise "
+"I<-O2> oder B<-O0>, falls die Umgebungsvariable B<DEB_BUILD_OPTIONS> "
+"I<noopt> definiert)."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9456,8 +9464,8 @@ msgid ""
 "Options for the host Objective C compiler.  Same as B<CFLAGS>.  Since dpkg "
 "1.17.7."
 msgstr ""
-"Optionen für den Objective-C-Compiler des Rechners. Identisch zu B<CFLAGS>. Seit Dpkg "
-"1.17.7."
+"Optionen für den Objective-C-Compiler des Rechners. Identisch zu B<CFLAGS>. "
+"Seit Dpkg 1.17.7."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9470,8 +9478,8 @@ msgid ""
 "Options for the host Objective C++ compiler.  Same as B<CXXFLAGS>.  Since "
 "dpkg 1.17.7."
 msgstr ""
-"Optionen für den Objective-C++-Compiler des Rechners. Identisch zu B<CXXFLAGS>. Seit Dpkg "
-"1.17.7."
+"Optionen für den Objective-C++-Compiler des Rechners. Identisch zu "
+"B<CXXFLAGS>. Seit Dpkg 1.17.7."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9481,7 +9489,8 @@ msgstr "B<DFLAGS>"
 #. type: textblock
 #: dpkg-buildflags.pod
 msgid "Options for the host D compiler (ldc or gdc).  Since dpkg 1.20.6."
-msgstr "Optionen für den D-Compiler des Rechners (ldc oder gdc). Seit Dpkg 1.20.6."
+msgstr ""
+"Optionen für den D-Compiler des Rechners (ldc oder gdc). Seit Dpkg 1.20.6."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9491,7 +9500,9 @@ msgstr "B<FFLAGS>"
 #. type: textblock
 #: dpkg-buildflags.pod
 msgid "Options for the host Fortran 77 compiler.  A subset of B<CFLAGS>."
-msgstr "Optionen für den Fortran-77-Compiler des Rechners. Eine Untermenge von B<CFLAGS>."
+msgstr ""
+"Optionen für den Fortran-77-Compiler des Rechners. Eine Untermenge von "
+"B<CFLAGS>."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9504,8 +9515,8 @@ msgid ""
 "Options for the host Fortran 9x compiler.  Same as B<FFLAGS>.  Since dpkg "
 "1.17.7."
 msgstr ""
-"Optionen für den Fortran-9x-Compiler des Rechners. Identisch zu B<FFLAGS>. Seit Dpkg "
-"1.17.7."
+"Optionen für den Fortran-9x-Compiler des Rechners. Identisch zu B<FFLAGS>. "
+"Seit Dpkg 1.17.7."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9520,9 +9531,9 @@ msgid ""
 "stripped from these options). Default value: empty."
 msgstr ""
 "Optionen, die beim Linken von Programmen oder Laufzeitbibliotheken an den "
-"Compiler des Rechners weitergegeben werden (falls der Linker direkt aufgerufen wird, "
-"müssen B<-Wl> und B<,> aus diesen Optionen entfernt werden). Standardmäßig "
-"leer."
+"Compiler des Rechners weitergegeben werden (falls der Linker direkt "
+"aufgerufen wird, müssen B<-Wl> und B<,> aus diesen Optionen entfernt "
+"werden). Standardmäßig leer."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9533,7 +9544,8 @@ msgstr "B<ASFLAGS_FOR_BUILD>"
 #: dpkg-buildflags.pod
 msgid ""
 "Options for the build assembler.  Default value: empty.  Since dpkg 1.22.1."
-msgstr "Optionen für den Assembler zum Bauen. Standardwert: leer. Seit Dpkg 1.22.1."
+msgstr ""
+"Optionen für den Assembler zum Bauen. Standardwert: leer. Seit Dpkg 1.22.1."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9548,10 +9560,10 @@ msgid ""
 "if the B<DEB_BUILD_OPTIONS> environment variable defines I<noopt>).  Since "
 "dpkg 1.22.1."
 msgstr ""
-"Optionen für den C-Compiler zum Bauen. Der vom Lieferanten gesetzte Standardwert "
-"enthält I<-g> und die Standard-Optimierungsstufe (normalerweise I<-O2> oder "
-"B<-O0>, falls die Umgebungsvariable B<DEB_BUILD_OPTIONS> I<noopt> definiert)."
-" Seit Dpkg 1.22.1."
+"Optionen für den C-Compiler zum Bauen. Der vom Lieferanten gesetzte "
+"Standardwert enthält I<-g> und die Standard-Optimierungsstufe (normalerweise "
+"I<-O2> oder B<-O0>, falls die Umgebungsvariable B<DEB_BUILD_OPTIONS> "
+"I<noopt> definiert). Seit Dpkg 1.22.1."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9563,7 +9575,9 @@ msgstr "B<CPPFLAGS_FOR_BUILD>"
 msgid ""
 "Options for the build C preprocessor.  Default value: empty.  Since dpkg "
 "1.22.1."
-msgstr "Optionen für den C-Präprozessor zum Bauen. Standardwert: leer. Seit Dpkg 1.22.1."
+msgstr ""
+"Optionen für den C-Präprozessor zum Bauen. Standardwert: leer. Seit Dpkg "
+"1.22.1."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9576,8 +9590,8 @@ msgid ""
 "Options for the build C++ compiler.  Same as B<CFLAGS_FOR_BUILD>.  Since "
 "dpkg 1.22.1."
 msgstr ""
-"Optionen für den C++-Compiler zum Bauen. Identisch zu B<CFLAGS_FOR_BUILD>. Seit Dpkg "
-"1.22.1."
+"Optionen für den C++-Compiler zum Bauen. Identisch zu B<CFLAGS_FOR_BUILD>. "
+"Seit Dpkg 1.22.1."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9590,8 +9604,8 @@ msgid ""
 "Options for the build Objective C compiler.  Same as B<CFLAGS_FOR_BUILD>.  "
 "Since dpkg 1.22.1."
 msgstr ""
-"Optionen für den Objective-C-Compiler zum Bauen. Identisch zu B<CFLAGS_FOR_BUILD>. Seit Dpkg "
-"1.22.1."
+"Optionen für den Objective-C-Compiler zum Bauen. Identisch zu "
+"B<CFLAGS_FOR_BUILD>. Seit Dpkg 1.22.1."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9604,8 +9618,8 @@ msgid ""
 "Options for the build Objective C++ compiler.  Same as "
 "B<CXXFLAGS_FOR_BUILD>.  Since dpkg 1.22.1."
 msgstr ""
-"Optionen für den Objective-C++-Compiler zum Bauen. Identisch zu B<CXXFLAGS_FOR_BUILD>. Seit Dpkg "
-"1.22.1."
+"Optionen für den Objective-C++-Compiler zum Bauen. Identisch zu "
+"B<CXXFLAGS_FOR_BUILD>. Seit Dpkg 1.22.1."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9615,7 +9629,8 @@ msgstr "B<DFLAGS_FOR_BUILD>"
 #. type: textblock
 #: dpkg-buildflags.pod
 msgid "Options for the build D compiler (ldc or gdc).  Since dpkg 1.22.1."
-msgstr "Optionen für den D-Compiler (ldc oder gdc) zum Bauen. Seit Dpkg 1.22.1."
+msgstr ""
+"Optionen für den D-Compiler (ldc oder gdc) zum Bauen. Seit Dpkg 1.22.1."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9627,7 +9642,9 @@ msgstr "B<FFLAGS_FOR_BUILD>"
 msgid ""
 "Options for the build Fortran 77 compiler.  A subset of "
 "B<CFLAGS_FOR_BUILD>.  Since dpkg 1.22.1."
-msgstr "Optionen für den Fortran-77-Compiler zum Bauen. Eine Untermenge von B<CFLAGS_FOR_BUILD>. Seit Dpkg 1.22.1."
+msgstr ""
+"Optionen für den Fortran-77-Compiler zum Bauen. Eine Untermenge von "
+"B<CFLAGS_FOR_BUILD>. Seit Dpkg 1.22.1."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9640,8 +9657,8 @@ msgid ""
 "Options for the build Fortran 9x compiler.  Same as B<FFLAGS_FOR_BUILD>.  "
 "Since dpkg 1.22.1."
 msgstr ""
-"Optionen für den Fortran-9x-Compiler zum Bauen. Identisch zu B<FFLAGS_FOR_BUILD>. Seit Dpkg "
-"1.22.1."
+"Optionen für den Fortran-9x-Compiler zum Bauen. Identisch zu "
+"B<FFLAGS_FOR_BUILD>. Seit Dpkg 1.22.1."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9656,9 +9673,9 @@ msgid ""
 "stripped from these options).  Default value: empty.  Since dpkg 1.22.1."
 msgstr ""
 "Optionen, die beim Linken von Programmen oder Laufzeitbibliotheken an den "
-"Compiler zum Bauen weitergegeben werden (falls der Linker direkt aufgerufen wird, "
-"müssen B<-Wl> und B<,> aus diesen Optionen entfernt werden). Standardmäßig "
-"leer. Seit Dpkg 1.22.1."
+"Compiler zum Bauen weitergegeben werden (falls der Linker direkt aufgerufen "
+"wird, müssen B<-Wl> und B<,> aus diesen Optionen entfernt werden). "
+"Standardmäßig leer. Seit Dpkg 1.22.1."
 
 #. type: textblock
 #: dpkg-buildflags.pod
