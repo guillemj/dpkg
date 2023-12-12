@@ -33,7 +33,7 @@ my $datadir = test_get_data_path();
 sub test_load_ctrl {
     my $file = shift;
 
-    my $ctrl = Dpkg::Control::Info->new(type => CTRL_INFO_SRC);
+    my $ctrl = Dpkg::Control::Info->new(type => CTRL_TMPL_SRC);
     $ctrl->load("$datadir/$file");
 
     return $ctrl;

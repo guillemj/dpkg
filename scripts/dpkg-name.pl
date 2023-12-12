@@ -96,7 +96,7 @@ sub getfields($)
     # Read the fields
     open(my $cdata_fh, '-|', 'dpkg-deb', '-f', '--', $filename)
         or syserr(g_('cannot open %s'), $filename);
-    my $fields = Dpkg::Control->new(type => CTRL_PKG_DEB);
+    my $fields = Dpkg::Control->new(type => CTRL_DEB);
     $fields->parse($cdata_fh, sprintf(g_('binary control file %s'), $filename));
     close($cdata_fh);
 

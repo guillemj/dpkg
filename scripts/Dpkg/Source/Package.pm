@@ -209,7 +209,7 @@ sub new {
     my ($this, %args) = @_;
     my $class = ref($this) || $this;
     my $self = {
-        fields => Dpkg::Control->new(type => CTRL_PKG_SRC),
+        fields => Dpkg::Control->new(type => CTRL_DSC),
         format => Dpkg::Source::Format->new(),
         options => {},
         checksums => Dpkg::Checksums->new(),

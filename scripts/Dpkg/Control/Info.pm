@@ -102,7 +102,7 @@ The data in the object is reset before parsing new control files.
 sub parse {
     my ($self, $fh, $desc) = @_;
     $self->reset();
-    my $cdata = Dpkg::Control->new(type => CTRL_INFO_SRC);
+    my $cdata = Dpkg::Control->new(type => CTRL_TMPL_SRC);
     return if not $cdata->parse($fh, $desc);
     $self->{source} = $cdata;
     unless (exists $cdata->{Source}) {
@@ -110,7 +110,7 @@ sub parse {
                             'Source');
     }
     while (1) {
-	$cdata = Dpkg::Control->new(type => CTRL_INFO_PKG);
+	$cdata = Dpkg::Control->new(type => CTRL_TMPL_PKG);
         last if not $cdata->parse($fh, $desc);
 	push @{$self->{packages}}, $cdata;
 	unless (exists $cdata->{Package}) {

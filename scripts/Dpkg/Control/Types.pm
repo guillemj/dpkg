@@ -36,13 +36,13 @@ use warnings;
 
 our @EXPORT = qw(
     CTRL_UNKNOWN
-    CTRL_INFO_SRC
-    CTRL_INFO_PKG
+    CTRL_TMPL_SRC
+    CTRL_TMPL_PKG
     CTRL_REPO_RELEASE
-    CTRL_INDEX_SRC
-    CTRL_INDEX_PKG
-    CTRL_PKG_SRC
-    CTRL_PKG_DEB
+    CTRL_REPO_SRC
+    CTRL_REPO_PKG
+    CTRL_DSC
+    CTRL_DEB
     CTRL_FILE_BUILDINFO
     CTRL_FILE_CHANGES
     CTRL_FILE_VENDOR
@@ -52,6 +52,13 @@ our @EXPORT = qw(
     CTRL_COPYRIGHT_FILES
     CTRL_COPYRIGHT_LICENSE
     CTRL_TESTS
+
+    CTRL_INFO_SRC
+    CTRL_INFO_PKG
+    CTRL_PKG_SRC
+    CTRL_PKG_DEB
+    CTRL_INDEX_SRC
+    CTRL_INDEX_PKG
 );
 
 use Exporter qw(import);
@@ -59,17 +66,17 @@ use Exporter qw(import);
 use constant {
     CTRL_UNKNOWN => 0,
     # First source package control stanza in debian/control.
-    CTRL_INFO_SRC => 1 << 0,
+    CTRL_TMPL_SRC => 1 << 0,
     # Subsequent binary package control stanza in debian/control.
-    CTRL_INFO_PKG => 1 << 1,
+    CTRL_TMPL_PKG => 1 << 1,
     # Entry in repository's Sources files.
-    CTRL_INDEX_SRC => 1 << 2,
+    CTRL_REPO_SRC => 1 << 2,
     # Entry in repository's Packages files.
-    CTRL_INDEX_PKG => 1 << 3,
+    CTRL_REPO_PKG => 1 << 3,
     # .dsc file of source package.
-    CTRL_PKG_SRC => 1 << 4,
+    CTRL_DSC => 1 << 4,
     # DEBIAN/control in binary packages.
-    CTRL_PKG_DEB => 1 << 5,
+    CTRL_DEB => 1 << 5,
     # .changes file.
     CTRL_FILE_CHANGES => 1 << 6,
     # File in $Dpkg::CONFDIR/origins.
@@ -90,6 +97,16 @@ use constant {
     CTRL_TESTS => 1 << 14,
     # .buildinfo file
     CTRL_FILE_BUILDINFO => 1 << 15,
+};
+
+# Backwards compatibility aliases.
+use constant {
+    CTRL_INFO_SRC => CTRL_TMPL_SRC,
+    CTRL_INFO_PKG => CTRL_TMPL_PKG,
+    CTRL_PKG_SRC => CTRL_DSC,
+    CTRL_PKG_DEB => CTRL_DEB,
+    CTRL_INDEX_SRC => CTRL_REPO_SRC,
+    CTRL_INDEX_PKG => CTRL_REPO_PKG,
 };
 
 =head1 CHANGES

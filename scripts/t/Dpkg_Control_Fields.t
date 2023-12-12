@@ -96,7 +96,7 @@ my @test_fields = qw(
 );
 
 my %fields = (
-    CTRL_INFO_SRC() => {
+    CTRL_TMPL_SRC() => {
         name => 'debian/control source stanza',
         fields => [
             qw(
@@ -121,7 +121,7 @@ my %fields = (
             ),
         ],
     },
-    CTRL_INFO_PKG() => {
+    CTRL_TMPL_PKG() => {
         name => 'debian/control binary stanza',
         fields => [
             qw(
@@ -149,7 +149,7 @@ my %fields = (
             ),
         ],
     },
-    CTRL_PKG_SRC() => {
+    CTRL_DSC() => {
         name => '.dsc',
         fields => [
             qw(
@@ -174,7 +174,7 @@ my %fields = (
             @src_files,
         ],
     },
-    CTRL_PKG_DEB() => {
+    CTRL_DEB() => {
         name => 'DEBIAN/control',
         fields => [
             qw(
@@ -208,7 +208,7 @@ my %fields = (
             ),
         ],
     },
-    CTRL_INDEX_SRC() => {
+    CTRL_REPO_SRC() => {
         name => 'Sources',
         fields => [
             qw(
@@ -236,7 +236,7 @@ my %fields = (
             @src_files,
         ],
     },
-    CTRL_INDEX_PKG() => {
+    CTRL_REPO_PKG() => {
         name => 'Packages',
         fields => [
             qw(
@@ -518,7 +518,7 @@ foreach my $type (sort keys %fields) {
 
 # Check deb822 field parsers
 
-my $ctrl = Dpkg::Control->new(type => CTRL_PKG_DEB);
+my $ctrl = Dpkg::Control->new(type => CTRL_DEB);
 
 my ($source, $version);
 

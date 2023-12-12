@@ -213,9 +213,9 @@ sub process_dsc {
     $dir = '.' if $dir eq '';
 
     # Parse ‘.dsc’ file.
-    my $fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
+    my $fields = Dpkg::Control->new(type => CTRL_DSC);
     $fields->load($file);
-    $fields->set_options(type => CTRL_INDEX_SRC);
+    $fields->set_options(type => CTRL_REPO_SRC);
 
     # Get checksums
     my $checksums = Dpkg::Checksums->new();

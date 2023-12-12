@@ -166,7 +166,7 @@ $substvars->set_vendor_substvars();
 $substvars->set_arch_substvars();
 $substvars->load('debian/substvars') if -e 'debian/substvars' and not $substvars_loaded;
 my $control = Dpkg::Control::Info->new($controlfile);
-my $fields = Dpkg::Control->new(type => CTRL_PKG_DEB);
+my $fields = Dpkg::Control->new(type => CTRL_DEB);
 
 # Old-style bin-nmus change the source version submitted to
 # set_version_substvars()

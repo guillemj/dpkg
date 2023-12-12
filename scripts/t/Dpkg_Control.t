@@ -43,7 +43,7 @@ sub parse_ctrl {
 sub parse_dsc {
     my $path = shift;
 
-    return parse_ctrl(CTRL_PKG_SRC, $path);
+    return parse_ctrl(CTRL_DSC, $path);
 }
 
 my $c = Dpkg::Control::Info->new("$datadir/control-1");

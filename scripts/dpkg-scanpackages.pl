@@ -158,7 +158,7 @@ sub load_override_extra
 sub process_deb {
     my ($pathprefix, $fn) = @_;
 
-    my $fields = Dpkg::Control->new(type => CTRL_INDEX_PKG);
+    my $fields = Dpkg::Control->new(type => CTRL_REPO_PKG);
 
     open my $output_fh, '-|', 'dpkg-deb', '-I', $fn, 'control'
         or syserr(g_('cannot fork for %s'), 'dpkg-deb');
