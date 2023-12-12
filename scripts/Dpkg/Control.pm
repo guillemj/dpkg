@@ -38,12 +38,12 @@ information is not yet known.
 
 =item CTRL_INFO_SRC
 
-Corresponds to the first stanza in a F<debian/control> file in
+Corresponds to the first source package stanza in a F<debian/control> file in
 a Debian source package.
 
 =item CTRL_INFO_PKG
 
-Corresponds to subsequent stanza in a F<debian/control> file
+Corresponds to subsequent binary package stanza in a F<debian/control> file
 in a Debian source package.
 
 =item CTRL_REPO_RELEASE
@@ -106,7 +106,7 @@ machine readable format.
 
 =item CTRL_TESTS
 
-Corresponds to a package tests control file in F<debian/tests/control>.
+Corresponds to a source package tests control file in F<debian/tests/control>.
 
 =back
 
@@ -193,9 +193,9 @@ sub set_options {
         $$self->{allow_pgp} = ($t & (CTRL_PKG_SRC | CTRL_FILE_CHANGES | CTRL_REPO_RELEASE)) ? 1 : 0;
         $$self->{drop_empty} = ($t & (CTRL_INFO_PKG | CTRL_INFO_SRC)) ?  0 : 1;
         if ($t == CTRL_INFO_SRC) {
-            $$self->{name} = g_('general section of control info file');
+            $$self->{name} = g_('source package stanza of template control file');
         } elsif ($t == CTRL_INFO_PKG) {
-            $$self->{name} = g_("package's section of control info file");
+            $$self->{name} = g_('binary package stanza of template control file');
         } elsif ($t == CTRL_CHANGELOG) {
             $$self->{name} = g_('parsed version of changelog');
         } elsif ($t == CTRL_COPYRIGHT_HEADER) {
@@ -205,7 +205,7 @@ sub set_options {
         } elsif ($t == CTRL_COPYRIGHT_HEADER) {
             $$self->{name} = g_('license stanza of copyright file');
         } elsif ($t == CTRL_TESTS) {
-            $$self->{name} = g_("package's tests control file");
+            $$self->{name} = g_('source package tests control file');
         } elsif ($t == CTRL_REPO_RELEASE) {
             $$self->{name} = sprintf(g_("repository's %s file"), 'Release');
         } elsif ($t == CTRL_INDEX_SRC) {
@@ -213,13 +213,13 @@ sub set_options {
         } elsif ($t == CTRL_INDEX_PKG) {
             $$self->{name} = sprintf(g_("stanza in repository's %s file"), 'Packages');
         } elsif ($t == CTRL_PKG_SRC) {
-            $$self->{name} = sprintf(g_('%s file'), '.dsc');
+            $$self->{name} = g_('source package control file');
         } elsif ($t == CTRL_PKG_DEB) {
-            $$self->{name} = g_('control info of a .deb package');
+            $$self->{name} = g_('binary package control file');
         } elsif ($t == CTRL_FILE_BUILDINFO) {
             $$self->{name} = g_('build information file');
         } elsif ($t == CTRL_FILE_CHANGES) {
-            $$self->{name} = sprintf(g_('%s file'), '.changes');
+            $$self->{name} = g_('upload changes control file');
         } elsif ($t == CTRL_FILE_VENDOR) {
             $$self->{name} = g_('vendor file');
         } elsif ($t == CTRL_FILE_STATUS) {

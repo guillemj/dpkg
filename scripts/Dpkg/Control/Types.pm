@@ -58,9 +58,9 @@ use Exporter qw(import);
 
 use constant {
     CTRL_UNKNOWN => 0,
-    # First control stanza in debian/control.
+    # First source package control stanza in debian/control.
     CTRL_INFO_SRC => 1 << 0,
-    # Subsequent control stanza in debian/control.
+    # Subsequent binary package control stanza in debian/control.
     CTRL_INFO_PKG => 1 << 1,
     # Entry in repository's Sources files.
     CTRL_INDEX_SRC => 1 << 2,
