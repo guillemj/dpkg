@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-10-30 03:13+0000\n"
-"PO-Revision-Date: 2023-01-11 23:19+0100\n"
+"POT-Creation-Date: 2023-12-17 20:21+0100\n"
+"PO-Revision-Date: 2023-12-17 20:30+0100\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
 "Language: ca\n"
@@ -192,40 +192,29 @@ msgstr ""
 msgid "unable to execute %s"
 msgstr "no es pot executar %s"
 
-#: scripts/dpkg-buildapi.pl
-#, fuzzy, perl-format
-#| msgid "Usage: %s [<option>...]"
-msgid "Usage: %s [<option>...]\n"
+#: scripts/dpkg-buildapi.pl scripts/dpkg-buildpackage.pl
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+#: scripts/dpkg-parsechangelog.pl
+#, perl-format
+msgid "Usage: %s [<option>...]"
 msgstr "Forma d'ús: %s [<opció>…]"
 
 #: scripts/dpkg-buildapi.pl
-#, fuzzy
-#| msgid ""
-#| "Usage: %s [<option>...] <filename> <section> <priority>\n"
-#| "\n"
-#| "Options:\n"
-#| "  -f<files-list-file>      write files here instead of debian/files.\n"
-#| "  -?, --help               show this help message.\n"
-#| "      --version            show the version.\n"
 msgid ""
-"\n"
 "Options:\n"
 "  -c<control-file>         get control info from this file.\n"
 "  -?, --help               show this help message.\n"
 "  -v, --version            show the version.\n"
 msgstr ""
-"Forma d'ús: %s [<opció>…] <nom-de-fitxer> <secció> <prioritat>\n"
-"\n"
 "Opcions:\n"
-"  -f<fitxer-de-fitxers>    escriu fitxers aquí en comptes de debian/files.\n"
+"  -c<fitxer-control>       fitxer d'informació de control.\n"
 "  -?, --help               mostra aquest missatge d'ajuda.\n"
-"      --version            mostra la versió.\n"
+"  -v, --version            mostra la versió.\n"
 
 #: scripts/dpkg-buildapi.pl
-#, fuzzy
-#| msgid "one to three arguments expected"
 msgid "no arguments accepted"
-msgstr "s'esperen d'un a tres arguments"
+msgstr "no s'accepten arguments"
 
 #: scripts/dpkg-buildflags.pl
 #, perl-format
@@ -233,28 +222,6 @@ msgid "Usage: %s [<command>]"
 msgstr "Format d'ús: %s [<ordre>]"
 
 #: scripts/dpkg-buildflags.pl
-#, fuzzy
-#| msgid ""
-#| "Commands:\n"
-#| "  --get <flag>       output the requested flag to stdout.\n"
-#| "  --origin <flag>    output the origin of the flag to stdout:\n"
-#| "                     value is one of vendor, system, user, env.\n"
-#| "  --status           output a synopsis with all parameters affecting the\n"
-#| "                     program behaviour, the resulting flags and their "
-#| "origin.\n"
-#| "  --query            like --status, but in deb822 format.\n"
-#| "  --query-features <area>\n"
-#| "                     output the status of features for the given area.\n"
-#| "  --list             output a list of the flags supported by the current "
-#| "vendor.\n"
-#| "  --export=(sh|make|cmdline|configure)\n"
-#| "                     output something convenient to import the "
-#| "compilation\n"
-#| "                     flags in a shell script, in make, or in a command "
-#| "line.\n"
-#| "  --dump             output all compilation flags with their values.\n"
-#| "  --help             show this help message.\n"
-#| "  --version          show the version.\n"
 msgid ""
 "Commands:\n"
 "  --get <flag>       output the requested flag to stdout.\n"
@@ -310,93 +277,7 @@ msgstr "s'ha especificat dos ordres: --%s i --%s"
 msgid "%s needs a parameter"
 msgstr "%s requereix un paràmetre"
 
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-genbuildinfo.pl
-#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
-#: scripts/dpkg-gensymbols.pl scripts/dpkg-parsechangelog.pl
-#, perl-format
-msgid "Usage: %s [<option>...]"
-msgstr "Forma d'ús: %s [<opció>…]"
-
 #: scripts/dpkg-buildpackage.pl
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "      --build=<type>[,...]    specify the build <type>: full, source, "
-#| "binary,\n"
-#| "                                any, all (default is 'full').\n"
-#| "  -F, --build=full            normal full build (source and binary; "
-#| "default).\n"
-#| "  -g, --build=source,all      source and arch-indep build.\n"
-#| "  -G, --build=source,any      source and arch-specific build.\n"
-#| "  -b, --build=binary          binary-only, no source files.\n"
-#| "  -B, --build=any             binary-only, only arch-specific files.\n"
-#| "  -A, --build=all             binary-only, only arch-indep files.\n"
-#| "  -S, --build=source          source-only, no binary files.\n"
-#| "  -nc, --no-pre-clean         do not pre clean source tree (implies -b).\n"
-#| "      --pre-clean             pre clean source tree (default).\n"
-#| "      --no-post-clean         do not post clean source tree (default).\n"
-#| "  -tc, --post-clean           post clean source tree.\n"
-#| "      --sanitize-env          sanitize the build environment.\n"
-#| "  -D, --check-builddeps       check build dependencies and conflicts "
-#| "(default).\n"
-#| "  -d, --no-check-builddeps    do not check build dependencies and "
-#| "conflicts.\n"
-#| "      --ignore-builtin-builddeps\n"
-#| "                              do not check builtin build dependencies.\n"
-#| "  -P, --build-profiles=<profiles>\n"
-#| "                              assume comma-separated build <profiles> as "
-#| "active.\n"
-#| "      --rules-requires-root   assume legacy Rules-Requires-Root field "
-#| "value.\n"
-#| "  -R, --rules-file=<rules>    rules file to execute (default is debian/"
-#| "rules).\n"
-#| "  -T, --rules-target=<target> call debian/rules <target>.\n"
-#| "      --as-root               ensure -T calls the target with root "
-#| "rights.\n"
-#| "  -j, --jobs[=<jobs>|auto]    jobs to run simultaneously (passed to "
-#| "<rules>),\n"
-#| "                                (default; default is auto, opt-in mode).\n"
-#| "  -J, --jobs-try[=<jobs>|auto]\n"
-#| "                              alias for -j, --jobs.\n"
-#| "      --jobs-force[=<jobs>|auto]\n"
-#| "                              jobs to run simultaneously (passed to "
-#| "<rules>),\n"
-#| "                                (default is auto, forced mode).\n"
-#| "  -r, --root-command=<command>\n"
-#| "                              command to gain root rights (default is "
-#| "fakeroot).\n"
-#| "      --check-command=<command>\n"
-#| "                              command to check the .changes file (no "
-#| "default).\n"
-#| "      --check-option=<opt>    pass <opt> to check <command>.\n"
-#| "      --hook-<name>=<command> set <command> as the hook <name>, known "
-#| "hooks:\n"
-#| "                                init preclean source build binary "
-#| "buildinfo\n"
-#| "                                changes postclean check sign done\n"
-#| "      --buildinfo-file=<file> set the .buildinfo filename to generate.\n"
-#| "      --buildinfo-option=<opt>\n"
-#| "                              pass option <opt> to dpkg-genbuildinfo.\n"
-#| "      --changes-file=<file>   set the .changes filename to generate.\n"
-#| "      --sign-backend=<backend>\n"
-#| "                              OpenPGP backend to use to sign\n"
-#| "                                (default is auto).\n"
-#| "  -p, --sign-command=<command>\n"
-#| "                              command to sign .dsc and/or .changes files\n"
-#| "                                (default is gpg).\n"
-#| "      --sign-keyfile=<file>   the key file to use for signing.\n"
-#| "  -k, --sign-keyid=<keyid>    the key id to use for signing.\n"
-#| "      --sign-key=<keyid>      alias for -k, --sign-keyid.\n"
-#| "  -ap, --sign-pause           add pause before starting signature "
-#| "process.\n"
-#| "  -us, --unsigned-source      unsigned source package.\n"
-#| "  -ui, --unsigned-buildinfo   unsigned .buildinfo file.\n"
-#| "  -uc, --unsigned-changes     unsigned .buildinfo and .changes file.\n"
-#| "      --no-sign               do not sign any file.\n"
-#| "      --force-sign            force signing the resulting files.\n"
-#| "      --admindir=<directory>  change the administrative directory.\n"
-#| "  -?, --help                  show this help message.\n"
-#| "      --version               show the version."
 msgid ""
 "Options:\n"
 "      --build=<type>[,...]    specify the build <type>: full, source, "
@@ -537,8 +418,8 @@ msgstr ""
 "      --hook-<nom-lligam>=<ordre-lligam>\n"
 "                              estableix <ordre-lligam> com a lligam\n"
 "                                <nom-lligam>, s'admeten:\n"
-"                                init preclean source build binary changes\n"
-"                                postclean check sign done\n"
+"                                preinit init preclean source build binary\n"
+"                                buildinfo changes postclean check sign done\n"
 "      --buildinfo-file=<fitxer>\n"
 "                              estableix el fitxer .buildinfo a generar.\n"
 "      --buildinfo-option=<opció>\n"
@@ -2466,22 +2347,22 @@ msgstr "«%s» no és una cadena d'arquitectura vàlida a la llista «%s»"
 
 #: scripts/Dpkg/BuildAPI.pm
 msgid "dpkg build API level needs an exact version"
-msgstr ""
+msgstr "el nivell d'API de construccío requereix una versió exacta"
 
 #: scripts/Dpkg/BuildAPI.pm
 #, perl-format
 msgid "dpkg build API level with conflicting versions: %s vs %s"
-msgstr ""
+msgstr "el nivel d'API de construcció conte vesions en conflicte: %s vs %s"
 
 #: scripts/Dpkg/BuildAPI.pm
 #, perl-format
 msgid "invalid dpkg build API level '%s'"
-msgstr ""
+msgstr "el nivell d'API de construcció «%s» no és vàlid"
 
 #: scripts/Dpkg/BuildAPI.pm
 #, perl-format
 msgid "dpkg build API level '%s' greater than max '%s'"
-msgstr ""
+msgstr "el nivell d'API de construcció «%s» és més gran que el màxim «%s»"
 
 #: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
 #: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
@@ -2781,12 +2662,12 @@ msgid "invalid syntax for option in %s, line %d"
 msgstr "sintaxis no vàlida per a l'opció %s, línia %d"
 
 #: scripts/Dpkg/Control.pm
-msgid "general section of control info file"
-msgstr "secció general del fitxer d'informació de control"
+msgid "source package stanza of template control file"
+msgstr "paràgraf de paquet font del fitxer de control plantilla"
 
 #: scripts/Dpkg/Control.pm
-msgid "package's section of control info file"
-msgstr "secció del paquet del fitxer d'informació de control"
+msgid "binary package stanza of template control file"
+msgstr "paràgraf de paquet binari del fitxer de control plantilla"
 
 #: scripts/Dpkg/Control.pm
 msgid "parsed version of changelog"
@@ -2805,8 +2686,8 @@ msgid "license stanza of copyright file"
 msgstr "estrofa de llicencia del fitxer de copyright"
 
 #: scripts/Dpkg/Control.pm
-msgid "package's tests control file"
-msgstr "fitxer de control tests del paquet"
+msgid "source package tests control file"
+msgstr "fitxer de control tests del paquet font"
 
 #: scripts/Dpkg/Control.pm
 #, perl-format
@@ -2819,17 +2700,20 @@ msgid "stanza in repository's %s file"
 msgstr "estrofa al fitxer de dipòsit %s"
 
 #: scripts/Dpkg/Control.pm
-#, perl-format
-msgid "%s file"
-msgstr "fitxer %s"
+msgid "source package control file"
+msgstr "fitxer de control del paquet font"
 
 #: scripts/Dpkg/Control.pm
-msgid "control info of a .deb package"
-msgstr "informació de control d'un paquet .deb"
+msgid "binary package control file"
+msgstr "fitxer de control del paquet binari"
 
 #: scripts/Dpkg/Control.pm
 msgid "build information file"
 msgstr "fitxer d'informació de construcció"
+
+#: scripts/Dpkg/Control.pm
+msgid "upload changes control file"
+msgstr "fitxer de control de pujada de canvis"
 
 #: scripts/Dpkg/Control.pm
 msgid "vendor file"
@@ -3104,7 +2988,7 @@ msgstr "la clau especificada necessita un magatzem de claus"
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 msgid "OpenPGP backend command cannot sign"
-msgstr ""
+msgstr "l'ordre del fons OpenPGP no pot signar"
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 #, perl-format
@@ -3146,7 +3030,7 @@ msgstr "el nom de camí «%s» apunta fora de l'arrel del codi font (a «%s»)"
 
 #: scripts/Dpkg/Shlibs.pm
 msgid "use -l option instead of LD_LIBRARY_PATH"
-msgstr ""
+msgstr "empreu l'opció -l en comptes de LD_LIBRARY_PATH"
 
 #: scripts/Dpkg/Shlibs.pm
 msgid ""
@@ -4197,6 +4081,8 @@ msgstr "el diff «%s» aplica pedaços a alguna cosa que no és un fitxer pla"
 #, perl-format
 msgid "diff '%s' patches hard link %s which can have unintended consequences"
 msgstr ""
+"el diff «%s» aplica pedaços a l'enllaç dur %s; pot tenir conseqüències "
+"inesperades"
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
@@ -4329,10 +4215,9 @@ msgid "invalid source version %s"
 msgstr "la versió del font %s no és vàlida"
 
 #: scripts/Dpkg/Substvars.pm
-#, fuzzy, perl-format
-#| msgid "too many substitutions - recursive ? - in '%s'"
+#, perl-format
 msgid "too many ${%s} substitutions (recursive?) in '%s'"
-msgstr "massa substitucions (recursives?) a «%s»"
+msgstr "massa substitucions ${%s} (recursives?) a «%s»"
 
 #: scripts/Dpkg/Substvars.pm
 #, perl-format
@@ -4373,10 +4258,9 @@ msgid "unknown host architecture '%s'"
 msgstr "arquitectura de l'amfitrió '%s' desconeguda"
 
 #: scripts/Dpkg/Vendor/Debian.pm
-#, fuzzy, perl-format
-#| msgid "unknown host architecture '%s'"
+#, perl-format
 msgid "unknown abi attributes for architecture '%s'"
-msgstr "arquitectura de l'amfitrió '%s' desconeguda"
+msgstr "atributs abi de l'arquitectura '%s' desconeguts"
 
 #: scripts/Dpkg/Vendor/Ubuntu.pm
 msgid ""
@@ -4428,6 +4312,22 @@ msgstr "el número de versió conté un caràcter il·legal ‘%s‘"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "l'època en la versió no és un número: «%s»"
+
+#~ msgid "Usage: %s [<option>...]\n"
+#~ msgstr "Forma d'ús: %s [<opció>…]\n"
+
+#~ msgid "general section of control info file"
+#~ msgstr "secció general del fitxer d'informació de control"
+
+#~ msgid "package's section of control info file"
+#~ msgstr "secció del paquet del fitxer d'informació de control"
+
+#, perl-format
+#~ msgid "%s file"
+#~ msgstr "fitxer %s"
+
+#~ msgid "control info of a .deb package"
+#~ msgstr "informació de control d'un paquet .deb"
 
 #, perl-format
 #~ msgid "cannot execute %s program"
