@@ -35,14 +35,14 @@ sub version()
 
 sub usage()
 {
-    printf(g_("Usage: %s [<option>...]\n"), $Dpkg::PROGNAME);
-
-    print(g_('
-Options:
+    printf g_(
+'Usage: %s [<option>...]')
+    . "\n\n" . g_(
+'Options:
   -c<control-file>         get control info from this file.
   -?, --help               show this help message.
   -v, --version            show the version.
-'));
+'), $Dpkg::PROGNAME;
 }
 
 my $controlfile = 'debian/control';
