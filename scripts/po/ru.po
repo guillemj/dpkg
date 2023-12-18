@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-10-30 03:13+0000\n"
+"POT-Creation-Date: 2023-12-18 03:36+0100\n"
 "PO-Revision-Date: 2015-04-07 07:02+0200\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -207,10 +207,12 @@ msgstr ""
 msgid "unable to execute %s"
 msgstr "невозможно выполнить %s"
 
-#: scripts/dpkg-buildapi.pl
-#, fuzzy, perl-format
-#| msgid "Usage: %s [<option>...]"
-msgid "Usage: %s [<option>...]\n"
+#: scripts/dpkg-buildapi.pl scripts/dpkg-buildpackage.pl
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+#: scripts/dpkg-parsechangelog.pl
+#, perl-format
+msgid "Usage: %s [<option>...]"
 msgstr "Использование: %s [<параметр>...]"
 
 #: scripts/dpkg-buildapi.pl
@@ -223,7 +225,6 @@ msgstr "Использование: %s [<параметр>...]"
 #| "  -?, --help               show this help message.\n"
 #| "      --version            show the version.\n"
 msgid ""
-"\n"
 "Options:\n"
 "  -c<control-file>         get control info from this file.\n"
 "  -?, --help               show this help message.\n"
@@ -318,13 +319,6 @@ msgstr "указаны две команды: --%s и --%s"
 #, perl-format
 msgid "%s needs a parameter"
 msgstr "для %s требуется параметр"
-
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-genbuildinfo.pl
-#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
-#: scripts/dpkg-gensymbols.pl scripts/dpkg-parsechangelog.pl
-#, perl-format
-msgid "Usage: %s [<option>...]"
-msgstr "Использование: %s [<параметр>...]"
 
 #: scripts/dpkg-buildpackage.pl
 #, fuzzy
@@ -2969,12 +2963,16 @@ msgid "invalid syntax for option in %s, line %d"
 msgstr "синтаксическая ошибка в параметре у %s, строка %d"
 
 #: scripts/Dpkg/Control.pm
-msgid "general section of control info file"
-msgstr "общая секция управляющего информационного файла"
+#, fuzzy
+#| msgid "no package stanza found in control info"
+msgid "source package stanza of template control file"
+msgstr "строки о пакете нет в управляющей информации"
 
 #: scripts/Dpkg/Control.pm
-msgid "package's section of control info file"
-msgstr "секция пакета управляющего информационного файла"
+#, fuzzy
+#| msgid "no package stanza found in control info"
+msgid "binary package stanza of template control file"
+msgstr "строки о пакете нет в управляющей информации"
 
 #: scripts/Dpkg/Control.pm
 msgid "parsed version of changelog"
@@ -2995,7 +2993,7 @@ msgstr ""
 #: scripts/Dpkg/Control.pm
 #, fuzzy
 #| msgid "package's section of control info file"
-msgid "package's tests control file"
+msgid "source package tests control file"
 msgstr "секция пакета управляющего информационного файла"
 
 #: scripts/Dpkg/Control.pm
@@ -3011,19 +3009,28 @@ msgid "stanza in repository's %s file"
 msgstr "элемент в файле репозитория %s"
 
 #: scripts/Dpkg/Control.pm
-#, perl-format
-msgid "%s file"
-msgstr "файл %s"
+#, fuzzy
+#| msgid "package's section of control info file"
+msgid "source package control file"
+msgstr "секция пакета управляющего информационного файла"
 
 #: scripts/Dpkg/Control.pm
-msgid "control info of a .deb package"
-msgstr "управляющая информация пакета .deb"
+#, fuzzy
+#| msgid "binary control file %s"
+msgid "binary package control file"
+msgstr "двоичный файл управления %s"
 
 #: scripts/Dpkg/Control.pm
 #, fuzzy
 #| msgid "control information"
 msgid "build information file"
 msgstr "управляющая информация"
+
+#: scripts/Dpkg/Control.pm
+#, fuzzy
+#| msgid "package's section of control info file"
+msgid "upload changes control file"
+msgstr "секция пакета управляющего информационного файла"
 
 #: scripts/Dpkg/Control.pm
 msgid "vendor file"
@@ -4707,6 +4714,24 @@ msgstr "номер версии содержит недопустимый сим
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "часть эпохи в номере версии не является числом: «%s»"
+
+#, fuzzy, perl-format
+#~| msgid "Usage: %s [<option>...]"
+#~ msgid "Usage: %s [<option>...]\n"
+#~ msgstr "Использование: %s [<параметр>...]"
+
+#~ msgid "general section of control info file"
+#~ msgstr "общая секция управляющего информационного файла"
+
+#~ msgid "package's section of control info file"
+#~ msgstr "секция пакета управляющего информационного файла"
+
+#, perl-format
+#~ msgid "%s file"
+#~ msgstr "файл %s"
+
+#~ msgid "control info of a .deb package"
+#~ msgstr "управляющая информация пакета .deb"
 
 #, fuzzy, perl-format
 #~| msgid "cannot exec dpkg"

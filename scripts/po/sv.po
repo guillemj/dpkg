@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.22.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-10-30 03:13+0000\n"
+"POT-Creation-Date: 2023-12-18 03:36+0100\n"
 "PO-Revision-Date: 2023-10-24 18:44+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -179,14 +179,23 @@ msgstr ""
 msgid "unable to execute %s"
 msgstr "kan inte exekvera %s"
 
-#: scripts/dpkg-buildapi.pl
+#: scripts/dpkg-buildapi.pl scripts/dpkg-buildpackage.pl
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+#: scripts/dpkg-parsechangelog.pl
 #, perl-format
-msgid "Usage: %s [<option>...]\n"
-msgstr "Användning: %s [<flagga>...]\n"
+msgid "Usage: %s [<option>...]"
+msgstr "Användning: %s [<flagga>...]"
 
 #: scripts/dpkg-buildapi.pl
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "Options:\n"
+#| "  -c<control-file>         get control info from this file.\n"
+#| "  -?, --help               show this help message.\n"
+#| "  -v, --version            show the version.\n"
 msgid ""
-"\n"
 "Options:\n"
 "  -c<control-file>         get control info from this file.\n"
 "  -?, --help               show this help message.\n"
@@ -259,13 +268,6 @@ msgstr "två kommandon angavs: --%s och --%s"
 #, perl-format
 msgid "%s needs a parameter"
 msgstr "%s behöver en parameter"
-
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-genbuildinfo.pl
-#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
-#: scripts/dpkg-gensymbols.pl scripts/dpkg-parsechangelog.pl
-#, perl-format
-msgid "Usage: %s [<option>...]"
-msgstr "Användning: %s [<flagga>...]"
 
 #: scripts/dpkg-buildpackage.pl
 msgid ""
@@ -2573,12 +2575,16 @@ msgid "invalid syntax for option in %s, line %d"
 msgstr "syntaxfel för flagga i %s, rad %d"
 
 #: scripts/Dpkg/Control.pm
-msgid "general section of control info file"
-msgstr "allmän sektion i styrinfofilen"
+#, fuzzy
+#| msgid "no package stanza found in control info"
+msgid "source package stanza of template control file"
+msgstr "paketstrof saknas i styrinfo"
 
 #: scripts/Dpkg/Control.pm
-msgid "package's section of control info file"
-msgstr "paketets sektion av styrinfofilen"
+#, fuzzy
+#| msgid "no package stanza found in control info"
+msgid "binary package stanza of template control file"
+msgstr "paketstrof saknas i styrinfo"
 
 #: scripts/Dpkg/Control.pm
 msgid "parsed version of changelog"
@@ -2597,7 +2603,9 @@ msgid "license stanza of copyright file"
 msgstr "licens-strof i copyright-filen"
 
 #: scripts/Dpkg/Control.pm
-msgid "package's tests control file"
+#, fuzzy
+#| msgid "package's tests control file"
+msgid "source package tests control file"
 msgstr "paketets test-styrinfofil"
 
 #: scripts/Dpkg/Control.pm
@@ -2611,17 +2619,26 @@ msgid "stanza in repository's %s file"
 msgstr "stycke i arkivets fil %s"
 
 #: scripts/Dpkg/Control.pm
-#, perl-format
-msgid "%s file"
-msgstr "filen %s"
+#, fuzzy
+#| msgid "package's tests control file"
+msgid "source package control file"
+msgstr "paketets test-styrinfofil"
 
 #: scripts/Dpkg/Control.pm
-msgid "control info of a .deb package"
-msgstr "styrinformationen i ett .deb-paket"
+#, fuzzy
+#| msgid "binary control file %s"
+msgid "binary package control file"
+msgstr "binär styrfil %s"
 
 #: scripts/Dpkg/Control.pm
 msgid "build information file"
 msgstr "bygginformationsfil"
+
+#: scripts/Dpkg/Control.pm
+#, fuzzy
+#| msgid "package's tests control file"
+msgid "upload changes control file"
+msgstr "paketets test-styrinfofil"
 
 #: scripts/Dpkg/Control.pm
 msgid "vendor file"
@@ -4198,3 +4215,20 @@ msgstr "versionsnummer innehåller ogiltigt tecken ”%s”"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "epokdelen av versionsnumret är inte ett tal: ”%s”"
+
+#, perl-format
+#~ msgid "Usage: %s [<option>...]\n"
+#~ msgstr "Användning: %s [<flagga>...]\n"
+
+#~ msgid "general section of control info file"
+#~ msgstr "allmän sektion i styrinfofilen"
+
+#~ msgid "package's section of control info file"
+#~ msgstr "paketets sektion av styrinfofilen"
+
+#, perl-format
+#~ msgid "%s file"
+#~ msgstr "filen %s"
+
+#~ msgid "control info of a .deb package"
+#~ msgstr "styrinformationen i ett .deb-paket"

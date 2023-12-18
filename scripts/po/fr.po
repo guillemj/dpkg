@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-10-30 03:13+0000\n"
+"POT-Creation-Date: 2023-12-18 03:36+0100\n"
 "PO-Revision-Date: 2023-02-10 02:16+0100\n"
 "Last-Translator: Sébastien Poher <sebastien@volted.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -198,10 +198,12 @@ msgstr ""
 msgid "unable to execute %s"
 msgstr "impossible d'exécuter %s"
 
-#: scripts/dpkg-buildapi.pl
-#, fuzzy, perl-format
-#| msgid "Usage: %s [<option>...]"
-msgid "Usage: %s [<option>...]\n"
+#: scripts/dpkg-buildapi.pl scripts/dpkg-buildpackage.pl
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+#: scripts/dpkg-parsechangelog.pl
+#, perl-format
+msgid "Usage: %s [<option>...]"
 msgstr "Utilisation : %s [<option>...]"
 
 #: scripts/dpkg-buildapi.pl
@@ -214,7 +216,6 @@ msgstr "Utilisation : %s [<option>...]"
 #| "  -?, --help               show this help message.\n"
 #| "      --version            show the version.\n"
 msgid ""
-"\n"
 "Options:\n"
 "  -c<control-file>         get control info from this file.\n"
 "  -?, --help               show this help message.\n"
@@ -316,13 +317,6 @@ msgstr "deux commandes indiquées : --%s et --%s"
 #, perl-format
 msgid "%s needs a parameter"
 msgstr "paramètre nécessaire pour %s"
-
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-genbuildinfo.pl
-#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
-#: scripts/dpkg-gensymbols.pl scripts/dpkg-parsechangelog.pl
-#, perl-format
-msgid "Usage: %s [<option>...]"
-msgstr "Utilisation : %s [<option>...]"
 
 #: scripts/dpkg-buildpackage.pl
 #, fuzzy
@@ -2884,12 +2878,18 @@ msgid "invalid syntax for option in %s, line %d"
 msgstr "erreur de syntaxe pour l'option %s à la ligne %d"
 
 #: scripts/Dpkg/Control.pm
-msgid "general section of control info file"
-msgstr "section générale dans le fichier info"
+#, fuzzy
+#| msgid "no package stanza found in control info"
+msgid "source package stanza of template control file"
+msgstr ""
+"aucune instance de paquet n'a été trouvée dans les informations de contrôle"
 
 #: scripts/Dpkg/Control.pm
-msgid "package's section of control info file"
-msgstr "section du paquet dans le fichier info"
+#, fuzzy
+#| msgid "no package stanza found in control info"
+msgid "binary package stanza of template control file"
+msgstr ""
+"aucune instance de paquet n'a été trouvée dans les informations de contrôle"
 
 #: scripts/Dpkg/Control.pm
 msgid "parsed version of changelog"
@@ -2908,7 +2908,9 @@ msgid "license stanza of copyright file"
 msgstr "paragraphe de licence du fichier de copyright"
 
 #: scripts/Dpkg/Control.pm
-msgid "package's tests control file"
+#, fuzzy
+#| msgid "package's tests control file"
+msgid "source package tests control file"
 msgstr "le fichier de contrôle des tests du paquet"
 
 #: scripts/Dpkg/Control.pm
@@ -2922,17 +2924,26 @@ msgid "stanza in repository's %s file"
 msgstr "paragraphe dans le fichier %s de dépôt"
 
 #: scripts/Dpkg/Control.pm
-#, perl-format
-msgid "%s file"
-msgstr "fichier %s"
+#, fuzzy
+#| msgid "source control file %s"
+msgid "source package control file"
+msgstr "fichier de contrôle des sources %s"
 
 #: scripts/Dpkg/Control.pm
-msgid "control info of a .deb package"
-msgstr "information de contrôle d'un paquet .deb"
+#, fuzzy
+#| msgid "binary control file %s"
+msgid "binary package control file"
+msgstr "fichier de contrôle binaire %s"
 
 #: scripts/Dpkg/Control.pm
 msgid "build information file"
 msgstr "fichier d'information sur la construction"
+
+#: scripts/Dpkg/Control.pm
+#, fuzzy
+#| msgid "package's tests control file"
+msgid "upload changes control file"
+msgstr "le fichier de contrôle des tests du paquet"
 
 #: scripts/Dpkg/Control.pm
 msgid "vendor file"
@@ -4579,6 +4590,24 @@ msgstr ""
 "la partie d'ère (« epoch ») du numéro de version n'est pas un nombre : « %s »"
 
 #, fuzzy, perl-format
+#~| msgid "Usage: %s [<option>...]"
+#~ msgid "Usage: %s [<option>...]\n"
+#~ msgstr "Utilisation : %s [<option>...]"
+
+#~ msgid "general section of control info file"
+#~ msgstr "section générale dans le fichier info"
+
+#~ msgid "package's section of control info file"
+#~ msgstr "section du paquet dans le fichier info"
+
+#, perl-format
+#~ msgid "%s file"
+#~ msgstr "fichier %s"
+
+#~ msgid "control info of a .deb package"
+#~ msgstr "information de contrôle d'un paquet .deb"
+
+#, fuzzy, perl-format
 #~| msgid "cannot exec dpkg"
 #~ msgid "cannot execute %s program"
 #~ msgstr "impossible d'exécuter dpkg"
@@ -5261,9 +5290,6 @@ msgstr ""
 
 #~ msgid "cannot open .dsc file %s"
 #~ msgstr "impossible d'ouvrir le fichier .dsc %s"
-
-#~ msgid "source control file %s"
-#~ msgstr "fichier de contrôle des sources %s"
 
 #~ msgid "Conflicting sizes `%u' and `%u' for file `%s'"
 #~ msgstr "Tailles en conflit : « %u » et « %u » pour le fichier « %s »"

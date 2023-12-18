@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.16.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-10-30 03:13+0000\n"
+"POT-Creation-Date: 2023-12-18 03:36+0100\n"
 "PO-Revision-Date: 2014-12-02 20:24+0100\n"
 "Last-Translator: Omar Campagne <ocampagne@gmail.com>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -232,10 +232,12 @@ msgstr ""
 msgid "unable to execute %s"
 msgstr "no se pudo ejecutar %s"
 
-#: scripts/dpkg-buildapi.pl
-#, fuzzy, perl-format
-#| msgid "Usage: %s [<option>...]"
-msgid "Usage: %s [<option>...]\n"
+#: scripts/dpkg-buildapi.pl scripts/dpkg-buildpackage.pl
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+#: scripts/dpkg-parsechangelog.pl
+#, perl-format
+msgid "Usage: %s [<option>...]"
 msgstr "Uso: %s [<opción>...]"
 
 #: scripts/dpkg-buildapi.pl
@@ -248,7 +250,6 @@ msgstr "Uso: %s [<opción>...]"
 #| "  -?, --help               show this help message.\n"
 #| "      --version            show the version.\n"
 msgid ""
-"\n"
 "Options:\n"
 "  -c<control-file>         get control info from this file.\n"
 "  -?, --help               show this help message.\n"
@@ -350,13 +351,6 @@ msgstr "se han definido dos órdenes: «--%s» y «--%s»"
 #, perl-format
 msgid "%s needs a parameter"
 msgstr "%s requiere un parámetro"
-
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-genbuildinfo.pl
-#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
-#: scripts/dpkg-gensymbols.pl scripts/dpkg-parsechangelog.pl
-#, perl-format
-msgid "Usage: %s [<option>...]"
-msgstr "Uso: %s [<opción>...]"
 
 #: scripts/dpkg-buildpackage.pl
 #, fuzzy
@@ -3088,12 +3082,18 @@ msgid "invalid syntax for option in %s, line %d"
 msgstr "sintaxis inválida para la opción en %s, línea %d"
 
 #: scripts/Dpkg/Control.pm
-msgid "general section of control info file"
-msgstr "sección general del fichero de información de control"
+#, fuzzy
+#| msgid "no package stanza found in control info"
+msgid "source package stanza of template control file"
+msgstr ""
+"no se ha encontrado la declaración del paquete en la información de control"
 
 #: scripts/Dpkg/Control.pm
-msgid "package's section of control info file"
-msgstr "sección del paquete del fichero de información de control"
+#, fuzzy
+#| msgid "no package stanza found in control info"
+msgid "binary package stanza of template control file"
+msgstr ""
+"no se ha encontrado la declaración del paquete en la información de control"
 
 #: scripts/Dpkg/Control.pm
 msgid "parsed version of changelog"
@@ -3114,7 +3114,7 @@ msgstr ""
 #: scripts/Dpkg/Control.pm
 #, fuzzy
 #| msgid "package's section of control info file"
-msgid "package's tests control file"
+msgid "source package tests control file"
 msgstr "sección del paquete del fichero de información de control"
 
 #: scripts/Dpkg/Control.pm
@@ -3130,19 +3130,28 @@ msgid "stanza in repository's %s file"
 msgstr "entrada en el fichero %s de repositorio"
 
 #: scripts/Dpkg/Control.pm
-#, perl-format
-msgid "%s file"
-msgstr "fichero «%s»"
+#, fuzzy
+#| msgid "package's section of control info file"
+msgid "source package control file"
+msgstr "sección del paquete del fichero de información de control"
 
 #: scripts/Dpkg/Control.pm
-msgid "control info of a .deb package"
-msgstr "información de control de un paquete «.deb»"
+#, fuzzy
+#| msgid "binary control file %s"
+msgid "binary package control file"
+msgstr "fichero binario de control «%s»"
 
 #: scripts/Dpkg/Control.pm
 #, fuzzy
 #| msgid "control information"
 msgid "build information file"
 msgstr "información de control"
+
+#: scripts/Dpkg/Control.pm
+#, fuzzy
+#| msgid "package's section of control info file"
+msgid "upload changes control file"
+msgstr "sección del paquete del fichero de información de control"
 
 #: scripts/Dpkg/Control.pm
 msgid "vendor file"
@@ -4860,6 +4869,24 @@ msgstr "el número de versión contiene el carácter ilegal «%s»"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "la sección «epoch» del número de versión no es un número: «%s»"
+
+#, fuzzy, perl-format
+#~| msgid "Usage: %s [<option>...]"
+#~ msgid "Usage: %s [<option>...]\n"
+#~ msgstr "Uso: %s [<opción>...]"
+
+#~ msgid "general section of control info file"
+#~ msgstr "sección general del fichero de información de control"
+
+#~ msgid "package's section of control info file"
+#~ msgstr "sección del paquete del fichero de información de control"
+
+#, perl-format
+#~ msgid "%s file"
+#~ msgstr "fichero «%s»"
+
+#~ msgid "control info of a .deb package"
+#~ msgstr "información de control de un paquete «.deb»"
 
 #, fuzzy, perl-format
 #~| msgid "cannot write %s"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-10-30 03:13+0000\n"
+"POT-Creation-Date: 2023-12-18 03:36+0100\n"
 "PO-Revision-Date: 2021-04-08 04:43+0200\n"
 "Last-Translator: TAKAHASHI Motonobu <monyo@monyo.com>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -1044,7 +1044,7 @@ msgstr "B<deb-control>(5), B<deb-version>(5), B<dpkg-source>(1)"
 #: deb-changes.pod
 #, fuzzy
 #| msgid "dpkg-genchanges - generate Debian .changes files"
-msgid "deb-changes - Debian changes file format"
+msgid "deb-changes - Debian upload changes control file format"
 msgstr "dpkg-genchanges - Debian .changes ファイルの生成"
 
 #. type: textblock
@@ -1500,7 +1500,7 @@ msgstr "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
 #: deb-control.pod
 #, fuzzy
 #| msgid "deb-control - Debian packages' master control file format"
-msgid "deb-control - Debian binary packages' master control file format"
+msgid "deb-control - Debian binary package control file format"
 msgstr "deb-control - Debian パッケージのマスタ制御ファイルの形式"
 
 #. type: textblock
@@ -1514,8 +1514,9 @@ msgstr "I<control>"
 #: deb-control.pod
 msgid ""
 "Each Debian binary package contains a B<control> file in its B<control> "
-"member, and its L<deb822(5)> format is a subset of the master B<debian/"
-"control> file in Debian source packages, see L<deb-src-control(5)>."
+"member, and its L<deb822(5)> format is a subset of the B<debian/control> "
+"template source control file in Debian source packages, see L<deb-src-"
+"control(5)>."
 msgstr ""
 
 #. type: textblock
@@ -2402,7 +2403,7 @@ msgstr "B<Built-Using:> I<パッケージのリスト>"
 msgid ""
 "This field specifies a whitespace separated list of reasons why this package "
 "was auto-generated.  Binary packages marked with this field will not appear "
-"in the I<debian/control> master source control file.  The only currently "
+"in the I<debian/control> template source control file.  The only currently "
 "used reason is B<debug-symbols>."
 msgstr ""
 
@@ -3724,7 +3725,9 @@ msgstr "B<deb>(5), B<dpkg-split>(1)."
 
 #. type: textblock
 #: deb-src-control.pod
-msgid "deb-src-control - Debian source packages' master control file format"
+#, fuzzy
+#| msgid "deb-src-control - Debian source packages' master control file format"
+msgid "deb-src-control - Debian source package template control file format"
 msgstr ""
 "deb-src-control - Debian ソースパッケージのマスタ制御ファイルのフォーマット"
 
@@ -3736,9 +3739,9 @@ msgstr "B<debian/control>"
 #. type: textblock
 #: deb-src-control.pod
 msgid ""
-"Each Debian source package contains the master «B<debian/control>» file, and "
-"its L<deb822(5)> format is a superset of the B<control> file shipped in "
-"Debian binary packages, see L<deb-control(5)>."
+"Each Debian source package contains the «B<debian/control>» template source "
+"control file, and its L<deb822(5)> format is a superset of the B<control> "
+"file shipped in Debian binary packages, see L<deb-control(5)>."
 msgstr ""
 
 #. type: textblock
@@ -3760,17 +3763,18 @@ msgstr ""
 #| "treated as comments."
 msgid ""
 "This file contains at least 2 stanzas, separated by a blank line.  The first "
-"stanza lists all information about the source package in general, while each "
-"following stanza describes exactly one binary package.  Each stanza consists "
-"of at least one field.  A field starts with a field name, such as B<Package> "
-"or B<Section> (case insensitive), followed by a colon, the body of the field "
-"(case sensitive unless stated otherwise) and a newline.  Multi-line fields "
-"are also allowed, but each supplementary line, without a field name, should "
-"start with at least one space. The content of the multi-line fields is "
-"generally joined to a single line by the tools (except in the case of the "
-"B<Description> field, see below). To insert empty lines into a multi-line "
-"field, insert a dot after the space.  Lines starting with a ‘B<#>’ are "
-"treated as comments."
+"stanza is called the source package stanza and lists all information about "
+"the source package in general, while each following stanzas are called the "
+"binary package stanzas and describe exactly one binary package per stanza.  "
+"Each stanza consists of at least one field.  A field starts with a field "
+"name, such as B<Package> or B<Section> (case insensitive), followed by a "
+"colon, the body of the field (case sensitive unless stated otherwise) and a "
+"newline.  Multi-line fields are also allowed, but each supplementary line, "
+"without a field name, should start with at least one space. The content of "
+"the multi-line fields is generally joined to a single line by the tools "
+"(except in the case of the B<Description> field, see below). To insert empty "
+"lines into a multi-line field, insert a dot after the space.  Lines starting "
+"with a ‘B<#>’ are treated as comments."
 msgstr ""
 "Debian の各ソースパッケージには、マスタとなる \"control\" ファイルがある。"
 "ファイルには、空白行で区切られた最低 2 つの段落が含まれる。最初の段落には、通"
@@ -3930,7 +3934,9 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
-msgid "The binary targets will not require (fake)root at all."
+msgid ""
+"The binary targets will not require (fake)root at all.  This is the default "
+"in B<dpkg-build-api> level >= 1."
 msgstr ""
 
 #. type: =item
@@ -3944,9 +3950,9 @@ msgstr "B<binary:Version>"
 #: deb-src-control.pod
 msgid ""
 "The binary targets must always be run under (fake)root.  This value is the "
-"default when the field is omitted; adding the field with an explicit "
-"B<binary-targets> while not strictly needed, marks it as having been "
-"analyzed for this requirement."
+"default in B<dpkg-build-api> level 0, when the field is omitted; adding the "
+"field with an explicit B<binary-targets>, while not strictly needed, marks "
+"it as having been analyzed for this requirement."
 msgstr ""
 
 #. type: =item
@@ -9296,7 +9302,7 @@ msgstr ""
 #. type: textblock
 #: dpkg-build-api.pod
 msgid ""
-"B<dpkg-buildpackage> defaults to B<Rules-Requires-Root> to B<no>.  To "
+"B<dpkg-buildpackage> defaults to B<Rules-Requires-Root> value B<no>.  To "
 "restore the B<v0> behavior B<Rules-Requires-Root> should be set to B<binary-"
 "targets>."
 msgstr ""
@@ -9304,9 +9310,10 @@ msgstr ""
 #. type: textblock
 #: dpkg-build-api.pod
 msgid ""
-"B<dpkg-buildpackage> requires all required F<debian/rules> targets.  That is "
-"B<clean>, B<build>, B<build-indep>, B<build-arch>, B<binary-indep> and "
-"B<binary-arch>."
+"B<dpkg-buildpackage> expects all required F<debian/rules> targets to be "
+"supported and no longer has backwards compatibility fallback code.  The "
+"required targets are B<clean>, B<build>, B<build-indep>, B<build-arch>, "
+"B<binary-indep> and B<binary-arch>."
 msgstr ""
 
 #. type: textblock
@@ -28400,7 +28407,7 @@ msgstr ""
 #: dsc.pod
 #, fuzzy
 #| msgid "deb-src-control - Debian source packages' master control file format"
-msgid "dsc - Debian source packages' control file format"
+msgid "dsc - Debian source package control file format"
 msgstr ""
 "deb-src-control - Debian ソースパッケージのマスタ制御ファイルのフォーマット"
 
