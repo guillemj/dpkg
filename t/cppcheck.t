@@ -25,6 +25,8 @@ test_needs_srcdir_switch();
 
 plan tests => 1;
 
+my $builddir = $ENV{abs_top_builddir} || '.';
+
 my @cppcheck_opts = (qw(
   --quiet
   --force
@@ -35,7 +37,9 @@ my @cppcheck_opts = (qw(
   -Ilib
   -Ilib/compat
   -Isrc/common
-  -I.
+),
+  "-I$builddir",
+qw(
   -D__GNUC__=12
   -D__GNUC_MINOR__=0
   -D_DIRENT_HAVE_D_TYPE=1
