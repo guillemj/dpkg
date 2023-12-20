@@ -133,6 +133,8 @@ sub set_build_features {
     if ($arch eq 'ppc64el' && $flags->get_option_value('optimize-level') != 0) {
         $flags->set_option_value('optimize-level', 3);
     }
+
+    $flags->set_option_value('fortify-level', 3);
 }
 
 =head1 PUBLIC FUNCTIONS
