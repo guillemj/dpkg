@@ -357,6 +357,7 @@ sub set_build_features {
       # glibc 2.16 and later warn when using -O0 and _FORTIFY_SOURCE.
       $use_feature{hardening}{fortify} = 0;
     }
+    $flags->set_option_value('fortify-level', 2);
 
     # Handle logical feature interactions.
     if ($use_feature{hardening}{relro} == 0) {
@@ -553,7 +554,8 @@ sub _add_build_flags {
 
     # Fortify Source
     if ($flags->use_feature('hardening', 'fortify')) {
-	$flags->append('CPPFLAGS', '-D_FORTIFY_SOURCE=2');
+        my $fortify_level = $flags->get_option_value('fortify-level');
+        $flags->append('CPPFLAGS', "-D_FORTIFY_SOURCE=$fortify_level");
     }
 
     # Format Security
