@@ -44,6 +44,8 @@ use parent qw(Dpkg::OpenPGP::Backend);
 
 # - Once "gosop" implements inline-verify and inline-sign, add as alternative.
 #   Ref: https://github.com/ProtonMail/gosop/issues/6
+# - Once "gosop" can handle big keyrings.
+#   Ref: https://github.com/ProtonMail/gosop/issues/25
 # - Once "hop" implements the new SOP draft, add as alternative.
 #   Ref: https://salsa.debian.org/clint/hopenpgp-tools/-/issues/4
 # - Once the SOP MR !23 is finalized and merged, implement a way to select
