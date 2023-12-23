@@ -245,7 +245,10 @@ sub _gpg_verify {
         # XXX: The internal dearmor() does not handle concatenated ASCII Armor,
         # but the old implementation handled such certificate keyrings, so to
         # avoid regressing for now, we fallback to use the GnuPG dearmor.
-        if (defined $self->{cmd}) {
+        if ($cert =~ m{\.kbx$}) {
+            # Accept GnuPG apparent keybox-format keyrings as-is.
+            $rc = 1;
+        } elsif (defined $self->{cmd}) {
             $rc = $self->_gpg_exec($self->{cmd}, @cmd_opts, '--yes',
                                           '--output', $certring,
                                           '--dearmor', $cert);
