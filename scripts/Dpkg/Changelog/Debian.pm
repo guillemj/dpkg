@@ -49,7 +49,7 @@ use warnings;
 
 use Dpkg::Gettext;
 use Dpkg::File;
-use Dpkg::Changelog qw(:util);
+use Dpkg::Changelog;
 use Dpkg::Changelog::Entry::Debian qw(match_header match_trailer);
 
 use parent qw(Dpkg::Changelog);
