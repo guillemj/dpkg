@@ -88,9 +88,18 @@ sub has_verify_cmd {
 sub get_trusted_keyrings {
     my $self = shift;
 
+    my $keystore;
+    if ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME}) {
+        $keystore = $ENV{GNUPGHOME};
+    } elsif ($ENV{HOME} && -e "$ENV{HOME}/.gnupg") {
+        $keystore = "$ENV{HOME}/.gnupg";
+    } else {
+        return;
+    }
+
     my @keyrings;
-    if (length $ENV{HOME} and -r "$ENV{HOME}/.gnupg/trustedkeys.gpg") {
-        push @keyrings, "$ENV{HOME}/.gnupg/trustedkeys.gpg";
+    foreach my $keyring (qw(trustedkeys.kbx trustedkeys.gpg)) {
+        push @keyrings, "$keystore/$keyring" if -r "$keystore/$keyring";
     }
     return @keyrings;
 }
