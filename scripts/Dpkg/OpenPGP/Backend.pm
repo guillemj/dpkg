@@ -64,9 +64,7 @@ sub new {
     my ($this, %opts) = @_;
     my $class = ref($this) || $this;
 
-    my $self = {
-        strict_verify => $opts{strict_verify} // 1,
-    };
+    my $self = {};
     bless $self, $class;
 
     $self->{cmdv} = _detect_cmd($opts{cmdv}, $self->DEFAULT_CMDV());
