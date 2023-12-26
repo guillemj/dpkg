@@ -117,6 +117,7 @@ sub set_build_features {
         },
         qa => {
             bug => 0,
+            'bug-implicit-func' => undef,
             canary => 0,
         },
         reproducible => {
@@ -280,6 +281,10 @@ sub set_build_features {
     # one in the future area.
     $use_feature{future}{lfs} = $use_feature{abi}{lfs};
 
+    ## Area: qa
+
+    $use_feature{qa}{'bug-implicit-func'} //= $use_feature{qa}{bug};
+
     ## Area: reproducible
 
     # Mask features that might have an unsafe usage.
@@ -432,15 +437,10 @@ sub _add_build_flags {
     ## Area: qa
 
     # Warnings that detect actual bugs.
+    if ($flags->use_feature('qa', 'bug-implicit-func')) {
+        $flags->append('CFLAGS', '-Werror=implicit-function-declaration');
+    }
     if ($flags->use_feature('qa', 'bug')) {
-        # C flags
-        my @cflags = qw(
-            implicit-function-declaration
-        );
-        foreach my $warnflag (@cflags) {
-            $flags->append('CFLAGS', "-Werror=$warnflag");
-        }
-
         # C/C++ flags
         my @cfamilyflags = qw(
             array-bounds

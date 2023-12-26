@@ -453,6 +453,11 @@ problems in the source code or build system.
 
 =over
 
+=item B<bug-implicit-func>
+
+This setting (since dpkg 1.22.3; disabled by default) adds
+B<-Werror=implicit-function-declaration> to B<CFLAGS>.
+
 =item B<bug>
 
 This setting (since dpkg 1.17.4; disabled by default) adds any warning
@@ -462,6 +467,9 @@ The only currently supported flags are B<CFLAGS> and B<CXXFLAGS>
 with flags set to B<-Werror=array-bounds>, B<-Werror=clobbered>,
 B<-Werror=implicit-function-declaration> and
 B<-Werror=volatile-register-var>.
+
+This feature handles B<-Werror=implicit-function-declaration> via
+the B<bug-implicit-func> feature, if that has not been specified.
 
 =item B<canary>
 

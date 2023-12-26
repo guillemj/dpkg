@@ -120,6 +120,7 @@ my %known_features = (
     ) ],
     qa => [ qw(
         bug
+        bug-implicit-func
         canary
     ) ],
     reproducible => [ qw(
