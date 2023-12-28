@@ -90,7 +90,7 @@ main (int argc, char **argv)
     {
       int this_option_optind = optind ? optind : 1;
       int option_index = 0;
-      static struct option long_options[] =
+      static const struct option long_options[] =
       {
 	{"add", 1, 0, 0},
 	{"append", 0, 0, 0},
