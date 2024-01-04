@@ -11,6 +11,15 @@ remove_logfile() {
   rm -f "$logdir"/alternatives.log "$logdir"/alternatives.log.* 2>/dev/null
 }
 
+# Remove backward compatibility symlink alias when dpkg is removed.
+remove_aliases() {
+  local prog=start-stop-daemon
+
+  if [ -L "$DPKG_ROOT/sbin/$prog" ]; then
+    rm "$DPKG_ROOT/sbin/$prog"
+  fi
+}
+
 # Version 1.22.0 stopped the systemd timer, which meant it would not run
 # anymore.
 fixup_systemd_timer() {
@@ -21,6 +30,7 @@ fixup_systemd_timer() {
 
 case "$1" in
 remove)
+  remove_aliases
   ;;
 purge)
   remove_logfile

@@ -51,9 +51,21 @@ check_merged_usr_via_aliased_dirs()
   done
 }
 
+setup_aliases()
+{
+  local prog=start-stop-daemon
+
+  # Add a backward compatibility symlink alias for s-s-d, which is now
+  # installed in its canonical location.
+  if [ ! -f "$DPKG_ROOT/sbin/$prog" ]; then
+    ln -s "/usr/sbin/$prog" "$DPKG_ROOT/sbin/$prog"
+  fi
+}
+
 case "$1" in
 configure)
   check_merged_usr_via_aliased_dirs
+  setup_aliases
   ;;
 abort-upgrade|abort-deconfigure|abort-remove)
   ;;
