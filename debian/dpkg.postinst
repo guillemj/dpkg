@@ -14,7 +14,9 @@ get_vendor()
   local origin="$DPKG_ROOT/etc/dpkg/origins/default"
   local vendor
 
-  if [ -e "$origin" ]; then
+  if [ -n "$DEB_VENDOR" ]; then
+    vendor="$DEB_VENDOR"
+  elif [ -e "$origin" ]; then
     vendor=$(sed -ne 's/^Vendor: *\([^ ]\+\) */\1/p' "$origin" | tr A-Z a-z)
   fi
 
