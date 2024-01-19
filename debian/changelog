@@ -1,8 +1,45 @@
-dpkg (1.22.3) UNRELEASED; urgency=medium
+dpkg (1.22.3) experimental; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * dpkg-buildtree: New program.
+  * Perl modules:
+    - Dpkg::Vendor::Debian: Parametrize fortify level.
+    - Dpkg::Vendor::Ubuntu: Default to fortify level 3.
+    - Dpkg::OpenPGP::Backend::SOP: Add reference to another gosop blocker.
+    - Dpkg::OpenPGP::Backend::GnuPG: Accept keybox format keyrings as-is.
+    - Dpkg::OpenPGP::Backend: Remove unused strict_verify option.
+    - Dpkg::OpenPGP::Backend::GnuPG: Look harder for trustedkeys keyring.
+    - Dpkg::Changelog::Debian: Remove wrong import arguments.
+    - Dpkg::Vendor::Debian: Split bug-implicit-func from bug feature in qa
+      area.
+  * Documentation:
+    - man: Use semantic line breaks (must requirements).
+    - man: Remove trailing full stop before parenthetical.
+    - man: Use «package maintainer script» instead of «Debian package
+      scripts».
+  * Code internals:
+    - libcompat: Make long_options array const.
+  * Packaging:
+    - Make the logdir variable local to its function in postrm.
+    - Install start-stop-daemon under /usr/sbin. Closes: #1059982
+    - Make get_vendor honor DEB_VENDOR environment variable.
+    - Check for usrmerge in bug-script on the same vendors as postinst.
+    - Do not install dpkg-fsys-usrunmess on Debian and Ubuntu.
+  * Localization:
+    - Fix L<> markup.
+    - Unfuzzy translations after semantic line break changes.
+    - Update Dutch man pages translation.
+      Thanks to Frans Spiesschaert <Frans.Spiesschaert@yucom.be>.
+      Closes: #1061085
+    - Update Swedish translations.
+      Thanks to Peter Krefting <peter@softwolves.pp.se>. Closes: #1059527
 
- -- Guillem Jover <guillem@debian.org>  Mon, 18 Dec 2023 03:57:49 +0100
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+    - Update German scripts translation.
+
+ -- Guillem Jover <guillem@debian.org>  Fri, 19 Jan 2024 12:10:52 +0100
 
 dpkg (1.22.2) unstable; urgency=medium
 
