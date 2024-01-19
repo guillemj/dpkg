@@ -38,6 +38,11 @@ endif
 
 testflags = TESTSUITEFLAGS=$(TESTSUITEFLAGS) TEST_PARALLEL=$(NUMJOBS)
 
+dpkg_vendor = \
+	$(CURDIR)/build-aux/run-script scripts/dpkg-vendor.pl
+
+DEB_VENDOR = $(shell $(call dpkg_vendor) --query Vendor)
+
 D := $(CURDIR)/debian/tmp
 
 %:
@@ -83,3 +88,23 @@ override_dh_bugfiles:
 
 override_dh_compress:
 	dh_compress -Xspec/
+
+ifeq (,$(filter $(DEB_VENDOR),Debian Ubuntu))
+execute_after_dh_install:
+	dh_install -pdpkg usr/sbin/dpkg-fsys-usrunmess
+
+# XXX: We cannot use -X, see debhelper #756366.
+execute_after_dh_installman:
+	dh_installman -pdpkg $(wildcard \
+	  $(D)/usr/share/man/*/dpkg-fsys-usrunmess.8  \
+	  $(D)/usr/share/man/*/*/dpkg-fsys-usrunmess.8 \
+	)
+
+# XXX: We cannot pass pathnames to dh_installman w/o $(D), and then dh_missing
+# complains that the pathnames do not match, so ignore them.
+override_dh_missing:
+	dh_missing -Xdpkg-fsys-usrunmess.8
+else
+override_dh_missing:
+	dh_missing -Xdpkg-fsys-usrunmess
+endif
