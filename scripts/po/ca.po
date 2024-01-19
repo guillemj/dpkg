@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-12-18 03:36+0100\n"
+"POT-Creation-Date: 2024-01-19 12:10+0100\n"
 "PO-Revision-Date: 2023-12-17 20:30+0100\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -21,23 +21,23 @@ msgstr ""
 
 #: scripts/dpkg-architecture.pl scripts/dpkg-buildapi.pl
 #: scripts/dpkg-buildflags.pl scripts/dpkg-buildpackage.pl
-#: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-distaddfile.pl
-#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
-#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
-#: scripts/dpkg-mergechangelogs.pl scripts/dpkg-name.pl
-#: scripts/dpkg-parsechangelog.pl scripts/dpkg-scanpackages.pl
-#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl
-#: scripts/dpkg-vendor.pl
+#: scripts/dpkg-buildtree.pl scripts/dpkg-checkbuilddeps.pl
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
+#: scripts/dpkg-gensymbols.pl scripts/dpkg-mergechangelogs.pl
+#: scripts/dpkg-name.pl scripts/dpkg-parsechangelog.pl
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
+#: scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl scripts/dpkg-vendor.pl
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s versió %s.\n"
 
 #: scripts/dpkg-architecture.pl scripts/dpkg-buildflags.pl
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-distaddfile.pl
-#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
-#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
-#: scripts/dpkg-parsechangelog.pl scripts/dpkg-shlibdeps.pl
-#: scripts/dpkg-source.pl scripts/dpkg-vendor.pl
+#: scripts/dpkg-buildpackage.pl scripts/dpkg-buildtree.pl
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
+#: scripts/dpkg-gensymbols.pl scripts/dpkg-parsechangelog.pl
+#: scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl scripts/dpkg-vendor.pl
 msgid ""
 "\n"
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -168,9 +168,10 @@ msgid "%s is not a supported variable name"
 msgstr "%s no és un nom de variable gestionat"
 
 #: scripts/dpkg-architecture.pl scripts/dpkg-buildapi.pl
-#: scripts/dpkg-buildflags.pl scripts/dpkg-distaddfile.pl
-#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
-#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl scripts/dpkg-name.pl
+#: scripts/dpkg-buildflags.pl scripts/dpkg-buildtree.pl
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
+#: scripts/dpkg-gensymbols.pl scripts/dpkg-name.pl
 #: scripts/dpkg-parsechangelog.pl scripts/dpkg-shlibdeps.pl
 #: scripts/dpkg-vendor.pl
 #, perl-format
@@ -216,7 +217,7 @@ msgstr ""
 msgid "no arguments accepted"
 msgstr "no s'accepten arguments"
 
-#: scripts/dpkg-buildflags.pl
+#: scripts/dpkg-buildflags.pl scripts/dpkg-buildtree.pl
 #, perl-format
 msgid "Usage: %s [<command>]"
 msgstr "Format d'ús: %s [<ordre>]"
@@ -767,6 +768,34 @@ msgid ""
 msgstr ""
 "s'ha d'actualitzar %s per admetre els objectius «build-arch» i «build-"
 "indep» (almenys sembla que manca «%s»)"
+
+#: scripts/dpkg-buildtree.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "  -c<control-file>         get control info from this file.\n"
+#| "  -?, --help               show this help message.\n"
+#| "  -v, --version            show the version.\n"
+msgid ""
+"Commands:\n"
+"  clean              clean dpkg generated artifacts from the build tree.\n"
+"  --help             show this help message.\n"
+"  --version          show the version.\n"
+msgstr ""
+"Opcions:\n"
+"  -c<fitxer-control>       fitxer d'informació de control.\n"
+"  -?, --help               mostra aquest missatge d'ajuda.\n"
+"  -v, --version            mostra la versió.\n"
+
+#: scripts/dpkg-buildtree.pl
+#, fuzzy, perl-format
+#| msgid "two commands specified: --%s and --%s"
+msgid "two commands specified: %s and %s"
+msgstr "s'ha especificat dos ordres: --%s i --%s"
+
+#: scripts/dpkg-buildtree.pl
+msgid "missing action"
+msgstr ""
 
 #: scripts/dpkg-checkbuilddeps.pl
 #, perl-format

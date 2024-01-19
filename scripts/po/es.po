@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.16.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2023-12-18 03:36+0100\n"
+"POT-Creation-Date: 2024-01-19 12:10+0100\n"
 "PO-Revision-Date: 2014-12-02 20:24+0100\n"
 "Last-Translator: Omar Campagne <ocampagne@gmail.com>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -44,23 +44,23 @@ msgstr ""
 
 #: scripts/dpkg-architecture.pl scripts/dpkg-buildapi.pl
 #: scripts/dpkg-buildflags.pl scripts/dpkg-buildpackage.pl
-#: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-distaddfile.pl
-#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
-#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
-#: scripts/dpkg-mergechangelogs.pl scripts/dpkg-name.pl
-#: scripts/dpkg-parsechangelog.pl scripts/dpkg-scanpackages.pl
-#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl
-#: scripts/dpkg-vendor.pl
+#: scripts/dpkg-buildtree.pl scripts/dpkg-checkbuilddeps.pl
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
+#: scripts/dpkg-gensymbols.pl scripts/dpkg-mergechangelogs.pl
+#: scripts/dpkg-name.pl scripts/dpkg-parsechangelog.pl
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
+#: scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl scripts/dpkg-vendor.pl
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s versión %s.\n"
 
 #: scripts/dpkg-architecture.pl scripts/dpkg-buildflags.pl
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-distaddfile.pl
-#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
-#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
-#: scripts/dpkg-parsechangelog.pl scripts/dpkg-shlibdeps.pl
-#: scripts/dpkg-source.pl scripts/dpkg-vendor.pl
+#: scripts/dpkg-buildpackage.pl scripts/dpkg-buildtree.pl
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
+#: scripts/dpkg-gensymbols.pl scripts/dpkg-parsechangelog.pl
+#: scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl scripts/dpkg-vendor.pl
 msgid ""
 "\n"
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -205,9 +205,10 @@ msgid "%s is not a supported variable name"
 msgstr "%s no es un nombre de variable aceptado"
 
 #: scripts/dpkg-architecture.pl scripts/dpkg-buildapi.pl
-#: scripts/dpkg-buildflags.pl scripts/dpkg-distaddfile.pl
-#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
-#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl scripts/dpkg-name.pl
+#: scripts/dpkg-buildflags.pl scripts/dpkg-buildtree.pl
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
+#: scripts/dpkg-gensymbols.pl scripts/dpkg-name.pl
 #: scripts/dpkg-parsechangelog.pl scripts/dpkg-shlibdeps.pl
 #: scripts/dpkg-vendor.pl
 #, perl-format
@@ -269,7 +270,7 @@ msgstr ""
 msgid "no arguments accepted"
 msgstr "Se esperan de uno a tres argumentos"
 
-#: scripts/dpkg-buildflags.pl
+#: scripts/dpkg-buildflags.pl scripts/dpkg-buildtree.pl
 #, perl-format
 msgid "Usage: %s [<command>]"
 msgstr "Uso: %s [<orden>]"
@@ -881,6 +882,39 @@ msgid ""
 msgstr ""
 "se debe actualizar %s para la compatibilidad con las tareas «build-arch» y "
 "«build-indep» (en apariencia, falta «%s»)"
+
+#: scripts/dpkg-buildtree.pl
+#, fuzzy
+#| msgid ""
+#| "Usage: %s [<option>...] <filename> <section> <priority>\n"
+#| "\n"
+#| "Options:\n"
+#| "  -f<files-list-file>      write files here instead of debian/files.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version.\n"
+msgid ""
+"Commands:\n"
+"  clean              clean dpkg generated artifacts from the build tree.\n"
+"  --help             show this help message.\n"
+"  --version          show the version.\n"
+msgstr ""
+"Uso: %s [<opción>...] <nombre-fichero> <sección> <prioridad>\n"
+"\n"
+"Opciones:\n"
+"  -f<lista-ficheros>        Escribe los ficheros aquí en vez de\n"
+"                            «debian/files».\n"
+"  -?, --help                Muestra este mensaje de ayuda.\n"
+"      --version             Muestra la versión.\n"
+
+#: scripts/dpkg-buildtree.pl
+#, fuzzy, perl-format
+#| msgid "two commands specified: --%s and --%s"
+msgid "two commands specified: %s and %s"
+msgstr "se han definido dos órdenes: «--%s» y «--%s»"
+
+#: scripts/dpkg-buildtree.pl
+msgid "missing action"
+msgstr ""
 
 #: scripts/dpkg-checkbuilddeps.pl
 #, perl-format
