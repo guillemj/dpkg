@@ -258,14 +258,14 @@ trigdef_process_done(void)
 	}
 
 	if (trig_new_deferred) {
-		int r;
+		int rc;
 
 		if (ferror(trig_new_deferred))
 			ohshite(_("unable to write new triggers deferred "
 			          "file '%.250s'"), newfn.buf);
-		r = fclose(trig_new_deferred);
+		rc = fclose(trig_new_deferred);
 		trig_new_deferred = NULL;
-		if (r)
+		if (rc)
 			ohshite(_("unable to close new triggers deferred "
 			          "file '%.250s'"), newfn.buf);
 
