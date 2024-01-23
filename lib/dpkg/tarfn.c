@@ -362,7 +362,7 @@ tar_gnu_long(struct tar_archive *tar, struct tar_entry *te, char **longp)
 	int long_read;
 
 	free(*longp);
-	*longp = bp = m_malloc(te->size);
+	*longp = bp = m_malloc(te->size + 1);
 
 	for (long_read = te->size; long_read > 0; long_read -= TARBLKSZ) {
 		int copysize;
@@ -386,6 +386,7 @@ tar_gnu_long(struct tar_archive *tar, struct tar_entry *te, char **longp)
 		memcpy(bp, buf, copysize);
 		bp += copysize;
 	}
+	*bp = '\0';
 
 	return status;
 }
