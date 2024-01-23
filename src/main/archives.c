@@ -273,12 +273,12 @@ int
 tarfileread(struct tar_archive *tar, char *buf, int len)
 {
   struct tarcontext *tc = (struct tarcontext *)tar->ctx;
-  int r;
+  int n;
 
-  r = fd_read(tc->backendpipe, buf, len);
-  if (r < 0)
+  n = fd_read(tc->backendpipe, buf, len);
+  if (n < 0)
     ohshite(_("error reading from dpkg-deb pipe"));
-  return r;
+  return n;
 }
 
 static void
