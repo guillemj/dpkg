@@ -46,17 +46,18 @@
 static intmax_t
 parse_intmax(const char *value, const char *fn, const char *what)
 {
-  intmax_t r;
+  intmax_t ret;
   char *endp;
 
   errno = 0;
-  r = strtoimax(value, &endp, 10);
+  ret = strtoimax(value, &endp, 10);
   if (value == endp || *endp)
     ohshit(_("file '%.250s' is corrupt - bad digit (code %d) in %s"),
            fn, *endp, what);
-  if (r < 0 || errno == ERANGE)
+  if (ret < 0 || errno == ERANGE)
     ohshit(_("file '%s' is corrupt; out of range integer in %s"), fn, what);
-  return r;
+
+  return ret;
 }
 
 static char *nextline(char **ripp, const char *fn, const char *what) {
