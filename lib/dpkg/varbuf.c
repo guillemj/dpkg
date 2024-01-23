@@ -177,7 +177,7 @@ int
 varbuf_vprintf(struct varbuf *v, const char *fmt, va_list args)
 {
 	va_list args_copy;
-	int needed, r;
+	int needed, n;
 
 	va_copy(args_copy, args);
 	needed = vsnprintf(NULL, 0, fmt, args_copy);
@@ -188,26 +188,26 @@ varbuf_vprintf(struct varbuf *v, const char *fmt, va_list args)
 
 	varbuf_grow(v, needed + 1);
 
-	r = vsnprintf(v->buf + v->used, needed + 1, fmt, args);
-	if (r < 0)
+	n = vsnprintf(v->buf + v->used, needed + 1, fmt, args);
+	if (n < 0)
 		ohshite(_("error formatting string into varbuf variable"));
 
-	v->used += r;
+	v->used += n;
 
-	return r;
+	return n;
 }
 
 int
 varbuf_printf(struct varbuf *v, const char *fmt, ...)
 {
-	int r;
 	va_list args;
+	int n;
 
 	va_start(args, fmt);
-	r = varbuf_vprintf(v, fmt, args);
+	n = varbuf_vprintf(v, fmt, args);
 	va_end(args);
 
-	return r;
+	return n;
 }
 
 void
