@@ -131,11 +131,11 @@ path_make_temp_template(const char *suffix)
 char *
 path_quote_filename(char *dst, const char *src, size_t n)
 {
-	char *r = dst;
+	char *ret = dst;
 	ssize_t size = (ssize_t)n;
 
 	if (size == 0)
-		return r;
+		return ret;
 
 	while (*src) {
 		if (*src == '\\') {
@@ -166,5 +166,5 @@ path_quote_filename(char *dst, const char *src, size_t n)
 
 	*dst = '\0';
 
-	return r;
+	return ret;
 }
