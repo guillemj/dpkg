@@ -69,7 +69,7 @@ sub armor
     return OPENPGP_MISSING_CMD unless $self->{cmd};
 
     # We ignore the $type, and let "sq" handle this automatically.
-    my $rc = $self->_sq_exec(qw(armor --output), $out, $in);
+    my $rc = $self->_sq_exec(qw(toolbox armor --output), $out, $in);
     return OPENPGP_BAD_DATA if $rc;
     return OPENPGP_OK;
 }
@@ -81,7 +81,7 @@ sub dearmor
     return OPENPGP_MISSING_CMD unless $self->{cmd};
 
     # We ignore the $type, and let "sq" handle this automatically.
-    my $rc = $self->_sq_exec(qw(dearmor --output), $out, $in);
+    my $rc = $self->_sq_exec(qw(toolbox dearmor --output), $out, $in);
     return OPENPGP_BAD_DATA if $rc;
     return OPENPGP_OK;
 }
