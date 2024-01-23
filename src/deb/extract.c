@@ -81,15 +81,15 @@ read_line(int fd, char *buf, size_t min_size, size_t max_size)
   size_t n = min_size;
 
   while (line_size < (ssize_t)max_size) {
-    ssize_t r;
+    ssize_t nread;
     char *nl;
 
-    r = fd_read(fd, buf + line_size, n);
-    if (r <= 0)
-      return r;
+    nread = fd_read(fd, buf + line_size, n);
+    if (nread <= 0)
+      return nread;
 
-    nl = memchr(buf + line_size, '\n', r);
-    line_size += r;
+    nl = memchr(buf + line_size, '\n', nread);
+    line_size += nread;
 
     if (nl != NULL) {
       nl[1] = '\0';
