@@ -1,8 +1,24 @@
-dpkg (1.22.4) UNRELEASED; urgency=medium
+dpkg (1.22.4) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * Code internals:
+    - dpkg: Rename r variable for readlink() return value to symlink_len.
+    - dpkg: Rename r variable for fd_read() return value to n.
+    - dpkg-deb: Rename r variable for fd_read() return value to nread.
+    - dpkg-deb: Rename r variables for fd_read() call chain return value to rc.
+    - dpkg-split: Rename r variable for strtoimax() return value to ret.
+    - libdpkg: Rename r variable for path_quote_filename() return to ret.
+    - libdpkg: Rename r variable for fclose() return value to rc.
+    - libdpkg: Rename r variables for printf()-like return values to n.
+    - libdpkg: Handle tar long GNU names and links not being NUL terminated.
+      Closes: #1061404
+    - perl: Use qw() when importing symbols.
+    - dpkg-gensymbols: Move foreach inlined array elements into a list.
+    - dpkg-scansources: Fix newline breaks for ternary operators.
+  * Packaging:
+    - Update copyright years.
 
- -- Guillem Jover <guillem@debian.org>  Fri, 19 Jan 2024 12:58:57 +0100
+ -- Guillem Jover <guillem@debian.org>  Wed, 24 Jan 2024 13:12:31 +0100
 
 dpkg (1.22.3) experimental; urgency=medium
 
