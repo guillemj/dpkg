@@ -36,12 +36,14 @@ sub version()
 sub usage()
 {
     printf g_(
-'Usage: %s [<option>...]')
+'Usage: %s [<option>...] [<command>]')
+    . "\n\n" . g_(
+'Commands:
+  -?, --help               show this help message.
+  -v, --version            show the version.')
     . "\n\n" . g_(
 'Options:
   -c<control-file>         get control info from this file.
-  -?, --help               show this help message.
-  -v, --version            show the version.
 '), $Dpkg::PROGNAME;
 }
 
