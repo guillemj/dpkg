@@ -40,7 +40,7 @@ sub usage()
     . "\n\n" . g_(
 'Commands:
   -?, --help               show this help message.
-  -v, --version            show the version.')
+      --version            show the version.')
     . "\n\n" . g_(
 'Options:
   -c<control-file>         get control info from this file.
@@ -54,7 +54,7 @@ while (@ARGV) {
     if (m/^-\?|--help$/) {
         usage();
         exit 0;
-    } elsif (m/^-v|--version$/) {
+    } elsif (m/^--version$/) {
         version();
         exit 0;
     } elsif (m/-c(.*)$/) {
