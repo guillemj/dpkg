@@ -348,10 +348,15 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d, struct dpkg_error *
  * The way the GNU long{link,name} stuff works is like this:
  *
  * - The first header is a “dummy” header that contains the size of the
- *   filename.
- * - The next N headers contain the filename.
+ *   filename (GNU tar includes the terminating NUL character in the size,
+ *   but other implementations do not).
+ * - The next N headers contain the filename (GNU tar terminates the string
+ *   with a NUL character, but other implementations do not).
  * - After the headers with the filename comes the “real” header with a
  *   bogus name or link.
+ *
+ * To be robust against any input, we need to always terminate the filename
+ * with a NUL character.
  */
 static int
 tar_gnu_long(struct tar_archive *tar, struct tar_entry *te, char **longp)
