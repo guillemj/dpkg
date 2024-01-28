@@ -13,6 +13,7 @@ AM_CPPFLAGS = \
 
 sbin_PROGRAMS =
 bin_PROGRAMS =
+dist_bashcompletions_DATA =
 polkitactions_DATA =
 EXTRA_DIST =
 CLEANFILES =
@@ -35,6 +36,8 @@ update_alternatives_LDADD = \
 	../lib/compat/libcompat.la \
 	$(LIBINTL) \
 	# EOL
+
+dist_bashcompletions_DATA +=
 
 polkitactions_DATA += org.dpkg.pkexec.update-alternatives.policy
 endif
@@ -71,6 +74,8 @@ start_stop_daemon_LDADD = \
 	$(PS_LIBS) \
 	$(KVM_LIBS) \
 	# EOL
+
+dist_bashcompletions_DATA +=
 endif
 
 install-data-local:

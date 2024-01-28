@@ -134,6 +134,9 @@ dpkg_trigger_SOURCES = \
 	trigger/main.c \
 	# EOL
 
+dist_bashcompletions_DATA = \
+	# EOL
+
 SUFFIXES =
 
 include $(top_srcdir)/build-aux/subst.am

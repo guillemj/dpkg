@@ -57,6 +57,9 @@ dselect_LDADD = \
 	../lib/compat/libcompat.la \
 	# EOL
 
+dist_bashcompletions_DATA = \
+	# EOL
+
 EXTRA_DIST = \
 	keyoverride \
 	mkcurkeys.pl \

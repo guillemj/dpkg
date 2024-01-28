@@ -78,6 +78,8 @@ DPKG_WITH_DIR([aclocaldir], [${datadir}/aclocal],
   [aclocal m4 fragments files directory [DATADIR/aclocal]])
 DPKG_WITH_DIR([polkitactionsdir], [${datadir}/polkit-1/actions],
   [polkit .policy actions directory [DATADIR/polkit-1/actions]])
+DPKG_WITH_DIR([bashcompletionsdir], [${datadir}/bash-completion/completions],
+  [bash completions directory [DATADIR/bash-completion/completions]])
 DPKG_WITH_DIR([zshcompletionsdir], [${datadir}/zsh/vendor-completions],
   [zsh vendor completions directory [DATADIR/zsh/vendor-completions]])
 
@@ -316,6 +318,7 @@ Configuration:
     pkg-config dir  . . . . . . . : $pkgconfigdir
     aclocal dir   . . . . . . . . : $aclocaldir
     polkit actions dir  . . . . . : $polkitactionsdir
+    bash completions dir  . . . . : $bashcompletionsdir
     zsh completions dir . . . . . : $zshcompletionsdir
     perl interpreter  . . . . . . : $PERL
     perl libdir . . . . . . . . . : $PERL_LIBDIR

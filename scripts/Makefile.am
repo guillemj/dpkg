@@ -151,6 +151,9 @@ CLEANFILES += \
 	$(bin_SCRIPTS) \
 	# EOL
 
+dist_bashcompletions_DATA = \
+	# EOL
+
 dist_zshcompletions_DATA = \
 	completion/zsh/_dpkg-parsechangelog \
 	# EOL
