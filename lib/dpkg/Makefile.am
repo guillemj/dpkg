@@ -47,9 +47,8 @@ EXTRA_libdpkg_la_DEPENDENCIES += \
 	# EOL
 endif
 
-libdpkg_la_LDFLAGS += $(MD_LIBS)
-
 libdpkg_la_LIBADD = \
+	$(MD_LIBS) \
 	../compat/libcompat.la \
 	# EOL
 
