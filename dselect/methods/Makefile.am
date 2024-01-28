@@ -1,5 +1,10 @@
 ## Process this file with automake to produce Makefile.in
 
+nobase_dist_perllib_DATA = \
+	Dselect/Method.pm \
+	Dselect/Method/Ftp.pm \
+	# EOL
+
 nobase_dist_methods_DATA = \
 	file/names \
 	file/desc.file \
@@ -19,11 +24,6 @@ nobase_methods_SCRIPTS = \
 	media/install \
 	media/setup \
 	media/update \
-	# EOL
-
-nobase_dist_perllib_DATA = \
-	Dselect/Method.pm \
-	Dselect/Method/Ftp.pm \
 	# EOL
 
 EXTRA_DIST = \

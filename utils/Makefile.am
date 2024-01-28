@@ -11,23 +11,16 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib \
 	# EOL
 
-CLEANFILES = \
-	org.dpkg.pkexec.update-alternatives.policy \
-	# EOL
-
-EXTRA_DIST = \
-	README.alternatives \
-	update-alternatives.polkit.in \
-	$(test_scripts) \
-	# EOL
-
-polkitactions_DATA =
-
+sbin_PROGRAMS =
 bin_PROGRAMS =
+polkitactions_DATA =
+EXTRA_DIST =
+CLEANFILES =
 
 if BUILD_UPDATE_ALTERNATIVES
-polkitactions_DATA += org.dpkg.pkexec.update-alternatives.policy
 bin_PROGRAMS += update-alternatives
+
+polkitactions_DATA += org.dpkg.pkexec.update-alternatives.policy
 endif
 
 do_polkit_subst = $(SED) \
@@ -56,7 +49,14 @@ update_alternatives_LDADD = \
 	$(LIBINTL) \
 	# EOL
 
-sbin_PROGRAMS =
+EXTRA_DIST += \
+	README.alternatives \
+	update-alternatives.polkit.in \
+	# EOL
+
+CLEANFILES += \
+	org.dpkg.pkexec.update-alternatives.policy \
+	# EOL
 
 if BUILD_START_STOP_DAEMON
 sbin_PROGRAMS += start-stop-daemon
@@ -93,6 +93,10 @@ TEST_ENV_VARS = \
 test_tmpdir = t.tmp
 test_scripts = \
 	t/update_alternatives.t \
+	# EOL
+
+EXTRA_DIST += \
+	$(test_scripts) \
 	# EOL
 
 include $(top_srcdir)/build-aux/tap.am

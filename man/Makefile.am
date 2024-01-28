@@ -1,5 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
+EXTRA_DIST =
+CLEANFILES =
+
 man_MANS = \
 	deb-buildinfo.5 \
 	deb-changelog.5 \
@@ -80,9 +83,7 @@ man_MANS += \
 	# EOL
 endif
 
-CLEANFILES = $(man_MANS)
-
-EXTRA_DIST = \
+EXTRA_DIST += \
 	po/ChangeLog.old \
 	po/dpkg-man.pot \
 	po/po4a.cfg \
@@ -154,6 +155,8 @@ EXTRA_DIST += \
 	start-stop-daemon.pod \
 	update-alternatives.pod \
 	# EOL
+
+CLEANFILES += $(man_MANS)
 
 
 # Extract the list of languages from the po4a config file.
