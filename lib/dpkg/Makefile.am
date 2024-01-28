@@ -48,19 +48,14 @@ EXTRA_libdpkg_la_DEPENDENCIES += \
 endif
 
 libdpkg_la_LIBADD = \
-	$(MD_LIBS) \
-	../compat/libcompat.la \
-	# EOL
-
-if BUILD_SHARED
-libdpkg_la_LIBADD += \
-	$(LIBINTL) \
 	$(Z_LIBS) \
 	$(LZMA_LIBS) \
 	$(ZSTD_LIBS) \
 	$(BZ2_LIBS) \
+	$(MD_LIBS) \
+	$(LIBINTL) \
+	../compat/libcompat.la \
 	# EOL
-endif
 
 libdpkg_la_SOURCES = \
 	dlist.h \

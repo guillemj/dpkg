@@ -7,7 +7,6 @@ AC_DEFUN([DPKG_BUILD_SHARED_LIBS], [
   AS_IF([test "$enable_shared" = "yes" && test -z "$AUTHOR_TESTING"], [
     AC_MSG_ERROR([building libdpkg as a shared library is not supported])
   ])
-  AM_CONDITIONAL([BUILD_SHARED], [test "$enable_shared" = "yes"])
 ])# DPKG_BUILD_SHARED_LIBS
 
 # DPKG_BUILD_RELEASE_DATE()
