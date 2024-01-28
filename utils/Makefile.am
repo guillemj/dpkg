@@ -20,6 +20,22 @@ CLEANFILES =
 if BUILD_UPDATE_ALTERNATIVES
 bin_PROGRAMS += update-alternatives
 
+update_alternatives_CPPFLAGS = \
+	-DALT_TMP_EXT=\".dpkg-tmp\" \
+	-DADMINDIR_ENVVAR=\"DPKG_ADMINDIR\" \
+	-DINSTDIR_ENVVAR=\"DPKG_ROOT\" \
+	$(AM_CPPFLAGS) \
+	# EOL
+
+update_alternatives_SOURCES = \
+	update-alternatives.c \
+	# EOL
+
+update_alternatives_LDADD = \
+	../lib/compat/libcompat.la \
+	$(LIBINTL) \
+	# EOL
+
 polkitactions_DATA += org.dpkg.pkexec.update-alternatives.policy
 endif
 
@@ -32,22 +48,6 @@ org.dpkg.pkexec.update-alternatives.policy: update-alternatives.polkit.in Makefi
 	$(AM_V_GEN) GETTEXTDATADIR="$(top_srcdir)/po" \
 	  $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o - \
 	  | $(do_polkit_subst) >$@
-
-update_alternatives_SOURCES = \
-	update-alternatives.c \
-	# EOL
-
-update_alternatives_CPPFLAGS = \
-	-DALT_TMP_EXT=\".dpkg-tmp\" \
-	-DADMINDIR_ENVVAR=\"DPKG_ADMINDIR\" \
-	-DINSTDIR_ENVVAR=\"DPKG_ROOT\" \
-	$(AM_CPPFLAGS) \
-	# EOL
-
-update_alternatives_LDADD = \
-	../lib/compat/libcompat.la \
-	$(LIBINTL) \
-	# EOL
 
 EXTRA_DIST += \
 	README.alternatives \
