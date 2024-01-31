@@ -63,7 +63,6 @@ CLEANFILES = \
 	$(bin_SCRIPTS) \
 	# EOL
 
-perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
 	Dpkg/Arch.pm \
 	Dpkg/BuildAPI.pm \

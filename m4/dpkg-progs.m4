@@ -79,6 +79,8 @@ AC_DEFUN([DPKG_PROG_PERL], [
                          $r =~ s/$Config{vendorprefixexp}/\$(prefix)/;
                          print $r')
   ])
+  DPKG_WITH_DIR([perllibdir], [${PERL_LIBDIR}],
+    [perl modules directory])
 ])# DPKG_PROG_PERL
 
 # DPKG_PROG_PO4A

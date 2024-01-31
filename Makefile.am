@@ -16,8 +16,6 @@ SUBDIRS = \
 
 ACLOCAL_AMFLAGS = -I m4
 
-aclocaldir = $(datadir)/aclocal
-
 dist_aclocal_DATA = \
 	m4/dpkg-arch.m4 \
 	m4/dpkg-build.m4 \
@@ -47,8 +45,6 @@ dist_doc_DATA = \
 	doc/README.api \
 	doc/README.feature-removal-schedule \
 	# EOL
-
-docspecdir = $(docdir)/spec
 
 dist_docspec_DATA = \
 	doc/spec/frontend-api.txt \

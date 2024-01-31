@@ -21,7 +21,6 @@ EXTRA_DIST = \
 	$(test_scripts) \
 	# EOL
 
-polkitactionsdir = $(datadir)/polkit-1/actions
 polkitactions_DATA =
 
 bin_PROGRAMS =

@@ -62,12 +62,22 @@ DPKG_WITH_DIR([devlibdir], [${libdir}],
   [dpkg development library directory [LIBDIR]])
 DPKG_WITH_DIR([pkgconfdir], [${sysconfdir}/${PACKAGE_NAME}],
   [dpkg configuration directory [SYSCONFDIR/dpkg]])
+DPKG_WITH_DIR([docspecdir], [${docdir}/spec],
+  [dpkg specifications directory [DOCDIR/spec]])
+DPKG_WITH_DIR([methodsdir], [${libexecdir}/${PACKAGE_NAME}/methods],
+  [dpkg download methods directory [LIBEXECDIR/dpkg/methods]])
 DPKG_WITH_DIR([admindir], [${localstatedir}/lib/${PACKAGE_NAME}],
   [dpkg database directory [LOCALSTATEDIR/lib/dpkg]])
 DPKG_WITH_DIR([backupsdir], [${localstatedir}/backups],
   [dpkg database backups directory [LOCALSTATEDIR/backups]])
 DPKG_WITH_DIR([logdir], [${localstatedir}/log],
   [system logging directory [LOCALSTATEDIR/log]])
+DPKG_WITH_DIR([pkgconfigdir], [${devlibdir}/pkgconfig],
+  [pkg-config .pc fragments directory [DEVLIBDIR/pkgconfig]])
+DPKG_WITH_DIR([aclocaldir], [${datadir}/aclocal],
+  [aclocal m4 fragments files directory [DATADIR/aclocal]])
+DPKG_WITH_DIR([polkitactionsdir], [${datadir}/polkit-1/actions],
+  [polkit .policy actions directory [DATADIR/polkit-1/actions]])
 DPKG_WITH_DIR([zshcompletionsdir], [${datadir}/zsh/vendor-completions],
   [zsh vendor completions directory [DATADIR/zsh/vendor-completions]])
 
@@ -298,9 +308,15 @@ Configuration:
   Paths:
     devlibdir . . . . . . . . . . : $devlibdir
     pkgconfdir  . . . . . . . . . : $pkgconfdir
+    docspecdir  . . . . . . . . . : $docspecdir
+    methodsdir  . . . . . . . . . : $methodsdir
     admindir  . . . . . . . . . . : $admindir
     backupsdir  . . . . . . . . . : $backupsdir
     logdir  . . . . . . . . . . . : $logdir
+    pkg-config dir  . . . . . . . : $pkgconfigdir
+    aclocal dir   . . . . . . . . : $aclocaldir
+    polkit actions dir  . . . . . : $polkitactionsdir
+    zsh completions dir . . . . . : $zshcompletionsdir
     perl interpreter  . . . . . . : $PERL
     perl libdir . . . . . . . . . : $PERL_LIBDIR
 

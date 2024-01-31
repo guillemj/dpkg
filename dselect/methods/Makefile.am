@@ -1,7 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-methodsdir = $(pkglibexecdir)/methods
-
 nobase_dist_methods_DATA = \
 	file/names \
 	file/desc.file \
@@ -23,7 +21,6 @@ nobase_methods_SCRIPTS = \
 	media/update \
 	# EOL
 
-perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
 	Dselect/Method.pm \
 	Dselect/Method/Ftp.pm \

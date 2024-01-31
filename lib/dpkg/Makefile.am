@@ -26,7 +26,6 @@ EXTRA_DIST = \
 	libdpkg.pc.in \
 	# EOL
 
-pkgconfigdir = $(devlibdir)/pkgconfig
 pkgconfig_DATA = libdpkg.pc
 
 devlib_LTLIBRARIES = libdpkg.la
