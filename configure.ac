@@ -60,13 +60,13 @@ DPKG_BUILD_DEVEL_DOCS
 # Allow alternate directories
 DPKG_WITH_DIR([devlibdir], [${libdir}],
   [dpkg development library directory [LIBDIR]])
-DPKG_WITH_DIR([pkgconfdir], [${sysconfdir}/${PACKAGE_NAME}],
+DPKG_WITH_DIR([pkgconfdir], [${sysconfdir}/${PACKAGE_TARNAME}],
   [dpkg configuration directory [SYSCONFDIR/dpkg]])
 DPKG_WITH_DIR([docspecdir], [${docdir}/spec],
   [dpkg specifications directory [DOCDIR/spec]])
-DPKG_WITH_DIR([methodsdir], [${libexecdir}/${PACKAGE_NAME}/methods],
+DPKG_WITH_DIR([methodsdir], [${libexecdir}/${PACKAGE_TARNAME}/methods],
   [dpkg download methods directory [LIBEXECDIR/dpkg/methods]])
-DPKG_WITH_DIR([admindir], [${localstatedir}/lib/${PACKAGE_NAME}],
+DPKG_WITH_DIR([admindir], [${localstatedir}/lib/${PACKAGE_TARNAME}],
   [dpkg database directory [LOCALSTATEDIR/lib/dpkg]])
 DPKG_WITH_DIR([backupsdir], [${localstatedir}/backups],
   [dpkg database backups directory [LOCALSTATEDIR/backups]])
