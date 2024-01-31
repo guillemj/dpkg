@@ -21,13 +21,13 @@ EXTRA_DIST = \
 	$(test_scripts) \
 	# EOL
 
-pkexecdir = $(datadir)/polkit-1/actions
-pkexec_DATA =
+polkitactionsdir = $(datadir)/polkit-1/actions
+polkitactions_DATA =
 
 bin_PROGRAMS =
 
 if BUILD_UPDATE_ALTERNATIVES
-pkexec_DATA += org.dpkg.pkexec.update-alternatives.policy
+polkitactions_DATA += org.dpkg.pkexec.update-alternatives.policy
 bin_PROGRAMS += update-alternatives
 endif
 
