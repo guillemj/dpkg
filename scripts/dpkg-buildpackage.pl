@@ -615,9 +615,9 @@ if ($sanitize_env) {
 
 run_hook('init');
 
-if (not -x 'debian/rules') {
-    warning(g_('debian/rules is not executable; fixing that'));
-    chmod(0755, 'debian/rules'); # No checks of failures, non fatal
+if (@debian_rules == 1 && ! -x $debian_rules[0]) {
+    warning(g_('%s is not executable; fixing that'), $debian_rules[0]);
+    chmod(0755, $debian_rules[0]); # No checks of failures, non fatal
 }
 
 if (scalar @call_target == 0) {
