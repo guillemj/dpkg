@@ -1044,7 +1044,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
         ohshite(_("unable to move aside '%.255s' to install new version"),
                 ti->name);
     } else if (S_ISLNK(stab.st_mode)) {
-      ssize_t symlink_len;
+      ssize_t linksize;
       int rc;
 
       /* We can't make a symlink with two hardlinks, so we'll have to
@@ -1052,16 +1052,16 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
        * as linking to it.) */
       varbuf_reset(&symlinkfn);
       varbuf_grow(&symlinkfn, stab.st_size + 1);
-      symlink_len = readlink(fnamevb.buf, symlinkfn.buf, symlinkfn.size);
-      if (symlink_len < 0)
+      linksize = readlink(fnamevb.buf, symlinkfn.buf, symlinkfn.size);
+      if (linksize < 0)
         ohshite(_("unable to read link '%.255s'"), ti->name);
-      else if (symlink_len > stab.st_size)
+      else if (linksize > stab.st_size)
         ohshit(_("symbolic link '%.250s' size has changed from %jd to %zd"),
-               fnamevb.buf, (intmax_t)stab.st_size, symlink_len);
-      else if (symlink_len < stab.st_size)
+               fnamevb.buf, (intmax_t)stab.st_size, linksize);
+      else if (linksize < stab.st_size)
         warning(_("symbolic link '%.250s' size has changed from %jd to %zd"),
-               fnamevb.buf, (intmax_t)stab.st_size, symlink_len);
-      varbuf_trunc(&symlinkfn, symlink_len);
+               fnamevb.buf, (intmax_t)stab.st_size, linksize);
+      varbuf_trunc(&symlinkfn, linksize);
       varbuf_end_str(&symlinkfn);
       if (symlink(symlinkfn.buf,fnametmpvb.buf))
         ohshite(_("unable to make backup symlink for '%.255s'"), ti->name);
