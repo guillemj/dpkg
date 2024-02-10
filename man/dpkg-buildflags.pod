@@ -405,6 +405,16 @@ and the ones described below are only recognized on Debian and derivatives.
 Each area feature can be enabled and disabled in the B<DEB_BUILD_OPTIONS>
 and B<DEB_BUILD_MAINT_OPTIONS> environment variable's area value with the
 ‘B<+>’ and ‘B<->’ modifier.
+Following the general syntax of these variables
+(described in L<dpkg-buildpackage(1)>),
+multiple feature areas can be specified separated by spaces,
+where each get feature specifiers as mandatory parameters after an
+equal sign (‘B<=>’).
+The feature specifiers are comma-separated and parsed from left to right,
+where the settings within the same feature specifier override previous ones,
+even if the feature specifiers are split across multiple space-separated
+feature area settings for the same area.
+
 For example, to enable the B<hardening> “pie” feature and disable the
 “fortify” feature you can do this in B<debian/rules>:
 
@@ -416,6 +426,24 @@ Thus disabling everything in the B<hardening> area and enabling only
 “format” and “fortify” can be achieved with:
 
     export DEB_BUILD_MAINT_OPTIONS = hardening=-all,+format,+fortify
+
+Multiple feature areas can be set:
+
+    export DEB_BUILD_MAINT_OPTIONS = hardening=+pie abi=+lfs
+
+The override behavior applies as much to the B<all> special feature,
+as to specific features,
+which should allow for composition.
+Thus to enable “lfs” in the B<abi> area, and only “pie” and “fortify”
+in the B<hardening> area, but “format” only when CONDITION is defined,
+this could be done with:
+
+    export DEB_BUILD_MAINT_OPTIONS = hardening=-all,+pie,+format abi=+lfs
+    …
+    DEB_BUILD_MAINT_OPTIONS += hardening=+fortify
+    ifdef CONDITION
+    DEB_BUILD_MAINT_OPTIONS += hardening=-format
+    endif
 
 =head2 abi
 
