@@ -670,13 +670,6 @@ if (build_has_any(BUILD_SOURCE)) {
 
 my $build_types = get_build_options_from_type();
 
-if (build_has_any(BUILD_BINARY)) {
-    # XXX Use some heuristics to decide whether to use build-{arch,indep}
-    # targets. This is a temporary measure to not break too many packages
-    # on a flag day.
-    build_target_fallback($ctrl);
-}
-
 # If we are building rootless, there is no need to call the build target
 # independently as non-root.
 if (build_has_any(BUILD_BINARY) && rules_requires_root($binarytarget)) {
@@ -1047,49 +1040,5 @@ sub describe_build {
         return g_('binary and diff upload (original source NOT included)');
     } else {
         return g_('full upload (original source is included)');
-    }
-}
-
-sub build_target_fallback {
-    my $ctrl = shift;
-
-    # If we are building rootless, there is no need to call the build target
-    # independently as non-root.
-    return if not rules_requires_root($binarytarget);
-
-    return if $buildtarget eq 'build';
-    return if scalar @debian_rules != 1;
-
-    # Avoid further heuristics in newer dpkg-build-api levels.
-    return if get_build_api($ctrl) >= 1;
-
-    # Check if we are building both arch:all and arch:any packages, in which
-    # case we now require working build-indep and build-arch targets.
-    my $pkg_arch = 0;
-
-    foreach my $bin ($ctrl->get_packages()) {
-        if ($bin->{Architecture} eq 'all') {
-            $pkg_arch |= BUILD_ARCH_INDEP;
-        } else {
-            $pkg_arch |= BUILD_ARCH_DEP;
-        }
-    }
-
-    return if $pkg_arch == BUILD_BINARY;
-
-    # Check if the build-{arch,indep} targets are supported. If not, fallback
-    # to build.
-    my $pid = spawn(exec => [ $Dpkg::PROGMAKE, '-f', @debian_rules, '-qn', $buildtarget ],
-                    from_file => '/dev/null', to_file => '/dev/null',
-                    error_to_file => '/dev/null');
-    my $cmdline = "make -f @debian_rules -qn $buildtarget";
-    wait_child($pid, nocheck => 1, cmdline => $cmdline);
-    my $exitcode = WEXITSTATUS($?);
-    subprocerr($cmdline) unless WIFEXITED($?);
-    if ($exitcode == 2) {
-        warning(g_("%s must be updated to support the 'build-arch' and " .
-                   "'build-indep' targets (at least '%s' seems to be " .
-                   'missing)'), "@debian_rules", $buildtarget);
-        $buildtarget = 'build';
     }
 }

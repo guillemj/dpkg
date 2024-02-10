@@ -908,12 +908,10 @@ This is no longer the case.
 
 B<dpkg-buildpackage> is using the B<build-arch> and
 B<build-indep> targets since dpkg 1.16.2.
+Before dpkg 1.22.7,
+there was code to try to detect the missing targets and fallback on the
+B<build> target.
 Those targets are thus mandatory.
-But to avoid breakages of existing packages, and ease
-the transition, if the source package does not build both architecture
-independent and dependent binary packages (since dpkg 1.18.8) it will
-fallback to use the B<build> target if B<make -f debian/rules -qn>
-I<build-target> returns 2 as exit code.
 
 =head1 SECURITY
 
