@@ -670,19 +670,19 @@ if (build_has_any(BUILD_SOURCE)) {
 
 my $build_types = get_build_options_from_type();
 
+my $need_buildtask = rules_requires_root($binarytarget);
+
+run_hook('build', {
+    enabled => build_has_any(BUILD_BINARY) && $need_buildtask,
+    env => {
+        DPKG_BUILDPACKAGE_HOOK_BUILD_TARGET => $buildtarget,
+    },
+});
+
 # If we are building rootless, there is no need to call the build target
 # independently as non-root.
-if (build_has_any(BUILD_BINARY) && rules_requires_root($binarytarget)) {
-    run_hook('build', {
-        env => {
-            DPKG_BUILDPACKAGE_HOOK_BUILD_TARGET => $buildtarget,
-        },
-    });
+if (build_has_any(BUILD_BINARY) && $need_buildtask) {
     run_cmd(@debian_rules, $buildtarget);
-} else {
-    run_hook('build', {
-        enabled => 0,
-    });
 }
 
 if (build_has_any(BUILD_BINARY)) {
