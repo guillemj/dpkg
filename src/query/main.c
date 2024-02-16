@@ -290,7 +290,7 @@ listpackages(const char *const *argv)
   pkg_array_destroy(&array);
   modstatdb_shutdown();
 
-  return rc;
+  return !!rc;
 }
 
 static int
@@ -388,7 +388,7 @@ searchfiles(const char *const *argv)
 
   varbuf_destroy(&path);
 
-  return failures;
+  return !!failures;
 }
 
 static int
@@ -435,7 +435,7 @@ print_status(const char *const *argv)
 
   modstatdb_shutdown();
 
-  return failures;
+  return !!failures;
 }
 
 static int
@@ -474,7 +474,7 @@ print_avail(const char *const *argv)
 
   modstatdb_shutdown();
 
-  return failures;
+  return !!failures;
 }
 
 static int
@@ -542,7 +542,7 @@ list_files(const char *const *argv)
 
   modstatdb_shutdown();
 
-  return failures;
+  return !!failures;
 }
 
 static void
@@ -572,8 +572,7 @@ showpackages(const char *const *argv)
   if (!fmt) {
     notice(_("error in show format: %s"), err.str);
     dpkg_error_destroy(&err);
-    rc++;
-    return rc;
+    return 2;
   }
 
   fmt_needs_db_fsys = pkg_format_needs_db_fsys(fmt);
@@ -612,7 +611,7 @@ showpackages(const char *const *argv)
   pkg_format_free(fmt);
   modstatdb_shutdown();
 
-  return rc;
+  return !!rc;
 }
 
 static bool
@@ -883,5 +882,5 @@ int main(int argc, const char *const *argv) {
   dpkg_program_done();
   dpkg_locales_done();
 
-  return !!ret;
+  return ret;
 }
