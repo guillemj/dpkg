@@ -200,6 +200,7 @@ sub test_needs_command
 sub test_needs_openpgp_backend
 {
     my @backends = qw(
+        gpg-sq
         gpg
         sq
         sqop

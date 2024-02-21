@@ -27,6 +27,7 @@ use Dpkg::OpenPGP::KeyHandle;
 
 my %backend_cmd = (
     auto => 'auto',
+    'gpg-sq' => 'gpg',
     gpg => 'gpg',
     sq => 'sq',
     sqop => 'sop',

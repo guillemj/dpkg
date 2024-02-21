@@ -46,7 +46,7 @@ use Dpkg::OpenPGP::ErrorCodes;
 use parent qw(Dpkg::OpenPGP::Backend);
 
 sub DEFAULT_CMDV {
-    return [ qw(gpgv) ];
+    return [ qw(gpgv-sq gpgv) ];
 }
 
 sub DEFAULT_CMDSTORE {
@@ -54,7 +54,7 @@ sub DEFAULT_CMDSTORE {
 }
 
 sub DEFAULT_CMD {
-    return [ qw(gpg) ];
+    return [ qw(gpg-sq gpg) ];
 }
 
 sub has_backend_cmd {
