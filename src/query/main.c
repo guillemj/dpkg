@@ -69,7 +69,7 @@ pkg_array_match_patterns(struct pkg_array *array,
                          const char *const *argv)
 {
   int argc, i, ip, *found;
-  int rc = 0;
+  int misses = 0;
   struct pkg_spec *ps;
 
   for (argc = 0; argv[argc]; argc++);
@@ -101,7 +101,7 @@ pkg_array_match_patterns(struct pkg_array *array,
   for (ip = 0; ip < argc; ip++) {
     if (!found[ip]) {
       notice(_("no packages found matching %s"), argv[ip]);
-      rc++;
+      misses++;
     }
     pkg_spec_destroy(&ps[ip]);
   }
@@ -109,7 +109,7 @@ pkg_array_match_patterns(struct pkg_array *array,
   free(ps);
   free(found);
 
-  return rc;
+  return misses;
 }
 
 struct list_format {
@@ -250,7 +250,7 @@ static int
 listpackages(const char *const *argv)
 {
   struct pkg_array array;
-  int rc = 0;
+  int misses = 0;
   struct list_format fmt;
   struct pager *pager;
 
@@ -279,7 +279,7 @@ listpackages(const char *const *argv)
 
     pkg_array_foreach(&array, pkg_array_list_item, &fmt);
   } else {
-    rc = pkg_array_match_patterns(&array, pkg_array_list_item, &fmt, argv);
+    misses = pkg_array_match_patterns(&array, pkg_array_list_item, &fmt, argv);
   }
 
   m_output(stdout, _("<standard output>"));
@@ -290,7 +290,7 @@ listpackages(const char *const *argv)
   pkg_array_destroy(&array);
   modstatdb_shutdown();
 
-  return !!rc;
+  return !!misses;
 }
 
 static int
@@ -566,7 +566,7 @@ showpackages(const char *const *argv)
   struct pkg_array array;
   struct pkg_format_node *fmt;
   bool fmt_needs_db_fsys;
-  int rc = 0;
+  int misses = 0;
 
   fmt = pkg_format_parse(opt_showformat, &err);
   if (!fmt) {
@@ -601,7 +601,7 @@ showpackages(const char *const *argv)
   } else {
     if (fmt_needs_db_fsys)
       pkg_array_foreach(&array, pkg_array_load_db_fsys, NULL);
-    rc = pkg_array_match_patterns(&array, pkg_array_show_item, fmt, argv);
+    misses = pkg_array_match_patterns(&array, pkg_array_show_item, fmt, argv);
   }
 
   m_output(stdout, _("<standard output>"));
@@ -611,7 +611,7 @@ showpackages(const char *const *argv)
   pkg_format_free(fmt);
   modstatdb_shutdown();
 
-  return !!rc;
+  return !!misses;
 }
 
 static bool
