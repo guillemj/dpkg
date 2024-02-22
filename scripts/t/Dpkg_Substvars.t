@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 56;
+use Test::More tests => 60;
 use Test::Dpkg qw(:paths);
 
 use Dpkg ();
@@ -246,6 +246,32 @@ delete $SIG{__WARN__};
 is($output, '', 'disabled unused variables warnings');
 
 $s->delete('var_used');
+
+# Required variables
+my $sr;
+
+$expected = <<'VARS';
+required-var!=Required value
+VARS
+$sr = Dpkg::Substvars->new("$datadir/substvars-req");
+is($sr->output(), $expected, 'Required variable preserved');
+
+is($sr->substvars('This is a string with missing the required variable'),
+                  'This is a string with missing the required variable',
+   'substvars required substitution missing');
+
+eval {
+    $sr->warn_about_unused();
+    1;
+};
+$output = $@ // q{};
+is($output,
+   'Dpkg_Substvars.t: error: required substitution variable ${required-var} not used' . "\n",
+   'substvars required substitution not used');
+
+is($sr->substvars('This is a string with a required variable ${required-var}'),
+                  'This is a string with a required variable Required value',
+    'substvars required substitution present');
 
 # Variable filters
 my $sf;

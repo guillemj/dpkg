@@ -54,11 +54,14 @@ is rescanned to look for more substitutions.
 =head2 File Syntax
 
 Substitution variables can be specified in a file.
-These files consist of lines of the form I<name>B<=>I<value> or
-I<name>B<?=>I<value>.
-The B<=> operator assigns a normal substitution variable, while the B<?=>
-operator (since dpkg 1.21.8) assigns an optional substitution variable
-which will emit no warnings even if unused.
+These files consist of lines of the form I<name>B<=>I<value>,
+I<name>B<?=>I<value>, or
+I<name>B<!=>I<value>.
+The B<=> operator assigns a normal substitution variable,
+the B<?=> operator (since dpkg 1.21.8) assigns an optional substitution
+variable which will emit no warnings even if unused,
+and the B<!=> operator (since dpkg 1.22.7) assigns a required substitution
+variable which will error out if unused.
 Trailing whitespace on each line, blank lines, and lines starting with a
 B<#> symbol (comments) are ignored.
 
