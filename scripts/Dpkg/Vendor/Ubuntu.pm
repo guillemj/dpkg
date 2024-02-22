@@ -132,10 +132,57 @@ sub set_build_features {
 sub add_build_flags {
     my ($self, $flags) = @_;
 
+    my @compile_flags = qw(
+        CFLAGS
+        CXXFLAGS
+        OBJCFLAGS
+        OBJCXXFLAGS
+        FFLAGS
+        FCFLAGS
+    );
+
     $self->SUPER::add_build_flags($flags);
 
     # Per https://wiki.ubuntu.com/DistCompilerFlags
     $flags->prepend('LDFLAGS', '-Wl,-Bsymbolic-functions');
+
+    # In Ubuntu these flags are set by the compiler, so when disabling the
+    # features we need to pass appropriate flags to disable them.
+    if (!$flags->use_feature('hardening', 'stackprotectorstrong') &&
+        !$flags->use_feature('hardening', 'stackprotector')) {
+        my $flag = '-fno-stack-protector';
+        $flags->append($_, $flag) foreach @compile_flags;
+    }
+
+    if (!$flags->use_feature('hardening', 'stackclash')) {
+        my $flag = '-fno-stack-clash-protection';
+        $flags->append($_, $flag) foreach @compile_flags;
+    }
+
+    if (!$flags->use_feature('hardening', 'fortify')) {
+        $flags->append('CPPFLAGS', '-D_FORTIFY_SOURCE=0');
+    }
+
+    if (!$flags->use_feature('hardening', 'format')) {
+        my $flag = '-Wno-format -Wno-error=format-security';
+        $flags->append('CFLAGS', $flag);
+        $flags->append('CXXFLAGS', $flag);
+        $flags->append('OBJCFLAGS', $flag);
+        $flags->append('OBJCXXFLAGS', $flag);
+     }
+
+     if (!$flags->use_feature('hardening', 'branch')) {
+        my $cpu = $flags->get_option_value('hardening-branch-cpu');
+        my $flag;
+        if ($cpu eq 'arm64') {
+            $flag = '-mbranch-protection=none';
+        } elsif ($cpu eq 'amd64') {
+            $flag = '-fno-cf-protection';
+        }
+        if (defined $flag) {
+            $flags->append($_, $flag) foreach @compile_flags;
+        }
+    }
 
     return;
 }
