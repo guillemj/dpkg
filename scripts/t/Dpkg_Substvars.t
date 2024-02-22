@@ -15,11 +15,12 @@
 
 use v5.36;
 
-use Test::More tests => 60;
+use Test::More tests => 64;
 use Test::Dpkg qw(:paths);
 
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
+use Dpkg::Control;
 
 use ok 'Dpkg::Substvars';
 
@@ -272,6 +273,50 @@ is($output,
 is($sr->substvars('This is a string with a required variable ${required-var}'),
                   'This is a string with a required variable Required value',
     'substvars required substitution present');
+
+# Implicit variables.
+my $si;
+
+$expected = <<'VARS';
+namespace-1:Build-Profiles$=profile-a
+namespace-2:Build-Profiles$=profile-b
+namespace-a:Depends$=implicit-a
+namespace-b:Depends$=implicit-b
+namespace-y:Unknown-Separator$=value-1
+namespace-z:Unknown-Separator$=value-2
+VARS
+$si = Dpkg::Substvars->new("$datadir/substvars-impl");
+is($si->output(), $expected, 'Implicit variable preserved');
+
+is($si->substvars('This is a string with a required variable ${namespace-a:Depends}'),
+                  'This is a string with a required variable implicit-a',
+    'substvars implicit substitution present');
+
+my $ctrl;
+
+$ctrl = Dpkg::Control->new(type => CTRL_DEB);
+$ctrl->{Recommends} = 'pkg-a, pkg-b';
+$ctrl->apply_substvars($si);
+$expected = <<'CTRL';
+Depends: implicit-a, implicit-b
+Recommends: pkg-a, pkg-b
+Build-Profiles: profile-a profile-b
+Unknown-Separator: value-1 value-2
+CTRL
+is($ctrl->output(), $expected, 'Implicit variables injected in control file');
+
+$ctrl = Dpkg::Control->new(type => CTRL_DEB);
+$ctrl->{Depends} = 'explicit-a, explicit-b';
+$ctrl->{Recommends} = 'pkg-a, pkg-b';
+$ctrl->apply_substvars($si);
+$expected = <<'CTRL';
+Depends: explicit-a, explicit-b
+Recommends: pkg-a, pkg-b
+Build-Profiles: profile-a profile-b
+Unknown-Separator: value-1 value-2
+CTRL
+is($ctrl->output(), $expected,
+    'Implicit variables shadowed by explicit field in control file');
 
 # Variable filters.
 my $sf;

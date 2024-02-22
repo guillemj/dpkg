@@ -26,7 +26,7 @@ It provides a class which is able to substitute variables in strings.
 
 =cut
 
-package Dpkg::Substvars 2.03;
+package Dpkg::Substvars 2.04;
 
 use v5.36;
 
@@ -48,6 +48,7 @@ use constant {
     SUBSTVAR_ATTR_OPT  => 8,
     SUBSTVAR_ATTR_DEEP => 16,
     SUBSTVAR_ATTR_REQ  => 32,
+    SUBSTVAR_ATTR_IMPL => 64,
 };
 
 =head1 METHODS
@@ -162,6 +163,18 @@ sub set_as_required {
     $self->set($key, $value, SUBSTVAR_ATTR_REQ);
 }
 
+=item $s->set_as_implicit($key, $value)
+
+Add/replace a substitution and mark it as implicit, where a field will be
+automatically instantiated if not already present.
+
+=cut
+
+sub set_as_implicit($self, $key, $value)
+{
+    $self->set($key, $value, SUBSTVAR_ATTR_USED | SUBSTVAR_ATTR_IMPL);
+}
+
 =item $s->get($key)
 
 Get the value of a given substitution.
@@ -215,13 +228,14 @@ sub parse {
     while (<$fh>) {
         next if m/^\s*\#/ || ! m/\S/;
         s/\s*\n$//;
-        if (! m/^(\w[-:0-9A-Za-z]*)([?!])?\=(.*)$/) {
+        if (! m/^(\w[-:0-9A-Za-z]*)([?!\$])?\=(.*)$/) {
             error(g_('bad line in substvars file %s at line %d'),
                   $varlistfile, $.);
         }
         if (defined $2) {
             $self->set_as_optional($1, $3) if $2 eq '?';
             $self->set_as_required($1, $3) if $2 eq '!';
+            $self->set_as_implicit($1, $3) if $2 eq '$';
         } else {
             $self->set($1, $3);
         }
@@ -339,6 +353,22 @@ sub set_field_substvars {
     foreach my $field (keys %{$ctrl}) {
         $self->set_as_auto("$prefix:$field", $ctrl->{$field});
     }
+}
+
+=item @substvars = $s->get_implicit_substvars()
+
+Returns a list of implicit substitution variables to be used by the calling
+program, by appending them to specific text.
+
+=cut
+
+sub get_implicit_substvars($self)
+{
+    my @implicit = sort grep {
+        $self->{attr}{$_} & SUBSTVAR_ATTR_IMPL
+    } keys %{$self->{vars}};
+
+    return @implicit;
 }
 
 =item $newstring = $s->substvars($string)
@@ -487,6 +517,8 @@ sub output {
             $op = '?=';
         } elsif ($self->{attr}{$vn} & SUBSTVAR_ATTR_REQ) {
             $op = '!=';
+        } elsif ($self->{attr}{$vn} & SUBSTVAR_ATTR_IMPL) {
+            $op = '$=';
         } else {
             $op = '=';
         }
@@ -505,6 +537,12 @@ indicated file.
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.04 (dpkg 1.23.0)
+
+New feature: Add support for implicit substitution variables.
+
+New method: $s->set_as_implicit(), $s->get_implicit_substvars().
 
 =head2 Version 2.03 (dpkg 1.22.15)
 

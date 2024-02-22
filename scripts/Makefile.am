@@ -370,6 +370,7 @@ test_data = \
 	t/Dpkg_Source_Package/package_1.0.orig.tar \
 	t/Dpkg_Source_Package/package_1.0.orig.tar.asc \
 	t/Dpkg_Source_Package/package_1.0.orig.tar.sig \
+	t/Dpkg_Substvars/substvars-impl \
 	t/Dpkg_Substvars/substvars-req \
 	t/Dpkg_Substvars/substvars1 \
 	t/Dpkg_Substvars/substvars2 \

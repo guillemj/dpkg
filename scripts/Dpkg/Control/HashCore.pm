@@ -435,13 +435,39 @@ sub apply_substvars {
     # Add substvars to refer to other fields.
     $substvars->set_field_substvars($self, 'F');
 
-    foreach my $f (keys %$self) {
-        my $v = $substvars->substvars($self->{$f}, %opts);
-        if ($v ne $self->{$f}) {
-            my $sep;
+    my %implicit_field;
+    foreach my $sv ($substvars->get_implicit_substvars()) {
+        my ($n, $f) = split /:/, $sv, 2;
 
-            $sep = field_get_sep_type($f);
+        push @{$implicit_field{$f}}, $n;
+    }
 
+    foreach my $f (keys %$self, keys %implicit_field) {
+        my $sep = field_get_sep_type($f);
+        my $v;
+
+        if (exists $self->{$f}) {
+            $v = $substvars->substvars($self->{$f}, %opts);
+        } elsif (exists $implicit_field{$f}) {
+            my $sep_str;
+
+            if ($sep & FIELD_SEP_COMMA) {
+                $sep_str = ', ';
+            } elsif ($sep & FIELD_SEP_SPACE) {
+                $sep_str = ' ';
+            } elsif ($sep & FIELD_SEP_LINE) {
+                $sep_str = "\n ";
+            } else {
+                # For unknown separators, fallback to a space.
+                $sep_str = ' ';
+            }
+
+            $v = join $sep_str, map {
+                $substvars->get("$_:$f")
+            } sort @{$implicit_field{$f}};
+        }
+
+        if (not exists $self->{$f} or $v ne $self->{$f}) {
             # If we replaced stuff, ensure we are not breaking a dependency
             # field by introducing empty lines, or multiple commas.
 
