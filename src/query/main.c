@@ -335,7 +335,7 @@ static int
 searchfiles(const char *const *argv)
 {
   const char *thisarg;
-  int failures = 0;
+  int misses = 0;
   struct varbuf path = VARBUF_INIT;
   static struct varbuf vb;
 
@@ -378,7 +378,7 @@ searchfiles(const char *const *argv)
     }
     if (!found) {
       notice(_("no path found matching pattern %s"), thisarg);
-      failures++;
+      misses++;
       m_output(stderr, _("<standard error>"));
     } else {
       m_output(stdout, _("<standard output>"));
@@ -388,13 +388,13 @@ searchfiles(const char *const *argv)
 
   varbuf_destroy(&path);
 
-  return !!failures;
+  return !!misses;
 }
 
 static int
 print_status(const char *const *argv)
 {
-  int failures = 0;
+  int misses = 0;
 
   modstatdb_open(msdbrw_readonly);
 
@@ -416,7 +416,7 @@ print_status(const char *const *argv)
           !pkg_is_informative(pkg, &pkg->installed)) {
         notice(_("package '%s' is not installed and no information is available"),
                pkg_name(pkg, pnaw_nonambig));
-        failures++;
+        misses++;
       } else {
         write_stanza(stdout, _("<standard output>"), pkg, &pkg->installed);
       }
@@ -427,7 +427,7 @@ print_status(const char *const *argv)
   }
 
   m_output(stdout, _("<standard output>"));
-  if (failures) {
+  if (misses) {
     fputs(_("Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"),
           stderr);
     m_output(stderr, _("<standard error>"));
@@ -435,13 +435,13 @@ print_status(const char *const *argv)
 
   modstatdb_shutdown();
 
-  return !!failures;
+  return !!misses;
 }
 
 static int
 print_avail(const char *const *argv)
 {
-  int failures = 0;
+  int misses = 0;
 
   modstatdb_open(msdbrw_readonly | msdbrw_available_readonly);
 
@@ -458,7 +458,7 @@ print_avail(const char *const *argv)
       if (!pkg_is_informative(pkg, &pkg->available)) {
         notice(_("package '%s' is not available"),
                pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
-        failures++;
+        misses++;
       } else {
         write_stanza(stdout, _("<standard output>"), pkg, &pkg->available);
       }
@@ -469,12 +469,12 @@ print_avail(const char *const *argv)
   }
 
   m_output(stdout, _("<standard output>"));
-  if (failures)
+  if (misses)
     m_output(stderr, _("<standard error>"));
 
   modstatdb_shutdown();
 
-  return !!failures;
+  return !!misses;
 }
 
 static int
@@ -484,7 +484,7 @@ list_files(const char *const *argv)
   struct fsys_namenode_list *file;
   struct pkginfo *pkg;
   struct fsys_namenode *namenode;
-  int failures = 0;
+  int misses = 0;
 
   if (!*argv)
     badusage(_("--%s needs at least one package name argument"), cipaction->olong);
@@ -498,7 +498,7 @@ list_files(const char *const *argv)
     case PKG_STAT_NOTINSTALLED:
       notice(_("package '%s' is not installed"),
              pkg_name(pkg, pnaw_nonambig));
-      failures++;
+      misses++;
       break;
     default:
       ensure_packagefiles_available(pkg);
@@ -534,7 +534,7 @@ list_files(const char *const *argv)
   }
 
   m_output(stdout, _("<standard output>"));
-  if (failures) {
+  if (misses) {
     fputs(_("Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"),
              stderr);
     m_output(stderr, _("<standard error>"));
@@ -542,7 +542,7 @@ list_files(const char *const *argv)
 
   modstatdb_shutdown();
 
-  return !!failures;
+  return !!misses;
 }
 
 static void
