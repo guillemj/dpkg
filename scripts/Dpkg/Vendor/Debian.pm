@@ -586,7 +586,11 @@ sub _add_build_flags {
         } elsif ($cpu eq 'amd64') {
             $flag = '-fcf-protection';
         }
-        $flags->append($_, $flag) foreach @compile_flags;
+        # The following should always be true on Debian, but it might not
+        # be on derivatives.
+        if (defined $flag) {
+            $flags->append($_, $flag) foreach @compile_flags;
+        }
     }
 }
 
