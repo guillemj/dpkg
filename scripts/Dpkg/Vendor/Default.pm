@@ -218,6 +218,19 @@ sub set_build_features {
     return;
 }
 
+=item $vendor->add_build_flags($flags)
+
+Adds the vendor build flags to the compiler flag variables based on the
+vendor defaults and previously set build features.
+
+=cut
+
+sub add_build_flags {
+    my ($self, $flags) = @_;
+
+    return;
+}
+
 =back
 
 =head1 CHANGES

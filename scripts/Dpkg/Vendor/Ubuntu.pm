@@ -95,14 +95,6 @@ sub run_hook {
         if (scalar(@$bugs)) {
             $fields->{'Launchpad-Bugs-Fixed'} = join(' ', @$bugs);
         }
-    } elsif ($hook eq 'update-buildflags') {
-	my $flags = shift @params;
-
-        # Run the Debian hook to add hardening flags
-        $self->SUPER::run_hook($hook, $flags);
-
-	# Per https://wiki.ubuntu.com/DistCompilerFlags
-        $flags->prepend('LDFLAGS', '-Wl,-Bsymbolic-functions');
     } else {
         return $self->SUPER::run_hook($hook, @params);
     }
@@ -135,6 +127,17 @@ sub set_build_features {
     }
 
     $flags->set_option_value('fortify-level', 3);
+}
+
+sub add_build_flags {
+    my ($self, $flags) = @_;
+
+    $self->SUPER::add_build_flags($flags);
+
+    # Per https://wiki.ubuntu.com/DistCompilerFlags
+    $flags->prepend('LDFLAGS', '-Wl,-Bsymbolic-functions');
+
+    return;
 }
 
 =head1 PUBLIC FUNCTIONS

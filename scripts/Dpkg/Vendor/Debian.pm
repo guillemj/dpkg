@@ -79,7 +79,7 @@ sub run_hook {
 	}
     } elsif ($hook eq 'update-buildflags') {
         $self->set_build_features(@params);
-        $self->_add_build_flags(@params);
+        $self->add_build_flags(@params);
     } elsif ($hook eq 'builtin-system-build-paths') {
         return qw(/build/);
     } elsif ($hook eq 'build-tainted-by') {
@@ -392,7 +392,7 @@ sub set_build_features {
     }
 }
 
-sub _add_build_flags {
+sub add_build_flags {
     my ($self, $flags) = @_;
 
     ## Global default flags
