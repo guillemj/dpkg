@@ -64,7 +64,7 @@ my $shlibsoverride = "$Dpkg::CONFDIR/shlibs.override";
 my $shlibsdefault = "$Dpkg::CONFDIR/shlibs.default";
 my $shlibslocal = 'debian/shlibs.local';
 my $packagetype = 'deb';
-my $dependencyfield = 'Depends';
+my $dependencyfield;
 my $varlistfile = 'debian/substvars';
 my $varlistfilenew;
 my $varnameprefix = 'shlibs';
@@ -79,7 +79,9 @@ my $host_arch = get_host_arch();
 
 my (@pkg_shlibs, @pkg_symbols, @pkg_root_dirs);
 
-my ($stdout, %exec);
+my @execs;
+my $stdout;
+
 foreach (@ARGV) {
     if (m/^-T(.*)$/) {
 	$varlistfile = $1;
@@ -113,14 +115,7 @@ foreach (@ARGV) {
 	    warning(g_("unrecognized dependency field '%s'"), $dependencyfield);
 	}
     } elsif (m/^-e(.*)$/) {
-	if (exists $exec{$1}) {
-	    # Affect the binary to the most important field
-	    if ($depstrength{$dependencyfield} > $depstrength{$exec{$1}}) {
-		$exec{$1} = $dependencyfield;
-	    }
-	} else {
-	    $exec{$1} = $dependencyfield;
-	}
+        push @execs, [ $1, $dependencyfield ];
     } elsif (m/^--ignore-missing-info$/) {
 	$ignore_missing_info = 1;
     } elsif (m/^--warnings=(\d+)$/) {
@@ -133,16 +128,11 @@ foreach (@ARGV) {
 	push @exclude, $1;
     } elsif (m/^-/) {
 	usageerr(g_("unknown option '%s'"), $_);
-    } elsif (exists $exec{$_}) {
-        # Affect the binary to the most important field
-        if ($depstrength{$dependencyfield} > $depstrength{$exec{$_}}) {
-           $exec{$_} = $dependencyfield;
-        }
     } else {
-        $exec{$_} = $dependencyfield;
+        push @execs, [ $_, $dependencyfield ];
     }
 }
-usageerr(g_('need at least one executable')) unless scalar keys %exec;
+usageerr(g_('need at least one executable')) unless scalar @execs;
 
 report_options(debug_level => $debug);
 
@@ -161,6 +151,24 @@ if (-d 'debian') {
 my $control = Dpkg::Control::Info->new();
 # Initialize build API level.
 get_build_api($control);
+
+my $default_depfield = 'Depends';
+
+my %exec;
+foreach my $exec_item (@execs) {
+    my ($path, $depfield) = @{$exec_item};
+
+    $depfield //= $default_depfield;
+
+    if (exists $exec{$path}) {
+        # Affect the binary to the most important field
+        if ($depstrength{$depfield} > $depstrength{$exec{$path}}) {
+            $exec{$path} = $depfield;
+        }
+    } else {
+        $exec{$path} = $depfield;
+    }
+}
 
 foreach my $libdir (@priv_lib_dirs) {
     Dpkg::Shlibs::add_library_dir($libdir);
