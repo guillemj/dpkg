@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-01-19 12:10+0100\n"
+"POT-Creation-Date: 2024-02-27 04:27+0100\n"
 "PO-Revision-Date: 2023-09-10 20:25+0100\n"
 "Last-Translator: Américo Monteiro <a_monteiro@gmx.com>\n"
 "Language-Team: Portuguese <>\n"
@@ -7828,11 +7828,11 @@ msgid "Show the version and exit."
 msgstr "Mostra a versão e termina."
 
 #. type: =head1
-#: dpkg-architecture.pod dpkg-buildpackage.pod dpkg-checkbuilddeps.pod
-#: dpkg-deb.pod dpkg-distaddfile.pod dpkg-divert.pod dpkg-fsys-usrunmess.pod
-#: dpkg-genbuildinfo.pod dpkg-genchanges.pod dpkg-gencontrol.pod
-#: dpkg-gensymbols.pod dpkg-mergechangelogs.pod dpkg-name.pod
-#: dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
+#: dpkg-architecture.pod dpkg-buildapi.pod dpkg-buildpackage.pod
+#: dpkg-checkbuilddeps.pod dpkg-deb.pod dpkg-distaddfile.pod dpkg-divert.pod
+#: dpkg-fsys-usrunmess.pod dpkg-genbuildinfo.pod dpkg-genchanges.pod
+#: dpkg-gencontrol.pod dpkg-gensymbols.pod dpkg-mergechangelogs.pod
+#: dpkg-name.pod dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
 #: dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
 #: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
 #: dpkg-vendor.pod dpkg.pod dselect.pod start-stop-daemon.pod
@@ -9084,6 +9084,13 @@ msgid "This program was introduced in dpkg 1.22.0."
 msgstr "Este programa foi introduzido no dpkg 1.22.0."
 
 #. type: =item
+#: dpkg-buildapi.pod dpkg-buildflags.pod dpkg-buildtree.pod
+#: dpkg-mergechangelogs.pod dpkg-scansources.pod dpkg-statoverride.pod
+#: dpkg-vendor.pod update-alternatives.pod
+msgid "B<--help>"
+msgstr "B<--help>"
+
+#. type: =item
 #: dpkg-buildapi.pod dpkg-gencontrol.pod dpkg-source.pod
 msgid "B<-c>I<control-file>"
 msgstr "B<-c>I<control-file>"
@@ -9096,13 +9103,6 @@ msgid ""
 msgstr ""
 "Especifica o ficheiro de controle fonte principal de onde ler informação. A "
 "predefinição é F<debian/control>."
-
-#. type: =item
-#: dpkg-buildapi.pod dpkg-buildflags.pod dpkg-buildtree.pod
-#: dpkg-mergechangelogs.pod dpkg-scansources.pod dpkg-statoverride.pod
-#: dpkg-vendor.pod update-alternatives.pod
-msgid "B<--help>"
-msgstr "B<--help>"
 
 #. type: =item
 #: dpkg-buildapi.pod
@@ -9640,14 +9640,21 @@ msgstr "B<--query-features> I<area>"
 
 #. type: textblock
 #: dpkg-buildflags.pod
+#, fuzzy
+#| msgid ""
+#| "Print the features enabled for a given area (since dpkg 1.16.2).  If the "
+#| "feature is handled (even if only on some architectures) as a builtin "
+#| "default by the compiler, then a B<Builtin> field is printed (since dpkg "
+#| "1.21.14).  The only currently recognized areas on Debian and derivatives "
+#| "are B<future>, B<qa>, B<reproducible>, B<sanitize> and B<hardening>, see "
+#| "the B<FEATURE AREAS> section for more details.  Exits with 0 if the area "
+#| "is known otherwise exits with 1."
 msgid ""
 "Print the features enabled for a given area (since dpkg 1.16.2).  If the "
 "feature is handled (even if only on some architectures) as a builtin default "
 "by the compiler, then a B<Builtin> field is printed (since dpkg 1.21.14).  "
-"The only currently recognized areas on Debian and derivatives are B<future>, "
-"B<qa>, B<reproducible>, B<sanitize> and B<hardening>, see the B<FEATURE "
-"AREAS> section for more details.  Exits with 0 if the area is known "
-"otherwise exits with 1."
+"See the L</FEATURE AREAS> section for more details about the currently "
+"recognized areas.  Exits with 0 if the area is known otherwise exits with 1."
 msgstr ""
 "Escreve as funcionalidades activadas para uma dada área (desde dpkg 1.16.2). "
 "Se a funcionalidade é lidada (mesmo que apenas em algumas arquitecturas) "
@@ -10061,22 +10068,40 @@ msgstr "ÁREAS DE CARACTERÍSTICAS"
 #. type: textblock
 #: dpkg-buildflags.pod
 msgid ""
+"Feature areas are currently vendor specific, and the ones described below "
+"are only recognized on Debian and derivatives."
+msgstr ""
+
+#. type: textblock
+#: dpkg-buildflags.pod
+msgid ""
 "Each area feature can be enabled and disabled in the B<DEB_BUILD_OPTIONS> "
 "and B<DEB_BUILD_MAINT_OPTIONS> environment variable's area value with the "
-"‘B<+>’ and ‘B<->’ modifier.  For example, to enable the B<hardening> “pie” "
-"feature and disable the “fortify” feature you can do this in B<debian/rules>:"
+"‘B<+>’ and ‘B<->’ modifier.  Following the general syntax of these variables "
+"(described in L<dpkg-buildpackage(1)>), multiple feature areas can be "
+"specified separated by spaces, where each get feature specifiers as "
+"mandatory parameters after an equal sign (‘B<=>’).  The feature specifiers "
+"are comma-separated and parsed from left to right, where the settings within "
+"the same feature specifier override previous ones, even if the feature "
+"specifiers are split across multiple space-separated feature area settings "
+"for the same area."
 msgstr ""
-"Cada funcionalidade de área pode ser activada ou desactivada no valor da "
-"área das variáveis de ambiente B<DEB_BUILD_OPTIONS> e "
-"B<DEB_BUILD_MAINT_OPTIONS> com o modificador ‘B<+>’ e ‘B<->’. Por exemplo, "
-"par activar a funcionalidade \"pie\" de B<hardening> e desactivar a "
-"funcionalidade “fortify” você pode fazer isto em B<debian/rules>:"
+
+#. type: textblock
+#: dpkg-buildflags.pod
+msgid ""
+"For example, to enable the B<hardening> “pie” feature and disable the "
+"“fortify” feature you can do this in B<debian/rules>:"
+msgstr ""
 
 #. type: verbatim
 #: dpkg-buildflags.pod
-#, no-wrap
+#, fuzzy, no-wrap
+#| msgid ""
+#| "    export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,-fortify\n"
+#| "\n"
 msgid ""
-"    export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,-fortify\n"
+"    export DEB_BUILD_MAINT_OPTIONS = hardening=+pie,-fortify\n"
 "\n"
 msgstr ""
 "    export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,-fortify\n"
@@ -10097,13 +10122,58 @@ msgstr ""
 
 #. type: verbatim
 #: dpkg-buildflags.pod
-#, no-wrap
+#, fuzzy, no-wrap
+#| msgid ""
+#| "    export DEB_BUILD_MAINT_OPTIONS=hardening=-all,+format,+fortify\n"
+#| "\n"
 msgid ""
-"    export DEB_BUILD_MAINT_OPTIONS=hardening=-all,+format,+fortify\n"
+"    export DEB_BUILD_MAINT_OPTIONS = hardening=-all,+format,+fortify\n"
 "\n"
 msgstr ""
 "    export DEB_BUILD_MAINT_OPTIONS=hardening=-all,+format,+fortify\n"
 "\n"
+
+#. type: textblock
+#: dpkg-buildflags.pod
+#, fuzzy
+#| msgid "Multiple restrictions can be chained."
+msgid "Multiple feature areas can be set:"
+msgstr "Múltiplas restrições podem ser ligadas em corrente."
+
+#. type: verbatim
+#: dpkg-buildflags.pod
+#, fuzzy, no-wrap
+#| msgid ""
+#| "    export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,-fortify\n"
+#| "\n"
+msgid ""
+"    export DEB_BUILD_MAINT_OPTIONS = hardening=+pie abi=+lfs\n"
+"\n"
+msgstr ""
+"    export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,-fortify\n"
+"\n"
+
+#. type: textblock
+#: dpkg-buildflags.pod
+msgid ""
+"The override behavior applies as much to the B<all> special feature, as to "
+"specific features, which should allow for composition.  Thus to enable “lfs” "
+"in the B<abi> area, and only “pie” and “fortify” in the B<hardening> area, "
+"but “format” only when CONDITION is defined, this could be done with:"
+msgstr ""
+
+#. type: verbatim
+#: dpkg-buildflags.pod
+#, no-wrap
+msgid ""
+"    export DEB_BUILD_MAINT_OPTIONS = hardening=-all,+pie,+format abi=+lfs\n"
+"    …\n"
+"    DEB_BUILD_MAINT_OPTIONS += hardening=+fortify\n"
+"    ifdef CONDITION\n"
+"    DEB_BUILD_MAINT_OPTIONS += hardening=-format\n"
+"    endif\n"
+"\n"
+msgstr ""
 
 #. type: =head2
 #: dpkg-buildflags.pod
@@ -10158,16 +10228,42 @@ msgstr "B<time64>"
 
 #. type: textblock
 #: dpkg-buildflags.pod
+#, fuzzy
+#| msgid ""
+#| "This setting (since dpkg 1.22.0; disabled by default) enables 64-bit "
+#| "time_t support on 32-bit architectures where their ABI does not include "
+#| "it by default, by adding B<-D_TIME_BITS=64> to B<CPPFLAGS>.  This setting "
+#| "automatically enables the B<lfs> feature as it requires it."
 msgid ""
-"This setting (since dpkg 1.22.0; disabled by default) enables 64-bit time_t "
-"support on 32-bit architectures where their ABI does not include it by "
-"default, by adding B<-D_TIME_BITS=64> to B<CPPFLAGS>.  This setting "
-"automatically enables the B<lfs> feature as it requires it."
+"This setting (since dpkg 1.22.0; enabled by default except for i386, hurd-"
+"i386 and kfreebsd-i386 since dpkg 1.22.5) enables 64-bit time_t support on "
+"32-bit architectures where their ABI does not include it by default, by "
+"adding B<-D_TIME_BITS=64> to B<CPPFLAGS>.  This setting automatically "
+"enables the B<lfs> feature from the B<abi> feature area, and the B<bug-"
+"implicit-func> feature from the B<qa> feature area as it requires them."
 msgstr ""
 "Esta definição (desde dpkg 1.22.0; desactivada por predefinição) activa "
 "suporte time_t de 64bit em arquitecturas de 32-bit onde o seu ABI não a "
 "inclui por predefinição, ao adicionar B<-D_TIME_BITS=64> a B<CPPFLAGS>. Esta "
 "definição activa automaticamente a funcionalidade B<lfs> porque a requer."
+
+#. type: textblock
+#: dpkg-buildflags.pod
+msgid ""
+"If the setting is enabled explicitly then it gets enabled on all "
+"architectures including i386 but not hurd-i386 nor kfreebsd-i386 (where the "
+"kernel does not have time64 interfaces), ignoring the binary backwards "
+"compatibility default."
+msgstr ""
+
+#. type: textblock
+#: dpkg-buildflags.pod
+msgid ""
+"It is also enabled by default by gcc on the armel, armhf, hppa, m68k, mips, "
+"mipsel, powerpc and sh4 Debian architectures, where disabling the feature "
+"will add instead B<-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS -U_TIME_BITS> to "
+"B<CPPFLAGS>."
+msgstr ""
 
 #. type: =head2
 #: dpkg-buildflags.pod
@@ -12933,10 +13029,19 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "If set, it will contain a space-separated list of options that affect the "
+#| "behavior of some dpkg tools involved in package building, and might "
+#| "affect the package build process if the code in F<debian/rules> honors "
+#| "them."
 msgid ""
 "If set, it will contain a space-separated list of options that affect the "
 "behavior of some dpkg tools involved in package building, and might affect "
-"the package build process if the code in F<debian/rules> honors them."
+"the package build process if the code in F<debian/rules> honors them.  These "
+"options can have parameters specified immediately after an equal sign "
+"(‘B<=>‘).  For options that support multiple parameters, these will not be "
+"separated by spaces, as these are reserved to separate options."
 msgstr ""
 "Se definido, irá conter uma lista de opções separadas por espaços que "
 "afectam o comportamento de algumas ferramentas do dpkg envolvidas na "
@@ -13033,6 +13138,56 @@ msgstr ""
 "B<dpkg-buildpackage> irá acrescentar a bandeira B<--no-print-directory> "
 "L<make(1)> à variável de ambiente B<MAKEFLAGS>. O F<debian/rules> no "
 "empacotamento deve reduzir nos detalhes, não sendo completamente silencioso."
+
+#. type: =item
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid "B<--warnings=>I<value>"
+msgid "B<hardening=>I<feature-spec>"
+msgstr "B<--warnings=>I<value>"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<reproducible=>I<feature-spec>"
+msgstr ""
+
+#. type: =item
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid "B<--assert->I<feature>"
+msgid "B<abi=>I<feature-spec>"
+msgstr "B<--assert->I<feature>"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<future=>I<feature-spec>"
+msgstr ""
+
+#. type: =item
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid "B<--assert->I<feature>"
+msgid "B<qa=>I<feature-spec>"
+msgstr "B<--assert->I<feature>"
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<optimize=>I<feature-spec>"
+msgstr ""
+
+#. type: =item
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid "B<--assert->I<feature>"
+msgid "B<sanitize=>I<feature-spec>"
+msgstr "B<--assert->I<feature>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"These are feature areas that control build flag features.  See L<dpkg-"
+"buildflags(1)> for further details."
+msgstr ""
 
 #. type: =item
 #: dpkg-buildpackage.pod dpkg-checkbuilddeps.pod
@@ -17561,10 +17716,15 @@ msgstr "B<-F> I<changelog-format>"
 
 #. type: textblock
 #: dpkg-parsechangelog.pod
+#, fuzzy
+#| msgid ""
+#| "Specifies the format of the changelog.  By default the format is read "
+#| "from a special line near the bottom of the changelog or failing that "
+#| "defaults to the B<debian> standard format.  See also B<CHANGELOG FORMATS>."
 msgid ""
 "Specifies the format of the changelog.  By default the format is read from a "
 "special line near the bottom of the changelog or failing that defaults to "
-"the B<debian> standard format.  See also B<CHANGELOG FORMATS>."
+"the B<debian> standard format.  See also L</CHANGELOG FORMATS>."
 msgstr ""
 "Especifica o formato do changelog. Por predefinição o formato é lido a "
 "partir de uma linha especial perto do fundo do changelog ou falhando isto "
@@ -19814,12 +19974,19 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
+#, fuzzy
+#| msgid ""
+#| "As a safe-guard measure, a symbols file can provide a B<Build-Depends-"
+#| "Package> meta-information field and B<dpkg-shlibdeps> will extract the "
+#| "minimal version required by the corresponding package in the B<Build-"
+#| "Depends> field and use this version if it's higher than the minimal "
+#| "version computed by scanning symbols."
 msgid ""
 "As a safe-guard measure, a symbols file can provide a B<Build-Depends-"
-"Package> meta-information field and B<dpkg-shlibdeps> will extract the "
-"minimal version required by the corresponding package in the B<Build-"
-"Depends> field and use this version if it's higher than the minimal version "
-"computed by scanning symbols."
+"Package> or B<Build-Depends-Packages> meta-information field and B<dpkg-"
+"shlibdeps> will extract the minimal version required by the corresponding "
+"package in the B<Build-Depends> field and use this version if it's higher "
+"than the minimal version computed by scanning symbols."
 msgstr ""
 "Como medida de salva-guarda, um ficheiro de símbolos pode fornecer um campo "
 "de meta-informação B<Build-Depends-Package> e B<dpkg-shlibdeps> irá extrair "
@@ -30885,6 +31052,20 @@ msgstr ""
 #| msgid "B<ln>(1), FHS (the Filesystem Hierarchy Standard)."
 msgid "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
 msgstr "B<ln>(1), FHS (o Standard de Hierarquia de Sistema de Ficheiros)."
+
+#~ msgid ""
+#~ "Each area feature can be enabled and disabled in the B<DEB_BUILD_OPTIONS> "
+#~ "and B<DEB_BUILD_MAINT_OPTIONS> environment variable's area value with the "
+#~ "‘B<+>’ and ‘B<->’ modifier.  For example, to enable the B<hardening> "
+#~ "“pie” feature and disable the “fortify” feature you can do this in "
+#~ "B<debian/rules>:"
+#~ msgstr ""
+#~ "Cada funcionalidade de área pode ser activada ou desactivada no valor da "
+#~ "área das variáveis de ambiente B<DEB_BUILD_OPTIONS> e "
+#~ "B<DEB_BUILD_MAINT_OPTIONS> com o modificador ‘B<+>’ e ‘B<->’. Por "
+#~ "exemplo, par activar a funcionalidade \"pie\" de B<hardening> e "
+#~ "desactivar a funcionalidade “fortify” você pode fazer isto em B<debian/"
+#~ "rules>:"
 
 #, fuzzy
 #~| msgid ""
