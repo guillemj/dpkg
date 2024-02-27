@@ -297,6 +297,10 @@ sub set_build_features {
     if ($use_feature{abi}{time64} && ! $builtin_feature{abi}{time64}) {
         # On glibc 64-bit time_t support requires LFS.
         $use_feature{abi}{lfs} = 1 if $libc eq 'gnu';
+
+        # Require -Werror=implicit-function-declaration, to avoid linking
+        # against the wrong symbol.
+        $use_feature{qa}{'bug-implicit-func'} = 1;
     }
 
     # XXX: Handle lfs alias from future abi feature area.
