@@ -113,7 +113,8 @@ sub set_build_features {
             # XXX: This is set to undef so that we can handle the alias from
             # the future feature area.
             lfs => undef,
-            time64 => 0,
+            # XXX: This is set to undef to handle mask on the default setting.
+            time64 => undef,
         },
         qa => {
             bug => 0,
@@ -270,6 +271,29 @@ sub set_build_features {
 
     ## Area: abi
 
+    if (any { $arch eq $_ } qw(hurd-i386 kfreebsd-i386)) {
+        # Mask time64 on hurd-i386 and kfreebsd-i386, as their kernel lacks
+        # support for that arch and it will not be implemented.
+        $use_feature{abi}{time64} = 0;
+    } elsif (not defined $use_feature{abi}{time64}) {
+        # If the user has not requested a specific setting, by default only
+        # enable time64 everywhere except for i386, where we preserve it for
+        # binary backwards compatibility.
+        if ($arch eq 'i386') {
+            $use_feature{abi}{time64} = 0;
+        } else {
+            $use_feature{abi}{time64} = 1;
+        }
+    }
+
+    # In Debian gcc enables time64 (and lfs) for the following architectures
+    # by injecting pre-processor flags, though the libc ABI has not changed.
+    if (any { $arch eq $_ } qw(armel armhf hppa m68k mips mipsel powerpc sh4)) {
+        $flags->set_option_value('cc-abi-time64', 1);
+    } else {
+        $flags->set_option_value('cc-abi-time64', 0);
+    }
+
     if ($use_feature{abi}{time64} && ! $builtin_feature{abi}{time64}) {
         # On glibc 64-bit time_t support requires LFS.
         $use_feature{abi}{lfs} = 1 if $libc eq 'gnu';
@@ -425,13 +449,22 @@ sub add_build_flags {
     ## Area: abi
 
     my %abi_builtins = $flags->get_builtins('abi');
+    my $cc_abi_time64 = $flags->get_option_value('cc-abi-time64');
+
     if ($flags->use_feature('abi', 'lfs') && ! $abi_builtins{lfs}) {
         $flags->append('CPPFLAGS',
                        '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+    } elsif (! $flags->use_feature('abi', 'lfs') &&
+             ! $abi_builtins{lfs} && $cc_abi_time64) {
+        $flags->append('CPPFLAGS',
+                       '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
     }
 
     if ($flags->use_feature('abi', 'time64') && ! $abi_builtins{time64}) {
         $flags->append('CPPFLAGS', '-D_TIME_BITS=64');
+    } elsif (! $flags->use_feature('abi', 'time64') &&
+             ! $abi_builtins{time64} && $cc_abi_time64) {
+        $flags->append('CPPFLAGS', '-U_TIME_BITS');
     }
 
     ## Area: qa

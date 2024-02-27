@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 40;
+use Test::More tests => 88;
 
 BEGIN {
     $ENV{DEB_BUILD_ARCH} = 'amd64';
@@ -170,5 +170,108 @@ test_has_flag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
 $ENV{DEB_BUILD_MAINT_OPTIONS} = 'future=+lfs abi=-lfs';
 $bf = Dpkg::BuildFlags->new();
 test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+
+# Test time64 abi features, for a 64-bit system, a 32-bit system with time64
+# and a 32-bit system with time32.
+
+# 32-bit system with time32, time64 not enabled by default.
+$ENV{DEB_BUILD_ARCH} = 'i386';
+$ENV{DEB_HOST_ARCH} = 'i386';
+
+undef $ENV{DEB_BUILD_MAINT_OPTIONS};
+$bf = Dpkg::BuildFlags->new();
+test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
+test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
+
+$ENV{DEB_BUILD_MAINT_OPTIONS} = 'abi=+time64';
+$bf = Dpkg::BuildFlags->new();
+test_has_flag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
+test_has_flag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
+
+$ENV{DEB_BUILD_MAINT_OPTIONS} = 'abi=-time64';
+$bf = Dpkg::BuildFlags->new();
+test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
+test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
+
+# 32-bit system with time32 and no time64.
+$ENV{DEB_BUILD_ARCH} = 'hurd-i386';
+$ENV{DEB_HOST_ARCH} = 'hurd-i386';
+
+undef $ENV{DEB_BUILD_MAINT_OPTIONS};
+$bf = Dpkg::BuildFlags->new();
+test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
+test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
+
+$ENV{DEB_BUILD_MAINT_OPTIONS} = 'abi=+time64';
+$bf = Dpkg::BuildFlags->new();
+test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
+test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
+
+$ENV{DEB_BUILD_MAINT_OPTIONS} = 'abi=-time64';
+$bf = Dpkg::BuildFlags->new();
+test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
+test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
+
+# 32-bit system with time32, time64 enabled by default.
+$ENV{DEB_BUILD_ARCH} = 'armhf';
+$ENV{DEB_HOST_ARCH} = 'armhf';
+
+undef $ENV{DEB_BUILD_MAINT_OPTIONS};
+$bf = Dpkg::BuildFlags->new();
+test_has_flag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
+test_has_flag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
+
+$ENV{DEB_BUILD_MAINT_OPTIONS} = 'abi=+time64';
+$bf = Dpkg::BuildFlags->new();
+test_has_flag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
+test_has_flag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
+
+$ENV{DEB_BUILD_MAINT_OPTIONS} = 'abi=-time64';
+$bf = Dpkg::BuildFlags->new();
+test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+test_has_flag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
+test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
+test_has_flag($bf, 'CPPFLAGS', '-U_TIME_BITS');
+
+# 64-bit system with built-in time64.
+$ENV{DEB_BUILD_ARCH} = 'amd64';
+$ENV{DEB_HOST_ARCH} = 'amd64';
+
+undef $ENV{DEB_BUILD_MAINT_OPTIONS};
+$bf = Dpkg::BuildFlags->new();
+test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
+test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
+
+$ENV{DEB_BUILD_MAINT_OPTIONS} = 'abi=+time64';
+$bf = Dpkg::BuildFlags->new();
+test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
+test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
+
+$ENV{DEB_BUILD_MAINT_OPTIONS} = 'abi=-time64';
+$bf = Dpkg::BuildFlags->new();
+test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
+test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
+test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
 
 # TODO: Add more test cases.
