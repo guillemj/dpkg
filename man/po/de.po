@@ -11,10 +11,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.22.3\n"
+"Project-Id-Version: dpkg-man 1.22.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2024-02-27 04:27+0100\n"
-"PO-Revision-Date: 2024-02-22 21:19+0100\n"
+"PO-Revision-Date: 2024-02-28 18:57+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -9867,12 +9867,6 @@ msgstr "B<time64>"
 
 #. type: textblock
 #: dpkg-buildflags.pod
-#, fuzzy
-#| msgid ""
-#| "This setting (since dpkg 1.22.0; disabled by default) enables 64-bit "
-#| "time_t support on 32-bit architectures where their ABI does not include "
-#| "it by default, by adding B<-D_TIME_BITS=64> to B<CPPFLAGS>.  This setting "
-#| "automatically enables the B<lfs> feature as it requires it."
 msgid ""
 "This setting (since dpkg 1.22.0; enabled by default except for i386, hurd-"
 "i386 and kfreebsd-i386 since dpkg 1.22.5) enables 64-bit time_t support on "
@@ -9881,11 +9875,13 @@ msgid ""
 "enables the B<lfs> feature from the B<abi> feature area, and the B<bug-"
 "implicit-func> feature from the B<qa> feature area as it requires them."
 msgstr ""
-"Diese Einstellung (seit Dpkg 1.22.0; standardmäßig deaktiviert) aktiviert "
+"Diese Einstellung (seit Dpkg 1.22.0; seit Dpkg 1.22.5 standardmäßig "
+"aktiviert außer für i386, hurd-i386 und kfreebsd-i386) aktiviert "
 "die Unterstützung von 64-bit time_t auf 32-bit-Architekturen bei denen das "
 "ABI dies nicht standardmäßig enthält, indem B<-D_TIME_BITS=64> zu "
 "B<CPPFLAGS> hinzugefügt wird. Diese Einstellung aktiviert automatisch die "
-"Funktionalität B<lfs>, da sie diese benötigt."
+"Funktionalität B<lfs> von dem Funktionsbereich B<abi> und die Funktionalität "
+"B<bug-implicit-func> vom Funktionsbereich B<qa>, da sie diese benötigt."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9895,6 +9891,10 @@ msgid ""
 "kernel does not have time64 interfaces), ignoring the binary backwards "
 "compatibility default."
 msgstr ""
+"Falls diese Einstellung explizit aktiviert ist, dann wird sie auf allen "
+"Architekturen einschließlich i386 aktiviert, aber nicht auf hurd-i386 oder "
+"kfreebsd-i386 (wo der Kernel nicht über die Schnittstelle time64 verfügt) "
+"und die standardmäßige binäre Rückwärtskompatibilität wird ignoriert."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9904,6 +9904,10 @@ msgid ""
 "will add instead B<-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS -U_TIME_BITS> to "
 "B<CPPFLAGS>."
 msgstr ""
+"Sie wird standardmäßig durch GCC auch auf den Debian-Architekturen Armel, "
+"Armhf, HPPA, M68k, Mips, Mipsel, Powerpc und Sh4 aktiviert, bei denen die "
+"Deaktivierung der Funktionalität stattdessen B<-U_LARGEFILE_SOURCE "
+"-U_FILE_OFFSET_BITS -U_TIME_BITS> zu B<CPPFLAGS> hinzfügt."
 
 #. type: =head2
 #: dpkg-buildflags.pod
@@ -17224,11 +17228,6 @@ msgstr "B<-F> I<Changelog-Format>"
 
 #. type: textblock
 #: dpkg-parsechangelog.pod
-#, fuzzy
-#| msgid ""
-#| "Specifies the format of the changelog.  By default the format is read "
-#| "from a special line near the bottom of the changelog or failing that "
-#| "defaults to the B<debian> standard format.  See also B<CHANGELOG FORMATS>."
 msgid ""
 "Specifies the format of the changelog.  By default the format is read from a "
 "special line near the bottom of the changelog or failing that defaults to "
@@ -17237,7 +17236,7 @@ msgstr ""
 "Gibt das Format der Changelog-Datei an. Standardmäßig wird das Format aus "
 "einer speziellen Zeile in der Nähe des Endes der Changelogs gelesen oder, "
 "falls dies fehlschlägt, wird das B<debian>-Standardformat angenommen. Siehe "
-"auch B<CHANGELOG-FORMATE>."
+"auch L</CHANGELOG-FORMATE>."
 
 #. type: =item
 #: dpkg-parsechangelog.pod
@@ -19420,13 +19419,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
-#, fuzzy
-#| msgid ""
-#| "As a safe-guard measure, a symbols file can provide a B<Build-Depends-"
-#| "Package> meta-information field and B<dpkg-shlibdeps> will extract the "
-#| "minimal version required by the corresponding package in the B<Build-"
-#| "Depends> field and use this version if it's higher than the minimal "
-#| "version computed by scanning symbols."
 msgid ""
 "As a safe-guard measure, a symbols file can provide a B<Build-Depends-"
 "Package> or B<Build-Depends-Packages> meta-information field and B<dpkg-"
@@ -19435,7 +19427,7 @@ msgid ""
 "than the minimal version computed by scanning symbols."
 msgstr ""
 "Als Sicherheitsmaßnahme kann eine Symbols-Datei ein Meta-Informationsfeld "
-"B<Build-Depends-Package> enthalten. B<dpkg-shlibdeps> entnimmt dann die "
+"B<Build-Depends-Package> oder B<Build-Depends-Packages> enthalten. B<dpkg-shlibdeps> entnimmt dann die "
 "minimale Version, die von dem korrespondierenden Paket im Feld B<Build-"
 "Depends> benötigt wird, und verwendet diese Version, falls sie höher ist als "
 "die minimale Version, die beim Durchsuchen der Symbole ermittelt wurde."
