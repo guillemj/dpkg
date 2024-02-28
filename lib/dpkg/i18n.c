@@ -21,6 +21,8 @@
 #include <config.h>
 #include <compat.h>
 
+#include <stdbool.h>
+
 #include <dpkg/i18n.h>
 
 #ifdef HAVE_USELOCALE
@@ -30,10 +32,27 @@
 static locale_t dpkg_C_locale;
 #endif
 
+static bool
+dpkg_use_nls(void)
+{
+	const char *env;
+
+	/* We mimic the behavior of the Dpkg::Gettext perl module. */
+	env = getenv("DPKG_NLS");
+	if (env == NULL)
+		return true;
+
+	if (strcmp(env, "0") == 0 || env[0] == '\0')
+		return false;
+
+	return true;
+}
+
 void
 dpkg_locales_init(const char *package)
 {
-	setlocale(LC_ALL, "");
+	if (dpkg_use_nls())
+		setlocale(LC_ALL, "");
 	bindtextdomain(package, LOCALEDIR);
 	textdomain(package);
 
