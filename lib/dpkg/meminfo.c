@@ -129,8 +129,7 @@ meminfo_get_available_from_file(const char *filename, uint64_t *val)
 			if ((num == INTMAX_MAX) && errno == ERANGE)
 				return MEMINFO_INT_MAX;
 			/* It should end with ' kB\n'. */
-			if (*end != ' ' || *(end + 1) != 'k' ||
-			    *(end + 2) != 'B')
+			if (end[0] != ' ' || end[1] != 'k' || end[2] != 'B')
 				return MEMINFO_NO_UNIT;
 
 			/* This should not overflow, but just in case. */
