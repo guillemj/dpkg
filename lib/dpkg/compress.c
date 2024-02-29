@@ -42,6 +42,7 @@
 #define DPKG_ZSTD_MAX_LEVEL 22
 #define ZSTD_CLEVEL_DEFAULT 3
 #endif
+#define DPKG_ZSTD_CLEVEL_DEFAULT ZSTD_CLEVEL_DEFAULT
 #ifdef WITH_LIBBZ2
 #include <bzlib.h>
 #endif
@@ -1288,7 +1289,7 @@ compress_zstd(struct compress_params *params, int fd_in, int fd_out,
 static const struct compressor compressor_zstd = {
 	.name = "zstd",
 	.extension = ".zst",
-	.default_level = ZSTD_CLEVEL_DEFAULT,
+	.default_level = DPKG_ZSTD_CLEVEL_DEFAULT,
 	.fixup_params = fixup_none_params,
 	.compress = compress_zstd,
 	.decompress = decompress_zstd,
