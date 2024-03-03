@@ -299,8 +299,8 @@ sub set_build_features {
         $use_feature{abi}{lfs} = 1 if $libc eq 'gnu';
 
         # Require -Werror=implicit-function-declaration, to avoid linking
-        # against the wrong symbol.
-        $use_feature{qa}{'bug-implicit-func'} = 1;
+        # against the wrong symbol, unless it has been set explicitly.
+        $use_feature{qa}{'bug-implicit-func'} //= 1;
     }
 
     # XXX: Handle lfs alias from future abi feature area.
