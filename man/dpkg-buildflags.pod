@@ -470,9 +470,7 @@ hurd-i386 and kfreebsd-i386 since dpkg 1.22.5) enables 64-bit time_t support
 on 32-bit architectures where their ABI does not include it by default,
 by adding B<-D_TIME_BITS=64> to B<CPPFLAGS>.
 This setting automatically enables the B<lfs> feature from the B<abi>
-feature area,
-and the B<bug-implicit-func> feature from the B<qa> feature area
-as it requires them.
+feature area.
 
 If the setting is enabled explicitly then it gets enabled on all
 architectures including i386 but not hurd-i386 nor kfreebsd-i386
@@ -520,7 +518,7 @@ problems in the source code or build system.
 
 =item B<bug-implicit-func>
 
-This setting (since dpkg 1.22.3; disabled by default) adds
+This setting (since dpkg 1.22.3; enabled by default since dpkg 1.22.6) adds
 B<-Werror=implicit-function-declaration> to B<CFLAGS>.
 
 =item B<bug>

@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 100;
+use Test::More tests => 118;
 
 BEGIN {
     $ENV{DEB_BUILD_ARCH} = 'amd64';
@@ -150,6 +150,37 @@ foreach my $area (sort keys %known_features) {
               "supported features for area $area");
 }
 
+# Test qa bug and bug-implicit-func defaults.
+undef $ENV{DEB_BUILD_MAINT_OPTIONS};
+$bf = Dpkg::BuildFlags->new();
+test_has_noflag($bf, 'CFLAGS', '-Werror=array-bounds');
+test_has_flag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
+
+$ENV{DEB_BUILD_MAINT_OPTIONS} = 'qa=+bug';
+$bf = Dpkg::BuildFlags->new();
+test_has_flag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
+test_has_flag($bf, 'CFLAGS', '-Werror=array-bounds');
+test_has_flag($bf, 'CFLAGS', '-Werror=clobbered');
+test_has_flag($bf, 'CFLAGS', '-Werror=volatile-register-var');
+test_has_flag($bf, 'CXXFLAGS', '-Werror=array-bounds');
+test_has_flag($bf, 'CXXFLAGS', '-Werror=clobbered');
+test_has_flag($bf, 'CXXFLAGS', '-Werror=volatile-register-var');
+
+$ENV{DEB_BUILD_MAINT_OPTIONS} = 'qa=-bug-implicit-func';
+$bf = Dpkg::BuildFlags->new();
+test_has_noflag($bf, 'CFLAGS', '-Werror=array-bounds');
+test_has_noflag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
+
+$ENV{DEB_BUILD_MAINT_OPTIONS} = 'qa=+bug,-bug-implicit-func';
+$bf = Dpkg::BuildFlags->new();
+test_has_noflag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
+test_has_flag($bf, 'CFLAGS', '-Werror=array-bounds');
+test_has_flag($bf, 'CFLAGS', '-Werror=clobbered');
+test_has_flag($bf, 'CFLAGS', '-Werror=volatile-register-var');
+test_has_flag($bf, 'CXXFLAGS', '-Werror=array-bounds');
+test_has_flag($bf, 'CXXFLAGS', '-Werror=clobbered');
+test_has_flag($bf, 'CXXFLAGS', '-Werror=volatile-register-var');
+
 # Test lfs alias from abi to future, we need a 32-bit arch that does does
 # not currently have this flag built-in.
 $ENV{DEB_BUILD_ARCH} = 'i386';
@@ -184,7 +215,7 @@ test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
 test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
-test_has_noflag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
+test_has_flag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
 
 $ENV{DEB_BUILD_MAINT_OPTIONS} = 'abi=+time64';
 $bf = Dpkg::BuildFlags->new();
@@ -200,7 +231,7 @@ test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
 test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
-test_has_noflag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
+test_has_flag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
 
 # 32-bit system with time32 and no time64.
 $ENV{DEB_BUILD_ARCH} = 'hurd-i386';
@@ -212,7 +243,7 @@ test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
 test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
-test_has_noflag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
+test_has_flag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
 
 $ENV{DEB_BUILD_MAINT_OPTIONS} = 'abi=+time64';
 $bf = Dpkg::BuildFlags->new();
@@ -220,7 +251,7 @@ test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
 test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
-test_has_noflag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
+test_has_flag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
 
 $ENV{DEB_BUILD_MAINT_OPTIONS} = 'abi=-time64';
 $bf = Dpkg::BuildFlags->new();
@@ -228,7 +259,7 @@ test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
 test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
-test_has_noflag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
+test_has_flag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
 
 # 32-bit system with time32, time64 enabled by default.
 $ENV{DEB_BUILD_ARCH} = 'armhf';
@@ -256,7 +287,7 @@ test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
 test_has_flag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
 test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
 test_has_flag($bf, 'CPPFLAGS', '-U_TIME_BITS');
-test_has_noflag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
+test_has_flag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
 
 # 64-bit system with built-in time64.
 $ENV{DEB_BUILD_ARCH} = 'amd64';
@@ -268,7 +299,7 @@ test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
 test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
-test_has_noflag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
+test_has_flag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
 
 $ENV{DEB_BUILD_MAINT_OPTIONS} = 'abi=+time64';
 $bf = Dpkg::BuildFlags->new();
@@ -276,7 +307,7 @@ test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
 test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
-test_has_noflag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
+test_has_flag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
 
 $ENV{DEB_BUILD_MAINT_OPTIONS} = 'abi=-time64';
 $bf = Dpkg::BuildFlags->new();
@@ -284,6 +315,6 @@ test_has_noflag($bf, 'CPPFLAGS', '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS');
 test_has_noflag($bf, 'CPPFLAGS', '-D_TIME_BITS=64');
 test_has_noflag($bf, 'CPPFLAGS', '-U_TIME_BITS');
-test_has_noflag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
+test_has_flag($bf, 'CFLAGS', '-Werror=implicit-function-declaration');
 
 # TODO: Add more test cases.
