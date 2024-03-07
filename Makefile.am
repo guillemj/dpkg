@@ -60,6 +60,7 @@ EXTRA_DIST = \
 	README.l10n \
 	autogen \
 	build-aux/gen-changelog \
+	build-aux/gen-release \
 	build-aux/get-version \
 	build-aux/lcov-inject \
 	build-aux/run-script \

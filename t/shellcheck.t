@@ -33,6 +33,7 @@ my @todofiles = qw(
 );
 my @files = qw(
     autogen
+    build-aux/gen-release
     build-aux/get-version
     build-aux/run-script
     debian/dpkg.cron.daily
