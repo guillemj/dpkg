@@ -56,11 +56,14 @@ foreach my $cmd (@cmds) {
         cmd => $cmd,
     );
 
-    ok($openpgp->dearmor('PUBLIC KEY BLOCK', "$datadir/dpkg-test-pub.asc", "$tempdir/dpkg-test-pub.pgp") == OPENPGP_OK(),
+    my $certfile = "$datadir/dpkg-test-pub.asc";
+    my $keyfile  = "$datadir/dpkg-test-sec.asc";
+
+    ok($openpgp->dearmor('PUBLIC KEY BLOCK', $certfile, "$tempdir/dpkg-test-pub.pgp") == OPENPGP_OK(),
         "($backend:$cmd) dearmoring OpenPGP ASCII Armored certificate");
     ok($openpgp->armor('PUBLIC KEY BLOCK', "$tempdir/dpkg-test-pub.pgp", "$tempdir/dpkg-test-pub.asc") == OPENPGP_OK(),
         "($backend:$cmd) armoring OpenPGP binary certificate");
-    test_diff("$datadir/dpkg-test-pub.asc", "$tempdir/dpkg-test-pub.asc",
+    test_diff($certfile, "$tempdir/dpkg-test-pub.asc",
         "($backend:$cmd) OpenPGP certificate dearmor/armor round-trip correctly");
 
     ok($openpgp->armor('SIGNATURE', "$datadir/sign-file.sig", "$tempdir/sign-file.asc") == OPENPGP_OK(),
@@ -77,21 +80,19 @@ foreach my $cmd (@cmds) {
     test_diff("$datadir/sign-file.sig", "$tempdir/sign-file.sig",
         "($backend:$cmd) dearmored OpenPGP ASCII Armor signature matches");
 
-    my $cert = "$datadir/dpkg-test-pub.asc";
-
-    ok($openpgp->inline_verify("$datadir/sign-file-inline.asc", undef, $cert) == OPENPGP_OK(),
+    ok($openpgp->inline_verify("$datadir/sign-file-inline.asc", undef, $certfile) == OPENPGP_OK(),
         "($backend:$cmd) verify OpenPGP ASCII Armor inline signature");
-    ok($openpgp->inline_verify("$datadir/sign-file-inline.sig", undef, $cert) == OPENPGP_OK(),
+    ok($openpgp->inline_verify("$datadir/sign-file-inline.sig", undef, $certfile) == OPENPGP_OK(),
         "($backend:$cmd) verify OpenPGP binary inline signature");
 
-    ok($openpgp->verify("$datadir/sign-file", "$datadir/sign-file.asc", $cert) == OPENPGP_OK(),
+    ok($openpgp->verify("$datadir/sign-file", "$datadir/sign-file.asc", $certfile) == OPENPGP_OK(),
         "($backend:$cmd) verify OpenPGP ASCII Armor detached signature");
-    ok($openpgp->verify("$datadir/sign-file", "$datadir/sign-file.sig", $cert) == OPENPGP_OK(),
+    ok($openpgp->verify("$datadir/sign-file", "$datadir/sign-file.sig", $certfile) == OPENPGP_OK(),
         "($backend:$cmd) verify OpenPGP binary detached signature");
 
     my $key = Dpkg::OpenPGP::KeyHandle->new(
         type => 'keyfile',
-        handle => "$datadir/dpkg-test-sec.asc",
+        handle => $keyfile,
     );
 
     SKIP: {
@@ -99,7 +100,7 @@ foreach my $cmd (@cmds) {
 
         ok($openpgp->inline_sign("$datadir/sign-file", "$tempdir/sign-file-inline.asc", $key) == OPENPGP_OK(),
             "($backend:$cmd) inline OpenPGP sign");
-        ok($openpgp->inline_verify("$tempdir/sign-file-inline.asc", undef, $cert) == OPENPGP_OK(),
+        ok($openpgp->inline_verify("$tempdir/sign-file-inline.asc", undef, $certfile) == OPENPGP_OK(),
             "($backend:$cmd) verify generated inline OpenPGP signature");
     };
 
