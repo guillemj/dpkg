@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use Test::Dpkg qw(:paths :needs);
+use Test::Dpkg qw(:paths :needs test_get_openpgp_backend);
 
 use File::Compare;
 
@@ -25,14 +25,6 @@ use Dpkg::ErrorHandling;
 use Dpkg::Path qw(find_command);
 use Dpkg::OpenPGP::KeyHandle;
 
-my %backend_cmd = (
-    auto => 'auto',
-    'gpg-sq' => 'gpg',
-    gpg => 'gpg',
-    sq => 'sq',
-    sqop => 'sop',
-    'pgpainless-cli' => 'sop',
-);
 my @cmds = test_needs_openpgp_backend();
 unshift @cmds, 'auto';
 
@@ -58,7 +50,7 @@ foreach my $cmd (@cmds) {
     my $datadir = test_get_data_path();
     my $tempdir = test_get_temp_path();
 
-    my $backend = $backend_cmd{$cmd};
+    my $backend = test_get_openpgp_backend($cmd);
     my $openpgp = Dpkg::OpenPGP->new(
         backend => $backend,
         cmd => $cmd,

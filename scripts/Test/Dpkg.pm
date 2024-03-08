@@ -47,6 +47,7 @@ our @EXPORT_OK = qw(
     test_needs_openpgp_backend
     test_needs_srcdir_switch
     test_neutralize_checksums
+    test_get_openpgp_backend
 );
 our %EXPORT_TAGS = (
     needs => [ qw(
@@ -197,21 +198,41 @@ sub test_needs_command
     }
 }
 
+my %openpgp_command = (
+    'gpg-sq' => {
+        backend => 'gpg',
+    },
+    'gpg' => {
+        backend => 'gpg',
+    },
+    'sq' => {
+        backend => 'sq',
+    },
+    'sqop' => {
+        backend => 'sop',
+    },
+    'pgpainless-cli' => {
+        backend => 'sop',
+    },
+);
+
 sub test_needs_openpgp_backend
 {
-    my @backends = qw(
-        gpg-sq
-        gpg
-        sq
-        sqop
-        pgpainless-cli
-    );
-    my @cmds = grep { can_run($_) } @backends;
-    if (@cmds == 0) {
-        plan skip_all => "requires >= 1 openpgp command: @backends";
+    my @cmds = sort keys %openpgp_command;
+    my @have_cmds = grep { can_run($_) } @cmds;
+    if (@have_cmds == 0) {
+        plan skip_all => "requires >= 1 openpgp command: @cmds";
     }
 
-    return @cmds;
+    return @have_cmds;
+}
+
+sub test_get_openpgp_backend
+{
+    my $cmd = shift;
+
+    return 'auto' if $cmd eq 'auto';
+    return $openpgp_command{$cmd}{backend};
 }
 
 sub test_needs_srcdir_switch
