@@ -37,28 +37,18 @@ dpkg_buildflags_mk_included = yes
 
 dpkg_lazy_eval ?= $$(or $$(value DPKG_CACHE_$(1)),$$(eval DPKG_CACHE_$(1) := $$(shell $(2)))$$(value DPKG_CACHE_$(1)))
 
-DPKG_BUILDFLAGS_LIST = \
+DPKG_BUILDFLAGS_LIST := $(foreach var,\
   ASFLAGS \
-  ASFLAGS_FOR_BUILD \
   CFLAGS \
-  CFLAGS_FOR_BUILD \
   CPPFLAGS \
-  CPPFLAGS_FOR_BUILD \
   CXXFLAGS \
-  CXXFLAGS_FOR_BUILD \
   OBJCFLAGS \
-  OBJCFLAGS_FOR_BUILD \
   OBJCXXFLAGS \
-  OBJCXXFLAGS_FOR_BUILD \
   DFLAGS \
-  DFLAGS_FOR_BUILD \
   FFLAGS \
-  FFLAGS_FOR_BUILD \
   FCFLAGS \
-  FCFLAGS_FOR_BUILD \
   LDFLAGS \
-  LDFLAGS_FOR_BUILD \
-  # EOL
+  ,$(var) $(var)_FOR_BUILD)
 
 define dpkg_buildflags_export_envvar
   ifdef $(1)
