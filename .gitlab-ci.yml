@@ -43,6 +43,20 @@ vpath-tests:
     - make -j$(nproc) check
            TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
 
+# Test whether the unit tests pass with minimal library dependencies.
+minlib-tests:
+  state: test
+  script:
+    - ./configure
+        --without-liblzma
+        --without-libz
+        --without-libz-ng
+        --without-libzstd
+        --without-libbz2
+        --without-libselinux
+    - make -j$(nproc) check
+           TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
+
 # Test whether we can build the shared library.
 shlib-tests:
   stage: test
