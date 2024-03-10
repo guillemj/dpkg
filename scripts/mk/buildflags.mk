@@ -35,8 +35,6 @@ dpkg_buildflags_mk_included = yes
 # This list is kept in sync with the default set of flags returned
 # by dpkg-buildflags.
 
-dpkg_lazy_eval ?= $$(or $$(value DPKG_CACHE_$(1)),$$(eval DPKG_CACHE_$(1) := $$(shell $(2)))$$(value DPKG_CACHE_$(1)))
-
 DPKG_BUILDFLAGS_LIST := $(foreach var,\
   ASFLAGS \
   CFLAGS \
@@ -50,26 +48,26 @@ DPKG_BUILDFLAGS_LIST := $(foreach var,\
   LDFLAGS \
   ,$(var) $(var)_FOR_BUILD)
 
-define dpkg_buildflags_export_envvar
-  ifdef $(1)
-    DPKG_BUILDFLAGS_EXPORT_ENVVAR += $(1)="$$(value $(1))"
-  endif
-endef
-
-$(eval $(call dpkg_buildflags_export_envvar,DEB_BUILD_OPTIONS))
-$(eval $(call dpkg_buildflags_export_envvar,DEB_BUILD_MAINT_OPTIONS))
-$(eval $(call dpkg_buildflags_export_envvar,DEB_BUILD_PATH))
-$(foreach flag,$(DPKG_BUILDFLAGS_LIST),\
-  $(foreach operation,SET STRIP APPEND PREPEND,\
-    $(eval $(call dpkg_buildflags_export_envvar,DEB_$(flag)_MAINT_$(operation)))))
-
-dpkg_buildflags_setvar = $(1) = $(call dpkg_lazy_eval,$(1),$(DPKG_BUILDFLAGS_EXPORT_ENVVAR) dpkg-buildflags --get $(1))
-
-$(foreach flag,$(DPKG_BUILDFLAGS_LIST),\
-  $(eval $(call dpkg_buildflags_setvar,$(flag))))
+dpkg_buildflags_run = $(eval $(shell \
+  $(foreach exported,\
+    DEB_BUILD_OPTIONS \
+    DEB_BUILD_MAINT_OPTIONS \
+    DEB_BUILD_PATH \
+    $(foreach flag,$(DPKG_BUILDFLAGS_LIST),\
+      $(foreach operation,SET STRIP APPEND PREPEND,\
+        DEB_$(flag)_MAINT_$(operation))),\
+    $(if $(value $(exported)),\
+      $(exported)="$(value $(exported))"))\
+  dpkg-buildflags | sed 's/\([^=]*\)\(.*\)/$$(eval \1:\2)/'))
 
 ifdef DPKG_EXPORT_BUILDFLAGS
+  # We need to compute the values right now.
+  $(dpkg_buildflags_run)
   export $(DPKG_BUILDFLAGS_LIST)
+else
+  dpkg_lazy_eval ?= $(eval $(1) = $(2)$$($(1)))
+  $(foreach v,$(DPKG_BUILDFLAGS_LIST),\
+    $(call dpkg_lazy_eval,$(v),$$(dpkg_buildflags_run)))
 endif
 
 endif # dpkg_buildflags_mk_included

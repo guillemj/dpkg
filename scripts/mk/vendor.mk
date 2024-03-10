@@ -39,10 +39,10 @@ dpkg_vendor_mk_included = yes
 dpkg_datadir = $(srcdir)/mk
 include $(dpkg_datadir)/buildapi.mk
 
-dpkg_late_eval ?= $(or $(value DPKG_CACHE_$(1)),$(eval DPKG_CACHE_$(1) := $(shell $(2)))$(value DPKG_CACHE_$(1)))
-
-DEB_VENDOR = $(call dpkg_late_eval,DEB_VENDOR,dpkg-vendor --query Vendor)
-DEB_PARENT_VENDOR = $(call dpkg_late_eval,DEB_PARENT_VENDOR,dpkg-vendor --query Parent)
+dpkg_lazy_eval ?= $(eval $(1) = $(2)$$($(1)))
+dpkg_lazy_set ?= $(call dpkg_lazy_eval,$(1),$$(eval $(1) := $(2)))
+$(call dpkg_lazy_set,DEB_VENDOR,$$(shell dpkg-vendor --query Vendor))
+$(call dpkg_lazy_set,DEB_PARENT_VENDOR,$$(shell dpkg-vendor --query Parent))
 
 dpkg_vendor_derives_from_v0 = dpkg-vendor --derives-from $(1) && echo yes || echo no
 dpkg_vendor_derives_from_v1 = $(shell $(dpkg_vendor_derives_from_v0))
