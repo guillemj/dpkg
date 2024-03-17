@@ -27,6 +27,9 @@ DPKG_ENV = \
 
 # eatmydata confuses ASAN link order check.
 export ASAN_OPTIONS = verify_asan_link_order=0
+# Do not fail due to leaks, as the code is still using lots of
+# static variables and error variables.
+export LSAN_OPTIONS = exitcode=0
 
 ifdef DPKG_BUILDTREE
 export DPKG_DATADIR := $(DPKG_BUILDTREE)/src

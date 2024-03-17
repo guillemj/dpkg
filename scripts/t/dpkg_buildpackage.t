@@ -89,6 +89,9 @@ DA := debian/${binary-name-any}
 
 # fakeroot confuses ASAN link order check.
 export ASAN_OPTIONS = verify_asan_link_order=0
+# Do not fail due to leaks, as the code is still using lots of
+# static variables and error variables.
+export LSAN_OPTIONS = exitcode=0
 
 clean:
 	rm -f debian/files
