@@ -24,7 +24,6 @@
 #include <compat.h>
 
 #include <sys/types.h>
-#include <sys/stat.h>
 
 #include <errno.h>
 #include <string.h>
@@ -40,8 +39,6 @@
 #include <dpkg/fdio.h>
 #include <dpkg/debug.h>
 #include <dpkg/db-fsys.h>
-
-static char *statoverridename;
 
 uid_t
 statdb_parse_uid(const char *str)
@@ -111,50 +108,20 @@ statdb_parse_mode(const char *str)
 void
 ensure_statoverrides(enum statdb_parse_flags flags)
 {
-	static struct stat sb_prev;
-	struct stat sb_next;
-	static FILE *file_prev;
-	FILE *file;
+	static struct dpkg_db db = {
+		.name = STATOVERRIDEFILE,
+	};
+	enum dpkg_db_error rc;
 	char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
 	struct file_stat *fso;
 	struct fsys_namenode *fnn;
 	struct fsys_hash_iter *iter;
 
-	if (statoverridename == NULL)
-		statoverridename = dpkg_db_get_path(STATOVERRIDEFILE);
+	rc = dpkg_db_reopen(&db);
+	if (rc == DPKG_DB_SAME)
+		return;
 
 	onerr_abort++;
-
-	file = fopen(statoverridename, "r");
-	if (!file) {
-		if (errno != ENOENT)
-			ohshite(_("failed to open statoverride file"));
-	} else {
-		setcloexec(fileno(file), statoverridename);
-
-		if (fstat(fileno(file), &sb_next))
-			ohshite(_("failed to fstat statoverride file"));
-
-		/*
-		 * We need to keep the database file open so that the
-		 * filesystem cannot reuse the inode number (f.ex. during
-		 * multiple dpkg-statoverride invocations in a maintainer
-		 * script), otherwise the following check might turn true,
-		 * and we would skip reloading a modified database.
-		 */
-		if (file_prev &&
-		    sb_prev.st_dev == sb_next.st_dev &&
-		    sb_prev.st_ino == sb_next.st_ino) {
-			fclose(file);
-			onerr_abort--;
-			debug(dbg_general, "%s: same, skipping", __func__);
-			return;
-		}
-		sb_prev = sb_next;
-	}
-	if (file_prev)
-		fclose(file_prev);
-	file_prev = file;
 
 	/* Reset statoverride information. */
 	iter = fsys_hash_iter_new();
@@ -162,25 +129,23 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 		fnn->statoverride = NULL;
 	fsys_hash_iter_free(iter);
 
-	if (!file) {
-		onerr_abort--;
-		debug(dbg_general, "%s: none, resetting", __func__);
+	onerr_abort--;
+
+	if (rc == DPKG_DB_NONE)
 		return;
-	}
-	debug(dbg_general, "%s: new, (re)loading", __func__);
 
 	/* If the statoverride list is empty we don't need to bother
 	 * reading it. */
-	if (!sb_next.st_size) {
-		onerr_abort--;
+	if (!db.st.st_size)
 		return;
-	}
 
-	loaded_list = m_malloc(sb_next.st_size);
-	loaded_list_end = loaded_list + sb_next.st_size;
+	onerr_abort++;
 
-	if (fd_read(fileno(file), loaded_list, sb_next.st_size) < 0)
-		ohshite(_("reading statoverride file '%.250s'"), statoverridename);
+	loaded_list = m_malloc(db.st.st_size);
+	loaded_list_end = loaded_list + db.st.st_size;
+
+	if (fd_read(fileno(db.file), loaded_list, db.st.st_size) < 0)
+		ohshite(_("reading statoverride file '%.250s'"), db.pathname);
 
 	thisline = loaded_list;
 	while (thisline < loaded_list_end) {

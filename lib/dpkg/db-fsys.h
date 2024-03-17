@@ -22,6 +22,10 @@
 #ifndef LIBDPKG_DB_FSYS_H
 #define LIBDPKG_DB_FSYS_H
 
+#include <sys/stat.h>
+
+#include <stdio.h>
+
 #include <dpkg/file.h>
 #include <dpkg/fsys.h>
 
@@ -49,6 +53,28 @@ DPKG_BEGIN_DECLS
 
 struct pkginfo;
 struct pkgbin;
+
+enum dpkg_db_error {
+	/** The database is new or has changed, should be loaded. */
+	DPKG_DB_LOAD = 0,
+	/** No database file found. */
+	DPKG_DB_NONE = -1,
+	/** The database is already loaded and has not changed. */
+	DPKG_DB_SAME = -2,
+};
+
+struct dpkg_db {
+	/** Name of the database. Set by the caller. */
+	const char *name;
+
+	/* Database state members. */
+	char *pathname;
+	FILE *file;
+	struct stat st;
+};
+
+enum dpkg_db_error
+dpkg_db_reopen(struct dpkg_db *db);
 
 void ensure_diversions(void);
 

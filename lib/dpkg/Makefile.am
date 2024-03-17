@@ -76,6 +76,7 @@ libdpkg_la_SOURCES = \
 	db-fsys-digest.c \
 	db-fsys-divert.c \
 	db-fsys-files.c \
+	db-fsys-load.c \
 	db-fsys-override.c \
 	deb-version.c \
 	debug.c \
