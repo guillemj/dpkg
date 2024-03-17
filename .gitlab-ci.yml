@@ -21,16 +21,16 @@ author-check:
   stage: test
   script:
     - eatmydata apt -P pkg.dpkg.author-testing build-dep -qq -y .
-    - ./configure
+    - ./configure --enable-compiler-sanitizer
     - make -j$(nproc) authorcheck
            TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
 
-# Test whether the sanitized unit tests pass.
+# Test whether the unit tests pass.
 unit-tests:
   stage: test
   script:
     - ./configure --enable-compiler-sanitizer
-    - make -j$(nproc) -C lib check
+    - make -j$(nproc) check
            TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
 
 # Test whether the unit tests pass on a VPATH build.
@@ -69,6 +69,6 @@ shlib-tests:
 func-tests:
   stage: test
   script:
-    - ./configure
+    - ./configure --enable-compiler-sanitizer
     - make
     - eatmydata make -C tests test
