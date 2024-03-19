@@ -127,7 +127,6 @@ AS_IF([test "x$build_start_stop_daemon" = "xyes"], [
 
 # Checks for header files.
 AC_CHECK_HEADERS([\
-  stddef.h \
   error.h \
   err.h \
   locale.h \

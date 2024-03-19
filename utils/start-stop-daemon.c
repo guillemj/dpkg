@@ -103,9 +103,7 @@
 #include <signal.h>
 #include <termios.h>
 #include <unistd.h>
-#ifdef HAVE_STDDEF_H
 #include <stddef.h>
-#endif
 #include <stdbool.h>
 #include <stdarg.h>
 #include <stdlib.h>
