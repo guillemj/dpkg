@@ -210,8 +210,6 @@ AC_CHECK_FUNCS([\
   lchown \
 ], [], [AC_MSG_ERROR([missing required function])])
 AC_CHECK_FUNCS([\
-  strtoimax \
-  isascii \
   setsid \
   getdtablesize \
   getprocs64 \
