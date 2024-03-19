@@ -20,6 +20,8 @@
 # include <config.h>
 #endif
 
+#include <string.h>
+
 #include "compat.h"
 
 /* Find the length of STRING, but scan at most MAXLEN characters.
