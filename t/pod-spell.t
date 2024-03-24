@@ -53,6 +53,7 @@ RCS
 XDG
 archqual
 backport
+build-indep
 buildinfo
 bzip2
 bzr
@@ -60,6 +61,7 @@ canonicalized
 checksum
 checksums
 cmdline
+ctrl
 debian
 decompressor
 dep

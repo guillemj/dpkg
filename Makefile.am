@@ -47,6 +47,7 @@ dist_doc_DATA = \
 	# EOL
 
 dist_docspec_DATA = \
+	doc/spec/build-driver.txt \
 	doc/spec/frontend-api.txt \
 	doc/spec/protected-field.txt \
 	doc/spec/rootless-builds.txt \

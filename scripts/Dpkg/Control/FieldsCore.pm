@@ -1,4 +1,5 @@
 # Copyright © 2007-2009 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2012-2024 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -173,6 +174,10 @@ our %FIELDS = (
         separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 3,
+    },
+    'build-driver' => {
+        name => 'Build-Driver',
+        allowed => CTRL_TMPL_SRC,
     },
     'build-essential' => {
         name => 'Build-Essential',

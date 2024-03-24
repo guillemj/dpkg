@@ -4,7 +4,7 @@
 #
 # Copyright © 1996 Ian Jackson
 # Copyright © 2000 Wichert Akkerman
-# Copyright © 2006-2010, 2012-2015 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2024 Guillem Jover <guillem@debian.org>
 # Copyright © 2007 Frank Lichtenheld
 #
 # This program is free software; you can redistribute it and/or modify
@@ -33,9 +33,9 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::BuildTypes;
-use Dpkg::BuildAPI qw(get_build_api);
 use Dpkg::BuildOptions;
 use Dpkg::BuildProfiles qw(set_build_profiles);
+use Dpkg::BuildDriver;
 use Dpkg::Conf;
 use Dpkg::Compression;
 use Dpkg::Checksums;
@@ -202,21 +202,6 @@ my $buildinfo_file;
 my @buildinfo_opts;
 my $changes_file;
 my @changes_opts;
-my %target_legacy_root = map { $_ => 1 } qw(
-    clean
-    binary
-    binary-arch
-    binary-indep
-);
-my %target_official =  map { $_ => 1 } qw(
-    clean
-    build
-    build-arch
-    build-indep
-    binary
-    binary-arch
-    binary-indep
-);
 my @hook_names = qw(
     preinit
     init
@@ -504,10 +489,6 @@ set_build_profiles(@build_profiles) if @build_profiles;
 my $changelog = changelog_parse();
 my $ctrl = Dpkg::Control::Info->new();
 
-# Check whether we are doing some kind of rootless build, and sanity check
-# the fields values.
-my %rules_requires_root = parse_rules_requires_root($ctrl);
-
 my $pkg = mustsetvar($changelog->{source}, g_('source package'));
 my $version = mustsetvar($changelog->{version}, g_('source version'));
 my $v = Dpkg::Version->new($version);
@@ -609,16 +590,21 @@ if ($sanitize_env) {
     run_vendor_hook('sanitize-environment');
 }
 
+my $build_driver = Dpkg::BuildDriver->new(
+    ctrl => $ctrl,
+    debian_rules => \@debian_rules,
+    root_cmd => \@rootcommand,
+    as_root => $call_target_as_root,
+    rrr_override => $rrr_override,
+);
+
 #
 # Preparation of environment stops here
 #
 
 run_hook('init');
 
-if (@debian_rules == 1 && ! -x $debian_rules[0]) {
-    warning(g_('%s is not executable; fixing that'), $debian_rules[0]);
-    chmod(0755, $debian_rules[0]); # No checks of failures, non fatal
-}
+$build_driver->pre_check();
 
 if (scalar @call_target == 0) {
     run_cmd('dpkg-source', @source_opts, '--before-build', '.');
@@ -643,7 +629,7 @@ if ($checkbuilddep) {
 }
 
 foreach my $call_target (@call_target) {
-    run_rules_cond_root($call_target);
+    $build_driver->run_task($call_target);
 }
 exit 0 if scalar @call_target;
 
@@ -652,7 +638,7 @@ run_hook('preclean', {
 });
 
 if ($preclean) {
-    run_rules_cond_root('clean');
+    $build_driver->run_task('clean');
 }
 
 run_hook('source', {
@@ -670,7 +656,7 @@ if (build_has_any(BUILD_SOURCE)) {
 
 my $build_types = get_build_options_from_type();
 
-my $need_buildtask = rules_requires_root($binarytarget);
+my $need_buildtask = $build_driver->need_build_task($buildtarget, $binarytarget);
 
 run_hook('build', {
     enabled => build_has_any(BUILD_BINARY) && $need_buildtask,
@@ -682,7 +668,7 @@ run_hook('build', {
 # If we are building rootless, there is no need to call the build target
 # independently as non-root.
 if (build_has_any(BUILD_BINARY) && $need_buildtask) {
-    run_cmd(@debian_rules, $buildtarget);
+    $build_driver->run_build_task($buildtarget, $binarytarget);
 }
 
 if (build_has_any(BUILD_BINARY)) {
@@ -691,7 +677,7 @@ if (build_has_any(BUILD_BINARY)) {
             DPKG_BUILDPACKAGE_HOOK_BINARY_TARGET => $binarytarget,
         },
     });
-    run_rules_cond_root($binarytarget);
+    $build_driver->run_task($binarytarget);
 }
 
 $buildinfo_file //= "../$pva.buildinfo";
@@ -731,7 +717,7 @@ run_hook('postclean', {
 });
 
 if ($postclean) {
-    run_rules_cond_root('clean');
+    $build_driver->run_task('clean');
 }
 
 run_cmd('dpkg-source', @source_opts, '--after-build', '.');
@@ -807,118 +793,11 @@ sub mustsetvar {
     return $var;
 }
 
-sub setup_rootcommand {
-    if ($< == 0) {
-        warning(g_('using a gain-root-command while being root')) if @rootcommand;
-    } else {
-        push @rootcommand, 'fakeroot' unless @rootcommand;
-    }
-
-    if (@rootcommand and not find_command($rootcommand[0])) {
-        if ($rootcommand[0] eq 'fakeroot' and $< != 0) {
-            error(g_("fakeroot not found, either install the fakeroot\n" .
-                     'package, specify a command with the -r option, ' .
-                     'or run this as root'));
-        } else {
-            error(g_("gain-root-command '%s' not found"), $rootcommand[0]);
-        }
-    }
-}
-
-sub parse_rules_requires_root {
-    my $ctrl = shift;
-
-    my %rrr;
-    my $rrr;
-    my $rrr_default;
-    my $keywords_base;
-    my $keywords_impl;
-
-    if (get_build_api($ctrl) >= 1) {
-        $rrr_default = 'no';
-    } else {
-        $rrr_default = 'binary-targets';
-    }
-
-    my $ctrl_src = $ctrl->get_source();
-    $rrr = $rrr_override // $ctrl_src->{'Rules-Requires-Root'} // $rrr_default;
-
-    foreach my $keyword (split ' ', $rrr) {
-        if ($keyword =~ m{/}) {
-            if ($keyword =~ m{^dpkg/target/(.*)$}p and $target_official{$1}) {
-                error(g_('disallowed target in %s field keyword "%s"'),
-                      'Rules-Requires-Root', $keyword);
-            } elsif ($keyword =~ m{^dpkg/(.*)$} and $1 ne 'target-subcommand') {
-                error(g_('%s field keyword "%s" is unknown in dpkg namespace'),
-                      'Rules-Requires-Root', $keyword);
-            }
-            $keywords_impl++;
-        } else {
-            if ($keyword ne lc $keyword and
-                (lc $keyword eq 'no' or lc $keyword eq 'binary-targets')) {
-                error(g_('%s field keyword "%s" is uppercase; use "%s" instead'),
-                      'Rules-Requires-Root', $keyword, lc $keyword);
-            } elsif (lc $keyword eq 'yes') {
-                error(g_('%s field keyword "%s" is invalid; use "%s" instead'),
-                      'Rules-Requires-Root', $keyword, 'binary-targets');
-            } elsif ($keyword ne 'no' and $keyword ne 'binary-targets') {
-                warning(g_('%s field keyword "%s" is unknown'),
-                        'Rules-Requires-Root', $keyword);
-            }
-            $keywords_base++;
-        }
-
-        if ($rrr{$keyword}++) {
-            error(g_('field %s contains duplicate keyword "%s"'),
-                        'Rules-Requires-Root', $keyword);
-        }
-    }
-
-    if ($call_target_as_root or not exists $rrr{no}) {
-        setup_rootcommand();
-    }
-
-    # Notify the children we do support R³.
-    $ENV{DEB_RULES_REQUIRES_ROOT} = join ' ', sort keys %rrr;
-
-    if ($keywords_base > 1 or $keywords_base and $keywords_impl) {
-        error(g_('%s field contains both global and implementation specific keywords'),
-              'Rules-Requires-Root');
-    } elsif ($keywords_impl) {
-        # Set only on <implementations-keywords>.
-        $ENV{DEB_GAIN_ROOT_CMD} = join ' ', @rootcommand;
-    } else {
-        # We should not provide the variable otherwise.
-        delete $ENV{DEB_GAIN_ROOT_CMD};
-    }
-
-    return %rrr;
-}
-
 sub run_cmd {
     my @cmd = @_;
 
     printcmd(@cmd);
     system @cmd and subprocerr("@cmd");
-}
-
-sub rules_requires_root {
-    my $target = shift;
-
-    return 1 if $call_target_as_root;
-    return 1 if $rules_requires_root{"dpkg/target/$target"};
-    return 1 if $rules_requires_root{'binary-targets'} and $target_legacy_root{$target};
-    return 0;
-}
-
-sub run_rules_cond_root {
-    my $target = shift;
-
-    my @cmd;
-    push @cmd, @rootcommand if rules_requires_root($target);
-    push @cmd, @debian_rules, $target;
-
-    run_cmd(@cmd);
 }
 
 sub run_hook {
