@@ -49,6 +49,9 @@ file_readlink(const char *slink, struct varbuf *content, size_t content_len)
 	varbuf_grow(content, content_len + 1);
 
 	linksize = readlink(slink, content->buf, content->size);
+	if (linksize < 0)
+		return linksize;
+
 	varbuf_trunc(content, linksize);
 	varbuf_end_str(content);
 
