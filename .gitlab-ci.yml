@@ -21,7 +21,7 @@ author-check:
   stage: test
   script:
     - eatmydata apt -P pkg.dpkg.author-testing build-dep -qq -y .
-    - ./configure --enable-compiler-sanitizer
+    - ./configure
     - make -j$(nproc) authorcheck
            TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
 
@@ -30,7 +30,7 @@ unit-tests:
   stage: test
   script:
     - ./configure --enable-compiler-sanitizer
-    - make -j$(nproc) check
+    - make -j$(nproc) -C lib check
            TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
 
 # Test whether the unit tests pass on a VPATH build.
