@@ -177,7 +177,7 @@ sub add_build_flags {
         if ($cpu eq 'arm64') {
             $flag = '-mbranch-protection=none';
         } elsif ($cpu eq 'amd64') {
-            $flag = '-fno-cf-protection';
+            $flag = '-fcf-protection=none';
         }
         if (defined $flag) {
             $flags->append($_, $flag) foreach @compile_flags;
