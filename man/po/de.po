@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-03-10 20:21+0100\n"
-"PO-Revision-Date: 2024-03-13 21:58+0100\n"
+"POT-Creation-Date: 2024-03-29 06:56+0100\n"
+"PO-Revision-Date: 2024-03-29 07:13+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -3764,6 +3764,27 @@ msgstr ""
 "Die I<URL> der Fehlerdatenbank für dieses Paket. Das derzeit verwendete "
 "Format ist I<BTS-Art>B<://>I<BTS-Adresse> wie in B<debbugs://bugs.debian."
 "org>. Dieses Feld wird normalerweise nicht benötigt."
+
+#. type: =item
+#: deb-src-control.pod
+msgid "B<Build-Driver:> I<driver-name>"
+msgstr "B<Build-Driver:> I<Treibername>"
+
+#. type: textblock
+#: deb-src-control.pod
+msgid ""
+"This experimental field specifies the name of the build driver to use to "
+"build this package.  When omitted the I<driver-name> defaults to B<debian-"
+"rules>."
+msgstr ""
+"Dieses experiementelle Feld legt den Namen des Bautreibers fest, der zum Bau "
+"dieses Pakets verwendet werden soll. Falls nicht angegeben, ist die Vorgabe "
+"für I<Treibername> B<debian-rules>."
+
+#. type: textblock
+#: deb-src-control.pod
+msgid "This field is supported since dpkg 1.22.7."
+msgstr "Dieses Feld wird seit Dpkg 1.22.7 unterstützt."
 
 #. type: =item
 #: deb-src-control.pod
@@ -9960,8 +9981,8 @@ msgid ""
 "This setting (since dpkg 1.22.3; enabled by default since dpkg 1.22.6) adds "
 "B<-Werror=implicit-function-declaration> to B<CFLAGS>."
 msgstr ""
-"Diese Einstellung (seit Dpkg 1.22.3; seit Dpkg 1.22.6 standardmäßig aktiviert) fügt B<-"
-"Werror=implicit-function-declaration> zu B<CFLAGS> hinzu."
+"Diese Einstellung (seit Dpkg 1.22.3; seit Dpkg 1.22.6 standardmäßig "
+"aktiviert) fügt B<-Werror=implicit-function-declaration> zu B<CFLAGS> hinzu."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -12084,10 +12105,12 @@ msgstr ""
 #: dpkg-buildpackage.pod
 msgid ""
 "Gets B<DPKG_BUILDPACKAGE_HOOK_BUILD_TARGET> with the name of the B<debian/"
-"rules> build target called, but only if called."
+"rules> build target called.  Before dpkg 1.22.7 the variable was only set if "
+"the target was called."
 msgstr ""
 "Erhält B<DPKG_BUILDPACKAGE_HOOK_BUILD_TARGET> mit den Namen des von B<debian/"
-"rules> aufgerufenen Bauziels, aber nur, wenn eines aufgerufen wurde."
+"rules> aufgerufenen Bauziels. Vor Dpkg 1.22.7 wurde diese Variable nur "
+"gesetzt, falls das Ziel aufgerufen wurde."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -12938,18 +12961,14 @@ msgstr "Standard Bauziele"
 #: dpkg-buildpackage.pod
 msgid ""
 "B<dpkg-buildpackage> is using the B<build-arch> and B<build-indep> targets "
-"since dpkg 1.16.2.  Those targets are thus mandatory.  But to avoid "
-"breakages of existing packages, and ease the transition, if the source "
-"package does not build both architecture independent and dependent binary "
-"packages (since dpkg 1.18.8) it will fallback to use the B<build> target if "
-"B<make -f debian/rules -qn> I<build-target> returns 2 as exit code."
+"since dpkg 1.16.2.  Before dpkg 1.22.7, there was code to try to detect the "
+"missing targets and fallback on the B<build> target.  Those targets are thus "
+"mandatory."
 msgstr ""
-"B<dpkg-buildpackage> verwendet seit Dpkg 1.16.2 die Ziele B<build-arch> und "
-"B<build-indep>. Diese Ziele sind daher verpflichtend. Um aber Baufehler bei "
-"existierenden Paketen zu vermeiden und um den Übergang zu erleichtern, (und "
-"seit Dpkg 1.18.8 falls das Quellpaket nicht sowohl architekturabhängige wie -"
-"unabhängige Binärpakete baut) wird es auf das Ziel B<build> zurückfallen, "
-"falls B<make -f debian/rules -qn> I<Bauziel> den Rückgabewert 2 liefert."
+"B<dpkg-buildpackage> verwendet die Ziele B<build-arch> und B<build-indep> "
+"seit Dpkg 1.16.2. Vor Dpkg 1.22.7 gab es Code, der versuchte, die fehlenden "
+"Ziele zu erkennen und auf das Ziel B<build> zurückzufallen. Diese Ziele sind "
+"daher verpflichtend."
 
 #. type: =head1
 #: dpkg-buildpackage.pod dpkg-deb.pod dpkg-query.pod dpkg-source.pod
@@ -30328,6 +30347,23 @@ msgid "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
 msgstr ""
 "L<ln(1)>, FHS (der Dateisystem-Hierarchie-Standard, Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid ""
+#~ "B<dpkg-buildpackage> is using the B<build-arch> and B<build-indep> "
+#~ "targets since dpkg 1.16.2.  Those targets are thus mandatory.  But to "
+#~ "avoid breakages of existing packages, and ease the transition, if the "
+#~ "source package does not build both architecture independent and dependent "
+#~ "binary packages (since dpkg 1.18.8) it will fallback to use the B<build> "
+#~ "target if B<make -f debian/rules -qn> I<build-target> returns 2 as exit "
+#~ "code."
+#~ msgstr ""
+#~ "B<dpkg-buildpackage> verwendet seit Dpkg 1.16.2 die Ziele B<build-arch> "
+#~ "und B<build-indep>. Diese Ziele sind daher verpflichtend. Um aber "
+#~ "Baufehler bei existierenden Paketen zu vermeiden und um den Übergang zu "
+#~ "erleichtern, (und seit Dpkg 1.18.8 falls das Quellpaket nicht sowohl "
+#~ "architekturabhängige wie -unabhängige Binärpakete baut) wird es auf das "
+#~ "Ziel B<build> zurückfallen, falls B<make -f debian/rules -qn> I<Bauziel> "
+#~ "den Rückgabewert 2 liefert."
 
 #~ msgid ""
 #~ "Each area feature can be enabled and disabled in the B<DEB_BUILD_OPTIONS> "
