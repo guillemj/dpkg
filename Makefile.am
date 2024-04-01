@@ -62,6 +62,7 @@ EXTRA_DIST = \
 	autogen \
 	build-aux/gen-changelog \
 	build-aux/gen-release \
+	build-aux/get-vcs-id \
 	build-aux/get-version \
 	build-aux/lcov-inject \
 	build-aux/run-script \
@@ -241,6 +242,7 @@ include $(top_srcdir)/build-aux/cpan.am
 # to regular files due to automake telling tar to dereference them.
 dist-hook:
 	echo $(VERSION) >$(distdir)/.dist-version
+	echo $(PACKAGE_VCS_ID) >$(distdir)/.dist-vcs-id
 	if [ -e .git ]; then \
 	  for file in `git ls-tree -r HEAD | grep ^12 | grep -v t/origins/default`; do \
 	    echo "$$file is a symlink packed as a file on the dist tar" >&2 ; \
