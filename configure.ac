@@ -272,6 +272,9 @@ AC_OUTPUT
 # Print the current configuration
 cat <<CONFIG
 
+Release:
+  Version . . . . . : $PACKAGE_VERSION
+
 Configuration:
   Arch attributes:
     cpu name  . . . . . . . . . . : ${cpu_type}
