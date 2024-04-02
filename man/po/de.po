@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-03-29 06:56+0100\n"
-"PO-Revision-Date: 2024-03-29 07:13+0100\n"
+"POT-Creation-Date: 2024-04-02 18:49+0200\n"
+"PO-Revision-Date: 2024-04-02 19:44+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -7886,7 +7886,7 @@ msgstr ""
 "B<AUSDRÜCKE> für eine Beschreibung des Benennungsschemas):"
 
 #. type: =item
-#: dpkg-architecture.pod
+#: dpkg-architecture.pod dpkg-genbuildinfo.pod
 msgid "B<DEB_BUILD_ARCH>"
 msgstr "B<DEB_BUILD_ARCH>"
 
@@ -8000,7 +8000,9 @@ msgstr ""
 "benutzt wird."
 
 #. type: =item
-#: dpkg-architecture.pod
+#: dpkg-architecture.pod dpkg-buildflags.pod dpkg-checkbuilddeps.pod
+#: dpkg-genbuildinfo.pod dpkg-genchanges.pod dpkg-gencontrol.pod
+#: dpkg-gensymbols.pod dpkg-name.pod dpkg-shlibdeps.pod
 msgid "B<DEB_HOST_ARCH>"
 msgstr "B<DEB_HOST_ARCH>"
 
@@ -10832,6 +10834,17 @@ msgstr ""
 "gesteuert werden können. Diese Variable ist derzeit spezifisch für Debian "
 "und Derivative."
 
+#. type: textblock
+#: dpkg-buildflags.pod
+msgid ""
+"Sets the host architecture.  This affects the build flags that are emitted, "
+"which is typically relevant when cross-compiling, where B<DEB_HOST_ARCH> is "
+"different to B<DEB_BUILD_ARCH>."
+msgstr ""
+"Setzt die Host-Architektur. Dies betrifft die ausgegebenen Bausschalter, die "
+"typischerweise für das Cross-Bauen relevant sind, bei dem sich "
+"B<DEB_HOST_ARCH> von B<DEB_BUILD_ARCH> unterscheidet."
+
 #. type: =head2
 #: dpkg-buildflags.pod
 msgid "Configuration files"
@@ -13252,6 +13265,16 @@ msgstr ""
 #. type: textblock
 #: dpkg-checkbuilddeps.pod
 msgid ""
+"Sets the host architecture.  This affects the dependency resolution logic, "
+"which might then not match what the system dpkg considers satisfiable."
+msgstr ""
+"Setzt die Host-Architektur. Dies betrifft die Abhängigkeits-Auflöselogik, "
+"die dann eventuell keine Lösungen findet, bei denen das Dpkg des "
+"Hauptsystems welche fände."
+
+#. type: textblock
+#: dpkg-checkbuilddeps.pod
+msgid ""
 "If set, it will be used as the active build profile(s) for the package being "
 "built.  It is a space separated list of profile names.  Overridden by the B<-"
 "P> option."
@@ -15121,6 +15144,24 @@ msgstr ""
 #. type: textblock
 #: dpkg-genbuildinfo.pod
 msgid ""
+"Sets the build architecture.  This affects the value for the B<Build-"
+"Architecture> field, and the check for the cross-compilation mode."
+msgstr ""
+"Setzt die Host-Architektur. Dies betrifft den Wert des Feldes B<Build-"
+"Architecture> und die Überprüfung auf den Cross-Kompliierungs-Modus."
+
+#. type: textblock
+#: dpkg-genbuildinfo.pod
+msgid ""
+"Sets the host architecture.  This affects the filename used for the ."
+"buildinfo file, and the check for the cross-compilation mode."
+msgstr ""
+"Setzt die Host-Architektur. Dies betrifft den für die Datei .buildinfo "
+"verwandten Dateinamen und die Überprüfung auf den Cross-Kompliierungs-Modus."
+
+#. type: textblock
+#: dpkg-genbuildinfo.pod
+msgid ""
 "The list of generated files.  B<dpkg-genbuildinfo> reads the data here when "
 "producing a B<.buildinfo> file."
 msgstr ""
@@ -15369,6 +15410,11 @@ msgid ""
 msgstr ""
 "Gibt die changes-Datei auf der Standardausgabe (Vorgabe) oder in "
 "I<Dateiname>, falls angegeben, aus (seit Dpkg 1.18.5)."
+
+#. type: textblock
+#: dpkg-genchanges.pod dpkg-gencontrol.pod
+msgid "Sets the host architecture."
+msgstr "Setzt die Host-Architektur."
 
 #. type: textblock
 #: dpkg-genchanges.pod
@@ -16125,6 +16171,13 @@ msgstr ""
 "Symbole als Kommentare. Im Vorlagenmodus werden Mustersymbole desweiteren "
 "von Kommentaren gefolgt, die die echten Symbole aufführen, die auf dieses "
 "Muster passen."
+
+#. type: textblock
+#: dpkg-gensymbols.pod
+msgid ""
+"Sets the host architecture if the B<--arch> option has not be specified."
+msgstr ""
+"Setzt die Host-Architektur, falls die Option B<--arch> nicht angegeben wurde."
 
 #. type: =item
 #: dpkg-gensymbols.pod
@@ -17123,6 +17176,15 @@ msgstr "B<Warnung>: Verwenden Sie diese Option mit Vorsicht."
 #: dpkg-name.pod
 msgid "B<-v>, B<--version>"
 msgstr "B<-v>, B<--version>"
+
+#. type: textblock
+#: dpkg-name.pod
+msgid ""
+"Sets the host architecture.  This affects the architecture name used in the "
+"package filename."
+msgstr ""
+"Setzt die Host-Architektur. Dies betrifft den Architekturnnamen, der im "
+"Paket-Dateinamen verwandt wird."
 
 #. type: textblock
 #: dpkg-name.pod
@@ -19821,6 +19883,15 @@ msgstr ""
 "Standardmäßig ist I<Wert> 3: die ersten zwei Warnungen sind standardmäßig "
 "aktiv, die letzte nicht. Setzen Sie I<Wert> auf 7, falls Sie möchten, dass "
 "alle Warnungen aktiv sein sollen."
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+msgid ""
+"Sets the host architecture.  This affects the objects and symbols files "
+"searched for and their default search pathnames."
+msgstr ""
+"Setzt die Host-Architektur. Dies betrifft Objekte und Symboldateien, nach "
+"denen gesucht wird, und ihre standardmäßigen Suchpfadnamen."
 
 #. type: =head2
 #: dpkg-shlibdeps.pod
