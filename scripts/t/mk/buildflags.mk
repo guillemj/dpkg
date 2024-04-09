@@ -4,6 +4,12 @@ TEST_CPPFLAGS            += -DTEST_MK=test-host
 DEB_CPPFLAGS_FOR_BUILD_MAINT_APPEND = -DTEST_MK=test-build
 TEST_CPPFLAGS_FOR_BUILD            += -DTEST_MK=test-build
 
+DEB_CXXFLAGS_MAINT_SET := set-host
+TEST_CXXFLAGS          := set-host
+
+DEB_CXXFLAGS_FOR_BUILD_MAINT_SET := set-build
+TEST_CXXFLAGS_FOR_BUILD          := set-build
+
 DPKG_EXPORT_BUILDFLAGS := 1
 
 include $(srcdir)/mk/buildflags.mk
