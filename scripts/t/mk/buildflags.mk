@@ -6,24 +6,21 @@ TEST_CPPFLAGS_FOR_BUILD            += -DTEST_MK=test-build
 
 include $(srcdir)/mk/buildflags.mk
 
-test:
-	test "$(ASFLAGS)" = "$(TEST_ASFLAGS)"
-	test "$(ASFLAGS_FOR_BUILD)" = "$(TEST_ASFLAGS_FOR_BUILD)"
-	test "$(CFLAGS)" = "$(TEST_CFLAGS)"
-	test "$(CFLAGS_FOR_BUILD)" = "$(TEST_CFLAGS_FOR_BUILD)"
-	test "$(CPPFLAGS)" = "$(TEST_CPPFLAGS)"
-	test "$(CPPFLAGS_FOR_BUILD)" = "$(TEST_CXXFLAGS_FOR_BUILD)"
-	test "$(CXXFLAGS)" = "$(TEST_CXXFLAGS)"
-	test "$(CXXFLAGS_FOR_BUILD)" = "$(TEST_CXXFLAGS_FOR_BUILD)"
-	test "$(DFLAGS)" = "$(TEST_DFLAGS)"
-	test "$(DFLAGS_FOR_BUILD)" = "$(TEST_DFLAGS_FOR_BUILD)"
-	test "$(FCFLAGS)" = "$(TEST_FCFLAGS)"
-	test "$(FCFLAGS_FOR_BUILD)" = "$(TEST_FCFLAGS_FOR_BUILD)"
-	test "$(FFLAGS)" = "$(TEST_FFLAGS)"
-	test "$(FFLAGS_FOR_BUILD)" = "$(TEST_FFLAGS_FOR_BUILD)"
-	test "$(LDFLAGS)" = "$(TEST_LDFLAGS)"
-	test "$(LDFLAGS_FOR_BUILD)" = "$(TEST_LDFLAGS_FOR_BUILD)"
-	test "$(OBJCFLAGS)" = "$(TEST_OBJCFLAGS)"
-	test "$(OBJCFLAGS_FOR_BUILD)" = "$(TEST_OBJCFLAGS_FOR_BUILD)"
-	test "$(OBJCXXFLAGS)" = "$(TEST_OBJCXXFLAGS)"
-	test "$(OBJCXXFLAGS_FOR_BUILD)" = "$(TEST_OBJCXXFLAGS_FOR_BUILD)"
+vars := \
+  ASFLAGS \
+  CFLAGS \
+  CPPFLAGS \
+  CXXFLAGS \
+  DFLAGS \
+  FCFLAGS \
+  FFLAGS \
+  LDFLAGS \
+  OBJCFLAGS \
+  OBJCXXFLAGS \
+  # EOL
+loop_targets := $(vars) $(vars:=_FOR_BUILD)
+
+test: $(loop_targets)
+
+$(loop_targets):
+	test "$($@)" = "$(TEST_$@)"
