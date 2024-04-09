@@ -6,6 +6,7 @@ tools := \
   AR \
   AS \
   CC \
+  CPP \
   CXX \
   F77 \
   FC \
