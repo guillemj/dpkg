@@ -109,9 +109,6 @@ sub do_build {
 
     my $sourcepackage = $self->{fields}{'Source'};
     my $basenamerev = $self->get_basename(1);
-    my $basename = $self->get_basename();
-    my $basedirname = $basename;
-    $basedirname =~ s/_/-/;
 
     _check_workdir($dir);
 
@@ -179,7 +176,6 @@ sub do_extract {
     my ($self, $newdirectory) = @_;
     my $fields = $self->{fields};
 
-    my $basename = $self->get_basename();
     my $basenamerev = $self->get_basename(1);
 
     my @files = $self->get_files();
