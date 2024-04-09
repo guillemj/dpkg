@@ -13,6 +13,9 @@
 #     specified by <https://reproducible-builds.org/specs/source-date-epoch/>
 #     (since dpkg 1.18.8).
 
+ifndef dpkg_pkg_info_mk_included
+dpkg_pkg_info_mk_included = yes
+
 dpkg_late_eval ?= $(or $(value DPKG_CACHE_$(1)),$(eval DPKG_CACHE_$(1) := $(shell $(2)))$(value DPKG_CACHE_$(1)))
 
 DEB_SOURCE = $(call dpkg_late_eval,DEB_SOURCE,dpkg-parsechangelog -SSource)
@@ -25,3 +28,5 @@ DEB_DISTRIBUTION = $(call dpkg_late_eval,DEB_DISTRIBUTION,dpkg-parsechangelog -S
 SOURCE_DATE_EPOCH ?= $(call dpkg_late_eval,SOURCE_DATE_EPOCH,dpkg-parsechangelog -STimestamp)
 
 export SOURCE_DATE_EPOCH
+
+endif # dpkg_pkg_info_mk_included

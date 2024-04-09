@@ -28,6 +28,10 @@
 # You can also export them in the environment by setting
 # DPKG_EXPORT_BUILDFLAGS to a non-empty value.
 #
+
+ifndef dpkg_buildflags_mk_included
+dpkg_buildflags_mk_included = yes
+
 # This list is kept in sync with the default set of flags returned
 # by dpkg-buildflags.
 
@@ -77,3 +81,5 @@ $(foreach flag,$(DPKG_BUILDFLAGS_LIST),\
 ifdef DPKG_EXPORT_BUILDFLAGS
   export $(DPKG_BUILDFLAGS_LIST)
 endif
+
+endif # dpkg_buildflags_mk_included

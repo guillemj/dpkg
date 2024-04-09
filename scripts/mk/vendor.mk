@@ -33,6 +33,9 @@
 #     ...
 #   endif
 
+ifndef dpkg_vendor_mk_included
+dpkg_vendor_mk_included = yes
+
 dpkg_datadir = $(srcdir)/mk
 include $(dpkg_datadir)/buildapi.mk
 
@@ -49,3 +52,5 @@ dpkg_vendor_derives_from ?= $(dpkg_vendor_derives_from_v1)
 else
 dpkg_vendor_derives_from ?= $(dpkg_vendor_derives_from_v0)
 endif
+
+endif # dpkg_vendor_mk_included

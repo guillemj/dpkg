@@ -25,6 +25,9 @@
 # The variables are not exported by default. This can be changed by
 # defining DPKG_EXPORT_BUILDTOOLS.
 
+ifndef dpkg_buildtools_mk_included
+dpkg_buildtools_mk_included = yes
+
 dpkg_datadir = $(srcdir)/mk
 include $(dpkg_datadir)/architecture.mk
 
@@ -74,3 +77,5 @@ $(eval $(call dpkg_buildtool_setvar,AR,ar))
 $(eval $(call dpkg_buildtool_setvar,RANLIB,ranlib))
 $(eval $(call dpkg_buildtool_setvar,PKG_CONFIG,pkgconf))
 $(eval $(call dpkg_buildtool_setvar,QMAKE,qmake))
+
+endif # dpkg_buildtools_mk_included

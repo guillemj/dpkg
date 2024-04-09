@@ -1,5 +1,8 @@
 # This Makefile fragment (since dpkg 1.22.0) handles the build API.
 
+ifndef dpkg_buildapi_mk_included
+dpkg_buildapi_mk_included = yes
+
 # Default API level when not set.
 DPKG_BUILD_API ?= $(shell dpkg-buildapi)
 
@@ -7,3 +10,5 @@ DPKG_BUILD_API ?= $(shell dpkg-buildapi)
 # complexity given no integer operators, given that we currently have to
 # fetch the build API level anyway.
 dpkg_build_api_ge = $(shell test "$(DPKG_BUILD_API)" -ge "$(1)" && echo yes)
+
+endif # dpkg_buildapi_mk_included
