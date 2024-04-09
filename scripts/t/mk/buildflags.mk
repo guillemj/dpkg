@@ -1,5 +1,8 @@
 DEB_CPPFLAGS_MAINT_APPEND = -DTEST_MK=test-host
+TEST_CPPFLAGS            += -DTEST_MK=test-host
+
 DEB_CPPFLAGS_FOR_BUILD_MAINT_APPEND = -DTEST_MK=test-build
+TEST_CPPFLAGS_FOR_BUILD            += -DTEST_MK=test-build
 
 include $(srcdir)/mk/buildflags.mk
 
@@ -8,8 +11,8 @@ test:
 	test "$(ASFLAGS_FOR_BUILD)" = "$(TEST_ASFLAGS_FOR_BUILD)"
 	test "$(CFLAGS)" = "$(TEST_CFLAGS)"
 	test "$(CFLAGS_FOR_BUILD)" = "$(TEST_CFLAGS_FOR_BUILD)"
-	test "$(CPPFLAGS)" = "$(TEST_CPPFLAGS) -DTEST_MK=test-host"
-	test "$(CPPFLAGS_FOR_BUILD)" = "$(TEST_CPPFLAGS_FOR_BUILD)-DTEST_MK=test-build"
+	test "$(CPPFLAGS)" = "$(TEST_CPPFLAGS)"
+	test "$(CPPFLAGS_FOR_BUILD)" = "$(TEST_CXXFLAGS_FOR_BUILD)"
 	test "$(CXXFLAGS)" = "$(TEST_CXXFLAGS)"
 	test "$(CXXFLAGS_FOR_BUILD)" = "$(TEST_CXXFLAGS_FOR_BUILD)"
 	test "$(DFLAGS)" = "$(TEST_DFLAGS)"
