@@ -27,13 +27,16 @@ dpkg-buildpackage - build binary or source packages from sources
 
 =head1 SYNOPSIS
 
-B<dpkg-buildpackage>
-[I<option>...]
+B<dpkg-buildpackage> [I<option>...] [B<-->] [I<filename>.dsc|I<directory>]
 
 =head1 DESCRIPTION
 
 B<dpkg-buildpackage>
 is a program that automates the process of building a Debian package.
+
+The I<filename>.dsc and I<directory> arguments are supported since dpkg 1.22.7.
+Their semantics are experimental.
+
 It
 consists of the following steps:
 
@@ -42,6 +45,10 @@ consists of the following steps:
 =item B<1.>
 
 It runs the B<preinit> hook before reading any source file.
+If a B<.dsc> file has been specified it unpacks it anew and
+changes directory to it,
+if a I<directory> has been specified it changes directory to it,
+otherwise it expects the current directory to contain the source tree.
 It prepares the build environment by setting various environment
 variables (see B<ENVIRONMENT>), runs the B<init> hook, and calls
 B<dpkg-source --before-build> (unless B<-T> or B<--target>
@@ -65,7 +72,8 @@ is specified).
 
 It runs the B<source> hook and calls B<dpkg-source -b> to generate
 the source package (if a B<source> build has been requested with
-B<--build> or equivalent options).
+B<--build> or equivalent options,
+and if no B<.dsc> has been specified).
 
 =item B<5.>
 
@@ -141,6 +149,11 @@ the B<.changes> file (unless B<-uc> or B<--unsigned-changes>
 is specified).
 
 =item B<12.>
+
+If a B<.dsc> file has been specified,
+it removes the extracted source directory.
+
+=item B<13.>
 
 It runs the B<done> hook.
 

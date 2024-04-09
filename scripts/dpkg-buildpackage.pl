@@ -23,6 +23,7 @@
 use strict;
 use warnings;
 
+use File::Path qw(remove_tree);
 use File::Copy;
 use File::Glob qw(bsd_glob GLOB_TILDE GLOB_NOCHECK);
 use POSIX qw(:sys_wait_h);
@@ -62,7 +63,7 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf g_(
-'Usage: %s [<option>...]')
+'Usage: %s [<option>...] [--] [<filename.dsc>|<directory>]')
     . "\n\n" . g_(
 'Options:
       --build=<type>[,...]    specify the build <type>: full, source, binary,
@@ -171,7 +172,10 @@ my $parallel;
 my $parallel_force = 0;
 my $checkbuilddep = 1;
 my $check_builtin_builddep = 1;
+my $source;
+my $source_from_dsc = 0;
 my @source_opts;
+my $srcdir;
 my $check_command = $ENV{DEB_CHECK_COMMAND};
 my @check_opts;
 my $signpause;
@@ -406,8 +410,14 @@ while (@ARGV) {
     } elsif (/^-R(.*)$/ or /^--rules-file=(.*)$/) {
 	my $arg = $1;
 	@debian_rules = split ' ', $arg;
-    } else {
+    } elsif ($_ eq '--') {
+        $source = shift @ARGV;
+        last;
+    } elsif (/^-/) {
 	usageerr(g_('unknown option or argument %s'), $_);
+    } else {
+        $source = $_;
+        last;
     }
 }
 
@@ -483,6 +493,51 @@ if ($build_opts->has('terse')) {
 }
 
 set_build_profiles(@build_profiles) if @build_profiles;
+
+# Handle specified source trees.
+if (defined $source) {
+    if (-d $source) {
+        chdir $source
+            or syserr(g_('cannot change directory to %s'), $source);
+    } elsif (-f $source) {
+        require Dpkg::Source::Package;
+
+        if (build_has_any(BUILD_SOURCE)) {
+            error(g_('building source package would overwrite input source %s'),
+                  $source);
+        }
+
+        if ($source =~ m{/}) {
+            error(g_('source package %s is expected in the current directory'),
+                  $source);
+        }
+
+        my $srcpkg = Dpkg::Source::Package->new(
+            filename => $source,
+            options => {
+                no_check => 0,
+                no_overwrite_dir => 1,
+                require_valid_signature => 0,
+                require_strong_checksums => 0,
+            },
+        );
+        $srcdir = $srcpkg->get_basedirname();
+
+        if (-e $srcdir) {
+            error(g_('source directory %s exists already, aborting'), $srcdir);
+        }
+
+        info(g_('extracting source package %s'), $source);
+
+        run_cmd('dpkg-source', @source_opts, '--extract', $source);
+
+        chdir $srcdir
+            or syserr(g_('cannot change directory to %s'), $srcdir);
+
+        # Track whether we extracted the source from a specified .dsc.
+        $source_from_dsc = 1;
+    }
+}
 
 my $changelog = changelog_parse();
 my $ctrl = Dpkg::Control::Info->new();
@@ -777,6 +832,13 @@ if ($signchanges) {
 
 if (not $signreleased) {
     warning(g_('not signing UNRELEASED build; use --force-sign to override'));
+}
+
+if ($source_from_dsc) {
+    info(g_('removing extracted source directory %s'), $srcdir);
+    chdir '..'
+        or syserr(g_('cannot change directory to %s'), '..');
+    remove_tree($srcdir);
 }
 
 run_hook('done');
