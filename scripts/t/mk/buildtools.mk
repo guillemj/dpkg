@@ -1,3 +1,7 @@
+AR                := overridden
+TEST_AR           := overridden
+TEST_AR_FOR_BUILD := overridden
+
 DPKG_EXPORT_BUILDTOOLS := 1
 
 include $(srcdir)/mk/buildtools.mk
