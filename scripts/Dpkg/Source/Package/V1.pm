@@ -291,8 +291,7 @@ sub do_build {
     my $sourcepackage = $self->{fields}{'Source'};
     my $basenamerev = $self->get_basename(1);
     my $basename = $self->get_basename();
-    my $basedirname = $basename;
-    $basedirname =~ s/_/-/;
+    my $basedirname = $self->get_basedirname();
 
     # Try to find a .orig tarball for the package
     my $origdir = "$dir.orig";

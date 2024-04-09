@@ -406,8 +406,7 @@ sub check_patches_applied {
 sub _generate_patch {
     my ($self, $dir, %opts) = @_;
     my ($dirname, $updir) = fileparse($dir);
-    my $basedirname = $self->get_basename();
-    $basedirname =~ s/_/-/;
+    my $basedirname = $self->get_basedirname();
 
     # Identify original tarballs
     my ($tarfile, %addonfile);

@@ -469,8 +469,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     $srcpkg->parse_cmdline_options(@cmdline_options);
 
     # Decide where to unpack
-    my $newdirectory = $srcpkg->get_basename();
-    $newdirectory =~ s/_/-/g;
+    my $newdirectory = $srcpkg->get_basedirname();
     if (@ARGV) {
 	$newdirectory = File::Spec->catdir(shift(@ARGV));
 	if (-e $newdirectory) {
