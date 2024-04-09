@@ -29,7 +29,7 @@ is the one that supports the extraction of the source package.
 
 =cut
 
-package Dpkg::Source::Package 2.02;
+package Dpkg::Source::Package 2.03;
 
 use strict;
 use warnings;
@@ -389,6 +389,21 @@ sub get_basename {
     return $f->{'Source'} . '_' . $vs;
 }
 
+=item $p->get_basedirname()
+
+Returns the default base directory name for the package.
+
+=cut
+
+sub get_basedirname {
+    my $self = shift;
+
+    my $dirname = $self->get_basename();
+    $dirname =~ s/_/-/;
+
+    return $dirname;
+}
+
 sub find_original_tarballs {
     my ($self, %opts) = @_;
     $opts{extension} //= compression_get_file_extension_regex();
@@ -698,6 +713,10 @@ sub write_dsc {
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.03 (dpkg 1.22.7)
+
+New method: $p->get_basedirname().
 
 =head2 Version 2.02 (dpkg 1.21.10)
 
