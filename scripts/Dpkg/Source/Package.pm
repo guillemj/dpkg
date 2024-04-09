@@ -701,15 +701,15 @@ sub write_dsc {
 
 =head2 Version 2.02 (dpkg 1.21.10)
 
-New method: armor_original_tarball_signature().
+New method: $p->armor_original_tarball_signature().
 
 =head2 Version 2.01 (dpkg 1.20.1)
 
-New method: get_upstream_signing_key().
+New method: $p->get_upstream_signing_key().
 
 =head2 Version 2.00 (dpkg 1.20.0)
 
-New method: check_original_tarball_signature().
+New method: $p->check_original_tarball_signature().
 
 Remove variable: $diff_ignore_default_regexp.
 
@@ -721,12 +721,12 @@ New option: format in new().
 
 =head2 Version 1.02 (dpkg 1.18.7)
 
-New option: require_strong_checksums in check_checksums().
+New option: require_strong_checksums in $p->check_checksums().
 
 =head2 Version 1.01 (dpkg 1.17.2)
 
-New functions: get_default_diff_ignore_regex(), set_default_diff_ignore_regex(),
-get_default_tar_ignore_pattern()
+New functions: $p->get_default_diff_ignore_regex(),
+$p->set_default_diff_ignore_regex(), $p->get_default_tar_ignore_pattern().
 
 Deprecated variables: $diff_ignore_default_regexp, @tar_ignore_default_pattern
 
