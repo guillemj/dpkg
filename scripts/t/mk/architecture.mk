@@ -19,4 +19,7 @@ loop_targets := $(foreach machine,BUILD HOST TARGET,\
 test: $(loop_targets)
 
 $(loop_targets):
+	: # Test the Make variable.
 	test '$($@)' = '$(TEST_$@)'
+	: # Test the exported variable.
+	test "$${$@}" = '$(TEST_$@)'

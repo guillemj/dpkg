@@ -1,3 +1,5 @@
+DPKG_EXPORT_BUILDTOOLS := 1
+
 include $(srcdir)/mk/buildtools.mk
 
 tools := \
@@ -22,4 +24,7 @@ loop_targets := $(tools) $(tools:=_FOR_BUILD)
 test: $(loop_targets)
 
 $(loop_targets):
+	: # Test the Make variable.
 	test '$($@)' = '$(TEST_$@)'
+	: # Test the exported variable.
+	test "$${$@}" = '$(TEST_$@)'
