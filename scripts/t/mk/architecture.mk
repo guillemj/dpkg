@@ -1,3 +1,6 @@
+DEB_BUILD_ARCH      := overridden
+TEST_DEB_BUILD_ARCH := overridden
+
 include $(srcdir)/mk/architecture.mk
 
 vars := \
