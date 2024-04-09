@@ -36,7 +36,7 @@ include $(dpkg_datadir)/architecture.mk
 # not defined or contain the make built-in defaults. On native builds if
 # TOOL is defined and TOOL_FOR_BUILD is not, we fallback to use TOOL.
 define dpkg_buildtool_setvar
-  ifeq (,$(findstring $(3),$(DEB_BUILD_OPTIONS)))
+  ifeq (,$(filter $(3),$(DEB_BUILD_OPTIONS)))
     ifeq ($(origin $(1)),default)
       $(1) = $(DEB_HOST_GNU_TYPE)-$(2)
     else
