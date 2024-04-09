@@ -22,4 +22,4 @@ loop_targets := $(tools) $(tools:=_FOR_BUILD)
 test: $(loop_targets)
 
 $(loop_targets):
-	test "$($@)" = "$(TEST_$@)"
+	test '$($@)' = '$(TEST_$@)'

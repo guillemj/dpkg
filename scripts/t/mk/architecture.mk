@@ -19,4 +19,4 @@ loop_targets := $(foreach machine,BUILD HOST TARGET,\
 test: $(loop_targets)
 
 $(loop_targets):
-	test "$($@)" = "$(TEST_$@)"
+	test '$($@)' = '$(TEST_$@)'

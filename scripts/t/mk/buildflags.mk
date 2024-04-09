@@ -23,4 +23,4 @@ loop_targets := $(vars) $(vars:=_FOR_BUILD)
 test: $(loop_targets)
 
 $(loop_targets):
-	test "$($@)" = "$(TEST_$@)"
+	test '$($@)' = '$(TEST_$@)'
