@@ -62,6 +62,7 @@ man_MANS = \
 	dpkg.1 \
 	dpkg.cfg.5 \
 	dsc.5 \
+	libdpkg.7 \
 	# EOL
 
 if BUILD_DSELECT
@@ -152,6 +153,7 @@ EXTRA_DIST += \
 	dsc.pod \
 	dselect.cfg.pod \
 	dselect.pod \
+	libdpkg.pod \
 	start-stop-daemon.pod \
 	update-alternatives.pod \
 	# EOL
