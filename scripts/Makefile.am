@@ -193,12 +193,8 @@ if BUILD_POD_DOC
 	done
 endif
 
-# Ideally we'd use '$(SED) -i', but unfortunately that's not portable.
 install-data-hook:
-	$(do_perl_subst) <$(DESTDIR)$(perllibdir)/Dpkg.pm \
-	                 >$(DESTDIR)$(perllibdir)/Dpkg.pm.new
-	mv $(DESTDIR)$(perllibdir)/Dpkg.pm.new \
-	   $(DESTDIR)$(perllibdir)/Dpkg.pm
+	$(subst_perl_file) $(DESTDIR)$(perllibdir)/Dpkg.pm
 
 uninstall-local:
 if BUILD_POD_DOC

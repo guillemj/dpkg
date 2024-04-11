@@ -42,15 +42,17 @@ dist_bashcompletions_DATA +=
 polkitactions_DATA += org.dpkg.pkexec.update-alternatives.policy
 endif
 
-do_polkit_subst = $(SED) \
-	-e 's,[@]bindir[@],$(bindir),g' \
-	# EOL
+subst_polkit_rules = "\
+	s{[@]bindir[@]}{$(bindir)}g; \
+	"
+
+subst_polkit_filter = $(PERL) -p -e $(subst_polkit_rules)
 
 org.dpkg.pkexec.update-alternatives.policy: update-alternatives.polkit.in Makefile
 	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
 	$(AM_V_GEN) GETTEXTDATADIR="$(top_srcdir)/po" \
 	  $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o - \
-	  | $(do_polkit_subst) >$@
+	  | $(subst_polkit_filter) >$@
 
 EXTRA_DIST += \
 	README.alternatives \

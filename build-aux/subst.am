@@ -4,44 +4,52 @@
 
 # Shell support.
 
-do_shell_subst = $(AM_V_GEN) $(SED) \
-	-e "s:^ADMINDIR=.*$$:ADMINDIR='$(admindir)':" \
-	-e "s:^BACKUPSDIR=.*$$:BACKUPSDIR='$(backupsdir)':" \
-	-e "s:^PKGDATADIR_DEFAULT=.*$$:PKGDATADIR_DEFAULT='$(pkgdatadir)':" \
-	-e "s:^version=['\"][^'\"]*[\"']:version=\"$(PACKAGE_VERSION)\":" \
-	-e "s:^TAR=.*$$:TAR='$(TAR)':" \
-	# EOL
+subst_shell_rules = "\
+	s{^ADMINDIR=.*$$}{ADMINDIR='$(admindir)'}; \
+	s{^BACKUPSDIR=.*$$}{BACKUPSDIR='$(backupsdir)'}; \
+	s{^PKGDATADIR_DEFAULT=.*$$}{PKGDATADIR_DEFAULT='$(pkgdatadir)'}; \
+	s{^version=['\"][^'\"]*[\"']}{version=\"$(PACKAGE_VERSION)\"}; \
+	s{^TAR=.*$$}{TAR='$(TAR)'}; \
+	"
+
+subst_shell_filter = $(PERL) -p -e $(subst_shell_rules)
+subst_shell_file = $(PERL) -i -p -e $(shell_subst_rules)
 
 SUFFIXES += .sh
 
 .sh: Makefile
 	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
-	$(do_shell_subst) <$< >$@
+	$(AM_V_GEN) $(subst_shell_filter) <$< >$@
 	$(AM_V_at) chmod +x $@
 
 # Perl support.
 
-do_perl_subst = $(AM_V_GEN) $(SED) \
-	-e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):" \
-	-e "s:our \$$CONFDIR = .*;:our \$$CONFDIR = '$(pkgconfdir)';:" \
-	-e "s:our \$$ADMINDIR = .*;:our \$$ADMINDIR = '$(admindir)';:" \
-	-e "s:our \$$LIBDIR = .*;:our \$$LIBDIR = '$(pkglibexecdir)';:" \
-	-e "s:our \$$DATADIR = .*;:our \$$DATADIR = '$(pkgdatadir)';:" \
-	-e "s:our \$$PROGMAKE = .*;:our \$$PROGMAKE = '$(MAKE)';:" \
-	-e "s:our \$$PROGTAR = .*;:our \$$PROGTAR = '$(TAR)';:" \
-	-e "s:our \$$PROGPATCH = .*;:our \$$PROGPATCH = '$(PATCH)';:" \
-	-e "s:our \$$PROGVERSION = .*;:our \$$PROGVERSION = '$(PACKAGE_VERSION)';:" \
-	# EOL
+subst_perl_rules = "\
+	s{^\#!\s*/usr/bin/perl}{\#!$(PERL)}; \
+	s{our \\\$$CONFDIR = .*;}{our \\\$$CONFDIR = '$(pkgconfdir)';}; \
+	s{our \\\$$ADMINDIR = .*;}{our \\\$$ADMINDIR = '$(admindir)';}; \
+	s{our \\\$$LIBDIR = .*;}{our \\\$$LIBDIR = '$(pkglibexecdir)';}; \
+	s{our \\\$$DATADIR = .*;}{our \\\$$DATADIR = '$(pkgdatadir)';}; \
+	s{our \\\$$PROGMAKE = .*;}{our \\\$$PROGMAKE = '$(MAKE)';}; \
+	s{our \\\$$PROGTAR = .*;}{our \\\$$PROGTAR = '$(TAR)';}; \
+	s{our \\\$$PROGPATCH = .*;}{our \\\$$PROGPATCH = '$(PATCH)';}; \
+	s{our \\\$$PROGVERSION = .*;}{our \\\$$PROGVERSION = '$(PACKAGE_VERSION)';}; \
+	"
+
+subst_perl_filter = $(PERL) -p -e $(subst_perl_rules)
+subst_perl_file = $(PERL) -i -p -e $(subst_perl_rules)
 
 SUFFIXES += .pl
 
 .pl: Makefile
 	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
-	$(do_perl_subst) <$< >$@
+	$(AM_V_GEN) $(subst_perl_filter) <$< >$@
 	$(AM_V_at) chmod +x $@
 
 # Makefile support.
 
-do_make_subst = $(AM_V_GEN) $(SED) \
-	-e "s:dpkg_datadir[[:space:]]*=[[:space:]]*[^[:space:]]*:dpkg_datadir = $(pkgdatadir):" \
-	# EOL
+subst_make_rules = "\
+	s{dpkg_datadir\s*=\s*[^\s]*}{dpkg_datadir = $(pkgdatadir)}; \
+	"
+
+subst_make_file = $(PERL) -i -p -e $(subst_make_rules)
