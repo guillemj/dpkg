@@ -42,7 +42,6 @@ my @files = qw(
     src/dpkg-db-backup.sh
     src/dpkg-db-keeper.sh
     src/dpkg-maintscript-helper.sh
-    src/dpkg-realpath.sh
 );
 my @shellcheck_opts = (
     '--external-sources', # Allow checking external source files.

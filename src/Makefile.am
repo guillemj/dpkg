@@ -27,6 +27,7 @@ bin_PROGRAMS = \
 	dpkg-deb \
 	dpkg-divert \
 	dpkg-query \
+	dpkg-realpath \
 	dpkg-split \
 	dpkg-statoverride \
 	dpkg-trigger \
@@ -34,7 +35,6 @@ bin_PROGRAMS = \
 
 bin_SCRIPTS = \
 	dpkg-maintscript-helper \
-	dpkg-realpath \
 	# EOL
 
 pkglibexec_SCRIPTS = \
@@ -46,7 +46,6 @@ EXTRA_DIST += \
 	dpkg-db-backup.sh \
 	dpkg-db-keeper.sh \
 	dpkg-maintscript-helper.sh \
-	dpkg-realpath.sh \
 	# EOL
 
 CLEANFILES += \
@@ -105,6 +104,10 @@ dpkg_divert_SOURCES = \
 dpkg_query_SOURCES = \
 	common/actions.h \
 	query/main.c \
+	# EOL
+
+dpkg_realpath_SOURCES = \
+	realpath/main.c \
 	# EOL
 
 dpkg_split_SOURCES = \
