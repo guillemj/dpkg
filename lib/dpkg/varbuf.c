@@ -176,6 +176,52 @@ varbuf_add_buf(struct varbuf *v, const void *s, size_t size)
 	v->buf[v->used] = '\0';
 }
 
+bool
+varbuf_has_prefix(struct varbuf *v, struct varbuf *prefix)
+{
+	if (prefix->used > v->used)
+		return false;
+
+	return strncmp(v->buf, prefix->buf, prefix->used) == 0;
+}
+
+bool
+varbuf_has_suffix(struct varbuf *v, struct varbuf *suffix)
+{
+	const char *slice = v->buf + v->used - suffix->used;
+
+	if (suffix->used > v->used)
+		return false;
+
+	return strcmp(slice, suffix->buf) == 0;
+}
+
+void
+varbuf_trim_varbuf_prefix(struct varbuf *v, struct varbuf *prefix)
+{
+	if (!varbuf_has_prefix(v, prefix))
+		return;
+
+	memmove(v->buf, v->buf + prefix->used, v->used - prefix->used);
+	varbuf_trunc(v, v->used - prefix->used);
+}
+
+void
+varbuf_trim_char_prefix(struct varbuf *v, int prefix)
+{
+	const char *str = v->buf;
+	size_t len = v->used;
+
+	while (str[0] == prefix && len > 0) {
+		str++;
+		len--;
+	}
+	if (str != v->buf) {
+		memmove(v->buf, str, len);
+		varbuf_trunc(v, len);
+	}
+}
+
 int
 varbuf_vprintf(struct varbuf *v, const char *fmt, va_list args)
 {
