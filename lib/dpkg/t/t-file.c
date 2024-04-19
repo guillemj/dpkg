@@ -40,6 +40,20 @@ static const char ref_data[] =
 ;
 
 static void
+test_file_getcwd(void)
+{
+	char *env;
+	struct varbuf cwd;
+
+	env = getenv("abs_builddir");
+	file_getcwd(&cwd);
+
+	test_str(env, ==, cwd.buf);
+
+	varbuf_destroy(&cwd);
+}
+
+static void
 test_file_slurp(void)
 {
 	struct varbuf vb = VARBUF_INIT;
@@ -100,7 +114,8 @@ test_file_slurp(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(32);
+	test_plan(33);
 
+	test_file_getcwd();
 	test_file_slurp();
 }

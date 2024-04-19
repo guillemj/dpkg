@@ -37,6 +37,20 @@
 #include <dpkg/file.h>
 
 /**
+ * Get the current working directory.
+ *
+ */
+void
+file_getcwd(struct varbuf *cwd)
+{
+	varbuf_reset(cwd);
+	varbuf_grow(cwd, 64);
+	while (getcwd(cwd->buf, cwd->size) == NULL)
+		varbuf_grow(cwd, cwd->size * 2);
+	varbuf_trunc(cwd, strlen(cwd->buf));
+}
+
+/**
  * Read the symlink content into a varbuf.
  *
  */
