@@ -54,6 +54,24 @@ test_file_getcwd(void)
 }
 
 static void
+test_file_realpath(void)
+{
+	char *path;
+
+	path = file_realpath("/");
+	test_str(path, ==, "/");
+	free(path);
+
+	path = file_realpath("///");
+	test_str(path, ==, "/");
+	free(path);
+
+	path = file_realpath("//./..///../././..///..");
+	test_str(path, ==, "/");
+	free(path);
+}
+
+static void
 test_file_slurp(void)
 {
 	struct varbuf vb = VARBUF_INIT;
@@ -114,8 +132,9 @@ test_file_slurp(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(33);
+	test_plan(36);
 
 	test_file_getcwd();
+	test_file_realpath();
 	test_file_slurp();
 }
