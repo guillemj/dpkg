@@ -51,6 +51,45 @@ file_getcwd(struct varbuf *cwd)
 	varbuf_trunc(cwd, strlen(cwd->buf));
 }
 
+/*
+ * Handle pre-POSIX-1.2008 realpath() semantics, by using a fixed size buffer
+ * based on PATH_MAX, which we expect to be defined on the systems that have
+ * no proper behavior for this function.
+ */
+#ifdef PATH_MAX
+static char *
+file_realpath_legacy(const char *pathname)
+{
+	char resolved_path_buf[PATH_MAX];
+	char *resolved_path;
+
+	resolved_path = realpath(pathname, resolved_path_buf);
+	if (resolved_path == NULL && errno != ENOENT)
+		ohshite(_("cannot canonicalize pathname %s"), pathname);
+
+	if (resolved_path)
+		return m_strdup(resolved_path);
+	return NULL;
+}
+#endif
+
+char *
+file_realpath(const char *pathname)
+{
+	char *resolved_path;
+
+	resolved_path = realpath(pathname, NULL);
+	if (resolved_path == NULL && errno != ENOENT) {
+#ifdef PATH_MAX
+		if (errno == EINVAL)
+			return file_realpath_legacy(pathname);
+#endif
+		ohshite(_("cannot canonicalize pathname %s"), pathname);
+	}
+
+	return resolved_path;
+}
+
 /**
  * Read the symlink content into a varbuf.
  *
