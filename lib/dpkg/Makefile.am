@@ -125,6 +125,7 @@ libdpkg_la_SOURCES = \
 	report.c \
 	string.c \
 	strhash.c \
+	strvec.c \
 	strwide.c \
 	subproc.c \
 	tarfn.c \
@@ -182,6 +183,7 @@ pkginclude_HEADERS = \
 	progress.h \
 	report.h \
 	string.h \
+	strvec.h \
 	subproc.h \
 	tarfn.h \
 	treewalk.h \
@@ -228,6 +230,7 @@ test_programs = \
 	t/t-ehandle \
 	t/t-error \
 	t/t-string \
+	t/t-strvec \
 	t/t-file \
 	t/t-buffer \
 	t/t-meminfo \
