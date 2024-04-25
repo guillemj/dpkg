@@ -599,7 +599,7 @@ do_build(const char *const *argv)
   m_output(stdout, _("<standard output>"));
 
   timestamp_str = getenv("SOURCE_DATE_EPOCH");
-  if (timestamp_str)
+  if (str_is_set(timestamp_str))
     timestamp = parse_timestamp(timestamp_str);
   else
     timestamp = time(NULL);
