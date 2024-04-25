@@ -544,7 +544,9 @@ parse_timestamp(const char *value)
 
   errno = 0;
   timestamp = strtoimax(value, &end, 10);
-  if (value == end || *end || errno != 0)
+  if (value == end || *end)
+    ohshit(_("unable to parse timestamp '%.255s'"), value);
+  else if (errno != 0)
     ohshite(_("unable to parse timestamp '%.255s'"), value);
 
   return timestamp;
