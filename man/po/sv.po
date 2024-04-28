@@ -1,15 +1,14 @@
 # Translation of dpkg-man to Swedish
-# Copyright 1999-2023 Software in the Public Interest
+# Copyright 1999-2024 Software in the Public Interest
 # This file is distributed under the same license as the dpkg package.
-#
-# Peter Krefting <peter@softwolves.pp.se>, 1999-2023.
+# Peter Krefting <peter@softwolves.pp.se>, 1999-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2024-03-10 20:21+0100\n"
-"PO-Revision-Date: 2024-03-08 23:45+0100\n"
+"PO-Revision-Date: 2024-04-28 15:33+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -4404,7 +4403,7 @@ msgid ""
 "This file contains the list of artifacts that are to be distributed via the "
 "B<.changes> control file."
 msgstr ""
-"Den här filen innehåller listan över artifakter som skall distribueras genom "
+"Den här filen innehåller listan över artefakter som skall distribueras genom "
 "styrfilen B<.changes>."
 
 #. type: textblock
@@ -4420,7 +4419,7 @@ msgstr "I<filnamn> I<sektion> I<prioritet> [ I<nyckelord=värde...> ]"
 #. type: textblock
 #: deb-src-files.pod
 msgid "I<filename> is the name of the artifact to distribute."
-msgstr "I<filnamn> är namnet på artifakten som ska distribueras."
+msgstr "I<filnamn> är namnet på artefakten som ska distribueras."
 
 #. type: textblock
 #: deb-src-files.pod
@@ -9121,15 +9120,6 @@ msgstr "B<--query-features> I<område>"
 
 #. type: textblock
 #: dpkg-buildflags.pod
-#, fuzzy
-#| msgid ""
-#| "Print the features enabled for a given area (since dpkg 1.16.2).  If the "
-#| "feature is handled (even if only on some architectures) as a builtin "
-#| "default by the compiler, then a B<Builtin> field is printed (since dpkg "
-#| "1.21.14).  The only currently recognized areas on Debian and derivatives "
-#| "are B<future>, B<qa>, B<reproducible>, B<sanitize> and B<hardening>, see "
-#| "the B<FEATURE AREAS> section for more details.  Exits with 0 if the area "
-#| "is known otherwise exits with 1."
 msgid ""
 "Print the features enabled for a given area (since dpkg 1.16.2).  If the "
 "feature is handled (even if only on some architectures) as a builtin default "
@@ -9139,11 +9129,9 @@ msgid ""
 msgstr ""
 "Skriv ut funktioner aktiverade för ett givet område (sedan dpkg 1.16.2). Om "
 "funktionen hanteras (även om bara av några arkitekturer) som ett inbyggt "
-"förval av kompilatorn visas fältet B<Bultin> (sedan dpkg 1.21.14). De enda "
-"för närvarande kända områdena på Debian och dess derivat är B<future>, "
-"B<qa>, B<reproducible>, B<sanitize> och B<hardening>, se avsnittet "
-"B<FUNKTIONSOMRÅDEN> för fler detaljer. Avslutar med 0 om området är känt, "
-"avslutar annars med 1."
+"förval av kompilatorn visas fältet B<Bultin> (sedan dpkg 1.21.14). Se "
+"avsnittet B</FUNKTIONSOMRÅDEN> för fler detaljer om de områden som är kända "
+"för  närvarande. Avslutar med 0 om området är känt, avslutar annars med 1."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9466,6 +9454,8 @@ msgid ""
 "Feature areas are currently vendor specific, and the ones described below "
 "are only recognized on Debian and derivatives."
 msgstr ""
+"Funktionsområden är för närvarande återförsäljarspecifika, och de som "
+"beskrivs nedan är de enda som är kända på Debian och dess derivat."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9481,6 +9471,16 @@ msgid ""
 "specifiers are split across multiple space-separated feature area settings "
 "for the same area."
 msgstr ""
+"Varje områdesfunktion kan aktiveras och inaktiveras i miljövariablerna "
+"B<DEB_BUILD_OPTIONS> och B<DEB_BUILD_MAINT_OPTIONS>:s områdesvärde med "
+"ändringsvärdena ”B<+>” och ”B<->”. Genom att följa den allmänna syntaxen för "
+"dessa variabler (som beskriven i L<dpkg-buildpackage(1>) kan flera "
+"funktionsområden anges avdelade med blanksteg, där var och en får "
+"funktionsangivelser som nödvändiga parametrar efter ett likhetstecken "
+"(”B<=>”). Funktionsangivelserna är kommaavdelade och tolkas från vänster "
+"till höger, där inställningarna inom samma funktionsangivelse överskriver de "
+"tidigare, även om funktionsangivelserna delas över flera blankstegsavdelade "
+"funktionsområdeinställningar för samma område."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9488,18 +9488,17 @@ msgid ""
 "For example, to enable the B<hardening> “pie” feature and disable the "
 "“fortify” feature you can do this in B<debian/rules>:"
 msgstr ""
+"För att till exempel aktivera B<hardening>-funktionen ”pie” och inaktivera "
+"funktionen ”fortify” kan du göra detta i B<debian/rules>:"
 
 #. type: verbatim
 #: dpkg-buildflags.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| "    export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,-fortify\n"
-#| "\n"
+#, no-wrap
 msgid ""
 "    export DEB_BUILD_MAINT_OPTIONS = hardening=+pie,-fortify\n"
 "\n"
 msgstr ""
-"    export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,-fortify\n"
+"    export DEB_BUILD_MAINT_OPTIONS = hardening=+pie,-fortify\n"
 "\n"
 
 #. type: textblock
@@ -9516,35 +9515,27 @@ msgstr ""
 
 #. type: verbatim
 #: dpkg-buildflags.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| "    export DEB_BUILD_MAINT_OPTIONS=hardening=-all,+format,+fortify\n"
-#| "\n"
+#, no-wrap
 msgid ""
 "    export DEB_BUILD_MAINT_OPTIONS = hardening=-all,+format,+fortify\n"
 "\n"
 msgstr ""
-"    export DEB_BUILD_MAINT_OPTIONS=hardening=-all,+format,+fortify\n"
+"    export DEB_BUILD_MAINT_OPTIONS = hardening=-all,+format,+fortify\n"
 "\n"
 
 #. type: textblock
 #: dpkg-buildflags.pod
-#, fuzzy
-#| msgid "Multiple restrictions can be chained."
 msgid "Multiple feature areas can be set:"
-msgstr "Flera begränsningar kan kedjas samman"
+msgstr "Flera funktionsområden kan ställas in:"
 
 #. type: verbatim
 #: dpkg-buildflags.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| "    export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,-fortify\n"
-#| "\n"
+#, no-wrap
 msgid ""
 "    export DEB_BUILD_MAINT_OPTIONS = hardening=+pie abi=+lfs\n"
 "\n"
 msgstr ""
-"    export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,-fortify\n"
+"    export DEB_BUILD_MAINT_OPTIONS = hardening=+pie abi=+lfs\n"
 "\n"
 
 #. type: textblock
@@ -9555,6 +9546,11 @@ msgid ""
 "in the B<abi> area, and only “pie” and “fortify” in the B<hardening> area, "
 "but “format” only when CONDITION is defined, this could be done with:"
 msgstr ""
+"Beteendet för överstyrning gäller på samma sätt för specialfunktionen B<all> "
+"(samtliga) som för specifika funktioner, vilket gör det möjligt att pussla. "
+"Således, för att aktivera ”lfs” i området B<abi> och endast ”pie” och "
+"”fortify” i området B<hardening>, men bara ”format” om VILLKOR är "
+"definierat, så kan detta göras med:"
 
 #. type: verbatim
 #: dpkg-buildflags.pod
@@ -9568,6 +9564,13 @@ msgid ""
 "    endif\n"
 "\n"
 msgstr ""
+"    export DEB_BUILD_MAINT_OPTIONS = hardening=-all,+pie,+format abi=+lfs\n"
+"    …\n"
+"    DEB_BUILD_MAINT_OPTIONS += hardening=+fortify\n"
+"    ifdef VILLKOR\n"
+"    DEB_BUILD_MAINT_OPTIONS += hardening=-format\n"
+"    endif\n"
+"\n"
 
 #. type: =head2
 #: dpkg-buildflags.pod
@@ -9621,12 +9624,6 @@ msgstr "B<time64>"
 
 #. type: textblock
 #: dpkg-buildflags.pod
-#, fuzzy
-#| msgid ""
-#| "This setting (since dpkg 1.22.0; disabled by default) enables 64-bit "
-#| "time_t support on 32-bit architectures where their ABI does not include "
-#| "it by default, by adding B<-D_TIME_BITS=64> to B<CPPFLAGS>.  This setting "
-#| "automatically enables the B<lfs> feature as it requires it."
 msgid ""
 "This setting (since dpkg 1.22.0; enabled by default except for i386, hurd-"
 "i386 and kfreebsd-i386 since dpkg 1.22.5) enables 64-bit time_t support on "
@@ -9634,11 +9631,12 @@ msgid ""
 "adding B<-D_TIME_BITS=64> to B<CPPFLAGS>.  This setting automatically "
 "enables the B<lfs> feature from the B<abi> feature area."
 msgstr ""
-"Den här inställningen (sedan dpkg 1.22.0; inaktiverad som förval) aktiverar "
-"stöd för 64-bitars time_t på 32-bitars-arkitekturer där deras ABI inte som "
-"förval inkluderar det, genom att lägga till B<-D_TIME_BITS=64> till "
-"B<CPPFLAGS>. Inställningen aktiverar automatiskt L<lfs>-funktionerna "
-"eftersom den behövs för att den ska fungera."
+"Den här inställningen (sedan dpkg 1.22.0; aktiverad som förval förutom för "
+"i386, hurd-i386 och kfreebsd-i386 sedan dpkg 1.22.5) aktiverar stöd för 64-"
+"bitars time_t på 32-bitars-arkitekturer där deras ABI inte som förval "
+"inkluderar det, genom att lägga till B<-D_TIME_BITS=64> till B<CPPFLAGS>. "
+"Inställningen aktiverar automatiskt funktionen L<lfs> från funktionsområdet "
+"B<abi>."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9648,6 +9646,10 @@ msgid ""
 "kernel does not have time64 interfaces), ignoring the binary backwards "
 "compatibility default."
 msgstr ""
+"Om inställningen aktiveras explicit aktiveras den för alla arkitekturer, "
+"inklusive i386, men inte varken hurd-i386 eller kfreebsd-i386 (där kärnan "
+"inte har ett gränssnitt för 64-bitarstid), och inkluderar förvalet för "
+"baklängeskompatibilitet."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9657,6 +9659,10 @@ msgid ""
 "will add instead B<-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS -U_TIME_BITS> to "
 "B<CPPFLAGS>."
 msgstr ""
+"Det är också aktiverat som standard på gcc på Debianarkitekturerna armel, "
+"armhf, hppa, m68k, mips, mipsel, powerpc och sh4, där istället B<-"
+"U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS -U_TIME_BITS> läggs till B<CPPFLAGS> "
+"när den här funktionen inaktiveras."
 
 #. type: =head2
 #: dpkg-buildflags.pod
@@ -9702,20 +9708,16 @@ msgstr ""
 #. type: =item
 #: dpkg-buildflags.pod
 msgid "B<bug-implicit-func>"
-msgstr ""
+msgstr "B<bug-implicit-func>"
 
 #. type: textblock
 #: dpkg-buildflags.pod
-#, fuzzy
-#| msgid ""
-#| "This setting (since dpkg 1.18.0; disabled by default) adds B<-"
-#| "fsanitize=undefined> to B<CFLAGS>, B<CXXFLAGS> and B<LDFLAGS>."
 msgid ""
 "This setting (since dpkg 1.22.3; enabled by default since dpkg 1.22.6) adds "
 "B<-Werror=implicit-function-declaration> to B<CFLAGS>."
 msgstr ""
-"Den här inställningen (sedan dpkg 1.18.0; inaktiverad som förval) lägger "
-"till B<-fsanitize=undefined> till B<CFLAGS>, B<CXXFLAGS> och B<LDFLAGS>."
+"Den här inställningen (sedan dpkg 1.22.3; aktiverad som förval sedan 1.22.6) "
+"lägger till B<-Werror=implicit-function-declaration> till B<CFLAGS>."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9744,6 +9746,8 @@ msgid ""
 "This feature handles B<-Werror=implicit-function-declaration> via the B<bug-"
 "implicit-func> feature, if that has not been specified."
 msgstr ""
+"Den här funktionen hanterar B<-Werror=implicit-function-declaration> via "
+"funktionen B<bug-implicit-func>, om den inte har angivits."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -9784,7 +9788,7 @@ msgid ""
 msgstr ""
 "Flera kommandoradsflaggor (beskrivna nedan) kan användas för att hjälpa till "
 "att optimera den skapade binären (sedan dpkg 1.21.0). B<Observera>: om "
-"B<all> aktiveras kan dessa flaggor leda till binärartifakter som inte kan "
+"B<all> aktiveras kan dessa flaggor leda till binärartefakter som inte kan "
 "reproduceras."
 
 #. type: =item
@@ -11686,7 +11690,7 @@ msgid ""
 "referenced in the file (since dpkg 1.17.6).  The command should take the B<."
 "changes> pathname as an argument.  This command will usually be B<lintian>."
 msgstr ""
-"Kommando som kontrollerar själva B<.changes>-filen och byggda artifakter som "
+"Kommando som kontrollerar själva B<.changes>-filen och byggda artefakter som "
 "refereras i filen (sedan dpkg 1.17.6). Kommandot ska ta sökvägen till B<."
 "changes> som argument. Kommandot är normalt B<lintian>."
 
@@ -11933,7 +11937,7 @@ msgstr "B<--buildinfo-file=>I<filnamn>"
 msgid ""
 "Set the I<filename> for the generated B<.buildinfo> file (since dpkg 1.21.0)."
 msgstr ""
-"Ange I<filnamn> att använda för den skapade B<.buildinfo>-filen (sedam dpkg "
+"Ange I<filnamn> att använda för den skapade B<.buildinfo>-filen (sedan dpkg "
 "1.21.0)."
 
 #. type: =item
@@ -12069,7 +12073,7 @@ msgid ""
 "B<Note>: For security reasons the I<key-file> is best kept locked with a "
 "password."
 msgstr ""
-"B<Observera>: Av säkerhetsskäl är det bäst att håll I<nyckelfil> låst med "
+"B<Observera>: Av säkerhetsskäl är det bäst att hålla I<nyckelfil> låst med "
 "ett lösenord."
 
 #. type: =item
@@ -12090,7 +12094,7 @@ msgstr "B<-ui>, B<--unsigned-buildinfo>"
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid "Do not sign the B<.buildinfo> file (since dpkg 1.18.19)."
-msgstr "Signera inte B<.buildinfo>-filen (sedam dpkg 1.18.19)."
+msgstr "Signera inte B<.buildinfo>-filen (sedan dpkg 1.18.19)."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -12315,12 +12319,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "If set, it will contain a space-separated list of options that affect the "
-#| "behavior of some dpkg tools involved in package building, and might "
-#| "affect the package build process if the code in F<debian/rules> honors "
-#| "them."
 msgid ""
 "If set, it will contain a space-separated list of options that affect the "
 "behavior of some dpkg tools involved in package building, and might affect "
@@ -12331,7 +12329,10 @@ msgid ""
 msgstr ""
 "Om satt, innehåller en blankstegsavdelad lista med flaggor som påverkar "
 "beteendet för några dpkg-verktyg som används i paketbyggandet, och kan "
-"påverka paketbyggprocessen om koden i F<debian/rules> stöder dem."
+"påverka paketbyggprocessen om koden i F<debian/rules> stöder dem. Dessa "
+"flaggor kan ha parametrar angivna omedelbart efter ett likhetstecken "
+"(”B<=>”). För flaggor som stöder flera parametrar avdelas de inte med "
+"blanksteg, eftersom dessa reserverats för att avdela flaggor."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -12424,46 +12425,38 @@ msgstr ""
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<--warnings=>I<value>"
 msgid "B<hardening=>I<feature-spec>"
-msgstr "B<--warnings=>I<värde>"
+msgstr "B<hardening=>I<funktionsangivelse>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
 msgid "B<reproducible=>I<feature-spec>"
-msgstr ""
+msgstr "B<reproducible=>I<funktionsangivelse>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<--assert->I<feature>"
 msgid "B<abi=>I<feature-spec>"
-msgstr "B<--assert->I<funktion>"
+msgstr "B<abi=>I<funktionsangivelse>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
 msgid "B<future=>I<feature-spec>"
-msgstr ""
+msgstr "B<future=>I<funktionsangivelse>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<--assert->I<feature>"
 msgid "B<qa=>I<feature-spec>"
-msgstr "B<--assert->I<funktion>"
+msgstr "B<qa=>I<funktionsangivelse>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
 msgid "B<optimize=>I<feature-spec>"
-msgstr ""
+msgstr "B<optimize=>I<funktionsangivelse>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<--assert->I<feature>"
 msgid "B<sanitize=>I<feature-spec>"
-msgstr "B<--assert->I<funktion>"
+msgstr "B<sanitize=>I<funktionsangivelse>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -12471,6 +12464,8 @@ msgid ""
 "These are feature areas that control build flag features.  See L<dpkg-"
 "buildflags(1)> for further details."
 msgstr ""
+"Detta är funktionsområden som styr funktioner i byggflaggor. Se L<dpkg-"
+"buildflags(1)> för ytterligare detaljer."
 
 #. type: =item
 #: dpkg-buildpackage.pod dpkg-checkbuilddeps.pod
@@ -12675,39 +12670,28 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-buildtree.pod
-#, fuzzy
-#| msgid ""
-#| "dpkg-buildapi - returns the build API level to use during package build"
 msgid "dpkg-buildtree - helper for build tree operations during package builds"
 msgstr ""
-"dpkg-buildapi - returnerar bygg-API-nivå att använda för att bygga paket"
+"dpkg-buildtree - hjälpprogram för åtgärder på byggträd under paketbygge"
 
 #. type: textblock
 #: dpkg-buildtree.pod
-#, fuzzy
-#| msgid "B<dpkg-buildapi> [I<option>...] [I<command>]"
 msgid "B<dpkg-buildtree> [I<option>...] [I<command>]"
-msgstr "B<dpkg-buildapi> [I<flagga>...] I<kommando>"
+msgstr "B<dpkg-buildtree> [I<flagga>...] I<kommando>"
 
 #. type: textblock
 #: dpkg-buildtree.pod
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-buildflags> is a tool to retrieve compilation flags to use during "
-#| "build of Debian packages."
 msgid ""
 "B<dpkg-buildtree> is a tool to perform common operations on the build tree "
 "for a source package."
 msgstr ""
-"B<dpkg-buildflags> är ett verktyg för att hämta kompileringsflaggor att "
-"använda för att bygga Debianpaket."
+"B<dpkg-buildtree> är ett verktyg för utföra vanliga åtgärder på "
+"källkodspaketets byggträd. Debianpaket."
 
 #. type: textblock
 #: dpkg-buildtree.pod
-#, fuzzy
-#| msgid "This program was introduced in dpkg 1.22.0."
 msgid "This program was introduced in dpkg 1.22.3."
-msgstr "Kommandot introducerades i dpkg 1.22.0."
+msgstr "Kommandot introducerades i dpkg 1.22.3."
 
 #. type: textblock
 #: dpkg-buildtree.pod
@@ -12718,58 +12702,52 @@ msgid ""
 "many cases internal implementation details the packager should not be "
 "concerned about, or are staging directories containing build artifacts."
 msgstr ""
+"Tar bort alla artefakter som skapats under ett bygge av olika dpkg-verktyg, "
+"och sökvägar som används eller styrs av dpkg-verktyg som det är säkert att "
+"rensa. Filerna används för att spåra tillståndet mellan paketbyggkörningar "
+"och är i många fall interna implementationsdetaljer som paketeraren inte "
+"behöver bry sig om, eller är riggningskataloger som innehåller "
+"byggartefakter."
 
 #. type: =head2
 #: dpkg-buildtree.pod
 msgid "Cleaned files"
-msgstr ""
+msgstr "Städade filer"
 
 #. type: =item
 #: dpkg-buildtree.pod
-#, fuzzy
-#| msgid "B<debian/files>"
 msgid "F<debian/files>"
-msgstr "B<debian/files>"
+msgstr "F<debian/files>"
 
 #. type: =item
 #: dpkg-buildtree.pod
-#, fuzzy
-#| msgid "B<debian/files>"
 msgid "F<debian/files.new>"
-msgstr "B<debian/files>"
+msgstr "F<debian/files.new>"
 
 #. type: textblock
 #: dpkg-buildtree.pod
-#, fuzzy
-#| msgid "L<dpkg-genchanges(1)>, L<dpkg-distaddfile(1)>."
 msgid "Files generated by L<dpkg-distaddfile(1)>."
-msgstr "L<dpkg-genchanges(1)>, L<dpkg-distaddfile(1)>."
+msgstr "Filer skpade av L<dpkg-distaddfile(1)>."
 
 #. type: =item
 #: dpkg-buildtree.pod
-#, fuzzy
-#| msgid "B<debian/substvars>"
 msgid "F<debian/substvars>"
-msgstr "B<debian/substvars>"
+msgstr "F<debian/substvars>"
 
 #. type: =item
 #: dpkg-buildtree.pod
-#, fuzzy
-#| msgid "B<debian/substvars>"
 msgid "F<debian/substvars.new>"
-msgstr "B<debian/substvars>"
+msgstr "F<debian/substvars.new>"
 
 #. type: textblock
 #: dpkg-buildtree.pod
 msgid "Files generated by L<dpkg-shlibdeps(1)>."
-msgstr ""
+msgstr "Filer skapade av L<dpkg-shlibdeps(1)>."
 
 #. type: =item
 #: dpkg-buildtree.pod
-#, fuzzy
-#| msgid "B<debian/control>"
 msgid "F<debian/tmp>"
-msgstr "B<debian/control>"
+msgstr "F<debian/tmp>"
 
 #. type: textblock
 #: dpkg-buildtree.pod
@@ -12778,6 +12756,8 @@ msgid ""
 "package.  Both L<dpkg-gencontrol(1)> and L<dpkg-gensymbols(1)> generate "
 "files within."
 msgstr ""
+"Riggningskataloger med det innehåll som ska användas för att skapa ett "
+"paket. Både L<dpkg-gencontrol(1)> och L<dpkg-gensymbols(1)> skapar filer här."
 
 #. type: textblock
 #: dpkg-buildtree.pod
@@ -12785,11 +12765,13 @@ msgid ""
 "You can call B<dpkg-buildtree clean> from the F<debian/rules> B<clean> "
 "target, after having performed other necessary cleanups."
 msgstr ""
+"Du kan köra B<dpkg-buildtree clean> från målet F<debian/rules> B<clean> "
+"efter att ha utfört anda nödvändiga uppstädningar."
 
 #. type: textblock
 #: dpkg-buildtree.pod
 msgid "For example for an autoconf-like build system:"
-msgstr ""
+msgstr "Till exempel, för ett autoconf-liknande byggsystem:"
 
 #. type: verbatim
 #: dpkg-buildtree.pod
@@ -12800,6 +12782,10 @@ msgid ""
 "  \tdpkg-buildtree clean\n"
 "\n"
 msgstr ""
+"  clean:\n"
+"  \t[ ! -f Makefile ] || $(MAKE) distclean\n"
+"  \tdpkg-buildtree clean\n"
+"\n"
 
 #. type: textblock
 #: dpkg-checkbuilddeps.pod
@@ -13606,10 +13592,8 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid "Since dpkg 1.21.10."
 msgid "Since dpkg 1.18.8."
-msgstr "Stöds sedan dpkg 1.21.10."
+msgstr "Sedan dpkg 1.18.8."
 
 #. type: textblock
 #: dpkg-deb.pod
@@ -13765,15 +13749,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-divert.pod
-#, fuzzy
-#| msgid ""
-#| "File I<diversions> are a way of forcing L<dpkg(1)> not to install a file "
-#| "into its location, but to a I<diverted> location.  Diversions can be used "
-#| "through the Debian package scripts to move a file away when it causes a "
-#| "conflict.  System administrators can also use it to override some "
-#| "package's configuration file, or whenever some files (which aren't marked "
-#| "as “conffiles”) need to be preserved by B<dpkg>, when installing a newer "
-#| "version of a package which contains those files."
 msgid ""
 "File I<diversions> are a way of forcing L<dpkg(1)> not to install a file "
 "into its location, but to a I<diverted> location.  Diversions can be used "
@@ -13785,7 +13760,7 @@ msgid ""
 msgstr ""
 "Filomdirigeringar (I<diversions>) är ett sätt att tvinga L<dpkg(1)> att inte "
 "installera en fil på sin plats, utan på en I<omdirigerad> plats. "
-"Omdirigeringar kan användas i skript i Debianpaket för att flytta bort en "
+"Omdirigeringar kan användas i pakethanteringsskript för att flytta bort en "
 "fil när den orsakar en konflikt. Systemadministratörer kan också använda det "
 "för att överstyra några pakets konfigurationsfiler, eller när några filer "
 "(som inte markerats som konfigurationsfiler) måste bibehållas av B<dpkg> när "
@@ -14494,7 +14469,7 @@ msgid ""
 msgstr ""
 "B<dpkg-genbuildinfo> läser information från ett uppackat och byggt "
 "Debiankällkodsträd och från de filer det har genererat, och genererar en "
-"styrfil som beskriver byggmiljön och byggartifakterna (B<.buildinfo>-filen)."
+"styrfil som beskriver byggmiljön och byggartefakterna (B<.buildinfo>-filen)."
 
 #. type: textblock
 #: dpkg-genbuildinfo.pod
@@ -15987,12 +15962,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-maintscript-helper.pod
-#, fuzzy
-#| msgid ""
-#| "If a conffile is completely removed, it should be removed from disk, "
-#| "unless the user has modified it.  If there are local modifications, they "
-#| "should be preserved.  If the package upgrades aborts, the newly obsolete "
-#| "conffile should not disappear."
 msgid ""
 "If a conffile is completely removed, it should be removed from disk, unless "
 "the user has modified it.  If there are local modifications, they should be "
@@ -16822,11 +16791,6 @@ msgstr "B<-F> I<ändringsloggformat>"
 
 #. type: textblock
 #: dpkg-parsechangelog.pod
-#, fuzzy
-#| msgid ""
-#| "Specifies the format of the changelog.  By default the format is read "
-#| "from a special line near the bottom of the changelog or failing that "
-#| "defaults to the B<debian> standard format.  See also B<CHANGELOG FORMATS>."
 msgid ""
 "Specifies the format of the changelog.  By default the format is read from a "
 "special line near the bottom of the changelog or failing that defaults to "
@@ -16834,7 +16798,7 @@ msgid ""
 msgstr ""
 "Anger format på ändringsloggen. Som standard läses formatet från en speciell "
 "rad nära slutet av ändringsloggen, om det misslyckas används formatet "
-"B<debian> som standard. Se även B<FORMAT PÅ ÄNDRINGSLOGGEN>."
+"B<debian> som standard. Se även B</FORMAT PÅ ÄNDRINGSLOGGEN>."
 
 #. type: =item
 #: dpkg-parsechangelog.pod
@@ -18961,13 +18925,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
-#, fuzzy
-#| msgid ""
-#| "As a safe-guard measure, a symbols file can provide a B<Build-Depends-"
-#| "Package> meta-information field and B<dpkg-shlibdeps> will extract the "
-#| "minimal version required by the corresponding package in the B<Build-"
-#| "Depends> field and use this version if it's higher than the minimal "
-#| "version computed by scanning symbols."
 msgid ""
 "As a safe-guard measure, a symbols file can provide a B<Build-Depends-"
 "Package> or B<Build-Depends-Packages> meta-information field and B<dpkg-"
@@ -18976,10 +18933,10 @@ msgid ""
 "than the minimal version computed by scanning symbols."
 msgstr ""
 "Som en säkerhetsåtgärd kan en symbols-fil innehålla metainformationsfältet "
-"I<Build-Depends-Package>, varpå B<dpkg-shlibdeps> hämtar vilken minsta "
-"version som behövs för paketet ur B<Build-Depends>-fältet och använder denna "
-"version om den är högre än den minsta version som beräknats genom att söka "
-"genom symbolerna."
+"B<Build-Depends-Package> eller B<Build-Depends-Packages>, varpå B<dpkg-"
+"shlibdeps> hämtar vilken minsta version som behövs för paketet ur B<Build-"
+"Depends>-fältet och använder denna version om den är högre än den minsta "
+"version som beräknats genom att söka genom symbolerna."
 
 #. type: =head2
 #: dpkg-shlibdeps.pod
@@ -21329,10 +21286,8 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-source.pod dpkg-split.pod
-#, fuzzy
-#| msgid "Since dpkg 1.21.10."
 msgid "Since dpkg 1.18.11."
-msgstr "Stöds sedan dpkg 1.21.10."
+msgstr "Sedan dpkg 1.18.11."
 
 #. type: =item
 #: dpkg-source.pod
@@ -24490,12 +24445,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg.pod
-#, fuzzy
-#| msgid ""
-#| "Be sure to give B<--no-act> before the action-parameter, or you might end "
-#| "up with undesirable results. (e.g. B<dpkg --purge foo --no-act> will "
-#| "first purge package “foo” and then try to purge package ”--no-act”, even "
-#| "though you probably expected it to actually do nothing)."
 msgid ""
 "Be sure to give B<--no-act> before the action-parameter, or you might end up "
 "with undesirable results (e.g. B<dpkg --purge foo --no-act> will first purge "
@@ -24505,7 +24454,7 @@ msgstr ""
 "Se till att du anger B<--no-act> före åtgärdsflaggan, annars kan du få "
 "oönskade biverkningar (t.ex så kommer B<dpkg --purge foo --no-act> först att "
 "rensa ut paketet ”foo” för att sedan försöka rensa ut paketet ”--no-act”, "
-"trots att du troligen förväntade dig att ingenting skulle utföras)"
+"trots att du troligen förväntade dig att ingenting skulle utföras)."
 
 #. type: =item
 #: dpkg.pod
@@ -29509,44 +29458,3 @@ msgstr ""
 #: update-alternatives.pod
 msgid "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
 msgstr "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
-
-#~ msgid ""
-#~ "Each area feature can be enabled and disabled in the B<DEB_BUILD_OPTIONS> "
-#~ "and B<DEB_BUILD_MAINT_OPTIONS> environment variable's area value with the "
-#~ "‘B<+>’ and ‘B<->’ modifier.  For example, to enable the B<hardening> "
-#~ "“pie” feature and disable the “fortify” feature you can do this in "
-#~ "B<debian/rules>:"
-#~ msgstr ""
-#~ "Varje områdesfunktion kan aktiveras och inaktiveras i områdesvärdet i "
-#~ "miljövariablerna B<DEB_BUILD_OPTIONS> och B<DEB_BUILD_MAINT_OPTIONS> "
-#~ "modifierarna ”B<+>” och ”B<->”. Till exempel, för att aktivera "
-#~ "B<hardening>-funktionen ”pie” och inaktivera funktionen ”fortify” genom "
-#~ "att ange detta i B<debian/rules>:"
-
-#~ msgid ""
-#~ "Typically, this is the original package's version number in whatever form "
-#~ "the program's author uses. It may also include a Debian revision number "
-#~ "(for non-native packages). The exact format and sorting algorithm are "
-#~ "described in L<deb-version(7)>."
-#~ msgstr ""
-#~ "Vanligtvis är detta det ursprungliga paketets versionsnummer på den form "
-#~ "programmets författare använder. Den kan även innehålla ett "
-#~ "Debianuppdateringsnummer (för paket vars källa är utanför Debian). Exakt "
-#~ "format och sorteringsalgoritm beskrivs i L<deb-version(7)>."
-
-#~ msgid ""
-#~ "This setting defines the current vendor. If not set, it will discover the "
-#~ "current vendor by reading B<%PKGCONFDIR%/origins/default>."
-#~ msgstr ""
-#~ "Inställningen anger den aktuella återförsäljaren. Om den inte är satt "
-#~ "kommer återförsäljaren att identifieras genom att läsa B<%PKGCONFDIR%/"
-#~ "origins/default>."
-
-#~ msgid ""
-#~ "B<Warning>: These options are mostly intended to be used by experts only. "
-#~ "Using them without fully understanding their effects may break your whole "
-#~ "system."
-#~ msgstr ""
-#~ "B<Varning>: Dessa flaggor är huvudsakligen avsedda att endast användas av "
-#~ "experter. Om du använder dem utan att fullt ut förstå vad de går ut på "
-#~ "kan du förstöra din systeminstallation."
