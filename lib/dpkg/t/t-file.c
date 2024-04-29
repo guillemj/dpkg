@@ -43,7 +43,7 @@ static void
 test_file_getcwd(void)
 {
 	char *env;
-	struct varbuf cwd;
+	struct varbuf cwd = VARBUF_INIT;
 
 	env = getenv("abs_builddir");
 	file_getcwd(&cwd);
