@@ -85,6 +85,7 @@ libdpkg_la_SOURCES = \
 	dump.c \
 	ehandle.c \
 	error.c \
+	execname.c \
 	fdio.c \
 	file.c \
 	fields.c \
@@ -155,6 +156,7 @@ pkginclude_HEADERS = \
 	dpkg-db.h \
 	ehandle.h \
 	error.h \
+	execname.h \
 	fdio.h \
 	file.h \
 	fsys.h \
