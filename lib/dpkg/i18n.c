@@ -22,6 +22,8 @@
 #include <compat.h>
 
 #include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include <dpkg/i18n.h>
 
