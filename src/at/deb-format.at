@@ -517,11 +517,8 @@ AT_SKIP_IF([! command -v xz >/dev/null])
 DPKG_GEN_PKG_DEB_FORMAT_TEMPL()
 AT_CHECK([
 # Extract the base members
-# XXX: Due to a new behavior in xz 5.6.0, when it automatically reduces the
-# amount of threads it prints a warning on stderr, even w/o -T. We pass an
-# explicit -T+1 to force parallel mode but only use one thread as a workaround.
-xz -T+1 -c control.tar >control.tar.xz
-xz -T+1 -c data.tar >data.tar.xz
+xz -c control.tar >control.tar.xz
+xz -c data.tar >data.tar.xz
 ])
 
 AT_CHECK([
