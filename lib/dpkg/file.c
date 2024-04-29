@@ -35,6 +35,7 @@
 #include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
 #include <dpkg/file.h>
+#include <dpkg/execname.h>
 
 /**
  * Get the current working directory.
@@ -244,6 +245,7 @@ file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
 
 	if (fcntl(*lockfd, lock_cmd, &fl) < 0) {
 		const char *warnmsg;
+		char *execname;
 
 		if (errno != EACCES && errno != EAGAIN)
 			ohshite(_("unable to lock %s"), desc);
@@ -258,8 +260,11 @@ file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
 			ohshit(_("%s was locked by another process\n%s"),
 			       desc, warnmsg);
 
-		ohshit(_("%s was locked by another process with pid %d\n%s"),
-		       desc, fl.l_pid, warnmsg);
+		execname = dpkg_get_pid_execname(fl.l_pid);
+
+		ohshit(_("%s was locked by %s process with pid %d\n%s"),
+		       desc, execname ? execname : C_("process", "<unknown>"),
+		       fl.l_pid, warnmsg);
 	}
 
 	push_cleanup(file_unlock_cleanup, ~0, 3, lockfd, filename, desc);
