@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-04-02 18:49+0200\n"
-"PO-Revision-Date: 2024-04-02 19:44+0200\n"
+"POT-Creation-Date: 2024-04-29 09:40+0200\n"
+"PO-Revision-Date: 2024-04-29 09:51+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -8537,8 +8537,8 @@ msgstr ""
 
 #. type: =head1
 #: dpkg-architecture.pod dpkg-buildapi.pod dpkg-buildflags.pod
-#: dpkg-buildpackage.pod dpkg-checkbuilddeps.pod dpkg-deb.pod
-#: dpkg-distaddfile.pod dpkg-divert.pod dpkg-fsys-usrunmess.pod
+#: dpkg-buildpackage.pod dpkg-buildtree.pod dpkg-checkbuilddeps.pod
+#: dpkg-deb.pod dpkg-distaddfile.pod dpkg-divert.pod dpkg-fsys-usrunmess.pod
 #: dpkg-genbuildinfo.pod dpkg-genchanges.pod dpkg-gencontrol.pod
 #: dpkg-gensymbols.pod dpkg-maintscript-helper.pod dpkg-mergechangelogs.pod
 #: dpkg-name.pod dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
@@ -8565,11 +8565,12 @@ msgstr ""
 "Standardmäßig „%PKGDATADIR%“."
 
 #. type: =item
-#: dpkg-architecture.pod dpkg-buildflags.pod dpkg-buildpackage.pod
-#: dpkg-checkbuilddeps.pod dpkg-deb.pod dpkg-distaddfile.pod dpkg-divert.pod
-#: dpkg-genbuildinfo.pod dpkg-genchanges.pod dpkg-gencontrol.pod
-#: dpkg-gensymbols.pod dpkg-maintscript-helper.pod dpkg-mergechangelogs.pod
-#: dpkg-name.pod dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
+#: dpkg-architecture.pod dpkg-buildapi.pod dpkg-buildflags.pod
+#: dpkg-buildpackage.pod dpkg-buildtree.pod dpkg-checkbuilddeps.pod
+#: dpkg-deb.pod dpkg-distaddfile.pod dpkg-divert.pod dpkg-genbuildinfo.pod
+#: dpkg-genchanges.pod dpkg-gencontrol.pod dpkg-gensymbols.pod
+#: dpkg-maintscript-helper.pod dpkg-mergechangelogs.pod dpkg-name.pod
+#: dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
 #: dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
 #: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
 #: dpkg-vendor.pod dpkg.pod
@@ -8592,12 +8593,14 @@ msgstr ""
 "sind: B<auto> (Vorgabe), B<always> und B<never>."
 
 #. type: =item
-#: dpkg-architecture.pod dpkg-buildflags.pod dpkg-buildpackage.pod
-#: dpkg-checkbuilddeps.pod dpkg-distaddfile.pod dpkg-genbuildinfo.pod
+#: dpkg-architecture.pod dpkg-buildapi.pod dpkg-buildflags.pod
+#: dpkg-buildpackage.pod dpkg-buildtree.pod dpkg-checkbuilddeps.pod
+#: dpkg-deb.pod dpkg-distaddfile.pod dpkg-divert.pod dpkg-genbuildinfo.pod
 #: dpkg-genchanges.pod dpkg-gencontrol.pod dpkg-gensymbols.pod
 #: dpkg-mergechangelogs.pod dpkg-name.pod dpkg-parsechangelog.pod
-#: dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
-#: dpkg-source.pod dpkg-vendor.pod
+#: dpkg-query.pod dpkg-realpath.pod dpkg-scanpackages.pod dpkg-scansources.pod
+#: dpkg-shlibdeps.pod dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod
+#: dpkg-trigger.pod dpkg-vendor.pod dpkg.pod
 msgid "B<DPKG_NLS>"
 msgstr "B<DPKG_NLS>"
 
@@ -8855,6 +8858,27 @@ msgstr ""
 "Auswerten von F<debian/control> zu vermeiden und die globale Bau-API-Stufe "
 "nicht aus F<debian/rules> zu setzen. Andernfalls können Bau-Treiber (wie "
 "L<dpkg-buildpackage(1)>) nicht darauf zugreifen."
+
+#. type: textblock
+#: dpkg-buildapi.pod dpkg-buildtree.pod dpkg-realpath.pod
+msgid ""
+"Sets the color mode.  The currently accepted values are: B<auto> (default), "
+"B<always> and B<never>."
+msgstr ""
+"Setzt den Farbmodus. Die derzeit unterstützten Werte sind: B<auto> "
+"(Vorgabe), B<always> und B<never>."
+
+#. type: textblock
+#: dpkg-buildapi.pod dpkg-buildtree.pod
+msgid ""
+"If set, it will be used to decide whether to activate Native Language "
+"Support, also known as internationalization (or i18n) support.  The accepted "
+"values are: B<0> and B<1> (default)."
+msgstr ""
+"Falls dies gesetzt ist, wird es zur Entscheidung, ob Native Language "
+"Support, auch als Unterstützung für Internationalisierung (oder i18n) "
+"bekannt, aktiviert wird. Die akzeptierten Werte sind: "
+"B<0> und B<1> (Vorgabe)."
 
 #. type: =item
 #: dpkg-buildapi.pod
@@ -13950,6 +13974,19 @@ msgstr "Setzt die zu verwendende Komprimierstufe (seit Dpkg 1.21.10)."
 msgid "The B<-z> option overrides this value."
 msgstr "Die Option B<-z> erlaubt das Hinwegsetzen über diesen Wert."
 
+#. type: textblock
+#: dpkg-deb.pod dpkg-divert.pod dpkg-query.pod dpkg-realpath.pod dpkg-split.pod
+#: dpkg-statoverride.pod dpkg-trigger.pod dpkg.pod
+msgid ""
+"If set, it will be used to decide whether to activate Native Language "
+"Support, also known as internationalization (or i18n) support (since dpkg "
+"1.22.7).  The accepted values are: B<0> and B<1> (default)."
+msgstr ""
+"Falls dies gesetzt ist, wird es zur Entscheidung, ob Native Language "
+"Support, auch als Unterstützung für Internationalisierung (oder i18n) "
+"bekannt, aktiviert wird (seit Dpkg 1.22.7). Die akzeptierten Werte sind: "
+"B<0> und B<1> (Vorgabe)."
+
 #. type: =item
 #: dpkg-deb.pod dpkg.pod
 msgid "B<TMPDIR>"
@@ -18984,15 +19021,6 @@ msgid ""
 msgstr ""
 "Falls gesetzt und die Option B<--instdir> oder B<--root> nicht angegeben "
 "wurde, wird dies als Dateisystemwurzelverzeichnis verwandt."
-
-#. type: textblock
-#: dpkg-realpath.pod
-msgid ""
-"Sets the color mode.  The currently accepted values are: B<auto> (default), "
-"B<always> and B<never>."
-msgstr ""
-"Setzt den Farbmodus. Die derzeit unterstützten Werte sind: B<auto> "
-"(Vorgabe), B<always> und B<never>."
 
 #. type: textblock
 #: dpkg-realpath.pod
