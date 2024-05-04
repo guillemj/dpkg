@@ -131,10 +131,10 @@ file_slurp_fd(int fd, const char *filename, struct varbuf *vb,
 	if (st.st_size == 0)
 		return 0;
 
-	varbuf_init(vb, st.st_size);
+	varbuf_init(vb, st.st_size + 1);
 	if (fd_read(fd, vb->buf, st.st_size) < 0)
 		return dpkg_put_errno(err, _("cannot read %s"), filename);
-	vb->used = st.st_size;
+	varbuf_trunc(vb, st.st_size);
 
 	return 0;
 }
