@@ -53,6 +53,8 @@ sub test_no_ltoflag
 
 my $bf;
 
+undef $ENV{DEB_BUILD_MAINT_OPTIONS};
+
 # Force loading the Dpkg::Vendor::Ubuntu module.
 $ENV{DEB_VENDOR} = 'Ubuntu';
 
