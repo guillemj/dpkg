@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.22.4\n"
+"Project-Id-Version: dpkg-man 1.22.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-03-10 20:21+0100\n"
-"PO-Revision-Date: 2024-02-26 23:55+0100\n"
+"POT-Creation-Date: 2024-05-06 22:53+0200\n"
+"PO-Revision-Date: 2024-04-20 23:23+0200\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
 "Language: nl\n"
@@ -3812,6 +3812,28 @@ msgstr ""
 "De I<URL> van het bugopvolgingssysteem voor dit pakket. De momenteel "
 "gebruikte indeling is I<bts-type>B<://>I<bts-adres>, zoals B<debbugs://bugs."
 "debian.org>. Meestal is dit veld niet nodig."
+
+#. type: =item
+#: deb-src-control.pod
+#, fuzzy
+#| msgid "B<Build-Origin:> I<name>"
+msgid "B<Build-Driver:> I<driver-name>"
+msgstr "B<Build-Origin:> I<naam>"
+
+#. type: textblock
+#: deb-src-control.pod
+msgid ""
+"This experimental field specifies the name of the build driver to use to "
+"build this package.  When omitted the I<driver-name> defaults to B<debian-"
+"rules>."
+msgstr ""
+
+#. type: textblock
+#: deb-src-control.pod
+#, fuzzy
+#| msgid "Supported since dpkg 1.20.1."
+msgid "This field is supported since dpkg 1.22.7."
+msgstr "Ondersteund sinds dpkg 1.20.1."
 
 #. type: =item
 #: deb-src-control.pod
@@ -7967,7 +7989,7 @@ msgstr ""
 "B<TERMS> voor een beschrijving van het naamgevingsschema):"
 
 #. type: =item
-#: dpkg-architecture.pod
+#: dpkg-architecture.pod dpkg-genbuildinfo.pod
 msgid "B<DEB_BUILD_ARCH>"
 msgstr "B<DEB_BUILD_ARCH>"
 
@@ -8083,7 +8105,9 @@ msgstr ""
 "voor bestandssysteempaden (sinds dpkg 1.16.0)."
 
 #. type: =item
-#: dpkg-architecture.pod
+#: dpkg-architecture.pod dpkg-buildflags.pod dpkg-checkbuilddeps.pod
+#: dpkg-genbuildinfo.pod dpkg-genchanges.pod dpkg-gencontrol.pod
+#: dpkg-gensymbols.pod dpkg-name.pod dpkg-shlibdeps.pod
 msgid "B<DEB_HOST_ARCH>"
 msgstr "B<DEB_HOST_ARCH>"
 
@@ -8622,8 +8646,8 @@ msgstr ""
 
 #. type: =head1
 #: dpkg-architecture.pod dpkg-buildapi.pod dpkg-buildflags.pod
-#: dpkg-buildpackage.pod dpkg-checkbuilddeps.pod dpkg-deb.pod
-#: dpkg-distaddfile.pod dpkg-divert.pod dpkg-fsys-usrunmess.pod
+#: dpkg-buildpackage.pod dpkg-buildtree.pod dpkg-checkbuilddeps.pod
+#: dpkg-deb.pod dpkg-distaddfile.pod dpkg-divert.pod dpkg-fsys-usrunmess.pod
 #: dpkg-genbuildinfo.pod dpkg-genchanges.pod dpkg-gencontrol.pod
 #: dpkg-gensymbols.pod dpkg-maintscript-helper.pod dpkg-mergechangelogs.pod
 #: dpkg-name.pod dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
@@ -8650,11 +8674,12 @@ msgstr ""
 "1.14.17). Staat standaard ingesteld op «%PKGDATADIR%»."
 
 #. type: =item
-#: dpkg-architecture.pod dpkg-buildflags.pod dpkg-buildpackage.pod
-#: dpkg-checkbuilddeps.pod dpkg-deb.pod dpkg-distaddfile.pod dpkg-divert.pod
-#: dpkg-genbuildinfo.pod dpkg-genchanges.pod dpkg-gencontrol.pod
-#: dpkg-gensymbols.pod dpkg-maintscript-helper.pod dpkg-mergechangelogs.pod
-#: dpkg-name.pod dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
+#: dpkg-architecture.pod dpkg-buildapi.pod dpkg-buildflags.pod
+#: dpkg-buildpackage.pod dpkg-buildtree.pod dpkg-checkbuilddeps.pod
+#: dpkg-deb.pod dpkg-distaddfile.pod dpkg-divert.pod dpkg-genbuildinfo.pod
+#: dpkg-genchanges.pod dpkg-gencontrol.pod dpkg-gensymbols.pod
+#: dpkg-maintscript-helper.pod dpkg-mergechangelogs.pod dpkg-name.pod
+#: dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
 #: dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
 #: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
 #: dpkg-vendor.pod dpkg.pod
@@ -8677,12 +8702,14 @@ msgstr ""
 "mogen worden zijn: B<auto> (standaard), B<always> en B<never>."
 
 #. type: =item
-#: dpkg-architecture.pod dpkg-buildflags.pod dpkg-buildpackage.pod
-#: dpkg-checkbuilddeps.pod dpkg-distaddfile.pod dpkg-genbuildinfo.pod
+#: dpkg-architecture.pod dpkg-buildapi.pod dpkg-buildflags.pod
+#: dpkg-buildpackage.pod dpkg-buildtree.pod dpkg-checkbuilddeps.pod
+#: dpkg-deb.pod dpkg-distaddfile.pod dpkg-divert.pod dpkg-genbuildinfo.pod
 #: dpkg-genchanges.pod dpkg-gencontrol.pod dpkg-gensymbols.pod
 #: dpkg-mergechangelogs.pod dpkg-name.pod dpkg-parsechangelog.pod
-#: dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
-#: dpkg-source.pod dpkg-vendor.pod
+#: dpkg-query.pod dpkg-realpath.pod dpkg-scanpackages.pod dpkg-scansources.pod
+#: dpkg-shlibdeps.pod dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod
+#: dpkg-trigger.pod dpkg-vendor.pod dpkg.pod
 msgid "B<DPKG_NLS>"
 msgstr "B<DPKG_NLS>"
 
@@ -8939,6 +8966,32 @@ msgstr ""
 "en niet om het globale bouw-API-niveau in te stellen vanuit F<debian/rules>, "
 "anders hebben bouwstuurprogramma's (zoals L<dpkg-buildpackage(1)>) er geen "
 "toegang toe."
+
+#. type: textblock
+#: dpkg-buildapi.pod dpkg-buildtree.pod dpkg-realpath.pod
+msgid ""
+"Sets the color mode.  The currently accepted values are: B<auto> (default), "
+"B<always> and B<never>."
+msgstr ""
+"Stelt de kleurmodus in. Waarden die momenteel gebruikt mogen worden zijn: "
+"B<auto> (standaard), B<always> en B<never>."
+
+#. type: textblock
+#: dpkg-buildapi.pod dpkg-buildtree.pod
+#, fuzzy
+#| msgid ""
+#| "If set, it will be used to decide whether to activate Native Language "
+#| "Support, also known as internationalization (or i18n) support (since dpkg "
+#| "1.19.0).  The accepted values are: B<0> and B<1> (default)."
+msgid ""
+"If set, it will be used to decide whether to activate Native Language "
+"Support, also known as internationalization (or i18n) support.  The accepted "
+"values are: B<0> and B<1> (default)."
+msgstr ""
+"Indien dit ingesteld is, zal het gebruikt worden om te beslissen over het "
+"activeren van moedertaalondersteuning, ook gekend als "
+"internationaliseringsondersteuning (of i18n) (sinds dpkg 1.19.0). Geldige "
+"waarden zijn: B<0> and B<1> (standaard)."
 
 #. type: =item
 #: dpkg-buildapi.pod
@@ -9449,15 +9502,6 @@ msgstr "B<--query-features> I<gebied>"
 
 #. type: textblock
 #: dpkg-buildflags.pod
-#, fuzzy
-#| msgid ""
-#| "Print the features enabled for a given area (since dpkg 1.16.2).  If the "
-#| "feature is handled (even if only on some architectures) as a builtin "
-#| "default by the compiler, then a B<Builtin> field is printed (since dpkg "
-#| "1.21.14).  The only currently recognized areas on Debian and derivatives "
-#| "are B<future>, B<qa>, B<reproducible>, B<sanitize> and B<hardening>, see "
-#| "the B<FEATURE AREAS> section for more details.  Exits with 0 if the area "
-#| "is known otherwise exits with 1."
 msgid ""
 "Print the features enabled for a given area (since dpkg 1.16.2).  If the "
 "feature is handled (even if only on some architectures) as a builtin default "
@@ -9468,11 +9512,9 @@ msgstr ""
 "De functies weergeven die voor een opgegeven gebied geactiveerd zijn (sinds "
 "dpkg 1.16.2). Als de functie door de compiler als een ingebouwde standaard "
 "wordt behandeld (al is het maar op sommige architecturen), dan wordt een "
-"veld B<Builtin> weergegeven (sinds dpkg 1.21.14). Momenteel worden door "
-"Debian en zijn derivaten enkel de gebieden B<future>, B<qa>, "
-"B<reproducible>, B<sanitize> en B<hardening> herkend. Zie het onderdeel "
-"B<FUNCTIEGEBIEDEN> voor meer details. Sluit af met 0 als het gebied gekend "
-"is, anders met 1."
+"veld B<Builtin> weergegeven (sinds dpkg 1.21.14). Zie het onderdeel "
+"L<FUNCTIEGEBIEDEN> voor meer details over de gebieden die momenteel herkend "
+"worden. Sluit af met 0 als het gebied gekend is, anders met 1."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9800,6 +9842,8 @@ msgid ""
 "Feature areas are currently vendor specific, and the ones described below "
 "are only recognized on Debian and derivatives."
 msgstr ""
+"Functiegebieden zijn momenteel leverancier-specifiek, en degene die "
+"hieronder worden beschreven, worden alleen herkend op Debian en afgeleiden."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9815,6 +9859,17 @@ msgid ""
 "specifiers are split across multiple space-separated feature area settings "
 "for the same area."
 msgstr ""
+"Elke gebiedsfunctie kan worden in- en uitgeschakeld in de gebiedswaarde van "
+"de omgevingsvariabelen B<DEB_BUILD_OPTIONS> en B<DEB_BUILD_MAINT_OPTIONS> "
+"met het wijzigingselement 'B<+>' en 'B<->'. Volgens de algemene syntaxis van "
+"deze variabelen (beschreven in L<dpkg-buildpackage(1)>), kunnen meerdere "
+"functiegebieden worden gespecificeerd, gescheiden door spaties, waarbij "
+"elkeen functiespecificaties krijgt als verplichte parameters na een "
+"gelijkheidsteken ('B<=>'). De functiespecificaties zijn door komma's "
+"gescheiden en worden van links naar rechts verwerkt, waarbij de instellingen "
+"binnen dezelfde functiespecificatie voorrang hebben op eerdere instellingen, "
+"zelfs als de functiespecificaties zijn verdeeld over meerdere door spaties "
+"gescheiden functiegebiedsinstellingen voor hetzelfde gebied."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9822,18 +9877,17 @@ msgid ""
 "For example, to enable the B<hardening> “pie” feature and disable the "
 "“fortify” feature you can do this in B<debian/rules>:"
 msgstr ""
+"Om bijvoorbeeld de functie “pie” van B<hardening> in te schakelen en de "
+"functie “fortify” uit te schakelen, kunt u dit doen in B<debian/rules>:"
 
 #. type: verbatim
 #: dpkg-buildflags.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| "    export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,-fortify\n"
-#| "\n"
+#, no-wrap
 msgid ""
 "    export DEB_BUILD_MAINT_OPTIONS = hardening=+pie,-fortify\n"
 "\n"
 msgstr ""
-"    export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,-fortify\n"
+"    export DEB_BUILD_MAINT_OPTIONS = hardening=+pie,-fortify\n"
 "\n"
 
 #. type: textblock
@@ -9851,35 +9905,27 @@ msgstr ""
 
 #. type: verbatim
 #: dpkg-buildflags.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| "    export DEB_BUILD_MAINT_OPTIONS=hardening=-all,+format,+fortify\n"
-#| "\n"
+#, no-wrap
 msgid ""
 "    export DEB_BUILD_MAINT_OPTIONS = hardening=-all,+format,+fortify\n"
 "\n"
 msgstr ""
-"    export DEB_BUILD_MAINT_OPTIONS=hardening=-all,+format,+fortify\n"
+"    export DEB_BUILD_MAINT_OPTIONS = hardening=-all,+format,+fortify\n"
 "\n"
 
 #. type: textblock
 #: dpkg-buildflags.pod
-#, fuzzy
-#| msgid "Multiple restrictions can be chained."
 msgid "Multiple feature areas can be set:"
-msgstr "Meerdere beperkingen kunnen aaneengeregen worden."
+msgstr "Er kunnen meerdere functiegebieden ingesteld worden:"
 
 #. type: verbatim
 #: dpkg-buildflags.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| "    export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,-fortify\n"
-#| "\n"
+#, no-wrap
 msgid ""
 "    export DEB_BUILD_MAINT_OPTIONS = hardening=+pie abi=+lfs\n"
 "\n"
 msgstr ""
-"    export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,-fortify\n"
+"    export DEB_BUILD_MAINT_OPTIONS = hardening=+pie abi=+lfs\n"
 "\n"
 
 #. type: textblock
@@ -9890,6 +9936,11 @@ msgid ""
 "in the B<abi> area, and only “pie” and “fortify” in the B<hardening> area, "
 "but “format” only when CONDITION is defined, this could be done with:"
 msgstr ""
+"Het voorrangsgedrag is zowel van toepassing op de speciale functie B<all> "
+"als op specifieke functies, hetgeen compositie mogelijk moet maken. Dus, om "
+"“lfs” in te schakelen in het gebied gebied B<abi>, en enkel “pie” en "
+"“fortify” in het gebied B<hardening>, maar “format” alleen wanneer CONDITION "
+"is gedefinieerd, kan men dit als volgt doen:"
 
 #. type: verbatim
 #: dpkg-buildflags.pod
@@ -9903,6 +9954,13 @@ msgid ""
 "    endif\n"
 "\n"
 msgstr ""
+"    export DEB_BUILD_MAINT_OPTIONS = hardening=-all,+pie,+format abi=+lfs\n"
+"    …\n"
+"    DEB_BUILD_MAINT_OPTIONS += hardening=+fortify\n"
+"    ifdef CONDITION\n"
+"    DEB_BUILD_MAINT_OPTIONS += hardening=-format\n"
+"    endif\n"
+"\n"
 
 #. type: =head2
 #: dpkg-buildflags.pod
@@ -9956,12 +10014,6 @@ msgstr "B<time64>"
 
 #. type: textblock
 #: dpkg-buildflags.pod
-#, fuzzy
-#| msgid ""
-#| "This setting (since dpkg 1.22.0; disabled by default) enables 64-bit "
-#| "time_t support on 32-bit architectures where their ABI does not include "
-#| "it by default, by adding B<-D_TIME_BITS=64> to B<CPPFLAGS>.  This setting "
-#| "automatically enables the B<lfs> feature as it requires it."
 msgid ""
 "This setting (since dpkg 1.22.0; enabled by default except for i386, hurd-"
 "i386 and kfreebsd-i386 since dpkg 1.22.5) enables 64-bit time_t support on "
@@ -9969,11 +10021,12 @@ msgid ""
 "adding B<-D_TIME_BITS=64> to B<CPPFLAGS>.  This setting automatically "
 "enables the B<lfs> feature from the B<abi> feature area."
 msgstr ""
-"Deze instelling (sinds dpkg 1.22.0; standaard uitgezet) activeert "
-"ondersteuning voor 64-bits time_t op 32-bits architecturen waar hun ABI dit "
-"standaard niet bevat, door B<-D_TIME_BITS=64> toe te voegen aan B<CPPFLAGS>. "
-"Deze instelling schakelt automatisch de B<lfs>-functie in aangezien ze deze "
-"nodig heeft."
+"Deze instelling (sinds dpkg 1.22.0; standaard ingeschakeld, behalve voor "
+"i386, hurd-i386 en kfreebsd-i386 sinds dpkg 1.22.5) activeert ondersteuning "
+"voor 64-bits time_t op 32-bits architecturen waar hun ABI dit standaard niet "
+"bevat, door B<-D_TIME_BITS=64> toe te voegen aan B<CPPFLAGS>. Deze "
+"instelling schakelt automatisch de functie B<lfs> uit het functiegebied "
+"B<abi> in."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9983,6 +10036,10 @@ msgid ""
 "kernel does not have time64 interfaces), ignoring the binary backwards "
 "compatibility default."
 msgstr ""
+"Als de instelling expliciet wordt ingeschakeld, wordt deze ingeschakeld op "
+"alle architecturen, inclusief i386, maar niet op hurd-i386 of kfreebsd-i386 "
+"(waar de kernel geen time64-interfaces heeft), waarbij de standaard voor "
+"binaire achterwaartse compatibiliteit wordt genegeerd."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -9992,6 +10049,10 @@ msgid ""
 "will add instead B<-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS -U_TIME_BITS> to "
 "B<CPPFLAGS>."
 msgstr ""
+"Deze wordt ook standaard ingeschakeld door gcc op de Debian architecturen "
+"armel, armhf, hppa, m68k, mips, mipsel, powerpc en sh4, waar het "
+"uitschakelen van de functie dan weer B<-U_LARGEFILE_SOURCE -"
+"U_FILE_OFFSET_BITS -U_TIME_BITS> toevoegt aan B<CPPFLAGS>."
 
 #. type: =head2
 #: dpkg-buildflags.pod
@@ -10042,16 +10103,12 @@ msgstr "B<bug-implicit-func>"
 
 #. type: textblock
 #: dpkg-buildflags.pod
-#, fuzzy
-#| msgid ""
-#| "This setting (since dpkg 1.22.3; disabled by default) adds B<-"
-#| "Werror=implicit-function-declaration> to B<CFLAGS>."
 msgid ""
 "This setting (since dpkg 1.22.3; enabled by default since dpkg 1.22.6) adds "
 "B<-Werror=implicit-function-declaration> to B<CFLAGS>."
 msgstr ""
-"Deze instelling (sinds dpkg 1.22.3; standaard uitgeschakeld) voegt B<-"
-"Werror=implicit-function-declaration> toe aan B<CFLAGS>."
+"Deze instelling (sinds dpkg 1.22.3; standaard ingeschakeld sinds dpkg "
+"1.22.6) voegt B<-Werror=implicit-function-declaration> toe aan B<CFLAGS>."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -10906,6 +10963,14 @@ msgstr ""
 "worden bij functionaliteit zoals B<fixdebugpath> waardoor die gesuperviseerd "
 "kan worden door het aanroepende programma. Momenteel is deze variabele "
 "Debian- en derivaat-specifiek."
+
+#. type: textblock
+#: dpkg-buildflags.pod
+msgid ""
+"Sets the host architecture.  This affects the build flags that are emitted, "
+"which is typically relevant when cross-compiling, where B<DEB_HOST_ARCH> is "
+"different to B<DEB_BUILD_ARCH>."
+msgstr ""
 
 #. type: =head2
 #: dpkg-buildflags.pod
@@ -12184,9 +12249,14 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "Gets B<DPKG_BUILDPACKAGE_HOOK_BUILD_TARGET> with the name of the B<debian/"
+#| "rules> build target called, but only if called."
 msgid ""
 "Gets B<DPKG_BUILDPACKAGE_HOOK_BUILD_TARGET> with the name of the B<debian/"
-"rules> build target called, but only if called."
+"rules> build target called.  Before dpkg 1.22.7 the variable was only set if "
+"the target was called."
 msgstr ""
 "Haalt B<DPKG_BUILDPACKAGE_HOOK_BUILD_TARGET> op met de naam van het "
 "aangeroepen bouwdoel uit B<debian/rules>, maar alleen als het wordt "
@@ -12737,12 +12807,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "If set, it will contain a space-separated list of options that affect the "
-#| "behavior of some dpkg tools involved in package building, and might "
-#| "affect the package build process if the code in F<debian/rules> honors "
-#| "them."
 msgid ""
 "If set, it will contain a space-separated list of options that affect the "
 "behavior of some dpkg tools involved in package building, and might affect "
@@ -12755,7 +12819,10 @@ msgstr ""
 "opties bevatten die het gedrag beïnvloeden van sommige dpkg-gereedschappen "
 "die betrokken zijn bij het bouwen van pakketten, en die het bouwproces van "
 "pakketten kunnen beïnvloeden als de code in F<debian/rules> deze opties "
-"erkent."
+"erkent. Deze opties kunnen parameters hebben die direct na een "
+"gelijkheidsteken ('B<=>') worden opgegeven. Bij opties die meerdere "
+"parameters ondersteunen, worden deze niet gescheiden door spaties, omdat die "
+"gereserveerd zijn voor het scheiden van opties."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -12853,46 +12920,38 @@ msgstr ""
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<--warnings=>I<value>"
 msgid "B<hardening=>I<feature-spec>"
-msgstr "B<--warnings=>I<waarde>"
+msgstr "B<hardening=>I<functie-spec>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
 msgid "B<reproducible=>I<feature-spec>"
-msgstr ""
+msgstr "B<reproducible=>I<functie-spec>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<--assert->I<feature>"
 msgid "B<abi=>I<feature-spec>"
-msgstr "B<--assert->I<functionaliteit>"
+msgstr "B<abi=>I<functie-spec>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
 msgid "B<future=>I<feature-spec>"
-msgstr ""
+msgstr "B<future=>I<functie-spec>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<--assert->I<feature>"
 msgid "B<qa=>I<feature-spec>"
-msgstr "B<--assert->I<functionaliteit>"
+msgstr "B<qa=>I<functie-spec>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
 msgid "B<optimize=>I<feature-spec>"
-msgstr ""
+msgstr "B<optimize=>I<functie-spec>"
 
 #. type: =item
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<--assert->I<feature>"
 msgid "B<sanitize=>I<feature-spec>"
-msgstr "B<--assert->I<functionaliteit>"
+msgstr "B<sanitize=>I<functie-spec>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -12900,6 +12959,8 @@ msgid ""
 "These are feature areas that control build flag features.  See L<dpkg-"
 "buildflags(1)> for further details."
 msgstr ""
+"Dit zijn functiegebieden die de bouwvlagfuncties regelen. Zie L<dpkg-"
+"buildflags(1)> voor verdere details."
 
 #. type: =item
 #: dpkg-buildpackage.pod dpkg-checkbuilddeps.pod
@@ -13060,19 +13121,10 @@ msgstr "Standaard bouwtargets"
 #: dpkg-buildpackage.pod
 msgid ""
 "B<dpkg-buildpackage> is using the B<build-arch> and B<build-indep> targets "
-"since dpkg 1.16.2.  Those targets are thus mandatory.  But to avoid "
-"breakages of existing packages, and ease the transition, if the source "
-"package does not build both architecture independent and dependent binary "
-"packages (since dpkg 1.18.8) it will fallback to use the B<build> target if "
-"B<make -f debian/rules -qn> I<build-target> returns 2 as exit code."
+"since dpkg 1.16.2.  Before dpkg 1.22.7, there was code to try to detect the "
+"missing targets and fallback on the B<build> target.  Those targets are thus "
+"mandatory."
 msgstr ""
-"B<dpkg-buildpackage> gebruikt sinds dpkg 1.16.2 de targets B<build-arch> en "
-"B<build-indep>. Deze targets zijn dus verplicht. Maar om te vermijden dat "
-"bestaande pakketten defect raken en om de overgang te vergemakkelijken, zal "
-"het, indien het broncodepakket niet zowel architectuuronafhankelijke als "
-"architectuurspecifieke binaire pakketten bouwt (sinds dpkg 1.18.8), "
-"terugvallen op het gebruik van het target B<build> indien B<make -f debian/"
-"rules -qn> I<bouwtarget> 2 teruggeeft als afsluitwaarde."
 
 #. type: =head1
 #: dpkg-buildpackage.pod dpkg-deb.pod dpkg-query.pod dpkg-source.pod
@@ -13358,6 +13410,13 @@ msgstr ""
 "pakket dat in het bestand control beschreven wordt, gebouwd moet worden voor "
 "het/de opgegeven bouwprofiel(en) (sinds dpkg 1.17.2). Het argument is een "
 "lijst van profielnamen die onderling door komma's gescheiden worden."
+
+#. type: textblock
+#: dpkg-checkbuilddeps.pod
+msgid ""
+"Sets the host architecture.  This affects the dependency resolution logic, "
+"which might then not match what the system dpkg considers satisfiable."
+msgstr ""
 
 #. type: textblock
 #: dpkg-checkbuilddeps.pod
@@ -14044,6 +14103,24 @@ msgstr "Stelt het te gebruiken datacompressieniveau in (sinds dpkg 1.21.10)."
 msgid "The B<-z> option overrides this value."
 msgstr "De optie B<-z> heeft voorrang op deze waarde."
 
+#. type: textblock
+#: dpkg-deb.pod dpkg-divert.pod dpkg-query.pod dpkg-realpath.pod dpkg-split.pod
+#: dpkg-statoverride.pod dpkg-trigger.pod dpkg.pod
+#, fuzzy
+#| msgid ""
+#| "If set, it will be used to decide whether to activate Native Language "
+#| "Support, also known as internationalization (or i18n) support (since dpkg "
+#| "1.19.0).  The accepted values are: B<0> and B<1> (default)."
+msgid ""
+"If set, it will be used to decide whether to activate Native Language "
+"Support, also known as internationalization (or i18n) support (since dpkg "
+"1.22.7).  The accepted values are: B<0> and B<1> (default)."
+msgstr ""
+"Indien dit ingesteld is, zal het gebruikt worden om te beslissen over het "
+"activeren van moedertaalondersteuning, ook gekend als "
+"internationaliseringsondersteuning (of i18n) (sinds dpkg 1.19.0). Geldige "
+"waarden zijn: B<0> and B<1> (standaard)."
+
 #. type: =item
 #: dpkg-deb.pod dpkg.pod
 msgid "B<TMPDIR>"
@@ -14072,10 +14149,8 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid "Since dpkg 1.21.10."
 msgid "Since dpkg 1.18.8."
-msgstr "Sinds dpkg 1.21.10."
+msgstr "Sinds dpkg 1.18.8."
 
 #. type: textblock
 #: dpkg-deb.pod
@@ -15245,6 +15320,20 @@ msgstr ""
 #. type: textblock
 #: dpkg-genbuildinfo.pod
 msgid ""
+"Sets the build architecture.  This affects the value for the B<Build-"
+"Architecture> field, and the check for the cross-compilation mode."
+msgstr ""
+
+#. type: textblock
+#: dpkg-genbuildinfo.pod
+msgid ""
+"Sets the host architecture.  This affects the filename used for the ."
+"buildinfo file, and the check for the cross-compilation mode."
+msgstr ""
+
+#. type: textblock
+#: dpkg-genbuildinfo.pod
+msgid ""
 "The list of generated files.  B<dpkg-genbuildinfo> reads the data here when "
 "producing a B<.buildinfo> file."
 msgstr ""
@@ -15494,6 +15583,13 @@ msgid ""
 msgstr ""
 "Het changes-bestand op standaarduitvoer tonen (het standaardgedrag) of het "
 "naar I<bestandsnaam> schrijven indien dat opgegeven werd (sinds dpkg 1.18.5)."
+
+#. type: textblock
+#: dpkg-genchanges.pod dpkg-gencontrol.pod
+#, fuzzy
+#| msgid "Set the host Debian architecture."
+msgid "Sets the host architecture."
+msgstr "De Debian-architectuur voor de host instellen."
 
 #. type: textblock
 #: dpkg-genchanges.pod
@@ -16261,6 +16357,12 @@ msgstr ""
 "dan verouderde symbolen in de vorm van commentaar. In sjabloonmodus worden "
 "daarenboven patroonsymbolen gevolgd door commentaar met daarin een opsomming "
 "van de echte symbolen die met het patroon overeenkwamen."
+
+#. type: textblock
+#: dpkg-gensymbols.pod
+msgid ""
+"Sets the host architecture if the B<--arch> option has not be specified."
+msgstr ""
 
 #. type: =item
 #: dpkg-gensymbols.pod
@@ -17285,6 +17387,13 @@ msgstr "B<-v>, B<--version>"
 #. type: textblock
 #: dpkg-name.pod
 msgid ""
+"Sets the host architecture.  This affects the architecture name used in the "
+"package filename."
+msgstr ""
+
+#. type: textblock
+#: dpkg-name.pod
+msgid ""
 "Some packages don't follow the name structure "
 "I<package>B<_>I<version>B<_>I<architecture>B<.deb>.  Packages renamed by "
 "B<dpkg-name> will follow this structure.  Generally this will have no impact "
@@ -17406,20 +17515,15 @@ msgstr "B<-F> I<changelog-indeling>"
 
 #. type: textblock
 #: dpkg-parsechangelog.pod
-#, fuzzy
-#| msgid ""
-#| "Specifies the format of the changelog.  By default the format is read "
-#| "from a special line near the bottom of the changelog or failing that "
-#| "defaults to the B<debian> standard format.  See also B<CHANGELOG FORMATS>."
 msgid ""
 "Specifies the format of the changelog.  By default the format is read from a "
 "special line near the bottom of the changelog or failing that defaults to "
 "the B<debian> standard format.  See also L</CHANGELOG FORMATS>."
 msgstr ""
 "Geeft de indeling van het changelog-bestand aan. Standaard wordt die "
-"indeling gelezen van een bijzondere regel dicht bij het einde van het "
-"changelog-bestand en als dat mislukt, wordt er teruggevallen op de "
-"standaardindeling van B<debian>. Zie ook B<CHANGELOG FORMATS>."
+"indeling gelezen van een bijzondere regel onderaan het changelog-bestand, "
+"anders wordt er teruggevallen op de standaardindeling van B<debian>. Zie ook "
+"L<CHANGELOG-INDELINGEN>."
 
 #. type: =item
 #: dpkg-parsechangelog.pod
@@ -18775,9 +18879,9 @@ msgid ""
 "“ii ” or “iHR” (since dpkg 1.16.2).  See the B<--list> command description "
 "for more details."
 msgstr ""
-"Het bevat de verkorte pakketstatus (als drie tekens), zoals “ii ” of "
-"“iHR” (sinds dpkg 1.16.2). Zie de beschrijving van het commando B<--list> "
-"voor bijkomende toelichting."
+"Het bevat de verkorte pakketstatus (als drie tekens), zoals “ii ” of “iHR” "
+"(sinds dpkg 1.16.2). Zie de beschrijving van het commando B<--list> voor "
+"bijkomende toelichting."
 
 #. type: =item
 #: dpkg-query.pod
@@ -19105,15 +19209,6 @@ msgstr ""
 "Indien dit ingesteld is en de opties B<--instdir> of B<--root> niet "
 "opgegeven werden, zal dit gebruikt worden als de hoofdmap voor het "
 "bestandssysteem."
-
-#. type: textblock
-#: dpkg-realpath.pod
-msgid ""
-"Sets the color mode.  The currently accepted values are: B<auto> (default), "
-"B<always> and B<never>."
-msgstr ""
-"Stelt de kleurmodus in. Waarden die momenteel gebruikt mogen worden zijn: "
-"B<auto> (standaard), B<always> en B<never>."
 
 #. type: textblock
 #: dpkg-realpath.pod
@@ -19633,13 +19728,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
-#, fuzzy
-#| msgid ""
-#| "As a safe-guard measure, a symbols file can provide a B<Build-Depends-"
-#| "Package> meta-information field and B<dpkg-shlibdeps> will extract the "
-#| "minimal version required by the corresponding package in the B<Build-"
-#| "Depends> field and use this version if it's higher than the minimal "
-#| "version computed by scanning symbols."
 msgid ""
 "As a safe-guard measure, a symbols file can provide a B<Build-Depends-"
 "Package> or B<Build-Depends-Packages> meta-information field and B<dpkg-"
@@ -19648,10 +19736,11 @@ msgid ""
 "than the minimal version computed by scanning symbols."
 msgstr ""
 "Bij wijze van beschermende maatregel kan een symbols-bestand een meta-"
-"informatieveld B<Build-Depends-Pakket> bevatten. Dan zal B<dpkg-shlibdeps> "
-"de door het corresponderende pakket vereiste minimale versie halen uit het "
-"veld B<Build-Depends> en deze versie gebruiken als ze hoger is dan de "
-"minimale versie die berekend werd via het doorzoeken van symbolen."
+"informatieveld B<Build-Depends-Package> of B<Build-Depends-Packages> "
+"bevatten. Dan zal B<dpkg-shlibdeps> de door het corresponderende pakket "
+"vereiste minimale versie halen uit het veld B<Build-Depends> en deze versie "
+"gebruiken als ze hoger is dan de minimale versie die berekend werd via het "
+"doorzoeken van symbolen."
 
 #. type: =head2
 #: dpkg-shlibdeps.pod
@@ -20022,6 +20111,13 @@ msgstr ""
 "standaard zijn de eerste twee waarschuwingen geactiveerd, de laatste niet. "
 "Stel de I<waarde> in op 7 indien u wilt dat alle waarschuwingen geactiveerd "
 "worden."
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+msgid ""
+"Sets the host architecture.  This affects the objects and symbols files "
+"searched for and their default search pathnames."
+msgstr ""
 
 #. type: =head2
 #: dpkg-shlibdeps.pod
@@ -22127,10 +22223,8 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-source.pod dpkg-split.pod
-#, fuzzy
-#| msgid "Since dpkg 1.21.10."
 msgid "Since dpkg 1.18.11."
-msgstr "Sinds dpkg 1.21.10."
+msgstr "Sinds dpkg 1.18.11."
 
 #. type: =item
 #: dpkg-source.pod
@@ -22989,9 +23083,9 @@ msgid ""
 "Add an override for I<path>.  I<path> does not need to exist nor be known to "
 "B<dpkg> when this command is used; the override will be stored and used "
 "later.  Users and groups can be specified by their name (for example B<root> "
-"or B<nobody>), or by their number by prepending the number with a "
-"‘B<#>’ (for example B<#0> or B<#65534>).  The I<mode> needs to be specified "
-"in octal."
+"or B<nobody>), or by their number by prepending the number with a ‘B<#>’ "
+"(for example B<#0> or B<#65534>).  The I<mode> needs to be specified in "
+"octal."
 msgstr ""
 "Een statusmodificatie toevoegen voor I<pad>. I<pad> moet niet reeds bestaan "
 "of bekend zijn voor B<dpkg> op het ogenblik dat dit commando gebruikt wordt. "
@@ -30651,14 +30745,19 @@ msgstr ""
 "bestandsorganisatie en mappenstructuur op unix-achtige systemen)."
 
 #~ msgid ""
-#~ "Each area feature can be enabled and disabled in the B<DEB_BUILD_OPTIONS> "
-#~ "and B<DEB_BUILD_MAINT_OPTIONS> environment variable's area value with the "
-#~ "‘B<+>’ and ‘B<->’ modifier.  For example, to enable the B<hardening> "
-#~ "“pie” feature and disable the “fortify” feature you can do this in "
-#~ "B<debian/rules>:"
+#~ "B<dpkg-buildpackage> is using the B<build-arch> and B<build-indep> "
+#~ "targets since dpkg 1.16.2.  Those targets are thus mandatory.  But to "
+#~ "avoid breakages of existing packages, and ease the transition, if the "
+#~ "source package does not build both architecture independent and dependent "
+#~ "binary packages (since dpkg 1.18.8) it will fallback to use the B<build> "
+#~ "target if B<make -f debian/rules -qn> I<build-target> returns 2 as exit "
+#~ "code."
 #~ msgstr ""
-#~ "Elke gebiedsfunctie kan in de gebiedswaarde van de omgevingsvariabelen "
-#~ "B<DEB_BUILD_OPTIONS> en B<DEB_BUILD_MAINT_OPTIONS> ingeschakeld en "
-#~ "uitgeschakeld worden met de schakelaars ‘B<+>’ en ‘B<->’. Om bijvoorbeeld "
-#~ "de B<hardening>-functionaliteit “pie” te activeren en de functionaliteit "
-#~ "“fortify” uit te schakelen, kunt u in B<debian/rules> het volgende doen:"
+#~ "B<dpkg-buildpackage> gebruikt sinds dpkg 1.16.2 de targets B<build-arch> "
+#~ "en B<build-indep>. Deze targets zijn dus verplicht. Maar om te vermijden "
+#~ "dat bestaande pakketten defect raken en om de overgang te "
+#~ "vergemakkelijken, zal het, indien het broncodepakket niet zowel "
+#~ "architectuuronafhankelijke als architectuurspecifieke binaire pakketten "
+#~ "bouwt (sinds dpkg 1.18.8), terugvallen op het gebruik van het target "
+#~ "B<build> indien B<make -f debian/rules -qn> I<bouwtarget> 2 teruggeeft "
+#~ "als afsluitwaarde."
