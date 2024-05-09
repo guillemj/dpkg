@@ -16,6 +16,8 @@ TEST_CASES += test-bogus-dupe-same-single
 TEST_CASES += test-bogus-dupe-diff-single
 TEST_CASES += test-bogus-multi
 TEST_CASES += test-bogus-multi-update
+TEST_CASES += test-bogus-versioned-provides
+TEST_CASES += test-bogus-versioned-provides-update
 
 test-case: $(TEST_CASES)
 
@@ -58,3 +60,11 @@ test-bogus-multi:
 test-bogus-multi-update: override DPKG_ADMINDIR = db-bogus-multi-update
 test-bogus-multi-update:
 	$(call stderr_has,$(PKG_TUPLE),error)
+
+test-bogus-versioned-provides: override DPKG_ADMINDIR = db-bogus-versioned-provides
+test-bogus-versioned-provides:
+	$(call stderr_has,$(PKG_TUPLE),warning)
+
+test-bogus-versioned-provides-update: override DPKG_ADMINDIR = db-bogus-versioned-provides-update
+test-bogus-versioned-provides-update:
+	$(call stderr_has,$(PKG_TUPLE),warning)

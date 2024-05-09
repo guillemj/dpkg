@@ -571,9 +571,9 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
           dop->verrel = DPKG_RELATION_EQ;
         }
         if ((dop->verrel != DPKG_RELATION_EQ) && (fip->integer == dep_provides))
-          parse_warn(ps,
-                     _("only exact versions may be used for '%s' field"),
-                     fip->name);
+          parse_lax_problem(ps, pdb_lax_stanza_parser,
+                            _("only exact versions may be used for '%s' field"),
+                            fip->name);
 
         if (!c_isspace(*p) && !c_isalnum(*p)) {
           parse_warn(ps,

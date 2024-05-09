@@ -8,6 +8,17 @@ TESTS_DEB := \
 
 include ../Test.mk
 
+test-bogus:
+	# test building with bogus provides
+	! $(DPKG_BUILD_DEB) pkg-provides-bogus
+
+	# build bogus packages
+	$(DPKG_BUILD_DEB) --nocheck pkg-provides-bogus
+
+	# test installing packages with bogus provides
+	! $(DPKG_INSTALL) pkg-provides-bogus.deb
+	$(call pkg_is_not_installed,pkg-provides-bogus)
+
 define PURGE_DEPENDS
 $(DPKG_PURGE) pkg-depends
 $(DPKG_PURGE) pkg-depends-le
@@ -282,7 +293,7 @@ test-conflicts:
 	# The provided predependency is removed, pass
 	$(DPKG_PURGE) pkg-provides
 
-test-case: test-depends test-predepends test-breaks test-conflicts
+test-case: test-bogus test-depends test-predepends test-breaks test-conflicts
 
 test-clean:
 	-$(DPKG_PURGE) pkg-depends
@@ -305,3 +316,5 @@ test-clean:
 	-$(DPKG_PURGE) pkg-a-depends-ge-lt
 	-$(DPKG_PURGE) pkg-b-provides
 	-$(DPKG_PURGE) pkg-c-provides
+
+	rm -f pkg-provides-bogus.deb
