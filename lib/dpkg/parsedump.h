@@ -160,6 +160,10 @@ void parse_error(struct parsedb_state *ps, const char *fmt, ...)
 void parse_warn(struct parsedb_state *ps, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
 void
+parse_lax_problem(struct parsedb_state *ps, enum parsedbflags flags_lax,
+                  const char *fmt, ...)
+	DPKG_ATTR_PRINTF(3);
+void
 parse_problem(struct parsedb_state *ps, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
 

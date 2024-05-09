@@ -80,6 +80,23 @@ parse_warn(struct parsedb_state *ps, const char *fmt, ...)
 }
 
 void
+parse_lax_problem(struct parsedb_state *ps, enum parsedbflags flags_lax,
+                  const char *fmt, ...)
+{
+  va_list args;
+  const char *str;
+
+  va_start(args, fmt);
+  str = parse_error_msg(ps, fmt, args);
+  va_end(args);
+
+  if (ps->flags & flags_lax)
+    warning("%s", str);
+  else
+    ohshit("%s", str);
+}
+
+void
 parse_problem(struct parsedb_state *ps, const char *fmt, ...)
 {
   va_list args;
