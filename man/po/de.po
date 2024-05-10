@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-04-29 09:40+0200\n"
-"PO-Revision-Date: 2024-04-29 09:51+0200\n"
+"POT-Creation-Date: 2024-05-10 17:16+0200\n"
+"PO-Revision-Date: 2024-05-10 17:30+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -299,18 +299,18 @@ msgstr ""
 
 #. type: =item
 #: deb-buildinfo.pod
-msgid "B<Checksums-Md5:> (required)"
-msgstr "B<Checksums-Md5:> (verpflichtend)"
+msgid "B<Checksums-Md5:> (required, weak)"
+msgstr "B<Checksums-Md5:> (verpflichtend, schwach)"
 
 #. type: =item
 #: deb-buildinfo.pod deb-changes.pod dsc.pod
-msgid "B<Checksums-Sha1:> (required)"
-msgstr "B<Checksums-Sha1:> (verpflichtend)"
+msgid "B<Checksums-Sha1:> (required, weak)"
+msgstr "B<Checksums-Sha1:> (verpflichtend, schwach)"
 
 #. type: =item
 #: deb-buildinfo.pod deb-changes.pod dsc.pod
-msgid "B<Checksums-Sha256:> (required)"
-msgstr "B<Checksums-Sha256:> (verpflichtend)"
+msgid "B<Checksums-Sha256:> (required, strong)"
+msgstr "B<Checksums-Sha256:> (verpflichtend, stark)"
 
 #. type: =item
 #: deb-buildinfo.pod deb-changes.pod dsc.pod
@@ -330,6 +330,16 @@ msgstr ""
 "unterscheiden sich nur im verwandten Prüfsummenalgorithmus: MD5 für "
 "B<Checksums-Md5>, SHA-1 für B<Checksums-Sha1> und SHA-256 für B<Checksums-"
 "Sha256>."
+
+#. type: textblock
+#: deb-buildinfo.pod dsc.pod
+msgid ""
+"B<Note>: The MD5 and SHA-1 checksums are considered weak, and should never "
+"be assumed to be sufficient for secure verification."
+msgstr ""
+"B<Hinweis>: Die MD5- und SHA-1-Prüfsummen werden als schwach betrachtet und "
+"sollten niemals für die sichere Überprüfung als ausreichend betrachtet "
+"werden."
 
 #. type: textblock
 #: deb-buildinfo.pod deb-changes.pod
@@ -1424,7 +1434,7 @@ msgstr ""
 "vom Changelog-Format ab."
 
 #. type: =item
-#: deb-changes.pod dsc.pod
+#: deb-changes.pod
 msgid "B<Files:> (required)"
 msgstr "B<Files:> (verpflichtend)"
 
@@ -1472,6 +1482,18 @@ msgstr ""
 #. type: textblock
 #: deb-changes.pod
 msgid ""
+"B<Note>: The MD5 checksum is considered weak, and should never be assumed to "
+"be sufficient for secure verification, but this field cannot be omitted as "
+"it provides metadata not available anywhere else."
+msgstr ""
+"B<Hinweis>: Die MD5-Prüfsumme wird als schwach betrachtet und sollte "
+"niemals für die sichere Überprüfung als ausreichend betrachtet werden. "
+"Dieses Feld kann allerdings nicht entfallen, da es ansonsten nicht "
+"verfügbare Metadaten bereitstellt."
+
+#. type: textblock
+#: deb-changes.pod
+msgid ""
 "These multiline fields contain a list of files with a checksum and size for "
 "each one.  These fields have the same syntax and differ only in the checksum "
 "algorithm used: SHA-1 for B<Checksums-Sha1> and SHA-256 for B<Checksums-"
@@ -1492,6 +1514,15 @@ msgstr ""
 "Diese Felder führen alle Dateien auf, aus denen der Upload besteht. Die "
 "Liste der Dateien in diesen Feldern muss zu der Liste in dem Feld B<Files> "
 "und den anderen zugehörigen B<Checksums>-Feldern passen."
+
+#. type: textblock
+#: deb-changes.pod
+msgid ""
+"B<Note>: The SHA-1 checksum is considered weak, and should never be assumed "
+"to be sufficient for secure verification."
+msgstr ""
+"B<Hinweis>: Die SHA-1-Prüfsumme wird als schwach betrachtet und sollte "
+"niemals für die sichere Überprüfung als ausreichend betrachtet werden."
 
 #. type: =head1
 #: deb-changes.pod deb-control.pod dpkg-buildpackage.pod dpkg-deb.pod
@@ -8877,8 +8908,8 @@ msgid ""
 msgstr ""
 "Falls dies gesetzt ist, wird es zur Entscheidung, ob Native Language "
 "Support, auch als Unterstützung für Internationalisierung (oder i18n) "
-"bekannt, aktiviert wird. Die akzeptierten Werte sind: "
-"B<0> und B<1> (Vorgabe)."
+"bekannt, aktiviert wird. Die akzeptierten Werte sind: B<0> und B<1> "
+"(Vorgabe)."
 
 #. type: =item
 #: dpkg-buildapi.pod
@@ -18509,6 +18540,11 @@ msgstr "B<Description>"
 
 #. type: =item
 #: dpkg-query.pod
+msgid "B<Description-md5> (internal, front-end related)"
+msgstr "B<Description-md5> (intern, Oberflächen-bezogen)"
+
+#. type: =item
+#: dpkg-query.pod
 msgid "B<Enhances>"
 msgstr "B<Enhances>"
 
@@ -18591,6 +18627,21 @@ msgstr "B<Revision> (veraltet)"
 #: dpkg-query.pod
 msgid "B<Section>"
 msgstr "B<Section>"
+
+#. type: =item
+#: dpkg-query.pod
+msgid "B<SHA1> (internal, front-end related)"
+msgstr "B<SHA1> (intern, Oberflächen-bezogen)"
+
+#. type: =item
+#: dpkg-query.pod
+msgid "B<SHA256> (internal, front-end related)"
+msgstr "B<SHA256> (intern, Oberflächen-bezogen)"
+
+#. type: =item
+#: dpkg-query.pod
+msgid "B<SHA512> (internal, front-end related)"
+msgstr "B<SHA512> (intern, Oberflächen-bezogen)"
 
 #. type: =item
 #: dpkg-query.pod
@@ -27041,6 +27092,11 @@ msgid ""
 msgstr ""
 "Falls das Binärpaket „essential“ ist, wird der Schlüssel den Wert des Feldes "
 "B<Essential> enthalten, der B<yes> lautet."
+
+#. type: =item
+#: dsc.pod
+msgid "B<Files:> (required, weak)"
+msgstr "B<Files:> (verpflichtend, schwach)"
 
 #. type: textblock
 #: dsc.pod
