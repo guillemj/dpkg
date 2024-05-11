@@ -116,7 +116,11 @@ sub parse_status {
         }
 
         if (/^Provides: (.*)$/m) {
-            my $provides = deps_parse($1, reduce_arch => 1, union => 1);
+            my $provides = deps_parse($1,
+                reduce_arch => 1,
+                virtual => 1,
+                union => 1,
+            );
 
             next if not defined $provides;
 
