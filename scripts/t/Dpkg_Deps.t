@@ -163,19 +163,88 @@ $dep_restrict = deps_parse($field_restrict);
 $dep_restrict->reduce_profiles([]);
 is($dep_restrict->output(), 'dep1, dep3, dep5', 'Unknown restrictions post-reduce');
 
+# We store these hashes as a list so that we can easily reference them later.
+my @realpkgs = (
+    {
+        package => 'mypackage',
+        version => '1.3.4-1',
+        architecture => get_host_arch(),
+        multiarch => 'no',
+    }, {
+        package => 'mypackage2',
+        version => '1.3.4-1',
+        architecture => 'somearch',
+        multiarch => 'no',
+    }, {
+        package => 'pkg-ma-foreign',
+        version => '1.3.4-1',
+        architecture => 'somearch',
+        multiarch => 'foreign',
+    }, {
+        package => 'pkg-ma-foreign2',
+        version => '1.3.4-1',
+        architecture => get_host_arch(),
+        multiarch => 'foreign',
+    }, {
+        package => 'pkg-ma-allowed',
+        version => '1.3.4-1',
+        architecture => 'somearch',
+        multiarch => 'allowed',
+    }, {
+        package => 'pkg-ma-allowed2',
+        version => '1.3.4-1',
+        architecture => 'somearch',
+        multiarch => 'allowed',
+    }, {
+        package => 'pkg-ma-allowed3',
+        version => '1.3.4-1',
+        architecture => get_host_arch(),
+        multiarch => 'allowed',
+    }, {
+        package => 'pkg-indep-normal',
+        version => '1.3.4-1',
+        architecture => 'all',
+        multiarch => 'no',
+    }, {
+        package => 'pkg-indep-foreign',
+        version => '1.3.4-1',
+        architecture => 'all',
+        multiarch => 'foreign',
+    }
+);
+
+my @virtpkgs = (
+    {
+        virtual => 'myvirtual',
+        relation => undef,
+        version => undef,
+        provided_by => 'mypackage',
+    }, {
+        virtual => 'myvirtual2',
+        relation => REL_EQ,
+        version => '1.0-1',
+        provided_by => 'mypackage',
+    }, {
+        virtual => 'myvirtual3',
+        relation => REL_GE,
+        version => '2.0-1',
+        provided_by => 'mypackage',
+    }
+);
+
 my $facts = Dpkg::Deps::KnownFacts->new();
-$facts->add_installed_package('mypackage', '1.3.4-1', get_host_arch(), 'no');
-$facts->add_installed_package('mypackage2', '1.3.4-1', 'somearch', 'no');
-$facts->add_installed_package('pkg-ma-foreign', '1.3.4-1', 'somearch', 'foreign');
-$facts->add_installed_package('pkg-ma-foreign2', '1.3.4-1', get_host_arch(), 'foreign');
-$facts->add_installed_package('pkg-ma-allowed', '1.3.4-1', 'somearch', 'allowed');
-$facts->add_installed_package('pkg-ma-allowed2', '1.3.4-1', 'somearch', 'allowed');
-$facts->add_installed_package('pkg-ma-allowed3', '1.3.4-1', get_host_arch(), 'allowed');
-$facts->add_installed_package('pkg-indep-normal', '1.3.4-1', 'all', 'no');
-$facts->add_installed_package('pkg-indep-foreign', '1.3.4-1', 'all', 'foreign');
-$facts->add_provided_package('myvirtual', undef, undef, 'mypackage');
-$facts->add_provided_package('myvirtual2', REL_EQ, '1.0-1', 'mypackage');
-$facts->add_provided_package('myvirtual3', REL_GE, '2.0-1', 'mypackage');
+foreach my $pkg (@realpkgs) {
+    $facts->add_installed_package(
+        $pkg->{package}, $pkg->{version},
+        $pkg->{architecture}, $pkg->{multiarch},
+    );
+}
+foreach my $virt (@virtpkgs) {
+    $facts->add_provided_package(
+        $virt->{virtual}, $virt->{relation}, $virt->{version},
+        $virt->{provided_by},
+    );
+}
 
 my $field_duplicate = 'libc6 (>= 2.3), libc6 (>= 2.6-1), mypackage (>=
 1.3), myvirtual | something, python (>= 2.5), mypackage2, pkg-ma-foreign,
