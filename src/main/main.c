@@ -337,6 +337,24 @@ is_invoke_action(enum action action)
   }
 }
 
+static bool
+can_invoke_hooks(enum action action)
+{
+  if (!is_invoke_action(action))
+    return false;
+
+  if (f_noact)
+    return false;
+
+  if (in_force(FORCE_NON_ROOT))
+    return true;
+
+  if (getuid() || geteuid())
+    return false;
+
+  return true;
+}
+
 static struct invoke_list pre_invoke_hooks = {
   .head = NULL,
   .tail = &pre_invoke_hooks.head,
@@ -760,14 +778,14 @@ int main(int argc, const char *const *argv) {
   if (!f_triggers)
     f_triggers = (cipaction->arg_int == act_triggers && *argv) ? -1 : 1;
 
-  if (is_invoke_action(cipaction->arg_int)) {
+  if (can_invoke_hooks(cipaction->arg_int)) {
     run_invoke_hooks(cipaction->olong, &pre_invoke_hooks);
     run_status_loggers(&status_loggers);
   }
 
   ret = cipaction->action(argv);
 
-  if (is_invoke_action(cipaction->arg_int))
+  if (can_invoke_hooks(cipaction->arg_int))
     run_invoke_hooks(cipaction->olong, &post_invoke_hooks);
 
   free_invoke_hooks(&pre_invoke_hooks);

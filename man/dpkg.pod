@@ -1042,6 +1042,9 @@ is preserved, with the ones from the configuration files taking precedence.
 The environment variable B<DPKG_HOOK_ACTION> is set for the hooks to the
 current B<dpkg> action.
 
+The invoke hooks are not executed when B<--no-act> is specified,
+or when running as non-root without B<--force-not-root>.
+
 B<Note>: Front-ends might call B<dpkg> several
 times per invocation, which might run the hooks more times than expected.
 
@@ -1219,6 +1222,9 @@ shell I<command>'s standard input, to be run via “%DPKG_DEFAULT_SHELL% -c”
 (since dpkg 1.16.0).
 This option can be specified multiple times.
 The output format used is the same as in B<--status-fd>.
+
+The status loggers are not executed when B<--no-act> is specified,
+or when running as non-root without B<--force-not-root>.
 
 =item B<--log=>I<filename>
 
