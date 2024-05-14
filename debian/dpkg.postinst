@@ -59,7 +59,7 @@ setup_aliases()
 
   # Add a backward compatibility symlink alias for s-s-d, which is now
   # installed in its canonical location.
-  if [ ! -f "$DPKG_ROOT/sbin/$prog" ]; then
+  if [ ! -f "$DPKG_ROOT/sbin/$prog" ] && [ -d "$DPKG_ROOT/sbin" ]; then
     ln -s "/usr/sbin/$prog" "$DPKG_ROOT/sbin/$prog"
   fi
 }
