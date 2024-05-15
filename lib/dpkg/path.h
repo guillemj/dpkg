@@ -35,6 +35,8 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
+char *path_canonicalize(const char *path);
+
 size_t path_trim_slash_slashdot(char *path);
 const char *path_skip_slash_dotslash(const char *path);
 const char *path_basename(const char *path);
