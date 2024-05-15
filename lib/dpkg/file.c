@@ -35,6 +35,7 @@
 #include <dpkg/pager.h>
 #include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
+#include <dpkg/path.h>
 #include <dpkg/file.h>
 #include <dpkg/execname.h>
 
@@ -89,6 +90,29 @@ file_realpath(const char *pathname)
 	}
 
 	return resolved_path;
+}
+
+/**
+ * Canonicalize a pathname (physically or lexically).
+ *
+ * Try to canonicalize a pathname based on what is on the filesystem. If
+ * the pathname does not exist, then try a lexical canonicalization.
+ *
+ * @param pathname The pathname to canonicalize.
+ *
+ * @return The allocated canonicalized pathname.
+ */
+char *
+file_canonicalize(const char *pathname)
+{
+	char *canon_path;
+
+	errno = 0;
+	canon_path = file_realpath(pathname);
+	if (canon_path == NULL)
+		canon_path = path_canonicalize(pathname);
+
+	return canon_path;
 }
 
 /**
