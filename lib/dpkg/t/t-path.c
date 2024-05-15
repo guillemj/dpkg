@@ -75,6 +75,36 @@ test_path_skip(void)
 }
 
 static void
+test_path_canonicalize(void)
+{
+	char *path;
+
+	path = path_canonicalize("/");
+	test_str(path, ==, "/");
+	free(path);
+
+	path = path_canonicalize("//./..//../././//..//..");
+	test_str(path, ==, "/");
+	free(path);
+
+	path = path_canonicalize("/./foo/..///./bar///../././../..///end//.");
+	test_str(path, ==, "/end");
+	free(path);
+
+	path = path_canonicalize("foo/../bar/../quux////fox");
+	test_str(path, ==, "quux/fox");
+	free(path);
+
+	path = path_canonicalize(".//aa/../bb///cc/./../dd//");
+	test_str(path, ==, "bb/dd");
+	free(path);
+
+	path = path_canonicalize("..////../aa/../..///bb/../../cc/dd//");
+	test_str(path, ==, "cc/dd");
+	free(path);
+}
+
+static void
 test_path_basename(void)
 {
 	test_str(path_basename("./."), ==, ".");
@@ -171,10 +201,11 @@ test_path_quote(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(41);
+	test_plan(47);
 
 	test_path_trim();
 	test_path_skip();
+	test_path_canonicalize();
 	test_path_basename();
 	test_path_temp();
 	test_path_quote();
