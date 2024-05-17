@@ -314,6 +314,9 @@ varbuf_detach(struct varbuf *v)
 	v->size = 0;
 	v->used = 0;
 
+	if (buf == NULL)
+		buf = m_strdup("");
+
 	return buf;
 }
 

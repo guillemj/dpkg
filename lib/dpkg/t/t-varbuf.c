@@ -568,22 +568,41 @@ test_varbuf_detach(void)
 	char *str;
 
 	varbuf_init(&vb, 0);
-
-	varbuf_add_buf(&vb, "1234567890", 10);
-
+	test_pass(vb.used == 0);
+	test_pass(vb.size == 0);
+	test_pass(vb.buf == NULL);
 	str = varbuf_detach(&vb);
+	test_str(str, ==, "");
+	test_pass(vb.used == 0);
+	test_pass(vb.size == 0);
+	test_pass(vb.buf == NULL);
+	free(str);
 
+	varbuf_init(&vb, 0);
+	varbuf_add_buf(&vb, NULL, 0);
+	test_pass(vb.used == 0);
+	test_pass(vb.size == 0);
+	test_pass(vb.buf == NULL);
+	str = varbuf_detach(&vb);
+	test_str(str, ==, "");
+	test_pass(vb.used == 0);
+	test_pass(vb.size == 0);
+	test_pass(vb.buf == NULL);
+	free(str);
+
+	varbuf_init(&vb, 0);
+	varbuf_add_buf(&vb, "1234567890", 10);
+	str = varbuf_detach(&vb);
 	test_mem(str, ==, "1234567890", 10);
 	test_pass(vb.used == 0);
 	test_pass(vb.size == 0);
 	test_pass(vb.buf == NULL);
-
 	free(str);
 }
 
 TEST_ENTRY(test)
 {
-	test_plan(191);
+	test_plan(205);
 
 	test_varbuf_init();
 	test_varbuf_prealloc();
