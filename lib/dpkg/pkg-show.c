@@ -394,7 +394,7 @@ pkg_sorter_by_nonambig_name_arch(const void *a, const void *b)
  * Add a string representation of the source package version to a varbuf.
  *
  * It parses the Source field (if present), and extracts the optional
- * version enclosed in parenthesis. Otherwise it fallsback to use the
+ * version enclosed in parenthesis. Otherwise it falls back to use the
  * binary package version. It NUL terminates the varbuf.
  *
  * @param vb      The varbuf struct to modify.
