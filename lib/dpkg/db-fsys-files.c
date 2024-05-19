@@ -70,6 +70,46 @@ enum pkg_filesdb_load_status {
 
 static enum pkg_filesdb_load_status saidread = PKG_FILESDB_LOAD_NONE;
 
+static void
+fsys_list_parse_buffer(struct varbuf *vb, struct pkginfo *pkg)
+{
+  struct fsys_namenode_list **files_tail;
+  char *loaded_list_end, *thisline;
+
+  loaded_list_end = vb->buf + vb->used;
+
+  files_tail = &pkg->files;
+  thisline = vb->buf;
+
+  while (thisline < loaded_list_end) {
+    struct fsys_namenode *namenode;
+    char *nextline, *ptr;
+
+    ptr = memchr(thisline, '\n', loaded_list_end - thisline);
+    if (ptr == NULL)
+      ohshit(_("files list file for package '%.250s' is missing final newline"),
+             pkg_name(pkg, pnaw_nonambig));
+
+    /* Where to start next time around. */
+    nextline = ptr + 1;
+
+    /* Strip trailing ‘/’. */
+    if (ptr > thisline && ptr[-1] == '/')
+      ptr--;
+
+    /* Add the file to the list. */
+    if (ptr == thisline)
+      ohshit(_("files list file for package '%.250s' contains empty filename"),
+             pkg_name(pkg, pnaw_nonambig));
+    *ptr = '\0';
+
+    namenode = fsys_hash_find_node(thisline, FHFF_NONE);
+    files_tail = pkg_files_add_file(pkg, namenode, files_tail);
+
+    thisline = nextline;
+  }
+}
+
 /**
  * Load the list of files in this package into memory, or update the
  * list if it is there but stale.
@@ -114,37 +154,8 @@ ensure_packagefiles_available(struct pkginfo *pkg)
     return;
   }
 
-  if (buf.used) {
-    struct fsys_namenode_list **lendp;
-    char *loaded_list_end, *thisline;
-
-    loaded_list_end = buf.buf + buf.used;
-
-    lendp = &pkg->files;
-    thisline = buf.buf;
-    while (thisline < loaded_list_end) {
-      struct fsys_namenode *namenode;
-      char *nextline, *ptr;
-
-      ptr = memchr(thisline, '\n', loaded_list_end - thisline);
-      if (ptr == NULL)
-        ohshit(_("files list file for package '%.250s' is missing final newline"),
-               pkg_name(pkg, pnaw_nonambig));
-      /* Where to start next time around. */
-      nextline = ptr + 1;
-      /* Strip trailing ‘/’. */
-      if (ptr > thisline && ptr[-1] == '/') ptr--;
-      /* Add the file to the list. */
-      if (ptr == thisline)
-        ohshit(_("files list file for package '%.250s' contains empty filename"),
-               pkg_name(pkg, pnaw_nonambig));
-      *ptr = '\0';
-
-      namenode = fsys_hash_find_node(thisline, FHFF_NONE);
-      lendp = pkg_files_add_file(pkg, namenode, lendp);
-      thisline = nextline;
-    }
-  }
+  if (buf.used)
+    fsys_list_parse_buffer(&buf, pkg);
 
   varbuf_destroy(&buf);
 
