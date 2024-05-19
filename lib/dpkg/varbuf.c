@@ -188,10 +188,12 @@ varbuf_has_prefix(struct varbuf *v, struct varbuf *prefix)
 bool
 varbuf_has_suffix(struct varbuf *v, struct varbuf *suffix)
 {
-	const char *slice = v->buf + v->used - suffix->used;
+	const char *slice;
 
 	if (suffix->used > v->used)
 		return false;
+
+	slice = v->buf + v->used - suffix->used;
 
 	return strcmp(slice, suffix->buf) == 0;
 }
