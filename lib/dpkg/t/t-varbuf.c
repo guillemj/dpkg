@@ -410,8 +410,14 @@ test_varbuf_has(void)
 	struct varbuf vb_prefix = VARBUF_OBJECT;
 	struct varbuf vb_suffix = VARBUF_OBJECT;
 
+	test_pass(varbuf_has_prefix(&vb, &vb_prefix));
+	test_pass(varbuf_has_suffix(&vb, &vb_suffix));
+
 	varbuf_set_str(&vb_prefix, "prefix");
 	varbuf_set_str(&vb_suffix, "suffix");
+
+	test_fail(varbuf_has_prefix(&vb, &vb_prefix));
+	test_fail(varbuf_has_suffix(&vb, &vb_suffix));
 
 	varbuf_set_str(&vb, "prefix and some text");
 	test_pass(varbuf_has_prefix(&vb, &vb_prefix));
@@ -577,7 +583,7 @@ test_varbuf_detach(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(187);
+	test_plan(191);
 
 	test_varbuf_init();
 	test_varbuf_prealloc();

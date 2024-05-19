@@ -182,6 +182,11 @@ varbuf_has_prefix(struct varbuf *v, struct varbuf *prefix)
 	if (prefix->used > v->used)
 		return false;
 
+	if (prefix->used == 0)
+		return true;
+	if (v->used == 0)
+		return false;
+
 	return strncmp(v->buf, prefix->buf, prefix->used) == 0;
 }
 
@@ -191,6 +196,11 @@ varbuf_has_suffix(struct varbuf *v, struct varbuf *suffix)
 	const char *slice;
 
 	if (suffix->used > v->used)
+		return false;
+
+	if (suffix->used == 0)
+		return true;
+	if (v->used == 0)
 		return false;
 
 	slice = v->buf + v->used - suffix->used;
