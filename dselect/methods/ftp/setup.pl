@@ -135,7 +135,7 @@ sub download() {
 	    }
 	}
 	if( !$got_pkgfile) {
-	    print "Warning: Could not find a Packages file in $dir\n",
+	    print "warning: could not find a Packages file in $dir\n",
 	    "This may not be a problem if the directory is a symbolic link\n";
 	    $problem = 1;
 	}
