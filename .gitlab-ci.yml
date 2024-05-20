@@ -23,7 +23,7 @@ author-check:
     - eatmydata apt -P pkg.dpkg.author-testing build-dep -qq -y .
     - ./configure
     - make -j$(nproc) authorcheck
-           TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
+           TEST_VERBOSE=1 TEST_PARALLEL=$(nproc)
 
 # Test whether the unit tests pass.
 unit-tests:
@@ -31,7 +31,7 @@ unit-tests:
   script:
     - ./configure --enable-compiler-sanitizer
     - make -j$(nproc) -C lib check
-           TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
+           TEST_VERBOSE=1 TEST_PARALLEL=$(nproc)
 
 # Test whether the unit tests pass on a VPATH build.
 vpath-tests:
@@ -41,7 +41,7 @@ vpath-tests:
     - cd build-tree
     - ../configure
     - make -j$(nproc) check
-           TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
+           TEST_VERBOSE=1 TEST_PARALLEL=$(nproc)
 
 # Test whether the unit tests pass with minimal library dependencies.
 minlib-tests:
@@ -55,7 +55,7 @@ minlib-tests:
         --without-libbz2
         --without-libselinux
     - make -j$(nproc) check
-           TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
+           TEST_VERBOSE=1 TEST_PARALLEL=$(nproc)
 
 # Test whether we can build the shared library.
 shlib-tests:
@@ -63,7 +63,7 @@ shlib-tests:
   script:
     - AUTHOR_TESTING=1 ./configure --enable-shared
     - make -j$(nproc) check
-           TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
+           TEST_VERBOSE=1 TEST_PARALLEL=$(nproc)
 
 # Test whether the functional tests pass.
 func-tests:

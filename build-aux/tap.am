@@ -18,6 +18,8 @@ tap-clean:
 tap-check: $(test_data) $(test_programs) $(test_scripts)
 	[ -z "$(test_tmpdir)" ] || $(MKDIR_P) $(test_tmpdir)
 	  $(TEST_ENV_VARS) \
+	  TEST_PARALLEL=$(TEST_PARALLEL) \
+	  TEST_VERBOSE=$(TEST_VERBOSE) \
 	  abs_srcdir=$(abs_srcdir) \
 	  abs_builddir=$(abs_builddir) \
 	  abs_top_srcdir=$(abs_top_srcdir) \
