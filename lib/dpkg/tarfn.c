@@ -22,7 +22,7 @@
 #include <config.h>
 #include <compat.h>
 
-#if HAVE_SYS_SYSMACROS_H
+#ifdef HAVE_SYS_SYSMACROS_H
 #include <sys/sysmacros.h>
 #endif
 #include <sys/stat.h>

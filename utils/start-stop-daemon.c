@@ -1622,7 +1622,7 @@ proc_status_field(pid_t pid, const char *field)
 
 	return value;
 }
-#elif (defined(OS_Solaris) || defined(OS_AIX)) && HAVE_STRUCT_PSINFO
+#elif (defined(OS_Solaris) || defined(OS_AIX)) && defined(HAVE_STRUCT_PSINFO)
 static bool
 proc_get_psinfo(pid_t pid, struct psinfo *psinfo)
 {
@@ -1753,7 +1753,7 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 
 	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
 }
-#elif (defined(OS_Solaris) || defined(OS_AIX)) && HAVE_STRUCT_PSINFO
+#elif (defined(OS_Solaris) || defined(OS_AIX)) && defined(HAVE_STRUCT_PSINFO)
 static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
 {
@@ -1946,7 +1946,7 @@ pid_is_child(pid_t pid, pid_t ppid)
 
 	return (pid_t)pbi.pbi_ppid == ppid;
 }
-#elif (defined(OS_Solaris) || defined(OS_AIX)) && HAVE_STRUCT_PSINFO
+#elif (defined(OS_Solaris) || defined(OS_AIX)) && defined(HAVE_STRUCT_PSINFO)
 static bool
 pid_is_child(pid_t pid, pid_t ppid)
 {
@@ -2055,7 +2055,7 @@ pid_is_user(pid_t pid, uid_t uid)
 
 	return pbi.pbi_ruid == uid;
 }
-#elif (defined(OS_Solaris) || defined(OS_AIX)) && HAVE_STRUCT_PSINFO
+#elif (defined(OS_Solaris) || defined(OS_AIX)) && defined(HAVE_STRUCT_PSINFO)
 static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
@@ -2180,7 +2180,7 @@ pid_is_cmd(pid_t pid, const char *name)
 
 	return false;
 }
-#elif (defined(OS_Solaris) || defined(OS_AIX)) && HAVE_STRUCT_PSINFO
+#elif (defined(OS_Solaris) || defined(OS_AIX)) && defined(HAVE_STRUCT_PSINFO)
 static bool
 pid_is_cmd(pid_t pid, const char *name)
 {

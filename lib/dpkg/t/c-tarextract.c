@@ -22,10 +22,10 @@
 #include <compat.h>
 
 #include <sys/types.h>
-#if HAVE_SYS_SYSMACROS_H
+#ifdef HAVE_SYS_SYSMACROS_H
 #include <sys/sysmacros.h> /* Needed on AIX for major()/minor(). */
 #endif
-#if HAVE_SYS_MKDEV_H
+#ifdef HAVE_SYS_MKDEV_H
 #include <sys/mkdev.h> /* Needed on Solaris for major()/minor(). */
 #endif
 

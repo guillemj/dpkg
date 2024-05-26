@@ -26,7 +26,7 @@
 #include <errno.h>
 #include <limits.h>
 #include <inttypes.h>
-#if HAVE_LOCALE_H
+#ifdef HAVE_LOCALE_H
 #include <locale.h>
 #endif
 #include <string.h>

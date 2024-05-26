@@ -26,7 +26,7 @@
 #include <sys/wait.h>
 
 #include <limits.h>
-#if HAVE_LOCALE_H
+#ifdef HAVE_LOCALE_H
 #include <locale.h>
 #endif
 #include <errno.h>

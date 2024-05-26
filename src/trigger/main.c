@@ -25,7 +25,7 @@
 #include <sys/types.h>
 
 #include <fcntl.h>
-#if HAVE_LOCALE_H
+#ifdef HAVE_LOCALE_H
 #include <locale.h>
 #endif
 #include <string.h>
