@@ -1875,7 +1875,7 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 	/* Find and compare string. */
 	start_argv_0_p = *pid_argv_p;
 
-	/* Find end of argv[0] then copy and cut of str there. */
+	/* Find end of argv[0] then copy and cut off str there. */
 	end_argv_0_p = strchr(*pid_argv_p, ' ');
 	if (end_argv_0_p == NULL)
 		/* There seems to be no space, so we have the command
@@ -1883,7 +1883,7 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 		start_argv_0_p = *pid_argv_p;
 	else {
 		/* Tests indicate that this never happens, since
-		 * kvm_getargv itself cuts of tailing stuff. This is
+		 * kvm_getargv itself cuts off tailing stuff. This is
 		 * not what the manual page says, however. */
 		strncpy(buf, *pid_argv_p, (end_argv_0_p - start_argv_0_p));
 		buf[(end_argv_0_p - start_argv_0_p) + 1] = '\0';
