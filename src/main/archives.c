@@ -240,7 +240,7 @@ md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
                              &otherpkg->configversion) != 0)
       continue;
     for (conff = otherpkg->installed.conffiles; conff; conff = conff->next) {
-      if (conff->obsolete || conff->remove_on_upgrade)
+      if (conffile_is_disappearing(conff))
         continue;
       if (strcmp(conff->name, namenode->name) == 0)
         break;

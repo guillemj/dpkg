@@ -356,7 +356,7 @@ deferred_configure_ghost_conffile(struct pkginfo *pkg, struct conffile *conff)
 
 		for (otherconff = otherpkg->installed.conffiles; otherconff;
 		     otherconff = otherconff->next) {
-			if (otherconff->obsolete || otherconff->remove_on_upgrade)
+			if (conffile_is_disappearing(otherconff))
 				continue;
 
 			/* Check if we need to propagate the new hash from
@@ -652,7 +652,7 @@ deferred_configure(struct pkginfo *pkg)
 		 * ‘*.dpkg-new’ no longer exists we assume that we've
 		 * already processed this one. */
 		for (conff = pkg->installed.conffiles; conff; conff = conff->next) {
-			if (conff->obsolete || conff->remove_on_upgrade)
+			if (conffile_is_disappearing(conff))
 				continue;
 			deferred_configure_conffile(pkg, conff);
 		}

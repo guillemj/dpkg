@@ -196,7 +196,7 @@ dir_has_conffiles(struct fsys_namenode *file, struct pkginfo *pkg)
         pkg_name(pkg, pnaw_always));
   namelen = strlen(file->name);
   for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
-      if (conff->obsolete || conff->remove_on_upgrade)
+      if (conffile_is_disappearing(conff))
         continue;
       if (strncmp(file->name, conff->name, namelen) == 0 &&
           strlen(conff->name) > namelen && conff->name[namelen] == '/') {
@@ -269,6 +269,16 @@ dir_is_used_by_pkg(struct fsys_namenode *file, struct pkginfo *pkg,
   debug(dbg_veryverbose, "dir_is_used_by_pkg no");
 
   return false;
+}
+
+/**
+ * Returns whether the conffile is disappearing, because it is obsolete
+ * or marked for removal on upgrade.
+ */
+bool
+conffile_is_disappearing(struct conffile *conff)
+{
+  return conff->obsolete || conff->remove_on_upgrade;
 }
 
 /**
