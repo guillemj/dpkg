@@ -887,7 +887,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
         for (conff = otherpkg->installed.conffiles;
              conff;
              conff = conff->next) {
-          if (!conff->obsolete)
+          if (!(conff->flags & CONFFILE_OBSOLETE))
             continue;
           if (strcmp(conff->name, nifd->namenode->name) == 0)
             break;

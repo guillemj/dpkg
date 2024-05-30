@@ -278,7 +278,7 @@ dir_is_used_by_pkg(struct fsys_namenode *file, struct pkginfo *pkg,
 bool
 conffile_is_disappearing(struct conffile *conff)
 {
-  return conff->obsolete || conff->remove_on_upgrade;
+  return conff->flags & (CONFFILE_OBSOLETE | CONFFILE_REMOVE_ON_UPGRADE);
 }
 
 /**
@@ -296,7 +296,7 @@ conffile_mark_obsolete(struct pkginfo *pkg, struct fsys_namenode *namenode)
     if (strcmp(conff->name, namenode->name) == 0) {
       debug(dbg_conff, "marking %s conffile %s as obsolete",
             pkg_name(pkg, pnaw_always), conff->name);
-      conff->obsolete = true;
+      conff->flags |= CONFFILE_OBSOLETE;
       return;
     }
   }

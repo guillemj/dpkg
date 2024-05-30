@@ -528,7 +528,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
     static struct varbuf fnvb, removevb;
       struct varbuf_state removevb_state;
 
-      if (conff->obsolete) {
+      if (conff->flags & CONFFILE_OBSOLETE) {
 	debug(dbg_conffdetail, "removal_bulk conffile obsolete %s",
 	      conff->name);
       }

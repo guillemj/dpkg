@@ -77,12 +77,20 @@ struct arbitraryfield {
   const char *value;
 };
 
+enum DPKG_ATTR_ENUM_FLAGS conffile_flags {
+  /** No flags. */
+  CONFFILE_NONE			= 0,
+  /** The conffile is not shipped anymore in the new package. */
+  CONFFILE_OBSOLETE		= DPKG_BIT(0),
+  /** The conffile is marked to be removed during package upgrade. */
+  CONFFILE_REMOVE_ON_UPGRADE	= DPKG_BIT(1),
+};
+
 struct conffile {
   struct conffile *next;
   const char *name;
   const char *hash;
-  bool obsolete;
-  bool remove_on_upgrade;
+  enum conffile_flags flags;
 };
 
 struct archivedetails {

@@ -363,7 +363,7 @@ f_conffiles(struct pkginfo *pkg, struct pkgbin *pkgbin,
     const char *endent, *endfn, *hashstart;
     char *newptr;
     int c, namelen, hashlen;
-    bool obsolete, remove_on_upgrade;
+    int flags = CONFFILE_NONE;
 
     c= *value++;
     if (c == '\n') continue;
@@ -375,18 +375,21 @@ f_conffiles(struct pkginfo *pkg, struct pkgbin *pkgbin,
     conffvalue_lastword(value, endent, endent,
 			&hashstart, &hashlen, &endfn,
                         ps);
-    remove_on_upgrade = (hashlen == sizeof(remove_on_upgrade_str) - 1 &&
-                         memcmp(hashstart, remove_on_upgrade_str, hashlen) == 0);
-    if (remove_on_upgrade)
+    if (hashlen == sizeof(remove_on_upgrade_str) - 1 &&
+        memcmp(hashstart, remove_on_upgrade_str, hashlen) == 0) {
+      flags |= CONFFILE_REMOVE_ON_UPGRADE;
       conffvalue_lastword(value, endfn, endent, &hashstart, &hashlen, &endfn,
                           ps);
+    }
 
-    obsolete= (hashlen == sizeof(obsolete_str)-1 &&
-               memcmp(hashstart, obsolete_str, hashlen) == 0);
-    if (obsolete)
+    if (hashlen == sizeof(obsolete_str) - 1 &&
+        memcmp(hashstart, obsolete_str, hashlen) == 0) {
+      flags |= CONFFILE_OBSOLETE;
       conffvalue_lastword(value, endfn, endent,
 			  &hashstart, &hashlen, &endfn,
 			  ps);
+    }
+
     newlink = nfmalloc(sizeof(*newlink));
     value = path_skip_slash_dotslash(value);
     namelen= (int)(endfn-value);
@@ -403,8 +406,7 @@ f_conffiles(struct pkginfo *pkg, struct pkgbin *pkgbin,
     memcpy(newptr, hashstart, hashlen);
     newptr[hashlen] = '\0';
     newlink->hash= newptr;
-    newlink->obsolete= obsolete;
-    newlink->remove_on_upgrade = remove_on_upgrade;
+    newlink->flags = flags;
     newlink->next =NULL;
     *lastp= newlink;
     lastp= &newlink->next;

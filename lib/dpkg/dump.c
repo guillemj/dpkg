@@ -390,9 +390,9 @@ w_conffiles(struct varbuf *vb,
     varbuf_add_str(vb, i->name);
     varbuf_add_char(vb, ' ');
     varbuf_add_str(vb, i->hash);
-    if (i->obsolete)
+    if (i->flags & CONFFILE_OBSOLETE)
       varbuf_add_str(vb, " obsolete");
-    if (i->remove_on_upgrade)
+    if (i->flags & CONFFILE_REMOVE_ON_UPGRADE)
       varbuf_add_str(vb, " remove-on-upgrade");
   }
   if (flags&fw_printheader)

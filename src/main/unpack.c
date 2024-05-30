@@ -919,9 +919,11 @@ pkg_update_fields(struct pkginfo *pkg, struct fsys_namenode_queue *newconffiles)
     newiconff->next = NULL;
     newiconff->name = nfstrsave(cfile->namenode->name);
     newiconff->hash = nfstrsave(cfile->namenode->oldhash);
-    newiconff->obsolete = !!(cfile->namenode->flags & FNNF_OBS_CONFF);
-    newiconff->remove_on_upgrade = !!(
-        cfile->namenode->flags & FNNF_RM_CONFF_ON_UPGRADE);
+    newiconff->flags = CONFFILE_NONE;
+    if (cfile->namenode->flags & FNNF_OBS_CONFF)
+      newiconff->flags |= CONFFILE_OBSOLETE;
+    if (cfile->namenode->flags & FNNF_RM_CONFF_ON_UPGRADE)
+      newiconff->flags |= CONFFILE_REMOVE_ON_UPGRADE;
     *iconffileslastp = newiconff;
     iconffileslastp = &newiconff->next;
   }
