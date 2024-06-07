@@ -23,6 +23,8 @@
 #ifndef LIBDPKG_TRIGLIB_H
 #define LIBDPKG_TRIGLIB_H
 
+#include <stdbool.h>
+
 #include <dpkg/macros.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/fsys.h>

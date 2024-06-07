@@ -24,6 +24,7 @@
 #include <dpkg/macros.h>
 
 #include <stdarg.h>
+#include <stdbool.h>
 
 DPKG_BEGIN_DECLS
 

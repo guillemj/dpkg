@@ -22,6 +22,8 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <stdbool.h>
+
 #include <dpkg/debug.h>
 #include <dpkg/pkg-list.h>
 

@@ -21,6 +21,8 @@
 #ifndef LIBDPKG_PKG_FORMAT_H
 #define LIBDPKG_PKG_FORMAT_H
 
+#include <stdbool.h>
+
 #include <dpkg/macros.h>
 #include <dpkg/error.h>
 #include <dpkg/dpkg-db.h>

@@ -23,6 +23,7 @@
 #ifndef LIBDPKG_PARSEDUMP_H
 #define LIBDPKG_PARSEDUMP_H
 
+#include <stdbool.h>
 #include <stdint.h>
 
 #include <dpkg/error.h>

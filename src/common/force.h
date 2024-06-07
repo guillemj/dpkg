@@ -22,6 +22,8 @@
 #ifndef DPKG_FORCE_H
 #define DPKG_FORCE_H
 
+#include <stdbool.h>
+
 #include <dpkg/dpkg.h>
 #include <dpkg/options.h>
 
