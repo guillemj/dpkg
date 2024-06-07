@@ -449,9 +449,7 @@ sub add_build_flags {
     }
 
     $flags->append($_, $default_flags) foreach @compile_flags;
-    $flags->append($_ . '_FOR_BUILD', $default_flags) foreach @compile_flags;
     $flags->append('DFLAGS', $default_d_flags);
-    $flags->append('DFLAGS_FOR_BUILD', $default_d_flags);
 
     ## Area: abi
 
@@ -631,6 +629,23 @@ sub add_build_flags {
         if (defined $flag) {
             $flags->append($_, $flag) foreach @compile_flags;
         }
+    }
+
+    # XXX: Handle *_FOR_BUILD flags here until we can properly initialize them.
+    require Dpkg::Arch;
+
+    my $host_arch = Dpkg::Arch::get_host_arch();
+    my $build_arch = Dpkg::Arch::get_build_arch();
+
+    if ($host_arch eq $build_arch) {
+        foreach my $flag ($flags->list()) {
+            next if $flag =~ m/_FOR_BUILD$/;
+            my $value = $flags->get($flag);
+            $flags->append($flag . '_FOR_BUILD', $value);
+        }
+    } else {
+        $flags->append($_ . '_FOR_BUILD', $default_flags) foreach @compile_flags;
+        $flags->append('DFLAGS_FOR_BUILD', $default_d_flags);
     }
 }
 
