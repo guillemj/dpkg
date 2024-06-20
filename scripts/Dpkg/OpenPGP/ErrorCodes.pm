@@ -1,4 +1,4 @@
-# Copyright © 2022 Guillem Jover <guillem@debian.org>
+# Copyright © 2022-2024 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -44,7 +44,12 @@ our @EXPORT = qw(
     OPENPGP_MISSING_INPUT
     OPENPGP_KEY_IS_PROTECTED
     OPENPGP_UNSUPPORTED_SUBCMD
+    OPENPGP_UNSUPPORTED_SPECIAL_PREFIX
+    OPENPGP_AMBIGUOUS_INPUT
     OPENPGP_KEY_CANNOT_SIGN
+    OPENPGP_INCOMPATIBLE_OPTIONS
+    OPENPGP_NO_HW_KEY_FOUND
+    OPENPGP_HW_KEY_FAILURE
 
     OPENPGP_MISSING_CMD
     OPENPGP_NEEDS_KEYSTORE
@@ -58,7 +63,7 @@ use Exporter qw(import);
 use Dpkg::Gettext;
 
 # Error codes based on
-# https://ietf.org/archive/id/draft-dkg-openpgp-stateless-cli-04.html#section-6
+# https://ietf.org/archive/id/draft-dkg-openpgp-stateless-cli-10.html#section-7
 #
 # Local error codes use a negative number, as that should not conflict with
 # the SOP exit codes.
@@ -74,7 +79,12 @@ use constant {
     OPENPGP_MISSING_INPUT => 61,
     OPENPGP_KEY_IS_PROTECTED => 67,
     OPENPGP_UNSUPPORTED_SUBCMD => 69,
+    OPENPGP_UNSUPPORTED_SPECIAL_PREFIX => 71,
+    OPENPGP_AMBIGUOUS_INPUT => 73,
     OPENPGP_KEY_CANNOT_SIGN => 79,
+    OPENPGP_INCOMPATIBLE_OPTIONS => 83,
+    OPENPGP_NO_HW_KEY_FOUND => 97,
+    OPENPGP_HW_KEY_FAILURE => 101,
 
     OPENPGP_MISSING_CMD => -1,
     OPENPGP_NEEDS_KEYSTORE => -2,
@@ -92,7 +102,12 @@ my %code2error = (
     OPENPGP_MISSING_INPUT() => N_('input file does not exist'),
     OPENPGP_KEY_IS_PROTECTED() => N_('cannot unlock password-protected key'),
     OPENPGP_UNSUPPORTED_SUBCMD() => N_('unsupported subcommand'),
+    OPENPGP_UNSUPPORTED_SPECIAL_PREFIX() => N_('unknown special designator in indirect parameter'),
+    OPENPGP_AMBIGUOUS_INPUT() => N_('special designator in indirect parameter is an existing file'),
     OPENPGP_KEY_CANNOT_SIGN() => N_('key is not signature-capable'),
+    OPENPGP_INCOMPATIBLE_OPTIONS() => N_('mutually exclusive options'),
+    OPENPGP_NO_HW_KEY_FOUND() => N_('cannot identify hardware device for hardware-backed secret keys'),
+    OPENPGP_HW_KEY_FAILURE() => N_('cannot perform operation on hardware-backed secret key'),
 
     OPENPGP_MISSING_CMD() => N_('missing OpenPGP implementation'),
     OPENPGP_NEEDS_KEYSTORE() => N_('specified key needs a keystore'),
