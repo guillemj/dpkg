@@ -23,8 +23,6 @@
 use strict;
 use warnings;
 
-use File::Temp qw(tempdir);
-use File::Basename;
 use File::Copy;
 use File::Glob qw(bsd_glob GLOB_TILDE GLOB_NOCHECK);
 use POSIX qw(:sys_wait_h);
@@ -866,24 +864,16 @@ sub signkey_validate {
 
 sub signfile {
     my $file = shift;
+    my $signfile = "../$file";
 
     printcmd("signfile $file");
 
-    my $signdir = tempdir('dpkg-sign.XXXXXXXX', CLEANUP => 1);
-    my $signfile = "$signdir/$file";
-
-    # Make sure the file to sign ends with a newline.
-    copy("../$file", $signfile);
-    open my $signfh, '>>', $signfile or syserr(g_('cannot open %s'), $signfile);
-    print { $signfh } "\n";
-    close $signfh or syserr(g_('cannot close %s'), $signfile);
-
     my $status = $openpgp->inline_sign($signfile, "$signfile.asc", $signkey);
     if ($status == OPENPGP_OK) {
-        move("$signfile.asc", "../$file")
-            or syserror(g_('cannot move %s to %s'), "$signfile.asc", "../$file");
+        move("$signfile.asc", $signfile)
+            or syserror(g_('cannot move %s to %s'), "$signfile.asc", $signfile);
     } else {
-        error(g_('failed to sign %s file: %s'), $file,
+        error(g_('failed to sign %s file: %s'), $signfile,
               openpgp_errorcode_to_string($status));
     }
 

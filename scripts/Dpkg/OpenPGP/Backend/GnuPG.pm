@@ -34,7 +34,9 @@ use strict;
 use warnings;
 
 use POSIX qw(:sys_wait_h);
+use File::Basename;
 use File::Temp;
+use File::Copy;
 use MIME::Base64;
 
 use Dpkg::ErrorHandling;
@@ -295,6 +297,18 @@ sub inline_sign {
     my ($self, $data, $inlinesigned, $key) = @_;
 
     return OPENPGP_MISSING_CMD if ! $self->has_backend_cmd();
+
+    my $file = basename($data);
+    my $signdir = File::Temp->newdir('dpkg-sign.XXXXXXXX', TMPDIR => 1);
+    my $signfile = "$signdir/$file";
+
+    # Make sure the file to sign ends with a newline, as GnuPG does not adhere
+    # to the OpenPGP specification (see <https://dev.gnupg.org/T7106>).
+    copy($data, $signfile);
+    open my $signfh, '>>', $signfile
+        or syserr(g_('cannot open %s'), $signfile);
+    print { $signfh } "\n";
+    close $signfh or syserr(g_('cannot close %s'), $signfile);
 
     my @exec = ($self->{cmd});
     push @exec, _gpg_options_weak_digests();
