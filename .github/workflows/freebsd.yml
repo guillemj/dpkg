@@ -1,0 +1,24 @@
+name: FreeBSD test
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test dpkg on FreeBSD
+    steps:
+    - uses: actions/checkout@v4
+    - name: Test in FreeBSD
+      id: test
+      uses: vmactions/freebsd-vm@v1
+      with:
+        usesh: true
+        copyback: false
+        prepare: |
+          pkg install -y pkgconf libtool autoconf automake gettext-tools gettext-runtime gtar patch gmake
+
+        run: |
+          ./.github/actions/ci-configure
+          ./.github/actions/ci-test
