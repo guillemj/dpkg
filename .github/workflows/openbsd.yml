@@ -1,0 +1,31 @@
+name: OpenBSD test
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test dpkg on OpenBSD
+    steps:
+    - uses: actions/checkout@v4
+    - name: Test in OpenBSD
+      id: test
+      uses: vmactions/openbsd-vm@v1
+      env:
+        AUTOCONF_VERSION: 2.72
+        AUTOMAKE_VERSION: 1.17
+        MAKE: gmake
+        LDFLAGS: -L/usr/local/lib
+        CPPFLAGS: -isystem /usr/local/include
+      with:
+        envs: 'AUTOCONF_VERSION AUTOMAKE_VERSION MAKE LDFLAGS CPPFLAGS'
+        usesh: true
+        copyback: false
+        prepare: |
+          pkg_add pkgconf libtool autoconf-2.72p0 automake-1.17 gettext-tools gettext-runtime gtar-1.35p0 gpatch gmake
+
+        run: |
+          ./.github/actions/ci-configure
+          ./.github/actions/ci-test

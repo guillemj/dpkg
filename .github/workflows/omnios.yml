@@ -1,0 +1,28 @@
+name: OmniOS (illumos) test
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test dpkg on OmniOS (illumos)
+    steps:
+    - uses: actions/checkout@v4
+    - name: Test in OmniOS (illumos)
+      id: test
+      uses: vmactions/omnios-vm@v1
+      env:
+        MAKE: gmake
+      with:
+        envs: 'MAKE'
+        usesh: true
+        copyback: false
+        prepare: |
+          pkg refresh
+          pkg install pkg-config libtool autoconf automake gnu-gettext gnu-tar gnu-patch gcc13 gnu-make
+
+        run: |
+          ./.github/actions/ci-configure
+          ./.github/actions/ci-test
