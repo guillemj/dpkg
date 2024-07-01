@@ -29,7 +29,7 @@ loop_targets := $(tools) $(tools:=_FOR_BUILD)
 test: $(loop_targets)
 
 $(loop_targets):
-	: # Test the Make variable.
+	: # Test the $@ Make variable.
 	test '$($@)' = '$(TEST_$@)'
-	: # Test the exported variable.
+	: # Test the $@ exported variable.
 	test "$${$@}" = '$(TEST_$@)'

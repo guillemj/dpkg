@@ -18,7 +18,9 @@ test_vars := \
   # EOL
 
 test: $(test_vars)
+	: # Test the SOURCE_DATE_EPOCH exported variable.
 	test "$${SOURCE_DATE_EPOCH}" = '$(TEST_SOURCE_DATE_EPOCH)'
 
 $(test_vars):
+	: # Test the $@ Make variable.
 	test '$($@)' = '$(TEST_$@)'

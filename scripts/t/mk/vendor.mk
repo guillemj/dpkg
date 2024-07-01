@@ -9,7 +9,9 @@ test_vars := \
   # EOL
 
 test: $(test_vars)
+	: # Test the dpkg_vendor_derives_from macro.
 	test "$(shell $(call dpkg_vendor_derives_from,debian))" = "yes"
 
 $(test_vars):
+	: # Test $@ Make variable.
 	test '$($@)' = '$(TEST_$@)'

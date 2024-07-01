@@ -7,4 +7,5 @@ test_vars := \
 test: $(test_vars)
 
 $(test_vars):
+	: # Test the $@ Make variable.
 	test '$($@)' = '$(TEST_$@)'
