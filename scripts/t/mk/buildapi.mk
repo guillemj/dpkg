@@ -1,4 +1,12 @@
 include $(srcdir)/mk/buildapi.mk
 
-test:
-	test "$(DPKG_BUILD_API)" = "0"
+TEST_DPKG_BUILD_API = 0
+
+test_vars := \
+  DPKG_BUILD_API \
+  # EOL
+
+test: $(test_vars)
+
+$(test_vars):
+	test '$($@)' = '$(TEST_$@)'

@@ -1,6 +1,15 @@
 include $(srcdir)/mk/vendor.mk
 
-test:
-	test "$(DEB_VENDOR)" = "Debian"
-	test "$(DEB_PARENT_VENDOR)" = ""
+TEST_DEB_VENDOR = Debian
+TEST_DEB_PARENT_VENDOR =
+
+test_vars := \
+  DEB_VENDOR \
+  DEB_PARENT_VENDOR \
+  # EOL
+
+test: $(test_vars)
 	test "$(shell $(call dpkg_vendor_derives_from,debian))" = "yes"
+
+$(test_vars):
+	test '$($@)' = '$(TEST_$@)'
