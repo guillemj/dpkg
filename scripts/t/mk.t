@@ -41,8 +41,8 @@ delete $ENV{MAKEFLAGS};
 delete $ENV{$_} foreach grep { m/^DEB_/ } keys %ENV;
 
 # Set architecture variables to not require dpkg nor gcc.
+$ENV{CC} = 'gcc';
 $ENV{PATH} = "$srcdir/t/mock-bin:$ENV{PATH}";
-
 $ENV{DEB_BUILD_PATH} = rel2abs($datadir);
 
 sub test_makefile {
