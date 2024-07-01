@@ -1,0 +1,32 @@
+#!/bin/sh
+
+set -e
+
+if command -v git >/dev/null; then
+  echo
+  echo "Marking GITHUB_WORKSPACE git directory as safe"
+  echo
+  git config --global --add safe.directory "$(pwd)"
+fi
+
+echo
+echo "Preparing dist..."
+echo
+build-aux/run-script build-aux/get-version-ci >.dist-version
+echo "$GITHUB_SHA" >.dist-vcs-id
+
+echo
+echo "Running autogen..."
+echo
+./autogen
+
+echo
+echo "Running configure..."
+echo
+if ! ./configure; then
+  echo
+  echo "error: running configure, contents of config.log follow:"
+  echo
+  cat config.log
+  exit 1
+fi

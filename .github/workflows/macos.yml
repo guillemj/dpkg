@@ -1,0 +1,30 @@
+name: macOS test
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: macos-latest
+    name: Test dpkg on macOS
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get build dependencies
+        run: |
+          brew update
+          brew install libtool autoconf automake gpatch libmd make
+
+      - name: Configure
+        env:
+          CPPFLAGS: -I/opt/homebrew/include
+          LDFLAGS: -L/opt/homebrew/lib
+        run: |
+          ./.github/actions/ci-configure
+
+      - name: Test
+        run: |
+          ./.github/actions/ci-test

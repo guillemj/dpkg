@@ -1,0 +1,28 @@
+name: Solaris test
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test dpkg on Solaris
+    steps:
+    - uses: actions/checkout@v4
+    - name: Test in Solaris
+      id: test
+      uses: vmactions/solaris-vm@v1
+      env:
+        MAKE: gmake
+      with:
+        envs: 'MAKE'
+        usesh: true
+        copyback: false
+        prepare: |
+          pkg refresh
+          pkg install pkg-config libtool autoconf automake gnu-gettext gnu-tar gnu-patch gcc@latest gnu-make
+
+        run: |
+          ./.github/actions/ci-configure
+          ./.github/actions/ci-test

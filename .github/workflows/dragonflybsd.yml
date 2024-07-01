@@ -1,0 +1,30 @@
+name: DragonFlyBSD test
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test dpkg on DragonFlyBSD
+    steps:
+    - uses: actions/checkout@v4
+    - name: Test in DragonFlyBSD
+      id: test
+      uses: vmactions/dragonflybsd-vm@v1
+      env:
+        LANG: C
+        MAKE: gmake
+        CPPFLAGS: -I/usr/local/include
+        LDFLAGS: -L/usr/local/lib
+      with:
+        envs: 'LANG MAKE LDFLAGS CPPFLAGS'
+        usesh: true
+        copyback: false
+        prepare: |
+          pkg install -y pkgconf libmd libtool autoconf automake gettext-tools gettext-runtime gtar patch gmake gcc
+
+        run: |
+          ./.github/actions/ci-configure
+          ./.github/actions/ci-test
