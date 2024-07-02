@@ -4,7 +4,8 @@
 ifndef dpkg_default_mk_included
 dpkg_default_mk_included = yes
 
-dpkg_datadir = $(srcdir)/mk
+dpkg_datadir := $(dir $(lastword $(MAKEFILE_LIST)))
+
 include $(dpkg_datadir)/architecture.mk
 include $(dpkg_datadir)/buildapi.mk
 ifeq ($(call dpkg_build_api_ge,1),yes)

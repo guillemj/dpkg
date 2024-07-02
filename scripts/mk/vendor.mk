@@ -36,7 +36,7 @@
 ifndef dpkg_vendor_mk_included
 dpkg_vendor_mk_included = yes
 
-dpkg_datadir = $(srcdir)/mk
+dpkg_datadir ?= $(dir $(lastword $(MAKEFILE_LIST)))
 include $(dpkg_datadir)/buildapi.mk
 
 dpkg_lazy_eval ?= $(eval $(1) = $(2)$$($(1)))
