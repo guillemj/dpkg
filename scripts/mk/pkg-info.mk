@@ -21,7 +21,7 @@ dpkg_pkg_info_mk_included = yes
 dpkg_parsechangelog_run = $(eval $(shell dpkg-parsechangelog | sed -n '\
   s/^Distribution: \(.*\)/$$(eval DEB_DISTRIBUTION:=\1)/p;\
   s/^Source: \(.*\)/$$(eval DEB_SOURCE:=\1)/p;\
-  s/^Version: \([0-9]*:\)\?\([^-]*\)\(\(.*\)-[^-]*\)\?$$/\
+  s/^Version: \([0-9]*:\)\{0,1\}\([^-]*\)\(\(.*\)-[^-]*\)\{0,1\}$$/\
     $$(eval DEB_VERSION:=\1\2\3)\
     $$(eval DEB_VERSION_EPOCH_UPSTREAM:=\1\2\4)\
     $$(eval DEB_VERSION_UPSTREAM_REVISION:=\2\3)\
