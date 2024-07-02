@@ -1,5 +1,5 @@
 # Copyright © 2009-2011 Raphaël Hertzog <hertzog@debian.org>
-# Copyright © 2009, 2011-2017 Guillem Jover <guillem@debian.org>
+# Copyright © 2009-2024 Guillem Jover <guillem@debian.org>
 #
 # Hardening build flags handling derived from work of:
 # Copyright © 2009-2011 Kees Cook <kees@debian.org>
@@ -88,7 +88,21 @@ sub run_hook {
         # Reset umask to a sane default.
         umask 0022;
         # Reset locale to a sane default.
+        #
+        # We ignore the LANGUAGE GNU extension, as that only affects
+        # LC_MESSAGES which will use LC_CTYPE for its codeset. We need to
+        # move the high priority LC_ALL catch-all into the low-priority
+        # LANG catch-all so that we can override LC_* variables, and remove
+        # any existing LC_* variables which would have been ignored anyway,
+        # and would now take precedence over LANG.
+        if (length $ENV{LC_ALL}) {
+            $ENV{LANG} = delete $ENV{LC_ALL};
+            foreach my $lc (grep { m/^LC_/ } keys %ENV) {
+                delete $ENV{$lc};
+            }
+        }
         $ENV{LC_COLLATE} = 'C.UTF-8';
+        $ENV{LC_CTYPE} = 'C.UTF-8';
     } elsif ($hook eq 'backport-version-regex') {
         return qr/~(bpo|deb)/;
     } else {
