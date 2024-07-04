@@ -477,6 +477,8 @@ sub add_build_flags {
     # Warnings that detect actual bugs.
     if ($flags->use_feature('qa', 'bug-implicit-func')) {
         $flags->append('CFLAGS', '-Werror=implicit-function-declaration');
+    } else {
+        $flags->append('CFLAGS', '-Wno-error=implicit-function-declaration');
     }
     if ($flags->use_feature('qa', 'bug')) {
         # C/C++ flags
