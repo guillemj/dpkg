@@ -267,8 +267,7 @@ data.tar
 
 AT_CHECK([
 # Test missing debian-binary member
-cp pkg-templ.deb pkg-missing-magic.deb
-ar d pkg-missing-magic.deb debian-binary
+ar qSc pkg-missing-magic.deb control.tar data.tar
 ar t pkg-missing-magic.deb
 dpkg-deb -I pkg-missing-magic.deb
 ], [2], [control.tar
@@ -278,8 +277,7 @@ data.tar
 
 AT_CHECK([
 # Test missing control member
-cp pkg-templ.deb pkg-missing-control.deb
-ar d pkg-missing-control.deb control.tar
+ar qSc pkg-missing-control.deb debian-binary data.tar
 ar t pkg-missing-control.deb
 dpkg-deb -I pkg-missing-control.deb
 ], [2], [debian-binary
@@ -289,8 +287,7 @@ data.tar
 
 AT_CHECK([
 # Test missing data member
-cp pkg-templ.deb pkg-missing-data.deb
-ar d pkg-missing-data.deb data.tar
+ar qSc pkg-missing-data.deb debian-binary control.tar
 ar t pkg-missing-data.deb
 dpkg-deb -c pkg-missing-data.deb
 ], [2], [debian-binary
@@ -348,8 +345,7 @@ data.tar
 
 AT_CHECK([
 # Test swapped control and data members
-cp pkg-templ.deb pkg-swap-members.deb
-ar ma data.tar pkg-swap-members.deb control.tar
+ar qSc pkg-swap-members.deb debian-binary data.tar control.tar
 ar t pkg-swap-members.deb
 dpkg-deb -I pkg-swap-members.deb
 ], [2], [debian-binary
@@ -360,8 +356,7 @@ control.tar
 
 AT_CHECK([
 # Test extra member
-cp pkg-templ.deb pkg-extra-member.deb
-ar qS pkg-extra-member.deb unknown
+ar qSc pkg-extra-member.deb debian-binary control.tar data.tar unknown
 ar t pkg-extra-member.deb
 dpkg-deb -I pkg-extra-member.deb
 ], [], [debian-binary
