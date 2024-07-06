@@ -198,7 +198,7 @@ m4_define([DPKG_GEN_PKG_DEB_FORMAT_TEMPL], [
   dpkg-deb --uniform-compression --root-owner-group -Znone -b pkg-templ >/dev/null
 
   # Extract the base members
-  ar x pkg-templ.deb
+  DPKG_AR_EXTRACT([pkg-templ.deb])
   gzip -cn control.tar >control.tar.gz
   gzip -cn data.tar >data.tar.gz
   ])
@@ -224,9 +224,9 @@ DPKG_GEN_PKG_DEB_FORMAT_TEMPL()
 AT_CHECK([
 # Test debian-binary with 2.x versions
 echo 2.999 >debian-binary
-ar qSc pkg-version-2x.deb debian-binary control.tar data.tar
-ar t pkg-version-2x.deb
-ar x pkg-templ.deb debian-binary
+DPKG_AR_GEN([pkg-version-2x.deb], [debian-binary control.tar data.tar])
+DPKG_AR_LIST([pkg-version-2x.deb])
+DPKG_AR_EXTRACT([pkg-templ.deb], [debian-binary])
 dpkg-deb -I pkg-version-2x.deb
 ], [], [debian-binary
 control.tar
@@ -246,9 +246,9 @@ data.tar
 AT_CHECK([
 # Test debian-binary with extra lines
 echo "extra line" >>debian-binary
-ar qSc pkg-magic-extra.deb debian-binary control.tar data.tar
-ar t pkg-magic-extra.deb
-ar x pkg-templ.deb debian-binary
+DPKG_AR_GEN([pkg-magic-extra.deb], [debian-binary control.tar data.tar])
+DPKG_AR_LIST([pkg-magic-extra.deb])
+DPKG_AR_EXTRACT([pkg-templ.deb], [debian-binary])
 dpkg-deb -I pkg-magic-extra.deb
 ], [], [debian-binary
 control.tar
@@ -267,8 +267,8 @@ data.tar
 
 AT_CHECK([
 # Test missing debian-binary member
-ar qSc pkg-missing-magic.deb control.tar data.tar
-ar t pkg-missing-magic.deb
+DPKG_AR_GEN([pkg-missing-magic.deb], [control.tar data.tar])
+DPKG_AR_LIST([pkg-missing-magic.deb])
 dpkg-deb -I pkg-missing-magic.deb
 ], [2], [control.tar
 data.tar
@@ -277,8 +277,8 @@ data.tar
 
 AT_CHECK([
 # Test missing control member
-ar qSc pkg-missing-control.deb debian-binary data.tar
-ar t pkg-missing-control.deb
+DPKG_AR_GEN([pkg-missing-control.deb], [debian-binary data.tar])
+DPKG_AR_LIST([pkg-missing-control.deb])
 dpkg-deb -I pkg-missing-control.deb
 ], [2], [debian-binary
 data.tar
@@ -287,8 +287,8 @@ data.tar
 
 AT_CHECK([
 # Test missing data member
-ar qSc pkg-missing-data.deb debian-binary control.tar
-ar t pkg-missing-data.deb
+DPKG_AR_GEN([pkg-missing-data.deb], [debian-binary control.tar])
+DPKG_AR_LIST([pkg-missing-data.deb])
 dpkg-deb -c pkg-missing-data.deb
 ], [2], [debian-binary
 control.tar
@@ -297,8 +297,8 @@ control.tar
 
 AT_CHECK([
 # Test duplicate debian-binary member
-ar qSc pkg-duplicate-magic.deb debian-binary debian-binary control.tar data.tar
-ar t pkg-duplicate-magic.deb
+DPKG_AR_GEN([pkg-duplicate-magic.deb], [debian-binary debian-binary control.tar data.tar])
+DPKG_AR_LIST([pkg-duplicate-magic.deb])
 dpkg-deb -I pkg-duplicate-magic.deb
 ], [2], [debian-binary
 debian-binary
@@ -309,8 +309,8 @@ data.tar
 
 AT_CHECK([
 # Test duplicate control member
-ar qSc pkg-duplicate-control.deb debian-binary control.tar control.tar data.tar
-ar t pkg-duplicate-control.deb
+DPKG_AR_GEN([pkg-duplicate-control.deb], [debian-binary control.tar control.tar data.tar])
+DPKG_AR_LIST([pkg-duplicate-control.deb])
 dpkg-deb -c pkg-duplicate-control.deb
 ], [2], [debian-binary
 control.tar
@@ -321,8 +321,8 @@ data.tar
 
 AT_CHECK([
 # Test mixed member (index 1)
-ar qSc pkg-mixed-1-member.deb debian-binary unknown control.tar data.tar
-ar t pkg-mixed-1-member.deb
+DPKG_AR_GEN([pkg-mixed-1-member.deb], [debian-binary unknown control.tar data.tar])
+DPKG_AR_LIST([pkg-mixed-1-member.deb])
 dpkg-deb -I pkg-mixed-1-member.deb
 ], [2], [debian-binary
 unknown
@@ -333,8 +333,8 @@ data.tar
 
 AT_CHECK([
 # Test mixed member (index 2)
-ar qSc pkg-mixed-2-member.deb debian-binary control.tar unknown data.tar
-ar t pkg-mixed-2-member.deb
+DPKG_AR_GEN([pkg-mixed-2-member.deb], [debian-binary control.tar unknown data.tar])
+DPKG_AR_LIST([pkg-mixed-2-member.deb])
 dpkg-deb -c pkg-mixed-2-member.deb
 ], [2], [debian-binary
 control.tar
@@ -345,8 +345,8 @@ data.tar
 
 AT_CHECK([
 # Test swapped control and data members
-ar qSc pkg-swap-members.deb debian-binary data.tar control.tar
-ar t pkg-swap-members.deb
+DPKG_AR_GEN([pkg-swap-members.deb], [debian-binary data.tar control.tar])
+DPKG_AR_LIST([pkg-swap-members.deb])
 dpkg-deb -I pkg-swap-members.deb
 ], [2], [debian-binary
 data.tar
@@ -356,8 +356,8 @@ control.tar
 
 AT_CHECK([
 # Test extra member
-ar qSc pkg-extra-member.deb debian-binary control.tar data.tar unknown
-ar t pkg-extra-member.deb
+DPKG_AR_GEN([pkg-extra-member.deb], [debian-binary control.tar data.tar unknown])
+DPKG_AR_LIST([pkg-extra-member.deb])
 dpkg-deb -I pkg-extra-member.deb
 ], [], [debian-binary
 control.tar
@@ -378,8 +378,8 @@ unknown
 AT_DATA([_ignore], [])
 AT_CHECK([
 # Test _ member
-ar qSc pkg-under-member.deb debian-binary _ignore control.tar data.tar
-ar t pkg-under-member.deb
+DPKG_AR_GEN([pkg-under-member.deb], [debian-binary _ignore control.tar data.tar])
+DPKG_AR_LIST([pkg-under-member.deb])
 dpkg-deb -I pkg-under-member.deb
 ], [], [debian-binary
 _ignore
@@ -400,8 +400,8 @@ data.tar
 AT_CHECK([
 # Test data.tar.bad member
 $PERL -E 'print "\0" x 4096' >data.tar.bad
-ar qSc pkg-data-bad.deb debian-binary control.tar.gz data.tar.bad
-ar t pkg-data-bad.deb
+DPKG_AR_GEN([pkg-data-bad.deb], [debian-binary control.tar.gz data.tar.bad])
+DPKG_AR_LIST([pkg-data-bad.deb])
 dpkg-deb -c pkg-data-bad.deb
 ], [2], [debian-binary
 control.tar.gz
@@ -411,8 +411,8 @@ data.tar.bad
 
 AT_CHECK([
 # Test control.tar member
-ar qSc pkg-control-none.deb debian-binary control.tar data.tar
-ar t pkg-control-none.deb
+DPKG_AR_GEN([pkg-control-none.deb], [debian-binary control.tar data.tar])
+DPKG_AR_LIST([pkg-control-none.deb])
 dpkg-deb -I pkg-control-none.deb
 ], [], [debian-binary
 control.tar
@@ -431,8 +431,8 @@ data.tar
 
 AT_CHECK([
 # Test data.tar member
-ar qSc pkg-data-none.deb debian-binary control.tar.gz data.tar
-ar t pkg-data-none.deb
+DPKG_AR_GEN([pkg-data-none.deb], [debian-binary control.tar.gz data.tar])
+DPKG_AR_LIST([pkg-data-none.deb])
 dpkg-deb -c pkg-data-none.deb
 ], [], [debian-binary
 control.tar.gz
@@ -444,8 +444,8 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 
 AT_CHECK([
 # Test data.tar.gz member
-ar qSc pkg-data-gz.deb debian-binary control.tar.gz data.tar.gz
-ar t pkg-data-gz.deb
+DPKG_AR_GEN([pkg-data-gz.deb], [debian-binary control.tar.gz data.tar.gz])
+DPKG_AR_LIST([pkg-data-gz.deb])
 dpkg-deb -c pkg-data-gz.deb
 ], [], [debian-binary
 control.tar.gz
@@ -456,12 +456,12 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 ])
 
 # Create .deb with non-uniform data.tar/control.tar member compression
-ar qSc pkg-mixed-comp.deb debian-binary control.tar data.tar.gz
+DPKG_AR_GEN([pkg-mixed-comp.deb], [debian-binary control.tar data.tar.gz])
 DEB_MIXED_COMP_SIZE=$(DPKG_FILE_SIZE([pkg-mixed-comp.deb]))
 
 AT_CHECK_UNQUOTED([
 # Test non-uniform data.tar/control.tar member compression
-ar t pkg-mixed-comp.deb
+DPKG_AR_LIST([pkg-mixed-comp.deb])
 dpkg-deb -I pkg-mixed-comp.deb
 dpkg-deb -c pkg-mixed-comp.deb
 ], [], [debian-binary
@@ -518,8 +518,8 @@ xz -c data.tar >data.tar.xz
 
 AT_CHECK([
 # Test control.tar.xz member
-ar qSc pkg-control-xz.deb debian-binary control.tar.xz data.tar.xz
-ar t pkg-control-xz.deb
+DPKG_AR_GEN([pkg-control-xz.deb], [debian-binary control.tar.xz data.tar.xz])
+DPKG_AR_LIST([pkg-control-xz.deb])
 dpkg-deb -c pkg-control-xz.deb
 ], [], [debian-binary
 control.tar.xz
@@ -531,8 +531,8 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 
 AT_CHECK([
 # Test data.tar.xz member
-ar qSc pkg-data-xz.deb debian-binary control.tar.gz data.tar.xz
-ar t pkg-data-xz.deb
+DPKG_AR_GEN([pkg-data-xz.deb], [debian-binary control.tar.gz data.tar.xz])
+DPKG_AR_LIST([pkg-data-xz.deb])
 dpkg-deb -c pkg-data-xz.deb
 ], [], [debian-binary
 control.tar.gz
@@ -569,8 +569,8 @@ zstd -c data.tar >data.tar.zst
 
 AT_CHECK([
 # Test control.tar.zst member
-ar qSc pkg-control-zst.deb debian-binary control.tar.zst data.tar.zst
-ar t pkg-control-zst.deb
+DPKG_AR_GEN([pkg-control-zst.deb], [debian-binary control.tar.zst data.tar.zst])
+DPKG_AR_LIST([pkg-control-zst.deb])
 dpkg-deb -c pkg-control-zst.deb
 ], [], [debian-binary
 control.tar.zst
@@ -582,8 +582,8 @@ drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 
 AT_CHECK([
 # Test data.tar.zst member
-ar qSc pkg-data-zst.deb debian-binary control.tar.gz data.tar.zst
-ar t pkg-data-zst.deb
+DPKG_AR_GEN([pkg-data-zst.deb], [debian-binary control.tar.gz data.tar.zst])
+DPKG_AR_LIST([pkg-data-zst.deb])
 dpkg-deb -c pkg-data-zst.deb
 ], [], [debian-binary
 control.tar.gz
@@ -619,8 +619,8 @@ bzip2 -c data.tar >data.tar.bz2
 
 AT_CHECK([
 # Test data.tar.bz2 member
-ar qSc pkg-data-bz2.deb debian-binary control.tar.gz data.tar.bz2
-ar t pkg-data-bz2.deb
+DPKG_AR_GEN([pkg-data-bz2.deb], [debian-binary control.tar.gz data.tar.bz2])
+DPKG_AR_LIST([pkg-data-bz2.deb])
 dpkg-deb -c pkg-data-bz2.deb
 ], [], [debian-binary
 control.tar.gz
@@ -647,8 +647,8 @@ lzma -c data.tar >data.tar.lzma
 
 AT_CHECK([
 # Test data.tar.lzma member
-ar qSc pkg-data-lzma.deb debian-binary control.tar.gz data.tar.lzma
-ar t pkg-data-lzma.deb
+DPKG_AR_GEN([pkg-data-lzma.deb], [debian-binary control.tar.gz data.tar.lzma])
+DPKG_AR_LIST([pkg-data-lzma.deb])
 dpkg-deb -c pkg-data-lzma.deb
 ], [], [debian-binary
 control.tar.gz

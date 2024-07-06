@@ -26,7 +26,7 @@ dpkg-split -S 210 -s pkg-split.deb pkg-split-part
 for p in DPKG_SEQ([10]); do
   test -f pkg-split-part.${p}of10.deb
 done
-ar x pkg-split-part.1of10.deb data.1
+DPKG_AR_EXTRACT([pkg-split-part.1of10.deb], [data.1])
 ], [], [Splitting package pkg-split into 10 parts: 1 2 3 4 5 6 7 8 9 10 done
 ])
 
@@ -41,10 +41,10 @@ DEB_SPLIT_PART_SIZE_VERSION=$((DEB_SPLIT_PART_SIZE + 2))
 
 AT_CHECK_UNQUOTED([
 # Test debian-split with 2.x version
-ar x pkg-split-part.1of10.deb debian-split
+DPKG_AR_EXTRACT([pkg-split-part.1of10.deb], [debian-split])
 $PERL -p -i -E 's/.*/2.999/ if $. == 1' debian-split
-ar qSc pkg-split-part-version-2x.deb debian-split data.1
-ar t pkg-split-part-version-2x.deb
+DPKG_AR_GEN([pkg-split-part-version-2x.deb], [debian-split data.1])
+DPKG_AR_LIST([pkg-split-part-version-2x.deb])
 dpkg-split -I pkg-split-part-version-2x.deb
 ], [], [debian-split
 data.1
@@ -67,10 +67,10 @@ DEB_SPLIT_PART_SIZE_MAGIC_EXTRA=$((DEB_SPLIT_PART_SIZE + 10))
 
 AT_CHECK_UNQUOTED([
 # Test debian-split with extra lines
-ar x pkg-split-part.1of10.deb debian-split
+DPKG_AR_EXTRACT([pkg-split-part.1of10.deb], [debian-split])
 echo "extra line" >>debian-split
-ar qSc pkg-split-part-magic-extra.deb debian-split data.1
-ar t pkg-split-part-magic-extra.deb
+DPKG_AR_GEN([pkg-split-part-magic-extra.deb], [debian-split data.1])
+DPKG_AR_LIST([pkg-split-part-magic-extra.deb])
 dpkg-split -I pkg-split-part-magic-extra.deb
 ], [], [debian-split
 data.1
@@ -91,9 +91,9 @@ pkg-split-part-magic-extra.deb:
 
 AT_CHECK([
 # Test missing debian-split
-ar x pkg-split-part.1of10.deb
-ar qSc pkg-split-part-missing-magic.deb data.1
-ar t pkg-split-part-missing-magic.deb
+DPKG_AR_EXTRACT([pkg-split-part.1of10.deb])
+DPKG_AR_GEN([pkg-split-part-missing-magic.deb], [data.1])
+DPKG_AR_LIST([pkg-split-part-missing-magic.deb])
 dpkg-split -I pkg-split-part-missing-magic.deb
 ], [], [data.1
 file 'pkg-split-part-missing-magic.deb' is not an archive part
@@ -101,9 +101,9 @@ file 'pkg-split-part-missing-magic.deb' is not an archive part
 
 AT_CHECK([
 # Test missing data part member
-ar x pkg-split-part.1of10.deb
-ar qSc pkg-split-part-missing-data.deb debian-split
-ar t pkg-split-part-missing-data.deb
+DPKG_AR_EXTRACT([pkg-split-part.1of10.deb])
+DPKG_AR_GEN([pkg-split-part-missing-data.deb], [debian-split])
+DPKG_AR_LIST([pkg-split-part-missing-data.deb])
 dpkg-split -I pkg-split-part-missing-data.deb
 ], [2], [debian-split
 ], [dpkg-split: error: unexpected end of file in reading data part member ar header in pkg-split-part-missing-data.deb
@@ -111,9 +111,9 @@ dpkg-split -I pkg-split-part-missing-data.deb
 
 AT_CHECK([
 # Test duplicate debian-split member
-ar x pkg-split-part.1of10.deb debian-split data.1
-ar qSc pkg-split-part-duplicate-magic.deb debian-split debian-split data.1
-ar t pkg-split-part-duplicate-magic.deb
+DPKG_AR_EXTRACT([pkg-split-part.1of10.deb], [debian-split data.1])
+DPKG_AR_GEN([pkg-split-part-duplicate-magic.deb], [debian-split debian-split data.1])
+DPKG_AR_LIST([pkg-split-part-duplicate-magic.deb])
 dpkg-split -I pkg-split-part-duplicate-magic.deb
 ], [2], [debian-split
 debian-split
@@ -124,8 +124,8 @@ data.1
 AT_CHECK_UNQUOTED([
 # Test unknown extra member
 echo "some content" >unknown
-ar qSc pkg-split-part-extra-member.deb debian-split data.1 unknown
-ar t pkg-split-part-extra-member.deb
+DPKG_AR_GEN([pkg-split-part-extra-member.deb], [debian-split data.1 unknown])
+DPKG_AR_LIST([pkg-split-part-extra-member.deb])
 dpkg-split -I pkg-split-part-extra-member.deb
 ], [], [debian-split
 data.1
