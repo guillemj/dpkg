@@ -19,10 +19,15 @@ use warnings;
 use Test::More;
 use Test::Dpkg qw(:needs :paths);
 
+use Config;
 use Cwd;
 use IPC::Cmd qw(can_run);
 
-plan tests => 150;
+if (defined $Config{bin_ELF} && $Config{bin_ELF} eq 'define') {
+    plan tests => 150;
+} else {
+    plan skip_all => 'only ELF is currently supported';
+}
 
 $ENV{DEB_BUILD_ARCH} = 'amd64';
 $ENV{DEB_HOST_ARCH} = 'amd64';

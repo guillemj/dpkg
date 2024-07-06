@@ -19,9 +19,15 @@ use warnings;
 use Test::More;
 use Test::Dpkg qw(:needs);
 
+use Config;
+
 test_needs_command('c++filt');
 
-plan tests => 124;
+if (defined $Config{bin_ELF} && $Config{bin_ELF} eq 'define') {
+    plan tests => 124;
+} else {
+    plan skip_all => 'only ELF is currently supported';
+}
 
 use_ok('Dpkg::Shlibs::Cppfilt');
 
