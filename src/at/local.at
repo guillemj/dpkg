@@ -52,6 +52,12 @@ m4_define([DPKG_FILE_SIZE], [
   $PERL -E 'say -s shift' "$1" dnl
 ])
 
+# DPKG_CHECK_DIFF($file_out, $file_exp)
+m4_define([DPKG_CHECK_DIFF], [
+  cp "$2" expout
+  AT_CHECK([cat "$1"], [], [expout])
+])
+
 # DPKG_GEN_FSYS()
 m4_define([DPKG_GEN_DB], [
   mkdir -p DPKG_DIR_INST
