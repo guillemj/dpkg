@@ -51,6 +51,7 @@ ORed
 OpenPGP
 RCS
 XDG
+ar
 archqual
 backport
 build-indep

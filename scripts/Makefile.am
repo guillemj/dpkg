@@ -7,6 +7,7 @@ CLEANFILES =
 
 nobase_dist_perllib_DATA = \
 	Dpkg/Arch.pm \
+	Dpkg/Archive/Ar.pm \
 	Dpkg/BuildAPI.pm \
 	Dpkg/BuildDriver.pm \
 	Dpkg/BuildDriver/DebianRules.pm \
