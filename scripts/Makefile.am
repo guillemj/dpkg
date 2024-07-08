@@ -127,6 +127,7 @@ bin_SCRIPTS = \
 	# EOL
 
 EXTRA_DIST += \
+	dpkg-ar.pl \
 	dpkg-architecture.pl \
 	dpkg-buildapi.pl \
 	dpkg-buildflags.pl \
