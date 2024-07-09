@@ -223,7 +223,7 @@ main(int argc, const char *const *argv)
 	debug(dbg_general, "root=%s admindir=%s", dpkg_fsys_get_dir(), dpkg_db_get_dir());
 
 	pathname = argv[0];
-	if (pathname == NULL)
+	if (str_is_unset(pathname))
 		badusage(_("need a pathname argument"));
 
 	instdir = dpkg_fsys_get_dir();
