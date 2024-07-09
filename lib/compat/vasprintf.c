@@ -19,6 +19,8 @@
 
 #include <config.h>
 
+#include <errno.h>
+#include <limits.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,7 +38,9 @@ vasprintf(char **strp, char const *fmt, va_list args)
 	needed = vsnprintf(NULL, 0, fmt, args_copy);
 	va_end(args_copy);
 
-	if (needed < 0) {
+	if (needed < 0 || needed >= INT_MAX) {
+		if (needed >= INT_MAX)
+			errno = EOVERFLOW;
 		*strp = NULL;
 		return -1;
 	}
