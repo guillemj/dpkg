@@ -99,7 +99,7 @@ realpath_relative_to(const char *pathname, const char *rootdir)
 	varbuf_set_str(&result, rootdir);
 
 	/* Check whether the path is relative, make it absolute otherwise. */
-	if (varbuf_str(&src)[0] != '/') {
+	if (src.buf[0] != '/') {
 		struct varbuf abs_src = VARBUF_INIT;
 
 		file_getcwd(&abs_src);
@@ -139,7 +139,7 @@ realpath_relative_to(const char *pathname, const char *rootdir)
 			/* Ignore, stay at the same directory. */
 		} else if (strcmp(prefix.buf, "..") == 0) {
 			/* Go up one directory. */
-			slash = strrchr(varbuf_str(&result), '/');
+			slash = strrchr(result.buf, '/');
 			if (slash != NULL)
 				varbuf_trunc(&result, slash - result.buf);
 
@@ -160,7 +160,7 @@ realpath_relative_to(const char *pathname, const char *rootdir)
 				ohshit(_("symbolic link '%s' size has changed from %jd to %zd"),
 				       slink.buf, (intmax_t)st.st_size, linksize);
 
-			if (varbuf_str(&dst)[0] == '/') {
+			if (dst.buf[0] == '/') {
 				/* Absolute pathname, reset result back to
 				 * root. */
 				varbuf_set_varbuf(&result, &root);
