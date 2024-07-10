@@ -70,7 +70,8 @@ static int ulist_select(const struct dirent *de) {
   if (l > IMPORTANTMAXLEN)
     ohshit(_("updates directory contains file '%.250s' whose name is too long "
            "(length=%d, max=%d)"), de->d_name, l, IMPORTANTMAXLEN);
-  if (updateslength == -1) updateslength= l;
+  if (updateslength < 0)
+    updateslength = l;
   else if (l != updateslength)
     ohshit(_("updates directory contains files with different length names "
            "(both %d and %d)"), l, updateslength);
