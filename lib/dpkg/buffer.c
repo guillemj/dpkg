@@ -184,7 +184,7 @@ buffer_copy(struct buffer_data *read_data,
 	off_t bytesread = 0, byteswritten = 0;
 	off_t totalread = 0, totalwritten = 0;
 
-	if ((limit != -1) && (limit < bufsize))
+	if ((limit >= 0) && (limit < bufsize))
 		bufsize = limit;
 	if (bufsize == 0)
 		buf = NULL;
@@ -202,7 +202,7 @@ buffer_copy(struct buffer_data *read_data,
 
 		totalread += bytesread;
 
-		if (limit != -1) {
+		if (limit >= 0) {
 			limit -= bytesread;
 			if (limit < bufsize)
 				bufsize = limit;
