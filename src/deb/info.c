@@ -159,7 +159,7 @@ info_list(const char *debar, const char *dir)
   FILE *cc;
 
   cdn = scandir(dir, &cdlist, &ilist_select, alphasort);
-  if (cdn == -1)
+  if (cdn < 0)
     ohshite(_("cannot scan directory '%.255s'"), dir);
 
   for (n = 0; n < cdn; n++) {

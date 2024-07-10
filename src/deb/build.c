@@ -616,7 +616,7 @@ do_build(const char *const *argv)
    * unlink our temporary file so others can't mess with it. */
   tfbuf = path_make_temp_template("dpkg-deb");
   gzfd = mkstemp(tfbuf);
-  if (gzfd == -1)
+  if (gzfd < 0)
     ohshite(_("failed to make temporary file (%s)"), _("control member"));
   /* Make sure it's gone, the fd will remain until we close it. */
   if (unlink(tfbuf))
@@ -688,7 +688,7 @@ do_build(const char *const *argv)
      * temporary file so others can't mess with it. */
     tfbuf = path_make_temp_template("dpkg-deb");
     gzfd = mkstemp(tfbuf);
-    if (gzfd == -1)
+    if (gzfd < 0)
       ohshite(_("failed to make temporary file (%s)"), _("data member"));
     /* Make sure it's gone, the fd will remain until we close it. */
     if (unlink(tfbuf))

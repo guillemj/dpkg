@@ -141,8 +141,8 @@ setcloexec(int fd, const char *fn)
   int f;
 
   f = fcntl(fd, F_GETFD);
-  if (f == -1)
+  if (f < 0)
     ohshite(_("unable to read filedescriptor flags for %.250s"),fn);
-  if (fcntl(fd, F_SETFD, (f|FD_CLOEXEC))==-1)
+  if (fcntl(fd, F_SETFD, (f | FD_CLOEXEC)) < 0)
     ohshite(_("unable to set close-on-exec flag for %.250s"),fn);
 }

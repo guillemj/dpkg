@@ -555,7 +555,7 @@ parsedb_open(const char *filename, enum parsedbflags flags)
     return parsedb_new(filename, STDIN_FILENO, flags);
 
   fd = open(filename, O_RDONLY);
-  if (fd == -1 && !(errno == ENOENT && (flags & pdb_allow_empty)))
+  if (fd < 0 && !(errno == ENOENT && (flags & pdb_allow_empty)))
     ohshite(_("failed to open package info file '%.255s' for reading"),
             filename);
 
@@ -577,7 +577,7 @@ parsedb_load(struct parsedb_state *ps)
   if (ps->fd < 0 && (ps->flags & pdb_allow_empty))
       return;
 
-  if (fstat(ps->fd, &st) == -1)
+  if (fstat(ps->fd, &st) < 0)
     ohshite(_("can't stat package info file '%.255s'"), ps->filename);
 
   if (S_ISFIFO(st.st_mode)) {

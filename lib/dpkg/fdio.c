@@ -42,7 +42,7 @@ fd_read(int fd, void *buf, size_t len)
 		ssize_t n;
 
 		n = read(fd, ptr + total, len);
-		if (n == -1) {
+		if (n < 0) {
 			if (errno == EINTR || errno == EAGAIN)
 				continue;
 			return total ? -total : n;
@@ -70,7 +70,7 @@ fd_write(int fd, const void *buf, size_t len)
 		ssize_t n;
 
 		n = write(fd, ptr + total, len);
-		if (n == -1) {
+		if (n < 0) {
 			if (errno == EINTR || errno == EAGAIN)
 				continue;
 			return total ? -total : n;

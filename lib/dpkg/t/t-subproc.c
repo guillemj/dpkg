@@ -62,13 +62,13 @@ test_subproc_fork(void)
 	if (pid == 0)
 		raise(SIGINT);
 	ret = subproc_reap(pid, "subproc signal", SUBPROC_WARN);
-	test_pass(ret == -1);
+	test_pass(ret < 0);
 
 	pid = subproc_fork();
 	if (pid == 0)
 		raise(SIGTERM);
 	ret = subproc_reap(pid, "subproc signal", SUBPROC_WARN);
-	test_pass(ret == -1);
+	test_pass(ret < 0);
 
 	pid = subproc_fork();
 	if (pid == 0)
@@ -81,7 +81,7 @@ test_subproc_fork(void)
 	if (pid == 0)
 		raise(SIGPIPE);
 	ret = subproc_reap(pid, "subproc SIGPIPE", SUBPROC_WARN);
-	test_pass(ret == -1);
+	test_pass(ret < 0);
 }
 
 TEST_ENTRY(test)

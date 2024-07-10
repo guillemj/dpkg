@@ -104,7 +104,7 @@ subproc_fork(void)
 	pid_t pid;
 
 	pid = fork();
-	if (pid == -1) {
+	if (pid < 0) {
 		onerr_abort++;
 		ohshite(_("fork failed"));
 	}
@@ -169,7 +169,7 @@ subproc_wait(pid_t pid, const char *desc)
 	pid_t dead_pid;
 	int status;
 
-	while ((dead_pid = waitpid(pid, &status, 0)) == -1 && errno == EINTR) ;
+	while ((dead_pid = waitpid(pid, &status, 0)) < 0 && errno == EINTR) ;
 
 	if (dead_pid != pid) {
 		onerr_abort++;

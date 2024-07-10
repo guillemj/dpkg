@@ -75,7 +75,7 @@ static void cu_unlockmethod(int, void**) {
   if (methlockfd < 0)
     internerr("method lock fd is %d < 0", methlockfd);
   fl.l_type=F_UNLCK; fl.l_whence= SEEK_SET; fl.l_start=fl.l_len=0;
-  if (fcntl(methlockfd,F_SETLK,&fl) == -1)
+  if (fcntl(methlockfd, F_SETLK, &fl) < 0)
     sthfailed(_("cannot unlock access method area"));
 }
 
@@ -104,9 +104,9 @@ static enum urqresult lockmethod(void) {
   if (methodlockfile == nullptr)
     methodlockfile = dpkg_db_get_path(METHLOCKFILE);
 
-  if (methlockfd == -1) {
+  if (methlockfd < 0) {
     methlockfd= open(methodlockfile, O_RDWR|O_CREAT|O_TRUNC, 0660);
-    if (methlockfd == -1) {
+    if (methlockfd < 0) {
       if ((errno == EPERM) || (errno == EACCES)) {
         sthfailed(_("requested operation requires superuser privilege"));
         return urqr_fail;
@@ -116,7 +116,7 @@ static enum urqresult lockmethod(void) {
     }
   }
   fl.l_type=F_WRLCK; fl.l_whence=SEEK_SET; fl.l_start=fl.l_len=0;
-  if (fcntl(methlockfd,F_SETLK,&fl) == -1) {
+  if (fcntl(methlockfd, F_SETLK, &fl) < 0) {
     if (errno == EACCES || errno == EAGAIN) {
       sthfailed(_("the access method area is already locked"));
       return urqr_fail;

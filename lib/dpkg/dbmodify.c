@@ -85,7 +85,7 @@ static void cleanupdates(void) {
 
   updateslength= -1;
   cdn = scandir(updatesdir, &cdlist, &ulist_select, alphasort);
-  if (cdn == -1) {
+  if (cdn < 0) {
     if (errno == ENOENT) {
       if (cstatus >= msdbrw_write &&
           dir_make_path(updatesdir, 0755) < 0)
@@ -222,9 +222,9 @@ modstatdb_is_locked(void)
   int lockfd;
   bool locked;
 
-  if (dblockfd == -1) {
+  if (dblockfd < 0) {
     lockfd = open(lockfile, O_RDONLY);
-    if (lockfd == -1) {
+    if (lockfd < 0) {
       if (errno == ENOENT)
         return false;
       ohshite(_("unable to check lock file for dpkg database directory %s"),
@@ -238,7 +238,7 @@ modstatdb_is_locked(void)
 
   /* We only close the file if there was no lock open, otherwise we would
    * release the existing lock on close. */
-  if (dblockfd == -1)
+  if (dblockfd < 0)
     close(lockfd);
 
   return locked;
@@ -252,7 +252,7 @@ modstatdb_can_lock(void)
 
   if (getenv("DPKG_FRONTEND_LOCKED") == NULL) {
     frontendlockfd = open(frontendlockfile, O_RDWR | O_CREAT | O_TRUNC, 0660);
-    if (frontendlockfd == -1) {
+    if (frontendlockfd < 0) {
       if (errno == EACCES || errno == EPERM)
         return false;
       else
@@ -264,7 +264,7 @@ modstatdb_can_lock(void)
   }
 
   dblockfd = open(lockfile, O_RDWR | O_CREAT | O_TRUNC, 0660);
-  if (dblockfd == -1) {
+  if (dblockfd < 0) {
     if (errno == EACCES || errno == EPERM)
       return false;
     else

@@ -546,7 +546,7 @@ wait_for_child(pid_t pid)
 
 	do {
 		child = waitpid(pid, &status, 0);
-	} while (child == -1 && errno == EINTR);
+	} while (child < 0 && errno == EINTR);
 
 	if (child != pid)
 		fatal("error waiting for child");
@@ -798,7 +798,7 @@ daemonize(void)
 	 * performing actions, such as creating a pidfile. */
 	sigemptyset(&mask);
 	sigaddset(&mask, SIGCHLD);
-	if (sigprocmask(SIG_BLOCK, &mask, &oldmask) == -1)
+	if (sigprocmask(SIG_BLOCK, &mask, &oldmask) < 0)
 		fatale("cannot block SIGCHLD");
 
 	if (notify_await)
@@ -849,7 +849,7 @@ daemonize(void)
 		_exit(0);
 	}
 
-	if (sigprocmask(SIG_SETMASK, &oldmask, NULL) == -1)
+	if (sigprocmask(SIG_SETMASK, &oldmask, NULL) < 0)
 		fatale("cannot restore signal mask");
 
 	debug("Detaching complete...\n");
@@ -1140,7 +1140,7 @@ set_proc_schedule(struct res_schedule *sched)
 
 	param.sched_priority = sched->priority;
 
-	if (sched_setscheduler(getpid(), sched->policy, &param) == -1)
+	if (sched_setscheduler(getpid(), sched->policy, &param) < 0)
 		fatale("unable to set process scheduler");
 #endif
 }
@@ -1160,7 +1160,7 @@ set_io_schedule(struct res_schedule *sched)
 	int io_sched_mask;
 
 	io_sched_mask = IOPRIO_PRIO_VALUE(sched->policy, sched->priority);
-	if (ioprio_set(IOPRIO_WHO_PROCESS, getpid(), io_sched_mask) == -1)
+	if (ioprio_set(IOPRIO_WHO_PROCESS, getpid(), io_sched_mask) < 0)
 		warning("unable to alter IO priority to mask %i (%s)\n",
 		        io_sched_mask, strerror(errno));
 #endif
@@ -1734,7 +1734,7 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 
 	sprintf(lname, "/proc/%d/exe", pid);
 	nread = readlink(lname, lcontents, sizeof(lcontents) - 1);
-	if (nread == -1)
+	if (nread < 0)
 		return false;
 
 	filename = lcontents;

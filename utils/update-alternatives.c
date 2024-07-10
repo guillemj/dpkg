@@ -380,7 +380,7 @@ areadlink(const char *linkname)
 
 	/* Read it and terminate the string properly */
 	size = readlink(linkname, buf, st.st_size);
-	if (size == -1) {
+	if (size < 0) {
 		int saved_errno = errno;
 
 		free(buf);
@@ -400,13 +400,13 @@ spawn(const char *prog, const char *args[])
 	int status;
 
 	pid = fork();
-	if (pid == -1)
+	if (pid < 0)
 		error(_("fork failed"));
 	if (pid == 0) {
 		execvp(prog, (char *const *)args);
 		syserr(_("unable to execute %s (%s)"), prog, prog);
 	}
-	while ((dead_pid = waitpid(pid, &status, 0)) == -1 && errno == EINTR) ;
+	while ((dead_pid = waitpid(pid, &status, 0)) < 0 && errno == EINTR) ;
 	if (dead_pid != pid)
 		error(_("wait for subprocess %s failed"), prog);
 
@@ -1530,7 +1530,7 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 	}
 
 	/* Verify the alternative is not empty. */
-	if (fstat(fileno(ctx.fh), &st) == -1)
+	if (fstat(fileno(ctx.fh), &st) < 0)
 		syserr(_("cannot stat file '%s'"), ctx.filename);
 	if (st.st_size == 0) {
 		altdb_context_free(&ctx);
@@ -1958,7 +1958,7 @@ alternative_path_classify(const char *linkname)
 {
 	struct stat st;
 
-	if (fsys_lstat(linkname, &st) == -1) {
+	if (fsys_lstat(linkname, &st) < 0) {
 		if (errno != ENOENT)
 			syserr(_("cannot stat file '%s%s'"), instdir, linkname);
 		return ALT_PATH_MISSING;

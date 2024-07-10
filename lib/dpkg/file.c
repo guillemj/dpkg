@@ -101,17 +101,17 @@ file_copy_perms(const char *src, const char *dst)
 {
 	struct stat stab;
 
-	if (stat(src, &stab) == -1) {
+	if (stat(src, &stab) < 0) {
 		if (errno == ENOENT)
 			return;
 		ohshite(_("unable to stat source file '%.250s'"), src);
 	}
 
-	if (chown(dst, stab.st_uid, stab.st_gid) == -1)
+	if (chown(dst, stab.st_uid, stab.st_gid) < 0)
 		ohshite(_("unable to change ownership of target file '%.250s'"),
 		        dst);
 
-	if (chmod(dst, (stab.st_mode & ~S_IFMT)) == -1)
+	if (chmod(dst, (stab.st_mode & ~S_IFMT)) < 0)
 		ohshite(_("unable to set mode of target file '%.250s'"), dst);
 }
 
@@ -181,7 +181,7 @@ file_unlock(int lockfd, const char *lockfile, const char *lockdesc)
 
 	file_lock_setup(&fl, F_UNLCK);
 
-	if (fcntl(lockfd, F_SETLK, &fl) == -1)
+	if (fcntl(lockfd, F_SETLK, &fl) < 0)
 		ohshite(_("unable to unlock %s"), lockdesc);
 }
 
@@ -208,7 +208,7 @@ file_is_locked(int lockfd, const char *filename)
 
 	file_lock_setup(&fl, F_WRLCK);
 
-	if (fcntl(lockfd, F_GETLK, &fl) == -1)
+	if (fcntl(lockfd, F_GETLK, &fl) < 0)
 		ohshit(_("unable to check file '%s' lock status"), filename);
 
 	if (fl.l_type == F_WRLCK && fl.l_pid != getpid())
@@ -242,7 +242,7 @@ file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
 	else
 		lock_cmd = F_SETLK;
 
-	if (fcntl(*lockfd, lock_cmd, &fl) == -1) {
+	if (fcntl(*lockfd, lock_cmd, &fl) < 0) {
 		const char *warnmsg;
 
 		if (errno != EACCES && errno != EAGAIN)
@@ -254,7 +254,7 @@ file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
 		            "See <https://wiki.debian.org/Teams/Dpkg/FAQ#db-lock>.");
 
 		file_lock_setup(&fl, F_WRLCK);
-		if (fcntl(*lockfd, F_GETLK, &fl) == -1)
+		if (fcntl(*lockfd, F_GETLK, &fl) < 0)
 			ohshit(_("%s was locked by another process\n%s"),
 			       desc, warnmsg);
 

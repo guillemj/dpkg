@@ -130,7 +130,7 @@ dpkg_selabel_set_context(const char *matchpath, const char *path, mode_t mode)
 	/* Do nothing if we can't figure out what the context is, or if it has
 	 * no context; in which case the default context shall be applied. */
 	ret = selabel_lookup_raw(sehandle, &scontext, matchpath, mode & S_IFMT);
-	if (ret == -1 || (ret == 0 && scontext == NULL))
+	if (ret < 0 || (ret == 0 && scontext == NULL))
 		return;
 
 	ret = lsetfilecon_raw(path, scontext);
