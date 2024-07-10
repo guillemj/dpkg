@@ -389,7 +389,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
                                 pkg, &pkg->installed);
 
 	rc = conffderef(pkg, &cdr, usenode->name);
-	if (rc == -1) {
+	if (rc < 0) {
 		conff->hash = EMPTYHASHFLAG;
 		return;
 	}

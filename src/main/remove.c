@@ -534,10 +534,14 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       }
       varbuf_reset(&fnvb);
       rc = conffderef(pkg, &fnvb, conff->name);
-      debug(dbg_conffdetail, "removal_bulk conffile '%s' (= '%s')",
-            conff->name, rc == -1 ? "<rc == -1>" : fnvb.buf);
-      if (rc == -1)
+      if (rc < 0) {
+        debug(dbg_conffdetail, "removal_bulk conffile '%s' (rc < %d)",
+              conff->name, rc);
         continue;
+      } else {
+        debug(dbg_conffdetail, "removal_bulk conffile '%s' (deref '%s')",
+              conff->name, fnvb.buf);
+      }
 
       namenode = fsys_hash_find_node(conff->name, FHFF_NONE);
       usenode = namenodetouse(namenode, pkg, &pkg->installed);

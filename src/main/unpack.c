@@ -607,7 +607,7 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg, struct fsys_namenode *nameno
   usenode = namenodetouse(namenode, pkg, &pkg->installed);
 
   rc = conffderef(pkg, &cdr, usenode->name);
-  if (rc == -1) {
+  if (rc < 0) {
     debug(dbg_conffdetail, "%s: '%s' conffile dereference error: %s", __func__,
           namenode->name, strerror(errno));
     namenode->oldhash = EMPTYHASHFLAG;
