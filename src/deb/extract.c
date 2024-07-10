@@ -364,7 +364,7 @@ extracthalf(const char *debar, const char *dir,
   }
 
   subproc_reap(c2, _("<decompress>"), SUBPROC_NOPIPE);
-  if (c1 != -1)
+  if (c1 >= 0)
     subproc_reap(c1, _("paste"), 0);
   if (version.major == 0 && admininfo) {
     /* Handle the version as a float to preserve the behavior of old code,

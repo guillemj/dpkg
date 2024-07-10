@@ -267,7 +267,7 @@ buffer_skip(struct buffer_data *input, off_t limit, struct dpkg_error *err)
 
 	switch (input->type) {
 	case BUFFER_READ_FD:
-		if (lseek(input->arg.i, limit, SEEK_CUR) != -1)
+		if (lseek(input->arg.i, limit, SEEK_CUR) >= 0)
 			return limit;
 		if (errno != ESPIPE)
 			return dpkg_put_errno(err, _("failed to seek"));

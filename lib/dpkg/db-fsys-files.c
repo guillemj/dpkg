@@ -247,7 +247,7 @@ pkg_files_optimize_load(struct pkg_array *array)
     listfile = pkg_infodb_get_file(pkg, &pkg->installed, LISTFILE);
 
     fd = open(listfile, O_RDONLY | O_NONBLOCK);
-    if (fd != -1) {
+    if (fd >= 0) {
       posix_fadvise(fd, 0, 0, POSIX_FADV_WILLNEED);
       close(fd);
     }

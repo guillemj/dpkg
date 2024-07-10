@@ -282,7 +282,7 @@ modstatdb_lock(void)
     ohshit(_("you do not have permission to lock the dpkg database directory %s"),
            dpkg_db_get_dir());
 
-  if (frontendlockfd != -1)
+  if (frontendlockfd >= 0)
     file_lock(&frontendlockfd, FILE_LOCK_NOWAIT, frontendlockfile,
               _("dpkg frontend lock"));
   file_lock(&dblockfd, FILE_LOCK_NOWAIT, lockfile,
@@ -294,7 +294,7 @@ modstatdb_unlock(void)
 {
   /* Unlock. */
   pop_cleanup(ehflag_normaltidy);
-  if (frontendlockfd != -1)
+  if (frontendlockfd >= 0)
     pop_cleanup(ehflag_normaltidy);
 
   dblockfd = -1;
