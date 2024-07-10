@@ -94,6 +94,11 @@ realpath_relative_to(const char *pathname, const char *rootdir)
 	struct varbuf prefix = VARBUF_INIT;
 	int loop = 0;
 
+	varbuf_init(&root, 32);
+	varbuf_init(&src, 32);
+	varbuf_init(&dst, 32);
+	varbuf_init(&result, 32);
+
 	varbuf_set_str(&root, rootdir);
 	varbuf_set_str(&src, pathname);
 	varbuf_set_str(&result, rootdir);
