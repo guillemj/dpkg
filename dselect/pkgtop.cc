@@ -59,13 +59,15 @@ int packagelist::describemany(char buf[], const char *prioritystring,
   ssoabbrev= _("All");
   switch (statsortorder) {
   case sso_avail:
-    if (pps->ssavail == -1) break;
+    if (pps->ssavail == ssa_none)
+      break;
     ssostring= ssastrings[pps->ssavail];
     ssoabbrev= ssaabbrevs[pps->ssavail];
     statindent++;
     break;
   case sso_state:
-    if (pps->ssstate == -1) break;
+    if (pps->ssstate == sss_none)
+      break;
     ssostring= sssstrings[pps->ssstate];
     ssoabbrev= sssabbrevs[pps->ssstate];
     statindent++;
