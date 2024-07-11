@@ -158,6 +158,8 @@ dpkg_get_pid_execname(pid_t pid)
 	if (len == 0)
 		pathname[0] = '\0';
 	execname = pathname;
+#else
+	return execname;
 #endif
 
 	return m_strdup(execname);
