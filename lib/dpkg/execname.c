@@ -97,7 +97,6 @@ dpkg_get_pid_execname(pid_t pid)
 	execname = lcontents;
 #elif defined(__GNU__)
 	struct proc_stat *ps;
-	const char *filename;
 
 	ps = get_proc_stat(pid, PSTAT_ARGS);
 	if (ps == NULL)
