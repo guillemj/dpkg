@@ -1,8 +1,188 @@
-dpkg (1.22.7) UNRELEASED; urgency=medium
+dpkg (1.22.7) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * dpkg-buildpackage: Remove fallback handling for missing required targets.
+  * dpkg-buildpackage: Fix the debian/rules executable check to respect -R.
+  * dpkg-realpath: Rewrite in C.
+  * Revert "test: Pass -T+1 to xz to workaround spurious warning with xz
+    5.6.0".
+  * dpkg-genbuildinfo: Parse Provides as virtual packages.
+  * dpkg: Do not run hooks or loggers with --dry-run or while unprivileged.
+    Closes: #1071124
+  * dpkg-shlibdeps: Add support for new --package option.
+  * dpkg-buildpackage: Make newline injection during signing GnuPG specific.
+    See https://dev.gnupg.org/T7106.
+  * dpkg-realpath: Do not allow an empty pathname argument.
+  * dpkg-buildpackage: Add support for building from a specified .dsc or dir.
+  * dpkg-buildpackage: Reference the .dsc in .buildinfo if building from one.
+    Closes: #882511
+  * Perl modules:
+    - Dpkg::BuildDriver: Refactor build driver out of dpkg-buildpackage.
+    - Dpkg::Vendor::Ubuntu: Use -fcf-protection=none instead of
+      -fno-cf-protection. Thanks to Matthias Klose <doko@ubuntu.com>.
+    - Dpkg::Vendor::Debian: On native builds map *_FOR_BUILD flags to * flags.
+      Closes: #1072332
+    - Dpkg::OpenPGP::ErrorCodes: Update error codes from SOP draft version 10.
+      See https://ietf.org/archive/id/draft-dkg-openpgp-stateless-cli-10.html.
+    - Dpkg::Vendor::Debian: Set -Wno-error on qa=-bug-implicit-func.
+      Closes: #1075769
+    - Dpkg::Shlibs::Cppfilt: Normalize demangled symbols with llvm or C++11
+      format.
+    - Dpkg::Archive::Ar: New module.
+    - Dpkg::Vendor::Debian: Guarantee UTF-8 locale codeset on sanitize-env.
+    - Dpkg::Substvars: Add support for required substvars assigned with !=.
+    - Dpkg::Source::Package: Document method additions with an object.
+    - Dpkg::Source::Package::V3::Bzr: Remove unused variables.
+    - Dpkg::Source::Package: Add a new get_basedirname() method.
+  * Make fragments:
+    - Protect files against double inclusion.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - Use filter instead of findstring.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - Use explicit test of $(origin) instead of ?=.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - Search once for parallel= in DEB_BUILD_OPTIONS.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - Generate the _FOR_BUILD variant of each variable automatically.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - Reduce the number of subprocesses.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>. Closes: #872381
+    - Stop hard-coding dpkg_datadir.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+  * Documentation:
+    - doc: Add missing full stop to end of sentence.
+    - man: Document DEB_BUILD_ARCH and DEB_HOST_ARCH usage in commands.
+      Prompted by Thorsten Glaser <tg@mirbsd.de>.
+    - man: Add new libdpkg(7) manual page.
+    - man: Document DPKG_COLORS and DPKG_NLS for all perl scripts honoring
+      them.
+    - man: Document missing Packages front-end fields in dpkg-query(1).
+    - man: Document weak checksum algorithms.
+    - man: Update verify format example to also include M.
+    - doc: Fix grammar for fallback.
+    - doc: Fix casing after admonition.
+  * Code internals:
+    - libdpkg: Factor out filesystem database file loading into new function.
+      Based on a patch by Simon Richter <sjr@debian.org>.
+    - libcompat: Include missing <string.h> in strnlen module.
+      Reported by Simon Richter <sjr@debian.org>.
+    - dpkg-buildpackage: Refactor build target hook execution.
+    - libdpkg: Handle readlink() failures in file_readlink().
+    - libdpkg: Change varbuf_get_str() to return "" instead of initializing it.
+    - libdpkg: Rename varbuf_get_str() to varbuf_str().
+    - Use varbuf_str() instead of direct access.
+    - libdpkg: Always NUL terminate varbufs.
+    - libdpkg: Remove varbuf_end_str() function.
+    - libdpkg: Add support for DPKG_NLS environment variable.
+    - libdpkg: Add new varbuf prefix and suffix handling functions.
+    - libdpkg: Add new file_getcwd() function.
+    - dpkg: Use a variable for each conffile pathname type.
+    - src: Fix timestamp parse error reporting. See #1069846.
+    - src: Check whether SOURCE_DATE_EPOCH is set before parsing it.
+      Based on a patch by Rainer Weikusat <rweikusat@cyberadapt.com>.
+      Closes: #1069846
+    - libdpkg: Add missing header includes.
+    - libdpkg: Make file_slurp_fd() NUL-terminate the varbuf.
+    - libdpkg: Refactor lax problem reporting into parse_lax_problem()
+      function.
+    - libdpkg: Turn the warning on Provides version relation into a lax error.
+      See #930317.
+    - libdpkg: Make varbuf_detach() always return a string.
+    - libdpkg: Factor fsys_list_parse_buffer() out of
+      ensure_packagefiles_available().
+    - dpkg-shlibdeps: Refactor executable CLI parsing.
+    - dpkg: Refactor conffile disappearing check into a new function.
+    - Merge conffile obsolete and remove-on-upgrade into a single flags member.
+    - lib, src: Include missing <stdbool.h>.
+      Reported by Simon Richter <sjr@debian.org>.
+    - dpkg-ar: New internal ar implementation script.
+    - start-stop-daemon: Fix typos in code comments.
+    - libcompat: Fix vasprintf() to error out if vsnprintf() returns >=
+      INT_MAX.
+    - libdpkg: Do not accept len >= INT_MAX in fd_read() and fd_write().
+    - dpkg-realpath: Switch direct varbuf accesses to varbuf_str().
+    - Revert "dpkg-realpath: Switch direct varbuf accesses to varbuf_str()".
+      See https://bugs.debian.org/1076061.
+    - dpkg-realpath: Guarantee varbufs have been allocated.
+    - Check for < 0 instead of == -1 from syscall return values.
+    - Check for >= 0 instead of != -1 for syscall return values.
+    - dpkg: Check for < 0 instead of == -1 for conffderef() return values.
+    - libdpkg: Check for limit >= 0 instead of != -1 in buffer_copy().
+    - libdpkg: Check for updateslength < 0 instead of == -1 in ulist_select().
+    - dselect: Use enum values instead of literal integers.
+    - libdpkg: Add new execname module.
+    - libdpkg: Try to print the executable name of the lock contending process.
+      Closes: #1070027
+    - perl: Use new Dpkg::Source::Package->get_basedirname() method.
+  * Build system:
+    - Re-enable the sanitizer for functional tests in CI.
+    - Add missing space before backslash line continuation character.
+    - Unconditionally include <stddef.h>.
+    - Do not check for memcpy(). Reported by Simon Richter <sjr@debian.org>.
+    - Do not check for functions used unconditionally.
+    - Partially revert the sanitizer for some functional tests in CI.
+    - Print the release version at the end of configure.
+    - Add support to track release VCS commit id.
+    - Pass abs_srcdir and abs_builddir to the TAP driver.
+    - Rework subst handling for built or installed artifacts.
+    - Workaround Tap::Harness verbose misbehavior on parallel mode.
+      See https://github.com/Perl-Toolchain-Gang/Test-Harness/issues/105.
+    - Fix test verbose and parallel option propagation.
+    - Add missing files and sort POTFILES.in.
+    - Check whether HAVE_* macros for headers are defined.
+    - Include a .dist-vcs-url file in the distributed tarball.
+    - Do not include VCS specific files in the distributed tarball.
+  * Packaging:
+    - Suppress start-stop-daemon compat symlink if /sbin is missing.
+      Thanks to Johannes Schauer Marin Rodrigues <josch@debian.org>.
+      Closes: #1071078
+  * Test suite:
+    - Do not fail the functional test suite due to memory leaks.
+    - Pass --check-level=exhaustive to cppcheck.
+    - Unset DEB_BUILD_MAINT_OPTIONS in build flags tests.
+    - Simplify buildflags.mk test of _MAINT_APPEND when TEST_ is empty.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - Use loops instead of repetitions in mk fragment tests.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - Replace double quotes with single quote in shell recipes.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - Test exported variables in addition to Make variables.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - Test variable override.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - Test DEB_CXXFLAGS_MAINT_SET.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - Add missing test for CPP build tool.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - Test override of a build tool.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>.
+    - Refactor real and virtual package setup.
+      Based on a patch by Johannes Schauer Marin Rodrigues <josch@debian.org>.
+    - Set CC to gcc in make fragments functional tests.
+    - Parametrize all Makefile fragment functional tests.
+    - Clarify the Makefile fragment variable being tested via comments.
+    - Add new DPKG_CHECK_DIFF macro to abstract file comparisons.
+    - Only execute Dpkg::Shlibs checks on ELF platforms.
+    - Unify all ar invocations into create, extract and list.
+    - Refactor ar handling into m4 macros.
+    - Switch ar m4 macros to use internal dpkg-ar implementation.
+  * Localization:
+    - Update Dutch man pages translations.
+      Thanks to Frans Spiesschaert <Frans.Spiesschaert@yucom.be>.
+      Closes: #1070144
+    - Update Swedish translations.
+      Thanks to Peter Krefting <peter@softwolves.pp.se>. Closes: #1070011
 
- -- Guillem Jover <guillem@debian.org>  Sun, 10 Mar 2024 20:42:39 +0100
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+    - Update German scripts translation.
+
+  [ Sven Joachim ]
+  * Localization:
+    - Update German programs translation.
+
+ -- Guillem Jover <guillem@debian.org>  Wed, 17 Jul 2024 01:10:42 +0200
 
 dpkg (1.22.6) unstable; urgency=medium
 
