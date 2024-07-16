@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-07-03 20:51+0200\n"
+"POT-Creation-Date: 2024-07-17 01:10+0200\n"
 "PO-Revision-Date: 2024-07-03 21:48+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -5765,13 +5765,24 @@ msgstr "Dateisyntax"
 
 #. type: textblock
 #: deb-substvars.pod
+#, fuzzy
+#| msgid ""
+#| "Substitution variables can be specified in a file.  These files consist "
+#| "of lines of the form I<name>B<=>I<value> or I<name>B<?=>I<value>.  The "
+#| "B<=> operator assigns a normal substitution variable, while the B<?=> "
+#| "operator (since dpkg 1.21.8) assigns an optional substitution variable "
+#| "which will emit no warnings even if unused.  Trailing whitespace on each "
+#| "line, blank lines, and lines starting with a B<#> symbol (comments) are "
+#| "ignored."
 msgid ""
 "Substitution variables can be specified in a file.  These files consist of "
-"lines of the form I<name>B<=>I<value> or I<name>B<?=>I<value>.  The B<=> "
-"operator assigns a normal substitution variable, while the B<?=> operator "
-"(since dpkg 1.21.8) assigns an optional substitution variable which will "
-"emit no warnings even if unused.  Trailing whitespace on each line, blank "
-"lines, and lines starting with a B<#> symbol (comments) are ignored."
+"lines of the form I<name>B<=>I<value>, I<name>B<?=>I<value>, or I<name>B<!"
+"=>I<value>.  The B<=> operator assigns a normal substitution variable, the "
+"B<?=> operator (since dpkg 1.21.8) assigns an optional substitution variable "
+"which will emit no warnings even if unused, and the B<!=> operator (since "
+"dpkg 1.22.7) assigns a required substitution variable which will error out "
+"if unused.  Trailing whitespace on each line, blank lines, and lines "
+"starting with a B<#> symbol (comments) are ignored."
 msgstr ""
 "Ersetzungsvariablen können in einer Datei festgelegt werden. Diese Dateien "
 "bestehen aus Zeilen der Form I<Name>B<=>I<Wert> oder I<Name>B<?=>I<Wert>. "
@@ -11118,18 +11129,39 @@ msgstr "dpkg-buildpackage - Binär- oder Quellpakete aus Quellen bauen"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-msgid "B<dpkg-buildpackage> [I<option>...]"
-msgstr "B<dpkg-buildpackage> [I<Option> …]"
+#, fuzzy
+#| msgid "B<dpkg-name> [I<option>...] [B<-->] I<file>..."
+msgid ""
+"B<dpkg-buildpackage> [I<option>...] [B<-->] [I<filename>.dsc|I<directory>]"
+msgstr "B<dpkg-name> [I<Option> …] [B<-->] I<Datei> …"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "B<dpkg-buildpackage> is a program that automates the process of building "
+#| "a Debian package.  It consists of the following steps:"
 msgid ""
 "B<dpkg-buildpackage> is a program that automates the process of building a "
-"Debian package.  It consists of the following steps:"
+"Debian package."
 msgstr ""
 "B<dpkg-buildpackage> ist ein Programm, das den Prozess des Bauens eines "
 "Debian-Paketes automatisiert. Der Bauprozess besteht aus den folgenden "
 "Schritten:"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"The I<filename>.dsc and I<directory> arguments are supported since dpkg "
+"1.22.7.  Their semantics are experimental."
+msgstr ""
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid "Installation consists of the following steps:"
+msgid "It consists of the following steps:"
+msgstr "Die Installation besteht aus folgenden Schritten:"
 
 #. type: =item
 #: dpkg-buildpackage.pod dpkg.pod
@@ -11138,8 +11170,17 @@ msgstr "B<1.>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "It runs the B<preinit> hook before reading any source file.  It prepares "
+#| "the build environment by setting various environment variables (see "
+#| "B<ENVIRONMENT>), runs the B<init> hook, and calls B<dpkg-source --before-"
+#| "build> (unless B<-T> or B<--target> has been used)."
 msgid ""
-"It runs the B<preinit> hook before reading any source file.  It prepares the "
+"It runs the B<preinit> hook before reading any source file.  If a B<.dsc> "
+"file has been specified it unpacks it anew and changes directory to it, if a "
+"I<directory> has been specified it changes directory to it, otherwise it "
+"expects the current directory to contain the source tree.  It prepares the "
 "build environment by setting various environment variables (see "
 "B<ENVIRONMENT>), runs the B<init> hook, and calls B<dpkg-source --before-"
 "build> (unless B<-T> or B<--target> has been used)."
@@ -11190,10 +11231,15 @@ msgstr "B<4.>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "It runs the B<source> hook and calls B<dpkg-source -b> to generate the "
+#| "source package (if a B<source> build has been requested with B<--build> "
+#| "or equivalent options)."
 msgid ""
 "It runs the B<source> hook and calls B<dpkg-source -b> to generate the "
 "source package (if a B<source> build has been requested with B<--build> or "
-"equivalent options)."
+"equivalent options, and if no B<.dsc> has been specified)."
 msgstr ""
 "Der Hook B<source> wird ausgeführt und B<dpkg-source -b> aufgerufen, um das "
 "Quellpaket zu erstellen (falls mit B<--build> oder äquivalenten Optionen ein "
@@ -11236,10 +11282,17 @@ msgstr "B<6.>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "It runs the B<buildinfo> hook and calls B<dpkg-genbuildinfo> to generate "
+#| "a B<.buildinfo> file.  Several B<dpkg-buildpackage> options are forwarded "
+#| "to B<dpkg-genbuildinfo>."
 msgid ""
 "It runs the B<buildinfo> hook and calls B<dpkg-genbuildinfo> to generate a "
 "B<.buildinfo> file.  Several B<dpkg-buildpackage> options are forwarded to "
-"B<dpkg-genbuildinfo>."
+"B<dpkg-genbuildinfo>.  If a I<.dsc> has been specified, then it will be "
+"referenced in the generated B<.buildinfo> file, as we can ascertain the "
+"provenance of the source tree."
 msgstr ""
 "Der Hook B<buildinfo> wird ausgeführt und B<dpkg-genbuildinfo> aufgerufen, "
 "um eine B<.buildinfo>-Datei zu erstellen. Viele Optionen von B<dpkg-"
@@ -11351,6 +11404,24 @@ msgstr ""
 #: dpkg-buildpackage.pod
 msgid "B<12.>"
 msgstr "B<12.>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "If set and the B<--admindir> option has not been specified, it will be "
+#| "used as the base administrative directory."
+msgid ""
+"If a B<.dsc> file has been specified, it removes the extracted source "
+"directory."
+msgstr ""
+"Falls gesetzt und die Option B<--admindir> nicht angegeben wurde, wird dies "
+"als Basis-Administrationsverzeichnis verwandt."
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<13.>"
+msgstr ""
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -30559,6 +30630,9 @@ msgid "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
 msgstr ""
 "L<ln(1)>, FHS (der Dateisystem-Hierarchie-Standard, Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid "B<dpkg-buildpackage> [I<option>...]"
+#~ msgstr "B<dpkg-buildpackage> [I<Option> …]"
 
 #~ msgid ""
 #~ "B<dpkg-buildpackage> is using the B<build-arch> and B<build-indep> "

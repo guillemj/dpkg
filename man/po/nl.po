@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-05-06 22:53+0200\n"
+"POT-Creation-Date: 2024-07-17 01:10+0200\n"
 "PO-Revision-Date: 2024-04-20 23:23+0200\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -298,17 +298,23 @@ msgstr ""
 
 #. type: =item
 #: deb-buildinfo.pod
-msgid "B<Checksums-Md5:> (required)"
+#, fuzzy
+#| msgid "B<Checksums-Md5:> (required)"
+msgid "B<Checksums-Md5:> (required, weak)"
 msgstr "B<Checksums-Md5:> (verplicht)"
 
 #. type: =item
 #: deb-buildinfo.pod deb-changes.pod dsc.pod
-msgid "B<Checksums-Sha1:> (required)"
+#, fuzzy
+#| msgid "B<Checksums-Sha1:> (required)"
+msgid "B<Checksums-Sha1:> (required, weak)"
 msgstr "B<Checksums-Sha1:> (verplicht)"
 
 #. type: =item
 #: deb-buildinfo.pod deb-changes.pod dsc.pod
-msgid "B<Checksums-Sha256:> (required)"
+#, fuzzy
+#| msgid "B<Checksums-Sha256:> (required)"
+msgid "B<Checksums-Sha256:> (required, strong)"
 msgstr "B<Checksums-Sha256:> (verplicht)"
 
 #. type: =item
@@ -329,6 +335,13 @@ msgstr ""
 "verschillen onderling enkel inzake het gebruikte algoritme voor de "
 "controlesom: MD5 voor B<Checksums-Md5>, SHA-1 voor B<Checksums-Sha1> en "
 "SHA-256 voor B<Checksums-Sha256>."
+
+#. type: textblock
+#: deb-buildinfo.pod dsc.pod
+msgid ""
+"B<Note>: The MD5 and SHA-1 checksums are considered weak, and should never "
+"be assumed to be sufficient for secure verification."
+msgstr ""
 
 #. type: textblock
 #: deb-buildinfo.pod deb-changes.pod
@@ -1440,7 +1453,7 @@ msgstr ""
 "indeling."
 
 #. type: =item
-#: deb-changes.pod dsc.pod
+#: deb-changes.pod
 msgid "B<Files:> (required)"
 msgstr "B<Files:> (verplicht)"
 
@@ -1488,6 +1501,14 @@ msgstr ""
 #. type: textblock
 #: deb-changes.pod
 msgid ""
+"B<Note>: The MD5 checksum is considered weak, and should never be assumed to "
+"be sufficient for secure verification, but this field cannot be omitted as "
+"it provides metadata not available anywhere else."
+msgstr ""
+
+#. type: textblock
+#: deb-changes.pod
+msgid ""
 "These multiline fields contain a list of files with a checksum and size for "
 "each one.  These fields have the same syntax and differ only in the checksum "
 "algorithm used: SHA-1 for B<Checksums-Sha1> and SHA-256 for B<Checksums-"
@@ -1509,6 +1530,13 @@ msgstr ""
 "Deze velden sommen alle bestanden op die deel uitmaken van de upload. De "
 "lijst van bestanden uit deze velden moet overeenkomen met de bestandslijst "
 "in het veld B<Files> en in de andere gerelateerde B<Checksums>-velden."
+
+#. type: textblock
+#: deb-changes.pod
+msgid ""
+"B<Note>: The SHA-1 checksum is considered weak, and should never be assumed "
+"to be sufficient for secure verification."
+msgstr ""
 
 #. type: =head1
 #: deb-changes.pod deb-control.pod dpkg-buildpackage.pod dpkg-deb.pod
@@ -5811,13 +5839,24 @@ msgstr "Bestandssyntaxis"
 
 #. type: textblock
 #: deb-substvars.pod
+#, fuzzy
+#| msgid ""
+#| "Substitution variables can be specified in a file.  These files consist "
+#| "of lines of the form I<name>B<=>I<value> or I<name>B<?=>I<value>.  The "
+#| "B<=> operator assigns a normal substitution variable, while the B<?=> "
+#| "operator (since dpkg 1.21.8) assigns an optional substitution variable "
+#| "which will emit no warnings even if unused.  Trailing whitespace on each "
+#| "line, blank lines, and lines starting with a B<#> symbol (comments) are "
+#| "ignored."
 msgid ""
 "Substitution variables can be specified in a file.  These files consist of "
-"lines of the form I<name>B<=>I<value> or I<name>B<?=>I<value>.  The B<=> "
-"operator assigns a normal substitution variable, while the B<?=> operator "
-"(since dpkg 1.21.8) assigns an optional substitution variable which will "
-"emit no warnings even if unused.  Trailing whitespace on each line, blank "
-"lines, and lines starting with a B<#> symbol (comments) are ignored."
+"lines of the form I<name>B<=>I<value>, I<name>B<?=>I<value>, or I<name>B<!"
+"=>I<value>.  The B<=> operator assigns a normal substitution variable, the "
+"B<?=> operator (since dpkg 1.21.8) assigns an optional substitution variable "
+"which will emit no warnings even if unused, and the B<!=> operator (since "
+"dpkg 1.22.7) assigns a required substitution variable which will error out "
+"if unused.  Trailing whitespace on each line, blank lines, and lines "
+"starting with a B<#> symbol (comments) are ignored."
 msgstr ""
 "Substitutievariabelen kunnen in een bestand worden opgegeven. Deze bestanden "
 "bestaan uit regels van de vorm I<naam>B<=>I<waarde> of I<naam>B<?"
@@ -10172,9 +10211,14 @@ msgstr "optimalisering"
 
 #. type: textblock
 #: dpkg-buildflags.pod
+#, fuzzy
+#| msgid ""
+#| "Several compile-time options (detailed below) can be used to help "
+#| "optimize a resulting binary (since dpkg 1.21.0).  B<Note>: enabling "
+#| "B<all> these options can result in unreproducible binary artifacts."
 msgid ""
 "Several compile-time options (detailed below) can be used to help optimize a "
-"resulting binary (since dpkg 1.21.0).  B<Note>: enabling B<all> these "
+"resulting binary (since dpkg 1.21.0).  B<Note>: Enabling B<all> these "
 "options can result in unreproducible binary artifacts."
 msgstr ""
 "Er kunnen verschillende compilatieopties (die hierna beschreven worden) "
@@ -10208,10 +10252,18 @@ msgstr "sanering"
 
 #. type: textblock
 #: dpkg-buildflags.pod
+#, fuzzy
+#| msgid ""
+#| "Several compile-time options (detailed below) can be used to help "
+#| "sanitize a resulting binary against memory corruptions, memory leaks, use "
+#| "after free, threading data races and undefined behavior bugs.  B<Note>: "
+#| "these options should B<not> be used for production builds as they can "
+#| "reduce reliability for conformant code, reduce security or even "
+#| "functionality."
 msgid ""
 "Several compile-time options (detailed below) can be used to help sanitize a "
 "resulting binary against memory corruptions, memory leaks, use after free, "
-"threading data races and undefined behavior bugs.  B<Note>: these options "
+"threading data races and undefined behavior bugs.  B<Note>: These options "
 "should B<not> be used for production builds as they can reduce reliability "
 "for conformant code, reduce security or even functionality."
 msgstr ""
@@ -11191,17 +11243,38 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-msgid "B<dpkg-buildpackage> [I<option>...]"
-msgstr "B<dpkg-buildpackage> [I<optie>...]"
+#, fuzzy
+#| msgid "B<dpkg-name> [I<option>...] [B<-->] I<file>..."
+msgid ""
+"B<dpkg-buildpackage> [I<option>...] [B<-->] [I<filename>.dsc|I<directory>]"
+msgstr "B<dpkg-name> [I<optie>...] [B<-->] I<bestand>..."
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "B<dpkg-buildpackage> is a program that automates the process of building "
+#| "a Debian package.  It consists of the following steps:"
+msgid ""
+"B<dpkg-buildpackage> is a program that automates the process of building a "
+"Debian package."
+msgstr ""
+"B<dpkg-buildpackage> is een programma dat het proces van het bouwen van een "
+"Debian pakket automatiseert. Het bestaat uit de volgende stappen:"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid ""
-"B<dpkg-buildpackage> is a program that automates the process of building a "
-"Debian package.  It consists of the following steps:"
+"The I<filename>.dsc and I<directory> arguments are supported since dpkg "
+"1.22.7.  Their semantics are experimental."
 msgstr ""
-"B<dpkg-buildpackage> is een programma dat het proces van het bouwen van een "
-"Debian pakket automatiseert. Het bestaat uit de volgende stappen:"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid "Installation consists of the following steps:"
+msgid "It consists of the following steps:"
+msgstr "Een installatie bestaat uit de volgende stappen:"
 
 #. type: =item
 #: dpkg-buildpackage.pod dpkg.pod
@@ -11210,8 +11283,17 @@ msgstr "B<1.>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "It runs the B<preinit> hook before reading any source file.  It prepares "
+#| "the build environment by setting various environment variables (see "
+#| "B<ENVIRONMENT>), runs the B<init> hook, and calls B<dpkg-source --before-"
+#| "build> (unless B<-T> or B<--target> has been used)."
 msgid ""
-"It runs the B<preinit> hook before reading any source file.  It prepares the "
+"It runs the B<preinit> hook before reading any source file.  If a B<.dsc> "
+"file has been specified it unpacks it anew and changes directory to it, if a "
+"I<directory> has been specified it changes directory to it, otherwise it "
+"expects the current directory to contain the source tree.  It prepares the "
 "build environment by setting various environment variables (see "
 "B<ENVIRONMENT>), runs the B<init> hook, and calls B<dpkg-source --before-"
 "build> (unless B<-T> or B<--target> has been used)."
@@ -11262,10 +11344,15 @@ msgstr "B<4.>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "It runs the B<source> hook and calls B<dpkg-source -b> to generate the "
+#| "source package (if a B<source> build has been requested with B<--build> "
+#| "or equivalent options)."
 msgid ""
 "It runs the B<source> hook and calls B<dpkg-source -b> to generate the "
 "source package (if a B<source> build has been requested with B<--build> or "
-"equivalent options)."
+"equivalent options, and if no B<.dsc> has been specified)."
 msgstr ""
 "Het voert de uitbreiding (hook) B<source> uit en roept B<dpkg-source -b> aan "
 "om het broncodepakket te genereren (indien het bouwen van B<source> "
@@ -11310,10 +11397,17 @@ msgstr "B<6.>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "It runs the B<buildinfo> hook and calls B<dpkg-genbuildinfo> to generate "
+#| "a B<.buildinfo> file.  Several B<dpkg-buildpackage> options are forwarded "
+#| "to B<dpkg-genbuildinfo>."
 msgid ""
 "It runs the B<buildinfo> hook and calls B<dpkg-genbuildinfo> to generate a "
 "B<.buildinfo> file.  Several B<dpkg-buildpackage> options are forwarded to "
-"B<dpkg-genbuildinfo>."
+"B<dpkg-genbuildinfo>.  If a I<.dsc> has been specified, then it will be "
+"referenced in the generated B<.buildinfo> file, as we can ascertain the "
+"provenance of the source tree."
 msgstr ""
 "Het voert de uitbreiding (hook) B<buildinfo> uit en roept B<dpkg-"
 "genbuildinfo> aan om een bestand B<.buildinfo> aan te maken. Verschillende "
@@ -11427,6 +11521,24 @@ msgstr ""
 #: dpkg-buildpackage.pod
 msgid "B<12.>"
 msgstr "B<12.>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "If set and the B<--admindir> option has not been specified, it will be "
+#| "used as the base administrative directory."
+msgid ""
+"If a B<.dsc> file has been specified, it removes the extracted source "
+"directory."
+msgstr ""
+"Indien dit ingesteld is en de optie B<--admindir> niet opgegeven werd, zal "
+"dit gebruikt worden als de administratieve basismap."
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<13.>"
+msgstr ""
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -17273,6 +17385,16 @@ msgstr "B<dpkg-name> [I<optie>...] [B<-->] I<bestand>..."
 
 #. type: textblock
 #: dpkg-name.pod
+#, fuzzy
+#| msgid ""
+#| "This manual page documents the B<dpkg-name> program which provides an "
+#| "easy way to rename B<Debian> packages into their full package names.  A "
+#| "full package name consists of "
+#| "I<package>B<_>I<version>B<_>I<architecture>B<.>I<package-type> as "
+#| "specified in the control file of the package.  The I<version> part of the "
+#| "filename consists of the upstream version information optionally followed "
+#| "by a hyphen and the revision information.  The I<package-type> part comes "
+#| "from that field if present or fallbacks to B<deb>."
 msgid ""
 "This manual page documents the B<dpkg-name> program which provides an easy "
 "way to rename B<Debian> packages into their full package names.  A full "
@@ -17280,7 +17402,7 @@ msgid ""
 ">I<package-type> as specified in the control file of the package.  The "
 "I<version> part of the filename consists of the upstream version information "
 "optionally followed by a hyphen and the revision information.  The I<package-"
-"type> part comes from that field if present or fallbacks to B<deb>."
+"type> part comes from that field if present or will fall back to B<deb>."
 msgstr ""
 "Deze man-pagina documenteert het programma B<dpkg-name> dat voorziet in een "
 "eenvoudige manier om B<Debian>-pakketten naar hun volledige pakketnamen te "
@@ -18371,8 +18493,17 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-query.pod
+#, fuzzy
+#| msgid ""
+#| "B<Warning>: this command is deprecated as it gives direct access to the "
+#| "internal dpkg database, please switch to use B<--control-list> and B<--"
+#| "control-show> instead for all cases where those commands might give the "
+#| "same end result.  Although, as long as there is still at least one case "
+#| "where this command is needed (i.e. when having to remove a damaging "
+#| "postrm maintainer script), and while there is no good solution for that, "
+#| "this command will not get removed."
 msgid ""
-"B<Warning>: this command is deprecated as it gives direct access to the "
+"B<Warning>: This command is deprecated as it gives direct access to the "
 "internal dpkg database, please switch to use B<--control-list> and B<--"
 "control-show> instead for all cases where those commands might give the same "
 "end result.  Although, as long as there is still at least one case where "
@@ -18691,6 +18822,13 @@ msgstr "B<Description>"
 
 #. type: =item
 #: dpkg-query.pod
+#, fuzzy
+#| msgid "B<MD5sum> (internal, front-end related)"
+msgid "B<Description-md5> (internal, front-end related)"
+msgstr "B<MD5sum> (intern, frontend gerelateerd)"
+
+#. type: =item
+#: dpkg-query.pod
 msgid "B<Enhances>"
 msgstr "B<Enhances>"
 
@@ -18773,6 +18911,27 @@ msgstr "B<Revision> (verouderd)"
 #: dpkg-query.pod
 msgid "B<Section>"
 msgstr "B<Section>"
+
+#. type: =item
+#: dpkg-query.pod
+#, fuzzy
+#| msgid "B<Size> (internal, front-end related)"
+msgid "B<SHA1> (internal, front-end related)"
+msgstr "B<Size> (intern, frontend gerelateerd)"
+
+#. type: =item
+#: dpkg-query.pod
+#, fuzzy
+#| msgid "B<Size> (internal, front-end related)"
+msgid "B<SHA256> (internal, front-end related)"
+msgstr "B<Size> (intern, frontend gerelateerd)"
+
+#. type: =item
+#: dpkg-query.pod
+#, fuzzy
+#| msgid "B<Size> (internal, front-end related)"
+msgid "B<SHA512> (internal, front-end related)"
+msgstr "B<Size> (intern, frontend gerelateerd)"
 
 #. type: =item
 #: dpkg-query.pod
@@ -19915,6 +20074,43 @@ msgstr ""
 "Depends>, B<Depends>, B<Recommends>, B<Enhances> of B<Suggests>, zal B<dpkg-"
 "shlibdeps> de afhankelijkheid automatisch uit alle velden verwijderen, "
 "behalve uit het veld dat de belangrijkste afhankelijkheid vertegenwoordigt."
+
+#. type: =item
+#: dpkg-shlibdeps.pod
+#, fuzzy
+#| msgid "B<--package> I<package>"
+msgid "B<--package=>I<package>"
+msgstr "B<--package> I<pakket>"
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+#, fuzzy
+#| msgid "The package name."
+msgid "Define the package name."
+msgstr "De pakketnaam."
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+msgid ""
+"When specified, the package name will be used to change defaults based on "
+"the binary package metadata in F<debian/control>."
+msgstr ""
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+msgid ""
+"If the package is B<Essential: yes>, then the default dependency field is "
+"B<Pre-Depends>, otherwise B<Depends>.  The default package type is set from "
+"the B<Package-Type> field.  The package is added to the set of packages "
+"excluded by B<-x>."
+msgstr ""
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+#, fuzzy
+#| msgid "Supported since dpkg 1.20.1."
+msgid "Option supported since dpkg 1.22.7."
+msgstr "Ondersteund sinds dpkg 1.20.1."
 
 #. type: =item
 #: dpkg-shlibdeps.pod
@@ -25691,6 +25887,13 @@ msgstr ""
 #. type: textblock
 #: dpkg.pod
 msgid ""
+"The invoke hooks are not executed when B<--no-act> is specified, or when "
+"running as non-root without B<--force-not-root>."
+msgstr ""
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
 "B<Note>: Front-ends might call B<dpkg> several times per invocation, which "
 "might run the hooks more times than expected."
 msgstr ""
@@ -25852,11 +26055,16 @@ msgstr ""
 
 #. type: verbatim
 #: dpkg.pod
-#, no-wrap
+#, fuzzy, no-wrap
+#| msgid ""
+#| "Z<>\n"
+#| " B<missing  > [B<c>] I<pathname> [B<(>I<error-message>B<)>]\n"
+#| " B<??5??????> [B<c>] I<pathname>\n"
+#| "\n"
 msgid ""
 "Z<>\n"
 " B<missing  > [B<c>] I<pathname> [B<(>I<error-message>B<)>]\n"
-" B<??5??????> [B<c>] I<pathname>\n"
+" B<?M5??????> [B<c>] I<pathname>\n"
 "\n"
 msgstr ""
 "Z<>\n"
@@ -26098,6 +26306,13 @@ msgstr ""
 "\"%DPKG_DEFAULT_SHELL% -c\" moet uitgevoerd worden (sinds dpkg 1.16.0). Deze "
 "optie kan meermaals opgegeven worden. De indeling van de uitvoer is dezelfde "
 "als bij B<--status-fd>."
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"The status loggers are not executed when B<--no-act> is specified, or when "
+"running as non-root without B<--force-not-root>."
+msgstr ""
 
 #. type: =item
 #: dpkg.pod
@@ -27318,6 +27533,13 @@ msgid ""
 msgstr ""
 "Indien het binaire pakket essentieel (essential) is, zal dit trefwoord de "
 "waarde hebben van het veld B<Essential> en dat is de waarde B<yes>."
+
+#. type: =item
+#: dsc.pod
+#, fuzzy
+#| msgid "B<Files:> (required)"
+msgid "B<Files:> (required, weak)"
+msgstr "B<Files:> (verplicht)"
 
 #. type: textblock
 #: dsc.pod
@@ -29734,13 +29956,26 @@ msgstr ""
 
 #. type: textblock
 #: update-alternatives.pod
+#, fuzzy
+#| msgid ""
+#| "When each package providing a file with a particular functionality is "
+#| "installed, changed or removed, B<update-alternatives> is called to update "
+#| "information about that file in the alternatives system.  B<update-"
+#| "alternatives> is usually called from the following Debian package "
+#| "maintainer scripts, B<postinst> (configure) to install the alternative "
+#| "and from B<prerm> and B<postrm> (remove) to remove the alternative.  "
+#| "B<Note>: in most (if not all) cases no other maintainer script actions "
+#| "should call B<update-alternatives>, in particular neither of B<upgrade> "
+#| "nor B<disappear>, as any other such action can lose the manual state of "
+#| "an alternative, or make the alternative temporarily flip-flop, or "
+#| "completely switch when several of them have the same priority."
 msgid ""
 "When each package providing a file with a particular functionality is "
 "installed, changed or removed, B<update-alternatives> is called to update "
 "information about that file in the alternatives system.  B<update-"
 "alternatives> is usually called from the following Debian package maintainer "
 "scripts, B<postinst> (configure) to install the alternative and from "
-"B<prerm> and B<postrm> (remove) to remove the alternative.  B<Note>: in most "
+"B<prerm> and B<postrm> (remove) to remove the alternative.  B<Note>: In most "
 "(if not all) cases no other maintainer script actions should call B<update-"
 "alternatives>, in particular neither of B<upgrade> nor B<disappear>, as any "
 "other such action can lose the manual state of an alternative, or make the "
@@ -30743,6 +30978,9 @@ msgid "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
 msgstr ""
 "L<ln(1)>, FHS (the Filesystem Hierarchy Standard - de standaardisatie van "
 "bestandsorganisatie en mappenstructuur op unix-achtige systemen)."
+
+#~ msgid "B<dpkg-buildpackage> [I<option>...]"
+#~ msgstr "B<dpkg-buildpackage> [I<optie>...]"
 
 #~ msgid ""
 #~ "B<dpkg-buildpackage> is using the B<build-arch> and B<build-indep> "

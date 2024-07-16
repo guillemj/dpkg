@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-03-10 20:21+0100\n"
+"POT-Creation-Date: 2024-07-17 01:10+0200\n"
 "PO-Revision-Date: 2024-04-28 15:33+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <tp-sv@listor.tp-sv.se>\n"
@@ -293,17 +293,23 @@ msgstr ""
 
 #. type: =item
 #: deb-buildinfo.pod
-msgid "B<Checksums-Md5:> (required)"
+#, fuzzy
+#| msgid "B<Checksums-Md5:> (required)"
+msgid "B<Checksums-Md5:> (required, weak)"
 msgstr "B<Checksums-Md5:> (krävs)"
 
 #. type: =item
 #: deb-buildinfo.pod deb-changes.pod dsc.pod
-msgid "B<Checksums-Sha1:> (required)"
+#, fuzzy
+#| msgid "B<Checksums-Sha1:> (required)"
+msgid "B<Checksums-Sha1:> (required, weak)"
 msgstr "B<Checksums-Sha1:> (krävs)"
 
 #. type: =item
 #: deb-buildinfo.pod deb-changes.pod dsc.pod
-msgid "B<Checksums-Sha256:> (required)"
+#, fuzzy
+#| msgid "B<Checksums-Sha256:> (required)"
+msgid "B<Checksums-Sha256:> (required, strong)"
 msgstr "B<Checksums-Sha256:> (krävs)"
 
 #. type: =item
@@ -323,6 +329,13 @@ msgstr ""
 "och storlek för var och en. Fälten har samma syntax och skiljer sig bara vad "
 "gäller vilken kontrollsummealgoritm som används: MD5 för B<Checksums-Md5>, "
 "SHA-1 för B<Checksums-Sha1> och SHA-256 för B<Checksums-Sha256>."
+
+#. type: textblock
+#: deb-buildinfo.pod dsc.pod
+msgid ""
+"B<Note>: The MD5 and SHA-1 checksums are considered weak, and should never "
+"be assumed to be sufficient for secure verification."
+msgstr ""
 
 #. type: textblock
 #: deb-buildinfo.pod deb-changes.pod
@@ -1396,7 +1409,7 @@ msgstr ""
 "ändringsloggen."
 
 #. type: =item
-#: deb-changes.pod dsc.pod
+#: deb-changes.pod
 msgid "B<Files:> (required)"
 msgstr "B<Files:> (krävs)"
 
@@ -1442,6 +1455,14 @@ msgstr ""
 #. type: textblock
 #: deb-changes.pod
 msgid ""
+"B<Note>: The MD5 checksum is considered weak, and should never be assumed to "
+"be sufficient for secure verification, but this field cannot be omitted as "
+"it provides metadata not available anywhere else."
+msgstr ""
+
+#. type: textblock
+#: deb-changes.pod
+msgid ""
 "These multiline fields contain a list of files with a checksum and size for "
 "each one.  These fields have the same syntax and differ only in the checksum "
 "algorithm used: SHA-1 for B<Checksums-Sha1> and SHA-256 for B<Checksums-"
@@ -1462,6 +1483,13 @@ msgstr ""
 "De här fälten visar alla filer insändningen består av. Listan över filer i "
 "fälten måste motsvara listan över filer i fältet B<Files> och de andra "
 "relaterade B<Checksums>-fälten."
+
+#. type: textblock
+#: deb-changes.pod
+msgid ""
+"B<Note>: The SHA-1 checksum is considered weak, and should never be assumed "
+"to be sufficient for secure verification."
+msgstr ""
 
 #. type: =head1
 #: deb-changes.pod deb-control.pod dpkg-buildpackage.pod dpkg-deb.pod
@@ -3683,6 +3711,28 @@ msgstr ""
 
 #. type: =item
 #: deb-src-control.pod
+#, fuzzy
+#| msgid "B<Build-Origin:> I<name>"
+msgid "B<Build-Driver:> I<driver-name>"
+msgstr "B<Build-Origin:> I<namn>"
+
+#. type: textblock
+#: deb-src-control.pod
+msgid ""
+"This experimental field specifies the name of the build driver to use to "
+"build this package.  When omitted the I<driver-name> defaults to B<debian-"
+"rules>."
+msgstr ""
+
+#. type: textblock
+#: deb-src-control.pod
+#, fuzzy
+#| msgid "Supported since dpkg 1.20.1."
+msgid "This field is supported since dpkg 1.22.7."
+msgstr "Stöds sedan dpkg 1.20.1."
+
+#. type: =item
+#: deb-src-control.pod
 msgid "B<Rules-Requires-Root:> B<no>|B<binary-targets>|I<impl-keywords>"
 msgstr "B<Rules-Requires-Root:> B<no>|B<binary-targets>|I<impl-nyckelord>"
 
@@ -5562,13 +5612,24 @@ msgstr "Filsyntax"
 
 #. type: textblock
 #: deb-substvars.pod
+#, fuzzy
+#| msgid ""
+#| "Substitution variables can be specified in a file.  These files consist "
+#| "of lines of the form I<name>B<=>I<value> or I<name>B<?=>I<value>.  The "
+#| "B<=> operator assigns a normal substitution variable, while the B<?=> "
+#| "operator (since dpkg 1.21.8) assigns an optional substitution variable "
+#| "which will emit no warnings even if unused.  Trailing whitespace on each "
+#| "line, blank lines, and lines starting with a B<#> symbol (comments) are "
+#| "ignored."
 msgid ""
 "Substitution variables can be specified in a file.  These files consist of "
-"lines of the form I<name>B<=>I<value> or I<name>B<?=>I<value>.  The B<=> "
-"operator assigns a normal substitution variable, while the B<?=> operator "
-"(since dpkg 1.21.8) assigns an optional substitution variable which will "
-"emit no warnings even if unused.  Trailing whitespace on each line, blank "
-"lines, and lines starting with a B<#> symbol (comments) are ignored."
+"lines of the form I<name>B<=>I<value>, I<name>B<?=>I<value>, or I<name>B<!"
+"=>I<value>.  The B<=> operator assigns a normal substitution variable, the "
+"B<?=> operator (since dpkg 1.21.8) assigns an optional substitution variable "
+"which will emit no warnings even if unused, and the B<!=> operator (since "
+"dpkg 1.22.7) assigns a required substitution variable which will error out "
+"if unused.  Trailing whitespace on each line, blank lines, and lines "
+"starting with a B<#> symbol (comments) are ignored."
 msgstr ""
 "Substitueringsvariabler kan anges i en fil. En sådan fil består av rader på "
 "formen I<namn>B<=>I<värde> eller I<namn>B<?=><värde>. Operatorn B<=> "
@@ -7669,7 +7730,7 @@ msgstr ""
 "beskrivning av hur namngivningen är uppbyggd):"
 
 #. type: =item
-#: dpkg-architecture.pod
+#: dpkg-architecture.pod dpkg-genbuildinfo.pod
 msgid "B<DEB_BUILD_ARCH>"
 msgstr "B<DEB_BUILD_ARCH>"
 
@@ -7783,7 +7844,9 @@ msgstr ""
 "filsystemet."
 
 #. type: =item
-#: dpkg-architecture.pod
+#: dpkg-architecture.pod dpkg-buildflags.pod dpkg-checkbuilddeps.pod
+#: dpkg-genbuildinfo.pod dpkg-genchanges.pod dpkg-gencontrol.pod
+#: dpkg-gensymbols.pod dpkg-name.pod dpkg-shlibdeps.pod
 msgid "B<DEB_HOST_ARCH>"
 msgstr "B<DEB_HOST_ARCH>"
 
@@ -8314,8 +8377,8 @@ msgstr ""
 
 #. type: =head1
 #: dpkg-architecture.pod dpkg-buildapi.pod dpkg-buildflags.pod
-#: dpkg-buildpackage.pod dpkg-checkbuilddeps.pod dpkg-deb.pod
-#: dpkg-distaddfile.pod dpkg-divert.pod dpkg-fsys-usrunmess.pod
+#: dpkg-buildpackage.pod dpkg-buildtree.pod dpkg-checkbuilddeps.pod
+#: dpkg-deb.pod dpkg-distaddfile.pod dpkg-divert.pod dpkg-fsys-usrunmess.pod
 #: dpkg-genbuildinfo.pod dpkg-genchanges.pod dpkg-gencontrol.pod
 #: dpkg-gensymbols.pod dpkg-maintscript-helper.pod dpkg-mergechangelogs.pod
 #: dpkg-name.pod dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
@@ -8341,11 +8404,12 @@ msgstr ""
 "ligger (sedan dpkg 1.14.17). Förval är ”%PKGDATADIR%”."
 
 #. type: =item
-#: dpkg-architecture.pod dpkg-buildflags.pod dpkg-buildpackage.pod
-#: dpkg-checkbuilddeps.pod dpkg-deb.pod dpkg-distaddfile.pod dpkg-divert.pod
-#: dpkg-genbuildinfo.pod dpkg-genchanges.pod dpkg-gencontrol.pod
-#: dpkg-gensymbols.pod dpkg-maintscript-helper.pod dpkg-mergechangelogs.pod
-#: dpkg-name.pod dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
+#: dpkg-architecture.pod dpkg-buildapi.pod dpkg-buildflags.pod
+#: dpkg-buildpackage.pod dpkg-buildtree.pod dpkg-checkbuilddeps.pod
+#: dpkg-deb.pod dpkg-distaddfile.pod dpkg-divert.pod dpkg-genbuildinfo.pod
+#: dpkg-genchanges.pod dpkg-gencontrol.pod dpkg-gensymbols.pod
+#: dpkg-maintscript-helper.pod dpkg-mergechangelogs.pod dpkg-name.pod
+#: dpkg-parsechangelog.pod dpkg-query.pod dpkg-realpath.pod
 #: dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
 #: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
 #: dpkg-vendor.pod dpkg.pod
@@ -8368,12 +8432,14 @@ msgstr ""
 "B<auto> (förval), B<always> och B<never>."
 
 #. type: =item
-#: dpkg-architecture.pod dpkg-buildflags.pod dpkg-buildpackage.pod
-#: dpkg-checkbuilddeps.pod dpkg-distaddfile.pod dpkg-genbuildinfo.pod
+#: dpkg-architecture.pod dpkg-buildapi.pod dpkg-buildflags.pod
+#: dpkg-buildpackage.pod dpkg-buildtree.pod dpkg-checkbuilddeps.pod
+#: dpkg-deb.pod dpkg-distaddfile.pod dpkg-divert.pod dpkg-genbuildinfo.pod
 #: dpkg-genchanges.pod dpkg-gencontrol.pod dpkg-gensymbols.pod
 #: dpkg-mergechangelogs.pod dpkg-name.pod dpkg-parsechangelog.pod
-#: dpkg-scanpackages.pod dpkg-scansources.pod dpkg-shlibdeps.pod
-#: dpkg-source.pod dpkg-vendor.pod
+#: dpkg-query.pod dpkg-realpath.pod dpkg-scanpackages.pod dpkg-scansources.pod
+#: dpkg-shlibdeps.pod dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod
+#: dpkg-trigger.pod dpkg-vendor.pod dpkg.pod
 msgid "B<DPKG_NLS>"
 msgstr "B<DPKG_NLS>"
 
@@ -8624,6 +8690,31 @@ msgstr ""
 "flera gånger, inte att sätta den globala bygg-API-nivån från F<debian/"
 "rules>, eftersom byggdrivare (så som L<dpkg-buildpackage(1)>) annars inte "
 "kan nå den."
+
+#. type: textblock
+#: dpkg-buildapi.pod dpkg-buildtree.pod dpkg-realpath.pod
+msgid ""
+"Sets the color mode.  The currently accepted values are: B<auto> (default), "
+"B<always> and B<never>."
+msgstr ""
+"Väljer färgläge. För närvarande godtas följande värden: B<auto> (förval), "
+"B<always> och B<never>."
+
+#. type: textblock
+#: dpkg-buildapi.pod dpkg-buildtree.pod
+#, fuzzy
+#| msgid ""
+#| "If set, it will be used to decide whether to activate Native Language "
+#| "Support, also known as internationalization (or i18n) support (since dpkg "
+#| "1.19.0).  The accepted values are: B<0> and B<1> (default)."
+msgid ""
+"If set, it will be used to decide whether to activate Native Language "
+"Support, also known as internationalization (or i18n) support.  The accepted "
+"values are: B<0> and B<1> (default)."
+msgstr ""
+"Om satt, används för att bestämma om lokalt språkstöd ska aktiveras, även "
+"känt som internationaliseringsstöd (eller i18n) (sedan dpkg 1.19.0). "
+"Tillåtna värden är: B<0> och B<1> (förval)."
 
 #. type: =item
 #: dpkg-buildapi.pod
@@ -9781,9 +9872,14 @@ msgstr "optimize"
 
 #. type: textblock
 #: dpkg-buildflags.pod
+#, fuzzy
+#| msgid ""
+#| "Several compile-time options (detailed below) can be used to help "
+#| "optimize a resulting binary (since dpkg 1.21.0).  B<Note>: enabling "
+#| "B<all> these options can result in unreproducible binary artifacts."
 msgid ""
 "Several compile-time options (detailed below) can be used to help optimize a "
-"resulting binary (since dpkg 1.21.0).  B<Note>: enabling B<all> these "
+"resulting binary (since dpkg 1.21.0).  B<Note>: Enabling B<all> these "
 "options can result in unreproducible binary artifacts."
 msgstr ""
 "Flera kommandoradsflaggor (beskrivna nedan) kan användas för att hjälpa till "
@@ -9816,10 +9912,18 @@ msgstr "sanitize"
 
 #. type: textblock
 #: dpkg-buildflags.pod
+#, fuzzy
+#| msgid ""
+#| "Several compile-time options (detailed below) can be used to help "
+#| "sanitize a resulting binary against memory corruptions, memory leaks, use "
+#| "after free, threading data races and undefined behavior bugs.  B<Note>: "
+#| "these options should B<not> be used for production builds as they can "
+#| "reduce reliability for conformant code, reduce security or even "
+#| "functionality."
 msgid ""
 "Several compile-time options (detailed below) can be used to help sanitize a "
 "resulting binary against memory corruptions, memory leaks, use after free, "
-"threading data races and undefined behavior bugs.  B<Note>: these options "
+"threading data races and undefined behavior bugs.  B<Note>: These options "
 "should B<not> be used for production builds as they can reduce reliability "
 "for conformant code, reduce security or even functionality."
 msgstr ""
@@ -10546,6 +10650,14 @@ msgstr ""
 "funktioner såsom B<fixdebugpath> så att de kan styras av anroparen. "
 "Variabeln är för närvarande specifik för Debian och dess derivat."
 
+#. type: textblock
+#: dpkg-buildflags.pod
+msgid ""
+"Sets the host architecture.  This affects the build flags that are emitted, "
+"which is typically relevant when cross-compiling, where B<DEB_HOST_ARCH> is "
+"different to B<DEB_BUILD_ARCH>."
+msgstr ""
+
 #. type: =head2
 #: dpkg-buildflags.pod
 msgid "Configuration files"
@@ -10757,17 +10869,38 @@ msgstr "dpkg-buildpackage - bygg binär- eller källkodspaket från källkod"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-msgid "B<dpkg-buildpackage> [I<option>...]"
-msgstr "B<dpkg-buildpackage> [I<flagga>...]"
+#, fuzzy
+#| msgid "B<dpkg-name> [I<option>...] [B<-->] I<file>..."
+msgid ""
+"B<dpkg-buildpackage> [I<option>...] [B<-->] [I<filename>.dsc|I<directory>]"
+msgstr "B<dpkg-name> [I<flagga>...] [B<-->] I<fil>..."
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "B<dpkg-buildpackage> is a program that automates the process of building "
+#| "a Debian package.  It consists of the following steps:"
+msgid ""
+"B<dpkg-buildpackage> is a program that automates the process of building a "
+"Debian package."
+msgstr ""
+"B<dpkg-buildprogram> är ett program som automatiserar processen med att "
+"bygga ett Debianpaket. Det består av följande steg:"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
 msgid ""
-"B<dpkg-buildpackage> is a program that automates the process of building a "
-"Debian package.  It consists of the following steps:"
+"The I<filename>.dsc and I<directory> arguments are supported since dpkg "
+"1.22.7.  Their semantics are experimental."
 msgstr ""
-"B<dpkg-buildprogram> är ett program som automatiserar processen med att "
-"bygga ett Debianpaket. Det består av följande steg:"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid "Installation consists of the following steps:"
+msgid "It consists of the following steps:"
+msgstr "Installationen består av följande steg:"
 
 #. type: =item
 #: dpkg-buildpackage.pod dpkg.pod
@@ -10776,8 +10909,17 @@ msgstr "B<1.>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "It runs the B<preinit> hook before reading any source file.  It prepares "
+#| "the build environment by setting various environment variables (see "
+#| "B<ENVIRONMENT>), runs the B<init> hook, and calls B<dpkg-source --before-"
+#| "build> (unless B<-T> or B<--target> has been used)."
 msgid ""
-"It runs the B<preinit> hook before reading any source file.  It prepares the "
+"It runs the B<preinit> hook before reading any source file.  If a B<.dsc> "
+"file has been specified it unpacks it anew and changes directory to it, if a "
+"I<directory> has been specified it changes directory to it, otherwise it "
+"expects the current directory to contain the source tree.  It prepares the "
 "build environment by setting various environment variables (see "
 "B<ENVIRONMENT>), runs the B<init> hook, and calls B<dpkg-source --before-"
 "build> (unless B<-T> or B<--target> has been used)."
@@ -10826,10 +10968,15 @@ msgstr "B<4.>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "It runs the B<source> hook and calls B<dpkg-source -b> to generate the "
+#| "source package (if a B<source> build has been requested with B<--build> "
+#| "or equivalent options)."
 msgid ""
 "It runs the B<source> hook and calls B<dpkg-source -b> to generate the "
 "source package (if a B<source> build has been requested with B<--build> or "
-"equivalent options)."
+"equivalent options, and if no B<.dsc> has been specified)."
 msgstr ""
 "Kör kroken B<source> och anropar B<dpkg-source -b> för att skapa "
 "källkodspaketet (om ett B<source>-bygge (källkod) har ombetts via B<--build> "
@@ -10871,10 +11018,17 @@ msgstr "B<6.>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "It runs the B<buildinfo> hook and calls B<dpkg-genbuildinfo> to generate "
+#| "a B<.buildinfo> file.  Several B<dpkg-buildpackage> options are forwarded "
+#| "to B<dpkg-genbuildinfo>."
 msgid ""
 "It runs the B<buildinfo> hook and calls B<dpkg-genbuildinfo> to generate a "
 "B<.buildinfo> file.  Several B<dpkg-buildpackage> options are forwarded to "
-"B<dpkg-genbuildinfo>."
+"B<dpkg-genbuildinfo>.  If a I<.dsc> has been specified, then it will be "
+"referenced in the generated B<.buildinfo> file, as we can ascertain the "
+"provenance of the source tree."
 msgstr ""
 "Kör kroken B<buildinfo> och anropar B<dpkg-genbuildinfo> för att skapa en B<."
 "buildinfo>-fil. Många av flaggorna till B<dpkg-buildpackage> vidaresänds "
@@ -10984,6 +11138,24 @@ msgstr ""
 #: dpkg-buildpackage.pod
 msgid "B<12.>"
 msgstr "B<12.>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "If set and the B<--admindir> option has not been specified, it will be "
+#| "used as the base administrative directory."
+msgid ""
+"If a B<.dsc> file has been specified, it removes the extracted source "
+"directory."
+msgstr ""
+"Om satt och flaggan B<--admindir> inte har angivits används det som bas-"
+"administrativ katalog."
+
+#. type: =item
+#: dpkg-buildpackage.pod
+msgid "B<13.>"
+msgstr ""
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -11782,9 +11954,14 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "Gets B<DPKG_BUILDPACKAGE_HOOK_BUILD_TARGET> with the name of the B<debian/"
+#| "rules> build target called, but only if called."
 msgid ""
 "Gets B<DPKG_BUILDPACKAGE_HOOK_BUILD_TARGET> with the name of the B<debian/"
-"rules> build target called, but only if called."
+"rules> build target called.  Before dpkg 1.22.7 the variable was only set if "
+"the target was called."
 msgstr ""
 "Hämtar B<DPKG_BUILDPACKAGE_HOOK_BUILD_TARGET> med namnet på det byggmål i "
 "B<debian/rules> som anropades, men bara om anropat."
@@ -12620,18 +12797,10 @@ msgstr "Förvalda byggmål"
 #: dpkg-buildpackage.pod
 msgid ""
 "B<dpkg-buildpackage> is using the B<build-arch> and B<build-indep> targets "
-"since dpkg 1.16.2.  Those targets are thus mandatory.  But to avoid "
-"breakages of existing packages, and ease the transition, if the source "
-"package does not build both architecture independent and dependent binary "
-"packages (since dpkg 1.18.8) it will fallback to use the B<build> target if "
-"B<make -f debian/rules -qn> I<build-target> returns 2 as exit code."
+"since dpkg 1.16.2.  Before dpkg 1.22.7, there was code to try to detect the "
+"missing targets and fallback on the B<build> target.  Those targets are thus "
+"mandatory."
 msgstr ""
-"B<dpkg-buildpackage> använder målen B<build-archi> och B<build-indep> från "
-"dpkg 1.16.2. Dessa mål krävs därmed, men för att undvika att existerande "
-"paket går sönder, och för att förenkla övergången, om källkodspaketet inte "
-"både bygger arkitektursoberoende och -beroende binärpaket (sedan dpkg "
-"1.18.8) kommer den falla tillbaka till att använda målet B<build> om B<make -"
-"f debian/rules -gn> I<byggmål> returnerar statuskoden 2."
 
 #. type: =head1
 #: dpkg-buildpackage.pod dpkg-deb.pod dpkg-query.pod dpkg-source.pod
@@ -12905,6 +13074,13 @@ msgstr ""
 "Kontrollera byggberoenden/-konflikter med antagandet att paketet som "
 "beskrivs i styrfilen ska byggas för den givna byggprofilen(-erna) (sedan "
 "dpkg 1.17.2). Argumentet är en kommaavdelad lista med profilnamn."
+
+#. type: textblock
+#: dpkg-checkbuilddeps.pod
+msgid ""
+"Sets the host architecture.  This affects the dependency resolution logic, "
+"which might then not match what the system dpkg considers satisfiable."
+msgstr ""
 
 #. type: textblock
 #: dpkg-checkbuilddeps.pod
@@ -13565,6 +13741,23 @@ msgstr "Anger packarnivå att använda (sedan dpkg 1.21.10)."
 msgid "The B<-z> option overrides this value."
 msgstr "Flaggan B<-z> överstyr denna variabel."
 
+#. type: textblock
+#: dpkg-deb.pod dpkg-divert.pod dpkg-query.pod dpkg-realpath.pod dpkg-split.pod
+#: dpkg-statoverride.pod dpkg-trigger.pod dpkg.pod
+#, fuzzy
+#| msgid ""
+#| "If set, it will be used to decide whether to activate Native Language "
+#| "Support, also known as internationalization (or i18n) support (since dpkg "
+#| "1.19.0).  The accepted values are: B<0> and B<1> (default)."
+msgid ""
+"If set, it will be used to decide whether to activate Native Language "
+"Support, also known as internationalization (or i18n) support (since dpkg "
+"1.22.7).  The accepted values are: B<0> and B<1> (default)."
+msgstr ""
+"Om satt, används för att bestämma om lokalt språkstöd ska aktiveras, även "
+"känt som internationaliseringsstöd (eller i18n) (sedan dpkg 1.19.0). "
+"Tillåtna värden är: B<0> och B<1> (förval)."
+
 #. type: =item
 #: dpkg-deb.pod dpkg.pod
 msgid "B<TMPDIR>"
@@ -13876,8 +14069,8 @@ msgid ""
 "been set."
 msgstr ""
 "Sätt rotkatalogen till B<katalog>, vilket sätter installationskatalogen till "
-"”I<katalog>” och den administrativa katalogen till "
-"”I<katalog>B<%ADMINDIR%>” (sedan dpkg 1.19.2) om B<DPKG_ROOT> inte har satts."
+"”I<katalog>” och den administrativa katalogen till ”I<katalog>B<%ADMINDIR%>” "
+"(sedan dpkg 1.19.2) om B<DPKG_ROOT> inte har satts."
 
 #. type: =item
 #: dpkg-divert.pod
@@ -14717,6 +14910,20 @@ msgstr ""
 #. type: textblock
 #: dpkg-genbuildinfo.pod
 msgid ""
+"Sets the build architecture.  This affects the value for the B<Build-"
+"Architecture> field, and the check for the cross-compilation mode."
+msgstr ""
+
+#. type: textblock
+#: dpkg-genbuildinfo.pod
+msgid ""
+"Sets the host architecture.  This affects the filename used for the ."
+"buildinfo file, and the check for the cross-compilation mode."
+msgstr ""
+
+#. type: textblock
+#: dpkg-genbuildinfo.pod
+msgid ""
 "The list of generated files.  B<dpkg-genbuildinfo> reads the data here when "
 "producing a B<.buildinfo> file."
 msgstr ""
@@ -14962,6 +15169,13 @@ msgid ""
 msgstr ""
 "Skriv ändringsfilen på standard ut (förval) eller till I<filnamn> om anges "
 "(sedan dpkg 1.18.5)."
+
+#. type: textblock
+#: dpkg-genchanges.pod dpkg-gencontrol.pod
+#, fuzzy
+#| msgid "Set the host Debian architecture."
+msgid "Sets the host architecture."
+msgstr "Sätter värd-Debianarkitekturen."
 
 #. type: textblock
 #: dpkg-genchanges.pod
@@ -15696,6 +15910,12 @@ msgstr ""
 "rekommenderade symboler som kommentarer. I mall-läge följs dessutom "
 "mönstersymboler av kommentarer som visar vilka verkliga symboler som har "
 "träffats av mönstret."
+
+#. type: textblock
+#: dpkg-gensymbols.pod
+msgid ""
+"Sets the host architecture if the B<--arch> option has not be specified."
+msgstr ""
 
 #. type: =item
 #: dpkg-gensymbols.pod
@@ -16560,6 +16780,16 @@ msgstr "B<dpkg-name> [I<flagga>...] [B<-->] I<fil>..."
 
 #. type: textblock
 #: dpkg-name.pod
+#, fuzzy
+#| msgid ""
+#| "This manual page documents the B<dpkg-name> program which provides an "
+#| "easy way to rename B<Debian> packages into their full package names.  A "
+#| "full package name consists of "
+#| "I<package>B<_>I<version>B<_>I<architecture>B<.>I<package-type> as "
+#| "specified in the control file of the package.  The I<version> part of the "
+#| "filename consists of the upstream version information optionally followed "
+#| "by a hyphen and the revision information.  The I<package-type> part comes "
+#| "from that field if present or fallbacks to B<deb>."
 msgid ""
 "This manual page documents the B<dpkg-name> program which provides an easy "
 "way to rename B<Debian> packages into their full package names.  A full "
@@ -16567,7 +16797,7 @@ msgid ""
 ">I<package-type> as specified in the control file of the package.  The "
 "I<version> part of the filename consists of the upstream version information "
 "optionally followed by a hyphen and the revision information.  The I<package-"
-"type> part comes from that field if present or fallbacks to B<deb>."
+"type> part comes from that field if present or will fall back to B<deb>."
 msgstr ""
 "Manualsidan dokumenterar programmet B<dpkg-name>, vilket tillhandahåller ett "
 "enkelt sätt att byta namn på B<Debian>paket till deras fullständiga "
@@ -16668,6 +16898,13 @@ msgstr "B<Varning>: Använd denna flagga med tillförsikt."
 #: dpkg-name.pod
 msgid "B<-v>, B<--version>"
 msgstr "B<-v>, B<--version>"
+
+#. type: textblock
+#: dpkg-name.pod
+msgid ""
+"Sets the host architecture.  This affects the architecture name used in the "
+"package filename."
+msgstr ""
 
 #. type: textblock
 #: dpkg-name.pod
@@ -17614,8 +17851,17 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-query.pod
+#, fuzzy
+#| msgid ""
+#| "B<Warning>: this command is deprecated as it gives direct access to the "
+#| "internal dpkg database, please switch to use B<--control-list> and B<--"
+#| "control-show> instead for all cases where those commands might give the "
+#| "same end result.  Although, as long as there is still at least one case "
+#| "where this command is needed (i.e. when having to remove a damaging "
+#| "postrm maintainer script), and while there is no good solution for that, "
+#| "this command will not get removed."
 msgid ""
-"B<Warning>: this command is deprecated as it gives direct access to the "
+"B<Warning>: This command is deprecated as it gives direct access to the "
 "internal dpkg database, please switch to use B<--control-list> and B<--"
 "control-show> instead for all cases where those commands might give the same "
 "end result.  Although, as long as there is still at least one case where "
@@ -17918,6 +18164,13 @@ msgstr "B<Description>"
 
 #. type: =item
 #: dpkg-query.pod
+#, fuzzy
+#| msgid "B<MD5sum> (internal, front-end related)"
+msgid "B<Description-md5> (internal, front-end related)"
+msgstr "B<MD5sum> (internt, gäller skal)"
+
+#. type: =item
+#: dpkg-query.pod
 msgid "B<Enhances>"
 msgstr "B<Enhances>"
 
@@ -18000,6 +18253,27 @@ msgstr "B<Revision> (föråldrat)"
 #: dpkg-query.pod
 msgid "B<Section>"
 msgstr "B<Section>"
+
+#. type: =item
+#: dpkg-query.pod
+#, fuzzy
+#| msgid "B<Size> (internal, front-end related)"
+msgid "B<SHA1> (internal, front-end related)"
+msgstr "B<Size> (internt, gäller skal)"
+
+#. type: =item
+#: dpkg-query.pod
+#, fuzzy
+#| msgid "B<Size> (internal, front-end related)"
+msgid "B<SHA256> (internal, front-end related)"
+msgstr "B<Size> (internt, gäller skal)"
+
+#. type: =item
+#: dpkg-query.pod
+#, fuzzy
+#| msgid "B<Size> (internal, front-end related)"
+msgid "B<SHA512> (internal, front-end related)"
+msgstr "B<Size> (internt, gäller skal)"
 
 #. type: =item
 #: dpkg-query.pod
@@ -18420,15 +18694,6 @@ msgid ""
 msgstr ""
 "Om satt och flaggan B<--instdir> eller B<-root> inte har angivits kommer det "
 "användas som filsystemets rotkatalog."
-
-#. type: textblock
-#: dpkg-realpath.pod
-msgid ""
-"Sets the color mode.  The currently accepted values are: B<auto> (default), "
-"B<always> and B<never>."
-msgstr ""
-"Väljer färgläge. För närvarande godtas följande värden: B<auto> (förval), "
-"B<always> och B<never>."
 
 #. type: textblock
 #: dpkg-realpath.pod
@@ -19104,6 +19369,43 @@ msgstr ""
 
 #. type: =item
 #: dpkg-shlibdeps.pod
+#, fuzzy
+#| msgid "B<--package> I<package>"
+msgid "B<--package=>I<package>"
+msgstr "B<--package> I<paket>"
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+#, fuzzy
+#| msgid "The package name."
+msgid "Define the package name."
+msgstr "Paketets namn."
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+msgid ""
+"When specified, the package name will be used to change defaults based on "
+"the binary package metadata in F<debian/control>."
+msgstr ""
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+msgid ""
+"If the package is B<Essential: yes>, then the default dependency field is "
+"B<Pre-Depends>, otherwise B<Depends>.  The default package type is set from "
+"the B<Package-Type> field.  The package is added to the set of packages "
+"excluded by B<-x>."
+msgstr ""
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+#, fuzzy
+#| msgid "Supported since dpkg 1.20.1."
+msgid "Option supported since dpkg 1.22.7."
+msgstr "Stöds sedan dpkg 1.20.1."
+
+#. type: =item
+#: dpkg-shlibdeps.pod
 msgid "B<-p>I<varname-prefix>"
 msgstr "B<-p>I<variabelnamnsprefix>"
 
@@ -19286,6 +19588,13 @@ msgstr ""
 "inte vara länkat mot I<bibliotek>”. Standard för I<värde> är 3: de första "
 "två varningarna är aktiva som standard, men inte den sista. Sätt I<värde> "
 "till 7 om du vill att alla varningar ska vara aktiva."
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+msgid ""
+"Sets the host architecture.  This affects the objects and symbols files "
+"searched for and their default search pathnames."
+msgstr ""
 
 #. type: =head2
 #: dpkg-shlibdeps.pod
@@ -22100,9 +22409,9 @@ msgid ""
 "Add an override for I<path>.  I<path> does not need to exist nor be known to "
 "B<dpkg> when this command is used; the override will be stored and used "
 "later.  Users and groups can be specified by their name (for example B<root> "
-"or B<nobody>), or by their number by prepending the number with a "
-"‘B<#>’ (for example B<#0> or B<#65534>).  The I<mode> needs to be specified "
-"in octal."
+"or B<nobody>), or by their number by prepending the number with a ‘B<#>’ "
+"(for example B<#0> or B<#65534>).  The I<mode> needs to be specified in "
+"octal."
 msgstr ""
 "Lägg till en överstyrning för I<sökväg>. I<sökväg> behöver inte existera "
 "eller vara känd av B<dpkg> när kommandot körs; överstyrningen kommer lagras "
@@ -24604,6 +24913,13 @@ msgstr ""
 #. type: textblock
 #: dpkg.pod
 msgid ""
+"The invoke hooks are not executed when B<--no-act> is specified, or when "
+"running as non-root without B<--force-not-root>."
+msgstr ""
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
 "B<Note>: Front-ends might call B<dpkg> several times per invocation, which "
 "might run the hooks more times than expected."
 msgstr ""
@@ -24657,8 +24973,8 @@ msgstr ""
 "Filnamnsmönstrena använder samma sorts jokertecken som skalet, där ”*” "
 "motsvarar en sekvens av valfritt antal tecken, inklusive den tomma strängen "
 "och även ”/”. Till exempel på motsvarar I<”/usr/*/READ*”> I<”/usr/share/doc/"
-"paket/README”>. ”?” motsvarar som vanligt ett ensamt tecken (även här ingår "
-"”/”). Och ”[” inleder en teckenklass, som kan innehålla en lista över "
+"paket/README”>. ”?” motsvarar som vanligt ett ensamt tecken (även här "
+"ingår ”/”). Och ”[” inleder en teckenklass, som kan innehålla en lista över "
 "tecken, intervall och komplement. Se L<glob(7)> för detaljerad information "
 "om filnamnsmönster. B<Observera>: den nuvarande implementationen kan "
 "återinkludera fler kataloger och symboliska länkar än nödvändigt, speciellt "
@@ -24755,11 +25071,16 @@ msgstr ""
 
 #. type: verbatim
 #: dpkg.pod
-#, no-wrap
+#, fuzzy, no-wrap
+#| msgid ""
+#| "Z<>\n"
+#| " B<missing  > [B<c>] I<pathname> [B<(>I<error-message>B<)>]\n"
+#| " B<??5??????> [B<c>] I<pathname>\n"
+#| "\n"
 msgid ""
 "Z<>\n"
 " B<missing  > [B<c>] I<pathname> [B<(>I<error-message>B<)>]\n"
-" B<??5??????> [B<c>] I<pathname>\n"
+" B<?M5??????> [B<c>] I<pathname>\n"
 "\n"
 msgstr ""
 "Z<>\n"
@@ -24991,6 +25312,13 @@ msgstr ""
 "I<kommando>ts standard in, som körs via ”%DPKG_DEFAULT_SHELL% -c” (sedan "
 "dpkg 1.16.0). Flaggan kan anges flera gånger. Utdataformatet som används är "
 "detsamma som för B<--status-fd>."
+
+#. type: textblock
+#: dpkg.pod
+msgid ""
+"The status loggers are not executed when B<--no-act> is specified, or when "
+"running as non-root without B<--force-not-root>."
+msgstr ""
 
 #. type: =item
 #: dpkg.pod
@@ -26165,6 +26493,13 @@ msgstr ""
 "Om binärpaketet är systemkritiskt kommer den här nyckeln innehålla värdet på "
 "fältet B<Essential>, det vill säga värdet B<yes>."
 
+#. type: =item
+#: dsc.pod
+#, fuzzy
+#| msgid "B<Files:> (required)"
+msgid "B<Files:> (required, weak)"
+msgstr "B<Files:> (krävs)"
+
 #. type: textblock
 #: dsc.pod
 msgid ""
@@ -26380,8 +26715,8 @@ msgid ""
 "«I<directory>%ADMINDIR%» (since dpkg 1.21.0)."
 msgstr ""
 "Sätt rotkatalogen till I<katalog>, vilket sätter installationskatalogen till "
-"”I<katalog>” och den administrativa katalogen till "
-"”I<katalog>B<%ADMINDIR%>” (sedan dpkg 1.21.0)."
+"”I<katalog>” och den administrativa katalogen till ”I<katalog>B<%ADMINDIR%>” "
+"(sedan dpkg 1.21.0)."
 
 #. type: =item
 #: dselect.pod
@@ -28487,13 +28822,26 @@ msgstr ""
 
 #. type: textblock
 #: update-alternatives.pod
+#, fuzzy
+#| msgid ""
+#| "When each package providing a file with a particular functionality is "
+#| "installed, changed or removed, B<update-alternatives> is called to update "
+#| "information about that file in the alternatives system.  B<update-"
+#| "alternatives> is usually called from the following Debian package "
+#| "maintainer scripts, B<postinst> (configure) to install the alternative "
+#| "and from B<prerm> and B<postrm> (remove) to remove the alternative.  "
+#| "B<Note>: in most (if not all) cases no other maintainer script actions "
+#| "should call B<update-alternatives>, in particular neither of B<upgrade> "
+#| "nor B<disappear>, as any other such action can lose the manual state of "
+#| "an alternative, or make the alternative temporarily flip-flop, or "
+#| "completely switch when several of them have the same priority."
 msgid ""
 "When each package providing a file with a particular functionality is "
 "installed, changed or removed, B<update-alternatives> is called to update "
 "information about that file in the alternatives system.  B<update-"
 "alternatives> is usually called from the following Debian package maintainer "
 "scripts, B<postinst> (configure) to install the alternative and from "
-"B<prerm> and B<postrm> (remove) to remove the alternative.  B<Note>: in most "
+"B<prerm> and B<postrm> (remove) to remove the alternative.  B<Note>: In most "
 "(if not all) cases no other maintainer script actions should call B<update-"
 "alternatives>, in particular neither of B<upgrade> nor B<disappear>, as any "
 "other such action can lose the manual state of an alternative, or make the "
@@ -29458,3 +29806,23 @@ msgstr ""
 #: update-alternatives.pod
 msgid "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
 msgstr "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
+
+#~ msgid "B<dpkg-buildpackage> [I<option>...]"
+#~ msgstr "B<dpkg-buildpackage> [I<flagga>...]"
+
+#~ msgid ""
+#~ "B<dpkg-buildpackage> is using the B<build-arch> and B<build-indep> "
+#~ "targets since dpkg 1.16.2.  Those targets are thus mandatory.  But to "
+#~ "avoid breakages of existing packages, and ease the transition, if the "
+#~ "source package does not build both architecture independent and dependent "
+#~ "binary packages (since dpkg 1.18.8) it will fallback to use the B<build> "
+#~ "target if B<make -f debian/rules -qn> I<build-target> returns 2 as exit "
+#~ "code."
+#~ msgstr ""
+#~ "B<dpkg-buildpackage> använder målen B<build-archi> och B<build-indep> "
+#~ "från dpkg 1.16.2. Dessa mål krävs därmed, men för att undvika att "
+#~ "existerande paket går sönder, och för att förenkla övergången, om "
+#~ "källkodspaketet inte både bygger arkitektursoberoende och -beroende "
+#~ "binärpaket (sedan dpkg 1.18.8) kommer den falla tillbaka till att använda "
+#~ "målet B<build> om B<make -f debian/rules -gn> I<byggmål> returnerar "
+#~ "statuskoden 2."

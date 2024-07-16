@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-03-10 20:21+0100\n"
+"POT-Creation-Date: 2024-07-17 01:10+0200\n"
 "PO-Revision-Date: 2023-12-17 20:30+0100\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -281,12 +281,11 @@ msgstr "s'ha especificat dos ordres: --%s i --%s"
 msgid "%s needs a parameter"
 msgstr "%s requereix un paràmetre"
 
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-genbuildinfo.pl
-#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
-#: scripts/dpkg-gensymbols.pl scripts/dpkg-parsechangelog.pl
-#, perl-format
-msgid "Usage: %s [<option>...]"
-msgstr "Forma d'ús: %s [<opció>…]"
+#: scripts/dpkg-buildpackage.pl
+#, fuzzy, perl-format
+#| msgid "Usage: %s [<option>...] [<control-file>]"
+msgid "Usage: %s [<option>...] [--] [<filename.dsc>|<directory>]"
+msgstr "Forma d'ús: %s [<opció>…] [<fitxer-control>]"
 
 #: scripts/dpkg-buildpackage.pl
 msgid ""
@@ -588,6 +587,34 @@ msgid "sign-command '%s' not found"
 msgstr "no s'ha trobat l'ordre-per-signar «%s»"
 
 #: scripts/dpkg-buildpackage.pl
+#, fuzzy, perl-format
+#| msgid "cannot change directory %s mode"
+msgid "cannot change directory to %s"
+msgstr "no es pot canviar el mode del directori %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "building source package would overwrite input source %s"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, fuzzy, perl-format
+#| msgid "leave original source packed in current directory"
+msgid "source package %s is expected in the current directory"
+msgstr "deixa les fonts originals empaquetades al directori actual"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "source directory %s exists already, aborting"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, fuzzy, perl-format
+#| msgid "extracting unsigned source package (%s)"
+msgid "extracting source package %s"
+msgstr "s'està extraient el paquet font sense signar (%s)"
+
+#: scripts/dpkg-buildpackage.pl
 msgid "source package"
 msgstr "paquet font"
 
@@ -606,10 +633,6 @@ msgstr "font canviat per"
 #: scripts/dpkg-buildpackage.pl
 msgid "host architecture"
 msgstr "arquitectura de l'amfitrió"
-
-#: scripts/dpkg-buildpackage.pl
-msgid "debian/rules is not executable; fixing that"
-msgstr "debian/rules no és executable: s'està corregint això"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "build dependencies/conflicts unsatisfied; aborting"
@@ -637,62 +660,15 @@ msgstr ""
 "no es signarà la construcció UNRELEASED; empreu --force-sign per a forçar-ho"
 
 #: scripts/dpkg-buildpackage.pl
+#, fuzzy, perl-format
+#| msgid "created directory '%s'"
+msgid "removing extracted source directory %s"
+msgstr "s'ha creat el directori «%s»"
+
+#: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "unable to determine %s"
 msgstr "no es pot determinar %s"
-
-#: scripts/dpkg-buildpackage.pl
-msgid "using a gain-root-command while being root"
-msgstr "s'està emprant una ordre-assolir-superusuari mentre s'és superusuari"
-
-#: scripts/dpkg-buildpackage.pl
-msgid ""
-"fakeroot not found, either install the fakeroot\n"
-"package, specify a command with the -r option, or run this as root"
-msgstr ""
-"no s'ha trobat fakeroot, instal·leu el paquet fakeroot,\n"
-"especifiqueu una ordre amb l'opció -r, o executeu-ho com superusuari"
-
-#: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "gain-root-command '%s' not found"
-msgstr "no s'ha trobat l'ordre-assolir-superusuari «%s»"
-
-#: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "disallowed target in %s field keyword \"%s\""
-msgstr "no s'accepta l'objectiu en el camp %s amb la paraula clau “%s”"
-
-#: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "%s field keyword \"%s\" is unknown in dpkg namespace"
-msgstr ""
-"la paraula clau “%2$s” desconeguda en el camp %1$s a l'espai de noms de dpkg"
-
-#: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "%s field keyword \"%s\" is uppercase; use \"%s\" instead"
-msgstr "la paraula clau “%2$s” és en majúscules en el camp %1$s; empreu “%3$s”"
-
-#: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "%s field keyword \"%s\" is invalid; use \"%s\" instead"
-msgstr "la paraula clau “%2$s” no és vàlida en el camp %1$s; empreu “%3$s”"
-
-#: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "%s field keyword \"%s\" is unknown"
-msgstr "la paraula clau “%2$s” és desconeguda en el camp %1$s"
-
-#: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "field %s contains duplicate keyword \"%s\""
-msgstr "la paraula clau “%2$s” és duplicada en el camp %1$s"
-
-#: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "%s field contains both global and implementation specific keywords"
-msgstr "el camp %s conté paraules clau globals i especifiques d'implementació"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -716,21 +692,6 @@ msgid ""
 msgstr ""
 "els identificadors de clau OpenPGP llargs estan descoratjats; empreu "
 "empremtes de clau a %s o %s"
-
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
-#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-name.pl scripts/Dpkg/Arch.pm
-#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs.pm
-#, perl-format
-msgid "cannot open %s"
-msgstr "no es pot obrir %s"
-
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-distaddfile.pl
-#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-gencontrol.pl
-#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Source/Package/V2.pm
-#: scripts/Dpkg/Source/Patch.pm
-#, perl-format
-msgid "cannot close %s"
-msgstr "no es pot tancar %s"
 
 #: scripts/dpkg-buildpackage.pl scripts/Dpkg/Source/Archive.pm
 #, perl-format
@@ -769,15 +730,6 @@ msgstr "pujada de binaris i diff (NO s'inclou el codi font original)"
 #: scripts/dpkg-buildpackage.pl
 msgid "full upload (original source is included)"
 msgstr "pujada sencera (s'inclou el codi font original)"
-
-#: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid ""
-"%s must be updated to support the 'build-arch' and 'build-indep' targets (at "
-"least '%s' seems to be missing)"
-msgstr ""
-"s'ha d'actualitzar %s per admetre els objectius «build-arch» i «build-"
-"indep» (almenys sembla que manca «%s»)"
 
 #: scripts/dpkg-buildtree.pl
 #, fuzzy
@@ -869,6 +821,13 @@ msgstr "Dependències de construcció no satisfetes: %s"
 msgid "Build conflicts: %s"
 msgstr "Conflictes de construcció: %s"
 
+#: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-name.pl scripts/Dpkg/Arch.pm scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm scripts/Dpkg/Shlibs.pm
+#, perl-format
+msgid "cannot open %s"
+msgstr "no es pot obrir %s"
+
 #: scripts/dpkg-distaddfile.pl
 #, perl-format
 msgid ""
@@ -909,6 +868,21 @@ msgstr "no es pot escriure %s"
 #: scripts/dpkg-gencontrol.pl
 msgid "install new files list file"
 msgstr "no es pot instal·lar la nova llista de fitxers"
+
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-gencontrol.pl scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm scripts/Dpkg/Source/Package/V2.pm
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "cannot close %s"
+msgstr "no es pot tancar %s"
+
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+#: scripts/dpkg-parsechangelog.pl
+#, perl-format
+msgid "Usage: %s [<option>...]"
+msgstr "Forma d'ús: %s [<opció>…]"
 
 #: scripts/dpkg-genbuildinfo.pl
 msgid ""
@@ -1038,7 +1012,8 @@ msgstr "manca el camp Section pels fitxers font"
 msgid "missing Priority for source files"
 msgstr "manca el camp Priority pels fitxers font"
 
-#: scripts/dpkg-genchanges.pl scripts/Dpkg/Vendor.pm
+#: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Format.pm
+#: scripts/Dpkg/Vendor.pm
 #, perl-format
 msgid "%s is empty"
 msgstr "%s és buit"
@@ -1173,11 +1148,12 @@ msgstr ""
 "      --version            mostra la versió.\n"
 
 #: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+#: scripts/dpkg-shlibdeps.pl
 #, perl-format
 msgid "illegal package name '%s': %s"
 msgstr "el nom de paquet «%s» és il·legal: %s"
 
-#: scripts/dpkg-gencontrol.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-shlibdeps.pl
 #, perl-format
 msgid "package %s not in control info"
 msgstr "el paquet %s no és a la informació de control"
@@ -1940,8 +1916,38 @@ msgstr ""
 "                             shlibs:<camp-dependència>."
 
 #: scripts/dpkg-shlibdeps.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "  -l<library-dir>          add directory to private shared library search "
+#| "list.\n"
+#| "  -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.\n"
+#| "  -O[<file>]               write variable settings to stdout (or "
+#| "<file>).\n"
+#| "  -L<local-shlibs-file>    shlibs override file, not debian/shlibs."
+#| "local.\n"
+#| "  -T<substvars-file>       update variables here, not debian/substvars.\n"
+#| "  -t<type>                 set package type (default is deb).\n"
+#| "  -x<package>              exclude package from the generated "
+#| "dependencies.\n"
+#| "  -S<package-build-dir>    search needed libraries in the given\n"
+#| "                             package build directory first.\n"
+#| "  -I<package-build-dir>    ignore needed libraries, shlibs and symbols "
+#| "files\n"
+#| "                             in the given build directory.\n"
+#| "  -v                       enable verbose mode (can be used multiple "
+#| "times).\n"
+#| "  --ignore-missing-info    don't fail if dependency information can't be "
+#| "found.\n"
+#| "  --warnings=<value>       define set of active warnings (see manual "
+#| "page).\n"
+#| "  --admindir=<directory>   change the administrative directory.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version."
 msgid ""
 "Options:\n"
+"  --package=<package>      generate substvars for <package> (default is "
+"unset).\n"
 "  -l<library-dir>          add directory to private shared library search "
 "list.\n"
 "  -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.\n"
@@ -2384,6 +2390,126 @@ msgstr ""
 msgid "'%s' is not a legal architecture in list '%s'"
 msgstr "«%s» no és una cadena d'arquitectura vàlida a la llista «%s»"
 
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "cannot parse %s field"
+msgid "cannot get archive %s size"
+msgstr "no es pot analitzar el camp %s"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "cannot create file %s"
+msgid "cannot open or create archive %s"
+msgstr "no es pot crear el fitxer «%s»"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "cannot write signature file %s"
+msgid "cannot write magic into archive %s"
+msgstr "no es pot escriure el fitxer de signatura «%s»"
+
+#. TRANSLATORS: The first %s string is either "archive magic" or
+#. "file header".
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "cannot read timestamp from %s"
+msgid "cannot read %s at offset %d from archive %s"
+msgstr "no es pot llegir la marca horària de %s"
+
+#. TRANSLATORS: The first %s string is either "archive magic" or
+#. "file header".
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "%s at offset %d in archive %s is truncated"
+msgstr ""
+
+#: scripts/Dpkg/Archive/Ar.pm
+msgid "archive magic"
+msgstr ""
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "archive %s contains no magic"
+msgstr ""
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "archive %s contains bad magic"
+msgstr ""
+
+#: scripts/Dpkg/Archive/Ar.pm
+msgid "file header"
+msgstr ""
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "file header at offset %d in archive %s contains bad magic"
+msgstr ""
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot seek into next file header at offset %d from archive %s"
+msgstr ""
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "cannot seek into file %s"
+msgid "cannot seek into beginning of archive %s"
+msgstr "no es pot reposicionar al fitxer «%s»"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "cannot create file %s"
+msgid "cannot read file %s"
+msgstr "no es pot crear el fitxer «%s»"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "cannot create file %s"
+msgid "cannot write file %s"
+msgstr "no es pot crear el fitxer «%s»"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "cannot create pipe for %s"
+msgid "cannot create file %s to extract from archive %s"
+msgstr "no es pot crear el conducte per a %s"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "cannot write signature file %s"
+msgid "cannot write file %s to the filesystem"
+msgstr "no es pot escriure el fitxer de signatura «%s»"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "cannot remove destination file %s"
+msgid "cannot write file header into archive %s"
+msgstr "no es pot eliminar el fitxer de destí %s"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "filename %s is too long"
+msgstr ""
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "cannot open file %s for binary detection"
+msgid "cannot open file %s to append to archive %s"
+msgstr "no es pot obrir el fitxer %s per a detecció binaria"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "cannot create file %s"
+msgid "cannot get file %s size"
+msgstr "no es pot crear el fitxer «%s»"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "cannot write signature file %s"
+msgid "cannot write file %s padding to archive %s"
+msgstr "no es pot escriure el fitxer de signatura «%s»"
+
 #: scripts/Dpkg/BuildAPI.pm
 msgid "dpkg build API level needs an exact version"
 msgstr "el nivell d'API de construccío requereix una versió exacta"
@@ -2402,6 +2528,73 @@ msgstr "el nivell d'API de construcció «%s» no és vàlid"
 #, perl-format
 msgid "dpkg build API level '%s' greater than max '%s'"
 msgstr "el nivell d'API de construcció «%s» és més gran que el màxim «%s»"
+
+#: scripts/Dpkg/BuildDriver.pm
+#, fuzzy, perl-format
+#| msgid "changelog format %s is unknown: %s"
+msgid "build driver %s is unknown: %s"
+msgstr "el format %s del registre de canvis és desconegut: %s"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+msgid "using a gain-root-command while being root"
+msgstr "s'està emprant una ordre-assolir-superusuari mentre s'és superusuari"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+msgid ""
+"fakeroot not found, either install the fakeroot\n"
+"package, specify a command with the -r option, or run this as root"
+msgstr ""
+"no s'ha trobat fakeroot, instal·leu el paquet fakeroot,\n"
+"especifiqueu una ordre amb l'opció -r, o executeu-ho com superusuari"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "gain-root-command '%s' not found"
+msgstr "no s'ha trobat l'ordre-assolir-superusuari «%s»"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, fuzzy, perl-format
+#| msgid "disallowed target in %s field keyword \"%s\""
+msgid "disallowed target in %s field keyword %s"
+msgstr "no s'accepta l'objectiu en el camp %s amb la paraula clau “%s”"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "%s field keyword \"%s\" is unknown in dpkg namespace"
+msgstr ""
+"la paraula clau “%2$s” desconeguda en el camp %1$s a l'espai de noms de dpkg"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "%s field keyword \"%s\" is uppercase; use \"%s\" instead"
+msgstr "la paraula clau “%2$s” és en majúscules en el camp %1$s; empreu “%3$s”"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "%s field keyword \"%s\" is invalid; use \"%s\" instead"
+msgstr "la paraula clau “%2$s” no és vàlida en el camp %1$s; empreu “%3$s”"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "%s field keyword \"%s\" is unknown"
+msgstr "la paraula clau “%2$s” és desconeguda en el camp %1$s"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, fuzzy, perl-format
+#| msgid "field %s contains duplicate keyword \"%s\""
+msgid "field %s contains duplicate keyword %s"
+msgstr "la paraula clau “%2$s” és duplicada en el camp %1$s"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "%s field contains both global and implementation specific keywords"
+msgstr "el camp %s conté paraules clau globals i especifiques d'implementació"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, fuzzy, perl-format
+#| msgid "debian/rules is not executable; fixing that"
+msgid "%s is not executable; fixing that"
+msgstr "debian/rules no és executable: s'està corregint això"
 
 #: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
 #: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
@@ -3014,8 +3207,28 @@ msgid "unsupported subcommand"
 msgstr "subordre no admesa"
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "unknown special designator in indirect parameter"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "special designator in indirect parameter is an existing file"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 msgid "key is not signature-capable"
 msgstr "la clau no te la capacitat de signar"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "mutually exclusive options"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "cannot identify hardware device for hardware-backed secret keys"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "cannot perform operation on hardware-backed secret key"
+msgstr ""
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 msgid "missing OpenPGP implementation"
@@ -3191,6 +3404,37 @@ msgstr "no es pot obrir el directori %s"
 msgid "unable to rename %s to %s"
 msgstr "no es pot canviar el nom de %s a %s"
 
+#: scripts/Dpkg/Source/BinaryFiles.pm
+#, perl-format
+msgid "adding %s to %s"
+msgstr "s'està afegint %s a %s"
+
+#: scripts/Dpkg/Source/BinaryFiles.pm
+#, perl-format
+msgid "unwanted binary file: %s"
+msgstr "fitxer binari no desitjat: %s"
+
+#: scripts/Dpkg/Source/BinaryFiles.pm
+#, perl-format
+msgid ""
+"detected %d unwanted binary file (add it in debian/source/include-binaries "
+"to allow its inclusion)."
+msgid_plural ""
+"detected %d unwanted binary files (add them in debian/source/include-"
+"binaries to allow their inclusion)."
+msgstr[0] ""
+"s'ha detectat %d fitxer binari no desitjat (afegiu-lo a debian/source/"
+"include-binaries per permetre la seva inclusió)."
+msgstr[1] ""
+"s'han detectat %d fitxers binaries no desitjats (afegiu-los a debian/source/"
+"include-binaries per permetre la seva inclusió)."
+
+#: scripts/Dpkg/Source/Format.pm
+#, fuzzy, perl-format
+#| msgid "source package format '%s' is not supported: %s"
+msgid "source package format '%s' is invalid"
+msgstr "no s'admet el format del paquet font «%s»: %s"
+
 #: scripts/Dpkg/Source/Functions.pm
 #, perl-format
 msgid "cannot stat directory %s (before removal)"
@@ -3220,31 +3464,6 @@ msgstr "no es pot llegir la marca horària de %s"
 #, perl-format
 msgid "cannot open file %s for binary detection"
 msgstr "no es pot obrir el fitxer %s per a detecció binaria"
-
-#: scripts/Dpkg/Source/BinaryFiles.pm
-#, perl-format
-msgid "adding %s to %s"
-msgstr "s'està afegint %s a %s"
-
-#: scripts/Dpkg/Source/BinaryFiles.pm
-#, perl-format
-msgid "unwanted binary file: %s"
-msgstr "fitxer binari no desitjat: %s"
-
-#: scripts/Dpkg/Source/BinaryFiles.pm
-#, perl-format
-msgid ""
-"detected %d unwanted binary file (add it in debian/source/include-binaries "
-"to allow its inclusion)."
-msgid_plural ""
-"detected %d unwanted binary files (add them in debian/source/include-"
-"binaries to allow their inclusion)."
-msgstr[0] ""
-"s'ha detectat %d fitxer binari no desitjat (afegiu-lo a debian/source/"
-"include-binaries per permetre la seva inclusió)."
-msgstr[1] ""
-"s'han detectat %d fitxers binaries no desitjats (afegiu-los a debian/source/"
-"include-binaries per permetre la seva inclusió)."
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -4269,6 +4488,12 @@ msgid "substitution variable ${%s} used, but is not defined"
 msgstr "la variable de substitució ${%s} s'utilitza, però no s'ha definit"
 
 #: scripts/Dpkg/Substvars.pm
+#, fuzzy, perl-format
+#| msgid "deprecated substitution variable ${%s}"
+msgid "required substitution variable ${%s} not used"
+msgstr "la variable de substitució ${%s} és obsoleta"
+
+#: scripts/Dpkg/Substvars.pm
 #, perl-format
 msgid "substitution variable ${%s} unused, but is defined"
 msgstr "la variable de substitució ${%s} no s'utilitza, però s'ha definit"
@@ -4352,6 +4577,14 @@ msgstr "el número de versió conté un caràcter il·legal ‘%s‘"
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "l'època en la versió no és un número: «%s»"
 
+#, perl-format
+#~ msgid ""
+#~ "%s must be updated to support the 'build-arch' and 'build-indep' targets "
+#~ "(at least '%s' seems to be missing)"
+#~ msgstr ""
+#~ "s'ha d'actualitzar %s per admetre els objectius «build-arch» i «build-"
+#~ "indep» (almenys sembla que manca «%s»)"
+
 #~ msgid "Usage: %s [<option>...]\n"
 #~ msgstr "Forma d'ús: %s [<opció>…]\n"
 
@@ -4371,10 +4604,6 @@ msgstr "l'època en la versió no és un número: «%s»"
 #, perl-format
 #~ msgid "cannot execute %s program"
 #~ msgstr "no es pot executar el programa %s"
-
-#, perl-format
-#~ msgid "cannot write signature file %s"
-#~ msgstr "no es pot escriure el fitxer de signatura «%s»"
 
 #~ msgid "signature file is already OpenPGP ASCII armor, copying"
 #~ msgstr "el fitxer de signatura ja és armat en OpenPGP ASCII, s'esta copiant"
@@ -4439,9 +4668,6 @@ msgstr "l'època en la versió no és un número: «%s»"
 #~ msgid "invalid Format field '%s'"
 #~ msgstr "el camp Format no és vàlid «%s»"
 
-#~ msgid "cannot create pipe for %s"
-#~ msgstr "no es pot crear el conducte per a %s"
-
 #~ msgid "tail of %s"
 #~ msgstr "cua de %s"
 
@@ -4469,9 +4695,6 @@ msgstr "l'època en la versió no és un número: «%s»"
 
 #~ msgid "cannot open new output control file '%s'"
 #~ msgstr "no s'ha pogut obrir el nou fitxer de control de sortida «%s»"
-
-#~ msgid "deprecated substitution variable ${%s}"
-#~ msgstr "la variable de substitució ${%s} és obsoleta"
 
 #, fuzzy
 #~| msgid "Usage: %s [<option>...] [<control-file>]"
