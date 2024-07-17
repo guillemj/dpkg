@@ -2,7 +2,7 @@
 #
 # lcov-inject
 #
-# Copyright © 2014 Guillem Jover <guillem@debian.org>
+# Copyright © 2014-2024 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ chdir $cwd or die "cannot switch to $cwd\n";
 my $s = $db->{summary}{Total};
 
 my $tmpl = sprintf '
-      <td class="coverFile"><a href="%s">%s</a></td>
+      <td class="coverDirectory"><a href="%s">%s</a></td>
       <td class="coverBar" align="center">
         <table border=0 cellspacing=0 cellpadding=1>
           <tr><td class="coverBarOutline">%s</td></tr>
@@ -50,10 +50,10 @@ my $tmpl = sprintf '
     </tr>
     <tr>
 ', "$dir/coverage.html", $dir, bar_html($s->{total}{percentage}),
-   box_html($s->{total}), box_html($s->{subroutine}), box_html($s->{branch});
+   box_html($s->{total}), box_html($s->{branch}), box_html($s->{subroutine});
 
 while (<>) {
-    s/^(.*<td .*href="utils\/index\.html">.*)$/$tmpl$1/;
+    s/^(.*<td .*href="utils\/index\.html".*<\/td>.*)$/$tmpl$1/;
     print;
 }
 
@@ -91,7 +91,8 @@ sub box_html {
     my ($stats) = @_;
 
     return sprintf '<td class="coverPer%s">%.1f&nbsp;%%</td>' . "\n" .
-                   '<td class="coverNum%s">%d / %d</td>',
+                   '<td class="coverNum%s">%d</td>' . "\n" .
+                   '<td class="coverNum%s">%d</td>',
         box_rating($stats->{percentage}), $stats->{percentage},
-        box_rating($stats->{percentage}), $stats->{covered}, $stats->{total};
+        'Dflt', $stats->{total}, 'Dflt', $stats->{covered};
 }

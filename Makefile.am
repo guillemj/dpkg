@@ -124,7 +124,7 @@ doc-clean:
 .PHONY: coverage coverage-clean
 
 if COVERAGE_ENABLED
-LCOV_OPTS = --quiet --rc geninfo_checksum=1 --rc lcov_branch_coverage=1
+LCOV_OPTS = --quiet --rc checksum=1 --rc branch_coverage=1
 LCOV_CAPTURE_OPTS = $(LCOV_OPTS) --no-recursion \
 	--directory $(top_builddir)/lib/dpkg \
 	--directory $(top_builddir)/src/common \
@@ -157,8 +157,6 @@ coverage: all
 	$(LCOV) $(LCOV_OPTS) \
 	  --add-tracefile dpkg_base.lcov \
 	  --add-tracefile dpkg_test.lcov \
-	  --output-file dpkg_merge.lcov
-	$(LCOV) $(LCOV_OPTS) --remove dpkg_merge.lcov '/usr/include/*' \
 	  --output-file dpkg.lcov
 	: # Generate reports
 	$(LCOV) $(LCOV_OPTS) --list dpkg.lcov
