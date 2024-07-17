@@ -48,6 +48,7 @@ EXTRA_libdpkg_la_DEPENDENCIES += \
 endif
 
 libdpkg_la_LIBADD = \
+	$(PS_LIBS) \
 	$(Z_LIBS) \
 	$(LZMA_LIBS) \
 	$(ZSTD_LIBS) \

@@ -37,12 +37,19 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#if defined(__GNU__)
+#include <hurd.h>
+#include <ps.h>
+#endif
+
 #if defined(__APPLE__) && defined(__MACH__)
 #include <libproc.h>
 #endif
 
 #include <dpkg/dpkg.h>
+#if defined(__sun)
 #include <dpkg/file.h>
+#endif
 #include <dpkg/execname.h>
 
 #if defined(_AIX) && defined(HAVE_STRUCT_PSINFO)
@@ -96,15 +103,26 @@ dpkg_get_pid_execname(pid_t pid)
 	lcontents[nread] = '\0';
 	execname = lcontents;
 #elif defined(__GNU__)
+	struct ps_context *pc;
 	struct proc_stat *ps;
+	error_t err;
 
-	ps = get_proc_stat(pid, PSTAT_ARGS);
-	if (ps == NULL)
+	if (pid < 0)
+		return NULL;
+
+	err = ps_context_create(getproc(), &pc);
+	if (err)
+		return NULL;
+
+	err = ps_context_find_proc_stat(pc, pid, &ps);
+	if (err)
 		return NULL;
 
 	/* On old Hurd systems we have to use the argv[0] value, because
 	 * there is nothing better. */
-	execname = proc_stat_args(ps);
+	if (proc_stat_set_flags(ps, PSTAT_ARGS) == 0 &&
+	    (proc_stat_flags(ps) & PSTAT_ARGS))
+		execname = proc_stat_args(ps);
 
 #ifdef PSTAT_EXE
 	/* On new Hurd systems we can use the correct value, as long
@@ -116,6 +134,8 @@ dpkg_get_pid_execname(pid_t pid)
 	    proc_stat_exe(ps)[0] != '\0')
 		execname = proc_stat_exe(ps);
 #endif
+
+	ps_context_free(pc);
 #elif defined(__sun)
 	char filename[64];
 	struct varbuf vb = VARBUF_INIT;
