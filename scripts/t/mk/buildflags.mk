@@ -10,6 +10,10 @@ TEST_CXXFLAGS          := set-host
 DEB_CXXFLAGS_FOR_BUILD_MAINT_SET := set-build
 TEST_CXXFLAGS_FOR_BUILD          := set-build
 
+DEB_CFLAGS_MAINT_APPEND = -DTEST_MAKE_EXPANSION=$(expanded_on_demand)
+expanded_on_demand := contents
+TEST_CFLAGS += -DTEST_MAKE_EXPANSION=contents
+
 DPKG_EXPORT_BUILDFLAGS := 1
 
 include $(srcdir)/mk/buildflags.mk

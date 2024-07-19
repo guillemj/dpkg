@@ -57,7 +57,7 @@ dpkg_buildflags_run = $(eval $(shell \
       $(foreach operation,SET STRIP APPEND PREPEND,\
         DEB_$(flag)_MAINT_$(operation))),\
     $(if $(value $(exported)),\
-      $(exported)="$(value $(exported))"))\
+      $(exported)="$($(exported))"))\
   dpkg-buildflags | sed 's/\([^=]*\)\(.*\)/$$(eval \1:\2)/'))
 
 ifdef DPKG_EXPORT_BUILDFLAGS
