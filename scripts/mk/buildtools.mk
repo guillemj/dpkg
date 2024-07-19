@@ -28,7 +28,9 @@
 ifndef dpkg_buildtools_mk_included
 dpkg_buildtools_mk_included = yes
 
-dpkg_datadir ?= $(dir $(lastword $(MAKEFILE_LIST)))
+ifndef dpkg_datadir
+  dpkg_datadir := $(dir $(lastword $(MAKEFILE_LIST)))
+endif
 include $(dpkg_datadir)/architecture.mk
 
 # We set the TOOL_FOR_BUILD variables to the specified value, and the TOOL
