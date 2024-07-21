@@ -162,16 +162,16 @@ sub _read_buf {
     my $offs = $self->{fh}->tell();
     my $n = $self->{fh}->read($buf, $size);
     if (not defined $n) {
-        # TRANSLATORS: The first %s string is either "archive magic" or
-        # "file header".
-        syserr(g_('cannot read %s at offset %d from archive %s'),
+        # TRANSLATORS: The first %s string is either "the archive magic" or
+        # "a file header".
+        syserr(g_('cannot read %s; archive %s at offset %d'),
                $subject, $offs, $self->{filename});
     } elsif ($n == 0) {
         return;
     } elsif ($n != $size) {
-        # TRANSLATORS: The first %s string is either "archive magic" or
-        # "file header".
-        error(g_('%s at offset %d in archive %s is truncated'),
+        # TRANSLATORS: The first %s string is either "the archive magic" or
+        # "a file header".
+        error(g_('cannot read %s; archive %s is truncated at offset %d'),
               $subject, $offs, $self->{filename});
     }
 
@@ -187,7 +187,7 @@ Reads and parses the archive magic string, and validates it.
 sub parse_magic {
     my $self = shift;
 
-    my $magic = $self->_read_buf(g_('archive magic'), $AR_MAGIC_LEN)
+    my $magic = $self->_read_buf(g_('the archive magic'), $AR_MAGIC_LEN)
         or error(g_('archive %s contains no magic'), $self->{filename});
 
     if ($magic ne $AR_MAGIC) {
@@ -208,7 +208,7 @@ sub parse_member {
 
     my $offs = $self->{fh}->tell();
 
-    my $hdr = $self->_read_buf(g_('file header'), $AR_HDR_LEN)
+    my $hdr = $self->_read_buf(g_('a file header'), $AR_HDR_LEN)
         or return;
 
     my $hdr_fmt = 'A16A12A6A6A8A10a2';
