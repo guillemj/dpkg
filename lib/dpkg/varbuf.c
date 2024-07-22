@@ -235,7 +235,7 @@ varbuf_trim_char_prefix(struct varbuf *v, int prefix)
 }
 
 int
-varbuf_vprintf(struct varbuf *v, const char *fmt, va_list args)
+varbuf_add_vfmt(struct varbuf *v, const char *fmt, va_list args)
 {
 	va_list args_copy;
 	int needed, n;
@@ -259,13 +259,13 @@ varbuf_vprintf(struct varbuf *v, const char *fmt, va_list args)
 }
 
 int
-varbuf_printf(struct varbuf *v, const char *fmt, ...)
+varbuf_add_fmt(struct varbuf *v, const char *fmt, ...)
 {
 	va_list args;
 	int n;
 
 	va_start(args, fmt);
-	n = varbuf_vprintf(v, fmt, args);
+	n = varbuf_add_vfmt(v, fmt, args);
 	va_end(args);
 
 	return n;

@@ -99,15 +99,17 @@ void varbuf_map_char(struct varbuf *v, int c_src, int c_dst);
 #define varbuf_add_strn(v, s, n) varbuf_add_buf(v, s, strnlen(s, n))
 void varbuf_add_dir(struct varbuf *v, const char *dirname);
 void varbuf_add_buf(struct varbuf *v, const void *s, size_t size);
+int varbuf_add_fmt(struct varbuf *v, const char *fmt, ...)
+	DPKG_ATTR_PRINTF(2);
+int varbuf_add_vfmt(struct varbuf *v, const char *fmt, va_list args)
+	DPKG_ATTR_VPRINTF(2);
+#define varbuf_printf varbuf_add_fmt
+#define varbuf_vprintf varbuf_add_vfmt
 
 bool varbuf_has_prefix(struct varbuf *v, struct varbuf *prefix);
 bool varbuf_has_suffix(struct varbuf *v, struct varbuf *suffix);
 void varbuf_trim_varbuf_prefix(struct varbuf *v, struct varbuf *prefix);
 void varbuf_trim_char_prefix(struct varbuf *v, int prefix);
-
-int varbuf_printf(struct varbuf *v, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
-int varbuf_vprintf(struct varbuf *v, const char *fmt, va_list va)
-	DPKG_ATTR_VPRINTF(2);
 
 struct varbuf_state {
 	struct varbuf *v;
@@ -161,7 +163,7 @@ varbuf::fmt(const char *_fmt, ...)
 	int rc;
 
 	va_start(args, _fmt);
-	rc = varbuf_vprintf(this, _fmt, args);
+	rc = varbuf_add_vfmt(this, _fmt, args);
 	va_end(args);
 
 	return rc;
@@ -170,7 +172,7 @@ varbuf::fmt(const char *_fmt, ...)
 inline int
 varbuf::vfmt(const char *_fmt, va_list va)
 {
-	return varbuf_vprintf(this, _fmt, va);
+	return varbuf_add_vfmt(this, _fmt, va);
 }
 
 inline void
