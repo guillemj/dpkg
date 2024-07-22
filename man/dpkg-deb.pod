@@ -263,10 +263,11 @@ L<dpkg-query(1)>.
 
 The default for this field is “${Package}\t${Version}\n”.
 
-=item B<-z>I<compress-level>
+=item B<-z>, B<--compression-level=>I<compress-level>
 
 Specify which compression level to use on the compressor backend, when
-building a package (default is 9 for gzip, 6 for xz, 3 for zstd).
+building a package (default is 9 for gzip, 6 for xz, 3 for zstd;
+long option since dpkg 1.22.9).
 The accepted values are compressor specific.
 For gzip, from 0-9 with 0 being mapped to compressor none.
 For xz from 0-9.
@@ -274,17 +275,18 @@ For zstd from 0-22, with levels from 20 to 22 enabling its ultra mode.
 Before dpkg 1.16.2 level 0 was equivalent to compressor none for all
 compressors.
 
-=item B<-S>I<compress-strategy>
+=item B<-S>, B<--compression-strategy=>I<compress-strategy>
 
 Specify which compression strategy to use on the compressor backend, when
-building a package (since dpkg 1.16.2).
+building a package (since dpkg 1.16.2, long option since dpkg 1.22.9).
 Allowed values are B<none> (since
 dpkg 1.16.4), B<filtered>, B<huffman>, B<rle> and B<fixed> for
 gzip (since dpkg 1.17.0) and B<extreme> for xz.
 
-=item B<-Z>I<compress-type>
+=item B<-Z>, B<--compression=>I<compress-type>
 
-Specify which compression type to use when building a package.
+Specify which compression type to use when building a package
+(long option since dpkg 1.22.9).
 Allowed values are B<gzip>, B<xz> (since dpkg 1.15.6),
 B<zstd> (since dpkg 1.21.18)
 and B<none> (default is B<%DEB_DEFAULT_COMPRESSOR%>).

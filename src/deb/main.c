@@ -107,10 +107,11 @@ usage(const char *const *argv)
 "      --root-owner-group           Forces the owner and groups to root.\n"
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all members.\n"
-"  -z#                              Set the compression level when building.\n"
-"  -Z<type>                         Set the compression type used when building.\n"
+"  -Z, --compression=<compressor>   Set build compression type.\n"
 "                                     Allowed types: gzip, xz, zstd, none.\n"
-"  -S<strategy>                     Set the compression strategy when building.\n"
+"  -z, --compression-level=<level>  Set build compression level.\n"
+"  -S, --compression-strategy=<name>\n"
+"                                   Set build compression strategy.\n"
 "                                     Allowed values: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"));
@@ -270,9 +271,9 @@ static const struct cmdinfo cmdinfos[]= {
   { "threads-max",   0,   1, NULL,           NULL,         set_threads_max  },
   { "uniform-compression", 0, 0, &opt_uniform_compression, NULL, NULL,    1 },
   { "no-uniform-compression", 0, 0, &opt_uniform_compression, NULL, NULL, 0 },
-  { NULL,            'z', 1, NULL,           NULL,         set_compress_level },
-  { NULL,            'Z', 1, NULL,           NULL,         set_compress_type  },
-  { NULL,            'S', 1, NULL,           NULL,         set_compress_strategy },
+  { "compression",           'Z', 1, NULL,   NULL,         set_compress_type  },
+  { "compression-level",     'z', 1, NULL,   NULL,         set_compress_level },
+  { "compression-strategy",  'S', 1, NULL,   NULL,         set_compress_strategy },
   { "showformat",    0,   1, NULL,           &opt_showformat,  NULL         },
   {  NULL,           0,   0, NULL,           NULL,         NULL             }
 };
