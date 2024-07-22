@@ -391,13 +391,13 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
   thisf = FOUND_NONE;
   if (possdependee == removing) {
     if (provider) {
-      varbuf_printf(oemsgs,
-                    _("  Package %s which provides %s is to be removed.\n"),
-                    pkg_name(possdependee, pnaw_nonambig),
-                    provider->ed->name);
+      varbuf_add_fmt(oemsgs,
+                     _("  Package %s which provides %s is to be removed.\n"),
+                     pkg_name(possdependee, pnaw_nonambig),
+                     provider->ed->name);
     } else {
-      varbuf_printf(oemsgs, _("  Package %s is to be removed.\n"),
-                    pkg_name(possdependee, pnaw_nonambig));
+      varbuf_add_fmt(oemsgs, _("  Package %s is to be removed.\n"),
+                     pkg_name(possdependee, pnaw_nonambig));
     }
 
     *matched = true;
@@ -415,11 +415,11 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
         debug(dbg_depcondetail, "      checking package %s provided by pkg %s",
               checkversion->ed->name, pkg_name(possdependee, pnaw_always));
         if (!pkg_virtual_deppossi_satisfied(checkversion, provider)) {
-          varbuf_printf(oemsgs,
-                        _("  Version of %s on system, provided by %s, is %s.\n"),
-                        checkversion->ed->name,
-                        pkg_name(possdependee, pnaw_always),
-                        versiondescribe(&provider->version, vdew_nonambig));
+          varbuf_add_fmt(oemsgs,
+                         _("  Version of %s on system, provided by %s, is %s.\n"),
+                         checkversion->ed->name,
+                         pkg_name(possdependee, pnaw_always),
+                         versiondescribe(&provider->version, vdew_nonambig));
           if (in_force(FORCE_DEPENDS_VERSION))
             thisf = found_forced_on(DEPEND_TRY_FORCE_DEPENDS_VERSION);
           debug(dbg_depcondetail, "      bad version");
@@ -429,9 +429,9 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
         debug(dbg_depcondetail, "      checking non-provided pkg %s",
               pkg_name(possdependee, pnaw_always));
         if (!versionsatisfied(&possdependee->installed, checkversion)) {
-          varbuf_printf(oemsgs, _("  Version of %s on system is %s.\n"),
-                        pkg_name(possdependee, pnaw_nonambig),
-                        versiondescribe(&possdependee->installed.version,
+          varbuf_add_fmt(oemsgs, _("  Version of %s on system is %s.\n"),
+                         pkg_name(possdependee, pnaw_nonambig),
+                         versiondescribe(&possdependee->installed.version,
                                         vdew_nonambig));
           if (in_force(FORCE_DEPENDS_VERSION))
             thisf = found_forced_on(DEPEND_TRY_FORCE_DEPENDS_VERSION);
@@ -456,14 +456,14 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
             (possdependee->clientdata &&
              possdependee->clientdata->istobe == PKG_ISTOBE_INSTALLNEW))) {
         if (provider) {
-          varbuf_printf(oemsgs,
-                        _("  Package %s which provides %s awaits trigger processing.\n"),
-                        pkg_name(possdependee, pnaw_nonambig),
-                        provider->ed->name);
+          varbuf_add_fmt(oemsgs,
+                         _("  Package %s which provides %s awaits trigger processing.\n"),
+                         pkg_name(possdependee, pnaw_nonambig),
+                         provider->ed->name);
         } else {
-          varbuf_printf(oemsgs,
-                        _("  Package %s awaits trigger processing.\n"),
-                        pkg_name(possdependee, pnaw_nonambig));
+          varbuf_add_fmt(oemsgs,
+                         _("  Package %s awaits trigger processing.\n"),
+                         pkg_name(possdependee, pnaw_nonambig));
         }
         debug(dbg_depcondetail, "      triggers-awaited, no fixbytrig");
         goto unsuitable;
@@ -499,13 +499,13 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
       return FOUND_DEFER;
     } else {
       if (provider) {
-        varbuf_printf(oemsgs,
-                      _("  Package %s which provides %s is not configured yet.\n"),
-                      pkg_name(possdependee, pnaw_nonambig),
-                      provider->ed->name);
+        varbuf_add_fmt(oemsgs,
+                       _("  Package %s which provides %s is not configured yet.\n"),
+                       pkg_name(possdependee, pnaw_nonambig),
+                       provider->ed->name);
       } else {
-        varbuf_printf(oemsgs, _("  Package %s is not configured yet.\n"),
-                      pkg_name(possdependee, pnaw_nonambig));
+        varbuf_add_fmt(oemsgs, _("  Package %s is not configured yet.\n"),
+                       pkg_name(possdependee, pnaw_nonambig));
       }
 
       debug(dbg_depcondetail, "      not configured/able");
@@ -514,13 +514,13 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
 
   default:
     if (provider) {
-      varbuf_printf(oemsgs,
-                    _("  Package %s which provides %s is not installed.\n"),
-                    pkg_name(possdependee, pnaw_nonambig),
-                    provider->ed->name);
+      varbuf_add_fmt(oemsgs,
+                     _("  Package %s which provides %s is not installed.\n"),
+                     pkg_name(possdependee, pnaw_nonambig),
+                     provider->ed->name);
     } else {
-      varbuf_printf(oemsgs, _("  Package %s is not installed.\n"),
-                    pkg_name(possdependee, pnaw_nonambig));
+      varbuf_add_fmt(oemsgs, _("  Package %s is not installed.\n"),
+                     pkg_name(possdependee, pnaw_nonambig));
     }
 
     debug(dbg_depcondetail, "      not installed");
@@ -561,21 +561,21 @@ breaks_check_one(struct varbuf *aemsgs, enum dep_check *ok,
     return;
 
   varbufdependency(&depmsg, breaks->up);
-  varbuf_printf(aemsgs, _(" %s (%s) breaks %s and is %s.\n"),
-                pkg_name(breaker, pnaw_nonambig),
-                versiondescribe(&breaker->installed.version, vdew_nonambig),
-                varbuf_str(&depmsg), gettext(statusstrings[breaker->status]));
+  varbuf_add_fmt(aemsgs, _(" %s (%s) breaks %s and is %s.\n"),
+                 pkg_name(breaker, pnaw_nonambig),
+                 versiondescribe(&breaker->installed.version, vdew_nonambig),
+                 varbuf_str(&depmsg), gettext(statusstrings[breaker->status]));
   varbuf_destroy(&depmsg);
 
   if (virtbroken) {
-    varbuf_printf(aemsgs, _("  %s (%s) provides %s.\n"),
-                  pkg_name(broken, pnaw_nonambig),
-                  versiondescribe(&broken->installed.version, vdew_nonambig),
-                  virtbroken->ed->name);
+    varbuf_add_fmt(aemsgs, _("  %s (%s) provides %s.\n"),
+                   pkg_name(broken, pnaw_nonambig),
+                   versiondescribe(&broken->installed.version, vdew_nonambig),
+                   virtbroken->ed->name);
   } else if (breaks->verrel != DPKG_RELATION_NONE) {
-    varbuf_printf(aemsgs, _("  Version of %s to be configured is %s.\n"),
-                  pkg_name(broken, pnaw_nonambig),
-                  versiondescribe(&broken->installed.version, vdew_nonambig));
+    varbuf_add_fmt(aemsgs, _("  Version of %s to be configured is %s.\n"),
+                   pkg_name(broken, pnaw_nonambig),
+                   versiondescribe(&broken->installed.version, vdew_nonambig));
     if (in_force(FORCE_DEPENDS_VERSION))
       return;
   }

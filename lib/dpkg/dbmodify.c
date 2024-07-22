@@ -388,7 +388,7 @@ void modstatdb_checkpoint(void) {
 
   for (i=0; i<nextupdate; i++) {
     varbuf_rollback(&updatefn_state);
-    varbuf_printf(&updatefn, IMPORTANTFMT, i);
+    varbuf_add_fmt(&updatefn, IMPORTANTFMT, i);
 
     /* Have we made a real mess? */
     if (varbuf_rollback_len(&updatefn_state) > IMPORTANTMAXLEN)
@@ -452,7 +452,7 @@ modstatdb_note_core(struct pkginfo *pkg)
     ohshite(_("unable to close updated status of '%.250s'"),
             pkg_name(pkg, pnaw_nonambig));
   varbuf_rollback(&updatefn_state);
-  varbuf_printf(&updatefn, IMPORTANTFMT, nextupdate);
+  varbuf_add_fmt(&updatefn, IMPORTANTFMT, nextupdate);
   if (rename(importanttmpfile, updatefn.buf))
     ohshite(_("unable to install updated status of '%.250s'"),
             pkg_name(pkg, pnaw_nonambig));

@@ -301,7 +301,7 @@ virt_fsys_last_modified(struct varbuf *vb,
 	}
 
 	mtime = st.st_mtime;
-	varbuf_printf(vb, "%jd", mtime);
+	varbuf_add_fmt(vb, "%jd", mtime);
 }
 
 /*
@@ -401,7 +401,7 @@ pkg_format_item(struct varbuf *vb,
 	if (node->width == 0)
 		varbuf_add_str(vb, str);
 	else
-		varbuf_printf(vb, "%*s", node->width, str);
+		varbuf_add_fmt(vb, "%*s", node->width, str);
 }
 
 void

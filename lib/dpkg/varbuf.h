@@ -107,8 +107,6 @@ int varbuf_add_fmt(struct varbuf *v, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
 int varbuf_add_vfmt(struct varbuf *v, const char *fmt, va_list args)
 	DPKG_ATTR_VPRINTF(2);
-#define varbuf_printf varbuf_add_fmt
-#define varbuf_vprintf varbuf_add_vfmt
 
 bool varbuf_has_prefix(struct varbuf *v, struct varbuf *prefix);
 bool varbuf_has_suffix(struct varbuf *v, struct varbuf *suffix);

@@ -244,32 +244,32 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
 
   switch (dep->type) {
   case dep_depends:
-    varbuf_printf(addto, _("%s depends on %s"),
-                  pkg_name(dep->up, pnaw_nonambig), depstr.buf);
+    varbuf_add_fmt(addto, _("%s depends on %s"),
+                   pkg_name(dep->up, pnaw_nonambig), depstr.buf);
     break;
   case dep_predepends:
-    varbuf_printf(addto, _("%s pre-depends on %s"),
-                  pkg_name(dep->up, pnaw_nonambig), depstr.buf);
+    varbuf_add_fmt(addto, _("%s pre-depends on %s"),
+                   pkg_name(dep->up, pnaw_nonambig), depstr.buf);
     break;
   case dep_recommends:
-    varbuf_printf(addto, _("%s recommends %s"),
-                  pkg_name(dep->up, pnaw_nonambig), depstr.buf);
+    varbuf_add_fmt(addto, _("%s recommends %s"),
+                   pkg_name(dep->up, pnaw_nonambig), depstr.buf);
     break;
   case dep_suggests:
-    varbuf_printf(addto, _("%s suggests %s"),
-                  pkg_name(dep->up, pnaw_nonambig), depstr.buf);
+    varbuf_add_fmt(addto, _("%s suggests %s"),
+                   pkg_name(dep->up, pnaw_nonambig), depstr.buf);
     break;
   case dep_breaks:
-    varbuf_printf(addto, _("%s breaks %s"),
-                  pkg_name(dep->up, pnaw_nonambig), depstr.buf);
+    varbuf_add_fmt(addto, _("%s breaks %s"),
+                   pkg_name(dep->up, pnaw_nonambig), depstr.buf);
     break;
   case dep_conflicts:
-    varbuf_printf(addto, _("%s conflicts with %s"),
-                  pkg_name(dep->up, pnaw_nonambig), depstr.buf);
+    varbuf_add_fmt(addto, _("%s conflicts with %s"),
+                   pkg_name(dep->up, pnaw_nonambig), depstr.buf);
     break;
   case dep_enhances:
-    varbuf_printf(addto, _("%s enhances %s"),
-                  pkg_name(dep->up, pnaw_nonambig), depstr.buf);
+    varbuf_add_fmt(addto, _("%s enhances %s"),
+                   pkg_name(dep->up, pnaw_nonambig), depstr.buf);
     break;
   default:
     internerr("unknown deptype '%d'", dep->type);

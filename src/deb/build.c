@@ -212,7 +212,7 @@ check_ctrl_perms(const char *ctrldir)
   const char *const *mscriptp;
   struct stat mscriptstab;
 
-  varbuf_printf(&path, "%s/", ctrldir);
+  varbuf_add_fmt(&path, "%s/", ctrldir);
   if (lstat(path.buf, &mscriptstab))
     ohshite(_("unable to stat control directory"));
   if (!S_ISDIR(mscriptstab.st_mode))
@@ -254,7 +254,7 @@ check_conffiles(const char *ctrldir, const char *rootdir)
   struct file_info *conffiles_head = NULL;
   struct file_info *conffiles_tail = NULL;
 
-  varbuf_printf(&controlfile, "%s/%s", ctrldir, CONFFILESFILE);
+  varbuf_add_fmt(&controlfile, "%s/%s", ctrldir, CONFFILESFILE);
 
   cf = fopen(controlfile.buf, "r");
   if (cf == NULL) {
