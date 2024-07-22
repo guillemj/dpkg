@@ -112,8 +112,7 @@ statusfd_send(const char *fmt, ...)
 		return;
 
 	va_start(args, fmt);
-	varbuf_reset(&vb);
-	varbuf_vprintf(&vb, fmt, args);
+	varbuf_set_vfmt(&vb, fmt, args);
 	/* Sanitize string to not include new lines, as front-ends should be
 	 * doing their own word-wrapping. */
 	varbuf_map_char(&vb, '\n', ' ');

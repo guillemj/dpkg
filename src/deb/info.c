@@ -90,8 +90,7 @@ info_spew(const char *debar, const char *dir, const char *const *argv)
   while ((component = *argv++) != NULL) {
     int fd;
 
-    varbuf_reset(&controlfile);
-    varbuf_printf(&controlfile, "%s/%s", dir, component);
+    varbuf_set_fmt(&controlfile, "%s/%s", dir, component);
 
     fd = open(varbuf_str(&controlfile), O_RDONLY);
     if (fd >= 0) {
@@ -169,8 +168,7 @@ info_list(const char *debar, const char *dir)
 
     cdep = cdlist[n];
 
-    varbuf_reset(&controlfile);
-    varbuf_printf(&controlfile, "%s/%s", dir, cdep->d_name);
+    varbuf_set_fmt(&controlfile, "%s/%s", dir, cdep->d_name);
 
     if (stat(controlfile.buf, &stab))
       ohshite(_("cannot get file '%.255s' metadata"), controlfile.buf);
@@ -202,8 +200,7 @@ info_list(const char *debar, const char *dir)
   }
   free(cdlist);
 
-  varbuf_reset(&controlfile);
-  varbuf_printf(&controlfile, "%s/%s", dir, CONTROLFILE);
+  varbuf_set_fmt(&controlfile, "%s/%s", dir, CONTROLFILE);
   cc = fopen(controlfile.buf, "r");
   if (!cc) {
     if (errno != ENOENT)

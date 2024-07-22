@@ -223,8 +223,7 @@ check_ctrl_perms(const char *ctrldir)
            (unsigned long)(mscriptstab.st_mode & 07777));
 
   for (mscriptp = maintainerscripts; *mscriptp; mscriptp++) {
-    varbuf_reset(&path);
-    varbuf_printf(&path, "%s/%s", ctrldir, *mscriptp);
+    varbuf_set_fmt(&path, "%s/%s", ctrldir, *mscriptp);
     if (!lstat(path.buf, &mscriptstab)) {
       if (S_ISLNK(mscriptstab.st_mode))
         continue;
@@ -321,8 +320,7 @@ check_conffiles(const char *ctrldir, const char *rootdir)
         ohshit(_("unknown flag '%s' for conffile '%s'"), flag, conffilename);
     }
 
-    varbuf_reset(&controlfile);
-    varbuf_printf(&controlfile, "%s%s", rootdir, conffilename);
+    varbuf_set_fmt(&controlfile, "%s%s", rootdir, conffilename);
     if (lstat(controlfile.buf, &controlstab)) {
       if (errno == ENOENT) {
         if ((n > 1) && c_isspace(conffilename[n - 1]))

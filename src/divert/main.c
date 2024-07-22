@@ -311,21 +311,19 @@ static const char *
 varbuf_diversion(struct varbuf *str, const char *pkgname,
                  const char *filename, const char *divertto)
 {
-	varbuf_reset(str);
-
 	if (pkgname == NULL) {
 		if (divertto == NULL)
-			varbuf_printf(str, _("local diversion of %s"), filename);
+			varbuf_set_fmt(str, _("local diversion of %s"), filename);
 		else
-			varbuf_printf(str, _("local diversion of %s to %s"),
+			varbuf_set_fmt(str, _("local diversion of %s to %s"),
 			              filename, divertto);
 	} else {
 		if (divertto == NULL)
-			varbuf_printf(str, _("diversion of %s by %s"),
-			              filename, pkgname);
+			varbuf_set_fmt(str, _("diversion of %s by %s"),
+			               filename, pkgname);
 		else
-			varbuf_printf(str, _("diversion of %s to %s by %s"),
-			              filename, divertto, pkgname);
+			varbuf_set_fmt(str, _("diversion of %s to %s by %s"),
+			               filename, divertto, pkgname);
 	}
 
 	return varbuf_str(str);
@@ -337,13 +335,11 @@ diversion_current(const char *filename)
 	static struct varbuf str = VARBUF_INIT;
 
 	if (opt_pkgname_match_any) {
-		varbuf_reset(&str);
-
 		if (opt_divertto == NULL)
-			varbuf_printf(&str, _("any diversion of %s"), filename);
+			varbuf_set_fmt(&str, _("any diversion of %s"), filename);
 		else
-			varbuf_printf(&str, _("any diversion of %s to %s"),
-			              filename, opt_divertto);
+			varbuf_set_fmt(&str, _("any diversion of %s to %s"),
+			               filename, opt_divertto);
 	} else {
 		return varbuf_diversion(&str, opt_pkgname, filename, opt_divertto);
 	}
