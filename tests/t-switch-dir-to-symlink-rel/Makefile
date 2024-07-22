@@ -66,7 +66,7 @@ test-case:
 	! test -e '$(DPKG_INSTDIR)/test-path/test-subpath'
 
 	# Switch a directory to a symlink, contents moved within the package,
-	# with full install, upgrade with upack and configure.
+	# with full install, upgrade with unpack and configure.
 	$(DPKG_INSTALL) pkg-dir-symlink-int-0.deb
 	! test -h '$(DPKG_INSTDIR)/test-path/test-subpath'
 	test -d '$(DPKG_INSTDIR)/test-path/test-subpath'
@@ -109,7 +109,7 @@ test-case:
 	$(DPKG_PURGE) pkg-dir-file-moved
 
 	# Switch a directory to a symlink, contents moved to another package,
-	# with full installs, upgrade with upack and configure.
+	# with full installs, upgrade with unpack and configure.
 	$(DPKG_INSTALL) pkg-dir-symlink-ext-0.deb
 	test -d '$(DPKG_INSTDIR)/test-path/test-subpath'
 	$(DPKG_INSTALL) pkg-dir-file-moved.deb
