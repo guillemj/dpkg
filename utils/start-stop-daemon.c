@@ -2672,15 +2672,22 @@ do_start(int argc, char **argv)
 	fatale("unable to start %s", startas);
 }
 
+struct stop_context {
+	int retry_nr;
+	int n_killed;
+	int n_notkilled;
+	bool anykilled;
+};
+
 static void
-do_stop(int sig_num, int *n_killed, int *n_notkilled)
+do_stop(struct stop_context *ctx, int sig_num)
 {
 	struct pid_list *p;
 
 	do_findprocs();
 
-	*n_killed = 0;
-	*n_notkilled = 0;
+	ctx->n_killed = 0;
+	ctx->n_notkilled = 0;
 
 	if (!found)
 		return;
@@ -2690,21 +2697,21 @@ do_stop(int sig_num, int *n_killed, int *n_notkilled)
 	for (p = found; p; p = p->next) {
 		if (testmode) {
 			info("Would send signal %d to %d.\n", sig_num, p->pid);
-			(*n_killed)++;
+			ctx->n_killed++;
 		} else if (kill(p->pid, sig_num) == 0) {
 			pid_list_push(&killed, p->pid);
-			(*n_killed)++;
+			ctx->n_killed++;
 		} else {
 			if (sig_num)
 				warning("failed to kill %d: %s\n",
 				        p->pid, strerror(errno));
-			(*n_notkilled)++;
+			ctx->n_notkilled++;
 		}
 	}
 }
 
 static void
-do_stop_summary(int retry_nr)
+do_stop_summary(struct stop_context *ctx)
 {
 	struct pid_list *p;
 
@@ -2715,8 +2722,8 @@ do_stop_summary(int retry_nr)
 	for (p = killed; p; p = p->next)
 		printf(" %d", p->pid);
 	putchar(')');
-	if (retry_nr > 0)
-		printf(", retry #%d", retry_nr);
+	if (ctx->retry_nr > 0)
+		printf(", retry #%d", ctx->retry_nr);
 	printf(".\n");
 }
 
@@ -2755,7 +2762,7 @@ set_what_stop(const char *format, ...)
  * about system performance).
  */
 static bool
-do_stop_timeout(int timeout, int *n_killed, int *n_notkilled)
+do_stop_timeout(struct stop_context *ctx, int timeout)
 {
 	struct timespec stopat, before, after, interval, maxinterval;
 	int ratio;
@@ -2770,8 +2777,8 @@ do_stop_timeout(int timeout, int *n_killed, int *n_notkilled)
 		if (timespec_cmp(&before, &stopat, >))
 			return false;
 
-		do_stop(0, n_killed, n_notkilled);
-		if (!*n_killed)
+		do_stop(ctx, 0);
+		if (ctx->n_killed == 0)
 			return true;
 
 		timespec_gettime(&after);
@@ -2803,12 +2810,12 @@ do_stop_timeout(int timeout, int *n_killed, int *n_notkilled)
 }
 
 static int
-finish_stop_schedule(bool anykilled)
+finish_stop_schedule(struct stop_context *ctx)
 {
 	if (rpidfile && pidfile && !testmode)
 		remove_pidfile(pidfile);
 
-	if (anykilled)
+	if (ctx->anykilled)
 		return 0;
 
 	info("No %s found running; none killed.\n", what_stop);
@@ -2819,8 +2826,8 @@ finish_stop_schedule(bool anykilled)
 static int
 run_stop_schedule(void)
 {
-	int position, n_killed, n_notkilled, value, retry_nr;
-	bool anykilled;
+	struct stop_context ctx = { 0 };
+	int position, value;
 
 	if (testmode) {
 		if (schedule != NULL) {
@@ -2844,41 +2851,37 @@ run_stop_schedule(void)
 	else
 		BUG("no match option, please report");
 
-	anykilled = false;
-	retry_nr = 0;
-	n_killed = 0;
-	n_notkilled = 0;
-
 	if (schedule == NULL) {
-		do_stop(signal_nr, &n_killed, &n_notkilled);
-		do_stop_summary(0);
-		if (n_notkilled > 0)
-			info("%d pids were not killed\n", n_notkilled);
-		if (n_killed)
-			anykilled = true;
-		return finish_stop_schedule(anykilled);
+		do_stop(&ctx, signal_nr);
+		do_stop_summary(&ctx);
+		if (ctx.n_notkilled > 0)
+			info("%d pids were not killed\n", ctx.n_notkilled);
+		if (ctx.n_killed)
+			ctx.anykilled = true;
+		return finish_stop_schedule(&ctx);
 	}
 
 	for (position = 0; position < schedule_length; position++) {
 	reposition:
 		value = schedule[position].value;
-		n_notkilled = 0;
+		ctx.n_notkilled = 0;
 
 		switch (schedule[position].type) {
 		case sched_goto:
 			position = value;
 			goto reposition;
 		case sched_signal:
-			do_stop(value, &n_killed, &n_notkilled);
-			do_stop_summary(retry_nr++);
-			if (!n_killed)
-				return finish_stop_schedule(anykilled);
+			do_stop(&ctx, value);
+			do_stop_summary(&ctx);
+			ctx.retry_nr++;
+			if (ctx.n_killed == 0)
+				return finish_stop_schedule(&ctx);
 			else
-				anykilled = true;
+				ctx.anykilled = true;
 			continue;
 		case sched_timeout:
-			if (do_stop_timeout(value, &n_killed, &n_notkilled))
-				return finish_stop_schedule(anykilled);
+			if (do_stop_timeout(&ctx, value))
+				return finish_stop_schedule(&ctx);
 			else
 				continue;
 		default:
@@ -2888,7 +2891,7 @@ run_stop_schedule(void)
 	}
 
 	info("Program %s, %d process(es), refused to die.\n",
-	     what_stop, n_killed);
+	     what_stop, ctx.n_killed);
 
 	return 2;
 }
