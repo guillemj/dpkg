@@ -90,6 +90,10 @@ void varbuf_set_varbuf(struct varbuf *v, struct varbuf *other);
 void varbuf_set_buf(struct varbuf *v, const void *buf, size_t size);
 #define varbuf_set_str(v, s) varbuf_set_buf(v, s, strlen(s))
 #define varbuf_set_strn(v, s, n) varbuf_set_buf(v, s, strnlen(s, n))
+int varbuf_set_vfmt(struct varbuf *v, const char *fmt, va_list args)
+	DPKG_ATTR_VPRINTF(2);
+int varbuf_set_fmt(struct varbuf *v, const char *fmt, ...)
+	DPKG_ATTR_PRINTF(2);
 
 void varbuf_add_varbuf(struct varbuf *v, const struct varbuf *other);
 void varbuf_add_char(struct varbuf *v, int c);

@@ -119,6 +119,26 @@ varbuf_set_varbuf(struct varbuf *v, struct varbuf *other)
 	varbuf_set_buf(v, other->buf, other->used);
 }
 
+int
+varbuf_set_vfmt(struct varbuf *v, const char *fmt, va_list args)
+{
+	varbuf_reset(v);
+	return varbuf_add_vfmt(v, fmt, args);
+}
+
+int
+varbuf_set_fmt(struct varbuf *v, const char *fmt, ...)
+{
+	va_list args;
+	int n;
+
+	va_start(args, fmt);
+	n = varbuf_set_vfmt(v, fmt, args);
+	va_end(args);
+
+	return n;
+}
+
 void
 varbuf_add_varbuf(struct varbuf *v, const struct varbuf *other)
 {
