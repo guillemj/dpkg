@@ -1620,7 +1620,7 @@ proc_status_field(pid_t pid, const char *field)
 	ssize_t line_len;
 	size_t field_len = strlen(field);
 
-	sprintf(filename, "/proc/%d/status", pid);
+	snprintf(filename, sizeof(filename), "/proc/%d/status", pid);
 	fp = fopen(filename, "r");
 	if (!fp)
 		return NULL;
@@ -1646,7 +1646,7 @@ proc_get_psinfo(pid_t pid, struct psinfo *psinfo)
 	char filename[64];
 	FILE *fp;
 
-	sprintf(filename, "/proc/%d/psinfo", pid);
+	snprintf(filename, sizeof(filename), "/proc/%d/psinfo", pid);
 	fp = fopen(filename, "r");
 	if (!fp)
 		return false;
@@ -1749,7 +1749,7 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 	int nread;
 	struct stat sb;
 
-	sprintf(lname, "/proc/%d/exe", pid);
+	snprintf(lname, sizeof(lname), "/proc/%d/exe", pid);
 	nread = readlink(lname, lcontents, sizeof(lcontents) - 1);
 	if (nread < 0)
 		return false;
@@ -1777,7 +1777,7 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 	struct stat sb;
 	char filename[64];
 
-	sprintf(filename, "/proc/%d/object/a.out", pid);
+	snprintf(filename, sizeof(filename), "/proc/%d/object/a.out", pid);
 
 	if (stat(filename, &sb) != 0)
 		return false;
@@ -2047,7 +2047,7 @@ pid_is_user(pid_t pid, uid_t uid)
 	struct stat sb;
 	char buf[32];
 
-	sprintf(buf, "/proc/%d", pid);
+	snprintf(buf, sizeof(buf), "/proc/%d", pid);
 	if (stat(buf, &sb) != 0)
 		return false;
 	return (sb.st_uid == uid);

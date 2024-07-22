@@ -42,7 +42,7 @@ strerror(int e)
 	if (e >= 0 && e < sys_nerr)
 		return sys_errlist[e];
 
-	sprintf(buf, _("Unknown error %d"), e);
+	snprintf(buf, sizeof(buf), _("Unknown error %d"), e);
 
 	return buf;
 }

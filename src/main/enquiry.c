@@ -319,7 +319,7 @@ unpackchk(const char *const *argv)
     pkg_hash_iter_free(iter);
   } else if (sects <= 12) {
     for (se= sectionentries; se; se= se->next) {
-      sprintf(buf,"%d",se->count);
+      snprintf(buf, sizeof(buf), "%d", se->count);
       printf(_(" %d in %s: "),se->count,se->name);
       width= 70-strlen(se->name)-strlen(buf);
       while (width > 59) { putchar(' '); width--; }
@@ -344,7 +344,7 @@ unpackchk(const char *const *argv)
            totalcount);
     width= 0;
     for (se= sectionentries; se; se= se->next) {
-      sprintf(buf,"%d",se->count);
+      snprintf(buf, sizeof(buf), "%d", se->count);
       width -= (6 + strlen(se->name) + strlen(buf));
       if (width < 0) { putchar('\n'); width= 73 - strlen(se->name) - strlen(buf); }
       printf("   %s (%d)",se->name,se->count);

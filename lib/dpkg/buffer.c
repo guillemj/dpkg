@@ -97,7 +97,7 @@ buffer_md5_done(struct buffer_data *data)
 	hash = ctx->hash;
 	MD5Final(digest, &ctx->ctx);
 	for (i = 0; i < 16; ++i) {
-		sprintf(hash, "%02x", *p++);
+		snprintf(hash, 3, "%02x", *p++);
 		hash += 2;
 	}
 	*hash = '\0';

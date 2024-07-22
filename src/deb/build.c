@@ -653,7 +653,7 @@ do_build(const char *const *argv)
 
     if (fstat(gzfd, &controlstab))
       ohshite(_("failed to stat temporary file (%s)"), _("control member"));
-    sprintf(versionbuf, "%-8s\n%jd\n", OLDARCHIVEVERSION,
+    snprintf(versionbuf, sizeof(versionbuf), "%-8s\n%jd\n", OLDARCHIVEVERSION,
             (intmax_t)controlstab.st_size);
     if (fd_write(ar->fd, versionbuf, strlen(versionbuf)) < 0)
       ohshite(_("error writing '%s'"), debar);
@@ -664,7 +664,7 @@ do_build(const char *const *argv)
     const char deb_magic[] = ARCHIVEVERSION "\n";
     char adminmember[16 + 1];
 
-    sprintf(adminmember, "%s%s", ADMINMEMBER,
+    snprintf(adminmember, sizeof(adminmember), "%s%s", ADMINMEMBER,
             compressor_get_extension(control_compress_params.type));
 
     dpkg_ar_put_magic(ar);
@@ -708,7 +708,7 @@ do_build(const char *const *argv)
   if (deb_format.major == 2) {
     char datamember[16 + 1];
 
-    sprintf(datamember, "%s%s", DATAMEMBER,
+    snprintf(datamember, sizeof(datamember), "%s%s", DATAMEMBER,
             compressor_get_extension(compress_params.type));
 
     if (lseek(gzfd, 0, SEEK_SET))

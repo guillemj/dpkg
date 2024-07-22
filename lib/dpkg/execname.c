@@ -59,7 +59,7 @@ proc_get_psinfo(pid_t pid, struct psinfo *psinfo)
 	char filename[64];
 	FILE *fp;
 
-	sprintf(filename, "/proc/%d/psinfo", pid);
+	snprintf(filename, sizeof(filename), "/proc/%d/psinfo", pid);
 	fp = fopen(filename, "r");
 	if (!fp)
 		return false;
@@ -95,7 +95,7 @@ dpkg_get_pid_execname(pid_t pid)
 	char lcontents[_POSIX_PATH_MAX + 1];
 	int nread;
 
-	sprintf(lname, "/proc/%d/exe", pid);
+	snprintf(lname, sizeof(lname), "/proc/%d/exe", pid);
 	nread = readlink(lname, lcontents, sizeof(lcontents) - 1);
 	if (nread == -1)
 		return NULL;
@@ -140,7 +140,7 @@ dpkg_get_pid_execname(pid_t pid)
 	char filename[64];
 	struct varbuf vb = VARBUF_INIT;
 
-	sprintf(filename, "/proc/%d/execname", pid);
+	snprintf(filename, sizeof(filename), "/proc/%d/execname", pid);
 	if (file_slurp(filename, &vb, NULL) < 0)
 		return NULL;
 
@@ -156,7 +156,7 @@ dpkg_get_pid_execname(pid_t pid)
 	char filename[64];
 	struct psinfo psi;
 
-	sprintf(filename, "/proc/%d/psinfo", pid);
+	snprintf(filename, sizeof(filename), "/proc/%d/psinfo", pid);
 	if (!proc_get_psinfo(pid, &psi))
 		return NULL;
 

@@ -70,7 +70,7 @@ strsignal(int s)
 	if (s > 0 && s < COMPAT_NSIGLIST)
 		return sys_siglist[s];
 
-	sprintf(buf, _("Unknown signal %d"), s);
+	snprintf(buf, sizeof(buf), _("Unknown signal %d"), s);
 
 	return buf;
 }
