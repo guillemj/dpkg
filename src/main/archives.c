@@ -1573,13 +1573,9 @@ archivefiles(const char *const *argv)
 
   /* Initialize fname variables contents. */
 
-  varbuf_reset(&fnamevb);
-  varbuf_reset(&fnametmpvb);
-  varbuf_reset(&fnamenewvb);
-
-  varbuf_add_str(&fnamevb, dpkg_fsys_get_dir());
-  varbuf_add_str(&fnametmpvb, dpkg_fsys_get_dir());
-  varbuf_add_str(&fnamenewvb, dpkg_fsys_get_dir());
+  varbuf_set_str(&fnamevb, dpkg_fsys_get_dir());
+  varbuf_set_str(&fnametmpvb, dpkg_fsys_get_dir());
+  varbuf_set_str(&fnamenewvb, dpkg_fsys_get_dir());
 
   varbuf_snapshot(&fnamevb, &fname_state);
   varbuf_snapshot(&fnametmpvb, &fnametmp_state);
