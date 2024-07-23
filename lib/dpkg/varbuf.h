@@ -60,6 +60,7 @@ struct varbuf {
 #ifdef __cplusplus
 	explicit varbuf(size_t _size = 0);
 	explicit varbuf(const char *str);
+	varbuf(const varbuf &v);
 	~varbuf();
 
 	void init(size_t _size = 0);
@@ -99,6 +100,7 @@ struct varbuf {
 	void trim_prefix(varbuf &prefix);
 	void trim_prefix(int prefix);
 
+	varbuf &operator=(const varbuf &v);
 	varbuf &operator+=(const varbuf &v);
 	varbuf &operator+=(int c);
 	varbuf &operator+=(const char *str);
@@ -188,6 +190,13 @@ varbuf::varbuf(const char *str)
 {
 	varbuf_init(this, 0);
 	varbuf_set_str(this, str);
+}
+
+inline
+varbuf::varbuf(const varbuf &v)
+{
+	varbuf_init(this, v.used);
+	varbuf_set_buf(this, v.buf, v.used);
 }
 
 inline
@@ -364,6 +373,15 @@ inline void
 varbuf::trim_prefix(int prefix)
 {
 	varbuf_trim_char_prefix(this, prefix);
+}
+
+inline varbuf &
+varbuf::operator=(const varbuf &v)
+{
+	varbuf_init(this, v.used);
+	varbuf_set_buf(this, v.buf, v.used);
+
+	return *this;
 }
 
 inline varbuf &
