@@ -153,7 +153,7 @@ varbuf::init(size_t _size)
 inline void
 varbuf::reset()
 {
-	used = 0;
+	varbuf_reset(this);
 }
 
 inline void
