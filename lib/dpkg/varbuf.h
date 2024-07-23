@@ -99,6 +99,9 @@ struct varbuf {
 	void trim_prefix(varbuf &prefix);
 	void trim_prefix(int prefix);
 
+	varbuf &operator+=(const varbuf &v);
+	varbuf &operator+=(int c);
+	varbuf &operator+=(const char *str);
 	void operator()(int c);
 	void operator()(const char *s);
 	const char *str();
@@ -360,6 +363,27 @@ inline void
 varbuf::trim_prefix(int prefix)
 {
 	varbuf_trim_char_prefix(this, prefix);
+}
+
+inline varbuf &
+varbuf::operator+=(const varbuf &v)
+{
+	varbuf_add_varbuf(this, &v);
+	return *this;
+}
+
+inline varbuf &
+varbuf::operator+=(int c)
+{
+	varbuf_add_char(this, c);
+	return *this;
+}
+
+inline varbuf &
+varbuf::operator+=(const char *str)
+{
+	varbuf_add_str(this, str);
+	return *this;
 }
 
 inline void
