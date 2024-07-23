@@ -102,6 +102,8 @@ struct varbuf {
 	varbuf &operator+=(const varbuf &v);
 	varbuf &operator+=(int c);
 	varbuf &operator+=(const char *str);
+
+	size_t len() const;
 	const char *str();
 #endif
 };
@@ -382,6 +384,12 @@ varbuf::operator+=(const char *str)
 {
 	varbuf_add_str(this, str);
 	return *this;
+}
+
+inline size_t
+varbuf::len() const
+{
+	return this->used;
 }
 
 inline const char *
