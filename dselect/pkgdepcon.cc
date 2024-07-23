@@ -228,8 +228,8 @@ int packagelist::resolvedepcon(dependency *depends) {
     varbuf pkg_names;
 
     for (possi = depends->list; possi; possi = possi->next) {
-      pkg_names(' ');
-      pkg_names(possi->ed->name);
+      pkg_names += ' ';
+      pkg_names += possi->ed->name;
     }
 
     debug(dbg_depcon,

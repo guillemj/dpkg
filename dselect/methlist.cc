@@ -187,7 +187,7 @@ quitaction methodlist::display() {
 }
 
 void methodlist::itd_description() {
-  whatinfovb(_("Explanation"));
+  whatinfovb += _("Explanation");
 
   wattrset(infopad, part_attr[info_head]);
   waddstr(infopad, table[cursorline]->name);

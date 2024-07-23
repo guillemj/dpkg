@@ -74,7 +74,7 @@ void packagelist::add(pkginfo *pkg, const char *extrainfo, showpriority showimp)
         this, pkg_name(pkg, pnaw_always), showimp);
   add(pkg);  if (!pkg->clientdata) return;
   if (pkg->clientdata->dpriority < showimp) pkg->clientdata->dpriority= showimp;
-  pkg->clientdata->relations(extrainfo);
+  pkg->clientdata->relations += extrainfo;
 }
 
 bool
@@ -109,8 +109,8 @@ void packagelist::addunavailable(deppossi *possi) {
               pkg_name(possi->up->up, pnaw_always));
 
   varbuf& vb= possi->up->up->clientdata->relations;
-  vb(possi->ed->name);
-  vb(_(" does not appear to be available\n"));
+  vb += possi->ed->name;
+  vb += _(" does not appear to be available\n");
 }
 
 bool
@@ -123,41 +123,41 @@ packagelist::add(dependency *depends, showpriority displayimportance)
 
   const char *comma= "";
   varbuf depinfo;
-  depinfo(depends->up->set->name);
-  depinfo(' ');
-  depinfo(gettext(relatestrings[depends->type]));
-  depinfo(' ');
+  depinfo += depends->up->set->name;
+  depinfo += ' ';
+  depinfo += gettext(relatestrings[depends->type]);
+  depinfo += ' ';
   deppossi *possi;
   for (possi=depends->list;
        possi;
        possi=possi->next, comma=(possi && possi->next ? ", " : _(" or "))) {
-    depinfo(comma);
-    depinfo(possi->ed->name);
+    depinfo += comma;
+    depinfo += possi->ed->name;
     if (possi->verrel != DPKG_RELATION_NONE) {
       switch (possi->verrel) {
       case DPKG_RELATION_LE:
-        depinfo(" (<= ");
+        depinfo += " (<= ";
         break;
       case DPKG_RELATION_GE:
-        depinfo(" (>= ");
+        depinfo += " (>= ";
         break;
       case DPKG_RELATION_LT:
-        depinfo(" (<< ");
+        depinfo += " (<< ";
         break;
       case DPKG_RELATION_GT:
-        depinfo(" (>> ");
+        depinfo += " (>> ";
         break;
       case DPKG_RELATION_EQ:
-        depinfo(" (= ");
+        depinfo += " (= ";
         break;
       default:
         internerr("unknown dpkg_relation %d", possi->verrel);
       }
-      depinfo(versiondescribe(&possi->version, vdew_nonambig));
-      depinfo(")");
+      depinfo += versiondescribe(&possi->version, vdew_nonambig);
+      depinfo += ")";
     }
   }
-  depinfo('\n');
+  depinfo += '\n';
   add(depends->up, depinfo.str(), displayimportance);
   for (possi=depends->list; possi; possi=possi->next) {
     add(&possi->ed->pkg, depinfo.str(), displayimportance);

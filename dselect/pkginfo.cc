@@ -80,8 +80,7 @@ const packagelist::infotype *const packagelist::baseinfo= infoinfos;
 
 void packagelist::severalinfoblurb()
 {
-  varbuf vb;
-  vb(_("The line you have highlighted represents many packages; "
+  varbuf vb(_("The line you have highlighted represents many packages; "
      "if you ask to install, remove, hold, etc. it you will affect all "
      "the packages which match the criterion shown.\n"
      "\n"
@@ -94,7 +93,7 @@ void packagelist::severalinfoblurb()
 }
 
 void packagelist::itd_relations() {
-  whatinfovb(_("Interrelationships"));
+  whatinfovb += _("Interrelationships");
 
   if (table[cursorline]->pkg->set->name) {
     debug(dbg_general, "packagelist[%p]::idt_relations(); '%s'",
@@ -106,7 +105,7 @@ void packagelist::itd_relations() {
 }
 
 void packagelist::itd_description() {
-  whatinfovb(_("Description"));
+  whatinfovb += _("Description");
 
   if (table[cursorline]->pkg->set->name) {
     const char *m= table[cursorline]->pkg->available.description;
@@ -132,7 +131,7 @@ void packagelist::itd_description() {
 }
 
 void packagelist::itd_statuscontrol() {
-  whatinfovb(_("Installed control file information"));
+  whatinfovb += _("Installed control file information");
 
   werase(infopad);
   if (!table[cursorline]->pkg->set->name) {
@@ -148,7 +147,7 @@ void packagelist::itd_statuscontrol() {
 }
 
 void packagelist::itd_availablecontrol() {
-  whatinfovb(_("Available control file information"));
+  whatinfovb += _("Available control file information");
 
   werase(infopad);
   if (!table[cursorline]->pkg->set->name) {

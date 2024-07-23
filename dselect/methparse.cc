@@ -154,7 +154,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
       do {
         if (!c_isdigit(c))
           badmethod(pathbuf, _("non-digit where digit wanted"));
-        vb(c);
+        vb += c;
         c= fgetc(names);
         if (c == EOF)
           eofmethod(pathbuf, names, _("end of file in index string"));
@@ -174,7 +174,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
       do {
         if (!c_isalnum(c) && c != '_')
           badmethod(pathbuf, _("non-alphanum in option name"));
-        vb(c);
+        vb += c;
         c= fgetc(names);
         if (c == EOF)
           eofmethod(pathbuf, names, _("end of file in option name"));
@@ -189,7 +189,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
       } while (c_isspace(c));
       vb.reset();
       do {
-        vb(c);
+        vb += c;
         c= fgetc(names);
         if (c == EOF)
           eofmethod(pathbuf, names, _("end of file in summary - missing newline"));

@@ -284,7 +284,7 @@ baselist::baselist(keybindings *kb) {
 }
 
 void baselist::itd_keys() {
-  whatinfovb(_("Keybindings"));
+  whatinfovb += _("Keybindings");
 
   const int givek= xmax/3;
   bindings->describestart();
