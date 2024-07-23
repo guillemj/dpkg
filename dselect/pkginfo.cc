@@ -90,7 +90,7 @@ void packagelist::severalinfoblurb()
      "\n"
      "You can use 'o' and 'O' to change the sort order and give yourself "
      "the opportunity to mark packages in different kinds of groups."));
-  wordwrapinfo(0,vb.string());
+  wordwrapinfo(0, vb.str());
 }
 
 void packagelist::itd_relations() {
@@ -98,8 +98,8 @@ void packagelist::itd_relations() {
 
   if (table[cursorline]->pkg->set->name) {
     debug(dbg_general, "packagelist[%p]::idt_relations(); '%s'",
-          this, table[cursorline]->relations.string());
-    waddstr(infopad,table[cursorline]->relations.string());
+          this, table[cursorline]->relations.str());
+    waddstr(infopad, table[cursorline]->relations.str());
   } else {
     severalinfoblurb();
   }
@@ -142,8 +142,8 @@ void packagelist::itd_statuscontrol() {
     varbuf_stanza(&vb, table[cursorline]->pkg,
                   &table[cursorline]->pkg->installed);
     debug(dbg_general, "packagelist[%p]::idt_statuscontrol(); '%s'",
-          this, vb.string());
-    waddstr(infopad,vb.string());
+          this, vb.str());
+    waddstr(infopad, vb.str());
   }
 }
 
@@ -158,8 +158,8 @@ void packagelist::itd_availablecontrol() {
     varbuf_stanza(&vb, table[cursorline]->pkg,
                   &table[cursorline]->pkg->available);
     debug(dbg_general, "packagelist[%p]::idt_availablecontrol(); '%s'",
-          this, vb.string());
-    waddstr(infopad,vb.string());
+          this, vb.str());
+    waddstr(infopad, vb.str());
   }
 }
 

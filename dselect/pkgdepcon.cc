@@ -236,7 +236,7 @@ int packagelist::resolvedepcon(dependency *depends) {
           "packagelist[%p]::resolvedepcon([%p] %s --%s-->%s); (ing)->want=%s",
           this, depends, pkg_name(depends->up, pnaw_always),
           relatestrings[depends->type],
-          pkg_names.string(), depends->up->clientdata ?
+          pkg_names.str(), depends->up->clientdata ?
           wantstrings[depends->up->clientdata->suggested] : "(no clientdata)");
   }
 

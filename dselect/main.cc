@@ -391,7 +391,7 @@ display_menu_entry(int i, int so)
   getmaxyx(stdscr,y,x);
 
   attrset(so ? A_REVERSE : A_NORMAL);
-  mvaddnstr(i + 2, 0, buf.string(), x - 1);
+  mvaddnstr(i + 2, 0, buf.str(), x - 1);
   attrset(A_NORMAL);
 }
 
@@ -408,7 +408,7 @@ refreshmenu(void)
 
   clear();
   attrset(A_BOLD);
-  mvaddnstr(0, 0, buf.string(), x - 1);
+  mvaddnstr(0, 0, buf.str(), x - 1);
 
   attrset(A_NORMAL);
   const struct menuentry *mep; int i;

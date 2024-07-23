@@ -159,9 +159,9 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
         if (c == EOF)
           eofmethod(pathbuf, names, _("end of file in index string"));
       } while (!c_isspace(c));
-      if (strlen(vb.string()) > OPTIONINDEXMAXLEN)
+      if (strlen(vb.str()) > OPTIONINDEXMAXLEN)
         badmethod(pathbuf,_("index string too long"));
-      strcpy(opt->index,vb.string());
+      strcpy(opt->index, vb.str());
       do {
         if (c == '\n') badmethod(pathbuf,_("newline before option name start"));
         c= fgetc(names);
@@ -179,8 +179,8 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
         if (c == EOF)
           eofmethod(pathbuf, names, _("end of file in option name"));
       } while (!c_isspace(c));
-      opt->name= new char[strlen(vb.string())+1];
-      strcpy(opt->name,vb.string());
+      opt->name = new char[strlen(vb.str()) + 1];
+      strcpy(opt->name, vb.str());
       do {
         if (c == '\n') badmethod(pathbuf,_("newline before summary"));
         c= fgetc(names);
@@ -194,8 +194,8 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
         if (c == EOF)
           eofmethod(pathbuf, names, _("end of file in summary - missing newline"));
       } while (c != '\n');
-      opt->summary= new char[strlen(vb.string())+1];
-      strcpy(opt->summary,vb.string());
+      opt->summary = new char[strlen(vb.str()) + 1];
+      strcpy(opt->summary, vb.str());
 
       strcpy(pathinmeth,OPTIONSDESCPFX);
       strcpy(pathinmeth+sizeof(OPTIONSDESCPFX)-1,opt->name);

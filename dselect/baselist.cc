@@ -331,7 +331,7 @@ void baselist::refreshinfo() {
 
   if (whatinfo_height) {
     mywerase(whatinfowin);
-    mvwaddstr(whatinfowin,0,0, whatinfovb.string());
+    mvwaddstr(whatinfowin,0,0, whatinfovb.str());
     if (infolines > info_height) {
       wprintw(whatinfowin,_("  -- %d%%, press "),
               (infotopofscreen + info_height) * 100 / infolines);

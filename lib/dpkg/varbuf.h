@@ -71,7 +71,7 @@ struct varbuf {
 
 	void operator()(int c);
 	void operator()(const char *s);
-	const char *string();
+	const char *str();
 #endif
 };
 
@@ -194,7 +194,7 @@ varbuf::operator()(const char *s)
 }
 
 inline const char *
-varbuf::string()
+varbuf::str()
 {
 	return varbuf_str(this);
 }

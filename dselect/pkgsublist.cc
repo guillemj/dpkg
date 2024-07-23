@@ -158,9 +158,9 @@ packagelist::add(dependency *depends, showpriority displayimportance)
     }
   }
   depinfo('\n');
-  add(depends->up, depinfo.string(), displayimportance);
+  add(depends->up, depinfo.str(), displayimportance);
   for (possi=depends->list; possi; possi=possi->next) {
-    add(&possi->ed->pkg, depinfo.string(), displayimportance);
+    add(&possi->ed->pkg, depinfo.str(), displayimportance);
     if (depends->type != dep_provides) {
       /* Providers are not relevant if we are looking at a provider
        * relationship already. */
@@ -169,7 +169,7 @@ packagelist::add(dependency *depends, showpriority displayimportance)
            provider;
            provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;
-        add(provider->up->up, depinfo.string(), displayimportance);
+        add(provider->up->up, depinfo.str(), displayimportance);
         add(provider->up,displayimportance);
       }
     }
