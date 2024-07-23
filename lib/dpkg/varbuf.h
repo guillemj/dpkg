@@ -59,6 +59,7 @@ struct varbuf {
 
 #ifdef __cplusplus
 	explicit varbuf(size_t _size = 0);
+	explicit varbuf(const char *str);
 	~varbuf();
 
 	void init(size_t _size = 0);
@@ -176,6 +177,13 @@ inline
 varbuf::varbuf(size_t _size)
 {
 	varbuf_init(this, _size);
+}
+
+inline
+varbuf::varbuf(const char *str)
+{
+	varbuf_init(this, 0);
+	varbuf_set_str(this, str);
 }
 
 inline
