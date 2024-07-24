@@ -213,6 +213,10 @@ t_t_headers_cpp_SOURCES = \
 	t/t-headers-cpp.cc \
 	# EOL
 
+t_t_varbuf_cpp_SOURCES = \
+	t/t-varbuf-cpp.cc \
+	# EOL
+
 # The tests are sorted in order of increasing complexity.
 test_programs = \
 	t/t-test \
@@ -233,6 +237,7 @@ test_programs = \
 	t/t-command \
 	t/t-pager \
 	t/t-varbuf \
+	t/t-varbuf-cpp \
 	t/t-ar \
 	t/t-tar \
 	t/t-deb-version \
