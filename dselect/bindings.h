@@ -62,7 +62,7 @@ struct keybindings {
   bool bind(const char *name, const char *action)
   { return bind(name2key(name), action); }
   const interpretation *operator()(int key);
-  const char *find(const char *action);
+  varbuf find(const char *action);
 
   void describestart() { iterate=descriptions; }
   const char **describenext();

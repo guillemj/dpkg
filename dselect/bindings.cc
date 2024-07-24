@@ -71,16 +71,21 @@ keybindings::bind(int key, const char *action)
   return true;
 }
 
-const char *keybindings::find(const char *action) {
+varbuf
+keybindings::find(const char *action) {
   binding *b = bindings;
   while (b && strcmp(action, b->interp->action))
     b = b->next;
-  if (!b) return _("[not bound]");
+  if (!b)
+    return varbuf(_("[not bound]"));
+
   const char *n= key2name(b->key);
-  if (n) return n;
-  static char buf[50];
-  sprintf(buf,_("[unk: %d]"),b->key);
-  return buf;
+  if (n) return
+    varbuf(n);
+
+  varbuf unknown;
+  unknown.set_fmt(_("[unk: %d]"), b->key);
+  return unknown;
 }
 
 const keybindings::interpretation *keybindings::operator()(int key) {

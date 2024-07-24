@@ -336,11 +336,11 @@ void baselist::refreshinfo() {
       wprintw(whatinfowin,_("  -- %d%%, press "),
               (infotopofscreen + info_height) * 100 / infolines);
       if (infotopofscreen + info_height < infolines) {
-        wprintw(whatinfowin,_("%s for more"), bindings->find("iscrollon"));
+        wprintw(whatinfowin, _("%s for more"), bindings->find("iscrollon").str());
         if (infotopofscreen) waddstr(whatinfowin, ", ");
       }
       if (infotopofscreen)
-        wprintw(whatinfowin, _("%s to go back"),bindings->find("iscrollback"));
+        wprintw(whatinfowin, _("%s to go back"), bindings->find("iscrollback").str());
       waddch(whatinfowin,'.');
     }
     wnoutrefresh(whatinfowin);
