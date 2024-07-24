@@ -183,7 +183,7 @@ protected:
   int compareentries(const struct perpackagestate *a, const struct perpackagestate *b);
   friend int qsort_compareentries(const void *a, const void *b);
   pkgwant reallywant(pkgwant, struct perpackagestate *);
-  int describemany(char buf[], const char *prioritystring, const char *section,
+  int describemany(varbuf &vb, const char *prioritystring, const char *section,
                    const struct perpackagestate *pps);
   bool deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade);
 

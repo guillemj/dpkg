@@ -48,9 +48,11 @@ pkgprioritystring(const struct pkginfo *pkg)
   }
 }
 
-int packagelist::describemany(char buf[], const char *prioritystring,
-                              const char *section,
-                              const struct perpackagestate *pps) {
+int
+packagelist::describemany(varbuf &vb,
+                          const char *prioritystring, const char *section,
+                          const struct perpackagestate *pps)
+{
   const char *ssostring, *ssoabbrev;
   int statindent;
 
@@ -78,27 +80,28 @@ int packagelist::describemany(char buf[], const char *prioritystring,
     internerr("unknown statsortrder %d", statsortorder);
   }
 
+  vb.reset();
   if (!prioritystring) {
     if (!section) {
-      strcpy(buf, ssostring ? gettext(ssostring) : _("All packages"));
+      vb += ssostring ? gettext(ssostring) : _("All packages");
       return statindent;
     } else {
       if (!*section) {
-        sprintf(buf,_("%s packages without a section"),gettext(ssoabbrev));
+        vb.add_fmt(_("%s packages without a section"), gettext(ssoabbrev));
       } else {
-        sprintf(buf,_("%s packages in section %s"),gettext(ssoabbrev),section);
+        vb.add_fmt(_("%s packages in section %s"), gettext(ssoabbrev), section);
       }
       return statindent+1;
     }
   } else {
     if (!section) {
-      sprintf(buf,_("%s %s packages"),gettext(ssoabbrev),prioritystring);
+      vb.add_fmt(_("%s %s packages"), gettext(ssoabbrev), prioritystring);
       return statindent+1;
     } else {
       if (!*section) {
-        sprintf(buf,_("%s %s packages without a section"),gettext(ssoabbrev),prioritystring);
+        vb.add_fmt(_("%s %s packages without a section"), gettext(ssoabbrev), prioritystring);
       } else {
-        sprintf(buf,_("%s %s packages in section %s"),gettext(ssoabbrev),prioritystring,section);
+        vb.add_fmt(_("%s %s packages in section %s"), gettext(ssoabbrev), prioritystring, section);
       }
       return statindent+2;
     }
@@ -111,32 +114,25 @@ void packagelist::redrawthisstate() {
 
   const char *section= table[cursorline]->pkg->section;
   const char *priority= pkgprioritystring(table[cursorline]->pkg);
-  char *buf= new char[500+
-                      max((table[cursorline]->pkg->set->name ?
-                           strlen(table[cursorline]->pkg->set->name) : 0),
-                          (section ? strlen(section) : 0) +
-                          (priority ? strlen(priority) : 0))];
+  varbuf vb;
 
   if (table[cursorline]->pkg->set->name) {
-    sprintf(buf,
-            _("%-*s %s%s%s;  %s (was: %s).  %s"),
-            col_package.width,
-            table[cursorline]->pkg->set->name,
-            gettext(statusstrings[table[cursorline]->pkg->status]),
-            ((eflagstrings[table[cursorline]->pkg->eflag][0]==' ') &&
-              (eflagstrings[table[cursorline]->pkg->eflag][1]=='\0'))  ? "" : " - ",
-            gettext(eflagstrings[table[cursorline]->pkg->eflag]),
-            gettext(wantstrings[table[cursorline]->selected]),
-            gettext(wantstrings[table[cursorline]->original]),
-            priority);
+    vb.add_fmt(_("%-*s %s%s%s;  %s (was: %s).  %s"),
+               col_package.width,
+               table[cursorline]->pkg->set->name,
+               gettext(statusstrings[table[cursorline]->pkg->status]),
+               ((eflagstrings[table[cursorline]->pkg->eflag][0] == ' ') &&
+                (eflagstrings[table[cursorline]->pkg->eflag][1] == '\0'))  ? "" : " - ",
+               gettext(eflagstrings[table[cursorline]->pkg->eflag]),
+               gettext(wantstrings[table[cursorline]->selected]),
+               gettext(wantstrings[table[cursorline]->original]),
+               priority);
   } else {
-    describemany(buf,priority,section,table[cursorline]->pkg->clientdata);
+    describemany(vb, priority, section, table[cursorline]->pkg->clientdata);
   }
-  mvwaddnstr(thisstatepad,0,0, buf, total_width);
+  mvwaddnstr(thisstatepad, 0, 0, vb.str(), total_width);
   pnoutrefresh(thisstatepad, 0,leftofscreen, thisstate_row,0,
                thisstate_row, min(total_width - 1, xmax - 1));
-
-  delete[] buf;
 }
 
 void packagelist::redraw1itemsel(int index, int selected) {
@@ -248,11 +244,9 @@ void packagelist::redraw1itemsel(int index, int selected) {
     const char *section= pkg->section;
     const char *priority= pkgprioritystring(pkg);
 
-    char *buf= new char[500+
-                        (section ? strlen(section) : 0) +
-                        (priority ? strlen(priority) : 0)];
+    varbuf vb;
 
-    indent= describemany(buf,priority,section,pkg->clientdata);
+    indent = describemany(vb, priority, section, pkg->clientdata);
 
     mvwaddstr(listpad, screenline, 0, "    ");
     i= total_width-7;
@@ -261,15 +255,13 @@ void packagelist::redraw1itemsel(int index, int selected) {
     waddch(listpad,' ');
 
     wattrset(listpad, part_attr[selected ? selstatesel : selstate]);
-    p= buf;
+    p = vb.str();
     while (i>0 && *p) { waddnstr(listpad, p,1); p++; i--; }
     wattrset(listpad, part_attr[selected ? listsel : list]);
 
     waddch(listpad,' ');
     j= (indent<<1) + 1;
     while (j-- >0) { waddch(listpad,ACS_HLINE); i--; }
-
-    delete[] buf;
   }
 
   while (i>0) { waddch(listpad,' '); i--; }
