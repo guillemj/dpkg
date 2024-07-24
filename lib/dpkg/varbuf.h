@@ -107,6 +107,9 @@ struct varbuf {
 	varbuf &operator+=(int c);
 	varbuf &operator+=(const char *str);
 
+	const char &operator[](int i) const;
+	char &operator[](int i);
+
 	size_t len() const;
 	const char *str();
 #endif
@@ -127,6 +130,7 @@ void varbuf_destroy(struct varbuf *v);
 void varbuf_free(struct varbuf *v);
 
 const char *varbuf_str(struct varbuf *v);
+char *varbuf_array(const struct varbuf *v, size_t index);
 
 void varbuf_set_varbuf(struct varbuf *v, struct varbuf *other);
 void varbuf_set_buf(struct varbuf *v, const void *buf, size_t size);
@@ -420,6 +424,18 @@ varbuf::operator+=(const char *str)
 {
 	varbuf_add_str(this, str);
 	return *this;
+}
+
+inline const char &
+varbuf::operator[](int i) const
+{
+	return *varbuf_array(this, i);
+}
+
+inline char &
+varbuf::operator[](int i)
+{
+	return *varbuf_array(this, i);
 }
 
 inline size_t

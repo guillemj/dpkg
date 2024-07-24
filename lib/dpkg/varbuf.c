@@ -115,6 +115,16 @@ varbuf_str(struct varbuf *v)
 	return v->buf;
 }
 
+char *
+varbuf_array(const struct varbuf *v, size_t index)
+{
+	if (index > v->used)
+		internerr("varbuf array access (%zu) > used (%zu)",
+		          index, v->used);
+
+	return v->buf + index;
+}
+
 void
 varbuf_set_buf(struct varbuf *v, const void *buf, size_t size)
 {
