@@ -8,6 +8,9 @@
 #   DEB_VERSION_UPSTREAM: package's upstream version.
 #   DEB_DISTRIBUTION: distribution(s) listed in the current debian/changelog
 #     entry.
+#   DEB_TIMESTAMP: source package relase date as seconds since the epoch as
+#     specified in the latest debian/changelog entry (since dpkg 1.22.9),
+#     although you are probably looking for SOURCE_DATE_EPOCH instead.
 #
 #   SOURCE_DATE_EPOCH: source release date as seconds since the epoch, as
 #     specified by <https://reproducible-builds.org/specs/source-date-epoch/>
@@ -26,20 +29,12 @@ dpkg_parsechangelog_run = $(eval $(shell dpkg-parsechangelog | sed -n '\
     $$(eval DEB_VERSION_EPOCH_UPSTREAM:=\1\2\4)\
     $$(eval DEB_VERSION_UPSTREAM_REVISION:=\2\3)\
     $$(eval DEB_VERSION_UPSTREAM:=\2\4)/p;\
-  s/^Timestamp: \(.*\)/$$(eval SOURCE_DATE_EPOCH?=\1)/p'))
+  s/^Timestamp: \(.*\)/$$(eval DEB_TIMESTAMP:=\1)/p'))
 
-ifdef SOURCE_DATE_EPOCH
-  dpkg_lazy_eval ?= $(eval $(1) = $(2)$$($(1)))
-  $(call dpkg_lazy_eval,DEB_DISTRIBUTION,$$(dpkg_parsechangelog_run))
-  $(call dpkg_lazy_eval,DEB_SOURCE,$$(dpkg_parsechangelog_run))
-  $(call dpkg_lazy_eval,DEB_VERSION,$$(dpkg_parsechangelog_run))
-  $(call dpkg_lazy_eval,DEB_VERSION_EPOCH_UPSTREAM,$$(dpkg_parsechangelog_run))
-  $(call dpkg_lazy_eval,DEB_VERSION_UPSTREAM,$$(dpkg_parsechangelog_run))
-  $(call dpkg_lazy_eval,DEB_UPSTREAM_REVISION,$$(dpkg_parsechangelog_run))
-else
-  # We need to compute the values right now.
-  $(dpkg_parsechangelog_run)
-endif
+# Compute all the values in one go.
+$(dpkg_parsechangelog_run)
+
+SOURCE_DATE_EPOCH ?= $(DEB_TIMESTAMP)
 export SOURCE_DATE_EPOCH
 
 endif # dpkg_pkg_info_mk_included
