@@ -49,16 +49,17 @@ struct dselect_option *options = nullptr, *coption = nullptr;
 struct method *methods = nullptr;
 
 static void DPKG_ATTR_NORET
-badmethod(const char *pathname, const char *why)
+badmethod(varbuf &pathname, const char *why)
 {
-  ohshit(_("syntax error in method options file '%.250s' -- %s"), pathname, why);
+  ohshit(_("syntax error in method options file '%.250s' -- %s"),
+         pathname.str(), why);
 }
 
 static void DPKG_ATTR_NORET
-eofmethod(const char *pathname, FILE *f, const char *why)
+eofmethod(varbuf &pathname, FILE *f, const char *why)
 {
   if (ferror(f))
-    ohshite(_("error reading options file '%.250s'"), pathname);
+    ohshite(_("error reading options file '%.250s'"), pathname.str());
   badmethod(pathname,why);
 }
 
@@ -70,8 +71,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
     nullptr
   };
   const char *const *ccpp;
-  int methodlen, baselen;
-  char *pathinmeth, *pathbuf, *pathmeth;
+  int methodlen;
   DIR *dir;
   FILE *names;
   struct dirent *dent;
@@ -79,20 +79,16 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
   method *meth;
   dselect_option *opt;
 
-  baselen= strlen(pathbase);
-  pathbuf= new char[baselen+IMETHODMAXLEN+IOPTIONMAXLEN+sizeof(OPTIONSDESCPFX)+10];
-  strcpy(pathbuf,pathbase);
-  strcpy(pathbuf+baselen,"/");
-  pathmeth= pathbuf+baselen+1;
+  varbuf path;
+  path += pathbase;
+  path += "/";
 
-  dir= opendir(pathbuf);
+  dir = opendir(path.str());
   if (!dir) {
-    if (errno == ENOENT) {
-      delete[] pathbuf;
+    if (errno == ENOENT)
       return;
-    }
     ohshite(_("unable to read '%.250s' directory for reading methods"),
-            pathbuf);
+            path.str());
   }
 
   debug(dbg_general, "readmethods('%s',...) directory open", pathbase);
@@ -113,37 +109,40 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
              dent->d_name, methodlen, IMETHODMAXLEN);
     /* Check if there is a localized version of this method */
 
-    strcpy(pathmeth, dent->d_name);
-    strcpy(pathmeth+methodlen, "/");
-    pathinmeth= pathmeth+methodlen+1;
+    path.reset();
+    path += pathbase;
+    path += "/";
+    path += dent->d_name;
+    path += "/";
+
+    varbuf pathmeth;
 
     for (ccpp= methodprograms; *ccpp; ccpp++) {
-      strcpy(pathinmeth,*ccpp);
-      if (access(pathbuf,R_OK|X_OK))
-        ohshite(_("unable to access method script '%.250s'"), pathbuf);
+      pathmeth = path;
+      pathmeth += *ccpp;
+      if (access(pathmeth.str(), R_OK | X_OK))
+        ohshite(_("unable to access method script '%.250s'"), pathmeth.str());
     }
     debug(dbg_general, " readmethods('%s',...) scripts ok", pathbase);
 
-    strcpy(pathinmeth,METHODOPTIONSFILE);
-    names= fopen(pathbuf,"r");
+    varbuf pathopts;
+    pathopts = path;
+    pathopts += METHODOPTIONSFILE;
+    names = fopen(pathopts.str(), "r");
     if (!names)
-      ohshite(_("unable to read method options file '%.250s'"), pathbuf);
+      ohshite(_("unable to read method options file '%.250s'"), pathopts.str());
 
     meth= new method;
-    meth->name= new char[strlen(dent->d_name)+1];
-    strcpy(meth->name,dent->d_name);
-    meth->path= new char[baselen+1+methodlen+2+50];
-    strncpy(meth->path,pathbuf,baselen+1+methodlen);
-    strcpy(meth->path+baselen+1+methodlen,"/");
-    meth->pathinmeth= meth->path+baselen+1+methodlen+1;
+    meth->name = varbuf(dent->d_name);
+    meth->path = path;
     meth->next= methods;
     meth->prev = nullptr;
     if (methods)
       methods->prev = meth;
     methods= meth;
     debug(dbg_general, " readmethods('%s',...) new method"
-                       " name='%s' path='%s' pathinmeth='%s'",
-          pathbase, meth->name, meth->path, meth->pathinmeth);
+                       " name='%s' path='%s'",
+          pathbase, meth->name.str(), meth->path.str());
 
     while ((c= fgetc(names)) != EOF) {
       if (c_isspace(c))
@@ -153,75 +152,78 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
       vb.reset();
       do {
         if (!c_isdigit(c))
-          badmethod(pathbuf, _("non-digit where digit wanted"));
+          badmethod(pathopts, _("non-digit where digit wanted"));
         vb += c;
         c= fgetc(names);
         if (c == EOF)
-          eofmethod(pathbuf, names, _("end of file in index string"));
+          eofmethod(pathopts, names, _("end of file in index string"));
       } while (!c_isspace(c));
-      if (strlen(vb.str()) > OPTIONINDEXMAXLEN)
-        badmethod(pathbuf,_("index string too long"));
+      if (vb.len() > OPTIONINDEXMAXLEN)
+        badmethod(pathopts, _("index string too long"));
       strcpy(opt->index, vb.str());
       do {
-        if (c == '\n') badmethod(pathbuf,_("newline before option name start"));
+        if (c == '\n')
+          badmethod(pathopts, _("newline before option name start"));
         c= fgetc(names);
         if (c == EOF)
-          eofmethod(pathbuf, names, _("end of file before option name start"));
+          eofmethod(pathopts, names, _("end of file before option name start"));
       } while (c_isspace(c));
       vb.reset();
       if (!c_isalpha(c) && c != '_')
-        badmethod(pathbuf,_("nonalpha where option name start wanted"));
+        badmethod(pathopts, _("nonalpha where option name start wanted"));
       do {
         if (!c_isalnum(c) && c != '_')
-          badmethod(pathbuf, _("non-alphanum in option name"));
+          badmethod(pathopts, _("non-alphanum in option name"));
         vb += c;
         c= fgetc(names);
         if (c == EOF)
-          eofmethod(pathbuf, names, _("end of file in option name"));
+          eofmethod(pathopts, names, _("end of file in option name"));
       } while (!c_isspace(c));
-      opt->name = new char[strlen(vb.str()) + 1];
+      opt->name = new char[vb.len() + 1];
       strcpy(opt->name, vb.str());
       do {
-        if (c == '\n') badmethod(pathbuf,_("newline before summary"));
+        if (c == '\n')
+          badmethod(pathopts, _("newline before summary"));
         c= fgetc(names);
         if (c == EOF)
-          eofmethod(pathbuf, names, _("end of file before summary"));
+          eofmethod(pathopts, names, _("end of file before summary"));
       } while (c_isspace(c));
       vb.reset();
       do {
         vb += c;
         c= fgetc(names);
         if (c == EOF)
-          eofmethod(pathbuf, names, _("end of file in summary - missing newline"));
+          eofmethod(pathopts, names, _("end of file in summary - missing newline"));
       } while (c != '\n');
-      opt->summary = new char[strlen(vb.str()) + 1];
+      opt->summary = new char[vb.len() + 1];
       strcpy(opt->summary, vb.str());
 
-      strcpy(pathinmeth,OPTIONSDESCPFX);
-      strcpy(pathinmeth+sizeof(OPTIONSDESCPFX)-1,opt->name);
+      varbuf pathoptsdesc;
+      pathoptsdesc += pathopts;
+      pathoptsdesc += OPTIONSDESCPFX;
+      pathoptsdesc += opt->name;
 
       varbuf description;
       dpkg_error err = DPKG_ERROR_INIT;
 
-      if (file_slurp(pathbuf, &description, &err) < 0) {
+      if (file_slurp(pathoptsdesc.str(), &description, &err) < 0) {
         if (err.syserrno != ENOENT)
           dpkg_error_print(&err, _("cannot load option description file '%s'"),
-                                 pathbuf);
+                                 pathoptsdesc.str());
         opt->description = nullptr;
       } else {
         opt->description = description.detach();
       }
-      strcpy(pathinmeth,METHODOPTIONSFILE);
 
       debug(dbg_general,
             " readmethods('%s',...) new option index='%s' name='%s'"
             " summary='%.20s' strlen(description=%s)=%zu method name='%s'"
-            " path='%s' pathinmeth='%s'",
+            " path='%s'",
             pathbase,
             opt->index, opt->name, opt->summary,
             opt->description ? "'...'" : "null",
             opt->description ? strlen(opt->description) : -1,
-            opt->meth->name, opt->meth->path, opt->meth->pathinmeth);
+            opt->meth->name.str(), opt->meth->path.str());
 
       dselect_option **optinsert = optionspp;
       while (*optinsert && strcmp(opt->index, (*optinsert)->index) > 0)
@@ -231,12 +233,11 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
       (*nread)++;
     }
     if (ferror(names))
-      ohshite(_("error during read of method options file '%.250s'"), pathbuf);
+      ohshite(_("error during read of method options file '%.250s'"), pathopts.str());
     fclose(names);
   }
   closedir(dir);
   debug(dbg_general, "readmethods('%s',...) done", pathbase);
-  delete[] pathbuf;
 }
 
 static char *methoptfile = nullptr;
@@ -271,7 +272,7 @@ void getcurrentopt() {
   *p++= 0;
   debug(dbg_general, "getcurrentopt() cmethopt meth name '%s'", methoptbuf);
   method *meth = methods;
-  while (meth && strcmp(methoptbuf, meth->name))
+  while (meth && strcmp(methoptbuf, meth->name.str()))
     meth = meth->next;
   if (!meth) return;
   debug(dbg_general, "getcurrentopt() cmethopt meth found; opt '%s'", p);
@@ -291,7 +292,7 @@ void writecurrentopt() {
 
   file = atomic_file_new(methoptfile, ATOMIC_FILE_NORMAL);
   atomic_file_open(file);
-  if (fprintf(file->fp, "%s %s\n", coption->meth->name, coption->name) == EOF)
+  if (fprintf(file->fp, "%s %s\n", coption->meth->name.str(), coption->name) == EOF)
     ohshite(_("unable to write new option to '%.250s'"), file->name_new);
   atomic_file_close(file);
   atomic_file_commit(file);

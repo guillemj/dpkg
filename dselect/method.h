@@ -38,7 +38,7 @@
 
 struct method {
   struct method *next, *prev;
-  char *name, *path, *pathinmeth;
+  varbuf name, path;
 };
 
 struct dselect_option {

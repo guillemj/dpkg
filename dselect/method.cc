@@ -173,10 +173,12 @@ static urqresult runscript(const char *exepath, const char *name) {
 
   if (coption) {
     struct command cmd;
+    varbuf cmdpath;
 
-    strcpy(coption->meth->pathinmeth,exepath);
+    cmdpath += coption->meth->path;
+    cmdpath += exepath;
 
-    command_init(&cmd, coption->meth->path, name);
+    command_init(&cmd, cmdpath.str(), name);
     command_add_args(&cmd, exepath, dpkg_db_get_dir(),
                      coption->meth->name, coption->name, nullptr);
     ur = falliblesubprocess(&cmd);
@@ -238,10 +240,12 @@ urqresult urq_setup(void) {
 
   if (qa == qa_quitchecksave) {
     struct command cmd;
+    varbuf cmdpath;
 
-    strcpy(coption->meth->pathinmeth,METHODSETUPSCRIPT);
+    cmdpath += coption->meth->path;
+    cmdpath += METHODSETUPSCRIPT;
 
-    command_init(&cmd, coption->meth->path, _("query/setup script"));
+    command_init(&cmd, cmdpath.str(), _("query/setup script"));
     command_add_args(&cmd, METHODSETUPSCRIPT, dpkg_db_get_dir(),
                      coption->meth->name, coption->name, nullptr);
     ur = falliblesubprocess(&cmd);
