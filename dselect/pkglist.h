@@ -166,7 +166,7 @@ protected:
   int deselect_one_of(pkginfo *er, pkginfo *ed, dependency *dep);
 
   // Define these virtuals
-  bool checksearch(char *str) override;
+  bool checksearch(varbuf &str) override;
   bool matchsearch(int index) override;
   void redraw1itemsel(int index, int selected) override;
   void redrawcolheads() override;

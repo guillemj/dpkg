@@ -280,7 +280,7 @@ baselist::baselist(keybindings *kb) {
   ldrawnend = 0;
   showinfo= 1;
 
-  searchstring[0]= 0;
+  searchstring.reset();
 }
 
 void baselist::itd_keys() {
@@ -308,7 +308,7 @@ void baselist::itd_keys() {
 void baselist::dosearch() {
   int offset, index;
   debug(dbg_general, "baselist[%p]::dosearch(); searchstring='%s'",
-        this, searchstring);
+        this, searchstring.str());
   for (offset = 1, index = max(topofscreen, cursorline + 1);
        offset<nitems;
        offset++, index++) {

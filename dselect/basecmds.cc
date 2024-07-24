@@ -83,12 +83,15 @@ void baselist::kd_redraw() {
 }
 
 void baselist::kd_searchagain() {
-  if (!searchstring[0]) { beep(); return; }
+  if (searchstring.len()) {
+    beep();
+    return;
+  }
   dosearch();
 }
 
 bool
-baselist::checksearch(char *str)
+baselist::checksearch(varbuf &str)
 {
   return true;
 }
@@ -96,42 +99,42 @@ baselist::checksearch(char *str)
 bool
 baselist::matchsearch(int index)
 {
-  int lendiff, searchlen, i;
+  int lendiff, i;
   const char *name;
 
   name = itemname(index);
   if (!name)
     return false;	/* Skip things without a name (separators). */
 
-  searchlen=strlen(searchstring);
-  lendiff = strlen(name) - searchlen;
+  lendiff = strlen(name) - searchstring.len();
   for (i=0; i<=lendiff; i++)
-    if (strncasecmp(name + i, searchstring, searchlen) == 0)
+    if (strncasecmp(name + i, searchstring.str(), searchstring.len()) == 0)
       return true;
 
   return false;
 }
 
 void baselist::kd_search() {
-  char newsearchstring[128];
-  strcpy(newsearchstring,searchstring);
+  varbuf newsearchstring(searchstring);
+
   werase(querywin);
   mvwaddstr(querywin,0,0, _("Search for ? "));
   echo();
-  if (wgetnstr(querywin,newsearchstring,sizeof(newsearchstring)-1) == ERR)
-    searchstring[0]= 0;
+  if (wgetnstr(querywin, newsearchstring.buf, newsearchstring.size - 1) == ERR)
+    searchstring.reset();
   resize_window();
   noecho();
   if (whatinfo_height) { touchwin(whatinfowin); refreshinfo(); }
   else if (info_height) { touchwin(infopad); refreshinfo(); }
   else if (thisstate_height) redrawthisstate();
   else { touchwin(listpad); refreshlist(); }
-  if (newsearchstring[0]) {
+  if (newsearchstring.len()) {
     if (!checksearch(newsearchstring)) {
       beep();
       return;
     }
-    strcpy(searchstring,newsearchstring);
+
+    searchstring = newsearchstring;
     dosearch();
   } else
     kd_searchagain();

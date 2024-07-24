@@ -486,7 +486,7 @@ perpackagestate::free(bool recursive)
 packagelist::~packagelist() {
   debug(dbg_general, "packagelist[%p]::~packagelist()", this);
 
-  if (searchstring[0])
+  if (searchstring.len())
     regfree(&searchfsm);
 
   discardheadings();
@@ -507,28 +507,28 @@ packagelist::~packagelist() {
 }
 
 bool
-packagelist::checksearch(char *rx)
+packagelist::checksearch(varbuf &rx)
 {
   int rc, opt = REG_NOSUB;
   int pos;
 
-  if (str_is_unset(rx))
+  if (rx.len() == 0)
     return false;
 
   searchdescr = false;
-  if (searchstring[0]) {
+  if (searchstring.len()) {
     regfree(&searchfsm);
-    searchstring[0]=0;
+    searchstring.reset();
   }
 
   /* look for search options */
-  for (pos = strlen(rx) - 1; pos >= 0; pos--)
+  for (pos = rx.len() - 1; pos >= 0; pos--)
     if ((rx[pos] == '/') && ((pos == 0) || (rx[pos - 1] != '\\')))
       break;
 
   if (pos >= 0) {
     rx[pos++] = '\0';
-    if (strcspn(rx + pos, "di") != 0) {
+    if (strcspn(rx.str() + pos, "di") != 0) {
       displayerror(_("invalid search option given"));
       return false;
     }
@@ -542,7 +542,7 @@ packagelist::checksearch(char *rx)
    }
   }
 
-  rc = regcomp(&searchfsm, rx, opt);
+  rc = regcomp(&searchfsm, rx.str(), opt);
   if (rc != 0) {
     displayerror(_("error in regular expression"));
     return false;
