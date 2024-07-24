@@ -8,7 +8,7 @@
 #   DEB_VERSION_UPSTREAM: package's upstream version.
 #   DEB_DISTRIBUTION: distribution(s) listed in the current debian/changelog
 #     entry.
-#   DEB_TIMESTAMP: source package relase date as seconds since the epoch as
+#   DEB_TIMESTAMP: source package release date as seconds since the epoch as
 #     specified in the latest debian/changelog entry (since dpkg 1.22.9),
 #     although you are probably looking for SOURCE_DATE_EPOCH instead.
 #
