@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-07-21 20:18+0200\n"
+"POT-Creation-Date: 2024-07-24 23:02+0200\n"
 "PO-Revision-Date: 2023-02-01 23:14+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -2582,9 +2582,10 @@ msgid "'%.255s' contains no control component '%.255s'"
 msgstr "„%.255s“ neobsahuje řídící část „%.255s“"
 
 #: src/deb/info.c
-#, c-format
-msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
-msgstr "otevírání komponenty „%.255s“ (v %.255s) selhalo neočekávaným způsobem"
+#, fuzzy, c-format
+#| msgid "cannot open file %s"
+msgid "cannot open file '%.255s'"
+msgstr "nelze otevřít soubor %s"
 
 #: src/deb/info.c
 #, c-format
@@ -2600,19 +2601,16 @@ msgid "cannot scan directory '%.255s'"
 msgstr "nelze prohledat adresář „%.255s“"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot stat '%.255s' (in '%.255s')"
-msgstr "nelze volat stat na „%.255s“ (v „%.255s“)"
+#, fuzzy, c-format
+#| msgid "unable to get file '%s%s' metadata"
+msgid "cannot get file '%.255s' metadata"
+msgstr "nelze získat metadata souboru „%s%s“"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot open '%.255s' (in '%.255s')"
-msgstr "nelze otevřít „%.255s“ (v „%.255s“)"
-
-#: src/deb/info.c
-#, c-format
-msgid "failed to read '%.255s' (in '%.255s')"
-msgstr "selhalo čtení „%.255s“ (v „%.255s“)"
+#, fuzzy, c-format
+#| msgid "cannot read %s"
+msgid "cannot read file '%.255s'"
+msgstr "nelze číst %s"
 
 #: src/deb/info.c
 #, c-format
@@ -2717,7 +2715,35 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D, --debug                      Enable debugging output.\n"
+#| "      --showformat=<format>        Use alternative format for --show.\n"
+#| "      --deb-format=<format>        Select archive format.\n"
+#| "                                     Allowed values: 0.939000, 2.0 "
+#| "(default).\n"
+#| "      --nocheck                    Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "      --root-owner-group           Forces the owner and groups to root.\n"
+#| "      --threads-max=<threads>      Use at most <threads> with "
+#| "compressor.\n"
+#| "      --[no-]uniform-compression   Use the compression params on all "
+#| "members.\n"
+#| "  -z#                              Set the compression level when "
+#| "building.\n"
+#| "  -Z<type>                         Set the compression type used when "
+#| "building.\n"
+#| "                                     Allowed types: gzip, xz, zstd, "
+#| "none.\n"
+#| "  -S<strategy>                     Set the compression strategy when "
+#| "building.\n"
+#| "                                     Allowed values: none; extreme (xz);\n"
+#| "                                     filtered, huffman, rle, fixed "
+#| "(gzip).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -2732,12 +2758,11 @@ msgid ""
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
-"  -z#                              Set the compression level when building.\n"
-"  -Z<type>                         Set the compression type used when "
-"building.\n"
+"  -Z, --compression=<compressor>   Set build compression type.\n"
 "                                     Allowed types: gzip, xz, zstd, none.\n"
-"  -S<strategy>                     Set the compression strategy when "
-"building.\n"
+"  -z, --compression-level=<level>  Set build compression level.\n"
+"  -S, --compression-strategy=<name>\n"
+"                                   Set build compression strategy.\n"
 "                                     Allowed values: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
@@ -6932,6 +6957,23 @@ msgstr "Spustí update-alternatives pro úpravu systémových alternativ"
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "Pro spuštění update-alternatives je vyžadováno ověření"
+
+#, c-format
+#~ msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
+#~ msgstr ""
+#~ "otevírání komponenty „%.255s“ (v %.255s) selhalo neočekávaným způsobem"
+
+#, c-format
+#~ msgid "cannot stat '%.255s' (in '%.255s')"
+#~ msgstr "nelze volat stat na „%.255s“ (v „%.255s“)"
+
+#, c-format
+#~ msgid "cannot open '%.255s' (in '%.255s')"
+#~ msgstr "nelze otevřít „%.255s“ (v „%.255s“)"
+
+#, c-format
+#~ msgid "failed to read '%.255s' (in '%.255s')"
+#~ msgstr "selhalo čtení „%.255s“ (v „%.255s“)"
 
 #~ msgid "failed to open diversions file"
 #~ msgstr "nelze otevřít soubor s odsuny"

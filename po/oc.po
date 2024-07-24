@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-07-21 20:18+0200\n"
+"POT-Creation-Date: 2024-07-24 23:02+0200\n"
 "PO-Revision-Date: 2023-02-05 23:42+0100\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: Occitan\n"
@@ -2544,9 +2544,10 @@ msgid "'%.255s' contains no control component '%.255s'"
 msgstr ""
 
 #: src/deb/info.c
-#, c-format
-msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "cannot open file %s"
+msgid "cannot open file '%.255s'"
+msgstr "impossible de dobrir lo fichièr %s"
 
 #: src/deb/info.c
 #, c-format
@@ -2561,19 +2562,16 @@ msgid "cannot scan directory '%.255s'"
 msgstr "analisi impossibla del repertòri « %.255s »"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot stat '%.255s' (in '%.255s')"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "unable to get file '%s%s' metadata"
+msgid "cannot get file '%.255s' metadata"
+msgstr "impossible d'obténer las metadonadas del fichièr « %s%s »"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot open '%.255s' (in '%.255s')"
-msgstr "impossible de dobrir « %.255s » (dins « %.255s »)"
-
-#: src/deb/info.c
-#, c-format
-msgid "failed to read '%.255s' (in '%.255s')"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "cannot read %s"
+msgid "cannot read file '%.255s'"
+msgstr "impossible de legir %s"
 
 #: src/deb/info.c
 #, c-format
@@ -2671,12 +2669,11 @@ msgid ""
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
-"  -z#                              Set the compression level when building.\n"
-"  -Z<type>                         Set the compression type used when "
-"building.\n"
+"  -Z, --compression=<compressor>   Set build compression type.\n"
 "                                     Allowed types: gzip, xz, zstd, none.\n"
-"  -S<strategy>                     Set the compression strategy when "
-"building.\n"
+"  -z, --compression-level=<level>  Set build compression level.\n"
+"  -S, --compression-strategy=<name>\n"
+"                                   Set build compression strategy.\n"
 "                                     Allowed values: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
@@ -6513,6 +6510,10 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, c-format
+#~ msgid "cannot open '%.255s' (in '%.255s')"
+#~ msgstr "impossible de dobrir « %.255s » (dins « %.255s »)"
 
 #~ msgid "failed to open diversions file"
 #~ msgstr "impossible de dobrir lo fichièr dels detornaments"

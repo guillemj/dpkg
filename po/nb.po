@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-07-21 20:18+0200\n"
+"POT-Creation-Date: 2024-07-24 23:02+0200\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Hans Fredrik Nordhaug <hans@nordhaug.priv.no>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -2816,9 +2816,10 @@ msgid "'%.255s' contains no control component '%.255s'"
 msgstr "dpkg-deb: «%.255s» inneholder ikke kontrollkomponenten «%.255s»\n"
 
 #: src/deb/info.c
-#, c-format
-msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
-msgstr "åpning av komponenten «%.255s» (i %.255s) mislyktes på en uventet måte"
+#, fuzzy, c-format
+#| msgid "cannot append to %s: %s"
+msgid "cannot open file '%.255s'"
+msgstr "klarte ikke legge til i %s: %s"
 
 #: src/deb/info.c
 #, c-format
@@ -2833,19 +2834,16 @@ msgid "cannot scan directory '%.255s'"
 msgstr "klarte ikke skanne katalogen «%.255s»"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot stat '%.255s' (in '%.255s')"
-msgstr "fant ikke «%.255s» (i «%.255s»)"
+#, fuzzy, c-format
+#| msgid "unable to write file '%s'"
+msgid "cannot get file '%.255s' metadata"
+msgstr "klarte ikke å skrive fila «%s»"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot open '%.255s' (in '%.255s')"
-msgstr "klarte ikke åpne «%.255s» (i «%.255s»)"
-
-#: src/deb/info.c
-#, c-format
-msgid "failed to read '%.255s' (in '%.255s')"
-msgstr "klarte ikke lese «%.255s» (i «%.255s»)"
+#, fuzzy, c-format
+#| msgid "cannot write %s: %s"
+msgid "cannot read file '%.255s'"
+msgstr "klarte ikke skrive %s: %s"
 
 #: src/deb/info.c
 #, fuzzy, c-format
@@ -3001,12 +2999,11 @@ msgid ""
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
-"  -z#                              Set the compression level when building.\n"
-"  -Z<type>                         Set the compression type used when "
-"building.\n"
+"  -Z, --compression=<compressor>   Set build compression type.\n"
 "                                     Allowed types: gzip, xz, zstd, none.\n"
-"  -S<strategy>                     Set the compression strategy when "
-"building.\n"
+"  -z, --compression-level=<level>  Set build compression level.\n"
+"  -S, --compression-strategy=<name>\n"
+"                                   Set build compression strategy.\n"
 "                                     Allowed values: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
@@ -7779,6 +7776,23 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, c-format
+#~ msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
+#~ msgstr ""
+#~ "åpning av komponenten «%.255s» (i %.255s) mislyktes på en uventet måte"
+
+#, c-format
+#~ msgid "cannot stat '%.255s' (in '%.255s')"
+#~ msgstr "fant ikke «%.255s» (i «%.255s»)"
+
+#, c-format
+#~ msgid "cannot open '%.255s' (in '%.255s')"
+#~ msgstr "klarte ikke åpne «%.255s» (i «%.255s»)"
+
+#, c-format
+#~ msgid "failed to read '%.255s' (in '%.255s')"
+#~ msgstr "klarte ikke lese «%.255s» (i «%.255s»)"
 
 #~ msgid "failed to open diversions file"
 #~ msgstr "klarte ikke åpne omdirigeringsfil"

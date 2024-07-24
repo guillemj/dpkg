@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-07-21 20:18+0200\n"
+"POT-Creation-Date: 2024-07-24 23:02+0200\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -2821,10 +2821,10 @@ msgid "'%.255s' contains no control component '%.255s'"
 msgstr "dpkg-deb: `%.255s' 안에 컨트롤 컴포넌트 `%.255s'이(가) 없습니다\n"
 
 #: src/deb/info.c
-#, c-format
-msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
-msgstr ""
-"`%.255s' 컴포넌트를 (%.255s 안에) 여는데 예상치 못한 방법으로 실패했습니다"
+#, fuzzy, c-format
+#| msgid "cannot append to %s: %s"
+msgid "cannot open file '%.255s'"
+msgstr "%s 파일에 붙일 수 없습니다: %s"
 
 #: src/deb/info.c
 #, c-format
@@ -2838,19 +2838,16 @@ msgid "cannot scan directory '%.255s'"
 msgstr "`%.255s' 디렉터리를 읽을 수 없습니다"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot stat '%.255s' (in '%.255s')"
-msgstr "`%.255s' 파일의 정보를 읽을 수 없습니다 (`%.255s'에서)"
+#, fuzzy, c-format
+#| msgid "unable to write file '%s'"
+msgid "cannot get file '%.255s' metadata"
+msgstr "'%s' 파일에 쓸 수 없습니다"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot open '%.255s' (in '%.255s')"
-msgstr "`%.255s' 파일을 열 수 없습니다 (`%.255s'에서)"
-
-#: src/deb/info.c
-#, c-format
-msgid "failed to read '%.255s' (in '%.255s')"
-msgstr "`%.255s' 파일을 읽을 수 없습니다 (`%.255s'에서)"
+#, fuzzy, c-format
+#| msgid "cannot write %s: %s"
+msgid "cannot read file '%.255s'"
+msgstr "%s에 쓸 수 없습니다: %s"
 
 #: src/deb/info.c
 #, fuzzy, c-format
@@ -3003,12 +3000,11 @@ msgid ""
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
-"  -z#                              Set the compression level when building.\n"
-"  -Z<type>                         Set the compression type used when "
-"building.\n"
+"  -Z, --compression=<compressor>   Set build compression type.\n"
 "                                     Allowed types: gzip, xz, zstd, none.\n"
-"  -S<strategy>                     Set the compression strategy when "
-"building.\n"
+"  -z, --compression-level=<level>  Set build compression level.\n"
+"  -S, --compression-strategy=<name>\n"
+"                                   Set build compression strategy.\n"
 "                                     Allowed values: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
@@ -7796,6 +7792,23 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, c-format
+#~ msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
+#~ msgstr ""
+#~ "`%.255s' 컴포넌트를 (%.255s 안에) 여는데 예상치 못한 방법으로 실패했습니다"
+
+#, c-format
+#~ msgid "cannot stat '%.255s' (in '%.255s')"
+#~ msgstr "`%.255s' 파일의 정보를 읽을 수 없습니다 (`%.255s'에서)"
+
+#, c-format
+#~ msgid "cannot open '%.255s' (in '%.255s')"
+#~ msgstr "`%.255s' 파일을 열 수 없습니다 (`%.255s'에서)"
+
+#, c-format
+#~ msgid "failed to read '%.255s' (in '%.255s')"
+#~ msgstr "`%.255s' 파일을 읽을 수 없습니다 (`%.255s'에서)"
 
 #~ msgid "failed to open diversions file"
 #~ msgstr "diversions 파일을 여는데 실패했습니다"

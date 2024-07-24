@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-07-21 20:18+0200\n"
+"POT-Creation-Date: 2024-07-24 23:02+0200\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
@@ -2783,10 +2783,10 @@ msgid "'%.255s' contains no control component '%.255s'"
 msgstr "'%.255s': ez dauka '%.255s' kontrol-osagairik"
 
 #: src/deb/info.c
-#, c-format
-msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
-msgstr ""
-"huts egin du '%.255s' osagaia irekitzean (%.255s), espero ez zen moduan"
+#, fuzzy, c-format
+#| msgid "cannot append to '%s'"
+msgid "cannot open file '%.255s'"
+msgstr "ezin zaio '%s'(r)i erantsi"
 
 #: src/deb/info.c
 #, c-format
@@ -2801,19 +2801,16 @@ msgid "cannot scan directory '%.255s'"
 msgstr "ezin da '%.255s' direktorioa aztertu"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot stat '%.255s' (in '%.255s')"
-msgstr "ezin da '%.255s' atzitu ('%.255s')"
+#, fuzzy, c-format
+#| msgid "unable to create file '%s'"
+msgid "cannot get file '%.255s' metadata"
+msgstr "ezin da '%s' fitxategia sortu"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot open '%.255s' (in '%.255s')"
-msgstr "ezin da '%.255s' ireki ('%.255s')"
-
-#: src/deb/info.c
-#, c-format
-msgid "failed to read '%.255s' (in '%.255s')"
-msgstr "ezin da '%.255s' irakurri ('%.255s')"
+#, fuzzy, c-format
+#| msgid "cannot write %s: %s"
+msgid "cannot read file '%.255s'"
+msgstr "ezin da %s idatzi: %s"
 
 #: src/deb/info.c
 #, c-format
@@ -2983,12 +2980,11 @@ msgid ""
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
-"  -z#                              Set the compression level when building.\n"
-"  -Z<type>                         Set the compression type used when "
-"building.\n"
+"  -Z, --compression=<compressor>   Set build compression type.\n"
 "                                     Allowed types: gzip, xz, zstd, none.\n"
-"  -S<strategy>                     Set the compression strategy when "
-"building.\n"
+"  -z, --compression-level=<level>  Set build compression level.\n"
+"  -S, --compression-strategy=<name>\n"
+"                                   Set build compression strategy.\n"
 "                                     Allowed values: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
@@ -7567,6 +7563,23 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, c-format
+#~ msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
+#~ msgstr ""
+#~ "huts egin du '%.255s' osagaia irekitzean (%.255s), espero ez zen moduan"
+
+#, c-format
+#~ msgid "cannot stat '%.255s' (in '%.255s')"
+#~ msgstr "ezin da '%.255s' atzitu ('%.255s')"
+
+#, c-format
+#~ msgid "cannot open '%.255s' (in '%.255s')"
+#~ msgstr "ezin da '%.255s' ireki ('%.255s')"
+
+#, c-format
+#~ msgid "failed to read '%.255s' (in '%.255s')"
+#~ msgstr "ezin da '%.255s' irakurri ('%.255s')"
 
 #~ msgid "failed to open diversions file"
 #~ msgstr "huts egin du desbideratzeen fitxategia irekitzean"

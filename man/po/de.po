@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-07-17 01:10+0200\n"
+"POT-Creation-Date: 2024-07-24 23:02+0200\n"
 "PO-Revision-Date: 2024-07-03 21:48+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -13809,18 +13809,28 @@ msgstr "Die Voreinstellung für dieses Feld ist „${Package}\\t${Version}\\n“
 
 #. type: =item
 #: dpkg-deb.pod
-msgid "B<-z>I<compress-level>"
-msgstr "B<-z>I<Komprimierstufe>"
+#, fuzzy
+#| msgid "B<-z>, B<--compression-level=>I<level>"
+msgid "B<-z>, B<--compression-level=>I<compress-level>"
+msgstr "B<-z>, B<--compression-level=>I<Stufe>"
 
 #. type: textblock
 #: dpkg-deb.pod
+#, fuzzy
+#| msgid ""
+#| "Specify which compression level to use on the compressor backend, when "
+#| "building a package (default is 9 for gzip, 6 for xz, 3 for zstd).  The "
+#| "accepted values are compressor specific.  For gzip, from 0-9 with 0 being "
+#| "mapped to compressor none.  For xz from 0-9.  For zstd from 0-22, with "
+#| "levels from 20 to 22 enabling its ultra mode.  Before dpkg 1.16.2 level 0 "
+#| "was equivalent to compressor none for all compressors."
 msgid ""
 "Specify which compression level to use on the compressor backend, when "
-"building a package (default is 9 for gzip, 6 for xz, 3 for zstd).  The "
-"accepted values are compressor specific.  For gzip, from 0-9 with 0 being "
-"mapped to compressor none.  For xz from 0-9.  For zstd from 0-22, with "
-"levels from 20 to 22 enabling its ultra mode.  Before dpkg 1.16.2 level 0 "
-"was equivalent to compressor none for all compressors."
+"building a package (default is 9 for gzip, 6 for xz, 3 for zstd; long option "
+"since dpkg 1.22.9).  The accepted values are compressor specific.  For gzip, "
+"from 0-9 with 0 being mapped to compressor none.  For xz from 0-9.  For zstd "
+"from 0-22, with levels from 20 to 22 enabling its ultra mode.  Before dpkg "
+"1.16.2 level 0 was equivalent to compressor none for all compressors."
 msgstr ""
 "Gibt die Komprimierstufe an, die im Komprimier-Backendprogramm beim Bau "
 "eines Pakets verwendet werden soll. Standardmäßig ist dies 9 für Gzip, 6 für "
@@ -13832,16 +13842,24 @@ msgstr ""
 
 #. type: =item
 #: dpkg-deb.pod
-msgid "B<-S>I<compress-strategy>"
-msgstr "B<-S>I<Komprimierstrategie>"
+#, fuzzy
+#| msgid "B<-Z>, B<--compression=>I<compressor>"
+msgid "B<-S>, B<--compression-strategy=>I<compress-strategy>"
+msgstr "B<-Z>, B<--compression=>I<Komprimierer>"
 
 #. type: textblock
 #: dpkg-deb.pod
+#, fuzzy
+#| msgid ""
+#| "Specify which compression strategy to use on the compressor backend, when "
+#| "building a package (since dpkg 1.16.2).  Allowed values are B<none> "
+#| "(since dpkg 1.16.4), B<filtered>, B<huffman>, B<rle> and B<fixed> for "
+#| "gzip (since dpkg 1.17.0) and B<extreme> for xz."
 msgid ""
 "Specify which compression strategy to use on the compressor backend, when "
-"building a package (since dpkg 1.16.2).  Allowed values are B<none> (since "
-"dpkg 1.16.4), B<filtered>, B<huffman>, B<rle> and B<fixed> for gzip (since "
-"dpkg 1.17.0) and B<extreme> for xz."
+"building a package (since dpkg 1.16.2, long option since dpkg 1.22.9).  "
+"Allowed values are B<none> (since dpkg 1.16.4), B<filtered>, B<huffman>, "
+"B<rle> and B<fixed> for gzip (since dpkg 1.17.0) and B<extreme> for xz."
 msgstr ""
 "Gibt die zu verwendende Komprimierstrategie an, die für den Komprimierer-"
 "Backend beim Bau eines Pakets verwandt werden soll (seit Dpkg 1.16.2). "
@@ -13850,15 +13868,23 @@ msgstr ""
 
 #. type: =item
 #: dpkg-deb.pod
-msgid "B<-Z>I<compress-type>"
-msgstr "B<-Z>I<Komprimierart>"
+#, fuzzy
+#| msgid "B<-Z>, B<--compression=>I<compressor>"
+msgid "B<-Z>, B<--compression=>I<compress-type>"
+msgstr "B<-Z>, B<--compression=>I<Komprimierer>"
 
 #. type: textblock
 #: dpkg-deb.pod
+#, fuzzy
+#| msgid ""
+#| "Specify which compression type to use when building a package.  Allowed "
+#| "values are B<gzip>, B<xz> (since dpkg 1.15.6), B<zstd> (since dpkg "
+#| "1.21.18)  and B<none> (default is B<%DEB_DEFAULT_COMPRESSOR%>)."
 msgid ""
-"Specify which compression type to use when building a package.  Allowed "
-"values are B<gzip>, B<xz> (since dpkg 1.15.6), B<zstd> (since dpkg 1.21.18)  "
-"and B<none> (default is B<%DEB_DEFAULT_COMPRESSOR%>)."
+"Specify which compression type to use when building a package (long option "
+"since dpkg 1.22.9).  Allowed values are B<gzip>, B<xz> (since dpkg 1.15.6), "
+"B<zstd> (since dpkg 1.21.18)  and B<none> (default is "
+"B<%DEB_DEFAULT_COMPRESSOR%>)."
 msgstr ""
 "Gibt die Art der Komprimierung beim Bau eines Pakets an. Erlaubte Werte sind "
 "B<gzip>, B<xz> (seit Dpkg 1.15.6), B<zstd> (seit Dpkg 1.21.18) und B<none> "
@@ -30630,6 +30656,15 @@ msgid "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
 msgstr ""
 "L<ln(1)>, FHS (der Dateisystem-Hierarchie-Standard, Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid "B<-z>I<compress-level>"
+#~ msgstr "B<-z>I<Komprimierstufe>"
+
+#~ msgid "B<-S>I<compress-strategy>"
+#~ msgstr "B<-S>I<Komprimierstrategie>"
+
+#~ msgid "B<-Z>I<compress-type>"
+#~ msgstr "B<-Z>I<Komprimierart>"
 
 #~ msgid "B<dpkg-buildpackage> [I<option>...]"
 #~ msgstr "B<dpkg-buildpackage> [I<Option> …]"

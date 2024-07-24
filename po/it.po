@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-07-21 20:18+0200\n"
+"POT-Creation-Date: 2024-07-24 23:02+0200\n"
 "PO-Revision-Date: 2018-12-04 12:15+0100\n"
 "Last-Translator: Milo Casagrande <milo@milo.name>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -2749,13 +2749,11 @@ msgstr "impossibile estrarre il file di controllo \"%s\" da \"%s\": %s"
 msgid "'%.255s' contains no control component '%.255s'"
 msgstr "\"%.255s\" non contiene alcun componente di controllo \"%.255s\""
 
-# (ndt) non mi è molto chiara
-# se fosse: il componente aperto ... ?
 #: src/deb/info.c
-#, c-format
-msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
-msgstr ""
-"apertura del componente \"%.255s\" (in %.255s) non riuscita in modo inatteso"
+#, fuzzy, c-format
+#| msgid "cannot open file %s"
+msgid "cannot open file '%.255s'"
+msgstr "Impossibile aprire il file %s"
 
 #: src/deb/info.c
 #, c-format
@@ -2770,19 +2768,16 @@ msgid "cannot scan directory '%.255s'"
 msgstr "impossibile analizzare la directory \"%.255s\""
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot stat '%.255s' (in '%.255s')"
-msgstr "impossibile eseguire stat su \"%.255s\" (in \"%.255s\")"
+#, fuzzy, c-format
+#| msgid "unable to create file '%s'"
+msgid "cannot get file '%.255s' metadata"
+msgstr "impossibile creare il file \"%s\""
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot open '%.255s' (in '%.255s')"
-msgstr "impossibile aprire \"%.255s\" (in \"%.255s\")"
-
-#: src/deb/info.c
-#, c-format
-msgid "failed to read '%.255s' (in '%.255s')"
-msgstr "lettura di \"%.255s\" (in \"%.255s\") non riuscita"
+#, fuzzy, c-format
+#| msgid "cannot read %s"
+msgid "cannot read file '%.255s'"
+msgstr "impossibile leggere %s"
 
 #: src/deb/info.c
 #, c-format
@@ -2947,12 +2942,11 @@ msgid ""
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
-"  -z#                              Set the compression level when building.\n"
-"  -Z<type>                         Set the compression type used when "
-"building.\n"
+"  -Z, --compression=<compressor>   Set build compression type.\n"
 "                                     Allowed types: gzip, xz, zstd, none.\n"
-"  -S<strategy>                     Set the compression strategy when "
-"building.\n"
+"  -z, --compression-level=<level>  Set build compression level.\n"
+"  -S, --compression-strategy=<name>\n"
+"                                   Set build compression strategy.\n"
 "                                     Allowed values: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
@@ -7579,6 +7573,26 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+# (ndt) non mi è molto chiara
+# se fosse: il componente aperto ... ?
+#, c-format
+#~ msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
+#~ msgstr ""
+#~ "apertura del componente \"%.255s\" (in %.255s) non riuscita in modo "
+#~ "inatteso"
+
+#, c-format
+#~ msgid "cannot stat '%.255s' (in '%.255s')"
+#~ msgstr "impossibile eseguire stat su \"%.255s\" (in \"%.255s\")"
+
+#, c-format
+#~ msgid "cannot open '%.255s' (in '%.255s')"
+#~ msgstr "impossibile aprire \"%.255s\" (in \"%.255s\")"
+
+#, c-format
+#~ msgid "failed to read '%.255s' (in '%.255s')"
+#~ msgstr "lettura di \"%.255s\" (in \"%.255s\") non riuscita"
 
 #~ msgid "failed to open diversions file"
 #~ msgstr "apertura del file con le deviazioni non riuscita"

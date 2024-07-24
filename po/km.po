@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-07-21 20:18+0200\n"
+"POT-Creation-Date: 2024-07-24 23:02+0200\n"
 "PO-Revision-Date: 2015-04-07 09:50+0200\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -2733,9 +2733,10 @@ msgid "'%.255s' contains no control component '%.255s'"
 msgstr "dpkg-deb ៖ `%.255s' គ្មាន​សមាសភាគ​វត្ថុបញ្ជា​ `%.255s'\n"
 
 #: src/deb/info.c
-#, c-format
-msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
-msgstr "បើក​សមាសភាគ​`%.255s' (នៅ %.255s)​ បានបរាជ័យ​តាម​វិធី​ដែលមិន​បាន​រំពឹង​ទុក"
+#, fuzzy, c-format
+#| msgid "cannot open diversions: %s"
+msgid "cannot open file '%.255s'"
+msgstr "មិន​អាច​បើក​ការ​បង្វែរ ៖ %s"
 
 #: src/deb/info.c
 #, fuzzy, c-format
@@ -2751,19 +2752,15 @@ msgid "cannot scan directory '%.255s'"
 msgstr "មិន​អាច​ស្កេន​ថត `%.255s'"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot stat '%.255s' (in '%.255s')"
-msgstr "មិន​អាច​ចាប់ផ្ដើម `%.255s' (នៅ​ក្នុង `%.255s')"
+#, fuzzy, c-format
+msgid "cannot get file '%.255s' metadata"
+msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot open '%.255s' (in '%.255s')"
-msgstr "មិន​អាច​បើក `%.255s' (នៅ​ក្នុង `%.255s')"
-
-#: src/deb/info.c
-#, c-format
-msgid "failed to read '%.255s' (in '%.255s')"
-msgstr "បាន​បរាជ័យ​ក្នុង​ការ​អាន `%.255s' (នៅ​ក្នុង `%.255s')"
+#, fuzzy, c-format
+#| msgid "unable to write %s: %s"
+msgid "cannot read file '%.255s'"
+msgstr "មិន​អាច​សរសេរ %s ៖ %s"
 
 #: src/deb/info.c
 #, fuzzy, c-format
@@ -2901,12 +2898,11 @@ msgid ""
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
-"  -z#                              Set the compression level when building.\n"
-"  -Z<type>                         Set the compression type used when "
-"building.\n"
+"  -Z, --compression=<compressor>   Set build compression type.\n"
 "                                     Allowed types: gzip, xz, zstd, none.\n"
-"  -S<strategy>                     Set the compression strategy when "
-"building.\n"
+"  -z, --compression-level=<level>  Set build compression level.\n"
+"  -S, --compression-strategy=<name>\n"
+"                                   Set build compression strategy.\n"
 "                                     Allowed values: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
@@ -7286,6 +7282,22 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, c-format
+#~ msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
+#~ msgstr "បើក​សមាសភាគ​`%.255s' (នៅ %.255s)​ បានបរាជ័យ​តាម​វិធី​ដែលមិន​បាន​រំពឹង​ទុក"
+
+#, c-format
+#~ msgid "cannot stat '%.255s' (in '%.255s')"
+#~ msgstr "មិន​អាច​ចាប់ផ្ដើម `%.255s' (នៅ​ក្នុង `%.255s')"
+
+#, c-format
+#~ msgid "cannot open '%.255s' (in '%.255s')"
+#~ msgstr "មិន​អាច​បើក `%.255s' (នៅ​ក្នុង `%.255s')"
+
+#, c-format
+#~ msgid "failed to read '%.255s' (in '%.255s')"
+#~ msgstr "បាន​បរាជ័យ​ក្នុង​ការ​អាន `%.255s' (នៅ​ក្នុង `%.255s')"
 
 #~ msgid "failed to open diversions file"
 #~ msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បើក​ឯកសារ​បង្វែរ"

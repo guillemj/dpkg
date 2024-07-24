@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-07-21 20:18+0200\n"
+"POT-Creation-Date: 2024-07-24 23:02+0200\n"
 "PO-Revision-Date: 2023-01-27 15:39-0500\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -2551,9 +2551,10 @@ msgid "'%.255s' contains no control component '%.255s'"
 msgstr "%.255s 中没有发现控制组件 %.255s"
 
 #: src/deb/info.c
-#, c-format
-msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
-msgstr "打开组件 %.255s (于 %.255s 目录)出乎意料地失败"
+#, fuzzy, c-format
+#| msgid "cannot open file %s"
+msgid "cannot open file '%.255s'"
+msgstr "无法打开文件 %s"
 
 #: src/deb/info.c
 #, c-format
@@ -2567,19 +2568,16 @@ msgid "cannot scan directory '%.255s'"
 msgstr "无法搜索目录 %.255s"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot stat '%.255s' (in '%.255s')"
-msgstr "无法获取 %.255s 的状态（于 %.255s 目录）"
+#, fuzzy, c-format
+#| msgid "unable to get file '%s%s' metadata"
+msgid "cannot get file '%.255s' metadata"
+msgstr "无法获取文件 '%s%s' 的元数据"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot open '%.255s' (in '%.255s')"
-msgstr "无法打开 %.255s (于 %.255s 目录)"
-
-#: src/deb/info.c
-#, c-format
-msgid "failed to read '%.255s' (in '%.255s')"
-msgstr "读取 %.255s (于 %.255s 目录)失败"
+#, fuzzy, c-format
+#| msgid "cannot read %s"
+msgid "cannot read file '%.255s'"
+msgstr "无法读取 %s"
 
 #: src/deb/info.c
 #, c-format
@@ -2684,7 +2682,35 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D, --debug                      Enable debugging output.\n"
+#| "      --showformat=<format>        Use alternative format for --show.\n"
+#| "      --deb-format=<format>        Select archive format.\n"
+#| "                                     Allowed values: 0.939000, 2.0 "
+#| "(default).\n"
+#| "      --nocheck                    Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "      --root-owner-group           Forces the owner and groups to root.\n"
+#| "      --threads-max=<threads>      Use at most <threads> with "
+#| "compressor.\n"
+#| "      --[no-]uniform-compression   Use the compression params on all "
+#| "members.\n"
+#| "  -z#                              Set the compression level when "
+#| "building.\n"
+#| "  -Z<type>                         Set the compression type used when "
+#| "building.\n"
+#| "                                     Allowed types: gzip, xz, zstd, "
+#| "none.\n"
+#| "  -S<strategy>                     Set the compression strategy when "
+#| "building.\n"
+#| "                                     Allowed values: none; extreme (xz);\n"
+#| "                                     filtered, huffman, rle, fixed "
+#| "(gzip).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -2699,12 +2725,11 @@ msgid ""
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
-"  -z#                              Set the compression level when building.\n"
-"  -Z<type>                         Set the compression type used when "
-"building.\n"
+"  -Z, --compression=<compressor>   Set build compression type.\n"
 "                                     Allowed types: gzip, xz, zstd, none.\n"
-"  -S<strategy>                     Set the compression strategy when "
-"building.\n"
+"  -z, --compression-level=<level>  Set build compression level.\n"
+"  -S, --compression-strategy=<name>\n"
+"                                   Set build compression strategy.\n"
 "                                     Allowed values: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
@@ -6818,6 +6843,22 @@ msgstr "运行 update-alternatives 工具以修改系统可选项的选择情况
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "需要认证后才能执行 update-alternatives"
+
+#, c-format
+#~ msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
+#~ msgstr "打开组件 %.255s (于 %.255s 目录)出乎意料地失败"
+
+#, c-format
+#~ msgid "cannot stat '%.255s' (in '%.255s')"
+#~ msgstr "无法获取 %.255s 的状态（于 %.255s 目录）"
+
+#, c-format
+#~ msgid "cannot open '%.255s' (in '%.255s')"
+#~ msgstr "无法打开 %.255s (于 %.255s 目录)"
+
+#, c-format
+#~ msgid "failed to read '%.255s' (in '%.255s')"
+#~ msgstr "读取 %.255s (于 %.255s 目录)失败"
 
 #~ msgid "failed to open diversions file"
 #~ msgstr "无法打开转移文件"

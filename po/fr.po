@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-07-21 20:18+0200\n"
+"POT-Creation-Date: 2024-07-24 23:02+0200\n"
 "PO-Revision-Date: 2023-02-05 23:47+0100\n"
 "Last-Translator: Sébastien Poher <sebastien@volted.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -2721,11 +2721,10 @@ msgid "'%.255s' contains no control component '%.255s'"
 msgstr "« %.255s » ne contient pas de composant de contrôle « %.255s »"
 
 #: src/deb/info.c
-#, c-format
-msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
-msgstr ""
-"échec de l'ouverture du composant « %.255s » (dans %.255s) d'une manière "
-"inattendue"
+#, fuzzy, c-format
+#| msgid "cannot open file %s"
+msgid "cannot open file '%.255s'"
+msgstr "impossible d'ouvrir le fichier %s"
 
 #: src/deb/info.c
 #, c-format
@@ -2740,19 +2739,16 @@ msgid "cannot scan directory '%.255s'"
 msgstr "ne peut pas parcourir le répertoire « %.255s »"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot stat '%.255s' (in '%.255s')"
-msgstr "ne peut pas analyser « %.255s » (dans « %.255s »)"
+#, fuzzy, c-format
+#| msgid "unable to get file '%s%s' metadata"
+msgid "cannot get file '%.255s' metadata"
+msgstr "impossible d'obtenir les métadonnées du fichier « %s%s »"
 
 #: src/deb/info.c
-#, c-format
-msgid "cannot open '%.255s' (in '%.255s')"
-msgstr "ne peut pas ouvrir « %.255s » (dans « %.255s »)"
-
-#: src/deb/info.c
-#, c-format
-msgid "failed to read '%.255s' (in '%.255s')"
-msgstr "échec de la lecture « %.255s » (dans « %.255s »)"
+#, fuzzy, c-format
+#| msgid "cannot read %s"
+msgid "cannot read file '%.255s'"
+msgstr "impossible de lire %s"
 
 #: src/deb/info.c
 #, c-format
@@ -2862,7 +2858,35 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D, --debug                      Enable debugging output.\n"
+#| "      --showformat=<format>        Use alternative format for --show.\n"
+#| "      --deb-format=<format>        Select archive format.\n"
+#| "                                     Allowed values: 0.939000, 2.0 "
+#| "(default).\n"
+#| "      --nocheck                    Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "      --root-owner-group           Forces the owner and groups to root.\n"
+#| "      --threads-max=<threads>      Use at most <threads> with "
+#| "compressor.\n"
+#| "      --[no-]uniform-compression   Use the compression params on all "
+#| "members.\n"
+#| "  -z#                              Set the compression level when "
+#| "building.\n"
+#| "  -Z<type>                         Set the compression type used when "
+#| "building.\n"
+#| "                                     Allowed types: gzip, xz, zstd, "
+#| "none.\n"
+#| "  -S<strategy>                     Set the compression strategy when "
+#| "building.\n"
+#| "                                     Allowed values: none; extreme (xz);\n"
+#| "                                     filtered, huffman, rle, fixed "
+#| "(gzip).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -2877,12 +2901,11 @@ msgid ""
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
-"  -z#                              Set the compression level when building.\n"
-"  -Z<type>                         Set the compression type used when "
-"building.\n"
+"  -Z, --compression=<compressor>   Set build compression type.\n"
 "                                     Allowed types: gzip, xz, zstd, none.\n"
-"  -S<strategy>                     Set the compression strategy when "
-"building.\n"
+"  -z, --compression-level=<level>  Set build compression level.\n"
+"  -S, --compression-strategy=<name>\n"
+"                                   Set build compression strategy.\n"
 "                                     Allowed values: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
@@ -7354,6 +7377,24 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "Une authentification est requise pour exécuter update-alternatives"
+
+#, c-format
+#~ msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
+#~ msgstr ""
+#~ "échec de l'ouverture du composant « %.255s » (dans %.255s) d'une manière "
+#~ "inattendue"
+
+#, c-format
+#~ msgid "cannot stat '%.255s' (in '%.255s')"
+#~ msgstr "ne peut pas analyser « %.255s » (dans « %.255s »)"
+
+#, c-format
+#~ msgid "cannot open '%.255s' (in '%.255s')"
+#~ msgstr "ne peut pas ouvrir « %.255s » (dans « %.255s »)"
+
+#, c-format
+#~ msgid "failed to read '%.255s' (in '%.255s')"
+#~ msgstr "échec de la lecture « %.255s » (dans « %.255s »)"
 
 #~ msgid "failed to open diversions file"
 #~ msgstr "impossible d'ouvrir le fichier des détournements"
