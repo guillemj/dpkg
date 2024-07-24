@@ -85,8 +85,8 @@ test_varbuf_grow(void)
 {
 	struct varbuf vb;
 	jmp_buf grow_jump;
-	size_t old_size;
-	bool grow_overflow;
+	volatile size_t old_size;
+	volatile bool grow_overflow;
 	int i;
 
 	varbuf_init(&vb, 10);
