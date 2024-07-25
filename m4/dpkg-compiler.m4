@@ -285,9 +285,7 @@ AC_DEFUN([DPKG_C_C99], [
       dpkg_cv_c99=1
     ])
   ])
-  AS_IF([test "x$dpkg_cv_c99" = "xyes"], [
-    AC_DEFINE([HAVE_C99], 1, [Define to 1 if the compiler supports C99.])
-  ], [
+  AS_IF([test "x$dpkg_cv_c99" != "xyes"], [
     AC_MSG_ERROR([unsupported required C99 extensions])
   ])
 ])# DPKG_C_C99
@@ -333,7 +331,4 @@ AC_DEFUN([DPKG_CXX_CXX11], [
       dpkg_cv_cxx11=yes
     ])
   ])
-  AS_IF([test "x$dpkg_cv_cxx11" = "xyes"], [
-    AC_DEFINE([HAVE_CXX11], 1, [Define to 1 if the compiler supports C++11.])
-  ])[]dnl
 ])# DPKG_CXX_CXX11
