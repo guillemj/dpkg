@@ -3,7 +3,7 @@
 # Copyright © 2006-2023 Guillem Jover <guillem@debian.org>
 
 # _DPKG_ARCHITECTURE([DEB_VAR], [sh_var])
-# ---------------------------------------
+# ------------------
 # Use dpkg-architecture from the source tree to set sh_var using DEB_VAR for
 # the target architecture, to avoid duplicating its logic.
 AC_DEFUN([_DPKG_ARCHITECTURE], [
@@ -49,7 +49,7 @@ AC_DEFUN([DPKG_OS_TYPE], [
 ])# DPKG_OS_TYPE
 
 # DPKG_ARCHITECTURE
-# ------------------------
+# -----------------
 # Determine the Debian name for the host operating system,
 # sets ARCHITECTURE.
 AC_DEFUN([DPKG_ARCHITECTURE], [

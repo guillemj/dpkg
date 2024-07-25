@@ -26,7 +26,7 @@ AC_DEFUN([DPKG_LIB_MD], [
 ])# DPKG_LIB_MD
 
 # DPKG_WITH_COMPRESS_LIB(NAME, HEADER, FUNC)
-# -------------------------------------------------
+# ----------------------
 # Check for availability of a compression library.
 AC_DEFUN([DPKG_WITH_COMPRESS_LIB], [
   AC_ARG_VAR(AS_TR_CPP([$1_LIBS]), [linker flags for $1 library])
@@ -109,7 +109,7 @@ AC_DEFUN([DPKG_LIB_LZMA], [
 ])# DPKG_LIB_LZMA
 
 # DPKG_LIB_ZSTD
-# ------------
+# -------------
 # Check for zstd library.
 AC_DEFUN([DPKG_LIB_ZSTD], [
   DPKG_WITH_COMPRESS_LIB([zstd], [zstd.h], [ZSTD_compressStream2])

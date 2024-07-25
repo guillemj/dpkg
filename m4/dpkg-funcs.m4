@@ -77,7 +77,7 @@ AC_DEFUN([DPKG_FUNC_FSYNC_DIR], [
 ])
 
 # DPKG_FUNC_C99_SNPRINTF
-# -----------------------
+# ----------------------
 # Define HAVE_C99_SNPRINTF if we have C99 snprintf family semantics
 AC_DEFUN([DPKG_FUNC_C99_SNPRINTF], [
   AC_CACHE_CHECK([for C99 snprintf functions], [dpkg_cv_c99_snprintf], [

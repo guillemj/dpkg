@@ -114,7 +114,7 @@ AC_DEFUN([DPKG_PROG_PO4A], [
 ])# DPKG_PROG_PO4A
 
 # DPKG_PROG_POD2MAN
-# --------------
+# -----------------
 AC_DEFUN([DPKG_PROG_POD2MAN], [
   AC_ARG_VAR([POD2MAN], [pod2man program])
   AC_CHECK_PROGS([POD2MAN], [pod2man])

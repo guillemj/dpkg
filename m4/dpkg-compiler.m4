@@ -211,7 +211,7 @@ AC_DEFUN([DPKG_COMPILER_OPTIMIZATIONS], [
 ])
 
 # DPKG_TRY_C99([ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
-# ------------------------------------------------------
+# ------------
 # Try compiling some C99 code to see whether it works
 AC_DEFUN([DPKG_TRY_C99], [
   AC_COMPILE_IFELSE([
