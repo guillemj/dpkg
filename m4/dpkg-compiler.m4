@@ -265,11 +265,11 @@ AC_DEFUN([DPKG_TRY_C99], [
 # ----------
 # Check whether the compiler can do C99
 AC_DEFUN([DPKG_C_C99], [
-  AC_CACHE_CHECK([whether $CC supports C99 features], [dpkg_cv_c99], [
+  AC_CACHE_CHECK([whether $CC supports C99], [dpkg_cv_c99], [
     DPKG_TRY_C99([dpkg_cv_c99=yes], [dpkg_cv_c99=no])
   ])
   AS_IF([test "x$dpkg_cv_c99" != "xyes"], [
-    AC_CACHE_CHECK([for $CC option to accept C99 features], [dpkg_cv_c99_arg], [
+    AC_CACHE_CHECK([for $CC option to accept C99], [dpkg_cv_c99_arg], [
       dpkg_cv_c99_arg=none
       dpkg_save_CC="$CC"
       for arg in "-std=gnu99" "-std=c99" "-c99" "-AC99" "-xc99=all" \
@@ -290,7 +290,7 @@ AC_DEFUN([DPKG_C_C99], [
     ])
   ])
   AS_IF([test "x$dpkg_cv_c99" != "xyes"], [
-    AC_MSG_ERROR([unsupported required C99 extensions])
+    AC_MSG_ERROR([unsupported required C99])
   ])
 ])# DPKG_C_C99
 
