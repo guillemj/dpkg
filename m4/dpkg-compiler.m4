@@ -286,7 +286,7 @@ AC_DEFUN([DPKG_C_C99], [
     ])
     AS_IF([test "x$dpkg_cv_c99_arg" != "xnone"], [
       CC="$CC $dpkg_cv_c99_arg"
-      dpkg_cv_c99=1
+      dpkg_cv_c99=yes
     ])
   ])
   AS_IF([test "x$dpkg_cv_c99" != "xyes"], [
