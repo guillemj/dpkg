@@ -253,6 +253,10 @@ AC_DEFUN([DPKG_TRY_C99], [
 
 	/* Magic __func__ variable. */
 	printf("%s", __func__);
+
+#if __STDC_VERSION__ < 199901L
+#error "Requires C99"
+#endif
     ]])
   ], [$1], [$2])dnl
 ])# DPKG_TRY_C99
@@ -300,6 +304,10 @@ AC_DEFUN([DPKG_TRY_CXX11], [
     ]], [[
 	// Null pointer keyword.
 	void *ptr = nullptr;
+
+#if __cplusplus < 201103L
+#error "Requires C++11"
+#endif
     ]])
   ], [$1], [$2])
   AC_LANG_POP([C++])dnl
