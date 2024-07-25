@@ -111,9 +111,16 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
     DPKG_CHECK_COMPILER_FLAG([-Wstrict-prototypes])
   ],
   [C++], [
-    DPKG_CHECK_COMPILER_FLAG([-Wc++11-compat])
-    DPKG_CHECK_COMPILER_FLAG([-Wc++11-compat-pedantic])
-    DPKG_CHECK_COMPILER_FLAG([-Wc++11-extensions])
+    AS_IF([test "$dpkg_cxx_std_version" -eq "_DPKG_CXX_CXX11_VERSION"], [
+      DPKG_CHECK_COMPILER_FLAG([-Wc++11-compat])
+      DPKG_CHECK_COMPILER_FLAG([-Wc++11-compat-pedantic])
+    ], [test "$dpkg_cxx_std_version" -ge "_DPKG_CXX_CXX14_VERSION"], [
+      DPKG_CHECK_COMPILER_FLAG([-Wc++14-compat])
+      DPKG_CHECK_COMPILER_FLAG([-Wc++14-compat-pedantic])
+    ])
+    AS_IF([test "$dpkg_cxx_std_version" -le "_DPKG_CXX_CXX11_VERSION"], [
+      DPKG_CHECK_COMPILER_FLAG([-Wc++14-extensions])
+    ])
     DPKG_CHECK_COMPILER_FLAG([-Wcast-qual])
     DPKG_CHECK_COMPILER_FLAG([-Wold-style-cast])
     AS_IF([test "$dpkg_cxx_std_version" -ge "_DPKG_CXX_CXX11_VERSION"], [
@@ -352,6 +359,28 @@ m4_define([_DPKG_CXX_CXX11_OPTS], [
   -std=c++11
 ])
 
+# _DPKG_CXX_CXX14_VERSION
+# -----------------------
+m4_define([_DPKG_CXX_CXX14_VERSION], [201402])
+
+# _DPKG_CXX_CXX14_PROLOGUE
+# ------------------------
+m4_define([_DPKG_CXX_CXX14_PROLOGUE], [[]])
+
+# _DPKG_CXX_CXX14_BODY
+# --------------------
+m4_define([_DPKG_CXX_CXX14_BODY], [
+  _DPKG_CXX_CXX11_BODY
+])
+
+# _DPKG_CXX_CXX14_OPTS
+# --------------------
+# Define the options to try for C++14.
+m4_define([_DPKG_CXX_CXX14_OPTS], [
+  -std=gnu++14
+  -std=c++14
+])
+
 # _DPKG_CXX_STD_VERSION
 # ---------------------
 m4_define([_DPKG_CXX_STD_VERSION], [[
@@ -384,7 +413,7 @@ AC_DEFUN([_DPKG_CXX_STD_TRY], [
 # disabled with a configure option, we are still distributing C++ headers
 # that we need to support and test during build.
 #
-# Currently supported: C++11.
+# Currently supported: C++11, C++14.
 AC_DEFUN([DPKG_CXX_STD], [
   AC_CACHE_CHECK([whether $CXX supports C++$1], [dpkg_cv_cxx_std], [
     _DPKG_CXX_STD_TRY([$1], [dpkg_cv_cxx_std=yes], [dpkg_cv_cxx_std=no])
