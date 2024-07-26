@@ -200,7 +200,7 @@ sub parse {
 		$self->parse_error($file, $., $error, $_);
 	    }
 	    $expect = NEXT_OR_EOF;
-	} elsif (m/^ \-\-/) {
+	} elsif (m/^ --/) {
 	    $self->parse_error($file, $., g_('badly formatted trailer line'), "$_");
 	} elsif (m/^\s{2,}(?:\S)/) {
 	    unless ($expect eq START_CHANGES or $expect eq CHANGES_OR_TRAILER) {

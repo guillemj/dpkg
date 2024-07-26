@@ -70,7 +70,7 @@ my $regex_header = qr{
 # day of week ($6), date-time ($7) and this into month name ($8).
 my $regex_trailer = qr<
     ^
-    \ \-\-                              # Trailer marker
+    \ --                                # Trailer marker
     \ (.*)                              # Maintainer name
     \ \<(.*)\>                          # Maintainer email
     (\ \ ?)                             # Blanks
