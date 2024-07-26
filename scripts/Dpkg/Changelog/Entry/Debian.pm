@@ -84,7 +84,7 @@ my $regex_trailer = qr<
       )
     )
     \s*$                                # Trailing space
->xo;
+>x;
 
 my %week_day = map { $_ => 1 } qw(Mon Tue Wed Thu Fri Sat Sun);
 my @month_abbrev = qw(
