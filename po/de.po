@@ -11,10 +11,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.22.7\n"
+"Project-Id-Version: dpkg 1.22.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2024-07-27 05:43+0200\n"
-"PO-Revision-Date: 2024-07-17 17:10+0200\n"
+"PO-Revision-Date: 2024-07-27 17:22+0200\n"
 "Last-Translator: Sven Joachim <svenjoac@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -352,7 +352,7 @@ msgstr "%s: zstd-Fehler beim Schließen"
 #: lib/dpkg/compress.c
 #, c-format
 msgid "invalid compression level %d"
-msgstr "ungültiger Komprimierlevel %d"
+msgstr "ungültige Komprimierstufe %d"
 
 #: lib/dpkg/compress.c
 msgid "unknown compression strategy"
@@ -2636,10 +2636,9 @@ msgid "'%.255s' contains no control component '%.255s'"
 msgstr "»%.255s« enthält keine control-Komponente »%.255s«"
 
 #: src/deb/info.c
-#, fuzzy, c-format
-#| msgid "cannot open file %s"
+#, c-format
 msgid "cannot open file '%.255s'"
-msgstr "Datei %s kann nicht geöffnet werden"
+msgstr "Datei »%.255s« kann nicht geöffnet werden"
 
 #: src/deb/info.c
 #, c-format
@@ -2654,16 +2653,14 @@ msgid "cannot scan directory '%.255s'"
 msgstr "Verzeichnis »%.255s« kann nicht durchsucht werden"
 
 #: src/deb/info.c
-#, fuzzy, c-format
-#| msgid "cannot get %s file metadata"
+#, c-format
 msgid "cannot get file '%.255s' metadata"
-msgstr "Metadaten der Datei %s können nicht erhalten werden"
+msgstr "Metadaten der Datei »%.255s« können nicht ermittelt werden"
 
 #: src/deb/info.c
-#, fuzzy, c-format
-#| msgid "cannot read link '%s'"
+#, c-format
 msgid "cannot read file '%.255s'"
-msgstr "Link »%s« kann nicht gelesen werden"
+msgstr "Datei »%.255s« kann nicht gelesen werden"
 
 #: src/deb/info.c
 #, c-format
@@ -2766,35 +2763,7 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  -v, --verbose                    Enable verbose output.\n"
-#| "  -D, --debug                      Enable debugging output.\n"
-#| "      --showformat=<format>        Use alternative format for --show.\n"
-#| "      --deb-format=<format>        Select archive format.\n"
-#| "                                     Allowed values: 0.939000, 2.0 "
-#| "(default).\n"
-#| "      --nocheck                    Suppress control file check (build "
-#| "bad\n"
-#| "                                     packages).\n"
-#| "      --root-owner-group           Forces the owner and groups to root.\n"
-#| "      --threads-max=<threads>      Use at most <threads> with "
-#| "compressor.\n"
-#| "      --[no-]uniform-compression   Use the compression params on all "
-#| "members.\n"
-#| "  -z#                              Set the compression level when "
-#| "building.\n"
-#| "  -Z<type>                         Set the compression type used when "
-#| "building.\n"
-#| "                                     Allowed types: gzip, xz, zstd, "
-#| "none.\n"
-#| "  -S<strategy>                     Set the compression strategy when "
-#| "building.\n"
-#| "                                     Allowed values: none; extreme (xz);\n"
-#| "                                     filtered, huffman, rle, fixed "
-#| "(gzip).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -2835,11 +2804,12 @@ msgstr ""
 "      --[no-]uniform-compression   Die Komprimierungsparameter für alle "
 "Elemente\n"
 "                                   verwenden.\n"
-"  -z#                              Die Komprimierungsstärke beim Bauen "
-"setzen.\n"
-"  -Z<Typ>                          Den Komprimierungstyp beim Bauen setzen.\n"
+"  -Z, --compression=<Komprimierer> Den Komprimierungstyp beim Bauen setzen.\n"
 "                                     Erlaubte Werte: gzip, xz, zstd, none.\n"
-"  -S<Strategie>                    Die Komprimierungsstrategie beim Bauen "
+"  -z, --compression-level=<Stufe>  Die Komprimierungsstufe beim Bauen "
+"setzen.\n"
+"  -S, --compression-strategy=<Name>\n"
+"                                   Die Komprimierungsstrategie beim Bauen "
 "setzen.\n"
 "                                     Erlaubte Werte: none, extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
