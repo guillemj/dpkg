@@ -21,18 +21,15 @@
 ifndef dpkg_pkg_info_mk_included
 dpkg_pkg_info_mk_included = yes
 
-dpkg_parsechangelog_run = $(eval $(shell dpkg-parsechangelog | sed -n '\
-  s/^Distribution: \(.*\)/$$(eval DEB_DISTRIBUTION:=\1)/p;\
-  s/^Source: \(.*\)/$$(eval DEB_SOURCE:=\1)/p;\
-  s/^Version: \([0-9]*:\)\{0,1\}\([^-]*\)\(\(.*\)-[^-]*\)\{0,1\}$$/\
-    $$(eval DEB_VERSION:=\1\2\3)\
-    $$(eval DEB_VERSION_EPOCH_UPSTREAM:=\1\2\4)\
-    $$(eval DEB_VERSION_UPSTREAM_REVISION:=\2\3)\
-    $$(eval DEB_VERSION_UPSTREAM:=\2\4)/p;\
-  s/^Timestamp: \(.*\)/$$(eval DEB_TIMESTAMP:=\1)/p'))
+dpkg_late_eval ?= $(or $(value DPKG_CACHE_$(1)),$(eval DPKG_CACHE_$(1) := $(shell $(2)))$(value DPKG_CACHE_$(1)))
 
-# Compute all the values in one go.
-$(dpkg_parsechangelog_run)
+DEB_SOURCE = $(call dpkg_late_eval,DEB_SOURCE,dpkg-parsechangelog -SSource)
+DEB_VERSION = $(call dpkg_late_eval,DEB_VERSION,dpkg-parsechangelog -SVersion)
+DEB_VERSION_EPOCH_UPSTREAM = $(call dpkg_late_eval,DEB_VERSION_EPOCH_UPSTREAM,echo '$(DEB_VERSION)' | sed -e 's/-[^-]*$$//')
+DEB_VERSION_UPSTREAM_REVISION = $(call dpkg_late_eval,DEB_VERSION_UPSTREAM_REVISION,echo '$(DEB_VERSION)' | sed -e 's/^[0-9]*://')
+DEB_VERSION_UPSTREAM = $(call dpkg_late_eval,DEB_VERSION_UPSTREAM,echo '$(DEB_VERSION_EPOCH_UPSTREAM)' | sed -e 's/^[0-9]*://')
+DEB_DISTRIBUTION = $(call dpkg_late_eval,DEB_DISTRIBUTION,dpkg-parsechangelog -SDistribution)
+DEB_TIMESTAMP = $(call dpkg_late_eval,DEB_TIMESTAMP,dpkg-parsechangelog -STimestamp)
 
 SOURCE_DATE_EPOCH ?= $(DEB_TIMESTAMP)
 export SOURCE_DATE_EPOCH
