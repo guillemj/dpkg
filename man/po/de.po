@@ -11,10 +11,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.22.7\n"
+"Project-Id-Version: dpkg-man 1.22.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2024-07-24 23:02+0200\n"
-"PO-Revision-Date: 2024-07-03 21:48+0200\n"
+"PO-Revision-Date: 2024-07-27 14:31+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -5765,15 +5765,6 @@ msgstr "Dateisyntax"
 
 #. type: textblock
 #: deb-substvars.pod
-#, fuzzy
-#| msgid ""
-#| "Substitution variables can be specified in a file.  These files consist "
-#| "of lines of the form I<name>B<=>I<value> or I<name>B<?=>I<value>.  The "
-#| "B<=> operator assigns a normal substitution variable, while the B<?=> "
-#| "operator (since dpkg 1.21.8) assigns an optional substitution variable "
-#| "which will emit no warnings even if unused.  Trailing whitespace on each "
-#| "line, blank lines, and lines starting with a B<#> symbol (comments) are "
-#| "ignored."
 msgid ""
 "Substitution variables can be specified in a file.  These files consist of "
 "lines of the form I<name>B<=>I<value>, I<name>B<?=>I<value>, or I<name>B<!"
@@ -5785,10 +5776,10 @@ msgid ""
 "starting with a B<#> symbol (comments) are ignored."
 msgstr ""
 "Ersetzungsvariablen können in einer Datei festgelegt werden. Diese Dateien "
-"bestehen aus Zeilen der Form I<Name>B<=>I<Wert> oder I<Name>B<?=>I<Wert>. "
-"Der Operator B<=> weist eine normale Ersetzungsvariable zu, während der "
-"Operator B<?=> (seit Dpkg 1.21.8) eine optionale Ersetzungsvariable zuweist, "
-"die keine Warnungen ausgibt, selbst wenn sie nicht verwandt wird. "
+"bestehen aus Zeilen der Form I<Name>B<=>I<Wert>, I<Name>B<?=>I<Wert> oder I<Name>B<!=>I<Wert>. "
+"Der Operator B<=> weist eine normale Ersetzungsvariable zu, der "
+"Operator B<?=> (seit Dpkg 1.21.8) weist eine optionale Ersetzungsvariable zu, "
+"die keine Warnungen ausgibt, selbst wenn sie nicht verwandt wird und der Operator B<!=> (seit Dpkg 1.22.7) weist eine benötigte Ersetzungsvariable zu, die einen Fehler auslöst, falls sie nicht verwandt wird. "
 "Leerraumzeichen am Zeilenende, leere Zeilen und Zeilen, die mit dem B<#>-"
 "Symbol starten (Kommentare) werden ignoriert."
 
@@ -11129,25 +11120,19 @@ msgstr "dpkg-buildpackage - Binär- oder Quellpakete aus Quellen bauen"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "B<dpkg-name> [I<option>...] [B<-->] I<file>..."
 msgid ""
 "B<dpkg-buildpackage> [I<option>...] [B<-->] [I<filename>.dsc|I<directory>]"
-msgstr "B<dpkg-name> [I<Option> …] [B<-->] I<Datei> …"
+msgstr ""
+"B<dpkg-buildpackage> [I<Option>…] [B<-->] [I<Dateiname>.dsc|I<Verzeichnis>]"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-buildpackage> is a program that automates the process of building "
-#| "a Debian package.  It consists of the following steps:"
 msgid ""
 "B<dpkg-buildpackage> is a program that automates the process of building a "
 "Debian package."
 msgstr ""
 "B<dpkg-buildpackage> ist ein Programm, das den Prozess des Bauens eines "
-"Debian-Paketes automatisiert. Der Bauprozess besteht aus den folgenden "
-"Schritten:"
+"Debian-Paketes automatisiert."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -11155,27 +11140,22 @@ msgid ""
 "The I<filename>.dsc and I<directory> arguments are supported since dpkg "
 "1.22.7.  Their semantics are experimental."
 msgstr ""
+"Die Argumente I<Dateiname>.dsc und I<Verzeichnis> werden seit Dpkg 1.22.7 "
+"unterstützt. Ihre Semantik ist experimentell."
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid "Installation consists of the following steps:"
 msgid "It consists of the following steps:"
-msgstr "Die Installation besteht aus folgenden Schritten:"
+msgstr "Der Bauprozess besteht aus den folgenden Schritten:"
 
 #. type: =item
 #: dpkg-buildpackage.pod dpkg.pod
 msgid "B<1.>"
 msgstr "B<1.>"
 
+# FIXME s/and changes directory to it//
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "It runs the B<preinit> hook before reading any source file.  It prepares "
-#| "the build environment by setting various environment variables (see "
-#| "B<ENVIRONMENT>), runs the B<init> hook, and calls B<dpkg-source --before-"
-#| "build> (unless B<-T> or B<--target> has been used)."
 msgid ""
 "It runs the B<preinit> hook before reading any source file.  If a B<.dsc> "
 "file has been specified it unpacks it anew and changes directory to it, if a "
@@ -11186,7 +11166,10 @@ msgid ""
 "build> (unless B<-T> or B<--target> has been used)."
 msgstr ""
 "Es wird der Hook B<preinit> ausgeführt, bevor irgendeine Quelldatei gelesen "
-"wird. Die Bauumgebung wird vorbereitet, indem verschiedene "
+"wird. Falls eine B<.dsc>-Datei angegeben wurde, wird diese erneut entpackt "
+"und in das Verzeichnis hinein gewechselt, falls ein I<Verzeichnis> angegeben "
+"wurde, wird hinein gewechselt, andernfalls wird erwartet, dass das aktuelle "
+"Verzeichnis den Qellbaum enthält. Die Bauumgebung wird vorbereitet, indem verschiedene "
 "Umgebungsvariablen gesetzt werden (siehe B<UMGEBUNG>), der B<init>-Hook "
 "ausgeführt und B<dpkg-source --before-build> aufgerufen wird (es sei denn, "
 "B<-T> oder B<--target> wurde verwandt)."
@@ -11231,11 +11214,6 @@ msgstr "B<4.>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "It runs the B<source> hook and calls B<dpkg-source -b> to generate the "
-#| "source package (if a B<source> build has been requested with B<--build> "
-#| "or equivalent options)."
 msgid ""
 "It runs the B<source> hook and calls B<dpkg-source -b> to generate the "
 "source package (if a B<source> build has been requested with B<--build> or "
@@ -11243,7 +11221,7 @@ msgid ""
 msgstr ""
 "Der Hook B<source> wird ausgeführt und B<dpkg-source -b> aufgerufen, um das "
 "Quellpaket zu erstellen (falls mit B<--build> oder äquivalenten Optionen ein "
-"B<source> (Quell-)Bau erbeten wurde)."
+"B<source> (Quell-)Bau erbeten wurde und keine B<.dsc> angegeben wurde)."
 
 #. type: =item
 #: dpkg-buildpackage.pod dpkg.pod
@@ -11282,11 +11260,6 @@ msgstr "B<6.>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "It runs the B<buildinfo> hook and calls B<dpkg-genbuildinfo> to generate "
-#| "a B<.buildinfo> file.  Several B<dpkg-buildpackage> options are forwarded "
-#| "to B<dpkg-genbuildinfo>."
 msgid ""
 "It runs the B<buildinfo> hook and calls B<dpkg-genbuildinfo> to generate a "
 "B<.buildinfo> file.  Several B<dpkg-buildpackage> options are forwarded to "
@@ -11296,7 +11269,9 @@ msgid ""
 msgstr ""
 "Der Hook B<buildinfo> wird ausgeführt und B<dpkg-genbuildinfo> aufgerufen, "
 "um eine B<.buildinfo>-Datei zu erstellen. Viele Optionen von B<dpkg-"
-"buildpackage> werden an B<dpkg-genbuildinfo> weitergeleitet."
+"buildpackage> werden an B<dpkg-genbuildinfo> weitergeleitet. Falls eine I<."
+"dsc> angegeben wurde, dann wird sie in der erstellten B<.buildinfo>-Datei "
+"referenziert, da die Herkunft des Quellbaums sichergestellt werden kann."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -11407,21 +11382,17 @@ msgstr "B<12.>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "If set and the B<--admindir> option has not been specified, it will be "
-#| "used as the base administrative directory."
 msgid ""
 "If a B<.dsc> file has been specified, it removes the extracted source "
 "directory."
 msgstr ""
-"Falls gesetzt und die Option B<--admindir> nicht angegeben wurde, wird dies "
-"als Basis-Administrationsverzeichnis verwandt."
+"Falls eine B<.dsc>-Datei angegeben wurde, wird das extrahierte "
+"Quellverzeichnis entfernt."
 
 #. type: =item
 #: dpkg-buildpackage.pod
 msgid "B<13.>"
-msgstr ""
+msgstr "B<13.>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
@@ -13809,21 +13780,11 @@ msgstr "Die Voreinstellung für dieses Feld ist „${Package}\\t${Version}\\n“
 
 #. type: =item
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid "B<-z>, B<--compression-level=>I<level>"
 msgid "B<-z>, B<--compression-level=>I<compress-level>"
-msgstr "B<-z>, B<--compression-level=>I<Stufe>"
+msgstr "B<-z>, B<--compression-level=>I<Komprimierungsstufe>"
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid ""
-#| "Specify which compression level to use on the compressor backend, when "
-#| "building a package (default is 9 for gzip, 6 for xz, 3 for zstd).  The "
-#| "accepted values are compressor specific.  For gzip, from 0-9 with 0 being "
-#| "mapped to compressor none.  For xz from 0-9.  For zstd from 0-22, with "
-#| "levels from 20 to 22 enabling its ultra mode.  Before dpkg 1.16.2 level 0 "
-#| "was equivalent to compressor none for all compressors."
 msgid ""
 "Specify which compression level to use on the compressor backend, when "
 "building a package (default is 9 for gzip, 6 for xz, 3 for zstd; long option "
@@ -13834,7 +13795,7 @@ msgid ""
 msgstr ""
 "Gibt die Komprimierstufe an, die im Komprimier-Backendprogramm beim Bau "
 "eines Pakets verwendet werden soll. Standardmäßig ist dies 9 für Gzip, 6 für "
-"Xz, 3 für Zstd). Die akzeptierten Werte hängen vom Komprimierer ab. Für Gzip "
+"Xz, 3 für Zstd, lange Option seit Dpkg 1.22.9. Die akzeptierten Werte hängen vom Komprimierer ab. Für Gzip "
 "von 0-9, wobei 0 auf den Komprimierer „none“ abgebildet wird. Für Xz von "
 "0-9. Für Zstd von 0-22, wobei die Stufen von 20-22 den Ultramodus "
 "aktivieren. Vor Dpkg 1.16.2 war die Stufe 0 äquivalent zu dem Komprimierer "
@@ -13842,19 +13803,11 @@ msgstr ""
 
 #. type: =item
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid "B<-Z>, B<--compression=>I<compressor>"
 msgid "B<-S>, B<--compression-strategy=>I<compress-strategy>"
-msgstr "B<-Z>, B<--compression=>I<Komprimierer>"
+msgstr "B<-S>, B<--compression-strategy=>I<Komprimierungsstrategie>"
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid ""
-#| "Specify which compression strategy to use on the compressor backend, when "
-#| "building a package (since dpkg 1.16.2).  Allowed values are B<none> "
-#| "(since dpkg 1.16.4), B<filtered>, B<huffman>, B<rle> and B<fixed> for "
-#| "gzip (since dpkg 1.17.0) and B<extreme> for xz."
 msgid ""
 "Specify which compression strategy to use on the compressor backend, when "
 "building a package (since dpkg 1.16.2, long option since dpkg 1.22.9).  "
@@ -13862,31 +13815,24 @@ msgid ""
 "B<rle> and B<fixed> for gzip (since dpkg 1.17.0) and B<extreme> for xz."
 msgstr ""
 "Gibt die zu verwendende Komprimierstrategie an, die für den Komprimierer-"
-"Backend beim Bau eines Pakets verwandt werden soll (seit Dpkg 1.16.2). "
+"Backend beim Bau eines Pakets verwandt werden soll (seit Dpkg 1.16.2, lange Option seit Dpkg 1.22.9). "
 "Erlaubte Werte sind B<none> (seit Dpkg 1.16.4), B<filtered>, B<huffman>, "
 "B<rle> und B<fixed> für Gzip (seit Dpkg 1.17.0) und B<extreme> für Xz."
 
 #. type: =item
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid "B<-Z>, B<--compression=>I<compressor>"
 msgid "B<-Z>, B<--compression=>I<compress-type>"
-msgstr "B<-Z>, B<--compression=>I<Komprimierer>"
+msgstr "B<-Z>, B<--compression=>I<Komprimierungstyp>"
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid ""
-#| "Specify which compression type to use when building a package.  Allowed "
-#| "values are B<gzip>, B<xz> (since dpkg 1.15.6), B<zstd> (since dpkg "
-#| "1.21.18)  and B<none> (default is B<%DEB_DEFAULT_COMPRESSOR%>)."
 msgid ""
 "Specify which compression type to use when building a package (long option "
 "since dpkg 1.22.9).  Allowed values are B<gzip>, B<xz> (since dpkg 1.15.6), "
 "B<zstd> (since dpkg 1.21.18)  and B<none> (default is "
 "B<%DEB_DEFAULT_COMPRESSOR%>)."
 msgstr ""
-"Gibt die Art der Komprimierung beim Bau eines Pakets an. Erlaubte Werte sind "
+"Gibt die Art der Komprimierung beim Bau eines Pakets an (lange Option seit Dpkg 1.22.9). Erlaubte Werte sind "
 "B<gzip>, B<xz> (seit Dpkg 1.15.6), B<zstd> (seit Dpkg 1.21.18) und B<none> "
 "(voreingestellt ist B<%DEB_DEFAULT_COMPRESSOR%>)."
 
