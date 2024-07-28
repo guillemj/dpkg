@@ -101,6 +101,8 @@ sub cppfilt_demangle {
         # as allowed by C++11, contrary to GNU binutils.
         if ($symbol eq $demangled) {
             $demangled = undef;
+        } elsif ($demangled =~ m{operator>>}) {
+            # Special case operator>> and operator>>=.
         } else {
             $demangled =~ s{(?<=>)(?=>)}{ }g;
         }

@@ -323,6 +323,8 @@ test_data = \
 	t/Dpkg_OpenPGP/sign-file-inline.sig \
 	t/Dpkg_OpenPGP/sign-file.asc \
 	t/Dpkg_OpenPGP/sign-file.sig \
+	t/Dpkg_Shlibs/anglebrackets.cpp \
+	t/Dpkg_Shlibs/anglebrackets.symbols \
 	t/Dpkg_Shlibs/basictags.c \
 	t/Dpkg_Shlibs/basictags.symbols \
 	t/Dpkg_Shlibs/ld.so.conf \
@@ -330,6 +332,7 @@ test_data = \
 	t/Dpkg_Shlibs/ld.so.conf.d/normal.conf \
 	t/Dpkg_Shlibs/ld.so.conf.d/recursive.conf \
 	t/Dpkg_Shlibs/ld.so.conf_2 \
+	t/Dpkg_Shlibs/objdump.anglebrackets \
 	t/Dpkg_Shlibs/objdump.basictags-amd64 \
 	t/Dpkg_Shlibs/objdump.basictags-i386 \
 	t/Dpkg_Shlibs/objdump.basictags-mips \
@@ -431,6 +434,7 @@ EXTRA_DIST += \
 	# EOL
 
 test_data_objects = \
+	t/Dpkg_Shlibs/libobjdump.anglebrackets.so \
 	t/Dpkg_Shlibs/libobjdump.basictags-amd64.so \
 	t/Dpkg_Shlibs/libobjdump.basictags-i386.so \
 	t/Dpkg_Shlibs/libobjdump.basictags-mips.so \
@@ -443,6 +447,10 @@ test_data_objects = \
 CLEANFILES += \
 	$(test_data_objects) \
 	# EOL
+
+$(srcdir)/t/Dpkg_Shlibs/libobjdump.anglebrackets.so: $(srcdir)/t/Dpkg_Shlibs/anglebrackets.cpp
+	$(CXX) $(CXXFLAGS) -shared -fPIC -Wl,-soname -Wl,libanglebrackets.so.1 \
+	  $< -o $@
 
 $(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-amd64.so: $(srcdir)/t/Dpkg_Shlibs/basictags.c
 	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libbasictags.so.1 $< \
@@ -477,6 +485,8 @@ $(srcdir)/t/Dpkg_Shlibs/libobjdump.spacesyms.so: $(srcdir)/t/Dpkg_Shlibs/spacesy
 OBJDUMP = objdump -w -f -p -T -R
 
 refresh-test-data: $(test_data_objects)
+	$(OBJDUMP) $(srcdir)/t/Dpkg_Shlibs/libobjdump.anglebrackets.so \
+	  >$(srcdir)/t/Dpkg_Shlibs/objdump.anglebrackets
 	$(OBJDUMP) $(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-amd64.so \
 	  >$(srcdir)/t/Dpkg_Shlibs/objdump.basictags-amd64
 	$(OBJDUMP) $(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-i386.so \
