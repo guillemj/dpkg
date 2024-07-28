@@ -49,7 +49,7 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
     is($errors, '', "Parse example changelog $file without errors");
 
     my @data = @$changes;
-    ok(@data, 'data is not empty');
+    ok(@data, "data from $file is not empty");
 
     if ($file eq "$datadir/countme") {
 	# test range options
