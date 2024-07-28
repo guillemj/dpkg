@@ -436,6 +436,8 @@ test_data_objects = \
 	t/Dpkg_Shlibs/libobjdump.basictags-mips.so \
 	t/Dpkg_Shlibs/libobjdump.patterns.so \
 	t/Dpkg_Shlibs/libobjdump.spacesyms.so \
+	t/Dpkg_Shlibs/spacesyms.c \
+	t/Dpkg_Shlibs/spacesyms.o \
 	# EOL
 
 CLEANFILES += \
