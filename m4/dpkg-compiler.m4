@@ -339,4 +339,7 @@ AC_DEFUN([DPKG_CXX_CXX11], [
       dpkg_cv_cxx11=yes
     ])
   ])
+  AS_IF([test "x$dpkg_cv_cxx11" != "xyes"], [
+    AC_MSG_ERROR([unsupported required C++11])
+  ])
 ])# DPKG_CXX_CXX11
