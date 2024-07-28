@@ -33,10 +33,9 @@ my $datadir = test_get_data_path();
 
 my $vendor = get_current_vendor();
 
-#########################
-
-foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
-    "$datadir/regressions", "$datadir/date-format", "$datadir/stop-modeline") {
+sub setup_changelog
+{
+    my $file = shift;
 
     my $changes = Dpkg::Changelog::Debian->new(verbose => 0);
     $changes->load($file);
@@ -51,10 +50,40 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
     my @data = @$changes;
     ok(@data, "data from $file is not empty");
 
+    SKIP: {
+        skip('avoid spurious warning with only one entry', 2)
+            if @data == 1;
+
+        my $str;
+        my $oldest_version = $data[-1]->{Version};
+        $str = $changes->format_range('dpkg', { since => $oldest_version });
+
+        $str = $changes->format_range('rfc822');
+
+        ok(1, 'TODO check rfc822 output');
+
+        $str = $changes->format_range('rfc822', { since => $oldest_version });
+
+        ok(1, 'TODO check rfc822 output with ranges');
+    }
+
+    return ($changes, \@data);
+}
+
+#########################
+
+foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
+    "$datadir/regressions", "$datadir/date-format", "$datadir/stop-modeline") {
+
+    my $changes;
+    my $data;
+
+    ($changes, $data) = setup_changelog($file);
+
     if ($file eq "$datadir/countme") {
 	# test range options
-	cmp_ok(@data, '==', 7, 'no options -> count');
-	my $all_versions = join('/', map { $_->get_version() } @data);
+        cmp_ok(@{$data}, '==', 7, 'no options -> count');
+        my $all_versions = join('/', map { $_->get_version() } @{$data});
 
 	sub check_options {
             my (%opts) = @_;
@@ -71,7 +100,7 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
 
         my %ref = (
             changes => $changes,
-            data => \@data,
+            data => $data,
         );
 
         check_options(%ref, range => { count => 3 },
@@ -315,19 +344,19 @@ Xb-Userfield2: foobar
 	cmp_ok($str, 'eq', $expected, 'fields handling 3');
 
 	# Test Dpkg::Changelog::Entry methods
-	is($data[1]->get_version(), '2.0-1', 'get_version');
-	is($data[1]->get_source(), 'fields', 'get_source');
-	is(scalar $data[1]->get_distributions(), 'unstable', 'get_distribution');
-	is(join('|', $data[1]->get_distributions()), 'unstable|frozen',
+        is($data->[1]->get_version(), '2.0-1', 'get_version');
+        is($data->[1]->get_source(), 'fields', 'get_source');
+        is(scalar $data->[1]->get_distributions(), 'unstable', 'get_distribution');
+        is(join('|', $data->[1]->get_distributions()), 'unstable|frozen',
 	    'get_distributions');
-	is($data[3]->get_optional_fields(),
+        is($data->[3]->get_optional_fields(),
 	    "Urgency: high\nCloses: 1000000\nXb-Userfield2: foobar\n",
 	    'get_optional_fields');
-	is($data[1]->get_maintainer(), 'Frank Lichtenheld <djpig@debian.org>',
+        is($data->[1]->get_maintainer(), 'Frank Lichtenheld <djpig@debian.org>',
 	    'get_maintainer');
-	is($data[1]->get_timestamp(), 'Sun, 12 Jan 2008 15:49:19 +0100',
+        is($data->[1]->get_timestamp(), 'Sun, 12 Jan 2008 15:49:19 +0100',
 	    'get_timestamp');
-	my @items = $data[1]->get_change_items();
+        my @items = $data->[1]->get_change_items();
 	is($items[0], "  [ Frank Lichtenheld ]\n", 'change items 1');
 	is($items[4], '  * New upstream release.
     - implements a
@@ -336,11 +365,11 @@ Xb-Userfield2: foobar
 	is($items[5], "  * Update S-V.\n", 'change items 3');
     }
     if ($file eq "$datadir/date-format") {
-        is($data[0]->get_timestamp(), '01 Jul 2100 23:59:59 -1200',
+        is($data->[0]->get_timestamp(), '01 Jul 2100 23:59:59 -1200',
            'get date w/o DoW, and negative timezone offset');
-        is($data[1]->get_timestamp(), 'Tue, 27 Feb 2050 12:00:00 +1245',
+        is($data->[1]->get_timestamp(), 'Tue, 27 Feb 2050 12:00:00 +1245',
            'get date w/ DoW, and positive timezone offset');
-        is($data[2]->get_timestamp(), 'Mon, 01 Jan 2000 00:00:00 +0000',
+        is($data->[2]->get_timestamp(), 'Mon, 01 Jan 2000 00:00:00 +0000',
            'get date w/ DoW, and zero timezone offset');
     }
     if ($file eq "$datadir/stop-modeline") {
@@ -350,23 +379,6 @@ Xb-Userfield2: foobar
     if ($file eq "$datadir/regressions") {
 	my $f = ($changes->format_range('dpkg'))[0];
 	is("$f->{Version}", '0', 'version 0 correctly parsed');
-    }
-
-    SKIP: {
-	skip('avoid spurious warning with only one entry', 2)
-	    if @data == 1;
-
-        my $str;
-	my $oldest_version = $data[-1]->{Version};
-	$str = $changes->format_range('dpkg', { since => $oldest_version });
-
-	$str = $changes->format_range('rfc822');
-
-	ok(1, 'TODO check rfc822 output');
-
-	$str = $changes->format_range('rfc822', { since => $oldest_version });
-
-	ok(1, 'TODO check rfc822 output with ranges');
     }
 }
 
