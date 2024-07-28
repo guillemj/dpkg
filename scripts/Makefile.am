@@ -485,7 +485,7 @@ refresh-test-data: $(test_data_objects)
 	  >$(srcdir)/t/Dpkg_Shlibs/objdump.patterns
 	$(OBJDUMP) $(srcdir)/t/Dpkg_Shlibs/libobjdump.spacesyms.so \
 	  >$(srcdir)/t/Dpkg_Shlibs/objdump.spacesyms
-	$(OBJDUMP) `which ls` >$(srcdir)/t/Dpkg_Shlibs/objdump.ls
+	$(OBJDUMP) `command -v ls` >$(srcdir)/t/Dpkg_Shlibs/objdump.ls
 
 include $(top_srcdir)/build-aux/tap.am
 
