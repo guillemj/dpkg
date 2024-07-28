@@ -32,17 +32,17 @@ if (defined $Config{bin_ELF} && $Config{bin_ELF} eq 'define') {
 use_ok('Dpkg::Shlibs::Cppfilt');
 
 # Simple C++ demangling tests
-is ( cppfilt_demangle_cpp('_ZNSt10istrstreamC1EPKcl'),
-                  'std::istrstream::istrstream(char const*, long)',
-    'demangle symbol' );
-is ( cppfilt_demangle_cpp('_ZNSt10istrstreamC1EPKcl@Base'),
-                  'std::istrstream::istrstream(char const*, long)@Base',
-    'demangle symbol with extra postfix' );
-is ( cppfilt_demangle_cpp('foobar _ZNSt10istrstreamC1EPKcl@Base'),
-                  'foobar std::istrstream::istrstream(char const*, long)@Base',
-    'demangle symbol with garbage around it' );
-is ( cppfilt_demangle_cpp('FoobarInvalidSymbol'), undef,
-    'non-demanglable string' );
+is(cppfilt_demangle_cpp('_ZNSt10istrstreamC1EPKcl'),
+    'std::istrstream::istrstream(char const*, long)',
+    'demangle symbol');
+is(cppfilt_demangle_cpp('_ZNSt10istrstreamC1EPKcl@Base'),
+    'std::istrstream::istrstream(char const*, long)@Base',
+    'demangle symbol with extra postfix');
+is(cppfilt_demangle_cpp('foobar _ZNSt10istrstreamC1EPKcl@Base'),
+    'foobar std::istrstream::istrstream(char const*, long)@Base',
+    'demangle symbol with garbage around it');
+is(cppfilt_demangle_cpp('FoobarInvalidSymbol'), undef,
+    'non-demanglable string');
 
 # Mass C++ demangling. Checking if c++filt does not hang and cppfilt_demangle()
 # immediately provides a correct answer to the caller (i.e. no buffering).

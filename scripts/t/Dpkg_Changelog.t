@@ -45,8 +45,8 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
     cmp_ok($content, 'eq', "$changes", "string output of Dpkg::Changelog on $file");
 
     my $errors = $changes->get_parse_errors();
-    my $basename = basename( $file );
-    is($errors, '', "Parse example changelog $file without errors" );
+    my $basename = basename($file);
+    is($errors, '', "Parse example changelog $file without errors");
 
     my @data = @$changes;
     ok(@data, 'data is not empty');
@@ -54,7 +54,7 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
     if ($file eq "$datadir/countme") {
 	# test range options
 	cmp_ok(@data, '==', 7, 'no options -> count');
-	my $all_versions = join( '/', map { $_->get_version() } @data);
+	my $all_versions = join('/', map { $_->get_version() } @data);
 
 	sub check_options {
             my (%opts) = @_;
@@ -65,7 +65,7 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
                 is_deeply(\@cnt, $opts{data}, "$opts{name} -> returns all");
 	    } else {
                 is_deeply([ map { $_->get_version() } @cnt ],
-                          $opts{versions}, "$opts{name} -> versions" );
+                          $opts{versions}, "$opts{name} -> versions");
 	    }
 	}
 
@@ -379,5 +379,5 @@ foreach my $test (([ "$datadir/misplaced-tz", 6 ],
     my @errors = $changes->get_parse_errors();
 
     ok(@errors, 'errors occured');
-    is_deeply( [ map { $_->[1] } @errors ], $test, 'check line numbers' );
+    is_deeply([ map { $_->[1] } @errors ], $test, 'check line numbers');
 }
