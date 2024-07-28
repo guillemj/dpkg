@@ -30,6 +30,7 @@ foreach my $version (qw(defaultver longver shortver)) {
     }
 }
 
+print "extern void (*funcs[])(void);\n";
 print "void (*funcs[])(void) = {\n";
 foreach my $symbol (@symbols) {
     print "$symbol,\n";
