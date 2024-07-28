@@ -40,6 +40,17 @@ my %tmp;
 
 my $datadir = test_get_data_path();
 
+sub load_objdump_obj {
+    my $name = shift;
+
+    my $obj = Dpkg::Shlibs::Objdump::Object->new();
+    open my $objdump, '<', "$datadir/objdump.$name"
+        or die "$datadir/objdump.$name: $!";
+    $obj->parse_objdump_output($objdump);
+    close $objdump;
+    return $obj;
+}
+
 my @librarypaths;
 
 {
@@ -77,20 +88,13 @@ is_deeply(\@librarypaths, [ qw(
 
 use_ok('Dpkg::Shlibs::Objdump');
 
-my $obj = Dpkg::Shlibs::Objdump::Object->new;
+my $obj;
 
-open my $objdump, '<', "$datadir/objdump.dbd-pg"
-  or die "$datadir/objdump.dbd-pg: $!";
-$obj->parse_objdump_output($objdump);
-close $objdump;
+$obj = load_objdump_obj('dbd-pg');
 ok(!$obj->is_public_library(), 'Pg.so is not a public library');
 ok(!$obj->is_executable(), 'Pg.so is not an executable');
 
-open $objdump, '<', "$datadir/objdump.ls"
-  or die "$datadir/objdump.ls: $!";
-$obj->reset();
-$obj->parse_objdump_output($objdump);
-close $objdump;
+$obj = load_objdump_obj('ls');
 ok(!$obj->is_public_library(), 'ls is not a public library');
 ok($obj->is_executable(), 'ls is an executable');
 
@@ -98,22 +102,12 @@ my $sym = $obj->get_symbol('optarg@GLIBC_2.0');
 ok($sym, 'optarg@GLIBC_2.0 exists');
 ok(!$sym->{defined}, 'R_*_COPY relocations are taken into account');
 
-open $objdump, '<', "$datadir/objdump.space"
-  or die "$datadir/objdump.space: $!";
-$obj->reset();
-$obj->parse_objdump_output($objdump);
-close $objdump;
-
 # Non-regression test for #506139
+$obj = load_objdump_obj('space');
 $sym = $obj->get_symbol('singlespace');
 ok($sym, 'version less symbol separated by a single space are correctly parsed');
 
-open $objdump, '<', "$datadir/objdump.libc6-2.6"
-  or die "$datadir/objdump.libc6-2.6: $!";
-$obj->reset();
-$obj->parse_objdump_output($objdump);
-close $objdump;
-
+$obj = load_objdump_obj('libc6-2.6');
 ok($obj->is_public_library(), 'libc6 is a public library');
 ok($obj->is_executable(), 'libc6 is an executable');
 
@@ -168,20 +162,14 @@ is(scalar @syms, 2231, 'defined && dynamic');
 is(scalar @syms, 9, 'undefined && dynamic');
 
 
-my $obj_old = Dpkg::Shlibs::Objdump::Object->new;
-
-open $objdump, '<', "$datadir/objdump.libc6-2.3"
-  or die "$datadir/objdump.libc6-2.3: $!";
-$obj_old->parse_objdump_output($objdump);
-close $objdump;
-
-
 use_ok('Dpkg::Shlibs::SymbolFile');
 use_ok('Dpkg::Shlibs::Symbol');
 
 my $sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/symbol_file.tmp");
 my $sym_file_dup = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/symbol_file.tmp");
 my $sym_file_old = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/symbol_file.tmp");
+
+my $obj_old = load_objdump_obj('libc6-2.3');
 
 $sym_file->merge_symbols($obj_old, '2.3.6.ds1-13');
 $sym_file_old->merge_symbols($obj_old, '2.3.6.ds1-13');
@@ -253,11 +241,7 @@ save_load_test($sym_file, 'save -> load');
 
 
 # Test ignoring internal symbols
-open $objdump, '<', "$datadir/objdump.internal"
-    or die "objdump.internal: $!";
-$obj->reset();
-$obj->parse_objdump_output($objdump);
-close $objdump;
+$obj = load_objdump_obj('internal');
 
 # Do not ignore any internal symbols
 $sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/symbols.internal-filter");
@@ -457,12 +441,7 @@ is($io_data,
 
 # Check parsing of objdump output on ia64 (local symbols
 # without versions and with visibility attribute)
-$obj = Dpkg::Shlibs::Objdump::Object->new;
-
-open $objdump, '<', "$datadir/objdump.glib-ia64"
-  or die "$datadir/objdump.glib-ia64: $!";
-$obj->parse_objdump_output($objdump);
-close $objdump;
+$obj = load_objdump_obj('glib-ia64');
 ok($obj->is_public_library(), 'glib-ia64 is a public library');
 ok(!$obj->is_executable(), 'glib-ia64 is not an executable');
 
@@ -485,12 +464,7 @@ is_deeply($sym, {
     'symbol with visibility without version');
 
 # Check parsing of objdump output when symbol names contain spaces
-$obj = Dpkg::Shlibs::Objdump::Object->new;
-
-open $objdump, '<', "$datadir/objdump.spacesyms"
-    or die "$datadir/objdump.spacesyms: $!";
-$obj->parse_objdump_output($objdump);
-close $objdump;
+$obj = load_objdump_obj('spacesyms');
 
 sub check_spacesym {
     my ($name, $version, $visibility) = @_;
@@ -590,19 +564,11 @@ ok(defined $sym_file->{objects}{'libbasictags.so.1'}{syms}{'symbol21_amd64@Base'
     'syms keys are symbol names without quotes');
 
 # Preload objdumps
-my $tags_obj_i386 = Dpkg::Shlibs::Objdump::Object->new();
-open $objdump, '<', "$datadir/objdump.basictags-i386"
-    or die "$datadir/objdump.basictags-i386: $!";
-$tags_obj_i386->parse_objdump_output($objdump);
-close $objdump;
+my $tags_obj_i386 = load_objdump_obj('basictags-i386');
 $sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
 is_deeply($sym_file, $sym_file_dup, 'is objdump.basictags-i386 and basictags.symbols in sync');
 
-my $tags_obj_amd64 = Dpkg::Shlibs::Objdump::Object->new();
-open $objdump, '<', "$datadir/objdump.basictags-amd64"
-    or die "$datadir/objdump.basictags-amd64: $!";
-$tags_obj_amd64->parse_objdump_output($objdump);
-close $objdump;
+my $tags_obj_amd64 = load_objdump_obj('basictags-amd64');
 
 # Merge/get_{new,lost} tests for optional tag:
 #  - disappeared
@@ -827,11 +793,7 @@ SKIP: {
 skip 'c++filt not available', 41 if not can_run('c++filt');
 
 sub load_patterns_obj {
-    $obj = Dpkg::Shlibs::Objdump::Object->new();
-    open $objdump, '<', "$datadir/objdump.patterns"
-	or die "$datadir/objdump.patterns: $!";
-    $obj->parse_objdump_output($objdump);
-    close $objdump;
+    $obj = load_objdump_obj('patterns');
     return $obj;
 }
 
