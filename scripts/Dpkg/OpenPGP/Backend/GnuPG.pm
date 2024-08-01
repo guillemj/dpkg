@@ -107,7 +107,7 @@ sub get_trusted_keyrings {
 }
 
 # _pgp_* functions are strictly for applying or removing ASCII armor.
-# See <https://datatracker.ietf.org/doc/html/rfc4880#section-6> for more
+# See <https://www.rfc-editor.org/rfc/rfc9580.html#section-6> for more
 # details.
 #
 # Note that these _pgp_* functions are only necessary while relying on
@@ -118,8 +118,7 @@ sub _pgp_dearmor_data {
     my ($type, $data) = @_;
 
     # Note that we ignore an incorrect or absent checksum, following the
-    # guidance of
-    # <https://datatracker.ietf.org/doc/draft-ietf-openpgp-crypto-refresh/>.
+    # guidance of <https://www.rfc-editor.org/rfc/rfc9580.html>.
     my $armor_regex = qr{
         -----BEGIN\ PGP\ \Q$type\E-----[\r\t ]*\n
         (?:[^:]+:\ [^\n]*[\r\t ]*\n)*
@@ -138,8 +137,7 @@ sub _pgp_dearmor_data {
 sub _pgp_armor_checksum {
     my ($data) = @_;
 
-    # From the upcoming revision to RFC 4880
-    # <https://datatracker.ietf.org/doc/draft-ietf-openpgp-crypto-refresh/>.
+    # From RFC9580 <https://www.rfc-editor.org/rfc/rfc9580.html>.
     #
     # The resulting three-octet-wide value then gets base64-encoded into
     # four base64 ASCII characters.
