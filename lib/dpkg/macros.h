@@ -149,12 +149,9 @@
 #define DPKG_ATTR_ENUM_FLAGS
 #endif
 
-#if defined(__cplusplus) && __cplusplus >= 201103L
+#if defined(__cplusplus)
 #define DPKG_ATTR_THROW(exception)
 #define DPKG_ATTR_NOEXCEPT		noexcept
-#elif defined(__cplusplus)
-#define DPKG_ATTR_THROW(exception)	throw(exception)
-#define DPKG_ATTR_NOEXCEPT		throw()
 #endif
 
 #ifdef __cplusplus
