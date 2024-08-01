@@ -362,6 +362,9 @@ m4_define([_DPKG_CXX_CXX11_PROLOGUE], [[]])
 m4_define([_DPKG_CXX_CXX11_BODY], [[
 	// Null pointer keyword.
 	void *ptr = nullptr;
+
+	// Function name.
+	const char *func_name = __func__;
 ]])
 
 # _DPKG_CXX_CXX11_OPTS
