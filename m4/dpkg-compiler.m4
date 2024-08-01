@@ -121,6 +121,18 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
     AS_IF([test "$dpkg_cxx_std_version" -le "_DPKG_CXX_CXX11_VERSION"], [
       DPKG_CHECK_COMPILER_FLAG([-Wc++14-extensions])
     ])
+    AS_IF([test "$dpkg_cxx_std_version" -le "_DPKG_CXX_CXX14_VERSION"], [
+      DPKG_CHECK_COMPILER_FLAG([-Wc++17-extensions])
+    ])
+    AS_IF([test "$dpkg_cxx_std_version" -le "_DPKG_CXX_CXX17_VERSION"], [
+      DPKG_CHECK_COMPILER_FLAG([-Wc++20-extensions])
+    ])
+    AS_IF([test "$dpkg_cxx_std_version" -le "_DPKG_CXX_CXX20_VERSION"], [
+      DPKG_CHECK_COMPILER_FLAG([-Wc++23-extensions])
+    ])
+    AS_IF([test "$dpkg_cxx_std_version" -le "_DPKG_CXX_CXX23_VERSION"], [
+      DPKG_CHECK_COMPILER_FLAG([-Wc++26-extensions])
+    ])
     DPKG_CHECK_COMPILER_FLAG([-Wcast-qual])
     DPKG_CHECK_COMPILER_FLAG([-Wold-style-cast])
     AS_IF([test "$dpkg_cxx_std_version" -ge "_DPKG_CXX_CXX11_VERSION"], [
@@ -380,6 +392,18 @@ m4_define([_DPKG_CXX_CXX14_OPTS], [
   -std=gnu++14
   -std=c++14
 ])
+
+# _DPKG_CXX_CXX17_VERSION
+# -----------------------
+m4_define([_DPKG_CXX_CXX17_VERSION], [201703])
+
+# _DPKG_CXX_CXX20_VERSION
+# -----------------------
+m4_define([_DPKG_CXX_CXX20_VERSION], [202002])
+
+# _DPKG_CXX_CXX23_VERSION
+# -----------------------
+m4_define([_DPKG_CXX_CXX23_VERSION], [202302])
 
 # _DPKG_CXX_STD_VERSION
 # ---------------------
