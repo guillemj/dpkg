@@ -1353,8 +1353,15 @@ The program B<dpkg> will execute when running a pager,
 which will be executed with «B<$SHELL -c>»,
 for example when displaying the conffile differences.
 If B<SHELL> is not set, «B<%DPKG_DEFAULT_SHELL%>» will be used instead.
+
 The B<DPKG_PAGER> overrides the B<PAGER> environment variable
 (since dpkg 1.19.2).
+If none of the programs pointed by B<DPKG_PAGER> or B<PAGER> are present,
+the following programs will be tried in order (since dpkg 1.22.12):
+the default pager B<%DPKG_DEFAULT_PAGER%>,
+then B<less>,
+B<more>,
+and finally B<cat>.
 
 =item B<DPKG_COLORS>
 

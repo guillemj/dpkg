@@ -52,18 +52,32 @@ pager_enable(bool enable)
 const char *
 pager_get_exec(void)
 {
-	const char *pager;
+	const char *envvars[] = {
+		"DPKG_PAGER",
+		"PAGER",
+	};
+	const char *fallback[] = {
+		DPKG_DEFAULT_PAGER,
+		LESS,
+		MORE,
+	};
+	size_t i;
 
 	if (!isatty(0) || !isatty(1))
 		return CAT;
 
-	pager = getenv("DPKG_PAGER");
-	if (str_is_unset(pager))
-		pager = getenv("PAGER");
-	if (str_is_unset(pager))
-		pager = DPKG_DEFAULT_PAGER;
+	for (i = 0; i < array_count(envvars); i++) {
+		const char *pager = getenv(envvars[i]);
 
-	return pager;
+		if (str_is_set(pager) && command_in_path(pager))
+			return pager;
+	}
+
+	for (i = 0; i < array_count(fallback); i++)
+		if (command_in_path(fallback[i]))
+			return fallback[i];
+
+	return CAT;
 }
 
 struct pager {
