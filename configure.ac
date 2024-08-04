@@ -198,17 +198,18 @@ DPKG_CHECK_COMPAT_FUNCS([\
   getopt_long \
   obstack_free \
   strchrnul \
+  asprintf \
+])
+AC_CHECK_FUNCS([
+  memcpy \
+  lchown \
   strnlen \
   strndup \
   strerror \
   strsignal \
-  asprintf \
   scandir \
   alphasort \
   unsetenv \
-])
-AC_CHECK_FUNCS([\
-  lchown \
 ], [], [AC_MSG_ERROR([missing required function])])
 AC_CHECK_FUNCS([\
   setsid \
