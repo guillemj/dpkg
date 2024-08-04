@@ -18,19 +18,8 @@ libcompat_test_la_CPPFLAGS = \
 libcompat_test_la_SOURCES = \
 	compat.h \
 	strchrnul.c \
-	strnlen.c \
-	strndup.c \
-	strsignal.c \
-	snprintf.c vsnprintf.c \
 	asprintf.c vasprintf.c \
-	alphasort.c \
-	scandir.c \
-	unsetenv.c \
 	# EOL
-
-if HAVE_SYS_ERRLIST
-libcompat_test_la_SOURCES += strerror.c
-endif
 
 libcompat_la_SOURCES = \
 	empty.c \
@@ -55,42 +44,10 @@ if !HAVE_OBSTACK_FREE
 libcompat_la_SOURCES += obstack.c obstack.h
 endif
 
-if !HAVE_STRNLEN
-libcompat_la_SOURCES += strnlen.c
-endif
-
 if !HAVE_STRCHRNUL
 libcompat_la_SOURCES += strchrnul.c
 endif
 
-if !HAVE_STRNDUP
-libcompat_la_SOURCES += strndup.c
-endif
-
-if !HAVE_STRERROR
-libcompat_la_SOURCES += strerror.c
-endif
-
-if !HAVE_STRSIGNAL
-libcompat_la_SOURCES += strsignal.c
-endif
-
-if !HAVE_C99_SNPRINTF
-libcompat_la_SOURCES += snprintf.c vsnprintf.c
-endif
-
 if !HAVE_ASPRINTF
 libcompat_la_SOURCES += asprintf.c vasprintf.c
-endif
-
-if !HAVE_ALPHASORT
-libcompat_la_SOURCES += alphasort.c
-endif
-
-if !HAVE_SCANDIR
-libcompat_la_SOURCES += scandir.c
-endif
-
-if !HAVE_UNSETENV
-libcompat_la_SOURCES += unsetenv.c
 endif
