@@ -213,15 +213,15 @@ if (not defined $outputfile) {
 }
 
 # Retrieve info from the current changelog entry
-my %options = (file => $changelogfile);
-$options{changelogformat} = $changelogformat if $changelogformat;
-$options{since} = $since if defined($since);
-my $changelog = changelog_parse(%options);
+my %changelog_opts = (file => $changelogfile);
+$changelog_opts{changelogformat} = $changelogformat if $changelogformat;
+$changelog_opts{since} = $since if defined($since);
+my $changelog = changelog_parse(%changelog_opts);
 # Change options to retrieve info of the former changelog entry
-delete $options{since};
-$options{count} = 1;
-$options{offset} = 1;
-my $prev_changelog = changelog_parse(%options);
+delete $changelog_opts{since};
+$changelog_opts{count} = 1;
+$changelog_opts{offset} = 1;
+my $prev_changelog = changelog_parse(%changelog_opts);
 # Other initializations
 my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Control->new(type => CTRL_FILE_CHANGES);

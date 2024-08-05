@@ -424,14 +424,14 @@ my $fields = Dpkg::Control->new(type => CTRL_FILE_BUILDINFO);
 my $dist = Dpkg::Dist::Files->new();
 
 # Retrieve info from the current changelog entry.
-my %options = (file => $changelogfile);
-$options{changelogformat} = $changelogformat if $changelogformat;
-my $changelog = changelog_parse(%options);
+my %changelog_opts = (file => $changelogfile);
+$changelog_opts{changelogformat} = $changelogformat if $changelogformat;
+my $changelog = changelog_parse(%changelog_opts);
 
 # Retrieve info from the former changelog entry to handle binNMUs.
-$options{count} = 1;
-$options{offset} = 1;
-my $prev_changelog = changelog_parse(%options);
+$changelog_opts{count} = 1;
+$changelog_opts{offset} = 1;
+my $prev_changelog = changelog_parse(%changelog_opts);
 
 my $sourceversion = Dpkg::Version->new($changelog->{'Binary-Only'} ?
                     $prev_changelog->{'Version'} : $changelog->{'Version'});

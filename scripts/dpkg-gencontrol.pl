@@ -143,13 +143,13 @@ while (@ARGV) {
 }
 
 umask 0022; # ensure sane default permissions for created files
-my %options = (file => $changelogfile);
-$options{changelogformat} = $changelogformat if $changelogformat;
-my $changelog = changelog_parse(%options);
+my %changelog_opts = (file => $changelogfile);
+$changelog_opts{changelogformat} = $changelogformat if $changelogformat;
+my $changelog = changelog_parse(%changelog_opts);
 if ($changelog->{'Binary-Only'}) {
-    $options{count} = 1;
-    $options{offset} = 1;
-    my $prev_changelog = changelog_parse(%options);
+    $changelog_opts{count} = 1;
+    $changelog_opts{offset} = 1;
+    my $prev_changelog = changelog_parse(%changelog_opts);
     $sourceversion = $prev_changelog->{'Version'};
 } else {
     $sourceversion = $changelog->{'Version'};
