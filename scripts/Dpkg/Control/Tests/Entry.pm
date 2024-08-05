@@ -43,7 +43,7 @@ either new or overridden with a different behavior.
 
 =over 4
 
-=item $entry = Dpkg::Control::Tests::Entry->new()
+=item $entry = Dpkg::Control::Tests::Entry->new(%opts)
 
 Creates a new object. It does not represent a real control test entry
 until one has been successfully parsed or built from scratch.

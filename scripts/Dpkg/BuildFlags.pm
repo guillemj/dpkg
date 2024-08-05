@@ -42,7 +42,7 @@ use Dpkg::Vendor qw(run_vendor_hook);
 
 =over 4
 
-=item $bf = Dpkg::BuildFlags->new()
+=item $bf = Dpkg::BuildFlags->new(%opts)
 
 Create a new Dpkg::BuildFlags object. It will be initialized based
 on the value of several configuration files and environment variables.
