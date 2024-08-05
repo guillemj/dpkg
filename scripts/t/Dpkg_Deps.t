@@ -34,12 +34,12 @@ is(deps_concat('dep-a', undef, 'dep-b'), 'dep-a, dep-b',
    'Concatenate two strings with intermixed undef');
 
 sub test_dep_parse_option {
-    my %options = @_;
+    my %opts = @_;
 
     eval {
-        my $dep_croak = deps_parse('pkg', %options);
+        my $dep_croak = deps_parse('pkg', %opts);
     };
-    my $options = join ' ', map { "$_=$options{$_}" } keys %options;
+    my $options = join ' ', map { "$_=$opts{$_}" } keys %opts;
     ok(defined $@, "Parse with bogus arch options $options");
 }
 

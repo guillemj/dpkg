@@ -600,7 +600,7 @@ sub debarch_is_wildcard($)
     return 0;
 }
 
-=item $bool = debarch_is_illegal($arch, %options)
+=item $bool = debarch_is_illegal($arch, %opts)
 
 Validate an architecture name.
 
@@ -656,7 +656,7 @@ sub debarch_is_concerned
     return $seen_arch;
 }
 
-=item @array = debarch_list_parse($arch_list, %options)
+=item @array = debarch_list_parse($arch_list, %opts)
 
 Parse an architecture list.
 

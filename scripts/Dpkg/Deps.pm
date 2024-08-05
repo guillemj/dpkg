@@ -175,7 +175,7 @@ sub deps_concat {
     return join ', ', grep { defined } @dep_list;
 }
 
-=item $dep = deps_parse($line, %options)
+=item $dep = deps_parse($line, %opts)
 
 This function parses the dependency line and returns an object, either a
 L<Dpkg::Deps::AND> or a L<Dpkg::Deps::Union>. Various options can alter the
@@ -260,45 +260,45 @@ dependencies are based on build dependencies (since dpkg 1.22.1).
 =cut
 
 sub deps_parse {
-    my ($dep_line, %options) = @_;
+    my ($dep_line, %opts) = @_;
 
     # Validate arguments.
-    croak "invalid host_arch $options{host_arch}"
-        if defined $options{host_arch} and not defined debarch_to_debtuple($options{host_arch});
-    croak "invalid build_arch $options{build_arch}"
-        if defined $options{build_arch} and not defined debarch_to_debtuple($options{build_arch});
+    croak "invalid host_arch $opts{host_arch}"
+        if defined $opts{host_arch} and not defined debarch_to_debtuple($opts{host_arch});
+    croak "invalid build_arch $opts{build_arch}"
+        if defined $opts{build_arch} and not defined debarch_to_debtuple($opts{build_arch});
 
-    $options{use_arch} //= 1;
-    $options{reduce_arch} //= 0;
-    $options{use_profiles} //= 1;
-    $options{reduce_profiles} //= 0;
-    $options{reduce_restrictions} //= 0;
-    $options{union} //= 0;
-    $options{virtual} //= 0;
-    $options{build_dep} //= 0;
-    $options{tests_dep} //= 0;
+    $opts{use_arch} //= 1;
+    $opts{reduce_arch} //= 0;
+    $opts{use_profiles} //= 1;
+    $opts{reduce_profiles} //= 0;
+    $opts{reduce_restrictions} //= 0;
+    $opts{union} //= 0;
+    $opts{virtual} //= 0;
+    $opts{build_dep} //= 0;
+    $opts{tests_dep} //= 0;
 
-    if ($options{reduce_restrictions}) {
-        $options{reduce_arch} = 1;
-        $options{reduce_profiles} = 1;
+    if ($opts{reduce_restrictions}) {
+        $opts{reduce_arch} = 1;
+        $opts{reduce_profiles} = 1;
     }
-    if ($options{reduce_arch}) {
-        $options{host_arch} //= get_host_arch();
-        $options{build_arch} //= get_build_arch();
+    if ($opts{reduce_arch}) {
+        $opts{host_arch} //= get_host_arch();
+        $opts{build_arch} //= get_build_arch();
     }
-    if ($options{reduce_profiles}) {
-        $options{build_profiles} //= [ get_build_profiles() ];
+    if ($opts{reduce_profiles}) {
+        $opts{build_profiles} //= [ get_build_profiles() ];
     }
-    if ($options{tests_dep}) {
-        $options{build_dep} = 1;
+    if ($opts{tests_dep}) {
+        $opts{build_dep} = 1;
     }
 
     # Options for Dpkg::Deps::Simple.
     my %deps_options = (
-        host_arch => $options{host_arch},
-        build_arch => $options{build_arch},
-        build_dep => $options{build_dep},
-        tests_dep => $options{tests_dep},
+        host_arch => $opts{host_arch},
+        build_arch => $opts{build_arch},
+        build_dep => $opts{build_dep},
+        tests_dep => $opts{tests_dep},
     );
 
     # Merge in a single-line
@@ -316,21 +316,21 @@ sub deps_parse {
 		warning(g_("can't parse dependency %s"), $dep_or);
 		return;
 	    }
-            if ($options{virtual} && defined $dep_simple->{relation} &&
+            if ($opts{virtual} && defined $dep_simple->{relation} &&
                 $dep_simple->{relation} ne '=') {
                 warning(g_('virtual dependency contains invalid relation: %s'),
                         $dep_simple->output);
                 return;
             }
-	    $dep_simple->{arches} = undef if not $options{use_arch};
-            if ($options{reduce_arch}) {
-		$dep_simple->reduce_arch($options{host_arch});
-		next if not $dep_simple->arch_is_concerned($options{host_arch});
+            $dep_simple->{arches} = undef if not $opts{use_arch};
+            if ($opts{reduce_arch}) {
+                $dep_simple->reduce_arch($opts{host_arch});
+                next if not $dep_simple->arch_is_concerned($opts{host_arch});
 	    }
-	    $dep_simple->{restrictions} = undef if not $options{use_profiles};
-	    if ($options{reduce_profiles}) {
-		$dep_simple->reduce_profiles($options{build_profiles});
-		next if not $dep_simple->profile_is_concerned($options{build_profiles});
+            $dep_simple->{restrictions} = undef if not $opts{use_profiles};
+            if ($opts{reduce_profiles}) {
+                $dep_simple->reduce_profiles($opts{build_profiles});
+                next if not $dep_simple->profile_is_concerned($opts{build_profiles});
 	    }
 	    push @or_list, $dep_simple;
         }
@@ -344,13 +344,13 @@ sub deps_parse {
 	}
     }
     my $dep_and;
-    if ($options{union}) {
+    if ($opts{union}) {
 	$dep_and = Dpkg::Deps::Union->new();
     } else {
 	$dep_and = Dpkg::Deps::AND->new();
     }
     foreach my $dep (@dep_list) {
-        if ($options{union} and not $dep->isa('Dpkg::Deps::Simple')) {
+        if ($opts{union} and not $dep->isa('Dpkg::Deps::Simple')) {
             warning(g_('an union dependency can only contain simple dependencies'));
             return;
         }

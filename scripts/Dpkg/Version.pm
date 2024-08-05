@@ -204,7 +204,7 @@ sub _comparison {
     return version_compare_part($a->revision(), $b->revision());
 }
 
-=item "$v", $v->as_string(), $v->as_string(%options)
+=item "$v", $v->as_string(), $v->as_string(%opts)
 
 Accepts an optional option hash reference, affecting the string conversion.
 

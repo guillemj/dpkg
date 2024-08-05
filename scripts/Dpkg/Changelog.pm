@@ -54,7 +54,7 @@ use overload
 
 =over 4
 
-=item $c = Dpkg::Changelog->new(%options)
+=item $c = Dpkg::Changelog->new(%opts)
 
 Creates a new changelog object.
 

@@ -103,27 +103,27 @@ All the other keys in %opt are forwarded to the parser module constructor.
 =cut
 
 sub changelog_parse {
-    my (%options) = @_;
+    my (%opts) = @_;
 
-    $options{verbose} //= 1;
-    $options{file} //= 'debian/changelog';
-    $options{label} //= $options{file};
-    $options{changelogformat} //= _changelog_detect_format($options{file});
-    $options{format} //= 'dpkg';
-    $options{compression} //= $options{file} ne 'debian/changelog';
+    $opts{verbose} //= 1;
+    $opts{file} //= 'debian/changelog';
+    $opts{label} //= $opts{file};
+    $opts{changelogformat} //= _changelog_detect_format($opts{file});
+    $opts{format} //= 'dpkg';
+    $opts{compression} //= $opts{file} ne 'debian/changelog';
 
     my @range_opts = qw(since until from to offset count reverse all);
-    $options{all} = 1 if exists $options{all};
-    if (none { defined $options{$_} } @range_opts) {
-        $options{count} = 1;
+    $opts{all} = 1 if exists $opts{all};
+    if (none { defined $opts{$_} } @range_opts) {
+        $opts{count} = 1;
     }
     my $range;
     foreach my $opt (@range_opts) {
-        $range->{$opt} = $options{$opt} if exists $options{$opt};
+        $range->{$opt} = $opts{$opt} if exists $opts{$opt};
     }
 
     # Find the right changelog parser.
-    my $format = ucfirst lc $options{changelogformat};
+    my $format = ucfirst lc $opts{changelogformat};
     my $changes;
     eval qq{
         require Dpkg::Changelog::$format;
@@ -132,22 +132,22 @@ sub changelog_parse {
     error(g_('changelog format %s is unknown: %s'), $format, $@) if $@;
     error(g_('changelog format %s is not a Dpkg::Changelog class'), $format)
         unless $changes->isa('Dpkg::Changelog');
-    $changes->set_options(reportfile => $options{label},
-                          verbose => $options{verbose},
+    $changes->set_options(reportfile => $opts{label},
+                          verbose => $opts{verbose},
                           range => $range);
 
     # Load and parse the changelog.
-    $changes->load($options{file}, compression => $options{compression})
-        or error(g_('fatal error occurred while parsing %s'), $options{file});
+    $changes->load($opts{file}, compression => $opts{compression})
+        or error(g_('fatal error occurred while parsing %s'), $opts{file});
 
     # Get the output into several Dpkg::Control objects.
     my @res;
-    if ($options{format} eq 'dpkg') {
+    if ($opts{format} eq 'dpkg') {
         push @res, $changes->format_range('dpkg', $range);
-    } elsif ($options{format} eq 'rfc822') {
+    } elsif ($opts{format} eq 'rfc822') {
         push @res, $changes->format_range('rfc822', $range);
     } else {
-        error(g_('unknown output format %s'), $options{format});
+        error(g_('unknown output format %s'), $opts{format});
     }
 
     if (wantarray) {

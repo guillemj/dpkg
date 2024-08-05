@@ -101,11 +101,11 @@ sub gen_from_tmpl
 
 sub gen_source
 {
-    my (%options) = @_;
+    my (%opts) = @_;
 
     my $substvars = Dpkg::Substvars->new();
-    foreach my $var ((keys %default_substvars, keys %options)) {
-        my $value = $options{$var} // $default_substvars{$var};
+    foreach my $var ((keys %default_substvars, keys %opts)) {
+        my $value = $opts{$var} // $default_substvars{$var};
 
         $substvars->set_as_auto($var, $value);
     }
@@ -120,9 +120,9 @@ sub gen_source
     gen_from_tmpl("$dirname/debian/changelog", $tmpl_changelog, $substvars);
     gen_from_tmpl("$dirname/debian/control", $tmpl_control, $substvars);
 
-    if (defined $options{'control-test'}) {
+    if (defined $opts{'control-test'}) {
         make_path("$dirname/debian/tests");
-        gen_from_tmpl("$dirname/debian/tests/control", $options{'control-test'}, $substvars);
+        gen_from_tmpl("$dirname/debian/tests/control", $opts{'control-test'}, $substvars);
     }
 
     return $dirname;

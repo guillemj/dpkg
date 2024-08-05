@@ -134,16 +134,16 @@ my %report_mode = (
 
 sub report_options
 {
-    my (%options) = @_;
+    my (%opts) = @_;
 
-    if (exists $options{quiet_warnings}) {
-        $quiet_warnings = $options{quiet_warnings};
+    if (exists $opts{quiet_warnings}) {
+        $quiet_warnings = $opts{quiet_warnings};
     }
-    if (exists $options{debug_level}) {
-        $debug_level = $options{debug_level};
+    if (exists $opts{debug_level}) {
+        $debug_level = $opts{debug_level};
     }
-    if (exists $options{info_fh}) {
-        $info_fh = $options{info_fh};
+    if (exists $opts{info_fh}) {
+        $info_fh = $opts{info_fh};
     }
 }
 

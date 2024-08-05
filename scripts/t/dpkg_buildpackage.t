@@ -139,11 +139,11 @@ sub gen_from_tmpl
 
 sub gen_source
 {
-    my (%options) = @_;
+    my (%opts) = @_;
 
     my $substvars = Dpkg::Substvars->new();
     foreach my $var (%default_substvars) {
-        my $value = $options{$var} // $default_substvars{$var};
+        my $value = $opts{$var} // $default_substvars{$var};
 
         $substvars->set_as_auto($var, $value);
     }
