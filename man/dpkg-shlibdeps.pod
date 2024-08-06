@@ -326,18 +326,35 @@ Usage of this option is discouraged, all libraries should provide
 dependency information (either with shlibs files, or with symbols files)
 even if they are not yet used by other packages.
 
-=item B<--warnings=>I<value>
+=item B<--warnings=>[I<value>|I<string>[,...]]
 
-I<value> is a bit field defining the set of warnings that
-can be emitted by B<dpkg-shlibdeps> (since dpkg 1.14.17).
-Bit 0 (value=1) enables the warning “symbol I<sym> used by I<binary>
-found in none of the libraries”, bit 1 (value=2) enables the warning
-“package could avoid a useless dependency” and bit 2 (value=4) enables
-the warning “I<binary> should not be linked against I<library>”.
-The default I<value> is 3: the first two warnings are active by
-default, the last one is not.
-Set I<value> to 7 if you want all
-warnings to be active.
+Select the set of warnings that can be emitted by B<dpkg-shlibdeps>
+(since dpkg 1.14.17).
+
+The warnings can be selected from a comma-separated list of symbolic
+names (since dpkg 1.22.12),
+or from a I<value> denoting a bit field for these warnings.
+
+=over
+
+=item symbol-not-found (bit 0, value 1)
+
+Selects the warning “symbol I<sym> used by I<binary> found in none of the
+libraries”.
+
+Enabled by default.
+
+=item avoidable-dependency (bit 1, value 2)
+
+Selects the warning “package could avoid a useless dependency”.
+
+Enabled by default.
+
+=item useless-linkage (bit 2, value 4)
+
+Select the warning “I<binary> should not be linked against I<library>”.
+
+=back
 
 =item B<--admindir=>I<dir>
 
