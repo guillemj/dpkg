@@ -72,19 +72,19 @@ sub _changelog_detect_format {
 
 =over 4
 
-=item $fields = changelog_parse(%opt)
+=item $fields = changelog_parse(%opts)
 
 This function will parse a changelog. In list context, it returns as many
 L<Dpkg::Control> objects as the parser did create. In scalar context, it will
 return only the first one. If the parser did not return any data, it will
 return an empty list in list context or undef on scalar context. If the
 parser failed, it will die. Any parse errors will be printed as warnings
-on standard error, but this can be disabled by passing $opt{verbose} to 0.
+on standard error, but this can be disabled by passing $opts{verbose} to 0.
 
 The changelog file that is parsed is F<debian/changelog> by default but it
-can be overridden with $opt{file}. The changelog name used in output messages
-can be specified with $opt{label}, otherwise it will default to $opt{file}.
-The default output format is "dpkg" but it can be overridden with $opt{format}.
+can be overridden with $opts{file}. The changelog name used in output messages
+can be specified with $opts{label}, otherwise it will default to $opts{file}.
+The default output format is "dpkg" but it can be overridden with $opts{format}.
 
 The parsing itself is done by a parser module (searched in the standard
 perl library directories. That module is named according to the format that
@@ -92,13 +92,13 @@ it is able to parse, with the name capitalized. By default it is either
 L<Dpkg::Changelog::Debian> (from the "debian" format) or the format name looked
 up in the 40 last lines of the changelog itself (extracted with this perl
 regular expression "\schangelog-format:\s+([0-9a-z]+)\W"). But it can be
-overridden with $opt{changelogformat}.
+overridden with $opts{changelogformat}.
 
-If $opt{compression} is false, the file will be loaded without compression
+If $opts{compression} is false, the file will be loaded without compression
 support, otherwise by default compression support is disabled if the file
 is the default.
 
-All the other keys in %opt are forwarded to the parser module constructor.
+All the other keys in %opts are forwarded to the parser module constructor.
 
 =cut
 
