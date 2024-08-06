@@ -51,12 +51,12 @@ and "compression_level" (see corresponding set_* functions).
 =cut
 
 sub new {
-    my ($this, %args) = @_;
+    my ($this, %opts) = @_;
     my $class = ref($this) || $this;
     my $self = {};
     bless $self, $class;
-    $self->set_compression($args{compression} || compression_get_default());
-    $self->set_compression_level($args{compression_level} ||
+    $self->set_compression($opts{compression} || compression_get_default());
+    $self->set_compression_level($opts{compression_level} ||
         compression_get_default_level());
     return $self;
 }

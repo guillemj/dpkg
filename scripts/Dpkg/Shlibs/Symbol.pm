@@ -50,7 +50,7 @@ use constant ALIAS_TYPES => qw(
 );
 
 sub new {
-    my ($this, %args) = @_;
+    my ($this, %opts) = @_;
     my $class = ref($this) || $this;
     my $self = bless {
 	symbol => undef,
@@ -61,15 +61,15 @@ sub new {
 	tags => {},
 	tagorder => [],
     }, $class;
-    $self->{$_} = $args{$_} foreach keys %args;
+    $self->{$_} = $opts{$_} foreach keys %opts;
     return $self;
 }
 
 # Deep clone
 sub clone {
-    my ($self, %args) = @_;
+    my ($self, %opts) = @_;
     my $clone = Storable::dclone($self);
-    $clone->{$_} = $args{$_} foreach keys %args;
+    $clone->{$_} = $opts{$_} foreach keys %opts;
     return $clone;
 }
 

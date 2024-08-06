@@ -123,7 +123,7 @@ obviously incompatible with automatic detection of the compression method.
 
 # Class methods
 sub new {
-    my ($this, %args) = @_;
+    my ($this, %opts) = @_;
     my $class = ref($this) || $this;
     my $self = IO::File->new();
     # Tying is required to overload the open functions and to auto-open
@@ -133,17 +133,17 @@ sub new {
     # Initializations
     *$self->{compression} = 'auto';
     *$self->{compressor} = Dpkg::Compression::Process->new();
-    *$self->{add_comp_ext} = $args{add_compression_extension} ||
-        $args{add_comp_ext} || 0;
+    *$self->{add_comp_ext} = $opts{add_compression_extension} ||
+        $opts{add_comp_ext} || 0;
     *$self->{allow_sigpipe} = 0;
-    if (exists $args{filename}) {
-	$self->set_filename($args{filename});
+    if (exists $opts{filename}) {
+	$self->set_filename($opts{filename});
     }
-    if (exists $args{compression}) {
-	$self->set_compression($args{compression});
+    if (exists $opts{compression}) {
+	$self->set_compression($opts{compression});
     }
-    if (exists $args{compression_level}) {
-	$self->set_compression_level($args{compression_level});
+    if (exists $opts{compression_level}) {
+	$self->set_compression_level($opts{compression_level});
     }
     return $self;
 }

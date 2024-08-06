@@ -206,7 +206,7 @@ source package after its extraction.
 
 # Class methods
 sub new {
-    my ($this, %args) = @_;
+    my ($this, %opts) = @_;
     my $class = ref($this) || $this;
     my $self = {
         fields => Dpkg::Control->new(type => CTRL_DSC),
@@ -216,14 +216,14 @@ sub new {
         openpgp => Dpkg::OpenPGP->new(needs => { api => 'verify' }),
     };
     bless $self, $class;
-    if (exists $args{options}) {
-        $self->{options} = $args{options};
+    if (exists $opts{options}) {
+        $self->{options} = $opts{options};
     }
-    if (exists $args{filename}) {
-        $self->initialize($args{filename});
+    if (exists $opts{filename}) {
+        $self->initialize($opts{filename});
         $self->init_options();
-    } elsif ($args{format}) {
-        $self->{fields}{Format} = $args{format};
+    } elsif ($opts{format}) {
+        $self->{fields}{Format} = $opts{format};
         $self->upgrade_object_type(0);
         $self->init_options();
     }
