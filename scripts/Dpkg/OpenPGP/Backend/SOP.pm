@@ -23,7 +23,7 @@ Dpkg::OpenPGP::Backend::SOP - OpenPGP backend for SOP
 
 This module provides a class that implements the OpenPGP backend
 for the Stateless OpenPGP Command-Line Interface, as described in
-L<https://datatracker.ietf.org/doc/draft-dkg-openpgp-stateless-cli>.
+L<https://datatracker.ietf.org/doc/draft-dkg-openpgp-stateless-cli/>.
 
 B<Note>: This is a private module, its API can change at any time.
 
