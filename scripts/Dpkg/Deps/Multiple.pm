@@ -47,9 +47,9 @@ use parent qw(Dpkg::Interface::Storable);
 
 =over 4
 
-=item $dep = Dpkg::Deps::Multiple->new(%opts);
+=item $dep = Dpkg::Deps::Multiple->new(@deps);
 
-Creates a new object.
+Creates a new object, with the list of dependencies in @deps.
 
 =cut
 
