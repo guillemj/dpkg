@@ -48,6 +48,8 @@ new or overridden with a different behavior.
 
 Create a new Dpkg::Control::Tests object, which inherits from L<Dpkg::Index>.
 
+The options are passed through to the Dpkg::Index->new() constructor.
+
 =cut
 
 sub new {

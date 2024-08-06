@@ -113,11 +113,30 @@ may be exceptions though.
 =item $fh = Dpkg::Compression::FileHandle->new(%opts)
 
 Creates a new filehandle supporting on-the-fly compression/decompression.
-Supported options are "filename", "compression", "compression_level" (see
-respective set_* functions) and "add_comp_ext". If "add_comp_ext"
-evaluates to true, then the extension corresponding to the selected
+
+Options:
+
+=over
+
+=item B<filename>
+
+See $fh->set_filename().
+
+=item B<compression>
+
+See $fh->set_compression().
+
+=item B<compression_level>
+
+See $fh->set_compression_level().
+
+=item B<add_comp_ext>
+
+If set to true, then the extension corresponding to the selected
 compression scheme is automatically added to the recorded filename. It's
 obviously incompatible with automatic detection of the compression method.
+
+=back
 
 =cut
 

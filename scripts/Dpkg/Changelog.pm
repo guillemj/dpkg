@@ -58,6 +58,8 @@ use overload
 
 Creates a new changelog object.
 
+Accepts the same options as $c->set_options().
+
 =cut
 
 sub new {
@@ -74,12 +76,29 @@ sub new {
 
 =item $c->set_options(%opts)
 
-Change the value of some options. "verbose" (defaults to 1) defines
-whether parse errors are displayed as warnings by default. "reportfile"
-is a string to use instead of the name of the file parsed, in particular
-in error messages. "range" defines the range of entries that we want to
-parse, the parser will stop as soon as it has parsed enough data to
-satisfy $c->get_range($opts{range}).
+Change the value of some options.
+
+Options:
+
+=over
+
+=item B<verbose>
+
+Defines whether parse errors are displayed as warnings by default.
+
+Defaults to 1.
+
+=item B<reportfile>
+
+A string to use instead of the name of the file parsed, in particular
+in error messages.
+
+=item B<range>
+
+Defines the range of entries that we want to parse, the parser will stop
+as soon as it has parsed enough data to satisfy $c->get_range($opts{range}).
+
+=back
 
 =cut
 

@@ -68,41 +68,42 @@ use overload
 
 =item $c = Dpkg::Control::Hash->new(%opts)
 
-Creates a new object with the indicated options. Supported options
-are:
+Creates a new object with the indicated options.
+
+Options:
 
 =over 8
 
-=item allow_pgp
+=item B<name>
+
+The user friendly name of the information stored in the object. It might
+be used in some error messages or warnings. A default name might be set
+depending on the type.
+
+=item B<allow_pgp>
 
 Configures the parser to accept OpenPGP signatures around the control
 information. Value can be 0 (default) or 1.
 
-=item allow_duplicate
+=item B<allow_duplicate>
 
 Configures the parser to allow duplicate fields in the control
 information.
 The last value overrides any previous values.
 Value can be 0 (default) or 1.
 
-=item keep_duplicate
+=item B<keep_duplicate>
 
 Configure the parser to keep values for duplicate fields found in the control
 information (when B<allow_duplicate> is enabled), as array references.
 Value can be 0 (default) or 1.
 
-=item drop_empty
+=item B<drop_empty>
 
 Defines if empty fields are dropped during the output. Value can be 0
 (default) or 1.
 
-=item name
-
-The user friendly name of the information stored in the object. It might
-be used in some error messages or warnings. A default name might be set
-depending on the type.
-
-=item is_pgp_signed
+=item B<is_pgp_signed>
 
 Set by the parser (starting in dpkg 1.17.0) if it finds an OpenPGP
 signature around the control information. Value can be 0 (default)

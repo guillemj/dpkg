@@ -187,8 +187,19 @@ are either new or overridden with a different behavior.
 
 =item $c = Dpkg::Control->new(%opts)
 
-If the "type" option is given, it's used to setup default values
-for other options. See set_options() for more details.
+Create a new deb822 control object.
+
+Options:
+
+=over
+
+=item B<type>
+
+Set the deb822 control type, used to setup default values for other options.
+
+=back
+
+See set_options() for more details.
 
 =cut
 
@@ -205,15 +216,50 @@ sub new {
 
 =item $c->set_options(%opts)
 
-Changes the value of one or more options. If the "type" option is changed,
-it is used first to define default values for others options. The option
-"allow_pgp" is set to 1 for CTRL_DSC, CTRL_FILE_CHANGES and
-CTRL_REPO_RELEASE and to 0 otherwise. The option "drop_empty" is set to 0
-for CTRL_TMPL_SRC and CTRL_TMPL_PKG and to 1 otherwise. The option "name"
-is set to a textual description of the type of control information.
+Changes the value of one or more options.
+
+Options:
+
+=over
+
+=item B<type>
+
+Sets the deb822 control object type, used to define default values for others
+options.
 
 The output order is also set to match the ordered list returned by
 Dpkg::Control::Fields::field_ordered_list($type).
+
+=item B<name>
+
+Sets a textual description of the type of control information.
+
+=item B<allow_pgp>
+
+Sets whether the parser accepts OpenPGP signatures around the deb822
+control information.
+
+By default it is set to 1 for CTRL_DSC, CTRL_FILE_CHANGES and
+CTRL_REPO_RELEASE and to 0 otherwise.
+
+=item B<allow_duplicate>
+
+Sets whether the parser allows duplicate fields in deb822 control information.
+
+=item B<keep_duplicate>
+
+Sets whether the parser will keep values for duplicate fields found in
+deb822 control information (when B<allow_duplicate> is enabled),
+as array references.
+
+=item B<drop_empty>
+
+Sets whether empty fields are dropped during output.
+
+By default it is set to 0 for CTRL_TMPL_SRC and CTRL_TMPL_PKG and
+to 1 otherwise.
+
+=back
 
 =cut
 

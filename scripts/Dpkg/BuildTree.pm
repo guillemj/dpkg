@@ -43,11 +43,12 @@ use Dpkg::Source::Functions qw(erasedir);
 =item $bt = Dpkg::BuildTree->new(%opts)
 
 Create a new Dpkg::BuildTree object.
-Supported options are:
+
+Options:
 
 =over 8
 
-=item dir
+=item B<dir>
 
 The build tree directory.
 If not specified, it assumes the current working directory.

@@ -48,7 +48,7 @@ It will load a build driver module as requested in the B<Build-Drivers> field
 in the $opts{ctrl} L<Dpkg::Control::Info> object or if not present,
 it will fall back to load the default B<debian-rules> driver.
 
-Supported or required options are:
+Options:
 
 =over
 

@@ -59,6 +59,7 @@ buildinfo
 bzip2
 bzr
 canonicalized
+changelogformat
 checksum
 checksums
 cmdline

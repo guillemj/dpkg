@@ -81,11 +81,6 @@ return an empty list in list context or undef on scalar context. If the
 parser failed, it will die. Any parse errors will be printed as warnings
 on standard error, but this can be disabled by passing $opts{verbose} to 0.
 
-The changelog file that is parsed is F<debian/changelog> by default but it
-can be overridden with $opts{file}. The changelog name used in output messages
-can be specified with $opts{label}, otherwise it will default to $opts{file}.
-The default output format is "dpkg" but it can be overridden with $opts{format}.
-
 The parsing itself is done by a parser module (searched in the standard
 perl library directories. That module is named according to the format that
 it is able to parse, with the name capitalized. By default it is either
@@ -94,11 +89,43 @@ up in the 40 last lines of the changelog itself (extracted with this perl
 regular expression "\schangelog-format:\s+([0-9a-z]+)\W"). But it can be
 overridden with $opts{changelogformat}.
 
-If $opts{compression} is false, the file will be loaded without compression
-support, otherwise by default compression support is disabled if the file
-is the default.
-
 All the other keys in %opts are forwarded to the parser module constructor.
+
+Options:
+
+=over
+
+=item B<file>
+
+Set the changelog file to parse.
+Defaults to F<debian/changelog>.
+
+=item B<label>
+
+Set the changelog name used in output messages.
+Defaults to $opts{file}.
+
+=item B<compression>
+
+Set a boolean on whether to load the file without compression support.
+If the file is the default compression is disabled,
+otherwise the default is to enable compression.
+
+=item B<changelogformat>
+
+Set the changelog input format to use.
+
+=item B<format>
+
+Set the output format to use.
+Defaults to "dpkg".
+
+=item B<verbose>
+
+Set whether to print any parse errors as warnings to standard error.
+Defaults to true.
+
+=back
 
 =cut
 

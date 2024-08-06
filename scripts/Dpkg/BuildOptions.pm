@@ -47,8 +47,18 @@ use Dpkg::BuildEnv;
 =item $bo = Dpkg::BuildOptions->new(%opts)
 
 Create a new Dpkg::BuildOptions object. It will be initialized based
-on the value of the environment variable named $opts{envvar} (or
-DEB_BUILD_OPTIONS if that option is not set).
+on the value of the environment variable named B<DEB_BUILD_OPTIONS>.
+
+Options:
+
+=over
+
+=item B<envvar>
+
+Set the environment variable name to use instead of B<DEB_BUILD_OPTIONS>
+to initialize the build flags.
+
+=back
 
 =cut
 

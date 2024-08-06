@@ -47,11 +47,20 @@ use overload
 
 =item $c = Dpkg::Control::Info->new(%opts)
 
-Create a new Dpkg::Control::Info object. Loads the file from the filename
-option, if no option is specified filename defaults to F<debian/control>.
-If a scalar is passed instead, it will be used as the filename. If filename
-is "-", it parses the standard input. If filename is undef no loading will
-be performed.
+Create a new Dpkg::Control::Info object. Loads F<debian/control> by default.
+If a single scalar is passed, it will be used as the filename to load
+instead of the default. If filename is "-", it parses the standard input.
+If filename is undef no loading will be performed.
+
+Options:
+
+=over
+
+=item B<filename>
+
+Loads the file from the filename, instead of F<debian/control>.
+
+=back
 
 =cut
 

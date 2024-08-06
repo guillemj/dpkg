@@ -82,13 +82,23 @@ use overload
 =item $v = Dpkg::Version->new($version, %opts)
 
 Create a new Dpkg::Version object corresponding to the version indicated in
-the string (scalar) $version. By default it will accepts any string
-and consider it as a valid version. If you pass the option "check => 1",
-it will return undef if the version is invalid (see version_check for
-details).
+the string (scalar) $version. By default it will accept any string
+and consider it as a valid version, but this can be controlled with the
+"check" option.
 
 You can always call $v->is_valid() later on to verify that the version is
 valid.
+
+Options:
+
+=over
+
+=item B<check>
+
+Setting this option to true will return undef if the version is invalid
+(see $v->version_check() for details).
+
+=back
 
 =cut
 

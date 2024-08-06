@@ -153,16 +153,30 @@ sub reset {
 =item $ck->add_from_file($filename, %opts)
 
 Add or verify checksums information for the file $filename. The file must
-exists for the call to succeed. If you don't want the given filename to
-appear when you later export the checksums you might want to set the "key"
-option with the public name that you want to use. Also if you don't want
-to generate all the checksums, you can pass an array reference of the
-wanted checksums in the "checksums" option.
+exists for the call to succeed. By default if the $filename is known and
+the checksums do not match, the function will error out.
 
-It the object already contains checksums information associated the
-filename (or key), it will error out if the newly computed information
-does not match what's stored, and the caller did not request that it be
-updated with the boolean "update" option.
+Options:
+
+=over
+
+=item B<key>
+
+Set to the public name to use when exporting the checksums,
+instead of using $filename.
+
+=item B<checksums>
+
+Set an array reference with the list of wanted checksums to generate instead
+of generating all of them.
+
+=item B<update>
+
+Set a boolean on whether the object should update the checksums information
+associated with the $filename (or key), instead of emitting an error if
+it does not match.
+
+=back
 
 =cut
 
@@ -208,10 +222,17 @@ $value can be multi-lines, each line should be a space separated list
 of checksum, file size and filename. Leading or trailing spaces are
 not allowed.
 
-It the object already contains checksums information associated to the
-filenames, it will error out if the newly read information does not match
-what's stored, and the caller did not request that it be updated with
-the boolean "update" option.
+Options:
+
+=over
+
+=item B<update>
+
+Set a boolean on whether the object should update the checksums information
+associated with the $filename (or key), instead of emitting an error if
+it does not match.
+
+=back
 
 =cut
 
@@ -250,11 +271,19 @@ sub add_from_string {
 
 Read checksums from Checksums-* fields stored in the L<Dpkg::Control> object
 $control. It uses $self->add_from_string() on the field values to do the
-actual work.
+actual work. The default field used is B<Checksums-Md5>.
 
-If the option "use_files_for_md5" evaluates to true, then the "Files"
-field is used in place of the "Checksums-Md5" field. By default the option
-is false.
+Options:
+
+=over
+
+=item B<use_files_for_md5>
+
+Set to true to use the B<Files> field instead of B<Checksums-Md5>.
+
+Defaults to false.
+
+=back
 
 =cut
 
@@ -381,6 +410,18 @@ sub export_to_string {
 
 Export the checksums in the Checksums-* fields of the L<Dpkg::Control>
 $control object.
+
+Options:
+
+=over
+
+=item B<use_files_for_md5>
+
+Set to true to use the B<Files> field instead of B<Checksums-Md5>.
+
+Defaults to false.
+
+=back
 
 =cut
 

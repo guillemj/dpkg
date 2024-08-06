@@ -405,12 +405,27 @@ sub set_msg_prefix {
     $self->{msg_prefix} = $prefix;
 }
 
-=item $s->filter(remove => $rmfunc)
+=item $s->filter(%opts)
 
-=item $s->filter(keep => $keepfun)
+Filter the substitution variables.
 
-Filter the substitution variables, either removing or keeping all those
-that return true when $rmfunc->($key) or $keepfunc->($key) is called.
+Options:
+
+=over
+
+=item B<remove>
+
+A function returning a boolean,
+used to decide whether to remove a substitution variable,
+executed as $opts{remove}->($var).
+
+=item B<keep>
+
+A function returning a boolean,
+used to decide whether to keep the substitution variable,
+executed as $opts{keep}->($var).
+
+=back
 
 =cut
 

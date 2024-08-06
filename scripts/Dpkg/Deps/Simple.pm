@@ -89,24 +89,26 @@ use parent qw(Dpkg::Interface::Storable);
 
 =item $dep = Dpkg::Deps::Simple->new([$dep[, %opts]]);
 
-Creates a new object. Some options can be set through %opts:
+Creates a new object.
+
+Options:
 
 =over
 
-=item host_arch
+=item B<host_arch>
 
 Sets the host architecture.
 
-=item build_arch
+=item B<build_arch>
 
 Sets the build architecture.
 
-=item build_dep
+=item B<build_dep>
 
 Specifies whether the parser should consider it a build dependency.
 Defaults to 0.
 
-=item tests_dep
+=item B<tests_dep>
 
 Specifies whether the parser should consider it a tests dependency.
 Defaults to 0.

@@ -165,40 +165,54 @@ sub get_default_tar_ignore_pattern {
 
 =item $p = Dpkg::Source::Package->new(%opts, options => {})
 
-Creates a new object corresponding to a source package. When the key
-B<filename> is set to a F<.dsc> file, it will be used to initialize the
-source package with its description. Otherwise if the B<format> key is
-set to a valid value, the object will be initialized for that format
-(since dpkg 1.19.3).
+Creates a new object corresponding to a source package.
 
-The B<options> key is a hash ref which supports the following options:
+Options:
+
+=over
+
+=item B<filename>
+
+When set to a F<.dsc> file, it will be used to initialize the
+source package with its description.
+
+=item B<format>
+
+If set to a valid value, and no filename has been specified,
+the object will be initialized for that format (since dpkg 1.19.3).
+
+=item B<options>
+
+A hash ref which supports the following source package format options:
 
 =over 8
 
-=item skip_debianization
+=item B<skip_debianization>
 
 If set to 1, do not apply Debian changes on the extracted source package.
 
-=item skip_patches
+=item B<skip_patches>
 
 If set to 1, do not apply Debian-specific patches. This options is
 specific for source packages using format "2.0" and "3.0 (quilt)".
 
-=item require_valid_signature
+=item B<require_valid_signature>
 
 If set to 1, the check_signature() method will be stricter and will error
 out if the signature can't be verified.
 
-=item require_strong_checksums
+=item B<require_strong_checksums>
 
 If set to 1, the check_checksums() method will be stricter and will error
 out if there is no strong checksum.
 
-=item copy_orig_tarballs
+=item B<copy_orig_tarballs>
 
 If set to 1, the extraction will copy the upstream tarballs next the
 target directory. This is useful if you want to be able to rebuild the
 source package after its extraction.
+
+=back
 
 =back
 

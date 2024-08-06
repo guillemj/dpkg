@@ -74,14 +74,32 @@ sub new {
 
 =item $index->set_options(%opts)
 
-The "type" option is checked first to define default values for other
-options. Here are the relevant options: "get_key_func" is a function
-returning a key for the item passed in parameters, "unique_tuple_key" is
-a boolean requesting whether the default key should be the unique tuple
-(default to true), "item_opts" is a hash reference that will be passed to
-the item constructor in the new_item() method.
+Change the value of some options.
+
+Options:
+
+=over
+
+=item B<type>
+
+Set the deb822 control type, used to setup default values for other options.
+
+=item B<item_opts>
+
+Set a hash reference that will be passed to the item constructor in
+the $index->new_item() method.
 The index can only contain one item with a given key.
-The "get_key_func" function used depends on the type:
+
+=item B<unique_tuple_key>
+
+Set a boolean requesting whether the default key should be the unique tuple
+(default to true).
+
+=item B<get_key_func>
+
+Set a function returning a key for the item passed in parameters.
+
+The default depends on the type:
 
 =over
 
@@ -92,7 +110,7 @@ for CTRL_TMPL_SRC, it is the Source field;
 =item *
 
 for CTRL_REPO_SRC and CTRL_DSC it is the Package and Version fields
-(concatenated with "_") when "unique_tuple_key" is true (the default), or
+(concatenated with "_") when B<unique_tuple_key> is true (the default), or
 otherwise the Package field;
 
 =item *
@@ -102,7 +120,7 @@ for CTRL_TMPL_PKG it is simply the Package field;
 =item *
 
 for CTRL_REPO_PKG and CTRL_DEB it is the Package, Version and
-Architecture fields (concatenated with "_") when "unique_tuple_key" is
+Architecture fields (concatenated with "_") when B<unique_tuple_key> is
 true (the default) or otherwise the Package field;
 
 =item *
@@ -132,6 +150,8 @@ with "_");
 =item *
 
 otherwise it is the Package field by default.
+
+=back
 
 =back
 
@@ -361,9 +381,19 @@ sub remove {
 =item $index->merge($other_index, %opts)
 
 Merge the entries of the other index. While merging, the keys of the merged
-index are used, they are not re-computed (unless you have set the options
-"keep_keys" to "0"). It's your responsibility to ensure that they have been
-computed with the same function.
+index are used, they are not re-computed. It's your responsibility to ensure
+that they have been computed with the same function.
+
+Options:
+
+=over
+
+=item B<keep_keys>
+
+Set whether to re-compute the keys from the other index.
+Defaults to 1.
+
+=back
 
 =cut
 

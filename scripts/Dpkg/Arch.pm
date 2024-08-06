@@ -604,8 +604,16 @@ sub debarch_is_wildcard($)
 
 Validate an architecture name.
 
-If the "positive" option is set to a true value, only positive architectures
-will be accepted, otherwise negated architectures are allowed.
+Options:
+
+=over
+
+=item B<positive>
+
+If set to a true value, only positive architectures will be accepted,
+otherwise negated architectures are allowed.
+
+=back
 
 =cut
 
@@ -660,8 +668,16 @@ sub debarch_is_concerned
 
 Parse an architecture list.
 
-If the "positive" option is set to a true value, only positive architectures
-will be accepted, otherwise negated architectures are allowed.
+Options:
+
+=over
+
+=item B<positive>
+
+If set to a true value, only positive architectures will be accepted,
+otherwise negated architectures are allowed.
+
+=back
 
 =cut
 

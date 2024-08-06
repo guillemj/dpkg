@@ -45,8 +45,21 @@ use Dpkg::IPC;
 
 =item $proc = Dpkg::Compression::Process->new(%opts)
 
-Create a new instance of the object. Supported options are "compression"
-and "compression_level" (see corresponding set_* functions).
+Create a new instance of the object.
+
+Options:
+
+=over
+
+=item B<compression>
+
+See $proc->set_compression().
+
+=item B<compression_level>
+
+See $proc->set_compression_level().
+
+=back
 
 =cut
 
@@ -141,6 +154,10 @@ C<from_*> as accepted by Dpkg::IPC::spawn().
 You must call wait_end_process() after having called this method to
 properly close the sub-process (and verify that it exited without error).
 
+Options:
+
+See Dpkg::IPC::spawn().
+
 =cut
 
 sub compress {
@@ -164,6 +181,10 @@ C<from_*> as accepted by Dpkg::IPC::spawn().
 You must call wait_end_process() after having called this method to
 properly close the sub-process (and verify that it exited without error).
 
+Options:
+
+See Dpkg::IPC::spawn().
+
 =cut
 
 sub uncompress {
@@ -184,6 +205,10 @@ and verify its return code. Any given option will be forwarded to
 the wait_child() function. Most notably you can use the "nocheck" option
 to verify the return code yourself instead of letting wait_child() do
 it for you.
+
+Options:
+
+See Dpkg::IPC::wait_child().
 
 =cut
 
