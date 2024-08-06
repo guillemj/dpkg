@@ -110,33 +110,33 @@ Corresponds to a source package tests control file in F<debian/tests/control>.
 
 =item CTRL_INFO_SRC
 
-Alias for B<CTRL_TMPL_SRC>.
+Deprecated alias for CTRL_TMPL_SRC.
 
 =item CTRL_INFO_PKG
 
-Alias for B<CTRL_TMPL_PKG>.
+Deprecated alias for CTRL_TMPL_PKG.
 
 =item CTRL_PKG_SRC
 
-Alias for B<CTRL_DSC>.
+Deprecated alias for CTRL_DSC.
 
 =item CTRL_PKG_DEB
 
-Alias for B<CTRL_DEB>.
+Deprecated alias for CTRL_DEB.
 
 =item CTRL_INDEX_SRC
 
-Alias for B<CTRL_REPO_SRC>.
+Deprecated alias for CTRL_REPO_SRC.
 
 =item CTRL_INDEX_PKG
 
-Alias for B<CTRL_REPO_PKG>.
+Deprecated alias for CTRL_REPO_PKG.
 
 =back
 
 =cut
 
-package Dpkg::Control 1.04;
+package Dpkg::Control 1.05;
 
 use strict;
 use warnings;
@@ -324,6 +324,11 @@ sub get_type {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.05 (dpkg 1.22.12)
+
+Deprecate types: CTRL_INFO_SRC, CTRL_INFO_PKG, CTRL_PKG_SRC, CTRL_PKG_DEB,
+CTRL_INDEX_SRC, CTRL_INDEX_PKG.
 
 =head2 Version 1.04 (dpkg 1.22.2)
 
