@@ -89,7 +89,7 @@ proc_get_psinfo(pid_t pid, struct psinfo *psinfo)
 char *
 dpkg_get_pid_execname(pid_t pid)
 {
-	const char *execname = NULL;
+	char *execname = NULL;
 #if defined(__linux__)
 	char lname[32];
 	char lcontents[_POSIX_PATH_MAX + 1];
