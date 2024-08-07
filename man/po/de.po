@@ -11,10 +11,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.22.10\n"
+"Project-Id-Version: dpkg-man 1.22.12\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
-"PO-Revision-Date: 2024-08-01 19:34+0200\n"
+"POT-Creation-Date: 2024-08-07 17:34+0200\n"
+"PO-Revision-Date: 2024-08-07 18:48+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -18971,13 +18971,30 @@ msgstr "B<DPKG_PAGER>"
 msgid ""
 "Sets the pager command to use (since dpkg 1.19.1), which will be executed "
 "with «B<$SHELL -c>».  If B<SHELL> is not set, «B<%DPKG_DEFAULT_SHELL%>» will "
-"be used instead.  The B<DPKG_PAGER> overrides the B<PAGER> environment "
-"variable (since dpkg 1.19.2)."
+"be used instead."
 msgstr ""
 "Setzt den zu verwendenden Pager-Befehl (seit Dpkg 1.19.1), der mit „B<$SHELL "
 "-c>“ ausgeführt wird. Falls B<SHELL> nicht gesetzt ist, wird stattdessen "
-"„B<%DPKG_DEFAULT_SHELL%>“ verwandt. B<DPKG_PAGER> setzt die "
-"Umgebungsvariable B<PAGER> außer Kraft (seit Dpkg 1.19.2)."
+"„B<%DPKG_DEFAULT_SHELL%>“ verwandt."
+
+# FIXME B<less> → B<less>(1)
+# FIXME B<more> → B<more>(1)
+# FIXME B<cat> → B<cat>(1)
+#. type: textblock
+#: dpkg-query.pod dpkg.pod
+msgid ""
+"The B<DPKG_PAGER> overrides the B<PAGER> environment variable (since dpkg "
+"1.19.2).  If none of the programs pointed by B<DPKG_PAGER> or B<PAGER> are "
+"present, the following programs will be tried in order (since dpkg 1.22.12): "
+"the default pager B<%DPKG_DEFAULT_PAGER%>, then B<less>, B<more>, and "
+"finally B<cat>."
+msgstr ""
+"B<DPKG_PAGER> setzt die Umgebungsvariable B<PAGER> außer Kraft (seit Dpkg 1."
+"19.2). Falls keines der Programme, auf die B<DPKG_PAGER> oder B<PAGER> "
+"zeigen, vorhanden ist, werden die folgenden Programme in dieser Reihenfolge "
+"ausprobiert (seit Dpkg 1.22.12): das Standardseitenanzeigeprogramm "
+"B<%DPKG_DEFAULT_PAGER%>, dann B<less>(1), B<more>(1) und schließlich "
+"B<cat>(1)."
 
 #. type: textblock
 #: dpkg-query.pod dpkg-trigger.pod
@@ -20017,30 +20034,70 @@ msgstr ""
 
 #. type: =item
 #: dpkg-shlibdeps.pod
-msgid "B<--warnings=>I<value>"
-msgstr "B<--warnings=>I<Wert>"
+msgid "B<--warnings=>[I<value>|I<string>[,...]]"
+msgstr "B<--warnings=>[I<Wert>|I<Zeichenkette>[,…]]"
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
 msgid ""
-"I<value> is a bit field defining the set of warnings that can be emitted by "
-"B<dpkg-shlibdeps> (since dpkg 1.14.17).  Bit 0 (value=1) enables the warning "
-"“symbol I<sym> used by I<binary> found in none of the libraries”, bit 1 "
-"(value=2) enables the warning “package could avoid a useless dependency” and "
-"bit 2 (value=4) enables the warning “I<binary> should not be linked against "
-"I<library>”.  The default I<value> is 3: the first two warnings are active "
-"by default, the last one is not.  Set I<value> to 7 if you want all warnings "
-"to be active."
+"Select the set of warnings that can be emitted by B<dpkg-shlibdeps> (since "
+"dpkg 1.14.17)."
 msgstr ""
-"I<Wert> ist ein Bitfeld, das den Satz an Warnungen definiert, die von B<dpkg-"
-"shlibdeps> ausgegeben werden können (seit Dpkg 1.14.17). Bit 0 (Wert=1) "
-"aktiviert die Warnung „Symbol I<Sym>, verwendet von I<Programm>, in keiner "
-"der Bibliotheken gefunden.“, Bit 1 (Wert=2) aktiviert die Warnung „Das Paket "
-"könnte eine nutzlose Abhängigkeit vermeiden“ und Bit 2 (Wert=4) aktiviert "
-"die Warnung „I<Programm> sollte nicht gegen I<Bibliothek> gelinkt werden“. "
-"Standardmäßig ist I<Wert> 3: die ersten zwei Warnungen sind standardmäßig "
-"aktiv, die letzte nicht. Setzen Sie I<Wert> auf 7, falls Sie möchten, dass "
-"alle Warnungen aktiv sein sollen."
+"Wählt die Gruppe der Warnungen, die von B<dpkg-shlibdeps> ausgegeben werden "
+"kann (seit Dpkg 1.14.17)."
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+msgid ""
+"The warnings can be selected from a comma-separated list of symbolic names "
+"(since dpkg 1.22.12), or from a I<value> denoting a bit field for these "
+"warnings."
+msgstr ""
+"Die Warnungen können aus einer Kommata-getrennten Liste von symbolischen "
+"Namen ausgewählt werden (seit Dpkg 1.22.12) oder aus einem I<Wert>, der ein "
+"Bitfeld für diese Warnungen bezeichnet."
+
+#. type: =item
+#: dpkg-shlibdeps.pod
+msgid "symbol-not-found (bit 0, value 1)"
+msgstr "symbol-not-found (Symbol nicht gefunden, Bit 0, Wert 1)"
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+msgid ""
+"Selects the warning “symbol I<sym> used by I<binary> found in none of the "
+"libraries”."
+msgstr ""
+"Wählt die Warnung „Symbol I<Sym>, verwendet von I<Programm>, in keiner der "
+"Bibliotheken gefunden“."
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+msgid "Enabled by default."
+msgstr "Standardmäßig aktiviert."
+
+#. type: =item
+#: dpkg-shlibdeps.pod
+msgid "avoidable-dependency (bit 1, value 2)"
+msgstr "avoidable-dependency (Vermeidbare Abhängigkeit, Bit 1, Wert 2)"
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+msgid "Selects the warning “package could avoid a useless dependency”."
+msgstr ""
+"Wählt die Warnung „Das Paket könnte eine nutzlose Abhängigkeit vermeiden“."
+
+#. type: =item
+#: dpkg-shlibdeps.pod
+msgid "useless-linkage (bit 2, value 4)"
+msgstr "useless-linkage (nutzloses Linken, Bit 2, Wert 4)"
+
+#. type: textblock
+#: dpkg-shlibdeps.pod
+msgid "Select the warning “I<binary> should not be linked against I<library>”."
+msgstr ""
+"Wählt die Warnung „I<Programm> sollte nicht gegen I<Bibliothek> gelinkt "
+"werden“."
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
@@ -26180,14 +26237,12 @@ msgid ""
 "The program B<dpkg> will execute when running a pager, which will be "
 "executed with «B<$SHELL -c>», for example when displaying the conffile "
 "differences.  If B<SHELL> is not set, «B<%DPKG_DEFAULT_SHELL%>» will be used "
-"instead.  The B<DPKG_PAGER> overrides the B<PAGER> environment variable "
-"(since dpkg 1.19.2)."
+"instead."
 msgstr ""
 "Das Programm, das B<dpkg> ausführen wird, wenn es einen Pager mit „B<$SHELL -"
 "c>“ ausführt, beispielsweise zur Anzeige von Conffile-Dateiunterschieden. "
 "Falls B<SHELL> nicht gesetzt ist, wird stattdessen „B<%DPKG_DEFAULT_SHELL%>“ "
-"verwandt. B<DPKG_PAGER> setzt die Umgebungsvariable B<PAGER> außer Kraft "
-"(seit Dpkg 1.19.2)."
+"verwandt."
 
 #. type: textblock
 #: dpkg.pod
@@ -30600,6 +30655,26 @@ msgid "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
 msgstr ""
 "L<ln(1)>, FHS (der Dateisystem-Hierarchie-Standard, Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid ""
+#~ "I<value> is a bit field defining the set of warnings that can be emitted "
+#~ "by B<dpkg-shlibdeps> (since dpkg 1.14.17).  Bit 0 (value=1) enables the "
+#~ "warning “symbol I<sym> used by I<binary> found in none of the libraries”, "
+#~ "bit 1 (value=2) enables the warning “package could avoid a useless "
+#~ "dependency” and bit 2 (value=4) enables the warning “I<binary> should not "
+#~ "be linked against I<library>”.  The default I<value> is 3: the first two "
+#~ "warnings are active by default, the last one is not.  Set I<value> to 7 "
+#~ "if you want all warnings to be active."
+#~ msgstr ""
+#~ "I<Wert> ist ein Bitfeld, das den Satz an Warnungen definiert, die von "
+#~ "B<dpkg-shlibdeps> ausgegeben werden können (seit Dpkg 1.14.17). Bit 0 "
+#~ "(Wert=1) aktiviert die Warnung „Symbol I<Sym>, verwendet von I<Programm>, "
+#~ "in keiner der Bibliotheken gefunden.“, Bit 1 (Wert=2) aktiviert die "
+#~ "Warnung „Das Paket könnte eine nutzlose Abhängigkeit vermeiden“ und Bit 2 "
+#~ "(Wert=4) aktiviert die Warnung „I<Programm> sollte nicht gegen "
+#~ "I<Bibliothek> gelinkt werden“. Standardmäßig ist I<Wert> 3: die ersten "
+#~ "zwei Warnungen sind standardmäßig aktiv, die letzte nicht. Setzen Sie "
+#~ "I<Wert> auf 7, falls Sie möchten, dass alle Warnungen aktiv sein sollen."
 
 #~ msgid "B<-z>I<compress-level>"
 #~ msgstr "B<-z>I<Komprimierstufe>"
