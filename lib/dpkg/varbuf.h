@@ -60,14 +60,43 @@ struct varbuf {
 #ifdef __cplusplus
 	explicit varbuf(size_t _size = 0);
 	~varbuf();
+
 	void init(size_t _size = 0);
+	void grow(size_t need_size);
+	void trunc(size_t used_size);
+	char *detach();
 	void reset();
 	void destroy();
+
+	void set_buf(const void *buf, size_t _size);
+	void set(varbuf &other);
+	void set(const char *str);
+	void set(const char *str, size_t len);
+
+	int set_vfmt(const char *fmt, va_list args)
+		DPKG_ATTR_VPRINTF(2);
+	int set_fmt(const char *fmt, ...)
+		DPKG_ATTR_PRINTF(2);
+
+	void add_buf(const void *str, size_t _size);
+	void add(const varbuf &other);
+	void add(int c);
+	void add(const char *str);
+	void add(const char *str, size_t len);
+	void add_dir(const char *dirname);
 
 	int add_vfmt(const char *fmt, va_list args)
 		DPKG_ATTR_VPRINTF(2);
 	int add_fmt(const char *fmt, ...)
 		DPKG_ATTR_PRINTF(2);
+
+	void dup(int c, size_t n);
+	void map(int c_src, int c_dst);
+
+	bool has_prefix(varbuf &prefix);
+	bool has_suffix(varbuf &suffix);
+	void trim_prefix(varbuf &prefix);
+	void trim_prefix(int prefix);
 
 	void operator()(int c);
 	void operator()(const char *s);
@@ -151,6 +180,24 @@ varbuf::init(size_t _size)
 }
 
 inline void
+varbuf::grow(size_t need_size)
+{
+	varbuf_grow(this, need_size);
+}
+
+inline void
+varbuf::trunc(size_t used_size)
+{
+	varbuf_trunc(this, used_size);
+}
+
+inline char *
+varbuf::detach()
+{
+	return varbuf_detach(this);
+}
+
+inline void
 varbuf::reset()
 {
 	varbuf_reset(this);
@@ -160,6 +207,85 @@ inline void
 varbuf::destroy()
 {
 	varbuf_destroy(this);
+}
+
+inline void
+varbuf::set_buf(const void *_buf, size_t _size)
+{
+	varbuf_set_buf(this, _buf, _size);
+}
+
+inline void
+varbuf::set(varbuf &other)
+{
+	varbuf_set_varbuf(this, &other);
+}
+
+inline void
+varbuf::set(const char *str)
+{
+	varbuf_set_str(this, str);
+}
+
+inline void
+varbuf::set(const char *str, size_t len)
+{
+	varbuf_set_strn(this, str, len);
+}
+
+inline int
+varbuf::set_vfmt(const char *fmt, va_list args)
+{
+	return varbuf_set_vfmt(this, fmt, args);
+}
+
+inline int
+varbuf::set_fmt(const char *fmt, ...)
+{
+	va_list args;
+	int rc;
+
+	va_start(args, fmt);
+	rc = varbuf_set_vfmt(this, fmt, args);
+	va_end(args);
+
+	return rc;
+}
+
+inline void
+varbuf::add_buf(const void *str, size_t _size)
+{
+	varbuf_add_buf(this, str, _size);
+}
+
+inline void
+varbuf::add(const varbuf &other)
+{
+	varbuf_add_varbuf(this, &other);
+}
+
+inline void
+varbuf::add(int c)
+{
+	varbuf_add_char(this, c);
+}
+
+inline void
+varbuf::add(const char *str)
+{
+	varbuf_add_str(this, str);
+}
+
+inline void
+varbuf::add(const char *str, size_t len)
+{
+	varbuf_add_strn(this, str, len);
+}
+
+inline void
+varbuf::add_dir(const char *dirname)
+{
+	varbuf_add_dir(this, dirname);
 }
 
 inline int
@@ -179,6 +305,42 @@ varbuf::add_fmt(const char *fmt, ...)
 	va_end(args);
 
 	return rc;
+}
+
+inline void
+varbuf::dup(int c, size_t n)
+{
+	varbuf_dup_char(this, c, n);
+}
+
+inline void
+varbuf::map(int c_src, int c_dst)
+{
+	varbuf_map_char(this, c_src, c_dst);
+}
+
+inline bool
+varbuf::has_prefix(varbuf &prefix)
+{
+	return varbuf_has_prefix(this, &prefix);
+}
+
+inline bool
+varbuf::has_suffix(varbuf &suffix)
+{
+	return varbuf_has_suffix(this, &suffix);
+}
+
+inline void
+varbuf::trim_prefix(varbuf &prefix)
+{
+	varbuf_trim_varbuf_prefix(this, &prefix);
+}
+
+inline void
+varbuf::trim_prefix(int prefix)
+{
+	varbuf_trim_char_prefix(this, prefix);
 }
 
 inline void
