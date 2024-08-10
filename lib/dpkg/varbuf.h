@@ -63,8 +63,12 @@ struct varbuf {
 	void init(size_t _size = 0);
 	void reset();
 	void destroy();
-	int fmt(const char *_fmt, ...) DPKG_ATTR_PRINTF(2);
-	int vfmt(const char *_fmt, va_list va) DPKG_ATTR_VPRINTF(2);
+
+	int add_vfmt(const char *fmt, va_list args)
+		DPKG_ATTR_VPRINTF(2);
+	int add_fmt(const char *fmt, ...)
+		DPKG_ATTR_PRINTF(2);
+
 	void operator()(int c);
 	void operator()(const char *s);
 	const char *string();
@@ -159,22 +163,22 @@ varbuf::destroy()
 }
 
 inline int
-varbuf::fmt(const char *_fmt, ...)
+varbuf::add_vfmt(const char *fmt, va_list args)
+{
+	return varbuf_add_vfmt(this, fmt, args);
+}
+
+inline int
+varbuf::add_fmt(const char *fmt, ...)
 {
 	va_list args;
 	int rc;
 
-	va_start(args, _fmt);
-	rc = varbuf_add_vfmt(this, _fmt, args);
+	va_start(args, fmt);
+	rc = varbuf_add_vfmt(this, fmt, args);
 	va_end(args);
 
 	return rc;
-}
-
-inline int
-varbuf::vfmt(const char *_fmt, va_list va)
-{
-	return varbuf_add_vfmt(this, _fmt, va);
 }
 
 inline void

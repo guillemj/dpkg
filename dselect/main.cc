@@ -382,10 +382,10 @@ display_menu_entry(int i, int so)
   const menuentry *me= &menuentries[i];
 
   varbuf buf;
-  buf.fmt(" %c %d. %-11.11s %-80.80s ",
-          so ? '*' : ' ', i,
-          gettext(me->option),
-          gettext(me->menuent));
+  buf.add_fmt(" %c %d. %-11.11s %-80.80s ",
+              so ? '*' : ' ', i,
+              gettext(me->option),
+              gettext(me->menuent));
 
   int x, y DPKG_ATTR_UNUSED;
   getmaxyx(stdscr,y,x);
@@ -404,7 +404,7 @@ refreshmenu(void)
   getmaxyx(stdscr,y,x);
 
   varbuf buf;
-  buf.fmt(gettext(programdesc), DSELECT, PACKAGE_RELEASE);
+  buf.add_fmt(gettext(programdesc), DSELECT, PACKAGE_RELEASE);
 
   clear();
   attrset(A_BOLD);
