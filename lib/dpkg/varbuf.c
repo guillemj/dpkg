@@ -294,7 +294,7 @@ varbuf_rollback_len(struct varbuf_state *vs)
 }
 
 const char *
-varbuf_rollback_start(struct varbuf_state *vs)
+varbuf_rollback_end(struct varbuf_state *vs)
 {
 	if (vs->v->buf == NULL) {
 		if (vs->used)

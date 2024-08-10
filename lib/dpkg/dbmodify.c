@@ -393,7 +393,7 @@ void modstatdb_checkpoint(void) {
     /* Have we made a real mess? */
     if (varbuf_rollback_len(&updatefn_state) > IMPORTANTMAXLEN)
       internerr("modstatdb update entry name '%s' longer than %d",
-                varbuf_rollback_start(&updatefn_state), IMPORTANTMAXLEN);
+                varbuf_rollback_end(&updatefn_state), IMPORTANTMAXLEN);
 
     if (unlink(updatefn.buf))
       ohshite(_("failed to remove my own update file %.255s"), updatefn.buf);
@@ -462,7 +462,7 @@ modstatdb_note_core(struct pkginfo *pkg)
   /* Have we made a real mess? */
   if (varbuf_rollback_len(&updatefn_state) > IMPORTANTMAXLEN)
     internerr("modstatdb update entry name '%s' longer than %d",
-              varbuf_rollback_start(&updatefn_state), IMPORTANTMAXLEN);
+              varbuf_rollback_end(&updatefn_state), IMPORTANTMAXLEN);
 
   nextupdate++;
 

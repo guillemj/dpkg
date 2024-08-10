@@ -117,7 +117,7 @@ struct varbuf_state {
 void varbuf_snapshot(struct varbuf *v, struct varbuf_state *vs);
 void varbuf_rollback(struct varbuf_state *vs);
 size_t varbuf_rollback_len(struct varbuf_state *vs);
-const char *varbuf_rollback_start(struct varbuf_state *vs);
+const char *varbuf_rollback_end(struct varbuf_state *vs);
 
 /** @} */
 

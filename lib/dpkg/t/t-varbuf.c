@@ -529,34 +529,34 @@ test_varbuf_snapshot(void)
 	test_pass(vb.used == 0);
 	test_pass(vb.used == vbs.used);
 	test_pass(varbuf_rollback_len(&vbs) == 0);
-	test_str(varbuf_rollback_start(&vbs), ==, "");
+	test_str(varbuf_rollback_end(&vbs), ==, "");
 
 	varbuf_add_buf(&vb, "1234567890", 10);
 	test_pass(vb.used == 10);
 	test_pass(varbuf_rollback_len(&vbs) == 10);
-	test_str(varbuf_rollback_start(&vbs), ==, "1234567890");
+	test_str(varbuf_rollback_end(&vbs), ==, "1234567890");
 	varbuf_rollback(&vbs);
 	test_pass(vb.used == 0);
 	test_pass(varbuf_rollback_len(&vbs) == 0);
-	test_str(varbuf_rollback_start(&vbs), ==, "");
+	test_str(varbuf_rollback_end(&vbs), ==, "");
 
 	varbuf_add_buf(&vb, "1234567890", 10);
 	test_pass(vb.used == 10);
 	test_pass(varbuf_rollback_len(&vbs) == 10);
-	test_str(varbuf_rollback_start(&vbs), ==, "1234567890");
+	test_str(varbuf_rollback_end(&vbs), ==, "1234567890");
 	varbuf_snapshot(&vb, &vbs);
 	test_pass(vb.used == 10);
 	test_pass(varbuf_rollback_len(&vbs) == 0);
-	test_str(varbuf_rollback_start(&vbs), ==, "");
+	test_str(varbuf_rollback_end(&vbs), ==, "");
 
 	varbuf_add_buf(&vb, "1234567890", 10);
 	test_pass(vb.used == 20);
 	test_pass(varbuf_rollback_len(&vbs) == 10);
-	test_str(varbuf_rollback_start(&vbs), ==, "1234567890");
+	test_str(varbuf_rollback_end(&vbs), ==, "1234567890");
 	varbuf_rollback(&vbs);
 	test_pass(vb.used == 10);
 	test_pass(varbuf_rollback_len(&vbs) == 0);
-	test_str(varbuf_rollback_start(&vbs), ==, "");
+	test_str(varbuf_rollback_end(&vbs), ==, "");
 
 	varbuf_destroy(&vb);
 }
