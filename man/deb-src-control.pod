@@ -512,27 +512,47 @@ fields with B<Private->, such as B<XB-Private-New-Field>.
  Section: admin
  Priority: required
  Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
- # this field is copied to the binary and source packages
+ # This field is copied to the binary and source packages.
  XBS-Upstream-Release-Status: stable
  Homepage: https://wiki.debian.org/Teams/Dpkg
  Vcs-Browser: https://git.dpkg.org/cgit/dpkg/dpkg.git
  Vcs-Git: https://git.dpkg.org/git/dpkg/dpkg.git
- Standards-Version: 3.7.3
- Build-Depends: pkgconf, debhelper (>= 4.1.81),
-  libselinux1-dev (>= 1.28-4) [!linux-any]
+ Standards-Version: 4.7.0
+ Build-Depends:
+  debhelper-compat (= 13),
+  debhelper (>= 13.10~),
+  pkgconf,
+  libselinux1-dev (>= 1.28-4) [!linux-any],
 
  Package: dpkg-dev
  Section: utils
  Priority: optional
  Architecture: all
- # this is a custom field in the binary package
+ # This is a custom field in the binary package.
  XB-Mentoring-Contact: Raphael Hertzog <hertzog@debian.org>
- Depends: dpkg (>= 1.14.6), perl5, perl-modules, cpio (>= 2.4.2-2),
-  bzip2, lzma, patch (>= 2.2-1), make, binutils, libtimedate-perl
- Recommends: gcc | c-compiler, build-essential
- Suggests: gnupg, debian-keyring
- Conflicts: dpkg-cross (<< 2.0.0), devscripts (<< 2.10.26)
- Replaces: manpages-pl (<= 20051117-1)
+ Depends:
+  binutils,
+  bzip2,
+  cpio (>= 2.4.2-2),
+ # This is a comment in the middle of a field value.
+  dpkg (>= 1.14.6),
+  libtimedate-perl,
+  lzma,
+  make,
+  patch (>= 2.2-1),
+  perl-modules,
+  perl5,
+ Recommends:
+  gcc | c-compiler,
+  build-essential,
+ Suggests:
+  gnupg,
+  debian-keyring,
+ Conflicts:
+  dpkg-cross (<< 2.0.0),
+  devscripts (<< 2.10.26),
+ Replaces:
+  manpages-pl (<= 20051117-1),
  Description: Debian package development tools
   This package provides the development tools (including dpkg-source)
   required to unpack, build and upload Debian source packages.
