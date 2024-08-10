@@ -55,6 +55,15 @@ varbuf_init(struct varbuf *v, size_t size)
 }
 
 void
+varbuf_swap(struct varbuf *v, struct varbuf *o)
+{
+	struct varbuf m = *v;
+
+	*v = *o;
+	*o = m;
+}
+
+void
 varbuf_grow(struct varbuf *v, size_t need_size)
 {
 	size_t new_size;

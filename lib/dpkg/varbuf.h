@@ -115,6 +115,7 @@ struct varbuf {
 struct varbuf *varbuf_new(size_t size);
 void varbuf_init(struct varbuf *v, size_t size);
 void varbuf_grow(struct varbuf *v, size_t need_size);
+void varbuf_swap(struct varbuf *v, struct varbuf *other);
 void varbuf_trunc(struct varbuf *v, size_t used_size);
 char *varbuf_detach(struct varbuf *v);
 void varbuf_reset(struct varbuf *v);
