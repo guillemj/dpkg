@@ -149,6 +149,17 @@ void varbuf_trim_char_prefix(struct varbuf *v, int prefix);
 struct varbuf_state {
 	struct varbuf *v;
 	size_t used;
+
+#ifdef __cplusplus
+	varbuf_state();
+	explicit varbuf_state(varbuf &vb);
+	~varbuf_state();
+
+	void snapshot(varbuf &vb);
+	void rollback();
+	size_t rollback_len();
+	const char *rollback_end();
+#endif
 };
 
 void varbuf_snapshot(struct varbuf *v, struct varbuf_state *vs);
@@ -359,6 +370,47 @@ inline const char *
 varbuf::str()
 {
 	return varbuf_str(this);
+}
+
+inline
+varbuf_state::varbuf_state():
+	v(nullptr), used(0)
+{
+}
+
+inline
+varbuf_state::varbuf_state(varbuf &vb)
+{
+	varbuf_snapshot(&vb, this);
+}
+
+inline
+varbuf_state::~varbuf_state()
+{
+}
+
+inline void
+varbuf_state::snapshot(varbuf &vb)
+{
+	varbuf_snapshot(&vb, this);
+}
+
+inline void
+varbuf_state::rollback()
+{
+	varbuf_rollback(this);
+}
+
+inline size_t
+varbuf_state::rollback_len()
+{
+	return varbuf_rollback_len(this);
+}
+
+inline const char *
+varbuf_state::rollback_end()
+{
+	return varbuf_rollback_end(this);
 }
 #endif
 
