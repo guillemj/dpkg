@@ -457,9 +457,9 @@ architecture:
 
 =over
 
- dpkg-architecture -elinux-alpha
+ dpkg-architecture -elinux-arm64
 
- dpkg-architecture -amips -elinux-mips
+ dpkg-architecture -ariscv64 -elinux-riscv64
 
 =back
 
@@ -469,7 +469,7 @@ Check if the current or specified host architecture is a Linux system:
 
  dpkg-architecture -ilinux-any
 
- dpkg-architecture -ai386 -ilinux-any
+ dpkg-architecture -aamd64 -ilinux-any
 
 =back
 
@@ -510,7 +510,7 @@ Doing something only for a specific architecture:
 
  DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 
- ifeq ($(DEB_HOST_ARCH),alpha)
+ ifeq ($(DEB_HOST_ARCH),arm64)
    [...]
  endif
 
@@ -526,7 +526,7 @@ set all the variables that B<dpkg-architecture> can provide:
 
  include %PKGDATADIR%/architecture.mk
 
- ifeq ($(DEB_HOST_ARCH),alpha)
+ ifeq ($(DEB_HOST_ARCH),arm64)
    [...]
  endif
 
