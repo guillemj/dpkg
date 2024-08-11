@@ -61,6 +61,7 @@ struct varbuf {
 	explicit varbuf(size_t _size = 0);
 	explicit varbuf(const char *str);
 	varbuf(const varbuf &v);
+	varbuf(varbuf &&v);
 	~varbuf();
 
 	void init(size_t _size = 0);
@@ -101,6 +102,7 @@ struct varbuf {
 	void trim_prefix(int prefix);
 
 	varbuf &operator=(const varbuf &v);
+	varbuf &operator=(varbuf &&v);
 	varbuf &operator+=(const varbuf &v);
 	varbuf &operator+=(int c);
 	varbuf &operator+=(const char *str);
@@ -197,6 +199,13 @@ varbuf::varbuf(const varbuf &v)
 {
 	varbuf_init(this, v.used);
 	varbuf_set_buf(this, v.buf, v.used);
+}
+
+inline
+varbuf::varbuf(varbuf &&v):
+	varbuf()
+{
+	varbuf_swap(this, &v);
 }
 
 inline
@@ -380,6 +389,14 @@ varbuf::operator=(const varbuf &v)
 {
 	varbuf_init(this, v.used);
 	varbuf_set_buf(this, v.buf, v.used);
+
+	return *this;
+}
+
+inline varbuf &
+varbuf::operator=(varbuf &&v)
+{
+	varbuf_swap(this, &v);
 
 	return *this;
 }
