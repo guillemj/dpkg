@@ -38,6 +38,7 @@
 #include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/file.h>
 
 #include "dselect.h"
 #include "bindings.h"
@@ -72,12 +73,11 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
   int methodlen, baselen;
   char *pathinmeth, *pathbuf, *pathmeth;
   DIR *dir;
-  FILE *names, *descfile;
+  FILE *names;
   struct dirent *dent;
   struct varbuf vb;
   method *meth;
   dselect_option *opt;
-  struct stat stab;
 
   baselen= strlen(pathbase);
   pathbuf= new char[baselen+IMETHODMAXLEN+IOPTIONMAXLEN+sizeof(OPTIONSDESCPFX)+10];
@@ -199,22 +199,17 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
 
       strcpy(pathinmeth,OPTIONSDESCPFX);
       strcpy(pathinmeth+sizeof(OPTIONSDESCPFX)-1,opt->name);
-      descfile= fopen(pathbuf,"r");
-      if (!descfile) {
-        if (errno != ENOENT)
-          ohshite(_("unable to open option description file '%.250s'"), pathbuf);
+
+      varbuf description;
+      dpkg_error err = DPKG_ERROR_INIT;
+
+      if (file_slurp(pathbuf, &description, &err) < 0) {
+        if (err.syserrno != ENOENT)
+          dpkg_error_print(&err, _("cannot load option description file '%s'"),
+                                 pathbuf);
         opt->description = nullptr;
-      } else { /* descfile != 0 */
-        if (fstat(fileno(descfile),&stab))
-          ohshite(_("unable to stat option description file '%.250s'"), pathbuf);
-        opt->description= new char[stab.st_size+1];  errno=0;
-        size_t filelen = stab.st_size;
-        if (fread(opt->description,1,stab.st_size+1,descfile) != filelen)
-          ohshite(_("failed to read option description file '%.250s'"), pathbuf);
-        opt->description[stab.st_size]= 0;
-        if (ferror(descfile))
-          ohshite(_("error during read of option description file '%.250s'"), pathbuf);
-        fclose(descfile);
+      } else {
+        opt->description = description.detach();
       }
       strcpy(pathinmeth,METHODOPTIONSFILE);
 
