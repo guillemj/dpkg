@@ -160,7 +160,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
       } while (!c_isspace(c));
       if (vb.len() > OPTIONINDEXMAXLEN)
         badmethod(pathopts, _("index string too long"));
-      strcpy(opt->index, vb.str());
+      opt->index = vb;
       do {
         if (c == '\n')
           badmethod(pathopts, _("newline before option name start"));
@@ -179,8 +179,7 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
         if (c == EOF)
           eofmethod(pathopts, names, _("end of file in option name"));
       } while (!c_isspace(c));
-      opt->name = new char[vb.len() + 1];
-      strcpy(opt->name, vb.str());
+      opt->name = vb;
       do {
         if (c == '\n')
           badmethod(pathopts, _("newline before summary"));
@@ -195,38 +194,33 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
         if (c == EOF)
           eofmethod(pathopts, names, _("end of file in summary - missing newline"));
       } while (c != '\n');
-      opt->summary = new char[vb.len() + 1];
-      strcpy(opt->summary, vb.str());
+      opt->summary = vb;
 
       varbuf pathoptsdesc;
       pathoptsdesc += pathopts;
       pathoptsdesc += OPTIONSDESCPFX;
       pathoptsdesc += opt->name;
 
-      varbuf description;
       dpkg_error err = DPKG_ERROR_INIT;
 
-      if (file_slurp(pathoptsdesc.str(), &description, &err) < 0) {
+      if (file_slurp(pathoptsdesc.str(), &opt->description, &err) < 0) {
         if (err.syserrno != ENOENT)
           dpkg_error_print(&err, _("cannot load option description file '%s'"),
                                  pathoptsdesc.str());
-        opt->description = nullptr;
-      } else {
-        opt->description = description.detach();
       }
 
       debug(dbg_general,
             " readmethods('%s',...) new option index='%s' name='%s'"
-            " summary='%.20s' strlen(description=%s)=%zu method name='%s'"
+            " summary='%.20s' len(description=%s)=%zu method name='%s'"
             " path='%s'",
             pathbase,
-            opt->index, opt->name, opt->summary,
-            opt->description ? "'...'" : "null",
-            opt->description ? strlen(opt->description) : -1,
+            opt->index.str(), opt->name.str(), opt->summary.str(),
+            opt->description.len() ? "'...'" : "<none>",
+            opt->description.len() ? opt->description.len() : -1,
             opt->meth->name.str(), opt->meth->path.str());
 
       dselect_option **optinsert = optionspp;
-      while (*optinsert && strcmp(opt->index, (*optinsert)->index) > 0)
+      while (*optinsert && strcmp(opt->index.str(), (*optinsert)->index.str()) > 0)
         optinsert = &(*optinsert)->next;
       opt->next= *optinsert;
       *optinsert= opt;
@@ -277,7 +271,7 @@ void getcurrentopt() {
   if (!meth) return;
   debug(dbg_general, "getcurrentopt() cmethopt meth found; opt '%s'", p);
   dselect_option *opt = options;
-  while (opt && (opt->meth != meth || strcmp(p, opt->name)))
+  while (opt && (opt->meth != meth || strcmp(p, opt->name.str())))
     opt = opt->next;
   if (!opt) return;
   debug(dbg_general, "getcurrentopt() cmethopt opt found");
@@ -292,7 +286,7 @@ void writecurrentopt() {
 
   file = atomic_file_new(methoptfile, ATOMIC_FILE_NORMAL);
   atomic_file_open(file);
-  if (fprintf(file->fp, "%s %s\n", coption->meth->name.str(), coption->name) == EOF)
+  if (fprintf(file->fp, "%s %s\n", coption->meth->name.str(), coption->name.str()) == EOF)
     ohshite(_("unable to write new option to '%.250s'"), file->name_new);
   atomic_file_close(file);
   atomic_file_commit(file);

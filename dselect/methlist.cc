@@ -39,7 +39,7 @@
 static keybindings methodlistbindings(methodlist_kinterps,methodlist_korgbindings);
 
 const char *methodlist::itemname(int index) {
-  return table[index]->name;
+  return table[index]->name.str();
 }
 
 void methodlist::kd_abort() { }
@@ -79,7 +79,7 @@ void methodlist::redrawthisstate() {
   mywerase(thisstatepad);
   wprintw(thisstatepad,
           _("Access method '%s'."),
-          table[cursorline]->name);
+          table[cursorline]->name.str());
   pnoutrefresh(thisstatepad, 0,0, thisstate_row,0,
                thisstate_row, min(total_width - 1, xmax - 1));
 }
@@ -93,11 +93,11 @@ void methodlist::redraw1itemsel(int index, int selected) {
            table[index] == coption ? '*' : ' ');
   wattrset(listpad, part_attr[selected ? listsel : list]);
   draw_column_sep(col_name, index);
-  draw_column_item(col_name, index, table[index]->name);
+  draw_column_item(col_name, index, table[index]->name.str());
 
   draw_column_sep(col_desc, index);
   i = col_desc.width;
-  p= table[index]->summary ? table[index]->summary : "";
+  p = table[index]->summary.str();
   while (i>0 && *p && *p != '\n') {
     waddch(listpad,*p);
     i--; p++;
@@ -190,12 +190,12 @@ void methodlist::itd_description() {
   whatinfovb += _("Explanation");
 
   wattrset(infopad, part_attr[info_head]);
-  waddstr(infopad, table[cursorline]->name);
+  waddstr(infopad, table[cursorline]->name.str());
   waddstr(infopad," - ");
-  waddstr(infopad, table[cursorline]->summary);
+  waddstr(infopad, table[cursorline]->summary.str());
   wattrset(infopad, part_attr[info_body]);
 
-  const char *m= table[cursorline]->description;
+  const char *m = table[cursorline]->description.str();
   if (str_is_unset(m))
     m = _("No explanation available.");
   waddstr(infopad,"\n\n");

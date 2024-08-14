@@ -44,9 +44,10 @@ struct method {
 struct dselect_option {
   dselect_option *next;
   method *meth;
-  char index[OPTIONINDEXMAXLEN];
-  char *name, *summary;
-  char *description;
+  varbuf index;
+  varbuf name;
+  varbuf summary;
+  varbuf description;
 };
 
 class methodlist : public baselist {
