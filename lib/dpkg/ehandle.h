@@ -61,9 +61,9 @@ void pop_error_context(int flagset);
 
 void push_cleanup_fallback(void (*f1)(int argc, void **argv), int flagmask1,
                            void (*f2)(int argc, void **argv), int flagmask2,
-                           unsigned int nargs, ...);
+                           size_t nargs, ...);
 void push_cleanup(void (*call)(int argc, void **argv), int flagmask,
-                  unsigned int nargs, ...);
+                  size_t nargs, ...);
 void push_checkpoint(int mask, int value);
 void pop_cleanup(int flagset);
 

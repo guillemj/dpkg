@@ -329,7 +329,7 @@ void push_checkpoint(int mask, int value) {
 static void
 cleanup_entry_new(void (*call1)(int argc, void **argv), int mask1,
                   void (*call2)(int argc, void **argv), int mask2,
-                  unsigned int nargs, va_list vargs)
+                  size_t nargs, va_list vargs)
 {
   struct cleanup_entry *cep;
   void **argv;
@@ -366,7 +366,7 @@ cleanup_entry_new(void (*call1)(int argc, void **argv), int mask1,
 
 void
 push_cleanup(void (*call)(int argc, void **argv), int mask,
-             unsigned int nargs, ...)
+             size_t nargs, ...)
 {
   va_list args;
 
@@ -378,7 +378,7 @@ push_cleanup(void (*call)(int argc, void **argv), int mask,
 void
 push_cleanup_fallback(void (*call1)(int argc, void **argv), int mask1,
                       void (*call2)(int argc, void **argv), int mask2,
-                      unsigned int nargs, ...)
+                      size_t nargs, ...)
 {
   va_list args;
 
