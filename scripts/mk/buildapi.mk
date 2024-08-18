@@ -1,4 +1,5 @@
-# This Makefile fragment (since dpkg 1.22.0) handles the build API.
+# This Makefile fragment (since dpkg 1.22.0) defines the DPKG_BUILD_API
+# variable, that contains the package dpkg-build-api(7) level.
 
 ifndef dpkg_buildapi_mk_included
 dpkg_buildapi_mk_included = yes
