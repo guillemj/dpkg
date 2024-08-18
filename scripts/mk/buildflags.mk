@@ -28,6 +28,9 @@
 # You can also export them in the environment by setting
 # DPKG_EXPORT_BUILDFLAGS to a non-empty value.
 #
+# Note:
+# - Only documented variables are considered public interfaces.
+# - Expects to be included from the source tree root directory.
 
 ifndef dpkg_buildflags_mk_included
 dpkg_buildflags_mk_included = yes

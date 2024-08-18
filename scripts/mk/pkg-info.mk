@@ -17,6 +17,10 @@
 #     (since dpkg 1.18.8).
 #     If it is undefined, the date of the latest changelog entry is used.
 #     In both cases, the value is exported.
+#
+# Note:
+# - Only documented variables are considered public interfaces.
+# - Expects to be included from the source tree root directory.
 
 ifndef dpkg_pkg_info_mk_included
 dpkg_pkg_info_mk_included = yes

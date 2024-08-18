@@ -24,6 +24,10 @@
 #
 # The variables are not exported by default. This can be changed by
 # defining DPKG_EXPORT_BUILDTOOLS.
+#
+# Note:
+# - Only documented variables are considered public interfaces.
+# - Expects to be included from the source tree root directory.
 
 ifndef dpkg_buildtools_mk_included
 dpkg_buildtools_mk_included = yes

@@ -2,6 +2,10 @@
 # DEB_BUILD_* variables that dpkg-architecture can return. Existing values
 # of those variables are preserved as per policy.
 # All variables are exported.
+#
+# Note:
+# - Only documented variables are considered public interfaces.
+# - Expects to be included from the source tree root directory.
 
 ifndef dpkg_architecture_mk_included
 dpkg_architecture_mk_included = yes

@@ -32,6 +32,10 @@
 #   ifeq ($(call dpkg_vendor_derives_from_v1,ubuntu),yes)
 #     ...
 #   endif
+#
+# Note:
+# - Only documented variables are considered public interfaces.
+# - Expects to be included from the source tree root directory.
 
 ifndef dpkg_vendor_mk_included
 dpkg_vendor_mk_included = yes

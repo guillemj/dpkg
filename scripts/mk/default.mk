@@ -1,5 +1,9 @@
 # This Makefile fragment (since dpkg 1.16.1) includes all the Makefile
 # fragments that define variables that can be useful within debian/rules.
+#
+# Note:
+# - Only documented variables are considered public interfaces.
+# - Expects to be included from the source tree root directory.
 
 ifndef dpkg_default_mk_included
 dpkg_default_mk_included = yes
