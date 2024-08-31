@@ -274,6 +274,7 @@ test_scripts = \
 	t/Dpkg_Dist_Files.t \
 	t/dpkg_source.t \
 	t/dpkg_buildpackage.t \
+	t/dpkg_buildtree.t \
 	t/dpkg_mergechangelogs.t \
 	t/mk.t \
 	# EOL
@@ -388,6 +389,11 @@ test_data = \
 	t/dpkg_buildpackage/test-source_0_full.hook \
 	t/dpkg_buildpackage/test-source_0_source.changes \
 	t/dpkg_buildpackage/test-source_0_source.hook \
+	t/dpkg_buildtree/src-build-api-v0/debian/control \
+	t/dpkg_buildtree/src-build-api-v1/debian/control \
+	t/dpkg_buildtree/src-rrr-binary-targets/debian/control \
+	t/dpkg_buildtree/src-rrr-missing/debian/control \
+	t/dpkg_buildtree/src-rrr-no/debian/control \
 	t/dpkg_mergechangelogs/ch-a \
 	t/dpkg_mergechangelogs/ch-b \
 	t/dpkg_mergechangelogs/ch-badver-a \

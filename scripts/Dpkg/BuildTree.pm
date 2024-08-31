@@ -103,6 +103,24 @@ sub clean {
     return;
 }
 
+=item $bt->needs_root()
+
+Check whether the build tree needs root to build.
+
+=cut
+
+sub needs_root {
+    my $self = shift;
+
+    require Dpkg::Control::Info;
+    require Dpkg::BuildDriver;
+
+    my $ctrl = Dpkg::Control::Info->new();
+    my $bd = Dpkg::BuildDriver->new(ctrl => $ctrl);
+
+    return $bd->need_build_task('build', 'binary');
+}
+
 =back
 
 =head1 CHANGES

@@ -2,7 +2,7 @@
 #
 # dpkg-buildtree
 #
-# Copyright © 2023 Guillem Jover <guillem@debian.org>
+# Copyright © 2023-2024 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -42,16 +42,21 @@ sub usage {
     . "\n\n" . g_(
 'Commands:
   clean              clean dpkg generated artifacts from the build tree.
+  is-rootless        checks whether the build tree needs root to build.
   --help             show this help message.
   --version          show the version.
 '), $Dpkg::PROGNAME;
 }
 
+my %known_actions = map { $_ => 1 } qw(
+    clean
+    is-rootless
+);
 my $action;
 
 while (@ARGV) {
     my $arg = shift @ARGV;
-    if ($arg eq 'clean') {
+    if (exists $known_actions{$arg}) {
         usageerr(g_('two commands specified: %s and %s'), $1, $action)
             if defined $action;
         $action = $arg;
@@ -72,4 +77,7 @@ my $bt = Dpkg::BuildTree->new();
 
 if ($action eq 'clean') {
     $bt->clean();
+} elsif ($action eq 'is-rootless') {
+    exit 1 if $bt->needs_root();
+    exit 0;
 }
