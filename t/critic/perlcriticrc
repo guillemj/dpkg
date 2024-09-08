@@ -35,6 +35,10 @@ allow_delegation_to = new clone
 # TODO: Switch these to q{} ?
 allow_if_string_contains_single_quote = 1
 
+[ValuesAndExpressions::ProhibitMagicNumbers]
+allowed_types = Octal
+allowed_values = all_integers
+
 ##
 ## Disable tests
 ##
@@ -127,9 +131,6 @@ allow_if_string_contains_single_quote = 1
 
 # TODO: Octals are fine, but revisit with perl 5.34 octal syntax 0o<nnnn>.
 [-ValuesAndExpressions::ProhibitLeadingZeros]
-
-# TODO: Check it out, some magic numbers are fine, octals for example.
-[-ValuesAndExpressions::ProhibitMagicNumbers]
 
 # BUG: False positives on long hex numbers, even when separated.
 [-ValuesAndExpressions::RequireNumberSeparators]
