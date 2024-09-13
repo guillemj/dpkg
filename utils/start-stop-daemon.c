@@ -513,6 +513,11 @@ closefrom(int lowfd)
 	long maxfd = get_open_fd_max();
 	int i;
 
+#ifdef HAVE_CLOSE_RANGE
+	if (close_range(lowfd, maxfd, 0) == 0)
+		return;
+#endif
+
 	for (i = maxfd - 1; i >= lowfd; --i)
 		close(i);
 }
