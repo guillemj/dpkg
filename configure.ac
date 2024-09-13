@@ -213,6 +213,7 @@ AC_CHECK_FUNCS([\
 AC_CHECK_FUNCS([\
   setsid \
   getdtablesize \
+  closefrom \
   getprocs64 \
   getprogname \
   getexecname \
