@@ -211,9 +211,9 @@ sub get_vendor_object {
     state %OBJECT_CACHE;
     return $OBJECT_CACHE{$vendor_key} if exists $OBJECT_CACHE{$vendor_key};
 
-    my ($obj, @names);
-
     my @vendor_parts = split m{$vendor_sep_regex}, $vendor;
+
+    my @names;
     push @names, join q{}, map { ucfirst } @vendor_parts;
     push @names, join q{}, map { ucfirst lc } @vendor_parts;
 
@@ -228,11 +228,12 @@ sub get_vendor_object {
     push @names, @obsolete_names;
 
     foreach my $name (uniq @names) {
+        my $module = "Dpkg::Vendor::$name";
         eval qq{
-            require Dpkg::Vendor::$name;
-            \$obj = Dpkg::Vendor::$name->new();
+            require $module;
         };
         unless ($@) {
+            my $obj = $module->new();
             $OBJECT_CACHE{$vendor_key} = $obj;
             if (exists $obsolete_name{$name}) {
                 warning(g_('%s module name is deprecated; ' .

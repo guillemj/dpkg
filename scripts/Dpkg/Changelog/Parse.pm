@@ -152,11 +152,12 @@ sub changelog_parse {
     # Find the right changelog parser.
     my $format = ucfirst lc $opts{changelogformat};
     my $changes;
+    my $module = "Dpkg::Changelog::$format";
     eval qq{
-        require Dpkg::Changelog::$format;
-        \$changes = Dpkg::Changelog::$format->new();
+        require $module;
     };
     error(g_('changelog format %s is unknown: %s'), $format, $@) if $@;
+    $changes = $module->new();
     error(g_('changelog format %s is not a Dpkg::Changelog class'), $format)
         unless $changes->isa('Dpkg::Changelog');
     $changes->set_options(reportfile => $opts{label},

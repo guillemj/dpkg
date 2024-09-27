@@ -95,14 +95,13 @@ sub _load_driver {
     # Normalize the driver name.
     $name = join q{}, map { ucfirst lc } split /-/, $name;
 
-    my $driver;
+    my $module = "Dpkg::BuildDriver::$name";
     eval qq{
-        require Dpkg::BuildDriver::$name;
-        \$driver = Dpkg::BuildDriver::$name->new(%opts);
+        require $module;
     };
     error(g_('build driver %s is unknown: %s'), $name, $@) if $@;
 
-    return $driver;
+    return $module->new(%opts);
 }
 
 sub new {
