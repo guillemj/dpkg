@@ -55,10 +55,10 @@ sub has_keystore {
 
 sub _sq_exec
 {
-    my ($self, @exec) = @_;
+    my ($self, $cmd, @exec) = @_;
 
     my ($stdout, $stderr);
-    spawn(exec => [ $self->{cmd}, @exec ],
+    spawn(exec => [ $cmd, @exec ],
           wait_child => 1, nocheck => 1, timeout => 10,
           to_string => \$stdout, error_to_string => \$stderr);
     if (WIFEXITED($?)) {
@@ -66,8 +66,26 @@ sub _sq_exec
         print { *STDERR } "$stdout$stderr" if $status;
         return $status;
     } else {
-        subprocerr("$self->{cmd} @exec");
+        subprocerr("$cmd @exec");
     }
+}
+
+sub _sq_exec_cmdv
+{
+    my ($self, @exec) = @_;
+
+    if ($self->{cmdv}) {
+        return $self->_sq_exec($self->{cmdv}, @exec);
+    } else {
+        return $self->_sq_exec($self->{cmd}, qw(verify), @exec);
+    }
+}
+
+sub _sq_exec_cmd
+{
+    my ($self, @exec) = @_;
+
+    return $self->_sq_exec($self->{cmd}, @exec);
 }
 
 sub armor
@@ -77,7 +95,7 @@ sub armor
     return OPENPGP_MISSING_CMD unless $self->{cmd};
 
     # We ignore the $type, and let "sq" handle this automatically.
-    my $rc = $self->_sq_exec(qw(packet armor --output), $out, $in);
+    my $rc = $self->_sq_exec_cmd(qw(packet armor --output), $out, $in);
     return OPENPGP_BAD_DATA if $rc;
     return OPENPGP_OK;
 }
@@ -89,7 +107,7 @@ sub dearmor
     return OPENPGP_MISSING_CMD unless $self->{cmd};
 
     # We ignore the $type, and let "sq" handle this automatically.
-    my $rc = $self->_sq_exec(qw(packet dearmor --output), $out, $in);
+    my $rc = $self->_sq_exec_cmd(qw(packet dearmor --output), $out, $in);
     return OPENPGP_BAD_DATA if $rc;
     return OPENPGP_OK;
 }
@@ -98,14 +116,14 @@ sub inline_verify
 {
     my ($self, $inlinesigned, $data, @certs) = @_;
 
-    return OPENPGP_MISSING_CMD unless $self->{cmd};
+    return OPENPGP_MISSING_CMD unless ($self->{cmdv} || $self->{cmd});
 
     my @opts;
     push @opts, '--cleartext';
     push @opts, map { ('--signer-file', $_) } @certs;
     push @opts, '--output', $data if defined $data;
 
-    my $rc = $self->_sq_exec(qw(verify), @opts, $inlinesigned);
+    my $rc = $self->_sq_exec_cmdv(@opts, $inlinesigned);
     return OPENPGP_NO_SIG if $rc;
     return OPENPGP_OK;
 }
@@ -114,13 +132,13 @@ sub verify
 {
     my ($self, $data, $sig, @certs) = @_;
 
-    return OPENPGP_MISSING_CMD unless $self->{cmd};
+    return OPENPGP_MISSING_CMD unless ($self->{cmdv} || $self->{cmd});
 
     my @opts;
     push @opts, map { ('--signer-file', $_) } @certs;
     push @opts, '--signature-file', $sig;
 
-    my $rc = $self->_sq_exec(qw(verify), @opts, $data);
+    my $rc = $self->_sq_exec_cmdv(@opts, $data);
     return OPENPGP_NO_SIG if $rc;
     return OPENPGP_OK;
 }
@@ -143,7 +161,7 @@ sub inline_sign
     }
     push @opts, '--output', $inlinesigned;
 
-    my $rc = $self->_sq_exec('sign', @opts, $data);
+    my $rc = $self->_sq_exec_cmd('sign', @opts, $data);
     if ($rc) {
         # XXX: Ideally sq would emit this kind of hint itself when it knows it
         #      might apply, but for now this is probably better than nothing.
