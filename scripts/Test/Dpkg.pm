@@ -211,7 +211,7 @@ my @openpgp_backends = (
     {
         backend => 'sq',
         cmd => 'sq',
-        cmdv => 'none',
+        cmdv => 'sqv',
     },
     {
         backend => 'sop',

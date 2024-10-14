@@ -1,4 +1,4 @@
-# Copyright © 2021-2024 Guillem Jover <guillem@debian.org>
+# Copyright © 2021-2025 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ use strict;
 use warnings;
 
 use POSIX qw(:sys_wait_h);
+use File::Temp;
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -41,6 +42,10 @@ use Dpkg::IPC;
 use Dpkg::OpenPGP::ErrorCodes;
 
 use parent qw(Dpkg::OpenPGP::Backend);
+
+sub DEFAULT_CMDV {
+    return [ qw(sqv) ];
+}
 
 sub DEFAULT_CMD {
     return [ qw(sq) ];
@@ -93,7 +98,7 @@ sub armor
 {
     my ($self, $type, $in, $out) = @_;
 
-    return OPENPGP_MISSING_CMD unless $self->{cmd};
+    return $self->SUPER::armor($type, $in, $out) unless $self->{cmd};
 
     # We ignore the $type, and let "sq" handle this automatically.
     my $rc = $self->_sq_exec_cmd(qw(packet armor --output), $out, $in);
@@ -105,7 +110,7 @@ sub dearmor
 {
     my ($self, $type, $in, $out) = @_;
 
-    return OPENPGP_MISSING_CMD unless $self->{cmd};
+    return $self->SUPER::dearmor($type, $in, $out) unless $self->{cmd};
 
     # We ignore the $type, and let "sq" handle this automatically.
     my $rc = $self->_sq_exec_cmd(qw(packet dearmor --output), $out, $in);
@@ -119,10 +124,35 @@ sub inline_verify
 
     return OPENPGP_MISSING_CMD unless ($self->{cmdv} || $self->{cmd});
 
+    # XXX: sqv does not support --signer-file. See:
+    #   <https://gitlab.com/sequoia-pgp/sequoia-sqv/-/issues/11>.
+    my $keyring_opt = $self->{cmdv} ? '--keyring' : '--signer-file';
+
     my @opts;
     push @opts, '--cleartext';
-    push @opts, map { ('--signer-file', $_) } @certs;
-    push @opts, '--output', $data if defined $data;
+    push @opts, map { ($keyring_opt, $_) } @certs;
+    my $tmpdir;
+    if (not defined $data) {
+        # XXX: For sqv the --output option is mandatory. See:
+        #   <https://gitlab.com/sequoia-pgp/sequoia-sqv/-/issues/12>.
+        # XXX: For sqv the --output option does not accept «-» as stdout,
+        #   which we would discard at spawn() time, and would then not need
+        #   to pass /dev/null or use a temporary file. See:
+        #   <https://gitlab.com/sequoia-pgp/sequoia-sqv/-/issues/15>.
+        # XXX: We need a temporary file because we cannot pass /dev/null. See:
+        #   <https://gitlab.com/sequoia-pgp/sequoia-sq/-/issues/561> and
+        #   <https://gitlab.com/sequoia-pgp/sequoia-sqv/-/issues/13>.
+        if ($self->{cmdv}) {
+            $tmpdir = File::Temp->newdir(
+                TEMPLATE => 'dpkg-openpgp-backend-sq-verify-XXXXXX',
+                TMPDIR => 1,
+            );
+            $data = "$tmpdir/output";
+        } else {
+            $data = '-';
+        }
+    }
+    push @opts, '--output', $data;
 
     my $rc = $self->_sq_exec_cmdv(@opts, $inlinesigned);
     return OPENPGP_NO_SIG if $rc;
@@ -135,8 +165,12 @@ sub verify
 
     return OPENPGP_MISSING_CMD unless ($self->{cmdv} || $self->{cmd});
 
+    # XXX: sqv does not support --signer-file. See:
+    #   <https://gitlab.com/sequoia-pgp/sequoia-sqv/-/issues/11>.
+    my $keyring_opt = $self->{cmdv} ? '--keyring' : '--signer-file';
+
     my @opts;
-    push @opts, map { ('--signer-file', $_) } @certs;
+    push @opts, map { ($keyring_opt, $_) } @certs;
     push @opts, '--signature-file', $sig;
 
     my $rc = $self->_sq_exec_cmdv(@opts, $data);
