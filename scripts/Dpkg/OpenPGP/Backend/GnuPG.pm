@@ -142,6 +142,7 @@ sub _pgp_armor_checksum {
     # The resulting three-octet-wide value then gets base64-encoded into
     # four base64 ASCII characters.
 
+    ## no critic (ValuesAndExpressions::ProhibitMagicNumbers)
     my $CRC24_INIT = 0xB704CE;
     my $CRC24_GENERATOR = 0x864CFB;
 
