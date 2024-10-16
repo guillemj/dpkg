@@ -232,16 +232,16 @@ sub get_vendor_object {
         eval qq{
             require $module;
         };
-        unless ($@) {
-            my $obj = $module->new();
-            $OBJECT_CACHE{$vendor_key} = $obj;
-            if (exists $obsolete_name{$name}) {
-                warning(g_('%s module name is deprecated; ' .
-                           'it should be capitalized with only alphanumeric characters'),
-                        "Dpkg::Vendor::$name");
-            }
-            return $obj;
+        next if $@;
+
+        my $obj = $module->new();
+        $OBJECT_CACHE{$vendor_key} = $obj;
+        if (exists $obsolete_name{$name}) {
+            warning(g_('%s module name is deprecated; ' .
+                       'it should be capitalized with only alphanumeric characters'),
+                    "Dpkg::Vendor::$name");
         }
+        return $obj;
     }
 
     my $info = get_vendor_info($vendor);
