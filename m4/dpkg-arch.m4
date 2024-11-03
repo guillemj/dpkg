@@ -80,6 +80,7 @@ AC_DEFUN([DPKG_ARCH_ABI], [
   AC_CHECK_SIZEOF([long double])
   AC_CHECK_SIZEOF([void *])
   AC_CHECK_SIZEOF([off_t], [], [[
+#undef _TIME_BITS
 #undef _FILE_OFFSET_BITS
 #undef _LARGE_FILES
 #include <sys/types.h>
