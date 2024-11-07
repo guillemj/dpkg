@@ -386,6 +386,30 @@ check_ctrl_control(const char *ctrldir)
 }
 
 /**
+ * Check fsys permissions.
+ */
+static void
+check_fsys_perms(const char *rootdir)
+{
+  struct stat st;
+
+  if (opt_root_owner_group)
+    return;
+
+  if (lstat(rootdir, &st))
+    ohshite(_("cannot get root directory %s metadata"), rootdir);
+  if (!S_ISDIR(st.st_mode))
+    ohshit(_("root pathname %s is not a directory"), rootdir);
+  if (st.st_uid != 0 || st.st_gid != 0) {
+    warning(_("root directory %s has unusual owner or group %u:%u"),
+            rootdir, st.st_uid, st.st_gid);
+    info(_("Hint: you might need to pass --root-owner-group, "
+           "see <%s> for further details"),
+         "https://wiki.debian.org/Teams/Dpkg/RootlessBuilds");
+  }
+}
+
+/**
  * Perform some sanity checks on the to-be-built package.
  *
  * @param ctrldir The control directory from where to build the binary package.
@@ -401,6 +425,7 @@ check_build_files(const char *ctrldir, const char *rootdir)
   /* Start by reading in the control file so we can check its contents. */
   pkg = check_ctrl_control(ctrldir);
   check_ctrl_perms(ctrldir);
+  check_fsys_perms(rootdir);
   check_conffiles(ctrldir, rootdir);
 
   warns = warning_get_count();
