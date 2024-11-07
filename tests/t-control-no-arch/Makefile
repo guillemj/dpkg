@@ -5,7 +5,7 @@ test-case:
 	! $(DPKG_BUILD_DEB) pkg-no-arch
 
 	# build bogus packages
-	$(DPKG_BUILD_DEB) --nocheck pkg-no-arch
+	$(DPKG_BUILD_DEB) --no-check pkg-no-arch
 
 	# test handling of package without the Architecture field
 	! $(DPKG_INSTALL) pkg-no-arch.deb

@@ -102,8 +102,8 @@ usage(const char *const *argv)
 "      --showformat=<format>        Use alternative format for --show.\n"
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 (default).\n"
-"      --nocheck                    Suppress control file check (build bad\n"
-"                                     packages).\n"
+"      --no-check                   Suppress all checks (build bad packages).\n"
+"      --nocheck                    Alias for --no-check.\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all members.\n"
@@ -267,6 +267,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "debug",         'D', 0, &opt_debug,     NULL,         NULL,          1 },
   { "verbose",       'v', 0, &opt_verbose,   NULL,         NULL,          1 },
   { "nocheck",       0,   0, &opt_check,     NULL,         NULL,          0 },
+  { "no-check",      0,   0, &opt_check,     NULL,         NULL,          0 },
   { "root-owner-group",    0, 0, &opt_root_owner_group,    NULL, NULL,    1 },
   { "threads-max",   0,   1, NULL,           NULL,         set_threads_max  },
   { "uniform-compression", 0, 0, &opt_uniform_compression, NULL, NULL,    1 },

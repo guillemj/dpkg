@@ -13,7 +13,7 @@ test-bogus:
 	! $(DPKG_BUILD_DEB) pkg-provides-bogus
 
 	# build bogus packages
-	$(DPKG_BUILD_DEB) --nocheck pkg-provides-bogus
+	$(DPKG_BUILD_DEB) --no-check pkg-provides-bogus
 
 	# test installing packages with bogus provides
 	! $(DPKG_INSTALL) pkg-provides-bogus.deb

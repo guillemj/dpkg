@@ -9,11 +9,11 @@ test-case:
 	! $(DPKG_BUILD_DEB) pkg-bogus-format-string
 	
 	# build bogus packages
-	$(DPKG_BUILD_DEB) --nocheck pkg-bogus-colon
-	$(DPKG_BUILD_DEB) --nocheck pkg-bogus-blank
-	$(DPKG_BUILD_DEB) --nocheck pkg-bogus-fieldname-empty
-	$(DPKG_BUILD_DEB) --nocheck pkg-bogus-fieldname-partial
-	$(DPKG_BUILD_DEB) --nocheck pkg-bogus-format-string
+	$(DPKG_BUILD_DEB) --no-check pkg-bogus-colon
+	$(DPKG_BUILD_DEB) --no-check pkg-bogus-blank
+	$(DPKG_BUILD_DEB) --no-check pkg-bogus-fieldname-empty
+	$(DPKG_BUILD_DEB) --no-check pkg-bogus-fieldname-partial
+	$(DPKG_BUILD_DEB) --no-check pkg-bogus-format-string
 	
 	# test installing packages with bogus control files
 	! $(DPKG_INSTALL) pkg-bogus-colon.deb

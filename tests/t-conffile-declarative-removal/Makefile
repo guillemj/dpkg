@@ -13,7 +13,7 @@ clean-hook:
 
 test-case:
 	# Conffile marked for removal but present, cannot be installed.
-	$(DPKG_BUILD_DEB) --nocheck pkg-conffile-removal-present
+	$(DPKG_BUILD_DEB) --no-check pkg-conffile-removal-present
 	! $(DPKG_INSTALL) pkg-conffile-removal-present.deb
 	$(call pkg_is_not_installed,pkg-conffile-removal-present)
 	$(DPKG_PURGE) pkg-conffile-removal-present

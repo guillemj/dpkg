@@ -36,7 +36,7 @@ pkg-ma-$(1):: pkg-template
 	touch pkg-ma-$(1)
 
 pkg-ma-$(1).deb: pkg-ma-$(1)
-	$(DPKG_BUILD_DEB) --nocheck pkg-ma-$(1) pkg-ma-$(1).deb
+	$(DPKG_BUILD_DEB) --no-check pkg-ma-$(1) pkg-ma-$(1).deb
 
 clean-hook::
 	rm -rf pkg-ma-$(1)
