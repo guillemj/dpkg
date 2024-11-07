@@ -206,7 +206,7 @@ static const char *const maintainerscripts[] = {
  * Check control directory and file permissions.
  */
 static void
-check_file_perms(const char *ctrldir)
+check_ctrl_perms(const char *ctrldir)
 {
   struct varbuf path = VARBUF_INIT;
   const char *const *mscriptp;
@@ -364,7 +364,7 @@ check_conffiles(const char *ctrldir, const char *rootdir)
  * @return The pkginfo struct from the parsed control file.
  */
 static struct pkginfo *
-check_control_file(const char *ctrldir)
+check_ctrl_control(const char *ctrldir)
 {
   struct pkginfo *pkg;
   char *controlfile;
@@ -400,8 +400,8 @@ check_control_area(const char *ctrldir, const char *rootdir)
   int warns;
 
   /* Start by reading in the control file so we can check its contents. */
-  pkg = check_control_file(ctrldir);
-  check_file_perms(ctrldir);
+  pkg = check_ctrl_control(ctrldir);
+  check_ctrl_perms(ctrldir);
   check_conffiles(ctrldir, rootdir);
 
   warns = warning_get_count();
