@@ -468,7 +468,7 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 		pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
 		modstatdb_note(pkg);
 
-		if (!f_noact) {
+		if (f_act) {
 			sincenothing = 0;
 			maintscript_postinst(pkg, "triggered",
 			                     varbuf_str(&namesarg) + 1, NULL);

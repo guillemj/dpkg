@@ -125,7 +125,7 @@ setselections(const char *const *argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
   msdbflags = msdbrw_available_readonly;
-  if (f_noact)
+  if (!f_act)
     msdbflags |= msdbrw_readonly;
   else
     msdbflags |= msdbrw_write;
@@ -220,7 +220,7 @@ clearselections(const char *const *argv)
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  if (f_noact)
+  if (!f_act)
     msdbflags = msdbrw_readonly;
   else
     msdbflags = msdbrw_write;

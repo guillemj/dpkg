@@ -626,7 +626,7 @@ deferred_configure(struct pkginfo *pkg)
 
 	trig_activate_packageprocessing(pkg);
 
-	if (f_noact) {
+	if (!f_act) {
 		pkg_set_status(pkg, PKG_STAT_INSTALLED);
 		ensure_package_clientdata(pkg);
 		pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;

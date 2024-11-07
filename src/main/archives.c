@@ -1498,7 +1498,7 @@ archivefiles(const char *const *argv)
 
   trigproc_install_hooks();
 
-  if (f_noact)
+  if (!f_act)
     msdbflags = msdbrw_readonly;
   else if (cipaction->arg_int == act_avail)
     msdbflags = msdbrw_readonly | msdbrw_available_write;

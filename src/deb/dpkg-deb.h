@@ -40,7 +40,7 @@ extern int opt_verbose;
 extern int opt_root_owner_group;
 extern int opt_uniform_compression;
 extern int opt_debug;
-extern int opt_nocheck;
+extern int opt_check;
 extern const char *opt_showformat;
 
 extern struct deb_version deb_format;

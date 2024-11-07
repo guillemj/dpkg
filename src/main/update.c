@@ -58,7 +58,7 @@ updateavailable(const char *const *argv)
     internerr("unknown action '%d'", cipaction->arg_int);
   }
 
-  if (!f_noact) {
+  if (f_act) {
     const char *dbdir = dpkg_db_get_dir();
 
     if (access(dbdir, W_OK)) {
@@ -95,7 +95,7 @@ updateavailable(const char *const *argv)
                      pdb_parse_available | pdb_ignoreolder | pdb_dash_is_stdin,
                      NULL);
 
-  if (!f_noact) {
+  if (f_act) {
     writedb(availfile, wdb_dump_available);
     modstatdb_unlock();
   }

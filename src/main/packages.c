@@ -139,7 +139,7 @@ packages(const char *const *argv)
 {
   trigproc_install_hooks();
 
-  modstatdb_open(f_noact ?                  msdbrw_readonly :
+  modstatdb_open(!f_act ?                   msdbrw_readonly :
                  in_force(FORCE_NON_ROOT) ? msdbrw_write :
                                             msdbrw_needsuperuser);
   checkpath();

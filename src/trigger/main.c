@@ -94,7 +94,7 @@ usage(const char *const *argv)
 	return 0;
 }
 
-static int opt_noact;
+static int opt_act;
 static int opt_await = 1;
 static const char *opt_bypackage;
 
@@ -194,7 +194,7 @@ do_trigger(const char *const *argv)
 	trigdef_set_methods(&tdm_add);
 
 	tduf = TDUF_NO_LOCK_OK;
-	if (!opt_noact)
+	if (opt_act)
 		tduf |= TDUF_WRITE | TDUF_WRITE_IF_EMPTY;
 	tdus = trigdef_update_start(tduf);
 	if (tdus >= 0) {
@@ -244,7 +244,7 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "by-package",      'f', 1, NULL,       &opt_bypackage },
 	{ "await",           0,   0, &opt_await, NULL,       NULL, 1 },
 	{ "no-await",        0,   0, &opt_await, NULL,       NULL, 0 },
-	{ "no-act",          0,   0, &opt_noact, NULL,       NULL, 1 },
+	{ "no-act",          0,   0, &opt_act,   NULL,       NULL, 0 },
 	{  NULL  }
 };
 

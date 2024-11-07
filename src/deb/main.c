@@ -141,7 +141,7 @@ static const char printforhelp[] =
      "Type dpkg --help for help about installing and deinstalling packages.");
 
 int opt_debug = 0;
-int opt_nocheck = 0;
+int opt_check = 1;
 int opt_verbose = 0;
 int opt_root_owner_group = 0;
 int opt_uniform_compression = 1;
@@ -266,7 +266,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "deb-format",    0,   1, NULL,           NULL,         set_deb_format   },
   { "debug",         'D', 0, &opt_debug,     NULL,         NULL,          1 },
   { "verbose",       'v', 0, &opt_verbose,   NULL,         NULL,          1 },
-  { "nocheck",       0,   0, &opt_nocheck,   NULL,         NULL,          1 },
+  { "nocheck",       0,   0, &opt_check,     NULL,         NULL,          0 },
   { "root-owner-group",    0, 0, &opt_root_owner_group,    NULL, NULL,    1 },
   { "threads-max",   0,   1, NULL,           NULL,         set_threads_max  },
   { "uniform-compression", 0, 0, &opt_uniform_compression, NULL, NULL,    1 },

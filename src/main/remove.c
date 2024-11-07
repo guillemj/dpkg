@@ -102,7 +102,7 @@ void deferred_remove(struct pkginfo *pkg) {
     else
       pkg_set_want(pkg, PKG_WANT_DEINSTALL);
 
-    if (!f_noact)
+    if (f_act)
       modstatdb_note(pkg);
   }
 
@@ -169,7 +169,7 @@ void deferred_remove(struct pkginfo *pkg) {
   ensure_allinstfiles_available();
   fsys_hash_init();
 
-  if (f_noact) {
+  if (!f_act) {
     printf(_("Would remove or purge %s (%s) ...\n"),
            pkg_name(pkg, pnaw_nonambig),
            versiondescribe(&pkg->installed.version, vdew_nonambig));

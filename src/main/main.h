@@ -71,9 +71,14 @@ struct perpackagestate {
 
 extern const char *const statusstrings[];
 
+extern int f_act;
+extern int f_alsoselect;
+extern int f_autodeconf;
+extern int f_debsig;
+extern int f_pending;
+extern int f_recursive;
 extern int f_robot;
-extern int f_pending, f_recursive, f_alsoselect, f_skipsame, f_noact;
-extern int f_autodeconf, f_nodebsig;
+extern int f_skipsame;
 extern int f_triggers;
 
 extern bool abort_processing;

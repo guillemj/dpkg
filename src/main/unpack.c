@@ -162,7 +162,7 @@ deb_verify(const char *filename)
 static char *
 get_control_dir(char *cidir)
 {
-  if (f_noact) {
+  if (!f_act) {
     char *tmpdir;
 
     tmpdir = mkdtemp(path_make_temp_template("dpkg"));
@@ -1232,13 +1232,13 @@ void process_archive(const char *filename) {
     ohshite(_("cannot access archive '%s'"), filename);
 
   /* We can't ‘tentatively-reassemble’ packages. */
-  if (!f_noact) {
+  if (f_act) {
     if (!deb_reassemble(&filename, &pfilename))
       return;
   }
 
   /* Verify the package. */
-  if (!f_nodebsig)
+  if (f_debsig)
     deb_verify(filename);
 
   /* Get the control information directory. */
@@ -1339,7 +1339,7 @@ void process_archive(const char *filename) {
     log_action("install", pkg, &pkg->available);
   }
 
-  if (f_noact) {
+  if (!f_act) {
     pop_cleanup(ehflag_normaltidy);
     return;
   }
