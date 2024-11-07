@@ -394,7 +394,7 @@ check_ctrl_control(const char *ctrldir)
  * @return The pkginfo struct from the parsed control file.
  */
 static struct pkginfo *
-check_control_area(const char *ctrldir, const char *rootdir)
+check_build_files(const char *ctrldir, const char *rootdir)
 {
   struct pkginfo *pkg;
   int warns;
@@ -591,7 +591,7 @@ do_build(const char *const *argv)
   } else {
     struct pkginfo *pkg;
 
-    pkg = check_control_area(ctrldir, dir);
+    pkg = check_build_files(ctrldir, dir);
     if (debar == NULL)
       debar = gen_dest_pathname_from_pkg(dest, pkg);
     info(_("building package '%s' in '%s'."), pkg->set->name, debar);
