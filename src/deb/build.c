@@ -388,9 +388,10 @@ check_ctrl_control(const char *ctrldir)
 }
 
 /**
- * Perform some sanity checks on the to-be-built package control area.
+ * Perform some sanity checks on the to-be-built package.
  *
- * @param ctrldir The directory from where to build the binary package.
+ * @param ctrldir The control directory from where to build the binary package.
+ * @param rootdir The root directory from where to build the binary package.
  * @return The pkginfo struct from the parsed control file.
  */
 static struct pkginfo *
