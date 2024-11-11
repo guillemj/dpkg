@@ -126,11 +126,7 @@ sub _parse_rules_requires_root {
     my $keywords_base;
     my $keywords_impl;
 
-    if (get_build_api($self->{ctrl}) >= 1) {
-        $rrr_default = 'no';
-    } else {
-        $rrr_default = 'binary-targets';
-    }
+    $rrr_default = 'no';
 
     my $ctrl_src = $self->{ctrl}->get_source();
     $rrr = $self->{rrr_override} // $ctrl_src->{'Rules-Requires-Root'} // $rrr_default;
