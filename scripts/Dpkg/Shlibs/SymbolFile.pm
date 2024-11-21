@@ -73,7 +73,7 @@ my %internal_symbol = (
 );
 
 for my $i (14 .. 31) {
-    # Many powerpc specific symbols
+    # Many powerpc specific symbols.
     $internal_symbol{"_restfpr_$i"} = 1;
     $internal_symbol{"_restfpr_$i\_x"} = 1;
     $internal_symbol{"_restgpr_$i"} = 1;
@@ -199,7 +199,7 @@ sub add_symbol {
 	}
 	return 'pattern';
     } else {
-	# invalidate the minimum version cache
+        # Invalidate the minimum version cache.
         $object->{minver_cache} = [];
 	$object->{syms}{$symbol->get_symbolname()} = $symbol;
 	return 'sym';
@@ -235,7 +235,7 @@ sub parse {
 	    if (not defined ${$state->{obj_ref}}) {
 		error(g_('symbol information must be preceded by a header (file %s, line %s)'), $file, $.);
 	    }
-	    # Symbol specification
+            # Symbol specification.
 	    my $deprecated = ($1) ? Dpkg::Version->new($1) : 0;
 	    my $sym = _new_symbol($state->{base_symbol}, deprecated => $deprecated);
 	    if ($self->create_symbol($2, base => $sym)) {
@@ -258,21 +258,21 @@ sub parse {
 	    $self->load("$dir$filename", %opts);
 	    $state->{base_symbol} = $old_base_symbol;
 	} elsif (/^#|^$/) {
-	    # Skip possible comments and empty lines
+            # Skip possible comments and empty lines.
 	} elsif (/^\|\s*(.*)$/) {
-	    # Alternative dependency template
+            # Alternative dependency template.
 	    push @{$self->{objects}{${$state->{obj_ref}}}{deps}}, "$1";
 	} elsif (/^\*\s*([^:]+):\s*(.*\S)\s*$/) {
-	    # Add meta-fields
+            # Add meta-fields.
 	    $self->{objects}{${$state->{obj_ref}}}{fields}{field_capitalize($1)} = $2;
 	} elsif (/^(\S+)\s+(.*)$/) {
-	    # New object and dependency template
+            # New object and dependency template.
 	    ${$state->{obj_ref}} = $1;
 	    if (exists $self->{objects}{${$state->{obj_ref}}}) {
-		# Update/override infos only
+                # Update/override infos only.
 		$self->{objects}{${$state->{obj_ref}}}{deps} = [ "$2" ];
 	    } else {
-		# Create a new object
+                # Create a new object.
 		$self->create_object(${$state->{obj_ref}}, "$2");
 	    }
 	} else {
@@ -283,7 +283,7 @@ sub parse {
 }
 
 # Beware: we reuse the data structure of the provided symfile so make
-# sure to not modify them after having called this function
+# sure to not modify them after having called this function.
 sub merge_object_from_symfile {
     my ($self, $src, $objid) = @_;
     if (not $self->has_object($objid)) {
@@ -327,7 +327,8 @@ sub output {
 
 	my @symbols;
 	if ($opts{template_mode}) {
-	    # Exclude symbols matching a pattern, but include patterns themselves
+            # Exclude symbols matching a pattern, but include patterns
+            # themselves.
 	    @symbols = grep { not $_->get_pattern() } $self->get_symbols($soname);
 	    push @symbols, $self->get_patterns($soname);
 	} else {
@@ -339,10 +340,11 @@ sub output {
 	    # Do not dump symbols from foreign arch unless dumping a template.
 	    next if not $opts{template_mode} and
 	            not $sym->arch_is_concerned($self->get_arch());
-	    # Dump symbol specification. Dump symbol tags only in template mode.
+            # Dump symbol specification. Dump symbol tags only in template
+            # mode.
 	    print { $fh } $sym->get_symbolspec($opts{template_mode}), "\n" if defined $fh;
 	    $res .= $sym->get_symbolspec($opts{template_mode}) . "\n" if defined wantarray;
-	    # Dump pattern matches as comments (if requested)
+            # Dump pattern matches as comments (if requested).
 	    if ($opts{with_pattern_matches} && $sym->is_pattern()) {
 		for my $match (sort { $a->get_symboltempl() cmp
 		                      $b->get_symboltempl() } $sym->get_pattern_matches())
@@ -389,7 +391,7 @@ sub find_matching_pattern {
 	    }
 	}
 
-	# Now try generic patterns and use the first that matches
+        # Now try generic patterns and use the first that matches.
 	if (not defined $pattern) {
 	    for my $p (@{$obj->{patterns}{generic}}) {
 		if ($pattern_ok->($p) && $p->matches_rawname($name)) {
@@ -407,7 +409,8 @@ sub find_matching_pattern {
 }
 
 # merge_symbols($object, $minver)
-# Needs $Objdump->get_object($soname) as parameter
+#
+# Needs $Objdump->get_object($soname) as parameter.
 # Do not merge symbols found in the list of (arch-specific) internal symbols.
 sub merge_symbols {
     my ($self, $object, $minver) = @_;
@@ -456,26 +459,26 @@ sub merge_symbols {
     unless ($self->has_object($soname)) {
 	$self->create_object($soname, '');
     }
-    # Scan all symbols provided by the objects
+    # Scan all symbols provided by the objects.
     my $obj = $self->get_object($soname);
-    # invalidate the minimum version cache - it is not sufficient to
-    # invalidate in add_symbol, since we might change a minimum
-    # version for a particular symbol without adding it
+    # Invalidate the minimum version cache - it is not sufficient to
+    # invalidate in add_symbol(), since we might change a minimum version
+    # for a particular symbol without adding it.
     $obj->{minver_cache} = [];
     foreach my $name (keys %dynsyms) {
         my $sym;
 	if ($sym = $self->lookup_symbol($name, $obj, 1)) {
-	    # If the symbol is already listed in the file
+            # If the symbol is already listed in the file.
 	    $sym->mark_found_in_library($minver, $self->get_arch());
 	} else {
-	    # The exact symbol is not present in the file, but it might match a
-	    # pattern.
+            # The exact symbol is not present in the file, but it might match
+            # a pattern.
 	    my $pattern = $self->find_matching_pattern($name, $obj, 1);
 	    if (defined $pattern) {
 		$pattern->mark_found_in_library($minver, $self->get_arch());
 		$sym = $pattern->create_pattern_match(symbol => $name);
 	    } else {
-		# Symbol without any special info as no pattern matched
+                # Symbol without any special info as no pattern matched.
 		$sym = Dpkg::Shlibs::Symbol->new(symbol => $name,
 		                                 minver => $minver);
 	    }
@@ -490,7 +493,7 @@ sub merge_symbols {
 	}
     }
 
-    # Deprecate patterns which didn't match anything
+    # Deprecate patterns which didn't match anything.
     for my $pattern (grep { $_->get_pattern_matches() == 0 }
                           $self->get_patterns($soname)) {
 	$pattern->mark_not_found_in_library($minver, $self->get_arch());
@@ -664,7 +667,7 @@ sub get_new_symbols {
 	    push @res, { symbol => $sym, soname => $soname } if $isnew;
 	}
 
-	# Now scan patterns
+        # Now scan patterns.
 	foreach my $p (grep { ($with_optional || ! $_->is_optional())
 	                      && $_->is_legitimate($self->get_arch()) }
 	                    $self->get_patterns($soname))

@@ -43,7 +43,7 @@ use Dpkg::Arch qw(debarch_is_concerned debarch_to_abiattrs);
 use Dpkg::Version;
 use Dpkg::Shlibs::Cppfilt;
 
-# Supported alias types in the order of matching preference
+# Supported alias types in the order of matching preference.
 use constant ALIAS_TYPES => qw(
     c++
     symver
@@ -77,19 +77,19 @@ sub parse_tagspec {
     my ($self, $tagspec) = @_;
 
     if ($tagspec =~ /^\s*\((.*?)\)(.*)$/ && $1) {
-	# (tag1=t1 value|tag2|...|tagN=tNp)
-	# Symbols ()|= cannot appear in the tag names and values
+        # (tag1=t1 value|tag2|...|tagN=tNp)
+        # Symbols ()|= cannot appear in the tag names and values.
 	$tagspec = $1;
 	my $rest = ($2) ? $2 : '';
 	my @tags = split(/\|/, $tagspec);
 
-	# Parse each tag
+        # Parse each tag.
 	for my $tag (@tags) {
 	    if ($tag =~ /^(.*)=(.*)$/) {
-		# Tag with value
+                # Tag with value.
 		$self->add_tag($1, $2);
 	    } else {
-		# Tag without value
+                # Tag without value.
 		$self->add_tag($tag, undef);
 	    }
 	}
@@ -106,10 +106,11 @@ sub parse_symbolspec {
     my $rest;
 
     if (defined($symbol = $self->parse_tagspec($symbolspec))) {
-	# (tag1=t1 value|tag2|...|tagN=tNp)"Foo::Bar::foobar()"@Base 1.0 1
-	# Symbols ()|= cannot appear in the tag names and values
+        # (tag1=t1 value|tag2|...|tagN=tNp)"Foo::Bar::foobar()"@Base 1.0 1
+        # Symbols ()|= cannot appear in the tag names and values.
 
-	# If the tag specification exists symbol name template might be quoted too
+        # If the tag specification exists, symbol name template might be
+        # quoted too.
 	if ($symbol =~ /^(['"])/ && $symbol =~ /^($1)(.*?)$1(.*)$/) {
 	    $symbol_quoted = $1;
 	    $symbol_templ = $2;
@@ -122,8 +123,8 @@ sub parse_symbolspec {
 	}
 	error(g_('symbol name unspecified: %s'), $symbolspec) if (!$symbol);
     } elsif ($symbolspec =~ m/^(\S+)(.*)$/) {
-	# No tag specification. Symbol name is up to the first space
-	# foobarsymbol@Base 1.0 1
+        # foobarsymbol@Base 1.0 1
+        # No tag specification. Symbol name is up to the first space.
         $symbol = $1;
         $rest = $2;
     } else {
@@ -133,7 +134,7 @@ sub parse_symbolspec {
     $self->{symbol_templ} = $symbol_templ;
     $self->{symbol_quoted} = $symbol_quoted if ($symbol_quoted);
 
-    # Now parse "the rest" (minver and dep_id)
+    # Now parse "the rest" (minver and dep_id).
     if ($rest =~ /^\s(\S+)(?:\s(\d+))?/) {
 	$self->{minver} = $1;
 	$self->{dep_id} = $2 // 0;
@@ -156,14 +157,14 @@ sub initialize {
     # real symbols.
     my $type;
     if ($self->has_tag('c++')) {
-	# Raw symbol name is always demangled to the same alias while demangled
-	# symbol name cannot be reliably converted back to raw symbol name.
-	# Therefore, we can use hash for mapping.
+        # The raw symbol name is always demangled to the same alias, while
+        # demangled symbol name cannot be reliably converted back to raw
+        # symbol name. Therefore, we can use a hash for mapping.
 	$type = 'alias-c++';
     }
 
-    # Support old style wildcard syntax. That's basically a symver
-    # with an optional tag.
+    # Support old style wildcard syntax. That's basically a symver with an
+    # optional tag.
     if ($self->get_symbolname() =~ /^\*@(.*)$/) {
 	$self->add_tag('symver') unless $self->has_tag('symver');
 	$self->add_tag('optional') unless $self->has_tag('optional');
@@ -171,8 +172,8 @@ sub initialize {
     }
 
     if ($self->has_tag('symver')) {
-	# Each symbol is matched against its version rather than full
-	# name@version string.
+        # Each symbol is matched against its version rather than full
+        # name@version string.
 	$type = (defined $type) ? 'generic' : 'alias-symver';
         if ($self->get_symbolname() =~ /@/) {
             warning(g_('symver tag with versioned symbol will not match: %s'),
@@ -184,11 +185,11 @@ sub initialize {
 	}
     }
 
-    # As soon as regex is involved, we need to match each real
-    # symbol against each pattern (aka 'generic' pattern).
+    # As soon as "regex" is involved, we need to match each real symbol
+    # against each pattern (aka 'generic' pattern).
     if ($self->has_tag('regex')) {
 	$type = 'generic';
-	# Pre-compile regular expression for better performance.
+        # Pre-compile regular expression for better performance.
 	my $regex = $self->get_symbolname();
 	$self->{pattern}{regex} = qr/$regex/;
     }
@@ -265,8 +266,8 @@ sub get_tag_value {
     return $self->{tags}{$tag};
 }
 
-# Checks if the symbol is equal to another one (by name and optionally,
-# tag sets, versioning info (minver and depid))
+# Checks if the symbol is equal to another one, by name and optionally,
+# tag sets, versioning info (minver and depid).
 sub equals {
     my ($self, $other, %opts) = @_;
     $opts{versioning} //= 1;
@@ -323,7 +324,7 @@ sub arch_is_concerned {
     return 1;
 }
 
-# Get reference to the pattern the symbol matches (if any)
+# Get reference to the pattern the symbol matches (if any).
 sub get_pattern {
     my $self = shift;
 
@@ -363,29 +364,29 @@ sub get_alias_type {
     return ($self->get_pattern_type() =~ /^alias-(.+)/ && $1) || '';
 }
 
-# Get a list of symbols matching this pattern if this symbol is a pattern
+# Get a list of symbols matching this pattern if this symbol is a pattern.
 sub get_pattern_matches {
     my $self = shift;
 
     return @{$self->{pattern}{matches}};
 }
 
-# Create a new symbol based on the pattern (i.e. $self)
-# and add it to the pattern matches list.
+# Create a new symbol based on the pattern (i.e. $self) and add it to the
+# pattern matches list.
 sub create_pattern_match {
     my $self = shift;
     return unless $self->is_pattern();
 
-    # Leave out 'pattern' subfield while deep-cloning
+    # Leave out 'pattern' subfield while deep-cloning.
     my $pattern_stuff = $self->{pattern};
     delete $self->{pattern};
     my $newsym = $self->clone(@_);
     $self->{pattern} = $pattern_stuff;
 
-    # Clean up symbol name related internal fields
+    # Clean up symbol name related internal fields.
     $newsym->set_symbolname();
 
-    # Set newsym pattern reference, add to pattern matches list
+    # Set newsym pattern reference, add to pattern matches list.
     $newsym->{matching_pattern} = $self;
     push @{$self->{pattern}{matches}}, $newsym;
     return $newsym;
@@ -402,8 +403,8 @@ sub convert_to_alias {
 
     if ($type) {
 	if ($type eq 'symver') {
-	    # In case of symver, alias is symbol version. Extract it from the
-	    # rawname.
+            # In case of symver, alias is symbol version. Extract it from the
+            # rawname.
 	    return "$1" if ($rawname =~ /\@([^@]+)$/);
 	} elsif ($rawname =~ /^_Z/ && $type eq 'c++') {
 	    return cppfilt_demangle_cpp($rawname);
@@ -450,24 +451,23 @@ sub get_symbolspec {
     return $spec;
 }
 
-# Sanitize the symbol when it is confirmed to be found in
-# the respective library.
+# Sanitize the symbol when it is confirmed to be found in the
+# respective library.
 sub mark_found_in_library {
     my ($self, $minver, $arch) = @_;
 
     if ($self->{deprecated}) {
-	# Symbol reappeared somehow
+        # Symbol reappeared somehow.
 	$self->{deprecated} = 0;
 	$self->{minver} = $minver if (not $self->is_optional());
     } elsif (version_compare($minver, $self->{minver}) < 0) {
-	# We assume that the right dependency information is already
-	# there.
+        # We assume that the right dependency information is already there.
         $self->{minver} = $minver;
     }
-    # Never remove arch tags from patterns
+    # Never remove arch tags from patterns.
     if (not $self->is_pattern()) {
 	if (not $self->arch_is_concerned($arch)) {
-	    # Remove arch tags because they are incorrect.
+            # Remove arch tags because they are incorrect.
 	    $self->delete_tag('arch');
 	    $self->delete_tag('arch-bits');
 	    $self->delete_tag('arch-endian');
@@ -475,19 +475,19 @@ sub mark_found_in_library {
     }
 }
 
-# Sanitize the symbol when it is confirmed to be NOT found in
-# the respective library.
-# Mark as deprecated those that are no more provided (only if the
-# minver is later than the version where the symbol was introduced)
+# Sanitize the symbol when it is confirmed NOT to be found in the
+# respective library.
+# Mark as deprecated those that are no longer provided (only if the
+# minver is later than the version where the symbol was introduced).
 sub mark_not_found_in_library {
     my ($self, $minver, $arch) = @_;
 
-    # Ignore symbols from foreign arch
+    # Ignore symbols from a foreign arch.
     return if not $self->arch_is_concerned($arch);
 
     if ($self->{deprecated}) {
-	# Bump deprecated if the symbol is optional so that it
-	# keeps reappearing in the diff while it's missing
+        # Bump deprecated if the symbol is optional so that it keeps
+        # reappearing in the diff while it's missing.
 	$self->{deprecated} = $minver if $self->is_optional();
     } elsif (version_compare($minver, $self->{minver}) > 0) {
 	$self->{deprecated} = $minver;
@@ -511,12 +511,12 @@ sub matches_rawname {
     my $do_eq_match = 1;
 
     if ($self->is_pattern()) {
-	# Process pattern tags in the order they were specified.
+        # Process pattern tags in the order they were specified.
 	for my $tag (@{$self->{tagorder}}) {
 	    if (any { $tag eq $_ } ALIAS_TYPES) {
 		$ok = not not ($target = $self->convert_to_alias($target, $tag));
 	    } elsif ($tag eq 'regex') {
-		# Symbol name is a regex. Match it against the target
+                # Symbol name is a regex. Match it against the target.
 		$do_eq_match = 0;
 		$ok = ($target =~ $self->{pattern}{regex});
 	    }
@@ -524,7 +524,7 @@ sub matches_rawname {
 	}
     }
 
-    # Equality match by default
+    # Equality match by default.
     if ($ok && $do_eq_match) {
 	$ok = $target eq $self->get_symbolname();
     }
