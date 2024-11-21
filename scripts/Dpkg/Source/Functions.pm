@@ -105,7 +105,7 @@ sub chmod_if_needed {
 # Use this instead of time() when the timestamp is going to be
 # used to set file timestamps. This avoids confusion when an
 # NFS server and NFS client disagree about what time it is.
-sub fs_time($) {
+sub fs_time {
     my $file = shift;
     my $is_temp = 0;
     if (not -e $file) {
@@ -121,7 +121,7 @@ sub fs_time($) {
     return $mtime;
 }
 
-sub is_binary($) {
+sub is_binary {
     my $file = shift;
 
     # Perform the same check as diff(1), look for a NUL character in the first

@@ -31,13 +31,6 @@ use Dpkg::Vendor qw(run_vendor_hook);
 
 textdomain('dpkg-dev');
 
-sub merge_entries($$$);
-sub merge_block($$$;&);
-sub merge_entry_item($$$$);
-sub merge_conflict($$);
-sub get_conflict_block($$);
-sub join_lines($);
-
 BEGIN {
     eval q{
         use Algorithm::Merge qw(merge);
@@ -214,7 +207,7 @@ sub compare_versions {
 
 # Merge changelog entries smartly by merging individually the different
 # parts constituting an entry
-sub merge_entries($$$) {
+sub merge_entries {
     my ($o, $a, $b) = @_;
     # NOTE: Only $o can be undef
 
@@ -250,7 +243,7 @@ sub merge_entries($$$) {
     }
 }
 
-sub join_lines($) {
+sub join_lines {
     my $array = shift;
     return join("\n", @$array) if ref($array) eq 'ARRAY';
     return $array;
@@ -263,7 +256,7 @@ sub join_lines($) {
 # - - b => b
 # o a o => a
 # - a - => a
-sub merge_block($$$;&) {
+sub merge_block {
     my ($o, $a, $b, $preprocess) = @_;
     $preprocess //= \&join_lines;
     $o = $preprocess->($o) if defined $o;
@@ -284,7 +277,7 @@ sub merge_block($$$;&) {
     return 1;
 }
 
-sub merge_entry_item($$$$) {
+sub merge_entry_item {
     my ($item, $o, $a, $b) = @_;
     if (blessed($o) and $o->isa('Dpkg::Changelog::Entry')) {
 	$o = $o->get_part($item);
@@ -304,13 +297,13 @@ sub merge_entry_item($$$$) {
     return merge_block($o, $a, $b);
 }
 
-sub merge_conflict($$) {
+sub merge_conflict {
     my ($a, $b) = @_;
     unshift @result, get_conflict_block($a, $b);
     $exitcode = 1;
 }
 
-sub get_conflict_block($$) {
+sub get_conflict_block {
     my ($a, $b) = @_;
     my (@a, @b);
     push @a, $a if defined $a;

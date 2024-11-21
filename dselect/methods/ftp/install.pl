@@ -205,7 +205,7 @@ foreach my $site (@{$CONFIG{site}}) {
 
 my $dldir = $CONFIG{dldir};
 # md5sum
-sub md5sum($) {
+sub md5sum {
     my $fn = shift;
     my $m = qx(md5sum $fn);
     $m = (split(' ', $m))[0];
@@ -310,7 +310,7 @@ if($totsize == 0) {
     }
 }
 
-sub download() {
+sub download {
  my $i = 0;
 
  foreach my $site (@{$CONFIG{site}}) {
@@ -447,7 +447,7 @@ my %files; # package-version => files...
 # check a deb or split deb file
 # return 1 if it a deb file, 2 if it is a split deb file
 # else 0
-sub chkdeb($) {
+sub chkdeb {
     my ($fn) = @_;
     # check to see if it is a .deb file
     if (!system "dpkg-deb --info $fn >/dev/null 2>&1 && dpkg-deb --contents $fn >/dev/null 2>&1") {
@@ -457,7 +457,7 @@ sub chkdeb($) {
     }
     return 0;
 }
-sub getdebinfo($) {
+sub getdebinfo {
     my ($fn) = @_;
     my $type = chkdeb($fn);
     my ($pkg, $ver);
@@ -484,7 +484,7 @@ sub getdebinfo($) {
 }
 
 # process deb file to make sure we only keep latest versions
-sub prcdeb($$) {
+sub prcdeb {
     my ($dir, $fn) = @_;
     my ($pkg, $ver) = getdebinfo($fn);
     if(!defined($pkg) || !defined($ver)) {
@@ -511,7 +511,7 @@ sub prcdeb($$) {
     }
 }
 
-sub prcfile() {
+sub prcfile {
     my ($fn) = $_;
     if (-f $fn and $fn ne '.') {
         my $dir = '.';

@@ -69,7 +69,7 @@ If no DEBIAN subdirectory is found, it will return undef.
 
 =cut
 
-sub get_pkg_root_dir($) {
+sub get_pkg_root_dir {
     my $file = shift;
     $file =~ s{/+$}{};
     $file =~ s{/+[^/]+$}{} if not -d $file;
@@ -87,7 +87,7 @@ Returns the filename relative to get_pkg_root_dir($file).
 
 =cut
 
-sub relative_to_pkg_root($) {
+sub relative_to_pkg_root {
     my $file = shift;
     my $pkg_root = get_pkg_root_dir($file);
     if (defined $pkg_root) {
@@ -109,7 +109,7 @@ provided.
 
 =cut
 
-sub guess_pkg_root_dir($) {
+sub guess_pkg_root_dir {
     my $file = shift;
     my $root = get_pkg_root_dir($file);
     return $root if defined $root;
@@ -135,7 +135,7 @@ $resolve_symlink is true then stat() is used, otherwise lstat() is used.
 
 =cut
 
-sub check_files_are_the_same($$;$) {
+sub check_files_are_the_same {
     my ($file1, $file2, $resolve_symlink) = @_;
 
     return 1 if $file1 eq $file2;
@@ -162,7 +162,7 @@ filenames.
 
 =cut
 
-sub canonpath($) {
+sub canonpath {
     my $path = shift;
     $path = File::Spec->canonpath($path);
     my ($v, $dirs, $file) = File::Spec->splitpath($path);
@@ -196,7 +196,7 @@ canonicalized by canonpath().
 
 =cut
 
-sub resolve_symlink($) {
+sub resolve_symlink {
     my $symlink = shift;
     my $content = readlink($symlink);
     return unless defined $content;
@@ -255,7 +255,7 @@ relative path or on the $PATH, undef otherwise.
 
 =cut
 
-sub find_command($) {
+sub find_command {
     my $cmd = shift;
 
     return if not $cmd;
@@ -280,7 +280,7 @@ Return the path of all available control files for the given package.
 
 =cut
 
-sub get_control_path($;$) {
+sub get_control_path {
     my ($pkg, $filetype) = @_;
     my $control_file;
     my @exec = ('dpkg-query', '--control-path', $pkg);
@@ -309,7 +309,7 @@ list if none of the files exists.
 
 =cut
 
-sub find_build_file($) {
+sub find_build_file {
     my $base = shift;
     my $host_arch = get_host_arch();
     my ($abi, $libc, $host_os, $cpu) = debarch_to_debtuple($host_arch);

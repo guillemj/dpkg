@@ -597,7 +597,7 @@ sub prompt
     return 1;
 }
 
-sub version()
+sub version
 {
     printf "Debian %s version %s.\n", $PROGNAME, $PROGVERSION;
 }

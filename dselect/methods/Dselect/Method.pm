@@ -57,7 +57,7 @@ if ($@) {
 
 our %CONFIG;
 
-sub yesno($$) {
+sub yesno {
     my ($d, $msg) = @_;
 
     my ($res, $r);

@@ -186,7 +186,7 @@ sub _typename_prefix
     return report_pretty(report_name($type), report_color($type));
 }
 
-sub report(@)
+sub report
 {
     my ($type, $msg, @args) = @_;
 
@@ -205,7 +205,7 @@ sub debug
     print report(REPORT_DEBUG, @args) if $level <= $debug_level;
 }
 
-sub info($;@)
+sub info
 {
     my @args = @_;
 
@@ -219,28 +219,28 @@ sub notice
     warn report(REPORT_NOTICE, @args) if not $quiet_warnings;
 }
 
-sub warning($;@)
+sub warning
 {
     my @args = @_;
 
     warn report(REPORT_WARN, @args) if not $quiet_warnings;
 }
 
-sub syserr($;@)
+sub syserr
 {
     my ($msg, @args) = @_;
 
     die report(REPORT_ERROR, "$msg: $!", @args);
 }
 
-sub error($;@)
+sub error
 {
     my @args = @_;
 
     die report(REPORT_ERROR, @args);
 }
 
-sub errormsg($;@)
+sub errormsg
 {
     my @args = @_;
 
@@ -254,7 +254,7 @@ sub printcmd
     print { *STDERR } report_pretty(" @cmd\n", report_color(REPORT_COMMAND));
 }
 
-sub subprocerr(@)
+sub subprocerr
 {
     my ($p, @args) = @_;
 
@@ -273,7 +273,7 @@ sub subprocerr(@)
     }
 }
 
-sub usageerr(@)
+sub usageerr
 {
     my ($msg, @args) = @_;
 

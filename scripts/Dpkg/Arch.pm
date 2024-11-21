@@ -122,7 +122,7 @@ from the environment.
 
 =cut
 
-sub get_raw_build_arch()
+sub get_raw_build_arch
 {
     state $build_arch;
 
@@ -149,7 +149,7 @@ if available.
 
 =cut
 
-sub get_build_arch()
+sub get_build_arch
 {
     return Dpkg::BuildEnv::get('DEB_BUILD_ARCH') || get_raw_build_arch();
 }
@@ -157,7 +157,7 @@ sub get_build_arch()
 {
     my %cc_host_gnu_type;
 
-    sub get_host_gnu_type()
+    sub get_host_gnu_type
     {
         my $CC = $ENV{CC} || 'gcc';
 
@@ -191,7 +191,7 @@ from the environment.
 
 =cut
 
-sub get_raw_host_arch()
+sub get_raw_host_arch
 {
     state $host_arch;
 
@@ -231,7 +231,7 @@ if available.
 
 =cut
 
-sub get_host_arch()
+sub get_host_arch
 {
     return Dpkg::BuildEnv::get('DEB_HOST_ARCH') || get_raw_host_arch();
 }
@@ -242,7 +242,7 @@ Get an array with all currently known Debian architectures.
 
 =cut
 
-sub get_valid_arches()
+sub get_valid_arches
 {
     _load_cputable();
     _load_ostable();
@@ -303,7 +303,7 @@ sub _load_ostable
     });
 }
 
-sub _load_abitable()
+sub _load_abitable
 {
     _load_table('abitable', sub {
         if (m/^(?!\#)(\S+)\s+(\S+)/) {
@@ -312,7 +312,7 @@ sub _load_abitable()
     });
 }
 
-sub _load_tupletable()
+sub _load_tupletable
 {
     _load_cputable();
 
@@ -340,7 +340,7 @@ sub _load_tupletable()
     });
 }
 
-sub debtuple_to_gnutriplet(@)
+sub debtuple_to_gnutriplet
 {
     my ($abi, $libc, $os, $cpu) = @_;
 
@@ -353,7 +353,7 @@ sub debtuple_to_gnutriplet(@)
     return join('-', $cputable{$cpu}, $ostable{"$abi-$libc-$os"});
 }
 
-sub gnutriplet_to_debtuple($)
+sub gnutriplet_to_debtuple
 {
     my $gnu = shift;
     return unless defined($gnu);
@@ -389,7 +389,7 @@ Map a GNU triplet into a Debian multiarch triplet.
 
 =cut
 
-sub gnutriplet_to_multiarch($)
+sub gnutriplet_to_multiarch
 {
     my $gnu = shift;
     my ($cpu, $cdr) = split(/-/, $gnu, 2);
@@ -407,14 +407,14 @@ Map a Debian architecture into a Debian multiarch triplet.
 
 =cut
 
-sub debarch_to_multiarch($)
+sub debarch_to_multiarch
 {
     my $arch = shift;
 
     return gnutriplet_to_multiarch(debarch_to_gnutriplet($arch));
 }
 
-sub debtuple_to_debarch(@)
+sub debtuple_to_debarch
 {
     my ($abi, $libc, $os, $cpu) = @_;
 
@@ -429,7 +429,7 @@ sub debtuple_to_debarch(@)
     }
 }
 
-sub debarch_to_debtuple($)
+sub debarch_to_debtuple
 {
     my $arch = shift;
 
@@ -464,7 +464,7 @@ Map a Debian architecture into a GNU triplet.
 
 =cut
 
-sub debarch_to_gnutriplet($)
+sub debarch_to_gnutriplet
 {
     my $arch = shift;
 
@@ -477,14 +477,14 @@ Map a GNU triplet into a Debian architecture.
 
 =cut
 
-sub gnutriplet_to_debarch($)
+sub gnutriplet_to_debarch
 {
     my $gnu = shift;
 
     return debtuple_to_debarch(gnutriplet_to_debtuple($gnu));
 }
 
-sub debwildcard_to_debtuple($)
+sub debwildcard_to_debtuple
 {
     my $arch = shift;
     my @tuple = split /-/, $arch, 4;
@@ -504,7 +504,7 @@ sub debwildcard_to_debtuple($)
     }
 }
 
-sub debarch_to_abiattrs($)
+sub debarch_to_abiattrs
 {
     my $arch = shift;
     my ($abi, $libc, $os, $cpu) = debarch_to_debtuple($arch);
@@ -518,7 +518,7 @@ sub debarch_to_abiattrs($)
     }
 }
 
-sub debarch_to_cpubits($)
+sub debarch_to_cpubits
 {
     my $arch = shift;
     my $cpu;
@@ -539,7 +539,7 @@ Debian architecture. No wildcard matching is performed.
 
 =cut
 
-sub debarch_eq($$)
+sub debarch_eq
 {
     my ($a, $b) = @_;
 
@@ -560,7 +560,7 @@ architecture wildcard.
 
 =cut
 
-sub debarch_is($$)
+sub debarch_is
 {
     my ($real, $alias) = @_;
 
@@ -587,7 +587,7 @@ Evaluate whether a Debian architecture is an architecture wildcard.
 
 =cut
 
-sub debarch_is_wildcard($)
+sub debarch_is_wildcard
 {
     my $arch = shift;
 

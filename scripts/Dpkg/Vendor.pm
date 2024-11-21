@@ -84,7 +84,7 @@ sub get_vendor_dir {
     return $origins;
 }
 
-=item $fields = get_vendor_info($name)
+=item $fields = get_vendor_info([$name])
 
 Returns a L<Dpkg::Control> object with the information parsed from the
 corresponding vendor file in $Dpkg::CONFDIR/origins/. If $name is omitted,
@@ -96,7 +96,7 @@ if there's no file for the given vendor.
 
 my $vendor_sep_regex = qr{[^A-Za-z0-9]+};
 
-sub get_vendor_info(;$) {
+sub get_vendor_info {
     my $vendor = shift || 'default';
     my $vendor_key = lc $vendor =~ s{$vendor_sep_regex}{}gr;
     state %VENDOR_CACHE;
@@ -110,7 +110,7 @@ sub get_vendor_info(;$) {
     return $fields;
 }
 
-=item $name = get_vendor_file($name)
+=item $name = get_vendor_file([$name])
 
 Check if there's a file for the given vendor and returns its
 name.
@@ -133,7 +133,7 @@ the dpkg 1.22.x release cycle.
 
 =cut
 
-sub get_vendor_file(;$) {
+sub get_vendor_file {
     my $vendor = shift || 'default';
 
     my @names;
@@ -174,7 +174,7 @@ If that file doesn't exist, it returns undef.
 
 =cut
 
-sub get_current_vendor() {
+sub get_current_vendor {
     my $f;
     if (Dpkg::BuildEnv::has('DEB_VENDOR')) {
         $f = get_vendor_info(Dpkg::BuildEnv::get('DEB_VENDOR'));

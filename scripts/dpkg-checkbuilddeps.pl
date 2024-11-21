@@ -35,7 +35,7 @@ use Dpkg::Control::Info;
 
 textdomain('dpkg-dev');
 
-sub version()
+sub version
 {
     printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 }

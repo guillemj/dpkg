@@ -108,7 +108,7 @@ if (! $CONFIG{done}) {
 edit_config('ftp', $methdir);
 
 my $ftp;
-sub download() {
+sub download {
  foreach (@{$CONFIG{site}}) {
     $ftp = do_connect(ftpsite => $_->[0],
                       ftpdir => $_->[1],

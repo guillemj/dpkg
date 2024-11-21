@@ -43,7 +43,7 @@ use Fcntl qw(:flock);
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 
-sub file_lock($$) {
+sub file_lock {
     my ($fh, $filename) = @_;
 
     # A strict dependency on libfile-fcntllock-perl being it an XS module,

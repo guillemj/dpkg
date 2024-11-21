@@ -179,7 +179,7 @@ my $req_variable_to_print;
 my $action = 'list';
 my $force = 0;
 
-sub action_needs($) {
+sub action_needs {
     my $bits = shift;
     return (($req_info & $bits) == $bits);
 }

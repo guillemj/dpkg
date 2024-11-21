@@ -46,7 +46,7 @@ use Exporter qw(import);
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-sub pkg_name_is_illegal($) {
+sub pkg_name_is_illegal {
     my $name = shift // '';
 
     if ($name eq '') {

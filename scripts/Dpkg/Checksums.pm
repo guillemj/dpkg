@@ -76,7 +76,7 @@ Returns the list of supported checksums algorithms.
 
 =cut
 
-sub checksums_get_list() {
+sub checksums_get_list {
     my @list = sort keys %{$CHECKSUMS};
     return @list;
 }
@@ -88,7 +88,7 @@ supported. The checksum algorithm is case-insensitive.
 
 =cut
 
-sub checksums_is_supported($) {
+sub checksums_is_supported {
     my $alg = shift;
     return exists $CHECKSUMS->{lc($alg)};
 }
@@ -104,7 +104,7 @@ whether the checksum algorithm is considered cryptographically strong.
 
 =cut
 
-sub checksums_get_property($$) {
+sub checksums_get_property {
     my ($alg, $property) = @_;
 
     return unless checksums_is_supported($alg);
