@@ -94,7 +94,7 @@ usage(const char *const *argv)
 	return 0;
 }
 
-static int opt_act;
+static int opt_act = 1;
 static int opt_await = 1;
 static const char *opt_bypackage;
 
