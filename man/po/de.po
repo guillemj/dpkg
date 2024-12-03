@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.12\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-18 07:18+0200\n"
-"PO-Revision-Date: 2024-08-18 07:41+0200\n"
+"POT-Creation-Date: 2024-12-03 17:46+0100\n"
+"PO-Revision-Date: 2024-12-03 17:50+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -5123,9 +5123,9 @@ msgstr ""
 "Das Format der I<Architekturliste> ist das gleiche wie das des Feldes "
 "B<Build-Depends> in I<debian/control> (außer den einschließenden eckigen "
 "Klammern []). Beispielsweise wird das erste Symbol aus der folgenden Liste "
-"nur auf den Architekturen Arm64, Any-amd64 und Riscv64 betrachtet, das zweite "
-"nur auf Linux-Architekturen, während das dritte überall außer auf Armel "
-"betrachtet wird."
+"nur auf den Architekturen Arm64, Any-amd64 und Riscv64 betrachtet, das "
+"zweite nur auf Linux-Architekturen, während das dritte überall außer auf "
+"Armel betrachtet wird."
 
 #. type: verbatim
 #: deb-src-symbols.pod
@@ -13495,13 +13495,13 @@ msgstr ""
 #. type: textblock
 #: dpkg-deb.pod
 msgid ""
-"Unless you specify B<--nocheck>, B<dpkg-deb> will read B<DEBIAN/control> and "
-"parse it.  It will check the file for syntax errors and other problems, and "
-"display the name of the binary package being built.  B<dpkg-deb> will also "
-"check the permissions of the maintainer scripts and other files found in the "
-"B<DEBIAN> control information directory."
+"Unless you specify B<--no-check>, B<dpkg-deb> will read B<DEBIAN/control> "
+"and parse it.  It will check the file for syntax errors and other problems, "
+"and display the name of the binary package being built.  B<dpkg-deb> will "
+"also check the permissions of the maintainer scripts and other files found "
+"in the B<DEBIAN> control information directory."
 msgstr ""
-"Falls Sie nicht B<--nocheck> angeben, wird B<dpkg-deb> B<DEBIAN/control> "
+"Falls Sie nicht B<--no-check> angeben, wird B<dpkg-deb> B<DEBIAN/control> "
 "lesen und es auswerten. Es prüft die Datei auf Syntax-Fehler und andere "
 "Probleme und zeigt den Namen des zu bauenden Binärpakets an. B<dpkg-deb> "
 "wird auch die Rechte der Betreuer-Skripte und anderer Dateien im B<DEBIAN>-"
@@ -13526,14 +13526,14 @@ msgstr "Falls das anzulegende Archiv bereits existiert, wird es überschrieben."
 msgid ""
 "If the second argument is a directory then B<dpkg-deb> will write to the "
 "file I<directory>B</>I<package>B<_>I<version>B<_>I<arch>B<.deb.> When a "
-"target directory is specified, rather than a file, the B<--nocheck> option "
+"target directory is specified, rather than a file, the B<--no-check> option "
 "may not be used (since B<dpkg-deb> needs to read and parse the package "
 "control file to determine which filename to use)."
 msgstr ""
 "Falls das zweite Argument ein Verzeichnis ist, wird B<dpkg-deb> in die Datei "
 "I<Verzeichnis>B</>I<Paket>B<_>I<Version>B<_>I<Arch>B<.deb.> schreiben. Wenn "
 "ein Zielverzeichnis statt einer Datei angegeben ist, darf die Option B<--"
-"nocheck> nicht verwendet werden (da B<dpkg-deb> die Paketsteuerdatei lesen "
+"no-check> nicht verwendet werden (da B<dpkg-deb> die Paketsteuerdatei lesen "
 "und auswerten muss, um den zu verwendenden Dateinamen zu bestimmen)."
 
 #. type: =item
@@ -13973,9 +13973,9 @@ msgstr ""
 "Diese Dpkg-Version wurde nur als i386 a.out-Programm veröffentlicht."
 
 #. type: =item
-#: dpkg-deb.pod
-msgid "B<--nocheck>"
-msgstr "B<--nocheck>"
+#: dpkg-deb.pod dpkg-source.pod
+msgid "B<--no-check>"
+msgstr "B<--no-check>"
 
 #. type: textblock
 #: dpkg-deb.pod
@@ -13986,6 +13986,21 @@ msgstr ""
 "Unterdrückt die normalen Überprüfungen von B<dpkg-deb --build> über die "
 "vorgeschlagenen Inhalte eines Archivs. Damit können Sie jedes Archiv bauen, "
 "das Sie möchten, egal wie defekt es ist."
+
+#. type: textblock
+#: dpkg-deb.pod
+msgid "Option supported since dpkg 1.22.12."
+msgstr "Option unterstützt seit Dpkg 1.22.12."
+
+#. type: =item
+#: dpkg-deb.pod
+msgid "B<--nocheck>"
+msgstr "B<--nocheck>"
+
+#. type: textblock
+#: dpkg-deb.pod
+msgid "This is an alias for B<--no-check>."
+msgstr "Dies ist ein Alias für B<--no-check>."
 
 #. type: =item
 #: dpkg-deb.pod start-stop-daemon.pod
@@ -20929,11 +20944,6 @@ msgid ""
 msgstr ""
 "Kopiert die Original-Tarbälle nicht in die Nähe des entpackten Quellpakets "
 "(seit 1.14.17)."
-
-#. type: =item
-#: dpkg-source.pod
-msgid "B<--no-check>"
-msgstr "B<--no-check>"
 
 #. type: textblock
 #: dpkg-source.pod
