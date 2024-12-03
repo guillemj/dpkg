@@ -918,14 +918,14 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
         if (!statr && S_ISDIR(stab.st_mode)) {
           forcibleerr(FORCE_OVERWRITE_DIR,
                       _("trying to overwrite directory '%.250s' "
-                        "in package %.250s %.250s with nondirectory"),
+                        "in package %.250s (%.250s) with nondirectory"),
                       nifd->namenode->name, pkg_name(otherpkg, pnaw_nonambig),
                       versiondescribe(&otherpkg->installed.version,
                                       vdew_nonambig));
         } else {
           forcibleerr(FORCE_OVERWRITE,
                       _("trying to overwrite '%.250s', "
-                        "which is also in package %.250s %.250s"),
+                        "which is also in package %.250s (%.250s)"),
                       nifd->namenode->name, pkg_name(otherpkg, pnaw_nonambig),
                       versiondescribe(&otherpkg->installed.version,
                                       vdew_nonambig));
@@ -1672,21 +1672,21 @@ wanttoinstall(struct pkginfo *pkg)
   } else if (rc == 0) {
     /* Same version fully installed. */
     if (f_skipsame && pkg->available.arch == pkg->installed.arch) {
-      notice(_("version %.250s of %.250s already installed, skipping"),
-             versiondescribe(&pkg->installed.version, vdew_nonambig),
-             pkg_name(pkg, pnaw_nonambig));
+      notice(_("package %.250s (%.250s) with same version already installed, skipping"),
+             pkg_name(pkg, pnaw_nonambig),
+             versiondescribe(&pkg->installed.version, vdew_nonambig));
       return false;
     } else {
       return true;
     }
   } else if (in_force(FORCE_DOWNGRADE)) {
-    warning(_("downgrading %.250s from %.250s to %.250s"),
+    warning(_("downgrading %.250s (%.250s) to (%.250s)"),
             pkg_name(pkg, pnaw_nonambig),
             versiondescribe(&pkg->installed.version, vdew_nonambig),
             versiondescribe(&pkg->available.version, vdew_nonambig));
     return true;
   } else {
-    notice(_("will not downgrade %.250s from %.250s to %.250s, skipping"),
+    notice(_("will not downgrade %.250s (%.250s) to (%.250s), skipping"),
            pkg_name(pkg, pnaw_nonambig),
            versiondescribe(&pkg->installed.version, vdew_nonambig),
            versiondescribe(&pkg->available.version, vdew_nonambig));
