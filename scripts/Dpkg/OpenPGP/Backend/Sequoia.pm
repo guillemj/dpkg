@@ -45,6 +45,14 @@ sub DEFAULT_CMD {
     return [ qw(sq) ];
 }
 
+sub has_keystore {
+    my $self = shift;
+
+    return 1 if $ENV{HOME} && -e "$ENV{HOME}/.local/share/sequoia/keystore";
+    return 1 if $ENV{HOME} && -e "$ENV{HOME}/.gnupg";
+    return 0;
+}
+
 sub _sq_exec
 {
     my ($self, @exec) = @_;
