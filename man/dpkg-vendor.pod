@@ -33,6 +33,21 @@ B<%PKGCONFDIR%/origins>.
 B<%PKGCONFDIR%/origins/default> contains
 information about the current vendor.
 
+The origin files provide metadata about specific vendors,
+such as their URL or where to file bug reports,
+and are usually used both to determine the behavior of tools and
+resulting contents during package builds targeting a specific vendor,
+and to describe the provenance of packages.
+
+Packages can explicitly declare their vendor by including an B<Origin> field,
+otherwise the vendor for a package without such field is assumed to be the
+one pointed to by the F<default> origin symbolic link.
+
+The F<default> symbolic link is also used to denote the origin of
+the current installation managed by B<dpkg>,
+be that a full distribution or an overlay on top of an existing base
+system that contains either no packaging system or a native one.
+
 This program was introduced in dpkg 1.15.1.
 
 =head1 COMMANDS
