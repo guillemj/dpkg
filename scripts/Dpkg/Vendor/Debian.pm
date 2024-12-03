@@ -253,7 +253,6 @@ sub set_build_features {
         nios2
         powerpc
         powerpcel
-        powerpcspe
         s390
         sh3
         sh3eb
