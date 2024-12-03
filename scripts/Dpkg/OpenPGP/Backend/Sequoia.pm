@@ -1,4 +1,4 @@
-# Copyright © 2021-2022 Guillem Jover <guillem@debian.org>
+# Copyright © 2021-2024 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ sub armor
     return OPENPGP_MISSING_CMD unless $self->{cmd};
 
     # We ignore the $type, and let "sq" handle this automatically.
-    my $rc = $self->_sq_exec(qw(toolbox armor --output), $out, $in);
+    my $rc = $self->_sq_exec(qw(packet armor --output), $out, $in);
     return OPENPGP_BAD_DATA if $rc;
     return OPENPGP_OK;
 }
@@ -81,7 +81,7 @@ sub dearmor
     return OPENPGP_MISSING_CMD unless $self->{cmd};
 
     # We ignore the $type, and let "sq" handle this automatically.
-    my $rc = $self->_sq_exec(qw(toolbox dearmor --output), $out, $in);
+    my $rc = $self->_sq_exec(qw(packet dearmor --output), $out, $in);
     return OPENPGP_BAD_DATA if $rc;
     return OPENPGP_OK;
 }
@@ -93,6 +93,7 @@ sub inline_verify
     return OPENPGP_MISSING_CMD unless $self->{cmd};
 
     my @opts;
+    push @opts, '--cleartext';
     push @opts, map { ('--signer-file', $_) } @certs;
     push @opts, '--output', $data if defined $data;
 
@@ -109,7 +110,7 @@ sub verify
 
     my @opts;
     push @opts, map { ('--signer-file', $_) } @certs;
-    push @opts, '--detached', $sig;
+    push @opts, '--signature-file', $sig;
 
     my $rc = $self->_sq_exec(qw(verify), @opts, $data);
     return OPENPGP_NO_SIG if $rc;
@@ -124,7 +125,7 @@ sub inline_sign
     return OPENPGP_NEEDS_KEYSTORE if $key->needs_keystore();
 
     my @opts;
-    push @opts, '--cleartext-signature';
+    push @opts, '--cleartext';
     push @opts, '--signer-file', $key->handle;
     push @opts, '--output', $inlinesigned;
 
