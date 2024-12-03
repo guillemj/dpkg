@@ -2,17 +2,17 @@
 # This file is distributed under the same license as the dpkg package.
 #
 # Petr Cech <cech@debian.org>, 1999, 2000, 2001.
-# Miroslav Kure <kurem@debian.cz>, 2004-2023.
+# Miroslav Kure <kurem@debian.cz>, 2004-2024.
 #
 # Thanks go to:
 # Milan Zamazal <pdm@debian.org>
 # Vladimir Michl <Vladimir.Michl@seznam.cz>
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.21.20\n"
+"Project-Id-Version: dpkg 1.22.11\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2024-08-01 12:38+0200\n"
-"PO-Revision-Date: 2023-02-01 23:14+0100\n"
+"PO-Revision-Date: 2024-11-04 20:37+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "Language: cs\n"
@@ -464,16 +464,14 @@ msgstr[1] "nyní jsou nainstalovány %d soubory a adresáře.)\n"
 msgstr[2] "nyní je nainstalováno %d souborů a adresářů.)\n"
 
 #: lib/dpkg/db-fsys-load.c
-#, fuzzy, c-format
-#| msgid "cannot open %s"
+#, c-format
 msgid "cannot open %s file"
-msgstr "nelze otevřít %s"
+msgstr "nelze otevřít soubor %s"
 
 #: lib/dpkg/db-fsys-load.c
-#, fuzzy, c-format
-#| msgid "unable to get file '%s%s' metadata"
+#, c-format
 msgid "cannot get %s file metadata"
-msgstr "nelze získat metadata souboru „%s%s“"
+msgstr "nelze získat metadata souboru %s"
 
 #: lib/dpkg/db-fsys-override.c
 #, c-format
@@ -1069,24 +1067,18 @@ msgstr ""
 "%s"
 
 #: lib/dpkg/file.c
-#, fuzzy, c-format
-#| msgid ""
-#| "%s was locked by another process with pid %d\n"
-#| "%s"
+#, c-format
 msgid ""
 "%s was locked by %s process with pid %d\n"
 "%s"
 msgstr ""
-"%s byl uzamčen jiným procesem s pid %d\n"
+"%s byl uzamčen procesem %s s pid %d\n"
 "%s"
 
 #: lib/dpkg/file.c
-#, fuzzy
-#| msgctxt "architecture"
-#| msgid "<unknown>"
 msgctxt "process"
 msgid "<unknown>"
-msgstr "<neznámá>"
+msgstr "<neznámý>"
 
 #: lib/dpkg/file.c
 #, c-format
@@ -1573,7 +1565,7 @@ msgstr "nepovolené jméno architektury v zadání „%s:%s“: %s"
 #: lib/dpkg/progress.c
 #, c-format
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 #: lib/dpkg/report.c utils/update-alternatives.c
 msgid "warning"
@@ -2008,13 +2000,7 @@ msgid "Remove an essential package"
 msgstr "odstraní nezbytný balík"
 
 #: src/common/force.c
-#, fuzzy, c-format
-#| msgid ""
-#| "%s forcing options - control behaviour when problems found:\n"
-#| "  warn but continue:  --force-<thing>,<thing>,...\n"
-#| "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-"
-#| "<thing>,...\n"
-#| " Forcing things:\n"
+#, c-format
 msgid ""
 "%s forcing options - control behavior when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2084,10 +2070,8 @@ msgid "cannot set security context for file object '%s'"
 msgstr "nelze nastavit bezpečnostní konext pro soubor „%s“"
 
 #: src/realpath/main.c
-#, fuzzy
-#| msgid "Type dpkg-trigger --help for help about this utility."
 msgid "Use --help for help about this utility."
-msgstr "Pro zobrazení nápovědy napište dpkg-trigger --help."
+msgstr "Pro zobrazení nápovědy použijte --help."
 
 #: src/realpath/main.c src/divert/main.c src/statoverride/main.c
 #, c-format
@@ -2107,15 +2091,12 @@ msgstr ""
 "pozdější. Toto programové vybavení je absolutně bez záruky.\n"
 
 #: src/realpath/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [<option>...] <command>\n"
-#| "\n"
+#, c-format
 msgid ""
 "Usage: %s [<option>...] <pathname>\n"
 "\n"
 msgstr ""
-"Použití: %s [<volba>…] <příkaz>\n"
+"Použití: %s [<volba>…] <cesta>\n"
 "\n"
 
 #: src/realpath/main.c
@@ -2129,33 +2110,36 @@ msgid ""
 "      --help                   show this help message.\n"
 "\n"
 msgstr ""
+"Volby:\n"
+"  -z, --zero                 ukončí řádek znakem NUL, ne odřádkováním\n"
+"      --instdir <adresář>    nastaví kořenový adresář\n"
+"      --root <adresář>       nastaví kořenový adresář\n"
+"      --version              zobrazí verzi\n"
+"      --help                 zobrazí tuto nápovědu\n"
+"\n"
 
 #: src/realpath/main.c
 msgid "too many levels of symbolic links"
-msgstr ""
+msgstr "příliš mnoho úrovní symbolických odkazů"
 
 #: src/realpath/main.c
-#, fuzzy, c-format
-#| msgid "cannot read %s"
+#, c-format
 msgid "cannot read link '%s'"
-msgstr "nelze číst %s"
+msgstr "nelze číst odkaz „%s“"
 
 #: src/realpath/main.c
-#, fuzzy, c-format
-#| msgid "symbolic link '%.250s' size has changed from %jd to %zd"
+#, c-format
 msgid "symbolic link '%s' size has changed from %jd to %zd"
-msgstr "velikost symbolického odkazu „%.250s“ se změnila z %jd na %zd"
+msgstr "velikost symbolického odkazu „%s“ se změnila z %jd na %zd"
 
 #: src/realpath/main.c
-#, fuzzy
-#| msgid "--%s needs a <package> argument"
 msgid "need a pathname argument"
-msgstr "--%s vyžaduje jako argument <balík>"
+msgstr "jako argument je vyžadována cesta"
 
 #: src/realpath/main.c
 #, c-format
 msgid "link '%s' includes root prefix '%s'"
-msgstr ""
+msgstr "odkaz „%s“ obsahuje kořenový prefix „%s“"
 
 #: src/deb/build.c
 #, c-format
@@ -2582,10 +2566,9 @@ msgid "'%.255s' contains no control component '%.255s'"
 msgstr "„%.255s“ neobsahuje řídící část „%.255s“"
 
 #: src/deb/info.c
-#, fuzzy, c-format
-#| msgid "cannot open file %s"
+#, c-format
 msgid "cannot open file '%.255s'"
-msgstr "nelze otevřít soubor %s"
+msgstr "nelze otevřít soubor „%.255s“"
 
 #: src/deb/info.c
 #, c-format
@@ -2601,16 +2584,14 @@ msgid "cannot scan directory '%.255s'"
 msgstr "nelze prohledat adresář „%.255s“"
 
 #: src/deb/info.c
-#, fuzzy, c-format
-#| msgid "unable to get file '%s%s' metadata"
+#, c-format
 msgid "cannot get file '%.255s' metadata"
-msgstr "nelze získat metadata souboru „%s%s“"
+msgstr "nelze získat metadata souboru „%.255s“"
 
 #: src/deb/info.c
-#, fuzzy, c-format
-#| msgid "cannot read %s"
+#, c-format
 msgid "cannot read file '%.255s'"
-msgstr "nelze číst %s"
+msgstr "nelze číst soubor „%.255s“"
 
 #: src/deb/info.c
 #, c-format
@@ -2618,10 +2599,9 @@ msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgstr " %7jd bajtů, %5d řádků   %c  %-20.127s %.127s\n"
 
 #: src/deb/info.c
-#, fuzzy, c-format
-#| msgid " %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"
+#, c-format
 msgid " %7jd bytes, %5d lines   %c  %.127s\n"
-msgstr " %7jd bajtů, %5d řádků   %c  %-20.127s %.127s\n"
+msgstr " %7jd bajtů, %5d řádků   %c  %.127s\n"
 
 #: src/deb/info.c
 #, c-format
@@ -2715,35 +2695,7 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  -v, --verbose                    Enable verbose output.\n"
-#| "  -D, --debug                      Enable debugging output.\n"
-#| "      --showformat=<format>        Use alternative format for --show.\n"
-#| "      --deb-format=<format>        Select archive format.\n"
-#| "                                     Allowed values: 0.939000, 2.0 "
-#| "(default).\n"
-#| "      --nocheck                    Suppress control file check (build "
-#| "bad\n"
-#| "                                     packages).\n"
-#| "      --root-owner-group           Forces the owner and groups to root.\n"
-#| "      --threads-max=<threads>      Use at most <threads> with "
-#| "compressor.\n"
-#| "      --[no-]uniform-compression   Use the compression params on all "
-#| "members.\n"
-#| "  -z#                              Set the compression level when "
-#| "building.\n"
-#| "  -Z<type>                         Set the compression type used when "
-#| "building.\n"
-#| "                                     Allowed types: gzip, xz, zstd, "
-#| "none.\n"
-#| "  -S<strategy>                     Set the compression strategy when "
-#| "building.\n"
-#| "                                     Allowed values: none; extreme (xz);\n"
-#| "                                     filtered, huffman, rle, fixed "
-#| "(gzip).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -2772,16 +2724,18 @@ msgstr ""
 "  -D, --debug                povolí ladící výpisy\n"
 "      --showformat=<formát>  použije pro --show alternativní formát\n"
 "      --deb-format=<formát>  vybere formát archivu\n"
-"                             povolené hodnoty: 0.939000, 2.0 (výchozí)\n"
+"                               povolené hodnoty: 0.939000, 2.0 (výchozí)\n"
 "  --nocheck                  potlačí kontrolu souboru control (vytváření\n"
 "                               chybných balíků)\n"
 "  --root-owner-group         vynutí změnu vlastníka a skupin na root\n"
 "  --threads-max=<vlákna>     komprese použije maximálně <vláken>\n"
 "  --[no-]uniform-compression použije stejné parametry komprese na vše\n"
-"  -z#                        při vytváření nastaví míru komprese\n"
-"  -Z<typ>                    při vytváření nastaví typ komprese\n"
-"                               povolené hodnoty: gzip, xz, none\n"
-"  -S<strategie>              při vytváření nastaví strategii komprese\n"
+"  -Z, --compression=<typ>    při vytváření nastaví typ komprese\n"
+"                               povolené hodnoty: gzip, xz, zstd, none\n"
+"  -z, --compression-level=<míra>\n"
+"                             při vytváření nastaví míru komprese\n"
+"  -S, --compression-strategy=<strategie>\n"
+"                             při vytváření nastaví strategii komprese\n"
 "                               povolené hodnoty: none, extreme (xz);\n"
 "                               filtered, huffman, rle, fixed (gzip)\n"
 "\n"
@@ -2863,10 +2817,9 @@ msgid "need an action option"
 msgstr "nutno zadat akci"
 
 #: src/deb/main.c
-#, fuzzy, c-format
-#| msgid "unsupported compression type '%s' with uniform compression"
+#, c-format
 msgid "unsupported deb format '%d.%d' with non-uniform compression"
-msgstr "nepodporovaný typ komprese „%s“ pro --uniform-compression"
+msgstr "nepodporovaný deb formát „%d.%d“ pro nejednotnou kompresi"
 
 #: src/deb/main.c
 #, c-format
@@ -5624,10 +5577,9 @@ msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending nemá žádný volitelný argument"
 
 #: src/main/packages.c
-#, fuzzy, c-format
-#| msgid "--%s needs at least one package name argument"
+#, c-format
 msgid "--%s (without --pending) needs at least one package name argument"
-msgstr "--%s vyžaduje alespoň jedno jméno balíku"
+msgstr "--%s (bez --pending) vyžaduje alespoň jedno jméno balíku"
 
 #: src/main/packages.c
 #, c-format
@@ -6307,10 +6259,9 @@ msgid ""
 msgstr "zastaralá volba „--%s“, nedostupné balíky jsou čištěny automaticky"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "Debian %s version %s.\n"
+#, c-format
 msgid "%s version %s.\n"
-msgstr "Debian %s verze %s.\n"
+msgstr "%s verze %s.\n"
 
 #: utils/update-alternatives.c
 #, c-format
