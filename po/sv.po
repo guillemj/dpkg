@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: dpkg 1.22.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2024-08-01 12:38+0200\n"
-"PO-Revision-Date: 2024-04-28 14:30+0100\n"
+"PO-Revision-Date: 2024-09-29 17:15+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
-"Language-Team: Svenska <tp-sv@listor.tp-sv.se>\n"
+"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1072,22 +1072,17 @@ msgstr ""
 "%s är låst av en annan process\n"
 "%s"
 
+# %s är namnet eller <unknown>
 #: lib/dpkg/file.c
-#, fuzzy, c-format
-#| msgid ""
-#| "%s was locked by another process with pid %d\n"
-#| "%s"
+#, c-format
 msgid ""
 "%s was locked by %s process with pid %d\n"
 "%s"
 msgstr ""
-"%s är låst av en annan process med PID %d\n"
+"%s är låst av en %s-process med PID %d\n"
 "%s"
 
 #: lib/dpkg/file.c
-#, fuzzy
-#| msgctxt "architecture"
-#| msgid "<unknown>"
 msgctxt "process"
 msgid "<unknown>"
 msgstr "<okänd>"
@@ -2078,10 +2073,8 @@ msgid "cannot set security context for file object '%s'"
 msgstr "kan inte sätta säkerhetssammanhang för filobjektet ”%s”"
 
 #: src/realpath/main.c
-#, fuzzy
-#| msgid "Type dpkg-trigger --help for help about this utility."
 msgid "Use --help for help about this utility."
-msgstr "Skriv dpkg-trigger --help för hjälp om detta verktyg."
+msgstr "Använd --help för hjälp om detta verktyg."
 
 #: src/realpath/main.c src/divert/main.c src/statoverride/main.c
 #, c-format
@@ -2100,15 +2093,12 @@ msgstr ""
 "eller senare för kopieringsvillkor. Det finns INGEN garanti.\n"
 
 #: src/realpath/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [<option>...] <command>\n"
-#| "\n"
+#, c-format
 msgid ""
 "Usage: %s [<option>...] <pathname>\n"
 "\n"
 msgstr ""
-"Användning: %s [<flagga>...] <kommando>\n"
+"Användning: %s [<flagga>...] <sökvägsnamn>\n"
 "\n"
 
 #: src/realpath/main.c
@@ -2122,34 +2112,37 @@ msgid ""
 "      --help                   show this help message.\n"
 "\n"
 msgstr ""
+"Flaggor:\n"
+"  -z, --zero                   avsluta utdatalinjer med NUL, inte "
+"radbrytning.\n"
+"      --instdir <directory>    välj rotkatalog.\n"
+"      --root <directory>       välj rotkatalog.\n"
+"      --version                visa versionsnummer.\n"
+"      --help                   visa detta hjälpmeddelande.\n"
+"\n"
 
 #: src/realpath/main.c
 msgid "too many levels of symbolic links"
-msgstr ""
+msgstr "för många nivåer med symboliska länkar"
 
 #: src/realpath/main.c
-#, fuzzy, c-format
-#| msgid "cannot read %s"
+#, c-format
 msgid "cannot read link '%s'"
-msgstr "kan inte läsa %s"
+msgstr "kan inte läsa länken ”%s”"
 
 #: src/realpath/main.c
-#, fuzzy, c-format
-#| msgid "symbolic link '%.250s' size has changed from %jd to %zd"
+#, c-format
 msgid "symbolic link '%s' size has changed from %jd to %zd"
-msgstr ""
-"storleken på den symboliska länken ”%.250s” har ändrats från %jd till %zd"
+msgstr "storleken på den symboliska länken ”%s” har ändrats från %jd till %zd"
 
 #: src/realpath/main.c
-#, fuzzy
-#| msgid "--%s needs a single argument"
 msgid "need a pathname argument"
-msgstr "--%s behöver ett ensamt argument"
+msgstr "--%s behöver ett sökvägsnamnargument"
 
 #: src/realpath/main.c
 #, c-format
 msgid "link '%s' includes root prefix '%s'"
-msgstr ""
+msgstr "länken ”%s” innehåller rotprefixet ”%s”"
 
 #: src/deb/build.c
 #, c-format
@@ -2579,10 +2572,9 @@ msgid "'%.255s' contains no control component '%.255s'"
 msgstr "”%.255s” innehåller ingen kontrollkomponent ”%.255s”"
 
 #: src/deb/info.c
-#, fuzzy, c-format
-#| msgid "cannot open file %s"
+#, c-format
 msgid "cannot open file '%.255s'"
-msgstr "kan inte ööpna filen %s"
+msgstr "kan inte ööpna filen ”%.255s”"
 
 #: src/deb/info.c
 #, c-format
@@ -2597,16 +2589,14 @@ msgid "cannot scan directory '%.255s'"
 msgstr "kan inte läsa katalogen ”%.255s”"
 
 #: src/deb/info.c
-#, fuzzy, c-format
-#| msgid "cannot get %s file metadata"
+#, c-format
 msgid "cannot get file '%.255s' metadata"
-msgstr "kan inte hämta metadata för filen %s"
+msgstr "kan inte hämta metadata för filen ”%.255s”"
 
 #: src/deb/info.c
-#, fuzzy, c-format
-#| msgid "cannot read %s"
+#, c-format
 msgid "cannot read file '%.255s'"
-msgstr "kan inte läsa %s"
+msgstr "kan inte läsa filen ”%.255s”"
 
 #: src/deb/info.c
 #, c-format
@@ -2708,35 +2698,7 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  -v, --verbose                    Enable verbose output.\n"
-#| "  -D, --debug                      Enable debugging output.\n"
-#| "      --showformat=<format>        Use alternative format for --show.\n"
-#| "      --deb-format=<format>        Select archive format.\n"
-#| "                                     Allowed values: 0.939000, 2.0 "
-#| "(default).\n"
-#| "      --nocheck                    Suppress control file check (build "
-#| "bad\n"
-#| "                                     packages).\n"
-#| "      --root-owner-group           Forces the owner and groups to root.\n"
-#| "      --threads-max=<threads>      Use at most <threads> with "
-#| "compressor.\n"
-#| "      --[no-]uniform-compression   Use the compression params on all "
-#| "members.\n"
-#| "  -z#                              Set the compression level when "
-#| "building.\n"
-#| "  -Z<type>                         Set the compression type used when "
-#| "building.\n"
-#| "                                     Allowed types: gzip, xz, zstd, "
-#| "none.\n"
-#| "  -S<strategy>                     Set the compression strategy when "
-#| "building.\n"
-#| "                                     Allowed values: none; extreme (xz);\n"
-#| "                                     filtered, huffman, rle, fixed "
-#| "(gzip).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -2772,10 +2734,11 @@ msgstr ""
 "      --threads-max=<trådar>       Använd som mest <trådar> i komprimerare.\n"
 "      --[no-]uniform-compression   Använd komprimeringsparam. för alla "
 "delar.\n"
-"  -z#                              Ställer in komprimering vid byggning.\n"
 "  -Z<typ>                          Väljer komprimeringstyp för byggning.\n"
 "                                    Tillåtna typer: gzip, xz, zstd, none\n"
-"  -S<strategy>                     Välj komprimeringsstrategi för byggning.\n"
+"  -z, --compression-level=<nivå>   Välj komprimeringsnivå för byggning.\n"
+"  -S, --compression-strategy=<strategi>\n"
+"                                   Välj komprimeringsstrategi för byggning.\n"
 "                                    Tillåtna värden: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
