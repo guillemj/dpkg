@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.12\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-12-03 17:46+0100\n"
-"PO-Revision-Date: 2024-12-03 17:50+0100\n"
+"POT-Creation-Date: 2024-12-04 08:13+0100\n"
+"PO-Revision-Date: 2024-12-04 08:34+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -2785,10 +2785,29 @@ msgstr "B<%PKGCONFDIR%/origins/>I<Dateiname>"
 #: deb-origin.pod
 msgid ""
 "The files in B<%PKGCONFDIR%/origins> can provide information about various "
-"vendors who are providing Debian packages."
+"vendors that are providing Debian packages.  These files are usually used "
+"both to determine the behavior of tools and resulting contents during "
+"package builds targeting a specific vendor, and to describe the provenance "
+"of packages."
 msgstr ""
 "Die Dateien in B<%PKGCONFDIR%/origins> können Informationen über "
-"verschiedene Lieferanten von Debian-Paketen bereitstellen."
+"verschiedene Lieferanten bereitstellen, die Debian-Pakete bereitstellen. "
+"Diese Dateien werden normalerweise zur Bestimmung des Verhaltens von "
+"Werkzeugen und daraus entstehenden Inhalten während des Paketbaus für einen "
+"bestimmten Lieferanten verwandt, sowie zur Beschreibung des Ursprungs von "
+"Paketen."
+
+#. type: textblock
+#: deb-origin.pod dpkg-vendor.pod
+msgid ""
+"Packages can explicitly declare their vendor by including an B<Origin> "
+"field, otherwise the vendor for a package without such field is assumed to "
+"be the one pointed to by the F<default> origin symbolic link."
+msgstr ""
+"Pakete können ihren Lieferanten explizit durch Aufnahme des Feldes B<Origin> "
+"erklären, andernfalls wird der Lieferant für Pakete ohne ein solches Feld "
+"als derjenige angenommen, auf den der symbolische Lieferantenlink F<default> "
+"zeigt."
 
 #. type: textblock
 #: deb-origin.pod
@@ -13532,9 +13551,9 @@ msgid ""
 msgstr ""
 "Falls das zweite Argument ein Verzeichnis ist, wird B<dpkg-deb> in die Datei "
 "I<Verzeichnis>B</>I<Paket>B<_>I<Version>B<_>I<Arch>B<.deb.> schreiben. Wenn "
-"ein Zielverzeichnis statt einer Datei angegeben ist, darf die Option B<--"
-"no-check> nicht verwendet werden (da B<dpkg-deb> die Paketsteuerdatei lesen "
-"und auswerten muss, um den zu verwendenden Dateinamen zu bestimmen)."
+"ein Zielverzeichnis statt einer Datei angegeben ist, darf die Option B<--no-"
+"check> nicht verwendet werden (da B<dpkg-deb> die Paketsteuerdatei lesen und "
+"auswerten muss, um den zu verwendenden Dateinamen zu bestimmen)."
 
 #. type: =item
 #: dpkg-deb.pod
@@ -23514,6 +23533,33 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-vendor.pod
+msgid ""
+"The origin files provide metadata about specific vendors, such as their URL "
+"or where to file bug reports, and are usually used both to determine the "
+"behavior of tools and resulting contents during package builds targeting a "
+"specific vendor, and to describe the provenance of packages."
+msgstr ""
+"Die Ursprungsdateien stellen Metadaten über bestimmte Lieferanten bereit, "
+"wie ihre URL oder wo Fehler gemeldet werden sollen. Sie werden normalerweise "
+"zur Ermittlung des Verhaltens von Werkzeugen und daraus entstehenden "
+"Inhalten während des Paketbaus für einen bestimmten Lieferanten verwandt, "
+"sowie zur Beschreibung des Ursprungs von Paketen."
+
+#. type: textblock
+#: dpkg-vendor.pod
+msgid ""
+"The F<default> symbolic link is also used to denote the origin of the "
+"current installation managed by B<dpkg>, be that a full distribution or an "
+"overlay on top of an existing base system that contains either no packaging "
+"system or a native one."
+msgstr ""
+"Der symbolische Link F<default> bezeichnet auch den Ursprung der durch "
+"B<dpkg> verwalteten aktuellen Installation. Dies kann eine vollständige "
+"Distribution oder eine Überlagerung auf einem bestehenden Basissystem sein, "
+"das entweder kein Paketierungsystem oder ein eigenes enthält."
+
+#. type: textblock
+#: dpkg-vendor.pod
 msgid "This program was introduced in dpkg 1.15.1."
 msgstr "Dieses Programm wurde in Dpkg 1.15.1 hinzugefügt."
 
@@ -30706,6 +30752,13 @@ msgid "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
 msgstr ""
 "L<ln(1)>, FHS (der Dateisystem-Hierarchie-Standard, Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid ""
+#~ "The files in B<%PKGCONFDIR%/origins> can provide information about "
+#~ "various vendors who are providing Debian packages."
+#~ msgstr ""
+#~ "Die Dateien in B<%PKGCONFDIR%/origins> können Informationen über "
+#~ "verschiedene Lieferanten von Debian-Paketen bereitstellen."
 
 #~ msgid ""
 #~ "I<value> is a bit field defining the set of warnings that can be emitted "
