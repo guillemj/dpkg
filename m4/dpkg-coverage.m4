@@ -10,8 +10,8 @@ AC_DEFUN([DPKG_CODE_COVERAGE], [
     [], [enable_coverage=no])
   AM_CONDITIONAL([COVERAGE_ENABLED], [test x$enable_coverage = xyes])
 
-  AS_IF([test "x$enable_coverage" = "xyes"], [
-     AS_IF([test "x$GCC" = "xno"], [
+  AS_IF([test "$enable_coverage" = "yes"], [
+     AS_IF([test "$GCC" = "no"], [
        AC_MSG_ERROR([not compiling with gcc, which is required for C coverage support])
      ])
 

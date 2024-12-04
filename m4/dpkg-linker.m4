@@ -11,7 +11,7 @@ AC_DEFUN([DPKG_LINKER_OPTIMIZATIONS], [
       [Disable (detected) linker optimizations])],
     [], [enable_linker_optimizations=yes])
 
-  AS_IF([test "x$enable_linker_optimizations" = "xno"], [
+  AS_IF([test "$enable_linker_optimizations" = "no"], [
     LDFLAGS=$(echo "$LDFLAGS" | $SED -e "s/ -Wl,-O[[0-9]]*\b//g")
   ], [
     save_LDFLAGS=$LDFLAGS
@@ -40,7 +40,7 @@ AC_DEFUN([DPKG_LINKER_AS_NEEDED], [
     LDFLAGS="$save_LDFLAGS"
   ])
   AM_CONDITIONAL([HAVE_LINKER_AS_NEEDED],
-    [test "x$dpkg_cv_linker_as_needed" = "xyes"])
+    [test "$dpkg_cv_linker_as_needed" = "yes"])
 ])
 
 # DPKG_LINKER_VERSION_SCRIPT
@@ -65,5 +65,5 @@ int symbol(void) { return 0; }
     rm -f conftest.map
   ])
   AM_CONDITIONAL([HAVE_LINKER_VERSION_SCRIPT],
-    [test "x$dpkg_cv_version_script" = "xyes"])
+    [test "$dpkg_cv_version_script" = "yes"])
 ])

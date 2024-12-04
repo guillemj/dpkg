@@ -20,7 +20,7 @@ va_copy(v1, v2);
       dpkg_cv_va_copy=no
     ])
   ])
-  AS_IF([test "x$dpkg_cv_va_copy" = "xyes"], [
+  AS_IF([test "$dpkg_cv_va_copy" = "yes"], [
     AC_DEFINE([HAVE_VA_COPY], [1], [Define to 1 if the 'va_copy' macro exists])
   ])
 ])# DPKG_FUNC_VA_COPY
@@ -56,7 +56,7 @@ AC_DEFUN([DPKG_FUNC_FSYNC_DIR], [
       dpkg_cv_fsync_dir=maybe
     ])
 
-    AS_IF([test "x$dpkg_cv_fsync_dir" = "xmaybe"], [
+    AS_IF([test "$dpkg_cv_fsync_dir" = "maybe"], [
       AS_CASE([$host_os],
         [aix*], [
           # On AIX fsync(3) requires writable file descriptors, which
@@ -70,7 +70,7 @@ AC_DEFUN([DPKG_FUNC_FSYNC_DIR], [
       )
     ])
   ])
-  AS_IF([test "x$dpkg_cv_fsync_dir" = "xyes"], [
+  AS_IF([test "$dpkg_cv_fsync_dir" = "yes"], [
     AC_DEFINE([HAVE_FSYNC_DIR], [1],
               [Define to 1 if the 'fsync' function works on directories])
   ])
@@ -116,7 +116,7 @@ int test_vsnprintf(const char *fmt, ...)
       dpkg_cv_c99_snprintf=maybe
     ])
 
-    AS_IF([test "x$dpkg_cv_c99_snprintf" = "xmaybe"], [
+    AS_IF([test "$dpkg_cv_c99_snprintf" = "maybe"], [
       AC_COMPILE_IFELSE([
         AC_LANG_SOURCE([[
 #define _GNU_SOURCE 1
@@ -132,11 +132,11 @@ int test_vsnprintf(const char *fmt, ...)
       ])
     ])
   ])
-  AS_IF([test "x$dpkg_cv_c99_snprintf" = "xyes"], [
+  AS_IF([test "$dpkg_cv_c99_snprintf" = "yes"], [
     AC_DEFINE([HAVE_C99_SNPRINTF], [1],
       [Define to 1 if the 'snprintf' family is C99 conformant])
   ])
-  AM_CONDITIONAL([HAVE_C99_SNPRINTF], [test "x$dpkg_cv_c99_snprintf" = "xyes"])
+  AM_CONDITIONAL([HAVE_C99_SNPRINTF], [test "$dpkg_cv_c99_snprintf" = "yes"])
 ])# DPKG_FUNC_C99_SNPRINTF
 
 # DPKG_USE_MMAP
@@ -148,7 +148,7 @@ AC_DEFUN([DPKG_USE_MMAP], [
       [enable usage of unrealiable mmap if available])],
     [], [enable_mmap=no])
 
-  AS_IF([test "x$enable_mmap" = "xyes"], [
+  AS_IF([test "$enable_mmap" = "yes"], [
     AC_CHECK_FUNCS([mmap])
     AC_DEFINE([USE_MMAP], [1], [Use unreliable mmap support])
   ])
@@ -164,7 +164,7 @@ AC_DEFUN([DPKG_USE_DISK_PREALLOCATE], [
       [enable usage of disk size pre-allocation])],
     [], [enable_disk_preallocate=no])
 
-  AS_IF([test "x$enable_disk_preallocate" = "xyes"], [
+  AS_IF([test "$enable_disk_preallocate" = "yes"], [
     AC_DEFINE([USE_DISK_PREALLOCATE], [1], [Use disk size pre-allocation])
   ])
 ])
@@ -211,6 +211,6 @@ AC_DEFUN([DPKG_CHECK_COMPAT_FUNCS], [
   AC_CHECK_FUNCS([$1])
   m4_foreach_w([ac_func], [$1], [
     AM_CONDITIONAL([HAVE_]AS_TR_CPP(ac_func),
-      [test "x$ac_cv_func_[]AS_TR_SH(ac_func)" = "xyes"])
+      [test "$ac_cv_func_[]AS_TR_SH(ac_func)" = "yes"])
   ])
 ]) # DPKG_CHECK_COMPAT_FUNCS

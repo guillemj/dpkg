@@ -13,7 +13,7 @@ AC_DEFUN([DPKG_PROG_SHELL], [
     AC_PATH_PROGS_FEATURE_CHECK([DPKG_SHELL], [sh dash bsh ksh bash], [
       shellcheck=$(test -x $ac_path_DPKG_SHELL && \
         $ac_path_DPKG_SHELL -c -- "echo yes" 2>/dev/null)
-      AS_IF([test "x$shellcheck" = "xyes"], [
+      AS_IF([test "$shellcheck" = "yes"], [
         ac_cv_path_DPKG_SHELL="$(AS_BASENAME([$ac_path_DPKG_SHELL]))"
         ac_path_DPKG_SHELL_found=:
       ])
@@ -63,7 +63,7 @@ AC_DEFUN([DPKG_PROG_PERL], [
                   $ac_path_PERL -MConfig -Mversion -e \
                   'my $r = qv("v$Config{version}") >= qv("_PERL_MIN_VERSION");
                    print "yes" if $r')
-      AS_IF([test "x$perlcheck" = "xyes"], [
+      AS_IF([test "$perlcheck" = "yes"], [
         ac_cv_path_PERL=$ac_path_PERL ac_path_PERL_found=:
       ])
     ], [
@@ -96,7 +96,7 @@ AC_DEFUN([DPKG_PROG_PO4A], [
                       | $SED -ne 's/^po4a version \(.*\)\.$/\1/p')
       AS_VERSION_COMPARE([$po4aversion], [_PO4A_MIN_VERSION],
                          [po4acheck=no], [po4acheck=yes], [po4acheck=yes])
-      AS_IF([test "x$po4acheck" = "xyes"], [
+      AS_IF([test "$po4acheck" = "yes"], [
         ac_cv_path_PO4A=$ac_path_PO4A ac_path_PO4A_found=:
       ])
     ], [
@@ -118,7 +118,7 @@ AC_DEFUN([DPKG_PROG_PO4A], [
 AC_DEFUN([DPKG_PROG_POD2MAN], [
   AC_ARG_VAR([POD2MAN], [pod2man program])
   AC_CHECK_PROGS([POD2MAN], [pod2man])
-  AM_CONDITIONAL([BUILD_POD_DOC], [test "x$POD2MAN" != "x"])
+  AM_CONDITIONAL([BUILD_POD_DOC], [test -n "$POD2MAN"])
 ])# DPKG_PROG_POD2MAN
 
 # DPKG_PROG_TAR

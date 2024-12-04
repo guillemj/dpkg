@@ -117,10 +117,10 @@ DPKG_LIB_BZ2
 DPKG_LIB_LZMA
 DPKG_LIB_ZSTD
 DPKG_LIB_SELINUX
-AS_IF([test "x$build_dselect" = "xyes"], [
+AS_IF([test "$build_dselect" = "yes"], [
   DPKG_LIB_CURSES
 ])
-AS_IF([test "x$build_start_stop_daemon" = "xyes"], [
+AS_IF([test "$build_start_stop_daemon" = "yes"], [
   DPKG_LIB_SOCKET
   DPKG_LIB_PS
   DPKG_LIB_KVM
@@ -161,7 +161,7 @@ AC_CHECK_HEADERS([sys/proc.h], [], [], [
 #endif
 ])
 
-AS_IF([test "x$build_dselect" = "xyes"], [
+AS_IF([test "$build_dselect" = "yes"], [
   AC_LANG_PUSH([C++])
   AC_CHECK_HEADERS([cxxabi.h])
   AC_LANG_POP([C++])
@@ -225,7 +225,7 @@ AC_CHECK_FUNCS([\
   uselocale \
 ])
 
-AS_IF([test "x$build_dselect" = "xyes"], [
+AS_IF([test "$build_dselect" = "yes"], [
   AC_LANG_PUSH([C++])
   AC_CHECK_FUNCS([__cxa_pure_virtual])
   AC_LANG_POP([C++])

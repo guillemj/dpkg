@@ -150,7 +150,7 @@ AC_DEFUN([DPKG_COMPILER_WARNINGS], [
       [Disable (detected) additional compiler warnings])],
     [], [enable_compiler_warnings=yes])
 
-  AS_IF([test "x$enable_compiler_warnings" = "xyes"], [
+  AS_IF([test "$enable_compiler_warnings" = "yes"], [
     DPKG_CHECK_COMPILER_WARNINGS
     AC_LANG_PUSH([C++])
     DPKG_CHECK_COMPILER_WARNINGS
@@ -179,7 +179,7 @@ AC_DEFUN([DPKG_COMPILER_SANITIZER], [
       [Enable compiler sanitizer support])],
     [], [enable_compiler_sanitizer=no])
 
-  AS_IF([test "x$enable_compiler_sanitizer" = "xyes"], [
+  AS_IF([test "$enable_compiler_sanitizer" = "yes"], [
     DPKG_CHECK_COMPILER_SANITIZER
     AC_LANG_PUSH([C++])
     DPKG_CHECK_COMPILER_SANITIZER
@@ -203,7 +203,7 @@ AC_DEFUN([DPKG_COMPILER_ANALYZER], [
       [Enable compiler analyzer support])],
     [], [enable_compiler_analyzer=no])
 
-  AS_IF([test "x$enable_compiler_analyzer" = "xyes"], [
+  AS_IF([test "$enable_compiler_analyzer" = "yes"], [
     DPKG_CHECK_COMPILER_FLAG([-fanalyzer])
     AC_LANG_PUSH([C++])
     DPKG_CHECK_COMPILER_FLAG([-fanalyzer])
@@ -224,7 +224,7 @@ AC_DEFUN([DPKG_COMPILER_OPTIMIZATIONS], [
       [Disable (detected) compiler optimizations])],
     [], [enable_compiler_optimizations=yes])
 
-  AS_IF([test "x$enable_compiler_optimizations" = "xno"], [
+  AS_IF([test "$enable_compiler_optimizations" = "no"], [
     CFLAGS=$(echo "$CFLAGS" | $SED -e "s/ -O[[1-9]]*\b/ -O0/g")
   ])
 ])
@@ -323,7 +323,7 @@ AC_DEFUN([DPKG_C_STD], [
   AC_CACHE_CHECK([whether $CC supports C$1], [dpkg_cv_c_std], [
     _DPKG_C_STD_TRY([$1], [dpkg_cv_c_std=yes], [dpkg_cv_c_std=no])
   ])
-  AS_IF([test "x$dpkg_cv_c_std" != "xyes"], [
+  AS_IF([test "$dpkg_cv_c_std" != "yes"], [
     AC_CACHE_CHECK([for $CC option to accept C$1], [dpkg_cv_c_std_opt], [
       dpkg_cv_c_std_opt=none
       dpkg_save_CC="$CC"
@@ -332,17 +332,17 @@ AC_DEFUN([DPKG_C_STD], [
         _DPKG_C_STD_TRY([$1], [dpkg_opt_worked=yes], [dpkg_opt_worked=no])
         CC="$dpkg_save_CC"
 
-        AS_IF([test "x$dpkg_opt_worked" = "xyes"], [
+        AS_IF([test "$dpkg_opt_worked" = "yes"], [
           dpkg_cv_c_std_opt="$opt"; break
         ])
       done
     ])
-    AS_IF([test "x$dpkg_cv_c_std_opt" != "xnone"], [
+    AS_IF([test "$dpkg_cv_c_std_opt" != "none"], [
       CC="$CC $dpkg_cv_c_std_opt"
       dpkg_cv_c_std=yes
     ])
   ])
-  AS_IF([test "x$dpkg_cv_c_std" = "xyes"], [
+  AS_IF([test "$dpkg_cv_c_std" = "yes"], [
     dpkg_c_std_version="_DPKG_C_C$1_VERSION"
   ], [
     AC_MSG_ERROR([unsupported required C$1])
@@ -445,7 +445,7 @@ AC_DEFUN([DPKG_CXX_STD], [
   AC_CACHE_CHECK([whether $CXX supports C++$1], [dpkg_cv_cxx_std], [
     _DPKG_CXX_STD_TRY([$1], [dpkg_cv_cxx_std=yes], [dpkg_cv_cxx_std=no])
   ])
-  AS_IF([test "x$dpkg_cv_cxx_std" != "xyes"], [
+  AS_IF([test "$dpkg_cv_cxx_std" != "yes"], [
     AC_CACHE_CHECK([for $CXX option to accept C++$1], [dpkg_cv_cxx_std_opt], [
       dpkg_cv_cxx_std_opt=none
       dpkg_save_CXX="$CXX"
@@ -454,17 +454,17 @@ AC_DEFUN([DPKG_CXX_STD], [
         _DPKG_CXX_STD_TRY([$1], [dpkg_opt_worked=yes], [dpkg_opt_worked=no])
         CXX="$dpkg_save_CXX"
 
-        AS_IF([test "x$dpkg_opt_worked" = "xyes"], [
+        AS_IF([test "$dpkg_opt_worked" = "yes"], [
           dpkg_cv_cxx_std_opt="$opt"; break
         ])
       done
     ])
-    AS_IF([test "x$dpkg_cv_cxx_std_opt" != "xnone"], [
+    AS_IF([test "$dpkg_cv_cxx_std_opt" != "none"], [
       CXX="$CXX $dpkg_cv_cxx_std_opt"
       dpkg_cv_cxx_std=yes
     ])
   ])
-  AS_IF([test "x$dpkg_cv_cxx_std" = "xyes"], [
+  AS_IF([test "$dpkg_cv_cxx_std" = "yes"], [
     dpkg_cxx_std_version="_DPKG_CXX_CXX$1_VERSION"
   ], [
     AC_MSG_ERROR([unsupported required C++$1])

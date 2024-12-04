@@ -13,14 +13,14 @@ AC_DEFUN([DPKG_LIB_MD], [
     dpkg_save_libmd_LIBS=$LIBS
     AC_SEARCH_LIBS([MD5Init], [md])
     LIBS=$dpkg_save_libmd_LIBS
-    AS_IF([test "x$ac_cv_search_MD5Init" = "xnone required"], [
+    AS_IF([test "$ac_cv_search_MD5Init" = "none required"], [
       have_libmd="builtin"
-    ], [test "x$ac_cv_search_MD5Init" != "xno"], [
+    ], [test "$ac_cv_search_MD5Init" != "no"], [
       have_libmd="yes"
       MD_LIBS="$ac_cv_search_MD5Init"
     ])
   ])
-  AS_IF([test "x$have_libmd" = "xno"], [
+  AS_IF([test "$have_libmd" = "no"], [
     AC_MSG_FAILURE([md5 digest functions not found])
   ])
 ])# DPKG_LIB_MD
@@ -35,25 +35,25 @@ AC_DEFUN([DPKG_WITH_COMPRESS_LIB], [
       [use $1 library for compression and decompression])],
     [], [AS_TR_SH([with_lib$1])=check])
   AS_TR_SH([have_lib$1])="no"
-  AS_IF([test "x$AS_TR_SH([with_lib$1])" != "xno"], [
+  AS_IF([test "$AS_TR_SH([with_lib$1])" != "no"], [
     AC_CHECK_LIB([$1], [$3], [
       AC_CHECK_HEADER([$2], [
         AS_TR_SH([have_lib$1])="yes"
       ])
     ])
 
-    AS_IF([test "x$AS_TR_SH([with_lib$1])" != "xno"], [
-      AS_IF([test "x$AS_TR_SH([have_lib$1])" = "xyes"], [
+    AS_IF([test "$AS_TR_SH([with_lib$1])" != "no"], [
+      AS_IF([test "$AS_TR_SH([have_lib$1])" = "yes"], [
         AC_DEFINE(AS_TR_CPP([WITH_LIB$1]), 1,
           [Define to 1 to use $1 library rather than console tool])
-        AS_IF([test "x$AS_TR_SH([with_lib$1])" = "xstatic"], [
+        AS_IF([test "$AS_TR_SH([with_lib$1])" = "static"], [
           AS_TR_SH([dpkg_$1_libs])="-Wl,-Bstatic -l$1 -Wl,-Bdynamic"
         ], [
           AS_TR_SH([dpkg_$1_libs])="-l$1"
         ])
         AS_TR_CPP([$1_LIBS])="${AS_TR_CPP([$1_LIBS]):+$AS_TR_CPP([$1_LIBS]) }$AS_TR_SH([dpkg_$1_libs])"
       ], [
-        AS_IF([test "x$AS_TR_SH([with_lib$1])" != "xcheck"], [
+        AS_IF([test "$AS_TR_SH([with_lib$1])" != "check"], [
           AC_MSG_FAILURE([lib$1 library or header not found])
         ])
       ])
@@ -76,13 +76,13 @@ AC_DEFUN([DPKG_LIB_Z], [
     [Define zlib-ng as 2 for the zlib implementation enum])
 
   # If we have been requested the stock zlib, override the auto-detection.
-  AS_IF([test "x$with_libz" != "xyes" && test "x$have_libz_ng" = "xyes"], [
+  AS_IF([test "$with_libz" != "yes" && test "$have_libz_ng" = "yes"], [
     AC_DEFINE([WITH_GZFILEOP], [yes],
       [Define to yes to use zlib-ng gzFile IO support])
     Z_LIBS=$Z_NG_LIBS
     use_libz_impl="USE_LIBZ_IMPL_ZLIB_NG"
     have_libz_impl="yes (zlib-ng)"
-  ], [test "x$have_libz" = "xyes"], [
+  ], [test "$have_libz" = "yes"], [
     use_libz_impl="USE_LIBZ_IMPL_ZLIB"
     have_libz_impl="yes (zlib)"
   ], [
@@ -135,14 +135,14 @@ AC_DEFUN([DPKG_LIB_SELINUX], [
     [], [with_libselinux=check])
   SELINUX_MIN_VERSION=2.3
   have_libselinux="no"
-  AS_IF([test "x$with_libselinux" != "xno"], [
+  AS_IF([test "$with_libselinux" != "no"], [
     PKG_CHECK_MODULES([SELINUX], [libselinux >= $SELINUX_MIN_VERSION], [
       AC_CHECK_HEADER([selinux/selinux.h], [
         AC_DEFINE([WITH_LIBSELINUX], [1],
           [Define to 1 to compile in SELinux support])
         have_libselinux="yes"
       ], [
-        AS_IF([test "x$with_libselinux" != "xcheck"], [
+        AS_IF([test "$with_libselinux" != "check"], [
           AC_MSG_FAILURE([libselinux header not found])
         ])
       ])
@@ -150,12 +150,12 @@ AC_DEFUN([DPKG_LIB_SELINUX], [
         AC_MSG_FAILURE([libselinux does not support setexecfilecon()])
       ])
     ], [
-      AS_IF([test "x$with_libselinux" != "xcheck"], [
+      AS_IF([test "$with_libselinux" != "check"], [
         AC_MSG_FAILURE([libselinux at least $SELINUX_MIN_VERSION not found])
       ])
     ])
   ])
-  AM_CONDITIONAL([WITH_LIBSELINUX], [test "x$have_libselinux" = "xyes"])
+  AM_CONDITIONAL([WITH_LIBSELINUX], [test "$have_libselinux" = "yes"])
 ])# DPKG_LIB_SELINUX
 
 # _DPKG_CHECK_LIB_CURSES_NARROW
@@ -181,7 +181,7 @@ AC_DEFUN([DPKG_LIB_CURSES], [
   AC_ARG_VAR([CURSES_LIBS], [linker flags for curses library])dnl
   AC_CHECK_HEADERS([ncurses/ncurses.h ncurses.h curses.h ncurses/term.h term.h],
     [have_curses_header=yes])
-  AS_IF([test "x$USE_UNICODE" = "xyes"], [
+  AS_IF([test "$USE_UNICODE" = "yes"], [
     AC_CHECK_HEADERS([ncursesw/ncurses.h ncursesw/term.h],
       [have_curses_header=yes])
     AC_CHECK_LIB([ncursesw], [initscr], [
@@ -198,11 +198,11 @@ AC_DEFUN([DPKG_LIB_CURSES], [
   LIBS="$CURSES_LIBS"
   AC_SEARCH_LIBS([tigetstr], [tinfo])
   LIBS=$dpkg_save_curses_LIBS
-  AS_IF([test "x$ac_cv_search_tigetstr" != "xnone required" && \
-         test "x$ac_cv_search_tigetstr" != "xno"], [
+  AS_IF([test "$ac_cv_search_tigetstr" != "none required" && \
+         test "$ac_cv_search_tigetstr" != "no"], [
     CURSES_LIBS="${CURSES_LIBS:+$CURSES_LIBS }$ac_cv_search_tigetstr"
   ])
-  AS_IF([test "x$have_curses_header" != "xyes"], [
+  AS_IF([test "$have_curses_header" != "yes"], [
     AC_MSG_FAILURE([curses header not found])
   ])
   have_libcurses=yes
@@ -217,9 +217,9 @@ AC_DEFUN([DPKG_LIB_RT], [
   dpkg_save_librt_LIBS=$LIBS
   AC_SEARCH_LIBS([clock_gettime], [rt])
   LIBS=$dpkg_save_librt_LIBS
-  AS_IF([test "x$ac_cv_search_clock_gettime" = "xnone required"], [
+  AS_IF([test "$ac_cv_search_clock_gettime" = "none required"], [
     have_librt="builtin"
-  ], [test "x$ac_cv_search_clock_gettime" != "xno"], [
+  ], [test "$ac_cv_search_clock_gettime" != "no"], [
     have_librt="yes"
     RT_LIBS="$ac_cv_search_clock_gettime"
   ])
@@ -234,9 +234,9 @@ AC_DEFUN([DPKG_LIB_SOCKET], [
   dpkg_save_libsocket_LIBS=$LIBS
   AC_SEARCH_LIBS([bind], [socket])
   LIBS=$dpkg_save_libsocket_LIBS
-  AS_IF([test "x$ac_cv_search_bind" = "xnone required"], [
+  AS_IF([test "$ac_cv_search_bind" = "none required"], [
     have_libsocket="builtin"
-  ], [test "x$ac_cv_search_bind" != "xno"], [
+  ], [test "$ac_cv_search_bind" != "no"], [
     have_libsocket="yes"
     SOCKET_LIBS="$ac_cv_search_bind"
   ])

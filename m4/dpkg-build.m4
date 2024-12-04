@@ -28,8 +28,8 @@ AC_DEFUN([DPKG_BUILD_PROG], [
     [AS_TR_SH([build_$1])=$AS_TR_SH([enable_$1])],
     [AS_TR_SH([build_$1])=yes])
   AM_CONDITIONAL(AS_TR_CPP([BUILD_$1]),
-    [test "x$AS_TR_SH([build_$1])" = "xyes"])
-  AS_IF([test "x$AS_TR_SH([build_$1])" = "xyes"], [
+    [test "$AS_TR_SH([build_$1])" = "yes"])
+  AS_IF([test "$AS_TR_SH([build_$1])" = "yes"], [
     AC_DEFINE(AS_TR_CPP([BUILD_$1]), [1], [Define to 1 if $1 is compiled.])
   ], [
     AC_DEFINE(AS_TR_CPP([BUILD_$1]), [0])
@@ -47,7 +47,7 @@ AC_DEFUN([DPKG_BUILD_DEVEL_DOCS], [
     [build_devel_docs=$enable_devel_docs],
     [build_devel_docs=yes]
   )
-  AS_IF([test "x$build_devel_docs" = "xyes"], [
+  AS_IF([test "$build_devel_docs" = "yes"], [
     AC_SUBST([BUILD_DEVEL_DOCS], [YES])
   ], [
     AC_SUBST([BUILD_DEVEL_DOCS], [NO])

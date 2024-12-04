@@ -19,7 +19,7 @@ AC_DEFUN([_DPKG_ARCHITECTURE], [
 AC_DEFUN([DPKG_CPU_TYPE], [
   AC_MSG_CHECKING([dpkg cpu type])
   _DPKG_ARCHITECTURE([DEB_HOST_ARCH_CPU], [cpu_type])
-  AS_IF([test "x$cpu_type" = "x"], [
+  AS_IF([test -z "$cpu_type"], [
     cpu_type=$host_cpu
     AC_MSG_RESULT([$cpu_type])
     AC_MSG_WARN([$host_cpu not found in cputable])
@@ -37,7 +37,7 @@ AC_DEFUN([DPKG_CPU_TYPE], [
 AC_DEFUN([DPKG_OS_TYPE], [
   AC_MSG_CHECKING([dpkg operating system type])
   _DPKG_ARCHITECTURE([DEB_HOST_ARCH_OS], [os_type])
-  AS_IF([test "x$os_type" = "x"], [
+  AS_IF([test -z "$os_type"], [
     os_type=$host_os
     AC_MSG_RESULT([$os_type])
     AC_MSG_WARN([$host_os not found in ostable])
@@ -57,7 +57,7 @@ AC_DEFUN([DPKG_ARCHITECTURE], [
   DPKG_OS_TYPE
   AC_MSG_CHECKING([dpkg architecture name])
   _DPKG_ARCHITECTURE([DEB_HOST_ARCH], [dpkg_arch])
-  AS_IF([test "x$dpkg_arch" = "x"], [
+  AS_IF([test -z "$dpkg_arch"], [
     AC_MSG_ERROR([cannot determine host dpkg architecture])
   ], [
     AC_MSG_RESULT([$dpkg_arch])

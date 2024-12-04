@@ -54,8 +54,8 @@ AC_DEFUN([DPKG_DECL_SYS_ERRLIST], [
 #include <stdio.h>
   ]])
   AM_CONDITIONAL([HAVE_SYS_ERRLIST],
-    [test "x$ac_cv_have_decl_sys_errlist" = "xyes" && \
-     test "x$ac_cv_have_decl_sys_nerr" = "xyes"])
+    [test "$ac_cv_have_decl_sys_errlist" = "yes" && \
+     test "$ac_cv_have_decl_sys_nerr" = "yes"])
 ])# DPKG_DECL_SYS_SIGLIST
 
 # DPKG_CHECK_DECL([DECL], [HEADER])
