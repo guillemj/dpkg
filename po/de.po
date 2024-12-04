@@ -11,10 +11,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.22.10\n"
+"Project-Id-Version: dpkg 1.22.12~\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
-"PO-Revision-Date: 2024-07-27 17:22+0200\n"
+"POT-Creation-Date: 2024-12-04 17:24+0100\n"
+"PO-Revision-Date: 2024-12-04 17:33+0100\n"
 "Last-Translator: Sven Joachim <svenjoac@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -2772,8 +2772,9 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --nocheck                    Suppress control file check (build bad\n"
-"                                     packages).\n"
+"      --no-check                   Suppress all checks (build bad "
+"packages).\n"
+"      --nocheck                    Alias for --no-check.\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
@@ -2795,8 +2796,9 @@ msgstr ""
 "      --deb-format=<Format>        Archiv-Format auswählen.\n"
 "                                     Erlaubte Werte: 0.939000, 2.0 "
 "(Vorgabe).\n"
-"      --nocheck                    Control-Datei-Prüfung auslassen\n"
+"      --no-check                   Alle Überprüfungen auslassen\n"
 "                                     (fehlerhafte Pakete bauen).\n"
+"      --nocheck                    Alias für --no-check.\n"
 "      --root-owner-group           Als Eigentümer und Gruppe »root« "
 "erzwingen.\n"
 "      --threads-max=<Threads>      Nicht mehr als <Threads> mit\n"
@@ -4278,17 +4280,17 @@ msgstr "Ersetzt durch Dateien in installiertem Paket %s (%s) ...\n"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"trying to overwrite directory '%.250s' in package %.250s %.250s with "
+"trying to overwrite directory '%.250s' in package %.250s (%.250s) with "
 "nondirectory"
 msgstr ""
-"Versuch, Verzeichnis »%.250s« in Paket %.250s %.250s mit Nichtverzeichnis zu "
-"überschreiben"
+"Versuch, Verzeichnis »%.250s« in Paket %.250s (%.250s) mit Nichtverzeichnis "
+"zu überschreiben"
 
 #: src/main/archives.c
 #, c-format
-msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+msgid "trying to overwrite '%.250s', which is also in package %.250s (%.250s)"
 msgstr ""
-"Versuch, »%.250s« zu überschreiben, welches auch in Paket %.250s %.250s ist"
+"Versuch, »%.250s« zu überschreiben, welches auch in Paket %.250s (%.250s) ist"
 
 #: src/main/archives.c
 #, c-format
@@ -4526,22 +4528,22 @@ msgstr "Nicht ausgewähltes Paket %s wird übergangen.\n"
 
 #: src/main/archives.c
 #, c-format
-msgid "version %.250s of %.250s already installed, skipping"
-msgstr "Version %.250s von %.250s ist bereits installiert, wird übergangen"
+msgid "package %.250s (%.250s) with same version already installed, skipping"
+msgstr ""
+"Paket %.250s (%.250s) mit gleicher Version ist bereits installiert, wird "
+"übergangen"
 
 #: src/main/archives.c
 #, c-format
-msgid "downgrading %.250s from %.250s to %.250s"
-msgstr ""
-"Version %2$.250s des Paketes %1$.250s wird durch ältere Version %3$.250s "
-"ersetzt"
+msgid "downgrading %.250s (%.250s) to (%.250s)"
+msgstr "Paket %.250s (%.250s) wird durch ältere Version (%.250s) ersetzt"
 
 #: src/main/archives.c
 #, c-format
-msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+msgid "will not downgrade %.250s (%.250s) to (%.250s), skipping"
 msgstr ""
-"Version %2$.250s des Paketes %1$.250s wird nicht durch ältere Version "
-"%3$.250s ersetzt, Paket wird übergangen"
+"Paket %.250s (%.250s) wird nicht durch ältere Version (%.250s) ersetzt, "
+"Paket wird übergangen"
 
 #: src/main/cleanup.c
 #, c-format
@@ -4799,9 +4801,10 @@ msgstr ""
 #: src/main/configure.c
 #, c-format
 msgid ""
-"package %s %s cannot be configured because %s is at a different version (%s)"
+"package %s (%s) cannot be configured because %s is at a different version "
+"(%s)"
 msgstr ""
-"Paket %s %s kann nicht konfiguriert werden, da %s in einer anderen Version "
+"Paket %s (%s) kann nicht konfiguriert werden, da %s in einer anderen Version "
 "vorliegt (%s)"
 
 #: src/main/configure.c
