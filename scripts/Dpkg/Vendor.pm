@@ -42,7 +42,7 @@ file can have the same casing as the Vendor field, or it can be capitalized.
 
 =cut
 
-package Dpkg::Vendor 1.02;
+package Dpkg::Vendor 1.03;
 
 use strict;
 use warnings;
@@ -120,17 +120,6 @@ number of non-alphanumeric characters (that is B<[^A-Za-z0-9]>) into "B<->",
 then the resulting name will be tried in sequence by lower-casing it,
 keeping it as is, lower-casing then capitalizing it, and capitalizing it.
 
-In addition, for historical and backwards compatibility, the name will
-be tried keeping it as is without non-alphanumeric characters remapping,
-then the resulting name will be tried in sequence by lower-casing it,
-keeping it as is, lower-casing then capitalizing it, and capitalizing it.
-And finally the name will be tried by replacing only spaces to "B<->",
-then the resulting name will be tried in sequence by lower-casing it,
-keeping it as is, lower-casing then capitalizing it, and capitalizing it.
-
-But these backwards compatible name lookups will be removed during
-the dpkg 1.22.x release cycle.
-
 =cut
 
 sub get_vendor_file {
@@ -140,27 +129,8 @@ sub get_vendor_file {
     my $vendor_sep = $vendor =~ s{$vendor_sep_regex}{-}gr;
     push @names, lc $vendor_sep, $vendor_sep, ucfirst lc $vendor_sep, ucfirst $vendor_sep;
 
-    # XXX: Backwards compatibility, remove on 1.22.x.
-    my %name_seen = map { $_ => 1 } @names;
-    my @obsolete_names = uniq grep {
-        my $seen = exists $name_seen{$_};
-        $name_seen{$_} = 1;
-        not $seen;
-    } (
-        (lc $vendor, $vendor, ucfirst lc $vendor, ucfirst $vendor),
-        ($vendor =~ s{\s+}{-}g) ?
-        (lc $vendor, $vendor, ucfirst lc $vendor, ucfirst $vendor) : ()
-    );
-    my %obsolete_name = map { $_ => 1 } @obsolete_names;
-    push @names, @obsolete_names;
-
     foreach my $name (uniq @names) {
         next unless -e "$origins/$name";
-        if (exists $obsolete_name{$name}) {
-            warning(g_('%s origin filename is deprecated; ' .
-                       'it should have only alphanumeric or dash characters'),
-                    $name);
-        }
         return "$origins/$name";
     }
     return;
@@ -198,11 +168,6 @@ separators, by either capitalizing or lower-casing and capitalizing each part
 and then joining them without the separators. So the expected casing is based
 on the one from the B<Vendor> field in the F<origins> file.
 
-In addition, for historical and backwards compatibility, the module name
-will also be looked up without non-alphanumeric character stripping, by
-capitalizing, lower-casing then capitalizing, as-is or lower-casing.
-But these name lookups will be removed during the 1.22.x release cycle.
-
 =cut
 
 sub get_vendor_object {
@@ -217,16 +182,6 @@ sub get_vendor_object {
     push @names, join q{}, map { ucfirst } @vendor_parts;
     push @names, join q{}, map { ucfirst lc } @vendor_parts;
 
-    # XXX: Backwards compatibility, remove on 1.22.x.
-    my %name_seen = map { $_ => 1 } @names;
-    my @obsolete_names = uniq grep {
-        my $seen = exists $name_seen{$_};
-        $name_seen{$_} = 1;
-        not $seen;
-    } (ucfirst $vendor, ucfirst lc $vendor, $vendor, lc $vendor);
-    my %obsolete_name = map { $_ => 1 } @obsolete_names;
-    push @names, @obsolete_names;
-
     foreach my $name (uniq @names) {
         my $module = "Dpkg::Vendor::$name";
         eval qq{
@@ -236,11 +191,6 @@ sub get_vendor_object {
 
         my $obj = $module->new();
         $OBJECT_CACHE{$vendor_key} = $obj;
-        if (exists $obsolete_name{$name}) {
-            warning(g_('%s module name is deprecated; ' .
-                       'it should be capitalized with only alphanumeric characters'),
-                    "Dpkg::Vendor::$name");
-        }
         return $obj;
     }
 
@@ -268,6 +218,11 @@ sub run_vendor_hook {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.03 (dpkg 1.22.12)
+
+Obsolete behavior: get_vendor_file() and get_vendor_object() no longer
+support the deprecated behavior from 1.02.
 
 =head2 Version 1.02 (dpkg 1.21.10)
 
