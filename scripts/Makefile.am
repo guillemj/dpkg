@@ -100,10 +100,6 @@ EXTRA_DIST += \
 	Test/Dpkg.pm \
 	# EOL
 
-sbin_SCRIPTS = \
-	dpkg-fsys-usrunmess \
-	# EOL
-
 bin_SCRIPTS = \
 	dpkg-architecture \
 	dpkg-buildflags \
@@ -135,7 +131,6 @@ EXTRA_DIST += \
 	dpkg-buildtree.pl \
 	dpkg-checkbuilddeps.pl \
 	dpkg-distaddfile.pl \
-	dpkg-fsys-usrunmess.pl \
 	dpkg-genbuildinfo.pl \
 	dpkg-genchanges.pl \
 	dpkg-gencontrol.pl \
