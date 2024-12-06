@@ -7,50 +7,6 @@ PROGNAME=dpkg
 
 . /usr/share/dpkg/sh/dpkg-error.sh
 
-get_vendor()
-{
-  local origin="$DPKG_ROOT/etc/dpkg/origins/default"
-  local vendor
-
-  if [ -n "$DEB_VENDOR" ]; then
-    vendor="$DEB_VENDOR"
-  elif [ -e "$origin" ]; then
-    vendor=$(sed -ne 's/^Vendor: *\([^ ]\+\) */\1/p' "$origin" | tr A-Z a-z)
-  fi
-
-  echo "${vendor:-default}"
-}
-
-check_merged_usr_via_aliased_dirs()
-{
-  local vendor
-
-  vendor=$(get_vendor)
-
-  case "$vendor" in
-  debian)
-    # In Debian some people have gotten so offended by the following _warning_
-    # that they have resorted to bullying and abuse. Life's too short, sorry.
-    return
-    ;;
-  ubuntu)
-    # Ubuntu does not seem interested in it.
-    return
-    ;;
-  esac
-
-  for d in /bin /sbin /lib /lib32 /libo32 /libx32 /lib64; do
-    linkname="$(readlink $DPKG_ROOT$d || true)"
-    if [ "$linkname" = "usr$d" ] || [ "$linkname" = "/usr$d" ]; then
-      warning "This system uses merged-usr-via-aliased-dirs, going behind dpkg's"
-      warning "back, breaking its core assumptions. This can cause silent file"
-      warning "overwrites and disappearances, and its general tools misbehavior."
-      warning "See <https://wiki.debian.org/Teams/Dpkg/FAQ#broken-usrmerge>."
-      break
-    fi
-  done
-}
-
 setup_aliases()
 {
   local prog=start-stop-daemon
@@ -64,7 +20,6 @@ setup_aliases()
 
 case "$1" in
 configure)
-  check_merged_usr_via_aliased_dirs
   setup_aliases
   ;;
 abort-upgrade|abort-deconfigure|abort-remove)
