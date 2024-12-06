@@ -591,7 +591,6 @@ END
 # Main code
 set -e
 
-PROGNAME=$(basename "$0")
 version="unknown"
 DPKG_ROOT=${DPKG_ROOT:+$(realpath "$DPKG_ROOT")}
 # Remove default root dir.
@@ -605,8 +604,6 @@ PKGDATADIR="${DPKG_DATADIR:-$PKGDATADIR_DEFAULT}"
 
 # shellcheck source=src/sh/dpkg-error.sh
 . "$PKGDATADIR/sh/dpkg-error.sh"
-
-setup_colors
 
 command="$1"
 [ $# -gt 0 ] || badusage "missing command"

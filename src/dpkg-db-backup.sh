@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-PROGNAME=$(basename "$0")
 ADMINDIR=/var/lib/dpkg
 BACKUPSDIR=/var/backups
 ROTATE=7
@@ -26,8 +25,6 @@ TAR="${TAR:-tar}"
 
 # shellcheck source=src/sh/dpkg-error.sh
 . "$PKGDATADIR/sh/dpkg-error.sh"
-
-setup_colors
 
 while [ $# -ne 0 ]; do
   case "$1" in
