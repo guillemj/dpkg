@@ -41,36 +41,40 @@ COLOR_BOLD_MAGENTA='[1;35m'
 COLOR_BOLD_CYAN='[1;36m'
 COLOR_BOLD_WHITE='[1;37m'
 
+: "${DPKG_COLORS=auto}"
+
+case "$DPKG_COLORS" in
+auto)
+  if [ -t 1 ]; then
+    USE_COLORS=yes
+  else
+    USE_COLORS=no
+  fi
+  ;;
+always)
+  USE_COLORS=yes
+  ;;
+*)
+  USE_COLORS=no
+  ;;
+esac
+
+if [ $USE_COLORS = yes ]; then
+  COLOR_PROG="$COLOR_BOLD"
+  COLOR_INFO="$COLOR_GREEN"
+  COLOR_NOTICE="$COLOR_YELLOW"
+  COLOR_WARN="$COLOR_BOLD_YELLOW"
+  COLOR_ERROR="$COLOR_BOLD_RED"
+else
+  COLOR_RESET=""
+fi
+FMT_PROG="$COLOR_PROG$PROGNAME$COLOR_RESET"
+
+# This function is deprecated and kept only for backwards compatibility.
+# Deprecated since dpkg 1.22.12.
 setup_colors()
 {
-  : "${DPKG_COLORS=auto}"
-
-  case "$DPKG_COLORS" in
-  auto)
-    if [ -t 1 ]; then
-      USE_COLORS=yes
-    else
-      USE_COLORS=no
-    fi
-    ;;
-  always)
-    USE_COLORS=yes
-    ;;
-  *)
-    USE_COLORS=no
-    ;;
-  esac
-
-  if [ $USE_COLORS = yes ]; then
-    COLOR_PROG="$COLOR_BOLD"
-    COLOR_INFO="$COLOR_GREEN"
-    COLOR_NOTICE="$COLOR_YELLOW"
-    COLOR_WARN="$COLOR_BOLD_YELLOW"
-    COLOR_ERROR="$COLOR_BOLD_RED"
-  else
-    COLOR_RESET=""
-  fi
-  FMT_PROG="$COLOR_PROG$PROGNAME$COLOR_RESET"
+  :
 }
 
 debug() {
