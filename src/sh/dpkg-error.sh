@@ -17,6 +17,9 @@
 #
 # shellcheck shell=sh
 
+# Set a default program name.
+: "${PROGNAME:=$(basename "$0")}"
+
 # Standard ANSI colors and attributes.
 COLOR_NORMAL=''
 COLOR_RESET='[0m'
