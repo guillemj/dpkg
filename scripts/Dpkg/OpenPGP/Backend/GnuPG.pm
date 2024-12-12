@@ -115,23 +115,34 @@ sub get_trusted_keyrings {
 # (see https://bugs.debian.org/1010955).
 
 sub _pgp_dearmor_data {
-    my ($type, $data) = @_;
+    my ($type, $data, $filename) = @_;
 
     # Note that we ignore an incorrect or absent checksum, following the
     # guidance of <https://www.rfc-editor.org/rfc/rfc9580.html>.
     my $armor_regex = qr{
         -----BEGIN\ PGP\ \Q$type\E-----[\r\t ]*\n
-        (?:[^:]+:\ [^\n]*[\r\t ]*\n)*
+        (?:[^:\n]+:\ [^\n]*[\r\t ]*\n)*
         [\r\t ]*\n
         ([a-zA-Z0-9/+\n]+={0,2})[\r\t ]*\n
         (?:=[a-zA-Z0-9/+]{4}[\r\t ]*\n)?
         -----END\ PGP\ \Q$type\E-----
     }xm;
 
-    if ($data =~ m/$armor_regex/) {
-        return decode_base64($1);
+    my $blocks = 0;
+    my $binary;
+    while ($data =~ m/$armor_regex/g) {
+        $binary .= decode_base64($1);
+        $blocks++;
     }
-    return;
+    if ($blocks > 1) {
+        warning(g_('multiple concatenated ASCII Armor blocks in %s, ' .
+                   'which is not an interoperable construct, see <%s>'),
+                $filename,
+                'https://tests.sequoia-pgp.org/results.html#ASCII_Armor');
+        hint(g_('sq keyring merge --overwrite --output %s %s'),
+             $filename, $filename);
+    }
+    return $binary;
 }
 
 sub _pgp_armor_checksum {
@@ -183,7 +194,7 @@ sub armor {
     my ($self, $type, $in, $out) = @_;
 
     my $raw_data = file_slurp($in);
-    my $data = _pgp_dearmor_data($type, $raw_data) // $raw_data;
+    my $data = _pgp_dearmor_data($type, $raw_data, $in) // $raw_data;
     my $armor = _pgp_armor_data($type, $data);
     return OPENPGP_BAD_DATA unless defined $armor;
     file_dump($out, $armor);
@@ -195,7 +206,7 @@ sub dearmor {
     my ($self, $type, $in, $out) = @_;
 
     my $armor = file_slurp($in);
-    my $data = _pgp_dearmor_data($type, $armor);
+    my $data = _pgp_dearmor_data($type, $armor, $in);
     return OPENPGP_BAD_DATA unless defined $data;
     file_dump($out, $data);
 
