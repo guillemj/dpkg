@@ -382,11 +382,12 @@ foreach my $file (keys %exec) {
         $ignore++ unless scalar split_soname($soname);
         # 3/ when we have been asked to do so
         $ignore++ if $ignore_missing_info;
-        error(g_('no dependency information found for %s ' .
-                 "(used by %s)\n" .
-                 'Hint: check if the library actually comes ' .
-                 'from a package.'), $lib, $file)
-            unless $ignore;
+        if (not $ignore) {
+            errormsg(g_('no dependency information found for %s (used by %s)'),
+                     $lib, $file);
+            hint(g_('check if the library actually comes from a package'));
+            exit 1;
+        }
       }
     }
 
