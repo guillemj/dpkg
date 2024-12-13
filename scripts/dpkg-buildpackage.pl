@@ -675,7 +675,7 @@ if ($checkbuilddep) {
     if (not WIFEXITED($?)) {
         subprocerr('dpkg-checkbuilddeps');
     } elsif (WEXITSTATUS($?)) {
-	warning(g_('build dependencies/conflicts unsatisfied; aborting'));
+        errormsg(g_('build dependencies/conflicts unsatisfied; aborting'));
         hint(g_('satify build dependencies with your package manager frontend'));
 	exit 3;
     }
