@@ -138,11 +138,11 @@ if ($bc_value) {
 }
 
 if (@unmet) {
-    errormsg(g_('Unmet build dependencies: %s'),
+    errormsg(g_('unmet build dependencies: %s'),
              join(' ', map { $_->output() } @unmet));
 }
 if (@conflicts) {
-    errormsg(g_('Build conflicts: %s'),
+    errormsg(g_('unmet build conflicts: %s'),
              join(' ', map { $_->output() } @conflicts));
 }
 exit 1 if @unmet || @conflicts;
