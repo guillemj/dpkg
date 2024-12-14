@@ -558,8 +558,10 @@ if ($stdout) {
 if ($stdout) {
     $fields->output(\*STDOUT);
 } else {
-    my $section = $control->get_source->{'Section'} || '-';
-    my $priority = $control->get_source->{'Priority'} || '-';
+    my %fileprop;
+    foreach my $f (qw(Section Priority)) {
+        $fileprop{lc $f} = $control->get_source->{$f} || '-';
+    }
 
     # Obtain a lock on debian/control to avoid simultaneous updates
     # of debian/files when parallel building is in use
@@ -585,7 +587,7 @@ if ($stdout) {
         }
     }
 
-    $dist->add_file($buildinfo, $section, $priority);
+    $dist->add_file($buildinfo, @fileprop{qw(section priority)});
     $dist->save("$fileslistfile.new");
 
     rename "$fileslistfile.new", $fileslistfile

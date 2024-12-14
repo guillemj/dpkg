@@ -389,8 +389,11 @@ if ($stdout) {
     $sversion =~ s/^\d+://;
     $forcefilename //= sprintf('%s_%s_%s.%s', $fields->{'Package'}, $sversion,
                                $fields->{'Architecture'}, $pkg_type);
-    my $section = $fields->{'Section'} || '-';
-    my $priority = $fields->{'Priority'} || '-';
+
+    my %fileprop;
+    foreach my $f (qw(Section Priority)) {
+        $fileprop{lc $f} = $fields->{$f} || '-';
+    }
 
     # Obtain a lock on debian/control to avoid simultaneous updates
     # of debian/files when parallel building is in use
@@ -418,7 +421,7 @@ if ($stdout) {
     my %fileattrs;
     $fileattrs{automatic} = 'yes' if $fields->{'Auto-Built-Package'};
 
-    $dist->add_file($forcefilename, $section, $priority, %fileattrs);
+    $dist->add_file($forcefilename, @fileprop{qw(section priority)}, %fileattrs);
     $dist->save("$fileslistfile.new");
 
     rename "$fileslistfile.new", $fileslistfile
