@@ -435,6 +435,7 @@ our %FIELDS = (
     'priority' => {
         name => 'Priority',
         allowed => CTRL_TMPL_SRC | CTRL_REPO_SRC | ALL_PKG,
+        default => '-',
     },
     'protected' => {
         name => 'Protected',
@@ -474,6 +475,7 @@ our %FIELDS = (
     'section' => {
         name => 'Section',
         allowed => CTRL_TMPL_SRC | CTRL_REPO_SRC | ALL_PKG,
+        default => '-',
     },
     'sha1' => {
         # XXX: Wrong capitalization due to historical reasons.

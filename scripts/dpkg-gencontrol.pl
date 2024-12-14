@@ -392,7 +392,7 @@ if ($stdout) {
 
     my %fileprop;
     foreach my $f (qw(Section Priority)) {
-        $fileprop{lc $f} = $fields->{$f} || '-';
+        $fileprop{lc $f} = $fields->{$f} || field_get_default_value($f);
     }
 
     # Obtain a lock on debian/control to avoid simultaneous updates

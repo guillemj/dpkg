@@ -252,7 +252,7 @@ foreach my $f (keys %{$src_fields}) {
     if ($f eq 'Source') {
         set_source_name($v);
     } elsif (any { $f eq $_ } qw(Section Priority)) {
-        $sourcedefault{$f} = $v // '-';
+        $sourcedefault{$f} = $v // field_get_default_value($f);
     } elsif ($f eq 'Description') {
         # Description in changes is computed, do not copy this field, only
         # initialize the description substvars.
@@ -268,7 +268,7 @@ my $origsrcmsg;
 if (build_has_any(BUILD_SOURCE)) {
     foreach my $f (qw(Section Priority)) {
         warning(g_('missing %s field in source stanza, for source files'), $f)
-            if $sourcedefault{$f} eq '-';
+            if $sourcedefault{$f} eq field_get_default_value($f);
     }
 
     my $spackage = get_source_name();
@@ -463,7 +463,7 @@ for my $p (keys %pkg2file) {
 
         foreach my $f (qw(Section Priority)) {
             my $v = $file2ctrlfield{$fn}{$f} || $sourcedefault{$f};
-            my $def = '-';
+            my $def = field_get_default_value($f);
 
             if ($v eq $def) {
                 warning(g_("missing %s field for binary package %s; using %s"),

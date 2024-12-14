@@ -560,7 +560,7 @@ if ($stdout) {
 } else {
     my %fileprop;
     foreach my $f (qw(Section Priority)) {
-        $fileprop{lc $f} = $control->get_source->{$f} || '-';
+        $fileprop{lc $f} = $control->get_source->{$f} || field_get_default_value($f);
     }
 
     # Obtain a lock on debian/control to avoid simultaneous updates

@@ -477,10 +477,10 @@ is_deeply([ field_list_pkg_dep() ],
 
 is(field_get_default_value('Source'), undef,
     'no default value for Source field');
-is(field_get_default_value('Section'), undef,
-    'no default value for Section field');
-is(field_get_default_value('Priority'), undef,
-    'no default value for Priority field');
+is(field_get_default_value('Section'), '-',
+    'default value for Section field');
+is(field_get_default_value('Priority'), '-',
+    'default value for Priority field');
 
 is(field_capitalize('invented-field'), 'Invented-Field',
    'Field Invented-Field capitalization');
