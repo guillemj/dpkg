@@ -270,8 +270,6 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     my $src_fields = $control->get_source();
     error(g_("%s doesn't contain any information about the source package"),
           $controlfile) unless defined $src_fields;
-    my $src_sect = $src_fields->{'Section'} || 'unknown';
-    my $src_prio = $src_fields->{'Priority'} || 'unknown';
     foreach my $f (keys %{$src_fields}) {
         my $v = $src_fields->{$f};
 
@@ -299,17 +297,17 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     my @pkglist;
     foreach my $pkg ($control->get_packages()) {
 	my $p = $pkg->{'Package'};
-	my $sect = $pkg->{'Section'} || $src_sect;
-	my $prio = $pkg->{'Priority'} || $src_prio;
-	my $type = $pkg->{'Package-Type'} ||
+
+        my %pkg_prop;
+        foreach my $f (qw(Section Priority)) {
+            $pkg_prop{lc $f} = $pkg->{$f} || $src_fields->{$f} || 'unknown';
+        }
+        $pkg_prop{type} = $pkg->{'Package-Type'} ||
             $pkg->get_custom_field('Package-Type') || 'deb';
-        my $arch = $pkg->{'Architecture'};
+
+        $pkg_prop{arch} = join ',', split ' ', $pkg->{'Architecture'};
+
         my $profile = $pkg->{'Build-Profiles'};
-
-        my $pkg_summary = sprintf('%s %s %s %s', $p, $type, $sect, $prio);
-
-        $pkg_summary .= ' arch=' . join ',', split ' ', $arch;
-
         if (defined $profile) {
             # Instead of splitting twice and then joining twice, we just do
             # simple string replacements:
@@ -320,16 +318,24 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
             $profile =~ s/>\s+</+/g;
             # Join their elements with a comma (AND)
             $profile =~ s/\s+/,/g;
-            $pkg_summary .= " profile=$profile";
+
+            $pkg_prop{profile} = $profile;
         }
-        if (defined $pkg->{'Protected'} and $pkg->{'Protected'} eq 'yes') {
-            $pkg_summary .= ' protected=yes';
-        }
-        if (defined $pkg->{'Essential'} and $pkg->{'Essential'} eq 'yes') {
-            $pkg_summary .= ' essential=yes';
+        # Handle optional boolean fields.
+        foreach my $f (qw(Protected Essential)) {
+            if (defined $pkg->{$f} and $pkg->{$f} eq 'yes') {
+                $pkg_prop{lc $f} = 'yes';
+            }
         }
 
+        # Generate the package list properties.
+        my $pkg_summary = join ' ', $p, @pkg_prop{qw(type section priority)};
+        foreach my $prop (qw(arch profile protected essential)) {
+            next unless exists $pkg_prop{$prop};
+            $pkg_summary .= " $prop=$pkg_prop{$prop}";
+        }
         push @pkglist, $pkg_summary;
+
 	push @binarypackages, $p;
         foreach my $f (keys %{$pkg}) {
             my $v = $pkg->{$f};
