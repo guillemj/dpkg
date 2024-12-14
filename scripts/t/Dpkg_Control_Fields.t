@@ -20,7 +20,7 @@ use Test::More;
 use Test::Dpkg qw(:paths);
 
 BEGIN {
-    plan tests => 2603;
+    plan tests => 2606;
 
     use_ok('Dpkg::Control::Types');
     use_ok('Dpkg::Control::FieldsCore');
@@ -474,6 +474,13 @@ is_deeply([ field_list_src_dep() ],
 is_deeply([ field_list_pkg_dep() ],
           [ @bin_dep_fields ],
           'List of build dependencies');
+
+is(field_get_default_value('Source'), undef,
+    'no default value for Source field');
+is(field_get_default_value('Section'), undef,
+    'no default value for Section field');
+is(field_get_default_value('Priority'), undef,
+    'no default value for Priority field');
 
 is(field_capitalize('invented-field'), 'Invented-Field',
    'Field Invented-Field capitalization');

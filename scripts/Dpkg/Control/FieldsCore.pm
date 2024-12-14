@@ -28,7 +28,7 @@ CTRL_* constants exported by L<Dpkg::Control>.
 
 =cut
 
-package Dpkg::Control::FieldsCore 1.02;
+package Dpkg::Control::FieldsCore 1.03;
 
 use strict;
 use warnings;
@@ -44,6 +44,7 @@ our @EXPORT = qw(
     field_list_pkg_dep
     field_get_dep_type
     field_get_sep_type
+    field_get_default_value
     field_ordered_list
     field_register
     field_insert_after
@@ -1307,6 +1308,20 @@ sub field_get_sep_type {
     return FIELD_SEP_UNKNOWN;
 }
 
+=item $value = field_get_default_value($field)
+
+Return the default value (if any) for the field. If there is no default value
+then it returns "undef".
+
+=cut
+
+sub field_get_default_value {
+    my $field = lc shift;
+
+    return $FIELDS{$field}{default} if exists $FIELDS{$field}{default};
+    return;
+}
+
 =item field_register($field, $allowed_types, %opts)
 
 Register a new field as being allowed in control information of specified
@@ -1374,6 +1389,10 @@ sub field_insert_before {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.03 (dpkg 1.22.12)
+
+New function: field_get_default_value().
 
 =head2 Version 1.02 (dpkg 1.22.0)
 
