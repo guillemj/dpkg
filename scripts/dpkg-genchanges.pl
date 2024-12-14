@@ -266,11 +266,6 @@ my $dist = Dpkg::Dist::Files->new();
 my $origsrcmsg;
 
 if (build_has_any(BUILD_SOURCE)) {
-    foreach my $f (qw(Section Priority)) {
-        warning(g_('missing %s field in source stanza, for source files'), $f)
-            if $sourcedefault{$f} eq field_get_default_value($f);
-    }
-
     my $spackage = get_source_name();
     (my $sversion = $substvars->get('source:Version')) =~ s/^\d+://;
 
@@ -463,12 +458,7 @@ for my $p (keys %pkg2file) {
 
         foreach my $f (qw(Section Priority)) {
             my $v = $file2ctrlfield{$fn}{$f} || $sourcedefault{$f};
-            my $def = field_get_default_value($f);
 
-            if ($v eq $def) {
-                warning(g_("missing %s field for binary package %s; using %s"),
-                        $f, $p, $def);
-            }
             if ($v ne $file->{lc $f}) {
                 error(g_('package %s has value %s in %s field in control file ' .
                          'but %s in files list'), $p, $v, $f, $file->{lc $f});

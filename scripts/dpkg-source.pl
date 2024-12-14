@@ -300,7 +300,8 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
         my %pkg_prop;
         foreach my $f (qw(Section Priority)) {
-            $pkg_prop{lc $f} = $pkg->{$f} || $src_fields->{$f} || 'unknown';
+            $pkg_prop{lc $f} = $pkg->{$f} || $src_fields->{$f} ||
+                               field_get_default_value($f);
         }
         $pkg_prop{type} = $pkg->{'Package-Type'} ||
             $pkg->get_custom_field('Package-Type') || 'deb';

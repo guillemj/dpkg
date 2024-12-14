@@ -312,6 +312,16 @@ for my $f (qw(Maintainer Description)) {
     warning(g_('missing information for output field %s'), $f)
         unless defined $fields->{$f};
 }
+for my $f (qw(Section)) {
+    next if defined $fields->{$f};
+
+    $fields->{$f} = field_get_default_value($f);
+    warning(g_('missing information for output field %s; ' .
+               'using default value "%s"'), $fields->{$f});
+}
+for my $f (qw(Priority)) {
+    $fields->{$f} //= field_get_default_value($f);
+}
 
 my $pkg_type = $pkg->{'Package-Type'} ||
                $pkg->get_custom_field('Package-Type') || 'deb';
@@ -392,7 +402,7 @@ if ($stdout) {
 
     my %fileprop;
     foreach my $f (qw(Section Priority)) {
-        $fileprop{lc $f} = $fields->{$f} || field_get_default_value($f);
+        $fileprop{lc $f} = $fields->{$f};
     }
 
     # Obtain a lock on debian/control to avoid simultaneous updates

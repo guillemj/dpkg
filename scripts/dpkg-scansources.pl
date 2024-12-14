@@ -28,6 +28,7 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control;
+use Dpkg::Control::Fields;
 use Dpkg::Checksums;
 use Dpkg::Compression::FileHandle;
 use Dpkg::Compression;
@@ -241,16 +242,16 @@ sub process_dsc {
     my $priority_override = $override{$binary_by_priority[-1]};
     my $priority = $priority_override ?
                    $priority_override->[O_PRIORITY] :
-                   undef;
-    $fields->{Priority} = $priority if defined $priority;
+                   field_get_default_value('Priority');
+    $fields->{Priority} = $priority;
 
     # For the section override, first check for a record from the source
     # override file, else use the regular override file.
     my $section_override = $override{"source/$source"} || $override{$source};
     my $section = $section_override ?
                   $section_override->[O_SECTION] :
-                  undef;
-    $fields->{Section} = $section if defined $section;
+                  field_get_default_value('Section');
+    $fields->{Section} = $section;
 
     # For the maintainer override, use the override record for the first
     # binary. Modify the maintainer if necessary.
