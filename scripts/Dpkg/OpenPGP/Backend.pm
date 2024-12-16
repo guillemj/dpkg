@@ -34,8 +34,10 @@ use strict;
 use warnings;
 
 use List::Util qw(first);
+use MIME::Base64;
 
 use Dpkg::Path qw(find_command);
+use Dpkg::File;
 use Dpkg::OpenPGP::ErrorCodes;
 
 sub DEFAULT_CMDV {
@@ -105,16 +107,107 @@ sub get_trusted_keyrings {
     return ();
 }
 
+# _pgp_* functions are strictly for applying or removing ASCII armor.
+# See <https://www.rfc-editor.org/rfc/rfc9580.html#section-6> for more
+# details.
+
+sub _pgp_dearmor_data {
+    my ($type, $data, $filename) = @_;
+
+    # Note that we ignore an incorrect or absent checksum, following the
+    # guidance of <https://www.rfc-editor.org/rfc/rfc9580.html>.
+    my $armor_regex = qr{
+        -----BEGIN\ PGP\ \Q$type\E-----[\r\t ]*\n
+        (?:[^:\n]+:\ [^\n]*[\r\t ]*\n)*
+        [\r\t ]*\n
+        ([a-zA-Z0-9/+\n]+={0,2})[\r\t ]*\n
+        (?:=[a-zA-Z0-9/+]{4}[\r\t ]*\n)?
+        -----END\ PGP\ \Q$type\E-----
+    }xm;
+
+    my $blocks = 0;
+    my $binary;
+    while ($data =~ m/$armor_regex/g) {
+        $binary .= decode_base64($1);
+        $blocks++;
+    }
+    if ($blocks > 1) {
+        warning(g_('multiple concatenated ASCII Armor blocks in %s, ' .
+                   'which is not an interoperable construct, see <%s>'),
+                $filename,
+                'https://tests.sequoia-pgp.org/results.html#ASCII_Armor');
+        hint(g_('sq keyring merge --overwrite --output %s %s'),
+             $filename, $filename);
+    }
+    return $binary;
+}
+
+sub _pgp_armor_checksum {
+    my ($data) = @_;
+
+    # From RFC9580 <https://www.rfc-editor.org/rfc/rfc9580.html>.
+    #
+    # The resulting three-octet-wide value then gets base64-encoded into
+    # four base64 ASCII characters.
+
+    ## no critic (ValuesAndExpressions::ProhibitMagicNumbers)
+    my $CRC24_INIT = 0xB704CE;
+    my $CRC24_GENERATOR = 0x864CFB;
+
+    my @bytes = unpack 'C*', $data;
+    my $crc = $CRC24_INIT;
+    for my $b (@bytes) {
+        $crc ^= ($b << 16);
+        for (1 .. 8) {
+            $crc <<= 1;
+            if ($crc & 0x1000000) {
+                # Clear bit 25 to avoid overflow.
+                $crc &= 0xffffff;
+                $crc ^= $CRC24_GENERATOR;
+            }
+        }
+    }
+    my $sum = pack 'CCC', ($crc >> 16) & 0xff, ($crc >> 8) & 0xff, $crc & 0xff;
+    return encode_base64($sum, q{});
+}
+
+sub _pgp_armor_data {
+    my ($type, $data) = @_;
+
+    my $out = encode_base64($data, q{}) =~ s/(.{1,64})/$1\n/gr;
+    chomp $out;
+    my $crc = _pgp_armor_checksum($data);
+    my $armor = <<~"ARMOR";
+        -----BEGIN PGP $type-----
+
+        $out
+        =$crc
+        -----END PGP $type-----
+        ARMOR
+    return $armor;
+}
+
 sub armor {
     my ($self, $type, $in, $out) = @_;
 
-    return OPENPGP_UNSUPPORTED_SUBCMD;
+    my $raw_data = file_slurp($in);
+    my $data = _pgp_dearmor_data($type, $raw_data, $in) // $raw_data;
+    my $armor = _pgp_armor_data($type, $data);
+    return OPENPGP_BAD_DATA unless defined $armor;
+    file_dump($out, $armor);
+
+    return OPENPGP_OK;
 }
 
 sub dearmor {
     my ($self, $type, $in, $out) = @_;
 
-    return OPENPGP_UNSUPPORTED_SUBCMD;
+    my $armor = file_slurp($in);
+    my $data = _pgp_dearmor_data($type, $armor, $in);
+    return OPENPGP_BAD_DATA unless defined $data;
+    file_dump($out, $data);
+
+    return OPENPGP_OK;
 }
 
 sub inline_verify {
