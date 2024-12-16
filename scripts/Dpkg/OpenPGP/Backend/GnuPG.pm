@@ -243,36 +243,25 @@ sub _gpg_verify {
     return OPENPGP_MISSING_CMD if ! $self->has_verify_cmd();
 
     my $gpg_home = File::Temp->newdir('dpkg-gpg-verify.XXXXXXXX', TMPDIR => 1);
-    my @cmd_opts = qw(--no-options --no-default-keyring --batch --quiet);
-    my @gpg_opts;
-    push @gpg_opts, _gpg_options_weak_digests();
-    push @gpg_opts, '--homedir', $gpg_home;
-    push @cmd_opts, @gpg_opts;
 
     my @exec;
     if ($self->{cmdv}) {
         push @exec, $self->{cmdv};
-        push @exec, @gpg_opts;
         # We need to touch the trustedkeys.gpg keyring, otherwise gpgv will
         # emit an error about the trustedkeys.kbx file being of unknown type.
         file_touch("$gpg_home/trustedkeys.gpg");
     } else {
         push @exec, $self->{cmd};
-        push @exec, @cmd_opts;
+        push @exec, qw(--no-options --no-default-keyring --batch --quiet);
     }
+    push @exec, _gpg_options_weak_digests();
+    push @exec, '--homedir', $gpg_home;
     foreach my $cert (@certs) {
         my $certring = File::Temp->new(UNLINK => 1, SUFFIX => '.pgp');
         my $rc;
-        # XXX: The internal dearmor() does not handle concatenated ASCII Armor,
-        # but the old implementation handled such certificate keyrings, so to
-        # avoid regressing for now, we fallback to use the GnuPG dearmor.
         if ($cert =~ m{\.kbx$}) {
             # Accept GnuPG apparent keybox-format keyrings as-is.
             $rc = 1;
-        } elsif (defined $self->{cmd}) {
-            $rc = $self->_gpg_exec($self->{cmd}, @cmd_opts, '--yes',
-                                          '--output', $certring,
-                                          '--dearmor', $cert);
         } else {
             $rc = $self->dearmor('PUBLIC KEY BLOCK', $cert, $certring);
         }
