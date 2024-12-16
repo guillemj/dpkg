@@ -76,21 +76,13 @@ sub _sop_exec
     }
 }
 
-sub armor
-{
-    my ($self, $type, $in, $out) = @_;
-
-    # We ignore the $type, and let "sop" handle this automatically.
-    return $self->_sop_exec({ in => $in, out => $out }, 'armor');
-}
-
-sub dearmor
-{
-    my ($self, $type, $in, $out) = @_;
-
-    # We ignore the $type, and let "sop" handle this automatically.
-    return $self->_sop_exec({ in => $in, out => $out }, 'dearmor');
-}
+# XXX: We cannot use the SOP armor/dearmor interfaces, because concatenated
+# ASCII Armor is not a well supported construct, and not all SOP
+# implementations support. But we still need to handle this given the
+# data we are managing. Remove these implementations for now and use
+# the generic parent implementations. Once we can guarantee that our
+# data has been sanitized, then we could switch back to use pure SOP
+# interfaces.
 
 sub inline_verify
 {
