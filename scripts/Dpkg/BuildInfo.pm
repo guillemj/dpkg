@@ -90,6 +90,7 @@ my @env_allowed = (
         LDFLAGS_FOR_BUILD
         ARFLAGS
         MAKEFLAGS
+        GNUMAKEFLAGS
     ),
     # Dynamic linker, see ld(1).
     qw(
