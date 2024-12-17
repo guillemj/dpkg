@@ -1,11 +1,24 @@
 # This Makefile fragment (since dpkg 1.16.1) defines the following package
 # information variables:
 #
+# For a source package with version 1:2.3-4, the output for the following
+# variables is shown as an example, although notice that the epoch and
+# revision parts can be omitted depending on the packaging.
+#
 #   DEB_SOURCE: Source package name.
-#   DEB_VERSION: Package's full version (epoch + upstream vers. + revision).
+#   DEB_VERSION: Package's full version.
+#     Format: [epoch:]upstream-version[-revision]
+#     Example: 1:2.3-4
 #   DEB_VERSION_EPOCH_UPSTREAM: Package's version without the Debian revision.
+#     Format: [epoch:]upstream-version
+#     Example: 1:2.3
 #   DEB_VERSION_UPSTREAM_REVISION: Package's version without the Debian epoch.
-#   DEB_VERSION_UPSTREAM: Package's upstream version.
+#     Format: upstream-version[-revision]
+#     Example: 2.3-4
+#   DEB_VERSION_UPSTREAM: Package's upstream version without the Debian epoch
+#     or revision.
+#     Format: upstream-version
+#     Example: 2.3
 #   DEB_DISTRIBUTION: Distribution(s) listed in the current debian/changelog
 #     entry.
 #   DEB_TIMESTAMP: Source package release date as seconds since the epoch as
