@@ -1,8 +1,8 @@
 # This Makefile fragment (since dpkg 1.16.1) defines the following
 # vendor-related variables:
 #
-#   DEB_VENDOR: output of «dpkg-vendor --query Vendor».
-#   DEB_PARENT_VENDOR: output of «dpkg-vendor --query Parent» (can be empty).
+#   DEB_VENDOR: Output of «dpkg-vendor --query Vendor».
+#   DEB_PARENT_VENDOR: Output of «dpkg-vendor --query Parent» (can be empty).
 #
 # This Makefile fragment also defines a set of "dpkg_vendor_derives_from"
 # macros that can be used to verify if the current vendor derives from

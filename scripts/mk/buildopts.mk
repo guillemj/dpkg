@@ -3,7 +3,7 @@
 #
 # Defines the following variables:
 #
-#   DEB_BUILD_OPTION_PARALLEL: the argument for the parallel=N option.
+#   DEB_BUILD_OPTION_PARALLEL: The argument for the parallel=N option.
 #     $(DEB_BUILD_OPTIONS)                "parallel=2"  "parallel="  ""
 #     $(DEB_BUILD_OPTION_PARALLEL)        "2"           ""           unset
 #     $(DEB_BUILD_OPTION_PARALLEL:%=-j%)  "-j2"         ""           ""

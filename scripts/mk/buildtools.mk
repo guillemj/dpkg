@@ -1,7 +1,7 @@
 # This Makefile fragment (since dpkg 1.19.0) defines the following variables
 # for host tools:
 #
-#   AS: assembler (since dpkg 1.19.1).
+#   AS: Assembler (since dpkg 1.19.1).
 #   CPP: C preprocessor.
 #   CC: C compiler.
 #   CXX: C++ compiler.
@@ -9,13 +9,13 @@
 #   OBJCXX: Objective C++ compiler.
 #   F77: Fortran 77 compiler.
 #   FC: Fortran 9x compiler.
-#   LD: linker.
-#   STRIP: strip objects (since dpkg 1.19.1).
-#   OBJCOPY: copy objects (since dpkg 1.19.1).
-#   OBJDUMP: dump objects (since dpkg 1.19.1).
-#   NM: names lister (since dpkg 1.19.1).
-#   AR: archiver (since dpkg 1.19.1).
-#   RANLIB: archive index generator (since dpkg 1.19.1).
+#   LD: Linker.
+#   STRIP: Strip objects (since dpkg 1.19.1).
+#   OBJCOPY: Copy objects (since dpkg 1.19.1).
+#   OBJDUMP: Dump objects (since dpkg 1.19.1).
+#   NM: Names lister (since dpkg 1.19.1).
+#   AR: Archiver (since dpkg 1.19.1).
+#   RANLIB: Archive index generator (since dpkg 1.19.1).
 #   PKG_CONFIG: pkg-config tool.
 #   QMAKE: Qt build system generator (since dpkg 1.20.0).
 #

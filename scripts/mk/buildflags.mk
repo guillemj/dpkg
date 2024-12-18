@@ -1,29 +1,29 @@
 # This Makefile fragment (since dpkg 1.16.1) defines the following host
 # variables:
 #
-#   ASFLAGS: flags for the host assembler (since 1.21.0).
-#   CFLAGS: flags for the host C compiler.
-#   CPPFLAGS: flags for the host C preprocessor.
-#   CXXFLAGS: flags for the host C++ compiler.
-#   OBJCFLAGS: flags for the host Objective C compiler.
-#   OBJCXXFLAGS: flags for the host Objective C++ compiler.
-#   DFLAGS: flags for the host D compiler.
-#   FFLAGS: flags for the host Fortran 77 compiler.
-#   FCFLAGS: flags for the host Fortran 9x compiler.
-#   LDFLAGS: flags for the host linker.
+#   ASFLAGS: Flags for the host assembler (since 1.21.0).
+#   CFLAGS: Flags for the host C compiler.
+#   CPPFLAGS: Flags for the host C preprocessor.
+#   CXXFLAGS: Flags for the host C++ compiler.
+#   OBJCFLAGS: Flags for the host Objective C compiler.
+#   OBJCXXFLAGS: Flags for the host Objective C++ compiler.
+#   DFLAGS: Flags for the host D compiler.
+#   FFLAGS: Flags for the host Fortran 77 compiler.
+#   FCFLAGS: Flags for the host Fortran 9x compiler.
+#   LDFLAGS: Flags for the host linker.
 #
 # And the following variables for the build tools (since dpkg 1.22.1):
 #
-#   ASFLAGS_FOR_BUILD: flags for the build assembler.
-#   CFLAGS_FOR_BUILD: flags for the build C compiler.
-#   CPPFLAGS_FOR_BUILD: flags for the build C preprocessor.
-#   CXXFLAGS_FOR_BUILD: flags for the build C++ compiler.
-#   OBJCFLAGS_FOR_BUILD: flags for the build Objective C compiler.
-#   OBJCXXFLAGS_FOR_BUILD: flags for the build Objective C++ compiler.
-#   DFLAGS_FOR_BUILD: flags for the build D compiler.
-#   FFLAGS_FOR_BUILD: flags for the build Fortran 77 compiler.
-#   FCFLAGS_FOR_BUILD: flags for the build Fortran 9x compiler.
-#   LDFLAGS_FOR_BUILD: flags for the build linker.
+#   ASFLAGS_FOR_BUILD: Flags for the build assembler.
+#   CFLAGS_FOR_BUILD: Flags for the build C compiler.
+#   CPPFLAGS_FOR_BUILD: Flags for the build C preprocessor.
+#   CXXFLAGS_FOR_BUILD: Flags for the build C++ compiler.
+#   OBJCFLAGS_FOR_BUILD: Flags for the build Objective C compiler.
+#   OBJCXXFLAGS_FOR_BUILD: Flags for the build Objective C++ compiler.
+#   DFLAGS_FOR_BUILD: Flags for the build D compiler.
+#   FFLAGS_FOR_BUILD: Flags for the build Fortran 77 compiler.
+#   FCFLAGS_FOR_BUILD: Flags for the build Fortran 9x compiler.
+#   LDFLAGS_FOR_BUILD: Flags for the build linker.
 #
 # You can also export them in the environment by setting
 # DPKG_EXPORT_BUILDFLAGS to a non-empty value.
