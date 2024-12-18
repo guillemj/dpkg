@@ -9,6 +9,11 @@
 #   DEB_VERSION: Package's full version.
 #     Format: [epoch:]upstream-version[-revision]
 #     Example: 1:2.3-4
+#   DEB_VERSION_EPOCH: Package's epoch without the upstream-version or the
+#     Debian revision (since dpkg 1.22.12). The variable can be empty if
+#     there is no epoch.
+#     Format: [epoch]
+#     Example: 1
 #   DEB_VERSION_EPOCH_UPSTREAM: Package's version without the Debian revision.
 #     Format: [epoch:]upstream-version
 #     Example: 1:2.3
@@ -19,6 +24,11 @@
 #     or revision.
 #     Format: upstream-version
 #     Example: 2.3
+#   DEB_VERSION_REVISION: Package's Debian revision without the Debian epoch
+#     or the upstream-version (since dpkg 1.22.12). The variable can be empty
+#     if there is no revision.
+#     Format: [revision]
+#     Example: 4
 #   DEB_DISTRIBUTION: Distribution(s) listed in the current debian/changelog
 #     entry.
 #   DEB_TIMESTAMP: Source package release date as seconds since the epoch as
@@ -42,9 +52,11 @@ dpkg_late_eval ?= $(or $(value DPKG_CACHE_$(1)),$(eval DPKG_CACHE_$(1) := $(shel
 
 DEB_SOURCE = $(call dpkg_late_eval,DEB_SOURCE,dpkg-parsechangelog -SSource)
 DEB_VERSION = $(call dpkg_late_eval,DEB_VERSION,dpkg-parsechangelog -SVersion)
+DEB_VERSION_EPOCH = $(call dpkg_late_eval,DEB_VERSION_EPOCH,echo '$(DEB_VERSION)' | sed -e 's/^\([0-9]\):.*$$/\1/')
 DEB_VERSION_EPOCH_UPSTREAM = $(call dpkg_late_eval,DEB_VERSION_EPOCH_UPSTREAM,echo '$(DEB_VERSION)' | sed -e 's/-[^-]*$$//')
 DEB_VERSION_UPSTREAM_REVISION = $(call dpkg_late_eval,DEB_VERSION_UPSTREAM_REVISION,echo '$(DEB_VERSION)' | sed -e 's/^[0-9]*://')
 DEB_VERSION_UPSTREAM = $(call dpkg_late_eval,DEB_VERSION_UPSTREAM,echo '$(DEB_VERSION_EPOCH_UPSTREAM)' | sed -e 's/^[0-9]*://')
+DEB_VERSION_REVISION = $(call dpkg_late_eval,DEB_VERSION_REVISION,echo '$(DEB_VERSION)' | sed -e 's/^.*-\([^-]*\)$$/\1/')
 DEB_DISTRIBUTION = $(call dpkg_late_eval,DEB_DISTRIBUTION,dpkg-parsechangelog -SDistribution)
 DEB_TIMESTAMP = $(call dpkg_late_eval,DEB_TIMESTAMP,dpkg-parsechangelog -STimestamp)
 
