@@ -303,10 +303,10 @@ sub _copy_fh_fh {
         my $n = $if->{fh}->read($buf, $buflen)
             or syserr(g_('cannot read file %s'), $if->{name});
 
-        $of->{fh}->write($buf, $buflen)
+        $of->{fh}->write($buf, $n)
             or syserr(g_('cannot write file %s'), $of->{name});
 
-        $size -= $buflen;
+        $size -= $n;
     }
 
     return;
