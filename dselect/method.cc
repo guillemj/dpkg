@@ -180,7 +180,7 @@ static urqresult runscript(const char *exepath, const char *name) {
 
     command_init(&cmd, cmdpath.str(), name);
     command_add_args(&cmd, exepath, dpkg_db_get_dir(),
-                     coption->meth->name, coption->name, nullptr);
+                     coption->meth->name.str(), coption->name.str(), nullptr);
     ur = falliblesubprocess(&cmd);
     command_destroy(&cmd);
   } else {
@@ -247,7 +247,7 @@ urqresult urq_setup(void) {
 
     command_init(&cmd, cmdpath.str(), _("query/setup script"));
     command_add_args(&cmd, METHODSETUPSCRIPT, dpkg_db_get_dir(),
-                     coption->meth->name, coption->name, nullptr);
+                     coption->meth->name.str(), coption->name.str(), nullptr);
     ur = falliblesubprocess(&cmd);
     command_destroy(&cmd);
     if (ur == urqr_normal) writecurrentopt();
