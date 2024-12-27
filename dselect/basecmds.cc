@@ -22,6 +22,8 @@
 #include <config.h>
 #include <compat.h>
 
+#include <utility>
+
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
@@ -134,7 +136,7 @@ void baselist::kd_search() {
       return;
     }
 
-    searchstring = newsearchstring;
+    searchstring = std::move(newsearchstring);
     dosearch();
   } else
     kd_searchagain();
