@@ -2715,26 +2715,26 @@ alternative_set_selections(FILE *input, const char *desc)
 		/* Delimit name string in line */
 		i = 0;
 		name = line;
-		while (i < len && !isblank(line[i]))
+		while (i < len && !isblank((unsigned char)line[i]))
 			i++;
 		if (i >= len) {
 			info(_("skip invalid selection line: %s"), line);
 			continue;
 		}
 		line[i++] = '\0';
-		while (i < len && isblank(line[i]))
+		while (i < len && isblank((unsigned char)line[i]))
 			i++;
 
 		/* Delimit status string in line */
 		status = line + i;
-		while (i < len && !isblank(line[i]))
+		while (i < len && !isblank((unsigned char)line[i]))
 			i++;
 		if (i >= len) {
 			info(_("skip invalid selection line: %s"), line);
 			continue;
 		}
 		line[i++] = '\0';
-		while (i < len && isblank(line[i]))
+		while (i < len && isblank((unsigned char)line[i]))
 			i++;
 
 		/* Delimit choice string in the line */

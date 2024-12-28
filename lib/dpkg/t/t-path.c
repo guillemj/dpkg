@@ -103,7 +103,7 @@ static bool
 string_is_ascii(const char *str)
 {
 	while (*str) {
-		if (!isascii(*str))
+		if (!isascii((unsigned char)*str))
 			return false;
 
 		str++;

@@ -1190,7 +1190,7 @@ parse_schedule_item(const char *string, struct schedule_item *item)
 
 	if (strcmp(string, "forever") == 0) {
 		item->type = sched_forever;
-	} else if (isdigit(string[0])) {
+	} else if (isdigit((unsigned char)string[0])) {
 		item->type = sched_timeout;
 		if (parse_unsigned(string, 10, &item->value) != 0)
 			badusage("invalid timeout value in schedule");
@@ -1629,7 +1629,7 @@ proc_status_field(pid_t pid, const char *field)
 			line[line_len - 1] = '\0';
 
 			value = line + field_len;
-			while (isspace(*value))
+			while (isspace((unsigned char)*value))
 				value++;
 
 			break;
