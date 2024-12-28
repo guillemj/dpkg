@@ -676,7 +676,7 @@ if ($checkbuilddep) {
         subprocerr('dpkg-checkbuilddeps');
     } elsif (WEXITSTATUS($?)) {
 	warning(g_('build dependencies/conflicts unsatisfied; aborting'));
-        hint(g_('use -d flag to override'));
+        hint(g_('satify build dependencies with your package manager frontend'));
 	exit 3;
     }
 }
