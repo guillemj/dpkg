@@ -1,8 +1,177 @@
-dpkg (1.22.12) UNRELEASED; urgency=medium
+dpkg (1.22.12) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * libdpkg: Check for pager presence and fallback to less, more and cat.
+    Closes: #856216
+  * dpkg-shlibdeps: Add symbolic name alternative to --warnings bits.
+  * Update URLs.
+  * dpkg-deb: Add --no-check option and keep --nocheck as an alias.
+  * dpkg: Unify package and version printing format to «package (version)».
+  * dpkg-buildtree: Add new command is-rootless.
+    Suggested by Niels Thykier <niels@thykier.net>.
+  * scripts: Switch messages to be hints.
+  * dpkg-buildpackage: Reword hint on unsatisfied dependencies. Closes: #817955
+  * dpkg-checkbuilddeps: Improve unmet dependency error messages.
+  * dpkg-buildpackage: Switch unmet dependency abort message from warning to
+    error.
+  * scripts: Change and inject default value for Section and Priority fields.
+  * Perl modules:
+    - Dpkg::Deps::Multiple: Document that the constructor takes @deps not
+      %opts.
+    - Dpkg::Changelog::Parse: Use %opts instead of %opt in function POD.
+    - Dpkg::Control: Deprecate the backwards compatibility type aliases.
+    - Dpkg::OpenPGP::Backend::GnuPG: Ignore
+      ValuesAndExpressions::ProhibitMagicNumbers.
+    - Dpkg::Vendor: Simplify module loading logic.
+    - Dpkg::OpenPGP::Backend::SOP: Add rsop as an alternative SOP
+      implementation.
+    - Dpkg::OpenPGP::Backend::SOP: Add gosop as an alternative SOP
+      implementation.
+    - Dpkg::OpenPGP::Backend::Sequoia: Adapt to new CLI 0.40.0 API.
+    - Dpkg::OpenPGP::Backend::Sequoia: Add keystore support.
+    - Dpkg::Shlibs: Improve code comments.
+    - Dpkg::Archive::Ar: Copy only the number of bytes we have read.
+    - Dpkg::Vendor: Remove backwards compatibility module and origin name
+      mangling.
+    - Dpkg::BuildInfo: Add GNUMAKEFLAGS as an allowed environment variable.
+      Thanks to Santiago Vila <sanvila@debian.org>. Closes: #1090337
+    - Dpkg::BuildDriver::DebianRules: Handle missing root_cmd option.
+    - Dpkg::ErrorHandling: Add support for hint printing.
+    - Dpkg::OpenPGP::Backend::GnuPG: Handle and warn on concatenated ASCII
+      Armor blocks.
+    - Revert "Dpkg::OpenPGP::Backend::GnuPG: Fallback to use «gpg dearmor» if
+      present".
+    - Dpkg::OpenPGP::Backend::GnuPG: Move armor/dearmor implementation to base
+      class.
+    - Dpkg::OpenPGP::Backend::SOP: Use the parent class armor/dearmor
+      implementations.
+    - Dpkg::Vendor::Debian: Remove merged-/usr taint logic.
+    - Dpkg::Control::FieldsCore: Add new field_get_default_value() function.
+  * Make fragments:
+    - Document DPKG_BUILD_API in buildapi.mk.
+    - Document public API and expected directory to include from.
+      Prompted by Helmut Grohne <helmut@subdivi.de>.
+    - Capitalize variable descriptions.
+    - Clarify format for version variables from pkg-info.mk.
+      See #1088244.
+    - Add support for new DEB_VERSION_EPOCH and DEB_VERSION_REVISION.
+      Closes: #1088244
+  * Shell library:
+    - Add a default PROGNAME to dpkg-error.sh.
+    - Move setup_colors() contents into dpkg-error.sh script scope.
+  * Documentation:
+    - man: Update debian/control example in deb-src-control(5).
+    - man: Use arch-bits in deb-src-symbols(5) example dependent on bitness.
+    - man: Use modern architectures for manual page examples.
+    - doc: Fix typos in ChangeLog.old.
+    - man: Document purpose of origin files and how they tie to packages.
+      See https://github.com/grml/grml-debian-keyring/issues/7.
+    - man: Use «must» instead of «should» for mandatory behavior.
+      Requested by Niels Thykier <niels@thykier.net>.
+      See https://bugs.debian.org/1089794.
+  * Code internals:
+    - lib: Remove compatibility code for C++ earlier than C++11.
+    - scripts: Use %opts instead of %options for constructor and function
+      options.
+    - scripts: Document when constructors take %opts.
+    - scripts: Use %opts instead of %args for function and method options.
+    - scripts: Rename changelog options in programs to %changelog_opts.
+    - scripts: Unify constructor and function options documentation.
+    - libdpkg: Remove const from execname.
+    - libdpkg: Use size_t instead of unsigned int for nargs.
+    - start-stop-daemon: Refactor closefrom() and use it only if the system
+      lacks it.
+    - start-stop-daemon: Try to use close_range() if present to implement
+      closefrom().
+    - scripts: Fix module loading.
+      Prompted by Holger Levsen <holger@debian.org>.
+      Prompted by Niels Thykier <niels@thykier.net>.
+    - src: Do not name option variables as no<thing>.
+    - dpkg-deb: Rename control area functions to check_ctrl_*().
+    - dpkg-deb: Rename check_control_area() to check_build_files().
+    - dpkg-deb: Fix doxygen comment to match function argument.
+    - perl: Remove function prototypes.
+    - libdpkg: Rename varbuf_rollback_start() to varbuf_rollback_end().
+    - libdpkg: Rename varbuf_*printf() to varbuf_add_*fmt().
+    - libdpkg: Add new varbuf_set_*fmt() functions.
+    - dpkg: Switch from varbuf_reset()+varbuf_add_str() to varbuf_set_str().
+    - Replace varbuf_reset()+varbuf_*printf() with varbuf_set_*fmt().
+    - Replace varbuf_*printf() with varbuf_add_*fmt().
+    - libdpkg: Rename varbuf C++ *fmt() methods to add_*fmt().
+    - dpkg: Replace sprintf() usage with a varbuf in depisok().
+    - Use snprintf() instead of sprintf().
+    - libdpkg: Switch varbuf::reset() to use varbuf_reset().
+    - libdpkg: Rename varbuf::string() to varbuf::str().
+    - libdpkg: Add new varbuf C++ methods for all functions.
+    - libdpkg: Add new varbuf_state C++ methods for all functions.
+    - libdpkg: Add new varbuf C++ constructor initialized from a C string.
+    - libdpkg: Add new varbuf C++ operator+= methods.
+    - dselect: Switch from operator() to operator+=.
+    - libdpkg: Remove varbuf C++ operator() methods.
+    - libdpkg: Add new varbuf C++ len() method.
+    - libdpkg: Add new varbuf_swap() function.
+    - libdpkg: Add new varbuf C++ copy constructors.
+    - libdpkg: Add new varbuf C++ move constructors.
+    - libdpkg: Add new varbuf_array() and C++ operator[] methods.
+    - dselect: Switch to use varbufs instead of sprintf in keybindings.
+    - dselect: Switch to use varbufs instead of sprintf for searchstring.
+    - dselect: Switch to use varbufs instead of sprintf for describemany().
+    - dselect: Use file_slurp() instead of open-coding it.
+    - dselect: Switch to use varbufs instead of sprintf for method parser.
+    - dselect: Mark assignment inside baselist::kd_search() as a move
+      assignment.
+    - Cast char to unsigned char for ctype functions.
+    - Remove dpkg-error.sh boilerplate.
+    - scripts: Remove dpkg-fsys-usrunmess program.
+    - dpkg-source: Generalize Package-List field attributes handling.
+    - scripts: Unify handling of default Priority and Section values.
+    - scripts: Switch to use the default per field value for Section and
+      Priority.
+  * Build system:
+    - Make C++ baseline version a hard requirement.
+    - Generalize C/C++ check macros to select the version as an argument.
+    - Bump minimum required C++ standard to C++14.
+    - Warn on C++17, C++20, C++23 and C++26 extensions usage.
+    - Check for C++11 __func__ availability.
+    - Undefine _TIME_BITS when checking for the base off_t size.
+    - Do not use an obsolete x prefix for shell test checks.
+    - Add a new changelog section for the shell library.
+  * Packaging:
+    - Bump Standards-Version to 4.7.0 (no changes needed).
+    - Add a trailing comma to debian/tests/control dependency.
+    - Inline sequoia-chameleon-gnupg dependencies depending on context.
+    - Remove merged-/usr warning logic. Closes: #1061718
+  * Test suite:
+    - Enable ValuesAndExpressions::ProhibitMagicNumbers except for octals.
+    - Mark variables around longjmp() as volatile.
+    - Add tests for varbuf C++ API.
+  * Localization:
+    - Update Brazilian Portuguese programs translation.
+      Thanks to Paulo Henrique de Lima Santana <phls@debian.org>.
+      Closes: #1091450
+    - Update Czech translations.
+      Thanks to Miroslav Kure <kurem@upcase.inf.upol.cz>. Closes: #1087219
+    - Update Dutch translations.
+      Thanks to Frans Spiesschaert <Frans.Spiesschaert@yucom.be>.
+      Closes: #1087459, #1087595
+    - Update Portuguese man pages translation.
+      Thanks to Américo Monteiro <a_monteiro@gmx.com>. Closes: #1086160
+    - Update Romanian programs translation.
+      Thanks to Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>.
+      Closes: #1080212
+    - Update Swedish translations.
+      Thanks to Peter Krefting <peter@softwolves.pp.se>. Closes: #1083116
 
- -- Guillem Jover <guillem@debian.org>  Thu, 01 Aug 2024 13:02:51 +0200
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+
+  [ Sven Joachim ]
+  * Localization:
+    - Update German dselect translation.
+    - Update German programs translation.
+
+ -- Guillem Jover <guillem@debian.org>  Wed, 01 Jan 2025 23:27:27 +0100
 
 dpkg (1.22.11) unstable; urgency=medium
 
