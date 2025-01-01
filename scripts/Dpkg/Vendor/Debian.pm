@@ -669,16 +669,6 @@ sub _build_tainted_by {
     my $self = shift;
     my %tainted;
 
-    foreach my $pathname (qw(/bin /sbin /lib /lib32 /libo32 /libx32 /lib64)) {
-        next unless -l $pathname;
-
-        my $linkname = readlink $pathname;
-        if ($linkname eq "usr$pathname" or $linkname eq "/usr$pathname") {
-            $tainted{'merged-usr-via-aliased-dirs'} = 1;
-            last;
-        }
-    }
-
     require File::Find;
     my %usr_local_types = (
         configs => [ qw(etc) ],

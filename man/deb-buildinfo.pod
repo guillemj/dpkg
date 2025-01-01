@@ -195,19 +195,6 @@ On Debian and derivatives the following reason tags can be emitted:
 
 =over
 
-=item B<merged-usr-via-aliased-dirs>
-
-The system has a merged I</usr> via aliased directories (previously known
-as B<merged-usr-via-symlinks>).
-This will confuse B<dpkg-query>, B<dpkg-statoverride>,
-B<dpkg-trigger>, B<update-alternatives> and any other tool using
-pathnames as keys into their databases, as it creates filesystem aliasing
-problems, and messes with the understanding of the filesystem that
-B<dpkg> has recorded in its database.
-For build systems that hardcode pathnames to specific binaries or libraries
-on the resulting artifacts, it can also produce packages that will be
-incompatible with non-/usr-merged filesystems.
-
 =item B<usr-local-has-configs>
 
 The system has configuration files under I</usr/local/etc>.
