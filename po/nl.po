@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.22.11\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-12-03 03:35+0100\n"
+"POT-Creation-Date: 2025-01-01 23:26+0100\n"
 "PO-Revision-Date: 2024-11-05 18:04+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -1078,8 +1078,8 @@ msgid ""
 msgstr ""
 "Opmerking: het grendelbestand verwijderen is steeds fout en kan leiden tot "
 "een\n"
-"beschadigd grendelgebied en het volledige systeem. Zie <https://wiki.debian."
-"org/Teams/Dpkg/FAQ#db-lock>."
+"beschadigd grendelgebied en het volledige systeem. Zie <https://"
+"wiki.debian.org/Teams/Dpkg/FAQ#db-lock>."
 
 #: lib/dpkg/file.c
 #, c-format
@@ -2764,7 +2764,33 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D, --debug                      Enable debugging output.\n"
+#| "      --showformat=<format>        Use alternative format for --show.\n"
+#| "      --deb-format=<format>        Select archive format.\n"
+#| "                                     Allowed values: 0.939000, 2.0 "
+#| "(default).\n"
+#| "      --nocheck                    Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "      --root-owner-group           Forces the owner and groups to root.\n"
+#| "      --threads-max=<threads>      Use at most <threads> with "
+#| "compressor.\n"
+#| "      --[no-]uniform-compression   Use the compression params on all "
+#| "members.\n"
+#| "  -Z, --compression=<compressor>   Set build compression type.\n"
+#| "                                     Allowed types: gzip, xz, zstd, "
+#| "none.\n"
+#| "  -z, --compression-level=<level>  Set build compression level.\n"
+#| "  -S, --compression-strategy=<name>\n"
+#| "                                   Set build compression strategy.\n"
+#| "                                     Allowed values: none; extreme (xz);\n"
+#| "                                     filtered, huffman, rle, fixed "
+#| "(gzip).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -2773,8 +2799,9 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --nocheck                    Suppress control file check (build bad\n"
-"                                     packages).\n"
+"      --no-check                   Suppress all checks (build bad "
+"packages).\n"
+"      --nocheck                    Alias for --no-check.\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
@@ -2821,8 +2848,8 @@ msgid ""
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
-"  by inserting variable references to package fields using the ${var[;"
-"width]}\n"
+"  by inserting variable references to package fields using the $"
+"{var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in "
 "which\n"
 "  case left alignment will be used.\n"
@@ -3493,8 +3520,8 @@ msgid ""
 "Package preinst/postrm scripts should always specify --package and --"
 "divert.\n"
 msgstr ""
-"Bij het toevoegen zijn de standaardopties --local en --divert <original>."
-"distrib.\n"
+"Bij het toevoegen zijn de standaardopties --local en --divert "
+"<original>.distrib.\n"
 "Bij het verwijderen --package of --local en, indien opgegeven, moet --divert "
 "overeenkomen.\n"
 "De preinst/postrm-scripts van pakketten moeten altijd --package en --divert "
@@ -4262,17 +4289,21 @@ msgid "Replaced by files in installed package %s (%s) ...\n"
 msgstr "Vervangen door bestanden uit geïnstalleerd pakket %s (%s) ...\n"
 
 #: src/main/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "trying to overwrite directory '%.250s' in package %.250s %.250s with "
+#| "nondirectory"
 msgid ""
-"trying to overwrite directory '%.250s' in package %.250s %.250s with "
+"trying to overwrite directory '%.250s' in package %.250s (%.250s) with "
 "nondirectory"
 msgstr ""
 "poging tot overschrijven van map '%.250s' in pakket %.250s %.250s met iets "
 "dat geen map is"
 
 #: src/main/archives.c
-#, c-format
-msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+#, fuzzy, c-format
+#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+msgid "trying to overwrite '%.250s', which is also in package %.250s (%.250s)"
 msgstr ""
 "poging tot overschrijven van '%.250s', wat ook in pakket %.250s %.250s zit"
 
@@ -4510,18 +4541,21 @@ msgid "Skipping unselected package %s.\n"
 msgstr "Niet geselecteerd pakket %s wordt overgeslagen.\n"
 
 #: src/main/archives.c
-#, c-format
-msgid "version %.250s of %.250s already installed, skipping"
+#, fuzzy, c-format
+#| msgid "version %.250s of %.250s already installed, skipping"
+msgid "package %.250s (%.250s) with same version already installed, skipping"
 msgstr "versie %.250s van %.250s is reeds geïnstalleerd; wordt overgeslagen"
 
 #: src/main/archives.c
-#, c-format
-msgid "downgrading %.250s from %.250s to %.250s"
+#, fuzzy, c-format
+#| msgid "downgrading %.250s from %.250s to %.250s"
+msgid "downgrading %.250s (%.250s) to (%.250s)"
 msgstr "%.250s wordt gedegradeerd van %.250s naar %.250s"
 
 #: src/main/archives.c
-#, c-format
-msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+#, fuzzy, c-format
+#| msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+msgid "will not downgrade %.250s (%.250s) to (%.250s), skipping"
 msgstr "zal %.250s niet degraderen van %.250s naar %.250s; wordt overgeslagen"
 
 #: src/main/cleanup.c
@@ -4776,9 +4810,13 @@ msgstr ""
 "status '%s')"
 
 #: src/main/configure.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "package %s %s cannot be configured because %s is at a different version "
+#| "(%s)"
 msgid ""
-"package %s %s cannot be configured because %s is at a different version (%s)"
+"package %s (%s) cannot be configured because %s is at a different version "
+"(%s)"
 msgstr ""
 "pakket %s %s kan niet geconfigureerd worden, omdat %s van een andere versie "
 "is (%s)"

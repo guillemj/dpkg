@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.22.11\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
+"POT-Creation-Date: 2025-01-01 23:26+0100\n"
 "PO-Revision-Date: 2024-11-04 20:37+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -2695,7 +2695,33 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D, --debug                      Enable debugging output.\n"
+#| "      --showformat=<format>        Use alternative format for --show.\n"
+#| "      --deb-format=<format>        Select archive format.\n"
+#| "                                     Allowed values: 0.939000, 2.0 "
+#| "(default).\n"
+#| "      --nocheck                    Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "      --root-owner-group           Forces the owner and groups to root.\n"
+#| "      --threads-max=<threads>      Use at most <threads> with "
+#| "compressor.\n"
+#| "      --[no-]uniform-compression   Use the compression params on all "
+#| "members.\n"
+#| "  -Z, --compression=<compressor>   Set build compression type.\n"
+#| "                                     Allowed types: gzip, xz, zstd, "
+#| "none.\n"
+#| "  -z, --compression-level=<level>  Set build compression level.\n"
+#| "  -S, --compression-strategy=<name>\n"
+#| "                                   Set build compression strategy.\n"
+#| "                                     Allowed values: none; extreme (xz);\n"
+#| "                                     filtered, huffman, rle, fixed "
+#| "(gzip).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -2704,8 +2730,9 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --nocheck                    Suppress control file check (build bad\n"
-"                                     packages).\n"
+"      --no-check                   Suppress all checks (build bad "
+"packages).\n"
+"      --nocheck                    Alias for --no-check.\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
@@ -2747,8 +2774,8 @@ msgid ""
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
-"  by inserting variable references to package fields using the ${var[;"
-"width]}\n"
+"  by inserting variable references to package fields using the $"
+"{var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in "
 "which\n"
 "  case left alignment will be used.\n"
@@ -4142,15 +4169,19 @@ msgid "Replaced by files in installed package %s (%s) ...\n"
 msgstr "Nahrazen soubory v nainstalovaném balíku %s (%s) …\n"
 
 #: src/main/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "trying to overwrite directory '%.250s' in package %.250s %.250s with "
+#| "nondirectory"
 msgid ""
-"trying to overwrite directory '%.250s' in package %.250s %.250s with "
+"trying to overwrite directory '%.250s' in package %.250s (%.250s) with "
 "nondirectory"
 msgstr "zkouším přepsat adresář „%.250s“ v balíku %.250s %.250s neadresářem"
 
 #: src/main/archives.c
-#, c-format
-msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+#, fuzzy, c-format
+#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+msgid "trying to overwrite '%.250s', which is also in package %.250s (%.250s)"
 msgstr "zkouším přepsat soubor „%.250s“, který je také v balíku %.250s %.250s"
 
 #: src/main/archives.c
@@ -4376,18 +4407,21 @@ msgid "Skipping unselected package %s.\n"
 msgstr "Přeskakuje se nevybraný balík %s.\n"
 
 #: src/main/archives.c
-#, c-format
-msgid "version %.250s of %.250s already installed, skipping"
+#, fuzzy, c-format
+#| msgid "version %.250s of %.250s already installed, skipping"
+msgid "package %.250s (%.250s) with same version already installed, skipping"
 msgstr "verze %.250s balíku %.250s je již nainstalována, přeskakuji."
 
 #: src/main/archives.c
-#, c-format
-msgid "downgrading %.250s from %.250s to %.250s"
+#, fuzzy, c-format
+#| msgid "downgrading %.250s from %.250s to %.250s"
+msgid "downgrading %.250s (%.250s) to (%.250s)"
 msgstr "degraduji balík %.250s z verze %.250s na %.250s"
 
 #: src/main/archives.c
-#, c-format
-msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+#, fuzzy, c-format
+#| msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+msgid "will not downgrade %.250s (%.250s) to (%.250s), skipping"
 msgstr "nebudu degradovat balík %.250s z verze %.250s na %.250s, přeskakuji"
 
 #: src/main/cleanup.c
@@ -4638,9 +4672,13 @@ msgstr ""
 "balík %s nelze zkonfigurovat, protože %s není připraven (současný stav „%s“)"
 
 #: src/main/configure.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "package %s %s cannot be configured because %s is at a different version "
+#| "(%s)"
 msgid ""
-"package %s %s cannot be configured because %s is at a different version (%s)"
+"package %s (%s) cannot be configured because %s is at a different version "
+"(%s)"
 msgstr "balík %s %s nelze zkonfigurovat, protože %s má jinou verzi (%s)"
 
 #: src/main/configure.c
@@ -7958,8 +7996,8 @@ msgstr "Pro spuštění update-alternatives je vyžadováno ověření"
 #~ "\n"
 #~ "Volby:\n"
 #~ "  --section <reg.výraz> <nadpis>\n"
-#~ "                           umístí nový záznam do sekce určené <reg."
-#~ "výrazem>,\n"
+#~ "                           umístí nový záznam do sekce určené "
+#~ "<reg.výrazem>,\n"
 #~ "                           pokud neexistuje, vytvoří novou s názvem "
 #~ "<nadpis>\n"
 #~ "  --menuentry=<text>       zadá text položky v menu\n"

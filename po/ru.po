@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
+"POT-Creation-Date: 2025-01-01 23:26+0100\n"
 "PO-Revision-Date: 2023-02-06 00:01+0100\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -2804,8 +2804,9 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --nocheck                    Suppress control file check (build bad\n"
-"                                     packages).\n"
+"      --no-check                   Suppress all checks (build bad "
+"packages).\n"
+"      --nocheck                    Alias for --no-check.\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
@@ -2852,8 +2853,8 @@ msgid ""
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
-"  by inserting variable references to package fields using the ${var[;"
-"width]}\n"
+"  by inserting variable references to package fields using the $"
+"{var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in "
 "which\n"
 "  case left alignment will be used.\n"
@@ -3247,8 +3248,8 @@ msgstr ""
 "  -S|--partsize <размер>              в КиБ, используется командой -s\n"
 "                                      (по умолчанию 450)\n"
 "  -o|--output <файл>                  используется командой -j,\n"
-"                                      (по умолч. <пакет>_<версия>_<арх>."
-"deb)\n"
+"                                      (по умолч. "
+"<пакет>_<версия>_<арх>.deb)\n"
 "  -Q|--npquiet                        не предупреждать, если в -a указан\n"
 "                                      файл, не являющийся частью\n"
 "  --msdos                             генерировать имена файлов вида 8.3\n"
@@ -3527,8 +3528,8 @@ msgid ""
 "Package preinst/postrm scripts should always specify --package and --"
 "divert.\n"
 msgstr ""
-"При добавлении, значения по умолчанию --local и --divert <original>."
-"distrib.\n"
+"При добавлении, значения по умолчанию --local и --divert "
+"<original>.distrib.\n"
 "При удалении, если заданы --package или --local, то они должны\n"
 " совпадать с --divert. В сценариях пакетов preinst/postrm всегда нужно\n"
 "указывать --package и --divert.\n"
@@ -4292,17 +4293,21 @@ msgid "Replaced by files in installed package %s (%s) ...\n"
 msgstr "Заменено файлами из установленного пакета %s (%s) …\n"
 
 #: src/main/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "trying to overwrite directory '%.250s' in package %.250s %.250s with "
+#| "nondirectory"
 msgid ""
-"trying to overwrite directory '%.250s' in package %.250s %.250s with "
+"trying to overwrite directory '%.250s' in package %.250s (%.250s) with "
 "nondirectory"
 msgstr ""
 "попытка переписать каталог «%.250s» в пакете %.250s %.250s файлом, не "
 "являющимся каталогом"
 
 #: src/main/archives.c
-#, c-format
-msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+#, fuzzy, c-format
+#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+msgid "trying to overwrite '%.250s', which is also in package %.250s (%.250s)"
 msgstr ""
 "попытка перезаписать «%.250s», который уже имеется в пакете %.250s %.250s"
 
@@ -4535,18 +4540,21 @@ msgid "Skipping unselected package %s.\n"
 msgstr "Пропуск не выбранного пакета %s.\n"
 
 #: src/main/archives.c
-#, c-format
-msgid "version %.250s of %.250s already installed, skipping"
+#, fuzzy, c-format
+#| msgid "version %.250s of %.250s already installed, skipping"
+msgid "package %.250s (%.250s) with same version already installed, skipping"
 msgstr "версия %.250s пакета %.250s уже установлена, пропускаем"
 
 #: src/main/archives.c
-#, c-format
-msgid "downgrading %.250s from %.250s to %.250s"
+#, fuzzy, c-format
+#| msgid "downgrading %.250s from %.250s to %.250s"
+msgid "downgrading %.250s (%.250s) to (%.250s)"
 msgstr "снижение версии %.250s с %.250s до %.250s"
 
 #: src/main/archives.c
-#, c-format
-msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+#, fuzzy, c-format
+#| msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+msgid "will not downgrade %.250s (%.250s) to (%.250s), skipping"
 msgstr "версия %.250s не будет снижена с %.250s до %.250s, пропускаем"
 
 #: src/main/cleanup.c
@@ -4799,9 +4807,13 @@ msgstr ""
 "«%s»)"
 
 #: src/main/configure.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "package %s %s cannot be configured because %s is at a different version "
+#| "(%s)"
 msgid ""
-"package %s %s cannot be configured because %s is at a different version (%s)"
+"package %s (%s) cannot be configured because %s is at a different version "
+"(%s)"
 msgstr "пакет %s %s не может быть настроен, так как %s другой версии (%s)"
 
 #: src/main/configure.c
@@ -5485,8 +5497,8 @@ msgid ""
 "on archives (type %s --help).\n"
 "\n"
 msgstr ""
-"К архивам применяются команды: -b, --build, -c, --contents, -e, --control, -"
-"I, --info,\n"
+"К архивам применяются команды: -b, --build, -c, --contents, -e, --control, "
+"-I, --info,\n"
 "  -f, --field, -x, --extract, -X, --vextract, --ctrl-tarfile, --fsys-"
 "tarfile\n"
 "(см. %s --help).\n"

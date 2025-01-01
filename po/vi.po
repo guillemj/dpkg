@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
+"POT-Creation-Date: 2025-01-01 23:26+0100\n"
 "PO-Revision-Date: 2016-01-14 08:22+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
@@ -2926,8 +2926,9 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --nocheck                    Suppress control file check (build bad\n"
-"                                     packages).\n"
+"      --no-check                   Suppress all checks (build bad "
+"packages).\n"
+"      --nocheck                    Alias for --no-check.\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
@@ -2971,8 +2972,8 @@ msgid ""
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
-"  by inserting variable references to package fields using the ${var[;"
-"width]}\n"
+"  by inserting variable references to package fields using the $"
+"{var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in "
 "which\n"
 "  case left alignment will be used.\n"
@@ -4474,17 +4475,21 @@ msgid "Replaced by files in installed package %s (%s) ...\n"
 msgstr "Được thay thế bằng các tập tin trong gói đã cài đặt %s (%s) …\n"
 
 #: src/main/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "trying to overwrite directory '%.250s' in package %.250s %.250s with "
+#| "nondirectory"
 msgid ""
-"trying to overwrite directory '%.250s' in package %.250s %.250s with "
+"trying to overwrite directory '%.250s' in package %.250s (%.250s) with "
 "nondirectory"
 msgstr ""
 "đang cố ghi đè lên thư mục “%.250s” trong gói %.250s %.250s với điều khác "
 "thư mục"
 
 #: src/main/archives.c
-#, c-format
-msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+#, fuzzy, c-format
+#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+msgid "trying to overwrite '%.250s', which is also in package %.250s (%.250s)"
 msgstr "đang cố ghi đè lên “%.250s”, cái mà cũng nằm trong gói %.250s %.250s"
 
 #: src/main/archives.c
@@ -4741,18 +4746,21 @@ msgid "Skipping unselected package %s.\n"
 msgstr "Bỏ qua gói không được lựa chọn %s.\n"
 
 #: src/main/archives.c
-#, c-format
-msgid "version %.250s of %.250s already installed, skipping"
+#, fuzzy, c-format
+#| msgid "version %.250s of %.250s already installed, skipping"
+msgid "package %.250s (%.250s) with same version already installed, skipping"
 msgstr "phiên bản %.250s của %.250s đã được cài đặt nên bỏ qua"
 
 #: src/main/archives.c
-#, c-format
-msgid "downgrading %.250s from %.250s to %.250s"
+#, fuzzy, c-format
+#| msgid "downgrading %.250s from %.250s to %.250s"
+msgid "downgrading %.250s (%.250s) to (%.250s)"
 msgstr "nâng cấp %.250s từ %.250s thành %.250s"
 
 #: src/main/archives.c
-#, c-format
-msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+#, fuzzy, c-format
+#| msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+msgid "will not downgrade %.250s (%.250s) to (%.250s), skipping"
 msgstr "sẽ không hạ cấp %.250s từ phiên bản %.250s xuống %.250s nên bỏ qua"
 
 #: src/main/cleanup.c
@@ -5007,9 +5015,13 @@ msgstr ""
 "“%s”)"
 
 #: src/main/configure.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "package %s %s cannot be configured because %s is at a different version "
+#| "(%s)"
 msgid ""
-"package %s %s cannot be configured because %s is at a different version (%s)"
+"package %s (%s) cannot be configured because %s is at a different version "
+"(%s)"
 msgstr "gói %s %s không thể được cấu hình bởi vì %s có phiên bản khác (%s)"
 
 #: src/main/configure.c
@@ -5921,8 +5933,8 @@ msgstr ""
 "Gõ lệnh:\n"
 " * dpkg -Dhelp        để xem danh sách các giá trị cờ gỡ rối của dpkg;\n"
 " * dpkg --force-help  để xem danh sách các tùy chọn ép buộc;\n"
-" * dpkg-deb --help    để xem trợ giúp về cách dùng với các tập tin kiểu “."
-"deb”;\n"
+" * dpkg-deb --help    để xem trợ giúp về cách dùng với các tập tin kiểu "
+"“.deb”;\n"
 "\n"
 "Tùy chọn có dấu [*] thì xuất nhiều — hãy gửi qua ống dẫn cho “less” hoặc "
 "“more”!"

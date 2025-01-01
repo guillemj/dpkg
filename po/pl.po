@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.20.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
+"POT-Creation-Date: 2025-01-01 23:26+0100\n"
 "PO-Revision-Date: 2021-04-24 19:50+0200\n"
 "Last-Translator: Łukasz Dulny <bartekchom@poczta.onet.pl>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
@@ -2830,8 +2830,9 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --nocheck                    Suppress control file check (build bad\n"
-"                                     packages).\n"
+"      --no-check                   Suppress all checks (build bad "
+"packages).\n"
+"      --nocheck                    Alias for --no-check.\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
@@ -2876,8 +2877,8 @@ msgid ""
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
-"  by inserting variable references to package fields using the ${var[;"
-"width]}\n"
+"  by inserting variable references to package fields using the $"
+"{var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in "
 "which\n"
 "  case left alignment will be used.\n"
@@ -2910,8 +2911,8 @@ msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
 msgstr ""
-"Proszę wpisać: dpkg-deb --help, aby dowiedzieć się jak operować plikami *."
-"deb;\n"
+"Proszę wpisać: dpkg-deb --help, aby dowiedzieć się jak operować plikami "
+"*.deb;\n"
 "dpkg --help, aby dowiedzieć się jak (od)instalować pakiety."
 
 #: src/deb/main.c
@@ -4338,17 +4339,21 @@ msgid "Replaced by files in installed package %s (%s) ...\n"
 msgstr "Zastąpienie przez pliki z instalowanego pakietu %s (%s) ...\n"
 
 #: src/main/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "trying to overwrite directory '%.250s' in package %.250s %.250s with "
+#| "nondirectory"
 msgid ""
-"trying to overwrite directory '%.250s' in package %.250s %.250s with "
+"trying to overwrite directory '%.250s' in package %.250s (%.250s) with "
 "nondirectory"
 msgstr ""
 "próba nadpisania katalogu \"%.250s\" w pakiecie %.250s %.250s przez obiekt "
 "nie będący katalogiem"
 
 #: src/main/archives.c
-#, c-format
-msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+#, fuzzy, c-format
+#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+msgid "trying to overwrite '%.250s', which is also in package %.250s (%.250s)"
 msgstr ""
 "próba nadpisania \"%.250s\", który istnieje także w pakiecie %.250s %.250s"
 
@@ -4608,18 +4613,21 @@ msgid "Skipping unselected package %s.\n"
 msgstr "Pomijanie niewybranego pakietu %s.\n"
 
 #: src/main/archives.c
-#, c-format
-msgid "version %.250s of %.250s already installed, skipping"
+#, fuzzy, c-format
+#| msgid "version %.250s of %.250s already installed, skipping"
+msgid "package %.250s (%.250s) with same version already installed, skipping"
 msgstr "wersja %.250s pakietu %.250s jest już zainstalowana, pomijanie"
 
 #: src/main/archives.c
-#, c-format
-msgid "downgrading %.250s from %.250s to %.250s"
+#, fuzzy, c-format
+#| msgid "downgrading %.250s from %.250s to %.250s"
+msgid "downgrading %.250s (%.250s) to (%.250s)"
 msgstr "zastąpienie %.250s w wersji %.250s wcześniejszą wersją %.250s"
 
 #: src/main/archives.c
-#, c-format
-msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+#, fuzzy, c-format
+#| msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+msgid "will not downgrade %.250s (%.250s) to (%.250s), skipping"
 msgstr ""
 "pakiet %.250s w wersji %.250s nie będzie zastąpiony wcześniejszą wersją "
 "%.250s, pomijanie"
@@ -4872,9 +4880,13 @@ msgstr ""
 "(bieżący stan \"%s\")"
 
 #: src/main/configure.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "package %s %s cannot be configured because %s is at a different version "
+#| "(%s)"
 msgid ""
-"package %s %s cannot be configured because %s is at a different version (%s)"
+"package %s (%s) cannot be configured because %s is at a different version "
+"(%s)"
 msgstr ""
 "pakiet %s %s nie może zostać skonfigurowany, ponieważ %s jest w innej wersji "
 "(%s)"
@@ -5774,8 +5786,8 @@ msgstr ""
 "Proszę wpisać dpkg -Dhelp, aby dowiedzieć się o opcjach debuggera.\n"
 "Proszę wpisać dpkg --force-help, aby dowiedzieć się, jak ignorować "
 "problemy.\n"
-"Proszę wpisać dpkg-deb --help, aby dowiedzieć się, jak operować plikami *."
-"deb.\n"
+"Proszę wpisać dpkg-deb --help, aby dowiedzieć się, jak operować plikami "
+"*.deb.\n"
 "\n"
 "Opcje oznaczone [*] podają dużo treści - proszę użyć potoku z \"less\" lub "
 "\"more\"!"

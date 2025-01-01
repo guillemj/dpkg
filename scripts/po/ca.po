@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
+"POT-Creation-Date: 2025-01-01 23:26+0100\n"
 "PO-Revision-Date: 2024-07-21 19:57+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -630,8 +630,8 @@ msgid "build dependencies/conflicts unsatisfied; aborting"
 msgstr "dependències/conflictes de construcció no satisfetes; s'està avortant"
 
 #: scripts/dpkg-buildpackage.pl
-msgid "(Use -d flag to override.)"
-msgstr "(Empreu el senyalador -d per a ometre-ho.)"
+msgid "satisfy build dependencies with your package manager frontend"
+msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
 msgid ""
@@ -722,9 +722,16 @@ msgid "full upload (original source is included)"
 msgstr "pujada sencera (s'inclou el codi font original)"
 
 #: scripts/dpkg-buildtree.pl
+#, fuzzy
+#| msgid ""
+#| "Commands:\n"
+#| "  clean              clean dpkg generated artifacts from the build tree.\n"
+#| "  --help             show this help message.\n"
+#| "  --version          show the version.\n"
 msgid ""
 "Commands:\n"
 "  clean              clean dpkg generated artifacts from the build tree.\n"
+"  is-rootless        checks whether the build tree needs root to build.\n"
 "  --help             show this help message.\n"
 "  --version          show the version.\n"
 msgstr ""
@@ -796,13 +803,15 @@ msgid "cannot parse %s field"
 msgstr "no es pot analitzar el camp %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, perl-format
-msgid "Unmet build dependencies: %s"
+#, fuzzy, perl-format
+#| msgid "Unmet build dependencies: %s"
+msgid "unmet build dependencies: %s"
 msgstr "Dependències de construcció no satisfetes: %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, perl-format
-msgid "Build conflicts: %s"
+#, fuzzy, perl-format
+#| msgid "Build conflicts: %s"
+msgid "unmet build conflicts: %s"
 msgstr "Conflictes de construcció: %s"
 
 #: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-genbuildinfo.pl
@@ -989,14 +998,6 @@ msgstr ""
 msgid "the current version (%s) is earlier than the previous one (%s)"
 msgstr "la versió actual (%s) és inferior a l'anterior (%s)"
 
-#: scripts/dpkg-genchanges.pl
-msgid "missing Section for source files"
-msgstr "manca el camp Section pels fitxers font"
-
-#: scripts/dpkg-genchanges.pl
-msgid "missing Priority for source files"
-msgstr "manca el camp Priority pels fitxers font"
-
 #: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Format.pm
 #: scripts/Dpkg/Vendor.pm
 #, perl-format
@@ -1053,28 +1054,13 @@ msgstr ""
 "el paquet %s és a la llista de fitxers però no a la informació de control"
 
 #: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "missing Section for binary package %s; using '-'"
-msgstr "manca el camp Section pel paquet binari %s; s'emprarà '-'"
-
-#: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "package %s has section %s in control file but %s in files list"
+#, fuzzy, perl-format
+#| msgid "package %s has section %s in control file but %s in files list"
+msgid ""
+"package %s has value %s in %s field in control file but %s in files list"
 msgstr ""
 "el paquet %s té la secció %s en el fitxer de control però %s en la llista de "
 "fitxers"
-
-#: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "missing Priority for binary package %s; using '-'"
-msgstr "manca el camp Priority pel paquet binari %s; s'emprarà '-'"
-
-#: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "package %s has priority %s in control file but %s in files list"
-msgstr ""
-"el paquet %s té la prioritat %s en el fitxer de control però %s en la llista "
-"de fitxers"
 
 #: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -1186,6 +1172,12 @@ msgid ""
 msgstr ""
 "el camp %s conté una dependència especifica d'arquitectura però el paquet "
 "«%s» és d'arquitectura «all»"
+
+#: scripts/dpkg-gencontrol.pl
+#, fuzzy, perl-format
+#| msgid "missing information for output field %s"
+msgid "missing information for output field %s; using default value \"%s\""
+msgstr "manca informació per al camp d'eixida %s"
 
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
@@ -1796,10 +1788,21 @@ msgid "%s has an unexpected SONAME (%s)"
 msgstr "%s conté un SONAME (%s) inesperat"
 
 #: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid ""
-"no dependency information found for %s (used by %s)\n"
-"Hint: check if the library actually comes from a package."
+#, fuzzy, perl-format
+#| msgid ""
+#| "no dependency information found for %s (used by %s)\n"
+#| "Hint: check if the library actually comes from a package."
+msgid "no dependency information found for %s (used by %s)"
+msgstr ""
+"no s'ha trobar la informació de dependències per %s (utilitzat per %s)\n"
+"Consell: comproveu si la biblioteca prové realment d'un paquet."
+
+#: scripts/dpkg-shlibdeps.pl
+#, fuzzy
+#| msgid ""
+#| "no dependency information found for %s (used by %s)\n"
+#| "Hint: check if the library actually comes from a package."
+msgid "check if the library actually comes from a package"
 msgstr ""
 "no s'ha trobar la informació de dependències per %s (utilitzat per %s)\n"
 "Consell: comproveu si la biblioteca prové realment d'un paquet."
@@ -1935,8 +1938,8 @@ msgstr ""
 "  -p<prefix-variable>      estableix <prefix-variable>:* en comptes de "
 "shlibs:*.\n"
 "  -O[<fitxer>]             escriu les variables a stdout (o al <fitxer>).\n"
-"  -L<fitxer-shlibs-local>  fitxer de substitució de shlibs, no debian/shlibs."
-"local.\n"
+"  -L<fitxer-shlibs-local>  fitxer de substitució de shlibs, no debian/"
+"shlibs.local.\n"
 "  -T<fitxer-substitució>   fitxer de variables, no debian/substvars.\n"
 "  -t<tipus>                estableix el tipus de paquet (per defecte és "
 "deb).\n"
@@ -3010,6 +3013,10 @@ msgid "invalid filename %s"
 msgstr "nom de fitxer %s no vàlid"
 
 #: scripts/Dpkg/ErrorHandling.pm
+msgid "hint"
+msgstr ""
+
+#: scripts/Dpkg/ErrorHandling.pm
 msgid "info"
 msgstr "info"
 
@@ -3111,6 +3118,18 @@ msgstr "no es pot carregar el fons d'OpenPGP %s"
 #, perl-format
 msgid "unknown OpenPGP backend %s"
 msgstr "el fons d'OpenPGP %s és desconegut"
+
+#: scripts/Dpkg/OpenPGP/Backend.pm
+#, perl-format
+msgid ""
+"multiple concatenated ASCII Armor blocks in %s, which is not an "
+"interoperable construct, see <%s>"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/Backend.pm
+#, perl-format
+msgid "sq keyring merge --overwrite --output %s %s"
+msgstr ""
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 msgid "success"
@@ -3634,8 +3653,8 @@ msgstr "no es pot fer «stat» sobre l'argument original %s"
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is unpacked but source handling style -s%s calls for packed (."
-"orig.tar.<ext>)"
+"orig argument is unpacked but source handling style -s%s calls for packed "
+"(.orig.tar.<ext>)"
 msgstr ""
 "l'argument orig està desempaquetat però l'estil de maneig de font -s%s el "
 "requereix empaquetat (.orig.tar.<ext>)"
@@ -3643,8 +3662,8 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is packed but source handling style -s%s calls for unpacked (."
-"orig/)"
+"orig argument is packed but source handling style -s%s calls for unpacked "
+"(.orig/)"
 msgstr ""
 "l'argument orig està empaquetat però l'estil de maneig de font -s%s el "
 "requereix desempaquetat (.orig/)"
@@ -3657,8 +3676,8 @@ msgstr "l'argument orig %s no és un fitxer normal o un directori"
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is empty (means no orig, no diff) but source handling style -"
-"s%s wants something"
+"orig argument is empty (means no orig, no diff) but source handling style "
+"-s%s wants something"
 msgstr ""
 "l'argument orig és buit (equivalent a no orig i no diff) però l'estil de "
 "maneig de font -s%s en requereix algun"
@@ -3899,9 +3918,12 @@ msgstr ""
 "modificat en l'arxiu tar de debian"
 
 #: scripts/Dpkg/Source/Package/V2.pm
+#, fuzzy
+#| msgid ""
+#| "Hint: make sure the version in debian/changelog matches the unpacked "
+#| "source tree"
 msgid ""
-"Hint: make sure the version in debian/changelog matches the unpacked source "
-"tree"
+"make sure the version in debian/changelog matches the unpacked source tree"
 msgstr ""
 "Consell: assegureu-vos que la versió a debian/changelog coincideix amb el "
 "codi font desempaquetat"
@@ -4446,24 +4468,6 @@ msgstr "no s'està emprant la variable de substitució requerida ${%s}"
 msgid "substitution variable ${%s} unused, but is defined"
 msgstr "la variable de substitució ${%s} no s'utilitza, però s'ha definit"
 
-#: scripts/Dpkg/Vendor.pm
-#, perl-format
-msgid ""
-"%s origin filename is deprecated; it should have only alphanumeric or dash "
-"characters"
-msgstr ""
-"el nom de fitxer de l'origen %s és obsolet; només pot contenir caràcters "
-"alfanumèrics o guió"
-
-#: scripts/Dpkg/Vendor.pm
-#, perl-format
-msgid ""
-"%s module name is deprecated; it should be capitalized with only "
-"alphanumeric characters"
-msgstr ""
-"el nom de fitxer del mòdul %s és obsolet; ha de ser una paraula amb "
-"majúscula inicial i només pot contenir caràcters alfanumèrics"
-
 #: scripts/Dpkg/Vendor/Debian.pm
 #, perl-format
 msgid "unknown host architecture '%s'"
@@ -4524,6 +4528,45 @@ msgstr "el número de versió conté un caràcter il·legal ‘%s‘"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "l'època en la versió no és un número: «%s»"
+
+#~ msgid "(Use -d flag to override.)"
+#~ msgstr "(Empreu el senyalador -d per a ometre-ho.)"
+
+#~ msgid "missing Section for source files"
+#~ msgstr "manca el camp Section pels fitxers font"
+
+#~ msgid "missing Priority for source files"
+#~ msgstr "manca el camp Priority pels fitxers font"
+
+#, perl-format
+#~ msgid "missing Section for binary package %s; using '-'"
+#~ msgstr "manca el camp Section pel paquet binari %s; s'emprarà '-'"
+
+#, perl-format
+#~ msgid "missing Priority for binary package %s; using '-'"
+#~ msgstr "manca el camp Priority pel paquet binari %s; s'emprarà '-'"
+
+#, perl-format
+#~ msgid "package %s has priority %s in control file but %s in files list"
+#~ msgstr ""
+#~ "el paquet %s té la prioritat %s en el fitxer de control però %s en la "
+#~ "llista de fitxers"
+
+#, perl-format
+#~ msgid ""
+#~ "%s origin filename is deprecated; it should have only alphanumeric or "
+#~ "dash characters"
+#~ msgstr ""
+#~ "el nom de fitxer de l'origen %s és obsolet; només pot contenir caràcters "
+#~ "alfanumèrics o guió"
+
+#, perl-format
+#~ msgid ""
+#~ "%s module name is deprecated; it should be capitalized with only "
+#~ "alphanumeric characters"
+#~ msgstr ""
+#~ "el nom de fitxer del mòdul %s és obsolet; ha de ser una paraula amb "
+#~ "majúscula inicial i només pot contenir caràcters alfanumèrics"
 
 #, perl-format
 #~ msgid ""

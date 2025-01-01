@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
+"POT-Creation-Date: 2025-01-01 23:26+0100\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>\n"
 "Language-Team: Indonesian <debian-l10n-indonesian@lists.debian.org>\n"
@@ -2990,8 +2990,9 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --nocheck                    Suppress control file check (build bad\n"
-"                                     packages).\n"
+"      --no-check                   Suppress all checks (build bad "
+"packages).\n"
+"      --nocheck                    Alias for --no-check.\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
@@ -3024,8 +3025,8 @@ msgid ""
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
-"  by inserting variable references to package fields using the ${var[;"
-"width]}\n"
+"  by inserting variable references to package fields using the $"
+"{var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in "
 "which\n"
 "  case left alignment will be used.\n"
@@ -3436,8 +3437,8 @@ msgstr ""
 #| "Options:\n"
 #| "  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
 #| "  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
-#| "  -o|--output <file>               For -j (default is <package>-<version>."
-#| "deb).\n"
+#| "  -o|--output <file>               For -j (default is <package>-"
+#| "<version>.deb).\n"
 #| "  -Q|--npquiet                     Be quiet when -a is not a part.\n"
 #| "  --msdos                          Generate 8.3 filenames.\n"
 #| "\n"
@@ -3457,8 +3458,8 @@ msgstr ""
 "Pilihan:\n"
 "   --depotdir <direktori>        Gunakan <direktori>, bukan %s/%s.\n"
 "   -S|--partsize <besar>         Dalam KiB, untuk -s (baku adalah 450).\n"
-"   -o|--output <berkas>          Untuk -j (baku adalah <paket>-<versi>."
-"deb).\n"
+"   -o|--output <berkas>          Untuk -j (baku adalah <paket>-"
+"<versi>.deb).\n"
 "   -Q|--npquiet                  Modus senyap bila -a bukan suatu bagian.\n"
 "   --msdos                       Buat nama berkas berformat 8.3 (MSDOS).\n"
 "\n"
@@ -4578,17 +4579,21 @@ msgid "Replaced by files in installed package %s (%s) ...\n"
 msgstr "Diganti oleh berkas-berkas dalam paket terpasang %s ... \n"
 
 #: src/main/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "trying to overwrite directory '%.250s' in package %.250s %.250s with "
+#| "nondirectory"
 msgid ""
-"trying to overwrite directory '%.250s' in package %.250s %.250s with "
+"trying to overwrite directory '%.250s' in package %.250s (%.250s) with "
 "nondirectory"
 msgstr ""
 "mencoba menimpa direktori '%.250s' dalam paket %.250s %.250s dengan non-"
 "direktori"
 
 #: src/main/archives.c
-#, c-format
-msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+#, fuzzy, c-format
+#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+msgid "trying to overwrite '%.250s', which is also in package %.250s (%.250s)"
 msgstr "mencoba menimpa '%.250s', yang juga ada dalam paket %.250s %.250s"
 
 #: src/main/archives.c
@@ -4864,19 +4869,19 @@ msgstr "Abaikan paket yang tak dipilih: %s. \n"
 #: src/main/archives.c
 #, fuzzy, c-format
 #| msgid "Version %.250s of %.250s already installed, skipping.\n"
-msgid "version %.250s of %.250s already installed, skipping"
+msgid "package %.250s (%.250s) with same version already installed, skipping"
 msgstr "Versi %.250s dari paket %.250s telah dipasang, dilewati.\n"
 
 #: src/main/archives.c
 #, fuzzy, c-format
 #| msgid "downgrading %.250s from %.250s to %.250s."
-msgid "downgrading %.250s from %.250s to %.250s"
+msgid "downgrading %.250s (%.250s) to (%.250s)"
 msgstr "menurunkan versi paket %.250s dari %.250s ke %.250s. "
 
 #: src/main/archives.c
 #, fuzzy, c-format
 #| msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
-msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+msgid "will not downgrade %.250s (%.250s) to (%.250s), skipping"
 msgstr ""
 "Tidak akan menurunkan versi paket %.250s dari versi %.250s ke %.250s, "
 "dilewati. \n"
@@ -5165,10 +5170,16 @@ msgstr ""
 "  tidak dapat dikonfigurasi (status sekarang '%.250s')"
 
 #: src/main/configure.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "package %.250s is not ready for configuration\n"
+#| " cannot configure (current status `%.250s')"
 msgid ""
-"package %s %s cannot be configured because %s is at a different version (%s)"
+"package %s (%s) cannot be configured because %s is at a different version "
+"(%s)"
 msgstr ""
+"paket %.250s belum siap dikonfigurasi\n"
+"  tidak dapat dikonfigurasi (status sekarang '%.250s')"
 
 #: src/main/configure.c
 #, fuzzy, c-format

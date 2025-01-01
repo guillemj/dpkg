@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.22.11\n"
+"Project-Id-Version: dpkg 1.22.12\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
+"POT-Creation-Date: 2025-01-01 23:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -428,7 +428,7 @@ msgid "build dependencies/conflicts unsatisfied; aborting"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
-msgid "(Use -d flag to override.)"
+msgid "satisfy build dependencies with your package manager frontend"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
@@ -516,6 +516,7 @@ msgstr ""
 msgid ""
 "Commands:\n"
 "  clean              clean dpkg generated artifacts from the build tree.\n"
+"  is-rootless        checks whether the build tree needs root to build.\n"
 "  --help             show this help message.\n"
 "  --version          show the version.\n"
 msgstr ""
@@ -565,12 +566,12 @@ msgstr ""
 
 #: scripts/dpkg-checkbuilddeps.pl
 #, perl-format
-msgid "Unmet build dependencies: %s"
+msgid "unmet build dependencies: %s"
 msgstr ""
 
 #: scripts/dpkg-checkbuilddeps.pl
 #, perl-format
-msgid "Build conflicts: %s"
+msgid "unmet build conflicts: %s"
 msgstr ""
 
 #: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-genbuildinfo.pl
@@ -694,14 +695,6 @@ msgstr ""
 msgid "the current version (%s) is earlier than the previous one (%s)"
 msgstr ""
 
-#: scripts/dpkg-genchanges.pl
-msgid "missing Section for source files"
-msgstr ""
-
-#: scripts/dpkg-genchanges.pl
-msgid "missing Priority for source files"
-msgstr ""
-
 #: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Format.pm
 #: scripts/Dpkg/Vendor.pm
 #, perl-format
@@ -752,22 +745,8 @@ msgstr ""
 
 #: scripts/dpkg-genchanges.pl
 #, perl-format
-msgid "missing Section for binary package %s; using '-'"
-msgstr ""
-
-#: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "package %s has section %s in control file but %s in files list"
-msgstr ""
-
-#: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "missing Priority for binary package %s; using '-'"
-msgstr ""
-
-#: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "package %s has priority %s in control file but %s in files list"
+msgid ""
+"package %s has value %s in %s field in control file but %s in files list"
 msgstr ""
 
 #: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Package.pm
@@ -850,6 +829,11 @@ msgstr ""
 msgid ""
 "the %s field contains an arch-specific dependency but the package '%s' is "
 "architecture all"
+msgstr ""
+
+#: scripts/dpkg-gencontrol.pl
+#, perl-format
+msgid "missing information for output field %s; using default value \"%s\""
 msgstr ""
 
 #: scripts/dpkg-gencontrol.pl
@@ -1328,9 +1312,11 @@ msgstr ""
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
-msgid ""
-"no dependency information found for %s (used by %s)\n"
-"Hint: check if the library actually comes from a package."
+msgid "no dependency information found for %s (used by %s)"
+msgstr ""
+
+#: scripts/dpkg-shlibdeps.pl
+msgid "check if the library actually comes from a package"
 msgstr ""
 
 #: scripts/dpkg-shlibdeps.pl
@@ -2399,6 +2385,10 @@ msgid "invalid filename %s"
 msgstr ""
 
 #: scripts/Dpkg/ErrorHandling.pm
+msgid "hint"
+msgstr ""
+
+#: scripts/Dpkg/ErrorHandling.pm
 msgid "info"
 msgstr ""
 
@@ -2498,6 +2488,18 @@ msgstr ""
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
 msgid "unknown OpenPGP backend %s"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/Backend.pm
+#, perl-format
+msgid ""
+"multiple concatenated ASCII Armor blocks in %s, which is not an "
+"interoperable construct, see <%s>"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/Backend.pm
+#, perl-format
+msgid "sq keyring merge --overwrite --output %s %s"
 msgstr ""
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
@@ -3005,15 +3007,15 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is unpacked but source handling style -s%s calls for packed (."
-"orig.tar.<ext>)"
+"orig argument is unpacked but source handling style -s%s calls for packed "
+"(.orig.tar.<ext>)"
 msgstr ""
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is packed but source handling style -s%s calls for unpacked (."
-"orig/)"
+"orig argument is packed but source handling style -s%s calls for unpacked "
+"(.orig/)"
 msgstr ""
 
 #: scripts/Dpkg/Source/Package/V1.pm
@@ -3024,8 +3026,8 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is empty (means no orig, no diff) but source handling style -"
-"s%s wants something"
+"orig argument is empty (means no orig, no diff) but source handling style "
+"-s%s wants something"
 msgstr ""
 
 #: scripts/Dpkg/Source/Package/V1.pm
@@ -3246,8 +3248,7 @@ msgstr ""
 
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid ""
-"Hint: make sure the version in debian/changelog matches the unpacked source "
-"tree"
+"make sure the version in debian/changelog matches the unpacked source tree"
 msgstr ""
 
 #: scripts/Dpkg/Source/Package/V2.pm
@@ -3764,20 +3765,6 @@ msgstr ""
 #: scripts/Dpkg/Substvars.pm
 #, perl-format
 msgid "substitution variable ${%s} unused, but is defined"
-msgstr ""
-
-#: scripts/Dpkg/Vendor.pm
-#, perl-format
-msgid ""
-"%s origin filename is deprecated; it should have only alphanumeric or dash "
-"characters"
-msgstr ""
-
-#: scripts/Dpkg/Vendor.pm
-#, perl-format
-msgid ""
-"%s module name is deprecated; it should be capitalized with only "
-"alphanumeric characters"
 msgstr ""
 
 #: scripts/Dpkg/Vendor/Debian.pm

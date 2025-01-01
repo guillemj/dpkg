@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
+"POT-Creation-Date: 2025-01-01 23:26+0100\n"
 "PO-Revision-Date: 2018-04-15 07:06+0800\n"
 "Last-Translator: 林博仁 <Buo.Ren.Lin@gmail.com>\n"
 "Language-Team: Chinese (traditional) <debian-l10n-chinese@lists.debian.org>\n"
@@ -2832,8 +2832,9 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --nocheck                    Suppress control file check (build bad\n"
-"                                     packages).\n"
+"      --no-check                   Suppress all checks (build bad "
+"packages).\n"
+"      --nocheck                    Alias for --no-check.\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
@@ -2872,8 +2873,8 @@ msgid ""
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
-"  by inserting variable references to package fields using the ${var[;"
-"width]}\n"
+"  by inserting variable references to package fields using the $"
+"{var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in "
 "which\n"
 "  case left alignment will be used.\n"
@@ -3254,8 +3255,8 @@ msgstr ""
 "  --depotdir <目錄>                使用 <目錄> 代替 %s/%s。\n"
 "  -S|--partsize <大小>             單位為 KiB，用於 -s。（預設為 450）\n"
 "  -o|--output <檔案>               檔名，用於 -j。\n"
-"                                   （預設為 <套件名>_<版本>_<硬體平台>."
-"deb）\n"
+"                                   （預設為 <套件名>_<版本>_<硬體平台"
+">.deb）\n"
 "  -Q|--npquiet                     當 -a 不是分割檔時，不顯示訊息。\n"
 "  --msdos                          產生 8.3 的檔名。\n"
 "\n"
@@ -4326,15 +4327,19 @@ msgid "Replaced by files in installed package %s (%s) ...\n"
 msgstr "被替換成已安裝套件 %s 裡的檔案...\n"
 
 #: src/main/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "trying to overwrite directory '%.250s' in package %.250s %.250s with "
+#| "nondirectory"
 msgid ""
-"trying to overwrite directory '%.250s' in package %.250s %.250s with "
+"trying to overwrite directory '%.250s' in package %.250s (%.250s) with "
 "nondirectory"
 msgstr "正要用套件 %2$.250s %3$.250s 裡一個普通檔案，取代目錄 '%1$.250s'"
 
 #: src/main/archives.c
-#, c-format
-msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+#, fuzzy, c-format
+#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+msgid "trying to overwrite '%.250s', which is also in package %.250s (%.250s)"
 msgstr "正要取代 '%.250s'，它也是套件 %.250s %.250s 的檔案"
 
 #: src/main/archives.c
@@ -4585,18 +4590,21 @@ msgid "Skipping unselected package %s.\n"
 msgstr "略過未選的套件 %s。\n"
 
 #: src/main/archives.c
-#, c-format
-msgid "version %.250s of %.250s already installed, skipping"
+#, fuzzy, c-format
+#| msgid "version %.250s of %.250s already installed, skipping"
+msgid "package %.250s (%.250s) with same version already installed, skipping"
 msgstr "已安裝 %.250s 版的 %.250s，略過"
 
 #: src/main/archives.c
-#, c-format
-msgid "downgrading %.250s from %.250s to %.250s"
+#, fuzzy, c-format
+#| msgid "downgrading %.250s from %.250s to %.250s"
+msgid "downgrading %.250s (%.250s) to (%.250s)"
 msgstr "將 %.250s 從 %.250s 降級到 %.250s"
 
 #: src/main/archives.c
-#, c-format
-msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+#, fuzzy, c-format
+#| msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+msgid "will not downgrade %.250s (%.250s) to (%.250s), skipping"
 msgstr "不會將 %.250s 從 %.250s 降級到 %.250s，略過"
 
 #: src/main/cleanup.c
@@ -4844,9 +4852,13 @@ msgid ""
 msgstr "%2$s 尚未準備好（目前的狀態為 '%3$s'），套件 %1$s 無法設定"
 
 #: src/main/configure.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "package %s %s cannot be configured because %s is at a different version "
+#| "(%s)"
 msgid ""
-"package %s %s cannot be configured because %s is at a different version (%s)"
+"package %s (%s) cannot be configured because %s is at a different version "
+"(%s)"
 msgstr "%3$s 版本 (%4$s) 不同，套件 %1$s %2$s 無法設定"
 
 #: src/main/configure.c

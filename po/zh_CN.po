@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
+"POT-Creation-Date: 2025-01-01 23:26+0100\n"
 "PO-Revision-Date: 2023-01-27 15:39-0500\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -2719,8 +2719,9 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --nocheck                    Suppress control file check (build bad\n"
-"                                     packages).\n"
+"      --no-check                   Suppress all checks (build bad "
+"packages).\n"
+"      --nocheck                    Alias for --no-check.\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
@@ -2759,8 +2760,8 @@ msgid ""
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
-"  by inserting variable references to package fields using the ${var[;"
-"width]}\n"
+"  by inserting variable references to package fields using the $"
+"{var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in "
 "which\n"
 "  case left alignment will be used.\n"
@@ -3137,8 +3138,8 @@ msgstr ""
 "  --admindir <目录>                使用<目录>而非 %s。\n"
 "  --root <目录>                    使用<目录>而非 %s。\n"
 "  -S|--partsize <大小>             -s 的单位改用 KiB (默认是 450)。\n"
-"  -o|--output <文件>               对应 -j (默认文件名是 <软件包名>-<版本号>."
-"deb)。\n"
+"  -o|--output <文件>               对应 -j (默认文件名是 <软件包名>-<版本号"
+">.deb)。\n"
 "  -Q|--npquiet                     不用 -a 时，少输出信息。\n"
 "  --msdos                          使用 8.3 的文件名格式。\n"
 "\n"
@@ -3407,8 +3408,8 @@ msgid ""
 "Package preinst/postrm scripts should always specify --package and --"
 "divert.\n"
 msgstr ""
-"当添加本地转移项的时候，默认的选项是 --local 和 --divert <原始文件名>."
-"distrib。\n"
+"当添加本地转移项的时候，默认的选项是 --local 和 --divert <原始文件名"
+">.distrib。\n"
 "在删除本地转移项的时候，--package 或 --local 选项和 --divert 选项必须一致。\n"
 "软件包的 preinst 和 postrm 脚本通常应当指定 --package 和 --divert 选项。\n"
 
@@ -4131,16 +4132,20 @@ msgid "Replaced by files in installed package %s (%s) ...\n"
 msgstr "被已安装的软件包 %s (%s) 中的文件替换了...\n"
 
 #: src/main/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "trying to overwrite directory '%.250s' in package %.250s %.250s with "
+#| "nondirectory"
 msgid ""
-"trying to overwrite directory '%.250s' in package %.250s %.250s with "
+"trying to overwrite directory '%.250s' in package %.250s (%.250s) with "
 "nondirectory"
 msgstr ""
 "正试图用一个非目录的文件替换目录 %.250s，该目录属于软件包 %.250s %.250s"
 
 #: src/main/archives.c
-#, c-format
-msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+#, fuzzy, c-format
+#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+msgid "trying to overwrite '%.250s', which is also in package %.250s (%.250s)"
 msgstr "正试图覆盖 %.250s，它同时被包含于软件包 %.250s %.250s"
 
 #: src/main/archives.c
@@ -4360,18 +4365,21 @@ msgid "Skipping unselected package %s.\n"
 msgstr "正在忽略未选择的软件包 %s。\n"
 
 #: src/main/archives.c
-#, c-format
-msgid "version %.250s of %.250s already installed, skipping"
+#, fuzzy, c-format
+#| msgid "version %.250s of %.250s already installed, skipping"
+msgid "package %.250s (%.250s) with same version already installed, skipping"
 msgstr "%1$.250s 的 %2$.250s 版本已经安装，因而将跳过它"
 
 #: src/main/archives.c
-#, c-format
-msgid "downgrading %.250s from %.250s to %.250s"
+#, fuzzy, c-format
+#| msgid "downgrading %.250s from %.250s to %.250s"
+msgid "downgrading %.250s (%.250s) to (%.250s)"
 msgstr "即将把 %.250s 从 %.250s 降级到 %.250s"
 
 #: src/main/archives.c
-#, c-format
-msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+#, fuzzy, c-format
+#| msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+msgid "will not downgrade %.250s (%.250s) to (%.250s), skipping"
 msgstr "不会将 %.250s 从 %.250s 降级到 %.250s，因而将跳过它"
 
 #: src/main/cleanup.c
@@ -4617,9 +4625,13 @@ msgid ""
 msgstr "现在尚不能配置软件包 %s，因为 %s 未准备好(目前状态为 %s )"
 
 #: src/main/configure.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "package %s %s cannot be configured because %s is at a different version "
+#| "(%s)"
 msgid ""
-"package %s %s cannot be configured because %s is at a different version (%s)"
+"package %s (%s) cannot be configured because %s is at a different version "
+"(%s)"
 msgstr "现在尚不能配置软件包 %s %s，因为 %s 处于一个不同的版本(%s)"
 
 #: src/main/configure.c

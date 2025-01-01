@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.19\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
+"POT-Creation-Date: 2025-01-01 23:26+0100\n"
 "PO-Revision-Date: 2023-02-02 17:51+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: \n"
@@ -476,8 +476,8 @@ msgstr ""
 "bestanden.\n"
 "  -A, --build=all             enkel binair, enkel arch-onafh. bestanden.\n"
 "  -S, --build=source          enkel bron, geen binaire bestanden.\n"
-"  -nc, --no-pre-clean         bronboom niet vooraf opschonen (impliceert -"
-"b).\n"
+"  -nc, --no-pre-clean         bronboom niet vooraf opschonen (impliceert "
+"-b).\n"
 "      --pre-clean             bronboom vooraf opschonen (standaard).\n"
 "      --no-post-clean         bronboom niet achteraf opschonen (standaard).\n"
 "  -tc, --post-clean           bronboom achteraf opschonen.\n"
@@ -740,8 +740,8 @@ msgid "build dependencies/conflicts unsatisfied; aborting"
 msgstr "onvoldane bouwvereisten/conflicten; er wordt gestopt"
 
 #: scripts/dpkg-buildpackage.pl
-msgid "(Use -d flag to override.)"
-msgstr "(Gebruik vlag -d om te overschrijven.)"
+msgid "satisfy build dependencies with your package manager frontend"
+msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
 msgid ""
@@ -847,6 +847,7 @@ msgstr "volledig upload (originele broncode inbegrepen)"
 msgid ""
 "Commands:\n"
 "  clean              clean dpkg generated artifacts from the build tree.\n"
+"  is-rootless        checks whether the build tree needs root to build.\n"
 "  --help             show this help message.\n"
 "  --version          show the version.\n"
 msgstr ""
@@ -921,13 +922,15 @@ msgid "cannot parse %s field"
 msgstr "kan veld %s niet ontleden"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, perl-format
-msgid "Unmet build dependencies: %s"
+#, fuzzy, perl-format
+#| msgid "Unmet build dependencies: %s"
+msgid "unmet build dependencies: %s"
 msgstr "Niet-voldane bouwvereisten: %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, perl-format
-msgid "Build conflicts: %s"
+#, fuzzy, perl-format
+#| msgid "Build conflicts: %s"
+msgid "unmet build conflicts: %s"
 msgstr "Bouwconflicten: %s"
 
 #: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-genbuildinfo.pl
@@ -1107,14 +1110,6 @@ msgstr ""
 msgid "the current version (%s) is earlier than the previous one (%s)"
 msgstr "de huidige versie (%s) is ouder dan de vorige (%s)"
 
-#: scripts/dpkg-genchanges.pl
-msgid "missing Section for source files"
-msgstr "voor broncodebestanden ontbreekt Section"
-
-#: scripts/dpkg-genchanges.pl
-msgid "missing Priority for source files"
-msgstr "voor broncodebestanden ontbreekt Priority"
-
 #: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Format.pm
 #: scripts/Dpkg/Vendor.pm
 #, perl-format
@@ -1169,25 +1164,11 @@ msgid "package %s listed in files list but not in control info"
 msgstr "pakket %s vermeld in bestandenlijst maar niet in control-info"
 
 #: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "missing Section for binary package %s; using '-'"
-msgstr "ontbrekende Section voor binair pakket %s; '-' wordt gebruikt"
-
-#: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "package %s has section %s in control file but %s in files list"
+#, fuzzy, perl-format
+#| msgid "package %s has section %s in control file but %s in files list"
+msgid ""
+"package %s has value %s in %s field in control file but %s in files list"
 msgstr "pakket %s heeft sectie %s in control-bestand maar %s in bestandenlijst"
-
-#: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "missing Priority for binary package %s; using '-'"
-msgstr "ontbrekende Priority voor binair pakket %s; '-' wordt gebruikt"
-
-#: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "package %s has priority %s in control file but %s in files list"
-msgstr ""
-"pakket %s heeft prioriteit %s in control-bestand maar %s in bestandenlijst"
 
 #: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -1294,6 +1275,12 @@ msgid ""
 msgstr ""
 "het veld %s bevat een architectuur-specifieke vereiste maar pakket '%s' is "
 "architecture all"
+
+#: scripts/dpkg-gencontrol.pl
+#, fuzzy, perl-format
+#| msgid "missing information for output field %s"
+msgid "missing information for output field %s; using default value \"%s\""
+msgstr "ontbrekende informatie voor uitvoerveld %s"
 
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
@@ -1829,8 +1816,8 @@ msgstr ""
 "  -s, --source-override <bestand>\n"
 "                           bestand gebruiken voor extra bron-overrides, "
 "standaard\n"
-"                           is regulier override-bestand met achtervoegsel ."
-"src.\n"
+"                           is regulier override-bestand met "
+"achtervoegsel .src.\n"
 "      --debug              debuggen activeren.\n"
 "  -?, --help               dit hulpbericht tonen.\n"
 "      --version            de versie tonen.\n"
@@ -1895,10 +1882,21 @@ msgid "%s has an unexpected SONAME (%s)"
 msgstr "%s heeft een onverwachte SONAME (%s)"
 
 #: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid ""
-"no dependency information found for %s (used by %s)\n"
-"Hint: check if the library actually comes from a package."
+#, fuzzy, perl-format
+#| msgid ""
+#| "no dependency information found for %s (used by %s)\n"
+#| "Hint: check if the library actually comes from a package."
+msgid "no dependency information found for %s (used by %s)"
+msgstr ""
+"geen vereisteninformatie gevonden voor %s (gebruikt door %s)\n"
+"Tip: controleer of de bibliotheek daadwerkelijk uit een pakket komt."
+
+#: scripts/dpkg-shlibdeps.pl
+#, fuzzy
+#| msgid ""
+#| "no dependency information found for %s (used by %s)\n"
+#| "Hint: check if the library actually comes from a package."
+msgid "check if the library actually comes from a package"
 msgstr ""
 "geen vereisteninformatie gevonden voor %s (gebruikt door %s)\n"
 "Tip: controleer of de bibliotheek daadwerkelijk uit een pakket komt."
@@ -2013,8 +2011,8 @@ msgstr ""
 #| "  -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.\n"
 #| "  -O[<file>]               write variable settings to stdout (or "
 #| "<file>).\n"
-#| "  -L<local-shlibs-file>    shlibs override file, not debian/shlibs."
-#| "local.\n"
+#| "  -L<local-shlibs-file>    shlibs override file, not debian/"
+#| "shlibs.local.\n"
 #| "  -T<substvars-file>       update variables here, not debian/substvars.\n"
 #| "  -t<type>                 set package type (default is deb).\n"
 #| "  -x<package>              exclude package from the generated "
@@ -2066,8 +2064,8 @@ msgstr ""
 "                             in plaats van op shlibs:*.\n"
 "  -O[<bestand>]             variabele-instellingen naar\n"
 "                             stdout (of <bestand> schrijven).\n"
-"  -L<lokaal-shlibs-bestand> shlibs override-bestand, niet debian/shlibs."
-"local.\n"
+"  -L<lokaal-shlibs-bestand> shlibs override-bestand, niet debian/"
+"shlibs.local.\n"
 "  -T<substvars-bestand>     variabelen hier updaten, niet debian/substvars.\n"
 "  -t<type>                  pakkettype instellen (standaard is deb).\n"
 "  -x<pakket>                pakket uitsluiten van de gegenereerde "
@@ -3167,6 +3165,10 @@ msgid "invalid filename %s"
 msgstr "ongeldige bestandsnaam %s"
 
 #: scripts/Dpkg/ErrorHandling.pm
+msgid "hint"
+msgstr ""
+
+#: scripts/Dpkg/ErrorHandling.pm
 msgid "info"
 msgstr "info"
 
@@ -3269,6 +3271,18 @@ msgstr "kan OpenPGP-backend %s niet laden"
 #, perl-format
 msgid "unknown OpenPGP backend %s"
 msgstr "onbekende OpenPGP-backend %s"
+
+#: scripts/Dpkg/OpenPGP/Backend.pm
+#, perl-format
+msgid ""
+"multiple concatenated ASCII Armor blocks in %s, which is not an "
+"interoperable construct, see <%s>"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/Backend.pm
+#, perl-format
+msgid "sq keyring merge --overwrite --output %s %s"
+msgstr ""
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 msgid "success"
@@ -3795,8 +3809,8 @@ msgstr "kan status niet opvragen van orig-argument %s"
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is unpacked but source handling style -s%s calls for packed (."
-"orig.tar.<ext>)"
+"orig argument is unpacked but source handling style -s%s calls for packed "
+"(.orig.tar.<ext>)"
 msgstr ""
 "orig-argument is uitgepakt, maar broncodeverwerkingsstijl -s%s vraagt om "
 "verpakt (.orig.tar.<ext>)"
@@ -3804,8 +3818,8 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is packed but source handling style -s%s calls for unpacked (."
-"orig/)"
+"orig argument is packed but source handling style -s%s calls for unpacked "
+"(.orig/)"
 msgstr ""
 "orig-argument is verpakt, maar broncodeverwerkingsstijl -s%s vraagt om "
 "uitgepakt (.orig/)"
@@ -3818,8 +3832,8 @@ msgstr "orig-argument %s is geen gewoon bestand of map"
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is empty (means no orig, no diff) but source handling style -"
-"s%s wants something"
+"orig argument is empty (means no orig, no diff) but source handling style "
+"-s%s wants something"
 msgstr ""
 "orig-argument is leeg (betekent geen orig, geen diff), maar "
 "broncodeverwerkingsstijl -s%s vraagt om iets"
@@ -4060,9 +4074,12 @@ msgstr ""
 "bestand in het debian tar-archief wilt opslaan"
 
 #: scripts/Dpkg/Source/Package/V2.pm
+#, fuzzy
+#| msgid ""
+#| "Hint: make sure the version in debian/changelog matches the unpacked "
+#| "source tree"
 msgid ""
-"Hint: make sure the version in debian/changelog matches the unpacked source "
-"tree"
+"make sure the version in debian/changelog matches the unpacked source tree"
 msgstr ""
 "Tip: zorg ervoor dat de versie in debian/changelog overeenkomt met de "
 "uitgepakte broncodeboom"
@@ -4611,24 +4628,6 @@ msgstr "verouderde substitutievariabele ${%s}"
 msgid "substitution variable ${%s} unused, but is defined"
 msgstr "substitutievariabele ${%s} ongebruikt, maar is gedefinieerd"
 
-#: scripts/Dpkg/Vendor.pm
-#, perl-format
-msgid ""
-"%s origin filename is deprecated; it should have only alphanumeric or dash "
-"characters"
-msgstr ""
-"bestandsnaam %s voor origin is verouderd; hij mag alleen alfanumerieke "
-"tekens of streepjes bevatten"
-
-#: scripts/Dpkg/Vendor.pm
-#, perl-format
-msgid ""
-"%s module name is deprecated; it should be capitalized with only "
-"alphanumeric characters"
-msgstr ""
-"modulenaam %s is verouderd; hij moet in hoofdletters zijn en alleen "
-"alfanumerieke tekens bevatten"
-
 #: scripts/Dpkg/Vendor/Debian.pm
 #, perl-format
 msgid "unknown host architecture '%s'"
@@ -4690,6 +4689,44 @@ msgstr "versienummer bevat ongeldig teken '%s'"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "epoch-gedeelte van het versienummer is geen nummer: '%s'"
+
+#~ msgid "(Use -d flag to override.)"
+#~ msgstr "(Gebruik vlag -d om te overschrijven.)"
+
+#~ msgid "missing Section for source files"
+#~ msgstr "voor broncodebestanden ontbreekt Section"
+
+#~ msgid "missing Priority for source files"
+#~ msgstr "voor broncodebestanden ontbreekt Priority"
+
+#, perl-format
+#~ msgid "missing Section for binary package %s; using '-'"
+#~ msgstr "ontbrekende Section voor binair pakket %s; '-' wordt gebruikt"
+
+#, perl-format
+#~ msgid "missing Priority for binary package %s; using '-'"
+#~ msgstr "ontbrekende Priority voor binair pakket %s; '-' wordt gebruikt"
+
+#, perl-format
+#~ msgid "package %s has priority %s in control file but %s in files list"
+#~ msgstr ""
+#~ "pakket %s heeft prioriteit %s in control-bestand maar %s in bestandenlijst"
+
+#, perl-format
+#~ msgid ""
+#~ "%s origin filename is deprecated; it should have only alphanumeric or "
+#~ "dash characters"
+#~ msgstr ""
+#~ "bestandsnaam %s voor origin is verouderd; hij mag alleen alfanumerieke "
+#~ "tekens of streepjes bevatten"
+
+#, perl-format
+#~ msgid ""
+#~ "%s module name is deprecated; it should be capitalized with only "
+#~ "alphanumeric characters"
+#~ msgstr ""
+#~ "modulenaam %s is verouderd; hij moet in hoofdletters zijn en alleen "
+#~ "alfanumerieke tekens bevatten"
 
 #, fuzzy, perl-format
 #~| msgid "cannot read timestamp from %s"

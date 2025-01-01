@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.16.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
+"POT-Creation-Date: 2025-01-01 23:26+0100\n"
 "PO-Revision-Date: 2017-11-08 00:59+0100\n"
 "Last-Translator: Javier Fernandez-Sanguino <jfs@debian.org>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -3016,8 +3016,9 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --nocheck                    Suppress control file check (build bad\n"
-"                                     packages).\n"
+"      --no-check                   Suppress all checks (build bad "
+"packages).\n"
+"      --nocheck                    Alias for --no-check.\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
@@ -3070,8 +3071,8 @@ msgid ""
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
-"  by inserting variable references to package fields using the ${var[;"
-"width]}\n"
+"  by inserting variable references to package fields using the $"
+"{var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in "
 "which\n"
 "  case left alignment will be used.\n"
@@ -3107,8 +3108,8 @@ msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
 msgstr ""
-"Escriba dpkg-deb --help para obtener ayuda sobre manipulación de archivos ."
-"deb;\n"
+"Escriba dpkg-deb --help para obtener ayuda sobre manipulación de "
+"archivos .deb;\n"
 "Escriba dpkg --help para obtener ayuda sobre instalar y desinstalar paquetes."
 
 #: src/deb/main.c
@@ -4617,17 +4618,21 @@ msgid "Replaced by files in installed package %s (%s) ...\n"
 msgstr "Reemplazado por ficheros en el paquete instalado %s (%s) ...\n"
 
 #: src/main/archives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "trying to overwrite directory '%.250s' in package %.250s %.250s with "
+#| "nondirectory"
 msgid ""
-"trying to overwrite directory '%.250s' in package %.250s %.250s with "
+"trying to overwrite directory '%.250s' in package %.250s (%.250s) with "
 "nondirectory"
 msgstr ""
 "intentando sobreescribir el directorio `%.250s' del paquete %.250s %.250s "
 "con un no directorio"
 
 #: src/main/archives.c
-#, c-format
-msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+#, fuzzy, c-format
+#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+msgid "trying to overwrite '%.250s', which is also in package %.250s (%.250s)"
 msgstr ""
 "intentando sobreescribir `%.250s', que está también en el paquete %.250s "
 "%.250s"
@@ -4888,8 +4893,9 @@ msgid "Skipping unselected package %s.\n"
 msgstr "Omitiendo el paquete no seleccionado %s.\n"
 
 #: src/main/archives.c
-#, c-format
-msgid "version %.250s of %.250s already installed, skipping"
+#, fuzzy, c-format
+#| msgid "version %.250s of %.250s already installed, skipping"
+msgid "package %.250s (%.250s) with same version already installed, skipping"
 msgstr "Versión %.250s de %.250s ya instalada, omitiendo"
 
 # Downgrade es lo contrario de update.
@@ -4900,13 +4906,15 @@ msgstr "Versión %.250s de %.250s ya instalada, omitiendo"
 # El prefijo "des" nos ayuda en este caso a construir
 # una palabra que significa lo contrario que actualizar. sv
 #: src/main/archives.c
-#, c-format
-msgid "downgrading %.250s from %.250s to %.250s"
+#, fuzzy, c-format
+#| msgid "downgrading %.250s from %.250s to %.250s"
+msgid "downgrading %.250s (%.250s) to (%.250s)"
 msgstr "desactualizando %.250s de %.250s a %.250s"
 
 #: src/main/archives.c
-#, c-format
-msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+#, fuzzy, c-format
+#| msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+msgid "will not downgrade %.250s (%.250s) to (%.250s), skipping"
 msgstr ""
 "no se desactualizará %.250s de la versión %.250s a la %.250s, omitiendo."
 
@@ -5169,9 +5177,13 @@ msgstr ""
 "'%s')"
 
 #: src/main/configure.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "package %s %s cannot be configured because %s is at a different version "
+#| "(%s)"
 msgid ""
-"package %s %s cannot be configured because %s is at a different version (%s)"
+"package %s (%s) cannot be configured because %s is at a different version "
+"(%s)"
 msgstr ""
 "el paquete %s %s no se puede configurar porque %s está en una versión "
 "diferente (%s)"
@@ -6084,8 +6096,8 @@ msgstr ""
 "Use `apt' o `aptitude' para una gestión de los paquetes más amigable;\n"
 "Escriba dpkg -Dhelp para una lista de los valores de depuración de dpkg;\n"
 "Escriba dpkg --force-help para una lista de las opciones para forzar cosas;\n"
-"Escriba dpkg-deb --help para obtener ayuda sobre manipulación de archivos ."
-"deb;\n"
+"Escriba dpkg-deb --help para obtener ayuda sobre manipulación de "
+"archivos .deb;\n"
 "\n"
 "Las opciones marcadas con [*] producen una salida extensa,\n"
 "¡fíltrela con `less' o con `more'!"
@@ -9634,8 +9646,8 @@ msgstr "Es necesario autenticarse para ejecutar `update-alternatives'"
 #~ "Options:\n"
 #~ "  --depotdir <directory>          Use <directory> instead of %s/%s.\n"
 #~ "  -S|--partsize <size>            In KiB, for -s (default is 450).\n"
-#~ "  -o|--output <file>              For -j (default is <package>-<version>."
-#~ "deb).\n"
+#~ "  -o|--output <file>              For -j (default is <package>-"
+#~ "<version>.deb).\n"
 #~ "  -Q|--npquiet                    Be quiet when -a is not a part.\n"
 #~ "  --msdos                         Generate 8.3 filenames.\n"
 #~ "\n"

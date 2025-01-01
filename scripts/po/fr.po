@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
+"POT-Creation-Date: 2025-01-01 23:26+0100\n"
 "PO-Revision-Date: 2023-02-10 02:16+0100\n"
 "Last-Translator: Sébastien Poher <sebastien@volted.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -560,8 +560,8 @@ msgstr ""
 "                                backend OpenPGP à utiliser pour signer\n"
 "                                (auto par défaut).\n"
 "  -p, --sign-command=<commande>\n"
-"                                commande permettant de signer les fichiers ."
-"dsc\n"
+"                                commande permettant de signer les "
+"fichiers .dsc\n"
 "                                et/ou les fichiers .changes (par défaut : "
 "gpg).\n"
 "      --sign-keyfile=<fichier>  la clé à utiliser pour signer.\n"
@@ -615,8 +615,8 @@ msgstr ""
 "  -si            la source n'inclut le fichier d'origine que si nouvelle "
 "version amont (défaut).\n"
 "  -sa            toujours inclure le fichier d'origine.\n"
-"  -sd            la source envoyée ne comporte que les fichiers diff et ."
-"dsc.\n"
+"  -sd            la source envoyée ne comporte que les fichiers diff "
+"et .dsc.\n"
 "  -v<version>    modifications depuis la version <version>.\n"
 "  -m, --source-by=<maint>       le responsable du paquet est <maint>.\n"
 "      --build-by=<maint>        idem.\n"
@@ -766,8 +766,8 @@ msgid "build dependencies/conflicts unsatisfied; aborting"
 msgstr "dépendances de construction et conflits non satisfaits ; abandon"
 
 #: scripts/dpkg-buildpackage.pl
-msgid "(Use -d flag to override.)"
-msgstr "(Utilisez l'option -d pour forcer.)"
+msgid "satisfy build dependencies with your package manager frontend"
+msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
 msgid ""
@@ -875,6 +875,7 @@ msgstr "envoi complet (inclusion du code source d'origine)"
 msgid ""
 "Commands:\n"
 "  clean              clean dpkg generated artifacts from the build tree.\n"
+"  is-rootless        checks whether the build tree needs root to build.\n"
 "  --help             show this help message.\n"
 "  --version          show the version.\n"
 msgstr ""
@@ -953,13 +954,15 @@ msgid "cannot parse %s field"
 msgstr "impossible d'analyser le champ %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, perl-format
-msgid "Unmet build dependencies: %s"
+#, fuzzy, perl-format
+#| msgid "Unmet build dependencies: %s"
+msgid "unmet build dependencies: %s"
 msgstr "Dépendances de construction non satisfaites : %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, perl-format
-msgid "Build conflicts: %s"
+#, fuzzy, perl-format
+#| msgid "Build conflicts: %s"
+msgid "unmet build conflicts: %s"
 msgstr "Conflits de construction : %s"
 
 #: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-genbuildinfo.pl
@@ -1160,14 +1163,6 @@ msgstr ""
 msgid "the current version (%s) is earlier than the previous one (%s)"
 msgstr "la version actuelle (%s) est inférieure à la version précédente (%s)"
 
-#: scripts/dpkg-genchanges.pl
-msgid "missing Section for source files"
-msgstr "il manque la section des fichiers source"
-
-#: scripts/dpkg-genchanges.pl
-msgid "missing Priority for source files"
-msgstr "il manque la priorité des fichiers source"
-
 #: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Format.pm
 #: scripts/Dpkg/Vendor.pm
 #, perl-format
@@ -1225,28 +1220,12 @@ msgstr ""
 "fichier info"
 
 #: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "missing Section for binary package %s; using '-'"
-msgstr "la section du paquet binaire %s manque ; utilisation de « - »"
-
-#: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "package %s has section %s in control file but %s in files list"
+#, fuzzy, perl-format
+#| msgid "package %s has section %s in control file but %s in files list"
+msgid ""
+"package %s has value %s in %s field in control file but %s in files list"
 msgstr ""
 "le paquet %s a une section %s dans le fichier de contrôle mais une section "
-"%s dans le fichier de liste des fichiers"
-
-#: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "missing Priority for binary package %s; using '-'"
-msgstr ""
-"le champ « Priority » du paquet binaire %s manque ; utilisation de « - »"
-
-#: scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "package %s has priority %s in control file but %s in files list"
-msgstr ""
-"le paquet %s a une priorité %s dans le fichier de contrôle mais une priorité "
 "%s dans le fichier de liste des fichiers"
 
 #: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Package.pm
@@ -1361,6 +1340,12 @@ msgid ""
 msgstr ""
 "le champ %s contient une dépendance spécifique à l'architecture mais le "
 "paquet « %s » est pour toute architecture"
+
+#: scripts/dpkg-gencontrol.pl
+#, fuzzy, perl-format
+#| msgid "missing information for output field %s"
+msgid "missing information for output field %s; using default value \"%s\""
+msgstr "information manquante pour le champ de sortie %s"
 
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
@@ -1992,10 +1977,21 @@ msgid "%s has an unexpected SONAME (%s)"
 msgstr "%s utilise un SONAME inattendu (%s)"
 
 #: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid ""
-"no dependency information found for %s (used by %s)\n"
-"Hint: check if the library actually comes from a package."
+#, fuzzy, perl-format
+#| msgid ""
+#| "no dependency information found for %s (used by %s)\n"
+#| "Hint: check if the library actually comes from a package."
+msgid "no dependency information found for %s (used by %s)"
+msgstr ""
+"pas d'information de dépendance trouvée pour %s (utilisé par %s)\n"
+"Indication: vérifiez que la bibliothèque provienne bien d'un paquet."
+
+#: scripts/dpkg-shlibdeps.pl
+#, fuzzy
+#| msgid ""
+#| "no dependency information found for %s (used by %s)\n"
+#| "Hint: check if the library actually comes from a package."
+msgid "check if the library actually comes from a package"
 msgstr ""
 "pas d'information de dépendance trouvée pour %s (utilisé par %s)\n"
 "Indication: vérifiez que la bibliothèque provienne bien d'un paquet."
@@ -2108,8 +2104,8 @@ msgstr ""
 #| "  -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.\n"
 #| "  -O[<file>]               write variable settings to stdout (or "
 #| "<file>).\n"
-#| "  -L<local-shlibs-file>    shlibs override file, not debian/shlibs."
-#| "local.\n"
+#| "  -L<local-shlibs-file>    shlibs override file, not debian/"
+#| "shlibs.local.\n"
 #| "  -T<substvars-file>       update variables here, not debian/substvars.\n"
 #| "  -t<type>                 set package type (default is deb).\n"
 #| "  -x<package>              exclude package from the generated "
@@ -2157,8 +2153,8 @@ msgstr ""
 "Options :\n"
 "  -l<rep-biblio>              ajouter le répertoire à la recherche de la "
 "bibliothèque partagée privée.\n"
-"  -p<varnameprefix>           définir <varnameprefix>:* au lieu de shlibs:"
-"*.\n"
+"  -p<varnameprefix>           définir <varnameprefix>:* au lieu de "
+"shlibs:*.\n"
 "  -O[<fichier>]               écrire les paramètre de la variable sur la "
 "sortie standard (ou <fichier>).\n"
 "  -L<fichier-shlibs-local>    fichier d'override pour shlibs, pas debian/"
@@ -2462,8 +2458,8 @@ msgstr ""
 "source.\n"
 "  -V<nom>=<valeur>         définir une variable de substitution.\n"
 "  -T<fichier-substvars>    lire ici les variables.\n"
-"  -D<champ>=<valeur>       remplacer ou ajouter une paire champ et valeur ."
-"dsc.\n"
+"  -D<champ>=<valeur>       remplacer ou ajouter une paire champ et "
+"valeur .dsc.\n"
 "  -U<champ>                supprimer un champ.\n"
 "  -i, --diff-ignore[=<regex>]\n"
 "                           ignorer les différences sur les fichiers\n"
@@ -3299,6 +3295,10 @@ msgid "invalid filename %s"
 msgstr "nom de fichier %s non valable"
 
 #: scripts/Dpkg/ErrorHandling.pm
+msgid "hint"
+msgstr ""
+
+#: scripts/Dpkg/ErrorHandling.pm
 msgid "info"
 msgstr "info"
 
@@ -3401,6 +3401,18 @@ msgstr "impossible de charger le dorsal OpenPGP %s"
 #, perl-format
 msgid "unknown OpenPGP backend %s"
 msgstr "dorsal OpenPGP inconnu %s"
+
+#: scripts/Dpkg/OpenPGP/Backend.pm
+#, perl-format
+msgid ""
+"multiple concatenated ASCII Armor blocks in %s, which is not an "
+"interoperable construct, see <%s>"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/Backend.pm
+#, perl-format
+msgid "sq keyring merge --overwrite --output %s %s"
+msgstr ""
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 msgid "success"
@@ -3934,8 +3946,8 @@ msgstr "« stat » du paramètre origine %s impossible"
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is unpacked but source handling style -s%s calls for packed (."
-"orig.tar.<ext>)"
+"orig argument is unpacked but source handling style -s%s calls for packed "
+"(.orig.tar.<ext>)"
 msgstr ""
 "le paramètre source n'est pas compressé mais l'option -s%s demande des "
 "sources compressées (.orig.tar.<ext>)"
@@ -3943,8 +3955,8 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is packed but source handling style -s%s calls for unpacked (."
-"orig/)"
+"orig argument is packed but source handling style -s%s calls for unpacked "
+"(.orig/)"
 msgstr ""
 "le paramètre source est compressé mais l'option -s%s demande des sources non "
 "compressées (.orig/)"
@@ -3957,8 +3969,8 @@ msgstr "le paramètre source %s n'est pas un fichier ou un répertoire"
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is empty (means no orig, no diff) but source handling style -"
-"s%s wants something"
+"orig argument is empty (means no orig, no diff) but source handling style "
+"-s%s wants something"
 msgstr ""
 "le paramètre source est vide (pas d'orig, pas de diff) mais l'option -s%s "
 "attend quelque chose"
@@ -4006,8 +4018,8 @@ msgid ""
 "tarfile '%s' already exists, not overwriting, giving up; use -sU or -sR to "
 "override"
 msgstr ""
-"le fichier tar « %s » existe déjà, pas de modification, abandon ; utiliser -"
-"sU ou -sR pour forcer"
+"le fichier tar « %s » existe déjà, pas de modification, abandon ; utiliser "
+"-sU ou -sR pour forcer"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -4202,9 +4214,12 @@ msgstr ""
 "le binaire modifié dans le ficher tar debian"
 
 #: scripts/Dpkg/Source/Package/V2.pm
+#, fuzzy
+#| msgid ""
+#| "Hint: make sure the version in debian/changelog matches the unpacked "
+#| "source tree"
 msgid ""
-"Hint: make sure the version in debian/changelog matches the unpacked source "
-"tree"
+"make sure the version in debian/changelog matches the unpacked source tree"
 msgstr ""
 "Conseil : assurez-vous que la version dans « debian/changelog » correspond à "
 "l'arbre source extrait"
@@ -4773,24 +4788,6 @@ msgstr "variable de substitution obsolète ${%s}"
 msgid "substitution variable ${%s} unused, but is defined"
 msgstr "la variable de substitution ${%s} est définie mais n’est pas utilisée"
 
-#: scripts/Dpkg/Vendor.pm
-#, perl-format
-msgid ""
-"%s origin filename is deprecated; it should have only alphanumeric or dash "
-"characters"
-msgstr ""
-"le nom de fichier d'origine %s est obsolète ; il ne doit comporter que des "
-"caractères alphanumériques ou des tirets"
-
-#: scripts/Dpkg/Vendor.pm
-#, perl-format
-msgid ""
-"%s module name is deprecated; it should be capitalized with only "
-"alphanumeric characters"
-msgstr ""
-"le nom du module %s est obsolète ; il doit être écrit en capitales et ne "
-"comporter que des caractères alphanumériques"
-
 #: scripts/Dpkg/Vendor/Debian.pm
 #, perl-format
 msgid "unknown host architecture '%s'"
@@ -4853,6 +4850,46 @@ msgstr "le numéro de version contient un caractère « %s » non autorisé"
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr ""
 "la partie d'ère (« epoch ») du numéro de version n'est pas un nombre : « %s »"
+
+#~ msgid "(Use -d flag to override.)"
+#~ msgstr "(Utilisez l'option -d pour forcer.)"
+
+#~ msgid "missing Section for source files"
+#~ msgstr "il manque la section des fichiers source"
+
+#~ msgid "missing Priority for source files"
+#~ msgstr "il manque la priorité des fichiers source"
+
+#, perl-format
+#~ msgid "missing Section for binary package %s; using '-'"
+#~ msgstr "la section du paquet binaire %s manque ; utilisation de « - »"
+
+#, perl-format
+#~ msgid "missing Priority for binary package %s; using '-'"
+#~ msgstr ""
+#~ "le champ « Priority » du paquet binaire %s manque ; utilisation de « - »"
+
+#, perl-format
+#~ msgid "package %s has priority %s in control file but %s in files list"
+#~ msgstr ""
+#~ "le paquet %s a une priorité %s dans le fichier de contrôle mais une "
+#~ "priorité %s dans le fichier de liste des fichiers"
+
+#, perl-format
+#~ msgid ""
+#~ "%s origin filename is deprecated; it should have only alphanumeric or "
+#~ "dash characters"
+#~ msgstr ""
+#~ "le nom de fichier d'origine %s est obsolète ; il ne doit comporter que "
+#~ "des caractères alphanumériques ou des tirets"
+
+#, perl-format
+#~ msgid ""
+#~ "%s module name is deprecated; it should be capitalized with only "
+#~ "alphanumeric characters"
+#~ msgstr ""
+#~ "le nom du module %s est obsolète ; il doit être écrit en capitales et ne "
+#~ "comporter que des caractères alphanumériques"
 
 #, fuzzy, perl-format
 #~| msgid "cannot read timestamp from %s"
@@ -5355,8 +5392,8 @@ msgstr ""
 #~ "source\n"
 #~ "  -Z<compression>\n"
 #~ "                 type de compression à utiliser pour les sources  }\n"
-#~ "  -nc            ne pas nettoyer l'arborescence des sources (implique -"
-#~ "b).\n"
+#~ "  -nc            ne pas nettoyer l'arborescence des sources (implique "
+#~ "-b).\n"
 #~ "  -tc            nettoyer l'arborescence des sources à la fin.\n"
 #~ "  -ap            ajouter une pause avant de lancer le processus de "
 #~ "signature.\n"

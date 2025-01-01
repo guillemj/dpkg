@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2024-08-01 12:38+0200\n"
+"POT-Creation-Date: 2025-01-01 23:26+0100\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: mvillarino <mvillarino@users.sourceforge.net>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
@@ -3007,8 +3007,9 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --nocheck                    Suppress control file check (build bad\n"
-"                                     packages).\n"
+"      --no-check                   Suppress all checks (build bad "
+"packages).\n"
+"      --nocheck                    Alias for --no-check.\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
 "      --threads-max=<threads>      Use at most <threads> with compressor.\n"
 "      --[no-]uniform-compression   Use the compression params on all "
@@ -3040,8 +3041,8 @@ msgid ""
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
-"  by inserting variable references to package fields using the ${var[;"
-"width]}\n"
+"  by inserting variable references to package fields using the $"
+"{var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in "
 "which\n"
 "  case left alignment will be used.\n"
@@ -3472,8 +3473,8 @@ msgstr ""
 #| "Options:\n"
 #| "  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
 #| "  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
-#| "  -o|--output <file>               For -j (default is <package>-<version>."
-#| "deb).\n"
+#| "  -o|--output <file>               For -j (default is <package>-"
+#| "<version>.deb).\n"
 #| "  -Q|--npquiet                     Be quiet when -a is not a part.\n"
 #| "  --msdos                          Generate 8.3 filenames.\n"
 #| "\n"
@@ -3493,8 +3494,8 @@ msgstr ""
 "Opcións:\n"
 "  --depotdir <directorio>      Emprega o <directorio> no canto de %s/%s.\n"
 "  -S|--partsize <tamaño>       En Kib, para -s (por defecto é 450).\n"
-"  -o|--output <ficheiro>       Para -j (por defecto é <paquete>-<versión>."
-"deb).\n"
+"  -o|--output <ficheiro>       Para -j (por defecto é <paquete>-"
+"<versión>.deb).\n"
 "  -Q|--npquiet                 Cala cando -a non é unha parte.\n"
 "  --msdos                      Xera nomes de ficheiro 8.3.\n"
 "\n"
@@ -4588,7 +4589,7 @@ msgstr "Substituíronse por ficheiros do paquete instalado %s ...\n"
 #: src/main/archives.c
 #, fuzzy, c-format
 msgid ""
-"trying to overwrite directory '%.250s' in package %.250s %.250s with "
+"trying to overwrite directory '%.250s' in package %.250s (%.250s) with "
 "nondirectory"
 msgstr ""
 "téntase sobrescribir o directorio \"%.250s\" do paquete %.250s con algo que "
@@ -4596,7 +4597,7 @@ msgstr ""
 
 #: src/main/archives.c
 #, fuzzy, c-format
-msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+msgid "trying to overwrite '%.250s', which is also in package %.250s (%.250s)"
 msgstr "téntase sobrescribir \"%.250s\", que tamén está no paquete %.250s"
 
 #: src/main/archives.c
@@ -4825,8 +4826,8 @@ msgstr "--%s --recursive precisa de alomenos un argumento de ruta"
 #: src/main/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr ""
-"buscouse, pero non se atopou ningún paquete (ficheiros que encaixan con *."
-"deb)"
+"buscouse, pero non se atopou ningún paquete (ficheiros que encaixan con "
+"*.deb)"
 
 #: src/main/archives.c
 #, c-format
@@ -4860,18 +4861,18 @@ msgstr "A omitir o paquete deseleccionado %s.\n"
 #: src/main/archives.c
 #, fuzzy, c-format
 #| msgid "Version %.250s of %.250s already installed, skipping.\n"
-msgid "version %.250s of %.250s already installed, skipping"
+msgid "package %.250s (%.250s) with same version already installed, skipping"
 msgstr "A versión %.250s de %.250s xa está instalada, omítese.\n"
 
 #: src/main/archives.c
 #, fuzzy, c-format
-msgid "downgrading %.250s from %.250s to %.250s"
+msgid "downgrading %.250s (%.250s) to (%.250s)"
 msgstr "%s - aviso: a desactualizar %.250s de %.250s a %.250s.\n"
 
 #: src/main/archives.c
 #, fuzzy, c-format
 #| msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
-msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+msgid "will not downgrade %.250s (%.250s) to (%.250s), skipping"
 msgstr "Non se ha desactualizar %.250s da versión %.250s a %.250s, omítese.\n"
 
 #: src/main/cleanup.c
@@ -5168,10 +5169,16 @@ msgstr ""
 " non se pode configurar (estado actual \"%.250s\")"
 
 #: src/main/configure.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "package %.250s is not ready for configuration\n"
+#| " cannot configure (current status `%.250s')"
 msgid ""
-"package %s %s cannot be configured because %s is at a different version (%s)"
+"package %s (%s) cannot be configured because %s is at a different version "
+"(%s)"
 msgstr ""
+"o paquete %.250s non está listo para a súa configuración\n"
+" non se pode configurar (estado actual \"%.250s\")"
 
 #: src/main/configure.c
 #, fuzzy, c-format
