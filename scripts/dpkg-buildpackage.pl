@@ -676,7 +676,7 @@ if ($checkbuilddep) {
         subprocerr('dpkg-checkbuilddeps');
     } elsif (WEXITSTATUS($?)) {
         errormsg(g_('build dependencies/conflicts unsatisfied; aborting'));
-        hint(g_('satify build dependencies with your package manager frontend'));
+        hint(g_('satisfy build dependencies with your package manager frontend'));
 	exit 3;
     }
 }
