@@ -391,7 +391,6 @@ varbuf::trim_prefix(int prefix)
 inline varbuf &
 varbuf::operator=(const varbuf &v)
 {
-	varbuf_init(this, v.used);
 	varbuf_set_buf(this, v.buf, v.used);
 
 	return *this;
