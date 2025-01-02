@@ -130,7 +130,7 @@ sub inline_sign
     my ($self, $data, $inlinesigned, $key) = @_;
 
     return OPENPGP_MISSING_CMD unless $self->{cmd};
-    return OPENPGP_NEEDS_KEYSTORE if $key->needs_keystore();
+    return OPENPGP_NEEDS_KEYSTORE if ! $self->can_use_key($key);
 
     my @opts;
     push @opts, '--cleartext';
