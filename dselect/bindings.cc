@@ -80,8 +80,8 @@ keybindings::find(const char *action) {
     return varbuf(_("[not bound]"));
 
   const char *n= key2name(b->key);
-  if (n) return
-    varbuf(n);
+  if (n)
+    return varbuf(n);
 
   varbuf unknown;
   unknown.set_fmt(_("[unk: %d]"), b->key);
