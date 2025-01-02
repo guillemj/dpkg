@@ -460,8 +460,8 @@ for my $p (keys %pkg2file) {
             my $v = $file2ctrlfield{$fn}{$f} || $sourcedefault{$f};
 
             if ($v ne $file->{lc $f}) {
-                error(g_('package %s has value %s in %s field in control file ' .
-                         'but %s in files list'), $p, $v, $f, $file->{lc $f});
+                error(g_("package %s has value '%s' in %s field in control file " .
+                         "but '%s' in files list"), $p, $v, $f, $file->{lc $f});
             }
         }
     }

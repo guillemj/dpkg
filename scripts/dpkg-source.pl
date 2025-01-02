@@ -519,7 +519,7 @@ sub set_testsuite_fields
 
         set_testsuite_triggers_field($tests, $fields, @binarypackages);
     } elsif ($testsuite{autopkgtest}) {
-        warning(g_('%s field contains value %s, but no tests control file %s'),
+        warning(g_("%s field contains value '%s', but no tests control file %s"),
                 'Testsuite', 'autopkgtest', 'debian/tests/control');
         delete $testsuite{autopkgtest};
     }
