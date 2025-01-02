@@ -125,6 +125,7 @@ void baselist::kd_search() {
   echo();
   if (wgetnstr(querywin, newsearchstring.buf, newsearchstring.size - 1) == ERR)
     searchstring.reset();
+  newsearchstring.trunc(strlen(newsearchstring.buf));
   resize_window();
   noecho();
   if (whatinfo_height) { touchwin(whatinfowin); refreshinfo(); }
