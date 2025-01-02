@@ -252,7 +252,7 @@ foreach my $f (keys %{$src_fields}) {
     if ($f eq 'Source') {
         set_source_name($v);
     } elsif (any { $f eq $_ } qw(Section Priority)) {
-        $sourcedefault{$f} = $v // field_get_default_value($f);
+        $sourcedefault{$f} = $v;
     } elsif ($f eq 'Description') {
         # Description in changes is computed, do not copy this field, only
         # initialize the description substvars.
@@ -260,6 +260,10 @@ foreach my $f (keys %{$src_fields}) {
     } else {
         field_transfer_single($src_fields, $fields, $f);
     }
+}
+
+foreach my $f (qw(Section Priority)) {
+    $sourcedefault{$f} //= field_get_default_value($f);
 }
 
 my $dist = Dpkg::Dist::Files->new();
