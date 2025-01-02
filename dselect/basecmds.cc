@@ -85,7 +85,7 @@ void baselist::kd_redraw() {
 }
 
 void baselist::kd_searchagain() {
-  if (searchstring.len()) {
+  if (!searchstring.len()) {
     beep();
     return;
   }
