@@ -317,7 +317,7 @@ for my $f (qw(Section)) {
 
     $fields->{$f} = field_get_default_value($f);
     warning(g_('missing information for output field %s; ' .
-               'using default value "%s"'), $fields->{$f});
+               'using default value "%s"'), $f, $fields->{$f});
 }
 for my $f (qw(Priority)) {
     $fields->{$f} //= field_get_default_value($f);
