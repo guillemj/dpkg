@@ -117,7 +117,8 @@ baselist::matchsearch(int index)
 }
 
 void baselist::kd_search() {
-  varbuf newsearchstring(searchstring);
+  varbuf newsearchstring(128);
+  newsearchstring = searchstring;
 
   werase(querywin);
   mvwaddstr(querywin,0,0, _("Search for ? "));
