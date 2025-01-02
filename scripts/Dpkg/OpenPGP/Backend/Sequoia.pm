@@ -134,7 +134,13 @@ sub inline_sign
 
     my @opts;
     push @opts, '--cleartext';
-    push @opts, '--signer-file', $key->handle;
+    if ($key->type eq 'keyfile') {
+        push @opts, '--signer-file', $key->handle;
+    } elsif ($key->type eq 'userid') {
+        push @opts, '--signer-userid', $key->handle;
+    } else {
+        push @opts, '--signer', $key->handle;
+    }
     push @opts, '--output', $inlinesigned;
 
     my $rc = $self->_sq_exec('sign', @opts, $data);
