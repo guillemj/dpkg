@@ -528,9 +528,49 @@ test_varbuf_detach(void)
 	free(str);
 }
 
+static void
+test_varbuf_operator(void)
+{
+	varbuf vb;
+	varbuf cb("some text");
+
+	test_pass(vb.used == 0);
+	test_pass(vb.size == 0);
+	test_pass(vb.buf == nullptr);
+
+	test_pass(cb.used == 9);
+	test_pass(cb.size >= 9);
+	test_mem(cb.buf, ==, "some text", 9);
+
+	vb = cb;
+	test_pass(vb.used == 9);
+	test_pass(vb.size >= 9);
+	test_mem(vb.buf, ==, "some text", 9);
+
+	vb += '&';
+	test_pass(vb.used == 10);
+	test_pass(vb.size >= 10);
+	test_mem(vb.buf, ==, "some text&", 10);
+
+	vb += cb;
+	test_pass(vb.used == 19);
+	test_pass(vb.size >= 19);
+	test_mem(vb.buf, ==, "some text&some text", 19);
+
+	vb += "$end$";
+	test_pass(vb.used == 24);
+	test_pass(vb.size >= 24);
+	test_mem(vb.buf, ==, "some text&some text$end$", 24);
+
+	vb = cb;
+	test_pass(vb.used == 9);
+	test_pass(vb.size >= 9);
+	test_mem(vb.buf, ==, "some text", 9);
+}
+
 TEST_ENTRY(test)
 {
-	test_plan(205);
+	test_plan(226);
 
 	test_varbuf_init();
 	test_varbuf_prealloc();
@@ -553,6 +593,7 @@ TEST_ENTRY(test)
 	test_varbuf_reset();
 	test_varbuf_snapshot();
 	test_varbuf_detach();
+	test_varbuf_operator();
 
 	/* TODO: Complete. */
 }
