@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.22.12\n"
+"Project-Id-Version: dpkg-man 1.22.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-01-01 23:26+0100\n"
+"POT-Creation-Date: 2025-01-03 11:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1156,7 +1156,7 @@ msgstr ""
 #: deb-changes.pod
 msgid ""
 "If the section or priority are omitted from the package, these default to "
-"B<unknown> and B<optional> respectively."
+"B<unknown> and B<optional> respectively (since dpkg 1.22.13)."
 msgstr ""
 
 #. type: textblock
@@ -1388,6 +1388,11 @@ msgid ""
 "B<mail>, B<text>, B<x11>, etc."
 msgstr ""
 
+#. type: textblock
+#: deb-control.pod deb-src-control.pod
+msgid "The accepted values are based on the specific distribution policy."
+msgstr ""
+
 #. type: =item
 #: deb-control.pod deb-src-control.pod
 msgid "B<Priority:> I<priority>"
@@ -1397,14 +1402,13 @@ msgstr ""
 #: deb-control.pod deb-src-control.pod
 msgid ""
 "Sets the importance of this package in relation to the system as a whole.  "
-"Common priorities are B<required>, B<standard>, B<optional>, B<extra>, etc."
+"The known priorities are B<required>, B<important>, B<standard>, "
+"B<optional>, B<extra>, and B<unknown>, but other values can be used as well."
 msgstr ""
 
 #. type: textblock
 #: deb-control.pod deb-src-control.pod
-msgid ""
-"The B<Section> and B<Priority> fields usually have a defined set of accepted "
-"values based on the specific distribution policy."
+msgid "How to apply these values depends on the specific distribution policy."
 msgstr ""
 
 #. type: =item
@@ -3009,7 +3013,7 @@ msgstr ""
 #: deb-src-control.pod
 msgid ""
 "The binary targets will not require (fake)root at all.  This is the default "
-"in B<dpkg-build-api> level >= 1."
+"in B<dpkg-build-api> level >= 1, or since dpkg 1.22.13."
 msgstr ""
 
 #. type: =item
@@ -3021,9 +3025,9 @@ msgstr ""
 #: deb-src-control.pod
 msgid ""
 "The binary targets must always be run under (fake)root.  This value is the "
-"default in B<dpkg-build-api> level 0, when the field is omitted; adding the "
-"field with an explicit B<binary-targets>, while not strictly needed, marks "
-"it as having been analyzed for this requirement."
+"default in B<dpkg-build-api> level 0 until dpkg 1.22.13, when the field is "
+"omitted; adding the field with an explicit B<binary-targets>, while not "
+"strictly needed, marks it as having been analyzed for this requirement."
 msgstr ""
 
 #. type: =item
@@ -3151,12 +3155,12 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
-msgid "When omitted, the I<section> defaults to B<unknown>."
+msgid "When omitted, the I<section> defaults to B<unknown> (since dpkg 1.22.13)."
 msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
-msgid "When omitted, the I<priority> defaults to B<optional>."
+msgid "When omitted, the I<priority> defaults to B<optional> (since dpkg 1.22.13)."
 msgstr ""
 
 #. type: =item
@@ -6832,8 +6836,8 @@ msgstr ""
 #: dpkg-build-api.pod
 msgid ""
 "B<dpkg-buildpackage> defaults to B<Rules-Requires-Root> value B<no>.  To "
-"restore the B<v0> behavior B<Rules-Requires-Root> should be set to "
-"B<binary-targets>."
+"restore the B<v0> behavior (from before dpkg 1.22.13)  "
+"B<Rules-Requires-Root> should be set to B<binary-targets>."
 msgstr ""
 
 #. type: textblock
@@ -9318,7 +9322,7 @@ msgstr ""
 #: dpkg-buildpackage.pod
 msgid ""
 "Do not honor the B<Rules-Requires-Root> field, falling back to its legacy "
-"default value (since dpkg 1.19.1)."
+"default value B<binary-targets> (since dpkg 1.19.1)."
 msgstr ""
 
 #. type: =item
@@ -9977,7 +9981,7 @@ msgstr ""
 #: dpkg-buildpackage.pod
 msgid ""
 "If set, it will be used to sign the B<.changes>, B<.buildinfo> and B<.dsc> "
-"files (since dpkg 1.17.2).  Overridden by the B<--sign-key> option."
+"files (since dpkg 1.17.2).  Overridden by the B<--sign-keyid> option."
 msgstr ""
 
 #. type: =item
@@ -20975,7 +20979,8 @@ msgstr ""
 #: dsc.pod
 msgid ""
 "The I<section> and I<priority> match the binary package fields of the same "
-"name, or if omitted default to B<unknown> and B<optional> respectively."
+"name, or if omitted default to B<unknown> and B<optional> respectively "
+"(since dpkg 1.22.13)."
 msgstr ""
 
 #. type: textblock

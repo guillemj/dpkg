@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.12\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-01-01 23:26+0100\n"
+"POT-Creation-Date: 2025-01-03 11:46+0100\n"
 "PO-Revision-Date: 2024-12-04 08:34+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -1440,10 +1440,16 @@ msgstr ""
 
 #. type: textblock
 #: deb-changes.pod
+#, fuzzy
+#| msgid ""
+#| "The I<section> and I<priority> match the binary package fields of the "
+#| "same name."
 msgid ""
 "If the section or priority are omitted from the package, these default to "
-"B<unknown> and B<optional> respectively."
+"B<unknown> and B<optional> respectively (since dpkg 1.22.13)."
 msgstr ""
+"I<Sektion> und I<Priorität> entsprechen den Feldern I<section> und "
+"I<priority> des Binärpakets."
 
 #. type: textblock
 #: deb-changes.pod
@@ -1745,6 +1751,17 @@ msgstr ""
 "basierend auf der Software, die es installiert. Einige übliche Sektionen "
 "sind B<utils>, B<net>, B<mail>, B<text>, B<x11> usw."
 
+#. type: textblock
+#: deb-control.pod deb-src-control.pod
+#, fuzzy
+#| msgid ""
+#| "The B<Section> and B<Priority> fields usually have a defined set of "
+#| "accepted values based on the specific distribution policy."
+msgid "The accepted values are based on the specific distribution policy."
+msgstr ""
+"Die Felder B<Section> und B<Priority> haben eine definierte Menge an Werten, "
+"abhängig von den jeweiligen Distributionsrichtlinien."
+
 #. type: =item
 #: deb-control.pod deb-src-control.pod
 msgid "B<Priority:> I<priority>"
@@ -1752,18 +1769,26 @@ msgstr "B<Priority:> I<Priorität>"
 
 #. type: textblock
 #: deb-control.pod deb-src-control.pod
+#, fuzzy
+#| msgid ""
+#| "Sets the importance of this package in relation to the system as a "
+#| "whole.  Common priorities are B<required>, B<standard>, B<optional>, "
+#| "B<extra>, etc."
 msgid ""
 "Sets the importance of this package in relation to the system as a whole.  "
-"Common priorities are B<required>, B<standard>, B<optional>, B<extra>, etc."
+"The known priorities are B<required>, B<important>, B<standard>, "
+"B<optional>, B<extra>, and B<unknown>, but other values can be used as well."
 msgstr ""
 "Setzt die Bedeutung dieses Pakets in Bezug zu dem Gesamtsystem. Übliche "
 "Prioritäten sind B<required>, B<standard>, B<optional>, B<extra> usw."
 
 #. type: textblock
 #: deb-control.pod deb-src-control.pod
-msgid ""
-"The B<Section> and B<Priority> fields usually have a defined set of accepted "
-"values based on the specific distribution policy."
+#, fuzzy
+#| msgid ""
+#| "The B<Section> and B<Priority> fields usually have a defined set of "
+#| "accepted values based on the specific distribution policy."
+msgid "How to apply these values depends on the specific distribution policy."
 msgstr ""
 "Die Felder B<Section> und B<Priority> haben eine definierte Menge an Werten, "
 "abhängig von den jeweiligen Distributionsrichtlinien."
@@ -3823,9 +3848,13 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
+#, fuzzy
+#| msgid ""
+#| "The binary targets will not require (fake)root at all.  This is the "
+#| "default in B<dpkg-build-api> level >= 1."
 msgid ""
 "The binary targets will not require (fake)root at all.  This is the default "
-"in B<dpkg-build-api> level >= 1."
+"in B<dpkg-build-api> level >= 1, or since dpkg 1.22.13."
 msgstr ""
 "Die Binärziele werden überhaupt kein (fake)root benötigen. Dies ist in "
 "B<dpkg-build-api> Stufe >=1 die Vorgabe."
@@ -3837,11 +3866,17 @@ msgstr "B<binary-targets>"
 
 #. type: textblock
 #: deb-src-control.pod
+#, fuzzy
+#| msgid ""
+#| "The binary targets must always be run under (fake)root.  This value is "
+#| "the default in B<dpkg-build-api> level 0, when the field is omitted; "
+#| "adding the field with an explicit B<binary-targets>, while not strictly "
+#| "needed, marks it as having been analyzed for this requirement."
 msgid ""
 "The binary targets must always be run under (fake)root.  This value is the "
-"default in B<dpkg-build-api> level 0, when the field is omitted; adding the "
-"field with an explicit B<binary-targets>, while not strictly needed, marks "
-"it as having been analyzed for this requirement."
+"default in B<dpkg-build-api> level 0 until dpkg 1.22.13, when the field is "
+"omitted; adding the field with an explicit B<binary-targets>, while not "
+"strictly needed, marks it as having been analyzed for this requirement."
 msgstr ""
 "Die Binärziele müssen immer unter (fake)root ausgeführt werden. Dieser Wert "
 "ist in B<dpkg-build-api> Stufe 0 die Vorgabe, wenn die Datei fehlt. Die "
@@ -3998,12 +4033,14 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
-msgid "When omitted, the I<section> defaults to B<unknown>."
+msgid ""
+"When omitted, the I<section> defaults to B<unknown> (since dpkg 1.22.13)."
 msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
-msgid "When omitted, the I<priority> defaults to B<optional>."
+msgid ""
+"When omitted, the I<priority> defaults to B<optional> (since dpkg 1.22.13)."
 msgstr ""
 
 #. type: =item
@@ -8802,10 +8839,15 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-build-api.pod
+#, fuzzy
+#| msgid ""
+#| "B<dpkg-buildpackage> defaults to B<Rules-Requires-Root> value B<no>.  To "
+#| "restore the B<v0> behavior B<Rules-Requires-Root> should be set to "
+#| "B<binary-targets>."
 msgid ""
 "B<dpkg-buildpackage> defaults to B<Rules-Requires-Root> value B<no>.  To "
-"restore the B<v0> behavior B<Rules-Requires-Root> should be set to B<binary-"
-"targets>."
+"restore the B<v0> behavior (from before dpkg 1.22.13)  B<Rules-Requires-"
+"Root> should be set to B<binary-targets>."
 msgstr ""
 "B<dpkg-buildpackage> setzt standardmäßig den Wert von B<Rules-Requires-Root> "
 "auf B<no>. Um das Verhalten aus B<v0> wiederherzustellen, sollte B<Rules-"
@@ -11997,9 +12039,13 @@ msgstr "B<--rules-requires-root>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "Do not honor the B<Rules-Requires-Root> field, falling back to its legacy "
+#| "default value (since dpkg 1.19.1)."
 msgid ""
 "Do not honor the B<Rules-Requires-Root> field, falling back to its legacy "
-"default value (since dpkg 1.19.1)."
+"default value B<binary-targets> (since dpkg 1.19.1)."
 msgstr ""
 "Berücksichtigt das Feld B<Rules-Requires-Root> nicht, sondern fällt auf den "
 "alten Vorgabewert zurück (seit Dpkg 1.19.1)."
@@ -12778,9 +12824,14 @@ msgstr "B<DEB_SIGN_KEYID>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid ""
+#| "If set, it will be used to sign the B<.changes>, B<.buildinfo> and "
+#| "B<.dsc> files (since dpkg 1.17.2).  Overridden by the B<--sign-key> "
+#| "option."
 msgid ""
 "If set, it will be used to sign the B<.changes>, B<.buildinfo> and B<.dsc> "
-"files (since dpkg 1.17.2).  Overridden by the B<--sign-key> option."
+"files (since dpkg 1.17.2).  Overridden by the B<--sign-keyid> option."
 msgstr ""
 "Falls gesetzt, wird er zum Signieren der B<.changes>-, B<.buildinfo>- und "
 "B<.dsc>-Dateien verwandt (seit Dpkg 1.17.2). Wird durch die Option B<--sign-"
@@ -26992,7 +27043,8 @@ msgstr ""
 #| "same name."
 msgid ""
 "The I<section> and I<priority> match the binary package fields of the same "
-"name, or if omitted default to B<unknown> and B<optional> respectively."
+"name, or if omitted default to B<unknown> and B<optional> respectively "
+"(since dpkg 1.22.13)."
 msgstr ""
 "I<Sektion> und I<Priorität> entsprechen den Feldern I<section> und "
 "I<priority> des Binärpakets."
