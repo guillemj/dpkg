@@ -32,10 +32,10 @@ my $datadir = "$srcdir/t/dpkg_buildtree";
 $ENV{$_} = rel2abs($ENV{$_}) foreach qw(DPKG_DATADIR DPKG_ORIGINS_DIR);
 
 my %is_rootless = (
-    'src-build-api-v0' => 0,
+    'src-build-api-v0' => 1,
     'src-build-api-v1' => 1,
     'src-rrr-binary-targets' => 0,
-    'src-rrr-missing' => 0,
+    'src-rrr-missing' => 1,
     'src-rrr-no' => 1,
 );
 
