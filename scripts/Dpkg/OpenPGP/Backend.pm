@@ -36,6 +36,8 @@ use warnings;
 use List::Util qw(first);
 use MIME::Base64;
 
+use Dpkg::ErrorHandling;
+use Dpkg::Gettext;
 use Dpkg::Path qw(find_command);
 use Dpkg::File;
 use Dpkg::OpenPGP::ErrorCodes;
