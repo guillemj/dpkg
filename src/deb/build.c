@@ -403,7 +403,7 @@ check_fsys_perms(const char *rootdir)
   if (st.st_uid != 0 || st.st_gid != 0) {
     warning(_("root directory %s has unusual owner or group %u:%u"),
             rootdir, st.st_uid, st.st_gid);
-    info(_("Hint: you might need to pass --root-owner-group, "
+    hint(_("you might need to pass --root-owner-group, "
            "see <%s> for further details"),
          "https://wiki.debian.org/Teams/Dpkg/RootlessBuilds");
   }
