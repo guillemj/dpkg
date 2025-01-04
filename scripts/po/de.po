@@ -1,13 +1,13 @@
 # Translation of dpkg-dev to German
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2024.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2025.
 # This file is distributed under the same license as the dpkg package.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-dev 1.22.10\n"
+"Project-Id-Version: dpkg-dev 1.22.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-01-03 11:46+0100\n"
-"PO-Revision-Date: 2024-07-27 14:36+0200\n"
+"POT-Creation-Date: 2025-01-04 18:31+0100\n"
+"PO-Revision-Date: 2025-01-04 21:38+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -617,7 +617,7 @@ msgstr "Bauabhängigkeiten/-konflikte nicht erfüllt; Abbruch"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "satisfy build dependencies with your package manager frontend"
-msgstr ""
+msgstr "Bauabhängigkeiten mit Ihrer Paketverwalter-Oberfläche erfüllen"
 
 #: scripts/dpkg-buildpackage.pl
 msgid ""
@@ -708,12 +708,6 @@ msgid "full upload (original source is included)"
 msgstr "Alles hochzuladen (Originalquellen enthalten)"
 
 #: scripts/dpkg-buildtree.pl
-#, fuzzy
-#| msgid ""
-#| "Commands:\n"
-#| "  clean              clean dpkg generated artifacts from the build tree.\n"
-#| "  --help             show this help message.\n"
-#| "  --version          show the version.\n"
 msgid ""
 "Commands:\n"
 "  clean              clean dpkg generated artifacts from the build tree.\n"
@@ -723,6 +717,7 @@ msgid ""
 msgstr ""
 "Befehle:\n"
 "  clean              Dpkg-erstellte Artefakte aus dem Baubaum bereinigen.\n"
+"  is-rootless        prüfen, ob der Baubaum Root-Privilegien zum Bau benötigt.\n"
 "  --help             diese Hilfemeldung anzeigen\n"
 "  --version          die Version anzeigen\n"
 
@@ -787,16 +782,14 @@ msgid "cannot parse %s field"
 msgstr "das Feld %s kann nicht ausgewertet werden"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, fuzzy, perl-format
-#| msgid "Unmet build dependencies: %s"
+#, perl-format
 msgid "unmet build dependencies: %s"
-msgstr "Nicht erfüllte Bauabhängigkeiten: %s"
+msgstr "nicht erfüllte Bauabhängigkeiten: %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, fuzzy, perl-format
-#| msgid "Build conflicts: %s"
+#, perl-format
 msgid "unmet build conflicts: %s"
-msgstr "Baukonflikte: %s"
+msgstr "nicht erfüllte Baukonflikte: %s"
 
 #: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-genbuildinfo.pl
 #: scripts/dpkg-name.pl scripts/Dpkg/Arch.pm scripts/Dpkg/IPC.pm
@@ -1032,11 +1025,10 @@ msgid "package %s listed in files list but not in control info"
 msgstr "Paket %s in Dateienliste, aber nicht in der Steuer-Info aufgeführt"
 
 #: scripts/dpkg-genchanges.pl
-#, fuzzy, perl-format
-#| msgid "package %s has section %s in control file but %s in files list"
+#, perl-format
 msgid ""
 "package %s has value '%s' in %s field in control file but '%s' in files list"
-msgstr "Paket %s hat Sektion %s in der Steuerdatei, aber %s in der Dateiliste"
+msgstr "Paket %s hat Wert »%s« in Feld %s, aber »%s« in der Dateiliste"
 
 #: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -1147,10 +1139,9 @@ msgstr ""
 "»%s« ist »architecture all«"
 
 #: scripts/dpkg-gencontrol.pl
-#, fuzzy, perl-format
-#| msgid "missing information for output field %s"
+#, perl-format
 msgid "missing information for output field %s; using default value \"%s\""
-msgstr "fehlende Informationen für Ausgabefeld %s"
+msgstr "fehlende Informationen für Ausgabefeld %s; Standardwert »%s« wird verwandt"
 
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
@@ -1751,24 +1742,15 @@ msgid "%s has an unexpected SONAME (%s)"
 msgstr "%s hat einen unerwarteten SONAME (%s)"
 
 #: scripts/dpkg-shlibdeps.pl
-#, fuzzy, perl-format
-#| msgid ""
-#| "no dependency information found for %s (used by %s)\n"
-#| "Hint: check if the library actually comes from a package."
+#, perl-format
 msgid "no dependency information found for %s (used by %s)"
 msgstr ""
-"keine Abhängigkeitsinformationen für %s (verwendet von %s) gefunden\n"
-"Tipp: Prüfen Sie, ob die Bibliothek tatsächlich aus einem Paket stammt."
+"keine Abhängigkeitsinformationen für %s (verwendet von %s) gefunden"
 
 #: scripts/dpkg-shlibdeps.pl
-#, fuzzy
-#| msgid ""
-#| "no dependency information found for %s (used by %s)\n"
-#| "Hint: check if the library actually comes from a package."
 msgid "check if the library actually comes from a package"
 msgstr ""
-"keine Abhängigkeitsinformationen für %s (verwendet von %s) gefunden\n"
-"Tipp: Prüfen Sie, ob die Bibliothek tatsächlich aus einem Paket stammt."
+"Prüfen Sie, ob die Bibliothek tatsächlich aus einem Paket stammt."
 
 #: scripts/dpkg-shlibdeps.pl
 msgid ""
@@ -2119,10 +2101,9 @@ msgid "test control %s is not a regular file"
 msgstr "Teststeuerdatei %s ist keine gewöhnliche Datei."
 
 #: scripts/dpkg-source.pl
-#, fuzzy, perl-format
-#| msgid "%s field contains value %s, but no tests control file %s"
+#, perl-format
 msgid "%s field contains value '%s', but no tests control file %s"
-msgstr "%s-Feld enthält Wert %s, aber keine Teststeuerdatei %s"
+msgstr "%s-Feld enthält Wert »%s«, aber keine Teststeuerdatei %s"
 
 #: scripts/dpkg-source.pl
 #, perl-format
@@ -2999,7 +2980,7 @@ msgstr "ungültiger Dateiname %s"
 
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "hint"
-msgstr ""
+msgstr "Tipp"
 
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "info"
@@ -3110,11 +3091,13 @@ msgid ""
 "multiple concatenated ASCII Armor blocks in %s, which is not an "
 "interoperable construct, see <%s>"
 msgstr ""
+"mehrere aneinandergehängte ASCII-geschützte Blöcke in %s, was kein "
+"interoperables Konstrukt ist, siehe <%s>"
 
 #: scripts/Dpkg/OpenPGP/Backend.pm
 #, perl-format
 msgid "sq keyring merge --overwrite --output %s %s"
-msgstr ""
+msgstr "sq keyring merge --overwrite --output %s %s"
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 msgid "success"
@@ -3910,14 +3893,10 @@ msgstr ""
 "veränderte Programm im Debian-Tarball speichern möchten."
 
 #: scripts/Dpkg/Source/Package/V2.pm
-#, fuzzy
-#| msgid ""
-#| "Hint: make sure the version in debian/changelog matches the unpacked "
-#| "source tree"
 msgid ""
 "make sure the version in debian/changelog matches the unpacked source tree"
 msgstr ""
-"Tipp: Die Version in debian/changelog muss mit dem entpackten Quellbaum "
+"die Version in debian/changelog muss mit dem entpackten Quellbaum "
 "übereinstimmen"
 
 #: scripts/Dpkg/Source/Package/V2.pm
