@@ -22,6 +22,7 @@
 #ifndef LIBDPKG_REPORT_H
 #define LIBDPKG_REPORT_H
 
+#include <stdbool.h>
 #include <stdarg.h>
 #include <stdio.h>
 
@@ -50,6 +51,9 @@ void warning(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 void notice(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 
 void info(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
+
+void dpkg_set_hints_enable(bool enable);
+void hint(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 
 /** @} */
 

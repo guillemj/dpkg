@@ -130,3 +130,31 @@ info(const char *fmt, ...)
 
 	free(buf);
 }
+
+static bool hints_enabled = true;
+
+void
+dpkg_set_hints_enable(bool enable)
+{
+	hints_enabled = enable;
+}
+
+void
+hint(const char *fmt, ...)
+{
+	char *buf = NULL;
+	va_list args;
+
+	if (!hints_enabled)
+		return;
+
+	va_start(args, fmt);
+	m_vasprintf(&buf, fmt, args);
+	va_end(args);
+
+	printf("%s%s:%s %s%s:%s %s\n",
+	       color_get(COLOR_PROG), dpkg_get_progname(), color_reset(),
+	       color_get(COLOR_HINT), _("hint"), color_reset(), buf);
+
+	free(buf);
+}

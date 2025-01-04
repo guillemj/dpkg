@@ -56,6 +56,7 @@ DPKG_BEGIN_DECLS
 
 /* Current defaults. These might become configurable in the future. */
 #define COLOR_PROG		COLOR_BOLD
+#define COLOR_HINT		COLOR_BOLD_BLUE
 #define COLOR_INFO		COLOR_GREEN
 #define COLOR_NOTICE		COLOR_YELLOW
 #define COLOR_WARN		COLOR_BOLD_YELLOW
