@@ -60,15 +60,16 @@ always)
 esac
 
 if [ $USE_COLORS = yes ]; then
+  _dpkg_color_clear="$COLOR_RESET"
   COLOR_PROG="$COLOR_BOLD"
   COLOR_INFO="$COLOR_GREEN"
   COLOR_NOTICE="$COLOR_YELLOW"
   COLOR_WARN="$COLOR_BOLD_YELLOW"
   COLOR_ERROR="$COLOR_BOLD_RED"
 else
-  COLOR_RESET=""
+  _dpkg_color_clear=""
 fi
-FMT_PROG="$COLOR_PROG$PROGNAME$COLOR_RESET"
+FMT_PROG="$COLOR_PROG$PROGNAME$_dpkg_color_clear"
 
 # This function is deprecated and kept only for backwards compatibility.
 # Deprecated since dpkg 1.22.12.
@@ -84,16 +85,16 @@ debug() {
 }
 
 error() {
-  echo "$FMT_PROG: ${COLOR_ERROR}error${COLOR_RESET}: $*" >&2
+  echo "$FMT_PROG: ${COLOR_ERROR}error${_dpkg_color_clear}: $*" >&2
   exit 1
 }
 
 warning() {
-  echo "$FMT_PROG: ${COLOR_WARN}warning${COLOR_RESET}: $*" >&2
+  echo "$FMT_PROG: ${COLOR_WARN}warning${_dpkg_color_clear}: $*" >&2
 }
 
 badusage() {
-  echo "$FMT_PROG: ${COLOR_ERROR}error${COLOR_RESET}: $1" >&2
+  echo "$FMT_PROG: ${COLOR_ERROR}error${_dpkg_color_clear}: $1" >&2
   echo >&2
   echo "Use '$PROGNAME --help' for program usage information." >&2
   exit 1
