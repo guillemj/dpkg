@@ -67,6 +67,7 @@ esac
 if [ $_dpkg_use_colors = yes ]; then
   _dpkg_color_clear="$COLOR_RESET"
   _dpkg_color_prog="$COLOR_BOLD"
+  _dpkg_color_hint="$COLOR_BOLD_BLUE"
   _dpkg_color_info="$COLOR_GREEN"
   _dpkg_color_notice="$COLOR_YELLOW"
   _dpkg_color_warn="$COLOR_BOLD_YELLOW"
@@ -100,6 +101,21 @@ error() {
 # Supported since dpkg 1.20.1.
 warning() {
   echo "$_dpkg_fmt_prog: ${_dpkg_color_warn}warning${_dpkg_color_clear}: $*" >&2
+}
+
+# Supported since dpkg 1.22.14.
+notice() {
+  echo "$_dpkg_fmt_prog: ${_dpkg_color_notice}notice${_dpkg_color_clear}: $*"
+}
+
+# Supported since dpkg 1.22.14.
+info() {
+  echo "$_dpkg_fmt_prog: ${_dpkg_color_info}info${_dpkg_color_clear}: $*"
+}
+
+# Supported since dpkg 1.22.14.
+hint() {
+  echo "$_dpkg_fmt_prog: ${_dpkg_color_hint}hint${_dpkg_color_clear}: $*"
 }
 
 # Supported since dpkg 1.20.1.
