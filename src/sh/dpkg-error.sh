@@ -46,30 +46,30 @@ COLOR_BOLD_WHITE='[1;37m'
 case "$DPKG_COLORS" in
 auto)
   if [ -t 1 ]; then
-    USE_COLORS=yes
+    _dpkg_use_colors=yes
   else
-    USE_COLORS=no
+    _dpkg_use_colors=no
   fi
   ;;
 always)
-  USE_COLORS=yes
+  _dpkg_use_colors=yes
   ;;
 *)
-  USE_COLORS=no
+  _dpkg_use_colors=no
   ;;
 esac
 
-if [ $USE_COLORS = yes ]; then
+if [ $_dpkg_use_colors = yes ]; then
   _dpkg_color_clear="$COLOR_RESET"
-  COLOR_PROG="$COLOR_BOLD"
-  COLOR_INFO="$COLOR_GREEN"
-  COLOR_NOTICE="$COLOR_YELLOW"
-  COLOR_WARN="$COLOR_BOLD_YELLOW"
-  COLOR_ERROR="$COLOR_BOLD_RED"
+  _dpkg_color_prog="$COLOR_BOLD"
+  _dpkg_color_info="$COLOR_GREEN"
+  _dpkg_color_notice="$COLOR_YELLOW"
+  _dpkg_color_warn="$COLOR_BOLD_YELLOW"
+  _dpkg_color_error="$COLOR_BOLD_RED"
 else
   _dpkg_color_clear=""
 fi
-FMT_PROG="$COLOR_PROG$PROGNAME$_dpkg_color_clear"
+_dpkg_fmt_prog="$_dpkg_color_prog$PROGNAME$_dpkg_color_clear"
 
 # This function is deprecated and kept only for backwards compatibility.
 # Deprecated since dpkg 1.22.12.
@@ -80,21 +80,21 @@ setup_colors()
 
 debug() {
   if [ -n "$DPKG_DEBUG" ]; then
-    echo "DEBUG: $FMT_PROG: $*" >&2
+    echo "DEBUG: $_dpkg_fmt_prog: $*" >&2
   fi
 }
 
 error() {
-  echo "$FMT_PROG: ${COLOR_ERROR}error${_dpkg_color_clear}: $*" >&2
+  echo "$_dpkg_fmt_prog: ${_dpkg_color_error}error${_dpkg_color_clear}: $*" >&2
   exit 1
 }
 
 warning() {
-  echo "$FMT_PROG: ${COLOR_WARN}warning${_dpkg_color_clear}: $*" >&2
+  echo "$_dpkg_fmt_prog: ${_dpkg_color_warn}warning${_dpkg_color_clear}: $*" >&2
 }
 
 badusage() {
-  echo "$FMT_PROG: ${COLOR_ERROR}error${_dpkg_color_clear}: $1" >&2
+  echo "$_dpkg_fmt_prog: ${_dpkg_color_error}error${_dpkg_color_clear}: $1" >&2
   echo >&2
   echo "Use '$PROGNAME --help' for program usage information." >&2
   exit 1
