@@ -80,7 +80,7 @@ setup_colors()
 
 debug() {
   if [ -n "$DPKG_DEBUG" ]; then
-    echo "DEBUG: $_dpkg_fmt_prog: $*" >&2
+    echo "$_dpkg_fmt_prog: debug: $*" >&2
   fi
 }
 
