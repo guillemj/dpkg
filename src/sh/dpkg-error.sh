@@ -17,7 +17,12 @@
 #
 # shellcheck shell=sh
 
-# Set a default program name.
+# This shell library (since dpkg 1.20.1) provides reporting support.
+#
+# Symbols starting with «_dpkg_» are considered private and should not
+# be used outside this shell library.
+
+# Set a default program name (since 1.22.12).
 : "${PROGNAME:=$(basename "$0")}"
 
 # Standard ANSI colors and attributes.
@@ -72,27 +77,32 @@ fi
 _dpkg_fmt_prog="$_dpkg_color_prog$PROGNAME$_dpkg_color_clear"
 
 # This function is deprecated and kept only for backwards compatibility.
+# Supported since dpkg 1.20.1.
 # Deprecated since dpkg 1.22.12.
 setup_colors()
 {
   :
 }
 
+# Supported since dpkg 1.20.1.
 debug() {
   if [ -n "$DPKG_DEBUG" ]; then
     echo "$_dpkg_fmt_prog: debug: $*" >&2
   fi
 }
 
+# Supported since dpkg 1.20.1.
 error() {
   echo "$_dpkg_fmt_prog: ${_dpkg_color_error}error${_dpkg_color_clear}: $*" >&2
   exit 1
 }
 
+# Supported since dpkg 1.20.1.
 warning() {
   echo "$_dpkg_fmt_prog: ${_dpkg_color_warn}warning${_dpkg_color_clear}: $*" >&2
 }
 
+# Supported since dpkg 1.20.1.
 badusage() {
   echo "$_dpkg_fmt_prog: ${_dpkg_color_error}error${_dpkg_color_clear}: $1" >&2
   echo >&2
