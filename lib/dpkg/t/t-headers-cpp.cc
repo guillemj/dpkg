@@ -21,8 +21,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <cstdbool>
-
 #include <dpkg/ar.h>
 #include <dpkg/arch.h>
 #include <dpkg/atomic-file.h>
