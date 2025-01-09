@@ -124,16 +124,20 @@ Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
 Architecture: all
 Description: test package])
 
+# DPKG_GEN_DB_FILE([$file], [$contents])
+m4_define([DPKG_GEN_DB_FILE], [
+  mkdir -p "DPKG_DIR_ADMIN"
+  AT_DATA([DPKG_DIR_ADMIN/$1], [$2])
+])
+
 # DPKG_GEN_DB_STATUS([$contents])
 m4_define([DPKG_GEN_DB_STATUS], [
-  mkdir -p "DPKG_DIR_ADMIN"
-  AT_DATA([DPKG_DIR_ADMIN/status], [$1])
+  DPKG_GEN_DB_FILE([status], [$1])
 ])
 
 # DPKG_GEN_DB_DIVERSIONS([$contents])
 m4_define([DPKG_GEN_DB_DIVERSIONS], [
-  mkdir -p "DPKG_DIR_ADMIN"
-  AT_DATA([DPKG_DIR_ADMIN/diversions], [$1])
+  DPKG_GEN_DB_FILE([diversions], [$1])
 ])
 
 # DPKG_GEN_DB_INFO_FILE([$pkg], [$file], [$contents])
