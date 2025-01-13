@@ -10,7 +10,7 @@
 ifndef dpkg_architecture_mk_included
 dpkg_architecture_mk_included = yes
 
-dpkg_lazy_eval ?= $$(or $$(value DPKG_CACHE_$(1)),$$(eval DPKG_CACHE_$(1) := $$(shell $(2)))$$(value DPKG_CACHE_$(1)))
+dpkg_lazy_eval ?= $$(if $$(filter undefined,$$(flavor DPKG_CACHE_$(1))),$$(eval DPKG_CACHE_$(1) := $$(shell $(2)))$$(value DPKG_CACHE_$(1)),$$(value DPKG_CACHE_$(1)))
 
 dpkg_architecture_setvar = export $(1) ?= $(call dpkg_lazy_eval,$(1),dpkg-architecture -q$(1))
 

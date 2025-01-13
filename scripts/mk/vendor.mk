@@ -45,7 +45,7 @@ ifndef dpkg_datadir
 endif
 include $(dpkg_datadir)/buildapi.mk
 
-dpkg_late_eval ?= $(or $(value DPKG_CACHE_$(1)),$(eval DPKG_CACHE_$(1) := $(shell $(2)))$(value DPKG_CACHE_$(1)))
+dpkg_late_eval ?= $(if $(filter undefined,$(flavor DPKG_CACHE_$(1))),$(eval DPKG_CACHE_$(1) := $(shell $(2)))$(value DPKG_CACHE_$(1)),$(value DPKG_CACHE_$(1)))
 
 DEB_VENDOR = $(call dpkg_late_eval,DEB_VENDOR,dpkg-vendor --query Vendor)
 DEB_PARENT_VENDOR = $(call dpkg_late_eval,DEB_PARENT_VENDOR,dpkg-vendor --query Parent)

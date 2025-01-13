@@ -38,7 +38,7 @@ dpkg_buildflags_mk_included = yes
 # This list is kept in sync with the default set of flags returned
 # by dpkg-buildflags.
 
-dpkg_lazy_eval ?= $$(or $$(value DPKG_CACHE_$(1)),$$(eval DPKG_CACHE_$(1) := $$(shell $(2)))$$(value DPKG_CACHE_$(1)))
+dpkg_lazy_eval ?= $$(if $$(filter undefined,$$(flavor DPKG_CACHE_$(1))),$$(eval DPKG_CACHE_$(1) := $$(shell $(2)))$$(value DPKG_CACHE_$(1)),$$(value DPKG_CACHE_$(1)))
 
 DPKG_BUILDFLAGS_LIST := $(foreach var,\
   ASFLAGS \

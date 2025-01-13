@@ -48,7 +48,7 @@
 ifndef dpkg_pkg_info_mk_included
 dpkg_pkg_info_mk_included = yes
 
-dpkg_late_eval ?= $(or $(value DPKG_CACHE_$(1)),$(eval DPKG_CACHE_$(1) := $(shell $(2)))$(value DPKG_CACHE_$(1)))
+dpkg_late_eval ?= $(if $(filter undefined,$(flavor DPKG_CACHE_$(1))),$(eval DPKG_CACHE_$(1) := $(shell $(2)))$(value DPKG_CACHE_$(1)),$(value DPKG_CACHE_$(1)))
 
 DEB_SOURCE = $(call dpkg_late_eval,DEB_SOURCE,dpkg-parsechangelog -SSource)
 DEB_VERSION = $(call dpkg_late_eval,DEB_VERSION,dpkg-parsechangelog -SVersion)
