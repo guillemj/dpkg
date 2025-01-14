@@ -51,6 +51,10 @@ use parent qw(Dpkg::OpenPGP::Backend);
 #   dependencies and commands to check?
 #   Ref: https://gitlab.com/dkg/openpgp-stateless-cli/-/issues/42
 
+sub DEFAULT_CMDV {
+    return [ qw(sqopv rsopv sopv) ];
+}
+
 sub DEFAULT_CMD {
     return [ qw(sqop rsop gosop pgpainless-cli) ];
 }
@@ -59,11 +63,18 @@ sub _sop_exec
 {
     my ($self, $io, @exec) = @_;
 
-    return OPENPGP_MISSING_CMD unless $self->{cmd};
+    my $cmd;
+    if ($io->{verify}) {
+        $cmd = $self->{cmdv} || $self->{cmd};
+    } else {
+        $cmd = $self->{cmd};
+    }
+
+    return OPENPGP_MISSING_CMD unless $cmd;
 
     $io->{out} //= '/dev/null';
     my $stderr;
-    spawn(exec => [ $self->{cmd}, @exec ],
+    spawn(exec => [ $cmd, @exec ],
           wait_child => 1, nocheck => 1, timeout => 10,
           from_file => $io->{in}, to_file => $io->{out},
           error_to_string => \$stderr);
@@ -72,7 +83,7 @@ sub _sop_exec
         print { *STDERR } "$stderr" if $status;
         return $status;
     } else {
-        subprocerr("$self->{cmd} @exec");
+        subprocerr("$cmd @exec");
     }
 }
 
@@ -88,7 +99,7 @@ sub inline_verify
 {
     my ($self, $inlinesigned, $data, @certs) = @_;
 
-    return $self->_sop_exec({ in => $inlinesigned, out => $data },
+    return $self->_sop_exec({ verify => 1, in => $inlinesigned, out => $data },
                             'inline-verify', @certs);
 }
 
@@ -96,7 +107,8 @@ sub verify
 {
     my ($self, $data, $sig, @certs) = @_;
 
-    return $self->_sop_exec({ in => $data }, 'verify', $sig, @certs);
+    return $self->_sop_exec({ verify => 1, in => $data },
+                            'verify', $sig, @certs);
 }
 
 sub inline_sign

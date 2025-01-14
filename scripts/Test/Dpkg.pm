@@ -215,23 +215,26 @@ my @openpgp_backends = (
     },
     {
         backend => 'sop',
+        cmd => 'sop',
+        cmdv => 'sopv',
+    },
+    {
+        backend => 'sop',
         cmd => 'sqop',
-        cmdv => 'none',
+        cmdv => 'sqopv',
     },
     {
         backend => 'sop',
         cmd => 'rsop',
-        cmdv => 'none',
+        cmdv => 'rsopv',
     },
     {
         backend => 'sop',
         cmd => 'gosop',
-        cmdv => 'none',
     },
     {
         backend => 'sop',
         cmd => 'pgpainless-cli',
-        cmdv => 'none',
     },
 );
 
