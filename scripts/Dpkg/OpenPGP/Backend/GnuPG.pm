@@ -202,7 +202,11 @@ sub inline_sign {
     return OPENPGP_MISSING_CMD if ! $self->has_backend_cmd();
 
     my ($signdir, $signfile);
-    ($signdir, $signfile) = _gpg_fixup_newline($data);
+    if ($self->{cmd} !~ m{/gpg-sq$}) {
+        ($signdir, $signfile) = _gpg_fixup_newline($data);
+    } else {
+        $signfile = $data;
+    }
 
     my @exec = ($self->{cmd});
     push @exec, _gpg_options_weak_digests();
