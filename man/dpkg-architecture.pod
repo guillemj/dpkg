@@ -188,12 +188,13 @@ The machine the package is built for.
 The machine the compiler is building for, or the emulator will run code for.
 This is only needed when building a cross-toolchain (or emulator), one that
 will be built on the build architecture, to be run on the host architecture,
-and to build (or run emulated) code for the target architecture.
+and that itself will build (or run emulated) code for the target architecture.
 
 =item Debian architecture
 
-The Debian architecture string, which specifies the binary tree in the
-FTP archive.
+The Debian architecture string,
+used in binary packages,
+which specifies the binary tree in a package repository.
 
 Examples: i386, sparc, hurd-i386.
 
@@ -232,7 +233,13 @@ musl-any-any.
 =item GNU system type
 
 An architecture specification string consisting of two parts separated by
-a hyphen: cpu and system.
+a hyphen: CPU and system.
+
+The CPU part never contains a hyphen,
+while the system part might itself contain a hyphen to separate a kernel
+from its general ABI,
+where the general ABI might contain both runtime (such as libc) and
+executable ABI specifiers joined without a hyphen.
 
 Examples: i586-linux-gnu, sparc-linux-gnu, i686-gnu, x86_64-netbsd.
 
