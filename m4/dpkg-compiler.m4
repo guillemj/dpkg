@@ -51,6 +51,7 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
 
   DPKG_CHECK_COMPILER_FLAG([-Walloca])
   DPKG_CHECK_COMPILER_FLAG([-Walloc-zero])
+  DPKG_CHECK_COMPILER_FLAG([-Warray-bounds=3])
   DPKG_CHECK_COMPILER_FLAG([-Warray-bounds-pointer-arithmetic])
   DPKG_CHECK_COMPILER_FLAG([-Wassign-enum])
   DPKG_CHECK_COMPILER_FLAG([-Wbitfield-enum-conversion])
