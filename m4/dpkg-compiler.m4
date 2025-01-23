@@ -42,6 +42,33 @@ AC_DEFUN([DPKG_CHECK_COMPILER_FLAG], [
   AS_VAR_POPDEF([dpkg_varname_cache])
 ])
 
+# DPKG_CHECK_COMPILER_DIALECT
+# ---------------------------
+# Add configure option to control the compiler language dialect to use.
+AC_DEFUN([DPKG_CHECK_COMPILER_DIALECT], [
+  DPKG_CHECK_COMPILER_FLAG([-fstrict-flex-arrays=3])
+])
+
+# DPKG_COMPILER_DIALECT
+# ---------------------
+# Add configure option to enable compiler language dialect support options.
+AC_DEFUN([DPKG_COMPILER_DIALECT], [
+  AC_ARG_ENABLE([compiler-dialect],
+    [AS_HELP_STRING([--disable-compiler-dialect],
+      [Disable (detected) compiler dialect support])],
+    [], [enable_compiler_dialect=yes])
+
+  AS_IF([test "$enable_compiler_dialect" = "yes"], [
+    DPKG_CHECK_COMPILER_DIALECT
+    AC_LANG_PUSH([C++])
+    DPKG_CHECK_COMPILER_DIALECT
+    AC_LANG_POP([C++])
+
+    CFLAGS="$DPKG_COMPILER_CFLAGS $CFLAGS"
+    CXXFLAGS="$DPKG_COMPILER_CXXFLAGS $CXXFLAGS"
+  ])
+])
+
 # DPKG_CHECK_COMPILER_WARNINGS
 # ----------------------------
 # Add configure option to disable additional compiler warnings.
@@ -90,6 +117,7 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
   DPKG_CHECK_COMPILER_FLAG([-Wshift-sign-overflow])
   DPKG_CHECK_COMPILER_FLAG([-Wsizeof-array-argument])
   DPKG_CHECK_COMPILER_FLAG([-Wstrict-overflow=2])
+  DPKG_CHECK_COMPILER_FLAG([-Wstrict-flex-arrays])
   DPKG_CHECK_COMPILER_FLAG([-Wswitch-bool])
   DPKG_CHECK_COMPILER_FLAG([-Wvla])
   DPKG_CHECK_COMPILER_FLAG([-Wwrite-strings])
