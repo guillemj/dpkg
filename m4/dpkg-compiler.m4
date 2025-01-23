@@ -69,6 +69,36 @@ AC_DEFUN([DPKG_COMPILER_DIALECT], [
   ])
 ])
 
+# DPKG_CHECK_COMPILER_HARDENING
+# -----------------------------
+# Add configure option to control the compiler hardening support.
+AC_DEFUN([DPKG_CHECK_COMPILER_HARDENING], [
+  DPKG_CHECK_COMPILER_FLAG([-fcf-protection=full])
+  DPKG_CHECK_COMPILER_FLAG([-fstack-clash-protection])
+  DPKG_CHECK_COMPILER_FLAG([-fstack-protector-strong])
+  DPKG_CHECK_COMPILER_FLAG([-mbranch-protection=standard])
+])
+
+# DPKG_COMPILER_HARDENING
+# -----------------------
+# Add configure option to enable compiler hardening support options.
+AC_DEFUN([DPKG_COMPILER_HARDENING], [
+  AC_ARG_ENABLE([compiler-hardening],
+    [AS_HELP_STRING([--disable-compiler-hardening],
+      [Disable (detected) compiler hardening])],
+    [], [enable_compiler_hardening=yes])
+
+  AS_IF([test "$enable_compiler_hardening" = "yes"], [
+    DPKG_CHECK_COMPILER_HARDENING
+    AC_LANG_PUSH([C++])
+    DPKG_CHECK_COMPILER_HARDENING
+    AC_LANG_POP([C++])
+
+    CFLAGS="$DPKG_COMPILER_CFLAGS $CFLAGS"
+    CXXFLAGS="$DPKG_COMPILER_CXXFLAGS $CXXFLAGS"
+  ])
+])
+
 # DPKG_CHECK_COMPILER_WARNINGS
 # ----------------------------
 # Add configure option to disable additional compiler warnings.
