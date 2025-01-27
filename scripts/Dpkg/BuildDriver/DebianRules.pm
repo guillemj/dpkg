@@ -38,7 +38,6 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Path qw(find_command);
 use Dpkg::BuildTypes;
-use Dpkg::BuildAPI qw(get_build_api);
 
 =head1 METHODS
 
