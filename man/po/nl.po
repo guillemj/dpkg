@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.22.11\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-01-03 11:46+0100\n"
+"POT-Creation-Date: 2025-02-03 12:01+0100\n"
 "PO-Revision-Date: 2024-11-07 16:50+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -1051,8 +1051,8 @@ msgstr "Het volledige changelog-bestand moet in UTF-8 opgemaakt zijn."
 #: dpkg-buildflags.pod dpkg-buildpackage.pod dpkg-buildtree.pod
 #: dpkg-distaddfile.pod dpkg-divert.pod dpkg-genbuildinfo.pod
 #: dpkg-genchanges.pod dpkg-gencontrol.pod dpkg-parsechangelog.pod
-#: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg.cfg.pod dpkg.pod
-#: dselect.cfg.pod update-alternatives.pod
+#: dpkg-source.pod dpkg-split.pod dpkg-statoverride.pod dpkg-vendor.pod
+#: dpkg.cfg.pod dpkg.pod dselect.cfg.pod update-alternatives.pod
 msgid "FILES"
 msgstr "BESTANDEN"
 
@@ -7972,12 +7972,19 @@ msgstr "doelmachine"
 
 #. type: textblock
 #: dpkg-architecture.pod
+#, fuzzy
+#| msgid ""
+#| "The machine the compiler is building for, or the emulator will run code "
+#| "for.  This is only needed when building a cross-toolchain (or emulator), "
+#| "one that will be built on the build architecture, to be run on the host "
+#| "architecture, and to build (or run emulated) code for the target "
+#| "architecture."
 msgid ""
 "The machine the compiler is building for, or the emulator will run code "
 "for.  This is only needed when building a cross-toolchain (or emulator), one "
 "that will be built on the build architecture, to be run on the host "
-"architecture, and to build (or run emulated) code for the target "
-"architecture."
+"architecture, and that itself will build (or run emulated) code for the "
+"target architecture."
 msgstr ""
 "De machine waarvoor de compiler bouwt of waar de emulator code voor zal "
 "uitvoeren. Dit is enkel nodig bij het bouwen van een kruisgereedschapsketen "
@@ -7992,13 +7999,22 @@ msgstr "Debian-architectuur"
 
 #. type: textblock
 #: dpkg-architecture.pod
+#, fuzzy
+#| msgid ""
+#| "The Debian architecture string, which specifies the binary tree in the "
+#| "FTP archive.  Examples: i386, sparc, hurd-i386."
 msgid ""
-"The Debian architecture string, which specifies the binary tree in the FTP "
-"archive.  Examples: i386, sparc, hurd-i386."
+"The Debian architecture string, used in binary packages, which specifies the "
+"binary tree in a package repository."
 msgstr ""
 "De tekenreeks waarmee de Debian-architectuur aangeduid wordt en die ook de "
 "boomstructuur met de binaire pakketten in het FTP-archief specificeert. "
 "Voorbeelden: i386, sparc, hurd-i386."
+
+#. type: textblock
+#: dpkg-architecture.pod
+msgid "Examples: i386, sparc, hurd-i386."
+msgstr ""
 
 #. type: =item
 #: dpkg-architecture.pod
@@ -8007,18 +8023,29 @@ msgstr "Debian-architectuurtupel"
 
 #. type: textblock
 #: dpkg-architecture.pod
+#, fuzzy
+#| msgid ""
+#| "A Debian architecture tuple is the fully qualified architecture with all "
+#| "its components spelled out.  This differs with Debian architectures in "
+#| "that at least the I<cpu> component does not embed the I<abi>.  The "
+#| "current tuple has the form I<abi>-I<libc>-I<os>-I<cpu>.  Examples: base-"
+#| "gnu-linux-amd64, eabihf-musl-linux-arm."
 msgid ""
 "A Debian architecture tuple is the fully qualified architecture with all its "
 "components spelled out.  This differs with Debian architectures in that at "
 "least the I<cpu> component does not embed the I<abi>.  The current tuple has "
-"the form I<abi>-I<libc>-I<os>-I<cpu>.  Examples: base-gnu-linux-amd64, "
-"eabihf-musl-linux-arm."
+"the form I<abi>-I<libc>-I<os>-I<cpu>."
 msgstr ""
 "Een Debian-architectuurtupel is de volledige unieke architectuurnaam met de "
 "expliciete  vermelding van alle componenten. Dit verschilt minstens daarin "
 "van een Debian architectuur dat de component I<cpu> niet de I<abi> "
 "impliceert. Het huidige tupel heeft als vorm I<abi>-I<libc>-I<os>-I<cpu>. "
 "Voorbeelden: base-gnu-linux-amd64, eabihf-musl-linux-arm."
+
+#. type: textblock
+#: dpkg-architecture.pod
+msgid "Examples: base-gnu-linux-amd64, eabihf-musl-linux-arm."
+msgstr ""
 
 #. type: =item
 #: dpkg-architecture.pod
@@ -8070,14 +8097,32 @@ msgstr "GNU-systeemtype"
 
 #. type: textblock
 #: dpkg-architecture.pod
+#, fuzzy
+#| msgid ""
+#| "An architecture specification string consisting of two parts separated by "
+#| "a hyphen: cpu and system.  Examples: i586-linux-gnu, sparc-linux-gnu, "
+#| "i686-gnu, x86_64-netbsd."
 msgid ""
 "An architecture specification string consisting of two parts separated by a "
-"hyphen: cpu and system.  Examples: i586-linux-gnu, sparc-linux-gnu, i686-"
-"gnu, x86_64-netbsd."
+"hyphen: CPU and system."
 msgstr ""
 "Een tekenreeks die een architectuurspecificatie inhoudt en bestaat uit twee "
 "delen met daartussen een koppelteken: cpu en systeem. Voorbeelden: i586-"
 "linux-gnu, sparc-linux-gnu, i686-gnu, x86_64-netbsd."
+
+#. type: textblock
+#: dpkg-architecture.pod
+msgid ""
+"The CPU part never contains a hyphen, while the system part might itself "
+"contain a hyphen to separate a kernel from its general ABI, where the "
+"general ABI might contain both runtime (such as libc) and executable ABI "
+"specifiers joined without a hyphen."
+msgstr ""
+
+#. type: textblock
+#: dpkg-architecture.pod
+msgid "Examples: i586-linux-gnu, sparc-linux-gnu, i686-gnu, x86_64-netbsd."
+msgstr ""
 
 #. type: =item
 #: dpkg-architecture.pod
@@ -8086,13 +8131,19 @@ msgstr "multiarch-triplet"
 
 #. type: textblock
 #: dpkg-architecture.pod
+#, fuzzy
+#| msgid ""
+#| "The clarified GNU system type, used for filesystem paths.  This triplet "
+#| "does not change even when the baseline ISA gets bumped, so that the "
+#| "resulting paths are stable over time.  The only current difference with "
+#| "the GNU system type is that the CPU part for i386 based systems is always "
+#| "i386.  Examples: i386-linux-gnu, x86_64-linux-gnu.  Example paths: /lib/"
+#| "powerpc64le-linux-gnu/, /usr/lib/i386-kfreebsd-gnu/."
 msgid ""
 "The clarified GNU system type, used for filesystem paths.  This triplet does "
 "not change even when the baseline ISA gets bumped, so that the resulting "
 "paths are stable over time.  The only current difference with the GNU system "
-"type is that the CPU part for i386 based systems is always i386.  Examples: "
-"i386-linux-gnu, x86_64-linux-gnu.  Example paths: /lib/powerpc64le-linux-"
-"gnu/, /usr/lib/i386-kfreebsd-gnu/."
+"type is that the CPU part for i386 based systems is always i386."
 msgstr ""
 "Het uitgezuiverde GNU-systeemtype dat voor bestandssysteempaden gebruikt "
 "wordt. Dit triplet verandert zelfs niet wanneer het referentie-ISA verhoogd "
@@ -8101,6 +8152,13 @@ msgstr ""
 "gebaseerde systemen het CPU-gedeelte steeds i386 is. Voorbeelden: i386-linux-"
 "gnu, x86_64-linux-gnu. Voorbeelden van paden: /lib/powerpc64le-linux-gnu/, /"
 "usr/lib/i386-kfreebsd-gnu/."
+
+#. type: textblock
+#: dpkg-architecture.pod
+msgid ""
+"Examples: i386-linux-gnu, x86_64-linux-gnu.  Example paths: /lib/powerpc64le-"
+"linux-gnu/, /usr/lib/i386-kfreebsd-gnu/."
+msgstr ""
 
 #. type: =head1
 #: dpkg-architecture.pod
@@ -8127,6 +8185,14 @@ msgstr "B<DEB_BUILD_ARCH>"
 #: dpkg-architecture.pod
 msgid "The Debian architecture of the build machine."
 msgstr "De Debian architectuur van de bouwmachine."
+
+#. type: textblock
+#: dpkg-architecture.pod
+msgid ""
+"B<Note>: If you are not building tools that need to run during the build, "
+"these are probably not the variables you are looking for.  Please see L</"
+"TERMS> section for the meanings of these terms."
+msgstr ""
 
 #. type: =item
 #: dpkg-architecture.pod
@@ -8362,6 +8428,14 @@ msgstr "B<DEB_TARGET_ARCH>"
 msgid "The Debian architecture of the target machine (since dpkg 1.17.14)."
 msgstr "De Debian architectuur van de doelmachine (sinds dpkg 1.17.14)."
 
+#. type: textblock
+#: dpkg-architecture.pod
+msgid ""
+"B<Note>: If you are not building cross-toolchains (or emulators), these are "
+"probably not the variables you are looking for.  Please see L</TERMS> "
+"section for the meanings of these terms."
+msgstr ""
+
 #. type: =item
 #: dpkg-architecture.pod
 msgid "B<DEB_TARGET_ARCH_ABI>"
@@ -8547,7 +8621,7 @@ msgstr ""
 "(sinds dpkg 1.18.11)."
 
 #. type: =head2
-#: dpkg-architecture.pod dpkg-buildapi.pod dpkg-buildflags.pod
+#: dpkg-architecture.pod dpkg-buildapi.pod dpkg-buildflags.pod dpkg-vendor.pod
 msgid "Packaging support"
 msgstr "Ondersteuning bij het maken van een pakket"
 
@@ -9144,7 +9218,9 @@ msgstr "B<%PKGDATADIR%/buildapi.mk>"
 
 #. type: textblock
 #: dpkg-buildapi.pod
-msgid "Makefile snippet that will parse the build API level."
+#, fuzzy
+#| msgid "Makefile snippet that will parse the build API level."
+msgid "Makefile snippet that parses the build API level into a variable."
 msgstr "Makefile-fragment dat het bouw-API-niveau ontleedt."
 
 #. type: textblock
@@ -11157,9 +11233,33 @@ msgstr "B<%PKGDATADIR%/buildflags.mk>"
 
 #. type: textblock
 #: dpkg-buildflags.pod
+#, fuzzy
+#| msgid ""
+#| "Makefile snippet that will load (and optionally export) all flags "
+#| "supported by B<dpkg-buildflags> into variables (since dpkg 1.16.1)."
 msgid ""
-"Makefile snippet that will load (and optionally export) all flags supported "
-"by B<dpkg-buildflags> into variables (since dpkg 1.16.1)."
+"Makefile snippet that loads (and optionally export) all flags supported by "
+"B<dpkg-buildflags> into variables (since dpkg 1.16.1)."
+msgstr ""
+"Makefile-fragment dat alle vlaggen die door B<dpkg-buildflags> ondersteund "
+"worden, laadt in variabelen (en eventueel exporteert) (sinds dpkg 1.16.1)."
+
+#. type: =item
+#: dpkg-buildflags.pod
+#, fuzzy
+#| msgid "B<%PKGDATADIR%/buildflags.mk>"
+msgid "B<%PKGDATADIR%/buildtools.mk>"
+msgstr "B<%PKGDATADIR%/buildflags.mk>"
+
+#. type: textblock
+#: dpkg-buildflags.pod
+#, fuzzy
+#| msgid ""
+#| "Makefile snippet that will load (and optionally export) all flags "
+#| "supported by B<dpkg-buildflags> into variables (since dpkg 1.16.1)."
+msgid ""
+"Makefile snippet that sets suitable host and build tools (and optionally "
+"export them) into variables (since dpkg 1.19.0)."
 msgstr ""
 "Makefile-fragment dat alle vlaggen die door B<dpkg-buildflags> ondersteund "
 "worden, laadt in variabelen (en eventueel exporteert) (sinds dpkg 1.16.1)."
@@ -23678,6 +23778,26 @@ msgstr ""
 "Neemt aan dat de huidige leverancier I<leverancier> is, in plaats van dit te "
 "gaan opzoeken via de omgevingsvariabele B<DEB_VENDOR> of via B<%PKGCONFDIR%/"
 "origins/default>."
+
+#. type: =item
+#: dpkg-vendor.pod
+#, fuzzy
+#| msgid "B<%PKGDATADIR%/buildapi.mk>"
+msgid "B<%PKGDATADIR%/vendor.mk>"
+msgstr "B<%PKGDATADIR%/buildapi.mk>"
+
+#. type: textblock
+#: dpkg-vendor.pod
+#, fuzzy
+#| msgid ""
+#| "Makefile snippet that properly sets and exports all the variables that "
+#| "B<dpkg-architecture> outputs (since dpkg 1.16.1)."
+msgid ""
+"Makefile snippet that sets the current vendor and its parent into variables, "
+"and provides make macros to check for derivatives (since dpkg 1.16.1)."
+msgstr ""
+"Makefile-fragment dat alle variabelen die B<dpkg-architecture> uitvoert, "
+"behoorlijk instelt en exporteert (sinds dpkg 1.16.1)."
 
 #. type: textblock
 #: dpkg-vendor.pod
