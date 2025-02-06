@@ -87,7 +87,9 @@ sub has_backend_cmd {
 sub has_verify_cmd {
     my $self = shift;
 
-    return defined $self->{cmd};
+    return 1 if @{$self->DEFAULT_CMDV()} && defined $self->{cmdv};
+    return 1 if defined $self->{cmd};
+    return 0;
 }
 
 sub has_keystore {

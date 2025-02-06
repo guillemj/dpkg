@@ -74,12 +74,6 @@ sub can_use_key {
     return $self->has_keystore();
 }
 
-sub has_verify_cmd {
-    my $self = shift;
-
-    return defined $self->{cmdv} || defined $self->{cmd};
-}
-
 sub get_trusted_keyrings {
     my $self = shift;
 
