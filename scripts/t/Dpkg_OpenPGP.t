@@ -29,6 +29,7 @@ my @backends = test_needs_openpgp_backend();
 unshift @backends, {
     backend => 'auto',
     cmd => 'auto',
+    cmdv => 'auto',
 };
 
 plan tests => 2 + 15 * scalar @backends;
@@ -55,12 +56,16 @@ foreach my $backend_opts (@backends) {
 
     my $backend = $backend_opts->{backend};
     my $cmd = $backend_opts->{cmd} || 'none';
+    my $cmdv = $backend_opts->{cmdv} || $cmd;
+    if ($cmd ne 'none' && $cmdv eq 'none') {
+        $cmdv = $cmd;
+    }
     my $openpgp = Dpkg::OpenPGP->new(%{$backend_opts});
 
     my $certfile = "$datadir/dpkg-test-pub.asc";
     my $keyfile  = "$datadir/dpkg-test-sec.asc";
 
-    note("openpgp backend=$backend cmd=$cmd");
+    note("openpgp backend=$backend cmd=$cmd cmdv=$cmdv");
 
     SKIP: {
         skip 'missing backend command', 9
@@ -93,14 +98,14 @@ foreach my $backend_opts (@backends) {
             unless $openpgp->{backend}->has_verify_cmd();
 
         ok($openpgp->inline_verify("$datadir/sign-file-inline.asc", undef, $certfile) == OPENPGP_OK(),
-            "($backend:$cmd) verify OpenPGP ASCII Armor inline signature");
+            "($backend:$cmdv) verify OpenPGP ASCII Armor inline signature");
         ok($openpgp->inline_verify("$datadir/sign-file-inline.sig", undef, $certfile) == OPENPGP_OK(),
-            "($backend:$cmd) verify OpenPGP binary inline signature");
+            "($backend:$cmdv) verify OpenPGP binary inline signature");
 
         ok($openpgp->verify("$datadir/sign-file", "$datadir/sign-file.asc", $certfile) == OPENPGP_OK(),
-        "($backend:$cmd) verify OpenPGP ASCII Armor detached signature");
+            "($backend:$cmdv) verify OpenPGP ASCII Armor detached signature");
         ok($openpgp->verify("$datadir/sign-file", "$datadir/sign-file.sig", $certfile) == OPENPGP_OK(),
-            "($backend:$cmd) verify OpenPGP binary detached signature");
+            "($backend:$cmdv) verify OpenPGP binary detached signature");
     };
 
     my $key = Dpkg::OpenPGP::KeyHandle->new(

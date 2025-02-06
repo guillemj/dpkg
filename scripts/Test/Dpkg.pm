@@ -201,30 +201,37 @@ my @openpgp_backends = (
     {
         backend => 'gpg',
         cmd => 'gpg-sq',
+        cmdv => 'gpgv-sq',
     },
     {
         backend => 'gpg',
         cmd => 'gpg',
+        cmdv => 'gpgv',
     },
     {
         backend => 'sq',
         cmd => 'sq',
+        cmdv => 'none',
     },
     {
         backend => 'sop',
         cmd => 'sqop',
+        cmdv => 'none',
     },
     {
         backend => 'sop',
         cmd => 'rsop',
+        cmdv => 'none',
     },
     {
         backend => 'sop',
         cmd => 'gosop',
+        cmdv => 'none',
     },
     {
         backend => 'sop',
         cmd => 'pgpainless-cli',
+        cmdv => 'none',
     },
 );
 
@@ -234,23 +241,39 @@ sub test_needs_openpgp_backend
     foreach my $backend (@openpgp_backends) {
         my $name = $backend->{backend};
         my $cmd = $backend->{cmd};
+        my $cmdv = $backend->{cmdv};
 
         my $have_cmd = $cmd eq 'none' ? 0 : can_run($cmd);
+        my $have_cmdv = $cmdv eq 'none' ? 0 : can_run($cmdv);
 
-        next unless $have_cmd;
+        next unless ($have_cmd || $have_cmdv);
 
         my $have_backend = {
             backend => $name,
         };
         $have_backend->{cmd} = $cmd if $have_cmd;
+        $have_backend->{cmdv} = $cmdv if $have_cmdv;
 
         push @have_backends, $have_backend;
+
+        if ($have_cmd && $have_cmdv) {
+            push @have_backends, {
+                backend => $name,
+                cmd => $cmd,
+                cmdv => 'none',
+            };
+            push @have_backends, {
+                backend => $name,
+                cmd => 'none',
+                cmdv => $cmdv,
+            };
+        }
     }
     if (@have_backends == 0) {
         my @cmds = grep {
-            defined
+            $_ ne 'none'
         } map {
-            $_->{cmd}
+            ( $_->{cmd}, $_->{cmdv} )
         } @openpgp_backends;
         plan skip_all => "requires >= 1 openpgp command: @cmds";
     }
