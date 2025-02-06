@@ -60,8 +60,8 @@ foreach my $cmd (@cmds) {
     my $keyfile  = "$datadir/dpkg-test-sec.asc";
 
     SKIP: {
-        skip 'missing backend command', 13
-            unless $openpgp->{backend}->has_verify_cmd();
+        skip 'missing backend command', 9
+            unless $openpgp->{backend}->has_backend_cmd();
 
         ok($openpgp->dearmor('PUBLIC KEY BLOCK', $certfile, "$tempdir/dpkg-test-pub.pgp") == OPENPGP_OK(),
             "($backend:$cmd) dearmoring OpenPGP ASCII Armored certificate");
@@ -83,6 +83,11 @@ foreach my $cmd (@cmds) {
             "($backend:$cmd) dearmoring OpenPGP armored signature succeeded");
         test_diff("$datadir/sign-file.sig", "$tempdir/sign-file.sig",
             "($backend:$cmd) dearmored OpenPGP ASCII Armor signature matches");
+    };
+
+    SKIP: {
+        skip 'missing verify command', 4
+            unless $openpgp->{backend}->has_verify_cmd();
 
         ok($openpgp->inline_verify("$datadir/sign-file-inline.asc", undef, $certfile) == OPENPGP_OK(),
             "($backend:$cmd) verify OpenPGP ASCII Armor inline signature");
