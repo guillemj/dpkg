@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use Test::Dpkg qw(:paths :needs test_get_openpgp_backend);
+use Test::Dpkg qw(:paths :needs);
 
 use File::Compare;
 
@@ -25,10 +25,13 @@ use Dpkg::ErrorHandling;
 use Dpkg::Path qw(find_command);
 use Dpkg::OpenPGP::KeyHandle;
 
-my @cmds = test_needs_openpgp_backend();
-unshift @cmds, 'auto';
+my @backends = test_needs_openpgp_backend();
+unshift @backends, {
+    backend => 'auto',
+    cmd => 'auto',
+};
 
-plan tests => 2 + 15 * scalar @cmds;
+plan tests => 2 + 15 * scalar @backends;
 
 use_ok('Dpkg::OpenPGP');
 use_ok('Dpkg::OpenPGP::ErrorCodes');
@@ -46,18 +49,18 @@ sub test_diff
     ok($res == 0, "$desc ($exp_file vs $gen_file)");
 }
 
-foreach my $cmd (@cmds) {
+foreach my $backend_opts (@backends) {
     my $datadir = test_get_data_path();
     my $tempdir = test_get_temp_path();
 
-    my $backend = test_get_openpgp_backend($cmd);
-    my $openpgp = Dpkg::OpenPGP->new(
-        backend => $backend,
-        cmd => $cmd,
-    );
+    my $backend = $backend_opts->{backend};
+    my $cmd = $backend_opts->{cmd} || 'none';
+    my $openpgp = Dpkg::OpenPGP->new(%{$backend_opts});
 
     my $certfile = "$datadir/dpkg-test-pub.asc";
     my $keyfile  = "$datadir/dpkg-test-sec.asc";
+
+    note("openpgp backend=$backend cmd=$cmd");
 
     SKIP: {
         skip 'missing backend command', 9
