@@ -59,6 +59,8 @@ sub _detect_cmd {
 
     if (! defined $cmd || $cmd eq 'auto') {
         return first { find_command($_) } @{$default};
+    } elsif ($cmd eq 'none') {
+        return;
     } else {
         return find_command($cmd);
     }
