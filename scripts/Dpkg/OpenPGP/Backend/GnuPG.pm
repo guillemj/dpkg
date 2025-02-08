@@ -58,12 +58,6 @@ sub DEFAULT_CMD {
     return [ qw(gpg-sq gpg) ];
 }
 
-sub has_backend_cmd {
-    my $self = shift;
-
-    return defined $self->{cmd} && defined $self->{cmdstore};
-}
-
 sub has_keystore {
     my $self = shift;
 
