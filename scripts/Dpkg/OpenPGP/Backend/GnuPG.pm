@@ -175,22 +175,34 @@ sub verify {
     return $self->_gpg_verify($data, $sig, undef, @certs);
 }
 
+sub _gpg_fixup_newline {
+    my $origfile = shift;
+
+    my $signdir = File::Temp->newdir('dpkg-sign.XXXXXXXX', TMPDIR => 1);
+    my $signfile = $signdir . q(/) . basename($origfile);
+
+    copy($origfile, $signfile);
+
+    # Make sure the file to sign ends with a newline, as GnuPG does not adhere
+    # to the OpenPGP specification (see <https://dev.gnupg.org/T7106>).
+    open my $signfh, '>>', $signfile
+        or syserr(g_('cannot open %s'), $signfile);
+    print { $signfh } "\n";
+    close $signfh
+        or syserr(g_('cannot close %s'), $signfile);
+
+    # Return the dir object so that it is kept in scope in the caller, and
+    # thus not cleaned up within this function.
+    return ($signdir, $signfile);
+}
+
 sub inline_sign {
     my ($self, $data, $inlinesigned, $key) = @_;
 
     return OPENPGP_MISSING_CMD if ! $self->has_backend_cmd();
 
-    my $file = basename($data);
-    my $signdir = File::Temp->newdir('dpkg-sign.XXXXXXXX', TMPDIR => 1);
-    my $signfile = "$signdir/$file";
-
-    # Make sure the file to sign ends with a newline, as GnuPG does not adhere
-    # to the OpenPGP specification (see <https://dev.gnupg.org/T7106>).
-    copy($data, $signfile);
-    open my $signfh, '>>', $signfile
-        or syserr(g_('cannot open %s'), $signfile);
-    print { $signfh } "\n";
-    close $signfh or syserr(g_('cannot close %s'), $signfile);
+    my ($signdir, $signfile);
+    ($signdir, $signfile) = _gpg_fixup_newline($data);
 
     my @exec = ($self->{cmd});
     push @exec, _gpg_options_weak_digests();
