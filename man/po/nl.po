@@ -2,14 +2,14 @@
 # Copyright © 1994-2016 Dpkg Developers
 # This file is distributed under the same license as the dpkg package.
 #
-# Frans Spiesschaert <Frans.Spiesschaert@yucom.be>, 2016-2024.
+# Frans Spiesschaert <Frans.Spiesschaert@yucom.be>, 2016-2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.22.11\n"
+"Project-Id-Version: dpkg-man 1.22.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-02-03 12:01+0100\n"
-"PO-Revision-Date: 2024-11-07 16:50+0100\n"
+"POT-Creation-Date: 2025-02-10 03:31+0100\n"
+"PO-Revision-Date: 2025-01-21 23:56+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
 "Language: nl\n"
@@ -1457,16 +1457,13 @@ msgstr ""
 
 #. type: textblock
 #: deb-changes.pod
-#, fuzzy
-#| msgid ""
-#| "The I<section> and I<priority> match the binary package fields of the "
-#| "same name."
 msgid ""
 "If the section or priority are omitted from the package, these default to "
 "B<unknown> and B<optional> respectively (since dpkg 1.22.13)."
 msgstr ""
-"De elementen I<sectie> (section) en I<prioriteit> (priority) komen overeen "
-"met de velden met dezelfde naam van het binaire pakket."
+"Als de sectie of prioriteit worden weggelaten uit het pakket, worden deze "
+"standaard ingesteld op respectievelijk B<unknown> en B<optional> (sinds dpkg "
+"1.22.13)."
 
 #. type: textblock
 #: deb-changes.pod
@@ -1774,14 +1771,9 @@ msgstr ""
 
 #. type: textblock
 #: deb-control.pod deb-src-control.pod
-#, fuzzy
-#| msgid ""
-#| "The B<Section> and B<Priority> fields usually have a defined set of "
-#| "accepted values based on the specific distribution policy."
 msgid "The accepted values are based on the specific distribution policy."
 msgstr ""
-"De velden B<Section> en B<Priority> hebben gewoonlijk een welbepaalde set "
-"mogelijke waarden, afhankelijk van de richtlijnen van de distributie."
+"De geaccepteerde waarden zijn gebaseerd op het specifieke distributiebeleid."
 
 #. type: =item
 #: deb-control.pod deb-src-control.pod
@@ -1790,30 +1782,22 @@ msgstr "B<Priority:> I<prioriteit>"
 
 #. type: textblock
 #: deb-control.pod deb-src-control.pod
-#, fuzzy
-#| msgid ""
-#| "Sets the importance of this package in relation to the system as a "
-#| "whole.  Common priorities are B<required>, B<standard>, B<optional>, "
-#| "B<extra>, etc."
 msgid ""
 "Sets the importance of this package in relation to the system as a whole.  "
 "The known priorities are B<required>, B<important>, B<standard>, "
 "B<optional>, B<extra>, and B<unknown>, but other values can be used as well."
 msgstr ""
-"Duidt het belang van dit pakket aan in verhouding tot het gehele systeem. "
-"Gebruikelijke prioriteiten zijn B<required>, B<standard>, B<optional>, "
-"B<extra>, enz."
+"Duidt het belang van dit pakket aan in verhouding tot het gehele systeem. De "
+"bekende prioriteiten zijn B<required>, B<important>, B<standard>, "
+"B<optional>, B<extra> en B<unknown>, maar ook andere waarden kunnen gebruikt "
+"worden."
 
 #. type: textblock
 #: deb-control.pod deb-src-control.pod
-#, fuzzy
-#| msgid ""
-#| "The B<Section> and B<Priority> fields usually have a defined set of "
-#| "accepted values based on the specific distribution policy."
 msgid "How to apply these values depends on the specific distribution policy."
 msgstr ""
-"De velden B<Section> en B<Priority> hebben gewoonlijk een welbepaalde set "
-"mogelijke waarden, afhankelijk van de richtlijnen van de distributie."
+"Hoe deze waarden worden toegepast, hangt af van het specifieke "
+"distributiebeleid."
 
 #. type: =item
 #: deb-control.pod
@@ -2826,6 +2810,11 @@ msgid ""
 "package builds targeting a specific vendor, and to describe the provenance "
 "of packages."
 msgstr ""
+"De bestanden in B<%PKGCONFDIR%/origins> kunnen informatie verschaffen over "
+"verschillende leveranciers die Debian-pakketten leveren. Deze bestanden "
+"worden doorgaans gebruikt om het gedrag van hulpmiddelen en de resulterende "
+"inhoud te bepalen tijdens het bouwen van pakketten gericht op een specifieke "
+"leverancier, en om de herkomst van pakketten te beschrijven."
 
 #. type: textblock
 #: deb-origin.pod dpkg-vendor.pod
@@ -2834,6 +2823,10 @@ msgid ""
 "field, otherwise the vendor for a package without such field is assumed to "
 "be the one pointed to by the F<default> origin symbolic link."
 msgstr ""
+"In pakketten kan de leverancier ervan expliciet aangeven worden door een "
+"veld B<Origin> op te nemen. Anders wordt aangenomen dat de leverancier van "
+"een pakket zonder een dergelijk veld de leverancier is waarnaar wordt "
+"verwezen door de F<default> symbolische koppeling origin."
 
 #. type: textblock
 #: deb-origin.pod
@@ -3686,22 +3679,6 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
-#, fuzzy
-#| msgid ""
-#| "This file contains at least 2 stanzas, separated by a blank line.  The "
-#| "first stanza is called the source package stanza and lists all "
-#| "information about the source package in general, while each following "
-#| "stanzas are called the binary package stanzas and describe exactly one "
-#| "binary package per stanza.  Each stanza consists of at least one field.  "
-#| "A field starts with a field name, such as B<Package> or B<Section> (case "
-#| "insensitive), followed by a colon, the body of the field (case sensitive "
-#| "unless stated otherwise) and a newline.  Multi-line fields are also "
-#| "allowed, but each supplementary line, without a field name, should start "
-#| "with at least one space.  The content of the multi-line fields is "
-#| "generally joined to a single line by the tools (except in the case of the "
-#| "B<Description> field, see below).  To insert empty lines into a multi-"
-#| "line field, insert a dot after the space.  Lines starting with a ‘B<#>’ "
-#| "are treated as comments."
 msgid ""
 "This file contains at least 2 stanzas, separated by a blank line.  The first "
 "stanza is called the source package stanza and lists all information about "
@@ -3745,14 +3722,6 @@ msgstr "B<Source:> I<broncodepakket-naam> (verplicht)"
 
 #. type: textblock
 #: deb-src-control.pod
-#, fuzzy
-#| msgid ""
-#| "The value of this field is the name of the source package, and should "
-#| "match the name of the source package in the debian/changelog file.  A "
-#| "package name must consist only of lowercase letters (a-z), digits (0-9), "
-#| "plus (+) and minus (-) signs, and periods (.).  Package names must be at "
-#| "least two characters long and must start with a lowercase alphanumeric "
-#| "character (a-z0-9)."
 msgid ""
 "The value of this field is the name of the source package, and must match "
 "the name of the source package in the debian/changelog file.  A package name "
@@ -3885,16 +3854,12 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-control.pod
-#, fuzzy
-#| msgid ""
-#| "The binary targets will not require (fake)root at all.  This is the "
-#| "default in B<dpkg-build-api> level >= 1."
 msgid ""
 "The binary targets will not require (fake)root at all.  This is the default "
 "in B<dpkg-build-api> level >= 1, or since dpkg 1.22.13."
 msgstr ""
 "De binaire targets zullen (fake)root helemaal niet nodig hebben. Dit is de "
-"standaard in B<dpkg-build-api> level >= 1."
+"standaard in B<dpkg-build-api> level >= 1, of sinds dpkg 1.22.13."
 
 #. type: =item
 #: deb-src-control.pod
@@ -3903,12 +3868,6 @@ msgstr "B<binary-targets>"
 
 #. type: textblock
 #: deb-src-control.pod
-#, fuzzy
-#| msgid ""
-#| "The binary targets must always be run under (fake)root.  This value is "
-#| "the default in B<dpkg-build-api> level 0, when the field is omitted; "
-#| "adding the field with an explicit B<binary-targets>, while not strictly "
-#| "needed, marks it as having been analyzed for this requirement."
 msgid ""
 "The binary targets must always be run under (fake)root.  This value is the "
 "default in B<dpkg-build-api> level 0 until dpkg 1.22.13, when the field is "
@@ -3916,10 +3875,10 @@ msgid ""
 "strictly needed, marks it as having been analyzed for this requirement."
 msgstr ""
 "De binaire targets moeten altijd onder (fake)root uitgevoerd worden. Dit is "
-"de standaardwaarde in B<dpkg-build-api> level 0 als dit veld ontbreekt. Als "
-"dit veld toegevoegd wordt met een expliciete B<binary-targets>, terwijl dit "
-"strikt genomen niet nodig is, geeft dit aan dat de noodzaak ervan onderzocht "
-"werd."
+"tot dpkg 1.22.13 de standaardwaarde in B<dpkg-build-api> level 0, wanneer "
+"dit veld ontbreekt. Als dit veld toegevoegd wordt met een expliciete "
+"B<binary-targets>, terwijl dit strikt genomen niet nodig is, geeft dit aan "
+"dat de noodzaak ervan onderzocht werd."
 
 #. type: =item
 #: deb-src-control.pod
@@ -4076,12 +4035,16 @@ msgstr ""
 msgid ""
 "When omitted, the I<section> defaults to B<unknown> (since dpkg 1.22.13)."
 msgstr ""
+"Als de I<sectie> wordt weggelaten krijgt die de standaardwaarde B<unknown> "
+"(sinds dpkg 1.22.13)."
 
 #. type: textblock
 #: deb-src-control.pod
 msgid ""
 "When omitted, the I<priority> defaults to B<optional> (since dpkg 1.22.13)."
 msgstr ""
+"Als de I<prioriteit> wordt weggelaten krijgt die de standaardwaarde "
+"B<optional> (sinds dpkg 1.22.13)."
 
 #. type: =item
 #: deb-src-control.pod dsc.pod
@@ -4542,22 +4505,7 @@ msgstr ""
 
 #. type: verbatim
 #: deb-src-control.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| " # Comment\n"
-#| " Source: dpkg\n"
-#| " Section: admin\n"
-#| " Priority: required\n"
-#| " Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>\n"
-#| " # this field is copied to the binary and source packages\n"
-#| " XBS-Upstream-Release-Status: stable\n"
-#| " Homepage: https://wiki.debian.org/Teams/Dpkg\n"
-#| " Vcs-Browser: https://git.dpkg.org/cgit/dpkg/dpkg.git\n"
-#| " Vcs-Git: https://git.dpkg.org/git/dpkg/dpkg.git\n"
-#| " Standards-Version: 3.7.3\n"
-#| " Build-Depends: pkgconf, debhelper (>= 4.1.81),\n"
-#| "  libselinux1-dev (>= 1.28-4) [!linux-any]\n"
-#| "\n"
+#, no-wrap
 msgid ""
 " # Comment\n"
 " Source: dpkg\n"
@@ -4582,39 +4530,22 @@ msgstr ""
 " Section: admin\n"
 " Priority: required\n"
 " Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>\n"
-" # dit veld wordt gekopieerd naar het binaire en het broncodepakket\n"
+" # Dit veld wordt gekopieerd naar het binaire en het broncodepakket\n"
 " XBS-Upstream-Release-Status: stable\n"
 " Homepage: https://wiki.debian.org/Teams/Dpkg\n"
 " Vcs-Browser: https://git.dpkg.org/cgit/dpkg/dpkg.git\n"
 " Vcs-Git: https://git.dpkg.org/git/dpkg/dpkg.git\n"
-" Standards-Version: 3.7.3\n"
-" Build-Depends: pkgconf, debhelper (>= 4.1.81),\n"
-"  libselinux1-dev (>= 1.28-4) [!linux-any]\n"
+" Standards-Version: 4.7.0\n"
+" Build-Depends:\n"
+"  debhelper-compat (= 13),\n"
+"  debhelper (>= 13.10~),\n"
+"  pkgconf,\n"
+"  libselinux1-dev (>= 1.28-4) [!linux-any],\n"
 "\n"
 
 #. type: verbatim
 #: deb-src-control.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| " Package: dpkg-dev\n"
-#| " Section: utils\n"
-#| " Priority: optional\n"
-#| " Architecture: all\n"
-#| " # this is a custom field in the binary package\n"
-#| " XB-Mentoring-Contact: Raphael Hertzog <hertzog@debian.org>\n"
-#| " Depends: dpkg (>= 1.14.6), perl5, perl-modules, cpio (>= 2.4.2-2),\n"
-#| "  bzip2, lzma, patch (>= 2.2-1), make, binutils, libtimedate-perl\n"
-#| " Recommends: gcc | c-compiler, build-essential\n"
-#| " Suggests: gnupg, debian-keyring\n"
-#| " Conflicts: dpkg-cross (<< 2.0.0), devscripts (<< 2.10.26)\n"
-#| " Replaces: manpages-pl (<= 20051117-1)\n"
-#| " Description: Debian package development tools\n"
-#| "  This package provides the development tools (including dpkg-source)\n"
-#| "  required to unpack, build and upload Debian source packages.\n"
-#| "  .\n"
-#| "  Most Debian source packages will require additional tools to build;\n"
-#| "  for example, most packages need make and the C compiler gcc.\n"
-#| "\n"
+#, no-wrap
 msgid ""
 " Package: dpkg-dev\n"
 " Section: utils\n"
@@ -4657,14 +4588,31 @@ msgstr ""
 " Section: utils\n"
 " Priority: optional\n"
 " Architecture: all\n"
-" # dit is een aangepast veld in het binaire pakket\n"
+" # Dit is een aangepast veld in het binaire pakket\n"
 " XB-Mentoring-Contact: Raphael Hertzog <hertzog@debian.org>\n"
-" Depends: dpkg (>= 1.14.6), perl5, perl-modules, cpio (>= 2.4.2-2),\n"
-"  bzip2, lzma, patch (>= 2.2-1), make, binutils, libtimedate-perl\n"
-" Recommends: gcc | c-compiler, build-essential\n"
-" Suggests: gnupg, debian-keyring\n"
-" Conflicts: dpkg-cross (<< 2.0.0), devscripts (<< 2.10.26)\n"
-" Replaces: manpages-pl (<= 20051117-1)\n"
+" Depends:\n"
+"  binutils,\n"
+"  bzip2,\n"
+"  cpio (>= 2.4.2-2),\n"
+" # Dit is commentaar middenin een veldwaarde.\n"
+"  dpkg (>= 1.14.6),\n"
+"  libtimedate-perl,\n"
+"  lzma,\n"
+"  make,\n"
+"  patch (>= 2.2-1),\n"
+"  perl-modules,\n"
+"  perl5,\n"
+" Recommends:\n"
+"  gcc | c-compiler,\n"
+"  build-essential,\n"
+" Suggests:\n"
+"  gnupg,\n"
+"  debian-keyring,\n"
+" Conflicts:\n"
+"  dpkg-cross (<< 2.0.0),\n"
+"  devscripts (<< 2.10.26),\n"
+" Replaces:\n"
+"  manpages-pl (<= 20051117-1),\n"
 " Description: Debian package development tools\n"
 "  This package provides the development tools (including dpkg-source)\n"
 "  required to unpack, build and upload Debian source packages.\n"
@@ -5220,13 +5168,6 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-symbols.pod
-#, fuzzy
-#| msgid ""
-#| "The format of I<architecture-list> is the same as the one used in the "
-#| "B<Build-Depends> field of I<debian/control> (except the enclosing square "
-#| "brackets []).  For example, the first symbol from the list below will be "
-#| "considered only on alpha, any-amd64 and ia64 architectures, the second "
-#| "only on linux architectures, while the third one anywhere except on armel."
 msgid ""
 "The format of I<architecture-list> is the same as the one used in the "
 "B<Build-Depends> field of I<debian/control> (except the enclosing square "
@@ -5238,24 +5179,19 @@ msgstr ""
 "wordt voor het veld B<Build-Depends> van I<debian/control> (behalve de "
 "omsluitende vierkante haakjes []). Met het eerste symbool uit de "
 "onderstaande lijst zal bijvoorbeeld enkel rekening gehouden worden bij de "
-"architecturen alpha, any-amd64 en ia64, met het tweede enkel op linux-"
+"architecturen arm64, any-amd64 en riscv64, met het tweede enkel op linux-"
 "architecturen en met het derde overal behalve op armel."
 
 #. type: verbatim
 #: deb-src-symbols.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| "  (arch=alpha any-amd64 ia64)64bit_specific_symbol@Base 1.0\n"
-#| "  (arch=linux-any)linux_specific_symbol@Base 1.0\n"
-#| "  (arch=!armel)symbol_armel_does_not_have@Base 1.0\n"
-#| "\n"
+#, no-wrap
 msgid ""
 "  (arch=arm64 any-amd64 riscv64)arch_specific_symbol@Base 1.0\n"
 "  (arch=linux-any)linux_specific_symbol@Base 1.0\n"
 "  (arch=!armel)symbol_armel_does_not_have@Base 1.0\n"
 "\n"
 msgstr ""
-"  (arch=alpha any-amd64 ia64)64bits_specifiek_symbool@Base 1.0\n"
+"  (arch=arm64 any-amd64 riscv64)arch_specifiek_symbool@Base 1.0\n"
 "  (arch=linux-any)linux_specifiek_symbool@Base 1.0\n"
 "  (arch=!armel)symbool_dat_armel_niet_heeft@Base 1.0\n"
 "\n"
@@ -5810,13 +5746,7 @@ msgstr ""
 
 #. type: verbatim
 #: deb-src-symbols.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| "  common_symbol1@Base 1.0\n"
-#| " (arch=amd64 ia64 alpha)#include \"package.symbols.64-bit\"\n"
-#| " (arch=!amd64 !ia64 !alpha)#include \"package.symbols.32-bit\"\n"
-#| "  common_symbol2@Base 1.0\n"
-#| "\n"
+#, no-wrap
 msgid ""
 "  common_symbol1@Base 1.0\n"
 " (arch-bits=64)#include \"package.symbols.64-bit\"\n"
@@ -5825,8 +5755,8 @@ msgid ""
 "\n"
 msgstr ""
 "  gemeenschappelijk_symbool1@Base 1.0\n"
-" (arch=amd64 ia64 alpha)#include \"package.symbols.64-bit\"\n"
-" (arch=!amd64 !ia64 !alpha)#include \"package.symbols.32-bit\"\n"
+" (arch-bits=64)#invoegen van \"pakket.symbolen.64-bit\"\n"
+" (arch-bits=32)#invoegen van \"pakket.symbolen.32-bit\"\n"
 "  gemeenschappelijk_symbool2@Base 1.0\n"
 "\n"
 
@@ -8679,28 +8609,22 @@ msgstr ""
 
 #. type: verbatim
 #: dpkg-architecture.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| " dpkg-architecture -elinux-alpha\n"
-#| "\n"
+#, no-wrap
 msgid ""
 " dpkg-architecture -elinux-arm64\n"
 "\n"
 msgstr ""
-" dpkg-architecture -elinux-alpha\n"
+" dpkg-architecture -elinux-arm64\n"
 "\n"
 
 #. type: verbatim
 #: dpkg-architecture.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| " dpkg-architecture -amips -elinux-mips\n"
-#| "\n"
+#, no-wrap
 msgid ""
 " dpkg-architecture -ariscv64 -elinux-riscv64\n"
 "\n"
 msgstr ""
-" dpkg-architecture -amips -elinux-mips\n"
+" dpkg-architecture -ariscv64 -elinux-riscv64\n"
 "\n"
 
 #. type: textblock
@@ -8721,15 +8645,12 @@ msgstr ""
 
 #. type: verbatim
 #: dpkg-architecture.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| " dpkg-architecture -ai386 -ilinux-any\n"
-#| "\n"
+#, no-wrap
 msgid ""
 " dpkg-architecture -aamd64 -ilinux-any\n"
 "\n"
 msgstr ""
-" dpkg-architecture -ai386 -ilinux-any\n"
+" dpkg-architecture -aamd64 -ilinux-any\n"
 "\n"
 
 #. type: =head2
@@ -8807,19 +8728,14 @@ msgstr ""
 
 #. type: verbatim
 #: dpkg-architecture.pod
-#, fuzzy, no-wrap
-#| msgid ""
-#| " ifeq ($(DEB_HOST_ARCH),alpha)\n"
-#| "   [...]\n"
-#| " endif\n"
-#| "\n"
+#, no-wrap
 msgid ""
 " ifeq ($(DEB_HOST_ARCH),arm64)\n"
 "   [...]\n"
 " endif\n"
 "\n"
 msgstr ""
-" ifeq ($(DEB_HOST_ARCH),alpha)\n"
+" ifeq ($(DEB_HOST_ARCH),arm64)\n"
 "   [...]\n"
 " endif\n"
 "\n"
@@ -9056,19 +8972,14 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-build-api.pod
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-buildpackage> defaults to B<Rules-Requires-Root> value B<no>.  To "
-#| "restore the B<v0> behavior B<Rules-Requires-Root> should be set to "
-#| "B<binary-targets>."
 msgid ""
 "B<dpkg-buildpackage> defaults to B<Rules-Requires-Root> value B<no>.  To "
 "restore the B<v0> behavior (from before dpkg 1.22.13)  B<Rules-Requires-"
 "Root> should be set to B<binary-targets>."
 msgstr ""
 "B<dpkg-buildpackage> stelt standaard B<Rules-Requires-Root> in op waarde "
-"B<no>. Om het gedrag uit B<v0> te herstellen moet B<Rules-Requires-Root> "
-"worden ingesteld op B<binary-targets>."
+"B<no>. Om het gedrag uit B<v0> (van vóór dpkg 1.22.13) te herstellen moet "
+"B<Rules-Requires-Root> worden ingesteld op B<binary-targets>."
 
 #. type: textblock
 #: dpkg-build-api.pod
@@ -12280,16 +12191,12 @@ msgstr "B<--rules-requires-root>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "Do not honor the B<Rules-Requires-Root> field, falling back to its legacy "
-#| "default value (since dpkg 1.19.1)."
 msgid ""
 "Do not honor the B<Rules-Requires-Root> field, falling back to its legacy "
 "default value B<binary-targets> (since dpkg 1.19.1)."
 msgstr ""
 "Het veld B<Rules-Requires-Root> niet honoreren; er wordt teruggevallen op "
-"zijn verouderde standaardwaarde (since dpkg 1.19.1)."
+"zijn verouderde standaardwaarde B<binary-targets> (since dpkg 1.19.1)."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -13073,18 +12980,13 @@ msgstr "B<DEB_SIGN_KEYID>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
-#| msgid ""
-#| "If set, it will be used to sign the B<.changes>, B<.buildinfo> and "
-#| "B<.dsc> files (since dpkg 1.17.2).  Overridden by the B<--sign-key> "
-#| "option."
 msgid ""
 "If set, it will be used to sign the B<.changes>, B<.buildinfo> and B<.dsc> "
 "files (since dpkg 1.17.2).  Overridden by the B<--sign-keyid> option."
 msgstr ""
 "Indien dit ingesteld werd, zal het gebruikt worden om de bestanden "
 "B<.changes>, B<.buildinfo> en B<.dsc> te ondertekenen (sinds dpkg 1.17.2). "
-"De optie B<--sign-key> heeft hierop voorrang."
+"De optie B<--sign-keyid> heeft hierop voorrang."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -13511,10 +13413,8 @@ msgstr ""
 
 #. type: =item
 #: dpkg-buildtree.pod
-#, fuzzy
-#| msgid "B<script-chrootless>:"
 msgid "B<is-rootless>"
-msgstr "B<script-chrootless>:"
+msgstr "B<is-rootless>"
 
 #. type: textblock
 #: dpkg-buildtree.pod
@@ -13522,6 +13422,8 @@ msgid ""
 "Checks whether the build tree can be built with no root privileges (since "
 "dpkg 1.22.12)."
 msgstr ""
+"Controleert of de bouwboom kan worden gebouwd zonder root-rechten (sinds "
+"dpkg 1.22.12)."
 
 #. type: textblock
 #: dpkg-buildtree.pod
@@ -13530,6 +13432,9 @@ msgid ""
 "yet available as the default will then be the historic one where root was "
 "required."
 msgstr ""
+"Dit commando kan veilig worden gebruikt, zelfs met versies waarvoor het "
+"commando nog niet beschikbaar was, omdat de standaard dan het historische "
+"commando zal zijn waarvoor root vereist was."
 
 #. type: =head2
 #: dpkg-buildtree.pod
@@ -13832,13 +13737,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid ""
-#| "Unless you specify B<--nocheck>, B<dpkg-deb> will read B<DEBIAN/control> "
-#| "and parse it.  It will check the file for syntax errors and other "
-#| "problems, and display the name of the binary package being built.  B<dpkg-"
-#| "deb> will also check the permissions of the maintainer scripts and other "
-#| "files found in the B<DEBIAN> control information directory."
 msgid ""
 "Unless you specify B<--no-check>, B<dpkg-deb> will read B<DEBIAN/control> "
 "and parse it.  It will check the file for syntax errors and other problems, "
@@ -13846,7 +13744,7 @@ msgid ""
 "also check the permissions of the maintainer scripts and other files found "
 "in the B<DEBIAN> control information directory."
 msgstr ""
-"Tenzij u B<--nocheck> opgeeft, zal B<dpkg-deb> B<DEBIAN/control> lezen en "
+"Tenzij u B<--no-check> opgeeft, zal B<dpkg-deb> B<DEBIAN/control> lezen en "
 "het ontleden. Het zal het bestand controleren op syntaxisfouten en op andere "
 "problemen en de naam tonen van het binaire pakket dat gebouwd wordt. B<dpkg-"
 "deb> zal ook de toegangsrechten van de scripts van de beheerder nazien en "
@@ -13870,13 +13768,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid ""
-#| "If the second argument is a directory then B<dpkg-deb> will write to the "
-#| "file I<directory>B</>I<package>B<_>I<version>B<_>I<arch>B<.deb.> When a "
-#| "target directory is specified, rather than a file, the B<--nocheck> "
-#| "option may not be used (since B<dpkg-deb> needs to read and parse the "
-#| "package control file to determine which filename to use)."
 msgid ""
 "If the second argument is a directory then B<dpkg-deb> will write to the "
 "file I<directory>B</>I<package>B<_>I<version>B<_>I<arch>B<.deb.> When a "
@@ -13886,7 +13777,7 @@ msgid ""
 msgstr ""
 "Indien het tweede argument een map is, zal B<dpkg-deb> schrijven in het "
 "bestand I<map>B</>I<pakket>B<_>I<versie>B<_>I<arch>B<.deb>. Indien een "
-"doelmap opgegeven werd, eerder dan een bestand, kan de optie B<--nocheck> "
+"doelmap opgegeven werd, eerder dan een bestand, kan de optie B<--no-check> "
 "niet gebruikt worden (aangezien B<dpkg-deb> het control-bestand van het "
 "pakket moet lezen en ontleden om te kunnen uitmaken welke bestandsnaam "
 "gebruikt moet worden)."
@@ -14345,10 +14236,8 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid "Option supported since dpkg 1.22.7."
 msgid "Option supported since dpkg 1.22.12."
-msgstr "Optie ondersteund sinds dpkg 1.22.7."
+msgstr "Optie ondersteund sinds dpkg 1.22.12."
 
 #. type: =item
 #: dpkg-deb.pod
@@ -14357,10 +14246,8 @@ msgstr "B<--nocheck>"
 
 #. type: textblock
 #: dpkg-deb.pod
-#, fuzzy
-#| msgid "This is a legacy alias for B<cmdline>."
 msgid "This is an alias for B<--no-check>."
-msgstr "Dit is een verouderde alias voor B<cmdline>."
+msgstr "Dit is een alias voor B<--no-check>."
 
 #. type: =item
 #: dpkg-deb.pod start-stop-daemon.pod
@@ -19151,12 +19038,6 @@ msgstr "B<DPKG_PAGER>"
 
 #. type: textblock
 #: dpkg-query.pod
-#, fuzzy
-#| msgid ""
-#| "Sets the pager command to use (since dpkg 1.19.1), which will be executed "
-#| "with «B<$SHELL -c>».  If B<SHELL> is not set, «B<%DPKG_DEFAULT_SHELL%>» "
-#| "will be used instead.  The B<DPKG_PAGER> overrides the B<PAGER> "
-#| "environment variable (since dpkg 1.19.2)."
 msgid ""
 "Sets the pager command to use (since dpkg 1.19.1), which will be executed "
 "with «B<$SHELL -c>».  If B<SHELL> is not set, «B<%DPKG_DEFAULT_SHELL%>» will "
@@ -19164,8 +19045,7 @@ msgid ""
 msgstr ""
 "Stelt het te gebruiken pagineringscommando in (sinds dpkg 1.19.1), hetwelk "
 "uitgevoerd zal worden met «B<$SHELL -c>». Indien B<SHELL> niet ingesteld is, "
-"zal «B<%DPKG_DEFAULT_SHELL%>» gebruikt worden. B<DPKG_PAGER> overschrijft de "
-"omgevingsvariabele B<PAGER> (sinds dpkg 1.19.2)."
+"zal «B<%DPKG_DEFAULT_SHELL%>» gebruikt worden."
 
 #. type: textblock
 #: dpkg-query.pod dpkg.pod
@@ -19176,6 +19056,11 @@ msgid ""
 "the default pager B<%DPKG_DEFAULT_PAGER%>, then B<less>, B<more>, and "
 "finally B<cat>."
 msgstr ""
+"De B<DPKG_PAGER> overschrijft de omgevingsvariabele B<PAGER> (sinds dpkg "
+"1.19.2). Als geen van de programma's waarnaar wordt verwezen door "
+"B<DPKG_PAGER> of B<PAGER> aanwezig is, worden de volgende programma's in "
+"volgorde geprobeerd (sinds dpkg 1.22.12): het standaardpagineringsprogramma "
+"B<%DPKG_DEFAULT_PAGER%>, vervolgens B<less>, B<more> en ten slotte B<cat>."
 
 #. type: textblock
 #: dpkg-query.pod dpkg-trigger.pod
@@ -20228,10 +20113,8 @@ msgstr ""
 
 #. type: =item
 #: dpkg-shlibdeps.pod
-#, fuzzy
-#| msgid "B<--warnings=>I<value>"
 msgid "B<--warnings=>[I<value>|I<string>[,...]]"
-msgstr "B<--warnings=>I<waarde>"
+msgstr "B<--warnings=>[I<waarde>|I<tekenreeks>[,...]]"
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
@@ -20239,6 +20122,8 @@ msgid ""
 "Select the set of warnings that can be emitted by B<dpkg-shlibdeps> (since "
 "dpkg 1.14.17)."
 msgstr ""
+"De set waarschuwingen selecteren die door B<dpkg-shlibdeps> kunnen worden "
+"uitgezonden (sinds dpkg 1.14.17)."
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
@@ -20247,48 +20132,51 @@ msgid ""
 "(since dpkg 1.22.12), or from a I<value> denoting a bit field for these "
 "warnings."
 msgstr ""
+"De waarschuwingen kunnen worden geselecteerd uit een door komma's gescheiden "
+"lijst met symbolische namen (sinds dpkg 1.22.12) of uit een I<waarde> die "
+"een bitveld voor deze waarschuwingen aangeeft."
 
 #. type: =item
 #: dpkg-shlibdeps.pod
 msgid "symbol-not-found (bit 0, value 1)"
-msgstr ""
+msgstr "symbol-not-found (bit 0, waarde 1)"
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
-#, fuzzy
-#| msgid ""
-#| "B<symbol> I<sym> B<used by> I<binary> B<found in none of the libraries.>"
 msgid ""
 "Selects the warning “symbol I<sym> used by I<binary> found in none of the "
 "libraries”."
 msgstr ""
-"B<symbool> I<sym> B<gebruikt door> I<binair-bestand> B<in geen enkele "
-"bibliotheek gevonden.>"
+"Selecteert de waarschuwing “symbool I<sym>, gebruikt door I<binair-bestand>, "
+"niet gevonden in een van de bibliotheken”."
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
 msgid "Enabled by default."
-msgstr ""
+msgstr "Standaard ingeschakeld."
 
 #. type: =item
 #: dpkg-shlibdeps.pod
 msgid "avoidable-dependency (bit 1, value 2)"
-msgstr ""
+msgstr "avoidable-dependency (bit 1, waarde 2)"
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
 msgid "Selects the warning “package could avoid a useless dependency”."
 msgstr ""
+"Selecteert de waarschuwing “pakket kan een nutteloze vereiste vermijden”."
 
 #. type: =item
 #: dpkg-shlibdeps.pod
 msgid "useless-linkage (bit 2, value 4)"
-msgstr ""
+msgstr "useless-linkage (bit 2, waarde 4)"
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
 msgid "Select the warning “I<binary> should not be linked against I<library>”."
 msgstr ""
+"Selecteer de waarschuwing “I<binair-bestand> mag niet worden gelinkt met "
+"I<bibliotheek>”."
 
 #. type: textblock
 #: dpkg-shlibdeps.pod
@@ -23705,6 +23593,11 @@ msgid ""
 "behavior of tools and resulting contents during package builds targeting a "
 "specific vendor, and to describe the provenance of packages."
 msgstr ""
+"De bestanden origin bevatten metagegevens over specifieke leveranciers, "
+"zoals hun URL of waar bugrapporten kunnen worden ingediend. Ze worden "
+"doorgaans gebruikt om zowel het gedrag van hulpmiddelen te bepalen als de "
+"resulterende inhoud tijdens het bouwen van een pakket dat gericht is op een "
+"specifieke leverancier, en om de herkomst van het pakket te beschrijven."
 
 #. type: textblock
 #: dpkg-vendor.pod
@@ -23714,6 +23607,10 @@ msgid ""
 "overlay on top of an existing base system that contains either no packaging "
 "system or a native one."
 msgstr ""
+"De symbolische koppeling F<default> wordt ook gebruikt om de oorsprong aan "
+"te duiden van de huidige installatie die wordt beheerd door B<dpkg>. Dit kan "
+"een volledige distributie zijn of een laag bovenop een bestaand basissysteem "
+"dat geen pakketsysteem bevat of een specifiek eigen pakketsysteem."
 
 #. type: textblock
 #: dpkg-vendor.pod
@@ -26528,13 +26425,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg.pod
-#, fuzzy
-#| msgid ""
-#| "The program B<dpkg> will execute when running a pager, which will be "
-#| "executed with «B<$SHELL -c>», for example when displaying the conffile "
-#| "differences.  If B<SHELL> is not set, «B<%DPKG_DEFAULT_SHELL%>» will be "
-#| "used instead.  The B<DPKG_PAGER> overrides the B<PAGER> environment "
-#| "variable (since dpkg 1.19.2)."
 msgid ""
 "The program B<dpkg> will execute when running a pager, which will be "
 "executed with «B<$SHELL -c>», for example when displaying the conffile "
@@ -26545,8 +26435,7 @@ msgstr ""
 "pagineringsprogramma, dat uitgevoerd zal worden met «B<$SHELL -c>», "
 "bijvoorbeeld voor het tonen van de verschillen tussen de "
 "configuratiebestanden. Indien B<SHELL> niet ingesteld is, dan zal "
-"«B<%DPKG_DEFAULT_SHELL%>» gebruikt worden. B<DPKG_PAGER> overschrijft de "
-"omgevingsvariabele B<PAGER> (sinds dpkg 1.19.2)."
+"«B<%DPKG_DEFAULT_SHELL%>» gebruikt worden."
 
 #. type: textblock
 #: dpkg.pod
@@ -27487,17 +27376,15 @@ msgstr ""
 
 #. type: textblock
 #: dsc.pod
-#, fuzzy
-#| msgid ""
-#| "The I<section> and I<priority> match the binary package fields of the "
-#| "same name."
 msgid ""
 "The I<section> and I<priority> match the binary package fields of the same "
 "name, or if omitted default to B<unknown> and B<optional> respectively "
 "(since dpkg 1.22.13)."
 msgstr ""
 "De elementen I<sectie> (section) en I<prioriteit> (priority) komen overeen "
-"met de velden met dezelfde naam van het binaire pakket."
+"met de velden met dezelfde naam van het binaire pakket. Als ze worden "
+"weggelaten, worden ze standaard ingesteld op B<unknown> en B<optional> "
+"(sinds dpkg 1.22.13)."
 
 #. type: textblock
 #: dsc.pod
@@ -30996,312 +30883,3 @@ msgid "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
 msgstr ""
 "L<ln(1)>, FHS (the Filesystem Hierarchy Standard - de standaardisatie van "
 "bestandsorganisatie en mappenstructuur op unix-achtige systemen)."
-
-#~ msgid "B<merged-usr-via-aliased-dirs>"
-#~ msgstr "B<merged-usr-via-aliased-dirs>"
-
-#~ msgid ""
-#~ "The system has a merged I</usr> via aliased directories (previously known "
-#~ "as B<merged-usr-via-symlinks>).  This will confuse B<dpkg-query>, B<dpkg-"
-#~ "statoverride>, B<dpkg-trigger>, B<update-alternatives> and any other tool "
-#~ "using pathnames as keys into their databases, as it creates filesystem "
-#~ "aliasing problems, and messes with the understanding of the filesystem "
-#~ "that B<dpkg> has recorded in its database.  For build systems that "
-#~ "hardcode pathnames to specific binaries or libraries on the resulting "
-#~ "artifacts, it can also produce packages that will be incompatible with "
-#~ "non-/usr-merged filesystems."
-#~ msgstr ""
-#~ "Het systeem heeft een via aliassen samengevoegde map I</usr> (vroeger "
-#~ "gekend als B<merged-usr-via-symlinks>). Dit sticht verwarring bij B<dpkg-"
-#~ "query>, B<dpkg-statoverride>, B<dpkg-trigger>, B<update-alternatives> en "
-#~ "elk ander hulpmiddel dat in zijn databank gebruik maakt van padnamen als "
-#~ "sleutel, omdat het zorgt voor problemen met aliassen in het "
-#~ "bestandssysteem en knoeit met het overzicht van het bestandssysteem dat "
-#~ "B<dpkg> in zijn databank opgeslagen heeft. Met bouwsystemen die in de "
-#~ "door hen gemaakte objecten gebruik maken van vaste padnamen naar "
-#~ "specifieke uitvoerbare bestanden of bibliotheken, kan dit ook leiden tot "
-#~ "pakketten die niet compatibel zijn met bestandssystemen zonder "
-#~ "samengevoegde /usr-map."
-
-#~ msgid ""
-#~ "The files in B<%PKGCONFDIR%/origins> can provide information about "
-#~ "various vendors who are providing Debian packages."
-#~ msgstr ""
-#~ "De bestanden in B<%PKGCONFDIR%/origins> kunnen informatie verschaffen "
-#~ "over de verschillende leveranciers die Debian pakketten leveren."
-
-#~ msgid ""
-#~ "In addition, for historical and backwards compatibility, the name will be "
-#~ "tried keeping it as is without non-alphanumeric characters remapping, "
-#~ "then the resulting name will be tried in sequence by lower-casing it, "
-#~ "keeping it as is, lower-casing then capitalizing it, and only "
-#~ "capitalizing it.  And finally the name will be tried by remapping spaces "
-#~ "to dashes (‘B<->’), then the resulting name will be tried in sequence by "
-#~ "lower-casing it, keeping it as is, lower-casing then capitalizing it, and "
-#~ "only capitalizing it."
-#~ msgstr ""
-#~ "Bovendien wordt voor historische redenen en voor redenen van "
-#~ "achterwaartse compatibiliteit geprobeerd de naam te behouden zoals hij is "
-#~ "zonder omzetting van de niet-alfanumerieke tekens, waarna "
-#~ "achtereenvolgens wordt geprobeerd de resulterende naam om te zetten in "
-#~ "kleine letters, hem te behouden zoals hij is, hem om te zetten naar "
-#~ "kleine letters en hem daarna een beginhoofdletter te geven, en tenslotte, "
-#~ "hem louter naar hoofdletters om te zetten. En tenslotte zal geprobeerd "
-#~ "worden om in de naam spaties om te zetten naar liggende streepjes (‘B<-"
-#~ ">’), waarna achtereenvolgens wordt geprobeerd de resulterende naam om te "
-#~ "zetten in kleine letters, hem te behouden zoals hij is, hem om te zetten "
-#~ "naar kleine letters en hem daarna een beginhoofdletter te geven, en "
-#~ "tenslotte, hem louter naar hoofdletters om te zetten."
-
-#~ msgid ""
-#~ "But these backwards compatible module lookups will be removed during the "
-#~ "dpkg 1.22.x release cycle."
-#~ msgstr ""
-#~ "Maar dit modulaire zoeken naar achterwaarts compatibiliteit zal "
-#~ "verwijderd worden tijdens de releasecyclus van dpkg 1.22.x."
-
-#~ msgid "dpkg-fsys-usrunmess - undoes the merged-/usr-via-aliased-dirs mess"
-#~ msgstr ""
-#~ "dpkg-fsys-usrunmess - maakt de puinhoop ongedaan van een via aliassen "
-#~ "samengevoegde map /usr"
-
-#~ msgid "B<dpkg-fsys-usrunmess> [B<option>...]"
-#~ msgstr "B<dpkg-fsys-usrunmess> [I<optie>...]"
-
-#~ msgid ""
-#~ "B<dpkg-fsys-usrunmess> is a tool to fix up filesystems that have been "
-#~ "installed anew with recent installers with unfortunate defaults or "
-#~ "migrated to the broken merged /usr via aliased directories layout, which "
-#~ "is B<not> supported by dpkg.  See the dpkg FAQ."
-#~ msgstr ""
-#~ "B<dpkg-fsys-usrunmess> is een hulpmiddel om bestandssystemen te repareren "
-#~ "die opnieuw werden geïnstalleerd met recente installatieprogramma's met "
-#~ "ongelukkige standaardinstellingen of die overgeschakeld waren naar de "
-#~ "defecte inrichting van een via aliassen samengevoegde map /usr, wat "
-#~ "B<niet> wordt ondersteund door dpkg. Zie de dpkg-FAQ."
-
-#~ msgid ""
-#~ "B<Note>: In Debian its tech-ctte has decreed that on the release after "
-#~ "bookworm the non-usrmerged layout is not going to be supported, and thus "
-#~ "some of its maintainers might not fix issues or intentionally remove non-"
-#~ "usrmerged support, so you will need decide and pick your poison."
-#~ msgstr ""
-#~ "B<Opmerking>: Binnen Debian heeft zijn technisch comité beslist dat in de "
-#~ "release volgend op bookworm de indeling met een niet-samengevoegde /usr "
-#~ "niet langer zal worden ondersteund, en dus zullen sommige van zijn "
-#~ "pakketbeheerders misschien geen problemen meer oplossen of doelbewust "
-#~ "ondersteuning voor een niet-samengevoegde /usr verwijderen. U zult dus "
-#~ "zelf een beslissing moeten nemen en uw keuze maken."
-
-#~ msgid "The program will perform the following overall actions:"
-#~ msgstr "Het programma voert de volgende algemene acties uit:"
-
-#~ msgid "Check whether the system needs to be switched, otherwise do nothing,"
-#~ msgstr ""
-#~ "Controleren of een omschakeling van het systeem nodig is en anders niets "
-#~ "doen,"
-
-#~ msgid "Check for dpkg database consistency and otherwise abort."
-#~ msgstr ""
-#~ "De consistentie van de dpkg-database controleren en anders afbreken."
-
-#~ msgid ""
-#~ "Generate and install a regression prevention package, if requested on the "
-#~ "command-line or otherwise on the prompt."
-#~ msgstr ""
-#~ "Een regressiepreventiepakket genereren en installeren indien erom "
-#~ "gevraagd wordt aan de commandoregel of anders aan de prompt."
-
-#~ msgid "Get the list of files and alternatives that need to be restored."
-#~ msgstr ""
-#~ "De lijst met bestanden en alternatieven die moeten worden hersteld, "
-#~ "ophalen."
-
-#~ msgid "Look for untracked kernel modules files that need to be moved too."
-#~ msgstr ""
-#~ "Zoeken naar niet-bijgehouden kernelmodulebestanden die ook moeten worden "
-#~ "verplaatst."
-
-#~ msgid ""
-#~ "Create a shadow hierarchy under F</.usrunmess>, by creating the "
-#~ "directories symlinks or hardlinking or copying the files as needed."
-#~ msgstr ""
-#~ "Onder F</.Usrunmess> een schaduwhiërarchie creëren, door symbolische "
-#~ "koppelingen voor de mappen te maken of harde koppelingen voor de "
-#~ "bestanden of deze te kopiëren indien nodig."
-
-#~ msgid ""
-#~ "Prompt for confirmation before proceeding, if requested on the command-"
-#~ "line."
-#~ msgstr ""
-#~ "Om bevestiging vragen vooraleer verder te gaan, indien daarom gevraagd "
-#~ "werd aan de commandoregel."
-
-#~ msgid "Lock the dpkg database."
-#~ msgstr "De dpkg-databank vergrendelen."
-
-#~ msgid ""
-#~ "Mark all packages as half-configured to force running maintainer scripts "
-#~ "that might need to recreate files."
-#~ msgstr ""
-#~ "Alle pakketten als half-geconfigureerd markeren om het uitvoeren af te "
-#~ "dwingen van scripts van de beheerder welke mogelijk bepaalde bestanden "
-#~ "opnieuw moeten aanmaken."
-
-#~ msgid ""
-#~ "Replace the aliased directories with the shadow ones, by creating a "
-#~ "backup of the old symlinked directories and renaming the shadow ones over."
-#~ msgstr ""
-#~ "De mappen waarvoor een alias gemaakt was vervangen door de mappen uit de "
-#~ "schaduwhiërarche, door een back-up te maken van de oude mappen met "
-#~ "symbolische koppeling en daarover de mappen uit de schaduwhiërarche te "
-#~ "hernoemen."
-
-#~ msgid "Relabel MAC information for directories and symlinks if necessary."
-#~ msgstr ""
-#~ "Indien nodig de MAC-informatie voor mappen en symbolische koppelingen "
-#~ "opnieuw labelen."
-
-#~ msgid "Remove backup symlinks."
-#~ msgstr "De back-up van de symbolische koppelingen verwijderen."
-
-#~ msgid "Remove old moved objects, but defer directory removal."
-#~ msgstr ""
-#~ "Oude verplaatste objecten verwijderen, maar het verwijderen van mappen "
-#~ "uitstellen."
-
-#~ msgid ""
-#~ "Remove old deferred directories that are not referenced by dpkg-query."
-#~ msgstr ""
-#~ "Oude mappen waarvan de verwijdering uitgesteld werd, verwijderen als er "
-#~ "door dpkg-query niet naar wordt verwezen."
-
-#~ msgid "Remove shadow root directory."
-#~ msgstr "De basisschaduwmap verwijderen."
-
-#~ msgid ""
-#~ "Register a B<policy-rc.d> to disallow service actions, which means that "
-#~ "services might need to be restarted afterwards, ideally via a reboot."
-#~ msgstr ""
-#~ "Een B<policy-rc.d> registreren om niet toe te staan dat serviceacties "
-#~ "uitgevoerd worden, wat betekent dat diensten daarna mogelijk opnieuw "
-#~ "moeten worden gestart, idealiter via een herstart."
-
-#~ msgid "Reconfigure all packages."
-#~ msgstr "Alle pakketten opnieuw configureren."
-
-#~ msgid "Unregister the B<policy-rc.d> and restore the alternatives state."
-#~ msgstr ""
-#~ "De registratie van B<policy-rc.d> ongedaan maken en de toestand van "
-#~ "alternatives herstellen."
-
-#~ msgid ""
-#~ "B<Note>: When running the program from some shells such as L<bash(1)> or "
-#~ "L<zsh(1)>, after executing it, you might need to request the shell to "
-#~ "forget all remembered executable locations with for example C<hash -r>."
-#~ msgstr ""
-#~ "B<Opmerking>: Als u het programma uitvoert vanuit bepaalde shells, zoals "
-#~ "L<bash(1)> of L<zsh(1)>, moet u na het uitvoeren van het programma "
-#~ "mogelijk de shell vragen om alle herinnerde uitvoerbare locaties te "
-#~ "vergeten met bijvoorbeeld C<hash -r>."
-
-#~ msgid ""
-#~ "B<Note>: Some directories might linger after the migration in case they "
-#~ "contain untracked files.  A list is printed once the script has finished "
-#~ "for further investigation."
-#~ msgstr ""
-#~ "B<Opmerking>: Sommige mappen kunnen na de migratie achterblijven omdat ze "
-#~ "niet-gevolgde bestanden bevatten. Zodra het script klaar is wordt een "
-#~ "lijst afgedrukt voor verder onderzoek."
-
-#~ msgid ""
-#~ "B<Warning>: Note that this operation has the potential to render the "
-#~ "system unusable or broken in case of a sudden crash or reboot, unexpected "
-#~ "state of the system, or possible bugs in the script.  Be prepared with "
-#~ "recovery media and consider doing backups beforehand."
-#~ msgstr ""
-#~ "B<Waarschuwing>: Merk op dat er een kans bestaat dat deze bewerking het "
-#~ "systeem onbruikbaar of kapot maakt in geval van een plotselinge crash of "
-#~ "een herstart, een onverwachte toestand van het systeem of mogelijke bugs "
-#~ "in het script. Wees voorbereid met herstelmedia en overweeg om van "
-#~ "tevoren back-ups te maken."
-
-#~ msgid "This program was introduced in dpkg 1.20.6."
-#~ msgstr "Dit programma werd geïntroduceerd in dpkg 1.20.6."
-
-#~ msgid "B<-p>, B<--prompt>"
-#~ msgstr "B<-p>, B<--prompt>"
-
-#~ msgid ""
-#~ "Prompt at the time of no return, so that the debug output or the shadow "
-#~ "hierarchy can be evaluated before proceeding."
-#~ msgstr ""
-#~ "Om bevestiging vragen op het punt waarop geen terugkeer meer mogelijk is, "
-#~ "zodat de debug-uitvoer en de schaduwhiërarchie beoordeeld kunnen worden "
-#~ "vooraleer er verder gegaan wordt."
-
-#~ msgid "B<--prevention>"
-#~ msgstr "B<--prevention>"
-
-#~ msgid "B<--no-prevention>"
-#~ msgstr "B<--no-prevention>"
-
-#~ msgid ""
-#~ "Enables or disables generating and installing a regression prevention "
-#~ "package into the system.  If no option has been specified, the action to "
-#~ "take will be prompted."
-#~ msgstr ""
-#~ "Schakelt het genereren en installeren op het systeem van een "
-#~ "regressiepreventiepakket in of uit. Als er geen optie is opgegeven, wordt "
-#~ "de vraag gesteld welke actie er moet worden ondernomen."
-
-#~ msgid ""
-#~ "The generated package contains the B<Protected> field set to B<yes> to "
-#~ "protect against accidental removal of the package."
-#~ msgstr ""
-#~ "Het gegenereerde pakket bevat het veld B<Protected> dat is ingesteld op "
-#~ "B<yes> om te voorkomen dat het pakket per ongeluk wordt verwijderd."
-
-#~ msgid "B<-n>, B<--no-act>"
-#~ msgstr "B<-n>, B<--no-act>"
-
-#~ msgid "B<--dry-run>"
-#~ msgstr "B<--dry-run>"
-
-#~ msgid ""
-#~ "This option enables the dry-run mode, where no destructive action takes "
-#~ "place, only the preparatory part."
-#~ msgstr ""
-#~ "Deze optie schakelt de droogloopmodus in, waarbij geen destructieve actie "
-#~ "plaatsvindt, maar alleen het voorbereidende gedeelte uitgevoerd wordt."
-
-#~ msgid "B<DPKG_USRUNMESS_NOACT>"
-#~ msgstr "B<DPKG_USRUNMESS_NOACT>"
-
-#~ msgid "This setting defines whether to enable dry-run mode."
-#~ msgstr ""
-#~ "Deze instelling bepaalt of de droogloopmodus moet worden geactiveerd."
-
-#~ msgid "L<https://wiki.debian.org/Teams/Dpkg/FAQ#broken-usrmerge>."
-#~ msgstr "L<https://wiki.debian.org/Teams/Dpkg/FAQ#broken-usrmerge>."
-
-#~ msgid ""
-#~ "I<value> is a bit field defining the set of warnings that can be emitted "
-#~ "by B<dpkg-shlibdeps> (since dpkg 1.14.17).  Bit 0 (value=1) enables the "
-#~ "warning “symbol I<sym> used by I<binary> found in none of the libraries”, "
-#~ "bit 1 (value=2) enables the warning “package could avoid a useless "
-#~ "dependency” and bit 2 (value=4) enables the warning “I<binary> should not "
-#~ "be linked against I<library>”.  The default I<value> is 3: the first two "
-#~ "warnings are active by default, the last one is not.  Set I<value> to 7 "
-#~ "if you want all warnings to be active."
-#~ msgstr ""
-#~ "I<waarde> is een bit-veld dat aangeeft welke set waarschuwingen B<dpkg-"
-#~ "shlibdeps> kan geven (sinds dpkg 1.14.17). Bit 0 (waarde=1) activeert de "
-#~ "waarschuwing “symbool I<sym> dat door I<binair-bestand> gebruikt wordt, "
-#~ "werd in geen enkele bibliotheek aangetroffen”, bit 1 (waarde=2) activeert "
-#~ "de waarschuwing “pakket zou een nutteloze afhankelijkheid kunnen "
-#~ "vermijden” en bit 2 (waarde=4) activeert de waarschuwing “I<binair-"
-#~ "bestand> zou niet gelinkt moeten worden met I<bibliotheek>”. De standaard-"
-#~ "I<waarde> is 3: standaard zijn de eerste twee waarschuwingen geactiveerd, "
-#~ "de laatste niet. Stel de I<waarde> in op 7 indien u wilt dat alle "
-#~ "waarschuwingen geactiveerd worden."
