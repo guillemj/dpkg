@@ -24,8 +24,9 @@ SUFFIXES += .sh
 
 # Perl support.
 
+# Note: We need to hex-escape '#' (0x23) to avoid portability issues with make.
 subst_perl_rules = "\
-	s{^\#!\s*/usr/bin/perl}{\#!$(PERL)}; \
+	s{^\x23!\s*/usr/bin/perl}{\x23!$(PERL)}; \
 	s{our \\\$$CONFDIR = .*;}{our \\\$$CONFDIR = '$(pkgconfdir)';}; \
 	s{our \\\$$ADMINDIR = .*;}{our \\\$$ADMINDIR = '$(admindir)';}; \
 	s{our \\\$$LIBDIR = .*;}{our \\\$$LIBDIR = '$(pkglibexecdir)';}; \

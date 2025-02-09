@@ -266,7 +266,7 @@ MANGEN = $(POD2MAN_V) filename='$@'; \
 	  $(PODSUBST) $< | \
 	  $(POD2MAN) $(POD2MAN_OPTS) \
 	  --name="$$(basename $${filename%.*})" \
-	  --section="$${filename\#\#*.}" | \
+	  --section="$$($(PERL) -E 'say((split /\./, shift)[-1])' $$filename)" | \
 	  $(MANFIXUP) >$@
 endif
 
