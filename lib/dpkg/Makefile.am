@@ -226,6 +226,7 @@ test_programs = \
 	t/t-test \
 	t/t-test-skip \
 	t/t-macros \
+	t/t-compat-getent \
 	t/t-headers-cpp \
 	t/t-c-ctype \
 	t/t-namevalue \
@@ -277,6 +278,10 @@ test_data = \
 	t/data/meminfo-no-info \
 	t/data/meminfo-no-unit \
 	t/data/meminfo-ok \
+	t/data/sysuser/group.base \
+	t/data/sysuser/group.nis \
+	t/data/sysuser/passwd.base \
+	t/data/sysuser/passwd.nis \
 	# EOL
 
 EXTRA_DIST += \
@@ -289,8 +294,14 @@ BENCHMARK_LDADD_FLAGS = \
 	$(LDADD) \
 	# EOL
 
+LIBCOMPAT_TEST_LDADD_FLAGS = \
+	$(LDADD) \
+	../compat/libcompat-test.la \
+	# EOL
+
 t_b_fsys_hash_LDADD = $(BENCHMARK_LDADD_FLAGS)
 t_b_pkg_hash_LDADD = $(BENCHMARK_LDADD_FLAGS)
+t_t_compat_getent_LDADD = $(LIBCOMPAT_TEST_LDADD_FLAGS)
 
 check_PROGRAMS = \
 	$(test_programs) \
