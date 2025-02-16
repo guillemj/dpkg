@@ -247,7 +247,7 @@ sub test_needs_openpgp_backend
         my $cmdv = $backend->{cmdv};
 
         my $have_cmd = $cmd eq 'none' ? 0 : can_run($cmd);
-        my $have_cmdv = $cmdv eq 'none' ? 0 : can_run($cmdv);
+        my $have_cmdv = $cmdv // q() eq 'none' ? 0 : can_run($cmdv);
 
         next unless ($have_cmd || $have_cmdv);
 
