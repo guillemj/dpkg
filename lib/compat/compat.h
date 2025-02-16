@@ -39,6 +39,18 @@
 #include <string.h>
 #endif
 
+#if TEST_LIBCOMPAT || !defined(HAVE_FGETPWENT) || !defined(HAVE_FGETGRENT)
+#include <stdio.h>
+#endif
+
+#if TEST_LIBCOMPAT || !defined(HAVE_FGETPWENT)
+#include <pwd.h>
+#endif
+
+#if TEST_LIBCOMPAT || !defined(HAVE_FGETGRENT)
+#include <grp.h>
+#endif
+
 /* Language definitions. */
 
 /* Supported since gcc 5.1.0 and clang 2.9.0. For attributes that appeared
@@ -137,6 +149,10 @@ extern "C" {
 #define strerror test_strerror
 #undef strsignal
 #define strsignal test_strsignal
+#undef fgetpwent
+#define fgetpwent test_fgetpwent
+#undef fgetgrent
+#define fgetgrent test_fgetgrent
 #undef scandir
 #define scandir test_scandir
 #undef alphasort
@@ -181,6 +197,14 @@ const char *strerror(int);
 
 #if TEST_LIBCOMPAT || !defined(HAVE_STRSIGNAL)
 const char *strsignal(int);
+#endif
+
+#if TEST_LIBCOMPAT || !defined(HAVE_FGETPWENT)
+struct passwd *fgetpwent(FILE *fp);
+#endif
+
+#if TEST_LIBCOMPAT || !defined(HAVE_FGETGRENT)
+struct group *fgetgrent(FILE *fp);
 #endif
 
 #if TEST_LIBCOMPAT || !defined(HAVE_SCANDIR)

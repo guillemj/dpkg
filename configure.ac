@@ -203,6 +203,8 @@ DPKG_CHECK_COMPAT_FUNCS([\
   strerror \
   strsignal \
   asprintf \
+  fgetpwent \
+  fgetgrent \
   scandir \
   alphasort \
   unsetenv \

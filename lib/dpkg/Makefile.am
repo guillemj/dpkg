@@ -254,6 +254,7 @@ test_programs = \
 	t/t-pkg-hash \
 	t/t-pkg-show \
 	t/t-pkg-format \
+	t/t-sysuser \
 	t/t-fsys-dir \
 	t/t-fsys-hash \
 	t/t-trigger \
@@ -277,6 +278,10 @@ test_data = \
 	t/data/meminfo-no-info \
 	t/data/meminfo-no-unit \
 	t/data/meminfo-ok \
+	t/data/sysuser/group.base \
+	t/data/sysuser/group.nis \
+	t/data/sysuser/passwd.base \
+	t/data/sysuser/passwd.nis \
 	# EOL
 
 EXTRA_DIST += \
@@ -289,8 +294,14 @@ BENCHMARK_LDADD_FLAGS = \
 	$(LDADD) \
 	# EOL
 
+LIBCOMPAT_TEST_LDADD_FLAGS = \
+	$(LDADD) \
+	../compat/libcompat-test.la \
+	# EOL
+
 t_b_fsys_hash_LDADD = $(BENCHMARK_LDADD_FLAGS)
 t_b_pkg_hash_LDADD = $(BENCHMARK_LDADD_FLAGS)
+t_t_sysuser_LDADD = $(LIBCOMPAT_TEST_LDADD_FLAGS)
 
 check_PROGRAMS = \
 	$(test_programs) \
