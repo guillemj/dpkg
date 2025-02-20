@@ -144,7 +144,13 @@ sub inline_sign
     push @opts, '--output', $inlinesigned;
 
     my $rc = $self->_sq_exec('sign', @opts, $data);
-    return OPENPGP_KEY_CANNOT_SIGN if $rc;
+    if ($rc) {
+        # XXX: Ideally sq would emit this kind of hint itself when it knows it
+        #      might apply, but for now this is probably better than nothing.
+        hint(g_('imported own keys might be missing ownership information, try:'));
+        hint(g_('  sq pki link authorize --cert FINGERPRINT --all --unconstrained'));
+        return OPENPGP_KEY_CANNOT_SIGN;
+    }
     return OPENPGP_OK;
 }
 
