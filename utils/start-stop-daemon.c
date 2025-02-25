@@ -21,10 +21,6 @@
  */
 
 #include <config.h>
-/* On at least Solaris <= 11.3 procfs is not compatible with LFS. */
-#if !DPKG_STRUCTURED_PROCFS_SUPPORTS_LFS
-#undef _FILE_OFFSET_BITS
-#endif
 
 #if defined(__linux__)
 #  define OS_Linux
@@ -56,6 +52,11 @@
 #elif defined(OS_Solaris)
 /* Solaris needs this to expose the new structured procfs API. */
 #define _STRUCTURED_PROC 1
+#endif
+
+/* On at least Solaris <= 11.3 procfs is not compatible with LFS. */
+#if !DPKG_STRUCTURED_PROCFS_SUPPORTS_LFS
+#undef _FILE_OFFSET_BITS
 #endif
 
 #include <compat.h>
