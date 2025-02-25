@@ -25,9 +25,6 @@
 #if !DPKG_STRUCTURED_PROCFS_SUPPORTS_LFS
 #undef _FILE_OFFSET_BITS
 #endif
-#include <compat.h>
-
-#include <dpkg/macros.h>
 
 #if defined(__linux__)
 #  define OS_Linux
@@ -60,6 +57,10 @@
 /* Solaris needs this to expose the new structured procfs API. */
 #define _STRUCTURED_PROC 1
 #endif
+
+#include <compat.h>
+
+#include <dpkg/macros.h>
 
 #ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>
