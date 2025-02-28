@@ -28,7 +28,7 @@ PKGDATADIR="${DPKG_DATADIR:-$PKGDATADIR_DEFAULT}"
 # dpkg behavior. It can be installed as a post-invoke hook such as:
 #
 # ,--- /etc/dpkg/dpkg.cfg.d/db-keeper ---
-# post-invoke "/usr/libexec/dpkg-db-keeper"
+# post-invoke "/usr/libexec/dpkg/dpkg-db-keeper"
 # `---
 
 if [ -n "$DPKG_ROOT" ]; then
