@@ -82,7 +82,7 @@ protected:
   methodlist(const methodlist &) = delete;
   methodlist &operator =(const methodlist &) = delete;
   quitaction display();
-  ~methodlist();
+  ~methodlist() override;
 };
 
 extern int noptions;

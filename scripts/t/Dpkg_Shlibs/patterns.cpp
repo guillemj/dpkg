@@ -66,7 +66,7 @@ namespace NSB {
 	class ClassD : public NSA::ClassA, public ClassB, public ClassC {
 	public:
 		ClassD();
-		virtual ~ClassD();
+		virtual ~ClassD() override;
 		virtual void generate_vt(const char *) const override;
 	};
 

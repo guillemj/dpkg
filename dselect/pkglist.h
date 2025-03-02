@@ -241,7 +241,7 @@ protected:
   int resolvesuggest();
   int deletelessimp_anyleft(showpriority than);
   pkginfo **display();
-  ~packagelist();
+  ~packagelist() override;
 };
 
 void repeatedlydisplay(packagelist *sub, showpriority,
