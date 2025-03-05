@@ -2633,6 +2633,10 @@ do_start(int argc, char **argv)
 	gid_t rgid;
 	uid_t ruid;
 
+	/* Force line buffering for stdout, even if we are not on a terminal,
+	 * to get timely output. */
+	setvbuf(stdout, NULL, _IOLBF, 0);
+
 	do_findprocs();
 
 	if (found) {
