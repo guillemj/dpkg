@@ -70,6 +70,7 @@ EXTRA_DIST = \
 	debian/changelog \
 	debian/control \
 	debian/copyright \
+	debian/dpkg-dev.NEWS \
 	debian/dpkg-dev.docs \
 	debian/dpkg-dev.install \
 	debian/dpkg-dev.manpages \
