@@ -105,6 +105,8 @@ dpkg_sysuser_find(dpkg_sysuser_match_func *matcher, const void *match)
 	struct passwd *pw;
 
 	fp = dpkg_sysdb_open("DPKG_PATH_PASSWD", DPKG_PATH_PASSWD);
+	if (fp == NULL)
+		return NULL;
 	while ((pw = fgetpwent(fp)))
 		if (matcher(pw, match))
 			break;
@@ -187,6 +189,8 @@ dpkg_sysgroup_find(dpkg_sysgroup_match_func *matcher, const void *match)
 	struct group *gr;
 
 	fp = dpkg_sysdb_open("DPKG_PATH_GROUP", DPKG_PATH_GROUP);
+	if (fp == NULL)
+		return NULL;
 	while ((gr = fgetgrent(fp)))
 		if (matcher(gr, match))
 			break;
