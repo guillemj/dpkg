@@ -1,8 +1,76 @@
-dpkg (1.22.16) UNRELEASED; urgency=medium
+dpkg (1.22.16) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * Add support for native arch definition for chroots.
+    Closes: #825385, #1020533
+  * dpkg-db-keeper: Fix pathname in example dpkg.cfg snippet.
+  * Portability:
+    - start-stop-daemon: Move <compat.h> and <dpkg/macros.h> after OS and
+      header setup macros.
+  * Perl modules:
+    - Dpkg::OpenPGP::Backend::GnuPG: Do not require cmdstore for backend
+      command.
+    - Dpkg::OpenPGP::Backend: Generalize has_verify_cmd().
+    - Dpkg::OpenPGP::Backend: Support disabling cmd and cmdv via 'none' value.
+    - Dpkg::OpenPGP::Backend::SOP: Add sopv support.
+    - Dpkg::OpenPGP::Backend::GnuPG: Refactor newline workaround into a
+      function.
+    - Dpkg::OpenPGP::Backend::GnuPG: Do not add the newline workaround for
+      gpg-sq.
+    - Dpkg::OpenPGP::Backend::Sequoia: Add a hint about authorizing own keys.
+    - Dpkg::OpenPGP::Backend::Sequoia: Refactor cmd and cmdv handling.
+  * Documentation:
+    - man: Remove trailing space. Closes: #1095542
+    - doc: Remove trailing angle bracket.
+    - doc: Split and sort copyright statements.
+  * Code internals:
+    - libdpkg: Add new strvec module.
+    - libdpkg: Add new path_canonicalize() function.
+    - libdpkg: Add new file_realpath() function.
+    - libdpkg: Add new file_canonicalize() function.
+    - libdpkg: Normalize root dir setting.
+    - libdpkg: Remove unused pwd.h and grp.h header includes.
+    - libdpkg: Refactor passwd and group fetching into functions.
+    - libdpkg: Cache root user/group to UID/GID mapping to speed up unpacking.
+    - libdpkg: Update missing symbols to the version map.
+    - start-stop-daemon: Move Solaris _FILE_OFFSET_BITS undef after other
+      header setup macros.
+    - dselect, test: Mark C++ destructors on derived classes as override.
+    - start-stop-daemon: Reformat license/copyright comment header.
+    - libcompat: Add compatibility functions for fgetpwent() and fgetgrent().
+    - libdpkg: Add support for sysuser/sysgroup specific to each chroot.
+      Closes: #1033051
+  * Build system:
+    - Avoid explicitly escaped hash characters in automake files.
+  * Packaging:
+    - Add OpenPGP tools to Build-Depends as pkg.dpkg.author-testing build
+      profile.
+    - Move gnupg and gpgv as the last alternatives.
+    - Add a NEWS entry to dpkg-dev for Rules-Requires-Root default change.
+  * Test suite:
+    - Skip OpenPGP backend tests based on available cmd and cmdv programs.
+    - Rework OpenPGP backend selection to prepare for cmdv support.
+    - Add OpenPGP cmdv testing support.
+    - Refactor database files creation into new DPKG_GEN_DB_FILE macro.
+    - Update cppcheck to request C++14 to match expected baseline.
+    - Pass --root-owner-group to dpkg-deb in functional tests.
+  * Localization:
+    - Update Brazilian Portuguese translations.
+      Thanks to Paulo Henrique de Lima Santana <phls@debian.org>.
+      Closes: #1098464, #1099687
+    - Update Dutch man pages translations.
+      Thanks to Frans Spiesschaert <Frans.Spiesschaert@yucom.be>.
+      Closes: #1095412
 
- -- Guillem Jover <guillem@debian.org>  Mon, 03 Feb 2025 12:43:20 +0100
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+
+  [ Sven Joachim ]
+  * Localization:
+    - Update German programs translation.
+
+ -- Guillem Jover <guillem@debian.org>  Fri, 07 Mar 2025 03:03:55 +0100
 
 dpkg (1.22.15) unstable; urgency=medium
 
