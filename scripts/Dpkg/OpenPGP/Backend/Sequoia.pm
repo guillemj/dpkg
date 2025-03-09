@@ -36,6 +36,7 @@ use warnings;
 use POSIX qw(:sys_wait_h);
 
 use Dpkg::ErrorHandling;
+use Dpkg::Gettext;
 use Dpkg::IPC;
 use Dpkg::OpenPGP::ErrorCodes;
 
