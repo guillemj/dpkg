@@ -1,16 +1,16 @@
 # Translation of dpkg to Swedish
-# Copyright © 1999-2024 Software in the Public Interest
+# Copyright © 1999-2025 Software in the Public Interest
 # This file is distributed under the same license as the dpkg package.
 #
 # Daniel Nylander <po@danielnylander.se>, 2006, 2008.
-# Peter Krefting <peter@softwolves.pp.se>, 1999-2024.
+# Peter Krefting <peter@softwolves.pp.se>, 1999-2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.22.0\n"
+"Project-Id-Version: dpkg 1.22.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2025-03-09 18:59+0100\n"
-"PO-Revision-Date: 2024-09-29 17:15+0100\n"
+"PO-Revision-Date: 2025-03-10 18:23+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -1005,10 +1005,9 @@ msgid "duplicate awaited trigger package '%.255s'"
 msgstr "dubblerad väntad utlösare för paketet ”%.255s”"
 
 #: lib/dpkg/file.c
-#, fuzzy, c-format
-#| msgid "cannot stat pathname '%s'"
+#, c-format
 msgid "cannot canonicalize pathname %s"
-msgstr "kan inte ta status på sökvägsnamnet ”%s”"
+msgstr "kan inte finn kanoniskt sökvägsnamn för %s"
 
 #: lib/dpkg/file.c
 #, c-format
@@ -1586,13 +1585,12 @@ msgstr "varning"
 
 #: lib/dpkg/report.c
 msgid "hint"
-msgstr ""
+msgstr "tips"
 
 #: lib/dpkg/strvec.c
-#, fuzzy, c-format
-#| msgid "cannot grow varbuf to size %zu; it would overflow"
+#, c-format
 msgid "cannot grow strvec to size %zu; it would overflow"
-msgstr "kan inte öka storlek på varbuf till %zu; den skulle spilla"
+msgstr "kan inte öka storlek på strvec till %zu; den skulle spilla"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -2301,26 +2299,25 @@ msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "”%s” innehåller användardefinierat värde för Priority ”%s”"
 
 #: src/deb/build.c
-#, fuzzy, c-format
-#| msgid "cannot get %s file metadata"
+#, c-format
 msgid "cannot get root directory %s metadata"
-msgstr "kan inte hämta metadata för filen %s"
+msgstr "kan inte hämta metadata för rotkatalogen %s"
 
 #: src/deb/build.c
-#, fuzzy, c-format
-#| msgid "treewalk root %s is not a directory"
+#, c-format
 msgid "root pathname %s is not a directory"
-msgstr "trädvandringsroten %s är inte en katalog"
+msgstr "rotsökvägsnamnet %s är inte en katalog"
 
 #: src/deb/build.c
 #, c-format
 msgid "root directory %s has unusual owner or group %u:%u"
-msgstr ""
+msgstr "rotkatalogen %s har ovanlig ägare eller grupp %u:%u"
 
 #: src/deb/build.c
 #, c-format
 msgid "you might need to pass --root-owner-group, see <%s> for further details"
 msgstr ""
+"du kan behöva ange --root-owner-group, se <%s> för ytterligare information"
 
 #: src/deb/build.c
 #, c-format
@@ -2736,33 +2733,7 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  -v, --verbose                    Enable verbose output.\n"
-#| "  -D, --debug                      Enable debugging output.\n"
-#| "      --showformat=<format>        Use alternative format for --show.\n"
-#| "      --deb-format=<format>        Select archive format.\n"
-#| "                                     Allowed values: 0.939000, 2.0 "
-#| "(default).\n"
-#| "      --nocheck                    Suppress control file check (build "
-#| "bad\n"
-#| "                                     packages).\n"
-#| "      --root-owner-group           Forces the owner and groups to root.\n"
-#| "      --threads-max=<threads>      Use at most <threads> with "
-#| "compressor.\n"
-#| "      --[no-]uniform-compression   Use the compression params on all "
-#| "members.\n"
-#| "  -Z, --compression=<compressor>   Set build compression type.\n"
-#| "                                     Allowed types: gzip, xz, zstd, "
-#| "none.\n"
-#| "  -z, --compression-level=<level>  Set build compression level.\n"
-#| "  -S, --compression-strategy=<name>\n"
-#| "                                   Set build compression strategy.\n"
-#| "                                     Allowed values: none; extreme (xz);\n"
-#| "                                     filtered, huffman, rle, fixed "
-#| "(gzip).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -2793,8 +2764,9 @@ msgstr ""
 "      --showformat=<format>        Använd alternativt format för --show.\n"
 "      --deb-format=<format>        Välj arkivformat.\n"
 "                                     Tillåtet: 0.939000, 2.0 (standard).\n"
-"      --nocheck                    Stäng av kontrollfilstest (skapar\n"
+"      --no-check                   Stäng av alla kontroller (skapar\n"
 "                                   trasiga paket).\n"
+"      --nocheck                    Alias för --no-check.\n"
 "      --root-owner-group           Tvingar ägare och grupper till root.\n"
 "      --threads-max=<trådar>       Använd som mest <trådar> i komprimerare.\n"
 "      --[no-]uniform-compression   Använd komprimeringsparam. för alla "
@@ -2815,8 +2787,8 @@ msgid ""
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
-"  by inserting variable references to package fields using the $"
-"{var[;width]}\n"
+"  by inserting variable references to package fields using the ${var[;"
+"width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in "
 "which\n"
 "  case left alignment will be used.\n"
@@ -4171,8 +4143,8 @@ msgstr ""
 #: src/main/archives.c
 #, c-format
 msgid ""
-"trying to overwrite '%.250s', which is the diverted version of '%.250s' "
-"(package: %.100s)"
+"trying to overwrite '%.250s', which is the diverted version of "
+"'%.250s' (package: %.100s)"
 msgstr ""
 "försökte skriva över ”%.250s”, vilket är den omdirigerade varianten av "
 "”%.250s” (paket: %.100s)"
@@ -4220,22 +4192,19 @@ msgid "Replaced by files in installed package %s (%s) ...\n"
 msgstr "Ersätta av filer i det installerade paketet %s (%s) ...\n"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "trying to overwrite directory '%.250s' in package %.250s %.250s with "
-#| "nondirectory"
+#, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s (%.250s) with "
 "nondirectory"
 msgstr ""
-"försöker skriva över katalogen ”%.250s” från paketet %.250s %.250s med icke-"
-"katalog"
+"försöker skriva över katalogen ”%.250s” från paketet %.250s (%.250s) med "
+"icke-katalog"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+#, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s (%.250s)"
-msgstr "försöker skriva över ”%.250s” som också finns i paketet %.250s %.250s"
+msgstr ""
+"försöker skriva över ”%.250s” som också finns i paketet %.250s (%.250s)"
 
 #: src/main/archives.c
 #, c-format
@@ -4464,22 +4433,20 @@ msgid "Skipping unselected package %s.\n"
 msgstr "Hoppar över ej valt paket %s.\n"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "version %.250s of %.250s already installed, skipping"
+#, c-format
 msgid "package %.250s (%.250s) with same version already installed, skipping"
-msgstr "version %.250s av %.250s redan installerat, hoppar över"
+msgstr ""
+"paketet %.250s (%.250s) med samma version redan installerat, hoppar över"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "downgrading %.250s from %.250s to %.250s"
+#, c-format
 msgid "downgrading %.250s (%.250s) to (%.250s)"
-msgstr "nedgraderar %.250s från %.250s till %.250s"
+msgstr "nedgraderar %.250s (%.250s) till (%.250s)"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+#, c-format
 msgid "will not downgrade %.250s (%.250s) to (%.250s), skipping"
-msgstr "nedgraderar inte %.250s från version %.250s till %.250s, hoppar över"
+msgstr "nedgraderar inte %.250s (%.250s) till (%.250s), hoppar över"
 
 #: src/main/cleanup.c
 #, c-format
@@ -4730,14 +4697,12 @@ msgstr ""
 "”%.250s”)"
 
 #: src/main/configure.c
-#, fuzzy, c-format
-#| msgid ""
-#| "package %s %s cannot be configured because %s is at a different version "
-#| "(%s)"
+#, c-format
 msgid ""
 "package %s (%s) cannot be configured because %s is at a different version "
 "(%s)"
-msgstr "paketet %s %s kan inte konfigureras då %s är på en annan version (%s)"
+msgstr ""
+"paketet %s (%s) kan inte konfigureras då %s är på en annan version (%s)"
 
 #: src/main/configure.c
 #, c-format
