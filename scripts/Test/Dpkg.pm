@@ -243,11 +243,11 @@ sub test_needs_openpgp_backend
     my @have_backends;
     foreach my $backend (@openpgp_backends) {
         my $name = $backend->{backend};
-        my $cmd = $backend->{cmd};
-        my $cmdv = $backend->{cmdv};
+        my $cmd = $backend->{cmd} // q();
+        my $cmdv = $backend->{cmdv} // q();
 
         my $have_cmd = $cmd eq 'none' ? 0 : can_run($cmd);
-        my $have_cmdv = $cmdv // q() eq 'none' ? 0 : can_run($cmdv);
+        my $have_cmdv = $cmdv eq 'none' ? 0 : can_run($cmdv);
 
         next unless ($have_cmd || $have_cmdv);
 
