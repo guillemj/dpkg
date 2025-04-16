@@ -184,40 +184,49 @@ list_format_print_header(struct list_format *fmt)
   if (fmt->head)
     return;
 
-  /* TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
+  /*
+   * TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
    * string should remain under 80 characters. The uppercase letters in
    * the state values denote the abbreviated letter that will appear on
    * the first three columns, which should ideally match the English one
    * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
-   * translated message can use additional lines if needed. */
+   * translated message can use additional lines if needed. The ASCII art
+   * can use Unicode box characters.
+   */
   fputs(_("\
-Desired=Unknown/Install/Remove/Purge/Hold\n\
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n\
-|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"), stdout);
-  list_format_print(fmt, "|", "|", "/", _("Name"), _("Version"),
-                    _("Architecture"), _("Description"), fmt->dw);
++-- Desired=Unknown/Install/Remove/Purge/Hold\n\
+|+- Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n\
+||+ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"), stdout);
+  list_format_print(fmt,
+                    C_("query-list-header", "|"),
+                    C_("query-list-header", "|"),
+                    C_("query-list-header", "|"),
+                    _("Name"),
+                    _("Version"),
+                    _("Architecture"),
+                    _("Description"), fmt->dw);
 
   /* Status */
-  printf("+++-");
+  fputs(C_("query-list-header", "+++-"), stdout);
 
  /* Package name. */
   for (l = 0; l < fmt->nw; l++)
-    printf("=");
-  printf("-");
+    fputs(C_("query-list-header", "="), stdout);
+  fputs(C_("query-list-header", "-"), stdout);
 
   /* Version. */
   for (l = 0; l < fmt->vw; l++)
-    printf("=");
-  printf("-");
+    fputs(C_("query-list-header", "="), stdout);
+  fputs(C_("query-list-header", "-"), stdout);
 
   /* Architecture. */
   for (l = 0; l < fmt->aw; l++)
-    printf("=");
-  printf("-");
+    fputs(C_("query-list-header", "="), stdout);
+  fputs(C_("query-list-header", "-"), stdout);
 
   /* Description. */
   for (l = 0; l < fmt->dw; l++)
-    printf("=");
+    fputs(C_("query-list-header", "="), stdout);
   printf("\n");
 
   fmt->head = true;
