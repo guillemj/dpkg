@@ -803,6 +803,7 @@ decompress_xz(struct compress_params *params, int fd_in, int fd_out,
 	char *threads_opt = NULL;
 
 	command_decompress_init(&cmd, XZ, desc);
+	command_add_arg(&cmd, "--format=xz");
 
 	if (params->threads_max > 0) {
 		threads_opt = str_fmt("-T%d", params->threads_max);

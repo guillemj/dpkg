@@ -81,7 +81,7 @@ my %COMP = (
     xz => {
 	file_ext => 'xz',
 	comp_prog => [ 'xz' ],
-	decomp_prog => [ 'unxz' ],
+	decomp_prog => [ 'unxz', '--format=xz' ],
 	default_level => 6,
     },
 );
