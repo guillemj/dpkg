@@ -49,6 +49,7 @@ Dpkg
 IPC
 ORed
 OpenPGP
+PureOS
 RCS
 XDG
 ar

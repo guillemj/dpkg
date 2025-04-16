@@ -91,6 +91,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Vendor/Debian.pm \
 	Dpkg/Vendor/Default.pm \
 	Dpkg/Vendor/Devuan.pm \
+	Dpkg/Vendor/PureOS.pm \
 	Dpkg/Vendor/Ubuntu.pm \
 	Dpkg/Version.pm \
 	Dpkg.pm \
