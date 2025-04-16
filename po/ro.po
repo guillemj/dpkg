@@ -1,5 +1,5 @@
 # Translation of dpkg to Romanian
-# Copyright © 2005-2024 Dpkg Developers
+# Copyright © 2005-2025 Dpkg Developers
 # This file is distributed under the same license as the dpkg package.
 #
 # Rușeț Zeno <rzeno@cwazy.co.uk>, 2005.
@@ -7,7 +7,7 @@
 # Sorin Batariuc <sorin@bonbon.net>, 2005, 2006.
 # Andrei POPESCU <andreimpopescu@gmail.com>, 2010.
 # ioan-eugen STAN <stan.ieugen@gmail.com>, 2011 (dpkg 1.17.0).
-# Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2023-2024.
+# Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2023-2025.
 #
 # Explicații legate de modul de traducere:
 # - la mesajele emise în urma acțiunilor programului se folosește forma impersonală,
@@ -15,16 +15,16 @@
 # - se păstrează denumirile în engleză pentru:
 #   - numele funcților și a argumentelor acestora
 #   - numele și opțiunile programelor
-# - failed to = eșec la
+# - failed to = eșec la / acțiunea/operația a eșuat
 # - unable to stat/sync/... = stat/sync/ imposibil pentru...
 # - unable to do foobar = nu se poate face/drege
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.22.11\n"
+"Project-Id-Version: dpkg 1.22.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2025-03-09 18:59+0100\n"
-"PO-Revision-Date: 2024-12-03 03:57+0100\n"
+"PO-Revision-Date: 2025-03-29 08:49+0100\n"
 "Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
 "Language: ro\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"X-Generator: Poedit 3.4.3\n"
+"X-Generator: Poedit 3.5\n"
 
 #: lib/dpkg/ar.c
 msgid "failed to fstat archive"
@@ -1106,10 +1106,9 @@ msgid "duplicate awaited trigger package '%.255s'"
 msgstr "pachet declanșator așteptat duplicat „%.255s”"
 
 #: lib/dpkg/file.c
-#, fuzzy, c-format
-#| msgid "cannot stat pathname '%s'"
+#, c-format
 msgid "cannot canonicalize pathname %s"
-msgstr "nu s-a putut efectua stat() asupra elementului final din ruta „%s”"
+msgstr "nu s-a putut canoniza numele rutei „%s”"
 
 #: lib/dpkg/file.c
 #, c-format
@@ -1727,14 +1726,13 @@ msgstr "avertisment"
 
 #: lib/dpkg/report.c
 msgid "hint"
-msgstr ""
+msgstr "sugestie"
 
 #: lib/dpkg/strvec.c
-#, fuzzy, c-format
-#| msgid "cannot grow varbuf to size %zu; it would overflow"
+#, c-format
 msgid "cannot grow strvec to size %zu; it would overflow"
 msgstr ""
-"nu se poate crește dimensiunea lui „varbuf” la %zu; aceasta ar produce "
+"nu se poate crește dimensiunea lui „strvec” la %zu; aceasta ar produce "
 "debordare"
 
 #: lib/dpkg/strwide.c
@@ -2553,10 +2551,9 @@ msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "„%s” conține o valoare definită de utilizator pentru Priority „%s”"
 
 #: src/deb/build.c
-#, fuzzy, c-format
-#| msgid "cannot get %s file metadata"
+#, c-format
 msgid "cannot get root directory %s metadata"
-msgstr "nu se pot obține metadatele fișierului %s"
+msgstr "nu se pot obține metadatele directorului rădăcină %s"
 
 # R-GC, scrie:
 # complet ca la nebuni, asta e „găselnița”
@@ -2571,21 +2568,26 @@ msgstr "nu se pot obține metadatele fișierului %s"
 # ========================
 # într-o versiune anterioară, acest mesaj,
 # era: „control directory is not a directory”
+# -----------------------------------------------
+# în această versiune (1.22.18) parcă s-a
+# revenit la normal:
+# „root pathname %s is not a directory”
 #: src/deb/build.c
-#, fuzzy, c-format
-#| msgid "treewalk root %s is not a directory"
+#, c-format
 msgid "root pathname %s is not a directory"
-msgstr "rădăcina căutării în arbore %s nu este un director"
+msgstr "numele rutei rădăcină %s nu este un director"
 
 #: src/deb/build.c
 #, c-format
 msgid "root directory %s has unusual owner or group %u:%u"
-msgstr ""
+msgstr "directorul rădăcină %s are proprietar sau grup neobișnuit %u:%u"
 
 #: src/deb/build.c
 #, c-format
 msgid "you might need to pass --root-owner-group, see <%s> for further details"
 msgstr ""
+"s-ar putea să fie necesar să introduceți „--root-owner-group”, consultați "
+"<%s> pentru mai multe detalii"
 
 #: src/deb/build.c
 #, c-format
@@ -3016,33 +3018,7 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  -v, --verbose                    Enable verbose output.\n"
-#| "  -D, --debug                      Enable debugging output.\n"
-#| "      --showformat=<format>        Use alternative format for --show.\n"
-#| "      --deb-format=<format>        Select archive format.\n"
-#| "                                     Allowed values: 0.939000, 2.0 "
-#| "(default).\n"
-#| "      --nocheck                    Suppress control file check (build "
-#| "bad\n"
-#| "                                     packages).\n"
-#| "      --root-owner-group           Forces the owner and groups to root.\n"
-#| "      --threads-max=<threads>      Use at most <threads> with "
-#| "compressor.\n"
-#| "      --[no-]uniform-compression   Use the compression params on all "
-#| "members.\n"
-#| "  -Z, --compression=<compressor>   Set build compression type.\n"
-#| "                                     Allowed types: gzip, xz, zstd, "
-#| "none.\n"
-#| "  -z, --compression-level=<level>  Set build compression level.\n"
-#| "  -S, --compression-strategy=<name>\n"
-#| "                                   Set build compression strategy.\n"
-#| "                                     Allowed values: none; extreme (xz);\n"
-#| "                                     filtered, huffman, rle, fixed "
-#| "(gzip).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -3078,6 +3054,7 @@ msgstr ""
 "     --nocheck                      suprimă verificarea fișierului de "
 "control\n"
 "                                    (construiește pachete eronate)\n"
+"      --nocheck                    alias pentru „--no-check”\n"
 "     --root-owner-group             forțează proprietarul și grupurile la "
 "root\n"
 "     --threads-max=<fire>           utilizează cel mult <fire> la "
@@ -3099,6 +3076,7 @@ msgstr ""
 "                                    valorile permise sunt: none; extreme "
 "(xz);\n"
 "                                    filtered, huffman, rle, fixed (gzip)\n"
+"\n"
 
 #: src/deb/main.c src/query/main.c
 #, c-format
@@ -4598,24 +4576,20 @@ msgid "Replaced by files in installed package %s (%s) ...\n"
 msgstr "Înlocuite de fișierele din pachetul instalat %s (%s) ...\n"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "trying to overwrite directory '%.250s' in package %.250s %.250s with "
-#| "nondirectory"
+#, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s (%.250s) with "
 "nondirectory"
 msgstr ""
-"se încearcă suprascrierea directorului „%.250s” din pachetul %.250s %.250s "
+"se încearcă suprascrierea directorului „%.250s” din pachetul %.250s (%.250s) "
 "cu un non-director"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+#, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s (%.250s)"
 msgstr ""
 "se încearcă suprascrierea lui „%.250s”, care este și în pachetul %.250s "
-"%.250s"
+"(%.250s)"
 
 #: src/main/archives.c
 #, c-format
@@ -4853,24 +4827,21 @@ msgid "Skipping unselected package %s.\n"
 msgstr "Se omite pachetul neselectat %s.\n"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "version %.250s of %.250s already installed, skipping"
+#, c-format
 msgid "package %.250s (%.250s) with same version already installed, skipping"
-msgstr "versiunea %.250s a lui %.250s este deja instalată, se omite"
+msgstr "pachetul %.250s (%.250s) cu aceeași versiune deja instalată, se omite"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "downgrading %.250s from %.250s to %.250s"
+#, c-format
 msgid "downgrading %.250s (%.250s) to (%.250s)"
-msgstr "se retrogradează %.250s de la %.250s la %.250s"
+msgstr "se retrogradează %.250s de la versiunea (%.250s) la versiunea (%.250s)"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+#, c-format
 msgid "will not downgrade %.250s (%.250s) to (%.250s), skipping"
 msgstr ""
-"nu se va retrograda %.250s de la versiunea %.250s la versiunea %.250s, se "
-"omite"
+"nu se va retrograda %.250s de la versiunea (%.250s) la versiunea (%.250s), "
+"se omite"
 
 #: src/main/cleanup.c
 #, c-format
@@ -5128,15 +5099,12 @@ msgstr ""
 "„%s”)"
 
 #: src/main/configure.c
-#, fuzzy, c-format
-#| msgid ""
-#| "package %s %s cannot be configured because %s is at a different version "
-#| "(%s)"
+#, c-format
 msgid ""
 "package %s (%s) cannot be configured because %s is at a different version "
 "(%s)"
 msgstr ""
-"pachetul %s %s nu poate fi configurat deoarece versiunea de %s este diferită "
+"pachetul %s (%s) nu poate fi configurat deoarece %s are o versiune diferită "
 "(%s)"
 
 #: src/main/configure.c
