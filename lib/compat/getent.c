@@ -158,8 +158,11 @@ fgetpwent(FILE *fp)
 
 		/* Special case NIS compat entries. */
 		if (pw.pw_name[0] == '+' || pw.pw_name[0] == '-') {
-			if (ent_empty_str == NULL)
+			if (ent_empty_str == NULL) {
 				ent_empty_str = strdup("");
+				if (ent_empty_str == NULL)
+					return NULL;
+			}
 
 			pw.pw_passwd = ent_empty_str;
 			pw.pw_uid = 0;
@@ -212,11 +215,15 @@ fgetgrent(FILE *fp)
 			gr.gr_passwd = ent_empty_str;
 			gr.gr_gid = 0;
 			gr.gr_mem = alloc_subfields(0, &gr_mem, &gr_mem_len);
+			if (gr.gr_mem == NULL)
+				return NULL;
 			gr.gr_mem[0] = NULL;
 		} else {
 			PARSE_FIELD_STR(gr.gr_passwd);
 			PARSE_FIELD_ID(gr.gr_gid);
 			gr.gr_mem = parse_subfields(&cur, ',', &gr_mem, &gr_mem_len);
+			if (gr.gr_mem == NULL)
+				return NULL;
 		}
 
 		return &gr;
