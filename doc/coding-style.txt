@@ -278,7 +278,7 @@ see what operation is being done:
 		foo();
 
 
-Dpkg Perl coding style 2019-03-27
+Dpkg Perl coding style 2025-05-20
 ======================
 
 Perl version
@@ -286,14 +286,14 @@ Perl version
 
 We don't want to impose a too-recent Perl version, so only use features
 supported by the Perl version that is currently in Debian oldstable when
-possible. Currently that means Perl 5.32.1.
+possible. Currently that means Perl 5.36.0.
 
 General
 ~~~~~~~
 
 In general you should follow the conventions listed in perlstyle(1).
-All the code should run with the “use strict” and “use warnings” pragmas,
-and pass «make authorcheck».
+All the code should run with at least “use v5.36” (implying “use strict”
+and “use warnings” pragmas), and pass «make authorcheck».
 
 Code documentation
 ~~~~~~~~~~~~~~~~~~
@@ -325,8 +325,7 @@ Object methods
 Use a single line to retrieve all the arguments and use $self as name
 for the current object:
 
-sub do_something {
-    my ($self, $arg1, $arg2, %opts) = @_;
+sub do_something ($self, $arg1, $arg2, %opts) {
     ...
 }
 
