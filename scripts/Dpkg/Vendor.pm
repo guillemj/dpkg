@@ -44,8 +44,7 @@ file can have the same casing as the Vendor field, or it can be capitalized.
 
 package Dpkg::Vendor 1.03;
 
-use strict;
-use warnings;
+use v5.36;
 use feature qw(state);
 
 our @EXPORT_OK = qw(

@@ -18,8 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use strict;
-use warnings;
+use v5.36;
 
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);

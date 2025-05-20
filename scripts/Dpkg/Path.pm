@@ -28,8 +28,7 @@ It provides some functions to handle various path.
 
 package Dpkg::Path 1.05;
 
-use strict;
-use warnings;
+use v5.36;
 
 our @EXPORT_OK = qw(
     canonpath

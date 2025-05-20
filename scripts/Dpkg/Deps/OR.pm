@@ -34,8 +34,7 @@ for the dependency to be true. It inherits from L<Dpkg::Deps::Multiple>.
 
 package Dpkg::Deps::OR 1.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 use parent qw(Dpkg::Deps::Multiple);
 

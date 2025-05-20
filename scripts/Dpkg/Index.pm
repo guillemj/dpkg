@@ -28,8 +28,7 @@ This class represent a set of L<Dpkg::Control> objects.
 
 package Dpkg::Index 3.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

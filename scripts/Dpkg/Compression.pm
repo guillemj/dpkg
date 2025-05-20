@@ -29,8 +29,7 @@ interact with the set of supported compression methods.
 
 package Dpkg::Compression 2.01;
 
-use strict;
-use warnings;
+use v5.36;
 
 our @EXPORT = qw(
     compression_is_supported

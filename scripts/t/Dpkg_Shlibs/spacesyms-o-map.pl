@@ -5,8 +5,7 @@
 # Copy the object file INPUT to OUTPUT, redefining any symbol in INPUT that
 # contains "SPACE" in its name to contain "SPA CE" instead.
 
-use strict;
-use warnings;
+use v5.36;
 
 my ($input, $output) = @ARGV;
 my @cmds = ('objcopy');

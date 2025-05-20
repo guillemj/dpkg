@@ -32,8 +32,7 @@ B<Note>: This is a private module, its API can change at any time.
 
 package Dpkg::Source::Package::V3::Bzr 0.01;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Cwd;
 use File::Basename;

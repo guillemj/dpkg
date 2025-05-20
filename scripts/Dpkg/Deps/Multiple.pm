@@ -34,8 +34,7 @@ of dependencies. It is the base class for Dpkg::Deps::{AND,OR,Union}.
 
 package Dpkg::Deps::Multiple 1.02;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Carp;
 

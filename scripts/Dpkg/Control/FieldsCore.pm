@@ -30,8 +30,7 @@ CTRL_* constants exported by L<Dpkg::Control>.
 
 package Dpkg::Control::FieldsCore 1.04;
 
-use strict;
-use warnings;
+use v5.36;
 
 our @EXPORT = qw(
     field_capitalize

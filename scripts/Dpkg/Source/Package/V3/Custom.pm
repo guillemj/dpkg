@@ -30,8 +30,7 @@ B<Note>: This is a private module, its API can change at any time.
 
 package Dpkg::Source::Package::V3::Custom 0.01;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

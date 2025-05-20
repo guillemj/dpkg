@@ -30,8 +30,7 @@ B<Note>: This is a private module, its API can change at any time.
 
 package Dpkg::Source::Package::V3::Git 0.02;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Cwd qw(abs_path getcwd);
 use File::Basename;

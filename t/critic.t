@@ -13,8 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use strict;
-use warnings;
+use v5.36;
 
 use Test::More;
 use Test::Dpkg qw(:needs);
@@ -108,7 +107,6 @@ my @policies = qw(
     ValuesAndExpressions::ProhibitMixedBooleanOperators
     ValuesAndExpressions::ProhibitQuotesAsQuotelikeOperatorDelimiters
     ValuesAndExpressions::ProhibitSpecialLiteralHeredocTerminator
-    ValuesAndExpressions::ProhibitVersionStrings
     ValuesAndExpressions::RequireConstantVersion
     ValuesAndExpressions::RequireQuotedHeredocTerminator
     ValuesAndExpressions::RequireUpperCaseHeredocTerminator

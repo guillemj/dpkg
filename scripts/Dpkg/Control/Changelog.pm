@@ -28,8 +28,7 @@ CTRL_CHANGELOG.
 
 package Dpkg::Control::Changelog 1.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Dpkg::Control;
 

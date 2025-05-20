@@ -29,8 +29,7 @@ to query the same information.
 
 package Dpkg::BuildFlags 1.06;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Dpkg ();
 use Dpkg::Gettext;

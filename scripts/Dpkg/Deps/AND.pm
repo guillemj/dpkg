@@ -34,8 +34,7 @@ time. It inherits from L<Dpkg::Deps::Multiple>.
 
 package Dpkg::Deps::AND 1.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 use parent qw(Dpkg::Deps::Multiple);
 

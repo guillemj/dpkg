@@ -29,8 +29,7 @@ B<Note>: This is a private module, its API can change at any time.
 
 package Dpkg::Source::Quilt 0.02;
 
-use strict;
-use warnings;
+use v5.36;
 
 use List::Util qw(any none);
 use File::Spec;

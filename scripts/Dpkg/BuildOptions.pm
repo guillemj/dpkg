@@ -31,8 +31,7 @@ DEB_BUILD_MAINT_OPTIONS.
 
 package Dpkg::BuildOptions 1.02;
 
-use strict;
-use warnings;
+use v5.36;
 
 use List::Util qw(any);
 

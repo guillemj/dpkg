@@ -34,8 +34,7 @@ B<Note>: This is a private module, its API can change at any time.
 
 package Dpkg::BuildTypes 0.02;
 
-use strict;
-use warnings;
+use v5.36;
 
 our @EXPORT = qw(
     BUILD_DEFAULT

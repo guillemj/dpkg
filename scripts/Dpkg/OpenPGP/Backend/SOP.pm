@@ -31,8 +31,7 @@ B<Note>: This is a private module, its API can change at any time.
 
 package Dpkg::OpenPGP::Backend::SOP 0.01;
 
-use strict;
-use warnings;
+use v5.36;
 
 use POSIX qw(:sys_wait_h);
 

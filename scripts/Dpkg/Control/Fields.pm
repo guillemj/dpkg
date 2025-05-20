@@ -30,8 +30,7 @@ inherited from L<Dpkg::Control::FieldsCore>.
 
 package Dpkg::Control::Fields 1.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 our @EXPORT = @Dpkg::Control::FieldsCore::EXPORT;
 

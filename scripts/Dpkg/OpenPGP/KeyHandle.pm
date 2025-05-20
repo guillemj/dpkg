@@ -30,8 +30,7 @@ B<Note>: This is a private module, its API can change at any time.
 
 package Dpkg::OpenPGP::KeyHandle 0.01;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Carp;
 use List::Util qw(any none);

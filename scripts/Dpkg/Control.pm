@@ -138,8 +138,7 @@ Deprecated alias for CTRL_REPO_PKG.
 
 package Dpkg::Control 1.05;
 
-use strict;
-use warnings;
+use v5.36;
 
 our @EXPORT = qw(
     CTRL_UNKNOWN

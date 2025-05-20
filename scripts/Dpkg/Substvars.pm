@@ -28,8 +28,7 @@ It provides a class which is able to substitute variables in strings.
 
 package Dpkg::Substvars 2.03;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);

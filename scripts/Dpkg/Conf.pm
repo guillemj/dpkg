@@ -28,8 +28,7 @@ file. It can export an array that can then be parsed exactly like @ARGV.
 
 package Dpkg::Conf 1.04;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Carp;
 

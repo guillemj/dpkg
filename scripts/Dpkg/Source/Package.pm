@@ -31,8 +31,7 @@ is the one that supports the extraction of the source package.
 
 package Dpkg::Source::Package 2.03;
 
-use strict;
-use warnings;
+use v5.36;
 
 our @EXPORT_OK = qw(
     get_default_diff_ignore_regex

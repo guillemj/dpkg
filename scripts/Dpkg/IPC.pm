@@ -32,8 +32,7 @@ from you.
 
 package Dpkg::IPC 1.02;
 
-use strict;
-use warnings;
+use v5.36;
 
 our @EXPORT = qw(
     spawn

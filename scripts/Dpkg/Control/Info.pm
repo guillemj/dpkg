@@ -29,8 +29,7 @@ syntax as F<debian/control>.
 
 package Dpkg::Control::Info 1.01;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Dpkg::Control;
 use Dpkg::ErrorHandling;

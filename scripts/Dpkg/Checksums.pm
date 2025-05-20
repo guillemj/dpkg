@@ -31,8 +31,7 @@ about supported checksums.
 
 package Dpkg::Checksums 1.04;
 
-use strict;
-use warnings;
+use v5.36;
 
 our @EXPORT = qw(
     checksums_is_supported

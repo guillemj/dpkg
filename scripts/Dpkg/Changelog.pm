@@ -31,8 +31,7 @@ add the ability to fill this object with changelog entries.
 
 package Dpkg::Changelog 2.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Carp;
 

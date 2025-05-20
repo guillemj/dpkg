@@ -32,8 +32,7 @@ to import specific symbol subsets.
 
 package Dpkg::Arch 1.03;
 
-use strict;
-use warnings;
+use v5.36;
 use feature qw(state);
 
 our @EXPORT_OK = qw(

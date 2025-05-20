@@ -34,8 +34,7 @@ packages provided (by the set of installed packages).
 
 package Dpkg::Deps::KnownFacts 2.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Dpkg::Version;
 

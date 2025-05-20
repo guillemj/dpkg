@@ -29,8 +29,7 @@ all implemented on top of two basic methods parse() and output().
 
 package Dpkg::Interface::Storable 1.01;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Carp;
 

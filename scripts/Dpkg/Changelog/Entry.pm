@@ -29,8 +29,7 @@ trailer line. Blank lines can be between those kind of lines.
 
 package Dpkg::Changelog::Entry 1.01;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Carp;
 

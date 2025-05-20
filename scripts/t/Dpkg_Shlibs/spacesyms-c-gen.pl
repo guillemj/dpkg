@@ -14,8 +14,7 @@
 # 2) has or does not have a space in the symbol name,
 # 3) default, hidden, protected or internal visibility.
 
-use strict;
-use warnings;
+use v5.36;
 
 my @symbols;
 

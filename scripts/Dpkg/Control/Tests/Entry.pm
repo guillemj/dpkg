@@ -27,8 +27,7 @@ This class represents a test suite entry.
 
 package Dpkg::Control::Tests::Entry 1.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

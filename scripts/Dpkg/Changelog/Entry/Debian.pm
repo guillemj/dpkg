@@ -31,8 +31,7 @@ the rest are inherited.
 
 package Dpkg::Changelog::Entry::Debian 2.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 our @EXPORT_OK = qw(
     match_header

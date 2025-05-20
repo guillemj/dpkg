@@ -28,8 +28,7 @@ It is also the entry point to the Dpkg module hierarchy.
 
 package Dpkg 2.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 our @EXPORT_OK = qw(
     $PROGNAME

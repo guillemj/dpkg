@@ -29,8 +29,7 @@ compression/decompression processes.
 
 package Dpkg::Compression::Process 1.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Carp;
 

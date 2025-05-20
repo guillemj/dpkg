@@ -28,8 +28,7 @@ syntax as F<debian/tests/control>.
 
 package Dpkg::Control::Tests 1.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Dpkg::Control;
 use Dpkg::Control::Tests::Entry;

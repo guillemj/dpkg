@@ -29,8 +29,7 @@ package F<debian/source/format> files.
 
 package Dpkg::Source::Format 1.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

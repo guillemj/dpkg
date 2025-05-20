@@ -72,8 +72,7 @@ able to open another file.
 
 package Dpkg::Compression::FileHandle 1.01;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Carp;
 

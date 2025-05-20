@@ -44,8 +44,7 @@ spaces are stripped only on the first line of each field.
 
 package Dpkg::Control::HashCore 1.02;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

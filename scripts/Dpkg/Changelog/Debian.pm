@@ -44,8 +44,7 @@ future.
 
 package Dpkg::Changelog::Debian 1.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Dpkg::Gettext;
 use Dpkg::File;

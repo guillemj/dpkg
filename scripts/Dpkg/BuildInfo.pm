@@ -28,8 +28,7 @@ information.
 
 package Dpkg::BuildInfo 1.00;
 
-use strict;
-use warnings;
+use v5.36;
 
 our @EXPORT_OK = qw(
     get_build_env_allowed

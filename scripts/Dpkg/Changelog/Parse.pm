@@ -30,8 +30,7 @@ of dpkg-parsechangelog.
 
 package Dpkg::Changelog::Parse 2.01;
 
-use strict;
-use warnings;
+use v5.36;
 
 our @EXPORT = qw(
     changelog_parse

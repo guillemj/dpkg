@@ -34,8 +34,8 @@ them.
 
 package Dpkg::Version 1.04;
 
-use strict;
-use warnings;
+use v5.36;
+
 # Currently unused, but not removed to not generate warnings on users.
 use warnings::register qw(semantic_change::overload::bool);
 

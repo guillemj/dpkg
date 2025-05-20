@@ -18,8 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use warnings;
-use strict;
+use v5.36;
 
 use List::Util qw(none);
 use File::Basename;

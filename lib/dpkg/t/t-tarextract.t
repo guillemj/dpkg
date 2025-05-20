@@ -27,8 +27,7 @@ use Dpkg ();
 use Dpkg::File;
 use Dpkg::IPC;
 
-use strict;
-use warnings;
+use v5.36;
 use version;
 
 my $srcdir = $ENV{srcdir} || '.';

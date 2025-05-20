@@ -70,8 +70,7 @@ is no restriction formula. Otherwise it is an array ref.
 
 package Dpkg::Deps::Simple 1.02;
 
-use strict;
-use warnings;
+use v5.36;
 
 use Carp;
 
