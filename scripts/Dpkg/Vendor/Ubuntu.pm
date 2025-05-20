@@ -58,13 +58,16 @@ sub run_hook {
            $fields->{'Version'} =~ /ubuntu/) {
            if ($fields->{'Maintainer'} !~ /(?:ubuntu|canonical)/i) {
                if (length $ENV{DEBEMAIL} and $ENV{DEBEMAIL} =~ /\@(?:ubuntu|canonical)\.com/) {
-                   error(g_('Version number suggests Ubuntu changes, but Maintainer: does not have Ubuntu address'));
+                   error(g_('version number suggests %s vendor changes, but the %s field does not have %s vendor address'),
+                         'Ubuntu', 'Maintainer', 'Ubuntu');
                } else {
-                   warning(g_('Version number suggests Ubuntu changes, but Maintainer: does not have Ubuntu address'));
+                   warning(g_('version number suggests %s vendor changes, but the %s field does not have %s vendor address'),
+                           'Ubuntu', 'Maintainer', 'Ubuntu');
                }
            }
            unless ($fields->{'Original-Maintainer'}) {
-               warning(g_('Version number suggests Ubuntu changes, but there is no XSBC-Original-Maintainer field'));
+               warning(g_('version number suggests %s vendor changes, but there is no %s field'),
+                       'Ubuntu', 'XSBC-Original-Maintainer');
            }
         }
     } elsif ($hook eq 'package-keyrings') {
