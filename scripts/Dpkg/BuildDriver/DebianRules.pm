@@ -223,7 +223,7 @@ sub pre_check {
         warning(g_('%s is not executable; fixing that'),
                 $self->{debian_rules}[0]);
         # No checks of failures, non fatal.
-        chmod 0755, $self->{debian_rules}[0];
+        chmod 0o755, $self->{debian_rules}[0];
     }
 }
 

@@ -681,7 +681,7 @@ sub register_patch {
     if (-s $patch_file) {
         copy($patch_file, $patch)
             or syserr(g_('failed to copy %s to %s'), $patch_file, $patch);
-        chmod_if_needed(0666 & ~ umask(), $patch)
+        chmod_if_needed(0o666 & ~ umask(), $patch)
             or syserr(g_("unable to change permission of '%s'"), $patch);
         my $applied = File::Spec->catfile($dir, 'debian', 'patches', '.dpkg-source-applied');
         open(my $applied_fh, '>>', $applied)

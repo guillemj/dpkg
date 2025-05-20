@@ -147,7 +147,7 @@ while (@ARGV) {
 
 report_options(debug_level => $debug);
 
-umask 0022; # ensure sane default permissions for created files
+umask 0o022; # ensure sane default permissions for created files
 
 if (exists $ENV{DPKG_GENSYMBOLS_CHECK_LEVEL}) {
     $compare = $ENV{DPKG_GENSYMBOLS_CHECK_LEVEL};

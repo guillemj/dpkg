@@ -68,7 +68,7 @@ if (-f "$methdir/vars") {
 
 chdir "$methdir";
 if (! -d 'debian') {
-    mkdir 'debian', 0755;
+    mkdir 'debian', 0o755;
 }
 # get info from user
 
@@ -167,7 +167,7 @@ if($@) {
 # output new vars file
 $CONFIG{done} = 1;
 store_config("$methdir/vars");
-chmod  0600, "$methdir/vars";
+chmod  0o600, "$methdir/vars";
 
 if($exit || $problem) {
     print "Press <enter> to continue\n";

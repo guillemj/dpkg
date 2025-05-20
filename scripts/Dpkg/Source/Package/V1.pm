@@ -444,7 +444,7 @@ sub do_build {
 	rename($newtar, $tarname)
 	    or syserr(g_("unable to rename '%s' (newly created) to '%s'"),
 	              $newtar, $tarname);
-	chmod(0666 &~ umask(), $tarname)
+	chmod(0o666 &~ umask(), $tarname)
 	    or syserr(g_("unable to change permission of '%s'"), $tarname);
     } else {
 	info(g_('building %s using existing %s'),
@@ -522,7 +522,7 @@ sub do_build {
 	rename($newdiffgz, $diffname)
 	    or syserr(g_("unable to rename '%s' (newly created) to '%s'"),
 	              $newdiffgz, $diffname);
-	chmod(0666 &~ umask(), $diffname)
+	chmod(0o666 &~ umask(), $diffname)
 	    or syserr(g_("unable to change permission of '%s'"), $diffname);
 
 	$self->add_file($diffname);

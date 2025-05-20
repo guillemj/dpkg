@@ -87,7 +87,7 @@ sub run_hook {
         return $self->_build_tainted_by();
     } elsif ($hook eq 'sanitize-environment') {
         # Reset umask to a sane default.
-        umask 0022;
+        umask 0o022;
         # Reset locale to a sane default.
         #
         # We ignore the LANGUAGE GNU extension, as that only affects

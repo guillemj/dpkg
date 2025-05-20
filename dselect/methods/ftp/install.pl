@@ -59,7 +59,7 @@ my $methdir = "$vardir/methods/ftp";
 read_config("$methdir/vars");
 
 chdir "$methdir";
-make_path("$methdir/$CONFIG{dldir}", { mode => 0755 });
+make_path("$methdir/$CONFIG{dldir}", { mode => 0o755 });
 
 
 #Read md5sums already calculated
@@ -229,7 +229,7 @@ foreach my $pkg (keys(%pkgs)) {
 	}
 	$dir = dirname($fn);
 	if(! -d "$dldir/$dir") {
-	    make_path("$dldir/$dir", { mode => 0755 });
+	    make_path("$dldir/$dir", { mode => 0o755 });
 	}
 	@info = @{$pkgfiles{$fn}};
 	$csize = int($info[1]/1024)+1;

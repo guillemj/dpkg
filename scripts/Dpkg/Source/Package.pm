@@ -629,7 +629,7 @@ sub extract {
         warning(g_('%s does not exist'), $rules)
             unless $self->{options}{skip_debianization};
     } elsif (-f _) {
-        chmod($s[2] | 0111, $rules)
+        chmod($s[2] | 0o111, $rules)
             or syserr(g_('cannot make %s executable'), $rules);
     } else {
         warning(g_('%s is not a plain file'), $rules);

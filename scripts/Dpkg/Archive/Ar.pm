@@ -384,7 +384,7 @@ sub add_file {
         name => $filename,
         size => $size,
         time => $self->{time},
-        mode => 0100644,
+        mode => 0o100644,
         uid => 0,
         gid => 0,
     );

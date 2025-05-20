@@ -135,7 +135,7 @@ sub do_build {
         or syserr(g_("unable to rename '%s' (newly created) to '%s'"),
                   $newtar, $tarname);
     pop_exit_handler();
-    chmod(0666 &~ umask(), $tarname)
+    chmod(0o666 &~ umask(), $tarname)
         or syserr(g_("unable to change permission of '%s'"), $tarname);
 
     $self->add_file($tarname);

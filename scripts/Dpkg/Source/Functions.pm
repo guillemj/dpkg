@@ -73,12 +73,12 @@ sub fixperms {
     # work) but we have to construct a u+/- string which is a bit
     # of a palaver.  (Numeric doesn't work because we need [ugo]+X
     # and [ugo]=<stuff> doesn't work because that unsets sgid on dirs.)
-    $mode = 0777 & ~umask;
+    $mode = 0o777 & ~umask;
     for my $i (0 .. 2) {
         $modes_set .= ',' if $i;
         $modes_set .= qw(u g o)[$i];
         for my $j (0 .. 2) {
-            $modes_set .= $mode & (0400 >> ($i * 3 + $j)) ? '+' : '-';
+            $modes_set .= $mode & (0o400 >> ($i * 3 + $j)) ? '+' : '-';
             $modes_set .= qw(r w X)[$j];
         }
     }
@@ -92,7 +92,7 @@ sub fixperms {
 # but not necessarily ownership of those files.
 sub chmod_if_needed {
     my ($newperms, $pathname) = @_;
-    my $oldperms = (stat $pathname)[2] & 07777;
+    my $oldperms = (stat $pathname)[2] & 0o7777;
 
     return 1 if $oldperms == $newperms;
     return chmod $newperms, $pathname;
