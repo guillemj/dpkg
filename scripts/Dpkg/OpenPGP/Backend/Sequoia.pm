@@ -130,6 +130,8 @@ sub inline_verify
     my $keyring_opt = $self->{cmdv} ? '--keyring' : '--signer-file';
 
     my @opts;
+    # Select stateless mode for sq.
+    push @opts, '--home=none' unless $self->{cmdv};
     push @opts, '--cleartext';
     push @opts, map { ($keyring_opt, $_) } @certs;
     my $tmpdir;
@@ -172,6 +174,8 @@ sub verify
     my $keyring_opt = $self->{cmdv} ? '--keyring' : '--signer-file';
 
     my @opts;
+    # Select stateless mode for sq.
+    push @opts, '--home=none' unless $self->{cmdv};
     push @opts, map { ($keyring_opt, $_) } @certs;
     push @opts, '--signature-file', $sig;
 
