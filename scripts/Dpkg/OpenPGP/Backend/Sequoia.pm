@@ -123,6 +123,7 @@ sub inline_verify
     my ($self, $inlinesigned, $data, @certs) = @_;
 
     return OPENPGP_MISSING_CMD unless ($self->{cmdv} || $self->{cmd});
+    return OPENPGP_NO_SIG if @certs == 0;
 
     # XXX: sqv does not support --signer-file. See:
     #   <https://gitlab.com/sequoia-pgp/sequoia-sqv/-/issues/11>.
@@ -164,6 +165,7 @@ sub verify
     my ($self, $data, $sig, @certs) = @_;
 
     return OPENPGP_MISSING_CMD unless ($self->{cmdv} || $self->{cmd});
+    return OPENPGP_NO_SIG if @certs == 0;
 
     # XXX: sqv does not support --signer-file. See:
     #   <https://gitlab.com/sequoia-pgp/sequoia-sqv/-/issues/11>.
