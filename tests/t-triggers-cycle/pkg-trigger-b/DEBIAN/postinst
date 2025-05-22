@@ -6,7 +6,7 @@ case "$1" in
     dpkg-trigger /test/trigger-a/test-file
   ;;
   triggered)
-    pkg_status=`dpkg-query -f '${Status}' -W pkg-depends`
+    pkg_status=$(dpkg-query -f '${Status}' -W pkg-depends)
     if [ "$pkg_status" = "install ok installed" ]; then
       echo "Pass: pkg-depends is installed"
     else
