@@ -5,11 +5,11 @@ set -e
 
 # Remove dselect methods state.
 purge_state() {
-  local admindir=${DPKG_ADMINDIR:-/var/lib/dpkg}
+  local admindir="${DPKG_ADMINDIR:-/var/lib/dpkg}"
 
-  rm -f $admindir/cmethopt 2>/dev/null
+  rm -f "$admindir/cmethopt" 2>/dev/null
   for method in file ftp mnt media; do
-    rm -rf $admindir/methods/$method/* 2>/dev/null
+    rm -rf "$admindir"/methods/$method/* 2>/dev/null
   done
 }
 
