@@ -127,7 +127,7 @@ opt_rename_setup(void)
 
 	opt_rename = 0;
 	warning(_("please specify --no-rename explicitly, the default "
-	          "will change to --rename in 1.20.x"));
+	          "will change to --rename not before 1.23.x"));
 }
 
 struct file {
