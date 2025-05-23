@@ -18,7 +18,6 @@ nobase_dist_perllib_DATA = \
 	Dpkg/BuildProfiles.pm \
 	Dpkg/BuildTree.pm \
 	Dpkg/BuildTypes.pm \
-	Dpkg/Build/Info.pm \
 	Dpkg/Changelog.pm \
 	Dpkg/Changelog/Debian.pm \
 	Dpkg/Changelog/Entry.pm \
