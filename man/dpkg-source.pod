@@ -315,11 +315,20 @@ Do not check signatures and checksums before unpacking (since dpkg 1.14.17).
 Do not overwrite the extraction directory if it already exists
 (since dpkg 1.18.8).
 
+=item B<--signer-certs=>I<keyring>
+
+Use this I<keyring> containing signer certificates during signature
+verification of source packages.
+
+The option may be repeated multiple times to add multiple keyrings.
+
+Supported since dpkg 1.23.0.
+
 =item B<--require-valid-signature>
 
 Refuse to unpack the source package if it doesn't contain an OpenPGP
-signature that can be verified (since dpkg 1.15.0) either with the user's
-I<trustedkeys.gpg> keyring, or
+signature that can be verified (since dpkg 1.15.0) either with
+the user supplied B<--signer-certs> keyrings, or
 one of the vendor-specific keyrings,
 including any parent vendor keyrings if relevant.
 

@@ -1,5 +1,5 @@
 # Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
-# Copyright © 2008-2019 Guillem Jover <guillem@debian.org>
+# Copyright © 2008-2025 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ is the one that supports the extraction of the source package.
 
 =cut
 
-package Dpkg::Source::Package 2.03;
+package Dpkg::Source::Package 2.04;
 
 use v5.36;
 
@@ -193,6 +193,11 @@ If set to 1, do not apply Debian changes on the extracted source package.
 If set to 1, do not apply Debian-specific patches. This options is
 specific for source packages using format "2.0" and "3.0 (quilt)".
 
+=item B<certs>
+
+An array ref with a list of certificate keyrings to use for signature
+verification.
+
 =item B<require_valid_signature>
 
 If set to 1, the check_signature() method will be stricter and will error
@@ -277,6 +282,7 @@ sub init_options {
     $self->{options}{skip_patches} //= 0;
 
     # Set default validation checks.
+    $self->{options}{certs} //= [];
     $self->{options}{require_valid_signature} //= 0;
     $self->{options}{require_strong_checksums} //= 0;
 
@@ -531,6 +537,9 @@ sub check_signature {
 
     info(g_('verifying %s'), $dsc);
 
+    if (@{$self->{options}{certs}}) {
+        push @certs, @{$self->{options}{certs}};
+    }
     push @certs, $self->{openpgp}->get_trusted_keyrings();
 
     foreach my $vendor_keyring (run_vendor_hook('package-keyrings')) {
@@ -720,6 +729,10 @@ sub write_dsc {
 =back
 
 =head1 CHANGES
+
+=head2 Version 2.04 (dpkg 1.23.0)
+
+New options: certs in $p->check_checksums().
 
 =head2 Version 2.03 (dpkg 1.22.7)
 

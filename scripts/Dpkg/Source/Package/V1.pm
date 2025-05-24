@@ -76,6 +76,7 @@ sub init_options {
     $self->{options}{abort_on_upstream_changes} //= 0;
 
     # Set default validation checks.
+    $self->{options}{certs} //= [];
     $self->{options}{require_valid_signature} //= 0;
     $self->{options}{require_strong_checksums} //= 0;
 

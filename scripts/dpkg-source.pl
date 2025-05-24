@@ -71,6 +71,7 @@ my %options = (
     no_overwrite_dir => 1,
     require_valid_signature => 0,
     require_strong_checksums => 0,
+    certs => [],
 );
 
 # Fields to remove/override.
@@ -203,6 +204,8 @@ while (@options) {
         $options{no_check} = 1;
     } elsif (m/^--no-overwrite-dir$/) {
         $options{no_overwrite_dir} = 1;
+    } elsif (m/^--signer-certs=(.*)$/) {
+        push @{$options{certs}}, $1;
     } elsif (m/^--require-valid-signature$/) {
         $options{require_valid_signature} = 1;
     } elsif (m/^--require-strong-checksums$/) {
@@ -682,6 +685,7 @@ sub usage {
   --no-copy                do not copy .orig tarballs
   --no-check               do not check signature and checksums on extraction
   --no-overwrite-dir       do not overwrite directory on extraction
+  --signer-certs=<keyring> use a signer certificates keyring
   --require-valid-signature
                            abort if the package does not have a valid signature
   --require-strong-checksums
