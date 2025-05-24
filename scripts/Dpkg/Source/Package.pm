@@ -525,6 +525,8 @@ sub check_signature {
     my $dsc = $self->get_filename();
     my @certs;
 
+    info(g_('verifying %s'), $dsc);
+
     push @certs, $self->{openpgp}->get_trusted_keyrings();
 
     foreach my $vendor_keyring (run_vendor_hook('package-keyrings')) {
