@@ -50,14 +50,14 @@ sub run_hook {
     my ($self, $hook, @params) = @_;
 
     if ($hook eq 'package-keyrings') {
-        return ('/usr/share/keyrings/debian-keyring.gpg',
+        return ('/usr/share/keyrings/debian-keyring.pgp',
                 '/usr/share/keyrings/debian-tag2upload.pgp',
-                '/usr/share/keyrings/debian-nonupload.gpg',
-                '/usr/share/keyrings/debian-maintainers.gpg');
+                '/usr/share/keyrings/debian-nonupload.pgp',
+                '/usr/share/keyrings/debian-maintainers.pgp');
     } elsif ($hook eq 'archive-keyrings') {
-        return ('/usr/share/keyrings/debian-archive-keyring.gpg');
+        return ('/usr/share/keyrings/debian-archive-keyring.pgp');
     } elsif ($hook eq 'archive-keyrings-historic') {
-        return ('/usr/share/keyrings/debian-archive-removed-keys.gpg');
+        return ('/usr/share/keyrings/debian-archive-removed-keys.pgp');
     } elsif ($hook eq 'builtin-build-depends') {
         return qw(build-essential:native);
     } elsif ($hook eq 'builtin-build-conflicts') {
