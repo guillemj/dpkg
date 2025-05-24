@@ -537,10 +537,18 @@ sub check_signature {
 
     info(g_('verifying %s'), $dsc);
 
+    # User specified signer certificates, otherwise fallback to use the
+    # trusted keyrings.
     if (@{$self->{options}{certs}}) {
         push @certs, @{$self->{options}{certs}};
+    } else {
+        foreach my $keyring ($self->{openpgp}->get_trusted_keyrings()) {
+            push @certs, $keyring;
+            warning(g_('using implicit trusted keyring %s is deprecated; ' .
+                       'use --signer-cert with an OpenPGP keyring instead'),
+                    $keyring);
+        }
     }
-    push @certs, $self->{openpgp}->get_trusted_keyrings();
 
     foreach my $vendor_keyring (run_vendor_hook('package-keyrings')) {
         if (-r $vendor_keyring) {
