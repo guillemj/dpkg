@@ -86,7 +86,7 @@ sub get_trusted_keyrings {
     }
 
     my @keyrings;
-    foreach my $keyring (qw(trustedkeys.kbx trustedkeys.gpg)) {
+    foreach my $keyring (qw(trustedkeys.gpg trustedkeys.kbx)) {
         push @keyrings, "$keystore/$keyring" if -r "$keystore/$keyring";
     }
     return @keyrings;
@@ -122,6 +122,23 @@ sub _gpg_options_weak_digests {
     return @gpg_weak_digests;
 }
 
+sub _file_is_keybox($file)
+{
+    my $header;
+
+    open my $fh, '<', $file
+        or syserr(g_('cannot open %s'), $file);
+    my $rc = read $fh, $header, 32;
+    if (! defined $rc || $rc != 32) {
+        syserr(g_('cannot read %s'), $file);
+    }
+    close $fh;
+
+    my ($lead, $magic) = unpack 'a8a4', $header;
+
+    return $magic eq 'KBXf';
+}
+
 sub _gpg_verify {
     my ($self, $signeddata, $sig, $data, @certs) = @_;
 
@@ -150,9 +167,13 @@ sub _gpg_verify {
             SUFFIX => '.pgp',
         );
         my $rc;
-        if ($cert =~ m{\.kbx$}) {
-            # Accept GnuPG apparent keybox-format keyrings as-is.
+        if ($cert =~ m{\.kbx$} || _file_is_keybox($cert)) {
+            # Accept GnuPG apparent or real keybox-format keyrings as-is, but
+            # warn that they are deprecated.
             $rc = 1;
+            warning(g_('using GnuPG specific KeyBox formatted keyring %s is deprecated; ' .
+                       'use an OpenPGP formatted keyring instead'),
+                    $cert);
         } else {
             # Note that these _pgp_* functions are only necessary while
             # relying on gpgv, and gpgv itself does not verify multiple
