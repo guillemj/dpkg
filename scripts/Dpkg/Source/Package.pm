@@ -532,6 +532,9 @@ sub check_signature {
     foreach my $vendor_keyring (run_vendor_hook('package-keyrings')) {
         if (-r $vendor_keyring) {
             push @certs, $vendor_keyring;
+            info(g_('using keyring %s'), $vendor_keyring);
+        } else {
+            info(g_('skipping absent keyring %s'), $vendor_keyring);
         }
     }
 
