@@ -220,7 +220,7 @@ sub do_extract {
     }
 
     my $v = Dpkg::Version->new($fields->{'Version'});
-    if ($v->is_native()) {
+    if ($v->__is_native()) {
         warning(g_('non-native package version does not contain a revision'))
     }
 
@@ -353,7 +353,7 @@ sub can_build {
 
     my $v = Dpkg::Version->new($self->{fields}->{'Version'});
     return (0, g_('non-native package version does not contain a revision'))
-        if $v->is_native();
+        if $v->__is_native();
 
     return 1 if $self->find_original_tarballs(include_supplementary => 0);
     return 1 if $self->{options}{create_empty_orig} and

@@ -32,7 +32,7 @@ them.
 
 =cut
 
-package Dpkg::Version 1.03;
+package Dpkg::Version 1.04;
 
 use strict;
 use warnings;
@@ -186,9 +186,28 @@ sub revision {
 
 Returns true if the version is native, false if it has a revision.
 
+B<Note>: On some vendors, dpkg has been made incoherent, and a native
+source package format can end up having a non-native version, adding
+to the confusion of the whole concept. And while this method would
+be fine to be used on vendors that have a coherent native source concept,
+this is not a pattern that will be portably relied on. Thus this method
+is being deprecated.
+
 =cut
 
 sub is_native {
+    my $self = shift;
+    warnings::warning('deprecated',
+        'using Dpkg::Version->is_native() has been made incoherent and ' .
+        'confusing on some dpkg vendors; it is deprecated as not having ' .
+        'portable semantics anymore');
+    return $self->__is_native();
+}
+
+# Internal symbol for dpkg project use only, no API guarantees provided.
+# While a new method could be provided such as has_revision() (and
+# has_epoch()), the intent and semantics would be similar.
+sub __is_native {
     my $self = shift;
     return $self->{no_revision};
 }
@@ -480,6 +499,10 @@ sub version_check {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.04 (dpkg 1.23.0)
+
+Deprecated method: $v->is_native().
 
 =head2 Version 1.03 (dpkg 1.20.0)
 

@@ -49,6 +49,7 @@ use Dpkg::Source::Patch;
 use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
 use Dpkg::Source::Functions qw(erasedir);
 use Dpkg::Source::Package::V3::Native;
+use Dpkg::Vendor qw(run_vendor_hook);
 
 use parent qw(Dpkg::Source::Package);
 
@@ -205,7 +206,7 @@ sub do_extract {
         if ($tarfile =~ m/\.orig\.tar\.gz$/) {
             # We only need to warn on this branch, because of the $native reset
             # below, otherwise the V3::Native module will handle the warning.
-            if (!$v->is_native()) {
+            if (!$v->__is_native()) {
                 warning(g_('native package version may not have a revision'));
             }
 
@@ -214,7 +215,7 @@ sub do_extract {
             $native = 0;
         }
     } else {
-        if ($v->is_native()) {
+        if ($v->__is_native()) {
             warning(g_('non-native package version does not contain a revision'))
         }
     }
@@ -377,11 +378,15 @@ sub do_build {
     my $v = Dpkg::Version->new($self->{fields}->{'Version'});
     if ($sourcestyle =~ m/[kpursKPUR]/) {
         error(g_('non-native package version does not contain a revision'))
-            if $v->is_native();
+            if $v->__is_native();
     } else {
-        # TODO: This will become fatal in the near future.
-        warning(g_('native package version may not have a revision'))
-            unless $v->is_native();
+        if (!$v->__is_native) {
+            if (run_vendor_hook('has-fuzzy-native-source')) {
+                warning(g_('native package version may not have a revision'));
+            } else {
+                error(g_('native package version may not have a revision'));
+            }
+        }
     }
 
     my ($dirname, $dirbase) = fileparse($dir);

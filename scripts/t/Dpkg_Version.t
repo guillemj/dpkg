@@ -123,15 +123,15 @@ ok(!$ver->is_valid(), 'version does not start with digit 2/2');
 
 # Native and non-native versions
 $ver = Dpkg::Version->new('1.0');
-ok($ver->is_native(), 'upstream version is native');
+ok($ver->__is_native(), 'upstream version is native');
 $ver = Dpkg::Version->new('1:1.0');
-ok($ver->is_native(), 'upstream version w/ epoch is native');
+ok($ver->__is_native(), 'upstream version w/ epoch is native');
 $ver = Dpkg::Version->new('1:1.0:1.0');
-ok($ver->is_native(), 'upstream version w/ epoch and colon is native');
+ok($ver->__is_native(), 'upstream version w/ epoch and colon is native');
 $ver = Dpkg::Version->new('1.0-1');
-ok(!$ver->is_native(), 'upstream version w/ revision is not native');
+ok(!$ver->__is_native(), 'upstream version w/ revision is not native');
 $ver = Dpkg::Version->new('1.0-1.0-1');
-ok(!$ver->is_native(), 'upstream version w/ dash and revision is not native');
+ok(!$ver->__is_native(), 'upstream version w/ dash and revision is not native');
 
 # Comparisons
 foreach my $case (@tests) {

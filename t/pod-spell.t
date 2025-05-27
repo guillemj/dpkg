@@ -100,6 +100,7 @@ modelines
 multiarch
 nocheck
 objdump
+portably
 qa
 quiesced
 reportfile

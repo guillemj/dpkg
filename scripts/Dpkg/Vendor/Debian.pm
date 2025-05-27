@@ -106,6 +106,8 @@ sub run_hook {
         $ENV{LC_CTYPE} = 'C.UTF-8';
     } elsif ($hook eq 'backport-version-regex') {
         return qr/~(bpo|deb)/;
+    } elsif ($hook eq 'has-fuzzy-native-source') {
+        return 1;
     } else {
         return $self->SUPER::run_hook($hook, @params);
     }
