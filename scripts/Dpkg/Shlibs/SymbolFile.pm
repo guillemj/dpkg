@@ -421,14 +421,6 @@ sub merge_symbols {
 
     my %include_groups = ();
     my $groups = $self->get_field($soname, 'Allow-Internal-Symbol-Groups');
-    if (not defined $groups) {
-        $groups = $self->get_field($soname, 'Ignore-Blacklist-Groups');
-        if (defined $groups) {
-            warnings::warnif('deprecated',
-                'symbols file field "Ignore-Blacklist-Groups" is deprecated, ' .
-                'use "Allow-Internal-Symbol-Groups" instead');
-        }
-    }
     if (defined $groups) {
         $include_groups{$_} = 1 foreach (split ' ', $groups);
     }
@@ -443,11 +435,6 @@ sub merge_symbols {
 
             if ($symobj->has_tag('allow-internal')) {
                 # Allow the symbol.
-            } elsif ($symobj->has_tag('ignore-blacklist')) {
-                # Allow the symbol and warn.
-                warnings::warnif('deprecated',
-                    'symbol tag "ignore-blacklist" is deprecated, ' .
-                    'use "allow-internal" instead');
             } else {
                 # Ignore the symbol.
                 next;
