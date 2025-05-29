@@ -251,7 +251,7 @@ empty line to separate each part.
 sub normalize {
     my $self = shift;
     $self->SUPER::normalize();
-    #XXX: recreate header/trailer
+    # XXX: recreate header/trailer
 }
 
 =item $src = $entry->get_source()
