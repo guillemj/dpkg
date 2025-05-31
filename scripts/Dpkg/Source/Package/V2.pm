@@ -46,6 +46,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::File;
 use Dpkg::Path qw(find_command);
+use Dpkg::Version;
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
@@ -344,6 +345,11 @@ sub _upstream_tarball_template {
 
 sub can_build {
     my ($self, $dir) = @_;
+
+    my $v = Dpkg::Version->new($self->{fields}->{'Version'});
+    return (0, g_('non-native package version does not contain a revision'))
+        if $v->is_native();
+
     return 1 if $self->find_original_tarballs(include_supplementary => 0);
     return 1 if $self->{options}{create_empty_orig} and
                 $self->find_original_tarballs(include_main => 0);

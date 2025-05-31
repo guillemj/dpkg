@@ -39,7 +39,6 @@ use File::Copy;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::File;
-use Dpkg::Version;
 use Dpkg::Source::Patch;
 use Dpkg::Source::Functions qw(erasedir chmod_if_needed fs_time);
 use Dpkg::Source::Quilt;
@@ -104,10 +103,6 @@ sub can_build {
     my ($self, $dir) = @_;
     my ($code, $msg) = $self->SUPER::can_build($dir);
     return ($code, $msg) if $code == 0;
-
-    my $v = Dpkg::Version->new($self->{fields}->{'Version'});
-    return (0, g_('non-native package version does not contain a revision'))
-        if $v->is_native();
 
     my $quilt = $self->_build_quilt_object($dir);
     $msg = $quilt->find_problems();
