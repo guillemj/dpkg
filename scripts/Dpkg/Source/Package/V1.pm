@@ -42,6 +42,7 @@ use File::Spec;
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Version;
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
@@ -199,9 +200,23 @@ sub do_extract {
 
     error(g_('no tarfile in Files field')) unless $tarfile;
     my $native = $difffile ? 0 : 1;
-    if ($native and ($tarfile =~ /\.orig\.tar\.gz$/)) {
-        warning(g_('native package with .orig.tar'));
-        $native = 0; # V3::Native doesn't handle orig.tar
+    my $v = Dpkg::Version->new($fields->{'Version'});
+    if ($native) {
+        if ($tarfile =~ m/\.orig\.tar\.gz$/) {
+            # We only need to warn on this branch, because of the $native reset
+            # below, otherwise the V3::Native module will handle the warning.
+            if (!$v->is_native()) {
+                warning(g_('native package version may not have a revision'));
+            }
+
+            warning(g_('native package with .orig.tar'));
+            # V3::Native doesn't handle "orig.tar".
+            $native = 0;
+        }
+    } else {
+        if ($v->is_native()) {
+            warning(g_('non-native package version does not contain a revision'))
+        }
     }
 
     if ($native) {

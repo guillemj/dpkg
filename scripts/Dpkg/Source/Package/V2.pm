@@ -219,6 +219,11 @@ sub do_extract {
             if $addonfile{$name} ne substr $addonsign{$name}, 0, -4;
     }
 
+    my $v = Dpkg::Version->new($fields->{'Version'});
+    if ($v->is_native()) {
+        warning(g_('non-native package version does not contain a revision'))
+    }
+
     if ($self->{options}{no_overwrite_dir} and -e $newdirectory) {
         error(g_('unpack target exists: %s'), $newdirectory);
     } else {
