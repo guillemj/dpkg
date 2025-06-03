@@ -5,14 +5,14 @@
 # Antoni Bella <bella5@teleline.es>, 2001-2002.
 # Jordi Mallach <jordi@debian.org>, 2002-2006, 2008-2010, 2015.
 # Jordà Polo <jorda@ettin.org>, 2006.
-# Guillem Jover <guillem@debian.org>, 2006-2024.
+# Guillem Jover <guillem@debian.org>, 2006-2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2025-05-19 00:00+0200\n"
-"PO-Revision-Date: 2024-07-21 19:57+0200\n"
+"PO-Revision-Date: 2025-06-03 11:18+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
 "Language: ca\n"
@@ -1046,10 +1046,9 @@ msgid "duplicate awaited trigger package '%.255s'"
 msgstr "el paquet de l'activador esperat «%.255s» és duplicat"
 
 #: lib/dpkg/file.c
-#, fuzzy, c-format
-#| msgid "cannot stat pathname '%s'"
+#, c-format
 msgid "cannot canonicalize pathname %s"
-msgstr "no es pot fer «stat» al nom de camí «%s»"
+msgstr "no es pot canonintzar el nom de camí «%s»"
 
 #: lib/dpkg/file.c
 #, c-format
@@ -1639,14 +1638,13 @@ msgstr "avís"
 
 #: lib/dpkg/report.c
 msgid "hint"
-msgstr ""
+msgstr "consell"
 
 #: lib/dpkg/strvec.c
-#, fuzzy, c-format
-#| msgid "cannot grow varbuf to size %zu; it would overflow"
+#, c-format
 msgid "cannot grow strvec to size %zu; it would overflow"
 msgstr ""
-"no es pot augmentar la mida del “varbuf” a %zu; es produiria desbordament"
+"no es pot augmentar la mida del “strvec” a %zu; es produiria desbordament"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -2370,26 +2368,26 @@ msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "«%s» conté un valor Priority «%s» definit per l'usuari"
 
 #: src/deb/build.c
-#, fuzzy, c-format
-#| msgid "cannot get %s file metadata"
+#, c-format
 msgid "cannot get root directory %s metadata"
-msgstr "no es poden obtenir les metadades del fitxer «%s»"
+msgstr "no es poden obtenir les metadades del directori arrel «%s»"
 
 #: src/deb/build.c
-#, fuzzy, c-format
-#| msgid "treewalk root %s is not a directory"
+#, c-format
 msgid "root pathname %s is not a directory"
-msgstr "l'arrel pel caminador de l'arbre «%s» no és un directori"
+msgstr "el nom de cami arrel «%s» no és un directori"
 
 #: src/deb/build.c
 #, c-format
 msgid "root directory %s has unusual owner or group %u:%u"
-msgstr ""
+msgstr "el directori arrel %s té un propietari o group inusual %u:%u"
 
 #: src/deb/build.c
 #, c-format
 msgid "you might need to pass --root-owner-group, see <%s> for further details"
 msgstr ""
+"es possible que hagueu de passar --root-owner-group, vegeu <%s> per a més "
+"detalls"
 
 #: src/deb/build.c
 #, c-format
@@ -2691,10 +2689,9 @@ msgid "'%.255s' contains no control component '%.255s'"
 msgstr "«%.255s» no conté cap component de control «%.255s»"
 
 #: src/deb/info.c
-#, fuzzy, c-format
-#| msgid "cannot open file %s"
+#, c-format
 msgid "cannot open file '%.255s'"
-msgstr "no es pot obrir el fitxer «%s»"
+msgstr "no es pot obrir el fitxer «%.255s»"
 
 #: src/deb/info.c
 #, c-format
@@ -2709,16 +2706,14 @@ msgid "cannot scan directory '%.255s'"
 msgstr "no es pot examinar el directori «%.255s»"
 
 #: src/deb/info.c
-#, fuzzy, c-format
-#| msgid "cannot get %s file metadata"
+#, c-format
 msgid "cannot get file '%.255s' metadata"
-msgstr "no es poden obtenir les metadades del fitxer «%s»"
+msgstr "no es poden obtenir les metadades del fitxer «%.255s»"
 
 #: src/deb/info.c
-#, fuzzy, c-format
-#| msgid "cannot read link '%s'"
+#, c-format
 msgid "cannot read file '%.255s'"
-msgstr "no es pot llegir l'enllaç «%s»"
+msgstr "no es pot llegir el fitxer «%.255s»"
 
 #: src/deb/info.c
 #, c-format
@@ -2825,35 +2820,7 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  -v, --verbose                    Enable verbose output.\n"
-#| "  -D, --debug                      Enable debugging output.\n"
-#| "      --showformat=<format>        Use alternative format for --show.\n"
-#| "      --deb-format=<format>        Select archive format.\n"
-#| "                                     Allowed values: 0.939000, 2.0 "
-#| "(default).\n"
-#| "      --nocheck                    Suppress control file check (build "
-#| "bad\n"
-#| "                                     packages).\n"
-#| "      --root-owner-group           Forces the owner and groups to root.\n"
-#| "      --threads-max=<threads>      Use at most <threads> with "
-#| "compressor.\n"
-#| "      --[no-]uniform-compression   Use the compression params on all "
-#| "members.\n"
-#| "  -z#                              Set the compression level when "
-#| "building.\n"
-#| "  -Z<type>                         Set the compression type used when "
-#| "building.\n"
-#| "                                     Allowed types: gzip, xz, zstd, "
-#| "none.\n"
-#| "  -S<strategy>                     Set the compression strategy when "
-#| "building.\n"
-#| "                                     Allowed values: none; extreme (xz);\n"
-#| "                                     filtered, huffman, rle, fixed "
-#| "(gzip).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -2885,17 +2852,20 @@ msgstr ""
 "      --deb-format=<format>  Selecciona el format d'arxiu.\n"
 "                               Valors permesos: 0.939000, 2.0 "
 "(predeterminat).\n"
-"      --nocheck              Suprimeix la comprovació del fitxer de control\n"
+"      --no-check             Suprimeix la comprovació del fitxer de control\n"
 "                               (construeix un paquet erroni).\n"
+"      --nocheck              Alies de --no-check.\n"
 "      --root-owner-group     Força el propietari i el grup a «root».\n"
 "      --threads-max=<fils>   Empra com a mínim <fils> amb el compressor.\n"
 "      --[no-]uniform-compression\n"
 "                             Empra els paràmetres de compressió en tots els\n"
 "                               elements.\n"
-"  -z#                        Estableix el nivell de compressió.\n"
-"  -Z<tipus>                  Estableix el tipus de compressió.\n"
+"  -Z, --compression=<tipus>  Estableix el tipus de compressió.\n"
 "                               Tipus permesos: gzip, xz, zstd, none.\n"
-"  -S<estratègia>             Estableix l'estratègia de compressió.\n"
+"  -z, --compression-level=<nivell>\n"
+"                             Estableix el nivell de compressió.\n"
+"  -S, --compression-strategy=<nom>\n"
+"                             Estableix l'estratègia de compressió.\n"
 "                               Valors permesos: none; extreme (xz);\n"
 "                               filtered, huffman, rle, fixed (gzip).\n"
 "\n"
@@ -4366,24 +4336,20 @@ msgid "Replaced by files in installed package %s (%s) ...\n"
 msgstr "Reemplaçat pels fitxers al paquet instal·lat %s (%s)…\n"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "trying to overwrite directory '%.250s' in package %.250s %.250s with "
-#| "nondirectory"
+#, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s (%.250s) with "
 "nondirectory"
 msgstr ""
 "s'està intentant sobreescriure el directori «%.250s» del paquet %.250s "
-"%.250s amb un no directori"
+"(%.250s) amb un no directori"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
+#, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s (%.250s)"
 msgstr ""
 "s'està intentant sobreescriure «%.250s», que també està en el paquet %.250s "
-"%.250s"
+"(%.250s)"
 
 #: src/main/archives.c
 #, c-format
@@ -4623,22 +4589,20 @@ msgid "Skipping unselected package %s.\n"
 msgstr "S'està ometent el paquet no seleccionat %s.\n"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "version %.250s of %.250s already installed, skipping"
+#, c-format
 msgid "package %.250s (%.250s) with same version already installed, skipping"
-msgstr "la versió %.250s de %.250s ja és instal·lada, es descarta"
+msgstr ""
+"el paquet %.250s (%.250s) amb la mateixa versió ja és instal·lat, es descarta"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "downgrading %.250s from %.250s to %.250s"
+#, c-format
 msgid "downgrading %.250s (%.250s) to (%.250s)"
-msgstr "s'està desactualitzant %.250s de %.250s a %.250s"
+msgstr "s'està desactualitzant %.250s (%.250s) a (%.250s)"
 
 #: src/main/archives.c
-#, fuzzy, c-format
-#| msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
+#, c-format
 msgid "will not downgrade %.250s (%.250s) to (%.250s), skipping"
-msgstr "no es desactualitzarà %.250s de %.250s a %.250s, es descarta"
+msgstr "no es desactualitzarà %.250s (%.250s) a (%.250s), es descarta"
 
 #: src/main/cleanup.c
 #, c-format
@@ -4897,15 +4861,13 @@ msgstr ""
 "el paquet %s no es pot configurar perquè %s no està llest (estat actual «%s»)"
 
 #: src/main/configure.c
-#, fuzzy, c-format
-#| msgid ""
-#| "package %s %s cannot be configured because %s is at a different version "
-#| "(%s)"
+#, c-format
 msgid ""
 "package %s (%s) cannot be configured because %s is at a different version "
 "(%s)"
 msgstr ""
-"el paquet %s %s no es pot configurar perquè %s és en una versió (%s) diferent"
+"el paquet %s (%s) no es pot configurar perquè %s és en una versió (%s) "
+"diferent"
 
 #: src/main/configure.c
 #, c-format
