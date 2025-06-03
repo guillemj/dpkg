@@ -63,7 +63,7 @@ sub new {
     return $self;
 }
 
-=item $entry->parse($fh, $desc)
+=item $bool = $entry->parse($fh, $desc)
 
 Parse a control test entry from a filehandle. When called multiple times,
 the parsed fields are accumulated.

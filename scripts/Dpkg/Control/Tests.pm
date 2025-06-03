@@ -43,7 +43,7 @@ new or overridden with a different behavior.
 
 =over 4
 
-=item $c = Dpkg::Control::Tests->new(%opts)
+=item $ctrl_tests = Dpkg::Control::Tests->new(%opts)
 
 Create a new Dpkg::Control::Tests object, which inherits from L<Dpkg::Index>.
 
@@ -62,7 +62,7 @@ sub new {
     return bless $self, $class;
 }
 
-=item $item = $tests->new_item()
+=item $item = $ctrl_tests->new_item()
 
 Creates a new item.
 

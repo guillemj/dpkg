@@ -127,7 +127,7 @@ my %build_targets = (
 
 =over 4
 
-=item build_has_any($bits)
+=item $bool = build_has_any($bits)
 
 Return a boolean indicating whether the current build type has any of the
 specified $bits.
@@ -141,7 +141,7 @@ sub build_has_any
     return $current_type & $bits;
 }
 
-=item build_has_all($bits)
+=item $bool = build_has_all($bits)
 
 Return a boolean indicating whether the current build type has all the
 specified $bits.
@@ -155,7 +155,7 @@ sub build_has_all
     return ($current_type & $bits) == $bits;
 }
 
-=item build_has_none($bits)
+=item $bool = build_has_none($bits)
 
 Return a boolean indicating whether the current build type has none of the
 specified $bits.
@@ -169,7 +169,7 @@ sub build_has_none
     return ! ($current_type & $bits);
 }
 
-=item build_is($bits)
+=item $bool = build_is($bits)
 
 Return a boolean indicating whether the current build type is the specified
 set of $bits.
@@ -251,7 +251,7 @@ sub set_build_type_from_targets
     set_build_type($build_type, $build_option, %opts);
 }
 
-=item get_build_options_from_type()
+=item $string = get_build_options_from_type()
 
 Get the current build type as a set of comma-separated string options.
 

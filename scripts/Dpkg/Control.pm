@@ -184,7 +184,7 @@ are either new or overridden with a different behavior.
 
 =over 4
 
-=item $c = Dpkg::Control->new(%opts)
+=item $ctrl = Dpkg::Control->new(%opts)
 
 Create a new deb822 control object.
 
@@ -213,7 +213,7 @@ sub new {
     return $self;
 }
 
-=item $c->set_options(%opts)
+=item $ctrl->set_options(%opts)
 
 Changes the value of one or more options.
 
@@ -308,7 +308,7 @@ sub set_options {
     $$self->{$_} = $opts{$_} foreach keys %opts;
 }
 
-=item $c->get_type()
+=item $type = $ctrl->get_type()
 
 Returns the type of control information stored. See the type parameter
 set during new().

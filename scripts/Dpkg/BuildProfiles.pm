@@ -152,7 +152,7 @@ sub parse_build_profiles($string)
     return map { [ split ' ' ] } @restrictions;
 }
 
-=item evaluate_restriction_formula(\@formula, \@profiles)
+=item $bool = evaluate_restriction_formula(\@formula, \@profiles)
 
 Evaluate whether a restriction formula of the form "<foo bar> <baz>", given as
 a nested array, is true or false, given the array of enabled build profiles.

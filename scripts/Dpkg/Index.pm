@@ -221,7 +221,7 @@ sub set_options {
     $self->{$_} = $opts{$_} foreach keys %opts;
 }
 
-=item $index->get_type()
+=item $type = $index->get_type()
 
 Returns the type of control information stored. See the type parameter
 set during new().
@@ -251,7 +251,7 @@ sub add {
     $self->{items}{$key} = $item;
 }
 
-=item $index->parse($fh, $desc)
+=item $count = $index->parse($fh, $desc)
 
 Reads the filehandle and creates all items parsed. When called multiple
 times, the parsed stanzas are accumulated.
@@ -272,7 +272,7 @@ sub parse {
     return $i;
 }
 
-=item $index->load($file)
+=item $count = $index->load($file)
 
 Reads the file and creates all items parsed. Returns the number of items
 parsed. Handles compressed files transparently based on their extensions.
@@ -352,9 +352,11 @@ sub get {
     return map { $self->{items}{$_} } $self->get_keys(%crit);
 }
 
-=item $index->remove_by_key($key)
+=item $item = $index->remove_by_key($key)
 
 Remove the item identified by the given key.
+
+Returns the removed item.
 
 =cut
 
@@ -429,9 +431,9 @@ sub sort {
     }
 }
 
-=item $str = $index->output([$fh])
+=item $string = "$index"
 
-=item "$index"
+=item $string = $index->output([$fh])
 
 Get a string representation of the index. The L<Dpkg::Control> objects are
 output in the order which they have been read or added except if the order

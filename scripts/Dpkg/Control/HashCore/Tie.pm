@@ -55,7 +55,7 @@ use parent -norequire, qw(Tie::ExtraHash);
 
 =over 4
 
-=item Dpkg::Control::Hash->new($parent)
+=item $ctrl = Dpkg::Control::Hash->new($parent)
 
 Return a reference to a tied hash implementing storage of simple
 "field: value" mapping as used in many Debian-specific files.

@@ -87,7 +87,7 @@ sub reset {
     $self->{source} = {};
 }
 
-=item $bo->merge($content, $source)
+=item $count = $bo->merge($content, $source)
 
 Merge the options set in $content and record that they come from the
 source $source. $source is mainly used in warning messages currently
@@ -113,7 +113,7 @@ sub merge {
     return $count;
 }
 
-=item $bo->set($option, $value, [$source])
+=item $bool = $bo->set($option, $value, [$source])
 
 Store the given option in the object with the given value. It's legitimate
 for a value to be undefined if the option is a simple boolean (its
@@ -143,7 +143,7 @@ sub set {
     return 1;
 }
 
-=item $bo->get($option)
+=item $value = $bo->get($option)
 
 Return the value associated to the option. It might be undef even if the
 option exists. You might want to check with $bo->has($option) to verify if
@@ -156,7 +156,7 @@ sub get {
     return $self->{options}{$key};
 }
 
-=item $bo->has($option)
+=item $bool = $bo->has($option)
 
 Returns a boolean indicating whether the option is stored in the object.
 
@@ -218,7 +218,7 @@ sub output {
     return $res;
 }
 
-=item $bo->export([$var])
+=item $string = $bo->export([$var])
 
 Export the build options to the given environment variable. If omitted,
 the environment variable defined at creation time is assumed. The value

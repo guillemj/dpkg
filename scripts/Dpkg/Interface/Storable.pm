@@ -130,7 +130,7 @@ sub save {
     }
 }
 
-=item "$obj"
+=item $string = "$obj"
 
 Return a string representation of the object.
 

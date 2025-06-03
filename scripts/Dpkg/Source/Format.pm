@@ -40,7 +40,7 @@ use parent qw(Dpkg::Interface::Storable);
 
 =over 4
 
-=item $f = Dpkg::Source::Format->new(%opts)
+=item $format = Dpkg::Source::Format->new(%opts)
 
 Creates a new object corresponding to a source package's
 F<debian/source/format> file.
@@ -81,7 +81,7 @@ sub new {
     return $self;
 }
 
-=item $f->set_from_parts($major[, $minor[, $variant]])
+=item $format->set_from_parts($major[, $minor[, $variant]])
 
 Sets the source format from its parts. The $major part is mandatory.
 The $minor and $variant parts are optional.
@@ -98,7 +98,7 @@ sub set_from_parts {
     $self->{variant} = $variant;
 }
 
-=item ($major, $minor, $variant) = $f->set($format)
+=item ($major, $minor, $variant) = $format->set($format)
 
 Sets (and validates) the source $format specified. Will return the parsed
 format parts as a list, the optional $minor and $variant parts might be
@@ -120,9 +120,9 @@ sub set {
     }
 }
 
-=item ($major, $minor, $variant) = $f->get()
+=item ($major, $minor, $variant) = $format->get()
 
-=item $format = $f->get()
+=item $format = $format->get()
 
 Gets the source format, either as properly formatted scalar, or as a list
 of its parts, where the optional $minor and $variant parts might be undef.
@@ -142,7 +142,7 @@ sub get {
     }
 }
 
-=item $count = $f->parse($fh, $desc)
+=item $count = $format->parse($fh, $desc)
 
 Parse the source format string from $fh, with filehandle description $desc.
 
@@ -161,13 +161,13 @@ sub parse {
     return 1;
 }
 
-=item $count = $f->load($filename)
+=item $count = $format->load($filename)
 
 Parse $filename contents for a source package format string.
 
-=item $str = $f->output([$fh])
+=item $string = "$format"
 
-=item "$f"
+=item $string = $format->output([$fh])
 
 Returns a string representing the source package format version.
 If $fh is set, it prints the string to the filehandle.
@@ -184,7 +184,7 @@ sub output {
     return $str;
 }
 
-=item $f->save($filename)
+=item $format->save($filename)
 
 Save the source package format into the given $filename.
 

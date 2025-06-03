@@ -82,7 +82,7 @@ sub get_vendor_dir {
     return $origins;
 }
 
-=item $fields = get_vendor_info([$name])
+=item $ctrl = get_vendor_info([$name])
 
 Returns a L<Dpkg::Control> object with the information parsed from the
 corresponding vendor file in $Dpkg::CONFDIR/origins/. If $name is omitted,

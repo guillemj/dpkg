@@ -121,7 +121,7 @@ my $ancient_delimiter_regex = qr{
 
 =over 4
 
-=item $count = $c->parse($fh, $description)
+=item $count = $chlog->parse($fh, $description)
 
 Read the filehandle and parse a Debian changelog in it, to store the entries
 as an array of L<Dpkg::Changelog::Entry::Debian> objects.

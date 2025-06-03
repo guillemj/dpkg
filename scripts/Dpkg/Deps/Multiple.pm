@@ -86,7 +86,7 @@ sub add {
     push @{$self->{list}}, @deps;
 }
 
-=item $dep->get_deps()
+=item @dep_list = $dep->get_deps()
 
 Returns a list of sub-dependencies.
 
@@ -112,7 +112,7 @@ sub sort {
     $self->{list} = [ @res ];
 }
 
-=item $dep->arch_is_concerned($arch)
+=item $bool = $dep->arch_is_concerned($arch)
 
 Returns true if at least one of the sub-dependencies apply to this
 architecture.
@@ -150,7 +150,7 @@ sub reduce_arch {
     $self->{list} = [ @new ];
 }
 
-=item $dep->has_arch_restriction()
+=item @pkgname_list = $dep->has_arch_restriction()
 
 Returns the list of package names that have such a restriction.
 
@@ -166,7 +166,7 @@ sub has_arch_restriction {
     return @res;
 }
 
-=item $dep->profile_is_concerned()
+=item $bool = $dep->profile_is_concerned()
 
 Returns true if at least one of the sub-dependencies apply to this profile.
 
@@ -202,7 +202,7 @@ sub reduce_profiles {
     $self->{list} = [ @new ];
 }
 
-=item $dep->is_empty()
+=item $bool = $dep->is_empty()
 
 Returns true if the dependency is empty and doesn't contain any useful
 information. This is true when a (descendant of) L<Dpkg::Deps::Multiple>
@@ -216,7 +216,7 @@ sub is_empty {
     return scalar @{$self->{list}} == 0;
 }
 
-=item $dep->merge_union($other_dep)
+=item $bool = $dep->merge_union($other_dep)
 
 This method is not meaningful for this object, and will always croak.
 

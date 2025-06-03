@@ -1045,7 +1045,7 @@ our %FIELD_ORDER = (
 
 =over 4
 
-=item $f = field_capitalize($field_name)
+=item $field = field_capitalize($field_name)
 
 Returns the field name properly capitalized. All characters are lowercase,
 except the first of each word (words are separated by a hyphen in field names).

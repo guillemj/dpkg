@@ -274,7 +274,7 @@ sub set_feature {
     $self->{features}{$area}{$feature} = $enabled;
 }
 
-=item $bf->get_feature($area, $feature)
+=item $value = $bf->get_feature($area, $feature)
 
 Returns the value for the given feature within a known feature area.
 This is relevant for builtin features where the feature has a ternary
@@ -290,7 +290,7 @@ sub get_feature {
     return $self->{features}{$area}{$feature};
 }
 
-=item $bf->use_feature($area, $feature)
+=item $bool = $bf->use_feature($area, $feature)
 
 Returns true if the given feature within a known feature areas has been
 enabled, and false otherwise.
@@ -320,7 +320,7 @@ sub set_builtin {
     $self->{builtins}{$area}{$feature} = $enabled;
 }
 
-=item $bf->get_builtins($area)
+=item %builtins = $bf->get_builtins($area)
 
 Return, for the given area, a hash with keys as feature names, and values
 as booleans indicating whether the feature is handled as a builtin default
@@ -349,7 +349,7 @@ sub set_option_value {
     $self->{optvals}{$option} = $value;
 }
 
-=item $bf->get_option_value($option)
+=item $value = $bf->get_option_value($option)
 
 B<Private> method to get the value of a build option.
 Do not use outside of the dpkg project.
@@ -464,7 +464,7 @@ sub update_from_conffile {
     close($conf_fh);
 }
 
-=item $bf->get($flag)
+=item $value = $bf->get($flag)
 
 Return the value associated to the flag. It might be undef if the
 flag doesn't exist.
@@ -476,7 +476,7 @@ sub get {
     return $self->{flags}{$key};
 }
 
-=item $bf->get_feature_areas()
+=item @areas = $bf->get_feature_areas()
 
 Return the feature areas (i.e. the area values has_features will return
 true for).
@@ -489,7 +489,7 @@ sub get_feature_areas {
     return keys %{$self->{features}};
 }
 
-=item $bf->get_features($area)
+=item %features = $bf->get_features($area)
 
 Return, for the given area, a hash with keys as feature names, and values
 as booleans indicating whether the feature is enabled or not.
@@ -501,7 +501,7 @@ sub get_features {
     return %{$self->{features}{$area}};
 }
 
-=item $bf->get_origin($flag)
+=item $origin = $bf->get_origin($flag)
 
 Return the origin associated to the flag. It might be undef if the
 flag doesn't exist.
@@ -513,7 +513,7 @@ sub get_origin {
     return $self->{origin}{$key};
 }
 
-=item $bf->is_maintainer_modified($flag)
+=item $bool = $bf->is_maintainer_modified($flag)
 
 Return true if the flag is modified by the maintainer.
 
@@ -524,7 +524,7 @@ sub is_maintainer_modified {
     return $self->{maintainer}{$key};
 }
 
-=item $bf->has_features($area)
+=item $bool = $bf->has_features($area)
 
 Returns true if the given area of features is known, and false otherwise.
 The only currently recognized feature areas are "future", "qa", "sanitize",
@@ -537,7 +537,7 @@ sub has_features {
     return exists $self->{features}{$area};
 }
 
-=item $bf->has($option)
+=item $bool = $bf->has($option)
 
 Returns a boolean indicating whether the flags exists in the object.
 

@@ -42,7 +42,7 @@ use parent qw(Dpkg::Deps::Multiple);
 
 =over 4
 
-=item $dep->output([$fh])
+=item $string = $dep->output([$fh])
 
 The output() method uses ", " to join the list of sub-dependencies.
 
@@ -63,7 +63,7 @@ sub output {
     return $res;
 }
 
-=item $dep->implies($other_dep)
+=item $tribool = $dep->implies($other_dep)
 
 Returns 1 when $dep implies $other_dep. Returns 0 when $dep implies
 NOT($other_dep). Returns undef when there's no implication. $dep and
@@ -97,7 +97,7 @@ sub implies {
     return;
 }
 
-=item $dep->get_evaluation($facts)
+=item $tribool = $dep->get_evaluation($facts)
 
 Evaluates the dependency given a list of installed packages and a list of
 virtual packages provided. These lists are part of the

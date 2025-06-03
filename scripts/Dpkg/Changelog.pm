@@ -53,11 +53,11 @@ use overload
 
 =over 4
 
-=item $c = Dpkg::Changelog->new(%opts)
+=item $chlog = Dpkg::Changelog->new(%opts)
 
 Creates a new changelog object.
 
-Accepts the same options as $c->set_options().
+Accepts the same options as $chlog->set_options().
 
 =cut
 
@@ -73,7 +73,7 @@ sub new {
     return $self;
 }
 
-=item $c->set_options(%opts)
+=item $chlog->set_options(%opts)
 
 Change the value of some options.
 
@@ -94,8 +94,8 @@ in error messages.
 
 =item B<range>
 
-Defines the range of entries that we want to parse, the parser will stop
-as soon as it has parsed enough data to satisfy $c->get_range($opts{range}).
+Defines the range of entries that we want to parse, the parser will stop as
+soon as it has parsed enough data to satisfy $chlog->get_range($opts{range}).
 
 =back
 
@@ -106,7 +106,7 @@ sub set_options {
     $self->{$_} = $opts{$_} foreach keys %opts;
 }
 
-=item $count = $c->parse($fh, $description)
+=item $count = $chlog->parse($fh, $description)
 
 Read the filehandle and parse a changelog in it. The data in the object is
 reset before parsing new data.
@@ -116,13 +116,13 @@ Returns the number of changelog entries that have been parsed with success.
 This method needs to be implemented by one of the specialized changelog
 format subclasses.
 
-=item $count = $c->load($filename)
+=item $count = $chlog->load($filename)
 
 Parse $filename contents for a changelog.
 
 Returns the number of changelog entries that have been parsed with success.
 
-=item $c->reset_parse_errors()
+=item $chlog->reset_parse_errors()
 
 Can be used to delete all information about errors occurred during
 previous parse() runs.
@@ -134,7 +134,7 @@ sub reset_parse_errors {
     $self->{parse_errors} = [];
 }
 
-=item $c->parse_error($file, $line_nr, $error, [$line])
+=item $chlog->parse_error($file, $line_nr, $error, [$line])
 
 Record a new parse error in $file at line $line_nr. The error message is
 specified with $error and a copy of the line can be recorded in $line.
@@ -155,7 +155,9 @@ sub parse_error {
     }
 }
 
-=item $c->get_parse_errors()
+=item @errors = $chlog->get_parse_errors()
+
+=item $errors = $chlog->get_parse_errors()
 
 Returns all error messages from the last parse() run.
 If called in scalar context returns a human readable
@@ -167,7 +169,7 @@ an array of arrays. Each of these arrays contains
 =item 1.
 
 a string describing the origin of the data (a filename usually). If the
-reportfile configuration option was given, its value will be used instead.
+B<reportfile> configuration option was given, its value will be used instead.
 
 =item 2.
 
@@ -203,12 +205,12 @@ sub get_parse_errors {
     }
 }
 
-=item $c->set_unparsed_tail($tail)
+=item $chlog->set_unparsed_tail($tail)
 
 Add a string representing unparsed lines after the changelog entries.
 Use undef as $tail to remove the unparsed lines currently set.
 
-=item $c->get_unparsed_tail()
+=item $string = $chlog->get_unparsed_tail()
 
 Return a string representing the unparsed lines after the changelog
 entries. Returns undef if there's no such thing.
@@ -225,12 +227,14 @@ sub get_unparsed_tail {
     return $self->{unparsed_tail};
 }
 
-=item @{$c}
+=item @entries = @{$chlog}
 
 Returns all the L<Dpkg::Changelog::Entry> objects contained in this changelog
 in the order in which they have been parsed.
 
-=item $c->get_range($range)
+=item @entries = $chlog->get_range($range)
+
+=item $entries = $chlog->get_range($range)
 
 Returns an array (if called in list context) or a reference to an array of
 L<Dpkg::Changelog::Entry> objects which each represent one entry of the
@@ -435,7 +439,7 @@ sub _data_range {
     return;
 }
 
-=item $c->abort_early()
+=item $bool = $chlog->abort_early()
 
 Returns true if enough data have been parsed to be able to return all
 entries selected by the range set at creation (or with set_options).
@@ -471,14 +475,14 @@ sub abort_early {
     return;
 }
 
-=item $str = $c->output()
+=item $string = "$chlog"
 
-=item "$c"
+=item $string = $chlog->output()
 
 Returns a string representation of the changelog (it's a concatenation of
 the string representation of the individual changelog entries).
 
-=item $c->output($fh)
+=item $string = $chlog->output($fh)
 
 Output the changelog to the given filehandle.
 
@@ -500,7 +504,7 @@ sub output {
     return $str;
 }
 
-=item $c->save($filename)
+=item $chlog->save($filename)
 
 Save the changelog in the given file.
 
@@ -607,7 +611,9 @@ sub _format_rfc822 {
     return @ctrl;
 }
 
-=item $control = $c->format_range($format, $range)
+=item $ctrl_index = $chlog->format_range($format, $range)
+
+=item @ctrl_list = $chlog->format_range($format, $range)
 
 Formats the changelog into L<Dpkg::Control::Changelog> objects representing
 the entries selected by the optional range specifier (see L</RANGE SELECTION>
@@ -777,13 +783,13 @@ with only one of the options specified.
 
 =head2 Version 2.00 (dpkg 1.20.0)
 
-Remove methods: $c->dpkg(), $c->rfc822().
+Remove methods: $chlog->dpkg(), $chlog->rfc822().
 
 =head2 Version 1.01 (dpkg 1.18.8)
 
-New method: $c->format_range().
+New method: $chlog->format_range().
 
-Deprecated methods: $c->dpkg(), $c->rfc822().
+Deprecated methods: $chlog->dpkg(), $chlog->rfc822().
 
 New field Timestamp in output formats.
 

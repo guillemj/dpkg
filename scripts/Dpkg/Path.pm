@@ -58,7 +58,7 @@ use Dpkg::IPC;
 
 =over 8
 
-=item get_pkg_root_dir($file)
+=item $pathname = get_pkg_root_dir($file)
 
 This function will scan upwards the hierarchy of directory to find out
 the directory which contains the "DEBIAN" sub-directory and it will return
@@ -80,7 +80,7 @@ sub get_pkg_root_dir {
     return;
 }
 
-=item relative_to_pkg_root($file)
+=item $pathname = relative_to_pkg_root($file)
 
 Returns the filename relative to get_pkg_root_dir($file).
 
@@ -96,7 +96,7 @@ sub relative_to_pkg_root {
     return;
 }
 
-=item guess_pkg_root_dir($file)
+=item $pathname = guess_pkg_root_dir($file)
 
 This function tries to guess the root directory of the package build tree.
 It will first use get_pkg_root_dir(), but it will fallback to a more
@@ -126,7 +126,7 @@ sub guess_pkg_root_dir {
     return;
 }
 
-=item check_files_are_the_same($file1, $file2, $resolve_symlink)
+=item $bool = check_files_are_the_same($file1, $file2, $resolve_symlink)
 
 This function verifies that both files are the same by checking that the device
 numbers and the inode numbers returned by stat()/lstat() are the same. If
@@ -152,7 +152,7 @@ sub check_files_are_the_same {
 }
 
 
-=item canonpath($file)
+=item $pathname = canonpath($file)
 
 This function returns a cleaned path. It simplifies double //, and remove
 /./ and /../ intelligently. For /../ it simplifies the path only if the
@@ -189,7 +189,7 @@ sub canonpath {
     return File::Spec->catpath($v, File::Spec->catdir(@new), $file);
 }
 
-=item $newpath = resolve_symlink($symlink)
+=item $pathname = resolve_symlink($symlink)
 
 Return the filename of the file pointed by the symlink. The new name is
 canonicalized by canonpath().
@@ -249,7 +249,7 @@ sub check_directory_traversal {
     return;
 }
 
-=item $cmdpath = find_command($command)
+=item $pathname = find_command($command)
 
 Return the path of the command if defined and available on an absolute or
 relative path or on the $PATH, undef otherwise.
@@ -270,12 +270,12 @@ sub find_command {
     return;
 }
 
-=item $control_file = get_control_path($pkg, $filetype)
+=item $pathname = get_control_path($pkg, $filetype)
 
 Return the path of the control file of type $filetype for the given
 package.
 
-=item @control_files = get_control_path($pkg)
+=item @pathname_list = get_control_path($pkg)
 
 Return the path of all available control files for the given package.
 

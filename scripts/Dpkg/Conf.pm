@@ -78,7 +78,7 @@ sub new {
     return $self;
 }
 
-=item @$conf
+=item @options = @{$conf}
 
 =item @options = $conf->get_options()
 
@@ -92,11 +92,11 @@ sub get_options {
     return @{$self->{options}};
 }
 
-=item $conf->load($file)
+=item $count = $conf->load($file)
 
 Read options from a file. Return the number of options parsed.
 
-=item $conf->load_system_config($file)
+=item $count = $conf->load_system_config($file)
 
 Read options from a system configuration file.
 
@@ -111,7 +111,7 @@ sub load_system_config {
     return $self->load("$Dpkg::CONFDIR/$file");
 }
 
-=item $conf->load_user_config($file)
+=item $count = $conf->load_user_config($file)
 
 Read options from a user configuration file. It will try to use the XDG
 directory, either $XDG_CONFIG_HOME/dpkg/ or $HOME/.config/dpkg/.
@@ -151,7 +151,7 @@ sub load_config {
     return $nopts;
 }
 
-=item $conf->parse($fh)
+=item $count = $conf->parse($fh)
 
 Parse options from a file handle. When called multiple times, the parsed
 options are accumulated.
@@ -231,14 +231,14 @@ sub filter {
                                @{$self->{options}};
 }
 
+=item $string = "$conf"
+
+Return a string representation of the content.
+
 =item $string = $conf->output([$fh])
 
 Write the options in the given filehandle (if defined) and return a string
 representation of the content (that would be) written.
-
-=item "$conf"
-
-Return a string representation of the content.
 
 =cut
 

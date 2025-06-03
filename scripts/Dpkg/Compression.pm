@@ -103,7 +103,7 @@ sub compression_get_list {
     return @list;
 }
 
-=item compression_is_supported($comp)
+=item $bool = compression_is_supported($comp)
 
 Returns a boolean indicating whether the give compression method is
 known and supported.
@@ -116,7 +116,7 @@ sub compression_is_supported {
     return exists $COMP{$comp};
 }
 
-=item compression_guess_from_filename($filename)
+=item $comp = compression_guess_from_filename($filename)
 
 Returns the compression method that is likely used on the indicated
 filename based on its file extension.
@@ -260,7 +260,7 @@ sub compression_set_level {
     $COMP{$comp}{level} = $level;
 }
 
-=item compression_is_valid_level($level)
+=item $bool = compression_is_valid_level($level)
 
 Returns a boolean indicating whether $level is a valid compression level
 (it must be either a number between 1 and 9 or "fast" or "best")

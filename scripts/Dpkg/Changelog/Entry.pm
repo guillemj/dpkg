@@ -69,15 +69,13 @@ sub new {
     return $self;
 }
 
-=item $str = $entry->output()
+=item $string = "$entry"
 
-=item "$entry"
+=item $string = $entry->output([$fh])
 
 Get a string representation of the changelog entry.
 
-=item $entry->output($fh)
-
-Print the string representation of the changelog entry to a
+Optionally, print the string representation of the changelog entry to a
 filehandle.
 
 =cut
@@ -100,7 +98,9 @@ sub output {
     return $str;
 }
 
-=item $entry->get_part($part)
+=item $string = $entry->get_part($part)
+
+=item @part = $entry->get_part($part)
 
 Return either a string (for a single line) or an array ref (for multiple
 lines) corresponding to the requested part. $part can be
@@ -164,7 +164,7 @@ sub extend_part {
     }
 }
 
-=item $is_empty = $entry->is_empty()
+=item $bool = $entry->is_empty()
 
 Returns 1 if the changelog entry doesn't contain anything at all.
 Returns 0 as soon as it contains something in any of its non-blank
@@ -290,7 +290,7 @@ sub get_timepiece {
     return;
 }
 
-=item $str = $entry->get_dpkg_changes()
+=item $string = $entry->get_dpkg_changes()
 
 Returns a string that is suitable for usage in a C<Changes> field
 in the output format of C<dpkg-parsechangelog>.

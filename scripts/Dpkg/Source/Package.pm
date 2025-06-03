@@ -160,7 +160,7 @@ sub get_default_tar_ignore_pattern {
 
 =over 4
 
-=item $p = Dpkg::Source::Package->new(%opts, options => {})
+=item $src_pkg = Dpkg::Source::Package->new(%opts, options => {})
 
 Creates a new object corresponding to a source package.
 
@@ -348,7 +348,7 @@ sub upgrade_object_type {
     bless $self, $module;
 }
 
-=item $p->get_filename()
+=item $filename = $src_pkg->get_filename()
 
 Returns the filename of the DSC file.
 
@@ -359,7 +359,7 @@ sub get_filename {
     return File::Spec->catfile($self->{basedir}, $self->{filename});
 }
 
-=item $p->get_files()
+=item @files_list = $src_pkg->get_files()
 
 Returns the list of files referenced by the source package. The filenames
 usually do not have any path information.
@@ -371,7 +371,7 @@ sub get_files {
     return $self->{checksums}->get_files();
 }
 
-=item $p->check_checksums()
+=item $src_pkg->check_checksums()
 
 Verify the checksums embedded in the DSC file. It requires the presence of
 the other files constituting the source package. If any inconsistency is
@@ -419,7 +419,7 @@ sub get_basename {
     return $f->{'Source'} . '_' . $vs;
 }
 
-=item $p->get_basedirname()
+=item $pathname = $src_pkg->get_basedirname()
 
 Returns the default base directory name for the package.
 
@@ -455,7 +455,7 @@ sub find_original_tarballs {
     return @tar;
 }
 
-=item $p->get_upstream_signing_key($dir)
+=item $pathname = $src_pkg->get_upstream_signing_key($dir)
 
 Get the filename for the upstream key.
 
@@ -467,7 +467,7 @@ sub get_upstream_signing_key {
     return "$dir/debian/upstream/signing-key.asc";
 }
 
-=item $p->armor_original_tarball_signature($bin, $asc)
+=item $src_pkg->armor_original_tarball_signature($bin, $asc)
 
 Convert a signature from binary to ASCII armored form. If the signature file
 does not exist, it is a no-op. If the signature file is already ASCII armored
@@ -485,7 +485,7 @@ sub armor_original_tarball_signature {
     return;
 }
 
-=item $p->check_original_tarball_signature($dir, @asc)
+=item $src_pkg->check_original_tarball_signature($dir, @asc)
 
 Verify the original upstream tarball signatures @asc using the upstream
 public keys. It requires the origin upstream tarballs, their signatures
@@ -515,7 +515,7 @@ sub check_original_tarball_signature {
     }
 }
 
-=item $bool = $p->is_signed()
+=item $bool = $src_pkg->is_signed()
 
 Returns 1 if the DSC files contains an embedded OpenPGP signature.
 Otherwise returns 0.
@@ -527,7 +527,7 @@ sub is_signed {
     return $self->{is_signed};
 }
 
-=item $p->check_signature()
+=item $src_pkg->check_signature()
 
 Implement the same OpenPGP signature check that dpkg-source does.
 In case of problems, it prints a warning or errors out.
@@ -592,7 +592,7 @@ sub parse_cmdline_option {
     return 0;
 }
 
-=item $p->extract($targetdir)
+=item $src_pkg->extract($targetdir)
 
 Extracts the source package in the target directory $targetdir. Beware
 that if $targetdir already exists, it will be erased (as long as the

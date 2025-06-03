@@ -200,7 +200,7 @@ sub add_build_flags {
 
 =over
 
-=item $bugs = Dpkg::Vendor::Ubuntu::find_launchpad_closes($changes)
+=item $bugs_list = Dpkg::Vendor::Ubuntu::find_launchpad_closes($changes)
 
 Takes one string as argument and finds "LP: #123456, #654321" statements,
 which are references to bugs on Launchpad. Returns all closed bug

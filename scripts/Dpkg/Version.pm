@@ -151,7 +151,7 @@ for that specific versions with
 
 added after the C<use Dpkg::Version>.
 
-=item $v->is_valid()
+=item $bool = $v->is_valid()
 
 Returns true if the version is valid, false otherwise.
 
@@ -162,9 +162,11 @@ sub is_valid {
     return scalar version_check($self);
 }
 
-=item $v->epoch(), $v->version(), $v->revision()
+=item $string = $v->epoch()
 
-Returns the corresponding part of the full version string.
+Returns the epoch part of the full version string.
+
+If the version parsed did not have an epoch, the value returned will be 0.
 
 =cut
 
@@ -173,17 +175,31 @@ sub epoch {
     return $self->{epoch};
 }
 
+=item $string = $v->version()
+
+Returns the upstream version part of the full version string.
+
+=cut
+
 sub version {
     my $self = shift;
     return $self->{version};
 }
+
+=item $string = $v->revision()
+
+Returns the revision part of the full version string.
+
+If the version parsed did not have a revision, the value returned will be 0.
+
+=cut
 
 sub revision {
     my $self = shift;
     return $self->{revision};
 }
 
-=item $v->is_native()
+=item $bool = $v->is_native()
 
 Returns true if the version is native, false if it has a revision.
 
@@ -229,7 +245,15 @@ sub has_revision($self)
     return ! $self->{no_revision};
 }
 
-=item $v1 <=> $v2, $v1 < $v2, $v1 <= $v2, $v1 > $v2, $v1 >= $v2
+=item $cmp = $v1 <=> $v2
+
+=item $cmp = $v1 < $v2
+
+=item $cmp = $v1 <= $v2
+
+=item $cmp = $v1 > $v2
+
+=item $cmp = $v1 >= $v2
 
 Numerical comparison of various versions numbers. One of the two operands
 needs to be a Dpkg::Version, the other one can be anything provided that
@@ -250,19 +274,21 @@ sub _comparison {
     return version_compare_part($a->revision(), $b->revision());
 }
 
-=item "$v", $v->as_string(), $v->as_string(%opts)
+=item $string = "$v"
 
-Accepts an optional option hash reference, affecting the string conversion.
+=item $string = $v->as_string(%opts)
+
+Accepts an options %opts hash, affecting the string conversion.
 
 Options:
 
 =over 8
 
-=item omit_epoch (defaults to 0)
+=item B<omit_epoch> (defaults to 0)
 
 Omit the epoch, if present, in the output string.
 
-=item omit_revision (defaults to 0)
+=item B<omit_revision> (defaults to 0)
 
 Omit the revision, if present, in the output string.
 
@@ -292,7 +318,7 @@ All the functions are exported by default.
 
 =over 4
 
-=item version_compare($a, $b)
+=item $cmp = version_compare($a, $b)
 
 Returns -1 if $a is earlier than $b, 0 if they are equal and 1 if $a
 is later than $b.
@@ -311,7 +337,7 @@ sub version_compare :prototype($$)
     return $va <=> $vb;
 }
 
-=item version_compare_relation($a, $rel, $b)
+=item $bool = version_compare_relation($a, $rel, $b)
 
 Returns the result (0 or 1) of the given comparison operation. This
 function is implemented on top of version_compare().
@@ -372,7 +398,7 @@ sub version_normalize_relation {
     }
 }
 
-=item version_compare_string($a, $b)
+=item $cmp = version_compare_string($a, $b)
 
 String comparison function used for comparing non-numerical parts of version
 numbers. Returns -1 if $a is earlier than $b, 0 if they are equal and 1 if $a
@@ -414,7 +440,7 @@ sub version_compare_string :prototype($$)
     }
 }
 
-=item version_compare_part($a, $b)
+=item $cmp = version_compare_part($a, $b)
 
 Compare two corresponding sub-parts of a version number (either upstream
 version or debian revision).

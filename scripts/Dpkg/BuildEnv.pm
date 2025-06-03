@@ -53,7 +53,7 @@ sub set {
     $ENV{$varname} = $value;
 }
 
-=item get($varname)
+=item $value = get($varname)
 
 Get the build environment variable $varname value. Record it as being
 accessed.
@@ -66,7 +66,7 @@ sub get {
     return $ENV{$varname};
 }
 
-=item has($varname)
+=item $bool = has($varname)
 
 Return a boolean indicating whether the environment variable exists.
 Record it as being accessed.

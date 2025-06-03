@@ -102,7 +102,7 @@ sub clean {
     return;
 }
 
-=item $bt->needs_root()
+=item $bool = $bt->needs_root()
 
 Check whether the build tree needs root to build.
 

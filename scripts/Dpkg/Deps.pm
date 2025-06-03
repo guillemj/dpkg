@@ -67,7 +67,7 @@ All the deps_* functions are exported by default.
 
 =over 4
 
-=item deps_eval_implication($rel_p, $v_p, $rel_q, $v_q)
+=item $tribool = deps_eval_implication($rel_p, $v_p, $rel_q, $v_q)
 
 ($rel_p, $v_p) and ($rel_q, $v_q) express two dependencies as (relation,
 version). The relation variable can have the following values that are
@@ -391,7 +391,7 @@ sub deps_iterate {
     return $visitor_func->($deps);
 }
 
-=item deps_compare($a, $b)
+=item $cmp = deps_compare($a, $b)
 
 Implements a comparison operator between two dependency objects.
 This function is mainly used to implement the sort() method.

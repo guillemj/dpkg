@@ -55,7 +55,7 @@ use constant {
 
 =over 8
 
-=item $s = Dpkg::Substvars->new($file)
+=item $sv = Dpkg::Substvars->new($file)
 
 Create a new object that can do substitutions. By default it contains
 generic substitutions like ${Newline}, ${Space}, ${Tab}, ${dpkg:Version}
@@ -94,7 +94,7 @@ sub new {
     return $self;
 }
 
-=item $s->set($key, $value)
+=item $sv->set($key, $value)
 
 Add/replace a substitution.
 
@@ -110,7 +110,7 @@ sub set {
     $self->{attr}{$key} = $attr;
 }
 
-=item $s->set_as_used($key, $value)
+=item $sv->set_as_used($key, $value)
 
 Add/replace a substitution and mark it as used (no warnings will be produced
 even if unused).
@@ -123,7 +123,7 @@ sub set_as_used {
     $self->set($key, $value, SUBSTVAR_ATTR_USED);
 }
 
-=item $s->set_as_auto($key, $value)
+=item $sv->set_as_auto($key, $value)
 
 Add/replace a substitution and mark it as used and automatic (no warnings
 will be produced even if unused), and will not be emitted into the substvars
@@ -137,7 +137,7 @@ sub set_as_auto {
     $self->set($key, $value, SUBSTVAR_ATTR_USED | SUBSTVAR_ATTR_AUTO);
 }
 
-=item $s->set_as_optional($key, $value)
+=item $sv->set_as_optional($key, $value)
 
 Add/replace a substitution and mark it as used and optional (no warnings
 will be produced even if unused).
@@ -150,7 +150,7 @@ sub set_as_optional {
     $self->set($key, $value, SUBSTVAR_ATTR_USED | SUBSTVAR_ATTR_OPT);
 }
 
-=item $s->set_as_required($key, $value)
+=item $sv->set_as_required($key, $value)
 
 Add/replace a substitution and mark it as required (an error
 will be produced if it is not used).
@@ -163,7 +163,7 @@ sub set_as_required {
     $self->set($key, $value, SUBSTVAR_ATTR_REQ);
 }
 
-=item $s->set_as_implicit($key, $value)
+=item $sv->set_as_implicit($key, $value)
 
 Add/replace a substitution and mark it as implicit, where a field will be
 automatically instantiated if not already present.
@@ -175,7 +175,7 @@ sub set_as_implicit($self, $key, $value)
     $self->set($key, $value, SUBSTVAR_ATTR_USED | SUBSTVAR_ATTR_IMPL);
 }
 
-=item $s->get($key)
+=item $value = $sv->get($key)
 
 Get the value of a given substitution.
 
@@ -186,7 +186,7 @@ sub get {
     return $self->{vars}{$key};
 }
 
-=item $s->delete($key)
+=item $value = $sv->delete($key)
 
 Remove a given substitution.
 
@@ -198,7 +198,7 @@ sub delete {
     return delete $self->{vars}{$key};
 }
 
-=item $s->mark_as_used($key)
+=item $sv->mark_as_used($key)
 
 Prevents warnings about a unused substitution, for example if it is provided by
 default.
@@ -210,7 +210,7 @@ sub mark_as_used {
     $self->{attr}{$key} |= SUBSTVAR_ATTR_USED;
 }
 
-=item $s->parse($fh, $desc)
+=item $count = $sv->parse($fh, $desc)
 
 Add new substitutions read from the filehandle. $desc is used to identify
 the filehandle in error messages.
@@ -245,11 +245,11 @@ sub parse {
     return $count
 }
 
-=item $s->load($file)
+=item $sv->load($file)
 
 Add new substitutions read from $file.
 
-=item $s->set_version_substvars($sourceversion, $binaryversion)
+=item $sv->set_version_substvars($sourceversion, $binaryversion)
 
 Defines ${binary:Version}, ${source:Version} and
 ${source:Upstream-Version} based on the given version strings.
@@ -284,7 +284,7 @@ sub set_version_substvars {
     $self->set('Source-Version', $binaryversion, $attr | SUBSTVAR_ATTR_AGED);
 }
 
-=item $s->set_arch_substvars()
+=item $sv->set_arch_substvars()
 
 Defines architecture variables: ${Arch}.
 
@@ -300,7 +300,7 @@ sub set_arch_substvars {
     $self->set('Arch', get_host_arch(), $attr);
 }
 
-=item $s->set_vendor_substvars()
+=item $sv->set_vendor_substvars()
 
 Defines vendor variables: ${vendor:Name} and ${vendor:Id}.
 
@@ -318,7 +318,7 @@ sub set_vendor_substvars {
     $self->set('vendor:Id', lc $vendor, $attr);
 }
 
-=item $s->set_desc_substvars()
+=item $sv->set_desc_substvars()
 
 Defines source description variables: ${source:Synopsis} and
 ${source:Extended-Description}.
@@ -338,7 +338,7 @@ sub set_desc_substvars {
     $self->set('source:Extended-Description', $extended, $attr);
 }
 
-=item $s->set_field_substvars($ctrl, $prefix)
+=item $sv->set_field_substvars($ctrl, $prefix)
 
 Defines field variables from a L<Dpkg::Control> object, with each variable
 having the form "${$prefix:$field}".
@@ -355,7 +355,7 @@ sub set_field_substvars {
     }
 }
 
-=item @substvars = $s->get_implicit_substvars()
+=item @substvars = $sv->get_implicit_substvars()
 
 Returns a list of implicit substitution variables to be used by the calling
 program, by appending them to specific text.
@@ -371,7 +371,7 @@ sub get_implicit_substvars($self)
     return @implicit;
 }
 
-=item $newstring = $s->substvars($string)
+=item $newstring = $sv->substvars($string)
 
 Substitutes variables in $string and return the result in $newstring.
 
@@ -418,7 +418,7 @@ sub substvars {
     return $v;
 }
 
-=item $s->warn_about_unused()
+=item $sv->warn_about_unused()
 
 Issues warning about any variables that were set, but not used.
 
@@ -447,7 +447,7 @@ sub warn_about_unused {
     }
 }
 
-=item $s->set_msg_prefix($prefix)
+=item $sv->set_msg_prefix($prefix)
 
 Define a prefix displayed before all warnings/error messages output
 by the module.
@@ -459,7 +459,7 @@ sub set_msg_prefix {
     $self->{msg_prefix} = $prefix;
 }
 
-=item $s->filter(%opts)
+=item $sv->filter(%opts)
 
 Filter the substitution variables.
 
@@ -494,12 +494,12 @@ sub filter {
     }
 }
 
-=item "$s"
+=item $string = "$sv"
 
 Return a string representation of all substitutions variables except the
 automatic ones.
 
-=item $str = $s->output([$fh])
+=item $string = $sv->output([$fh])
 
 Return all substitutions variables except the automatic ones. If $fh
 is passed print them into the filehandle.
@@ -529,7 +529,7 @@ sub output {
     return $str;
 }
 
-=item $s->save($file)
+=item $sv->save($file)
 
 Store all substitutions variables except the automatic ones in the
 indicated file.
@@ -542,11 +542,11 @@ indicated file.
 
 New feature: Add support for implicit substitution variables.
 
-New method: $s->set_as_implicit(), $s->get_implicit_substvars().
+New method: $sv->set_as_implicit(), $sv->get_implicit_substvars().
 
 =head2 Version 2.03 (dpkg 1.22.15)
 
-New methods: $s->set_as_optional(), $s->set_as_required().
+New methods: $sv->set_as_optional(), $sv->set_as_required().
 
 =head2 Version 2.02 (dpkg 1.22.7)
 
@@ -558,42 +558,42 @@ New feature: Add support for optional substitution variables.
 
 =head2 Version 2.00 (dpkg 1.20.0)
 
-Remove method: $s->no_warn().
+Remove method: $sv->no_warn().
 
-New method: $s->set_vendor_substvars().
+New method: $sv->set_vendor_substvars().
 
 =head2 Version 1.06 (dpkg 1.19.0)
 
-New method: $s->set_desc_substvars().
+New method: $sv->set_desc_substvars().
 
 =head2 Version 1.05 (dpkg 1.18.11)
 
 Obsolete substvar: Emit an error on Source-Version substvar usage.
 
-New return: $s->parse() now returns the number of parsed substvars.
+New return: $sv->parse() now returns the number of parsed substvars.
 
-New method: $s->set_field_substvars().
+New method: $sv->set_field_substvars().
 
 =head2 Version 1.04 (dpkg 1.18.0)
 
-New method: $s->filter().
+New method: $sv->filter().
 
 =head2 Version 1.03 (dpkg 1.17.11)
 
-New method: $s->set_as_auto().
+New method: $sv->set_as_auto().
 
 =head2 Version 1.02 (dpkg 1.16.5)
 
-New argument: Accept a $binaryversion in $s->set_version_substvars(),
+New argument: Accept a $binaryversion in $sv->set_version_substvars(),
 passing a single argument is still supported.
 
-New method: $s->mark_as_used().
+New method: $sv->mark_as_used().
 
-Deprecated method: $s->no_warn(), use $s->mark_as_used() instead.
+Deprecated method: $sv->no_warn(), use $sv->mark_as_used() instead.
 
 =head2 Version 1.01 (dpkg 1.16.4)
 
-New method: $s->set_as_used().
+New method: $sv->set_as_used().
 
 =head2 Version 1.00 (dpkg 1.15.6)
 

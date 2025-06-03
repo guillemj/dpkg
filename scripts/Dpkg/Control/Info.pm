@@ -44,7 +44,7 @@ use overload
 
 =over 4
 
-=item $c = Dpkg::Control::Info->new(%opts)
+=item $ctrl_tmpl = Dpkg::Control::Info->new(%opts)
 
 Create a new Dpkg::Control::Info object. Loads F<debian/control> by default.
 If a single scalar is passed, it will be used as the filename to load
@@ -86,7 +86,7 @@ sub new {
     return $self;
 }
 
-=item $c->reset()
+=item $ctrl_tmpl->reset()
 
 Resets what got read.
 
@@ -98,7 +98,7 @@ sub reset {
     $self->{packages} = [];
 }
 
-=item $c->parse($fh, $description)
+=item $ctrl_tmpl->parse($fh, $description)
 
 Parse a control file from the given filehandle. Exits in case of errors.
 $description is used to describe the filehandle, ideally it's a filename
@@ -132,14 +132,14 @@ sub parse {
     }
 }
 
-=item $c->load($file)
+=item $ctrl_tmpl->load($file)
 
 Load the content of $file. Exits in case of errors. If file is "-", it
 loads from the standard input.
 
-=item $c->[0]
+=item $ctrl = $ctrl_tmpl->[0]
 
-=item $c->get_source()
+=item $ctrl = $ctrl_tmpl->get_source()
 
 Returns a L<Dpkg::Control> object containing the fields concerning the
 source package.
@@ -151,7 +151,7 @@ sub get_source {
     return $self->{source};
 }
 
-=item $c->get_pkg_by_idx($idx)
+=item $ctrl = $ctrl_tmpl->get_pkg_by_idx($idx)
 
 Returns a L<Dpkg::Control> object containing the fields concerning the binary
 package numbered $idx (starting at 1).
@@ -163,7 +163,7 @@ sub get_pkg_by_idx {
     return $self->{packages}[--$idx];
 }
 
-=item $c->get_pkg_by_name($name)
+=item $ctrl = $ctrl_tmpl->get_pkg_by_name($name)
 
 Returns a L<Dpkg::Control> object containing the fields concerning the binary
 package named $name.
@@ -179,7 +179,7 @@ sub get_pkg_by_name {
 }
 
 
-=item $c->get_packages()
+=item @ctrl_list = $ctrl_tmpl->get_packages()
 
 Returns a list containing the L<Dpkg::Control> objects for all binary packages.
 
@@ -190,7 +190,11 @@ sub get_packages {
     return @{$self->{packages}};
 }
 
-=item $str = $c->output([$fh])
+=item $string = "$ctrl_tmpl"
+
+Return a string representation of the content.
+
+=item $string = $ctrl_tmpl->output([$fh])
 
 Return the content info into a string. If $fh is specified print it into
 the filehandle.
@@ -208,11 +212,7 @@ sub output {
     return $str;
 }
 
-=item "$c"
-
-Return a string representation of the content.
-
-=item @{$c}
+=item @ctrl_list = @{$ctrl_tmpl}
 
 Return a list of L<Dpkg::Control> objects, the first one is corresponding to
 source information and the following ones are the binary packages

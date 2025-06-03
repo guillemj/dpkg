@@ -238,9 +238,9 @@ sub parse {
 
 Parse a dependency line from $filename.
 
-=item $dep->output([$fh])
+=item $string = "$dep"
 
-=item "$dep"
+=item $string = $dep->output([$fh])
 
 Returns a string representing the dependency. If $fh is set, it prints
 the string to the filehandle.
@@ -384,7 +384,7 @@ sub _restrictions_imply {
     }
 }
 
-=item $dep->implies($other_dep)
+=item $tribool = $dep->implies($other_dep)
 
 Returns 1 when $dep implies $other_dep. Returns 0 when $dep implies
 NOT($other_dep). Returns undef when there is no implication. $dep and
@@ -456,7 +456,7 @@ sub implies {
     }
 }
 
-=item $dep->get_deps()
+=item @dep_list = $dep->get_deps()
 
 Returns a list of sub-dependencies, which for this object it means it
 returns itself.
@@ -479,7 +479,7 @@ sub sort {
     # Nothing to sort.
 }
 
-=item $dep->arch_is_concerned($arch)
+=item $bool = $dep->arch_is_concerned($arch)
 
 Returns true if the dependency applies to the indicated architecture.
 
@@ -514,7 +514,7 @@ sub reduce_arch {
     }
 }
 
-=item $dep->has_arch_restriction()
+=item $pkgname = $dep->has_arch_restriction()
 
 Returns the package name if the dependency applies only to a subset of
 architectures.
@@ -531,7 +531,7 @@ sub has_arch_restriction {
     }
 }
 
-=item $dep->profile_is_concerned()
+=item $bool = $dep->profile_is_concerned()
 
 Returns true if the dependency applies to the indicated profile.
 
@@ -565,7 +565,7 @@ sub reduce_profiles {
     }
 }
 
-=item $dep->get_evaluation($facts)
+=item $tribool = $dep->get_evaluation($facts)
 
 Evaluates the dependency given a list of installed packages and a list of
 virtual packages provided. These lists are part of the
@@ -598,7 +598,7 @@ sub simplify_deps {
     $self->reset() if defined $eval and $eval == 1;
 }
 
-=item $dep->is_empty()
+=item $bool = $dep->is_empty()
 
 Returns true if the dependency is empty and doesn't contain any useful
 information. This is true when the object has not yet been initialized.
@@ -611,7 +611,7 @@ sub is_empty {
     return not defined $self->{package};
 }
 
-=item $dep->merge_union($other_dep)
+=item $bool = $dep->merge_union($other_dep)
 
 Returns true if $dep could be modified to represent the union of both
 dependencies. Otherwise returns false.
