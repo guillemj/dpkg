@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the dpkg package.
 #
 # Jordi Mallach <jordi@debian.org>, 2006, 2010.
-# Guillem Jover <guillem@debian.org>, 2010-2024.
+# Guillem Jover <guillem@debian.org>, 2010-2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2025-05-19 00:00+0200\n"
-"PO-Revision-Date: 2024-07-21 19:57+0200\n"
+"PO-Revision-Date: 2025-06-03 11:24+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
 "Language: ca\n"
@@ -632,6 +632,8 @@ msgstr "dependències/conflictes de construcció no satisfetes; s'està avortant
 #: scripts/dpkg-buildpackage.pl
 msgid "satisfy build dependencies with your package manager frontend"
 msgstr ""
+"satisfeu les dependències de construcció amb el vostre frontal "
+"d'adminstració de paquets"
 
 #: scripts/dpkg-buildpackage.pl
 msgid ""
@@ -722,12 +724,6 @@ msgid "full upload (original source is included)"
 msgstr "pujada sencera (s'inclou el codi font original)"
 
 #: scripts/dpkg-buildtree.pl
-#, fuzzy
-#| msgid ""
-#| "Commands:\n"
-#| "  clean              clean dpkg generated artifacts from the build tree.\n"
-#| "  --help             show this help message.\n"
-#| "  --version          show the version.\n"
 msgid ""
 "Commands:\n"
 "  clean              clean dpkg generated artifacts from the build tree.\n"
@@ -738,6 +734,9 @@ msgstr ""
 "Ordres:\n"
 "  clean              neteja artefactes generats per dpkg de l'arbre de\n"
 "                       construcció.\n"
+"  is-rootless        comprova si l'arbre de construcció necessita "
+"privilegis\n"
+"                       de superusuari per a construir-lo.\n"
 "  -?, --help         mostra aquest missatge d'ajuda.\n"
 "  -v, --version      mostra la versió.\n"
 
@@ -803,16 +802,14 @@ msgid "cannot parse %s field"
 msgstr "no es pot analitzar el camp %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, fuzzy, perl-format
-#| msgid "Unmet build dependencies: %s"
+#, perl-format
 msgid "unmet build dependencies: %s"
-msgstr "Dependències de construcció no satisfetes: %s"
+msgstr "dependències de construcció no satisfetes: %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, fuzzy, perl-format
-#| msgid "Build conflicts: %s"
+#, perl-format
 msgid "unmet build conflicts: %s"
-msgstr "Conflictes de construcció: %s"
+msgstr "conflictes de construcció no satisfets: %s"
 
 #: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-genbuildinfo.pl
 #: scripts/dpkg-name.pl scripts/Dpkg/Arch.pm scripts/Dpkg/IPC.pm
@@ -1054,13 +1051,12 @@ msgstr ""
 "el paquet %s és a la llista de fitxers però no a la informació de control"
 
 #: scripts/dpkg-genchanges.pl
-#, fuzzy, perl-format
-#| msgid "package %s has section %s in control file but %s in files list"
+#, perl-format
 msgid ""
 "package %s has value '%s' in %s field in control file but '%s' in files list"
 msgstr ""
-"el paquet %s té la secció %s en el fitxer de control però %s en la llista de "
-"fitxers"
+"el paquet %s té el valor ‘%s’ en el camp %s en el fitxer de control però té "
+"‘%s’ en la llista de fitxers"
 
 #: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -1174,10 +1170,11 @@ msgstr ""
 "«%s» és d'arquitectura «all»"
 
 #: scripts/dpkg-gencontrol.pl
-#, fuzzy, perl-format
-#| msgid "missing information for output field %s"
+#, perl-format
 msgid "missing information for output field %s; using default value \"%s\""
-msgstr "manca informació per al camp d'eixida %s"
+msgstr ""
+"manca informació per al camp d'eixida %s; s'esta emprant el valor "
+"predeterminat “%s”"
 
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
@@ -1788,24 +1785,13 @@ msgid "%s has an unexpected SONAME (%s)"
 msgstr "%s conté un SONAME (%s) inesperat"
 
 #: scripts/dpkg-shlibdeps.pl
-#, fuzzy, perl-format
-#| msgid ""
-#| "no dependency information found for %s (used by %s)\n"
-#| "Hint: check if the library actually comes from a package."
+#, perl-format
 msgid "no dependency information found for %s (used by %s)"
-msgstr ""
-"no s'ha trobar la informació de dependències per %s (utilitzat per %s)\n"
-"Consell: comproveu si la biblioteca prové realment d'un paquet."
+msgstr "no s'ha trobat la informació de dependències per %s (utilitzat per %s)"
 
 #: scripts/dpkg-shlibdeps.pl
-#, fuzzy
-#| msgid ""
-#| "no dependency information found for %s (used by %s)\n"
-#| "Hint: check if the library actually comes from a package."
 msgid "check if the library actually comes from a package"
-msgstr ""
-"no s'ha trobar la informació de dependències per %s (utilitzat per %s)\n"
-"Consell: comproveu si la biblioteca prové realment d'un paquet."
+msgstr "comproveu si la biblioteca prové realment d'un paquet"
 
 #: scripts/dpkg-shlibdeps.pl
 msgid ""
@@ -2151,12 +2137,11 @@ msgid "test control %s is not a regular file"
 msgstr "fitxer de control test %s no és un fitxer regular"
 
 #: scripts/dpkg-source.pl
-#, fuzzy, perl-format
-#| msgid "%s field contains value %s, but no tests control file %s"
+#, perl-format
 msgid "%s field contains value '%s', but no tests control file %s"
 msgstr ""
-"el camp %s conté el valor %s, però el fitxer de control de verificació %s no "
-"existeix"
+"el camp %s conté el valor ‘%s’, però el fitxer de control de verificació %s "
+"no existeix"
 
 #: scripts/dpkg-source.pl
 #, perl-format
@@ -3015,7 +3000,7 @@ msgstr "nom de fitxer %s no vàlid"
 
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "hint"
-msgstr ""
+msgstr "consell"
 
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "info"
@@ -3126,19 +3111,23 @@ msgid ""
 "multiple concatenated ASCII Armor blocks in %s, which is not an "
 "interoperable construct, see <%s>"
 msgstr ""
+"hi ha diversos blocs ASCII Armor concatenats a %s, que no és una construcció "
+"interoperable, vegeu <%s>"
 
 #: scripts/Dpkg/OpenPGP/Backend.pm
 #, perl-format
 msgid "sq keyring merge --overwrite --output %s %s"
-msgstr ""
+msgstr "sq keyring merge --overwrite --output %s %s"
 
 #: scripts/Dpkg/OpenPGP/Backend/Sequoia.pm
 msgid "imported own keys might be missing ownership information, try:"
 msgstr ""
+"a les claus propies importades els hi pot faltar la informació de propietat, "
+"intenteu:"
 
 #: scripts/Dpkg/OpenPGP/Backend/Sequoia.pm
 msgid "  sq pki link authorize --cert FINGERPRINT --all --unconstrained"
-msgstr ""
+msgstr "  sq pki link authorize --cert FINGERPRINT --all --unconstrained"
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 msgid "success"
@@ -3927,15 +3916,11 @@ msgstr ""
 "modificat en l'arxiu tar de debian"
 
 #: scripts/Dpkg/Source/Package/V2.pm
-#, fuzzy
-#| msgid ""
-#| "Hint: make sure the version in debian/changelog matches the unpacked "
-#| "source tree"
 msgid ""
 "make sure the version in debian/changelog matches the unpacked source tree"
 msgstr ""
-"Consell: assegureu-vos que la versió a debian/changelog coincideix amb el "
-"codi font desempaquetat"
+"assegureu-vos que la versió a debian/changelog coincideix amb el codi font "
+"desempaquetat"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
@@ -4488,15 +4473,11 @@ msgid "unknown abi attributes for architecture '%s'"
 msgstr "atributs abi de l'arquitectura '%s' desconeguts"
 
 #: scripts/Dpkg/Vendor/PureOS.pm
-#, fuzzy
-#| msgid ""
-#| "Version number suggests Ubuntu changes, but there is no XSBC-Original-"
-#| "Maintainer field"
 msgid ""
 "Version number suggests PureOS changes, but there is no XSBC-Original-"
 "Maintainer field"
 msgstr ""
-"el número de versió suggereix canvis d'Ubuntu, però no hi ha un camp XSBC-"
+"el número de versió suggereix canvis de PureOS, però no hi ha un camp XSBC-"
 "Original-Maintainer"
 
 #: scripts/Dpkg/Vendor/Ubuntu.pm
