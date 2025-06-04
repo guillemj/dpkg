@@ -69,6 +69,7 @@ my %options = (
     copy_orig_tarballs => 1,
     no_check => 0,
     no_overwrite_dir => 1,
+    use_vendor_certs => 1,
     require_valid_signature => 0,
     require_strong_checksums => 0,
     certs => [],
@@ -204,6 +205,8 @@ while (@options) {
         $options{no_check} = 1;
     } elsif (m/^--no-overwrite-dir$/) {
         $options{no_overwrite_dir} = 1;
+    } elsif (m/^--no-vendor-certs$/) {
+        $options{use_vendor_certs} = 0;
     } elsif (m/^--signer-certs=(.*)$/) {
         push @{$options{certs}}, $1;
     } elsif (m/^--require-valid-signature$/) {
@@ -685,6 +688,7 @@ sub usage {
   --no-copy                do not copy .orig tarballs
   --no-check               do not check signature and checksums on extraction
   --no-overwrite-dir       do not overwrite directory on extraction
+  --no-vendor-certs        do not use vendor specific certificate keyrings
   --signer-certs=<keyring> use a signer certificates keyring
   --require-valid-signature
                            abort if the package does not have a valid signature

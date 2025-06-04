@@ -198,6 +198,11 @@ specific for source packages using format "2.0" and "3.0 (quilt)".
 An array ref with a list of certificate keyrings to use for signature
 verification.
 
+=item B<use_vendor_certs>
+
+If set to 0, the check_signature() method will not use vendor specific
+keyrings, only user supplied ones.
+
 =item B<require_valid_signature>
 
 If set to 1, the check_signature() method will be stricter and will error
@@ -283,6 +288,7 @@ sub init_options {
 
     # Set default validation checks.
     $self->{options}{certs} //= [];
+    $self->{options}{use_vendor_certs} //= 1;
     $self->{options}{require_valid_signature} //= 0;
     $self->{options}{require_strong_checksums} //= 0;
 
@@ -550,12 +556,14 @@ sub check_signature {
         }
     }
 
-    foreach my $vendor_keyring (run_vendor_hook('package-keyrings')) {
-        if (-r $vendor_keyring) {
-            push @certs, $vendor_keyring;
-            info(g_('using keyring %s'), $vendor_keyring);
-        } else {
-            info(g_('skipping absent keyring %s'), $vendor_keyring);
+    if ($self->{options}{use_vendor_certs}) {
+        foreach my $vendor_keyring (run_vendor_hook('package-keyrings')) {
+            if (-r $vendor_keyring) {
+                push @certs, $vendor_keyring;
+                info(g_('using keyring %s'), $vendor_keyring);
+            } else {
+                info(g_('skipping absent keyring %s'), $vendor_keyring);
+            }
         }
     }
 
@@ -740,7 +748,7 @@ sub write_dsc {
 
 =head2 Version 2.04 (dpkg 1.23.0)
 
-New options: certs in $p->check_checksums().
+New options: certs, use_vendor_certs in $p->check_checksums().
 
 =head2 Version 2.03 (dpkg 1.22.7)
 

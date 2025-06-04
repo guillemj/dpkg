@@ -77,6 +77,7 @@ sub init_options {
 
     # Set default validation checks.
     $self->{options}{certs} //= [];
+    $self->{options}{use_vendor_certs} //= 1;
     $self->{options}{require_valid_signature} //= 0;
     $self->{options}{require_strong_checksums} //= 0;
 
