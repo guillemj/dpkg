@@ -53,6 +53,7 @@ our @EXPORT = qw(
     OPENPGP_MISSING_CMD
     OPENPGP_NEEDS_KEYSTORE
     OPENPGP_CMD_CANNOT_SIGN
+    OPENPGP_MISSING_KEYRINGS
 
     openpgp_errorcode_to_string
 );
@@ -88,6 +89,7 @@ use constant {
     OPENPGP_MISSING_CMD => -1,
     OPENPGP_NEEDS_KEYSTORE => -2,
     OPENPGP_CMD_CANNOT_SIGN => -3,
+    OPENPGP_MISSING_KEYRINGS => -4,
 };
 
 my %code2error = (
@@ -111,6 +113,7 @@ my %code2error = (
     OPENPGP_MISSING_CMD() => N_('missing OpenPGP implementation'),
     OPENPGP_NEEDS_KEYSTORE() => N_('specified key needs a keystore'),
     OPENPGP_CMD_CANNOT_SIGN() => N_('OpenPGP backend command cannot sign'),
+    OPENPGP_MISSING_KEYRINGS() => N_('missing OpenPGP keyrings'),
 );
 
 sub openpgp_errorcode_to_string
