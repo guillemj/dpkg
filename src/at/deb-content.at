@@ -127,3 +127,35 @@ newline'
 ])
 
 AT_CLEANUP
+
+AT_SETUP([dpkg-deb .deb extraction cleanup])
+AT_KEYWORDS([dpkg-deb deb extraction])
+
+DPKG_GEN_CONTROL([pkg-ctrl-dir-perms])
+AT_CHECK([
+dpkg-deb --root-owner-group -Znone -b pkg-ctrl-dir-perms
+DPKG_AR_EXTRACT([pkg-ctrl-dir-perms.deb])
+dpkg-deb -R pkg-ctrl-dir-perms.deb pkg-ctrl-dir-perms-bad
+mkdir -p pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner
+touch pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner/file
+chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN
+chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir
+chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner
+$TAR cf control.tar --format=gnu --mtime @0 --clamp-mtime --owner root:0 --group root:0 -C pkg-ctrl-dir-perms-bad/DEBIAN .
+DPKG_AR_GEN([pkg-ctrl-dir-perms.deb], [debian-binary control.tar data.tar])
+], [0], [dpkg-deb: building package 'pkg-ctrl-dir-perms' in 'pkg-ctrl-dir-perms.deb'.
+])
+AT_CHECK([
+dpkg-deb --ctrl-tarfile pkg-ctrl-dir-perms.deb | $TAR tvf -
+], [0], [dr-xr-xr-x root/root         0 1970-01-01 00:00 ./
+dr-xr-xr-x root/root         0 1970-01-01 00:00 ./rx-subdir/
+dr-xr-xr-x root/root         0 1970-01-01 00:00 ./rx-subdir/inner/
+-rw-r--r-- root/root         0 1970-01-01 00:00 ./rx-subdir/inner/file
+-rw-r--r-- root/root       176 1970-01-01 00:00 ./control
+])
+# Check that we can cleanup the temporarily extracted control.tar member.
+AT_CHECK([
+dpkg-deb -I pkg-ctrl-dir-perms.deb
+], [0], [ignore])
+
+AT_CLEANUP
