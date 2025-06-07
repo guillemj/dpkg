@@ -45,14 +45,34 @@
 #include <dpkg/pkg-format.h>
 #include <dpkg/buffer.h>
 #include <dpkg/path.h>
+#include <dpkg/treewalk.h>
 #include <dpkg/options.h>
 
 #include "dpkg-deb.h"
 
+static int
+cu_info_treewalk_fixup_dir(struct treenode *node)
+{
+  const char *nodename;
+
+  if (!S_ISDIR(treenode_get_mode(node)))
+    return 0;
+
+  nodename = treenode_get_pathname(node);
+  if (chmod(nodename, 0755) < 0)
+    ohshite(_("error setting permissions of '%.255s'"), nodename);
+
+  return 0;
+}
+
 static void cu_info_prepare(int argc, void **argv) {
   char *dir;
+  struct treewalk_funcs cu_info_treewalk_funcs = {
+    .visit = cu_info_treewalk_fixup_dir,
+  };
 
   dir = argv[0];
+  treewalk(dir, TREEWALK_NONE, &cu_info_treewalk_funcs);
   path_remove_tree(dir);
   free(dir);
 }
