@@ -248,7 +248,7 @@ sub do_extract {
             if (-e "$newdirectory.tmp-keep") {
                 error(g_('unable to keep orig directory (already exists)'));
             }
-            system('cp', '-ar', '--', $expectprefix, "$newdirectory.tmp-keep");
+            system('cp', '-a', '--', $expectprefix, "$newdirectory.tmp-keep");
             subprocerr("cp $expectprefix to $newdirectory.tmp-keep") if $?;
         }
 
