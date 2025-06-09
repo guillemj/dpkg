@@ -79,7 +79,7 @@ sub test_path_escape
 
    # This is the expected directory, which we'll be comparing against.
     make_path($expdir);
-    system('cp', '-a', $overdir, $expdir) == 0
+    system('cp', '-RPp', $overdir, $expdir) == 0
         or die "cannot copy overlay hierarchy into expected directory\n";
 
     # Store the expected and out reference directories into a tar to compare
