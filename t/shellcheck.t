@@ -23,9 +23,9 @@ test_needs_command('shellcheck');
 test_needs_srcdir_switch();
 
 my @todofiles = qw(
-    dselect/methods/disk/install.sh
-    dselect/methods/disk/setup.sh
-    dselect/methods/disk/update.sh
+    dselect/methods/file/install.sh
+    dselect/methods/file/setup.sh
+    dselect/methods/file/update.sh
     dselect/methods/media/install.sh
     dselect/methods/media/setup.sh
     dselect/methods/media/update.sh
