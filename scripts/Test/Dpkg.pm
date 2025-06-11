@@ -34,6 +34,7 @@ use v5.36;
 
 our @EXPORT_OK = qw(
     all_po_files
+    all_shell_files
     all_perl_files
     all_perl_modules
     test_get_po_dirs
@@ -57,6 +58,7 @@ our %EXPORT_TAGS = (
     ) ],
     paths => [ qw(
         all_po_files
+        all_shell_files
         all_perl_files
         all_perl_modules
         test_get_po_dirs
@@ -148,6 +150,24 @@ sub _test_get_files
 sub all_po_files
 {
     return _test_get_files(qr/\.(?:po|pot)$/, [ test_get_po_dirs() ]);
+}
+
+sub all_shell_files
+{
+    my @files = qw(
+        autogen
+        build-aux/gen-release
+        build-aux/get-vcs-id
+        build-aux/get-version
+        build-aux/run-script
+        debian/dpkg.cron.daily
+        debian/dpkg.postrm
+        src/dpkg-db-backup.sh
+        src/dpkg-db-keeper.sh
+        src/dpkg-maintscript-helper.sh
+    );
+
+    return @files;
 }
 
 sub all_perl_files

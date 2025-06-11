@@ -16,7 +16,7 @@
 use v5.36;
 
 use Test::More;
-use Test::Dpkg qw(:needs);
+use Test::Dpkg qw(:needs :paths);
 
 test_needs_author();
 test_needs_command('shellcheck');
@@ -30,18 +30,8 @@ my @files_todo = qw(
     dselect/methods/media/setup.sh
     dselect/methods/media/update.sh
 );
-my @files = qw(
-    autogen
-    build-aux/gen-release
-    build-aux/get-vcs-id
-    build-aux/get-version
-    build-aux/run-script
-    debian/dpkg.cron.daily
-    debian/dpkg.postrm
-    src/dpkg-db-backup.sh
-    src/dpkg-db-keeper.sh
-    src/dpkg-maintscript-helper.sh
-);
+my @files = all_shell_files();
+
 my @shellcheck_opts = (
     '--external-sources', # Allow checking external source files.
     '--exclude=SC1090', # Allow non-constant source.
