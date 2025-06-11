@@ -30,7 +30,7 @@ my @files_todo = qw(
     dselect/methods/media/setup.sh
     dselect/methods/media/update.sh
 );
-my @files = all_shell_files();
+my @files = all_shell_files(@files_todo);
 
 my @shellcheck_opts = (
     '--external-sources', # Allow checking external source files.

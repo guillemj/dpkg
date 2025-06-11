@@ -161,8 +161,9 @@ sub all_po_files
     return _test_get_files($keep_po_files, [ _test_get_po_dirs() ]);
 }
 
-sub all_shell_files
+sub all_shell_files(@files_todo)
 {
+    my %files_todo = map { $_ => 1 } @files_todo;
     my @files = qw(
         autogen
         build-aux/gen-release
@@ -173,9 +174,44 @@ sub all_shell_files
         debian/dpkg.postinst
         debian/dpkg.postrm
         debian/dselect.postrm
-        src/dpkg-db-backup.sh
-        src/dpkg-db-keeper.sh
-        src/dpkg-maintscript-helper.sh
+    );
+
+    my $keep_shell_file = sub ($file) {
+        return 0 if exists $files_todo{$file};
+        return $file =~ qr{\.sh$};
+    };
+    my $keep_shebang_file = sub ($file) {
+        return 0 if exists $files_todo{$file};
+
+        return 0 if -z $file;
+        return 0 unless -f $file;
+
+        open my $fh, '<', $file
+            or die "error: cannot read file $file: $!\n";
+        my $shebang = readline $fh;
+        close $fh;
+
+        chomp $shebang;
+
+        return $shebang =~ m{^#!/bin/sh};
+    };
+
+
+    push @files, _test_get_files(
+        $keep_shell_file,
+        [ qw(
+            dselect/methods
+            src
+        ) ],
+    );
+    push @files, _test_get_files(
+        $keep_shebang_file,
+        [ qw(
+            debian/tests
+            lib/dpkg/t/data
+            scripts/t
+            tests
+        ) ],
     );
 
     return @files;
