@@ -161,7 +161,9 @@ sub all_shell_files
         build-aux/get-version
         build-aux/run-script
         debian/dpkg.cron.daily
+        debian/dpkg.postinst
         debian/dpkg.postrm
+        debian/dselect.postrm
         src/dpkg-db-backup.sh
         src/dpkg-db-keeper.sh
         src/dpkg-maintscript-helper.sh
