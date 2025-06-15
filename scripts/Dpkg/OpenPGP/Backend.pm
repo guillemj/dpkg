@@ -141,7 +141,7 @@ sub _pgp_dearmor_data {
                    'which is not an interoperable construct, see <%s>'),
                 $filename,
                 'https://tests.sequoia-pgp.org/results.html#ASCII_Armor');
-        hint(g_('sq keyring merge --overwrite --output %s %s'),
+        hint('sq keyring merge --overwrite --output %s %s',
              $filename, $filename);
     }
     return $binary;
