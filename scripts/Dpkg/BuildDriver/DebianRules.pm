@@ -131,9 +131,10 @@ sub _parse_rules_requires_root {
 
     foreach my $keyword (split ' ', $rrr) {
         if ($keyword =~ m{/}) {
-            if ($keyword =~ m{^dpkg/target/(.*)$}p and $target_official{$1}) {
+            if ($keyword =~ m{^dpkg/target/(.*)$}p) {
                 error(g_('disallowed target in %s field keyword %s'),
-                      'Rules-Requires-Root', $keyword);
+                      'Rules-Requires-Root', $keyword)
+                    if $target_official{$1};
             } elsif ($keyword =~ m{^dpkg/(.*)$} and $1 ne 'target-subcommand') {
                 error(g_('%s field keyword "%s" is unknown in dpkg namespace'),
                       'Rules-Requires-Root', $keyword);
