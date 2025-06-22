@@ -118,7 +118,8 @@ sub needs_root {
     my $ctrl = Dpkg::Control::Info->new();
     my $bd = Dpkg::BuildDriver->new(ctrl => $ctrl);
 
-    return $bd->need_build_task('build', 'binary');
+    return $bd->need_build_task('build', 'binary') ||
+           defined $ENV{DEB_GAIN_ROOT_CMD};
 }
 
 =back

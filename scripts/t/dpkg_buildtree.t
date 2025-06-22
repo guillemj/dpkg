@@ -19,12 +19,13 @@ use warnings;
 use Test::More;
 use Test::Dpkg qw(:paths);
 
+use POSIX;
 use File::Spec::Functions qw(rel2abs);
 
 use Dpkg::IPC;
 use Dpkg::BuildTree;
 
-plan tests => 5;
+plan tests => 10;
 
 my $srcdir = rel2abs($ENV{srcdir} || '.');
 my $datadir = "$srcdir/t/dpkg_buildtree";
@@ -35,6 +36,11 @@ my %is_rootless = (
     'src-build-api-v0' => 1,
     'src-build-api-v1' => 1,
     'src-rrr-binary-targets' => 0,
+    'src-rrr-dpkg-target-binary' => 255,
+    'src-rrr-dpkg-target-custom' => 0,
+    'src-rrr-dpkg-target-subcommand' => 0,
+    'src-rrr-dpkg-unknown-keyword' => 255,
+    'src-rrr-impl-specific-keyword' => 0,
     'src-rrr-missing' => 1,
     'src-rrr-no' => 1,
 );
@@ -57,7 +63,11 @@ sub test_is_rootless
         wait_child => 1,
         nocheck => 1,
     );
-    $res = $? == 0 ? 1 : 0;
+    if (POSIX::WIFEXITED($?) && POSIX::WEXITSTATUS($?) == 255) {
+        $res = 255;
+    } else {
+        $res = $? == 0 ? 1 : 0;
+    }
     chdir $datadir;
 
     return $res;
@@ -67,5 +77,5 @@ foreach my $test (sort keys %is_rootless) {
     my $exp = $is_rootless{$test};
     my $res = test_is_rootless($test);
 
-    is($res, $exp, "dpkg-buildtree is-rootless on $test not $exp");
+    is($res, $exp, "dpkg-buildtree is-rootless on $test $res == $exp");
 }
