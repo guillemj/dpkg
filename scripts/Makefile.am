@@ -387,6 +387,11 @@ test_data = \
 	t/dpkg_buildtree/src-build-api-v0/debian/control \
 	t/dpkg_buildtree/src-build-api-v1/debian/control \
 	t/dpkg_buildtree/src-rrr-binary-targets/debian/control \
+	t/dpkg_buildtree/src-rrr-dpkg-target-binary/debian/control \
+	t/dpkg_buildtree/src-rrr-dpkg-target-custom/debian/control \
+	t/dpkg_buildtree/src-rrr-dpkg-target-subcommand/debian/control \
+	t/dpkg_buildtree/src-rrr-dpkg-unknown-keyword/debian/control \
+	t/dpkg_buildtree/src-rrr-impl-specific-keyword/debian/control \
 	t/dpkg_buildtree/src-rrr-missing/debian/control \
 	t/dpkg_buildtree/src-rrr-no/debian/control \
 	t/dpkg_mergechangelogs/ch-a \
