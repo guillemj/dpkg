@@ -121,8 +121,8 @@ sub _parse_rules_requires_root {
     my %rrr;
     my $rrr;
     my $rrr_default;
-    my $keywords_base;
-    my $keywords_impl;
+    my $keywords_base = 0;
+    my $keywords_impl = 0;
 
     $rrr_default = 'no';
 
