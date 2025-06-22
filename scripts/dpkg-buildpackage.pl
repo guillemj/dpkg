@@ -772,8 +772,8 @@ sub parse_rules_requires_root {
 
     my %rrr;
     my $rrr;
-    my $keywords_base;
-    my $keywords_impl;
+    my $keywords_base = 0;
+    my $keywords_impl = 0;
 
     $rrr = $rrr_override // $ctrl->{'Rules-Requires-Root'} // 'binary-targets';
 
