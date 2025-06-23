@@ -140,6 +140,12 @@ m4_define([DPKG_GEN_DB_DIVERSIONS], [
   DPKG_GEN_DB_FILE([diversions], [$1])
 ])
 
+# DPKG_GEN_DB_TRIGGERS_FILE([$file], [$contents])
+m4_define([DPKG_GEN_DB_TRIGGERS_FILE], [
+  mkdir -p "DPKG_DIR_ADMIN/triggers"
+  AT_DATA([DPKG_DIR_ADMIN/triggers/$1], [$2])
+])
+
 # DPKG_GEN_DB_INFO_FILE([$pkg], [$file], [$contents])
 m4_define([DPKG_GEN_DB_INFO_FILE], [
   mkdir -p "DPKG_DIR_ADMIN/info"

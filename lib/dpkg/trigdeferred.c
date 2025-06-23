@@ -153,6 +153,9 @@ trigdef_update_printf(const char *format, ...)
 {
 	va_list ap;
 
+	if (trig_new_deferred == NULL)
+		return;
+
 	va_start(ap, format);
 	vfprintf(trig_new_deferred, format, ap);
 	va_end(ap);
