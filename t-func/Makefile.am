@@ -10,6 +10,7 @@ TESTSUITE_AT += $(srcdir)/deb-format.at
 TESTSUITE_AT += $(srcdir)/deb-fields.at
 TESTSUITE_AT += $(srcdir)/deb-content.at
 TESTSUITE_AT += $(srcdir)/deb-split.at
+TESTSUITE_AT += $(srcdir)/trigger.at
 EXTRA_DIST += $(TESTSUITE_AT)
 
 TESTSUITE = $(srcdir)/testsuite

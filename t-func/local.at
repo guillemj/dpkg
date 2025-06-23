@@ -30,3 +30,9 @@ m4_define([DPKG_GEN_FILE], [
 $3
 CTRL_TEMPL
 ])
+
+# DPKG_GEN_DB_TRIGGERS_FILE([$file], [$contents])
+m4_define([DPKG_GEN_DB_TRIGGERS_FILE], [
+  mkdir -p "dpkgdb/triggers"
+  AT_DATA([dpkgdb/triggers/$1], [$2])
+])
