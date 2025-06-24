@@ -37,6 +37,7 @@ our @EXPORT_OK = qw(
     all_shell_files
     all_perl_files
     all_perl_modules
+    all_pod_modules
     test_get_po_dirs
     test_get_perl_dirs
     test_get_data_path
@@ -61,6 +62,7 @@ our %EXPORT_TAGS = (
         all_shell_files
         all_perl_files
         all_perl_modules
+        all_pod_modules
         test_get_po_dirs
         test_get_perl_dirs
         test_get_data_path
@@ -69,6 +71,7 @@ our %EXPORT_TAGS = (
 );
 
 use Exporter qw(import);
+use List::Util qw(any);
 use Cwd;
 use File::Find;
 use File::Basename;
@@ -180,6 +183,40 @@ sub all_perl_files
 sub all_perl_modules
 {
     return _test_get_files(qr/\.pm$/, [ test_get_perl_dirs() ]);
+}
+
+sub all_pod_modules
+{
+    my @modules_todo = @_;
+    my @modules;
+
+    require Module::Metadata;
+    my $scan_perl_modules = sub {
+        my $module = $File::Find::name;
+
+        # Only check modules, scripts are documented in man pages.
+        return unless $module =~ s/\.pm$//;
+
+        my $mod = Module::Metadata->new_from_file($File::Find::name);
+
+        # As a first step just check public modules (version > 0.xx).
+        return if $mod->version() =~ m/^0\.\d\d$/;
+
+        $module =~ s{^\Q$File::Find::topdir\E/}{};
+        $module =~ s{/}{::}g;
+
+        return if any { $module eq $_ } @modules_todo;
+
+        push @modules, $module;
+    };
+
+    my %options = (
+        wanted => $scan_perl_modules,
+        no_chdir => 1,
+    );
+    find(\%options, test_get_perl_dirs());
+
+    return @modules;
 }
 
 sub test_needs_author
