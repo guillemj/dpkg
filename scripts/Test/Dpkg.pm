@@ -132,22 +132,33 @@ sub _test_get_perl_dirs
     }
 }
 
-sub _test_get_files
+sub _test_scan_files($visit_func, $dirs)
 {
-    my ($filter, $dirs) = @_;
+    find({
+        wanted => $visit_func,
+        no_chdir => 1,
+    }, @{$dirs});
+}
+
+sub _test_get_files($keep_func, $dirs)
+{
     my @files;
-    my $scan_files = sub {
-        push @files, $File::Find::name if m/$filter/;
+    my $visit_func = sub {
+        push @files, $File::Find::name if $keep_func->($File::Find::name);
     };
 
-    find($scan_files, @{$dirs});
+    _test_scan_files($visit_func, $dirs);
 
     return @files;
 }
 
 sub all_po_files
 {
-    return _test_get_files(qr/\.(?:po|pot)$/, [ _test_get_po_dirs() ]);
+    my $keep_po_files = sub ($file) {
+        return $file =~ m{\.(?:po|pot)$};
+    };
+
+    return _test_get_files($keep_po_files, [ _test_get_po_dirs() ]);
 }
 
 sub all_shell_files
@@ -172,12 +183,20 @@ sub all_shell_files
 
 sub all_perl_files
 {
-    return _test_get_files(qr/\.(?:PL|pl|pm|t)$/, [ _test_get_perl_dirs() ]);
+    my $keep_perl_files = sub ($file) {
+        return $file =~ m{\.(?:PL|pl|pm|t)$};
+    };
+
+    return _test_get_files($keep_perl_files, [ _test_get_perl_dirs() ]);
 }
 
 sub all_perl_modules
 {
-    return _test_get_files(qr/\.pm$/, [ _test_get_perl_dirs() ]);
+    my $keep_perl_modules = sub ($file) {
+        return $file =~ m{\.pm$};
+    };
+
+    return _test_get_files($keep_perl_modules, [ _test_get_perl_dirs() ]);
 }
 
 sub all_pod_modules
@@ -206,11 +225,7 @@ sub all_pod_modules
         push @modules, $module;
     };
 
-    my %options = (
-        wanted => $scan_perl_modules,
-        no_chdir => 1,
-    );
-    find(\%options, _test_get_perl_dirs());
+    _test_scan_files($scan_perl_modules, [ _test_get_perl_dirs() ]);
 
     return @modules;
 }
