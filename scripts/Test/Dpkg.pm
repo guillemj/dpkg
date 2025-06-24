@@ -38,8 +38,6 @@ our @EXPORT_OK = qw(
     all_perl_files
     all_perl_modules
     all_pod_modules
-    test_get_po_dirs
-    test_get_perl_dirs
     test_get_data_path
     test_get_temp_path
     test_needs_author
@@ -63,8 +61,6 @@ our %EXPORT_TAGS = (
         all_perl_files
         all_perl_modules
         all_pod_modules
-        test_get_po_dirs
-        test_get_perl_dirs
         test_get_data_path
         test_get_temp_path
     ) ],
@@ -118,7 +114,7 @@ sub test_get_temp_path
     return $path;
 }
 
-sub test_get_po_dirs
+sub _test_get_po_dirs
 {
     if ($test_mode eq 'cpan') {
         return qw();
@@ -127,7 +123,7 @@ sub test_get_po_dirs
     }
 }
 
-sub test_get_perl_dirs
+sub _test_get_perl_dirs
 {
     if ($test_mode eq 'cpan') {
         return qw(t lib);
@@ -151,7 +147,7 @@ sub _test_get_files
 
 sub all_po_files
 {
-    return _test_get_files(qr/\.(?:po|pot)$/, [ test_get_po_dirs() ]);
+    return _test_get_files(qr/\.(?:po|pot)$/, [ _test_get_po_dirs() ]);
 }
 
 sub all_shell_files
@@ -176,12 +172,12 @@ sub all_shell_files
 
 sub all_perl_files
 {
-    return _test_get_files(qr/\.(?:PL|pl|pm|t)$/, [ test_get_perl_dirs() ]);
+    return _test_get_files(qr/\.(?:PL|pl|pm|t)$/, [ _test_get_perl_dirs() ]);
 }
 
 sub all_perl_modules
 {
-    return _test_get_files(qr/\.pm$/, [ test_get_perl_dirs() ]);
+    return _test_get_files(qr/\.pm$/, [ _test_get_perl_dirs() ]);
 }
 
 sub all_pod_modules
@@ -214,7 +210,7 @@ sub all_pod_modules
         wanted => $scan_perl_modules,
         no_chdir => 1,
     );
-    find(\%options, test_get_perl_dirs());
+    find(\%options, _test_get_perl_dirs());
 
     return @modules;
 }
