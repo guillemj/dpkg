@@ -22,7 +22,7 @@ test_needs_author();
 test_needs_command('shellcheck');
 test_needs_srcdir_switch();
 
-my @todofiles = qw(
+my @files_todo = qw(
     dselect/methods/file/install.sh
     dselect/methods/file/setup.sh
     dselect/methods/file/update.sh
@@ -51,7 +51,7 @@ my @shellcheck_opts = (
     '--exclude=SC3043', # Allow local keyword.
 );
 
-plan tests => scalar @files;
+plan tests => scalar @files + scalar @files_todo;
 
 sub shell_syntax_ok
 {
@@ -72,4 +72,12 @@ sub shell_syntax_ok
 
 foreach my $file (@files) {
     shell_syntax_ok($file);
+}
+
+TODO: {
+    local $TODO = 'shell scripts not yet fixed';
+
+    foreach my $file (@files_todo) {
+        shell_syntax_ok($file);
+    }
 }
