@@ -71,7 +71,6 @@ our %EXPORT_TAGS = (
 );
 
 use Exporter qw(import);
-use List::Util qw(any);
 use Cwd;
 use File::Find;
 use File::Basename;
@@ -188,6 +187,7 @@ sub all_perl_modules
 sub all_pod_modules
 {
     my @modules_todo = @_;
+    my %modules_todo = map { $_ => 1 } @modules_todo;
     my @modules;
 
     require Module::Metadata;
@@ -205,7 +205,7 @@ sub all_pod_modules
         $module =~ s{^\Q$File::Find::topdir\E/}{};
         $module =~ s{/}{::}g;
 
-        return if any { $module eq $_ } @modules_todo;
+        return if exists $modules_todo{$module};
 
         push @modules, $module;
     };
