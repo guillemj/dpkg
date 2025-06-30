@@ -1,8 +1,20 @@
-dpkg (1.22.21) UNRELEASED; urgency=medium
+dpkg (1.22.21) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * dpkg-deb: Fix cleanup for control member with restricted directories.
+    Fixes CVE-2025-6297. Reported by zhutyra on HackerOne.
+  * Perl modules:
+    - Dpkg::BuildDriver::DebianRules: Fix uninitialized Perl variables.
+      Closes: #1107971
+    - Dpkg::BuildDriver::DebianRules: Fix R³ dpkg/target/<target> values
+      handling.
+    - Dpkg::BuildTree: Fix needs_root() for R³ with implementation specific
+      keywords. See #1107971.
+  * Code internals:
+    - libdpkg: Do not segfault when adding triggers in no-act mode.
+      Closes: #1108192
 
- -- Guillem Jover <guillem@debian.org>  Tue, 01 Jul 2025 01:07:10 +0200
+ -- Guillem Jover <guillem@debian.org>  Tue, 01 Jul 2025 01:32:04 +0200
 
 dpkg (1.22.20) unstable; urgency=medium
 
