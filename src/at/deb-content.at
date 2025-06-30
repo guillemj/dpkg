@@ -141,7 +141,7 @@ touch pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner/file
 chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN
 chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir
 chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner
-$TAR cf control.tar --format=gnu --mtime @0 --clamp-mtime --owner root:0 --group root:0 -C pkg-ctrl-dir-perms-bad/DEBIAN .
+$TAR cf control.tar --format=gnu --sort=name --mtime @0 --clamp-mtime --owner root:0 --group root:0 -C pkg-ctrl-dir-perms-bad/DEBIAN .
 DPKG_AR_GEN([pkg-ctrl-dir-perms.deb], [debian-binary control.tar data.tar])
 ], [0], [dpkg-deb: building package 'pkg-ctrl-dir-perms' in 'pkg-ctrl-dir-perms.deb'.
 ])
