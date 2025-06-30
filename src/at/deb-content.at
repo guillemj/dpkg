@@ -148,10 +148,10 @@ DPKG_AR_GEN([pkg-ctrl-dir-perms.deb], [debian-binary control.tar data.tar])
 AT_CHECK([
 dpkg-deb --ctrl-tarfile pkg-ctrl-dir-perms.deb | $TAR tvf -
 ], [0], [dr-xr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root       176 1970-01-01 00:00 ./control
 dr-xr-xr-x root/root         0 1970-01-01 00:00 ./rx-subdir/
 dr-xr-xr-x root/root         0 1970-01-01 00:00 ./rx-subdir/inner/
 -rw-r--r-- root/root         0 1970-01-01 00:00 ./rx-subdir/inner/file
--rw-r--r-- root/root       176 1970-01-01 00:00 ./control
 ])
 # Check that we can cleanup the temporarily extracted control.tar member.
 AT_CHECK([
