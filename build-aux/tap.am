@@ -10,7 +10,7 @@
 #  test_data - list of test data files
 
 TEST_VERBOSE ?= 0
-TEST_PARALLEL ?= 1
+TEST_PARALLEL ?= `$(top_srcdir)/build-aux/run-script build-aux/get-make-jobs $(.MAKE.JOBS)`
 
 tap-clean:
 	[ -z "$(test_tmpdir)" ] || rm -fr $(test_tmpdir)

@@ -5,7 +5,7 @@ DISTCLEANFILES += at/atconfig
 AUTOTEST_DEPS = at/atconfig at/atlocal $(TESTSUITE)
 
 TEST_VERBOSE ?= 0
-TEST_PARALLEL ?= 1
+TEST_PARALLEL ?= `$(top_srcdir)/build-aux/run-script build-aux/get-make-jobs $(.MAKE.JOBS)`
 
 TEST_VERBOSE_OPT = $(TEST_VERBOSE:0=)
 

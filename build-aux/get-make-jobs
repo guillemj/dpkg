@@ -1,0 +1,38 @@
+#!/usr/bin/perl
+
+use v5.36;
+
+use Scalar::Util qw(
+    looks_like_number
+);
+use List::Util qw(
+    any
+);
+
+use Dpkg::SysInfo qw(
+    get_num_processors
+);
+
+my $arg = $ARGV[0] // 0;
+
+if (looks_like_number($arg) && $arg > 0) {
+    say $arg;
+    exit 0;
+} elsif (length $ENV{MAKEFLAGS}) {
+    my @flags = split ' ', $ENV{MAKEFLAGS};
+
+    foreach my $flag (@flags) {
+        if ($flag =~ m{^-j(.*)$}) {
+            my $jobs = $1;
+
+            if (not length $jobs) {
+                $jobs = get_num_processors();
+            }
+
+            say $jobs;
+            exit 0;
+        }
+    }
+}
+
+say '1';
