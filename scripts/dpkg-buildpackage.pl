@@ -30,6 +30,9 @@ use POSIX qw(:sys_wait_h);
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::SysInfo qw(
+    get_num_processors
+);
 use Dpkg::BuildTypes;
 use Dpkg::BuildOptions;
 use Dpkg::BuildProfiles qw(set_build_profiles);
@@ -469,14 +472,7 @@ run_hook('preinit');
 
 if (defined $parallel) {
     if ($parallel eq 'auto') {
-        # Most Unices.
-        $parallel = qx(getconf _NPROCESSORS_ONLN 2>/dev/null);
-        # Fallback for at least Irix.
-        $parallel = qx(getconf _NPROC_ONLN 2>/dev/null) if $?;
-        # Fallback to serial execution if cannot infer the number of online
-        # processors.
-        $parallel = '1' if $?;
-        chomp $parallel;
+        $parallel = get_num_processors();
     }
     if ($parallel_force) {
         $ENV{MAKEFLAGS} //= '';
