@@ -15,6 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+use v5.36;
+use version;
+
 use Test::More;
 use Cwd;
 use File::Path qw(make_path remove_tree);
@@ -26,9 +29,6 @@ use POSIX qw(mkfifo);
 use Dpkg ();
 use Dpkg::File;
 use Dpkg::IPC;
-
-use v5.36;
-use version;
 
 my $srcdir = $ENV{srcdir} || '.';
 my $builddir = $ENV{builddir} || '.';
