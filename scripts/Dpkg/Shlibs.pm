@@ -129,22 +129,10 @@ sub setup_library_paths {
         }
     }
 
-    # Adjust set of directories to consider when we're in a situation of a
-    # cross-build or a build of a cross-compiler.
-    my $multiarch;
-
-    # Detect cross compiler builds.
-    if ($ENV{DEB_TARGET_GNU_TYPE} and
-        ($ENV{DEB_TARGET_GNU_TYPE} ne $ENV{DEB_BUILD_GNU_TYPE}))
-    {
-        $multiarch = gnutriplet_to_multiarch($ENV{DEB_TARGET_GNU_TYPE});
-    }
-    # Host for normal cross builds.
+    # Adjust set of directories to consider during cross builds.
     if (get_build_arch() ne get_host_arch()) {
-        $multiarch = debarch_to_multiarch(get_host_arch());
-    }
-    # Define list of directories containing crossbuilt libraries.
-    if ($multiarch) {
+        my $multiarch = debarch_to_multiarch(get_host_arch());
+
         push @system_librarypaths, "/lib/$multiarch", "/usr/lib/$multiarch";
     }
 
