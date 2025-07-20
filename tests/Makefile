@@ -41,6 +41,7 @@ ifdef DPKG_SYS_HAS_MKNOD
 TESTS_PASS += t-unpack-device
 endif
 TESTS_PASS += t-maintscript-leak
+TESTS_PASS += t-maintscript-abort-notices
 TESTS_PASS += t-filtering
 TESTS_PASS += t-depends
 TESTS_PASS += t-dir-leftover-parents

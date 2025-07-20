@@ -1,0 +1,18 @@
+#!/bin/sh
+
+case "$1" in
+  upgrade)
+    if [ "$2" = '0' ]; then
+      # Silent error.
+      exit 1
+    fi
+    ;;
+  install|abort-upgrade)
+    ;;
+  *)
+    echo "$0 called with unknown argument '$1'" 1>&2
+    exit 1
+    ;;
+esac
+
+exit 0

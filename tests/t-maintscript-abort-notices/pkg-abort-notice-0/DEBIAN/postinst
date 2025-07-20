@@ -1,0 +1,17 @@
+#!/bin/sh
+
+case "$1" in
+  abort-upgrade)
+    if [ "$2" = '1' ]; then
+      echo "error: something went wrong, with no failure" 1>&2
+    fi
+    ;;
+  configure|triggered|abort-deconfigure|abort-remove)
+    ;;
+  *)
+    echo "$0 called with unknown argument '$1'" 1>&2
+    exit 1
+    ;;
+esac
+
+exit 0

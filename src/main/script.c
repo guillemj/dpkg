@@ -179,6 +179,13 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	pid_t pid;
 	int rc;
 
+	/* XXX: Ideally we would not encode the argument knowledge here, but
+	 * this is the most straightforward and easy way to accomplish this
+	 * for now. And we have already some level of knowledge about its
+	 * format anyway. */
+	if (strncmp(cmd->argv[1], "abort-", 6) == 0)
+		notice(_("executing %s for %s ..."), cmd->name, cmd->argv[1]);
+
 	setexecute(cmd->filename, stab);
 
 	push_cleanup(cu_post_script_tasks, ehflag_bombout, 0);
