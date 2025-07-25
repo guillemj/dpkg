@@ -364,13 +364,15 @@ maintscript_fallback(struct pkginfo *pkg,
 		post_script_tasks();
 		return 1;
 	}
+	command_destroy(&cmd);
+	free(buf);
+
 	notice(_("trying script from the new package instead ..."));
 
 	strcpy(cidirrest, scriptname);
 	buf = str_fmt(_("new %s package %s script"),
 	              pkg_name(pkg, pnaw_nonambig), desc);
 
-	command_destroy(&cmd);
 	command_init(&cmd, cidir, buf);
 	command_add_args(&cmd, scriptname, iffallback,
 	                 versiondescribe(&pkg->installed.version, vdew_nonambig),
