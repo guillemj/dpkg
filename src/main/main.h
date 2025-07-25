@@ -238,14 +238,15 @@ struct fsys_namenode *
 namenodetouse(struct fsys_namenode *namenode,
               struct pkginfo *pkg, struct pkgbin *pkgbin);
 
-int maintscript_installed(struct pkginfo *pkg, const char *scriptname,
-                          const char *desc, ...) DPKG_ATTR_SENTINEL;
+int
+maintscript_installed(struct pkginfo *pkg, const char *scriptname, ...)
+	DPKG_ATTR_SENTINEL;
 int maintscript_new(struct pkginfo *pkg,
-                    const char *scriptname, const char *desc,
+                    const char *scriptname,
                     const char *cidir, char *cidirrest, ...)
 	DPKG_ATTR_SENTINEL;
 int maintscript_fallback(struct pkginfo *pkg,
-                         const char *scriptname, const char *desc,
+                         const char *scriptname,
                          const char *cidir, char *cidirrest,
                          const char *ifok, const char *iffallback);
 

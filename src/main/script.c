@@ -215,7 +215,7 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
 static int
 vmaintscript_installed(struct pkginfo *pkg, const char *scriptname,
-                       const char *desc, va_list args)
+                       va_list args)
 {
 	struct command cmd;
 	const char *scriptpath;
@@ -224,7 +224,7 @@ vmaintscript_installed(struct pkginfo *pkg, const char *scriptname,
 
 	scriptpath = pkg_infodb_get_file(pkg, &pkg->installed, scriptname);
 	buf = str_fmt(_("installed %s package %s script"),
-	              pkg_name(pkg, pnaw_nonambig), desc);
+	              pkg_name(pkg, pnaw_nonambig), scriptname);
 
 	command_init(&cmd, scriptpath, buf);
 	command_add_arg(&cmd, scriptname);
@@ -255,14 +255,13 @@ vmaintscript_installed(struct pkginfo *pkg, const char *scriptname,
  */
 
 int
-maintscript_installed(struct pkginfo *pkg, const char *scriptname,
-                      const char *desc, ...)
+maintscript_installed(struct pkginfo *pkg, const char *scriptname, ...)
 {
 	va_list args;
 	int rc;
 
-	va_start(args, desc);
-	rc = vmaintscript_installed(pkg, scriptname, desc, args);
+	va_start(args, scriptname);
+	rc = vmaintscript_installed(pkg, scriptname, args);
 	va_end(args);
 
 	if (rc)
@@ -278,7 +277,7 @@ maintscript_postinst(struct pkginfo *pkg, ...)
 	int rc;
 
 	va_start(args, pkg);
-	rc = vmaintscript_installed(pkg, POSTINSTFILE, "post-installation", args);
+	rc = vmaintscript_installed(pkg, POSTINSTFILE, args);
 	va_end(args);
 
 	if (rc)
@@ -289,7 +288,7 @@ maintscript_postinst(struct pkginfo *pkg, ...)
 
 int
 maintscript_new(struct pkginfo *pkg, const char *scriptname,
-                const char *desc, const char *cidir, char *cidirrest, ...)
+                const char *cidir, char *cidirrest, ...)
 {
 	struct command cmd;
 	struct stat stab;
@@ -298,7 +297,7 @@ maintscript_new(struct pkginfo *pkg, const char *scriptname,
 
 	strcpy(cidirrest, scriptname);
 	buf = str_fmt(_("new %s package %s script"),
-	              pkg_name(pkg, pnaw_nonambig), desc);
+	              pkg_name(pkg, pnaw_nonambig), scriptname);
 
 	va_start(args, cidirrest);
 	command_init(&cmd, cidir, buf);
@@ -329,7 +328,7 @@ maintscript_new(struct pkginfo *pkg, const char *scriptname,
 
 int
 maintscript_fallback(struct pkginfo *pkg,
-                     const char *scriptname, const char *desc,
+                     const char *scriptname,
                      const char *cidir, char *cidirrest,
                      const char *ifok, const char *iffallback)
 {
@@ -340,7 +339,7 @@ maintscript_fallback(struct pkginfo *pkg,
 
 	oldscriptpath = pkg_infodb_get_file(pkg, &pkg->installed, scriptname);
 	buf = str_fmt(_("old %s package %s script"),
-	              pkg_name(pkg, pnaw_nonambig), desc);
+	              pkg_name(pkg, pnaw_nonambig), scriptname);
 
 	command_init(&cmd, oldscriptpath, buf);
 	command_add_args(&cmd, scriptname, ifok,
@@ -371,7 +370,7 @@ maintscript_fallback(struct pkginfo *pkg,
 
 	strcpy(cidirrest, scriptname);
 	buf = str_fmt(_("new %s package %s script"),
-	              pkg_name(pkg, pnaw_nonambig), desc);
+	              pkg_name(pkg, pnaw_nonambig), scriptname);
 
 	command_init(&cmd, cidir, buf);
 	command_add_args(&cmd, scriptname, iffallback,

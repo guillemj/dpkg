@@ -305,7 +305,7 @@ pkg_deconfigure_others(struct pkginfo *pkg)
                           3, (void *)deconpil->pkg, (void *)removing, (void *)pkg);
 
     if (removing) {
-      maintscript_installed(deconpil->pkg, PRERMFILE, "pre-removal",
+      maintscript_installed(deconpil->pkg, PRERMFILE,
                             "deconfigure", "in-favour",
                             pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
                             versiondescribe(&pkg->available.version,
@@ -316,7 +316,7 @@ pkg_deconfigure_others(struct pkginfo *pkg)
                                             vdew_nonambig),
                             NULL);
     } else {
-      maintscript_installed(deconpil->pkg, PRERMFILE, "pre-removal",
+      maintscript_installed(deconpil->pkg, PRERMFILE,
                             "deconfigure", "in-favour",
                             pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
                             versiondescribe(&pkg->available.version,
@@ -944,7 +944,6 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
 
   trig_activate_packageprocessing(pkg);
   maintscript_installed(pkg, POSTRMFILE,
-                        "post-removal script (for disappearance)",
                         "disappear",
                         pkgbin_name(infavour, &infavour->available,
                                     pnaw_nonambig),
@@ -1384,7 +1383,7 @@ void process_archive(const char *filename) {
     pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
     modstatdb_note(pkg);
     push_cleanup(cu_prermupgrade, ~ehflag_normaltidy, 1, (void *)pkg);
-    maintscript_fallback(pkg, PRERMFILE, "pre-removal", cidir, cidirrest,
+    maintscript_fallback(pkg, PRERMFILE, cidir, cidirrest,
                          "upgrade", "failed-upgrade");
     pkg_set_status(pkg, PKG_STAT_UNPACKED);
     oldversionstatus = PKG_STAT_UNPACKED;
@@ -1409,7 +1408,7 @@ void process_archive(const char *filename) {
     modstatdb_note(conflictor);
     push_cleanup(cu_prerminfavour, ~ehflag_normaltidy,
                  2, conflictor, pkg);
-    maintscript_installed(conflictor, PRERMFILE, "pre-removal",
+    maintscript_installed(conflictor, PRERMFILE,
                           "remove", "in-favour",
                           pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
                           versiondescribe(&pkg->available.version,
@@ -1429,12 +1428,12 @@ void process_archive(const char *filename) {
   if (oldversionstatus == PKG_STAT_NOTINSTALLED) {
     push_cleanup(cu_preinstverynew, ~ehflag_normaltidy,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
-    maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
+    maintscript_new(pkg, PREINSTFILE, cidir, cidirrest,
                     "install", NULL);
   } else if (oldversionstatus == PKG_STAT_CONFIGFILES) {
     push_cleanup(cu_preinstnew, ~ehflag_normaltidy,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
-    maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
+    maintscript_new(pkg, PREINSTFILE, cidir, cidirrest,
                     "install",
                     versiondescribe(&pkg->installed.version, vdew_nonambig),
                     versiondescribe(&pkg->available.version, vdew_nonambig),
@@ -1442,7 +1441,7 @@ void process_archive(const char *filename) {
   } else {
     push_cleanup(cu_preinstupgrade, ~ehflag_normaltidy,
                  4,(void*)pkg,(void*)cidir,(void*)cidirrest,(void*)&oldversionstatus);
-    maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
+    maintscript_new(pkg, PREINSTFILE, cidir, cidirrest,
                     "upgrade",
                     versiondescribe(&pkg->installed.version, vdew_nonambig),
                     versiondescribe(&pkg->available.version, vdew_nonambig),
@@ -1580,7 +1579,7 @@ void process_archive(const char *filename) {
     pkg_set_status(pkg, PKG_STAT_HALFINSTALLED);
     modstatdb_note(pkg);
     push_cleanup(cu_postrmupgrade, ~ehflag_normaltidy, 1, (void *)pkg);
-    maintscript_fallback(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
+    maintscript_fallback(pkg, POSTRMFILE, cidir, cidirrest,
                          "upgrade", "failed-upgrade");
   }
 
