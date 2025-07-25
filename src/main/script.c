@@ -38,6 +38,7 @@
 #include <dpkg/debug.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/string.h>
 #include <dpkg/pkg.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
@@ -222,8 +223,8 @@ vmaintscript_installed(struct pkginfo *pkg, const char *scriptname,
 	char *buf;
 
 	scriptpath = pkg_infodb_get_file(pkg, &pkg->installed, scriptname);
-	m_asprintf(&buf, _("installed %s package %s script"),
-	           pkg_name(pkg, pnaw_nonambig), desc);
+	buf = str_fmt(_("installed %s package %s script"),
+	              pkg_name(pkg, pnaw_nonambig), desc);
 
 	command_init(&cmd, scriptpath, buf);
 	command_add_arg(&cmd, scriptname);
@@ -296,8 +297,8 @@ maintscript_new(struct pkginfo *pkg, const char *scriptname,
 	char *buf;
 
 	strcpy(cidirrest, scriptname);
-	m_asprintf(&buf, _("new %s package %s script"),
-	           pkg_name(pkg, pnaw_nonambig), desc);
+	buf = str_fmt(_("new %s package %s script"),
+	              pkg_name(pkg, pnaw_nonambig), desc);
 
 	va_start(args, cidirrest);
 	command_init(&cmd, cidir, buf);
@@ -338,8 +339,8 @@ maintscript_fallback(struct pkginfo *pkg,
 	char *buf;
 
 	oldscriptpath = pkg_infodb_get_file(pkg, &pkg->installed, scriptname);
-	m_asprintf(&buf, _("old %s package %s script"),
-	           pkg_name(pkg, pnaw_nonambig), desc);
+	buf = str_fmt(_("old %s package %s script"),
+	              pkg_name(pkg, pnaw_nonambig), desc);
 
 	command_init(&cmd, oldscriptpath, buf);
 	command_add_args(&cmd, scriptname, ifok,
@@ -366,8 +367,8 @@ maintscript_fallback(struct pkginfo *pkg,
 	notice(_("trying script from the new package instead ..."));
 
 	strcpy(cidirrest, scriptname);
-	m_asprintf(&buf, _("new %s package %s script"),
-	           pkg_name(pkg, pnaw_nonambig), desc);
+	buf = str_fmt(_("new %s package %s script"),
+	              pkg_name(pkg, pnaw_nonambig), desc);
 
 	command_destroy(&cmd);
 	command_init(&cmd, cidir, buf);

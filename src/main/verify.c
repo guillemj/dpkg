@@ -32,6 +32,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/string.h>
 #include <dpkg/options.h>
 #include <dpkg/db-ctrl.h>
 #include <dpkg/db-fsys.h>
@@ -81,7 +82,7 @@ verify_output_rpm(struct fsys_namenode *namenode, struct verify_checks *checks)
 	if (checks->exists == VERIFY_FAIL) {
 		memcpy(result, "missing  ", sizeof(result));
 		if (checks->exists_errno != ENOENT)
-			m_asprintf(&error, " (%s)", strerror(checks->exists_errno));
+			error = str_fmt(" (%s)", strerror(checks->exists_errno));
 	} else {
 		result[1] = verify_result_rpm(checks->mode, 'M');
 		result[2] = verify_result_rpm(checks->md5sum, '5');
