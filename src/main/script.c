@@ -223,7 +223,7 @@ vmaintscript_installed(struct pkginfo *pkg, const char *scriptname,
 	char *buf;
 
 	scriptpath = pkg_infodb_get_file(pkg, &pkg->installed, scriptname);
-	buf = str_fmt(_("installed %s package %s script"),
+	buf = str_fmt(_("old %s package %s maintainer script"),
 	              pkg_name(pkg, pnaw_nonambig), scriptname);
 
 	command_init(&cmd, scriptpath, buf);
@@ -296,7 +296,7 @@ maintscript_new(struct pkginfo *pkg, const char *scriptname,
 	char *buf;
 
 	strcpy(cidirrest, scriptname);
-	buf = str_fmt(_("new %s package %s script"),
+	buf = str_fmt(_("new %s package %s maintainer script"),
 	              pkg_name(pkg, pnaw_nonambig), scriptname);
 
 	va_start(args, cidirrest);
@@ -338,7 +338,7 @@ maintscript_fallback(struct pkginfo *pkg,
 	char *buf;
 
 	oldscriptpath = pkg_infodb_get_file(pkg, &pkg->installed, scriptname);
-	buf = str_fmt(_("old %s package %s script"),
+	buf = str_fmt(_("old %s package %s maintainer script"),
 	              pkg_name(pkg, pnaw_nonambig), scriptname);
 
 	command_init(&cmd, oldscriptpath, buf);
@@ -366,10 +366,11 @@ maintscript_fallback(struct pkginfo *pkg,
 	command_destroy(&cmd);
 	free(buf);
 
-	notice(_("trying script from the new package instead ..."));
+	notice(_("trying %s maintainer script from the new %s package instead ..."),
+	       scriptname, pkg_name(pkg, pnaw_nonambig));
 
 	strcpy(cidirrest, scriptname);
-	buf = str_fmt(_("new %s package %s script"),
+	buf = str_fmt(_("new %s package %s maintainer script"),
 	              pkg_name(pkg, pnaw_nonambig), scriptname);
 
 	command_init(&cmd, cidir, buf);
@@ -382,7 +383,8 @@ maintscript_fallback(struct pkginfo *pkg,
 		command_destroy(&cmd);
 
 		if (errno == ENOENT)
-			ohshit(_("there is no script in the new version of the package - giving up"));
+			ohshit(_("missing %s maintainer script in new %s package, giving up"),
+			       scriptname, pkg_name(pkg, pnaw_nonambig));
 		else
 			ohshite(_("unable to stat %s '%.250s'"), buf, cidir);
 	}
