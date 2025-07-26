@@ -283,7 +283,7 @@ sub subprocerr
 
     if (POSIX::WIFEXITED($?)) {
         my $ret = POSIX::WEXITSTATUS($?);
-        error(g_('%s subprocess returned exit status %d'), $p, $ret);
+        error(g_('%s subprocess failed with exit status %d'), $p, $ret);
     } elsif (POSIX::WIFSIGNALED($?)) {
         my $sig = POSIX::WTERMSIG($?);
         error(g_('%s subprocess was killed by signal %d'), $p, $sig);

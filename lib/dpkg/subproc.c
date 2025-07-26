@@ -136,7 +136,7 @@ subproc_check(int status, const char *desc, enum subproc_flags flags)
 		if (flags & SUBPROC_RETERROR)
 			return n;
 
-		out(_("%s subprocess returned error exit status %d"), desc, n);
+		out(_("%s subprocess failed with exit status %d"), desc, n);
 	} else if (WIFSIGNALED(status)) {
 		n = WTERMSIG(status);
 		if (!n)
