@@ -390,11 +390,12 @@ maintscript_fallback(struct pkginfo *pkg,
 	}
 
 	maintscript_exec(pkg, &pkg->available, &cmd, &stab, 0);
-	notice(_("... it looks like that went OK"));
 
 	command_destroy(&cmd);
 	free(scriptdesc);
 	post_script_tasks();
+
+	notice(_("... it looks like that went OK"));
 
 	return 1;
 }
