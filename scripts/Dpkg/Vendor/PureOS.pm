@@ -64,13 +64,13 @@ sub run_hook {
         return $self->run_hook('package-keyrings', @params);
     } elsif ($hook eq 'package-keyrings') {
         return ($self->SUPER::run_hook($hook),
-                '/usr/share/keyrings/pureos-archive-keyring.gpg');
+                '/usr/share/keyrings/pureos-archive-keyring.pgp');
     } elsif ($hook eq 'archive-keyrings') {
         return ($self->SUPER::run_hook($hook),
-                '/usr/share/keyrings/pureos-archive-keyring.gpg');
+                '/usr/share/keyrings/pureos-archive-keyring.pgp');
     } elsif ($hook eq 'archive-keyrings-historic') {
         return ($self->SUPER::run_hook($hook),
-                '/usr/share/keyrings/pureos-archive-removed-keys.gpg');
+                '/usr/share/keyrings/pureos-archive-removed-keys.pgp');
     } else {
         return $self->SUPER::run_hook($hook, @params);
     }
