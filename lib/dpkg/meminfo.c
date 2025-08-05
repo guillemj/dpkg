@@ -159,7 +159,7 @@ meminfo_get_available_from_file(const char *filename, uint64_t *val)
 enum meminfo_error_code
 meminfo_get_available(uint64_t *val)
 {
-#ifdef __linux__
+#if defined(__linux__) || defined(__GNU__)
 	return meminfo_get_available_from_file("/proc/meminfo", val);
 #else
 	return MEMINFO_NO_FILE;
