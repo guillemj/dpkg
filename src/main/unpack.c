@@ -73,6 +73,9 @@ summarize_filename(const char *filename)
 
   if (pfilename && pfilename != filename) {
     pfilenamebuf = nfmalloc(strlen(pfilename) + 5);
+    /* TRANSLATORS: This string represents a summarized pathname, were prefix
+     * directories get abbreviated with ".../", if the total length exceeds
+     * a limit. The three dots would usually be represented by «…/». */
     sprintf(pfilenamebuf, _(".../%s"), pfilename);
     pfilename = pfilenamebuf;
   } else {
