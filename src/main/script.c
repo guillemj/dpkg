@@ -170,7 +170,7 @@ maintscript_set_exec_context(struct command *cmd)
 
 static int
 maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                 struct command *cmd, struct stat *stab, int warn)
+                 struct command *cmd, struct stat *stab, int subproc_opts)
 {
 	pid_t pid;
 	int rc;
@@ -205,7 +205,7 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
 		command_exec(cmd);
 	}
 	subproc_signals_ignore(cmd->name);
-	rc = subproc_reap(pid, cmd->name, warn);
+	rc = subproc_reap(pid, cmd->name, subproc_opts);
 	subproc_signals_restore();
 
 	pop_cleanup(ehflag_normaltidy);
