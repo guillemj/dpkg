@@ -463,9 +463,9 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 			what |= CFOF_USER_DEL;
 	}
 
-	debug(dbg_conff,
-	      "deferred_configure '%s' (= '%s') useredited=%d distedited=%d what=%o",
-	      usenode->name, cdr.buf, useredited, distedited, what);
+	debug_at(dbg_conff,
+	         "'%s' (= '%s') useredited=%d distedited=%d what=%o",
+	         usenode->name, cdr.buf, useredited, distedited, what);
 
 	what = promptconfaction(pkg, usenode->name, cdr.buf, cdr_new.buf,
 	                        useredited, distedited, what);
@@ -634,7 +634,7 @@ deferred_configure(struct pkginfo *pkg)
 	}
 
 	if (pkg->status == PKG_STAT_UNPACKED) {
-		debug(dbg_general, "deferred_configure updating conffiles");
+		debug_at(dbg_general, "updating conffiles");
 		/* This will not do at all the right thing with overridden
 		 * conffiles or conffiles that are the ‘target’ of an override;
 		 * all the references here would be to the ‘contested’
@@ -701,25 +701,25 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 	loopprotect = 0;
 
 	for (;;) {
-		debug(dbg_conffdetail, "conffderef in='%s' current working='%s'",
-		      in, result->buf);
+		debug_at(dbg_conffdetail, "in='%s' current working='%s'",
+		         in, result->buf);
 		if (lstat(result->buf, &stab)) {
 			if (errno != ENOENT)
 				warning(_("%s: unable to stat config file '%s'\n"
 				          " (= '%s'): %s"),
 				        pkg_name(pkg, pnaw_nonambig), in,
 				        result->buf, strerror(errno));
-			debug(dbg_conffdetail, "conffderef nonexistent");
+			debug_at(dbg_conffdetail, "nonexistent");
 			return 0;
 		} else if (S_ISREG(stab.st_mode)) {
-			debug(dbg_conff, "conffderef in='%s' result='%s'",
+			debug_at(dbg_conff, "in='%s' result='%s'",
 			      in, result->buf);
 			return 0;
 		} else if (S_ISLNK(stab.st_mode)) {
 			ssize_t linksize;
 
-			debug(dbg_conffdetail, "conffderef symlink loopprotect=%d",
-			      loopprotect);
+			debug_at(dbg_conffdetail, "symlink loopprotect=%d",
+			         loopprotect);
 			if (loopprotect++ >= 25) {
 				warning(_("%s: config file '%s' is a circular link\n"
 				          " (= '%s')"),
@@ -746,14 +746,12 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 					return -1;
 			}
 
-			debug(dbg_conffdetail,
-			      "conffderef readlink gave %zd, '%s'",
-			      linksize, target.buf);
+			debug_at(dbg_conffdetail, "readlink gave %zd, '%s'",
+			         linksize, target.buf);
 
 			if (target.buf[0] == '/') {
 				varbuf_set_str(result, dpkg_fsys_get_dir());
-				debug(dbg_conffdetail,
-				      "conffderef readlink absolute");
+				debug_at(dbg_conffdetail, "readlink absolute");
 			} else {
 				ssize_t r;
 
@@ -769,9 +767,9 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				if (result->buf[r] == '/')
 					r++;
 				varbuf_trunc(result, r);
-				debug(dbg_conffdetail,
-				      "conffderef readlink relative to '%s'",
-				      varbuf_str(result));
+				debug_at(dbg_conffdetail,
+				         "readlink relative to '%s'",
+				         varbuf_str(result));
 			}
 			varbuf_add_varbuf(result, &target);
 		} else {

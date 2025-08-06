@@ -71,8 +71,7 @@ void cu_installnew(int argc, void **argv) {
 
   cleanup_pkg_failed++; cleanup_conflictor_failed++;
 
-  debug(dbg_eachfile, "cu_installnew '%s' flags=%o",
-        namenode->name, namenode->flags);
+  debug_at(dbg_eachfile, "'%s' flags=%o", namenode->name, namenode->flags);
 
   setupfnamevbs(namenode->name);
 
@@ -82,12 +81,12 @@ void cu_installnew(int argc, void **argv) {
     if (namenode->flags & FNNF_NO_ATOMIC_OVERWRITE) {
       /* If we can't do an atomic overwrite we have to delete first any
        * link to the new version we may have created. */
-      debug(dbg_eachfiledetail,"cu_installnew restoring nonatomic");
+      debug_at(dbg_eachfiledetail, "restoring nonatomic");
       if (secure_remove(fnamevb.buf) && errno != ENOENT && errno != ENOTDIR)
         ohshite(_("unable to remove newly-installed version of '%.250s' to allow"
                 " reinstallation of backup copy"),namenode->name);
     } else {
-      debug(dbg_eachfiledetail,"cu_installnew restoring atomic");
+      debug_at(dbg_eachfiledetail, "restoring atomic");
     }
     /* Either we can do an atomic restore, or we've made room: */
     if (rename(fnametmpvb.buf,fnamevb.buf))
@@ -97,12 +96,12 @@ void cu_installnew(int argc, void **argv) {
     else if (unlink(fnametmpvb.buf) && errno != ENOENT)
       ohshite(_("unable to remove backup copy of '%.250s'"), namenode->name);
   } else if (namenode->flags & FNNF_PLACED_ON_DISK) {
-    debug(dbg_eachfiledetail,"cu_installnew removing new file");
+    debug_at(dbg_eachfiledetail, "removing new file");
     if (secure_remove(fnamevb.buf) && errno != ENOENT && errno != ENOTDIR)
       ohshite(_("unable to remove newly-installed version of '%.250s'"),
 	      namenode->name);
   } else {
-    debug(dbg_eachfiledetail,"cu_installnew not restoring");
+    debug_at(dbg_eachfiledetail, "not restoring");
   }
   /* Whatever, we delete «pathname».dpkg-new now, if it still exists. */
   if (secure_remove(fnamenewvb.buf) && errno != ENOENT && errno != ENOTDIR)

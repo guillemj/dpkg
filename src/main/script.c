@@ -61,17 +61,17 @@ post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
 		pkg_set_status(pkg, PKG_STAT_INSTALLED);
 	modstatdb_note(pkg);
 
-	debug(dbg_triggersdetail, "post_postinst_tasks - trig_incorporate");
+	debug_at(dbg_triggersdetail, "trig_incorporate");
 	trig_incorporate(modstatdb_get_status());
 }
 
 static void
 post_script_tasks(void)
 {
-	debug(dbg_triggersdetail, "post_script_tasks - ensure_diversions");
+	debug_at(dbg_triggersdetail, "ensure_diversions");
 	ensure_diversions();
 
-	debug(dbg_triggersdetail, "post_script_tasks - trig_incorporate");
+	debug_at(dbg_triggersdetail, "trig_incorporate");
 	trig_incorporate(modstatdb_get_status());
 }
 
@@ -234,9 +234,7 @@ vmaintscript_installed(struct pkginfo *pkg, const char *scriptname,
 		command_destroy(&cmd);
 
 		if (errno == ENOENT) {
-			debug(dbg_scripts,
-			      "vmaintscript_installed nonexistent %s",
-			      scriptname);
+			debug_at(dbg_scripts, "nonexistent %s", scriptname);
 			free(scriptdesc);
 			return 0;
 		}
@@ -309,9 +307,8 @@ maintscript_new(struct pkginfo *pkg, const char *scriptname,
 		command_destroy(&cmd);
 
 		if (errno == ENOENT) {
-			debug(dbg_scripts,
-			      "maintscript_new nonexistent %s '%s'",
-			      scriptname, cidir);
+			debug_at(dbg_scripts, "nonexistent %s '%s'",
+			         scriptname, cidir);
 			free(scriptdesc);
 			return 0;
 		}
@@ -348,9 +345,8 @@ maintscript_fallback(struct pkginfo *pkg,
 
 	if (stat(oldscriptpath, &stab)) {
 		if (errno == ENOENT) {
-			debug(dbg_scripts,
-			      "maintscript_fallback nonexistent %s '%s'",
-			      scriptname, oldscriptpath);
+			debug_at(dbg_scripts, "nonexistent %s '%s'",
+			         scriptname, oldscriptpath);
 			command_destroy(&cmd);
 			free(scriptdesc);
 			return 0;

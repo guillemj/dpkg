@@ -89,23 +89,22 @@ secure_remove(const char *pathname)
 	int rc, e;
 
 	if (!rmdir(pathname)) {
-		debug(dbg_eachfiledetail, "secure_remove '%s' rmdir OK",
-		      pathname);
+		debug_at(dbg_eachfiledetail, "'%s' rmdir OK", pathname);
 		return 0;
 	}
 
 	if (errno != ENOTDIR) {
 		e = errno;
-		debug(dbg_eachfiledetail, "secure_remove '%s' rmdir %s",
-		      pathname, strerror(e));
+		debug_at(dbg_eachfiledetail, "'%s' rmdir %s",
+		         pathname, strerror(e));
 		errno = e;
 		return -1;
 	}
 
 	rc = secure_unlink(pathname);
 	e = errno;
-	debug(dbg_eachfiledetail, "secure_remove '%s' unlink %s",
-	      pathname, rc ? strerror(e) : "OK");
+	debug_at(dbg_eachfiledetail, "'%s' unlink %s",
+	         pathname, rc ? strerror(e) : "OK");
 	errno = e;
 
 	return rc;
@@ -126,7 +125,7 @@ path_remove_tree(const char *pathname)
 	if (u[0] == '\0')
 		internerr("pathname '%s' reduces to nothing", pathname);
 
-	debug(dbg_eachfile, "%s '%s'", __func__, pathname);
+	debug_at(dbg_eachfile, "'%s'", pathname);
 	if (!rmdir(pathname))
 		return; /* Deleted it OK, it was a directory. */
 	if (errno == ENOENT || errno == ELOOP)
@@ -155,6 +154,6 @@ path_remove_tree(const char *pathname)
 		ohshite(_("unable to execute %s (%s)"),
 		        _("rm command for cleanup"), RM);
 	}
-	debug(dbg_eachfile, "%s running rm -rf '%s'", __func__, pathname);
+	debug_at(dbg_eachfile, "running rm -rf '%s'", pathname);
 	subproc_reap(pid, _("rm command for cleanup"), 0);
 }

@@ -176,8 +176,8 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
       varbuf_add_str(&str_pkgs, " <- ");
       varbuf_add_pkgbin_name(&str_pkgs, sol->pkg, &sol->pkg->installed, pnaw_nonambig);
     }
-    debug(dbg_depcondetail, "findbreakcyclerecursive pkg='%s' sofar='%s'",
-          pkg_name(pkg, pnaw_always), varbuf_str(&str_pkgs));
+    debug_at(dbg_depcondetail, "pkg='%s' sofar='%s'",
+             pkg_name(pkg, pnaw_always), varbuf_str(&str_pkgs));
     varbuf_destroy(&str_pkgs);
   }
   thislink.pkg= pkg;

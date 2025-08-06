@@ -159,8 +159,8 @@ filesavespackage(struct fsys_namenode_list *file,
   struct fsys_node_pkgs_iter *iter;
   struct pkginfo *thirdpkg;
 
-  debug(dbg_eachfiledetail, "filesavespackage file '%s' package %s",
-        file->namenode->name, pkg_name(pkgtobesaved, pnaw_always));
+  debug_at(dbg_eachfiledetail, "file '%s' package %s",
+           file->namenode->name, pkg_name(pkgtobesaved, pnaw_always));
 
   /* If the file is a contended one and it's overridden by either
    * the package we're considering disappearing or the package
@@ -171,21 +171,21 @@ filesavespackage(struct fsys_namenode_list *file,
 
     divpkgset = file->namenode->divert->pkgset;
     if (divpkgset == pkgtobesaved->set || divpkgset == pkgbeinginstalled->set) {
-      debug(dbg_eachfiledetail,"filesavespackage ... diverted -- save!");
+      debug_at(dbg_eachfiledetail, "... diverted -- save!");
       return true;
     }
   }
   /* Is the file in the package being installed? If so then it can't save. */
   if (file->namenode->flags & FNNF_NEW_INARCHIVE) {
-    debug(dbg_eachfiledetail,"filesavespackage ... in new archive -- no save");
+    debug_at(dbg_eachfiledetail, "... in new archive -- no save");
     return false;
   }
   /* Look for a 3rd package which can take over the file (in case
    * it's a directory which is shared by many packages. */
   iter = fsys_node_pkgs_iter_new(file->namenode);
   while ((thirdpkg = fsys_node_pkgs_iter_next(iter))) {
-    debug(dbg_eachfiledetail, "filesavespackage ... also in %s",
-          pkg_name(thirdpkg, pnaw_always));
+    debug_at(dbg_eachfiledetail, "... also in %s",
+             pkg_name(thirdpkg, pnaw_always));
 
     /* Is this not the package being installed or the one being
      * checked for disappearance? */
@@ -199,23 +199,23 @@ filesavespackage(struct fsys_namenode_list *file,
         thirdpkg->set == pkgtobesaved->set)
       continue;
 
-    debug(dbg_eachfiledetail, "filesavespackage ... is 3rd package");
+    debug_at(dbg_eachfiledetail, "... is 3rd package");
 
     /* If !files_list_valid then we have already disappeared this one,
      * so we should not try to make it take over this shared directory. */
     if (!thirdpkg->files_list_valid) {
-      debug(dbg_eachfiledetail, "process_archive ... already disappeared!");
+      debug_at(dbg_eachfiledetail, "... already disappeared!");
       continue;
     }
 
     /* We've found a package that can take this file. */
-    debug(dbg_eachfiledetail, "filesavespackage ... taken -- no save");
+    debug_at(dbg_eachfiledetail, "... taken -- no save");
     fsys_node_pkgs_iter_free(iter);
     return false;
   }
   fsys_node_pkgs_iter_free(iter);
 
-  debug(dbg_eachfiledetail, "filesavespackage ... not taken -- save !");
+  debug_at(dbg_eachfiledetail, "... not taken -- save!");
   return true;
 }
 
@@ -326,25 +326,25 @@ does_replace(struct pkginfo *new_pkg, struct pkgbin *new_pkgbin,
 {
   struct dependency *dep;
 
-  debug(dbg_depcon,"does_replace new=%s old=%s (%s)",
-        pkgbin_name(new_pkg, new_pkgbin, pnaw_always),
-        pkgbin_name(old_pkg, old_pkgbin, pnaw_always),
-        versiondescribe_c(&old_pkgbin->version, vdew_always));
+  debug_at(dbg_depcon, "new=%s old=%s (%s)",
+           pkgbin_name(new_pkg, new_pkgbin, pnaw_always),
+           pkgbin_name(old_pkg, old_pkgbin, pnaw_always),
+           versiondescribe_c(&old_pkgbin->version, vdew_always));
   for (dep = new_pkgbin->depends; dep; dep = dep->next) {
     if (dep->type != dep_replaces || dep->list->ed != old_pkg->set)
       continue;
-    debug(dbg_depcondetail,"does_replace ... found old, version %s",
-          versiondescribe_c(&dep->list->version,vdew_always));
+    debug_at(dbg_depcondetail, "... found old, version %s",
+             versiondescribe_c(&dep->list->version,vdew_always));
     if (!versionsatisfied(old_pkgbin, dep->list))
       continue;
     /* The test below can only trigger if dep_replaces start having
      * arch qualifiers different from “any”. */
     if (!archsatisfied(old_pkgbin, dep->list))
       continue;
-    debug(dbg_depcon,"does_replace ... yes");
+    debug_at(dbg_depcon, "... yes");
     return true;
   }
-  debug(dbg_depcon,"does_replace ... no");
+  debug_at(dbg_depcon, "... no");
   return false;
 }
 
@@ -608,8 +608,8 @@ void setupfnamevbs(const char *filename) {
   varbuf_add_str(&fnamenewvb, filename);
   varbuf_add_str(&fnamenewvb, DPKGNEWEXT);
 
-  debug(dbg_eachfiledetail, "setupvnamevbs main='%s' tmp='%s' new='%s'",
-        fnamevb.buf, fnametmpvb.buf, fnamenewvb.buf);
+  debug_at(dbg_eachfiledetail, "main='%s' tmp='%s' new='%s'",
+           fnamevb.buf, fnametmpvb.buf, fnamenewvb.buf);
 }
 
 static bool

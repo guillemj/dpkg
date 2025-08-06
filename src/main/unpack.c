@@ -420,22 +420,22 @@ deb_parse_conffiles(const struct pkginfo *pkg, const char *control_conffiles,
 
     iter = fsys_node_pkgs_iter_new(newconff->namenode);
     while ((otherpkg = fsys_node_pkgs_iter_next(iter))) {
-      debug(dbg_conffdetail,
-            "process_archive conffile '%s' in package %s - conff ?",
-            newconff->namenode->name, pkg_name(otherpkg, pnaw_always));
+      debug_at(dbg_conffdetail,
+               "conffile '%s' in package %s - conff ?",
+               newconff->namenode->name, pkg_name(otherpkg, pnaw_always));
       for (searchconff = otherpkg->installed.conffiles;
            searchconff && strcmp(newconff->namenode->name, searchconff->name);
            searchconff = searchconff->next)
-        debug(dbg_conffdetail,
-              "process_archive conffile '%s' in package %s - conff ? not '%s'",
+        debug_at(dbg_conffdetail,
+                 "conffile '%s' in package %s - conff ? not '%s'",
               newconff->namenode->name, pkg_name(otherpkg, pnaw_always),
               searchconff->name);
       if (searchconff) {
-        debug(dbg_conff,
-              "process_archive conffile '%s' package=%s %s hash=%s",
-              newconff->namenode->name, pkg_name(otherpkg, pnaw_always),
-              otherpkg == pkg ? "same" : "different!",
-              searchconff->hash);
+        debug_at(dbg_conff,
+                 "conffile '%s' package=%s %s hash=%s",
+                 newconff->namenode->name, pkg_name(otherpkg, pnaw_always),
+                 otherpkg == pkg ? "same" : "different!",
+                 searchconff->hash);
         if (otherpkg == pkg)
           break;
       }
@@ -446,8 +446,8 @@ deb_parse_conffiles(const struct pkginfo *pkg, const char *control_conffiles,
       /* We don't copy ‘obsolete’; it's not obsolete in the new package. */
       newconff->namenode->oldhash = searchconff->hash;
     } else {
-      debug(dbg_conff, "process_archive conffile '%s' no package, no hash",
-            newconff->namenode->name);
+      debug_at(dbg_conff, "conffile '%s' no package, no hash",
+               newconff->namenode->name);
     }
     newconff->namenode->flags |= confflags;
   }
@@ -473,7 +473,7 @@ pkg_infodb_remove_file(const char *filename, const char *filetype)
   if (unlink(filename))
     ohshite(_("unable to delete control info file '%.250s'"), filename);
 
-  debug(dbg_scripts, "removal_bulk info file unlinked %s", filename);
+  debug_at(dbg_scripts, "info file unlinked %s", filename);
 }
 
 static struct match_node *match_head = NULL;
@@ -515,15 +515,15 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
     strcpy(cidirrest, match_node->filetype);
 
     if (!rename(cidir, match_node->filename)) {
-      debug(dbg_scripts, "process_archive info file installed %s as %s",
-            cidir, match_node->filename);
+      debug_at(dbg_scripts, "info file installed %s as %s",
+               cidir, match_node->filename);
     } else if (errno == ENOENT) {
       /* Right, no new version. */
       if (unlink(match_node->filename))
         ohshite(_("unable to remove obsolete info file '%.250s'"),
                 match_node->filename);
-      debug(dbg_scripts, "process_archive info file unlinked %s",
-            match_node->filename);
+      debug_at(dbg_scripts, "info file unlinked %s",
+               match_node->filename);
     } else {
       ohshite(_("unable to install (supposed) new info file '%.250s'"), cidir);
     }
@@ -541,8 +541,8 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
     const char *newinfofilename;
 
     if (strchr(de->d_name, '.')) {
-      debug(dbg_scripts, "process_archive tmp.ci script/file '%s' contains dot",
-            de->d_name);
+      debug_at(dbg_scripts, "tmp.ci script/file '%s' contains dot",
+               de->d_name);
       continue;
     }
     if (strlen(de->d_name) > MAXCONTROLFILENAME)
@@ -560,8 +560,8 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 
     /* Ignore the control file. */
     if (strcmp(de->d_name, CONTROLFILE) == 0) {
-      debug(dbg_scripts, "process_archive tmp.ci script/file '%s' is control",
-            cidir);
+      debug_at(dbg_scripts, "tmp.ci script/file '%s' is control",
+               cidir);
       continue;
     }
     if (strcmp(de->d_name, LISTFILE) == 0) {
@@ -576,9 +576,8 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
       ohshite(_("unable to install new info file '%.250s' as '%.250s'"),
               cidir, newinfofilename);
 
-    debug(dbg_scripts,
-          "process_archive tmp.ci script/file '%s' installed as '%s'",
-          cidir, newinfofilename);
+    debug_at(dbg_scripts, "tmp.ci script/file '%s' installed as '%s'",
+             cidir, newinfofilename);
   }
   pop_cleanup(ehflag_normaltidy); /* closedir */
 
@@ -587,8 +586,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
   if (pkg->installed.multiarch != pkg->available.multiarch &&
       (pkg->installed.multiarch == PKG_MULTIARCH_SAME ||
        pkg->available.multiarch == PKG_MULTIARCH_SAME)) {
-    debug(dbg_scripts,
-          "process_archive remove old info files after db layout switch");
+    debug_at(dbg_scripts, "remove old info files after db layout switch");
     pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_remove_file);
   }
 
@@ -611,8 +609,8 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg, struct fsys_namenode *nameno
 
   rc = conffderef(pkg, &cdr, usenode->name);
   if (rc < 0) {
-    debug(dbg_conffdetail, "%s: '%s' conffile dereference error: %s", __func__,
-          namenode->name, strerror(errno));
+    debug_at(dbg_conffdetail, "'%s' conffile dereference error: %s",
+             namenode->name, strerror(errno));
     namenode->oldhash = EMPTYHASHFLAG;
     return;
   }
@@ -622,14 +620,15 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg, struct fsys_namenode *nameno
 
   iter = fsys_node_pkgs_iter_new(namenode);
   while ((otherpkg = fsys_node_pkgs_iter_next(iter))) {
-    debug(dbg_conffdetail, "%s: namenode '%s' owned by other %s ?",
-          __func__, namenode->name, pkg_name(otherpkg, pnaw_always));
+    debug_at(dbg_conffdetail, "namenode '%s' owned by other %s ?",
+             namenode->name, pkg_name(otherpkg, pnaw_always));
 
     if (otherpkg == pkg)
       continue;
 
-    debug(dbg_conff, "%s: namenode '%s' owned by other %s, remove-on-upgrade ignored",
-         __func__, namenode->name, pkg_name(otherpkg, pnaw_always));
+    debug_at(dbg_conff,
+             "namenode '%s' owned by other %s, remove-on-upgrade ignored",
+             namenode->name, pkg_name(otherpkg, pnaw_always));
     fsys_node_pkgs_iter_free(iter);
     return;
   }
@@ -687,8 +686,8 @@ pkg_remove_old_files(struct pkginfo *pkg,
    * means we will get their parent directories removed if not present in the
    * new package without needing to do anything special ourselves. */
   for (cfile = newconffiles->head; cfile; cfile = cfile->next) {
-    debug(dbg_conffdetail, "%s: removing conffile '%s' for %s ?", __func__,
-          cfile->namenode->name, pkg_name(pkg, pnaw_always));
+    debug_at(dbg_conffdetail, "removing conffile '%s' for %s ?",
+             cfile->namenode->name, pkg_name(pkg, pnaw_always));
 
     if (!(cfile->namenode->flags & FNNF_RM_CONFF_ON_UPGRADE))
       continue;
@@ -712,8 +711,8 @@ pkg_remove_old_files(struct pkginfo *pkg,
     varbuf_add_str(&fnamevb, usenode->name);
 
     if (!stat(fnamevb.buf, &stab) && S_ISDIR(stab.st_mode)) {
-      debug(dbg_eachfiledetail, "process_archive: %s is a directory",
-            fnamevb.buf);
+      debug_at(dbg_eachfiledetail, "%s is a directory",
+               fnamevb.buf);
       if (dir_is_used_by_others(namenode, pkg))
         continue;
     }
@@ -760,8 +759,8 @@ pkg_remove_old_files(struct pkginfo *pkg,
 
       /* If we can't stat the old or new file, or it's a directory,
        * we leave it up to the normal code. */
-      debug(dbg_eachfile, "process_archive: checking %s for same files on "
-            "upgrade/downgrade", varbuf_str(&fnamevb));
+      debug_at(dbg_eachfile, "checking %s for same files on upgrade/downgrade",
+               varbuf_str(&fnamevb));
 
       for (cfile = newfiles_queue->head; cfile; cfile = cfile->next) {
         /* If the file has been filtered then treat it as if it didn't exist
@@ -801,8 +800,8 @@ pkg_remove_old_files(struct pkginfo *pkg,
                       "(both '%.250s' and '%.250s')"), varbuf_str(&fnamevb),
                     sameas->namenode->name, cfile->namenode->name);
           sameas = cfile;
-          debug(dbg_eachfile, "process_archive: not removing %s, "
-                "since it matches %s", varbuf_str(&fnamevb), cfile->namenode->name);
+          debug_at(dbg_eachfile, "not removing %s, since it matches %s",
+                   varbuf_str(&fnamevb), cfile->namenode->name);
         }
       }
 
@@ -813,18 +812,19 @@ pkg_remove_old_files(struct pkginfo *pkg,
           if (sameas->namenode->flags & FNNF_NEW_CONFF) {
             if (strcmp(sameas->namenode->oldhash, NEWCONFFILEFLAG) == 0) {
               sameas->namenode->oldhash = namenode->oldhash;
-              debug(dbg_eachfile, "process_archive: old conff %s "
-                    "is same as new conff %s, copying hash",
-                    namenode->name, sameas->namenode->name);
+              debug_at(dbg_eachfile,
+                       "old conff %s is same as new conff %s, copying hash",
+                       namenode->name, sameas->namenode->name);
             } else {
-              debug(dbg_eachfile, "process_archive: old conff %s "
-                    "is same as new conff %s, but latter already has hash",
-                    namenode->name, sameas->namenode->name);
+              debug_at(dbg_eachfile,
+                       "old conff %s is same as new conff %s, "
+                       "but latter already has hash",
+                       namenode->name, sameas->namenode->name);
             }
           }
         } else {
-          debug(dbg_eachfile, "process_archive: old conff %s "
-                "is disappearing", namenode->name);
+          debug_at(dbg_eachfile, "old conff %s is disappearing",
+                   namenode->name);
           namenode->flags |= FNNF_OBS_CONFF;
           tar_fsys_namenode_queue_push(newconffiles, namenode);
           tar_fsys_namenode_queue_push(newfiles_queue, namenode);
@@ -942,8 +942,7 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
   printf(_("(Noting disappearance of %s, which has been completely replaced.)\n"),
          pkg_name(pkg, pnaw_nonambig));
   log_action("disappear", pkg, &pkg->installed);
-  debug(dbg_general, "pkg_disappear disappearing %s",
-        pkg_name(pkg, pnaw_always));
+  debug_at(dbg_general, "disappearing %s", pkg_name(pkg, pnaw_always));
 
   trig_activate_packageprocessing(pkg);
   maintscript_installed(pkg, POSTRMFILE,
@@ -955,7 +954,7 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
                         NULL);
 
   /* OK, now we delete all the stuff in the ‘info’ directory ... */
-  debug(dbg_general, "pkg_disappear cleaning info directory");
+  debug_at(dbg_general, "cleaning info directory");
   pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_remove_file);
   dir_sync_path(pkg_infodb_get_dir());
 
@@ -999,8 +998,8 @@ pkg_disappear_others(struct pkginfo *pkg)
         otherpkg->set == pkg->set)
       continue;
 
-    debug(dbg_veryverbose, "process_archive checking disappearance %s",
-          pkg_name(otherpkg, pnaw_always));
+    debug_at(dbg_veryverbose, "checking disappearance %s",
+             pkg_name(otherpkg, pnaw_always));
 
     if (otherpkg->clientdata->istobe != PKG_ISTOBE_NORMAL &&
         otherpkg->clientdata->istobe != PKG_ISTOBE_DECONFIGURE)
@@ -1012,7 +1011,7 @@ pkg_disappear_others(struct pkginfo *pkg)
          cfile && strcmp(cfile->namenode->name, "/.") == 0;
          cfile = cfile->next);
     if (!cfile) {
-      debug(dbg_stupidlyverbose, "process_archive no non-root, no disappear");
+      debug_at(dbg_stupidlyverbose, "no non-root, no disappear");
       continue;
     }
     for (cfile = otherpkg->files;
@@ -1023,7 +1022,7 @@ pkg_disappear_others(struct pkginfo *pkg)
 
     /* So dependency things will give right answers ... */
     otherpkg->clientdata->istobe = PKG_ISTOBE_REMOVE;
-    debug(dbg_veryverbose, "process_archive disappear checking dependencies");
+    debug_at(dbg_veryverbose, "disappear checking dependencies");
     for (pdep = otherpkg->set->depended.installed;
          pdep;
          pdep = pdep->rev_next) {
@@ -1035,8 +1034,8 @@ pkg_disappear_others(struct pkginfo *pkg)
       if (depisok(pdep->up, &depprobwhy, NULL, NULL, false))
         continue;
 
-      debug(dbg_veryverbose,"process_archive cannot disappear: %s",
-            varbuf_str(&depprobwhy));
+      debug_at(dbg_veryverbose, "cannot disappear: %s",
+               varbuf_str(&depprobwhy));
       break;
     }
     if (!pdep) {
@@ -1058,9 +1057,8 @@ pkg_disappear_others(struct pkginfo *pkg)
           if (depisok(pdep->up, &depprobwhy, NULL, NULL, false))
             continue;
 
-          debug(dbg_veryverbose,
-                "process_archive cannot disappear (provides %s): %s",
-                providecheck->list->ed->name, varbuf_str(&depprobwhy));
+          debug_at(dbg_veryverbose, "cannot disappear (provides %s): %s",
+                   providecheck->list->ed->name, varbuf_str(&depprobwhy));
           goto break_from_both_loops_at_once;
         }
       }
@@ -1119,25 +1117,24 @@ pkg_remove_files_from_others(struct pkginfo *pkg, struct fsys_namenode_list *new
     if (cfile->namenode->divert && cfile->namenode->divert->useinstead) {
       divpkgset = cfile->namenode->divert->pkgset;
       if (divpkgset == pkg->set) {
-        debug(dbg_eachfile,
-              "process_archive not overwriting any '%s' (overriding, '%s')",
-              cfile->namenode->name, cfile->namenode->divert->useinstead->name);
+        debug_at(dbg_eachfile, "not overwriting any '%s' (overriding, '%s')",
+                 cfile->namenode->name, cfile->namenode->divert->useinstead->name);
         continue;
       } else {
-        debug(dbg_eachfile,
-              "process_archive looking for overwriting '%s' (overridden by %s)",
-              cfile->namenode->name, divpkgset ? divpkgset->name : "<local>");
+        debug_at(dbg_eachfile,
+                 "looking for overwriting '%s' (overridden by %s)",
+                 cfile->namenode->name, divpkgset ? divpkgset->name : "<local>");
       }
     } else {
       divpkgset = NULL;
-      debug(dbg_eachfile, "process_archive looking for overwriting '%s'",
-            cfile->namenode->name);
+      debug_at(dbg_eachfile, "looking for overwriting '%s'",
+               cfile->namenode->name);
     }
 
     iter = fsys_node_pkgs_iter_new(cfile->namenode);
     while ((otherpkg = fsys_node_pkgs_iter_next(iter))) {
-      debug(dbg_eachfiledetail, "process_archive ... found in %s",
-            pkg_name(otherpkg, pnaw_always));
+      debug_at(dbg_eachfiledetail, "... found in %s",
+               pkg_name(otherpkg, pnaw_always));
 
       /* A pkgset can share files between instances, so there's no point
        * in rewriting the file that's already in place. */
@@ -1145,7 +1142,7 @@ pkg_remove_files_from_others(struct pkginfo *pkg, struct fsys_namenode_list *new
         continue;
 
       if (otherpkg->set == divpkgset) {
-        debug(dbg_eachfiledetail, "process_archive ... diverted, skipping");
+        debug_at(dbg_eachfiledetail, "... diverted, skipping");
         continue;
       }
 
@@ -1163,8 +1160,8 @@ pkg_remove_files_from_others(struct pkginfo *pkg, struct fsys_namenode_list *new
        * as requiring a reread. */
       write_filelist_except(otherpkg, &otherpkg->installed,
                             otherpkg->files, FNNF_ELIDE_OTHER_LISTS);
-      debug(dbg_veryverbose, "process_archive overwrote from %s",
-            pkg_name(otherpkg, pnaw_always));
+      debug_at(dbg_veryverbose, "overwrote from %s",
+               pkg_name(otherpkg, pnaw_always));
     }
     fsys_node_pkgs_iter_free(iter);
   }
@@ -1375,8 +1372,8 @@ void process_archive(const char *filename) {
     internerr("package %s state %d is out-of-bounds",
               pkg_name(pkg, pnaw_always), oldversionstatus);
 
-  debug(dbg_general,"process_archive oldversionstatus=%s",
-        statusstrings[oldversionstatus]);
+  debug_at(dbg_general, "oldversionstatus=%s",
+           statusstrings[oldversionstatus]);
 
   if (oldversionstatus == PKG_STAT_HALFCONFIGURED ||
       oldversionstatus == PKG_STAT_TRIGGERSAWAITED ||
@@ -1625,7 +1622,7 @@ void process_archive(const char *filename) {
    * we go through the existing scripts replacing or removing
    * them as appropriate; then we go through the new scripts
    * (any that are left) and install them. */
-  debug(dbg_general, "process_archive updating info directory");
+  debug_at(dbg_general, "updating info directory");
   pkg_infodb_update(pkg, cidir, cidirrest);
 
   /* We store now the checksums dynamically computed while unpacking. */
