@@ -242,12 +242,12 @@ int
 maintscript_installed(struct pkginfo *pkg, const char *scriptname, ...)
 	DPKG_ATTR_SENTINEL;
 int maintscript_new(struct pkginfo *pkg,
-                    const char *scriptname,
-                    const char *cidir, char *cidirrest, ...)
+                    const char *cidir, char *cidirrest,
+                    const char *scriptname, ...)
 	DPKG_ATTR_SENTINEL;
 int maintscript_fallback(struct pkginfo *pkg,
-                         const char *scriptname,
                          const char *cidir, char *cidirrest,
+                         const char *scriptname,
                          const char *ifok, const char *iffallback);
 
 /* Callers wanting to run the postinst use these two as they want to postpone

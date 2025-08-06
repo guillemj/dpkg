@@ -285,8 +285,9 @@ maintscript_postinst(struct pkginfo *pkg, ...)
 }
 
 int
-maintscript_new(struct pkginfo *pkg, const char *scriptname,
-                const char *cidir, char *cidirrest, ...)
+maintscript_new(struct pkginfo *pkg,
+                const char *cidir, char *cidirrest,
+                const char *scriptname, ...)
 {
 	struct command cmd;
 	struct stat stab;
@@ -297,7 +298,7 @@ maintscript_new(struct pkginfo *pkg, const char *scriptname,
 	scriptdesc = str_fmt(_("new %s package %s maintainer script"),
 	                     pkg_name(pkg, pnaw_nonambig), scriptname);
 
-	va_start(args, cidirrest);
+	va_start(args, scriptname);
 	command_init(&cmd, cidir, scriptdesc);
 	command_add_arg(&cmd, scriptname);
 	command_add_argv(&cmd, args);
@@ -325,8 +326,8 @@ maintscript_new(struct pkginfo *pkg, const char *scriptname,
 
 int
 maintscript_fallback(struct pkginfo *pkg,
-                     const char *scriptname,
                      const char *cidir, char *cidirrest,
+                     const char *scriptname,
                      const char *ifok, const char *iffallback)
 {
 	struct command cmd;

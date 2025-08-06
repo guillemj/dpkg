@@ -1383,7 +1383,7 @@ void process_archive(const char *filename) {
     pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
     modstatdb_note(pkg);
     push_cleanup(cu_prermupgrade, ~ehflag_normaltidy, 1, (void *)pkg);
-    maintscript_fallback(pkg, PRERMFILE, cidir, cidirrest,
+    maintscript_fallback(pkg, cidir, cidirrest, PRERMFILE,
                          "upgrade", "failed-upgrade");
     pkg_set_status(pkg, PKG_STAT_UNPACKED);
     oldversionstatus = PKG_STAT_UNPACKED;
@@ -1428,12 +1428,12 @@ void process_archive(const char *filename) {
   if (oldversionstatus == PKG_STAT_NOTINSTALLED) {
     push_cleanup(cu_preinstverynew, ~ehflag_normaltidy,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
-    maintscript_new(pkg, PREINSTFILE, cidir, cidirrest,
+    maintscript_new(pkg, cidir, cidirrest, PREINSTFILE,
                     "install", NULL);
   } else if (oldversionstatus == PKG_STAT_CONFIGFILES) {
     push_cleanup(cu_preinstnew, ~ehflag_normaltidy,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
-    maintscript_new(pkg, PREINSTFILE, cidir, cidirrest,
+    maintscript_new(pkg, cidir, cidirrest, PREINSTFILE,
                     "install",
                     versiondescribe(&pkg->installed.version, vdew_nonambig),
                     versiondescribe(&pkg->available.version, vdew_nonambig),
@@ -1441,7 +1441,7 @@ void process_archive(const char *filename) {
   } else {
     push_cleanup(cu_preinstupgrade, ~ehflag_normaltidy,
                  4,(void*)pkg,(void*)cidir,(void*)cidirrest,(void*)&oldversionstatus);
-    maintscript_new(pkg, PREINSTFILE, cidir, cidirrest,
+    maintscript_new(pkg, cidir, cidirrest, PREINSTFILE,
                     "upgrade",
                     versiondescribe(&pkg->installed.version, vdew_nonambig),
                     versiondescribe(&pkg->available.version, vdew_nonambig),
@@ -1579,7 +1579,7 @@ void process_archive(const char *filename) {
     pkg_set_status(pkg, PKG_STAT_HALFINSTALLED);
     modstatdb_note(pkg);
     push_cleanup(cu_postrmupgrade, ~ehflag_normaltidy, 1, (void *)pkg);
-    maintscript_fallback(pkg, POSTRMFILE, cidir, cidirrest,
+    maintscript_fallback(pkg, cidir, cidirrest, POSTRMFILE,
                          "upgrade", "failed-upgrade");
   }
 

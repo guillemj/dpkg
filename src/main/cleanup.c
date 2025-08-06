@@ -192,7 +192,7 @@ void cu_preinstverynew(int argc, void **argv) {
   char *cidirrest= (char*)argv[2];
 
   if (cleanup_pkg_failed++) return;
-  maintscript_new(pkg, POSTRMFILE, cidir, cidirrest,
+  maintscript_new(pkg, cidir, cidirrest, POSTRMFILE,
                   "abort-install", NULL);
   pkg_set_status(pkg, PKG_STAT_NOTINSTALLED);
   pkg_clear_eflags(pkg, PKG_EFLAG_REINSTREQ);
@@ -207,7 +207,7 @@ void cu_preinstnew(int argc, void **argv) {
   char *cidirrest= (char*)argv[2];
 
   if (cleanup_pkg_failed++) return;
-  maintscript_new(pkg, POSTRMFILE, cidir, cidirrest,
+  maintscript_new(pkg, cidir, cidirrest, POSTRMFILE,
                   "abort-install",
                   versiondescribe(&pkg->installed.version, vdew_nonambig),
                   versiondescribe(&pkg->available.version, vdew_nonambig),
@@ -225,7 +225,7 @@ void cu_preinstupgrade(int argc, void **argv) {
   enum pkgstatus *oldstatusp= (enum pkgstatus*)argv[3];
 
   if (cleanup_pkg_failed++) return;
-  maintscript_new(pkg, POSTRMFILE, cidir, cidirrest,
+  maintscript_new(pkg, cidir, cidirrest, POSTRMFILE,
                   "abort-upgrade",
                   versiondescribe(&pkg->installed.version, vdew_nonambig),
                   versiondescribe(&pkg->available.version, vdew_nonambig),
