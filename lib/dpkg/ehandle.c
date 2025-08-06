@@ -500,7 +500,7 @@ do_internerr(const char *file, int line, const char *func, const char *fmt, ...)
   error_context_errmsg_format(fmt, args);
   va_end(args);
 
-  fprintf(stderr, "%s%s:%s:%d:%s:%s %s%s:%s %s\n", color_get(COLOR_PROG),
+  fprintf(stderr, "%s%s:%s:%d:%s():%s %s%s:%s %s\n", color_get(COLOR_PROG),
           dpkg_get_progname(), file, line, func, color_reset(),
           color_get(COLOR_ERROR), _("internal error"), color_reset(),
           econtext->errmsg);
