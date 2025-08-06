@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.22.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-05-30 12:44+0200\n"
-"PO-Revision-Date: 2025-05-30 13:15+0200\n"
+"POT-Creation-Date: 2025-08-06 18:28+0200\n"
+"PO-Revision-Date: 2025-08-06 18:33+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -3000,8 +3000,8 @@ msgstr "Fehler"
 
 #: scripts/Dpkg/ErrorHandling.pm
 #, perl-format
-msgid "%s subprocess returned exit status %d"
-msgstr "Unterprozess %s lieferte Exitstatus %d"
+msgid "%s subprocess failed with exit status %d"
+msgstr "Unterprozess %s mit Exit-Status %d fehlgeschlagen"
 
 #: scripts/Dpkg/ErrorHandling.pm
 #, perl-format
@@ -3094,11 +3094,6 @@ msgstr ""
 "mehrere aneinandergehängte ASCII-geschützte Blöcke in %s, was kein "
 "interoperables Konstrukt ist, siehe <%s>"
 
-#: scripts/Dpkg/OpenPGP/Backend.pm
-#, perl-format
-msgid "sq keyring merge --overwrite --output %s %s"
-msgstr "sq keyring merge --overwrite --output %s %s"
-
 #: scripts/Dpkg/OpenPGP/Backend/Sequoia.pm
 msgid "imported own keys might be missing ownership information, try:"
 msgstr ""
@@ -3189,6 +3184,10 @@ msgstr "angegebener Schlüssel benötigt einen Schlüsselspeicher"
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 msgid "OpenPGP backend command cannot sign"
 msgstr "OpenPGP-Backendbefehl kann nicht signieren"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "missing OpenPGP keyrings"
+msgstr "fehlende OpenPGP-Schlüsselbunde"
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 #, perl-format
@@ -3460,6 +3459,16 @@ msgstr ""
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
+msgid "using keyring %s"
+msgstr "Schlüsselbund %s wird verwandt"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "skipping absent keyring %s"
+msgstr "fehlender Schlüsselbund %s wird übersprungen"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
 msgid "cannot verify inline signature for %s: %s"
 msgstr "eingebettete Signatur für %s kann nicht überprüft werden: %s"
 
@@ -3568,9 +3577,17 @@ msgstr "unerkannte Datei für ein %s-Quellpaket: %s"
 msgid "no tarfile in Files field"
 msgstr "keine Tar-Datei im Feld Files"
 
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
+msgid "native package version may not have a revision"
+msgstr "native Paketversion darf keine Revision haben"
+
 #: scripts/Dpkg/Source/Package/V1.pm
 msgid "native package with .orig.tar"
 msgstr "natives Paket mit .orig.tar"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "non-native package version does not contain a revision"
+msgstr "nichtnative Paketversion enthält keine Revision"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -3678,14 +3695,6 @@ msgstr "entpacktes Orig. »%s« existiert, ist aber kein Verzeichnis"
 msgid "unable to stat putative unpacked orig '%s'"
 msgstr ""
 "unmöglich, das vermeintlich ausgepackte Original »%s« mit stat abzufragen"
-
-#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Quilt.pm
-msgid "non-native package version does not contain a revision"
-msgstr "nichtnative Paketversion enthält keine Revision"
-
-#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
-msgid "native package version may not have a revision"
-msgstr "native Paketversion darf keine Revision haben"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -4475,8 +4484,8 @@ msgid ""
 "version number suggests %s vendor changes, but the %s field does not have %s "
 "vendor address"
 msgstr ""
-"Versionsnummer lässt %s-Lieferanten-Änderungen vermuten, aber das Feld »%s« enthält "
-"keine %s-Lieferanten-Adresse"
+"Versionsnummer lässt %s-Lieferanten-Änderungen vermuten, aber das Feld »%s« "
+"enthält keine %s-Lieferanten-Adresse"
 
 #: scripts/Dpkg/Version.pm
 #, perl-format
@@ -4512,6 +4521,14 @@ msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
+
+#, perl-format
+#~ msgid "%s subprocess returned exit status %d"
+#~ msgstr "Unterprozess %s lieferte Exitstatus %d"
+
+#, perl-format
+#~ msgid "sq keyring merge --overwrite --output %s %s"
+#~ msgstr "sq keyring merge --overwrite --output %s %s"
 
 #~ msgid ""
 #~ "Version number suggests Ubuntu changes, but there is no XSBC-Original-"
