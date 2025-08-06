@@ -196,7 +196,7 @@ void deferred_remove(struct pkginfo *pkg) {
     modstatdb_note(pkg);
     push_cleanup(cu_prermremove, ~ehflag_normaltidy, 2,
                  (void *)pkg, (void *)&oldpkgstatus);
-    maintscript_installed(pkg, PRERMFILE, "remove", NULL);
+    maintscript_run_old(pkg, PRERMFILE, "remove", NULL);
 
     /* Will turn into ‘half-installed’ soon ... */
     pkg_set_status(pkg, PKG_STAT_UNPACKED);
@@ -361,7 +361,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
         ohshite(_("unable to securely remove '%.250s'"), fnvb.buf);
     }
     write_filelist_except(pkg, &pkg->installed, leftover, 0);
-    maintscript_installed(pkg, POSTRMFILE, "remove", NULL);
+    maintscript_run_old(pkg, POSTRMFILE, "remove", NULL);
 
     trig_parse_ci(pkg_infodb_get_file(pkg, &pkg->installed, TRIGGERSCIFILE),
                   trig_cicb_interest_delete, NULL, pkg, &pkg->installed);
@@ -611,7 +611,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
     pkg->installed.conffiles = NULL;
     modstatdb_note(pkg);
 
-    maintscript_installed(pkg, POSTRMFILE, "purge", NULL);
+    maintscript_run_old(pkg, POSTRMFILE, "purge", NULL);
 }
 
 /*

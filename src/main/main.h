@@ -239,16 +239,18 @@ namenodetouse(struct fsys_namenode *namenode,
               struct pkginfo *pkg, struct pkgbin *pkgbin);
 
 int
-maintscript_installed(struct pkginfo *pkg, const char *scriptname, ...)
+maintscript_run_old(struct pkginfo *pkg, const char *scriptname, ...)
 	DPKG_ATTR_SENTINEL;
-int maintscript_new(struct pkginfo *pkg,
+int
+maintscript_run_new(struct pkginfo *pkg,
                     const char *cidir, char *cidirrest,
                     const char *scriptname, ...)
 	DPKG_ATTR_SENTINEL;
-int maintscript_fallback(struct pkginfo *pkg,
-                         const char *cidir, char *cidirrest,
-                         const char *scriptname,
-                         const char *ifok, const char *iffallback);
+int
+maintscript_run_old_or_new(struct pkginfo *pkg,
+                           const char *cidir, char *cidirrest,
+                           const char *scriptname,
+                           const char *ifok, const char *iffallback);
 
 /* Callers wanting to run the postinst use these two as they want to postpone
  * trigger incorporation until after updating the package status. The effect

@@ -192,8 +192,8 @@ void cu_preinstverynew(int argc, void **argv) {
   char *cidirrest= (char*)argv[2];
 
   if (cleanup_pkg_failed++) return;
-  maintscript_new(pkg, cidir, cidirrest, POSTRMFILE,
-                  "abort-install", NULL);
+  maintscript_run_new(pkg, cidir, cidirrest, POSTRMFILE,
+                      "abort-install", NULL);
   pkg_set_status(pkg, PKG_STAT_NOTINSTALLED);
   pkg_clear_eflags(pkg, PKG_EFLAG_REINSTREQ);
   pkgbin_blank(&pkg->installed);
@@ -207,11 +207,11 @@ void cu_preinstnew(int argc, void **argv) {
   char *cidirrest= (char*)argv[2];
 
   if (cleanup_pkg_failed++) return;
-  maintscript_new(pkg, cidir, cidirrest, POSTRMFILE,
-                  "abort-install",
-                  versiondescribe(&pkg->installed.version, vdew_nonambig),
-                  versiondescribe(&pkg->available.version, vdew_nonambig),
-                  NULL);
+  maintscript_run_new(pkg, cidir, cidirrest, POSTRMFILE,
+                      "abort-install",
+                      versiondescribe(&pkg->installed.version, vdew_nonambig),
+                      versiondescribe(&pkg->available.version, vdew_nonambig),
+                      NULL);
   pkg_set_status(pkg, PKG_STAT_CONFIGFILES);
   pkg_clear_eflags(pkg, PKG_EFLAG_REINSTREQ);
   modstatdb_note(pkg);
@@ -225,11 +225,11 @@ void cu_preinstupgrade(int argc, void **argv) {
   enum pkgstatus *oldstatusp= (enum pkgstatus*)argv[3];
 
   if (cleanup_pkg_failed++) return;
-  maintscript_new(pkg, cidir, cidirrest, POSTRMFILE,
-                  "abort-upgrade",
-                  versiondescribe(&pkg->installed.version, vdew_nonambig),
-                  versiondescribe(&pkg->available.version, vdew_nonambig),
-                  NULL);
+  maintscript_run_new(pkg, cidir, cidirrest, POSTRMFILE,
+                      "abort-upgrade",
+                      versiondescribe(&pkg->installed.version, vdew_nonambig),
+                      versiondescribe(&pkg->available.version, vdew_nonambig),
+                      NULL);
   pkg_set_status(pkg, *oldstatusp);
   pkg_clear_eflags(pkg, PKG_EFLAG_REINSTREQ);
   modstatdb_note(pkg);
@@ -240,10 +240,10 @@ void cu_postrmupgrade(int argc, void **argv) {
   struct pkginfo *pkg= (struct pkginfo*)argv[0];
 
   if (cleanup_pkg_failed++) return;
-  maintscript_installed(pkg, PREINSTFILE,
-                        "abort-upgrade",
-                        versiondescribe(&pkg->available.version, vdew_nonambig),
-                        NULL);
+  maintscript_run_old(pkg, PREINSTFILE,
+                      "abort-upgrade",
+                      versiondescribe(&pkg->available.version, vdew_nonambig),
+                      NULL);
   cleanup_pkg_failed--;
 }
 

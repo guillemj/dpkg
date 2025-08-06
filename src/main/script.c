@@ -214,8 +214,8 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
 }
 
 static int
-vmaintscript_installed(struct pkginfo *pkg, const char *scriptname,
-                       va_list args)
+vmaintscript_run_old(struct pkginfo *pkg,
+                     const char *scriptname, va_list args)
 {
 	struct command cmd;
 	const char *scriptpath;
@@ -253,13 +253,13 @@ vmaintscript_installed(struct pkginfo *pkg, const char *scriptname,
  */
 
 int
-maintscript_installed(struct pkginfo *pkg, const char *scriptname, ...)
+maintscript_run_old(struct pkginfo *pkg, const char *scriptname, ...)
 {
 	va_list args;
 	int rc;
 
 	va_start(args, scriptname);
-	rc = vmaintscript_installed(pkg, scriptname, args);
+	rc = vmaintscript_run_old(pkg, scriptname, args);
 	va_end(args);
 
 	if (rc)
@@ -275,7 +275,7 @@ maintscript_postinst(struct pkginfo *pkg, ...)
 	int rc;
 
 	va_start(args, pkg);
-	rc = vmaintscript_installed(pkg, POSTINSTFILE, args);
+	rc = vmaintscript_run_old(pkg, POSTINSTFILE, args);
 	va_end(args);
 
 	if (rc)
@@ -285,9 +285,9 @@ maintscript_postinst(struct pkginfo *pkg, ...)
 }
 
 int
-maintscript_new(struct pkginfo *pkg,
-                const char *cidir, char *cidirrest,
-                const char *scriptname, ...)
+maintscript_run_new(struct pkginfo *pkg,
+                    const char *cidir, char *cidirrest,
+                    const char *scriptname, ...)
 {
 	struct command cmd;
 	struct stat stab;
@@ -325,10 +325,10 @@ maintscript_new(struct pkginfo *pkg,
 }
 
 int
-maintscript_fallback(struct pkginfo *pkg,
-                     const char *cidir, char *cidirrest,
-                     const char *scriptname,
-                     const char *ifok, const char *iffallback)
+maintscript_run_old_or_new(struct pkginfo *pkg,
+                           const char *cidir, char *cidirrest,
+                           const char *scriptname,
+                           const char *ifok, const char *iffallback)
 {
 	struct command cmd;
 	const char *oldscriptpath;
