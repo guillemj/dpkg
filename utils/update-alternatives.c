@@ -2054,6 +2054,8 @@ alternative_prepare_install(struct alternative *a, const char *choice)
 	struct slave_link *sl;
 	struct fileset *fs;
 
+	debug("prepare_install(%s)", choice);
+
 	fs = alternative_get_fileset(a, choice);
 	if (fs == NULL)
 		error(_("can't install unknown choice %s"), choice);
@@ -2557,7 +2559,6 @@ alternative_update(struct alternative *a,
 		else
 			info(_("using %s to provide %s (%s) in manual mode"),
 			     new_choice, a->master_link, a->master_name);
-		debug("prepare_install(%s)", new_choice);
 		alternative_prepare_install(a, new_choice);
 	} else if ((reason = alternative_needs_update(a))) {
 		if (reason == ALT_UPDATE_SLAVE_CHANGED) {
