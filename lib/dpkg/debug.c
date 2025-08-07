@@ -98,9 +98,12 @@ debug_has_flag(int flag)
  *
  * The message will be printed to the previously specified output if the
  * specified flag is present in the current debugging mask.
+ *
+ * It can print the caller function name or a context name when passed
+ * in the @fn argument.
  */
 void
-debug(int flag, const char *fmt, ...)
+debug_print(int flag, const char *fn, const char *fmt, ...)
 {
 	va_list args;
 
@@ -108,6 +111,8 @@ debug(int flag, const char *fmt, ...)
 		return;
 
 	fprintf(debug_output, "D0%05o: ", flag);
+	if (fn)
+		fprintf(debug_output, "%s(): ", fn);
 	va_start(args, fmt);
 	vfprintf(debug_output, fmt, args);
 	va_end(args);
