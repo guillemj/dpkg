@@ -200,12 +200,13 @@ dir_has_conffiles(struct fsys_namenode *file, struct pkginfo *pkg)
         continue;
       if (strncmp(file->name, conff->name, namelen) == 0 &&
           strlen(conff->name) > namelen && conff->name[namelen] == '/') {
-	debug(dbg_veryverbose, "directory %s has conffile %s from %s",
+        debug(dbg_veryverbose,
+              "... yes, directory %s has conffile %s from pkg %s",
 	      file->name, conff->name, pkg_name(pkg, pnaw_always));
 	return true;
       }
   }
-  debug(dbg_veryverbose, "dir_has_conffiles no");
+  debug(dbg_veryverbose, "dir_has_conffiles ... no");
   return false;
 }
 
@@ -230,12 +231,12 @@ dir_is_used_by_others(struct fsys_namenode *file, struct pkginfo *pkg)
       continue;
 
     fsys_node_pkgs_iter_free(iter);
-    debug(dbg_veryverbose, "dir_is_used_by_others yes");
+    debug(dbg_veryverbose, "dir_is_used_by_others ... yes");
     return true;
   }
   fsys_node_pkgs_iter_free(iter);
 
-  debug(dbg_veryverbose, "dir_is_used_by_others no");
+  debug(dbg_veryverbose, "dir_is_used_by_others ... no");
   return false;
 }
 
@@ -261,12 +262,12 @@ dir_is_used_by_pkg(struct fsys_namenode *file, struct pkginfo *pkg,
     if (strncmp(file->name, node->namenode->name, namelen) == 0 &&
         strlen(node->namenode->name) > namelen &&
         node->namenode->name[namelen] == '/') {
-      debug(dbg_veryverbose, "dir_is_used_by_pkg yes");
+      debug(dbg_veryverbose, "dir_is_used_by_pkg ... yes");
       return true;
     }
   }
 
-  debug(dbg_veryverbose, "dir_is_used_by_pkg no");
+  debug(dbg_veryverbose, "dir_is_used_by_pkg ... no");
 
   return false;
 }

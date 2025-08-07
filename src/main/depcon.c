@@ -126,7 +126,7 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
   if (!sol)
     return findbreakcyclerecursive(dependedon, thislink);
 
-  debug(dbg_depcon,"found cycle");
+  debug(dbg_depcon, "found dependency cycle");
   /* Right, we now break one of the links. We prefer to break
    * a dependency of a package without a postinst script, as
    * this is a null operation. If this is not possible we break
@@ -145,7 +145,7 @@ foundcyclebroken(struct cyclesofarlink *thislink, struct cyclesofarlink *sofar,
    * occurrence of the current package in the list. */
   sol->possi->cyclebreak = true;
 
-  debug(dbg_depcon, "cycle broken at %s -> %s",
+  debug(dbg_depcon, "dependency cycle broken at %s -> %s",
         pkg_name(sol->possi->up->up, pnaw_always), sol->possi->ed->name);
 
   return true;
@@ -176,7 +176,7 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
       varbuf_add_str(&str_pkgs, " <- ");
       varbuf_add_pkgbin_name(&str_pkgs, sol->pkg, &sol->pkg->installed, pnaw_nonambig);
     }
-    debug(dbg_depcondetail, "findbreakcyclerecursive %s %s",
+    debug(dbg_depcondetail, "findbreakcyclerecursive pkg='%s' sofar='%s'",
           pkg_name(pkg, pnaw_always), varbuf_str(&str_pkgs));
     varbuf_destroy(&str_pkgs);
   }

@@ -199,7 +199,7 @@ filesavespackage(struct fsys_namenode_list *file,
         thirdpkg->set == pkgtobesaved->set)
       continue;
 
-    debug(dbg_eachfiledetail,"filesavespackage ...  is 3rd package");
+    debug(dbg_eachfiledetail, "filesavespackage ... is 3rd package");
 
     /* If !files_list_valid then we have already disappeared this one,
      * so we should not try to make it take over this shared directory. */
@@ -209,7 +209,7 @@ filesavespackage(struct fsys_namenode_list *file,
     }
 
     /* We've found a package that can take this file. */
-    debug(dbg_eachfiledetail, "filesavespackage ...  taken -- no save");
+    debug(dbg_eachfiledetail, "filesavespackage ... taken -- no save");
     fsys_node_pkgs_iter_free(iter);
     return false;
   }
@@ -370,7 +370,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
       ohshite(_("unable to create '%.255s' (while processing '%.255s')"),
               path, te->name);
     push_cleanup(cu_closefd, ehflag_bombout, 1, &fd);
-    debug(dbg_eachfiledetail, "tarobject file open size=%jd",
+    debug(dbg_eachfiledetail, "tarobject file open, size=%jd",
           (intmax_t)te->size);
 
     /* We try to tell the filesystem how much disk space we are going to
@@ -408,21 +408,22 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
     pop_cleanup(ehflag_normaltidy); /* fd = open(path) */
     if (close(fd))
       ohshite(_("error closing/writing '%.255s'"), te->name);
+    debug(dbg_eachfiledetail, "tarobject file created");
     break;
   case TAR_FILETYPE_FIFO:
     if (mkfifo(path, 0))
       ohshite(_("error creating pipe '%.255s'"), te->name);
-    debug(dbg_eachfiledetail, "tarobject fifo");
+    debug(dbg_eachfiledetail, "tarobject fifo created");
     break;
   case TAR_FILETYPE_CHARDEV:
     if (mknod(path, S_IFCHR, te->dev))
       ohshite(_("error creating device '%.255s'"), te->name);
-    debug(dbg_eachfiledetail, "tarobject chardev");
+    debug(dbg_eachfiledetail, "tarobject chardev created");
     break;
   case TAR_FILETYPE_BLOCKDEV:
     if (mknod(path, S_IFBLK, te->dev))
       ohshite(_("error creating device '%.255s'"), te->name);
-    debug(dbg_eachfiledetail, "tarobject blockdev");
+    debug(dbg_eachfiledetail, "tarobject blockdev created");
     break;
   case TAR_FILETYPE_HARDLINK:
     varbuf_set_str(&hardlinkfn, dpkg_fsys_get_dir());
@@ -434,19 +435,20 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
     if (link(hardlinkfn.buf, path))
       ohshite(_("error creating hard link '%.255s'"), te->name);
     namenode->newhash = linknode->newhash;
-    debug(dbg_eachfiledetail, "tarobject hardlink digest=%s", namenode->newhash);
+    debug(dbg_eachfiledetail, "tarobject hardlink created, digest=%s",
+          namenode->newhash);
     break;
   case TAR_FILETYPE_SYMLINK:
     /* We've already checked for an existing directory. */
     if (symlink(te->linkname, path))
       ohshite(_("error creating symbolic link '%.255s'"), te->name);
-    debug(dbg_eachfiledetail, "tarobject symlink creating");
+    debug(dbg_eachfiledetail, "tarobject symlink created");
     break;
   case TAR_FILETYPE_DIR:
     /* We've already checked for an existing directory. */
     if (mkdir(path, 0))
       ohshite(_("error creating directory '%.255s'"), te->name);
-    debug(dbg_eachfiledetail, "tarobject directory creating");
+    debug(dbg_eachfiledetail, "tarobject directory created");
     break;
   default:
     internerr("unknown tar type '%d', but already checked", te->type);
@@ -694,7 +696,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
   nifd->namenode->flags |= FNNF_NEW_INARCHIVE;
 
   debug(dbg_eachfile,
-        "tarobject ti->name='%s' mode=%lo owner=%u:%u type=%d(%c)"
+        "tarobject parsed ti->name='%s' mode=%lo owner=%u:%u type=%d(%c)"
         " ti->linkname='%s' namenode='%s' flags=%o instead='%s'",
         ti->name, (long)ti->stat.mode,
         (unsigned)ti->stat.uid, (unsigned)ti->stat.gid,
@@ -767,16 +769,19 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
       if (errno != ENOENT && errno != ENOTDIR)
         ohshite(_("unable to clean up mess surrounding '%.255s' before "
                   "installing another version"), ti->name);
-      debug(dbg_eachfiledetail,"tarobject nonexistent");
+      debug(dbg_eachfiledetail, "tarobject %s nonexistent as %s",
+            ti->name, fnamevb.buf);
     } else {
-      debug(dbg_eachfiledetail,"tarobject restored tmp to main");
+      debug(dbg_eachfiledetail, "tarobject %s restored tmp to main %s",
+            ti->name, fnamevb.buf);
       statr= lstat(fnamevb.buf,&stab);
       if (statr)
         ohshite(_("unable to stat restored '%.255s' before installing"
                   " another version"), ti->name);
     }
   } else {
-    debug(dbg_eachfiledetail,"tarobject already exists");
+    debug(dbg_eachfiledetail, "tarobject %s already exists as %s",
+          ti->name, fnamevb.buf);
   }
 
   /* Check to see if it's a directory or link to one and we don't need to
@@ -787,7 +792,8 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
   case TAR_FILETYPE_SYMLINK:
     /* If it's already an existing directory, do nothing. */
     if (!statr && S_ISDIR(stab.st_mode)) {
-      debug(dbg_eachfiledetail, "tarobject symlink exists as directory");
+      debug(dbg_eachfiledetail, "tarobject %s symlink exists as directory %s",
+            ti->name, fnamevb.buf);
       existingdir = true;
     } else if (!statr && S_ISLNK(stab.st_mode)) {
       if (linktosameexistingdir(ti, fnamevb.buf, &symlinkfn))
@@ -797,7 +803,8 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
   case TAR_FILETYPE_DIR:
     /* If it's already an existing directory, do nothing. */
     if (!stat(fnamevb.buf,&stabtmp) && S_ISDIR(stabtmp.st_mode)) {
-      debug(dbg_eachfiledetail, "tarobject directory exists");
+      debug(dbg_eachfiledetail, "tarobject %s directory exists as %s",
+            ti->name, fnamevb.buf);
       existingdir = true;
     }
     break;
@@ -1139,7 +1146,7 @@ tar_deferred_extract(struct fsys_namenode_list *files, struct pkginfo *pkg)
   tar_writeback_barrier(files, pkg);
 
   for (cfile = files; cfile; cfile = cfile->next) {
-    debug(dbg_eachfile, "deferred extract of '%.255s'", cfile->namenode->name);
+    debug(dbg_eachfile, "deferred extract of '%.255s'?", cfile->namenode->name);
 
     if (!(cfile->namenode->flags & FNNF_DEFERRED_RENAME))
       continue;

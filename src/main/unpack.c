@@ -473,7 +473,7 @@ pkg_infodb_remove_file(const char *filename, const char *filetype)
   if (unlink(filename))
     ohshite(_("unable to delete control info file '%.250s'"), filename);
 
-  debug(dbg_scripts, "removal_bulk info unlinked %s", filename);
+  debug(dbg_scripts, "removal_bulk info file unlinked %s", filename);
 }
 
 static struct match_node *match_head = NULL;
@@ -515,14 +515,14 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
     strcpy(cidirrest, match_node->filetype);
 
     if (!rename(cidir, match_node->filename)) {
-      debug(dbg_scripts, "process_archive info installed %s as %s",
+      debug(dbg_scripts, "process_archive info file installed %s as %s",
             cidir, match_node->filename);
     } else if (errno == ENOENT) {
       /* Right, no new version. */
       if (unlink(match_node->filename))
         ohshite(_("unable to remove obsolete info file '%.250s'"),
                 match_node->filename);
-      debug(dbg_scripts, "process_archive info unlinked %s",
+      debug(dbg_scripts, "process_archive info file unlinked %s",
             match_node->filename);
     } else {
       ohshite(_("unable to install (supposed) new info file '%.250s'"), cidir);
@@ -622,7 +622,7 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg, struct fsys_namenode *nameno
 
   iter = fsys_node_pkgs_iter_new(namenode);
   while ((otherpkg = fsys_node_pkgs_iter_next(iter))) {
-    debug(dbg_conffdetail, "%s: namenode '%s' owned by other %s?",
+    debug(dbg_conffdetail, "%s: namenode '%s' owned by other %s ?",
           __func__, namenode->name, pkg_name(otherpkg, pnaw_always));
 
     if (otherpkg == pkg)
@@ -687,7 +687,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
    * means we will get their parent directories removed if not present in the
    * new package without needing to do anything special ourselves. */
   for (cfile = newconffiles->head; cfile; cfile = cfile->next) {
-    debug(dbg_conffdetail, "%s: removing conffile '%s' for %s?", __func__,
+    debug(dbg_conffdetail, "%s: removing conffile '%s' for %s ?", __func__,
           cfile->namenode->name, pkg_name(pkg, pnaw_always));
 
     if (!(cfile->namenode->flags & FNNF_RM_CONFF_ON_UPGRADE))
@@ -818,7 +818,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
                     namenode->name, sameas->namenode->name);
             } else {
               debug(dbg_eachfile, "process_archive: old conff %s "
-                    "is same as new conff %s but latter already has hash",
+                    "is same as new conff %s, but latter already has hash",
                     namenode->name, sameas->namenode->name);
             }
           }

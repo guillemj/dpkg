@@ -226,12 +226,12 @@ removal_bulk_remove_file(const char *filename, const char *filetype)
       strcmp(filetype, POSTRMFILE) == 0)
     return;
 
-  debug(dbg_stupidlyverbose, "removal_bulk info not postrm or list");
+  debug(dbg_stupidlyverbose, "removal_bulk info file not postrm nor list");
 
   if (unlink(filename))
     ohshite(_("unable to delete control info file '%.250s'"), filename);
 
-  debug(dbg_scripts, "removal_bulk info unlinked %s", filename);
+  debug(dbg_scripts, "removal_bulk info file unlinked %s", filename);
 }
 
 static bool
@@ -535,7 +535,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       varbuf_reset(&fnvb);
       rc = conffderef(pkg, &fnvb, conff->name);
       if (rc < 0) {
-        debug(dbg_conffdetail, "removal_bulk conffile '%s' (rc < %d)",
+        debug(dbg_conffdetail, "removal_bulk conffile '%s' (no deref; rc < %d)",
               conff->name, rc);
         continue;
       } else {
@@ -561,23 +561,23 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       dsd= opendir(removevb.buf);
       if (!dsd) {
         int e=errno;
-        debug(dbg_conffdetail, "removal_bulk conffile no dsd %s %s",
+        debug(dbg_conffdetail, "removal_bulk conffile no dir handle for %s: %s",
               fnvb.buf, strerror(e)); errno= e;
         if (errno == ENOENT || errno == ENOTDIR) continue;
         ohshite(_("cannot read config file directory '%.250s' (from '%.250s')"),
                 fnvb.buf, conff->name);
       }
-      debug(dbg_conffdetail, "removal_bulk conffile cleaning dsd %s", fnvb.buf);
+      debug(dbg_conffdetail, "removal_bulk conffile cleaning dir %s", fnvb.buf);
       push_cleanup(cu_closedir, ~0, 1, (void *)dsd);
       *p= '/';
       conffbasenamelen= strlen(++p);
       conffbasename= fnvb.buf+conffnameused-conffbasenamelen;
       while ((de = readdir(dsd)) != NULL) {
-        debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry='%s'"
+        debug(dbg_stupidlyverbose, "removal_bulk conffile dir entry='%s'"
               " conffbasename='%s' conffnameused=%d conffbasenamelen=%d",
               de->d_name, conffbasename, conffnameused, conffbasenamelen);
         if (strncmp(de->d_name, conffbasename, conffbasenamelen) == 0) {
-          debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry starts right");
+          debug(dbg_stupidlyverbose, "removal_bulk conffile dir entry starts right");
           for (ext= removeconffexts; *ext; ext++)
             if (strcmp(*ext, de->d_name + conffbasenamelen) == 0)
               goto yes_remove;
@@ -588,17 +588,17 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
             if (*p == '~' && !*++p) goto yes_remove;
           }
         }
-        debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry starts wrong");
+        debug(dbg_stupidlyverbose, "removal_bulk conffile dir entry starts wrong");
         if (de->d_name[0] == '#' &&
             strncmp(de->d_name + 1, conffbasename, conffbasenamelen) == 0 &&
             strcmp(de->d_name + 1 + conffbasenamelen, "#") == 0)
           goto yes_remove;
-        debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry not it");
+        debug(dbg_stupidlyverbose, "removal_bulk conffile dir entry not it");
         continue;
       yes_remove:
         varbuf_rollback(&removevb_state);
         varbuf_add_str(&removevb, de->d_name);
-        debug(dbg_conffdetail, "removal_bulk conffile dsd entry removing '%s'",
+        debug(dbg_conffdetail, "removal_bulk conffile dir entry removing '%s'",
               removevb.buf);
         if (unlink(removevb.buf) && errno != ENOENT && errno != ENOTDIR)
           ohshite(_("cannot remove old backup config file '%.250s' (of '%.250s')"),

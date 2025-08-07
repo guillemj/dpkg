@@ -67,7 +67,7 @@ dpkg_db_reopen(struct dpkg_db *db)
 			fclose(file_next);
 			onerr_abort--;
 
-			debug(dbg_general, "%s: unchanged %s, skipping",
+			debug(dbg_general, "%s: unchanged db %s, skipping",
 			      __func__, db->pathname);
 			return DPKG_DB_SAME;
 		}
@@ -80,11 +80,11 @@ dpkg_db_reopen(struct dpkg_db *db)
 	onerr_abort--;
 
 	if (db->file) {
-		debug(dbg_general, "%s: new %s, (re)loading",
+		debug(dbg_general, "%s: new db %s, (re)loading",
 		      __func__, db->pathname);
 		return DPKG_DB_LOAD;
 	} else {
-		debug(dbg_general, "%s: missing %s, resetting",
+		debug(dbg_general, "%s: missing db %s, resetting",
 		      __func__, db->pathname);
 		return DPKG_DB_NONE;
 	}

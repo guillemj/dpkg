@@ -385,7 +385,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
   enum found_status thisf;
 
   if (ignore_depends(possdependee)) {
-    debug(dbg_depcondetail,"      ignoring depended package so ok and found");
+    debug(dbg_depcondetail, "      ignoring depended package, so ok and found");
     return FOUND_OK;
   }
   thisf = FOUND_NONE;
@@ -655,7 +655,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
 
       debug(dbg_depcondetail,"    checking possibility  -> %s",possi->ed->name);
       if (possi->cyclebreak) {
-        debug(dbg_depcondetail,"      break cycle so ok and found");
+        debug(dbg_depcondetail, "      break cycle, so ok and found");
         found = FOUND_OK;
         break;
       }

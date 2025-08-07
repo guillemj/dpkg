@@ -148,7 +148,7 @@ trigproc_run_deferred(void)
 {
 	jmp_buf ejbuf;
 
-	debug(dbg_triggers, "trigproc_run_deferred");
+	debug(dbg_triggers, "trigproc_run_deferred begin");
 	while (!pkg_queue_is_empty(&deferred)) {
 		struct pkginfo *pkg;
 
@@ -169,6 +169,7 @@ trigproc_run_deferred(void)
 
 		pop_error_context(ehflag_normaltidy);
 	}
+	debug(dbg_triggers, "trigproc_run_deferred done");
 }
 
 /*
@@ -375,7 +376,7 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 
 	struct varbuf depwhynot = VARBUF_INIT;
 
-	debug(dbg_triggers, "trigproc %s", pkg_name(pkg, pnaw_always));
+	debug(dbg_triggers, "trigproc pkg=%s", pkg_name(pkg, pnaw_always));
 
 	ensure_package_clientdata(pkg);
 	if (pkg->clientdata->trigprocdeferred)
@@ -524,7 +525,7 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 	while ((pkg = pkg_hash_iter_next_pkg(iter))) {
 		if (pkg->status <= PKG_STAT_HALFINSTALLED)
 			continue;
-		debug(dbg_triggersdetail, "trig_transitional_activate %s %s",
+		debug(dbg_triggersdetail, "trig_transitional_activate pkg=%s status=%s",
 		      pkg_name(pkg, pnaw_always),
 		      pkg_status_name(pkg));
 		pkg->trigpend_head = NULL;
