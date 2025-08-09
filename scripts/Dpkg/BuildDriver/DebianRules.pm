@@ -58,7 +58,7 @@ sub new {
         ctrl => $opts{ctrl},
         root_cmd => $opts{root_cmd} // [],
         as_root => $opts{as_root},
-        debian_rules => $opts{debian_rules},
+        debian_rules => $opts{debian_rules} // [ 'debian/rules' ],
         rrr_override => $opts{rrr_override},
     };
     bless $self, $class;
