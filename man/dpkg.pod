@@ -996,13 +996,14 @@ packages are to be installed.
 B<instdir> is also the directory passed
 to L<chroot(2)> before running package's installation scripts, which
 means that the scripts see B<instdir> as a root directory.
-Defaults to «I</>».
+Defaults to «I</>» if B<DPKG_ROOT> has not been set (since dpkg 1.21.10).
 
 =item B<--root=>I<dir>
 
 Set the root directory to B<directory>, which sets the installation
 directory to «I<dir>» and the administrative
-directory to «I<dir>B<%ADMINDIR%>».
+directory to «I<dir>B<%ADMINDIR%>»
+if B<DPKG_ROOT> has not been set (since dpkg 1.21.10).
 
 =item B<-O>, B<--selected-only>
 
@@ -1385,6 +1386,11 @@ The currently accepted flags are described in the B<--debug> option.
 Sets the force flags (since dpkg 1.19.5).
 When this variable is present, no built-in force defaults will be applied.
 If the variable is present but empty, all force flags will be disabled.
+
+=item B<DPKG_ROOT>
+
+If set and the B<--instdir> or B<--root> options have not been specified,
+it will be used as the filesystem root directory (since dpkg 1.21.10).
 
 =item B<DPKG_ADMINDIR>
 
