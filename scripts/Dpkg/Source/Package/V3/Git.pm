@@ -41,6 +41,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
 use Dpkg::Path qw(find_command);
+use Dpkg::IPC;
 use Dpkg::Source::Functions qw(erasedir);
 
 use parent qw(Dpkg::Source::Package);
@@ -70,8 +71,19 @@ sub _check_workdir {
                  'specified'), $srcdir);
     }
     if (-s "$srcdir/.gitmodules") {
-        error(g_('git repository %s uses submodules; this is not yet supported'),
-              $srcdir);
+        my $stdout;
+
+        spawn(
+            exec => [ qw(git submodule status --recursive) ],
+            chdir => $srcdir,
+            wait_child => 1,
+            to_string => \$stdout,
+        );
+        if (length $stdout) {
+            error(g_('git repository %s uses submodules; ' .
+                     'this is not yet supported'),
+                  $srcdir);
+        }
     }
 
     return 1;
