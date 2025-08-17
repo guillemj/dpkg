@@ -40,7 +40,6 @@ our @EXPORT_OK = qw(
 );
 
 use Exporter qw(import);
-use POSIX qw(:errno_h :sys_wait_h);
 use Carp;
 use File::Temp;
 use File::Copy qw(cp);
@@ -621,22 +620,6 @@ sub extract {
 	    mkdir($srcdir) unless -e $srcdir;
             $self->{format}->save($format_file);
 	}
-    }
-
-    # Make sure debian/rules is executable
-    my $rules = File::Spec->catfile($newdirectory, 'debian', 'rules');
-    my @s = lstat($rules);
-    if (not scalar(@s)) {
-        unless ($! == ENOENT) {
-            syserr(g_('cannot stat %s'), $rules);
-        }
-        warning(g_('%s does not exist'), $rules)
-            unless $self->{options}{skip_debianization};
-    } elsif (-f _) {
-        chmod($s[2] | 0o111, $rules)
-            or syserr(g_('cannot make %s executable'), $rules);
-    } else {
-        warning(g_('%s is not a plain file'), $rules);
     }
 }
 
