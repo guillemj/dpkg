@@ -134,7 +134,7 @@ usage(void)
 	printf(_(
 "Commands:\n"
 "  --install <link> <name> <path> <priority>\n"
-"    [--slave <link> <name> <path>] ...\n"
+"    [--slave <link> <name> <path>]...\n"
 "                           add a group of alternatives to the system.\n"
 "  --remove <name> <path>   remove <path> from the <name> group alternative.\n"
 "  --remove-all <name>      remove <name> group from the alternatives system.\n"
