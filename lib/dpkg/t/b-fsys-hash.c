@@ -43,7 +43,7 @@ main(int argc, const char *const *argv)
 	struct perf_slot ps;
 
 	push_error_context();
-	setvbuf(stdout, NULL, _IONBF, 0);
+	setvbuf(stdout, NULL, _IOLBF, 0);
 
 	admindir = dpkg_db_set_dir(admindir);
 
