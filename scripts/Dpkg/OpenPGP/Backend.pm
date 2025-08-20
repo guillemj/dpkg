@@ -219,12 +219,14 @@ sub dearmor {
 sub inline_verify {
     my ($self, $inlinesigned, $data, @certs) = @_;
 
+    return OPENPGP_NO_SIG if @certs == 0;
     return OPENPGP_UNSUPPORTED_SUBCMD;
 }
 
 sub verify {
     my ($self, $data, $sig, @certs) = @_;
 
+    return OPENPGP_NO_SIG if @certs == 0;
     return OPENPGP_UNSUPPORTED_SUBCMD;
 }
 

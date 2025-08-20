@@ -38,6 +38,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
 use Dpkg::Path qw(find_command);
+use Dpkg::OpenPGP::ErrorCodes;
 
 my @BACKENDS = qw(
     sop
@@ -148,11 +149,15 @@ sub dearmor {
 sub inline_verify {
     my ($self, $inlinesigned, $data, @certs) = @_;
 
+    return OPENPGP_NO_SIG if @certs == 0;
+
     return $self->{backend}->inline_verify($inlinesigned, $data, @certs);
 }
 
 sub verify {
     my ($self, $data, $sig, @certs) = @_;
+
+    return OPENPGP_NO_SIG if @certs == 0;
 
     return $self->{backend}->verify($data, $sig, @certs);
 }

@@ -166,11 +166,15 @@ sub _gpg_verify {
 sub inline_verify {
     my ($self, $inlinesigned, $data, @certs) = @_;
 
+    return OPENPGP_NO_SIG if @certs == 0;
+
     return $self->_gpg_verify($inlinesigned, undef, $data, @certs);
 }
 
 sub verify {
     my ($self, $data, $sig, @certs) = @_;
+
+    return OPENPGP_NO_SIG if @certs == 0;
 
     return $self->_gpg_verify($data, $sig, undef, @certs);
 }
