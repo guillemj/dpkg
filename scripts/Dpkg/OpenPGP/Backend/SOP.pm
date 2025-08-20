@@ -98,6 +98,8 @@ sub inline_verify
 {
     my ($self, $inlinesigned, $data, @certs) = @_;
 
+    return OPENPGP_MISSING_KEYRINGS if @certs == 0;
+
     return $self->_sop_exec({ verify => 1, in => $inlinesigned, out => $data },
                             'inline-verify', @certs);
 }
@@ -105,6 +107,8 @@ sub inline_verify
 sub verify
 {
     my ($self, $data, $sig, @certs) = @_;
+
+    return OPENPGP_MISSING_KEYRINGS if @certs == 0;
 
     return $self->_sop_exec({ verify => 1, in => $data },
                             'verify', $sig, @certs);
