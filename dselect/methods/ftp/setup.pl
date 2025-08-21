@@ -146,8 +146,8 @@ sub download {
   }
 }
 
-# download stuff (protect from ^C)
-print "\nUsing FTP to check directories...(stop with ^C)\n\n";
+# download stuff (protect from Ctrl+C)
+print "\nUsing FTP to check directories... (use Ctrl+C to stop)\n\n";
 eval {
     local $SIG{INT} = sub {
 	die "interrupted!\n";

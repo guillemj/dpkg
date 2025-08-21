@@ -417,8 +417,8 @@ refreshmenu(void)
 
   attrset(A_BOLD);
   addstr(_("\n\n"
-         "Move around with ^P and ^N, cursor keys, initial letters, or digits;\n"
-         "Press <enter> to confirm selection.   ^L redraws screen.\n\n"));
+         "Move around with Ctrl+P and Ctrl+N, cursor keys, initial letters, or digits;\n"
+         "Press <enter> to confirm selection. Ctrl+L redraws screen.\n\n"));
 
   attrset(A_NORMAL);
   addstr(_("Copyright (C) 1994-1996 Ian Jackson.\n"

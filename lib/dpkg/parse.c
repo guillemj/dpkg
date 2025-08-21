@@ -658,7 +658,7 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
       parse_error(ps,
                   _("newline in field name '%.*s'"), fs->fieldlen, fs->fieldstart);
     if (c == MSDOS_EOF_CHAR)
-      parse_error(ps, _("MSDOS end of file (^Z) in field name '%.*s'"),
+      parse_error(ps, _("MSDOS end of file (Ctrl+Z) in field name '%.*s'"),
                   fs->fieldlen, fs->fieldstart);
     if (c != ':')
       parse_error(ps,
@@ -675,7 +675,7 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
       parse_error(ps, _("end of file before value of field '%.*s' (missing final newline)"),
                   fs->fieldlen, fs->fieldstart);
     if (c == MSDOS_EOF_CHAR)
-      parse_error(ps, _("MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"),
+      parse_error(ps, _("MSDOS end of file (Ctrl+Z) in value of field '%.*s' (missing newline?)"),
                   fs->fieldlen, fs->fieldstart);
 
     blank_line = false;
