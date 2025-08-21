@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.21.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-05-19 00:00+0200\n"
-"PO-Revision-Date: 2025-06-03 11:24+0200\n"
+"POT-Creation-Date: 2025-08-31 06:03+0200\n"
+"PO-Revision-Date: 2025-08-31 06:25+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
 "Language: ca\n"
@@ -645,7 +645,7 @@ msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
 msgid "Press <enter> to start the signing process.\n"
-msgstr "Premeu la tecla de <retorn> per a començar el procés de signat.\n"
+msgstr "Premeu <Retorn> per a començar el procés de signat.\n"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "not signing UNRELEASED build; use --force-sign to override"
@@ -1181,7 +1181,7 @@ msgstr ""
 msgid "%s package '%s' with udeb specific field %s"
 msgstr "paquet %s «%s» amb camp específic d'udeb %s"
 
-#: scripts/dpkg-gencontrol.pl scripts/Dpkg/Source/Package.pm
+#: scripts/dpkg-gencontrol.pl scripts/Dpkg/BuildDriver/DebianRules.pm
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
 msgid "cannot stat %s"
@@ -1617,7 +1617,7 @@ msgid ""
 "ignored data from %s!"
 msgstr ""
 "el paquet %s (nom de fitxer %s) és duplicat però amb versió més nova; s'està "
-"emprant i s'ha ignorat la informació de %s!"
+"emprant i s'ha ignorat la informació de %s"
 
 #: scripts/dpkg-scanpackages.pl
 #, perl-format
@@ -1625,12 +1625,12 @@ msgid ""
 "package %s (filename %s) is repeat; ignored that one and using data from %s!"
 msgstr ""
 "el paquet %s (nom de fitxer %s) és duplicat; s'ha ignorat i s'està emprant "
-"informació de %s!"
+"informació de %s"
 
 #: scripts/dpkg-scanpackages.pl
 #, perl-format
 msgid "package %s (filename %s) has Filename field!"
-msgstr "el paquet %s (nom de fitxer %s) conté un camp Filename!"
+msgstr "el paquet %s (nom de fitxer %s) conté un camp Filename"
 
 #: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
 msgid "one to three arguments expected"
@@ -2528,8 +2528,23 @@ msgstr "el camp %s conté paraules clau globals i especifiques d'implementació"
 
 #: scripts/Dpkg/BuildDriver/DebianRules.pm
 #, perl-format
+msgid "%s does not exist"
+msgstr "%s no existeix"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
 msgid "%s is not executable; fixing that"
 msgstr "%s no és executable: s'està corregint això"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "cannot make %s executable"
+msgstr "no es pot fer «%s» executable"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "%s is not a plain file"
+msgstr "%s no és un fitxer normal"
 
 #: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
 #: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
@@ -3020,8 +3035,8 @@ msgstr "error"
 
 #: scripts/Dpkg/ErrorHandling.pm
 #, perl-format
-msgid "%s subprocess returned exit status %d"
-msgstr "el subprocés «%s» ha retornat codi d'eixida %d"
+msgid "%s subprocess failed with exit status %d"
+msgstr "el subprocés «%s» ha fallat amb el codi de sortida %d"
 
 #: scripts/Dpkg/ErrorHandling.pm
 #, perl-format
@@ -3081,14 +3096,14 @@ msgid "<standard input>"
 msgstr "<entrada estàndard>"
 
 #: scripts/Dpkg/Lock.pm
-msgid "File::FcntlLock not available; using flock which is not NFS-safe"
-msgstr ""
-"File::FcntlLock no està disponible; s'emprarà flock que no és segur per NFS"
-
-#: scripts/Dpkg/Lock.pm
 #, perl-format
 msgid "failed to get a write lock on %s"
 msgstr "no s'ha pogut obtenir el blocatge d'escriptura per a %s"
+
+#: scripts/Dpkg/Lock.pm
+msgid "File::FcntlLock not available; using flock which is not NFS-safe"
+msgstr ""
+"File::FcntlLock no està disponible; s'emprarà flock que no és segur per NFS"
 
 #: scripts/Dpkg/OpenPGP.pm
 #, perl-format
@@ -3113,11 +3128,6 @@ msgid ""
 msgstr ""
 "hi ha diversos blocs ASCII Armor concatenats a %s, que no és una construcció "
 "interoperable, vegeu <%s>"
-
-#: scripts/Dpkg/OpenPGP/Backend.pm
-#, perl-format
-msgid "sq keyring merge --overwrite --output %s %s"
-msgstr "sq keyring merge --overwrite --output %s %s"
 
 #: scripts/Dpkg/OpenPGP/Backend/Sequoia.pm
 msgid "imported own keys might be missing ownership information, try:"
@@ -3210,6 +3220,10 @@ msgid "OpenPGP backend command cannot sign"
 msgstr "l'ordre del fons OpenPGP no pot signar"
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "missing OpenPGP keyrings"
+msgstr "no es troben els clauers OpenPGP"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 #, perl-format
 msgid "error code %d"
 msgstr "codi d'error %d"
@@ -3235,7 +3249,7 @@ msgstr "el nom del paquet font «%s» no és legal: %s"
 #: scripts/Dpkg/Package.pm
 #, perl-format
 msgid "source package has two conflicting values - %s and %s"
-msgstr "el paquet font té dos valors contradictoris - %s i %s"
+msgstr "el paquet font té dos valors contradictoris, %s i %s"
 
 #: scripts/Dpkg/Path.pm scripts/Dpkg/Source/Archive.pm
 #, perl-format
@@ -3472,6 +3486,16 @@ msgstr "no es pot verificar la signatura d'arxiu tar original «%s»: %s"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
+msgid "using keyring %s"
+msgstr "s'està emprant el clauer %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "skipping absent keyring %s"
+msgstr "s'ometrà el clauer absent %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
 msgid "cannot verify inline signature for %s: %s"
 msgstr "no es pot verificar la signatura en línia «%s»: %s"
 
@@ -3484,21 +3508,6 @@ msgstr "%s no és una opció vàlida per a %s"
 #, perl-format
 msgid "cannot copy %s to %s"
 msgstr "no es pot copiar %s a %s"
-
-#: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "%s does not exist"
-msgstr "%s no existeix"
-
-#: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "cannot make %s executable"
-msgstr "no es pot fer «%s» executable"
-
-#: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "%s is not a plain file"
-msgstr "%s no és un fitxer normal"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -3580,9 +3589,17 @@ msgstr "no es reconeix el fitxer pel paquet font %s: %s"
 msgid "no tarfile in Files field"
 msgstr "no hi ha cap arxiu tar al camp Files"
 
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
+msgid "native package version may not have a revision"
+msgstr "la versió del paquet nadiu no pot tenir una revisió"
+
 #: scripts/Dpkg/Source/Package/V1.pm
 msgid "native package with .orig.tar"
 msgstr "paquet nadiu amb .orig.tar"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "non-native package version does not contain a revision"
+msgstr "la versió del paquet no nadiu no conté una revisió"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -3689,14 +3706,6 @@ msgstr "el nom de l'orig desempaquetat «%s» existeix però no és un directori
 #, perl-format
 msgid "unable to stat putative unpacked orig '%s'"
 msgstr "no es pot fer «stat» al directori orig desempaquetat putatiu «%s»"
-
-#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Quilt.pm
-msgid "non-native package version does not contain a revision"
-msgstr "la versió del paquet no nadiu no conté una revisió"
-
-#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
-msgid "native package version may not have a revision"
-msgstr "la versió del paquet nadiu no pot tenir una revisió"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -4472,29 +4481,21 @@ msgstr "arquitectura de l'amfitrió '%s' desconeguda"
 msgid "unknown abi attributes for architecture '%s'"
 msgstr "atributs abi de l'arquitectura '%s' desconeguts"
 
-#: scripts/Dpkg/Vendor/PureOS.pm
-msgid ""
-"Version number suggests PureOS changes, but there is no XSBC-Original-"
-"Maintainer field"
+#: scripts/Dpkg/Vendor/PureOS.pm scripts/Dpkg/Vendor/Ubuntu.pm
+#, perl-format
+msgid "version number suggests %s vendor changes, but there is no %s field"
 msgstr ""
-"el número de versió suggereix canvis de PureOS, però no hi ha un camp XSBC-"
-"Original-Maintainer"
+"el número de versió suggereix canvis de proveïdor %s, però no hi ha un camp "
+"%s"
 
 #: scripts/Dpkg/Vendor/Ubuntu.pm
+#, perl-format
 msgid ""
-"Version number suggests Ubuntu changes, but Maintainer: does not have Ubuntu "
-"address"
+"version number suggests %s vendor changes, but the %s field does not have %s "
+"vendor address"
 msgstr ""
-"el número de versió suggereix canvis d'Ubuntu, però el camp Maintainer no "
-"conté una adreça d'Ubuntu"
-
-#: scripts/Dpkg/Vendor/Ubuntu.pm
-msgid ""
-"Version number suggests Ubuntu changes, but there is no XSBC-Original-"
-"Maintainer field"
-msgstr ""
-"el número de versió suggereix canvis d'Ubuntu, però no hi ha un camp XSBC-"
-"Original-Maintainer"
+"el número de versió suggereix canvis de proveïdor %s, però el camp %s no "
+"conté una adreça de proveïdor %s"
 
 #: scripts/Dpkg/Version.pm
 #, perl-format
@@ -4530,6 +4531,21 @@ msgstr "el número de versió conté un caràcter il·legal ‘%s‘"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "l'època en la versió no és un número: «%s»"
+
+#, perl-format
+#~ msgid "%s subprocess returned exit status %d"
+#~ msgstr "el subprocés «%s» ha retornat codi d'eixida %d"
+
+#, perl-format
+#~ msgid "sq keyring merge --overwrite --output %s %s"
+#~ msgstr "sq keyring merge --overwrite --output %s %s"
+
+#~ msgid ""
+#~ "Version number suggests Ubuntu changes, but there is no XSBC-Original-"
+#~ "Maintainer field"
+#~ msgstr ""
+#~ "el número de versió suggereix canvis d'Ubuntu, però no hi ha un camp XSBC-"
+#~ "Original-Maintainer"
 
 #~ msgid "(Use -d flag to override.)"
 #~ msgstr "(Empreu el senyalador -d per a ometre-ho.)"
