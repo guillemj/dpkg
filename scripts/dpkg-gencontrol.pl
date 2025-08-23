@@ -22,7 +22,7 @@
 use v5.36;
 
 use List::Util qw(none);
-use POSIX qw(:errno_h :fcntl_h);
+use Fcntl;
 use File::Find;
 
 use Dpkg ();

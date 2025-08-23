@@ -20,7 +20,7 @@
 
 use v5.36;
 
-use POSIX qw(:errno_h :fcntl_h);
+use Fcntl;
 
 use Dpkg ();
 use Dpkg::Gettext;
