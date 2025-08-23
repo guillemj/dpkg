@@ -513,7 +513,7 @@ fields with B<Private->, such as B<XB-Private-New-Field>.
 
 =head1 EXAMPLE
 
- # Comment
+ # Comment.
  Source: dpkg
  Section: admin
  Priority: required
@@ -523,8 +523,9 @@ fields with B<Private->, such as B<XB-Private-New-Field>.
  Homepage: https://wiki.debian.org/Teams/Dpkg
  Vcs-Browser: https://git.dpkg.org/cgit/dpkg/dpkg.git
  Vcs-Git: https://git.dpkg.org/git/dpkg/dpkg.git
- Standards-Version: 4.7.0
+ Standards-Version: 4.7.2
  Build-Depends:
+  dpkg-build-api (= 1),
   debhelper-compat (= 13),
   debhelper (>= 13.10~),
   pkgconf,
@@ -537,28 +538,28 @@ fields with B<Private->, such as B<XB-Private-New-Field>.
  # This is a custom field in the binary package.
  XB-Mentoring-Contact: Raphael Hertzog <hertzog@debian.org>
  Depends:
+  libdpkg-perl (= ${source:Version}),
+  dpkg (>= 1.14.6),
   binutils,
   bzip2,
-  cpio (>= 2.4.2-2),
+  xz-utils,
  # This is a comment in the middle of a field value.
-  dpkg (>= 1.14.6),
-  libtimedate-perl,
-  lzma,
   make,
   patch (>= 2.2-1),
   perl-modules,
   perl5,
  Recommends:
-  gcc | c-compiler,
   build-essential,
+  gcc | c-compiler,
  Suggests:
-  gnupg,
   debian-keyring,
  Conflicts:
-  dpkg-cross (<< 2.0.0),
   devscripts (<< 2.10.26),
  Replaces:
   manpages-pl (<= 20051117-1),
+ Provides:
+  dpkg-build-api (= 0),
+  dpkg-build-api (= 1),
  Description: Debian package development tools
   This package provides the development tools (including dpkg-source)
   required to unpack, build and upload Debian source packages.
