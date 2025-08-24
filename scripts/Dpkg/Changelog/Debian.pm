@@ -63,57 +63,57 @@ use constant {
 my $ancient_delimiter_regex = qr{
     ^
     (?: # Ancient GNU style changelog entry with expanded date
-      (?:
-        \w+\s+                          # Day of week (abbreviated)
-        \w+\s+                          # Month name (abbreviated)
-        \d{1,2}                         # Day of month
-        \Q \E
-        \d{1,2}:\d{1,2}:\d{1,2}\s+      # Time
-        [\w\s]*                         # Timezone
-        \d{4}                           # Year
-      )
-      \s+
-      (?:.*)                            # Maintainer name
-      \s+
-      [<\(]
-        (?:.*)                          # Maintainer email
-      [\)>]
+        (?:
+            \w+\s+                          # Day of week (abbreviated)
+            \w+\s+                          # Month name (abbreviated)
+            \d{1,2}                         # Day of month
+            \Q \E
+            \d{1,2}:\d{1,2}:\d{1,2}\s+      # Time
+            [\w\s]*                         # Timezone
+            \d{4}                           # Year
+        )
+        \s+
+        (?:.*)                              # Maintainer name
+        \s+
+        [<\(]
+            (?:.*)                          # Maintainer email
+        [\)>]
     | # Old GNU style changelog entry with expanded date
-      (?:
-        \w+\s+                          # Day of week (abbreviated)
-        \w+\s+                          # Month name (abbreviated)
-        \d{1,2},?\s*                    # Day of month
-        \d{4}                           # Year
-      )
-      \s+
-      (?:.*)                            # Maintainer name
-      \s+
-      [<\(]
-        (?:.*)                          # Maintainer email
-      [\)>]
+        (?:
+            \w+\s+                          # Day of week (abbreviated)
+            \w+\s+                          # Month name (abbreviated)
+            \d{1,2},?\s*                    # Day of month
+            \d{4}                           # Year
+        )
+        \s+
+        (?:.*)                              # Maintainer name
+        \s+
+        [<\(]
+            (?:.*)                          # Maintainer email
+        [\)>]
     | # Ancient changelog header w/o key=value options
-      (?:\w[-+0-9a-z.]*)                # Package name
-      \Q \E
-      \(
-        (?:[^\(\) \t]+)                 # Package version
-      \)
-      \;?
+        (?:\w[-+0-9a-z.]*)                  # Package name
+        \Q \E
+        \(
+            (?:[^\(\) \t]+)                 # Package version
+        \)
+        \;?
     | # Ancient changelog header
-      (?:[\w.+-]+)                      # Package name
-      [- ]
-      (?:\S+)                           # Package version
-      \ Debian
-      \ (?:\S+)                         # Package revision
+        (?:[\w.+-]+)                        # Package name
+        [- ]
+        (?:\S+)                             # Package version
+        \ Debian
+        \ (?:\S+)                           # Package revision
     |
-      Changes\ from\ version\ (?:.*)\ to\ (?:.*):
+        Changes\ from\ version\ (?:.*)\ to\ (?:.*):
     |
-      Changes\ for\ [\w.+-]+-[\w.+-]+:?\s*$
+        Changes\ for\ [\w.+-]+-[\w.+-]+:?\s*$
     |
-      Old\ Changelog:\s*$
+        Old\ Changelog:\s*$
     |
-      (?:\d+:)?
-      \w[\w.+~-]*:?
-      \s*$
+        (?:\d+:)?
+        \w[\w.+~-]*:?
+        \s*$
     )
 }xi;
 

@@ -263,10 +263,10 @@ sub init_options {
         $self->{options}{tar_ignore} = [ @tar_ignore_default_pattern ];
     }
     push @{$self->{options}{tar_ignore}},
-         'debian/source/local-options',
-         'debian/source/local-patch-header',
-         'debian/files',
-         'debian/files.new';
+        'debian/source/local-options',
+        'debian/source/local-patch-header',
+        'debian/files',
+        'debian/files.new';
     $self->{options}{copy_orig_tarballs} //= 0;
 
     # Skip debianization while specific to some formats has an impact

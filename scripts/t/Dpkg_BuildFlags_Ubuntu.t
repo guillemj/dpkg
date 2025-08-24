@@ -66,7 +66,7 @@ test_ltoflag($bf);
 
 # Test the overlaid Ubuntu-specific linker flag.
 ok($bf->get('LDFLAGS') =~ m/-Wl,-Bsymbolic-functions/,
-   'LDFLAGS contains -Bsymbolic-functions');
+    'LDFLAGS contains -Bsymbolic-functions');
 
 # Test the optimization flag override only for ppc64el.
 $ENV{DEB_HOST_ARCH} = 'ppc64el';

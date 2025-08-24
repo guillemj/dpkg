@@ -482,9 +482,9 @@ is(field_get_default_value('Priority'), 'optional',
     'default value for Priority field');
 
 is(field_capitalize('invented-field'), 'Invented-Field',
-   'Field Invented-Field capitalization');
+    'Field Invented-Field capitalization');
 ok(!field_is_official('invented-field'),
-   'Field Invented-Field is not official');
+    'Field Invented-Field is not official');
 
 my %known_fields;
 foreach my $type (sort keys %fields) {

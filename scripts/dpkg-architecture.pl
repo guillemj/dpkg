@@ -239,10 +239,10 @@ while (@ARGV) {
         $action = 'list-known';
     } elsif ($arg eq '-?' or $arg eq '--help') {
         usage();
-       exit 0;
+        exit 0;
     } elsif ($arg eq '--version') {
         version();
-       exit 0;
+        exit 0;
     } else {
         usageerr(g_("unknown option '%s'"), $arg);
     }

@@ -66,10 +66,10 @@ sub init_options {
     }
     $self->{options}{diff_ignore_regex} .= '|(?:^|/)debian/files(?:\.new)?$';
     push @{$self->{options}{tar_ignore}},
-         'debian/source/local-options',
-         'debian/source/local-patch-header',
-         'debian/files',
-         'debian/files.new';
+        'debian/source/local-options',
+        'debian/source/local-patch-header',
+        'debian/files',
+        'debian/files.new';
     $self->{options}{sourcestyle} //= 'X';
     $self->{options}{skip_debianization} //= 0;
     $self->{options}{ignore_bad_version} //= 0;

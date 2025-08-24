@@ -280,114 +280,120 @@ foreach my $file (keys %exec) {
     my $symfile = Dpkg::Shlibs::SymbolFile->new();
     my $dumplibs_wo_symfile = Dpkg::Shlibs::Objdump->new();
     SONAME: foreach my $soname (@sonames) {
-      # Select the first good entry from the ordered list that we got from
-      # find_library(), and skip to the next SONAME.
+        # Select the first good entry from the ordered list that we got from
+        # find_library(), and skip to the next SONAME.
 
-      foreach my $lib (@{$soname_libs{$soname}}) {
-	if (none { $_ ne '' } @{$file2pkg->{$lib}}) {
-	    # The path of the library as calculated is not the
-	    # official path of a packaged file, try to fallback on
-	    # the realpath() first, maybe this one is part of a package
-	    my $reallib = realpath($lib);
-	    if (exists $file2pkg->{$reallib}) {
-		$file2pkg->{$lib} = $file2pkg->{$reallib};
-	    }
-	}
-	if (none { $_ ne '' } @{$file2pkg->{$lib}}) {
-	    # If the library is really not available in an installed package,
-	    # it's because it's in the process of being built
-	    # Empty package name will lead to consideration of symbols
-	    # file from the package being built only
-	    $file2pkg->{$lib} = [''];
-	    debug(1, "No associated package found for $lib");
-	}
-
-	# Load symbols/shlibs files from packages providing libraries
-        my $missing_wanted_shlibs_info = 0;
-	foreach my $pkg (@{$file2pkg->{$lib}}) {
-	    my $symfile_path;
-            my $haslocaldep = 0;
-            if (-e $shlibslocal and
-                defined(extract_from_shlibs($soname, $shlibslocal)))
-            {
-                $haslocaldep = 1;
+        foreach my $lib (@{$soname_libs{$soname}}) {
+            if (none { $_ ne '' } @{$file2pkg->{$lib}}) {
+                # The path of the library as calculated is not the
+                # official path of a packaged file, try to fallback on
+                # the realpath() first, maybe this one is part of a package
+                my $reallib = realpath($lib);
+                if (exists $file2pkg->{$reallib}) {
+                    $file2pkg->{$lib} = $file2pkg->{$reallib};
+                }
             }
-            if ($packagetype eq 'deb' and not $haslocaldep) {
-		# Use fine-grained dependencies only on real deb
-                # and only if the dependency is not provided by shlibs.local
-		$symfile_path = find_symbols_file($pkg, $soname, $lib);
+            if (none { $_ ne '' } @{$file2pkg->{$lib}}) {
+                # If the library is really not available in an installed
+                # package, it's because it's in the process of being built.
+                # Empty package name will lead to consideration of symbols
+                # file from the package being built only
+                $file2pkg->{$lib} = [''];
+                debug(1, "No associated package found for $lib");
             }
-            if (defined($symfile_path)) {
-                # Load symbol information
-                debug(1, "Using symbols file $symfile_path for $soname");
-                $symfile_cache{$symfile_path} //=
-                   Dpkg::Shlibs::SymbolFile->new(file => $symfile_path);
-                $symfile->merge_object_from_symfile($symfile_cache{$symfile_path}, $soname);
+
+            # Load symbols/shlibs files from packages providing libraries
+            my $missing_wanted_shlibs_info = 0;
+            foreach my $pkg (@{$file2pkg->{$lib}}) {
+                my $symfile_path;
+                my $haslocaldep = 0;
+                if (-e $shlibslocal and
+                    defined(extract_from_shlibs($soname, $shlibslocal)))
+                {
+                    $haslocaldep = 1;
+                }
+                if ($packagetype eq 'deb' and not $haslocaldep) {
+                    # Use fine-grained dependencies only on real deb
+                    # and only if the dependency is not provided by shlibs.local
+                    $symfile_path = find_symbols_file($pkg, $soname, $lib);
+                }
+                if (defined($symfile_path)) {
+                    # Load symbol information
+                    debug(1, "Using symbols file $symfile_path for $soname");
+                    $symfile_cache{$symfile_path} //=
+                        Dpkg::Shlibs::SymbolFile->new(file => $symfile_path);
+                    $symfile->merge_object_from_symfile($symfile_cache{$symfile_path}, $soname);
+                }
+                if (defined($symfile_path) && $symfile->has_object($soname)) {
+                    # Initialize dependencies with the smallest minimal version
+                    # of all symbols (unversioned dependency is not ok as the
+                    # library might not have always been available in the
+                    # package and we really need it)
+                    my $dep = $symfile->get_dependency($soname);
+                    my $minver = $symfile->get_smallest_version($soname) || '';
+                    update_dependency_version($dep, $minver);
+                    debug(2, " Minimal version of ($dep) initialized with ($minver)");
+
+                    # Found a symbols file for the SONAME.
+                    next SONAME;
+                } else {
+                    # No symbol file found, fall back to standard shlibs
+                    debug(1, "Using shlibs+objdump for $soname (file $lib)");
+                    $objdump_cache{$lib} //= Dpkg::Shlibs::Objdump::Object->new($lib);
+                    my $libobj = $objdump_cache{$lib};
+                    my $id = $dumplibs_wo_symfile->add_object($libobj);
+                    if (($id ne $soname) and ($id ne $lib)) {
+                        warning(g_('%s has an unexpected SONAME (%s)'),
+                                $lib, $id);
+                        $alt_soname{$id} = $soname;
+                    }
+
+                    # Only try to generate a dependency for libraries with
+                    # a SONAME.
+                    if (not $libobj->is_public_library()) {
+                        debug(1, "Skipping shlibs+objdump info for private library $lib");
+                        next;
+                    }
+
+                    # If we found a shlibs file for the SONAME, skip to the
+                    # next.
+                    next SONAME if add_shlibs_dep($soname, $pkg, $lib);
+
+                    $missing_wanted_shlibs_info = 1;
+
+                    debug(1, "No shlibs+objdump info available, trying next package for $lib");
+                }
             }
-	    if (defined($symfile_path) && $symfile->has_object($soname)) {
-		# Initialize dependencies with the smallest minimal version
-                # of all symbols (unversioned dependency is not ok as the
-                # library might not have always been available in the
-                # package and we really need it)
-		my $dep = $symfile->get_dependency($soname);
-		my $minver = $symfile->get_smallest_version($soname) || '';
-		update_dependency_version($dep, $minver);
-		debug(2, " Minimal version of ($dep) initialized with ($minver)");
 
-                # Found a symbols file for the SONAME.
-                next SONAME;
-	    } else {
-		# No symbol file found, fall back to standard shlibs
-                debug(1, "Using shlibs+objdump for $soname (file $lib)");
-                $objdump_cache{$lib} //= Dpkg::Shlibs::Objdump::Object->new($lib);
-                my $libobj = $objdump_cache{$lib};
-                my $id = $dumplibs_wo_symfile->add_object($libobj);
-		if (($id ne $soname) and ($id ne $lib)) {
-		    warning(g_('%s has an unexpected SONAME (%s)'), $lib, $id);
-		    $alt_soname{$id} = $soname;
-		}
+            next if not $missing_wanted_shlibs_info;
 
-		# Only try to generate a dependency for libraries with a SONAME
-                if (not $libobj->is_public_library()) {
-                    debug(1, "Skipping shlibs+objdump info for private library $lib");
-                    next;
-		}
+            # We will only reach this point, if we have found no symbols nor
+            # shlibs files for the given SONAME.
 
-                # If we found a shlibs file for the SONAME, skip to the next.
-                next SONAME if add_shlibs_dep($soname, $pkg, $lib);
+            # This failure is fairly new, try to be kind by
+            # ignoring as many cases that can be safely ignored
+            my $ignore = 0;
 
-                $missing_wanted_shlibs_info = 1;
+            # 1/ when the lib and the binary are in the same
+            # package
+            my $root_file = guess_pkg_root_dir($file);
+            my $root_lib = guess_pkg_root_dir($lib);
+            $ignore++ if defined $root_file and defined $root_lib
+                and check_files_are_the_same($root_file, $root_lib);
 
-                debug(1, "No shlibs+objdump info available, trying next package for $lib");
-	    }
-	}
+            # 2/ when the lib is not versioned and can't be
+            # handled by shlibs
+            $ignore++ unless scalar split_soname($soname);
 
-        next if not $missing_wanted_shlibs_info;
-
-        # We will only reach this point, if we have found no symbols nor
-        # shlibs files for the given SONAME.
-
-        # This failure is fairly new, try to be kind by
-        # ignoring as many cases that can be safely ignored
-        my $ignore = 0;
-        # 1/ when the lib and the binary are in the same
-        # package
-        my $root_file = guess_pkg_root_dir($file);
-        my $root_lib = guess_pkg_root_dir($lib);
-        $ignore++ if defined $root_file and defined $root_lib
-            and check_files_are_the_same($root_file, $root_lib);
-        # 2/ when the lib is not versioned and can't be
-        # handled by shlibs
-        $ignore++ unless scalar split_soname($soname);
-        # 3/ when we have been asked to do so
-        $ignore++ if $ignore_missing_info;
-        if (not $ignore) {
-            errormsg(g_('no dependency information found for %s (used by %s)'),
-                     $lib, $file);
-            hint(g_('check if the library actually comes from a package'));
-            exit 1;
+            # 3/ when we have been asked to do so
+            $ignore++ if $ignore_missing_info;
+            if (not $ignore) {
+                errormsg(g_('no dependency information found for %s (used by %s)'),
+                         $lib, $file);
+                hint(g_('check if the library actually comes from a package'));
+                exit 1;
+            }
         }
-      }
     }
 
     # Scan all undefined symbols of the binary and resolve to a
@@ -785,8 +791,8 @@ sub extract_from_shlibs {
         (\S+)\s+                    # Library
         (\S+)                       # Version
         (?:
-          \s+
-          (\S.*\S)                  # Dependencies
+            \s+
+            (\S.*\S)                # Dependencies
         )?
         \s*$
     }x;

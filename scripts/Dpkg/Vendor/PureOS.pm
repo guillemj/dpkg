@@ -49,12 +49,15 @@ sub run_hook {
         my $src = shift @params;
         my $fields = $src->{fields};
 
-        if (defined($fields->{'Version'}) and defined($fields->{'Maintainer'}) and
-           $fields->{'Version'} =~ /pureos/) {
-               unless ($fields->{'Original-Maintainer'}) {
-                   warning(g_('version number suggests %s vendor changes, but there is no %s field'),
-                           'PureOS', 'XSBC-Original-Maintainer');
-               }
+        if (defined($fields->{'Version'}) and
+            defined($fields->{'Maintainer'}) and
+            $fields->{'Version'} =~ /pureos/)
+        {
+            unless ($fields->{'Original-Maintainer'}) {
+                warning(g_('version number suggests %s vendor changes, ' .
+                           'but there is no %s field'),
+                        'PureOS', 'XSBC-Original-Maintainer');
+            }
         }
 
     } elsif ($hook eq 'keyrings') {

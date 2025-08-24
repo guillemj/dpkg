@@ -53,21 +53,28 @@ sub run_hook {
 
         # check that Maintainer/XSBC-Original-Maintainer comply to
         # https://wiki.ubuntu.com/DebianMaintainerField
-        if (defined($fields->{'Version'}) and defined($fields->{'Maintainer'}) and
-           $fields->{'Version'} =~ /ubuntu/) {
-           if ($fields->{'Maintainer'} !~ /(?:ubuntu|canonical)/i) {
-               if (length $ENV{DEBEMAIL} and $ENV{DEBEMAIL} =~ /\@(?:ubuntu|canonical)\.com/) {
-                   error(g_('version number suggests %s vendor changes, but the %s field does not have %s vendor address'),
-                         'Ubuntu', 'Maintainer', 'Ubuntu');
-               } else {
-                   warning(g_('version number suggests %s vendor changes, but the %s field does not have %s vendor address'),
-                           'Ubuntu', 'Maintainer', 'Ubuntu');
-               }
-           }
-           unless ($fields->{'Original-Maintainer'}) {
-               warning(g_('version number suggests %s vendor changes, but there is no %s field'),
-                       'Ubuntu', 'XSBC-Original-Maintainer');
-           }
+        if (defined($fields->{'Version'}) and
+            defined($fields->{'Maintainer'}) and
+            $fields->{'Version'} =~ /ubuntu/)
+        {
+            if ($fields->{'Maintainer'} !~ /(?:ubuntu|canonical)/i) {
+                if (length $ENV{DEBEMAIL} and
+                    $ENV{DEBEMAIL} =~ /\@(?:ubuntu|canonical)\.com/)
+                {
+                    error(g_('version number suggests %s vendor changes, ' .
+                             'but the %s field does not have %s vendor address'),
+                          'Ubuntu', 'Maintainer', 'Ubuntu');
+                } else {
+                    warning(g_('version number suggests %s vendor changes, ' .
+                               'but the %s field does not have %s vendor address'),
+                            'Ubuntu', 'Maintainer', 'Ubuntu');
+                }
+            }
+            unless ($fields->{'Original-Maintainer'}) {
+                warning(g_('version number suggests %s vendor changes, ' .
+                           'but there is no %s field'),
+                        'Ubuntu', 'XSBC-Original-Maintainer');
+            }
         }
     } elsif ($hook eq 'package-keyrings') {
         return ($self->SUPER::run_hook($hook),
@@ -171,9 +178,9 @@ sub add_build_flags {
         $flags->append('CXXFLAGS', $flag);
         $flags->append('OBJCFLAGS', $flag);
         $flags->append('OBJCXXFLAGS', $flag);
-     }
+    }
 
-     if (!$flags->use_feature('hardening', 'branch')) {
+    if (!$flags->use_feature('hardening', 'branch')) {
         my $cpu = $flags->get_option_value('hardening-branch-cpu');
         my $flag;
         if ($cpu eq 'arm64') {

@@ -76,7 +76,7 @@ sub test_path_escape
         )) == 0
         or die "cannot create overlay tar archive\n";
 
-   # This is the expected directory, which we'll be comparing against.
+    # This is the expected directory, which we'll be comparing against.
     make_path($expdir);
     system('cp', '-RPp', $overdir, $expdir) == 0
         or die "cannot copy overlay hierarchy into expected directory\n";
@@ -109,11 +109,11 @@ sub test_path_escape
 
     # Check results
     ok(length $warnseen && $warnseen =~ m/points outside source root/,
-       'expected warning seen');
+        'expected warning seen');
     ok(system($Dpkg::PROGTAR, '--compare', '-f', "$expdir.tar", '-C', $treedir) == 0,
-       'expected directory matches');
+        'expected directory matches');
     ok(! -e "$outdir/escaped-file",
-       'expected output directory is empty, directory traversal');
+        'expected output directory is empty, directory traversal');
 }
 
 test_path_escape('in-place');

@@ -119,7 +119,7 @@ sub test_treewalker {
                    return if $type eq 'skip' and m{^\Q$dirtree\E/cccc};
                    push @paths, s{\./}{}r;
                },
-             }, $dirtree);
+        }, $dirtree);
 
         my $expected;
 

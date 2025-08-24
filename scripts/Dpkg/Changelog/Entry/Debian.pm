@@ -56,12 +56,12 @@ my $name_chars = qr/[-+0-9a-z.]/i;
 # the target distributions ($3) and the options on the rest of the line ($4).
 my $regex_header = qr{
     ^
-    (\w$name_chars*)                    # Package name
-    \ \(([^\(\) \t]+)\)                 # Package version
-    ((?:\s+$name_chars+)+)              # Target distribution
-    \;                                  # Separator
-    (.*?)                               # Key=Value options
-    \s*$                                # Trailing space
+    (\w$name_chars*)                        # Package name
+    \ \(([^\(\) \t]+)\)                     # Package version
+    ((?:\s+$name_chars+)+)                  # Target distribution
+    \;                                      # Separator
+    (.*?)                                   # Key=Value options
+    \s*$                                    # Trailing space
 }xi;
 
 # The matched content is the maintainer name ($1), its email ($2),
@@ -69,20 +69,20 @@ my $regex_header = qr{
 # day of week ($6), date-time ($7) and this into month name ($8).
 my $regex_trailer = qr<
     ^
-    \ --                                # Trailer marker
-    \ (.*)                              # Maintainer name
-    \ \<(.*)\>                          # Maintainer email
-    (\ \ ?)                             # Blanks
+    \ --                                    # Trailer marker
+    \ (.*)                                  # Maintainer name
+    \ \<(.*)\>                              # Maintainer email
+    (\ \ ?)                                 # Blanks
     (
-      ((\w+)\,\s*)?                     # Day of week (abbreviated)
-      (
-        \d{1,2}\s+                      # Day of month
-        (\w+)\s+                        # Month name (abbreviated)
-        \d{4}\s+                        # Year
-        \d{1,2}:\d\d:\d\d\s+[-+]\d{4}   # ISO 8601 date
-      )
+        ((\w+)\,\s*)?                       # Day of week (abbreviated)
+        (
+            \d{1,2}\s+                      # Day of month
+            (\w+)\s+                        # Month name (abbreviated)
+            \d{4}\s+                        # Year
+            \d{1,2}:\d\d:\d\d\s+[-+]\d{4}   # ISO 8601 date
+        )
     )
-    \s*$                                # Trailing space
+    \s*$                                    # Trailing space
 >x;
 
 my %week_day = map { $_ => 1 } qw(Mon Tue Wed Thu Fri Sat Sun);

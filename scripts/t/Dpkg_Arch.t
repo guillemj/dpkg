@@ -98,9 +98,9 @@ is_deeply(\@tuple_new, \@tuple_ref, 'valid tuple');
 is_deeply(\@tuple_new, \@tuple_ref, 'valid tuple');
 
 is(debarch_to_multiarch('i386'), 'i386-linux-gnu',
-   'normalized i386 multiarch triplet');
+    'normalized i386 multiarch triplet');
 is(debarch_to_multiarch('amd64'), 'x86_64-linux-gnu',
-   'normalized amd64 multiarch triplet');
+    'normalized amd64 multiarch triplet');
 
 ok(!debarch_eq('amd64', 'i386'), 'no match, simple arch');
 ok(!debarch_eq('', 'amd64'), 'no match, empty first arch');
@@ -180,7 +180,7 @@ is(gnutriplet_to_debarch('x86_64-linux-gnu'), 'amd64', 'known gnutriplet');
 foreach my $arch (@valid_arches) {
     my @tuple = debarch_to_debtuple($arch);
     is(debtuple_to_debarch(@tuple), $arch,
-       "bijective arch $arch to tuple @tuple");
+        "bijective arch $arch to tuple @tuple");
 
     my $triplet = debtuple_to_gnutriplet(@tuple);
     is_deeply([ gnutriplet_to_debtuple($triplet) ], \@tuple,
@@ -196,5 +196,5 @@ is(scalar @valid_arches, $KNOWN_ARCHES_TOTAL,
 
     $ENV{CC} = 'echo CC';
     is(get_host_gnu_type(), 'CC -dumpmachine',
-       'CC does not report expected synthetic result for -dumpmachine');
+        'CC does not report expected synthetic result for -dumpmachine');
 }

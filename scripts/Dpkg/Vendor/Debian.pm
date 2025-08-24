@@ -406,8 +406,8 @@ sub set_build_features {
 
     # Mask features that might be influenced by other flags.
     if ($flags->get_option_value('optimize-level') == 0) {
-      # glibc 2.16 and later warn when using -O0 and _FORTIFY_SOURCE.
-      $use_feature{hardening}{fortify} = 0;
+        # glibc 2.16 and later warn when using -O0 and _FORTIFY_SOURCE.
+        $use_feature{hardening}{fortify} = 0;
     }
     $flags->set_option_value('fortify-level', 2);
 
@@ -524,7 +524,7 @@ sub add_build_flags {
 
     # Warn when the __TIME__, __DATE__ and __TIMESTAMP__ macros are used.
     if ($flags->use_feature('reproducible', 'timeless')) {
-       $flags->append('CPPFLAGS', '-Wdate-time');
+        $flags->append('CPPFLAGS', '-Wdate-time');
     }
 
     # Avoid storing the build path in the binaries.

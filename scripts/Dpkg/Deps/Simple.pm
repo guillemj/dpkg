@@ -364,23 +364,23 @@ sub _restrictions_imply {
     my ($p, $q) = @_;
 
     if (not defined $p) {
-       return 1;
+        return 1;
     } elsif (not defined $q) {
-       return 0;
+        return 0;
     } else {
-       # Check whether set difference is empty.
-       my %restr;
+        # Check whether set difference is empty.
+        my %restr;
 
-       for my $restrlist (@{$q}) {
-           my $reststr = join ' ', sort @{$restrlist};
-           $restr{$reststr} = 1;
-       }
-       for my $restrlist (@{$p}) {
-           my $reststr = join ' ', sort @{$restrlist};
-           delete $restr{$reststr};
-       }
+        for my $restrlist (@{$q}) {
+            my $reststr = join ' ', sort @{$restrlist};
+            $restr{$reststr} = 1;
+        }
+        for my $restrlist (@{$p}) {
+            my $reststr = join ' ', sort @{$restrlist};
+            delete $restr{$reststr};
+        }
 
-       return keys %restr == 0;
+        return keys %restr == 0;
     }
 }
 

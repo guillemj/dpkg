@@ -22,4 +22,4 @@ BEGIN {
 }
 
 is(scalar Dpkg::BuildInfo::get_build_env_allowed(), 61,
-   'allowed environment variables array');
+    'allowed environment variables array');

@@ -113,7 +113,7 @@ is($s->get('ctrl:Alter-Field'), 'alter-value', 'contents of ctrl:Alter-Field');
 # Direct replace: few
 is($s->substvars('This is a string ${var1} with variables ${binary:Version}'),
                  'This is a string New value with variables 1:2.3.4~5-6.7.8~nmu9+b0',
-                 'direct replace, few times');
+    'direct replace, few times');
 
 # Direct replace: many times (more than the recursive limit)
 $s->set('dr', 'feed');
@@ -141,14 +141,14 @@ is($s->substvars('This is a string with unknown variable ${blubb}'),
                  'substvars missing');
 delete $SIG{__WARN__};
 is($output,
-   'Dpkg_Substvars.t: warning: test substitution variable ${blubb} used, but is not defined' . "\n",
-   'missing variables warning');
+    'Dpkg_Substvars.t: warning: test substitution variable ${blubb} used, but is not defined' . "\n",
+    'missing variables warning');
 
 # Recursive replace: Simple.
 $s->set('rvar', 'recursive ${var1}');
 is($s->substvars('This is a string with ${rvar}'),
                  'This is a string with recursive New value',
-                 'recursive replace simple');
+    'recursive replace simple');
 
 # Recursive replace: Constructed variables.
 $s->set('partref', 'recursive result');
@@ -157,7 +157,7 @@ $s->set('part2', 'rtr');
 $s->set('part3', 'ef}');
 is($s->substvars('Constructed ${part1}${part2}${part3} replace'),
                  'Constructed recursive result replace',
-                 'recursive constructed variable');
+    'recursive constructed variable');
 
 # Recursive replace: Cycle.
 $s->set('ref0', '${ref1}');
@@ -170,9 +170,9 @@ eval {
 };
 $output = $@ // q{};
 is($output,
-   'Dpkg_Substvars.t: error: test too many ${ref0} substitutions ' .
-   "(recursive?) in 'Cycle reference \${ref1}'\n",
-   'recursive cyclic expansion is limited');
+    'Dpkg_Substvars.t: error: test too many ${ref0} substitutions ' .
+    "(recursive?) in 'Cycle reference \${ref1}'\n",
+    'recursive cyclic expansion is limited');
 
 # Recursive replace: Billion laughs.
 $s->set('ex0', ':)');
@@ -192,39 +192,39 @@ eval {
 };
 $output = $@ // q{};
 is($output,
-   'Dpkg_Substvars.t: error: test too many ${ex1} substitutions ' .
-   "(recursive?) in 'Billion laughs :):):):):):):):):):):):):):)" .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   ':):):):):):):):):):):):):):):):):):):):):):):):):):)' .
-   '${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}' .
-   '${ex2}${ex2}${ex2}${ex2}${ex2}' .
-   '${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}' .
-   '${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}' .
-   '${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}' .
-   '${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}' .
-   '${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}' .
-   '${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}' .
-   "'\n",
-   'recursive or exponential expansion is limited');
+    'Dpkg_Substvars.t: error: test too many ${ex1} substitutions ' .
+    "(recursive?) in 'Billion laughs :):):):):):):):):):):):):):)" .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    ':):):):):):):):):):):):):):):):):):):):):):):):):):)' .
+    '${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}${ex0}' .
+    '${ex2}${ex2}${ex2}${ex2}${ex2}' .
+    '${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}${ex3}' .
+    '${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}${ex4}' .
+    '${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}${ex5}' .
+    '${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}${ex6}' .
+    '${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}${ex7}' .
+    '${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}${ex8}' .
+    "'\n",
+    'recursive or exponential expansion is limited');
 
 # Strange input
 is($s->substvars('Nothing to $ ${substitute  here}, is it ${}?, it ${is'),
                  'Nothing to $ ${substitute  here}, is it ${}?, it ${is',
-                 'substvars strange');
+    'substvars strange');
 
 # Warnings about unused variables
 $output = '';
@@ -232,8 +232,8 @@ $SIG{__WARN__} = sub { $output .= $_[0] };
 $s->warn_about_unused();
 delete $SIG{__WARN__};
 is($output,
-   'Dpkg_Substvars.t: warning: test substitution variable ${var2} unused, but is defined' . "\n",
-   'unused variables warnings');
+    'Dpkg_Substvars.t: warning: test substitution variable ${var2} unused, but is defined' . "\n",
+    'unused variables warnings');
 
 # Disable warnings for a certain variable
 $s->set_as_used('var_used', 'used');
@@ -257,7 +257,7 @@ is($sr->output(), $expected, 'Required variable preserved');
 
 is($sr->substvars('This is a string with missing the required variable'),
                   'This is a string with missing the required variable',
-   'substvars required substitution missing');
+    'substvars required substitution missing');
 
 eval {
     $sr->warn_about_unused();
@@ -265,8 +265,8 @@ eval {
 };
 $output = $@ // q{};
 is($output,
-   'Dpkg_Substvars.t: error: required substitution variable ${required-var} not used' . "\n",
-   'substvars required substitution not used');
+    'Dpkg_Substvars.t: error: required substitution variable ${required-var} not used' . "\n",
+    'substvars required substitution not used');
 
 is($sr->substvars('This is a string with a required variable ${required-var}'),
                   'This is a string with a required variable Required value',

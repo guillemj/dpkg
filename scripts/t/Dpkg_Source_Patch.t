@@ -57,7 +57,7 @@ test_patch_escape('index-+++', 'symlink', 'index-+++.patch',
 test_patch_escape('index-inert', 'symlink', 'index-inert.patch',
                   'patch(1) should not fail to apply using an inert Index:');
 ok(-e "$tmpdir/index-inert-tree/inert-file",
-   'patch(1) applies correctly with inert Index:');
+    'patch(1) applies correctly with inert Index:');
 
 # This is CVE-2014-3864
 test_patch_escape('partial', 'symlink', 'partial.patch',

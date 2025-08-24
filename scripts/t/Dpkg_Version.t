@@ -39,28 +39,28 @@ plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 27;
 my $have_dpkg = can_run('dpkg');
 
 sub dpkg_vercmp {
-     my ($a, $cmp, $b) = @_;
-     my $stderr;
+    my ($a, $cmp, $b) = @_;
+    my $stderr;
 
-     spawn(exec => [ 'dpkg', '--compare-versions', '--', $a, $cmp, $b ],
-           error_to_string => \$stderr, wait_child => 1, no_check => 1);
-     diag("dpkg --compare-versions error=$?: $stderr") if $? and $? != 256;
+    spawn(exec => [ 'dpkg', '--compare-versions', '--', $a, $cmp, $b ],
+          error_to_string => \$stderr, wait_child => 1, no_check => 1);
+    diag("dpkg --compare-versions error=$?: $stderr") if $? and $? != 256;
 
-     return $? == 0;
+    return $? == 0;
 }
 
 sub obj_vercmp {
-     my ($a, $cmp, $b) = @_;
-     return $a < $b  if $cmp eq '<<';
-     return $a lt $b if $cmp eq 'lt';
-     return $a <= $b if $cmp eq '<=' or $cmp eq '<';
-     return $a le $b if $cmp eq 'le';
-     return $a == $b if $cmp eq '=';
-     return $a eq $b if $cmp eq 'eq';
-     return $a >= $b if $cmp eq '>=' or $cmp eq '>';
-     return $a ge $b if $cmp eq 'ge';
-     return $a > $b  if $cmp eq '>>';
-     return $a gt $b if $cmp eq 'gt';
+    my ($a, $cmp, $b) = @_;
+    return $a < $b  if $cmp eq '<<';
+    return $a lt $b if $cmp eq 'lt';
+    return $a <= $b if $cmp eq '<=' or $cmp eq '<';
+    return $a le $b if $cmp eq 'le';
+    return $a == $b if $cmp eq '=';
+    return $a eq $b if $cmp eq 'eq';
+    return $a >= $b if $cmp eq '>=' or $cmp eq '>';
+    return $a ge $b if $cmp eq 'ge';
+    return $a > $b  if $cmp eq '>>';
+    return $a gt $b if $cmp eq 'gt';
 }
 
 my $truth = {

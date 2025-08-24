@@ -30,7 +30,7 @@ is(deps_concat(undef), '', 'Concatenate list with undef');
 is(deps_concat(''), '', 'Concatenate an empty string');
 is(deps_concat('', undef), '', 'Concatenate empty string with undef');
 is(deps_concat('dep-a', undef, 'dep-b'), 'dep-a, dep-b',
-   'Concatenate two strings with intermixed undef');
+    'Concatenate two strings with intermixed undef');
 
 sub test_dep_parse_option {
     my %opts = @_;
@@ -300,31 +300,31 @@ my $field_virtual = 'myvirtual | other';
 my $dep_virtual = deps_parse($field_virtual);
 $dep_virtual->simplify_deps($facts);
 is($dep_virtual->output(), '',
-   'Simplify unversioned depends with unversioned virtual (satisfied)');
+    'Simplify unversioned depends with unversioned virtual (satisfied)');
 
 $field_virtual = 'myvirtual (>= 1.0) | other';
 $dep_virtual = deps_parse($field_virtual);
 $dep_virtual->simplify_deps($facts);
 is($dep_virtual->output(), 'myvirtual (>= 1.0) | other',
-   'Simplify versioned depends on unversioned virtual (unsatisfied)');
+    'Simplify versioned depends on unversioned virtual (unsatisfied)');
 
 $field_virtual = 'myvirtual2 (>= 0.0) | other';
 $dep_virtual = deps_parse($field_virtual);
 $dep_virtual->simplify_deps($facts);
 is($dep_virtual->output(), '',
-   'Simplify versioned depends on versioned virtual (satisfied)');
+    'Simplify versioned depends on versioned virtual (satisfied)');
 
 $field_virtual = 'myvirtual2 (>= 2.0) | other';
 $dep_virtual = deps_parse($field_virtual);
 $dep_virtual->simplify_deps($facts);
 is($dep_virtual->output(), 'myvirtual2 (>= 2.0) | other',
-   'Simplify versioned depends on versioned virtual (unsatisfied)');
+    'Simplify versioned depends on versioned virtual (unsatisfied)');
 
 $field_virtual = 'myvirtual3 (= 2.0-1)';
 $dep_virtual = deps_parse($field_virtual);
 $dep_virtual->simplify_deps($facts);
 is($dep_virtual->output(), 'myvirtual3 (= 2.0-1)',
-   'Simplify versioned depends on GT versioned virtual (unsatisfied/ignored)');
+    'Simplify versioned depends on GT versioned virtual (unsatisfied/ignored)');
 
 my $field_dup_union = 'libc6 (>> 2.3), libc6 (>= 2.6-1), fake (<< 2.0),
 fake(>> 3.0), fake (= 2.5), python (<< 2.5), python (= 2.4)';
@@ -344,7 +344,7 @@ is("$dep_red", $dep_red->output(), 'Stringification == output()');
 my $dep_profiles = deps_parse('dupe <stage1 cross>, dupe <stage1 cross>');
 $dep_profiles->simplify_deps($facts);
 is($dep_profiles->output(), 'dupe <stage1 cross>',
-   'Simplification respects duplicated profiles');
+    'Simplification respects duplicated profiles');
 
 TODO: {
 
@@ -353,15 +353,15 @@ local $TODO = 'not yet implemented';
 $dep_profiles = deps_parse('tool <!cross>, tool <stage1 cross>');
 $dep_profiles->simplify_deps($facts);
 is($dep_profiles->output(), 'tool <!cross> <stage1 cross>',
-   'Simplify restriction formulas');
+    'Simplify restriction formulas');
 
 } # TODO
 
 $dep_profiles = deps_parse('libfoo-dev:native <!stage1>, libfoo-dev <!stage1 cross>', build_dep => 1);
 $dep_profiles->simplify_deps($facts);
 is($dep_profiles->output(),
-   'libfoo-dev:native <!stage1>, libfoo-dev <!stage1 cross>',
-   'Simplification respects archqualifiers and profiles');
+    'libfoo-dev:native <!stage1>, libfoo-dev <!stage1 cross>',
+    'Simplification respects archqualifiers and profiles');
 
 my $dep_archqual = deps_parse('pkg, pkg:any');
 $dep_archqual->simplify_deps($facts);
@@ -403,7 +403,7 @@ is($dep_sloppy_arch->output(), 'package [alpha]', 'sloppy arch restriction');
 
 my $dep_sloppy_profile = deps_parse('package <  !profile    >   <  other  >');
 is($dep_sloppy_profile->output(), 'package <!profile> <other>',
-   'sloppy profile restriction');
+    'sloppy profile restriction');
 
 $SIG{__WARN__} = sub {};
 

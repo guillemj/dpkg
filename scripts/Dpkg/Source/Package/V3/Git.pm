@@ -170,15 +170,14 @@ sub do_build {
          '-z', '--others', @ignores) or subprocerr('git ls-files');
     my @files;
     {
-      local $_;
-      local $/ = "\0";
-      while (<$git_ls_files_fh>) {
-          chomp;
-          if (! length $diff_ignore_regex ||
-              ! m/$diff_ignore_regex/o) {
-              push @files, $_;
-          }
-      }
+        local $_;
+        local $/ = "\0";
+        while (<$git_ls_files_fh>) {
+            chomp;
+            if (! length $diff_ignore_regex || ! m/$diff_ignore_regex/o) {
+                push @files, $_;
+            }
+        }
     }
     close($git_ls_files_fh) or syserr(g_('git ls-files exited nonzero'));
     if (@files) {

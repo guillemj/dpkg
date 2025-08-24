@@ -144,5 +144,5 @@ $ck->export_to_control($ctrl_export);
 
 foreach my $alg (keys %str_checksum) {
     is($ctrl_export->{"Checksums-$alg"}, $str_checksum{$alg},
-       "Export checksum $alg to a control object");
+        "Export checksum $alg to a control object");
 }
