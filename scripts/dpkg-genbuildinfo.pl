@@ -287,7 +287,7 @@ sub is_cross_executable {
         to_string => \$stdout,
         error_to_string => \$stderr,
         wait_child => 1,
-        nocheck => 1,
+        no_check => 1,
     );
     if ($?) {
         print { *STDOUT } $stdout;
@@ -304,7 +304,7 @@ sub is_cross_executable {
         error_to_file => '/dev/null',
         to_string => \$stdout,
         wait_child => 1,
-        nocheck => 1,
+        no_check => 1,
     );
 
     return 1 if $? == 0 && $stdout eq 'ok';

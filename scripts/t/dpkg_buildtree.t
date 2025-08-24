@@ -60,7 +60,7 @@ sub test_is_rootless
         ],
         error_to_string => \$stderr,
         wait_child => 1,
-        nocheck => 1,
+        no_check => 1,
     );
     if (POSIX::WIFEXITED($?) && POSIX::WEXITSTATUS($?) == 255) {
         $res = 255;

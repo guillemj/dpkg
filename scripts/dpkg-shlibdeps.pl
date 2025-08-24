@@ -987,7 +987,7 @@ sub find_packages {
 	}
     }
     close($dpkg_fh);
-    wait_child($pid, nocheck => 1, cmdline => 'dpkg-query --search');
+    wait_child($pid, no_check => 1, cmdline => 'dpkg-query --search');
 
     return $pkgmatch;
 }

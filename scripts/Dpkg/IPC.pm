@@ -30,7 +30,7 @@ from you.
 
 =cut
 
-package Dpkg::IPC 1.02;
+package Dpkg::IPC 1.03;
 
 use v5.36;
 
@@ -106,9 +106,16 @@ C<wait_child> option.
 Scalar. If containing a true value, wait_child() will be called before
 returning. The return value of spawn() will be a true value, not the pid.
 
-=item B<nocheck>
+=item B<no_check>
 
 Scalar. Option of the wait_child() call.
+
+=item B<nocheck>
+
+Deprecated alias for no_check.
+It emits a deprecation warning, but if it is required for backwards
+compatibility it can be passed alongside B<no_check> and the warning
+will not be emitted.
 
 =item B<timeout>
 
@@ -332,7 +339,13 @@ sub spawn {
 		$cmdline = "$_=\"" . $opts{env}{$_} . "\" $cmdline";
 	    }
 	}
-	wait_child($pid, nocheck => $opts{nocheck},
+        # TODO: Backwards compatibility, to be removed in VERSION 2.00.
+        if (exists $opts{nocheck} && ! exists $opts{no_check}) {
+            warnings::warnif('deprecated',
+                'Dpkg::IPC::spawn() option nocheck is deprecated, ' .
+                'either switch to no_check or pass it alongside it');
+        }
+        wait_child($pid, no_check => $opts{no_check} // $opts{nocheck},
                    timeout => $opts{timeout}, cmdline => $cmdline);
 	return 1;
     }
@@ -357,11 +370,18 @@ Options:
 String to identify the child process in error messages.
 Defaults to "child process".
 
-=item nocheck
+=item no_check
 
 If true do not check the return status of the child (and thus
 do not fail it has been killed or if it exited with a
 non-zero return code).
+
+=item nocheck
+
+Deprecated alias for no_check.
+It emits a deprecation warning, but if it is required for backwards
+compatibility it can be passed alongside B<no_check> and the warning
+will not be emitted.
 
 =item timeout
 
@@ -375,6 +395,13 @@ fail with an error message.
 sub wait_child {
     my ($pid, %opts) = @_;
     $opts{cmdline} //= g_('child process');
+    # TODO: Backwards compatibility, to be removed in VERSION 2.00.
+    if (exists $opts{nocheck} && ! exists $opts{no_check}) {
+        warnings::warnif('deprecated',
+            'Dpkg::IPC::wait_child() option nocheck is deprecated, ' .
+            'either switch to no_check or pass it alongside it');
+    }
+    $opts{no_check} //= $opts{nocheck};
     croak 'no PID set, cannot wait end of process' unless $pid;
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" };
@@ -390,7 +417,7 @@ sub wait_child {
                  $opts{timeout}),
               $opts{cmdline}, $opts{timeout});
     }
-    unless ($opts{nocheck}) {
+    unless ($opts{no_check}) {
 	subprocerr($opts{cmdline}) if $?;
     }
 }
@@ -400,6 +427,12 @@ sub wait_child {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.03 (dpkg 1.23.0)
+
+New options: spawn() and wait_child() now accept 'no_check'.
+
+Deprecated options: 'nocheck' in spawn() and wait_child().
 
 =head2 Version 1.02 (dpkg 1.18.0)
 

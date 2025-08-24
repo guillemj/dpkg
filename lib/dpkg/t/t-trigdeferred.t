@@ -98,7 +98,7 @@ sub test_trigdeferred {
         file_dump("$admindir/triggers/Unincorp", $test->{original});
 
         spawn(exec => [ "$builddir/t/c-trigdeferred", $admindir ],
-              nocheck => 1, to_string => \$stdout, error_to_string => \$stderr);
+              no_check => 1, to_string => \$stdout, error_to_string => \$stderr);
         my $exitcode = $? >> 8;
 
         is($exitcode, $test->{exitcode}, 'trigger deferred expected exitcode');

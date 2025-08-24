@@ -189,7 +189,7 @@ Set the current build type to $build_type, which was specified via the
 $build_option command-line option.
 
 The function will check and abort on incompatible build type assignments,
-this behavior can be disabled by using the boolean option "nocheck".
+this behavior can be disabled by using the boolean option "no_check".
 
 =cut
 
@@ -198,7 +198,7 @@ sub set_build_type
     my ($build_type, $build_option, %opts) = @_;
 
     usageerr(g_('cannot combine %s and %s'), $current_option, $build_option)
-        if not $opts{nocheck} and
+        if not $opts{no_check} and
            build_has_none(BUILD_DEFAULT) and $current_type != $build_type;
 
     $current_type = $build_type;
@@ -211,7 +211,7 @@ Set the current build type from a list of comma-separated build type
 components.
 
 The function will check and abort on incompatible build type assignments,
-this behavior can be disabled by using the boolean option "nocheck".
+this behavior can be disabled by using the boolean option "no_check".
 
 =cut
 
@@ -235,7 +235,7 @@ Set the current build type from a list of comma-separated build target
 components.
 
 The function will check and abort on incompatible build type assignments,
-this behavior can be disabled by using the boolean option "nocheck".
+this behavior can be disabled by using the boolean option "no_check".
 
 =cut
 

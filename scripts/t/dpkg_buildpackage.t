@@ -183,7 +183,7 @@ sub test_build
     my ($basename, $type) = @_;
     my $dirname = $basename =~ tr/_/-/r;
 
-    set_build_type($type, 'buildtype', nocheck => 1);
+    set_build_type($type, 'buildtype', no_check => 1);
     my $typename = get_build_options_from_type();
 
     my $stderr;
@@ -217,7 +217,7 @@ sub test_build
                     @hook_opts,
                   ],
           error_to_string => \$stderr,
-          wait_child => 1, nocheck => 1);
+          wait_child => 1, no_check => 1);
     chdir '..';
 
     ok($? == 0, "dpkg-buildpackage --build=$typename succeeded");

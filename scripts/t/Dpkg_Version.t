@@ -43,7 +43,7 @@ sub dpkg_vercmp {
      my $stderr;
 
      spawn(exec => [ 'dpkg', '--compare-versions', '--', $a, $cmp, $b ],
-           error_to_string => \$stderr, wait_child => 1, nocheck => 1);
+           error_to_string => \$stderr, wait_child => 1, no_check => 1);
      diag("dpkg --compare-versions error=$?: $stderr") if $? and $? != 256;
 
      return $? == 0;

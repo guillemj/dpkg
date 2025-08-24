@@ -201,7 +201,7 @@ sub uncompress {
 
 Call Dpkg::IPC::wait_child() to wait until the sub-process has exited
 and verify its return code. Any given option will be forwarded to
-the wait_child() function. Most notably you can use the "nocheck" option
+the wait_child() function. Most notably you can use the "no_check" option
 to verify the return code yourself instead of letting wait_child() do
 it for you.
 

@@ -74,7 +74,7 @@ sub _sop_exec
     $io->{out} //= '/dev/null';
     my $stderr;
     spawn(exec => [ $cmd, @exec ],
-          wait_child => 1, nocheck => 1, timeout => 10,
+          wait_child => 1, no_check => 1, timeout => 10,
           from_file => $io->{in}, to_file => $io->{out},
           error_to_string => \$stderr);
     if (WIFEXITED($?)) {

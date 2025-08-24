@@ -148,7 +148,7 @@ TAR
         $expected =~ s/\n^.*symlink-long.*$//mg if $type eq 'ustar';
 
         spawn(exec => [ "$builddir/t/c-tarextract", "$dirtree.tar" ],
-              nocheck => 1, to_string => \$stdout, to_error => \$stderr);
+              no_check => 1, to_string => \$stdout, to_error => \$stderr);
         ok($? == 0, "tar extractor $type should succeed");
         is($stderr, undef, "tar extractor $type stderr is empty");
         is($stdout, $expected, "tar extractor $type is ok");

@@ -124,7 +124,7 @@ sub terminate_cppfilts {
 	close $cppfilts{$type}{from};
 	close $cppfilts{$type}{to};
 	wait_child($cppfilts{$type}{pid}, cmdline => 'c++filt',
-	                                  nocheck => 1,
+                                          no_check => 1,
 	                                  timeout => 5);
 	delete $cppfilts{$type};
     }

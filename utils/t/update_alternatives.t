@@ -119,7 +119,7 @@ sub call_ua {
         @cmd = @ua;
     }
 
-    spawn(exec => [ @cmd, @{$params} ], nocheck => 1,
+    spawn(exec => [ @cmd, @{$params} ], no_check => 1,
         wait_child => 1, env => { LC_ALL => 'C', %env }, %opts);
     my $test_id = '';
     $test_id = "$opts{test_id}: " if defined $opts{test_id};

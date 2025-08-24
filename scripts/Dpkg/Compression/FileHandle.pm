@@ -453,7 +453,7 @@ sub _open_for_read {
 sub _cleanup {
     my $self = shift;
     my $cmdline = *$self->{compressor}{cmdline} // '';
-    *$self->{compressor}->wait_end_process(nocheck => *$self->{allow_sigpipe});
+    *$self->{compressor}->wait_end_process(no_check => *$self->{allow_sigpipe});
     if (*$self->{allow_sigpipe}) {
         require POSIX;
         unless (($? == 0) || (POSIX::WIFSIGNALED($?) &&

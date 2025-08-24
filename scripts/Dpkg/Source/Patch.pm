@@ -152,7 +152,7 @@ sub add_diff_file {
         print { $self } $_ or syserr(g_('failed to write'));
     }
     close($diffgen) or syserr('close on diff pipe');
-    wait_child($diff_pid, nocheck => 1,
+    wait_child($diff_pid, no_check => 1,
                cmdline => "diff -u @options -- $old $new");
     # Verify diff process ended successfully
     # Exit code of diff: 0 => no difference, 1 => diff ok, 2 => error
@@ -626,7 +626,7 @@ sub apply {
         env => { LC_ALL => 'C', PATCH_GET => '0' },
 	delete_env => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
 	wait_child => 1,
-	nocheck => 1,
+        no_check => 1,
 	from_handle => $self->get_filehandle(),
 	to_string => \$stdout,
 	error_to_string => \$stderr,
@@ -689,7 +689,7 @@ sub check_apply {
 	to_file => '/dev/null',
 	error_to_file => '/dev/null',
     );
-    wait_child($patch_pid, nocheck => 1);
+    wait_child($patch_pid, no_check => 1);
     my $exit = WEXITSTATUS($?);
     subprocerr("$Dpkg::PROGPATCH --dry-run") unless WIFEXITED($?);
     $self->close();

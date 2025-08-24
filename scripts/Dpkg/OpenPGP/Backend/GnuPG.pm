@@ -97,7 +97,7 @@ sub _gpg_exec
     my ($self, @exec) = @_;
 
     my ($stdout, $stderr);
-    spawn(exec => \@exec, wait_child => 1, nocheck => 1, timeout => 10,
+    spawn(exec => \@exec, wait_child => 1, no_check => 1, timeout => 10,
           to_string => \$stdout, error_to_string => \$stderr);
     if (WIFEXITED($?)) {
         my $status = WEXITSTATUS($?);

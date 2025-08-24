@@ -685,7 +685,7 @@ sub write_dsc {
 	$fields->{$f} = $opts{override}{$f};
     }
 
-    unless ($opts{nocheck}) {
+    unless ($opts{no_check}) {
         foreach my $f (qw(Source Version Architecture)) {
             unless (defined($fields->{$f})) {
                 error(g_('missing information for critical output field %s'), $f);

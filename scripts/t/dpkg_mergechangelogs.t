@@ -31,7 +31,7 @@ sub test_merge {
     my $fh = File::Temp->new();
     spawn(exec => [ $ENV{PERL}, "$srcdir/dpkg-mergechangelogs.pl", @options ],
 	  to_handle => $fh, error_to_file => '/dev/null',
-	  wait_child => 1, nocheck => 1);
+          wait_child => 1, no_check => 1);
     my $res = compare($expected_file, $fh->filename);
     if ($res) {
 	system('diff', '-u', $expected_file, $fh->filename);

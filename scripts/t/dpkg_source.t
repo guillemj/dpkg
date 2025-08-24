@@ -150,7 +150,7 @@ sub test_build_source
 
     spawn(exec => [ $ENV{PERL}, "$srcdir/dpkg-source.pl", '--build', $name ],
           error_to_string => \$stderr,
-          wait_child => 1, nocheck => 1);
+          wait_child => 1, no_check => 1);
 
     ok($? == 0, 'dpkg-source --build succeeded');
     diag($stderr) unless $? == 0;
