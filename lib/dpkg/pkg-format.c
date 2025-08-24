@@ -227,9 +227,9 @@ virt_status_abbrev(struct varbuf *vb,
 	if (pkgbin != &pkg->installed)
 		return;
 
-	varbuf_add_char(vb, pkg_abbrev_want(pkg));
-	varbuf_add_char(vb, pkg_abbrev_status(pkg));
-	varbuf_add_char(vb, pkg_abbrev_eflag(pkg));
+	varbuf_add_str(vb, pkg_abbrev_want(pkg));
+	varbuf_add_str(vb, pkg_abbrev_status(pkg));
+	varbuf_add_str(vb, pkg_abbrev_eflag(pkg));
 }
 
 static void

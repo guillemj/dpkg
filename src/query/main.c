@@ -158,7 +158,7 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
 
 static void
 list_format_print(struct list_format *fmt,
-                  int c_want, int c_status, int c_eflag,
+                  const char *c_want, const char *c_status, const char *c_eflag,
                   const char *name, const char *version, const char *arch,
                   const char *desc, int desc_len)
 {
@@ -169,7 +169,7 @@ list_format_print(struct list_format *fmt,
   str_gen_crop(arch, fmt->aw, &as);
   str_gen_crop(desc, desc_len, &ds);
 
-  printf("%c%c%c %-*.*s %-*.*s %-*.*s %.*s\n", c_want, c_status, c_eflag,
+  printf("%s%s%s %-*.*s %-*.*s %-*.*s %.*s\n", c_want, c_status, c_eflag,
          ns.max_bytes, ns.str_bytes, name,
          vs.max_bytes, vs.str_bytes, version,
          as.max_bytes, as.str_bytes, arch,
@@ -194,7 +194,7 @@ list_format_print_header(struct list_format *fmt)
 Desired=Unknown/Install/Remove/Purge/Hold\n\
 | Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n\
 |/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"), stdout);
-  list_format_print(fmt, '|', '|', '/', _("Name"), _("Version"),
+  list_format_print(fmt, "|", "|", "/", _("Name"), _("Version"),
                     _("Architecture"), _("Description"), fmt->dw);
 
   /* Status */

@@ -266,10 +266,10 @@ pkg_synopsis(const struct pkginfo *pkg, int *len)
  *
  * @return The character abbreviated representation.
  */
-int
+const char *
 pkg_abbrev_want(const struct pkginfo *pkg)
 {
-	return "uihrp"[pkg->want];
+	return want_abbrev[pkg->want].name;
 }
 
 /**
@@ -279,10 +279,10 @@ pkg_abbrev_want(const struct pkginfo *pkg)
  *
  * @return The character abbreviated representation.
  */
-int
+const char *
 pkg_abbrev_status(const struct pkginfo *pkg)
 {
-	return "ncHUFWti"[pkg->status];
+	return status_abbrev[pkg->status].name;
 }
 
 /**
@@ -292,10 +292,10 @@ pkg_abbrev_status(const struct pkginfo *pkg)
  *
  * @return The character abbreviated representation.
  */
-int
+const char *
 pkg_abbrev_eflag(const struct pkginfo *pkg)
 {
-	return " R"[pkg->eflag];
+	return eflag_abbrev[pkg->eflag].name;
 }
 
 /**

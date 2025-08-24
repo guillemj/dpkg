@@ -58,9 +58,24 @@ const struct namevalue wantinfos[] = {
 	{ .name = NULL }
 };
 
+const struct namevalue want_abbrev[] = {
+	NAMEVALUE_DEF("u",			PKG_WANT_UNKNOWN),
+	NAMEVALUE_DEF("i",			PKG_WANT_INSTALL),
+	NAMEVALUE_DEF("h",			PKG_WANT_HOLD),
+	NAMEVALUE_DEF("r",			PKG_WANT_DEINSTALL),
+	NAMEVALUE_DEF("p",			PKG_WANT_PURGE),
+	{ .name = NULL }
+};
+
 const struct namevalue eflaginfos[] = {
 	NAMEVALUE_DEF("ok",			PKG_EFLAG_OK),
 	NAMEVALUE_DEF("reinstreq",		PKG_EFLAG_REINSTREQ),
+	{ .name = NULL }
+};
+
+const struct namevalue eflag_abbrev[] = {
+	NAMEVALUE_DEF(" ",			PKG_EFLAG_OK),
+	NAMEVALUE_DEF("R",			PKG_EFLAG_REINSTREQ),
 	{ .name = NULL }
 };
 
@@ -73,5 +88,17 @@ const struct namevalue statusinfos[] = {
 	NAMEVALUE_DEF("triggers-awaited",	PKG_STAT_TRIGGERSAWAITED),
 	NAMEVALUE_DEF("triggers-pending",	PKG_STAT_TRIGGERSPENDING),
 	NAMEVALUE_DEF("installed",		PKG_STAT_INSTALLED),
+	{ .name = NULL }
+};
+
+const struct namevalue status_abbrev[] = {
+	NAMEVALUE_DEF("n",			PKG_STAT_NOTINSTALLED),
+	NAMEVALUE_DEF("c",			PKG_STAT_CONFIGFILES),
+	NAMEVALUE_DEF("H",			PKG_STAT_HALFINSTALLED),
+	NAMEVALUE_DEF("U",			PKG_STAT_UNPACKED),
+	NAMEVALUE_DEF("F",			PKG_STAT_HALFCONFIGURED),
+	NAMEVALUE_DEF("W",			PKG_STAT_TRIGGERSAWAITED),
+	NAMEVALUE_DEF("t",			PKG_STAT_TRIGGERSPENDING),
+	NAMEVALUE_DEF("i",			PKG_STAT_INSTALLED),
 	{ .name = NULL }
 };

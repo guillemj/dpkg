@@ -398,8 +398,11 @@ extern const struct namevalue booleaninfos[];
 extern const struct namevalue multiarchinfos[];
 extern const struct namevalue priorityinfos[];
 extern const struct namevalue statusinfos[];
+extern const struct namevalue status_abbrev[];
 extern const struct namevalue eflaginfos[];
+extern const struct namevalue eflag_abbrev[];
 extern const struct namevalue wantinfos[];
+extern const struct namevalue want_abbrev[];
 
 #include <dpkg/error.h>
 

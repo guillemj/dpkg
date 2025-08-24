@@ -38,9 +38,12 @@ const char *pkgbin_synopsis(const struct pkginfo *pkg,
                             const struct pkgbin *pkgbin, int *len_ret);
 const char *
 pkg_synopsis(const struct pkginfo *pkg, int *len_ret);
-int pkg_abbrev_want(const struct pkginfo *pkg);
-int pkg_abbrev_status(const struct pkginfo *pkg);
-int pkg_abbrev_eflag(const struct pkginfo *pkg);
+const char *
+pkg_abbrev_want(const struct pkginfo *pkg);
+const char *
+pkg_abbrev_status(const struct pkginfo *pkg);
+const char *
+pkg_abbrev_eflag(const struct pkginfo *pkg);
 
 /** @} */
 
