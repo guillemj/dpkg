@@ -64,7 +64,7 @@ sub create {
         } else {
             $self->_fail_not_same_type($opts{old}, $opts{new}, $opts{filename});
         }
-        $self->finish() unless $opts{nofinish};
+        $self->finish() unless $opts{no_finish};
     }
 }
 
