@@ -173,34 +173,36 @@ sub parse_string {
         $pkgname_re = qr/[a-zA-Z0-9][a-zA-Z0-9+.-]*/;
     }
 
+    my $dep_regex = qr{
+        ^\s*                            # skip leading whitespace
+        ($pkgname_re)                   # package name
+        (?:                             # start of optional part
+            :                           # colon for architecture
+            ([a-zA-Z0-9][a-zA-Z0-9-]*)  # architecture name
+        )?                              # end of optional part
+        (?:                             # start of optional part
+            \s* \(                      # open parenthesis for version part
+            \s* (<<|<=|=|>=|>>|[<>])    # relation part
+            \s* ([^\)\s]+)              # do not attempt to parse version
+            \s* \)                      # closing parenthesis
+        )?                              # end of optional part
+        (?:                             # start of optional architecture
+            \s* \[                      # open bracket for architecture
+            \s* ([^\]]+)                # don't parse architectures now
+            \s* \]                      # closing bracket
+        )?                              # end of optional architecture
+        (
+            (?:                         # start of optional restriction
+                \s* <                   # open bracket for restriction
+                \s* [^>]+               # do not parse restrictions now
+                \s* >                   # closing bracket
+            )+
+        )?                              # end of optional restriction
+        \s*$                            # trailing spaces at end
+    }x;
+
     ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
-    return if not $dep =~
-           m{^\s*                           # skip leading whitespace
-              ($pkgname_re)                 # package name
-              (?:                           # start of optional part
-                :                           # colon for architecture
-                ([a-zA-Z0-9][a-zA-Z0-9-]*)  # architecture name
-              )?                            # end of optional part
-              (?:                           # start of optional part
-                \s* \(                      # open parenthesis for version part
-                \s* (<<|<=|=|>=|>>|[<>])    # relation part
-                \s* ([^\)\s]+)              # do not attempt to parse version
-                \s* \)                      # closing parenthesis
-              )?                            # end of optional part
-              (?:                           # start of optional architecture
-                \s* \[                      # open bracket for architecture
-                \s* ([^\]]+)                # don't parse architectures now
-                \s* \]                      # closing bracket
-              )?                            # end of optional architecture
-              (
-                (?:                         # start of optional restriction
-                \s* <                       # open bracket for restriction
-                \s* [^>]+                   # do not parse restrictions now
-                \s* >                       # closing bracket
-                )+
-              )?                            # end of optional restriction
-              \s*$                          # trailing spaces at end
-            }x;
+    return if not $dep =~ $dep_regex;
     if (defined $2) {
         return if $2 eq 'native' and not $self->{build_dep};
         $self->{archqual} = $2;
