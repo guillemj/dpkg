@@ -121,7 +121,10 @@ sub _gpg_verify {
 
     return OPENPGP_MISSING_CMD if ! $self->has_verify_cmd();
 
-    my $gpg_home = File::Temp->newdir('dpkg-gpg-verify.XXXXXXXX', TMPDIR => 1);
+    my $gpg_home = File::Temp->newdir(
+        TEMPLATE => 'dpkg-gpg-verify.XXXXXXXX',
+        TMPDIR => 1,
+    );
 
     my @exec;
     if ($self->{cmdv}) {
@@ -181,7 +184,10 @@ sub verify {
 sub _gpg_fixup_newline {
     my $origfile = shift;
 
-    my $signdir = File::Temp->newdir('dpkg-sign.XXXXXXXX', TMPDIR => 1);
+    my $signdir = File::Temp->newdir(
+        TEMPLATE => 'dpkg-sign.XXXXXXXX',
+        TMPDIR => 1,
+    );
     my $signfile = $signdir . q(/) . basename($origfile);
 
     copy($origfile, $signfile);
@@ -221,7 +227,10 @@ sub inline_sign {
     if ($key->type eq 'keyfile') {
         # Promote the keyfile keyhandle to a keystore, this way we share the
         # same gpg-agent and can get any password cached.
-        my $gpg_home = File::Temp->newdir('dpkg-sign.XXXXXXXX', TMPDIR => 1);
+        my $gpg_home = File::Temp->newdir(
+            TEMPLATE => 'dpkg-sign.XXXXXXXX',
+            TMPDIR => 1,
+        );
 
         push @exec, '--homedir', $gpg_home;
         $self->_gpg_exec(@exec, qw(--quiet --no-tty --batch --import), $key->handle);
