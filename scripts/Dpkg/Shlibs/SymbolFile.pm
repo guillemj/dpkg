@@ -400,8 +400,14 @@ sub find_matching_pattern {
 	    }
 	}
 	if (defined $pattern) {
-	    return (wantarray) ?
-		( symbol => $pattern, soname => $soname ) : $pattern;
+            if (wantarray) {
+                return (
+                    symbol => $pattern,
+                    soname => $soname,
+                );
+            } else {
+                return $pattern;
+            }
 	}
     }
     return;
@@ -568,8 +574,14 @@ sub lookup_symbol {
 	    my $sym = $obj->{syms}{$name};
 	    if ($sym and ($inc_deprecated or not $sym->{deprecated}))
 	    {
-		return (wantarray) ?
-		    ( symbol => $sym, soname => $so ) : $sym;
+                if (wantarray) {
+                    return (
+                        symbol => $sym,
+                        soname => $so,
+                    );
+                } else {
+                    return $sym;
+                }
 	    }
 	}
     }
@@ -603,8 +615,14 @@ sub lookup_pattern {
 		    }
 		}
 		if ($pat && ($inc_deprecated || !$pat->{deprecated})) {
-		    return (wantarray) ?
-			(symbol => $pat, soname => $soname) : $pat;
+                    if (wantarray) {
+                        return (
+                            symbol => $pat,
+                            soname => $soname,
+                        );
+                    } else {
+                        return $pat;
+                    }
 		}
 	    }
 	}
