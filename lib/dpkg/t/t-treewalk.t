@@ -21,7 +21,6 @@ use version;
 use Test::More tests => 6;
 use Cwd;
 use File::Path qw(make_path remove_tree);
-use File::Temp qw(tempdir);
 use File::Basename;
 use File::Find;
 

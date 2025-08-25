@@ -21,7 +21,6 @@ use version;
 use Test::More;
 use Cwd;
 use File::Path qw(make_path remove_tree);
-use File::Temp qw(tempdir);
 use File::Spec;
 use File::Find;
 use POSIX qw(mkfifo);

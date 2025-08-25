@@ -41,7 +41,6 @@ our @EXPORT_OK = qw(
 
 use Exporter qw(import);
 use Carp;
-use File::Temp;
 use File::Copy qw(cp);
 use File::Basename;
 use File::Spec;
