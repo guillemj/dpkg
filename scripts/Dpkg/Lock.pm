@@ -45,18 +45,24 @@ use Dpkg::ErrorHandling;
 sub file_lock {
     my ($fh, $filename) = @_;
 
-    # A strict dependency on libfile-fcntllock-perl being it an XS module,
-    # and dpkg-dev indirectly making use of it, makes building new perl
-    # package which bump the perl ABI impossible as these packages cannot
-    # be installed alongside.
-    eval q{
-        require File::FcntlLock;
-    };
-    if (not $@) {
-        my $fs = File::FcntlLock->new(l_type => F_WRLCK);
-        $fs->lock($fh, F_SETLKW)
-            or syserr(g_('failed to get a write lock on %s'), $filename);
-        return;
+    # We cannot have a strict dependency on libfile-fcntllock-perl because
+    # it contains an XS module, and dpkg-dev indirectly making use of it,
+    # which makes building new perl package that bump the perl ABI
+    # impossible as these packages cannot then be installed alongside.
+    #
+    # But if the XS module fails to load, because we are in the middle of an
+    # upgrade with an ABI breaking perl transition, fall back to try to use
+    # the pure Perl module, if available.
+    foreach my $module (qw(File::FcntlLock File::FcntlLock::Pure)) {
+        eval qq{
+            require $module;
+        };
+        if (not $@) {
+            my $fs = $module->new(l_type => F_WRLCK);
+            $fs->lock($fh, F_SETLKW)
+                or syserr(g_('failed to get a write lock on %s'), $filename);
+            return;
+        }
     }
 
     # On Linux systems the flock() locks get converted to file-range
