@@ -52,21 +52,23 @@ sub file_lock {
     eval q{
         use File::FcntlLock;
     };
-    if ($@) {
-        # On Linux systems the flock() locks get converted to file-range
-        # locks on NFS mounts.
-        if ($^O ne 'linux') {
-            warning(g_('File::FcntlLock not available; using flock which is not NFS-safe'));
-        }
-        flock($fh, LOCK_EX)
-            or syserr(g_('failed to get a write lock on %s'), $filename);
-    } else {
+    if (not $@) {
         eval q{
             my $fs = File::FcntlLock->new(l_type => F_WRLCK);
             $fs->lock($fh, F_SETLKW)
                 or syserr(g_('failed to get a write lock on %s'), $filename);
-        }
+        };
+        return;
     }
+
+    # On Linux systems the flock() locks get converted to file-range
+    # locks on NFS mounts.
+    if ($^O ne 'linux') {
+        warning(g_('File::FcntlLock not available; using flock which is not NFS-safe'));
+    }
+    flock $fh, LOCK_EX
+        or syserr(g_('failed to get a write lock on %s'), $filename);
+    return;
 }
 
 =head1 CHANGES
