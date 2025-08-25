@@ -34,7 +34,7 @@ use v5.36;
 use Cwd;
 use File::Basename;
 use File::Spec;
-use File::Temp qw(tempfile);
+use File::Temp;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -119,8 +119,11 @@ sub do_build {
 
     info(g_('building %s in %s'), $sourcepackage, $tarname);
 
-    my ($ntfh, $newtar) = tempfile("$tarname.new.XXXXXX",
-                                   DIR => getcwd(), UNLINK => 0);
+    my $newtar = File::Temp->new(
+        TEMPLATE => "$tarname.new.XXXXXX",
+        DIR => getcwd(),
+        UNLINK => 0,
+    );
     push_exit_handler(sub { unlink($newtar) });
 
     my ($dirname, $dirbase) = fileparse($dir);

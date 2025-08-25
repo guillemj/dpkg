@@ -38,7 +38,7 @@ use Cwd;
 use File::Basename;
 use File::Spec;
 use File::Find;
-use File::Temp qw(tempdir);
+use File::Temp;
 
 use Dpkg::Gettext;
 use Dpkg::Compression;
@@ -138,7 +138,11 @@ sub do_build {
 
     chdir $old_cwd or syserr(g_("unable to chdir to '%s'"), $old_cwd);
 
-    my $tmpdir = tempdir("$dirname.bzr.XXXXXX", DIR => $updir);
+    my $tmpdir = File::Temp->newdir(
+        TEMPLATE => "$dirname.bzr.XXXXXX",
+        DIR => $updir,
+        CLEANUP => 0,
+    );
     push_exit_handler(sub { erasedir($tmpdir) });
     my $tardir = "$tmpdir/$dirname";
 

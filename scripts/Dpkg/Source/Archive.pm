@@ -34,7 +34,7 @@ use v5.36;
 
 use Carp;
 use Errno qw(ENOENT);
-use File::Temp qw(tempdir);
+use File::Temp;
 use File::Basename qw(basename);
 use File::Spec;
 use File::Find;
@@ -129,12 +129,14 @@ sub extract {
     my %spawn_opts = (wait_child => 1);
 
     # Prepare destination
-    my $template = basename($self->get_filename()) .  '.tmp-extract.XXXXX';
     unless (-e $dest) {
         # Kludge so that realpath works
         mkdir($dest) or syserr(g_('cannot create directory %s'), $dest);
     }
-    my $tmpdir = tempdir($template, DIR => Cwd::realpath("$dest/.."), CLEANUP => 1);
+    my $tmpdir = File::Temp->newdir(
+        TEMPLATE => basename($self->get_filename()) . '.tmp-extract.XXXXX',
+        DIR => Cwd::realpath("$dest/.."),
+    );
     $spawn_opts{chdir} = $tmpdir;
 
     # Prepare stuff that handles the input of tar

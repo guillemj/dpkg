@@ -35,7 +35,7 @@ use v5.36;
 use List::Util qw(first);
 use Cwd;
 use File::Basename;
-use File::Temp qw(tempfile tempdir);
+use File::Temp;
 use File::Path qw(make_path);
 use File::Spec;
 use File::Find;
@@ -470,7 +470,11 @@ sub _generate_patch {
     }
 
     # Unpack a second copy for comparison
-    my $tmpdir = tempdir("$dirname.orig.XXXXXX", DIR => $updir);
+    my $tmpdir = File::Temp->newdir(
+        TEMPLATE => "$dirname.orig.XXXXXX",
+        DIR => $updir,
+        CLEANUP => 0,
+    );
     push_exit_handler(sub { erasedir($tmpdir) });
 
     # Extract main tarball
@@ -494,8 +498,11 @@ sub _generate_patch {
     $self->apply_patches($tmpdir, skip_auto => $opts{skip_auto}, usage => 'build');
 
     # Create a patch
-    my ($difffh, $tmpdiff) = tempfile($self->get_basename(1) . '.diff.XXXXXX',
-                                      TMPDIR => 1, UNLINK => 0);
+    my $tmpdiff = File::Temp->new(
+        TEMPLATE => $self->get_basename(1) . '.diff.XXXXXX',
+        TMPDIR => 1,
+        UNLINK => 0,
+    );
     push_exit_handler(sub { unlink($tmpdiff) });
     my $diff = Dpkg::Source::Patch->new(filename => $tmpdiff,
                                         compression => 'none');

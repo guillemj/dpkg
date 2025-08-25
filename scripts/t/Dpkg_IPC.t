@@ -17,19 +17,19 @@ use v5.36;
 
 use Test::More tests => 8;
 
-use File::Temp qw(tempfile);
+use File::Temp;
 
 use Dpkg::File;
 
 use_ok('Dpkg::IPC');
 
-my ($tmp1_fh, $tmp1_name) = tempfile(UNLINK => 1);
-my ($tmp2_fh, $tmp2_name) = tempfile(UNLINK => 1);
+my $tmpfile1 = File::Temp->new();
+my $tmpfile2 = File::Temp->new();
 
 my $string1 = "foo\nbar\n";
 my $string2;
 
-file_dump($tmp1_name, $string1);
+file_dump("$tmpfile1", $string1);
 
 my $pid = spawn(exec => 'cat',
 		from_string => \$string1,
@@ -40,25 +40,25 @@ ok($pid, 'execute cat program, I/O to variables');
 is($string2, $string1, '{from,to}_string');
 
 $pid = spawn(exec => 'cat',
-	     from_handle => $tmp1_fh,
-	     to_handle => $tmp2_fh);
+	     from_handle => $tmpfile1,
+	     to_handle => $tmpfile2);
 
 ok($pid, 'execute cat program, I/O to filehandles');
 
 wait_child($pid);
 
-$string2 = file_slurp($tmp2_name);
+$string2 = file_slurp("$tmpfile2");
 
 is($string2, $string1, '{from,to}_handle');
 
 $pid = spawn(exec => 'cat',
-	     from_file => $tmp1_name,
-	     to_file => $tmp2_name,
+	     from_file => $tmpfile1,
+	     to_file => $tmpfile2,
 	     wait_child => 1);
 
 ok($pid, 'execute cat program, I/O to filenames and wait');
 
-$string2 = file_slurp($tmp2_name);
+$string2 = file_slurp("$tmpfile2");
 
 is($string2, $string1, '{from,to}_file');
 

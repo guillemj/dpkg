@@ -35,7 +35,7 @@ use v5.36;
 use Errno qw(ENOENT);
 use Cwd;
 use File::Basename;
-use File::Temp qw(tempfile);
+use File::Temp;
 use File::Spec;
 
 use Dpkg ();
@@ -432,8 +432,11 @@ sub do_build {
 	info(g_('building %s in %s'),
 	     $sourcepackage, $tarname);
 
-	my ($ntfh, $newtar) = tempfile("$tarname.new.XXXXXX",
-				       DIR => getcwd(), UNLINK => 0);
+        my $newtar = File::Temp->new(
+            TEMPLATE => "$tarname.new.XXXXXX",
+            DIR => getcwd(),
+            UNLINK => 0,
+        );
 	my $tar = Dpkg::Source::Archive->new(filename => $newtar,
 		    compression => compression_guess_from_filename($tarname),
 		    compression_level => $self->{options}{comp_level});
@@ -490,8 +493,11 @@ sub do_build {
 	my $diffname = "$basenamerev.diff.gz";
 	info(g_('building %s in %s'),
 	     $sourcepackage, $diffname);
-	my ($ndfh, $newdiffgz) = tempfile("$diffname.new.XXXXXX",
-					DIR => getcwd(), UNLINK => 0);
+        my $newdiffgz = File::Temp->new(
+            TEMPLATE => "$diffname.new.XXXXXX",
+            DIR => getcwd(),
+            UNLINK => 0,
+        );
         push_exit_handler(sub { unlink($newdiffgz) });
         my $diff = Dpkg::Source::Patch->new(filename => $newdiffgz,
                                             compression => 'gzip',

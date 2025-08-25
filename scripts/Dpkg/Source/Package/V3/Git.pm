@@ -35,7 +35,7 @@ use v5.36;
 use Cwd qw(abs_path getcwd);
 use File::Basename;
 use File::Spec;
-use File::Temp qw(tempdir);
+use File::Temp;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -191,7 +191,11 @@ sub do_build {
     my $shallowfile;
     if ($self->{options}{git_depth}) {
         chdir $old_cwd or syserr(g_("unable to chdir to '%s'"), $old_cwd);
-        $tmpdir = tempdir("$dirname.git.XXXXXX", DIR => $updir);
+        $tmpdir = File::Temp->newdir(
+            TEMPLATE => "$dirname.git.XXXXXX",
+            DIR => $updir,
+            CLEANUP => 0,
+        );
         push_exit_handler(sub { erasedir($tmpdir) });
         my $clone_dir = "$tmpdir/repo.git";
         # file:// is needed to avoid local cloning, which does not
