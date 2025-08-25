@@ -779,7 +779,7 @@ sub extract_from_shlibs {
         return $shlibs_cache{$shlibfile}{$soname};
     }
 
-    my $shlibs_re = qr{
+    my $shlibs_regex = qr{
         ^\s*
         (?:(\S+):\s+)?              # Optional type
         (\S+)\s+                    # Library
@@ -807,7 +807,7 @@ sub extract_from_shlibs {
 	s/\s*\n$//;
 	next if m/^\#/;
         ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
-	if (!m/$shlibs_re/) {
+        if (! m/$shlibs_regex/) {
 	    warning(g_("shared libs info file '%s' line %d: bad line '%s'"),
 	            $shlibfile, $., $_);
 	    next;

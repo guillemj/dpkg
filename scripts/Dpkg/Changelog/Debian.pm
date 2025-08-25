@@ -60,7 +60,7 @@ use constant {
     CHANGES_OR_TRAILER => g_('more change data or trailer'),
 };
 
-my $ancient_delimiter_re = qr{
+my $ancient_delimiter_regex = qr{
     ^
     (?: # Ancient GNU style changelog entry with expanded date
       (?:
@@ -180,7 +180,7 @@ sub parse {
 	    next; # skip comments, even that's not supported
 	} elsif (m{^/\*.*\*/}o) {
 	    next; # more comments
-	} elsif (m/$ancient_delimiter_re/) {
+        } elsif (m/$ancient_delimiter_regex/) {
 	    # save entries on old changelog format verbatim
 	    # we assume the rest of the file will be in old format once we
 	    # hit it for the first time

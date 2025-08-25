@@ -166,16 +166,16 @@ parsed dependency.
 sub parse_string {
     my ($self, $dep) = @_;
 
-    my $pkgname_re;
+    my $pkgname_regex;
     if ($self->{tests_dep}) {
-        $pkgname_re = qr/[\@a-zA-Z0-9][\@a-zA-Z0-9+.-]*/;
+        $pkgname_regex = qr/[\@a-zA-Z0-9][\@a-zA-Z0-9+.-]*/;
     } else {
-        $pkgname_re = qr/[a-zA-Z0-9][a-zA-Z0-9+.-]*/;
+        $pkgname_regex = qr/[a-zA-Z0-9][a-zA-Z0-9+.-]*/;
     }
 
     my $dep_regex = qr{
         ^\s*                            # skip leading whitespace
-        ($pkgname_re)                   # package name
+        ($pkgname_regex)                # package name
         (?:                             # start of optional part
             :                           # colon for architecture
             ([a-zA-Z0-9][a-zA-Z0-9-]*)  # architecture name

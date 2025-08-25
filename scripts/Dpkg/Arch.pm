@@ -103,7 +103,7 @@ use Dpkg::BuildEnv;
 
 my (@cpu, @os);
 my (%cputable, %ostable);
-my (%cputable_re, %ostable_re);
+my (%cputable_regex, %ostable_regex);
 my (%cpubits, %cpuendian);
 my %abibits;
 
@@ -283,7 +283,7 @@ sub _load_cputable
     _load_table('cputable', sub {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/) {
 	    $cputable{$1} = $2;
-	    $cputable_re{$1} = $3;
+            $cputable_regex{$1} = $3;
 	    $cpubits{$1} = $4;
 	    $cpuendian{$1} = $5;
 	    push @cpu, $1;
@@ -296,7 +296,7 @@ sub _load_ostable
     _load_table('ostable', sub {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
 	    $ostable{$1} = $2;
-	    $ostable_re{$1} = $3;
+            $ostable_regex{$1} = $3;
 	    push @os, $1;
 	}
     });
@@ -365,14 +365,14 @@ sub gnutriplet_to_debtuple
     my ($os, $cpu);
 
     foreach my $_cpu (@cpu) {
-	if ($gnu_cpu =~ /^$cputable_re{$_cpu}$/) {
+        if ($gnu_cpu =~ /^$cputable_regex{$_cpu}$/) {
 	    $cpu = $_cpu;
 	    last;
 	}
     }
 
     foreach my $_os (@os) {
-	if ($gnu_os =~ /^(.*-)?$ostable_re{$_os}$/) {
+        if ($gnu_os =~ /^(.*-)?$ostable_regex{$_os}$/) {
 	    $os = $_os;
 	    last;
 	}
@@ -619,12 +619,12 @@ otherwise negated architectures are allowed.
 sub debarch_is_illegal
 {
     my ($arch, %opts) = @_;
-    my $arch_re = qr/[a-zA-Z0-9][a-zA-Z0-9-]*/;
+    my $arch_regex = qr/[a-zA-Z0-9][a-zA-Z0-9-]*/;
 
     if ($opts{positive}) {
-        return $arch !~ m/^$arch_re$/;
+        return $arch !~ m/^$arch_regex$/;
     } else {
-        return $arch !~ m/^!?$arch_re$/;
+        return $arch !~ m/^!?$arch_regex$/;
     }
 }
 

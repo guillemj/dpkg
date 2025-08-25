@@ -137,7 +137,7 @@ my %months = (
     Dec => 11,
 );
 
-my $ls_l_re = qr<
+my $ls_l_regex = qr<
     ([^ ]+\ *){5}                       # Perms, Links, User, Group, Size
     [^ ]+                               # Blanks
     \ ([A-Z][a-z]{2})                   # Month name (abbreviated)
@@ -178,7 +178,7 @@ sub do_mdtm {
 #	print "[$#files]";
 
 	# get the date components from the output of 'ls -l'
-	if ($files[0] =~ $ls_l_re) {
+        if ($files[0] =~ $ls_l_regex) {
             my($month_name, $day, $year_or_time, $month, $hours, $minutes,
 	       $year);
 

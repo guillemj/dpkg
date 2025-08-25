@@ -217,26 +217,26 @@ sub parse_objdump_output {
 # (GLIBC_2.2) is the same but the symbol is hidden, a newer version of the
 # symbol exist
 
-my $vis_re = qr/(\.protected|\.hidden|\.internal|0x\S+)/;
-my $dynsym_re = qr<
+my $vis_regex = qr/(\.protected|\.hidden|\.internal|0x\S+)/;
+my $dynsym_regex = qr<
     ^
     [0-9a-f]+                   # Symbol size
     \ (.{7})                    # Flags
     \s+(\S+)                    # Section name
     \s+[0-9a-f]+                # Alignment
     (?:\s+(\S+))?               # Version string
-    (?:\s+$vis_re)?             # Visibility
+    (?:\s+$vis_regex)?          # Visibility
     \s+(.+)                     # Symbol name
 >x;
 
 sub parse_dynamic_symbol {
     my ($self, $line) = @_;
-    if ($line =~ $dynsym_re) {
+    if ($line =~ $dynsym_regex) {
 	my ($flags, $sect, $ver, $vis, $name) = ($1, $2, $3, $4, $5);
 
 	# Special case if version is missing but extra visibility
 	# attribute replaces it in the match
-	if (defined($ver) and $ver =~ /^$vis_re$/) {
+        if (defined($ver) and $ver =~ /^$vis_regex$/) {
 	    $vis = $ver;
 	    $ver = '';
 	}

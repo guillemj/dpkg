@@ -125,7 +125,7 @@ if (defined($options{opmode}) &&
     # instead
     # --unapply-patches is only allowed in local-options as it's a matter
     # of personal taste and the default should be to keep patches applied
-    my $forbidden_opts_re = {
+    my $forbidden_opts_regex = {
 	'options' => qr/^--(?:format=|unapply-patches$|abort-on-upstream-changes$)/,
 	'local-options' => qr/^--format=/,
     };
@@ -134,7 +134,7 @@ if (defined($options{opmode}) &&
 	my $optfile = File::Spec->catfile($dir, 'debian', 'source', $filename);
 	next unless -f $optfile;
 	$conf->load($optfile);
-	$conf->filter(remove => sub { $_[0] =~ $forbidden_opts_re->{$filename} });
+        $conf->filter(remove => sub { $_[0] =~ $forbidden_opts_regex->{$filename} });
 	if (@$conf) {
 	    info(g_('using options from %s: %s'), $optfile, join(' ', @$conf))
 		unless $options{opmode} eq 'print-format';
