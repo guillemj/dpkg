@@ -470,28 +470,28 @@ sub _generate_patch {
     }
 
     # Unpack a second copy for comparison
-    my $tmp = tempdir("$dirname.orig.XXXXXX", DIR => $updir);
-    push_exit_handler(sub { erasedir($tmp) });
+    my $tmpdir = tempdir("$dirname.orig.XXXXXX", DIR => $updir);
+    push_exit_handler(sub { erasedir($tmpdir) });
 
     # Extract main tarball
     my $tar = Dpkg::Source::Archive->new(filename => $tarfile);
-    $tar->extract($tmp);
+    $tar->extract($tmpdir);
 
     # Extract additional orig tarballs
     foreach my $subdir (keys %addonfile) {
         my $file = $addonfile{$subdir};
         $tar = Dpkg::Source::Archive->new(filename => $file);
-        $tar->extract("$tmp/$subdir");
+        $tar->extract("$tmpdir/$subdir");
     }
 
     # Copy over the debian directory
-    erasedir("$tmp/debian");
-    system('cp', '-RPp', '--', "$dir/debian", "$tmp/");
+    erasedir("$tmpdir/debian");
+    system('cp', '-RPp', '--', "$dir/debian", "$tmpdir/");
     subprocerr(g_('copy of the debian directory')) if $?;
 
     # Apply all patches except the last automatic one
     $opts{skip_auto} //= 0;
-    $self->apply_patches($tmp, skip_auto => $opts{skip_auto}, usage => 'build');
+    $self->apply_patches($tmpdir, skip_auto => $opts{skip_auto}, usage => 'build');
 
     # Create a patch
     my ($difffh, $tmpdiff) = tempfile($self->get_basename(1) . '.diff.XXXXXX',
@@ -510,7 +510,7 @@ sub _generate_patch {
             return $self->_get_patch_header($dir);
         }
     });
-    $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
+    $diff->add_diff_directory($tmpdir, $dir, basedirname => $basedirname,
             %{$self->{diff_options}},
             handle_binary_func => $opts{handle_binary},
             order_from => $opts{order_from});
@@ -525,7 +525,7 @@ sub _generate_patch {
     }
 
     # Remove the temporary directory
-    erasedir($tmp);
+    erasedir($tmpdir);
     pop_exit_handler();
     pop_exit_handler();
 

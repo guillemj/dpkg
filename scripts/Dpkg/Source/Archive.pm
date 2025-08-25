@@ -134,8 +134,8 @@ sub extract {
         # Kludge so that realpath works
         mkdir($dest) or syserr(g_('cannot create directory %s'), $dest);
     }
-    my $tmp = tempdir($template, DIR => Cwd::realpath("$dest/.."), CLEANUP => 1);
-    $spawn_opts{chdir} = $tmp;
+    my $tmpdir = tempdir($template, DIR => Cwd::realpath("$dest/.."), CLEANUP => 1);
+    $spawn_opts{chdir} = $tmpdir;
 
     # Prepare stuff that handles the input of tar
     $self->ensure_open('r', delete_sig => [ 'PIPE' ]);
@@ -158,7 +158,7 @@ sub extract {
     # extracted); we need --no-same-owner because putting the owner
     # back is tedious - in particular, correct group ownership would
     # have to be calculated using mount options and other madness.
-    fixperms($tmp) unless $opts{no_fixperms};
+    fixperms($tmpdir) unless $opts{no_fixperms};
 
     # If we are extracting "in-place" do not remove the destination directory.
     if ($opts{in_place}) {
@@ -181,7 +181,7 @@ sub extract {
         };
 
         my $move_in_place = sub {
-            my $relpath = File::Spec->abs2rel($File::Find::name, $tmp);
+            my $relpath = File::Spec->abs2rel($File::Find::name, $tmpdir);
             my $destpath = File::Spec->catfile($dest, $relpath);
 
             my ($mode, $atime, $mtime);
@@ -231,25 +231,26 @@ sub extract {
             wanted => $move_in_place,
             no_chdir => 1,
             dangling_symlinks => 0,
-        }, $tmp);
+        }, $tmpdir);
     } else {
         # Rename extracted directory
-        opendir(my $dir_dh, $tmp) or syserr(g_('cannot opendir %s'), $tmp);
+        opendir my $dir_dh, $tmpdir
+            or syserr(g_('cannot opendir %s'), $tmpdir);
         my @entries = grep { $_ ne '.' && $_ ne '..' } readdir($dir_dh);
         closedir($dir_dh);
 
         erasedir($dest);
 
-        if (scalar(@entries) == 1 && ! -l "$tmp/$entries[0]" && -d _) {
-            rename("$tmp/$entries[0]", $dest)
+        if (scalar(@entries) == 1 && ! -l "$tmpdir/$entries[0]" && -d _) {
+            rename "$tmpdir/$entries[0]", $dest
                 or syserr(g_('unable to rename %s to %s'),
-                          "$tmp/$entries[0]", $dest);
+                          "$tmpdir/$entries[0]", $dest);
         } else {
-            rename($tmp, $dest)
-                or syserr(g_('unable to rename %s to %s'), $tmp, $dest);
+            rename $tmpdir, $dest
+                or syserr(g_('unable to rename %s to %s'), $tmpdir, $dest);
         }
     }
-    erasedir($tmp);
+    erasedir($tmpdir);
 }
 
 =head1 CHANGES

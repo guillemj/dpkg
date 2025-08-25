@@ -138,9 +138,9 @@ sub do_build {
 
     chdir $old_cwd or syserr(g_("unable to chdir to '%s'"), $old_cwd);
 
-    my $tmp = tempdir("$dirname.bzr.XXXXXX", DIR => $updir);
-    push_exit_handler(sub { erasedir($tmp) });
-    my $tardir = "$tmp/$dirname";
+    my $tmpdir = tempdir("$dirname.bzr.XXXXXX", DIR => $updir);
+    push_exit_handler(sub { erasedir($tmpdir) });
+    my $tardir = "$tmpdir/$dirname";
 
     system('bzr', 'branch', $dir, $tardir);
     subprocerr("bzr branch $dir $tardir") if $?;
@@ -160,11 +160,11 @@ sub do_build {
     my $tar = Dpkg::Source::Archive->new(filename => $debianfile,
                                          compression => $self->{options}{compression},
                                          compression_level => $self->{options}{comp_level});
-    $tar->create(chdir => $tmp);
+    $tar->create(chdir => $tmpdir);
     $tar->add_directory($dirname);
     $tar->finish();
 
-    erasedir($tmp);
+    erasedir($tmpdir);
     pop_exit_handler();
 
     $self->add_file($debianfile);

@@ -187,13 +187,13 @@ sub do_build {
 
     # If a depth was specified, need to create a shallow clone and
     # bundle that.
-    my $tmp;
+    my $tmpdir;
     my $shallowfile;
     if ($self->{options}{git_depth}) {
         chdir $old_cwd or syserr(g_("unable to chdir to '%s'"), $old_cwd);
-        $tmp = tempdir("$dirname.git.XXXXXX", DIR => $updir);
-        push_exit_handler(sub { erasedir($tmp) });
-        my $clone_dir = "$tmp/repo.git";
+        $tmpdir = tempdir("$dirname.git.XXXXXX", DIR => $updir);
+        push_exit_handler(sub { erasedir($tmpdir) });
+        my $clone_dir = "$tmpdir/repo.git";
         # file:// is needed to avoid local cloning, which does not
         # create a shallow clone.
         info(g_('creating shallow clone with depth %s'),
@@ -222,8 +222,8 @@ sub do_build {
 
     chdir $old_cwd or syserr(g_("unable to chdir to '%s'"), $old_cwd);
 
-    if (defined $tmp) {
-        erasedir($tmp);
+    if (defined $tmpdir) {
+        erasedir($tmpdir);
         pop_exit_handler();
     }
 
