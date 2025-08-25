@@ -11,10 +11,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.22.16~\n"
+"Project-Id-Version: dpkg 1.23.0~\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-05-19 00:00+0200\n"
-"PO-Revision-Date: 2025-02-20 17:56+0100\n"
+"POT-Creation-Date: 2025-08-25 18:03+0200\n"
+"PO-Revision-Date: 2025-08-25 18:25+0200\n"
 "Last-Translator: Sven Joachim <svenjoac@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -1649,8 +1649,8 @@ msgstr "fork fehlgeschlagen"
 
 #: lib/dpkg/subproc.c
 #, c-format
-msgid "%s subprocess returned error exit status %d"
-msgstr "»%s«-Unterprozess gab den Fehlerwert %d zurück"
+msgid "%s subprocess failed with exit status %d"
+msgstr "»%s«-Unterprozess mit Exit-Status %d fehlgeschlagen"
 
 #: lib/dpkg/subproc.c
 #, c-format
@@ -2657,6 +2657,11 @@ msgstr ""
 "--%s unterstützt (noch) nicht das Lesen der .deb-Datei von der "
 "Standardeingabe "
 
+#: src/deb/info.c src/statoverride/main.c src/main/archives.c
+#, c-format
+msgid "error setting permissions of '%.255s'"
+msgstr "Fehler beim Setzen der Zugriffsrechte von »%.255s«"
+
 #: src/deb/info.c src/main/unpack.c
 msgid "unable to create temporary directory"
 msgstr "Anlegen des temporären Verzeichnisses fehlgeschlagen"
@@ -3542,10 +3547,10 @@ msgstr ""
 #: src/divert/main.c
 msgid ""
 "please specify --no-rename explicitly, the default will change to --rename "
-"in 1.20.x"
+"not before 1.23.x"
 msgstr ""
-"Bitte geben Sie »--no-rename« explizit an, die Vorgabe wird in 1.20.x\n"
-"auf »--rename« geändert werden"
+"Bitte geben Sie »--no-rename« explizit an, die Vorgabe wird auf »--rename«\n"
+"nicht bevor 1.23.x geändert werden"
 
 #: src/divert/main.c utils/update-alternatives.c
 #, c-format
@@ -3796,11 +3801,6 @@ msgstr "Gruppe »%s« existiert nicht"
 #, c-format
 msgid "error setting ownership of '%.255s'"
 msgstr "Fehler beim Setzen des Eigentümers von »%.255s«"
-
-#: src/statoverride/main.c src/main/archives.c
-#, c-format
-msgid "error setting permissions of '%.255s'"
-msgstr "Fehler beim Setzen der Zugriffsrechte von »%.255s«"
 
 #: src/statoverride/main.c
 #, c-format
@@ -5426,7 +5426,6 @@ msgid ""
 "  --update-avail [<Packages-file>] Replace available packages info.\n"
 "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
 "  --clear-avail                    Erase existing available info.\n"
-"  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
 "  -s|--status [<package>...]       Display package status details.\n"
 "  -p|--print-avail [<package>...]  Display available version details.\n"
 "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
@@ -5467,8 +5466,6 @@ msgstr ""
 "  --merge-avail [<Packages-Datei>] Listen mit Info aus Datei "
 "zusammenführen.\n"
 "  --clear-avail                    Verfügbarkeits-Informationen löschen.\n"
-"  --forget-old-unavail             Nicht verfügbare uninst. Pakete "
-"vergessen.\n"
 "  -s|--status [<Paket>...]         Details zum Paketstatus anzeigen.\n"
 "  -p|--print-avail [<Paket>...]    Details zur verfügbaren Version "
 "anzeigen.\n"
@@ -6082,8 +6079,8 @@ msgstr ""
 
 #: src/main/script.c
 #, c-format
-msgid "installed %s package %s script"
-msgstr "installiertes %2$s-Skript des Paketes %1$s"
+msgid "old %s package %s maintainer script"
+msgstr "altes %2$s-Betreuerskript des Paketes %1$s"
 
 #: src/main/script.c
 #, c-format
@@ -6092,13 +6089,8 @@ msgstr "%s »%.250s« kann nicht mit stat abgefragt werden"
 
 #: src/main/script.c
 #, c-format
-msgid "new %s package %s script"
-msgstr "neues %2$s-Skript des Paketes %1$s"
-
-#: src/main/script.c
-#, c-format
-msgid "old %s package %s script"
-msgstr "altes %2$s-Skript des Paketes %1$s"
+msgid "new %s package %s maintainer script"
+msgstr "neues %2$s-Betreuerskript des Paketes %1$s"
 
 #: src/main/script.c
 #, c-format
@@ -6106,12 +6098,14 @@ msgid "unable to stat %s '%.250s': %s"
 msgstr "%s »%.250s« kann nicht mit stat abgefragt werden: %s"
 
 #: src/main/script.c
-msgid "trying script from the new package instead ..."
-msgstr "stattdessen wird Skript aus dem neuen Paket probiert ..."
+#, c-format
+msgid "trying %s maintainer script from the new %s package instead ..."
+msgstr "stattdessen wird %s-Betreuerskript aus dem neuen Paket %s probiert ..."
 
 #: src/main/script.c
-msgid "there is no script in the new version of the package - giving up"
-msgstr "Es gibt kein Skript in der neuen Version des Paketes - Abbruch"
+#, c-format
+msgid "missing %s maintainer script in new %s package, giving up"
+msgstr "Fehlendes %s-Betreuerskript Skript im neuen Paket %s, Abbruch"
 
 #: src/main/script.c
 msgid "... it looks like that went OK"
@@ -6222,6 +6216,9 @@ msgstr ""
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "Trigger für %s (%s) werden verarbeitet ...\n"
 
+#. TRANSLATORS: This string represents a summarized pathname, were prefix
+#. * directories get abbreviated with ".../", if the total length exceeds
+#. * a limit. The three dots would usually be represented by «…/».
 #: src/main/unpack.c
 #, c-format
 msgid ".../%s"
@@ -7203,6 +7200,14 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "Authentifizierung ist erforderlich, um update-alternatives auszuführen"
+
+#, c-format
+#~ msgid "%s subprocess returned error exit status %d"
+#~ msgstr "»%s«-Unterprozess gab den Fehlerwert %d zurück"
+
+#, c-format
+#~ msgid "installed %s package %s script"
+#~ msgstr "installiertes %2$s-Skript des Paketes %1$s"
 
 #, c-format
 #~ msgid "open component '%.255s' (in %.255s) failed in an unexpected way"
