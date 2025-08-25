@@ -283,7 +283,9 @@ var1=Some value
 var2=Some other value
 VARS
 $sf = Dpkg::Substvars->new("$datadir/substvars2");
-$sf->filter(remove => sub { $_[0] =~ m/^prefix:/ });
+$sf->filter(
+    remove => sub { $_[0] =~ m/^prefix:/ },
+);
 is($sf->output(), $expected, 'Filter remove variables');
 
 $expected = <<'VARS';
@@ -293,13 +295,17 @@ var1=Some value
 var2=Some other value
 VARS
 $sf = Dpkg::Substvars->new("$datadir/substvars2");
-$sf->filter(keep => sub { $_[0] =~ m/var/ });
+$sf->filter(
+    keep => sub { $_[0] =~ m/var/ },
+);
 is($sf->output(), $expected, 'Filter keep variables');
 
 $expected = <<'VARS';
 prefix:name6=Bar
 VARS
 $sf = Dpkg::Substvars->new("$datadir/substvars2");
-$sf->filter(remove => sub { $_[0] =~ m/var/ },
-            keep => sub { $_[0] =~ m/^prefix:/ });
+$sf->filter(
+    remove => sub { $_[0] =~ m/var/ },
+    keep => sub { $_[0] =~ m/^prefix:/ },
+);
 is($sf->output(), $expected, 'Filter keep and remove variables');

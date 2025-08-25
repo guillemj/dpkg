@@ -31,17 +31,21 @@ my $string2;
 
 file_dump("$tmpfile1", $string1);
 
-my $pid = spawn(exec => 'cat',
-		from_string => \$string1,
-		to_string => \$string2);
+my $pid = spawn(
+    exec => 'cat',
+    from_string => \$string1,
+    to_string => \$string2,
+);
 
 ok($pid, 'execute cat program, I/O to variables');
 
 is($string2, $string1, '{from,to}_string');
 
-$pid = spawn(exec => 'cat',
-	     from_handle => $tmpfile1,
-	     to_handle => $tmpfile2);
+$pid = spawn(
+    exec => 'cat',
+    from_handle => $tmpfile1,
+    to_handle => $tmpfile2,
+);
 
 ok($pid, 'execute cat program, I/O to filehandles');
 
@@ -51,10 +55,12 @@ $string2 = file_slurp("$tmpfile2");
 
 is($string2, $string1, '{from,to}_handle');
 
-$pid = spawn(exec => 'cat',
-	     from_file => $tmpfile1,
-	     to_file => $tmpfile2,
-	     wait_child => 1);
+$pid = spawn(
+    exec => 'cat',
+    from_file => $tmpfile1,
+    to_file => $tmpfile2,
+    wait_child => 1,
+);
 
 ok($pid, 'execute cat program, I/O to filenames and wait');
 
@@ -63,8 +69,10 @@ $string2 = file_slurp("$tmpfile2");
 is($string2, $string1, '{from,to}_file');
 
 eval {
-    $pid = spawn(exec => ['sleep', '10'],
-	         wait_child => 1,
-	         timeout => 1);
+    $pid = spawn(
+        exec => [ 'sleep', '10' ],
+        wait_child => 1,
+        timeout => 1,
+    );
 };
 ok($@, 'fails on timeout');

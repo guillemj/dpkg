@@ -97,8 +97,14 @@ sub _gpg_exec
     my ($self, @exec) = @_;
 
     my ($stdout, $stderr);
-    spawn(exec => \@exec, wait_child => 1, no_check => 1, timeout => 10,
-          to_string => \$stdout, error_to_string => \$stderr);
+    spawn(
+        exec => \@exec,
+        wait_child => 1,
+        no_check => 1,
+        timeout => 10,
+        to_string => \$stdout,
+        error_to_string => \$stderr,
+    );
     if (WIFEXITED($?)) {
         my $status = WEXITSTATUS($?);
         print { *STDERR } "$stdout$stderr" if $status;
@@ -139,7 +145,10 @@ sub _gpg_verify {
     push @exec, _gpg_options_weak_digests();
     push @exec, '--homedir', $gpg_home;
     foreach my $cert (@certs) {
-        my $certring = File::Temp->new(UNLINK => 1, SUFFIX => '.pgp');
+        my $certring = File::Temp->new(
+            UNLINK => 1,
+            SUFFIX => '.pgp',
+        );
         my $rc;
         if ($cert =~ m{\.kbx$}) {
             # Accept GnuPG apparent keybox-format keyrings as-is.

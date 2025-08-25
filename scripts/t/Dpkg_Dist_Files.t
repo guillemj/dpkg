@@ -189,7 +189,9 @@ FILES
 
 $dist->reset();
 $dist->load("$datadir/files-byhand") or error('cannot parse file');
-$dist->filter(remove => sub { $_[0]->{priority} eq 'optional' });
+$dist->filter(
+    remove => sub { $_[0]->{priority} eq 'optional' },
+);
 is($dist->output(), $expected, 'Filter remove priority optional');
 
 $expected = <<'FILES';
@@ -199,7 +201,9 @@ FILES
 
 $dist->reset();
 $dist->load("$datadir/files-byhand") or error('cannot parse file');
-$dist->filter(keep => sub { $_[0]->{priority} eq 'optional' });
+$dist->filter(
+    keep => sub { $_[0]->{priority} eq 'optional' },
+);
 is($dist->output(), $expected, 'Filter keep priority optional');
 
 $expected = <<'FILES';
@@ -208,6 +212,8 @@ FILES
 
 $dist->reset();
 $dist->load("$datadir/files-byhand") or error('cannot parse file');
-$dist->filter(remove => sub { $_[0]->{section} eq 'text' },
-              keep => sub { $_[0]->{priority} eq 'optional' });
+$dist->filter(
+    remove => sub { $_[0]->{section} eq 'text' },
+    keep => sub { $_[0]->{priority} eq 'optional' },
+);
 is($dist->output(), $expected, 'Filter remove section text, keep priority optional');

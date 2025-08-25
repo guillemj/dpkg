@@ -63,9 +63,14 @@ sub _sq_exec
     my ($self, $cmd, @exec) = @_;
 
     my ($stdout, $stderr);
-    spawn(exec => [ $cmd, @exec ],
-          wait_child => 1, no_check => 1, timeout => 10,
-          to_string => \$stdout, error_to_string => \$stderr);
+    spawn(
+        exec => [ $cmd, @exec ],
+        wait_child => 1,
+        no_check => 1,
+        timeout => 10,
+        to_string => \$stdout,
+        error_to_string => \$stderr,
+    );
     if (WIFEXITED($?)) {
         my $status = WEXITSTATUS($?);
         print { *STDERR } "$stdout$stderr" if $status;

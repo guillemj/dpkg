@@ -809,7 +809,10 @@ if ($signsource) {
     $buildinfo->load($buildinfo_file);
     my $checksums = Dpkg::Checksums->new();
     $checksums->add_from_control($buildinfo);
-    $checksums->add_from_file("../$pv.dsc", update => 1, key => "$pv.dsc");
+    $checksums->add_from_file("../$pv.dsc",
+        update => 1,
+        key => "$pv.dsc",
+    );
     $checksums->export_to_control($buildinfo);
     $buildinfo->save($buildinfo_file);
 }

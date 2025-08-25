@@ -210,7 +210,10 @@ foreach my $libdir (@priv_lib_dirs) {
 
 my $fields = $control->get_source();
 my $bd_value = deps_concat($fields->{'Build-Depends'}, $fields->{'Build-Depends-Arch'});
-my $build_deps = deps_parse($bd_value, build_dep => 1, reduce_restrictions => 1);
+my $build_deps = deps_parse($bd_value,
+    build_dep => 1,
+    reduce_restrictions => 1,
+);
 error(g_('cannot parse %s field'), 'Build-Depends/Build-Depends-Arch')
     unless defined $build_deps;
 
@@ -321,7 +324,9 @@ foreach my $file (keys %exec) {
                     # Load symbol information
                     debug(1, "Using symbols file $symfile_path for $soname");
                     $symfile_cache{$symfile_path} //=
-                        Dpkg::Shlibs::SymbolFile->new(file => $symfile_path);
+                        Dpkg::Shlibs::SymbolFile->new(
+                            file => $symfile_path,
+                        );
                     $symfile->merge_object_from_symfile($symfile_cache{$symfile_path}, $soname);
                 }
                 if (defined($symfile_path) && $symfile->has_object($soname)) {
@@ -555,7 +560,9 @@ if ($stdout) {
     $varlistfilenew = '-';
 } else {
     $substvars->load($varlistfile) if -e $varlistfile;
-    $substvars->filter(remove => sub { $_[0] =~ m/^\Q$varnameprefix\E:/ });
+    $substvars->filter(
+        remove => sub { $_[0] =~ m/^\Q$varnameprefix\E:/ },
+    );
 
     $varlistfilenew = "$varlistfile.new";
 }
@@ -994,7 +1001,10 @@ sub find_packages {
 	}
     }
     close($dpkg_fh);
-    wait_child($pid, no_check => 1, cmdline => 'dpkg-query --search');
+    wait_child($pid,
+        no_check => 1,
+        cmdline => 'dpkg-query --search',
+    );
 
     return $pkgmatch;
 }

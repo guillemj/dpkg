@@ -285,7 +285,11 @@ sub get_control_path {
     my $control_file;
     my @exec = ('dpkg-query', '--control-path', $pkg);
     push @exec, $filetype if defined $filetype;
-    spawn(exec => \@exec, wait_child => 1, to_string => \$control_file);
+    spawn(
+        exec => \@exec,
+        wait_child => 1,
+        to_string => \$control_file,
+    );
     chomp($control_file);
     if (defined $filetype) {
 	return if $control_file eq '';

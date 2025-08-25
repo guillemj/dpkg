@@ -27,11 +27,15 @@ my @expect_argv;
 @expect_argv = qw(-a -b foo -c var);
 is_deeply(\@ARGV, \@expect_argv, 'unbundle short options');
 
-@ARGV = normalize_options(args => [ qw(--option-a --option-b value --option-c=value) ]);
+@ARGV = normalize_options(
+    args => [ qw(--option-a --option-b value --option-c=value) ],
+);
 @expect_argv = qw(--option-a --option-b value --option-c value);
 is_deeply(\@ARGV, \@expect_argv, 'unbundle long options');
 
-@ARGV = normalize_options(args => [ qw(-aaa -bbb --option-a=oa -- --opt=arg -dval) ],
-                          delim => '--');
+@ARGV = normalize_options(
+    args => [ qw(-aaa -bbb --option-a=oa -- --opt=arg -dval) ],
+    delim => '--',
+);
 @expect_argv = qw(-a aa -b bb --option-a oa -- --opt=arg -dval);
 is_deeply(\@ARGV, \@expect_argv, 'unbundle options with delimiter');

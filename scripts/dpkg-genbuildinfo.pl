@@ -150,9 +150,11 @@ sub append_deps {
     foreach my $dep_str (@deps) {
         next unless $dep_str;
 
-        my $deps = deps_parse($dep_str, reduce_restrictions => 1,
-                              build_dep => 1,
-                              build_profiles => \@build_profiles);
+        my $deps = deps_parse($dep_str,
+            reduce_restrictions => 1,
+            build_dep => 1,
+            build_profiles => \@build_profiles,
+        );
 
         # We add every sub-dependencies as we cannot know which package in
         # an OR dependency has been effectively used.

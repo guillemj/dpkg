@@ -181,12 +181,25 @@ sub push {
 
     info(g_('applying %s'), $patch) if $opts{verbose};
     eval {
-        $obj->apply($self->{dir}, timestamp => $opts{timestamp},
-                    verbose => $opts{verbose},
-                    force_timestamp => 1, create_dirs => 1, remove_backup => 0,
-                    options => [ '-t', '-F', '0', '-N', '-p1', '-u',
-                                 '-V', 'never', '-E', '-b',
-                                 '-B', ".pc/$patch/", '--reject-file=-' ]);
+        $obj->apply($self->{dir},
+            verbose => $opts{verbose},
+            timestamp => $opts{timestamp},
+            force_timestamp => 1,
+            create_dirs => 1,
+            remove_backup => 0,
+            options => [
+                '-t',
+                '-F', '0',
+                '-N',
+                '-p1',
+                '-u',
+                '-V', 'never',
+                '-E',
+                '-b',
+                '-B', ".pc/$patch/",
+                '--reject-file=-',
+            ],
+        );
     };
     if ($@) {
         info(g_('the patch has fuzz which is not allowed, or is malformed'));
@@ -221,11 +234,22 @@ sub pop {
         my $path = $self->get_patch_file($patch);
         my $obj = Dpkg::Source::Patch->new(filename => $path);
 
-        $obj->apply($self->{dir}, timestamp => $opts{timestamp},
-                    verbose => 0, force_timestamp => 1, remove_backup => 0,
-                    options => [ '-R', '-t', '-N', '-p1',
-                                 '-u', '-V', 'never', '-E',
-                                 '--no-backup-if-mismatch' ]);
+        $obj->apply($self->{dir},
+            verbose => 0,
+            timestamp => $opts{timestamp},
+            force_timestamp => 1,
+            remove_backup => 0,
+            options => [
+                '-R',
+                '-t',
+                '-N',
+                '-p1',
+                '-u',
+                '-V', 'never',
+                '-E',
+                '--no-backup-if-mismatch',
+            ],
+        );
     }
 
     erasedir($backup_dir);

@@ -134,7 +134,9 @@ if (defined($options{opmode}) &&
 	my $optfile = File::Spec->catfile($dir, 'debian', 'source', $filename);
 	next unless -f $optfile;
 	$conf->load($optfile);
-        $conf->filter(remove => sub { $_[0] =~ $forbidden_opts_regex->{$filename} });
+        $conf->filter(
+            remove => sub { $_[0] =~ $forbidden_opts_regex->{$filename} },
+        );
 	if (@$conf) {
 	    info(g_('using options from %s: %s'), $optfile, join(' ', @$conf))
 		unless $options{opmode} eq 'print-format';
@@ -257,8 +259,10 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
         }
     }
 
-    my $srcpkg = Dpkg::Source::Package->new(format => $build_format,
-                                            options => \%options);
+    my $srcpkg = Dpkg::Source::Package->new(
+        format => $build_format,
+        options => \%options,
+    );
     my $fields = $srcpkg->{fields};
 
     $srcpkg->parse_cmdline_options(@cmdline_options);
@@ -283,7 +287,10 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
         } elsif (any { $f eq $_ } field_list_src_dep()) {
 	    my $dep;
             my $type = field_get_dep_type($f);
-	    $dep = deps_parse($v, build_dep => 1, union => $type eq 'union');
+            $dep = deps_parse($v,
+                build_dep => 1,
+                union => $type eq 'union',
+            );
             error(g_('cannot parse %s field'), $f) unless defined $dep;
 	    my $facts = Dpkg::Deps::KnownFacts->new();
 	    $dep->simplify_deps($facts);
@@ -449,10 +456,12 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     # Write the .dsc
     my $dscname = $srcpkg->get_basename(1) . '.dsc';
     info(g_('building %s in %s'), get_source_name(), $dscname);
-    $srcpkg->write_dsc(filename => $dscname,
-		       remove => \%remove,
-		       override => \%override,
-		       substvars => $substvars);
+    $srcpkg->write_dsc(
+        filename => $dscname,
+        remove => \%remove,
+        override => \%override,
+        substvars => $substvars,
+    );
     exit(0);
 } elsif ($options{opmode} eq 'extract') {
     # Check command line
@@ -470,8 +479,10 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     }
 
     # Create the object that does everything
-    my $srcpkg = Dpkg::Source::Package->new(filename => $dsc,
-					    options => \%options);
+    my $srcpkg = Dpkg::Source::Package->new(
+        filename => $dsc,
+        options => \%options,
+    );
 
     # Parse command line options
     $srcpkg->parse_cmdline_options(@cmdline_options);
@@ -543,7 +554,10 @@ sub set_testsuite_triggers_field
 
         next unless $test->{Depends};
 
-        my $deps = deps_parse($test->{Depends}, use_arch => 0, tests_dep => 1);
+        my $deps = deps_parse($test->{Depends},
+            use_arch => 0,
+            tests_dep => 1,
+        );
         deps_iterate($deps, sub { $testdeps{$_[0]->{package}} = 1 });
     }
 

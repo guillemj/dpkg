@@ -89,7 +89,9 @@ Options:
 sub load_override
 {
     my $override = shift;
-    my $comp_file = Dpkg::Compression::FileHandle->new(filename => $override);
+    my $comp_file = Dpkg::Compression::FileHandle->new(
+        filename => $override,
+    );
 
     while (<$comp_file>) {
 	s/\#.*//;
@@ -135,7 +137,9 @@ sub load_override
 sub load_override_extra
 {
     my $extra_override = shift;
-    my $comp_file = Dpkg::Compression::FileHandle->new(filename => $extra_override);
+    my $comp_file = Dpkg::Compression::FileHandle->new(
+        filename => $extra_override,
+    );
 
     while (<$comp_file>) {
 	s/\#.*//;

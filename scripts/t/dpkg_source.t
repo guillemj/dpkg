@@ -148,9 +148,12 @@ sub test_build_source
     my ($name) = shift;
     my $stderr;
 
-    spawn(exec => [ $ENV{PERL}, "$srcdir/dpkg-source.pl", '--build', $name ],
-          error_to_string => \$stderr,
-          wait_child => 1, no_check => 1);
+    spawn(
+        exec => [ $ENV{PERL}, "$srcdir/dpkg-source.pl", '--build', $name ],
+        error_to_string => \$stderr,
+        wait_child => 1,
+        no_check => 1,
+    );
 
     ok($? == 0, 'dpkg-source --build succeeded');
     diag($stderr) unless $? == 0;
@@ -162,22 +165,30 @@ sub test_build_source
 
 my $dirname;
 
-$dirname = gen_source('source-name' => 'testsuite',
-                      'source-version' => 0,
-                      'control-test' => '');
+$dirname = gen_source(
+    'source-name' => 'testsuite',
+    'source-version' => 0,
+    'control-test' => '',
+);
 test_build_source($dirname);
 
-$dirname = gen_source('source-name' => 'testsuite',
-                      'source-version' => 1,
-                      'control-test' => '');
+$dirname = gen_source(
+    'source-name' => 'testsuite',
+    'source-version' => 1,
+    'control-test' => '',
+);
 test_build_source($dirname);
 
-$dirname = gen_source('source-name' => 'testsuite',
-                      'source-version' => 2,
-                      'source-testsuite' => 'smokepkgtest, unitpkgtest, funcpkgtest',
-                      'control-test' => $tmpl_control_tests);
+$dirname = gen_source(
+    'source-name' => 'testsuite',
+    'source-version' => 2,
+    'source-testsuite' => 'smokepkgtest, unitpkgtest, funcpkgtest',
+    'control-test' => $tmpl_control_tests,
+);
 test_build_source($dirname);
 
-$dirname = gen_source('source-name' => 'testsuite',
-                      'source-version' => 3);
+$dirname = gen_source(
+    'source-name' => 'testsuite',
+    'source-version' => 3,
+);
 test_build_source($dirname);

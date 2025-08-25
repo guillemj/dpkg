@@ -235,8 +235,15 @@ sub do_extract {
         filename => File::Spec->catfile($self->{basedir}, $tarfile),
     );
     $tar->extract($newdirectory,
-                  options => [ '--anchored', '--no-wildcards-match-slash',
-                               '--exclude', '*/.pc', '--exclude', '.pc' ]);
+        options => [
+            '--anchored',
+            '--no-wildcards-match-slash',
+            '--exclude',
+            '*/.pc',
+            '--exclude',
+            '.pc',
+        ],
+    );
     # The .pc exclusion is only needed for 3.0 (quilt) and to avoid
     # having an upstream tarball provide a directory with symlinks
     # that would be blindly followed when applying the patches
@@ -269,7 +276,9 @@ sub do_extract {
     $tar = Dpkg::Source::Archive->new(
         filename => File::Spec->catfile($self->{basedir}, $debianfile),
     );
-    $tar->extract($newdirectory, in_place => 1);
+    $tar->extract($newdirectory,
+        in_place => 1,
+    );
 
     # Apply patches (in a separate method as it might be overridden)
     $self->apply_patches($newdirectory, usage => 'unpack')
@@ -313,9 +322,13 @@ sub apply_patches {
         my $path = File::Spec->catfile($dir, 'debian', 'patches', $patch);
         info(g_('applying %s'), $patch) unless $opts{skip_auto};
         my $patch_obj = Dpkg::Source::Patch->new(filename => $path);
-        $patch_obj->apply($dir, force_timestamp => 1,
-                          timestamp => $timestamp,
-                          add_options => [ '-E' ]);
+        $patch_obj->apply($dir,
+            force_timestamp => 1,
+            timestamp => $timestamp,
+            add_options => [
+                '-E',
+            ],
+        );
         print { $applied_fh } "$patch\n";
     }
     close($applied_fh);
@@ -331,9 +344,15 @@ sub unapply_patches {
         my $path = File::Spec->catfile($dir, 'debian', 'patches', $patch);
         info(g_('unapplying %s'), $patch) unless $opts{quiet};
         my $patch_obj = Dpkg::Source::Patch->new(filename => $path);
-        $patch_obj->apply($dir, force_timestamp => 1, verbose => 0,
-                          timestamp => $timestamp,
-                          add_options => [ '-E', '-R' ]);
+        $patch_obj->apply($dir,
+            verbose => 0,
+            force_timestamp => 1,
+            timestamp => $timestamp,
+            add_options => [
+                '-E',
+                '-R',
+            ],
+        );
     }
     unlink($applied);
 }
@@ -397,8 +416,10 @@ sub prepare_build {
         # No main orig.tar, create a dummy one
         my $filename = $self->get_basename() . '.orig.tar.' .
                        $self->{options}{comp_ext};
-        my $tar = Dpkg::Source::Archive->new(filename => $filename,
-                                             compression_level => $self->{options}{comp_level});
+        my $tar = Dpkg::Source::Archive->new(
+            filename => $filename,
+            compression_level => $self->{options}{comp_level},
+        );
         $tar->create();
         $tar->finish();
     }
@@ -409,7 +430,9 @@ sub check_patches_applied {
     my $applied = File::Spec->catfile($dir, 'debian', 'patches', '.dpkg-source-applied');
     unless (-e $applied) {
         info(g_('patches are not applied, applying them now'));
-        $self->apply_patches($dir, usage => 'preparation');
+        $self->apply_patches($dir,
+            usage => 'preparation',
+        );
     }
 }
 
@@ -495,7 +518,10 @@ sub _generate_patch {
 
     # Apply all patches except the last automatic one
     $opts{skip_auto} //= 0;
-    $self->apply_patches($tmpdir, skip_auto => $opts{skip_auto}, usage => 'build');
+    $self->apply_patches($tmpdir,
+        skip_auto => $opts{skip_auto},
+        usage => 'build',
+    );
 
     # Create a patch
     my $tmpdiff = File::Temp->new(
@@ -504,28 +530,37 @@ sub _generate_patch {
         UNLINK => 0,
     );
     push_exit_handler(sub { unlink($tmpdiff) });
-    my $diff = Dpkg::Source::Patch->new(filename => $tmpdiff,
-                                        compression => 'none');
+    my $diff = Dpkg::Source::Patch->new(
+        filename => $tmpdiff,
+        compression => 'none',
+    );
     $diff->create();
     $diff->set_header(sub {
         if ($opts{header_from} and -e $opts{header_from}) {
             my $header_from = Dpkg::Source::Patch->new(
-                filename => $opts{header_from});
-            my $analysis = $header_from->analyze($dir, verbose => 0);
+                filename => $opts{header_from},
+            );
+            my $analysis = $header_from->analyze($dir,
+                verbose => 0,
+            );
             return $analysis->{patchheader};
         } else {
             return $self->_get_patch_header($dir);
         }
     });
-    $diff->add_diff_directory($tmpdir, $dir, basedirname => $basedirname,
-            %{$self->{diff_options}},
-            handle_binary_func => $opts{handle_binary},
-            order_from => $opts{order_from});
+    $diff->add_diff_directory($tmpdir, $dir,
+        basedirname => $basedirname,
+        %{$self->{diff_options}},
+        handle_binary_func => $opts{handle_binary},
+        order_from => $opts{order_from},
+    );
     error(g_('unrepresentable changes to source')) if not $diff->finish();
 
     if (-s $tmpdiff) {
         info(g_('local changes detected, the modified files are:'));
-        my $analysis = $diff->analyze($dir, verbose => 0);
+        my $analysis = $diff->analyze($dir,
+            verbose => 0,
+        );
         foreach my $fn (sort keys %{$analysis->{filepatched}}) {
             print " $fn\n";
         }
@@ -581,11 +616,13 @@ sub do_build {
     # Create a patch
     my $autopatch = File::Spec->catfile($dir, 'debian', 'patches',
                                         $self->get_autopatch_name());
-    my $tmpdiff = $self->_generate_patch($dir, order_from => $autopatch,
-                                        header_from => $autopatch,
-                                        handle_binary => $handle_binary,
-                                        skip_auto => $self->{options}{auto_commit},
-                                        usage => 'build');
+    my $tmpdiff = $self->_generate_patch($dir,
+        order_from => $autopatch,
+        header_from => $autopatch,
+        handle_binary => $handle_binary,
+        skip_auto => $self->{options}{auto_commit},
+        usage => 'build',
+    );
     unless (-z $tmpdiff or $self->{options}{auto_commit}) {
         hint(g_('make sure the version in debian/changelog matches ' .
                 'the unpacked source tree'));
@@ -612,9 +649,14 @@ sub do_build {
     # Create the debian.tar
     my $debianfile = "$basenamerev.debian.tar." . $self->{options}{comp_ext};
     info(g_('building %s in %s'), $sourcepackage, $debianfile);
-    my $tar = Dpkg::Source::Archive->new(filename => $debianfile,
-                                         compression_level => $self->{options}{comp_level});
-    $tar->create(options => \@tar_ignore, chdir => $dir);
+    my $tar = Dpkg::Source::Archive->new(
+        filename => $debianfile,
+        compression_level => $self->{options}{comp_level},
+    );
+    $tar->create(
+        options => \@tar_ignore,
+        chdir => $dir,
+    );
     $tar->add_directory('debian');
     foreach my $binary ($binaryfiles->get_seen_binaries()) {
         $tar->add_file($binary) unless $binary =~ m{^debian/};
@@ -647,8 +689,11 @@ Forwarded: not-needed
 AUTOGEN_HEADER
     }
 
-    my $ch_info = changelog_parse(offset => 0, count => 1,
-        file => $self->{options}{changelog_file});
+    my $ch_info = changelog_parse(
+        file => $self->{options}{changelog_file},
+        offset => 0,
+        count => 1,
+    );
     return '' if not defined $ch_info;
     my $header = Dpkg::Control->new(type => CTRL_UNKNOWN);
     $header->{'Description'} = "<short summary of the patch>\n";
@@ -736,8 +781,10 @@ sub do_commit {
     };
 
     unless ($tmpdiff) {
-        $tmpdiff = $self->_generate_patch($dir, handle_binary => $handle_binary,
-                                         usage => 'commit');
+        $tmpdiff = $self->_generate_patch($dir,
+            handle_binary => $handle_binary,
+            usage => 'commit',
+        );
         $binaryfiles->update_debian_source_include_binaries();
     }
     push_exit_handler(sub { unlink($tmpdiff) });

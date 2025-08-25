@@ -109,15 +109,17 @@ edit_config('ftp', $methdir);
 my $ftp;
 sub download {
  foreach (@{$CONFIG{site}}) {
-    $ftp = do_connect(ftpsite => $_->[0],
-                      ftpdir => $_->[1],
-                      passive => $_->[3],
-                      username => $_->[4],
-                      password => $_->[5],
-                      useproxy => $CONFIG{use_auth_proxy},
-                      proxyhost => $CONFIG{proxyhost},
-                      proxylogname => $CONFIG{proxylogname},
-                      proxypassword => $CONFIG{proxypassword});
+    $ftp = do_connect(
+        ftpsite => $_->[0],
+        ftpdir => $_->[1],
+        passive => $_->[3],
+        username => $_->[4],
+        password => $_->[5],
+        useproxy => $CONFIG{use_auth_proxy},
+        proxyhost => $CONFIG{proxyhost},
+        proxylogname => $CONFIG{proxylogname},
+        proxypassword => $CONFIG{proxypassword},
+    );
 
     my @dists = @{$_->[2]};
 

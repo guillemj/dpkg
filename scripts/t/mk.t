@@ -49,8 +49,11 @@ sub test_makefile {
 
     $desc //= 'default';
 
-    spawn(exec => [ $Dpkg::PROGMAKE, '-C', $datadir, '-f', $makefile ],
-          wait_child => 1, no_check => 1);
+    spawn(
+        exec => [ $Dpkg::PROGMAKE, '-C', $datadir, '-f', $makefile ],
+        wait_child => 1,
+        no_check => 1,
+    );
     ok($? == 0, "makefile $makefile computes all values correctly ($desc)");
 }
 

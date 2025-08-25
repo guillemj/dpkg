@@ -123,7 +123,10 @@ sub add_diff_file {
     my $diffgen;
     my $diff_pid = spawn(
         exec => [ 'diff', '-u', @options, '--', $old, $new ],
-        env => { LC_ALL => 'C', TZ => 'UTC0' },
+        env => {
+            LC_ALL => 'C',
+            TZ => 'UTC0'
+        },
         to_pipe => \$diffgen,
     );
     # Check diff and write it in patch file
@@ -152,8 +155,10 @@ sub add_diff_file {
         print { $self } $_ or syserr(g_('failed to write'));
     }
     close($diffgen) or syserr('close on diff pipe');
-    wait_child($diff_pid, no_check => 1,
-               cmdline => "diff -u @options -- $old $new");
+    wait_child($diff_pid,
+        no_check => 1,
+        cmdline => "diff -u @options -- $old $new",
+    );
     # Verify diff process ended successfully
     # Exit code of diff: 0 => no difference, 1 => diff ok, 2 => error
     # Ignore error if binary content detected
@@ -276,7 +281,8 @@ sub add_diff_directory {
 
     if ($opts{order_from} and -e $opts{order_from}) {
         my $order_from = Dpkg::Source::Patch->new(
-            filename => $opts{order_from});
+            filename => $opts{order_from},
+        );
         my $analysis = $order_from->analyze($basedir, verbose => 0);
         my %patchorder;
         my $i = 0;
@@ -304,9 +310,11 @@ sub add_diff_directory {
         my ($fn, $mode, $size,
             $old_file, $new_file, $label_old, $label_new) = @$diff_file;
         my $success = $self->add_diff_file($old_file, $new_file,
-                                           filename => $fn,
-                                           label_old => $label_old,
-                                           label_new => $label_new, %opts);
+            filename => $fn,
+            label_old => $label_old,
+            label_new => $label_new,
+            %opts,
+        );
         if ($success and
             $old_file eq '/dev/null' and $new_file ne '/dev/null') {
             if (not $size) {
@@ -631,8 +639,13 @@ sub apply {
     spawn(
 	exec => [ $Dpkg::PROGPATCH, @{$opts{options}} ],
 	chdir => $destdir,
-        env => { LC_ALL => 'C', PATCH_GET => '0' },
-	delete_env => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
+        env => {
+            LC_ALL => 'C',
+            PATCH_GET => '0',
+        },
+        delete_env => [
+            'POSIXLY_CORRECT', # ensure expected patch behavior
+        ],
 	wait_child => 1,
         no_check => 1,
 	from_handle => $self->get_filehandle(),
@@ -691,8 +704,13 @@ sub check_apply {
     my $patch_pid = spawn(
 	exec => [ $Dpkg::PROGPATCH, @{$opts{options}} ],
 	chdir => $destdir,
-        env => { LC_ALL => 'C', PATCH_GET => '0' },
-	delete_env => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
+        env => {
+            LC_ALL => 'C',
+            PATCH_GET => '0',
+        },
+        delete_env => [
+            'POSIXLY_CORRECT', # ensure expected patch behavior
+        ],
 	from_handle => $self->get_filehandle(),
 	to_file => '/dev/null',
 	error_to_file => '/dev/null',

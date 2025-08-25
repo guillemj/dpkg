@@ -159,9 +159,11 @@ sub changelog_parse {
     $changes = $module->new();
     error(g_('changelog format %s is not a Dpkg::Changelog class'), $format)
         unless $changes->isa('Dpkg::Changelog');
-    $changes->set_options(reportfile => $opts{label},
-                          verbose => $opts{verbose},
-                          range => $range);
+    $changes->set_options(
+        reportfile => $opts{label},
+        verbose => $opts{verbose},
+        range => $range,
+    );
 
     # Load and parse the changelog.
     $changes->load($opts{file}, compression => $opts{compression})

@@ -36,7 +36,9 @@ sub test_patch_escape {
 
     my $patch = Dpkg::Source::Patch->new(filename => "$datadir/$patchname");
     eval {
-        $patch->apply("$tmpdir/$name-tree", verbose => 0);
+        $patch->apply("$tmpdir/$name-tree",
+            verbose => 0,
+        );
     };
     ok(rmdir "$tmpdir/$name-out", $desc);
 }

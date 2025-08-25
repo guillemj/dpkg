@@ -222,15 +222,18 @@ sub merge_entries {
     unless (merge_entry_item('blank_after_changes', $o, $a, $b)) {
 	unshift @result, '';
     }
-    my @merged = merge(defined $o ? $o->get_part('changes') : [],
-		       $a->get_part('changes'), $b->get_part('changes'),
-		       {
-			   CONFLICT => sub {
-				my ($ca, $cb) = @_;
-				$exitcode = 1;
-				return get_conflict_block($ca, $cb);
-			   }
-		       });
+    my @merged = merge(
+        defined $o ? $o->get_part('changes') : [],
+        $a->get_part('changes'),
+        $b->get_part('changes'),
+        {
+            CONFLICT => sub {
+                my ($ca, $cb) = @_;
+                $exitcode = 1;
+                return get_conflict_block($ca, $cb);
+            },
+        },
+    );
     unshift @result, @merged;
 
     # Merge the header line

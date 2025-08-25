@@ -257,8 +257,12 @@ my $facts = Dpkg::Deps::KnownFacts->new();
 $facts->add_installed_package($fields->{'Package'}, $fields->{'Version'},
                               $fields->{'Architecture'}, $fields->{'Multi-Arch'});
 if (exists $pkg->{'Provides'}) {
-    my $provides = deps_parse($substvars->substvars($pkg->{'Provides'}, no_warn => 1),
-                              reduce_restrictions => 1, virtual => 1, union => 1);
+    my $provides = deps_parse($substvars->substvars($pkg->{'Provides'},
+        no_warn => 1),
+        reduce_restrictions => 1,
+        virtual => 1,
+        union => 1,
+    );
     if (defined $provides) {
 	foreach my $subdep ($provides->get_deps()) {
 	    if ($subdep->isa('Dpkg::Deps::Simple')) {
@@ -277,20 +281,26 @@ foreach my $field (field_list_pkg_dep()) {
     if (exists $pkg->{$field}) {
 	my $dep;
 	my $field_value = $substvars->substvars($pkg->{$field},
-	    msg_prefix => sprintf(g_('%s field of package %s: '), $field, $pkg->{Package}));
+            msg_prefix => sprintf(g_('%s field of package %s: '), $field, $pkg->{Package}),
+        );
 	if (field_get_dep_type($field) eq 'normal') {
-	    $dep = deps_parse($field_value, use_arch => 1,
-	                      reduce_arch => $reduce_arch,
-	                      reduce_profiles => 1);
+            $dep = deps_parse($field_value,
+                use_arch => 1,
+                reduce_arch => $reduce_arch,
+                reduce_profiles => 1,
+            );
             error(g_("parsing package '%s' %s field: %s"), $oppackage,
                   $field, $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts, @seen_deps);
 	    # Remember normal deps to simplify even further weaker deps
 	    push @seen_deps, $dep;
 	} else {
-	    $dep = deps_parse($field_value, use_arch => 1,
-	                      reduce_arch => $reduce_arch,
-	                      reduce_profiles => 1, union => 1);
+            $dep = deps_parse($field_value,
+                use_arch => 1,
+                reduce_arch => $reduce_arch,
+                reduce_profiles => 1,
+                union => 1,
+            );
             error(g_("parsing package '%s' %s field: %s"), $oppackage,
                   $field, $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts);

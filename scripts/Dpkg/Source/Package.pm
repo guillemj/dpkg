@@ -224,7 +224,11 @@ sub new {
         format => Dpkg::Source::Format->new(),
         options => {},
         checksums => Dpkg::Checksums->new(),
-        openpgp => Dpkg::OpenPGP->new(needs => { api => 'verify' }),
+        openpgp => Dpkg::OpenPGP->new(
+            needs => {
+                api => 'verify',
+            },
+        ),
     };
     bless $self, $class;
     if (exists $opts{options}) {
@@ -396,7 +400,10 @@ sub get_basename {
               'Source', 'Version');
     }
     my $v = Dpkg::Version->new($f->{'Version'});
-    my $vs = $v->as_string(omit_epoch => 1, omit_revision => !$with_revision);
+    my $vs = $v->as_string(
+        omit_epoch => 1,
+        omit_revision => !$with_revision,
+    );
     return $f->{'Source'} . '_' . $vs;
 }
 
@@ -661,7 +668,8 @@ sub add_file {
     }
     $self->{checksums}->add_from_file($filename, key => $fn);
     $self->{checksums}->export_to_control($self->{fields},
-					    use_files_for_md5 => 1);
+        use_files_for_md5 => 1,
+    );
 }
 
 sub commit {

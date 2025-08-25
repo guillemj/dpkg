@@ -170,8 +170,12 @@ if (not defined($oppackage)) {
     $oppackage = $packages[0];
 }
 
-my $symfile = Dpkg::Shlibs::SymbolFile->new(arch => $host_arch);
-my $ref_symfile = Dpkg::Shlibs::SymbolFile->new(arch => $host_arch);
+my $symfile = Dpkg::Shlibs::SymbolFile->new(
+    arch => $host_arch,
+);
+my $ref_symfile = Dpkg::Shlibs::SymbolFile->new(
+    arch => $host_arch,
+);
 my @source_symbol_files = (
     $input,
     $output,
@@ -240,10 +244,12 @@ $symfile->clear_except(keys %{$od->{objects}});
 # Write out symbols files
 if ($stdout) {
     $output = g_('<standard output>');
-    $symfile->output(\*STDOUT, package => $oppackage,
-                     template_mode => $template_mode,
-                     with_pattern_matches => $verbose_output,
-                     with_deprecated => $verbose_output);
+    $symfile->output(\*STDOUT,
+        package => $oppackage,
+        template_mode => $template_mode,
+        with_pattern_matches => $verbose_output,
+        with_deprecated => $verbose_output,
+    );
 } else {
     unless (defined($output)) {
 	unless ($symfile->is_empty()) {
@@ -253,10 +259,12 @@ if ($stdout) {
     }
     if (defined($output)) {
 	debug(1, "Storing symbols in $output.");
-	$symfile->save($output, package => $oppackage,
-	               template_mode => $template_mode,
-	               with_pattern_matches => $verbose_output,
-	               with_deprecated => $verbose_output);
+        $symfile->save($output,
+            package => $oppackage,
+            template_mode => $template_mode,
+            with_pattern_matches => $verbose_output,
+            with_deprecated => $verbose_output,
+        );
     } else {
 	debug(1, 'No symbol information to store.');
     }
@@ -302,15 +310,25 @@ unless ($quiet) {
     my $file_label;
 
     # Compare template symbols files before and after
-    my $before = File::Temp->new(TEMPLATE => 'dpkg-gensymbolsXXXXXX');
-    my $after = File::Temp->new(TEMPLATE => 'dpkg-gensymbolsXXXXXX');
+    my $before = File::Temp->new(
+        TEMPLATE => 'dpkg-gensymbolsXXXXXX',
+    );
+    my $after = File::Temp->new(
+        TEMPLATE => 'dpkg-gensymbolsXXXXXX',
+    );
     if ($ref_symfile->{file}) {
         $file_label = $ref_symfile->{file};
     } else {
         $file_label = 'new_symbol_file';
     }
-    $ref_symfile->output($before, package => $oppackage, template_mode => 1);
-    $symfile->output($after, package => $oppackage, template_mode => 1);
+    $ref_symfile->output($before,
+        package => $oppackage,
+        template_mode => 1,
+    );
+    $symfile->output($after,
+        package => $oppackage,
+        template_mode => 1,
+    );
 
     seek $before, 0, 0;
     seek $after, 0, 0;

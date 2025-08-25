@@ -121,7 +121,9 @@ sub getname
 
     my $pkg = $fields->{Package};
     my $v = Dpkg::Version->new($fields->{Version});
-    my $version = $v->as_string(omit_epoch => 1);
+    my $version = $v->as_string(
+        omit_epoch => 1,
+    );
     my $type = $fields->{'Package-Type'} || 'deb';
 
     my $tname;

@@ -331,15 +331,17 @@ sub download {
 
     if (! @getfiles) { $i++; next; }
 
-    $ftp = do_connect(ftpsite => $site->[0],
-                      ftpdir => $site->[1],
-                      passive => $site->[3],
-                      username =>  $site->[4],
-                      password => $site->[5],
-                      useproxy => $CONFIG{use_auth_proxy},
-                      proxyhost => $CONFIG{proxyhost},
-                      proxylogname => $CONFIG{proxylogname},
-                      proxypassword => $CONFIG{proxypassword});
+    $ftp = do_connect(
+        ftpsite => $site->[0],
+        ftpdir => $site->[1],
+        passive => $site->[3],
+        username =>  $site->[4],
+        password => $site->[5],
+        useproxy => $CONFIG{use_auth_proxy},
+        proxyhost => $CONFIG{proxyhost},
+        proxylogname => $CONFIG{proxylogname},
+        proxypassword => $CONFIG{proxypassword},
+    );
 
     local $SIG{INT} = sub { die "Interrupted !\n"; };
 

@@ -63,7 +63,9 @@ sub do_connect {
 	    $remoteuser = $opts{username};
 	}
 	print "Connecting to $opts{ftpsite}...\n";
-	$ftp = Net::FTP->new($remotehost, Passive => $opts{passive});
+        $ftp = Net::FTP->new($remotehost,
+            Passive => $opts{passive},
+        );
 	if(!$ftp || !$ftp->ok) {
 	  print "Failed to connect\n";
 	  $exit = 1;

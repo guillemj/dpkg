@@ -127,10 +127,15 @@ sub do_build {
     push_exit_handler(sub { unlink($newtar) });
 
     my ($dirname, $dirbase) = fileparse($dir);
-    my $tar = Dpkg::Source::Archive->new(filename => $newtar,
-                compression => compression_guess_from_filename($tarname),
-                compression_level => $self->{options}{comp_level});
-    $tar->create(options => \@tar_ignore, chdir => $dirbase);
+    my $tar = Dpkg::Source::Archive->new(
+        filename => $newtar,
+        compression => compression_guess_from_filename($tarname),
+        compression_level => $self->{options}{comp_level},
+    );
+    $tar->create(
+        options => \@tar_ignore,
+        chdir => $dirbase,
+    );
     $tar->add_directory($dirname);
     $tar->finish();
     rename($newtar, $tarname)

@@ -207,17 +207,21 @@ sub test_build
     } @hook_names;
 
     chdir $dirname;
-    spawn(exec => [ $ENV{PERL}, "$srcdir/dpkg-buildpackage.pl",
-                    "--admindir=$datadir/dpkgdb",
-                    '--host-arch=amd64',
-                    '--ignore-builtin-builddeps',
-                    '--no-sign',
-                    "--build=$typename",
-                    '--check-command=',
-                    @hook_opts,
-                  ],
-          error_to_string => \$stderr,
-          wait_child => 1, no_check => 1);
+    spawn(
+        exec => [
+            $ENV{PERL}, "$srcdir/dpkg-buildpackage.pl",
+            "--admindir=$datadir/dpkgdb",
+            '--host-arch=amd64',
+            '--ignore-builtin-builddeps',
+            '--no-sign',
+            "--build=$typename",
+            '--check-command=',
+            @hook_opts,
+        ],
+        error_to_string => \$stderr,
+        wait_child => 1,
+        no_check => 1,
+    );
     chdir '..';
 
     ok($? == 0, "dpkg-buildpackage --build=$typename succeeded");

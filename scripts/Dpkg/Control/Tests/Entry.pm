@@ -55,7 +55,10 @@ sub new {
     my ($this, %opts) = @_;
     my $class = ref($this) || $this;
 
-    my $self = Dpkg::Control->new(type => CTRL_TESTS, %opts);
+    my $self = Dpkg::Control->new(
+        type => CTRL_TESTS,
+        %opts,
+    );
     bless $self, $class;
     return $self;
 }

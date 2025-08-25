@@ -267,7 +267,9 @@ sub do_extract {
         my $patch = File::Spec->catfile($self->{basedir}, $difffile);
 	info(g_('applying %s'), $difffile);
 	my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
-	my $analysis = $patch_obj->apply($newdirectory, force_timestamp => 1);
+        my $analysis = $patch_obj->apply($newdirectory,
+            force_timestamp => 1,
+        );
 	my @files = grep { ! m{^\Q$newdirectory\E/debian/} }
 		    sort keys %{$analysis->{filepatched}};
 	info(g_('upstream files that have been modified: %s'),
@@ -437,10 +439,15 @@ sub do_build {
             DIR => getcwd(),
             UNLINK => 0,
         );
-	my $tar = Dpkg::Source::Archive->new(filename => $newtar,
-		    compression => compression_guess_from_filename($tarname),
-		    compression_level => $self->{options}{comp_level});
-	$tar->create(options => \@tar_ignore, chdir => $tardirbase);
+        my $tar = Dpkg::Source::Archive->new(
+            filename => $newtar,
+            compression => compression_guess_from_filename($tarname),
+            compression_level => $self->{options}{comp_level},
+        );
+        $tar->create(
+            options => \@tar_ignore,
+            chdir => $tardirbase,
+        );
 	$tar->add_directory($tardirname);
 	$tar->finish();
 	rename($newtar, $tarname)
@@ -499,15 +506,19 @@ sub do_build {
             UNLINK => 0,
         );
         push_exit_handler(sub { unlink($newdiffgz) });
-        my $diff = Dpkg::Source::Patch->new(filename => $newdiffgz,
-                                            compression => 'gzip',
-                                            compression_level => $self->{options}{comp_level});
+        my $diff = Dpkg::Source::Patch->new(
+            filename => $newdiffgz,
+            compression => 'gzip',
+            compression_level => $self->{options}{comp_level},
+        );
         $diff->create();
         $diff->add_diff_directory($origdir, $dir,
-                basedirname => $basedirname,
-                diff_ignore_regex => $diff_ignore_regex,
-                options => []); # Force empty set of options to drop the
-                                # default -p option
+            basedirname => $basedirname,
+            diff_ignore_regex => $diff_ignore_regex,
+            # Force empty set of options to drop the default -p option.
+            options => [],
+        );
+
         $diff->finish() || $ur++;
         pop_exit_handler();
 

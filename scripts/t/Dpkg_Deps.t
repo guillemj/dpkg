@@ -81,7 +81,9 @@ is($dep_or2->implies($dep_or1), undef, 'Implication between OR 2/2');
 
 my $dep_ma_host = deps_parse('libcairo2');
 my $dep_ma_any = deps_parse('libcairo2:any');
-my $dep_ma_build = deps_parse('libcairo2:native', build_dep => 1);
+my $dep_ma_build = deps_parse('libcairo2:native',
+    build_dep => 1,
+);
 my $dep_ma_explicit = deps_parse('libcairo2:amd64');
 is($dep_ma_host->implies($dep_ma_any), undef, 'foo !-> foo:any');
 is($dep_ma_build->implies($dep_ma_any), undef, 'foo:native !-> foo:any');
@@ -98,19 +100,34 @@ my $field_tests = 'self, @, @builddeps@';
 $SIG{__WARN__} = sub {};
 my $dep_tests_fail = deps_parse($field_tests);
 is($dep_tests_fail, undef, 'normal deps with @ in pkgname');
-$dep_tests_fail = deps_parse($field_tests, build_dep => 1);
+$dep_tests_fail = deps_parse($field_tests,
+    build_dep => 1,
+);
 is($dep_tests_fail, undef, 'build deps with @ in pkgname');
 delete $SIG{__WARN__};
-my $dep_tests_pass = deps_parse($field_tests, tests_dep => 1);
+my $dep_tests_pass = deps_parse($field_tests,
+    tests_dep => 1,
+);
 is($dep_tests_pass->output(), $field_tests, 'tests deps with @ in pkgname');
 $field_tests = 'self, pkgname:native, @, @builddeps@';
-$dep_tests_pass = deps_parse($field_tests, tests_dep => 1);
+$dep_tests_pass = deps_parse($field_tests,
+    tests_dep => 1,
+);
 is($dep_tests_pass->output(), $field_tests, 'tests deps with :native and @ in pkgname');
 
 my $field_arch = 'libc6 (>= 2.5) [!alpha !hurd-i386], libc6.1 [alpha], libc0.1 [hurd-i386]';
-my $dep_i386 = deps_parse($field_arch, reduce_arch => 1, host_arch => 'i386');
-my $dep_alpha = deps_parse($field_arch, reduce_arch => 1, host_arch => 'alpha');
-my $dep_hurd = deps_parse($field_arch, reduce_arch => 1, host_arch => 'hurd-i386');
+my $dep_i386 = deps_parse($field_arch,
+    reduce_arch => 1,
+    host_arch => 'i386',
+);
+my $dep_alpha = deps_parse($field_arch,
+    reduce_arch => 1,
+    host_arch => 'alpha',
+);
+my $dep_hurd = deps_parse($field_arch,
+    reduce_arch => 1,
+    host_arch => 'hurd-i386',
+);
 is($dep_i386->output(), 'libc6 (>= 2.5)', 'Arch reduce 1/3');
 is($dep_alpha->output(), 'libc6.1', 'Arch reduce 2/3');
 is($dep_hurd->output(), 'libc0.1', 'Arch reduce 3/3');
@@ -127,10 +144,29 @@ my $field_profile = 'dep1 <!stage1 !nocheck>, ' .
 'dep12 <!nocheck> <!stage1>, ' .
 'dep13 <nocheck> <!stage1>, ' .
 'dep14 <nocheck> <stage1>';
-my $dep_noprof = deps_parse($field_profile, reduce_profiles => 1, build_profiles => []);
-my $dep_stage1 = deps_parse($field_profile, reduce_profiles => 1, build_profiles => ['stage1']);
-my $dep_nocheck = deps_parse($field_profile, reduce_profiles => 1, build_profiles => ['nocheck']);
-my $dep_stage1nocheck = deps_parse($field_profile, reduce_profiles => 1, build_profiles => ['stage1', 'nocheck']);
+my $dep_noprof = deps_parse($field_profile,
+    reduce_profiles => 1,
+    build_profiles => [],
+);
+my $dep_stage1 = deps_parse($field_profile,
+    reduce_profiles => 1,
+    build_profiles => [
+        'stage1',
+    ],
+);
+my $dep_nocheck = deps_parse($field_profile,
+    reduce_profiles => 1,
+    build_profiles => [
+        'nocheck',
+    ],
+);
+my $dep_stage1nocheck = deps_parse($field_profile,
+    reduce_profiles => 1,
+    build_profiles => [
+        'stage1',
+        'nocheck',
+    ],
+);
 is($dep_noprof->output(), 'dep1, dep6, dep9, dep10, dep12, dep13', 'Profile reduce 1/4');
 is($dep_stage1->output(), 'dep2, dep5, dep7, dep9, dep10, dep11, dep12, dep14', 'Profile reduce 2/4');
 is($dep_nocheck->output(), 'dep3, dep6, dep8, dep9, dep11, dep12, dep13, dep14', 'Profile reduce 3/4');
@@ -139,11 +175,11 @@ is($dep_stage1nocheck->output(), 'dep4, dep5, dep7 | dep8, dep10, dep11, dep13, 
 $dep_noprof = deps_parse($field_profile);
 $dep_noprof->reduce_profiles([]);
 $dep_stage1 = deps_parse($field_profile);
-$dep_stage1->reduce_profiles(['stage1']);
+$dep_stage1->reduce_profiles([ 'stage1' ]);
 $dep_nocheck = deps_parse($field_profile);
-$dep_nocheck->reduce_profiles(['nocheck']);
+$dep_nocheck->reduce_profiles([ 'nocheck' ]);
 $dep_stage1nocheck = deps_parse($field_profile);
-$dep_stage1nocheck->reduce_profiles(['stage1', 'nocheck']);
+$dep_stage1nocheck->reduce_profiles([ 'stage1', 'nocheck' ]);
 is($dep_noprof->output(), 'dep1, dep6, dep9, dep10, dep12, dep13', 'Profile post-reduce 1/4');
 is($dep_stage1->output(), 'dep2, dep5, dep7, dep9, dep10, dep11, dep12, dep14', 'Profile post-reduce 2/4');
 is($dep_nocheck->output(), 'dep3, dep6, dep8, dep9, dep11, dep12, dep13, dep14', 'Profile post-reduce 3/4');
@@ -155,7 +191,10 @@ my $field_restrict = 'dep1 <!bootstrap !restrict>, ' .
 'dep4 <restrict>, ' .
 'dep5 <!bootstrap> <!restrict>, ' .
 'dep6 <bootstrap> <restrict>';
-my $dep_restrict = deps_parse($field_restrict, reduce_restrictions => 1, build_profiles => []);
+my $dep_restrict = deps_parse($field_restrict,
+    reduce_restrictions => 1,
+    build_profiles => [],
+);
 is($dep_restrict->output(), 'dep1, dep3, dep5', 'Unknown restrictions reduce');
 
 $dep_restrict = deps_parse($field_restrict);
@@ -253,10 +292,18 @@ $dep_dup->simplify_deps($facts, $dep_opposite);
 is($dep_dup->output(), 'libc6 (>= 2.6-1), mypackage2, pkg-ma-allowed2',
     'Simplify deps');
 
-my $dep_ma_all_normal_implicit_native = deps_parse('pkg-indep-normal', build_dep => 1);
-my $dep_ma_all_normal_explicit_native = deps_parse('pkg-indep-normal:native', build_dep => 1);
-my $dep_ma_all_foreign_implicit_native = deps_parse('pkg-indep-foreign', build_dep => 1);
-my $dep_ma_all_foreign_explicit_native = deps_parse('pkg-indep-foreign:native', build_dep => 1);
+my $dep_ma_all_normal_implicit_native = deps_parse('pkg-indep-normal',
+    build_dep => 1,
+);
+my $dep_ma_all_normal_explicit_native = deps_parse('pkg-indep-normal:native',
+    build_dep => 1,
+);
+my $dep_ma_all_foreign_implicit_native = deps_parse('pkg-indep-foreign',
+    build_dep => 1,
+);
+my $dep_ma_all_foreign_explicit_native = deps_parse('pkg-indep-foreign:native',
+    build_dep => 1,
+);
 $dep_ma_all_normal_implicit_native->simplify_deps($facts);
 is($dep_ma_all_normal_implicit_native->output(), '',
     'Simplify arch:all m-a:no w/ implicit :native (satisfied)');
@@ -328,11 +375,15 @@ is($dep_virtual->output(), 'myvirtual3 (= 2.0-1)',
 
 my $field_dup_union = 'libc6 (>> 2.3), libc6 (>= 2.6-1), fake (<< 2.0),
 fake(>> 3.0), fake (= 2.5), python (<< 2.5), python (= 2.4)';
-my $dep_dup_union = deps_parse($field_dup_union, union => 1);
+my $dep_dup_union = deps_parse($field_dup_union,
+    union => 1,
+);
 $dep_dup_union->simplify_deps($facts);
 is($dep_dup_union->output(), 'libc6 (>> 2.3), fake (<< 2.0), fake (>> 3.0), fake (= 2.5), python (<< 2.5)', 'Simplify union deps');
 
-$dep_dup_union = deps_parse('sipsak (<= 0.9.6-2.1), sipsak (<= 0.9.6-2.2)', union => 1);
+$dep_dup_union = deps_parse('sipsak (<= 0.9.6-2.1), sipsak (<= 0.9.6-2.2)',
+    union => 1,
+);
 $dep_dup_union->simplify_deps($facts);
 is($dep_dup_union->output(), 'sipsak (<= 0.9.6-2.2)', 'Simplify union deps 2');
 
@@ -357,7 +408,9 @@ is($dep_profiles->output(), 'tool <!cross> <stage1 cross>',
 
 } # TODO
 
-$dep_profiles = deps_parse('libfoo-dev:native <!stage1>, libfoo-dev <!stage1 cross>', build_dep => 1);
+$dep_profiles = deps_parse('libfoo-dev:native <!stage1>, libfoo-dev <!stage1 cross>',
+    build_dep => 1,
+);
 $dep_profiles->simplify_deps($facts);
 is($dep_profiles->output(),
     'libfoo-dev:native <!stage1>, libfoo-dev <!stage1 cross>',
@@ -390,7 +443,9 @@ is($dep_version->output(), 'pkg (= 1.0)', 'Simplification merges versions');
 my $dep_empty1 = deps_parse('');
 is($dep_empty1->output(), '', 'Empty dependency');
 
-my $dep_empty2 = deps_parse(' , , ', union => 1);
+my $dep_empty2 = deps_parse(' , , ',
+    union => 1,
+);
 is($dep_empty2->output(), '', "' , , ' is also an empty dependency");
 
 # Check sloppy but acceptable dependencies

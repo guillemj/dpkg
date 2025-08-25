@@ -345,8 +345,11 @@ sub spawn {
                 'Dpkg::IPC::spawn() option nocheck is deprecated, ' .
                 'either switch to no_check or pass it alongside it');
         }
-        wait_child($pid, no_check => $opts{no_check} // $opts{nocheck},
-                   timeout => $opts{timeout}, cmdline => $cmdline);
+        wait_child($pid,
+            no_check => $opts{no_check} // $opts{nocheck},
+            timeout => $opts{timeout},
+            cmdline => $cmdline,
+        );
 	return 1;
     }
 

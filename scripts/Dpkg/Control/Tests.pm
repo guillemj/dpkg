@@ -54,7 +54,10 @@ The options are passed through to the Dpkg::Index->new() constructor.
 sub new {
     my ($this, %opts) = @_;
     my $class = ref($this) || $this;
-    my $self = Dpkg::Index->new(type => CTRL_TESTS, %opts);
+    my $self = Dpkg::Index->new(
+        type => CTRL_TESTS,
+        %opts,
+    );
 
     return bless $self, $class;
 }

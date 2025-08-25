@@ -287,7 +287,11 @@ object.
 
 sub new_item {
     my $self = shift;
-    return Dpkg::Control->new(%{$self->{item_opts}}, type => $self->{type});
+
+    return Dpkg::Control->new(
+        %{$self->{item_opts}},
+        type => $self->{type},
+    );
 }
 
 =item $item = $index->get_by_key($key)

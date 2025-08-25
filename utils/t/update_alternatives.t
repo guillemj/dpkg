@@ -124,8 +124,16 @@ sub call_ua {
         @cmd = @ua;
     }
 
-    spawn(exec => [ @cmd, @{$params} ], no_check => 1,
-        wait_child => 1, env => { LC_ALL => 'C', %env }, %opts);
+    spawn(
+        exec => [ @cmd, @{$params} ],
+        env => {
+            LC_ALL => 'C',
+            %env,
+        },
+        no_check => 1,
+        wait_child => 1,
+        %opts,
+    );
     my $test_id = '';
     $test_id = "$opts{test_id}: " if defined $opts{test_id};
     if ($opts{expect_failure}) {
@@ -272,7 +280,13 @@ sub check_choice {
     my $output;
     if (defined $id) {
 	# Check status
-	call_ua([ '--query', "$main_name" ], to_string => \$output, test_id => $msg);
+        call_ua(
+            [
+                '--query', "$main_name",
+            ],
+            to_string => \$output,
+            test_id => $msg,
+        );
         my $status = q{};
         if ($output =~ /^Status: (.*)$/im) {
             $status = $1;
@@ -284,8 +298,14 @@ sub check_choice {
 	check_link($main_link, "$altdir/$main_name", $msg);
 	check_slaves($id, $msg);
     } else {
-	call_ua([ '--query', "$main_name" ], error_to_string => \$output,
-	        expect_failure => 1, test_id => $msg);
+        call_ua(
+            [
+                '--query', "$main_name",
+            ],
+            error_to_string => \$output,
+            expect_failure => 1,
+            test_id => $msg,
+        );
 	ok($output =~ /no alternatives/, "$msg: bad error message for --query.");
 	# Check that all links have disappeared
 	check_no_link("$altdir/$main_name", $msg);
@@ -312,7 +332,9 @@ call_ua_dirs(
 
 # ENV_ROOT + defaults
 call_ua_dirs(
-    env => { $rootdir_envvar => '/rootdir_env' },
+    env => {
+        $rootdir_envvar => '/rootdir_env'
+    },
     expected => "root=/rootdir_env admdir=/rootdir_env$DEFAULT_ADMINDIR",
 );
 
@@ -327,44 +349,60 @@ call_ua_dirs(
 
 # ENV_ADMINDIR + options
 call_ua_dirs(
-    env => { $admindir_envvar => '/admindir_env' },
+    env => {
+        $admindir_envvar => '/admindir_env',
+    },
     params => [ qw(--root /rootdir_opt) ],
     expected => "root=/rootdir_opt admdir=/rootdir_opt$DEFAULT_ADMINDIR",
 );
 call_ua_dirs(
-    env => { $admindir_envvar => '/admindir_env' },
+    env => {
+        $admindir_envvar => '/admindir_env',
+    },
     params => [ qw(--admindir /admindir_opt) ],
     expected => "root=$DEFAULT_ROOTDIR admdir=/admindir_opt",
 );
 call_ua_dirs(
-    env => { $admindir_envvar => '/admindir_env' },
+    env => {
+        $admindir_envvar => '/admindir_env',
+    },
     params => [ qw(--root /rootdir_opt --admindir /admindir_opt) ],
     expected => 'root=/rootdir_opt admdir=/admindir_opt',
 );
 call_ua_dirs(
-    env => { $admindir_envvar => '/admindir_env' },
+    env => {
+        $admindir_envvar => '/admindir_env',
+    },
     params => [ qw(--admindir /admindir_opt --root /rootdir_opt) ],
     expected => "root=/rootdir_opt admdir=/rootdir_opt$DEFAULT_ADMINDIR",
 );
 
 # ENV_ROOT + options
 call_ua_dirs(
-    env => { $rootdir_envvar => '/rootdir_env' },
+    env => {
+        $rootdir_envvar => '/rootdir_env',
+    },
     params => [ qw(--root /rootdir_opt) ],
     expected => "root=/rootdir_opt admdir=/rootdir_opt$DEFAULT_ADMINDIR",
 );
 call_ua_dirs(
-    env => { $rootdir_envvar => '/rootdir_env' },
+    env => {
+        $rootdir_envvar => '/rootdir_env',
+    },
     params => [ qw(--admindir /admindir_opt) ],
     expected => 'root=/rootdir_env admdir=/admindir_opt',
 );
 call_ua_dirs(
-    env => { $rootdir_envvar => '/rootdir_env' },
+    env => {
+        $rootdir_envvar => '/rootdir_env',
+    },
     params => [ qw(--root /rootdir_opt --admindir /admindir_opt) ],
     expected => 'root=/rootdir_opt admdir=/admindir_opt',
 );
 call_ua_dirs(
-    env => { $rootdir_envvar => '/rootdir_env' },
+    env => {
+        $rootdir_envvar => '/rootdir_env',
+    },
     params => [ qw(--admindir /admindir_opt --root /rootdir_opt) ],
     expected => "root=/rootdir_opt admdir=/rootdir_opt$DEFAULT_ADMINDIR",
 );
@@ -456,12 +494,24 @@ $bindir/slave4
 # manual change with --set-selections
 my $input = "doesntexist auto $paths{date}\ngeneric-test manual $paths{false}\n";
 my $output = '';
-call_ua(['--set-selections'], from_string => \$input,
-        to_string => \$output, test_id => 'manual update with --set-selections');
+call_ua(
+    [
+        '--set-selections',
+    ],
+    from_string => \$input,
+    to_string => \$output,
+    test_id => 'manual update with --set-selections',
+);
 check_choice(1, 'manual', 'manual update with --set-selections');
 $input = "generic-test auto $paths{true}\n";
-call_ua(['--set-selections'], from_string => \$input,
-        to_string => \$output, test_id => 'auto update with --set-selections');
+call_ua(
+    [
+        '--set-selections',
+    ],
+    from_string => \$input,
+    to_string => \$output,
+    test_id => 'auto update with --set-selections',
+);
 check_choice(0, 'auto', 'auto update with --set-selections');
 # manual change with set
 set_choice(2, test_id => 'manual update with --set');
@@ -547,56 +597,137 @@ install_choice(0);
 # test install with garbage admin file
 cleanup();
 system("echo garbage > $admindir/generic-test");
-install_choice(0, error_to_file => '/dev/null', expect_failure => 1);
+install_choice(0,
+    error_to_file => '/dev/null',
+    expect_failure => 1,
+);
 
 # test invalid usages
 cleanup();
 install_choice(0);
 # try to install a slave alternative as new master
-call_ua(['--install', "$bindir/testmaster", 'slave1', "$paths{date}", '10'],
-        expect_failure => 1, to_file => '/dev/null', error_to_file => '/dev/null');
+call_ua(
+    [
+        '--install', "$bindir/testmaster", 'slave1', "$paths{date}", '10',
+    ],
+    expect_failure => 1,
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
 # try to install a master alternative as slave
-call_ua(['--install', "$bindir/testmaster", 'testmaster', "$paths{date}", '10',
-         '--slave', "$bindir/testslave", 'generic-test', "$paths{true}" ],
-        expect_failure => 1, to_file => '/dev/null', error_to_file => '/dev/null');
+call_ua(
+    [
+        '--install', "$bindir/testmaster", 'testmaster', "$paths{date}", '10',
+        '--slave', "$bindir/testslave", 'generic-test', "$paths{true}",
+    ],
+    expect_failure => 1,
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
 # try to reuse master link in slave
-call_ua(['--install', "$bindir/testmaster", 'testmaster', "$paths{date}", '10',
-         '--slave', "$bindir/testmaster", 'testslave', "$paths{true}" ],
-        expect_failure => 1, to_file => '/dev/null', error_to_file => '/dev/null');
+call_ua(
+    [
+        '--install', "$bindir/testmaster", 'testmaster', "$paths{date}", '10',
+        '--slave', "$bindir/testmaster", 'testslave', "$paths{true}",
+    ],
+    expect_failure => 1,
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
 # try to reuse links in master alternative
-call_ua(['--install', "$bindir/slave1", 'testmaster', "$paths{date}", '10'],
-        expect_failure => 1, to_file => '/dev/null', error_to_file => '/dev/null');
+call_ua(
+    [
+        '--install', "$bindir/slave1", 'testmaster', "$paths{date}", '10',
+    ],
+    expect_failure => 1,
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
 # try to reuse links in slave alternative
-call_ua(['--install', "$bindir/testmaster", 'testmaster', "$paths{date}", '10',
-         '--slave', "$bindir/generic-test", 'testslave', "$paths{true}" ],
-        expect_failure => 1, to_file => '/dev/null', error_to_file => '/dev/null');
+call_ua(
+    [
+        '--install', "$bindir/testmaster", 'testmaster', "$paths{date}", '10',
+        '--slave', "$bindir/generic-test", 'testslave', "$paths{true}",
+    ],
+    expect_failure => 1,
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
 # try to reuse slave link in another slave alternative of another choice of
 # the same main alternative
-call_ua(['--install', $main_link, $main_name, "$paths{date}", '10',
-         '--slave', "$bindir/slave1", 'testslave', "$paths{true}" ],
-        expect_failure => 1, to_file => '/dev/null', error_to_file => '/dev/null');
+call_ua(
+    [
+        '--install', $main_link, $main_name, "$paths{date}", '10',
+        '--slave', "$bindir/slave1", 'testslave', "$paths{true}",
+    ],
+    expect_failure => 1,
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
 # lack of absolute filenames in links or file path, non-existing path,
-call_ua(['--install', '../testmaster', 'testmaster', "$paths{date}", '10'],
-        expect_failure => 1, to_file => '/dev/null', error_to_file => '/dev/null');
-call_ua(['--install', "$bindir/testmaster", 'testmaster', './update-alternatives.pl', '10'],
-        expect_failure => 1, to_file => '/dev/null', error_to_file => '/dev/null');
+call_ua(
+    [
+        '--install', '../testmaster', 'testmaster', "$paths{date}", '10',
+    ],
+    expect_failure => 1,
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
+call_ua(
+    [
+        '--install', "$bindir/testmaster", 'testmaster', './update-alternatives.pl', '10',
+    ],
+    expect_failure => 1,
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
 # non-existing alternative path
-call_ua(['--install', "$bindir/testmaster", 'testmaster', "$bindir/doesntexist", '10'],
-        expect_failure => 1, to_file => '/dev/null', error_to_file => '/dev/null');
+call_ua(
+    [
+        '--install', "$bindir/testmaster", 'testmaster', "$bindir/doesntexist", '10',
+    ],
+    expect_failure => 1,
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
 # invalid alternative name in master
-call_ua(['--install', "$bindir/testmaster", 'test/master', "$paths{date}", '10'],
-        expect_failure => 1, to_file => '/dev/null', error_to_file => '/dev/null');
+call_ua(
+    [
+        '--install', "$bindir/testmaster", 'test/master', "$paths{date}", '10',
+    ],
+    expect_failure => 1,
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
 # invalid alternative name in slave
-call_ua(['--install', "$bindir/testmaster", 'testmaster', "$paths{date}", '10',
-         '--slave', "$bindir/testslave", 'test slave', "$paths{true}" ],
-        expect_failure => 1, to_file => '/dev/null', error_to_file => '/dev/null');
+call_ua(
+    [
+        '--install', "$bindir/testmaster", 'testmaster', "$paths{date}", '10',
+        '--slave', "$bindir/testslave", 'test slave', "$paths{true}",
+    ],
+    expect_failure => 1,
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
 # install in non-existing dir should fail
-call_ua(['--install', "$bindir/doesntexist/testmaster", 'testmaster', "$paths{date}", '10',
-         '--slave', "$bindir/testslave", 'testslave', "$paths{true}" ],
-        expect_failure => 1, to_file => '/dev/null', error_to_file => '/dev/null');
-call_ua(['--install', "$bindir/testmaster", 'testmaster', "$paths{date}", '10',
-         '--slave', "$bindir/doesntexist/testslave", 'testslave', "$paths{true}" ],
-        expect_failure => 1, to_file => '/dev/null', error_to_file => '/dev/null');
+call_ua(
+    [
+        '--install', "$bindir/doesntexist/testmaster", 'testmaster', "$paths{date}", '10',
+        '--slave', "$bindir/testslave", 'testslave', "$paths{true}",
+    ],
+    expect_failure => 1,
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
+call_ua(
+    [
+        '--install', "$bindir/testmaster", 'testmaster', "$paths{date}", '10',
+        '--slave', "$bindir/doesntexist/testslave", 'testslave', "$paths{true}",
+    ],
+    expect_failure => 1,
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
 
 # non-existing alternative path in slave is not a failure
 my $old_path = $choices[0]{slaves}[0]{path};
@@ -627,7 +758,7 @@ ok(!-l "$bindir/slave1", 'install preserves files that should be slave links');
 remove_choice(0);
 ok(-f $main_link, 'removal keeps real file installed as master link');
 ok(-f "$bindir/slave1", 'removal keeps real files installed as slave links');
-install_choice(0, params => ['--force']);
+install_choice(0, params => [ '--force' ]);
 check_choice(0, 'auto', 'install --force replaces files with links');
 
 # test management of pre-existing files #2
@@ -649,7 +780,7 @@ ok(!-l $main_link, 'auto switching preserves files that should be links');
 ok(!-l "$bindir/slave2", 'auto switching preserves files that should be slave links');
 ok(-f $main_link, 'auto switching keeps real file installed as master link');
 ok(-f "$bindir/slave2", 'auto switching keeps real files installed as slave links');
-remove_all_choices(params => ['--force']);
+remove_all_choices(params => [ '--force' ]);
 ok(!-e "$bindir/slave2", 'forced removeall drops real files installed as slave links');
 
 # test management of pre-existing files #3
@@ -667,18 +798,22 @@ ok(!-l $main_link, 'install + switching preserves files that should be links');
 ok(!-l "$bindir/slave2", 'install + switching preserves files that should be slave links');
 ok(-f $main_link, 'install + switching keeps real file installed as master link');
 ok(-f "$bindir/slave2", 'install + switching keeps real files installed as slave links');
-set_choice(1, params => ['--force']);
+set_choice(1, params => [ '--force' ]);
 ok(!-e "$bindir/slave2", 'forced switching w/o slave drops real files installed as slave links');
 check_choice(1, 'manual', 'set --force replaces files with links');
 
 # check disappearence of obsolete slaves (#916799)
 cleanup();
-call_ua([
-    '--install', "$bindir/test-obsolete", 'test-obsolete', "$paths{date}", '10',
-    '--slave', "$bindir/test-slave-a", 'test-slave-a', "$bindir/impl-slave-a",
-    '--slave', "$bindir/test-slave-b", 'test-slave-b', "$bindir/impl-slave-b",
-    '--slave', "$bindir/test-slave-c", 'test-slave-c', "$bindir/impl-slave-c",
-], to_file => '/dev/null', error_to_file => '/dev/null');
+call_ua(
+    [
+        '--install', "$bindir/test-obsolete", 'test-obsolete', "$paths{date}", '10',
+        '--slave', "$bindir/test-slave-a", 'test-slave-a', "$bindir/impl-slave-a",
+        '--slave', "$bindir/test-slave-b", 'test-slave-b', "$bindir/impl-slave-b",
+        '--slave', "$bindir/test-slave-c", 'test-slave-c', "$bindir/impl-slave-c",
+    ],
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
 
 my $content;
 my $expected;
@@ -703,10 +838,14 @@ $bindir/impl-slave-c
 ";
 is($content, $expected, 'administrative file for non-obsolete slaves is as expected');
 
-call_ua([
-    '--install', "$bindir/test-obsolete", 'test-obsolete', "$paths{date}", '20',
-    '--slave', "$bindir/test-slave-c", 'test-slave-c', "$bindir/impl-slave-c",
-], to_file => '/dev/null', error_to_file => '/dev/null');
+call_ua(
+    [
+        '--install', "$bindir/test-obsolete", 'test-obsolete', "$paths{date}", '20',
+        '--slave', "$bindir/test-slave-c", 'test-slave-c', "$bindir/impl-slave-c",
+    ],
+    to_file => '/dev/null',
+    error_to_file => '/dev/null',
+);
 
 $content = file_slurp("$admindir/test-obsolete");
 $expected =

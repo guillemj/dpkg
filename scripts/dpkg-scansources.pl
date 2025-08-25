@@ -97,7 +97,9 @@ sub load_override {
     my $file = shift;
     local $_;
 
-    my $comp_file = Dpkg::Compression::FileHandle->new(filename => $file);
+    my $comp_file = Dpkg::Compression::FileHandle->new(
+        filename => $file,
+    );
     while (<$comp_file>) {
         s/#.*//;
 	next if /^\s*$/;
@@ -158,7 +160,9 @@ sub load_src_override {
     }
 
     debug(1, "source override file $file");
-    my $comp_file = Dpkg::Compression::FileHandle->new(filename => $file);
+    my $comp_file = Dpkg::Compression::FileHandle->new(
+        filename => $file,
+    );
     while (<$comp_file>) {
         s/#.*//;
 	next if /^\s*$/;
@@ -187,7 +191,9 @@ sub load_src_override {
 sub load_override_extra
 {
     my $extra_override = shift;
-    my $comp_file = Dpkg::Compression::FileHandle->new(filename => $extra_override);
+    my $comp_file = Dpkg::Compression::FileHandle->new(
+        filename => $extra_override,
+    );
 
     while (<$comp_file>) {
 	s/\#.*//;

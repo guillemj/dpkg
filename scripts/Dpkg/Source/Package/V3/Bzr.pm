@@ -161,9 +161,11 @@ sub do_build {
     my $debianfile = "$basenamerev.bzr.tar." . $self->{options}{comp_ext};
     info(g_('building %s in %s'),
          $sourcepackage, $debianfile);
-    my $tar = Dpkg::Source::Archive->new(filename => $debianfile,
-                                         compression => $self->{options}{compression},
-                                         compression_level => $self->{options}{comp_level});
+    my $tar = Dpkg::Source::Archive->new(
+        filename => $debianfile,
+        compression => $self->{options}{compression},
+        compression_level => $self->{options}{comp_level},
+    );
     $tar->create(chdir => $tmpdir);
     $tar->add_directory($dirname);
     $tar->finish();

@@ -137,12 +137,23 @@ TAR
         chdir $cwd;
 
         my $paths_list = join "\0", @paths;
-        spawn(exec => [ $Dpkg::PROGTAR, '-cf', "$dirtree.tar",
-                        '--format', $type,
-                        '-C', $dirtree, '--mtime=@100000000',
-                        '--owner=user:100', '--group=group:200',
-                        '--null', '--no-unquote', '--no-recursion', '-T-' ],
-              wait_child => 1, from_string => \$paths_list);
+        spawn(
+            exec => [
+                $Dpkg::PROGTAR,
+                '-cf', "$dirtree.tar",
+                '--format', $type,
+                '-C', $dirtree,
+                '--mtime=@100000000',
+                '--owner=user:100',
+                '--group=group:200',
+                '--null',
+                '--no-unquote',
+                '--no-recursion',
+                '-T-',
+            ],
+            wait_child => 1,
+            from_string => \$paths_list,
+        );
 
         my $expected = $expected_tar;
         $expected =~ s/[ug]name=[^ ]+ //g if $type eq 'v7';
@@ -150,8 +161,12 @@ TAR
         $expected =~ s/\n^.*dddd.*$//mg if $type eq 'v7';
         $expected =~ s/\n^.*symlink-long.*$//mg if $type eq 'ustar';
 
-        spawn(exec => [ "$builddir/t/c-tarextract", "$dirtree.tar" ],
-              no_check => 1, to_string => \$stdout, to_error => \$stderr);
+        spawn(
+            exec => [ "$builddir/t/c-tarextract", "$dirtree.tar" ],
+            no_check => 1,
+            to_string => \$stdout,
+            to_error => \$stderr,
+        );
         ok($? == 0, "tar extractor $type should succeed");
         is($stderr, undef, "tar extractor $type stderr is empty");
         is($stdout, $expected, "tar extractor $type is ok");

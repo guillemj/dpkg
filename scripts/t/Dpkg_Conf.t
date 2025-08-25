@@ -97,7 +97,9 @@ FILTER
 
 $conf = Dpkg::Conf->new(allow_short => 1);
 $conf->load("$datadir/config-mixed");
-$conf->filter(remove => sub { $_[0] =~ m/^--option/ });
+$conf->filter(
+    remove => sub { $_[0] =~ m/^--option/ },
+);
 is($conf->output, $expected_filter, 'Filter remove');
 
 $expected_filter = <<'FILTER';
@@ -107,7 +109,9 @@ FILTER
 
 $conf = Dpkg::Conf->new(allow_short => 1);
 $conf->load("$datadir/config-mixed");
-$conf->filter(keep => sub { $_[0] =~ m/^--option-[a-z]+-quotes/ });
+$conf->filter(
+    keep => sub { $_[0] =~ m/^--option-[a-z]+-quotes/ },
+);
 is($conf->output, $expected_filter, 'Filter keep');
 
 $expected_filter = <<'FILTER';
@@ -116,6 +120,8 @@ FILTER
 
 $conf = Dpkg::Conf->new(allow_short => 1);
 $conf->load("$datadir/config-mixed");
-$conf->filter(remove => sub { $_[0] =~ m/^--option/ },
-              keep => sub { $_[0] =~ m/^--/ });
+$conf->filter(
+    remove => sub { $_[0] =~ m/^--option/ },
+    keep => sub { $_[0] =~ m/^--/ },
+);
 is($conf->output, $expected_filter, 'Filter keep and remove');

@@ -465,8 +465,10 @@ sub merge_symbols {
 		$sym = $pattern->create_pattern_match(symbol => $name);
 	    } else {
                 # Symbol without any special info as no pattern matched.
-		$sym = Dpkg::Shlibs::Symbol->new(symbol => $name,
-		                                 minver => $minver);
+                $sym = Dpkg::Shlibs::Symbol->new(
+                    symbol => $name,
+                    minver => $minver,
+                );
 	    }
 	    $self->add_symbol($sym, $obj);
 	}

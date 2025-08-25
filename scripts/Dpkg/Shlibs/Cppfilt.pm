@@ -64,9 +64,11 @@ sub get_cppfilt {
             last_symbol => '',
             last_result => '',
         };
-	$filt->{pid} = spawn(exec => [ 'c++filt', "--format=$type" ],
-	                     from_pipe => \$filt->{from},
-	                     to_pipe => \$filt->{to});
+        $filt->{pid} = spawn(
+            exec => [ 'c++filt', "--format=$type" ],
+            from_pipe => \$filt->{from},
+            to_pipe => \$filt->{to},
+        );
 	syserr(g_('unable to execute %s'), 'c++filt')
 	    unless defined $filt->{from};
 	$filt->{from}->autoflush(1);
@@ -123,9 +125,11 @@ sub terminate_cppfilts {
 	next if not defined $cppfilts{$type}{pid};
 	close $cppfilts{$type}{from};
 	close $cppfilts{$type}{to};
-	wait_child($cppfilts{$type}{pid}, cmdline => 'c++filt',
-                                          no_check => 1,
-	                                  timeout => 5);
+        wait_child($cppfilts{$type}{pid},
+            cmdline => 'c++filt',
+            no_check => 1,
+            timeout => 5,
+        );
 	delete $cppfilts{$type};
     }
 }

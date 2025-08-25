@@ -421,8 +421,11 @@ sub _open_for_write {
         if exists *$self->{mode};
 
     if ($self->use_compression()) {
-	*$self->{compressor}->compress(from_pipe => \$filehandle,
-            to_file => $self->get_filename(), %opts);
+        *$self->{compressor}->compress(
+            from_pipe => \$filehandle,
+            to_file => $self->get_filename(),
+            %opts,
+        );
     } else {
 	CORE::open($filehandle, '>', $self->get_filename)
 	    or syserr(g_('cannot write %s'), $self->get_filename());
@@ -439,8 +442,11 @@ sub _open_for_read {
         if exists *$self->{mode};
 
     if ($self->use_compression()) {
-	*$self->{compressor}->uncompress(to_pipe => \$filehandle,
-		from_file => $self->get_filename(), %opts);
+        *$self->{compressor}->uncompress(
+            to_pipe => \$filehandle,
+            from_file => $self->get_filename(),
+            %opts,
+        );
         *$self->{allow_sigpipe} = 1;
     } else {
 	CORE::open($filehandle, '<', $self->get_filename)
@@ -453,7 +459,9 @@ sub _open_for_read {
 sub _cleanup {
     my $self = shift;
     my $cmdline = *$self->{compressor}{cmdline} // '';
-    *$self->{compressor}->wait_end_process(no_check => *$self->{allow_sigpipe});
+    *$self->{compressor}->wait_end_process(
+        no_check => *$self->{allow_sigpipe},
+    );
     if (*$self->{allow_sigpipe}) {
         require POSIX;
         unless (($? == 0) || (POSIX::WIFSIGNALED($?) &&
