@@ -252,11 +252,14 @@ if ($options{arch}) {
     $find_filter = qr/\.$type$/;
 }
 my @archives;
-my $scan_archives = sub {
-    push @archives, $File::Find::name if m/$find_filter/;
+my $scan_archives = {
+    wanted => sub {
+        push @archives, $File::Find::name if m/$find_filter/;
+    },
+    follow => 1,
+    follow_skip => 2,
 };
-
-find({ follow => 1, follow_skip => 2, wanted => $scan_archives}, $binarypath);
+find($scan_archives, $binarypath);
 foreach my $fn (@archives) {
     process_deb($pathprefix, $fn);
 }

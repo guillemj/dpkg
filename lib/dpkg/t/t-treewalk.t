@@ -114,11 +114,14 @@ sub test_treewalker {
 
         make_tree($dirtree);
 
-        find({ no_chdir => 1, wanted => sub {
-                   return if $type eq 'skip' and m{^\Q$dirtree\E/cccc};
-                   push @paths, s{\./}{}r;
-               },
-        }, $dirtree);
+        my $scan_tree = {
+            wanted => sub {
+                return if $type eq 'skip' and m{^\Q$dirtree\E/cccc};
+                push @paths, s{\./}{}r;
+            },
+            no_chdir => 1,
+        };
+        find($scan_tree, $dirtree);
 
         my $expected;
 

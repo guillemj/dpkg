@@ -121,15 +121,19 @@ TAR
         mkdir $dirtree;
         chdir $dirtree;
         tar_create_tree($type);
-        find({ no_chdir => 1, wanted => sub {
-                   return if $type eq 'v7' and length > 99;
-                   return if $type eq 'v7' and -l and length readlink > 99;
-                   return if $type eq 'v7' and not (-f or -l or -d);
-                   return if $type eq 'ustar' and length > 256;
-                   return if $type eq 'ustar' and -l and length readlink > 100;
-                   push @paths, $_;
-               },
-               preprocess => sub { my (@files) = sort @_; @files } }, '.');
+        my $scan_tar = {
+            wanted => sub {
+                return if $type eq 'v7' and length > 99;
+                return if $type eq 'v7' and -l and length readlink > 99;
+                return if $type eq 'v7' and not (-f or -l or -d);
+                return if $type eq 'ustar' and length > 256;
+                return if $type eq 'ustar' and -l and length readlink > 100;
+                push @paths, $_;
+            },
+            preprocess => sub { my (@files) = sort @_; @files },
+            no_chdir => 1,
+        };
+        find($scan_tar, '.');
         chdir $cwd;
 
         my $paths_list = join "\0", @paths;

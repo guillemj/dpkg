@@ -237,12 +237,13 @@ sub check_directory_traversal {
               $_, $canon_pathname);
     };
 
-    find({
+    my $scan_symlinks = {
         wanted => $check_symlinks,
         no_chdir => 1,
         follow => 1,
         follow_skip => 2,
-    }, $dir);
+    };
+    find($scan_symlinks, $dir);
 
     return;
 }

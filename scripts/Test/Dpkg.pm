@@ -134,10 +134,11 @@ sub _test_get_perl_dirs
 
 sub _test_scan_files($visit_func, $dirs)
 {
-    find({
+    my $scan_files = {
         wanted => $visit_func,
         no_chdir => 1,
-    }, @{$dirs});
+    };
+    find($scan_files, @{$dirs});
 }
 
 sub _test_get_files($keep_func, $dirs)

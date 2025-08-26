@@ -229,11 +229,12 @@ sub extract {
                 or syserr(g_('cannot move %s to %s'), $File::Find::name, $destpath);
         };
 
-        find({
+        my $scan_move_in_place = {
             wanted => $move_in_place,
             no_chdir => 1,
             dangling_symlinks => 0,
-        }, $tmpdir);
+        };
+        find($scan_move_in_place, $tmpdir);
     } else {
         # Rename extracted directory
         opendir my $dir_dh, $tmpdir

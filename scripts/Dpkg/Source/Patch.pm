@@ -180,7 +180,7 @@ sub add_diff_directory {
 
     my @diff_files;
     my %files_in_new;
-    my $scan_new = sub {
+    my $add_new = sub {
         my $fn = (length > length($new)) ? substr($_, length($new) + 1) : '.';
         return if $diff_ignore->($fn);
         $files_in_new{$fn} = 1;
@@ -240,7 +240,7 @@ sub add_diff_directory {
             $self->_fail_with_msg("$new/$fn", g_('unknown file type'));
         }
     };
-    my $scan_old = sub {
+    my $add_old = sub {
         my $fn = (length > length($old)) ? substr($_, length($old) + 1) : '.';
         return if $diff_ignore->($fn);
         return if $files_in_new{$fn};
@@ -263,8 +263,16 @@ sub add_diff_directory {
         }
     };
 
-    find({ wanted => $scan_new, no_chdir => 1 }, $new);
-    find({ wanted => $scan_old, no_chdir => 1 }, $old);
+    my $scan_new = {
+        wanted => $add_new,
+        no_chdir => 1,
+    };
+    find($scan_new, $new);
+    my $scan_old = {
+        wanted => $add_old,
+        no_chdir => 1,
+    };
+    find($scan_old, $old);
 
     if ($opts{order_from} and -e $opts{order_from}) {
         my $order_from = Dpkg::Source::Patch->new(

@@ -372,7 +372,7 @@ sub restore_quilt_backup_files {
     my $patch_dir = $self->get_db_file($patch);
     return unless -d $patch_dir;
     info(g_('restoring quilt backup files for %s'), $patch) if $opts{verbose};
-    find({
+    my $scan_quilt = {
         no_chdir => 1,
         wanted => sub {
             return if -d;
@@ -391,8 +391,9 @@ sub restore_quilt_backup_files {
                 # empty files are "backups" for new files that patch created
                 unlink($target);
             }
-        }
-    }, $patch_dir);
+        },
+    };
+    find($scan_quilt, $patch_dir);
 }
 
 =head1 CHANGES

@@ -160,8 +160,12 @@ sub detect_binary_files {
         }
         return @result;
     };
-    find({ wanted => $check_binary, preprocess => $filter_ignore,
-           no_chdir => 1 }, File::Spec->catdir($self->{dir}, 'debian'));
+    my $scan_binaries = {
+        wanted => $check_binary,
+        preprocess => $filter_ignore,
+        no_chdir => 1,
+    };
+    find($scan_binaries, File::Spec->catdir($self->{dir}, 'debian'));
     error(P_('detected %d unwanted binary file (add it in ' .
              'debian/source/include-binaries to allow its inclusion).',
              'detected %d unwanted binary files (add them in ' .

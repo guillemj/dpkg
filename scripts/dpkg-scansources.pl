@@ -300,11 +300,14 @@ load_src_override $src_override, $override;
 load_override_extra $extra_override_file if defined $extra_override_file;
 
 my @dsc;
-my $scan_dsc = sub {
-    push @dsc, $File::Find::name if m/\.dsc$/;
+my $scan_dsc = {
+    wanted => sub {
+        push @dsc, $File::Find::name if m/\.dsc$/;
+    },
+    follow => 1,
+    follow_skip => 2,
 };
-
-find({ follow => 1, follow_skip => 2, wanted => $scan_dsc }, $dir);
+find($scan_dsc, $dir);
 foreach my $fn (@dsc) {
     # FIXME: Fix it instead to not die on syntax and general errors?
     eval {
