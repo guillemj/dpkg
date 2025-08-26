@@ -71,7 +71,10 @@ my @module_cmdline = (
 sub describe_cmdline_options {
     my $self = shift;
 
-    my @cmdline = ( $self->SUPER::describe_cmdline_options(), @module_cmdline );
+    my @cmdline = (
+        $self->SUPER::describe_cmdline_options(),
+        @module_cmdline,
+    );
 
     return @cmdline;
 }

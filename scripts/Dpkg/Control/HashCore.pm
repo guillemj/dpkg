@@ -418,7 +418,7 @@ Define the order in which fields will be displayed in the output() method.
 sub set_output_order {
     my ($self, @fields) = @_;
 
-    $$self->{out_order} = [@fields];
+    $$self->{out_order} = [ @fields ];
 }
 
 =item $c->apply_substvars($substvars)

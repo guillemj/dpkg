@@ -128,7 +128,7 @@ sub load_override {
 	    # do nothing
         } elsif ($maintainer =~ /^(.*\S)\s*=>\s*(.*)$/) {
 	    $override{$package}[O_MAINT_TO] = $2;
-	    $override{$package}[O_MAINT_FROM] = [split m{\s*//\s*}, $1];
+            $override{$package}[O_MAINT_FROM] = [ split m{\s*//\s*}, $1 ];
         } else {
 	    $override{$package}[O_MAINT_TO] = $maintainer;
 	}

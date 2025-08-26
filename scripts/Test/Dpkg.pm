@@ -382,7 +382,7 @@ sub test_needs_openpgp_backend
         my @cmds = grep {
             $_ ne 'none'
         } map {
-            ( $_->{cmd}, $_->{cmdv} )
+            ($_->{cmd}, $_->{cmdv})
         } @openpgp_backends;
         plan skip_all => "requires >= 1 openpgp command: @cmds";
     }

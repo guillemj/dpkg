@@ -423,7 +423,9 @@ my $fields = Dpkg::Control->new(type => CTRL_FILE_BUILDINFO);
 my $dist = Dpkg::Dist::Files->new();
 
 # Retrieve info from the current changelog entry.
-my %changelog_opts = (file => $changelogfile);
+my %changelog_opts = (
+    file => $changelogfile,
+);
 $changelog_opts{changelogformat} = $changelogformat if $changelogformat;
 my $changelog = changelog_parse(%changelog_opts);
 

@@ -28,8 +28,13 @@ my $tmpdir = 't.tmp/update_alternatives';
 my $admindir = File::Spec->rel2abs("$tmpdir/admindir"),
 my $altdir = File::Spec->rel2abs("$tmpdir/alternatives");
 my $bindir = File::Spec->rel2abs("$tmpdir/bin");
-my @ua = ("$ENV{builddir}/update-alternatives", '--log', '/dev/null',
-          '--quiet', '--admindir', "$admindir", '--altdir', "$altdir");
+my @ua = (
+    "$ENV{builddir}/update-alternatives",
+    '--log', '/dev/null',
+    '--quiet',
+    '--admindir', "$admindir",
+    '--altdir', "$altdir",
+);
 
 my $rootdir_envvar = $ENV{UA_ROOTDIR_ENVVAR} // 'DPKG_ROOT';
 my $admindir_envvar = $ENV{UA_ADMINDIR_ENVVAR} // 'DPKG_ADMINDIR';

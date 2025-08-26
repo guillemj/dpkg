@@ -61,7 +61,10 @@ $count = $conf->load("$datadir/config-mixed");
 is($count, 15, 'Load a config file, mixed options');
 
 @opts = $conf->get_options();
-my @expected_mixed_opts = ( @expected_long_opts, @expected_short_opts );
+my @expected_mixed_opts = (
+    @expected_long_opts,
+    @expected_short_opts,
+);
 is_deeply(\@opts, \@expected_mixed_opts, 'Parse mixed options');
 
 my $expected_mixed_output = <<'MIXED';

@@ -166,7 +166,11 @@ sub find_library {
 
     setup_library_paths() if not $librarypaths_init;
 
-    my @librarypaths = (@{$rpath}, @custom_librarypaths, @system_librarypaths);
+    my @librarypaths = (
+        @{$rpath},
+        @custom_librarypaths,
+        @system_librarypaths,
+    );
     my @libs;
 
     $root //= '';

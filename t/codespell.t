@@ -51,11 +51,10 @@ my @codespell_skip = qw(
 );
 my $codespell_skip = join ',', @codespell_skip;
 
-my @codespell_opts = (qw(
-  --ignore-words=t/codespell/stopwords
-), (
-  "--skip=$codespell_skip"
-));
+my @codespell_opts = (
+  '--ignore-words=t/codespell/stopwords',
+  "--skip=$codespell_skip",
+);
 my $tags = qx(codespell @codespell_opts 2>&1);
 
 # Fixup the output:

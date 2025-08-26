@@ -504,7 +504,7 @@ Save the changelog in the given file.
 
 =cut
 
-our ( @URGENCIES, %URGENCIES );
+our (@URGENCIES, %URGENCIES);
 BEGIN {
     @URGENCIES = qw(
         low

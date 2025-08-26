@@ -41,7 +41,9 @@ use Dpkg::Shlibs::Objdump::Object;
 sub new {
     my $this = shift;
     my $class = ref($this) || $this;
-    my $self = { objects => {} };
+    my $self = {
+        objects => {},
+    };
     bless $self, $class;
     return $self;
 }

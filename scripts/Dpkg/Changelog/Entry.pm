@@ -189,19 +189,19 @@ sub normalize {
     my $self = shift;
     if (defined($self->{header})) {
 	$self->{header} =~ s/\s+$//g;
-	$self->{blank_after_header} = [''];
+        $self->{blank_after_header} = [ '' ];
     } else {
 	$self->{blank_after_header} = [];
     }
     if (scalar(@{$self->{changes}})) {
 	s/\s+$//g foreach @{$self->{changes}};
-	$self->{blank_after_changes} = [''];
+        $self->{blank_after_changes} = [ '' ];
     } else {
 	$self->{blank_after_changes} = [];
     }
     if (defined($self->{trailer})) {
 	$self->{trailer} =~ s/\s+$//g;
-	$self->{blank_after_trailer} = [''];
+        $self->{blank_after_trailer} = [ '' ];
     } else {
 	$self->{blank_after_trailer} = [];
     }

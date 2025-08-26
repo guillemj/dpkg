@@ -298,7 +298,7 @@ foreach my $file (keys %exec) {
                 # package, it's because it's in the process of being built.
                 # Empty package name will lead to consideration of symbols
                 # file from the package being built only
-                $file2pkg->{$lib} = [''];
+                $file2pkg->{$lib} = [ '' ];
                 debug(1, "No associated package found for $lib");
             }
 
@@ -961,8 +961,9 @@ sub find_packages {
 	    $pkgmatch->{$path} = $cached_pkgmatch{$path};
 	} else {
 	    push @files, $path;
-	    $cached_pkgmatch{$path} = ['']; # placeholder to cache misses too.
-	    $pkgmatch->{$path} = [''];      # might be replaced later on
+            # Placeholder to cache misses too, might be replaced later on.
+            $cached_pkgmatch{$path} = [ '' ];
+            $pkgmatch->{$path} = [ '' ];
 	}
     }
     return $pkgmatch unless scalar(@files);

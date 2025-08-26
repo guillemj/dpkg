@@ -210,7 +210,9 @@ if (not defined $outputfile) {
 }
 
 # Retrieve info from the current changelog entry
-my %changelog_opts = (file => $changelogfile);
+my %changelog_opts = (
+    file => $changelogfile,
+);
 $changelog_opts{changelogformat} = $changelogformat if $changelogformat;
 $changelog_opts{since} = $since if defined($since);
 my $changelog = changelog_parse(%changelog_opts);
