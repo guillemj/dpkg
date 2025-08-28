@@ -22,65 +22,70 @@
 #define BINDINGS_H
 
 struct keybindings {
-  struct interpretation;
+	struct interpretation;
 
-  struct orgbinding {
-    int key;
-    const char *action;
-  };
+	struct orgbinding {
+		int key;
+		const char *action;
+	};
 
-  struct keyname {
-    int key;
-    const char *kname;
-  };
+	struct keyname {
+		int key;
+		const char *kname;
+	};
 
-  struct description {
-    const char *action, *desc;
-  };
+	struct description {
+		const char *action;
+		const char *desc;
+	};
 
-  struct binding {
-    binding *next;
-    int key;
-    const struct interpretation *interp;
-    const char *desc;
-  };
+	struct binding {
+		binding *next;
+		int key;
+		const struct interpretation *interp;
+		const char *desc;
+	};
 
- private:
-  static const keyname keynames[];
-  static const description descriptions[];
+private:
+	static const keyname keynames[];
+	static const description descriptions[];
 
-  binding *bindings;
-  const description *iterate;
-  const interpretation *interps;
+	binding *bindings;
+	const description *iterate;
+	const interpretation *interps;
 
-  bool bind(int key, const char *action);
+	bool bind(int key, const char *action);
 
- public:
-  int name2key(const char *name);
-  const char *key2name(int key);
+public:
+	int name2key(const char *name);
+	const char *key2name(int key);
 
-  bool bind(const char *name, const char *action)
-  { return bind(name2key(name), action); }
-  const interpretation *operator()(int key);
-  varbuf find(const char *action);
+	bool bind(const char *name, const char *action)
+	{ return bind(name2key(name), action); }
+	const interpretation *operator()(int key);
+	varbuf find(const char *action);
 
-  void describestart() { iterate=descriptions; }
-  const char **describenext();
-  //... returns array, null-term, first element is description, rest are key strings
-  // caller must delete[] the array.  Null means end.
+	void describestart()
+	{ iterate = descriptions; }
+	/*
+	 * Returns array, nullptr-terminated, first element is description,
+	 * rest are key strings, caller must delete[] the array.
+	 * A nullptr means end.
+	 */
+	const char **describenext();
 
-  keybindings(const interpretation *ints, const orgbinding *orgbindings);
-  ~keybindings();
+	keybindings(const interpretation *ints, const orgbinding *orgbindings);
+	~keybindings();
 };
 
 #include "pkglist.h"
 #include "method.h"
 
 struct keybindings::interpretation {
-  const char *action;
-  void (methodlist::*mfn)();
-  void (packagelist::*pfn)();
-  quitaction qa;
+	const char *action;
+	void (methodlist::*mfn)();
+	void (packagelist::*pfn)();
+	quitaction qa;
 };
 
 extern const keybindings::interpretation packagelist_kinterps[];

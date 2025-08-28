@@ -25,28 +25,37 @@
 
 #include "dselect.h"
 
-void baselist::refreshlist() {
-  redrawitemsrange(topofscreen, min(nitems, topofscreen + list_height));
-  int y, x, maxy, maxx;
-  y = min(list_row + list_height - 1, list_row + nitems - topofscreen - 1);
-  x = min(total_width - leftofscreen - 1, xmax - 1);
-  pnoutrefresh(listpad, 0, leftofscreen, list_row, 0, y, x);
-  getmaxyx(listpad,maxy,maxx);
-  y++;
-  while (y < list_row + list_height - 1) {
-    pnoutrefresh(listpad, maxy-1,leftofscreen, y,0, y,x);
-    y++;
-  }
+void
+baselist::refreshlist()
+{
+	redrawitemsrange(topofscreen, min(nitems, topofscreen + list_height));
+
+	int y, x, maxy, maxx;
+	y = min(list_row + list_height - 1,
+	        list_row + nitems - topofscreen - 1);
+	x = min(total_width - leftofscreen - 1, xmax - 1);
+	pnoutrefresh(listpad, 0, leftofscreen, list_row, 0, y, x);
+	getmaxyx(listpad, maxy, maxx);
+	y++;
+	while (y < list_row + list_height - 1) {
+		pnoutrefresh(listpad, maxy - 1, leftofscreen, y, 0, y, x);
+		y++;
+	}
 }
 
-void baselist::redrawitemsrange(int start, int end) {
-  int i;
-  for (i = start; i < end; i++) {
-    redraw1item(i);
-  }
+void
+baselist::redrawitemsrange(int start, int end)
+{
+	int i;
+	for (i = start; i < end; i++) {
+		redraw1item(i);
+	}
 }
 
-void baselist::refreshcolheads() {
-  pnoutrefresh(colheadspad, 0,leftofscreen, colheads_row,0,
-               colheads_row, min(total_width - leftofscreen - 1, xmax - 1));
+void
+baselist::refreshcolheads()
+{
+	pnoutrefresh(colheadspad, 0, leftofscreen, colheads_row, 0,
+	             colheads_row,
+	             min(total_width - leftofscreen - 1, xmax - 1));
 }

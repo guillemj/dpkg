@@ -26,7 +26,7 @@
 #include "helpmsgs.h"
 
 const struct helpmessage hlp_listkeys = {
-  N_("Keystrokes"), N_("\
+	N_("Keystrokes"), N_("\
 Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n\
   j, Down-arrow         k, Up-arrow             move highlight\n\
   N, Page-down, Space   P, Page-up, Backspace   scroll list by 1 page\n\
@@ -52,7 +52,7 @@ Quit, exit, overwrite (note capitals!):       ?, F1 request help (also Help)\n\
 };
 
 const struct helpmessage hlp_mainintro = {
-  N_("Introduction to package selections"), N_("\
+	N_("Introduction to package selections"), N_("\
 Welcome to dselect's main package listing.\n\n\
 \
 You will be presented with a list of packages which are installed or available\n\
@@ -77,7 +77,7 @@ Press <space> to leave help and enter the list now.\n")
 };
 
 const struct helpmessage hlp_readonlyintro = {
-  N_("Introduction to read-only package list browser"), N_("\
+	N_("Introduction to read-only package list browser"), N_("\
 Welcome to dselect's main package listing.\n\n\
 \
 You will be presented with a list of packages which are installed or available\n\
@@ -96,7 +96,7 @@ Press <space> to leave help and enter the list now.\n")
 };
 
 const struct helpmessage hlp_recurintro = {
-  N_("Introduction to conflict/dependency resolution sub-list"), N_("\
+	N_("Introduction to conflict/dependency resolution sub-list"), N_("\
 Dependency/conflict resolution - introduction.\n\n\
 \
 One or more of your choices have raised a conflict or dependency problem -\n\
@@ -122,7 +122,7 @@ Press <space> to leave help and enter the sub-list; remember: press '?' for help
 };
 
 const struct helpmessage hlp_displayexplain1 = {
-  N_("Display, part 1: package listing and status chars"), N_("\
+	N_("Display, part 1: package listing and status chars"), N_("\
 The top half of the screen shows a list of packages.  For each package you see\n\
 four columns for its current status on the system and mark.  In terse mode (use\n\
 'v' to toggle verbose display) these are single characters, from left to right:\n\n\
@@ -149,7 +149,7 @@ available version numbers (shift-V to display/hide) and summary description.\n")
 };
 
 const struct helpmessage hlp_displayexplain2 = {
-  N_("Display, part 2: list highlight; information display"), N_("\
+	N_("Display, part 2: list highlight; information display"), N_("\
 * Highlight: One line in the package list will be highlighted.  It indicates\n\
   which package(s) will be affected by presses of '+', '-' and '_'.\n\n\
 \
@@ -173,7 +173,7 @@ const struct helpmessage hlp_displayexplain2 = {
 };
 
 const struct helpmessage hlp_methintro = {
-  N_("Introduction to method selection display"), N_("\
+	N_("Introduction to method selection display"), N_("\
 dselect and dpkg can do automatic installation, loading the package files to be\n\
 installed from one of a number of different possible places.\n\n\
 \
@@ -193,7 +193,7 @@ menu reachable by pressing '?'.\n")
 };
 
 const struct helpmessage hlp_methkeys = {
-  N_("Keystrokes for method selection"), N_("\
+	N_("Keystrokes for method selection"), N_("\
 Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n\
   j, Down-arrow         k, Up-arrow             move highlight\n\
   N, Page-down, Space   P, Page-up, Backspace   scroll list by 1 page\n\

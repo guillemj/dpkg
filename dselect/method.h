@@ -37,60 +37,65 @@
 #define OPTIONINDEXMAXLEN	5
 
 struct method {
-  struct method *next, *prev;
-  varbuf name, path;
+	struct method *next, *prev;
+	varbuf name;
+	varbuf path;
 };
 
 struct dselect_option {
-  dselect_option *next;
-  method *meth;
-  varbuf index;
-  varbuf name;
-  varbuf summary;
-  varbuf description;
+	dselect_option *next;
+	method *meth;
+	varbuf index;
+	varbuf name;
+	varbuf summary;
+	varbuf description;
 };
 
 class methodlist : public baselist {
 protected:
-  column col_status;
-  column col_name;
-  column col_desc;
+	column col_status;
+	column col_name;
+	column col_desc;
 
-  // Table of methods
-  struct dselect_option **table;
+	// Table of methods.
+	struct dselect_option **table;
 
-  // Information displays
-  void itd_description();
+	// Information displays.
+	void itd_description();
 
-  // Define these virtuals
-  void redraw1itemsel(int index, int selected) override;
-  void redrawcolheads() override;
-  void redrawthisstate() override;
-  void redrawinfo() override;
-  void redrawtitle() override;
-  void setwidths() override;
-  void setheights() override;
-  const char *itemname(int index) override;
-  const struct helpmenuentry *helpmenulist() override;
+	// Define these virtuals.
+	void redraw1itemsel(int index, int selected) override;
+	void redrawcolheads() override;
+	void redrawthisstate() override;
+	void redrawinfo() override;
+	void redrawtitle() override;
+	void setwidths() override;
+	void setheights() override;
+	const char *itemname(int index) override;
+	const struct helpmenuentry *helpmenulist() override;
 
- public:
-  // Keybinding functions */
-  void kd_quit();
-  void kd_abort();
+public:
+	// Keybinding functions.
+	void kd_quit();
+	void kd_abort();
 
-  methodlist();
-  methodlist(const methodlist &) = delete;
-  methodlist &operator =(const methodlist &) = delete;
-  quitaction display();
-  ~methodlist() override;
+	methodlist();
+	methodlist(const methodlist &) = delete;
+	methodlist &operator =(const methodlist &) = delete;
+	quitaction display();
+	~methodlist() override;
 };
 
 extern int noptions;
-extern struct dselect_option *options, *coption;
+extern struct dselect_option *options;
+extern struct dselect_option *coption;
 extern struct method *methods;
 
-void readmethods(const char *pathbase, dselect_option **optionspp, int *nread);
-void getcurrentopt();
-void writecurrentopt();
+void
+readmethods(const char *pathbase, dselect_option **optionspp, int *nread);
+void
+getcurrentopt();
+void
+writecurrentopt();
 
 #endif /* METHOD_H */

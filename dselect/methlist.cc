@@ -36,194 +36,241 @@
 #include "method.h"
 #include "helpmsgs.h"
 
-static keybindings methodlistbindings(methodlist_kinterps,methodlist_korgbindings);
+static keybindings methodlistbindings(methodlist_kinterps,
+                                      methodlist_korgbindings);
 
-const char *methodlist::itemname(int index) {
-  return table[index]->name.str();
+const char *
+methodlist::itemname(int index)
+{
+	return table[index]->name.str();
 }
 
-void methodlist::kd_abort() { }
-
-void methodlist::kd_quit() {
-  debug(dbg_general, "methodlist[%p]::kd_quit() setting coption=%p",
-        this, table[cursorline]);
-  coption= table[cursorline];
+void
+methodlist::kd_abort()
+{
 }
 
-void methodlist::setheights() {
-  debug(dbg_general, "methodlist[%p]::setheights()", this);
-  baselist::setheights();
-  list_height++;
+void
+methodlist::kd_quit()
+{
+	debug(dbg_general, "methodlist[%p]::kd_quit() setting coption=%p",
+	      this, table[cursorline]);
+	coption = table[cursorline];
 }
 
-void methodlist::setwidths() {
-  debug(dbg_general, "methodlist[%p]::setwidths()", this);
-
-  col_cur_x = 0;
-
-  add_column(col_status, "  ", 1);
-  add_column(col_name, _("Abbrev."), 14);
-  end_column(col_desc, _("Description"));
+void
+methodlist::setheights()
+{
+	debug(dbg_general, "methodlist[%p]::setheights()", this);
+	baselist::setheights();
+	list_height++;
 }
 
-void methodlist::redrawtitle() {
-  if (title_height) {
-    mywerase(titlewin);
-    mvwaddnstr(titlewin,0,0,_("dselect - list of access methods"),xmax);
-    wnoutrefresh(titlewin);
-  }
+void
+methodlist::setwidths()
+{
+	debug(dbg_general, "methodlist[%p]::setwidths()", this);
+
+	col_cur_x = 0;
+
+	add_column(col_status, "  ", 1);
+	add_column(col_name, _("Abbrev."), 14);
+	end_column(col_desc, _("Description"));
 }
 
-void methodlist::redrawthisstate() {
-  if (!thisstate_height) return;
-  mywerase(thisstatepad);
-  wprintw(thisstatepad,
-          _("Access method '%s'."),
-          table[cursorline]->name.str());
-  pnoutrefresh(thisstatepad, 0,0, thisstate_row,0,
-               thisstate_row, min(total_width - 1, xmax - 1));
+void
+methodlist::redrawtitle()
+{
+	if (title_height) {
+		mywerase(titlewin);
+		mvwaddnstr(titlewin, 0, 0,
+		           _("dselect - list of access methods"), xmax);
+		wnoutrefresh(titlewin);
+	}
 }
 
-void methodlist::redraw1itemsel(int index, int selected) {
-  int i;
-  const char *p;
+void
+methodlist::redrawthisstate()
+{
+	if (!thisstate_height)
+		return;
 
-  wattrset(listpad, part_attr[selected ? listsel : list]);
-  mvwaddch(listpad,index,0,
-           table[index] == coption ? '*' : ' ');
-  wattrset(listpad, part_attr[selected ? listsel : list]);
-  draw_column_sep(col_name, index);
-  draw_column_item(col_name, index, table[index]->name.str());
-
-  draw_column_sep(col_desc, index);
-  i = col_desc.width;
-  p = table[index]->summary.str();
-  while (i>0 && *p && *p != '\n') {
-    waddch(listpad,*p);
-    i--; p++;
-  }
-  while (i>0) {
-    waddch(listpad,' ');
-    i--;
-  }
+	mywerase(thisstatepad);
+	wprintw(thisstatepad,
+	        _("Access method '%s'."),
+	        table[cursorline]->name.str());
+	pnoutrefresh(thisstatepad, 0, 0, thisstate_row, 0,
+	             thisstate_row, min(total_width - 1, xmax - 1));
 }
 
-void methodlist::redrawcolheads() {
-  if (colheads_height) {
-    wattrset(colheadspad, part_attr[colheads]);
-    mywerase(colheadspad);
-    draw_column_head(col_status);
-    draw_column_head(col_name);
-    draw_column_head(col_desc);
-  }
-  refreshcolheads();
+void
+methodlist::redraw1itemsel(int index, int selected)
+{
+	int i;
+	const char *p;
+
+	wattrset(listpad, part_attr[selected ? listsel : list]);
+	mvwaddch(listpad, index, 0,
+	         table[index] == coption ? '*' : ' ');
+	wattrset(listpad, part_attr[selected ? listsel : list]);
+	draw_column_sep(col_name, index);
+	draw_column_item(col_name, index, table[index]->name.str());
+
+	draw_column_sep(col_desc, index);
+	i = col_desc.width;
+	p = table[index]->summary.str();
+	while (i > 0 && *p && *p != '\n') {
+		waddch(listpad, *p);
+		i--;
+		p++;
+	}
+	while (i > 0) {
+		waddch(listpad, ' ');
+		i--;
+	}
 }
 
-methodlist::methodlist() : baselist(&methodlistbindings) {
-  int newcursor= -1;
-
-  debug(dbg_general, "methodlist[%p]::methodlist()", this);
-
-  table= new struct dselect_option*[noptions];
-
-  struct dselect_option *opt, **ip;
-  for (opt=options, ip=table, nitems=0; opt; opt=opt->next, nitems++) {
-    if (opt == coption) {
-      if (newcursor != -1)
-        internerr("multiple methods with same index");
-      newcursor = nitems;
-    }
-    *ip++= opt;
-  }
-  if (nitems != noptions)
-    internerr("inconsistent number of items: ntimes=%d != noptions=%d",
-              nitems, noptions);
-
-  if (newcursor==-1) newcursor= 0;
-  setcursor(newcursor);
-
-  debug(dbg_general, "methodlist[%p]::methodlist done; noptions=%d",
-        this, noptions);
+void
+methodlist::redrawcolheads()
+{
+	if (colheads_height) {
+		wattrset(colheadspad, part_attr[colheads]);
+		mywerase(colheadspad);
+		draw_column_head(col_status);
+		draw_column_head(col_name);
+		draw_column_head(col_desc);
+	}
+	refreshcolheads();
 }
 
-methodlist::~methodlist() {
-  debug(dbg_general, "methodlist[%p]::~methodlist()", this);
-  delete[] table;
+methodlist::methodlist() : baselist(&methodlistbindings)
+{
+	int newcursor = -1;
+
+	debug(dbg_general, "methodlist[%p]::methodlist()", this);
+
+	table = new struct dselect_option * [noptions];
+
+	struct dselect_option *opt, **ip;
+	for (opt = options, ip = table, nitems = 0;
+	     opt;
+	     opt = opt->next, nitems++) {
+		if (opt == coption) {
+			if (newcursor != -1)
+				internerr("multiple methods with same index");
+			newcursor = nitems;
+		}
+		*ip++= opt;
+	}
+	if (nitems != noptions)
+		internerr("inconsistent number of items: ntimes=%d != noptions=%d",
+		          nitems, noptions);
+
+	if (newcursor == -1)
+		newcursor = 0;
+	setcursor(newcursor);
+
+	debug(dbg_general, "methodlist[%p]::methodlist done; noptions=%d",
+	      this, noptions);
 }
 
-quitaction methodlist::display() {
-  int response;
-  const keybindings::interpretation *interp;
-
-  debug(dbg_general, "methodlist[%p]::display()", this);
-
-  startdisplay();
-
-  debug(dbg_general, "methodlist[%p]::display() entering loop", this);
-  for (;;) {
-    if (whatinfo_height) wcursyncup(whatinfowin);
-    if (doupdate() == ERR) ohshite(_("doupdate failed"));
-    do {
-      response = getch();
-      if (response == KEY_RESIZE) {
-        resize_window();
-        continue;
-      }
-    } while (response == ERR && errno == EINTR);
-    if (response == ERR) ohshite(_("getch failed"));
-    interp= (*bindings)(response);
-    debug(dbg_general, "methodlist[%p]::display() response=%d interp=%s",
-          this, response, interp ? interp->action : "[none]");
-    if (!interp)
-      continue;
-    (this->*(interp->mfn))();
-    if (interp->qa != qa_noquit) break;
-  }
-  enddisplay();
-
-  debug(dbg_general, "methodlist[%p]::display() done", this);
-
-  return interp->qa;
+methodlist::~methodlist()
+{
+	debug(dbg_general, "methodlist[%p]::~methodlist()", this);
+	delete[] table;
 }
 
-void methodlist::itd_description() {
-  whatinfovb += _("Explanation");
+quitaction
+methodlist::display()
+{
+	int response;
+	const keybindings::interpretation *interp;
 
-  wattrset(infopad, part_attr[info_head]);
-  waddstr(infopad, table[cursorline]->name.str());
-  waddstr(infopad," - ");
-  waddstr(infopad, table[cursorline]->summary.str());
-  wattrset(infopad, part_attr[info_body]);
+	debug(dbg_general, "methodlist[%p]::display()", this);
 
-  const char *m = table[cursorline]->description.str();
-  if (str_is_unset(m))
-    m = _("No explanation available.");
-  waddstr(infopad,"\n\n");
-  wordwrapinfo(0,m);
+	startdisplay();
+
+	debug(dbg_general, "methodlist[%p]::display() entering loop", this);
+	for (;;) {
+		if (whatinfo_height)
+			wcursyncup(whatinfowin);
+		if (doupdate() == ERR)
+			ohshite(_("doupdate failed"));
+		do {
+			response = getch();
+			if (response == KEY_RESIZE) {
+				resize_window();
+				continue;
+			}
+		} while (response == ERR && errno == EINTR);
+		if (response == ERR)
+			ohshite(_("getch failed"));
+		interp = (*bindings)(response);
+		debug(dbg_general,
+		      "methodlist[%p]::display() response=%d interp=%s",
+		      this, response, interp ? interp->action : "[none]");
+		if (!interp)
+			continue;
+		(this->*(interp->mfn))();
+		if (interp->qa != qa_noquit)
+			break;
+	}
+	enddisplay();
+
+	debug(dbg_general, "methodlist[%p]::display() done", this);
+
+	return interp->qa;
 }
 
-void methodlist::redrawinfo() {
-  if (!info_height) return;
-  whatinfovb.reset();
-  werase(infopad); wmove(infopad,0,0);
+void
+methodlist::itd_description()
+{
+	whatinfovb += _("Explanation");
 
-  debug(dbg_general, "methodlist[%p]::redrawinfo()", this);
+	wattrset(infopad, part_attr[info_head]);
+	waddstr(infopad, table[cursorline]->name.str());
+	waddstr(infopad, " - ");
+	waddstr(infopad, table[cursorline]->summary.str());
+	wattrset(infopad, part_attr[info_body]);
 
-  itd_description();
-
-  int y,x;
-  getyx(infopad, y,x);
-  if (x) y++;
-  infolines= y;
-
-  refreshinfo();
+	const char *m = table[cursorline]->description.str();
+	if (str_is_unset(m))
+		m = _("No explanation available.");
+	waddstr(infopad, "\n\n");
+	wordwrapinfo(0, m);
 }
 
-const struct helpmenuentry *methodlist::helpmenulist() {
-  static const struct helpmenuentry list[]= {
-    { 'i', &hlp_methintro            },
-    { 'k', &hlp_methkeys             },
-    {  0                             }
-  };
-  return list;
+void
+methodlist::redrawinfo()
+{
+	if (!info_height)
+		return;
+
+	whatinfovb.reset();
+	werase(infopad);
+	wmove(infopad, 0, 0);
+
+	debug(dbg_general, "methodlist[%p]::redrawinfo()", this);
+
+	itd_description();
+
+	int y, x;
+	getyx(infopad, y, x);
+	if (x)
+		y++;
+	infolines = y;
+
+	refreshinfo();
+}
+
+const struct helpmenuentry *
+methodlist::helpmenulist()
+{
+	static const struct helpmenuentry list[] = {
+		{ 'i', &hlp_methintro            },
+		{ 'k', &hlp_methkeys             },
+		{  0                             }
+	};
+
+	return list;
 }

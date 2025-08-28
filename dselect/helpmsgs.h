@@ -22,8 +22,8 @@
 #define HELPMSGS_H
 
 struct helpmessage {
-  const char *title;
-  const char *text;
+	const char *title;
+	const char *text;
 };
 
 extern const struct helpmessage hlp_listkeys;
