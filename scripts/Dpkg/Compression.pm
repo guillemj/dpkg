@@ -103,9 +103,6 @@ my $default_compression = 'xz';
 my $default_compression_level = undef;
 my $default_compression_threads = 0;
 
-my $regex = join '|', map { $_->{file_ext} } values %COMP;
-my $compression_regex_file_ext = qr/(?:$regex)/;
-
 =head1 FUNCTIONS
 
 =over 4
@@ -185,7 +182,10 @@ one of the supported compression methods.
 =cut
 
 sub compression_get_file_extension_regex {
-    return $compression_regex_file_ext;
+    my $regex_file_ext_alts = join '|', map { $_->{file_ext} } values %COMP;
+    my $regex_file_ext = qr/(?:$regex_file_ext_alts)/;
+
+    return $regex_file_ext;
 }
 
 =item $ext = compression_get_file_extension($comp)
