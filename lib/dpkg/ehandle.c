@@ -277,19 +277,21 @@ run_cleanups(struct error_context *econ, int flagsetin)
   oldecontext= econtext;
   while (cep) {
     for (i=0; i<NCALLS; i++) {
-      if (cep->calls[i].call && cep->calls[i].mask & flagset) {
-        if (setjmp(recurse_jump)) {
-          run_cleanups(&recurserr, ehflag_bombout | ehflag_recursiveerror);
-          error_context_errmsg_free(&recurserr);
-        } else {
-          memset(&recurserr, 0, sizeof(recurserr));
-          set_error_printer(&recurserr, print_cleanup_error, NULL);
-          set_jump_handler(&recurserr, &recurse_jump);
-          econtext= &recurserr;
-          cep->calls[i].call(cep->argc,cep->argv);
-        }
-        econtext= oldecontext;
+      if (cep->calls[i].call == NULL ||
+          !(cep->calls[i].mask & flagset))
+        continue;
+
+      if (setjmp(recurse_jump)) {
+        run_cleanups(&recurserr, ehflag_bombout | ehflag_recursiveerror);
+        error_context_errmsg_free(&recurserr);
+      } else {
+        memset(&recurserr, 0, sizeof(recurserr));
+        set_error_printer(&recurserr, print_cleanup_error, NULL);
+        set_jump_handler(&recurserr, &recurse_jump);
+        econtext= &recurserr;
+        cep->calls[i].call(cep->argc,cep->argv);
       }
+      econtext= oldecontext;
     }
     flagset &= cep->cpmask;
     flagset |= cep->cpvalue;
