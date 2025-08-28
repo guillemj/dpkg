@@ -197,7 +197,7 @@ is being deprecated.
 
 sub is_native {
     my $self = shift;
-    warnings::warning('deprecated',
+    warnings::warnif('deprecated',
         'using Dpkg::Version->is_native() has been made incoherent and ' .
         'confusing on some dpkg vendors; it is deprecated as not having ' .
         'portable semantics anymore');
