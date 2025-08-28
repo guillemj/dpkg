@@ -76,13 +76,17 @@ enum DPKG_ATTR_ENUM_FLAGS dpkg_relation {
 	DPKG_RELATION_GE	= DPKG_RELATION_GT | DPKG_RELATION_EQ,
 };
 
-void dpkg_version_blank(struct dpkg_version *version);
-bool dpkg_version_is_informative(const struct dpkg_version *version);
-int dpkg_version_compare(const struct dpkg_version *a,
-                         const struct dpkg_version *b);
-bool dpkg_version_relate(const struct dpkg_version *a,
-                         enum dpkg_relation rel,
-                         const struct dpkg_version *b);
+void
+dpkg_version_blank(struct dpkg_version *version);
+bool
+dpkg_version_is_informative(const struct dpkg_version *version);
+int
+dpkg_version_compare(const struct dpkg_version *a,
+                     const struct dpkg_version *b);
+bool
+dpkg_version_relate(const struct dpkg_version *a,
+                    enum dpkg_relation rel,
+                    const struct dpkg_version *b);
 
 /** @} */
 

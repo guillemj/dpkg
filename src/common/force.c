@@ -216,7 +216,7 @@ static const struct forceinfo {
 		FORCETYPE_DAMAGE,
 		N_("Remove an essential package"),
 	}, {
-		NULL
+		NULL,
 	}
 };
 
@@ -400,5 +400,6 @@ forcible_nonroot_error(int rc)
 {
 	if (in_force(FORCE_NON_ROOT) && errno == EPERM)
 		return 0;
+
 	return rc;
 }

@@ -61,7 +61,8 @@ test_alloc(void *ptr, const char *reason)
 }
 
 #define test_alloc(ptr) \
-	test_alloc((ptr), "cannot allocate memory for " #ptr " in " __FILE__ ":" test_stringify(__LINE__))
+	test_alloc((ptr), "cannot allocate memory for " #ptr \
+	                  " in " __FILE__ ":" test_stringify(__LINE__))
 
 #define test_try(jmp) \
 	push_error_context_jump(&(jmp), DPKG_NULL, "test try"); \

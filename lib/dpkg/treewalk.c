@@ -38,21 +38,31 @@
 typedef int treewalk_stat_func(const char *pathname, struct stat *st);
 
 struct treenode {
-	struct treenode *up;	/* Parent dir. */
-	struct treenode *next;	/* Next node in dir. */
-	struct treenode **down;	/* Dir contents. */
+	/* Parent dir. */
+	struct treenode *up;
+	/* Next node in dir. */
+	struct treenode *next;
+	/* Dir contents. */
+	struct treenode **down;
 
-	char *pathname;		/* Node pathname. */
-	char *virtname;		/* Node virtname. */
-	char *name;		/* Node name. */
+	/* Node pathname. */
+	char *pathname;
+	/* Node virtname. */
+	char *virtname;
+	/* Node name. */
+	char *name;
 
-	struct stat *stat;	/* Node metadata. */
+	/* Node metadata. */
+	struct stat *stat;
 	mode_t mode;
 
-	size_t pathname_len;	/* Node pathname length. */
+	/* Node pathname length. */
+	size_t pathname_len;
 
-	size_t down_used;	/* Number of used nodes in dir. */
-	size_t down_size;	/* Number of allocated nodes in dir. */
+	/* Number of used nodes in dir. */
+	size_t down_used;
+	/* Number of allocated nodes in dir. */
+	size_t down_size;
 };
 
 static inline struct treenode *

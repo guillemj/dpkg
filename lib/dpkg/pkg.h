@@ -34,14 +34,21 @@ DPKG_BEGIN_DECLS
 
 typedef int pkg_sorter_func(const void *a, const void *b);
 
-void pkgset_link_pkg(struct pkgset *set, struct pkginfo *pkg);
+void
+pkgset_link_pkg(struct pkgset *set, struct pkginfo *pkg);
 
-void pkg_set_status(struct pkginfo *pkg, enum pkgstatus status);
-void pkg_set_eflags(struct pkginfo *pkg, enum pkgeflag eflag);
-void pkg_clear_eflags(struct pkginfo *pkg, enum pkgeflag eflag);
-void pkg_reset_eflags(struct pkginfo *pkg);
-void pkg_copy_eflags(struct pkginfo *pkg_dst, struct pkginfo *pkg_src);
-void pkg_set_want(struct pkginfo *pkg, enum pkgwant want);
+void
+pkg_set_status(struct pkginfo *pkg, enum pkgstatus status);
+void
+pkg_set_eflags(struct pkginfo *pkg, enum pkgeflag eflag);
+void
+pkg_clear_eflags(struct pkginfo *pkg, enum pkgeflag eflag);
+void
+pkg_reset_eflags(struct pkginfo *pkg);
+void
+pkg_copy_eflags(struct pkginfo *pkg_dst, struct pkginfo *pkg_src);
+void
+pkg_set_want(struct pkginfo *pkg, enum pkgwant want);
 
 /** @} */
 

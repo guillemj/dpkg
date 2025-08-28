@@ -81,7 +81,8 @@ static void
 trig_record_activation(struct pkginfo *pend, struct pkginfo *aw, const char *trig)
 {
 	if (pend->status < PKG_STAT_TRIGGERSAWAITED)
-		return; /* Not interested then. */
+		/* Not interested then. */
+		return;
 
 	if (trig_note_pend(pend, trig))
 		modstatdb_note_ifwrite(pend);
@@ -114,6 +115,7 @@ trig_clear_awaiters(struct pkginfo *notpend)
 		aw = ta->aw;
 		if (!aw)
 			continue;
+
 		LIST_UNLINK_PART(aw->trigaw, ta, sameaw);
 		if (!aw->trigaw.head && aw->status == PKG_STAT_TRIGGERSAWAITED) {
 			if (aw->trigpend_head)
@@ -192,6 +194,7 @@ trig_dump_trigger_options(enum trig_options opts)
 {
 	if (opts == TRIG_NOAWAIT)
 		return "/noawait";
+
 	return "";
 }
 
@@ -583,7 +586,8 @@ trig_file_activate(struct fsys_namenode *trig, struct pkginfo *aw)
 {
 	struct trigfileint *tfi;
 
-	for (tfi = *trigh.namenode_interested(trig); tfi;
+	for (tfi = *trigh.namenode_interested(trig);
+	     tfi;
 	     tfi = tfi->samefile_next)
 		trig_record_activation(tfi->pkg, (tfi->options == TRIG_NOAWAIT) ?
 		                       NULL : aw, trigh.namenode_name(trig));
@@ -718,36 +722,45 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 	f = fopen(file, "r");
 	if (!f) {
 		if (errno == ENOENT)
-			return; /* No file is just like an empty one. */
+			/* No file is just like an empty one. */
+			return;
 		ohshite(_("unable to open triggers ci file '%.250s'"), file);
 	}
 	push_cleanup(cu_closestream, ~0, 1, f);
 
 	while ((l = fgets_checked(linebuf, sizeof(linebuf), f, file)) >= 0) {
-		for (cmd = linebuf; c_iswhite(*cmd); cmd++) ;
+		for (cmd = linebuf; c_iswhite(*cmd); cmd++)
+			;
 		if (*cmd == '#')
 			continue;
-		for (eol = linebuf + l; eol > cmd && c_iswhite(eol[-1]); eol--) ;
+		for (eol = linebuf + l; eol > cmd && c_iswhite(eol[-1]); eol--)
+			;
 		if (eol == cmd)
 			continue;
 		*eol = '\0';
 
-		for (spc = cmd; *spc && !c_iswhite(*spc); spc++) ;
+		for (spc = cmd; *spc && !c_iswhite(*spc); spc++)
+			;
 		if (!*spc)
 			ohshit(_("triggers ci file contains unknown directive syntax"));
 		*spc++ = '\0';
 		while (c_iswhite(*spc))
 			spc++;
+
 		if (strcmp(cmd, "interest") == 0 ||
 		    strcmp(cmd, "interest-await") == 0) {
-			parse_ci_call(file, cmd, interest, spc, pkg, pkgbin, TRIG_AWAIT);
+			parse_ci_call(file, cmd, interest, spc,
+			              pkg, pkgbin, TRIG_AWAIT);
 		} else if (strcmp(cmd, "interest-noawait") == 0) {
-			parse_ci_call(file, cmd, interest, spc, pkg, pkgbin, TRIG_NOAWAIT);
+			parse_ci_call(file, cmd, interest, spc,
+			              pkg, pkgbin, TRIG_NOAWAIT);
 		} else if (strcmp(cmd, "activate") == 0 ||
 		           strcmp(cmd, "activate-await") == 0) {
-			parse_ci_call(file, cmd, activate, spc, pkg, pkgbin, TRIG_AWAIT);
+			parse_ci_call(file, cmd, activate, spc,
+			              pkg, pkgbin, TRIG_AWAIT);
 		} else if (strcmp(cmd, "activate-noawait") == 0) {
-			parse_ci_call(file, cmd, activate, spc, pkg, pkgbin, TRIG_NOAWAIT);
+			parse_ci_call(file, cmd, activate, spc,
+			              pkg, pkgbin, TRIG_NOAWAIT);
 		} else {
 			ohshit(_("triggers ci file contains unknown directive '%.250s'"),
 			       cmd);

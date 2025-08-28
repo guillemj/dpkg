@@ -115,6 +115,7 @@ str_gen_crop(const char *str, int max_width, struct str_crop_info *crop)
 #else
 			/* Cannot convert, fallback to ASCII method. */
 			crop->str_bytes = crop->max_bytes = max_width;
+
 			return;
 #endif
 		}

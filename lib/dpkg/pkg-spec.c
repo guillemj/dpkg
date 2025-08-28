@@ -80,15 +80,18 @@ pkg_spec_is_illegal(struct pkg_spec *ps)
 		snprintf(msg, sizeof(msg),
 		         _("illegal package name in specifier '%s%s%s': %s"),
 		         ps->name, arch_sep, ps->arch->name, emsg);
+
 		return msg;
 	}
 
-	if ((!ps->arch_is_pattern && ps->arch->type == DPKG_ARCH_ILLEGAL) ||
+	if ((!ps->arch_is_pattern &&
+	    ps->arch->type == DPKG_ARCH_ILLEGAL) ||
 	    ps->arch->type == DPKG_ARCH_EMPTY) {
 		emsg = dpkg_arch_name_is_illegal(ps->arch->name);
 		snprintf(msg, sizeof(msg),
 		         _("illegal architecture name in specifier '%s:%s': %s"),
 		         ps->name, ps->arch->name, emsg);
+
 		return msg;
 	}
 
@@ -105,6 +108,7 @@ pkg_spec_is_illegal(struct pkg_spec *ps)
 			snprintf(msg, sizeof(msg),
 			         _("ambiguous package name '%s' with more "
 			           "than one installed instance"), ps->name);
+
 			return msg;
 		}
 	}

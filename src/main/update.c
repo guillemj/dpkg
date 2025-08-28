@@ -34,91 +34,99 @@
 
 #include "main.h"
 
+/* TODO: Refactor to reduce nesting levels. */
 int
 updateavailable(const char *const *argv)
 {
-  const char *sourcefile= argv[0];
-  char *availfile;
-  int count= 0;
+	const char *sourcefile = argv[0];
+	char *availfile;
+	int count = 0;
 
-  modstatdb_init();
+	modstatdb_init();
 
-  switch (cipaction->arg_int) {
-  case act_avclear:
-    if (sourcefile) badusage(_("--%s takes no arguments"),cipaction->olong);
-    break;
-  case act_avreplace: case act_avmerge:
-    if (sourcefile == NULL)
-      sourcefile = "-";
-    else if (argv[1])
-      badusage(_("--%s takes at most one Packages-file argument"),
-               cipaction->olong);
-    break;
-  default:
-    internerr("unknown action '%d'", cipaction->arg_int);
-  }
+	switch (cipaction->arg_int) {
+	case act_avclear:
+		if (sourcefile)
+			badusage(_("--%s takes no arguments"),
+			         cipaction->olong);
+		break;
+	case act_avreplace:
+	case act_avmerge:
+		if (sourcefile == NULL)
+			sourcefile = "-";
+		else if (argv[1])
+			badusage(_("--%s takes at most one Packages-file argument"),
+			         cipaction->olong);
+		break;
+	default:
+		internerr("unknown action '%d'", cipaction->arg_int);
+	}
 
-  if (f_act) {
-    const char *dbdir = dpkg_db_get_dir();
+	if (f_act) {
+		const char *dbdir = dpkg_db_get_dir();
 
-    if (access(dbdir, W_OK)) {
-      if (errno != EACCES)
-        ohshite(_("unable to access dpkg database directory '%s' for bulk available update"),
-                dbdir);
-      else
-        ohshit(_("required write access to dpkg database directory '%s' for bulk available update"),
-               dbdir);
-    }
-    modstatdb_lock();
-  }
+		if (access(dbdir, W_OK)) {
+			if (errno != EACCES)
+				ohshite(_("unable to access dpkg database directory '%s' for bulk available update"),
+				        dbdir);
+			else
+				ohshit(_("required write access to dpkg database directory '%s' for bulk available update"),
+				       dbdir);
+		}
+		modstatdb_lock();
+	}
 
-  switch (cipaction->arg_int) {
-  case act_avreplace:
-    printf(_("Replacing available packages info, using %s.\n"),sourcefile);
-    break;
-  case act_avmerge:
-    printf(_("Updating available packages info, using %s.\n"),sourcefile);
-    break;
-  case act_avclear:
-    break;
-  default:
-    internerr("unknown action '%d'", cipaction->arg_int);
-  }
+	switch (cipaction->arg_int) {
+	case act_avreplace:
+		printf(_("Replacing available packages info, using %s.\n"),
+		       sourcefile);
+		break;
+	case act_avmerge:
+		printf(_("Updating available packages info, using %s.\n"),
+		       sourcefile);
+		break;
+	case act_avclear:
+		break;
+	default:
+		internerr("unknown action '%d'", cipaction->arg_int);
+	}
 
-  availfile = dpkg_db_get_path(AVAILFILE);
+	availfile = dpkg_db_get_path(AVAILFILE);
 
-  if (cipaction->arg_int == act_avmerge)
-    parsedb(availfile, pdb_parse_available, NULL);
+	if (cipaction->arg_int == act_avmerge)
+		parsedb(availfile, pdb_parse_available, NULL);
 
-  if (cipaction->arg_int != act_avclear)
-    count += parsedb(sourcefile,
-                     pdb_parse_available | pdb_ignoreolder | pdb_dash_is_stdin,
-                     NULL);
+	if (cipaction->arg_int != act_avclear)
+		count += parsedb(sourcefile,
+		                 pdb_parse_available | pdb_ignoreolder | pdb_dash_is_stdin,
+		                 NULL);
 
-  if (f_act) {
-    writedb(availfile, wdb_dump_available);
-    modstatdb_unlock();
-  }
+	if (f_act) {
+		writedb(availfile, wdb_dump_available);
+		modstatdb_unlock();
+	}
 
-  free(availfile);
+	free(availfile);
 
-  if (cipaction->arg_int != act_avclear)
-    printf(P_("Information about %d package was updated.\n",
-              "Information about %d packages was updated.\n", count), count);
+	if (cipaction->arg_int != act_avclear)
+		printf(P_("Information about %d package was updated.\n",
+		          "Information about %d packages was updated.\n",
+		          count),
+		       count);
 
-  modstatdb_done();
+	modstatdb_done();
 
-  return 0;
+	return 0;
 }
 
 int
 forgetold(const char *const *argv)
 {
-  if (*argv)
-    badusage(_("--%s takes no arguments"), cipaction->olong);
+	if (*argv)
+		badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  warning(_("obsolete '--%s' option; unavailable packages are automatically cleaned up"),
-          cipaction->olong);
+	warning(_("obsolete '--%s' option; unavailable packages are automatically cleaned up"),
+	        cipaction->olong);
 
-  return 0;
+	return 0;
 }

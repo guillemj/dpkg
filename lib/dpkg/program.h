@@ -31,8 +31,10 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
-void dpkg_program_init(const char *progname);
-void dpkg_program_done(void);
+void
+dpkg_program_init(const char *progname);
+void
+dpkg_program_done(void);
 
 /** @} */
 

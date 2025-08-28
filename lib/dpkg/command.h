@@ -47,19 +47,31 @@ struct command {
 	const char **argv;
 };
 
-void command_init(struct command *cmd, const char *filename, const char *name);
-void command_destroy(struct command *cmd);
+void
+command_init(struct command *cmd, const char *filename, const char *name);
+void
+command_destroy(struct command *cmd);
 
-void command_add_arg(struct command *cmd, const char *arg);
-void command_add_argl(struct command *cmd, const char **argv);
-void command_add_argv(struct command *cmd, va_list args);
-void command_add_args(struct command *cmd, ...) DPKG_ATTR_SENTINEL;
+void
+command_add_arg(struct command *cmd, const char *arg);
+void
+command_add_argl(struct command *cmd, const char **argv);
+void
+command_add_argv(struct command *cmd, va_list args);
+void
+command_add_args(struct command *cmd, ...)
+	DPKG_ATTR_SENTINEL;
 
-void command_exec(struct command *cmd) DPKG_ATTR_NORET;
+void
+command_exec(struct command *cmd)
+	DPKG_ATTR_NORET;
 
-void command_shell(const char *cmd, const char *name) DPKG_ATTR_NORET;
+void
+command_shell(const char *cmd, const char *name)
+	DPKG_ATTR_NORET;
 
-bool command_in_path(const char *cmd);
+bool
+command_in_path(const char *cmd);
 
 /** @} */
 

@@ -36,35 +36,40 @@ DPKG_BEGIN_DECLS
 typedef int action_func(const char *const *argv);
 
 struct cmdinfo {
-  const char *olong;
-  char oshort;
+	const char *olong;
+	char oshort;
 
-  /*
-   * 0 = Normal				(-o, --option)
-   * 1 = Standard value			(-o=value, --option=value or
-   *					 -o value, --option value)
-   * 2 = Option string continued	(--option-value)
-   */
-  int takesvalue;
-  int *iassignto;
-  const char **sassignto;
-  void (*call)(const struct cmdinfo*, const char *value);
+	/*
+	 * 0 = Normal				(-o, --option)
+	 * 1 = Standard value			(-o=value, --option=value or
+	 *					 -o value, --option value)
+	 * 2 = Option string continued	(--option-value)
+	 */
+	int takesvalue;
+	int *iassignto;
+	const char **sassignto;
+	void (*call)(const struct cmdinfo*, const char *value);
 
-  int arg_int;
-  void *arg_ptr;
+	int arg_int;
+	void *arg_ptr;
 
-  action_func *action;
+	action_func *action;
 };
 
-void badusage(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
+void
+badusage(const char *fmt, ...)
+	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
 
 #define MAX_CONFIG_LINE 1024
 
-void dpkg_options_load(const char *prog, const struct cmdinfo *cmdinfos);
-void dpkg_options_parse(const char *const **argvp,
-                        const struct cmdinfo *cmdinfos, const char *help_str);
+void
+dpkg_options_load(const char *prog, const struct cmdinfo *cmdinfos);
+void
+dpkg_options_parse(const char *const **argvp,
+                   const struct cmdinfo *cmdinfos, const char *help_str);
 
-long dpkg_options_parse_arg_int(const struct cmdinfo *cmd, const char *str);
+long
+dpkg_options_parse_arg_int(const struct cmdinfo *cmd, const char *str);
 
 struct pkginfo *
 dpkg_options_parse_pkgname(const struct cmdinfo *cmd, const char *name);
@@ -74,15 +79,17 @@ dpkg_options_parse_pkgname(const struct cmdinfo *cmd, const char *name);
  */
 extern const struct cmdinfo *cipaction;
 
-void setaction(const struct cmdinfo *cip, const char *value);
-void setobsolete(const struct cmdinfo *cip, const char *value);
+void
+setaction(const struct cmdinfo *cip, const char *value);
+void
+setobsolete(const struct cmdinfo *cip, const char *value);
 
 #define ACTION(longopt, shortopt, code, func) \
- { longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, func }
+	{ longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, func }
 #define ACTION_MUX(longopt, shortopt, code, func, strvar) \
- { longopt, shortopt, 2, NULL, strvar, setaction, code, NULL, func }
+	{ longopt, shortopt, 2, NULL, strvar, setaction, code, NULL, func }
 #define OBSOLETE(longopt, shortopt) \
- { longopt, shortopt, 0, NULL, NULL, setobsolete, 0, NULL, NULL }
+	{ longopt, shortopt, 0, NULL, NULL, setobsolete, 0, NULL, NULL }
 
 void
 set_instdir(const struct cmdinfo *cip, const char *value);

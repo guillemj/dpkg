@@ -55,18 +55,18 @@ enum pkg_cycle_color {
 };
 
 struct perpackagestate {
-  enum pkg_istobe istobe;
+	enum pkg_istobe istobe;
 
-  /** Used during cycle detection. */
-  enum pkg_cycle_color color;
+	/** Used during cycle detection. */
+	enum pkg_cycle_color color;
 
-  bool enqueued;
+	bool enqueued;
 
-  int replacingfilesandsaid;
-  int cmdline_seen;
+	int replacingfilesandsaid;
+	int cmdline_seen;
 
-  /** Non-NULL iff in trigproc.c:deferred. */
-  struct pkg_list *trigprocdeferred;
+	/** Non-NULL iff in trigproc.c:deferred. */
+	struct pkg_list *trigprocdeferred;
 };
 
 extern const char *const statusstrings[];
@@ -96,69 +96,103 @@ struct invoke_list {
 
 /* from perpkgstate.c */
 
-void ensure_package_clientdata(struct pkginfo *pkg);
+void
+ensure_package_clientdata(struct pkginfo *pkg);
 
 /* from archives.c */
 
-int archivefiles(const char *const *argv);
-void process_archive(const char *filename);
-bool wanttoinstall(struct pkginfo *pkg);
+int
+archivefiles(const char *const *argv);
+void
+process_archive(const char *filename);
+bool
+wanttoinstall(struct pkginfo *pkg);
 
 /* from update.c */
 
-int forgetold(const char *const *argv);
-int updateavailable(const char *const *argv);
+int
+forgetold(const char *const *argv);
+int
+updateavailable(const char *const *argv);
 
 /* from enquiry.c */
 
 extern const char *assert_feature_name;
 
-int audit(const char *const *argv);
-int unpackchk(const char *const *argv);
-int assert_feature(const char *const *argv);
-int validate_pkgname(const char *const *argv);
-int validate_trigname(const char *const *argv);
-int validate_archname(const char *const *argv);
-int validate_version(const char *const *argv);
-int predeppackage(const char *const *argv);
-int printarch(const char *const *argv);
-int printinstarch(const char *const *argv);
-int print_foreign_arches(const char *const *argv);
-int cmpversions(const char *const *argv);
+int
+audit(const char *const *argv);
+int
+unpackchk(const char *const *argv);
+int
+assert_feature(const char *const *argv);
+int
+validate_pkgname(const char *const *argv);
+int
+validate_trigname(const char *const *argv);
+int
+validate_archname(const char *const *argv);
+int
+validate_version(const char *const *argv);
+int
+predeppackage(const char *const *argv);
+int
+printarch(const char *const *argv);
+int
+printinstarch(const char *const *argv);
+int
+print_foreign_arches(const char *const *argv);
+int
+cmpversions(const char *const *argv);
 
 /* from verify.c */
 
-bool verify_set_output(const char *name);
-int verify(const char *const *argv);
+bool
+verify_set_output(const char *name);
+int
+verify(const char *const *argv);
 
 /* from select.c */
 
-int getselections(const char *const *argv);
-int setselections(const char *const *argv);
-int clearselections(const char *const *argv);
+int
+getselections(const char *const *argv);
+int
+setselections(const char *const *argv);
+int
+clearselections(const char *const *argv);
 
 /* from packages.c, remove.c and configure.c */
 
-void md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn);
-void enqueue_package(struct pkginfo *pkg);
-void enqueue_package_mark_seen(struct pkginfo *pkg);
-void process_queue(void);
-int packages(const char *const *argv);
-void removal_bulk(struct pkginfo *pkg);
-int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in);
+void
+md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn);
+void
+enqueue_package(struct pkginfo *pkg);
+void
+enqueue_package_mark_seen(struct pkginfo *pkg);
+void
+process_queue(void);
+int
+packages(const char *const *argv);
+void
+removal_bulk(struct pkginfo *pkg);
+int
+conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in);
 
 enum dep_check {
-  DEP_CHECK_HALT = 0,
-  DEP_CHECK_DEFER = 1,
-  DEP_CHECK_OK = 2,
+	DEP_CHECK_HALT = 0,
+	DEP_CHECK_DEFER = 1,
+	DEP_CHECK_OK = 2,
 };
 
-enum dep_check dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
-                               struct varbuf *aemsgs);
-enum dep_check breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs);
+enum dep_check
+dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
+                struct varbuf *aemsgs);
+enum dep_check
+breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs);
 
-void deferred_remove(struct pkginfo *pkg);
-void deferred_configure(struct pkginfo *pkg);
+void
+deferred_remove(struct pkginfo *pkg);
+void
+deferred_configure(struct pkginfo *pkg);
 
 /*
  * During the packages queue processing, the algorithm for deciding what to
@@ -210,29 +244,40 @@ extern int sincenothing;
 
 /* from cleanup.c (most of these are declared in archives.h) */
 
-void cu_prermremove(int argc, void **argv);
+void
+cu_prermremove(int argc, void **argv);
 
 /* from errors.c */
 
-void print_error_perpackage(const char *emsg, const void *data);
-void print_error_perarchive(const char *emsg, const void *data);
-int reportbroken_retexitstatus(int ret);
-bool skip_due_to_hold(struct pkginfo *pkg);
+void
+print_error_perpackage(const char *emsg, const void *data);
+void
+print_error_perarchive(const char *emsg, const void *data);
+int
+reportbroken_retexitstatus(int ret);
+bool
+skip_due_to_hold(struct pkginfo *pkg);
 
 /* from help.c */
 
 struct stat;
 
-bool ignore_depends(const struct pkginfo *pkg);
-bool force_breaks(struct deppossi *possi);
-bool force_depends(struct deppossi *possi);
-bool force_conflicts(struct deppossi *possi);
+bool
+ignore_depends(const struct pkginfo *pkg);
+bool
+force_breaks(struct deppossi *possi);
+bool
+force_depends(struct deppossi *possi);
+bool
+force_conflicts(struct deppossi *possi);
 bool
 conffile_is_disappearing(struct conffile *conff);
 void
 conffile_mark_obsolete(struct pkginfo *pkg, struct fsys_namenode *namenode);
-void pkg_conffiles_mark_old(struct pkginfo *pkg);
-void checkpath(void);
+void
+pkg_conffiles_mark_old(struct pkginfo *pkg);
+void
+checkpath(void);
 
 struct fsys_namenode *
 namenodetouse(struct fsys_namenode *namenode,
@@ -255,10 +300,13 @@ maintscript_run_old_or_new(struct pkginfo *pkg,
 /* Callers wanting to run the postinst use these two as they want to postpone
  * trigger incorporation until after updating the package status. The effect
  * is that a package can trigger itself. */
-int maintscript_postinst(struct pkginfo *pkg, ...) DPKG_ATTR_SENTINEL;
-void post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status);
+int
+maintscript_postinst(struct pkginfo *pkg, ...) DPKG_ATTR_SENTINEL;
+void
+post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status);
 
-void clear_istobes(void);
+void
+clear_istobes(void);
 bool
 dir_is_used_by_others(struct fsys_namenode *namenode, struct pkginfo *pkg);
 bool
@@ -267,7 +315,8 @@ dir_is_used_by_pkg(struct fsys_namenode *namenode, struct pkginfo *pkg,
 bool
 dir_has_conffiles(struct fsys_namenode *namenode, struct pkginfo *pkg);
 
-void log_action(const char *action, struct pkginfo *pkg, struct pkgbin *pkgbin);
+void
+log_action(const char *action, struct pkginfo *pkg, struct pkgbin *pkgbin);
 
 /* from trigproc.c */
 
@@ -280,21 +329,27 @@ enum trigproc_type {
 	TRIGPROC_REQUIRED,
 };
 
-void trigproc_install_hooks(void);
-void trigproc_populate_deferred(void);
-void trigproc_run_deferred(void);
-void trigproc_reset_cycle(void);
+void
+trigproc_install_hooks(void);
+void
+trigproc_populate_deferred(void);
+void
+trigproc_run_deferred(void);
+void
+trigproc_reset_cycle(void);
 
-void trigproc(struct pkginfo *pkg, enum trigproc_type type);
+void
+trigproc(struct pkginfo *pkg, enum trigproc_type type);
 
-void trig_activate_packageprocessing(struct pkginfo *pkg);
+void
+trig_activate_packageprocessing(struct pkginfo *pkg);
 
 /* from depcon.c */
 
 enum which_pkgbin {
-  wpb_installed,
-  wpb_available,
-  wpb_by_istobe,
+	wpb_installed,
+	wpb_available,
+	wpb_by_istobe,
 };
 
 struct deppossi_pkg_iterator;
@@ -306,11 +361,14 @@ deppossi_pkg_iter_next(struct deppossi_pkg_iterator *iter);
 void
 deppossi_pkg_iter_free(struct deppossi_pkg_iterator *iter);
 
-bool depisok(struct dependency *dep, struct varbuf *whynot,
-             struct pkginfo **fixbyrm, struct pkginfo **fixbytrigaw,
-             bool allowunconfigd);
+bool
+depisok(struct dependency *dep, struct varbuf *whynot,
+        struct pkginfo **fixbyrm, struct pkginfo **fixbytrigaw,
+        bool allowunconfigd);
 struct cyclesofarlink;
-bool findbreakcycle(struct pkginfo *pkg);
-void describedepcon(struct varbuf *addto, struct dependency *dep);
+bool
+findbreakcycle(struct pkginfo *pkg);
+void
+describedepcon(struct varbuf *addto, struct dependency *dep);
 
 #endif /* MAIN_H */

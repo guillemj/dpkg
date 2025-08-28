@@ -407,7 +407,8 @@ main(int argc, const char *const *argv)
 	set_force_default(FORCE_STATCMD_MASK);
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
-	debug(dbg_general, "root=%s admindir=%s", dpkg_fsys_get_dir(), dpkg_db_get_dir());
+	debug(dbg_general, "root=%s admindir=%s",
+	      dpkg_fsys_get_dir(), dpkg_db_get_dir());
 
 	if (!cipaction)
 		badusage(_("need an action option"));

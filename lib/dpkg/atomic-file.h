@@ -48,12 +48,18 @@ struct atomic_file {
 
 struct atomic_file *
 atomic_file_new(const char *filename, enum atomic_file_flags flags);
-void atomic_file_open(struct atomic_file *file);
-void atomic_file_sync(struct atomic_file *file);
-void atomic_file_close(struct atomic_file *file);
-void atomic_file_commit(struct atomic_file *file);
-void atomic_file_remove(struct atomic_file *file);
-void atomic_file_free(struct atomic_file *file);
+void
+atomic_file_open(struct atomic_file *file);
+void
+atomic_file_sync(struct atomic_file *file);
+void
+atomic_file_close(struct atomic_file *file);
+void
+atomic_file_commit(struct atomic_file *file);
+void
+atomic_file_remove(struct atomic_file *file);
+void
+atomic_file_free(struct atomic_file *file);
 
 /** @} */
 

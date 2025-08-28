@@ -223,9 +223,12 @@ trigdef_parse(void)
 				trigdef_parse_error(line_num, line, ptr);
 
 			while (*++ptr) {
-				if (!c_isdigit(*ptr) && !c_islower(*ptr) &&
-				    *ptr != '-' && *ptr != ':' &&
-				    *ptr != '+' && *ptr != '.')
+				if (!c_isdigit(*ptr) &&
+				    !c_islower(*ptr) &&
+				    *ptr != '-' &&
+				    *ptr != ':' &&
+				    *ptr != '+' &&
+				    *ptr != '.')
 					break;
 			}
 

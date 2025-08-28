@@ -31,9 +31,9 @@ DPKG_BEGIN_DECLS
 /*
  * Data structure here is as follows:
  *
- * For each package we have a ‘struct fsys_namenode_list *’, the head of a list of
- * files in that package. They are in ‘forwards’ order. Each entry has a
- * pointer to the ‘struct fsys_namenode’.
+ * For each package we have a ‘struct fsys_namenode_list *’, the head of a
+ * list of files in that package. They are in ‘forwards’ order. Each entry
+ * has a pointer to the ‘struct fsys_namenode’.
  *
  * The struct fsys_namenodes are in a hash table, indexed by name.
  * (This hash table is not visible to callers.)
@@ -205,9 +205,12 @@ fsys_hash_rev_iter_next(struct fsys_hash_rev_iter *iter);
 void
 fsys_hash_rev_iter_abort(struct fsys_hash_rev_iter *iter);
 
-const char *dpkg_fsys_set_dir(const char *dir);
-const char *dpkg_fsys_get_dir(void);
-char *dpkg_fsys_get_path(const char *pathpart);
+const char *
+dpkg_fsys_set_dir(const char *dir);
+const char *
+dpkg_fsys_get_dir(void);
+char *
+dpkg_fsys_get_path(const char *pathpart);
 
 DPKG_END_DECLS
 

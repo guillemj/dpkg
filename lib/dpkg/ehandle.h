@@ -47,33 +47,49 @@ enum {
 typedef void error_handler_func(void);
 typedef void error_printer_func(const char *emsg, const void *data);
 
-void print_fatal_error(const char *emsg, const void *data);
-void catch_fatal_error(void);
+void
+print_fatal_error(const char *emsg, const void *data);
+void
+catch_fatal_error(void);
 
-void push_error_context_jump(jmp_buf *jumper,
-                             error_printer_func *printer,
-                             const void *printer_data);
-void push_error_context_func(error_handler_func *handler,
-                             error_printer_func *printer,
-                             const void *printer_data);
-void push_error_context(void);
-void pop_error_context(int flagset);
+void
+push_error_context_jump(jmp_buf *jumper,
+                        error_printer_func *printer,
+                        const void *printer_data);
+void
+push_error_context_func(error_handler_func *handler,
+                        error_printer_func *printer,
+                        const void *printer_data);
+void
+push_error_context(void);
+void
+pop_error_context(int flagset);
 
-void push_cleanup_fallback(void (*f1)(int argc, void **argv), int flagmask1,
-                           void (*f2)(int argc, void **argv), int flagmask2,
-                           size_t nargs, ...);
-void push_cleanup(void (*call)(int argc, void **argv), int flagmask,
-                  size_t nargs, ...);
-void push_checkpoint(int mask, int value);
-void pop_cleanup(int flagset);
+void
+push_cleanup_fallback(void (*f1)(int argc, void **argv), int flagmask1,
+                      void (*f2)(int argc, void **argv), int flagmask2,
+                      size_t nargs, ...);
+void
+push_cleanup(void (*call)(int argc, void **argv), int flagmask,
+             size_t nargs, ...);
+void
+push_checkpoint(int mask, int value);
+void
+pop_cleanup(int flagset);
 
-void ohshitv(const char *fmt, va_list args)
+void
+ohshitv(const char *fmt, va_list args)
 	DPKG_ATTR_NORET DPKG_ATTR_VPRINTF(1);
-void ohshit(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
-void ohshite(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
+void
+ohshit(const char *fmt, ...)
+	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
+void
+ohshite(const char *fmt, ...)
+	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
 
-void do_internerr(const char *file, int line, const char *func,
-                  const char *fmt, ...)
+void
+do_internerr(const char *file, int line, const char *func,
+             const char *fmt, ...)
 	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(4);
 #define internerr(...) do_internerr(__FILE__, __LINE__, __func__, __VA_ARGS__)
 

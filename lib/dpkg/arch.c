@@ -66,6 +66,7 @@ dpkg_arch_name_is_illegal(const char *name)
 		return _("may not be empty string");
 	if (!c_isalnum(*p))
 		return _("must start with an alphanumeric");
+
 	while (*++p != '\0')
 		if (!c_isalnum(*p) && *p != '-')
 			break;
@@ -75,6 +76,7 @@ dpkg_arch_name_is_illegal(const char *name)
 	snprintf(buf, sizeof(buf), _("character '%c' not allowed (only "
 	                             "letters, digits and characters '%s')"),
 	         *p, "-");
+
 	return buf;
 }
 

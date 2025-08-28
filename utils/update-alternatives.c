@@ -406,7 +406,8 @@ spawn(const char *prog, const char *args[])
 		execvp(prog, (char *const *)args);
 		syserr(_("unable to execute %s (%s)"), prog, prog);
 	}
-	while ((dead_pid = waitpid(pid, &status, 0)) < 0 && errno == EINTR) ;
+	while ((dead_pid = waitpid(pid, &status, 0)) < 0 && errno == EINTR)
+		;
 	if (dead_pid != pid)
 		error(_("wait for subprocess %s failed"), prog);
 
@@ -525,7 +526,8 @@ log_msg(const char *fmt, ...)
 
 		time(&now);
 		if (localtime_r(&now, &tm) == NULL)
-			syserr(_("cannot get local time to log into '%s'"), log_file);
+			syserr(_("cannot get local time to log into '%s'"),
+			       log_file);
 		strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S",
 		         &tm);
 		fprintf(fh_log, "%s %s: ", PROGNAME, timestamp);
@@ -1238,12 +1240,14 @@ alternative_remove_choice(struct alternative *a, const char *file)
 			fs_prev = fs;
 			continue;
 		}
+
 		if (fs_prev)
 			fs_prev->next = fs->next;
 		else
 			a->choices = fs->next;
 		fileset_free(fs);
 		a->modified = true;
+
 		return true;
 	}
 
@@ -1303,6 +1307,7 @@ altdb_filter_namelist(const struct dirent *entry)
 	     strcmp(entry->d_name + strlen(entry->d_name) -
 	            strlen(ALT_TMP_EXT), ALT_TMP_EXT) == 0))
 		return 0;
+
 	return 1;
 }
 
@@ -1346,6 +1351,7 @@ altdb_get_line(struct altdb_context *ctx, const char *name)
 		if (line) {
 			if (strlen(buf) < bufsz - 1 || buf[bufsz - 2] == '\n')
 				break;
+
 			/* Need more space */
 			bufsz *= 2;
 			buf = realloc(buf, bufsz);
@@ -1354,8 +1360,9 @@ altdb_get_line(struct altdb_context *ctx, const char *name)
 			continue;
 		}
 		if (feof(ctx->fh))
-			altdb_bad_format(ctx, _("unexpected end of file while trying "
-			                        "to read %s"), name);
+			altdb_bad_format(ctx,
+			                 _("unexpected end of file while "
+			                   "trying to read %s"), name);
 		altdb_bad_format(ctx, _("while reading %s: %s"),
 		                 name, strerror(errno));
 	}
@@ -1400,7 +1407,8 @@ alternative_parse_slave(struct alternative *a, struct altdb_context *ctx)
 	struct slave_link *sl;
 
 	name = altdb_get_line(ctx, _("slave name"));
-	if (!strlen(name)) { /* End of list */
+	if (!strlen(name)) {
+		/* End of list. */
 		free(name);
 		return false;
 	}
@@ -1441,7 +1449,8 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 	char *master_file;
 
 	master_file = altdb_get_line(ctx, _("master file"));
-	if (!strlen(master_file)) { /* End of list */
+	if (!strlen(master_file)) {
+		/* End of list. */
 		free(master_file);
 		return false;
 	}
@@ -1552,10 +1561,12 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 	free(master_link);
 
 	/* Parse the description of the slaves links of the alternative */
-	while (alternative_parse_slave(a, &ctx));
+	while (alternative_parse_slave(a, &ctx))
+		;
 
 	/* Parse the available choices in the alternative */
-	while (alternative_parse_fileset(a, &ctx)) ;
+	while (alternative_parse_fileset(a, &ctx))
+		;
 
 	/* Close database file */
 	if (fclose(ctx.fh))
@@ -2042,7 +2053,8 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 		fsys_symlink(fn, fntmp);
 		alternative_add_commit_op(a, OPCODE_MV, fntmp, linkname);
 		if (fsys_pathname_is_missing(linkname))
-			alternative_add_commit_op(a, OPCODE_REF_TIME, linkname, fn);
+			alternative_add_commit_op(a, OPCODE_REF_TIME,
+			                          linkname, fn);
 		free(fntmp);
 	}
 	free(fn);
@@ -2417,15 +2429,15 @@ alternative_select_mode(struct alternative *a, const char *current_choice)
 		/* Detect manually modified alternative, switch to manual. */
 		if (!alternative_has_choice(a, current_choice)) {
 			if (fsys_pathname_is_missing(current_choice)) {
-				warning(_("%s%s/%s is dangling; it will be updated "
-				          "with best choice"), instdir, altdir,
-				        a->master_name);
+				warning(_("%s%s/%s is dangling; it will be "
+				          "updated with best choice"),
+				        instdir, altdir, a->master_name);
 				alternative_set_status(a, ALT_ST_AUTO);
 			} else if (a->status != ALT_ST_MANUAL) {
-				warning(_("%s%s/%s has been changed (manually or by "
-				          "a script); switching to manual "
-				          "updates only"), instdir, altdir,
-				        a->master_name);
+				warning(_("%s%s/%s has been changed (manually "
+				          "or by a script); switching to "
+				          "manual updates only"),
+				        instdir, altdir, a->master_name);
 				alternative_set_status(a, ALT_ST_MANUAL);
 			}
 		}
@@ -2574,7 +2586,8 @@ alternative_update(struct alternative *a,
 			        current_choice, a->master_name);
 		}
 
-		if (current_choice && !alternative_has_choice(a, current_choice)) {
+		if (current_choice &&
+		    !alternative_has_choice(a, current_choice)) {
 			struct fileset *best = alternative_get_best(a);
 
 			warning(_("current alternative %s is unknown, "
@@ -2872,7 +2885,8 @@ set_action(enum action new_action)
 {
 	if (action)
 		badusage(_("two commands specified: --%s and --%s"),
-		         action_names[action].name, action_names[new_action].name);
+		         action_names[action].name,
+		         action_names[new_action].name);
 	action = new_action;
 }
 
@@ -2920,6 +2934,7 @@ admindir_init(void)
 
 #define MISSING_ARGS(nb) (argc < i + nb + 1)
 
+/* TODO: Refactor to reduce nesting levels. */
 int
 main(int argc, char **argv)
 {
@@ -3006,7 +3021,8 @@ main(int argc, char **argv)
 			   strcmp("--set", argv[i]) == 0) {
 			set_action_from_name(argv[i] + 2);
 			if (MISSING_ARGS(2))
-				badusage(_("--%s needs <name> <path>"), argv[i] + 2);
+				badusage(_("--%s needs <name> <path>"),
+				         argv[i] + 2);
 
 			a = alternative_new(argv[i + 1]);
 			path = argv[i + 2];
@@ -3062,6 +3078,7 @@ main(int argc, char **argv)
 
 			for (sl = inst_alt->slaves; sl; sl = sl->next) {
 				const char *linkname = sl->link;
+
 				if (linkname == NULL)
 					linkname = "";
 				if (strcmp(linkname, slink) == 0)
@@ -3072,7 +3089,7 @@ main(int argc, char **argv)
 			alternative_add_slave(inst_alt, sname, slink);
 			fileset_add_slave(fileset, sname, spath);
 
-			i+= 3;
+			i += 3;
 		} else if (strcmp("--log", argv[i]) == 0) {
 			if (MISSING_ARGS(1))
 				badusage(_("--%s needs a <file> argument"),

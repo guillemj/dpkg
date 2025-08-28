@@ -133,6 +133,7 @@ struct compressor {
 	const char *name;
 	const char *extension;
 	int default_level;
+
 	void (*fixup_params)(struct compress_params *params);
 	void (*compress)(struct compress_params *params,
 	                 int fd_in, int fd_out, const char *desc);
@@ -216,8 +217,8 @@ decompress_gzip(struct compress_params *params, int fd_in, int fd_out,
 
 			if (z_errnum == Z_ERRNO)
 				errmsg = strerror(errno);
-			ohshit(_("%s: internal gzip read error: '%s'"), desc,
-			       errmsg);
+			ohshit(_("%s: internal gzip read error: '%s'"),
+			       desc, errmsg);
 		}
 		if (actualread == 0) /* EOF. */
 			break;
@@ -288,8 +289,8 @@ compress_gzip(struct compress_params *params, int fd_in, int fd_out,
 
 			if (z_errnum == Z_ERRNO)
 				errmsg = strerror(errno);
-			ohshit(_("%s: internal gzip write error: '%s'"), desc,
-			       errmsg);
+			ohshit(_("%s: internal gzip write error: '%s'"),
+			       desc, errmsg);
 		}
 	}
 
@@ -307,7 +308,10 @@ compress_gzip(struct compress_params *params, int fd_in, int fd_out,
 	}
 }
 #else
-static const char *env_gzip[] = { "GZIP", NULL };
+static const char *env_gzip[] = {
+	"GZIP",
+	NULL,
+};
 
 static void
 decompress_gzip(struct compress_params *params, int fd_in, int fd_out,
@@ -384,8 +388,8 @@ decompress_bzip2(struct compress_params *params, int fd_in, int fd_out,
 
 			if (bz_errnum == BZ_IO_ERROR)
 				errmsg = strerror(errno);
-			ohshit(_("%s: internal bzip2 read error: '%s'"), desc,
-			       errmsg);
+			ohshit(_("%s: internal bzip2 read error: '%s'"),
+			       desc, errmsg);
 		}
 		if (actualread == 0) /* EOF. */
 			break;
@@ -435,8 +439,8 @@ compress_bzip2(struct compress_params *params, int fd_in, int fd_out,
 
 			if (bz_errnum == BZ_IO_ERROR)
 				errmsg = strerror(errno);
-			ohshit(_("%s: internal bzip2 write error: '%s'"), desc,
-			       errmsg);
+			ohshit(_("%s: internal bzip2 write error: '%s'"),
+			       desc, errmsg);
 		}
 	}
 
@@ -448,8 +452,8 @@ compress_bzip2(struct compress_params *params, int fd_in, int fd_out,
 
 		if (bz_errnum == BZ_IO_ERROR)
 			errmsg = strerror(errno);
-		ohshit(_("%s: internal bzip2 write error: '%s'"), desc,
-		       errmsg);
+		ohshit(_("%s: internal bzip2 write error: '%s'"),
+		       desc, errmsg);
 	}
 
 	/* Because BZ2_bzWriteClose has done a fflush on the file handle,
@@ -459,7 +463,11 @@ compress_bzip2(struct compress_params *params, int fd_in, int fd_out,
 		ohshite(_("%s: internal bzip2 write error"), desc);
 }
 #else
-static const char *env_bzip2[] = { "BZIP", "BZIP2", NULL };
+static const char *env_bzip2[] = {
+	"BZIP",
+	"BZIP2",
+	NULL,
+};
 
 static void
 decompress_bzip2(struct compress_params *params, int fd_in, int fd_out,
@@ -617,8 +625,8 @@ filter_lzma(struct io_lzma *io, int fd_in, int fd_out)
 static void DPKG_ATTR_NORET
 filter_lzma_error(struct io_lzma *io, lzma_ret ret)
 {
-	ohshit(_("%s: lzma error: %s"), io->desc,
-	       dpkg_lzma_strerror(io, ret));
+	ohshit(_("%s: lzma error: %s"),
+	       io->desc, dpkg_lzma_strerror(io, ret));
 }
 
 #ifdef HAVE_LZMA_MT_ENCODER
@@ -793,7 +801,11 @@ compress_xz(struct compress_params *params, int fd_in, int fd_out,
 	filter_lzma(&io, fd_in, fd_out);
 }
 #else
-static const char *env_xz[] = { "XZ_DEFAULTS", "XZ_OPT", NULL };
+static const char *env_xz[] = {
+	"XZ_DEFAULTS",
+	"XZ_OPT",
+	NULL,
+};
 
 static void
 decompress_xz(struct compress_params *params, int fd_in, int fd_out,
@@ -1384,6 +1396,7 @@ compressor_fixup_params(struct compress_params *params)
 		params->level = compressor(params->type)->default_level;
 }
 
+/* TODO: Refactor compression level and strategy checks into functions. */
 bool
 compressor_check_params(struct compress_params *params, struct dpkg_error *err)
 {

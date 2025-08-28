@@ -146,6 +146,7 @@ tdm_add_trig_begin(const char *trig)
 	trigdef_update_printf("%s", trig);
 	if (!ctrig || done_trig)
 		return;
+
 	yespackage(opt_bypackage);
 	done_trig = true;
 }
@@ -155,6 +156,7 @@ tdm_add_package(const char *awname)
 {
 	if (ctrig && strcmp(awname, opt_bypackage) == 0)
 		return;
+
 	yespackage(awname);
 }
 
@@ -257,7 +259,8 @@ main(int argc, const char *const *argv)
 	dpkg_program_init("dpkg-trigger");
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
-	debug(dbg_general, "root=%s admindir=%s", dpkg_fsys_get_dir(), dpkg_db_get_dir());
+	debug(dbg_general, "root=%s admindir=%s",
+	      dpkg_fsys_get_dir(), dpkg_db_get_dir());
 
 	if (!cipaction)
 		setaction(&cmdinfo_trigger, NULL);

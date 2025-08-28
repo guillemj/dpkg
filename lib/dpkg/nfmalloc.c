@@ -38,44 +38,54 @@ static bool dbobs_init = false;
 /* We use lots of mem, so use a large chunk. */
 #define CHUNK_SIZE 8192
 
-#define OBSTACK_INIT do { if (!dbobs_init) { nfobstack_init(); } } while (0)
+#define OBSTACK_INIT \
+	do { \
+		if (!dbobs_init) \
+			nfobstack_init(); \
+	} while (0)
 
-static void nfobstack_init(void) {
-  obstack_init(&db_obs);
-  dbobs_init = true;
-  obstack_chunk_size(&db_obs) = CHUNK_SIZE;
+static void
+nfobstack_init(void)
+{
+	obstack_init(&db_obs);
+	dbobs_init = true;
+	obstack_chunk_size(&db_obs) = CHUNK_SIZE;
 }
 
 void *
 nfmalloc(size_t size)
 {
-  OBSTACK_INIT;
-  /* cppcheck-suppress[nullPointerArithmetic]:
-   * False positive, imported module. */
-  return obstack_alloc(&db_obs, size);
+	OBSTACK_INIT;
+	/* cppcheck-suppress[nullPointerArithmetic]:
+	 * False positive, imported module. */
+	return obstack_alloc(&db_obs, size);
 }
 
-char *nfstrsave(const char *string) {
-  OBSTACK_INIT;
-  /* cppcheck-suppress[nullPointerArithmetic]:
-   * False positive, imported module. */
-  return obstack_copy0 (&db_obs, string, strlen(string));
+char *
+nfstrsave(const char *string)
+{
+	OBSTACK_INIT;
+	/* cppcheck-suppress[nullPointerArithmetic]:
+	 * False positive, imported module. */
+	return obstack_copy0(&db_obs, string, strlen(string));
 }
 
 char *
 nfstrnsave(const char *string, size_t size)
 {
-  OBSTACK_INIT;
-  /* cppcheck-suppress[nullPointerArithmetic]:
-   * False positive, imported module. */
-  return obstack_copy0(&db_obs, string, size);
+	OBSTACK_INIT;
+	/* cppcheck-suppress[nullPointerArithmetic]:
+	 * False positive, imported module. */
+	return obstack_copy0(&db_obs, string, size);
 }
 
-void nffreeall(void) {
-  if (dbobs_init) {
-    /* cppcheck-suppress[nullPointerArithmetic,pointerLessThanZero]:
-     * False positive, imported module. */
-    obstack_free(&db_obs, NULL);
-    dbobs_init = false;
-  }
+void
+nffreeall(void)
+{
+	if (dbobs_init) {
+		/* cppcheck-suppress[nullPointerArithmetic,pointerLessThanZero]:
+		 * False positive, imported module. */
+		obstack_free(&db_obs, NULL);
+		dbobs_init = false;
+	}
 }

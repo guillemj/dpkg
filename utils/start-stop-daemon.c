@@ -684,6 +684,7 @@ create_notify_socket(void)
 	return fd;
 }
 
+/* TODO: Refactor to reduce nesting levels. */
 static void
 wait_for_notify(int fd)
 {
@@ -1062,6 +1063,7 @@ parse_signal(const char *sig_str, int *sig_num)
 			return 0;
 		}
 	}
+
 	return -1;
 }
 
@@ -1512,8 +1514,12 @@ parse_options(int argc, char * const *argv)
 		badusage("need one of --start or --stop or --status");
 
 	if (match_mode == MATCH_NONE ||
-	    (!execname && !cmdname && !userspec &&
-	     !pid_str && !ppid_str && !pidfile))
+	    (!execname &&
+	     !cmdname &&
+	     !userspec &&
+	     !pid_str &&
+	     !ppid_str &&
+	     !pidfile))
 		badusage("need at least one of --exec, --pid, --ppid, --pidfile, --user or --name");
 
 #ifdef PROCESS_NAME_SIZE
@@ -1843,6 +1849,7 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 
 	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
 		return false;
+
 	return ((dev_t)pst.pst_text.psf_fsid.psfs_id == esb->st_dev &&
 	        (ino_t)pst.pst_text.psf_fileid == esb->st_ino);
 }
@@ -2055,6 +2062,7 @@ pid_is_user(pid_t pid, uid_t uid)
 	snprintf(buf, sizeof(buf), "/proc/%d", pid);
 	if (stat(buf, &sb) != 0)
 		return false;
+
 	return (sb.st_uid == uid);
 }
 #elif defined(OS_Hurd)
@@ -2064,6 +2072,7 @@ pid_is_user(pid_t pid, uid_t uid)
 	struct proc_stat *ps;
 
 	ps = get_proc_stat(pid, PSTAT_OWNER_UID);
+
 	return ps && (uid_t)proc_stat_owner_uid(ps) == uid;
 }
 #elif defined(OS_Darwin)
@@ -2096,6 +2105,7 @@ pid_is_user(pid_t pid, uid_t uid)
 
 	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
 		return false;
+
 	return ((uid_t)pst.pst_uid == uid);
 }
 #elif defined(OS_FreeBSD)
@@ -2221,6 +2231,7 @@ pid_is_cmd(pid_t pid, const char *name)
 
 	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
 		return false;
+
 	return (strcmp(pst.pst_ucomm, name) == 0);
 }
 #elif defined(OS_Darwin)
@@ -2327,6 +2338,7 @@ pid_check(pid_t pid)
 	return STATUS_OK;
 }
 
+/* TODO: Refactor to reduce nesting levels. */
 static enum status_code
 do_pidfile(const char *name)
 {
@@ -2418,6 +2430,7 @@ static int
 check_proc_stat(struct proc_stat *ps)
 {
 	pid_check(proc_stat_pid(ps));
+
 	return 0;
 }
 
@@ -2579,6 +2592,7 @@ do_findprocs(void)
 		return do_procinit();
 }
 
+/* TODO: Refactor to reduce nesting levels. */
 static int
 do_start(int argc, char **argv)
 {
@@ -2593,6 +2607,7 @@ do_start(int argc, char **argv)
 		info("%s already running.\n", execname ? execname : "process");
 		return exitnodo;
 	}
+
 	if (testmode && quietmode <= 0) {
 		printf("Would start %s ", startas);
 		while (argc-- > 0)
@@ -2618,6 +2633,7 @@ do_start(int argc, char **argv)
 	}
 	if (testmode)
 		return 0;
+
 	debug("Starting %s...\n", startas);
 	*--argv = startas;
 	if (umask_value >= 0)
@@ -2877,6 +2893,7 @@ run_stop_schedule(void)
 			info("%d pids were not killed\n", ctx.n_notkilled);
 		if (ctx.n_killed)
 			ctx.anykilled = true;
+
 		return finish_stop_schedule(&ctx);
 	}
 

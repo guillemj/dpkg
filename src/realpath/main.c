@@ -225,7 +225,8 @@ main(int argc, const char *const *argv)
 	dpkg_program_init("dpkg-realpath");
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
-	debug(dbg_general, "root=%s admindir=%s", dpkg_fsys_get_dir(), dpkg_db_get_dir());
+	debug(dbg_general, "root=%s admindir=%s",
+	      dpkg_fsys_get_dir(), dpkg_db_get_dir());
 
 	pathname = argv[0];
 	if (str_is_unset(pathname))

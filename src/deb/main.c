@@ -50,25 +50,25 @@ const char *opt_showformat = "${Package}\t${Version}\n";
 static int
 printversion(const char *const *argv)
 {
-  printf(_("Debian '%s' package archive backend version %s.\n"),
-         BACKEND, PACKAGE_RELEASE);
-  printf(_(
+	printf(_("Debian '%s' package archive backend version %s.\n"),
+	       BACKEND, PACKAGE_RELEASE);
+	printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"));
 
-  m_output(stdout, _("<standard output>"));
+	m_output(stdout, _("<standard output>"));
 
-  return 0;
+	return 0;
 }
 
 static int
 usage(const char *const *argv)
 {
-  printf(_(
+	printf(_(
 "Usage: %s [<option>...] <command>\n"
 "\n"), BACKEND);
 
-  printf(_(
+	printf(_(
 "Commands:\n"
 "  -b|--build <directory> [<deb>]   Build an archive.\n"
 "  -c|--contents <deb>              List contents.\n"
@@ -84,18 +84,18 @@ usage(const char *const *argv)
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"));
 
-  printf(_(
+	printf(_(
 "  -?, --help                       Show this help message.\n"
 "      --version                    Show the version.\n"
 "\n"));
 
-  printf(_(
+	printf(_(
 "<deb> is the filename of a Debian format archive.\n"
 "<cfile> is the name of an administrative file component.\n"
 "<cfield> is the name of a field in the main 'control' file.\n"
 "\n"));
 
-  printf(_(
+	printf(_(
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
 "  -D, --debug                      Enable debugging output.\n"
@@ -116,7 +116,7 @@ usage(const char *const *argv)
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"));
 
-  printf(_(
+	printf(_(
 "Format syntax:\n"
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
@@ -125,20 +125,20 @@ usage(const char *const *argv)
 "  syntax. Fields will be right-aligned unless the width is negative in which\n"
 "  case left alignment will be used.\n"));
 
-  printf(_(
+	printf(_(
 "\n"
 "Use 'dpkg' to install and remove packages from your system, or\n"
 "'apt' or 'aptitude' for user-friendly package management. Packages\n"
 "unpacked using 'dpkg-deb --extract' will be incorrectly installed !\n"));
 
-  m_output(stdout, _("<standard output>"));
+	m_output(stdout, _("<standard output>"));
 
-  return 0;
+	return 0;
 }
 
-static const char printforhelp[] =
-  N_("Type dpkg-deb --help for help about manipulating *.deb files;\n"
-     "Type dpkg --help for help about installing and deinstalling packages.");
+static const char printforhelp[] = N_(
+"Type dpkg-deb --help for help about manipulating *.deb files;\n"
+"Type dpkg --help for help about installing and deinstalling packages.");
 
 int opt_debug = 0;
 int opt_check = 1;
@@ -151,177 +151,182 @@ struct deb_version deb_format = DEB_VERSION(2, 0);
 static void
 set_deb_format(const struct cmdinfo *cip, const char *value)
 {
-  const char *err;
+	const char *err;
 
-  err = deb_version_parse(&deb_format, value);
-  if (err)
-    badusage(_("invalid deb format version: %s"), err);
+	err = deb_version_parse(&deb_format, value);
+	if (err)
+		badusage(_("invalid deb format version: %s"), err);
 
-  if ((deb_format.major == 2 && deb_format.minor == 0) ||
-      (deb_format.major == 0 && deb_format.minor == 939000))
-    return;
-  else
-    badusage(_("unknown deb format version: %s"), value);
+	if ((deb_format.major == 2 && deb_format.minor == 0) ||
+	    (deb_format.major == 0 && deb_format.minor == 939000))
+		return;
+	else
+		badusage(_("unknown deb format version: %s"), value);
 }
 
 struct compress_params compress_params_deb0 = {
-  .type = COMPRESSOR_TYPE_GZIP,
-  .strategy = COMPRESSOR_STRATEGY_NONE,
-  .level = -1,
-  .threads_max = -1,
+	.type = COMPRESSOR_TYPE_GZIP,
+	.strategy = COMPRESSOR_STRATEGY_NONE,
+	.level = -1,
+	.threads_max = -1,
 };
 
 struct compress_params compress_params = {
-  .type = DEB_DEFAULT_COMPRESSOR,
-  .strategy = COMPRESSOR_STRATEGY_NONE,
-  .level = -1,
-  .threads_max = -1,
+	.type = DEB_DEFAULT_COMPRESSOR,
+	.strategy = COMPRESSOR_STRATEGY_NONE,
+	.level = -1,
+	.threads_max = -1,
 };
 
 static long
 parse_compress_level(const char *str)
 {
-  long value;
-  char *end;
+	long value;
+	char *end;
 
-  errno = 0;
-  value = strtol(str, &end, 10);
-  if (str == end || *end != '\0' || errno != 0)
-    return 0;
+	errno = 0;
+	value = strtol(str, &end, 10);
+	if (str == end || *end != '\0' || errno != 0)
+		return 0;
 
-  return value;
+	return value;
 }
 
 static void
 set_compress_level(const struct cmdinfo *cip, const char *value)
 {
-  compress_params.level = dpkg_options_parse_arg_int(cip, value);
+	compress_params.level = dpkg_options_parse_arg_int(cip, value);
 }
 
 static void
 set_compress_strategy(const struct cmdinfo *cip, const char *value)
 {
-  compress_params.strategy = compressor_get_strategy(value);
-  if (compress_params.strategy == COMPRESSOR_STRATEGY_UNKNOWN)
-    badusage(_("unknown compression strategy '%s'!"), value);
+	compress_params.strategy = compressor_get_strategy(value);
+	if (compress_params.strategy == COMPRESSOR_STRATEGY_UNKNOWN)
+		badusage(_("unknown compression strategy '%s'!"), value);
 }
 
 static enum compressor_type
 parse_compress_type(const char *value)
 {
-  enum compressor_type type;
+	enum compressor_type type;
 
-  type = compressor_find_by_name(value);
-  if (type == COMPRESSOR_TYPE_UNKNOWN)
-    badusage(_("unknown compression type '%s'!"), value);
-  if (type == COMPRESSOR_TYPE_LZMA)
-    badusage(_("obsolete compression type '%s'; use xz instead"), value);
-  if (type == COMPRESSOR_TYPE_BZIP2)
-    badusage(_("obsolete compression type '%s'; use xz or gzip instead"), value);
+	type = compressor_find_by_name(value);
+	if (type == COMPRESSOR_TYPE_UNKNOWN)
+		badusage(_("unknown compression type '%s'!"), value);
+	if (type == COMPRESSOR_TYPE_LZMA)
+		badusage(_("obsolete compression type '%s'; use xz instead"),
+		         value);
+	if (type == COMPRESSOR_TYPE_BZIP2)
+		badusage(_("obsolete compression type '%s'; use xz or gzip instead"),
+		         value);
 
-  return type;
+	return type;
 }
 
 static void
 set_compress_type(const struct cmdinfo *cip, const char *value)
 {
-  compress_params.type = parse_compress_type(value);
+	compress_params.type = parse_compress_type(value);
 }
 
 static long
 parse_threads_max(const char *str)
 {
-  long value;
-  char *end;
+	long value;
+	char *end;
 
-  errno = 0;
-  value = strtol(str, &end, 10);
-  if (str == end || *end != '\0' || errno != 0)
-    return 0;
+	errno = 0;
+	value = strtol(str, &end, 10);
+	if (str == end || *end != '\0' || errno != 0)
+		return 0;
 
-  return value;
+	return value;
 }
 
 static void
 set_threads_max(const struct cmdinfo *cip, const char *value)
 {
-  compress_params.threads_max = dpkg_options_parse_arg_int(cip, value);
+	compress_params.threads_max = dpkg_options_parse_arg_int(cip, value);
 }
 
-static const struct cmdinfo cmdinfos[]= {
-  ACTION("build",         'b', 0, do_build),
-  ACTION("contents",      'c', 0, do_contents),
-  ACTION("control",       'e', 0, do_control),
-  ACTION("info",          'I', 0, do_info),
-  ACTION("field",         'f', 0, do_field),
-  ACTION("extract",       'x', 0, do_extract),
-  ACTION("vextract",      'X', 0, do_vextract),
-  ACTION("raw-extract",   'R', 0, do_raw_extract),
-  ACTION("ctrl-tarfile",  0,   0, do_ctrltarfile),
-  ACTION("fsys-tarfile",  0,   0, do_fsystarfile),
-  ACTION("show",          'W', 0, do_showinfo),
-  ACTION("help",          '?', 0, usage),
-  ACTION("version",       0,   0, printversion),
+static const struct cmdinfo cmdinfos[] = {
+	ACTION("build",         'b', 0, do_build),
+	ACTION("contents",      'c', 0, do_contents),
+	ACTION("control",       'e', 0, do_control),
+	ACTION("info",          'I', 0, do_info),
+	ACTION("field",         'f', 0, do_field),
+	ACTION("extract",       'x', 0, do_extract),
+	ACTION("vextract",      'X', 0, do_vextract),
+	ACTION("raw-extract",   'R', 0, do_raw_extract),
+	ACTION("ctrl-tarfile",  0,   0, do_ctrltarfile),
+	ACTION("fsys-tarfile",  0,   0, do_fsystarfile),
+	ACTION("show",          'W', 0, do_showinfo),
+	ACTION("help",          '?', 0, usage),
+	ACTION("version",       0,   0, printversion),
 
-  { "deb-format",    0,   1, NULL,           NULL,         set_deb_format   },
-  { "debug",         'D', 0, &opt_debug,     NULL,         NULL,          1 },
-  { "verbose",       'v', 0, &opt_verbose,   NULL,         NULL,          1 },
-  { "nocheck",       0,   0, &opt_check,     NULL,         NULL,          0 },
-  { "no-check",      0,   0, &opt_check,     NULL,         NULL,          0 },
-  { "root-owner-group",    0, 0, &opt_root_owner_group,    NULL, NULL,    1 },
-  { "threads-max",   0,   1, NULL,           NULL,         set_threads_max  },
-  { "uniform-compression", 0, 0, &opt_uniform_compression, NULL, NULL,    1 },
-  { "no-uniform-compression", 0, 0, &opt_uniform_compression, NULL, NULL, 0 },
-  { "compression",           'Z', 1, NULL,   NULL,         set_compress_type  },
-  { "compression-level",     'z', 1, NULL,   NULL,         set_compress_level },
-  { "compression-strategy",  'S', 1, NULL,   NULL,         set_compress_strategy },
-  { "showformat",    0,   1, NULL,           &opt_showformat,  NULL         },
-  {  NULL,           0,   0, NULL,           NULL,         NULL             }
+	{ "deb-format",    0,   1, NULL,           NULL,         set_deb_format   },
+	{ "debug",         'D', 0, &opt_debug,     NULL,         NULL,          1 },
+	{ "verbose",       'v', 0, &opt_verbose,   NULL,         NULL,          1 },
+	{ "nocheck",       0,   0, &opt_check,     NULL,         NULL,          0 },
+	{ "no-check",      0,   0, &opt_check,     NULL,         NULL,          0 },
+	{ "root-owner-group",    0, 0, &opt_root_owner_group,    NULL, NULL,    1 },
+	{ "threads-max",   0,   1, NULL,           NULL,         set_threads_max  },
+	{ "uniform-compression", 0, 0, &opt_uniform_compression, NULL, NULL,    1 },
+	{ "no-uniform-compression", 0, 0, &opt_uniform_compression, NULL, NULL, 0 },
+	{ "compression",           'Z', 1, NULL,   NULL,         set_compress_type  },
+	{ "compression-level",     'z', 1, NULL,   NULL,         set_compress_level },
+	{ "compression-strategy",  'S', 1, NULL,   NULL,         set_compress_strategy },
+	{ "showformat",    0,   1, NULL,           &opt_showformat,  NULL         },
+	{  NULL,           0,   0, NULL,           NULL,         NULL             }
 };
 
-int main(int argc, const char *const *argv) {
-  struct dpkg_error err;
-  char *env;
-  int ret;
+int
+main(int argc, const char *const *argv)
+{
+	struct dpkg_error err;
+	char *env;
+	int ret;
 
-  dpkg_locales_init(PACKAGE);
-  dpkg_program_init(BACKEND);
-  /* XXX: Integrate this into options initialization/parsing. */
-  env = getenv("DPKG_DEB_THREADS_MAX");
-  if (str_is_set(env))
-    compress_params.threads_max = parse_threads_max(env);
-  env = getenv("DPKG_DEB_COMPRESSOR_TYPE");
-  if (str_is_set(env))
-    compress_params.type = parse_compress_type(env);
-  env = getenv("DPKG_DEB_COMPRESSOR_LEVEL");
-  if (str_is_set(env))
-    compress_params.level = parse_compress_level(env);
-  dpkg_options_parse(&argv, cmdinfos, printforhelp);
+	dpkg_locales_init(PACKAGE);
+	dpkg_program_init(BACKEND);
+	/* XXX: Integrate this into options initialization/parsing. */
+	env = getenv("DPKG_DEB_THREADS_MAX");
+	if (str_is_set(env))
+		compress_params.threads_max = parse_threads_max(env);
+	env = getenv("DPKG_DEB_COMPRESSOR_TYPE");
+	if (str_is_set(env))
+		compress_params.type = parse_compress_type(env);
+	env = getenv("DPKG_DEB_COMPRESSOR_LEVEL");
+	if (str_is_set(env))
+		compress_params.level = parse_compress_level(env);
+	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
-  if (!cipaction) badusage(_("need an action option"));
+	if (!cipaction)
+		badusage(_("need an action option"));
 
-  if (!opt_uniform_compression && deb_format.major == 0)
-    badusage(_("unsupported deb format '%d.%d' with non-uniform compression"),
-             deb_format.major, deb_format.minor);
+	if (!opt_uniform_compression && deb_format.major == 0)
+		badusage(_("unsupported deb format '%d.%d' with non-uniform compression"),
+		         deb_format.major, deb_format.minor);
 
-  if (deb_format.major == 0)
-    compress_params = compress_params_deb0;
+	if (deb_format.major == 0)
+		compress_params = compress_params_deb0;
 
-  if (!compressor_check_params(&compress_params, &err))
-    badusage(_("invalid compressor parameters: %s"), err.str);
+	if (!compressor_check_params(&compress_params, &err))
+		badusage(_("invalid compressor parameters: %s"), err.str);
 
-  if (opt_uniform_compression &&
-      (compress_params.type != COMPRESSOR_TYPE_NONE &&
-       compress_params.type != COMPRESSOR_TYPE_GZIP &&
-       compress_params.type != COMPRESSOR_TYPE_ZSTD &&
-       compress_params.type != COMPRESSOR_TYPE_XZ))
-    badusage(_("unsupported compression type '%s' with uniform compression"),
-             compressor_get_name(compress_params.type));
+	if (opt_uniform_compression &&
+	    (compress_params.type != COMPRESSOR_TYPE_NONE &&
+	     compress_params.type != COMPRESSOR_TYPE_GZIP &&
+	     compress_params.type != COMPRESSOR_TYPE_ZSTD &&
+	     compress_params.type != COMPRESSOR_TYPE_XZ))
+		badusage(_("unsupported compression type '%s' with uniform compression"),
+		         compressor_get_name(compress_params.type));
 
-  ret = cipaction->action(argv);
+	ret = cipaction->action(argv);
 
-  dpkg_program_done();
-  dpkg_locales_done();
+	dpkg_program_done();
+	dpkg_locales_done();
 
-  return ret;
+	return ret;
 }

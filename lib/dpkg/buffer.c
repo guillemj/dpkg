@@ -63,6 +63,7 @@ buffer_digest_init(struct buffer_data *data)
 		buffer_md5_init(data);
 		break;
 	}
+
 	return 0;
 }
 
@@ -114,6 +115,7 @@ buffer_digest_done(struct buffer_data *data)
 		buffer_md5_done(data);
 		break;
 	}
+
 	return 0;
 }
 

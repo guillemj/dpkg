@@ -88,6 +88,7 @@ setexecute(const char *path, struct stat *stab)
 		return;
 	if (!chmod(path, 0755))
 		return;
+
 	ohshite(_("unable to set execute permissions on '%.250s'"), path);
 }
 
@@ -125,10 +126,12 @@ maintscript_pre_exec(struct command *cmd)
 		else if (rc)
 			ohshite(_("failed to chroot to '%.250s'"), instdir);
 	}
+
 	/* Switch to a known good directory to give the maintainer script
 	 * a saner environment, also needed after the chroot(). */
 	if (chdir(changedir))
 		ohshite(_("failed to chdir to '%.255s'"), changedir);
+
 	if (debug_has_flag(dbg_scripts)) {
 		struct varbuf args = VARBUF_INIT;
 		const char **argv = cmd->argv;
@@ -137,10 +140,11 @@ maintscript_pre_exec(struct command *cmd)
 			varbuf_add_char(&args, ' ');
 			varbuf_add_str(&args, *argv);
 		}
-		debug(dbg_scripts, "fork/exec %s (%s )", cmd->filename,
-		      varbuf_str(&args));
+		debug(dbg_scripts, "fork/exec %s (%s )",
+		      cmd->filename, varbuf_str(&args));
 		varbuf_destroy(&args);
 	}
+
 	if (instdirlen == 0 || in_force(FORCE_SCRIPT_CHROOTLESS))
 		return cmd->filename;
 

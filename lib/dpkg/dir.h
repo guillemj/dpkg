@@ -40,9 +40,12 @@ dir_make_path(const char *path, mode_t mode);
 int
 dir_make_path_parent(const char *path, mode_t mode);
 
-void dir_sync_path(const char *path);
-void dir_sync_path_parent(const char *path);
-void dir_sync_contents(const char *path);
+void
+dir_sync_path(const char *path);
+void
+dir_sync_path_parent(const char *path);
+void
+dir_sync_contents(const char *path);
 
 /** @} */
 

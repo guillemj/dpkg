@@ -176,7 +176,8 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 		if (fso->uid == (uid_t)-1 && !(flags & STATDB_PARSE_LAX))
 			ohshit(_("unknown system user '%s' in statoverride file; the system user got removed\n"
 			         "before the override, which is most probably a packaging bug, to recover you\n"
-			         "can remove the override manually with %s"), thisline, DPKGSTAT);
+			         "can remove the override manually with %s"),
+			       thisline, DPKGSTAT);
 
 		/* Move to the next bit */
 		thisline = ptr + 1;
@@ -198,7 +199,8 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 		if (fso->gid == (gid_t)-1 && !(flags & STATDB_PARSE_LAX))
 			ohshit(_("unknown system group '%s' in statoverride file; the system group got removed\n"
 			         "before the override, which is most probably a packaging bug, to recover you\n"
-			         "can remove the override manually with %s"), thisline, DPKGSTAT);
+			         "can remove the override manually with %s"),
+			       thisline, DPKGSTAT);
 
 		/* Move to the next bit */
 		thisline = ptr + 1;

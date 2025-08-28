@@ -49,13 +49,18 @@ struct pkg_queue {
 #define PKG_QUEUE_OBJECT \
 	(struct pkg_queue)PKG_QUEUE_INIT
 
-void pkg_queue_init(struct pkg_queue *queue);
-void pkg_queue_destroy(struct pkg_queue *queue);
+void
+pkg_queue_init(struct pkg_queue *queue);
+void
+pkg_queue_destroy(struct pkg_queue *queue);
 
-int pkg_queue_is_empty(struct pkg_queue *queue);
+int
+pkg_queue_is_empty(struct pkg_queue *queue);
 
-struct pkg_list *pkg_queue_push(struct pkg_queue *queue, struct pkginfo *pkg);
-struct pkginfo *pkg_queue_pop(struct pkg_queue *queue);
+struct pkg_list *
+pkg_queue_push(struct pkg_queue *queue, struct pkginfo *pkg);
+struct pkginfo *
+pkg_queue_pop(struct pkg_queue *queue);
 
 /** @} */
 

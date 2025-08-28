@@ -180,6 +180,7 @@ varbuf_dup_char(struct varbuf *v, int c, size_t n)
 {
 	if (n == 0)
 		return;
+
 	varbuf_grow(v, n + 1);
 	memset(v->buf + v->used, c, n);
 	v->used += n;

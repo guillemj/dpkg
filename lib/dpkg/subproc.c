@@ -36,7 +36,10 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/subproc.h>
 
-static int signo_ignores[] = { SIGQUIT, SIGINT };
+static int signo_ignores[] = {
+	SIGQUIT,
+	SIGINT,
+};
 static struct sigaction sa_save[array_count(signo_ignores)];
 
 static void
@@ -169,7 +172,8 @@ subproc_wait(pid_t pid, const char *desc)
 	pid_t dead_pid;
 	int status;
 
-	while ((dead_pid = waitpid(pid, &status, 0)) < 0 && errno == EINTR) ;
+	while ((dead_pid = waitpid(pid, &status, 0)) < 0 && errno == EINTR)
+		;
 
 	if (dead_pid != pid) {
 		onerr_abort++;

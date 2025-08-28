@@ -80,49 +80,71 @@ struct trig_hooks {
 	const char *(*namenode_name)(struct fsys_namenode *fnn);
 };
 
-#define TRIGHOOKS_DEFINE_NAMENODE_ACCESSORS				 \
-  static struct fsys_namenode *th_nn_find(const char *name, bool nonew)	 \
-    { return fsys_hash_find_node(name, nonew ? FHFF_NO_NEW : FHFF_NONE); } \
-  static struct trigfileint **th_nn_interested(struct fsys_namenode *fnn) \
-    { return &fnn->trig_interested; }					 \
-  static const char *th_nn_name(struct fsys_namenode *fnn)		 \
-    { return fnn->name; }
+#define TRIGHOOKS_DEFINE_NAMENODE_ACCESSORS \
+	static struct fsys_namenode * \
+	th_nn_find(const char *name, bool nonew) \
+	{ return fsys_hash_find_node(name, nonew ? FHFF_NO_NEW : FHFF_NONE); } \
+	static struct trigfileint **\
+	th_nn_interested(struct fsys_namenode *fnn) \
+	{ return &fnn->trig_interested; } \
+	static const char *\
+	th_nn_name(struct fsys_namenode *fnn) \
+	{ return fnn->name; }
 
-void trig_override_hooks(const struct trig_hooks *hooks);
+void
+trig_override_hooks(const struct trig_hooks *hooks);
 
-void trig_file_activate_byname(const char *trig, struct pkginfo *aw);
-void trig_file_activate(struct fsys_namenode *trig, struct pkginfo *aw);
-void trig_path_activate(struct fsys_namenode *trig, struct pkginfo *aw);
+void
+trig_file_activate_byname(const char *trig, struct pkginfo *aw);
+void
+trig_file_activate(struct fsys_namenode *trig, struct pkginfo *aw);
+void
+trig_path_activate(struct fsys_namenode *trig, struct pkginfo *aw);
 
-bool trig_note_pend_core(struct pkginfo *pend, const char *trig /*not copied!*/);
-bool trig_note_pend(struct pkginfo *pend, const char *trig /*not copied!*/);
-bool trig_note_aw(struct pkginfo *pend, struct pkginfo *aw);
-void trig_clear_awaiters(struct pkginfo *notpend);
+bool
+trig_note_pend_core(struct pkginfo *pend, const char *trig /*not copied!*/);
+bool
+trig_note_pend(struct pkginfo *pend, const char *trig /*not copied!*/);
+bool
+trig_note_aw(struct pkginfo *pend, struct pkginfo *aw);
+void
+trig_clear_awaiters(struct pkginfo *notpend);
 
 typedef void trig_awaited_pend_foreach_func(struct pkginfo *pkg);
 
-void trig_awaited_pend_enqueue(struct pkginfo *pend);
-void trig_awaited_pend_foreach(trig_awaited_pend_foreach_func *func);
-void trig_awaited_pend_free(void);
+void
+trig_awaited_pend_enqueue(struct pkginfo *pend);
+void
+trig_awaited_pend_foreach(trig_awaited_pend_foreach_func *func);
+void
+trig_awaited_pend_free(void);
 
-void trig_fixup_awaiters(enum modstatdb_rw cstatus);
+void
+trig_fixup_awaiters(enum modstatdb_rw cstatus);
 
-void trig_file_interests_ensure(void);
-void trig_file_interests_save(void);
+void
+trig_file_interests_ensure(void);
+void
+trig_file_interests_save(void);
 
 typedef void trig_parse_cicb(const char *trig, struct pkginfo *pkg,
                              struct pkgbin *pkgbin, enum trig_options to);
-void trig_cicb_interest_delete(const char *trig, struct pkginfo *pkg,
-                             struct pkgbin *pkgbin, enum trig_options to);
-void trig_cicb_interest_add(const char *trig, struct pkginfo *pkg,
-                             struct pkgbin *pkgbin, enum trig_options to);
-void trig_cicb_statuschange_activate(const char *trig, struct pkginfo *pkg,
-                             struct pkgbin *pkgbin, enum trig_options to);
-void trig_parse_ci(const char *file, trig_parse_cicb *interest,
-                   trig_parse_cicb *activate, struct pkginfo *pkg,
-                   struct pkgbin *pkgbin);
+void
+trig_cicb_interest_delete(const char *trig, struct pkginfo *pkg,
+                          struct pkgbin *pkgbin, enum trig_options to);
+void
+trig_cicb_interest_add(const char *trig, struct pkginfo *pkg,
+                       struct pkgbin *pkgbin, enum trig_options to);
+void
+trig_cicb_statuschange_activate(const char *trig, struct pkginfo *pkg,
+                                struct pkgbin *pkgbin, enum trig_options to);
+void
+trig_parse_ci(const char *file, trig_parse_cicb *interest,
+              trig_parse_cicb *activate, struct pkginfo *pkg,
+              struct pkgbin *pkgbin);
 
-void trig_incorporate(enum modstatdb_rw cstatus);
+void
+trig_incorporate(enum modstatdb_rw cstatus);
 
 /** @} */
 

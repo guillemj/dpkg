@@ -192,5 +192,6 @@ str_rtrim_spaces(const char *str, char *str_end)
 		str_end--;
 	if (str_end >= str)
 		*str_end = '\0';
+
 	return str_end;
 }

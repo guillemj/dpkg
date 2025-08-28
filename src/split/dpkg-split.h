@@ -33,29 +33,29 @@ action_func do_queue;
 action_func do_discard;
 
 struct partinfo {
-  struct deb_version fmtversion;
-  const char *filename;
-  const char *package;
-  const char *version;
-  const char *arch;
-  const char *md5sum;
-  off_t orglength;
-  int thispartn, maxpartn;
-  off_t maxpartlen;
-  off_t thispartoffset;
-  off_t thispartlen;
-  /** Size of header in part file. */
-  off_t headerlen;
-  off_t filesize;
+	struct deb_version fmtversion;
+	const char *filename;
+	const char *package;
+	const char *version;
+	const char *arch;
+	const char *md5sum;
+	off_t orglength;
+	int thispartn, maxpartn;
+	off_t maxpartlen;
+	off_t thispartoffset;
+	off_t thispartlen;
+	/** Size of header in part file. */
+	off_t headerlen;
+	off_t filesize;
 };
 
 struct partqueue {
-  struct partqueue *nextinqueue;
+	struct partqueue *nextinqueue;
 
-  /** Only fields filename, md5sum, maxpartlen, thispartn, maxpartn
-   * are valid; the rest are NULL. If the file is not named correctly
-   * to be a part file md5sum is NULL too and the numbers are zero. */
-  struct partinfo info;
+	/** Only fields filename, md5sum, maxpartlen, thispartn, maxpartn
+	 * are valid; the rest are NULL. If the file is not named correctly
+	 * to be a part file md5sum is NULL too and the numbers are zero. */
+	struct partinfo info;
 };
 
 extern off_t opt_maxpartsize;
@@ -63,21 +63,28 @@ extern const char *opt_depotdir;
 extern const char *opt_outputfile;
 extern int opt_npquiet;
 
-void read_fail(int rc, const char *filename, const char *what) DPKG_ATTR_NORET;
-void print_info(const struct partinfo *pi);
-struct partinfo *read_info(struct dpkg_ar *ar, struct partinfo *ir);
+void
+read_fail(int rc, const char *filename, const char *what)
+	DPKG_ATTR_NORET;
+void
+print_info(const struct partinfo *pi);
+struct partinfo *
+read_info(struct dpkg_ar *ar, struct partinfo *ir);
 
-void reassemble(struct partinfo **partlist, const char *outputfile);
-void mustgetpartinfo(const char *filename, struct partinfo *ri);
-void addtopartlist(struct partinfo**, struct partinfo*, struct partinfo *refi);
+void
+reassemble(struct partinfo **partlist, const char *outputfile);
+void
+mustgetpartinfo(const char *filename, struct partinfo *ri);
+void
+addtopartlist(struct partinfo**, struct partinfo*, struct partinfo *refi);
 
-#define SPLITVERSION       "2.1"
+#define SPLITVERSION		"2.1"
 
-#define PARTSDIR          "parts"
+#define PARTSDIR		"parts"
 
-#define PARTMAGIC         "debian-split"
-#define HEADERALLOWANCE    1024
+#define PARTMAGIC		"debian-split"
+#define HEADERALLOWANCE		1024
 
-#define SPLITPARTDEFMAX    (450 * 1024)
+#define SPLITPARTDEFMAX		(450 * 1024)
 
 #endif /* DPKG_SPLIT_H */

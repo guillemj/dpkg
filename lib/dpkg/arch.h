@@ -51,21 +51,34 @@ struct dpkg_arch {
 	enum dpkg_arch_type type;
 };
 
-const char *dpkg_arch_name_is_illegal(const char *name) DPKG_ATTR_NONNULL(1);
-struct dpkg_arch *dpkg_arch_find(const char *name);
-struct dpkg_arch *dpkg_arch_get(enum dpkg_arch_type type);
-struct dpkg_arch *dpkg_arch_get_list(void);
-void dpkg_arch_reset_list(void);
+const char *
+dpkg_arch_name_is_illegal(const char *name)
+	DPKG_ATTR_NONNULL(1);
+struct dpkg_arch *
+dpkg_arch_find(const char *name);
+struct dpkg_arch *
+dpkg_arch_get(enum dpkg_arch_type type);
+struct dpkg_arch *
+dpkg_arch_get_list(void);
+void
+dpkg_arch_reset_list(void);
 
-const char *dpkg_arch_describe(const struct dpkg_arch *arch);
+const char *
+dpkg_arch_describe(const struct dpkg_arch *arch);
 
-struct dpkg_arch *dpkg_arch_add(const char *name);
-void dpkg_arch_unmark(const struct dpkg_arch *arch);
-void dpkg_arch_load_native(void);
-void dpkg_arch_load_list(void);
-void dpkg_arch_save_list(void);
+struct dpkg_arch *
+dpkg_arch_add(const char *name);
+void
+dpkg_arch_unmark(const struct dpkg_arch *arch);
+void
+dpkg_arch_load_native(void);
+void
+dpkg_arch_load_list(void);
+void
+dpkg_arch_save_list(void);
 
-void varbuf_add_archqual(struct varbuf *vb, const struct dpkg_arch *arch);
+void
+varbuf_add_archqual(struct varbuf *vb, const struct dpkg_arch *arch);
 
 /** @} */
 

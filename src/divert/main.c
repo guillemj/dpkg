@@ -341,7 +341,8 @@ diversion_current(const char *filename)
 			varbuf_set_fmt(&str, _("any diversion of %s to %s"),
 			               filename, opt_divertto);
 	} else {
-		return varbuf_diversion(&str, opt_pkgname, filename, opt_divertto);
+		return varbuf_diversion(&str, opt_pkgname,
+		                        filename, opt_divertto);
 	}
 
 	return varbuf_str(&str);
@@ -457,6 +458,7 @@ diversion_is_owned_by_self(struct pkgset *set, struct fsys_namenode *namenode)
 	return owned;
 }
 
+/* TODO: Refactor diversion accesses. */
 static int
 diversion_add(const char *const *argv)
 {
@@ -506,9 +508,12 @@ diversion_add(const char *const *argv)
 
 	/* Check we are not stomping over an existing diversion. */
 	if (fnn_from->divert || fnn_to->divert) {
-		if (fnn_to->divert && fnn_to->divert->camefrom &&
+		/* TODO: Refactor this overly complex conditional. */
+		if (fnn_to->divert &&
+		    fnn_to->divert->camefrom &&
 		    strcmp(fnn_to->divert->camefrom->name, filename) == 0 &&
-		    fnn_from->divert && fnn_from->divert->useinstead &&
+		    fnn_from->divert &&
+		    fnn_from->divert->useinstead &&
 		    strcmp(fnn_from->divert->useinstead->name, opt_divertto) == 0 &&
 		    fnn_from->divert->pkgset == pkgset) {
 			if (opt_verbose > 0)
@@ -627,12 +632,14 @@ diversion_remove(const char *const *argv)
 
 	namenode = fsys_hash_find_node(filename, FHFF_NO_NEW);
 
-	if (namenode == NULL || namenode->divert == NULL ||
+	if (namenode == NULL ||
+	    namenode->divert == NULL ||
 	    namenode->divert->useinstead == NULL) {
 		if (opt_verbose > 0)
 			printf(_("No diversion '%s', none removed.\n"),
 			       diversion_current(filename));
 		modstatdb_shutdown();
+
 		return 0;
 	}
 
@@ -666,6 +673,7 @@ diversion_remove(const char *const *argv)
 			printf(_("Ignoring request to remove shared diversion '%s'.\n"),
 			       diversion_describe(contest));
 		modstatdb_shutdown();
+
 		return 0;
 	}
 
@@ -861,7 +869,8 @@ main(int argc, const char * const *argv)
 	dpkg_program_init("dpkg-divert");
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
-	debug(dbg_general, "root=%s admindir=%s", dpkg_fsys_get_dir(), dpkg_db_get_dir());
+	debug(dbg_general, "root=%s admindir=%s",
+	      dpkg_fsys_get_dir(), dpkg_db_get_dir());
 
 	env_pkgname = getenv("DPKG_MAINTSCRIPT_PACKAGE");
 	if (opt_pkgname_match_any && env_pkgname)

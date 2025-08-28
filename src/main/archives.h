@@ -27,19 +27,19 @@
 #include <dpkg/tarfn.h>
 
 struct tarcontext {
-  int backendpipe;
-  struct pkginfo *pkg;
-  /** A queue of fsys_namenode that have been extracted anew. */
-  struct fsys_namenode_queue *newfiles_queue;
-  /** Are all “Multi-arch: same” instances about to be in sync? */
-  bool pkgset_getting_in_sync;
+	int backendpipe;
+	struct pkginfo *pkg;
+	/** A queue of fsys_namenode that have been extracted anew. */
+	struct fsys_namenode_queue *newfiles_queue;
+	/** Are all “Multi-arch: same” instances about to be in sync? */
+	bool pkgset_getting_in_sync;
 };
 
 struct pkg_deconf_list {
-  struct pkg_deconf_list *next;
-  struct pkginfo *pkg;
-  struct pkginfo *pkg_removal;
-  enum pkgwant reason;
+	struct pkg_deconf_list *next;
+	struct pkginfo *pkg;
+	struct pkginfo *pkg_removal;
+	enum pkgwant reason;
 };
 
 extern struct varbuf_state fname_state;
@@ -50,29 +50,46 @@ extern struct varbuf fnametmpvb;
 extern struct varbuf fnamenewvb;
 extern struct pkg_deconf_list *deconfigure;
 
-void clear_deconfigure_queue(void);
-void enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal,
-                         enum pkgwant reason);
-void enqueue_conflictor(struct pkginfo *pkg);
+void
+clear_deconfigure_queue(void);
+void
+enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal,
+                    enum pkgwant reason);
+void
+enqueue_conflictor(struct pkginfo *pkg);
 
-void cu_pathname(int argc, void **argv);
-void cu_cidir(int argc, void **argv);
-void cu_fileslist(int argc, void **argv);
-void cu_backendpipe(int argc, void **argv);
+void
+cu_pathname(int argc, void **argv);
+void
+cu_cidir(int argc, void **argv);
+void
+cu_fileslist(int argc, void **argv);
+void
+cu_backendpipe(int argc, void **argv);
 
-void cu_installnew(int argc, void **argv);
+void
+cu_installnew(int argc, void **argv);
 
-void cu_prermupgrade(int argc, void **argv);
-void cu_prerminfavour(int argc, void **argv);
-void cu_preinstverynew(int argc, void **argv);
-void cu_preinstnew(int argc, void **argv);
-void cu_preinstupgrade(int argc, void **argv);
-void cu_postrmupgrade(int argc, void **argv);
+void
+cu_prermupgrade(int argc, void **argv);
+void
+cu_prerminfavour(int argc, void **argv);
+void
+cu_preinstverynew(int argc, void **argv);
+void
+cu_preinstnew(int argc, void **argv);
+void
+cu_preinstupgrade(int argc, void **argv);
+void
+cu_postrmupgrade(int argc, void **argv);
 
-void cu_prermdeconfigure(int argc, void **argv);
-void ok_prermdeconfigure(int argc, void **argv);
+void
+cu_prermdeconfigure(int argc, void **argv);
+void
+ok_prermdeconfigure(int argc, void **argv);
 
-void setupfnamevbs(const char *filename);
+void
+setupfnamevbs(const char *filename);
 
 int
 tarobject(struct tar_archive *tar, struct tar_entry *ti);
@@ -89,10 +106,12 @@ bool
 filesavespackage(struct fsys_namenode_list *, struct pkginfo *,
                  struct pkginfo *pkgbeinginstalled);
 
-void check_conflict(struct dependency *dep, struct pkginfo *pkg,
-                    const char *pfilename);
-void check_breaks(struct dependency *dep, struct pkginfo *pkg,
-                  const char *pfilename);
+void
+check_conflict(struct dependency *dep, struct pkginfo *pkg,
+               const char *pfilename);
+void
+check_breaks(struct dependency *dep, struct pkginfo *pkg,
+             const char *pfilename);
 
 extern int cleanup_pkg_failed, cleanup_conflictor_failed;
 

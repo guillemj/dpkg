@@ -70,9 +70,11 @@ deparchsatisfied(struct pkgbin *it, const struct dpkg_arch *it_arch,
 		return true;
 
 	pkg_arch = it_arch;
-	if (dep_arch->type == DPKG_ARCH_NONE || dep_arch->type == DPKG_ARCH_ALL)
+	if (dep_arch->type == DPKG_ARCH_NONE ||
+	    dep_arch->type == DPKG_ARCH_ALL)
 		dep_arch = dpkg_arch_get(DPKG_ARCH_NATIVE);
-	if (pkg_arch->type == DPKG_ARCH_NONE || pkg_arch->type == DPKG_ARCH_ALL)
+	if (pkg_arch->type == DPKG_ARCH_NONE ||
+	    pkg_arch->type == DPKG_ARCH_ALL)
 		pkg_arch = dpkg_arch_get(DPKG_ARCH_NATIVE);
 
 	return (dep_arch == pkg_arch);

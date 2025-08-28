@@ -46,92 +46,102 @@ bool abort_processing = false;
 static int nerrs = 0;
 
 struct error_report {
-  struct error_report *next;
-  char *what;
+	struct error_report *next;
+	char *what;
 };
 
 static struct error_report *reports = NULL;
-static struct error_report **lastreport= &reports;
+static struct error_report **lastreport = &reports;
 static struct error_report emergency;
 
 static void
 enqueue_error_report(const char *arg)
 {
-  struct error_report *nr;
+	struct error_report *nr;
 
-  nr = malloc(sizeof(*nr));
-  if (!nr) {
-    notice(_("failed to allocate memory for new entry in list of failed packages: %s"),
-           strerror(errno));
-    abort_processing = true;
-    nr= &emergency;
-  }
-  nr->what = m_strdup(arg);
-  nr->next = NULL;
-  *lastreport= nr;
-  lastreport= &nr->next;
+	nr = malloc(sizeof(*nr));
+	if (!nr) {
+		notice(_("failed to allocate memory for new entry "
+		         "in list of failed packages: %s"),
+		       strerror(errno));
+		abort_processing = true;
+		nr = &emergency;
+	}
+	nr->what = m_strdup(arg);
+	nr->next = NULL;
+	*lastreport = nr;
+	lastreport = &nr->next;
 
-  if (++nerrs < errabort)
-    return;
-  notice(_("too many errors, stopping"));
-  abort_processing = true;
+	if (++nerrs < errabort)
+		return;
+
+	notice(_("too many errors, stopping"));
+	abort_processing = true;
 }
 
 void
 print_error_perpackage(const char *emsg, const void *data)
 {
-  const char *pkgname = data;
+	const char *pkgname = data;
 
-  notice(_("error processing package %s (--%s):\n %s"),
-         pkgname, cipaction->olong, emsg);
+	notice(_("error processing package %s (--%s):\n %s"),
+	       pkgname, cipaction->olong, emsg);
 
-  statusfd_send("status: %s : %s : %s", pkgname, "error", emsg);
+	statusfd_send("status: %s : %s : %s", pkgname, "error", emsg);
 
-  enqueue_error_report(pkgname);
+	enqueue_error_report(pkgname);
 }
 
 void
 print_error_perarchive(const char *emsg, const void *data)
 {
-  const char *filename = data;
+	const char *filename = data;
 
-  notice(_("error processing archive %s (--%s):\n %s"),
-         filename, cipaction->olong, emsg);
+	notice(_("error processing archive %s (--%s):\n %s"),
+	       filename, cipaction->olong, emsg);
 
-  statusfd_send("status: %s : %s : %s", filename, "error", emsg);
+	statusfd_send("status: %s : %s : %s", filename, "error", emsg);
 
-  enqueue_error_report(filename);
+	enqueue_error_report(filename);
 }
 
 int
 reportbroken_retexitstatus(int ret)
 {
-  if (reports) {
-    fputs(_("Errors were encountered while processing:\n"),stderr);
-    while (reports) {
-      fprintf(stderr," %s\n",reports->what);
-      free(reports->what);
-      reports= reports->next;
-    }
-  }
-  if (abort_processing) {
-    fputs(_("Processing was halted because there were too many errors.\n"),stderr);
-  }
-  return nerrs ? 1 : ret;
+	if (reports) {
+		fputs(_("Errors were encountered while processing:\n"), stderr);
+		while (reports) {
+			fprintf(stderr, " %s\n", reports->what);
+			free(reports->what);
+			reports = reports->next;
+		}
+	}
+
+	if (abort_processing) {
+		fputs(_("Processing was halted "
+		        "because there were too many errors.\n"),
+		      stderr);
+	}
+
+	return nerrs ? 1 : ret;
 }
 
 bool
 skip_due_to_hold(struct pkginfo *pkg)
 {
-  if (pkg->want != PKG_WANT_HOLD)
-    return false;
-  if (in_force(FORCE_HOLD)) {
-    notice(_("package %s was on hold, processing it anyway as you requested"),
-           pkg_name(pkg, pnaw_nonambig));
-    return false;
-  }
-  printf(_("Package %s is on hold, not touching it.  Use --force-hold to override.\n"),
-         pkg_name(pkg, pnaw_nonambig));
-  return true;
-}
+	if (pkg->want != PKG_WANT_HOLD)
+		return false;
 
+	if (in_force(FORCE_HOLD)) {
+		notice(_("package %s was on hold, "
+		         "processing it anyway as you requested"),
+		       pkg_name(pkg, pnaw_nonambig));
+		return false;
+	}
+
+	printf(_("Package %s is on hold, not touching it.  "
+	         "Use --force-hold to override.\n"),
+	       pkg_name(pkg, pnaw_nonambig));
+
+	return true;
+}

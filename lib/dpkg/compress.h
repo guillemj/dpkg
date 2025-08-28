@@ -64,23 +64,31 @@ struct compress_params {
 	int threads_max;
 };
 
-enum compressor_type compressor_find_by_name(const char *name);
-enum compressor_type compressor_find_by_extension(const char *name);
+enum compressor_type
+compressor_find_by_name(const char *name);
+enum compressor_type
+compressor_find_by_extension(const char *name);
 
-const char *compressor_get_name(enum compressor_type type);
-const char *compressor_get_extension(enum compressor_type type);
+const char *
+compressor_get_name(enum compressor_type type);
+const char *
+compressor_get_extension(enum compressor_type type);
 
-enum compressor_strategy compressor_get_strategy(const char *name);
+enum compressor_strategy
+compressor_get_strategy(const char *name);
 
-bool compressor_check_params(struct compress_params *params,
-                             struct dpkg_error *err);
+bool
+compressor_check_params(struct compress_params *params,
+                        struct dpkg_error *err);
 
-void decompress_filter(struct compress_params *params, int fd_in, int fd_out,
-                       const char *desc, ...)
-                       DPKG_ATTR_PRINTF(4);
-void compress_filter(struct compress_params *params, int fd_in, int fd_out,
-                     const char *desc, ...)
-                     DPKG_ATTR_PRINTF(4);
+void
+decompress_filter(struct compress_params *params, int fd_in, int fd_out,
+                  const char *desc, ...)
+	DPKG_ATTR_PRINTF(4);
+void
+compress_filter(struct compress_params *params, int fd_in, int fd_out,
+                const char *desc, ...)
+	DPKG_ATTR_PRINTF(4);
 
 /** @} */
 

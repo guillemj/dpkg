@@ -48,12 +48,17 @@ enum DPKG_ATTR_ENUM_FLAGS subproc_flags {
 	SUBPROC_RETSIGNO	= DPKG_BIT(3),
 };
 
-void subproc_signals_ignore(const char *name);
-void subproc_signals_cleanup(int argc, void **argv);
-void subproc_signals_restore(void);
+void
+subproc_signals_ignore(const char *name);
+void
+subproc_signals_cleanup(int argc, void **argv);
+void
+subproc_signals_restore(void);
 
-pid_t subproc_fork(void);
-int subproc_reap(pid_t pid, const char *desc, enum subproc_flags flags);
+pid_t
+subproc_fork(void);
+int
+subproc_reap(pid_t pid, const char *desc, enum subproc_flags flags);
 
 /** @} */
 

@@ -96,9 +96,11 @@ trigproc_enqueue_deferred(struct pkginfo *pend)
 {
 	if (f_triggers < 0)
 		return;
+
 	ensure_package_clientdata(pend);
 	if (pend->clientdata->trigprocdeferred)
 		return;
+
 	pend->clientdata->trigprocdeferred = pkg_queue_push(&deferred, pend);
 	debug_at(dbg_triggers, "pend=%s", pkg_name(pend, pnaw_always));
 }
@@ -268,6 +270,7 @@ trigproc_new_cyclenode(struct pkginfo *processing_now)
 	while ((pkg = pkg_hash_iter_next_pkg(iter))) {
 		if (!pkg->trigpend_head)
 			continue;
+
 		tcpp = nfmalloc(sizeof(*tcpp));
 		tcpp->pkg = pkg;
 		tcpp->then_trigs = pkg->trigpend_head;
@@ -523,6 +526,7 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 	while ((pkg = pkg_hash_iter_next_pkg(iter))) {
 		if (pkg->status <= PKG_STAT_HALFINSTALLED)
 			continue;
+
 		debug_at(dbg_triggersdetail, "pkg=%s status=%s",
 		         pkg_name(pkg, pnaw_always),
 		         pkg_status_name(pkg));
@@ -533,6 +537,7 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 		              transitional_interest_callback :
 		              transitional_interest_callback_ro, NULL,
 		              pkg, &pkg->installed);
+
 		/* Ensure we're not creating incoherent data that can't
 		 * be written down. This should never happen in theory but
 		 * can happen if you restore an old status file that is

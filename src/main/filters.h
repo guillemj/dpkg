@@ -29,8 +29,10 @@
 
 DPKG_BEGIN_DECLS
 
-void filter_add(const char *glob, bool include);
-bool filter_should_skip(struct tar_entry *ti);
+void
+filter_add(const char *glob, bool include);
+bool
+filter_should_skip(struct tar_entry *ti);
 
 DPKG_END_DECLS
 

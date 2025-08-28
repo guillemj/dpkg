@@ -51,7 +51,8 @@ struct deb_version {
 #define DEB_VERSION_OBJECT(X, Y) \
 	(struct deb_version)DEB_VERSION(X, Y)
 
-const char *deb_version_parse(struct deb_version *version, const char *str);
+const char *
+deb_version_parse(struct deb_version *version, const char *str);
 
 /** @} */
 

@@ -66,6 +66,7 @@ fsys_hash_rev_iter_next(struct fsys_hash_rev_iter *iter)
 	todo = iter->todo;
 	if (!todo)
 		return NULL;
+
 	next = todo->namenode;
 	iter->todo = todo->next;
 	free(todo);

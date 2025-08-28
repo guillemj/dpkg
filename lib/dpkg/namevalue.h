@@ -41,8 +41,8 @@ struct namevalue {
 #define NAMEVALUE_DEF(n, v) \
 	[v] = { .name = n, .value = v, .length = sizeof(n) - 1 }
 
-const struct namevalue *namevalue_find_by_name(const struct namevalue *head,
-                                               const char *str);
+const struct namevalue *
+namevalue_find_by_name(const struct namevalue *head, const char *str);
 
 /** @} */
 

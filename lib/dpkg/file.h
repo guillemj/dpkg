@@ -60,9 +60,11 @@ file_canonicalize(const char *pathname);
 ssize_t
 file_readlink(const char *slink, struct varbuf *content, size_t content_len);
 
-bool file_is_exec(const char *filename);
+bool
+file_is_exec(const char *filename);
 
-void file_copy_perms(const char *src, const char *dst);
+void
+file_copy_perms(const char *src, const char *dst);
 
 int
 file_slurp(const char *filename, struct varbuf *vb, struct dpkg_error *err);
@@ -72,11 +74,15 @@ enum file_lock_flags {
 	FILE_LOCK_WAIT,
 };
 
-bool file_is_locked(int lockfd, const char *filename);
-void file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
-               const char *filedesc);
-void file_unlock(int fd, const char *filename, const char *filedesc);
-void file_show(const char *filename);
+bool
+file_is_locked(int lockfd, const char *filename);
+void
+file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
+          const char *filedesc);
+void
+file_unlock(int fd, const char *filename, const char *filedesc);
+void
+file_show(const char *filename);
 
 /** @} */
 

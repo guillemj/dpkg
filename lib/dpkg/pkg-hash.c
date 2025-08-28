@@ -67,34 +67,34 @@ static int npkg, nset;
 struct pkgset *
 pkg_hash_find_set(const char *inname)
 {
-  struct pkgset **setp, *new_set;
-  char *name = m_strdup(inname), *p;
+	struct pkgset **setp, *new_set;
+	char *name = m_strdup(inname), *p;
 
-  p= name;
-  while (*p) {
-    *p = c_tolower(*p);
-    p++;
-  }
+	p = name;
+	while (*p) {
+		*p = c_tolower(*p);
+		p++;
+	}
 
-  setp = bins + (str_fnv_hash(name) % (BINS));
-  while (*setp && strcasecmp((*setp)->name, name))
-    setp = &(*setp)->next;
-  if (*setp) {
-    free(name);
-    return *setp;
-  }
+	setp = bins + (str_fnv_hash(name) % (BINS));
+	while (*setp && strcasecmp((*setp)->name, name))
+		setp = &(*setp)->next;
+	if (*setp) {
+		free(name);
+		return *setp;
+	}
 
-  new_set = nfmalloc(sizeof(*new_set));
-  pkgset_blank(new_set);
-  new_set->name = nfstrsave(name);
-  new_set->next = NULL;
-  *setp = new_set;
-  nset++;
-  npkg++;
+	new_set = nfmalloc(sizeof(*new_set));
+	pkgset_blank(new_set);
+	new_set->name = nfstrsave(name);
+	new_set->next = NULL;
+	*setp = new_set;
+	nset++;
+	npkg++;
 
-  free(name);
+	free(name);
 
-  return new_set;
+	return new_set;
 }
 
 /**
@@ -111,28 +111,31 @@ pkg_hash_find_set(const char *inname)
 struct pkginfo *
 pkg_hash_get_singleton(struct pkgset *set)
 {
-  struct pkginfo *pkg;
+	struct pkginfo *pkg;
 
-  switch (pkgset_installed_instances(set)) {
-  case 0:
-    /* Pick an available candidate. */
-    for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
-      const struct dpkg_arch *arch = pkg->available.arch;
+	switch (pkgset_installed_instances(set)) {
+	case 0:
+		/* Pick an available candidate. */
+		for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
+			const struct dpkg_arch *arch = pkg->available.arch;
 
-      if (arch->type == DPKG_ARCH_NATIVE || arch->type == DPKG_ARCH_ALL)
-        return pkg;
-    }
-    /* Or failing that, the first entry. */
-    return &set->pkg;
-  case 1:
-    for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
-      if (pkg->status > PKG_STAT_NOTINSTALLED)
-        return pkg;
-    }
-    internerr("pkgset '%s' should have one installed instance", set->name);
-  default:
-    return NULL;
-  }
+			if (arch->type == DPKG_ARCH_NATIVE ||
+			    arch->type == DPKG_ARCH_ALL)
+				return pkg;
+		}
+
+		/* Or failing that, the first entry. */
+		return &set->pkg;
+	case 1:
+		for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
+			if (pkg->status > PKG_STAT_NOTINSTALLED)
+				return pkg;
+		}
+		internerr("pkgset '%s' should have one installed instance",
+		          set->name);
+	default:
+		return NULL;
+	}
 }
 
 /**
@@ -145,16 +148,16 @@ pkg_hash_get_singleton(struct pkgset *set)
 struct pkginfo *
 pkg_hash_find_singleton(const char *name)
 {
-  struct pkgset *set;
-  struct pkginfo *pkg;
+	struct pkgset *set;
+	struct pkginfo *pkg;
 
-  set = pkg_hash_find_set(name);
-  pkg = pkg_hash_get_singleton(set);
-  if (pkg == NULL)
-    ohshit(_("ambiguous package name '%s' with more "
-             "than one installed instance"), set->name);
+	set = pkg_hash_find_set(name);
+	pkg = pkg_hash_get_singleton(set);
+	if (pkg == NULL)
+		ohshit(_("ambiguous package name '%s' with more "
+		         "than one installed instance"), set->name);
 
-  return pkg;
+	return pkg;
 }
 
 /**
@@ -173,47 +176,50 @@ pkg_hash_find_singleton(const char *name)
 struct pkginfo *
 pkg_hash_get_pkg(struct pkgset *set, const struct dpkg_arch *arch)
 {
-  struct pkginfo *pkg, **pkgp;
+	struct pkginfo *pkg, **pkgp;
 
-  if (arch == NULL)
-    internerr("arch argument is NULL");
-  if (arch->type == DPKG_ARCH_NONE)
-    internerr("arch argument is none");
+	if (arch == NULL)
+		internerr("arch argument is NULL");
+	if (arch->type == DPKG_ARCH_NONE)
+		internerr("arch argument is none");
 
-  pkg = &set->pkg;
+	pkg = &set->pkg;
 
-  /* If there's a single unused slot, let's use that. */
-  if (pkg->installed.arch->type == DPKG_ARCH_NONE && pkg->arch_next == NULL) {
-    /* We can only initialize the arch pkgbin members, because those are used
-     * to find instances, anything else will be overwritten at parse time. */
-    pkg->installed.arch = arch;
-    pkg->available.arch = arch;
-    return pkg;
-  }
+	/* If there's a single unused slot, let's use that. */
+	if (pkg->installed.arch->type == DPKG_ARCH_NONE &&
+	    pkg->arch_next == NULL) {
+		/* We can only initialize the arch pkgbin members, because
+		 * those are used to find instances, anything else will be
+		 * overwritten at parse time. */
+		pkg->installed.arch = arch;
+		pkg->available.arch = arch;
+		return pkg;
+	}
 
-  /* Match the slot with the most appropriate architecture. The installed
-   * architecture always has preference over the available one, as there's
-   * a small time window on cross-grades, where they might differ. */
-  /* cppcheck-suppress[knownConditionTrueFalse,knownPointerToBool]:
-   * False positive, the condition always ends up being false. */
-  for (pkgp = &pkg; *pkgp; pkgp = &(*pkgp)->arch_next) {
-    if ((*pkgp)->installed.arch == arch)
-      return *pkgp;
-  }
+	/* Match the slot with the most appropriate architecture. The installed
+	 * architecture always has preference over the available one, as there's
+	 * a small time window on cross-grades, where they might differ. */
+	/* cppcheck-suppress[knownConditionTrueFalse,knownPointerToBool]:
+	 * False positive, the condition always ends up being false. */
+	for (pkgp = &pkg; *pkgp; pkgp = &(*pkgp)->arch_next) {
+		if ((*pkgp)->installed.arch == arch)
+			return *pkgp;
+	}
 
-  /* Need to create a new instance for the wanted architecture. */
-  pkg = nfmalloc(sizeof(*pkg));
-  pkg_blank(pkg);
-  pkg->set = set;
-  pkg->arch_next = NULL;
-  /* We can only initialize the arch pkgbin members, because those are used
-   * to find instances, anything else will be overwritten at parse time. */
-  pkg->installed.arch = arch;
-  pkg->available.arch = arch;
-  *pkgp = pkg;
-  npkg++;
+	/* Need to create a new instance for the wanted architecture. */
+	pkg = nfmalloc(sizeof(*pkg));
+	pkg_blank(pkg);
+	pkg->set = set;
+	pkg->arch_next = NULL;
+	/* We can only initialize the arch pkgbin members, because those are
+	 * used to find instances, anything else will be overwritten at parse
+	 * time. */
+	pkg->installed.arch = arch;
+	pkg->available.arch = arch;
+	*pkgp = pkg;
+	npkg++;
 
-  return pkg;
+	return pkg;
 }
 
 /**
@@ -227,13 +233,13 @@ pkg_hash_get_pkg(struct pkgset *set, const struct dpkg_arch *arch)
 struct pkginfo *
 pkg_hash_find_pkg(const char *name, const struct dpkg_arch *arch)
 {
-  struct pkgset *set;
-  struct pkginfo *pkg;
+	struct pkgset *set;
+	struct pkginfo *pkg;
 
-  set = pkg_hash_find_set(name);
-  pkg = pkg_hash_get_pkg(set, arch);
+	set = pkg_hash_find_set(name);
+	pkg = pkg_hash_get_pkg(set, arch);
 
-  return pkg;
+	return pkg;
 }
 
 /**
@@ -244,7 +250,7 @@ pkg_hash_find_pkg(const char *name, const struct dpkg_arch *arch)
 int
 pkg_hash_count_set(void)
 {
-  return nset;
+	return nset;
 }
 
 /**
@@ -255,12 +261,12 @@ pkg_hash_count_set(void)
 int
 pkg_hash_count_pkg(void)
 {
-  return npkg;
+	return npkg;
 }
 
 struct pkg_hash_iter {
-  struct pkginfo *pkg;
-  int nbinn;
+	struct pkginfo *pkg;
+	int nbinn;
 };
 
 /**
@@ -273,13 +279,13 @@ struct pkg_hash_iter {
 struct pkg_hash_iter *
 pkg_hash_iter_new(void)
 {
-  struct pkg_hash_iter *iter;
+	struct pkg_hash_iter *iter;
 
-  iter = m_malloc(sizeof(*iter));
-  iter->pkg = NULL;
-  iter->nbinn = 0;
+	iter = m_malloc(sizeof(*iter));
+	iter->pkg = NULL;
+	iter->nbinn = 0;
 
-  return iter;
+	return iter;
 }
 
 /**
@@ -294,23 +300,23 @@ pkg_hash_iter_new(void)
 struct pkgset *
 pkg_hash_iter_next_set(struct pkg_hash_iter *iter)
 {
-  struct pkgset *set;
+	struct pkgset *set;
 
-  while (!iter->pkg) {
-    if (iter->nbinn >= BINS)
-      return NULL;
-    if (bins[iter->nbinn])
-      iter->pkg = &bins[iter->nbinn]->pkg;
-    iter->nbinn++;
-  }
+	while (!iter->pkg) {
+		if (iter->nbinn >= BINS)
+			return NULL;
+		if (bins[iter->nbinn])
+			iter->pkg = &bins[iter->nbinn]->pkg;
+		iter->nbinn++;
+	}
 
-  set = iter->pkg->set;
-  if (set->next)
-    iter->pkg = &set->next->pkg;
-  else
-    iter->pkg = NULL;
+	set = iter->pkg->set;
+	if (set->next)
+		iter->pkg = &set->next->pkg;
+	else
+		iter->pkg = NULL;
 
-  return set;
+	return set;
 }
 
 /**
@@ -329,25 +335,25 @@ pkg_hash_iter_next_set(struct pkg_hash_iter *iter)
 struct pkginfo *
 pkg_hash_iter_next_pkg(struct pkg_hash_iter *iter)
 {
-  struct pkginfo *pkg;
+	struct pkginfo *pkg;
 
-  while (!iter->pkg) {
-    if (iter->nbinn >= BINS)
-      return NULL;
-    if (bins[iter->nbinn])
-      iter->pkg = &bins[iter->nbinn]->pkg;
-    iter->nbinn++;
-  }
+	while (!iter->pkg) {
+		if (iter->nbinn >= BINS)
+			return NULL;
+		if (bins[iter->nbinn])
+			iter->pkg = &bins[iter->nbinn]->pkg;
+		iter->nbinn++;
+	}
 
-  pkg = iter->pkg;
-  if (pkg->arch_next)
-    iter->pkg = pkg->arch_next;
-  else if (pkg->set->next)
-    iter->pkg = &pkg->set->next->pkg;
-  else
-    iter->pkg = NULL;
+	pkg = iter->pkg;
+	if (pkg->arch_next)
+		iter->pkg = pkg->arch_next;
+	else if (pkg->set->next)
+		iter->pkg = &pkg->set->next->pkg;
+	else
+		iter->pkg = NULL;
 
-  return pkg;
+	return pkg;
 }
 
 /**
@@ -358,52 +364,56 @@ pkg_hash_iter_next_pkg(struct pkg_hash_iter *iter)
 void
 pkg_hash_iter_free(struct pkg_hash_iter *iter)
 {
-  free(iter);
+	free(iter);
 }
 
 void
 pkg_hash_reset(void)
 {
-  dpkg_arch_reset_list();
-  nffreeall();
-  nset = 0;
-  npkg = 0;
-  memset(bins, 0, sizeof(bins));
+	dpkg_arch_reset_list();
+	nffreeall();
+	nset = 0;
+	npkg = 0;
+	memset(bins, 0, sizeof(bins));
 }
 
 void
 pkg_hash_report(FILE *file)
 {
-  int i, c;
-  struct pkgset *pkg;
-  int *freq;
-  int empty = 0, used = 0, collided = 0;
+	int i, c;
+	struct pkgset *pkg;
+	int *freq;
+	int empty = 0, used = 0, collided = 0;
 
-  freq = m_malloc(sizeof(int) * nset + 1);
-  for (i = 0; i <= nset; i++)
-    freq[i] = 0;
-  for (i=0; i<BINS; i++) {
-    for (c=0, pkg= bins[i]; pkg; c++, pkg= pkg->next);
-    fprintf(file, "pkg-hash: bin %5d has %7d\n", i, c);
-    if (c == 0)
-      empty++;
-    else if (c == 1)
-      used++;
-    else {
-      used++;
-      collided++;
-    }
-    freq[c]++;
-  }
-  for (i = nset; i > 0 && freq[i] == 0; i--);
-  while (i >= 0) {
-    fprintf(file, "pkg-hash: size %7d occurs %5d times\n", i, freq[i]);
-    i--;
-  }
-  fprintf(file, "pkg-hash: bins empty %d\n", empty);
-  fprintf(file, "pkg-hash: bins used %d (collided %d)\n", used, collided);
+	freq = m_malloc(sizeof(int) * nset + 1);
+	for (i = 0; i <= nset; i++)
+		freq[i] = 0;
+	for (i = 0; i < BINS; i++) {
+		for (c = 0, pkg = bins[i]; pkg; c++, pkg = pkg->next)
+			;
+		fprintf(file, "pkg-hash: bin %5d has %7d\n", i, c);
 
-  m_output(file, "<hash report>");
+		if (c == 0) {
+			empty++;
+		} else if (c == 1) {
+			used++;
+		} else {
+			used++;
+			collided++;
+		}
+		freq[c]++;
+	}
+	for (i = nset; i > 0 && freq[i] == 0; i--)
+		;
+	while (i >= 0) {
+		fprintf(file, "pkg-hash: size %7d occurs %5d times\n",
+		        i, freq[i]);
+		i--;
+	}
+	fprintf(file, "pkg-hash: bins empty %d\n", empty);
+	fprintf(file, "pkg-hash: bins used %d (collided %d)\n", used, collided);
 
-  free(freq);
+	m_output(file, "<hash report>");
+
+	free(freq);
 }

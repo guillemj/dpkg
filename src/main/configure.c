@@ -119,7 +119,7 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 
 	/* No --force-confdef but a forcible situation. */
 	/* TODO: check if this condition can not be simplified to
-	 *       just !in_force(FORCE_CONFF_DEF) */
+	 *       just !in_force(FORCE_CONFF_DEF). */
 	if (!(in_force(FORCE_CONFF_DEF) && (what & (CFOF_INSTALL | CFOF_KEEP)))) {
 		if (in_force(FORCE_CONFF_NEW)) {
 			fprintf(stderr,
@@ -348,7 +348,9 @@ deferred_configure_ghost_conffile(struct pkginfo *pkg, struct conffile *conff)
 	struct pkginfo *otherpkg;
 	struct conffile *otherconff;
 
-	for (otherpkg = &pkg->set->pkg; otherpkg; otherpkg = otherpkg->arch_next) {
+	for (otherpkg = &pkg->set->pkg;
+	     otherpkg;
+	     otherpkg = otherpkg->arch_next) {
 		if (otherpkg == pkg)
 			continue;
 		if (otherpkg->status <= PKG_STAT_HALFCONFIGURED)
@@ -430,7 +432,8 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		useredited = -1;
 		distedited = -1;
 		what = CFO_IDENTICAL;
-	} else if (strcmp(currenthash, NONEXISTENTFLAG) == 0 && in_force(FORCE_CONFF_MISS)) {
+	} else if (strcmp(currenthash, NONEXISTENTFLAG) == 0 &&
+		   in_force(FORCE_CONFF_MISS)) {
 		fprintf(stderr,
 		        _("\n"
 		          "Configuration file '%s', does not exist on system.\n"
@@ -480,7 +483,8 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		trig_path_activate(usenode, pkg);
 		if (rename(cdr_new.buf, cdr_dist.buf))
 			warning(_("%s: failed to rename '%.250s' to '%.250s': %s"),
-			        pkg_name(pkg, pnaw_nonambig), cdr_new.buf, cdr_dist.buf,
+			        pkg_name(pkg, pnaw_nonambig),
+			        cdr_new.buf, cdr_dist.buf,
 			        strerror(errno));
 		break;
 	case CFO_KEEP:
@@ -492,7 +496,8 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	case CFO_INSTALL | CFOF_BACKUP:
 		if (unlink(cdr_dist.buf) && errno != ENOENT)
 			warning(_("%s: failed to remove old distributed version '%.250s': %s"),
-			        pkg_name(pkg, pnaw_nonambig), cdr_dist.buf,
+			        pkg_name(pkg, pnaw_nonambig),
+			        cdr_dist.buf,
 			        strerror(errno));
 		if (unlink(cdr_old.buf) && errno != ENOENT)
 			warning(_("%s: failed to remove '%.250s' (before overwrite): %s"),
@@ -501,7 +506,8 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		if (!(what & CFOF_USER_DEL))
 			if (link(cdr.buf, cdr_old.buf))
 				warning(_("%s: failed to link '%.250s' to '%.250s': %s"),
-				        pkg_name(pkg, pnaw_nonambig), cdr.buf,
+				        pkg_name(pkg, pnaw_nonambig),
+				        cdr.buf,
 				        cdr_old.buf, strerror(errno));
 		/* Fall through. */
 	case CFO_INSTALL:
@@ -553,7 +559,9 @@ deferred_configure(struct pkginfo *pkg)
 		       pkg_name(pkg, pnaw_nonambig),
 		       pkg_status_name(pkg));
 
-	for (otherpkg = &pkg->set->pkg; otherpkg; otherpkg = otherpkg->arch_next) {
+	for (otherpkg = &pkg->set->pkg;
+	     otherpkg;
+	     otherpkg = otherpkg->arch_next) {
 		if (otherpkg == pkg)
 			continue;
 		if (otherpkg->status <= PKG_STAT_CONFIGFILES)
@@ -651,7 +659,9 @@ deferred_configure(struct pkginfo *pkg)
 		 * version is in the conffiles data for the package. If
 		 * ‘*.dpkg-new’ no longer exists we assume that we've
 		 * already processed this one. */
-		for (conff = pkg->installed.conffiles; conff; conff = conff->next) {
+		for (conff = pkg->installed.conffiles;
+		     conff;
+		     conff = conff->next) {
 			if (conffile_is_disappearing(conff))
 				continue;
 			deferred_configure_conffile(pkg, conff);
@@ -728,7 +738,8 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				return -1;
 			}
 
-			linksize = file_readlink(result->buf, &target, stab.st_size);
+			linksize = file_readlink(result->buf, &target,
+			                         stab.st_size);
 			if (linksize < 0) {
 				warning(_("%s: unable to readlink conffile '%s'\n"
 				          " (= '%s'): %s"),
@@ -755,7 +766,9 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 			} else {
 				ssize_t r;
 
-				for (r = result->used - 1; r > 0 && result->buf[r] != '/'; r--)
+				for (r = result->used - 1;
+				     r > 0 && result->buf[r] != '/';
+				     r--)
 					;
 				if (r < 0) {
 					warning(_("%s: conffile '%.250s' resolves to degenerate filename\n"

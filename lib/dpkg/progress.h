@@ -43,9 +43,12 @@ struct progress {
 	bool on_tty;
 };
 
-void progress_init(struct progress *progress, const char *text, int max);
-void progress_step(struct progress *progress);
-void progress_done(struct progress *progress);
+void
+progress_init(struct progress *progress, const char *text, int max);
+void
+progress_step(struct progress *progress);
+void
+progress_done(struct progress *progress);
 
 /** @} */
 

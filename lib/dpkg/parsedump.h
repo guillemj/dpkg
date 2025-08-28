@@ -91,8 +91,9 @@ parsedb_close(struct parsedb_state *ps);
 typedef void parse_field_func(struct parsedb_state *ps, struct field_state *fs,
                               void *parse_obj);
 
-bool parse_stanza(struct parsedb_state *ps, struct field_state *fs,
-                  parse_field_func *parse_field, void *parse_obj);
+bool
+parse_stanza(struct parsedb_state *ps, struct field_state *fs,
+             parse_field_func *parse_field, void *parse_obj);
 
 #define STRUCTFIELD(klass, off, type) (*(type *)((uintptr_t)(klass) + (off)))
 
@@ -129,12 +130,22 @@ enum DPKG_ATTR_ENUM_FLAGS fwriteflags {
 
 typedef void fwritefunction(struct varbuf*,
                             const struct pkginfo *, const struct pkgbin *,
-			    enum fwriteflags flags, const struct fieldinfo*);
-fwritefunction w_name, w_charfield, w_priority, w_section, w_status, w_configversion;
-fwritefunction w_version, w_null, w_booleandefno, w_dependency, w_conffiles;
+                            enum fwriteflags flags, const struct fieldinfo*);
+fwritefunction w_name;
+fwritefunction w_charfield;
+fwritefunction w_priority;
+fwritefunction w_section;
+fwritefunction w_status;
+fwritefunction w_configversion;
+fwritefunction w_version;
+fwritefunction w_null;
+fwritefunction w_booleandefno;
+fwritefunction w_dependency;
+fwritefunction w_conffiles;
 fwritefunction w_multiarch;
 fwritefunction w_architecture;
-fwritefunction w_trigpend, w_trigaw;
+fwritefunction w_trigpend;
+fwritefunction w_trigaw;
 fwritefunction w_archives;
 
 void
@@ -144,11 +155,11 @@ varbuf_add_arbfield(struct varbuf *vb, const struct arbitraryfield *arbfield,
 #define FIELD(name) name, sizeof(name) - 1
 
 struct fieldinfo {
-  const char *name;
-  size_t namelen;
-  freadfunction *rcall;
-  fwritefunction *wcall;
-  size_t integer;
+	const char *name;
+	size_t namelen;
+	freadfunction *rcall;
+	fwritefunction *wcall;
+	size_t integer;
 };
 
 int
@@ -156,9 +167,11 @@ parse_db_version(struct parsedb_state *ps,
                  struct dpkg_version *version, const char *value)
 	DPKG_ATTR_REQRET;
 
-void parse_error(struct parsedb_state *ps, const char *fmt, ...)
+void
+parse_error(struct parsedb_state *ps, const char *fmt, ...)
 	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(2);
-void parse_warn(struct parsedb_state *ps, const char *fmt, ...)
+void
+parse_warn(struct parsedb_state *ps, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
 void
 parse_lax_problem(struct parsedb_state *ps, enum parsedbflags flags_lax,
@@ -168,10 +181,12 @@ void
 parse_problem(struct parsedb_state *ps, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
 
-void parse_must_have_field(struct parsedb_state *ps,
-                           const char *value, const char *what);
-void parse_ensure_have_field(struct parsedb_state *ps,
-                             const char **value, const char *what);
+void
+parse_must_have_field(struct parsedb_state *ps,
+                      const char *value, const char *what);
+void
+parse_ensure_have_field(struct parsedb_state *ps,
+                        const char **value, const char *what);
 
 #define MSDOS_EOF_CHAR '\032' /* ^Z */
 

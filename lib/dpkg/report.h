@@ -36,24 +36,40 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
-void dpkg_set_report_piped_mode(int mode);
-void dpkg_set_report_buffer(FILE *fp);
+void
+dpkg_set_report_piped_mode(int mode);
+void
+dpkg_set_report_buffer(FILE *fp);
 
 typedef void dpkg_warning_printer_func(const char *msg, void *data);
 
-void dpkg_warning_printer(const char *msg, void *data);
-void dpkg_set_warning_printer(dpkg_warning_printer_func *printer, void *data);
+void
+dpkg_warning_printer(const char *msg, void *data);
+void
+dpkg_set_warning_printer(dpkg_warning_printer_func *printer, void *data);
 
-int warning_get_count(void);
-void warningv(const char *fmt, va_list args) DPKG_ATTR_VPRINTF(1);
-void warning(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
+int
+warning_get_count(void);
+void
+warningv(const char *fmt, va_list args)
+	DPKG_ATTR_VPRINTF(1);
+void
+warning(const char *fmt, ...)
+	DPKG_ATTR_PRINTF(1);
 
-void notice(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
+void
+notice(const char *fmt, ...)
+	DPKG_ATTR_PRINTF(1);
 
-void info(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
+void
+info(const char *fmt, ...)
+	DPKG_ATTR_PRINTF(1);
 
-void dpkg_set_hints_enable(bool enable);
-void hint(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
+void
+dpkg_set_hints_enable(bool enable);
+void
+hint(const char *fmt, ...)
+	DPKG_ATTR_PRINTF(1);
 
 /** @} */
 

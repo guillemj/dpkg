@@ -36,8 +36,10 @@ struct glob_node {
 	char *pattern;
 };
 
-void glob_list_prepend(struct glob_node **list, char *pattern);
-void glob_list_free(struct glob_node *head);
+void
+glob_list_prepend(struct glob_node **list, char *pattern);
+void
+glob_list_free(struct glob_node *head);
 
 /** @} */
 

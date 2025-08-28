@@ -121,39 +121,64 @@ DPKG_BEGIN_DECLS
 /*** log.c ***/
 
 extern const char *log_file;
-void log_message(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
+void
+log_message(const char *fmt, ...)
+	DPKG_ATTR_PRINTF(1);
 
-void statusfd_add(int fd);
-void statusfd_send(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
+void
+statusfd_add(int fd);
+void
+statusfd_send(const char *fmt, ...)
+	DPKG_ATTR_PRINTF(1);
 
 /*** cleanup.c ***/
 
-void cu_closestream(int argc, void **argv);
-void cu_closepipe(int argc, void **argv);
-void cu_closedir(int argc, void **argv);
-void cu_closefd(int argc, void **argv);
-void cu_filename(int argc, void **argv);
+void
+cu_closestream(int argc, void **argv);
+void
+cu_closepipe(int argc, void **argv);
+void
+cu_closedir(int argc, void **argv);
+void
+cu_closefd(int argc, void **argv);
+void
+cu_filename(int argc, void **argv);
 
 /*** from mustlib.c ***/
 
-void setcloexec(int fd, const char *fn);
-void *m_malloc(size_t);
-void *m_calloc(size_t nmemb, size_t size);
-void *m_realloc(void *, size_t);
-char *m_strdup(const char *str);
-char *m_strndup(const char *str, size_t n);
-int m_asprintf(char **strp, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
-int m_vasprintf(char **strp, const char *fmt, va_list args)
+void
+setcloexec(int fd, const char *fn);
+void *
+m_malloc(size_t);
+void *
+m_calloc(size_t nmemb, size_t size);
+void *
+m_realloc(void *, size_t);
+char *
+m_strdup(const char *str);
+char *
+m_strndup(const char *str, size_t n);
+int
+m_asprintf(char **strp, const char *fmt, ...)
+	DPKG_ATTR_PRINTF(2);
+int
+m_vasprintf(char **strp, const char *fmt, va_list args)
 	DPKG_ATTR_VPRINTF(2);
-int m_dup(int oldfd);
-void m_dup2(int oldfd, int newfd);
-void m_pipe(int fds[2]);
-void m_output(FILE *f, const char *name);
+int
+m_dup(int oldfd);
+void
+m_dup2(int oldfd, int newfd);
+void
+m_pipe(int fds[2]);
+void
+m_output(FILE *f, const char *name);
 
 /*** from utils.c ***/
 
-int fgets_checked(char *buf, size_t bufsz, FILE *f, const char *fn);
-int fgets_must(char *buf, size_t bufsz, FILE *f, const char *fn);
+int
+fgets_checked(char *buf, size_t bufsz, FILE *f, const char *fn);
+int
+fgets_must(char *buf, size_t bufsz, FILE *f, const char *fn);
 
 DPKG_END_DECLS
 

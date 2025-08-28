@@ -90,6 +90,7 @@ fsys_hash_find_node(const char *name, enum fsys_hash_find_flags flags)
 
 		if (strcmp((*pointerp)->name + 1, name) == 0)
 			return *pointerp;
+
 		pointerp = &(*pointerp)->next;
 	}
 
@@ -125,19 +126,22 @@ fsys_hash_report(FILE *file)
 	for (i = 0; i <= nfiles; i++)
 		freq[i] = 0;
 	for (i = 0; i < BINS; i++) {
-		for (c = 0, node = bins[i]; node; c++, node = node->next);
+		for (c = 0, node = bins[i]; node; c++, node = node->next)
+			;
 		fprintf(file, "fsys-hash: bin %5d has %7d\n", i, c);
-		if (c == 0)
+
+		if (c == 0) {
 			empty++;
-		else if (c == 1)
+		} else if (c == 1) {
 			used++;
-		else {
+		} else {
 			used++;
 			collided++;
 		}
 		freq[c]++;
 	}
-	for (i = nfiles; i > 0 && freq[i] == 0; i--);
+	for (i = nfiles; i > 0 && freq[i] == 0; i--)
+		;
 	while (i >= 0) {
 		fprintf(file, "fsys-hash: size %7d occurs %5d times\n",
 		        i, freq[i]);
@@ -181,6 +185,7 @@ fsys_hash_iter_next(struct fsys_hash_iter *iter)
 	while (!iter->namenode) {
 		if (iter->nbinn >= BINS)
 			return NULL;
+
 		iter->namenode = bins[iter->nbinn++];
 	}
 	fnn = iter->namenode;

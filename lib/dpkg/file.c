@@ -71,6 +71,7 @@ file_realpath_legacy(const char *pathname)
 
 	if (resolved_path)
 		return m_strdup(resolved_path);
+
 	return NULL;
 }
 #endif

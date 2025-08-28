@@ -34,22 +34,31 @@ enum pkg_infodb_format {
 	PKG_INFODB_FORMAT_LAST,
 };
 
-enum pkg_infodb_format pkg_infodb_get_format(void);
-void pkg_infodb_set_format(enum pkg_infodb_format format);
-bool pkg_infodb_is_upgrading(void);
-void pkg_infodb_upgrade(void);
+enum
+pkg_infodb_format pkg_infodb_get_format(void);
+void
+pkg_infodb_set_format(enum pkg_infodb_format format);
+bool
+pkg_infodb_is_upgrading(void);
+void
+pkg_infodb_upgrade(void);
 
-const char *pkg_infodb_get_dir(void);
-const char *pkg_infodb_get_file(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
-                                const char *filetype);
-const char *pkg_infodb_reset_dir(void);
-bool pkg_infodb_has_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                         const char *name);
+const char *
+pkg_infodb_get_dir(void);
+const char *
+pkg_infodb_get_file(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                    const char *filetype);
+const char *
+pkg_infodb_reset_dir(void);
+bool
+pkg_infodb_has_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                    const char *name);
 
 typedef void pkg_infodb_file_func(const char *filename, const char *filetype);
 
-void pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                        pkg_infodb_file_func *func);
+void
+pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                   pkg_infodb_file_func *func);
 
 DPKG_END_DECLS
 

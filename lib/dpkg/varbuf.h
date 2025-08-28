@@ -119,45 +119,72 @@ struct varbuf {
 
 #define VARBUF_OBJECT (struct varbuf)VARBUF_INIT
 
-struct varbuf *varbuf_new(size_t size);
-void varbuf_init(struct varbuf *v, size_t size);
-void varbuf_grow(struct varbuf *v, size_t need_size);
-void varbuf_swap(struct varbuf *v, struct varbuf *other);
-void varbuf_trunc(struct varbuf *v, size_t used_size);
-char *varbuf_detach(struct varbuf *v);
-void varbuf_reset(struct varbuf *v);
-void varbuf_destroy(struct varbuf *v);
-void varbuf_free(struct varbuf *v);
+struct varbuf *
+varbuf_new(size_t size);
+void
+varbuf_init(struct varbuf *v, size_t size);
+void
+varbuf_grow(struct varbuf *v, size_t need_size);
+void
+varbuf_swap(struct varbuf *v, struct varbuf *other);
+void
+varbuf_trunc(struct varbuf *v, size_t used_size);
+char *
+varbuf_detach(struct varbuf *v);
+void
+varbuf_reset(struct varbuf *v);
+void
+varbuf_destroy(struct varbuf *v);
+void
+varbuf_free(struct varbuf *v);
 
-const char *varbuf_str(struct varbuf *v);
-char *varbuf_array(const struct varbuf *v, size_t index);
+const char *
+varbuf_str(struct varbuf *v);
+char *
+varbuf_array(const struct varbuf *v, size_t index);
 
-void varbuf_set_varbuf(struct varbuf *v, struct varbuf *other);
-void varbuf_set_buf(struct varbuf *v, const void *buf, size_t size);
+void
+varbuf_set_varbuf(struct varbuf *v, struct varbuf *other);
+void
+varbuf_set_buf(struct varbuf *v, const void *buf, size_t size);
 #define varbuf_set_str(v, s) varbuf_set_buf(v, s, strlen(s))
 #define varbuf_set_strn(v, s, n) varbuf_set_buf(v, s, strnlen(s, n))
-int varbuf_set_vfmt(struct varbuf *v, const char *fmt, va_list args)
+int
+varbuf_set_vfmt(struct varbuf *v, const char *fmt, va_list args)
 	DPKG_ATTR_VPRINTF(2);
-int varbuf_set_fmt(struct varbuf *v, const char *fmt, ...)
+int
+varbuf_set_fmt(struct varbuf *v, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
 
-void varbuf_add_varbuf(struct varbuf *v, const struct varbuf *other);
-void varbuf_add_char(struct varbuf *v, int c);
-void varbuf_dup_char(struct varbuf *v, int c, size_t n);
-void varbuf_map_char(struct varbuf *v, int c_src, int c_dst);
+void
+varbuf_add_varbuf(struct varbuf *v, const struct varbuf *other);
+void
+varbuf_add_char(struct varbuf *v, int c);
+void
+varbuf_dup_char(struct varbuf *v, int c, size_t n);
+void
+varbuf_map_char(struct varbuf *v, int c_src, int c_dst);
 #define varbuf_add_str(v, s) varbuf_add_buf(v, s, strlen(s))
 #define varbuf_add_strn(v, s, n) varbuf_add_buf(v, s, strnlen(s, n))
-void varbuf_add_dir(struct varbuf *v, const char *dirname);
-void varbuf_add_buf(struct varbuf *v, const void *s, size_t size);
-int varbuf_add_fmt(struct varbuf *v, const char *fmt, ...)
+void
+varbuf_add_dir(struct varbuf *v, const char *dirname);
+void
+varbuf_add_buf(struct varbuf *v, const void *s, size_t size);
+int
+varbuf_add_fmt(struct varbuf *v, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
-int varbuf_add_vfmt(struct varbuf *v, const char *fmt, va_list args)
+int
+varbuf_add_vfmt(struct varbuf *v, const char *fmt, va_list args)
 	DPKG_ATTR_VPRINTF(2);
 
-bool varbuf_has_prefix(struct varbuf *v, struct varbuf *prefix);
-bool varbuf_has_suffix(struct varbuf *v, struct varbuf *suffix);
-void varbuf_trim_varbuf_prefix(struct varbuf *v, struct varbuf *prefix);
-void varbuf_trim_char_prefix(struct varbuf *v, int prefix);
+bool
+varbuf_has_prefix(struct varbuf *v, struct varbuf *prefix);
+bool
+varbuf_has_suffix(struct varbuf *v, struct varbuf *suffix);
+void
+varbuf_trim_varbuf_prefix(struct varbuf *v, struct varbuf *prefix);
+void
+varbuf_trim_char_prefix(struct varbuf *v, int prefix);
 
 struct varbuf_state {
 	struct varbuf *v;
@@ -175,10 +202,14 @@ struct varbuf_state {
 #endif
 };
 
-void varbuf_snapshot(struct varbuf *v, struct varbuf_state *vs);
-void varbuf_rollback(struct varbuf_state *vs);
-size_t varbuf_rollback_len(struct varbuf_state *vs);
-const char *varbuf_rollback_end(struct varbuf_state *vs);
+void
+varbuf_snapshot(struct varbuf *v, struct varbuf_state *vs);
+void
+varbuf_rollback(struct varbuf_state *vs);
+size_t
+varbuf_rollback_len(struct varbuf_state *vs);
+const char *
+varbuf_rollback_end(struct varbuf_state *vs);
 
 /** @} */
 

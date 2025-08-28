@@ -83,19 +83,23 @@ struct buffer_data {
 	buffer_skip_Int(fd, BUFFER_READ_FD, limit, err)
 
 
-off_t buffer_copy_IntPtr(int i, int typeIn,
-                         void *f, int typeDigest,
-                         void *p, int typeOut,
-                         off_t limit, struct dpkg_error *err)
+off_t
+buffer_copy_IntPtr(int i, int typeIn,
+                   void *f, int typeDigest,
+                   void *p, int typeOut,
+                   off_t limit, struct dpkg_error *err)
 	DPKG_ATTR_REQRET;
-off_t buffer_copy_IntInt(int i1, int typeIn,
-                         void *f, int typeDigest,
-                         int i2, int typeOut,
-                         off_t limit, struct dpkg_error *err)
+off_t
+buffer_copy_IntInt(int i1, int typeIn,
+                   void *f, int typeDigest,
+                   int i2, int typeOut,
+                   off_t limit, struct dpkg_error *err)
 	DPKG_ATTR_REQRET;
-off_t buffer_skip_Int(int I, int T, off_t limit, struct dpkg_error *err)
+off_t
+buffer_skip_Int(int I, int T, off_t limit, struct dpkg_error *err)
 	DPKG_ATTR_REQRET;
-off_t buffer_digest(const void *buf, void *hash, int typeDigest, off_t length);
+off_t
+buffer_digest(const void *buf, void *hash, int typeDigest, off_t length);
 
 /** @} */
 

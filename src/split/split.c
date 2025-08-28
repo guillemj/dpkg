@@ -107,6 +107,7 @@ parse_timestamp(const char *value)
 	return timestamp;
 }
 
+/* TODO: Reduce scope of variables. */
 static int
 mksplit(const char *file_src, const char *prefix, off_t maxpartsize)
 {

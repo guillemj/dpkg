@@ -65,24 +65,34 @@ struct pkg_spec {
 	struct pkginfo *pkg_next;
 };
 
-void pkg_spec_init(struct pkg_spec *ps, enum pkg_spec_flags flags);
-void pkg_spec_destroy(struct pkg_spec *ps);
+void
+pkg_spec_init(struct pkg_spec *ps, enum pkg_spec_flags flags);
+void
+pkg_spec_destroy(struct pkg_spec *ps);
 
-const char *pkg_spec_is_illegal(struct pkg_spec *ps);
+const char *
+pkg_spec_is_illegal(struct pkg_spec *ps);
 
-const char *pkg_spec_set(struct pkg_spec *ps,
-                         const char *pkgname, const char *archname);
-const char *pkg_spec_parse(struct pkg_spec *ps, const char *str);
-bool pkg_spec_match_pkg(struct pkg_spec *ps,
-                        struct pkginfo *pkg, struct pkgbin *pkgbin);
+const char *
+pkg_spec_set(struct pkg_spec *ps, const char *pkgname, const char *archname);
+const char *
+pkg_spec_parse(struct pkg_spec *ps, const char *str);
+bool
+pkg_spec_match_pkg(struct pkg_spec *ps,
+                   struct pkginfo *pkg, struct pkgbin *pkgbin);
 
-struct pkginfo *pkg_spec_parse_pkg(const char *str, struct dpkg_error *err);
-struct pkginfo *pkg_spec_find_pkg(const char *pkgname, const char *archname,
-                                  struct dpkg_error *err);
+struct pkginfo *
+pkg_spec_parse_pkg(const char *str, struct dpkg_error *err);
+struct pkginfo *
+pkg_spec_find_pkg(const char *pkgname, const char *archname,
+                  struct dpkg_error *err);
 
-void pkg_spec_iter_init(struct pkg_spec *ps);
-struct pkginfo *pkg_spec_iter_next_pkg(struct pkg_spec *ps);
-void pkg_spec_iter_destroy(struct pkg_spec *ps);
+void
+pkg_spec_iter_init(struct pkg_spec *ps);
+struct pkginfo *
+pkg_spec_iter_next_pkg(struct pkg_spec *ps);
+void
+pkg_spec_iter_destroy(struct pkg_spec *ps);
 
 /** @} */
 

@@ -34,9 +34,9 @@ DPKG_BEGIN_DECLS
 /*
  * Data structure here is as follows:
  *
- * For each package we have a ‘struct fsys_namenode_list *’, the head of a list of
- * files in that package. They are in ‘forwards’ order. Each entry has a
- * pointer to the ‘struct fsys_namenode’.
+ * For each package we have a ‘struct fsys_namenode_list *’, the head of a
+ * list of files in that package. They are in ‘forwards’ order. Each entry
+ * has a pointer to the ‘struct fsys_namenode’.
  *
  * The struct fsys_namenodes are in a hash table, indexed by name.
  * (This hash table is not visible to callers.)
@@ -76,30 +76,44 @@ struct dpkg_db {
 enum dpkg_db_error
 dpkg_db_reopen(struct dpkg_db *db);
 
-void ensure_diversions(void);
+void
+ensure_diversions(void);
 
 enum statdb_parse_flags {
 	STATDB_PARSE_NORMAL = 0,
 	STATDB_PARSE_LAX = 1,
 };
 
-uid_t statdb_parse_uid(const char *str);
-gid_t statdb_parse_gid(const char *str);
-mode_t statdb_parse_mode(const char *str);
-void ensure_statoverrides(enum statdb_parse_flags flags);
+uid_t
+statdb_parse_uid(const char *str);
+gid_t
+statdb_parse_gid(const char *str);
+mode_t
+statdb_parse_mode(const char *str);
+void
+ensure_statoverrides(enum statdb_parse_flags flags);
 
 #define LISTFILE           "list"
 #define HASHFILE           "md5sums"
 
-void ensure_packagefiles_available(struct pkginfo *pkg);
-void ensure_allinstfiles_available(void);
-void ensure_allinstfiles_available_quiet(void);
-void note_must_reread_files_inpackage(struct pkginfo *pkg);
-void parse_filehash(struct pkginfo *pkg, struct pkgbin *pkgbin);
-void write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                           struct fsys_namenode_list *list, enum fsys_namenode_flags mask);
-void write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                           struct fsys_namenode_list *list, enum fsys_namenode_flags mask);
+void
+ensure_packagefiles_available(struct pkginfo *pkg);
+void
+ensure_allinstfiles_available(void);
+void
+ensure_allinstfiles_available_quiet(void);
+void
+note_must_reread_files_inpackage(struct pkginfo *pkg);
+void
+parse_filehash(struct pkginfo *pkg, struct pkgbin *pkgbin);
+void
+write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                      struct fsys_namenode_list *list,
+                      enum fsys_namenode_flags mask);
+void
+write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                      struct fsys_namenode_list *list,
+                      enum fsys_namenode_flags mask);
 
 DPKG_END_DECLS
 

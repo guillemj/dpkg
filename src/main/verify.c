@@ -93,7 +93,8 @@ verify_output_rpm(struct fsys_namenode *namenode, struct verify_checks *checks)
 	else
 		attr = ' ';
 
-	printf("%.9s %c %s%s\n", result, attr, namenode->name, error ? error : "");
+	printf("%.9s %c %s%s\n", result, attr, namenode->name,
+	       error ? error : "");
 
 	free(error);
 }

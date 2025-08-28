@@ -277,7 +277,8 @@ tar_header_checksum(struct tar_header *h)
 }
 
 static int
-tar_header_decode(struct tar_header *h, struct tar_entry *d, struct dpkg_error *err)
+tar_header_decode(struct tar_header *h, struct tar_entry *d,
+                  struct dpkg_error *err)
 {
 	long checksum;
 
@@ -373,9 +374,9 @@ tar_gnu_long(struct tar_archive *tar, struct tar_entry *te, char **longp)
 		int copysize;
 
 		status = tar->ops->read(tar, buf, TARBLKSZ);
-		if (status == TARBLKSZ)
+		if (status == TARBLKSZ) {
 			status = 0;
-		else {
+		} else {
 			/* Read partial header record? */
 			if (status > 0) {
 				errno = 0;

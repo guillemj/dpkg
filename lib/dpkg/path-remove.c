@@ -40,8 +40,10 @@ secure_unlink_statted(const char *pathname, const struct stat *stab)
 	mode_t mode = stab->st_mode;
 
 	if (S_ISREG(mode) ? (mode & 07000) :
-	    !(S_ISLNK(mode) || S_ISDIR(mode) ||
-	      S_ISFIFO(mode) || S_ISSOCK(mode))) {
+	    !(S_ISLNK(mode) ||
+	      S_ISDIR(mode) ||
+	      S_ISFIFO(mode) ||
+	      S_ISSOCK(mode))) {
 		if (chmod(pathname, 0600))
 			return -1;
 	}
@@ -127,14 +129,16 @@ path_remove_tree(const char *pathname)
 
 	debug_at(dbg_eachfile, "'%s'", pathname);
 	if (!rmdir(pathname))
-		return; /* Deleted it OK, it was a directory. */
+		/* Deleted it OK, it was a directory. */
+		return;
 	if (errno == ENOENT || errno == ELOOP)
 		return;
 	if (errno == ENOTDIR) {
 		/* Either it's a file, or one of the path components is. If
 		 * one of the path components is this will fail again ... */
 		if (secure_unlink(pathname) == 0)
-			return; /* OK, it was. */
+			/* OK, it was. */
+			return;
 		if (errno == ENOTDIR)
 			return;
 	}

@@ -23,8 +23,11 @@
 
 #include <sys/stat.h>
 
-void dpkg_selabel_load(void);
-void dpkg_selabel_set_context(const char *matchpath, const char *path, mode_t mode);
-void dpkg_selabel_close(void);
+void
+dpkg_selabel_load(void);
+void
+dpkg_selabel_set_context(const char *matchpath, const char *path, mode_t mode);
+void
+dpkg_selabel_close(void);
 
 #endif /* DPKG_SECURITY_MAC_H */
