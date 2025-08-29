@@ -690,7 +690,7 @@ AUTOGEN_HEADER
     }
 
     my $ch_info = changelog_parse(
-        file => $self->{options}{changelog_file},
+        filename => $self->{options}{changelog_file},
         offset => 0,
         count => 1,
     );

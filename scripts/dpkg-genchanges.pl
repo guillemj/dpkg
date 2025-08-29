@@ -211,7 +211,7 @@ if (not defined $outputfile) {
 
 # Retrieve info from the current changelog entry
 my %changelog_opts = (
-    file => $changelogfile,
+    filename => $changelogfile,
 );
 $changelog_opts{changelogformat} = $changelogformat if $changelogformat;
 $changelog_opts{since} = $since if defined($since);

@@ -236,7 +236,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     $controlfile ||= "$dir/debian/control";
 
     my %ch_options = (
-        file => $options{changelog_file},
+        filename => $options{changelog_file},
     );
     $ch_options{changelogformat} = $changelogformat if $changelogformat;
     my $changelog = changelog_parse(%ch_options);
