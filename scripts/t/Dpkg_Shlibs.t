@@ -174,13 +174,13 @@ use_ok('Dpkg::Shlibs::SymbolFile');
 use_ok('Dpkg::Shlibs::Symbol');
 
 my $sym_file = Dpkg::Shlibs::SymbolFile->new(
-    file => "$datadir/symbol_file.tmp",
+    filename => "$datadir/symbol_file.tmp",
 );
 my $sym_file_dup = Dpkg::Shlibs::SymbolFile->new(
-    file => "$datadir/symbol_file.tmp",
+    filename => "$datadir/symbol_file.tmp",
 );
 my $sym_file_old = Dpkg::Shlibs::SymbolFile->new(
-    file => "$datadir/symbol_file.tmp",
+    filename => "$datadir/symbol_file.tmp",
 );
 
 my $obj_old = load_objdump_obj('libc6-2.3');
@@ -247,16 +247,16 @@ sub save_load_test {
     my $save_file = File::Temp->new();
     $symfile->save($save_file->filename, @opts);
     my $dup = Dpkg::Shlibs::SymbolFile->new(
-        file => $save_file->filename,
+        filename => $save_file->filename,
     );
     # Force sync of non-stored attributes
-    $dup->{file} = $symfile->{file};
+    $dup->{filename} = $symfile->{filename};
     $dup->{arch} = $symfile->{arch};
 
     is_deeply($dup, $symfile, $comment);
-    if (-f $symfile->{file}) {
-	is(system('diff', '-u', $symfile->{file}, $save_file->filename), 0,
-	    basename($symfile->{file}) . ' dumped identical');
+    if (-f $symfile->{filename}) {
+        is(system('diff', '-u', $symfile->{filename}, $save_file->filename), 0,
+            basename($symfile->{filename}) . ' dumped identical');
     }
 }
 
@@ -268,7 +268,7 @@ $obj = load_objdump_obj('internal');
 
 # Do not ignore any internal symbols
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
-    file => "$datadir/symbols.internal-filter",
+    filename => "$datadir/symbols.internal-filter",
 );
 $sym_file->merge_symbols($obj, '100.MISSING');
 
@@ -294,7 +294,7 @@ is($sym, undef, 'unknown aeabi symbol omitted while filtering internal symbols')
 
 # Include internal symbols using the allow-internal tag.
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
-    file => "$datadir/symbols.internal-allow",
+    filename => "$datadir/symbols.internal-allow",
 );
 $sym_file->merge_symbols($obj, '100.MISSING');
 
@@ -362,7 +362,7 @@ is_deeply($sym,
 
 # Include internal symbols using the Allow-Internal-Symbol-Groups field
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
-    file => "$datadir/symbols.internal-allow-groups",
+    filename => "$datadir/symbols.internal-allow-groups",
 );
 $sym_file->merge_symbols($obj, '100.MISSING');
 
@@ -413,7 +413,7 @@ is_deeply($sym,
 
 # Test include mechanism of SymbolFile
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
-    file => "$datadir/symbols.include-1",
+    filename => "$datadir/symbols.include-1",
 );
 
 $sym = $sym_file->lookup_symbol('symbol_before@Base', 'libfake.so.1');
@@ -475,7 +475,7 @@ is_deeply($sym,
 );
 
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
-    file => "$datadir/symbols.include-2",
+    filename => "$datadir/symbols.include-2",
 );
 
 $sym = $sym_file->lookup_symbol('symbol1_fake2@Base', 'libfake.so.1');
@@ -586,7 +586,7 @@ check_spacesym('symshortverSPA CEprotected', 'V1', 'protected');
 # Parsing/dumping
 # Template mode
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
-    file => "$datadir/basictags.symbols",
+    filename => "$datadir/basictags.symbols",
     arch => 'amd64',
 );
 save_load_test($sym_file, 'template save -> load',
@@ -610,7 +610,7 @@ is($io_data,
 # Dumping in non-template mode (mips) (test for arch tags)
 open $io, '>', \$io_data or die "cannot open io string\n";
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
-    file => "$datadir/basictags.symbols",
+    filename => "$datadir/basictags.symbols",
     arch => 'mips',
 );
 $sym_file->output($io);
@@ -629,11 +629,11 @@ is($io_data,
 # Dumping in non-template mode (i386) (test for arch tags)
 open $io, '>', \$io_data or die "cannot open io string\n";
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
-    file => "$datadir/basictags.symbols",
+    filename => "$datadir/basictags.symbols",
     arch => 'i386',
 );
 $sym_file_dup = Dpkg::Shlibs::SymbolFile->new(
-    file => "$datadir/basictags.symbols",
+    filename => "$datadir/basictags.symbols",
     arch => 'i386',
 );
 $sym_file->output($io);
@@ -863,7 +863,7 @@ is_deeply(\@tmp,
 
 # Tests for tagged #includes
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
-    file => "$datadir/symbols.include-3",
+    filename => "$datadir/symbols.include-3",
     arch => 'i386',
 );
 $sym = $sym_file->lookup_symbol('symbol2_fake1@Base', 'libbasictags.so.2');
@@ -946,7 +946,7 @@ sub load_patterns_obj {
 
 sub load_patterns_symbols {
     $sym_file = Dpkg::Shlibs::SymbolFile->new(
-        file => "$datadir/patterns.symbols",
+        filename => "$datadir/patterns.symbols",
     );
     return $sym_file;
 }

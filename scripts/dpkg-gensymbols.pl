@@ -316,8 +316,8 @@ unless ($quiet) {
     my $after = File::Temp->new(
         TEMPLATE => 'dpkg-gensymbolsXXXXXX',
     );
-    if ($ref_symfile->{file}) {
-        $file_label = $ref_symfile->{file};
+    if ($ref_symfile->{filename}) {
+        $file_label = $ref_symfile->{filename};
     } else {
         $file_label = 'new_symbol_file';
     }
@@ -337,9 +337,9 @@ unless ($quiet) {
     if (File::Compare::compare($before, $after) != 0) {
 	if (not defined($output)) {
 	    warning(g_('the generated symbols file is empty'));
-	} elsif (defined($ref_symfile->{file})) {
+        } elsif (defined($ref_symfile->{filename})) {
 	    warning(g_("%s doesn't match completely %s"),
-		    $output, $ref_symfile->{file});
+                    $output, $ref_symfile->{filename});
 	} else {
 	    warning(g_('no debian/symbols file used as basis for generating %s'),
 		    $output);

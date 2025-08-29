@@ -325,7 +325,7 @@ foreach my $file (keys %exec) {
                     debug(1, "Using symbols file $symfile_path for $soname");
                     $symfile_cache{$symfile_path} //=
                         Dpkg::Shlibs::SymbolFile->new(
-                            file => $symfile_path,
+                            filename => $symfile_path,
                         );
                     $symfile->merge_object_from_symfile($symfile_cache{$symfile_path}, $soname);
                 }

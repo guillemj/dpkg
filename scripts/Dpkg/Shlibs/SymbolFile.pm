@@ -105,8 +105,8 @@ sub new {
     bless $self, $class;
     $self->{arch} //= get_host_arch();
     $self->clear();
-    if (exists $self->{file}) {
-	$self->load($self->{file}) if -e $self->{file};
+    if (exists $self->{filename}) {
+        $self->load($self->{filename}) if -e $self->{filename};
     }
     return $self;
 }
@@ -218,7 +218,7 @@ sub parse {
     if (exists $state->{seen}) {
 	return if exists $state->{seen}{$file}; # Avoid include loops
     } else {
-	$self->{file} = $file;
+        $self->{filename} = $file;
         $state->{seen} = {};
     }
     $state->{seen}{$file} = 1;
