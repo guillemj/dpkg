@@ -28,7 +28,6 @@ B<Note>: This is a private module, its API can change at any time.
 package Dpkg::ErrorHandling 0.02;
 
 use v5.36;
-use feature qw(state);
 
 our @EXPORT_OK = qw(
     REPORT_PROGNAME

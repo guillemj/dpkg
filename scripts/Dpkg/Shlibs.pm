@@ -31,7 +31,6 @@ B<Note>: This is a private module, its API can change at any time.
 package Dpkg::Shlibs 0.03;
 
 use v5.36;
-use feature qw(state);
 
 our @EXPORT_OK = qw(
     blank_library_paths

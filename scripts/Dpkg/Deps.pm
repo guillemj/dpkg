@@ -38,7 +38,6 @@ a set of Dpkg::Deps::{Simple,AND,OR,Union} objects depending on the case.
 package Dpkg::Deps 1.07;
 
 use v5.36;
-use feature qw(current_sub);
 
 our @EXPORT = qw(
     deps_concat

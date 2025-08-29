@@ -32,7 +32,6 @@ B<Note>: This is a private module, its API can change at any time.
 package Dpkg::Shlibs::Objdump::Object 0.01;
 
 use v5.36;
-use feature qw(state);
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

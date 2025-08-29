@@ -22,7 +22,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 use v5.36;
-use feature qw(state);
 
 use List::Util qw(any none sum);
 use Cwd qw(realpath);
