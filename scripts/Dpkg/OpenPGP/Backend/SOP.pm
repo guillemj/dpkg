@@ -60,10 +60,10 @@ sub DEFAULT_CMD {
 
 sub _sop_exec
 {
-    my ($self, $io, @exec) = @_;
+    my ($self, %sop) = @_;
 
     my $cmd;
-    if ($io->{verify}) {
+    if ($sop{verify}) {
         $cmd = $self->{cmdv} || $self->{cmd};
     } else {
         $cmd = $self->{cmd};
@@ -71,15 +71,15 @@ sub _sop_exec
 
     return OPENPGP_MISSING_CMD unless $cmd;
 
-    $io->{out} //= '/dev/null';
+    $sop{out} //= '/dev/null';
     my $stderr;
     spawn(
-        exec => [ $cmd, @exec ],
+        exec => [ $cmd, @{$sop{args}} ],
         wait_child => 1,
         no_check => 1,
         timeout => 10,
-        from_file => $io->{in},
-        to_file => $io->{out},
+        from_file => $sop{in},
+        to_file => $sop{out},
         error_to_string => \$stderr,
     );
     if (WIFEXITED($?)) {
@@ -87,7 +87,7 @@ sub _sop_exec
         print { *STDERR } "$stderr" if $status;
         return $status;
     } else {
-        subprocerr("$cmd @exec");
+        subprocerr("$cmd @{$sop{args}}");
     }
 }
 
@@ -105,8 +105,12 @@ sub inline_verify
 
     return OPENPGP_MISSING_KEYRINGS if @certs == 0;
 
-    return $self->_sop_exec({ verify => 1, in => $inlinesigned, out => $data },
-                            'inline-verify', @certs);
+    return $self->_sop_exec(
+        args => [ 'inline-verify', @certs ],
+        verify => 1,
+        in => $inlinesigned,
+        out => $data,
+    );
 }
 
 sub verify
@@ -115,8 +119,11 @@ sub verify
 
     return OPENPGP_MISSING_KEYRINGS if @certs == 0;
 
-    return $self->_sop_exec({ verify => 1, in => $data },
-                            'verify', $sig, @certs);
+    return $self->_sop_exec(
+        args => [ 'verify', $sig, @certs ],
+        verify => 1,
+        in => $data,
+    );
 }
 
 sub inline_sign
@@ -125,8 +132,11 @@ sub inline_sign
 
     return OPENPGP_NEEDS_KEYSTORE if $key->needs_keystore();
 
-    return $self->_sop_exec({ in => $data, out => $inlinesigned },
-                            qw(inline-sign --as clearsigned --), $key->handle);
+    return $self->_sop_exec(
+        args => [ qw(inline-sign --as clearsigned --), $key->handle ],
+        in => $data,
+        out => $inlinesigned,
+    );
 }
 
 =head1 CHANGES
