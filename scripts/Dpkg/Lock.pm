@@ -37,7 +37,7 @@ our @EXPORT = qw(
 );
 
 use Exporter qw(import);
-use Fcntl qw(:flock);
+use Fcntl qw(:flock F_WRLCK F_SETLKW);
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -50,14 +50,12 @@ sub file_lock {
     # package which bump the perl ABI impossible as these packages cannot
     # be installed alongside.
     eval q{
-        use File::FcntlLock;
+        require File::FcntlLock;
     };
     if (not $@) {
-        eval q{
-            my $fs = File::FcntlLock->new(l_type => F_WRLCK);
-            $fs->lock($fh, F_SETLKW)
-                or syserr(g_('failed to get a write lock on %s'), $filename);
-        };
+        my $fs = File::FcntlLock->new(l_type => F_WRLCK);
+        $fs->lock($fh, F_SETLKW)
+            or syserr(g_('failed to get a write lock on %s'), $filename);
         return;
     }
 
