@@ -195,10 +195,10 @@ $sym_file->merge_symbols($obj, '2.6-1');
 ok($sym_file->get_new_symbols($sym_file_old), 'has new symbols');
 ok($sym_file_old->get_lost_symbols($sym_file), 'has lost symbols');
 
-is($sym_file_old->lookup_symbol('__bss_start@Base', ['libc.so.6']),
+is($sym_file_old->lookup_symbol('__bss_start@Base', 'libc.so.6'),
     undef, 'internal symbols are ignored');
 
-%tmp = $sym_file->lookup_symbol('_errno@GLIBC_2.0', ['libc.so.6'], 1);
+%tmp = $sym_file->lookup_symbol('_errno@GLIBC_2.0', 'libc.so.6', 1);
 isa_ok($tmp{symbol}, 'Dpkg::Shlibs::Symbol');
 is_deeply(\%tmp,
     {
@@ -272,7 +272,7 @@ $sym_file = Dpkg::Shlibs::SymbolFile->new(
 );
 $sym_file->merge_symbols($obj, '100.MISSING');
 
-$sym = $sym_file->lookup_symbol('symbol@Base', ['libinternal.so.0']);
+$sym = $sym_file->lookup_symbol('symbol@Base', 'libinternal.so.0');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol@Base',
@@ -283,13 +283,13 @@ is_deeply($sym,
     'symbol unaffected w/o including internal symbols',
 );
 
-$sym = $sym_file->lookup_symbol('.gomp_critical_user_foo@Base', ['libinternal.so.0']);
+$sym = $sym_file->lookup_symbol('.gomp_critical_user_foo@Base', 'libinternal.so.0');
 is($sym, undef, 'gomp symbol omitted while filtering internal symbols');
 
-$sym = $sym_file->lookup_symbol('__aeabi_lcmp@GCC_3.0', ['libinternal.so.0']);
+$sym = $sym_file->lookup_symbol('__aeabi_lcmp@GCC_3.0', 'libinternal.so.0');
 is($sym, undef, 'known aeabi symbol omitted while filtering internal symbols');
 
-$sym = $sym_file->lookup_symbol('__aeabi_unknown@GCC_4.0', ['libinternal.so.0']);
+$sym = $sym_file->lookup_symbol('__aeabi_unknown@GCC_4.0', 'libinternal.so.0');
 is($sym, undef, 'unknown aeabi symbol omitted while filtering internal symbols');
 
 # Include internal symbols using the allow-internal tag.
@@ -298,7 +298,7 @@ $sym_file = Dpkg::Shlibs::SymbolFile->new(
 );
 $sym_file->merge_symbols($obj, '100.MISSING');
 
-$sym = $sym_file->lookup_symbol('symbol@Base', ['libinternal.so.0']);
+$sym = $sym_file->lookup_symbol('symbol@Base', 'libinternal.so.0');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol@Base',
@@ -309,7 +309,7 @@ is_deeply($sym,
     'symbol unaffected while including internal symbols via symbol tag',
 );
 
-$sym = $sym_file->lookup_symbol('.gomp_critical_user_foo@Base', ['libinternal.so.0']);
+$sym = $sym_file->lookup_symbol('.gomp_critical_user_foo@Base', 'libinternal.so.0');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => '.gomp_critical_user_foo@Base',
@@ -326,7 +326,7 @@ is_deeply($sym,
     'internal gomp symbol included via symbol tag',
 );
 
-$sym = $sym_file->lookup_symbol('__aeabi_lcmp@GCC_3.0', ['libinternal.so.0']);
+$sym = $sym_file->lookup_symbol('__aeabi_lcmp@GCC_3.0', 'libinternal.so.0');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => '__aeabi_lcmp@GCC_3.0',
@@ -343,7 +343,7 @@ is_deeply($sym,
     'internal known aeabi symbol included via symbol tag',
 );
 
-$sym = $sym_file->lookup_symbol('__aeabi_unknown@GCC_4.0', ['libinternal.so.0']);
+$sym = $sym_file->lookup_symbol('__aeabi_unknown@GCC_4.0', 'libinternal.so.0');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => '__aeabi_unknown@GCC_4.0',
@@ -366,7 +366,7 @@ $sym_file = Dpkg::Shlibs::SymbolFile->new(
 );
 $sym_file->merge_symbols($obj, '100.MISSING');
 
-$sym = $sym_file->lookup_symbol('symbol@Base', ['libinternal.so.0']);
+$sym = $sym_file->lookup_symbol('symbol@Base', 'libinternal.so.0');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol@Base',
@@ -377,7 +377,7 @@ is_deeply($sym,
     'symbol unaffected w/o including internal symbols',
 );
 
-$sym = $sym_file->lookup_symbol('.gomp_critical_user_foo@Base', ['libinternal.so.0']);
+$sym = $sym_file->lookup_symbol('.gomp_critical_user_foo@Base', 'libinternal.so.0');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => '.gomp_critical_user_foo@Base',
@@ -388,7 +388,7 @@ is_deeply($sym,
     'internal gomp symbol included via library field',
 );
 
-$sym = $sym_file->lookup_symbol('__aeabi_lcmp@GCC_3.0', ['libinternal.so.0']);
+$sym = $sym_file->lookup_symbol('__aeabi_lcmp@GCC_3.0', 'libinternal.so.0');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => '__aeabi_lcmp@GCC_3.0',
@@ -399,7 +399,7 @@ is_deeply($sym,
     'internal known aeabi symbol included via library field',
 );
 
-$sym = $sym_file->lookup_symbol('__aeabi_unknown@GCC_4.0', ['libinternal.so.0']);
+$sym = $sym_file->lookup_symbol('__aeabi_unknown@GCC_4.0', 'libinternal.so.0');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => '__aeabi_unknown@GCC_4.0',
@@ -416,7 +416,7 @@ $sym_file = Dpkg::Shlibs::SymbolFile->new(
     file => "$datadir/symbols.include-1",
 );
 
-$sym = $sym_file->lookup_symbol('symbol_before@Base', ['libfake.so.1']);
+$sym = $sym_file->lookup_symbol('symbol_before@Base', 'libfake.so.1');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol_before@Base',
@@ -427,7 +427,7 @@ is_deeply($sym,
     'symbol before include not lost',
 );
 
-$sym = $sym_file->lookup_symbol('symbol_after@Base', ['libfake.so.1']);
+$sym = $sym_file->lookup_symbol('symbol_after@Base', 'libfake.so.1');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol_after@Base',
@@ -438,7 +438,7 @@ is_deeply($sym,
     'symbol after include not lost',
 );
 
-$sym = $sym_file->lookup_symbol('symbol1_fake1@Base', ['libfake.so.1']);
+$sym = $sym_file->lookup_symbol('symbol1_fake1@Base', 'libfake.so.1');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol1_fake1@Base',
@@ -449,7 +449,7 @@ is_deeply($sym,
     'overrides order with #include',
 );
 
-$sym = $sym_file->lookup_symbol('symbol3_fake1@Base', ['libfake.so.1']);
+$sym = $sym_file->lookup_symbol('symbol3_fake1@Base', 'libfake.so.1');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol3_fake1@Base',
@@ -463,7 +463,7 @@ is_deeply($sym,
 is($sym_file->get_smallest_version('libfake.so.1'), '0',
     'get_smallest_version with null version');
 
-$sym = $sym_file->lookup_symbol('symbol_in_libdivert@Base', ['libdivert.so.1']);
+$sym = $sym_file->lookup_symbol('symbol_in_libdivert@Base', 'libdivert.so.1');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol_in_libdivert@Base',
@@ -478,7 +478,7 @@ $sym_file = Dpkg::Shlibs::SymbolFile->new(
     file => "$datadir/symbols.include-2",
 );
 
-$sym = $sym_file->lookup_symbol('symbol1_fake2@Base', ['libfake.so.1']);
+$sym = $sym_file->lookup_symbol('symbol1_fake2@Base', 'libfake.so.1');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol1_fake2@Base',
@@ -666,7 +666,7 @@ my $symbol11 = $tags_obj_i386->get_symbol('symbol11_optional@Base');
 delete $tags_obj_i386->{dynsyms}{'symbol11_optional@Base'};
 $sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
 
-$sym = $sym_file->lookup_symbol('symbol11_optional@Base', ['libbasictags.so.1'], 1);
+$sym = $sym_file->lookup_symbol('symbol11_optional@Base', 'libbasictags.so.1', 1);
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol11_optional@Base',
@@ -685,7 +685,7 @@ is_deeply($sym,
 );
 
 $sym_file->merge_symbols($tags_obj_i386, '101.MISSING');
-$sym = $sym_file->lookup_symbol('symbol11_optional@Base', ['libbasictags.so.1'], 1);
+$sym = $sym_file->lookup_symbol('symbol11_optional@Base', 'libbasictags.so.1', 1);
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol11_optional@Base',
@@ -709,7 +709,7 @@ is(scalar($sym_file->get_lost_symbols($sym_file_dup)), 0,
 # - reappeared (undeprecate, minver should be 1.1, not 100.MISSED)
 $tags_obj_i386->add_dynamic_symbol($symbol11);
 $sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
-$sym = $sym_file->lookup_symbol('symbol11_optional@Base', ['libbasictags.so.1']);
+$sym = $sym_file->lookup_symbol('symbol11_optional@Base', 'libbasictags.so.1');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol11_optional@Base',
@@ -735,7 +735,7 @@ is(scalar($sym_file->get_lost_symbols($sym_file_dup) +
 my $symbol21 = $tags_obj_amd64->get_symbol('symbol21_amd64@Base');
 $tags_obj_i386->add_dynamic_symbol($symbol21);
 $sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
-$sym = $sym_file->lookup_symbol('symbol21_amd64@Base', ['libbasictags.so.1']);
+$sym = $sym_file->lookup_symbol('symbol21_amd64@Base', 'libbasictags.so.1');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol21_amd64@Base',
@@ -760,7 +760,7 @@ delete $tags_obj_i386->{dynsyms}{'symbol28_little_32@Base'};
 delete $tags_obj_i386->{dynsyms}{'symbol41_i386_and_optional@Base'};
 $sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
 
-$sym = $sym_file->lookup_symbol('symbol22_i386@Base', ['libbasictags.so.1'], 1);
+$sym = $sym_file->lookup_symbol('symbol22_i386@Base', 'libbasictags.so.1', 1);
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol22_i386@Base',
@@ -777,7 +777,7 @@ is_deeply($sym,
     ),
     'disappeared arch specific symbol gets deprecated',
 );
-$sym = $sym_file->lookup_symbol('symbol24_32@Base', ['libbasictags.so.1'], 1);
+$sym = $sym_file->lookup_symbol('symbol24_32@Base', 'libbasictags.so.1', 1);
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol24_32@Base',
@@ -794,7 +794,7 @@ is_deeply($sym,
     ),
     'disappeared arch bits specific symbol gets deprecated',
 );
-$sym = $sym_file->lookup_symbol('symbol26_little@Base', ['libbasictags.so.1'], 1);
+$sym = $sym_file->lookup_symbol('symbol26_little@Base', 'libbasictags.so.1', 1);
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol26_little@Base',
@@ -811,7 +811,7 @@ is_deeply($sym,
     ),
     'disappeared arch endian specific symbol gets deprecated',
 );
-$sym = $sym_file->lookup_symbol('symbol28_little_32@Base', ['libbasictags.so.1'], 1);
+$sym = $sym_file->lookup_symbol('symbol28_little_32@Base', 'libbasictags.so.1', 1);
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol28_little_32@Base',
@@ -830,7 +830,7 @@ is_deeply($sym,
     ),
     'disappeared arch bits and endian specific symbol gets deprecated',
 );
-$sym = $sym_file->lookup_symbol('symbol41_i386_and_optional@Base', ['libbasictags.so.1'], 1);
+$sym = $sym_file->lookup_symbol('symbol41_i386_and_optional@Base', 'libbasictags.so.1', 1);
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol41_i386_and_optional@Base',
@@ -866,7 +866,7 @@ $sym_file = Dpkg::Shlibs::SymbolFile->new(
     file => "$datadir/symbols.include-3",
     arch => 'i386',
 );
-$sym = $sym_file->lookup_symbol('symbol2_fake1@Base', ['libbasictags.so.2']);
+$sym = $sym_file->lookup_symbol('symbol2_fake1@Base', 'libbasictags.so.2');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol2_fake1@Base',
@@ -882,7 +882,7 @@ is_deeply($sym,
     ),
     'symbols from #included file inherits tags',
 );
-$sym = $sym_file->lookup_symbol('symbol41_i386_and_optional@Base', ['libbasictags.so.1']);
+$sym = $sym_file->lookup_symbol('symbol41_i386_and_optional@Base', 'libbasictags.so.1');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol41_i386_and_optional@Base',
@@ -902,7 +902,7 @@ is_deeply($sym,
     ),
     'symbols in #included file can override tag values',
 );
-$sym = $sym_file->lookup_symbol('symbol51_untagged@Base', ['libbasictags.so.1']);
+$sym = $sym_file->lookup_symbol('symbol51_untagged@Base', 'libbasictags.so.1');
 is_deeply($sym,
     Dpkg::Shlibs::Symbol->new(
         symbol => 'symbol51_untagged@Base',
