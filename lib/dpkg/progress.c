@@ -63,8 +63,10 @@ progress_step(struct progress *progress)
 	progress->last_percent = cur_percent;
 
 	fputs(progress->text, stdout);
-	/* TRANSLATORS: This is part of the progress output, it is a decimal
-	 * percentage. */
+	/*
+	 * TRANSLATORS: This is part of the progress output, it is a decimal
+	 * percentage.
+	 */
 	printf(_("%d%%"), cur_percent);
 	putchar('\r');
 }

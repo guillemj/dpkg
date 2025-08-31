@@ -41,10 +41,12 @@ const char
 			    N_("purge"),
 			    nullptr },
 
-  /* TRANSLATORS: The space is a trick to work around gettext which uses
+  /*
+   * TRANSLATORS: The space is a trick to work around gettext which uses
    * the empty string to store information about the translation. DO NOT
    * CHANGE THAT IN A TRANSLATION! The code really relies on that being
-   * a single space. */
+   * a single space.
+   */
   *const eflagstrings[]=   { N_(" "),
 			     N_("REINSTALL"),
 			     nullptr },
