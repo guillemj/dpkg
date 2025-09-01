@@ -65,18 +65,18 @@ sub run_hook {
     } elsif ($hook eq 'register-custom-fields') {
     } elsif ($hook eq 'extend-patch-header') {
         my ($textref, $ch_info) = @params;
-	if ($ch_info->{'Closes'}) {
-	    foreach my $bug (split(/\s+/, $ch_info->{'Closes'})) {
-		$$textref .= "Bug-Debian: https://bugs.debian.org/$bug\n";
-	    }
-	}
+        if ($ch_info->{'Closes'}) {
+            foreach my $bug (split(/\s+/, $ch_info->{'Closes'})) {
+                $$textref .= "Bug-Debian: https://bugs.debian.org/$bug\n";
+            }
+        }
 
-	# XXX: Layer violation...
-	require Dpkg::Vendor::Ubuntu;
-	my $b = Dpkg::Vendor::Ubuntu::find_launchpad_closes($ch_info->{'Changes'});
-	foreach my $bug (@$b) {
-	    $$textref .= "Bug-Ubuntu: https://bugs.launchpad.net/bugs/$bug\n";
-	}
+        # XXX: Layer violation...
+        require Dpkg::Vendor::Ubuntu;
+        my $b = Dpkg::Vendor::Ubuntu::find_launchpad_closes($ch_info->{'Changes'});
+        foreach my $bug (@$b) {
+            $$textref .= "Bug-Ubuntu: https://bugs.launchpad.net/bugs/$bug\n";
+        }
     } elsif ($hook eq 'update-buildflags') {
         $self->set_build_features(@params);
         $self->add_build_flags(@params);
@@ -374,24 +374,24 @@ sub set_build_features {
     # Mask features that are not available on certain architectures.
     if (none { $os eq $_ } qw(linux hurd) or
         any { $cpu eq $_ } qw(alpha hppa ia64)) {
-	# Disabled on non-(linux/hurd).
+        # Disabled on non-(linux/hurd).
         # Disabled on alpha, hppa, ia64.
-	$use_feature{hardening}{pie} = 0;
+        $use_feature{hardening}{pie} = 0;
     }
     if (any { $cpu eq $_ } qw(ia64 alpha hppa nios2) or $arch eq 'arm') {
-	# Stack protector disabled on ia64, alpha, hppa, nios2.
-	#   "warning: -fstack-protector not supported for this target"
-	# Stack protector disabled on arm (ok on armel).
-	#   compiler supports it incorrectly (leads to SEGV)
-	$use_feature{hardening}{stackprotector} = 0;
+        # Stack protector disabled on ia64, alpha, hppa, nios2.
+        #   "warning: -fstack-protector not supported for this target"
+        # Stack protector disabled on arm (ok on armel).
+        #   compiler supports it incorrectly (leads to SEGV)
+        $use_feature{hardening}{stackprotector} = 0;
     }
     if (none { $arch eq $_ } qw(amd64 arm64 armhf armel)) {
         # Stack clash protector only available on amd64 and arm.
         $use_feature{hardening}{stackclash} = 0;
     }
     if (any { $cpu eq $_ } qw(ia64 hppa)) {
-	# relro not implemented on ia64, hppa.
-	$use_feature{hardening}{relro} = 0;
+        # relro not implemented on ia64, hppa.
+        $use_feature{hardening}{relro} = 0;
     }
     if (none { $cpu eq $_ } qw(amd64 arm64)) {
         # On amd64 use -fcf-protection.
@@ -409,13 +409,13 @@ sub set_build_features {
 
     # Handle logical feature interactions.
     if ($use_feature{hardening}{relro} == 0) {
-	# Disable bindnow if relro is not enabled, since it has no
-	# hardening ability without relro and may incur load penalties.
-	$use_feature{hardening}{bindnow} = 0;
+        # Disable bindnow if relro is not enabled, since it has no
+        # hardening ability without relro and may incur load penalties.
+        $use_feature{hardening}{bindnow} = 0;
     }
     if ($use_feature{hardening}{stackprotector} == 0) {
-	# Disable stackprotectorstrong if stackprotector is disabled.
-	$use_feature{hardening}{stackprotectorstrong} = 0;
+        # Disable stackprotectorstrong if stackprotector is disabled.
+        $use_feature{hardening}{stackprotectorstrong} = 0;
     }
 
     ## Commit
@@ -580,21 +580,21 @@ sub add_build_flags {
     my $use_pie = $flags->get_feature('hardening', 'pie');
     my %hardening_builtins = $flags->get_builtins('hardening');
     if (defined $use_pie && $use_pie && ! $hardening_builtins{pie}) {
-	my $flag = "-specs=$Dpkg::DATADIR/pie-compile.specs";
+        my $flag = "-specs=$Dpkg::DATADIR/pie-compile.specs";
         $flags->append($_, $flag) foreach @compile_flags;
-	$flags->append('LDFLAGS', "-specs=$Dpkg::DATADIR/pie-link.specs");
+        $flags->append('LDFLAGS', "-specs=$Dpkg::DATADIR/pie-link.specs");
     } elsif (defined $use_pie && ! $use_pie && $hardening_builtins{pie}) {
-	my $flag = "-specs=$Dpkg::DATADIR/no-pie-compile.specs";
+        my $flag = "-specs=$Dpkg::DATADIR/no-pie-compile.specs";
         $flags->append($_, $flag) foreach @compile_flags;
-	$flags->append('LDFLAGS', "-specs=$Dpkg::DATADIR/no-pie-link.specs");
+        $flags->append('LDFLAGS', "-specs=$Dpkg::DATADIR/no-pie-link.specs");
     }
 
     # Stack protector
     if ($flags->use_feature('hardening', 'stackprotectorstrong')) {
-	my $flag = '-fstack-protector-strong';
+        my $flag = '-fstack-protector-strong';
         $flags->append($_, $flag) foreach @compile_flags;
     } elsif ($flags->use_feature('hardening', 'stackprotector')) {
-	my $flag = '-fstack-protector --param=ssp-buffer-size=4';
+        my $flag = '-fstack-protector --param=ssp-buffer-size=4';
         $flags->append($_, $flag) foreach @compile_flags;
     }
 
@@ -612,21 +612,21 @@ sub add_build_flags {
 
     # Format Security
     if ($flags->use_feature('hardening', 'format')) {
-	my $flag = '-Wformat -Werror=format-security';
-	$flags->append('CFLAGS', $flag);
-	$flags->append('CXXFLAGS', $flag);
-	$flags->append('OBJCFLAGS', $flag);
-	$flags->append('OBJCXXFLAGS', $flag);
+        my $flag = '-Wformat -Werror=format-security';
+        $flags->append('CFLAGS', $flag);
+        $flags->append('CXXFLAGS', $flag);
+        $flags->append('OBJCFLAGS', $flag);
+        $flags->append('OBJCXXFLAGS', $flag);
     }
 
     # Read-only Relocations
     if ($flags->use_feature('hardening', 'relro')) {
-	$flags->append('LDFLAGS', '-Wl,-z,relro');
+        $flags->append('LDFLAGS', '-Wl,-z,relro');
     }
 
     # Bindnow
     if ($flags->use_feature('hardening', 'bindnow')) {
-	$flags->append('LDFLAGS', '-Wl,-z,now');
+        $flags->append('LDFLAGS', '-Wl,-z,now');
     }
 
     # Branch protection

@@ -114,24 +114,24 @@ sub get_change_items {
     my $self = shift;
     my (@items, @blanks, $item);
     foreach my $line (@{$self->get_part('changes')}) {
-	if ($line =~ /^\s*\*/) {
-	    push @items, $item if defined $item;
-	    $item = "$line\n";
-	} elsif ($line =~ /^\s*\[\s[^\]]+\s\]\s*$/) {
-	    push @items, $item if defined $item;
-	    push @items, "$line\n";
-	    $item = undef;
-	    @blanks = ();
-	} elsif ($line =~ /^\s*$/) {
-	    push @blanks, "$line\n";
-	} else {
-	    if (defined $item) {
-		$item .= "@blanks$line\n";
-	    } else {
-		$item = "$line\n";
-	    }
-	    @blanks = ();
-	}
+        if ($line =~ /^\s*\*/) {
+            push @items, $item if defined $item;
+            $item = "$line\n";
+        } elsif ($line =~ /^\s*\[\s[^\]]+\s\]\s*$/) {
+            push @items, $item if defined $item;
+            push @items, "$line\n";
+            $item = undef;
+            @blanks = ();
+        } elsif ($line =~ /^\s*$/) {
+            push @blanks, "$line\n";
+        } else {
+            if (defined $item) {
+                $item .= "@blanks$line\n";
+            } else {
+                $item = "$line\n";
+            }
+            @blanks = ();
+        }
     }
     push @items, $item if defined $item;
     return @items;
@@ -151,47 +151,47 @@ sub parse_header {
     my $self = shift;
     my @errors;
     if (defined($self->{header}) and $self->{header} =~ $regex_header) {
-	$self->{header_source} = $1;
+        $self->{header_source} = $1;
 
-	my $version = Dpkg::Version->new($2);
-	my ($ok, $msg) = version_check($version);
-	if ($ok) {
-	    $self->{header_version} = $version;
-	} else {
-	    push @errors, sprintf(g_("version '%s' is invalid: %s"), $version, $msg);
-	}
+        my $version = Dpkg::Version->new($2);
+        my ($ok, $msg) = version_check($version);
+        if ($ok) {
+            $self->{header_version} = $version;
+        } else {
+            push @errors, sprintf(g_("version '%s' is invalid: %s"), $version, $msg);
+        }
 
-	@{$self->{header_dists}} = split ' ', $3;
+        @{$self->{header_dists}} = split ' ', $3;
 
-	my $options = $4;
-	$options =~ s/^\s+//;
-	my $c = Dpkg::Control::Changelog->new();
-	foreach my $opt (split(/\s*,\s*/, $options)) {
-	    unless ($opt =~ m/^([-0-9a-z]+)\=\s*(.*\S)$/i) {
-		push @errors, sprintf(g_("bad key-value after ';': '%s'"), $opt);
-		next;
-	    }
+        my $options = $4;
+        $options =~ s/^\s+//;
+        my $c = Dpkg::Control::Changelog->new();
+        foreach my $opt (split(/\s*,\s*/, $options)) {
+            unless ($opt =~ m/^([-0-9a-z]+)\=\s*(.*\S)$/i) {
+                push @errors, sprintf(g_("bad key-value after ';': '%s'"), $opt);
+                next;
+            }
             ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
-	    my ($k, $v) = (field_capitalize($1), $2);
-	    if (exists $c->{$k}) {
-		push @errors, sprintf(g_('repeated key-value %s'), $k);
-	    } else {
-		$c->{$k} = $v;
-	    }
-	    if ($k eq 'Urgency') {
-		push @errors, sprintf(g_('badly formatted urgency value: %s'), $v)
-		    unless ($v =~ m/^([-0-9a-z]+)((\s+.*)?)$/i);
-	    } elsif ($k eq 'Binary-Only') {
-		push @errors, sprintf(g_('bad binary-only value: %s'), $v)
-		    unless ($v eq 'yes');
-	    } elsif ($k =~ m/^X[BCS]+-/i) {
-	    } else {
-		push @errors, sprintf(g_('unknown key-value %s'), $k);
-	    }
-	}
-	$self->{header_fields} = $c;
+            my ($k, $v) = (field_capitalize($1), $2);
+            if (exists $c->{$k}) {
+                push @errors, sprintf(g_('repeated key-value %s'), $k);
+            } else {
+                $c->{$k} = $v;
+            }
+            if ($k eq 'Urgency') {
+                push @errors, sprintf(g_('badly formatted urgency value: %s'), $v)
+                    unless ($v =~ m/^([-0-9a-z]+)((\s+.*)?)$/i);
+            } elsif ($k eq 'Binary-Only') {
+                push @errors, sprintf(g_('bad binary-only value: %s'), $v)
+                    unless ($v eq 'yes');
+            } elsif ($k =~ m/^X[BCS]+-/i) {
+            } else {
+                push @errors, sprintf(g_('unknown key-value %s'), $k);
+            }
+        }
+        $self->{header_fields} = $c;
     } else {
-	push @errors, g_("the header doesn't match the expected regex");
+        push @errors, g_("the header doesn't match the expected regex");
     }
     return @errors;
 }
@@ -200,42 +200,42 @@ sub parse_trailer {
     my $self = shift;
     my @errors;
     if (defined($self->{trailer}) and $self->{trailer} =~ $regex_trailer) {
-	$self->{trailer_maintainer} = "$1 <$2>";
+        $self->{trailer_maintainer} = "$1 <$2>";
 
-	if ($3 ne '  ') {
-	    push @errors, g_('badly formatted trailer line');
-	}
+        if ($3 ne '  ') {
+            push @errors, g_('badly formatted trailer line');
+        }
 
-	# Validate the week day. Date::Parse used to ignore it, but Time::Piece
-	# is much more strict and it does not gracefully handle bogus values.
-	if (defined $5 and not exists $week_day{$6}) {
-	    push @errors, sprintf(g_('ignoring invalid week day \'%s\''), $6);
-	}
+        # Validate the week day. Date::Parse used to ignore it, but Time::Piece
+        # is much more strict and it does not gracefully handle bogus values.
+        if (defined $5 and not exists $week_day{$6}) {
+            push @errors, sprintf(g_('ignoring invalid week day \'%s\''), $6);
+        }
 
-	# Ignore the week day ('%a, '), as we have validated it above.
-	local $ENV{LC_ALL} = 'C';
-	eval {
-	    my $tp = Time::Piece->strptime($7, '%d %b %Y %T %z');
-	    $self->{trailer_timepiece} = $tp;
-	} or do {
-	    # Validate the month. Date::Parse used to accept both abbreviated
-	    # and full months, but Time::Piece strptime() implementation only
-	    # matches the abbreviated one with %b, which is what we want anyway.
-	    if (not exists $month_abbrev{$8}) {
-	        # We have to nest the conditionals because May is the same in
-	        # full and abbreviated forms!
-	        if (exists $month_name{$8}) {
-	            push @errors, sprintf(g_('uses full \'%s\' instead of abbreviated month name \'%s\''),
-	                                  $8, $month_name{$8});
-	        } else {
-	            push @errors, sprintf(g_('invalid abbreviated month name \'%s\''), $8);
-	        }
-	    }
-	    push @errors, sprintf(g_("cannot parse non-conformant date '%s'"), $7);
-	};
-	$self->{trailer_timestamp_date} = $4;
+        # Ignore the week day ('%a, '), as we have validated it above.
+        local $ENV{LC_ALL} = 'C';
+        eval {
+            my $tp = Time::Piece->strptime($7, '%d %b %Y %T %z');
+            $self->{trailer_timepiece} = $tp;
+        } or do {
+            # Validate the month. Date::Parse used to accept both abbreviated
+            # and full months, but Time::Piece strptime() implementation only
+            # matches the abbreviated one with %b, which is what we want anyway.
+            if (not exists $month_abbrev{$8}) {
+                # We have to nest the conditionals because May is the same in
+                # full and abbreviated forms!
+                if (exists $month_name{$8}) {
+                    push @errors, sprintf(g_('uses full \'%s\' instead of abbreviated month name \'%s\''),
+                                          $8, $month_name{$8});
+                } else {
+                    push @errors, sprintf(g_('invalid abbreviated month name \'%s\''), $8);
+                }
+            }
+            push @errors, sprintf(g_("cannot parse non-conformant date '%s'"), $7);
+        };
+        $self->{trailer_timestamp_date} = $4;
     } else {
-	push @errors, g_("the trailer doesn't match the expected regex");
+        push @errors, g_("the trailer doesn't match the expected regex");
     }
     return @errors;
 }

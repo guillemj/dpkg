@@ -59,7 +59,7 @@ sub usage {
       --version  show the version.')
     . "\n\n" . g_(
 '<control-file> is the control file to process (default: debian/control).')
-	. "\n", $Dpkg::PROGNAME;
+    . "\n", $Dpkg::PROGNAME;
 }
 
 my $ignore_bd_arch = 0;

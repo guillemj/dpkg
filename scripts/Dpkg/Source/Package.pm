@@ -385,8 +385,8 @@ sub check_checksums {
                 $warn_on_weak = 1;
             }
         }
-	my $pathname = File::Spec->catfile($self->{basedir}, $file);
-	$checksums->add_from_file($pathname, key => $file);
+        my $pathname = File::Spec->catfile($self->{basedir}, $file);
+        $checksums->add_from_file($pathname, key => $file);
     }
 
     warning(g_('source package uses only weak checksums')) if $warn_on_weak;
@@ -433,11 +433,11 @@ sub find_original_tarballs {
         next unless defined($dir) and -d $dir;
         opendir(my $dir_dh, $dir) or syserr(g_('cannot opendir %s'), $dir);
         push @tar, map { File::Spec->catfile($dir, $_) } grep {
-		($opts{include_main} and
-		 /^\Q$basename\E\.orig\.tar\.$opts{extension}$/) or
-		($opts{include_supplementary} and
-		 /^\Q$basename\E\.orig-[[:alnum:]-]+\.tar\.$opts{extension}$/)
-	    } readdir($dir_dh);
+                ($opts{include_main} and
+                 /^\Q$basename\E\.orig\.tar\.$opts{extension}$/) or
+                ($opts{include_supplementary} and
+                 /^\Q$basename\E\.orig-[[:alnum:]-]+\.tar\.$opts{extension}$/)
+            } readdir($dir_dh);
         closedir($dir_dh);
     }
     return @tar;
@@ -592,7 +592,7 @@ sub extract {
         my $basename = $self->get_basename();
         my ($dirname, $destdir) = fileparse($newdirectory);
         $destdir ||= './';
-	my $ext = compression_get_file_extension_regex();
+        my $ext = compression_get_file_extension_regex();
         foreach my $orig (grep { /^\Q$basename\E\.orig(-[[:alnum:]-]+)?\.tar\.$ext$/ }
                           $self->get_files())
         {
@@ -622,10 +622,10 @@ sub extract {
     {
         my $srcdir = File::Spec->catdir($newdirectory, 'debian', 'source');
         my $format_file = File::Spec->catfile($srcdir, 'format');
-	unless (-e $format_file) {
-	    mkdir($srcdir) unless -e $srcdir;
+        unless (-e $format_file) {
+            mkdir($srcdir) unless -e $srcdir;
             $self->{format}->save($format_file);
-	}
+        }
     }
 }
 
@@ -689,7 +689,7 @@ sub write_dsc {
     my $fields = $self->{fields};
 
     foreach my $f (keys %{$opts{override}}) {
-	$fields->{$f} = $opts{override}{$f};
+        $fields->{$f} = $opts{override}{$f};
     }
 
     unless ($opts{no_check}) {
@@ -706,7 +706,7 @@ sub write_dsc {
     }
 
     foreach my $f (keys %{$opts{remove}}) {
-	delete $fields->{$f};
+        delete $fields->{$f};
     }
 
     my $filename = $opts{filename};

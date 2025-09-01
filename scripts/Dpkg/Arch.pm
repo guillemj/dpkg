@@ -164,11 +164,11 @@ sub get_build_arch
         ## no critic (TestingAndDebugging::ProhibitNoWarnings)
         no warnings qw(exec);
         $cc_host_gnu_type{$CC} = qx($CC -dumpmachine);
-	if ($? >> 8) {
+        if ($? >> 8) {
             $cc_host_gnu_type{$CC} = '';
-	} else {
+        } else {
             chomp $cc_host_gnu_type{$CC};
-	}
+        }
 
         return $cc_host_gnu_type{$CC};
     }
@@ -248,10 +248,10 @@ sub get_valid_arches
     my @arches;
 
     foreach my $os (@os) {
-	foreach my $cpu (@cpu) {
-	    my $arch = debtuple_to_debarch(split(/-/, $os, 3), $cpu);
-	    push @arches, $arch if defined($arch);
-	}
+        foreach my $cpu (@cpu) {
+            my $arch = debtuple_to_debarch(split(/-/, $os, 3), $cpu);
+            push @arches, $arch if defined($arch);
+        }
     }
 
     return @arches;
@@ -268,9 +268,9 @@ sub _load_table
     local $/ = "\n";
 
     open my $table_fh, '<', "$Dpkg::DATADIR/$table"
-	or syserr(g_('cannot open %s'), $table);
+        or syserr(g_('cannot open %s'), $table);
     while (<$table_fh>) {
-	$loader->($_);
+        $loader->($_);
     }
     close $table_fh;
 
@@ -280,24 +280,24 @@ sub _load_table
 sub _load_cputable
 {
     _load_table('cputable', sub {
-	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/) {
-	    $cputable{$1} = $2;
+        if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/) {
+            $cputable{$1} = $2;
             $cputable_regex{$1} = $3;
-	    $cpubits{$1} = $4;
-	    $cpuendian{$1} = $5;
-	    push @cpu, $1;
-	}
+            $cpubits{$1} = $4;
+            $cpuendian{$1} = $5;
+            push @cpu, $1;
+        }
     });
 }
 
 sub _load_ostable
 {
     _load_table('ostable', sub {
-	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
-	    $ostable{$1} = $2;
+        if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
+            $ostable{$1} = $2;
             $ostable_regex{$1} = $3;
-	    push @os, $1;
-	}
+            push @os, $1;
+        }
     });
 }
 
@@ -315,26 +315,26 @@ sub _load_tupletable
     _load_cputable();
 
     _load_table('tupletable', sub {
-	if (m/^(?!\#)(\S+)\s+(\S+)/) {
-	    my $debtuple = $1;
-	    my $debarch = $2;
+        if (m/^(?!\#)(\S+)\s+(\S+)/) {
+            my $debtuple = $1;
+            my $debarch = $2;
 
-	    if ($debtuple =~ /<cpu>/) {
-		foreach my $_cpu (@cpu) {
-		    (my $dt = $debtuple) =~ s/<cpu>/$_cpu/;
-		    (my $da = $debarch) =~ s/<cpu>/$_cpu/;
+            if ($debtuple =~ /<cpu>/) {
+                foreach my $_cpu (@cpu) {
+                    (my $dt = $debtuple) =~ s/<cpu>/$_cpu/;
+                    (my $da = $debarch) =~ s/<cpu>/$_cpu/;
 
-		    next if exists $debarch_to_debtuple{$da}
-		         or exists $debtuple_to_debarch{$dt};
+                    next if exists $debarch_to_debtuple{$da}
+                         or exists $debtuple_to_debarch{$dt};
 
-		    $debarch_to_debtuple{$da} = $dt;
-		    $debtuple_to_debarch{$dt} = $da;
-		}
-	    } else {
-		$debarch_to_debtuple{$2} = $1;
-		$debtuple_to_debarch{$1} = $2;
-	    }
-	}
+                    $debarch_to_debtuple{$da} = $dt;
+                    $debtuple_to_debarch{$dt} = $da;
+                }
+            } else {
+                $debarch_to_debtuple{$2} = $1;
+                $debtuple_to_debarch{$1} = $2;
+            }
+        }
     });
 }
 
@@ -365,16 +365,16 @@ sub gnutriplet_to_debtuple
 
     foreach my $_cpu (@cpu) {
         if ($gnu_cpu =~ /^$cputable_regex{$_cpu}$/) {
-	    $cpu = $_cpu;
-	    last;
-	}
+            $cpu = $_cpu;
+            last;
+        }
     }
 
     foreach my $_os (@os) {
         if ($gnu_os =~ /^(.*-)?$ostable_regex{$_os}$/) {
-	    $os = $_os;
-	    last;
-	}
+            $os = $_os;
+            last;
+        }
     }
 
     return if !defined($cpu) || !defined($os);
@@ -393,9 +393,9 @@ sub gnutriplet_to_multiarch
     my ($cpu, $cdr) = split(/-/, $gnu, 2);
 
     if ($cpu =~ /^i[4567]86$/) {
-	return "i386-$cdr";
+        return "i386-$cdr";
     } else {
-	return $gnu;
+        return $gnu;
     }
 }
 
@@ -419,11 +419,11 @@ sub debtuple_to_debarch
     _load_tupletable();
 
     if (!defined $abi || !defined $libc || !defined $os || !defined $cpu) {
-	return;
+        return;
     } elsif (exists $debtuple_to_debarch{"$abi-$libc-$os-$cpu"}) {
-	return $debtuple_to_debarch{"$abi-$libc-$os-$cpu"};
+        return $debtuple_to_debarch{"$abi-$libc-$os-$cpu"};
     } else {
-	return;
+        return;
     }
 }
 
@@ -436,8 +436,8 @@ sub debarch_to_debtuple
     _load_tupletable();
 
     if ($arch =~ /^linux-([^-]*)/) {
-	# XXX: Might disappear in the future, not sure yet.
-	$arch = $1;
+        # XXX: Might disappear in the future, not sure yet.
+        $arch = $1;
     }
 
     my $tuple = $debarch_to_debtuple{$arch};
@@ -452,7 +452,7 @@ sub debarch_to_debtuple
             cpu => $tuple[3],
         };
     } else {
-	return;
+        return;
     }
 }
 
@@ -488,17 +488,17 @@ sub debwildcard_to_debtuple
     my @tuple = split /-/, $arch, 4;
 
     if (any { $_ eq 'any' } @tuple) {
-	if (scalar @tuple == 4) {
-	    return @tuple;
-	} elsif (scalar @tuple == 3) {
-	    return ('any', @tuple);
-	} elsif (scalar @tuple == 2) {
-	    return ('any', 'any', @tuple);
-	} else {
-	    return ('any', 'any', 'any', 'any');
-	}
+        if (scalar @tuple == 4) {
+            return @tuple;
+        } elsif (scalar @tuple == 3) {
+            return ('any', @tuple);
+        } elsif (scalar @tuple == 2) {
+            return ('any', 'any', @tuple);
+        } else {
+            return ('any', 'any', 'any', 'any');
+        }
     } else {
-	return debarch_to_debtuple($arch);
+        return debarch_to_debtuple($arch);
     }
 }
 
@@ -573,7 +573,7 @@ sub debarch_is
         ($alias[1] eq $real[1] || $alias[1] eq 'any') &&
         ($alias[2] eq $real[2] || $alias[2] eq 'any') &&
         ($alias[3] eq $real[3] || $alias[3] eq 'any')) {
-	return 1;
+        return 1;
     }
 
     return 0;

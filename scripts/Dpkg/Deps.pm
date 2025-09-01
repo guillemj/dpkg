@@ -112,7 +112,7 @@ sub deps_eval_implication {
             return ($v_p >= $v_q) ? 0 : undef;
         } elsif ($rel_p eq REL_GE) {
             return ($v_p > $v_q) ? 0 : undef;
-	} elsif ($rel_p eq REL_EQ) {
+        } elsif ($rel_p eq REL_EQ) {
             return ($v_p <= $v_q) ? 1 : 0;
         } else { # <<, <=
             return ($v_p <= $v_q) ? 1 : undef;
@@ -126,7 +126,7 @@ sub deps_eval_implication {
             return ($v_p >= $v_p) ? 0 : undef;
         } elsif ($rel_p eq REL_LT) {
             return ($v_p <= $v_q) ? 1 : undef;
-	} elsif ($rel_p eq REL_EQ) {
+        } elsif ($rel_p eq REL_EQ) {
             return ($v_p < $v_q) ? 1 : 0;
         } else { # <<, <=
             return ($v_p < $v_q) ? 1 : undef;
@@ -139,7 +139,7 @@ sub deps_eval_implication {
             return ($v_p <= $v_q) ? 0 : undef;
         } elsif ($rel_p eq REL_LE) {
             return ($v_p < $v_q) ? 0 : undef;
-	} elsif ($rel_p eq REL_EQ) {
+        } elsif ($rel_p eq REL_EQ) {
             return ($v_p >= $v_q) ? 1 : 0;
         } else { # >>, >=
             return ($v_p >= $v_q) ? 1 : undef;
@@ -150,7 +150,7 @@ sub deps_eval_implication {
             return ($v_p <= $v_q) ? 0 : undef;
         } elsif ($rel_p eq REL_GT) {
             return ($v_p >= $v_q) ? 1 : undef;
-	} elsif ($rel_p eq REL_EQ) {
+        } elsif ($rel_p eq REL_EQ) {
             return ($v_p > $v_q) ? 1 : 0;
         } else {
             return ($v_p > $v_q) ? 1 : undef;
@@ -309,11 +309,11 @@ sub deps_parse {
     foreach my $dep_and (split(/\s*,\s*/m, $dep_line)) {
         my @or_list = ();
         foreach my $dep_or (split(/\s*\|\s*/m, $dep_and)) {
-	    my $dep_simple = Dpkg::Deps::Simple->new($dep_or, %deps_options);
-	    if (not defined $dep_simple->{package}) {
-		warning(g_("can't parse dependency %s"), $dep_or);
-		return;
-	    }
+            my $dep_simple = Dpkg::Deps::Simple->new($dep_or, %deps_options);
+            if (not defined $dep_simple->{package}) {
+                warning(g_("can't parse dependency %s"), $dep_or);
+                return;
+            }
             if ($opts{virtual} && defined $dep_simple->{relation} &&
                 $dep_simple->{relation} ne '=') {
                 warning(g_('virtual dependency contains invalid relation: %s'),
@@ -324,28 +324,28 @@ sub deps_parse {
             if ($opts{reduce_arch}) {
                 $dep_simple->reduce_arch($opts{host_arch});
                 next if not $dep_simple->arch_is_concerned($opts{host_arch});
-	    }
+            }
             $dep_simple->{restrictions} = undef if not $opts{use_profiles};
             if ($opts{reduce_profiles}) {
                 $dep_simple->reduce_profiles($opts{build_profiles});
                 next if not $dep_simple->profile_is_concerned($opts{build_profiles});
-	    }
-	    push @or_list, $dep_simple;
+            }
+            push @or_list, $dep_simple;
         }
-	next if not @or_list;
-	if (scalar @or_list == 1) {
-	    push @dep_list, $or_list[0];
-	} else {
-	    my $dep_or = Dpkg::Deps::OR->new();
-	    $dep_or->add($_) foreach (@or_list);
-	    push @dep_list, $dep_or;
-	}
+        next if not @or_list;
+        if (scalar @or_list == 1) {
+            push @dep_list, $or_list[0];
+        } else {
+            my $dep_or = Dpkg::Deps::OR->new();
+            $dep_or->add($_) foreach (@or_list);
+            push @dep_list, $dep_or;
+        }
     }
     my $dep_and;
     if ($opts{union}) {
-	$dep_and = Dpkg::Deps::Union->new();
+        $dep_and = Dpkg::Deps::Union->new();
     } else {
-	$dep_and = Dpkg::Deps::AND->new();
+        $dep_and = Dpkg::Deps::AND->new();
     }
     foreach my $dep (@dep_list) {
         if ($opts{union} and not $dep->isa('Dpkg::Deps::Simple')) {
@@ -398,12 +398,12 @@ This function is mainly used to implement the sort() method.
 =cut
 
 my %relation_ordering = (
-	undef => 0,
-	REL_GE() => 1,
-	REL_GT() => 2,
-	REL_EQ() => 3,
-	REL_LT() => 4,
-	REL_LE() => 5,
+    undef => 0,
+    REL_GE() => 1,
+    REL_GT() => 2,
+    REL_EQ() => 3,
+    REL_LT() => 4,
+    REL_LE() => 5,
 );
 
 sub deps_compare {

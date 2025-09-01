@@ -73,9 +73,9 @@ sub get_pkg_root_dir {
     $file =~ s{/+$}{};
     $file =~ s{/+[^/]+$}{} if not -d $file;
     while ($file) {
-	return $file if -d "$file/DEBIAN";
-	last if $file !~ m{/};
-	$file =~ s{/+[^/]+$}{};
+        return $file if -d "$file/DEBIAN";
+        last if $file !~ m{/};
+        $file =~ s{/+[^/]+$}{};
     }
     return;
 }
@@ -90,8 +90,8 @@ sub relative_to_pkg_root {
     my $file = shift;
     my $pkg_root = get_pkg_root_dir($file);
     if (defined $pkg_root) {
-	$pkg_root .= '/';
-	return $file if ($file =~ s/^\Q$pkg_root\E//);
+        $pkg_root .= '/';
+        return $file if ($file =~ s/^\Q$pkg_root\E//);
     }
     return;
 }
@@ -117,11 +117,11 @@ sub guess_pkg_root_dir {
     $file =~ s{/+[^/]+$}{} if not -d $file;
     my $parent = $file;
     while ($file) {
-	$parent =~ s{/+[^/]+$}{};
-	last if not -d $parent;
-	return $file if check_files_are_the_same('debian', $parent);
-	$file = $parent;
-	last if $file !~ m{/};
+        $parent =~ s{/+[^/]+$}{};
+        last if not -d $parent;
+        return $file if check_files_are_the_same('debian', $parent);
+        $file = $parent;
+        last if $file !~ m{/};
     }
     return;
 }
@@ -168,22 +168,22 @@ sub canonpath {
     my @dirs = File::Spec->splitdir($dirs);
     my @new;
     foreach my $d (@dirs) {
-	if ($d eq '..') {
-	    if (scalar(@new) > 0 and $new[-1] ne '..') {
-		next if $new[-1] eq ''; # Root directory has no parent
-		my $parent = File::Spec->catpath($v,
-			File::Spec->catdir(@new), '');
-		if (not -l $parent) {
-		    pop @new;
-		} else {
-		    push @new, $d;
-		}
-	    } else {
-		push @new, $d;
-	    }
-	} else {
-	    push @new, $d;
-	}
+        if ($d eq '..') {
+            if (scalar(@new) > 0 and $new[-1] ne '..') {
+                next if $new[-1] eq ''; # Root directory has no parent
+                my $parent = File::Spec->catpath($v,
+                        File::Spec->catdir(@new), '');
+                if (not -l $parent) {
+                    pop @new;
+                } else {
+                    push @new, $d;
+                }
+            } else {
+                push @new, $d;
+            }
+        } else {
+            push @new, $d;
+        }
     }
     return File::Spec->catpath($v, File::Spec->catdir(@new), $file);
 }
@@ -200,12 +200,12 @@ sub resolve_symlink {
     my $content = readlink($symlink);
     return unless defined $content;
     if (File::Spec->file_name_is_absolute($content)) {
-	return canonpath($content);
+        return canonpath($content);
     } else {
-	my ($link_v, $link_d, $link_f) = File::Spec->splitpath($symlink);
-	my ($cont_v, $cont_d, $cont_f) = File::Spec->splitpath($content);
-	my $new = File::Spec->catpath($link_v, $link_d . '/' . $cont_d, $cont_f);
-	return canonpath($new);
+        my ($link_v, $link_d, $link_f) = File::Spec->splitpath($symlink);
+        my ($cont_v, $cont_d, $cont_f) = File::Spec->splitpath($content);
+        my $new = File::Spec->catpath($link_v, $link_d . '/' . $cont_d, $cont_f);
+        return canonpath($new);
     }
 }
 
@@ -260,11 +260,11 @@ sub find_command {
 
     return if not $cmd;
     if ($cmd =~ m{/}) {
-	return "$cmd" if -x "$cmd";
+        return "$cmd" if -x "$cmd";
     } else {
-	foreach my $dir (split(/:/, $ENV{PATH})) {
-	    return "$dir/$cmd" if -x "$dir/$cmd";
-	}
+        foreach my $dir (split(/:/, $ENV{PATH})) {
+            return "$dir/$cmd" if -x "$dir/$cmd";
+        }
     }
     return;
 }
@@ -292,8 +292,8 @@ sub get_control_path {
     );
     chomp($control_file);
     if (defined $filetype) {
-	return if $control_file eq '';
-	return $control_file;
+        return if $control_file eq '';
+        return $control_file;
     }
     return () if $control_file eq '';
     return split(/\n/, $control_file);

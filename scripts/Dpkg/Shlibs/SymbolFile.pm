@@ -126,7 +126,7 @@ sub clear_except {
 
     my %has = map { $_ => 1 } @ids;
     foreach my $objid (keys %{$self->{objects}}) {
-	delete $self->{objects}{$objid} unless exists $has{$objid};
+        delete $self->{objects}{$objid} unless exists $has{$objid};
     }
 }
 
@@ -138,14 +138,14 @@ sub get_sonames {
 sub get_symbols {
     my ($self, $soname) = @_;
     if (defined $soname) {
-	my $obj = $self->get_object($soname);
-	return (defined $obj) ? values %{$obj->{syms}} : ();
+        my $obj = $self->get_object($soname);
+        return (defined $obj) ? values %{$obj->{syms}} : ();
     } else {
-	my @syms;
-	foreach my $soname ($self->get_sonames()) {
-	    push @syms, $self->get_symbols($soname);
-	}
-	return @syms;
+        my @syms;
+        foreach my $soname ($self->get_sonames()) {
+            push @syms, $self->get_symbols($soname);
+        }
+        return @syms;
     }
 }
 
@@ -153,16 +153,16 @@ sub get_patterns {
     my ($self, $soname) = @_;
     my @patterns;
     if (defined $soname) {
-	my $obj = $self->get_object($soname);
-	foreach my $alias (values %{$obj->{patterns}{aliases}}) {
-	    push @patterns, values %$alias;
-	}
-	return (@patterns, @{$obj->{patterns}{generic}});
+        my $obj = $self->get_object($soname);
+        foreach my $alias (values %{$obj->{patterns}{aliases}}) {
+            push @patterns, values %$alias;
+        }
+        return (@patterns, @{$obj->{patterns}{generic}});
     } else {
-	foreach my $soname ($self->get_sonames()) {
-	    push @patterns, $self->get_patterns($soname);
-	}
-	return @patterns;
+        foreach my $soname ($self->get_sonames()) {
+            push @patterns, $self->get_patterns($soname);
+        }
+        return @patterns;
     }
 }
 
@@ -170,13 +170,13 @@ sub get_patterns {
 sub create_symbol {
     my ($self, $spec, %opts) = @_;
     my $symbol = (exists $opts{base}) ? $opts{base} :
-	Dpkg::Shlibs::Symbol->new();
+        Dpkg::Shlibs::Symbol->new();
 
     my $ret = $opts{dummy} ? $symbol->parse_symbolspec($spec, default_minver => 0) :
-	$symbol->parse_symbolspec($spec);
+        $symbol->parse_symbolspec($spec);
     if ($ret) {
-	$symbol->initialize(arch => $self->get_arch());
-	return $symbol;
+        $symbol->initialize(arch => $self->get_arch());
+        return $symbol;
     }
     return;
 }
@@ -186,22 +186,22 @@ sub add_symbol {
     my $object = $self->get_object($soname);
 
     if ($symbol->is_pattern()) {
-	if (my $alias_type = $symbol->get_alias_type()) {
-	    $object->{patterns}{aliases}{$alias_type} //= {};
-	    # Alias hash for matching.
-	    my $aliases = $object->{patterns}{aliases}{$alias_type};
-	    $aliases->{$symbol->get_symbolname()} = $symbol;
-	} else {
-	    # Otherwise assume this is a generic sequential pattern. This
-	    # should be always safe.
-	    push @{$object->{patterns}{generic}}, $symbol;
-	}
-	return 'pattern';
+        if (my $alias_type = $symbol->get_alias_type()) {
+            $object->{patterns}{aliases}{$alias_type} //= {};
+            # Alias hash for matching.
+            my $aliases = $object->{patterns}{aliases}{$alias_type};
+            $aliases->{$symbol->get_symbolname()} = $symbol;
+        } else {
+            # Otherwise assume this is a generic sequential pattern. This
+            # should be always safe.
+            push @{$object->{patterns}{generic}}, $symbol;
+        }
+        return 'pattern';
     } else {
         # Invalidate the minimum version cache.
         $object->{minver_cache} = [];
-	$object->{syms}{$symbol->get_symbolname()} = $symbol;
-	return 'sym';
+        $object->{syms}{$symbol->get_symbolname()} = $symbol;
+        return 'sym';
     }
 }
 
@@ -216,7 +216,7 @@ sub parse {
     my $state = $opts{state} //= {};
 
     if (exists $state->{seen}) {
-	return if exists $state->{seen}{$file}; # Avoid include loops
+        return if exists $state->{seen}{$file}; # Avoid include loops
     } else {
         $self->{filename} = $file;
         $state->{seen} = {};
@@ -228,55 +228,55 @@ sub parse {
     }
 
     while (<$fh>) {
-	chomp;
+        chomp;
 
-	if (/^(?:\s+|#(?:DEPRECATED|MISSING): ([^#]+)#\s*)(.*)/) {
-	    if (not defined ${$state->{obj_ref}}) {
-		error(g_('symbol information must be preceded by a header (file %s, line %s)'), $file, $.);
-	    }
+        if (/^(?:\s+|#(?:DEPRECATED|MISSING): ([^#]+)#\s*)(.*)/) {
+            if (not defined ${$state->{obj_ref}}) {
+                error(g_('symbol information must be preceded by a header (file %s, line %s)'), $file, $.);
+            }
             # Symbol specification.
-	    my $deprecated = ($1) ? Dpkg::Version->new($1) : 0;
-	    my $sym = _new_symbol($state->{base_symbol}, deprecated => $deprecated);
-	    if ($self->create_symbol($2, base => $sym)) {
-		$self->add_symbol($sym, ${$state->{obj_ref}});
-	    } else {
-		warning(g_('failed to parse line in %s: %s'), $file, $_);
-	    }
-	} elsif (/^(\(.*\))?#include\s+"([^"]+)"/) {
-	    my $tagspec = $1;
-	    my $filename = $2;
-	    my $dir = $file;
-	    my $old_base_symbol = $state->{base_symbol};
-	    my $new_base_symbol;
-	    if (defined $tagspec) {
-		$new_base_symbol = _new_symbol($old_base_symbol);
-		$new_base_symbol->parse_tagspec($tagspec);
-	    }
-	    $state->{base_symbol} = $new_base_symbol;
-	    $dir =~ s{[^/]+$}{}; # Strip filename
-	    $self->load("$dir$filename", %opts);
-	    $state->{base_symbol} = $old_base_symbol;
-	} elsif (/^#|^$/) {
+            my $deprecated = ($1) ? Dpkg::Version->new($1) : 0;
+            my $sym = _new_symbol($state->{base_symbol}, deprecated => $deprecated);
+            if ($self->create_symbol($2, base => $sym)) {
+                $self->add_symbol($sym, ${$state->{obj_ref}});
+            } else {
+                warning(g_('failed to parse line in %s: %s'), $file, $_);
+            }
+        } elsif (/^(\(.*\))?#include\s+"([^"]+)"/) {
+            my $tagspec = $1;
+            my $filename = $2;
+            my $dir = $file;
+            my $old_base_symbol = $state->{base_symbol};
+            my $new_base_symbol;
+            if (defined $tagspec) {
+                $new_base_symbol = _new_symbol($old_base_symbol);
+                $new_base_symbol->parse_tagspec($tagspec);
+            }
+            $state->{base_symbol} = $new_base_symbol;
+            $dir =~ s{[^/]+$}{}; # Strip filename
+            $self->load("$dir$filename", %opts);
+            $state->{base_symbol} = $old_base_symbol;
+        } elsif (/^#|^$/) {
             # Skip possible comments and empty lines.
-	} elsif (/^\|\s*(.*)$/) {
+        } elsif (/^\|\s*(.*)$/) {
             # Alternative dependency template.
-	    push @{$self->{objects}{${$state->{obj_ref}}}{deps}}, "$1";
-	} elsif (/^\*\s*([^:]+):\s*(.*\S)\s*$/) {
+            push @{$self->{objects}{${$state->{obj_ref}}}{deps}}, "$1";
+        } elsif (/^\*\s*([^:]+):\s*(.*\S)\s*$/) {
             # Add meta-fields.
-	    $self->{objects}{${$state->{obj_ref}}}{fields}{field_capitalize($1)} = $2;
-	} elsif (/^(\S+)\s+(.*)$/) {
+            $self->{objects}{${$state->{obj_ref}}}{fields}{field_capitalize($1)} = $2;
+        } elsif (/^(\S+)\s+(.*)$/) {
             # New object and dependency template.
-	    ${$state->{obj_ref}} = $1;
-	    if (exists $self->{objects}{${$state->{obj_ref}}}) {
+            ${$state->{obj_ref}} = $1;
+            if (exists $self->{objects}{${$state->{obj_ref}}}) {
                 # Update/override infos only.
-		$self->{objects}{${$state->{obj_ref}}}{deps} = [ "$2" ];
-	    } else {
+                $self->{objects}{${$state->{obj_ref}}}{deps} = [ "$2" ];
+            } else {
                 # Create a new object.
-		$self->create_object(${$state->{obj_ref}}, "$2");
-	    }
-	} else {
-	    warning(g_('failed to parse a line in %s: %s'), $file, $_);
-	}
+                $self->create_object(${$state->{obj_ref}}, "$2");
+            }
+        } else {
+            warning(g_('failed to parse a line in %s: %s'), $file, $_);
+        }
     }
     delete $state->{seen}{$file};
 }
@@ -299,60 +299,60 @@ sub output {
     $opts{with_pattern_matches} //= 0;
     my $res = '';
     foreach my $soname (sort $self->get_sonames()) {
-	my @deps = $self->get_dependencies($soname);
-	my $dep_first = shift @deps;
-	if (exists $opts{package} and not $opts{template_mode}) {
-	    $dep_first =~ s/#PACKAGE#/$opts{package}/g;
-	}
-	print { $fh } "$soname $dep_first\n" if defined $fh;
-	$res .= "$soname $dep_first\n" if defined wantarray;
+        my @deps = $self->get_dependencies($soname);
+        my $dep_first = shift @deps;
+        if (exists $opts{package} and not $opts{template_mode}) {
+            $dep_first =~ s/#PACKAGE#/$opts{package}/g;
+        }
+        print { $fh } "$soname $dep_first\n" if defined $fh;
+        $res .= "$soname $dep_first\n" if defined wantarray;
 
-	foreach my $dep_next (@deps) {
-	    if (exists $opts{package} and not $opts{template_mode}) {
-	        $dep_next =~ s/#PACKAGE#/$opts{package}/g;
-	    }
-	    print { $fh } "| $dep_next\n" if defined $fh;
-	    $res .= "| $dep_next\n" if defined wantarray;
-	}
-	my $f = $self->{objects}{$soname}{fields};
-	foreach my $field (sort keys %{$f}) {
-	    my $value = $f->{$field};
-	    if (exists $opts{package} and not $opts{template_mode}) {
-	        $value =~ s/#PACKAGE#/$opts{package}/g;
-	    }
-	    print { $fh } "* $field: $value\n" if defined $fh;
-	    $res .= "* $field: $value\n" if defined wantarray;
-	}
+        foreach my $dep_next (@deps) {
+            if (exists $opts{package} and not $opts{template_mode}) {
+                $dep_next =~ s/#PACKAGE#/$opts{package}/g;
+            }
+            print { $fh } "| $dep_next\n" if defined $fh;
+            $res .= "| $dep_next\n" if defined wantarray;
+        }
+        my $f = $self->{objects}{$soname}{fields};
+        foreach my $field (sort keys %{$f}) {
+            my $value = $f->{$field};
+            if (exists $opts{package} and not $opts{template_mode}) {
+                $value =~ s/#PACKAGE#/$opts{package}/g;
+            }
+            print { $fh } "* $field: $value\n" if defined $fh;
+            $res .= "* $field: $value\n" if defined wantarray;
+        }
 
-	my @symbols;
-	if ($opts{template_mode}) {
+        my @symbols;
+        if ($opts{template_mode}) {
             # Exclude symbols matching a pattern, but include patterns
             # themselves.
-	    @symbols = grep { not $_->get_pattern() } $self->get_symbols($soname);
-	    push @symbols, $self->get_patterns($soname);
-	} else {
-	    @symbols = $self->get_symbols($soname);
-	}
-	foreach my $sym (sort { $a->get_symboltempl() cmp
-	                        $b->get_symboltempl() } @symbols) {
-	    next if $sym->{deprecated} and not $opts{with_deprecated};
-	    # Do not dump symbols from foreign arch unless dumping a template.
-	    next if not $opts{template_mode} and
-	            not $sym->arch_is_concerned($self->get_arch());
+            @symbols = grep { not $_->get_pattern() } $self->get_symbols($soname);
+            push @symbols, $self->get_patterns($soname);
+        } else {
+            @symbols = $self->get_symbols($soname);
+        }
+        foreach my $sym (sort { $a->get_symboltempl() cmp
+                                $b->get_symboltempl() } @symbols) {
+            next if $sym->{deprecated} and not $opts{with_deprecated};
+            # Do not dump symbols from foreign arch unless dumping a template.
+            next if not $opts{template_mode} and
+                    not $sym->arch_is_concerned($self->get_arch());
             # Dump symbol specification. Dump symbol tags only in template
             # mode.
-	    print { $fh } $sym->get_symbolspec($opts{template_mode}), "\n" if defined $fh;
-	    $res .= $sym->get_symbolspec($opts{template_mode}) . "\n" if defined wantarray;
+            print { $fh } $sym->get_symbolspec($opts{template_mode}), "\n" if defined $fh;
+            $res .= $sym->get_symbolspec($opts{template_mode}) . "\n" if defined wantarray;
             # Dump pattern matches as comments (if requested).
-	    if ($opts{with_pattern_matches} && $sym->is_pattern()) {
-		for my $match (sort { $a->get_symboltempl() cmp
-		                      $b->get_symboltempl() } $sym->get_pattern_matches())
-		{
-		    print { $fh } '#MATCH:', $match->get_symbolspec(0), "\n" if defined $fh;
-		    $res .= '#MATCH:' . $match->get_symbolspec(0) . "\n" if defined wantarray;
-		}
-	    }
-	}
+            if ($opts{with_pattern_matches} && $sym->is_pattern()) {
+                for my $match (sort { $a->get_symboltempl() cmp
+                                      $b->get_symboltempl() } $sym->get_pattern_matches())
+                {
+                    print { $fh } '#MATCH:', $match->get_symbolspec(0), "\n" if defined $fh;
+                    $res .= '#MATCH:' . $match->get_symbolspec(0) . "\n" if defined wantarray;
+                }
+            }
+        }
     }
     return $res;
 }
@@ -365,41 +365,41 @@ sub find_matching_pattern {
     my $name = (ref $refsym) ? $refsym->get_symbolname() : $refsym;
 
     my $pattern_ok = sub {
-	my $p = shift;
-	return defined $p && ($inc_deprecated || !$p->{deprecated}) &&
-	       $p->arch_is_concerned($self->get_arch());
+        my $p = shift;
+        return defined $p && ($inc_deprecated || !$p->{deprecated}) &&
+               $p->arch_is_concerned($self->get_arch());
     };
 
     foreach my $soname ((ref($sonames) eq 'ARRAY') ? @$sonames : $sonames) {
-	my $obj = $self->get_object($soname);
-	my ($type, $pattern);
-	next unless defined $obj;
+        my $obj = $self->get_object($soname);
+        my ($type, $pattern);
+        next unless defined $obj;
 
-	my $all_aliases = $obj->{patterns}{aliases};
-	for my $type (Dpkg::Shlibs::Symbol::ALIAS_TYPES) {
-	    if (exists $all_aliases->{$type} && keys(%{$all_aliases->{$type}})) {
-		my $aliases = $all_aliases->{$type};
-		my $converter = $aliases->{(keys %$aliases)[0]};
-		if (my $alias = $converter->convert_to_alias($name)) {
-		    if ($alias && exists $aliases->{$alias}) {
-			$pattern = $aliases->{$alias};
-			last if $pattern_ok->($pattern);
-			$pattern = undef; # otherwise not found yet
-		    }
-		}
-	    }
-	}
+        my $all_aliases = $obj->{patterns}{aliases};
+        for my $type (Dpkg::Shlibs::Symbol::ALIAS_TYPES) {
+            if (exists $all_aliases->{$type} && keys(%{$all_aliases->{$type}})) {
+                my $aliases = $all_aliases->{$type};
+                my $converter = $aliases->{(keys %$aliases)[0]};
+                if (my $alias = $converter->convert_to_alias($name)) {
+                    if ($alias && exists $aliases->{$alias}) {
+                        $pattern = $aliases->{$alias};
+                        last if $pattern_ok->($pattern);
+                        $pattern = undef; # otherwise not found yet
+                    }
+                }
+            }
+        }
 
         # Now try generic patterns and use the first that matches.
-	if (not defined $pattern) {
-	    for my $p (@{$obj->{patterns}{generic}}) {
-		if ($pattern_ok->($p) && $p->matches_rawname($name)) {
-		    $pattern = $p;
-		    last;
-		}
-	    }
-	}
-	if (defined $pattern) {
+        if (not defined $pattern) {
+            for my $p (@{$obj->{patterns}{generic}}) {
+                if ($pattern_ok->($p) && $p->matches_rawname($name)) {
+                    $pattern = $p;
+                    last;
+                }
+            }
+        }
+        if (defined $pattern) {
             if (wantarray) {
                 return (
                     symbol => $pattern,
@@ -408,7 +408,7 @@ sub find_matching_pattern {
             } else {
                 return $pattern;
             }
-	}
+        }
     }
     return;
 }
@@ -449,7 +449,7 @@ sub merge_symbols {
     }
 
     unless ($self->has_object($soname)) {
-	$self->create_object($soname, '');
+        $self->create_object($soname, '');
     }
     # Scan all symbols provided by the objects.
     my $obj = $self->get_object($soname);
@@ -459,38 +459,38 @@ sub merge_symbols {
     $obj->{minver_cache} = [];
     foreach my $name (keys %dynsyms) {
         my $sym;
-	if ($sym = $self->lookup_symbol($name, $obj, 1)) {
+        if ($sym = $self->lookup_symbol($name, $obj, 1)) {
             # If the symbol is already listed in the file.
-	    $sym->mark_found_in_library($minver, $self->get_arch());
-	} else {
+            $sym->mark_found_in_library($minver, $self->get_arch());
+        } else {
             # The exact symbol is not present in the file, but it might match
             # a pattern.
-	    my $pattern = $self->find_matching_pattern($name, $obj, 1);
-	    if (defined $pattern) {
-		$pattern->mark_found_in_library($minver, $self->get_arch());
-		$sym = $pattern->create_pattern_match(symbol => $name);
-	    } else {
+            my $pattern = $self->find_matching_pattern($name, $obj, 1);
+            if (defined $pattern) {
+                $pattern->mark_found_in_library($minver, $self->get_arch());
+                $sym = $pattern->create_pattern_match(symbol => $name);
+            } else {
                 # Symbol without any special info as no pattern matched.
                 $sym = Dpkg::Shlibs::Symbol->new(
                     symbol => $name,
                     minver => $minver,
                 );
-	    }
-	    $self->add_symbol($sym, $obj);
-	}
+            }
+            $self->add_symbol($sym, $obj);
+        }
     }
 
     # Process all symbols which could not be found in the library.
     foreach my $sym ($self->get_symbols($soname)) {
-	if (not exists $dynsyms{$sym->get_symbolname()}) {
-	    $sym->mark_not_found_in_library($minver, $self->get_arch());
-	}
+        if (not exists $dynsyms{$sym->get_symbolname()}) {
+            $sym->mark_not_found_in_library($minver, $self->get_arch());
+        }
     }
 
     # Deprecate patterns which didn't match anything.
     for my $pattern (grep { $_->get_pattern_matches() == 0 }
                           $self->get_patterns($soname)) {
-	$pattern->mark_not_found_in_library($minver, $self->get_arch());
+        $pattern->mark_not_found_in_library($minver, $self->get_arch());
     }
 }
 
@@ -512,13 +512,13 @@ sub get_object {
 sub create_object {
     my ($self, $soname, @deps) = @_;
     $self->{objects}{$soname} = {
-	syms => {},
-	fields => {},
-	patterns => {
-	    aliases => {},
-	    generic => [],
-	},
-	deps => [ @deps ],
+        syms => {},
+        fields => {},
+        patterns => {
+            aliases => {},
+            generic => [],
+        },
+        deps => [ @deps ],
         minver_cache => []
     };
 }
@@ -555,9 +555,9 @@ sub get_dependencies {
 sub get_field {
     my ($self, $soname, $name) = @_;
     if (my $obj = $self->get_object($soname)) {
-	if (exists $obj->{fields}{$name}) {
-	    return $obj->{fields}{$name};
-	}
+        if (exists $obj->{fields}{$name}) {
+            return $obj->{fields}{$name};
+        }
     }
     return;
 }
@@ -570,10 +570,10 @@ sub lookup_symbol {
     my $name = (ref $refsym) ? $refsym->get_symbolname() : $refsym;
 
     foreach my $so ((ref($sonames) eq 'ARRAY') ? @$sonames : $sonames) {
-	if (my $obj = $self->get_object($so)) {
-	    my $sym = $obj->{syms}{$name};
-	    if ($sym and ($inc_deprecated or not $sym->{deprecated}))
-	    {
+        if (my $obj = $self->get_object($so)) {
+            my $sym = $obj->{syms}{$name};
+            if ($sym and ($inc_deprecated or not $sym->{deprecated}))
+            {
                 if (wantarray) {
                     return (
                         symbol => $sym,
@@ -582,8 +582,8 @@ sub lookup_symbol {
                 } else {
                     return $sym;
                 }
-	    }
-	}
+            }
+        }
     }
     return;
 }
@@ -597,24 +597,24 @@ sub lookup_pattern {
     $refpat = $self->create_symbol($refpat, dummy => 1) if ! ref($refpat);
 
     if ($refpat && $refpat->is_pattern()) {
-	foreach my $soname ((ref($sonames) eq 'ARRAY') ? @$sonames : $sonames) {
-	    if (my $obj = $self->get_object($soname)) {
-		my $pat;
-		if (my $type = $refpat->get_alias_type()) {
-		    if (exists $obj->{patterns}{aliases}{$type}) {
-			$pat = $obj->{patterns}{aliases}{$type}{$refpat->get_symbolname()};
-		    }
-		} elsif ($refpat->get_pattern_type() eq 'generic') {
-		    for my $p (@{$obj->{patterns}{generic}}) {
-			if (($inc_deprecated || !$p->{deprecated}) &&
-			    $p->equals($refpat, versioning => 0))
-			{
-			    $pat = $p;
-			    last;
-			}
-		    }
-		}
-		if ($pat && ($inc_deprecated || !$pat->{deprecated})) {
+        foreach my $soname ((ref($sonames) eq 'ARRAY') ? @$sonames : $sonames) {
+            if (my $obj = $self->get_object($soname)) {
+                my $pat;
+                if (my $type = $refpat->get_alias_type()) {
+                    if (exists $obj->{patterns}{aliases}{$type}) {
+                        $pat = $obj->{patterns}{aliases}{$type}{$refpat->get_symbolname()};
+                    }
+                } elsif ($refpat->get_pattern_type() eq 'generic') {
+                    for my $p (@{$obj->{patterns}{generic}}) {
+                        if (($inc_deprecated || !$p->{deprecated}) &&
+                            $p->equals($refpat, versioning => 0))
+                        {
+                            $pat = $p;
+                            last;
+                        }
+                    }
+                }
+                if ($pat && ($inc_deprecated || !$pat->{deprecated})) {
                     if (wantarray) {
                         return (
                             symbol => $pat,
@@ -623,9 +623,9 @@ sub lookup_pattern {
                     } else {
                         return $pat;
                     }
-		}
-	    }
-	}
+                }
+            }
+        }
     }
     return;
 }
@@ -635,7 +635,7 @@ sub get_symbol_object {
     my ($self, $refsym, $soname) = @_;
     my $sym = $self->lookup_symbol($refsym, $soname, 1);
     if (! defined $sym) {
-	$sym = $self->lookup_pattern($refsym, $soname, 1);
+        $sym = $self->lookup_pattern($refsym, $soname, 1);
     }
     return $sym;
 }
@@ -643,50 +643,50 @@ sub get_symbol_object {
 sub get_new_symbols {
     my ($self, $ref, %opts) = @_;
     my $with_optional = (exists $opts{with_optional}) ?
-	$opts{with_optional} : 0;
+        $opts{with_optional} : 0;
     my @res;
     foreach my $soname ($self->get_sonames()) {
-	next if not $ref->has_object($soname);
+        next if not $ref->has_object($soname);
 
-	# Scan raw symbols first.
-	foreach my $sym (grep { ($with_optional || ! $_->is_optional())
-	                        && $_->is_legitimate($self->get_arch()) }
-	                      $self->get_symbols($soname))
-	{
-	    my $refsym = $ref->lookup_symbol($sym, $soname, 1);
-	    my $isnew;
-	    if (defined $refsym) {
-		# If the symbol exists in the $ref symbol file, it might
-		# still be new if $refsym is not legitimate.
-		$isnew = not $refsym->is_legitimate($self->get_arch());
-	    } else {
-		# If the symbol does not exist in the $ref symbol file, it does
-		# not mean that it's new. It might still match a pattern in the
-		# symbol file. However, due to performance reasons, first check
-		# if the pattern that the symbol matches (if any) exists in the
-		# ref symbol file as well.
-		$isnew = not (
-		    ($sym->get_pattern() and $ref->lookup_pattern($sym->get_pattern(), $soname, 1)) or
-		    $ref->find_matching_pattern($sym, $soname, 1)
-		);
-	    }
-	    push @res, { symbol => $sym, soname => $soname } if $isnew;
-	}
+        # Scan raw symbols first.
+        foreach my $sym (grep { ($with_optional || ! $_->is_optional())
+                                && $_->is_legitimate($self->get_arch()) }
+                              $self->get_symbols($soname))
+        {
+            my $refsym = $ref->lookup_symbol($sym, $soname, 1);
+            my $isnew;
+            if (defined $refsym) {
+                # If the symbol exists in the $ref symbol file, it might
+                # still be new if $refsym is not legitimate.
+                $isnew = not $refsym->is_legitimate($self->get_arch());
+            } else {
+                # If the symbol does not exist in the $ref symbol file, it does
+                # not mean that it's new. It might still match a pattern in the
+                # symbol file. However, due to performance reasons, first check
+                # if the pattern that the symbol matches (if any) exists in the
+                # ref symbol file as well.
+                $isnew = not (
+                    ($sym->get_pattern() and $ref->lookup_pattern($sym->get_pattern(), $soname, 1)) or
+                    $ref->find_matching_pattern($sym, $soname, 1)
+                );
+            }
+            push @res, { symbol => $sym, soname => $soname } if $isnew;
+        }
 
         # Now scan patterns.
-	foreach my $p (grep { ($with_optional || ! $_->is_optional())
-	                      && $_->is_legitimate($self->get_arch()) }
-	                    $self->get_patterns($soname))
-	{
-	    my $refpat = $ref->lookup_pattern($p, $soname, 0);
-	    # If reference pattern was not found or it is not legitimate,
-	    # considering current one as new.
-	    if (not defined $refpat or
-	        not $refpat->is_legitimate($self->get_arch()))
-	    {
-		push @res, { symbol => $p , soname => $soname };
-	    }
-	}
+        foreach my $p (grep { ($with_optional || ! $_->is_optional())
+                              && $_->is_legitimate($self->get_arch()) }
+                            $self->get_patterns($soname))
+        {
+            my $refpat = $ref->lookup_pattern($p, $soname, 0);
+            # If reference pattern was not found or it is not legitimate,
+            # considering current one as new.
+            if (not defined $refpat or
+                not $refpat->is_legitimate($self->get_arch()))
+            {
+                push @res, { symbol => $p , soname => $soname };
+            }
+        }
     }
     return @res;
 }
@@ -701,7 +701,7 @@ sub get_new_libs {
     my ($self, $ref) = @_;
     my @res;
     foreach my $soname ($self->get_sonames()) {
-	push @res, $soname if not $ref->get_object($soname);
+        push @res, $soname if not $ref->get_object($soname);
     }
     return @res;
 }

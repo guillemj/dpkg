@@ -95,52 +95,52 @@ my @files;
 while (@ARGV) {
     $_ = shift(@ARGV);
     if (m/^-p/p) {
-	$oppackage = ${^POSTMATCH};
-	my $err = pkg_name_is_illegal($oppackage);
-	error(g_("illegal package name '%s': %s"), $oppackage, $err) if $err;
+        $oppackage = ${^POSTMATCH};
+        my $err = pkg_name_is_illegal($oppackage);
+        error(g_("illegal package name '%s': %s"), $oppackage, $err) if $err;
     } elsif (m/^-l(.*)$/) {
         Dpkg::Shlibs::add_library_dir($1);
     } elsif (m/^-c(\d)?$/) {
-	$compare = $1 // 1;
+        $compare = $1 // 1;
     } elsif (m/^-q$/) {
-	$quiet = 1;
+        $quiet = 1;
     } elsif (m/^-d$/) {
-	$debug = 1;
+        $debug = 1;
     } elsif (m/^-v(.+)$/) {
-	$sourceversion = $1;
+        $sourceversion = $1;
     } elsif (m/^-e(.+)$/) {
-	my $file = $1;
-	if (-e $file) {
-	    push @files, $file;
-	} else {
-	    my @to_add = glob($file);
-	    push @files, @to_add;
-	    warning(g_("pattern '%s' did not match any file"), $file)
-		unless scalar(@to_add);
-	}
+        my $file = $1;
+        if (-e $file) {
+            push @files, $file;
+        } else {
+            my @to_add = glob($file);
+            push @files, @to_add;
+            warning(g_("pattern '%s' did not match any file"), $file)
+                unless scalar(@to_add);
+        }
     } elsif (m/^-P(.+)$/) {
-	$packagebuilddir = $1;
-	$packagebuilddir =~ s{/+$}{};
+        $packagebuilddir = $1;
+        $packagebuilddir =~ s{/+$}{};
     } elsif (m/^-O$/) {
-	$stdout = 1;
+        $stdout = 1;
     } elsif (m/^-I(.+)$/) {
-	$input = $1;
+        $input = $1;
     } elsif (m/^-O(.+)$/) {
-	$output = $1;
+        $output = $1;
     } elsif (m/^-t$/) {
-	$template_mode = 1;
+        $template_mode = 1;
     } elsif (m/^-V$/) {
-	$verbose_output = 1;
+        $verbose_output = 1;
     } elsif (m/^-a(.+)$/) {
-	$host_arch = $1;
+        $host_arch = $1;
     } elsif (m/^-(?:\?|-help)$/) {
-	usage();
-	exit(0);
+        usage();
+        exit(0);
     } elsif (m/^--version$/) {
-	version();
-	exit(0);
+        version();
+        exit(0);
     } else {
-	usageerr(g_("unknown option '%s'"), $_);
+        usageerr(g_("unknown option '%s'"), $_);
     }
 }
 
@@ -162,10 +162,10 @@ get_build_api($control);
 if (not defined($oppackage)) {
     my @packages = map { $_->{'Package'} } $control->get_packages();
     if (@packages == 0) {
-	error(g_('no package stanza found in control info'));
+        error(g_('no package stanza found in control info'));
     } elsif (@packages > 1) {
-	error(g_('must specify package since control info has many (%s)'),
-	      "@packages");
+        error(g_('must specify package since control info has many (%s)'),
+              "@packages");
     }
     $oppackage = $packages[0];
 }
@@ -188,34 +188,34 @@ my @source_symbol_files = (
 # Load source-provided symbol information
 foreach my $file (@source_symbol_files) {
     if (defined $file and -e $file) {
-	debug(1, "Using references symbols from $file");
-	$symfile->load($file);
-	$ref_symfile->load($file) if $compare || ! $quiet;
-	last;
+        debug(1, "Using references symbols from $file");
+        $symfile->load($file);
+        $ref_symfile->load($file) if $compare || ! $quiet;
+        last;
     }
 }
 
 # Scan package build dir looking for libraries
 if (not scalar @files) {
     PATH: foreach my $path (get_library_paths()) {
-	my $libdir = "$packagebuilddir$path";
-	$libdir =~ s{/+}{/}g;
-	lstat $libdir;
-	next if not -d _;
-	next if -l _; # Skip directories which are symlinks
+        my $libdir = "$packagebuilddir$path";
+        $libdir =~ s{/+}{/}g;
+        lstat $libdir;
+        next if not -d _;
+        next if -l _; # Skip directories which are symlinks
         # Skip any directory _below_ a symlink as well
         my $updir = $libdir;
         while (($updir =~ s{/[^/]*$}{}) and
                not check_files_are_the_same($packagebuilddir, $updir)) {
             next PATH if -l $updir;
         }
-	opendir(my $libdir_dh, "$libdir")
-	    or syserr(g_("can't read directory %s: %s"), $libdir, $!);
-	push @files, grep {
-	    /(\.so\.|\.so$)/ && -f &&
-	    Dpkg::Shlibs::Objdump::is_elf($_);
-	} map { "$libdir/$_" } readdir($libdir_dh);
-	closedir $libdir_dh;
+        opendir(my $libdir_dh, "$libdir")
+            or syserr(g_("can't read directory %s: %s"), $libdir, $!);
+        push @files, grep {
+            /(\.so\.|\.so$)/ && -f &&
+            Dpkg::Shlibs::Objdump::is_elf($_);
+        } map { "$libdir/$_" } readdir($libdir_dh);
+        closedir $libdir_dh;
     }
 }
 
@@ -225,18 +225,18 @@ foreach my $file (@files) {
     debug(1, "Scanning $file for symbol information");
     my $objid = $od->analyze($file);
     unless (defined($objid) && $objid) {
-	warning(g_("Dpkg::Shlibs::Objdump couldn't parse %s\n"), $file);
-	next;
+        warning(g_("Dpkg::Shlibs::Objdump couldn't parse %s\n"), $file);
+        next;
     }
     my $object = $od->get_object($objid);
     if ($object->{SONAME}) { # Objects without soname are of no interest
-	debug(1, "Merging symbols from $file as $object->{SONAME}");
-	if (not $symfile->has_object($object->{SONAME})) {
-	    $symfile->create_object($object->{SONAME}, "$oppackage #MINVER#");
-	}
-	$symfile->merge_symbols($object, $sourceversion);
+        debug(1, "Merging symbols from $file as $object->{SONAME}");
+        if (not $symfile->has_object($object->{SONAME})) {
+            $symfile->create_object($object->{SONAME}, "$oppackage #MINVER#");
+        }
+        $symfile->merge_symbols($object, $sourceversion);
     } else {
-	debug(1, "File $file doesn't have a soname. Ignoring.");
+        debug(1, "File $file doesn't have a soname. Ignoring.");
     }
 }
 $symfile->clear_except(keys %{$od->{objects}});
@@ -252,13 +252,13 @@ if ($stdout) {
     );
 } else {
     unless (defined($output)) {
-	unless ($symfile->is_empty()) {
-	    $output = "$packagebuilddir/DEBIAN/symbols";
-	    mkdir("$packagebuilddir/DEBIAN") if not -e "$packagebuilddir/DEBIAN";
-	}
+        unless ($symfile->is_empty()) {
+            $output = "$packagebuilddir/DEBIAN/symbols";
+            mkdir("$packagebuilddir/DEBIAN") if not -e "$packagebuilddir/DEBIAN";
+        }
     }
     if (defined($output)) {
-	debug(1, "Storing symbols in $output.");
+        debug(1, "Storing symbols in $output.");
         $symfile->save($output,
             package => $oppackage,
             template_mode => $template_mode,
@@ -266,7 +266,7 @@ if ($stdout) {
             with_deprecated => $verbose_output,
         );
     } else {
-	debug(1, 'No symbol information to store.');
+        debug(1, 'No symbol information to store.');
     }
 }
 
@@ -335,19 +335,19 @@ unless ($quiet) {
 
     # Output diffs between symbols files if any
     if (File::Compare::compare($before, $after) != 0) {
-	if (not defined($output)) {
-	    warning(g_('the generated symbols file is empty'));
+        if (not defined($output)) {
+            warning(g_('the generated symbols file is empty'));
         } elsif (defined($ref_symfile->{filename})) {
-	    warning(g_("%s doesn't match completely %s"),
+            warning(g_("%s doesn't match completely %s"),
                     $output, $ref_symfile->{filename});
-	} else {
-	    warning(g_('no debian/symbols file used as basis for generating %s'),
-		    $output);
-	}
-	my ($a, $b) = ($before->filename, $after->filename);
-	my $diff_label = sprintf('%s (%s_%s_%s)', $file_label, $oppackage,
-	                         $sourceversion, $host_arch);
-	system('diff', '-u', '-L', $diff_label, $a, $b) if find_command('diff');
+        } else {
+            warning(g_('no debian/symbols file used as basis for generating %s'),
+                    $output);
+        }
+        my ($a, $b) = ($before->filename, $after->filename);
+        my $diff_label = sprintf('%s (%s_%s_%s)', $file_label, $oppackage,
+                                 $sourceversion, $host_arch);
+        system('diff', '-u', '-L', $diff_label, $a, $b) if find_command('diff');
     }
 }
 exit($exitcode);

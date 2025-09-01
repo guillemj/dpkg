@@ -67,25 +67,25 @@ sub obj_vercmp {
 
 my $truth = {
     '-1' => {
-	'<<' => 1, 'lt' => 1,
-	'<=' => 1, 'le' => 1, '<' => 1,
-	'=' => 0, 'eq' => 0,
-	'>=' => 0, 'ge' => 0, '>' => 0,
-	'>>' => 0, 'gt' => 0,
+        '<<' => 1, 'lt' => 1,
+        '<=' => 1, 'le' => 1, '<' => 1,
+        '=' => 0, 'eq' => 0,
+        '>=' => 0, 'ge' => 0, '>' => 0,
+        '>>' => 0, 'gt' => 0,
     },
     '0' => {
-	'<<' => 0, 'lt' => 0,
-	'<=' => 1, 'le' => 1, '<' => 1,
-	'=' => 1, 'eq' => 1,
-	'>=' => 1, 'ge' => 1, '>' => 1,
-	'>>' => 0, 'gt' => 0,
+        '<<' => 0, 'lt' => 0,
+        '<=' => 1, 'le' => 1, '<' => 1,
+        '=' => 1, 'eq' => 1,
+        '>=' => 1, 'ge' => 1, '>' => 1,
+        '>>' => 0, 'gt' => 0,
     },
     '1' => {
-	'<<' => 0, 'lt' => 0,
-	'<=' => 0, 'le' => 0, '<' => 0,
-	'=' => 0, 'eq' => 0,
-	'>=' => 1, 'ge' => 1, '>' => 1,
-	'>>' => 1, 'gt' => 1,
+        '<<' => 0, 'lt' => 0,
+        '<=' => 0, 'le' => 0, '<' => 0,
+        '=' => 0, 'eq' => 0,
+        '>=' => 1, 'ge' => 1, '>' => 1,
+        '>>' => 1, 'gt' => 1,
     },
 };
 
@@ -147,25 +147,25 @@ foreach my $case (@tests) {
     is($va <=> $vb, $res, "Dpkg::Version($a) <=> Dpkg::Version($b) => $res");
     foreach my $op (@ops) {
         my $norm_op = version_normalize_relation($op);
-	if ($truth->{$res}{$op}) {
-	    ok(version_compare_relation($a, $norm_op, $b), "$a $op $b => true");
-	    ok(obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => true");
+        if ($truth->{$res}{$op}) {
+            ok(version_compare_relation($a, $norm_op, $b), "$a $op $b => true");
+            ok(obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => true");
 
             SKIP: {
                 skip 'dpkg not available', 1 if not $have_dpkg;
 
                 ok(dpkg_vercmp($a, $op, $b), "dpkg --compare-versions -- $a $op $b => true");
             }
-	} else {
-	    ok(!version_compare_relation($a, $norm_op, $b), "$a $op $b => false");
-	    ok(!obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => false");
+        } else {
+            ok(!version_compare_relation($a, $norm_op, $b), "$a $op $b => false");
+            ok(!obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => false");
 
             SKIP: {
                 skip 'dpkg not available', 1 if not $have_dpkg;
 
                 ok(!dpkg_vercmp($a, $op, $b), "dpkg --compare-versions -- $a $op $b => false");
             }
-	}
+        }
     }
 }
 

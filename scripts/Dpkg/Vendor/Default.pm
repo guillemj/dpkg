@@ -194,9 +194,9 @@ sub run_hook {
     } elsif ($hook eq 'post-process-changelog-entry') {
         my $fields = shift @params;
     } elsif ($hook eq 'extend-patch-header') {
-	my ($textref, $ch_info) = @params;
+        my ($textref, $ch_info) = @params;
     } elsif ($hook eq 'update-buildflags') {
-	my $flags = shift @params;
+        my $flags = shift @params;
     } elsif ($hook eq 'builtin-system-build-paths') {
         return ();
     } elsif ($hook eq 'build-tainted-by') {

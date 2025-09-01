@@ -60,28 +60,28 @@ use Dpkg::Gettext;
 
 my %COMP = (
     gzip => {
-	file_ext => 'gz',
-	comp_prog => [ 'gzip', '-n' ],
-	decomp_prog => [ 'gunzip' ],
-	default_level => 9,
+        file_ext => 'gz',
+        comp_prog => [ 'gzip', '-n' ],
+        decomp_prog => [ 'gunzip' ],
+        default_level => 9,
     },
     bzip2 => {
-	file_ext => 'bz2',
-	comp_prog => [ 'bzip2' ],
-	decomp_prog => [ 'bunzip2' ],
-	default_level => 9,
+        file_ext => 'bz2',
+        comp_prog => [ 'bzip2' ],
+        decomp_prog => [ 'bunzip2' ],
+        default_level => 9,
     },
     lzma => {
-	file_ext => 'lzma',
-	comp_prog => [ 'xz', '--format=lzma' ],
-	decomp_prog => [ 'unxz', '--format=lzma' ],
-	default_level => 6,
+        file_ext => 'lzma',
+        comp_prog => [ 'xz', '--format=lzma' ],
+        decomp_prog => [ 'unxz', '--format=lzma' ],
+        default_level => 6,
     },
     xz => {
-	file_ext => 'xz',
-	comp_prog => [ 'xz' ],
-	decomp_prog => [ 'unxz', '--format=xz' ],
-	default_level => 6,
+        file_ext => 'xz',
+        comp_prog => [ 'xz' ],
+        decomp_prog => [ 'unxz', '--format=xz' ],
+        default_level => 6,
     },
 );
 
@@ -168,7 +168,7 @@ sub compression_guess_from_filename {
     foreach my $comp (compression_get_list()) {
         my $ext = $COMP{$comp}{file_ext};
         if ($filename =~ /^(.*)\.\Q$ext\E$/) {
-	    return $comp;
+            return $comp;
         }
     }
     return;

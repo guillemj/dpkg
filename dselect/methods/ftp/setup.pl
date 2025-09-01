@@ -124,22 +124,22 @@ sub download {
     my @dists = @{$_->[2]};
 
     foreach my $dist (@dists) {
-	my $dir = "$dist/binary-$arch";
-	print "Checking $dir...\n";
-#	if (!$ftp->pasv()) { print $ftp->message . "\n"; die 'error'; }
-	my @dirlst = $ftp->ls("$dir/");
-	my $got_pkgfile = 0;
+        my $dir = "$dist/binary-$arch";
+        print "Checking $dir...\n";
+#       if (!$ftp->pasv()) { print $ftp->message . "\n"; die 'error'; }
+        my @dirlst = $ftp->ls("$dir/");
+        my $got_pkgfile = 0;
 
-	foreach my $line (@dirlst) {
-	    if($line =~ /Packages/) {
-		$got_pkgfile = 1;
-	    }
-	}
-	if( !$got_pkgfile) {
-	    print "warning: could not find a Packages file in $dir\n",
-	    "This may not be a problem if the directory is a symbolic link\n";
-	    $problem = 1;
-	}
+        foreach my $line (@dirlst) {
+            if($line =~ /Packages/) {
+                $got_pkgfile = 1;
+            }
+        }
+        if( !$got_pkgfile) {
+            print "warning: could not find a Packages file in $dir\n",
+            "This may not be a problem if the directory is a symbolic link\n";
+            $problem = 1;
+        }
     }
     print "Closing ftp connection...\n";
     $ftp->quit();
@@ -150,7 +150,7 @@ sub download {
 print "\nUsing FTP to check directories... (use Ctrl+C to stop)\n\n";
 eval {
     local $SIG{INT} = sub {
-	die "interrupted!\n";
+        die "interrupted!\n";
     };
     download();
 };
@@ -158,9 +158,9 @@ if($@) {
     $ftp->quit();
     print 'FTP ERROR - ';
     if ($@ eq 'connect') {
-	print "config was untested\n";
+        print "config was untested\n";
     } else {
-	print "$@\n";
+        print "$@\n";
     }
     $exit = 1;
 }

@@ -189,35 +189,35 @@ while (@ARGV) {
     my $arg = shift;
 
     if ($arg eq '-a' or $arg eq '--host-arch') {
-	$req_host_arch = shift;
+        $req_host_arch = shift;
     } elsif ($arg eq '-t' or $arg eq '--host-type') {
-	$req_host_gnu_type = shift;
+        $req_host_gnu_type = shift;
     } elsif ($arg eq '-A' or $arg eq '--target-arch') {
-	$req_target_arch = shift;
+        $req_target_arch = shift;
     } elsif ($arg eq '-T' or $arg eq '--target-type') {
-	$req_target_gnu_type = shift;
+        $req_target_gnu_type = shift;
     } elsif ($arg eq '-W' or $arg eq '--match-wildcard') {
-	$req_match_wildcard = shift;
+        $req_match_wildcard = shift;
     } elsif ($arg eq '-B' or $arg eq '--match-bits') {
-	$req_match_bits = shift;
+        $req_match_bits = shift;
     } elsif ($arg eq '-E' or $arg eq '--match-endian') {
-	$req_match_endian = shift;
+        $req_match_endian = shift;
     } elsif ($arg eq '-e' or $arg eq '--equal') {
-	$req_eq_arch = shift;
+        $req_eq_arch = shift;
         %req_vars = %arch_vars{DEB_HOST_ARCH};
-	$action = 'equal';
+        $action = 'equal';
     } elsif ($arg eq '-i' or $arg eq '--is') {
-	$req_is_arch = shift;
+        $req_is_arch = shift;
         %req_vars = %arch_vars{DEB_HOST_ARCH};
-	$action = 'is';
+        $action = 'is';
     } elsif ($arg eq '-u' or $arg eq '--print-unset') {
         %req_vars = ();
-	$action = 'print-unset';
+        $action = 'print-unset';
     } elsif ($arg eq '-l' or $arg eq '--list') {
-	$action = 'list';
+        $action = 'list';
     } elsif ($arg eq '-s' or $arg eq '--print-set') {
         %req_vars = %arch_vars;
-	$action = 'print-set';
+        $action = 'print-set';
     } elsif ($arg eq '--print-format') {
         $print_format = shift;
         error(g_('%s is not a supported print format'), $print_format)
@@ -225,10 +225,10 @@ while (@ARGV) {
     } elsif ($arg eq '-f' or $arg eq '--force') {
         $force = 1;
     } elsif ($arg eq '-q' or $arg eq '--query') {
-	my $varname = shift;
-	error(g_('%s is not a supported variable name'), $varname)
-	    unless (exists $arch_vars{$varname});
-	$req_variable_to_print = "$varname";
+        my $varname = shift;
+        error(g_('%s is not a supported variable name'), $varname)
+            unless (exists $arch_vars{$varname});
+        $req_variable_to_print = "$varname";
         %req_vars = %arch_vars{$varname};
         $action = 'query';
     } elsif ($arg eq '-c' or $arg eq '--command') {
@@ -403,7 +403,7 @@ if (action_needs(INFO_TARGET_GNU_TUPLE)) {
 
 if ($action eq 'list') {
     foreach my $k (sort keys %arch_vars) {
-	print "$k=$v{$k}\n";
+        print "$k=$v{$k}\n";
     }
 } elsif ($action eq 'print-set') {
     if ($print_format eq 'shell') {

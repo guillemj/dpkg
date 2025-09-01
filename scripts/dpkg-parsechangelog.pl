@@ -112,13 +112,13 @@ while (@ARGV) {
         $options{until} = shift;
         ## use critic
     } elsif ($arg eq '--all') {
-	$options{all} = undef;
+        $options{all} = undef;
     } elsif ($arg eq '-?' or $arg eq '--help') {
-	usage(); exit(0);
+        usage(); exit(0);
     } elsif ($arg eq '--version') {
-	version(); exit(0);
+        version(); exit(0);
     } else {
-	usageerr(g_("unknown option '%s'"), $arg);
+        usageerr(g_("unknown option '%s'"), $arg);
     }
 }
 usageerr(g_('takes no non-option arguments')) if @ARGV;

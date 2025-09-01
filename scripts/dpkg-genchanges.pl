@@ -148,56 +148,56 @@ while (@ARGV) {
     if (m/^--build=(.*)$/) {
         set_build_type_from_options($1, $_);
     } elsif (m/^-b$/) {
-	set_build_type(BUILD_BINARY, $_);
+        set_build_type(BUILD_BINARY, $_);
     } elsif (m/^-B$/) {
-	set_build_type(BUILD_ARCH_DEP, $_);
+        set_build_type(BUILD_ARCH_DEP, $_);
     } elsif (m/^-A$/) {
-	set_build_type(BUILD_ARCH_INDEP, $_);
+        set_build_type(BUILD_ARCH_INDEP, $_);
     } elsif (m/^-S$/) {
-	set_build_type(BUILD_SOURCE, $_);
+        set_build_type(BUILD_SOURCE, $_);
     } elsif (m/^-G$/) {
-	set_build_type(BUILD_SOURCE | BUILD_ARCH_DEP, $_);
+        set_build_type(BUILD_SOURCE | BUILD_ARCH_DEP, $_);
     } elsif (m/^-g$/) {
-	set_build_type(BUILD_SOURCE | BUILD_ARCH_INDEP, $_);
+        set_build_type(BUILD_SOURCE | BUILD_ARCH_INDEP, $_);
     } elsif (m/^-s([iad])$/) {
         $sourcestyle = $1;
     } elsif (m/^-q$/) {
         $quiet = 1;
     } elsif (m/^-c(.*)$/) {
-	$controlfile = $1;
+        $controlfile = $1;
     } elsif (m/^-l(.*)$/) {
-	$changelogfile = $1;
+        $changelogfile = $1;
     } elsif (m/^-C(.*)$/) {
-	$changesdescription = $1;
+        $changesdescription = $1;
     } elsif (m/^-f(.*)$/) {
-	$fileslistfile = $1;
+        $fileslistfile = $1;
     } elsif (m/^-v(.*)$/) {
-	$since = $1;
+        $since = $1;
     } elsif (m/^-T(.*)$/) {
-	$substvars->load($1) if -e $1;
-	$substvars_loaded = 1;
+        $substvars->load($1) if -e $1;
+        $substvars_loaded = 1;
     } elsif (m/^-m(.*)$/s) {
-	$forcemaint = $1;
+        $forcemaint = $1;
     } elsif (m/^-e(.*)$/s) {
-	$forcechangedby = $1;
+        $forcechangedby = $1;
     } elsif (m/^-F([0-9a-z]+)$/) {
         $changelogformat = $1;
     } elsif (m/^-D([^\=:]+)[=:](.*)$/s) {
-	$override{$1} = $2;
+        $override{$1} = $2;
     } elsif (m/^-u(.*)$/) {
-	$uploadfilesdir = $1;
+        $uploadfilesdir = $1;
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1} = 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/s) {
-	$substvars->set($1, $2);
+        $substvars->set($1, $2);
     } elsif (m/^-O(.*)$/) {
         $outputfile = $1;
     } elsif (m/^-(?:\?|-help)$/) {
-	usage();
-	exit(0);
+        usage();
+        exit(0);
     } elsif (m/^--version$/) {
-	version();
-	exit(0);
+        version();
+        exit(0);
     } else {
         usageerr(g_("unknown option '%s'"), $_);
     }
@@ -385,17 +385,17 @@ foreach my $pkg ($control->get_packages()) {
     @restrictions = parse_build_profiles($bp) if defined $bp;
 
     if (not defined $pkg2file{$p}) {
-	# No files for this package... warn if it's unexpected
-	if (((build_has_any(BUILD_ARCH_INDEP) and debarch_eq('all', $a)) or
-	     (build_has_any(BUILD_ARCH_DEP) and
-	      (any { debarch_is($host_arch, $_) } debarch_list_parse($a, positive => 1)))) and
-	    (@restrictions == 0 or
-	     evaluate_restriction_formula(\@restrictions, \@profiles)))
-	{
-	    warning(g_('package %s in control file but not in files list'),
-		    $p);
-	}
-	next; # and skip it
+        # No files for this package... warn if it's unexpected
+        if (((build_has_any(BUILD_ARCH_INDEP) and debarch_eq('all', $a)) or
+             (build_has_any(BUILD_ARCH_DEP) and
+              (any { debarch_is($host_arch, $_) } debarch_list_parse($a, positive => 1)))) and
+            (@restrictions == 0 or
+             evaluate_restriction_formula(\@restrictions, \@profiles)))
+        {
+            warning(g_('package %s in control file but not in files list'),
+                    $p);
+        }
+        next; # and skip it
     }
 
     # Add description of all binary packages
@@ -413,18 +413,18 @@ foreach my $pkg ($control->get_packages()) {
         } elsif ($f eq 'Priority') {
             $file2ctrlfield{$_}{$f} = $v foreach @files;
         } elsif ($f eq 'Architecture') {
-	    if (build_has_any(BUILD_ARCH_DEP) and
-	        (any { debarch_is($host_arch, $_) } debarch_list_parse($v, positive => 1))) {
-		$v = $host_arch;
-	    } elsif (!debarch_eq('all', $v)) {
-		$v = '';
-	    }
-	    push(@archvalues, $v) if $v and not $archadded{$v}++;
+            if (build_has_any(BUILD_ARCH_DEP) and
+                (any { debarch_is($host_arch, $_) } debarch_list_parse($v, positive => 1))) {
+                $v = $host_arch;
+            } elsif (!debarch_eq('all', $v)) {
+                $v = '';
+            }
+            push(@archvalues, $v) if $v and not $archadded{$v}++;
         } elsif ($f eq 'Description') {
             # Description in changes is computed, do not copy this field
-	} else {
+        } else {
             field_transfer_single($pkg, $fields, $f);
-	}
+        }
     }
 }
 
@@ -434,7 +434,7 @@ foreach my $f (keys %{$changelog}) {
     if ($f eq 'Source') {
         set_source_name($v);
     } elsif ($f eq 'Maintainer') {
-	$fields->{'Changed-By'} = $v;
+        $fields->{'Changed-By'} = $v;
     } else {
         field_transfer_single($changelog, $fields, $f);
     }

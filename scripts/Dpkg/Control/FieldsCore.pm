@@ -1138,12 +1138,12 @@ sub field_transfer_single {
             $to->{$new} = $from->{$field};
             return $new;
         } elsif ($to_type != CTRL_DEB and
-		 $to_type != CTRL_DSC and
-		 $to_type != CTRL_FILE_CHANGES)
-	{
-	    $to->{$field} = $from->{$field};
-	    return $field;
-	}
+                 $to_type != CTRL_DSC and
+                 $to_type != CTRL_FILE_CHANGES)
+        {
+            $to->{$field} = $from->{$field};
+            return $field;
+        }
     } elsif (not field_is_allowed_in($field, $from_type)) {
         warning(g_("unknown information field '%s' in input data in %s"),
                 $field, $from->get_option('name') || g_('control information'));

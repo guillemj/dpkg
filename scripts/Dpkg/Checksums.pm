@@ -53,19 +53,19 @@ use Dpkg::ErrorHandling;
 
 my $CHECKSUMS = {
     md5 => {
-	name => 'MD5',
-	regex => qr/[0-9a-f]{32}/,
-	strong => 0,
+        name => 'MD5',
+        regex => qr/[0-9a-f]{32}/,
+        strong => 0,
     },
     sha1 => {
-	name => 'SHA-1',
-	regex => qr/[0-9a-f]{40}/,
-	strong => 0,
+        name => 'SHA-1',
+        regex => qr/[0-9a-f]{40}/,
+        strong => 0,
     },
     sha256 => {
-	name => 'SHA-256',
-	regex => qr/[0-9a-f]{64}/,
-	strong => 1,
+        name => 'SHA-256',
+        regex => qr/[0-9a-f]{64}/,
+        strong => 1,
     },
 };
 
@@ -184,17 +184,17 @@ sub add_from_file {
     my $key = exists $opts{key} ? $opts{key} : $file;
     my @alg;
     if (exists $opts{checksums}) {
-	push @alg, map { lc } @{$opts{checksums}};
+        push @alg, map { lc } @{$opts{checksums}};
     } else {
-	push @alg, checksums_get_list();
+        push @alg, checksums_get_list();
     }
 
     push @{$self->{files}}, $key unless exists $self->{size}{$key};
     (my @s = stat($file)) or syserr(g_('cannot fstat file %s'), $file);
     if (not $opts{update} and exists $self->{size}{$key} and
         $self->{size}{$key} != $s[7]) {
-	error(g_('file %s has size %u instead of expected %u'),
-	      $file, $s[7], $self->{size}{$key});
+        error(g_('file %s has size %u instead of expected %u'),
+              $file, $s[7], $self->{size}{$key});
     }
     $self->{size}{$key} = $s[7];
 
@@ -243,26 +243,26 @@ sub add_from_string {
     my $checksums = $self->{checksums};
 
     for my $checksum (split /\n */, $fieldtext) {
-	next if $checksum eq '';
-	unless ($checksum =~ m/^($regex)\s+(\d+)\s+($rx_fname)$/) {
-	    error(g_('invalid line in %s checksums string: %s'),
-		  $alg, $checksum);
-	}
+        next if $checksum eq '';
+        unless ($checksum =~ m/^($regex)\s+(\d+)\s+($rx_fname)$/) {
+            error(g_('invalid line in %s checksums string: %s'),
+                  $alg, $checksum);
+        }
         ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
-	my ($sum, $size, $file) = ($1, $2, $3);
-	if (not $opts{update} and exists($checksums->{$file}{$alg})
-	    and $checksums->{$file}{$alg} ne $sum) {
-	    error(g_("conflicting checksums '%s' and '%s' for file '%s'"),
-		  $checksums->{$file}{$alg}, $sum, $file);
-	}
-	if (not $opts{update} and exists $self->{size}{$file}
-	    and $self->{size}{$file} != $size) {
-	    error(g_("conflicting file sizes '%u' and '%u' for file '%s'"),
-		  $self->{size}{$file}, $size, $file);
-	}
-	push @{$self->{files}}, $file unless exists $self->{size}{$file};
-	$checksums->{$file}{$alg} = $sum;
-	$self->{size}{$file} = $size;
+        my ($sum, $size, $file) = ($1, $2, $3);
+        if (not $opts{update} and exists($checksums->{$file}{$alg})
+            and $checksums->{$file}{$alg} ne $sum) {
+            error(g_("conflicting checksums '%s' and '%s' for file '%s'"),
+                  $checksums->{$file}{$alg}, $sum, $file);
+        }
+        if (not $opts{update} and exists $self->{size}{$file}
+            and $self->{size}{$file} != $size) {
+            error(g_("conflicting file sizes '%u' and '%u' for file '%s'"),
+                  $self->{size}{$file}, $size, $file);
+        }
+        push @{$self->{files}}, $file unless exists $self->{size}{$file};
+        $checksums->{$file}{$alg} = $sum;
+        $self->{size}{$file} = $size;
     }
 }
 
@@ -290,11 +290,11 @@ sub add_from_control {
     my ($self, $control, %opts) = @_;
     $opts{use_files_for_md5} //= 0;
     foreach my $alg (checksums_get_list()) {
-	my $key = "Checksums-$alg";
-	$key = 'Files' if ($opts{use_files_for_md5} and $alg eq 'md5');
-	if (exists $control->{$key}) {
-	    $self->add_from_string($alg, $control->{$key}, %opts);
-	}
+        my $key = "Checksums-$alg";
+        $key = 'Files' if ($opts{use_files_for_md5} and $alg eq 'md5');
+        if (exists $control->{$key}) {
+            $self->add_from_string($alg, $control->{$key}, %opts);
+        }
     }
 }
 
@@ -351,8 +351,8 @@ sub get_checksum {
     my ($self, $file, $alg) = @_;
     $alg = lc($alg) if defined $alg;
     if (exists $self->{checksums}{$file}) {
-	return $self->{checksums}{$file} unless defined $alg;
-	return $self->{checksums}{$file}{$alg};
+        return $self->{checksums}{$file} unless defined $alg;
+        return $self->{checksums}{$file}{$alg};
     }
     return;
 }
@@ -397,10 +397,10 @@ sub export_to_string {
     my ($self, $alg, %opts) = @_;
     my $res = '';
     foreach my $file ($self->get_files()) {
-	my $sum = $self->get_checksum($file, $alg);
-	my $size = $self->get_size($file);
-	next unless defined $sum and defined $size;
-	$res .= "\n$sum $size $file";
+        my $sum = $self->get_checksum($file, $alg);
+        my $size = $self->get_size($file);
+        next unless defined $sum and defined $size;
+        $res .= "\n$sum $size $file";
     }
     return $res;
 }
@@ -428,9 +428,9 @@ sub export_to_control {
     my ($self, $control, %opts) = @_;
     $opts{use_files_for_md5} //= 0;
     foreach my $alg (checksums_get_list()) {
-	my $key = "Checksums-$alg";
-	$key = 'Files' if ($opts{use_files_for_md5} and $alg eq 'md5');
-	$control->{$key} = $self->export_to_string($alg, %opts);
+        my $key = "Checksums-$alg";
+        $key = 'Files' if ($opts{use_files_for_md5} and $alg eq 'md5');
+        $control->{$key} = $self->export_to_string($alg, %opts);
     }
 }
 

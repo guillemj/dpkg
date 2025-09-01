@@ -95,7 +95,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         setopmode('commit');
     } elsif ($arg eq '--print-format') {
         setopmode('print-format');
-	report_options(info_fh => \*STDERR); # Avoid clutter on STDOUT
+        report_options(info_fh => \*STDERR); # Avoid clutter on STDOUT
     } else {
         push @options, $arg;
     }
@@ -105,20 +105,20 @@ my $dir;
 if (defined($options{opmode}) &&
     $options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     if (not scalar(@ARGV)) {
-	usageerr(g_('--%s needs a directory'), $options{opmode})
-	    unless $1 eq 'commit';
-	$dir = '.';
+        usageerr(g_('--%s needs a directory'), $options{opmode})
+            unless $1 eq 'commit';
+        $dir = '.';
     } else {
-	$dir = File::Spec->catdir(shift(@ARGV));
+        $dir = File::Spec->catdir(shift(@ARGV));
     }
     stat($dir) or syserr(g_('cannot stat directory %s'), $dir);
     if (not -d $dir) {
-	error(g_('directory argument %s is not a directory'), $dir);
+        error(g_('directory argument %s is not a directory'), $dir);
     }
     if ($dir eq '.') {
-	# . is never correct, adjust automatically
-	$dir = basename(getcwd());
-	chdir '..' or syserr(g_("unable to chdir to '%s'"), '..');
+        # . is never correct, adjust automatically
+        $dir = basename(getcwd());
+        chdir '..' or syserr(g_("unable to chdir to '%s'"), '..');
     }
     # --format options are not allowed, they would take precedence
     # over real command line options, debian/source/format should be used
@@ -126,41 +126,41 @@ if (defined($options{opmode}) &&
     # --unapply-patches is only allowed in local-options as it's a matter
     # of personal taste and the default should be to keep patches applied
     my $forbidden_opts_regex = {
-	'options' => qr/^--(?:format=|unapply-patches$|abort-on-upstream-changes$)/,
-	'local-options' => qr/^--format=/,
+        'options' => qr/^--(?:format=|unapply-patches$|abort-on-upstream-changes$)/,
+        'local-options' => qr/^--format=/,
     };
     foreach my $filename ('local-options', 'options') {
-	my $conf = Dpkg::Conf->new();
-	my $optfile = File::Spec->catfile($dir, 'debian', 'source', $filename);
-	next unless -f $optfile;
-	$conf->load($optfile);
+        my $conf = Dpkg::Conf->new();
+        my $optfile = File::Spec->catfile($dir, 'debian', 'source', $filename);
+        next unless -f $optfile;
+        $conf->load($optfile);
         $conf->filter(
             remove => sub { $_[0] =~ $forbidden_opts_regex->{$filename} },
         );
-	if (@$conf) {
-	    info(g_('using options from %s: %s'), $optfile, join(' ', @$conf))
-		unless $options{opmode} eq 'print-format';
-	    unshift @options, @$conf;
-	}
+        if (@$conf) {
+            info(g_('using options from %s: %s'), $optfile, join(' ', @$conf))
+                unless $options{opmode} eq 'print-format';
+            unshift @options, @$conf;
+        }
     }
 }
 
 while (@options) {
     $_ = shift(@options);
     if (m/^--format=(.*)$/) {
-	$build_format //= $1;
+        $build_format //= $1;
     } elsif (m/^-(?:Z|-compression=)(.*)$/) {
-	my $compression = $1;
-	$options{compression} = $compression;
-	usageerr(g_('%s is not a supported compression'), $compression)
-	    unless compression_is_supported($compression);
-	compression_set_default($compression);
+        my $compression = $1;
+        $options{compression} = $compression;
+        usageerr(g_('%s is not a supported compression'), $compression)
+            unless compression_is_supported($compression);
+        compression_set_default($compression);
     } elsif (m/^-(?:z|-compression-level=)(.*)$/) {
-	my $comp_level = $1;
-	$options{comp_level} = $comp_level;
-	usageerr(g_('%s is not a compression level'), $comp_level)
-	    unless compression_is_valid_level($comp_level);
-	compression_set_default_level($comp_level);
+        my $comp_level = $1;
+        $options{comp_level} = $comp_level;
+        usageerr(g_('%s is not a compression level'), $comp_level)
+            unless compression_is_valid_level($comp_level);
+        compression_set_default_level($comp_level);
     } elsif (m/^--threads-max=(.*)$/) {
         my $threads = $1;
         $options{comp_threads} = $threads;
@@ -180,11 +180,11 @@ while (@options) {
     } elsif (m/^-(?:i|-diff-ignore=)(.*)$/) {
         $options{diff_ignore_regex} = $1 ? $1 : $diff_ignore_regex;
     } elsif (m/^--extend-diff-ignore=(.+)$/) {
-	$diff_ignore_regex .= "|$1";
-	if ($options{diff_ignore_regex}) {
-	    $options{diff_ignore_regex} .= "|$1";
-	}
-	set_default_diff_ignore_regex($diff_ignore_regex);
+        $diff_ignore_regex .= "|$1";
+        if ($options{diff_ignore_regex}) {
+            $options{diff_ignore_regex} .= "|$1";
+        }
+        set_default_diff_ignore_regex($diff_ignore_regex);
     } elsif (m/^-(?:I|-tar-ignore=)(.+)$/) {
         push @{$options{tar_ignore}}, $1;
     } elsif (m/^-(?:I|-tar-ignore)$/) {
@@ -206,7 +206,7 @@ while (@options) {
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/s) {
         $substvars->set($1, $2);
     } elsif (m/^-T(.*)$/) {
-	$substvars->load($1) if -e $1;
+        $substvars->load($1) if -e $1;
     } elsif (m/^-(?:\?|-help)$/) {
         usage();
         exit(0);
@@ -285,26 +285,26 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
             # Merge in a single-line.
             ($fields->{$f} = $v) =~ s/\s*[\r\n]\s*/ /g;
         } elsif (any { $f eq $_ } field_list_src_dep()) {
-	    my $dep;
+            my $dep;
             my $type = field_get_dep_type($f);
             $dep = deps_parse($v,
                 build_dep => 1,
                 union => $type eq 'union',
             );
             error(g_('cannot parse %s field'), $f) unless defined $dep;
-	    my $facts = Dpkg::Deps::KnownFacts->new();
-	    $dep->simplify_deps($facts);
-	    $dep->sort() if $type eq 'union';
+            my $facts = Dpkg::Deps::KnownFacts->new();
+            $dep->simplify_deps($facts);
+            $dep->sort() if $type eq 'union';
             $fields->{$f} = $dep->output();
-	} else {
+        } else {
             field_transfer_single($src_fields, $fields, $f);
-	}
+        }
     }
 
     # Scan control info of binary packages
     my @pkglist;
     foreach my $pkg ($control->get_packages()) {
-	my $p = $pkg->{'Package'};
+        my $p = $pkg->{'Package'};
 
         my %pkg_prop;
         foreach my $f (qw(Section Priority)) {
@@ -345,7 +345,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
         }
         push @pkglist, $pkg_summary;
 
-	push @binarypackages, $p;
+        push @binarypackages, $p;
         foreach my $f (keys %{$pkg}) {
             my $v = $pkg->{$f};
 
@@ -372,10 +372,10 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
             } else {
                 field_transfer_single($pkg, $fields, $f);
             }
-	}
+        }
     }
     unless (scalar(@pkglist)) {
-	error(g_("%s doesn't list any binary package"), $controlfile);
+        error(g_("%s doesn't list any binary package"), $controlfile);
     }
     if (any { $_ eq 'any' } @sourcearch) {
         # If we encounter one 'any' then the other arches become insignificant
@@ -410,37 +410,37 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
             set_source_name($v);
             $fields->{$f} = $v;
         } elsif ($f eq 'Version') {
-	    my ($ok, $error) = version_check($v);
+            my ($ok, $error) = version_check($v);
             error($error) unless $ok;
             $fields->{$f} = $v;
         } elsif ($f eq 'Binary-Only') {
-	    error(g_('building source for a binary-only release'))
-	        if $v eq 'yes' and $options{opmode} eq 'build';
+            error(g_('building source for a binary-only release'))
+                if $v eq 'yes' and $options{opmode} eq 'build';
         } elsif ($f eq 'Maintainer') {
             # Do not replace the field coming from the source entry
-	} else {
+        } else {
             field_transfer_single($changelog, $fields, $f);
-	}
+        }
     }
 
     $fields->{'Binary'} = join(', ', @binarypackages);
     # Avoid overly long line by splitting over multiple lines
     if (length($fields->{'Binary'}) > 980) {
-	$fields->{'Binary'} =~ s/(.{0,980}), ?/$1,\n/g;
+        $fields->{'Binary'} =~ s/(.{0,980}), ?/$1,\n/g;
     }
 
     if ($options{opmode} eq 'print-format') {
-	print $fields->{'Format'} . "\n";
-	exit(0);
+        print $fields->{'Format'} . "\n";
+        exit(0);
     } elsif ($options{opmode} eq 'before-build') {
-	$srcpkg->before_build($dir);
-	exit(0);
+        $srcpkg->before_build($dir);
+        exit(0);
     } elsif ($options{opmode} eq 'after-build') {
-	$srcpkg->after_build($dir);
-	exit(0);
+        $srcpkg->after_build($dir);
+        exit(0);
     } elsif ($options{opmode} eq 'commit') {
-	$srcpkg->commit($dir);
-	exit(0);
+        $srcpkg->commit($dir);
+        exit(0);
     }
 
     # Verify pre-requisites are met
@@ -490,10 +490,10 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     # Decide where to unpack
     my $newdirectory = $srcpkg->get_basedirname();
     if (@ARGV) {
-	$newdirectory = File::Spec->catdir(shift(@ARGV));
-	if (-e $newdirectory) {
-	    error(g_('unpack target exists: %s'), $newdirectory);
-	}
+        $newdirectory = File::Spec->catdir(shift(@ARGV));
+        if (-e $newdirectory) {
+            error(g_('unpack target exists: %s'), $newdirectory);
+        }
     }
 
     # Various checks before unpacking

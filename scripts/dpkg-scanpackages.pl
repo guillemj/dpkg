@@ -94,41 +94,41 @@ sub load_override
     );
 
     while (<$comp_file>) {
-	s/\#.*//;
-	s/\s+$//;
-	next unless $_;
+        s/\#.*//;
+        s/\s+$//;
+        next unless $_;
 
-	my ($p, $priority, $section, $maintainer) = split(/\s+/, $_, 4);
+        my ($p, $priority, $section, $maintainer) = split(/\s+/, $_, 4);
 
-	if (not defined($packages{$p})) {
-	    push(@spuriousover, $p);
-	    next;
-	}
+        if (not defined($packages{$p})) {
+            push(@spuriousover, $p);
+            next;
+        }
 
-	for my $package (@{$packages{$p}}) {
-	    if ($maintainer) {
-		if ($maintainer =~ m/(.+?)\s*=\>\s*(.+)/) {
-		    my $oldmaint = $1;
-		    my $newmaint = $2;
-		    my $debmaint = $$package{Maintainer};
-		    if (none { $debmaint eq $_ } split m{\s*//\s*}, $oldmaint) {
-			push(@changedmaint,
-			     sprintf(g_('  %s (package says %s, not %s)'),
-			             $p, $$package{Maintainer}, $oldmaint));
-		    } else {
-			$$package{Maintainer} = $newmaint;
-		    }
-		} elsif ($$package{Maintainer} eq $maintainer) {
-		    push(@samemaint, "  $p ($maintainer)");
-		} else {
-		    warning(g_('unconditional maintainer override for %s'), $p);
-		    $$package{Maintainer} = $maintainer;
-		}
-	    }
-	    $$package{Priority} = $priority;
-	    $$package{Section} = $section;
-	}
-	$overridden{$p} = 1;
+        for my $package (@{$packages{$p}}) {
+            if ($maintainer) {
+                if ($maintainer =~ m/(.+?)\s*=\>\s*(.+)/) {
+                    my $oldmaint = $1;
+                    my $newmaint = $2;
+                    my $debmaint = $$package{Maintainer};
+                    if (none { $debmaint eq $_ } split m{\s*//\s*}, $oldmaint) {
+                        push(@changedmaint,
+                             sprintf(g_('  %s (package says %s, not %s)'),
+                                     $p, $$package{Maintainer}, $oldmaint));
+                    } else {
+                        $$package{Maintainer} = $newmaint;
+                    }
+                } elsif ($$package{Maintainer} eq $maintainer) {
+                    push(@samemaint, "  $p ($maintainer)");
+                } else {
+                    warning(g_('unconditional maintainer override for %s'), $p);
+                    $$package{Maintainer} = $maintainer;
+                }
+            }
+            $$package{Priority} = $priority;
+            $$package{Section} = $section;
+        }
+        $overridden{$p} = 1;
     }
 
     close($comp_file);
@@ -142,17 +142,17 @@ sub load_override_extra
     );
 
     while (<$comp_file>) {
-	s/\#.*//;
-	s/\s+$//;
-	next unless $_;
+        s/\#.*//;
+        s/\s+$//;
+        next unless $_;
 
-	my ($p, $field, $value) = split(/\s+/, $_, 3);
+        my ($p, $field, $value) = split(/\s+/, $_, 3);
 
-	next unless defined($packages{$p});
+        next unless defined($packages{$p});
 
-	for my $package (@{$packages{$p}}) {
-	    $$package{$field} = $value;
-	}
+        for my $package (@{$packages{$p}}) {
+            $$package{$field} = $value;
+        }
     }
 
     close($comp_file);

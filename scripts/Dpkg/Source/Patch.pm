@@ -102,20 +102,20 @@ sub add_diff_file {
     }
     # Add labels
     if ($opts{label_old} and $opts{label_new}) {
-	if ($opts{include_timestamp}) {
-	    my $ts = (stat($old))[9];
-	    my $t = POSIX::strftime('%Y-%m-%d %H:%M:%S', gmtime($ts));
-	    $opts{label_old} .= sprintf("\t%s.%09d +0000", $t,
-	                                ($ts - int($ts)) * 1_000_000_000);
-	    $ts = (stat($new))[9];
-	    $t = POSIX::strftime('%Y-%m-%d %H:%M:%S', gmtime($ts));
-	    $opts{label_new} .= sprintf("\t%s.%09d +0000", $t,
-	                                ($ts - int($ts)) * 1_000_000_000);
-	} else {
-	    # Space in filenames need special treatment
-	    $opts{label_old} .= "\t" if $opts{label_old} =~ / /;
-	    $opts{label_new} .= "\t" if $opts{label_new} =~ / /;
-	}
+        if ($opts{include_timestamp}) {
+            my $ts = (stat($old))[9];
+            my $t = POSIX::strftime('%Y-%m-%d %H:%M:%S', gmtime($ts));
+            $opts{label_old} .= sprintf("\t%s.%09d +0000", $t,
+                                        ($ts - int($ts)) * 1_000_000_000);
+            $ts = (stat($new))[9];
+            $t = POSIX::strftime('%Y-%m-%d %H:%M:%S', gmtime($ts));
+            $opts{label_new} .= sprintf("\t%s.%09d +0000", $t,
+                                        ($ts - int($ts)) * 1_000_000_000);
+        } else {
+            # Space in filenames need special treatment
+            $opts{label_old} .= "\t" if $opts{label_old} =~ / /;
+            $opts{label_new} .= "\t" if $opts{label_new} =~ / /;
+        }
         push @options, '-L', $opts{label_old},
                        '-L', $opts{label_new};
     }
@@ -148,10 +148,10 @@ sub add_diff_file {
             chomp;
             error(g_("unknown line from diff -u on %s: '%s'"), $new, $_);
         }
-	if (*$self->{empty} and defined(*$self->{header})) {
-	    $self->print($self->get_header()) or syserr(g_('failed to write'));
-	    *$self->{empty} = 0;
-	}
+        if (*$self->{empty} and defined(*$self->{header})) {
+            $self->print($self->get_header()) or syserr(g_('failed to write'));
+            *$self->{empty} = 0;
+        }
         print { $self } $_ or syserr(g_('failed to write'));
     }
     close($diffgen) or syserr('close on diff pipe');
@@ -442,69 +442,69 @@ sub analyze {
 
   HUNK:
     while (defined $line or not eof $self) {
-	my (%path, %fn);
+        my (%path, %fn);
 
-	# Skip comments leading up to the patch (if any). Although we do not
-	# look for an Index: pseudo-header in the comments, because we would
-	# not use it anyway, as we require both ---/+++ filename headers.
-	while (1) {
-	    if ($line =~ /^(?:--- |\+\+\+ |@@ -)/) {
-		last;
-	    } else {
-		$patch_header .= "$line\n";
-	    }
-	    $line = _getline($self);
-	    last HUNK if not defined $line;
-	}
-	$diff_count++;
-	# read file header (---/+++ pair)
-	unless ($line =~ s/^--- //) {
-	    error(g_("expected ^--- in line %d of diff '%s'"), $., $diff);
-	}
-	$path{old} = $line = _fetch_filename($diff, $line);
-	if ($line ne '/dev/null' and $line =~ s{^[^/]*/+}{$destdir/}) {
-	    $fn{old} = $line;
-	}
-	if ($line =~ /\.dpkg-orig$/) {
-	    error(g_("diff '%s' patches file with name ending in .dpkg-orig"),
-	          $diff);
-	}
+        # Skip comments leading up to the patch (if any). Although we do not
+        # look for an Index: pseudo-header in the comments, because we would
+        # not use it anyway, as we require both ---/+++ filename headers.
+        while (1) {
+            if ($line =~ /^(?:--- |\+\+\+ |@@ -)/) {
+                last;
+            } else {
+                $patch_header .= "$line\n";
+            }
+            $line = _getline($self);
+            last HUNK if not defined $line;
+        }
+        $diff_count++;
+        # read file header (---/+++ pair)
+        unless ($line =~ s/^--- //) {
+            error(g_("expected ^--- in line %d of diff '%s'"), $., $diff);
+        }
+        $path{old} = $line = _fetch_filename($diff, $line);
+        if ($line ne '/dev/null' and $line =~ s{^[^/]*/+}{$destdir/}) {
+            $fn{old} = $line;
+        }
+        if ($line =~ /\.dpkg-orig$/) {
+            error(g_("diff '%s' patches file with name ending in .dpkg-orig"),
+                  $diff);
+        }
 
-	$line = _getline($self);
-	unless (defined $line) {
-	    error(g_("diff '%s' finishes in middle of ---/+++ (line %d)"),
-	          $diff, $.);
-	}
-	unless ($line =~ s/^\+\+\+ //) {
-	    error(g_("line after --- isn't as expected in diff '%s' (line %d)"),
-	          $diff, $.);
-	}
-	$path{new} = $line = _fetch_filename($diff, $line);
-	if ($line ne '/dev/null' and $line =~ s{^[^/]*/+}{$destdir/}) {
-	    $fn{new} = $line;
-	}
+        $line = _getline($self);
+        unless (defined $line) {
+            error(g_("diff '%s' finishes in middle of ---/+++ (line %d)"),
+                  $diff, $.);
+        }
+        unless ($line =~ s/^\+\+\+ //) {
+            error(g_("line after --- isn't as expected in diff '%s' (line %d)"),
+                  $diff, $.);
+        }
+        $path{new} = $line = _fetch_filename($diff, $line);
+        if ($line ne '/dev/null' and $line =~ s{^[^/]*/+}{$destdir/}) {
+            $fn{new} = $line;
+        }
 
-	unless (defined $fn{old} or defined $fn{new}) {
-	    error(g_("none of the filenames in ---/+++ are valid in diff '%s' (line %d)"),
-		  $diff, $.);
-	}
+        unless (defined $fn{old} or defined $fn{new}) {
+            error(g_("none of the filenames in ---/+++ are valid in diff '%s' (line %d)"),
+                  $diff, $.);
+        }
 
-	# Safety checks on both filenames that patch could use
-	foreach my $key ('old', 'new') {
-	    next unless defined $fn{$key};
-	    if ($path{$key} =~ m{/\.\./}) {
-		error(g_('%s contains an insecure path: %s'), $diff, $path{$key});
-	    }
-	    my $path = $fn{$key};
-	    while (1) {
-		if (-l $path) {
-		    error(g_('diff %s modifies file %s through a symlink: %s'),
-			  $diff, $fn{$key}, $path);
-		}
-		last unless $path =~ s{/+[^/]*$}{};
-		last if length($path) <= length($destdir); # $destdir is assumed safe
-	    }
-	}
+        # Safety checks on both filenames that patch could use
+        foreach my $key ('old', 'new') {
+            next unless defined $fn{$key};
+            if ($path{$key} =~ m{/\.\./}) {
+                error(g_('%s contains an insecure path: %s'), $diff, $path{$key});
+            }
+            my $path = $fn{$key};
+            while (1) {
+                if (-l $path) {
+                    error(g_('diff %s modifies file %s through a symlink: %s'),
+                          $diff, $fn{$key}, $path);
+                }
+                last unless $path =~ s{/+[^/]*$}{};
+                last if length($path) <= length($destdir); # $destdir is assumed safe
+            }
+        }
 
         if ($path{old} eq '/dev/null' and $path{new} eq '/dev/null') {
             error(g_("original and modified files are /dev/null in diff '%s' (line %d)"),
@@ -517,12 +517,12 @@ sub analyze {
                         $diff, $fn{old}, $.) unless -e $fn{old};
             }
         }
-	my $fn = _intuit_file_patched($fn{old}, $fn{new});
+        my $fn = _intuit_file_patched($fn{old}, $fn{new});
 
-	my $dirname = $fn;
-	if ($dirname =~ s{/[^/]+$}{} and not -d $dirname) {
-	    $dirtocreate{$dirname} = 1;
-	}
+        my $dirname = $fn;
+        if ($dirname =~ s{/[^/]+$}{} and not -d $dirname) {
+            $dirtocreate{$dirname} = 1;
+        }
 
         if (-e $fn) {
             if (not -f _) {
@@ -537,7 +537,7 @@ sub analyze {
             }
         }
 
-	if ($filepatched{$fn}) {
+        if ($filepatched{$fn}) {
             $filepatched{$fn}++;
 
             if ($opts{fatal_dupes}) {
@@ -547,21 +547,21 @@ sub analyze {
             } elsif ($opts{verbose} and $filepatched{$fn} == 2) {
                 warning(g_("diff '%s' patches file %s more than once"), $diff, $fn)
             }
-	} else {
-	    $filepatched{$fn} = 1;
-	    push @patchorder, $fn;
-	}
+        } else {
+            $filepatched{$fn} = 1;
+            push @patchorder, $fn;
+        }
 
-	# read hunks
-	my $hunk = 0;
-	while (defined($line = _getline($self))) {
-	    # read hunk header (@@)
-	    next if $line =~ /^\\ /;
-	    last unless $line =~ /^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@(?: .*)?$/;
-	    my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
-	    # read hunk
-	    while ($olines || $nlines) {
-		unless (defined($line = _getline($self))) {
+        # read hunks
+        my $hunk = 0;
+        while (defined($line = _getline($self))) {
+            # read hunk header (@@)
+            next if $line =~ /^\\ /;
+            last unless $line =~ /^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@(?: .*)?$/;
+            my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
+            # read hunk
+            while ($olines || $nlines) {
+                unless (defined($line = _getline($self))) {
                     if (($olines == $nlines) and ($olines < 3)) {
                         warning(g_("unexpected end of diff '%s'"), $diff)
                             if $opts{verbose};
@@ -569,31 +569,31 @@ sub analyze {
                     } else {
                         error(g_("unexpected end of diff '%s'"), $diff);
                     }
-		}
-		next if $line =~ /^\\ /;
-		# Check stats
-		if ($line =~ /^ / or length $line == 0) {
-		    --$olines;
-		    --$nlines;
-		} elsif ($line =~ /^-/) {
-		    --$olines;
-		} elsif ($line =~ /^\+/) {
-		    --$nlines;
-		} else {
-		    error(g_("expected [ +-] at start of line %d of diff '%s'"),
-		          $., $diff);
-		}
-	    }
-	    $hunk++;
-	}
-	unless ($hunk) {
-	    error(g_("expected ^\@\@ at line %d of diff '%s'"), $., $diff);
-	}
+                }
+                next if $line =~ /^\\ /;
+                # Check stats
+                if ($line =~ /^ / or length $line == 0) {
+                    --$olines;
+                    --$nlines;
+                } elsif ($line =~ /^-/) {
+                    --$olines;
+                } elsif ($line =~ /^\+/) {
+                    --$nlines;
+                } else {
+                    error(g_("expected [ +-] at start of line %d of diff '%s'"),
+                          $., $diff);
+                }
+            }
+            $hunk++;
+        }
+        unless ($hunk) {
+            error(g_("expected ^\@\@ at line %d of diff '%s'"), $., $diff);
+        }
     }
     close($self);
     unless ($diff_count) {
-	warning(g_("diff '%s' doesn't contain any patch"), $diff)
-	    if $opts{verbose};
+        warning(g_("diff '%s' doesn't contain any patch"), $diff)
+            if $opts{verbose};
     }
     *$self->{analysis}{$destdir}{dirtocreate} = \%dirtocreate;
     *$self->{analysis}{$destdir}{filepatched} = \%filepatched;
@@ -605,10 +605,10 @@ sub analyze {
 sub prepare_apply {
     my ($self, $analysis, %opts) = @_;
     if ($opts{create_dirs}) {
-	foreach my $dir (keys %{$analysis->{dirtocreate}}) {
-	    eval { make_path($dir, { mode => 0o777 }) };
-	    syserr(g_('cannot create directory %s'), $dir) if $@;
-	}
+        foreach my $dir (keys %{$analysis->{dirtocreate}}) {
+            eval { make_path($dir, { mode => 0o777 }) };
+            syserr(g_('cannot create directory %s'), $dir) if $@;
+        }
     }
 }
 
@@ -637,8 +637,8 @@ sub apply {
     $self->ensure_open('r');
     my ($stdout, $stderr) = ('', '');
     spawn(
-	exec => [ $Dpkg::PROGPATCH, @{$opts{options}} ],
-	chdir => $destdir,
+        exec => [ $Dpkg::PROGPATCH, @{$opts{options}} ],
+        chdir => $destdir,
         env => {
             LC_ALL => 'C',
             PATCH_GET => '0',
@@ -646,17 +646,17 @@ sub apply {
         delete_env => [
             'POSIXLY_CORRECT', # ensure expected patch behavior
         ],
-	wait_child => 1,
+        wait_child => 1,
         no_check => 1,
-	from_handle => $self->get_filehandle(),
-	to_string => \$stdout,
-	error_to_string => \$stderr,
+        from_handle => $self->get_filehandle(),
+        to_string => \$stdout,
+        error_to_string => \$stderr,
     );
     if ($?) {
-	print { *STDOUT } $stdout;
-	print { *STDERR } $stderr;
-	subprocerr("LC_ALL=C $Dpkg::PROGPATCH " . join(' ', @{$opts{options}}) .
-	           ' < ' . $self->get_filename());
+        print { *STDOUT } $stdout;
+        print { *STDERR } $stderr;
+        subprocerr("LC_ALL=C $Dpkg::PROGPATCH " . join(' ', @{$opts{options}}) .
+                   ' < ' . $self->get_filename());
     }
     $self->close();
     # Reset the timestamp of all the patched files
@@ -665,14 +665,14 @@ sub apply {
     my $now = $opts{timestamp};
     $now //= fs_time($files[0]) if $opts{force_timestamp} && scalar @files;
     foreach my $fn (@files) {
-	if ($opts{force_timestamp}) {
-	    utime($now, $now, $fn) or $! == ENOENT
-		or syserr(g_('cannot change timestamp for %s'), $fn);
-	}
-	if ($opts{remove_backup}) {
-	    $fn .= '.dpkg-orig';
-	    unlink($fn) or syserr(g_('remove patch backup file %s'), $fn);
-	}
+        if ($opts{force_timestamp}) {
+            utime($now, $now, $fn) or $! == ENOENT
+                or syserr(g_('cannot change timestamp for %s'), $fn);
+        }
+        if ($opts{remove_backup}) {
+            $fn .= '.dpkg-orig';
+            unlink($fn) or syserr(g_('remove patch backup file %s'), $fn);
+        }
     }
     return $analysis;
 }
@@ -702,8 +702,8 @@ sub check_apply {
     # Apply the patch
     $self->ensure_open('r');
     my $patch_pid = spawn(
-	exec => [ $Dpkg::PROGPATCH, @{$opts{options}} ],
-	chdir => $destdir,
+        exec => [ $Dpkg::PROGPATCH, @{$opts{options}} ],
+        chdir => $destdir,
         env => {
             LC_ALL => 'C',
             PATCH_GET => '0',
@@ -711,9 +711,9 @@ sub check_apply {
         delete_env => [
             'POSIXLY_CORRECT', # ensure expected patch behavior
         ],
-	from_handle => $self->get_filehandle(),
-	to_file => '/dev/null',
-	error_to_file => '/dev/null',
+        from_handle => $self->get_filehandle(),
+        to_file => '/dev/null',
+        error_to_file => '/dev/null',
     );
     wait_child($patch_pid, no_check => 1);
     my $exit = WEXITSTATUS($?);

@@ -154,56 +154,56 @@ sub _check_opts {
     my (%opts) = @_;
 
     croak 'exec parameter is mandatory in spawn()'
-	unless $opts{exec};
+        unless $opts{exec};
 
     my $to = my $error_to = my $from = 0;
     foreach my $thing (qw(file handle string pipe)) {
-	$to++ if $opts{"to_$thing"};
-	$error_to++ if $opts{"error_to_$thing"};
-	$from++ if $opts{"from_$thing"};
+        $to++ if $opts{"to_$thing"};
+        $error_to++ if $opts{"error_to_$thing"};
+        $from++ if $opts{"from_$thing"};
     }
     croak 'not more than one of to_* parameters is allowed'
-	if $to > 1;
+        if $to > 1;
     croak 'not more than one of error_to_* parameters is allowed'
-	if $error_to > 1;
+        if $error_to > 1;
     croak 'not more than one of from_* parameters is allowed'
-	if $from > 1;
+        if $from > 1;
 
     foreach my $param (qw(to_string error_to_string from_string)) {
-	if (exists $opts{$param} and
-	    (not ref $opts{$param} or ref $opts{$param} ne 'SCALAR')) {
-	    croak "parameter $param must be a scalar reference";
-	}
+        if (exists $opts{$param} and
+            (not ref $opts{$param} or ref $opts{$param} ne 'SCALAR')) {
+            croak "parameter $param must be a scalar reference";
+        }
     }
 
     foreach my $param (qw(to_pipe error_to_pipe from_pipe)) {
-	if (exists $opts{$param} and
-	    (not ref $opts{$param} or (ref $opts{$param} ne 'SCALAR' and
-	     not $opts{$param}->isa('IO::Handle')))) {
-	    croak "parameter $param must be a scalar reference or " .
-	          'an IO::Handle object';
-	}
+        if (exists $opts{$param} and
+            (not ref $opts{$param} or (ref $opts{$param} ne 'SCALAR' and
+             not $opts{$param}->isa('IO::Handle')))) {
+            croak "parameter $param must be a scalar reference or " .
+                  'an IO::Handle object';
+        }
     }
 
     if (exists $opts{timeout} and defined($opts{timeout}) and
         $opts{timeout} !~ /^\d+$/) {
-	croak 'parameter timeout must be an integer';
+        croak 'parameter timeout must be an integer';
     }
 
     if (exists $opts{env} and ref($opts{env}) ne 'HASH') {
-	croak 'parameter env must be a hash reference';
+        croak 'parameter env must be a hash reference';
     }
 
     if (exists $opts{delete_env} and ref($opts{delete_env}) ne 'ARRAY') {
-	croak 'parameter delete_env must be an array reference';
+        croak 'parameter delete_env must be an array reference';
     }
 
     if (exists $opts{sig} and ref($opts{sig}) ne 'HASH') {
-	croak 'parameter sig must be a hash reference';
+        croak 'parameter sig must be a hash reference';
     }
 
     if (exists $opts{delete_sig} and ref($opts{delete_sig}) ne 'ARRAY') {
-	croak 'parameter delete_sig must be an array reference';
+        croak 'parameter delete_sig must be an array reference';
     }
 
     return %opts;
@@ -216,104 +216,104 @@ sub spawn {
     _check_opts(%opts);
     $opts{close_in_child} //= [];
     if (ref($opts{exec}) =~ /ARRAY/) {
-	push @prog, @{$opts{exec}};
+        push @prog, @{$opts{exec}};
     } elsif (not ref($opts{exec})) {
-	push @prog, $opts{exec};
+        push @prog, $opts{exec};
     } else {
-	croak 'invalid exec parameter in spawn()';
+        croak 'invalid exec parameter in spawn()';
     }
     my ($from_string_pipe, $to_string_pipe, $error_to_string_pipe);
     if ($opts{to_string}) {
-	$opts{to_pipe} = \$to_string_pipe;
-	$opts{wait_child} = 1;
+        $opts{to_pipe} = \$to_string_pipe;
+        $opts{wait_child} = 1;
     }
     if ($opts{error_to_string}) {
-	$opts{error_to_pipe} = \$error_to_string_pipe;
-	$opts{wait_child} = 1;
+        $opts{error_to_pipe} = \$error_to_string_pipe;
+        $opts{wait_child} = 1;
     }
     if ($opts{from_string}) {
-	$opts{from_pipe} = \$from_string_pipe;
+        $opts{from_pipe} = \$from_string_pipe;
     }
     # Create pipes if needed
     my ($input_pipe, $output_pipe, $error_pipe);
     if ($opts{from_pipe}) {
-	pipe($opts{from_handle}, $input_pipe)
-	    or syserr(g_('pipe for %s'), "@prog");
-	${$opts{from_pipe}} = $input_pipe;
-	push @{$opts{close_in_child}}, $input_pipe;
+        pipe($opts{from_handle}, $input_pipe)
+            or syserr(g_('pipe for %s'), "@prog");
+        ${$opts{from_pipe}} = $input_pipe;
+        push @{$opts{close_in_child}}, $input_pipe;
     }
     if ($opts{to_pipe}) {
-	pipe($output_pipe, $opts{to_handle})
-	    or syserr(g_('pipe for %s'), "@prog");
-	${$opts{to_pipe}} = $output_pipe;
-	push @{$opts{close_in_child}}, $output_pipe;
+        pipe($output_pipe, $opts{to_handle})
+            or syserr(g_('pipe for %s'), "@prog");
+        ${$opts{to_pipe}} = $output_pipe;
+        push @{$opts{close_in_child}}, $output_pipe;
     }
     if ($opts{error_to_pipe}) {
-	pipe($error_pipe, $opts{error_to_handle})
-	    or syserr(g_('pipe for %s'), "@prog");
-	${$opts{error_to_pipe}} = $error_pipe;
-	push @{$opts{close_in_child}}, $error_pipe;
+        pipe($error_pipe, $opts{error_to_handle})
+            or syserr(g_('pipe for %s'), "@prog");
+        ${$opts{error_to_pipe}} = $error_pipe;
+        push @{$opts{close_in_child}}, $error_pipe;
     }
     # Fork and exec
     my $pid = fork();
     syserr(g_('cannot fork for %s'), "@prog") unless defined $pid;
     if (not $pid) {
-	# Define environment variables
-	if ($opts{env}) {
-	    foreach (keys %{$opts{env}}) {
-		$ENV{$_} = $opts{env}{$_};
-	    }
-	}
-	if ($opts{delete_env}) {
-	    delete $ENV{$_} foreach (@{$opts{delete_env}});
-	}
-	# Define signal dispositions.
-	if ($opts{sig}) {
-	    foreach (keys %{$opts{sig}}) {
-		$SIG{$_} = $opts{sig}{$_};
-	    }
-	}
-	if ($opts{delete_sig}) {
-	    delete $SIG{$_} foreach (@{$opts{delete_sig}});
-	}
-	# Change the current directory
-	if ($opts{chdir}) {
-	    chdir($opts{chdir}) or syserr(g_('chdir to %s'), $opts{chdir});
-	}
-	# Redirect STDIN if needed
-	if ($opts{from_file}) {
-	    open(STDIN, '<', $opts{from_file})
-	        or syserr(g_('cannot open %s'), $opts{from_file});
-	} elsif ($opts{from_handle}) {
-	    open(STDIN, '<&', $opts{from_handle})
-		or syserr(g_('reopen stdin'));
-	    # has been duped, can be closed
-	    push @{$opts{close_in_child}}, $opts{from_handle};
-	}
-	# Redirect STDOUT if needed
-	if ($opts{to_file}) {
-	    open(STDOUT, '>', $opts{to_file})
-	        or syserr(g_('cannot write %s'), $opts{to_file});
-	} elsif ($opts{to_handle}) {
-	    open(STDOUT, '>&', $opts{to_handle})
-		or syserr(g_('reopen stdout'));
-	    # has been duped, can be closed
-	    push @{$opts{close_in_child}}, $opts{to_handle};
-	}
-	# Redirect STDERR if needed
-	if ($opts{error_to_file}) {
-	    open(STDERR, '>', $opts{error_to_file})
-	        or syserr(g_('cannot write %s'), $opts{error_to_file});
-	} elsif ($opts{error_to_handle}) {
-	    open(STDERR, '>&', $opts{error_to_handle})
-	        or syserr(g_('reopen stdout'));
-	    # has been duped, can be closed
-	    push @{$opts{close_in_child}}, $opts{error_to_handle};
-	}
-	# Close some inherited filehandles
-	close($_) foreach (@{$opts{close_in_child}});
-	# Execute the program
-	exec({ $prog[0] } @prog) or syserr(g_('unable to execute %s'), "@prog");
+        # Define environment variables
+        if ($opts{env}) {
+            foreach (keys %{$opts{env}}) {
+                $ENV{$_} = $opts{env}{$_};
+            }
+        }
+        if ($opts{delete_env}) {
+            delete $ENV{$_} foreach (@{$opts{delete_env}});
+        }
+        # Define signal dispositions.
+        if ($opts{sig}) {
+            foreach (keys %{$opts{sig}}) {
+                $SIG{$_} = $opts{sig}{$_};
+            }
+        }
+        if ($opts{delete_sig}) {
+            delete $SIG{$_} foreach (@{$opts{delete_sig}});
+        }
+        # Change the current directory
+        if ($opts{chdir}) {
+            chdir($opts{chdir}) or syserr(g_('chdir to %s'), $opts{chdir});
+        }
+        # Redirect STDIN if needed
+        if ($opts{from_file}) {
+            open(STDIN, '<', $opts{from_file})
+                or syserr(g_('cannot open %s'), $opts{from_file});
+        } elsif ($opts{from_handle}) {
+            open(STDIN, '<&', $opts{from_handle})
+                or syserr(g_('reopen stdin'));
+            # has been duped, can be closed
+            push @{$opts{close_in_child}}, $opts{from_handle};
+        }
+        # Redirect STDOUT if needed
+        if ($opts{to_file}) {
+            open(STDOUT, '>', $opts{to_file})
+                or syserr(g_('cannot write %s'), $opts{to_file});
+        } elsif ($opts{to_handle}) {
+            open(STDOUT, '>&', $opts{to_handle})
+                or syserr(g_('reopen stdout'));
+            # has been duped, can be closed
+            push @{$opts{close_in_child}}, $opts{to_handle};
+        }
+        # Redirect STDERR if needed
+        if ($opts{error_to_file}) {
+            open(STDERR, '>', $opts{error_to_file})
+                or syserr(g_('cannot write %s'), $opts{error_to_file});
+        } elsif ($opts{error_to_handle}) {
+            open(STDERR, '>&', $opts{error_to_handle})
+                or syserr(g_('reopen stdout'));
+            # has been duped, can be closed
+            push @{$opts{close_in_child}}, $opts{error_to_handle};
+        }
+        # Close some inherited filehandles
+        close($_) foreach (@{$opts{close_in_child}});
+        # Execute the program
+        exec({ $prog[0] } @prog) or syserr(g_('unable to execute %s'), "@prog");
     }
     # Close handle that we can't use any more
     close($opts{from_handle}) if exists $opts{from_handle};
@@ -321,24 +321,24 @@ sub spawn {
     close($opts{error_to_handle}) if exists $opts{error_to_handle};
 
     if ($opts{from_string}) {
-	print { $from_string_pipe } ${$opts{from_string}};
-	close($from_string_pipe);
+        print { $from_string_pipe } ${$opts{from_string}};
+        close($from_string_pipe);
     }
     if ($opts{to_string}) {
-	local $/ = undef;
-	${$opts{to_string}} = readline($to_string_pipe);
+        local $/ = undef;
+        ${$opts{to_string}} = readline($to_string_pipe);
     }
     if ($opts{error_to_string}) {
-	local $/ = undef;
-	${$opts{error_to_string}} = readline($error_to_string_pipe);
+        local $/ = undef;
+        ${$opts{error_to_string}} = readline($error_to_string_pipe);
     }
     if ($opts{wait_child}) {
-	my $cmdline = "@prog";
-	if ($opts{env}) {
-	    foreach (keys %{$opts{env}}) {
-		$cmdline = "$_=\"" . $opts{env}{$_} . "\" $cmdline";
-	    }
-	}
+        my $cmdline = "@prog";
+        if ($opts{env}) {
+            foreach (keys %{$opts{env}}) {
+                $cmdline = "$_=\"" . $opts{env}{$_} . "\" $cmdline";
+            }
+        }
         # TODO: Backwards compatibility, to be removed in VERSION 2.00.
         if (exists $opts{nocheck} && ! exists $opts{no_check}) {
             warnings::warnif('deprecated',
@@ -350,7 +350,7 @@ sub spawn {
             timeout => $opts{timeout},
             cmdline => $cmdline,
         );
-	return 1;
+        return 1;
     }
 
     return $pid;
@@ -421,7 +421,7 @@ sub wait_child {
               $opts{cmdline}, $opts{timeout});
     }
     unless ($opts{no_check}) {
-	subprocerr($opts{cmdline}) if $?;
+        subprocerr($opts{cmdline}) if $?;
     }
 }
 

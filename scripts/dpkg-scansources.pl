@@ -102,38 +102,38 @@ sub load_override {
     );
     while (<$comp_file>) {
         s/#.*//;
-	next if /^\s*$/;
-	s/\s+$//;
+        next if /^\s*$/;
+        s/\s+$//;
 
-	my @data = split ' ', $_, 4;
-	unless (@data == 3 || @data == 4) {
-	    warning(g_('invalid override entry at line %d (%d fields)'),
-	            $., 0 + @data);
-	    next;
-	}
-	my ($package, $priority, $section, $maintainer) = @data;
-	if (exists $override{$package}) {
-	    warning(g_('ignoring duplicate override entry for %s at line %d'),
-	            $package, $.);
-	    next;
-	}
-	if (!$priority{$priority}) {
-	    warning(g_('ignoring override entry for %s, invalid priority %s'),
-	            $package, $priority);
-	    next;
-	}
+        my @data = split ' ', $_, 4;
+        unless (@data == 3 || @data == 4) {
+            warning(g_('invalid override entry at line %d (%d fields)'),
+                    $., 0 + @data);
+            next;
+        }
+        my ($package, $priority, $section, $maintainer) = @data;
+        if (exists $override{$package}) {
+            warning(g_('ignoring duplicate override entry for %s at line %d'),
+                    $package, $.);
+            next;
+        }
+        if (!$priority{$priority}) {
+            warning(g_('ignoring override entry for %s, invalid priority %s'),
+                    $package, $priority);
+            next;
+        }
 
-	$override{$package} = [];
-	$override{$package}[O_PRIORITY] = $priority;
-	$override{$package}[O_SECTION] = $section;
-	if (!defined $maintainer) {
-	    # do nothing
+        $override{$package} = [];
+        $override{$package}[O_PRIORITY] = $priority;
+        $override{$package}[O_SECTION] = $section;
+        if (!defined $maintainer) {
+            # do nothing
         } elsif ($maintainer =~ /^(.*\S)\s*=>\s*(.*)$/) {
-	    $override{$package}[O_MAINT_TO] = $2;
+            $override{$package}[O_MAINT_TO] = $2;
             $override{$package}[O_MAINT_FROM] = [ split m{\s*//\s*}, $1 ];
         } else {
-	    $override{$package}[O_MAINT_TO] = $maintainer;
-	}
+            $override{$package}[O_MAINT_TO] = $maintainer;
+        }
     }
     close($comp_file);
 }
@@ -144,19 +144,19 @@ sub load_src_override {
     local $_;
 
     if (defined $user_file) {
-	$file = $user_file;
+        $file = $user_file;
     } elsif (defined $regular_file) {
         my $comp = compression_guess_from_filename($regular_file);
         if (defined($comp)) {
-	    $file = $regular_file;
+            $file = $regular_file;
             my $ext = compression_get_file_extension($comp);
             $file =~ s/\.$ext$/.src.$ext/;
         } else {
-	    $file = "$regular_file.src";
+            $file = "$regular_file.src";
         }
         return unless -e $file;
     } else {
-	return;
+        return;
     }
 
     debug(1, "source override file $file");
@@ -165,25 +165,25 @@ sub load_src_override {
     );
     while (<$comp_file>) {
         s/#.*//;
-	next if /^\s*$/;
-	s/\s+$//;
+        next if /^\s*$/;
+        s/\s+$//;
 
-	my @data = split ' ';
-	unless (@data == 2) {
-	    warning(g_('invalid source override entry at line %d (%d fields)'),
-	            $., 0 + @data);
-	    next;
-	}
+        my @data = split ' ';
+        unless (@data == 2) {
+            warning(g_('invalid source override entry at line %d (%d fields)'),
+                    $., 0 + @data);
+            next;
+        }
 
-	my ($package, $section) = @data;
-	my $key = "source/$package";
-	if (exists $override{$key}) {
-	    warning(g_('ignoring duplicate source override entry for %s at line %d'),
-	            $package, $.);
-	    next;
-	}
-	$override{$key} = [];
-	$override{$key}[O_SECTION] = $section;
+        my ($package, $section) = @data;
+        my $key = "source/$package";
+        if (exists $override{$key}) {
+            warning(g_('ignoring duplicate source override entry for %s at line %d'),
+                    $package, $.);
+            next;
+        }
+        $override{$key} = [];
+        $override{$key}[O_SECTION] = $section;
     }
     close($comp_file);
 }
@@ -196,11 +196,11 @@ sub load_override_extra
     );
 
     while (<$comp_file>) {
-	s/\#.*//;
-	s/\s+$//;
-	next unless $_;
+        s/\#.*//;
+        s/\s+$//;
+        next unless $_;
 
-	my ($p, $field, $value) = split(/\s+/, $_, 3);
+        my ($p, $field, $value) = split(/\s+/, $_, 3);
         $extra_override{$p}{$field} = $value;
     }
     close($comp_file);

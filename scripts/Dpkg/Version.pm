@@ -108,24 +108,24 @@ sub new {
     $ver = "$ver" if ref($ver); # Try to stringify objects
 
     if ($opts{check}) {
-	return unless version_check($ver);
+        return unless version_check($ver);
     }
 
     my $self = {};
     if ($ver =~ /^([^:]*):(.+)$/) {
-	$self->{epoch} = $1;
-	$ver = $2;
+        $self->{epoch} = $1;
+        $ver = $2;
     } else {
-	$self->{epoch} = 0;
-	$self->{no_epoch} = 1;
+        $self->{epoch} = 0;
+        $self->{no_epoch} = 1;
     }
     if ($ver =~ /(.*)-(.*)$/) {
-	$self->{version} = $1;
-	$self->{revision} = $2;
+        $self->{version} = $1;
+        $self->{revision} = $2;
     } else {
-	$self->{version} = $ver;
-	$self->{revision} = 0;
-	$self->{no_revision} = 1;
+        $self->{version} = $ver;
+        $self->{revision} = 0;
+        $self->{no_revision} = 1;
     }
 
     return bless $self, $class;
@@ -309,17 +309,17 @@ sub version_compare_relation {
     my $res = version_compare($a, $b);
 
     if ($op eq REL_GT) {
-	return $res > 0;
+        return $res > 0;
     } elsif ($op eq REL_GE) {
-	return $res >= 0;
+        return $res >= 0;
     } elsif ($op eq REL_EQ) {
-	return $res == 0;
+        return $res == 0;
     } elsif ($op eq REL_LE) {
-	return $res <= 0;
+        return $res <= 0;
     } elsif ($op eq REL_LT) {
-	return $res < 0;
+        return $res < 0;
     } else {
-	croak "unsupported relation for version_compare_relation(): '$op'";
+        croak "unsupported relation for version_compare_relation(): '$op'";
     }
 }
 
@@ -340,17 +340,17 @@ sub version_normalize_relation {
             $op, "$op$op", "$op=") if ($op eq '>' or $op eq '<');
 
     if ($op eq '>>' or $op eq 'gt') {
-	return REL_GT;
+        return REL_GT;
     } elsif ($op eq '>=' or $op eq 'ge' or $op eq '>') {
-	return REL_GE;
+        return REL_GE;
     } elsif ($op eq '=' or $op eq 'eq') {
-	return REL_EQ;
+        return REL_EQ;
     } elsif ($op eq '<=' or $op eq 'le' or $op eq '<') {
-	return REL_LE;
+        return REL_LE;
     } elsif ($op eq '<<' or $op eq 'lt') {
-	return REL_LT;
+        return REL_LT;
     } else {
-	croak "bad relation '$op'";
+        croak "bad relation '$op'";
     }
 }
 

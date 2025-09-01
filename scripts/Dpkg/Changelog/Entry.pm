@@ -58,12 +58,12 @@ sub new {
     my $class = ref($this) || $this;
 
     my $self = {
-	header => undef,
-	changes => [],
-	trailer => undef,
-	blank_after_header => [],
-	blank_after_changes => [],
-	blank_after_trailer => [],
+        header => undef,
+        changes => [],
+        trailer => undef,
+        blank_after_header => [],
+        blank_after_changes => [],
+        blank_after_trailer => [],
     };
     bless $self, $class;
     return $self;
@@ -126,13 +126,13 @@ sub set_part {
     my ($self, $part, $value) = @_;
     croak "invalid part of changelog entry: $part" unless exists $self->{$part};
     if (ref($self->{$part})) {
-	if (ref($value)) {
-	    $self->{$part} = $value;
-	} else {
-	    $self->{$part} = [ $value ];
-	}
+        if (ref($value)) {
+            $self->{$part} = $value;
+        } else {
+            $self->{$part} = [ $value ];
+        }
     } else {
-	$self->{$part} = $value;
+        $self->{$part} = $value;
     }
 }
 
@@ -148,11 +148,11 @@ sub extend_part {
     my ($self, $part, $value, @rest) = @_;
     croak "invalid part of changelog entry: $part" unless exists $self->{$part};
     if (ref($self->{$part})) {
-	if (ref($value)) {
-	    push @{$self->{$part}}, @$value;
-	} else {
-	    push @{$self->{$part}}, $value;
-	}
+        if (ref($value)) {
+            push @{$self->{$part}}, @$value;
+        } else {
+            push @{$self->{$part}}, $value;
+        }
     } elsif (defined $self->{$part}) {
         if (ref($value)) {
             $self->{$part} = [ $self->{$part}, @$value ];
@@ -175,7 +175,7 @@ parts.
 sub is_empty {
     my $self = shift;
     return !(defined($self->{header}) || defined($self->{trailer}) ||
-	     scalar(@{$self->{changes}}));
+             scalar(@{$self->{changes}}));
 }
 
 =item $entry->normalize()
@@ -188,22 +188,22 @@ empty line to separate each part.
 sub normalize {
     my $self = shift;
     if (defined($self->{header})) {
-	$self->{header} =~ s/\s+$//g;
+        $self->{header} =~ s/\s+$//g;
         $self->{blank_after_header} = [ '' ];
     } else {
-	$self->{blank_after_header} = [];
+        $self->{blank_after_header} = [];
     }
     if (scalar(@{$self->{changes}})) {
-	s/\s+$//g foreach @{$self->{changes}};
+        s/\s+$//g foreach @{$self->{changes}};
         $self->{blank_after_changes} = [ '' ];
     } else {
-	$self->{blank_after_changes} = [];
+        $self->{blank_after_changes} = [];
     }
     if (defined($self->{trailer})) {
-	$self->{trailer} =~ s/\s+$//g;
+        $self->{trailer} =~ s/\s+$//g;
         $self->{blank_after_trailer} = [ '' ];
     } else {
-	$self->{blank_after_trailer} = [];
+        $self->{blank_after_trailer} = [];
     }
 }
 

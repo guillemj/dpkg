@@ -207,7 +207,7 @@ sub parse {
         # In the common case there will be just a trailing \n character,
         # so using chomp here which is very fast will avoid the latter
         # s/// doing anything, which gives us a significant speed up.
-	chomp;
+        chomp;
         my $armor = $_;
         s/\s+$//;
 
@@ -215,18 +215,18 @@ sub parse {
 
         my $lead = substr $_, 0, 1;
         next if $lead eq '#';
-	$paraborder = 0;
+        $paraborder = 0;
 
         my ($name, $value) = split /\s*:\s*/, $_, 2;
         if (defined $name and $name =~ m/^\S+?$/) {
-	    $parabody = 1;
+            $parabody = 1;
             if ($lead eq '-') {
-		$self->parse_error($desc, g_('field cannot start with a hyphen'));
-	    }
-	    if (exists $self->{$name}) {
-		unless ($$self->{allow_duplicate}) {
-		    $self->parse_error($desc, g_('duplicate field %s found'), $name);
-		}
+                $self->parse_error($desc, g_('field cannot start with a hyphen'));
+            }
+            if (exists $self->{$name}) {
+                unless ($$self->{allow_duplicate}) {
+                    $self->parse_error($desc, g_('duplicate field %s found'), $name);
+                }
                 if ($$self->{keep_duplicate}) {
                     if (ref $self->{$name} ne 'ARRAY') {
                         # Switch value into an array.
@@ -242,42 +242,42 @@ sub parse {
             } else {
                 $self->{$name} = $value;
             }
-	    $cf = $name;
-	} elsif (m/^\s(\s*\S.*)$/) {
-	    my $line = $1;
-	    unless (defined($cf)) {
-		$self->parse_error($desc, g_('continued value line not in field'));
+            $cf = $name;
+        } elsif (m/^\s(\s*\S.*)$/) {
+            my $line = $1;
+            unless (defined($cf)) {
+                $self->parse_error($desc, g_('continued value line not in field'));
             }
-	    if ($line =~ /^\.+$/) {
-		$line = substr $line, 1;
-	    }
-	    $self->{$cf} .= "\n$line";
+            if ($line =~ /^\.+$/) {
+                $line = substr $line, 1;
+            }
+            $self->{$cf} .= "\n$line";
         } elsif (length == 0 ||
                  ($expect_pgp_sig && $armor =~ m/^-----BEGIN PGP SIGNATURE-----[\r\t ]*$/)) {
-	    if ($expect_pgp_sig) {
-		# Skip empty lines
-		$_ = <$fh> while defined && m/^\s*$/;
-		unless (length) {
-		    $self->parse_error($desc, g_('expected OpenPGP signature, ' .
-		                                 'found end of file after blank line'));
-		}
-		chomp;
-		unless (m/^-----BEGIN PGP SIGNATURE-----[\r\t ]*$/) {
-		    $self->parse_error($desc, g_('expected OpenPGP signature, ' .
-		                                 "found something else '%s'"), $_);
+            if ($expect_pgp_sig) {
+                # Skip empty lines
+                $_ = <$fh> while defined && m/^\s*$/;
+                unless (length) {
+                    $self->parse_error($desc, g_('expected OpenPGP signature, ' .
+                                                 'found end of file after blank line'));
                 }
-		# Skip OpenPGP signature
-		while (<$fh>) {
-		    chomp;
-		    last if m/^-----END PGP SIGNATURE-----[\r\t ]*$/;
-		}
-		unless (defined) {
-		    $self->parse_error($desc, g_('unfinished OpenPGP signature'));
+                chomp;
+                unless (m/^-----BEGIN PGP SIGNATURE-----[\r\t ]*$/) {
+                    $self->parse_error($desc, g_('expected OpenPGP signature, ' .
+                                                 "found something else '%s'"), $_);
                 }
-		# This does not mean the signature is correct, that needs to
-		# be verified by an OpenPGP backend.
-		$$self->{is_pgp_signed} = 1;
-	    }
+                # Skip OpenPGP signature
+                while (<$fh>) {
+                    chomp;
+                    last if m/^-----END PGP SIGNATURE-----[\r\t ]*$/;
+                }
+                unless (defined) {
+                    $self->parse_error($desc, g_('unfinished OpenPGP signature'));
+                }
+                # This does not mean the signature is correct, that needs to
+                # be verified by an OpenPGP backend.
+                $$self->{is_pgp_signed} = 1;
+            }
             # Finished parsing one stanza.
             last;
         } elsif ($armor =~ m/^-----BEGIN PGP SIGNED MESSAGE-----[\r\t ]*$/) {
@@ -290,14 +290,14 @@ sub parse {
             } else {
                 $self->parse_error($desc, g_('OpenPGP signature not allowed here'));
             }
-	} else {
-	    $self->parse_error($desc,
-	                       g_('line with unknown format (not field-colon-value)'));
-	}
+        } else {
+            $self->parse_error($desc,
+                               g_('line with unknown format (not field-colon-value)'));
+        }
     }
 
     if ($expect_pgp_sig and not $$self->{is_pgp_signed}) {
-	$self->parse_error($desc, g_('unfinished OpenPGP signature'));
+        $self->parse_error($desc, g_('unfinished OpenPGP signature'));
     }
 
     return defined($cf);
@@ -376,31 +376,31 @@ sub output {
     }
 
     foreach my $key (@keys) {
-	if (exists $self->{$key}) {
-	    my $value = $self->{$key};
+        if (exists $self->{$key}) {
+            my $value = $self->{$key};
             # Skip whitespace-only fields
             next if $$self->{drop_empty} and $value !~ m/\S/;
-	    # Escape data to follow control file syntax
-	    my ($first_line, @lines) = split /\n/, $value;
+            # Escape data to follow control file syntax
+            my ($first_line, @lines) = split /\n/, $value;
 
-	    my $kv = "$key:";
-	    $kv .= ' ' . $first_line if length $first_line;
-	    $kv .= "\n";
-	    foreach (@lines) {
-		s/\s+$//;
-		if (length == 0 or /^\.+$/) {
-		    $kv .= " .$_\n";
-		} else {
-		    $kv .= " $_\n";
-		}
-	    }
-	    # Print it out
-            if ($fh) {
-	        print { $fh } $kv
-	            or syserr(g_('write error on control data'));
+            my $kv = "$key:";
+            $kv .= ' ' . $first_line if length $first_line;
+            $kv .= "\n";
+            foreach (@lines) {
+                s/\s+$//;
+                if (length == 0 or /^\.+$/) {
+                    $kv .= " .$_\n";
+                } else {
+                    $kv .= " $_\n";
+                }
             }
-	    $str .= $kv if defined wantarray;
-	}
+            # Print it out
+            if ($fh) {
+                print { $fh } $kv
+                    or syserr(g_('write error on control data'));
+            }
+            $str .= $kv if defined wantarray;
+        }
     }
     return $str;
 }
@@ -436,26 +436,26 @@ sub apply_substvars {
 
     foreach my $f (keys %$self) {
         my $v = $substvars->substvars($self->{$f}, %opts);
-	if ($v ne $self->{$f}) {
-	    my $sep;
+        if ($v ne $self->{$f}) {
+            my $sep;
 
-	    $sep = field_get_sep_type($f);
+            $sep = field_get_sep_type($f);
 
-	    # If we replaced stuff, ensure we're not breaking
-	    # a dependency field by introducing empty lines, or multiple
-	    # commas
+            # If we replaced stuff, ensure we're not breaking
+            # a dependency field by introducing empty lines, or multiple
+            # commas
 
-	    if ($sep & (FIELD_SEP_COMMA | FIELD_SEP_LINE)) {
-	        # Drop empty/whitespace-only lines
-	        $v =~ s/\n[ \t]*(\n|$)/$1/;
-	    }
+            if ($sep & (FIELD_SEP_COMMA | FIELD_SEP_LINE)) {
+                # Drop empty/whitespace-only lines
+                $v =~ s/\n[ \t]*(\n|$)/$1/;
+            }
 
-	    if ($sep & FIELD_SEP_COMMA) {
-	        $v =~ s/,[\s,]*,/,/g;
-	        $v =~ s/^\s*,\s*//;
-	        $v =~ s/\s*,\s*$//;
-	    }
-	}
+            if ($sep & FIELD_SEP_COMMA) {
+                $v =~ s/,[\s,]*,/,/g;
+                $v =~ s/^\s*,\s*//;
+                $v =~ s/\s*,\s*$//;
+            }
+        }
         # Replace ${} with $, which is otherwise an invalid substitution, but
         # this then makes it possible to use ${} as an escape sequence such
         # as ${}{VARIABLE}.

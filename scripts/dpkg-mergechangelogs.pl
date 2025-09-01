@@ -125,11 +125,11 @@ while (1) {
     next if merge_block($o, $a, $b);
     # We only have the usually conflicting cases left
     if (defined $a and defined $b) {
-	# Same entry, merge sub-items separately for a nicer result
-	merge_entries($o, $a, $b);
+        # Same entry, merge sub-items separately for a nicer result
+        merge_entries($o, $a, $b);
     } else {
-	# Non-existing on one side, changed on the other side
-	merge_conflict($a, $b);
+        # Non-existing on one side, changed on the other side
+        merge_conflict($a, $b);
     }
 }
 
@@ -152,21 +152,21 @@ sub get_items_to_merge {
     my @arrays = (\@o, \@a, \@b);
     my $minitem;
     foreach my $i (0 .. 2) {
-	if (defined $minitem and defined $items[$i]) {
-	    my $cmp = compare_versions($minitem, $items[$i]);
-	    if ($cmp > 0) {
-		$minitem = $items[$i];
-		foreach my $j (0 .. $i - 1) {
-		    unshift @{$arrays[$j]}, $items[$j];
-		    $items[$j] = undef;
-		}
-	    } elsif ($cmp < 0) {
-		unshift @{$arrays[$i]}, $items[$i];
-		$items[$i] = undef;
-	    }
-	} else {
-	    $minitem = $items[$i] if defined $items[$i];
-	}
+        if (defined $minitem and defined $items[$i]) {
+            my $cmp = compare_versions($minitem, $items[$i]);
+            if ($cmp > 0) {
+                $minitem = $items[$i];
+                foreach my $j (0 .. $i - 1) {
+                    unshift @{$arrays[$j]}, $items[$j];
+                    $items[$j] = undef;
+                }
+            } elsif ($cmp < 0) {
+                unshift @{$arrays[$i]}, $items[$i];
+                $items[$i] = undef;
+            }
+        } else {
+            $minitem = $items[$i] if defined $items[$i];
+        }
     }
     return @items;
 }
@@ -212,15 +212,15 @@ sub merge_entries {
 
     # Merge the trailer line
     unless (merge_entry_item('blank_after_trailer', $o, $a, $b)) {
-	unshift @result, '';
+        unshift @result, '';
     }
     unless (merge_entry_item('trailer', $o, $a, $b)) {
-	merge_conflict($a->get_part('trailer'), $b->get_part('trailer'));
+        merge_conflict($a->get_part('trailer'), $b->get_part('trailer'));
     }
 
     # Merge the changes
     unless (merge_entry_item('blank_after_changes', $o, $a, $b)) {
-	unshift @result, '';
+        unshift @result, '';
     }
     my @merged = merge(
         defined $o ? $o->get_part('changes') : [],
@@ -238,10 +238,10 @@ sub merge_entries {
 
     # Merge the header line
     unless (merge_entry_item('blank_after_header', $o, $a, $b)) {
-	unshift @result, '';
+        unshift @result, '';
     }
     unless (merge_entry_item('header', $o, $a, $b)) {
-	merge_conflict($a->get_part('header'), $b->get_part('header'));
+        merge_conflict($a->get_part('header'), $b->get_part('header'));
     }
 }
 
@@ -266,15 +266,15 @@ sub merge_block {
     $b = $preprocess->($b) if defined $b;
     return 1 if not defined($a) and not defined($b);
     if (defined($a) and defined($b) and ($a eq $b)) {
-	unshift @result, $a;
+        unshift @result, $a;
     } elsif ((defined($a) and defined($o) and ($a eq $o)) or
-	     (not defined($a) and not defined($o))) {
-	unshift @result, $b if defined $b;
+             (not defined($a) and not defined($o))) {
+        unshift @result, $b if defined $b;
     } elsif ((defined($b) and defined($o) and ($b eq $o)) or
-	     (not defined($b) and not defined($o))) {
-	unshift @result, $a if defined $a;
+             (not defined($b) and not defined($o))) {
+        unshift @result, $a if defined $a;
     } else {
-	return 0;
+        return 0;
     }
     return 1;
 }
@@ -282,19 +282,19 @@ sub merge_block {
 sub merge_entry_item {
     my ($item, $o, $a, $b) = @_;
     if (blessed($o) and $o->isa('Dpkg::Changelog::Entry')) {
-	$o = $o->get_part($item);
+        $o = $o->get_part($item);
     } elsif (ref $o) {
-	$o = $o->{$item};
+        $o = $o->{$item};
     }
     if (blessed($a) and $a->isa('Dpkg::Changelog::Entry')) {
-	$a = $a->get_part($item);
+        $a = $a->get_part($item);
     } elsif (ref $a) {
-	$a = $a->{$item};
+        $a = $a->{$item};
     }
     if (blessed($b) and $b->isa('Dpkg::Changelog::Entry')) {
-	$b = $b->get_part($item);
+        $b = $b->get_part($item);
     } elsif (ref $b) {
-	$b = $b->{$item};
+        $b = $b->{$item};
     }
     return merge_block($o, $a, $b);
 }

@@ -47,7 +47,7 @@ sub new {
 
     $self->reset;
     if ($file) {
-	$self->analyze($file);
+        $self->analyze($file);
     }
 
     return $self;
@@ -110,76 +110,76 @@ sub parse_objdump_output {
 
     my $section = 'none';
     while (<$fh>) {
-	s/\s*$//;
-	next if length == 0;
+        s/\s*$//;
+        next if length == 0;
 
-	if (/^DYNAMIC SYMBOL TABLE:/) {
-	    $section = 'dynsym';
-	    next;
-	} elsif (/^DYNAMIC RELOCATION RECORDS/) {
-	    $section = 'dynreloc';
-	    $_ = <$fh>; # Skip header
-	    next;
-	} elsif (/^Dynamic Section:/) {
-	    $section = 'dyninfo';
-	    next;
-	} elsif (/^Program Header:/) {
-	    $section = 'program';
-	    next;
-	} elsif (/^Version definitions:/) {
-	    $section = 'verdef';
-	    next;
-	} elsif (/^Version References:/) {
-	    $section = 'verref';
-	    next;
-	}
+        if (/^DYNAMIC SYMBOL TABLE:/) {
+            $section = 'dynsym';
+            next;
+        } elsif (/^DYNAMIC RELOCATION RECORDS/) {
+            $section = 'dynreloc';
+            $_ = <$fh>; # Skip header
+            next;
+        } elsif (/^Dynamic Section:/) {
+            $section = 'dyninfo';
+            next;
+        } elsif (/^Program Header:/) {
+            $section = 'program';
+            next;
+        } elsif (/^Version definitions:/) {
+            $section = 'verdef';
+            next;
+        } elsif (/^Version References:/) {
+            $section = 'verref';
+            next;
+        }
 
-	if ($section eq 'dynsym') {
-	    $self->parse_dynamic_symbol($_);
-	} elsif ($section eq 'dynreloc') {
-	    if (/^\S+\s+(\S+)\s+(.+)$/) {
-		$self->{dynrelocs}{$2} = $1;
-	    } else {
-		warning(g_("couldn't parse dynamic relocation record: %s"), $_);
-	    }
-	} elsif ($section eq 'dyninfo') {
-	    if (/^\s*NEEDED\s+(\S+)/) {
-		push @{$self->{NEEDED}}, $1;
-	    } elsif (/^\s*SONAME\s+(\S+)/) {
-		$self->{SONAME} = $1;
-	    } elsif (/^\s*HASH\s+(\S+)/) {
-		$self->{HASH} = $1;
-	    } elsif (/^\s*GNU_HASH\s+(\S+)/) {
-		$self->{GNU_HASH} = $1;
-	    } elsif (/^\s*RUNPATH\s+(\S+)/) {
+        if ($section eq 'dynsym') {
+            $self->parse_dynamic_symbol($_);
+        } elsif ($section eq 'dynreloc') {
+            if (/^\S+\s+(\S+)\s+(.+)$/) {
+                $self->{dynrelocs}{$2} = $1;
+            } else {
+                warning(g_("couldn't parse dynamic relocation record: %s"), $_);
+            }
+        } elsif ($section eq 'dyninfo') {
+            if (/^\s*NEEDED\s+(\S+)/) {
+                push @{$self->{NEEDED}}, $1;
+            } elsif (/^\s*SONAME\s+(\S+)/) {
+                $self->{SONAME} = $1;
+            } elsif (/^\s*HASH\s+(\S+)/) {
+                $self->{HASH} = $1;
+            } elsif (/^\s*GNU_HASH\s+(\S+)/) {
+                $self->{GNU_HASH} = $1;
+            } elsif (/^\s*RUNPATH\s+(\S+)/) {
                 # RUNPATH takes precedence over RPATH but is
                 # considered after LD_LIBRARY_PATH while RPATH
                 # is considered before (if RUNPATH is not set).
                 my $runpath = $1;
                 $self->{RPATH} = [ split /:/, $runpath ];
-	    } elsif (/^\s*RPATH\s+(\S+)/) {
+            } elsif (/^\s*RPATH\s+(\S+)/) {
                 my $rpath = $1;
                 unless (scalar(@{$self->{RPATH}})) {
                     $self->{RPATH} = [ split /:/, $rpath ];
                 }
-	    }
+            }
         } elsif ($section eq 'program') {
             if (/^\s*INTERP\s+/) {
                 $self->{INTERP} = 1;
             }
-	} elsif ($section eq 'none') {
-	    if (/^\s*.+:\s*file\s+format\s+(\S+)$/) {
-		$self->{format} = $1;
-	    } elsif (/^architecture:\s*\S+,\s*flags\s*\S+:$/) {
-		# Parse 2 lines of "-f"
-		# architecture: i386, flags 0x00000112:
-		# EXEC_P, HAS_SYMS, D_PAGED
-		# start address 0x08049b50
-		$_ = <$fh>;
-		chomp;
-		$self->{flags}{$_} = 1 foreach (split(/,\s*/));
-	    }
-	}
+        } elsif ($section eq 'none') {
+            if (/^\s*.+:\s*file\s+format\s+(\S+)$/) {
+                $self->{format} = $1;
+            } elsif (/^architecture:\s*\S+,\s*flags\s*\S+:$/) {
+                # Parse 2 lines of "-f"
+                # architecture: i386, flags 0x00000112:
+                # EXEC_P, HAS_SYMS, D_PAGED
+                # start address 0x08049b50
+                $_ = <$fh>;
+                chomp;
+                $self->{flags}{$_} = 1 foreach (split(/,\s*/));
+            }
+        }
     }
     # Update status of dynamic symbols given the relocations that have
     # been parsed after the symbols...
@@ -231,58 +231,58 @@ my $dynsym_regex = qr<
 sub parse_dynamic_symbol {
     my ($self, $line) = @_;
     if ($line =~ $dynsym_regex) {
-	my ($flags, $sect, $ver, $vis, $name) = ($1, $2, $3, $4, $5);
+        my ($flags, $sect, $ver, $vis, $name) = ($1, $2, $3, $4, $5);
 
-	# Special case if version is missing but extra visibility
-	# attribute replaces it in the match
+        # Special case if version is missing but extra visibility
+        # attribute replaces it in the match
         if (defined($ver) and $ver =~ /^$vis_regex$/) {
-	    $vis = $ver;
-	    $ver = '';
-	}
+            $vis = $ver;
+            $ver = '';
+        }
 
-	# Cleanup visibility field
-	$vis =~ s/^\.// if defined($vis);
+        # Cleanup visibility field
+        $vis =~ s/^\.// if defined($vis);
 
-	my $symbol = {
-		name => $name,
-		version => $ver // '',
-		section => $sect,
-		dynamic => substr($flags, 5, 1) eq 'D',
-		debug => substr($flags, 5, 1) eq 'd',
-		type => substr($flags, 6, 1),
-		weak => substr($flags, 1, 1) eq 'w',
-		local => substr($flags, 0, 1) eq 'l',
-		global => substr($flags, 0, 1) eq 'g',
-		visibility => $vis // '',
-		hidden => '',
-		defined => $sect ne '*UND*'
-	    };
+        my $symbol = {
+                name => $name,
+                version => $ver // '',
+                section => $sect,
+                dynamic => substr($flags, 5, 1) eq 'D',
+                debug => substr($flags, 5, 1) eq 'd',
+                type => substr($flags, 6, 1),
+                weak => substr($flags, 1, 1) eq 'w',
+                local => substr($flags, 0, 1) eq 'l',
+                global => substr($flags, 0, 1) eq 'g',
+                visibility => $vis // '',
+                hidden => '',
+                defined => $sect ne '*UND*'
+            };
 
-	# Handle hidden symbols
-	if (defined($ver) and $ver =~ /^\((.*)\)$/) {
-	    $ver = $1;
-	    $symbol->{version} = $1;
-	    $symbol->{hidden} = 1;
-	}
+        # Handle hidden symbols
+        if (defined($ver) and $ver =~ /^\((.*)\)$/) {
+            $ver = $1;
+            $symbol->{version} = $1;
+            $symbol->{hidden} = 1;
+        }
 
-	# Register symbol
-	$self->add_dynamic_symbol($symbol);
+        # Register symbol
+        $self->add_dynamic_symbol($symbol);
     } elsif ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+/) {
-	# Same start but no version and no symbol ... just ignore
+        # Same start but no version and no symbol ... just ignore
     } elsif ($line =~ /^REG_G\d+\s+/) {
-	# Ignore some s390-specific output like
-	# REG_G6           g     R *UND*      0000000000000000              #scratch
+        # Ignore some s390-specific output like
+        # REG_G6           g     R *UND*      0000000000000000              #scratch
     } else {
-	warning(g_("couldn't parse dynamic symbol definition: %s"), $line);
+        warning(g_("couldn't parse dynamic symbol definition: %s"), $line);
     }
 }
 
 sub apply_relocations {
     my $self = shift;
     foreach my $sym (values %{$self->{dynsyms}}) {
-	# We want to mark as undefined symbols those which are currently
-	# defined but that depend on a copy relocation
-	next if not $sym->{defined};
+        # We want to mark as undefined symbols those which are currently
+        # defined but that depend on a copy relocation
+        next if not $sym->{defined};
 
         my @relocs;
 
@@ -299,9 +299,9 @@ sub apply_relocations {
             next if not exists $self->{dynrelocs}{$reloc};
             next if not $self->{dynrelocs}{$reloc} =~ /^R_.*_COPY$/;
 
-	    $sym->{defined} = 0;
+            $sym->{defined} = 0;
             last;
-	}
+        }
     }
 }
 
@@ -310,9 +310,9 @@ sub add_dynamic_symbol {
     $symbol->{objid} = $symbol->{soname} = $self->get_id();
     $symbol->{soname} =~ s{^.*/}{} unless $self->{SONAME};
     if ($symbol->{version}) {
-	$self->{dynsyms}{$symbol->{name} . '@' . $symbol->{version}} = $symbol;
+        $self->{dynsyms}{$symbol->{name} . '@' . $symbol->{version}} = $symbol;
     } else {
-	$self->{dynsyms}{$symbol->{name} . '@Base'} = $symbol;
+        $self->{dynsyms}{$symbol->{name} . '@Base'} = $symbol;
     }
 }
 
@@ -324,7 +324,7 @@ sub get_id {
 sub get_symbol {
     my ($self, $name) = @_;
     if (exists $self->{dynsyms}{$name}) {
-	return $self->{dynsyms}{$name};
+        return $self->{dynsyms}{$name};
     }
     if ($name !~ /@/) {
         if (exists $self->{dynsyms}{$name . '@Base'}) {
@@ -362,7 +362,7 @@ sub is_executable {
 sub is_public_library {
     my $self = shift;
     return exists $self->{flags}{DYNAMIC} && $self->{flags}{DYNAMIC}
-	&& exists $self->{SONAME} && $self->{SONAME};
+        && exists $self->{SONAME} && $self->{SONAME};
 }
 
 =head1 CHANGES

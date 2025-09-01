@@ -103,7 +103,7 @@ END
 
 for my $try (1 .. 7) {
     for my $i (0 .. $#mangledtext) {
-	my $demangled = cppfilt_demangle_cpp($mangledtext[$i]) || $mangledtext[$i];
-	is($demangled, $demangledtext[$i], "mass c++ demangling (${try}x" . (${i} + 1) . ')');
+        my $demangled = cppfilt_demangle_cpp($mangledtext[$i]) || $mangledtext[$i];
+        is($demangled, $demangledtext[$i], "mass c++ demangling (${try}x" . (${i} + 1) . ')');
     }
 }

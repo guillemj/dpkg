@@ -59,40 +59,40 @@ my $main_link = "$bindir/generic-test";
 my $main_name = 'generic-test';
 my @choices = (
     {
-	path => $paths{true},
-	priority => 20,
-	slaves => [
-	    {
-		link => "$bindir/slave2",
-		name => 'slave2',
-		path => $paths{cat},
-	    },
-	    {
-		link => "$bindir/slave3",
-		name => 'slave3',
-		path => $paths{cat},
-	    },
-	    {
-		link => "$bindir/slave1",
-		name => 'slave1',
-		path => $paths{yes},
-	    },
-	    {
-		link => "$bindir/slave4",
-		name => 'slave4',
-		path => $paths{cat},
-	    },
-	],
+        path => $paths{true},
+        priority => 20,
+        slaves => [
+            {
+                link => "$bindir/slave2",
+                name => 'slave2',
+                path => $paths{cat},
+            },
+            {
+                link => "$bindir/slave3",
+                name => 'slave3',
+                path => $paths{cat},
+            },
+            {
+                link => "$bindir/slave1",
+                name => 'slave1',
+                path => $paths{yes},
+            },
+            {
+                link => "$bindir/slave4",
+                name => 'slave4',
+                path => $paths{cat},
+            },
+        ],
     },
     {
         path => $paths{false},
         priority => 10,
         slaves => [
-	    {
-		link => "$bindir/slave1",
-		name => 'slave1',
-		path => $paths{date},
-	    },
+            {
+                link => "$bindir/slave1",
+                name => 'slave1',
+                path => $paths{date},
+            },
         ],
     },
     {
@@ -132,11 +132,11 @@ sub call_ua {
     my $test_id = '';
     $test_id = "$opts{test_id}: " if defined $opts{test_id};
     if ($opts{expect_failure}) {
-	ok($? != 0, "${test_id}update-alternatives @$params should fail.") or
-	    diag("Did not fail as expected: @ua @$params");
+        ok($? != 0, "${test_id}update-alternatives @$params should fail.") or
+            diag("Did not fail as expected: @ua @$params");
     } else {
-	ok($? == 0, "${test_id}update-alternatives @$params should work.") or
-	    diag("Did not succeed as expected: @ua @$params");
+        ok($? == 0, "${test_id}update-alternatives @$params should work.") or
+            diag("Did not succeed as expected: @ua @$params");
     }
 }
 
@@ -169,9 +169,9 @@ sub install_choice {
     my @params;
     push @params, @{$opts{params}} if exists $opts{params};
     push @params, '--install', "$main_link", "$main_name",
-		  $alt->{path}, $alt->{priority};
+                  $alt->{path}, $alt->{priority};
     foreach my $slave (@{ $alt->{slaves} }) {
-	push @params, '--slave', $slave->{link}, $slave->{name}, $slave->{path};
+        push @params, '--slave', $slave->{link}, $slave->{name}, $slave->{path};
     }
     call_ua(\@params, %opts);
 }
@@ -206,10 +206,10 @@ sub config_choice {
     my ($id, %opts) = @_;
     my ($input, $output) = ('', '');
     if ($id >= 0) {
-	my $alt = $choices[$id];
-	$input = $alt->{path};
+        my $alt = $choices[$id];
+        $input = $alt->{path};
     } else {
-	$input = '0';
+        $input = '0';
     }
     $input .= "\n";
     $opts{from_string} = \$input;
@@ -225,20 +225,20 @@ sub get_slaves_status {
     my %slaves;
     # None of the slaves are installed
     foreach my $alt (@choices) {
-	for my $i (0 .. @{$alt->{slaves}} - 1) {
-	    $slaves{$alt->{slaves}[$i]{name}} = $alt->{slaves}[$i];
-	    $slaves{$alt->{slaves}[$i]{name}}{installed} = 0;
-	}
+        for my $i (0 .. @{$alt->{slaves}} - 1) {
+            $slaves{$alt->{slaves}[$i]{name}} = $alt->{slaves}[$i];
+            $slaves{$alt->{slaves}[$i]{name}}{installed} = 0;
+        }
     }
     # except those of the current alternative (minus optional slaves)
     if (defined($id)) {
-	my $alt = $choices[$id];
-	for my $i (0 .. @{$alt->{slaves}} - 1) {
-	    $slaves{$alt->{slaves}[$i]{name}} = $alt->{slaves}[$i];
-	    if (-e $alt->{slaves}[$i]{path}) {
-		$slaves{$alt->{slaves}[$i]{name}}{installed} = 1;
-	    }
-	}
+        my $alt = $choices[$id];
+        for my $i (0 .. @{$alt->{slaves}} - 1) {
+            $slaves{$alt->{slaves}[$i]{name}} = $alt->{slaves}[$i];
+            if (-e $alt->{slaves}[$i]{path}) {
+                $slaves{$alt->{slaves}[$i]{name}}{installed} = 1;
+            }
+        }
     }
     my @slaves = sort { $a->{name} cmp $b->{name} } values %slaves;
 
@@ -260,13 +260,13 @@ sub check_no_link {
 sub check_slaves {
     my ($id, $msg) = @_;
     foreach my $slave (get_slaves_status($id)) {
-	if ($slave->{installed}) {
-	    check_link("$altdir/$slave->{name}", $slave->{path}, $msg);
-	    check_link($slave->{link}, "$altdir/$slave->{name}", $msg);
-	} else {
-	    check_no_link("$altdir/$slave->{name}", $msg);
-	    check_no_link($slave->{link}, $msg);
-	}
+        if ($slave->{installed}) {
+            check_link("$altdir/$slave->{name}", $slave->{path}, $msg);
+            check_link($slave->{link}, "$altdir/$slave->{name}", $msg);
+        } else {
+            check_no_link("$altdir/$slave->{name}", $msg);
+            check_no_link($slave->{link}, $msg);
+        }
     }
 }
 
@@ -274,7 +274,7 @@ sub check_choice {
     my ($id, $mode, $msg) = @_;
     my $output;
     if (defined $id) {
-	# Check status
+        # Check status
         call_ua(
             [
                 '--query', "$main_name",
@@ -287,11 +287,11 @@ sub check_choice {
             $status = $1;
         }
         is($status, $mode, "$msg: status is not $mode.");
-	# Check links
-	my $alt = $choices[$id];
-	check_link("$altdir/$main_name", $alt->{path}, $msg);
-	check_link($main_link, "$altdir/$main_name", $msg);
-	check_slaves($id, $msg);
+        # Check links
+        my $alt = $choices[$id];
+        check_link("$altdir/$main_name", $alt->{path}, $msg);
+        check_link($main_link, "$altdir/$main_name", $msg);
+        check_slaves($id, $msg);
     } else {
         call_ua(
             [
@@ -301,11 +301,11 @@ sub check_choice {
             expect_failure => 1,
             test_id => $msg,
         );
-	ok($output =~ /no alternatives/, "$msg: bad error message for --query.");
-	# Check that all links have disappeared
-	check_no_link("$altdir/$main_name", $msg);
-	check_no_link($main_link, $msg);
-	check_slaves(undef, $msg);
+        ok($output =~ /no alternatives/, "$msg: bad error message for --query.");
+        # Check that all links have disappeared
+        check_no_link("$altdir/$main_name", $msg);
+        check_no_link($main_link, $msg);
+        check_slaves(undef, $msg);
     }
 }
 

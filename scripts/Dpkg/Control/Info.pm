@@ -67,8 +67,8 @@ sub new {
     my ($this, @args) = @_;
     my $class = ref($this) || $this;
     my $self = {
-	source => undef,
-	packages => [],
+        source => undef,
+        packages => [],
     };
     bless $self, $class;
 
@@ -118,17 +118,17 @@ sub parse {
                             'Source');
     }
     while (1) {
-	$cdata = Dpkg::Control->new(type => CTRL_TMPL_PKG);
+        $cdata = Dpkg::Control->new(type => CTRL_TMPL_PKG);
         last if not $cdata->parse($fh, $desc);
-	push @{$self->{packages}}, $cdata;
-	unless (exists $cdata->{Package}) {
-	    $cdata->parse_error($desc, g_("stanza lacks the '%s' field"),
-	                        'Package');
-	}
-	unless (exists $cdata->{Architecture}) {
-	    $cdata->parse_error($desc, g_("stanza lacks the '%s' field"),
-	                        'Architecture');
-	}
+        push @{$self->{packages}}, $cdata;
+        unless (exists $cdata->{Package}) {
+            $cdata->parse_error($desc, g_("stanza lacks the '%s' field"),
+                                'Package');
+        }
+        unless (exists $cdata->{Architecture}) {
+            $cdata->parse_error($desc, g_("stanza lacks the '%s' field"),
+                                'Architecture');
+        }
     }
 }
 
@@ -173,7 +173,7 @@ package named $name.
 sub get_pkg_by_name {
     my ($self, $name) = @_;
     foreach my $pkg (@{$self->{packages}}) {
-	return $pkg if ($pkg->{Package} eq $name);
+        return $pkg if ($pkg->{Package} eq $name);
     }
     return;
 }
@@ -202,8 +202,8 @@ sub output {
     my $str;
     $str .= $self->{source}->output($fh);
     foreach my $pkg (@{$self->{packages}}) {
-	print { $fh } "\n" if defined $fh;
-	$str .= "\n" . $pkg->output($fh);
+        print { $fh } "\n" if defined $fh;
+        $str .= "\n" . $pkg->output($fh);
     }
     return $str;
 }

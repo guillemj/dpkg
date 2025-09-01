@@ -71,7 +71,7 @@ while (@ARGV) {
             if defined($action);
         $action = $1;
         $param = shift(@ARGV);
-	usageerr(g_('%s needs a parameter'), $_) unless defined $param;
+        usageerr(g_('%s needs a parameter'), $_) unless defined $param;
     } elsif (m/^--export(?:=(sh|make|cmdline|configure))?$/) {
         usageerr(g_('two commands specified: --%s and --%s'), 'export', $action)
             if defined($action);
@@ -103,7 +103,7 @@ $build_flags->load_config() if $load_config;
 
 if ($action eq 'list') {
     foreach my $flag ($build_flags->list()) {
-	print "$flag\n";
+        print "$flag\n";
     }
 } elsif ($action eq 'get') {
     exit 1 unless $build_flags->has($param);
@@ -128,22 +128,22 @@ if ($action eq 'list') {
 } elsif ($action =~ m/^export-(.*)$/) {
     my $export_type = $1;
     foreach my $flag ($build_flags->list()) {
-	next unless $flag =~ /^[A-Z]/; # Skip flags starting with lowercase
-	my $value = $build_flags->get($flag);
-	if ($export_type eq 'sh') {
-	    $value =~ s/"/\"/g;
-	    print "export $flag=\"$value\"\n";
-	} elsif ($export_type eq 'make') {
-	    $value =~ s/\$/\$\$/g;
-	    print "export $flag := $value\n";
-	} elsif ($export_type eq 'cmdline') {
-	    print "$flag=\"$value\" ";
-	}
+        next unless $flag =~ /^[A-Z]/; # Skip flags starting with lowercase
+        my $value = $build_flags->get($flag);
+        if ($export_type eq 'sh') {
+            $value =~ s/"/\"/g;
+            print "export $flag=\"$value\"\n";
+        } elsif ($export_type eq 'make') {
+            $value =~ s/\$/\$\$/g;
+            print "export $flag := $value\n";
+        } elsif ($export_type eq 'cmdline') {
+            print "$flag=\"$value\" ";
+        }
     }
 } elsif ($action eq 'dump') {
     foreach my $flag ($build_flags->list()) {
-	my $value = $build_flags->get($flag);
-	print "$flag=$value\n";
+        my $value = $build_flags->get($flag);
+        print "$flag=$value\n";
     }
 } elsif ($action eq 'query') {
     # First print all environment variables that might have changed the
@@ -192,22 +192,22 @@ if ($action eq 'list') {
     # also show which ones could have set to modify it).
     my @envvars = Dpkg::BuildEnv::list_accessed();
     for my $envvar (@envvars) {
-	if (exists $ENV{$envvar}) {
-	    printf report(REPORT_STATUS, 'environment variable %s=%s',
-	           $envvar, $ENV{$envvar});
-	}
+        if (exists $ENV{$envvar}) {
+            printf report(REPORT_STATUS, 'environment variable %s=%s',
+                   $envvar, $ENV{$envvar});
+        }
     }
     my $vendor = Dpkg::Vendor::get_current_vendor() || 'undefined';
     print report(REPORT_STATUS, "vendor is $vendor");
     # Then the resulting features:
     foreach my $area (sort $build_flags->get_feature_areas()) {
-	my $fs;
-	my %features = $build_flags->get_features($area);
-	my %builtins = $build_flags->get_builtins($area);
-	foreach my $feature (sort keys %features) {
-	    $fs .= sprintf(' %s=%s', $feature, $features{$feature} // $builtins{$feature} ? 'yes' : 'no');
-	}
-	print report(REPORT_STATUS, "$area features:$fs");
+        my $fs;
+        my %features = $build_flags->get_features($area);
+        my %builtins = $build_flags->get_builtins($area);
+        foreach my $feature (sort keys %features) {
+            $fs .= sprintf(' %s=%s', $feature, $features{$feature} // $builtins{$feature} ? 'yes' : 'no');
+        }
+        print report(REPORT_STATUS, "$area features:$fs");
         my $bs = q{};
         foreach my $feature (sort keys %builtins) {
             next if ! exists $builtins{$feature};
@@ -217,9 +217,9 @@ if ($action eq 'list') {
     }
     # Then the resulting values (with their origin):
     foreach my $flag ($build_flags->list()) {
-	my $value = $build_flags->get($flag);
-	my $origin = $build_flags->get_origin($flag);
-	my $maintainer = $build_flags->is_maintainer_modified($flag) ? '+maintainer' : '';
-	print report(REPORT_STATUS, "$flag [$origin$maintainer]: $value");
+        my $value = $build_flags->get($flag);
+        my $origin = $build_flags->get_origin($flag);
+        my $maintainer = $build_flags->is_maintainer_modified($flag) ? '+maintainer' : '';
+        print report(REPORT_STATUS, "$flag [$origin$maintainer]: $value");
     }
 }

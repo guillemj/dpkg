@@ -71,21 +71,21 @@ sub parse_ldso_conf {
     open my $fh, '<', $file or syserr(g_('cannot open %s'), $file);
     $visited{$file}++;
     while (<$fh>) {
-	next if /^\s*$/;
-	chomp;
-	s{/+$}{};
-	if (/^include\s+(\S.*\S)\s*$/) {
-	    foreach my $include (glob($1)) {
-		parse_ldso_conf($include) if -e $include
-		    && !$visited{$include};
-	    }
-	} elsif (m{^\s*/}) {
-	    s/^\s+//;
-	    my $libdir = $_;
-	    if (none { $_ eq $libdir } (@custom_librarypaths, @system_librarypaths)) {
-		push @system_librarypaths, $libdir;
-	    }
-	}
+        next if /^\s*$/;
+        chomp;
+        s{/+$}{};
+        if (/^include\s+(\S.*\S)\s*$/) {
+            foreach my $include (glob($1)) {
+                parse_ldso_conf($include) if -e $include
+                    && !$visited{$include};
+            }
+        } elsif (m{^\s*/}) {
+            s/^\s+//;
+            my $libdir = $_;
+            if (none { $_ eq $libdir } (@custom_librarypaths, @system_librarypaths)) {
+                push @system_librarypaths, $libdir;
+            }
+        }
     }
     close $fh;
 }
@@ -175,18 +175,18 @@ sub find_library {
     $root //= '';
     $root =~ s{/+$}{};
     foreach my $dir (@librarypaths) {
-	my $checkdir = "$root$dir";
-	if (-e "$checkdir/$lib") {
-	    my $libformat = Dpkg::Shlibs::Objdump::get_format("$checkdir/$lib");
+        my $checkdir = "$root$dir";
+        if (-e "$checkdir/$lib") {
+            my $libformat = Dpkg::Shlibs::Objdump::get_format("$checkdir/$lib");
             if (not defined $libformat) {
                 warning(g_("unknown executable format in file '%s'"), "$checkdir/$lib");
             } elsif ($format eq $libformat) {
-		push @libs, canonpath("$checkdir/$lib");
-	    } else {
+                push @libs, canonpath("$checkdir/$lib");
+            } else {
                 debug(1, "Skipping lib $checkdir/$lib, libabi=<%s> != objabi=<%s>",
                       $libformat, $format);
-	    }
-	}
+            }
+        }
     }
     return @libs;
 }

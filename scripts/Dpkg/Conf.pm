@@ -67,11 +67,11 @@ sub new {
     my $class = ref($this) || $this;
 
     my $self = {
-	options => [],
-	allow_short => 0,
+        options => [],
+        allow_short => 0,
     };
     foreach my $opt (keys %opts) {
-	$self->{$opt} = $opts{$opt};
+        $self->{$opt} = $opts{$opt};
     }
     bless $self, $class;
 
@@ -166,30 +166,30 @@ sub parse {
     local $_;
 
     while (<$fh>) {
-	chomp;
-	s/^\s+//;             # Strip leading spaces
-	s/\s+$//;             # Strip trailing spaces
-	s/\s+=\s+/=/;         # Remove spaces around the first =
-	s/\s+/=/ unless m/=/; # First spaces becomes = if no =
-	# Skip empty lines and comments
-	next if /^#/ or length == 0;
-	if (/^-[^-]/ and not $self->{allow_short}) {
-	    warning(g_('short option not allowed in %s, line %d'), $desc, $.);
-	    next;
-	}
-	if (/^([^=]+)(?:=(.*))?$/) {
-	    my ($name, $value) = ($1, $2);
-	    $name = "--$name" unless $name =~ /^-/;
-	    if (defined $value) {
-		$value =~ s/^"(.*)"$/$1/ or $value =~ s/^'(.*)'$/$1/;
-		push @{$self->{options}}, "$name=$value";
-	    } else {
-		push @{$self->{options}}, $name;
-	    }
-	    $count++;
-	} else {
-	    warning(g_('invalid syntax for option in %s, line %d'), $desc, $.);
-	}
+        chomp;
+        s/^\s+//;             # Strip leading spaces
+        s/\s+$//;             # Strip trailing spaces
+        s/\s+=\s+/=/;         # Remove spaces around the first =
+        s/\s+/=/ unless m/=/; # First spaces becomes = if no =
+        # Skip empty lines and comments
+        next if /^#/ or length == 0;
+        if (/^-[^-]/ and not $self->{allow_short}) {
+            warning(g_('short option not allowed in %s, line %d'), $desc, $.);
+            next;
+        }
+        if (/^([^=]+)(?:=(.*))?$/) {
+            my ($name, $value) = ($1, $2);
+            $name = "--$name" unless $name =~ /^-/;
+            if (defined $value) {
+                $value =~ s/^"(.*)"$/$1/ or $value =~ s/^'(.*)'$/$1/;
+                push @{$self->{options}}, "$name=$value";
+            } else {
+                push @{$self->{options}}, $name;
+            }
+            $count++;
+        } else {
+            warning(g_('invalid syntax for option in %s, line %d'), $desc, $.);
+        }
     }
     return $count;
 }
@@ -242,11 +242,11 @@ sub output {
     my ($self, $fh) = @_;
     my $ret = '';
     foreach my $opt ($self->get_options()) {
-	$opt =~ s/^--//;
-	$opt =~ s/^([^=]+)=(.*)$/$1 = "$2"/;
-	$opt .= "\n";
-	print { $fh } $opt if defined $fh;
-	$ret .= $opt;
+        $opt =~ s/^--//;
+        $opt =~ s/^([^=]+)=(.*)$/$1 = "$2"/;
+        $opt .= "\n";
+        print { $fh } $opt if defined $fh;
+        $ret .= $opt;
     }
     return $ret;
 }

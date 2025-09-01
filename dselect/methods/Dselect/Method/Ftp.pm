@@ -53,65 +53,65 @@ sub do_connect {
 
   TRY_CONNECT:
     while(1) {
-	my $exit = 0;
+        my $exit = 0;
 
-	if ($opts{useproxy}) {
-	    $remotehost = $opts{proxyhost};
-	    $remoteuser = $opts{username} . '@' . $opts{ftpsite};
-	} else {
-	    $remotehost = $opts{ftpsite};
-	    $remoteuser = $opts{username};
-	}
-	print "Connecting to $opts{ftpsite}...\n";
+        if ($opts{useproxy}) {
+            $remotehost = $opts{proxyhost};
+            $remoteuser = $opts{username} . '@' . $opts{ftpsite};
+        } else {
+            $remotehost = $opts{ftpsite};
+            $remoteuser = $opts{username};
+        }
+        print "Connecting to $opts{ftpsite}...\n";
         $ftp = Net::FTP->new($remotehost,
             Passive => $opts{passive},
         );
-	if(!$ftp || !$ftp->ok) {
-	  print "Failed to connect\n";
-	  $exit = 1;
-	}
-	if (!$exit) {
+        if(!$ftp || !$ftp->ok) {
+          print "Failed to connect\n";
+          $exit = 1;
+        }
+        if (!$exit) {
 #    $ftp->debug(1);
-	    if ($opts{useproxy}) {
-		print "Login on $opts{proxyhost}...\n";
-		$ftp->_USER($opts{proxylogname});
-		$ftp->_PASS($opts{proxypassword});
-	    }
-	    print "Login as $opts{username}...\n";
-	    if ($opts{password} eq '?') {
-		    print 'Enter password for ftp: ';
-		    system('stty', '-echo');
-		    $rpass = <STDIN>;
-		    chomp $rpass;
-		    print "\n";
-		    system('stty', 'echo');
-	    } else {
-		    $rpass = $opts{password};
-	    }
-	    if(!$ftp->login($remoteuser, $rpass))
-	    { print $ftp->message() . "\n"; $exit = 1; }
-	}
-	if (!$exit) {
-	    print "Setting transfer mode to binary...\n";
-	    if(!$ftp->binary()) { print $ftp->message . "\n"; $exit = 1; }
-	}
-	if (!$exit) {
-	    print "Cd to '$opts{ftpdir}'...\n";
-	    if (!$ftp->cwd($opts{ftpdir})) {
-		print $ftp->message . "\n";
-		$exit = 1;
-	    }
-	}
+            if ($opts{useproxy}) {
+                print "Login on $opts{proxyhost}...\n";
+                $ftp->_USER($opts{proxylogname});
+                $ftp->_PASS($opts{proxypassword});
+            }
+            print "Login as $opts{username}...\n";
+            if ($opts{password} eq '?') {
+                    print 'Enter password for ftp: ';
+                    system('stty', '-echo');
+                    $rpass = <STDIN>;
+                    chomp $rpass;
+                    print "\n";
+                    system('stty', 'echo');
+            } else {
+                    $rpass = $opts{password};
+            }
+            if(!$ftp->login($remoteuser, $rpass))
+            { print $ftp->message() . "\n"; $exit = 1; }
+        }
+        if (!$exit) {
+            print "Setting transfer mode to binary...\n";
+            if(!$ftp->binary()) { print $ftp->message . "\n"; $exit = 1; }
+        }
+        if (!$exit) {
+            print "Cd to '$opts{ftpdir}'...\n";
+            if (!$ftp->cwd($opts{ftpdir})) {
+                print $ftp->message . "\n";
+                $exit = 1;
+            }
+        }
 
-	if ($exit) {
-	    if (yesno ('y', 'Retry connection at once')) {
-		next TRY_CONNECT;
-	    } else {
-		die 'error';
-	    }
-	}
+        if ($exit) {
+            if (yesno ('y', 'Retry connection at once')) {
+                next TRY_CONNECT;
+            } else {
+                die 'error';
+            }
+        }
 
-	last TRY_CONNECT;
+        last TRY_CONNECT;
     }
 
 #    if(!$ftp->pasv()) { print $ftp->message . "\n"; die 'error'; }
@@ -152,69 +152,69 @@ sub do_mdtm {
     my ($time);
 
     #if ($has_mdtm) {
-	$time = $ftp->mdtm($file);
-#	my $code = $ftp->code();
-#	my $message = $ftp->message();
-#	print " [ $code: $message ] ";
-	if ($ftp->code() == 502 || # MDTM not implemented
-	    $ftp->code() == 500) { # command not understood (SUN firewall)
-	    $has_mdtm = 0;
-	} elsif (!$ftp->ok()) {
-	    return;
-	}
+        $time = $ftp->mdtm($file);
+#       my $code = $ftp->code();
+#       my $message = $ftp->message();
+#       print " [ $code: $message ] ";
+        if ($ftp->code() == 502 || # MDTM not implemented
+            $ftp->code() == 500) { # command not understood (SUN firewall)
+            $has_mdtm = 0;
+        } elsif (!$ftp->ok()) {
+            return;
+        }
     #}
 
     if (! $has_mdtm) {
-	require Time::Local;
+        require Time::Local;
 
-	my @files = $ftp->dir($file);
-	if (($#files == -1) ||
-	    ($ftp->code == 550)) { # No such file or directory
-	    return;
-	}
+        my @files = $ftp->dir($file);
+        if (($#files == -1) ||
+            ($ftp->code == 550)) { # No such file or directory
+            return;
+        }
 
-#	my $code = $ftp->code();
-#	my $message = $ftp->message();
-#	print " [ $code: $message ] ";
+#       my $code = $ftp->code();
+#       my $message = $ftp->message();
+#       print " [ $code: $message ] ";
 
-#	print "[$#files]";
+#       print "[$#files]";
 
-	# get the date components from the output of 'ls -l'
+        # get the date components from the output of 'ls -l'
         if ($files[0] =~ $ls_l_regex) {
             my($month_name, $day, $year_or_time, $month, $hours, $minutes,
-	       $year);
+               $year);
 
-	    # what we can read
-	    $month_name = $2;
-	    $day = 0 + $3;
-	    $year_or_time = $4;
+            # what we can read
+            $month_name = $2;
+            $day = 0 + $3;
+            $year_or_time = $4;
 
-	    # translate the month name into number
-	    $month = $months{$month_name};
+            # translate the month name into number
+            $month = $months{$month_name};
 
-	    # recognize time or year, and compute missing one
-	    if ($year_or_time =~ /([0-9]{2}):([0-9]{2})/) {
-		$hours = 0 + $1; $minutes = 0 + $2;
-		my @this_date = gmtime(time());
-		my $this_month = $this_date[4];
-		my $this_year = $this_date[5];
-		if ($month > $this_month) {
-		    $year = $this_year - 1;
-		} else {
-		    $year = $this_year;
-		}
-	    } elsif ($year_or_time =~ / [0-9]{4}/) {
-		$hours = 0; $minutes = 0;
-		$year = $year_or_time - 1900;
-	    } else {
-		die 'cannot parse year-or-time';
-	    }
+            # recognize time or year, and compute missing one
+            if ($year_or_time =~ /([0-9]{2}):([0-9]{2})/) {
+                $hours = 0 + $1; $minutes = 0 + $2;
+                my @this_date = gmtime(time());
+                my $this_month = $this_date[4];
+                my $this_year = $this_date[5];
+                if ($month > $this_month) {
+                    $year = $this_year - 1;
+                } else {
+                    $year = $this_year;
+                }
+            } elsif ($year_or_time =~ / [0-9]{4}/) {
+                $hours = 0; $minutes = 0;
+                $year = $year_or_time - 1900;
+            } else {
+                die 'cannot parse year-or-time';
+            }
 
-	    # build a system time
-	    $time = Time::Local::timegm(0, $minutes, $hours, $day, $month, $year);
-	} else {
-	    die 'regex match failed on LIST output';
-	}
+            # build a system time
+            $time = Time::Local::timegm(0, $minutes, $hours, $day, $month, $year);
+        } else {
+            die 'regex match failed on LIST output';
+        }
     }
 
     return $time;

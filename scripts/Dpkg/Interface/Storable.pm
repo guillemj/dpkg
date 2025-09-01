@@ -78,22 +78,22 @@ sub load {
     my ($self, $file, %opts) = @_;
     $opts{compression} //= 1;
     unless ($self->can('parse')) {
-	croak ref($self) . ' cannot be loaded, it lacks the parse method';
+        croak ref($self) . ' cannot be loaded, it lacks the parse method';
     }
     my ($desc, $fh) = ($file, undef);
     if ($file eq '-') {
-	$fh = \*STDIN;
-	$desc = g_('<standard input>');
+        $fh = \*STDIN;
+        $desc = g_('<standard input>');
     } else {
         if ($opts{compression}) {
             require Dpkg::Compression::FileHandle;
             $fh = Dpkg::Compression::FileHandle->new();
         }
-	open($fh, '<', $file) or syserr(g_('cannot read %s'), $file);
+        open($fh, '<', $file) or syserr(g_('cannot read %s'), $file);
     }
     my $res = $self->parse($fh, $desc, %opts);
     if ($file ne '-') {
-	close($fh) or syserr(g_('cannot close %s'), $file);
+        close($fh) or syserr(g_('cannot close %s'), $file);
     }
     return $res;
 }
@@ -112,21 +112,21 @@ sub save {
     my ($self, $file, %opts) = @_;
     $opts{compression} //= 1;
     unless ($self->can('output')) {
-	croak ref($self) . ' cannot be saved, it lacks the output method';
+        croak ref($self) . ' cannot be saved, it lacks the output method';
     }
     my $fh;
     if ($file eq '-') {
-	$fh = \*STDOUT;
+        $fh = \*STDOUT;
     } else {
         if ($opts{compression}) {
             require Dpkg::Compression::FileHandle;
             $fh = Dpkg::Compression::FileHandle->new();
         }
-	open($fh, '>', $file) or syserr(g_('cannot write %s'), $file);
+        open($fh, '>', $file) or syserr(g_('cannot write %s'), $file);
     }
     $self->output($fh, %opts);
     if ($file ne '-') {
-	close($fh) or syserr(g_('cannot close %s'), $file);
+        close($fh) or syserr(g_('cannot close %s'), $file);
     }
 }
 
@@ -139,7 +139,7 @@ Return a string representation of the object.
 sub _stringify {
     my $self = shift;
     unless ($self->can('output')) {
-	croak ref($self) . ' cannot be stringified, it lacks the output method';
+        croak ref($self) . ' cannot be stringified, it lacks the output method';
     }
     return $self->output();
 }

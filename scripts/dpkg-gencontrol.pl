@@ -125,8 +125,8 @@ while (@ARGV) {
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/p) {
         $substvars->set_as_used($1, ${^POSTMATCH});
     } elsif (m/^-T(.*)$/) {
-	$substvars->load($1) if -e $1;
-	$substvars_loaded = 1;
+        $substvars->load($1) if -e $1;
+        $substvars_loaded = 1;
     } elsif (m/^-n/p) {
         $forcefilename = ${^POSTMATCH};
     } elsif (m/^-(?:\?|-help)$/) {
@@ -211,22 +211,22 @@ foreach my $f (keys %{$pkg}) {
     my $v = $pkg->{$f};
 
     if (field_get_dep_type($f)) {
-	# Delay the parsing until later
+        # Delay the parsing until later
     } elsif ($f eq 'Architecture') {
-	my $host_arch = get_host_arch();
+        my $host_arch = get_host_arch();
 
-	if (debarch_eq('all', $v)) {
+        if (debarch_eq('all', $v)) {
             $fields->{$f} = $v;
-	} else {
-	    my @archlist = debarch_list_parse($v, positive => 1);
+        } else {
+            my @archlist = debarch_list_parse($v, positive => 1);
 
-	    if (none { debarch_is($host_arch, $_) } @archlist) {
-		error(g_("current host architecture '%s' does not " .
-			 "appear in package '%s' architecture list (%s)"),
-		      $host_arch, $oppackage, "@archlist");
-	    }
+            if (none { debarch_is($host_arch, $_) } @archlist) {
+                error(g_("current host architecture '%s' does not " .
+                         "appear in package '%s' architecture list (%s)"),
+                      $host_arch, $oppackage, "@archlist");
+            }
             $fields->{$f} = $host_arch;
-	}
+        }
     } else {
         field_transfer_single($pkg, $fields, $f);
     }
@@ -264,13 +264,13 @@ if (exists $pkg->{'Provides'}) {
         union => 1,
     );
     if (defined $provides) {
-	foreach my $subdep ($provides->get_deps()) {
-	    if ($subdep->isa('Dpkg::Deps::Simple')) {
-		$facts->add_provided_package($subdep->{package},
+        foreach my $subdep ($provides->get_deps()) {
+            if ($subdep->isa('Dpkg::Deps::Simple')) {
+                $facts->add_provided_package($subdep->{package},
                         $subdep->{relation}, $subdep->{version},
                         $fields->{'Package'});
-	    }
-	}
+            }
+        }
     }
 }
 
@@ -279,11 +279,11 @@ foreach my $field (field_list_pkg_dep()) {
     # Arch: all can't be simplified as the host architecture is not known
     my $reduce_arch = debarch_eq('all', $pkg->{Architecture} || 'all') ? 0 : 1;
     if (exists $pkg->{$field}) {
-	my $dep;
-	my $field_value = $substvars->substvars($pkg->{$field},
+        my $dep;
+        my $field_value = $substvars->substvars($pkg->{$field},
             msg_prefix => sprintf(g_('%s field of package %s: '), $field, $pkg->{Package}),
         );
-	if (field_get_dep_type($field) eq 'normal') {
+        if (field_get_dep_type($field) eq 'normal') {
             $dep = deps_parse($field_value,
                 use_arch => 1,
                 reduce_arch => $reduce_arch,
@@ -291,10 +291,10 @@ foreach my $field (field_list_pkg_dep()) {
             );
             error(g_("parsing package '%s' %s field: %s"), $oppackage,
                   $field, $field_value) unless defined $dep;
-	    $dep->simplify_deps($facts, @seen_deps);
-	    # Remember normal deps to simplify even further weaker deps
-	    push @seen_deps, $dep;
-	} else {
+            $dep->simplify_deps($facts, @seen_deps);
+            # Remember normal deps to simplify even further weaker deps
+            push @seen_deps, $dep;
+        } else {
             $dep = deps_parse($field_value,
                 use_arch => 1,
                 reduce_arch => $reduce_arch,
@@ -303,14 +303,14 @@ foreach my $field (field_list_pkg_dep()) {
             );
             error(g_("parsing package '%s' %s field: %s"), $oppackage,
                   $field, $field_value) unless defined $dep;
-	    $dep->simplify_deps($facts);
+            $dep->simplify_deps($facts);
             $dep->sort();
-	}
-	error(g_('the %s field contains an arch-specific dependency but the ' .
-	         "package '%s' is architecture all"), $field, $oppackage)
-	    if $dep->has_arch_restriction();
-	$fields->{$field} = $dep->output();
-	delete $fields->{$field} unless $fields->{$field}; # Delete empty field
+        }
+        error(g_('the %s field contains an arch-specific dependency but the ' .
+                 "package '%s' is architecture all"), $field, $oppackage)
+            if $dep->has_arch_restriction();
+        $fields->{$field} = $dep->output();
+        delete $fields->{$field} unless $fields->{$field}; # Delete empty field
     }
 }
 

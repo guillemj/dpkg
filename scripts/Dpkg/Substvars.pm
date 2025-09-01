@@ -80,7 +80,7 @@ sub new {
             'dpkg:Upstream-Version' => $Dpkg::PROGVERSION,
             },
         attr => {},
-	msg_prefix => '',
+        msg_prefix => '',
     };
     $self->{vars}{'dpkg:Upstream-Version'} =~ s/-[^-]+$//;
     bless $self, $class;
@@ -213,12 +213,12 @@ sub parse {
 
     binmode($fh);
     while (<$fh>) {
-	next if m/^\s*\#/ || !m/\S/;
-	s/\s*\n$//;
-	if (! m/^(\w[-:0-9A-Za-z]*)([?!])?\=(.*)$/) {
-	    error(g_('bad line in substvars file %s at line %d'),
-		  $varlistfile, $.);
-	}
+        next if m/^\s*\#/ || !m/\S/;
+        s/\s*\n$//;
+        if (! m/^(\w[-:0-9A-Za-z]*)([?!])?\=(.*)$/) {
+            error(g_('bad line in substvars file %s at line %d'),
+                  $varlistfile, $.);
+        }
         if (defined $2) {
             $self->set_as_optional($1, $3) if $2 eq '?';
             $self->set_as_required($1, $3) if $2 eq '!';
@@ -381,7 +381,7 @@ sub substvars {
         } else {
             warning($opts{msg_prefix} .
                     g_('substitution variable ${%s} used, but is not defined'),
-	            $vn) unless $opts{no_warn};
+                    $vn) unless $opts{no_warn};
             $v = $lhs . $rhs;
         }
     }
@@ -481,7 +481,7 @@ sub output {
     my $str = '';
     # Store all non-automatic substitutions only
     foreach my $vn (sort keys %{$self->{vars}}) {
-	next if $self->{attr}{$vn} & SUBSTVAR_ATTR_AUTO;
+        next if $self->{attr}{$vn} & SUBSTVAR_ATTR_AUTO;
         my $op;
         if ($self->{attr}{$vn} & SUBSTVAR_ATTR_OPT) {
             $op = '?=';
@@ -491,8 +491,8 @@ sub output {
             $op = '=';
         }
         my $line = "$vn$op" . $self->{vars}{$vn} . "\n";
-	print { $fh } $line if defined $fh;
-	$str .= $line;
+        print { $fh } $line if defined $fh;
+        $str .= $line;
     }
     return $str;
 }

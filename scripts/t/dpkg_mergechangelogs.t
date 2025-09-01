@@ -38,7 +38,7 @@ sub test_merge {
     );
     my $res = compare($expected_file, $fh->filename);
     if ($res) {
-	system('diff', '-u', $expected_file, $fh->filename);
+        system('diff', '-u', $expected_file, $fh->filename);
     }
     ok($res == 0, "merged changelog matches expected one ($expected_file)");
 }

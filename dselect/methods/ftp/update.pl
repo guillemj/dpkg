@@ -38,17 +38,17 @@ my $option = $ARGV[2];
 if ($option eq 'manual') {
     print "Enter package file names or a blank line to finish\n";
     while(1) {
-	print 'Enter package file name:';
-	my $fn = <STDIN>;
-	chomp $fn;
-	if ($fn eq '') {
-	    exit 0;
-	}
-	if ( -f $fn ) {
-	    system('dpkg', '--merge-avail', $fn);
-	} else {
-	    print "Could not find $fn, try again\n";
-	}
+        print 'Enter package file name:';
+        my $fn = <STDIN>;
+        chomp $fn;
+        if ($fn eq '') {
+            exit 0;
+        }
+        if ( -f $fn ) {
+            system('dpkg', '--merge-avail', $fn);
+        } else {
+            print "Could not find $fn, try again\n";
+        }
     }
 }
 
@@ -89,83 +89,83 @@ foreach (@{$CONFIG{site}}) {
     my @dists = @{$_->[2]};
     PACKAGE:
     foreach my $dist (@dists) {
-	my $dir = "$dist/binary-$arch";
-	my $must_get = 0;
-	my $newest_pack_date;
+        my $dir = "$dist/binary-$arch";
+        my $must_get = 0;
+        my $newest_pack_date;
 
-	# check existing Packages on remote site
-	print "\nChecking for Packages file... ";
-	$newest_pack_date = do_mdtm ($ftp, "$dir/Packages.gz");
-	if (defined $newest_pack_date) {
-	    print "$dir/Packages.gz\n";
-	} else {
-	    $dir = "$dist";
-	    $newest_pack_date = do_mdtm ($ftp, "$dir/Packages.gz");
-	    if (defined $newest_pack_date) {
-		print "$dir/Packages.gz\n";
-	    } else {
-		print "Couldn't find Packages.gz in $dist/binary-$arch or $dist; ignoring.\n";
-		print "Your setup is probably wrong, check the distributions directories,\n";
-		print "and try with passive mode enabled/disabled (if you use a proxy/firewall)\n";
-		next PACKAGE;
-	    }
-	}
+        # check existing Packages on remote site
+        print "\nChecking for Packages file... ";
+        $newest_pack_date = do_mdtm ($ftp, "$dir/Packages.gz");
+        if (defined $newest_pack_date) {
+            print "$dir/Packages.gz\n";
+        } else {
+            $dir = "$dist";
+            $newest_pack_date = do_mdtm ($ftp, "$dir/Packages.gz");
+            if (defined $newest_pack_date) {
+                print "$dir/Packages.gz\n";
+            } else {
+                print "Couldn't find Packages.gz in $dist/binary-$arch or $dist; ignoring.\n";
+                print "Your setup is probably wrong, check the distributions directories,\n";
+                print "and try with passive mode enabled/disabled (if you use a proxy/firewall)\n";
+                next PACKAGE;
+            }
+        }
 
-	# we now have $dir set to point to an existing Packages.gz file
+        # we now have $dir set to point to an existing Packages.gz file
 
-	# check if we already have a Packages file (and get its date)
-	$dist =~ tr/\//_/;
-	my $file = "Packages.$site->[0].$dist";
+        # check if we already have a Packages file (and get its date)
+        $dist =~ tr/\//_/;
+        my $file = "Packages.$site->[0].$dist";
 
-	# if not
-	if (! -f $file) {
-	    # must get one
-#	    print "No Packages here; must get it.\n";
-	    $must_get = 1;
-	} else {
-	    # else check last modification date
+        # if not
+        if (! -f $file) {
+            # must get one
+#           print "No Packages here; must get it.\n";
+            $must_get = 1;
+        } else {
+            # else check last modification date
             my @pack_stat = stat($file);
-	    if($newest_pack_date > $pack_stat[9]) {
-#		print "Packages has changed; must get it.\n";
-		$must_get = 1;
-	    } elsif ($newest_pack_date < $pack_stat[9]) {
-		print " Our file is newer than theirs; skipping.\n";
-	    } else {
-		print " Already up-to-date; skipping.\n";
-	    }
-	}
+            if($newest_pack_date > $pack_stat[9]) {
+#               print "Packages has changed; must get it.\n";
+                $must_get = 1;
+            } elsif ($newest_pack_date < $pack_stat[9]) {
+                print " Our file is newer than theirs; skipping.\n";
+            } else {
+                print " Already up-to-date; skipping.\n";
+            }
+        }
 
-	if ($must_get) {
-	    unlink 'Packages.gz';
-	    unlink 'Packages';
-	    my $size = 0;
+        if ($must_get) {
+            unlink 'Packages.gz';
+            unlink 'Packages';
+            my $size = 0;
 
-	  TRY_GET_PACKAGES:
-	    while (1) {
-		if ($size) {
-		    print ' Continuing ';
-		} else {
-		    print ' Getting ';
-		}
-		print "Packages file from $dir...\n";
-		eval {
-		    if ($ftp->get("$dir/Packages.gz", 'Packages.gz', $size)) {
-			if (system('gunzip', 'Packages.gz')) {
-			    print "  Couldn't gunzip Packages.gz, stopped";
-			    die 'error';
-			}
-		    } else {
-			print "  Couldn't get Packages.gz from $dir !!! Stopped.";
-			die 'error';
-		    }
-		};
-		if ($@) {
-		    $size = -s 'Packages.gz';
-		    if (ref($ftp)) {
-		      $ftp->abort();
-		      $ftp->quit();
-		    }
-		    if (yesno ('y', "Transfer failed at $size: retry at once")) {
+          TRY_GET_PACKAGES:
+            while (1) {
+                if ($size) {
+                    print ' Continuing ';
+                } else {
+                    print ' Getting ';
+                }
+                print "Packages file from $dir...\n";
+                eval {
+                    if ($ftp->get("$dir/Packages.gz", 'Packages.gz', $size)) {
+                        if (system('gunzip', 'Packages.gz')) {
+                            print "  Couldn't gunzip Packages.gz, stopped";
+                            die 'error';
+                        }
+                    } else {
+                        print "  Couldn't get Packages.gz from $dir !!! Stopped.";
+                        die 'error';
+                    }
+                };
+                if ($@) {
+                    $size = -s 'Packages.gz';
+                    if (ref($ftp)) {
+                      $ftp->abort();
+                      $ftp->quit();
+                    }
+                    if (yesno ('y', "Transfer failed at $size: retry at once")) {
                         $ftp = do_connect(
                             ftpsite => $site->[0],
                             ftpdir => $site->[1],
@@ -178,29 +178,29 @@ foreach (@{$CONFIG{site}}) {
                             proxypassword => $CONFIG{proxypassword},
                         );
 
-			if ($newest_pack_date != do_mdtm ($ftp, "$dir/Packages.gz")) {
-			    print ("Packages file has changed !\n");
-			    $size = 0;
-			}
-			next TRY_GET_PACKAGES;
-		    } else {
-			die 'error';
-		    }
-		}
-		last TRY_GET_PACKAGES;
-	    }
+                        if ($newest_pack_date != do_mdtm ($ftp, "$dir/Packages.gz")) {
+                            print ("Packages file has changed !\n");
+                            $size = 0;
+                        }
+                        next TRY_GET_PACKAGES;
+                    } else {
+                        die 'error';
+                    }
+                }
+                last TRY_GET_PACKAGES;
+            }
 
-	    if (!rename 'Packages', "Packages.$site->[0].$dist") {
-		print "  Couldn't rename Packages to Packages.$site->[0].$dist";
-		die 'error';
-	    } else {
-		# set local Packages file to same date as the one it mirrors
-		# to allow comparison to work.
-		utime $newest_pack_date, $newest_pack_date, "Packages.$site->[0].$dist";
-		$packages_modified = 1;
-	    }
-	}
-	push @pkgfiles, "Packages.$site->[0].$dist";
+            if (!rename 'Packages', "Packages.$site->[0].$dist") {
+                print "  Couldn't rename Packages to Packages.$site->[0].$dist";
+                die 'error';
+            } else {
+                # set local Packages file to same date as the one it mirrors
+                # to allow comparison to work.
+                utime $newest_pack_date, $newest_pack_date, "Packages.$site->[0].$dist";
+                $packages_modified = 1;
+            }
+        }
+        push @pkgfiles, "Packages.$site->[0].$dist";
     }
     $ftp->quit();
  }
@@ -208,16 +208,16 @@ foreach (@{$CONFIG{site}}) {
 
 eval {
     local $SIG{INT} = sub {
-	die "interrupted!\n";
+        die "interrupted!\n";
     };
     download();
 };
 if($@) {
     $ftp->quit() if (ref($ftp));
     if($@ =~ /timeout/i) {
-	print "FTP TIMEOUT\n";
+        print "FTP TIMEOUT\n";
     } else {
-	print "FTP ERROR - $@\n";
+        print "FTP ERROR - $@\n";
     }
     $exit = 1;
 }
@@ -232,11 +232,11 @@ distributions you might not want to do this.
 
 EOM
     if (yesno ('y', 'Do you want to clear available list')) {
-	print "Clearing...\n";
-	if (system('dpkg', '--clear-avail')) {
-	    print 'dpkg --clear-avail failed.';
-	    die 'error';
-	}
+        print "Clearing...\n";
+        if (system('dpkg', '--clear-avail')) {
+            print 'dpkg --clear-avail failed.';
+            die 'error';
+        }
     }
 }
 
@@ -244,10 +244,10 @@ if (!$packages_modified) {
     print "No Packages files was updated.\n";
 } else {
     foreach my $file (@pkgfiles) {
-	if (system('dpkg', '--merge-avail', $file)) {
-	    print "Dpkg merge available failed on $file";
-	    $exit = 1;
-	}
+        if (system('dpkg', '--merge-avail', $file)) {
+            print "Dpkg merge available failed on $file";
+            $exit = 1;
+        }
     }
 }
 exit $exit;

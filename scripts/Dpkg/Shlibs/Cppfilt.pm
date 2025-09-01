@@ -56,7 +56,7 @@ sub get_cppfilt {
     # Keeping c++filt running improves performance a lot.
     my $filt;
     if (exists $cppfilts{$type}) {
-	$filt = $cppfilts{$type};
+        $filt = $cppfilts{$type};
     } else {
         $filt = {
             from => undef,
@@ -69,11 +69,11 @@ sub get_cppfilt {
             from_pipe => \$filt->{from},
             to_pipe => \$filt->{to},
         );
-	syserr(g_('unable to execute %s'), 'c++filt')
-	    unless defined $filt->{from};
-	$filt->{from}->autoflush(1);
+        syserr(g_('unable to execute %s'), 'c++filt')
+            unless defined $filt->{from};
+        $filt->{from}->autoflush(1);
 
-	$cppfilts{$type} = $filt;
+        $cppfilts{$type} = $filt;
     }
     return $filt;
 }
@@ -91,11 +91,11 @@ sub cppfilt_demangle {
     # Remember the last result. Such a local optimization is cheap and useful
     # when sequential pattern matching is performed.
     if ($filt->{last_symbol} ne $symbol) {
-	# This write/read operation should not deadlock because c++filt flushes
-	# output buffer on LF or each invalid character.
-	print { $filt->{from} } $symbol, "\n";
-	my $demangled = readline($filt->{to});
-	chop $demangled;
+        # This write/read operation should not deadlock because c++filt flushes
+        # output buffer on LF or each invalid character.
+        print { $filt->{from} } $symbol, "\n";
+        my $demangled = readline($filt->{to});
+        chop $demangled;
 
         # If the symbol was not demangled, return undef. Otherwise normalize
         # it as llvm packs ending angle brackets with no intermediate spaces
@@ -108,9 +108,9 @@ sub cppfilt_demangle {
             $demangled =~ s{(?<=>)(?=>)}{ }g;
         }
 
-	# Remember the last result
-	$filt->{last_symbol} = $symbol;
-	$filt->{last_result} = $demangled;
+        # Remember the last result
+        $filt->{last_symbol} = $symbol;
+        $filt->{last_result} = $demangled;
     }
     return $filt->{last_result};
 }
@@ -122,15 +122,15 @@ sub cppfilt_demangle_cpp {
 
 sub terminate_cppfilts {
     foreach my $type (keys %cppfilts) {
-	next if not defined $cppfilts{$type}{pid};
-	close $cppfilts{$type}{from};
-	close $cppfilts{$type}{to};
+        next if not defined $cppfilts{$type}{pid};
+        close $cppfilts{$type}{from};
+        close $cppfilts{$type}{to};
         wait_child($cppfilts{$type}{pid},
             cmdline => 'c++filt',
             no_check => 1,
             timeout => 5,
         );
-	delete $cppfilts{$type};
+        delete $cppfilts{$type};
     }
 }
 

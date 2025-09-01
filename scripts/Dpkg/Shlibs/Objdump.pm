@@ -51,7 +51,7 @@ sub add_object {
     my ($self, $obj) = @_;
     my $id = $obj->get_id;
     if ($id) {
-	$self->{objects}{$id} = $obj;
+        $self->{objects}{$id} = $obj;
     }
     return $id;
 }
@@ -66,10 +66,10 @@ sub analyze {
 sub locate_symbol {
     my ($self, $name) = @_;
     foreach my $obj (values %{$self->{objects}}) {
-	my $sym = $obj->get_symbol($name);
-	if (defined($sym) && $sym->{defined}) {
-	    return $sym;
-	}
+        my $sym = $obj->get_symbol($name);
+        if (defined($sym) && $sym->{defined}) {
+            return $sym;
+        }
     }
     return;
 }
@@ -77,7 +77,7 @@ sub locate_symbol {
 sub get_object {
     my ($self, $objid) = @_;
     if ($self->has_object($objid)) {
-	return $self->{objects}{$objid};
+        return $self->{objects}{$objid};
     }
     return;
 }
@@ -293,7 +293,7 @@ sub is_elf {
     open(my $file_fh, '<', $file) or syserr(g_('cannot read %s'), $file);
     my ($header, $result) = ('', 0);
     if (read($file_fh, $header, 4) == 4) {
-	$result = 1 if ($header =~ /^\177ELF$/);
+        $result = 1 if ($header =~ /^\177ELF$/);
     }
     close($file_fh);
     return $result;
