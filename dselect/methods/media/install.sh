@@ -81,9 +81,12 @@ while true; do
   test $rc = 0
 
   perl -e '
-	($binaryprefix,$predep,$thisdisk) = @ARGV;
+        my ($binaryprefix, $predep, $thisdisk) = @ARGV;
 
+        my $package;
         my $version;
+        my $medium;
+        my @filename;
 
         open my $predep_fh, "<", $predep
             or die "cannot open $predep: $!\n";
@@ -109,16 +112,21 @@ Please change the discs and press <RETURN>.
 INFO
 		exit(1);
 	}
-	@invoke = (); $| =1;
+        my @invoke = ();
+        $| =1;
         foreach my $i (0 .. $#filename) {
-		$ppart = $i+1;
+                my $ppart = $i + 1;
+                my $print;
+                my $invoke;
+                my $base;
+
 		print "Looking for part $ppart of $package ... ";
 		if (-f "$binaryprefix$filename[$i]") {
 			$print = $filename[$i];
 			$invoke = "$binaryprefix$filename[$i]";
 		} else {
 			$base = $filename[$i]; $base =~ s,.*/,,;
-                        $c = open my $find_fh, "-|";
+                        my $c = open my $find_fh, "-|";
 			if (not defined $c) {
 				die "failed to fork for find: $!\n";
 			}
@@ -177,13 +185,14 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 	$line = 0;
 	{ local $/ = "";
         while (<$status_fh>) {
-		my %status;
-		my @pstat;
 		$line++ % 20 or print ".";
 		s/\n\s+/ /g;
-		%status =  ("", split /^(\S*?):\s*/m, $_);
+                my %status = (
+                    "",
+                    split /^(\S*?):\s*/m, $_,
+                );
 		map { chomp $status{$_}; $status{$_} =~ s/^\s*(.*?)\s*$/$1/;} keys %status;
-		@pstat = split(/ /, $status{Status});
+                my @pstat = split(/ /, $status{Status});
 		next unless ($pstat[0] eq "install");
 		if ($pstat[2] eq "config-files" || $pstat[2] eq "not-installed") {
 		    $Installed{$status{Package}} = "0.0";
@@ -204,7 +213,10 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 		 $line++ % 20 or print ".";
 
 		 s/\n\s+/ /g;
-		 %avail   =  ("", split /^(\S*?):\s*/m, $_);
+                my %avail = (
+                    "",
+                    split /^(\S*?):\s*/m, $_,
+                );
 		 map { chomp $avail{$_}; $avail{$_} =~ s/^\s*(.*?)\s*$/$1/;} keys %avail;
 
 		 next unless defined $Installed{$avail{Package}};
@@ -224,12 +236,14 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
         close $avail_fh;
 	print "\n";
 
+        my $ouch;
+
 	if (@_ = keys(%Medium)) {
 		    print "You will need the following distribution disc(s):\n",
 			join (", ", @_), "\n";
 	}
 
-	foreach $need (sort @_) {
+	foreach my $need (sort @_) {
                 my $disk = get_disk_label($mountpoint, $hierbase);
 
 		print "Processing disc\n   $need\n";
@@ -251,6 +265,8 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 
 		print "creating symlinks...\n";
 		foreach (@{$Medium{$need}}) {
+                        my $basename;
+
 			($basename = $Filename{$_}) =~ s/.*\///;
 			symlink "$mountpoint/$hierbase/$Filename{$_}",
 				"tmp/$basename";
@@ -263,7 +279,7 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 		if ($?) {
 			print "\nThe dpkg run produced errors. Please state whether to\n",
 			      "continue with the next media disc. [Y/n]: ";
-			$answer = <STDIN>;
+                        my $answer = <STDIN>;
 			exit 1 if $answer =~ /^n/i;
 			$ouch = $?;
 		}

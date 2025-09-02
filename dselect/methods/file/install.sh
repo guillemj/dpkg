@@ -39,10 +39,13 @@ while true; do
   test $rc = 0
 
   perl -e '
-	($binaryprefix,$predep) = @ARGV;
+        my $predep = $ARGV[0];
+        my $binaryprefix = $ARGV[1];
 	$binaryprefix =~ s,/*$,/, if length($binaryprefix);
 
+        my $package;
         my $version;
+        my @filename;
 
         open my $predep_fh, "<", $predep
             or die "cannot open $predep: $!\n";
@@ -55,16 +58,21 @@ while true; do
         close $predep_fh;
 	die "internal error - no package" if length($package) == 0;
 	die "internal error - no filename" if not @filename;
-	@invoke = (); $| = 1;
+        my @invoke = ();
+        $| = 1;
         foreach my $i (0 .. $#filename) {
-		$ppart = $i+1;
+                my $ppart = $i + 1;
+                my $print;
+                my $invoke;
+                my $base;
+
 		print "Looking for part $ppart of $package ... ";
 		if (-f "$binaryprefix$filename[$i]") {
 			$print = $filename[$i];
 			$invoke = "$binaryprefix$filename[$i]";
 		} else {
 			$base = $filename[$i]; $base =~ s,.*/,,;
-			$c = open my $find_fh, "-|";
+                        my $c = open my $find_fh, "-|";
 			if (not defined $c) {
 				die "failed to fork for find: $!\n";
 			}
