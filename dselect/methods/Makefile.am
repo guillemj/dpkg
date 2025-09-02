@@ -2,6 +2,7 @@
 
 nobase_dist_perllib_DATA = \
 	Dselect/Method.pm \
+	Dselect/Method/Config.pm \
 	Dselect/Method/Ftp.pm \
 	# EOL
 
