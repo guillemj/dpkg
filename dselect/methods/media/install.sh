@@ -180,7 +180,8 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 		} else {
 		    $Installed{$status{Package}} = $status{Version} || "" ;
 		}
-	}; }
+            }
+        }
 	print "\nGot ", scalar keys %Installed, " installed/pending packages\n";
 	print "Scanning available packages...";
 	$line = 0;
@@ -206,7 +207,8 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 		 next unless defined $avail{"X-Medium"};
 		 ${Medium{$avail{"X-Medium"}}} or ${Medium{$avail{"X-Medium"}}} = [];
 		 push @{${Medium{$avail{"X-Medium"}}}}, $avail{Package};
-	}; };
+            }
+        }
 	print "\n";
 
 	if (@_ = keys(%Medium)) {

@@ -49,8 +49,8 @@ if ($option eq 'manual') {
 	} else {
 	    print "Could not find $fn, try again\n";
 	}
-    };
-};
+    }
+}
 
 #print "vardir: $vardir, method: $method, option: $option\n";
 
@@ -164,7 +164,7 @@ foreach (@{$CONFIG{site}}) {
 		    if (ref($ftp)) {
 		      $ftp->abort();
 		      $ftp->quit();
-		    };
+		    }
 		    if (yesno ('y', "Transfer failed at $size: retry at once")) {
                         $ftp = do_connect(
                             ftpsite => $site->[0],
@@ -220,7 +220,7 @@ if($@) {
 	print "FTP ERROR - $@\n";
     }
     $exit = 1;
-};
+}
 
 # Don't clear if nothing changed.
 if ($packages_modified) {

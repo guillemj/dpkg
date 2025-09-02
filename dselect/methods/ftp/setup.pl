@@ -163,7 +163,7 @@ if($@) {
 	print "$@\n";
     }
     $exit = 1;
-};
+}
 
 # output new vars file
 $CONFIG{done} = 1;
