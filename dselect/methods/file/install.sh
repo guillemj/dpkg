@@ -77,7 +77,7 @@ while true; do
 			}
 		}
 		if (!length($invoke)) {
-			warn "
+			warn <<"WARN";
 
 Cannot find the appropriate file(s) anywhere needed to install or upgrade
 package $package. Expecting version $version or later, as listed in the
@@ -87,9 +87,9 @@ Perhaps the package was downloaded with an unexpected name? In any case,
 you must find the file(s) and then either place it with the correct
 filename(s) (as listed in the Packages file or in $vardir/available)
 and rerun the installation, or upgrade the package by using
-\"dpkg --install --auto-deconfigure" by hand.
+"dpkg --install --auto-deconfigure" by hand.
 
-";
+WARN
 			exit(1);
 		}
 		print "$print\n";
