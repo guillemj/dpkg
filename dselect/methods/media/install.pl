@@ -277,7 +277,7 @@ foreach my $need (@media) {
     }
 
     if (! -d 'tmp') {
-        mkdir 'tmp', 0755
+        mkdir 'tmp', 0o755
             or die("Cannot mkdir tmp: $!\n");
     }
     unlink <tmp/*>;
