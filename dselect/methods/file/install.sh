@@ -58,7 +58,7 @@ while true; do
 			$invoke = "$binaryprefix$filename[$i]";
 		} else {
 			$base = $filename[$i]; $base =~ s,.*/,,;
-			$c = open(X, "-|"));
+			$c = open(X, "-|");
 			if (not defined $c) {
 				die "failed to fork for find: $!\n";
 			}
