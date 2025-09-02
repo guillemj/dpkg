@@ -44,8 +44,9 @@ while true; do
 
         my $version;
 
-	open(P, "< $predep") or die "cannot open $predep: $!\n";
-	while (<P>) {
+        open my $predep_fh, "<", $predep
+            or die "cannot open $predep: $!\n";
+        while (<$predep_fh>) {
 		s/\s*\n$//;
 		$package = $_ if s/^Package: //i;
                 $version = $_ if s{^Version: }{}i;
@@ -62,7 +63,7 @@ while true; do
 			$invoke = "$binaryprefix$filename[$i]";
 		} else {
 			$base = $filename[$i]; $base =~ s,.*/,,;
-			$c = open(X, "-|");
+			$c = open my $find_fh, "-|";
 			if (not defined $c) {
 				die "failed to fork for find: $!\n";
 			}
@@ -73,7 +74,9 @@ while true; do
 				     "-name", $base);
 				die "failed to exec find: $!\n";
 			}
-			while (chop($invoke = <X>)) { last if -f $invoke; }
+                        while (chop($invoke = <$find_fh>)) {
+                            last if -f $invoke;
+                        }
 			$print = $invoke;
 			if (substr($print,0,length($binaryprefix)+1) eq
 			    "$binaryprefix/") {

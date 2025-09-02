@@ -85,8 +85,9 @@ while true; do
 
         my $version;
 
-	open(P, "< $predep") or die "cannot open $predep: $!\n";
-	while (<P>) {
+        open my $predep_fh, "<", $predep
+            or die "cannot open $predep: $!\n";
+        while (<$predep_fh>) {
 		s/\s*\n$//;
 		$package = $_ if s/^Package: //i;
                 $version = $_ if s{^Version: }{}i;
@@ -116,7 +117,7 @@ INFO
 			$invoke = "$binaryprefix$filename[$i]";
 		} else {
 			$base = $filename[$i]; $base =~ s,.*/,,;
-			$c = open(X, "-|");
+                        $c = open my $find_fh, "-|";
 			if (not defined $c) {
 				die "failed to fork for find: $!\n";
 			}
@@ -126,7 +127,9 @@ INFO
 				     "-name", $base);
 				die "failed to exec find: $!\n";
 			}
-			while (chop($invoke = <X>)) { last if -f $invoke; }
+                        while (chop($invoke = <$find_fh>)) {
+                              last if -f $invoke;
+                        }
 			$print = $invoke;
 			if (substr($print,0,length($binaryprefix)+1) eq
 			    "$binaryprefix/") {
@@ -167,10 +170,11 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 	my $STATUS = "$vardir/status";
         my (%Installed, %Filename, %Medium);
 	print "Get currently installed package versions...";
-	open(IN, "$STATUS") or die "cannot open $STATUS: $!\n";
+        open my $status_fh, "<", $STATUS
+            or die "cannot open $STATUS: $!\n";
 	$line = 0;
 	{ local $/ = "";
-	while (<IN>) {
+        while (<$status_fh>) {
 		my %status;
 		my @pstat;
 		$line++ % 20 or print ".";
@@ -189,9 +193,10 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 	print "\nGot ", scalar keys %Installed, " installed/pending packages\n";
 	print "Scanning available packages...";
 	$line = 0;
-	open(IN, "$AVAIL") or die("Cannot open $AVAIL: $!\n");
+        open my $avail_fh, "<", $AVAIL
+            or die "Cannot open $AVAIL: $!\n";
 	{ local $/ = "";
-	while (<IN>) {
+        while (<$avail_fh>) {
 		my $updated;
 		 $line++ % 20 or print ".";
 
