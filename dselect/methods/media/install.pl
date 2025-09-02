@@ -45,7 +45,6 @@ my $p_blockdev = $conf->get('p_blockdev');
 my $p_mountpoint = $conf->get('p_mountpoint');
 my $p_hierbase = $conf->get('p_hierbase');
 
-my $iarch = qx(dpkg --print-architecture);
 my $umount;
 
 my $exit = 1;
