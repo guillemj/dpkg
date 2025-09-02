@@ -20,8 +20,7 @@
 use v5.36;
 
 eval q{
-    # Dummy import to require the presence of Dpkg::*.
-    use Dpkg;
+    use Dpkg::ErrorHandling;
 };
 if ($@) {
     warn "Missing Dpkg modules required by the FTP access method.\n\n";
@@ -152,8 +151,7 @@ sub download {
                     eval {
                         if ($ftp->get("$dir/Packages.gz", 'Packages.gz', $size)) {
                             if (system('gunzip', 'Packages.gz')) {
-                                print 'cannot gunzip Packages.gz, stopped';
-                                die 'error';
+                                subprocerr('gunzip Packages.gz');
                             }
                         } else {
                             print "cannot get Packages.gz from $dir, stopped";
@@ -235,8 +233,7 @@ EOM
     if (yesno('y', 'Do you want to clear available list')) {
         print "Clearing...\n";
         if (system('dpkg', '--clear-avail')) {
-            print 'dpkg --clear-avail failed.';
-            die 'error';
+            subprocerr('dpkg --clear-avail');
         }
     }
 }

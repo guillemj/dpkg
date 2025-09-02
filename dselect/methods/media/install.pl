@@ -25,6 +25,7 @@ use Dselect::Method::Media;
 
 eval q{
     use Dpkg::Version;
+    use Dpkg::ErrorHandling;
 };
 if ($@) {
     warn "Missing Dpkg modules required by the Media access method.\n\n";
@@ -83,7 +84,7 @@ while (1) {
     system "dpkg --admindir '$vardir' --predep-package >'$predep'";
     my $rc = $? >> 8;
     last if $rc == 1;
-    die if $rc != 0;
+    subprocerr('dpkg --predep-package') if $rc;
 
     open my $predep_fh, '<', $predep
         or die "cannot open $predep: $!\n";
