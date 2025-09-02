@@ -141,9 +141,9 @@ INFO
             }
             close $find_fh;
             $print = $invoke;
-            if (substr($print,0,length($binaryprefix)+1) eq
-                "$binaryprefix/") {
-                $print = substr($print,length($binaryprefix));
+            my $printprefix = substr $print, 0, length $binaryprefix + 1;
+            if ($printprefix eq "$binaryprefix/") {
+                $print = substr $print, length $binaryprefix;
             }
         }
         if (!length($invoke)) {
