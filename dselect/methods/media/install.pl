@@ -178,8 +178,6 @@ $SIG{INT} = sub {
 };
 $| = 1;
 
-my $mountpoint = $p_mountpoint;
-my $hierbase = $p_hierbase;
 my $line;
 my $AVAIL = "$vardir/methods/media/available";
 my $STATUS = "$vardir/status";
@@ -262,7 +260,7 @@ if (@media) {
 }
 
 foreach my $need (@media) {
-    my $disk = get_disk_label($mountpoint, $hierbase);
+    my $disk = get_disk_label($p_mountpoint, $p_hierbase);
 
     print "Processing disc\n   $need\n";
 
@@ -273,9 +271,9 @@ foreach my $need (@media) {
         do_umount();
         <STDIN>;
         do_mount();
-        $? and warn "cannot mount $mountpoint\n";
+        $? and warn "cannot mount $p_mountpoint\n";
     } continue {
-        $disk = get_disk_label($mountpoint, $hierbase);
+        $disk = get_disk_label($p_mountpoint, $p_hierbase);
     }
 
     if (! -d 'tmp') {
@@ -289,8 +287,7 @@ foreach my $need (@media) {
         my $basename;
 
         ($basename = $filename{$_}) =~ s/.*\///;
-        symlink "$mountpoint/$hierbase/$filename{$_}",
-                "tmp/$basename";
+        symlink "$p_mountpoint/$p_hierbase/$filename{$_}", "tmp/$basename";
     }
     chdir 'tmp' or die "cannot chdir to tmp: $!\n";
     system 'dpkg', '-iGROEB', q{.};
