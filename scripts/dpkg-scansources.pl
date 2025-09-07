@@ -63,8 +63,14 @@ my @sources;
 
 my @option_spec = (
     'debug!' => \$debug,
-    'help|?' => sub { usage(); exit 0; },
-    'version' => sub { version(); exit 0; },
+    'help|?' => sub {
+        usage();
+        exit 0;
+    },
+    'version' => sub {
+        version();
+        exit 0;
+    },
     'no-sort|n' => \$no_sort,
     'source-override|s=s' => \$src_override,
     'extra-override|e=s' => \$extra_override_file,

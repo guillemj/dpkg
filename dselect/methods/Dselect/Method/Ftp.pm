@@ -87,12 +87,17 @@ sub do_connect {
             } else {
                 $rpass = $opts{password};
             }
-            if(!$ftp->login($remoteuser, $rpass))
-            { print $ftp->message() . "\n"; $exit = 1; }
+            if (! $ftp->login($remoteuser, $rpass)) {
+                print $ftp->message() . "\n";
+                $exit = 1;
+            }
         }
         if (!$exit) {
             print "Setting transfer mode to binary...\n";
-            if(!$ftp->binary()) { print $ftp->message . "\n"; $exit = 1; }
+            if (! $ftp->binary()) {
+                print $ftp->message . "\n";
+                $exit = 1;
+            }
         }
         if (!$exit) {
             print "Cd to '$opts{ftpdir}'...\n";
@@ -113,7 +118,10 @@ sub do_connect {
         last TRY_CONNECT;
     }
 
-#    if(!$ftp->pasv()) { print $ftp->message . "\n"; die 'error'; }
+#    if (! $ftp->pasv()) {
+#       print $ftp->message . "\n";
+#       die 'error';
+#    }
 
     return $ftp;
 }

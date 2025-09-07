@@ -71,7 +71,9 @@ if (-f "$methdir/md5sums") {
     if ($@) {
         die "couldn't eval $methdir/md5sums content: $@\n";
     }
-    if (ref($res)) { %md5sums = %{$res} }
+    if (ref($res)) {
+        %md5sums = %{$res}
+    }
 }
 
 # Get a stanza.
@@ -318,7 +320,10 @@ sub download {
             }
         }
 
-        if (! @getfiles) { $i++; next; }
+        if (! @getfiles) {
+            $i++;
+            next;
+        }
 
         $ftp = do_connect(
             ftpsite => $site->[0],
@@ -560,7 +565,10 @@ if (yesno('y', "\nDo you want to install the files fetched")) {
         @filename = map { "$dldir/$_" } @filename;
         next if (! @filename);
         $r = system('dpkg', '-iB', '--', @filename);
-        if ($r) { print "DPKG ERROR\n"; $exit = 1; }
+        if ($r) {
+            print "DPKG ERROR\n";
+            $exit = 1;
+        }
     }
     #Installing other packages after
     $r = system('dpkg', '-iGREOB', $dldir);

@@ -126,7 +126,10 @@ sub download {
         foreach my $dist (@dists) {
             my $dir = "$dist/binary-$arch";
             print "Checking $dir...\n";
-#           if (!$ftp->pasv()) { print $ftp->message . "\n"; die 'error'; }
+#           if (!$ftp->pasv()) {
+#               print $ftp->message . "\n";
+#               die 'error';
+#           }
             my @dirlst = $ftp->ls("$dir/");
             my $got_pkgfile = 0;
 

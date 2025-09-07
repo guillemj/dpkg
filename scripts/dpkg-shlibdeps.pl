@@ -60,7 +60,8 @@ my %warn2bits = (
 
 # By increasing importance
 my @depfields = qw(Suggests Recommends Depends Pre-Depends);
-my $i = 0; my %depstrength = map { $_ => $i++ } @depfields;
+my $i = 0;
+my %depstrength = map { $_ => $i++ } @depfields;
 
 textdomain('dpkg-dev');
 
@@ -106,9 +107,11 @@ foreach (@ARGV) {
     } elsif (m/^-O(.+)$/) {
         $varlistfile = $1;
     } elsif (m/^-(?:\?|-help)$/) {
-        usage(); exit(0);
+        usage();
+        exit 0;
     } elsif (m/^--version$/) {
-        version(); exit(0);
+        version();
+        exit 0;
     } elsif (m/^--admindir=(.*)$/) {
         $admindir = $1;
         if (not -d $admindir) {

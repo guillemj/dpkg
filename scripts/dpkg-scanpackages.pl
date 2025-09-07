@@ -44,8 +44,14 @@ my %overridden;
 my @checksums;
 
 my %options = (
-    help            => sub { usage(); exit 0; },
-    version         => sub { version(); exit 0; },
+    help            => sub {
+        usage();
+        exit 0;
+    },
+    version         => sub {
+        version();
+        exit 0;
+    },
     type            => undef,
     arch            => undef,
     hash            => undef,

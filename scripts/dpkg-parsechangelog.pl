@@ -114,9 +114,11 @@ while (@ARGV) {
     } elsif ($arg eq '--all') {
         $options{all} = undef;
     } elsif ($arg eq '-?' or $arg eq '--help') {
-        usage(); exit(0);
+        usage();
+        exit 0;
     } elsif ($arg eq '--version') {
-        version(); exit(0);
+        version();
+        exit 0;
     } else {
         usageerr(g_("unknown option '%s'"), $arg);
     }

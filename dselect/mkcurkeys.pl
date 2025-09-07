@@ -83,7 +83,10 @@ my ($comma);
 for my $i (33 .. 126) {
     my $k = $i;
     my $v = pack('C', $i);
-    if ($v eq ',') { $comma = $k; next; }
+    if ($v eq ',') {
+        $comma = $k;
+        next;
+    }
     p($k, $v);
 }
 
