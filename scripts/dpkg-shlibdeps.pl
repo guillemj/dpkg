@@ -60,8 +60,8 @@ my %warn2bits = (
 
 # By increasing importance.
 my @depfields = qw(Suggests Recommends Depends Pre-Depends);
-my $i = 0;
-my %depstrength = map { $_ => $i++ } @depfields;
+my $depstrength = 0;
+my %depstrength = map { $_ => $depstrength++ } @depfields;
 
 textdomain('dpkg-dev');
 
