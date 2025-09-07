@@ -15,7 +15,7 @@
 
 use v5.36;
 
-use Test::More tests => 6964;
+use Test::More tests => 6967;
 
 use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         debarch_eq debarch_is debarch_is_wildcard
@@ -116,6 +116,7 @@ ok(!debarch_is('unknown', 'any-amd64'), 'no match unknown on wildcard os');
 ok(!debarch_is('amd64', 'unknown'), 'no match amd64 on unknown wildcard');
 ok(!debarch_is('amd64', 'unknown-any'), 'no match amd64 on unknown wildcard');
 ok(!debarch_is('amd64', 'any-unknown'), 'no match amd64 on unknown wildcard');
+ok(!debarch_is('amd64', 'linux-anyway'), 'no match amd64 on partial wildcard');
 ok(debarch_is('unknown', 'any'), 'match unknown on global wildcard');
 ok(debarch_is('linux-amd64', 'linux-any'), 'match implicit linux-amd64 on wildcard cpu');
 ok(debarch_is('linux-amd64', 'any-amd64'), 'match implicit linux-amd64 on wildcard os');
@@ -133,6 +134,8 @@ foreach my $wildcard (sort keys %{$wildcards}) {
 ok(!debarch_is_wildcard('unknown'), 'unknown is not a wildcard');
 ok(!debarch_is_wildcard('all'), 'all is not a wildcard');
 ok(!debarch_is_wildcard('amd64'), '<arch> is not a wildcard');
+ok(!debarch_is_wildcard('anyway'), 'anyway is not a wildcard');
+ok(!debarch_is_wildcard('foo-anyway-bar'), 'foo-anyway-bar is not a wildcard');
 
 ok(!debarch_is_illegal('0'), '');
 ok(!debarch_is_illegal('a'), '');
