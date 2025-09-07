@@ -45,8 +45,6 @@ test_dpkg_arch_name_is_illegal(void)
 	test_pass(dpkg_arch_name_is_illegal("i386") == NULL);
 	test_pass(dpkg_arch_name_is_illegal("amd64") == NULL);
 	test_pass(dpkg_arch_name_is_illegal("hurd-i386") == NULL);
-	test_pass(dpkg_arch_name_is_illegal("kfreebsd-i386") == NULL);
-	test_pass(dpkg_arch_name_is_illegal("kfreebsd-amd64") == NULL);
 	test_pass(dpkg_arch_name_is_illegal("ia64") == NULL);
 	test_pass(dpkg_arch_name_is_illegal("alpha") == NULL);
 	test_pass(dpkg_arch_name_is_illegal("armel") == NULL);
@@ -211,7 +209,7 @@ test_dpkg_arch_describe(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(60);
+	test_plan(58);
 
 	test_dpkg_arch_name_is_illegal();
 	test_dpkg_arch_get_list();

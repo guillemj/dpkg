@@ -200,8 +200,6 @@ sub set_build_features {
         hurd-amd64
         hurd-i386
         i386
-        kfreebsd-amd64
-        kfreebsd-i386
         loong64
         mips
         mips64
@@ -243,7 +241,6 @@ sub set_build_features {
         hppa
         i386
         hurd-i386
-        kfreebsd-i386
         m68k
         mips
         mipsel
@@ -287,9 +284,9 @@ sub set_build_features {
 
     ## Area: abi
 
-    if (any { $arch eq $_ } qw(hurd-i386 kfreebsd-i386)) {
-        # Mask time64 on hurd-i386 and kfreebsd-i386, as their kernel lacks
-        # support for that arch and it will not be implemented.
+    if ($arch eq 'hurd-i386') {
+        # Mask time64 on hurd-i386, as its kernel lacks support for that
+        # feature and it will not be implemented.
         $use_feature{abi}{time64} = 0;
     } elsif (not defined $use_feature{abi}{time64}) {
         # If the user has not requested a specific setting, by default only
@@ -376,9 +373,9 @@ sub set_build_features {
     ## Area: hardening
 
     # Mask features that are not available on certain architectures.
-    if (none { $os eq $_ } qw(linux kfreebsd hurd) or
+    if (none { $os eq $_ } qw(linux hurd) or
         any { $cpu eq $_ } qw(alpha hppa ia64)) {
-	# Disabled on non-(linux/kfreebsd/hurd).
+	# Disabled on non-(linux/hurd).
         # Disabled on alpha, hppa, ia64.
 	$use_feature{hardening}{pie} = 0;
     }

@@ -465,15 +465,15 @@ feature in the B<future> feature area.
 
 =item B<time64>
 
-This setting (since dpkg 1.22.0; enabled by default except for i386,
-hurd-i386 and kfreebsd-i386 since dpkg 1.22.5) enables 64-bit time_t support
+This setting (since dpkg 1.22.0; enabled by default except for i386 and
+hurd-i386 since dpkg 1.22.5) enables 64-bit time_t support
 on 32-bit architectures where their ABI does not include it by default,
 by adding B<-D_TIME_BITS=64> to B<CPPFLAGS>.
 This setting automatically enables the B<lfs> feature from the B<abi>
 feature area.
 
 If the setting is enabled explicitly then it gets enabled on all
-architectures including i386 but not hurd-i386 nor kfreebsd-i386
+architectures including i386 but not hurd-i386
 (where the kernel does not have time64 interfaces),
 ignoring the binary backwards compatibility default.
 
@@ -728,7 +728,7 @@ The option cannot become enabled if B<relro> is not enabled.
 This setting (since dpkg 1.16.1; with no global default since dpkg 1.18.23,
 as it is enabled
 by default now by gcc on the amd64, arm64, armel, armhf, hurd-i386, i386,
-kfreebsd-amd64, kfreebsd-i386, mips, mipsel, mips64el, powerpc, ppc64,
+mips, mipsel, mips64el, powerpc, ppc64,
 ppc64el, riscv64, s390x, sparc and sparc64 Debian architectures) adds
 the required options to enable or disable PIE via gcc specs files, if
 needed, depending on whether gcc injects on that architecture the flags

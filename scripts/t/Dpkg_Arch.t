@@ -15,7 +15,7 @@
 
 use v5.36;
 
-use Test::More tests => 7071;
+use Test::More tests => 6999;
 
 use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         debarch_eq debarch_is debarch_is_wildcard
@@ -27,7 +27,7 @@ use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         get_host_gnu_type
                         get_valid_arches));
 
-my $KNOWN_ARCHES_TOTAL = 204;
+my $KNOWN_ARCHES_TOTAL = 202;
 my @valid_arches = get_valid_arches();
 
 sub get_valid_wildcards
@@ -138,7 +138,6 @@ ok(!debarch_is_illegal('0'), '');
 ok(!debarch_is_illegal('a'), '');
 ok(!debarch_is_illegal('amd64'), '');
 ok(!debarch_is_illegal('!arm64'), '');
-ok(!debarch_is_illegal('kfreebsd-any'), '');
 ok(debarch_is_illegal('!amd64!arm'), '');
 ok(debarch_is_illegal('arch%name'), '');
 ok(debarch_is_illegal('-any'), '');
@@ -147,12 +146,12 @@ ok(debarch_is_illegal('!'), '');
 my @arch_new;
 my @arch_ref;
 
-@arch_ref = qw(amd64 !arm64 linux-i386 !kfreebsd-any);
-@arch_new = debarch_list_parse('amd64  !arm64   linux-i386 !kfreebsd-any');
+@arch_ref = qw(amd64 !arm64 linux-i386);
+@arch_new = debarch_list_parse('amd64  !arm64   linux-i386');
 is_deeply(\@arch_new, \@arch_ref, 'parse valid arch list');
 
-@arch_ref = qw(amd64 arm64 linux-i386 kfreebsd-any);
-@arch_new = debarch_list_parse('amd64  arm64   linux-i386 kfreebsd-any', positive => 1);
+@arch_ref = qw(amd64 arm64 linux-i386);
+@arch_new = debarch_list_parse('amd64  arm64   linux-i386', positive => 1);
 is_deeply(\@arch_new, \@arch_ref, 'parse valid positive arch list');
 
 eval { @arch_new = debarch_list_parse('!amd64!arm64') };
