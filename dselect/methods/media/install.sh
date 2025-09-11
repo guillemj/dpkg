@@ -154,7 +154,7 @@ and rerun the installation, or upgrade the package by using
   ' -- "$p_mountpoint$p_hierbase" "$predep" "$thisdisk"
 done
 
-perl -MDselect::Method::Media -e '
+perl -MDpkg::Version -MDselect::Method::Media -e '
 	$SIG{INT} = sub { cd $vardir; unlink <tmp/*>; exit 1; };
 	$| = 1;
 	my ($vardir, $mountpoint, $hierbase, $mount, $umount) = @ARGV;
@@ -196,8 +196,8 @@ perl -MDselect::Method::Media -e '
 
 		 next unless defined $Installed{$avail{Package}};
 
-		 system "dpkg", "--compare-versions", $avail{Version}, "gt", $Installed{$avail{Package}};
-		 $updated = ($? == 0);
+                 $updated = version_compare($avail{Version},
+                                            $Installed{$avail{Package}}) > 0;
 		 #print "$avail{Package}(" . ($updated ? "+" : "=") . ") ";
 		 $updated or next;
 

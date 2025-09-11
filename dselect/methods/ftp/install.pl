@@ -27,6 +27,7 @@ eval q{
     use Data::Dumper;
 
     use Dpkg::File;
+    use Dpkg::Version;
 };
 if ($@) {
     warn "Missing Dpkg modules required by the FTP access method.\n\n";
@@ -132,19 +133,6 @@ sub procstatus {
 }
 procstatus();
 
-sub dcmpvers {
-    my($a, $p, $b) = @_;
-    my ($r);
-    $r = system('dpkg', '--compare-versions', "$a", "$p", "$b");
-    $r = $r/256;
-    if ($r == 0) {
-	return 1;
-    } elsif ($r == 1) {
-	return 0;
-    }
-    die "dpkg --compare-versions $a $p $b - failed with $r";
-}
-
 # process package files, looking for packages to install
 # create a hash of these packages pkgname => version, filenames...
 # filename => md5sum, size
@@ -164,7 +152,8 @@ sub procpkgfile {
 	@files = split(/[\s\n]+/, $flds{'filename'});
 	@sizes = split(/[\s\n]+/, $flds{'size'});
 	@md5sums = split(/[\s\n]+/, $flds{'md5sum'});
-	if (defined($ver) && (($ver eq '') || dcmpvers($ver, 'lt', $flds{'version'}))) {
+        if (defined($ver) &&
+            (($ver eq '') || version_compare($ver, $flds{'version'}) < 0)) {
 	    $pkgs{$pkg} = [ $flds{'version'}, [ @files ], $site ];
 	    $curpkgs{$pkg} = $flds{'version'};
 	}
@@ -493,9 +482,10 @@ sub prcdeb {
 	return 0;
     }
     if($vers{$pkg}) {
-	if (dcmpvers($vers{$pkg}, 'eq', $ver)) {
+        my $ver_rel = version_compare($vers{$pkg}, $ver);
+        if ($ver_rel == 0) {
 	    $files{$pkg . $ver} = [ $files{$pkg . $ver }, "$dir/$fn" ];
-	} elsif (dcmpvers($vers{$pkg}, 'gt', $ver)) {
+        } elsif ($ver_rel > 0) {
 	    print "old version\n";
 	    unlink $fn;
 	} else { # else $ver is gt current version
@@ -587,7 +577,8 @@ sub removeinstalled {
 	    my($pkg, $ver) = getdebinfo($fn);
 	    if(!defined($pkg) || !defined($ver)) {
 		print "Could not get info for: $dir/$fn\n";
-            } elsif ($curpkgs{$pkg} and dcmpvers($ver, 'le', $curpkgs{$pkg})) {
+            } elsif ($curpkgs{$pkg} &&
+                     version_compare($ver, $curpkgs{$pkg}) <= 0) {
                 print "deleting: $dir/$fn\n";
                 unlink $fn;
             } else {
