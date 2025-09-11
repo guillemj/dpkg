@@ -165,7 +165,7 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 	my $line;
 	my $AVAIL = "$vardir/methods/media/available";
 	my $STATUS = "$vardir/status";
-	my %Installed, %Filename, %Medium;
+        my (%Installed, %Filename, %Medium);
 	print "Get currently installed package versions...";
 	open(IN, "$STATUS") or die "cannot open $STATUS: $!\n";
 	$line = 0;
