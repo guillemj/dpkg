@@ -82,10 +82,14 @@ while true; do
 
   perl -e '
 	($binaryprefix,$predep,$thisdisk) = @ARGV;
+
+        my $version;
+
 	open(P, "< $predep") or die "cannot open $predep: $!\n";
 	while (<P>) {
 		s/\s*\n$//;
 		$package = $_ if s/^Package: //i;
+                $version = $_ if s{^Version: }{}i;
 		/^X-Medium:\s+(.*)\s*/ and $medium = $1;
 		@filename = split(/ /,$_) if s/^Filename: //i;
 	}

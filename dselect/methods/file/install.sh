@@ -41,10 +41,14 @@ while true; do
   perl -e '
 	($binaryprefix,$predep) = @ARGV;
 	$binaryprefix =~ s,/*$,/, if length($binaryprefix);
+
+        my $version;
+
 	open(P, "< $predep") or die "cannot open $predep: $!\n";
 	while (<P>) {
 		s/\s*\n$//;
 		$package = $_ if s/^Package: //i;
+                $version = $_ if s{^Version: }{}i;
 		@filename = split(/ /,$_) if s/^Filename: //i;
 	}
 	die "internal error - no package" if length($package) == 0;
