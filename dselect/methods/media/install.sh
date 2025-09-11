@@ -154,7 +154,7 @@ and rerun the installation, or upgrade the package by using
   ' -- "$p_mountpoint$p_hierbase" "$predep" "$thisdisk"
 done
 
-perl -e '
+perl -MDselect::Method::Media -e '
 	$SIG{INT} = sub { cd $vardir; unlink <tmp/*>; exit 1; };
 	$| = 1;
 	my ($vardir, $mountpoint, $hierbase, $mount, $umount) = @ARGV;
@@ -215,12 +215,7 @@ perl -e '
 	}
 
 	foreach $need (sort @_) {
-		if (-r "$mountpoint/.disk/info") {
-			open(IN, "$mountpoint/.disk/info") or die("$mountpoint/.disk/info: $!\n");
-		} else {
-			open(IN, "$mountpoint/$hierbase/.disk/info") or die("$mountpoint/$hierbase/.disk/info: $!\n");
-		}
-		$disk = <IN>; chomp $disk; close(IN);
+                my $disk = get_disk_label($mountpoint, $hierbase);
 
 		print "Processing disc\n   $need\n";
 
@@ -233,12 +228,7 @@ perl -e '
 			system($mount);
 			$? and warn("cannot mount $mount\n");
 		} continue {
-			if (-r "$mountpoint/.disk/info") {
-			    open(IN, "$mountpoint/.disk/info") or die("$mountpoint/.disk/info: $!\n");
-			} else {
-			    open(IN, "$mountpoint/$hierbase/.disk/info") or die("$mountpoint/$hierbase/.disk/info: $!\n");
-			}
-			$disk = <IN>; chomp $disk; close(IN);
+                        $disk = get_disk_label($mountpoint, $hierbase);
 		}
 
 		-d "tmp" || mkdir "tmp", 0755 or die("Cannot mkdir tmp: $!\n");
