@@ -94,6 +94,7 @@ while true; do
 		/^X-Medium:\s+(.*)\s*/ and $medium = $1;
 		@filename = split(/ /,$_) if s/^Filename: //i;
 	}
+        close $predep_fh;
 	die "internal error - no package" if length($package) == 0;
 	die "internal error - no filename" if not @filename;
 	if ($medium && ($medium ne $thisdisk)) {
@@ -130,6 +131,7 @@ INFO
                         while (chop($invoke = <$find_fh>)) {
                               last if -f $invoke;
                         }
+                        close $find_fh;
 			$print = $invoke;
 			if (substr($print,0,length($binaryprefix)+1) eq
 			    "$binaryprefix/") {
@@ -190,6 +192,7 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 		}
             }
         }
+        close $status_fh;
 	print "\nGot ", scalar keys %Installed, " installed/pending packages\n";
 	print "Scanning available packages...";
 	$line = 0;
@@ -218,6 +221,7 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 		 push @{${Medium{$avail{"X-Medium"}}}}, $avail{Package};
             }
         }
+        close $avail_fh;
 	print "\n";
 
 	if (@_ = keys(%Medium)) {

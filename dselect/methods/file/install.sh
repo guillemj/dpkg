@@ -52,6 +52,7 @@ while true; do
                 $version = $_ if s{^Version: }{}i;
 		@filename = split(/ /,$_) if s/^Filename: //i;
 	}
+        close $predep_fh;
 	die "internal error - no package" if length($package) == 0;
 	die "internal error - no filename" if not @filename;
 	@invoke = (); $| = 1;
@@ -77,6 +78,7 @@ while true; do
                         while (chop($invoke = <$find_fh>)) {
                             last if -f $invoke;
                         }
+                        close $find_fh;
 			$print = $invoke;
 			if (substr($print,0,length($binaryprefix)+1) eq
 			    "$binaryprefix/") {
