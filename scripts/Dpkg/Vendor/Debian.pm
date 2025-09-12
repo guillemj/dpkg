@@ -642,6 +642,7 @@ sub add_build_flags {
         # be on derivatives.
         if (defined $flag) {
             $flags->append($_, $flag) foreach @compile_flags;
+            $flags->append('LDFLAGS', $flag);
         }
     }
 

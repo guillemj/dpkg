@@ -190,6 +190,7 @@ sub add_build_flags {
         }
         if (defined $flag) {
             $flags->append($_, $flag) foreach @compile_flags;
+            $flags->append('LDFLAGS', $flag);
         }
     }
 
