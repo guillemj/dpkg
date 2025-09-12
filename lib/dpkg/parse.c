@@ -80,7 +80,6 @@ const struct fieldinfo fieldinfos[]= {
   { FIELD("Filename"),         f_archives,        w_archives,       ARCHIVEFOFF(name)        },
   { FIELD("Size"),             f_archives,        w_archives,       ARCHIVEFOFF(size)        },
   { FIELD("MD5sum"),           f_archives,        w_archives,       ARCHIVEFOFF(md5sum)      },
-  { FIELD("MSDOS-Filename"),   f_archives,        w_archives,       ARCHIVEFOFF(msdosname)   },
   { FIELD("Description"),      f_charfield,       w_charfield,      PKGIFPOFF(description)   },
   { FIELD("Triggers-Pending"), f_trigpend,        w_trigpend                                 },
   { FIELD("Triggers-Awaited"), f_trigaw,          w_trigaw                                   },

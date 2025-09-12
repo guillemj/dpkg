@@ -1279,7 +1279,6 @@ void process_archive(const char *filename) {
     pkg->archives = nfmalloc(sizeof(*pkg->archives));
     pkg->archives->next = NULL;
     pkg->archives->name = NULL;
-    pkg->archives->msdosname = NULL;
     pkg->archives->md5sum = NULL;
   }
   /* Always nfmalloc. Otherwise, we may overwrite some other field (like

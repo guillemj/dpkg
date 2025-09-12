@@ -142,7 +142,9 @@ f_archives(struct pkginfo *pkg, struct pkgbin *pkgbin,
                       "(compared to others)"), fip->name);
       fdp = nfmalloc(sizeof(*fdp));
       fdp->next= NULL;
-      fdp->name= fdp->msdosname= fdp->size= fdp->md5sum= NULL;
+      fdp->name = NULL;
+      fdp->size = NULL;
+      fdp->md5sum = NULL;
       *fdpp= fdp;
     }
     STRUCTFIELD(fdp, fip->integer, const char *) = cpos;

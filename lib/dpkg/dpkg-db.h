@@ -96,7 +96,6 @@ struct conffile {
 struct archivedetails {
   struct archivedetails *next;
   const char *name;
-  const char *msdosname;
   const char *size;
   const char *md5sum;
 };
