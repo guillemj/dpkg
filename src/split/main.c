@@ -89,7 +89,6 @@ usage(const char *const *argv)
 "  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
 "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
-"      --msdos                      Generate 8.3 filenames.\n"
 "\n"), ADMINDIR, PARTSDIR, ADMINDIR, "/");
 
   printf(_(
@@ -110,7 +109,6 @@ off_t opt_maxpartsize = SPLITPARTDEFMAX;
 const char *opt_depotdir;
 const char *opt_outputfile = NULL;
 int opt_npquiet = 0;
-int opt_msdos = 0;
 
 void DPKG_ATTR_NORET
 read_fail(int rc, const char *filename, const char *what)
@@ -156,7 +154,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "partsize",     'S',  1,  NULL, NULL,             set_part_size       },
   { "output",       'o',  1,  NULL, &opt_outputfile,  NULL                },
   { "npquiet",      'Q',  0,  &opt_npquiet, NULL,     NULL,           1   },
-  { "msdos",         0,   0,  &opt_msdos, NULL,       NULL,           1   },
+  { "msdos",         0,   0,  NULL, NULL,             setobsolete,        },
   {  NULL,              0                                              }
 };
 

@@ -107,29 +107,8 @@ parse_timestamp(const char *value)
 	return timestamp;
 }
 
-/* Cleanup filename for use in crippled msdos systems. */
-static char *
-clean_msdos_filename(char *filename)
-{
-	char *d, *s;
-
-	for (s = d = filename; *s; d++, s++) {
-		if (*s == '+')
-			*d = 'x';
-		else if (c_isupper(*s))
-			*d = c_tolower(*s);
-		else if (c_islower(*s) || c_isdigit(*s))
-			*d = *s;
-		else
-			s++;
-	}
-
-	return filename;
-}
-
 static int
-mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
-        bool msdos)
+mksplit(const char *file_src, const char *prefix, off_t maxpartsize)
 {
 	struct pkginfo *pkg;
 	struct dpkg_error err;
@@ -142,7 +121,6 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	int nparts, curpart;
 	off_t partsize;
 	off_t cur_partsize, last_partsize;
-	char *prefixdir = NULL, *msdos_prefix = NULL;
 	struct varbuf file_dst = VARBUF_INIT;
 	struct varbuf partmagic = VARBUF_INIT;
 	struct varbuf partname = VARBUF_INIT;
@@ -179,34 +157,12 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	          "Splitting package %s into %d parts: ", nparts),
 	       pkg->set->name, nparts);
 
-	if (msdos) {
-		char *t;
-
-		t = m_strdup(prefix);
-		prefixdir = m_strdup(dirname(t));
-		free(t);
-
-		msdos_prefix = m_strdup(path_basename(prefix));
-		prefix = clean_msdos_filename(msdos_prefix);
-	}
-
 	for (curpart = 1; curpart <= nparts; curpart++) {
 		struct dpkg_ar *ar;
 
 		/* Generate output filename. */
-		if (msdos) {
-			char *refname;
-			int prefix_max;
-
-			refname = str_fmt("%dof%d", curpart, nparts);
-			prefix_max = max(8 - strlen(refname), 0);
-			varbuf_set_fmt(&file_dst, "%s/%.*s%.8s" DEBEXT,
-			               prefixdir, prefix_max, prefix, refname);
-			free(refname);
-		} else {
-			varbuf_set_fmt(&file_dst, "%s.%dof%d" DEBEXT,
-			               prefix, curpart, nparts);
-		}
+		varbuf_set_fmt(&file_dst, "%s.%dof%d" DEBEXT,
+		               prefix, curpart, nparts);
 
 		if (curpart == nparts)
 			cur_partsize = last_partsize;
@@ -250,9 +206,6 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	varbuf_destroy(&partname);
 	varbuf_destroy(&partmagic);
 
-	free(prefixdir);
-	free(msdos_prefix);
-
 	close(fd_src);
 
 	printf(_("done\n"));
@@ -280,7 +233,7 @@ do_split(const char *const *argv)
 		prefix = nfstrnsave(sourcefile, sourcefile_len);
 	}
 
-	mksplit(sourcefile, prefix, opt_maxpartsize, opt_msdos);
+	mksplit(sourcefile, prefix, opt_maxpartsize);
 
 	return 0;
 }

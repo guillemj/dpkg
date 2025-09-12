@@ -62,7 +62,6 @@ extern off_t opt_maxpartsize;
 extern const char *opt_depotdir;
 extern const char *opt_outputfile;
 extern int opt_npquiet;
-extern int opt_msdos;
 
 void read_fail(int rc, const char *filename, const char *what) DPKG_ATTR_NORET;
 void print_info(const struct partinfo *pi);
