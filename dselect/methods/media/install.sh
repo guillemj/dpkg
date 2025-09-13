@@ -172,7 +172,11 @@ WARN
 done
 
 perl -MDpkg::Version -MDselect::Method::Media -e '
-	$SIG{INT} = sub { cd $vardir; unlink <tmp/*>; exit 1; };
+        $SIG{INT} = sub {
+            chdir $vardir;
+            unlink <tmp/*>;
+            exit 1;
+        };
 	$| = 1;
 	my ($vardir, $mountpoint, $hierbase, $mount, $umount) = @ARGV;
 	my $line;
