@@ -272,7 +272,10 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
                         $disk = get_disk_label($mountpoint, $hierbase);
 		}
 
-		-d "tmp" || mkdir "tmp", 0755 or die("Cannot mkdir tmp: $!\n");
+                if (! -d "tmp") {
+                    mkdir "tmp", 0755
+                        or die("Cannot mkdir tmp: $!\n");
+                }
 		unlink <tmp/*>;
 
 		print "creating symlinks...\n";
