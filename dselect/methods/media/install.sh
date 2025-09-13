@@ -249,12 +249,13 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 
         my $ouch;
 
-	if (@_ = keys(%Medium)) {
+        my @media = sort keys %Medium;
+        if (@media) {
 		    print "You will need the following distribution disc(s):\n",
-			join (", ", @_), "\n";
+                          join(", ", @media), "\n";
 	}
 
-	foreach my $need (sort @_) {
+	foreach my $need (@media) {
                 my $disk = get_disk_label($mountpoint, $hierbase);
 
 		print "Processing disc\n   $need\n";
