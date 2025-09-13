@@ -196,7 +196,10 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
                     "",
                     split /^(\S*?):\s*/m,
                 );
-		map { chomp $status{$_}; $status{$_} =~ s/^\s*(.*?)\s*$/$1/;} keys %status;
+                foreach my $field (keys %status) {
+                    chomp $status{$_};
+                    $status{$_} =~ s/^\s*(.*?)\s*$/$1/;
+                }
                 my @pstat = split(/ /, $status{Status});
 		next unless ($pstat[0] eq "install");
 		if ($pstat[2] eq "config-files" || $pstat[2] eq "not-installed") {
@@ -222,7 +225,10 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
                     "",
                     split /^(\S*?):\s*/m,
                 );
-		 map { chomp $avail{$_}; $avail{$_} =~ s/^\s*(.*?)\s*$/$1/;} keys %avail;
+                foreach my $field (keys %avail) {
+                    chomp $avail{$_};
+                    $avail{$_} =~ s/^\s*(.*?)\s*$/$1/;
+                }
 
 		 next unless defined $Installed{$avail{Package}};
 
