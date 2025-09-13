@@ -183,7 +183,7 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 	my $line;
 	my $AVAIL = "$vardir/methods/media/available";
 	my $STATUS = "$vardir/status";
-        my (%Installed, %Filename, %Medium);
+        my (%installed, %filename, %medium);
 	print "Get currently installed package versions...";
         open my $status_fh, "<", $STATUS
             or die "cannot open $STATUS: $!\n";
@@ -203,14 +203,14 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
                 my @pstat = split(/ /, $status{Status});
 		next unless ($pstat[0] eq "install");
 		if ($pstat[2] eq "config-files" || $pstat[2] eq "not-installed") {
-		    $Installed{$status{Package}} = "0.0";
+                    $installed{$status{Package}} = "0.0";
 		} else {
-		    $Installed{$status{Package}} = $status{Version} || "" ;
+                    $installed{$status{Package}} = $status{Version} || "" ;
 		}
             }
         }
         close $status_fh;
-	print "\nGot ", scalar keys %Installed, " installed/pending packages\n";
+        print "\nGot ", scalar keys %installed, " installed/pending packages\n";
 	print "Scanning available packages...";
 	$line = 0;
         open my $avail_fh, "<", $AVAIL
@@ -230,18 +230,18 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
                     $avail{$_} =~ s/^\s*(.*?)\s*$/$1/;
                 }
 
-		 next unless defined $Installed{$avail{Package}};
+                 next unless defined $installed{$avail{Package}};
 
                  $updated = version_compare($avail{Version},
-                                            $Installed{$avail{Package}}) > 0;
+                                            $installed{$avail{Package}}) > 0;
 		 #print "$avail{Package}(" . ($updated ? "+" : "=") . ") ";
 		 $updated or next;
 
-		 $Filename{$avail{Package}} = $avail{Filename};
+                 $filename{$avail{Package}} = $avail{Filename};
 
 		 next unless defined $avail{"X-Medium"};
-		 ${Medium{$avail{"X-Medium"}}} or ${Medium{$avail{"X-Medium"}}} = [];
-		 push @{${Medium{$avail{"X-Medium"}}}}, $avail{Package};
+                 $medium{$avail{"X-Medium"}} or $medium{$avail{"X-Medium"}} = [];
+                 push @{$medium{$avail{"X-Medium"}}}, $avail{Package};
             }
         }
         close $avail_fh;
@@ -249,7 +249,7 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 
         my $ouch;
 
-        my @media = sort keys %Medium;
+        my @media = sort keys %medium;
         if (@media) {
 		    print "You will need the following distribution disc(s):\n",
                           join(", ", @media), "\n";
@@ -279,11 +279,11 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 		unlink <tmp/*>;
 
 		print "creating symlinks...\n";
-		foreach (@{$Medium{$need}}) {
+                foreach (@{$medium{$need}}) {
                         my $basename;
 
-			($basename = $Filename{$_}) =~ s/.*\///;
-			symlink "$mountpoint/$hierbase/$Filename{$_}",
+                        ($basename = $filename{$_}) =~ s/.*\///;
+                        symlink "$mountpoint/$hierbase/$filename{$_}",
 				"tmp/$basename";
 		}
 		chdir "tmp" or die "cannot chdir to tmp: $!\n";
