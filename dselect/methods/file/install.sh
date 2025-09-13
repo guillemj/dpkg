@@ -56,7 +56,7 @@ while true; do
 	die "internal error - no package" if length($package) == 0;
 	die "internal error - no filename" if not @filename;
 	@invoke = (); $| = 1;
-	for ($i = 0; $i <= $#filename; $i++) {
+        foreach my $i (0 .. $#filename) {
 		$ppart = $i+1;
 		print "Looking for part $ppart of $package ... ";
 		if (-f "$binaryprefix$filename[$i]") {
