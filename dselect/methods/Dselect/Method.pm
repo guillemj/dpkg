@@ -262,5 +262,3 @@ This is a private module.
 =cut
 
 1;
-
-__END__
