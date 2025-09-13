@@ -125,7 +125,8 @@ INFO
 			$print = $filename[$i];
 			$invoke = "$binaryprefix$filename[$i]";
 		} else {
-			$base = $filename[$i]; $base =~ s,.*/,,;
+                        $base = $filename[$i];
+                        $base =~ s{.*/}{};
                         my $c = open my $find_fh, "-|";
 			if (not defined $c) {
 				die "failed to fork for find: $!\n";
