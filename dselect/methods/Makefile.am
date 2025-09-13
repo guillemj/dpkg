@@ -31,13 +31,13 @@ nobase_methods_SCRIPTS = \
 EXTRA_DIST = \
 	file/setup.sh \
 	file/update.sh \
-	file/install.sh \
+	file/install.pl \
 	ftp/setup.pl \
 	ftp/update.pl \
 	ftp/install.pl \
 	media/setup.sh \
 	media/update.sh \
-	media/install.sh \
+	media/install.pl \
 	media/README.media \
 	# EOL
 
