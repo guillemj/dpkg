@@ -53,7 +53,7 @@ while true; do
 		s/\s*\n$//;
 		$package = $_ if s/^Package: //i;
                 $version = $_ if s{^Version: }{}i;
-		@filename = split(/ /,$_) if s/^Filename: //i;
+                @filename = split / / if s/^Filename: //i;
 	}
         close $predep_fh;
 	die "internal error - no package" if length($package) == 0;

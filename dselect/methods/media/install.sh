@@ -95,7 +95,7 @@ while true; do
 		$package = $_ if s/^Package: //i;
                 $version = $_ if s{^Version: }{}i;
 		/^X-Medium:\s+(.*)\s*/ and $medium = $1;
-		@filename = split(/ /,$_) if s/^Filename: //i;
+                @filename = split / / if s/^Filename: //i;
 	}
         close $predep_fh;
 	die "internal error - no package" if length($package) == 0;
@@ -194,7 +194,7 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 		s/\n\s+/ /g;
                 my %status = (
                     "",
-                    split /^(\S*?):\s*/m, $_,
+                    split /^(\S*?):\s*/m,
                 );
 		map { chomp $status{$_}; $status{$_} =~ s/^\s*(.*?)\s*$/$1/;} keys %status;
                 my @pstat = split(/ /, $status{Status});
@@ -220,7 +220,7 @@ perl -MDpkg::Version -MDselect::Method::Media -e '
 		 s/\n\s+/ /g;
                 my %avail = (
                     "",
-                    split /^(\S*?):\s*/m, $_,
+                    split /^(\S*?):\s*/m,
                 );
 		 map { chomp $avail{$_}; $avail{$_} =~ s/^\s*(.*?)\s*$/$1/;} keys %avail;
 
