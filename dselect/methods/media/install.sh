@@ -92,7 +92,7 @@ while true; do
 	die "internal error - no package" if length($package) == 0;
 	die "internal error - no filename" if not @filename;
 	if ($medium && ($medium ne $thisdisk)) {
-		print "
+		print <<"INFO";
 
 This is
     $thisdisk
@@ -100,7 +100,7 @@ However, $package is expected on disc:
     $medium
 Please change the discs and press <RETURN>.
 
-";
+INFO
 		exit(1);
 	}
 	@invoke = (); $| =1;
