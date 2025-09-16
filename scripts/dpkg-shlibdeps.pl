@@ -292,6 +292,8 @@ foreach my $file (keys %exec) {
                 # the realpath() first, maybe this one is part of a package
                 my $reallib = realpath($lib);
                 if (exists $file2pkg->{$reallib}) {
+                    debug(1, "No package mapping found for $lib, " .
+                             "overriding with one from canonicalized $reallib");
                     $file2pkg->{$lib} = $file2pkg->{$reallib};
                 }
             }
