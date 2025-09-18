@@ -463,8 +463,12 @@ sub getdebinfo {
 	open(my $pkgfile_fh, '-|', "dpkg-split --info $fn")
 	    or die "cannot create pipe for 'dpkg-split --info $fn'";
 	while (<$pkgfile_fh>) {
-	    /Part of package:\s*(\S+)/ and $pkg = $1;
-	    /\.\.\. version:\s*(\S+)/ and $ver = $1;
+            if (/Part of package:\s*(\S+)/) {
+                $pkg = $1;
+            }
+            if (/\.\.\. version:\s*(\S+)/) {
+                $ver = $1;
+            }
 	}
 	close($pkgfile_fh);
 	return $pkg, $ver;

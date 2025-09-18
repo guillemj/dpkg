@@ -91,7 +91,9 @@ while (1) {
         s/\s*\n$//;
         $package = $_ if s/^Package: //i;
         $version = $_ if s{^Version: }{}i;
-        /^X-Medium:\s+(.*)\s*/ and $medium = $1;
+        if (m{^X-Medium:\s+(.*)\s*}) {
+            $medium = $1;
+        }
         @filename = split / / if s/^Filename: //i;
     }
     close $predep_fh;
@@ -191,7 +193,9 @@ $line = 0;
     local $/ = q{};
 
     while (<$status_fh>) {
-        $line++ % 20 or print q{.};
+        if ($line++ % 20 == 0) {
+            print q{.};
+        }
         s/\n\s+/ /g;
         my %status = (
             q{},
@@ -222,7 +226,9 @@ open my $avail_fh, '<', $AVAIL
     while (<$avail_fh>) {
         my $updated;
 
-        $line++ % 20 or print q{.};
+        if ($line++ % 20 == 0) {
+            print q{.};
+        }
 
         s/\n\s+/ /g;
         my %avail = (
@@ -239,12 +245,12 @@ open my $avail_fh, '<', $AVAIL
         $updated = version_compare($avail{Version},
                                    $installed{$avail{Package}}) > 0;
         #print "$avail{Package}(" . ($updated ? "+" : "=") . ") ";
-        $updated or next;
+        next unless $updated;
 
         $filename{$avail{Package}} = $avail{Filename};
 
         next unless defined $avail{'X-Medium'};
-        $medium{$avail{'X-Medium'}} or $medium{$avail{'X-Medium'}} = [];
+        $medium{$avail{'X-Medium'}} //= [];
         push @{$medium{$avail{'X-Medium'}}}, $avail{Package};
     }
 }
@@ -271,7 +277,9 @@ foreach my $need (@media) {
         do_umount();
         <STDIN>;
         do_mount();
-        $? and warn "cannot mount $p_mountpoint\n";
+        if ($?) {
+            warn "cannot mount $p_mountpoint\n";
+        }
     } continue {
         $disk = get_disk_label($p_mountpoint, $p_hierbase);
     }

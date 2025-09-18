@@ -136,8 +136,8 @@ foreach (@{$CONFIG{site}}) {
 	}
 
 	if ($must_get) {
-	    -f 'Packages.gz' and unlink 'Packages.gz';
-	    -f 'Packages' and unlink 'Packages';
+	    unlink 'Packages.gz';
+	    unlink 'Packages';
 	    my $size = 0;
 
 	  TRY_GET_PACKAGES:

@@ -67,9 +67,9 @@ sub yesno {
     while (1) {
         print $msg, " [$d]: ";
         $res = <STDIN>;
-        $res =~ /^[Yy]/ and return 1;
-        $res =~ /^[Nn]/ and return 0;
-        $res =~ /^[ \t]*$/ and return $r;
+        return 1 if $res =~ /^[Yy]/;
+        return 0 if $res =~ /^[Nn]/;
+        return $r if $res =~ /^[ \t]*$/;
         print "Please enter one of the letters 'y' or 'n'\n";
     }
 }
@@ -144,17 +144,23 @@ sub edit_config {
         print "\nEnter a command (a=add e=edit d=delete q=quit m=mirror list) \n";
         print 'eventually followed by a site number : ';
         chomp($_ = <STDIN>);
-        /q/i && last;
-        /a/i && add_site($method);
-        /d\s*(\d+)/i && do {
+        if (/q/i) {
+            last;
+        }
+        if (/a/i) {
+            add_site($method);
+        }
+        if (/d\s*(\d+)/i) {
             splice(@{$CONFIG{site}}, $1 - 1, 1) if $1 <= @{$CONFIG{site}};
             next;
-        };
-        /e\s*(\d+)/i && do {
+        }
+        if (/e\s*(\d+)/i) {
             edit_site($method, $CONFIG{site}[$1 - 1]) if $1 <= @{$CONFIG{site}};
             next;
-        };
-        /m/i && view_mirrors();
+        }
+        if (/m/i) {
+            view_mirrors();
+        }
     }
 
     print "\n";
