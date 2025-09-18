@@ -69,4 +69,4 @@ sub module_version_ok
 
 foreach my $file (@files) {
     module_version_ok($file);
-};
+}
