@@ -15,7 +15,7 @@
 
 use v5.36;
 
-use Test::More;
+use Test::More tests => 1747;
 
 use IPC::Cmd qw(can_run);
 
@@ -33,8 +33,6 @@ my @ops = qw(
     >= ge
     > >> gt
 );
-
-plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 27;
 
 my $have_dpkg = can_run('dpkg');
 

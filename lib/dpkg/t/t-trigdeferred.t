@@ -18,7 +18,7 @@
 use v5.36;
 use version;
 
-use Test::More;
+use Test::More tests => 21;
 use Cwd;
 use File::Path qw(make_path remove_tree);
 use File::Basename;
@@ -79,8 +79,6 @@ TEXT
         original => 'missing newline',
     }
 );
-
-plan tests => scalar(@deferred) * 3;
 
 # Set a known umask.
 umask 0022;

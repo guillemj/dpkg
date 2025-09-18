@@ -15,7 +15,7 @@
 
 use v5.36;
 
-use Test::More;
+use Test::More tests => 712;
 
 use File::Spec;
 
@@ -102,10 +102,6 @@ my @choices = (
         slaves => [],
     },
 );
-my $nb_slaves = 4;
-plan tests => (4 * ($nb_slaves + 1) + 2) * 26 # number of check_choices
-               + 30                           # number of directory checks
-               + 110;                         # rest
 
 sub cleanup {
     system("rm -rf $tmpdir && mkdir -p $admindir && mkdir -p $altdir");
@@ -274,7 +270,7 @@ sub check_slaves {
 	}
     }
 }
-# (4 * (nb_slaves+1) + 2) tests in each check_choice() call
+
 sub check_choice {
     my ($id, $mode, $msg) = @_;
     my $output;
