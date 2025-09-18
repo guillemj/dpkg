@@ -23,6 +23,10 @@ use Dpkg::IPC;
 use Dpkg::File qw(file_slurp);
 use Dpkg::Path qw(find_command);
 
+if (! -x "$ENV{builddir}/update-alternatives") {
+    plan skip_all => 'update-alternatives not available';
+}
+
 my $srcdir = $ENV{srcdir} || '.';
 my $tmpdir = 't.tmp/update_alternatives';
 my $admindir = File::Spec->rel2abs("$tmpdir/admindir"),
@@ -50,10 +54,6 @@ my %paths = (
     date => find_command('date'),
     sleep => find_command('sleep'),
 );
-
-if (! -x "$ENV{builddir}/update-alternatives") {
-    plan skip_all => 'update-alternatives not available';
-}
 
 my $main_link = "$bindir/generic-test";
 my $main_name = 'generic-test';
