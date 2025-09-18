@@ -143,7 +143,7 @@ sub detect_binary_files {
         my %exclude;
         my $reldir = File::Spec->abs2rel($File::Find::dir, $self->{dir});
         my $cwd = getcwd();
-        # Apply the pattern both from the top dir and from the inspected dir
+        # Apply the pattern both from the top dir and from the inspected dir.
         chdir $self->{dir}
             or syserr(g_("unable to chdir to '%s'"), $self->{dir});
         $exclude{$_} = 1 foreach glob $exclude_glob;

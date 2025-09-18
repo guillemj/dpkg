@@ -93,7 +93,7 @@ my $ck = Dpkg::Checksums->new();
 
 is(scalar $ck->get_files(), 0, 'No checksums recorded');
 
-# Check add_from_file()
+# Check add_from_file().
 
 foreach my $f (@data) {
     $ck->add_from_file("$datadir/$f->{file}", key => $f->{file});
@@ -106,7 +106,7 @@ foreach my $alg (keys %str_checksum) {
 
 test_checksums($ck);
 
-# Check add_from_string()
+# Check add_from_string().
 
 foreach my $alg (keys %str_checksum) {
     $ck->add_from_string($alg, $str_checksum{$alg});
@@ -117,13 +117,13 @@ foreach my $alg (keys %str_checksum) {
 
 test_checksums($ck);
 
-# Check remove_file()
+# Check remove_file().
 
 ok($ck->has_file('data-2'), 'To be removed file is present');
 $ck->remove_file('data-2');
 ok(! $ck->has_file('data-2'), 'Remove file is not present');
 
-# Check add_from_control()
+# Check add_from_control().
 my $ctrl;
 foreach my $f (@data) {
     next if $f->{file} ne 'data-2';
@@ -135,7 +135,7 @@ $ck->add_from_control($ctrl);
 
 test_checksums($ck);
 
-# Check export_to_control()
+# Check export_to_control().
 
 my $ctrl_export = {};
 $ck->export_to_control($ctrl_export);

@@ -83,9 +83,9 @@ use Dpkg::ErrorHandling;
 
 use parent qw(IO::File Tie::Handle);
 
-# Useful reference to understand some kludges required to
-# have the class behave like a filehandle
-# http://blog.woobling.org/2009/10/are-filehandles-objects.html
+# Useful reference to understand some kludges required to have the class
+# behave like a filehandle:
+#   <http://blog.woobling.org/2009/10/are-filehandles-objects.html>
 
 =head1 STANDARD FUNCTIONS
 
@@ -139,16 +139,17 @@ obviously incompatible with automatic detection of the compression method.
 
 =cut
 
-# Class methods
+## Class methods.
+
 sub new {
     my ($this, %opts) = @_;
     my $class = ref($this) || $this;
     my $self = IO::File->new();
     # Tying is required to overload the open functions and to auto-open
-    # the file on first read/write operation
+    # the file on first read/write operation.
     tie *$self, $class, $self; ## no critic (Miscellanea::ProhibitTies)
     bless $self, $class;
-    # Initializations
+    # Initializations.
     *$self->{compression} = 'auto';
     *$self->{compressor} = Dpkg::Compression::Process->new();
     *$self->{add_comp_ext} = $opts{add_compression_extension} ||
@@ -197,9 +198,8 @@ sub ensure_open {
     }
 }
 
-##
-## METHODS FOR TIED HANDLE
-##
+## Tied handle methods.
+
 sub TIEHANDLE {
     my ($class, $self) = @_;
     return $self;
@@ -242,7 +242,8 @@ sub OPEN {
         croak 'Dpkg::Compression::FileHandle only supports open() ' .
               'with 3 parameters';
     }
-    return 1; # Always works (otherwise errors out)
+    # Always works (otherwise errors out).
+    return 1;
 }
 
 sub CLOSE {
@@ -294,9 +295,7 @@ sub BINMODE {
     return;
 }
 
-##
-## NORMAL METHODS
-##
+## Normal methods.
 
 =item $fh->set_compression($comp)
 
@@ -339,7 +338,7 @@ of the compression method must be automatically added to the filename
 sub set_filename {
     my ($self, $filename, $add_comp_ext) = @_;
     *$self->{filename} = $filename;
-    # Automatically add compression extension to filename
+    # Automatically add compression extension to filename.
     if (defined($add_comp_ext)) {
         *$self->{add_comp_ext} = $add_comp_ext;
     }
@@ -411,7 +410,7 @@ sub get_filehandle {
     return *$self->{file} if exists *$self->{file};
 }
 
-## INTERNAL METHODS
+## Internal methods.
 
 sub _open_for_write {
     my ($self, %opts) = @_;

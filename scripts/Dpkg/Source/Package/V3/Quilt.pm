@@ -43,7 +43,7 @@ use Dpkg::Source::Functions qw(erasedir chmod_if_needed fs_time);
 use Dpkg::Source::Quilt;
 use Dpkg::Exit;
 
-# Based on wig&pen implementation
+# Based on wig&pen implementation.
 use parent qw(Dpkg::Source::Package::V2);
 
 our $CURRENT_MINOR_VERSION = '0';
@@ -132,19 +132,21 @@ sub apply_patches {
     }
 
     my $quilt = $self->_build_quilt_object($dir);
-    $quilt->load_series(%opts) if $opts{warn_options}; # Trigger warnings
+    # Trigger warnings.
+    $quilt->load_series(%opts) if $opts{warn_options};
 
     # Always create the quilt db so that if the maintainer calls quilt to
-    # create a patch, it's stored in the right directory
+    # create a patch, it is stored in the right directory.
     $quilt->save_db();
 
-    # Update debian/patches/series symlink if needed to allow quilt usage
+    # Update debian/patches/series symlink if needed to allow quilt usage.
     my $series = $quilt->get_series_file();
     my $basename = (File::Spec->splitpath($series))[2];
     if ($basename ne 'series') {
         my $dest = $quilt->get_patch_file('series');
         unlink($dest) if -l $dest;
-        unless (-f _) { # Don't overwrite real files
+        # Do not overwrite real files.
+        unless (-f _) {
             symlink($basename, $dest)
                 or syserr(g_("can't create symlink %s"), $dest);
         }
@@ -156,13 +158,13 @@ sub apply_patches {
 
     if ($opts{usage} eq 'preparation' and
         $self->{options}{unapply_patches} eq 'auto') {
-        # We're applying the patches in --before-build, remember to unapply
-        # them afterwards in --after-build
+        # We are applying the patches in --before-build, remember to unapply
+        # them afterwards in --after-build.
         my $pc_unapply = $quilt->get_db_file('.dpkg-source-unapply');
         file_touch($pc_unapply);
     }
 
-    # Apply patches
+    # Apply patches.
     my $pc_applied = $quilt->get_db_file('applied-patches');
     $opts{timestamp} = fs_time($pc_applied);
     if ($opts{skip_auto}) {
@@ -194,7 +196,7 @@ sub prepare_build {
     $self->SUPER::prepare_build($dir);
     # Skip .pc directories of quilt by default and ignore difference
     # on debian/patches/series symlinks and d/p/.dpkg-source-applied
-    # stamp file created by ourselves
+    # stamp file created by ourselves.
     my $func = sub {
         my $pathname = shift;
 
@@ -269,10 +271,10 @@ sub register_patch {
     }
 
     if (-e $patch) {
-        # Add patch to series file
+        # Add patch to series file.
         $quilt->register($patch_name);
     } else {
-        # Remove auto_patch from series
+        # Remove auto_patch from series.
         $quilt->unregister($patch_name);
     }
     return $patch;

@@ -128,7 +128,8 @@ if ($action eq 'list') {
 } elsif ($action =~ m/^export-(.*)$/) {
     my $export_type = $1;
     foreach my $flag ($build_flags->list()) {
-        next unless $flag =~ /^[A-Z]/; # Skip flags starting with lowercase
+        # Skip flags starting with lowercase.
+        next unless $flag =~ /^[A-Z]/;
         my $value = $build_flags->get($flag);
         if ($export_type eq 'sh') {
             $value =~ s/"/\"/g;

@@ -174,31 +174,31 @@ sub parse_string {
     }
 
     my $dep_regex = qr{
-        ^\s*                            # skip leading whitespace
-        ($pkgname_regex)                # package name
-        (?:                             # start of optional part
-            :                           # colon for architecture
-            ([a-zA-Z0-9][a-zA-Z0-9-]*)  # architecture name
-        )?                              # end of optional part
-        (?:                             # start of optional part
-            \s* \(                      # open parenthesis for version part
-            \s* (<<|<=|=|>=|>>|[<>])    # relation part
-            \s* ([^\)\s]+)              # do not attempt to parse version
-            \s* \)                      # closing parenthesis
-        )?                              # end of optional part
-        (?:                             # start of optional architecture
-            \s* \[                      # open bracket for architecture
-            \s* ([^\]]+)                # don't parse architectures now
-            \s* \]                      # closing bracket
-        )?                              # end of optional architecture
+        ^\s*                            # Skip leading whitespace.
+        ($pkgname_regex)                # Package name.
+        (?:                             # Start of optional part.
+            :                           # Colon for architecture.
+            ([a-zA-Z0-9][a-zA-Z0-9-]*)  # Architecture name.
+        )?                              # End of optional part.
+        (?:                             # Start of optional part.
+            \s* \(                      # Open parenthesis for version part.
+            \s* (<<|<=|=|>=|>>|[<>])    # Relation part.
+            \s* ([^\)\s]+)              # Do not attempt to parse version.
+            \s* \)                      # Closing parenthesis.
+        )?                              # End of optional part.
+        (?:                             # Start of optional architecture.
+            \s* \[                      # Open bracket for architecture.
+            \s* ([^\]]+)                # Do not parse architectures now.
+            \s* \]                      # Closing bracket.
+        )?                              # End of optional architecture.
         (
-            (?:                         # start of optional restriction
-                \s* <                   # open bracket for restriction
-                \s* [^>]+               # do not parse restrictions now
-                \s* >                   # closing bracket
+            (?:                         # Start of optional restriction.
+                \s* <                   # Open bracket for restriction.
+                \s* [^>]+               # Do not parse restrictions now.
+                \s* >                   # Closing bracket.
             )+
-        )?                              # end of optional restriction
-        \s*$                            # trailing spaces at end
+        )?                              # End of optional restriction.
+        \s*$                            # Trailing spaces at end.
     }x;
 
     ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
@@ -280,7 +280,7 @@ Save the dependency into the given $filename.
 # _arch_is_superset(\@p, \@q)
 #
 # Returns true if the arch list @p is a superset of arch list @q.
-# The arguments can also be undef in case there's no explicit architecture
+# The arguments can also be undef in case there is no explicit architecture
 # restriction.
 sub _arch_is_superset {
     my ($p, $q) = @_;
@@ -288,16 +288,16 @@ sub _arch_is_superset {
     my $q_arch_neg = defined $q and $q->[0] =~ /^!/;
 
     if (not defined $p) {
-        # If "p" has no arches, it is a superset of q and we should fall through
-        # to the version check.
+        # If $p has no arches, it is a superset of $q and we should fall
+        # through to the version check.
         return 1;
     } elsif (not defined $q) {
-        # If q has no arches, it is a superset of p and there are no useful
+        # If $q has no arches, it is a superset of $p and there are no useful
         # implications.
         return 0;
     } elsif (not $p_arch_neg and not $q_arch_neg) {
-        # Both have arches.  If neither are negated, we know nothing useful
-        # unless q is a subset of p.
+        # Both have arches. If neither are negated, we know nothing useful
+        # unless $q is a subset of $p.
 
         my %p_arches = map { $_ => 1 } @{$p};
         my $subset = 1;
@@ -306,8 +306,8 @@ sub _arch_is_superset {
         }
         return 0 unless $subset;
     } elsif ($p_arch_neg and $q_arch_neg) {
-        # If both are negated, we know nothing useful unless p is a subset of
-        # q (and therefore has fewer things excluded, and therefore is more
+        # If both are negated, we know nothing useful unless $p is a subset of
+        # $q (and therefore has fewer things excluded, and therefore is more
         # general).
 
         my %q_arches = map { $_ => 1 } @{$q};
@@ -317,12 +317,12 @@ sub _arch_is_superset {
         }
         return 0 unless $subset;
     } elsif (not $p_arch_neg and $q_arch_neg) {
-        # If q is negated and p isn't, we'd need to know the full list of
-        # arches to know if there's any relationship, so bail.
+        # If $q is negated and $p is not, we would need to know the full list
+        # of arches to know if there is any relationship, so bail.
         return 0;
     } elsif ($p_arch_neg and not $q_arch_neg) {
-        # If p is negated and q isn't, q is a subset of p if none of the
-        # negated arches in p are present in q.
+        # If $p is negated and $q is not, $q is a subset of $p if none of the
+        # negated arches in $p are present in $q.
 
         my %q_arches = map { $_ => 1 } @{$q};
         my $subset = 1;
@@ -358,7 +358,7 @@ sub _arch_qualifier_implies {
 #
 # Returns true if the restrictions $p and $q are compatible with the
 # implication $p -> $q, false otherwise.
-# NOTE: We don't try to be very clever here, so we may conservatively
+# Note: We do not try to be very clever here, so we may conservatively
 # return false when there is an implication.
 sub _restrictions_imply {
     my ($p, $q) = @_;
@@ -396,32 +396,32 @@ sub implies {
     my ($self, $o) = @_;
 
     if ($o->isa('Dpkg::Deps::Simple')) {
-        # An implication is only possible on the same package
+        # An implication is only possible on the same package.
         return if $self->{package} ne $o->{package};
 
         # Our architecture set must be a superset of the architectures for
-        # o, otherwise we can't conclude anything.
+        # $o, otherwise we cannot conclude anything.
         return unless _arch_is_superset($self->{arches}, $o->{arches});
 
-        # The arch qualifier must not forbid an implication
+        # The arch qualifier must not forbid an implication.
         return unless _arch_qualifier_implies($self->{archqual},
                                               $o->{archqual});
 
-        # Our restrictions must imply the restrictions for o
+        # Our restrictions must imply the restrictions for $o.
         return unless _restrictions_imply($self->{restrictions},
                                           $o->{restrictions});
 
-        # If o has no version clause, then our dependency is stronger
+        # If $o has no version clause, then our dependency is stronger.
         return 1 if not defined $o->{relation};
-        # If o has a version clause, we must also have one, otherwise there
-        # can't be an implication
+        # If $o has a version clause, we must also have one, otherwise there
+        # cannot be an implication.
         return if not defined $self->{relation};
 
         return Dpkg::Deps::deps_eval_implication($self->{relation},
                 $self->{version}, $o->{relation}, $o->{version});
     } elsif ($o->isa('Dpkg::Deps::AND')) {
-        # TRUE: Need to imply all individual elements
-        # FALSE: Need to NOT imply at least one individual element
+        # true: Need to imply all individual elements.
+        # false: Need to not imply at least one individual element.
         my $res = 1;
         foreach my $dep ($o->get_deps()) {
             my $implication = $self->implies($dep);
@@ -432,9 +432,9 @@ sub implies {
         }
         return $res;
     } elsif ($o->isa('Dpkg::Deps::OR')) {
-        # TRUE: Need to imply at least one individual element
-        # FALSE: Need to not apply all individual elements
-        # UNDEF: The rest
+        # true: Need to imply at least one individual element.
+        # false: Need to not apply all individual elements.
+        # undef: The rest.
         my $res = undef;
         foreach my $dep ($o->get_deps()) {
             my $implication = $self->implies($dep);
@@ -476,7 +476,7 @@ This method is a no-op for this object.
 =cut
 
 sub sort {
-    # Nothing to sort
+    # Nothing to sort.
 }
 
 =item $dep->arch_is_concerned($arch)
@@ -488,8 +488,10 @@ Returns true if the dependency applies to the indicated architecture.
 sub arch_is_concerned {
     my ($self, $host_arch) = @_;
 
-    return 0 if not defined $self->{package}; # Empty dep
-    return 1 if not defined $self->{arches};  # Dep without arch spec
+    # Empty dep.
+    return 0 if not defined $self->{package};
+    # Dep without arch spec.
+    return 1 if not defined $self->{arches};
 
     return debarch_is_concerned($host_arch, @{$self->{arches}});
 }
@@ -538,8 +540,10 @@ Returns true if the dependency applies to the indicated profile.
 sub profile_is_concerned {
     my ($self, $build_profiles) = @_;
 
-    return 0 if not defined $self->{package}; # Empty dep
-    return 1 if not defined $self->{restrictions}; # Dep without restrictions
+    # Empty dep.
+    return 0 if not defined $self->{package};
+    # Dep without restrictions.
+    return 1 if not defined $self->{restrictions};
     return evaluate_restriction_formula($self->{restrictions}, $build_profiles);
 }
 
@@ -623,7 +627,7 @@ sub merge_union {
     return 0 if defined $self->{arches} or defined $o->{arches};
 
     if (not defined $o->{relation} and defined $self->{relation}) {
-        # Union is the non-versioned dependency
+        # Union is the non-versioned dependency.
         $self->{relation} = undef;
         $self->{version} = undef;
         return 1;

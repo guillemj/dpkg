@@ -118,7 +118,7 @@ sub new {
     my $class = ref($this) || $this;
 
     # Object is a scalar reference and not a hash ref to avoid
-    # infinite recursion due to overloading hash-dereferencing
+    # infinite recursion due to overloading hash-dereferencing.
     my $self = \{
         in_order => [],
         out_order => [],
@@ -132,7 +132,7 @@ sub new {
 
     $$self->{fields} = Dpkg::Control::HashCore::Tie->new($self);
 
-    # Options set by the user override default values
+    # Options set by the user override default values.
     $$self->{$_} = $opts{$_} foreach keys %opts;
 
     return $self;
@@ -255,7 +255,7 @@ sub parse {
         } elsif (length == 0 ||
                  ($expect_pgp_sig && $armor =~ m/^-----BEGIN PGP SIGNATURE-----[\r\t ]*$/)) {
             if ($expect_pgp_sig) {
-                # Skip empty lines
+                # Skip empty lines.
                 $_ = <$fh> while defined && m/^\s*$/;
                 unless (length) {
                     $self->parse_error($desc, g_('expected OpenPGP signature, ' .
@@ -266,7 +266,7 @@ sub parse {
                     $self->parse_error($desc, g_('expected OpenPGP signature, ' .
                                                  "found something else '%s'"), $_);
                 }
-                # Skip OpenPGP signature
+                # Skip OpenPGP signature.
                 while (<$fh>) {
                     chomp;
                     last if m/^-----END PGP SIGNATURE-----[\r\t ]*$/;
@@ -283,7 +283,7 @@ sub parse {
         } elsif ($armor =~ m/^-----BEGIN PGP SIGNED MESSAGE-----[\r\t ]*$/) {
             $expect_pgp_sig = 1;
             if ($$self->{allow_pgp} and not $parabody) {
-                # Skip OpenPGP headers
+                # Skip OpenPGP headers.
                 while (<$fh>) {
                     last if m/^\s*$/;
                 }
@@ -378,9 +378,9 @@ sub output {
     foreach my $key (@keys) {
         if (exists $self->{$key}) {
             my $value = $self->{$key};
-            # Skip whitespace-only fields
+            # Skip whitespace-only fields.
             next if $$self->{drop_empty} and $value !~ m/\S/;
-            # Escape data to follow control file syntax
+            # Escape data to follow control file syntax.
             my ($first_line, @lines) = split /\n/, $value;
 
             my $kv = "$key:";
@@ -394,7 +394,7 @@ sub output {
                     $kv .= " $_\n";
                 }
             }
-            # Print it out
+            # Print it out.
             if ($fh) {
                 print { $fh } $kv
                     or syserr(g_('write error on control data'));
@@ -431,7 +431,7 @@ the corresponding value stored in the L<Dpkg::Substvars> object.
 sub apply_substvars {
     my ($self, $substvars, %opts) = @_;
 
-    # Add substvars to refer to other fields
+    # Add substvars to refer to other fields.
     $substvars->set_field_substvars($self, 'F');
 
     foreach my $f (keys %$self) {
@@ -441,12 +441,11 @@ sub apply_substvars {
 
             $sep = field_get_sep_type($f);
 
-            # If we replaced stuff, ensure we're not breaking
-            # a dependency field by introducing empty lines, or multiple
-            # commas
+            # If we replaced stuff, ensure we are not breaking a dependency
+            # field by introducing empty lines, or multiple commas.
 
             if ($sep & (FIELD_SEP_COMMA | FIELD_SEP_LINE)) {
-                # Drop empty/whitespace-only lines
+                # Drop empty/whitespace-only lines.
                 $v =~ s/\n[ \t]*(\n|$)/$1/;
             }
 

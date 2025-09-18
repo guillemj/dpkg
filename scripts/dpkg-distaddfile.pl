@@ -77,7 +77,7 @@ my ($filename, $section, $priority) = @ARGV;
     error(g_('filename, section and priority may contain no whitespace'));
 
 # Obtain a lock on debian/control to avoid simultaneous updates
-# of debian/files when parallel building is in use
+# of debian/files when parallel building is in use.
 my $lockfh;
 my $lockfile = 'debian/control';
 sysopen($lockfh, $lockfile, O_WRONLY)
@@ -92,5 +92,5 @@ $dist->save("$fileslistfile.new");
 rename("$fileslistfile.new", $fileslistfile)
     or syserr(g_('install new files list file'));
 
-# Release the lock
+# Release the lock.
 close($lockfh) or syserr(g_('cannot close %s'), $lockfile);

@@ -51,8 +51,8 @@ sub run_hook {
         my $src = shift @params;
         my $fields = $src->{fields};
 
-        # check that Maintainer/XSBC-Original-Maintainer comply to
-        # https://wiki.ubuntu.com/DebianMaintainerField
+        # Check that Maintainer/XSBC-Original-Maintainer comply to:
+        # <https://wiki.ubuntu.com/DebianMaintainerField>.
         if (defined($fields->{'Version'}) and
             defined($fields->{'Maintainer'}) and
             $fields->{'Version'} =~ /ubuntu/)
@@ -99,7 +99,7 @@ sub run_hook {
     } elsif ($hook eq 'post-process-changelog-entry') {
         my $fields = shift @params;
 
-        # Add Launchpad-Bugs-Fixed field
+        # Add Launchpad-Bugs-Fixed field.
         my $bugs = find_launchpad_closes($fields->{'Changes'} // '');
         if (scalar(@$bugs)) {
             $fields->{'Launchpad-Bugs-Fixed'} = join(' ', @$bugs);
@@ -152,7 +152,7 @@ sub add_build_flags {
 
     $self->SUPER::add_build_flags($flags);
 
-    # Per https://wiki.ubuntu.com/DistCompilerFlags
+    # Per <https://wiki.ubuntu.com/DistCompilerFlags>.
     $flags->prepend('LDFLAGS', '-Wl,-Bsymbolic-functions');
 
     # In Ubuntu these flags are set by the compiler, so when disabling the

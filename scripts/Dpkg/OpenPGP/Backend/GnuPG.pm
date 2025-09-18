@@ -154,9 +154,9 @@ sub _gpg_verify {
             # Accept GnuPG apparent keybox-format keyrings as-is.
             $rc = 1;
         } else {
-            # Note that these _pgp_* functions are only necessary while relying on
-            # gpgv, and gpgv itself does not verify multiple signatures correctly
-            # (see https://bugs.debian.org/1010955).
+            # Note that these _pgp_* functions are only necessary while
+            # relying on gpgv, and gpgv itself does not verify multiple
+            # signatures correctly (see https://bugs.debian.org/1010955).
             $rc = $self->dearmor('PUBLIC KEY BLOCK', $cert, $certring);
         }
         $certring = $cert if $rc;

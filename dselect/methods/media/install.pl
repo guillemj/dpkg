@@ -244,7 +244,7 @@ open my $avail_fh, '<', $AVAIL
 
         $updated = version_compare($avail{Version},
                                    $installed{$avail{Package}}) > 0;
-        #print "$avail{Package}(" . ($updated ? "+" : "=") . ") ";
+#       print "$avail{Package}(" . ($updated ? "+" : "=") . ") ";
         next unless $updated;
 
         $filename{$avail{Package}} = $avail{Filename};

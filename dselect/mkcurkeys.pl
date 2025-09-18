@@ -29,8 +29,10 @@ my (%over, %base, %name);
 open(my $override_fh, '<', $ARGV[0]) or die $!;
 while (<$override_fh>) {
     chomp;
-    /^#/ && next; # skip comments
-    /\S/ || next; # ignore blank lines
+    # Skip comments.
+    /^#/ && next;
+    # Ignore blank lines.
+    /\S/ || next;
     if (/^(\w+)\s+(\S.*\S)\s*$/) {
         $over{$1} = $2;
         $base{$1} = '';

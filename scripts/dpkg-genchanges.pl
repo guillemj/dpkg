@@ -68,7 +68,8 @@ my %sourcedefault;
 my @descriptions;
 
 my $checksums = Dpkg::Checksums->new();
-my %remove;        # - fields to remove
+# Fields to remove.
+my %remove;
 my %override;
 my %archadded;
 my @archvalues;
@@ -209,19 +210,19 @@ if (not defined $outputfile) {
     $outputfile = '-';
 }
 
-# Retrieve info from the current changelog entry
+# Retrieve info from the current changelog entry.
 my %changelog_opts = (
     filename => $changelogfile,
 );
 $changelog_opts{changelogformat} = $changelogformat if $changelogformat;
 $changelog_opts{since} = $since if defined($since);
 my $changelog = changelog_parse(%changelog_opts);
-# Change options to retrieve info of the former changelog entry
+# Change options to retrieve info of the former changelog entry.
 delete $changelog_opts{since};
 $changelog_opts{count} = 1;
 $changelog_opts{offset} = 1;
 my $prev_changelog = changelog_parse(%changelog_opts);
-# Other initializations
+# Other initializations.
 my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
 
@@ -246,7 +247,7 @@ if (! $is_backport && defined $prev_changelog &&
             $changelog->{'Version'}, $prev_changelog->{'Version'});
 }
 
-# Scan control info of source package
+# Scan control info of source package.
 my $src_fields = $control->get_source();
 foreach my $f (keys %{$src_fields}) {
     my $v = $src_fields->{$f};
@@ -282,7 +283,7 @@ if (build_has_any(BUILD_SOURCE)) {
     $checksums->add_from_control($dsc_fields, use_files_for_md5 => 1);
 
     # Compare upstream version to previous upstream version to decide if
-    # the .orig tarballs must be included
+    # the .orig tarballs must be included.
     my $include_tarball;
     if (defined($prev_changelog)) {
         my $cur = Dpkg::Version->new($changelog->{'Version'});
@@ -295,7 +296,7 @@ if (build_has_any(BUILD_SOURCE)) {
             $include_tarball = 0;
         }
     } else {
-        # No previous entry means first upload, tarball required
+        # No previous entry means first upload, tarball required.
         $include_tarball = 1;
     }
 
@@ -371,7 +372,7 @@ foreach my $file ($dist->get_files()) {
 error(g_('binary build with no binary artifacts found; cannot distribute'))
     if build_has_any(BUILD_BINARY) && $dist_binaries == 0;
 
-# Scan control info of all binary packages
+# Scan control info of all binary packages.
 foreach my $pkg ($control->get_packages()) {
     my $p = $pkg->{'Package'};
     my $a = $pkg->{'Architecture'};
@@ -385,7 +386,7 @@ foreach my $pkg ($control->get_packages()) {
     @restrictions = parse_build_profiles($bp) if defined $bp;
 
     if (not defined $pkg2file{$p}) {
-        # No files for this package... warn if it's unexpected
+        # No files for this package... warn if it is unexpected.
         if (((build_has_any(BUILD_ARCH_INDEP) and debarch_eq('all', $a)) or
              (build_has_any(BUILD_ARCH_DEP) and
               (any { debarch_is($host_arch, $_) } debarch_list_parse($a, positive => 1)))) and
@@ -395,10 +396,11 @@ foreach my $pkg ($control->get_packages()) {
             warning(g_('package %s in control file but not in files list'),
                     $p);
         }
-        next; # and skip it
+        # And skip it.
+        next;
     }
 
-    # Add description of all binary packages
+    # Add description of all binary packages.
     $d = $substvars->substvars($d);
     push @descriptions, format_desc($p, $pkg_type, $d);
 
@@ -421,14 +423,14 @@ foreach my $pkg ($control->get_packages()) {
             }
             push(@archvalues, $v) if $v and not $archadded{$v}++;
         } elsif ($f eq 'Description') {
-            # Description in changes is computed, do not copy this field
+            # Description in changes is computed, do not copy this field.
         } else {
             field_transfer_single($pkg, $fields, $f);
         }
     }
 }
 
-# Scan fields of dpkg-parsechangelog
+# Scan fields of dpkg-parsechangelog.
 foreach my $f (keys %{$changelog}) {
     my $v = $changelog->{$f};
     if ($f eq 'Source') {
@@ -483,7 +485,7 @@ if (length $fields->{'Date'} == 0) {
 }
 
 $fields->{'Binary'} = join ' ', sort keys %pkg2file;
-# Avoid overly long line by splitting over multiple lines
+# Avoid overly long line by splitting over multiple lines.
 if (length($fields->{'Binary'}) > 980) {
     $fields->{'Binary'} =~ s/(.{0,980}) /$1\n/g;
 }
@@ -504,7 +506,7 @@ foreach my $fn ($checksums->get_files()) {
                           " $file->{section} $file->{priority} $fn";
 }
 $checksums->export_to_control($fields);
-# redundant with the Files field
+# Redundant with the Files field.
 delete $fields->{'Checksums-Md5'};
 
 $fields->{'Source'} = get_source_name();
@@ -532,6 +534,6 @@ for my $f (keys %remove) {
     delete $fields->{$f};
 }
 
-# Note: do not perform substitution of variables, one of the reasons is that
+# Note: Do not perform substitution of variables, one of the reasons is that
 # they could interfere with field values, for example the Changes field.
 $fields->save($outputfile);

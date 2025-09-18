@@ -52,18 +52,18 @@ sub create {
     my ($self, %opts) = @_;
     $opts{options} //= [];
     my %spawn_opts;
-    # Possibly run tar from another directory
+    # Possibly run tar from another directory.
     if ($opts{chdir}) {
         $spawn_opts{chdir} = $opts{chdir};
         *$self->{chdir} = $opts{chdir};
     }
-    # Redirect input/output appropriately
+    # Redirect input/output appropriately.
     $self->ensure_open('w');
     $spawn_opts{to_handle} = $self->get_filehandle();
     $spawn_opts{from_pipe} = \*$self->{tar_input};
     # Try to use a deterministic mtime.
     my $mtime = $opts{source_date} // $ENV{SOURCE_DATE_EPOCH} || time;
-    # Call tar creation process
+    # Call tar creation process.
     $spawn_opts{delete_env} = [
         'TAR_OPTIONS',
     ];
@@ -138,9 +138,9 @@ sub extract {
         wait_child => 1,
     );
 
-    # Prepare destination
+    # Prepare destination.
     unless (-e $dest) {
-        # Kludge so that realpath works
+        # Kludge so that realpath works.
         mkdir($dest) or syserr(g_('cannot create directory %s'), $dest);
     }
     my $tmpdir = File::Temp->newdir(
@@ -149,7 +149,7 @@ sub extract {
     );
     $spawn_opts{chdir} = $tmpdir;
 
-    # Prepare stuff that handles the input of tar
+    # Prepare stuff that handles the input of tar.
     $self->ensure_open('r',
         delete_sig => [
             'PIPE',
@@ -157,7 +157,7 @@ sub extract {
     );
     $spawn_opts{from_handle} = $self->get_filehandle();
 
-    # Call tar extraction process
+    # Call tar extraction process.
     $spawn_opts{delete_env} = [
         'TAR_OPTIONS',
     ];
@@ -255,7 +255,7 @@ sub extract {
         };
         find($scan_move_in_place, $tmpdir);
     } else {
-        # Rename extracted directory
+        # Rename extracted directory.
         opendir my $dir_dh, $tmpdir
             or syserr(g_('cannot opendir %s'), $tmpdir);
         my @entries = grep { $_ ne '.' && $_ ne '..' } readdir($dir_dh);

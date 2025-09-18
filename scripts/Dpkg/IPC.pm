@@ -234,7 +234,7 @@ sub spawn {
     if ($opts{from_string}) {
         $opts{from_pipe} = \$from_string_pipe;
     }
-    # Create pipes if needed
+    # Create pipes if needed.
     my ($input_pipe, $output_pipe, $error_pipe);
     if ($opts{from_pipe}) {
         pipe($opts{from_handle}, $input_pipe)
@@ -254,11 +254,11 @@ sub spawn {
         ${$opts{error_to_pipe}} = $error_pipe;
         push @{$opts{close_in_child}}, $error_pipe;
     }
-    # Fork and exec
+    # Fork and exec.
     my $pid = fork();
     syserr(g_('cannot fork for %s'), "@prog") unless defined $pid;
     if (not $pid) {
-        # Define environment variables
+        # Define environment variables.
         if ($opts{env}) {
             foreach (keys %{$opts{env}}) {
                 $ENV{$_} = $opts{env}{$_};
@@ -276,46 +276,46 @@ sub spawn {
         if ($opts{delete_sig}) {
             delete $SIG{$_} foreach (@{$opts{delete_sig}});
         }
-        # Change the current directory
+        # Change the current directory.
         if ($opts{chdir}) {
             chdir($opts{chdir}) or syserr(g_('chdir to %s'), $opts{chdir});
         }
-        # Redirect STDIN if needed
+        # Redirect STDIN if needed.
         if ($opts{from_file}) {
             open(STDIN, '<', $opts{from_file})
                 or syserr(g_('cannot open %s'), $opts{from_file});
         } elsif ($opts{from_handle}) {
             open(STDIN, '<&', $opts{from_handle})
                 or syserr(g_('reopen stdin'));
-            # has been duped, can be closed
+            # Has been duped, can be closed.
             push @{$opts{close_in_child}}, $opts{from_handle};
         }
-        # Redirect STDOUT if needed
+        # Redirect STDOUT if needed.
         if ($opts{to_file}) {
             open(STDOUT, '>', $opts{to_file})
                 or syserr(g_('cannot write %s'), $opts{to_file});
         } elsif ($opts{to_handle}) {
             open(STDOUT, '>&', $opts{to_handle})
                 or syserr(g_('reopen stdout'));
-            # has been duped, can be closed
+            # Has been duped, can be closed.
             push @{$opts{close_in_child}}, $opts{to_handle};
         }
-        # Redirect STDERR if needed
+        # Redirect STDERR if needed.
         if ($opts{error_to_file}) {
             open(STDERR, '>', $opts{error_to_file})
                 or syserr(g_('cannot write %s'), $opts{error_to_file});
         } elsif ($opts{error_to_handle}) {
             open(STDERR, '>&', $opts{error_to_handle})
                 or syserr(g_('reopen stdout'));
-            # has been duped, can be closed
+            # Has been duped, can be closed.
             push @{$opts{close_in_child}}, $opts{error_to_handle};
         }
-        # Close some inherited filehandles
+        # Close some inherited filehandles.
         close($_) foreach (@{$opts{close_in_child}});
-        # Execute the program
+        # Execute the program.
         exec({ $prog[0] } @prog) or syserr(g_('unable to execute %s'), "@prog");
     }
-    # Close handle that we can't use any more
+    # Close handle that we cannot use any more.
     close($opts{from_handle}) if exists $opts{from_handle};
     close($opts{to_handle}) if exists $opts{to_handle};
     close($opts{error_to_handle}) if exists $opts{error_to_handle};

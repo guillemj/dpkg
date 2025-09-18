@@ -127,7 +127,7 @@ sub evaluate_restriction_formula {
             }
         }
 
-        # This conjunction evaluated to true so we don't have to evaluate
+        # This conjunction evaluated to true so we do not have to evaluate
         # the others.
         return 1 if $seen_profile;
     }

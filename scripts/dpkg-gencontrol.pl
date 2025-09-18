@@ -140,7 +140,8 @@ while (@ARGV) {
     }
 }
 
-umask 0o022; # ensure sane default permissions for created files
+# Ensure sane default permissions for created files.
+umask 0o022;
 my %changelog_opts = (
     filename => $changelogfile,
 );
@@ -169,7 +170,7 @@ my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Control->new(type => CTRL_DEB);
 
 # Old-style bin-nmus change the source version submitted to
-# set_version_substvars()
+# set_version_substvars().
 $sourceversion = $substvars->get('source:Version');
 
 my $pkg;
@@ -191,7 +192,7 @@ if (defined($oppackage)) {
 }
 $substvars->set_msg_prefix(sprintf(g_('package %s: '), $pkg->{Package}));
 
-# Scan source package
+# Scan source package.
 my $src_fields = $control->get_source();
 foreach my $f (keys %{$src_fields}) {
     if ($f eq 'Source') {
@@ -206,12 +207,12 @@ foreach my $f (keys %{$src_fields}) {
 }
 $substvars->set_field_substvars($src_fields, 'S');
 
-# Scan binary package
+# Scan binary package.
 foreach my $f (keys %{$pkg}) {
     my $v = $pkg->{$f};
 
     if (field_get_dep_type($f)) {
-        # Delay the parsing until later
+        # Delay the parsing until later.
     } elsif ($f eq 'Architecture') {
         my $host_arch = get_host_arch();
 
@@ -232,7 +233,7 @@ foreach my $f (keys %{$pkg}) {
     }
 }
 
-# Scan fields of dpkg-parsechangelog
+# Scan fields of dpkg-parsechangelog.
 foreach my $f (keys %{$changelog}) {
     my $v = $changelog->{$f};
 
@@ -241,8 +242,8 @@ foreach my $f (keys %{$changelog}) {
     } elsif ($f eq 'Version') {
         # Already handled previously.
     } elsif ($f eq 'Maintainer') {
-        # That field must not be copied from changelog even if it's
-        # allowed in the binary package control information
+        # That field must not be copied from changelog even if it is
+        # allowed in the binary package control information.
     } else {
         field_transfer_single($changelog, $fields, $f);
     }
@@ -276,7 +277,7 @@ if (exists $pkg->{'Provides'}) {
 
 my (@seen_deps);
 foreach my $field (field_list_pkg_dep()) {
-    # Arch: all can't be simplified as the host architecture is not known
+    # «Arch: all» cannot be simplified as the host architecture is not known.
     my $reduce_arch = debarch_eq('all', $pkg->{Architecture} || 'all') ? 0 : 1;
     if (exists $pkg->{$field}) {
         my $dep;
@@ -292,7 +293,7 @@ foreach my $field (field_list_pkg_dep()) {
             error(g_("parsing package '%s' %s field: %s"), $oppackage,
                   $field, $field_value) unless defined $dep;
             $dep->simplify_deps($facts, @seen_deps);
-            # Remember normal deps to simplify even further weaker deps
+            # Remember normal deps to simplify even further weaker deps.
             push @seen_deps, $dep;
         } else {
             $dep = deps_parse($field_value,
@@ -310,7 +311,8 @@ foreach my $field (field_list_pkg_dep()) {
                  "package '%s' is architecture all"), $field, $oppackage)
             if $dep->has_arch_restriction();
         $fields->{$field} = $dep->output();
-        delete $fields->{$field} unless $fields->{$field}; # Delete empty field
+        # Delete empty field.
+        delete $fields->{$field} unless $fields->{$field};
     }
 }
 
@@ -416,7 +418,7 @@ if ($stdout) {
     }
 
     # Obtain a lock on debian/control to avoid simultaneous updates
-    # of debian/files when parallel building is in use
+    # of debian/files when parallel building is in use.
     my $lockfh;
     my $lockfile = 'debian/control';
     $lockfile = $controlfile if not -e $lockfile;
@@ -447,7 +449,7 @@ if ($stdout) {
     rename "$fileslistfile.new", $fileslistfile
         or syserr(g_('install new files list file'));
 
-    # Release the lock
+    # Release the lock.
     close $lockfh or syserr(g_('cannot close %s'), $lockfile);
 
     $fields->save("$outputfile.new");

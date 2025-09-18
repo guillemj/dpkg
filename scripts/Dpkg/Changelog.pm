@@ -271,7 +271,7 @@ sub _sanitize_range {
         delete $r->{to};
     }
 
-    # Handle non-existing versions
+    # Handle non-existing versions.
     my (%versions, @versions);
     foreach my $entry (@{$data}) {
         my $version = $entry->get_version();
@@ -289,7 +289,7 @@ sub _sanitize_range {
             }
         }
         if (not exists $versions{$r->{since}}) {
-            # No version was earlier, include all
+            # No version was earlier, include all.
             warning(g_('none found, starting from the oldest entry'));
             delete $r->{since};
             $r->{from} = $versions[-1];
@@ -307,8 +307,9 @@ sub _sanitize_range {
         if (defined($oldest)) {
             $r->{from} = $oldest;
         } else {
+            # No version was oldest.
             warning(g_("no such entry found, ignoring '%s' parameter '%s'"), 'from', $r->{from});
-            delete $r->{from}; # No version was oldest
+            delete $r->{from};
         }
     }
     if (defined($r->{until}) and not exists $versions{$r->{until}}) {
@@ -323,8 +324,9 @@ sub _sanitize_range {
         if (defined($oldest)) {
             $r->{until} = $oldest;
         } else {
+            # No version was oldest.
             warning(g_("no such entry found, ignoring '%s' parameter '%s'"), 'until', $r->{until});
-            delete $r->{until}; # No version was oldest
+            delete $r->{until};
         }
     }
     if (defined($r->{to}) and not exists $versions{$r->{to}}) {
@@ -337,7 +339,7 @@ sub _sanitize_range {
             }
         }
         if (not exists $versions{$r->{to}}) {
-            # No version was earlier
+            # No version was earlier.
             warning(g_("no such entry found, ignoring '%s' parameter '%s'"), 'to', $r->{to});
             delete $r->{to};
         }
@@ -393,7 +395,7 @@ sub _data_range {
     if (defined($range->{count})) {
         my $offset = $range->{offset} // 0;
         my $count = $range->{count};
-        # Convert count/offset in start/end
+        # Convert count/offset in start/end.
         if ($offset > 0) {
             $offset -= ($count < 0);
         } elsif ($offset < 0) {
@@ -404,7 +406,7 @@ sub _data_range {
         $start = $end = $offset;
         $start += $count+1 if $count < 0;
         $end += $count-1 if $count > 0;
-        # Check limits
+        # Check limits.
         $start = 0 if $start < 0;
         return if $start > $#$data;
         $end = $#$data if $end > $#$data;
@@ -533,7 +535,7 @@ sub _format_dpkg {
     $c->{Timestamp} = $src->get_timepiece && $src->get_timepiece->epoch // '';
     $c->{Changes} = $src->get_dpkg_changes();
 
-    # handle optional fields
+    # Handle optional fields.
     my $opts = $src->get_optional_fields();
     my %closes;
     foreach my $f (keys %{$opts}) {
@@ -554,13 +556,13 @@ sub _format_dpkg {
         $c->{Urgency} = ($newurgn > $oldurgn) ? $newurg : $oldurg;
         $c->{Changes} .= "\n" . $bin->get_dpkg_changes();
 
-        # handle optional fields
+        # Handle optional fields.
         $opts = $bin->get_optional_fields();
         foreach my $f (keys %{$opts}) {
             if ($f eq 'Closes') {
                 $closes{$_} = 1 foreach (split(/\s+/, $opts->{Closes}));
             } elsif (not exists $c->{$f}) {
-                # Don't overwrite an existing field
+                # Do not overwrite an existing field.
                 field_transfer_single($opts, $c, $f);
             }
         }
@@ -591,7 +593,7 @@ sub _format_rfc822 {
         $c->{Timestamp} = $entry->get_timepiece && $entry->get_timepiece->epoch // '';
         $c->{Changes} = $entry->get_dpkg_changes();
 
-        # handle optional fields
+        # Handle optional fields.
         my $opts = $entry->get_optional_fields();
         foreach my $f (keys %{$opts}) {
             field_transfer_single($opts, $c, $f) unless exists $c->{$f};

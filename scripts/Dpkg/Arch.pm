@@ -650,8 +650,8 @@ sub debarch_is_concerned
                 $seen_arch = 0;
                 last;
             } else {
-                # !arch includes by default all other arches
-                # unless they also appear in a !otherarch
+                # «!arch» includes by default all other arches
+                # unless they also appear in a «!otherarch».
                 $seen_arch = 1;
             }
         } elsif (debarch_is($host_arch, $arch)) {

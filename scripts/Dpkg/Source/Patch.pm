@@ -51,7 +51,8 @@ use parent qw(Dpkg::Compression::FileHandle);
 
 sub create {
     my ($self, %opts) = @_;
-    $self->ensure_open('w'); # Creates the file
+    # Create the file on open.
+    $self->ensure_open('w');
     *$self->{errors} = 0;
     *$self->{empty} = 1;
     if ($opts{old} and $opts{new} and $opts{filename}) {
@@ -91,16 +92,16 @@ sub add_diff_file {
         my $file = $opts{filename};
         $self->_fail_with_msg($file, g_('binary file contents changed'));
     };
-    # Optimization to avoid forking diff if unnecessary
+    # Optimization to avoid forking diff if unnecessary.
     return 1 if compare($old, $new, 4096) == 0;
-    # Default diff options
+    # Default diff options.
     my @options;
     if ($opts{options}) {
         push @options, @{$opts{options}};
     } else {
         push @options, '-p';
     }
-    # Add labels
+    # Add labels.
     if ($opts{label_old} and $opts{label_new}) {
         if ($opts{include_timestamp}) {
             my $ts = (stat($old))[9];
@@ -112,14 +113,14 @@ sub add_diff_file {
             $opts{label_new} .= sprintf("\t%s.%09d +0000", $t,
                                         ($ts - int($ts)) * 1_000_000_000);
         } else {
-            # Space in filenames need special treatment
+            # Space in filenames need special treatment.
             $opts{label_old} .= "\t" if $opts{label_old} =~ / /;
             $opts{label_new} .= "\t" if $opts{label_new} =~ / /;
         }
         push @options, '-L', $opts{label_old},
                        '-L', $opts{label_new};
     }
-    # Generate diff
+    # Generate diff.
     my $diffgen;
     my $diff_pid = spawn(
         exec => [ 'diff', '-u', @options, '--', $old, $new ],
@@ -129,7 +130,7 @@ sub add_diff_file {
         },
         to_pipe => \$diffgen,
     );
-    # Check diff and write it in patch file
+    # Check diff and write it in patch file.
     my $difflinefound = 0;
     my $binary = 0;
     local $_;
@@ -159,9 +160,12 @@ sub add_diff_file {
         no_check => 1,
         cmdline => "diff -u @options -- $old $new",
     );
-    # Verify diff process ended successfully
-    # Exit code of diff: 0 => no difference, 1 => diff ok, 2 => error
-    # Ignore error if binary content detected
+    # Verify diff process ended successfully.
+    # Exit code of diff:
+    #   0 => no difference
+    #   1 => diff ok
+    #   2 => error
+    # Ignore error if binary content detected.
     my $exit = WEXITSTATUS($?);
     unless (WIFEXITED($?) && ($exit == 0 || $exit == 1 || $binary)) {
         subprocerr(g_('diff on %s'), $new);
@@ -171,8 +175,8 @@ sub add_diff_file {
 
 sub add_diff_directory {
     my ($self, $old, $new, %opts) = @_;
-    # TODO: make this function more configurable
-    # - offer to disable some checks
+    # TODO: make this function more configurable:
+    # - Offer to disable some checks.
     my $basedir = $opts{basedirname} || basename($new);
     my $diff_ignore;
     if ($opts{diff_ignore_func}) {
@@ -365,14 +369,14 @@ sub _getline {
 
     my $line = <$handle>;
     if (defined $line) {
-        # Strip end-of-line chars
+        # Strip end-of-line chars.
         chomp($line);
         $line =~ s/\r$//;
     }
     return $line;
 }
 
-# Fetch the header filename ignoring the optional timestamp
+# Fetch the header filename ignoring the optional timestamp.
 sub _fetch_filename {
     my ($diff, $header) = @_;
 
@@ -383,9 +387,9 @@ sub _fetch_filename {
     if ($header =~ m/^"/) {
         error(g_('diff %s patches file with C-style encoded filename'), $diff);
     } else {
-        # Tab is the official separator, it's always used when
-        # filename contain spaces. Try it first, otherwise strip on space
-        # if there's no tab
+        # Tab is the official separator, it is always used when filename
+        # contain spaces. Try it first, otherwise strip on space if there
+        # is no tab.
         $header =~ s/\s.*// unless $header =~ s/\t.*//;
     }
 
@@ -400,11 +404,11 @@ sub _intuit_file_patched {
     return $new if -e $new and not -e $old;
     return $old if -e $old and not -e $new;
 
-    # We don't consider the case where both files are non-existent and
+    # We do not consider the case where both files are non-existent and
     # where patch picks the one with the fewest directories to create
-    # since dpkg-source will pre-create the required directories
+    # since dpkg-source will pre-create the required directories.
 
-    # Precalculate metrics used by patch
+    # Precalculate metrics used by patch.
     my ($tmp_o, $tmp_n) = ($old, $new);
     my ($len_o, $len_n) = (length($old), length($new));
     $tmp_o =~ s{[/\\]+}{/}g;
@@ -415,7 +419,7 @@ sub _intuit_file_patched {
     $tmp_n =~ s{^.*/}{};
     my ($blen_o, $blen_n) = (length($tmp_o), length($tmp_n));
 
-    # Decide like patch would
+    # Decide like patch would.
     if ($nb_comp_o != $nb_comp_n) {
         return ($nb_comp_o < $nb_comp_n) ? $old : $new;
     } elsif ($blen_o != $blen_n) {
@@ -426,7 +430,7 @@ sub _intuit_file_patched {
     return $old;
 }
 
-# check diff for sanity, find directories to create as a side effect
+# Check diff for sanity, find directories to create as a side effect.
 sub analyze {
     my ($self, $destdir, %opts) = @_;
 
@@ -456,7 +460,7 @@ sub analyze {
             last HUNK if not defined $line;
         }
         $diff_count++;
-        # read file header (---/+++ pair)
+        # Read file header (---/+++ pair).
         unless ($line =~ s/^--- //) {
             error(g_("expected ^--- in line %d of diff '%s'"), $., $diff);
         }
@@ -488,7 +492,7 @@ sub analyze {
                   $diff, $.);
         }
 
-        # Safety checks on both filenames that patch could use
+        # Safety checks on both filenames that patch could use.
         foreach my $key ('old', 'new') {
             next unless defined $fn{$key};
             if ($path{$key} =~ m{/\.\./}) {
@@ -501,7 +505,8 @@ sub analyze {
                           $diff, $fn{$key}, $path);
                 }
                 last unless $path =~ s{/+[^/]*$}{};
-                last if length($path) <= length($destdir); # $destdir is assumed safe
+                # $destdir is assumed safe.
+                last if length($path) <= length($destdir);
             }
         }
 
@@ -551,14 +556,14 @@ sub analyze {
             push @patchorder, $fn;
         }
 
-        # read hunks
+        # Read hunks.
         my $hunk = 0;
         while (defined($line = _getline($self))) {
-            # read hunk header (@@)
+            # Read hunk header (@@).
             next if $line =~ /^\\ /;
             last unless $line =~ /^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@(?: .*)?$/;
             my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
-            # read hunk
+            # Read hunk.
             while ($olines || $nlines) {
                 unless (defined($line = _getline($self))) {
                     if (($olines == $nlines) and ($olines < 3)) {
@@ -570,7 +575,7 @@ sub analyze {
                     }
                 }
                 next if $line =~ /^\\ /;
-                # Check stats
+                # Check stats.
                 if ($line =~ /^ / or length $line == 0) {
                     --$olines;
                     --$nlines;
@@ -613,7 +618,7 @@ sub prepare_apply {
 
 sub apply {
     my ($self, $destdir, %opts) = @_;
-    # Set default values to options
+    # Set default values to options.
     $opts{force_timestamp} //= 1;
     $opts{remove_backup} //= 1;
     $opts{create_dirs} //= 1;
@@ -629,10 +634,10 @@ sub apply {
     ];
     $opts{add_options} //= [];
     push @{$opts{options}}, @{$opts{add_options}};
-    # Check the diff and create missing directories
+    # Check the diff and create missing directories.
     my $analysis = $self->analyze($destdir, %opts);
     $self->prepare_apply($analysis, %opts);
-    # Apply the patch
+    # Apply the patch.
     $self->ensure_open('r');
     my ($stdout, $stderr) = ('', '');
     spawn(
@@ -643,7 +648,8 @@ sub apply {
             PATCH_GET => '0',
         },
         delete_env => [
-            'POSIXLY_CORRECT', # ensure expected patch behavior
+            # Ensure expected patch(1) behavior.
+            'POSIXLY_CORRECT',
         ],
         wait_child => 1,
         no_check => 1,
@@ -658,8 +664,7 @@ sub apply {
                    ' < ' . $self->get_filename());
     }
     $self->close();
-    # Reset the timestamp of all the patched files
-    # and remove .dpkg-orig files
+    # Reset the timestamp of all the patched files and remove .dpkg-orig files.
     my @files = keys %{$analysis->{filepatched}};
     my $now = $opts{timestamp};
     $now //= fs_time($files[0]) if $opts{force_timestamp} && scalar @files;
@@ -679,7 +684,7 @@ sub apply {
 # Verify if check will work...
 sub check_apply {
     my ($self, $destdir, %opts) = @_;
-    # Set default values to options
+    # Set default values to options.
     $opts{create_dirs} //= 1;
     $opts{options} ||= [
         '--dry-run',
@@ -695,10 +700,10 @@ sub check_apply {
     ];
     $opts{add_options} //= [];
     push @{$opts{options}}, @{$opts{add_options}};
-    # Check the diff and create missing directories
+    # Check the diff and create missing directories.
     my $analysis = $self->analyze($destdir, %opts);
     $self->prepare_apply($analysis, %opts);
-    # Apply the patch
+    # Apply the patch.
     $self->ensure_open('r');
     my $patch_pid = spawn(
         exec => [ $Dpkg::PROGPATCH, @{$opts{options}} ],
@@ -708,7 +713,8 @@ sub check_apply {
             PATCH_GET => '0',
         },
         delete_env => [
-            'POSIXLY_CORRECT', # ensure expected patch behavior
+            # Ensure expected patch(1) behavior.
+            'POSIXLY_CORRECT',
         ],
         from_handle => $self->get_filehandle(),
         to_file => '/dev/null',
@@ -721,7 +727,7 @@ sub check_apply {
     return ($exit == 0);
 }
 
-# Helper functions
+# Helper functions.
 sub get_type {
     my $file = shift;
     if (not lstat($file)) {

@@ -73,11 +73,11 @@ sub can_build {
 
 sub do_build {
     my ($self, $dir) = @_;
-    # Update real target format
+    # Update real target format.
     my $format = $self->{options}{target_format};
     error(g_('--target-format option is missing')) unless $format;
     $self->{fields}{'Format'} = $format;
-    # Add all files
+    # Add all files.
     foreach my $file (@{$self->{options}{ARGV}}) {
         $self->add_file($file);
     }

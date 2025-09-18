@@ -29,7 +29,7 @@ my $PERL = $ENV{PERL} // $^X // 'perl';
 # Detect compilation warnings that are not found with just «use warnings»,
 # such as redefinition of symbols from multiple imports. We cannot use
 # Test::Strict::syntax_ok because it does not pass -w to perl, and does not
-# check for other issues whenever perl states the syntax is ok.
+# check for other issues whenever perl states the syntax is OK.
 sub syntax_ok {
     my $file = shift;
 

@@ -36,14 +36,14 @@ my $s = Dpkg::Substvars->new();
 
 $s->load("$datadir/substvars1");
 
-# simple value tests
+# Simple value tests.
 is($s->get('var1'), 'Some value', 'var1');
 is($s->get('var2'), 'Some other value', 'var2');
 is($s->get('var3'), 'Yet another value', 'var3');
 is($s->get('var4'), undef, 'no var4');
 is($s->get('optional-var5'), 'Optionally used value', 'optional-var5');
 
-# Set automatic variable
+# Set automatic variable.
 $s->set_as_auto('var_auto', 'auto');
 is($s->get('var_auto'), 'auto', 'get var_auto');
 
@@ -55,21 +55,21 @@ var3=Yet another value
 VARS
 is($s->output(), $expected, 'No automatic variables output');
 
-# overriding
+# Overriding.
 $s->set('var1', 'New value');
 is($s->get('var1'), 'New value', 'var1 updated');
 
-# deleting
+# Deleting.
 $s->delete('var3');
 is($s->get('var3'), undef, 'var3 deleted');
 
-# default variables
+# Default variables.
 is($s->get('Newline'), "\n", 'newline');
 is($s->get('Space'), ' ', 'space');
 is($s->get('Tab'), "\t", 'tab');
 is($s->get('dpkg:Version'), $Dpkg::PROGVERSION, 'dpkg version 1');
 
-# special variables
+# Special variables.
 is($s->get('Arch'), undef, 'no arch');
 $s->set_arch_substvars();
 is($s->get('Arch'), get_host_arch(), 'arch');
@@ -111,12 +111,12 @@ is($s->get('ctrl:Some-Field'), 'some-value', 'contents of ctrl:Some-Field');
 is($s->get('ctrl:Other-Field'), 'other-value', 'contents of ctrl:Other-Field');
 is($s->get('ctrl:Alter-Field'), 'alter-value', 'contents of ctrl:Alter-Field');
 
-# Direct replace: few
+# Direct replace: few.
 is($s->substvars('This is a string ${var1} with variables ${binary:Version}'),
                  'This is a string New value with variables 1:2.3.4~5-6.7.8~nmu9+b0',
     'direct replace, few times');
 
-# Direct replace: many times (more than the recursive limit)
+# Direct replace: many times (more than the recursive limit).
 $s->set('dr', 'feed');
 is($s->substvars('${dr}${dr}${dr}${dr}${dr}${dr}${dr}${dr}${dr}${dr}' .
                  '${dr}${dr}${dr}${dr}${dr}${dr}${dr}${dr}${dr}${dr}' .
@@ -222,12 +222,12 @@ is($output,
     "'\n",
     'recursive or exponential expansion is limited');
 
-# Strange input
+# Strange input.
 is($s->substvars('Nothing to $ ${substitute  here}, is it ${}?, it ${is'),
                  'Nothing to $ ${substitute  here}, is it ${}?, it ${is',
     'substvars strange');
 
-# Warnings about unused variables
+# Warnings about unused variables.
 $output = '';
 $SIG{__WARN__} = sub { $output .= $_[0] };
 $s->warn_about_unused();
@@ -236,7 +236,7 @@ is($output,
     'Dpkg_Substvars.t: warning: test substitution variable ${var2} unused, but is defined' . "\n",
     'unused variables warnings');
 
-# Disable warnings for a certain variable
+# Disable warnings for a certain variable.
 $s->set_as_used('var_used', 'used');
 $s->mark_as_used('var2');
 $output = '';
@@ -247,7 +247,7 @@ is($output, '', 'disabled unused variables warnings');
 
 $s->delete('var_used');
 
-# Required variables
+# Required variables.
 my $sr;
 
 $expected = <<'VARS';
@@ -273,7 +273,7 @@ is($sr->substvars('This is a string with a required variable ${required-var}'),
                   'This is a string with a required variable Required value',
     'substvars required substitution present');
 
-# Variable filters
+# Variable filters.
 my $sf;
 
 $expected = <<'VARS';

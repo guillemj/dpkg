@@ -72,7 +72,7 @@ sub reset {
 }
 
 sub _select_objdump {
-    # Decide which objdump to call
+    # Decide which objdump to call.
     if (get_build_arch() ne get_host_arch()) {
         my $od = debarch_to_gnutriplet(get_host_arch()) . '-objdump';
         return $od if find_command($od);
@@ -118,7 +118,8 @@ sub parse_objdump_output {
             next;
         } elsif (/^DYNAMIC RELOCATION RECORDS/) {
             $section = 'dynreloc';
-            $_ = <$fh>; # Skip header
+            # Skip header.
+            $_ = <$fh>;
             next;
         } elsif (/^Dynamic Section:/) {
             $section = 'dyninfo';
@@ -152,9 +153,9 @@ sub parse_objdump_output {
             } elsif (/^\s*GNU_HASH\s+(\S+)/) {
                 $self->{GNU_HASH} = $1;
             } elsif (/^\s*RUNPATH\s+(\S+)/) {
-                # RUNPATH takes precedence over RPATH but is
-                # considered after LD_LIBRARY_PATH while RPATH
-                # is considered before (if RUNPATH is not set).
+                # RUNPATH takes precedence over RPATH but is considered after
+                # LD_LIBRARY_PATH while RPATH is considered before (if RUNPATH
+                # is not set).
                 my $runpath = $1;
                 $self->{RPATH} = [ split /:/, $runpath ];
             } elsif (/^\s*RPATH\s+(\S+)/) {
@@ -171,7 +172,8 @@ sub parse_objdump_output {
             if (/^\s*.+:\s*file\s+format\s+(\S+)$/) {
                 $self->{format} = $1;
             } elsif (/^architecture:\s*\S+,\s*flags\s*\S+:$/) {
-                # Parse 2 lines of "-f"
+                # Parse 2 lines of "-f":
+                #
                 # architecture: i386, flags 0x00000112:
                 # EXEC_P, HAS_SYMS, D_PAGED
                 # start address 0x08049b50
@@ -182,7 +184,7 @@ sub parse_objdump_output {
         }
     }
     # Update status of dynamic symbols given the relocations that have
-    # been parsed after the symbols...
+    # been parsed after the symbols.
     $self->apply_relocations();
 
     return $section ne 'none';
@@ -212,20 +214,20 @@ sub parse_objdump_output {
 # |        g=global,l=local,!=both global/local
 # Size of the symbol
 #
-# GLIBC_2.2 is the version string associated to the symbol
-# (GLIBC_2.2) is the same but the symbol is hidden, a newer version of the
-# symbol exist
+# «GLIBC_2.2» is the version string associated to the symbol
+# «(GLIBC_2.2)» is the same but the symbol is hidden, a newer version of the
+# symbol exist.
 
 my $vis_regex = qr/(\.protected|\.hidden|\.internal|0x\S+)/;
 my $dynsym_regex = qr<
     ^
-    [0-9a-f]+                   # Symbol size
-    \ (.{7})                    # Flags
-    \s+(\S+)                    # Section name
-    \s+[0-9a-f]+                # Alignment
-    (?:\s+(\S+))?               # Version string
-    (?:\s+$vis_regex)?          # Visibility
-    \s+(.+)                     # Symbol name
+    [0-9a-f]+                   # Symbol size.
+    \ (.{7})                    # Flags.
+    \s+(\S+)                    # Section name.
+    \s+[0-9a-f]+                # Alignment.
+    (?:\s+(\S+))?               # Version string.
+    (?:\s+$vis_regex)?          # Visibility.
+    \s+(.+)                     # Symbol name.
 >x;
 
 sub parse_dynamic_symbol {
@@ -233,14 +235,14 @@ sub parse_dynamic_symbol {
     if ($line =~ $dynsym_regex) {
         my ($flags, $sect, $ver, $vis, $name) = ($1, $2, $3, $4, $5);
 
-        # Special case if version is missing but extra visibility
-        # attribute replaces it in the match
+        # Special case if version is missing but extra visibility attribute
+        # replaces it in the match.
         if (defined($ver) and $ver =~ /^$vis_regex$/) {
             $vis = $ver;
             $ver = '';
         }
 
-        # Cleanup visibility field
+        # Cleanup visibility field.
         $vis =~ s/^\.// if defined($vis);
 
         my $symbol = {
@@ -258,19 +260,19 @@ sub parse_dynamic_symbol {
                 defined => $sect ne '*UND*'
             };
 
-        # Handle hidden symbols
+        # Handle hidden symbols.
         if (defined($ver) and $ver =~ /^\((.*)\)$/) {
             $ver = $1;
             $symbol->{version} = $1;
             $symbol->{hidden} = 1;
         }
 
-        # Register symbol
+        # Register symbol.
         $self->add_dynamic_symbol($symbol);
     } elsif ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+/) {
-        # Same start but no version and no symbol ... just ignore
+        # Same start but no version and no symbol ... just ignore.
     } elsif ($line =~ /^REG_G\d+\s+/) {
-        # Ignore some s390-specific output like
+        # Ignore some s390-specific output like:
         # REG_G6           g     R *UND*      0000000000000000              #scratch
     } else {
         warning(g_("couldn't parse dynamic symbol definition: %s"), $line);
@@ -281,7 +283,7 @@ sub apply_relocations {
     my $self = shift;
     foreach my $sym (values %{$self->{dynsyms}}) {
         # We want to mark as undefined symbols those which are currently
-        # defined but that depend on a copy relocation
+        # defined but that depend on a copy relocation.
         next if not $sym->{defined};
 
         my @relocs;

@@ -30,7 +30,7 @@ if ($@) {
 use Dselect::Method;
 use Dselect::Method::Ftp;
 
-# deal with arguments
+# Deal with arguments.
 my $vardir = $ARGV[0];
 my $method = $ARGV[1];
 my $option = $ARGV[2];
@@ -59,7 +59,7 @@ $arch = 'i386' if $?;
 chomp $arch;
 my $exit = 0;
 
-# get info from control file
+# Get info from control file.
 read_config("$vardir/methods/ftp/vars");
 
 chdir "$vardir/methods/ftp";
@@ -92,7 +92,7 @@ sub download {
             my $must_get = 0;
             my $newest_pack_date;
 
-            # check existing Packages on remote site
+            # Check existing Packages on remote site.
             print "\nChecking for Packages file... ";
             $newest_pack_date = do_mdtm ($ftp, "$dir/Packages.gz");
             if (defined $newest_pack_date) {
@@ -110,19 +110,19 @@ sub download {
                 }
             }
 
-            # we now have $dir set to point to an existing Packages.gz file
+            # We now have $dir set to point to an existing Packages.gz file.
 
-            # check if we already have a Packages file (and get its date)
+            # Check if we already have a Packages file (and get its date).
             $dist =~ tr/\//_/;
             my $file = "Packages.$site->[0].$dist";
 
-            # if not
+            # If not.
             if (! -f $file) {
-                # must get one
+                # Must get one.
 #               print "No Packages here; must get it.\n";
                 $must_get = 1;
             } else {
-                # else check last modification date
+                # Else check last modification date.
                 my @pack_stat = stat($file);
                 if ($newest_pack_date > $pack_stat[9]) {
 #                   print "Packages has changed; must get it.\n";
@@ -192,7 +192,7 @@ sub download {
                     print "  Couldn't rename Packages to Packages.$site->[0].$dist";
                     die 'error';
                 } else {
-                    # set local Packages file to same date as the one it mirrors
+                    # Set local Packages file to same date as the one it mirrors
                     # to allow comparison to work.
                     utime $newest_pack_date, $newest_pack_date, "Packages.$site->[0].$dist";
                     $packages_modified = 1;
@@ -220,7 +220,7 @@ if ($@) {
     $exit = 1;
 }
 
-# Don't clear if nothing changed.
+# Do not clear if nothing changed.
 if ($packages_modified) {
     print <<'EOM';
 

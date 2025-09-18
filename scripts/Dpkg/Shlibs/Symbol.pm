@@ -64,7 +64,7 @@ sub new {
     return $self;
 }
 
-# Deep clone
+# Deep clone.
 sub clone {
     my ($self, %opts) = @_;
     my $clone = Storable::dclone($self);
@@ -76,7 +76,8 @@ sub parse_tagspec {
     my ($self, $tagspec) = @_;
 
     if ($tagspec =~ /^\s*\((.*?)\)(.*)$/ && $1) {
-        # (tag1=t1 value|tag2|...|tagN=tNp)
+        # Format:
+        #   (tag1=t1 value|tag2|...|tagN=tNp)
         # Symbols ()|= cannot appear in the tag names and values.
         $tagspec = $1;
         my $rest = ($2) ? $2 : '';
@@ -105,7 +106,8 @@ sub parse_symbolspec {
     my $rest;
 
     if (defined($symbol = $self->parse_tagspec($symbolspec))) {
-        # (tag1=t1 value|tag2|...|tagN=tNp)"Foo::Bar::foobar()"@Base 1.0 1
+        # Format:
+        #   (tag1=t1 value|tag2|...|tagN=tNp)"Foo::Bar::foobar()"@Base 1.0 1
         # Symbols ()|= cannot appear in the tag names and values.
 
         # If the tag specification exists, symbol name template might be
@@ -122,7 +124,8 @@ sub parse_symbolspec {
         }
         error(g_('symbol name unspecified: %s'), $symbolspec) if (! $symbol);
     } elsif ($symbolspec =~ m/^(\S+)(.*)$/) {
-        # foobarsymbol@Base 1.0 1
+        # Format:
+        #   foobarsymbol@Base 1.0 1
         # No tag specification. Symbol name is up to the first space.
         $symbol = $1;
         $rest = $2;
@@ -162,7 +165,7 @@ sub initialize {
         $type = 'alias-c++';
     }
 
-    # Support old style wildcard syntax. That's basically a symver with an
+    # Support old style wildcard syntax. That is basically a symver with an
     # optional tag.
     if ($self->get_symbolname() =~ /^\*@(.*)$/) {
         $self->add_tag('symver') unless $self->has_tag('symver');
@@ -330,7 +333,9 @@ sub get_pattern {
     return $self->{matching_pattern};
 }
 
-### NOTE: subroutines below require (or initialize) $self to be a pattern ###
+## Pattern subroutines.
+#
+# Note: The subroutines below require (or initialize) $self to be a pattern.
 
 # Initializes this symbol as a pattern of the specified type.
 sub init_pattern {
@@ -391,7 +396,7 @@ sub create_pattern_match {
     return $newsym;
 }
 
-### END of pattern subroutines ###
+## End of pattern subroutines.
 
 # Given a raw symbol name the call returns its alias according to the rules of
 # the current pattern ($self). Returns undef if the supplied raw name is not
@@ -486,7 +491,7 @@ sub mark_not_found_in_library {
 
     if ($self->{deprecated}) {
         # Bump deprecated if the symbol is optional so that it keeps
-        # reappearing in the diff while it's missing.
+        # reappearing in the diff while it is missing.
         $self->{deprecated} = $minver if $self->is_optional();
     } elsif (version_compare($minver, $self->{minver}) > 0) {
         $self->{deprecated} = $minver;

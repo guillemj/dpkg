@@ -89,7 +89,7 @@ my $truth = {
     },
 };
 
-# Handling of empty/invalid versions
+# Handling of empty/invalid versions.
 my $empty = Dpkg::Version->new('');
 ok($empty eq '', "Dpkg::Version->new('') eq ''");
 ok($empty->as_string() eq '', "Dpkg::Version->new('')->as_string() eq ''");
@@ -122,7 +122,7 @@ ok(! $ver->is_valid(), 'version does not start with digit 1/2');
 $ver = Dpkg::Version->new('0:foo5.2');
 ok(! $ver->is_valid(), 'version does not start with digit 2/2');
 
-# Native and non-native versions
+# Native and non-native versions.
 $ver = Dpkg::Version->new('1.0');
 ok($ver->__is_native(), 'upstream version is native');
 $ver = Dpkg::Version->new('1:1.0');
@@ -134,7 +134,7 @@ ok(! $ver->__is_native(), 'upstream version w/ revision is not native');
 $ver = Dpkg::Version->new('1.0-1.0-1');
 ok(! $ver->__is_native(), 'upstream version w/ dash and revision is not native');
 
-# Comparisons
+# Comparisons.
 foreach my $case (@tests) {
     my ($a, $b, $res) = split ' ', $case;
     my $va = Dpkg::Version->new($a, check => 1);

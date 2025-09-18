@@ -23,8 +23,7 @@ use ok 'Dpkg::BuildOptions';
 
 {
     no warnings; ## no critic (TestingAndDebugging::ProhibitNoWarnings)
-    # Disable warnings related to invalid values fed during
-    # the tests
+    # Disable warnings related to invalid values fed during the tests.
     report_options(quiet_warnings => 1);
 }
 

@@ -123,16 +123,16 @@ sub parse($self, $fh, $desc, %opts)
 
     while (<$fh>) {
         chomp;
-        # Strip leading spaces
+        # Strip leading spaces.
         s{^\s+}{};
-        # Strip trailing spaces
+        # Strip trailing spaces.
         s{\s+$}{};
-        # Remove spaces around the first =
+        # Remove spaces around the first =.
         s{\s+=\s+}{=};
-        # First spaces becomes = if no =
+        # First spaces becomes = if no =.
         s{\s+}{=} unless m{=};
 
-        # Skip empty lines and comments
+        # Skip empty lines and comments.
         next if m{^#} or length == 0;
 
         if (m{^([^=]+)(?:=(.*))?$}) {

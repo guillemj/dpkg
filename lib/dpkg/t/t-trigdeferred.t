@@ -52,7 +52,7 @@ TEXT
     }, {
         exitcode => 2,
         original => <<"TEXT",
-\b # invalid character
+\b # Invalid character.
 TEXT
     }, {
         exitcode => 2,

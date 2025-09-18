@@ -301,7 +301,7 @@ while (@ARGV) {
             if not defined $hook_cmd;
         $hook{$hook_name} = $hook_cmd;
     } elsif (/^(--buildinfo-id)=.*$/) {
-        # Deprecated option
+        # Deprecated option.
         warning(g_('%s is deprecated; it is without effect'), $1);
     } elsif (/^--sign-backend=(.*)$/) {
         $signbackend = $1;
@@ -318,7 +318,7 @@ while (@ARGV) {
     } elsif (/^--ignore-builtin-builddeps$/) {
         $check_builtin_builddep = 0;
     } elsif (/^-s(gpg|pgp)$/) {
-        # Deprecated option
+        # Deprecated option.
         warning(g_('-s%s is deprecated; always using gpg style interface'), $1);
     } elsif (/^--force-sign$/) {
         $signforce = 1;
@@ -350,7 +350,8 @@ while (@ARGV) {
     } elsif (/^--(?:diff-ignore|tar-ignore)(?:=.+)?$/) {
         push @source_opts, $_;
     } elsif (/^-(?:s[nsAkurKUR]|[zZ].*|i.*|I.*)$/) {
-        push @source_opts, $_; # passed to dpkg-source
+        # Passed to dpkg-source.
+        push @source_opts, $_;
     } elsif (/^-tc$/ or /^--post-clean$/) {
         $postclean = 1;
     } elsif (/^--no-post-clean$/) {
@@ -358,9 +359,11 @@ while (@ARGV) {
     } elsif (/^--sanitize-env$/) {
         $sanitize_env = 1;
     } elsif (/^-t$/ or /^--host-type$/) {
-        $host_type = shift; # Order DOES matter!
+        # Order DOES matter!
+        $host_type = shift;
     } elsif (/^-t(.*)$/ or /^--host-type=(.*)$/) {
-        $host_type = $1; # Order DOES matter!
+        # Order DOES matter!
+        $host_type = $1;
     } elsif (/^--target-arch$/) {
         $target_arch = shift;
     } elsif (/^--target-arch=(.*)$/) {
@@ -407,7 +410,7 @@ while (@ARGV) {
     } elsif (/^-C(.*)$/) {
         $desc = $1;
     } elsif (m/^-[EW]$/) {
-        # Deprecated option
+        # Deprecated option.
         warning(g_('%s is deprecated; it is without effect'), $_);
     } elsif (/^-R(.*)$/ or /^--rules-file=(.*)$/) {
         my $arg = $1;
@@ -440,9 +443,9 @@ if (build_has_all(BUILD_BINARY)) {
 }
 
 if (not $preclean) {
-    # -nc without -b/-B/-A/-S/-F implies -b
+    # -nc without -b/-B/-A/-S/-F implies -b.
     set_build_type(BUILD_BINARY) if build_has_any(BUILD_DEFAULT);
-    # -nc with -S implies no dependency checks
+    # -nc with -S implies no dependency checks.
     $checkbuilddep = 0 if build_is(BUILD_SOURCE);
 }
 
@@ -647,7 +650,7 @@ my $build_driver = Dpkg::BuildDriver->new(
 );
 
 #
-# Preparation of environment stops here
+# Preparation of environment stops here.
 #
 
 run_hook('init');
@@ -960,7 +963,7 @@ sub describe_build {
     my $ext = compression_get_file_extension_regex();
 
     if (fileomitted($files, qr/\.deb/)) {
-        # source-only upload
+        # source-only upload.
         if (fileomitted($files, qr/\.diff\.$ext/) and
             fileomitted($files, qr/\.debian\.tar\.$ext/)) {
             return g_('source-only upload: Debian-native package');

@@ -116,7 +116,7 @@ sub read_config {
 sub store_config {
     my $vars = shift;
 
-    # Check that config is completed
+    # Check that config is completed.
     return if not $CONFIG{done};
 
     file_dump($vars, Dumper(\%CONFIG));
@@ -133,7 +133,7 @@ sub edit_config {
     my ($method, $methdir) = @_;
     my $i;
 
-    # Get a config for the sites
+    # Get a config for the sites.
     while (1) {
         $i = 1;
         print "\n\nList of selected $method sites :\n";

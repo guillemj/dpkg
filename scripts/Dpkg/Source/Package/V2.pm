@@ -229,7 +229,7 @@ sub do_extract {
         erasedir($newdirectory);
     }
 
-    # Extract main tarball
+    # Extract main tarball.
     info(g_('unpacking %s'), $tarfile);
     my $tar = Dpkg::Source::Archive->new(
         filename => File::Spec->catfile($self->{basedir}, $tarfile),
@@ -244,11 +244,11 @@ sub do_extract {
             '.pc',
         ],
     );
-    # The .pc exclusion is only needed for 3.0 (quilt) and to avoid
-    # having an upstream tarball provide a directory with symlinks
-    # that would be blindly followed when applying the patches
+    # The ".pc" exclusion is only needed for 3.0 (quilt) and to avoid having
+    # an upstream tarball provide a directory with symlinks that would be
+    # blindly followed when applying the patches.
 
-    # Extract additional orig tarballs
+    # Extract additional orig tarballs.
     foreach my $subdir (sort keys %addonfile) {
         my $file = $addonfile{$subdir};
         info(g_('unpacking %s'), $file);
@@ -267,10 +267,10 @@ sub do_extract {
         $tar->extract("$newdirectory/$subdir");
     }
 
-    # Stop here if debianization is not wanted
+    # Stop here if debianization is not wanted.
     return if $self->{options}{skip_debianization};
 
-    # Extract debian tarball after removing the debian directory
+    # Extract debian tarball after removing the debian directory.
     info(g_('unpacking %s'), $debianfile);
     erasedir("$newdirectory/debian");
     $tar = Dpkg::Source::Archive->new(
@@ -280,7 +280,7 @@ sub do_extract {
         in_place => 1,
     );
 
-    # Apply patches (in a separate method as it might be overridden)
+    # Apply patches (in a separate method as it might be overridden).
     $self->apply_patches($newdirectory, usage => 'unpack')
         unless $self->{options}{skip_patches};
 }
@@ -298,7 +298,7 @@ sub _get_patches {
     if (-d $pd) {
         opendir(my $dir_dh, $pd) or syserr(g_('cannot opendir %s'), $pd);
         foreach my $patch (sort readdir($dir_dh)) {
-            # patches match same rules as run-parts
+            # The «patches» directory matches the same rules as run-parts.
             next unless $patch =~ /^[\w-]+$/ and -f "$pd/$patch";
             next if $opts{skip_auto} and $patch eq $auto_patch;
             push @patches, $patch;
@@ -413,7 +413,7 @@ sub prepare_build {
     if ($self->{options}{create_empty_orig} and
         not $self->find_original_tarballs(include_supplementary => 0))
     {
-        # No main orig.tar, create a dummy one
+        # No main orig.tar, create a dummy one.
         my $filename = $self->get_basename() . '.orig.tar.' .
                        $self->{options}{comp_ext};
         my $tar = Dpkg::Source::Archive->new(
@@ -441,7 +441,7 @@ sub _generate_patch {
     my ($dirname, $updir) = fileparse($dir);
     my $basedirname = $self->get_basedirname();
 
-    # Identify original tarballs
+    # Identify original tarballs.
     my ($tarfile, %addonfile);
     my $comp_ext_regex = compression_get_file_extension_regex();
     my @origtarfiles;
@@ -492,7 +492,7 @@ sub _generate_patch {
         }
     }
 
-    # Unpack a second copy for comparison
+    # Unpack a second copy for comparison.
     my $tmpdir = File::Temp->newdir(
         TEMPLATE => "$dirname.orig.XXXXXX",
         DIR => $updir,
@@ -500,30 +500,30 @@ sub _generate_patch {
     );
     push_exit_handler(sub { erasedir($tmpdir) });
 
-    # Extract main tarball
+    # Extract main tarball.
     my $tar = Dpkg::Source::Archive->new(filename => $tarfile);
     $tar->extract($tmpdir);
 
-    # Extract additional orig tarballs
+    # Extract additional orig tarballs.
     foreach my $subdir (keys %addonfile) {
         my $file = $addonfile{$subdir};
         $tar = Dpkg::Source::Archive->new(filename => $file);
         $tar->extract("$tmpdir/$subdir");
     }
 
-    # Copy over the debian directory
+    # Copy over the debian directory.
     erasedir("$tmpdir/debian");
     system('cp', '-RPp', '--', "$dir/debian", "$tmpdir/");
     subprocerr(g_('copy of the debian directory')) if $?;
 
-    # Apply all patches except the last automatic one
+    # Apply all patches except the last automatic one.
     $opts{skip_auto} //= 0;
     $self->apply_patches($tmpdir,
         skip_auto => $opts{skip_auto},
         usage => 'build',
     );
 
-    # Create a patch
+    # Create a patch.
     my $tmpdiff = File::Temp->new(
         TEMPLATE => $self->get_basename(1) . '.diff.XXXXXX',
         TMPDIR => 1,
@@ -566,7 +566,7 @@ sub _generate_patch {
         }
     }
 
-    # Remove the temporary directory
+    # Remove the temporary directory.
     erasedir($tmpdir);
     pop_exit_handler();
     pop_exit_handler();
@@ -589,7 +589,7 @@ sub do_build {
     my $sourcepackage = $self->{fields}{'Source'};
     my $basenamerev = $self->get_basename(1);
 
-    # Check if the debian directory contains unwanted binary files
+    # Check if the debian directory contains unwanted binary files.
     my $binaryfiles = Dpkg::Source::BinaryFiles->new($dir);
 
     $binaryfiles->detect_binary_files(
@@ -597,7 +597,7 @@ sub do_build {
         include_binaries => $include_binaries,
     );
 
-    # Handle modified binary files detected by the auto-patch generation
+    # Handle modified binary files detected by the auto-patch generation.
     my $handle_binary = sub {
         my ($self, $old, $new, %opts) = @_;
 
@@ -613,7 +613,7 @@ sub do_build {
         }
     };
 
-    # Create a patch
+    # Create a patch.
     my $autopatch = File::Spec->catfile($dir, 'debian', 'patches',
                                         $self->get_autopatch_name());
     my $tmpdiff = $self->_generate_patch($dir,
@@ -634,19 +634,20 @@ sub do_build {
     push_exit_handler(sub { unlink($tmpdiff) });
     $binaryfiles->update_debian_source_include_binaries() if $include_binaries;
 
-    # Install the diff as the new autopatch
+    # Install the diff as the new autopatch.
     if ($self->{options}{auto_commit}) {
         make_path(File::Spec->catdir($dir, 'debian', 'patches'));
         $autopatch = $self->register_patch($dir, $tmpdiff,
                                            $self->get_autopatch_name());
         info(g_('local changes have been recorded in a new patch: %s'),
              $autopatch) if -e $autopatch;
-        rmdir(File::Spec->catdir($dir, 'debian', 'patches')); # No check on purpose
+        # No check when removing directory on purpose.
+        rmdir(File::Spec->catdir($dir, 'debian', 'patches'));
     }
     unlink($tmpdiff) or syserr(g_('cannot remove %s'), $tmpdiff);
     pop_exit_handler();
 
-    # Create the debian.tar
+    # Create the "debian.tar".
     my $debianfile = "$basenamerev.debian.tar." . $self->{options}{comp_ext};
     info(g_('building %s in %s'), $sourcepackage, $debianfile);
     my $tar = Dpkg::Source::Archive->new(
@@ -766,7 +767,7 @@ sub do_commit {
 
     $self->prepare_build($dir);
 
-    # Try to fix up a broken relative filename for the patch
+    # Try to fix up a broken relative filename for the patch.
     if ($tmpdiff and not -e $tmpdiff) {
         $tmpdiff = File::Spec->catfile($dir, $tmpdiff)
             unless File::Spec->file_name_is_absolute($tmpdiff);
@@ -794,7 +795,7 @@ sub do_commit {
         return;
     }
     while (_is_bad_patch_name($dir, $patch_name)) {
-        # Ask the patch name interactively
+        # Ask the patch name interactively.
         print g_('Enter the desired patch name: ');
         $patch_name = <STDIN>;
         if (not defined $patch_name) {

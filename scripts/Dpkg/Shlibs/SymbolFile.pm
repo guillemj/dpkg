@@ -216,14 +216,16 @@ sub parse {
     my $state = $opts{state} //= {};
 
     if (exists $state->{seen}) {
-        return if exists $state->{seen}{$file}; # Avoid include loops
+        # Avoid include loops.
+        return if exists $state->{seen}{$file};
     } else {
         $self->{filename} = $file;
         $state->{seen} = {};
     }
     $state->{seen}{$file} = 1;
 
-    if (not ref $state->{obj_ref}) { # Init ref to name of current object/lib
+    if (not ref $state->{obj_ref}) {
+        # Init ref to name of current object/lib.
         ${$state->{obj_ref}} = undef;
     }
 
@@ -253,7 +255,8 @@ sub parse {
                 $new_base_symbol->parse_tagspec($tagspec);
             }
             $state->{base_symbol} = $new_base_symbol;
-            $dir =~ s{[^/]+$}{}; # Strip filename
+            # Strip filename.
+            $dir =~ s{[^/]+$}{};
             $self->load("$dir$filename", %opts);
             $state->{base_symbol} = $old_base_symbol;
         } elsif (/^#|^$/) {
@@ -384,7 +387,8 @@ sub find_matching_pattern {
                     if ($alias && exists $aliases->{$alias}) {
                         $pattern = $aliases->{$alias};
                         last if $pattern_ok->($pattern);
-                        $pattern = undef; # otherwise not found yet
+                        # Otherwise not found yet.
+                        $pattern = undef;
                     }
                 }
             }
@@ -487,7 +491,7 @@ sub merge_symbols {
         }
     }
 
-    # Deprecate patterns which didn't match anything.
+    # Deprecate patterns which did not match anything.
     for my $pattern (grep { $_->get_pattern_matches() == 0 }
                           $self->get_patterns($soname)) {
         $pattern->mark_not_found_in_library($minver, $self->get_arch());
@@ -661,7 +665,7 @@ sub get_new_symbols {
                 $isnew = not $refsym->is_legitimate($self->get_arch());
             } else {
                 # If the symbol does not exist in the $ref symbol file, it does
-                # not mean that it's new. It might still match a pattern in the
+                # not mean that it is new. It might still match a pattern in the
                 # symbol file. However, due to performance reasons, first check
                 # if the pattern that the symbol matches (if any) exists in the
                 # ref symbol file as well.

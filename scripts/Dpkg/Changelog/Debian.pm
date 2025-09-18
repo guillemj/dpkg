@@ -62,48 +62,48 @@ use constant {
 
 my $ancient_delimiter_regex = qr{
     ^
-    (?: # Ancient GNU style changelog entry with expanded date
+    (?: # Ancient GNU style changelog entry with expanded date.
         (?:
-            \w+\s+                          # Day of week (abbreviated)
-            \w+\s+                          # Month name (abbreviated)
-            \d{1,2}                         # Day of month
+            \w+\s+                          # Day of week (abbreviated).
+            \w+\s+                          # Month name (abbreviated).
+            \d{1,2}                         # Day of month.
             \Q \E
-            \d{1,2}:\d{1,2}:\d{1,2}\s+      # Time
-            [\w\s]*                         # Timezone
-            \d{4}                           # Year
+            \d{1,2}:\d{1,2}:\d{1,2}\s+      # Time.
+            [\w\s]*                         # Timezone.
+            \d{4}                           # Year.
         )
         \s+
-        (?:.*)                              # Maintainer name
+        (?:.*)                              # Maintainer name.
         \s+
         [<\(]
-            (?:.*)                          # Maintainer email
+            (?:.*)                          # Maintainer email.
         [\)>]
-    | # Old GNU style changelog entry with expanded date
+    | # Old GNU style changelog entry with expanded date.
         (?:
-            \w+\s+                          # Day of week (abbreviated)
-            \w+\s+                          # Month name (abbreviated)
-            \d{1,2},?\s*                    # Day of month
-            \d{4}                           # Year
+            \w+\s+                          # Day of week (abbreviated).
+            \w+\s+                          # Month name (abbreviated).
+            \d{1,2},?\s*                    # Day of month.
+            \d{4}                           # Year.
         )
         \s+
-        (?:.*)                              # Maintainer name
+        (?:.*)                              # Maintainer name.
         \s+
         [<\(]
-            (?:.*)                          # Maintainer email
+            (?:.*)                          # Maintainer email.
         [\)>]
-    | # Ancient changelog header w/o key=value options
-        (?:\w[-+0-9a-z.]*)                  # Package name
+    | # Ancient changelog header w/o key=value options.
+        (?:\w[-+0-9a-z.]*)                  # Package name.
         \Q \E
         \(
-            (?:[^\(\) \t]+)                 # Package version
+            (?:[^\(\) \t]+)                 # Package version.
         \)
         \;?
-    | # Ancient changelog header
-        (?:[\w.+-]+)                        # Package name
+    | # Ancient changelog header.
+        (?:[\w.+-]+)                        # Package name.
         [- ]
-        (?:\S+)                             # Package version
+        (?:\S+)                             # Package version.
         \ Debian
-        \ (?:\S+)                           # Package revision
+        \ (?:\S+)                           # Package revision.
     |
         Changes\ from\ version\ (?:.*)\ to\ (?:.*):
     |
@@ -175,15 +175,18 @@ sub parse {
             $self->set_unparsed_tail("$_\n" . (file_slurp($fh) // ''));
             last;
         } elsif (m/^\$\w+:.*\$/o) {
-            next; # skip stuff that look like a RCS keyword
+            # Skip stuff that look like a RCS keyword.
+            next;
         } elsif (m/^\# /o) {
-            next; # skip comments, even that's not supported
+            # Skip comments, even that is not supported.
+            next;
         } elsif (m{^/\*.*\*/}o) {
-            next; # more comments
+            # More comments.
+            next;
         } elsif (m/$ancient_delimiter_regex/) {
-            # save entries on old changelog format verbatim
-            # we assume the rest of the file will be in old format once we
-            # hit it for the first time
+            # Save entries on old changelog format verbatim. We assume the
+            # rest of the file will be in old format once we hit it for the
+            # first time.
             $self->set_unparsed_tail("$_\n" . file_slurp($fh));
         } elsif (m/^\S/) {
             $self->parse_error($file, $., g_('badly formatted heading line'), "$_");
@@ -206,13 +209,13 @@ sub parse {
                 $self->parse_error($file, $., sprintf(g_('found change data' .
                     ' where expected %s'), $expect), "$_");
                 if ($expect eq NEXT_OR_EOF and not $entry->is_empty) {
-                    # lets assume we have missed the actual header line
+                    # Let us assume we have missed the actual header line.
                     push @{$self->{data}}, $entry;
                     $entry = Dpkg::Changelog::Entry::Debian->new();
                     $entry->set_part('header', 'unknown (unknown' . ($unknowncounter++) . ') unknown; urgency=unknown');
                 }
             }
-            # Keep raw changes
+            # Keep raw changes.
             $entry->extend_part('changes', [ @blanklines, $_ ]);
             @blanklines = ();
             $expect = CHANGES_OR_TRAILER;
@@ -231,7 +234,7 @@ sub parse {
         } else {
             $self->parse_error($file, $., g_('unrecognized line'), "$_");
             unless ($expect eq START_CHANGES or $expect eq CHANGES_OR_TRAILER) {
-                # lets assume change data if we expected it
+                # Let us assume change data if we expected it.
                 $entry->extend_part('changes', [ @blanklines, $_]);
                 @blanklines = ();
                 $expect = CHANGES_OR_TRAILER;

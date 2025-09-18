@@ -39,10 +39,10 @@ use Dselect::Method::Ftp;
 
 my $ftp;
 
-# exit value
+# Exit value.
 my $exit = 0;
 
-# deal with arguments
+# Deal with arguments.
 my $vardir = $ARGV[0];
 my $method = $ARGV[1];
 my $option = $ARGV[2];
@@ -55,14 +55,14 @@ if ($option eq 'manual') {
 
 my $methdir = "$vardir/methods/ftp";
 
-# get info from control file
+# Get info from control file.
 read_config("$methdir/vars");
 
 chdir "$methdir";
 make_path("$methdir/$CONFIG{dldir}", { mode => 0o755 });
 
 
-#Read md5sums already calculated
+# Read md5sums already calculated.
 my %md5sums;
 if (-f "$methdir/md5sums") {
     my $code = file_slurp("$methdir/md5sums");
@@ -77,10 +77,10 @@ if (-f "$methdir/md5sums") {
 }
 
 # Get a stanza.
-# returns a ref to a hash containing flds->fld contents
-# white space from the ends of lines is removed and newlines added
-# (no trailing newline).
-# die's if something unexpected happens
+#
+# Returns a ref to a hash containing flds->fld contents, white space from
+# the ends of lines is removed and newlines added (no trailing newline).
+# If something unexpected happens then it dies.
 sub get_stanza {
     my $fh = shift;
     my %flds;
@@ -110,9 +110,10 @@ sub get_stanza {
     return %flds;
 }
 
-# process status file
-# create curpkgs hash with version (no version implies not currently installed)
-# of packages we want
+# Process status file.
+#
+# Create curpkgs hash with version (no version implies not currently installed)
+# of packages we want.
 print "Processing status file...\n";
 my %curpkgs;
 sub procstatus {
@@ -135,10 +136,11 @@ sub procstatus {
 }
 procstatus();
 
-# process package files, looking for packages to install
-# create a hash of these packages pkgname => version, filenames...
+# Process package files, looking for packages to install.
+#
+# Create a hash of these packages pkgname => version, filenames...
 # filename => md5sum, size
-# for all packages
+# for all packages.
 my %pkgs;
 my %pkgfiles;
 sub procpkgfile {
@@ -194,7 +196,7 @@ foreach my $site (@{$CONFIG{site}}) {
 }
 
 my $dldir = $CONFIG{dldir};
-# md5sum
+# Compute the MD5 digest for a file.
 sub md5sum {
     my $fn = shift;
     my $m = qx(md5sum $fn);
@@ -203,9 +205,8 @@ sub md5sum {
     return $m;
 }
 
-# construct list of files to get
-# hash of filenames => size of downloaded part
-# query user for each partial file
+# Construct list of files to get hash of filenames => size of downloaded part
+# query user for each partial file.
 print "\nConstructing list of files to get...\n";
 my %downloads;
 my ($dir, @info, @files, $csize, $size);
@@ -213,7 +214,7 @@ my $totsize = 0;
 foreach my $pkg (keys(%pkgs)) {
     @files = @{$pkgs{$pkg}[1]};
     foreach my $fn (@files) {
-        #Look for a partial file
+        # Look for a partial file.
         if (-f "$dldir/$fn.partial") {
             rename "$dldir/$fn.partial", "$dldir/$fn";
         }
@@ -226,7 +227,7 @@ foreach my $pkg (keys(%pkgs)) {
         if (-f "$dldir/$fn") {
             $size = -s "$dldir/$fn";
             if ($info[1] > $size) {
-                # partial download
+                # Partial download.
                 if (yesno('y', "continue file: $fn (" . nb($size) . '/' .
                                nb($info[1]) . ')')) {
                     $downloads{$fn} = $size;
@@ -236,7 +237,7 @@ foreach my $pkg (keys(%pkgs)) {
                     $totsize += $csize;
                 }
             } else {
-                # check md5sum
+                # Check md5sum digest.
                 if (! exists $md5sums{"$dldir/$fn"}) {
                   $md5sums{"$dldir/$fn"} = md5sum("$dldir/$fn");
                 }
@@ -274,7 +275,7 @@ if ($totsize == 0) {
         print "Space required is greater than available space,\n";
         print "you will need to select which items to get.\n";
     }
-    # ask user which files to get
+    # Ask user which files to get.
     if (($totsize > $avsp) ||
         yesno('n', 'Do you want to select the files to get')) {
         $totsize = 0;
@@ -305,9 +306,10 @@ sub download {
 
     foreach my $site (@{$CONFIG{site}}) {
         my @getfiles = grep { $pkgfiles{$_}[2] == $i } keys %downloads;
-        my @pre_dist = (); # Directory to add before $fn
+        # Directory to add before $fn.
+        my @pre_dist = ();
 
-        #Scan distributions for looking at "(../)+/dir/dir"
+        # Scan distributions for looking at "(../)+/dir/dir".
         my ($n,$cp);
         $cp = -1;
         foreach (@{$site->[2]}) {
@@ -356,7 +358,7 @@ sub download {
                 if (! ($r == 550 || $r == 450)) {
                     return 1;
                 } else {
-                    #Try to find another file or this package
+                    # Try to find another file or this package.
                     print "Looking for another version of the package...\n";
                     my ($dir, $package) = ($fn =~ m{^(.*)/([^/]+)_[^/]+.deb$});
                     my $list = $ftp->ls("$pre$dir");
@@ -376,7 +378,7 @@ sub download {
                     }
                 }
             }
-            # fully got, remove it from list in case we have to re-download
+            # Fully got, remove it from list in case we have to re-download.
             delete $downloads{$fn};
         }
         $ftp->quit();
@@ -385,7 +387,7 @@ sub download {
     return 0;
 }
 
-# download stuff (protect from Ctrl+C)
+# Download stuff (protect from Ctrl+C).
 if ($totsize != 0) {
     if (yesno('y', "\nDo you want to download the required files")) {
         DOWNLOAD_TRY: while (1) {
@@ -397,7 +399,7 @@ if ($totsize != 0) {
                 }
             };
             if ($@ =~ /Interrupted|Timeout/i ) {
-                # close the FTP connection if needed
+                # Close the FTP connection if needed.
                 if ((ref($ftp) =~ /Net::FTP/) and ($@ =~ /Interrupted/i)) {
                     $ftp->abort();
                     $ftp->quit();
@@ -405,15 +407,15 @@ if ($totsize != 0) {
                 }
                 print "FTP ERROR\n";
                 if (yesno('y', "\nDo you want to retry downloading at once")) {
-                    # get the first $fn that foreach would give:
-                    # this is the one that got interrupted.
+                    # Get the first $fn that foreach would give:
+                    #   this is the one that got interrupted.
                     my $fn;
                     MY_ITER: foreach my $ffn (keys(%downloads)) {
                         $fn = $ffn;
                         last MY_ITER;
                     }
                     my $size = -s "$dldir/$fn";
-                    # partial download
+                    # Partial download.
                     if (yesno('y', "continue file: $fn (at $size)")) {
                         $downloads{$fn} = $size;
                     } else {
@@ -432,19 +434,23 @@ if ($totsize != 0) {
     }
 }
 
-# remove duplicate packages (keep latest versions)
-# move half downloaded files out of the way
-# delete corrupted files
+# Remove duplicate packages (keep latest versions).
+#
+# Move half downloaded files out of the way delete corrupted files.
 print "\nProcessing downloaded files...(for corrupt/old/partial)\n";
-my %vers; # package => version
-my %files; # package-version => files...
+# package => version
+my %vers;
+# package-version => files...
+my %files;
 
-# check a deb or split deb file
-# return 1 if it a deb file, 2 if it is a split deb file
-# else 0
+# Check a deb or split deb file.
+#
+# Return 1 if it a deb file.
+# Return 2 if it is a split deb file.
+# Else return 0.
 sub chkdeb {
     my ($fn) = @_;
-    # check to see if it is a .deb file
+    # Check to see if it is a .deb file.
     if (! system "dpkg-deb --info $fn >/dev/null 2>&1 && dpkg-deb --contents $fn >/dev/null 2>&1") {
         return 1;
     } elsif (! system "dpkg-split --info $fn >/dev/null 2>&1") {
@@ -482,7 +488,7 @@ sub getdebinfo {
     return $pkg, $ver;
 }
 
-# process deb file to make sure we only keep latest versions
+# Process deb file to make sure we only keep latest versions.
 sub prcdeb {
     my ($dir, $fn) = @_;
     my ($pkg, $ver) = getdebinfo($fn);
@@ -497,7 +503,8 @@ sub prcdeb {
         } elsif ($ver_rel > 0) {
             print "old version\n";
             unlink $fn;
-        } else { # else $ver is gt current version
+        } else {
+            # Otherwise $ver is gt current version.
             foreach my $c (@{$files{$pkg . $vers{$pkg}}}) {
                 print "replaces: $c\n";
                 unlink "$vardir/methods/ftp/$dldir/$c";
@@ -550,10 +557,10 @@ sub prcfile {
 }
 find(\&prcfile, "$dldir/");
 
-# install .debs
+# Install ".debs".
 if (yesno('y', "\nDo you want to install the files fetched")) {
     print "Installing files...\n";
-    #Installing pre-dependent package before !
+    # Installing pre-dependent package before.
     my (@flds, $package, @filename, $r);
     while (@flds = qx(dpkg --predep-package), $? == 0) {
         foreach my $field (@flds) {
@@ -569,7 +576,7 @@ if (yesno('y', "\nDo you want to install the files fetched")) {
             $exit = 1;
         }
     }
-    #Installing other packages after
+    # Installing other packages after.
     $r = system('dpkg', '-iGREOB', $dldir);
     if ($r) {
         print "DPKG ERROR\n";
@@ -601,8 +608,9 @@ sub removeinstalled {
     }
 }
 
-# remove .debs that have been installed (query user)
-# first need to reprocess status file
+# Remove .debs that have been installed (query user).
+#
+# First need to reprocess status file.
 if (yesno('y', "\nDo you wish to delete the installed package (.deb) files?")) {
     print "Removing installed files...\n";
     %curpkgs = ();
@@ -610,12 +618,12 @@ if (yesno('y', "\nDo you wish to delete the installed package (.deb) files?")) {
     find(\&removeinstalled, "$dldir/");
 }
 
-# remove whole ./debian directory if user wants to
+# Remove whole ./debian directory if user wants to.
 if (yesno('n', "\nDo you want to remove $dldir directory?")) {
     remove_tree($dldir);
 }
 
-#Store useful md5sums
+# Store useful md5sums.
 foreach my $file (keys %md5sums) {
     next if -f $file;
     delete $md5sums{$file};

@@ -33,7 +33,7 @@ use Dpkg::Compression::FileHandle;
 
 textdomain('dpkg-dev');
 
-# Do not pollute STDOUT with info messages
+# Do not pollute STDOUT with info messages.
 report_options(info_fh => \*STDERR);
 
 my (@samemaint, @changedmaint);

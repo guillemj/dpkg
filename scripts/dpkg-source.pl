@@ -59,10 +59,10 @@ my $changelogformat;
 
 my $build_format;
 my %options = (
-    # Ignore files
+    # Ignore files.
     tar_ignore => [],
     diff_ignore_regex => '',
-    # Misc options
+    # Misc options.
     copy_orig_tarballs => 1,
     no_check => 0,
     no_overwrite_dir => 1,
@@ -70,7 +70,7 @@ my %options = (
     require_strong_checksums => 0,
 );
 
-# Fields to remove/override
+# Fields to remove/override.
 my %remove;
 my %override;
 
@@ -95,7 +95,8 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         setopmode('commit');
     } elsif ($arg eq '--print-format') {
         setopmode('print-format');
-        report_options(info_fh => \*STDERR); # Avoid clutter on STDOUT
+        # Avoid clutter on stdout.
+        report_options(info_fh => \*STDERR);
     } else {
         push @options, $arg;
     }
@@ -116,15 +117,15 @@ if (defined($options{opmode}) &&
         error(g_('directory argument %s is not a directory'), $dir);
     }
     if ($dir eq '.') {
-        # . is never correct, adjust automatically
+        # «.» is never correct, adjust automatically.
         $dir = basename(getcwd());
         chdir '..' or syserr(g_("unable to chdir to '%s'"), '..');
     }
     # --format options are not allowed, they would take precedence
     # over real command line options, debian/source/format should be used
-    # instead
-    # --unapply-patches is only allowed in local-options as it's a matter
-    # of personal taste and the default should be to keep patches applied
+    # instead.
+    # --unapply-patches is only allowed in local-options as it is a matter
+    # of personal taste and the default should be to keep patches applied.
     my $forbidden_opts_regex = {
         'options' => qr/^--(?:format=|unapply-patches$|abort-on-upstream-changes$)/,
         'local-options' => qr/^--format=/,
@@ -190,7 +191,7 @@ while (@options) {
     } elsif (m/^-(?:I|-tar-ignore)$/) {
         unless ($tar_ignore_default_pattern_done) {
             push @{$options{tar_ignore}}, get_default_tar_ignore_pattern();
-            # Prevent adding multiple times
+            # Prevent adding multiple times.
             $tar_ignore_default_pattern_done = 1;
         }
     } elsif (m/^--no-copy$/) {
@@ -214,7 +215,7 @@ while (@options) {
         version();
         exit(0);
     } elsif (m/^-[EW]$/) {
-        # Deprecated option
+        # Deprecated option.
         warning(g_('-E and -W are deprecated, they are without effect'));
     } elsif (m/^-q$/) {
         report_options(quiet_warnings => 1);
@@ -245,7 +246,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     # <https://reproducible-builds.org/specs/source-date-epoch/>
     $ENV{SOURCE_DATE_EPOCH} ||= $changelog->{timestamp} || time;
 
-    # Select the format to use
+    # Select the format to use.
     if (not defined $build_format) {
         my $format_file = "$dir/debian/source/format";
         if (-e $format_file) {
@@ -271,7 +272,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     my %archadded;
     my @binarypackages;
 
-    # Scan control info of source package
+    # Scan control info of source package.
     my $src_fields = $control->get_source();
     error(g_("%s doesn't contain any information about the source package"),
           $controlfile) unless defined $src_fields;
@@ -301,7 +302,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
         }
     }
 
-    # Scan control info of binary packages
+    # Scan control info of binary packages.
     my @pkglist;
     foreach my $pkg ($control->get_packages()) {
         my $p = $pkg->{'Package'};
@@ -321,11 +322,11 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
             # Instead of splitting twice and then joining twice, we just do
             # simple string replacements:
 
-            # Remove the enclosing <>
+            # Remove the enclosing <>.
             $profile =~ s/^\s*<(.*)>\s*$/$1/;
-            # Join lists with a plus (OR)
+            # Join lists with a plus (OR).
             $profile =~ s/>\s+</+/g;
-            # Join their elements with a comma (AND)
+            # Join their elements with a comma (AND).
             $profile =~ s/\s+/,/g;
 
             $pkg_prop{profile} = $profile;
@@ -368,7 +369,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
                     }
                 }
             } elsif (any { $f eq $_ } qw(Homepage Description)) {
-                # Do not overwrite the same field from the source entry
+                # Do not overwrite the same field from the source entry.
             } else {
                 field_transfer_single($pkg, $fields, $f);
             }
@@ -379,14 +380,14 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     }
     if (any { $_ eq 'any' } @sourcearch) {
         # If we encounter one 'any' then the other arches become insignificant
-        # except for 'all' that must also be kept
+        # except for 'all' that must also be kept.
         if (any { $_ eq 'all' } @sourcearch) {
             @sourcearch = qw(any all);
         } else {
             @sourcearch = qw(any);
         }
     } else {
-        # Minimize arch list, by removing arches already covered by wildcards
+        # Minimize arch list, by removing arches already covered by wildcards.
         my @arch_wildcards = grep { debarch_is_wildcard($_) } @sourcearch;
         my @mini_sourcearch = @arch_wildcards;
         foreach my $arch (@sourcearch) {
@@ -402,7 +403,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     # Check if we have a testsuite, and handle manual and automatic values.
     set_testsuite_fields($fields, @binarypackages);
 
-    # Scan fields of dpkg-parsechangelog
+    # Scan fields of dpkg-parsechangelog.
     foreach my $f (keys %{$changelog}) {
         my $v = $changelog->{$f};
 
@@ -417,14 +418,14 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
             error(g_('building source for a binary-only release'))
                 if $v eq 'yes' and $options{opmode} eq 'build';
         } elsif ($f eq 'Maintainer') {
-            # Do not replace the field coming from the source entry
+            # Do not replace the field coming from the source entry.
         } else {
             field_transfer_single($changelog, $fields, $f);
         }
     }
 
     $fields->{'Binary'} = join(', ', @binarypackages);
-    # Avoid overly long line by splitting over multiple lines
+    # Avoid overly long line by splitting over multiple lines.
     if (length($fields->{'Binary'}) > 980) {
         $fields->{'Binary'} =~ s/(.{0,980}), ?/$1,\n/g;
     }
@@ -443,17 +444,17 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
         exit(0);
     }
 
-    # Verify pre-requisites are met
+    # Verify pre-requisites are met.
     my ($res, $msg) = $srcpkg->can_build($dir);
     error(g_("can't build with source format '%s': %s"), $build_format, $msg) unless $res;
 
-    # Only -b left
+    # Only -b left.
     info(g_("using source format '%s'"), $fields->{'Format'});
     run_vendor_hook('before-source-build', $srcpkg);
-    # Build the files (.tar.gz, .diff.gz, etc)
+    # Build the files (.tar.gz, .diff.gz, etc).
     $srcpkg->build($dir);
 
-    # Write the .dsc
+    # Write the .dsc.
     my $dscname = $srcpkg->get_basename(1) . '.dsc';
     info(g_('building %s in %s'), get_source_name(), $dscname);
     $srcpkg->write_dsc(
@@ -464,7 +465,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     );
     exit(0);
 } elsif ($options{opmode} eq 'extract') {
-    # Check command line
+    # Check command line.
     unless (scalar(@ARGV)) {
         usageerr(g_('--%s needs at least one argument, the .dsc'),
                  $options{opmode});
@@ -478,16 +479,16 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
                  $options{opmode});
     }
 
-    # Create the object that does everything
+    # Create the object that does everything.
     my $srcpkg = Dpkg::Source::Package->new(
         filename => $dsc,
         options => \%options,
     );
 
-    # Parse command line options
+    # Parse command line options.
     $srcpkg->parse_cmdline_options(@cmdline_options);
 
-    # Decide where to unpack
+    # Decide where to unpack.
     my $newdirectory = $srcpkg->get_basedirname();
     if (@ARGV) {
         $newdirectory = File::Spec->catdir(shift(@ARGV));
@@ -496,7 +497,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
         }
     }
 
-    # Various checks before unpacking
+    # Various checks before unpacking.
     unless ($options{no_check}) {
         if ($srcpkg->is_signed()) {
             $srcpkg->check_signature();
@@ -508,7 +509,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
         $srcpkg->check_checksums();
     }
 
-    # Unpack the source package (delegated to Dpkg::Source::Package::*)
+    # Unpack the source package (delegated to Dpkg::Source::Package::*).
     info(g_('extracting %s in %s'), $srcpkg->{fields}{'Source'}, $newdirectory);
     $srcpkg->extract($newdirectory);
 

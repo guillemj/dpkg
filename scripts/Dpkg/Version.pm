@@ -105,7 +105,8 @@ Setting this option to true will return undef if the version is invalid
 sub new {
     my ($this, $ver, %opts) = @_;
     my $class = ref($this) || $this;
-    $ver = "$ver" if ref($ver); # Try to stringify objects
+    # Try to stringify objects.
+    $ver = "$ver" if ref($ver);
 
     if ($opts{check}) {
         return unless version_check($ver);
@@ -387,7 +388,8 @@ sub version_compare_string {
     while (1) {
         my ($a, $b) = (shift @a, shift @b);
         return 0 if not defined($a) and not defined($b);
-        $a ||= 0; # Default order for "no character"
+        # Default order for "no character".
+        $a ||= 0;
         $b ||= 0;
         return 1 if $a > $b;
         return -1 if $a < $b;
@@ -411,14 +413,15 @@ sub version_compare_part {
     while (1) {
         my ($a, $b) = (shift @a, shift @b);
         return 0 if not defined($a) and not defined($b);
-        $a ||= 0; # Default value for lack of version
+        # Default value for lack of version
+        $a ||= 0;
         $b ||= 0;
         if ($a =~ /^\d+$/ and $b =~ /^\d+$/) {
-            # Numerical comparison
+            # Numerical comparison.
             my $cmp = $a <=> $b;
             return $cmp if $cmp;
         } else {
-            # String comparison
+            # String comparison.
             my $cmp = version_compare_string($a, $b);
             return $cmp if $cmp;
         }

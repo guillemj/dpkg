@@ -42,7 +42,7 @@ package Dpkg::Vendor::Default 0.01;
 use v5.36;
 
 # If you use this file as template to create a new vendor class, please
-# uncomment the following lines
+# uncomment the following lines:
 #use parent qw(Dpkg::Vendor::Default);
 
 =head1 METHODS
@@ -209,7 +209,7 @@ sub run_hook {
         return 0;
     }
 
-    # Default return value for unknown/unimplemented hooks
+    # Default return value for unknown/unimplemented hooks.
     return;
 }
 

@@ -71,7 +71,7 @@ my @librarypaths;
 Dpkg::Shlibs::blank_library_paths();
 
 # We want relative paths inside the ld.so.conf fragments to work, and $srcdir
-# is usually a relative path, so let's temporarily switch directory.
+# is usually a relative path, so let us temporarily switch directory.
 # XXX: An alternative would be to make parse_ldso_conf relative path aware.
 my $cwd = getcwd();
 test_needs_srcdir_switch();
@@ -104,7 +104,7 @@ my $sym = $obj->get_symbol('optarg@GLIBC_2.0');
 ok($sym, 'optarg@GLIBC_2.0 exists');
 ok(! $sym->{defined}, 'R_*_COPY relocations are taken into account');
 
-# Non-regression test for #506139
+# Non-regression test for #506139.
 $obj = load_objdump_obj('space');
 $sym = $obj->get_symbol('singlespace');
 ok($sym, 'version less symbol separated by a single space are correctly parsed');
@@ -215,7 +215,7 @@ is_deeply(\%tmp,
     'deprecated symbol',
 );
 
-# Wildcard test
+# Wildcard test.
 my $pat = $sym_file_old->create_symbol('*@GLIBC_PRIVATE 2.3.6.wildcard');
 $sym_file_old->add_symbol($pat, 'libc.so.6');
 $sym_file_old->merge_symbols($obj, '2.6-1');
@@ -239,7 +239,7 @@ is_deeply($sym,
     'wildcarded symbol',
 );
 
-# Save -> Load test
+# Save -> Load test.
 use File::Temp;
 use File::Basename qw(basename);
 
@@ -251,7 +251,7 @@ sub save_load_test {
     my $dup = Dpkg::Shlibs::SymbolFile->new(
         filename => $save_file->filename,
     );
-    # Force sync of non-stored attributes
+    # Force sync of non-stored attributes.
     $dup->{filename} = $symfile->{filename};
     $dup->{arch} = $symfile->{arch};
 
@@ -265,10 +265,10 @@ sub save_load_test {
 save_load_test($sym_file, 'save -> load');
 
 
-# Test ignoring internal symbols
+# Test ignoring internal symbols.
 $obj = load_objdump_obj('internal');
 
-# Do not ignore any internal symbols
+# Do not ignore any internal symbols.
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
     filename => "$datadir/symbols.internal-filter",
 );
@@ -362,7 +362,7 @@ is_deeply($sym,
     'internal unknown aeabi symbol omitted via symbol tag',
 );
 
-# Include internal symbols using the Allow-Internal-Symbol-Groups field
+# Include internal symbols using the Allow-Internal-Symbol-Groups field.
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
     filename => "$datadir/symbols.internal-allow-groups",
 );
@@ -413,7 +413,7 @@ is_deeply($sym,
 );
 
 
-# Test include mechanism of SymbolFile
+# Test include mechanism of SymbolFile.
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
     filename => "$datadir/symbols.include-1",
 );
@@ -497,7 +497,7 @@ is($sym_file->get_smallest_version('libfake.so.1'), '1.0',
 my $io_data;
 my $io;
 
-# Check dump output
+# Check dump output.
 open $io, '>', \$io_data or die "cannot open io string\n";
 $sym_file->output($io,
     package => 'libfake1',
@@ -512,8 +512,8 @@ is($io_data,
 ', "Dump of $datadir/symbols.include-2");
 
 
-# Check parsing of objdump output on ia64 (local symbols
-# without versions and with visibility attribute)
+# Check parsing of objdump output on ia64 (local symbols without versions
+# and with visibility attribute).
 $obj = load_objdump_obj('glib-ia64');
 ok($obj->is_public_library(), 'glib-ia64 is a public library');
 ok(! $obj->is_executable(), 'glib-ia64 is not an executable');
@@ -539,7 +539,7 @@ is_deeply($sym,
     'symbol with visibility without version',
 );
 
-# Check parsing of objdump output when symbol names contain spaces
+# Check parsing of objdump output when symbol names contain spaces.
 $obj = load_objdump_obj('spacesyms');
 
 sub check_spacesym {
@@ -583,19 +583,19 @@ check_spacesym('symlongverSPA CEprotected', 'VERY_LONG_VERSION_1', 'protected');
 check_spacesym('symshortverSPA CEdefault', 'V1');
 check_spacesym('symshortverSPA CEprotected', 'V1', 'protected');
 
-####### Test symbol tagging support  ######
+## Test symbol tagging support.
 
-# Parsing/dumping
-# Template mode
+# Parsing/dumping.
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
     filename => "$datadir/basictags.symbols",
     arch => 'amd64',
 );
+# Template mode.
 save_load_test($sym_file, 'template save -> load',
     template_mode => 1,
 );
 
-# Dumping in non-template mode (amd64) (test for arch tags)
+# Dumping in non-template mode (amd64) (test for arch tags).
 open $io, '>', \$io_data or die "cannot open io string\n";
 $sym_file->output($io);
 is($io_data,
@@ -609,7 +609,7 @@ is($io_data,
  symbol51_untagged@Base 5.1
 ', 'template vs. non-template on amd64');
 
-# Dumping in non-template mode (mips) (test for arch tags)
+# Dumping in non-template mode (mips) (test for arch tags).
 open $io, '>', \$io_data or die "cannot open io string\n";
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
     filename => "$datadir/basictags.symbols",
@@ -628,7 +628,7 @@ is($io_data,
  symbol51_untagged@Base 5.1
 ', 'template vs. non-template on mips');
 
-# Dumping in non-template mode (i386) (test for arch tags)
+# Dumping in non-template mode (i386) (test for arch tags).
 open $io, '>', \$io_data or die "cannot open io string\n";
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
     filename => "$datadir/basictags.symbols",
@@ -655,7 +655,7 @@ is($io_data,
 ok(defined $sym_file->{objects}{'libbasictags.so.1'}{syms}{'symbol21_amd64@Base'},
     'syms keys are symbol names without quotes');
 
-# Preload objdumps
+# Preload objdumps.
 my $tags_obj_i386 = load_objdump_obj('basictags-i386');
 $sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
 is_deeply($sym_file, $sym_file_dup, 'is objdump.basictags-i386 and basictags.symbols in sync');
@@ -663,7 +663,7 @@ is_deeply($sym_file, $sym_file_dup, 'is objdump.basictags-i386 and basictags.sym
 my $tags_obj_amd64 = load_objdump_obj('basictags-amd64');
 
 # Merge/get_{new,lost} tests for optional tag:
-#  - disappeared
+#  - disappeared.
 my $symbol11 = $tags_obj_i386->get_symbol('symbol11_optional@Base');
 delete $tags_obj_i386->{dynsyms}{'symbol11_optional@Base'};
 $sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
@@ -708,7 +708,7 @@ is_deeply($sym,
 is(scalar($sym_file->get_lost_symbols($sym_file_dup)), 0,
     'missing optional symbol is not LOST');
 
-# - reappeared (undeprecate, minver should be 1.1, not 100.MISSED)
+# - reappeared (undeprecate, minver should be 1.1, not 100.MISSED).
 $tags_obj_i386->add_dynamic_symbol($symbol11);
 $sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
 $sym = $sym_file->lookup_symbol('symbol11_optional@Base', 'libbasictags.so.1');
@@ -733,7 +733,7 @@ is(scalar($sym_file->get_lost_symbols($sym_file_dup) +
     'reappeared optional symbol: neither NEW nor LOST');
 
 # Merge/get_{new,lost} tests for arch tag:
-# - arch specific appears on wrong arch: 'arch' tag should be removed
+# - arch specific appears on wrong arch: 'arch' tag should be removed.
 my $symbol21 = $tags_obj_amd64->get_symbol('symbol21_amd64@Base');
 $tags_obj_i386->add_dynamic_symbol($symbol21);
 $sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
@@ -754,7 +754,7 @@ is_deeply(\@tmp, [ 'symbol21_amd64@Base' ], 'symbol from foreign arch is NEW');
 is($sym->get_symbolspec(1), ' symbol21_amd64@Base 2.1',
     'no tags => no quotes in the symbol name');
 
-# - arch specific symbol disappears
+# - arch specific symbol disappears.
 delete $tags_obj_i386->{dynsyms}{'symbol22_i386@Base'};
 delete $tags_obj_i386->{dynsyms}{'symbol24_32@Base'};
 delete $tags_obj_i386->{dynsyms}{'symbol26_little@Base'};
@@ -863,7 +863,7 @@ is_deeply(\@tmp,
     "missing arch specific is LOST, but optional arch specific isn't",
 );
 
-# Tests for tagged #includes
+# Tests for tagged #includes.
 $sym_file = Dpkg::Shlibs::SymbolFile->new(
     filename => "$datadir/symbols.include-3",
     arch => 'i386',
@@ -921,7 +921,7 @@ is_deeply($sym,
     'symbols are properly cloned when #including',
 );
 
-# Test Symbol::clone()
+# Test Symbol::clone().
 $sym = Dpkg::Shlibs::Symbol->new(
     symbol => 'foobar',
     testfield => 1,
@@ -935,7 +935,7 @@ $tmp->{testfield} = 3;
 is($sym->{teststruct}{foo}, 1, 'original field "foo" not changed');
 is($sym->{testfield}, 1, 'original field "testfield" not changed');
 
-############ Test symbol patterns ###########
+## Test symbol patterns.
 
 SKIP: {
 
@@ -971,7 +971,7 @@ is_deeply(\@tmp, [], 'no LOST symbols if all patterns matched.');
 @tmp = map { $_->get_symbolname() } $sym_file->get_new_symbols($sym_file_dup);
 is_deeply(\@tmp, [], 'no NEW symbols if all patterns matched.');
 
-# Pattern resolution order: aliases (c++, symver), generic
+# Pattern resolution order: aliases (c++, symver), generic.
 $sym = $sym_file->lookup_symbol('SYMVER_1@SYMVER_1', 'libpatterns.so.1');
 is($sym->{minver}, '1', 'specific SYMVER_1 symbol');
 
@@ -989,7 +989,7 @@ is($sym->{minver}, '1.generic',
 ok($sym->get_pattern()->equals($sym_file->create_symbol('(c++|symver)SYMVER_1 1.generic')),
     'generic (c++ & symver) pattern covers the rest (destructor), compared');
 
-# Test old style wildcard support
+# Test old style wildcard support.
 load_patterns_symbols();
 $sym = $sym_file->create_symbol('*@SYMVEROPT_2 2');
 ok($sym->is_optional(), 'Old style wildcard is optional');
@@ -1000,7 +1000,7 @@ $pat = $sym_file->lookup_pattern('(symver|optional)SYMVEROPT_2', 'libpatterns.so
 $sym->{symbol_templ} = $pat->{symbol_templ};
 is_deeply($pat, $sym, 'old style wildcard is the same as (symver|optional)');
 
-# Get rid of all SymverOptional symbols
+# Get rid of all SymverOptional symbols.
 foreach my $tmp (keys %{$obj->{dynsyms}}) {
     delete $obj->{dynsyms}{$tmp} if $tmp =~ /SymverOptional/;
 }
@@ -1011,7 +1011,7 @@ is($pat->{deprecated}, '100.MISSING', 'old style wildcard gets deprecated.');
 @tmp = map { $_->{symbol}->get_symbolname() } $sym_file->get_lost_symbols($sym_file_dup);
 is_deeply(\@tmp, [], 'but old style wildcard is not LOST.');
 
-# 'Internal' pattern covers all internal symbols
+# 'Internal' pattern covers all internal symbols.
 load_patterns_obj();
 @tmp = grep { $_->get_symbolname() =~ /Internal/ } $sym_file->get_symbols('libpatterns.so.1');
 $sym = $sym_file->create_symbol('(regex|c++)^_Z(T[ISV])?N3NSA6ClassA8Internal.*@Base$ 1.internal');
@@ -1020,7 +1020,7 @@ is_deeply([ sort $pat->get_pattern_matches() ], [ sort @tmp ],
     'Pattern covers all internal symbols');
 is($tmp[0]->{minver}, '1.internal', 'internal pattern covers first symbol');
 
-# Lookup private pattern
+# Lookup private pattern.
 my @private_symnames = sort qw(
     _ZN3NSA6ClassA7Private11privmethod1Ei@Base
     _ZN3NSA6ClassA7Private11privmethod2Ei@Base
@@ -1043,7 +1043,7 @@ ok(($pat->get_pattern_matches())[0]->is_optional(),
 ok($sym_file->lookup_symbol(($pat->get_pattern_matches())[0], 'libpatterns.so.1'),
     'lookup_symbol() finds symbols matched by pattern (after merge)');
 
-# Get rid of a private symbol, it should not be lost
+# Get rid of a private symbol, it should not be lost.
 delete $obj->{dynsyms}{$private_symnames[0]};
 load_patterns_symbols();
 $sym_file->merge_symbols($obj, '100.MISSING');
@@ -1075,7 +1075,7 @@ is_deeply([ sort $pat->get_pattern_matches() ], [ sort @tmp ],
     'Pattern covers all internal symbols');
 is($tmp[0]->{minver}, '1.internal', 'internal pattern covers first symbol');
 
-# Delete matches of the non-optional pattern
+# Delete matches of the non-optional pattern.
 $sym = $sym_file->create_symbol('(c++)"non-virtual thunk to NSB::ClassD::generate_vt(char const*) const@Base" 1');
 $pat = $sym_file->lookup_pattern($sym, 'libpatterns.so.1');
 isnt($pat, undef, 'lookup_pattern() finds alias-based pattern');
@@ -1094,7 +1094,7 @@ is_deeply(\@tmp, [ $pat ], 'No matches - generate_vt() pattern is LOST.');
 is($pat->{deprecated}, '100.MISSING',
     'No matches - generate_vt() pattern is deprecated.');
 
-# Pattern undeprecation when matches are discovered
+# Pattern undeprecation when matches are discovered.
 load_patterns_obj();
 load_patterns_symbols();
 

@@ -493,7 +493,7 @@ sub add_build_flags {
         $flags->append('CFLAGS', '-Wno-error=implicit-function-declaration');
     }
     if ($flags->use_feature('qa', 'bug')) {
-        # C/C++ flags
+        # C/C++ flags.
         my @cfamilyflags = qw(
             array-bounds
             clobbered
@@ -576,7 +576,7 @@ sub add_build_flags {
 
     ## Area: hardening
 
-    # PIE
+    # PIE.
     my $use_pie = $flags->get_feature('hardening', 'pie');
     my %hardening_builtins = $flags->get_builtins('hardening');
     if (defined $use_pie && $use_pie && ! $hardening_builtins{pie}) {
@@ -589,7 +589,7 @@ sub add_build_flags {
         $flags->append('LDFLAGS', "-specs=$Dpkg::DATADIR/no-pie-link.specs");
     }
 
-    # Stack protector
+    # Stack protector.
     if ($flags->use_feature('hardening', 'stackprotectorstrong')) {
         my $flag = '-fstack-protector-strong';
         $flags->append($_, $flag) foreach @compile_flags;
@@ -598,19 +598,19 @@ sub add_build_flags {
         $flags->append($_, $flag) foreach @compile_flags;
     }
 
-    # Stack clash
+    # Stack clash.
     if ($flags->use_feature('hardening', 'stackclash')) {
         my $flag = '-fstack-clash-protection';
         $flags->append($_, $flag) foreach @compile_flags;
     }
 
-    # Fortify Source
+    # Fortify Source.
     if ($flags->use_feature('hardening', 'fortify')) {
         my $fortify_level = $flags->get_option_value('fortify-level');
         $flags->append('CPPFLAGS', "-D_FORTIFY_SOURCE=$fortify_level");
     }
 
-    # Format Security
+    # Format Security.
     if ($flags->use_feature('hardening', 'format')) {
         my $flag = '-Wformat -Werror=format-security';
         $flags->append('CFLAGS', $flag);
@@ -619,17 +619,17 @@ sub add_build_flags {
         $flags->append('OBJCXXFLAGS', $flag);
     }
 
-    # Read-only Relocations
+    # Read-only Relocations.
     if ($flags->use_feature('hardening', 'relro')) {
         $flags->append('LDFLAGS', '-Wl,-z,relro');
     }
 
-    # Bindnow
+    # Bindnow.
     if ($flags->use_feature('hardening', 'bindnow')) {
         $flags->append('LDFLAGS', '-Wl,-z,now');
     }
 
-    # Branch protection
+    # Branch protection.
     if ($flags->use_feature('hardening', 'branch')) {
         my $cpu = $flags->get_option_value('hardening-branch-cpu');
         my $flag;

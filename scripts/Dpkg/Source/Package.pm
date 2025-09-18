@@ -58,22 +58,22 @@ use Dpkg::OpenPGP;
 use Dpkg::OpenPGP::ErrorCodes;
 
 my $diff_ignore_default_regex = '
-# Ignore general backup files
+# Ignore general backup files.
 (?:^|/).*~$|
-# Ignore emacs recovery files
+# Ignore emacs recovery files.
 (?:^|/)\.#.*$|
-# Ignore vi swap files
+# Ignore vi swap files.
 (?:^|/)\..*\.sw.$|
-# Ignore baz-style junk files or directories
+# Ignore baz-style junk files or directories.
 (?:^|/),,.*(?:$|/.*$)|
-# File-names that should be ignored (never directories)
+# File-names that should be ignored (never directories).
 (?:^|/)(?:DEADJOE|\.arch-inventory|\.(?:bzr|cvs|hg|git|mtn-)ignore)$|
-# File or directory names that should be ignored
+# File or directory names that should be ignored.
 (?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|
 \.hg(?:tags|sigs)?|_darcs|\.git(?:attributes|modules|review)?|
 \.mailmap|\.shelf|_MTN|\.be|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
 ';
-# Take out comments and newlines
+# Take out comments and newlines.
 $diff_ignore_default_regex =~ s/^#.*$//mg;
 $diff_ignore_default_regex =~ s/\n//sg;
 
@@ -215,7 +215,6 @@ source package after its extraction.
 
 =cut
 
-# Class methods
 sub new {
     my ($this, %opts) = @_;
     my $class = ref($this) || $this;
@@ -254,8 +253,8 @@ sub new {
 
 sub init_options {
     my $self = shift;
-    # Use full ignore list by default
-    # note: this function is not called by V1 packages
+    # Use full ignore list by default.
+    # Note: This function is not called by V1 packages.
     $self->{options}{diff_ignore_regex} ||= $diff_ignore_default_regex;
     $self->{options}{diff_ignore_regex} .= '|(?:^|/)debian/source/local-.*$';
     $self->{options}{diff_ignore_regex} .= '|(?:^|/)debian/files(?:\.new)?$';
@@ -272,8 +271,8 @@ sub init_options {
         'debian/files.new';
     $self->{options}{copy_orig_tarballs} //= 0;
 
-    # Skip debianization while specific to some formats has an impact
-    # on code common to all formats
+    # Skip debianization while specific to some formats has an impact.
+    # on code common to all formats.
     $self->{options}{skip_debianization} //= 0;
     $self->{options}{skip_patches} //= 0;
 
@@ -294,7 +293,7 @@ sub initialize {
     $self->{basedir} = $dir || './';
     $self->{filename} = $fn;
 
-    # Read the fields
+    # Read the fields.
     my $fields = $self->{fields};
     $fields->load($filename);
     $self->{is_signed} = $fields->get_option('is_pgp_signed');
@@ -376,7 +375,7 @@ sub check_checksums {
     my $checksums = $self->{checksums};
     my $warn_on_weak = 0;
 
-    # add_from_file verify the checksums if they are already existing
+    # The add_from_file() call verifies the checksums if they already exist.
     foreach my $file ($checksums->get_files()) {
         if (not $checksums->has_strong_checksums($file)) {
             if ($self->{options}{require_strong_checksums}) {
@@ -587,7 +586,7 @@ sub extract {
         }
     }
 
-    # Copy orig tarballs
+    # Copy orig tarballs.
     if ($self->{options}{copy_orig_tarballs}) {
         my $basename = $self->get_basename();
         my ($dirname, $destdir) = fileparse($newdirectory);
@@ -605,7 +604,7 @@ sub extract {
         }
     }
 
-    # Try extract
+    # Try extract.
     $self->do_extract($newdirectory);
 
     # Check for directory traversals.
@@ -615,7 +614,7 @@ sub extract {
         check_directory_traversal($newdirectory, "$newdirectory/debian/");
     }
 
-    # Store format if non-standard so that next build keeps the same format
+    # Store format if non-standard so that next build keeps the same format.
     if ($self->{fields}{'Format'} and
         $self->{fields}{'Format'} ne '1.0' and
         not $self->{options}{skip_debianization})
@@ -634,7 +633,7 @@ sub do_extract {
           'source package; use one of the subclasses';
 }
 
-# Function used specifically during creation of a source package
+# Function used specifically during creation of a source package.
 
 sub before_build {
     my ($self, $dir) = @_;

@@ -91,7 +91,7 @@ Contains the path to the dpkg architecture tables directory.
 
 our ($PROGNAME) = $0 =~ m{(?:.*/)?([^/]*)};
 
-# The following lines are automatically fixed at install time
+# The following lines are automatically fixed at install time.
 our $PROGVERSION = '1.23.x';
 our $PROGMAKE = $ENV{DPKG_PROGMAKE} // 'make';
 our $PROGTAR = $ENV{DPKG_PROGTAR} // 'tar';

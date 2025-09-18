@@ -105,8 +105,10 @@ my @o = reverse @$cho;
 my @a = reverse @$cha;
 my @b = reverse @$chb;
 
-my @result; # Lines to output
-my $exitcode = 0; # 1 if conflict encountered
+# Lines to output.
+my @result;
+# Exit code 1 if conflict encountered.
+my $exitcode = 0;
 
 sub merge_tail {
     my $changes = shift;
@@ -123,12 +125,12 @@ while (1) {
     my ($o, $a, $b) = get_items_to_merge();
     last unless defined $o or defined $a or defined $b;
     next if merge_block($o, $a, $b);
-    # We only have the usually conflicting cases left
+    # We only have the usually conflicting cases left.
     if (defined $a and defined $b) {
-        # Same entry, merge sub-items separately for a nicer result
+        # Same entry, merge sub-items separately for a nicer result.
         merge_entries($o, $a, $b);
     } else {
-        # Non-existing on one side, changed on the other side
+        # Non-existing on one side, changed on the other side.
         merge_conflict($a, $b);
     }
 }
@@ -146,7 +148,7 @@ exit $exitcode;
 
 # Returns the next items to merge, all items returned correspond to the
 # same minimal version among the 3 possible next items (undef is returned
-# if the next item on the given changelog is skipped)
+# if the next item on the given changelog is skipped).
 sub get_items_to_merge {
     my @items = (shift @o, shift @a, shift @b);
     my @arrays = (\@o, \@a, \@b);
@@ -205,12 +207,12 @@ sub compare_versions {
 }
 
 # Merge changelog entries smartly by merging individually the different
-# parts constituting an entry
+# parts constituting an entry.
 sub merge_entries {
     my ($o, $a, $b) = @_;
-    # NOTE: Only $o can be undef
+    # Note: Only $o can be undef.
 
-    # Merge the trailer line
+    # Merge the trailer line.
     unless (merge_entry_item('blank_after_trailer', $o, $a, $b)) {
         unshift @result, '';
     }
@@ -218,7 +220,7 @@ sub merge_entries {
         merge_conflict($a->get_part('trailer'), $b->get_part('trailer'));
     }
 
-    # Merge the changes
+    # Merge the changes.
     unless (merge_entry_item('blank_after_changes', $o, $a, $b)) {
         unshift @result, '';
     }
@@ -236,7 +238,7 @@ sub merge_entries {
     );
     unshift @result, @merged;
 
-    # Merge the header line
+    # Merge the header line.
     unless (merge_entry_item('blank_after_header', $o, $a, $b)) {
         unshift @result, '';
     }
@@ -251,8 +253,10 @@ sub join_lines {
     return $array;
 }
 
-# Try to merge the obvious cases, return 1 on success and 0 on failure
-# O A B
+# Try to merge the obvious cases, return 1 on success and 0 on failure.
+#
+# O A B => ?
+# ==========
 # - x x => x
 # o o b => b
 # - - b => b

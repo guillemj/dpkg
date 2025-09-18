@@ -111,7 +111,7 @@ Architecture: all
 Depends: hello
 ', "Dump of second binary package of $datadir/control-1");
 
-# Check OpenPGP armored signatures in source control files
+# Check OpenPGP armored signatures in source control files.
 
 my $dsc;
 

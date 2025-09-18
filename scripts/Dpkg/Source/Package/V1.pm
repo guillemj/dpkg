@@ -57,8 +57,8 @@ our $CURRENT_MINOR_VERSION = '0';
 sub init_options {
     my $self = shift;
 
-    # Don't call $self->SUPER::init_options() on purpose, V1.0 has no
-    # ignore by default
+    # Do not call $self->SUPER::init_options() on purpose, V1.0 has no
+    # ignore by default.
     if ($self->{options}{diff_ignore_regex}) {
         $self->{options}{diff_ignore_regex} .= '|(?:^|/)debian/source/local-.*$';
     } else {
@@ -152,7 +152,8 @@ sub parse_cmdline_option {
         warning(g_('-s%s option overrides earlier -s%s option'), $1,
                 $o->{sourcestyle}) if $o->{sourcestyle} ne 'X';
         $o->{sourcestyle} = $1;
-        $o->{copy_orig_tarballs} = 0 if $1 eq 'n'; # Extract option -sn
+        # Extract option -sn.
+        $o->{copy_orig_tarballs} = 0 if $1 eq 'n';
         return 1;
     } elsif ($opt eq '--skip-debianization') {
         $o->{skip_debianization} = 1;
@@ -181,7 +182,7 @@ sub do_extract {
     my $basename = $self->get_basename();
     my $basenamerev = $self->get_basename(1);
 
-    # V1.0 only supports gzip compression
+    # V1.0 only supports gzip compression.
     my ($tarfile, $difffile);
     my $tarsign;
     foreach my $file ($self->get_files()) {
@@ -210,7 +211,7 @@ sub do_extract {
             }
 
             warning(g_('native package with .orig.tar'));
-            # V3::Native doesn't handle "orig.tar".
+            # V3::Native does not handle "orig.tar".
             $native = 0;
         }
     } else {
@@ -243,7 +244,7 @@ sub do_extract {
         $tar->extract($expectprefix);
 
         if ($sourcestyle =~ /u/) {
-            # -su: keep .orig directory unpacked
+            # -su: keep .orig directory unpacked.
             if (-e "$newdirectory.tmp-keep") {
                 error(g_('unable to keep orig directory (already exists)'));
             }
@@ -255,7 +256,7 @@ sub do_extract {
             or syserr(g_('failed to rename newly-extracted %s to %s'),
                       $expectprefix, $newdirectory);
 
-        # rename the copied .orig directory
+        # Rename the copied .orig directory.
         if (-e "$newdirectory.tmp-keep") {
             rename("$newdirectory.tmp-keep", $expectprefix)
                 or syserr(g_('failed to rename saved %s to %s'),
@@ -280,8 +281,8 @@ sub do_extract {
 sub can_build {
     my ($self, $dir) = @_;
 
-    # As long as we can use gzip, we can do it as we have
-    # native packages as fallback
+    # As long as we can use gzip, we can do it as we have native packages as
+    # fallback.
     return (0, g_('only supports gzip compression'))
         unless $self->{options}{compression} eq 'gzip';
     return 1;
@@ -310,7 +311,7 @@ sub do_build {
     my $basename = $self->get_basename();
     my $basedirname = $self->get_basedirname();
 
-    # Try to find a .orig tarball for the package
+    # Try to find a .orig tarball for the package.
     my $origdir = "$dir.orig";
     my $origtargz = $self->get_basename() . '.orig.tar.gz';
     if (-e $origtargz) {
@@ -323,7 +324,7 @@ sub do_build {
 
     if (@argv) {
         # We have a second-argument <orig-dir> or <orig-targz>, check what it
-        # is to decide the mode to use
+        # is to decide the mode to use.
         my $origarg = shift(@argv);
         if (length($origarg)) {
             stat($origarg)
@@ -358,21 +359,24 @@ sub do_build {
             }
         }
     } elsif ($sourcestyle =~ m/[aA]/) {
-        # We have no explicit <orig-dir> or <orig-targz>, try to use
-        # a .orig tarball first, then a .orig directory and fall back to
-        # creating a native .tar.gz
+        # We have no explicit <orig-dir> or <orig-targz>, try to use a ".orig"
+        # tarball first, then a ".orig" directory and fall back to creating a
+        # native ".tar.gz".
         if ($origtargz) {
-            $sourcestyle =~ y/aA/pP/; # .orig.tar.<ext>
+            # ".orig.tar.<ext>".
+            $sourcestyle =~ y/aA/pP/;
         } elsif (stat($origdir)) {
             unless (-d _) {
                 error(g_("unpacked orig '%s' exists but is not a directory"),
                       $origdir);
             }
-            $sourcestyle =~ y/aA/rR/; # .orig directory
+            # ".orig" directory.
+            $sourcestyle =~ y/aA/rR/;
         } elsif ($! != ENOENT) {
             syserr(g_("unable to stat putative unpacked orig '%s'"), $origdir);
         } else {
-            $sourcestyle =~ y/aA/nn/; # Native tar.gz
+            # Native "tar.gz".
+            $sourcestyle =~ y/aA/nn/;
         }
     }
 
@@ -419,7 +423,8 @@ sub do_build {
     }
 
     if ($sourcestyle eq 'n') {
-        $self->{options}{ARGV} = []; # ensure we have no error
+        # Initialize ARGV to ensure we have no error.
+        $self->{options}{ARGV} = [];
         Dpkg::Source::Package::V3::Native::do_build($self, $dir);
     } elsif ($sourcestyle =~ m/[urUR]/) {
         if (stat($tarname)) {
@@ -495,7 +500,8 @@ sub do_build {
         $tar->extract($origdir);
     }
 
-    my $ur; # Unrepresentable changes
+    # Unrepresentable changes.
+    my $ur;
     if ($sourcestyle =~ m/[kpursKPUR]/) {
         my $diffname = "$basenamerev.diff.gz";
         info(g_('building %s in %s'),

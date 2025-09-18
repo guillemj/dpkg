@@ -30,7 +30,7 @@ if ($@) {
 use Dselect::Method;
 use Dselect::Method::Ftp;
 
-# deal with arguments
+# Deal with arguments.
 my $vardir = $ARGV[0];
 my $method = $ARGV[1];
 my $option = $ARGV[2];
@@ -41,7 +41,7 @@ if ($option eq 'manual') {
 }
 #print "vardir: $vardir, method: $method, option: $option\n";
 
-#Defaults
+# Defaults.
 my $arch = qx(dpkg --print-architecture);
 $arch = 'i386' if $?;
 chomp $arch;
@@ -69,7 +69,8 @@ chdir "$methdir";
 if (! -d 'debian') {
     mkdir 'debian', 0o755;
 }
-# get info from user
+
+# Get info from user.
 
 $| = 1;
 
@@ -149,7 +150,7 @@ sub download {
     }
 }
 
-# download stuff (protect from Ctrl+C)
+# Download stuff (protect from Ctrl+C).
 print "\nUsing FTP to check directories... (use Ctrl+C to stop)\n\n";
 eval {
     local $SIG{INT} = sub {
@@ -168,7 +169,7 @@ if ($@) {
     $exit = 1;
 }
 
-# output new vars file
+# Output new vars file.
 $CONFIG{done} = 1;
 store_config("$methdir/vars");
 chmod 0o600, "$methdir/vars";

@@ -170,7 +170,8 @@ sub canonpath {
     foreach my $d (@dirs) {
         if ($d eq '..') {
             if (scalar(@new) > 0 and $new[-1] ne '..') {
-                next if $new[-1] eq ''; # Root directory has no parent
+                # Root directory has no parent.
+                next if $new[-1] eq '';
                 my $parent = File::Spec->catpath($v,
                         File::Spec->catdir(@new), '');
                 if (not -l $parent) {

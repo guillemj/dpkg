@@ -41,15 +41,15 @@ sub test_patch_escape {
     ok(rmdir "$tmpdir/$name-out", $desc);
 }
 
-# This is CVE-2014-0471 with GNU patch >= 2.7
+# This is CVE-2014-0471 with GNU patch >= 2.7.
 test_patch_escape('c-style-parsed', "\tmp", 'c-style.patch',
                   'patch(1) prevents escape using known c-style encoded filename');
 
-# This is CVE-2014-0471 with GNU patch < 2.7
+# This is CVE-2014-0471 with GNU patch < 2.7.
 test_patch_escape('c-style-unknown', '\\tmp', 'c-style.patch',
                   'patch(1) prevents escape using unknown c-style encoded filename');
 
-# This is CVE-2014-3865
+# This is CVE-2014-3865.
 test_patch_escape('index-alone', 'symlink', 'index-alone.patch',
                   'patch(1) prevents escape using Index: w/o ---/+++ header');
 test_patch_escape('index-+++', 'symlink', 'index-+++.patch',
@@ -59,13 +59,13 @@ test_patch_escape('index-inert', 'symlink', 'index-inert.patch',
 ok(-e "$tmpdir/index-inert-tree/inert-file",
     'patch(1) applies correctly with inert Index:');
 
-# This is CVE-2014-3864
+# This is CVE-2014-3864.
 test_patch_escape('partial', 'symlink', 'partial.patch',
                   'patch(1) prevents escape using partial +++ header');
 
 test_patch_escape('ghost-hunk', 'symlink', 'ghost-hunk.patch',
                   'patch(1) prevents escape using a disabling hunk');
 
-# This is CVE-2017-8283
+# This is CVE-2017-8283.
 test_patch_escape('indent-header', 'symlink', 'indent-header.patch',
                   'patch(1) prevents escape using indented hunks');

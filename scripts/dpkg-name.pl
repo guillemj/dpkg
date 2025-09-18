@@ -92,7 +92,7 @@ sub getfields
 {
     my $filename = shift;
 
-    # Read the fields
+    # Read the fields.
     open(my $cdata_fh, '-|', 'dpkg-deb', '-f', '--', $filename)
         or syserr(g_('cannot open %s'), $filename);
     my $fields = Dpkg::Control->new(type => CTRL_DEB);
@@ -133,7 +133,8 @@ sub getname
         $tname = "$pkg\_$version.$type";
     }
     (my $name = $tname) =~ s/ //g;
-    if ($tname ne $name) { # control fields have spaces
+    if ($tname ne $name) {
+        # Control fields have spaces.
         warning(g_("bad package control information for '%s'"), $filename);
     }
     return $name;

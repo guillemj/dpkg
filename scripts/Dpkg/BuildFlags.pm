@@ -438,8 +438,10 @@ sub update_from_conffile {
     open(my $conf_fh, '<', $file) or syserr(g_('cannot read %s'), $file);
     while (<$conf_fh>) {
         chomp;
-        next if /^\s*#/; # Skip comments
-        next if /^\s*$/; # Skip empty lines
+        # Skip comments.
+        next if /^\s*#/;
+        # Skip empty lines.
+        next if /^\s*$/;
         if (/^(append|prepend|set|strip)\s+(\S+)\s+(\S.*\S)\s*$/i) {
             my ($op, $flag, $value) = ($1, $2, $3);
             unless (exists $self->{flags}->{$flag}) {

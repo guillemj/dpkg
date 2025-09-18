@@ -48,7 +48,7 @@ sub _changelog_detect_format {
     my $filename = shift;
     my $format = 'debian';
 
-    # Extract the format from the changelog file if possible
+    # Extract the format from the changelog file if possible.
     if ($filename ne '-') {
         local $_;
 

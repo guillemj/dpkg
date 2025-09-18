@@ -28,7 +28,7 @@ if (! defined $Config{bin_ELF} || $Config{bin_ELF} ne 'define') {
     plan skip_all => 'only ELF is currently supported';
 }
 
-# Simple C++ demangling tests
+# Simple C++ demangling tests.
 is(cppfilt_demangle_cpp('_ZNSt10istrstreamC1EPKcl'),
     'std::istrstream::istrstream(char const*, long)',
     'demangle symbol');

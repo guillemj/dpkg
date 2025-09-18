@@ -304,7 +304,7 @@ sub set_options {
         $self->set_output_order(field_ordered_list($opts{type}));
     }
 
-    # Options set by the user override default values
+    # Options set by the user override default values.
     $$self->{$_} = $opts{$_} foreach keys %opts;
 }
 

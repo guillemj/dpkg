@@ -78,8 +78,6 @@ sub setup_changelog
     return ($changes, \@data);
 }
 
-#########################
-
 my $changes;
 my $data;
 
@@ -395,7 +393,7 @@ check_options(
     name => 'until => "1:2.0~rc2-1sarge2"',
 );
 ## use critic
-# TODO: test combinations
+# TODO: Test combinations.
 
 
 ## File: shadow
@@ -528,7 +526,7 @@ Xb-Userfield2: foobar
 ';
 cmp_ok($str, 'eq', $expected, 'fields handling 3');
 
-# Test Dpkg::Changelog::Entry methods
+# Test Dpkg::Changelog::Entry methods.
 is($data->[1]->get_version(), '2.0-1', 'get_version');
 is($data->[1]->get_source(), 'fields', 'get_source');
 is(scalar $data->[1]->get_distributions(), 'unstable', 'get_distribution');

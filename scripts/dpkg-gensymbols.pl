@@ -40,11 +40,13 @@ my $packagebuilddir = 'debian/tmp';
 my $sourceversion;
 my $stdout;
 my $oppackage;
-my $compare = 1; # Bail on missing symbols by default
+# Bail on missing symbols by default.
+my $compare = 1;
 my $quiet = 0;
 my $input;
 my $output;
-my $template_mode = 0; # non-template mode by default
+# Non-template mode by default.
+my $template_mode = 0;
 my $verbose_output = 0;
 my $debug = 0;
 my $host_arch = get_host_arch();
@@ -146,7 +148,8 @@ while (@ARGV) {
 
 report_options(debug_level => $debug);
 
-umask 0o022; # ensure sane default permissions for created files
+# Ensure sane default permissions for created files.
+umask 0o022;
 
 if (exists $ENV{DPKG_GENSYMBOLS_CHECK_LEVEL}) {
     $compare = $ENV{DPKG_GENSYMBOLS_CHECK_LEVEL};
@@ -185,7 +188,7 @@ my @source_symbol_files = (
     'debian/symbols',
 );
 
-# Load source-provided symbol information
+# Load source-provided symbol information.
 foreach my $file (@source_symbol_files) {
     if (defined $file and -e $file) {
         debug(1, "Using references symbols from $file");
@@ -195,15 +198,16 @@ foreach my $file (@source_symbol_files) {
     }
 }
 
-# Scan package build dir looking for libraries
+# Scan package build dir looking for libraries.
 if (not scalar @files) {
     PATH: foreach my $path (get_library_paths()) {
         my $libdir = "$packagebuilddir$path";
         $libdir =~ s{/+}{/}g;
         lstat $libdir;
         next if not -d _;
-        next if -l _; # Skip directories which are symlinks
-        # Skip any directory _below_ a symlink as well
+        # Skip directories which are symlinks.
+        next if -l _;
+        # Skip any directory _below_ a symlink as well.
         my $updir = $libdir;
         while (($updir =~ s{/[^/]*$}{}) and
                not check_files_are_the_same($packagebuilddir, $updir)) {
@@ -219,7 +223,7 @@ if (not scalar @files) {
     }
 }
 
-# Merge symbol information
+# Merge symbol information.
 my $od = Dpkg::Shlibs::Objdump->new();
 foreach my $file (@files) {
     debug(1, "Scanning $file for symbol information");
@@ -229,19 +233,20 @@ foreach my $file (@files) {
         next;
     }
     my $object = $od->get_object($objid);
-    if ($object->{SONAME}) { # Objects without soname are of no interest
+    if ($object->{SONAME}) {
         debug(1, "Merging symbols from $file as $object->{SONAME}");
         if (not $symfile->has_object($object->{SONAME})) {
             $symfile->create_object($object->{SONAME}, "$oppackage #MINVER#");
         }
         $symfile->merge_symbols($object, $sourceversion);
     } else {
+        # Objects without soname are of no interest.
         debug(1, "File $file doesn't have a soname. Ignoring.");
     }
 }
 $symfile->clear_except(keys %{$od->{objects}});
 
-# Write out symbols files
+# Write out symbols files.
 if ($stdout) {
     $output = g_('<standard output>');
     $symfile->output(\*STDOUT,
@@ -270,7 +275,7 @@ if ($stdout) {
     }
 }
 
-# Check if generated files differs from reference file
+# Check if generated files differs from reference file.
 my $exitcode = 0;
 
 sub compare_problem
@@ -286,7 +291,7 @@ sub compare_problem
 }
 
 if ($compare || ! $quiet) {
-    # Compare
+    # Compare.
     if (my @libs = $symfile->get_new_libs($ref_symfile)) {
         compare_problem(4, g_('new libraries appeared in the symbols file: %s'), "@libs");
     }
@@ -309,7 +314,7 @@ unless ($quiet) {
 
     my $file_label;
 
-    # Compare template symbols files before and after
+    # Compare template symbols files before and after.
     my $before = File::Temp->new(
         TEMPLATE => 'dpkg-gensymbolsXXXXXX',
     );
@@ -333,7 +338,7 @@ unless ($quiet) {
     seek $before, 0, 0;
     seek $after, 0, 0;
 
-    # Output diffs between symbols files if any
+    # Output diffs between symbols files if any.
     if (File::Compare::compare($before, $after) != 0) {
         if (not defined($output)) {
             warning(g_('the generated symbols file is empty'));

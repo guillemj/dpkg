@@ -978,7 +978,7 @@ our %FIELD_ORDER = (
         ),
     ],
     CTRL_FILE_STATUS() => [
-        # Same as fieldinfos in lib/dpkg/parse.c
+        # Same as fieldinfos in «lib/dpkg/parse.c».
         qw(
             package
             essential
@@ -1056,7 +1056,7 @@ sub field_capitalize {
     # Use known fields first.
     return $FIELDS{$field}{name} if exists $FIELDS{$field};
 
-    # Generic case
+    # Generic case.
     return join '-', map { ucfirst } split /-/, $field;
 }
 
@@ -1093,7 +1093,8 @@ sub field_is_allowed_in {
 
     return 0 if not scalar(@types);
     foreach my $type (@types) {
-        next if $type == CTRL_UNKNOWN; # Always allowed
+        # Unknown control type is always allowed.
+        next if $type == CTRL_UNKNOWN;
         return 0 unless $FIELDS{$field}{allowed} & $type;
     }
     return 1;

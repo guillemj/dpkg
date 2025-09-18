@@ -227,10 +227,10 @@ sub pop {
     info(g_('unapplying %s'), $patch) if $opts{verbose};
     my $backup_dir = $self->get_db_file($patch);
     if (-d $backup_dir and not $opts{reverse_apply}) {
-        # Use the backup copies to restore
+        # Use the backup copies to restore.
         $self->restore_quilt_backup_files($patch);
     } else {
-        # Otherwise reverse-apply the patch
+        # Otherwise reverse-apply the patch.
         my $path = $self->get_patch_file($patch);
         my $obj = Dpkg::Source::Patch->new(filename => $path);
 
@@ -284,7 +284,7 @@ sub find_problems {
 sub get_series_file {
     my $self = shift;
     my $vendor = lc(get_current_vendor() || 'debian');
-    # Series files are stored alongside patches
+    # Series files are stored alongside patches.
     my $default_series = $self->get_patch_file('series');
     my $vendor_series = $self->get_patch_file("$vendor.series");
     return $vendor_series if -e $vendor_series;
@@ -315,7 +315,7 @@ sub get_patch_dir {
     return File::Spec->catfile($self->{dir}, 'debian', 'patches');
 }
 
-## METHODS BELOW ARE INTERNAL ##
+## Internal methods.
 
 sub _file_load {
     my ($self, $file) = @_;
@@ -357,10 +357,10 @@ sub read_patch_list {
     open(my $series_fh, '<' , $file) or syserr(g_('cannot read %s'), $file);
     while (defined(my $line = <$series_fh>)) {
         chomp $line;
-        # Strip leading/trailing spaces
+        # Strip leading/trailing spaces.
         $line =~ s/^\s+//;
         $line =~ s/\s+$//;
-        # Strip comment
+        # Strip comment.
         $line =~ s/(?:^|\s+)#.*$//;
         next unless $line;
         if ($line =~ /^(\S+)\s+(.*)$/) {
@@ -412,7 +412,7 @@ sub restore_quilt_backup_files {
                         or syserr(g_("unable to change permission of '%s'"), $target);
                 }
             } else {
-                # empty files are "backups" for new files that patch created
+                # Empty files are "backups" for new files that patch created.
                 unlink($target);
             }
         },

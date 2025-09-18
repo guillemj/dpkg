@@ -105,7 +105,7 @@ sub test_path_escape
     # Store the result into a tar to compare its structure against a reference.
     system($Dpkg::PROGTAR, '-cf', "$treedir.tar", '-C', $treedir, '.');
 
-    # Check results
+    # Check results.
     ok(length $warnseen && $warnseen =~ m/points outside source root/,
         'expected warning seen');
     ok(system($Dpkg::PROGTAR, '--compare', '-f', "$expdir.tar", '-C', $treedir) == 0,

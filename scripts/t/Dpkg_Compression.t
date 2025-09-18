@@ -142,7 +142,7 @@ ok('filename.xz' =~ m/\.$ext_regex$/, '.xz matches regex');
 ok('filename.bz2' =~ m/\.$ext_regex$/, '.bz2 matches regex');
 ok('filename.lzma' =~ m/\.$ext_regex$/, '.lzma matches regex');
 
-# Test changing the default compression levels
+# Test changing the default compression levels.
 my $old_level = compression_get_default_level();
 compression_set_default_level(1);
 is(compression_get_default_level(), 1, 'change default compression level');
@@ -158,18 +158,18 @@ ok(compression_is_valid_level(9), 'compression 9 is valid');
 ok(compression_is_valid_level('fast'), 'compression fast is valid');
 ok(compression_is_valid_level('best'), 'compression best is valid');
 
-# Test write on uncompressed file
+# Test write on uncompressed file.
 test_write("$tmpdir/myfile", \&check_uncompressed);
 
 SKIP: {
     skip 'gunzip not available', 1 if not $have_gunzip;
 
-    # Test write on compressed file
+    # Test write on compressed file.
     test_write("$tmpdir/myfile.gz", \&check_compressed);
 }
 
-# Test read on uncompressed file
+# Test read on uncompressed file.
 test_read("$tmpdir/myfile");
 
-# Test read on compressed file
+# Test read on compressed file.
 test_read("$tmpdir/myfile.gz");

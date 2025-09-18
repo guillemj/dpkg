@@ -126,9 +126,9 @@ sub do_connect {
     return $ftp;
 }
 
-##############################
+## Support for MDTM.
 
-# assume server supports MDTM - will be adjusted if needed
+# Assume server supports MDTM - will be adjusted if needed.
 my $has_mdtm = 1;
 
 my %months = (
@@ -147,36 +147,46 @@ my %months = (
 );
 
 my $ls_l_regex = qr<
-    ([^ ]+\ *){5}                       # Perms, Links, User, Group, Size
-    [^ ]+                               # Blanks
-    \ ([A-Z][a-z]{2})                   # Month name (abbreviated)
-    \ ([0-9 ][0-9])                     # Day of month
-    \ ([0-9 ][0-9][:0-9][0-9]{2})       # Filename
+    # Perms, Links, User, Group, Size.
+    ([^ ]+\ *){5}
+    # Blanks.
+    [^ ]+
+    # Month name (abbreviated).
+    \ ([A-Z][a-z]{2})
+    # Day of month.
+    \ ([0-9 ][0-9])
+    # Filename.
+    \ ([0-9 ][0-9][:0-9][0-9]{2})
 >x;
 
 sub do_mdtm {
     my ($ftp, $file) = @_;
     my ($time);
 
-    #if ($has_mdtm) {
+#   if ($has_mdtm) {
         $time = $ftp->mdtm($file);
 #       my $code = $ftp->code();
 #       my $message = $ftp->message();
 #       print " [ $code: $message ] ";
-        if ($ftp->code() == 502 || # MDTM not implemented
-            $ftp->code() == 500) { # command not understood (SUN firewall)
+        # Codes:
+        #   500 Command not understood (SUN firewall).
+        #   502 MDTM not implemented.
+        if ($ftp->code() == 502 ||
+            $ftp->code() == 500) {
             $has_mdtm = 0;
         } elsif (! $ftp->ok()) {
             return;
         }
-    #}
+#   }
 
     if (! $has_mdtm) {
         require Time::Local;
 
         my @files = $ftp->dir($file);
+        # Codes:
+        #   550 No such file or directory.
         if (($#files == -1) ||
-            ($ftp->code == 550)) { # No such file or directory
+            ($ftp->code == 550)) {
             return;
         }
 
@@ -186,20 +196,20 @@ sub do_mdtm {
 
 #       print "[$#files]";
 
-        # get the date components from the output of 'ls -l'
+        # Get the date components from the output of 'ls -l'.
         if ($files[0] =~ $ls_l_regex) {
             my($month_name, $day, $year_or_time, $month, $hours, $minutes,
                $year);
 
-            # what we can read
+            # What we can read.
             $month_name = $2;
             $day = 0 + $3;
             $year_or_time = $4;
 
-            # translate the month name into number
+            # Translate the month name into number.
             $month = $months{$month_name};
 
-            # recognize time or year, and compute missing one
+            # Recognize time or year, and compute missing one.
             if ($year_or_time =~ /([0-9]{2}):([0-9]{2})/) {
                 $hours = 0 + $1; $minutes = 0 + $2;
                 my @this_date = gmtime(time());
@@ -217,7 +227,7 @@ sub do_mdtm {
                 die 'cannot parse year-or-time';
             }
 
-            # build a system time
+            # Build a system time.
             $time = Time::Local::timegm(0, $minutes, $hours, $day, $month, $year);
         } else {
             die 'regex match failed on LIST output';

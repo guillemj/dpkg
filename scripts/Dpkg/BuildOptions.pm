@@ -129,7 +129,7 @@ discarded.
 sub set {
     my ($self, $key, $value, $source) = @_;
 
-    # Sanity checks
+    # Sanity checks.
     if (any { $_ eq $key } qw(terse noopt nostrip nocheck) and defined $value) {
         $value = undef;
     } elsif ($key eq 'parallel')  {

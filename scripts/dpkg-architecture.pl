@@ -261,7 +261,7 @@ foreach my $k (keys %req_vars) {
 }
 
 #
-# Set build variables
+# Set build variables.
 #
 
 if (action_needs(INFO_BUILD_ARCH_NAME)) {
@@ -298,7 +298,7 @@ if (action_needs(INFO_BUILD_GNU_TUPLE)) {
 }
 
 #
-# Set host variables
+# Set host variables.
 #
 
 # First perform some sanity checks on the host arguments passed.
@@ -353,7 +353,7 @@ if (action_needs(INFO_HOST_GNU_TUPLE)) {
 }
 
 #
-# Set target variables
+# Set target variables.
 #
 
 # First perform some sanity checks on the target arguments passed.

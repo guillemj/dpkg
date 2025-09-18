@@ -66,8 +66,8 @@ sub _check_workdir {
               $srcdir);
     }
 
-    # Symlinks from .bzr to outside could cause unpack failures, or
-    # point to files they shouldn't, so check for and don't allow.
+    # Symlinks from .bzr to outside could cause unpack failures, or point to
+    # files they should not, so check for and do not allow.
     if (-l "$srcdir/.bzr") {
         error(g_('%s is a symlink'), "$srcdir/.bzr");
     }
@@ -98,7 +98,8 @@ sub do_build {
     #my @tar_ignore = map { "--exclude=$_" } @{$self->{options}{tar_ignore}};
     my $diff_ignore_regex = $self->{options}{diff_ignore_regex};
 
-    $dir =~ s{/+$}{}; # Strip trailing /
+    # Strip trailing "/".
+    $dir =~ s{/+$}{};
     my ($dirname, $updir) = fileparse($dir);
 
     if (scalar(@argv)) {
@@ -117,7 +118,7 @@ sub do_build {
     local $_;
 
     # Check for uncommitted files.
-    # To support dpkg-source -i, remove any ignored files from the
+    # To support «dpkg-source -i», remove any ignored files from the
     # output of bzr status.
     open(my $bzr_status_fh, '-|', 'bzr', 'status')
         or subprocerr('bzr status');
@@ -157,7 +158,7 @@ sub do_build {
     unlink("$tardir/.bzr/branch/branch-name",
            "$tardir/.bzr/branch/parent");
 
-    # Create the tar file
+    # Create the tar file.
     my $debianfile = "$basenamerev.bzr.tar." . $self->{options}{comp_ext};
     info(g_('building %s in %s'),
          $sourcepackage, $debianfile);
@@ -200,7 +201,7 @@ sub do_extract {
         erasedir($newdirectory);
     }
 
-    # Extract main tarball
+    # Extract main tarball.
     info(g_('unpacking %s'), $tarfile);
     my $tar = Dpkg::Source::Archive->new(
         filename => File::Spec->catfile($self->{basedir}, $tarfile),

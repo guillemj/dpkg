@@ -342,7 +342,7 @@ $dep_or_eq->simplify_deps($facts);
 is($dep_or_eq->output(), 'pkg-a (= 10) <profile> | pkg-b',
     'Simplify duped ORed, subset version');
 
-} # TODO
+} # TODO.
 
 my $field_virtual = 'myvirtual | other';
 my $dep_virtual = deps_parse($field_virtual);
@@ -407,7 +407,7 @@ $dep_profiles->simplify_deps($facts);
 is($dep_profiles->output(), 'tool <!cross> <stage1 cross>',
     'Simplify restriction formulas');
 
-} # TODO
+} # TODO.
 
 $dep_profiles = deps_parse('libfoo-dev:native <!stage1>, libfoo-dev <!stage1 cross>',
     build_dep => 1,
@@ -449,7 +449,7 @@ my $dep_empty2 = deps_parse(' , , ',
 );
 is($dep_empty2->output(), '', "' , , ' is also an empty dependency");
 
-# Check sloppy but acceptable dependencies
+# Check sloppy but acceptable dependencies.
 
 my $dep_sloppy_version = deps_parse('package (=   1.0  )');
 is($dep_sloppy_version->output(), 'package (= 1.0)', 'sloppy version restriction');

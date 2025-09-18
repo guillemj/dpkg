@@ -74,7 +74,7 @@ $other_dep do not need to be of the same type.
 sub implies {
     my ($self, $o) = @_;
 
-    # Special case for AND with a single member, replace it by its member
+    # Special case for AND with a single member, replace it by its member.
     if ($o->isa('Dpkg::Deps::AND')) {
         my @subdeps = $o->get_deps();
         if (scalar(@subdeps) == 1) {
@@ -82,8 +82,8 @@ sub implies {
         }
     }
 
-    # In general, an OR dependency can't imply anything except if each
-    # of its member implies a member in the other OR dependency
+    # In general, an OR dependency cannot imply anything except if each
+    # of its member implies a member in the other OR dependency.
     if ($o->isa('Dpkg::Deps::OR')) {
         my $subset = 1;
         foreach my $dep ($self->get_deps()) {
@@ -112,9 +112,9 @@ is lacking to conclude.
 sub get_evaluation {
     my ($self, $facts) = @_;
 
-    # Returns false if all members evaluates to 0
-    # Returns true if at least one member evaluates to true
-    # Returns undef otherwise
+    # Returns false if all members evaluates to 0.
+    # Returns true if at least one member evaluates to true.
+    # Returns undef otherwise.
     my $result = 0;
     foreach my $dep ($self->get_deps()) {
         my $eval = $dep->get_evaluation($facts);
@@ -124,7 +124,7 @@ sub get_evaluation {
             $result = 1;
             last;
         } elsif ($eval == 0) {
-            # Still possible to have a false evaluation
+            # Still possible to have a false evaluation.
         }
     }
     return $result;

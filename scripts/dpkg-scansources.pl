@@ -39,8 +39,10 @@ my %override;
 use constant {
     O_PRIORITY      => 0,
     O_SECTION       => 1,
-    O_MAINT_FROM    => 2,   # undef for non-specific, else listref
-    O_MAINT_TO      => 3,   # undef if there's no maint override
+    # If non-specific then undef, else listref.
+    O_MAINT_FROM    => 2,
+    # If there is no maint override then undef.
+    O_MAINT_TO      => 3,
 };
 
 my %extra_override;
@@ -53,7 +55,7 @@ my %priority = (
     'required' => 5,
 );
 
-# Switches
+# Switches.
 
 my $debug = 0;
 my $no_sort = 0;
@@ -133,7 +135,7 @@ sub load_override {
         $override{$package}[O_PRIORITY] = $priority;
         $override{$package}[O_SECTION] = $section;
         if (! defined $maintainer) {
-            # do nothing
+            # Do nothing.
         } elsif ($maintainer =~ /^(.*\S)\s*=>\s*(.*)$/) {
             $override{$package}[O_MAINT_TO] = $2;
             $override{$package}[O_MAINT_FROM] = [ split m{\s*//\s*}, $1 ];
@@ -229,7 +231,7 @@ sub process_dsc {
     $fields->load($file);
     $fields->set_options(type => CTRL_REPO_SRC);
 
-    # Get checksums
+    # Get checksums.
     my $checksums = Dpkg::Checksums->new();
     $checksums->add_from_file($file, key => $basename);
     $checksums->add_from_control($fields, use_files_for_md5 => 1);
@@ -275,7 +277,7 @@ sub process_dsc {
         }
     }
 
-    # Process extra override
+    # Process extra override.
     if (exists $extra_override{$source}) {
         my ($field, $value);
         while (($field, $value) = each %{$extra_override{$source}}) {
@@ -291,7 +293,7 @@ sub process_dsc {
     push @sources, $fields;
 }
 
-### Main
+## Main.
 
 {
     local $SIG{__WARN__} = sub { usageerr($_[0]) };

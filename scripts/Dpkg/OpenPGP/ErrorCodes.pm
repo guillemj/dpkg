@@ -62,7 +62,7 @@ use Exporter qw(import);
 
 use Dpkg::Gettext;
 
-# Error codes based on
+# Error codes based on:
 # https://ietf.org/archive/id/draft-dkg-openpgp-stateless-cli-10.html#section-7
 #
 # Local error codes use a negative number, as that should not conflict with

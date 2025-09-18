@@ -129,10 +129,10 @@ sub get_uncompress_cmdline {
 
 sub _check_opts {
     my ($self, %opts) = @_;
-    # Check for proper cleaning before new start
+    # Check for proper cleaning before new start.
     error(g_('Dpkg::Compression::Process can only start one subprocess at a time'))
         if $self->{pid};
-    # Check options
+    # Check options.
     my $to = my $from = 0;
     foreach my $thing (qw(file handle string pipe)) {
         $to++ if $opts{"to_$thing"};
@@ -167,7 +167,8 @@ sub compress {
     $opts{exec} = \@prog;
     $self->{cmdline} = "@prog";
     $self->{pid} = spawn(%opts);
-    delete $self->{pid} if $opts{to_string}; # wait_child already done
+    # We already did wait_child().
+    delete $self->{pid} if $opts{to_string};
 }
 
 =item $proc->uncompress(%opts)
@@ -194,7 +195,8 @@ sub uncompress {
     $opts{exec} = \@prog;
     $self->{cmdline} = "@prog";
     $self->{pid} = spawn(%opts);
-    delete $self->{pid} if $opts{to_string}; # wait_child already done
+    # We already did wait_child().
+    delete $self->{pid} if $opts{to_string};
 }
 
 =item $proc->wait_end_process(%opts)

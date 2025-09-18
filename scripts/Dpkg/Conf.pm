@@ -167,11 +167,15 @@ sub parse {
 
     while (<$fh>) {
         chomp;
-        s/^\s+//;             # Strip leading spaces
-        s/\s+$//;             # Strip trailing spaces
-        s/\s+=\s+/=/;         # Remove spaces around the first =
-        s/\s+/=/ unless m/=/; # First spaces becomes = if no =
-        # Skip empty lines and comments
+        # Strip leading spaces.
+        s/^\s+//;
+        # Strip trailing spaces.
+        s/\s+$//;
+        # Remove spaces around the first =.
+        s/\s+=\s+/=/;
+        # First spaces becomes = if no =.
+        s/\s+/=/ unless m/=/;
+        # Skip empty lines and comments.
         next if /^#/ or length == 0;
         if (/^-[^-]/ and not $self->{allow_short}) {
             warning(g_('short option not allowed in %s, line %d'), $desc, $.);

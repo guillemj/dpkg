@@ -159,7 +159,7 @@ otherwise it is the Package field by default.
 sub set_options {
     my ($self, %opts) = @_;
 
-    # Default values based on type
+    # Default values based on type.
     if (exists $opts{type}) {
         my $t = $opts{type};
         if ($t == CTRL_TMPL_PKG) {
@@ -217,7 +217,7 @@ sub set_options {
         }
     }
 
-    # Options set by the user override default values
+    # Options set by the user override default values.
     $self->{$_} = $opts{$_} foreach keys %opts;
 }
 
@@ -319,7 +319,9 @@ that must be equal to the field value.
 sub get_keys {
     my ($self, %crit) = @_;
     my @selected = @{$self->{order}};
-    foreach my $s_crit (keys %crit) { # search criteria
+
+    # Search criteria.
+    foreach my $s_crit (keys %crit) {
         if (ref($crit{$s_crit}) eq 'Regexp') {
             @selected = grep {
                 exists $self->{items}{$_}{$s_crit} and

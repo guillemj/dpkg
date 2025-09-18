@@ -108,7 +108,7 @@ sub cppfilt_demangle {
             $demangled =~ s{(?<=>)(?=>)}{ }g;
         }
 
-        # Remember the last result
+        # Remember the last result.
         $filt->{last_symbol} = $symbol;
         $filt->{last_result} = $demangled;
     }
@@ -134,9 +134,9 @@ sub terminate_cppfilts {
     }
 }
 
-# Close/terminate running c++filt process(es)
+# Close/terminate running c++filt process(es).
 END {
-    # Make sure exitcode is not changed (by wait_child)
+    # Make sure exitcode is not changed (by wait_child).
     my $exitcode = $?;
     terminate_cppfilts();
     $? = $exitcode;

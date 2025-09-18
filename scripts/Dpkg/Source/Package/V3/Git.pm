@@ -147,7 +147,8 @@ sub do_build {
     my ($self, $dir) = @_;
     my $diff_ignore_regex = $self->{options}{diff_ignore_regex};
 
-    $dir =~ s{/+$}{}; # Strip trailing /
+    # Strip trailing "/".
+    $dir =~ s{/+$}{};
     my ($dirname, $updir) = fileparse($dir);
     my $basenamerev = $self->get_basename(1);
 
@@ -157,9 +158,8 @@ sub do_build {
     chdir $dir or syserr(g_("unable to chdir to '%s'"), $dir);
 
     # Check for uncommitted files.
-    # To support dpkg-source -i, get a list of files
-    # equivalent to the ones git status finds, and remove any
-    # ignored files from it.
+    # To support «dpkg-source -i», get a list of files equivalent to the ones
+    # «git status» finds, and remove any ignored files from it.
     my @ignores = '--exclude-per-directory=.gitignore';
     my $core_excludesfile = qx(git config --get core.excludesfile);
     chomp $core_excludesfile;
@@ -188,8 +188,7 @@ sub do_build {
               join(' ', @files));
     }
 
-    # If a depth was specified, need to create a shallow clone and
-    # bundle that.
+    # If a depth was specified, need to create a shallow clone and bundle that.
     my $tmpdir;
     my $shallowfile;
     if ($self->{options}{git_depth}) {
@@ -222,8 +221,11 @@ sub do_build {
     info(g_('bundling: %s'), join(' ', @bundle_arg));
     system('git', 'bundle', 'create', "$old_cwd/$bundlefile",
            @bundle_arg,
-           'HEAD', # ensure HEAD is included no matter what
-           '--', # avoids ambiguity error when referring to eg, a debian branch
+           # Ensure HEAD is included no matter what.
+           'HEAD',
+           # Avoids ambiguity error when referring to, for example, a debian
+           # branch.
+           '--',
     );
     subprocerr('git bundle') if $?;
 
@@ -282,8 +284,8 @@ sub do_extract {
     subprocerr('git bundle') if $?;
 
     if (defined $shallow) {
-        # Move shallow info file into place, so git does not
-        # try to follow parents of shallow refs.
+        # Move shallow info file into place, so git does not try to follow
+        # parents of shallow refs.
         info(g_('setting up shallow clone'));
         my $shallow_orig = File::Spec->catfile($self->{basedir}, $shallow);
         my $shallow_dest = File::Spec->catfile($newdirectory, '.git', 'shallow');

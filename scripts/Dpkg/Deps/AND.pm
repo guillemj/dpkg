@@ -74,15 +74,15 @@ $other_dep do not need to be of the same type.
 sub implies {
     my ($self, $o) = @_;
 
-    # If any individual member can imply $o or NOT $o, we're fine
+    # If any individual member can imply $o or NOT $o, we are fine.
     foreach my $dep ($self->get_deps()) {
         my $implication = $dep->implies($o);
         return 1 if defined $implication and $implication == 1;
         return 0 if defined $implication and $implication == 0;
     }
 
-    # If o is an AND, we might have an implication, if we find an
-    # implication within us for each predicate in o
+    # If $o is an AND, we might have an implication, if we find an
+    # implication within us for each predicate in $o.
     if ($o->isa('Dpkg::Deps::AND')) {
         my $subset = 1;
         foreach my $odep ($o->get_deps()) {
@@ -111,9 +111,9 @@ is lacking to conclude.
 sub get_evaluation {
     my ($self, $facts) = @_;
 
-    # Return 1 only if all members evaluates to true
-    # Return 0 if at least one member evaluates to false
-    # Return undef otherwise
+    # Return 1 only if all members evaluates to true.
+    # Return 0 if at least one member evaluates to false.
+    # Return undef otherwise.
     my $result = 1;
     foreach my $dep ($self->get_deps()) {
         my $eval = $dep->get_evaluation($facts);
@@ -123,7 +123,7 @@ sub get_evaluation {
             $result = 0;
             last;
         } elsif ($eval == 1) {
-            # Still possible
+            # Still possible.
         }
     }
     return $result;
@@ -148,9 +148,8 @@ sub simplify_deps {
         foreach my $odep (@knowndeps, @new) {
             next WHILELOOP if $odep->implies($dep);
         }
-        # When a dependency is implied by another dependency that
-        # follows, then invert them
-        # "a | b, c, a"  becomes "a, c" and not "c, a"
+        # When a dependency is implied by another dependency that follows,
+        # then invert them. "a | b, c, a" becomes "a, c" and not "c, a".
         my $i = 0;
         foreach my $odep (@{$self->{list}}) {
             if (defined $odep and $odep->implies($dep)) {

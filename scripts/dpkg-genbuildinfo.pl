@@ -244,13 +244,13 @@ sub collect_installed_builddeps {
                 1
             });
         } elsif (defined $facts->{virtualpkg}->{$pkg_name}) {
-            # virtual package: we cannot know for sure which implementation
-            # is the one that has been used, so let's add them all...
+            # Virtual package: we cannot know for sure which implementation
+            # is the one that has been used, so let us add them all.
             foreach my $provided (@{$facts->{virtualpkg}->{$pkg_name}}) {
                 push @unprocessed_pkgs, $provided->{provider};
             }
         }
-        # else: it is a package in an OR dependency that has been otherwise
+        # Else: it is a package in an OR dependency that has been otherwise
         # satisfied.
     }
     $installed_deps->simplify_deps(Dpkg::Deps::KnownFacts->new());
@@ -401,7 +401,7 @@ while (@ARGV) {
     } elsif (m/^-O(.*)$/) {
         $outputfile = $1;
     } elsif (m/^(--buildinfo-id)=.*$/) {
-        # Deprecated option
+        # Deprecated option.
         warning(g_('%s is deprecated; it is without effect'), $1);
     } elsif (m/^--always-include-kernel$/) {
         $use_feature{kernel} = 1;
@@ -567,7 +567,7 @@ if ($stdout) {
     }
 
     # Obtain a lock on debian/control to avoid simultaneous updates
-    # of debian/files when parallel building is in use
+    # of debian/files when parallel building is in use.
     my $lockfh;
     my $lockfile = 'debian/control';
     $lockfile = $controlfile if not -e $lockfile;
@@ -596,7 +596,7 @@ if ($stdout) {
     rename "$fileslistfile.new", $fileslistfile
         or syserr(g_('install new files list file'));
 
-    # Release the lock
+    # Release the lock.
     close $lockfh or syserr(g_('cannot close %s'), $lockfile);
 
     $fields->save("$outputfile.new");

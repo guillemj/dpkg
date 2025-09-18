@@ -518,7 +518,7 @@ foreach my $type (sort keys %fields) {
     }
 }
 
-# Check deb822 field parsers
+# Check deb822 field parsers.
 
 my $ctrl = Dpkg::Control->new(type => CTRL_DEB);
 

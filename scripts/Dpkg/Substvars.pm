@@ -400,9 +400,9 @@ sub warn_about_unused {
 
     foreach my $vn (sort keys %{$self->{vars}}) {
         next if $self->{attr}{$vn} & SUBSTVAR_ATTR_USED;
-        # Empty substitutions variables are ignored on the basis
-        # that they are not required in the current situation
-        # (example: debhelper's misc:Depends in many cases)
+        # Empty substitutions variables are ignored on the basis that they
+        # are not required in the current situation.
+        # Example: debhelper's misc:Depends in many cases.
         next if $self->{vars}{$vn} eq '';
 
         if ($self->{attr}{$vn} & SUBSTVAR_ATTR_REQ) {
@@ -479,7 +479,7 @@ is passed print them into the filehandle.
 sub output {
     my ($self, $fh) = @_;
     my $str = '';
-    # Store all non-automatic substitutions only
+    # Store all non-automatic substitutions only.
     foreach my $vn (sort keys %{$self->{vars}}) {
         next if $self->{attr}{$vn} & SUBSTVAR_ATTR_AUTO;
         my $op;

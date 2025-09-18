@@ -159,7 +159,7 @@ if (@conflicts) {
 }
 exit 1 if @unmet || @conflicts;
 
-# Silly little status file parser that returns a Dpkg::Deps::KnownFacts
+# Silly little status file parser that returns a Dpkg::Deps::KnownFacts.
 sub parse_status {
     my $status = shift;
 

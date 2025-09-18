@@ -106,9 +106,9 @@ sub add_provided_package {
     push @{$self->{virtualpkg}{$pkg}}, $v;
 }
 
-##
-## The functions below are private to Dpkg::Deps::KnownFacts.
-##
+## Private functions.
+#
+# Note: The functions below are private to Dpkg::Deps::KnownFacts.
 
 sub _find_package {
     my ($self, $dep, $lackinfos) = @_;

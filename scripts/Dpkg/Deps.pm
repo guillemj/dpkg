@@ -84,12 +84,12 @@ The $v_p and $v_q parameter should be L<Dpkg::Version> objects.
 sub deps_eval_implication {
     my ($rel_p, $v_p, $rel_q, $v_q) = @_;
 
-    # If versions are not valid, we can't decide of any implication
+    # If versions are not valid, we cannot decide of any implication.
     return unless defined($v_p) and $v_p->is_valid();
     return unless defined($v_q) and $v_q->is_valid();
 
-    # q wants an exact version, so p must provide that exact version.  p
-    # disproves q if q's version is outside the range enforced by p.
+    # «q» wants an exact version, so «p» must provide that exact version.
+    # «p» disproves «q» if «q»'s version is outside the range enforced by «p».
     if ($rel_q eq REL_EQ) {
         if ($rel_p eq REL_LT) {
             return ($v_p <= $v_q) ? 0 : undef;
@@ -104,9 +104,9 @@ sub deps_eval_implication {
         }
     }
 
-    # A greater than clause may disprove a less than clause. An equal
-    # cause might as well.  Otherwise, if
-    # p's clause is <<, <=, or =, the version must be <= q's to imply q.
+    # A greater than clause may disprove a less than clause. An equal clause
+    # might as well. Otherwise, if «p»'s clause is <<, <=, or =, the version
+    # must be <= «q»'s to imply «q».
     if ($rel_q eq REL_LE) {
         if ($rel_p eq REL_GT) {
             return ($v_p >= $v_q) ? 0 : undef;
@@ -114,13 +114,14 @@ sub deps_eval_implication {
             return ($v_p > $v_q) ? 0 : undef;
         } elsif ($rel_p eq REL_EQ) {
             return ($v_p <= $v_q) ? 1 : 0;
-        } else { # <<, <=
+        } else {
+            # <<, <=
             return ($v_p <= $v_q) ? 1 : undef;
         }
     }
 
-    # Similar, but << is stronger than <= so p's version must be << q's
-    # version if the p relation is <= or =.
+    # Similar, but << is stronger than <= so «p»'s version must be << «q»'s
+    # version if the «p» relation is <= or =.
     if ($rel_q eq REL_LT) {
         if ($rel_p eq REL_GT or $rel_p eq REL_GE) {
             return ($v_p >= $v_p) ? 0 : undef;
@@ -128,7 +129,8 @@ sub deps_eval_implication {
             return ($v_p <= $v_q) ? 1 : undef;
         } elsif ($rel_p eq REL_EQ) {
             return ($v_p < $v_q) ? 1 : 0;
-        } else { # <<, <=
+        } else {
+            # <<, <=
             return ($v_p < $v_q) ? 1 : undef;
         }
     }
@@ -141,7 +143,8 @@ sub deps_eval_implication {
             return ($v_p < $v_q) ? 0 : undef;
         } elsif ($rel_p eq REL_EQ) {
             return ($v_p >= $v_q) ? 1 : 0;
-        } else { # >>, >=
+        } else {
+            # >>, >=
             return ($v_p >= $v_q) ? 1 : undef;
         }
     }
@@ -299,9 +302,9 @@ sub deps_parse {
         tests_dep => $opts{tests_dep},
     );
 
-    # Merge in a single-line
+    # Merge in a single-line.
     $dep_line =~ s/\s*[\r\n]\s*/ /g;
-    # Strip trailing/leading spaces
+    # Strip trailing/leading spaces.
     $dep_line =~ s/^\s+//;
     $dep_line =~ s/\s+$//;
 

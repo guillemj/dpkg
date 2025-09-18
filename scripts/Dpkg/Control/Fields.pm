@@ -40,9 +40,10 @@ use Exporter qw(import);
 use Dpkg::Control::FieldsCore;
 use Dpkg::Vendor qw(run_vendor_hook);
 
-# Register vendor specifics fields
+# Register vendor specifics fields.
 foreach my $op (run_vendor_hook('register-custom-fields')) {
-    next if not (defined $op and ref $op); # Skip when not implemented by vendor
+    # Skip when not implemented by vendor.
+    next if not (defined $op and ref $op);
     my $func = shift @$op;
     if ($func eq 'register') {
         my ($field, $allowed_type, @opts) = @{$op};
