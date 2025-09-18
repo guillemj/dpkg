@@ -178,7 +178,7 @@ foreach my $site (@{$CONFIG{site}}) {
   $j = 0;
   foreach my $dist (@{$site->[2]}) {
     my $fn = $dist;
-    $fn =~ tr#/#_#;
+    $fn =~ tr{/}{_};
     $fn = "Packages.$site->[0].$fn";
     if (-f $fn) {
 	print " $site->[0] $dist...\n";
