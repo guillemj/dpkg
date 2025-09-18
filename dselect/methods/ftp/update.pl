@@ -87,8 +87,7 @@ foreach (@{$CONFIG{site}}) {
     );
 
     my @dists = @{$_->[2]};
-    PACKAGE:
-    foreach my $dist (@dists) {
+    PACKAGE: foreach my $dist (@dists) {
         my $dir = "$dist/binary-$arch";
         my $must_get = 0;
         my $newest_pack_date;
@@ -140,8 +139,7 @@ foreach (@{$CONFIG{site}}) {
             unlink 'Packages';
             my $size = 0;
 
-          TRY_GET_PACKAGES:
-            while (1) {
+            TRY_GET_PACKAGES: while (1) {
                 if ($size) {
                     print ' Continuing ';
                 } else {

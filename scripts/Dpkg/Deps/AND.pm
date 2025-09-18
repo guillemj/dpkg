@@ -141,8 +141,7 @@ sub simplify_deps {
     my ($self, $facts, @knowndeps) = @_;
     my @new;
 
-WHILELOOP:
-    while (@{$self->{list}}) {
+    WHILELOOP: while (@{$self->{list}}) {
         my $dep = shift @{$self->{list}};
         my $eval = $dep->get_evaluation($facts);
         next if defined $eval and $eval == 1;

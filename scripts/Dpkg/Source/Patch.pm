@@ -440,8 +440,7 @@ sub analyze {
 
     my $line = _getline($self);
 
-  HUNK:
-    while (defined $line or not eof $self) {
+    HUNK: while (defined $line or not eof $self) {
         my (%path, %fn);
 
         # Skip comments leading up to the patch (if any). Although we do not

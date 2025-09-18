@@ -51,8 +51,7 @@ sub do_connect {
 
     my($rpass,$remotehost,$remoteuser,$ftp);
 
-  TRY_CONNECT:
-    while(1) {
+    TRY_CONNECT: while (1) {
         my $exit = 0;
 
         if ($opts{useproxy}) {
