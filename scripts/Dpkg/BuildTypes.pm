@@ -166,7 +166,7 @@ sub build_has_none
 {
     my ($bits) = @_;
 
-    return !($current_type & $bits);
+    return ! ($current_type & $bits);
 }
 
 =item build_is($bits)

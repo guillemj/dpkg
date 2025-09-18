@@ -123,7 +123,7 @@ sub load_override {
                     $package, $.);
             next;
         }
-        if (!$priority{$priority}) {
+        if (! $priority{$priority}) {
             warning(g_('ignoring override entry for %s, invalid priority %s'),
                     $package, $priority);
             next;
@@ -132,7 +132,7 @@ sub load_override {
         $override{$package} = [];
         $override{$package}[O_PRIORITY] = $priority;
         $override{$package}[O_SECTION] = $section;
-        if (!defined $maintainer) {
+        if (! defined $maintainer) {
             # do nothing
         } elsif ($maintainer =~ /^(.*\S)\s*=>\s*(.*)$/) {
             $override{$package}[O_MAINT_TO] = $2;
@@ -268,7 +268,7 @@ sub process_dsc {
     # binary. Modify the maintainer if necessary.
     my $maintainer_override = $override{$binary[0]};
     if ($maintainer_override && defined $maintainer_override->[O_MAINT_TO]) {
-        if (!defined $maintainer_override->[O_MAINT_FROM] ||
+        if (! defined $maintainer_override->[O_MAINT_FROM] ||
             any { $fields->{Maintainer} eq $_ }
                 @{ $maintainer_override->[O_MAINT_FROM] }) {
             $fields->{Maintainer} = $maintainer_override->[O_MAINT_TO];

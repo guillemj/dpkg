@@ -78,7 +78,7 @@ while (1) {
             if (not defined $c) {
                 die "failed to fork for find: $!\n";
             }
-            if (!$c) {
+            if (! $c) {
                 exec('find', '-L',
                      length($binaryprefix) ?
                      $binaryprefix : q{.},
@@ -95,7 +95,7 @@ while (1) {
                 $print = substr $print, length $binaryprefix;
             }
         }
-        if (!length($invoke)) {
+        if (! length($invoke)) {
             warn <<"WARN";
 
 Cannot find the appropriate file(s) anywhere needed to install or upgrade

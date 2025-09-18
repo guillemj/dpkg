@@ -39,15 +39,15 @@ ok(build_is(BUILD_BINARY), 'build is binary');
 
 set_build_type_from_options('source,all', '--build=source,all', no_check => 1);
 ok(build_is(BUILD_SOURCE | BUILD_ARCH_INDEP), 'build source,all is source,all');
-ok(!build_is(BUILD_SOURCE | BUILD_ARCH_DEP), 'build source,all is not source,any');
+ok(! build_is(BUILD_SOURCE | BUILD_ARCH_DEP), 'build source,all is not source,any');
 ok(build_has_any(BUILD_SOURCE), 'build source,all has_any source');
 ok(build_has_any(BUILD_ARCH_INDEP), 'build source,all has_any any');
 ok(build_has_none(BUILD_DEFAULT), 'build source,all has_none default');
 ok(build_has_none(BUILD_ARCH_DEP), 'build source,all has_none any');
-ok(!build_has_all(BUILD_BINARY), 'build source,all not has_all binary');
-ok(!build_has_all(BUILD_SOURCE | BUILD_ARCH_DEP),
+ok(! build_has_all(BUILD_BINARY), 'build source,all not has_all binary');
+ok(! build_has_all(BUILD_SOURCE | BUILD_ARCH_DEP),
     'build source,all not has_all source,any');
-ok(!build_has_all(BUILD_FULL), 'build source,all has_all full');
+ok(! build_has_all(BUILD_FULL), 'build source,all has_all full');
 
 set_build_type_from_targets('build-arch,build-indep',
                             '--targets=build-arch,build-indep', no_check => 1);
@@ -62,15 +62,15 @@ ok(build_is(BUILD_BINARY), 'build is binary from binary');
 set_build_type_from_targets('clean,binary-indep',
                             '--targets=clean,binary-indep', no_check => 1);
 ok(build_is(BUILD_SOURCE | BUILD_ARCH_INDEP), 'build source,all is source,all');
-ok(!build_is(BUILD_SOURCE | BUILD_ARCH_DEP), 'build source,all is not source,any');
+ok(! build_is(BUILD_SOURCE | BUILD_ARCH_DEP), 'build source,all is not source,any');
 ok(build_has_any(BUILD_SOURCE), 'build source,all has_any source');
 ok(build_has_any(BUILD_ARCH_INDEP), 'build source,all has_any any');
 ok(build_has_none(BUILD_DEFAULT), 'build source,all has_none default');
 ok(build_has_none(BUILD_ARCH_DEP), 'build source,all has_none any');
-ok(!build_has_all(BUILD_BINARY), 'build source,all not has_all binary');
-ok(!build_has_all(BUILD_SOURCE | BUILD_ARCH_DEP),
+ok(! build_has_all(BUILD_BINARY), 'build source,all not has_all binary');
+ok(! build_has_all(BUILD_SOURCE | BUILD_ARCH_DEP),
     'build source,all not has_all source,any');
-ok(!build_has_all(BUILD_FULL), 'build source,all has_all full');
+ok(! build_has_all(BUILD_FULL), 'build source,all has_all full');
 
 set_build_type(BUILD_BINARY, '--build=binary', no_check => 1);
 ok(build_is(BUILD_BINARY), 'build binary is binary');

@@ -300,7 +300,7 @@ if (build_has_any(BUILD_SOURCE)) {
     }
 
     my $ext = compression_get_file_extension_regex();
-    if ((($sourcestyle =~ m/i/ && !$include_tarball) ||
+    if ((($sourcestyle =~ m/i/ && ! $include_tarball) ||
          $sourcestyle =~ m/d/) &&
         any { m/\.(?:debian\.tar|diff)\.$ext$/ } $checksums->get_files())
     {
@@ -416,7 +416,7 @@ foreach my $pkg ($control->get_packages()) {
             if (build_has_any(BUILD_ARCH_DEP) and
                 (any { debarch_is($host_arch, $_) } debarch_list_parse($v, positive => 1))) {
                 $v = $host_arch;
-            } elsif (!debarch_eq('all', $v)) {
+            } elsif (! debarch_eq('all', $v)) {
                 $v = '';
             }
             push(@archvalues, $v) if $v and not $archadded{$v}++;

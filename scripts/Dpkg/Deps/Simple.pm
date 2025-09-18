@@ -255,7 +255,7 @@ sub output {
         $res .= ':' . $self->{archqual};
     }
     if (defined $self->{relation}) {
-        $res .= ' (' . $self->{relation} . ' ' . $self->{version} .  ')';
+        $res .= ' (' . $self->{relation} . ' ' . $self->{version} . ')';
     }
     if (defined $self->{arches}) {
         $res .= ' [' . join(' ', @{$self->{arches}}) . ']';

@@ -93,34 +93,34 @@ my $truth = {
 my $empty = Dpkg::Version->new('');
 ok($empty eq '', "Dpkg::Version->new('') eq ''");
 ok($empty->as_string() eq '', "Dpkg::Version->new('')->as_string() eq ''");
-ok(!$empty->is_valid(), 'empty version is invalid');
+ok(! $empty->is_valid(), 'empty version is invalid');
 $empty = Dpkg::Version->new('-0');
 ok($empty eq '', "Dpkg::Version->new('-0') eq '-0'");
 ok($empty->as_string() eq '-0', "Dpkg::Version->new('-0')->as_string() eq '-0'");
-ok(!$empty->is_valid(), 'empty upstream version is invalid');
+ok(! $empty->is_valid(), 'empty upstream version is invalid');
 $empty = Dpkg::Version->new('0:-0');
 ok($empty eq '0:-0', "Dpkg::Version->new('0:-0') eq '0:-0'");
 ok($empty->as_string() eq '0:-0', "Dpkg::Version->new('0:-0')->as_string() eq '0:-0'");
-ok(!$empty->is_valid(), 'empty upstream version with epoch is invalid');
+ok(! $empty->is_valid(), 'empty upstream version with epoch is invalid');
 $empty = Dpkg::Version->new(':1.0');
 ok($empty eq ':1.0', "Dpkg::Version->new(':1.0') eq ':1.0'");
 ok($empty->as_string() eq ':1.0', "Dpkg::Version->new(':1.0')->as_string() eq ':1.0'");
-ok(!$empty->is_valid(), 'empty epoch is invalid');
+ok(! $empty->is_valid(), 'empty epoch is invalid');
 $empty = Dpkg::Version->new('1.0-');
 ok($empty eq '1.0-', "Dpkg::Version->new('1.0-') eq '1.0-'");
 ok($empty->as_string() eq '1.0-', "Dpkg::Version->new('1.0-')->as_string() eq '1.0-'");
-ok(!$empty->is_valid(), 'empty revision is invalid');
+ok(! $empty->is_valid(), 'empty revision is invalid');
 my $ver = Dpkg::Version->new('10a:5.2');
-ok(!$ver->is_valid(), 'bad epoch is invalid');
-ok(!$ver, 'bool eval of invalid leads to false');
+ok(! $ver->is_valid(), 'bad epoch is invalid');
+ok(! $ver, 'bool eval of invalid leads to false');
 ok($ver eq '10a:5.2', 'invalid still same string 1/2');
 $ver = Dpkg::Version->new('5.2@3-2');
 ok($ver eq '5.2@3-2', 'invalid still same string 2/2');
-ok(!$ver->is_valid(), 'illegal character is invalid');
+ok(! $ver->is_valid(), 'illegal character is invalid');
 $ver = Dpkg::Version->new('foo5.2');
-ok(!$ver->is_valid(), 'version does not start with digit 1/2');
+ok(! $ver->is_valid(), 'version does not start with digit 1/2');
 $ver = Dpkg::Version->new('0:foo5.2');
-ok(!$ver->is_valid(), 'version does not start with digit 2/2');
+ok(! $ver->is_valid(), 'version does not start with digit 2/2');
 
 # Native and non-native versions
 $ver = Dpkg::Version->new('1.0');
@@ -130,9 +130,9 @@ ok($ver->__is_native(), 'upstream version w/ epoch is native');
 $ver = Dpkg::Version->new('1:1.0:1.0');
 ok($ver->__is_native(), 'upstream version w/ epoch and colon is native');
 $ver = Dpkg::Version->new('1.0-1');
-ok(!$ver->__is_native(), 'upstream version w/ revision is not native');
+ok(! $ver->__is_native(), 'upstream version w/ revision is not native');
 $ver = Dpkg::Version->new('1.0-1.0-1');
-ok(!$ver->__is_native(), 'upstream version w/ dash and revision is not native');
+ok(! $ver->__is_native(), 'upstream version w/ dash and revision is not native');
 
 # Comparisons
 foreach my $case (@tests) {
@@ -157,13 +157,13 @@ foreach my $case (@tests) {
                 ok(dpkg_vercmp($a, $op, $b), "dpkg --compare-versions -- $a $op $b => true");
             }
         } else {
-            ok(!version_compare_relation($a, $norm_op, $b), "$a $op $b => false");
-            ok(!obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => false");
+            ok(! version_compare_relation($a, $norm_op, $b), "$a $op $b => false");
+            ok(! obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => false");
 
             SKIP: {
                 skip 'dpkg not available', 1 if not $have_dpkg;
 
-                ok(!dpkg_vercmp($a, $op, $b), "dpkg --compare-versions -- $a $op $b => false");
+                ok(! dpkg_vercmp($a, $op, $b), "dpkg --compare-versions -- $a $op $b => false");
             }
         }
     }

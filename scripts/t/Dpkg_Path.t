@@ -52,7 +52,7 @@ is(resolve_symlink("$tmpdir/here/cbis"), "$tmpdir/here/a/b/c", 'resolve_symlink'
 is(resolve_symlink("$tmpdir/tmp"), '/this/does/not/exist', 'resolve_symlink absolute');
 is(resolve_symlink("$tmpdir/here"), $tmpdir, 'resolve_symlink .');
 
-ok(!check_files_are_the_same("$tmpdir/here", $tmpdir), 'Symlink is not the same!');
+ok(! check_files_are_the_same("$tmpdir/here", $tmpdir), 'Symlink is not the same!');
 ok(check_files_are_the_same("$tmpdir/here/a", "$tmpdir/a"), 'Same directory');
 
 sub gen_hier_travbase {

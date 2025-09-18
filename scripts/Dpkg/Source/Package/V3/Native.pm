@@ -71,7 +71,7 @@ sub do_extract {
     error(g_('no tarfile in Files field')) unless $tarfile;
 
     my $v = Dpkg::Version->new($fields->{'Version'});
-    if (!$v->__is_native()) {
+    if (! $v->__is_native()) {
         warning(g_('native package version may not have a revision'));
     }
 
@@ -92,7 +92,7 @@ sub can_build {
     my ($self, $dir) = @_;
 
     my $v = Dpkg::Version->new($self->{fields}->{'Version'});
-    if (!$v->__is_native()) {
+    if (! $v->__is_native()) {
         if (run_vendor_hook('has-fuzzy-native-source')) {
             warning(g_('native package version may not have a revision'));
         } else {

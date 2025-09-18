@@ -213,7 +213,7 @@ sub parse {
 
     binmode($fh);
     while (<$fh>) {
-        next if m/^\s*\#/ || !m/\S/;
+        next if m/^\s*\#/ || ! m/\S/;
         s/\s*\n$//;
         if (! m/^(\w[-:0-9A-Za-z]*)([?!])?\=(.*)$/) {
             error(g_('bad line in substvars file %s at line %d'),

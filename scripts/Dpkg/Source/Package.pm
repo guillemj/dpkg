@@ -402,7 +402,7 @@ sub get_basename {
     my $v = Dpkg::Version->new($f->{'Version'});
     my $vs = $v->as_string(
         omit_epoch => 1,
-        omit_revision => !$with_revision,
+        omit_revision => ! $with_revision,
     );
     return $f->{'Source'} . '_' . $vs;
 }

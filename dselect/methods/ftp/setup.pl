@@ -126,7 +126,7 @@ sub download {
         foreach my $dist (@dists) {
             my $dir = "$dist/binary-$arch";
             print "Checking $dir...\n";
-#           if (!$ftp->pasv()) {
+#           if (! $ftp->pasv()) {
 #               print $ftp->message . "\n";
 #               die 'error';
 #           }
@@ -134,11 +134,11 @@ sub download {
             my $got_pkgfile = 0;
 
             foreach my $line (@dirlst) {
-                if($line =~ /Packages/) {
+                if ($line =~ /Packages/) {
                     $got_pkgfile = 1;
                 }
             }
-            if( !$got_pkgfile) {
+            if (! $got_pkgfile) {
                 print "warning: could not find a Packages file in $dir\n",
                       "This may not be a problem if the directory is a symbolic link\n";
                 $problem = 1;
@@ -157,7 +157,7 @@ eval {
     };
     download();
 };
-if($@) {
+if ($@) {
     $ftp->quit();
     print 'FTP ERROR - ';
     if ($@ eq 'connect') {
@@ -173,7 +173,7 @@ $CONFIG{done} = 1;
 store_config("$methdir/vars");
 chmod 0o600, "$methdir/vars";
 
-if($exit || $problem) {
+if ($exit || $problem) {
     print "Press <enter> to continue\n";
     <STDIN>;
 }

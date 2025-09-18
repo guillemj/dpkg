@@ -366,7 +366,7 @@ sub find_matching_pattern {
 
     my $pattern_ok = sub {
         my $p = shift;
-        return defined $p && ($inc_deprecated || !$p->{deprecated}) &&
+        return defined $p && ($inc_deprecated || ! $p->{deprecated}) &&
                $p->arch_is_concerned($self->get_arch());
     };
 
@@ -606,7 +606,7 @@ sub lookup_pattern {
                     }
                 } elsif ($refpat->get_pattern_type() eq 'generic') {
                     for my $p (@{$obj->{patterns}{generic}}) {
-                        if (($inc_deprecated || !$p->{deprecated}) &&
+                        if (($inc_deprecated || ! $p->{deprecated}) &&
                             $p->equals($refpat, versioning => 0))
                         {
                             $pat = $p;
@@ -614,7 +614,7 @@ sub lookup_pattern {
                         }
                     }
                 }
-                if ($pat && ($inc_deprecated || !$pat->{deprecated})) {
+                if ($pat && ($inc_deprecated || ! $pat->{deprecated})) {
                     if (wantarray) {
                         return (
                             symbol => $pat,

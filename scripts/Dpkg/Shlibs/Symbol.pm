@@ -120,7 +120,7 @@ sub parse_symbolspec {
             $symbol = $1;
             $rest = $2;
         }
-        error(g_('symbol name unspecified: %s'), $symbolspec) if (!$symbol);
+        error(g_('symbol name unspecified: %s'), $symbolspec) if (! $symbol);
     } elsif ($symbolspec =~ m/^(\S+)(.*)$/) {
         # foobarsymbol@Base 1.0 1
         # No tag specification. Symbol name is up to the first space.
@@ -213,10 +213,10 @@ sub set_symbolname {
     my ($self, $name, $templ, $quoted) = @_;
 
     $name //= $self->{symbol};
-    if (!defined $templ && $name =~ /\s/) {
+    if (! defined $templ && $name =~ /\s/) {
         $templ = $name;
     }
-    if (!defined $quoted && defined $templ && $templ =~ /\s/) {
+    if (! defined $quoted && defined $templ && $templ =~ /\s/) {
         $quoted = '"';
     }
     $self->{symbol} = $name;
@@ -312,7 +312,7 @@ sub arch_is_concerned {
     my $arches = $self->{tags}{arch};
 
     return 0 if defined $arch && defined $arches &&
-                !debarch_is_concerned($arch, split /[\s,]+/, $arches);
+                ! debarch_is_concerned($arch, split /[\s,]+/, $arches);
 
     my ($bits, $endian) = debarch_to_abiattrs($arch);
     return 0 if defined $bits && defined $self->{tags}{'arch-bits'} &&

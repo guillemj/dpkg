@@ -425,9 +425,9 @@ if ($action eq 'list') {
         }
     }
 } elsif ($action eq 'equal') {
-    exit !debarch_eq($v{DEB_HOST_ARCH}, $req_eq_arch);
+    exit ! debarch_eq($v{DEB_HOST_ARCH}, $req_eq_arch);
 } elsif ($action eq 'is') {
-    exit !debarch_is($v{DEB_HOST_ARCH}, $req_is_arch);
+    exit ! debarch_is($v{DEB_HOST_ARCH}, $req_is_arch);
 } elsif ($action eq 'command') {
     @ENV{keys %v} = values %v;
     ## no critic (TestingAndDebugging::ProhibitNoWarnings)

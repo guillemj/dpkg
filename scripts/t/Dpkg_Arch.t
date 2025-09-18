@@ -109,21 +109,21 @@ is(debarch_to_multiarch('i386'), 'i386-linux-gnu',
 is(debarch_to_multiarch('amd64'), 'x86_64-linux-gnu',
     'normalized amd64 multiarch triplet');
 
-ok(!debarch_eq('amd64', 'i386'), 'no match, simple arch');
-ok(!debarch_eq('', 'amd64'), 'no match, empty first arch');
-ok(!debarch_eq('amd64', ''), 'no match, empty second arch');
-ok(!debarch_eq('amd64', 'unknown'), 'no match, with first unknown arch');
-ok(!debarch_eq('unknown', 'i386'), 'no match, second unknown arch');
+ok(! debarch_eq('amd64', 'i386'), 'no match, simple arch');
+ok(! debarch_eq('', 'amd64'), 'no match, empty first arch');
+ok(! debarch_eq('amd64', ''), 'no match, empty second arch');
+ok(! debarch_eq('amd64', 'unknown'), 'no match, with first unknown arch');
+ok(! debarch_eq('unknown', 'i386'), 'no match, second unknown arch');
 ok(debarch_eq('unknown', 'unknown'), 'match equal unknown arch');
 ok(debarch_eq('amd64', 'amd64'), 'match equal known arch');
 ok(debarch_eq('amd64', 'linux-amd64'), 'match implicit linux arch');
 
-ok(!debarch_is('unknown', 'linux-any'), 'no match unknown on wildcard cpu');
-ok(!debarch_is('unknown', 'any-amd64'), 'no match unknown on wildcard os');
-ok(!debarch_is('amd64', 'unknown'), 'no match amd64 on unknown wildcard');
-ok(!debarch_is('amd64', 'unknown-any'), 'no match amd64 on unknown wildcard');
-ok(!debarch_is('amd64', 'any-unknown'), 'no match amd64 on unknown wildcard');
-ok(!debarch_is('amd64', 'linux-anyway'), 'no match amd64 on partial wildcard');
+ok(! debarch_is('unknown', 'linux-any'), 'no match unknown on wildcard cpu');
+ok(! debarch_is('unknown', 'any-amd64'), 'no match unknown on wildcard os');
+ok(! debarch_is('amd64', 'unknown'), 'no match amd64 on unknown wildcard');
+ok(! debarch_is('amd64', 'unknown-any'), 'no match amd64 on unknown wildcard');
+ok(! debarch_is('amd64', 'any-unknown'), 'no match amd64 on unknown wildcard');
+ok(! debarch_is('amd64', 'linux-anyway'), 'no match amd64 on partial wildcard');
 ok(debarch_is('unknown', 'any'), 'match unknown on global wildcard');
 ok(debarch_is('linux-amd64', 'linux-any'), 'match implicit linux-amd64 on wildcard cpu');
 ok(debarch_is('linux-amd64', 'any-amd64'), 'match implicit linux-amd64 on wildcard os');
@@ -138,16 +138,16 @@ foreach my $wildcard (sort keys %{$wildcards}) {
     }
 }
 
-ok(!debarch_is_wildcard('unknown'), 'unknown is not a wildcard');
-ok(!debarch_is_wildcard('all'), 'all is not a wildcard');
-ok(!debarch_is_wildcard('amd64'), '<arch> is not a wildcard');
-ok(!debarch_is_wildcard('anyway'), 'anyway is not a wildcard');
-ok(!debarch_is_wildcard('foo-anyway-bar'), 'foo-anyway-bar is not a wildcard');
+ok(! debarch_is_wildcard('unknown'), 'unknown is not a wildcard');
+ok(! debarch_is_wildcard('all'), 'all is not a wildcard');
+ok(! debarch_is_wildcard('amd64'), '<arch> is not a wildcard');
+ok(! debarch_is_wildcard('anyway'), 'anyway is not a wildcard');
+ok(! debarch_is_wildcard('foo-anyway-bar'), 'foo-anyway-bar is not a wildcard');
 
-ok(!debarch_is_illegal('0'), '');
-ok(!debarch_is_illegal('a'), '');
-ok(!debarch_is_illegal('amd64'), '');
-ok(!debarch_is_illegal('!arm64'), '');
+ok(! debarch_is_illegal('0'), '');
+ok(! debarch_is_illegal('a'), '');
+ok(! debarch_is_illegal('amd64'), '');
+ok(! debarch_is_illegal('!arm64'), '');
 ok(debarch_is_illegal('!amd64!arm'), '');
 ok(debarch_is_illegal('arch%name'), '');
 ok(debarch_is_illegal('-any'), '');

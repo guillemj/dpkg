@@ -328,7 +328,7 @@ sub extract_member {
 
     $self->_copy_fh_fh({ fh => $self->{fh}, name => $self->{filename} },
                        { fh => $ofh, name => $member->{name} },
-                      $member->{size});
+                       $member->{size});
 
     $ofh->close()
         or syserr(g_('cannot write file %s to the filesystem'),

@@ -93,16 +93,16 @@ is_deeply(\@librarypaths, [ qw(
 my $obj;
 
 $obj = load_objdump_obj('dbd-pg');
-ok(!$obj->is_public_library(), 'Pg.so is not a public library');
-ok(!$obj->is_executable(), 'Pg.so is not an executable');
+ok(! $obj->is_public_library(), 'Pg.so is not a public library');
+ok(! $obj->is_executable(), 'Pg.so is not an executable');
 
 $obj = load_objdump_obj('ls');
-ok(!$obj->is_public_library(), 'ls is not a public library');
+ok(! $obj->is_public_library(), 'ls is not a public library');
 ok($obj->is_executable(), 'ls is an executable');
 
 my $sym = $obj->get_symbol('optarg@GLIBC_2.0');
 ok($sym, 'optarg@GLIBC_2.0 exists');
-ok(!$sym->{defined}, 'R_*_COPY relocations are taken into account');
+ok(! $sym->{defined}, 'R_*_COPY relocations are taken into account');
 
 # Non-regression test for #506139
 $obj = load_objdump_obj('space');
@@ -516,7 +516,7 @@ is($io_data,
 # without versions and with visibility attribute)
 $obj = load_objdump_obj('glib-ia64');
 ok($obj->is_public_library(), 'glib-ia64 is a public library');
-ok(!$obj->is_executable(), 'glib-ia64 is not an executable');
+ok(! $obj->is_executable(), 'glib-ia64 is not an executable');
 
 $sym = $obj->get_symbol('IA__g_free');
 is_deeply($sym,
@@ -1051,7 +1051,7 @@ $sym_file->merge_symbols($obj, '100.MISSING');
 $pat = $sym_file->lookup_pattern($sym, 'libpatterns.so.1');
 @tmp = map { $_->{symbol}->get_symbolname() } $sym_file->get_lost_symbols($sym_file_dup);
 is_deeply(\@tmp, [], 'no LOST symbols when got rid of patterned optional symbol.');
-ok(!$pat->{deprecated}, 'there are still matches, pattern is not deprecated.');
+ok(! $pat->{deprecated}, 'there are still matches, pattern is not deprecated.');
 
 # Get rid of all private symbols, the pattern should be deprecated.
 foreach my $tmp (@private_symnames) {
@@ -1112,7 +1112,7 @@ is($pat->{minver}, '100.FOUND',
 is_deeply(\@tmp, [ $pat->get_symbolspec(1) ],
     'Previously deprecated pattern with matches is NEW. Matches themselves are not NEW.');
 foreach my $sym ($pat->get_pattern_matches()) {
-    ok(!$sym->{deprecated}, $sym->get_symbolname() . ': not deprecated');
+    ok(! $sym->{deprecated}, $sym->get_symbolname() . ': not deprecated');
     is($sym->{minver}, '100.FOUND', $sym->get_symbolname() . ': version bumped');
 }
 

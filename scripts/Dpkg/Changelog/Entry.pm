@@ -174,8 +174,8 @@ parts.
 
 sub is_empty {
     my $self = shift;
-    return !(defined($self->{header}) || defined($self->{trailer}) ||
-             scalar(@{$self->{changes}}));
+    return ! (defined($self->{header}) || defined($self->{trailer}) ||
+              scalar(@{$self->{changes}}));
 }
 
 =item $entry->normalize()

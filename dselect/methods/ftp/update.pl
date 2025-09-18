@@ -37,7 +37,7 @@ my $option = $ARGV[2];
 
 if ($option eq 'manual') {
     print "Enter package file names or a blank line to finish\n";
-    while(1) {
+    while (1) {
         print 'Enter package file name:';
         my $fn = <STDIN>;
         chomp $fn;
@@ -124,7 +124,7 @@ sub download {
             } else {
                 # else check last modification date
                 my @pack_stat = stat($file);
-                if($newest_pack_date > $pack_stat[9]) {
+                if ($newest_pack_date > $pack_stat[9]) {
 #                   print "Packages has changed; must get it.\n";
                     $must_get = 1;
                 } elsif ($newest_pack_date < $pack_stat[9]) {
@@ -188,7 +188,7 @@ sub download {
                     last TRY_GET_PACKAGES;
                 }
 
-                if (!rename 'Packages', "Packages.$site->[0].$dist") {
+                if (! rename 'Packages', "Packages.$site->[0].$dist") {
                     print "  Couldn't rename Packages to Packages.$site->[0].$dist";
                     die 'error';
                 } else {
@@ -210,9 +210,9 @@ eval {
     };
     download();
 };
-if($@) {
+if ($@) {
     $ftp->quit() if (ref($ftp));
-    if($@ =~ /timeout/i) {
+    if ($@ =~ /timeout/i) {
         print "FTP TIMEOUT\n";
     } else {
         print "FTP ERROR - $@\n";
@@ -238,7 +238,7 @@ EOM
     }
 }
 
-if (!$packages_modified) {
+if (! $packages_modified) {
     print "No Packages files was updated.\n";
 } else {
     foreach my $file (@pkgfiles) {

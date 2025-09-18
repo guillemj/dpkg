@@ -214,7 +214,7 @@ sub get_raw_host_arch
         set_host_gnu_type($host_gnu_type);
     }
 
-    if (!defined($host_arch)) {
+    if (! defined($host_arch)) {
         # Switch to native compilation.
         $host_arch = get_raw_build_arch();
     }
@@ -377,7 +377,7 @@ sub gnutriplet_to_debtuple
         }
     }
 
-    return if !defined($cpu) || !defined($os);
+    return if ! defined($cpu) || ! defined($os);
     return (split(/-/, $os, 3), $cpu);
 }
 
@@ -418,7 +418,7 @@ sub debtuple_to_debarch
 
     _load_tupletable();
 
-    if (!defined $abi || !defined $libc || !defined $os || !defined $cpu) {
+    if (! defined $abi || ! defined $libc || ! defined $os || ! defined $cpu) {
         return;
     } elsif (exists $debtuple_to_debarch{"$abi-$libc-$os-$cpu"}) {
         return $debtuple_to_debarch{"$abi-$libc-$os-$cpu"};

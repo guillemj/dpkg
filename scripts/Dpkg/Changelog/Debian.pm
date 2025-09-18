@@ -216,7 +216,7 @@ sub parse {
             $entry->extend_part('changes', [ @blanklines, $_ ]);
             @blanklines = ();
             $expect = CHANGES_OR_TRAILER;
-        } elsif (!m/\S/) {
+        } elsif (! m/\S/) {
             if ($expect eq START_CHANGES) {
                 $entry->extend_part('blank_after_header', $_);
                 next;

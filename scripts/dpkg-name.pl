@@ -144,11 +144,11 @@ sub getdir
     my ($filename, $fields, $arch) = @_;
     my $dir;
 
-    if (!$options{destdir}) {
+    if (! $options{destdir}) {
         $dir = dirname($filename);
         if ($options{subdir}) {
             my $section = $fields->{Section};
-            if (!$section) {
+            if (! $section) {
                 $section = 'no-section';
                 warning(g_("assuming section '%s' for '%s'"), $section,
                         $filename);

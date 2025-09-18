@@ -479,7 +479,7 @@ is(field_get_default_value('Priority'), 'optional',
 
 is(field_capitalize('invented-field'), 'Invented-Field',
     'Field Invented-Field capitalization');
-ok(!field_is_official('invented-field'),
+ok(! field_is_official('invented-field'),
     'Field Invented-Field is not official');
 
 my %known_fields;
@@ -512,7 +512,7 @@ foreach my $type (sort keys %fields) {
             ok(field_is_allowed_in($field, $type),
                "Field $field allowed for type $fields{$type}->{name}");
         } else {
-            ok(!field_is_allowed_in($field, $type),
+            ok(! field_is_allowed_in($field, $type),
                "Field $field not allowed for type $fields{$type}->{name}");
         }
     }

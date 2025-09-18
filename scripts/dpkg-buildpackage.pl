@@ -312,7 +312,7 @@ while (@ARGV) {
     } elsif (/^(?:-k|--sign-keyid=|--sign-key=)(.*)$/) {
         $signkeyid = $1;
     } elsif (/^--(no-)?check-builddeps$/) {
-        $checkbuilddep = !(defined $1 and $1 eq 'no-');
+        $checkbuilddep = ! (defined $1 and $1 eq 'no-');
     } elsif (/^-([dD])$/) {
         $checkbuilddep = ($1 eq 'D');
     } elsif (/^--ignore-builtin-builddeps$/) {

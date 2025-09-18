@@ -120,7 +120,7 @@ sub procstatus {
     open(my $status_fh, '<', "$vardir/status") or
         die 'Could not open status file';
     while (%flds = get_stanza($status_fh), %flds) {
-        if($flds{'status'} =~ /^install ok/) {
+        if ($flds{'status'} =~ /^install ok/) {
             my $cs = (split(/ /, $flds{'status'}))[2];
             if (($cs eq 'not-installed') ||
                 ($cs eq 'half-installed') ||
@@ -160,7 +160,7 @@ sub procpkgfile {
             $curpkgs{$pkg} = $flds{'version'};
         }
         $nfs = scalar(@files);
-        if(($nfs != scalar(@sizes)) || ($nfs != scalar(@md5sums)) ) {
+        if (($nfs != scalar(@sizes)) || ($nfs != scalar(@md5sums)) ) {
             print "Different number of filenames, sizes and md5sums for $flds{'package'}\n";
         } else {
             my $i = 0;
@@ -218,14 +218,14 @@ foreach my $pkg (keys(%pkgs)) {
             rename "$dldir/$fn.partial", "$dldir/$fn";
         }
         $dir = dirname($fn);
-        if(! -d "$dldir/$dir") {
+        if (! -d "$dldir/$dir") {
             make_path("$dldir/$dir", { mode => 0o755 });
         }
         @info = @{$pkgfiles{$fn}};
         $csize = int($info[1]/1024)+1;
-        if(-f "$dldir/$fn") {
+        if (-f "$dldir/$fn") {
             $size = -s "$dldir/$fn";
-            if($info[1] > $size) {
+            if ($info[1] > $size) {
                 # partial download
                 if (yesno('y', "continue file: $fn (" . nb($size) . '/' .
                                nb($info[1]) . ')')) {
@@ -267,10 +267,10 @@ print "Available space in $dldir: ${avsp}k\n";
 #$avsp = qx(df -k $::dldir| paste -s | awk '{ print \$11});
 #chomp $avsp;
 
-if($totsize == 0) {
+if ($totsize == 0) {
     print 'Nothing to get.';
 } else {
-    if($totsize > $avsp) {
+    if ($totsize > $avsp) {
         print "Space required is greater than available space,\n";
         print "you will need to select which items to get.\n";
     }
@@ -350,10 +350,10 @@ sub download {
                 print "getting: $pre$fn (". nb($pkgfiles{$fn}[1]) . ")\n";
             }
             $res = $ftp->get("$pre$fn", "$dldir/$fn", $downloads{$fn});
-            if(! $res) {
+            if (! $res) {
                 my $r = $ftp->code();
                 print $ftp->message() . "\n";
-                if (!($r == 550 || $r == 450)) {
+                if (! ($r == 550 || $r == 450)) {
                     return 1;
                 } else {
                     #Try to find another file or this package
@@ -386,7 +386,7 @@ sub download {
 }
 
 # download stuff (protect from Ctrl+C)
-if($totsize != 0) {
+if ($totsize != 0) {
     if (yesno('y', "\nDo you want to download the required files")) {
         DOWNLOAD_TRY: while (1) {
             print "Downloading files... (use Ctrl+C to stop)\n";
@@ -396,7 +396,7 @@ if($totsize != 0) {
                     next DOWNLOAD_TRY;
                 }
             };
-            if($@ =~ /Interrupted|Timeout/i ) {
+            if ($@ =~ /Interrupted|Timeout/i ) {
                 # close the FTP connection if needed
                 if ((ref($ftp) =~ /Net::FTP/) and ($@ =~ /Interrupted/i)) {
                     $ftp->abort();
@@ -445,9 +445,9 @@ my %files; # package-version => files...
 sub chkdeb {
     my ($fn) = @_;
     # check to see if it is a .deb file
-    if (!system "dpkg-deb --info $fn >/dev/null 2>&1 && dpkg-deb --contents $fn >/dev/null 2>&1") {
+    if (! system "dpkg-deb --info $fn >/dev/null 2>&1 && dpkg-deb --contents $fn >/dev/null 2>&1") {
         return 1;
-    } elsif (!system "dpkg-split --info $fn >/dev/null 2>&1") {
+    } elsif (! system "dpkg-split --info $fn >/dev/null 2>&1") {
         return 2;
     }
     return 0;
@@ -456,7 +456,7 @@ sub getdebinfo {
     my ($fn) = @_;
     my $type = chkdeb($fn);
     my ($pkg, $ver);
-    if($type == 1) {
+    if ($type == 1) {
         open(my $pkgfile_fh, '-|', "dpkg-deb --field $fn")
             or die "cannot create pipe for 'dpkg-deb --field $fn'";
         my %fields = get_stanza($pkgfile_fh);
@@ -486,11 +486,11 @@ sub getdebinfo {
 sub prcdeb {
     my ($dir, $fn) = @_;
     my ($pkg, $ver) = getdebinfo($fn);
-    if(!defined($pkg) || !defined($ver)) {
+    if (! defined($pkg) || ! defined($ver)) {
         print "could not get package info from file\n";
         return 0;
     }
-    if($vers{$pkg}) {
+    if ($vers{$pkg}) {
         my $ver_rel = version_compare($vers{$pkg}, $ver);
         if ($ver_rel == 0) {
             $files{$pkg . $ver} = [ $files{$pkg . $ver }, "$dir/$fn" ];
@@ -519,26 +519,25 @@ sub prcfile {
             $dir = substr($File::Find::dir, length($dldir)+1);
         }
         print "$dir/$fn\n";
-        if(defined($pkgfiles{"$dir/$fn"})) {
+        if (defined($pkgfiles{"$dir/$fn"})) {
             my @info = @{$pkgfiles{"$dir/$fn"}};
             my $size = -s $fn;
-            if($size == 0) {
+            if ($size == 0) {
                 print "zero length file\n";
                 unlink $fn;
-            } elsif($size < $info[1]) {
+            } elsif ($size < $info[1]) {
                 print "partial file\n";
                 rename $fn, "$fn.partial";
-            } elsif(( (exists $md5sums{"$dldir/$fn"})
-                      and ($md5sums{"$dldir/$fn"} ne $info[0]) )
-                     or
-                    (md5sum($fn) ne $info[0])) {
+            } elsif (((exists $md5sums{"$dldir/$fn"}) and
+                      ($md5sums{"$dldir/$fn"} ne $info[0])) or
+                     (md5sum($fn) ne $info[0])) {
                 print "corrupt file\n";
                 unlink $fn;
             } else {
                 prcdeb($dir, $fn);
             }
-        } elsif($fn =~ /.deb$/) {
-            if(chkdeb($fn)) {
+        } elsif ($fn =~ /.deb$/) {
+            if (chkdeb($fn)) {
                 prcdeb($dir, $fn);
             } else {
                 print "corrupt file\n";
@@ -572,7 +571,7 @@ if (yesno('y', "\nDo you want to install the files fetched")) {
     }
     #Installing other packages after
     $r = system('dpkg', '-iGREOB', $dldir);
-    if($r) {
+    if ($r) {
         print "DPKG ERROR\n";
         $exit = 1;
     }
@@ -585,9 +584,9 @@ sub removeinstalled {
         if (length($File::Find::dir) > length($dldir)) {
             $dir = substr($File::Find::dir, length($dldir)+1);
         }
-        if($fn =~ /.deb$/) {
+        if ($fn =~ /.deb$/) {
             my($pkg, $ver) = getdebinfo($fn);
-            if(!defined($pkg) || !defined($ver)) {
+            if (! defined($pkg) || ! defined($ver)) {
                 print "Could not get info for: $dir/$fn\n";
             } elsif ($curpkgs{$pkg} &&
                      version_compare($ver, $curpkgs{$pkg}) <= 0) {

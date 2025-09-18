@@ -355,7 +355,7 @@ if ($binarypackage ne $sourcepackage || $verdiff) {
     $fields->{'Source'} .= ' (' . $sourceversion . ')' if $verdiff;
 }
 
-if (!defined($substvars->get('Installed-Size'))) {
+if (! defined($substvars->get('Installed-Size'))) {
     my $installed_size = 0;
     my %hardlink;
     my $scan_installed_size = sub {

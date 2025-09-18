@@ -253,7 +253,7 @@ sub check_link {
 sub check_no_link {
     my ($link, $msg) = @_;
     lstat($link);
-    ok(!-e _, "$msg: $link still exists.");
+    ok(! -e _, "$msg: $link still exists.");
     ok(1, 'fake test'); # Same number of tests as check_link
 }
 
@@ -748,8 +748,8 @@ $choices[0]{slaves}[0]{path} = $old_path;
 cleanup();
 system("touch $main_link $bindir/slave1");
 install_choice(0);
-ok(!-l $main_link, 'install preserves files that should be links');
-ok(!-l "$bindir/slave1", 'install preserves files that should be slave links');
+ok(! -l $main_link, 'install preserves files that should be links');
+ok(! -l "$bindir/slave1", 'install preserves files that should be slave links');
 remove_choice(0);
 ok(-f $main_link, 'removal keeps real file installed as master link');
 ok(-f "$bindir/slave1", 'removal keeps real files installed as slave links');
@@ -761,22 +761,22 @@ cleanup();
 system("touch $main_link $bindir/slave2");
 install_choice(0);
 install_choice(1);
-ok(!-l $main_link, 'inactive install preserves files that should be links');
-ok(!-l "$bindir/slave2", 'inactive install preserves files that should be slave links');
+ok(! -l $main_link, 'inactive install preserves files that should be links');
+ok(! -l "$bindir/slave2", 'inactive install preserves files that should be slave links');
 ok(-f $main_link, 'inactive install keeps real file installed as master link');
 ok(-f "$bindir/slave2", 'inactive install keeps real files installed as slave links');
 set_choice(1);
-ok(!-l $main_link, 'manual switching preserves files that should be links');
-ok(!-l "$bindir/slave2", 'manual switching preserves files that should be slave links');
+ok(! -l $main_link, 'manual switching preserves files that should be links');
+ok(! -l "$bindir/slave2", 'manual switching preserves files that should be slave links');
 ok(-f $main_link, 'manual switching keeps real file installed as master link');
 ok(-f "$bindir/slave2", 'manual switching keeps real files installed as slave links');
 remove_choice(1);
-ok(!-l $main_link, 'auto switching preserves files that should be links');
-ok(!-l "$bindir/slave2", 'auto switching preserves files that should be slave links');
+ok(! -l $main_link, 'auto switching preserves files that should be links');
+ok(! -l "$bindir/slave2", 'auto switching preserves files that should be slave links');
 ok(-f $main_link, 'auto switching keeps real file installed as master link');
 ok(-f "$bindir/slave2", 'auto switching keeps real files installed as slave links');
 remove_all_choices(params => [ '--force' ]);
-ok(!-e "$bindir/slave2", 'forced removeall drops real files installed as slave links');
+ok(! -e "$bindir/slave2", 'forced removeall drops real files installed as slave links');
 
 # test management of pre-existing files #3
 cleanup();
@@ -784,17 +784,17 @@ system("touch $main_link $bindir/slave2");
 install_choice(0);
 install_choice(1);
 remove_choice(0);
-ok(!-l $main_link, 'removal + switching preserves files that should be links');
-ok(!-l "$bindir/slave2", 'removal + switching preserves files that should be slave links');
+ok(! -l $main_link, 'removal + switching preserves files that should be links');
+ok(! -l "$bindir/slave2", 'removal + switching preserves files that should be slave links');
 ok(-f $main_link, 'removal + switching keeps real file installed as master link');
 ok(-f "$bindir/slave2", 'removal + switching keeps real files installed as slave links');
 install_choice(0);
-ok(!-l $main_link, 'install + switching preserves files that should be links');
-ok(!-l "$bindir/slave2", 'install + switching preserves files that should be slave links');
+ok(! -l $main_link, 'install + switching preserves files that should be links');
+ok(! -l "$bindir/slave2", 'install + switching preserves files that should be slave links');
 ok(-f $main_link, 'install + switching keeps real file installed as master link');
 ok(-f "$bindir/slave2", 'install + switching keeps real files installed as slave links');
 set_choice(1, params => [ '--force' ]);
-ok(!-e "$bindir/slave2", 'forced switching w/o slave drops real files installed as slave links');
+ok(! -e "$bindir/slave2", 'forced switching w/o slave drops real files installed as slave links');
 check_choice(1, 'manual', 'set --force replaces files with links');
 
 # check disappearence of obsolete slaves (#916799)

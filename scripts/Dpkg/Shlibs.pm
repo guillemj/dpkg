@@ -77,7 +77,7 @@ sub parse_ldso_conf {
         if (/^include\s+(\S.*\S)\s*$/) {
             foreach my $include (glob($1)) {
                 parse_ldso_conf($include) if -e $include
-                    && !$visited{$include};
+                    && ! $visited{$include};
             }
         } elsif (m{^\s*/}) {
             s/^\s+//;

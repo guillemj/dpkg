@@ -65,11 +65,11 @@ sub do_connect {
         $ftp = Net::FTP->new($remotehost,
             Passive => $opts{passive},
         );
-        if(!$ftp || !$ftp->ok) {
+        if (! $ftp || ! $ftp->ok) {
             print "Failed to connect\n";
             $exit = 1;
         }
-        if (!$exit) {
+        if (! $exit) {
 #           $ftp->debug(1);
             if ($opts{useproxy}) {
                 print "Login on $opts{proxyhost}...\n";
@@ -92,16 +92,16 @@ sub do_connect {
                 $exit = 1;
             }
         }
-        if (!$exit) {
+        if (! $exit) {
             print "Setting transfer mode to binary...\n";
             if (! $ftp->binary()) {
                 print $ftp->message . "\n";
                 $exit = 1;
             }
         }
-        if (!$exit) {
+        if (! $exit) {
             print "Cd to '$opts{ftpdir}'...\n";
-            if (!$ftp->cwd($opts{ftpdir})) {
+            if (! $ftp->cwd($opts{ftpdir})) {
                 print $ftp->message . "\n";
                 $exit = 1;
             }
@@ -166,7 +166,7 @@ sub do_mdtm {
         if ($ftp->code() == 502 || # MDTM not implemented
             $ftp->code() == 500) { # command not understood (SUN firewall)
             $has_mdtm = 0;
-        } elsif (!$ftp->ok()) {
+        } elsif (! $ftp->ok()) {
             return;
         }
     #}

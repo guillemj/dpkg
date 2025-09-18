@@ -37,7 +37,7 @@ ok($dbo->has('foonostripbar'), 'has foonostripbar');
 is($dbo->get('foonostripbar'), undef, 'foonostripbar value');
 ok($dbo->has('parallel'), 'has parallel');
 is($dbo->get('parallel'), 3, 'parallel value');
-ok(!$dbo->has('bazNOCHECK'), 'not has bazNOCHECK');
+ok(! $dbo->has('bazNOCHECK'), 'not has bazNOCHECK');
 
 $dbo->reset();
 $dbo->merge('no opt no-strip parallel = 5 nocheck', 'test');

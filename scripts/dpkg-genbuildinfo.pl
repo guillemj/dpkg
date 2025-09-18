@@ -206,7 +206,7 @@ sub collect_installed_builddeps {
         my $pkg;
         my $qualified_pkg_name;
         foreach my $installed_pkg (@{$facts->{pkg}->{$pkg_name}}) {
-            if (!defined $required_architecture ||
+            if (! defined $required_architecture ||
                 $required_architecture eq $installed_pkg->{architecture}) {
                 $pkg = $installed_pkg;
                 $qualified_pkg_name = $pkg_name . ':' . $installed_pkg->{architecture};
@@ -218,7 +218,7 @@ sub collect_installed_builddeps {
             my $architecture = $pkg->{architecture};
             my $new_deps_str = defined $depends->{$qualified_pkg_name} ? deps_concat(@{$depends->{$qualified_pkg_name}}) : '';
             my $new_deps = deps_parse($new_deps_str);
-            if (!defined $required_architecture) {
+            if (! defined $required_architecture) {
                 $installed_deps->add(Dpkg::Deps::Simple->new("$pkg_name (= $version)"));
             } else {
                 $installed_deps->add(Dpkg::Deps::Simple->new("$qualified_pkg_name (= $version)"));

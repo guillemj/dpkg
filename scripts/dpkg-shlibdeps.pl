@@ -160,8 +160,8 @@ sub ignore_pkgdir {
 }
 
 if (-d 'debian') {
-    push @pkg_symbols, grep { !ignore_pkgdir($_) } glob 'debian/*/DEBIAN/symbols';
-    push @pkg_shlibs, grep { !ignore_pkgdir($_) } glob 'debian/*/DEBIAN/shlibs';
+    push @pkg_symbols, grep { ! ignore_pkgdir($_) } glob 'debian/*/DEBIAN/symbols';
+    push @pkg_shlibs, grep { ! ignore_pkgdir($_) } glob 'debian/*/DEBIAN/shlibs';
     my %uniq = map { guess_pkg_root_dir($_) => 1 } (@pkg_symbols, @pkg_shlibs);
     push @pkg_root_dirs, keys %uniq;
 }
@@ -639,7 +639,7 @@ foreach my $field (reverse @depfields) {
 $substvars->save($varlistfilenew);
 
 # Replace old file by new one
-if (!$stdout) {
+if (! $stdout) {
     rename $varlistfilenew, $varlistfile
         or syserr(g_("install new varlist file '%s'"), $varlistfile);
 }
@@ -733,7 +733,7 @@ sub update_dependency_version {
             {
                 $dependencies{$cur_field}{$subdep} = $minver;
             }
-        } elsif (!$existing_only) {
+        } elsif (! $existing_only) {
             $dependencies{$cur_field}{$subdep} = $minver;
         }
     }

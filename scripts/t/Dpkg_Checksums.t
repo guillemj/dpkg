@@ -121,7 +121,7 @@ test_checksums($ck);
 
 ok($ck->has_file('data-2'), 'To be removed file is present');
 $ck->remove_file('data-2');
-ok(!$ck->has_file('data-2'), 'Remove file is not present');
+ok(! $ck->has_file('data-2'), 'Remove file is not present');
 
 # Check add_from_control()
 my $ctrl;
