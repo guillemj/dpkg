@@ -70,5 +70,3 @@ while (@ARGV) {
 my $ctrl = Dpkg::Control::Info->new($controlfile);
 
 print get_build_api($ctrl) . "\n";
-
-0;

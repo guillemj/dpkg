@@ -256,5 +256,3 @@ while (@ARGV) {
 foreach my $file (@files) {
     move($file);
 }
-
-0;
