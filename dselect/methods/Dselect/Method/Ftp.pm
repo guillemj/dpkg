@@ -66,11 +66,11 @@ sub do_connect {
             Passive => $opts{passive},
         );
         if(!$ftp || !$ftp->ok) {
-          print "Failed to connect\n";
-          $exit = 1;
+            print "Failed to connect\n";
+            $exit = 1;
         }
         if (!$exit) {
-#    $ftp->debug(1);
+#           $ftp->debug(1);
             if ($opts{useproxy}) {
                 print "Login on $opts{proxyhost}...\n";
                 $ftp->_USER($opts{proxylogname});
@@ -78,14 +78,14 @@ sub do_connect {
             }
             print "Login as $opts{username}...\n";
             if ($opts{password} eq '?') {
-                    print 'Enter password for ftp: ';
-                    system('stty', '-echo');
-                    $rpass = <STDIN>;
-                    chomp $rpass;
-                    print "\n";
-                    system('stty', 'echo');
+                print 'Enter password for ftp: ';
+                system('stty', '-echo');
+                $rpass = <STDIN>;
+                chomp $rpass;
+                print "\n";
+                system('stty', 'echo');
             } else {
-                    $rpass = $opts{password};
+                $rpass = $opts{password};
             }
             if(!$ftp->login($remoteuser, $rpass))
             { print $ftp->message() . "\n"; $exit = 1; }

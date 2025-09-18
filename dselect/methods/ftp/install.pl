@@ -48,8 +48,8 @@ my $method = $ARGV[1];
 my $option = $ARGV[2];
 
 if ($option eq 'manual') {
-  print "manual mode not supported yet\n";
-  exit 1;
+    print "manual mode not supported yet\n";
+    exit 1;
 }
 #print "vardir: $vardir, method: $method, option: $option\n";
 
@@ -65,13 +65,13 @@ make_path("$methdir/$CONFIG{dldir}", { mode => 0o755 });
 #Read md5sums already calculated
 my %md5sums;
 if (-f "$methdir/md5sums") {
-  my $code = file_slurp("$methdir/md5sums");
-  my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
-  my $res = eval $code;
-  if ($@) {
-    die "couldn't eval $methdir/md5sums content: $@\n";
-  }
-  if (ref($res)) { %md5sums = %{$res} }
+    my $code = file_slurp("$methdir/md5sums");
+    my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
+    my $res = eval $code;
+    if ($@) {
+        die "couldn't eval $methdir/md5sums content: $@\n";
+    }
+    if (ref($res)) { %md5sums = %{$res} }
 }
 
 # Get a stanza.
@@ -175,20 +175,20 @@ print "\nProcessing Package files...\n";
 my ($i, $j);
 $i = 0;
 foreach my $site (@{$CONFIG{site}}) {
-  $j = 0;
-  foreach my $dist (@{$site->[2]}) {
-    my $fn = $dist;
-    $fn =~ tr{/}{_};
-    $fn = "Packages.$site->[0].$fn";
-    if (-f $fn) {
-        print " $site->[0] $dist...\n";
-        procpkgfile($fn,$i,$j);
-    } else {
-        print "Could not find packages file for $site->[0] $dist distribution (re-run Update)\n"
+    $j = 0;
+    foreach my $dist (@{$site->[2]}) {
+        my $fn = $dist;
+        $fn =~ tr{/}{_};
+        $fn = "Packages.$site->[0].$fn";
+        if (-f $fn) {
+            print " $site->[0] $dist...\n";
+            procpkgfile($fn,$i,$j);
+        } else {
+            print "Could not find packages file for $site->[0] $dist distribution (re-run Update)\n"
+        }
+        $j++;
     }
-    $j++;
-  }
-  $i++;
+    $i++;
 }
 
 my $dldir = $CONFIG{dldir};
@@ -213,7 +213,7 @@ foreach my $pkg (keys(%pkgs)) {
     foreach my $fn (@files) {
         #Look for a partial file
         if (-f "$dldir/$fn.partial") {
-          rename "$dldir/$fn.partial", "$dldir/$fn";
+            rename "$dldir/$fn.partial", "$dldir/$fn";
         }
         $dir = dirname($fn);
         if(! -d "$dldir/$dir") {
@@ -272,7 +272,7 @@ if($totsize == 0) {
         print "Space required is greater than available space,\n";
         print "you will need to select which items to get.\n";
     }
-# ask user which files to get
+    # ask user which files to get
     if (($totsize > $avsp) ||
         yesno('n', 'Do you want to select the files to get')) {
         $totsize = 0;
@@ -299,131 +299,131 @@ if($totsize == 0) {
 }
 
 sub download {
- my $i = 0;
+    my $i = 0;
 
- foreach my $site (@{$CONFIG{site}}) {
-    my @getfiles = grep { $pkgfiles{$_}[2] == $i } keys %downloads;
-    my @pre_dist = (); # Directory to add before $fn
+    foreach my $site (@{$CONFIG{site}}) {
+        my @getfiles = grep { $pkgfiles{$_}[2] == $i } keys %downloads;
+        my @pre_dist = (); # Directory to add before $fn
 
-    #Scan distributions for looking at "(../)+/dir/dir"
-    my ($n,$cp);
-    $cp = -1;
-    foreach (@{$site->[2]}) {
-      $cp++;
-      $pre_dist[$cp] = '';
-      $n = (s{\.\./}{../}g);
-      next if (! $n);
-      if (m<^((?:\.\./){$n}(?:[^/]+/){$n})>) {
-        $pre_dist[$cp] = $1;
-      }
-    }
-
-    if (! @getfiles) { $i++; next; }
-
-    $ftp = do_connect(
-        ftpsite => $site->[0],
-        ftpdir => $site->[1],
-        passive => $site->[3],
-        username =>  $site->[4],
-        password => $site->[5],
-        useproxy => $CONFIG{use_auth_proxy},
-        proxyhost => $CONFIG{proxyhost},
-        proxylogname => $CONFIG{proxylogname},
-        proxypassword => $CONFIG{proxypassword},
-    );
-
-    local $SIG{INT} = sub { die "Interrupted !\n"; };
-
-    my ($rsize, $res, $pre);
-    foreach my $fn (@getfiles) {
-        $pre = $pre_dist[$pkgfiles{$fn}[3]] || '';
-        if ($downloads{$fn}) {
-            $rsize = ${pkgfiles{$fn}}[1] - $downloads{$fn};
-            print "getting: $pre$fn (" . nb($rsize) . '/' .
-                  nb($pkgfiles{$fn}[1]) . ")\n";
-        } else {
-            print "getting: $pre$fn (". nb($pkgfiles{$fn}[1]) . ")\n";
-        }
-        $res = $ftp->get("$pre$fn", "$dldir/$fn", $downloads{$fn});
-        if(! $res) {
-            my $r = $ftp->code();
-            print $ftp->message() . "\n";
-            if (!($r == 550 || $r == 450)) {
-                return 1;
-            } else {
-              #Try to find another file or this package
-              print "Looking for another version of the package...\n";
-              my ($dir, $package) = ($fn =~ m{^(.*)/([^/]+)_[^/]+.deb$});
-              my $list = $ftp->ls("$pre$dir");
-              if ($ftp->ok() && ref($list)) {
-                foreach my $file (@{$list}) {
-                  if ($file =~ m/($dir\/\Q$package\E_[^\/]+.deb)/i) {
-                    print "Package found : $file\n";
-                    print "getting: $file (size not known)\n";
-                    $res = $ftp->get($file, "$dldir/$1");
-                    if (! $res) {
-                      $r = $ftp->code();
-                      print $ftp->message() . "\n";
-                      return 1 if ($r != 550 and $r != 450);
-                    }
-                  }
-                }
-              }
+        #Scan distributions for looking at "(../)+/dir/dir"
+        my ($n,$cp);
+        $cp = -1;
+        foreach (@{$site->[2]}) {
+            $cp++;
+            $pre_dist[$cp] = '';
+            $n = (s{\.\./}{../}g);
+            next if (! $n);
+            if (m<^((?:\.\./){$n}(?:[^/]+/){$n})>) {
+                $pre_dist[$cp] = $1;
             }
         }
-        # fully got, remove it from list in case we have to re-download
-        delete $downloads{$fn};
+
+        if (! @getfiles) { $i++; next; }
+
+        $ftp = do_connect(
+            ftpsite => $site->[0],
+            ftpdir => $site->[1],
+            passive => $site->[3],
+            username =>  $site->[4],
+            password => $site->[5],
+            useproxy => $CONFIG{use_auth_proxy},
+            proxyhost => $CONFIG{proxyhost},
+            proxylogname => $CONFIG{proxylogname},
+            proxypassword => $CONFIG{proxypassword},
+        );
+
+        local $SIG{INT} = sub { die "Interrupted !\n"; };
+
+        my ($rsize, $res, $pre);
+        foreach my $fn (@getfiles) {
+            $pre = $pre_dist[$pkgfiles{$fn}[3]] || '';
+            if ($downloads{$fn}) {
+                $rsize = ${pkgfiles{$fn}}[1] - $downloads{$fn};
+                print "getting: $pre$fn (" . nb($rsize) . '/' .
+                      nb($pkgfiles{$fn}[1]) . ")\n";
+            } else {
+                print "getting: $pre$fn (". nb($pkgfiles{$fn}[1]) . ")\n";
+            }
+            $res = $ftp->get("$pre$fn", "$dldir/$fn", $downloads{$fn});
+            if(! $res) {
+                my $r = $ftp->code();
+                print $ftp->message() . "\n";
+                if (!($r == 550 || $r == 450)) {
+                    return 1;
+                } else {
+                    #Try to find another file or this package
+                    print "Looking for another version of the package...\n";
+                    my ($dir, $package) = ($fn =~ m{^(.*)/([^/]+)_[^/]+.deb$});
+                    my $list = $ftp->ls("$pre$dir");
+                    if ($ftp->ok() && ref($list)) {
+                        foreach my $file (@{$list}) {
+                            if ($file =~ m/($dir\/\Q$package\E_[^\/]+.deb)/i) {
+                                print "Package found : $file\n";
+                                print "getting: $file (size not known)\n";
+                                $res = $ftp->get($file, "$dldir/$1");
+                                if (! $res) {
+                                    $r = $ftp->code();
+                                    print $ftp->message() . "\n";
+                                    return 1 if ($r != 550 and $r != 450);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            # fully got, remove it from list in case we have to re-download
+            delete $downloads{$fn};
+        }
+        $ftp->quit();
+        $i++;
     }
-    $ftp->quit();
-    $i++;
- }
- return 0;
+    return 0;
 }
 
 # download stuff (protect from Ctrl+C)
 if($totsize != 0) {
     if (yesno('y', "\nDo you want to download the required files")) {
-      DOWNLOAD_TRY: while (1) {
-          print "Downloading files... (use Ctrl+C to stop)\n";
-          eval {
-              if ((download() == 1) &&
-                  yesno('y', "\nDo you want to retry downloading at once")) {
-                  next DOWNLOAD_TRY;
-              }
-          };
-          if($@ =~ /Interrupted|Timeout/i ) {
-              # close the FTP connection if needed
-              if ((ref($ftp) =~ /Net::FTP/) and ($@ =~ /Interrupted/i)) {
-                $ftp->abort();
-                $ftp->quit();
-                undef $ftp;
-              }
-              print "FTP ERROR\n";
-              if (yesno('y', "\nDo you want to retry downloading at once")) {
-                  # get the first $fn that foreach would give:
-                  # this is the one that got interrupted.
-                my $fn;
-                MY_ITER: foreach my $ffn (keys(%downloads)) {
-                    $fn = $ffn;
-                    last MY_ITER;
+        DOWNLOAD_TRY: while (1) {
+            print "Downloading files... (use Ctrl+C to stop)\n";
+            eval {
+                if ((download() == 1) &&
+                    yesno('y', "\nDo you want to retry downloading at once")) {
+                    next DOWNLOAD_TRY;
                 }
-                my $size = -s "$dldir/$fn";
-                # partial download
-                if (yesno('y', "continue file: $fn (at $size)")) {
-                    $downloads{$fn} = $size;
+            };
+            if($@ =~ /Interrupted|Timeout/i ) {
+                # close the FTP connection if needed
+                if ((ref($ftp) =~ /Net::FTP/) and ($@ =~ /Interrupted/i)) {
+                    $ftp->abort();
+                    $ftp->quit();
+                    undef $ftp;
+                }
+                print "FTP ERROR\n";
+                if (yesno('y', "\nDo you want to retry downloading at once")) {
+                    # get the first $fn that foreach would give:
+                    # this is the one that got interrupted.
+                    my $fn;
+                    MY_ITER: foreach my $ffn (keys(%downloads)) {
+                        $fn = $ffn;
+                        last MY_ITER;
+                    }
+                    my $size = -s "$dldir/$fn";
+                    # partial download
+                    if (yesno('y', "continue file: $fn (at $size)")) {
+                        $downloads{$fn} = $size;
+                    } else {
+                        $downloads{$fn} = 0;
+                    }
+                    next DOWNLOAD_TRY;
                 } else {
-                    $downloads{$fn} = 0;
+                    $exit = 1;
+                    last DOWNLOAD_TRY;
                 }
-                next DOWNLOAD_TRY;
-              } else {
-                $exit = 1;
-                last DOWNLOAD_TRY;
-              }
-          } elsif ($@) {
-             print "An error occurred ($@) : stopping download\n";
-          }
-          last DOWNLOAD_TRY;
-      }
+            } elsif ($@) {
+                print "An error occurred ($@) : stopping download\n";
+            }
+            last DOWNLOAD_TRY;
+        }
     }
 }
 
@@ -552,15 +552,15 @@ if (yesno('y', "\nDo you want to install the files fetched")) {
     #Installing pre-dependent package before !
     my (@flds, $package, @filename, $r);
     while (@flds = qx(dpkg --predep-package), $? == 0) {
-      foreach my $field (@flds) {
-        $field =~ s/\s*\n//;
-        $package = $field if $field =~ s/^Package: //i;
-        @filename = split / +/, $field if $field =~ s/^Filename: //i;
-      }
-      @filename = map { "$dldir/$_" } @filename;
-      next if (! @filename);
-      $r = system('dpkg', '-iB', '--', @filename);
-      if ($r) { print "DPKG ERROR\n"; $exit = 1; }
+        foreach my $field (@flds) {
+            $field =~ s/\s*\n//;
+            $package = $field if $field =~ s/^Package: //i;
+            @filename = split / +/, $field if $field =~ s/^Filename: //i;
+        }
+        @filename = map { "$dldir/$_" } @filename;
+        next if (! @filename);
+        $r = system('dpkg', '-iB', '--', @filename);
+        if ($r) { print "DPKG ERROR\n"; $exit = 1; }
     }
     #Installing other packages after
     $r = system('dpkg', '-iGREOB', $dldir);
@@ -610,8 +610,8 @@ if (yesno('n', "\nDo you want to remove $dldir directory?")) {
 
 #Store useful md5sums
 foreach my $file (keys %md5sums) {
-  next if -f $file;
-  delete $md5sums{$file};
+    next if -f $file;
+    delete $md5sums{$file};
 }
 file_dump("$methdir/md5sums", Dumper(\%md5sums));
 

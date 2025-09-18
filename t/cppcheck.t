@@ -27,27 +27,27 @@ plan skip_all => 'expensive test in short mode' if $ENV{SHORT_TESTING};
 my $builddir = $ENV{abs_top_builddir} || '.';
 
 my @cppcheck_opts = (qw(
-  --quiet
-  --force
-  --error-exitcode=2
-  --inline-suppr
-  --check-level=exhaustive
-  --suppressions-list=t/cppcheck/cppcheck.supp
-  --std=c99 --std=c++14
-  -Ilib
-  -Ilib/compat
-  -Isrc/common
+    --quiet
+    --force
+    --error-exitcode=2
+    --inline-suppr
+    --check-level=exhaustive
+    --suppressions-list=t/cppcheck/cppcheck.supp
+    --std=c99 --std=c++14
+    -Ilib
+    -Ilib/compat
+    -Isrc/common
 ),
-  "-I$builddir",
+    "-I$builddir",
 qw(
-  -D__GNUC__=12
-  -D__GNUC_MINOR__=0
-  -D_DIRENT_HAVE_D_TYPE=1
-  -DWITH_LIBSELINUX=1
-  -DLIBDPKG_VOLATILE_API=1
+    -D__GNUC__=12
+    -D__GNUC_MINOR__=0
+    -D_DIRENT_HAVE_D_TYPE=1
+    -DWITH_LIBSELINUX=1
+    -DLIBDPKG_VOLATILE_API=1
 ), (
-  '--enable=warning,performance,portability,style',
-  '--template=\'{file}:{line}: {severity} ({id}): {message}\''
+    '--enable=warning,performance,portability,style',
+    '--template=\'{file}:{line}: {severity} ({id}): {message}\''
 ));
 my $tags = qx(cppcheck @cppcheck_opts . 2>&1);
 

@@ -71,137 +71,137 @@ my $ftp;
 my $packages_modified = 0;
 
 sub download {
-foreach (@{$CONFIG{site}}) {
-   my $site = $_;
+    foreach (@{$CONFIG{site}}) {
+        my $site = $_;
 
-    $ftp = do_connect(
-        ftpsite => $_->[0],
-        ftpdir => $_->[1],
-        passive => $_->[3],
-        username => $_->[4],
-        password => $_->[5],
-        useproxy => $CONFIG{use_auth_proxy},
-        proxyhost => $CONFIG{proxyhost},
-        proxylogname => $CONFIG{proxylogname},
-        proxypassword => $CONFIG{proxypassword},
-    );
+        $ftp = do_connect(
+            ftpsite => $_->[0],
+            ftpdir => $_->[1],
+            passive => $_->[3],
+            username => $_->[4],
+            password => $_->[5],
+            useproxy => $CONFIG{use_auth_proxy},
+            proxyhost => $CONFIG{proxyhost},
+            proxylogname => $CONFIG{proxylogname},
+            proxypassword => $CONFIG{proxypassword},
+        );
 
-    my @dists = @{$_->[2]};
-    PACKAGE: foreach my $dist (@dists) {
-        my $dir = "$dist/binary-$arch";
-        my $must_get = 0;
-        my $newest_pack_date;
+        my @dists = @{$_->[2]};
+        PACKAGE: foreach my $dist (@dists) {
+            my $dir = "$dist/binary-$arch";
+            my $must_get = 0;
+            my $newest_pack_date;
 
-        # check existing Packages on remote site
-        print "\nChecking for Packages file... ";
-        $newest_pack_date = do_mdtm ($ftp, "$dir/Packages.gz");
-        if (defined $newest_pack_date) {
-            print "$dir/Packages.gz\n";
-        } else {
-            $dir = "$dist";
+            # check existing Packages on remote site
+            print "\nChecking for Packages file... ";
             $newest_pack_date = do_mdtm ($ftp, "$dir/Packages.gz");
             if (defined $newest_pack_date) {
                 print "$dir/Packages.gz\n";
             } else {
-                print "Couldn't find Packages.gz in $dist/binary-$arch or $dist; ignoring.\n";
-                print "Your setup is probably wrong, check the distributions directories,\n";
-                print "and try with passive mode enabled/disabled (if you use a proxy/firewall)\n";
-                next PACKAGE;
-            }
-        }
-
-        # we now have $dir set to point to an existing Packages.gz file
-
-        # check if we already have a Packages file (and get its date)
-        $dist =~ tr/\//_/;
-        my $file = "Packages.$site->[0].$dist";
-
-        # if not
-        if (! -f $file) {
-            # must get one
-#           print "No Packages here; must get it.\n";
-            $must_get = 1;
-        } else {
-            # else check last modification date
-            my @pack_stat = stat($file);
-            if($newest_pack_date > $pack_stat[9]) {
-#               print "Packages has changed; must get it.\n";
-                $must_get = 1;
-            } elsif ($newest_pack_date < $pack_stat[9]) {
-                print " Our file is newer than theirs; skipping.\n";
-            } else {
-                print " Already up-to-date; skipping.\n";
-            }
-        }
-
-        if ($must_get) {
-            unlink 'Packages.gz';
-            unlink 'Packages';
-            my $size = 0;
-
-            TRY_GET_PACKAGES: while (1) {
-                if ($size) {
-                    print ' Continuing ';
+                $dir = "$dist";
+                $newest_pack_date = do_mdtm ($ftp, "$dir/Packages.gz");
+                if (defined $newest_pack_date) {
+                    print "$dir/Packages.gz\n";
                 } else {
-                    print ' Getting ';
+                    print "Couldn't find Packages.gz in $dist/binary-$arch or $dist; ignoring.\n";
+                    print "Your setup is probably wrong, check the distributions directories,\n";
+                    print "and try with passive mode enabled/disabled (if you use a proxy/firewall)\n";
+                    next PACKAGE;
                 }
-                print "Packages file from $dir...\n";
-                eval {
-                    if ($ftp->get("$dir/Packages.gz", 'Packages.gz', $size)) {
-                        if (system('gunzip', 'Packages.gz')) {
-                            print "  Couldn't gunzip Packages.gz, stopped";
+            }
+
+            # we now have $dir set to point to an existing Packages.gz file
+
+            # check if we already have a Packages file (and get its date)
+            $dist =~ tr/\//_/;
+            my $file = "Packages.$site->[0].$dist";
+
+            # if not
+            if (! -f $file) {
+                # must get one
+#               print "No Packages here; must get it.\n";
+                $must_get = 1;
+            } else {
+                # else check last modification date
+                my @pack_stat = stat($file);
+                if($newest_pack_date > $pack_stat[9]) {
+#                   print "Packages has changed; must get it.\n";
+                    $must_get = 1;
+                } elsif ($newest_pack_date < $pack_stat[9]) {
+                    print " Our file is newer than theirs; skipping.\n";
+                } else {
+                    print " Already up-to-date; skipping.\n";
+                }
+            }
+
+            if ($must_get) {
+                unlink 'Packages.gz';
+                unlink 'Packages';
+                my $size = 0;
+
+                TRY_GET_PACKAGES: while (1) {
+                    if ($size) {
+                        print ' Continuing ';
+                    } else {
+                        print ' Getting ';
+                    }
+                    print "Packages file from $dir...\n";
+                    eval {
+                        if ($ftp->get("$dir/Packages.gz", 'Packages.gz', $size)) {
+                            if (system('gunzip', 'Packages.gz')) {
+                                print "  Couldn't gunzip Packages.gz, stopped";
+                                die 'error';
+                            }
+                        } else {
+                            print "  Couldn't get Packages.gz from $dir !!! Stopped.";
                             die 'error';
                         }
-                    } else {
-                        print "  Couldn't get Packages.gz from $dir !!! Stopped.";
-                        die 'error';
-                    }
-                };
-                if ($@) {
-                    $size = -s 'Packages.gz';
-                    if (ref($ftp)) {
-                      $ftp->abort();
-                      $ftp->quit();
-                    }
-                    if (yesno ('y', "Transfer failed at $size: retry at once")) {
-                        $ftp = do_connect(
-                            ftpsite => $site->[0],
-                            ftpdir => $site->[1],
-                            passive => $site->[3],
-                            username => $site->[4],
-                            password => $site->[5],
-                            useproxy => $CONFIG{use_auth_proxy},
-                            proxyhost => $CONFIG{proxyhost},
-                            proxylogname => $CONFIG{proxylogname},
-                            proxypassword => $CONFIG{proxypassword},
-                        );
-
-                        if ($newest_pack_date != do_mdtm ($ftp, "$dir/Packages.gz")) {
-                            print ("Packages file has changed !\n");
-                            $size = 0;
+                    };
+                    if ($@) {
+                        $size = -s 'Packages.gz';
+                        if (ref($ftp)) {
+                            $ftp->abort();
+                            $ftp->quit();
                         }
-                        next TRY_GET_PACKAGES;
-                    } else {
-                        die 'error';
-                    }
-                }
-                last TRY_GET_PACKAGES;
-            }
+                        if (yesno ('y', "Transfer failed at $size: retry at once")) {
+                            $ftp = do_connect(
+                                ftpsite => $site->[0],
+                                ftpdir => $site->[1],
+                                passive => $site->[3],
+                                username => $site->[4],
+                                password => $site->[5],
+                                useproxy => $CONFIG{use_auth_proxy},
+                                proxyhost => $CONFIG{proxyhost},
+                                proxylogname => $CONFIG{proxylogname},
+                                proxypassword => $CONFIG{proxypassword},
+                            );
 
-            if (!rename 'Packages', "Packages.$site->[0].$dist") {
-                print "  Couldn't rename Packages to Packages.$site->[0].$dist";
-                die 'error';
-            } else {
-                # set local Packages file to same date as the one it mirrors
-                # to allow comparison to work.
-                utime $newest_pack_date, $newest_pack_date, "Packages.$site->[0].$dist";
-                $packages_modified = 1;
+                            if ($newest_pack_date != do_mdtm ($ftp, "$dir/Packages.gz")) {
+                                print ("Packages file has changed !\n");
+                                $size = 0;
+                            }
+                            next TRY_GET_PACKAGES;
+                        } else {
+                            die 'error';
+                        }
+                    }
+                    last TRY_GET_PACKAGES;
+                }
+
+                if (!rename 'Packages', "Packages.$site->[0].$dist") {
+                    print "  Couldn't rename Packages to Packages.$site->[0].$dist";
+                    die 'error';
+                } else {
+                    # set local Packages file to same date as the one it mirrors
+                    # to allow comparison to work.
+                    utime $newest_pack_date, $newest_pack_date, "Packages.$site->[0].$dist";
+                    $packages_modified = 1;
+                }
             }
+            push @pkgfiles, "Packages.$site->[0].$dist";
         }
-        push @pkgfiles, "Packages.$site->[0].$dist";
+        $ftp->quit();
     }
-    $ftp->quit();
- }
 }
 
 eval {

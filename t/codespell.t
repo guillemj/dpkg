@@ -23,35 +23,35 @@ test_needs_command('codespell');
 test_needs_srcdir_switch();
 
 my @codespell_skip = qw(
-  .git
-  *.po
-  *.pot
-  *.gmo
-  *.add
-  *.cache
-  *.policy
-  *~
-  .libs
-  .deps
-  ChangeLog
-  Makefile.in
-  Makefile
-  configure
-  config.*
-  libtool
-  libtool.m4
-  aclocal.m4
-  autom4te.cache
-  _build
-  build-aux
-  build-tree
-  tmp
+    .git
+    *.po
+    *.pot
+    *.gmo
+    *.add
+    *.cache
+    *.policy
+    *~
+    .libs
+    .deps
+    ChangeLog
+    Makefile.in
+    Makefile
+    configure
+    config.*
+    libtool
+    libtool.m4
+    aclocal.m4
+    autom4te.cache
+    _build
+    build-aux
+    build-tree
+    tmp
 );
 my $codespell_skip = join ',', @codespell_skip;
 
 my @codespell_opts = (
-  '--ignore-words=t/codespell/stopwords',
-  "--skip=$codespell_skip",
+    '--ignore-words=t/codespell/stopwords',
+    "--skip=$codespell_skip",
 );
 my $tags = qx(codespell @codespell_opts 2>&1);
 

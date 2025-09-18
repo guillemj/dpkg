@@ -62,7 +62,7 @@ my $exit = 0;
 my $problem = 0;
 
 if (-f "$methdir/vars") {
-  read_config("$methdir/vars");
+    read_config("$methdir/vars");
 }
 
 chdir "$methdir";
@@ -101,49 +101,49 @@ Eg:  use auth proxy: y
 EOM
 
 if (! $CONFIG{done}) {
-  view_mirrors() if (yesno('y', 'Would you like to see a list of ftp mirrors'));
-  add_site('ftp');
+    view_mirrors() if (yesno('y', 'Would you like to see a list of ftp mirrors'));
+    add_site('ftp');
 }
 edit_config('ftp', $methdir);
 
 my $ftp;
 sub download {
- foreach (@{$CONFIG{site}}) {
-    $ftp = do_connect(
-        ftpsite => $_->[0],
-        ftpdir => $_->[1],
-        passive => $_->[3],
-        username => $_->[4],
-        password => $_->[5],
-        useproxy => $CONFIG{use_auth_proxy},
-        proxyhost => $CONFIG{proxyhost},
-        proxylogname => $CONFIG{proxylogname},
-        proxypassword => $CONFIG{proxypassword},
-    );
+    foreach (@{$CONFIG{site}}) {
+        $ftp = do_connect(
+            ftpsite => $_->[0],
+            ftpdir => $_->[1],
+            passive => $_->[3],
+            username => $_->[4],
+            password => $_->[5],
+            useproxy => $CONFIG{use_auth_proxy},
+            proxyhost => $CONFIG{proxyhost},
+            proxylogname => $CONFIG{proxylogname},
+            proxypassword => $CONFIG{proxypassword},
+        );
 
-    my @dists = @{$_->[2]};
+        my @dists = @{$_->[2]};
 
-    foreach my $dist (@dists) {
-        my $dir = "$dist/binary-$arch";
-        print "Checking $dir...\n";
-#       if (!$ftp->pasv()) { print $ftp->message . "\n"; die 'error'; }
-        my @dirlst = $ftp->ls("$dir/");
-        my $got_pkgfile = 0;
+        foreach my $dist (@dists) {
+            my $dir = "$dist/binary-$arch";
+            print "Checking $dir...\n";
+#           if (!$ftp->pasv()) { print $ftp->message . "\n"; die 'error'; }
+            my @dirlst = $ftp->ls("$dir/");
+            my $got_pkgfile = 0;
 
-        foreach my $line (@dirlst) {
-            if($line =~ /Packages/) {
-                $got_pkgfile = 1;
+            foreach my $line (@dirlst) {
+                if($line =~ /Packages/) {
+                    $got_pkgfile = 1;
+                }
+            }
+            if( !$got_pkgfile) {
+                print "warning: could not find a Packages file in $dir\n",
+                      "This may not be a problem if the directory is a symbolic link\n";
+                $problem = 1;
             }
         }
-        if( !$got_pkgfile) {
-            print "warning: could not find a Packages file in $dir\n",
-            "This may not be a problem if the directory is a symbolic link\n";
-            $problem = 1;
-        }
+        print "Closing ftp connection...\n";
+        $ftp->quit();
     }
-    print "Closing ftp connection...\n";
-    $ftp->quit();
-  }
 }
 
 # download stuff (protect from Ctrl+C)
@@ -168,7 +168,7 @@ if($@) {
 # output new vars file
 $CONFIG{done} = 1;
 store_config("$methdir/vars");
-chmod  0o600, "$methdir/vars";
+chmod 0o600, "$methdir/vars";
 
 if($exit || $problem) {
     print "Press <enter> to continue\n";
