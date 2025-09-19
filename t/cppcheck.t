@@ -22,6 +22,8 @@ test_needs_author();
 test_needs_command('cppcheck');
 test_needs_srcdir_switch();
 
+plan skip_all => 'expensive test in short mode' if $ENV{SHORT_TESTING};
+
 plan tests => 1;
 
 my $builddir = $ENV{abs_top_builddir} || '.';
