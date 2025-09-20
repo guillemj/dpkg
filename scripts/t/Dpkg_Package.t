@@ -17,7 +17,7 @@ use v5.36;
 
 use Test::More tests => 12;
 
-use_ok('Dpkg::Package');
+use ok 'Dpkg::Package';
 
 ok(pkg_name_is_illegal(undef), 'package name is undef');
 ok(pkg_name_is_illegal(''), 'package name is empty');

@@ -20,7 +20,7 @@ use Test::More tests => 84;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;
 
-use_ok('Dpkg::Deps');
+use ok 'Dpkg::Deps';
 
 # Needed by Dpkg::Deps functions.
 $ENV{DEB_BUILD_ARCH} = 'amd64';

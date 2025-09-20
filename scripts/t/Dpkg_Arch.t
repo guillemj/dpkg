@@ -17,15 +17,22 @@ use v5.36;
 
 use Test::More tests => 6967;
 
-use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
-                        debarch_eq debarch_is debarch_is_wildcard
-                        debarch_is_illegal
-                        debarch_to_abiattrs debarch_to_cpubits
-                        debarch_list_parse
-                        debtuple_to_debarch gnutriplet_to_debarch
-                        debtuple_to_gnutriplet gnutriplet_to_debtuple
-                        get_host_gnu_type
-                        get_valid_arches));
+use ok 'Dpkg::Arch', qw(
+    debarch_to_debtuple
+    debarch_to_multiarch
+    debarch_eq debarch_is
+    debarch_is_wildcard
+    debarch_is_illegal
+    debarch_to_abiattrs
+    debarch_to_cpubits
+    debarch_list_parse
+    debtuple_to_debarch
+    gnutriplet_to_debarch
+    debtuple_to_gnutriplet
+    gnutriplet_to_debtuple
+    get_host_gnu_type
+    get_valid_arches
+);
 
 my $KNOWN_ARCHES_TOTAL = 201;
 my @valid_arches = get_valid_arches();

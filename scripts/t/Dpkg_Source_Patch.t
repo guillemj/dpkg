@@ -20,9 +20,7 @@ use Test::Dpkg qw(:paths);
 
 use File::Path qw(make_path);
 
-BEGIN {
-    use_ok('Dpkg::Source::Patch');
-}
+use ok 'Dpkg::Source::Patch';
 
 my $datadir = test_get_data_path();
 my $tmpdir = test_get_temp_path();

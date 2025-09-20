@@ -18,9 +18,7 @@ use v5.36;
 use Test::More tests => 2;
 use Test::Dpkg qw(:paths);
 
-BEGIN {
-    use_ok('Dpkg::Source::Quilt');
-}
+use ok 'Dpkg::Source::Quilt';
 
 my $datadir = test_get_data_path();
 

@@ -24,7 +24,7 @@ use File::Spec::Functions qw(abs2rel);
 
 use Dpkg::File;
 
-use_ok('Dpkg::BuildTree');
+use ok 'Dpkg::BuildTree';
 
 my $tmpdir = test_get_temp_path();
 

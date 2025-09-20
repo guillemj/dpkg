@@ -19,7 +19,7 @@ use Test::More tests => 28;
 
 use Dpkg::ErrorHandling;
 
-use_ok('Dpkg::BuildOptions');
+use ok 'Dpkg::BuildOptions';
 
 {
     no warnings; ## no critic (TestingAndDebugging::ProhibitNoWarnings)

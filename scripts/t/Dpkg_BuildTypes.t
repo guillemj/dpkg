@@ -17,9 +17,7 @@ use v5.36;
 
 use Test::More tests => 39;
 
-BEGIN {
-    use_ok('Dpkg::BuildTypes');
-}
+use ok 'Dpkg::BuildTypes';
 
 ok(build_is(BUILD_DEFAULT | BUILD_FULL), 'build is default full');
 is(get_build_options_from_type(), 'full', 'build is full');

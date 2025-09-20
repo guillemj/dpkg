@@ -18,11 +18,9 @@ use v5.36;
 use Test::More tests => 2606;
 use Test::Dpkg qw(:paths);
 
-BEGIN {
-    use_ok('Dpkg::Control::Types');
-    use_ok('Dpkg::Control::FieldsCore');
-    use_ok('Dpkg::Control');
-}
+use ok 'Dpkg::Control::Types';
+use ok 'Dpkg::Control::FieldsCore';
+use ok 'Dpkg::Control';
 
 #my $datadir = test_get_data_path();
 

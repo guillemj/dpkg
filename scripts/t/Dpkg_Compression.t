@@ -20,8 +20,8 @@ use Test::Dpkg qw(:paths);
 
 use IPC::Cmd qw(can_run);
 
-use_ok('Dpkg::Compression');
-use_ok('Dpkg::Compression::FileHandle');
+use ok 'Dpkg::Compression';
+use ok 'Dpkg::Compression::FileHandle';
 
 my $tmpdir = test_get_temp_path();
 my @lines = ("One\n", "Two\n", "Three\n");

@@ -17,8 +17,6 @@ use v5.36;
 
 use Test::More tests => 1;
 
-BEGIN {
-    use_ok('Dpkg::Gettext');
-}
+use ok 'Dpkg::Gettext';
 
 # TODO: Add actual test cases.

@@ -17,8 +17,6 @@ use v5.36;
 
 use Test::More tests => 1;
 
-BEGIN {
-    use_ok('Dpkg::Source::Functions');
-}
+use ok 'Dpkg::Source::Functions';
 
 # TODO: Add actual test cases.

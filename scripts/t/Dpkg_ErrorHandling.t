@@ -17,8 +17,6 @@ use v5.36;
 
 use Test::More tests => 1;
 
-BEGIN {
-    use_ok('Dpkg::ErrorHandling');
-}
+use ok 'Dpkg::ErrorHandling';
 
 # TODO: Add actual test cases.

@@ -17,11 +17,11 @@ use v5.36;
 
 use Test::More tests => 8;
 
-BEGIN {
-    use_ok('Dpkg::BuildProfiles', qw(parse_build_profiles
-                                     set_build_profiles
-                                     get_build_profiles));
-}
+use ok 'Dpkg::BuildProfiles', qw(
+    parse_build_profiles
+    set_build_profiles
+    get_build_profiles
+);
 
 # TODO: Add actual test cases.
 

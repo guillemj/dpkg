@@ -18,10 +18,8 @@ use v5.36;
 use Test::More tests => 24;
 use Test::Dpkg qw(:needs :paths);
 
-BEGIN {
-    use_ok('Dpkg::Control');
-    use_ok('Dpkg::Control::Info');
-}
+use ok 'Dpkg::Control';
+use ok 'Dpkg::Control::Info';
 
 my $datadir = test_get_data_path();
 

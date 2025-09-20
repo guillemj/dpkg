@@ -18,9 +18,7 @@ use v5.36;
 use Test::More tests => 59;
 use Test::Dpkg qw(:paths);
 
-BEGIN {
-    use_ok('Dpkg::Checksums');
-}
+use ok 'Dpkg::Checksums';
 
 my $datadir = test_get_data_path();
 

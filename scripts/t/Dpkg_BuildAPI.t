@@ -23,9 +23,7 @@ $ENV{DEB_HOST_ARCH} = 'amd64';
 use Dpkg::Control;
 use Dpkg::Control::Info;
 
-BEGIN {
-    use_ok('Dpkg::BuildAPI', qw(get_build_api reset_build_api));
-}
+use ok 'Dpkg::BuildAPI', qw(get_build_api reset_build_api);
 
 my $datadir = test_get_data_path();
 

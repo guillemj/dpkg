@@ -21,9 +21,7 @@ use Test::Dpkg qw(:paths);
 use File::Compare;
 use File::Path qw(rmtree);
 
-BEGIN {
-    use_ok('Dpkg::File');
-}
+use ok 'Dpkg::File';
 
 my $datadir = test_get_data_path();
 my $tempdir = test_get_temp_path();

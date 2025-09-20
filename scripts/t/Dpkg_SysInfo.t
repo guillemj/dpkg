@@ -17,8 +17,6 @@ use v5.36;
 
 use Test::More tests => 1;
 
-BEGIN {
-    use_ok('Dpkg::SysInfo');
-}
+use ok 'Dpkg::SysInfo';
 
 # TODO: Add actual test cases.

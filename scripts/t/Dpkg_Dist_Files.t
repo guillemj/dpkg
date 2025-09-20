@@ -18,7 +18,7 @@ use v5.36;
 use Test::More tests => 26;
 use Test::Dpkg qw(:paths);
 
-use_ok('Dpkg::Dist::Files');
+use ok 'Dpkg::Dist::Files';
 
 my $datadir = test_get_data_path();
 

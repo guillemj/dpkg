@@ -21,7 +21,7 @@ use File::Temp;
 
 use Dpkg::File;
 
-use_ok('Dpkg::IPC');
+use ok 'Dpkg::IPC';
 
 my $tmpfile1 = File::Temp->new();
 my $tmpfile2 = File::Temp->new();

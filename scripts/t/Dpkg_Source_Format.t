@@ -17,9 +17,7 @@ use v5.36;
 
 use Test::More tests => 14;
 
-BEGIN {
-    use_ok('Dpkg::Source::Format');
-}
+use ok 'Dpkg::Source::Format';
 
 my $format = Dpkg::Source::Format->new();
 my @format_parts;

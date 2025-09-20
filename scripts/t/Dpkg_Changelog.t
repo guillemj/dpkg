@@ -22,11 +22,9 @@ use File::Basename;
 
 use Dpkg::File;
 
-BEGIN {
-    use_ok('Dpkg::Changelog');
-    use_ok('Dpkg::Changelog::Debian');
-    use_ok('Dpkg::Vendor', qw(get_current_vendor));
-};
+use ok 'Dpkg::Changelog';
+use ok 'Dpkg::Changelog::Debian';
+use ok 'Dpkg::Vendor', qw(get_current_vendor);
 
 my $datadir = test_get_data_path();
 

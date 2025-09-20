@@ -17,9 +17,7 @@ use v5.36;
 
 use Test::More tests => 4;
 
-BEGIN {
-    use_ok('Dpkg::Getopt');
-}
+use ok 'Dpkg::Getopt';
 
 my @expect_argv;
 

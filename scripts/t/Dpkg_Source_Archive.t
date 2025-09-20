@@ -21,9 +21,7 @@ use Test::Dpkg qw(:paths);
 use File::Spec;
 use File::Path qw(make_path);
 
-BEGIN {
-    use_ok('Dpkg::Source::Archive');
-}
+use ok 'Dpkg::Source::Archive';
 
 use Dpkg;
 use Dpkg::File;

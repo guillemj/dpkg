@@ -20,7 +20,7 @@ use Test::Dpkg qw(:needs);
 
 use Config;
 
-use_ok('Dpkg::Shlibs::Cppfilt');
+use ok 'Dpkg::Shlibs::Cppfilt';
 
 test_needs_command('c++filt');
 

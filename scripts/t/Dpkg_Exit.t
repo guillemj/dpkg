@@ -17,9 +17,7 @@ use v5.36;
 
 use Test::More tests => 7;
 
-BEGIN {
-    use_ok('Dpkg::Exit');
-}
+use ok 'Dpkg::Exit';
 
 my $track = 0;
 

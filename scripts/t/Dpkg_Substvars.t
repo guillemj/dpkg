@@ -21,7 +21,7 @@ use Test::Dpkg qw(:paths);
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
 
-use_ok('Dpkg::Substvars');
+use ok 'Dpkg::Substvars';
 
 # Needed by Dpkg::Substvars functions.
 $ENV{DEB_BUILD_ARCH} = 'amd64';

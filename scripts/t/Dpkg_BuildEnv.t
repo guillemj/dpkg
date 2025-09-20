@@ -17,9 +17,7 @@ use v5.36;
 
 use Test::More tests => 14;
 
-BEGIN {
-    use_ok('Dpkg::BuildEnv');
-}
+use ok 'Dpkg::BuildEnv';
 
 $ENV{DPKG_TEST_VAR_A} = 100;
 $ENV{DPKG_TEST_VAR_B} = 200;

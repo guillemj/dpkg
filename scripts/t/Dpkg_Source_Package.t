@@ -25,7 +25,7 @@ use Dpkg::OpenPGP::ErrorCodes;
 
 test_needs_openpgp_backend();
 
-use_ok('Dpkg::Source::Package');
+use ok 'Dpkg::Source::Package';
 
 report_options(quiet_warnings => 1);
 

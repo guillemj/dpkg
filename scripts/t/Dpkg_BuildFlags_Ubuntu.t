@@ -17,9 +17,7 @@ use v5.36;
 
 use Test::More tests => 19;
 
-BEGIN {
-    use_ok('Dpkg::BuildFlags');
-}
+use ok 'Dpkg::BuildFlags';
 
 sub test_optflag
 {

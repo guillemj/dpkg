@@ -17,9 +17,7 @@ use v5.36;
 
 use Test::More tests => 21;
 
-BEGIN {
-    use_ok('Dpkg::OpenPGP::KeyHandle');
-}
+use ok 'Dpkg::OpenPGP::KeyHandle';
 
 my @ref_keys = (
     {

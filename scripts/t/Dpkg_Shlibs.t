@@ -22,10 +22,10 @@ use Config;
 use Cwd;
 use IPC::Cmd qw(can_run);
 
-use_ok('Dpkg::Shlibs');
-use_ok('Dpkg::Shlibs::Objdump');
-use_ok('Dpkg::Shlibs::SymbolFile');
-use_ok('Dpkg::Shlibs::Symbol');
+use ok 'Dpkg::Shlibs';
+use ok 'Dpkg::Shlibs::Objdump';
+use ok 'Dpkg::Shlibs::SymbolFile';
+use ok 'Dpkg::Shlibs::Symbol';
 
 if (! defined $Config{bin_ELF} || $Config{bin_ELF} ne 'define') {
     plan skip_all => 'only ELF is currently supported';
