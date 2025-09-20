@@ -20,13 +20,13 @@ use Test::Dpkg qw(:needs);
 
 use Config;
 
+use_ok('Dpkg::Shlibs::Cppfilt');
+
 test_needs_command('c++filt');
 
 if (! defined $Config{bin_ELF} || $Config{bin_ELF} ne 'define') {
     plan skip_all => 'only ELF is currently supported';
 }
-
-use_ok('Dpkg::Shlibs::Cppfilt');
 
 # Simple C++ demangling tests
 is(cppfilt_demangle_cpp('_ZNSt10istrstreamC1EPKcl'),

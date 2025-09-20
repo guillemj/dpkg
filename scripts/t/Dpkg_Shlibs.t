@@ -22,14 +22,18 @@ use Config;
 use Cwd;
 use IPC::Cmd qw(can_run);
 
+use_ok('Dpkg::Shlibs');
+use_ok('Dpkg::Shlibs::Objdump');
+use_ok('Dpkg::Shlibs::SymbolFile');
+use_ok('Dpkg::Shlibs::Symbol');
+
 if (! defined $Config{bin_ELF} || $Config{bin_ELF} ne 'define') {
     plan skip_all => 'only ELF is currently supported';
 }
 
+# Needed by Dpkg::Shlibs functions.
 $ENV{DEB_BUILD_ARCH} = 'amd64';
 $ENV{DEB_HOST_ARCH} = 'amd64';
-
-use_ok('Dpkg::Shlibs');
 
 my $tmp;
 my @tmp;
@@ -83,7 +87,8 @@ is_deeply(\@librarypaths, [ qw(
     ) ],
     'parsed library paths');
 
-use_ok('Dpkg::Shlibs::Objdump');
+
+## Test Dpkg::Shlibs::Objdump module.
 
 my $obj;
 
@@ -168,8 +173,7 @@ is(scalar @syms, 2231, 'defined && dynamic');
 is(scalar @syms, 9, 'undefined && dynamic');
 
 
-use_ok('Dpkg::Shlibs::SymbolFile');
-use_ok('Dpkg::Shlibs::Symbol');
+## Testing Dpkg::Shlibs::Symbol and Dpkg::Shlibs::SymbolFile modules.
 
 my $sym_file = Dpkg::Shlibs::SymbolFile->new(
     filename => "$datadir/symbol_file.tmp",

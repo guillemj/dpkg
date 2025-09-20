@@ -20,10 +20,11 @@ use Test::More tests => 84;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;
 
+use_ok('Dpkg::Deps');
+
+# Needed by Dpkg::Deps functions.
 $ENV{DEB_BUILD_ARCH} = 'amd64';
 $ENV{DEB_HOST_ARCH} = 'amd64';
-
-use_ok('Dpkg::Deps');
 
 is(deps_concat(), '', 'Concatenate an empty list');
 is(deps_concat(undef), '', 'Concatenate list with undef');
