@@ -18,7 +18,7 @@
 use v5.36;
 use version;
 
-use Test::More;
+use Test::More tests => 12;
 use Cwd;
 use File::Path qw(make_path remove_tree);
 use File::Spec;
@@ -36,10 +36,8 @@ my $tmpdir = 't.tmp/t-tarextract';
 # We require GNU tar >= 1.27 for --owner=NAME:ID and --group=NAME:ID.
 my $tar_version = qx($Dpkg::PROGTAR --version 2>/dev/null);
 if ($tar_version and $tar_version =~ m/^tar \(GNU tar\) (\d+\.\d+)/ and
-    qv("v$1") >= qv('v1.27'))
+    qv("v$1") < qv('v1.27'))
 {
-    plan tests => 12;
-} else {
     plan skip_all => 'needs GNU tar >= 1.27';
 }
 

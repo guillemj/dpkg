@@ -15,7 +15,7 @@
 
 use v5.36;
 
-use Test::More;
+use Test::More tests => 10;
 use Test::Dpkg qw(:paths);
 
 use POSIX;
@@ -23,8 +23,6 @@ use File::Spec::Functions qw(rel2abs);
 
 use Dpkg::IPC;
 use Dpkg::BuildTree;
-
-plan tests => 10;
 
 my $srcdir = rel2abs($ENV{srcdir} || '.');
 my $datadir = "$srcdir/t/dpkg_buildtree";

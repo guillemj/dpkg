@@ -15,12 +15,10 @@
 
 use v5.36;
 
-use Test::More;
+use Test::More tests => 24;
 use Test::Dpkg qw(:needs :paths);
 
 BEGIN {
-    plan tests => 24;
-
     use_ok('Dpkg::Control');
     use_ok('Dpkg::Control::Info');
 }

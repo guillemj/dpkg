@@ -15,12 +15,10 @@
 
 use v5.36;
 
-use Test::More;
+use Test::More tests => 2606;
 use Test::Dpkg qw(:paths);
 
 BEGIN {
-    plan tests => 2606;
-
     use_ok('Dpkg::Control::Types');
     use_ok('Dpkg::Control::FieldsCore');
     use_ok('Dpkg::Control');

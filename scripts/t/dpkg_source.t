@@ -15,7 +15,7 @@
 
 use v5.36;
 
-use Test::More;
+use Test::More tests => 8;
 use Test::Dpkg qw(:needs :paths test_neutralize_checksums);
 
 use File::Spec::Functions qw(rel2abs);
@@ -27,8 +27,6 @@ use Dpkg::IPC;
 use Dpkg::Substvars;
 
 test_needs_command('xz');
-
-plan tests => 8;
 
 my $srcdir = rel2abs($ENV{srcdir} || '.');
 my $datadir = "$srcdir/t/dpkg_source";

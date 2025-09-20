@@ -15,16 +15,14 @@
 
 use v5.36;
 
-use Test::More;
+use Test::More tests => 150;
 use Test::Dpkg qw(:needs :paths);
 
 use Config;
 use Cwd;
 use IPC::Cmd qw(can_run);
 
-if (defined $Config{bin_ELF} && $Config{bin_ELF} eq 'define') {
-    plan tests => 150;
-} else {
+if (! defined $Config{bin_ELF} || $Config{bin_ELF} ne 'define') {
     plan skip_all => 'only ELF is currently supported';
 }
 
