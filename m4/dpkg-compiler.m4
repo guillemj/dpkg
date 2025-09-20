@@ -28,7 +28,7 @@ AC_DEFUN([DPKG_CHECK_COMPILER_FLAG], [
     AS_VAR_COPY([dpkg_varname_save], [dpkg_varname])
     AS_VAR_SET([dpkg_varname], ["-Werror dpkg_check_flag"])
     AC_COMPILE_IFELSE([
-      AC_LANG_SOURCE([[]])
+      AC_LANG_SOURCE([[int function() { return 0; }]])
     ], [
       AS_VAR_SET([dpkg_varname_cache], [yes])
     ], [
