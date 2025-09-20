@@ -53,7 +53,6 @@ my %paths = (
 
 if (! -x "$ENV{builddir}/update-alternatives") {
     plan skip_all => 'update-alternatives not available';
-    exit(0);
 }
 
 my $main_link = "$bindir/generic-test";
