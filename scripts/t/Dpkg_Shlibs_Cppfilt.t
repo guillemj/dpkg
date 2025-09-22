@@ -15,18 +15,19 @@
 
 use v5.36;
 
-use Test::More tests => 154;
+use Test::More;
 use Test::Dpkg qw(:needs);
 
 use Config;
-
-use ok 'Dpkg::Shlibs::Cppfilt';
 
 test_needs_command('c++filt');
 
 if (! defined $Config{bin_ELF} || $Config{bin_ELF} ne 'define') {
     plan skip_all => 'only ELF is currently supported';
 }
+plan tests => 154;
+
+use_ok('Dpkg::Shlibs::Cppfilt');
 
 # Simple C++ demangling tests.
 is(cppfilt_demangle_cpp('_ZNSt10istrstreamC1EPKcl'),

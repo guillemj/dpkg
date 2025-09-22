@@ -18,7 +18,7 @@
 use v5.36;
 use version;
 
-use Test::More tests => 12;
+use Test::More;
 use Cwd;
 use File::Path qw(make_path remove_tree);
 use File::Spec;
@@ -40,6 +40,7 @@ if ($tar_version and $tar_version =~ m/^tar \(GNU tar\) (\d+\.\d+)/ and
 {
     plan skip_all => 'needs GNU tar >= 1.27';
 }
+plan tests => 12;
 
 # Set a known umask.
 umask 0022;

@@ -15,21 +15,22 @@
 
 use v5.36;
 
-use Test::More tests => 150;
+use Test::More;
 use Test::Dpkg qw(:needs :paths);
 
 use Config;
 use Cwd;
 use IPC::Cmd qw(can_run);
 
-use ok 'Dpkg::Shlibs';
-use ok 'Dpkg::Shlibs::Objdump';
-use ok 'Dpkg::Shlibs::SymbolFile';
-use ok 'Dpkg::Shlibs::Symbol';
-
 if (! defined $Config{bin_ELF} || $Config{bin_ELF} ne 'define') {
     plan skip_all => 'only ELF is currently supported';
 }
+plan tests => 150;
+
+use_ok('Dpkg::Shlibs');
+use_ok('Dpkg::Shlibs::Objdump');
+use_ok('Dpkg::Shlibs::SymbolFile');
+use_ok('Dpkg::Shlibs::Symbol');
 
 # Needed by Dpkg::Shlibs functions.
 $ENV{DEB_BUILD_ARCH} = 'amd64';

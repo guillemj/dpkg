@@ -15,7 +15,7 @@
 
 use v5.36;
 
-use Test::More tests => 17;
+use Test::More;
 use Test::Dpkg qw(:needs :paths test_neutralize_checksums);
 
 use File::Spec::Functions qw(rel2abs);
@@ -29,6 +29,7 @@ use Dpkg::BuildTypes;
 use Dpkg::Substvars;
 
 test_needs_command('fakeroot');
+plan tests => 17;
 
 my $srcdir = rel2abs($ENV{srcdir} || '.');
 my $datadir = "$srcdir/t/dpkg_buildpackage";

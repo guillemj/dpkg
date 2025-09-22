@@ -15,7 +15,7 @@
 
 use v5.36;
 
-use Test::More tests => 6;
+use Test::More;
 use Test::Dpkg qw(:paths :needs);
 
 use File::Compare;
@@ -24,8 +24,9 @@ use Dpkg::ErrorHandling;
 use Dpkg::OpenPGP::ErrorCodes;
 
 test_needs_openpgp_backend();
+plan tests => 6;
 
-use ok 'Dpkg::Source::Package';
+use_ok('Dpkg::Source::Package');
 
 report_options(quiet_warnings => 1);
 

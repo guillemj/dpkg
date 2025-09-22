@@ -15,7 +15,7 @@
 
 use v5.36;
 
-use Test::More tests => 712;
+use Test::More;
 
 use File::Spec;
 
@@ -26,6 +26,7 @@ use Dpkg::Path qw(find_command);
 if (! -x "$ENV{builddir}/update-alternatives") {
     plan skip_all => 'update-alternatives not available';
 }
+plan tests => 712;
 
 my $srcdir = $ENV{srcdir} || '.';
 my $tmpdir = 't.tmp/update_alternatives';
