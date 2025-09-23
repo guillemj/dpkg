@@ -46,7 +46,7 @@ my $c = Dpkg::Control::Info->new("$datadir/control-1");
 my $io_data;
 my $io;
 
-open $io, '>', \$io_data or die "canno open io string\n";;
+open $io, '>', \$io_data or die "canno open io string\n";
 
 $c->output($io);
 my $expected = 'Source: mysource
@@ -102,7 +102,7 @@ is($pkg->{package}, 'mypackage3', 'Name of third package');
 is($pkg->{Depends}, 'hello', 'Name of third package');
 
 $pkg = $c->get_pkg_by_idx(2);
-open $io, '>', \$io_data or die "canno open io string\n";;
+open $io, '>', \$io_data or die "canno open io string\n";
 $pkg->output($io);
 
 is($io_data,
