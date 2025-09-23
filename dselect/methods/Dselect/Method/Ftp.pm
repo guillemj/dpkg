@@ -118,10 +118,10 @@ sub do_connect {
         last TRY_CONNECT;
     }
 
-#    if (! $ftp->pasv()) {
+#   if (! $ftp->pasv()) {
 #       print $ftp->message . "\n";
 #       die 'error';
-#    }
+#   }
 
     return $ftp;
 }

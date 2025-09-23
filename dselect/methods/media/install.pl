@@ -262,7 +262,7 @@ my $ouch;
 my @media = sort keys %medium;
 if (@media) {
     print "You will need the following distribution disc(s):\n",
-        join(q{, }, @media), "\n";
+          join(q{, }, @media), "\n";
 }
 
 foreach my $need (@media) {
