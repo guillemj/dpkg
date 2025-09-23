@@ -16,10 +16,11 @@
 use v5.36;
 
 use Test::More;
-use Test::Dpkg qw(:needs);
+use Test::Dpkg qw(:needs :paths);
 
 test_needs_module('Test::Strict');
-test_needs_srcdir_switch();
+
+test_chdir_srcdir();
 
 eval '$Test::Strict::TEST_WARNINGS = 1';
 # XXX: Remove once https://github.com/manwar/Test-Strict/pull/37 gets released.

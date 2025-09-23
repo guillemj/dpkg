@@ -20,7 +20,8 @@ use Test::Dpkg qw(:needs :paths);
 
 test_needs_author();
 test_needs_module('Test::Pod::Coverage');
-test_needs_srcdir_switch();
+
+test_chdir_srcdir();
 
 my @modules_todo = qw(Dpkg::Arch Dpkg::Source::Package);
 my @modules = all_pod_modules(@modules_todo);

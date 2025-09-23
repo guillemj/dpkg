@@ -75,7 +75,7 @@ Dpkg::Shlibs::blank_library_paths();
 # is usually a relative path, so let us temporarily switch directory.
 # XXX: An alternative would be to make parse_ldso_conf relative path aware.
 my $cwd = getcwd();
-test_needs_srcdir_switch();
+test_chdir_srcdir();
 Dpkg::Shlibs::parse_ldso_conf('t/Dpkg_Shlibs/ld.so.conf');
 chdir($cwd);
 

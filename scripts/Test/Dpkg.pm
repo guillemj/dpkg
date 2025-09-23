@@ -40,11 +40,11 @@ our @EXPORT_OK = qw(
     all_pod_modules
     test_get_data_path
     test_get_temp_path
+    test_chdir_srcdir
     test_needs_author
     test_needs_module
     test_needs_command
     test_needs_openpgp_backend
-    test_needs_srcdir_switch
     test_neutralize_checksums
 );
 our %EXPORT_TAGS = (
@@ -53,7 +53,6 @@ our %EXPORT_TAGS = (
         test_needs_module
         test_needs_command
         test_needs_openpgp_backend
-        test_needs_srcdir_switch
     ) ],
     paths => [ qw(
         all_po_files
@@ -63,6 +62,7 @@ our %EXPORT_TAGS = (
         all_pod_modules
         test_get_data_path
         test_get_temp_path
+        test_chdir_srcdir
     ) ],
 );
 
@@ -112,6 +112,13 @@ sub test_get_temp_path
     rmtree($path);
     make_path($path);
     return $path;
+}
+
+sub test_chdir_srcdir
+{
+    if (defined $ENV{srcdir}) {
+        chdir $ENV{srcdir} or BAIL_OUT("cannot chdir to source directory: $!");
+    }
 }
 
 sub _test_get_po_dirs
@@ -388,13 +395,6 @@ sub test_needs_openpgp_backend
     }
 
     return @have_backends;
-}
-
-sub test_needs_srcdir_switch
-{
-    if (defined $ENV{srcdir}) {
-        chdir $ENV{srcdir} or BAIL_OUT("cannot chdir to source directory: $!");
-    }
 }
 
 sub test_neutralize_checksums

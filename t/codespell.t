@@ -16,12 +16,13 @@
 use v5.36;
 
 use Test::More;
-use Test::Dpkg qw(:needs);
+use Test::Dpkg qw(:needs :paths);
 
 test_needs_author();
 test_needs_command('codespell');
-test_needs_srcdir_switch();
 plan tests => 1;
+
+test_chdir_srcdir();
 
 my @codespell_skip = qw(
     .git

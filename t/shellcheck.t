@@ -20,7 +20,8 @@ use Test::Dpkg qw(:needs :paths);
 
 test_needs_author();
 test_needs_command('shellcheck');
-test_needs_srcdir_switch();
+
+test_chdir_srcdir();
 
 my @files_todo = qw(
     dselect/methods/file/install.sh

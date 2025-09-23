@@ -19,7 +19,8 @@ use Test::More;
 use Test::Dpkg qw(:needs :paths);
 
 test_needs_module('Test::Pod', '1.00');
-test_needs_srcdir_switch();
+
+test_chdir_srcdir();
 
 my @files = Test::Dpkg::all_perl_files();
 

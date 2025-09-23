@@ -16,9 +16,9 @@
 use v5.36;
 
 use Test::More;
-use Test::Dpkg qw(:needs);
+use Test::Dpkg qw(:paths);
 
-test_needs_srcdir_switch();
+test_chdir_srcdir();
 
 my @files = Test::Dpkg::all_perl_files();
 
