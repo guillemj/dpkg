@@ -404,8 +404,8 @@ sub _data_range {
             $offset = $#$data if $count < 0;
         }
         $start = $end = $offset;
-        $start += $count+1 if $count < 0;
-        $end += $count-1 if $count > 0;
+        $start += $count + 1 if $count < 0;
+        $end += $count - 1 if $count > 0;
         # Check limits.
         $start = 0 if $start < 0;
         return if $start > $#$data;

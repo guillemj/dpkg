@@ -165,7 +165,7 @@ WARN
         }
 
         print "$print\n";
-        push(@invoke,$invoke);
+        push(@invoke, $invoke);
     }
 
     print "Running dpkg -iB for $package ...\n";

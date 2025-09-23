@@ -45,7 +45,7 @@ if ($option eq 'manual') {
         if ($fn eq '') {
             exit 0;
         }
-        if ( -f $fn ) {
+        if (-f $fn) {
             system('dpkg', '--merge-avail', $fn);
         } else {
             print "Could not find $fn, try again\n";
@@ -95,12 +95,12 @@ sub download {
 
             # Check existing Packages on remote site.
             print "\nChecking for Packages file... ";
-            $newest_pack_date = do_mdtm ($ftp, "$dir/Packages.gz");
+            $newest_pack_date = do_mdtm($ftp, "$dir/Packages.gz");
             if (defined $newest_pack_date) {
                 print "$dir/Packages.gz\n";
             } else {
                 $dir = "$dist";
-                $newest_pack_date = do_mdtm ($ftp, "$dir/Packages.gz");
+                $newest_pack_date = do_mdtm($ftp, "$dir/Packages.gz");
                 if (defined $newest_pack_date) {
                     print "$dir/Packages.gz\n";
                 } else {
@@ -164,7 +164,7 @@ sub download {
                             $ftp->abort();
                             $ftp->quit();
                         }
-                        if (yesno ('y', "Transfer failed at $size: retry at once")) {
+                        if (yesno('y', "Transfer failed at $size: retry at once")) {
                             $ftp = do_connect(
                                 ftpsite => $site->[0],
                                 ftpdir => $site->[1],
@@ -177,7 +177,7 @@ sub download {
                                 proxypassword => $CONFIG{proxypassword},
                             );
 
-                            if ($newest_pack_date != do_mdtm ($ftp, "$dir/Packages.gz")) {
+                            if ($newest_pack_date != do_mdtm($ftp, "$dir/Packages.gz")) {
                                 print ("Packages file has changed !\n");
                                 $size = 0;
                             }
@@ -230,7 +230,7 @@ However if you have only downloaded a Package files from non-main
 distributions you might not want to do this.
 
 EOM
-    if (yesno ('y', 'Do you want to clear available list')) {
+    if (yesno('y', 'Do you want to clear available list')) {
         print "Clearing...\n";
         if (system('dpkg', '--clear-avail')) {
             print 'dpkg --clear-avail failed.';

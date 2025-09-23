@@ -88,13 +88,13 @@ sub get_stanza {
     while (<$fh>) {
         if (length != 0) {
             FLDLOOP: while (1) {
-                if ( /^(\S+):\s*(.*)\s*$/ ) {
+                if (/^(\S+):\s*(.*)\s*$/) {
                     $fld = lc($1);
                     $flds{$fld} = $2;
                     while (<$fh>) {
                         if (length == 0) {
                             return %flds;
-                        } elsif ( /^(\s.*)$/ ) {
+                        } elsif (/^(\s.*)$/) {
                             $flds{$fld} = $flds{$fld} . "\n" . $1;
                         } else {
                             next FLDLOOP;
@@ -148,7 +148,7 @@ sub procpkgfile {
     my $site = shift;
     my $dist = shift;
     my (@files, @sizes, @md5sums, $pkg, $ver, $nfs, $fld);
-    my(%flds);
+    my (%flds);
     open(my $pkgfile_fh, '<', $fn) or die "could not open package file $fn";
     while (%flds = get_stanza($pkgfile_fh), %flds) {
         $pkg = $flds{'package'};
@@ -162,7 +162,7 @@ sub procpkgfile {
             $curpkgs{$pkg} = $flds{'version'};
         }
         $nfs = scalar(@files);
-        if (($nfs != scalar(@sizes)) || ($nfs != scalar(@md5sums)) ) {
+        if (($nfs != scalar(@sizes)) || ($nfs != scalar(@md5sums))) {
             print "Different number of filenames, sizes and md5sums for $flds{'package'}\n";
         } else {
             my $i = 0;
@@ -186,7 +186,7 @@ foreach my $site (@{$CONFIG{site}}) {
         $fn = "Packages.$site->[0].$fn";
         if (-f $fn) {
             print " $site->[0] $dist...\n";
-            procpkgfile($fn,$i,$j);
+            procpkgfile($fn, $i, $j);
         } else {
             print "Could not find packages file for $site->[0] $dist distribution (re-run Update)\n"
         }
@@ -223,7 +223,7 @@ foreach my $pkg (keys(%pkgs)) {
             make_path("$dldir/$dir", { mode => 0o755 });
         }
         @info = @{$pkgfiles{$fn}};
-        $csize = int($info[1]/1024)+1;
+        $csize = int($info[1] / 1024) + 1;
         if (-f "$dldir/$fn") {
             $size = -s "$dldir/$fn";
             if ($info[1] > $size) {
@@ -231,7 +231,7 @@ foreach my $pkg (keys(%pkgs)) {
                 if (yesno('y', "continue file: $fn (" . nb($size) . '/' .
                                nb($info[1]) . ')')) {
                     $downloads{$fn} = $size;
-                    $totsize += $csize - int($size/1024);
+                    $totsize += $csize - int($size / 1024);
                 } else {
                     $downloads{$fn} = 0;
                     $totsize += $csize;
@@ -310,7 +310,7 @@ sub download {
         my @pre_dist = ();
 
         # Scan distributions for looking at "(../)+/dir/dir".
-        my ($n,$cp);
+        my ($n, $cp);
         $cp = -1;
         foreach (@{$site->[2]}) {
             $cp++;
@@ -398,7 +398,7 @@ if ($totsize != 0) {
                     next DOWNLOAD_TRY;
                 }
             };
-            if ($@ =~ /Interrupted|Timeout/i ) {
+            if ($@ =~ /Interrupted|Timeout/i) {
                 # Close the FTP connection if needed.
                 if ((ref($ftp) =~ /Net::FTP/) and ($@ =~ /Interrupted/i)) {
                     $ftp->abort();
@@ -470,7 +470,7 @@ sub getdebinfo {
         $pkg = $fields{'package'};
         $ver = $fields{'version'};
         return $pkg, $ver;
-    } elsif ( $type == 2) {
+    } elsif ($type == 2) {
         open(my $pkgfile_fh, '-|', "dpkg-split --info $fn")
             or die "cannot create pipe for 'dpkg-split --info $fn'";
         while (<$pkgfile_fh>) {
@@ -523,7 +523,7 @@ sub prcfile {
     if (-f $fn and $fn ne '.') {
         my $dir = '.';
         if (length($File::Find::dir) > length($dldir)) {
-            $dir = substr($File::Find::dir, length($dldir)+1);
+            $dir = substr($File::Find::dir, length($dldir) + 1);
         }
         print "$dir/$fn\n";
         if (defined($pkgfiles{"$dir/$fn"})) {
@@ -589,10 +589,10 @@ sub removeinstalled {
     if (-f $fn and $fn ne '.') {
         my $dir = '.';
         if (length($File::Find::dir) > length($dldir)) {
-            $dir = substr($File::Find::dir, length($dldir)+1);
+            $dir = substr($File::Find::dir, length($dldir) + 1);
         }
         if ($fn =~ /.deb$/) {
-            my($pkg, $ver) = getdebinfo($fn);
+            my ($pkg, $ver) = getdebinfo($fn);
             if (! defined($pkg) || ! defined($ver)) {
                 print "Could not get info for: $dir/$fn\n";
             } elsif ($curpkgs{$pkg} &&

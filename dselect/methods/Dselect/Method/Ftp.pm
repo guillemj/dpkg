@@ -49,7 +49,7 @@ if ($@) {
 sub do_connect {
     my (%opts) = @_;
 
-    my($rpass,$remotehost,$remoteuser,$ftp);
+    my ($rpass, $remotehost, $remoteuser, $ftp);
 
     TRY_CONNECT: while (1) {
         my $exit = 0;
@@ -198,8 +198,9 @@ sub do_mdtm {
 
         # Get the date components from the output of 'ls -l'.
         if ($files[0] =~ $ls_l_regex) {
-            my($month_name, $day, $year_or_time, $month, $hours, $minutes,
-               $year);
+            my ($year, $year_or_time);
+            my ($month, $month_name);
+            my ($day, $hours, $minutes);
 
             # What we can read.
             $month_name = $2;
