@@ -211,7 +211,8 @@ sub do_mdtm {
 
             # Recognize time or year, and compute missing one.
             if ($year_or_time =~ /([0-9]{2}):([0-9]{2})/) {
-                $hours = 0 + $1; $minutes = 0 + $2;
+                $hours = 0 + $1;
+                $minutes = 0 + $2;
                 my @this_date = gmtime(time());
                 my $this_month = $this_date[4];
                 my $this_year = $this_date[5];
@@ -221,7 +222,8 @@ sub do_mdtm {
                     $year = $this_year;
                 }
             } elsif ($year_or_time =~ / [0-9]{4}/) {
-                $hours = 0; $minutes = 0;
+                $hours = 0;
+                $minutes = 0;
                 $year = $year_or_time - 1900;
             } else {
                 die 'cannot parse year-or-time';
