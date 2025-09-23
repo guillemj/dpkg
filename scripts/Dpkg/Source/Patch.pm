@@ -731,16 +731,24 @@ sub check_apply {
 sub get_type {
     my $file = shift;
     if (not lstat($file)) {
-        return g_('nonexistent') if $! == ENOENT;
+        return g_('nonexistent')
+            if $! == ENOENT;
         syserr(g_('cannot stat %s'), $file);
     } else {
-        -f _ && return g_('plain file');
-        -d _ && return g_('directory');
-        -l _ && return sprintf(g_('symlink to %s'), readlink($file));
-        -b _ && return g_('block device');
-        -c _ && return g_('character device');
-        -p _ && return g_('named pipe');
-        -S _ && return g_('named socket');
+        return g_('plain file')
+            if -f _ ;
+        return g_('directory')
+            if -d _;
+        return sprintf(g_('symlink to %s'), readlink($file))
+            if -l _;
+        return g_('block device')
+            if -b _;
+        return g_('character device')
+            if -c _;
+        return g_('named pipe')
+            if -p _;
+        return g_('named socket')
+            if -S _;
     }
 }
 

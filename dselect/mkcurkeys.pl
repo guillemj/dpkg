@@ -30,9 +30,9 @@ open(my $override_fh, '<', $ARGV[0]) or die $!;
 while (<$override_fh>) {
     chomp;
     # Skip comments.
-    /^#/ && next;
+    next if m{^#};
     # Ignore blank lines.
-    /\S/ || next;
+    next unless m{\S};
     if (/^(\w+)\s+(\S.*\S)\s*$/) {
         $over{$1} = $2;
         $base{$1} = '';
@@ -52,7 +52,7 @@ for my $i (1 .. 26) {
 open(my $header_fh, '<', $ARGV[1]) or die $!;
 while (<$header_fh>) {
     s/\s+$//;
-    m/#define KEY_(\w+)\s+\d+\s+/p || next;
+    next unless m{#define KEY_(\w+)\s+\d+\s+}p;
     my $rhs = ${^POSTMATCH};
     my $k = "KEY_$1";
     $base{$k} = capit($1);
