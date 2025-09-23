@@ -20,7 +20,8 @@
 use v5.36;
 
 eval q{
-    use Dpkg; # Dummy import to require the presence of Dpkg::*.
+    # Dummy import to require the presence of Dpkg::*.
+    use Dpkg;
 };
 if ($@) {
     warn "Missing Dpkg modules required by the FTP access method.\n\n";
@@ -77,7 +78,7 @@ $| = 1;
 print <<"EOM";
 
 You must supply an ftp site, use of passive mode, username, password,
-path to the debian directory,list of distributions you are interested
+path to the debian directory, list of distributions you are interested
 in and place to download the binary package files to (relative to
 /var/lib/dpkg/methods/ftp). You can add as much sites as you like. Later
 entries will always override older ones.

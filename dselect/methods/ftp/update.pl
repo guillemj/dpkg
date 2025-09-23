@@ -20,7 +20,8 @@
 use v5.36;
 
 eval q{
-    use Dpkg; # Dummy import to require the presence of Dpkg::*.
+    # Dummy import to require the presence of Dpkg::*.
+    use Dpkg;
 };
 if ($@) {
     warn "Missing Dpkg modules required by the FTP access method.\n\n";

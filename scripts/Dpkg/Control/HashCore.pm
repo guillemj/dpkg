@@ -199,7 +199,8 @@ sub parse {
 
     my $paraborder = 1;
     my $parabody = 0;
-    my $cf; # Current field
+    # Current field.
+    my $cf;
     my $expect_pgp_sig = 0;
     local $_;
 
