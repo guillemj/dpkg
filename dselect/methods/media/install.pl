@@ -202,8 +202,8 @@ $line = 0;
             split /^(\S*?):\s*/m,
         );
         foreach my $field (keys %status) {
-            chomp $status{$_};
-            $status{$_} =~ s/^\s*(.*?)\s*$/$1/;
+            chomp $status{$field};
+            $status{$field} =~ s/^\s*(.*?)\s*$/$1/;
         }
         my @pstat = split(/ /, $status{Status});
         next unless ($pstat[0] eq 'install');
@@ -236,8 +236,8 @@ open my $avail_fh, '<', $AVAIL
             split /^(\S*?):\s*/m,
         );
         foreach my $field (keys %avail) {
-            chomp $avail{$_};
-            $avail{$_} =~ s/^\s*(.*?)\s*$/$1/;
+            chomp $avail{$field};
+            $avail{$field} =~ s/^\s*(.*?)\s*$/$1/;
         }
 
         next unless defined $installed{$avail{Package}};
@@ -291,11 +291,11 @@ foreach my $need (@media) {
     unlink <tmp/*>;
 
     print "creating symlinks...\n";
-    foreach (@{$medium{$need}}) {
+    foreach my $pkgname (@{$medium{$need}}) {
         my $basename;
 
-        ($basename = $filename{$_}) =~ s/.*\///;
-        symlink "$p_mountpoint/$p_hierbase/$filename{$_}", "tmp/$basename";
+        ($basename = $filename{$pkgname}) =~ s/.*\///;
+        symlink "$p_mountpoint/$p_hierbase/$filename{$pkgname}", "tmp/$basename";
     }
     chdir 'tmp' or die "cannot chdir to tmp: $!\n";
     system 'dpkg', '-iGROEB', q{.};

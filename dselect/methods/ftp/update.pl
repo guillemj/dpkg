@@ -72,22 +72,20 @@ my $ftp;
 my $packages_modified = 0;
 
 sub download {
-    foreach (@{$CONFIG{site}}) {
-        my $site = $_;
-
+    foreach my $site (@{$CONFIG{site}}) {
         $ftp = do_connect(
-            ftpsite => $_->[0],
-            ftpdir => $_->[1],
-            passive => $_->[3],
-            username => $_->[4],
-            password => $_->[5],
+            ftpsite => $site->[0],
+            ftpdir => $site->[1],
+            passive => $site->[3],
+            username => $site->[4],
+            password => $site->[5],
             useproxy => $CONFIG{use_auth_proxy},
             proxyhost => $CONFIG{proxyhost},
             proxylogname => $CONFIG{proxylogname},
             proxypassword => $CONFIG{proxypassword},
         );
 
-        my @dists = @{$_->[2]};
+        my @dists = @{$site->[2]};
         PACKAGE: foreach my $dist (@dists) {
             my $dir = "$dist/binary-$arch";
             my $must_get = 0;

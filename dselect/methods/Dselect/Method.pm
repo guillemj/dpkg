@@ -102,8 +102,8 @@ sub read_config {
     $conf = eval $code;
     die "couldn't eval $vars content: $@\n" if $@;
     if (ref($conf) =~ /HASH/) {
-        foreach (keys %{$conf}) {
-            $CONFIG{$_} = $conf->{$_};
+        foreach my $var (keys %{$conf}) {
+            $CONFIG{$var} = $conf->{$var};
         }
     } else {
         print "Bad $vars file : removing it.\n";
@@ -137,8 +137,8 @@ sub edit_config {
     while (1) {
         $i = 1;
         print "\n\nList of selected $method sites :\n";
-        foreach (@{$CONFIG{site}}) {
-            print "$i. $method://$_->[0]$_->[1] @{$_->[2]}\n";
+        foreach my $site (@{$CONFIG{site}}) {
+            print "$i. $method://$site->[0]$site->[1] @{$site->[2]}\n";
             $i++;
         }
         print "\nEnter a command (a=add e=edit d=delete q=quit m=mirror list) \n";
