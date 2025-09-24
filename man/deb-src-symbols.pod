@@ -162,7 +162,6 @@ value: it could be used to indicate why the symbol is considered optional.
 
 These tags allow one to restrict the set of architectures where the symbol
 is supposed to exist.
-The B<arch-bits> and B<arch-endian> tags are supported since dpkg 1.18.0.
 When the symbols list is updated with
 the symbols
 discovered in the library, all arch-specific symbols which do not concern
@@ -211,14 +210,18 @@ Multiple restrictions can be chained.
 
   (arch-bits=32|arch-endian=little)32bit_le_symbol@Base 1.0
 
+Support for tags B<arch-bits> and B<arch-endian> since dpkg 1.18.0.
+
 =item B<allow-internal>
 
 dpkg-gensymbols has a list of internal symbols that should not
 appear in symbols files as they are usually only side-effects of
-implementation details of the toolchain (since dpkg 1.20.1).
+implementation details of the toolchain.
 If for some reason, you really want one of those symbols to be included in
 the symbols file, you should tag the symbol with B<allow-internal>.
 It can be necessary for some low level toolchain libraries like “libgcc”.
+
+Supported since dpkg 1.20.1.
 
 =item B<c++>
 

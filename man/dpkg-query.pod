@@ -169,19 +169,22 @@ nor will it list alternatives.
 
 =item B<--control-list> I<package-name>
 
-List control files installed to your system from I<package-name>
-(since dpkg 1.16.5).
+List control files installed to your system from I<package-name>.
 These can be used as input arguments to B<--control-show>.
+
+Supported since dpkg 1.16.5.
 
 =item B<--control-show> I<package-name> I<control-file>
 
 Print the I<control-file> installed to your system from I<package-name>
-to the standard output (since dpkg 1.16.5).
+to the standard output.
+
+Supported since dpkg 1.16.5.
 
 =item B<-c>, B<--control-path> I<package-name> [I<control-file>]
 
 List paths for control files installed to your system from I<package-name>
-(since dpkg 1.15.4).
+.
 If I<control-file> is specified then only list the path for that control
 file if it is present.
 
@@ -193,6 +196,8 @@ Although, as long as there is still at least
 one case where this command is needed (i.e. when having to remove a
 damaging postrm maintainer script), and while there is no good solution
 for that, this command will not get removed.
+
+Supported since dpkg 1.15.4.
 
 =item B<-S>, B<--search> I<filename-search-pattern>...
 
@@ -273,25 +278,32 @@ I<%ADMINDIR%>.
 =item B<--root=>I<directory>
 
 Set the root directory to I<directory>, which sets the administrative
-directory to «I<directory>%ADMINDIR%» (since dpkg 1.21.0).
+directory to «I<directory>%ADMINDIR%».
+
+Supported since dpkg 1.21.0.
 
 =item B<--load-avail>
 
 Also load the available file when using the B<--show> and B<--list>
-commands, which now default to only querying the status file
-(since dpkg 1.16.2).
+commands, which now default to only querying the status file.
+
+Supported since dpkg 1.16.2.
 
 =item B<--no-pager>
 
-Disables the use of any pager when showing information (since dpkg 1.19.2).
+Disables the use of any pager when showing information.
+
+Supported since dpkg 1.19.2.
 
 =item B<-f>, B<--showformat=>I<format>
 
 This option is used to specify the format of the output B<--show>
-will produce (short option since dpkg 1.13.1).
+will produce.
 The format is a string that will be output for each package listed.
 
 In the format string, “B<\>” introduces escapes:
+
+Support for short option B<-f> since dpkg 1.13.1.
 
 =over
 
@@ -406,65 +418,82 @@ fields in control files):
 =item B<binary:Package>
 
 It contains the binary package name with a possible architecture qualifier
-like “libc6:amd64” (since dpkg 1.16.2).
+like “libc6:amd64”.
 An architecture qualifier will be present to make the package name unambiguous,
 for packages with a B<Multi-Arch> field with the value B<same> or
 with a foreign architecture, which is an architecture that is neither
 the native one nor B<all>.
 
+Supported since dpkg 1.16.2.
+
 =item B<binary:Synopsis>
 
-It contains the package short description (since dpkg 1.19.1).
+It contains the package short description.
+
+Supported since dpkg 1.19.1.
 
 =item B<binary:Summary>
 
-This is an alias for B<binary:Synopsis> (since dpkg 1.16.2).
+This is an alias for B<binary:Synopsis>.
+
+Supported since dpkg 1.16.2.
 
 =item B<db:Status-Abbrev>
 
 It contains the abbreviated package status (as three characters),
-such as “ii ” or “iHR” (since dpkg 1.16.2).
+such as “ii ” or “iHR”.
 See the B<--list> command description for more details.
+
+Supported since dpkg 1.16.2.
 
 =item B<db:Status-Want>
 
-It contains the package wanted status, part of the Status field
-(since dpkg 1.17.11).
+It contains the package wanted status, part of the Status field.
+
+Supported since dpkg 1.17.11.
 
 =item B<db:Status-Status>
 
-It contains the package status word, part of the Status field
-(since dpkg 1.17.11).
+It contains the package status word, part of the Status field.
+
+Supported since dpkg 1.17.11.
 
 =item B<db:Status-Eflag>
 
-It contains the package status error flag, part of the Status field
-(since dpkg 1.17.11).
+It contains the package status error flag, part of the Status field.
+
+Supported since dpkg 1.17.11.
 
 =item B<db-fsys:Files>
 
-It contains the list of the package filesystem entries separated by newlines
-(since dpkg 1.19.3).
+It contains the list of the package filesystem entries separated by newlines.
+
+Supported since dpkg 1.19.3.
 
 =item B<db-fsys:Last-Modified>
 
 It contains the timestamp in seconds of the last time the package filesystem
-entries were modified (since dpkg 1.19.3).
+entries were modified.
+
+Supported since dpkg 1.19.3.
 
 =item B<source:Package>
 
-It contains the source package name for this binary package
-(since dpkg 1.16.2).
+It contains the source package name for this binary package.
+
+Supported since dpkg 1.16.2.
 
 =item B<source:Version>
 
-It contains the source package version for this binary package
-(since dpkg 1.16.2)
+It contains the source package version for this binary package.
+
+Supported since dpkg 1.16.2.
 
 =item B<source:Upstream-Version>
 
-It contains the source package upstream version for this binary package
-(since dpkg 1.18.16)
+It contains the source package upstream version for this binary package.
+
+Supported since dpkg 1.18.16.
 
 =back
 
@@ -516,19 +545,19 @@ memory allocations, etc.
 
 =item B<SHELL>
 
-Sets the program to execute when spawning a command via a shell
-(since dpkg 1.19.2).
+Sets the program to execute when spawning a command via a shell.
+
+Supported since dpkg 1.19.2.
 
 =item B<PAGER>
 
 =item B<DPKG_PAGER>
 
-Sets the pager command to use (since dpkg 1.19.1), which will be executed
+Sets the pager command to use, which will be executed
 with «B<$SHELL -c>».
 If B<SHELL> is not set, «B<%DPKG_DEFAULT_SHELL%>» will be used instead.
 
-The B<DPKG_PAGER> overrides the B<PAGER> environment variable
-(since dpkg 1.19.2).
+The B<DPKG_PAGER> overrides the B<PAGER> environment variable.
 If none of the programs pointed by B<DPKG_PAGER> or B<PAGER> are present,
 the following programs will be tried in order (since dpkg 1.22.12):
 the default pager B<%DPKG_DEFAULT_PAGER%>,
@@ -536,10 +565,15 @@ then L<less(1)>,
 L<more(1)>,
 and finally L<cat(1)>.
 
+Support for B<PAGER> since dpkg 1.19.1.
+Support for B<DPKG_PAGER> since dpkg 1.19.2.
+
 =item B<DPKG_ROOT>
 
 If set and the B<--root> option has not been specified, it will
-be used as the filesystem root directory (since dpkg 1.21.0).
+be used as the filesystem root directory.
+
+Supported since dpkg 1.21.0.
 
 =item B<DPKG_ADMINDIR>
 
@@ -548,21 +582,27 @@ be used as the B<dpkg> data directory.
 
 =item B<DPKG_DEBUG>
 
-Sets the debug mask (since dpkg 1.21.10) from an octal value.
+Sets the debug mask from an octal value.
 The currently accepted flags are described in the B<dpkg --debug> option,
 but not all these flags might have an effect on this program.
 
+Supported since dpkg 1.21.10.
+
 =item B<DPKG_COLORS>
 
-Sets the color mode (since dpkg 1.18.5).
+Sets the color mode.
 The currently accepted values are: B<auto> (default), B<always> and
 B<never>.
+
+Supported since dpkg 1.18.5.
 
 =item B<DPKG_NLS>
 
 If set, it will be used to decide whether to activate Native Language Support,
-also known as internationalization (or i18n) support (since dpkg 1.22.7).
+also known as internationalization (or i18n) support.
 The accepted values are: B<0> and B<1> (default).
+
+Supported since dpkg 1.22.7.
 
 =back
 
@@ -573,11 +613,13 @@ The accepted values are: B<0> and B<1> (default).
 =item B<LESS>
 
 Defined by B<dpkg-query> to “B<-FRSXMQ>”, if not already set, when
-spawning a pager (since dpkg 1.19.2).
+spawning a pager.
 To change the default behavior, this variable can be preset to some other
 value including an empty string, or the B<PAGER> or B<DPKG_PAGER>
 variables can be set to disable specific options with «B<-+>», for
 example B<DPKG_PAGER="less -+F">.
+
+Supported since dpkg 1.19.2.
 
 =back
 

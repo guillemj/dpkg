@@ -189,16 +189,16 @@ This option can be used multiple times.
 
 =item B<-l>I<directory>
 
-Prepend
-I<directory>
-to the list of directories to search for private shared libraries
-(since dpkg 1.17.0).
+Prepend I<directory> to the list of directories to search for private
+shared libraries.
 This option can be used multiple times.
 
 B<Note>: Use this option instead of setting B<LD_LIBRARY_PATH>,
 as that environment variable is used to control the run-time linker
 and abusing it to set the shared library paths at build-time can be
 problematic when cross-compiling for example.
+
+Supported since dpkg 1.17.0.
 
 =item B<-d>I<dependency-field>
 
@@ -238,7 +238,7 @@ then the default dependency field is B<Pre-Depends>, otherwise B<Depends>.
 The default package type is set from the B<Package-Type> field.
 The package is added to the set of packages excluded by B<-x>.
 
-Option supported since dpkg 1.22.7.
+Supported since dpkg 1.22.7.
 
 =item B<-p>I<varname-prefix>
 
@@ -255,10 +255,12 @@ are removed from the substitution variables file.
 =item B<-O>[I<filename>]
 
 Print substitution variable settings to standard output (or I<filename>
-if specified, since dpkg 1.17.2), rather than being added to the
+if specified), rather than being added to the
 substitution variables file
 (B<debian/substvars>
 by default).
+
+Support for optional argument since dpkg 1.17.2.
 
 =item B<-t>I<type>
 
@@ -286,14 +288,16 @@ B<debian/substvars>.
 
 =item B<-v>
 
-Enable verbose mode (since dpkg 1.14.8).
+Enable verbose mode.
 Numerous messages are displayed to explain what
 B<dpkg-shlibdeps>
 does.
 
+Supported since dpkg 1.14.8.
+
 =item B<-x>I<package>
 
-Exclude the package from the generated dependencies (since dpkg 1.14.8).
+Exclude the package from the generated dependencies.
 This is useful to
 avoid self-dependencies for packages which provide ELF binaries
 (executables or library plugins) using a library contained in the same
@@ -301,10 +305,11 @@ package.
 This option can be used multiple times to exclude several
 packages.
 
+Supported since dpkg 1.14.8.
+
 =item B<-S>I<package-build-dir>
 
-Look into I<package-build-dir> first when trying to find a library
-(since dpkg 1.14.15).
+Look into I<package-build-dir> first when trying to find a library.
 This is
 useful when the source package builds multiple flavors of the same library
 and you want to ensure that you get the dependency from a given binary
@@ -312,28 +317,34 @@ package.
 You can use this option multiple times: directories will be
 tried in the same order before directories of other binary packages.
 
+Supported since dpkg 1.14.15.
+
 =item B<-I>I<package-build-dir>
 
 Ignore I<package-build-dir> when looking for shlibs, symbols, and shared
-library files (since dpkg 1.18.5).
+library files.
 You can use this option multiple times.
+
+Supported since dpkg 1.18.5.
 
 =item B<--ignore-missing-info>
 
-Do not fail if dependency information can't be found for a shared library
-(since dpkg 1.14.8).
+Do not fail if dependency information can't be found for a shared library.
 Usage of this option is discouraged, all libraries should provide
 dependency information (either with shlibs files, or with symbols files)
 even if they are not yet used by other packages.
 
+Supported since dpkg 1.14.8.
+
 =item B<--warnings=>[I<value>|I<string>[,...]]
 
-Select the set of warnings that can be emitted by B<dpkg-shlibdeps>
-(since dpkg 1.14.17).
+Select the set of warnings that can be emitted by B<dpkg-shlibdeps>.
 
 The warnings can be selected from a comma-separated list of symbolic
 names (since dpkg 1.22.12),
 or from a I<value> denoting a bit field for these warnings.
+
+Supported since dpkg 1.14.17.
 
 =over
 
@@ -358,8 +369,10 @@ Select the warning “I<binary> should not be linked against I<library>”.
 
 =item B<--admindir=>I<dir>
 
-Change the location of the B<dpkg> database (since dpkg 1.14.0).
+Change the location of the B<dpkg> database.
 The default location is I<%ADMINDIR%>.
+
+Supported since dpkg 1.14.0.
 
 =item B<-?>, B<--help>
 
@@ -383,15 +396,19 @@ their default search pathnames.
 
 =item B<DPKG_COLORS>
 
-Sets the color mode (since dpkg 1.18.5).
+Sets the color mode.
 The currently accepted values are: B<auto> (default), B<always> and
 B<never>.
+
+Supported since dpkg 1.18.5.
 
 =item B<DPKG_NLS>
 
 If set, it will be used to decide whether to activate Native Language Support,
-also known as internationalization (or i18n) support (since dpkg 1.19.0).
+also known as internationalization (or i18n) support.
 The accepted values are: B<0> and B<1> (default).
+
+Supported since dpkg 1.19.0.
 
 =back
 

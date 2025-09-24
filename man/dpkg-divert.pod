@@ -67,9 +67,11 @@ List all diversions, or ones matching I<glob-pattern>.
 
 =item B<--listpackage> I<file>
 
-Print the name of the package that diverts I<file> (since dpkg 1.15.0).
+Print the name of the package that diverts I<file>.
 Prints LOCAL if
 I<file> is locally diverted and nothing if I<file> is not diverted.
+
+Supported since dpkg 1.15.0.
 
 =item B<--truename> I<file>
 
@@ -89,15 +91,19 @@ Defaults to «I<%ADMINDIR%>» if B<DPKG_ADMINDIR> has not been set.
 =item B<--instdir> I<directory>
 
 Set the installation directory, which refers to the directory where
-packages get installed (since dpkg 1.19.2).
+packages get installed.
 Defaults to «I</>» if B<DPKG_ROOT> has not been set.
+
+Supported since dpkg 1.19.2.
 
 =item B<--root> I<directory>
 
 Set the root directory to B<directory>, which sets the installation
 directory to «I<directory>» and the administrative
-directory to «I<directory>B<%ADMINDIR%>» (since dpkg 1.19.2)
+directory to «I<directory>B<%ADMINDIR%>»
 if B<DPKG_ROOT> has not been set.
+
+Supported since dpkg 1.19.2.
 
 =item B<--divert> I<divert-to>
 
@@ -134,13 +140,15 @@ non-B<Essential> package set (see B<--no-rename> for more details).
 =item B<--no-rename>
 
 Specifies that the file should not be renamed while adding or removing the
-diversion into the database (since dpkg 1.19.1).
+diversion into the database.
 This is intended for diversions of files from the B<Essential> package set,
 where the temporary disappearance of the original file is not acceptable, as
 it can render the system non-functional.
 This is the default behavior,
 which will change once there are no known users,
 but not before the dpkg 1.23.x release cycle.
+
+Supported since dpkg 1.19.1.
 
 =item B<--test>
 
@@ -179,8 +187,9 @@ memory allocations, etc.
 =item B<DPKG_ROOT>
 
 If set and the B<--instdir> or B<--root> options have not been
-specified, it will be used as the filesystem root directory
-(since dpkg 1.19.2).
+specified, it will be used as the filesystem root directory.
+
+Supported since dpkg 1.19.2.
 
 =item B<DPKG_ADMINDIR>
 
@@ -194,21 +203,27 @@ specified, B<dpkg-divert> will use it as the package name.
 
 =item B<DPKG_DEBUG>
 
-Sets the debug mask (since dpkg 1.21.10) from an octal value.
+Sets the debug mask from an octal value.
 The currently accepted flags are described in the B<dpkg --debug> option,
 but not all these flags might have an effect on this program.
 
+Supported since dpkg 1.21.10.
+
 =item B<DPKG_COLORS>
 
-Sets the color mode (since dpkg 1.18.5).
+Sets the color mode.
 The currently accepted values are: B<auto> (default), B<always> and
 B<never>.
+
+Supported since dpkg 1.18.5.
 
 =item B<DPKG_NLS>
 
 If set, it will be used to decide whether to activate Native Language Support,
-also known as internationalization (or i18n) support (since dpkg 1.22.7).
+also known as internationalization (or i18n) support.
 The accepted values are: B<0> and B<1> (default).
+
+Supported since dpkg 1.22.7.
 
 =back
 

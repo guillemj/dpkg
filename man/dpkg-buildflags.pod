@@ -70,7 +70,8 @@ Override the flag named I<flag> to have the value I<value>.
 =item B<STRIP> I<flag> I<value>
 
 Strip from the flag named I<flag> all the build flags listed in I<value>.
-Since dpkg 1.16.1.
+
+Supported since dpkg 1.16.1.
 
 =item B<APPEND> I<flag> I<value>
 
@@ -81,7 +82,8 @@ A space is prepended to the appended value if the flag's current value is non-em
 
 Extend the flag named I<flag> by prepending the options given in I<value>.
 A space is appended to the prepended value if the flag's current value is non-empty.
-Since dpkg 1.16.1.
+
+Supported since dpkg 1.16.1.
 
 =back
 
@@ -113,7 +115,7 @@ information about them.
 =item B<--status>
 
 Display any information that can be useful to explain the behavior of
-B<dpkg-buildflags> (since dpkg 1.16.5): relevant environment variables,
+B<dpkg-buildflags>: relevant environment variables,
 current vendor, state of all feature flags.
 Also print the resulting compiler flags with their origin.
 
@@ -121,6 +123,8 @@ This is intended to be run from B<debian/rules>, so that the build log
 keeps a clear trace of the build flags used.
 This can be useful to diagnose
 problems related to them.
+
+Supported since dpkg 1.16.5.
 
 =item B<--export=>I<format>
 
@@ -144,9 +148,11 @@ evaluation by a shell.
 =item B<cmdline>
 
 Arguments to pass to a build program's command line to use all the
-compilation flags (since dpkg 1.17.0).
+compilation flags.
 The flag values are quoted in
 shell syntax.
+
+Supported since dpkg 1.17.0.
 
 =item B<configure>
 
@@ -199,8 +205,8 @@ the flag is set/modified by an environment-specific configuration.
 Print any information that can be useful to explain the behavior of the
 program: current vendor, relevant environment variables, feature areas,
 state of all feature flags, whether a feature is handled as a builtin
-default by the compiler (since dpkg 1.21.14),
-and the compiler flags with their origin (since dpkg 1.19.0).
+default by the compiler,
+and the compiler flags with their origin.
 
 For example:
 
@@ -233,12 +239,14 @@ For example:
  Value: -D_FORTIFY_SOURCE=2
  Origin: vendor
 
+Support for B<Flag> stanza since dpkg 1.19.0.
+Support for B<Builtins> field in B<Area> stanza since dpkg 1.21.14.
+
 =item B<--query-features> I<area>
 
-Print the features enabled for a given area (since dpkg 1.16.2).
+Print the features enabled for a given area.
 If the feature is handled (even if only on some architectures) as a
-builtin default by the compiler, then a B<Builtin> field is printed
-(since dpkg 1.21.14).
+builtin default by the compiler, then a B<Builtin> field is printed.
 See the L</FEATURE AREAS> section for more details about the currently
 recognized areas.
 Exits with 0 if the area is known otherwise exits with 1.
@@ -252,6 +260,9 @@ For example:
 
  Feature: stackprotector
  Enabled: yes
+
+Supported since dpkg 1.16.2.
+Support for B<Builtin> field since dpkg 1.21.14.
 
 =item B<--help>
 
@@ -271,7 +282,8 @@ Show the version and exit.
 
 Options for the host assembler.
 Default value: empty.
-Since dpkg 1.21.0.
+
+Supported since dpkg 1.21.0.
 
 =item B<CFLAGS>
 
@@ -295,18 +307,21 @@ Same as B<CFLAGS>.
 
 Options for the host Objective C compiler.
 Same as B<CFLAGS>.
-Since dpkg 1.17.7.
+
+Supported since dpkg 1.17.7.
 
 =item B<OBJCXXFLAGS>
 
 Options for the host Objective C++ compiler.
 Same as B<CXXFLAGS>.
-Since dpkg 1.17.7.
+
+Supported since dpkg 1.17.7.
 
 =item B<DFLAGS>
 
 Options for the host D compiler (ldc or gdc).
-Since dpkg 1.20.6.
+
+Supported since dpkg 1.20.6.
 
 =item B<FFLAGS>
 
@@ -317,7 +332,8 @@ A subset of B<CFLAGS>.
 
 Options for the host Fortran 9x compiler.
 Same as B<FFLAGS>.
-Since dpkg 1.17.7.
+
+Supported since dpkg 1.17.7.
 
 =item B<LDFLAGS>
 
@@ -338,7 +354,8 @@ Default value: empty.
 
 Options for the build assembler.
 Default value: empty.
-Since dpkg 1.22.1.
+
+Supported since dpkg 1.22.1.
 
 =item B<CFLAGS_FOR_BUILD>
 
@@ -346,48 +363,56 @@ Options for the build C compiler.
 The default value set by the vendor includes B<-g> and the default
 optimization level (B<-O2> usually, or B<-O0> if the B<DEB_BUILD_OPTIONS>
 environment variable defines I<noopt>).
-Since dpkg 1.22.1.
+
+Supported since dpkg 1.22.1.
 
 =item B<CPPFLAGS_FOR_BUILD>
 
 Options for the build C preprocessor.
 Default value: empty.
-Since dpkg 1.22.1.
+
+Supported since dpkg 1.22.1.
 
 =item B<CXXFLAGS_FOR_BUILD>
 
 Options for the build C++ compiler.
 Same as B<CFLAGS_FOR_BUILD>.
-Since dpkg 1.22.1.
+
+Supported since dpkg 1.22.1.
 
 =item B<OBJCFLAGS_FOR_BUILD>
 
 Options for the build Objective C compiler.
 Same as B<CFLAGS_FOR_BUILD>.
-Since dpkg 1.22.1.
+
+Supported since dpkg 1.22.1.
 
 =item B<OBJCXXFLAGS_FOR_BUILD>
 
 Options for the build Objective C++ compiler.
 Same as B<CXXFLAGS_FOR_BUILD>.
-Since dpkg 1.22.1.
+
+Supported since dpkg 1.22.1.
 
 =item B<DFLAGS_FOR_BUILD>
 
 Options for the build D compiler (ldc or gdc).
-Since dpkg 1.22.1.
+
+Supported since dpkg 1.22.1.
 
 =item B<FFLAGS_FOR_BUILD>
 
 Options for the build Fortran 77 compiler.
 A subset of B<CFLAGS_FOR_BUILD>.
-Since dpkg 1.22.1.
+
+Supported since dpkg 1.22.1.
 
 =item B<FCFLAGS_FOR_BUILD>
 
 Options for the build Fortran 9x compiler.
 Same as B<FFLAGS_FOR_BUILD>.
-Since dpkg 1.22.1.
+
+Supported since dpkg 1.22.1.
 
 =item B<LDFLAGS_FOR_BUILD>
 
@@ -404,7 +429,7 @@ will depend on the intended semantics of the L<ld(1)> invocation.
 
 Default value: empty.
 
-Since dpkg 1.22.1.
+Supported since dpkg 1.22.1.
 
 =back
 
@@ -469,7 +494,7 @@ backwards compatibility reasons unless coordinated or checked individually.
 
 =item B<lfs>
 
-This setting (since dpkg 1.22.0) enables
+This setting enables
 Large File Support on 32-bit architectures where their ABI does
 not include LFS by default, by adding
 B<-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64> to B<CPPFLAGS>.
@@ -483,9 +508,11 @@ feature in the B<future> feature area.
 
 Disabled by default.
 
+Supported since dpkg 1.22.0.
+
 =item B<time64>
 
-This setting (since dpkg 1.22.0) enables 64-bit time_t support
+This setting enables 64-bit time_t support
 on 32-bit architectures where their ABI does not include it by default,
 by adding B<-D_TIME_BITS=64> to B<CPPFLAGS>.
 This setting automatically enables the B<lfs> feature from the B<abi>
@@ -512,6 +539,8 @@ B<-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS -U_TIME_BITS> to B<CPPFLAGS>.
 
 Enabled by default except for i386 and hurd-i386 since dpkg 1.22.5.
 
+Supported since dpkg 1.22.0.
+
 =back
 
 =head2 future
@@ -524,11 +553,13 @@ reasons.
 
 =item B<lfs>
 
-This setting (since dpkg 1.19.0) is now an alias
+This setting is now an alias
 for the B<lfs> feature in the B<abi> area, use that instead.
 The feature from the B<abi> area overrides this setting.
 
 Disabled by default.
+
+Supported since dpkg 1.19.0.
 
 =back
 
@@ -541,14 +572,16 @@ problems in the source code or build system.
 
 =item B<bug-implicit-func>
 
-This setting (since dpkg 1.22.3) adds
+This setting adds
 B<-Werror=implicit-function-declaration> to B<CFLAGS>.
 
 Enabled by default since dpkg 1.22.6.
 
+Supported since dpkg 1.22.3.
+
 =item B<bug>
 
-This setting (since dpkg 1.17.4) adds any warning
+This setting adds any warning
 option that reliably detects problematic source code.
 The warnings are fatal.
 The only currently supported flags are B<CFLAGS> and B<CXXFLAGS>
@@ -561,9 +594,11 @@ the B<bug-implicit-func> feature, if that has not been specified.
 
 Disabled by default.
 
+Supported since dpkg 1.17.4.
+
 =item B<canary>
 
-This setting (since dpkg 1.17.14) adds dummy canary
+This setting adds dummy canary
 options to the build flags, so that the build logs can be checked for how
 the build flags propagate and to allow finding any omission of normal
 build flag settings.
@@ -574,25 +609,31 @@ B<LDFLAGS> set to B<-Wl,-z,deb-canary->I<random-id>.
 
 Disabled by default.
 
+Supported since dpkg 1.17.14.
+
 =back
 
 =head2 optimize
 
 Several compile-time options (detailed below) can be used to help optimize
-a resulting binary (since dpkg 1.21.0).
+a resulting binary.
 B<Note>: Enabling B<all> these options can result in unreproducible binary
 artifacts.
+
+Supported since dpkg 1.21.0.
 
 =over
 
 =item B<lto>
 
-This setting (since dpkg 1.21.0) enables
+This setting enables
 Link Time Optimization by adding B<-flto=auto -ffat-lto-objects> to
 B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS>, B<FCFLAGS> and B<LDFLAGS>.
 
 Disabled by default.
+
+Supported since dpkg 1.21.0.
 
 =back
 
@@ -609,24 +650,28 @@ even functionality.
 
 =item B<address>
 
-This setting (since dpkg 1.18.0) adds
+This setting adds
 B<-fsanitize=address> to
 B<LDFLAGS> and B<-fsanitize=address -fno-omit-frame-pointer> to
 B<CFLAGS> and B<CXXFLAGS>.
 
 Disabled by default.
 
+Supported since dpkg 1.18.0.
+
 =item B<thread>
 
-This setting (since dpkg 1.18.0) adds
+This setting adds
 B<-fsanitize=thread> to
 B<CFLAGS>, B<CXXFLAGS> and B<LDFLAGS>.
 
 Disabled by default.
 
+Supported since dpkg 1.18.0.
+
 =item B<leak>
 
-This setting (since dpkg 1.18.0) adds
+This setting adds
 B<-fsanitize=leak> to
 B<LDFLAGS>.
 It gets automatically disabled if either the B<address>
@@ -634,13 +679,17 @@ or the B<thread> features are enabled, as they imply it.
 
 Disabled by default.
 
+Supported since dpkg 1.18.0.
+
 =item B<undefined>
 
-This setting (since dpkg 1.18.0) adds
+This setting adds
 B<-fsanitize=undefined> to
 B<CFLAGS>, B<CXXFLAGS> and B<LDFLAGS>.
 
 Disabled by default.
+
+Supported since dpkg 1.18.0.
 
 =back
 
@@ -656,7 +705,7 @@ that support them.
 
 =item B<format>
 
-This setting (since dpkg 1.16.1) adds
+This setting adds
 B<-Wformat -Werror=format-security>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS> and B<OBJCXXFLAGS>.
 This will warn about improper format
@@ -671,9 +720,11 @@ input and contains ‘%n’.
 
 Enabled by default.
 
+Supported since dpkg 1.16.1.
+
 =item B<fortify>
 
-This setting (since dpkg 1.16.1) adds
+This setting adds
 B<-D_FORTIFY_SOURCE=2>
 to B<CPPFLAGS>.
 During code generation the compiler
@@ -695,9 +746,11 @@ glibc 2.16 and later.
 
 Enabled by default.
 
+Supported since dpkg 1.16.1.
+
 =item B<stackprotector>
 
-This setting (since dpkg 1.16.1) adds B<-fstack-protector --param=ssp-buffer-size=4>
+This setting adds B<-fstack-protector --param=ssp-buffer-size=4>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS>.
 This adds safety checks against stack
@@ -713,9 +766,11 @@ B<-nostdlib> or B<-ffreestanding> or similar.
 
 Enabled by default if B<stackprotectorstrong> is not in use.
 
+Supported since dpkg 1.16.1.
+
 =item B<stackprotectorstrong>
 
-This setting (since dpkg 1.17.11) adds
+This setting adds
 B<-fstack-protector-strong>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS>.
@@ -728,9 +783,11 @@ addition also requires gcc 4.9 and later.
 Enabled by default.
 Disabling B<stackprotector> will also disable this setting.
 
+Supported since dpkg 1.17.11.
+
 =item B<stackclash>
 
-This setting (since dpkg 1.22.0) adds
+This setting adds
 B<-fstack-clash-protection> on B<amd64>, B<arm64>, B<armhf> and B<armel> to
 B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS>.
@@ -738,9 +795,11 @@ This adds code to prevent stack clash style attacks.
 
 Enabled by default.
 
+Supported since dpkg 1.22.0.
+
 =item B<branch>
 
-This setting (since dpkg 1.22.0) adds B<-fcf-protection>
+This setting adds B<-fcf-protection>
 on B<amd64> and B<-mbranch-protection=standard> on B<arm64> to
 B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS>.
@@ -749,9 +808,11 @@ whether these are valid at run-time.
 
 Enabled by default.
 
+Supported since dpkg 1.22.0.
+
 =item B<relro>
 
-This setting (since dpkg 1.16.1) adds
+This setting adds
 B<-Wl,-z,relro>
 to B<LDFLAGS>.
 During program load,
@@ -764,9 +825,11 @@ B<bindnow> will become disabled as well.
 
 Enabled by default.
 
+Supported since dpkg 1.16.1.
+
 =item B<bindnow>
 
-This setting (since dpkg 1.16.1) adds
+This setting adds
 B<-Wl,-z,now>
 to B<LDFLAGS>.
 During program load, all dynamic symbols are resolved,
@@ -776,9 +839,11 @@ The option cannot become enabled if B<relro> is not enabled.
 
 Disabled by default.
 
+Supported since dpkg 1.16.1.
+
 =item B<pie>
 
-This setting (since dpkg 1.16.1) adds
+This setting adds
 the required options to enable or disable PIE via gcc specs files, if
 needed, depending on whether gcc injects on that architecture the flags
 by itself or not.
@@ -874,6 +939,8 @@ sparc and
 sparc64
 Debian architectures.
 
+Supported since dpkg 1.16.1.
+
 =back
 
 =head2 reproducible
@@ -888,7 +955,7 @@ architectures that support them.
 
 =item B<timeless>
 
-This setting (since dpkg 1.17.14) adds
+This setting adds
 B<-Wdate-time>
 to B<CPPFLAGS>.
 This will cause warnings when the B<__TIME__>, B<__DATE__> and
@@ -896,9 +963,11 @@ B<__TIMESTAMP__> macros are used.
 
 Enabled by default.
 
+Supported since dpkg 1.17.14.
+
 =item B<fixfilepath>
 
-This setting (since dpkg 1.19.1) adds
+This setting adds
 B<-ffile-prefix-map=>I<BUILDPATH>B<=.>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is
@@ -917,9 +986,11 @@ The ideal fix is to stop capturing build flags.
 
 Enabled by default.
 
+Supported since dpkg 1.19.1.
+
 =item B<fixdebugpath>
 
-This setting (since dpkg 1.18.5) adds
+This setting adds
 B<-fdebug-prefix-map=>I<BUILDPATH>B<=.>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is
@@ -930,6 +1001,8 @@ symbols.
 B<Note>: This feature has similar reproducible properties as B<fixfilepath>.
 
 Enabled by default.
+
+Supported since dpkg 1.18.5.
 
 =back
 
@@ -948,36 +1021,44 @@ by package maintainers to change the resulting build flags.
 
 =item B<DEB_>I<flag>B<_SET>
 
-=item B<DEB_>I<flag>B<_MAINT_SET> (since dpkg 1.16.1)
+=item B<DEB_>I<flag>B<_MAINT_SET>
 
 This variable can be used to force the value returned for the given
 I<flag>.
 
-=item B<DEB_>I<flag>B<_STRIP> (since dpkg 1.16.1)
+Support for B<DEB_>I<flag>B<_MAINT_SET> since dpkg 1.16.1.
 
-=item B<DEB_>I<flag>B<_MAINT_STRIP> (since dpkg 1.16.1)
+=item B<DEB_>I<flag>B<_STRIP>
+
+=item B<DEB_>I<flag>B<_MAINT_STRIP>
 
 This variable can be used to provide a space separated list of options
 that will be stripped from the set of flags returned for the given
 I<flag>.
 
+Supported since dpkg 1.16.1.
+
 =item B<DEB_>I<flag>B<_APPEND>
 
-=item B<DEB_>I<flag>B<_MAINT_APPEND> (since dpkg 1.16.1)
+=item B<DEB_>I<flag>B<_MAINT_APPEND>
 
 This variable can be used to append supplementary options to the value
 returned for the given I<flag>.
 
-=item B<DEB_>I<flag>B<_PREPEND> (since dpkg 1.16.1)
+Support for B<DEB_>I<flag>B<_MAINT_APPEND> since dpkg 1.16.1.
 
-=item B<DEB_>I<flag>B<_MAINT_PREPEND> (since dpkg 1.16.1)
+=item B<DEB_>I<flag>B<_PREPEND>
+
+=item B<DEB_>I<flag>B<_MAINT_PREPEND>
 
 This variable can be used to prepend supplementary options to the value
 returned for the given I<flag>.
 
+Supported since dpkg 1.16.1.
+
 =item B<DEB_BUILD_OPTIONS>
 
-=item B<DEB_BUILD_MAINT_OPTIONS> (since dpkg 1.16.1)
+=item B<DEB_BUILD_MAINT_OPTIONS>
 
 These variables can be used by a user or maintainer to disable/enable
 various area features that affect build flags.
@@ -991,6 +1072,8 @@ the list of such build profiles is vendor specific.
 For more information about build profiles,
 see L<dpkg-buildpackage(1)>.
 
+Support for B<DEB_BUILD_MAINT_OPTIONS> since dpkg 1.16.1.
+
 =item B<DEB_VENDOR>
 
 This setting defines the current vendor.
@@ -999,9 +1082,11 @@ B<%PKGCONFDIR%/origins/default>.
 
 =item B<DEB_BUILD_PATH>
 
-This variable sets the build path (since dpkg 1.18.8) to use in features
+This variable sets the build path to use in features
 such as B<fixdebugpath> so that they can be controlled by the caller.
 This variable is currently Debian and derivatives-specific.
+
+Supported since dpkg 1.18.8.
 
 =item B<DEB_HOST_ARCH>
 
@@ -1012,15 +1097,19 @@ where B<DEB_HOST_ARCH> is different to B<DEB_BUILD_ARCH>.
 
 =item B<DPKG_COLORS>
 
-Sets the color mode (since dpkg 1.18.5).
+Sets the color mode.
 The currently accepted values are: B<auto> (default), B<always> and
 B<never>.
+
+Supported since dpkg 1.18.5.
 
 =item B<DPKG_NLS>
 
 If set, it will be used to decide whether to activate Native Language Support,
-also known as internationalization (or i18n) support (since dpkg 1.19.0).
+also known as internationalization (or i18n) support.
 The accepted values are: B<0> and B<1> (default).
+
+Supported since dpkg 1.19.0.
 
 =back
 
@@ -1049,12 +1138,16 @@ User configuration file.
 =item B<%PKGDATADIR%/buildflags.mk>
 
 Makefile snippet that loads (and optionally exports) all flags
-supported by B<dpkg-buildflags> into variables (since dpkg 1.16.1).
+supported by B<dpkg-buildflags> into variables.
+
+Supported since dpkg 1.16.1.
 
 =item B<%PKGDATADIR%/buildtools.mk>
 
 Makefile snippet that sets suitable host and build tools
-(and optionally exports them) into variables (since dpkg 1.19.0).
+(and optionally exports them) into variables.
+
+Supported since dpkg 1.19.0.
 
 =back
 

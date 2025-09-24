@@ -256,7 +256,7 @@ Will process triggers unless B<--no-triggers> has been specified.
 
 =item B<--triggers-only> I<package>...|B<-a>|B<--pending>
 
-Processes only triggers (since dpkg 1.14.17).
+Processes only triggers.
 All pending triggers will be processed.
 If package
 names are supplied only those packages' triggers will be processed, exactly
@@ -265,6 +265,8 @@ Use of this option may leave packages in the improper B<triggers-awaited>
 and B<triggers-pending> states.
 This
 can be fixed later by running: B<dpkg --configure --pending>.
+
+Supported since dpkg 1.14.17.
 
 =item B<-r>, B<--remove> I<package>...|B<-a>|B<--pending>
 
@@ -341,8 +343,7 @@ Will process triggers unless B<--no-triggers> has been specified.
 
 Verifies the integrity of I<package-name> or all packages if omitted,
 by comparing information from the files installed by a package with the
-files metadata information stored in the B<dpkg> database
-(since dpkg 1.17.2).
+files metadata information stored in the B<dpkg> database.
 The origin
 of the files metadata information in the database is the binary packages
 themselves.
@@ -362,6 +363,8 @@ The output format is selectable with the B<--verify-format>
 option, which by default uses the B<rpm> format, but that might
 change in the future, and as such, programs parsing this command
 output should be explicit about the format they expect.
+
+Supported since dpkg 1.17.2.
 
 =item B<-C>, B<--audit> [I<package-name>...]
 
@@ -406,8 +409,10 @@ must refer to a directory instead.
 =item B<--forget-old-unavail>
 
 Now B<obsolete> and a no-op as B<dpkg> will automatically forget
-uninstalled unavailable packages (since dpkg 1.15.4), but only those that
+uninstalled unavailable packages, but only those that
 do not contain user information such as package selections.
+
+Obsolete since dpkg 1.15.4.
 
 =item B<--clear-avail>
 
@@ -437,10 +442,11 @@ information.
 
 =item B<--clear-selections>
 
-Set the requested state of every non-essential package to deinstall
-(since dpkg 1.13.18).
+Set the requested state of every non-essential package to deinstall.
 This is intended to be used immediately before B<--set-selections>,
 to deinstall any packages not in list given to B<--set-selections>.
+
+Supported since dpkg 1.13.18.
 
 =item B<--yet-to-unpack>
 
@@ -467,22 +473,25 @@ available and 2 on error.
 =item B<--add-architecture> I<architecture>
 
 Add I<architecture> to the list of architectures for which packages can
-be installed without using B<--force-architecture> (since dpkg 1.16.2).
+be installed without using B<--force-architecture>.
 The architecture
 B<dpkg> is built for (i.e. the output of B<--print-architecture>)
 is always part of that list.
 
+Supported since dpkg 1.16.2.
+
 =item B<--remove-architecture> I<architecture>
 
 Remove I<architecture> from the list of architectures for which packages
-can be installed without using B<--force-architecture>
-(since dpkg 1.16.2).
+can be installed without using B<--force-architecture>.
 If the
 architecture is currently in use in the database then the operation will
 be refused, except if B<--force-architecture> is specified.
 The
 architecture B<dpkg> is built for (i.e. the output of
 B<--print-architecture>) can never be removed from that list.
+
+Supported since dpkg 1.16.2.
 
 =item B<--print-architecture>
 
@@ -491,11 +500,15 @@ Print architecture of packages B<dpkg> installs (for example, “i386”).
 =item B<--print-foreign-architectures>
 
 Print a newline-separated list of the extra architectures B<dpkg> is
-configured to allow packages to be installed for (since dpkg 1.16.2).
+configured to allow packages to be installed for.
+
+Supported since dpkg 1.16.2.
 
 =item B<--assert-help>
 
-Give help about the B<--assert->I<feature> options (since dpkg 1.21.0).
+Give help about the B<--assert->I<feature> options.
+
+Supported since dpkg 1.21.0.
 
 =item B<--assert->I<feature>
 
@@ -508,59 +521,75 @@ The current list of assertable features is:
 
 =item B<support-predepends>
 
-Supports the B<Pre-Depends> field (since dpkg 1.1.0).
+Supports the B<Pre-Depends> field,
+since dpkg 1.1.0.
 
 =item B<working-epoch>
 
-Supports epochs in version strings (since dpkg 1.4.0.7).
+Supports epochs in version strings,
+since dpkg 1.4.0.7.
 
 =item B<long-filenames>
 
-Supports long filenames in L<deb(5)> archives (since dpkg 1.4.1.17).
+Supports long filenames in L<deb(5)> archives,
+since dpkg 1.4.1.17.
 
 =item B<multi-conrep>
 
-Supports multiple B<Conflicts> and B<Replaces> (since dpkg 1.4.1.19).
+Supports multiple B<Conflicts> and B<Replaces>,
+since dpkg 1.4.1.19.
 
 =item B<multi-arch>
 
-Supports multi-arch fields and semantics (since dpkg 1.16.2).
+Supports multi-arch fields and semantics,
+since dpkg 1.16.2.
 
 =item B<versioned-provides>
 
-Supports versioned B<Provides> (since dpkg 1.17.11).
+Supports versioned B<Provides>,
+since dpkg 1.17.11.
 
 =item B<protected-field>
 
-Supports the B<Protected> field (since dpkg 1.20.1).
+Supports the B<Protected> field,
+since dpkg 1.20.1.
 
 =back
 
 =item B<--validate->I<thing> I<string>
 
-Validate that the I<thing> I<string> has a correct syntax
-(since dpkg 1.18.16).
+Validate that the I<thing> I<string> has a correct syntax.
 Returns 0 if the I<string> is valid, 1 if the I<string> is invalid but
 might be accepted in lax contexts, and 2 if the I<string> is invalid.
 The current list of validatable I<thing>s is:
+
+Supported since dpkg 1.18.16.
 
 =over
 
 =item B<pkgname>
 
-Validates the given package name (since dpkg 1.18.16).
+Validates the given package name.
+
+Supported since dpkg 1.18.16.
 
 =item B<trigname>
 
-Validates the given trigger name (since dpkg 1.18.16).
+Validates the given trigger name.
+
+Supported since dpkg 1.18.16.
 
 =item B<archname>
 
-Validates the given architecture name (since dpkg 1.18.16).
+Validates the given architecture name.
+
+Supported since dpkg 1.18.16.
 
 =item B<version>
 
-Validates the given version (since dpkg 1.18.16).
+Validates the given version.
+
+Supported since dpkg 1.18.16.
 
 =back
 
@@ -799,11 +828,13 @@ remain on the system, which will then be forgotten by B<dpkg>.
 
 =item B<remove-protected>:
 
-Remove, even if the package is considered protected (since dpkg 1.20.1).
+Remove, even if the package is considered protected.
 Protected packages contain mostly important system boot infrastructure or
 are used for custom system-local meta-packages.
 Removing them might cause the whole system to be unable to boot or lose
 required functionality to operate, so use with caution.
+
+Supported since dpkg 1.20.1.
 
 =item B<remove-essential>:
 
@@ -826,8 +857,10 @@ This affects the B<Pre-Depends> and B<Depends> fields.
 
 =item B<breaks>:
 
-Install, even if this would break another package (since dpkg 1.14.6).
+Install, even if this would break another package.
 This affects the B<Breaks> field.
+
+Supported since dpkg 1.14.6.
 
 =item B<conflicts>:
 
@@ -869,10 +902,12 @@ that to decide the final action.
 
 If a conffile has been modified always offer to replace it with the
 version in the package, even if the version in the package did not
-change (since dpkg 1.15.8).
+change.
 If any of B<--force-confnew>,
 B<--force-confold>, or B<--force-confdef> is also given,
 it will be used to decide the final action.
+
+Supported since dpkg 1.15.8.
 
 =item B<overwrite>:
 
@@ -888,21 +923,27 @@ Overwrite a diverted file with an undiverted version.
 
 =item B<statoverride-add>:
 
-Overwrite an existing stat override when adding it (since dpkg 1.19.5).
+Overwrite an existing stat override when adding it.
+
+Supported since dpkg 1.19.5.
 
 =item B<statoverride-remove>:
 
-Ignore a missing stat override when removing it (since dpkg 1.19.5).
+Ignore a missing stat override when removing it.
+
+Supported since dpkg 1.19.5.
 
 =item B<security-mac>(*):
 
 Use platform-specific Mandatory Access Controls (MAC) based security when
-installing files into the filesystem (since dpkg 1.19.5).
+installing files into the filesystem.
 On Linux systems the implementation uses SELinux.
+
+Supported since dpkg 1.19.5.
 
 =item B<unsafe-io>:
 
-Do not perform safe I/O operations when unpacking (since dpkg 1.15.8.6).
+Do not perform safe I/O operations when unpacking.
 Currently this
 implies not performing file system syncs before file renames, which is
 known to cause substantial performance degradation on some file systems,
@@ -919,12 +960,16 @@ any software not doing syncs before atomic renames.
 B<Warning>: Using this option might improve performance at the cost of
 losing data, use with care.
 
+Supported since dpkg 1.15.8.6.
+
 =item B<script-chrootless>:
 
 Run maintainer scripts without L<chroot(2)>ing into B<instdir> even
-if the package does not support this mode of operation (since dpkg 1.18.5).
+if the package does not support this mode of operation.
 
 B<Warning>: This can destroy your host system, use with extreme care.
+
+Supported since dpkg 1.18.5.
 
 =item B<architecture>:
 
@@ -932,7 +977,9 @@ Process even packages with wrong or no architecture.
 
 =item B<bad-version>:
 
-Process even packages with wrong versions (since dpkg 1.16.1).
+Process even packages with wrong versions.
+
+Supported since dpkg 1.16.1.
 
 =item B<bad-path>:
 
@@ -1047,13 +1094,14 @@ or when running as non-root without B<--force-not-root>.
 B<Note>: Front-ends might call B<dpkg> several
 times per invocation, which might run the hooks more times than expected.
 
+Supported since dpkg 1.15.4.
+
 =item B<--path-exclude=>I<glob-pattern>
 
 =item B<--path-include=>I<glob-pattern>
 
 Set I<glob-pattern> as a path filter, either by excluding or re-including
-previously excluded paths matching the specified patterns during install
-(since dpkg 1.15.8).
+previously excluded paths matching the specified patterns during install.
 
 B<Warning>: Take into account that depending on the excluded paths you
 might completely break your system, use with caution.
@@ -1100,9 +1148,11 @@ Any subsequent files contained within that directory will fail to unpack.
 
 B<Hint>: make sure the globs are not expanded by your shell.
 
+Supported since dpkg 1.15.8.
+
 =item B<--verify-format> I<format-name>
 
-Sets the output format for the B<--verify> command (since dpkg 1.17.2).
+Sets the output format for the B<--verify> command.
 
 The only currently supported output format is B<rpm>, which consists
 of a line for every path that failed any check.
@@ -1141,13 +1191,15 @@ These checks are currently not supported, will always be ‘B<?>’.
 
 =item 2 ‘B<M>’
 
-The file mode check failed (since dpkg 1.21.0).
+The file mode check failed.
 Because pathname metadata is currently not tracked, this check can only be
 partially emulated via a very simple heuristic for pathnames that have a
 known digest, which implies they should be regular files, where the check
 will fail if the pathname is not a regular file on the filesystem.
 This check will currently never succeed as it does not have enough
 information available.
+
+Supported since dpkg 1.21.0.
 
 =item 3 ‘B<5>’
 
@@ -1179,6 +1231,8 @@ Finally followed by another space and the pathname.
 In case the entry was of the B<missing> type, and the file was not actually
 present on the filesystem, then the line is followed by a space and the
 error message enclosed within parenthesis.
+
+Supported since dpkg 1.17.2.
 
 =item B<--status-fd> I<n>
 
@@ -1217,13 +1271,14 @@ B<configure>, B<trigproc>, B<disappear>, B<remove>, B<purge>.
 =item B<--status-logger>=I<command>
 
 Send machine-readable package status and progress information to the
-shell I<command>'s standard input, to be run via “%DPKG_DEFAULT_SHELL% -c”
-(since dpkg 1.16.0).
+shell I<command>'s standard input, to be run via “%DPKG_DEFAULT_SHELL% -c”.
 This option can be specified multiple times.
 The output format used is the same as in B<--status-fd>.
 
 The status loggers are not executed when B<--no-act> is specified,
 or when running as non-root without B<--force-not-root>.
+
+Supported since dpkg 1.16.0.
 
 =item B<--log=>I<filename>
 
@@ -1270,7 +1325,9 @@ The only currently supported command is B<--version>.
 
 =item B<--no-pager>
 
-Disables the use of any pager when showing information (since dpkg 1.19.2).
+Disables the use of any pager when showing information.
+
+Supported since dpkg 1.19.2.
 
 =item B<--no-debsig>
 
@@ -1278,7 +1335,7 @@ Do not try to verify package signatures.
 
 =item B<--no-triggers>
 
-Do not run any triggers in this run (since dpkg 1.14.17), but activations
+Do not run any triggers in this run, but activations
 will still be recorded.
 If used with B<--configure> I<package> or
 B<--triggers-only> I<package> then the named package postinst
@@ -1289,9 +1346,13 @@ B<triggers-pending> states.
 This can be fixed later by running:
 B<dpkg --configure --pending>.
 
+Supported since dpkg 1.14.17.
+
 =item B<--triggers>
 
-Cancels a previous B<--no-triggers> (since dpkg 1.14.17).
+Cancels a previous B<--no-triggers>.
+
+Supported since dpkg 1.14.17.
 
 =back
 
@@ -1353,8 +1414,7 @@ which will be executed with «B<$SHELL -c>»,
 for example when displaying the conffile differences.
 If B<SHELL> is not set, «B<%DPKG_DEFAULT_SHELL%>» will be used instead.
 
-The B<DPKG_PAGER> overrides the B<PAGER> environment variable
-(since dpkg 1.19.2).
+The B<DPKG_PAGER> variable overrides the B<PAGER> environment variable.
 If none of the programs pointed by B<DPKG_PAGER> or B<PAGER> are present,
 the following programs will be tried in order (since dpkg 1.22.12):
 the default pager B<%DPKG_DEFAULT_PAGER%>,
@@ -1362,44 +1422,59 @@ then L<less(1)>,
 L<more(1)>,
 and finally L<cat(1)>.
 
+Support for B<DPKG_PAGER> since dpkg 1.19.2.
+
 =item B<DPKG_COLORS>
 
-Sets the color mode (since dpkg 1.18.5).
+Sets the color mode.
 The currently accepted values are: B<auto> (default), B<always> and
 B<never>.
+
+Supported since dpkg 1.18.5.
 
 =item B<DPKG_NLS>
 
 If set, it will be used to decide whether to activate Native Language Support,
-also known as internationalization (or i18n) support (since dpkg 1.22.7).
+also known as internationalization (or i18n) support.
 The accepted values are: B<0> and B<1> (default).
+
+Supported since dpkg 1.22.7.
 
 =item B<DPKG_DEBUG>
 
-Sets the debug mask (since dpkg 1.21.10) from an octal value.
+Sets the debug mask from an octal value.
 The currently accepted flags are described in the B<--debug> option.
+
+Supported since dpkg 1.21.10.
 
 =item B<DPKG_FORCE>
 
-Sets the force flags (since dpkg 1.19.5).
+Sets the force flags.
 When this variable is present, no built-in force defaults will be applied.
 If the variable is present but empty, all force flags will be disabled.
+
+Supported since dpkg 1.19.5.
 
 =item B<DPKG_ROOT>
 
 If set and the B<--instdir> or B<--root> options have not been specified,
-it will be used as the filesystem root directory (since dpkg 1.21.10).
+it will be used as the filesystem root directory.
+
+Supported since dpkg 1.21.10.
 
 =item B<DPKG_ADMINDIR>
 
 If set and the B<--admindir> or B<--root> options have not been
-specified, it will be used as the B<dpkg> administrative directory
-(since dpkg 1.20.0).
+specified, it will be used as the B<dpkg> administrative directory.
+
+Supported since dpkg 1.20.0.
 
 =item B<DPKG_FRONTEND_LOCKED>
 
 Set by a package manager frontend to notify dpkg that it should not acquire
-the frontend lock (since dpkg 1.19.1).
+the frontend lock.
+
+Supported since dpkg 1.19.1.
 
 =item B<DPKG_PATH_PASSWD>
 
@@ -1407,7 +1482,7 @@ Sets the pathname for the system F<passwd> file.
 This path is relative to the B<--root> directory.
 The default is F</etc/passwd>.
 
-Since dpkg 1.22.16.
+Supported since dpkg 1.22.16.
 
 =item B<DPKG_PATH_GROUP>
 
@@ -1415,7 +1490,7 @@ Sets the pathname for the system F<group> file.
 This path is relative to the B<--root> directory.
 The default is F</etc/group>.
 
-Since dpkg 1.22.16.
+Supported since dpkg 1.22.16.
 
 =back
 
@@ -1426,16 +1501,18 @@ Since dpkg 1.22.16.
 =item B<LESS>
 
 Defined by B<dpkg> to “B<-FRSXMQ>”, if not already set, when
-spawning a pager (since dpkg 1.19.2).
+spawning a pager.
 To change the default behavior, this variable can be preset to some other
 value including an empty string, or the B<PAGER> or B<DPKG_PAGER>
 variables can be set to disable specific options with «B<-+>», for
 example B<DPKG_PAGER="less -+F">.
 
+Supported since dpkg 1.19.2.
+
 =item B<DPKG_ROOT>
 
 Defined by B<dpkg> on the maintainer script environment to indicate
-which installation to act on (since dpkg 1.18.5).
+which installation to act on.
 The value is intended to be prepended to any path maintainer scripts
 operate on.
 During normal operation, this variable is empty.
@@ -1445,74 +1522,98 @@ this variable empty, but if B<--force-script-chrootless> is
 specified then the L<chroot(2)> call is skipped and
 this variable is set to B<instdir> (which will be non-empty).
 
+Supported since dpkg 1.18.5.
+
 =item B<DPKG_ADMINDIR>
 
 Defined by B<dpkg> on the maintainer script environment to indicate
-the B<dpkg> administrative directory to use (since dpkg 1.16.0).
+the B<dpkg> administrative directory to use.
 This variable is always set to the current B<--admindir> value.
+
+Supported since dpkg 1.16.0.
 
 =item B<DPKG_FORCE>
 
 Defined by B<dpkg> on the subprocesses environment to all the currently
-enabled force option names separated by commas (since dpkg 1.19.5).
+enabled force option names separated by commas.
+
+Supported since dpkg 1.19.5.
 
 =item B<DPKG_SHELL_REASON>
 
 Defined by B<dpkg> on the shell spawned on the conffile prompt to
-examine the situation (since dpkg 1.15.6).
+examine the situation.
 Current valid value: B<conffile-prompt>.
+
+Supported since dpkg 1.15.6.
 
 =item B<DPKG_CONFFILE_OLD>
 
 Defined by B<dpkg> on the shell spawned on the conffile prompt to
-examine the situation (since dpkg 1.15.6).
+examine the situation.
 Contains the path to the old conffile.
+
+Supported since dpkg 1.15.6.
 
 =item B<DPKG_CONFFILE_NEW>
 
 Defined by B<dpkg> on the shell spawned on the conffile prompt to
-examine the situation (since dpkg 1.15.6).
+examine the situation.
 Contains the path to the new conffile.
+
+Supported since dpkg 1.15.6.
 
 =item B<DPKG_HOOK_ACTION>
 
-Defined by B<dpkg> on the shell spawned when executing a hook action
-(since dpkg 1.15.4).
+Defined by B<dpkg> on the shell spawned when executing a hook action.
 Contains the current B<dpkg> action.
+
+Supported since dpkg 1.15.4.
 
 =item B<DPKG_RUNNING_VERSION>
 
 Defined by B<dpkg> on the maintainer script environment to the
-version of the currently running B<dpkg> instance (since dpkg 1.14.17).
+version of the currently running B<dpkg> instance.
+
+Supported since dpkg 1.14.17.
 
 =item B<DPKG_MAINTSCRIPT_PACKAGE>
 
 Defined by B<dpkg> on the maintainer script environment to the
-(non-arch-qualified) package name being handled (since dpkg 1.14.17).
+(non-arch-qualified) package name being handled.
+
+Supported since dpkg 1.14.17.
 
 =item B<DPKG_MAINTSCRIPT_PACKAGE_REFCOUNT>
 
 Defined by B<dpkg> on the maintainer script environment to the
 package reference count, i.e. the number of package instances with
-a state greater than B<not-installed> (since dpkg 1.17.2).
+a state greater than B<not-installed>.
+
+Supported since dpkg 1.17.2.
 
 =item B<DPKG_MAINTSCRIPT_ARCH>
 
 Defined by B<dpkg> on the maintainer script environment to the
-architecture the package got built for (since dpkg 1.15.4).
+architecture the package got built for.
+
+Supported since dpkg 1.15.4.
 
 =item B<DPKG_MAINTSCRIPT_NAME>
 
 Defined by B<dpkg> on the maintainer script environment to the
 name of the script running, one of B<preinst>, B<postinst>,
-B<prerm> or B<postrm> (since dpkg 1.15.7).
+B<prerm> or B<postrm>.
+
+Supported since dpkg 1.15.7.
 
 =item B<DPKG_MAINTSCRIPT_DEBUG>
 
 Defined by B<dpkg> on the maintainer script environment to a value
 (‘B<0>’ or ‘B<1>’) noting whether debugging has been
-requested (with the B<--debug> option) for the maintainer scripts
-(since dpkg 1.18.4).
+requested (with the B<--debug> option) for the maintainer scripts.
+
+Supported since dpkg 1.18.4.
 
 =back
 
@@ -1522,7 +1623,9 @@ requested (with the B<--debug> option) for the maintainer scripts
 
 =item I<%PKGCONFDIR%/dpkg.cfg.d/[0-9a-zA-Z_-]*>
 
-Configuration fragment files (since dpkg 1.15.4).
+Configuration fragment files.
+
+Supported since dpkg 1.15.4.
 
 =item I<%PKGCONFDIR%/dpkg.cfg>
 

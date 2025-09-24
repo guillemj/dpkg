@@ -34,8 +34,8 @@ B<dpkg-buildpackage> [I<option>...] [B<-->] [I<filename>.dsc|I<directory>]
 B<dpkg-buildpackage>
 is a program that automates the process of building a Debian package.
 
-The I<filename>.dsc and I<directory> arguments are supported since dpkg 1.22.7.
-Their semantics are experimental.
+Support for the I<filename>.dsc and I<directory> arguments since dpkg 1.22.7,
+with experimental semantics.
 
 It
 consists of the following steps:
@@ -174,12 +174,13 @@ it starts with a ‘B<#>’).
 
 =item B<--build=>I<type>
 
-Specifies the build I<type> from a comma-separated list of components
-(since dpkg 1.18.5).
+Specifies the build I<type> from a comma-separated list of components.
 All the specified components get combined to select the single build type
 to use, which implies a single build run with a single F<.changes> file
 generated.
 Passed to B<dpkg-genchanges>.
+
+Supported since dpkg 1.18.5.
 
 The allowed values are:
 
@@ -218,11 +219,15 @@ case when no build option is specified.
 
 =item B<-g>
 
-Equivalent to B<--build=source,all> (since dpkg 1.17.11).
+Equivalent to B<--build=source,all>.
+
+Supported since dpkg 1.17.11.
 
 =item B<-G>
 
-Equivalent to B<--build=source,any> (since dpkg 1.17.11).
+Equivalent to B<--build=source,any>.
+
+Supported since dpkg 1.17.11.
 
 =item B<-b>
 
@@ -243,7 +248,9 @@ Equivalent to B<--build=source>.
 =item B<-F>
 
 Equivalent to B<--build=full>, B<--build=source,binary> or
-B<--build=source,any,all> (since dpkg 1.15.8).
+B<--build=source,any,all>.
+
+Supported since dpkg 1.15.8.
 
 =item B<--target=>I<target>[,...]
 
@@ -254,18 +261,23 @@ B<--build=source,any,all> (since dpkg 1.15.8).
 Calls B<debian/rules> I<target> once per target specified, after
 having setup the build environment (except for calling
 B<dpkg-source --before-build>), and stops the package build process
-here (since dpkg 1.15.0, long option since dpkg 1.18.8, multi-target
-support since dpkg 1.18.16).
+here.
 If B<--as-root> is also given, then the command is executed
 as root (see B<--root-command>).
 Note that known targets that are required to
 be run as root do not need this option (i.e. the B<clean>, B<binary>,
 B<binary-arch> and B<binary-indep> targets).
 
+Support for short option since dpkg 1.15.0.
+Support for long option since dpkg 1.18.8.
+Support for multiple targets since dpkg 1.18.16.
+
 =item B<--as-root>
 
-Only meaningful together with B<--target> (since dpkg 1.15.0).
+Only meaningful together with B<--target>.
 Requires that the target be run with root rights.
+
+Supported since dpkg 1.15.0.
 
 =item B<-si>
 
@@ -286,50 +298,60 @@ See its manual page.
 
 =item B<--build-by=>I<maintainer-address>
 
-=item B<--source-by=>I<maintainer-address> (since dpkg 1.21.10)
+=item B<--source-by=>I<maintainer-address>
 
 Pass as B<-m> to B<dpkg-genchanges>.
 See its manual page.
 
+Support for B<--source-by> since dpkg 1.21.10.
+
 =item B<--release-by=>I<maintainer-address>
 
-=item B<--changed-by=>I<maintainer-address> (since dpkg 1.21.10)
+=item B<--changed-by=>I<maintainer-address>
 
 Pass as B<-e> to B<dpkg-genchanges>.
 See its manual page.
 
+Support for B<--changed-by> since dpkg 1.21.10.
+
 =item B<-a>, B<--host-arch> I<architecture>
 
-Specify the Debian architecture we build for (long option since dpkg 1.17.17).
+Specify the Debian architecture we build for.
 The architecture of the
 machine we build on is determined automatically, and is also the default
 for the host machine.
 
+Support for long option since dpkg 1.17.17.
+
 =item B<-t>, B<--host-type> I<gnu-system-type>
 
-Specify the GNU system type we build for (long option since dpkg 1.17.17).
+Specify the GNU system type we build for.
 It can be used in place
 of B<--host-arch> or as a complement to override the default GNU system type
 of the host Debian architecture.
 
+Support for long option since dpkg 1.17.17.
+
 =item B<--target-arch> I<architecture>
 
-Specify the Debian architecture the binaries built will build for
-(since dpkg 1.17.17).
+Specify the Debian architecture the binaries built will build for.
 The default value is the host machine.
+
+Supported since dpkg 1.17.17.
 
 =item B<--target-type> I<gnu-system-type>
 
-Specify the GNU system type the binaries built will build for
-(since dpkg 1.17.17).
+Specify the GNU system type the binaries built will build for.
+
 It can be
 used in place of B<--target-arch> or as a complement to override the
 default GNU system type of the target Debian architecture.
 
+Supported since dpkg 1.17.17.
+
 =item B<-P>, B<--build-profiles=>I<profile>[B<,>...]
 
-Specify the profile(s) we build, as a comma-separated list (since dpkg 1.17.2,
-long option since dpkg 1.18.8).
+Specify the profile(s) we build, as a comma-separated list.
 The default
 behavior is to build for no specific profile.
 Also sets them (as a space
@@ -337,10 +359,12 @@ separated list) as the B<DEB_BUILD_PROFILES> environment variable which
 allows, for example, B<debian/rules> files to use this information for
 conditional builds.
 
+Support for short option since dpkg 1.17.2.
+Support for long option since dpkg 1.18.8.
+
 =item B<-j>, B<--jobs>[=I<jobs>|B<auto>]
 
-Specifies the number of jobs allowed to be run simultaneously
-(since dpkg 1.14.7, long option since dpkg 1.18.8).
+Specifies the number of jobs allowed to be run simultaneously.
 The number of jobs matching the number of online processors if B<auto> is
 specified (since dpkg 1.17.10), or unlimited number if I<jobs> is not
 specified.
@@ -361,18 +385,24 @@ If the number of online processors cannot be inferred then
 the code will fallback to using serial execution (since dpkg 1.18.15),
 although this should only happen on exotic and unsupported systems.
 
+Support for short option since dpkg 1.14.7.
+Support for long option since dpkg 1.18.8.
+
 =item B<-J>, B<--jobs-try>[=I<jobs>|B<auto>]
 
-This option (since dpkg 1.18.2, long option since dpkg 1.18.8) is equivalent
+This option is equivalent
 to the B<-j> above.
 
 Since the behavior for B<-j> changed in dpkg 1.21.10 to the opt-in mode,
 you can use this option instead if you need to guarantee semantics across
 dpkg release series.
 
+Support for short option since dpkg 1.18.2.
+Support for long option since dpkg 1.18.8.
+
 =item B<--jobs-force>[=I<jobs>|B<auto>]
 
-This option (since dpkg 1.21.10) is equivalent to the B<--jobs> option
+This option is equivalent to the B<--jobs> option
 except that it will enable forced parallel mode, by adding the B<make> B<-j>
 option with the computed number of parallel jobs to the B<MAKEFLAGS>
 environment variable.
@@ -386,61 +416,79 @@ B<Note>: Any Makefile that is not parallel-safe should be considered to be buggy
 These should either be made parallel-safe, or marked as not being safe with
 the L<make(1)> B<.NOTPARALLEL> target.
 
+Supported since dpkg 1.21.10.
+
 =item B<-D>, B<--check-builddeps>
 
-Check build dependencies and conflicts; abort if unsatisfied (long option
-since dpkg 1.18.8).
+Check build dependencies and conflicts; abort if unsatisfied.
 This is the default behavior.
+
+Support for long option since dpkg 1.18.8.
 
 =item B<-d>, B<--no-check-builddeps>
 
-Do not check build dependencies and conflicts (long option since dpkg 1.18.8).
+Do not check build dependencies and conflicts.
+
+Support for long option since dpkg 1.18.8.
 
 =item B<--ignore-builtin-builddeps>
 
-Do not check built-in build dependencies and conflicts (since dpkg 1.18.2).
+Do not check built-in build dependencies and conflicts.
 These are the distribution specific implicit build dependencies usually
 required in a build environment, the so called Build-Essential package set.
+
+Supported since dpkg 1.18.2.
 
 =item B<--rules-requires-root>
 
 Do not honor the B<Rules-Requires-Root> field,
-falling back to its legacy default value B<binary-targets> (since dpkg 1.19.1).
+falling back to its legacy default value B<binary-targets>.
+
+Supported since dpkg 1.19.1.
 
 =item B<-nc>, B<--no-pre-clean>
 
-Do not clean the source tree before building (long option since dpkg 1.18.8).
+Do not clean the source tree before building.
 Implies B<-b> if nothing else has been selected among B<-F>,
 B<-g>, B<-G>, B<-B>, B<-A> or B<-S>.
 Implies B<-d> with B<-S> (since dpkg 1.18.0).
 
+Support for long option since dpkg 1.18.8.
+
 =item B<--pre-clean>
 
-Clean the source tree before building (since dpkg 1.18.8).
+Clean the source tree before building.
 This is the default behavior.
+
+Supported since dpkg 1.18.8.
 
 =item B<-tc>, B<--post-clean>
 
 Clean the source tree (using
 I<gain-root-command>
 B<debian/rules clean>)
-after the package has been built (long option since dpkg 1.18.8).
+after the package has been built.
+
+Support for long option since dpkg 1.18.8.
 
 =item B<--no-post-clean>
 
-Do not clean the source tree after the package has been built
-(since dpkg 1.19.1).
+Do not clean the source tree after the package has been built.
 This is the default behavior.
+
+Supported since dpkg 1.19.1.
 
 =item B<--sanitize-env>
 
-Sanitize the build environment (since dpkg 1.20.0).
+Sanitize the build environment.
 This will reset or remove environment variables, umask, and any other process
 attributes that might otherwise adversely affect the build of packages.
 Because the official entry point to build packages is B<debian/rules>,
 packages cannot rely on these settings being in place, and thus should work
 even when they are not.
 What to sanitize is vendor specific.
+
+Supported since dpkg 1.20.0.
 
 =item B<-r>, B<--root-command=>I<gain-root-command>
 
@@ -449,7 +497,7 @@ B<dpkg-buildpackage>
 needs to execute part of the build process as root, it prefixes the
 command it executes with
 I<gain-root-command>
-if one has been specified (long option since dpkg 1.18.8).
+if one has been specified.
 Otherwise, if none has been specified,
 B<fakeroot> will be used by default, if the command is present.
 I<gain-root-command>
@@ -468,12 +516,13 @@ is not suitable, since it can only invoke the user's shell with
 B<-c>
 instead of passing arguments individually to the command to be run.
 
+Support for long option since dpkg 1.18.8.
+
 =item B<-R>, B<--rules-file=>I<rules-file>
 
 Building a Debian package usually involves invoking
 B<debian/rules>
-as a command with several standard parameters (since dpkg 1.14.17,
-long option since dpkg 1.18.8).
+as a command with several standard parameters.
 With this option it's
 possible to use another program invocation to build the package (it can
 include space separated parameters).
@@ -482,24 +531,31 @@ another make program (for example by using
 B</usr/local/bin/make -f debian/rules>
 as I<rules-file>).
 
+Support for short option since dpkg 1.14.17.
+Support for long option since dpkg 1.18.8.
+
 =item B<--check-command=>I<check-command>
 
 Command used to check the B<.changes> file itself and any artifact built
-referenced in the file (since dpkg 1.17.6).
+referenced in the file.
 The command should take the B<.changes> pathname
 as an argument.
 This command will usually be B<lintian>.
 
+Supported since dpkg 1.17.6.
+
 =item B<--check-option=>I<opt>
 
 Pass option I<opt> to the I<check-command> specified with
-B<DEB_CHECK_COMMAND> or B<--check-command> (since dpkg 1.17.6).
+B<DEB_CHECK_COMMAND> or B<--check-command>.
 Can be used multiple times.
+
+Supported since dpkg 1.17.6.
 
 =item B<--hook->I<hook-name>B<=>I<hook-command>
 
 Set the specified shell code I<hook-command> as the hook I<hook-name>,
-which will run at the times specified in the run steps (since dpkg 1.17.6).
+which will run at the times specified in the run steps.
 The hooks will
 always be executed even if the following action is not performed (except
 for the B<binary> hook).
@@ -594,19 +650,24 @@ The upstream version.
 
 =back
 
+Supported since dpkg 1.17.6.
+
 =item B<--buildinfo-file=>I<filename>
 
-Set the I<filename> for the generated B<.buildinfo> file (since dpkg 1.21.0).
+Set the I<filename> for the generated B<.buildinfo> file.
+
+Supported since dpkg 1.21.0.
 
 =item B<--buildinfo-option=>I<opt>
 
-Pass option I<opt> to B<dpkg-genbuildinfo> (since dpkg 1.18.11).
+Pass option I<opt> to B<dpkg-genbuildinfo>.
 Can be used multiple times.
+
+Supported since dpkg 1.18.11.
 
 =item B<--sign-backend=>I<sign-backend>
 
-Specify an OpenPGP backend interface to use when invoking the I<sign-command>
-(since dpkg 1.21.10).
+Specify an OpenPGP backend interface to use when invoking the I<sign-command>.
 
 The default is B<auto>, where the best current backend available will be used.
 The specific OpenPGP backends supported in order of preference are:
@@ -628,16 +689,20 @@ From GnuPG.
 
 =back
 
+Supported since dpkg 1.21.10.
+
 =item B<-p>, B<--sign-command=>I<sign-command>
 
 When B<dpkg-buildpackage> needs to execute an OpenPGP backend command to
 sign a source control (B<.dsc>) file, a B<.buildinfo> file or a B<.changes>
 file it will run
 I<sign-command> (searching the B<PATH> if necessary) instead of the
-default or auto-detected backend command (long option since dpkg 1.18.8).
+default or auto-detected backend command.
 I<sign-command> will get all the backend specific arguments according to
 the B<--sign-backend> selected.
 I<sign-command> should not contain spaces or any other shell metacharacters.
+
+Support for long option since dpkg 1.18.8.
 
 =item B<-k>, B<--sign-keyid=>I<key-id>
 
@@ -654,36 +719,47 @@ Supported since dpkg 1.18.8.
 =item B<--sign-keyfile=>I<key-file>
 
 Specify an OpenPGP I<key-file> containing the secret key to use when signing
-packages (since dpkg 1.21.10).
+packages.
 
 B<Note>: For security reasons the I<key-file> is best kept locked with a
 password.
 
+Supported since dpkg 1.21.10.
+
 =item B<-us>, B<--unsigned-source>
 
-Do not sign the source package (long option since dpkg 1.18.8).
+Do not sign the source package.
+
+Support for long option since dpkg 1.18.8.
 
 =item B<-ui>, B<--unsigned-buildinfo>
 
-Do not sign the B<.buildinfo> file (since dpkg 1.18.19).
+Do not sign the B<.buildinfo> file.
+
+Supported since dpkg 1.18.19.
 
 =item B<-uc>, B<--unsigned-changes>
 
-Do not sign the B<.buildinfo> and B<.changes> files
-(long option since dpkg 1.18.8).
+Do not sign the B<.buildinfo> and B<.changes> files.
+
+Support for long option since dpkg 1.18.8.
 
 =item B<--no-sign>
 
 Do not sign any file, this includes the source package, the B<.buildinfo>
-file and the B<.changes> file (since dpkg 1.18.20).
+file and the B<.changes> file.
+
+Supported since dpkg 1.18.20.
 
 =item B<--force-sign>
 
-Force the signing of the resulting files (since dpkg 1.17.0), regardless of
+Force the signing of the resulting files, regardless of
 B<-us>, B<--unsigned-source>,
 B<-ui>, B<--unsigned-buildinfo>,
 B<-uc>, B<--unsigned-changes>
 or other internal heuristics.
+
+Supported since dpkg 1.17.0.
 
 =item B<-sn>
 
@@ -716,24 +792,32 @@ See its manual page.
 
 =item B<--source-option=>I<opt>
 
-Pass option I<opt> to B<dpkg-source> (since dpkg 1.15.6).
+Pass option I<opt> to B<dpkg-source>.
 Can be used multiple times.
+
+Supported since dpkg 1.15.6.
 
 =item B<--changes-file=>I<filename>
 
-Set the I<filename> for the generated B<.changes> file (since dpkg 1.21.0).
+Set the I<filename> for the generated B<.changes> file.
+
+Supported since dpkg 1.21.0.
 
 =item B<--changes-option=>I<opt>
 
-Pass option I<opt> to B<dpkg-genchanges> (since dpkg 1.15.6).
+Pass option I<opt> to B<dpkg-genchanges>.
 Can be used multiple times.
+
+Supported since dpkg 1.15.6.
 
 =item B<--admindir=>I<dir>
 
 =item B<--admindir> I<dir>
 
-Change the location of the B<dpkg> database (since dpkg 1.14.0).
+Change the location of the B<dpkg> database.
 The default location is I<%ADMINDIR%>.
+
+Supported since dpkg 1.14.0.
 
 =item B<-?>, B<--help>
 
@@ -753,21 +837,26 @@ Show the version and exit.
 
 =item B<DEB_CHECK_COMMAND>
 
-If set, it will be used as the command to check the B<.changes> file
-(since dpkg 1.17.6).
+If set, it will be used as the command to check the B<.changes> file.
 Overridden by the B<--check-command> option.
+
+Supported since dpkg 1.17.6.
 
 =item B<DEB_SIGN_KEYID>
 
 If set, it will be used to sign the B<.changes>, B<.buildinfo> and B<.dsc>
-files (since dpkg 1.17.2).
+files.
 Overridden by the B<--sign-keyid> option.
+
+Supported since dpkg 1.17.2.
 
 =item B<DEB_SIGN_KEYFILE>
 
 If set, it will be used to sign the B<.changes>, B<.buildinfo> and B<.dsc>
-files (since dpkg 1.21.10).
+files.
 Overridden by the B<--sign-keyfile> option.
+
+Supported since dpkg 1.21.10.
 
 =item B<DEB_BUILD_OPTIONS>
 
@@ -840,21 +929,27 @@ See L<dpkg-buildflags(1)> for further details.
 =item B<DEB_BUILD_PROFILES>
 
 If set, it will be used as the active build profile(s) for the package
-being built (since dpkg 1.17.2).
+being built.
 It is a space separated list of profile names.
 Overridden by the B<-P> option.
 
+Supported since dpkg 1.17.2.
+
 =item B<DPKG_COLORS>
 
-Sets the color mode (since dpkg 1.18.5).
+Sets the color mode.
 The currently accepted values are: B<auto> (default), B<always> and
 B<never>.
+
+Supported since dpkg 1.18.5.
 
 =item B<DPKG_NLS>
 
 If set, it will be used to decide whether to activate Native Language Support,
-also known as internationalization (or i18n) support (since dpkg 1.19.0).
+also known as internationalization (or i18n) support.
 The accepted values are: B<0> and B<1> (default).
+
+Supported since dpkg 1.19.0.
 
 =back
 

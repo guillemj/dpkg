@@ -73,9 +73,9 @@ this string.
 
 I<override-file>
 is the name of a file to read which contains information about how the
-package fits into the distribution (the file can be compressed
-since dpkg 1.15.5); see
-L<deb-override(5)>.
+package fits into the distribution.
+The file can be compressed (since dpkg 1.15.5).
+See L<deb-override(5)>.
 
 I<path-prefix>
 is an optional string to be prepended to the Filename fields.
@@ -95,8 +95,8 @@ Scan for *.I<type> packages, instead of *.deb.
 
 =item B<-e>, B<--extra-override> I<file>
 
-Scan I<file> to find supplementary overrides (the file can be
-compressed since dpkg 1.15.5).
+Scan I<file> to find supplementary overrides.
+The file can be compressed (since dpkg 1.15.5).
 See
 L<deb-extra-override(5)>
 for more information on its format.
@@ -116,10 +116,11 @@ Supported since dpkg 1.23.6.
 
 =item B<-h>, B<--hash> I<hash-list>
 
-Only generate file hashes for the comma-specified list specified
-(since dpkg 1.17.14).
+Only generate file hashes for the comma-specified list specified.
 The default is to generate all currently supported hashes.
 Supported values: B<md5>, B<sha1>, B<sha256>.
+
+Supported since dpkg 1.17.14.
 
 =item B<-m>, B<--multiversion>
 
@@ -127,10 +128,12 @@ Include all found packages in the output.
 
 =item B<-M>, B<--medium> I<id-string>
 
-Add an B<X-Medium> field containing the value I<id-string>
-(since dpkg 1.15.5).
+Add an B<X-Medium> field containing the value I<id-string>.
+
 This field is required if you want to generate B<Packages.cd> files
 for use by the B<media> access method of B<dselect>.
+
+Supported since dpkg 1.15.5.
 
 =item B<-?>, B<--help>
 
@@ -148,15 +151,19 @@ Show the version and exit.
 
 =item B<DPKG_COLORS>
 
-Sets the color mode (since dpkg 1.18.5).
+Sets the color mode.
 The currently accepted values are: B<auto> (default), B<always> and
 B<never>.
+
+Supported since dpkg 1.18.5.
 
 =item B<DPKG_NLS>
 
 If set, it will be used to decide whether to activate Native Language Support,
-also known as internationalization (or i18n) support (since dpkg 1.19.0).
+also known as internationalization (or i18n) support.
 The accepted values are: B<0> and B<1> (default).
+
+Supported since dpkg 1.19.0.
 
 =back
 

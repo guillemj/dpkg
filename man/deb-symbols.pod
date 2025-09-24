@@ -71,27 +71,32 @@ the only valid fields are:
 
 It indicates the name of the “-dev” package associated to the library
 and is used by B<dpkg-shlibdeps> to make sure that the dependency
-generated is at least as strict as the corresponding build dependency
-(since dpkg 1.14.13).
+generated is at least as strict as the corresponding build dependency.
+
+Supported since dpkg 1.14.13.
 
 =item B<Build-Depends-Packages>
 
 The same as B<Build-Depends-Package> but accepts a comma-separated
-list of package names (since dpkg 1.20.0).
+list of package names.
 This field will override any B<Build-Depends-Package> field present,
 and is mostly useful with “-dev” packages and metapackages depending
 on these, say for a transition period.
+
+Supported since dpkg 1.20.0.
 
 =item B<Allow-Internal-Symbol-Groups>
 
 It indicates what internal symbol groups should be ignored, as a whitespace
 separated list, so that the symbols contained in those groups get
-included in the output file (since dpkg 1.20.1).
+included in the output file.
 This should only be necessary for toolchain
 packages providing those internal symbols.
 The available groups are
 system dependent, for ELF and GNU-based systems these are B<aeabi>
 and B<gomp>.
+
+Supported since dpkg 1.20.1.
 
 =back
 

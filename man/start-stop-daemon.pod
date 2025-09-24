@@ -107,7 +107,9 @@ will check that the process(es) have terminated.
 =item B<-T>, B<--status>
 
 Check for the existence of a specified process, and returns an exit status
-code, according to the LSB Init Script Actions (since version 1.16.1).
+code, according to the LSB Init Script Actions
+
+Supported since version 1.16.1.
 
 =item B<-H>, B<--help>
 
@@ -127,14 +129,17 @@ Show the program version and exit.
 
 =item B<--pid> I<pid>
 
-Check for a process with the specified I<pid> (since version 1.17.6).
+Check for a process with the specified I<pid>.
 The I<pid> must be a number greater than 0.
+
+Supported since version 1.17.6.
 
 =item B<--ppid> I<ppid>
 
-Check for a process with the specified parent pid I<ppid>
-(since version 1.17.7).
+Check for a process with the specified parent pid I<ppid>.
 The I<ppid> must be a number greater than 0.
+
+Supported since version 1.17.7.
 
 =item B<-p>, B<--pidfile> I<pidfile>
 
@@ -329,7 +334,7 @@ code for them to do this themselves.
 =item B<--notify-await>
 
 Wait for the background process to send a readiness notification before
-considering the service started (since version 1.19.3).
+considering the service started
 This option can only be used with B<--background>.
 
 This implements parts of the systemd readiness protocol, as specified
@@ -354,26 +359,33 @@ Do the same and print the user-friendly string for the B<errno> value.
 
 =back
 
+Supported since version 1.19.3.
+
 =item B<--notify-timeout> I<timeout>
 
-Set a timeout for the B<--notify-await> option (since version 1.19.3).
+Set a timeout for the B<--notify-await> option.
 When the timeout is reached, B<start-stop-daemon> will exit with an
 error code, and no readiness notification will be awaited.
 The default is B<60> seconds.
 
+Supported since version 1.19.3.
+
 =item B<-C>, B<--no-close>
 
-Do not close any file descriptor when forcing the daemon into the background
-(since version 1.16.5).
+Do not close any file descriptor when forcing the daemon into the background.
 Used for debugging purposes to see the process output, or to redirect file
 descriptors to log the process output.
 Only relevant when using B<--background>.
 
+Supported since version 1.16.5.
+
 =item B<-O>, B<--output> I<pathname>
 
 Redirect B<stdout> and B<stderr> to I<pathname> when forcing the daemon into
-the background (since version 1.20.6).
+the background.
 Only relevant when using B<--background>.
+
+Supported since version 1.20.6.
 
 =item B<-N>, B<--nicelevel> I<int>
 
@@ -382,7 +394,7 @@ This alters the priority of the process before starting it.
 =item B<-P>, B<--procsched> I<policy>B<:>I<priority>
 
 This alters the process scheduler policy and priority of the process before
-starting it (since version 1.15.0).
+starting it.
 The priority can be optionally specified by appending a B<:>
 followed by the value.
 The default I<priority> is 0.
@@ -392,10 +404,12 @@ supported policy values are B<other>, B<fifo> and B<rr>.
 This option might do nothing on some systems,
 where POSIX process scheduling is not supported.
 
+Supported since version 1.15.0.
+
 =item B<-I>, B<--iosched> I<class>B<:>I<priority>
 
 This alters the IO scheduler class and priority of the process before starting
-it (since version 1.15.0).
+it.
 The priority can be optionally specified by appending a B<:> followed
 by the value.
 The default I<priority> is 4, unless I<class> is B<idle>,
@@ -406,9 +420,13 @@ I<class> are B<idle>, B<best-effort> and B<real-time>.
 This option might do nothing on some systems,
 where Linux IO scheduling is not supported.
 
+Supported since version 1.15.0.
+
 =item B<-k>, B<--umask> I<mask>
 
-This sets the umask of the process before starting it (since version 1.13.22).
+This sets the umask of the process before starting it.
+
+Supported since version 1.13.22.
 
 =item B<-m>, B<--make-pidfile>
 
@@ -433,13 +451,14 @@ option.
 
 =item B<--remove-pidfile>
 
-Used when stopping a program that does not remove its own pid file
-(since version 1.17.19).
+Used when stopping a program that does not remove its own pid file.
 This option will make
 B<start-stop-daemon>
 remove the file referenced with
 B<--pidfile>
 after terminating the process.
+
+Supported since version 1.17.19.
 
 =item B<-v>, B<--verbose>
 

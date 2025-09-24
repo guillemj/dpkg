@@ -45,15 +45,19 @@ may be specified on the command line.
 
 =item B<--admindir=>I<dir>
 
-Change the location of the B<dpkg> database (since dpkg 1.14.0).
+Change the location of the B<dpkg> database.
 The default location is I<%ADMINDIR%>.
+
+Supported since dpkg 1.14.0.
 
 =item B<-A>
 
 Ignore B<Build-Depends-Arch> and B<Build-Conflicts-Arch>
-lines (since dpkg 1.16.4).
+lines.
 Use when only arch-indep packages will be built, or combine with
 B<-B> when only a source package is to be built.
+
+Supported since dpkg 1.16.4.
 
 =item B<-B>
 
@@ -64,29 +68,36 @@ B<-A> when only a source package is to be built.
 
 =item B<-I>
 
-Ignore built-in build depends and conflicts (since dpkg 1.18.2).
+Ignore built-in build depends and conflicts.
 These are implicit dependencies that are usually required on a specific
 distribution, the so called Build-Essential package set.
+
+Supported since dpkg 1.18.2.
 
 =item B<-d> I<build-depends-string>
 
 =item B<-c> I<build-conflicts-string>
 
 Use the given build dependencies/conflicts instead of those contained in the
-I<debian/control> file (since dpkg 1.14.17).
+I<debian/control> file.
+
+Supported since dpkg 1.14.17.
 
 =item B<-a> I<arch>
 
 Check build dependencies/conflicts assuming that the package described in
 the control file is to be built for the given host architecture instead of
-the architecture of the current system (since dpkg 1.16.2).
+the architecture of the current system.
+
+Supported since dpkg 1.16.2.
 
 =item B<-P> I<profile>[B<,>...]
 
 Check build dependencies/conflicts assuming that the package described
-in the control file is to be built for the given build profile(s)
-(since dpkg 1.17.2).
+in the control file is to be built for the given build profile(s).
 The argument is a comma-separated list of profile names.
+
+Supported since dpkg 1.17.2.
 
 =item B<-?>, B<--help>
 
@@ -118,14 +129,18 @@ by the B<-P> option.
 
 =item B<DPKG_COLORS>
 
-Sets the color mode (since dpkg 1.18.5).
+Sets the color mode.
 The currently accepted values are: B<auto> (default), B<always> and
 B<never>.
+
+Supported since dpkg 1.18.5.
 
 =item B<DPKG_NLS>
 
 If set, it will be used to decide whether to activate Native Language Support,
-also known as internationalization (or i18n) support (since dpkg 1.19.0).
+also known as internationalization (or i18n) support.
 The accepted values are: B<0> and B<1> (default).
+
+Supported since dpkg 1.19.0.
 
 =back

@@ -79,7 +79,9 @@ Show the usage message and exit.
 
 =item B<--force-help>
 
-Give help about the B<--force->I<thing> options (since dpkg 1.19.5).
+Give help about the B<--force->I<thing> options.
+
+Supported since dpkg 1.19.5.
 
 =item B<--version>
 
@@ -100,25 +102,31 @@ Defaults to «I<%ADMINDIR%>» if B<DPKG_ADMINDIR> has not been set.
 =item B<--instdir> I<directory>
 
 Set the installation directory, which refers to the directory where
-packages get installed (since dpkg 1.19.2).
+packages get installed.
 Defaults to «I</>» if B<DPKG_ROOT> has not been set.
+
+Supported since dpkg 1.19.2.
 
 =item B<--root> I<directory>
 
 Set the root directory to B<directory>, which sets the installation
 directory to «I<directory>» and the administrative
-directory to «I<directory>B<%ADMINDIR%>» (since dpkg 1.19.2)
+directory to «I<directory>B<%ADMINDIR%>»
 if B<DPKG_ROOT> has not been set.
+
+Supported since dpkg 1.19.2.
 
 =item B<--force->I<things>
 
 =item B<--no-force->I<things>, B<--refuse->I<things>
 
 Force or refuse (B<no-force> and B<refuse> mean the same thing)
-to do some things (since dpkg 1.19.5).
+to do some things.
 I<things> is a comma separated list of things specified below.
 B<--force-help> displays a message describing them.
 Things marked with (*) are forced by default.
+
+Supported since dpkg 1.19.5.
 
 B<Warning>: These options are mostly intended to be used by experts only.
 Using them without fully understanding their effects may break your whole
@@ -132,21 +140,29 @@ Turns on (or off) all force options.
 
 =item B<statoverride-add>:
 
-Overwrite an existing stat override when adding it (since dpkg 1.19.5).
+Overwrite an existing stat override when adding it.
+
+Supported since dpkg 1.19.5.
 
 =item B<statoverride-remove>:
 
-Ignore a missing stat override when removing it (since dpkg 1.19.5).
+Ignore a missing stat override when removing it.
+
+Supported since dpkg 1.19.5.
 
 =item B<security-mac>(*):
 
 Use platform-specific Mandatory Access Controls (MAC) based security when
-installing files into the filesystem (since dpkg 1.19.5).
+installing files into the filesystem.
 On Linux systems the implementation uses SELinux.
+
+Supported since dpkg 1.19.5.
 
 =item B<not-root>:
 
-Try to (de)install things even when not root (since dpkg 1.21.8).
+Try to (de)install things even when not root.
+
+Supported since dpkg 1.21.8.
 
 =back
 
@@ -154,8 +170,8 @@ Try to (de)install things even when not root (since dpkg 1.21.8).
 
 Force an action, even if a sanity check would otherwise prohibit it.
 This is necessary to override an existing override.
-This option is deprecated (since dpkg 1.19.5), it is replaced by
-B<--force-all>.
+
+Deprecated since dpkg 1.19.5, replaced by B<--force-all>.
 
 =item B<--update>
 
@@ -196,8 +212,9 @@ memory allocations, etc.
 =item B<DPKG_ROOT>
 
 If set and the B<--instdir> or B<--root> options have not been
-specified, it will be used as the filesystem root directory
-(since dpkg 1.19.2).
+specified, it will be used as the filesystem root directory.
+
+Supported since dpkg 1.19.2.
 
 =item B<DPKG_ADMINDIR>
 
@@ -206,26 +223,34 @@ specified, it will be used as the B<dpkg> data directory.
 
 =item B<DPKG_DEBUG>
 
-Sets the debug mask (since dpkg 1.21.10) from an octal value.
+Sets the debug mask from an octal value.
 The currently accepted flags are described in the B<dpkg --debug> option,
 but not all these flags might have an effect on this program.
+
+Supported since dpkg 1.21.10.
 
 =item B<DPKG_FORCE>
 
 If set and none of the B<--force->I<...> options have been
-specified, it will be used as the force options to use (since dpkg 1.19.5).
+specified, it will be used as the force options to use.
+
+Supported since dpkg 1.19.5.
 
 =item B<DPKG_COLORS>
 
-Sets the color mode (since dpkg 1.18.5).
+Sets the color mode.
 The currently accepted values are: B<auto> (default), B<always> and
 B<never>.
+
+Supported since dpkg 1.18.5.
 
 =item B<DPKG_NLS>
 
 If set, it will be used to decide whether to activate Native Language Support,
-also known as internationalization (or i18n) support (since dpkg 1.22.7).
+also known as internationalization (or i18n) support.
 The accepted values are: B<0> and B<1> (default).
+
+Supported since dpkg 1.22.7.
 
 =item B<DPKG_PATH_PASSWD>
 
@@ -233,7 +258,7 @@ Sets the pathname for the system F<passwd> file.
 This path is relative to the B<--root> directory.
 The default is F</etc/passwd>.
 
-Since dpkg 1.22.16.
+Supported since dpkg 1.22.16.
 
 =item B<DPKG_PATH_GROUP>
 
@@ -241,7 +266,7 @@ Sets the pathname for the system F<group> file.
 This path is relative to the B<--root> directory.
 The default is F</etc/group>.
 
-Since dpkg 1.22.16.
+Supported since dpkg 1.22.16.
 
 =back
 

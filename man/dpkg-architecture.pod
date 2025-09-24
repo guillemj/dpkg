@@ -63,25 +63,35 @@ Print the environment variables, one each line, in the format
 I<VARIABLE=value>.
 This is the default action.
 
+Support for long command since dpkg 1.17.17.
+
 =item B<-e>, B<--equal> I<architecture>
 
-Check for equality of architecture (since dpkg 1.13.13).
+Check for equality of architecture.
 It compares the current or specified Debian host architecture against
 I<architecture>, to check if they are equal.
 This action will not expand the architecture wildcards.
 Command finishes with an exit status of 0 if matched, 1 if not matched.
 
+Supported since dpkg 1.13.13.
+Support for long command since dpkg 1.17.17.
+
 =item B<-i>, B<--is> I<architecture-wildcard>
 
-Check for identity of architecture (since dpkg 1.13.13).
+Check for identity of architecture.
 It compares the current or specified Debian host architecture against
 I<architecture-wildcard> after having expanded it as an architecture
 wildcard, to check if they match.
 Command finishes with an exit status of 0 if matched, 1 if not matched.
 
+Supported since dpkg 1.13.13.
+Support for long command since dpkg 1.17.17.
+
 =item B<-q>, B<--query> I<variable-name>
 
 Print the value of a single variable.
+
+Support for long command since dpkg 1.17.17.
 
 =item B<-s>, B<--print-set>
 
@@ -89,9 +99,13 @@ Print an export command.
 This can be used to set the environment variables
 using the POSIX shell or make B<eval>, depending on the output format.
 
+Support for long command since dpkg 1.17.17.
+
 =item B<-u>, B<--print-unset>
 
 Print a similar command to B<--print-set> but to unset all variables.
+
+Support for long command since dpkg 1.17.17.
 
 =item B<-c>, B<--command> I<command-string>
 
@@ -101,20 +115,28 @@ set to the determined value.
 If the I<command-string> contains shell metacharacters, then it will be
 invoked through the system bourne shell.
 
+Support for long command since dpkg 1.17.17.
+
 =item B<-L>, B<--list-known>
 
 Print a list of valid architecture names.
 Possibly restricted by one or more of the matching options
 B<--match-wildcard>, B<--match-bits> or B<--match-endian>
-(since dpkg 1.17.14).
+
+Supported since dpkg 1.17.14.
+Support for long command since dpkg 1.17.17.
 
 =item B<-?>, B<--help>
 
 Show the usage message and exit.
 
+Support for long command since dpkg 1.17.17.
+
 =item B<--version>
 
 Show the version and exit.
+
+Supported since dpkg 1.17.17.
 
 =back
 
@@ -126,39 +148,60 @@ Show the version and exit.
 
 Set the host Debian architecture.
 
+Support for long option since dpkg 1.17.17.
+
 =item B<-t>, B<--host-type> I<gnu-system-type>
 
 Set the host GNU system type.
 
+Support for long option since dpkg 1.17.17.
+
 =item B<-A>, B<--target-arch> I<architecture>
 
-Set the target Debian architecture (since dpkg 1.17.14).
+Set the target Debian architecture.
+
+Supported since dpkg 1.17.14.
+Support for long option since dpkg 1.17.17.
 
 =item B<-T>, B<--target-type> I<gnu-system-type>
 
-Set the target GNU system type (since dpkg 1.17.14).
+Set the target GNU system type.
+
+Supported since dpkg 1.17.14.
+Support for long option since dpkg 1.17.17.
 
 =item B<-W>, B<--match-wildcard> I<architecture-wildcard>
 
 Restrict the architectures listed by B<--list-known> to ones matching
-the specified architecture wildcard (since dpkg 1.17.14).
+the specified architecture wildcard.
+
+Supported since dpkg 1.17.14.
+Support for long option since dpkg 1.17.17.
 
 =item B<-B>, B<--match-bits> I<architecture-bits>
 
 Restrict the architectures listed by B<--list-known> to ones with the
-specified CPU bits (since dpkg 1.17.14).
+specified CPU bits.
 Either B<32> or B<64>.
+
+Supported since dpkg 1.17.14.
+Support for long option since dpkg 1.17.17.
 
 =item B<-E>, B<--match-endian> I<architecture-endianness>
 
 Restrict the architectures listed by B<--list-known> to ones with the
-specified endianness (since dpkg 1.17.14).
+specified endianness.
 Either B<little> or B<big>.
+
+Supported since dpkg 1.17.14.
+Support for long option since dpkg 1.17.17.
 
 =item B<--print-format> I<format>
 
-Sets the output format for B<--print-set> and B<--print-unset>
-(since dpkg 1.20.6), to either B<shell> (default) or B<make>.
+Sets the output format for B<--print-set> and B<--print-unset>,
+to either B<shell> (default) or B<make>.
+
+Supported since dpkg 1.20.6.
 
 =item B<-f>, B<--force>
 
@@ -168,6 +211,8 @@ this force flag is present.
 This allows the user
 to override a value even when the call to B<dpkg-architecture> is buried
 in some other script (for example L<dpkg-buildpackage(1)>).
+
+Support for long option since dpkg 1.17.17.
 
 =back
 
@@ -292,27 +337,39 @@ See the L</TERMS> section for the meanings of these terms.
 
 =item B<DEB_BUILD_ARCH_ABI>
 
-The Debian ABI name of the build machine (since dpkg 1.18.11).
+The Debian ABI name of the build machine.
+
+Supported since dpkg 1.18.11.
 
 =item B<DEB_BUILD_ARCH_LIBC>
 
-The Debian libc name of the build machine (since dpkg 1.18.11).
+The Debian libc name of the build machine.
+
+Supported since dpkg 1.18.11.
 
 =item B<DEB_BUILD_ARCH_OS>
 
-The Debian system name of the build machine (since dpkg 1.13.2).
+The Debian system name of the build machine.
+
+Supported since dpkg 1.13.2.
 
 =item B<DEB_BUILD_ARCH_CPU>
 
-The Debian CPU name of the build machine (since dpkg 1.13.2).
+The Debian CPU name of the build machine.
+
+Supported since dpkg 1.13.2.
 
 =item B<DEB_BUILD_ARCH_BITS>
 
-The pointer size of the build machine (in bits; since dpkg 1.15.4).
+The pointer size of the build machine (in bits).
+
+Supported since dpkg 1.15.4.
 
 =item B<DEB_BUILD_ARCH_ENDIAN>
 
-The endianness of the build machine (little / big; since dpkg 1.15.4).
+The endianness of the build machine (little / big).
+
+Supported since dpkg 1.15.4.
 
 =item B<DEB_BUILD_GNU_CPU>
 
@@ -329,7 +386,9 @@ The GNU system type of the build machine.
 =item B<DEB_BUILD_MULTIARCH>
 
 The clarified GNU system type of the build machine, used for filesystem
-paths (since dpkg 1.16.0).
+paths.
+
+Supported since dpkg 1.16.0.
 
 =item B<DEB_HOST_ARCH>
 
@@ -337,27 +396,39 @@ The Debian architecture of the host machine.
 
 =item B<DEB_HOST_ARCH_ABI>
 
-The Debian ABI name of the host machine (since dpkg 1.18.11).
+The Debian ABI name of the host machine.
+
+Supported since dpkg 1.18.11.
 
 =item B<DEB_HOST_ARCH_LIBC>
 
-The Debian libc name of the host machine (since dpkg 1.18.11).
+The Debian libc name of the host machine.
+
+Supported since dpkg 1.18.11.
 
 =item B<DEB_HOST_ARCH_OS>
 
-The Debian system name of the host machine (since dpkg 1.13.2).
+The Debian system name of the host machine.
+
+Supported since dpkg 1.13.2.
 
 =item B<DEB_HOST_ARCH_CPU>
 
-The Debian CPU name of the host machine (since dpkg 1.13.2).
+The Debian CPU name of the host machine.
+
+Supported since dpkg 1.13.2.
 
 =item B<DEB_HOST_ARCH_BITS>
 
-The pointer size of the host machine (in bits; since dpkg 1.15.4).
+The pointer size of the host machine (in bits).
+
+Supported since dpkg 1.15.4.
 
 =item B<DEB_HOST_ARCH_ENDIAN>
 
-The endianness of the host machine (little / big; since dpkg 1.15.4).
+The endianness of the host machine (little / big).
+
+Supported since dpkg 1.15.4.
 
 =item B<DEB_HOST_GNU_CPU>
 
@@ -374,56 +445,80 @@ The GNU system type of the host machine.
 =item B<DEB_HOST_MULTIARCH>
 
 The clarified GNU system type of the host machine, used for filesystem
-paths (since dpkg 1.16.0).
+paths.
+
+Supported since dpkg 1.16.0.
 
 =item B<DEB_TARGET_ARCH>
 
-The Debian architecture of the target machine (since dpkg 1.17.14).
+The Debian architecture of the target machine.
 
 B<Note>: If you are not building cross-toolchains (or emulators),
 these are probably not the variables you are looking for.
 See the L</TERMS> section for the meanings of these terms.
 
+Supported since dpkg 1.17.14.
+
 =item B<DEB_TARGET_ARCH_ABI>
 
-The Debian ABI name of the target machine (since dpkg 1.18.11).
+The Debian ABI name of the target machine.
+
+Supported since dpkg 1.18.11.
 
 =item B<DEB_TARGET_ARCH_LIBC>
 
-The Debian libc name of the target machine (since dpkg 1.18.11).
+The Debian libc name of the target machine.
+
+Supported since dpkg 1.18.11.
 
 =item B<DEB_TARGET_ARCH_OS>
 
-The Debian system name of the target machine (since dpkg 1.17.14).
+The Debian system name of the target machine.
+
+Supported since dpkg 1.17.14.
 
 =item B<DEB_TARGET_ARCH_CPU>
 
-The Debian CPU name of the target machine (since dpkg 1.17.14).
+The Debian CPU name of the target machine.
+
+Supported since dpkg 1.17.14.
 
 =item B<DEB_TARGET_ARCH_BITS>
 
-The pointer size of the target machine (in bits; since dpkg 1.17.14).
+The pointer size of the target machine (in bits).
+
+Supported since dpkg 1.17.14.
 
 =item B<DEB_TARGET_ARCH_ENDIAN>
 
-The endianness of the target machine (little / big; since dpkg 1.17.14).
+The endianness of the target machine (little / big).
+
+Supported since dpkg 1.17.14.
 
 =item B<DEB_TARGET_GNU_CPU>
 
-The GNU CPU part of B<DEB_TARGET_GNU_TYPE> (since dpkg 1.17.14).
+The GNU CPU part of B<DEB_TARGET_GNU_TYPE>.
+
+Supported since dpkg 1.17.14.
 
 =item B<DEB_TARGET_GNU_SYSTEM>
 
-The GNU system part of B<DEB_TARGET_GNU_TYPE> (since dpkg 1.17.14).
+The GNU system part of B<DEB_TARGET_GNU_TYPE>.
+
+Supported since dpkg 1.17.14.
 
 =item B<DEB_TARGET_GNU_TYPE>
 
-The GNU system type of the target machine (since dpkg 1.17.14).
+The GNU system type of the target machine.
+
+Supported since dpkg 1.17.14.
 
 =item B<DEB_TARGET_MULTIARCH>
 
 The clarified GNU system type of the target machine, used for filesystem
-paths (since dpkg 1.17.14).
+paths.
+
+Supported since dpkg 1.17.14.
 
 =back
 
@@ -444,23 +539,27 @@ it, such as "# Version=1.0".
 =item I<%PKGDATADIR%/cputable>
 
 Table of known CPU names and mapping to their GNU name.
-Format version 1.0 (since dpkg 1.13.2).
+
+Format version 1.0, supported since dpkg 1.13.2.
 
 =item I<%PKGDATADIR%/ostable>
 
 Table of known operating system names and mapping to their GNU name.
-Format version 2.0 (since dpkg 1.18.11).
+
+Format version 2.0, supported since dpkg 1.18.11.
 
 =item I<%PKGDATADIR%/tupletable>
 
 Mapping between Debian architecture tuples and Debian architecture
 names.
-Format version 1.0 (since dpkg 1.18.11).
+
+Format version 1.0, supported since dpkg 1.18.11.
 
 =item I<%PKGDATADIR%/abitable>
 
 Table of Debian architecture ABI attribute overrides.
-Format version 2.0 (since dpkg 1.18.11).
+
+Format version 2.0, supported since dpkg 1.18.11.
 
 =back
 
@@ -471,7 +570,9 @@ Format version 2.0 (since dpkg 1.18.11).
 =item I<%PKGDATADIR%/architecture.mk>
 
 Makefile snippet that properly sets and exports all the variables that
-B<dpkg-architecture> outputs (since dpkg 1.16.1).
+B<dpkg-architecture> outputs.
+
+Supported since dpkg 1.16.1.
 
 =back
 
@@ -579,26 +680,28 @@ architecture information during a package build.
 =item B<DPKG_DATADIR>
 
 If set, it will be used as the B<dpkg> data directory, where the
-architecture tables are located (since dpkg 1.14.17).
+architecture tables are located.
 Defaults to «%PKGDATADIR%».
+
+Supported since dpkg 1.14.17.
 
 =item B<DPKG_COLORS>
 
-Sets the color mode (since dpkg 1.18.5).
+Sets the color mode.
 The currently accepted values are: B<auto> (default), B<always> and
 B<never>.
+
+Supported since dpkg 1.18.5.
 
 =item B<DPKG_NLS>
 
 If set, it will be used to decide whether to activate Native Language Support,
-also known as internationalization (or i18n) support (since dpkg 1.19.0).
+also known as internationalization (or i18n) support.
 The accepted values are: B<0> and B<1> (default).
 
+Supported since dpkg 1.19.0.
+
 =back
-
-=head1 NOTES
-
-All long command and option names available only since dpkg 1.17.17.
 
 =head1 SEE ALSO
 

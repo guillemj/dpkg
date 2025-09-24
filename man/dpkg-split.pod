@@ -178,16 +178,20 @@ B<%ADMINDIR%/parts>.
 
 =item B<--admindir> I<directory>
 
-Set the administrative directory to I<directory> (since dpkg 1.21.10).
+Set the administrative directory to I<directory>.
 This is where the I<statoverride> file is stored.
 Defaults to «I<%ADMINDIR%>» if B<DPKG_ADMINDIR> has not been set.
 
+Supported since dpkg 1.21.10.
+
 =item B<--root> I<directory>
 
-Set the root directory to B<directory> (since dpkg 1.21.10),
+Set the root directory to B<directory>,
 which sets the installation directory to «I<directory>» and
 the administrative directory to «I<directory>B<%ADMINDIR%>»
 if B<DPKG_ROOT> has not been set.
+
+Supported since dpkg 1.21.10.
 
 =item B<-S>, B<--partsize> I<kibibytes>
 
@@ -219,7 +223,8 @@ spurious messages.
 
 =item B<--msdos>
 
-Obsolete option without effect (since dpkg 1.23.0).
+Obsolete since dpkg 1.23.0,
+it has no effect.
 
 =back
 
@@ -258,37 +263,47 @@ memory allocations, etc.
 =item B<DPKG_ROOT>
 
 If set and B<--root> option has not been specified,
-it will be used as the filesystem root directory (since dpkg 1.21.10).
+it will be used as the filesystem root directory.
+
+Supported since dpkg 1.21.10.
 
 =item B<DPKG_ADMINDIR>
 
 If set and the B<--admindir> or B<--root> options have not been specified,
-it will be used as the B<dpkg> data directory (since dpkg 1.21.10).
+it will be used as the B<dpkg> data directory.
+
+Supported since dpkg 1.21.10.
 
 =item B<DPKG_DEBUG>
 
-Sets the debug mask (since dpkg 1.21.10) from an octal value.
+Sets the debug mask from an octal value.
 The currently accepted flags are described in the B<dpkg --debug> option,
 but not all these flags might have an effect on this program.
 
+Supported since dpkg 1.21.10.
+
 =item B<DPKG_COLORS>
 
-Sets the color mode (since dpkg 1.18.5).
+Sets the color mode.
 The currently accepted values are: B<auto> (default), B<always> and
 B<never>.
+
+Supported since dpkg 1.18.5.
 
 =item B<DPKG_NLS>
 
 If set, it will be used to decide whether to activate Native Language Support,
-also known as internationalization (or i18n) support (since dpkg 1.22.7).
+also known as internationalization (or i18n) support.
 The accepted values are: B<0> and B<1> (default).
+
+Supported since dpkg 1.22.7.
 
 =item B<SOURCE_DATE_EPOCH>
 
 If set, it will be used as the timestamp (as seconds since the epoch) in
 the L<deb-split(5)>'s L<ar(5)> container.
 
-Since dpkg 1.18.11.
+Supported since dpkg 1.18.11.
 
 =back
 

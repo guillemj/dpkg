@@ -191,23 +191,27 @@ Extracts the filesystem tree from a package archive into a specified
 directory,
 and the package metadata files into a
 B<DEBIAN>
-subdirectory of the specified directory (since dpkg 1.16.1).
+subdirectory of the specified directory.
 
 The target directory (but not its parents) will be created if necessary.
 
 The input archive is not (currently) processed sequentially, so reading
 it from standard input («B<->») is B<not> supported.
 
+Supported since dpkg 1.16.1.
+
 =item B<--ctrl-tarfile> I<archive>
 
 Extracts the control data from a binary package and sends it to standard
 output in
 B<tar>
-format (since dpkg 1.17.14).
+format.
 Together with
 L<tar(1)>
 this can be used to extract a particular control file from a package archive.
 The input archive will always be processed sequentially.
+
+Supported since dpkg 1.17.14.
 
 =item B<--fsys-tarfile> I<archive>
 
@@ -268,8 +272,7 @@ The default for this field is “${Package}\t${Version}\n”.
 =item B<-z>, B<--compression-level=>I<compress-level>
 
 Specify which compression level to use on the compressor backend, when
-building a package (default is 9 for gzip, 6 for xz, 3 for zstd;
-long option since dpkg 1.22.9).
+building a package (default is 9 for gzip, 6 for xz, 3 for zstd).
 The accepted values are compressor specific.
 For gzip, from 0-9 with 0 being mapped to compressor none.
 For xz from 0-9.
@@ -277,32 +280,40 @@ For zstd from 0-22, with levels from 20 to 22 enabling its ultra mode.
 Before dpkg 1.16.2 level 0 was equivalent to compressor none for all
 compressors.
 
+Support for long option since dpkg 1.22.9.
+
 =item B<-S>, B<--compression-strategy=>I<compress-strategy>
 
 Specify which compression strategy to use on the compressor backend, when
-building a package (since dpkg 1.16.2, long option since dpkg 1.22.9).
+building a package.
 Allowed values are B<none> (since
 dpkg 1.16.4), B<filtered>, B<huffman>, B<rle> and B<fixed> for
 gzip (since dpkg 1.17.0) and B<extreme> for xz.
 
+Support for short option since dpkg 1.16.2.
+Support for long option since dpkg 1.22.9.
+
 =item B<-Z>, B<--compression=>I<compress-type>
 
-Specify which compression type to use when building a package
-(long option since dpkg 1.22.9).
+Specify which compression type to use when building a package.
 Allowed values are B<gzip>, B<xz> (since dpkg 1.15.6),
 B<zstd> (since dpkg 1.21.18)
 and B<none> (default is B<%DEB_DEFAULT_COMPRESSOR%>).
 
+Support for long option since dpkg 1.22.9.
+
 =item B<--uniform-compression>
 
 Specify that the same compression parameters should be used for all archive
-members (i.e. B<control.tar> and B<data.tar>; since dpkg 1.17.6).
+members (i.e. B<control.tar> and B<data.tar>).
 
 The only supported
 compression types allowed to be uniformly used are B<none>, B<gzip>,
 B<xz> and B<zstd>.
 
 Uniform compression is the default (since dpkg 1.19.0).
+
+Supported since dpkg 1.17.6.
 
 =item B<--no-uniform-compression>
 
@@ -316,21 +327,25 @@ Supported since dpkg 1.19.0.
 =item B<--threads-max=>I<threads>
 
 Sets the maximum number of threads allowed for compressors that support
-multi-threaded operations (since dpkg 1.21.9).
+multi-threaded operations.
+
+Supported since dpkg 1.21.9.
 
 =item B<--root-owner-group>
 
 Set the owner and group for each entry in the filesystem tree data to
-root with id 0 (since dpkg 1.19.0).
+root with id 0.
 
 B<Note>: This option can be useful for rootless builds (see
 I<rootless-builds.txt>), but should B<not> be used when the
 entries have an owner or group that is not root.
 Support for these will be added later in the form of a meta manifest.
 
+Supported since dpkg 1.19.0.
+
 =item B<--deb-format=>I<format>
 
-Set the archive format version used when building (since dpkg 1.17.0).
+Set the archive format version used when building.
 Allowed values are B<2.0> for the new format, and B<0.939000>
 for the old one (default is B<2.0>).
 
@@ -338,6 +353,8 @@ The old archive format is less easily parsed by non-Debian tools and is
 now obsolete; its only use is when building packages to be parsed by
 versions of dpkg older than 0.93.76 (September 1995), which was released
 as i386 a.out only.
+
+Supported since dpkg 1.17.0.
 
 =item B<--no-check>
 
@@ -347,7 +364,7 @@ usual checks on the proposed contents of an archive.
 You can build
 any archive you want, no matter how broken, this way.
 
-Option supported since dpkg 1.22.12.
+Supported since dpkg 1.22.12.
 
 =item B<--nocheck>
 
@@ -355,9 +372,11 @@ This is an alias for B<--no-check>.
 
 =item B<-v>, B<--verbose>
 
-Enables verbose output (since dpkg 1.16.1).
+Enables verbose output.
 This currently only affects B<--extract> making it behave like
 B<--vextract>.
+
+Supported since dpkg 1.16.1.
 
 =item B<-D>, B<--debug>
 
@@ -389,33 +408,43 @@ memory allocations, etc.
 =item B<DPKG_DEB_THREADS_MAX>
 
 Sets the maximum number of threads allowed for compressors that support
-multi-threaded operations (since dpkg 1.21.9).
+multi-threaded operations.
 
 The B<--threads-max> option overrides this value.
 
+Supported since dpkg 1.21.9.
+
 =item B<DPKG_DEB_COMPRESSOR_TYPE>
 
-Sets the compressor type to use (since dpkg 1.21.10).
+Sets the compressor type to use.
 
 The B<-Z> option overrides this value.
 
+Supported since dpkg 1.21.10.
+
 =item B<DPKG_DEB_COMPRESSOR_LEVEL>
 
-Sets the compressor level to use (since dpkg 1.21.10).
+Sets the compressor level to use.
 
 The B<-z> option overrides this value.
 
+Supported since dpkg 1.21.10.
+
 =item B<DPKG_COLORS>
 
-Sets the color mode (since dpkg 1.18.5).
+Sets the color mode.
 The currently accepted values are: B<auto> (default), B<always> and
 B<never>.
+
+Supported since dpkg 1.18.5.
 
 =item B<DPKG_NLS>
 
 If set, it will be used to decide whether to activate Native Language Support,
-also known as internationalization (or i18n) support (since dpkg 1.22.7).
+also known as internationalization (or i18n) support.
 The accepted values are: B<0> and B<1> (default).
+
+Supported since dpkg 1.22.7.
 
 =item B<DPKG_PATH_PASSWD>
 
@@ -423,7 +452,7 @@ Sets the pathname for the system F<passwd> file.
 This path is relative to the B<--root> directory.
 The default is F</etc/passwd>.
 
-Since dpkg 1.22.16.
+Supported since dpkg 1.22.16.
 
 =item B<DPKG_PATH_GROUP>
 
@@ -431,7 +460,7 @@ Sets the pathname for the system F<group> file.
 This path is relative to the B<--root> directory.
 The default is F</etc/group>.
 
-Since dpkg 1.22.16.
+Supported since dpkg 1.22.16.
 
 =item B<TMPDIR>
 
@@ -444,7 +473,7 @@ If set, it will be used as the timestamp (as seconds since the epoch) in
 the L<deb(5)>'s L<ar(5)> container and used to clamp the mtime in
 the L<tar(5)> file entries.
 
-Since dpkg 1.18.8.
+Supported since dpkg 1.18.8.
 
 =back
 
