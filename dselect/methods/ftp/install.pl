@@ -148,7 +148,8 @@ sub procpkgfile {
     my $site = shift;
     my $dist = shift;
     my (@files, @sizes, @md5sums, $pkg, $ver, $nfs, $fld);
-    my (%flds);
+    my %flds;
+
     open(my $pkgfile_fh, '<', $fn) or die "could not open package file $fn";
     while (%flds = get_stanza($pkgfile_fh), %flds) {
         $pkg = $flds{'package'};
@@ -519,7 +520,7 @@ sub prcdeb {
 }
 
 sub prcfile {
-    my ($fn) = $_;
+    my $fn = $_;
     if (-f $fn and $fn ne '.') {
         my $dir = '.';
         if (length($File::Find::dir) > length($dldir)) {

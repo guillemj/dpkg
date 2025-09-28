@@ -161,7 +161,7 @@ my $ls_l_regex = qr<
 
 sub do_mdtm {
     my ($ftp, $file) = @_;
-    my ($time);
+    my $time;
 
 #   if ($has_mdtm) {
         $time = $ftp->mdtm($file);

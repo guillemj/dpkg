@@ -148,7 +148,7 @@ sub load_override {
 
 sub load_src_override {
     my ($user_file, $regular_file) = @_;
-    my ($file);
+    my $file;
     local $_;
 
     if (defined $user_file) {

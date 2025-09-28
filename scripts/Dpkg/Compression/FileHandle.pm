@@ -218,7 +218,7 @@ sub READ {
 }
 
 sub READLINE {
-    my ($self) = shift;
+    my $self = shift;
     $self->ensure_open('r');
     return *$self->{file}->getlines() if wantarray;
     return *$self->{file}->getline();

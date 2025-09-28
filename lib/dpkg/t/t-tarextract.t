@@ -129,7 +129,7 @@ TAR
                 return if $type eq 'ustar' and -l and length readlink > 100;
                 push @paths, $_;
             },
-            preprocess => sub { my (@files) = sort @_; @files },
+            preprocess => sub { my @files = sort @_; @files },
             no_chdir => 1,
         };
         find($scan_tar, '.');

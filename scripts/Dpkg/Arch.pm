@@ -201,7 +201,7 @@ sub get_raw_host_arch
         warning(g_('cannot determine CC system type, falling back to ' .
                    'default (native compilation)'));
     } else {
-        my (@host_archtuple) = gnutriplet_to_debtuple($host_gnu_type);
+        my @host_archtuple = gnutriplet_to_debtuple($host_gnu_type);
         $host_arch = debtuple_to_debarch(@host_archtuple);
 
         if (defined $host_arch) {

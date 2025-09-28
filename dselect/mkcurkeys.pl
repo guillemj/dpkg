@@ -80,7 +80,7 @@ printf(<<'END') or die $!;
 
 END
 
-my ($comma);
+my $comma;
 
 for my $i (33 .. 126) {
     my $k = $i;

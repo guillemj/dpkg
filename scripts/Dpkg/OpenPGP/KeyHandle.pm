@@ -53,7 +53,7 @@ sub new {
 my $keyid_regex = qr/^(?:0x)?([[:xdigit:]]+)$/;
 
 sub _sanitize {
-    my ($self) = shift;
+    my $self = shift;
 
     my $type = $self->{type};
     if ($type eq 'auto') {

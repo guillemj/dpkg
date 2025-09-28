@@ -275,7 +275,7 @@ if (exists $pkg->{'Provides'}) {
     }
 }
 
-my (@seen_deps);
+my @seen_deps;
 foreach my $field (field_list_pkg_dep()) {
     # «Arch: all» cannot be simplified as the host architecture is not known.
     my $reduce_arch = debarch_eq('all', $pkg->{Architecture} || 'all') ? 0 : 1;

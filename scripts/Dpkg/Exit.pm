@@ -51,7 +51,7 @@ Register a code reference into the exit function handlers stack.
 =cut
 
 sub push_exit_handler {
-    my ($func) = shift;
+    my $func = shift;
 
     _setup_exit_handlers() if @handlers == 0;
     push @handlers, $func;

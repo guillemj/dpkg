@@ -144,7 +144,7 @@ sub test_diff
 
 sub test_build_source
 {
-    my ($name) = shift;
+    my $name = shift;
     my $stderr;
 
     spawn(
