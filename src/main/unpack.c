@@ -1451,7 +1451,6 @@ process_archive(const char *filename)
 	    oldversionstatus == PKG_STAT_TRIGGERSAWAITED ||
 	    oldversionstatus == PKG_STAT_TRIGGERSPENDING ||
 	    oldversionstatus == PKG_STAT_INSTALLED) {
-		pkg_set_eflags(pkg, PKG_EFLAG_REINSTREQ);
 		pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
 		modstatdb_note(pkg);
 		if (oldversionstatus > PKG_STAT_HALFCONFIGURED)

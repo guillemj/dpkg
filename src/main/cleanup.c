@@ -138,7 +138,6 @@ cu_prermupgrade(int argc, void **argv)
 	maintscript_postinst(pkg, "abort-upgrade",
 	                     versiondescribe(&pkg->available.version, vdew_nonambig),
 	                     NULL);
-	pkg_clear_eflags(pkg, PKG_EFLAG_REINSTREQ);
 	post_postinst_tasks(pkg, PKG_STAT_INSTALLED);
 
 	cleanup_pkg_failed--;
@@ -210,7 +209,6 @@ cu_prerminfavour(int argc, void **argv)
 	                     versiondescribe(&infavour->available.version,
 	                                     vdew_nonambig),
 	                     NULL);
-	pkg_clear_eflags(conflictor, PKG_EFLAG_REINSTREQ);
 	post_postinst_tasks(conflictor, PKG_STAT_INSTALLED);
 
 	cleanup_conflictor_failed--;
@@ -306,7 +304,6 @@ cu_prermremove(int argc, void **argv)
 		return;
 
 	maintscript_postinst(pkg, "abort-remove", NULL);
-	pkg_clear_eflags(pkg, PKG_EFLAG_REINSTREQ);
 	post_postinst_tasks(pkg, PKG_STAT_INSTALLED);
 
 	cleanup_pkg_failed--;
