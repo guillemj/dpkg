@@ -210,13 +210,13 @@ deferred_remove(struct pkginfo *pkg)
 
 	trig_activate_packageprocessing(pkg);
 	if (pkg->status >= PKG_STAT_HALFCONFIGURED) {
-		static enum pkgstatus oldpkgstatus;
+		enum pkgstatus oldpkgstatus = pkg->status;
 
-		oldpkgstatus = pkg->status;
 		pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
 		modstatdb_note(pkg);
-		push_cleanup(cu_prermremove, ~ehflag_normaltidy, 2,
-		             (void *)pkg, (void *)&oldpkgstatus);
+		if (oldpkgstatus > PKG_STAT_HALFCONFIGURED)
+			push_cleanup(cu_prermremove, ~ehflag_normaltidy,
+			             1, (void *)pkg);
 		maintscript_run_old(pkg, PRERMFILE, "remove", NULL);
 
 		/* Will turn into ‘half-installed’ soon ... */

@@ -315,6 +315,11 @@ pkg_deconfigure_others(struct pkginfo *pkg)
 			       versiondescribe(&pkg->available.version, vdew_nonambig));
 		}
 
+		if (deconpil->pkg->status <= PKG_STAT_HALFCONFIGURED)
+			internerr("deconfiguring package %s is in %s <= half-configured state",
+			          pkg_name(deconpil->pkg, pnaw_always),
+			          pkg_status_name(deconpil->pkg));
+
 		trig_activate_packageprocessing(deconpil->pkg);
 		pkg_set_status(deconpil->pkg, PKG_STAT_HALFCONFIGURED);
 		modstatdb_note(deconpil->pkg);
@@ -1449,8 +1454,9 @@ process_archive(const char *filename)
 		pkg_set_eflags(pkg, PKG_EFLAG_REINSTREQ);
 		pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
 		modstatdb_note(pkg);
-		push_cleanup(cu_prermupgrade, ~ehflag_normaltidy,
-		             1, (void *)pkg);
+		if (oldversionstatus > PKG_STAT_HALFCONFIGURED)
+			push_cleanup(cu_prermupgrade, ~ehflag_normaltidy,
+			             1, (void *)pkg);
 		maintscript_run_old_or_new(pkg, cidir, cidirrest, PRERMFILE,
 		                           "upgrade", "failed-upgrade");
 		pkg_set_status(pkg, PKG_STAT_UNPACKED);
@@ -1464,6 +1470,7 @@ process_archive(const char *filename)
 	     conflictor_iter;
 	     conflictor_iter = conflictor_iter->next) {
 		struct pkginfo *conflictor = conflictor_iter->pkg;
+		enum pkgstatus old_conflictor_status = conflictor->status;
 
 		if (!(conflictor->status == PKG_STAT_HALFCONFIGURED ||
 		      conflictor->status == PKG_STAT_TRIGGERSAWAITED ||
@@ -1474,8 +1481,9 @@ process_archive(const char *filename)
 		trig_activate_packageprocessing(conflictor);
 		pkg_set_status(conflictor, PKG_STAT_HALFCONFIGURED);
 		modstatdb_note(conflictor);
-		push_cleanup(cu_prerminfavour, ~ehflag_normaltidy,
-		             2, conflictor, pkg);
+		if (old_conflictor_status > PKG_STAT_HALFCONFIGURED)
+			push_cleanup(cu_prerminfavour, ~ehflag_normaltidy,
+			             2, conflictor, pkg);
 		maintscript_run_old(conflictor, PRERMFILE,
 		                    "remove", "in-favour",
 		                    pkgbin_name(pkg, &pkg->available, pnaw_nonambig),

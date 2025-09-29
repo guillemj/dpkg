@@ -301,14 +301,13 @@ void
 cu_prermremove(int argc, void **argv)
 {
 	struct pkginfo *pkg = (struct pkginfo*)argv[0];
-	const enum pkgstatus *oldpkgstatus = (enum pkgstatus *)argv[1];
 
 	if (cleanup_pkg_failed++)
 		return;
 
 	maintscript_postinst(pkg, "abort-remove", NULL);
 	pkg_clear_eflags(pkg, PKG_EFLAG_REINSTREQ);
-	post_postinst_tasks(pkg, *oldpkgstatus);
+	post_postinst_tasks(pkg, PKG_STAT_INSTALLED);
 
 	cleanup_pkg_failed--;
 }
