@@ -41,7 +41,6 @@ our @EXPORT_OK = qw(
 );
 
 use Exporter qw(import);
-use List::Util qw(none);
 use File::Spec;
 
 use Dpkg::Gettext;
@@ -68,6 +67,10 @@ sub parse_ldso_conf {
     state %visited;
     local $_;
 
+    my %librarypath = map {
+        $_ => 1
+    } (@custom_librarypaths, @system_librarypaths);
+
     open my $fh, '<', $file or syserr(g_('cannot open %s'), $file);
     $visited{$file}++;
     while (<$fh>) {
@@ -82,7 +85,8 @@ sub parse_ldso_conf {
         } elsif (m{^\s*/}) {
             s/^\s+//;
             my $libdir = $_;
-            if (none { $_ eq $libdir } (@custom_librarypaths, @system_librarypaths)) {
+            if (not exists $librarypath{$libdir}) {
+                $librarypath{$libdir} = 1;
                 push @system_librarypaths, $libdir;
             }
         }
