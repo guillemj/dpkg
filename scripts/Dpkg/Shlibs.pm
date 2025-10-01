@@ -83,8 +83,7 @@ sub parse_ldso_conf {
                     && ! $visited{$include};
             }
         } elsif (m{^\s*/}) {
-            s/^\s+//;
-            my $libdir = $_;
+            my $libdir = s/^\s+//r;
             if (not exists $librarypath{$libdir}) {
                 $librarypath{$libdir} = 1;
                 push @system_librarypaths, $libdir;
