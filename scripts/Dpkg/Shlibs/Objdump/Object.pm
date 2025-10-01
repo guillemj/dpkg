@@ -119,7 +119,7 @@ sub parse_objdump_output {
         } elsif (/^DYNAMIC RELOCATION RECORDS/) {
             $section = 'dynreloc';
             # Skip header.
-            $_ = <$fh>;
+            <$fh>;
             next;
         } elsif (/^Dynamic Section:/) {
             $section = 'dyninfo';
