@@ -330,33 +330,37 @@ static const struct cmdinfo cmdinfos[]= {
 
 static bool cursesareon = false;
 void curseson() {
-  if (!cursesareon) {
-    const char *cup, *smso;
-    initscr();
-    cup= tigetstr("cup");
-    smso= tigetstr("smso");
-    if (!cup || !smso) {
-      endwin();
-      if (!cup)
-        fputs(_("Terminal does not appear to support cursor addressing.\n"),stderr);
-      if (!smso)
-        fputs(_("Terminal does not appear to support highlighting.\n"),stderr);
-      fprintf(stderr,
-	      _("Set your TERM variable correctly, use a better terminal,\n"
-	        "or make do with the per-package management tool %s.\n"),
-	      DPKG);
-      ohshit(_("terminal lacks necessary features, giving up"));
-    }
+  if (cursesareon)
+    return;
+
+  const char *cup, *smso;
+  initscr();
+  cup = tigetstr("cup");
+  smso = tigetstr("smso");
+  if (!cup || !smso) {
+    endwin();
+    if (!cup)
+      fputs(_("Terminal does not appear to support cursor addressing.\n"), stderr);
+    if (!smso)
+      fputs(_("Terminal does not appear to support highlighting.\n"), stderr);
+    fprintf(stderr,
+            _("Set your TERM variable correctly, use a better terminal,\n"
+              "or make do with the per-package management tool %s.\n"),
+            DPKG);
+    ohshit(_("terminal lacks necessary features, giving up"));
   }
+
   cursesareon = true;
 }
 
 void cursesoff() {
-  if (cursesareon) {
-    clear();
-    refresh();
-    endwin();
-  }
+  if (!cursesareon)
+    return;
+
+  clear();
+  refresh();
+  endwin();
+
   cursesareon = false;
 }
 
