@@ -142,7 +142,76 @@ partmatches(struct partinfo *pi, struct partinfo *refi)
 	        pi->maxpartlen == refi->maxpartlen);
 }
 
-/* TODO: Refactor to reduce nesting levels. */
+static void
+depot_store_part(const char *partfile, struct partinfo **partlist,
+                 struct partinfo *refi, intmax_t maxpart)
+{
+	struct dpkg_error err;
+	int fd_src, fd_dst;
+	int ap;
+	int i;
+	char *p, *q;
+
+	p = str_fmt("%s/t.%lx", opt_depotdir, (long)getpid());
+	q = str_fmt("%s/%s.%jx.%x.%x", opt_depotdir, refi->md5sum,
+	            (intmax_t)refi->maxpartlen, refi->thispartn,
+	            refi->maxpartn);
+
+	fd_src = open(partfile, O_RDONLY);
+	if (fd_src < 0)
+		ohshite(_("cannot reopen part file '%s'"),
+		        partfile);
+	fd_dst = creat(p, 0644);
+	if (fd_dst < 0)
+		ohshite(_("cannot open new depot file '%s'"), p);
+
+	if (fd_fd_copy(fd_src, fd_dst, refi->filesize, &err) < 0)
+		ohshit(_("cannot extract split package part '%s': %s"),
+		       partfile, err.str);
+
+	if (fsync(fd_dst))
+		ohshite(_("cannot sync file '%s'"), p);
+	if (close(fd_dst))
+		ohshite(_("cannot close file '%s'"), p);
+	close(fd_src);
+
+	if (rename(p, q))
+		ohshite(_("cannot rename new depot file '%s' to '%s'"),
+		        p, q);
+	free(q);
+	free(p);
+
+	printf(_("Part %d of package %s filed (still want "),
+	       refi->thispartn, refi->package);
+	/* There are still some parts missing. */
+	for (i = 0, ap = 0; i < refi->maxpartn; i++)
+		if (!partlist[i])
+			printf("%s%d",
+			       !ap++ ? "" : i == maxpart ? _(" and ") : ", ",
+			       i + 1);
+	printf(").\n");
+
+	dir_sync_path(opt_depotdir);
+}
+
+static void
+depot_clean_parts(struct partinfo **partlist, struct partinfo *refi,
+                  struct partinfo *otherthispart)
+{
+	int i;
+
+	/* OK, delete all the parts (except the new one, which we never
+	 * copied). */
+	partlist[refi->thispartn - 1] = otherthispart;
+	for (i = 0; i < refi->maxpartn; i++) {
+		if (!partlist[i])
+			continue;
+		if (unlink(partlist[i]->filename))
+			ohshite(_("cannot delete used-up depot file '%s'"),
+			        partlist[i]->filename);
+	}
+}
+
 int
 do_auto(const char *const *argv)
 {
@@ -201,63 +270,12 @@ do_auto(const char *const *argv)
 		;
 
 	if (j >= 0) {
-		struct dpkg_error err;
-		int fd_src, fd_dst;
-		int ap;
-		char *p, *q;
-
-		p = str_fmt("%s/t.%lx", opt_depotdir, (long)getpid());
-		q = str_fmt("%s/%s.%jx.%x.%x", opt_depotdir, refi->md5sum,
-		            (intmax_t)refi->maxpartlen, refi->thispartn,
-		            refi->maxpartn);
-
-		fd_src = open(partfile, O_RDONLY);
-		if (fd_src < 0)
-			ohshite(_("cannot reopen part file '%s'"),
-			        partfile);
-		fd_dst = creat(p, 0644);
-		if (fd_dst < 0)
-			ohshite(_("cannot open new depot file '%s'"), p);
-
-		if (fd_fd_copy(fd_src, fd_dst, refi->filesize, &err) < 0)
-			ohshit(_("cannot extract split package part '%s': %s"),
-			       partfile, err.str);
-
-		if (fsync(fd_dst))
-			ohshite(_("cannot sync file '%s'"), p);
-		if (close(fd_dst))
-			ohshite(_("cannot close file '%s'"), p);
-		close(fd_src);
-
-		if (rename(p, q))
-			ohshite(_("cannot rename new depot file '%s' to '%s'"),
-			        p, q);
-		free(q);
-		free(p);
-
-		printf(_("Part %d of package %s filed (still want "),
-		       refi->thispartn, refi->package);
-		/* There are still some parts missing. */
-		for (i = 0, ap = 0; i < refi->maxpartn; i++)
-			if (!partlist[i])
-				printf("%s%d",
-				       !ap++ ? "" : i == j ? _(" and ") : ", ",
-				       i + 1);
-		printf(").\n");
-
-		dir_sync_path(opt_depotdir);
+		depot_store_part(partfile, partlist, refi, j);
 	} else {
 		/* We have all the parts. */
 		reassemble(partlist, opt_outputfile);
 
-		/* OK, delete all the parts (except the new one, which we never
-		 * copied). */
-		partlist[refi->thispartn - 1] = otherthispart;
-		for (i = 0; i < refi->maxpartn; i++)
-			if (partlist[i])
-				if (unlink(partlist[i]->filename))
-					ohshite(_("cannot delete used-up depot file '%s'"),
-					        partlist[i]->filename);
+		depot_clean_parts(partlist, refi, otherthispart);
 	}
 
 	m_output(stderr, _("<standard error>"));
