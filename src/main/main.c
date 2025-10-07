@@ -1024,8 +1024,12 @@ main(int argc, const char *const *argv)
 		ohshite(_("cannot set environment for subprocesses"));
 	free(force_string);
 
-	if (!f_triggers)
-		f_triggers = (cipaction->arg_int == act_triggers && *argv) ? -1 : 1;
+	if (!f_triggers) {
+		if (cipaction->arg_int == act_triggers && *argv)
+			f_triggers = -1;
+		else
+			f_triggers = 1;
+	}
 
 	if (can_invoke_hooks(cipaction->arg_int)) {
 		run_invoke_hooks(cipaction->olong, &pre_invoke_hooks);
