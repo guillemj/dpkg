@@ -277,6 +277,15 @@ md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
 	}
 }
 
+static int
+tarobject_describe_type(struct tar_entry *te)
+{
+	if (te->type >= '0' && te->type <= '6')
+		return "-hlcbdp"[te->type - '0'];
+	else
+		return '?';
+}
+
 void
 cu_pathname(int argc, void **argv)
 {
@@ -771,7 +780,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
 	      ti->name, (long)ti->stat.mode,
 	      (unsigned)ti->stat.uid, (unsigned)ti->stat.gid,
 	      ti->type,
-	      ti->type >= '0' && ti->type <= '6' ? "-hlcbdp"[ti->type - '0'] : '?',
+	      tarobject_describe_type(ti),
 	      ti->linkname,
 	      nifd->namenode->name, nifd->namenode->flags,
 	      nifd->namenode->divert && nifd->namenode->divert->useinstead
