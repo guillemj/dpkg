@@ -1130,6 +1130,12 @@ sub field_transfer_single {
         return $field;
     } elsif ($field =~ /^X([SBC]*)-/i) {
         my $dest = $1;
+
+        if ($dest =~ /SC/i and $from_type == CTRL_TMPL_PKG) {
+            warning(g_('non-sensical field export rules (%s) in field %s in ' .
+                       'binary stanza from source package template control file'),
+                    $dest, $field);
+        }
         if (($dest =~ /B/i and $to_type == CTRL_DEB) or
             ($dest =~ /S/i and $to_type == CTRL_DSC) or
             ($dest =~ /C/i and $to_type == CTRL_FILE_CHANGES))
