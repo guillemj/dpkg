@@ -115,6 +115,13 @@ my @env_allowed = (
         LC_MEASUREMENT
         LC_IDENTIFICATION
     ),
+    # Locale paths, see locale(7), catopen(3), iconv(1).
+    qw(
+        LOCPATH
+        I18NPATH
+        NLSPATH
+        GCONV_PATH
+    ),
     # Build flags, see dpkg-buildpackage(1).
     qw(
         DEB_BUILD_OPTIONS
