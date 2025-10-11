@@ -88,6 +88,8 @@ my @env_allowed = (
         LDFLAGS
         LDFLAGS_FOR_BUILD
         ARFLAGS
+        LFLAGS
+        YFLAGS
         MAKEFLAGS
         GNUMAKEFLAGS
     ),
