@@ -48,6 +48,13 @@ the build, but are still not privacy revealing.
 =cut
 
 my @env_allowed = (
+    # Resolver, see resolv.conf(5), host.conf(5).
+    qw(
+        RESOLV_HOST_CONF
+        RESOLV_MULTI
+        RESOLV_REORDER
+        RES_OPTIONS
+    ),
     # Toolchain.
     qw(
         CC
