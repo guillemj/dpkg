@@ -97,9 +97,10 @@ my @env_allowed = (
     qw(
         LD_LIBRARY_PATH
     ),
-    # Locale, see locale(1).
+    # Locale, see locale(1), locale(7).
     qw(
         LANG
+        LANGUAGE
         LC_ALL
         LC_CTYPE
         LC_NUMERIC
