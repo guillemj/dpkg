@@ -19,5 +19,5 @@ use Test::More tests => 2;
 
 use ok 'Dpkg::BuildInfo';
 
-is(scalar Dpkg::BuildInfo::get_build_env_allowed(), 68,
+is(scalar Dpkg::BuildInfo::get_build_env_allowed(), 71,
     'allowed environment variables array');

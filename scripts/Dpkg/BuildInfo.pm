@@ -97,6 +97,15 @@ my @env_allowed = (
     qw(
         LD_LIBRARY_PATH
     ),
+    # Timezone, see tzset(3).
+    qw(
+        TZ
+        TZDIR
+    ),
+    # Dates, see getdate(3).
+    qw(
+        DATEMSK
+    ),
     # Locale, see locale(1), locale(7).
     qw(
         LANG
