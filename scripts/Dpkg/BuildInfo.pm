@@ -95,7 +95,15 @@ my @env_allowed = (
     ),
     # Dynamic linker, see ld(1).
     qw(
+        LD_ASSUME_KERNEL
+        LD_AUDIT
+        LD_BIND_NOT
+        LD_BIND_NOW
+        LD_DYNAMIC_WEAK
         LD_LIBRARY_PATH
+        LD_ORIGIN_PATH
+        LD_PREFER_MAP_32BIT_EXEC
+        LD_PRELOAD
     ),
     # Timezone, see tzset(3).
     qw(
