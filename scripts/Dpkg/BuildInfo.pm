@@ -48,6 +48,11 @@ the build, but are still not privacy revealing.
 =cut
 
 my @env_allowed = (
+    # Tool behavior.
+    qw(
+        POSIXLY_CORRECT
+        GETCONF_DIR
+    ),
     # Resolver, see resolv.conf(5), host.conf(5).
     qw(
         RESOLV_HOST_CONF
