@@ -636,6 +636,23 @@ sub add_build_flags {
         if ($cpu eq 'arm64') {
             $flag = '-mbranch-protection=standard';
         } elsif ($cpu eq 'amd64') {
+            # TODO: On GNU/Linux, CET is currently only partially supported
+            # for the "-fcf-protection" option values:
+            #
+            # - For "return", the current version of glibc in Debian does
+            #   not enable support for it. See #1114518.
+            #
+            # - For "branch", the compiler injects the ENDBR instructions in
+            #   the function prologues, but the Linux kernel does not currently
+            #   have support to enable IBT support for user-space. And there
+            #   are proposals that could end up changing its ABI.
+            #
+            # We leave the current option value with the implicit "full", as
+            # there is still interest (as of 2025-09) to implement support on
+            # Linux to enable IBT for user-space, and then it would only need
+            # a new Linux kernel and a glibc to enable the support. If this
+            # does not change in a couple of years, we can revisit whether to
+            # switch to "return".
             $flag = '-fcf-protection';
         }
         # The following should always be true on Debian, but it might not
