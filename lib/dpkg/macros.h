@@ -199,15 +199,6 @@
  */
 #define DPKG_BIT(n)	(1UL << (n))
 
-/**
- * @def array_count
- *
- * Returns the amount of items in an array.
- */
-#ifndef array_count
-#define array_count(a) (sizeof(a) / sizeof((a)[0]))
-#endif
-
 /* For C++ use native implementations from STL or similar. */
 #ifndef __cplusplus
 #ifndef min

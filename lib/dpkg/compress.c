@@ -1329,7 +1329,7 @@ static const struct compressor *compressor_array[] = {
 static const struct compressor *
 compressor(enum compressor_type type)
 {
-	const enum compressor_type max_type = array_count(compressor_array);
+	const enum compressor_type max_type = countof(compressor_array);
 
 	if (type < 0 || type >= max_type)
 		internerr("compressor_type %d is out of range", type);
@@ -1354,7 +1354,7 @@ compressor_find_by_name(const char *name)
 {
 	size_t i;
 
-	for (i = 0; i < array_count(compressor_array); i++)
+	for (i = 0; i < countof(compressor_array); i++)
 		if (strcmp(compressor_array[i]->name, name) == 0)
 			return i;
 
@@ -1366,7 +1366,7 @@ compressor_find_by_extension(const char *extension)
 {
 	size_t i;
 
-	for (i = 0; i < array_count(compressor_array); i++)
+	for (i = 0; i < countof(compressor_array); i++)
 		if (strcmp(compressor_array[i]->extension, extension) == 0)
 			return i;
 

@@ -40,7 +40,7 @@ static int signo_ignores[] = {
 	SIGQUIT,
 	SIGINT,
 };
-static struct sigaction sa_save[array_count(signo_ignores)];
+static struct sigaction sa_save[countof(signo_ignores)];
 
 static void
 subproc_reset_signal(int sig, struct sigaction *sa_old)
@@ -73,7 +73,7 @@ subproc_signals_ignore(const char *name)
 	sa.sa_handler = SIG_IGN;
 	sa.sa_flags = 0;
 
-	for (i = 0; i < array_count(signo_ignores); i++)
+	for (i = 0; i < countof(signo_ignores); i++)
 		subproc_set_signal(signo_ignores[i], &sa, &sa_save[i], name);
 
 	push_cleanup(subproc_signals_cleanup, ~0, 0);
@@ -85,7 +85,7 @@ subproc_signals_cleanup(int argc, void **argv)
 {
 	size_t i;
 
-	for (i = 0; i < array_count(signo_ignores); i++)
+	for (i = 0; i < countof(signo_ignores); i++)
 		subproc_reset_signal(signo_ignores[i], &sa_save[i]);
 }
 

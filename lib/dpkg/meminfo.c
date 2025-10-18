@@ -90,7 +90,7 @@ meminfo_get_available_from_file(const char *filename, uint64_t *val)
 		{ MEMINFO_FIELD("Buffers", DPKG_BIT(1)) },
 		{ MEMINFO_FIELD("Cached", DPKG_BIT(2)) },
 	};
-	const int want_tags = DPKG_BIT(array_count(fields)) - 1;
+	const int want_tags = DPKG_BIT(countof(fields)) - 1;
 	int seen_tags = 0;
 
 	*val = 0;
@@ -116,7 +116,7 @@ meminfo_get_available_from_file(const char *filename, uint64_t *val)
 		if (end == 0)
 			break;
 
-		field = meminfo_find_field(fields, array_count(fields),
+		field = meminfo_find_field(fields, countof(fields),
 		                           str, end - str);
 		if (field) {
 			intmax_t num;
@@ -152,7 +152,7 @@ meminfo_get_available_from_file(const char *filename, uint64_t *val)
 	if (seen_tags != want_tags)
 		return MEMINFO_NO_INFO;
 
-	*val = meminfo_sum_fields(fields, array_count(fields));
+	*val = meminfo_sum_fields(fields, countof(fields));
 	return MEMINFO_OK;
 }
 

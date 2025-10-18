@@ -790,7 +790,7 @@ parsedb_parse(struct parsedb_state *ps, struct pkginfo **donep)
 	struct pkginfo *new_pkg, *db_pkg;
 	struct pkgbin *new_pkgbin, *db_pkgbin;
 	struct pkg_parse_object pkg_obj;
-	int fieldencountered[array_count(fieldinfos)];
+	int fieldencountered[countof(fieldinfos)];
 	int pdone;
 	struct field_state fs;
 

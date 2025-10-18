@@ -2896,7 +2896,7 @@ set_action_from_name(const char *new_action)
 {
 	size_t i;
 
-	for (i = 0; i < array_count(action_names); i++) {
+	for (i = 0; i < countof(action_names); i++) {
 		if (strcmp(new_action, action_names[i].name) == 0) {
 			set_action(action_names[i].action);
 			return;

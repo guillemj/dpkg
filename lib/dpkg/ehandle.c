@@ -357,7 +357,7 @@ cleanup_entry_new(void (*call1)(int argc, void **argv), int mask1,
 
 	cep = malloc(sizeof(*cep) + sizeof(void *) * (nargs + 1));
 	if (!cep) {
-		if (nargs > array_count(emergency.args))
+		if (nargs > countof(emergency.args))
 			ohshite(_("out of memory for new cleanup entry with "
 			          "many arguments"));
 		e = errno;

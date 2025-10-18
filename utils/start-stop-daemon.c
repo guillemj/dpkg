@@ -1072,7 +1072,7 @@ parse_signal(const char *sig_str, int *sig_num)
 	if (parse_unsigned(sig_str, 10, sig_num) == 0)
 		return 0;
 
-	for (i = 0; i < array_count(siglist); i++) {
+	for (i = 0; i < countof(siglist); i++) {
 		if (strcmp(sig_str, siglist[i].name) == 0) {
 			*sig_num = siglist[i].signal;
 			return 0;

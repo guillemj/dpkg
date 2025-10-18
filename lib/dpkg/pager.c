@@ -66,14 +66,14 @@ pager_get_exec(void)
 	if (!isatty(0) || !isatty(1))
 		return CAT;
 
-	for (i = 0; i < array_count(envvars); i++) {
+	for (i = 0; i < countof(envvars); i++) {
 		const char *pager = getenv(envvars[i]);
 
 		if (str_is_set(pager) && command_in_path(pager))
 			return pager;
 	}
 
-	for (i = 0; i < array_count(fallback); i++)
+	for (i = 0; i < countof(fallback); i++)
 		if (command_in_path(fallback[i]))
 			return fallback[i];
 
