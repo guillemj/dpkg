@@ -23,7 +23,7 @@ Dpkg::Control::HashCore - parse and manipulate a stanza of deb822 fields
 =head1 DESCRIPTION
 
 The L<Dpkg::Control::Hash> class is a hash-like representation of a set of
-RFC822-like fields. The fields names are case insensitive and are always
+L<deb822(5)> fields. The fields names are case insensitive and are always
 capitalized the same when output (see field_capitalize() function in
 L<Dpkg::Control::Fields>).
 The order in which fields have been set is remembered and is used

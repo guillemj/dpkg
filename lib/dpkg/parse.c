@@ -578,7 +578,7 @@ parsedb_open(const char *filename, enum parsedbflags flags)
 }
 
 /**
- * Load data for package deb822 style parsing.
+ * Load data for package deb822 parsing.
  */
 void
 parsedb_load(struct parsedb_state *ps)
@@ -626,7 +626,7 @@ parsedb_load(struct parsedb_state *ps)
 }
 
 /**
- * Parse an RFC-822 style stanza.
+ * Parse a deb822 stanza.
  */
 bool
 parse_stanza(struct parsedb_state *ps, struct field_state *fs,
@@ -778,7 +778,7 @@ parsedb_close(struct parsedb_state *ps)
 }
 
 /**
- * Parse deb822 style package data from a buffer.
+ * Parse deb822 package data from a buffer.
  *
  * donep may be NULL.
  * If donep is not NULL only one package's information is expected.
@@ -857,7 +857,7 @@ parsedb_parse(struct parsedb_state *ps, struct pkginfo **donep)
 }
 
 /**
- * Parse a deb822 style file.
+ * Parse a deb822 file.
  *
  * donep may be NULL.
  * If donep is not NULL only one package's information is expected.
