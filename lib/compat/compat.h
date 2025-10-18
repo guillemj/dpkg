@@ -35,6 +35,10 @@
 #include <stdarg.h>
 #endif
 
+#if defined(HAVE_COUNTOF)
+#include <stdcountof.h>
+#endif
+
 #if TEST_LIBCOMPAT || !defined(HAVE_VA_COPY)
 #include <string.h>
 #endif
@@ -106,6 +110,11 @@ extern "C" {
 
 #ifndef HAVE_OFFSETOF
 #define offsetof(st, m) ((size_t)&((st *)NULL)->m)
+#endif
+
+/* Defined by the C2Y (C29) standard draft. */
+#ifndef HAVE_COUNTOF
+#define countof(a) (sizeof(a) / sizeof((a)[0]))
 #endif
 
 #ifndef HAVE_MAKEDEV
