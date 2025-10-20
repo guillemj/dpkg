@@ -55,6 +55,7 @@ dist_docspec_DATA = \
 	# EOL
 
 EXTRA_DIST = \
+	.editorconfig \
 	ChangeLog.old \
 	README.l10n \
 	autogen \
