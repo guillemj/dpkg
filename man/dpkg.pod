@@ -31,8 +31,7 @@ dpkg - package manager for Debian
 
 =head1 SYNOPSIS
 
-B<dpkg>
-[I<option>...] I<action>
+B<dpkg> [I<option>...] I<command>
 
 =head1 WARNING
 
@@ -55,14 +54,14 @@ as a CLI (command-line interface) is L<apt(8)> and
 as a TUI (terminal user interface) is L<aptitude(8)>.
 B<dpkg> itself is
 controlled entirely via command line parameters, which consist of exactly
-one action and zero or more options.
-The action-parameter tells B<dpkg>
-what to do and options control the behavior of the action in some way.
+one command and zero or more options.
+The command-parameter tells B<dpkg>
+what to do and options control the behavior of the command in some way.
 
 B<dpkg> can also be used as a front-end to L<dpkg-deb(1)> and
 L<dpkg-query(1)>.
-The list of supported actions can be found later on in the B<ACTIONS> section.
-If any such action is encountered B<dpkg>
+The list of supported commands can be found later on in the B<COMMANDS> section.
+If any such command is encountered B<dpkg>
 just runs B<dpkg-deb> or B<dpkg-query> with the parameters given
 to it, but no specific options are currently passed to them, to use
 any such option the back-ends need to be called directly.
@@ -168,7 +167,7 @@ option B<--force-remove-reinstreq>.
 
 =back
 
-=head1 ACTIONS
+=head1 COMMANDS
 
 =over
 
@@ -379,11 +378,10 @@ B<dpkg> will suggest what to do with them to get them fixed.
 
 Update B<dpkg>'s and B<dselect>'s idea of which packages are
 available.
-With action B<--merge-avail>,
+With the B<--merge-avail> command,
 old information is combined with information from I<Packages-file>.
-With action
-B<--update-avail>, old information is replaced with the information
-in the I<Packages-file>.
+With the B<--update-avail> command,
+old information is replaced with the information in the I<Packages-file>.
 The I<Packages-file> distributed with Debian is simply named «I<Packages>».
 If the I<Packages-file>
 argument is missing or named «B<->» then it will be read from
@@ -618,10 +616,10 @@ Display B<dpkg> version information.
 When used with B<--robot>, the output will be the program version number
 in a dotted numerical format, with no newline.
 
-=item B<dpkg-deb actions>
+=item B<dpkg-deb commands>
 
-See L<dpkg-deb(1)> for more information about the following actions,
-and other actions and options not exposed by the B<dpkg> front-end.
+See L<dpkg-deb(1)> for more information about the following commands,
+and other commands and options not exposed by the B<dpkg> front-end.
 
 =over
 
@@ -663,10 +661,10 @@ Show information about a package.
 
 =back
 
-=item B<dpkg-query actions>
+=item B<dpkg-query commands>
 
-See L<dpkg-query(1)> for more information about the following actions,
-and other actions and options not exposed by the B<dpkg> front-end.
+See L<dpkg-query(1)> for more information about the following commands,
+and other commands and options not exposed by the B<dpkg> front-end.
 
 =over
 
@@ -960,10 +958,10 @@ This affects the B<Pre-Depends>, B<Depends> and B<Breaks> fields.
 
 Do everything which is supposed to be done, but don't write any
 changes.
-This is used to see what would happen with the specified
-action, without actually modifying anything.
+This is used to see what would happen with the specified command,
+without actually modifying anything.
 
-Be sure to give B<--no-act> before the action-parameter, or you might
+Be sure to give B<--no-act> before the command-parameter, or you might
 end up with undesirable results (e.g. B<dpkg --purge foo --no-act> will
 first purge package “foo” and then try to purge package ”--no-act”, even
 though you probably expected it to actually do nothing).
@@ -974,7 +972,7 @@ Recursively handle all regular files matching pattern B<*.deb>
 found at specified directories and all of its subdirectories.
 This can
 be used with B<-i>, B<-A>, B<--install>, B<--unpack> and
-B<--record-avail> actions.
+B<--record-avail> commands.
 
 =item B<-G>
 
@@ -1303,7 +1301,7 @@ Cancels a previous B<--no-triggers> (since dpkg 1.14.17).
 
 =item B<0>
 
-The requested action was successfully performed.
+The requested command was successfully performed.
 Or a check or assertion command returned true.
 
 =item B<1>
