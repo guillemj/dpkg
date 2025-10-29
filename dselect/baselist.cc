@@ -189,7 +189,8 @@ baselist::startdisplay()
 	wattrset(whatinfowin, part_attr[whatinfo]);
 
 	listpad = newpad(ymax, total_width);
-	if (!listpad) ohshite(_("failed to create baselist pad"));
+	if (!listpad)
+		ohshite(_("failed to create baselist pad"));
 
 	colheadspad = newpad(1, total_width);
 	if (!colheadspad)
@@ -314,7 +315,7 @@ baselist::baselist(keybindings *kb)
 	cursorline = -1;
 	ldrawnstart = 0;
 	ldrawnend = 0;
-	showinfo= 1;
+	showinfo = 1;
 
 	searchstring.reset();
 }

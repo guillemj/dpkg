@@ -80,7 +80,7 @@ deppossi_pkg_iter_next(struct deppossi_pkg_iterator *iter)
 				pkgbin = &pkg_cur->available;
 			else
 				pkgbin = &pkg_cur->installed;
-				break;
+			break;
 		default:
 			internerr("unknown which_pkgbin %d", iter->which_pkgbin);
 		}

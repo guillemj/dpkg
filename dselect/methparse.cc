@@ -321,7 +321,7 @@ getcurrentopt()
 		return;
 
 	debug(dbg_general, "getcurrentopt() cmethopt opt found");
-	coption= opt;
+	coption = opt;
 }
 
 void

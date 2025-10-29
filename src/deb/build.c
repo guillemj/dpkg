@@ -133,7 +133,7 @@ file_info_list_append(struct file_info **head, struct file_info **tail,
 	if (*head == NULL)
 		*head = *tail = fi;
 	else
-		*tail = (*tail)->next =fi;
+		*tail = (*tail)->next = fi;
 }
 
 /**

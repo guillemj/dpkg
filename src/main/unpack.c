@@ -1114,7 +1114,7 @@ pkg_disappear_others(struct pkginfo *pkg)
 		 * run maintainer scripts and things, as we can't back out. But
 		 * what can we do? It has to be run this late. */
 		pkg_disappear(otherpkg, pkg);
-	} /* while (otherpkg= ... */
+	} /* while (otherpkg = ... */
 	pkg_hash_iter_free(iter);
 }
 

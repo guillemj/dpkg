@@ -354,14 +354,14 @@ set_color(const struct cmdinfo*, const char *string)
 		colorname = strtok(colors, ",");
 		if (colorname != nullptr && strlen(colorname)) {
 			// Normalize attributes to prevent confusion.
-			color[screenpart].attr= A_NORMAL;
+			color[screenpart].attr = A_NORMAL;
 			color[screenpart].fore = findintable(colortable,
 			                                     colorname,
 			                                     _("color"));
 		}
 		colorname = strtok(nullptr, ",");
 		if (colorname != nullptr && strlen(colorname)) {
-			color[screenpart].attr= A_NORMAL;
+			color[screenpart].attr = A_NORMAL;
 			color[screenpart].back = findintable(colortable,
 			                                     colorname,
 			                                     _("color"));
