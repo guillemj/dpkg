@@ -586,7 +586,8 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 			ohshit(_("package metadata contains directory '%s'"),
 			       cidir);
 		else if (errno != ENOTDIR)
-			ohshite(_("package metadata rmdir of '%s' did not say not a dir"),
+			ohshite(_("package metadata contains directory '%s', "
+			          "but it cannot be removed"),
 			        de->d_name);
 
 		/* Ignore the control file. */
