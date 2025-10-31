@@ -52,7 +52,7 @@ struct method *methods = nullptr;
 static void DPKG_ATTR_NORET
 badmethod(varbuf &pathname, const char *why)
 {
-	ohshit(_("syntax error in method options file '%s' -- %s"),
+	ohshit(_("invalid syntax in method options file '%s': %s"),
 	       pathname.str(), why);
 }
 

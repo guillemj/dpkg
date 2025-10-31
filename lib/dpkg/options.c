@@ -61,7 +61,7 @@ config_error(const char *file_name, int line_num, const char *fmt, ...)
 	m_vasprintf(&buf, fmt, args);
 	va_end(args);
 
-	ohshit(_("configuration error: %s:%d: %s"), file_name, line_num, buf);
+	ohshit(_("invalid syntax in configuration file: %s:%d: %s"), file_name, line_num, buf);
 }
 
 /* TODO: Refactor to add a context struct to pass to config_error(). */

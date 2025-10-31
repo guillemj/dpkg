@@ -600,7 +600,7 @@ packagelist::checksearch(varbuf &rx)
 
 	rc = regcomp(&searchfsm, rx.str(), opt);
 	if (rc != 0) {
-		displayerror(_("error in regular expression"));
+		displayerror(_("invalid syntax in regular expression"));
 		return false;
 	}
 

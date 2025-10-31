@@ -599,7 +599,7 @@ showpackages(const char *const *argv)
 
 	fmt = pkg_format_parse(opt_showformat, &err);
 	if (!fmt) {
-		notice(_("cannot parse show format: %s"), err.str);
+		notice(_("invalid syntax in show format: %s"), err.str);
 		dpkg_error_destroy(&err);
 		return 2;
 	}

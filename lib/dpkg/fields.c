@@ -676,7 +676,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 				break;
 			if (*p != '|')
 				parse_error(ps,
-				            _("'%s' field, syntax error after reference to package '%s'"),
+				            _("'%s' field, invalid syntax after reference to package '%s'"),
 				            fip->name, dop->ed->name);
 			if (fip->integer == dep_conflicts ||
 			    fip->integer == dep_breaks ||

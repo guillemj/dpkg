@@ -338,7 +338,7 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 
 		pend = pkg_spec_parse_pkg(buf, &err);
 		if (pend == NULL)
-			ohshit(_("trigger interest file '%s' syntax error; "
+			ohshit(_("invalid syntax in trigger interest file '%s'; "
 			         "invalid package name '%s': %s"),
 			       trk_explicit_fn.buf, buf, err.str);
 
@@ -369,7 +369,7 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg,
 
 		pkg_parsed = pkg_spec_parse_pkg(buf, &err);
 		if (pkg_parsed == NULL)
-			ohshit(_("trigger interest file '%s' syntax error; "
+			ohshit(_("invalid syntax in trigger interest file '%s'; "
 			         "invalid package name '%s': %s"),
 			       trk_explicit_fn.buf, buf, err.str);
 
@@ -553,7 +553,7 @@ trig_file_interests_ensure(void)
 
 		space = strchr(linebuf, ' ');
 		if (!space || linebuf[0] != '/')
-			ohshit(_("syntax error in file triggers file '%s'"),
+			ohshit(_("invalid syntax in file triggers file '%s'"),
 			       triggersfilefile);
 		*space++ = '\0';
 

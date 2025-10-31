@@ -164,8 +164,8 @@ trigdef_update_printf(const char *format, ...)
 static void
 trigdef_parse_error(int line_num, const char *line, const char *ptr)
 {
-	ohshit(_("syntax error in triggers deferred file '%s' at "
-	         "line %d character %zd '%s'"),
+	ohshit(_("invalid syntax in triggers deferred file '%s' at "
+	         "line %d character %zd in string '%s'"),
 	       fn.buf, line_num, ptr - line + 1, ptr);
 }
 

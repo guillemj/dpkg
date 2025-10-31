@@ -164,7 +164,7 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 		/* Extract the uid. */
 		ptr = memchr(thisline, ' ', nextline - thisline);
 		if (ptr == NULL)
-			ohshit(_("syntax error in statoverride file"));
+			ohshit(_("invalid syntax in statoverride file"));
 		*ptr = '\0';
 
 		fso->uid = statdb_parse_uid(thisline);
@@ -187,7 +187,7 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 		/* Extract the gid */
 		ptr = memchr(thisline, ' ', nextline - thisline);
 		if (ptr == NULL)
-			ohshit(_("syntax error in statoverride file"));
+			ohshit(_("invalid syntax in statoverride file"));
 		*ptr = '\0';
 
 		fso->gid = statdb_parse_gid(thisline);
@@ -210,7 +210,7 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 		/* Extract the mode */
 		ptr = memchr(thisline, ' ', nextline - thisline);
 		if (ptr == NULL)
-			ohshit(_("syntax error in statoverride file"));
+			ohshit(_("invalid syntax in statoverride file"));
 		*ptr = '\0';
 
 		fso->mode = statdb_parse_mode(thisline);

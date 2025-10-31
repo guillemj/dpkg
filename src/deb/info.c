@@ -321,7 +321,7 @@ do_showinfo(const char *const *argv)
 
 	fmt = pkg_format_parse(opt_showformat, &err);
 	if (!fmt)
-		ohshit(_("error in show format: %s"), err.str);
+		ohshit(_("invalid syntax in show format: %s"), err.str);
 
 	info_prepare(&argv, &debar, &dir, 1);
 
