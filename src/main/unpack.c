@@ -583,7 +583,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 
 		/* First we check it's not a directory. */
 		if (rmdir(cidir) == 0)
-			ohshit(_("package metadata contained directory '%s'"),
+			ohshit(_("package metadata contains directory '%s'"),
 			       cidir);
 		else if (errno != ENOTDIR)
 			ohshite(_("package metadata rmdir of '%s' did not say not a dir"),
@@ -597,7 +597,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 			continue;
 		}
 		if (strcmp(de->d_name, LISTFILE) == 0) {
-			warning(_("package %s contained '%s' as a metadata file"),
+			warning(_("package %s contains '%s' as a metadata file"),
 			        LISTFILE,
 			        pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
 			continue;

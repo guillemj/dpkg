@@ -900,7 +900,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
 	case TAR_FILETYPE_HARDLINK:
 		break;
 	default:
-		ohshit(_("archive contained object '%s' of unknown type 0x%x"),
+		ohshit(_("archive contains object '%s' of unknown type 0x%x"),
 		       ti->name, ti->type);
 	}
 
