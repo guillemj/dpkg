@@ -121,7 +121,7 @@ statusfd_send(const char *fmt, ...)
 
 	for (pipef = status_pipes; pipef; pipef = pipef->next) {
 		if (fd_write(pipef->fd, vb.buf, vb.used) < 0)
-			ohshite(_("cannot write to status file descriptor %d"),
+			ohshite(_("cannot write to package status and progress file descriptor %d"),
 			        pipef->fd);
 	}
 }
