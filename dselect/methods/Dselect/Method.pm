@@ -95,7 +95,7 @@ sub read_config {
     };
     if ($@) {
         warn "$@\n";
-        die "Try to relaunch the 'Access' step in dselect.\n";
+        die "try to relaunch the 'Access' step in dselect\n";
     }
 
     my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
@@ -106,8 +106,8 @@ sub read_config {
             $CONFIG{$var} = $conf->{$var};
         }
     } else {
-        print "Bad $vars file : removing it.\n";
-        print "Try to relaunch the 'Access' step in dselect.\n";
+        print "bad $vars file : removing it\n";
+        print "try to relaunch the 'Access' step in dselect\n";
         unlink $vars;
         exit 0;
     }

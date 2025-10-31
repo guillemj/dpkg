@@ -119,7 +119,7 @@ my %curpkgs;
 sub procstatus {
     my (%flds, $fld);
     open(my $status_fh, '<', "$vardir/status") or
-        die 'Could not open status file';
+        die 'could not open status file';
     while (%flds = get_stanza($status_fh), %flds) {
         if ($flds{'status'} =~ /^install ok/) {
             my $cs = (split(/ /, $flds{'status'}))[2];
@@ -189,7 +189,7 @@ foreach my $site (@{$CONFIG{site}}) {
             print " $site->[0] $dist...\n";
             procpkgfile($fn, $i, $j);
         } else {
-            print "Could not find packages file for $site->[0] $dist distribution (re-run Update)\n"
+            print "could not find packages file for $site->[0] $dist distribution (re-run Update)\n"
         }
         $j++;
     }
@@ -340,7 +340,9 @@ sub download {
             proxypassword => $CONFIG{proxypassword},
         );
 
-        local $SIG{INT} = sub { die "Interrupted !\n"; };
+        local $SIG{INT} = sub {
+            die "interrupted !\n";
+        };
 
         my ($rsize, $res, $pre);
         foreach my $fn (@getfiles) {
@@ -428,7 +430,7 @@ if ($totsize != 0) {
                     last DOWNLOAD_TRY;
                 }
             } elsif ($@) {
-                print "An error occurred ($@) : stopping download\n";
+                print "an error occurred ($@) : stopping download\n";
             }
             last DOWNLOAD_TRY;
         }
@@ -595,7 +597,7 @@ sub removeinstalled {
         if ($fn =~ /.deb$/) {
             my ($pkg, $ver) = getdebinfo($fn);
             if (! defined($pkg) || ! defined($ver)) {
-                print "Could not get info for: $dir/$fn\n";
+                print "could not get info for: $dir/$fn\n";
             } elsif ($curpkgs{$pkg} &&
                      version_compare($ver, $curpkgs{$pkg}) <= 0) {
                 print "deleting: $dir/$fn\n";

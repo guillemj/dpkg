@@ -66,7 +66,7 @@ sub do_connect {
             Passive => $opts{passive},
         );
         if (! $ftp || ! $ftp->ok) {
-            print "Failed to connect\n";
+            print "failed to connect\n";
             $exit = 1;
         }
         if (! $exit) {

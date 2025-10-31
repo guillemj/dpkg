@@ -50,7 +50,7 @@ if ($option eq 'manual') {
         if (-f $fn) {
             system('dpkg', '--merge-avail', $fn);
         } else {
-            print "Could not find $fn, try again\n";
+            print "could not find $fn, try again\n";
         }
     }
 }
@@ -104,8 +104,8 @@ sub download {
                 if (defined $newest_pack_date) {
                     print "$dir/Packages.gz\n";
                 } else {
-                    print "Cannot find Packages.gz in $dist/binary-$arch or $dist; ignoring.\n";
-                    print "The setup is probably wrong, check the distributions directories,\n";
+                    print "cannot find Packages.gz in $dist/binary-$arch or $dist; ignoring\n";
+                    print "the setup is probably wrong, check the distributions directories,\n";
                     print "and try with passive mode enabled/disabled (when using a proxy/firewall)\n";
                     next PACKAGE;
                 }
@@ -152,11 +152,11 @@ sub download {
                     eval {
                         if ($ftp->get("$dir/Packages.gz", 'Packages.gz', $size)) {
                             if (system('gunzip', 'Packages.gz')) {
-                                print '  Cannot gunzip Packages.gz, stopped';
+                                print 'cannot gunzip Packages.gz, stopped';
                                 die 'error';
                             }
                         } else {
-                            print "  Cannot get Packages.gz from $dir !!! Stopped.";
+                            print "cannot get Packages.gz from $dir, stopped";
                             die 'error';
                         }
                     };
@@ -192,7 +192,7 @@ sub download {
                 }
 
                 if (! rename 'Packages', "Packages.$site->[0].$dist") {
-                    print "  Cannot rename Packages to Packages.$site->[0].$dist";
+                    print "cannot rename Packages to Packages.$site->[0].$dist";
                     die 'error';
                 } else {
                     # Set local Packages file to same date as the one it mirrors
@@ -246,7 +246,7 @@ if (! $packages_modified) {
 } else {
     foreach my $file (@pkgfiles) {
         if (system('dpkg', '--merge-avail', $file)) {
-            print "Dpkg merge available failed on $file";
+            print "dpkg merge available failed on $file";
             $exit = 1;
         }
     }

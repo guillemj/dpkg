@@ -220,7 +220,7 @@ print "\nGot ", scalar keys %installed, " installed/pending packages\n";
 print 'Scanning available packages...';
 $line = 0;
 open my $avail_fh, '<', $AVAIL
-    or die("Cannot open $AVAIL: $!\n");
+    or die("cannot open $AVAIL: $!\n");
 {
     local $/ = q{};
     while (<$avail_fh>) {
@@ -286,7 +286,7 @@ foreach my $need (@media) {
 
     if (! -d 'tmp') {
         mkdir 'tmp', 0o755
-            or die("Cannot mkdir tmp: $!\n");
+            or die("cannot mkdir tmp: $!\n");
     }
     unlink <tmp/*>;
 
