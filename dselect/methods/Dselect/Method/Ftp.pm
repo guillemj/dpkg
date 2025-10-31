@@ -234,7 +234,7 @@ sub do_mdtm {
             # Build a system time.
             $time = timegm_posix(0, $minutes, $hours, $day, $month, $year);
         } else {
-            error('cannot match regex on LIST output');
+            error('cannot match regex on FTP LIST output');
         }
     }
 
