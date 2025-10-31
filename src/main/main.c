@@ -804,12 +804,12 @@ main(int argc, const char *const *argv)
 
 	/* Always set environment, to avoid possible security risks. */
 	if (setenv("DPKG_ADMINDIR", dpkg_db_get_dir(), 1) < 0)
-		ohshite(_("cannot setenv for subprocesses"));
+		ohshite(_("cannot set environment for subprocesses"));
 	if (setenv("DPKG_ROOT", dpkg_fsys_get_dir(), 1) < 0)
-		ohshite(_("cannot setenv for subprocesses"));
+		ohshite(_("cannot set environment for subprocesses"));
 	force_string = get_force_string();
 	if (setenv("DPKG_FORCE", force_string, 1) < 0)
-		ohshite(_("cannot setenv for subprocesses"));
+		ohshite(_("cannot set environment for subprocesses"));
 	free(force_string);
 
 	if (!f_triggers)

@@ -114,9 +114,9 @@ maintscript_pre_exec(struct command *cmd)
 		if (strncmp(admindir, instdir, instdirlen) != 0)
 			ohshit(_("admindir must be inside instdir for dpkg to work properly"));
 		if (setenv("DPKG_ADMINDIR", admindir + instdirlen, 1) < 0)
-			ohshite(_("cannot setenv for subprocesses"));
+			ohshite(_("cannot set environment for subprocesses"));
 		if (setenv("DPKG_ROOT", "", 1) < 0)
-			ohshite(_("cannot setenv for subprocesses"));
+			ohshite(_("cannot set environment for subprocesses"));
 
 		rc = chroot(instdir);
 		if (rc && in_force(FORCE_NON_ROOT) && errno == EPERM)
@@ -198,7 +198,7 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
 		    setenv("DPKG_MAINTSCRIPT_NAME", cmd->argv[0], 1) ||
 		    setenv("DPKG_MAINTSCRIPT_DEBUG", maintscript_debug, 1) ||
 		    setenv("DPKG_RUNNING_VERSION", PACKAGE_VERSION, 1))
-			ohshite(_("cannot setenv for maintainer script"));
+			ohshite(_("cannot set environment for maintainer script"));
 
 		cmd->filename = cmd->argv[0] = maintscript_pre_exec(cmd);
 
