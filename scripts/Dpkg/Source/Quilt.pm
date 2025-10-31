@@ -66,7 +66,7 @@ sub setup_db {
     my $self = shift;
     my $db_dir = $self->get_db_dir();
     if (not -d $db_dir) {
-        mkdir $db_dir or syserr(g_('cannot mkdir %s'), $db_dir);
+        mkdir $db_dir or syserr(g_('cannot create directory %s'), $db_dir);
     }
     my $file = $self->get_db_file('.version');
     if (not -e $file) {

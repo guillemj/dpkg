@@ -287,7 +287,7 @@ foreach my $need (@media) {
 
     if (! -d 'tmp') {
         mkdir 'tmp', 0o755
-            or syserr("cannot mkdir '%s'", 'tmp');
+            or syserr("cannot create directory '%s'", 'tmp');
     }
     unlink <tmp/*>;
 
