@@ -135,7 +135,7 @@ find_arbfield_info(const struct arbitraryfield *arbs, const char *fieldname)
 }
 
 const char *
-pkg_name_is_illegal(const char *p)
+pkg_name_is_invalid(const char *p)
 {
 	/* TODO: _ is deprecated, remove sometime. */
 	static const char alsoallowed[] = "-+._";

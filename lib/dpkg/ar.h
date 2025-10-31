@@ -97,7 +97,7 @@ dpkg_ar_close(struct dpkg_ar *ar);
 void
 dpkg_ar_normalize_name(struct dpkg_ar_hdr *arh);
 bool
-dpkg_ar_member_is_illegal(struct dpkg_ar_hdr *arh);
+dpkg_ar_member_is_invalid(struct dpkg_ar_hdr *arh);
 
 void
 dpkg_ar_put_magic(struct dpkg_ar *ar);

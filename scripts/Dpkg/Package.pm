@@ -34,7 +34,7 @@ package Dpkg::Package 0.01;
 use v5.36;
 
 our @EXPORT = qw(
-    pkg_name_is_illegal
+    pkg_name_is_invalid
 
     get_source_name
     set_source_name
@@ -45,7 +45,7 @@ use Exporter qw(import);
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-sub pkg_name_is_illegal {
+sub pkg_name_is_invalid {
     my $name = shift // '';
 
     if ($name eq '') {
@@ -73,8 +73,8 @@ sub get_source_name {
 sub set_source_name {
     my $name = shift;
 
-    my $err = pkg_name_is_illegal($name);
-    error(g_("source package name '%s' is illegal: %s"), $name, $err) if $err;
+    my $err = pkg_name_is_invalid($name);
+    error(g_("source package name '%s' is invalid %s"), $name, $err) if $err;
 
     if (not defined $source_name) {
         $source_name = $name;

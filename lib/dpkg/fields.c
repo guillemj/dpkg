@@ -103,7 +103,7 @@ f_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
 {
 	const char *e;
 
-	e = pkg_name_is_illegal(value);
+	e = pkg_name_is_invalid(value);
 	if (e != NULL)
 		parse_error(ps, _("invalid package name in '%s' field: %s"),
 		            fip->name, e);
@@ -220,9 +220,9 @@ f_architecture(struct pkginfo *pkg, struct pkgbin *pkgbin,
                const char *value, const struct fieldinfo *fip)
 {
 	pkgbin->arch = dpkg_arch_find(value);
-	if (pkgbin->arch->type == DPKG_ARCH_ILLEGAL)
+	if (pkgbin->arch->type == DPKG_ARCH_INVALID)
 		parse_warn(ps, _("'%s' is not a valid architecture name in '%s' field: %s"),
-		           value, fip->name, dpkg_arch_name_is_illegal(value));
+		           value, fip->name, dpkg_arch_name_is_invalid(value));
 }
 
 void
@@ -505,7 +505,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 				              "package name expected"), fip->name);
 
 			varbuf_set_buf(&depname, depnamestart, depnamelength);
-			emsg = pkg_name_is_illegal(depname.buf);
+			emsg = pkg_name_is_invalid(depname.buf);
 			if (emsg)
 				parse_error(ps,
 				            _("'%s' field, invalid package name '%.255s': %s"),
@@ -552,8 +552,8 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 				dop->arch_is_implicit = false;
 				dop->arch = dpkg_arch_find(arch.buf);
 
-				if (dop->arch->type == DPKG_ARCH_ILLEGAL)
-					emsg = dpkg_arch_name_is_illegal(arch.buf);
+				if (dop->arch->type == DPKG_ARCH_INVALID)
+					emsg = dpkg_arch_name_is_invalid(arch.buf);
 				if (emsg)
 					parse_error(ps, _("'%s' field, reference to '%.255s': "
 					                  "invalid architecture name '%.255s': %s"),
@@ -757,10 +757,10 @@ f_trigpend(struct pkginfo *pend, struct pkgbin *pkgbin,
 	while ((word = scan_word(&value))) {
 		const char *emsg;
 
-		emsg = trig_name_is_illegal(word);
+		emsg = trig_name_is_invalid(word);
 		if (emsg)
 			parse_error(ps,
-			            _("illegal pending trigger name '%.255s': %s"),
+			            _("invalid pending trigger name '%.255s': %s"),
 			            word, emsg);
 
 		if (!trig_note_pend_core(pend, nfstrsave(word)))
@@ -789,7 +789,7 @@ f_trigaw(struct pkginfo *aw, struct pkgbin *pkgbin,
 		pend = pkg_spec_parse_pkg(word, &err);
 		if (pend == NULL)
 			parse_error(ps,
-			            _("illegal package name in awaited trigger '%.255s': %s"),
+			            _("invalid package name in awaited trigger '%.255s': %s"),
 			            word, err.str);
 
 		if (!trig_note_aw(pend, aw))

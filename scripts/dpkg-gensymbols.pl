@@ -98,8 +98,8 @@ while (@ARGV) {
     $_ = shift(@ARGV);
     if (m/^-p/p) {
         $oppackage = ${^POSTMATCH};
-        my $err = pkg_name_is_illegal($oppackage);
-        error(g_("illegal package name '%s': %s"), $oppackage, $err) if $err;
+        my $err = pkg_name_is_invalid($oppackage);
+        error(g_("invalid package name '%s': %s"), $oppackage, $err) if $err;
     } elsif (m/^-l(.*)$/) {
         Dpkg::Shlibs::add_library_dir($1);
     } elsif (m/^-c(\d)?$/) {

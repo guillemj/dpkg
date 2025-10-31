@@ -481,9 +481,9 @@ arch_add(const char *const *argv)
 	case DPKG_ARCH_NATIVE:
 	case DPKG_ARCH_FOREIGN:
 		break;
-	case DPKG_ARCH_ILLEGAL:
-		ohshit(_("architecture '%s' is illegal: %s"), archname,
-		       dpkg_arch_name_is_illegal(archname));
+	case DPKG_ARCH_INVALID:
+		ohshit(_("architecture '%s' is invalid: %s"), archname,
+		       dpkg_arch_name_is_invalid(archname));
 	default:
 		ohshit(_("architecture '%s' is reserved and cannot be added"),
 		       archname);

@@ -28,32 +28,32 @@
 #include <dpkg/arch.h>
 
 static void
-test_dpkg_arch_name_is_illegal(void)
+test_dpkg_arch_name_is_invalid(void)
 {
 	/* Test invalid architecture names. */
-	test_fail(dpkg_arch_name_is_illegal("") == NULL);
-	test_fail(dpkg_arch_name_is_illegal("-i386") == NULL);
-	test_fail(dpkg_arch_name_is_illegal(" i386") == NULL);
-	test_fail(dpkg_arch_name_is_illegal(":any") == NULL);
-	test_fail(dpkg_arch_name_is_illegal("amd64_test") == NULL);
-	test_fail(dpkg_arch_name_is_illegal("i386:test") == NULL);
-	test_fail(dpkg_arch_name_is_illegal("i386 amd64") == NULL);
-	test_fail(dpkg_arch_name_is_illegal("i386,amd64") == NULL);
-	test_fail(dpkg_arch_name_is_illegal("i386|amd64") == NULL);
+	test_fail(dpkg_arch_name_is_invalid("") == NULL);
+	test_fail(dpkg_arch_name_is_invalid("-i386") == NULL);
+	test_fail(dpkg_arch_name_is_invalid(" i386") == NULL);
+	test_fail(dpkg_arch_name_is_invalid(":any") == NULL);
+	test_fail(dpkg_arch_name_is_invalid("amd64_test") == NULL);
+	test_fail(dpkg_arch_name_is_invalid("i386:test") == NULL);
+	test_fail(dpkg_arch_name_is_invalid("i386 amd64") == NULL);
+	test_fail(dpkg_arch_name_is_invalid("i386,amd64") == NULL);
+	test_fail(dpkg_arch_name_is_invalid("i386|amd64") == NULL);
 
 	/* Test valid architecture names. */
-	test_pass(dpkg_arch_name_is_illegal("i386") == NULL);
-	test_pass(dpkg_arch_name_is_illegal("amd64") == NULL);
-	test_pass(dpkg_arch_name_is_illegal("hurd-i386") == NULL);
-	test_pass(dpkg_arch_name_is_illegal("ia64") == NULL);
-	test_pass(dpkg_arch_name_is_illegal("alpha") == NULL);
-	test_pass(dpkg_arch_name_is_illegal("armel") == NULL);
-	test_pass(dpkg_arch_name_is_illegal("hppa") == NULL);
-	test_pass(dpkg_arch_name_is_illegal("mips") == NULL);
-	test_pass(dpkg_arch_name_is_illegal("mipsel") == NULL);
-	test_pass(dpkg_arch_name_is_illegal("powerpc") == NULL);
-	test_pass(dpkg_arch_name_is_illegal("s390") == NULL);
-	test_pass(dpkg_arch_name_is_illegal("sparc") == NULL);
+	test_pass(dpkg_arch_name_is_invalid("i386") == NULL);
+	test_pass(dpkg_arch_name_is_invalid("amd64") == NULL);
+	test_pass(dpkg_arch_name_is_invalid("hurd-i386") == NULL);
+	test_pass(dpkg_arch_name_is_invalid("ia64") == NULL);
+	test_pass(dpkg_arch_name_is_invalid("alpha") == NULL);
+	test_pass(dpkg_arch_name_is_invalid("armel") == NULL);
+	test_pass(dpkg_arch_name_is_invalid("hppa") == NULL);
+	test_pass(dpkg_arch_name_is_invalid("mips") == NULL);
+	test_pass(dpkg_arch_name_is_invalid("mipsel") == NULL);
+	test_pass(dpkg_arch_name_is_invalid("powerpc") == NULL);
+	test_pass(dpkg_arch_name_is_invalid("s390") == NULL);
+	test_pass(dpkg_arch_name_is_invalid("sparc") == NULL);
 }
 
 static void
@@ -111,9 +111,9 @@ test_dpkg_arch_find(void)
 	test_pass(arch->type == DPKG_ARCH_UNKNOWN);
 	test_str(arch->name, ==, "foobar");
 
-	/* New illegal architectures are marked illegal. */
+	/* New invalid architectures are marked invalid. */
 	arch = dpkg_arch_find("a:b");
-	test_pass(arch->type == DPKG_ARCH_ILLEGAL);
+	test_pass(arch->type == DPKG_ARCH_INVALID);
 	test_str(arch->name, ==, "a:b");
 }
 
@@ -211,7 +211,7 @@ TEST_ENTRY(test)
 {
 	test_plan(58);
 
-	test_dpkg_arch_name_is_illegal();
+	test_dpkg_arch_name_is_invalid();
 	test_dpkg_arch_get_list();
 	test_dpkg_arch_find();
 	test_dpkg_arch_reset_list();

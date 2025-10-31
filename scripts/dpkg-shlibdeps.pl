@@ -133,8 +133,8 @@ foreach (@ARGV) {
         $warnings = sum map { $warn2bits{$_} } split m{,}, $1;
     } elsif (m/^--package=(.+)$/) {
         $oppackage = $1;
-        my $err = pkg_name_is_illegal($oppackage);
-        error(g_("illegal package name '%s': %s"), $oppackage, $err) if $err;
+        my $err = pkg_name_is_invalid($oppackage);
+        error(g_("invalid package name '%s': %s"), $oppackage, $err) if $err;
 
         # Exclude self.
         push @exclude, $1;

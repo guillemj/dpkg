@@ -360,7 +360,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
                     for my $a (split(/\s+/, $v)) {
                         error(g_("'%s' is not a legal architecture string " .
                                  "in package '%s'"), $a, $p)
-                            if debarch_is_illegal($a);
+                            if debarch_is_invalid($a);
                         error(g_('architecture %s only allowed on its ' .
                                  "own (list for package %s is '%s')"),
                               $a, $p, $a)

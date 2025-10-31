@@ -1198,7 +1198,7 @@ from the binary version.
 Returns a list with the $source name, and the source $version, or undef
 or an empty list when $ctrl does not contain a binary package control stanza.
 Neither $source nor $version are validated, but that can be done with
-Dpkg::Package::pkg_name_is_illegal() and Dpkg::Version::version_check().
+Dpkg::Package::pkg_name_is_invalid() and Dpkg::Version::version_check().
 
 =cut
 

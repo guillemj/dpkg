@@ -182,7 +182,7 @@ trig_classify_byname(const char *name)
 		return &tki_file;
 	}
 
-	if (!pkg_name_is_illegal(name) && !strchr(name, '_'))
+	if (!pkg_name_is_invalid(name) && !strchr(name, '_'))
 		return &tki_explicit;
 
 invalid:
@@ -338,7 +338,7 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 		pend = pkg_spec_parse_pkg(buf, &err);
 		if (pend == NULL)
 			ohshit(_("trigger interest file '%.250s' syntax error; "
-			         "illegal package name '%.250s': %.250s"),
+			         "invalid package name '%.250s': %.250s"),
 			       trk_explicit_fn.buf, buf, err.str);
 
 		trig_record_activation(pend, opts == TRIG_NOAWAIT ? NULL : aw,
@@ -369,7 +369,7 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg,
 		pkg_parsed = pkg_spec_parse_pkg(buf, &err);
 		if (pkg_parsed == NULL)
 			ohshit(_("trigger interest file '%.250s' syntax error; "
-			         "illegal package name '%.250s': %.250s"),
+			         "invalid package name '%.250s': %.250s"),
 			       trk_explicit_fn.buf, buf, err.str);
 
 		if (pkg == pkg_parsed &&
@@ -560,7 +560,7 @@ trig_file_interests_ensure(void)
 
 		pkg = pkg_spec_parse_pkg(space, &err);
 		if (pkg == NULL)
-			ohshit(_("file triggers record mentions illegal "
+			ohshit(_("file triggers record mentions invalid "
 			         "package name '%.250s' (for interest in file "
 			         "'%.250s'): %.250s"), space, linebuf, err.str);
 		pkgbin = &pkg->installed;
@@ -701,9 +701,9 @@ parse_ci_call(const char *file, const char *cmd, trig_parse_cicb *cb,
 {
 	const char *emsg;
 
-	emsg = trig_name_is_illegal(trig);
+	emsg = trig_name_is_invalid(trig);
 	if (emsg)
-		ohshit(_("triggers ci file '%.250s' contains illegal trigger "
+		ohshit(_("triggers ci file '%.250s' contains invalid trigger "
 		         "syntax in trigger name '%.250s': %.250s"),
 		       file, trig, emsg);
 	if (cb)

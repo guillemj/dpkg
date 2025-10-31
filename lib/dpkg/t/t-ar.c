@@ -41,15 +41,15 @@ test_ar_normalize_name(void)
 }
 
 static void
-test_ar_member_is_illegal(void)
+test_ar_member_is_invalid(void)
 {
 	struct dpkg_ar_hdr arh;
 
 	memset(&arh, ' ', sizeof(arh));
-	test_pass(dpkg_ar_member_is_illegal(&arh));
+	test_pass(dpkg_ar_member_is_invalid(&arh));
 
 	memcpy(arh.ar_fmag, DPKG_AR_FMAG, sizeof(arh.ar_fmag));
-	test_fail(dpkg_ar_member_is_illegal(&arh));
+	test_fail(dpkg_ar_member_is_invalid(&arh));
 }
 
 TEST_ENTRY(test)
@@ -57,5 +57,5 @@ TEST_ENTRY(test)
 	test_plan(4);
 
 	test_ar_normalize_name();
-	test_ar_member_is_illegal();
+	test_ar_member_is_invalid();
 }

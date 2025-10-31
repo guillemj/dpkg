@@ -30,7 +30,7 @@ to import specific symbol subsets.
 
 =cut
 
-package Dpkg::Arch 1.03;
+package Dpkg::Arch 1.04;
 
 use v5.36;
 
@@ -45,6 +45,7 @@ our @EXPORT_OK = qw(
     debarch_is
     debarch_is_wildcard
     debarch_is_illegal
+    debarch_is_invalid
     debarch_is_concerned
     debarch_to_abiattrs
     debarch_to_cpubits
@@ -87,6 +88,7 @@ our %EXPORT_TAGS = (
         debarch_is
         debarch_is_wildcard
         debarch_is_illegal
+        debarch_is_invalid
         debarch_is_concerned
     ) ],
 );
@@ -598,7 +600,7 @@ sub debarch_is_wildcard
     return 0;
 }
 
-=item $bool = debarch_is_illegal($arch, %opts)
+=item $bool = debarch_is_invalid($arch, %opts)
 
 Validate an architecture name.
 
@@ -615,7 +617,7 @@ otherwise negated architectures are allowed.
 
 =cut
 
-sub debarch_is_illegal
+sub debarch_is_invalid
 {
     my ($arch, %opts) = @_;
     my $arch_regex = qr/[a-zA-Z0-9][a-zA-Z0-9-]*/;
@@ -625,6 +627,22 @@ sub debarch_is_illegal
     } else {
         return $arch !~ m/^!?$arch_regex$/;
     }
+}
+
+=item $bool = debarch_is_illegal($arch, %opts)
+
+This is a deprecated alias for L<debarch_is_invalid>.
+
+=cut
+
+sub debarch_is_illegal
+{
+    my ($arch, %opts) = @_;
+
+    warnings::warnif('deprecated',
+        'Dpkg::Arch::debarch_is_illegal() is deprecated, ' .
+        'use Dpkg::Arch::debarch_is_invalid() instead');
+    return debarch_is_invalid($arch, %opts);
 }
 
 =item $bool = debarch_is_concerned($arch, @arches)
@@ -685,7 +703,7 @@ sub debarch_list_parse
     my @arch_list = split ' ', $arch_list;
 
     foreach my $arch (@arch_list) {
-        if (debarch_is_illegal($arch, %opts)) {
+        if (debarch_is_invalid($arch, %opts)) {
             error(g_("'%s' is not a legal architecture in list '%s'"),
                   $arch, $arch_list);
         }
@@ -699,6 +717,12 @@ sub debarch_list_parse
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.04 (dpkg 1.23.0)
+
+New functions: debarch_is_invalid().
+
+Deprecated functions: debarch_is_illegal().
 
 =head2 Version 1.03 (dpkg 1.19.1)
 

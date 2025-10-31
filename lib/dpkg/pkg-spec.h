@@ -71,7 +71,7 @@ void
 pkg_spec_destroy(struct pkg_spec *ps);
 
 const char *
-pkg_spec_is_illegal(struct pkg_spec *ps);
+pkg_spec_is_invalid(struct pkg_spec *ps);
 
 const char *
 pkg_spec_set(struct pkg_spec *ps, const char *pkgname, const char *archname);

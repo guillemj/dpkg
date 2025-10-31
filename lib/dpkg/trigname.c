@@ -26,7 +26,7 @@
 #include <dpkg/triglib.h>
 
 const char *
-trig_name_is_illegal(const char *p)
+trig_name_is_invalid(const char *p)
 {
 	int c;
 

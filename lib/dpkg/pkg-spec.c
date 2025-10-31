@@ -60,13 +60,13 @@ pkg_spec_init(struct pkg_spec *ps, enum pkg_spec_flags flags)
 }
 
 const char *
-pkg_spec_is_illegal(struct pkg_spec *ps)
+pkg_spec_is_invalid(struct pkg_spec *ps)
 {
 	static char msg[1024];
 	const char *emsg;
 
 	if (!ps->name_is_pattern &&
-	    (emsg = pkg_name_is_illegal(ps->name))) {
+	    (emsg = pkg_name_is_invalid(ps->name))) {
 		const char *arch_sep;
 
 		/* Only check for DPKG_ARCH_NONE, because for everything else
@@ -78,18 +78,18 @@ pkg_spec_is_illegal(struct pkg_spec *ps)
 			arch_sep = ":";
 
 		snprintf(msg, sizeof(msg),
-		         _("illegal package name in specifier '%s%s%s': %s"),
+		         _("invalid package name in specifier '%s%s%s': %s"),
 		         ps->name, arch_sep, ps->arch->name, emsg);
 
 		return msg;
 	}
 
 	if ((!ps->arch_is_pattern &&
-	    ps->arch->type == DPKG_ARCH_ILLEGAL) ||
+	    ps->arch->type == DPKG_ARCH_INVALID) ||
 	    ps->arch->type == DPKG_ARCH_EMPTY) {
-		emsg = dpkg_arch_name_is_illegal(ps->arch->name);
+		emsg = dpkg_arch_name_is_invalid(ps->arch->name);
 		snprintf(msg, sizeof(msg),
-		         _("illegal architecture name in specifier '%s:%s': %s"),
+		         _("invalid architecture name in specifier '%s:%s': %s"),
 		         ps->name, ps->arch->name, emsg);
 
 		return msg;
@@ -125,14 +125,14 @@ pkg_spec_prep(struct pkg_spec *ps, char *pkgname, const char *archname)
 	ps->name_is_pattern = false;
 	ps->arch_is_pattern = false;
 
-	/* Detect if we have patterns and/or illegal names. */
+	/* Detect if we have patterns and/or invalid names. */
 	if ((ps->flags & PKG_SPEC_PATTERNS) && strpbrk(ps->name, "*[?\\"))
 		ps->name_is_pattern = true;
 
 	if ((ps->flags & PKG_SPEC_PATTERNS) && strpbrk(ps->arch->name, "*[?\\"))
 		ps->arch_is_pattern = true;
 
-	return pkg_spec_is_illegal(ps);
+	return pkg_spec_is_invalid(ps);
 }
 
 const char *

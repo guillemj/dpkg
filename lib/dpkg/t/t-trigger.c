@@ -25,25 +25,25 @@
 #include <dpkg/triglib.h>
 
 static void
-test_trig_name_is_illegal(void)
+test_trig_name_is_invalid(void)
 {
 	/* Test invalid trigger names. */
-	test_fail(trig_name_is_illegal("") == NULL);
-	test_fail(trig_name_is_illegal("\a") == NULL);
-	test_fail(trig_name_is_illegal("\t") == NULL);
-	test_fail(trig_name_is_illegal("\200") == NULL);
-	test_fail(trig_name_is_illegal("trigger name") == NULL);
+	test_fail(trig_name_is_invalid("") == NULL);
+	test_fail(trig_name_is_invalid("\a") == NULL);
+	test_fail(trig_name_is_invalid("\t") == NULL);
+	test_fail(trig_name_is_invalid("\200") == NULL);
+	test_fail(trig_name_is_invalid("trigger name") == NULL);
 
 	/* Test valid trigger names. */
-	test_pass(trig_name_is_illegal("TRIGGER") == NULL);
-	test_pass(trig_name_is_illegal("trigger") == NULL);
-	test_pass(trig_name_is_illegal("0123456789") == NULL);
-	test_pass(trig_name_is_illegal("/file/trigger") == NULL);
+	test_pass(trig_name_is_invalid("TRIGGER") == NULL);
+	test_pass(trig_name_is_invalid("trigger") == NULL);
+	test_pass(trig_name_is_invalid("0123456789") == NULL);
+	test_pass(trig_name_is_invalid("/file/trigger") == NULL);
 }
 
 TEST_ENTRY(test)
 {
 	test_plan(9);
 
-	test_trig_name_is_illegal();
+	test_trig_name_is_invalid();
 }

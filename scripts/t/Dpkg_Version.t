@@ -116,7 +116,7 @@ ok(! $ver, 'bool eval of invalid leads to false');
 ok($ver eq '10a:5.2', 'invalid still same string 1/2');
 $ver = Dpkg::Version->new('5.2@3-2');
 ok($ver eq '5.2@3-2', 'invalid still same string 2/2');
-ok(! $ver->is_valid(), 'illegal character is invalid');
+ok(! $ver->is_valid(), 'invalid character makes version invalid');
 $ver = Dpkg::Version->new('foo5.2');
 ok(! $ver->is_valid(), 'version does not start with digit 1/2');
 $ver = Dpkg::Version->new('0:foo5.2');

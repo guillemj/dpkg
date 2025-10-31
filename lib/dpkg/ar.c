@@ -150,7 +150,7 @@ dpkg_ar_member_get_size(struct dpkg_ar *ar, struct dpkg_ar_hdr *arh)
 }
 
 bool
-dpkg_ar_member_is_illegal(struct dpkg_ar_hdr *arh)
+dpkg_ar_member_is_invalid(struct dpkg_ar_hdr *arh)
 {
 	return memcmp(arh->ar_fmag, DPKG_AR_FMAG, sizeof(arh->ar_fmag)) != 0;
 }

@@ -118,7 +118,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 
 	if (strncmp(arh.ar_name, PARTMAGIC, sizeof(arh.ar_name)) != 0)
 		return NULL;
-	if (dpkg_ar_member_is_illegal(&arh))
+	if (dpkg_ar_member_is_invalid(&arh))
 		ohshit(_("file '%.250s' is corrupt - bad magic at end of first header"),
 		       ar->name);
 	thisilen = dpkg_ar_member_get_size(ar, &arh);
@@ -203,7 +203,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 
 	dpkg_ar_normalize_name(&arh);
 
-	if (dpkg_ar_member_is_illegal(&arh))
+	if (dpkg_ar_member_is_invalid(&arh))
 		ohshit(_("file '%.250s' is corrupt - bad magic at end of second header"),
 		       ar->name);
 	if (strncmp(arh.ar_name, "data", 4))

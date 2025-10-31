@@ -37,7 +37,7 @@ DPKG_BEGIN_DECLS
 enum dpkg_arch_type {
 	DPKG_ARCH_NONE,
 	DPKG_ARCH_EMPTY,
-	DPKG_ARCH_ILLEGAL,
+	DPKG_ARCH_INVALID,
 	DPKG_ARCH_WILDCARD,
 	DPKG_ARCH_ALL,
 	DPKG_ARCH_NATIVE,
@@ -52,7 +52,7 @@ struct dpkg_arch {
 };
 
 const char *
-dpkg_arch_name_is_illegal(const char *name)
+dpkg_arch_name_is_invalid(const char *name)
 	DPKG_ATTR_NONNULL(1);
 struct dpkg_arch *
 dpkg_arch_find(const char *name);

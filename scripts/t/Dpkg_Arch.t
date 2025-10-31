@@ -22,7 +22,7 @@ use ok 'Dpkg::Arch', qw(
     debarch_to_multiarch
     debarch_eq debarch_is
     debarch_is_wildcard
-    debarch_is_illegal
+    debarch_is_invalid
     debarch_to_abiattrs
     debarch_to_cpubits
     debarch_list_parse
@@ -144,14 +144,14 @@ ok(! debarch_is_wildcard('amd64'), '<arch> is not a wildcard');
 ok(! debarch_is_wildcard('anyway'), 'anyway is not a wildcard');
 ok(! debarch_is_wildcard('foo-anyway-bar'), 'foo-anyway-bar is not a wildcard');
 
-ok(! debarch_is_illegal('0'), '');
-ok(! debarch_is_illegal('a'), '');
-ok(! debarch_is_illegal('amd64'), '');
-ok(! debarch_is_illegal('!arm64'), '');
-ok(debarch_is_illegal('!amd64!arm'), '');
-ok(debarch_is_illegal('arch%name'), '');
-ok(debarch_is_illegal('-any'), '');
-ok(debarch_is_illegal('!'), '');
+ok(! debarch_is_invalid('0'), '');
+ok(! debarch_is_invalid('a'), '');
+ok(! debarch_is_invalid('amd64'), '');
+ok(! debarch_is_invalid('!arm64'), '');
+ok(debarch_is_invalid('!amd64!arm'), '');
+ok(debarch_is_invalid('arch%name'), '');
+ok(debarch_is_invalid('-any'), '');
+ok(debarch_is_invalid('!'), '');
 
 my @arch_new;
 my @arch_ref;

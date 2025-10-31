@@ -405,7 +405,7 @@ enum DPKG_ATTR_ENUM_FLAGS parsedbflags {
 };
 
 const char *
-pkg_name_is_illegal(const char *p);
+pkg_name_is_invalid(const char *p);
 
 const struct fieldinfo *
 find_field_info(const struct fieldinfo *fields, const char *fieldname);

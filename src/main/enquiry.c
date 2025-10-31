@@ -150,8 +150,8 @@ static const struct audit_problem audit_problems[] = {
 		.explanation = N_("The following packages do not have an architecture:\n")
 	}, {
 		.check = audit_arch,
-		.value.number = DPKG_ARCH_ILLEGAL,
-		.explanation = N_("The following packages have an illegal architecture:\n")
+		.value.number = DPKG_ARCH_INVALID,
+		.explanation = N_("The following packages have an invalid architecture:\n")
 	}, {
 		.check = audit_arch,
 		.value.number = DPKG_ARCH_UNKNOWN,
@@ -690,7 +690,7 @@ validate_pkgname(const char *const *argv)
 		badusage(_("--%s takes one <pkgname> argument"),
 		         cipaction->olong);
 
-	emsg = pkg_name_is_illegal(argv[0]);
+	emsg = pkg_name_is_invalid(argv[0]);
 	if (emsg)
 		ohshit(_("package name '%s' is invalid: %s"), argv[0], emsg);
 
@@ -706,7 +706,7 @@ validate_trigname(const char *const *argv)
 		badusage(_("--%s takes one <trigname> argument"),
 		         cipaction->olong);
 
-	emsg = trig_name_is_illegal(argv[0]);
+	emsg = trig_name_is_invalid(argv[0]);
 	if (emsg)
 		ohshit(_("trigger name '%s' is invalid: %s"), argv[0], emsg);
 
@@ -722,7 +722,7 @@ validate_archname(const char *const *argv)
 		badusage(_("--%s takes one <archname> argument"),
 		         cipaction->olong);
 
-	emsg = dpkg_arch_name_is_illegal(argv[0]);
+	emsg = dpkg_arch_name_is_invalid(argv[0]);
 	if (emsg)
 		ohshit(_("architecture name '%s' is invalid: %s"),
 		       argv[0], emsg);

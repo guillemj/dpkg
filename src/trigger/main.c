@@ -184,11 +184,11 @@ do_trigger(const char *const *argv)
 
 	badname = parse_awaiter_package();
 	if (badname)
-		badusage(_("illegal awaited package name '%.250s': %.250s"),
+		badusage(_("invalid awaited package name '%.250s': %.250s"),
 		         opt_bypackage, badname);
 
 	activate = argv[0];
-	badname = trig_name_is_illegal(activate);
+	badname = trig_name_is_invalid(activate);
 	if (badname)
 		badusage(_("invalid trigger name '%.250s': %.250s"),
 		         activate, badname);

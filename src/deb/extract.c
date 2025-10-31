@@ -146,7 +146,7 @@ extracthalf(const char *debar, const char *dir,
 			if (rc != sizeof(arh))
 				read_fail(rc, debar, _("archive member header"));
 
-			if (dpkg_ar_member_is_illegal(&arh))
+			if (dpkg_ar_member_is_invalid(&arh))
 				ohshit(_("file '%.250s' is corrupt - bad archive header magic"),
 				       debar);
 
