@@ -99,7 +99,7 @@ cleanupdates(void)
 		if (errno == ENOENT) {
 			if (cstatus >= msdbrw_write &&
 			    dir_make_path(updatesdir, 0755) < 0)
-				ohshite(_("cannot create the dpkg updates directory %s"),
+				ohshite(_("cannot create dpkg updates directory %s"),
 				        updatesdir);
 
 			return;
