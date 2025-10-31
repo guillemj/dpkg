@@ -76,7 +76,7 @@ dpkg_options_load_file(const char *fn, const struct cmdinfo *cmdinfos)
 	if (!file) {
 		if (errno == ENOENT)
 			return;
-		warning(_("failed to open configuration file '%s' for reading: %s"),
+		warning(_("cannot open configuration file '%s' for reading: %s"),
 		        fn, strerror(errno));
 		return;
 	}
@@ -154,9 +154,9 @@ dpkg_options_load_file(const char *fn, const struct cmdinfo *cmdinfos)
 		}
 	}
 	if (ferror(file))
-		ohshite(_("read error in configuration file '%s'"), fn);
+		ohshite(_("cannot read configuration file '%s'"), fn);
 	if (fclose(file))
-		ohshite(_("error closing configuration file '%s'"), fn);
+		ohshite(_("cannot close configuration file '%s'"), fn);
 }
 
 static int
@@ -192,7 +192,7 @@ dpkg_options_load_dir(const char *prog, const struct cmdinfo *cmdinfos)
 			free(dirname);
 			return;
 		} else {
-			ohshite(_("error opening configuration directory '%s'"),
+			ohshite(_("cannot open configuration directory '%s'"),
 			        dirname);
 		}
 	}

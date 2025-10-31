@@ -186,7 +186,7 @@ check_writable_dir(struct file *f)
 
 	tmpfd = creat(tmpname, 0600);
 	if (tmpfd < 0)
-		ohshite(_("error checking '%s'"), f->name);
+		ohshite(_("cannot check '%s'"), f->name);
 	close(tmpfd);
 	(void)unlink(tmpname);
 
@@ -237,12 +237,12 @@ file_copy(const char *src, const char *dst)
 
 	srcfd = open(src, O_RDONLY);
 	if (srcfd < 0)
-		ohshite(_("unable to open file '%s'"), src);
+		ohshite(_("cannot open file '%s'"), src);
 
 	tmp = str_fmt("%s%s", dst, ".dpkg-divert.tmp");
 	dstfd = creat(tmp, 0600);
 	if (dstfd < 0)
-		ohshite(_("unable to create file '%s'"), tmp);
+		ohshite(_("cannot create file '%s'"), tmp);
 
 	push_cleanup(cu_filename, ~ehflag_normaltidy, 1, tmp);
 
@@ -252,9 +252,9 @@ file_copy(const char *src, const char *dst)
 	close(srcfd);
 
 	if (fsync(dstfd))
-		ohshite(_("unable to sync file '%s'"), tmp);
+		ohshite(_("cannot sync file '%s'"), tmp);
 	if (close(dstfd))
-		ohshite(_("unable to close file '%s'"), tmp);
+		ohshite(_("cannot close file '%s'"), tmp);
 
 	file_copy_perms(src, tmp);
 
@@ -284,7 +284,7 @@ file_rename(struct file *src, struct file *dst)
 		file_copy(src->name, dst->name);
 
 		if (unlink(src->name))
-			ohshite(_("unable to remove copied source file '%s'"),
+			ohshite(_("cannot remove copied source file '%s'"),
 			        src->name);
 	}
 }

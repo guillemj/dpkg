@@ -137,7 +137,7 @@ pkg_infodb_link_multiarch_files(void)
 		varbuf_add_str(&newname, filetype);
 
 		if (link(oldname.buf, newname.buf) && errno != EEXIST)
-			ohshite(_("error creating hard link '%s'"),
+			ohshite(_("cannot create hard link '%s'"),
 			        newname.buf);
 		rename_head = rename_node_new(oldname.buf, newname.buf, rename_head);
 	}
@@ -158,7 +158,7 @@ cu_abort_db_upgrade(int argc, void **argv)
 	while (rename_head) {
 		next = rename_head->next;
 		if (link(rename_head->new, rename_head->old) && errno != EEXIST)
-			ohshite(_("error creating hard link '%s'"),
+			ohshite(_("cannot create hard link '%s'"),
 			        rename_head->old);
 		if (unlink(rename_head->new))
 			ohshite(_("cannot remove '%s'"), rename_head->new);
@@ -175,7 +175,7 @@ static void
 pkg_infodb_write_format(struct atomic_file *file, int version)
 {
 	if (fprintf(file->fp, "%d\n", version) < 0)
-		ohshite(_("error while writing '%s'"), file->name_new);
+		ohshite(_("cannot write '%s'"), file->name_new);
 
 	atomic_file_sync(file);
 	atomic_file_close(file);

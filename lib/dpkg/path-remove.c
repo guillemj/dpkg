@@ -150,12 +150,12 @@ path_remove_tree(const char *pathname)
 		errno = EROFS;
 	}
 	if (errno != ENOTEMPTY && errno != EEXIST) /* Huh? */
-		ohshite(_("unable to securely remove '%s'"), pathname);
+		ohshite(_("cannot securely remove '%s'"), pathname);
 
 	pid = subproc_fork();
 	if (pid == 0) {
 		execlp(RM, "rm", "-rf", "--", pathname, NULL);
-		ohshite(_("unable to execute %s (%s)"),
+		ohshite(_("cannot execute %s (%s)"),
 		        _("rm command for cleanup"), RM);
 	}
 	debug_at(dbg_eachfile, "running rm -rf '%s'", pathname);

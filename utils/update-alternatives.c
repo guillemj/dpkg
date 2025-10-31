@@ -301,7 +301,7 @@ xmalloc(size_t size)
 
 	ptr = malloc(size);
 	if (!ptr)
-		error(_("malloc failed (%zu bytes)"), size);
+		error(_("cannot malloc (%zu bytes)"), size);
 
 	return ptr;
 }
@@ -316,7 +316,7 @@ xstrdup(const char *str)
 
 	new_str = strdup(str);
 	if (!new_str)
-		error(_("failed to allocate memory"));
+		error(_("cannot allocate memory"));
 
 	return new_str;
 }
@@ -331,7 +331,7 @@ xstrndup(const char *str, size_t n)
 
 	new_str = strndup(str, n);
 	if (!new_str)
-		error(_("failed to allocate memory"));
+		error(_("cannot allocate memory"));
 
 	return new_str;
 }
@@ -342,7 +342,7 @@ xvasprintf(const char *fmt, va_list args)
 	char *str;
 
 	if (vasprintf(&str, fmt, args) < 0)
-		error(_("failed to allocate memory"));
+		error(_("cannot allocate memory"));
 
 	return str;
 }
@@ -401,15 +401,15 @@ spawn(const char *prog, const char *args[])
 
 	pid = fork();
 	if (pid < 0)
-		error(_("fork failed"));
+		error(_("cannot fork"));
 	if (pid == 0) {
 		execvp(prog, (char *const *)args);
-		syserr(_("unable to execute %s (%s)"), prog, prog);
+		syserr(_("cannot execute %s (%s)"), prog, prog);
 	}
 	while ((dead_pid = waitpid(pid, &status, 0)) < 0 && errno == EINTR)
 		;
 	if (dead_pid != pid)
-		error(_("wait for subprocess %s failed"), prog);
+		error(_("cannot wait for subprocess %s"), prog);
 
 	return status;
 }
@@ -436,7 +436,7 @@ static void
 xrename(const char *src, const char *dst)
 {
 	if (!rename_mv(src, dst))
-		syserr(_("unable to install '%s' as '%s'"), src, dst);
+		syserr(_("cannot install '%s' as '%s'"), src, dst);
 }
 
 static void LIBCOMPAT_ATTR_PRINTF(1)
@@ -450,7 +450,7 @@ xunlink_args(const char *fmt, ...)
 	va_end(args);
 
 	if (unlink(path) < 0 && errno != ENOENT)
-		syserr(_("unable to remove '%s'"), path);
+		syserr(_("cannot remove '%s'"), path);
 
 	free(path);
 }
@@ -628,7 +628,7 @@ fsys_xreadlink(const char *linkname)
 
 	buf = fsys_areadlink(linkname);
 	if (buf == NULL)
-		syserr(_("unable to read link '%s%s'"), instdir, linkname);
+		syserr(_("cannot read link '%s%s'"), instdir, linkname);
 
 	return buf;
 }
@@ -647,7 +647,7 @@ fsys_set_ref_time(const char *linkname, const char *target)
 
 	if (fsys_lstat(target, &st) < 0) {
 		if (errno != ENOENT)
-			syserr(_("unable to get file '%s%s' metadata"),
+			syserr(_("cannot get file '%s%s' metadata"),
 			       instdir, target);
 		return;
 	}
@@ -672,10 +672,10 @@ fsys_symlink(const char *filename, const char *linkname)
 	root_linkname = fsys_get_path(linkname);
 
 	if (unlink(root_linkname) < 0 && errno != ENOENT)
-		syserr(_("unable to remove '%s'"), root_linkname);
+		syserr(_("cannot remove '%s'"), root_linkname);
 
 	if (symlink(filename, root_linkname))
-		syserr(_("error creating symbolic link '%s'"), root_linkname);
+		syserr(_("cannot create symbolic link '%s'"), root_linkname);
 
 	free(root_linkname);
 }
@@ -703,7 +703,7 @@ fsys_rm(const char *f)
 	root_f = fsys_get_path(f);
 
 	if (unlink(root_f) < 0 && errno != ENOENT)
-		syserr(_("unable to remove '%s'"), root_f);
+		syserr(_("cannot remove '%s'"), root_f);
 
 	free(root_f);
 }
@@ -1356,7 +1356,7 @@ altdb_get_line(struct altdb_context *ctx, const char *name)
 			bufsz *= 2;
 			buf = realloc(buf, bufsz);
 			if (!buf)
-				error(_("failed to allocate memory"));
+				error(_("cannot allocate memory"));
 			continue;
 		}
 		if (feof(ctx->fh))
@@ -1397,7 +1397,7 @@ altdb_print_line(struct altdb_context *ctx, const char *line)
 		      line);
 
 	if (fprintf(ctx->fh, "%s\n", line) < (int) strlen(line) + 1)
-		syserr(_("unable to write file '%s'"), ctx->filename);
+		syserr(_("cannot write file '%s'"), ctx->filename);
 }
 
 static bool
@@ -1529,7 +1529,7 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 			return false;
 		}
 
-		syserr(_("unable to open file '%s'"), ctx.filename);
+		syserr(_("cannot open file '%s'"), ctx.filename);
 	}
 
 	if (setjmp(ctx.on_error)) {
@@ -1570,7 +1570,7 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 
 	/* Close database file */
 	if (fclose(ctx.fh))
-		syserr(_("unable to close file '%s'"), ctx.filename);
+		syserr(_("cannot close file '%s'"), ctx.filename);
 	free(ctx.filename);
 
 	/* Initialize the modified field which has been erroneously changed
@@ -1637,7 +1637,7 @@ alternative_save(struct alternative *a)
 		ctx.fh = fopen(ctx.filename, "w");
 	}
 	if (ctx.fh == NULL)
-		syserr(_("unable to create file '%s'"), ctx.filename);
+		syserr(_("cannot create file '%s'"), ctx.filename);
 
 	altdb_print_line(&ctx, alternative_status_string(a->status));
 	altdb_print_line(&ctx, a->master_link);
@@ -1668,11 +1668,11 @@ alternative_save(struct alternative *a)
 
 	/* Close database file */
 	if (fflush(ctx.fh))
-		syserr(_("unable to flush file '%s'"), ctx.filename);
+		syserr(_("cannot flush file '%s'"), ctx.filename);
 	if (fsync(fileno(ctx.fh)))
-		syserr(_("unable to sync file '%s'"), ctx.filename);
+		syserr(_("cannot sync file '%s'"), ctx.filename);
 	if (fclose(ctx.fh))
-		syserr(_("unable to close file '%s'"), ctx.filename);
+		syserr(_("cannot close file '%s'"), ctx.filename);
 
 	/* Put in place atomically. */
 	xrename(filenew, file);
@@ -2714,7 +2714,7 @@ alternative_set_selections(FILE *input, const char *desc)
 		 * contain a space */
 		res = fgets(line, sizeof(line), input);
 		if (res == NULL && errno) {
-			syserr(_("read error in %s"), desc);
+			syserr(_("cannot read in '%s'"), desc);
 		} else if (res == NULL) {
 			break;
 		}
@@ -2965,7 +2965,7 @@ main(int argc, char **argv)
 	log_file = fsys_get_path(LOGDIR "/alternatives.log");
 
 	if (setvbuf(stdout, NULL, _IONBF, 0))
-		syserr("setvbuf failed");
+		syserr("cannot setvbuf");
 
 	prog_path = argv[0];
 

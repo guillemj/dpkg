@@ -505,7 +505,7 @@ write_stanza(FILE *file, const char *filename,
 	varbuf_stanza(&vb, pkg, pkgbin);
 
 	if (fputs(varbuf_str(&vb), file) < 0)
-		ohshite(_("failed to write details of '%s' to '%s'"),
+		ohshite(_("cannot write details of '%s' to '%s'"),
 		        pkgbin_name_const(pkg, pkgbin, pnaw_nonambig), filename);
 
 	varbuf_destroy(&vb);
@@ -524,7 +524,7 @@ writedb_stanzas(FILE *fp, const char *filename, enum writedb_flags flags)
 	which = (flags & wdb_dump_available) ? "available" : "status";
 
 	if (setvbuf(fp, writebuf, _IOFBF, sizeof(writebuf)))
-		ohshite(_("unable to set buffering on %s database file"), which);
+		ohshite(_("cannot set buffering on %s database file"), which);
 
 	pkg_array_init_from_hash(&array);
 	pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
@@ -544,7 +544,7 @@ writedb_stanzas(FILE *fp, const char *filename, enum writedb_flags flags)
 		varbuf_stanza(&vb, pkg, pkgbin);
 		varbuf_add_char(&vb, '\n');
 		if (fputs(varbuf_str(&vb), fp) < 0)
-			ohshite(_("failed to write %s database stanza about '%s' to '%s'"),
+			ohshite(_("cannot write %s database stanza about '%s' to '%s'"),
 			        which, pkgbin_name(pkg, pkgbin, pnaw_nonambig),
 			        filename);
 		varbuf_reset(&vb);

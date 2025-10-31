@@ -73,7 +73,7 @@ deb_parse_control(const char *filename)
 		close(p[1]);
 
 		execlp(BACKEND, BACKEND, "--info", filename, "control", NULL);
-		ohshite(_("unable to execute %s (%s)"),
+		ohshite(_("cannot execute %s (%s)"),
 		        _("package field value extraction"), BACKEND);
 	}
 	close(p[1]);
@@ -100,9 +100,9 @@ parse_timestamp(const char *value)
 	errno = 0;
 	timestamp = strtoimax(value, &end, 10);
 	if (value == end || *end)
-		ohshit(_("unable to parse timestamp '%s'"), value);
+		ohshit(_("cannot parse timestamp '%s'"), value);
 	else if (errno != 0)
-		ohshite(_("unable to parse timestamp '%s'"), value);
+		ohshite(_("cannot parse timestamp '%s'"), value);
 
 	return timestamp;
 }
@@ -128,9 +128,9 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize)
 
 	fd_src = open(file_src, O_RDONLY);
 	if (fd_src < 0)
-		ohshite(_("unable to open source file '%s'"), file_src);
+		ohshite(_("cannot open source file '%s'"), file_src);
 	if (fstat(fd_src, &st))
-		ohshite(_("unable to fstat source file"));
+		ohshite(_("cannot fstat source file"));
 	if (!S_ISREG(st.st_mode))
 		ohshit(_("source file '%s' not a plain file"), file_src);
 

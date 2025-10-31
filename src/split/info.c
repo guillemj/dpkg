@@ -103,7 +103,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 	rc = fd_read(ar->fd, magicbuf, sizeof(magicbuf));
 	if (rc != sizeof(magicbuf)) {
 		if (rc < 0)
-			ohshite(_("error reading %s"), ar->name);
+			ohshite(_("cannot read '%s'"), ar->name);
 		else
 			return NULL;
 	}

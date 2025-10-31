@@ -217,7 +217,7 @@ setselections(const char *const *argv)
 		lno++;
 	}
 	if (ferror(stdin))
-		ohshite(_("read error on standard input"));
+		ohshite(_("cannot read from standard input"));
 
 	modstatdb_shutdown();
 	varbuf_destroy(&namevb);

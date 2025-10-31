@@ -242,7 +242,7 @@ sub parse {
             if ($self->create_symbol($2, base => $sym)) {
                 $self->add_symbol($sym, ${$state->{obj_ref}});
             } else {
-                warning(g_('failed to parse line in %s: %s'), $file, $_);
+                warning(g_('cannot parse line in %s: %s'), $file, $_);
             }
         } elsif (/^(\(.*\))?#include\s+"([^"]+)"/) {
             my $tagspec = $1;
@@ -278,7 +278,7 @@ sub parse {
                 $self->create_object(${$state->{obj_ref}}, "$2");
             }
         } else {
-            warning(g_('failed to parse a line in %s: %s'), $file, $_);
+            warning(g_('cannot parse line in %s: %s'), $file, $_);
         }
     }
     delete $state->{seen}{$file};

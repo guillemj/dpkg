@@ -118,7 +118,7 @@ read_fail(int rc, const char *filename, const char *what)
 		ohshit(_("unexpected end of file in %s in %s"),
 		       what, filename);
 	else
-		ohshite(_("error reading %s from file %s"), what, filename);
+		ohshite(_("cannot read %s from file %s"), what, filename);
 }
 
 static void

@@ -49,7 +49,7 @@ if ($option eq 'manual') {
         if (-f $fn) {
             system('dpkg', '--merge-avail', $fn);
         } else {
-            errormsg("could not find '%s', try again", $fn);
+            errormsg("cannot find '%s', try again", $fn);
         }
     }
 }

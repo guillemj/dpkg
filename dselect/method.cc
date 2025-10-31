@@ -175,7 +175,7 @@ falliblesubprocess(struct command *cmd)
 		c = fgetc(stdin);
 	} while ((c == EOF && errno == EINTR) || (c != '\n' && c != EOF));
 	if (c == EOF)
-		ohshite(_("error reading acknowledgement of program failure message"));
+		ohshite(_("cannot read acknowledgement of program failure message"));
 
 	return urqr_fail;
 }

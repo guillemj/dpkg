@@ -60,7 +60,7 @@ static void DPKG_ATTR_NORET
 eofmethod(varbuf &pathname, FILE *f, const char *why)
 {
 	if (ferror(f))
-		ohshite(_("error reading options file '%s'"),
+		ohshite(_("cannot read method options file '%s'"),
 		        pathname.str());
 	badmethod(pathname, why);
 }
@@ -92,7 +92,7 @@ readmethods(const char *pathbase, dselect_option **optionspp, int *nread)
 	if (!dir) {
 		if (errno == ENOENT)
 			return;
-		ohshite(_("unable to read '%s' directory for reading methods"),
+		ohshite(_("cannot read '%s' directory to read methods"),
 		        path.str());
 	}
 
@@ -132,7 +132,7 @@ readmethods(const char *pathbase, dselect_option **optionspp, int *nread)
 			pathmeth = path;
 			pathmeth += *ccpp;
 			if (access(pathmeth.str(), R_OK | X_OK))
-				ohshite(_("unable to access method script '%s'"),
+				ohshite(_("cannot access method script '%s'"),
 				        pathmeth.str());
 		}
 		debug(dbg_general,
@@ -143,7 +143,7 @@ readmethods(const char *pathbase, dselect_option **optionspp, int *nread)
 		pathopts += METHODOPTIONSFILE;
 		names = fopen(pathopts.str(), "r");
 		if (!names)
-			ohshite(_("unable to read method options file '%s'"),
+			ohshite(_("cannot read method options file '%s'"),
 			        pathopts.str());
 
 		meth = new method;
@@ -246,7 +246,7 @@ readmethods(const char *pathbase, dselect_option **optionspp, int *nread)
 			(*nread)++;
 		}
 		if (ferror(names))
-			ohshite(_("error during read of method options file '%s'"),
+			ohshite(_("cannot read method options file '%s'"),
 			        pathopts.str());
 		fclose(names);
 	}
@@ -272,7 +272,7 @@ getcurrentopt()
 	if (!cmo) {
 		if (errno == ENOENT)
 			return;
-		ohshite(_("unable to open current option file '%s'"),
+		ohshite(_("cannot open current option file '%s'"),
 		        methoptfile);
 	}
 	debug(dbg_general, "getcurrentopt() cmethopt open");
@@ -335,7 +335,7 @@ writecurrentopt()
 	file = atomic_file_new(methoptfile, ATOMIC_FILE_NORMAL);
 	atomic_file_open(file);
 	if (fprintf(file->fp, "%s %s\n", coption->meth->name.str(), coption->name.str()) == EOF)
-		ohshite(_("unable to write new option to '%s'"),
+		ohshite(_("cannot write new option to '%s'"),
 		        file->name_new);
 	atomic_file_close(file);
 	atomic_file_commit(file);

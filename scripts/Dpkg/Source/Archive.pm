@@ -259,11 +259,11 @@ sub extract {
 
         if (scalar(@entries) == 1 && ! -l "$tmpdir/$entries[0]" && -d _) {
             rename "$tmpdir/$entries[0]", $dest
-                or syserr(g_('unable to rename %s to %s'),
+                or syserr(g_('cannot rename %s to %s'),
                           "$tmpdir/$entries[0]", $dest);
         } else {
             rename $tmpdir, $dest
-                or syserr(g_('unable to rename %s to %s'), $tmpdir, $dest);
+                or syserr(g_('cannot rename %s to %s'), $tmpdir, $dest);
         }
     }
     erasedir($tmpdir);

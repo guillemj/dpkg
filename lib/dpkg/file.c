@@ -170,15 +170,15 @@ file_copy_perms(const char *src, const char *dst)
 	if (stat(src, &stab) < 0) {
 		if (errno == ENOENT)
 			return;
-		ohshite(_("unable to stat source file '%s'"), src);
+		ohshite(_("cannot stat source file '%s'"), src);
 	}
 
 	if (chown(dst, stab.st_uid, stab.st_gid) < 0)
-		ohshite(_("unable to change ownership of target file '%s'"),
+		ohshite(_("cannot change ownership of target file '%s'"),
 		        dst);
 
 	if (chmod(dst, (stab.st_mode & ~S_IFMT)) < 0)
-		ohshite(_("unable to set mode of target file '%s'"), dst);
+		ohshite(_("cannot set mode of target file '%s'"), dst);
 }
 
 static int
@@ -248,7 +248,7 @@ file_unlock(int lockfd, const char *lockfile, const char *lockdesc)
 	file_lock_setup(&fl, F_UNLCK);
 
 	if (fcntl(lockfd, F_SETLK, &fl) < 0)
-		ohshite(_("unable to unlock %s"), lockdesc);
+		ohshite(_("cannot unlock %s"), lockdesc);
 }
 
 static void
@@ -275,7 +275,7 @@ file_is_locked(int lockfd, const char *filename)
 	file_lock_setup(&fl, F_WRLCK);
 
 	if (fcntl(lockfd, F_GETLK, &fl) < 0)
-		ohshit(_("unable to check file '%s' lock status"), filename);
+		ohshit(_("cannot check file '%s' lock status"), filename);
 
 	if (fl.l_type == F_WRLCK && fl.l_pid != getpid())
 		return true;
@@ -313,7 +313,7 @@ file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
 		char *execname;
 
 		if (errno != EACCES && errno != EAGAIN)
-			ohshite(_("unable to lock %s"), desc);
+			ohshite(_("cannot lock %s"), desc);
 
 		warnmsg = _("Note: removing the lock file is always wrong, "
 		            "can damage the locked area\n"

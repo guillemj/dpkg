@@ -120,7 +120,7 @@ my %curpkgs;
 sub procstatus {
     my (%flds, $fld);
     open(my $status_fh, '<', "$vardir/status") or
-        syserr("could not open '%s' file", 'status');
+        syserr("cannot open file '%s'", 'status');
     while (%flds = get_stanza($status_fh), %flds) {
         if ($flds{'status'} =~ /^install ok/) {
             my $cs = (split(/ /, $flds{'status'}))[2];
@@ -152,7 +152,7 @@ sub procpkgfile {
     my %flds;
 
     open(my $pkgfile_fh, '<', $fn)
-        or syserr("could not open package file '%s'", $fn);
+        or syserr("cannot open package file '%s'", $fn);
     while (%flds = get_stanza($pkgfile_fh), %flds) {
         $pkg = $flds{'package'};
         $ver = $curpkgs{$pkg};
@@ -191,7 +191,7 @@ foreach my $site (@{$CONFIG{site}}) {
             print " $site->[0] $dist...\n";
             procpkgfile($fn, $i, $j);
         } else {
-            errormsg('could not find packages file for %s distribution',
+            errormsg('cannot find packages file for %s distribution',
                      "$site->[0] $dist");
             hint("try to relaunch the 'Update' step in dselect");
         }
@@ -492,7 +492,7 @@ sub getdebinfo {
         close($pkgfile_fh);
         return $pkg, $ver;
     }
-    errormsg("could not figure out type of '%s'", $fn);
+    errormsg("cannot figure out type of '%s'", $fn);
     return $pkg, $ver;
 }
 
@@ -501,7 +501,7 @@ sub prcdeb {
     my ($dir, $fn) = @_;
     my ($pkg, $ver) = getdebinfo($fn);
     if (! defined($pkg) || ! defined($ver)) {
-        errormsg('could not get package info from file');
+        errormsg('cannot get package info from file');
         return 0;
     }
     if ($vers{$pkg}) {
@@ -602,7 +602,7 @@ sub removeinstalled {
         if ($fn =~ /.deb$/) {
             my ($pkg, $ver) = getdebinfo($fn);
             if (! defined($pkg) || ! defined($ver)) {
-                print "could not get info for: $dir/$fn\n";
+                print "cannot get info for: $dir/$fn\n";
             } elsif ($curpkgs{$pkg} &&
                      version_compare($ver, $curpkgs{$pkg}) <= 0) {
                 print "deleting: $dir/$fn\n";

@@ -60,7 +60,7 @@ cu_info_treewalk_fixup_dir(struct treenode *node)
 
 	nodename = treenode_get_pathname(node);
 	if (chmod(nodename, 0755) < 0)
-		ohshite(_("error setting permissions of '%s'"), nodename);
+		ohshite(_("cannot set permissions of '%s'"), nodename);
 
 	return 0;
 }
@@ -92,7 +92,7 @@ info_prepare(const char *const **argvp, const char **debarp, const char **dirp,
 
 	dbuf = mkdtemp(path_make_temp_template("dpkg-deb"));
 	if (!dbuf)
-		ohshite(_("unable to create temporary directory"));
+		ohshite(_("cannot create temporary directory"));
 	*dirp = dbuf;
 
 	push_cleanup(cu_info_prepare, -1, 1, (void *)dbuf);

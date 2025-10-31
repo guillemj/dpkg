@@ -292,7 +292,7 @@ for my $p (sort keys %packages) {
         push @missingover, $p;
     }
     for my $package (sort { $a->{Version} cmp $b->{Version} } @{$packages{$p}}) {
-        print("$package\n") or syserr(g_('failed when writing stdout'));
+        print("$package\n") or syserr(g_('cannot write to stdout'));
         $records_written++;
     }
 }

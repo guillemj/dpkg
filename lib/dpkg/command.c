@@ -181,7 +181,7 @@ void
 command_exec(struct command *cmd)
 {
 	execvp(cmd->filename, (char * const *)cmd->argv);
-	ohshite(_("unable to execute %s (%s)"), cmd->name, cmd->filename);
+	ohshite(_("cannot execute %s (%s)"), cmd->name, cmd->filename);
 }
 
 /**
@@ -213,7 +213,7 @@ command_shell(const char *cmd, const char *name)
 #else
 	execlp(shell, shell, mode, cmd, NULL);
 #endif
-	ohshite(_("unable to execute %s (%s)"), name, cmd);
+	ohshite(_("cannot execute %s (%s)"), name, cmd);
 }
 
 /**

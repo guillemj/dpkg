@@ -814,7 +814,7 @@ sub extract_from_shlibs {
     }
     # Open shlibs file.
     open(my $shlibs_fh, '<', $shlibfile)
-        or syserr(g_("unable to open shared libs metadata file '%s'"), $shlibfile);
+        or syserr(g_("cannot open shared library metadata file '%s'"), $shlibfile);
     my $dep;
     while (<$shlibs_fh>) {
         s/\s*\n$//;
@@ -919,7 +919,7 @@ sub my_find_library {
                 $path =~ s/\$\{ORIGIN\}/$origin/g;
             } else {
                 warning(g_('$ORIGIN is used in RPATH of %s and the corresponding ' .
-                'directory could not be identified due to lack of DEBIAN ' .
+                'directory cannot be identified due to lack of DEBIAN ' .
                 "sub-directory in the root of package's build tree"), $execfile);
             }
         }

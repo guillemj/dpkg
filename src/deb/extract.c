@@ -57,7 +57,7 @@ read_fail(int rc, const char *filename, const char *what)
 		ohshit(_("unexpected end of file in %s in %s"),
 		       what, filename);
 	else
-		ohshite(_("error reading %s from file %s"), what, filename);
+		ohshite(_("cannot read %s from file %s"), what, filename);
 }
 
 static ssize_t
@@ -381,14 +381,14 @@ extracthalf(const char *debar, const char *dir,
 			if (dir) {
 				if (mkdir(dir, 0777) != 0) {
 					if (errno != EEXIST)
-						ohshite(_("failed to create directory"));
+						ohshite(_("cannot create directory"));
 
 					if (taroption & DPKG_TAR_CREATE_DIR)
 						ohshite(_("unexpected pre-existing pathname %s"),
 						        dir);
 				}
 				if (chdir(dir) != 0)
-					ohshite(_("failed to chdir to directory"));
+					ohshite(_("cannot chdir to directory"));
 			}
 
 			command_exec(&cmd);

@@ -249,7 +249,7 @@ removal_bulk_remove_file(const char *filename, const char *filetype)
 	debug_at(dbg_stupidlyverbose, "metadata file not postrm nor list");
 
 	if (unlink(filename))
-		ohshite(_("unable to delete package metadata file '%s'"),
+		ohshite(_("cannot delete package metadata file '%s'"),
 		        filename);
 
 	debug_at(dbg_scripts, "metadata file unlinked %s", filename);
@@ -376,7 +376,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 			push_leftover(&leftover, namenode);
 			continue;
 		} else if (errno == EBUSY || errno == EPERM) {
-			warning(_("while removing %s, unable to remove directory '%s': "
+			warning(_("while removing %s, cannot remove directory '%s': "
 			          "%s - directory may be a mount point?"),
 			        pkg_name(pkg, pnaw_nonambig), namenode->name,
 			        strerror(errno));
@@ -387,7 +387,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 			ohshite(_("cannot remove '%s'"), fnvb.buf);
 		debug_at(dbg_eachfiledetail, "unlinking '%s'", fnvb.buf);
 		if (secure_unlink(fnvb.buf))
-			ohshite(_("unable to securely remove '%s'"),
+			ohshite(_("cannot securely remove '%s'"),
 			        fnvb.buf);
 	}
 	write_filelist_except(pkg, &pkg->installed, leftover, 0);
@@ -479,7 +479,7 @@ removal_bulk_remove_leftover_dirs(struct pkginfo *pkg)
 			push_leftover(&leftover, namenode);
 			continue;
 		} else if (errno == EBUSY || errno == EPERM) {
-			warning(_("while removing %s, unable to remove directory '%s': "
+			warning(_("while removing %s, cannot remove directory '%s': "
 			          "%s - directory may be a mount point?"),
 			        pkg_name(pkg, pnaw_nonambig), namenode->name,
 			        strerror(errno));

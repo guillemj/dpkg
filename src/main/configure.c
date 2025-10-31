@@ -166,7 +166,7 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 	        _("[no default]"));
 
 	if (ferror(stderr))
-		ohshite(_("error writing to stderr, discovered before conffile prompt"));
+		ohshite(_("cannot write to stderr, discovered before conffile prompt"));
 
 	cc = 0;
 	while ((c = getchar()) != EOF && c != '\n')
@@ -175,7 +175,7 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 
 	if (c == EOF) {
 		if (ferror(stdin))
-			ohshite(_("read error on stdin at conffile prompt"));
+			ohshite(_("cannot read from stdin at conffile prompt"));
 		ohshit(_("end of file on stdin at conffile prompt"));
 	}
 
@@ -412,7 +412,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 			deferred_configure_ghost_conffile(pkg, conff);
 			return;
 		}
-		ohshite(_("unable to stat new distributed conffile '%s'"),
+		ohshite(_("cannot stat new distributed conffile '%s'"),
 		        cdr_new.buf);
 	}
 	md5hash(pkg, newdisthash, cdr_new.buf);
@@ -422,7 +422,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	if (!stat(cdr.buf, &stab))
 		file_copy_perms(cdr.buf, cdr_new.buf);
 	else if (errno != ENOENT)
-		ohshite(_("unable to stat current installed conffile '%s'"),
+		ohshite(_("cannot stat current installed conffile '%s'"),
 		        cdr.buf);
 
 	/* Select what to do. */
@@ -476,36 +476,36 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	switch (what & ~(CFOF_IS_NEW | CFOF_USER_DEL)) {
 	case CFO_KEEP | CFOF_BACKUP:
 		if (unlink(cdr_old.buf) && errno != ENOENT)
-			warning(_("%s: failed to remove old backup '%s': %s"),
+			warning(_("%s: cannot remove old backup '%s': %s"),
 			        pkg_name(pkg, pnaw_nonambig), cdr_old.buf,
 			        strerror(errno));
 
 		trig_path_activate(usenode, pkg);
 		if (rename(cdr_new.buf, cdr_dist.buf))
-			warning(_("%s: failed to rename '%s' to '%s': %s"),
+			warning(_("%s: cannot rename '%s' to '%s': %s"),
 			        pkg_name(pkg, pnaw_nonambig),
 			        cdr_new.buf, cdr_dist.buf,
 			        strerror(errno));
 		break;
 	case CFO_KEEP:
 		if (unlink(cdr_new.buf))
-			warning(_("%s: failed to remove '%s': %s"),
+			warning(_("%s: cannot remove '%s': %s"),
 			        pkg_name(pkg, pnaw_nonambig), cdr_new.buf,
 			        strerror(errno));
 		break;
 	case CFO_INSTALL | CFOF_BACKUP:
 		if (unlink(cdr_dist.buf) && errno != ENOENT)
-			warning(_("%s: failed to remove old distributed version '%s': %s"),
+			warning(_("%s: cannot remove old distributed version '%s': %s"),
 			        pkg_name(pkg, pnaw_nonambig),
 			        cdr_dist.buf,
 			        strerror(errno));
 		if (unlink(cdr_old.buf) && errno != ENOENT)
-			warning(_("%s: failed to remove '%s' (before overwrite): %s"),
+			warning(_("%s: cannot remove '%s' (before overwrite): %s"),
 			        pkg_name(pkg, pnaw_nonambig), cdr_old.buf,
 			        strerror(errno));
 		if (!(what & CFOF_USER_DEL))
 			if (link(cdr.buf, cdr_old.buf))
-				warning(_("%s: failed to link '%s' to '%s': %s"),
+				warning(_("%s: cannot link '%s' to '%s': %s"),
 				        pkg_name(pkg, pnaw_nonambig),
 				        cdr.buf,
 				        cdr_old.buf, strerror(errno));
@@ -517,7 +517,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	case CFO_NEW_CONFF:
 		trig_path_activate(usenode, pkg);
 		if (rename(cdr_new.buf, cdr.buf))
-			ohshite(_("unable to install '%s' as '%s'"),
+			ohshite(_("cannot install '%s' as '%s'"),
 			        cdr_new.buf, cdr.buf);
 		break;
 	default:
@@ -715,7 +715,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 		         in, result->buf);
 		if (lstat(result->buf, &stab)) {
 			if (errno != ENOENT)
-				warning(_("%s: unable to stat config file '%s'\n"
+				warning(_("%s: cannot stat config file '%s'\n"
 				          " (= '%s'): %s"),
 				        pkg_name(pkg, pnaw_nonambig), in,
 				        result->buf, strerror(errno));
@@ -741,7 +741,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 			linksize = file_readlink(result->buf, &target,
 			                         stab.st_size);
 			if (linksize < 0) {
-				warning(_("%s: unable to readlink conffile '%s'\n"
+				warning(_("%s: cannot readlink conffile '%s'\n"
 				          " (= '%s'): %s"),
 				        pkg_name(pkg, pnaw_nonambig), in,
 				        result->buf, strerror(errno));
@@ -821,7 +821,7 @@ md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn)
 	} else if (errno == ENOENT) {
 		strcpy(hashbuf, NONEXISTENTFLAG);
 	} else {
-		warning(_("%s: unable to open %s to compute its digest: %s"),
+		warning(_("%s: cannot open %s to compute its digest: %s"),
 		        pkg_name(pkg, pnaw_nonambig), fn, strerror(errno));
 		strcpy(hashbuf, EMPTYHASHFLAG);
 	}

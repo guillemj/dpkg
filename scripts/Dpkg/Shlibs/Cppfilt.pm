@@ -69,7 +69,7 @@ sub get_cppfilt {
             from_pipe => \$filt->{from},
             to_pipe => \$filt->{to},
         );
-        syserr(g_('unable to execute %s'), 'c++filt')
+        syserr(g_('cannot execute %s'), 'c++filt')
             unless defined $filt->{from};
         $filt->{from}->autoflush(1);
 

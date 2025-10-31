@@ -124,7 +124,7 @@ cleanupdates(void)
 				varbuf_rollback(&updatefn_state);
 				varbuf_add_str(&updatefn, cdlist[i]->d_name);
 				if (unlink(updatefn.buf))
-					ohshite(_("failed to remove incorporated update file %s"),
+					ohshite(_("cannot remove incorporated update file %s"),
 					        updatefn.buf);
 			}
 
@@ -148,18 +148,18 @@ createimptmp(void)
 
 	importanttmp = fopen(importanttmpfile, "w");
 	if (!importanttmp)
-		ohshite(_("unable to create '%s'"), importanttmpfile);
+		ohshite(_("cannot create '%s'"), importanttmpfile);
 	setcloexec(fileno(importanttmp), importanttmpfile);
 	for (i = 0; i < 512; i++)
 		fputs("#padded\n", importanttmp);
 	if (ferror(importanttmp))
-		ohshite(_("unable to fill %s with padding"),
+		ohshite(_("cannot fill %s with padding"),
 		        importanttmpfile);
 	if (fflush(importanttmp))
-		ohshite(_("unable to flush %s after padding"),
+		ohshite(_("cannot flush %s after padding"),
 		        importanttmpfile);
 	if (fseek(importanttmp, 0, SEEK_SET))
-		ohshite(_("unable to seek to start of %s after padding"),
+		ohshite(_("cannot seek to start of %s after padding"),
 		        importanttmpfile);
 
 	onerr_abort--;
@@ -244,7 +244,7 @@ modstatdb_is_locked(void)
 		if (lockfd < 0) {
 			if (errno == ENOENT)
 				return false;
-			ohshite(_("unable to check lock file for dpkg database directory %s"),
+			ohshite(_("cannot check lock file for dpkg database directory %s"),
 			        dpkg_db_get_dir());
 		}
 	} else {
@@ -274,7 +274,7 @@ modstatdb_can_lock(void)
 			if (errno == EACCES || errno == EPERM)
 				return false;
 			else
-				ohshite(_("unable to open/create dpkg frontend lock for directory %s"),
+				ohshite(_("cannot open/create dpkg frontend lock for directory %s"),
 				        dpkg_db_get_dir());
 		}
 	} else {
@@ -286,7 +286,7 @@ modstatdb_can_lock(void)
 		if (errno == EACCES || errno == EPERM)
 			return false;
 		else
-			ohshite(_("unable to open/create dpkg database lock file for directory %s"),
+			ohshite(_("cannot open/create dpkg database lock file for directory %s"),
 			        dpkg_db_get_dir());
 	}
 
@@ -355,7 +355,7 @@ modstatdb_open(enum modstatdb_rw readwritereq)
 
 		if (!db_can_access) {
 			if (errno != EACCES)
-				ohshite(_("unable to access the dpkg database directory %s"),
+				ohshite(_("cannot access the dpkg database directory %s"),
 				        dpkg_db_get_dir());
 			else if (readwritereq >= msdbrw_write)
 				ohshit(_("required read/write access to the dpkg database directory %s"),
@@ -421,7 +421,7 @@ modstatdb_checkpoint(void)
 			          IMPORTANTMAXLEN);
 
 		if (unlink(updatefn.buf))
-			ohshite(_("failed to remove my own update file %s"),
+			ohshite(_("cannot remove my own update file %s"),
 			        updatefn.buf);
 	}
 
@@ -467,24 +467,24 @@ modstatdb_note_core(struct pkginfo *pkg)
 	varbuf_stanza(&uvb, pkg, &pkg->installed);
 
 	if (fwrite(uvb.buf, 1, uvb.used, importanttmp) != uvb.used)
-		ohshite(_("unable to write updated status of '%s'"),
+		ohshite(_("cannot write updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 	if (fflush(importanttmp))
-		ohshite(_("unable to flush updated status of '%s'"),
+		ohshite(_("cannot flush updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 	if (ftruncate(fileno(importanttmp), uvb.used))
-		ohshite(_("unable to truncate for updated status of '%s'"),
+		ohshite(_("cannot truncate for updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 	if (fsync(fileno(importanttmp)))
-		ohshite(_("unable to fsync updated status of '%s'"),
+		ohshite(_("cannot fsync updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 	if (fclose(importanttmp))
-		ohshite(_("unable to close updated status of '%s'"),
+		ohshite(_("cannot close updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 	varbuf_rollback(&updatefn_state);
 	varbuf_add_fmt(&updatefn, IMPORTANTFMT, nextupdate);
 	if (rename(importanttmpfile, updatefn.buf))
-		ohshite(_("unable to install updated status of '%s'"),
+		ohshite(_("cannot install updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 
 	dir_sync_path(updatesdir);

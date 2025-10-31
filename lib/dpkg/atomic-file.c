@@ -62,7 +62,7 @@ atomic_file_open(struct atomic_file *file)
 		file->fp = fopen(file->name_new, "w");
 	}
 	if (file->fp == NULL)
-		ohshite(_("unable to create new file '%s'"),
+		ohshite(_("cannot create new file '%s'"),
 		        file->name_new);
 	fchmod(fileno(file->fp), 0644);
 
@@ -73,11 +73,11 @@ void
 atomic_file_sync(struct atomic_file *file)
 {
 	if (ferror(file->fp))
-		ohshite(_("unable to write new file '%s'"), file->name_new);
+		ohshite(_("cannot write new file '%s'"), file->name_new);
 	if (fflush(file->fp))
-		ohshite(_("unable to flush new file '%s'"), file->name_new);
+		ohshite(_("cannot flush new file '%s'"), file->name_new);
 	if (fsync(fileno(file->fp)))
-		ohshite(_("unable to sync new file '%s'"), file->name_new);
+		ohshite(_("cannot sync new file '%s'"), file->name_new);
 }
 
 void
@@ -86,7 +86,7 @@ atomic_file_close(struct atomic_file *file)
 	pop_cleanup(ehflag_normaltidy); /* fopen */
 
 	if (fclose(file->fp))
-		ohshite(_("unable to close new file '%s'"), file->name_new);
+		ohshite(_("cannot close new file '%s'"), file->name_new);
 }
 
 static void
@@ -97,9 +97,9 @@ atomic_file_backup(struct atomic_file *file)
 	name_old = str_fmt("%s%s", file->name, ATOMIC_FILE_OLD_EXT);
 
 	if (unlink(name_old) && errno != ENOENT)
-		ohshite(_("error removing old backup file '%s'"), name_old);
+		ohshite(_("cannot remove old backup file '%s'"), name_old);
 	if (link(file->name, name_old) && errno != ENOENT)
-		ohshite(_("error creating new backup file '%s'"), name_old);
+		ohshite(_("cannot create new backup file '%s'"), name_old);
 
 	free(name_old);
 }
@@ -120,7 +120,7 @@ atomic_file_commit(struct atomic_file *file)
 		atomic_file_backup(file);
 
 	if (rename(file->name_new, file->name))
-		ohshite(_("error installing new file '%s'"), file->name);
+		ohshite(_("cannot install new file '%s'"), file->name);
 }
 
 void

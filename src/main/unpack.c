@@ -99,14 +99,14 @@ deb_reassemble(const char **filename, const char **pfilename)
 	if (!reasmbuf)
 		reasmbuf = dpkg_db_get_path(REASSEMBLETMP);
 	if (unlink(reasmbuf) && errno != ENOENT)
-		ohshite(_("error ensuring '%s' does not exist"), reasmbuf);
+		ohshite(_("cannot ensure '%s' does not exist"), reasmbuf);
 
 	push_cleanup(cu_pathname, ~0, 1, (void *)reasmbuf);
 
 	pid = subproc_fork();
 	if (!pid) {
 		execlp(SPLITTER, SPLITTER, "-Qao", reasmbuf, *filename, NULL);
-		ohshite(_("unable to execute %s (%s)"),
+		ohshite(_("cannot execute %s (%s)"),
 		        _("split package reassembly"), SPLITTER);
 	}
 	status = subproc_reap(pid, SPLITTER, SUBPROC_RETERROR);
@@ -148,7 +148,7 @@ deb_verify(const char *filename)
 	pid = subproc_fork();
 	if (!pid) {
 		execlp(DEBSIGVERIFY, DEBSIGVERIFY, "-q", filename, NULL);
-		ohshite(_("unable to execute %s (%s)"),
+		ohshite(_("cannot execute %s (%s)"),
 		        _("package signature verification"), DEBSIGVERIFY);
 	} else {
 		int status;
@@ -178,7 +178,7 @@ get_control_dir(char *cidir)
 
 		tmpdir = mkdtemp(path_make_temp_template("dpkg"));
 		if (tmpdir == NULL)
-			ohshite(_("unable to create temporary directory"));
+			ohshite(_("cannot create temporary directory"));
 
 		cidir = m_realloc(cidir, strlen(tmpdir) +
 		                         MAXCONTROLFILENAME + 10);
@@ -368,7 +368,7 @@ deb_parse_conffiles(const struct pkginfo *pkg, const char *control_conffiles,
 	if (conff == NULL) {
 		if (errno == ENOENT)
 			return;
-		ohshite(_("error trying to open %s"), control_conffiles);
+		ohshite(_("cannot open file '%s'"), control_conffiles);
 	}
 
 	push_cleanup(cu_closestream, ehflag_bombout, 1, conff);
@@ -478,10 +478,10 @@ deb_parse_conffiles(const struct pkginfo *pkg, const char *control_conffiles,
 	}
 
 	if (ferror(conff))
-		ohshite(_("read error in %s"), control_conffiles);
+		ohshite(_("cannot read '%s'"), control_conffiles);
 	pop_cleanup(ehflag_normaltidy); /* conff = fopen() */
 	if (fclose(conff))
-		ohshite(_("error closing %s"), control_conffiles);
+		ohshite(_("cannot close '%s'"), control_conffiles);
 }
 
 static struct pkg_queue conflictors = PKG_QUEUE_INIT;
@@ -496,7 +496,7 @@ static void
 pkg_infodb_remove_file(const char *filename, const char *filetype)
 {
 	if (unlink(filename))
-		ohshite(_("unable to delete package metadata file '%s'"),
+		ohshite(_("cannot delete package metadata file '%s'"),
 		        filename);
 
 	debug_at(dbg_scripts, "metadata file unlinked %s", filename);
@@ -547,12 +547,12 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 		} else if (errno == ENOENT) {
 			/* Right, no new version. */
 			if (unlink(match_node->filename))
-				ohshite(_("unable to remove obsolete package metadata file '%s'"),
+				ohshite(_("cannot remove obsolete package metadata file '%s'"),
 				        match_node->filename);
 			debug_at(dbg_scripts, "metadata file unlinked %s",
 			         match_node->filename);
 		} else {
-			ohshite(_("unable to install (supposed) new package metadata file '%s'"),
+			ohshite(_("cannot install (supposed) new package metadata file '%s'"),
 			        cidir);
 		}
 		match_head = match_node->next;
@@ -563,7 +563,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 	cidirrest[0] = '\0';
 	dsd = opendir(cidir);
 	if (!dsd)
-		ohshite(_("unable to open temp control directory"));
+		ohshite(_("cannot open temp control directory"));
 	push_cleanup(cu_closedir, ~0, 1, (void *)dsd);
 	while ((de = readdir(dsd))) {
 		const char *newinfofilename;
@@ -606,7 +606,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 		/* Right, install it. */
 		newinfofilename = pkg_infodb_get_file(pkg, &pkg->available, de->d_name);
 		if (rename(cidir, newinfofilename))
-			ohshite(_("unable to install new metadata file '%s' as '%s'"),
+			ohshite(_("cannot install new package file '%s' as '%s'"),
 			        cidir, newinfofilename);
 
 		debug_at(dbg_scripts,
@@ -675,7 +675,7 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg,
 	varbuf_add_str(&cdrext, DPKGDISTEXT);
 
 	if (unlink(cdrext.buf) < 0 && errno != ENOENT)
-		warning(_("%s: failed to remove '%s': %s"),
+		warning(_("%s: cannot remove '%s': %s"),
 		        pkg_name(pkg, pnaw_nonambig), cdrext.buf,
 		        strerror(errno));
 
@@ -689,7 +689,7 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg,
 	if (strcmp(currenthash, namenode->oldhash) == 0) {
 		printf(_("Removing obsolete conffile %s ...\n"), cdr.buf);
 		if (unlink(cdr.buf) < 0 && errno != ENOENT)
-			warning(_("%s: failed to remove '%s': %s"),
+			warning(_("%s: cannot remove '%s': %s"),
 			        pkg_name(pkg, pnaw_nonambig), cdr.buf,
 			        strerror(errno));
 		return;
@@ -761,7 +761,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
 			if (!(errno == ENOENT ||
 			      errno == ELOOP ||
 			      errno == ENOTDIR))
-				warning(_("could not stat old file '%s' so not deleting it: %s"),
+				warning(_("cannot stat old file '%s' so not deleting it: %s"),
 				        varbuf_str(&fnamevb), strerror(errno));
 			continue;
 		}
@@ -773,7 +773,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
 				continue;
 
 			if (rmdir(varbuf_str(&fnamevb))) {
-				warning(_("unable to delete old directory '%s': %s"),
+				warning(_("cannot delete old directory '%s': %s"),
 				        namenode->name, strerror(errno));
 			} else if ((namenode->flags & FNNF_OLD_CONFF)) {
 				warning(_("old conffile '%s' was an empty directory "
@@ -826,7 +826,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
 						cfile->namenode->file_ondisk_id = file_ondisk_id;
 					} else {
 						if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
-							ohshite(_("unable to stat other new file '%s'"),
+							ohshite(_("cannot stat other new file '%s'"),
 							        cfile->namenode->name);
 						cfile->namenode->file_ondisk_id = &empty_ondisk_id;
 						continue;
@@ -881,7 +881,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
 			trig_path_activate(usenode, pkg);
 
 			if (secure_unlink_statted(varbuf_str(&fnamevb), &oldfs)) {
-				warning(_("unable to securely remove old file '%s': %s"),
+				warning(_("cannot securely remove old file '%s': %s"),
 				        namenode->name, strerror(errno));
 			}
 		} /* !S_ISDIR */
@@ -1317,7 +1317,7 @@ process_archive(const char *filename)
 	if (pid == 0) {
 		cidirrest[-1] = '\0';
 		execlp(BACKEND, BACKEND, "--control", filename, cidir, NULL);
-		ohshite(_("unable to execute %s (%s)"),
+		ohshite(_("cannot execute %s (%s)"),
 		        _("package metadata files extraction"), BACKEND);
 	}
 	subproc_reap(pid, BACKEND " --control", 0);
@@ -1619,7 +1619,7 @@ process_archive(const char *filename)
 		close(p1[0]);
 		close(p1[1]);
 		execlp(BACKEND, BACKEND, "--fsys-tarfile", filename, NULL);
-		ohshite(_("unable to execute %s (%s)"),
+		ohshite(_("cannot execute %s (%s)"),
 		        _("package filesystem archive extraction"), BACKEND);
 	}
 	close(p1[1]);

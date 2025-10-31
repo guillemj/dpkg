@@ -655,7 +655,7 @@ packagelist::display()
 		if (whatinfo_height)
 			wcursyncup(whatinfowin);
 		if (doupdate() == ERR)
-			ohshite(_("doupdate failed"));
+			ohshite(_("cannot doupdate"));
 		do {
 			response = getch();
 			if (response == KEY_RESIZE) {
@@ -664,7 +664,7 @@ packagelist::display()
 			}
 		} while (response == ERR && errno == EINTR);
 		if (response == ERR)
-			ohshite(_("getch failed"));
+			ohshite(_("cannot getch"));
 
 		interp = (*bindings)(response);
 		debug(dbg_general,

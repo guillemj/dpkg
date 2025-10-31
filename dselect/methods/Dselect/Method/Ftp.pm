@@ -68,7 +68,7 @@ sub do_connect {
             Passive => $opts{passive},
         );
         if (! $ftp || ! $ftp->ok) {
-            errormsg('failed to connect');
+            errormsg('cannot connect');
             $exit = 1;
         }
         if (! $exit) {
@@ -235,7 +235,7 @@ sub do_mdtm {
             # Build a system time.
             $time = Time::Local::timegm(0, $minutes, $hours, $day, $month, $year);
         } else {
-            error('regex match failed on LIST output');
+            error('cannot match regex on LIST output');
         }
     }
 

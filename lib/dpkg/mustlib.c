@@ -41,7 +41,7 @@ must_alloc(void *ptr)
 		return ptr;
 
 	onerr_abort++;
-	ohshite(_("failed to allocate memory"));
+	ohshite(_("cannot allocate memory"));
 }
 
 static inline void *
@@ -94,7 +94,7 @@ m_vasprintf(char **strp, const char *fmt, va_list args)
 		return n;
 
 	onerr_abort++;
-	ohshite(_("failed to allocate memory"));
+	ohshite(_("cannot allocate memory"));
 }
 
 int
@@ -120,7 +120,7 @@ m_dup(int oldfd)
 		return newfd;
 
 	onerr_abort++;
-	ohshite(_("failed to dup for fd %d"), oldfd);
+	ohshite(_("cannot dup for fd %d"), oldfd);
 }
 
 void
@@ -139,7 +139,7 @@ m_dup2(int oldfd, int newfd)
 	if (newfd < 3)
 		ohshite(_("cannot duplicate file descriptor for %s"),
 		        gettext(stdstrings[newfd]));
-	ohshite(_("failed to dup for fd %d"), newfd);
+	ohshite(_("cannot dup for fd %d"), newfd);
 }
 
 void
@@ -148,7 +148,7 @@ m_pipe(int fds[2])
 	if (!pipe(fds))
 		return;
 	onerr_abort++;
-	ohshite(_("failed to create pipe"));
+	ohshite(_("cannot create pipe"));
 }
 
 void
@@ -156,7 +156,7 @@ m_output(FILE *f, const char *name)
 {
 	fflush(f);
 	if (ferror(f) && errno != EPIPE)
-		ohshite(_("error writing to '%s'"), name);
+		ohshite(_("cannot write to '%s'"), name);
 }
 
 void
@@ -166,7 +166,7 @@ setcloexec(int fd, const char *fn)
 
 	f = fcntl(fd, F_GETFD);
 	if (f < 0)
-		ohshite(_("unable to read filedescriptor flags for %s"), fn);
+		ohshite(_("cannot read file descriptor flags for %s"), fn);
 	if (fcntl(fd, F_SETFD, (f | FD_CLOEXEC)) < 0)
-		ohshite(_("unable to set close-on-exec flag for %s"), fn);
+		ohshite(_("cannot set close-on-exec flag for %s"), fn);
 }

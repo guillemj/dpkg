@@ -132,7 +132,7 @@ buffer_write(struct buffer_data *data, const void *buf, off_t length,
 	case BUFFER_WRITE_FD:
 		ret = fd_write(data->arg.i, buf, length);
 		if (ret < 0)
-			dpkg_put_errno(err, _("failed to write"));
+			dpkg_put_errno(err, _("cannot write"));
 		break;
 	case BUFFER_WRITE_NULL:
 		break;
@@ -153,7 +153,7 @@ buffer_read(struct buffer_data *data, void *buf, off_t length,
 	case BUFFER_READ_FD:
 		ret = fd_read(data->arg.i, buf, length);
 		if (ret < 0)
-			dpkg_put_errno(err, _("failed to read"));
+			dpkg_put_errno(err, _("cannot read"));
 		break;
 	default:
 		internerr("unknown data type %i", data->type);
@@ -272,7 +272,7 @@ buffer_skip(struct buffer_data *input, off_t limit, struct dpkg_error *err)
 		if (lseek(input->arg.i, limit, SEEK_CUR) >= 0)
 			return limit;
 		if (errno != ESPIPE)
-			return dpkg_put_errno(err, _("failed to seek"));
+			return dpkg_put_errno(err, _("cannot seek"));
 		break;
 	default:
 		internerr("unknown data type %i", input->type);

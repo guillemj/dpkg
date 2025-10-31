@@ -145,13 +145,13 @@ sub detect_binary_files {
         my $cwd = getcwd();
         # Apply the pattern both from the top dir and from the inspected dir.
         chdir $self->{dir}
-            or syserr(g_("unable to chdir to '%s'"), $self->{dir});
+            or syserr(g_("cannot chdir to '%s'"), $self->{dir});
         $exclude{$_} = 1 foreach glob $exclude_glob;
-        chdir $cwd or syserr(g_("unable to chdir to '%s'"), $cwd);
+        chdir $cwd or syserr(g_("cannot chdir to '%s'"), $cwd);
         chdir $File::Find::dir
-            or syserr(g_("unable to chdir to '%s'"), $File::Find::dir);
+            or syserr(g_("cannot chdir to '%s'"), $File::Find::dir);
         $exclude{$_} = 1 foreach glob $exclude_glob;
-        chdir $cwd or syserr(g_("unable to chdir to '%s'"), $cwd);
+        chdir $cwd or syserr(g_("cannot chdir to '%s'"), $cwd);
         my @result;
         foreach my $fn (@_) {
             unless (exists $exclude{$fn} or exists $exclude{"$reldir/$fn"}) {

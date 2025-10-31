@@ -409,7 +409,7 @@ run_invoke_hooks(const char *action, struct invoke_list *hook_list)
 		 * used “!$=&|\\`'"^~;<>{}[]()?*#”. */
 		status = system(hook->command);
 		if (status != 0)
-			ohshit(_("error executing hook '%s', exit code %d"),
+			ohshit(_("cannot execute hook '%s', exit code %d"),
 			       hook->command, status);
 	}
 
@@ -803,12 +803,12 @@ main(int argc, const char *const *argv)
 
 	/* Always set environment, to avoid possible security risks. */
 	if (setenv("DPKG_ADMINDIR", dpkg_db_get_dir(), 1) < 0)
-		ohshite(_("unable to setenv for subprocesses"));
+		ohshite(_("cannot setenv for subprocesses"));
 	if (setenv("DPKG_ROOT", dpkg_fsys_get_dir(), 1) < 0)
-		ohshite(_("unable to setenv for subprocesses"));
+		ohshite(_("cannot setenv for subprocesses"));
 	force_string = get_force_string();
 	if (setenv("DPKG_FORCE", force_string, 1) < 0)
-		ohshite(_("unable to setenv for subprocesses"));
+		ohshite(_("cannot setenv for subprocesses"));
 	free(force_string);
 
 	if (!f_triggers)

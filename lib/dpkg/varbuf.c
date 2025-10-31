@@ -285,13 +285,13 @@ varbuf_add_vfmt(struct varbuf *v, const char *fmt, va_list args)
 	va_end(args_copy);
 
 	if (needed < 0)
-		ohshite(_("error formatting string into varbuf variable"));
+		ohshite(_("cannot format string into varbuf variable"));
 
 	varbuf_grow(v, needed + 1);
 
 	n = vsnprintf(v->buf + v->used, needed + 1, fmt, args);
 	if (n < 0)
-		ohshite(_("error formatting string into varbuf variable"));
+		ohshite(_("cannot format string into varbuf variable"));
 
 	v->used += n;
 

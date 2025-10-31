@@ -50,14 +50,14 @@ reassemble(struct partinfo **partlist, const char *outputfile)
 
 	fd_out = creat(outputfile, 0644);
 	if (fd_out < 0)
-		ohshite(_("unable to open output file '%s'"), outputfile);
+		ohshite(_("cannot open output file '%s'"), outputfile);
 	for (i = 0; i < partlist[0]->maxpartn; i++) {
 		struct partinfo *pi = partlist[i];
 		int fd_in;
 
 		fd_in = open(pi->filename, O_RDONLY);
 		if (fd_in < 0)
-			ohshite(_("unable to (re)open input part file '%s'"),
+			ohshite(_("cannot (re)open input part file '%s'"),
 			        pi->filename);
 		if (fd_skip(fd_in, pi->headerlen, &err) < 0)
 			ohshit(_("cannot skip split package header for '%s': %s"),
@@ -70,9 +70,9 @@ reassemble(struct partinfo **partlist, const char *outputfile)
 		printf("%d ", i + 1);
 	}
 	if (fsync(fd_out))
-		ohshite(_("unable to sync file '%s'"), outputfile);
+		ohshite(_("cannot sync file '%s'"), outputfile);
 	if (close(fd_out))
-		ohshite(_("unable to close file '%s'"), outputfile);
+		ohshite(_("cannot close file '%s'"), outputfile);
 
 	printf(_("done\n"));
 }

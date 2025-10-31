@@ -141,11 +141,11 @@ sub do_build {
     $tar->add_directory($dirname);
     $tar->finish();
     rename($newtar, $tarname)
-        or syserr(g_("unable to rename '%s' (newly created) to '%s'"),
+        or syserr(g_("cannot rename '%s' (newly created) to '%s'"),
                   $newtar, $tarname);
     pop_exit_handler();
     chmod(0o666 &~ umask(), $tarname)
-        or syserr(g_("unable to change permission of '%s'"), $tarname);
+        or syserr(g_("cannot change permission of '%s'"), $tarname);
 
     $self->add_file($tarname);
 }

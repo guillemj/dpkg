@@ -81,7 +81,7 @@ trigdef_update_start(enum trigdef_update_flags uf)
 			lock_fd = open(fn.buf, O_RDWR | O_CREAT | O_TRUNC, 0600);
 			if (lock_fd < 0) {
 				if (!(errno == ENOENT && (uf & TDUF_NO_LOCK_OK)))
-					ohshite(_("unable to open/create "
+					ohshite(_("cannot open/create "
 					          "triggers lock file '%s'"),
 					        fn.buf);
 				return TDUS_ERROR_NO_DIR;
@@ -99,7 +99,7 @@ trigdef_update_start(enum trigdef_update_flags uf)
 	old_deferred = fopen(fn.buf, "r");
 	if (!old_deferred) {
 		if (errno != ENOENT)
-			ohshite(_("unable to open triggers deferred file '%s'"),
+			ohshite(_("cannot open triggers deferred file '%s'"),
 			        fn.buf);
 		if (!(uf & TDUF_WRITE_IF_ENOENT)) {
 			if (uf & TDUF_WRITE)
@@ -114,7 +114,7 @@ trigdef_update_start(enum trigdef_update_flags uf)
 
 		rc = fstat(fileno(old_deferred), &stab);
 		if (rc < 0)
-			ohshite(_("unable to stat triggers deferred file '%s'"),
+			ohshite(_("cannot stat triggers deferred file '%s'"),
 			        fn.buf);
 
 		if (stab.st_size == 0 && !(uf & TDUF_WRITE_IF_EMPTY)) {
@@ -130,7 +130,7 @@ trigdef_update_start(enum trigdef_update_flags uf)
 			fclose(trig_new_deferred);
 		trig_new_deferred = fopen(newfn.buf, "w");
 		if (!trig_new_deferred)
-			ohshite(_("unable to open/create new triggers deferred file '%s'"),
+			ohshite(_("cannot open/create new triggers deferred file '%s'"),
 			        newfn.buf);
 
 		setcloexec(fileno(trig_new_deferred), newfn.buf);
@@ -256,7 +256,7 @@ trigdef_process_done(void)
 {
 	if (old_deferred) {
 		if (ferror(old_deferred))
-			ohshite(_("error reading triggers deferred file '%s'"),
+			ohshite(_("cannot read triggers deferred file '%s'"),
 			        fn.buf);
 		fclose(old_deferred);
 		old_deferred = NULL;
@@ -266,16 +266,16 @@ trigdef_process_done(void)
 		int rc;
 
 		if (ferror(trig_new_deferred))
-			ohshite(_("unable to write new triggers deferred "
+			ohshite(_("cannot write new triggers deferred "
 			          "file '%s'"), newfn.buf);
 		rc = fclose(trig_new_deferred);
 		trig_new_deferred = NULL;
 		if (rc)
-			ohshite(_("unable to close new triggers deferred "
+			ohshite(_("cannot close new triggers deferred "
 			          "file '%s'"), newfn.buf);
 
 		if (rename(newfn.buf, fn.buf))
-			ohshite(_("unable to install new triggers deferred "
+			ohshite(_("cannot install new triggers deferred "
 			          "file '%s'"), fn.buf);
 
 		dir_sync_path(triggersdir);

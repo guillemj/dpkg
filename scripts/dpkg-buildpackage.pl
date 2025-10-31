@@ -866,7 +866,7 @@ run_hook('done');
 sub mustsetvar {
     my ($var, $text) = @_;
 
-    error(g_('unable to determine %s'), $text)
+    error(g_('cannot determine %s'), $text)
         unless defined($var);
 
     info("$text $var");
@@ -955,7 +955,7 @@ sub signfile {
         move("$signfile.asc", $signfile)
             or syserror(g_('cannot move %s to %s'), "$signfile.asc", $signfile);
     } else {
-        error(g_('failed to sign %s file: %s'), $signfile,
+        error(g_('cannot sign %s file: %s'), $signfile,
               openpgp_errorcode_to_string($status));
     }
 

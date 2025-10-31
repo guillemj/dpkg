@@ -111,11 +111,11 @@ dir_sync(DIR *dir, const char *path)
 
 	fd = dirfd(dir);
 	if (fd < 0)
-		ohshite(_("unable to get file descriptor for directory '%s'"),
+		ohshite(_("cannot get file descriptor for directory '%s'"),
 		        path);
 
 	if (fsync(fd))
-		ohshite(_("unable to sync directory '%s'"), path);
+		ohshite(_("cannot sync directory '%s'"), path);
 #endif
 }
 
@@ -132,7 +132,7 @@ dir_sync_path(const char *path)
 
 	dir = opendir(path);
 	if (!dir)
-		ohshite(_("unable to open directory '%s'"), path);
+		ohshite(_("cannot open directory '%s'"), path);
 
 	dir_sync(dir, path);
 
@@ -175,11 +175,11 @@ dir_file_sync(const char *dir, const char *filename)
 
 	fd = open(path, O_WRONLY);
 	if (fd < 0)
-		ohshite(_("unable to open file '%s'"), path);
+		ohshite(_("cannot open file '%s'"), path);
 	if (fsync(fd))
-		ohshite(_("unable to sync file '%s'"), path);
+		ohshite(_("cannot sync file '%s'"), path);
 	if (close(fd))
-		ohshite(_("unable to close file '%s'"), path);
+		ohshite(_("cannot close file '%s'"), path);
 
 	free(path);
 }
@@ -197,7 +197,7 @@ dir_sync_contents(const char *path)
 
 	dir = opendir(path);
 	if (!dir)
-		ohshite(_("unable to open directory '%s'"), path);
+		ohshite(_("cannot open directory '%s'"), path);
 
 	while ((dent = readdir(dir)) != NULL) {
 		if (strcmp(dent->d_name, ".") == 0 ||

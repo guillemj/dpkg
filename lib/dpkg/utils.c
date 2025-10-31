@@ -33,7 +33,7 @@ fgets_checked(char *buf, size_t bufsz, FILE *f, const char *fn)
 
 	if (!fgets(buf, bufsz, f)) {
 		if (ferror(f))
-			ohshite(_("read error in '%s'"), fn);
+			ohshite(_("cannot read in '%s'"), fn);
 		return -1;
 	}
 	l = strlen(buf);

@@ -154,10 +154,12 @@ sub add_diff_file {
             error(g_("unknown line from diff -u on %s: '%s'"), $new, $_);
         }
         if (*$self->{empty} and defined(*$self->{header})) {
-            $self->print($self->get_header()) or syserr(g_('failed to write'));
+            $self->print($self->get_header())
+                or syserr(g_('cannot write'));
             *$self->{empty} = 0;
         }
-        print { $self } $_ or syserr(g_('failed to write'));
+        print { $self } $_
+            or syserr(g_('cannot write'));
     }
     close($diffgen) or syserr('close on diff pipe');
     wait_child($diff_pid,

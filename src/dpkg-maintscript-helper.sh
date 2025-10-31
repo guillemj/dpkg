@@ -46,7 +46,7 @@ rm_conffile()
   [ $# -gt 0 ] || badusage "missing arguments after --"
   shift
 
-  [ -n "$PACKAGE" ] || error "couldn't identify the package"
+  [ -n "$PACKAGE" ] || error "cannot identify the package"
   [ -n "$1" ] || error "maintainer script parameters are missing"
   [ -n "$DPKG_MAINTSCRIPT_NAME" ] ||
     error "environment variable DPKG_MAINTSCRIPT_NAME is required"
@@ -168,7 +168,7 @@ mv_conffile()
   [ $# -gt 0 ] || badusage "missing arguments after --"
   shift
 
-  [ -n "$PACKAGE" ] || error "couldn't identify the package"
+  [ -n "$PACKAGE" ] || error "cannot identify the package"
   [ -n "$1" ] || error "maintainer script parameters are missing"
   [ -n "$DPKG_MAINTSCRIPT_NAME" ] ||
     error "environment variable DPKG_MAINTSCRIPT_NAME is required"

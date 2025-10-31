@@ -567,7 +567,7 @@ parsedb_open(const char *filename, enum parsedbflags flags)
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0 && !(errno == ENOENT && (flags & pdb_allow_empty)))
-		ohshite(_("failed to open package control file '%s' for reading"),
+		ohshite(_("cannot open package control file '%s' for reading"),
 		        filename);
 
 	ps = parsedb_new(filename, fd, flags | pdb_close_fd);
@@ -599,7 +599,7 @@ parsedb_load(struct parsedb_state *ps)
 
 		size = fd_vbuf_copy(ps->fd, &buf, -1, &err);
 		if (size < 0)
-			ohshit(_("reading package control file '%s': %s"),
+			ohshit(_("cannot read package control file '%s': %s"),
 			       ps->filename, err.str);
 
 		ps->dataptr = varbuf_detach(&buf);
@@ -615,7 +615,7 @@ parsedb_load(struct parsedb_state *ps)
 		ps->dataptr = m_malloc(st.st_size);
 
 		if (fd_read(ps->fd, ps->dataptr, st.st_size) < 0)
-			ohshite(_("reading package control file '%s'"),
+			ohshite(_("cannot read package control file '%s'"),
 			        ps->filename);
 #endif
 		ps->endptr = ps->dataptr + st.st_size;
@@ -761,7 +761,7 @@ parsedb_close(struct parsedb_state *ps)
 		pop_cleanup(ehflag_normaltidy);
 
 		if (ps->fd >= 0 && close(ps->fd) < 0)
-			ohshite(_("failed to close after read: '%s'"),
+			ohshite(_("cannot close after read: '%s'"),
 			        ps->filename);
 	}
 

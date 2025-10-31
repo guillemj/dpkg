@@ -291,7 +291,7 @@ tarfileread(struct tar_archive *tar, char *buf, int len)
 
 	n = fd_read(tc->backendpipe, buf, len);
 	if (n < 0)
-		ohshite(_("error reading from dpkg-deb pipe"));
+		ohshite(_("cannot read from dpkg-deb pipe"));
 
 	return n;
 }
@@ -389,7 +389,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
 		 * might be a statoverride. */
 		fd = open(path, O_CREAT | O_EXCL | O_WRONLY, 0);
 		if (fd < 0)
-			ohshite(_("unable to create '%s' (while processing '%s')"),
+			ohshite(_("cannot create '%s' (while processing '%s')"),
 			        path, te->name);
 		push_cleanup(cu_closefd, ehflag_bombout, 1, &fd);
 		debug(dbg_eachfiledetail, "tarobject file open, size=%jd",
@@ -420,11 +420,11 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
 			      namenode->statoverride->mode);
 		rc = fchown(fd, st->uid, st->gid);
 		if (forcible_nonroot_error(rc))
-			ohshite(_("error setting ownership of '%s'"),
+			ohshite(_("cannot set ownership of '%s'"),
 			        te->name);
 		rc = fchmod(fd, st->mode & ~S_IFMT);
 		if (forcible_nonroot_error(rc))
-			ohshite(_("error setting permissions of '%s'"),
+			ohshite(_("cannot set permissions of '%s'"),
 			        te->name);
 
 		/* Postpone the fsync, to try to avoid massive I/O
@@ -434,22 +434,22 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
 
 		pop_cleanup(ehflag_normaltidy); /* fd = open(path) */
 		if (close(fd))
-			ohshite(_("error closing/writing '%s'"), te->name);
+			ohshite(_("cannot close/write '%s'"), te->name);
 		debug(dbg_eachfiledetail, "tarobject file created");
 		break;
 	case TAR_FILETYPE_FIFO:
 		if (mkfifo(path, 0))
-			ohshite(_("error creating pipe '%s'"), te->name);
+			ohshite(_("cannot create pipe '%s'"), te->name);
 		debug(dbg_eachfiledetail, "tarobject fifo created");
 		break;
 	case TAR_FILETYPE_CHARDEV:
 		if (mknod(path, S_IFCHR, te->dev))
-			ohshite(_("error creating device '%s'"), te->name);
+			ohshite(_("cannot create device '%s'"), te->name);
 		debug(dbg_eachfiledetail, "tarobject chardev created");
 		break;
 	case TAR_FILETYPE_BLOCKDEV:
 		if (mknod(path, S_IFBLK, te->dev))
-			ohshite(_("error creating device '%s'"), te->name);
+			ohshite(_("cannot create device '%s'"), te->name);
 		debug(dbg_eachfiledetail, "tarobject blockdev created");
 		break;
 	case TAR_FILETYPE_HARDLINK:
@@ -460,7 +460,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
 		if (linknode->flags & (FNNF_DEFERRED_RENAME | FNNF_NEW_CONFF))
 			varbuf_add_str(&hardlinkfn, DPKGNEWEXT);
 		if (link(hardlinkfn.buf, path))
-			ohshite(_("error creating hard link '%s'"),
+			ohshite(_("cannot create hard link '%s'"),
 			        te->name);
 		namenode->newhash = linknode->newhash;
 		debug(dbg_eachfiledetail,
@@ -470,14 +470,14 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
 	case TAR_FILETYPE_SYMLINK:
 		/* We've already checked for an existing directory. */
 		if (symlink(te->linkname, path))
-			ohshite(_("error creating symbolic link '%s'"),
+			ohshite(_("cannot create symbolic link '%s'"),
 			        te->name);
 		debug(dbg_eachfiledetail, "tarobject symlink created");
 		break;
 	case TAR_FILETYPE_DIR:
 		/* We've already checked for an existing directory. */
 		if (mkdir(path, 0))
-			ohshite(_("error creating directory '%s'"),
+			ohshite(_("cannot create directory '%s'"),
 			        te->name);
 		debug(dbg_eachfiledetail, "tarobject directory created");
 		break;
@@ -549,12 +549,12 @@ tarobject_set_mtime(struct tar_entry *te, const char *path)
 	if (te->type == TAR_FILETYPE_SYMLINK) {
 #ifdef HAVE_LUTIMES
 		if (lutimes(path, tv) && errno != ENOSYS)
-			ohshite(_("error setting timestamps of '%s'"),
+			ohshite(_("cannot set timestamps of '%s'"),
 			        path);
 #endif
 	} else {
 		if (utimes(path, tv))
-			ohshite(_("error setting timestamps of '%s'"),
+			ohshite(_("cannot set timestamps of '%s'"),
 			        path);
 	}
 }
@@ -571,15 +571,15 @@ tarobject_set_perms(struct tar_entry *te, const char *path, struct file_stat *st
 	if (te->type == TAR_FILETYPE_SYMLINK) {
 		rc = lchown(path, st->uid, st->gid);
 		if (forcible_nonroot_error(rc))
-			ohshite(_("error setting ownership of symlink '%s'"),
+			ohshite(_("cannot set ownership of symlink '%s'"),
 			        path);
 	} else {
 		rc = chown(path, st->uid, st->gid);
 		if (forcible_nonroot_error(rc))
-			ohshite(_("error setting ownership of '%s'"), path);
+			ohshite(_("cannot set ownership of '%s'"), path);
 		rc = chmod(path, st->mode & ~S_IFMT);
 		if (forcible_nonroot_error(rc))
-			ohshite(_("error setting permissions of '%s'"),
+			ohshite(_("cannot set permissions of '%s'"),
 			        path);
 	}
 }
@@ -614,7 +614,7 @@ tarobject_matches(struct tarcontext *tc,
 			break;
 		linksize = file_readlink(fn_old, &linkname, stab->st_size);
 		if (linksize < 0)
-			ohshite(_("unable to read link '%s'"), fn_old);
+			ohshite(_("cannot read link '%s'"), fn_old);
 		else if (linksize > stab->st_size)
 			ohshit(_("symbolic link '%s' size has changed from %jd to %zd"),
 			       fn_old, (intmax_t)stab->st_size, linksize);
@@ -687,7 +687,7 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
 	statr = stat(fname, &oldstab);
 	if (statr) {
 		if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
-			ohshite(_("failed to stat (dereference) existing symlink '%s'"),
+			ohshite(_("cannot stat (dereference) existing symlink '%s'"),
 			        fname);
 		return false;
 	}
@@ -711,8 +711,9 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
 	statr = stat(symlinkfn->buf, &newstab);
 	if (statr) {
 		if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
-			ohshite(_("failed to stat (dereference) proposed new symlink target"
-			          " '%s' for symlink '%s'"),
+			ohshite(_("cannot stat (dereference) proposed "
+			          "new symlink target '%s'"
+			          "for symlink '%s'"),
 			        symlinkfn->buf, fname);
 		return false;
 	}
@@ -822,7 +823,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
 	if (statr) {
 		/* The lstat failed. */
 		if (errno != ENOENT && errno != ENOTDIR)
-			ohshite(_("unable to stat '%s' (which was about to be installed)"),
+			ohshite(_("cannot stat '%s' (which was about to be installed)"),
 			        ti->name);
 
 		/*
@@ -845,7 +846,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
 			}
 
 			if (errno != ENOENT && errno != ENOTDIR)
-				ohshite(_("unable to clean up mess surrounding '%s' "
+				ohshite(_("cannot clean up mess surrounding '%s' "
 				          "before installing another version"),
 				        ti->name);
 			debug(dbg_eachfiledetail,
@@ -857,7 +858,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
 			      ti->name, fnamevb.buf);
 			statr = lstat(fnamevb.buf, &stab);
 			if (statr)
-				ohshite(_("unable to stat restored '%s' "
+				ohshite(_("cannot stat restored '%s' "
 				          "before installing another version"),
 				        ti->name);
 		}
@@ -1151,7 +1152,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
 			      "tarobject directory, nonatomic");
 			nifd->namenode->flags |= FNNF_NO_ATOMIC_OVERWRITE;
 			if (rename(fnamevb.buf, fnametmpvb.buf))
-				ohshite(_("unable to move aside '%s' to install new version"),
+				ohshite(_("cannot move aside '%s' to install new version"),
 				        ti->name);
 		} else if (S_ISLNK(stab.st_mode)) {
 			ssize_t linksize;
@@ -1162,7 +1163,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
 			 * of a symlink is the same as linking to it.) */
 			linksize = file_readlink(fnamevb.buf, &symlinkfn, stab.st_size);
 			if (linksize < 0)
-				ohshite(_("unable to read link '%s'"),
+				ohshite(_("cannot read link '%s'"),
 				        ti->name);
 			else if (linksize > stab.st_size)
 				ohshit(_("symbolic link '%s' size has changed from %jd to %zd"),
@@ -1171,18 +1172,18 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
 				warning(_("symbolic link '%s' size has changed from %jd to %zd"),
 				       fnamevb.buf, (intmax_t)stab.st_size, linksize);
 			if (symlink(symlinkfn.buf, fnametmpvb.buf))
-				ohshite(_("unable to make backup symlink for '%s'"),
+				ohshite(_("cannot make backup symlink for '%s'"),
 				        ti->name);
 			rc = lchown(fnametmpvb.buf, stab.st_uid, stab.st_gid);
 			if (forcible_nonroot_error(rc))
-				ohshite(_("unable to chown backup symlink for '%s'"),
+				ohshite(_("cannot chown backup symlink for '%s'"),
 				        ti->name);
 			tarobject_set_se_context(fnamevb.buf, fnametmpvb.buf,
 			                         stab.st_mode);
 		} else {
 			debug(dbg_eachfiledetail, "tarobject nondirectory, 'link' backup");
 			if (link(fnamevb.buf, fnametmpvb.buf))
-				ohshite(_("unable to make backup link of '%s' before installing new version"),
+				ohshite(_("cannot make backup link of '%s' before installing new version"),
 				        ti->name);
 		}
 	}
@@ -1201,7 +1202,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
 		      "tarobject done and installation deferred");
 	} else {
 		if (rename(fnamenewvb.buf, fnamevb.buf))
-			ohshite(_("unable to install new version of '%s'"),
+			ohshite(_("cannot install new version of '%s'"),
 			        ti->name);
 
 		/*
@@ -1239,13 +1240,13 @@ tar_writeback_barrier(struct fsys_namenode_list *files, struct pkginfo *pkg)
 
 		fd = open(fnamenewvb.buf, O_WRONLY);
 		if (fd < 0)
-			ohshite(_("unable to open '%s'"), fnamenewvb.buf);
+			ohshite(_("cannot open '%s'"), fnamenewvb.buf);
 		/* Ignore the return code as it should be considered equivalent
 		 * to an asynchronous hint for the kernel, we are doing an
 		 * fsync() later on anyway. */
 		sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WAIT_BEFORE);
 		if (close(fd))
-			ohshite(_("error closing/writing '%s'"),
+			ohshite(_("cannot close/write '%s'"),
 			        fnamenewvb.buf);
 	}
 }
@@ -1283,13 +1284,13 @@ tar_deferred_extract(struct fsys_namenode_list *files, struct pkginfo *pkg)
 
 			fd = open(fnamenewvb.buf, O_WRONLY);
 			if (fd < 0)
-				ohshite(_("unable to open '%s'"),
+				ohshite(_("cannot open file '%s'"),
 				        fnamenewvb.buf);
 			if (fsync(fd))
-				ohshite(_("unable to sync file '%s'"),
+				ohshite(_("cannot sync file '%s'"),
 				        fnamenewvb.buf);
 			if (close(fd))
-				ohshite(_("error closing/writing '%s'"),
+				ohshite(_("cannot close/write '%s'"),
 				        fnamenewvb.buf);
 
 			cfile->namenode->flags &= ~FNNF_DEFERRED_FSYNC;
@@ -1298,7 +1299,7 @@ tar_deferred_extract(struct fsys_namenode_list *files, struct pkginfo *pkg)
 		debug(dbg_eachfiledetail, "deferred extract needs rename");
 
 		if (rename(fnamenewvb.buf, fnamevb.buf))
-			ohshite(_("unable to install new version of '%s'"),
+			ohshite(_("cannot install new version of '%s'"),
 			        cfile->namenode->name);
 
 		cfile->namenode->flags &= ~FNNF_DEFERRED_RENAME;

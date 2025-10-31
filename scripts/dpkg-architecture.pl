@@ -432,7 +432,7 @@ if ($action eq 'list') {
     @ENV{keys %v} = values %v;
     ## no critic (TestingAndDebugging::ProhibitNoWarnings)
     no warnings qw(exec);
-    exec @ARGV or syserr(g_('unable to execute %s'), "@ARGV");
+    exec @ARGV or syserr(g_('cannot execute %s'), "@ARGV");
 } elsif ($action eq 'query') {
     print "$v{$req_variable_to_print}\n";
 } elsif ($action eq 'list-known') {

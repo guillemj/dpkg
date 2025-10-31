@@ -365,7 +365,7 @@ dpkg_arch_save_list(void)
 			continue;
 
 		if (fprintf(file->fp, "%s\n", arch->name) < 0)
-			ohshite(_("error writing to architecture list"));
+			ohshite(_("cannot write to architecture list"));
 	}
 
 	atomic_file_sync(file);

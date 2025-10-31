@@ -70,7 +70,7 @@ updateavailable(const char *const *argv)
 
 		if (access(dbdir, W_OK)) {
 			if (errno != EACCES)
-				ohshite(_("unable to access dpkg database directory '%s' for bulk available update"),
+				ohshite(_("cannot access dpkg database directory '%s' for bulk available update"),
 				        dbdir);
 			else
 				ohshit(_("required write access to dpkg database directory '%s' for bulk available update"),

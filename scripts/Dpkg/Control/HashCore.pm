@@ -398,7 +398,7 @@ sub output {
             # Print it out.
             if ($fh) {
                 print { $fh } $kv
-                    or syserr(g_('write error on control data'));
+                    or syserr(g_('cannot write control data'));
             }
             $str .= $kv if defined wantarray;
         }

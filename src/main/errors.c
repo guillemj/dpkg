@@ -61,7 +61,7 @@ enqueue_error_report(const char *arg)
 
 	nr = malloc(sizeof(*nr));
 	if (!nr) {
-		notice(_("failed to allocate memory for new entry "
+		notice(_("cannot allocate memory for new entry "
 		         "in list of failed packages: %s"),
 		       strerror(errno));
 		abort_processing = true;

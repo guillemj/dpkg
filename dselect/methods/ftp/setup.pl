@@ -140,7 +140,7 @@ sub download {
                 }
             }
             if (! $got_pkgfile) {
-                warning("could not find a Packages file in '%s'", $dir);
+                warning("cannot find a Packages file in '%s'", $dir);
                 hint('this may not be a problem if the directory is a symbolic link');
                 $problem = 1;
             }

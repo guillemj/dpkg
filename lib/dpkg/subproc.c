@@ -46,7 +46,7 @@ static void
 subproc_reset_signal(int sig, struct sigaction *sa_old)
 {
 	if (sigaction(sig, sa_old, NULL)) {
-		fprintf(stderr, _("error un-catching signal %s: %s\n"),
+		fprintf(stderr, _("cannot un-catch signal %s: %s\n"),
 		        strsignal(sig), strerror(errno));
 		onerr_abort++;
 	}
@@ -57,7 +57,7 @@ subproc_set_signal(int sig, struct sigaction *sa, struct sigaction *sa_old,
                    const char *name)
 {
 	if (sigaction(sig, sa, sa_old))
-		ohshite(_("unable to ignore signal %s before running %s"),
+		ohshite(_("cannot ignore signal %s before running %s"),
 		        strsignal(sig), name);
 }
 
@@ -109,7 +109,7 @@ subproc_fork(void)
 	pid = fork();
 	if (pid < 0) {
 		onerr_abort++;
-		ohshite(_("fork failed"));
+		ohshite(_("cannot fork"));
 	}
 	if (pid > 0)
 		return pid;
@@ -177,7 +177,7 @@ subproc_wait(pid_t pid, const char *desc)
 
 	if (dead_pid != pid) {
 		onerr_abort++;
-		ohshite(_("wait for %s subprocess failed"), desc);
+		ohshite(_("cannot wait for %s subprocess"), desc);
 	}
 
 	return status;

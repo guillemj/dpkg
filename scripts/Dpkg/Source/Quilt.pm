@@ -411,9 +411,9 @@ sub restore_quilt_backup_files {
                 make_path(dirname($target));
                 unless (link($_, $target)) {
                     copy($_, $target)
-                        or syserr(g_('failed to copy %s to %s'), $_, $target);
+                        or syserr(g_('cannot copy %s to %s'), $_, $target);
                     chmod_if_needed(S_IMODE($st->mode), $target)
-                        or syserr(g_("unable to change permission of '%s'"), $target);
+                        or syserr(g_("cannot change permission of '%s'"), $target);
                 }
             } else {
                 # Empty files are "backups" for new files that patch created.

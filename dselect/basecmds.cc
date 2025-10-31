@@ -264,7 +264,7 @@ baselist::displayhelp(const struct helpmenuentry *helpmenu, int key)
 			}
 		} while (key == ERR && errno == EINTR);
 		if (key == EOF)
-			ohshite(_("error reading keyboard in help"));
+			ohshite(_("cannot read keyboard in help"));
 		if (key == ' ' || key == 'q') {
 			break;
 		} else if (key == '?' || key == 'h') {

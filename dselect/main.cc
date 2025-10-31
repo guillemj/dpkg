@@ -550,7 +550,7 @@ urq_menu(void)
 		} while (c == ERR && errno == EINTR);
 		if (c == ERR)  {
 			if (errno != 0) {
-				ohshite(_("failed to getch in main menu"));
+				ohshite(_("cannot getch in main menu"));
 			} else {
 				clearok(stdscr, TRUE);
 				clear();

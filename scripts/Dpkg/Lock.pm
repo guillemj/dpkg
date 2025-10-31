@@ -60,7 +60,7 @@ sub file_lock {
         if (not $@) {
             my $fs = $module->new(l_type => F_WRLCK);
             $fs->lock($fh, F_SETLKW)
-                or syserr(g_('failed to get a write lock on %s'), $filename);
+                or syserr(g_('cannot get a write lock on %s'), $filename);
             return;
         }
     }
@@ -71,7 +71,7 @@ sub file_lock {
         warning(g_('File::FcntlLock not available; using flock which is not NFS-safe'));
     }
     flock $fh, LOCK_EX
-        or syserr(g_('failed to get a write lock on %s'), $filename);
+        or syserr(g_('cannot get a write lock on %s'), $filename);
     return;
 }
 

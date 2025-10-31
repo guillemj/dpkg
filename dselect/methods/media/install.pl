@@ -130,13 +130,13 @@ INFO
             $base =~ s{.*/}{};
             my $c = open my $find_fh, '-|';
             if (not defined $c) {
-                syserr("failed to fork for '%s'", 'find');
+                syserr("cannot fork for '%s'", 'find');
             }
             if (! $c) {
                 exec('find', '-L',
                      length($binaryprefix) ? $binaryprefix : '.',
                      '-name', $base)
-                    or syserr("failed to exec '%s'", 'find');
+                    or syserr("cannot exec '%s'", 'find');
             }
             while (chop($invoke = <$find_fh>)) {
                 last if -f $invoke;
@@ -171,7 +171,7 @@ WARN
 
     print "Running dpkg -iB for $package ...\n";
     exec('dpkg', '-iB', '--', @invoke)
-        or syserr("failed to exec '%s'", 'dpkg');
+        or syserr("cannot exec '%s'", 'dpkg');
 }
 
 $SIG{INT} = sub {

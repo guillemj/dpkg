@@ -89,7 +89,7 @@ setexecute(const char *path, struct stat *stab)
 	if (!chmod(path, 0755))
 		return;
 
-	ohshite(_("unable to set execute permissions on '%s'"), path);
+	ohshite(_("cannot set execute permissions on '%s'"), path);
 }
 
 /**
@@ -114,9 +114,9 @@ maintscript_pre_exec(struct command *cmd)
 		if (strncmp(admindir, instdir, instdirlen) != 0)
 			ohshit(_("admindir must be inside instdir for dpkg to work properly"));
 		if (setenv("DPKG_ADMINDIR", admindir + instdirlen, 1) < 0)
-			ohshite(_("unable to setenv for subprocesses"));
+			ohshite(_("cannot setenv for subprocesses"));
 		if (setenv("DPKG_ROOT", "", 1) < 0)
-			ohshite(_("unable to setenv for subprocesses"));
+			ohshite(_("cannot setenv for subprocesses"));
 
 		rc = chroot(instdir);
 		if (rc && in_force(FORCE_NON_ROOT) && errno == EPERM)
@@ -124,13 +124,13 @@ maintscript_pre_exec(struct command *cmd)
 			         "directory with --force-not-root, consider "
 			         "using --force-script-chrootless?"));
 		else if (rc)
-			ohshite(_("failed to chroot to '%s'"), instdir);
+			ohshite(_("cannot chroot to '%s'"), instdir);
 	}
 
 	/* Switch to a known good directory to give the maintainer script
 	 * a saner environment, also needed after the chroot(). */
 	if (chdir(changedir))
-		ohshite(_("failed to chdir to '%s'"), changedir);
+		ohshite(_("cannot chdir to '%s'"), changedir);
 
 	if (debug_has_flag(dbg_scripts)) {
 		struct varbuf args = VARBUF_INIT;
@@ -198,7 +198,7 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
 		    setenv("DPKG_MAINTSCRIPT_NAME", cmd->argv[0], 1) ||
 		    setenv("DPKG_MAINTSCRIPT_DEBUG", maintscript_debug, 1) ||
 		    setenv("DPKG_RUNNING_VERSION", PACKAGE_VERSION, 1))
-			ohshite(_("unable to setenv for maintainer script"));
+			ohshite(_("cannot setenv for maintainer script"));
 
 		cmd->filename = cmd->argv[0] = maintscript_pre_exec(cmd);
 
@@ -242,7 +242,7 @@ vmaintscript_run_old(struct pkginfo *pkg,
 			free(scriptdesc);
 			return 0;
 		}
-		ohshite(_("unable to stat %s '%s'"), scriptdesc, scriptpath);
+		ohshite(_("cannot stat %s '%s'"), scriptdesc, scriptpath);
 	}
 	maintscript_exec(pkg, &pkg->installed, &cmd, &stab, 0);
 
@@ -317,7 +317,7 @@ maintscript_run_new(struct pkginfo *pkg,
 			free(scriptdesc);
 			return 0;
 		}
-		ohshite(_("unable to stat %s '%s'"), scriptdesc, cidir);
+		ohshite(_("cannot stat %s '%s'"), scriptdesc, cidir);
 	}
 	maintscript_exec(pkg, &pkg->available, &cmd, &stab, 0);
 
@@ -356,7 +356,7 @@ maintscript_run_old_or_new(struct pkginfo *pkg,
 			free(scriptdesc);
 			return 0;
 		}
-		warning(_("unable to stat %s '%s': %s"),
+		warning(_("cannot stat %s '%s': %s"),
 		        cmd.name, oldscriptpath, strerror(errno));
 	} else if (!maintscript_exec(pkg, &pkg->installed, &cmd, &stab, SUBPROC_WARN)) {
 		command_destroy(&cmd);
@@ -387,7 +387,7 @@ maintscript_run_old_or_new(struct pkginfo *pkg,
 			ohshit(_("missing %s maintainer script in new %s package, giving up"),
 			       scriptname, pkg_name(pkg, pnaw_nonambig));
 		else
-			ohshite(_("unable to stat %s '%s'"), scriptdesc, cidir);
+			ohshite(_("cannot stat %s '%s'"), scriptdesc, cidir);
 	}
 
 	maintscript_exec(pkg, &pkg->available, &cmd, &stab, 0);
