@@ -420,7 +420,7 @@ modstatdb_checkpoint(void)
 			          IMPORTANTMAXLEN);
 
 		if (unlink(updatefn.buf))
-			ohshite(_("cannot remove my own update file %s"),
+			ohshite(_("cannot remove update file '%s'"),
 			        updatefn.buf);
 	}
 
