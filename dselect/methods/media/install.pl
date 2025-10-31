@@ -136,7 +136,7 @@ INFO
                 exec('find', '-L',
                      length($binaryprefix) ? $binaryprefix : '.',
                      '-name', $base)
-                    or syserr("cannot exec '%s'", 'find');
+                    or syserr("cannot execute '%s'", 'find');
             }
             while (chop($invoke = <$find_fh>)) {
                 last if -f $invoke;
@@ -171,7 +171,7 @@ WARN
 
     print "Running dpkg -iB for $package ...\n";
     exec('dpkg', '-iB', '--', @invoke)
-        or syserr("cannot exec '%s'", 'dpkg');
+        or syserr("cannot execute '%s'", 'dpkg');
 }
 
 $SIG{INT} = sub {

@@ -91,7 +91,7 @@ while (1) {
                      length($binaryprefix) ?
                      $binaryprefix : q{.},
                      '-name', $base)
-                    or syserr("cannot exec '%s'", 'find');
+                    or syserr("cannot execute '%s'", 'find');
             }
             while (chop($invoke = <$find_fh>)) {
                 last if -f $invoke;
@@ -125,7 +125,7 @@ WARN
 
     print "Running dpkg -iB for $package ...\n";
     exec('dpkg', '--admindir', $vardir, '-iB', '--', @invoke)
-        or syserr("cannot exec '%s'", 'dpkg');
+        or syserr("cannot execute '%s'", 'dpkg');
 }
 
 foreach my $f (qw(main ctb nf lcl)) {

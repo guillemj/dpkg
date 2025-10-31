@@ -168,5 +168,5 @@ setcloexec(int fd, const char *fn)
 	if (f < 0)
 		ohshite(_("cannot read file descriptor flags for %s"), fn);
 	if (fcntl(fd, F_SETFD, (f | FD_CLOEXEC)) < 0)
-		ohshite(_("cannot set close-on-exec flag for %s"), fn);
+		ohshite(_("cannot set close-on-execute flag for %s"), fn);
 }

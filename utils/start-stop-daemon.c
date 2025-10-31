@@ -670,7 +670,7 @@ create_notify_socket(void)
 	if (flags < 0)
 		fatale("cannot read fd flags for notification socket");
 	if (fcntl(fd, F_SETFD, flags | FD_CLOEXEC) < 0)
-		fatale("cannot set close-on-exec flag for notification socket");
+		fatale("cannot set close-on-execute flag for notification socket");
 
 	sockname = setup_socket_name(".s-s-d-notify");
 
