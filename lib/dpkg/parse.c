@@ -761,7 +761,7 @@ parsedb_close(struct parsedb_state *ps)
 		pop_cleanup(ehflag_normaltidy);
 
 		if (ps->fd >= 0 && close(ps->fd) < 0)
-			ohshite(_("cannot close after read: '%s'"),
+			ohshite(_("cannot close file '%s' after read"),
 			        ps->filename);
 	}
 
