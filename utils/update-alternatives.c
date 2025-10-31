@@ -660,7 +660,8 @@ fsys_set_ref_time(const char *linkname, const char *target)
 
 	root_linkname = fsys_get_path(linkname);
 	if (lutimes(root_linkname, tv) < 0 && errno != ENOSYS)
-		syserr(_("cannot set symbolic link '%s' timestamp"), root_linkname);
+		syserr(_("cannot set symbolic link '%s' timestamp"),
+		       root_linkname);
 	free(root_linkname);
 #endif
 }
