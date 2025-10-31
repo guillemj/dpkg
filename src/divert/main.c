@@ -186,7 +186,8 @@ check_writable_dir(struct file *f)
 
 	tmpfd = creat(tmpname, 0600);
 	if (tmpfd < 0)
-		ohshite(_("cannot check '%s'"), f->name);
+		ohshite(_("cannot check whether '%s' is within a writable directory"),
+		        f->name);
 	close(tmpfd);
 	(void)unlink(tmpname);
 
