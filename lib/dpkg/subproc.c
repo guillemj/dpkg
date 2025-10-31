@@ -46,7 +46,7 @@ static void
 subproc_reset_signal(int sig, struct sigaction *sa_old)
 {
 	if (sigaction(sig, sa_old, NULL)) {
-		fprintf(stderr, _("cannot un-catch signal %s: %s\n"),
+		fprintf(stderr, _("cannot restore signal %s to its previous disposition: %s\n"),
 		        strsignal(sig), strerror(errno));
 		onerr_abort++;
 	}
