@@ -157,7 +157,8 @@ decompress_none(struct compress_params *params, int fd_in, int fd_out,
 	struct dpkg_error err;
 
 	if (fd_fd_copy(fd_in, fd_out, -1, &err) < 0)
-		ohshit(_("%s: pass-through copy error: %s"), desc, err.str);
+		ohshit(_("%s: cannot perform pass-through data copy: %s"),
+		       desc, err.str);
 }
 
 static void
@@ -167,7 +168,8 @@ compress_none(struct compress_params *params, int fd_in, int fd_out,
 	struct dpkg_error err;
 
 	if (fd_fd_copy(fd_in, fd_out, -1, &err) < 0)
-		ohshit(_("%s: pass-through copy error: %s"), desc, err.str);
+		ohshit(_("%s: cannot perform pass-through data copy: %s"),
+		       desc, err.str);
 }
 
 static const struct compressor compressor_none = {
@@ -204,7 +206,8 @@ decompress_gzip(struct compress_params *params, int fd_in, int fd_out,
 	gzFile gzfile = gzdopen(fd_in, "r");
 
 	if (gzfile == NULL)
-		ohshit(_("%s: error binding input to gzip stream"), desc);
+		ohshit(_("%s: cannot bind input to %s compressed stream"),
+		         "gzip", desc);
 
 	buffer = m_malloc(bufsize);
 
@@ -217,15 +220,16 @@ decompress_gzip(struct compress_params *params, int fd_in, int fd_out,
 
 			if (z_errnum == Z_ERRNO)
 				errmsg = strerror(errno);
-			ohshit(_("%s: internal gzip read error: '%s'"),
-			       desc, errmsg);
+			ohshit(_("%s: cannot read and decompress data from %s compressed stream: %s"),
+			       desc, "gzip", errmsg);
 		}
 		if (actualread == 0) /* EOF. */
 			break;
 
 		actualwrite = fd_write(fd_out, buffer, actualread);
 		if (actualwrite != actualread)
-			ohshite(_("%s: internal gzip write error"), desc);
+			ohshite(_("%s: cannot write decompressed data from %s compressed stream"),
+			        desc, "gzip");
 	}
 
 	free(buffer);
@@ -238,11 +242,13 @@ decompress_gzip(struct compress_params *params, int fd_in, int fd_out,
 			errmsg = strerror(errno);
 		else
 			errmsg = zError(z_errnum);
-		ohshit(_("%s: internal gzip read error: %s"), desc, errmsg);
+		ohshit(_("%s: cannot read and decompress data from %s compressed stream: %s"),
+		       desc, "gzip", errmsg);
 	}
 
 	if (close(fd_out))
-		ohshite(_("%s: internal gzip write error"), desc);
+		ohshite(_("%s: cannot write decompressed data from %s compressed stream"),
+		        desc, "gzip");
 }
 
 static void
@@ -270,7 +276,8 @@ compress_gzip(struct compress_params *params, int fd_in, int fd_out,
 	snprintf(combuf, sizeof(combuf), "w%d%c", params->level, strategy);
 	gzfile = gzdopen(fd_out, combuf);
 	if (gzfile == NULL)
-		ohshit(_("%s: error binding output to gzip stream"), desc);
+		ohshit(_("%s: cannot bind output to %s compression stream"),
+		       desc, "gzip");
 
 	buffer = m_malloc(bufsize);
 
@@ -279,7 +286,8 @@ compress_gzip(struct compress_params *params, int fd_in, int fd_out,
 
 		actualread = fd_read(fd_in, buffer, bufsize);
 		if (actualread < 0)
-			ohshite(_("%s: internal gzip read error"), desc);
+			ohshite(_("%s: cannot read data for %s compression stream"),
+			        desc, "gzip");
 		if (actualread == 0) /* EOF. */
 			break;
 
@@ -289,8 +297,8 @@ compress_gzip(struct compress_params *params, int fd_in, int fd_out,
 
 			if (z_errnum == Z_ERRNO)
 				errmsg = strerror(errno);
-			ohshit(_("%s: internal gzip write error: '%s'"),
-			       desc, errmsg);
+			ohshit(_("%s: cannot compress and write data to %s compression stream: %s"),
+			       desc, "gzip", errmsg);
 		}
 	}
 
@@ -304,7 +312,8 @@ compress_gzip(struct compress_params *params, int fd_in, int fd_out,
 			errmsg = strerror(errno);
 		else
 			errmsg = zError(z_errnum);
-		ohshit(_("%s: internal gzip write error: %s"), desc, errmsg);
+		ohshit(_("%s: cannot compress and write data to %s compression stream: %s"),
+		       desc, "gzip", errmsg);
 	}
 }
 #else
@@ -374,7 +383,8 @@ decompress_bzip2(struct compress_params *params, int fd_in, int fd_out,
 	BZFILE *bzfile = BZ2_bzdopen(fd_in, "r");
 
 	if (bzfile == NULL)
-		ohshit(_("%s: error binding input to bzip2 stream"), desc);
+		ohshit(_("%s: cannot bind input to %s compressed stream"),
+		       desc, "bzip2");
 
 	buffer = m_malloc(bufsize);
 
@@ -388,15 +398,16 @@ decompress_bzip2(struct compress_params *params, int fd_in, int fd_out,
 
 			if (bz_errnum == BZ_IO_ERROR)
 				errmsg = strerror(errno);
-			ohshit(_("%s: internal bzip2 read error: '%s'"),
-			       desc, errmsg);
+			ohshit(_("%s: cannot read and decompress data from %s compressed stream: %s"),
+			       desc, "bzip2", errmsg);
 		}
 		if (actualread == 0) /* EOF. */
 			break;
 
 		actualwrite = fd_write(fd_out, buffer, actualread);
 		if (actualwrite != actualread)
-			ohshite(_("%s: internal bzip2 write error"), desc);
+			ohshite(_("%s: cannot write decompressed data from %s compressed stream"),
+			        desc, "bzip2");
 	}
 
 	free(buffer);
@@ -404,7 +415,8 @@ decompress_bzip2(struct compress_params *params, int fd_in, int fd_out,
 	BZ2_bzclose(bzfile);
 
 	if (close(fd_out))
-		ohshite(_("%s: internal bzip2 write error"), desc);
+		ohshite(_("%s: cannot write decompressed data from %s compressed stream"),
+		        desc, "bzip2");
 }
 
 static void
@@ -420,7 +432,8 @@ compress_bzip2(struct compress_params *params, int fd_in, int fd_out,
 	snprintf(combuf, sizeof(combuf), "w%d", params->level);
 	bzfile = BZ2_bzdopen(fd_out, combuf);
 	if (bzfile == NULL)
-		ohshit(_("%s: error binding output to bzip2 stream"), desc);
+		ohshit(_("%s: cannot bind output to %s compression stream"),
+		       desc, "bzip2");
 
 	buffer = m_malloc(bufsize);
 
@@ -429,7 +442,8 @@ compress_bzip2(struct compress_params *params, int fd_in, int fd_out,
 
 		actualread = fd_read(fd_in, buffer, bufsize);
 		if (actualread < 0)
-			ohshite(_("%s: internal bzip2 read error"), desc);
+			ohshite(_("%s: cannot read data for %s compression stream"),
+			        desc, "bzip2");
 		if (actualread == 0) /* EOF. */
 			break;
 
@@ -439,8 +453,8 @@ compress_bzip2(struct compress_params *params, int fd_in, int fd_out,
 
 			if (bz_errnum == BZ_IO_ERROR)
 				errmsg = strerror(errno);
-			ohshit(_("%s: internal bzip2 write error: '%s'"),
-			       desc, errmsg);
+			ohshit(_("%s: cannot compress and write data to %s compression stream: %s"),
+			       desc, "bzip2", errmsg);
 		}
 	}
 
@@ -452,15 +466,16 @@ compress_bzip2(struct compress_params *params, int fd_in, int fd_out,
 
 		if (bz_errnum == BZ_IO_ERROR)
 			errmsg = strerror(errno);
-		ohshit(_("%s: internal bzip2 write error: '%s'"),
-		       desc, errmsg);
+		ohshit(_("%s: cannot compress and write data to %s compression stream: %s"),
+		       desc, "bzip2", errmsg);
 	}
 
 	/* Because BZ2_bzWriteClose has done a fflush on the file handle,
 	 * doing a close on the file descriptor associated with it should
 	 * be safe™. */
 	if (close(fd_out))
-		ohshite(_("%s: internal bzip2 write error"), desc);
+		ohshite(_("%s: cannot compress and write data to %s compression stream"),
+		        desc, "bzip2");
 }
 #else
 static const char *env_bzip2[] = {
@@ -595,7 +610,8 @@ filter_lzma(struct io_lzma *io, int fd_in, int fd_out)
 		if (s.avail_in == 0 && io->action != DPKG_STREAM_FINISH) {
 			len = fd_read(fd_in, buf_in, buf_size);
 			if (len < 0)
-				ohshite(_("%s: lzma read error"), io->desc);
+				ohshite(_("%s: cannot read data for %s compression stream"),
+				        io->desc, "lzma");
 			if (len == 0)
 				io->action = DPKG_STREAM_FINISH;
 			s.next_in = buf_in;
@@ -607,7 +623,8 @@ filter_lzma(struct io_lzma *io, int fd_in, int fd_out)
 		if (s.avail_out == 0 || io->status == DPKG_STREAM_END) {
 			len = fd_write(fd_out, buf_out, s.next_out - buf_out);
 			if (len < 0)
-				ohshite(_("%s: lzma write error"), io->desc);
+				ohshite(_("%s: cannot write data for %s compression stream"),
+				        io->desc, "lzma");
 			s.next_out = buf_out;
 			s.avail_out = buf_size;
 		}
@@ -619,14 +636,16 @@ filter_lzma(struct io_lzma *io, int fd_in, int fd_out)
 	free(buf_out);
 
 	if (close(fd_out))
-		ohshite(_("%s: lzma close error"), io->desc);
+		ohshite(_("%s: cannot close %s compression stream"),
+		        io->desc, "lzma");
 }
 
 static void DPKG_ATTR_NORET
 filter_lzma_error(struct io_lzma *io, lzma_ret ret)
 {
-	ohshit(_("%s: lzma error: %s"),
-	       io->desc, dpkg_lzma_strerror(io, ret));
+	/* TRANSLATORS: "<desc>: <compressor> compression failure: <error>" */
+	ohshit(_("%s: %s compression failure: %s"),
+	       io->desc, "lzma", dpkg_lzma_strerror(io, ret));
 }
 
 #ifdef HAVE_LZMA_MT_ENCODER
@@ -755,7 +774,8 @@ filter_lzma_code(struct io_lzma *io, lzma_stream *s)
 	else if (io->action == DPKG_STREAM_FINISH)
 		action = LZMA_FINISH;
 	else
-		internerr("unknown stream filter action %d\n", io->action);
+		internerr("unknown %s compression stream filter action %d",
+		          "lzma", io->action);
 
 	ret = lzma_code(s, action);
 
@@ -1020,7 +1040,9 @@ struct io_zstd {
 static void DPKG_ATTR_NORET
 filter_zstd_error(struct io_zstd *io, size_t ret)
 {
-	ohshit(_("%s: zstd error: %s"), io->desc, ZSTD_getErrorName(ret));
+	/* TRANSLATORS: "<desc>: <compressor> compression failure: <error>" */
+	ohshit(_("%s: %s compression failure: %s"),
+	       io->desc, "zstd", ZSTD_getErrorName(ret));
 }
 
 static uint32_t
@@ -1073,8 +1095,8 @@ filter_unzstd_init(struct io_zstd *io, struct io_zstd_stream *s)
 
 	s->ctx.d = ZSTD_createDCtx();
 	if (s->ctx.d == NULL)
-		ohshit(_("%s: cannot create zstd decompression context"),
-		       io->desc);
+		ohshit(_("%s: cannot create %s decompression context"),
+		       io->desc, "zstd");
 }
 
 static void
@@ -1121,8 +1143,8 @@ filter_zstd_init(struct io_zstd *io, struct io_zstd_stream *s)
 
 	s->ctx.c = ZSTD_createCCtx();
 	if (s->ctx.c == NULL)
-		ohshit(_("%s: cannot create zstd compression context"),
-		       io->desc);
+		ohshit(_("%s: cannot create %s compression context"),
+		       io->desc, "zstd");
 
 	ret = ZSTD_CCtx_setParameter(s->ctx.c, ZSTD_c_compressionLevel, clevel);
 	if (ZSTD_isError(ret))
@@ -1195,7 +1217,8 @@ filter_zstd(struct io_zstd *io, int fd_in, int fd_out)
 		if (s.avail_in == 0 && s.action != DPKG_STREAM_FINISH) {
 			len = fd_read(fd_in, buf_in, buf_in_size);
 			if (len < 0)
-				ohshite(_("%s: zstd read error"), io->desc);
+				ohshite(_("%s: cannot read data for %s compression stream"),
+				        io->desc, "zstd");
 			if (len < buf_in_size)
 				s.action = DPKG_STREAM_FINISH;
 			s.next_in = buf_in;
@@ -1207,7 +1230,8 @@ filter_zstd(struct io_zstd *io, int fd_in, int fd_out)
 		if (s.avail_out == 0 || s.status == DPKG_STREAM_END) {
 			len = fd_write(fd_out, buf_out, s.next_out - buf_out);
 			if (len < 0)
-				ohshite(_("%s: zstd write error"), io->desc);
+				ohshite(_("%s: cannot write data for %s compression stream"),
+				        io->desc, "zstd");
 			s.next_out = buf_out;
 			s.avail_out = buf_out_size;
 		}
@@ -1219,7 +1243,8 @@ filter_zstd(struct io_zstd *io, int fd_in, int fd_out)
 	free(buf_out);
 
 	if (close(fd_out))
-		ohshite(_("%s: zstd close error"), io->desc);
+		ohshite(_("%s: cannot close %s compression stream"),
+		        io->desc, "zstd");
 }
 
 static void
