@@ -655,7 +655,7 @@ packagelist::display()
 		if (whatinfo_height)
 			wcursyncup(whatinfowin);
 		if (doupdate() == ERR)
-			ohshite(_("cannot doupdate"));
+			ohshite(_("cannot refresh window"));
 		do {
 			response = getch();
 			if (response == KEY_RESIZE) {
