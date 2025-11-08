@@ -39,6 +39,7 @@ int
 updateavailable(const char *const *argv)
 {
 	const char *sourcefile = argv[0];
+	const char *sourcename = sourcefile;
 	char *availfile;
 	int count = 0;
 
@@ -57,6 +58,8 @@ updateavailable(const char *const *argv)
 		else if (argv[1])
 			badusage(_("--%s takes at most one Packages-file argument"),
 			         cipaction->olong);
+		if (strcmp(sourcefile, "-") == 0)
+			sourcename = _("<standard input>");
 		break;
 	default:
 		internerr("unknown action '%d'", cipaction->arg_int);
@@ -78,12 +81,12 @@ updateavailable(const char *const *argv)
 
 	switch (cipaction->arg_int) {
 	case act_avreplace:
-		printf(_("Replacing available packages info, using %s.\n"),
-		       sourcefile);
+		printf(_("Replacing available packages information from %s.\n"),
+		       sourcename);
 		break;
 	case act_avmerge:
-		printf(_("Updating available packages info, using %s.\n"),
-		       sourcefile);
+		printf(_("Updating available packages information from %s.\n"),
+		       sourcename);
 		break;
 	case act_avclear:
 		break;
