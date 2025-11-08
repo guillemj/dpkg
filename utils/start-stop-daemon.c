@@ -403,14 +403,14 @@ bug(const char *file, int line, const char *func, const char *format, ...)
 }
 
 static void *
-xmalloc(int size)
+xmalloc(size_t size)
 {
 	void *ptr;
 
 	ptr = malloc(size);
 	if (ptr)
 		return ptr;
-	fatale("malloc(%d) failed", size);
+	fatale("malloc(%zu) failed", size);
 }
 
 static char *
