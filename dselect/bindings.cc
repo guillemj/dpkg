@@ -83,14 +83,14 @@ keybindings::find(const char *action)
 	while (b && strcmp(action, b->interp->action))
 		b = b->next;
 	if (!b)
-		return varbuf(_("[not bound]"));
+		return varbuf(C_("keybinding", "[not bound]"));
 
 	const char *n = key2name(b->key);
 	if (n)
 		return varbuf(n);
 
 	varbuf unknown;
-	unknown.set_fmt(_("[unk: %d]"), b->key);
+	unknown.set_fmt(C_("keybinding", "[unk: %d]"), b->key);
 	return unknown;
 }
 
