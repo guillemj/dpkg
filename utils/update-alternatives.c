@@ -1465,7 +1465,7 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 		/* File not found - remove. */
 		if (ctx->flags & ALTDB_WARN_PARSER)
 			warning(_("alternative %s (part of link group %s) "
-			          "doesn't exist; removing from list of "
+			          "does not exist; removing from list of "
 			          "alternatives"), master_file, a->master_name);
 		junk = altdb_get_line(ctx, _("priority"));
 		free(junk);
@@ -2070,7 +2070,7 @@ alternative_prepare_install(struct alternative *a, const char *choice)
 
 	fs = alternative_get_fileset(a, choice);
 	if (fs == NULL)
-		error(_("can't install unknown choice %s"), choice);
+		error(_("cannot install unknown choice %s"), choice);
 
 	/* Take care of master alternative */
 	alternative_prepare_install_single(a, a->master_name, a->master_link,
@@ -2089,7 +2089,7 @@ alternative_prepare_install(struct alternative *a, const char *choice)
 		/* Slave can't be installed */
 		if (fileset_has_slave(fs, sl->name))
 			warning(_("skip creation of %s because associated "
-			          "file %s (of link group %s) doesn't exist"),
+			          "file %s (of link group %s) does not exist"),
 			        sl->link, fileset_get_slave(fs, sl->name),
 			        a->master_name);
 
@@ -2098,7 +2098,7 @@ alternative_prepare_install(struct alternative *a, const char *choice)
 		if (alternative_path_can_remove(sl->link))
 			alternative_add_commit_op(a, OPCODE_RM, sl->link, NULL);
 		else
-			warning(_("not removing %s since it's not a symlink"),
+			warning(_("not removing %s since it is not a symlink"),
 			        sl->link);
 		alternative_add_commit_op(a, OPCODE_RM, fn, NULL);
 		free(fn);
@@ -2814,7 +2814,7 @@ alternative_check_install_args(struct alternative *inst_alt,
 
 	found = alternative_map_find(alt_map_parent, inst_alt->master_name);
 	if (found && strcmp(found->master_name, inst_alt->master_name) != 0) {
-		error(_("alternative %s can't be master: it is a slave of %s"),
+		error(_("alternative %s cannot be master: it is a slave of %s"),
 		      inst_alt->master_name, found->master_name);
 	}
 
@@ -2827,7 +2827,7 @@ alternative_check_install_args(struct alternative *inst_alt,
 	}
 
 	if (fsys_pathname_is_missing(fileset->master_file))
-		error(_("alternative path %s%s doesn't exist"),
+		error(_("alternative path %s%s does not exist"),
 		      instdir, fileset->master_file);
 
 	for (sl = inst_alt->slaves; sl; sl = sl->next) {
@@ -2841,11 +2841,11 @@ alternative_check_install_args(struct alternative *inst_alt,
 		if (found &&
 		    strcmp(found->master_name, inst_alt->master_name) != 0) {
 			if (strcmp(found->master_name, sl->name) == 0)
-				error(_("alternative %s can't be slave of %s: "
+				error(_("alternative %s cannot be slave of %s: "
 				        "it is a master alternative"),
 				      sl->name, inst_alt->master_name);
 			else
-				error(_("alternative %s can't be slave of %s: "
+				error(_("alternative %s cannot be slave of %s: "
 				        "it is a slave of %s"),
 				      sl->name, inst_alt->master_name,
 				      found->master_name);

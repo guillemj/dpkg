@@ -314,7 +314,7 @@ sub deps_parse {
         foreach my $dep_or (split(/\s*\|\s*/m, $dep_and)) {
             my $dep_simple = Dpkg::Deps::Simple->new($dep_or, %deps_options);
             if (not defined $dep_simple->{package}) {
-                warning(g_("can't parse dependency %s"), $dep_or);
+                warning(g_('cannot parse dependency %s'), $dep_or);
                 return;
             }
             if ($opts{virtual} && defined $dep_simple->{relation} &&

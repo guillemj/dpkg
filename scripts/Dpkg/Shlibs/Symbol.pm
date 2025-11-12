@@ -182,7 +182,7 @@ sub initialize {
                     $self->get_symbolspec(1));
         }
         if ($self->get_symbolname() eq 'Base') {
-            error(g_("you can't use symver tag to catch unversioned symbols: %s"),
+            error(g_('you can not use symver tag to catch unversioned symbols: %s'),
                   $self->get_symbolspec(1));
         }
     }

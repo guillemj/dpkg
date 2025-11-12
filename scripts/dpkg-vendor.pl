@@ -83,7 +83,7 @@ $vendor //= get_current_vendor();
 
 my $info = get_vendor_info($vendor);
 unless (defined($info)) {
-    error(g_("vendor %s doesn't exist in %s"), $vendor || 'default',
+    error(g_('vendor %s does not exist in %s'), $vendor || 'default',
           get_vendor_dir());
 }
 

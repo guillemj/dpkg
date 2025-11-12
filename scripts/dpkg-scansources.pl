@@ -84,10 +84,10 @@ sub version {
 
 sub usage {
     printf g_(
-"Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > Sources
+'Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > Sources
 
 Options:
-  -n, --no-sort            don't sort by package before outputting.
+  -n, --no-sort            do not sort by package before outputting.
   -e, --extra-override <file>
                            use extra override file.
   -s, --source-override <file>
@@ -98,7 +98,7 @@ Options:
       --version            show the version.
 
 See the man page for the full documentation.
-"), $Dpkg::PROGNAME;
+'), $Dpkg::PROGNAME;
 }
 
 sub load_override {

@@ -253,7 +253,7 @@ sub _sanitize_range {
         (defined($r->{from}) || defined($r->{since}) ||
          defined($r->{to}) || defined($r->{until})))
     {
-        warning(g_("you can't combine 'count' or 'offset' with any other " .
+        warning(g_("you cannot combine 'count' or 'offset' with any other " .
                    'range option')) if $self->{verbose};
         delete $r->{from};
         delete $r->{since};

@@ -154,7 +154,7 @@ usage(const char *const *argv)
 "  --no-pager                 Disables the use of any pager.\n"
 "  --no-debsig                Do not try to verify package signatures.\n"
 "  --no-act|--dry-run|--simulate\n"
-"                             Just say what we would do - don't do it.\n"
+"                             Just say what we would do - do not do it.\n"
 "  -D|--debug=<octal>         Enable debugging (see -Dhelp or --debug=help).\n"
 "  --status-fd <n>            Send status change updates to file descriptor <n>.\n"
 "  --status-logger=<command>  Send status change updates to <command>'s stdin.\n"
@@ -676,7 +676,7 @@ commandfd(const char *const *argv)
 	infd = dpkg_options_parse_arg_int(cipaction, pipein);
 	in = fdopen(infd, "r");
 	if (in == NULL)
-		ohshite(_("couldn't open '%i' for stream"), (int)infd);
+		ohshite(_("cannot open '%i' for stream"), (int)infd);
 
 	lno = 0;
 

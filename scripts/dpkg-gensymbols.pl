@@ -214,7 +214,7 @@ if (not scalar @files) {
             next PATH if -l $updir;
         }
         opendir(my $libdir_dh, "$libdir")
-            or syserr(g_("can't read directory %s: %s"), $libdir, $!);
+            or syserr(g_('cannot read directory %s: %s'), $libdir, $!);
         push @files, grep {
             /(\.so\.|\.so$)/ && -f &&
             Dpkg::Shlibs::Objdump::is_elf($_);
@@ -229,7 +229,7 @@ foreach my $file (@files) {
     debug(1, "Scanning $file for symbol information");
     my $objid = $od->analyze($file);
     unless (defined($objid) && $objid) {
-        warning(g_("Dpkg::Shlibs::Objdump couldn't parse %s\n"), $file);
+        warning(g_("Dpkg::Shlibs::Objdump cannot parse %s\n"), $file);
         next;
     }
     my $object = $od->get_object($objid);
@@ -241,7 +241,7 @@ foreach my $file (@files) {
         $symfile->merge_symbols($object, $sourceversion);
     } else {
         # Objects without soname are of no interest.
-        debug(1, "File $file doesn't have a soname. Ignoring.");
+        debug(1, "File $file does not have a soname. Ignoring.");
     }
 }
 $symfile->clear_except(keys %{$od->{objects}});
@@ -343,7 +343,7 @@ unless ($quiet) {
         if (not defined($output)) {
             warning(g_('the generated symbols file is empty'));
         } elsif (defined($ref_symfile->{filename})) {
-            warning(g_("%s doesn't match completely %s"),
+            warning(g_('%s does not match completely %s'),
                     $output, $ref_symfile->{filename});
         } else {
             warning(g_('no debian/symbols file used as basis for generating %s'),

@@ -141,7 +141,7 @@ sub parse_objdump_output {
             if (/^\S+\s+(\S+)\s+(.+)$/) {
                 $self->{dynrelocs}{$2} = $1;
             } else {
-                warning(g_("couldn't parse dynamic relocation record: %s"), $_);
+                warning(g_('cannot parse dynamic relocation record: %s'), $_);
             }
         } elsif ($section eq 'dyninfo') {
             if (/^\s*NEEDED\s+(\S+)/) {
@@ -275,7 +275,7 @@ sub parse_dynamic_symbol {
         # Ignore some s390-specific output like:
         # REG_G6           g     R *UND*      0000000000000000              #scratch
     } else {
-        warning(g_("couldn't parse dynamic symbol definition: %s"), $line);
+        warning(g_('cannot parse dynamic symbol definition: %s'), $line);
     }
 }
 

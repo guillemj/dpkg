@@ -415,8 +415,8 @@ sub wait_child {
     if ($@) {
         die $@ unless $@ eq "alarm\n";
         kill 'TERM', $pid;
-        error(P_("%s didn't complete in %d second",
-                 "%s didn't complete in %d seconds",
+        error(P_('%s did not complete in %d second',
+                 '%s did not complete in %d seconds',
                  $opts{timeout}),
               $opts{cmdline}, $opts{timeout});
     }

@@ -139,7 +139,7 @@ sub parse_cmdline_option {
 sub can_build {
     my ($self, $dir) = @_;
 
-    return (0, g_("doesn't contain a git repository")) unless -d "$dir/.git";
+    return (0, g_('does not contain a git repository')) unless -d "$dir/.git";
     return 1;
 }
 

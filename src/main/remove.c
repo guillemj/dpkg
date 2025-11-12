@@ -122,7 +122,7 @@ deferred_remove(struct pkginfo *pkg)
 
 	if (pkg->status == PKG_STAT_NOTINSTALLED) {
 		sincenothing = 0;
-		warning(_("ignoring request to remove %s which isn't installed"),
+		warning(_("ignoring request to remove %s which is not installed"),
 		        pkg_name(pkg, pnaw_nonambig));
 		pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
 
@@ -730,7 +730,7 @@ removal_bulk(struct pkginfo *pkg)
 		debug_at(dbg_general, "purge done, removing postrm '%s'",
 		         filename);
 		if (unlink(filename) && errno != ENOENT)
-			ohshite(_("can't remove old postrm script"));
+			ohshite(_("cannot remove old postrm script"));
 
 		pkg_set_status(pkg, PKG_STAT_NOTINSTALLED);
 		pkg_set_want(pkg, PKG_WANT_UNKNOWN);

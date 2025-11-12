@@ -968,7 +968,7 @@ usage(void)
 "  -m, --make-pidfile            create the pidfile before starting\n"
 "      --remove-pidfile          delete the pidfile after stopping\n"
 "  -R, --retry <schedule>        check whether processes die, and retry\n"
-"  -t, --test                    test mode, don't do anything\n"
+"  -t, --test                    test mode, do not do anything\n"
 "  -o, --oknodo                  exit status 0 (not 1) if nothing done\n"
 "  -q, --quiet                   be more quiet\n"
 "  -v, --verbose                 be more verbose\n"

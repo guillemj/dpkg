@@ -472,7 +472,7 @@ foreach my $file (keys %exec) {
                                            'libraries'), $print_name, $file);
                             } else {
                                 warning(g_('%s contains an unresolvable reference to ' .
-                                           "symbol %s: it's probably a plugin"),
+                                           'symbol %s: it is probably a plugin'),
                                         $file, $print_name);
                             }
                             $nb_warnings++;
@@ -662,7 +662,7 @@ sub usage {
   -e<executable>           (use -e if <executable> starts with '-')
   -d<dependency-field>     next executable(s) set shlibs:<dependency-field>.")
     . "\n\n" . g_(
-"Options:
+'Options:
   --package=<package>      generate substvars for <package> (default is unset).
   -l<library-dir>          add directory to private shared library search list.
   -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.
@@ -676,11 +676,11 @@ sub usage {
   -I<package-build-dir>    ignore needed libraries, shlibs and symbols files
                              in the given build directory.
   -v                       enable verbose mode (can be used multiple times).
-  --ignore-missing-info    don't fail if dependency information can't be found.
+  --ignore-missing-info    do not fail if dependency information cannot be found.
   --warnings=<value>       define set of active warnings (see manual page).
   --admindir=<directory>   change the administrative directory.
   -?, --help               show this help message.
-      --version            show the version.")
+      --version            show the version.')
     . "\n\n" . g_(
 'Dependency fields recognized are:
   %s
@@ -807,7 +807,7 @@ sub extract_from_shlibs {
     # Split soname in name/version.
     my ($libname, $libversion) = split_soname($soname);
     unless (defined $libname) {
-        warning(g_("can't extract name and version from library name '%s'"),
+        warning(g_("cannot extract name and version from library name '%s'"),
                 $soname);
         $shlibs_cache{$shlibfile}{$soname} = undef;
         return;

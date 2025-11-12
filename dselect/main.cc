@@ -295,7 +295,7 @@ set_debug(const struct cmdinfo*, const char *v)
 
 	fp = fopen(v, "a");
 	if (!fp)
-		ohshite(_("couldn't open debug file '%s'\n"), v);
+		ohshite(_("cannot open debug file '%s'\n"), v);
 
 	debug_set_output(fp, v);
 	debug_set_mask(dbg_general | dbg_depcon);

@@ -86,7 +86,7 @@ usage(const char *const *argv)
 "                                     by dpkg).\n"
 "  --await                          Package needs to await the processing.\n"
 "  --no-await                       No package needs to await the processing.\n"
-"  --no-act                         Just test - don't actually change anything.\n"
+"  --no-act                         Just test - do not actually change anything.\n"
 "\n"), ADMINDIR, "/");
 
 	m_output(stdout, _("<standard output>"));

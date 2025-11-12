@@ -69,7 +69,7 @@ if (-f "$methdir/md5sums") {
     my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
     my $res = eval $code;
     if ($@) {
-        die "couldn't eval $methdir/md5sums content: $@\n";
+        die "cannot eval $methdir/md5sums content: $@\n";
     }
     if (ref($res)) {
         %md5sums = %{$res}

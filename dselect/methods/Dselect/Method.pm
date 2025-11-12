@@ -100,7 +100,7 @@ sub read_config {
 
     my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
     $conf = eval $code;
-    die "couldn't eval $vars content: $@\n" if $@;
+    die "cannot eval $vars content: $@\n" if $@;
     if (ref($conf) =~ /HASH/) {
         foreach my $var (keys %{$conf}) {
             $CONFIG{$var} = $conf->{$var};

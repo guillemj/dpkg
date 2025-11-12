@@ -589,7 +589,7 @@ parsedb_load(struct parsedb_state *ps)
 		return;
 
 	if (fstat(ps->fd, &st) < 0)
-		ohshite(_("can't stat package control file '%s'"),
+		ohshite(_("cannot stat package control file '%s'"),
 		        ps->filename);
 
 	if (S_ISFIFO(st.st_mode)) {
@@ -609,7 +609,7 @@ parsedb_load(struct parsedb_state *ps)
 		ps->dataptr = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED,
 		                   ps->fd, 0);
 		if (ps->dataptr == MAP_FAILED)
-			ohshite(_("can't mmap package control file '%s'"),
+			ohshite(_("cannot mmap package control file '%s'"),
 			        ps->filename);
 #else
 		ps->dataptr = m_malloc(st.st_size);

@@ -191,7 +191,7 @@ sub parse_header {
         }
         $self->{header_fields} = $c;
     } else {
-        push @errors, g_("the header doesn't match the expected regex");
+        push @errors, g_('the header does not match the expected regex');
     }
     return @errors;
 }
@@ -235,7 +235,7 @@ sub parse_trailer {
         };
         $self->{trailer_timestamp_date} = $4;
     } else {
-        push @errors, g_("the trailer doesn't match the expected regex");
+        push @errors, g_('the trailer does not match the expected regex');
     }
     return @errors;
 }

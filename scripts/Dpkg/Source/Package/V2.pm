@@ -771,7 +771,8 @@ sub do_commit {
     if ($tmpdiff and not -e $tmpdiff) {
         $tmpdiff = File::Spec->catfile($dir, $tmpdiff)
             unless File::Spec->file_name_is_absolute($tmpdiff);
-        error(g_("patch file '%s' doesn't exist"), $tmpdiff) if not -e $tmpdiff;
+        error(g_("patch file '%s' does not exist"), $tmpdiff)
+            if not -e $tmpdiff;
     }
 
     my $binaryfiles = Dpkg::Source::BinaryFiles->new($dir);

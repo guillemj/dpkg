@@ -151,18 +151,18 @@ static const struct forceinfo {
 		"confnew",
 		FORCE_CONFF_NEW,
 		FORCETYPE_DAMAGE,
-		N_("Always use the new config files, don't prompt"),
+		N_("Always use the new config files, do not prompt"),
 	}, {
 		"confold",
 		FORCE_CONFF_OLD,
 		FORCETYPE_DAMAGE,
-		N_("Always use the old config files, don't prompt"),
+		N_("Always use the old config files, do not prompt"),
 	}, {
 		"confdef",
 		FORCE_CONFF_DEF,
 		FORCETYPE_DAMAGE,
 		N_("Use the default option for new config files if one\n"
-		   "is available, don't prompt. If no default can be found,\n"
+		   "is available, do not prompt. If no default can be found,\n"
 		   "you will be prompted unless one of the confold or\n"
 		   "confnew options is also given"),
 	}, {

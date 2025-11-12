@@ -99,7 +99,7 @@ deb_reassemble(const char **filename, const char **pfilename)
 	if (!reasmbuf)
 		reasmbuf = dpkg_db_get_path(REASSEMBLETMP);
 	if (unlink(reasmbuf) && errno != ENOENT)
-		ohshite(_("error ensuring '%s' doesn't exist"), reasmbuf);
+		ohshite(_("error ensuring '%s' does not exist"), reasmbuf);
 
 	push_cleanup(cu_pathname, ~0, 1, (void *)reasmbuf);
 
@@ -581,7 +581,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 			ohshit(_("package metadata contained directory '%s'"),
 			       cidir);
 		else if (errno != ENOTDIR)
-			ohshite(_("package metadata rmdir of '%s' didn't say not a dir"),
+			ohshite(_("package metadata rmdir of '%s' did not say not a dir"),
 			        de->d_name);
 
 		/* Ignore the control file. */

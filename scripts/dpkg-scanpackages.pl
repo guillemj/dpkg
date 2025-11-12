@@ -172,7 +172,7 @@ sub process_deb {
     open my $output_fh, '-|', 'dpkg-deb', '-I', $fn, 'control'
         or syserr(g_('cannot fork for %s'), 'dpkg-deb');
     $fields->parse($output_fh, $fn)
-        or error(g_("couldn't parse control information from %s"), $fn);
+        or error(g_('cannot parse control information from %s'), $fn);
     close $output_fh;
     if ($?) {
         warning(g_("'dpkg-deb -I %s control' exited with %d, skipping package"),
@@ -289,7 +289,7 @@ for my $p (sort keys %packages) {
         $records_written++;
     }
 }
-close(STDOUT) or syserr(g_("couldn't close stdout"));
+close(STDOUT) or syserr(g_('cannot close stdout'));
 
 if (@multi_instances) {
     warning(g_('Packages with multiple instances but no --multiversion specified:'));

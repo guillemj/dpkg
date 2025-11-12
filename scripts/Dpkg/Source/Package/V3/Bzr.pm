@@ -87,7 +87,7 @@ sub _check_workdir {
 sub can_build {
     my ($self, $dir) = @_;
 
-    return (0, g_("doesn't contain a bzr repository")) unless -d "$dir/.bzr";
+    return (0, g_('does not contain a bzr repository')) unless -d "$dir/.bzr";
     return 1;
 }
 

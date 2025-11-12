@@ -103,7 +103,7 @@ usage(const char *const *argv)
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --instdir <directory>    set the root directory, but not the admin dir.\n"
 "  --root <directory>       set the directory of the root filesystem.\n"
-"  --test                   don't do anything, just demonstrate.\n"
+"  --test                   do not do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"

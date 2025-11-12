@@ -390,7 +390,7 @@ check_ctrl_control(const char *ctrldir)
 
 	if (strspn(pkg->set->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
 	    strlen(pkg->set->name))
-		ohshit(_("package name has characters that aren't lowercase alphanums or '-+.'"));
+		ohshit(_("package name has characters that are not lowercase alphanums or '-+.'"));
 	if (pkg->available.arch->type == DPKG_ARCH_NONE ||
 	    pkg->available.arch->type == DPKG_ARCH_EMPTY)
 		ohshit(_("package architecture is missing or empty"));

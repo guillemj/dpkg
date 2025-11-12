@@ -479,7 +479,7 @@ sub analyze {
                   $diff, $.);
         }
         unless ($line =~ s/^\+\+\+ //) {
-            error(g_("line after --- isn't as expected in diff '%s' (line %d)"),
+            error(g_("line after --- is not as expected in diff '%s' (line %d)"),
                   $diff, $.);
         }
         $path{new} = $line = _fetch_filename($diff, $line);
@@ -596,7 +596,7 @@ sub analyze {
     }
     close($self);
     unless ($diff_count) {
-        warning(g_("diff '%s' doesn't contain any patch"), $diff)
+        warning(g_("diff '%s' does not contain any patch"), $diff)
             if $opts{verbose};
     }
     *$self->{analysis}{$destdir}{dirtocreate} = \%dirtocreate;

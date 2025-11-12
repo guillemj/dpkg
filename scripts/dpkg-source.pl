@@ -274,7 +274,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
     # Scan control info of source package.
     my $src_fields = $control->get_source();
-    error(g_("%s doesn't contain any information about the source package"),
+    error(g_('%s does not contain any information about the source package'),
           $controlfile) unless defined $src_fields;
     foreach my $f (keys %{$src_fields}) {
         my $v = $src_fields->{$f};
@@ -376,7 +376,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
         }
     }
     unless (scalar(@pkglist)) {
-        error(g_("%s doesn't list any binary package"), $controlfile);
+        error(g_('%s does not list any binary package'), $controlfile);
     }
     if (any { $_ eq 'any' } @sourcearch) {
         # If we encounter one 'any' then the other arches become insignificant
@@ -446,7 +446,8 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
     # Verify pre-requisites are met.
     my ($res, $msg) = $srcpkg->can_build($dir);
-    error(g_("can't build with source format '%s': %s"), $build_format, $msg) unless $res;
+    error(g_("cannot build with source format '%s': %s"), $build_format, $msg)
+        unless $res;
 
     # Only -b left.
     info(g_("using source format '%s'"), $fields->{'Format'});
@@ -502,7 +503,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
         if ($srcpkg->is_signed()) {
             $srcpkg->check_signature();
         } elsif ($options{require_valid_signature}) {
-            error(g_("%s doesn't contain a valid OpenPGP signature"), $dsc);
+            error(g_('%s does not contain a valid OpenPGP signature'), $dsc);
         } else {
             warning(g_('extracting unsigned source package (%s)'), $dsc);
         }
@@ -665,14 +666,14 @@ sub usage {
                            compression level to use (defaults to '%d',
                              supported are: '1'-'9', 'best', 'fast')")
     . "\n\n" . g_(
-"Extract options:
-  --no-copy                don't copy .orig tarballs
-  --no-check               don't check signature and checksums before unpacking
+'Extract options:
+  --no-copy                do not copy .orig tarballs
+  --no-check               do not check signature and checksums before unpacking
   --no-overwrite-dir       do not overwrite directory on extraction
-  --require-valid-signature abort if the package doesn't have a valid signature
+  --require-valid-signature abort if the package does not have a valid signature
   --require-strong-checksums
                            abort if the package contains no strong checksums
-  --ignore-bad-version     allow bad source package versions.")
+  --ignore-bad-version     allow bad source package versions.')
     . "\n" .
     get_format_help()
     . "\n" . g_(

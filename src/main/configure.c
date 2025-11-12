@@ -239,7 +239,7 @@ spawn_shell(const char *confold, const char *confnew)
 	fputs(" - DPKG_SHELL_REASON\n", stderr);
 	fputs(" - DPKG_CONFFILE_OLD\n", stderr);
 	fputs(" - DPKG_CONFFILE_NEW\n", stderr);
-	fputs(_("Type 'exit' when you're done.\n"), stderr);
+	fputs(_("Type 'exit' when you are done.\n"), stderr);
 
 	pid = subproc_fork();
 	if (!pid) {

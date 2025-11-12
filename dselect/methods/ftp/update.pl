@@ -102,7 +102,7 @@ sub download {
                 if (defined $newest_pack_date) {
                     print "$dir/Packages.gz\n";
                 } else {
-                    print "Couldn't find Packages.gz in $dist/binary-$arch or $dist; ignoring.\n";
+                    print "Cannot find Packages.gz in $dist/binary-$arch or $dist; ignoring.\n";
                     print "Your setup is probably wrong, check the distributions directories,\n";
                     print "and try with passive mode enabled/disabled (if you use a proxy/firewall)\n";
                     next PACKAGE;
@@ -148,11 +148,11 @@ sub download {
                     eval {
                         if ($ftp->get("$dir/Packages.gz", 'Packages.gz', $size)) {
                             if (system('gunzip', 'Packages.gz')) {
-                                print "  Couldn't gunzip Packages.gz, stopped";
+                                print '  Cannot gunzip Packages.gz, stopped';
                                 die 'error';
                             }
                         } else {
-                            print "  Couldn't get Packages.gz from $dir !!! Stopped.";
+                            print "  Cannot get Packages.gz from $dir !!! Stopped.";
                             die 'error';
                         }
                     };
@@ -188,7 +188,7 @@ sub download {
                 }
 
                 if (! rename 'Packages', "Packages.$site->[0].$dist") {
-                    print "  Couldn't rename Packages to Packages.$site->[0].$dist";
+                    print "  Cannot rename Packages to Packages.$site->[0].$dist";
                     die 'error';
                 } else {
                     # Set local Packages file to same date as the one it mirrors
