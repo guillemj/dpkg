@@ -116,7 +116,7 @@ pkg_infodb_link_multiarch_files(void)
 			if (pkg->status != PKG_STAT_NOTINSTALLED)
 				break;
 		if (!pkg) {
-			warning(_("info file %s/%s not associated to any package"),
+			warning(_("metadata file %s/%s not associated to any package"),
 			        pkg_infodb_get_dir(), db_de->d_name);
 			continue;
 		}

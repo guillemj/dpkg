@@ -168,6 +168,8 @@ deb_verify(const char *filename)
 	}
 }
 
+/* FIXME: Move away from "ci" and "control information dir" to
+ * "package metadata dir". */
 static char *
 get_control_dir(char *cidir)
 {
@@ -201,7 +203,7 @@ get_control_dir(char *cidir)
 		strcpy(cidir, admindir);
 		strcat(cidir, "/" CONTROLDIRTMP);
 
-		/* Make sure the control information directory is empty. */
+		/* Make sure the package metadata directory is empty. */
 		path_remove_tree(cidir);
 	}
 
@@ -489,10 +491,10 @@ static void
 pkg_infodb_remove_file(const char *filename, const char *filetype)
 {
 	if (unlink(filename))
-		ohshite(_("unable to delete control info file '%.250s'"),
+		ohshite(_("unable to delete package metadata file '%.250s'"),
 		        filename);
 
-	debug_at(dbg_scripts, "info file unlinked %s", filename);
+	debug_at(dbg_scripts, "metadata file unlinked %s", filename);
 }
 
 static struct match_node *match_head = NULL;
@@ -501,7 +503,7 @@ static void
 pkg_infodb_update_file(const char *filename, const char *filetype)
 {
 	if (strlen(filetype) > MAXCONTROLFILENAME)
-		ohshit(_("old version of package has overly-long info file name starting '%.250s'"),
+		ohshit(_("old version of package has overly-long meatada file name starting '%.250s'"),
 		       filename);
 
 	/* We do the list separately. */
@@ -535,17 +537,17 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 		strcpy(cidirrest, match_node->filetype);
 
 		if (!rename(cidir, match_node->filename)) {
-			debug_at(dbg_scripts, "info file installed %s as %s",
+			debug_at(dbg_scripts, "metadata file installed %s as %s",
 			         cidir, match_node->filename);
 		} else if (errno == ENOENT) {
 			/* Right, no new version. */
 			if (unlink(match_node->filename))
-				ohshite(_("unable to remove obsolete info file '%.250s'"),
+				ohshite(_("unable to remove obsolete package metadata file '%.250s'"),
 				        match_node->filename);
-			debug_at(dbg_scripts, "info file unlinked %s",
+			debug_at(dbg_scripts, "metadata file unlinked %s",
 			         match_node->filename);
 		} else {
-			ohshite(_("unable to install (supposed) new info file '%.250s'"),
+			ohshite(_("unable to install (supposed) new package metadata file '%.250s'"),
 			        cidir);
 		}
 		match_head = match_node->next;
@@ -569,17 +571,17 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 		}
 
 		if (strlen(de->d_name) > MAXCONTROLFILENAME)
-			ohshit(_("package contains overly-long control info file name (starting '%.50s')"),
+			ohshit(_("package contains overly-long metadata file name (starting '%.50s')"),
 			       de->d_name);
 
 		strcpy(cidirrest, de->d_name);
 
 		/* First we check it's not a directory. */
 		if (rmdir(cidir) == 0)
-			ohshit(_("package control info contained directory '%.250s'"),
+			ohshit(_("package metadata contained directory '%.250s'"),
 			       cidir);
 		else if (errno != ENOTDIR)
-			ohshite(_("package control info rmdir of '%.250s' didn't say not a dir"),
+			ohshite(_("package metadata rmdir of '%.250s' didn't say not a dir"),
 			        de->d_name);
 
 		/* Ignore the control file. */
@@ -590,7 +592,8 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 			continue;
 		}
 		if (strcmp(de->d_name, LISTFILE) == 0) {
-			warning(_("package %s contained list as info file"),
+			warning(_("package %s contained '%s' as a metadata file"),
+			        LISTFILE,
 			        pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
 			continue;
 		}
@@ -598,7 +601,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 		/* Right, install it. */
 		newinfofilename = pkg_infodb_get_file(pkg, &pkg->available, de->d_name);
 		if (rename(cidir, newinfofilename))
-			ohshite(_("unable to install new info file '%.250s' as '%.250s'"),
+			ohshite(_("unable to install new metadata file '%.250s' as '%.250s'"),
 			        cidir, newinfofilename);
 
 		debug_at(dbg_scripts,
@@ -613,7 +616,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 	    (pkg->installed.multiarch == PKG_MULTIARCH_SAME ||
 	     pkg->available.multiarch == PKG_MULTIARCH_SAME)) {
 		debug_at(dbg_scripts,
-		         "remove old info files after db layout switch");
+		         "remove old metadata files after db layout switch");
 		pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_remove_file);
 	}
 
@@ -1300,7 +1303,7 @@ process_archive(const char *filename)
 	if (f_debsig)
 		deb_verify(filename);
 
-	/* Get the control information directory. */
+	/* Get the package metadata directory. */
 	cidir = get_control_dir(cidir);
 	cidirrest = cidir + strlen(cidir);
 	push_cleanup(cu_cidir, ~0, 2, (void *)cidir, (void *)cidirrest);
@@ -1310,7 +1313,7 @@ process_archive(const char *filename)
 		cidirrest[-1] = '\0';
 		execlp(BACKEND, BACKEND, "--control", filename, cidir, NULL);
 		ohshite(_("unable to execute %s (%s)"),
-		        _("package control information extraction"), BACKEND);
+		        _("package metadata files extraction"), BACKEND);
 	}
 	subproc_reap(pid, BACKEND " --control", 0);
 

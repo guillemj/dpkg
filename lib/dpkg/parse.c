@@ -567,7 +567,7 @@ parsedb_open(const char *filename, enum parsedbflags flags)
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0 && !(errno == ENOENT && (flags & pdb_allow_empty)))
-		ohshite(_("failed to open package info file '%.255s' for reading"),
+		ohshite(_("failed to open package control file '%.255s' for reading"),
 		        filename);
 
 	ps = parsedb_new(filename, fd, flags | pdb_close_fd);
@@ -589,7 +589,7 @@ parsedb_load(struct parsedb_state *ps)
 		return;
 
 	if (fstat(ps->fd, &st) < 0)
-		ohshite(_("can't stat package info file '%.255s'"),
+		ohshite(_("can't stat package control file '%.255s'"),
 		        ps->filename);
 
 	if (S_ISFIFO(st.st_mode)) {
@@ -599,7 +599,7 @@ parsedb_load(struct parsedb_state *ps)
 
 		size = fd_vbuf_copy(ps->fd, &buf, -1, &err);
 		if (size < 0)
-			ohshit(_("reading package info file '%s': %s"),
+			ohshit(_("reading package control file '%s': %s"),
 			       ps->filename, err.str);
 
 		ps->dataptr = varbuf_detach(&buf);
@@ -609,13 +609,13 @@ parsedb_load(struct parsedb_state *ps)
 		ps->dataptr = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED,
 		                   ps->fd, 0);
 		if (ps->dataptr == MAP_FAILED)
-			ohshite(_("can't mmap package info file '%.255s'"),
+			ohshite(_("can't mmap package control file '%.255s'"),
 			        ps->filename);
 #else
 		ps->dataptr = m_malloc(st.st_size);
 
 		if (fd_read(ps->fd, ps->dataptr, st.st_size) < 0)
-			ohshite(_("reading package info file '%.255s'"),
+			ohshite(_("reading package control file '%.255s'"),
 			        ps->filename);
 #endif
 		ps->endptr = ps->dataptr + st.st_size;

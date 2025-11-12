@@ -58,7 +58,8 @@ static struct trig_hooks trigh;
 /*
  * Called via trig_*activate* et al from:
  *   - trig_incorporate: reading of Unincorp (explicit trigger activations)
- *   - various places: processing start (‘activate’ in triggers ci file)
+ *   - various places: processing start (‘activate’ in triggers package
+ *     metadata file)
  *   - namenodetouse: file triggers during unpack / remove
  *   - deferred_configure: file triggers during config file processing
  *
@@ -653,7 +654,7 @@ static const struct trigkindinfo tki_file = {
 	.interest_change = trk_file_interest_change,
 };
 
-/*---------- Trigger control info file. ----------*/
+/*---------- Trigger package metadata (control info/ci) file. ----------*/
 
 static void
 trig_cicb_interest_change(const char *trig, struct pkginfo *pkg,
@@ -703,8 +704,9 @@ parse_ci_call(const char *file, const char *cmd, trig_parse_cicb *cb,
 
 	emsg = trig_name_is_invalid(trig);
 	if (emsg)
-		ohshit(_("triggers ci file '%.250s' contains invalid trigger "
-		         "syntax in trigger name '%.250s': %.250s"),
+		ohshit(_("triggers package metadata file '%s' "
+		         "contains invalid trigger syntax in trigger name '%s': "
+		         "%s"),
 		       file, trig, emsg);
 	if (cb)
 		cb(trig, pkg, pkgbin, opts);
@@ -724,7 +726,8 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 		if (errno == ENOENT)
 			/* No file is just like an empty one. */
 			return;
-		ohshite(_("unable to open triggers ci file '%.250s'"), file);
+		ohshite(_("unable to open triggers package metadata file '%.250s'"),
+		        file);
 	}
 	push_cleanup(cu_closestream, ~0, 1, f);
 
@@ -742,7 +745,8 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 		for (spc = cmd; *spc && !c_iswhite(*spc); spc++)
 			;
 		if (!*spc)
-			ohshit(_("triggers ci file contains unknown directive syntax"));
+			ohshit(_("triggers package metadata file '%s' "
+			         "contains unknown directive syntax"), file);
 		*spc++ = '\0';
 		while (c_iswhite(*spc))
 			spc++;
@@ -762,8 +766,9 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 			parse_ci_call(file, cmd, activate, spc,
 			              pkg, pkgbin, TRIG_NOAWAIT);
 		} else {
-			ohshit(_("triggers ci file contains unknown directive '%.250s'"),
-			       cmd);
+			ohshit(_("triggers package metadata file '%s' "
+			         "contains unknown directive '%s'"),
+			       file, cmd);
 		}
 	}
 	pop_cleanup(ehflag_normaltidy); /* fclose() */

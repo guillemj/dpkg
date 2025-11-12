@@ -105,7 +105,7 @@ some combinations of packages may not be installed together.\n\n\
 \
 You will see a sub-list containing the packages involved.  The bottom half of\n\
 the display shows relevant conflicts and dependencies; use 'i' to cycle between\n\
-that, the package descriptions and the internal control information.\n\n\
+that, the package descriptions and the internal package metadata.\n\n\
 \
 A set of 'suggested' packages has been calculated, and the initial markings in\n\
 this sub-list have been set to match those, so you can just hit Return to\n\

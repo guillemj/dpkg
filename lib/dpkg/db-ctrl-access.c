@@ -83,7 +83,7 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	while ((db_de = readdir(db_dir)) != NULL) {
 		const char *filename, *filetype, *dot;
 
-		debug(dbg_veryverbose, "infodb foreach info file '%s'",
+		debug(dbg_veryverbose, "infodb foreach metadata file '%s'",
 		      db_de->d_name);
 
 		/* Ignore dotfiles, including ‘.’ and ‘..’. */

@@ -246,13 +246,13 @@ removal_bulk_remove_file(const char *filename, const char *filetype)
 	    strcmp(filetype, POSTRMFILE) == 0)
 		return;
 
-	debug_at(dbg_stupidlyverbose, "info file not postrm nor list");
+	debug_at(dbg_stupidlyverbose, "metadata file not postrm nor list");
 
 	if (unlink(filename))
-		ohshite(_("unable to delete control info file '%.250s'"),
+		ohshite(_("unable to delete package metadata file '%.250s'"),
 		        filename);
 
-	debug_at(dbg_scripts, "info file unlinked %s", filename);
+	debug_at(dbg_scripts, "metadata file unlinked %s", filename);
 }
 
 static bool

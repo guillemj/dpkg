@@ -814,14 +814,14 @@ sub extract_from_shlibs {
     }
     # Open shlibs file.
     open(my $shlibs_fh, '<', $shlibfile)
-        or syserr(g_("unable to open shared libs info file '%s'"), $shlibfile);
+        or syserr(g_("unable to open shared libs metadata file '%s'"), $shlibfile);
     my $dep;
     while (<$shlibs_fh>) {
         s/\s*\n$//;
         next if m/^\#/;
         ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
         if (! m/$shlibs_regex/) {
-            warning(g_("shared libs info file '%s' line %d: bad line '%s'"),
+            warning(g_("shared libs metadata file '%s' line %d: bad line '%s'"),
                     $shlibfile, $., $_);
             next;
         }

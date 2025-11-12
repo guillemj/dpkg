@@ -65,8 +65,9 @@ I<binary-directory>.
 I<binary-directory>
 must have a
 B<DEBIAN>
-subdirectory, which contains the control information files such
-as the control file itself.
+subdirectory,
+which contains the package metadata files such as
+the binary package control file.
 This directory will
 I<not>
 appear in the binary package's filesystem archive, but instead
@@ -84,7 +85,7 @@ B<dpkg-deb>
 will also check the permissions of the maintainer scripts and other
 files found in the
 B<DEBIAN>
-control information directory.
+package metadata directory.
 
 If no
 I<archive>
@@ -187,7 +188,8 @@ which prints a listing of the files extracted as it goes.
 =item B<-R>, B<--raw-extract> I<archive> I<directory>
 
 Extracts the filesystem tree from a package archive into a specified
-directory, and the control information files into a
+directory,
+and the package metadata files into a
 B<DEBIAN>
 subdirectory of the specified directory (since dpkg 1.16.1).
 
@@ -220,7 +222,7 @@ The input archive will always be processed sequentially.
 
 =item B<-e>, B<--control> I<archive> [I<directory>]
 
-Extracts the control information files from a package archive into the
+Extracts the package metadata files from a package archive into the
 specified directory.
 
 If no directory is specified then a subdirectory
