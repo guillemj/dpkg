@@ -22,6 +22,12 @@
 /* NLS can be disabled through the configure --disable-nls option.  */
 #if ENABLE_NLS
 
+# if __has_attribute(__format_arg__)
+#   define GETTEXT_ATTR_FMT_ARG(n) __attribute__((__format_arg__(n)))
+# else
+#   define GETTEXT_ATTR_FMT_ARG(n)
+# endif
+
 /* Get declarations of GNU message catalog functions.  */
 # include <libintl.h>
 

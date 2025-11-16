@@ -71,10 +71,12 @@
 
 #if LIBCOMPAT_GCC_VERSION >= 0x0300 || __has_attribute(__format__)
 #define LIBCOMPAT_ATTR_FMT(t, f, a)	__attribute__((__format__(t, f, a)))
+#define LIBCOMPAT_ATTR_FMT_ARG(n)	__attribute__((__format_arg__(n)))
 #define LIBCOMPAT_ATTR_PRINTF(n)	LIBCOMPAT_ATTR_FMT(__printf__, n, n + 1)
 #define LIBCOMPAT_ATTR_VPRINTF(n)	LIBCOMPAT_ATTR_FMT(__printf__, n, 0)
 #else
 #define LIBCOMPAT_ATTR_FMT(t, f, a)
+#define LIBCOMPAT_ATTR_FMT_ARG(n)
 #define LIBCOMPAT_ATTR_PRINTF(n)
 #define LIBCOMPAT_ATTR_VPRINTF(n)
 #endif
