@@ -139,6 +139,7 @@ inline
 #endif
 #endif
 static const char *
+GETTEXT_ATTR_FMT_ARG(3)
 pgettext_aux (const char *domain,
 	      const char *msg_ctxt_id, const char *msgid,
 	      int category)
@@ -158,6 +159,7 @@ inline
 #endif
 #endif
 static const char *
+GETTEXT_ATTR_FMT_ARG(3) GETTEXT_ATTR_FMT_ARG(4)
 npgettext_aux (const char *domain,
 	       const char *msg_ctxt_id, const char *msgid,
 	       const char *msgid_plural, unsigned long int n,
@@ -202,6 +204,7 @@ inline
 #endif
 #endif
 static const char *
+GETTEXT_ATTR_FMT_ARG(3)
 dcpgettext_expr (const char *domain,
 		 const char *msgctxt, const char *msgid,
 		 int category)
@@ -247,6 +250,7 @@ inline
 #endif
 #endif
 static const char *
+GETTEXT_ATTR_FMT_ARG(3) GETTEXT_ATTR_FMT_ARG(4)
 dcnpgettext_expr (const char *domain,
 		  const char *msgctxt, const char *msgid,
 		  const char *msgid_plural, unsigned long int n,
