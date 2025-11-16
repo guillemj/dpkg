@@ -99,9 +99,9 @@ static struct {
 	 * - 6x255 For inserted strings (%s from pathnames, pkgnames, fields).
 	 * - 1x255 For constant text.
 	 * - 1x255 For strerror().
-	 * - And the total doubled just in case.
+	 * - And the total quadrupled just in case.
 	 */
-	char errmsg[4096];
+	char errmsg[8192];
 } emergency;
 
 /**
