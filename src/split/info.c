@@ -52,7 +52,7 @@ parse_intmax(const char *value, const char *fn, const char *what)
 	errno = 0;
 	ret = strtoimax(value, &endp, 10);
 	if (value == endp || *endp)
-		ohshit(_("file '%.250s' is corrupt - bad digit (code %d) in %s"),
+		ohshit(_("file '%s' is corrupt - bad digit (code %d) in %s"),
 		       fn, *endp, what);
 	if (ret < 0 || errno == ERANGE)
 		ohshit(_("file '%s' is corrupt; out of range integer in %s"),
@@ -68,11 +68,11 @@ nextline(char **ripp, const char *fn, const char *what)
 
 	rip = *ripp;
 	if (!rip)
-		ohshit(_("file '%.250s' is corrupt - %.250s missing"),
+		ohshit(_("file '%s' is corrupt - %s missing"),
 		       fn, what);
 	newline = strchr(rip, '\n');
 	if (!newline)
-		ohshit(_("file '%.250s' is corrupt - missing newline after %.250s"),
+		ohshit(_("file '%s' is corrupt - missing newline after %s"),
 		       fn, what);
 	*ripp = newline + 1;
 
@@ -103,7 +103,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 	rc = fd_read(ar->fd, magicbuf, sizeof(magicbuf));
 	if (rc != sizeof(magicbuf)) {
 		if (rc < 0)
-			ohshite(_("error reading %.250s"), ar->name);
+			ohshite(_("error reading %s"), ar->name);
 		else
 			return NULL;
 	}
@@ -119,7 +119,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 	if (strncmp(arh.ar_name, PARTMAGIC, sizeof(arh.ar_name)) != 0)
 		return NULL;
 	if (dpkg_ar_member_is_invalid(&arh))
-		ohshit(_("file '%.250s' is corrupt - bad magic at end of first header"),
+		ohshit(_("file '%s' is corrupt - bad magic at end of first header"),
 		       ar->name);
 	thisilen = dpkg_ar_member_get_size(ar, &arh);
 
@@ -133,12 +133,12 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 		int c = format_member.buf[thisilen];
 
 		if (c != '\n')
-			ohshit(_("file '%.250s' is corrupt - bad padding character (code %d)"),
+			ohshit(_("file '%s' is corrupt - bad padding character (code %d)"),
 			       ar->name, c);
 	}
 	varbuf_trunc(&format_member, thisilen);
 	if (memchr(format_member.buf, 0, thisilen))
-		ohshit(_("file '%.250s' is corrupt - nulls in info section"),
+		ohshit(_("file '%s' is corrupt - nulls in info section"),
 		       ar->name);
 
 	ir->filename = ar->name;
@@ -148,10 +148,10 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 	                        nextline(&rip, ar->name,
 	                                 _("format version number")));
 	if (err)
-		ohshit(_("file '%.250s' has invalid format version: %s"),
+		ohshit(_("file '%s' has invalid format version: %s"),
 		       ar->name, err);
 	if (ir->fmtversion.major != 2)
-		ohshit(_("file '%.250s' is format version %d.%d; get a newer dpkg-split"),
+		ohshit(_("file '%s' is format version %d.%d; get a newer dpkg-split"),
 		       ar->name, ir->fmtversion.major, ir->fmtversion.minor);
 
 	ir->package = nfstrsave(nextline(&rip, ar->name, _("package name")));
@@ -161,7 +161,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 	                                _("package file MD5 checksum")));
 	if (strlen(ir->md5sum) != MD5HASHLEN ||
 	    strspn(ir->md5sum, "0123456789abcdef") != MD5HASHLEN)
-		ohshit(_("file '%.250s' is corrupt - bad MD5 checksum '%.250s'"),
+		ohshit(_("file '%s' is corrupt - bad MD5 checksum '%s'"),
 		       ar->name, ir->md5sum);
 
 	ir->orglength = parse_intmax(nextline(&rip, ar->name,
@@ -174,18 +174,18 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 	partnums = nextline(&rip, ar->name, _("archive part numbers"));
 	slash = strchr(partnums, '/');
 	if (!slash)
-		ohshit(_("file '%.250s' is corrupt - no slash between archive part numbers"),
+		ohshit(_("file '%s' is corrupt - no slash between archive part numbers"),
 		       ar->name);
 	*slash++ = '\0';
 
 	templong = parse_intmax(slash, ar->name, _("number of archive parts"));
 	if (templong <= 0 || templong > INT_MAX)
-		ohshit(_("file '%.250s' is corrupt - bad number of archive parts"),
+		ohshit(_("file '%s' is corrupt - bad number of archive parts"),
 		       ar->name);
 	ir->maxpartn = templong;
 	templong = parse_intmax(partnums, ar->name, _("archive parts number"));
 	if (templong <= 0 || templong > ir->maxpartn)
-		ohshit(_("file '%.250s' is corrupt - bad archive part number"),
+		ohshit(_("file '%s' is corrupt - bad archive part number"),
 		       ar->name);
 	ir->thispartn = templong;
 
@@ -204,22 +204,22 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 	dpkg_ar_normalize_name(&arh);
 
 	if (dpkg_ar_member_is_invalid(&arh))
-		ohshit(_("file '%.250s' is corrupt - bad magic at end of second header"),
+		ohshit(_("file '%s' is corrupt - bad magic at end of second header"),
 		       ar->name);
 	if (strncmp(arh.ar_name, "data", 4))
-		ohshit(_("file '%.250s' is corrupt - second member is not data member"),
+		ohshit(_("file '%s' is corrupt - second member is not data member"),
 		       ar->name);
 
 	ir->thispartlen = dpkg_ar_member_get_size(ar, &arh);
 	ir->thispartoffset = (ir->thispartn - 1) * ir->maxpartlen;
 
 	if (ir->maxpartn != (ir->orglength + ir->maxpartlen - 1) / ir->maxpartlen)
-		ohshit(_("file '%.250s' is corrupt - wrong number of parts for quoted sizes"),
+		ohshit(_("file '%s' is corrupt - wrong number of parts for quoted sizes"),
 		       ar->name);
 	if (ir->thispartlen != (ir->thispartn == ir->maxpartn ?
 	                        ir->orglength - ir->thispartoffset :
 	                        ir->maxpartlen))
-		ohshit(_("file '%.250s' is corrupt - size is wrong for quoted part number"),
+		ohshit(_("file '%s' is corrupt - size is wrong for quoted part number"),
 		       ar->name);
 
 	ir->filesize = (strlen(DPKG_AR_MAGIC) +
@@ -230,7 +230,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 		/* Don't do this check if it's coming from a pipe or
 		 * something. It's only an extra sanity check anyway. */
 		if (ar->size < ir->filesize)
-			ohshit(_("file '%.250s' is corrupt - too short"),
+			ohshit(_("file '%s' is corrupt - too short"),
 			       ar->name);
 	}
 
@@ -247,9 +247,9 @@ mustgetpartinfo(const char *filename, struct partinfo *ri)
 
 	part = dpkg_ar_open(filename);
 	if (!part)
-		ohshite(_("cannot open archive part file '%.250s'"), filename);
+		ohshite(_("cannot open archive part file '%s'"), filename);
 	if (!read_info(part, ri))
-		ohshite(_("file '%.250s' is not an archive part"), filename);
+		ohshite(_("file '%s' is not an archive part"), filename);
 	dpkg_ar_close(part);
 }
 
@@ -298,7 +298,7 @@ do_info(const char *const *argv)
 
 		part = dpkg_ar_open(thisarg);
 		if (!part)
-			ohshite(_("cannot open archive part file '%.250s'"),
+			ohshite(_("cannot open archive part file '%s'"),
 			        thisarg);
 		pi = read_info(part, &ps);
 		dpkg_ar_close(part);

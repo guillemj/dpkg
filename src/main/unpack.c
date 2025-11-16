@@ -99,7 +99,7 @@ deb_reassemble(const char **filename, const char **pfilename)
 	if (!reasmbuf)
 		reasmbuf = dpkg_db_get_path(REASSEMBLETMP);
 	if (unlink(reasmbuf) && errno != ENOENT)
-		ohshite(_("error ensuring '%.250s' doesn't exist"), reasmbuf);
+		ohshite(_("error ensuring '%s' doesn't exist"), reasmbuf);
 
 	push_cleanup(cu_pathname, ~0, 1, (void *)reasmbuf);
 
@@ -267,7 +267,7 @@ pkg_check_depcon(struct pkginfo *pkg, const char *pfilename)
 					       pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
 					       varbuf_str(&depprobwhy));
 					if (!force_depends(dsearch->list))
-						ohshit(_("pre-dependency problem - not installing %.250s"),
+						ohshit(_("pre-dependency problem - not installing %s"),
 						       pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
 					warning(_("ignoring pre-dependency problem!"));
 				}
@@ -363,7 +363,7 @@ deb_parse_conffiles(const struct pkginfo *pkg, const char *control_conffiles,
 	if (conff == NULL) {
 		if (errno == ENOENT)
 			return;
-		ohshite(_("error trying to open %.250s"), control_conffiles);
+		ohshite(_("error trying to open %s"), control_conffiles);
 	}
 
 	push_cleanup(cu_closestream, ehflag_bombout, 1, conff);
@@ -473,10 +473,10 @@ deb_parse_conffiles(const struct pkginfo *pkg, const char *control_conffiles,
 	}
 
 	if (ferror(conff))
-		ohshite(_("read error in %.250s"), control_conffiles);
+		ohshite(_("read error in %s"), control_conffiles);
 	pop_cleanup(ehflag_normaltidy); /* conff = fopen() */
 	if (fclose(conff))
-		ohshite(_("error closing %.250s"), control_conffiles);
+		ohshite(_("error closing %s"), control_conffiles);
 }
 
 static struct pkg_queue conflictors = PKG_QUEUE_INIT;
@@ -491,7 +491,7 @@ static void
 pkg_infodb_remove_file(const char *filename, const char *filetype)
 {
 	if (unlink(filename))
-		ohshite(_("unable to delete package metadata file '%.250s'"),
+		ohshite(_("unable to delete package metadata file '%s'"),
 		        filename);
 
 	debug_at(dbg_scripts, "metadata file unlinked %s", filename);
@@ -542,12 +542,12 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 		} else if (errno == ENOENT) {
 			/* Right, no new version. */
 			if (unlink(match_node->filename))
-				ohshite(_("unable to remove obsolete package metadata file '%.250s'"),
+				ohshite(_("unable to remove obsolete package metadata file '%s'"),
 				        match_node->filename);
 			debug_at(dbg_scripts, "metadata file unlinked %s",
 			         match_node->filename);
 		} else {
-			ohshite(_("unable to install (supposed) new package metadata file '%.250s'"),
+			ohshite(_("unable to install (supposed) new package metadata file '%s'"),
 			        cidir);
 		}
 		match_head = match_node->next;
@@ -578,10 +578,10 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 
 		/* First we check it's not a directory. */
 		if (rmdir(cidir) == 0)
-			ohshit(_("package metadata contained directory '%.250s'"),
+			ohshit(_("package metadata contained directory '%s'"),
 			       cidir);
 		else if (errno != ENOTDIR)
-			ohshite(_("package metadata rmdir of '%.250s' didn't say not a dir"),
+			ohshite(_("package metadata rmdir of '%s' didn't say not a dir"),
 			        de->d_name);
 
 		/* Ignore the control file. */
@@ -601,7 +601,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 		/* Right, install it. */
 		newinfofilename = pkg_infodb_get_file(pkg, &pkg->available, de->d_name);
 		if (rename(cidir, newinfofilename))
-			ohshite(_("unable to install new metadata file '%.250s' as '%.250s'"),
+			ohshite(_("unable to install new metadata file '%s' as '%s'"),
 			        cidir, newinfofilename);
 
 		debug_at(dbg_scripts,
@@ -670,7 +670,7 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg,
 	varbuf_add_str(&cdrext, DPKGDISTEXT);
 
 	if (unlink(cdrext.buf) < 0 && errno != ENOENT)
-		warning(_("%s: failed to remove '%.250s': %s"),
+		warning(_("%s: failed to remove '%s': %s"),
 		        pkg_name(pkg, pnaw_nonambig), cdrext.buf,
 		        strerror(errno));
 
@@ -684,7 +684,7 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg,
 	if (strcmp(currenthash, namenode->oldhash) == 0) {
 		printf(_("Removing obsolete conffile %s ...\n"), cdr.buf);
 		if (unlink(cdr.buf) < 0 && errno != ENOENT)
-			warning(_("%s: failed to remove '%.250s': %s"),
+			warning(_("%s: failed to remove '%s': %s"),
 			        pkg_name(pkg, pnaw_nonambig), cdr.buf,
 			        strerror(errno));
 		return;
@@ -756,7 +756,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
 			if (!(errno == ENOENT ||
 			      errno == ELOOP ||
 			      errno == ENOTDIR))
-				warning(_("could not stat old file '%.250s' so not deleting it: %s"),
+				warning(_("could not stat old file '%s' so not deleting it: %s"),
 				        varbuf_str(&fnamevb), strerror(errno));
 			continue;
 		}
@@ -768,10 +768,10 @@ pkg_remove_old_files(struct pkginfo *pkg,
 				continue;
 
 			if (rmdir(varbuf_str(&fnamevb))) {
-				warning(_("unable to delete old directory '%.250s': %s"),
+				warning(_("unable to delete old directory '%s': %s"),
 				        namenode->name, strerror(errno));
 			} else if ((namenode->flags & FNNF_OLD_CONFF)) {
-				warning(_("old conffile '%.250s' was an empty directory "
+				warning(_("old conffile '%s' was an empty directory "
 				          "(and has now been deleted)"),
 				        namenode->name);
 			}
@@ -821,7 +821,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
 						cfile->namenode->file_ondisk_id = file_ondisk_id;
 					} else {
 						if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
-							ohshite(_("unable to stat other new file '%.250s'"),
+							ohshite(_("unable to stat other new file '%s'"),
 							        cfile->namenode->name);
 						cfile->namenode->file_ondisk_id = &empty_ondisk_id;
 						continue;
@@ -834,8 +834,8 @@ pkg_remove_old_files(struct pkginfo *pkg,
 				if (oldfs.st_dev == cfile->namenode->file_ondisk_id->id_dev &&
 				    oldfs.st_ino == cfile->namenode->file_ondisk_id->id_ino) {
 					if (sameas)
-						warning(_("old file '%.250s' is the same as several new files! "
-						          "(both '%.250s' and '%.250s')"), varbuf_str(&fnamevb),
+						warning(_("old file '%s' is the same as several new files! "
+						          "(both '%s' and '%s')"), varbuf_str(&fnamevb),
 						        sameas->namenode->name, cfile->namenode->name);
 					sameas = cfile;
 					debug_at(dbg_eachfile, "not removing %s, since it matches %s",
@@ -876,7 +876,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
 			trig_path_activate(usenode, pkg);
 
 			if (secure_unlink_statted(varbuf_str(&fnamevb), &oldfs)) {
-				warning(_("unable to securely remove old file '%.250s': %s"),
+				warning(_("unable to securely remove old file '%s': %s"),
 				        namenode->name, strerror(errno));
 			}
 		} /* !S_ISDIR */

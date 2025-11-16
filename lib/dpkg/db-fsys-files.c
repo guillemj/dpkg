@@ -87,7 +87,7 @@ fsys_list_parse_buffer(struct varbuf *vb, struct pkginfo *pkg)
 
 		ptr = memchr(thisline, '\n', loaded_list_end - thisline);
 		if (ptr == NULL)
-			ohshit(_("files list file for package '%.250s' "
+			ohshit(_("files list file for package '%s' "
 			         "is missing final newline"),
 			       pkg_name(pkg, pnaw_nonambig));
 
@@ -100,7 +100,7 @@ fsys_list_parse_buffer(struct varbuf *vb, struct pkginfo *pkg)
 
 		/* Add the file to the list. */
 		if (ptr == thisline)
-			ohshit(_("files list file for package '%.250s' "
+			ohshit(_("files list file for package '%s' "
 			         "contains empty filename"),
 			       pkg_name(pkg, pnaw_nonambig));
 		*ptr = '\0';
@@ -148,7 +148,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 		onerr_abort--;
 		if (pkg->status != PKG_STAT_CONFIGFILES &&
 		    dpkg_version_is_informative(&pkg->configversion)) {
-			warning(_("files list file for package '%.250s' missing; "
+			warning(_("files list file for package '%s' missing; "
 			          "assuming package has no files currently installed"),
 			        pkg_name(pkg, pnaw_nonambig));
 		}

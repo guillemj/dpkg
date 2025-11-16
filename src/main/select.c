@@ -195,12 +195,12 @@ setselections(const char *const *argv)
 		}
 		pkg = pkg_spec_parse_pkg(varbuf_str(&namevb), &err);
 		if (pkg == NULL)
-			ohshit(_("invalid package name at line %d: %.250s"), lno, err.str);
+			ohshit(_("invalid package name at line %d: %s"), lno, err.str);
 
 		if (!pkg_is_informative(pkg, &pkg->installed) &&
 		    !pkg_is_informative(pkg, &pkg->available)) {
 			db_possibly_outdated = true;
-			warning(_("package not in status nor available database at line %d: %.250s"),
+			warning(_("package not in status nor available database at line %d: %s"),
 			        lno, varbuf_str(&namevb));
 			lno++;
 			continue;
@@ -208,7 +208,7 @@ setselections(const char *const *argv)
 
 		nv = namevalue_find_by_name(wantinfos, varbuf_str(&selvb));
 		if (nv == NULL)
-			ohshit(_("unknown wanted status at line %d: %.250s"),
+			ohshit(_("unknown wanted status at line %d: %s"),
 			       lno, varbuf_str(&selvb));
 
 		pkg_set_want(pkg, nv->value);

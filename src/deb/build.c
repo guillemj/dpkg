@@ -231,15 +231,15 @@ check_ctrl_perms(const char *ctrldir)
 			if (S_ISLNK(mscriptstab.st_mode))
 				continue;
 			if (!S_ISREG(mscriptstab.st_mode))
-				ohshit(_("maintainer script '%.50s' is not a plain file or symlink"),
+				ohshit(_("maintainer script '%s' is not a plain file or symlink"),
 				       *mscriptp);
 			if ((mscriptstab.st_mode & 07557) != 0555)
-				ohshit(_("maintainer script '%.50s' has bad permissions %03lo "
+				ohshit(_("maintainer script '%s' has bad permissions %03lo "
 				         "(must be >=0555 and <=0775)"),
 				       *mscriptp,
 				       (unsigned long)(mscriptstab.st_mode & 07777));
 		} else if (errno != ENOENT) {
-			ohshite(_("maintainer script '%.50s' is not stattable"),
+			ohshite(_("maintainer script '%s' is not stattable"),
 			        *mscriptp);
 		}
 	}
@@ -339,10 +339,10 @@ check_conffiles(const char *ctrldir, const char *rootdir)
 					warning(_("conffile filename '%s' contains trailing white spaces"),
 					        conffilename);
 				if (!remove_on_upgrade)
-					ohshit(_("conffile '%.250s' does not appear in package"),
+					ohshit(_("conffile '%s' does not appear in package"),
 					       conffilename);
 			} else {
-				ohshite(_("conffile '%.250s' is not stattable"),
+				ohshite(_("conffile '%s' is not stattable"),
 				        conffilename);
 			}
 		} else if (remove_on_upgrade) {
@@ -474,7 +474,7 @@ gen_dest_pathname(const char *dir, const char *dest)
 
 		if (stat(dest, &dest_stab)) {
 			if (errno != ENOENT)
-				ohshite(_("unable to check for existence of archive '%.250s'"),
+				ohshite(_("unable to check for existence of archive '%s'"),
 				        dest);
 		} else if (S_ISDIR(dest_stab.st_mode)) {
 			/* Need to compute the destination name from the package
@@ -544,7 +544,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
 		close(pipe_tarball[1]);
 
 		if (chdir(dir))
-			ohshite(_("failed to chdir to '%.255s'"), dir);
+			ohshite(_("failed to chdir to '%s'"), dir);
 
 		snprintf(mtime, sizeof(mtime), "@%jd", options->timestamp);
 
@@ -604,9 +604,9 @@ parse_timestamp(const char *value)
 	errno = 0;
 	timestamp = strtoimax(value, &end, 10);
 	if (value == end || *end)
-		ohshit(_("unable to parse timestamp '%.255s'"), value);
+		ohshit(_("unable to parse timestamp '%s'"), value);
 	else if (errno != 0)
-		ohshite(_("unable to parse timestamp '%.255s'"), value);
+		ohshite(_("unable to parse timestamp '%s'"), value);
 
 	return timestamp;
 }

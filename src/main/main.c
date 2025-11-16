@@ -298,7 +298,7 @@ set_ignore_depends(const struct cmdinfo *cip, const char *value)
 
 		*p++ = '\0';
 		if (!*p || *p == ',' || p == copy + 1)
-			badusage(_("null package name in --%s comma-separated list '%.250s'"),
+			badusage(_("null package name in --%s comma-separated list '%s'"),
 			         cip->olong, value);
 	}
 

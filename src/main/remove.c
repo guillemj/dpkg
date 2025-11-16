@@ -122,7 +122,7 @@ deferred_remove(struct pkginfo *pkg)
 
 	if (pkg->status == PKG_STAT_NOTINSTALLED) {
 		sincenothing = 0;
-		warning(_("ignoring request to remove %.250s which isn't installed"),
+		warning(_("ignoring request to remove %s which isn't installed"),
 		        pkg_name(pkg, pnaw_nonambig));
 		pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
 
@@ -131,7 +131,7 @@ deferred_remove(struct pkginfo *pkg)
 	           pkg->status == PKG_STAT_CONFIGFILES &&
 	           cipaction->arg_int != act_purge) {
 		sincenothing = 0;
-		warning(_("ignoring request to remove %.250s, only the config\n"
+		warning(_("ignoring request to remove %s, only the config\n"
 		          " files of which are on the system; use --purge to remove them too"),
 		        pkg_name(pkg, pnaw_nonambig));
 		pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
@@ -249,7 +249,7 @@ removal_bulk_remove_file(const char *filename, const char *filetype)
 	debug_at(dbg_stupidlyverbose, "metadata file not postrm nor list");
 
 	if (unlink(filename))
-		ohshite(_("unable to delete package metadata file '%.250s'"),
+		ohshite(_("unable to delete package metadata file '%s'"),
 		        filename);
 
 	debug_at(dbg_scripts, "metadata file unlinked %s", filename);
@@ -376,7 +376,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 			push_leftover(&leftover, namenode);
 			continue;
 		} else if (errno == EBUSY || errno == EPERM) {
-			warning(_("while removing %.250s, unable to remove directory '%.250s': "
+			warning(_("while removing %s, unable to remove directory '%s': "
 			          "%s - directory may be a mount point?"),
 			        pkg_name(pkg, pnaw_nonambig), namenode->name,
 			        strerror(errno));
@@ -384,10 +384,10 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 			continue;
 		}
 		if (errno != ENOTDIR)
-			ohshite(_("cannot remove '%.250s'"), fnvb.buf);
+			ohshite(_("cannot remove '%s'"), fnvb.buf);
 		debug_at(dbg_eachfiledetail, "unlinking '%s'", fnvb.buf);
 		if (secure_unlink(fnvb.buf))
-			ohshite(_("unable to securely remove '%.250s'"),
+			ohshite(_("unable to securely remove '%s'"),
 			        fnvb.buf);
 	}
 	write_filelist_except(pkg, &pkg->installed, leftover, 0);
@@ -474,12 +474,12 @@ removal_bulk_remove_leftover_dirs(struct pkginfo *pkg)
 		if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP)
 			continue;
 		if (errno == ENOTEMPTY || errno == EEXIST) {
-			warning(_("while removing %.250s, directory '%.250s' not empty so not removed"),
+			warning(_("while removing %s, directory '%s' not empty so not removed"),
 			        pkg_name(pkg, pnaw_nonambig), namenode->name);
 			push_leftover(&leftover, namenode);
 			continue;
 		} else if (errno == EBUSY || errno == EPERM) {
-			warning(_("while removing %.250s, unable to remove directory '%.250s': "
+			warning(_("while removing %s, unable to remove directory '%s': "
 			          "%s - directory may be a mount point?"),
 			        pkg_name(pkg, pnaw_nonambig), namenode->name,
 			        strerror(errno));
@@ -487,14 +487,14 @@ removal_bulk_remove_leftover_dirs(struct pkginfo *pkg)
 			continue;
 		}
 		if (errno != ENOTDIR)
-			ohshite(_("cannot remove '%.250s'"), fnvb.buf);
+			ohshite(_("cannot remove '%s'"), fnvb.buf);
 
 		if (lstat(fnvb.buf, &stab) == 0 && S_ISLNK(stab.st_mode)) {
 			debug_at(dbg_eachfiledetail,
 			         "is a symlink to a directory");
 
 			if (unlink(fnvb.buf))
-				ohshite(_("cannot remove '%.250s'"), fnvb.buf);
+				ohshite(_("cannot remove '%s'"), fnvb.buf);
 
 			continue;
 		}
@@ -596,7 +596,7 @@ removal_bulk_remove_configfiles(struct pkginfo *pkg)
 
 		conffnameused = fnvb.used;
 		if (unlink(fnvb.buf) && errno != ENOENT && errno != ENOTDIR)
-			ohshite(_("cannot remove old config file '%.250s' (= '%.250s')"),
+			ohshite(_("cannot remove old config file '%s' (= '%s')"),
 			        conff->name, fnvb.buf);
 		p = strrchr(fnvb.buf, '/');
 		if (!p)
@@ -616,7 +616,7 @@ removal_bulk_remove_configfiles(struct pkginfo *pkg)
 			errno = e;
 			if (errno == ENOENT || errno == ENOTDIR)
 				continue;
-			ohshite(_("cannot read config file directory '%.250s' (from '%.250s')"),
+			ohshite(_("cannot read config file directory '%s' (from '%s')"),
 			        fnvb.buf, conff->name);
 		}
 		debug_at(dbg_conffdetail, "conffile cleaning dir %s", fnvb.buf);
@@ -665,7 +665,7 @@ removal_bulk_remove_configfiles(struct pkginfo *pkg)
 			if (unlink(removevb.buf) &&
 			    errno != ENOENT &&
 			    errno != ENOTDIR)
-				ohshite(_("cannot remove old backup config file '%.250s' (of '%.250s')"),
+				ohshite(_("cannot remove old backup config file '%s' (of '%s')"),
 				        removevb.buf, conff->name);
 		}
 		pop_cleanup(ehflag_normaltidy); /* closedir */

@@ -96,8 +96,7 @@ static struct {
 	 * Emergency error message buffer.
 	 *
 	 * The size is estimated using the following heuristic:
-	 * - 6x255 For inserted strings (%.255s &c in fmt; and %s with limited
-	 *         length arg).
+	 * - 6x255 For inserted strings (%s from pathnames, pkgnames, fields).
 	 * - 1x255 For constant text.
 	 * - 1x255 For strerror().
 	 * - And the total doubled just in case.

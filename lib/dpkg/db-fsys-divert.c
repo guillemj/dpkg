@@ -81,7 +81,7 @@ ensure_diversions(void)
 
 		if (oialtname->camefrom->divert ||
 		    oicontest->useinstead->divert)
-			ohshit(_("conflicting diversions involving '%.250s' or '%.250s'"),
+			ohshit(_("conflicting diversions involving '%s' or '%s'"),
 			       oialtname->camefrom->name,
 			       oicontest->useinstead->name);
 

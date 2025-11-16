@@ -60,7 +60,7 @@ cu_info_treewalk_fixup_dir(struct treenode *node)
 
 	nodename = treenode_get_pathname(node);
 	if (chmod(nodename, 0755) < 0)
-		ohshite(_("error setting permissions of '%.255s'"), nodename);
+		ohshite(_("error setting permissions of '%s'"), nodename);
 
 	return 0;
 }
@@ -127,11 +127,11 @@ info_spew(const char *debar, const char *dir, const char *const *argv)
 				       err.str);
 			close(fd);
 		} else if (errno == ENOENT) {
-			notice(_("'%.255s' contains no control component '%.255s'"),
+			notice(_("'%s' contains no control component '%s'"),
 			       debar, component);
 			re++;
 		} else {
-			ohshite(_("cannot open file '%.255s'"),
+			ohshite(_("cannot open file '%s'"),
 			        controlfile.buf);
 		}
 	}
@@ -193,7 +193,7 @@ info_list(const char *debar, const char *dir)
 
 	cdn = scandir(dir, &cdlist, &ilist_select, alphasort);
 	if (cdn < 0)
-		ohshite(_("cannot scan directory '%.255s'"), dir);
+		ohshite(_("cannot scan directory '%s'"), dir);
 
 	for (n = 0; n < cdn; n++) {
 		struct dirent *cdep;
@@ -204,7 +204,7 @@ info_list(const char *debar, const char *dir)
 		varbuf_set_fmt(&controlfile, "%s/%s", dir, cdep->d_name);
 
 		if (stat(controlfile.buf, &stab))
-			ohshite(_("cannot get file '%.255s' metadata"),
+			ohshite(_("cannot get file '%s' metadata"),
 			        controlfile.buf);
 		if (S_ISREG(stab.st_mode)) {
 			int exec_mark = (S_IXUSR & stab.st_mode) ? '*' : ' ';
@@ -212,13 +212,13 @@ info_list(const char *debar, const char *dir)
 
 			cc = fopen(controlfile.buf, "r");
 			if (!cc)
-				ohshite(_("cannot open file '%.255s'"),
+				ohshite(_("cannot open file '%s'"),
 				        controlfile.buf);
 
 			info_script(cc, &script);
 
 			if (ferror(cc))
-				ohshite(_("cannot read file '%.255s'"),
+				ohshite(_("cannot read file '%s'"),
 				        controlfile.buf);
 			fclose(cc);
 
@@ -232,7 +232,7 @@ info_list(const char *debar, const char *dir)
 				       (intmax_t)stab.st_size, script.lines,
 				       exec_mark, cdep->d_name);
 		} else {
-			printf(_("     not a plain file          %.255s\n"),
+			printf(_("     not a plain file          %s\n"),
 			       cdep->d_name);
 		}
 		free(cdep);
@@ -243,7 +243,7 @@ info_list(const char *debar, const char *dir)
 	cc = fopen(controlfile.buf, "r");
 	if (!cc) {
 		if (errno != ENOENT)
-			ohshite(_("cannot read file '%.255s'"),
+			ohshite(_("cannot read file '%s'"),
 			        controlfile.buf);
 		warning(_("no 'control' file in control archive!"));
 	} else {
@@ -260,7 +260,7 @@ info_list(const char *debar, const char *dir)
 			putc('\n', stdout);
 
 		if (ferror(cc))
-			ohshite(_("cannot read file '%.255s'"),
+			ohshite(_("cannot read file '%s'"),
 			        controlfile.buf);
 		fclose(cc);
 	}

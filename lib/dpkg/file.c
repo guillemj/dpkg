@@ -170,15 +170,15 @@ file_copy_perms(const char *src, const char *dst)
 	if (stat(src, &stab) < 0) {
 		if (errno == ENOENT)
 			return;
-		ohshite(_("unable to stat source file '%.250s'"), src);
+		ohshite(_("unable to stat source file '%s'"), src);
 	}
 
 	if (chown(dst, stab.st_uid, stab.st_gid) < 0)
-		ohshite(_("unable to change ownership of target file '%.250s'"),
+		ohshite(_("unable to change ownership of target file '%s'"),
 		        dst);
 
 	if (chmod(dst, (stab.st_mode & ~S_IFMT)) < 0)
-		ohshite(_("unable to set mode of target file '%.250s'"), dst);
+		ohshite(_("unable to set mode of target file '%s'"), dst);
 }
 
 static int

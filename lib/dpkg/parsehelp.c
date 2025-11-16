@@ -46,7 +46,7 @@ parse_error_msg(struct parsedb_state *ps, const char *fmt, va_list args)
 		               ps->filename, ps->lno,
 		               pkgbin_name(ps->pkg, ps->pkgbin, pnaw_nonambig));
 	else
-		varbuf_set_fmt(vb, _("parsing file '%.255s' near line %d:\n "),
+		varbuf_set_fmt(vb, _("parsing file '%s' near line %d:\n "),
 		               ps->filename, ps->lno);
 
 	varbuf_add_vfmt(vb, fmt, args);

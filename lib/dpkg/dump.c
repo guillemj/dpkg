@@ -505,7 +505,7 @@ write_stanza(FILE *file, const char *filename,
 	varbuf_stanza(&vb, pkg, pkgbin);
 
 	if (fputs(varbuf_str(&vb), file) < 0)
-		ohshite(_("failed to write details of '%.50s' to '%.250s'"),
+		ohshite(_("failed to write details of '%s' to '%s'"),
 		        pkgbin_name_const(pkg, pkgbin, pnaw_nonambig), filename);
 
 	varbuf_destroy(&vb);

@@ -401,11 +401,11 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 			while ((pkg_pos = deppossi_pkg_iter_next(possi_iter))) {
 				switch (pkg_pos->clientdata->istobe) {
 				case PKG_ISTOBE_REMOVE:
-					varbuf_set_fmt(&linebuf, _("  %.250s is to be removed.\n"),
+					varbuf_set_fmt(&linebuf, _("  %s is to be removed.\n"),
 					               pkg_name(pkg_pos, pnaw_nonambig));
 					break;
 				case PKG_ISTOBE_DECONFIGURE:
-					varbuf_set_fmt(&linebuf, _("  %.250s is to be deconfigured.\n"),
+					varbuf_set_fmt(&linebuf, _("  %s is to be deconfigured.\n"),
 					               pkg_name(pkg_pos, pnaw_nonambig));
 					break;
 				case PKG_ISTOBE_INSTALLNEW:
@@ -415,8 +415,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 						return true;
 					}
 
-					varbuf_set_fmt(&linebuf, _("  %.250s is to be installed, "
-					                           "but is version %.250s.\n"),
+					varbuf_set_fmt(&linebuf, _("  %s is to be installed, "
+					                           "but is version %s.\n"),
 					               pkgbin_name(pkg_pos, &pkg_pos->available, pnaw_nonambig),
 					               versiondescribe(&pkg_pos->available.version, vdew_nonambig));
 					break;
@@ -431,8 +431,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 							return true;
 						}
 
-						varbuf_set_fmt(&linebuf, _("  %.250s is installed, "
-						                           "but is version %.250s.\n"),
+						varbuf_set_fmt(&linebuf, _("  %s is installed, "
+						                           "but is version %s.\n"),
 						               pkg_name(pkg_pos, pnaw_nonambig),
 						               versiondescribe(&pkg_pos->installed.version, vdew_nonambig));
 						break;
@@ -450,13 +450,13 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 					case PKG_STAT_HALFCONFIGURED:
 						if (allowunconfigd) {
 							if (!dpkg_version_is_informative(&pkg_pos->configversion)) {
-								varbuf_set_fmt(&linebuf, _("  %.250s is unpacked, "
+								varbuf_set_fmt(&linebuf, _("  %s is unpacked, "
 								                           "but has never been configured.\n"),
 								               pkg_name(pkg_pos, pnaw_nonambig));
 								break;
 							} else if (!versionsatisfied(&pkg_pos->installed, possi)) {
-								varbuf_set_fmt(&linebuf, _("  %.250s is unpacked, "
-								                           "but is version %.250s.\n"),
+								varbuf_set_fmt(&linebuf, _("  %s is unpacked, "
+								                           "but is version %s.\n"),
 								               pkg_name(pkg_pos, pnaw_nonambig),
 								               versiondescribe(&pkg_pos->installed.version,
 								                               vdew_nonambig));
@@ -464,8 +464,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 							} else if (!dpkg_version_relate(&pkg_pos->configversion,
 							                                possi->verrel,
 							                                &possi->version)) {
-								varbuf_set_fmt(&linebuf, _("  %.250s latest configured "
-								                           "version is %.250s.\n"),
+								varbuf_set_fmt(&linebuf, _("  %s latest configured "
+								                           "version is %s.\n"),
 								               pkg_name(pkg_pos, pnaw_nonambig),
 								               versiondescribe(&pkg_pos->configversion,
 								                               vdew_nonambig));
@@ -478,7 +478,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 						}
 						/* Fall through. */
 					default:
-						varbuf_set_fmt(&linebuf, _("  %.250s is %s.\n"),
+						varbuf_set_fmt(&linebuf, _("  %s is %s.\n"),
 						               pkg_name(pkg_pos, pnaw_nonambig),
 						               gettext(statusstrings[pkg_pos->status]));
 						break;
@@ -525,13 +525,13 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 					 * information above. */
 					continue;
 				case PKG_ISTOBE_REMOVE:
-					varbuf_set_fmt(&linebuf, _("  %.250s provides %.250s "
+					varbuf_set_fmt(&linebuf, _("  %s provides %s "
 					                           "but is to be removed.\n"),
 					               pkg_name(provider->up->up, pnaw_nonambig),
 					               possi->ed->name);
 					break;
 				case PKG_ISTOBE_DECONFIGURE:
-					varbuf_set_fmt(&linebuf, _("  %.250s provides %.250s "
+					varbuf_set_fmt(&linebuf, _("  %s provides %s "
 					                           "but is to be deconfigured.\n"),
 					               pkg_name(provider->up->up, pnaw_nonambig),
 					               possi->ed->name);
@@ -547,7 +547,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 					if (provider->up->up->status == PKG_STAT_TRIGGERSAWAITED)
 						*canfixbytrigaw = provider->up->up;
 
-					varbuf_set_fmt(&linebuf, _("  %.250s provides %.250s but is %s.\n"),
+					varbuf_set_fmt(&linebuf, _("  %s provides %s but is %s.\n"),
 					               pkg_name(provider->up->up, pnaw_nonambig),
 					               possi->ed->name,
 					               gettext(statusstrings[provider->up->up->status]));
@@ -562,7 +562,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 			if (linebuf.used == 0) {
 				/* If the package wasn't installed at all, and we haven't said
 				 * yet why this isn't satisfied, we should say so now. */
-				varbuf_set_fmt(&linebuf, _("  %.250s is not installed.\n"),
+				varbuf_set_fmt(&linebuf, _("  %s is not installed.\n"),
 				               possi->ed->name);
 				varbuf_add_varbuf(whynot, &linebuf);
 			}
@@ -599,7 +599,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 					if (!versionsatisfied(&pkg_pos->available, possi))
 						break;
 
-					varbuf_add_fmt(whynot, _("  %.250s (version %.250s) is "
+					varbuf_add_fmt(whynot, _("  %s (version %s) is "
 					                         "to be installed.\n"),
 					               pkgbin_name(pkg_pos, &pkg_pos->available,
 					                           pnaw_nonambig),
@@ -638,7 +638,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 						if (!versionsatisfied(&pkg_pos->installed, possi))
 							break;
 
-						varbuf_add_fmt(whynot, _("  %.250s (version %.250s) is "
+						varbuf_add_fmt(whynot, _("  %s (version %s) is "
 						                         "present and %s.\n"),
 						               pkg_name(pkg_pos, pnaw_nonambig),
 						               versiondescribe(&pkg_pos->installed.version,
@@ -676,7 +676,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 				if (!pkg_virtual_deppossi_satisfied(possi, provider))
 					continue;
 
-				varbuf_add_fmt(whynot, _("  %.250s provides %.250s and is "
+				varbuf_add_fmt(whynot, _("  %s provides %s and is "
 				                         "to be installed.\n"),
 				               pkgbin_name(provider->up->up, &provider->up->up->available,
 				                           pnaw_nonambig), possi->ed->name);
@@ -731,7 +731,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
 					case PKG_STAT_INSTALLED:
 					case PKG_STAT_TRIGGERSPENDING:
 					case PKG_STAT_TRIGGERSAWAITED:
-						varbuf_add_fmt(whynot, _("  %.250s provides %.250s and "
+						varbuf_add_fmt(whynot, _("  %s provides %s and "
 						                         "is present and %s.\n"),
 						               pkg_name(provider->up->up, pnaw_nonambig),
 						               possi->ed->name,

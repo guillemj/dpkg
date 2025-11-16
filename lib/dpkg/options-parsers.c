@@ -46,7 +46,7 @@ dpkg_options_parse_pkgname(const struct cmdinfo *cmd, const char *name)
 
 	pkg = pkg_spec_parse_pkg(name, &err);
 	if (pkg == NULL)
-		badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
+		badusage(_("--%s needs a valid package name but '%s' is not: %s"),
 		         cmd->olong, name, err.str);
 
 	return pkg;

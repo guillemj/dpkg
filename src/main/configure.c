@@ -412,7 +412,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 			deferred_configure_ghost_conffile(pkg, conff);
 			return;
 		}
-		ohshite(_("unable to stat new distributed conffile '%.250s'"),
+		ohshite(_("unable to stat new distributed conffile '%s'"),
 		        cdr_new.buf);
 	}
 	md5hash(pkg, newdisthash, cdr_new.buf);
@@ -422,7 +422,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	if (!stat(cdr.buf, &stab))
 		file_copy_perms(cdr.buf, cdr_new.buf);
 	else if (errno != ENOENT)
-		ohshite(_("unable to stat current installed conffile '%.250s'"),
+		ohshite(_("unable to stat current installed conffile '%s'"),
 		        cdr.buf);
 
 	/* Select what to do. */
@@ -476,36 +476,36 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	switch (what & ~(CFOF_IS_NEW | CFOF_USER_DEL)) {
 	case CFO_KEEP | CFOF_BACKUP:
 		if (unlink(cdr_old.buf) && errno != ENOENT)
-			warning(_("%s: failed to remove old backup '%.250s': %s"),
+			warning(_("%s: failed to remove old backup '%s': %s"),
 			        pkg_name(pkg, pnaw_nonambig), cdr_old.buf,
 			        strerror(errno));
 
 		trig_path_activate(usenode, pkg);
 		if (rename(cdr_new.buf, cdr_dist.buf))
-			warning(_("%s: failed to rename '%.250s' to '%.250s': %s"),
+			warning(_("%s: failed to rename '%s' to '%s': %s"),
 			        pkg_name(pkg, pnaw_nonambig),
 			        cdr_new.buf, cdr_dist.buf,
 			        strerror(errno));
 		break;
 	case CFO_KEEP:
 		if (unlink(cdr_new.buf))
-			warning(_("%s: failed to remove '%.250s': %s"),
+			warning(_("%s: failed to remove '%s': %s"),
 			        pkg_name(pkg, pnaw_nonambig), cdr_new.buf,
 			        strerror(errno));
 		break;
 	case CFO_INSTALL | CFOF_BACKUP:
 		if (unlink(cdr_dist.buf) && errno != ENOENT)
-			warning(_("%s: failed to remove old distributed version '%.250s': %s"),
+			warning(_("%s: failed to remove old distributed version '%s': %s"),
 			        pkg_name(pkg, pnaw_nonambig),
 			        cdr_dist.buf,
 			        strerror(errno));
 		if (unlink(cdr_old.buf) && errno != ENOENT)
-			warning(_("%s: failed to remove '%.250s' (before overwrite): %s"),
+			warning(_("%s: failed to remove '%s' (before overwrite): %s"),
 			        pkg_name(pkg, pnaw_nonambig), cdr_old.buf,
 			        strerror(errno));
 		if (!(what & CFOF_USER_DEL))
 			if (link(cdr.buf, cdr_old.buf))
-				warning(_("%s: failed to link '%.250s' to '%.250s': %s"),
+				warning(_("%s: failed to link '%s' to '%s': %s"),
 				        pkg_name(pkg, pnaw_nonambig),
 				        cdr.buf,
 				        cdr_old.buf, strerror(errno));
@@ -517,7 +517,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	case CFO_NEW_CONFF:
 		trig_path_activate(usenode, pkg);
 		if (rename(cdr_new.buf, cdr.buf))
-			ohshite(_("unable to install '%.250s' as '%.250s'"),
+			ohshite(_("unable to install '%s' as '%s'"),
 			        cdr_new.buf, cdr.buf);
 		break;
 	default:
@@ -550,12 +550,12 @@ deferred_configure(struct pkginfo *pkg)
 		ohshit(_("no package named '%s' is installed, cannot configure"),
 		       pkg_name(pkg, pnaw_nonambig));
 	if (pkg->status == PKG_STAT_INSTALLED)
-		ohshit(_("package %.250s is already installed and configured"),
+		ohshit(_("package %s is already installed and configured"),
 		       pkg_name(pkg, pnaw_nonambig));
 	if (pkg->status != PKG_STAT_UNPACKED &&
 	    pkg->status != PKG_STAT_HALFCONFIGURED)
-		ohshit(_("package %.250s is not ready for configuration\n"
-		         " cannot configure (current status '%.250s')"),
+		ohshit(_("package %s is not ready for configuration\n"
+		         " cannot configure (current status '%s')"),
 		       pkg_name(pkg, pnaw_nonambig),
 		       pkg_status_name(pkg));
 
@@ -747,7 +747,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				        result->buf, strerror(errno));
 				return -1;
 			} else if (linksize != stab.st_size) {
-				warning(_("symbolic link '%.250s' size has "
+				warning(_("symbolic link '%s' size has "
 				          "changed from %jd to %zd"),
 				        result->buf, (intmax_t)stab.st_size,
 				        linksize);
@@ -771,7 +771,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				     r--)
 					;
 				if (r < 0) {
-					warning(_("%s: conffile '%.250s' resolves to degenerate filename\n"
+					warning(_("%s: conffile '%s' resolves to degenerate filename\n"
 					          " ('%s' is a symlink to '%s')"),
 					        pkg_name(pkg, pnaw_nonambig),
 					        in, result->buf, target.buf);
@@ -786,7 +786,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 			}
 			varbuf_add_varbuf(result, &target);
 		} else {
-			warning(_("%s: conffile '%.250s' is not a plain file or symlink (= '%s')"),
+			warning(_("%s: conffile '%s' is not a plain file or symlink (= '%s')"),
 			        pkg_name(pkg, pnaw_nonambig), in, result->buf);
 			return -1;
 		}

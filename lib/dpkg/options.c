@@ -76,7 +76,7 @@ dpkg_options_load_file(const char *fn, const struct cmdinfo *cmdinfos)
 	if (!file) {
 		if (errno == ENOENT)
 			return;
-		warning(_("failed to open configuration file '%.255s' for reading: %s"),
+		warning(_("failed to open configuration file '%s' for reading: %s"),
 		        fn, strerror(errno));
 		return;
 	}
@@ -154,9 +154,9 @@ dpkg_options_load_file(const char *fn, const struct cmdinfo *cmdinfos)
 		}
 	}
 	if (ferror(file))
-		ohshite(_("read error in configuration file '%.255s'"), fn);
+		ohshite(_("read error in configuration file '%s'"), fn);
 	if (fclose(file))
-		ohshite(_("error closing configuration file '%.255s'"), fn);
+		ohshite(_("error closing configuration file '%s'"), fn);
 }
 
 static int
@@ -343,10 +343,10 @@ dpkg_options_parse_arg_int(const struct cmdinfo *cmd, const char *str)
 	value = strtol(str, &end, 0);
 	if (str == end || *end || value < 0 || value > INT_MAX || errno != 0) {
 		if (cmd->olong)
-			badusage(_("invalid integer for --%s: '%.250s'"),
+			badusage(_("invalid integer for --%s: '%s'"),
 			         cmd->olong, str);
 		else
-			badusage(_("invalid integer for -%c: '%.250s'"),
+			badusage(_("invalid integer for -%c: '%s'"),
 			         cmd->oshort, str);
 	}
 

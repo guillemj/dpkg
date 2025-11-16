@@ -91,7 +91,7 @@ cu_installnew(int argc, void **argv)
 			debug_at(dbg_eachfiledetail, "restoring nonatomic");
 			if (secure_remove(fnamevb.buf) &&
 			    errno != ENOENT && errno != ENOTDIR)
-				ohshite(_("unable to remove newly-installed version of '%.250s' to allow"
+				ohshite(_("unable to remove newly-installed version of '%s' to allow"
 				          " reinstallation of backup copy"),
 				        namenode->name);
 		} else {
@@ -100,19 +100,19 @@ cu_installnew(int argc, void **argv)
 
 		/* Either we can do an atomic restore, or we've made room: */
 		if (rename(fnametmpvb.buf, fnamevb.buf))
-			ohshite(_("unable to restore backup version of '%.250s'"),
+			ohshite(_("unable to restore backup version of '%s'"),
 			        namenode->name);
 		/* If «pathname».dpkg-tmp was still a hard link to «pathname»,
 		 * then the atomic rename did nothing, so we make sure to
 		 * remove the backup. */
 		else if (unlink(fnametmpvb.buf) && errno != ENOENT)
-			ohshite(_("unable to remove backup copy of '%.250s'"),
+			ohshite(_("unable to remove backup copy of '%s'"),
 			        namenode->name);
 	} else if (namenode->flags & FNNF_PLACED_ON_DISK) {
 		debug_at(dbg_eachfiledetail, "removing new file");
 		if (secure_remove(fnamevb.buf) &&
 		    errno != ENOENT && errno != ENOTDIR)
-			ohshite(_("unable to remove newly-installed version of '%.250s'"),
+			ohshite(_("unable to remove newly-installed version of '%s'"),
 			        namenode->name);
 	} else {
 		debug_at(dbg_eachfiledetail, "not restoring");
@@ -120,7 +120,7 @@ cu_installnew(int argc, void **argv)
 	/* Whatever, we delete «pathname».dpkg-new now, if it still exists. */
 	if (secure_remove(fnamenewvb.buf) &&
 	    errno != ENOENT && errno != ENOTDIR)
-		ohshite(_("unable to remove newly-extracted version of '%.250s'"),
+		ohshite(_("unable to remove newly-extracted version of '%s'"),
 		        namenode->name);
 
 	cleanup_pkg_failed--;

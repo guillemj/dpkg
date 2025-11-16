@@ -176,10 +176,10 @@ statdb_node_apply(const char *filename, struct file_stat *filestat)
 
 	rc = chown(filename, filestat->uid, filestat->gid);
 	if (forcible_nonroot_error(rc) < 0)
-		ohshite(_("error setting ownership of '%.255s'"), filename);
+		ohshite(_("error setting ownership of '%s'"), filename);
 	rc = chmod(filename, filestat->mode & ~S_IFMT);
 	if (forcible_nonroot_error(rc) < 0)
-		ohshite(_("error setting permissions of '%.255s'"), filename);
+		ohshite(_("error setting permissions of '%s'"), filename);
 
 	dpkg_selabel_load();
 	dpkg_selabel_set_context(filename, filename, filestat->mode);

@@ -66,7 +66,7 @@ dpkg_ar_open(const char *filename)
 	else
 		fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		ohshite(_("failed to read archive '%.255s'"), filename);
+		ohshite(_("failed to read archive '%s'"), filename);
 
 	return dpkg_ar_fdopen(filename, fd);
 }
@@ -78,7 +78,7 @@ dpkg_ar_create(const char *filename, mode_t mode)
 
 	fd = creat(filename, mode);
 	if (fd < 0)
-		ohshite(_("unable to create '%.255s'"), filename);
+		ohshite(_("unable to create '%s'"), filename);
 
 	return dpkg_ar_fdopen(filename, fd);
 }
@@ -138,7 +138,7 @@ dpkg_ar_member_get_size(struct dpkg_ar *ar, struct dpkg_ar_hdr *arh)
 		if (*str == ' ')
 			break;
 		if (*str < '0' || *str > '9')
-			ohshit(_("invalid character '%c' in archive '%.250s' "
+			ohshit(_("invalid character '%c' in archive '%s' "
 			         "member '%.16s' size"),
 			       *str, ar->name, arh->ar_name);
 

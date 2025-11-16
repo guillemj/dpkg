@@ -89,7 +89,7 @@ setexecute(const char *path, struct stat *stab)
 	if (!chmod(path, 0755))
 		return;
 
-	ohshite(_("unable to set execute permissions on '%.250s'"), path);
+	ohshite(_("unable to set execute permissions on '%s'"), path);
 }
 
 /**
@@ -124,13 +124,13 @@ maintscript_pre_exec(struct command *cmd)
 			         "directory with --force-not-root, consider "
 			         "using --force-script-chrootless?"));
 		else if (rc)
-			ohshite(_("failed to chroot to '%.250s'"), instdir);
+			ohshite(_("failed to chroot to '%s'"), instdir);
 	}
 
 	/* Switch to a known good directory to give the maintainer script
 	 * a saner environment, also needed after the chroot(). */
 	if (chdir(changedir))
-		ohshite(_("failed to chdir to '%.255s'"), changedir);
+		ohshite(_("failed to chdir to '%s'"), changedir);
 
 	if (debug_has_flag(dbg_scripts)) {
 		struct varbuf args = VARBUF_INIT;
@@ -242,7 +242,7 @@ vmaintscript_run_old(struct pkginfo *pkg,
 			free(scriptdesc);
 			return 0;
 		}
-		ohshite(_("unable to stat %s '%.250s'"), scriptdesc, scriptpath);
+		ohshite(_("unable to stat %s '%s'"), scriptdesc, scriptpath);
 	}
 	maintscript_exec(pkg, &pkg->installed, &cmd, &stab, 0);
 
@@ -317,7 +317,7 @@ maintscript_run_new(struct pkginfo *pkg,
 			free(scriptdesc);
 			return 0;
 		}
-		ohshite(_("unable to stat %s '%.250s'"), scriptdesc, cidir);
+		ohshite(_("unable to stat %s '%s'"), scriptdesc, cidir);
 	}
 	maintscript_exec(pkg, &pkg->available, &cmd, &stab, 0);
 
@@ -356,7 +356,7 @@ maintscript_run_old_or_new(struct pkginfo *pkg,
 			free(scriptdesc);
 			return 0;
 		}
-		warning(_("unable to stat %s '%.250s': %s"),
+		warning(_("unable to stat %s '%s': %s"),
 		        cmd.name, oldscriptpath, strerror(errno));
 	} else if (!maintscript_exec(pkg, &pkg->installed, &cmd, &stab, SUBPROC_WARN)) {
 		command_destroy(&cmd);
@@ -387,7 +387,7 @@ maintscript_run_old_or_new(struct pkginfo *pkg,
 			ohshit(_("missing %s maintainer script in new %s package, giving up"),
 			       scriptname, pkg_name(pkg, pnaw_nonambig));
 		else
-			ohshite(_("unable to stat %s '%.250s'"), scriptdesc, cidir);
+			ohshite(_("unable to stat %s '%s'"), scriptdesc, cidir);
 	}
 
 	maintscript_exec(pkg, &pkg->available, &cmd, &stab, 0);

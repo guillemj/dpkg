@@ -96,7 +96,7 @@ scandepot(void)
 		if (errno == ENOENT)
 			return NULL;
 
-		ohshite(_("unable to read depot directory '%.250s'"),
+		ohshite(_("unable to read depot directory '%s'"),
 		        opt_depotdir);
 	}
 	while ((de = readdir(depot))) {
@@ -162,13 +162,13 @@ do_auto(const char *const *argv)
 	refi = nfmalloc(sizeof(*refi));
 	part = dpkg_ar_open(partfile);
 	if (!part)
-		ohshite(_("unable to read part file '%.250s'"), partfile);
+		ohshite(_("unable to read part file '%s'"), partfile);
 	refi = read_info(part, refi);
 	dpkg_ar_close(part);
 
 	if (refi == NULL) {
 		if (!opt_npquiet)
-			printf(_("File '%.250s' is not part of a multipart archive.\n"),
+			printf(_("File '%s' is not part of a multipart archive.\n"),
 			       partfile);
 		m_output(stdout, _("<standard output>"));
 		return 1;
@@ -213,11 +213,11 @@ do_auto(const char *const *argv)
 
 		fd_src = open(partfile, O_RDONLY);
 		if (fd_src < 0)
-			ohshite(_("unable to reopen part file '%.250s'"),
+			ohshite(_("unable to reopen part file '%s'"),
 			        partfile);
 		fd_dst = creat(p, 0644);
 		if (fd_dst < 0)
-			ohshite(_("unable to open new depot file '%.250s'"), p);
+			ohshite(_("unable to open new depot file '%s'"), p);
 
 		if (fd_fd_copy(fd_src, fd_dst, refi->filesize, &err) < 0)
 			ohshit(_("cannot extract split package part '%s': %s"),
@@ -230,7 +230,7 @@ do_auto(const char *const *argv)
 		close(fd_src);
 
 		if (rename(p, q))
-			ohshite(_("unable to rename new depot file '%.250s' to '%.250s'"),
+			ohshite(_("unable to rename new depot file '%s' to '%s'"),
 			        p, q);
 		free(q);
 		free(p);
@@ -256,7 +256,7 @@ do_auto(const char *const *argv)
 		for (i = 0; i < refi->maxpartn; i++)
 			if (partlist[i])
 				if (unlink(partlist[i]->filename))
-					ohshite(_("unable to delete used-up depot file '%.250s'"),
+					ohshite(_("unable to delete used-up depot file '%s'"),
 					        partlist[i]->filename);
 	}
 
@@ -288,7 +288,7 @@ do_queue(const char *const *argv)
 			part_found = true;
 		}
 		if (lstat(pq->info.filename, &stab))
-			ohshit(_("unable to stat '%.250s'"), pq->info.filename);
+			ohshit(_("unable to stat '%s'"), pq->info.filename);
 		if (S_ISREG(stab.st_mode)) {
 			bytes = stab.st_size;
 			printf(_(" %s (%jd bytes)\n"),
@@ -327,10 +327,10 @@ do_queue(const char *const *argv)
 			if (qq) {
 				printf("%d ", i + 1);
 				if (lstat(qq->info.filename, &stab))
-					ohshite(_("unable to stat '%.250s'"),
+					ohshite(_("unable to stat '%s'"),
 					        qq->info.filename);
 				if (!S_ISREG(stab.st_mode))
-					ohshit(_("part file '%.250s' is not a plain file"),
+					ohshit(_("part file '%s' is not a plain file"),
 					       qq->info.filename);
 				bytes += stab.st_size;
 
@@ -375,7 +375,7 @@ discard_parts(struct partqueue *queue, enum discard_which which,
 		}
 
 		if (unlink(pq->info.filename))
-			ohshite(_("unable to discard '%.250s'"),
+			ohshite(_("unable to discard '%s'"),
 			        pq->info.filename);
 		printf(_("Deleted %s.\n"), pq->info.filename);
 	}

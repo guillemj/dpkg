@@ -71,7 +71,7 @@ ulist_select(const struct dirent *de)
 		if (!c_isdigit(*p))
 			return 0;
 	if (l > IMPORTANTMAXLEN)
-		ohshit(_("updates directory contains file '%.250s' "
+		ohshit(_("updates directory contains file '%s' "
 		         "whose name is too long (length=%d, max=%d)"),
 		       de->d_name, l, IMPORTANTMAXLEN);
 
@@ -104,7 +104,7 @@ cleanupdates(void)
 
 			return;
 		}
-		ohshite(_("cannot scan updates directory '%.255s'"),
+		ohshite(_("cannot scan updates directory '%s'"),
 		        updatesdir);
 	}
 
@@ -124,7 +124,7 @@ cleanupdates(void)
 				varbuf_rollback(&updatefn_state);
 				varbuf_add_str(&updatefn, cdlist[i]->d_name);
 				if (unlink(updatefn.buf))
-					ohshite(_("failed to remove incorporated update file %.255s"),
+					ohshite(_("failed to remove incorporated update file %s"),
 					        updatefn.buf);
 			}
 
@@ -148,18 +148,18 @@ createimptmp(void)
 
 	importanttmp = fopen(importanttmpfile, "w");
 	if (!importanttmp)
-		ohshite(_("unable to create '%.255s'"), importanttmpfile);
+		ohshite(_("unable to create '%s'"), importanttmpfile);
 	setcloexec(fileno(importanttmp), importanttmpfile);
 	for (i = 0; i < 512; i++)
 		fputs("#padding\n", importanttmp);
 	if (ferror(importanttmp))
-		ohshite(_("unable to fill %.250s with padding"),
+		ohshite(_("unable to fill %s with padding"),
 		        importanttmpfile);
 	if (fflush(importanttmp))
-		ohshite(_("unable to flush %.250s after padding"),
+		ohshite(_("unable to flush %s after padding"),
 		        importanttmpfile);
 	if (fseek(importanttmp, 0, SEEK_SET))
-		ohshite(_("unable to seek to start of %.250s after padding"),
+		ohshite(_("unable to seek to start of %s after padding"),
 		        importanttmpfile);
 
 	onerr_abort--;
@@ -421,7 +421,7 @@ modstatdb_checkpoint(void)
 			          IMPORTANTMAXLEN);
 
 		if (unlink(updatefn.buf))
-			ohshite(_("failed to remove my own update file %.255s"),
+			ohshite(_("failed to remove my own update file %s"),
 			        updatefn.buf);
 	}
 
@@ -467,24 +467,24 @@ modstatdb_note_core(struct pkginfo *pkg)
 	varbuf_stanza(&uvb, pkg, &pkg->installed);
 
 	if (fwrite(uvb.buf, 1, uvb.used, importanttmp) != uvb.used)
-		ohshite(_("unable to write updated status of '%.250s'"),
+		ohshite(_("unable to write updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 	if (fflush(importanttmp))
-		ohshite(_("unable to flush updated status of '%.250s'"),
+		ohshite(_("unable to flush updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 	if (ftruncate(fileno(importanttmp), uvb.used))
-		ohshite(_("unable to truncate for updated status of '%.250s'"),
+		ohshite(_("unable to truncate for updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 	if (fsync(fileno(importanttmp)))
-		ohshite(_("unable to fsync updated status of '%.250s'"),
+		ohshite(_("unable to fsync updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 	if (fclose(importanttmp))
-		ohshite(_("unable to close updated status of '%.250s'"),
+		ohshite(_("unable to close updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 	varbuf_rollback(&updatefn_state);
 	varbuf_add_fmt(&updatefn, IMPORTANTFMT, nextupdate);
 	if (rename(importanttmpfile, updatefn.buf))
-		ohshite(_("unable to install updated status of '%.250s'"),
+		ohshite(_("unable to install updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 
 	dir_sync_path(updatesdir);

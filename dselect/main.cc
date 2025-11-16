@@ -295,7 +295,7 @@ set_debug(const struct cmdinfo*, const char *v)
 
 	fp = fopen(v, "a");
 	if (!fp)
-		ohshite(_("couldn't open debug file '%.255s'\n"), v);
+		ohshite(_("couldn't open debug file '%s'\n"), v);
 
 	debug_set_output(fp, v);
 	debug_set_mask(dbg_general | dbg_depcon);
@@ -668,7 +668,7 @@ main(int, const char *const *argv)
 			while (me->command && strcmp(me->command, a))
 				me++;
 			if (!me->command)
-				badusage(_("unknown action string '%.50s'"), a);
+				badusage(_("unknown action string '%s'"), a);
 			me->fn();
 		}
 	} else {

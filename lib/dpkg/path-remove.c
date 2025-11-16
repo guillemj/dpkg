@@ -150,7 +150,7 @@ path_remove_tree(const char *pathname)
 		errno = EROFS;
 	}
 	if (errno != ENOTEMPTY && errno != EEXIST) /* Huh? */
-		ohshite(_("unable to securely remove '%.255s'"), pathname);
+		ohshite(_("unable to securely remove '%s'"), pathname);
 
 	pid = subproc_fork();
 	if (pid == 0) {

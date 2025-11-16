@@ -115,10 +115,10 @@ void DPKG_ATTR_NORET
 read_fail(int rc, const char *filename, const char *what)
 {
 	if (rc >= 0)
-		ohshit(_("unexpected end of file in %s in %.255s"),
+		ohshit(_("unexpected end of file in %s in %s"),
 		       what, filename);
 	else
-		ohshite(_("error reading %s from file %.255s"), what, filename);
+		ohshite(_("error reading %s from file %s"), what, filename);
 }
 
 static void
@@ -130,7 +130,7 @@ set_part_size(const struct cmdinfo *cip, const char *value)
 	errno = 0;
 	newpartsize = strtoimax(value, &endp, 10);
 	if (value == endp || *endp)
-		badusage(_("invalid integer for --%s: '%.250s'"),
+		badusage(_("invalid integer for --%s: '%s'"),
 		         cip->olong, value);
 	if (newpartsize <= 0 ||
 	    newpartsize > (INT_MAX >> 10) ||

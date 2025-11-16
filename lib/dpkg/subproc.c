@@ -57,7 +57,7 @@ subproc_set_signal(int sig, struct sigaction *sa, struct sigaction *sa_old,
                    const char *name)
 {
 	if (sigaction(sig, sa, sa_old))
-		ohshite(_("unable to ignore signal %s before running %.250s"),
+		ohshite(_("unable to ignore signal %s before running %s"),
 		        strsignal(sig), name);
 }
 

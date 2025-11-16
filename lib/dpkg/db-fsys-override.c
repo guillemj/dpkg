@@ -146,7 +146,7 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 	loaded_list_end = loaded_list + db.st.st_size;
 
 	if (fd_read(fileno(db.file), loaded_list, db.st.st_size) < 0)
-		ohshite(_("reading statoverride file '%.250s'"), db.pathname);
+		ohshite(_("reading statoverride file '%s'"), db.pathname);
 
 	thisline = loaded_list;
 	while (thisline < loaded_list_end) {
@@ -222,7 +222,7 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 
 		fnn = fsys_hash_find_node(thisline, FHFF_NONE);
 		if (fnn->statoverride)
-			ohshit(_("multiple statoverrides present for file '%.250s'"),
+			ohshit(_("multiple statoverrides present for file '%s'"),
 			       thisline);
 		fnn->statoverride = fso;
 

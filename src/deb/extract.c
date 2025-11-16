@@ -70,10 +70,10 @@ static void DPKG_ATTR_NORET
 read_fail(int rc, const char *filename, const char *what)
 {
 	if (rc >= 0)
-		ohshit(_("unexpected end of file in %s in %.255s"),
+		ohshit(_("unexpected end of file in %s in %s"),
 		       what, filename);
 	else
-		ohshite(_("error reading %s from file %.255s"), what, filename);
+		ohshite(_("error reading %s from file %s"), what, filename);
 }
 
 static ssize_t
@@ -147,7 +147,7 @@ extracthalf(const char *debar, const char *dir,
 				read_fail(rc, debar, _("archive member header"));
 
 			if (dpkg_ar_member_is_invalid(&arh))
-				ohshit(_("file '%.250s' is corrupt - bad archive header magic"),
+				ohshit(_("file '%s' is corrupt - bad archive header magic"),
 				       debar);
 
 			dpkg_ar_normalize_name(&arh);
@@ -157,7 +157,7 @@ extracthalf(const char *debar, const char *dir,
 				char *infobuf;
 
 				if (strncmp(arh.ar_name, DEBMAGIC, sizeof(arh.ar_name)) != 0)
-					ohshit(_("file '%.250s' is not a Debian binary archive (try dpkg-split?)"),
+					ohshit(_("file '%s' is not a Debian binary archive (try dpkg-split?)"),
 					       debar);
 				infobuf = m_malloc(memberlen + 1);
 				rc = fd_read(ar->fd, infobuf,
@@ -200,7 +200,7 @@ extracthalf(const char *debar, const char *dir,
 						       debar, (int)sizeof(arh.ar_name), arh.ar_name);
 
 					if (ctrllennum != 0)
-						ohshit(_("archive '%.250s' contains two control members, giving up"),
+						ohshit(_("archive '%s' contains two control members, giving up"),
 						       debar);
 					ctrllennum = memberlen;
 				} else {
@@ -286,7 +286,7 @@ extracthalf(const char *debar, const char *dir,
 			         " corrupted by being downloaded in ASCII mode"));
 		}
 
-		ohshit(_("'%.255s' is not a Debian format archive"), debar);
+		ohshit(_("'%s' is not a Debian format archive"), debar);
 	}
 
 	m_pipe(p1);

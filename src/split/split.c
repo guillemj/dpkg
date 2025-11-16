@@ -100,9 +100,9 @@ parse_timestamp(const char *value)
 	errno = 0;
 	timestamp = strtoimax(value, &end, 10);
 	if (value == end || *end)
-		ohshit(_("unable to parse timestamp '%.255s'"), value);
+		ohshit(_("unable to parse timestamp '%s'"), value);
 	else if (errno != 0)
-		ohshite(_("unable to parse timestamp '%.255s'"), value);
+		ohshite(_("unable to parse timestamp '%s'"), value);
 
 	return timestamp;
 }
@@ -128,11 +128,11 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize)
 
 	fd_src = open(file_src, O_RDONLY);
 	if (fd_src < 0)
-		ohshite(_("unable to open source file '%.250s'"), file_src);
+		ohshite(_("unable to open source file '%s'"), file_src);
 	if (fstat(fd_src, &st))
 		ohshite(_("unable to fstat source file"));
 	if (!S_ISREG(st.st_mode))
-		ohshit(_("source file '%.250s' not a plain file"), file_src);
+		ohshit(_("source file '%s' not a plain file"), file_src);
 
 	if (fd_md5(fd_src, hash, -1, &err) < 0)
 		ohshit(_("cannot compute MD5 digest for file '%s': %s"),

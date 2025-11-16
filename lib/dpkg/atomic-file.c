@@ -62,7 +62,7 @@ atomic_file_open(struct atomic_file *file)
 		file->fp = fopen(file->name_new, "w");
 	}
 	if (file->fp == NULL)
-		ohshite(_("unable to create new file '%.250s'"),
+		ohshite(_("unable to create new file '%s'"),
 		        file->name_new);
 	fchmod(fileno(file->fp), 0644);
 
@@ -73,11 +73,11 @@ void
 atomic_file_sync(struct atomic_file *file)
 {
 	if (ferror(file->fp))
-		ohshite(_("unable to write new file '%.250s'"), file->name_new);
+		ohshite(_("unable to write new file '%s'"), file->name_new);
 	if (fflush(file->fp))
-		ohshite(_("unable to flush new file '%.250s'"), file->name_new);
+		ohshite(_("unable to flush new file '%s'"), file->name_new);
 	if (fsync(fileno(file->fp)))
-		ohshite(_("unable to sync new file '%.250s'"), file->name_new);
+		ohshite(_("unable to sync new file '%s'"), file->name_new);
 }
 
 void
@@ -86,7 +86,7 @@ atomic_file_close(struct atomic_file *file)
 	pop_cleanup(ehflag_normaltidy); /* fopen */
 
 	if (fclose(file->fp))
-		ohshite(_("unable to close new file '%.250s'"), file->name_new);
+		ohshite(_("unable to close new file '%s'"), file->name_new);
 }
 
 static void
@@ -108,9 +108,9 @@ void
 atomic_file_remove(struct atomic_file *file)
 {
 	if (unlink(file->name_new))
-		ohshite(_("cannot remove '%.250s'"), file->name_new);
+		ohshite(_("cannot remove '%s'"), file->name_new);
 	if (unlink(file->name) && errno != ENOENT)
-		ohshite(_("cannot remove '%.250s'"), file->name);
+		ohshite(_("cannot remove '%s'"), file->name);
 }
 
 void

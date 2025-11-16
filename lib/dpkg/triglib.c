@@ -260,8 +260,8 @@ trk_unknown_interest_change(const char *trig, struct pkginfo *pkg,
                             struct pkgbin *pkgbin, int signum,
                             enum trig_options opts)
 {
-	ohshit(_("invalid or unknown syntax in trigger name '%.250s'"
-	         " (in trigger interests for package '%.250s')"),
+	ohshit(_("invalid or unknown syntax in trigger name '%s'"
+	         " (in trigger interests for package '%s')"),
 	       trig, pkgbin_name(pkg, pkgbin, pnaw_nonambig));
 }
 
@@ -299,7 +299,7 @@ trk_explicit_start(const char *trig)
 	trk_explicit_f = fopen(trk_explicit_fn.buf, "r");
 	if (!trk_explicit_f) {
 		if (errno != ENOENT)
-			ohshite(_("failed to open trigger interest list file '%.250s'"),
+			ohshite(_("failed to open trigger interest list file '%s'"),
 			        trk_explicit_fn.buf);
 	}
 }
@@ -326,7 +326,7 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 		return;
 
 	if (fseek(trk_explicit_f, 0, SEEK_SET))
-		ohshite(_("failed to rewind trigger interest file '%.250s'"),
+		ohshite(_("failed to rewind trigger interest file '%s'"),
 		        trk_explicit_fn.buf);
 
 	while (trk_explicit_fgets(buf, sizeof(buf)) >= 0) {
@@ -338,8 +338,8 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 
 		pend = pkg_spec_parse_pkg(buf, &err);
 		if (pend == NULL)
-			ohshit(_("trigger interest file '%.250s' syntax error; "
-			         "invalid package name '%.250s': %.250s"),
+			ohshit(_("trigger interest file '%s' syntax error; "
+			         "invalid package name '%s': %s"),
 			       trk_explicit_fn.buf, buf, err.str);
 
 		trig_record_activation(pend, opts == TRIG_NOAWAIT ? NULL : aw,
@@ -369,8 +369,8 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg,
 
 		pkg_parsed = pkg_spec_parse_pkg(buf, &err);
 		if (pkg_parsed == NULL)
-			ohshit(_("trigger interest file '%.250s' syntax error; "
-			         "invalid package name '%.250s': %.250s"),
+			ohshit(_("trigger interest file '%s' syntax error; "
+			         "invalid package name '%s': %s"),
 			       trk_explicit_fn.buf, buf, err.str);
 
 		if (pkg == pkg_parsed &&
@@ -471,8 +471,8 @@ trk_file_interest_change(const char *trig, struct pkginfo *pkg,
 found:
 	tfi->options = opts;
 	if (signum > 1)
-		ohshit(_("duplicate file trigger interest for filename '%.250s' "
-		         "and package '%.250s'"), trig,
+		ohshit(_("duplicate file trigger interest for filename '%s' "
+		         "and package '%s'"), trig,
 		       pkgbin_name(pkg, pkgbin, pnaw_nonambig));
 	if (signum > 0)
 		return;
@@ -488,7 +488,7 @@ static void
 trig_file_interests_remove(void)
 {
 	if (unlink(triggersfilefile) && errno != ENOENT)
-		ohshite(_("cannot remove '%.250s'"), triggersfilefile);
+		ohshite(_("cannot remove '%s'"), triggersfilefile);
 }
 
 static void
@@ -542,7 +542,7 @@ trig_file_interests_ensure(void)
 	if (!f) {
 		if (errno == ENOENT)
 			goto ok;
-		ohshite(_("unable to read file triggers file '%.250s'"),
+		ohshite(_("unable to read file triggers file '%s'"),
 		        triggersfilefile);
 	}
 
@@ -553,7 +553,7 @@ trig_file_interests_ensure(void)
 
 		space = strchr(linebuf, ' ');
 		if (!space || linebuf[0] != '/')
-			ohshit(_("syntax error in file triggers file '%.250s'"),
+			ohshit(_("syntax error in file triggers file '%s'"),
 			       triggersfilefile);
 		*space++ = '\0';
 
@@ -562,8 +562,8 @@ trig_file_interests_ensure(void)
 		pkg = pkg_spec_parse_pkg(space, &err);
 		if (pkg == NULL)
 			ohshit(_("file triggers record mentions invalid "
-			         "package name '%.250s' (for interest in file "
-			         "'%.250s'): %.250s"), space, linebuf, err.str);
+			         "package name '%s' (for interest in file "
+			         "'%s'): %s"), space, linebuf, err.str);
 		pkgbin = &pkg->installed;
 
 		trk_file_interest_change(linebuf, pkg, pkgbin, +2, trig_opts);
@@ -726,7 +726,7 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 		if (errno == ENOENT)
 			/* No file is just like an empty one. */
 			return;
-		ohshite(_("unable to open triggers package metadata file '%.250s'"),
+		ohshite(_("unable to open triggers package metadata file '%s'"),
 		        file);
 	}
 	push_cleanup(cu_closestream, ~0, 1, f);
@@ -834,7 +834,7 @@ trig_incorporate(enum modstatdb_rw cstatus)
 		if (mkdir(triggersdir, 0755)) {
 			if (errno != EEXIST)
 				ohshite(_("unable to create triggers state"
-				          " directory '%.250s'"), triggersdir);
+				          " directory '%s'"), triggersdir);
 		}
 		ur = trigdef_update_start(tduf);
 	}

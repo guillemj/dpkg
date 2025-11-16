@@ -617,7 +617,7 @@ predeppackage(const char *const *argv)
 			varbuf_reset(&vb);
 			describedepcon(&vb, dep);
 			notice(_("cannot see how to satisfy pre-dependency:\n %s"), vb.buf);
-			ohshit(_("cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"),
+			ohshit(_("cannot satisfy pre-dependencies for %s (wanted due to %s)"),
 			       pkgbin_name(dep->up, &dep->up->available, pnaw_nonambig),
 			       pkgbin_name(startpkg, &startpkg->available, pnaw_nonambig));
 		}

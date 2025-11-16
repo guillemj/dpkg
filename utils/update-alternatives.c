@@ -436,7 +436,7 @@ static void
 xrename(const char *src, const char *dst)
 {
 	if (!rename_mv(src, dst))
-		syserr(_("unable to install '%.250s' as '%.250s'"), src, dst);
+		syserr(_("unable to install '%s' as '%s'"), src, dst);
 }
 
 static void LIBCOMPAT_ATTR_PRINTF(1)
@@ -628,7 +628,7 @@ fsys_xreadlink(const char *linkname)
 
 	buf = fsys_areadlink(linkname);
 	if (buf == NULL)
-		syserr(_("unable to read link '%s%.255s'"), instdir, linkname);
+		syserr(_("unable to read link '%s%s'"), instdir, linkname);
 
 	return buf;
 }
@@ -675,7 +675,7 @@ fsys_symlink(const char *filename, const char *linkname)
 		syserr(_("unable to remove '%s'"), root_linkname);
 
 	if (symlink(filename, root_linkname))
-		syserr(_("error creating symbolic link '%.255s'"), root_linkname);
+		syserr(_("error creating symbolic link '%s'"), root_linkname);
 
 	free(root_linkname);
 }
@@ -1319,7 +1319,7 @@ altdb_get_namelist(struct dirent ***table)
 	count = scandir(admdir, table, altdb_filter_namelist, alphasort);
 	if (count < 0) {
 		if (errno != ENOENT)
-			syserr(_("cannot scan directory '%.255s'"), admdir);
+			syserr(_("cannot scan directory '%s'"), admdir);
 		/* The directory does not exist, proceed anyway. */
 		*table = NULL;
 		count = 0;
@@ -2714,7 +2714,7 @@ alternative_set_selections(FILE *input, const char *desc)
 		 * contain a space */
 		res = fgets(line, sizeof(line), input);
 		if (res == NULL && errno) {
-			syserr(_("read error in %.250s"), desc);
+			syserr(_("read error in %s"), desc);
 		} else if (res == NULL) {
 			break;
 		}

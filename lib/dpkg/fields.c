@@ -77,7 +77,7 @@ parse_nv(struct parsedb_state *ps, enum parse_nv_mode parse_mode,
 	if (nv == NULL) {
 		/* We got no match, skip further string validation. */
 		if (parse_mode != PARSE_NV_FALLBACK)
-			return dpkg_put_error(&ps->err, _("has invalid value '%.50s'"), str_start);
+			return dpkg_put_error(&ps->err, _("has invalid value '%s'"), str_start);
 
 		str_end = NULL;
 		value = -1;
@@ -303,7 +303,7 @@ f_version(struct pkginfo *pkg, struct pkgbin *pkgbin,
           const char *value, const struct fieldinfo *fip)
 {
 	if (parse_db_version(ps, &pkgbin->version, value) < 0)
-		parse_problem(ps, _("'%s' field value '%.250s'"),
+		parse_problem(ps, _("'%s' field value '%s'"),
 		              fip->name, value);
 }
 
@@ -341,7 +341,7 @@ f_configversion(struct pkginfo *pkg, struct pkgbin *pkgbin,
 		return;
 
 	if (parse_db_version(ps, &pkg->configversion, value) < 0)
-		parse_problem(ps, _("'%s' field value '%.250s'"),
+		parse_problem(ps, _("'%s' field value '%s'"),
 		              fip->name, value);
 }
 
@@ -508,7 +508,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 			emsg = pkg_name_is_invalid(depname.buf);
 			if (emsg)
 				parse_error(ps,
-				            _("'%s' field, invalid package name '%.255s': %s"),
+				            _("'%s' field, invalid package name '%s': %s"),
 				            fip->name, depname.buf, emsg);
 
 			dop = nfmalloc(sizeof(*dop));
@@ -555,8 +555,8 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 				if (dop->arch->type == DPKG_ARCH_INVALID)
 					emsg = dpkg_arch_name_is_invalid(arch.buf);
 				if (emsg)
-					parse_error(ps, _("'%s' field, reference to '%.255s': "
-					                  "invalid architecture name '%.255s': %s"),
+					parse_error(ps, _("'%s' field, reference to '%s': "
+					                  "invalid architecture name '%s': %s"),
 					            fip->name, depname.buf, arch.buf, emsg);
 			} else if (fip->integer == dep_conflicts ||
 			           fip->integer == dep_breaks ||
@@ -602,12 +602,12 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 						p++;
 					} else if (c2 == '<' || c2 == '>') {
 						parse_error(ps,
-						            _("'%s' field, reference to '%.255s':\n"
+						            _("'%s' field, reference to '%s':\n"
 						              " bad version relationship %c%c"),
 						            fip->name, depname.buf, c1, c2);
 					} else {
 						parse_warn(ps,
-						           _("'%s' field, reference to '%.255s':\n"
+						           _("'%s' field, reference to '%s':\n"
 						             " '%c' is obsolete, use '%c=' or '%c%c' instead"),
 						                 fip->name, depname.buf, c1, c1, c1, c1);
 						dop->verrel |= DPKG_RELATION_EQ;
@@ -617,7 +617,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 					p++;
 				} else {
 					parse_warn(ps,
-					           _("'%s' field, reference to '%.255s':\n"
+					           _("'%s' field, reference to '%s':\n"
 					             " implicit exact match on version number, "
 					             "suggest using '=' instead"),
 					           fip->name, depname.buf);
@@ -631,7 +631,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
 				if (!c_isspace(*p) && !c_isalnum(*p)) {
 					parse_warn(ps,
-					           _("'%s' field, reference to '%.255s':\n"
+					           _("'%s' field, reference to '%s':\n"
 					             " version value starts with non-alphanumeric, "
 					             "suggest adding a space"),
 					           fip->name, depname.buf);
@@ -651,17 +651,17 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 					p++;
 				if (*p == '\0')
 					parse_error(ps,
-					            _("'%s' field, reference to '%.255s': "
+					            _("'%s' field, reference to '%s': "
 					              "version unterminated"), fip->name, depname.buf);
 				else if (*p != ')')
 					parse_error(ps,
-					            _("'%s' field, reference to '%.255s': "
+					            _("'%s' field, reference to '%s': "
 					              "version contains '%c' instead of '%c'"),
 					            fip->name, depname.buf, *p, ')');
 				varbuf_set_buf(&version, versionstart, versionlength);
 				if (parse_db_version(ps, &dop->version, version.buf) < 0)
 					parse_problem(ps,
-					              _("'%s' field, reference to '%.255s': version '%s'"),
+					              _("'%s' field, reference to '%s': version '%s'"),
 					              fip->name, depname.buf, version.buf);
 
 				p++;
@@ -675,7 +675,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 				break;
 			if (*p != '|')
 				parse_error(ps,
-				            _("'%s' field, syntax error after reference to package '%.255s'"),
+				            _("'%s' field, syntax error after reference to package '%s'"),
 				            fip->name, dop->ed->name);
 			if (fip->integer == dep_conflicts ||
 			    fip->integer == dep_breaks ||
@@ -760,12 +760,12 @@ f_trigpend(struct pkginfo *pend, struct pkgbin *pkgbin,
 		emsg = trig_name_is_invalid(word);
 		if (emsg)
 			parse_error(ps,
-			            _("invalid pending trigger name '%.255s': %s"),
+			            _("invalid pending trigger name '%s': %s"),
 			            word, emsg);
 
 		if (!trig_note_pend_core(pend, nfstrsave(word)))
 			parse_error(ps,
-			            _("duplicate pending trigger '%.255s'"),
+			            _("duplicate pending trigger '%s'"),
 			            word);
 	}
 }
@@ -789,12 +789,12 @@ f_trigaw(struct pkginfo *aw, struct pkgbin *pkgbin,
 		pend = pkg_spec_parse_pkg(word, &err);
 		if (pend == NULL)
 			parse_error(ps,
-			            _("invalid package name in awaited trigger '%.255s': %s"),
+			            _("invalid package name in awaited trigger '%s': %s"),
 			            word, err.str);
 
 		if (!trig_note_aw(pend, aw))
 			parse_error(ps,
-			            _("duplicate awaited trigger package '%.255s'"),
+			            _("duplicate awaited trigger package '%s'"),
 			            word);
 
 		trig_awaited_pend_enqueue(pend);
