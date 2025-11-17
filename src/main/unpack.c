@@ -503,8 +503,8 @@ static void
 pkg_infodb_update_file(const char *filename, const char *filetype)
 {
 	if (strlen(filetype) > MAXCONTROLFILENAME)
-		ohshit(_("old version of package has overly-long meatada file name starting '%.250s'"),
-		       filename);
+		ohshit(_("old version of package has overly-long meatada file name (starting with '%.*s')"),
+		       MAXCONTROLFILENAME, filename);
 
 	/* We do the list separately. */
 	if (strcmp(filetype, LISTFILE) == 0)
@@ -571,8 +571,8 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 		}
 
 		if (strlen(de->d_name) > MAXCONTROLFILENAME)
-			ohshit(_("package contains overly-long metadata file name (starting '%.50s')"),
-			       de->d_name);
+			ohshit(_("package has overly-long metadata file name (starting with '%.*s')"),
+			       MAXCONTROLFILENAME, de->d_name);
 
 		strcpy(cidirrest, de->d_name);
 
