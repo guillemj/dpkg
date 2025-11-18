@@ -112,7 +112,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 
 	rc = fd_read(ar->fd, &arh, sizeof(arh));
 	if (rc != sizeof(arh))
-		read_fail(rc, ar->name, "ar header");
+		read_fail(rc, ar->name, _("ar header"));
 
 	dpkg_ar_normalize_name(&arh);
 
@@ -128,7 +128,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 
 	rc = fd_read(ar->fd, format_member.buf, thisilen + (thisilen & 1));
 	if (rc != (ssize_t)(thisilen + (thisilen & 1)))
-		read_fail(rc, ar->name, "reading header member");
+		read_fail(rc, ar->name, _("reading header member"));
 	if (thisilen & 1) {
 		int c = format_member.buf[thisilen];
 
@@ -199,7 +199,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 
 	rc = fd_read(ar->fd, &arh, sizeof(arh));
 	if (rc != sizeof(arh))
-		read_fail(rc, ar->name, "reading data part member ar header");
+		read_fail(rc, ar->name, _("reading data part member ar header"));
 
 	dpkg_ar_normalize_name(&arh);
 
