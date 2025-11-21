@@ -676,7 +676,7 @@ sub usage {
   -I<package-build-dir>    ignore needed libraries, shlibs and symbols files
                              in the given build directory.
   -v                       enable verbose mode (can be used multiple times).
-  --ignore-missing-info    do not fail if dependency information cannot be found.
+  --ignore-missing-info    do not fail on missing dependency information.
   --warnings=<value>       define set of active warnings (see manual page).
   --admindir=<directory>   change the administrative directory.
   -?, --help               show this help message.

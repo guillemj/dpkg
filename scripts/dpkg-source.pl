@@ -668,9 +668,10 @@ sub usage {
     . "\n\n" . g_(
 'Extract options:
   --no-copy                do not copy .orig tarballs
-  --no-check               do not check signature and checksums before unpacking
+  --no-check               do not check signature and checksums on extraction
   --no-overwrite-dir       do not overwrite directory on extraction
-  --require-valid-signature abort if the package does not have a valid signature
+  --require-valid-signature
+                           abort if the package does not have a valid signature
   --require-strong-checksums
                            abort if the package contains no strong checksums
   --ignore-bad-version     allow bad source package versions.')
