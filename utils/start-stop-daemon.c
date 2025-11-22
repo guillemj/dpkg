@@ -5,22 +5,37 @@
  * Based conceptually on start-stop-daemon.pl, by
  *   Ian Jackson <ijackson@chiark.greenend.org.uk>.
  * Written by:
- *   1999 Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>,
- *     public domain. May be used and distributed freely for any purpose.
+ *   1999 Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>
+ *     Public Domain. May be used and distributed freely for any purpose.
  * Changes by:
  *   1999 Christian Schwarz <schwarz@monet.m.isar.de>,
- *     to make output conform to the Debian Console Message Standard,
- *     also placed in public domain.
- *   1999 Klee Dienes <klee@debian.org>,
- *     minor changes, also placed in the Public Domain.
- *   1999 Ben Collins <bcollins@debian.org>,
- *     added --chuid, --background and --make-pidfile options,
- *     placed in public domain as well.
- *   2001 Sontri Tomo Huynh <huynh.29@osu.edu> and
+ *     Make output conform to the Debian Console Message Standard,
+ *     also placed in Public Domain.
+ *   1999 Klee Dienes <klee@debian.org>
+ *     Minor changes, also placed in the Public Domain.
+ *   1999 Ben Collins <bcollins@debian.org>
+ *     Added --chuid, --background and --make-pidfile options,
+ *     placed in Public Domain as well.
+ *   1999-2002 Wichert Akkerman <wakkerma@debian.org>
+ *   2000 Marcus Brinkmann <brinkmd@debian.org>
+ *   2000-2003 Adam Heath <doogie@debian.org>
+ *   2001 Sontri Tomo Huynh <huynh.29@osu.edu>
+ *     Port to OpenBSD.
  *   2001 Andreas Schuldei <andreas@schuldei.org>
- *     port to OpenBSD.
+ *     Port to OpenBSD.
  *   2001 Ian Jackson
- *     added --retry (and associated rearrangements).
+ *     Added --retry (and associated rearrangements).
+ *   2004-2005 Scott James Remnant <keybuk@debian.org>
+ *   2006-2025 Guillem Jover <guillem@debian.org>
+ *   2008 Samuel Thibault <samuel.thibault@ens-lyon.org> (tiny change)
+ *   2008 Andreas Påhlsson <andreas.pahlsson@xcerion.com>
+ *   2008 Justin Pryzby <jpryzby+d@quoininc.com> (tiny change)
+ *   2008 Erast Benson <erast@gnusolaris.org> (tiny change)
+ *   2009 Chris Coulson <chrisccoulson@googlemail.com>
+ *   2009 Raphaël Hertzog <hertzog@debian.org>
+ *   2012 Carsten Hey <carsten@debian.org> (tiny change)
+ *   2015 Christos Trochalakis <yatiohi@ideopolis.gr> (tiny change)
+ *   2015 Sven Joachim <svenjoac@gmx.de> (tiny change)
  */
 
 #include <config.h>
