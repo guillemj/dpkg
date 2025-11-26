@@ -142,7 +142,7 @@ sub changelog_parse {
     if (exists $opts{file} && ! exists $opts{filename}) {
         warnings::warnif('deprecated',
             'Dpkg::Changelog::Parse::changelog_parse() option file is deprecated, ' .
-            'switch to use filename, or pass file it alongside it');
+            'switch to use filename, or pass file alongside it');
     }
     $opts{filename} //= $opts{file} // 'debian/changelog';
     $opts{label} //= $opts{filename};

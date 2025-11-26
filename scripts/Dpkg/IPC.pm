@@ -343,7 +343,7 @@ sub spawn {
         if (exists $opts{nocheck} && ! exists $opts{no_check}) {
             warnings::warnif('deprecated',
                 'Dpkg::IPC::spawn() option nocheck is deprecated, ' .
-                'either switch to no_check or pass it alongside it');
+                'either switch to no_check or pass nocheck alongside it');
         }
         wait_child($pid,
             no_check => $opts{no_check} // $opts{nocheck},
@@ -402,7 +402,7 @@ sub wait_child {
     if (exists $opts{nocheck} && ! exists $opts{no_check}) {
         warnings::warnif('deprecated',
             'Dpkg::IPC::wait_child() option nocheck is deprecated, ' .
-            'either switch to no_check or pass it alongside it');
+            'either switch to no_check or pass nocheck alongside it');
     }
     $opts{no_check} //= $opts{nocheck};
     croak 'no PID set, cannot wait end of process' unless $pid;
