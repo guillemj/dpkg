@@ -336,16 +336,20 @@ for equal to.
 
 An architecture specification consists of one or more architecture names,
 separated by whitespace.
-Exclamation marks may be prepended to each of the
-names, meaning “NOT”.
+Exclamation marks (B<!>) may be prepended to each of the names,
+meaning “NOT”.
 
-A restriction formula consists of one or more restriction lists, separated
-by whitespace.
-Each restriction list is enclosed in angle brackets.
-Items
-in the restriction list are build profile names, separated by whitespace
-and can be prefixed with an exclamation mark, meaning “NOT”.
-A restriction formula represents a disjunctive normal form expression.
+A restriction formula consists of one or more restriction lists,
+separated by whitespace.
+Each restriction list is enclosed in angle brackets (B<E<lt>> and B<E<gt>>).
+Items in the restriction list are build profile names,
+separated by whitespace
+and can be prefixed with an exclamation mark (B<!>),
+meaning “NOT”.
+A restriction formula represents a disjunctive normal form expression,
+that is whitespace inside enclosed angle brackets is read as “AND”,
+and whitespace between enclosing angle brackets is read as “OR“,
+such as “B<E<lt>>foo AND barB<E<gt>> OR B<E<lt>>quux AND bazB<E<gt>>”.
 
 Note that dependencies on packages in the
 B<build-essential>
