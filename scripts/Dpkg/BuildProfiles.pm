@@ -26,13 +26,14 @@ profiles.
 
 =cut
 
-package Dpkg::BuildProfiles 1.00;
+package Dpkg::BuildProfiles 1.01;
 
 use v5.36;
 
 our @EXPORT_OK = qw(
     get_build_profiles
     set_build_profiles
+    build_profile_is_invalid
     parse_build_profiles
     evaluate_restriction_formula
 );
@@ -80,6 +81,53 @@ sub set_build_profiles {
     $cache_profiles = 1;
     @build_profiles = @profiles;
     Dpkg::BuildEnv::set('DEB_BUILD_PROFILES', join ' ', @profiles);
+}
+
+=item $bool = build_profile_is_invalid($string)
+
+Validate a build profile formula.
+
+=cut
+
+my $profile_name_regex = qr{
+    !?
+    # Be lenient for now. Accept operators for extensibility, uppercase,
+    # and package name characters.
+    [
+        ?/;:=@%*~_
+        A-Z
+        a-z0-9+.\-
+    ]+
+}x;
+
+my $restriction_list_regex = qr{
+    <
+    \s*
+    (
+        $profile_name_regex
+        (?:
+            \s+
+            $profile_name_regex
+        )*
+    )
+    \s*
+    >
+}x;
+
+my $restriction_formula_regex = qr{
+    ^
+    (?:
+        \s*
+        $restriction_list_regex
+    )*
+    \s*
+    $
+}x;
+
+
+sub build_profile_is_invalid($string)
+{
+    return $string !~ $restriction_formula_regex;
 }
 
 =item @profiles = parse_build_profiles($string)
@@ -137,6 +185,10 @@ sub evaluate_restriction_formula {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.01 (dpkg 1.23.0)
+
+New functions: build_profile_is_invalid().
 
 =head2 Version 1.00 (dpkg 1.17.17)
 

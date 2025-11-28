@@ -15,9 +15,10 @@
 
 use v5.36;
 
-use Test::More tests => 8;
+use Test::More tests => 17;
 
 use ok 'Dpkg::BuildProfiles', qw(
+    build_profile_is_invalid
     parse_build_profiles
     set_build_profiles
     get_build_profiles
@@ -26,6 +27,26 @@ use ok 'Dpkg::BuildProfiles', qw(
 # TODO: Add actual test cases.
 
 my $formula;
+
+ok(!build_profile_is_invalid(''),
+    'check that build profiles with no characters are valid');
+ok(!build_profile_is_invalid('<nocheck>'),
+    'check that build profiles with a valid single element are valid');
+ok(!build_profile_is_invalid('<nocheck nodoc> <pkg/dpkg/author-checks>'),
+    'check that build profiles with a valid formula are valid');
+
+ok(build_profile_is_invalid('<invalid> + <characters>'),
+    'check that build profiles with invalid characters are invalid');
+ok(build_profile_is_invalid('missing angle brackets'),
+    'check that build profiles with missing opening/closing angle brackets are invalid');
+ok(build_profile_is_invalid('<missing angle brackets <here too'),
+    'check that build profiles with missing closing angle brackets are invalid 1');
+ok(build_profile_is_invalid('<missing angle brackets <here too>'),
+    'check that build profiles with missing closing angle brackets are invalid 2');
+ok(build_profile_is_invalid('missing angle> brackets>'),
+    'check that build profiles with missing opening angle brackets are invalid 1');
+ok(build_profile_is_invalid('missing angle> <brackets>'),
+    'check that build profiles with missing opening angle brackets are invalid 2');
 
 $formula = [ ];
 is_deeply([ parse_build_profiles('') ], $formula,
