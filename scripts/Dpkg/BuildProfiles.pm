@@ -134,14 +134,20 @@ sub build_profile_is_invalid($string)
 
 Parses a build profiles specification, into an array of array references.
 
+It will die on invalid syntax.
+
 =cut
 
-sub parse_build_profiles {
-    my $string = shift;
+sub parse_build_profiles($string)
+{
+    if (build_profile_is_invalid($string)) {
+        error(g_("'%s' is not a valid build profile restriction formula"),
+              $string);
+    }
 
-    $string =~ s/^\s*<\s*(.*)\s*>\s*$/$1/;
+    my @restrictions = $string =~ m{$restriction_list_regex}g;
 
-    return map { [ split ' ' ] } split /\s*>\s+<\s*/, $string;
+    return map { [ split ' ' ] } @restrictions;
 }
 
 =item evaluate_restriction_formula(\@formula, \@profiles)

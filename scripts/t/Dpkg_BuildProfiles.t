@@ -15,7 +15,7 @@
 
 use v5.36;
 
-use Test::More tests => 17;
+use Test::More tests => 23;
 
 use ok 'Dpkg::BuildProfiles', qw(
     build_profile_is_invalid
@@ -73,6 +73,24 @@ is_deeply([ parse_build_profiles('<nocheck nodoc> <stage1>') ], $formula,
     is_deeply([ get_build_profiles() ], [ qw(cross nodoc profile.name) ],
         'get active build profiles from environment');
 }
+
+eval { parse_build_profiles('<invalid> + <characters>') };
+ok($@, 'fail to parse build profiles with invalid characters');
+
+eval { parse_build_profiles('missing angle brackets') };
+ok($@, 'fail to parse build profiles with missing opening/closing angles brackets');
+
+eval { parse_build_profiles('<missing angle brackets <here too') };
+ok($@, 'fail to parse build profiles with missing closing angles brackets 1');
+
+eval { parse_build_profiles('<missing angle brackets <here too>') };
+ok($@, 'fail to parse build profiles with missing closing angles brackets 2');
+
+eval { parse_build_profiles('missing angle> brackets>') };
+ok($@, 'fail to parse build profiles with missing opening angles brackets 1');
+
+eval { parse_build_profiles('missing angle> <brackets>') };
+ok($@, 'fail to parse build profiles with missing opening angles brackets 2');
 
 set_build_profiles(qw(nocheck stage1));
 is_deeply([ get_build_profiles() ], [ qw(nocheck stage1) ],
