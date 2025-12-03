@@ -327,11 +327,19 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
             # Restriction formulas are in disjunctive formal form:
             #   (foo AND bar) OR (blub AND bla)
 
-            # Generate the version 0 property:
+            # Generate the _deprecated_ version 0 property:
             #   Join lists with a plus (OR).
             #   Join their elements with a comma (AND).
+            # TODO: Remove once no known users are around.
             $pkg_prop{profile} = join '+', map {
                 join ',', $_->@*
+            } @restrictions;
+
+            # Generate the version 1 property:
+            #   Join lists with a pipe (OR).
+            #   Join their elements with an ampersand (AND).
+            $pkg_prop{'profile:v1'} = join '|', map {
+                join '&', $_->@*
             } @restrictions;
         }
 
@@ -344,7 +352,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
         # Generate the package list properties.
         my $pkg_summary = join ' ', $p, @pkg_prop{qw(type section priority)};
-        foreach my $prop (qw(arch profile protected essential)) {
+        foreach my $prop (qw(arch profile profile:v1 protected essential)) {
             next unless exists $pkg_prop{$prop};
             $pkg_summary .= " $prop=$pkg_prop{$prop}";
         }
