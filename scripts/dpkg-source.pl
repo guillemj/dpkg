@@ -36,6 +36,9 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(:operators);
+use Dpkg::BuildProfiles qw(
+    parse_build_profiles
+);
 use Dpkg::Deps;
 use Dpkg::Compression;
 use Dpkg::Conf;
@@ -317,20 +320,21 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
         $pkg_prop{arch} = join ',', split ' ', $pkg->{'Architecture'};
 
-        my $profile = $pkg->{'Build-Profiles'};
-        if (defined $profile) {
-            # Instead of splitting twice and then joining twice, we just do
-            # simple string replacements:
+        my $profiles = $pkg->{'Build-Profiles'};
+        if (defined $profiles) {
+            my @restrictions = parse_build_profiles($profiles);
 
-            # Remove the enclosing <>.
-            $profile =~ s/^\s*<(.*)>\s*$/$1/;
-            # Join lists with a plus (OR).
-            $profile =~ s/>\s+</+/g;
-            # Join their elements with a comma (AND).
-            $profile =~ s/\s+/,/g;
+            # Restriction formulas are in disjunctive formal form:
+            #   (foo AND bar) OR (blub AND bla)
 
-            $pkg_prop{profile} = $profile;
+            # Generate the version 0 property:
+            #   Join lists with a plus (OR).
+            #   Join their elements with a comma (AND).
+            $pkg_prop{profile} = join '+', map {
+                join ',', $_->@*
+            } @restrictions;
         }
+
         # Handle optional boolean fields.
         foreach my $f (qw(Protected Essential)) {
             if (defined $pkg->{$f} and $pkg->{$f} eq 'yes') {
