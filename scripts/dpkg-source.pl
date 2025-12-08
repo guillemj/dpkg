@@ -370,7 +370,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
                     push(@sourcearch, $v) unless $archadded{$v}++;
                 } else {
                     for my $a (split(/\s+/, $v)) {
-                        error(g_("'%s' is not a legal architecture string " .
+                        error(g_("'%s' is not a valid architecture string " .
                                  "in package '%s'"), $a, $p)
                             if debarch_is_invalid($a);
                         error(g_('architecture %s only allowed on its ' .

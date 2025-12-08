@@ -507,7 +507,7 @@ modstatdb_note_core(struct pkginfo *pkg)
 
 /*
  * Note: If anyone wants to set some triggers-pending, they must also
- * set status appropriately, or we will undo it. That is, it is legal
+ * set status appropriately, or we will undo it. That is, it is valid
  * to call this when pkg->status and pkg->trigpend_head disagree and
  * in that case pkg->status takes precedence and pkg->trigpend_head
  * will be adjusted.

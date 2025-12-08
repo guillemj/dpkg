@@ -704,7 +704,7 @@ sub debarch_list_parse
 
     foreach my $arch (@arch_list) {
         if (debarch_is_invalid($arch, %opts)) {
-            error(g_("'%s' is not a legal architecture in list '%s'"),
+            error(g_("'%s' is not a valid architecture in list '%s'"),
                   $arch, $arch_list);
         }
     }
