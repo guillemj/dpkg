@@ -109,6 +109,7 @@ sub parse_objdump_output {
     my ($self, $fh) = @_;
 
     my $section = 'none';
+    my $verneed_lib = undef;
     while (<$fh>) {
         s/\s*$//;
         next if length == 0;
@@ -163,6 +164,12 @@ sub parse_objdump_output {
                 unless (scalar(@{$self->{RPATH}})) {
                     $self->{RPATH} = [ split /:/, $rpath ];
                 }
+            }
+        } elsif ($section eq 'verref') {
+            if (/^\s*required from ([^:]*):/) {
+                $verneed_lib = $1;
+            } elsif (/^\s*0x[[:xdigit:]]*\s*0x[[:xdigit:]]*\s*\d*\s*(.*)/) {
+                $self->add_verneed_symbol($verneed_lib, $1);
             }
         } elsif ($section eq 'program') {
             if (/^\s*INTERP\s+/) {
@@ -305,6 +312,35 @@ sub apply_relocations {
             last;
         }
     }
+}
+
+# Inject the version reference dependency as an undefined symbol into the
+# dynamic symbol information.
+#
+# We do not currently use the $solib name, which would denote a stronger
+# tighter dependency on a specific shared object, but for now this should
+# suffice.
+sub add_verneed_symbol($self, $solib, $name)
+{
+    my $symbol = {
+        name => $name,
+        version => $name,
+        section => '*UND*',
+        dynamic => 1,
+        debug => 0,
+        type => 'O',
+        weak => 0,
+        local => 0,
+        global => 1,
+        visibility => '',
+        hidden => '',
+        defined => 0,
+    };
+
+    # Register artificial symbol.
+    $self->add_dynamic_symbol($symbol);
+
+    return;
 }
 
 sub add_dynamic_symbol {
