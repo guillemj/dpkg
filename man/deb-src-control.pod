@@ -359,13 +359,6 @@ A list of these packages is in the build-essential package.
 
 =head1 BINARY FIELDS
 
-Note that the
-B<Priority>, B<Section>
-and
-B<Homepage>
-fields can also be in a binary stanza to override the global value from the
-source package.
-
 =over
 
 =item B<Package:> I<binary-package-name> (required)
@@ -435,6 +428,26 @@ These fields are described in the
 L<deb-control(5)>
 manual page, as they are copied literally to the control file of the binary
 package.
+
+=item B<Section:> I<section>
+
+Overrides the value from the same field in the source package stanza.
+
+If there is no field in the binary or source stanza,
+then the it defaults to B<unknown>
+(since dpkg 1.22.13).
+
+=item B<Priority:> I<priority>
+
+Overrides the value from the same field in the source package stanza.
+
+If there is no field in the binary or source stanza,
+then the it defaults to B<optional>
+(since dpkg 1.22.13).
+
+=item B<Homepage:> I<url>
+
+Overrides the value from the same field in the source package stanza.
 
 =item B<Depends:> I<package-list>
 
