@@ -88,12 +88,14 @@ If the upload is source-only, then the field is omitted (since dpkg 1.19.3).
 =item B<Architecture:> I<arch-list>
 
 Lists the architectures of the files currently being uploaded.
+
 Common architectures are B<amd64>, B<armel>, B<i386>, etc.
-Note that the B<all> value is meant for packages that are architecture
-independent.
+Note that the special B<all> value is meant for packages that are
+architecture independent (such as shell and Perl scripts or documentation).
 If the source for the package is also being uploaded, the special entry
 B<source> is also present.
-Architecture wildcards must never be present in the list.
+
+B<Note:> Architecture wildcards are not allowed in this context.
 
 =item B<Version:> I<version-string> (required)
 

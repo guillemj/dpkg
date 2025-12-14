@@ -192,15 +192,27 @@ and that itself will build (or run emulated) code for the target architecture.
 
 =item Debian architecture
 
-The Debian architecture string,
-used in package relationships,
-and in binary package names
-(which specifies the binary tree in a package repository).
+A Debian architecture describes a “machine” (considering it as an
+abstraction not necessarily tied to an actual physical device)
+representing a specific execution environment,
+including its CPU and attributes (such as endianness and bits),
+an operating system (usually a kernel, but other paradigms using userland
+services are possible) and its interfaces towards userland including the
+executable format and their ABI,
+and a libc library and its ABI.
+
+The special architecture B<all> denotes an architecture independent
+execution environment,
+used for things such as shell and Perl scripts or documentation.
+
+A Debian architecture is used in binary package metadata and filenames
+(which specifies the binary tree in a package repository),
+and can appear in package relationships.
 
 An architecture must start with an alphanumeric character (“0-9a-zA-Z”),
-and then gets followed by alphanumeric and dash (“-”) characters.
+and then gets followed by alphanumeric or dash (“-”) characters.
 
-Examples: i386, sparc, hurd-i386.
+Examples: amd64, i386, sparc64, hurd-amd64, musl-linux-riscv64.
 
 =item Debian architecture tuple
 
@@ -214,8 +226,10 @@ Examples: base-gnu-linux-amd64, eabihf-musl-linux-arm.
 
 =item Debian architecture wildcard
 
-A Debian architecture wildcard is a special architecture string that will
-match any real architecture being part of it.
+A Debian architecture wildcard is a special architecture that acts as a
+pattern and will match any ”machine” architecture being part of it
+(except for B<all>).
+
 The general form is a Debian architecture tuple with four or less elements,
 and with at least one of them being B<any>.
 Missing elements of the tuple are prefixed implicitly as B<any>, and thus
@@ -236,7 +250,7 @@ musl-any-any.
 
 =item GNU system type
 
-An architecture specification string consisting of two parts separated by
+A GNU architecture specification string consisting of two parts separated by
 a hyphen: CPU and system.
 
 The CPU part never contains a hyphen,
@@ -245,7 +259,7 @@ from its general ABI,
 where the general ABI might contain both runtime (such as libc) and
 executable ABI specifiers joined without a hyphen.
 
-Examples: i586-linux-gnu, sparc-linux-gnu, i686-gnu, x86_64-netbsd.
+Examples: i586-linux-gnu, sparc64-linux-gnu, i686-gnu, x86_64-netbsd.
 
 =item multiarch triplet
 

@@ -381,23 +381,28 @@ B<udeb> is for size-constrained packages used by the debian installer.
 B<deb> is the default value, it is assumed if the field is absent.
 More types might be added in the future.
 
-=item B<Architecture:> I<arch>|B<all>|B<any> (required)
+=item B<Architecture:> I<arch-list> (required)
 
-The architecture specifies on which type of hardware this package runs.
-For
-packages that run on all architectures, use the
-B<any>
-value.
-For packages that are architecture independent, such as shell and Perl
-scripts or documentation, use the
-B<all>
-value.
-To restrict the packages to a certain set of architectures, specify the
-architecture names, separated by a space.
-An architecture name must start with an alphanumeric character (“0-9a-zA-Z”),
+The architecture list specifies on which type of machine this package runs.
+The value should be a list of architecture names and/or wildcards
+separated by spaces.
+
+The special B<all> value, by itself, is meant for packages that are
+architecture independent (such as shell and Perl scripts or documentation),
+the special B<any> wildcard value, by itself, is meant for packages that are
+architecture dependent but run on all architectures
+(which matches on all specific architecture names, excluding B<all>).
+Most packages will use either B<all> or B<any>.
+To restrict the packages to a certain set of architectures,
+specify one or more architecture names and/or architecture wildcards,
+separated by spaces.
+
+An architecture name or wildcard must start with
+an alphanumeric character (“0-9a-zA-Z”),
 and then gets followed by alphanumeric and dash (”-”) characters.
-It's also possible to put architecture wildcards in that list
-(see L<dpkg-architecture(1)> for more information about them).
+
+For more information about architecture names and wildcards,
+see L<dpkg-architecture(1)>.
 
 =item B<Build-Profiles:> I<restriction-formula>
 
