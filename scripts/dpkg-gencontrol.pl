@@ -358,6 +358,9 @@ if ($binarypackage ne $sourcepackage || $verdiff) {
 }
 
 if (! defined($substvars->get('Installed-Size'))) {
+    # XXX: Switch to builtin::ceil() once we can use v5.40.
+    require POSIX;
+
     my $installed_size = 0;
     my %hardlink;
     my $scan_installed_size = sub {
