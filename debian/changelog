@@ -1,8 +1,342 @@
-dpkg (1.23.0) UNRELEASED; urgency=medium
+dpkg (1.23.0) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * Pass --format=xz explicitly to xz on decompression.
+  * dpkg-divert: Clarify default behavior change timeline.
+  * dpkg: Remove obsolete --forget-old-unavail from --help output.
+  * Add vendor specific support for fuzzy source vs version nativeness.
+    Closes: #737634
+  * dpkg-deb: Fix cleanup for control member with restricted directories.
+    Reported by zhutyra on HackerOne.
+  * dpkg: Use maintscript name instead of untranslated description in error
+    messages.
+  * dpkg: Unify maintainer script error messages.
+  * dpkg: Print maintscript fallback success message after finishing actions.
+  * Improve subprocess exit message.
+  * update-alternatives: Move debug message from call site into
+    alternative_prepare_install().
+  * Shallow pass at clarifying debug messages.
+  * update-alternatives: Clarify in --help output that the «...» refers to
+    --slave.
+  * dpkg-query: Improve --list header ASCII art.
+    Suggested by No Comment <mowglithemaniac@gmail.com>.
+  * dselect, libdpkg: Use Ctrl+<name> instead of ^<name> in messages.
+  * dpkg-split: Obsolete --msdos option which no longer does anything.
+  * Remove support for MSDOS-Filename field.
+  * dpkg-shlibdeps: Add a debug print when overriding file to package mappings.
+    See #1115395.
+  * Use invalid instead of illegal in symbol names and output messages.
+  * dpkg: Improve commands acting on the available file from standard input.
+    Closes: #1119906
+  * Use «package metadata» instead of «control information».
+  * dpkg: Use MAXCONTROLFILENAME instead of 50 or 250 in format string
+    precision.
+  * dpkg-split: Mark strings for translation.
+  * start-stop-daemon: Update list of change contributors.
+  * Do not use contractions in output messages.
+  * Reword --help options descriptions to fit again in 80 columns.
+  * dpkg-source: Use Dpkg::BuildProfiles to parse the Build-Profiles field.
+  * dpkg-source: Add a new profile:v1 property in Package-List field.
+    See https://lists.debian.org/debian-devel/2025/11/msg00333.html.
+  * Use valid instead of legal in output messages and code comments.
+  * dpkg-source: Add support for --signer-certs option. Closes: #1110172
+  * dpkg-source: Add new --no-vendor-certs extract option.
+  * dpkg: Do not run the postinst during cleanup if the previous state was bad.
+    Based on a patch by Ian Jackson <ian@davenant.greenend.org.uk>.
+    Closes: #432893
+  * dpkg: Mark reinstreq during unpack as late as possible, not before prerm.
+    Thanks to Ian Jackson <ian@davenant.greenend.org.uk>.
+  * Architecture support:
+    - Accept sparcv9 as an alias for GNU CPU name sparc64.
+    - Remove kopensolaris-any support.
+      See commit 602261f1f3e3143b0b668d3ae185fb600b4ed18c.
+      See https://github.com/dtbartle/glibc-opensolaris (2009-04).
+      See https://github.com/ip1981/kopensolaris-glibc (2015-01).
+    - Remove kfreebsd-any support.
+      See https://lists.debian.org/debian-devel/2023/05/msg00306.html.
+    - Remove support for powerpcspe.
+  * Portability:
+    - Use portable POSIX «cp» options -RPp instead -a.
+  * Perl modules:
+    - Dpkg::Vendor: Parametrize vendor and field names in diagnostic messages.
+    - Dpkg: Bump PROGVERSION to 1.23.x.
+    - Dpkg::Build::Info: Remove deprecated module.
+    - Dpkg::OpenPGP::Backend::Sequoia: Do not run sq/sqv to verify with no
+      keyrings. Closes: #1106148
+    - Dpkg::OpenPGP::Backend::Sequoia: Run sq in stateless mode for
+      verification.
+      Suggested by Neal H. Walfield <neal@sequoia-pgp.org>.
+    - Dpkg::Compression: Uncomment compression_get_property() deprecation
+      warning.
+    - Dpkg::Control::FieldsCore: Remove implicit argument use in
+      field_transfer_single().
+    - Dpkg::Shlibs::SymbolFile: Remove deprecated ignore blacklist support.
+    - Dpkg::Source::Package: Move non-native version build check from 3.0
+      (quilt) to 2.0.
+    - Dpkg::Source::Package: Add format vs version coherence warnings on
+      extract.
+    - Dpkg::Source::Package::V1: Remove redundant -r option for cp.
+    - Test::Dpkg: Refactor all_shell_files() function.
+    - Test::Dpkg: Add all maintscripts to all_shell_files().
+    - Test::Dpkg: Refactor all_pod_modules() function.
+    - Test::Dpkg: Optimize modules skipping in all_pod_modules().
+    - Test::Dpkg: Do not export directory getters.
+    - Test::Dpkg: Refactor test files scan function.
+    - Test::Dpkg: Extend all_shell_files() to return all shell scripts.
+    - Dpkg::BuildDriver::DebianRules: Fix uninitialized Perl variables.
+      Closes: #1107971
+    - Dpkg::BuildDriver::DebianRules: Fix R³ dpkg/target/<target> values
+      handling.
+    - Dpkg::BuildDriver::DebianRules: Improve R³ dpkg/<keyword> fallback
+      matching.
+    - Dpkg::BuildTree: Fix needs_root() for R³ with implementation specific
+      keywords. See #1107971.
+    - Dpkg::SysInfo: Refactor number of processes retrieval into new module.
+    - Dpkg::Shlibs: Remove DEB_TARGET_ARCH handling from setup_library_paths().
+      Reported by Helmut Grohne <helmutg@debian.org>.
+    - Dpkg::OpenPGP::Backend: Do not mark hint command as translatable.
+    - Dpkg::Source::Package: Print a notice when verifying .dsc signatures.
+    - Dpkg::Source::Package: Print the keyrings used during verification.
+      Closes: #703364
+    - Dpkg::OpenPGP: Add own error for missing keyrings in verify functions.
+    - Dpkg::BuildDriver::DebianRules: Use a default debian_rules value.
+    - Dpkg::Source::Package::V3::Git: Use «git submodule» for its status.
+      Suggested by Daniel Gröber <dxld@darkboxed.org>. Closes: #1100413
+    - Dpkg::OpenPGP: Do not run verify with no keyrings. Closes: #1111617
+    - Dpkg::BuildDriver::DebianRules: Unify debian/rules fixer with source
+      extract.
+    - Dpkg::Source::Package: Remove debian/rules fixer at extract time.
+      Closes: #1078764
+    - Dpkg::IPC: Deprecate nocheck option and rename it to no_check.
+    - Dpkg::Source::Patch: Deprecate nofinish option and rename it to
+      no_finish.
+    - Dpkg::Deps::Simple: Move dependency regex into its own variable.
+    - Dpkg::Compression: Move global regexes into
+      compression_get_file_extension_regex.
+    - Dpkg::OpenPGP::Backend::GnuPG: Use TEMPLATE instead of argument in
+      newdir.
+    - Dpkg::Source: Rename $tmp to $tmpdir.
+    - Dpkg::OpenPGP::Backend::SOP: Switch _sop_exec to get all options in a
+      hash.
+    - Dpkg::Shlibs::SymbolFile: Switch wantarray from a ternary operator to
+      if/else.
+    - Dpkg::Shlibs::SymbolFile: Rename file option to filename.
+    - Dpkg::Changelog::Parse: Deprecate file option and rename it to filename.
+    - Dpkg::Lock: Restructure file_lock code to make it easier to add fallback.
+    - Dpkg::Lock: Avoid using eval for the File::FcntlLock new and lock calls.
+    - Dpkg::Lock: Fallback to use File::FcntlLock::Pure if File::FcntlLock
+      fails.
+    - Dselect::Method::Config: New module.
+    - Dselect::Method::Media: New module to refactor get_disk_label().
+    - Dpkg::Vendor: Add branch hardening flags to LDFLAGS.
+      Thanks to Simon Chopin <schopin@ubuntu.com>. Closes: #1115292
+    - Test::Dpkg: Rename test_needs_srcdir_switch() to test_chdir_srcdir().
+    - Dpkg::Shlibs: Use a hash to track libdir repeats when parsing ld.so.conf.
+    - Dpkg::Shlibs: Assign from s///r instead of via topic variable.
+    - Dpkg::Shlibs::Objdump::Object: Do not assign readline to $_ on discard.
+    - Dpkg::Vendor::Debian: Add comment about current state of -fcf-protection.
+    - Dpkg::BuildInfo: Allow LFLAGS (lex/flex) and YFLAGS (yacc/bison)
+      variables.
+    - Dpkg::BuildInfo: Allow LANGUAGE variable.
+    - Dpkg::BuildInfo: Allow LOCPATH, NLSPATH, I18NPATH and GCONV_PATH
+      variables.
+    - Dpkg::BuildInfo: Allow TZ, TZDIR and DATEMSK variables.
+    - Dpkg::BuildInfo: Allow ld.so run-time variables.
+    - Dpkg::BuildInfo: Allow resolver specific variables.
+    - Dpkg::BuildInfo: Allow POSIXLY_CORRECT and GETCONF_DIR variables.
+    - Dpkg::BuildProfiles: Add new build_profile_is_invalid function.
+    - Dpkg::BuildProfiles: Make parser more strict. Closes: #1121657
+    - Dpkg::Shlibs::Objdump::Object: Add support for "Version References"
+      symbols. Closes: #1122107
+    - Dpkg::Source::Package: Deprecate implicit trusted GnuPG keyrings.
+    - Dpkg::OpenPGP::Backend::GnuPG: Deprecate KeyBox formatted keyrings.
+    - Dpkg::Vendor::Debian: Use .pgp keyrings instead of .gpg ones.
+    - Dpkg::Vendor::Devuan: Use .pgp keyrings instead of .gpg ones.
+    - Dpkg::Control::FieldsCore: Deprecate SC field export rules in binary
+      stanza. Prompted by Richard Hansen <rhansen@rhansen.org>.
+      See https://bugs.debian.org/1117566.
+    - Dpkg::Control::FieldsCore: Do not autovivify %FIELDS entries on getters.
+    - Dpkg::Substvars: Add support for implicit substvars assigned with $=.
+  * Make fragments:
+    - Switch to use GNU make intcmp instead of relying on shell.
+      Prompted by Sean Whitton <spwhitton@spwhitton.name>.
+      See https://lists.debian.org/debian-devel/2025/12/msg00039.html.
+  * Documentation:
+    - doc: Make README.* files fully machine readable.
+    - doc: Add space after comment and TODO/XXX marker.
+    - man: Clarify when dpkg-maintscript-helpers might need Pre-Depends on
+      dpkg. Closes: #1108386
+    - man: Document DEB_BUILD_PROFILES in all tools honoring the env variable.
+    - man: Add a reference to build profiles in dpkg-buildflags.
+      Closes: #1026319
+    - man: Itemize deb(5) and deb-split(5).
+    - man: Fix DPKG_ROOT documentation in dpkg(1). Closes: #1110873
+    - man: Document DPKG_ROOT also as an external environment variable for
+      dpkg.
+    - man: Switch from .orig-<component>.tar to .orig-<addon>.tar.
+      Closes: #1095231
+    - man: Clarify that the archive described is the ar archive in a .deb.
+    - man: Update control examples in deb-control(5) and deb-src-control(5).
+    - man: Add lost detail about parts of a deb-changelog(5) getting ignored.
+      Reported by Helge Kreutzmann <debian@helgefjell.de>.
+    - man: Use proper L<> markup for man page references.
+      Reported by Helge Kreutzmann <debian@helgefjell.de>.
+    - man: Use «directory» instead of «dir» for dpkg option arguments.
+      Reported by Helge Kreutzmann <debian@helgefjell.de>.
+    - man: Add missing dpkg in «supported since» sentence in deb(5).
+      Reported by Helge Kreutzmann <debian@helgefjell.de>.
+    - man: Match plural forms in parentheticals in dpkg-buildflags(1).
+      Reported by Helge Kreutzmann <debian@helgefjell.de>.
+    - man: Add Multi-Arch field to dpkg-query known fields.
+      Thanks to Nicolas Boulenguez <nicolas@debian.org>. Closes: #1115250
+    - doc: Update references to mixed old and new C/C++ coding styles.
+    - doc: Document test suite specific environment variables in README.
+    - man: Use command instead of action for dpkg command options.
+    - man: Clarify build profiles syntax.
+    - man: Document accepted syntax for architecture names.
+    - man: Improve architecture documentation.
+      Prompted by Helmut Grohne <helmut@subdivi.de>.
+    - man: Clarify binary stanza default field values and inheritance rules.
+    - man: Itemize deb-substvars operators.
+  * Code internals:
+    - Quote variables in shell scripts.
+    - Disable intentional or false-positive shellcheck checks.
+    - perl: Switch to use 0o prefix for octal literals.
+    - perl: Switch to «use v5.36» instead of «use strict» and «use
+      warnings».
+    - libdpkg: Do not segfault when adding triggers in no-act mode.
+      Closes: #1108192
+    - dpkg: Switch from m_asprintf() to str_fmt().
+    - dpkg: Fix memory leak in maintscript_fallback().
+    - dpkg: Rename maintscript description variable from buf to scriptdesc.
+    - libdpkg: Enable meminfo_get_available() on GNU/Hurd.
+      Prompted by Helmut Grohne <helmut@subdivi.de>.
+      See https://lists.debian.org/debian-dpkg/2024/12/msg00004.html.
+    - dpkg: Add a translator comment for the summarized pathname message.
+    - libdpkg: Print () after function name in internerr message.
+    - libdpkg: Add support for debug_at() to print debug messages at a
+      function.
+    - libdpkg, dpkg: Use debug_at() instead of debug() to print function name.
+    - dpkg: Rename maintscript_exec() warn argument to subproc_opts.
+    - dpkg: Pass cidir and cidirrest before scriptname to maintscript
+      functions.
+    - dpkg: Rename maintscript execution functions.
+    - dpkg-gencontrol: Remove unused Dpkg::BuildProfiles import.
+    - scripts: Replace some POSIX imports with Fcntl module.
+    - libdpkg: Switch status abbreviations from char to strings.
+    - perl: Rename regular expression variables from *_re to *_regex.
+    - perl: Fix indentation.
+    - perl: Remove unused File::Temp imports.
+    - perl: Switch from tempfile()/tempdir() to OOP File::Temp interfaces.
+    - perl: Move File::Find::find() options into an actual hashref variable.
+    - perl: Fix indentation for list, listrefs and hashref variable
+      definitions.
+    - perl: Fix indentation for function calls with hash, hashref and listref
+      arguments.
+    - perl: Remove feature pragmas implied by «use VERSION».
+    - Change TRANSLATORS comments style to get better extraction by gettext.
+    - dselect: Remove unused __END__ markers in methods Perl modules.
+    - dselect: Use Dpkg::Version in method scripts instead of calling dpkg.
+    - dselect: Fix Perl syntax in methods scripts (duped parenthesis).
+    - dselect: Fix Perl syntax in methods scripts (unbalanced quoting).
+    - dselect: Use HERE document instead of multi-line string in method script.
+    - dselect: Remove unnecessary trailing semicolon in method scripts.
+    - dselect: Add missing Version field parsing to method scripts.
+    - dselect: Fix variables declaration in «my» operator in media method
+      script.
+    - dselect: Fix open() calls in method scripts.
+    - dselect: Close file descriptors in method scripts.
+    - dselect: Use foreach loops instead of C-style loops in method scripts.
+    - dselect: Declare Perl variables in method scripts with my.
+    - dselect: Use chdir instead of non-existent cd function in method script.
+    - dselect: Use {} for regex substitution operators in method scripts.
+    - dselect: Remove useless topic variable use in split calls in method
+      scripts.
+    - dselect: Use foreach instead of map in void context in method script.
+    - dselect: Use an array variable instead of reusing @_ in method script.
+    - dselect: Do not mix high and low-precedence boolean operators.
+    - dselect: Do not use mixed-case variable names in method scripts.
+    - dselect: Rewrite all methods install scripts from shell to Perl.
+    - dselect: Use intermediate variable for substr handling in method scripts.
+    - dselect: Remove unused $iarch variable in method script.
+    - dselect: Remove unnecessary intermediate variables in method script.
+    - dselect: Use Oo as octal prefix in method scripts.
+    - dselect: Do not use unusual delimiter for tr in method script.
+    - dselect: Do not use boolean operators for code flow except for dying.
+    - dpkg-architecture: Make architecture variables assignment more clear.
+    - scripts: Remove unnecessary terminating 0 in scripts.
+    - perl: Switch from hard tabs to spaces.
+    - perl: Place label before loop keyword.
+    - perl: Fix code indentation.
+    - perl: Place each statement into its own line.
+    - perl: Fix space style.
+    - perl: Fix format and contents of code comments.
+    - dpkg-shlibdeps: Rename global $i to $depstrength.
+    - perl: Place each statement into its own line (round two).
+    - perl: Fix format and contents of code comments (round two).
+    - perl: Fix space style (round two).
+    - perl: Fix code indentation (round two).
+    - perl: Remove unnecessary parenthesis around single «my» variables.
+    - dselect: Do not use boolean operators for code flow except for dying
+      (round two).
+    - dselect: Use named variables instead of topic variable in foreach loops.
+    - libdpkg: Do an early continue in run_cleanups to reduce nesting level.
+    - lib, src: Fix code formatting style of C code (round one).
+    - dselect: Rework curses enable/disable functions to reduce nesting level.
+    - dselect: Fix code formatting style of C++ code (round one).
+    - start-stop-daemon: Change xmalloc() size argument type from int to
+      size_t.
+    - libcompat: Add support for __format_arg__ attribute.
+    - libcompat: Mark gettext functions with __format_arg__ attribute.
+    - dselect: Give a context string to keybinding translations.
+    - Stop using length limited format strings (%.255s/%.250s/%.100s/%.50s).
+    - libdpkg: Double the emergency error message buffer size.
+  * Build system:
+    - Bump minimal Perl version to 5.36.0.
+    - Automatically set test parallelism from make parallelism.
+    - Add new authordistcheck convenience rule.
+    - Add a function definition to compile for the flags checks.
+    - Add support for SHORT_TESTING to avoid running cppcheck.
+    - Disable po4a warning that nags about switch to SimplePod.
+    - Add an editorconfig file.
+  * Packaging:
+    - Use local keyword for function scoped variable in maintscript.
+    - Add libselinux-dev in Build-Depends as alternative to libselinux1-dev.
+    - Remove «Rules-Requires-Root: no», which is the current default.
+  * Test suite:
+    - Use $* instead of $@ when assigning into a string.
+    - Use $() instead of legacy `` for shell command expansion.
+    - Update dselect shell methods files list.
+    - Check shell files pending fixes from shellcheck tests as TODO.
+    - Move Perl version use pragmas as the first things to declare.
+    - Pass soname as a scalar in Dpkg::Shlibs::Symbol->lookup_symbol calls.
+    - Test that we do not allow «anyfoo» as an arch wildcard.
+    - Remove unnecessary semicolon after loop block.
+    - Hardcode number of invariant tests instead of dynamically computing them.
+    - Move test plan to Test::More import.
+    - Do not exit explicitly after a «plan skip_all».
+    - Move update-alternatives test plan as early as possible in the test file.
+    - Move use_ok() calls immediately after use imports.
+    - Switch from «use_ok» to «use ok» for import checks.
+    - Remove duplicate semicolon after statement.
+  * Localization:
+    - Add English UTF-8 translations.
+    - Unfuzzy translations after contraction removal changes.
+    - Unfuzzy translations after format string changes.
+    - Update Catalan translations.
+    - Update Portuguese scripts translation.
+    - Update Swedish scripts translation.
 
- -- Guillem Jover <guillem@debian.org>  Mon, 19 May 2025 00:43:56 +0200
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+    - Update German scripts translation.
+
+  [ Sven Joachim ]
+  * Localization:
+    - Update German programs translation.
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 16 Dec 2025 22:21:13 +0100
 
 dpkg (1.22.19) unstable; urgency=medium
 
