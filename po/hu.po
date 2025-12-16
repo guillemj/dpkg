@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-05-19 00:00+0200\n"
+"POT-Creation-Date: 2025-12-16 21:20+0000\n"
 "PO-Revision-Date: 2023-02-05 23:44+0100\n"
 "Last-Translator: Nagy Elemér Károly <nagy.elemer.karoly@gmail.com>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.debian.org>\n"
@@ -384,7 +384,7 @@ msgstr ""
 #: lib/dpkg/db-ctrl-upgrade.c
 #, fuzzy, c-format
 #| msgid "conffile `%s' does not appear in package"
-msgid "info file %s/%s not associated to any package"
+msgid "metadata file %s/%s not associated to any package"
 msgstr "úgy fest, `%s' konffájl nincs a csomagban"
 
 #: lib/dpkg/db-ctrl-upgrade.c src/main/archives.c
@@ -452,8 +452,8 @@ msgid ""
 "files list file for package '%s' missing; assuming package has no files "
 "currently installed"
 msgstr ""
-"dpkg: Figyelmeztetés: nincs fájllista fájl e csomaghoz: `%s', "
-"feltételezem, hogy a csomagnak most nincsenek telepített fájljai\n"
+"dpkg: Figyelmeztetés: nincs fájllista fájl e csomaghoz: `%s', feltételezem, "
+"hogy a csomagnak most nincsenek telepített fájljai\n"
 
 #: lib/dpkg/db-fsys-files.c
 msgid "(Reading database ... "
@@ -723,7 +723,7 @@ msgid "unable to open file '%s'"
 msgstr "e forrásfájl nem megnyitható: `%s'"
 
 #: lib/dpkg/dir.c src/deb/build.c src/split/join.c src/split/queue.c
-#: src/divert/main.c utils/update-alternatives.c
+#: src/divert/main.c src/main/archives.c utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "e forrásfájl nem megnyitható: `%s'"
@@ -741,8 +741,7 @@ msgstr "a status fájlon a pufferelés beállítása sikertelen"
 #: lib/dpkg/dump.c
 #, fuzzy, c-format
 msgid "failed to write %s database stanza about '%s' to '%s'"
-msgstr ""
-"nem sikerült %s rekord kiírása a következőről: \"%s\" ide: \"%s\""
+msgstr "nem sikerült %s rekord kiírása a következőről: \"%s\" ide: \"%s\""
 
 #: lib/dpkg/ehandle.c utils/update-alternatives.c
 #, fuzzy
@@ -950,8 +949,7 @@ msgstr "`%s' mező, hiányzó csomagnév vagy torlódás annak helyén"
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "`%s' field, reference to `%s': error in version: %s"
-msgid ""
-"'%s' field, reference to '%s': invalid architecture name '%s': %s"
+msgid "'%s' field, reference to '%s': invalid architecture name '%s': %s"
 msgstr "`%s' mező, hivatkozás erre: `%s': hibás verzió: %s"
 
 #: lib/dpkg/fields.c
@@ -1004,8 +1002,7 @@ msgstr "`%s' mező, hivatkozás erre: `%s': lezáratlan verzió"
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "'%s' field, reference to '%s': version contains '%c'"
-msgid ""
-"'%s' field, reference to '%s': version contains '%c' instead of '%c'"
+msgid "'%s' field, reference to '%s': version contains '%c' instead of '%c'"
 msgstr "`%s' mező, hivatkozás erre: `%s': a verzió `%c'-t tartalmaz"
 
 #: lib/dpkg/fields.c
@@ -1027,7 +1024,7 @@ msgstr "alternatíva (`|') tilos e mezőben: %s"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
-msgid "illegal pending trigger name '%s': %s"
+msgid "invalid pending trigger name '%s': %s"
 msgstr "`%s' mező, érvénytelen `%s' csomagnév: %s"
 
 #: lib/dpkg/fields.c
@@ -1037,7 +1034,7 @@ msgstr ""
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
-msgid "illegal package name in awaited trigger '%s': %s"
+msgid "invalid package name in awaited trigger '%s': %s"
 msgstr "rossz csomagnév a %d. sorban: %s"
 
 #: lib/dpkg/fields.c
@@ -1407,30 +1404,33 @@ msgid ""
 msgstr ""
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "failed to open package info file '%s' for reading"
+#, fuzzy, c-format
+#| msgid "failed to open package info file '%s' for reading"
+msgid "failed to open package control file '%s' for reading"
 msgstr "nem tudtam megnyitni `%s' csomag info fájlt olvasásra"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot stat package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot stat package info file '%s'"
+msgid "cannot stat package control file '%s'"
 msgstr "nem lelem `%s' csomag info fájlt"
 
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "cannot stat package info file `%s'"
-msgid "reading package info file '%s': %s"
+msgid "reading package control file '%s': %s"
 msgstr "nem lelem `%s' csomag info fájlt"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot mmap package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot mmap package info file '%s'"
+msgid "cannot mmap package control file '%s'"
 msgstr "nem tudom mmapolni `%s' csomag info fájlt"
 
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "cannot stat package info file `%s'"
-msgid "reading package info file '%s'"
+msgid "reading package control file '%s'"
 msgstr "nem lelem `%s' csomag info fájlt"
 
 #: lib/dpkg/parse.c
@@ -1456,7 +1456,7 @@ msgstr "új sor e mezőben: `%.*s'"
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF (^Z) in field name `%.*s'"
-msgid "MSDOS end of file (^Z) in field name '%.*s'"
+msgid "MSDOS end of file (Ctrl+Z) in field name '%.*s'"
 msgstr "MSDOS EOF (^Z) e mezőben: `%.*s'"
 
 #: lib/dpkg/parse.c
@@ -1473,7 +1473,7 @@ msgstr "EOF e mező értéke előtt: `%.*s' (hiányzó lezáró új sor)"
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
-msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
+msgid "MSDOS end of file (Ctrl+Z) in value of field '%.*s' (missing newline?)"
 msgstr "MSDOS EOF e mező értékében: `%.*s' (hiányzó új sor?)"
 
 #: lib/dpkg/parse.c
@@ -1591,7 +1591,7 @@ msgstr "nincs semmi a : után a verziószámban"
 msgid "invalid character in revision number"
 msgstr "nincs semmi a : után a verziószámban"
 
-#: lib/dpkg/path-remove.c
+#: lib/dpkg/path-remove.c src/main/remove.c
 #, fuzzy, c-format
 msgid "unable to securely remove '%s'"
 msgstr "`%s' nem hozható létre"
@@ -1637,16 +1637,17 @@ msgstr "az a verzió nyelvtana hibás: %s\n"
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
-msgid "illegal package name in specifier '%s%s%s': %s"
+msgid "invalid package name in specifier '%s%s%s': %s"
 msgstr "rossz csomagnév a %d. sorban: %s"
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
-msgid "illegal architecture name in specifier '%s:%s': %s"
+msgid "invalid architecture name in specifier '%s:%s': %s"
 msgstr "rossz csomagnév a %d. sorban: %s"
 
 #. TRANSLATORS: This is part of the progress output, it is a decimal
-#. * percentage.
+#. percentage.
+#.
 #: lib/dpkg/progress.c
 #, c-format
 msgid "%d%%"
@@ -1696,9 +1697,9 @@ msgstr "fork hiba"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
-#| msgid "subprocess %s returned error exit status %d"
-msgid "%s subprocess returned error exit status %d"
-msgstr "%s alfolyamat %d hibakóddal kilépett"
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with exit status %d"
+msgstr "%s alfolyamat meghiúsult %d állapot kódra várva"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
@@ -1880,16 +1881,14 @@ msgid "failed to rewind trigger interest file '%s'"
 msgstr "`%s' rész fájl nem olvasható"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid ""
-"trigger interest file '%s' syntax error; illegal package name '%s': "
-"%s"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "'%s' field, invalid package name '%s': %s"
+msgid "trigger interest file '%s' syntax error; invalid package name '%s': %s"
+msgstr "`%s' mező, érvénytelen `%s' csomagnév: %s"
 
 #: lib/dpkg/triglib.c
 #, fuzzy, c-format
-msgid ""
-"duplicate file trigger interest for filename '%s' and package '%s'"
+msgid "duplicate file trigger interest for filename '%s' and package '%s'"
 msgstr "nem tudom telepíteni az új `%s' info fájlt, mint `%s'"
 
 #: lib/dpkg/triglib.c
@@ -1905,29 +1904,30 @@ msgstr "beállító fájl olvasási hiba: `%s'"
 #: lib/dpkg/triglib.c
 #, c-format
 msgid ""
-"file triggers record mentions illegal package name '%s' (for interest in "
+"file triggers record mentions invalid package name '%s' (for interest in "
 "file '%s'): %s"
 msgstr ""
 
 #: lib/dpkg/triglib.c
 #, c-format
 msgid ""
-"triggers ci file '%s' contains illegal trigger syntax in trigger name "
-"'%s': %s"
+"triggers package metadata file '%s' contains invalid trigger syntax in "
+"trigger name '%s': %s"
 msgstr ""
 
 #: lib/dpkg/triglib.c
 #, fuzzy, c-format
-msgid "unable to open triggers ci file '%s'"
+msgid "unable to open triggers package metadata file '%s'"
 msgstr "e forrásfájl nem megnyitható: `%s'"
 
 #: lib/dpkg/triglib.c
-msgid "triggers ci file contains unknown directive syntax"
+#, c-format
+msgid "triggers package metadata file '%s' contains unknown directive syntax"
 msgstr ""
 
 #: lib/dpkg/triglib.c
 #, c-format
-msgid "triggers ci file contains unknown directive '%s'"
+msgid "triggers package metadata file '%s' contains unknown directive '%s'"
 msgstr ""
 
 #: lib/dpkg/triglib.c
@@ -2218,7 +2218,7 @@ msgstr ""
 msgid "cannot read link '%s'"
 msgstr "%s írása sikertelen: %s"
 
-#: src/realpath/main.c
+#: src/realpath/main.c src/main/archives.c src/main/configure.c
 #, c-format
 msgid "symbolic link '%s' size has changed from %jd to %zd"
 msgstr ""
@@ -2283,8 +2283,7 @@ msgstr "a karbantartói szkript (`%s') nem sima fájl vagy szimlink"
 #: src/deb/build.c
 #, c-format
 msgid ""
-"maintainer script '%s' has bad permissions %03lo (must be >=0555 and "
-"<=0775)"
+"maintainer script '%s' has bad permissions %03lo (must be >=0555 and <=0775)"
 msgstr ""
 "`%s' karbantartói szkript jogok hibásak (%03lo) (>=0555 és <=0775 kell)"
 
@@ -2305,8 +2304,8 @@ msgstr "üres szöveg az fgets-ből a konffájl olvasásakor"
 #, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
 msgstr ""
-"figyelem, `%s...' konfigurációs fájlnév túl hosszú, vagy hiányzik a "
-"végéről a sortörés"
+"figyelem, `%s...' konfigurációs fájlnév túl hosszú, vagy hiányzik a végéről "
+"a sortörés"
 
 #: src/deb/build.c
 msgid "empty and whitespace-only lines are not allowed in conffiles"
@@ -2714,6 +2713,11 @@ msgstr ""
 msgid "--%s does not support (yet) reading the .deb from standard input"
 msgstr ""
 
+#: src/deb/info.c src/statoverride/main.c src/main/archives.c
+#, c-format
+msgid "error setting permissions of '%s'"
+msgstr "nem sikerült beállítani `%s' jogait"
+
 #: src/deb/info.c src/main/unpack.c
 #, fuzzy
 msgid "unable to create temporary directory"
@@ -2832,11 +2836,11 @@ msgid ""
 "  -I|--info <deb> [<cfile>...]     Show info to stdout.\n"
 "  -W|--show <deb>                  Show information on package(s)\n"
 "  -f|--field <deb> [<cfield>...]   Show field(s) to stdout.\n"
-"  -e|--control <deb> [<directory>] Extract control info.\n"
-"  -x|--extract <deb> <directory>   Extract files.\n"
-"  -X|--vextract <deb> <directory>  Extract & list files.\n"
+"  -e|--control <deb> [<directory>] Extract metadata files.\n"
+"  -x|--extract <deb> <directory>   Extract filesystem files.\n"
+"  -X|--vextract <deb> <directory>  Extract and list filesystem files.\n"
 "  -R|--raw-extract <deb> <directory>\n"
-"                                   Extract control info and files.\n"
+"                                   Extract metadata and filesystem files.\n"
 "  --ctrl-tarfile <deb>             Output control tarfile.\n"
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
@@ -3048,9 +3052,21 @@ msgid "error reading %s"
 msgstr "olvasási hiba: %s"
 
 #: src/split/info.c
+#, fuzzy
+#| msgid "archive has no newlines in header"
+msgid "ar header"
+msgstr "nincs újsor az archívum fejlécében"
+
+#: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - bad magic at end of first header"
 msgstr "`%s' hibás - rossz bűvös szám az 1. fejléc végén"
+
+#: src/split/info.c
+#, fuzzy
+#| msgid "archive has no dot in version number"
+msgid "reading header member"
+msgstr "nincs . az archívum verziószámában"
 
 #: src/split/info.c
 #, c-format
@@ -3075,8 +3091,7 @@ msgstr "  %s telepített, de verziója %s.\n"
 
 #: src/split/info.c
 #, fuzzy, c-format
-#| msgid ""
-#| "file `%s' is format version `%s' - you need a newer dpkg-split"
+#| msgid "file `%s' is format version `%s' - you need a newer dpkg-split"
 msgid "file '%s' is format version %d.%d; get a newer dpkg-split"
 msgstr "`%s' fájl formátum verziója `%s' - újabb dpkg-split kell"
 
@@ -3141,6 +3156,10 @@ msgstr "Az alábbi fájl: `%s' sérült - rossz részszám"
 #: src/split/info.c
 msgid "package architecture"
 msgstr "csomag architektúra"
+
+#: src/split/info.c
+msgid "reading data part member ar header"
+msgstr ""
 
 #: src/split/info.c
 #, c-format
@@ -3305,7 +3324,18 @@ msgstr ""
 "\n"
 
 #: src/split/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
+#| "      --admindir <directory>       Use <directory> instead of %s.\n"
+#| "      --root <directory>           Use <directory> instead of %s.\n"
+#| "  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
+#| "  -o, --output <file>              Filename, for -j (default is\n"
+#| "                                     <package>_<version>_<arch>.deb).\n"
+#| "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
+#| "      --msdos                      Generate 8.3 filenames.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
@@ -3315,7 +3345,6 @@ msgid ""
 "  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
 "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
-"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "Lehetőségek:\n"
@@ -3608,9 +3637,13 @@ msgstr ""
 "\n"
 
 #: src/divert/main.c
+#, fuzzy
+#| msgid ""
+#| "please specify --no-rename explicitly, the default will change to --"
+#| "rename in 1.20.x"
 msgid ""
 "please specify --no-rename explicitly, the default will change to --rename "
-"in 1.20.x"
+"not before 1.23.x"
 msgstr ""
 "kérlek add meg a --no-rename kapcsolót explicit, az alapértelmezés --rename-"
 "re fog változni 1.20.x-ben"
@@ -3863,11 +3896,6 @@ msgstr "'%s' csoport nem létezik"
 msgid "error setting ownership of '%s'"
 msgstr "nem sikerült beállítani `%s' tulajdonosát"
 
-#: src/statoverride/main.c src/main/archives.c
-#, c-format
-msgid "error setting permissions of '%s'"
-msgstr "nem sikerült beállítani `%s' jogait"
-
 #: src/statoverride/main.c
 #, c-format
 msgid "--%s needs four arguments"
@@ -3984,8 +4012,9 @@ msgid "takes one argument, the trigger name"
 msgstr "egy argumentumot fogad, a trigger nevet"
 
 #: src/trigger/main.c
-#, c-format
-msgid "illegal awaited package name '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal awaited package name '%s': %s"
+msgid "invalid awaited package name '%s': %s"
 msgstr "szabálytalan elvárt csomagnév '%s': %s"
 
 #: src/trigger/main.c
@@ -4008,24 +4037,31 @@ msgid "no packages found matching %s"
 msgstr "Nincs ilyen csomag: %s.\n"
 
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
-#. * string should remain under 80 characters. The uppercase letters in
-#. * the state values denote the abbreviated letter that will appear on
-#. * the first three columns, which should ideally match the English one
-#. * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
-#. * translated message can use additional lines if needed.
+#. string should remain under 80 characters. The uppercase letters in
+#. the state values denote the abbreviated letter that will appear on
+#. the first three columns, which should ideally match the English one
+#. (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
+#. translated message can use additional lines if needed. The ASCII art
+#. can use Unicode box characters.
+#.
 #: src/query/main.c
 #, fuzzy
 msgid ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
+"+-- Desired=Unknown/Install/Remove/Purge/Hold\n"
+"|+- Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
 "pend\n"
-"|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
+"||+ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
 "Kért=Ismeretlen/Telepít/Eltávolít/Töröl/Fog\n"
 "| Állapot=Nem/Telepített/Konfig-fájlok/Kibontatlan/Hibás-konfig/Félig-"
 "települt\n"
 "|/ Hib?=(nem)/Fog/Reinstallt-kért/X=mindkét-gond (Állapot,Hib: "
 "nagybetű=rossz)\n"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "|"
+msgstr ""
 
 #: src/query/main.c
 msgid "Name"
@@ -4043,6 +4079,21 @@ msgstr " (csomag: "
 #: src/query/main.c
 msgid "Description"
 msgstr "Leírás"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "+++-"
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "="
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "-"
+msgstr ""
 
 #: src/query/main.c
 msgid "showing package list on pager"
@@ -4244,8 +4295,7 @@ msgstr "`%s' olvasási hiba (itt: `%s')"
 #: src/main/archives.c
 #, fuzzy, c-format
 msgid "cannot copy extracted data for '%s' to '%s': %s"
-msgstr ""
-"dpkg: %s: figyelem - nem sikerült átnevezni `%s'-t erre: `%s': %s\n"
+msgstr "dpkg: %s: figyelem - nem sikerült átnevezni `%s'-t erre: `%s': %s\n"
 
 #: src/main/archives.c
 #, c-format
@@ -4296,10 +4346,9 @@ msgstr "meghiúsult e lánc olvasása: `%s'"
 #: src/main/archives.c
 #, fuzzy, c-format
 msgid ""
-"trying to overwrite shared '%s', which is different from other instances "
-"of package %s"
-msgstr ""
-"`%s' felülírási kísérlete, mely az alábbi csomagban is szerepel: %s"
+"trying to overwrite shared '%s', which is different from other instances of "
+"package %s"
+msgstr "`%s' felülírási kísérlete, mely az alábbi csomagban is szerepel: %s"
 
 #: src/main/archives.c
 #, fuzzy, c-format
@@ -4309,8 +4358,8 @@ msgstr "`%s' futtatási jogainak beállítása sikertelen"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"failed to stat (dereference) proposed new symlink target '%s' for "
-"symlink '%s'"
+"failed to stat (dereference) proposed new symlink target '%s' for symlink "
+"'%s'"
 msgstr ""
 
 #: src/main/archives.c
@@ -4328,8 +4377,7 @@ msgstr "úgy fest, `%s' konffájl nincs a csomagban"
 #: src/main/archives.c
 #, fuzzy, c-format
 msgid ""
-"trying to overwrite '%s', which is the diverted version of '%s' "
-"(package: %s)"
+"trying to overwrite '%s', which is the diverted version of '%s' (package: %s)"
 msgstr ""
 "kísérlet `%s' felülírására, ami a(z) `%s'%.10s%.100s%.10s eltérített "
 "verziója."
@@ -4350,8 +4398,7 @@ msgstr "nem találom `%s'-t (melyet telepítenem kéne)"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"unable to clean up mess surrounding '%s' before installing another "
-"version"
+"unable to clean up mess surrounding '%s' before installing another version"
 msgstr ""
 
 #: src/main/archives.c
@@ -4378,17 +4425,13 @@ msgstr "A telepített %s csomag fájljai cserélték ...\n"
 
 #: src/main/archives.c
 #, fuzzy, c-format
-msgid ""
-"trying to overwrite directory '%s' in package %s (%s) with "
-"nondirectory"
-msgstr ""
-"`%s' könyvtár felülírási kísérlete a csomagban: %s más fájltípussal"
+msgid "trying to overwrite directory '%s' in package %s (%s) with nondirectory"
+msgstr "`%s' könyvtár felülírási kísérlete a csomagban: %s más fájltípussal"
 
 #: src/main/archives.c
 #, fuzzy, c-format
 msgid "trying to overwrite '%s', which is also in package %s (%s)"
-msgstr ""
-"`%s' felülírási kísérlete, mely az alábbi csomagban is szerepel: %s"
+msgstr "`%s' felülírási kísérlete, mely az alábbi csomagban is szerepel: %s"
 
 #: src/main/archives.c
 #, c-format
@@ -4634,14 +4677,13 @@ msgstr "%s - figyelem: %s öregbítése innen: %s ide: %s.\n"
 #, fuzzy, c-format
 #| msgid "Will not downgrade %s from version %s to %s, skipping.\n"
 msgid "will not downgrade %s (%s) to (%s), skipping"
-msgstr ""
-"Nem fogom örgegbíteni %s-t %s verzióról erre: %s, kihagyom.\n"
+msgstr "Nem fogom örgegbíteni %s-t %s verzióról erre: %s, kihagyom.\n"
 
 #: src/main/cleanup.c
 #, c-format
 msgid ""
-"unable to remove newly-installed version of '%s' to allow reinstallation "
-"of backup copy"
+"unable to remove newly-installed version of '%s' to allow reinstallation of "
+"backup copy"
 msgstr ""
 "nem lehet törölni `%s' újonnan telepített verzióját a biztonsági másolat "
 "újratelepítéséhez"
@@ -4856,8 +4898,7 @@ msgstr "dpkg: %s: figyelem - a régi `%s' mentés törlése meghiúsult: %s\n"
 #: src/main/configure.c
 #, fuzzy, c-format
 msgid "%s: failed to rename '%s' to '%s': %s"
-msgstr ""
-"dpkg: %s: figyelem - nem sikerült átnevezni `%s'-t erre: `%s': %s\n"
+msgstr "dpkg: %s: figyelem - nem sikerült átnevezni `%s'-t erre: `%s': %s\n"
 
 #: src/main/configure.c src/main/unpack.c
 #, fuzzy, c-format
@@ -4873,8 +4914,7 @@ msgstr "dpkg: %s: figyelem - a régi `%s' mentés törlése meghiúsult: %s\n"
 #, fuzzy, c-format
 msgid "%s: failed to remove '%s' (before overwrite): %s"
 msgstr ""
-"dpkg: %s: figyelem - nem sikerült `%s' eltávolítása (felülírás előtt): "
-"%s\n"
+"dpkg: %s: figyelem - nem sikerült `%s' eltávolítása (felülírás előtt): %s\n"
 
 #: src/main/configure.c
 #, fuzzy, c-format
@@ -5196,7 +5236,7 @@ msgid "The following packages do not have an architecture:\n"
 msgstr ""
 
 #: src/main/enquiry.c
-msgid "The following packages have an illegal architecture:\n"
+msgid "The following packages have an invalid architecture:\n"
 msgstr ""
 
 #: src/main/enquiry.c
@@ -5503,7 +5543,6 @@ msgid ""
 "  --update-avail [<Packages-file>] Replace available packages info.\n"
 "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
 "  --clear-avail                    Erase existing available info.\n"
-"  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
 "  -s|--status [<package>...]       Display package status details.\n"
 "  -p|--print-avail [<package>...]  Display available version details.\n"
 "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
@@ -5789,8 +5828,7 @@ msgstr "ismeretlen `%s' lehetőség"
 #| msgid "null package name in --ignore-depends comma-separated list `%s'"
 msgid "null package name in --%s comma-separated list '%s'"
 msgstr ""
-"nincs csomagnév az --ignore-depends vesszővel elválasztott listájában: "
-"`%s'"
+"nincs csomagnév az --ignore-depends vesszővel elválasztott listájában: `%s'"
 
 #: src/main/main.c
 #, c-format
@@ -5802,9 +5840,9 @@ msgid "status logger"
 msgstr ""
 
 #: src/main/main.c
-#, c-format
-msgid "architecture '%s' is illegal: %s"
-msgstr ""
+#, fuzzy, c-format
+msgid "architecture '%s' is invalid: %s"
+msgstr "`%s' mező, érvénytelen `%s' csomagnév: %s"
 
 #: src/main/main.c
 #, c-format
@@ -5828,8 +5866,9 @@ msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr ""
 
 #: src/main/main.c
-#, c-format
-msgid "couldn't open '%i' for stream"
+#, fuzzy, c-format
+#| msgid "couldn't open '%i' for stream"
+msgid "cannot open '%i' for stream"
 msgstr "`%i' nem nyitható meg az áramoltatásra"
 
 #: src/main/main.c
@@ -5971,8 +6010,7 @@ msgstr "; ám:\n"
 #, fuzzy, c-format
 msgid "ignoring request to remove %s which is not installed"
 msgstr ""
-"dpkg - figyelem: átugrom a(z) %s csomag törlését, hisz' nincs "
-"telepítve.\n"
+"dpkg - figyelem: átugrom a(z) %s csomag törlését, hisz' nincs telepítve.\n"
 
 #: src/main/remove.c
 #, fuzzy, c-format
@@ -6047,25 +6085,26 @@ msgid "Removing %s (%s) ...\n"
 msgstr "Eltávolítás: %s ...\n"
 
 #: src/main/remove.c src/main/unpack.c
-#, c-format
-msgid "unable to delete control info file '%s'"
-msgstr "nem tudom törölni `%s' kontroll info fájlt"
+#, fuzzy, c-format
+#| msgid "unable to delete used-up depot file '%s'"
+msgid "unable to delete package metadata file '%s'"
+msgstr "sikertelen e felhasznált raktár fájl törlése: `%s'"
 
 #: src/main/remove.c
 #, fuzzy, c-format
 msgid ""
-"while removing %s, unable to remove directory '%s': %s - directory "
-"may be a mount point?"
+"while removing %s, unable to remove directory '%s': %s - directory may be a "
+"mount point?"
 msgstr ""
-"dpkg - figyelem: a(z) %s törlésekor nem tudtam törölni a(z) `%s' "
-"könyvtárat: %s -  a könyvtár egy csatolási pont ?\n"
+"dpkg - figyelem: a(z) %s törlésekor nem tudtam törölni a(z) `%s' könyvtárat: "
+"%s -  a könyvtár egy csatolási pont ?\n"
 
 #: src/main/remove.c
 #, fuzzy, c-format
 msgid "while removing %s, directory '%s' not empty so not removed"
 msgstr ""
-"dpkg - figyelem: a(z) %s törlésekor a(z) `%s' könyvtár nem üres, így "
-"azt nem töröltem.\n"
+"dpkg - figyelem: a(z) %s törlésekor a(z) `%s' könyvtár nem üres, így azt nem "
+"töröltem.\n"
 
 #: src/main/remove.c
 #, fuzzy, c-format
@@ -6129,7 +6168,8 @@ msgstr "nem lehet stat-olni a vsnprintf-ben"
 
 #: src/main/script.c
 #, fuzzy, c-format
-msgid "installed %s package %s script"
+#| msgid "old %s script"
+msgid "old %s package %s maintainer script"
 msgstr "régi %s szkript"
 
 #: src/main/script.c
@@ -6140,14 +6180,8 @@ msgstr "nem lelem %s `%s'-t"
 #: src/main/script.c
 #, fuzzy, c-format
 #| msgid "new %s script"
-msgid "new %s package %s script"
+msgid "new %s package %s maintainer script"
 msgstr "új %s szkript"
-
-#: src/main/script.c
-#, fuzzy, c-format
-#| msgid "old %s script"
-msgid "old %s package %s script"
-msgstr "régi %s szkript"
 
 #: src/main/script.c
 #, fuzzy, c-format
@@ -6155,13 +6189,15 @@ msgid "unable to stat %s '%s': %s"
 msgstr "nem lelem %s `%s'-t"
 
 #: src/main/script.c
-#, fuzzy
+#, fuzzy, c-format
 #| msgid "dpkg - trying script from the new package instead ...\n"
-msgid "trying script from the new package instead ..."
+msgid "trying %s maintainer script from the new %s package instead ..."
 msgstr "dpkg - inkább megnézem az új csomag szkriptjét ...\n"
 
 #: src/main/script.c
-msgid "there is no script in the new version of the package - giving up"
+#, fuzzy, c-format
+#| msgid "there is no script in the new version of the package - giving up"
+msgid "missing %s maintainer script in new %s package, giving up"
 msgstr "nincs új szkript a csomag új változatában - feladom"
 
 #: src/main/script.c
@@ -6198,8 +6234,9 @@ msgid "unexpected data after package and selection at line %d"
 msgstr "váratlan adatok a csomag és választás után a %d. sorban"
 
 #: src/main/select.c
-#, c-format
-msgid "illegal package name at line %d: %s"
+#, fuzzy, c-format
+#| msgid "illegal package name at line %d: %s"
+msgid "invalid package name at line %d: %s"
 msgstr "rossz csomagnév a %d. sorban: %s"
 
 #: src/main/select.c
@@ -6276,6 +6313,11 @@ msgstr ""
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "%s beállító fájlok törlése ...\n"
 
+#. TRANSLATORS: This string represents a summarized pathname,
+#. were prefix directories get abbreviated with ".../", if the
+#. total length exceeds a limit. The three dots would usually
+#. be represented by «…/».
+#.
 #: src/main/unpack.c
 #, c-format
 msgid ".../%s"
@@ -6379,19 +6421,23 @@ msgid "error closing %s"
 msgstr "hiba %s bezárásakor"
 
 #: src/main/unpack.c
-#, c-format
-msgid "old version of package has overly-long info file name starting '%s'"
-msgstr ""
-"a csomag régi verziójában túl hosszú info fájlnév van, kezdete: `%s'"
+#, fuzzy, c-format
+#| msgid "old version of package has overly-long info file name starting '%s'"
+msgid ""
+"old version of package has overly-long meatada file name (starting with "
+"'%.*s')"
+msgstr "a csomag régi verziójában túl hosszú info fájlnév van, kezdete: `%s'"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to remove obsolete info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to remove obsolete info file '%s'"
+msgid "unable to remove obsolete package metadata file '%s'"
 msgstr "nem tudom eltávolítani az elavult `%s' info fájlt"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install (supposed) new info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install (supposed) new info file '%s'"
+msgid "unable to install (supposed) new package metadata file '%s'"
 msgstr "nem tudom telepíteni az (állítólagos) új `%s' info fájlt"
 
 #: src/main/unpack.c
@@ -6399,28 +6445,32 @@ msgid "unable to open temp control directory"
 msgstr "nem tudom megnyitni az átmeneti ellenőrző könyvtárat"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package contains overly-long control info file name (starting '%.50s')"
+#, fuzzy, c-format
+#| msgid ""
+#| "package contains overly-long control info file name (starting '%.50s')"
+msgid "package has overly-long metadata file name (starting with '%.*s')"
 msgstr "a csomagban túl hosszú control info fájlnév van (kezdete: `%.50s')"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info contained directory '%s'"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%s'"
+msgid "package metadata contained directory '%s'"
+msgstr "`%s' könyvtár nem nézhető át"
 
 #: src/main/unpack.c
 #, c-format
-msgid "package control info rmdir of '%s' did not say not a dir"
+msgid "package metadata rmdir of '%s' did not say not a dir"
 msgstr ""
 
 #: src/main/unpack.c
 #, fuzzy, c-format
-msgid "package %s contained list as info file"
+msgid "package %s contained '%s' as a metadata file"
 msgstr "dpkg: figyelem - %s csomag listát tartalmazott info fájlként"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install new info file '%s' as '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install new info file '%s' as '%s'"
+msgid "unable to install new metadata file '%s' as '%s'"
 msgstr "nem tudom telepíteni az új `%s' info fájlt, mint `%s'"
 
 #: src/main/unpack.c
@@ -6470,12 +6520,8 @@ msgstr "nem találom a másik `%s' új fájlt"
 
 #: src/main/unpack.c
 #, fuzzy, c-format
-msgid ""
-"old file '%s' is the same as several new files! (both '%s' and "
-"'%s')"
-msgstr ""
-"dpkg: figyelem - `%s' régi fájl új fájlokkal egyezik!  (`%s' és "
-"`%s')"
+msgid "old file '%s' is the same as several new files! (both '%s' and '%s')"
+msgstr "dpkg: figyelem - `%s' régi fájl új fájlokkal egyezik!  (`%s' és `%s')"
 
 #: src/main/unpack.c
 #, fuzzy, c-format
@@ -6489,9 +6535,9 @@ msgstr ""
 
 #: src/main/unpack.c
 #, fuzzy
-#| msgid "control information length"
-msgid "package control information extraction"
-msgstr "ellenőrző információ hossz"
+#| msgid "package field value extraction"
+msgid "package metadata files extraction"
+msgstr "csomag mező érték kiemelés"
 
 #: src/main/unpack.c
 #, c-format
@@ -6548,6 +6594,12 @@ msgstr "%s dekonfigurálása, így %s eltávolíthatóvá válik...\n"
 msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s pontosan 1 Packages fájl argumentumot vár"
 
+#: src/main/update.c utils/update-alternatives.c
+#, fuzzy
+#| msgid "read error on standard input"
+msgid "<standard input>"
+msgstr "olvasási hiba a szabvány bemeneten"
+
 #: src/main/update.c
 #, fuzzy, c-format
 #| msgid "unable to access dpkg status area for bulk available update"
@@ -6567,13 +6619,15 @@ msgstr ""
 "frissítéshez"
 
 #: src/main/update.c
-#, c-format
-msgid "Replacing available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Replacing available packages info, using %s.\n"
+msgid "Replacing available packages information from %s.\n"
 msgstr "Az elérhető (available) csomagok listájának cseréje ezzel: %s.\n"
 
 #: src/main/update.c
-#, c-format
-msgid "Updating available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Updating available packages info, using %s.\n"
+msgid "Updating available packages information from %s.\n"
 msgstr "Az elérhető (available) csomagok listájának frissítése ezzel: %s.\n"
 
 #: src/main/update.c
@@ -6599,7 +6653,7 @@ msgstr "Debian %s %s verzió.\n"
 msgid ""
 "Commands:\n"
 "  --install <link> <name> <path> <priority>\n"
-"    [--slave <link> <name> <path>] ...\n"
+"    [--slave <link> <name> <path>]...\n"
 "                           add a group of alternatives to the system.\n"
 "  --remove <name> <path>   remove <path> from the <name> group alternative.\n"
 "  --remove-all <name>      remove <name> group from the alternatives "
@@ -7230,12 +7284,6 @@ msgstr ""
 msgid "no alternatives for %s"
 msgstr "Nincs kiválasztás erre: %s."
 
-#: utils/update-alternatives.c
-#, fuzzy
-#| msgid "read error on standard input"
-msgid "<standard input>"
-msgstr "olvasási hiba a szabvány bemeneten"
-
 #: utils/update-alternatives.polkit.in
 msgid "Run update-alternatives to modify system alternative selections"
 msgstr ""
@@ -7244,10 +7292,27 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#, fuzzy, c-format
+#~| msgid "subprocess %s returned error exit status %d"
+#~ msgid "%s subprocess returned error exit status %d"
+#~ msgstr "%s alfolyamat %d hibakóddal kilépett"
+
+#, c-format
+#~ msgid "unable to delete control info file '%s'"
+#~ msgstr "nem tudom törölni `%s' kontroll info fájlt"
+
+#, fuzzy, c-format
+#~ msgid "installed %s package %s script"
+#~ msgstr "régi %s szkript"
+
+#, fuzzy
+#~| msgid "control information length"
+#~ msgid "package control information extraction"
+#~ msgstr "ellenőrző információ hossz"
+
 #, c-format
 #~ msgid "open component '%s' (in %s) failed in an unexpected way"
-#~ msgstr ""
-#~ "`%s' összetevő megnyitása (ebben: %s) váratlan módon meghiúsult"
+#~ msgstr "`%s' összetevő megnyitása (ebben: %s) váratlan módon meghiúsult"
 
 #, c-format
 #~ msgid "cannot stat '%s' (in '%s')"
@@ -7600,8 +7665,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "failed to link '%s' to '%s' for backup of %s database"
-#~ msgstr ""
-#~ "dpkg: %s: figyelem - meghiúsult `%s' láncolása ide: `%s': %s\n"
+#~ msgstr "dpkg: %s: figyelem - meghiúsult `%s' láncolása ide: `%s': %s\n"
 
 #, fuzzy
 #~ msgid "failed to install '%s' as '%s' containing %s database"
@@ -7888,8 +7952,8 @@ msgstr ""
 #~ "  confold [!]            Always use the old config files, do not prompt\n"
 #~ "  confdef [!]            Use the default option for new config files if "
 #~ "one\n"
-#~ "                         is available, do not prompt. If no default can be "
-#~ "found,\n"
+#~ "                         is available, do not prompt. If no default can "
+#~ "be found,\n"
 #~ "                         you will be prompted unless one of the confold "
 #~ "or\n"
 #~ "                         confnew options is also given\n"

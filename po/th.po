@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-05-19 00:00+0200\n"
+"POT-Creation-Date: 2025-12-16 21:20+0000\n"
 "PO-Revision-Date: 2023-02-05 23:45+0100\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@debian.org>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -378,8 +378,9 @@ msgstr ""
 "ฟอร์แมตของฐานข้อมูลสารสนเทศ (%d) เป็นค่าปลอมหรือใหม่เกินไป ลองติดตั้ง dpkg รุ่นที่ใหม่กว่านี้"
 
 #: lib/dpkg/db-ctrl-upgrade.c
-#, c-format
-msgid "info file %s/%s not associated to any package"
+#, fuzzy, c-format
+#| msgid "info file %s/%s not associated to any package"
+msgid "metadata file %s/%s not associated to any package"
 msgstr "แฟ้มสารสนเทศ %s/%s ไม่มีความเชื่อมโยงกับแพกเกจใด"
 
 #: lib/dpkg/db-ctrl-upgrade.c src/main/archives.c
@@ -705,7 +706,7 @@ msgid "unable to open file '%s'"
 msgstr "ไม่สามารถเปิดแฟ้ม '%s'"
 
 #: lib/dpkg/dir.c src/deb/build.c src/split/join.c src/split/queue.c
-#: src/divert/main.c utils/update-alternatives.c
+#: src/divert/main.c src/main/archives.c utils/update-alternatives.c
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "ไม่สามารถ sync แฟ้ม '%s'"
@@ -897,8 +898,7 @@ msgstr "เขตข้อมูล '%s' ขาดชื่อสถาปัต
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid ""
-"'%s' field, reference to '%s': invalid architecture name '%s': %s"
+msgid "'%s' field, reference to '%s': invalid architecture name '%s': %s"
 msgstr "เขตข้อมูล '%s' อ้างอิงไปยัง '%s': ชื่อสถาปัตยกรรม '%s' ที่ไม่ถูกต้อง: %s"
 
 #: lib/dpkg/fields.c
@@ -949,8 +949,7 @@ msgstr "เขตข้อมูล '%s' อ้างอิงไปยัง '%
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid ""
-"'%s' field, reference to '%s': version contains '%c' instead of '%c'"
+msgid "'%s' field, reference to '%s': version contains '%c' instead of '%c'"
 msgstr "เขตข้อมูล '%s' อ้างอิงไปยัง '%s': เลขรุ่นมีอักขระ '%c' แทนที่จะเป็น '%c'"
 
 #: lib/dpkg/fields.c
@@ -969,8 +968,9 @@ msgid "alternatives ('|') not allowed in '%s' field"
 msgstr "ใช้ทางเลือก ('|') ไม่ได้ในเขตข้อมูล '%s'"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "illegal pending trigger name '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal pending trigger name '%s': %s"
+msgid "invalid pending trigger name '%s': %s"
 msgstr "ชื่อการสะกิดที่คั่งค้าง '%s' ใช้ไม่ได้: %s"
 
 #: lib/dpkg/fields.c
@@ -979,8 +979,9 @@ msgid "duplicate pending trigger '%s'"
 msgstr "การสะกิดที่คั่งค้าง '%s' ซ้ำกัน"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "illegal package name in awaited trigger '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal package name in awaited trigger '%s': %s"
+msgid "invalid package name in awaited trigger '%s': %s"
 msgstr "ชื่อแพกเกจผิดรูปแบบในการสะกิดที่รอคอย '%s': %s"
 
 #: lib/dpkg/fields.c
@@ -1346,28 +1347,33 @@ msgstr ""
 "แพกเกจ %s (%s) ซึ่งมีเขตข้อมูล '%s: %s' ไม่สามารถติดตั้งร่วมกับ %s ซึ่งมีการติดตั้งไว้หลายชุด"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "failed to open package info file '%s' for reading"
+#, fuzzy, c-format
+#| msgid "failed to open package info file '%s' for reading"
+msgid "failed to open package control file '%s' for reading"
 msgstr "ไม่สามารถเปิดแฟ้มข้อมูลแพกเกจ '%s' เพื่ออ่าน"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot stat package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot stat package info file '%s'"
+msgid "cannot stat package control file '%s'"
 msgstr "ไม่สามารถ stat แฟ้มข้อมูลแพกเกจ '%s'"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "reading package info file '%s': %s"
+#, fuzzy, c-format
+#| msgid "reading package info file '%s': %s"
+msgid "reading package control file '%s': %s"
 msgstr "ขณะอ่านแฟ้มข้อมูลแพกเกจ '%s': %s"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot mmap package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot mmap package info file '%s'"
+msgid "cannot mmap package control file '%s'"
 msgstr "ไม่สามารถ mmap แฟ้มข้อมูลแพกเกจ '%s'"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "reading package info file '%s'"
+#, fuzzy, c-format
+#| msgid "reading package info file '%s'"
+msgid "reading package control file '%s'"
 msgstr "ไม่สามารถอ่านแฟ้มข้อมูลแพกเกจ '%s'"
 
 #: lib/dpkg/parse.c
@@ -1390,8 +1396,9 @@ msgid "newline in field name '%.*s'"
 msgstr "พบอักขระขึ้นบรรทัดใหม่ในชื่อเขตข้อมูล '%.*s'"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "MSDOS end of file (^Z) in field name '%.*s'"
+#, fuzzy, c-format
+#| msgid "MSDOS end of file (^Z) in field name '%.*s'"
+msgid "MSDOS end of file (Ctrl+Z) in field name '%.*s'"
 msgstr "พบจุดจบแฟ้มของ MSDOS (^Z) ในชื่อเขตข้อมูล '%.*s'"
 
 #: lib/dpkg/parse.c
@@ -1405,8 +1412,9 @@ msgid "end of file before value of field '%.*s' (missing final newline)"
 msgstr "พบจุดจบแฟ้มก่อนค่าของเขตข้อมูล '%.*s' (ขาดอักขระขึ้นบรรทัดใหม่ปิดท้าย)"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
+#, fuzzy, c-format
+#| msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
+msgid "MSDOS end of file (Ctrl+Z) in value of field '%.*s' (missing newline?)"
 msgstr ""
 "พบจุดจบแฟ้มของ MSDOS (^Z) ในค่าของเขตข้อมูล '%.*s' (ขาดอักขระขึ้นบรรทัดใหม่หรือเปล่า?)"
 
@@ -1509,7 +1517,7 @@ msgstr "พบอักขระห้ามใช้ในเลขรุ่น
 msgid "invalid character in revision number"
 msgstr "พบอักขระห้ามใช้ในเลขฉบับแก้ไข"
 
-#: lib/dpkg/path-remove.c
+#: lib/dpkg/path-remove.c src/main/remove.c
 #, c-format
 msgid "unable to securely remove '%s'"
 msgstr "ไม่สามารถลบ '%s' อย่างปลอดภัยได้"
@@ -1551,17 +1559,20 @@ msgid "version '%s' has bad syntax: %s"
 msgstr "รุ่น '%s' ผิดรูปแบบ: %s"
 
 #: lib/dpkg/pkg-spec.c
-#, c-format
-msgid "illegal package name in specifier '%s%s%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal package name in specifier '%s%s%s': %s"
+msgid "invalid package name in specifier '%s%s%s': %s"
 msgstr "ชื่อแพกเกจผิดรูปแบบในการระบุชื่อ '%s%s%s': %s"
 
 #: lib/dpkg/pkg-spec.c
-#, c-format
-msgid "illegal architecture name in specifier '%s:%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal architecture name in specifier '%s:%s': %s"
+msgid "invalid architecture name in specifier '%s:%s': %s"
 msgstr "ชื่อสถาปัตยกรรมผิดรูปแบบในการระบุชื่อ '%s:%s': %s"
 
 #. TRANSLATORS: This is part of the progress output, it is a decimal
-#. * percentage.
+#. percentage.
+#.
 #: lib/dpkg/progress.c
 #, c-format
 msgid "%d%%"
@@ -1611,9 +1622,10 @@ msgid "fork failed"
 msgstr "fork ไม่สำเร็จ"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "%s subprocess returned error exit status %d"
-msgstr "โพรเซสย่อย %s จบการทำงานโดยคืนค่าสถานะข้อผิดพลาด %d"
+#, fuzzy, c-format
+#| msgid "%s subprocess failed with wait status code %d"
+msgid "%s subprocess failed with exit status %d"
+msgstr "โพรเซสย่อย %s ล้มเหลวด้วยรหัสสถานะ %d"
 
 #: lib/dpkg/subproc.c
 #, c-format
@@ -1779,18 +1791,15 @@ msgid "failed to rewind trigger interest file '%s'"
 msgstr "ไม่สามารถกรอแฟ้มรายชื่อการสะกิดที่สนใจ '%s' กลับ"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid ""
-"trigger interest file '%s' syntax error; illegal package name '%s': "
-"%s"
-msgstr ""
-"ไวยากรณ์ผิดพลาดในแฟ้มรายชื่อการสะกิดที่สนใจ '%s'; ชื่อแพกเกจผิดรูปแบบ '%s': "
-"%s"
+#, fuzzy, c-format
+#| msgid ""
+#| "trigger interest file '%s' syntax error; illegal package name '%s': %s"
+msgid "trigger interest file '%s' syntax error; invalid package name '%s': %s"
+msgstr "ไวยากรณ์ผิดพลาดในแฟ้มรายชื่อการสะกิดที่สนใจ '%s'; ชื่อแพกเกจผิดรูปแบบ '%s': %s"
 
 #: lib/dpkg/triglib.c
 #, c-format
-msgid ""
-"duplicate file trigger interest for filename '%s' and package '%s'"
+msgid "duplicate file trigger interest for filename '%s' and package '%s'"
 msgstr "มีการสะกิดด้วยแฟ้มซ้ำกันสำหรับชื่อแฟ้ม '%s' และแพกเกจ '%s'"
 
 #: lib/dpkg/triglib.c
@@ -1804,34 +1813,43 @@ msgid "syntax error in file triggers file '%s'"
 msgstr "ไวยากรณ์ผิดพลาดในแฟ้มรายชื่อการสะกิดด้วยแฟ้ม '%s'"
 
 #: lib/dpkg/triglib.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "file triggers record mentions illegal package name '%s' (for interest in "
+#| "file '%s'): %s"
 msgid ""
-"file triggers record mentions illegal package name '%s' (for interest in "
+"file triggers record mentions invalid package name '%s' (for interest in "
 "file '%s'): %s"
 msgstr ""
-"ระเบียนการสะกิดด้วยแฟ้มมีการกล่าวอ้างถึงชื่อแพกเกจที่ใช้ไม่ได้ '%s' (ในรายการสนใจแฟ้ม "
-"'%s'): %s"
+"ระเบียนการสะกิดด้วยแฟ้มมีการกล่าวอ้างถึงชื่อแพกเกจที่ใช้ไม่ได้ '%s' (ในรายการสนใจแฟ้ม '%s'): "
+"%s"
 
 #: lib/dpkg/triglib.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "triggers ci file '%s' contains illegal trigger syntax in trigger name "
+#| "'%s': %s"
 msgid ""
-"triggers ci file '%s' contains illegal trigger syntax in trigger name "
-"'%s': %s"
-msgstr ""
-"แฟ้มข้อมูลการสะกิด '%s' มีไวยากรณ์ของการสะกิดผิดพลาดในชื่อการสะกิด '%s': %s"
+"triggers package metadata file '%s' contains invalid trigger syntax in "
+"trigger name '%s': %s"
+msgstr "แฟ้มข้อมูลการสะกิด '%s' มีไวยากรณ์ของการสะกิดผิดพลาดในชื่อการสะกิด '%s': %s"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to open triggers ci file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to open triggers ci file '%s'"
+msgid "unable to open triggers package metadata file '%s'"
 msgstr "ไม่สามารถเปิดแฟ้มข้อมูลการสะกิด '%s'"
 
 #: lib/dpkg/triglib.c
-msgid "triggers ci file contains unknown directive syntax"
+#, fuzzy, c-format
+#| msgid "triggers ci file contains unknown directive syntax"
+msgid "triggers package metadata file '%s' contains unknown directive syntax"
 msgstr "แฟ้มข้อมูลการสะกิดมีคำสั่งผิดไวยากรณ์"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid "triggers ci file contains unknown directive '%s'"
+#, fuzzy, c-format
+#| msgid "triggers ci file contains unknown directive '%s'"
+msgid "triggers package metadata file '%s' contains unknown directive '%s'"
 msgstr "แฟ้มข้อมูลการสะกิดมีคำสั่ง '%s' ที่ไม่รู้จัก"
 
 #: lib/dpkg/triglib.c
@@ -2132,7 +2150,7 @@ msgstr ""
 msgid "cannot read link '%s'"
 msgstr "ไม่สามารถอ่าน %s"
 
-#: src/realpath/main.c
+#: src/realpath/main.c src/main/archives.c src/main/configure.c
 #, fuzzy, c-format
 #| msgid "symbolic link '%s' size has changed from %jd to %zd"
 msgid "symbolic link '%s' size has changed from %jd to %zd"
@@ -2188,11 +2206,9 @@ msgstr "สคริปต์ผู้ดูแลแพกเกจ '%s' ไม
 #: src/deb/build.c
 #, c-format
 msgid ""
-"maintainer script '%s' has bad permissions %03lo (must be >=0555 and "
-"<=0775)"
+"maintainer script '%s' has bad permissions %03lo (must be >=0555 and <=0775)"
 msgstr ""
-"สคริปต์ผู้ดูแลแพกเกจ '%s' มีการกำหนดสิทธิ์ %03lo ซึ่งไม่ถูกต้อง (ต้องมีค่า >=0555 และ "
-"<=0775)"
+"สคริปต์ผู้ดูแลแพกเกจ '%s' มีการกำหนดสิทธิ์ %03lo ซึ่งไม่ถูกต้อง (ต้องมีค่า >=0555 และ <=0775)"
 
 #: src/deb/build.c
 #, c-format
@@ -2576,6 +2592,11 @@ msgstr ""
 msgid "--%s does not support (yet) reading the .deb from standard input"
 msgstr "--%s (ยัง)ไม่รองรับการอ่าน .deb จากอินพุตมาตรฐาน"
 
+#: src/deb/info.c src/statoverride/main.c src/main/archives.c
+#, c-format
+msgid "error setting permissions of '%s'"
+msgstr "เกิดข้อผิดพลาดขณะกำหนดการอนุญาตสิทธิ์ของ '%s'"
+
 #: src/deb/info.c src/main/unpack.c
 msgid "unable to create temporary directory"
 msgstr "ไม่สามารถสร้างไดเรกทอรีชั่วคราว"
@@ -2664,7 +2685,22 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -b|--build <directory> [<deb>]   Build an archive.\n"
+#| "  -c|--contents <deb>              List contents.\n"
+#| "  -I|--info <deb> [<cfile>...]     Show info to stdout.\n"
+#| "  -W|--show <deb>                  Show information on package(s)\n"
+#| "  -f|--field <deb> [<cfield>...]   Show field(s) to stdout.\n"
+#| "  -e|--control <deb> [<directory>] Extract control info.\n"
+#| "  -x|--extract <deb> <directory>   Extract files.\n"
+#| "  -X|--vextract <deb> <directory>  Extract & list files.\n"
+#| "  -R|--raw-extract <deb> <directory>\n"
+#| "                                   Extract control info and files.\n"
+#| "  --ctrl-tarfile <deb>             Output control tarfile.\n"
+#| "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  -b|--build <directory> [<deb>]   Build an archive.\n"
@@ -2672,11 +2708,11 @@ msgid ""
 "  -I|--info <deb> [<cfile>...]     Show info to stdout.\n"
 "  -W|--show <deb>                  Show information on package(s)\n"
 "  -f|--field <deb> [<cfield>...]   Show field(s) to stdout.\n"
-"  -e|--control <deb> [<directory>] Extract control info.\n"
-"  -x|--extract <deb> <directory>   Extract files.\n"
-"  -X|--vextract <deb> <directory>  Extract & list files.\n"
+"  -e|--control <deb> [<directory>] Extract metadata files.\n"
+"  -x|--extract <deb> <directory>   Extract filesystem files.\n"
+"  -X|--vextract <deb> <directory>  Extract and list filesystem files.\n"
 "  -R|--raw-extract <deb> <directory>\n"
-"                                   Extract control info and files.\n"
+"                                   Extract metadata and filesystem files.\n"
 "  --ctrl-tarfile <deb>             Output control tarfile.\n"
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
@@ -2912,9 +2948,21 @@ msgid "error reading %s"
 msgstr "เกิดข้อผิดพลาดขณะอ่าน %s"
 
 #: src/split/info.c
+#, fuzzy
+#| msgid "archive member header"
+msgid "ar header"
+msgstr "ข้อมูลส่วนหัวของสมาชิกแพกเกจ"
+
+#: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - bad magic at end of first header"
 msgstr "แฟ้ม '%s' เสียหาย - รหัสเอกลักษณ์ผิดพลาดที่ท้ายข้อมูลส่วนหัวชิ้นแรก"
+
+#: src/split/info.c
+#, fuzzy
+#| msgid "archive information header member"
+msgid "reading header member"
+msgstr "สมาชิกส่วนหัวของข้อมูลเกี่ยวกับแพกเกจ"
 
 #: src/split/info.c
 #, c-format
@@ -2995,6 +3043,10 @@ msgstr "แฟ้ม '%s' เสียหาย - หมายเลขส่ว
 #: src/split/info.c
 msgid "package architecture"
 msgstr "สถาปัตยกรรมของแพกเกจ"
+
+#: src/split/info.c
+msgid "reading data part member ar header"
+msgstr ""
 
 #: src/split/info.c
 #, c-format
@@ -3159,7 +3211,18 @@ msgstr ""
 "\n"
 
 #: src/split/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
+#| "      --admindir <directory>       Use <directory> instead of %s.\n"
+#| "      --root <directory>           Use <directory> instead of %s.\n"
+#| "  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
+#| "  -o, --output <file>              Filename, for -j (default is\n"
+#| "                                     <package>_<version>_<arch>.deb).\n"
+#| "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
+#| "      --msdos                      Generate 8.3 filenames.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
@@ -3169,7 +3232,6 @@ msgid ""
 "  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
 "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
-"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "ตัวเลือก:\n"
@@ -3453,9 +3515,13 @@ msgstr ""
 "สคริปต์ preinst/postrm ของแพกเกจควรระบุ --package และ --divert เสมอ\n"
 
 #: src/divert/main.c
+#, fuzzy
+#| msgid ""
+#| "please specify --no-rename explicitly, the default will change to --"
+#| "rename in 1.20.x"
 msgid ""
 "please specify --no-rename explicitly, the default will change to --rename "
-"in 1.20.x"
+"not before 1.23.x"
 msgstr "กรุณาระบุ --no-rename อย่างโจ่งแจ้ง ค่าปริยายจะเปลี่ยนเป็น --rename ใน 1.20.x"
 
 #: src/divert/main.c utils/update-alternatives.c
@@ -3700,11 +3766,6 @@ msgstr "ไม่มีกลุ่มผู้ใช้ '%s' อยู่"
 msgid "error setting ownership of '%s'"
 msgstr "เกิดข้อผิดพลาดขณะกำหนดเจ้าของของ '%s'"
 
-#: src/statoverride/main.c src/main/archives.c
-#, c-format
-msgid "error setting permissions of '%s'"
-msgstr "เกิดข้อผิดพลาดขณะกำหนดการอนุญาตสิทธิ์ของ '%s'"
-
 #: src/statoverride/main.c
 #, c-format
 msgid "--%s needs four arguments"
@@ -3809,8 +3870,9 @@ msgid "takes one argument, the trigger name"
 msgstr "รับอาร์กิวเมนต์แค่ตัวเดียว คือชื่อของการสะกิด"
 
 #: src/trigger/main.c
-#, c-format
-msgid "illegal awaited package name '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal awaited package name '%s': %s"
+msgid "invalid awaited package name '%s': %s"
 msgstr "ชื่อแพกเกจที่รอคอย '%s' ไม่ถูกต้อง: %s"
 
 #: src/trigger/main.c
@@ -3832,22 +3894,35 @@ msgid "no packages found matching %s"
 msgstr "ไม่พบแพกเกจที่ตรงกับ %s"
 
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
-#. * string should remain under 80 characters. The uppercase letters in
-#. * the state values denote the abbreviated letter that will appear on
-#. * the first three columns, which should ideally match the English one
-#. * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
-#. * translated message can use additional lines if needed.
+#. string should remain under 80 characters. The uppercase letters in
+#. the state values denote the abbreviated letter that will appear on
+#. the first three columns, which should ideally match the English one
+#. (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
+#. translated message can use additional lines if needed. The ASCII art
+#. can use Unicode box characters.
+#.
 #: src/query/main.c
+#, fuzzy
+#| msgid ""
+#| "Desired=Unknown/Install/Remove/Purge/Hold\n"
+#| "| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
+#| "pend\n"
+#| "|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgid ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
+"+-- Desired=Unknown/Install/Remove/Purge/Hold\n"
+"|+- Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
 "pend\n"
-"|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
+"||+ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
 "ต้องการ=Unknown/Install/Remove/Purge/Hold\n"
 "| สถานะ=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
 "pend\n"
 "|/ ปัญหา?=(ไม่มี)/Reinst-required (สถานะ,ปัญหา: พิมพ์ใหญ่=แย่)\n"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "|"
+msgstr ""
 
 #: src/query/main.c
 msgid "Name"
@@ -3864,6 +3939,21 @@ msgstr "สถาปัตยกรรม"
 #: src/query/main.c
 msgid "Description"
 msgstr "คำบรรยาย"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "+++-"
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "="
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "-"
+msgstr ""
 
 # Use leading space for English translation
 #: src/query/main.c
@@ -4100,8 +4190,8 @@ msgstr "ไม่สามารถอ่านลิงก์ '%s'"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"trying to overwrite shared '%s', which is different from other instances "
-"of package %s"
+"trying to overwrite shared '%s', which is different from other instances of "
+"package %s"
 msgstr "กำลังพยายามเขียนทับ '%s' ที่ใช้ร่วมกัน ซึ่งต่างจากอีกฉบับของแพกเกจ %s"
 
 #: src/main/archives.c
@@ -4112,10 +4202,9 @@ msgstr "ไม่สามารถ stat (ชี้ตามลิงก์) sym
 #: src/main/archives.c
 #, c-format
 msgid ""
-"failed to stat (dereference) proposed new symlink target '%s' for "
-"symlink '%s'"
-msgstr ""
-"ไม่สามารถ stat (ชี้ตามลิงก์) ปลายทาง symlink ใหม่ '%s' สำหรับ symlink '%s'"
+"failed to stat (dereference) proposed new symlink target '%s' for symlink "
+"'%s'"
+msgstr "ไม่สามารถ stat (ชี้ตามลิงก์) ปลายทาง symlink ใหม่ '%s' สำหรับ symlink '%s'"
 
 #: src/main/archives.c
 #, c-format
@@ -4130,8 +4219,7 @@ msgstr "แฟ้มค่าตั้ง '%s' ซึ่งถูกทำเค
 #: src/main/archives.c
 #, c-format
 msgid ""
-"trying to overwrite '%s', which is the diverted version of '%s' "
-"(package: %s)"
+"trying to overwrite '%s', which is the diverted version of '%s' (package: %s)"
 msgstr "กำลังพยายามเขียนทับ '%s' ซึ่งเป็นฉบับเบนของ '%s' (แพกเกจ: %s)"
 
 #: src/main/archives.c
@@ -4147,8 +4235,7 @@ msgstr "ไม่สามารถ stat '%s' (ซึ่งกำลังจะ
 #: src/main/archives.c
 #, c-format
 msgid ""
-"unable to clean up mess surrounding '%s' before installing another "
-"version"
+"unable to clean up mess surrounding '%s' before installing another version"
 msgstr "ไม่สามารถเก็บกวาดสิ่งตกค้างเกี่ยวกับ '%s' ก่อนที่จะติดตั้งอีกรุ่นได้"
 
 #: src/main/archives.c
@@ -4174,13 +4261,9 @@ msgstr "ถูกแทนที่โดยแฟ้มในแพกเกจ
 #: src/main/archives.c
 #, fuzzy, c-format
 #| msgid ""
-#| "trying to overwrite directory '%s' in package %s %s with "
-#| "nondirectory"
-msgid ""
-"trying to overwrite directory '%s' in package %s (%s) with "
-"nondirectory"
-msgstr ""
-"กำลังพยายามเขียนทับไดเรกทอรี '%s' ในแพกเกจ %s %s ด้วยสิ่งที่ไม่ใช่ไดเรกทอรี"
+#| "trying to overwrite directory '%s' in package %s %s with nondirectory"
+msgid "trying to overwrite directory '%s' in package %s (%s) with nondirectory"
+msgstr "กำลังพยายามเขียนทับไดเรกทอรี '%s' ในแพกเกจ %s %s ด้วยสิ่งที่ไม่ใช่ไดเรกทอรี"
 
 #: src/main/archives.c
 #, fuzzy, c-format
@@ -4424,8 +4507,8 @@ msgstr "จะไม่ปรับรุ่น %s ลง จากรุ่น 
 #: src/main/cleanup.c
 #, c-format
 msgid ""
-"unable to remove newly-installed version of '%s' to allow reinstallation "
-"of backup copy"
+"unable to remove newly-installed version of '%s' to allow reinstallation of "
+"backup copy"
 msgstr "ไม่สามารถลบรุ่นที่ติดตั้งใหม่ของ '%s' เพื่อติดตั้งเนื้อหาที่สำรองไว้ได้"
 
 #: src/main/cleanup.c
@@ -4949,7 +5032,9 @@ msgid "The following packages do not have an architecture:\n"
 msgstr "แพกเกจต่อไปนี้ไม่ได้ระบุสถาปัตยกรรม:\n"
 
 #: src/main/enquiry.c
-msgid "The following packages have an illegal architecture:\n"
+#, fuzzy
+#| msgid "The following packages have an illegal architecture:\n"
+msgid "The following packages have an invalid architecture:\n"
 msgstr "แพกเกจต่อไปนี้มีสถาปัตยกรรมที่ไม่ถูกต้อง:\n"
 
 #: src/main/enquiry.c
@@ -5219,7 +5304,47 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "โปรแกรมจัดการแพกเกจ '%s' ของเดเบียน รุ่น %s\n"
 
 #: src/main/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
+#| "  --unpack           <.deb file name>... | -R|--recursive <directory>...\n"
+#| "  -A|--record-avail  <.deb file name>... | -R|--recursive <directory>...\n"
+#| "  --configure        <package>... | -a|--pending\n"
+#| "  --triggers-only    <package>... | -a|--pending\n"
+#| "  -r|--remove        <package>... | -a|--pending\n"
+#| "  -P|--purge         <package>... | -a|--pending\n"
+#| "  -V|--verify [<package>...]       Verify the integrity of package(s).\n"
+#| "  --get-selections [<pattern>...]  Get list of selections to stdout.\n"
+#| "  --set-selections                 Set package selections from stdin.\n"
+#| "  --clear-selections               Deselect every non-essential package.\n"
+#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
+#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
+#| "  --clear-avail                    Erase existing available info.\n"
+#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
+#| "  -s|--status [<package>...]       Display package status details.\n"
+#| "  -p|--print-avail [<package>...]  Display available version details.\n"
+#| "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern>...]         List packages concisely.\n"
+#| "  -S|--search <pattern>...         Find package(s) owning file(s).\n"
+#| "  -C|--audit [<package>...]        Check for broken package(s).\n"
+#| "  --yet-to-unpack                  Print packages selected for "
+#| "installation.\n"
+#| "  --predep-package                 Print pre-dependencies to unpack.\n"
+#| "  --add-architecture <arch>        Add <arch> to the list of "
+#| "architectures.\n"
+#| "  --remove-architecture <arch>     Remove <arch> from the list of "
+#| "architectures.\n"
+#| "  --print-architecture             Print dpkg architecture.\n"
+#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+#| "  --assert-help                    Show help on assertions.\n"
+#| "  --assert-<feature>               Assert support for the specified "
+#| "feature.\n"
+#| "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
+#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
+#| "  --force-help                     Show help on forcing.\n"
+#| "  -Dh|--debug=help                 Show help on debugging.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
@@ -5236,7 +5361,6 @@ msgid ""
 "  --update-avail [<Packages-file>] Replace available packages info.\n"
 "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
 "  --clear-avail                    Erase existing available info.\n"
-"  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
 "  -s|--status [<package>...]       Display package status details.\n"
 "  -p|--print-avail [<package>...]  Display available version details.\n"
 "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
@@ -5537,9 +5661,10 @@ msgid "status logger"
 msgstr "เครื่องมือบันทึกปูมของสถานะ"
 
 #: src/main/main.c
-#, c-format
-msgid "architecture '%s' is illegal: %s"
-msgstr "สถาปัตยกรรม '%s' ไม่สามารถใช้ได้: %s"
+#, fuzzy, c-format
+#| msgid "architecture name '%s' is invalid: %s"
+msgid "architecture '%s' is invalid: %s"
+msgstr "ชื่อสถาปัตยกรรม '%s' ไม่ถูกต้อง: %s"
 
 #: src/main/main.c
 #, c-format
@@ -5562,8 +5687,9 @@ msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr "ไม่สามารถลบสถาปัตยกรรม '%s' ซึ่งกำลังใช้งานอยู่ในฐานข้อมูล"
 
 #: src/main/main.c
-#, c-format
-msgid "couldn't open '%i' for stream"
+#, fuzzy, c-format
+#| msgid "couldn't open '%i' for stream"
+msgid "cannot open '%i' for stream"
 msgstr "ไม่สามารถเปิด '%i' สำหรับสตรีม"
 
 #: src/main/main.c
@@ -5760,18 +5886,18 @@ msgid "Removing %s (%s) ...\n"
 msgstr "กำลังถอดถอน %s (%s) ...\n"
 
 #: src/main/remove.c src/main/unpack.c
-#, c-format
-msgid "unable to delete control info file '%s'"
-msgstr "ไม่สามารถลบแฟ้มควบคุม '%s'"
+#, fuzzy, c-format
+#| msgid "unable to delete used-up depot file '%s'"
+msgid "unable to delete package metadata file '%s'"
+msgstr "ไม่สามารถลบแฟ้มสะสมส่วนย่อย '%s' ที่ใช้แล้ว"
 
 #: src/main/remove.c
 #, c-format
 msgid ""
-"while removing %s, unable to remove directory '%s': %s - directory "
-"may be a mount point?"
+"while removing %s, unable to remove directory '%s': %s - directory may be a "
+"mount point?"
 msgstr ""
-"ขณะถอดถอน %s ปรากฏว่าไม่สามารถลบไดเรกทอรี '%s': %s - "
-"ไดเรกทอรีอาจเป็นจุดเมานท์หรือไม่?"
+"ขณะถอดถอน %s ปรากฏว่าไม่สามารถลบไดเรกทอรี '%s': %s - ไดเรกทอรีอาจเป็นจุดเมานท์หรือไม่?"
 
 #: src/main/remove.c
 #, c-format
@@ -5837,9 +5963,10 @@ msgid "cannot set security execution context for maintainer script"
 msgstr "ไม่สามารถกำหนดบริบทการทำงานในระบบรักษาความปลอดภัยสำหรับสคริปต์ผู้ดูแลแพกเกจ"
 
 #: src/main/script.c
-#, c-format
-msgid "installed %s package %s script"
-msgstr "สคริปต์ %2$s ของแพกเกจ %1$s ที่ติดตั้งไว้"
+#, fuzzy, c-format
+#| msgid "old %s package %s script"
+msgid "old %s package %s maintainer script"
+msgstr "สคริปต์ %2$s อันเก่าของแพกเกจ %1$s"
 
 #: src/main/script.c
 #, c-format
@@ -5847,14 +5974,10 @@ msgid "unable to stat %s '%s'"
 msgstr "ไม่สามารถ stat %s '%s'"
 
 #: src/main/script.c
-#, c-format
-msgid "new %s package %s script"
+#, fuzzy, c-format
+#| msgid "new %s package %s script"
+msgid "new %s package %s maintainer script"
 msgstr "สคริปต์ %2$s อันใหม่ของแพกเกจ %1$s"
-
-#: src/main/script.c
-#, c-format
-msgid "old %s package %s script"
-msgstr "สคริปต์ %2$s อันเก่าของแพกเกจ %1$s"
 
 #: src/main/script.c
 #, c-format
@@ -5862,11 +5985,15 @@ msgid "unable to stat %s '%s': %s"
 msgstr "ไม่สามารถ stat %s '%s': %s"
 
 #: src/main/script.c
-msgid "trying script from the new package instead ..."
+#, fuzzy, c-format
+#| msgid "trying script from the new package instead ..."
+msgid "trying %s maintainer script from the new %s package instead ..."
 msgstr "จะลองใช้สคริปต์จากแพกเกจใหม่แทน ..."
 
 #: src/main/script.c
-msgid "there is no script in the new version of the package - giving up"
+#, fuzzy, c-format
+#| msgid "there is no script in the new version of the package - giving up"
+msgid "missing %s maintainer script in new %s package, giving up"
 msgstr "ไม่มีสคริปต์ในแพกเกจรุ่นใหม่ - ขอเลิกล้ม"
 
 #: src/main/script.c
@@ -5899,8 +6026,9 @@ msgid "unexpected data after package and selection at line %d"
 msgstr "มีข้อมูลที่ไม่ต้องการหลังชื่อแพกเกจและการเลือกรุ่นที่บรรทัด %d"
 
 #: src/main/select.c
-#, c-format
-msgid "illegal package name at line %d: %s"
+#, fuzzy, c-format
+#| msgid "illegal package name at line %d: %s"
+msgid "invalid package name at line %d: %s"
 msgstr "ชื่อแพกเกจผิดรูปแบบที่บรรทัด %d: %s"
 
 #: src/main/select.c
@@ -5975,6 +6103,11 @@ msgstr ""
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "กำลังประมวลผลการสะกิดสำหรับ %s (%s) ...\n"
 
+#. TRANSLATORS: This string represents a summarized pathname,
+#. were prefix directories get abbreviated with ".../", if the
+#. total length exceeds a limit. The three dots would usually
+#. be represented by «…/».
+#.
 #: src/main/unpack.c
 #, c-format
 msgid ".../%s"
@@ -6071,18 +6204,23 @@ msgid "error closing %s"
 msgstr "เกิดข้อผิดพลาดขณะปิด %s"
 
 #: src/main/unpack.c
-#, c-format
-msgid "old version of package has overly-long info file name starting '%s'"
+#, fuzzy, c-format
+#| msgid "old version of package has overly-long info file name starting '%s'"
+msgid ""
+"old version of package has overly-long meatada file name (starting with "
+"'%.*s')"
 msgstr "แพกเกจรุ่นเก่ามีแฟ้ม info ชื่อยาวเกินไป ซึ่งขึ้นต้นด้วย '%s'"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to remove obsolete info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to remove obsolete info file '%s'"
+msgid "unable to remove obsolete package metadata file '%s'"
 msgstr "ไม่สามารถลบแฟ้ม info '%s' ที่เลิกใช้แล้ว"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install (supposed) new info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install (supposed) new info file '%s'"
+msgid "unable to install (supposed) new package metadata file '%s'"
 msgstr "ไม่สามารถติดตั้งแฟ้ม info '%s' (ที่น่าจะเป็น) ฉบับใหม่"
 
 #: src/main/unpack.c
@@ -6090,28 +6228,34 @@ msgid "unable to open temp control directory"
 msgstr "ไม่สามารถเปิดไดเรกทอรีควบคุมชั่วคราว"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package contains overly-long control info file name (starting '%.50s')"
+#, fuzzy, c-format
+#| msgid ""
+#| "package contains overly-long control info file name (starting '%.50s')"
+msgid "package has overly-long metadata file name (starting with '%.*s')"
 msgstr "แพกเกจมีแฟ้มข้อมูลควบคุมชื่อยาวเกินไป (ขึ้นต้นด้วย '%.50s')"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info contained directory '%s'"
+#, fuzzy, c-format
+#| msgid "package control info contained directory '%s'"
+msgid "package metadata contained directory '%s'"
 msgstr "ข้อมูลควบคุมของแพกเกจมีไดเรกทอรี '%s'"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info rmdir of '%s' did not say not a dir"
+#, fuzzy, c-format
+#| msgid "package control info rmdir of '%s' did not say not a dir"
+msgid "package metadata rmdir of '%s' did not say not a dir"
 msgstr "การสั่ง rmdir กับ '%s' ในข้อมูลควบคุมของแพกเกจ ไม่ได้ตอบว่าไม่ใช่ไดเรกทอรี"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package %s contained list as info file"
+#, fuzzy, c-format
+#| msgid "package %s contained list as info file"
+msgid "package %s contained '%s' as a metadata file"
 msgstr "แพกเกจ %s มีแฟ้ม list เป็นข้อมูลควบคุม"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install new info file '%s' as '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install new info file '%s' as '%s'"
+msgid "unable to install new metadata file '%s' as '%s'"
 msgstr "ไม่สามารถติดตั้งแฟ้มควบคุมใหม่ '%s' เป็น '%s'"
 
 #: src/main/unpack.c
@@ -6156,9 +6300,7 @@ msgstr "ไม่สามารถ stat แฟ้มใหม่ '%s'"
 
 #: src/main/unpack.c
 #, c-format
-msgid ""
-"old file '%s' is the same as several new files! (both '%s' and "
-"'%s')"
+msgid "old file '%s' is the same as several new files! (both '%s' and '%s')"
 msgstr "แฟ้มเก่า '%s' เป็นแฟ้มเดียวกับแฟ้มใหม่หลายแฟ้ม! (ทั้ง '%s' และ '%s')"
 
 #: src/main/unpack.c
@@ -6172,8 +6314,10 @@ msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(สังเกตการหายไปของ %s ซึ่งถูกแทนที่อย่างสมบูรณ์)\n"
 
 #: src/main/unpack.c
-msgid "package control information extraction"
-msgstr "การแตกข้อมูลควบคุมของแพกเกจ"
+#, fuzzy
+#| msgid "package field value extraction"
+msgid "package metadata files extraction"
+msgstr "การแยกเอาค่าเขตข้อมูลของแพกเกจ"
 
 #: src/main/unpack.c
 #, c-format
@@ -6223,6 +6367,10 @@ msgstr "กำลังถอดถอน %s (%s) เพื่อให้สา
 msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s ต้องการอาร์กิวเมนต์เป็นชื่อแฟ้ม Packages ไม่เกินหนึ่งรายการ"
 
+#: src/main/update.c utils/update-alternatives.c
+msgid "<standard input>"
+msgstr "<อินพุตมาตรฐาน>"
+
 #: src/main/update.c
 #, c-format
 msgid "unable to access dpkg database directory '%s' for bulk available update"
@@ -6237,13 +6385,15 @@ msgstr ""
 "ต้องการสิทธิ์เขียนข้อมูลในไดเรกทอรีฐานข้อมูล '%s' ของ dpkg เพื่อปรับข้อมูลแพกเกจที่มีแบบทั้งชุด"
 
 #: src/main/update.c
-#, c-format
-msgid "Replacing available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Replacing available packages info, using %s.\n"
+msgid "Replacing available packages information from %s.\n"
 msgstr "กำลังแทนที่ข้อมูลแพกเกจที่มี โดยใช้ %s\n"
 
 #: src/main/update.c
-#, c-format
-msgid "Updating available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Updating available packages info, using %s.\n"
+msgid "Updating available packages information from %s.\n"
 msgstr "กำลังปรับข้อมูลแพกเกจที่มี โดยใช้ %s\n"
 
 #: src/main/update.c
@@ -6265,11 +6415,35 @@ msgid "%s version %s.\n"
 msgstr "%s ของเดเบียน รุ่น %s\n"
 
 #: utils/update-alternatives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  --install <link> <name> <path> <priority>\n"
+#| "    [--slave <link> <name> <path>] ...\n"
+#| "                           add a group of alternatives to the system.\n"
+#| "  --remove <name> <path>   remove <path> from the <name> group "
+#| "alternative.\n"
+#| "  --remove-all <name>      remove <name> group from the alternatives "
+#| "system.\n"
+#| "  --auto <name>            switch the master link <name> to automatic "
+#| "mode.\n"
+#| "  --display <name>         display information about the <name> group.\n"
+#| "  --query <name>           machine parseable version of --display "
+#| "<name>.\n"
+#| "  --list <name>            display all targets of the <name> group.\n"
+#| "  --get-selections         list master alternative names and their "
+#| "status.\n"
+#| "  --set-selections         read alternative status from standard input.\n"
+#| "  --config <name>          show alternatives for the <name> group and ask "
+#| "the\n"
+#| "                           user to select which one to use.\n"
+#| "  --set <name> <path>      set <path> as alternative for <name>.\n"
+#| "  --all                    call --config on all alternatives.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  --install <link> <name> <path> <priority>\n"
-"    [--slave <link> <name> <path>] ...\n"
+"    [--slave <link> <name> <path>]...\n"
 "                           add a group of alternatives to the system.\n"
 "  --remove <name> <path>   remove <path> from the <name> group alternative.\n"
 "  --remove-all <name>      remove <name> group from the alternatives "
@@ -6886,10 +7060,6 @@ msgstr ""
 msgid "no alternatives for %s"
 msgstr "ไม่มีทางเลือกสำหรับ %s"
 
-#: utils/update-alternatives.c
-msgid "<standard input>"
-msgstr "<อินพุตมาตรฐาน>"
-
 #: utils/update-alternatives.polkit.in
 msgid "Run update-alternatives to modify system alternative selections"
 msgstr "เรียก update-alternatives เพื่อเปลี่ยนการเลือกแฟ้มทางเลือกของระบบ"
@@ -6897,6 +7067,25 @@ msgstr "เรียก update-alternatives เพื่อเปลี่ยน
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "ต้องยืนยันตัวบุคคลเพื่อเรียกทำงาน update-alternatives"
+
+#, c-format
+#~ msgid "%s subprocess returned error exit status %d"
+#~ msgstr "โพรเซสย่อย %s จบการทำงานโดยคืนค่าสถานะข้อผิดพลาด %d"
+
+#, c-format
+#~ msgid "architecture '%s' is illegal: %s"
+#~ msgstr "สถาปัตยกรรม '%s' ไม่สามารถใช้ได้: %s"
+
+#, c-format
+#~ msgid "unable to delete control info file '%s'"
+#~ msgstr "ไม่สามารถลบแฟ้มควบคุม '%s'"
+
+#, c-format
+#~ msgid "installed %s package %s script"
+#~ msgstr "สคริปต์ %2$s ของแพกเกจ %1$s ที่ติดตั้งไว้"
+
+#~ msgid "package control information extraction"
+#~ msgstr "การแตกข้อมูลควบคุมของแพกเกจ"
 
 #, c-format
 #~ msgid "open component '%s' (in %s) failed in an unexpected way"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-05-19 00:00+0200\n"
+"POT-Creation-Date: 2025-12-16 21:20+0000\n"
 "PO-Revision-Date: 2016-01-14 08:22+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
@@ -394,8 +394,9 @@ msgstr ""
 "mới hơn"
 
 #: lib/dpkg/db-ctrl-upgrade.c
-#, c-format
-msgid "info file %s/%s not associated to any package"
+#, fuzzy, c-format
+#| msgid "info file %s/%s not associated to any package"
+msgid "metadata file %s/%s not associated to any package"
 msgstr "tập tin thông tin %s/%s không liên quan đến bất kỳ gói nào"
 
 #: lib/dpkg/db-ctrl-upgrade.c src/main/archives.c
@@ -447,8 +448,7 @@ msgstr "diversions (sự trệch đi) xung đột với “%s” hay “%s”"
 #: lib/dpkg/db-fsys-files.c
 #, c-format
 msgid "files list file for package '%s' is missing final newline"
-msgstr ""
-"tập tin liệt kê nội dung gói “%s” còn thiếu ký tự dòng mới cuối cùng"
+msgstr "tập tin liệt kê nội dung gói “%s” còn thiếu ký tự dòng mới cuối cùng"
 
 #: lib/dpkg/db-fsys-files.c
 #, c-format
@@ -467,8 +467,8 @@ msgid ""
 "files list file for package '%s' missing; assuming package has no files "
 "currently installed"
 msgstr ""
-"thiếu tập tin liệt kê nội dung gói “%s”, coi gói này không có tập tin "
-"hiện thời được cài đặt"
+"thiếu tập tin liệt kê nội dung gói “%s”, coi gói này không có tập tin hiện "
+"thời được cài đặt"
 
 #: lib/dpkg/db-fsys-files.c
 msgid "(Reading database ... "
@@ -742,7 +742,7 @@ msgid "unable to open file '%s'"
 msgstr "không thể mở tập tin “%s”"
 
 #: lib/dpkg/dir.c src/deb/build.c src/split/join.c src/split/queue.c
-#: src/divert/main.c utils/update-alternatives.c
+#: src/divert/main.c src/main/archives.c utils/update-alternatives.c
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "không thể đồng bộ hóa tập tin “%s”"
@@ -978,10 +978,8 @@ msgstr ""
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid ""
-"'%s' field, reference to '%s': invalid architecture name '%s': %s"
-msgstr ""
-"trường “%s”, tham chiếu đến “%s”: tên kiến trúc không hợp lệ “%s”: %s"
+msgid "'%s' field, reference to '%s': invalid architecture name '%s': %s"
+msgstr "trường “%s”, tham chiếu đến “%s”: tên kiến trúc không hợp lệ “%s”: %s"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -1032,8 +1030,7 @@ msgstr "trường “%s”, tham chiếu đến “%s”: phiên bản chưa đ�
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "'%s' field, reference to '%s': version contains '%c'"
-msgid ""
-"'%s' field, reference to '%s': version contains '%c' instead of '%c'"
+msgid "'%s' field, reference to '%s': version contains '%c' instead of '%c'"
 msgstr "trường “%s”, tham chiếu đến “%s”: phiên bản chứa “%c”"
 
 #: lib/dpkg/fields.c
@@ -1054,8 +1051,9 @@ msgid "alternatives ('|') not allowed in '%s' field"
 msgstr "không cho phép cái thay thế (“|”) trong trường %s"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "illegal pending trigger name '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal pending trigger name '%s': %s"
+msgid "invalid pending trigger name '%s': %s"
 msgstr "tên bẫy chưa giải quyết không hợp lệ “%s”: %s"
 
 #: lib/dpkg/fields.c
@@ -1064,8 +1062,9 @@ msgid "duplicate pending trigger '%s'"
 msgstr "bẫy chưa giải quyết bị trùng lặp “%s”"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "illegal package name in awaited trigger '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal package name in awaited trigger '%s': %s"
+msgid "invalid package name in awaited trigger '%s': %s"
 msgstr "gặp tên gói không hợp lệ trong bẫy mong muốn “%s”: %s"
 
 #: lib/dpkg/fields.c
@@ -1448,28 +1447,33 @@ msgstr ""
 "dụ đã được cài đặt"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "failed to open package info file '%s' for reading"
+#, fuzzy, c-format
+#| msgid "failed to open package info file '%s' for reading"
+msgid "failed to open package control file '%s' for reading"
 msgstr "lỗi mở tập tin thông tin gói “%s” để đọc"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot stat package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot stat package info file '%s'"
+msgid "cannot stat package control file '%s'"
 msgstr "không thể lấy các thông tin về tập tin thông tin gói “%s”"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "reading package info file '%s': %s"
+#, fuzzy, c-format
+#| msgid "reading package info file '%s': %s"
+msgid "reading package control file '%s': %s"
 msgstr "đang đọc tập tin thông tin gói “%s”: %s"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot mmap package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot mmap package info file '%s'"
+msgid "cannot mmap package control file '%s'"
 msgstr "không thể mmap (ánh xạ bộ nhớ) tập tin thông tin gói “%s”"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "reading package info file '%s'"
+#, fuzzy, c-format
+#| msgid "reading package info file '%s'"
+msgid "reading package control file '%s'"
 msgstr "đọc tập tin thông tin gói “%s”"
 
 #: lib/dpkg/parse.c
@@ -1492,8 +1496,9 @@ msgid "newline in field name '%.*s'"
 msgstr "dòng mới trong tên trường “%.*s”"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "MSDOS end of file (^Z) in field name '%.*s'"
+#, fuzzy, c-format
+#| msgid "MSDOS end of file (^Z) in field name '%.*s'"
+msgid "MSDOS end of file (Ctrl+Z) in field name '%.*s'"
 msgstr "gặp kết thúc tập tin dạng MSDOS (^Z) trong tên trường “%.*s”"
 
 #: lib/dpkg/parse.c
@@ -1509,8 +1514,9 @@ msgstr ""
 "cuối cùng)"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
+#, fuzzy, c-format
+#| msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
+msgid "MSDOS end of file (Ctrl+Z) in value of field '%.*s' (missing newline?)"
 msgstr ""
 "gặp ký tự kết thúc tập tin dạng MSDOS (^Z) trong giá trị của trường “%.*s” "
 "(thiếu dòng mới à?)"
@@ -1628,7 +1634,7 @@ msgstr "gặp ký tự sai trong số thứ tự phiên bản"
 msgid "invalid character in revision number"
 msgstr "gặp ký tự sai trong số thứ tự bản sửa đổi"
 
-#: lib/dpkg/path-remove.c
+#: lib/dpkg/path-remove.c src/main/remove.c
 #, c-format
 msgid "unable to securely remove '%s'"
 msgstr "không thể gỡ bỏ “%s” một cách an toàn"
@@ -1671,17 +1677,20 @@ msgid "version '%s' has bad syntax: %s"
 msgstr "phiên bản “%s” có cú pháp sai"
 
 #: lib/dpkg/pkg-spec.c
-#, c-format
-msgid "illegal package name in specifier '%s%s%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal package name in specifier '%s%s%s': %s"
+msgid "invalid package name in specifier '%s%s%s': %s"
 msgstr "tên gói không hợp lệ trong định danh “%s%s%s”: %s"
 
 #: lib/dpkg/pkg-spec.c
-#, c-format
-msgid "illegal architecture name in specifier '%s:%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal architecture name in specifier '%s:%s': %s"
+msgid "invalid architecture name in specifier '%s:%s': %s"
 msgstr "tên kiến trúc không hợp lệ trong định danh “%s:%s”: %s"
 
 #. TRANSLATORS: This is part of the progress output, it is a decimal
-#. * percentage.
+#. percentage.
+#.
 #: lib/dpkg/progress.c
 #, c-format
 msgid "%d%%"
@@ -1731,9 +1740,9 @@ msgstr "gặp lỗi khi tạo tiến trình con"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
-#| msgid "subprocess %s returned error exit status %d"
-msgid "%s subprocess returned error exit status %d"
-msgstr "tiến trình con %s trả lại lỗi, trạng thái thoát %d"
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with exit status %d"
+msgstr "tiến trình con %s bị lỗi với mã trạng thái chờ %d"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
@@ -1910,8 +1919,8 @@ msgid ""
 "invalid or unknown syntax in trigger name '%s' (in trigger interests for "
 "package '%s')"
 msgstr ""
-"gặp cú pháp không hợp lệ hoặc không rõ trong tên bẫy “%s” (trong sự quan "
-"tâm bẫy đối với gói “%s”"
+"gặp cú pháp không hợp lệ hoặc không rõ trong tên bẫy “%s” (trong sự quan tâm "
+"bẫy đối với gói “%s”"
 
 #: lib/dpkg/triglib.c
 #, c-format
@@ -1924,20 +1933,18 @@ msgid "failed to rewind trigger interest file '%s'"
 msgstr "lỗi tua lại tập tin danh sách sự quan tâm bẫy “%s”"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid ""
-"trigger interest file '%s' syntax error; illegal package name '%s': "
-"%s"
+#, fuzzy, c-format
+#| msgid ""
+#| "trigger interest file '%s' syntax error; illegal package name '%s': %s"
+msgid "trigger interest file '%s' syntax error; invalid package name '%s': %s"
 msgstr ""
 "gặp lỗi cú pháp trong tập tin sự quan tâm bẫy “%s”; tên gói không hợp lệ "
 "“%s”: %s"
 
 #: lib/dpkg/triglib.c
 #, c-format
-msgid ""
-"duplicate file trigger interest for filename '%s' and package '%s'"
-msgstr ""
-"sự quan tâm bẫy tập tin bị trùng đối với tên tập tin “%s” và gói “%s”"
+msgid "duplicate file trigger interest for filename '%s' and package '%s'"
+msgstr "sự quan tâm bẫy tập tin bị trùng đối với tên tập tin “%s” và gói “%s”"
 
 #: lib/dpkg/triglib.c
 #, c-format
@@ -1950,34 +1957,43 @@ msgid "syntax error in file triggers file '%s'"
 msgstr "lỗi cú pháp trong tập tin bẫy tập tin “%s”"
 
 #: lib/dpkg/triglib.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "file triggers record mentions illegal package name '%s' (for interest in "
+#| "file '%s'): %s"
 msgid ""
-"file triggers record mentions illegal package name '%s' (for interest in "
+"file triggers record mentions invalid package name '%s' (for interest in "
 "file '%s'): %s"
 msgstr ""
-"mục ghi bẫy tập tin chứa tên gói cấm “%s” (đối với sự quan tâm trong tập "
-"tin “%s”): %s"
+"mục ghi bẫy tập tin chứa tên gói cấm “%s” (đối với sự quan tâm trong tập tin "
+"“%s”): %s"
 
 #: lib/dpkg/triglib.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "triggers ci file '%s' contains illegal trigger syntax in trigger name "
+#| "'%s': %s"
 msgid ""
-"triggers ci file '%s' contains illegal trigger syntax in trigger name "
-"'%s': %s"
-msgstr ""
-"tập tin ci bẫy “%s” chứa cú pháp bẫy cấm trong tên bẫy “%s”: %s"
+"triggers package metadata file '%s' contains invalid trigger syntax in "
+"trigger name '%s': %s"
+msgstr "tập tin ci bẫy “%s” chứa cú pháp bẫy cấm trong tên bẫy “%s”: %s"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to open triggers ci file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to open triggers ci file '%s'"
+msgid "unable to open triggers package metadata file '%s'"
 msgstr "không thể mở tập tin bẫy ci “%s”"
 
 #: lib/dpkg/triglib.c
-msgid "triggers ci file contains unknown directive syntax"
+#, fuzzy, c-format
+#| msgid "triggers ci file contains unknown directive syntax"
+msgid "triggers package metadata file '%s' contains unknown directive syntax"
 msgstr "tập tin bẫy ci chứa cú pháp chỉ thị không rõ"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid "triggers ci file contains unknown directive '%s'"
+#, fuzzy, c-format
+#| msgid "triggers ci file contains unknown directive '%s'"
+msgid "triggers package metadata file '%s' contains unknown directive '%s'"
 msgstr "tập tin bẫy ci chứa chỉ thị không rõ “%s”"
 
 #: lib/dpkg/triglib.c
@@ -2285,7 +2301,7 @@ msgstr ""
 msgid "cannot read link '%s'"
 msgstr "không thể nối thêm vào “%s”"
 
-#: src/realpath/main.c
+#: src/realpath/main.c src/main/archives.c src/main/configure.c
 #, fuzzy, c-format
 #| msgid "symbolic link '%s' size has changed from %jd to %zd"
 msgid "symbolic link '%s' size has changed from %jd to %zd"
@@ -2337,16 +2353,13 @@ msgstr "thư mục điều khiển có quyền hạn sai %03lo (phải ≥0755 v
 #, c-format
 msgid "maintainer script '%s' is not a plain file or symlink"
 msgstr ""
-"văn lệnh dùng để bảo trì “%s” không phải là tập tin thường hay liên kết "
-"mềm"
+"văn lệnh dùng để bảo trì “%s” không phải là tập tin thường hay liên kết mềm"
 
 #: src/deb/build.c
 #, c-format
 msgid ""
-"maintainer script '%s' has bad permissions %03lo (must be >=0555 and "
-"<=0775)"
-msgstr ""
-"văn lệnh bảo trì “%s” được phân quyền sai %03lo (phải ≥0755 và ≤0775)"
+"maintainer script '%s' has bad permissions %03lo (must be >=0555 and <=0775)"
+msgstr "văn lệnh bảo trì “%s” được phân quyền sai %03lo (phải ≥0755 và ≤0775)"
 
 #: src/deb/build.c
 #, c-format
@@ -2588,8 +2601,7 @@ msgstr "tập tin “%s” bị hỏng — số mầu nhiệm ở phần đầu 
 #| msgid "file '%s' is not a debian binary archive (try dpkg-split?)"
 msgid "file '%s' is not a Debian binary archive (try dpkg-split?)"
 msgstr ""
-"tập tin “%s” không phải là một kho nén nhị phân Debian (thử “dpkg-"
-"split”?)"
+"tập tin “%s” không phải là một kho nén nhị phân Debian (thử “dpkg-split”?)"
 
 #: src/deb/extract.c
 msgid "archive information header member"
@@ -2628,8 +2640,7 @@ msgstr "kho lưu “%s” chứa hai thành viên điều khiển nên chịu th
 #: src/deb/extract.c
 #, c-format
 msgid "archive '%s' has premature member '%.*s' before '%s', giving up"
-msgstr ""
-"kho lưu “%s” chứa thành viên chết yểu %.*s trước “%s” nên chịu thua"
+msgstr "kho lưu “%s” chứa thành viên chết yểu %.*s trước “%s” nên chịu thua"
 
 #: src/deb/extract.c
 #, fuzzy, c-format
@@ -2755,6 +2766,11 @@ msgstr ""
 msgid "--%s does not support (yet) reading the .deb from standard input"
 msgstr "--%s vẫn chưa hỗ trợ đọc .deb từ đầu vào tiêu chuẩn"
 
+#: src/deb/info.c src/statoverride/main.c src/main/archives.c
+#, c-format
+msgid "error setting permissions of '%s'"
+msgstr "gặp lỗi khi đặt quyền hạn của “%s”"
+
 #: src/deb/info.c src/main/unpack.c
 msgid "unable to create temporary directory"
 msgstr "không thể tạo thư mục tạm thời"
@@ -2871,11 +2887,11 @@ msgid ""
 "  -I|--info <deb> [<cfile>...]     Show info to stdout.\n"
 "  -W|--show <deb>                  Show information on package(s)\n"
 "  -f|--field <deb> [<cfield>...]   Show field(s) to stdout.\n"
-"  -e|--control <deb> [<directory>] Extract control info.\n"
-"  -x|--extract <deb> <directory>   Extract files.\n"
-"  -X|--vextract <deb> <directory>  Extract & list files.\n"
+"  -e|--control <deb> [<directory>] Extract metadata files.\n"
+"  -x|--extract <deb> <directory>   Extract filesystem files.\n"
+"  -X|--vextract <deb> <directory>  Extract and list filesystem files.\n"
 "  -R|--raw-extract <deb> <directory>\n"
-"                                   Extract control info and files.\n"
+"                                   Extract metadata and filesystem files.\n"
 "  --ctrl-tarfile <deb>             Output control tarfile.\n"
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
@@ -3127,10 +3143,22 @@ msgid "error reading %s"
 msgstr "gặp lỗi khi đọc %s"
 
 #: src/split/info.c
+#, fuzzy
+#| msgid "archive member header"
+msgid "ar header"
+msgstr "phần đầu của thành viên kho lưu"
+
+#: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - bad magic at end of first header"
 msgstr ""
 "tập tin “%s” bị hỏng — số ma thuật sai ở kết thúc của phần đầu thứ nhất"
+
+#: src/split/info.c
+#, fuzzy
+#| msgid "archive information header member"
+msgid "reading header member"
+msgstr "thành viên phần đầu thông tin kho lưu"
 
 #: src/split/info.c
 #, c-format
@@ -3154,8 +3182,7 @@ msgstr "tập tin “%s” có phiên bản định dạng không hợp lệ: %s
 #: src/split/info.c
 #, c-format
 msgid "file '%s' is format version %d.%d; get a newer dpkg-split"
-msgstr ""
-"tập tin “%s” có định dạng phiên bản “%d.%d”; cần “dpkg-split” mới hơn"
+msgstr "tập tin “%s” có định dạng phiên bản “%d.%d”; cần “dpkg-split” mới hơn"
 
 #: src/split/info.c
 msgid "package name"
@@ -3190,8 +3217,7 @@ msgstr "số phần kho lưu"
 #, c-format
 msgid "file '%s' is corrupt - no slash between archive part numbers"
 msgstr ""
-"tập tin “%s” bị hỏng — không có dấu gạch ngược giữa các số của phần kho "
-"lưu"
+"tập tin “%s” bị hỏng — không có dấu gạch ngược giữa các số của phần kho lưu"
 
 #: src/split/info.c
 msgid "number of archive parts"
@@ -3216,6 +3242,10 @@ msgid "package architecture"
 msgstr "kiến trúc của gói"
 
 #: src/split/info.c
+msgid "reading data part member ar header"
+msgstr ""
+
+#: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - bad magic at end of second header"
 msgstr "tập tin “%s” bị hỏng — số ma thuật sai ở cuối phần đầu thứ hai"
@@ -3224,8 +3254,8 @@ msgstr "tập tin “%s” bị hỏng — số ma thuật sai ở cuối phần
 #, c-format
 msgid "file '%s' is corrupt - second member is not data member"
 msgstr ""
-"tập tin “%s” bị hỏng — thành viên thứ hai không phải là một thành viên "
-"dữ liệu"
+"tập tin “%s” bị hỏng — thành viên thứ hai không phải là một thành viên dữ "
+"liệu"
 
 #: src/split/info.c
 #, c-format
@@ -3332,14 +3362,12 @@ msgstr "xong\n"
 #: src/split/join.c
 #, c-format
 msgid "files '%s' and '%s' are not parts of the same file"
-msgstr ""
-"tập tin “%s” và “%s” không phải là hai phần của cùng một tập tin"
+msgstr "tập tin “%s” và “%s” không phải là hai phần của cùng một tập tin"
 
 #: src/split/join.c
 #, c-format
 msgid "there are several versions of part %d - at least '%s' and '%s'"
-msgstr ""
-"có vài phiên bản khác nhau của phần %d — ít nhất là “%s” và “%s”"
+msgstr "có vài phiên bản khác nhau của phần %d — ít nhất là “%s” và “%s”"
 
 #: src/split/join.c
 #, c-format
@@ -3401,7 +3429,6 @@ msgid ""
 "  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
 "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
-"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "Tùy chọn:\n"
@@ -3704,7 +3731,7 @@ msgstr ""
 #: src/divert/main.c
 msgid ""
 "please specify --no-rename explicitly, the default will change to --rename "
-"in 1.20.x"
+"not before 1.23.x"
 msgstr ""
 
 #: src/divert/main.c utils/update-alternatives.c
@@ -3957,11 +3984,6 @@ msgstr "nhóm “%s” không sẵn có"
 msgid "error setting ownership of '%s'"
 msgstr "gặp lỗi khi đặt chủ sở hữu của “%s”"
 
-#: src/statoverride/main.c src/main/archives.c
-#, c-format
-msgid "error setting permissions of '%s'"
-msgstr "gặp lỗi khi đặt quyền hạn của “%s”"
-
 #: src/statoverride/main.c
 #, c-format
 msgid "--%s needs four arguments"
@@ -4087,8 +4109,9 @@ msgid "takes one argument, the trigger name"
 msgstr "chấp nhận một đối số, tên bẫy"
 
 #: src/trigger/main.c
-#, c-format
-msgid "illegal awaited package name '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal awaited package name '%s': %s"
+msgid "invalid awaited package name '%s': %s"
 msgstr "tên gói đã đợi không hợp lệ “%s”: %s"
 
 #: src/trigger/main.c
@@ -4110,23 +4133,36 @@ msgid "no packages found matching %s"
 msgstr "không tìm thấy gói nào khớp với %s"
 
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
-#. * string should remain under 80 characters. The uppercase letters in
-#. * the state values denote the abbreviated letter that will appear on
-#. * the first three columns, which should ideally match the English one
-#. * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
-#. * translated message can use additional lines if needed.
+#. string should remain under 80 characters. The uppercase letters in
+#. the state values denote the abbreviated letter that will appear on
+#. the first three columns, which should ideally match the English one
+#. (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
+#. translated message can use additional lines if needed. The ASCII art
+#. can use Unicode box characters.
+#.
 #: src/query/main.c
+#, fuzzy
+#| msgid ""
+#| "Desired=Unknown/Install/Remove/Purge/Hold\n"
+#| "| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
+#| "pend\n"
+#| "|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgid ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
+"+-- Desired=Unknown/Install/Remove/Purge/Hold\n"
+"|+- Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
 "pend\n"
-"|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
+"||+ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
 "Những ký tự viết HOA hay trong () là dạng viết tắt ở ba cột đầu tiên:\n"
 "1. Mong muốn =(u)không rõ/càI đặt/(r)gỡ bỏ/(p)tẩy/(h)giữ lại\n"
 "2. Trạng thái=(n)chưa cài/đã càI/tập tin Cấu hình/(u)đã giải nén/\n"
 "              (f)nửa cấu hình/(h)nửa cài đặt/(w)đợi bẫy/(t)bẫy bị hoãn\n"
 "3. Lỗi?      =(để trống)/(r)yêu-cầu-cài-đặt-lại\n"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "|"
+msgstr ""
 
 #: src/query/main.c
 msgid "Name"
@@ -4143,6 +4179,21 @@ msgstr "Kiến trúc"
 #: src/query/main.c
 msgid "Description"
 msgstr "Mô tả"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "+++-"
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "="
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "-"
+msgstr ""
 
 #: src/query/main.c
 #, fuzzy
@@ -4371,8 +4422,7 @@ msgstr "không tạo được “%s” (trong khi xử lý “%s”)"
 #: src/main/archives.c
 #, c-format
 msgid "cannot copy extracted data for '%s' to '%s': %s"
-msgstr ""
-"không thể chép dữ liệu đã được rút trích cho “%s” thành “%s”: %s"
+msgstr "không thể chép dữ liệu đã được rút trích cho “%s” thành “%s”: %s"
 
 #: src/main/archives.c
 #, c-format
@@ -4423,11 +4473,11 @@ msgstr "không thể đọc liên kết “%s”"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"trying to overwrite shared '%s', which is different from other instances "
-"of package %s"
+"trying to overwrite shared '%s', which is different from other instances of "
+"package %s"
 msgstr ""
-"đang cố ghi đè lên phần chung “%s”, cái mà cũng khác với trường hợp cụ "
-"thể của gói %s"
+"đang cố ghi đè lên phần chung “%s”, cái mà cũng khác với trường hợp cụ thể "
+"của gói %s"
 
 #: src/main/archives.c
 #, c-format
@@ -4439,8 +4489,8 @@ msgstr ""
 #: src/main/archives.c
 #, c-format
 msgid ""
-"failed to stat (dereference) proposed new symlink target '%s' for "
-"symlink '%s'"
+"failed to stat (dereference) proposed new symlink target '%s' for symlink "
+"'%s'"
 msgstr ""
 "gặp lỗi khi lấy thống kê về (gỡ bỏ tham chiếu đến) đích liên kết mềm mới đã "
 "đề nghị “%s” đối với liên kết mềm “%s”"
@@ -4459,11 +4509,9 @@ msgstr "tập tin cấu hình “%s” không nằm trong gói"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"trying to overwrite '%s', which is the diverted version of '%s' "
-"(package: %s)"
+"trying to overwrite '%s', which is the diverted version of '%s' (package: %s)"
 msgstr ""
-"đang thử ghi đè lên “%s”, cái mà làm trệch hướng phiên bản của “%s” "
-"(gói: %s)"
+"đang thử ghi đè lên “%s”, cái mà làm trệch hướng phiên bản của “%s” (gói: %s)"
 
 #: src/main/archives.c
 #, c-format
@@ -4479,8 +4527,7 @@ msgstr "không thể lấy thống kê về “%s” (mà trình này sắp cài
 #: src/main/archives.c
 #, c-format
 msgid ""
-"unable to clean up mess surrounding '%s' before installing another "
-"version"
+"unable to clean up mess surrounding '%s' before installing another version"
 msgstr ""
 "không thể dọn dẹp sự lộn xộn quanh “%s” trước khi cài đặt phiên bản khác"
 
@@ -4488,8 +4535,7 @@ msgstr ""
 #, c-format
 msgid "unable to stat restored '%s' before installing another version"
 msgstr ""
-"không thể lấy thống kê về “%s” đã phục hồi trước khi cài đặt phiên bản "
-"khác"
+"không thể lấy thống kê về “%s” đã phục hồi trước khi cài đặt phiên bản khác"
 
 #: src/main/archives.c
 #, c-format
@@ -4509,14 +4555,9 @@ msgstr "Được thay thế bằng các tập tin trong gói đã cài đặt %s
 #: src/main/archives.c
 #, fuzzy, c-format
 #| msgid ""
-#| "trying to overwrite directory '%s' in package %s %s with "
-#| "nondirectory"
-msgid ""
-"trying to overwrite directory '%s' in package %s (%s) with "
-"nondirectory"
-msgstr ""
-"đang cố ghi đè lên thư mục “%s” trong gói %s %s với điều khác "
-"thư mục"
+#| "trying to overwrite directory '%s' in package %s %s with nondirectory"
+msgid "trying to overwrite directory '%s' in package %s (%s) with nondirectory"
+msgstr "đang cố ghi đè lên thư mục “%s” trong gói %s %s với điều khác thư mục"
 
 #: src/main/archives.c
 #, fuzzy, c-format
@@ -4537,15 +4578,13 @@ msgstr "không thể tạo liên kết mềm sao lưu cho “%s”"
 #: src/main/archives.c
 #, c-format
 msgid "unable to chown backup symlink for '%s'"
-msgstr ""
-"không thể chown (chuyển đổi chủ sở hữu) liên kết mềm sao lưu cho “%s”"
+msgstr "không thể chown (chuyển đổi chủ sở hữu) liên kết mềm sao lưu cho “%s”"
 
 #: src/main/archives.c
 #, c-format
 msgid "unable to make backup link of '%s' before installing new version"
 msgstr ""
-"không thể tạo liên kết mềm sao lưu của “%s” trước khi cài đặt phiên bản "
-"mới"
+"không thể tạo liên kết mềm sao lưu của “%s” trước khi cài đặt phiên bản mới"
 
 #: src/main/archives.c
 #, c-format
@@ -4793,11 +4832,11 @@ msgstr "sẽ không hạ cấp %s từ phiên bản %s xuống %s nên bỏ qua"
 #: src/main/cleanup.c
 #, c-format
 msgid ""
-"unable to remove newly-installed version of '%s' to allow reinstallation "
-"of backup copy"
+"unable to remove newly-installed version of '%s' to allow reinstallation of "
+"backup copy"
 msgstr ""
-"không thể gỡ bỏ phiên bản mới cài đặt của “%s” để cho phép cài đặt lại "
-"bản sao lưu"
+"không thể gỡ bỏ phiên bản mới cài đặt của “%s” để cho phép cài đặt lại bản "
+"sao lưu"
 
 #: src/main/cleanup.c
 #, c-format
@@ -4960,8 +4999,7 @@ msgstr "không thể lấy thống kê tập tin cấu hình mới phát hành �
 #: src/main/configure.c
 #, c-format
 msgid "unable to stat current installed conffile '%s'"
-msgstr ""
-"không thể lấy thống kê vê tập tin cấu hình hiện thời được cài đặt “%s”"
+msgstr "không thể lấy thống kê vê tập tin cấu hình hiện thời được cài đặt “%s”"
 
 #: src/main/configure.c
 #, c-format
@@ -5338,7 +5376,9 @@ msgid "The following packages do not have an architecture:\n"
 msgstr "Những gói sau đây không có kiến trúc:\n"
 
 #: src/main/enquiry.c
-msgid "The following packages have an illegal architecture:\n"
+#, fuzzy
+#| msgid "The following packages have an illegal architecture:\n"
+msgid "The following packages have an invalid architecture:\n"
 msgstr "Những gói sau đây có kiến trúc không hợp lệ:\n"
 
 #: src/main/enquiry.c
@@ -5455,8 +5495,7 @@ msgstr ""
 #: src/main/enquiry.c
 #, c-format
 msgid "cannot satisfy pre-dependencies for %s (wanted due to %s)"
-msgstr ""
-"không thể thỏa mãn các quan hệ phụ thuộc sẵn cho %s (cần do %s)"
+msgstr "không thể thỏa mãn các quan hệ phụ thuộc sẵn cho %s (cần do %s)"
 
 #: src/main/enquiry.c
 #, fuzzy, c-format
@@ -5694,7 +5733,6 @@ msgid ""
 "  --update-avail [<Packages-file>] Replace available packages info.\n"
 "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
 "  --clear-avail                    Erase existing available info.\n"
-"  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
 "  -s|--status [<package>...]       Display package status details.\n"
 "  -p|--print-avail [<package>...]  Display available version details.\n"
 "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
@@ -6055,8 +6093,7 @@ msgstr "không hiểu định dạng kết xuất cho việc thẩm định “%
 #, c-format
 msgid "null package name in --%s comma-separated list '%s'"
 msgstr ""
-"gặp tên gói vô giá trị “--%s” trong danh sách định giới bằng dấu phẩy "
-"“%s”"
+"gặp tên gói vô giá trị “--%s” trong danh sách định giới bằng dấu phẩy “%s”"
 
 #: src/main/main.c
 #, c-format
@@ -6068,8 +6105,9 @@ msgid "status logger"
 msgstr "bộ ghi nhật ký trạng thái"
 
 #: src/main/main.c
-#, c-format
-msgid "architecture '%s' is illegal: %s"
+#, fuzzy, c-format
+#| msgid "architecture '%s' is illegal: %s"
+msgid "architecture '%s' is invalid: %s"
 msgstr "kiến trúc “%s” là không hợp lệ: %s"
 
 #: src/main/main.c
@@ -6094,8 +6132,9 @@ msgstr ""
 "không thể gỡ bỏ kiến trúc “%s” hiện tại đang được dùng bởi cơ sở dữ liệu"
 
 #: src/main/main.c
-#, c-format
-msgid "couldn't open '%i' for stream"
+#, fuzzy, c-format
+#| msgid "couldn't open '%i' for stream"
+msgid "cannot open '%i' for stream"
 msgstr "không thể mở “%i” cho luồng dữ liệu"
 
 #: src/main/main.c
@@ -6297,15 +6336,16 @@ msgid "Removing %s (%s) ...\n"
 msgstr "Đang gỡ bỏ %s (%s) …\n"
 
 #: src/main/remove.c src/main/unpack.c
-#, c-format
-msgid "unable to delete control info file '%s'"
-msgstr "không thể xóa tập tin thông tin điều khiển “%s”"
+#, fuzzy, c-format
+#| msgid "unable to delete used-up depot file '%s'"
+msgid "unable to delete package metadata file '%s'"
+msgstr "không thể xóa tập tin kho chứa (depot) tiêu thụ “%s”"
 
 #: src/main/remove.c
 #, c-format
 msgid ""
-"while removing %s, unable to remove directory '%s': %s - directory "
-"may be a mount point?"
+"while removing %s, unable to remove directory '%s': %s - directory may be a "
+"mount point?"
 msgstr ""
 "trong khi gỡ bỏ %s, không thể gỡ bỏ thư mục “%s”:\n"
 "%s — thư mục có thể là một điểm gắn không?"
@@ -6313,8 +6353,7 @@ msgstr ""
 #: src/main/remove.c
 #, c-format
 msgid "while removing %s, directory '%s' not empty so not removed"
-msgstr ""
-"trong khi gỡ bỏ %s, thư mục “%s” không trống nên không được gỡ bỏ"
+msgstr "trong khi gỡ bỏ %s, thư mục “%s” không trống nên không được gỡ bỏ"
 
 #: src/main/remove.c
 #, c-format
@@ -6374,9 +6413,9 @@ msgstr "không thể đặt ngữ cảnh thi hành bảo mật cho văn lệnh b
 
 #: src/main/script.c
 #, fuzzy, c-format
-#| msgid "installed %s script"
-msgid "installed %s package %s script"
-msgstr "đã cài đặt văn lệnh %s"
+#| msgid "old %s script"
+msgid "old %s package %s maintainer script"
+msgstr "văn lệnh %s cũ"
 
 #: src/main/script.c
 #, c-format
@@ -6386,14 +6425,8 @@ msgstr "không thể lấy thống kê %s “%s”"
 #: src/main/script.c
 #, fuzzy, c-format
 #| msgid "new %s script"
-msgid "new %s package %s script"
+msgid "new %s package %s maintainer script"
 msgstr "văn lệnh %s mới"
-
-#: src/main/script.c
-#, fuzzy, c-format
-#| msgid "old %s script"
-msgid "old %s package %s script"
-msgstr "văn lệnh %s cũ"
 
 #: src/main/script.c
 #, c-format
@@ -6401,11 +6434,15 @@ msgid "unable to stat %s '%s': %s"
 msgstr "không thể lấy thống kê về %s “%s”: %s"
 
 #: src/main/script.c
-msgid "trying script from the new package instead ..."
+#, fuzzy, c-format
+#| msgid "trying script from the new package instead ..."
+msgid "trying %s maintainer script from the new %s package instead ..."
 msgstr "đang thử văn lệnh từ gói mới để thay thế …"
 
 #: src/main/script.c
-msgid "there is no script in the new version of the package - giving up"
+#, fuzzy, c-format
+#| msgid "there is no script in the new version of the package - giving up"
+msgid "missing %s maintainer script in new %s package, giving up"
 msgstr "không có văn lệnh trong phiên bản mới của gói nên chịu thua"
 
 #: src/main/script.c
@@ -6438,8 +6475,9 @@ msgid "unexpected data after package and selection at line %d"
 msgstr "gặp dữ liệu bất thường sau gói và vùng chọn trên dòng %d"
 
 #: src/main/select.c
-#, c-format
-msgid "illegal package name at line %d: %s"
+#, fuzzy, c-format
+#| msgid "illegal package name at line %d: %s"
+msgid "invalid package name at line %d: %s"
 msgstr "gặp tên gói không hợp lệ trên dòng %d: %s"
 
 #: src/main/select.c
@@ -6518,6 +6556,11 @@ msgstr ""
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "Đang xử lý các bẫy dành cho %s (%s) …\n"
 
+#. TRANSLATORS: This string represents a summarized pathname,
+#. were prefix directories get abbreviated with ".../", if the
+#. total length exceeds a limit. The three dots would usually
+#. be represented by «…/».
+#.
 #: src/main/unpack.c
 #, c-format
 msgid ".../%s"
@@ -6618,18 +6661,23 @@ msgid "error closing %s"
 msgstr "gặp lỗi khi đóng %s"
 
 #: src/main/unpack.c
-#, c-format
-msgid "old version of package has overly-long info file name starting '%s'"
+#, fuzzy, c-format
+#| msgid "old version of package has overly-long info file name starting '%s'"
+msgid ""
+"old version of package has overly-long meatada file name (starting with "
+"'%.*s')"
 msgstr "phiên bản cũ của gói có tên tập tin thông tin quá dài bắt đầu “%s”"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to remove obsolete info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to remove obsolete info file '%s'"
+msgid "unable to remove obsolete package metadata file '%s'"
 msgstr "không thể gỡ bỏ tập tin thông tin cũ “%s”"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install (supposed) new info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install (supposed) new info file '%s'"
+msgid "unable to install (supposed) new package metadata file '%s'"
 msgstr "không thể cài đặt tập tin thông tin (giả thiết) mới “%s”"
 
 #: src/main/unpack.c
@@ -6637,30 +6685,36 @@ msgid "unable to open temp control directory"
 msgstr "không thể mở thư mục điều khiển tạm thời"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package contains overly-long control info file name (starting '%.50s')"
+#, fuzzy, c-format
+#| msgid ""
+#| "package contains overly-long control info file name (starting '%.50s')"
+msgid "package has overly-long metadata file name (starting with '%.*s')"
 msgstr "gói chứa tên tập tin thông tin điều khiển quá dài (bắt đầu “%.50s”)"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info contained directory '%s'"
+#, fuzzy, c-format
+#| msgid "package control info contained directory '%s'"
+msgid "package metadata contained directory '%s'"
 msgstr "thông tin điều khiển gói chứa thư mục “%s”"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info rmdir of '%s' did not say not a dir"
+#, fuzzy, c-format
+#| msgid "package control info rmdir of '%s' did not say not a dir"
+msgid "package metadata rmdir of '%s' did not say not a dir"
 msgstr ""
-"việc rmdir (gỡ bỏ thư mục) kiểu thông tin điều khiển gói của “%s” không "
-"nói “không phải là thư mục”"
+"việc rmdir (gỡ bỏ thư mục) kiểu thông tin điều khiển gói của “%s” không nói "
+"“không phải là thư mục”"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package %s contained list as info file"
+#, fuzzy, c-format
+#| msgid "package %s contained list as info file"
+msgid "package %s contained '%s' as a metadata file"
 msgstr "gói %s chứa một danh sách dưới dạng tập tin thông tin"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install new info file '%s' as '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install new info file '%s' as '%s'"
+msgid "unable to install new metadata file '%s' as '%s'"
 msgstr "không thể cài đặt tập tin thông tin mới “%s” dưới dạng “%s”"
 
 #: src/main/unpack.c
@@ -6708,12 +6762,9 @@ msgstr "không thể lấy các thông tin về tập tin mới khác “%s”"
 
 #: src/main/unpack.c
 #, c-format
-msgid ""
-"old file '%s' is the same as several new files! (both '%s' and "
-"'%s')"
+msgid "old file '%s' is the same as several new files! (both '%s' and '%s')"
 msgstr ""
-"tập tin cũ “%s” là cùng một tập tin với vài tập tin mới (cả hai “%s” "
-"và “%s”)"
+"tập tin cũ “%s” là cùng một tập tin với vài tập tin mới (cả hai “%s” và “%s”)"
 
 #: src/main/unpack.c
 #, c-format
@@ -6726,8 +6777,10 @@ msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Đang ghi lưu sự biến mất của %s, mà đã hoàn toàn được thay thế.)\n"
 
 #: src/main/unpack.c
-msgid "package control information extraction"
-msgstr "rút trích thông tin điều khiển gói"
+#, fuzzy
+#| msgid "package field value extraction"
+msgid "package metadata files extraction"
+msgstr "rút trích giá trị trường của gói"
 
 #: src/main/unpack.c
 #, c-format
@@ -6780,6 +6833,10 @@ msgstr "Đang hủy cấu hình %s (%s), để cho phép gỡ bỏ %s (%s) …\n
 msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s cần chính xác một đối số Packages-file"
 
+#: src/main/update.c utils/update-alternatives.c
+msgid "<standard input>"
+msgstr "<đầu vào tiêu chuẩn>"
+
 #: src/main/update.c
 #, fuzzy, c-format
 #| msgid "unable to access dpkg status area for bulk available update"
@@ -6797,13 +6854,15 @@ msgstr ""
 "không thể truy cập vùng trạng thái dpkg cho việc cập nhật sẵn sàng hàng loạt"
 
 #: src/main/update.c
-#, c-format
-msgid "Replacing available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Replacing available packages info, using %s.\n"
+msgid "Replacing available packages information from %s.\n"
 msgstr "Đang thay thế thông tin gói sẵn có, bằng %s.\n"
 
 #: src/main/update.c
-#, c-format
-msgid "Updating available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Updating available packages info, using %s.\n"
+msgid "Updating available packages information from %s.\n"
 msgstr "Đang cập nhật thông tin gói sẵn sàng, bằng %s.\n"
 
 #: src/main/update.c
@@ -6826,11 +6885,35 @@ msgid "%s version %s.\n"
 msgstr "Debian %s phiên bản %s.\n"
 
 #: utils/update-alternatives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  --install <link> <name> <path> <priority>\n"
+#| "    [--slave <link> <name> <path>] ...\n"
+#| "                           add a group of alternatives to the system.\n"
+#| "  --remove <name> <path>   remove <path> from the <name> group "
+#| "alternative.\n"
+#| "  --remove-all <name>      remove <name> group from the alternatives "
+#| "system.\n"
+#| "  --auto <name>            switch the master link <name> to automatic "
+#| "mode.\n"
+#| "  --display <name>         display information about the <name> group.\n"
+#| "  --query <name>           machine parseable version of --display "
+#| "<name>.\n"
+#| "  --list <name>            display all targets of the <name> group.\n"
+#| "  --get-selections         list master alternative names and their "
+#| "status.\n"
+#| "  --set-selections         read alternative status from standard input.\n"
+#| "  --config <name>          show alternatives for the <name> group and ask "
+#| "the\n"
+#| "                           user to select which one to use.\n"
+#| "  --set <name> <path>      set <path> as alternative for <name>.\n"
+#| "  --all                    call --config on all alternatives.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  --install <link> <name> <path> <priority>\n"
-"    [--slave <link> <name> <path>] ...\n"
+"    [--slave <link> <name> <path>]...\n"
 "                           add a group of alternatives to the system.\n"
 "  --remove <name> <path>   remove <path> from the <name> group alternative.\n"
 "  --remove-all <name>      remove <name> group from the alternatives "
@@ -7509,10 +7592,6 @@ msgstr ""
 msgid "no alternatives for %s"
 msgstr "không có thay thế cho %s"
 
-#: utils/update-alternatives.c
-msgid "<standard input>"
-msgstr "<đầu vào tiêu chuẩn>"
-
 #: utils/update-alternatives.polkit.in
 msgid "Run update-alternatives to modify system alternative selections"
 msgstr ""
@@ -7521,10 +7600,30 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#, fuzzy, c-format
+#~| msgid "subprocess %s returned error exit status %d"
+#~ msgid "%s subprocess returned error exit status %d"
+#~ msgstr "tiến trình con %s trả lại lỗi, trạng thái thoát %d"
+
+#, c-format
+#~ msgid "architecture '%s' is illegal: %s"
+#~ msgstr "kiến trúc “%s” là không hợp lệ: %s"
+
+#, c-format
+#~ msgid "unable to delete control info file '%s'"
+#~ msgstr "không thể xóa tập tin thông tin điều khiển “%s”"
+
+#, fuzzy, c-format
+#~| msgid "installed %s script"
+#~ msgid "installed %s package %s script"
+#~ msgstr "đã cài đặt văn lệnh %s"
+
+#~ msgid "package control information extraction"
+#~ msgstr "rút trích thông tin điều khiển gói"
+
 #, c-format
 #~ msgid "open component '%s' (in %s) failed in an unexpected way"
-#~ msgstr ""
-#~ "việc mở thành phần “%s” (trong %s) bị lỗi một cách bất thường"
+#~ msgstr "việc mở thành phần “%s” (trong %s) bị lỗi một cách bất thường"
 
 #, c-format
 #~ msgid "cannot stat '%s' (in '%s')"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.22.19\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-08-31 06:29+0200\n"
+"POT-Creation-Date: 2025-12-16 21:20+0000\n"
 "PO-Revision-Date: 2025-08-31 06:36+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: English <debian-l10n-english@lists.debian.org>\n"
@@ -1048,8 +1048,9 @@ msgstr ""
 
 #: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
 #: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "illegal package name '%s': %s"
+#, fuzzy, perl-format
+#| msgid "illegal package name '%s': %s"
+msgid "invalid package name '%s': %s"
 msgstr "illegal package name '%s': %s"
 
 #: scripts/dpkg-gencontrol.pl scripts/dpkg-shlibdeps.pl
@@ -1203,8 +1204,9 @@ msgid "cannot read directory %s: %s"
 msgstr "cannot read directory %s: %s"
 
 #: scripts/dpkg-gensymbols.pl
-#, perl-format
-msgid "Dpkg::Shlibs::Objdump couldn't parse %s\n"
+#, fuzzy, perl-format
+#| msgid "Dpkg::Shlibs::Objdump couldn't parse %s\n"
+msgid "Dpkg::Shlibs::Objdump cannot parse %s\n"
 msgstr "Dpkg::Shlibs::Objdump couldn't parse %s\n"
 
 #: scripts/dpkg-gensymbols.pl
@@ -1515,8 +1517,9 @@ msgid "cannot fork for %s"
 msgstr "cannot fork for %s"
 
 #: scripts/dpkg-scanpackages.pl
-#, perl-format
-msgid "couldn't parse control information from %s"
+#, fuzzy, perl-format
+#| msgid "couldn't parse control information from %s"
+msgid "cannot parse control information from %s"
 msgstr "couldn't parse control information from %s"
 
 #: scripts/dpkg-scanpackages.pl
@@ -1574,8 +1577,10 @@ msgid "failed when writing stdout"
 msgstr "failed when writing stdout"
 
 #: scripts/dpkg-scanpackages.pl
-msgid "couldn't close stdout"
-msgstr "couldn't close stdout"
+#, fuzzy
+#| msgid "cannot close %s"
+msgid "cannot close stdout"
+msgstr "cannot close %s"
 
 #: scripts/dpkg-scanpackages.pl
 msgid "Packages with multiple instances but no --multiversion specified:"
@@ -1797,6 +1802,36 @@ msgstr ""
 "  -d<dependency-field>     next executable(s) set shlibs:<dependency-field>."
 
 #: scripts/dpkg-shlibdeps.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "  --package=<package>      generate substvars for <package> (default is "
+#| "unset).\n"
+#| "  -l<library-dir>          add directory to private shared library search "
+#| "list.\n"
+#| "  -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.\n"
+#| "  -O[<file>]               write variable settings to stdout (or "
+#| "<file>).\n"
+#| "  -L<local-shlibs-file>    shlibs override file, not debian/"
+#| "shlibs.local.\n"
+#| "  -T<substvars-file>       update variables here, not debian/substvars.\n"
+#| "  -t<type>                 set package type (default is deb).\n"
+#| "  -x<package>              exclude package from the generated "
+#| "dependencies.\n"
+#| "  -S<package-build-dir>    search needed libraries in the given\n"
+#| "                             package build directory first.\n"
+#| "  -I<package-build-dir>    ignore needed libraries, shlibs and symbols "
+#| "files\n"
+#| "                             in the given build directory.\n"
+#| "  -v                       enable verbose mode (can be used multiple "
+#| "times).\n"
+#| "  --ignore-missing-info    do not fail if dependency information cannot "
+#| "be found.\n"
+#| "  --warnings=<value>       define set of active warnings (see manual "
+#| "page).\n"
+#| "  --admindir=<directory>   change the administrative directory.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version."
 msgid ""
 "Options:\n"
 "  --package=<package>      generate substvars for <package> (default is "
@@ -1816,8 +1851,7 @@ msgid ""
 "                             in the given build directory.\n"
 "  -v                       enable verbose mode (can be used multiple "
 "times).\n"
-"  --ignore-missing-info    do not fail if dependency information cannot be "
-"found.\n"
+"  --ignore-missing-info    do not fail on missing dependency information.\n"
 "  --warnings=<value>       define set of active warnings (see manual page).\n"
 "  --admindir=<directory>   change the administrative directory.\n"
 "  -?, --help               show this help message.\n"
@@ -1863,13 +1897,15 @@ msgid "cannot extract name and version from library name '%s'"
 msgstr "cannot extract name and version from library name '%s'"
 
 #: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "unable to open shared libs info file '%s'"
+#, fuzzy, perl-format
+#| msgid "unable to open shared libs info file '%s'"
+msgid "unable to open shared libs metadata file '%s'"
 msgstr "unable to open shared libs info file '%s'"
 
 #: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "shared libs info file '%s' line %d: bad line '%s'"
+#, fuzzy, perl-format
+#| msgid "shared libs info file '%s' line %d: bad line '%s'"
+msgid "shared libs metadata file '%s' line %d: bad line '%s'"
 msgstr "shared libs info file '%s' line %d: bad line '%s'"
 
 #: scripts/dpkg-shlibdeps.pl scripts/Dpkg/Changelog/Parse.pm
@@ -1957,8 +1993,9 @@ msgid "%s does not contain any information about the source package"
 msgstr "%s does not contain any information about the source package"
 
 #: scripts/dpkg-source.pl
-#, perl-format
-msgid "'%s' is not a legal architecture string in package '%s'"
+#, fuzzy, perl-format
+#| msgid "'%s' is not a legal architecture string in package '%s'"
+msgid "'%s' is not a valid architecture string in package '%s'"
 msgstr "'%s' is not a legal architecture string in package '%s'"
 
 #: scripts/dpkg-source.pl
@@ -2133,13 +2170,29 @@ msgstr ""
 "                             supported are: '1'-'9', 'best', 'fast')"
 
 #: scripts/dpkg-source.pl
+#, fuzzy
+#| msgid ""
+#| "Extract options:\n"
+#| "  --no-copy                do not copy .orig tarballs\n"
+#| "  --no-check               do not check signature and checksums before "
+#| "unpacking\n"
+#| "  --no-overwrite-dir       do not overwrite directory on extraction\n"
+#| "  --require-valid-signature abort if the package does not have a valid "
+#| "signature\n"
+#| "  --require-strong-checksums\n"
+#| "                           abort if the package contains no strong "
+#| "checksums\n"
+#| "  --ignore-bad-version     allow bad source package versions."
 msgid ""
 "Extract options:\n"
 "  --no-copy                do not copy .orig tarballs\n"
-"  --no-check               do not check signature and checksums before "
-"unpacking\n"
+"  --no-check               do not check signature and checksums on "
+"extraction\n"
 "  --no-overwrite-dir       do not overwrite directory on extraction\n"
-"  --require-valid-signature abort if the package does not have a valid "
+"  --no-vendor-certs        do not use vendor specific certificate keyrings\n"
+"  --signer-certs=<keyring> use a signer certificates keyring\n"
+"  --require-valid-signature\n"
+"                           abort if the package does not have a valid "
 "signature\n"
 "  --require-strong-checksums\n"
 "                           abort if the package contains no strong "
@@ -2226,8 +2279,9 @@ msgstr ""
 "unknown CC system type %s, falling back to default (native compilation)"
 
 #: scripts/Dpkg/Arch.pm
-#, perl-format
-msgid "'%s' is not a legal architecture in list '%s'"
+#, fuzzy, perl-format
+#| msgid "'%s' is not a legal architecture in list '%s'"
+msgid "'%s' is not a valid architecture in list '%s'"
 msgstr "'%s' is not a legal architecture in list '%s'"
 
 #: scripts/Dpkg/Archive/Ar.pm
@@ -2435,8 +2489,8 @@ msgstr "%s is not a plain file"
 
 #: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
 #: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
-#: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
-#: scripts/Dpkg/Source/Quilt.pm
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/Dpkg/Source/BinaryFiles.pm scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot read %s"
 msgstr "cannot read %s"
@@ -2465,6 +2519,12 @@ msgstr "unknown %s feature in %s variable: %s"
 #, perl-format
 msgid "incorrect value in %s option of %s variable: %s"
 msgstr "incorrect value in %s option of %s variable: %s"
+
+#: scripts/Dpkg/BuildProfiles.pm
+#, fuzzy, perl-format
+#| msgid "%s is not a valid option for %s"
+msgid "'%s' is not a valid build profile restriction formula"
+msgstr "%s is not a valid option for %s"
 
 #: scripts/Dpkg/BuildTypes.pm
 #, perl-format
@@ -2792,6 +2852,13 @@ msgstr "stanza in dpkg's status file"
 
 #: scripts/Dpkg/Control/FieldsCore.pm
 #, perl-format
+msgid ""
+"non-sensical field export rules (%s) in field %s in binary stanza from "
+"source package template control file"
+msgstr ""
+
+#: scripts/Dpkg/Control/FieldsCore.pm
+#, perl-format
 msgid "unknown information field '%s' in input data in %s"
 msgstr "unknown information field '%s' in input data in %s"
 
@@ -3011,6 +3078,13 @@ msgstr ""
 "multiple concatenated ASCII Armor blocks in %s, which is not an "
 "interoperable construct, see <%s>"
 
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, perl-format
+msgid ""
+"using GnuPG specific KeyBox formatted keyring %s is deprecated; use an "
+"OpenPGP formatted keyring instead"
+msgstr ""
+
 #: scripts/Dpkg/OpenPGP/Backend/Sequoia.pm
 msgid "imported own keys might be missing ownership information, try:"
 msgstr "imported own keys might be missing ownership information, try:"
@@ -3118,8 +3192,9 @@ msgid "must start with an alphanumeric character"
 msgstr "must start with an alphanumeric character"
 
 #: scripts/Dpkg/Package.pm
-#, perl-format
-msgid "source package name '%s' is illegal: %s"
+#, fuzzy, perl-format
+#| msgid "source package name '%s' is illegal: %s"
+msgid "source package name '%s' is invalid %s"
 msgstr "source package name '%s' is illegal: %s"
 
 #: scripts/Dpkg/Package.pm
@@ -3155,13 +3230,15 @@ msgid "unknown executable format in file '%s'"
 msgstr "unknown executable format in file '%s'"
 
 #: scripts/Dpkg/Shlibs/Objdump/Object.pm
-#, perl-format
-msgid "couldn't parse dynamic relocation record: %s"
+#, fuzzy, perl-format
+#| msgid "couldn't parse dynamic relocation record: %s"
+msgid "cannot parse dynamic relocation record: %s"
 msgstr "couldn't parse dynamic relocation record: %s"
 
 #: scripts/Dpkg/Shlibs/Objdump/Object.pm
-#, perl-format
-msgid "couldn't parse dynamic symbol definition: %s"
+#, fuzzy, perl-format
+#| msgid "couldn't parse dynamic symbol definition: %s"
+msgid "cannot parse dynamic symbol definition: %s"
 msgstr "couldn't parse dynamic symbol definition: %s"
 
 #: scripts/Dpkg/Shlibs/Symbol.pm
@@ -3175,8 +3252,9 @@ msgid "symver tag with versioned symbol will not match: %s"
 msgstr "symver tag with versioned symbol will not match: %s"
 
 #: scripts/Dpkg/Shlibs/Symbol.pm
-#, perl-format
-msgid "you cannot use symver tag to catch unversioned symbols: %s"
+#, fuzzy, perl-format
+#| msgid "you cannot use symver tag to catch unversioned symbols: %s"
+msgid "you can not use symver tag to catch unversioned symbols: %s"
 msgstr "you cannot use symver tag to catch unversioned symbols: %s"
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm
@@ -3354,6 +3432,13 @@ msgstr "verifying %s"
 #, perl-format
 msgid "cannot verify upstream tarball signature for %s: %s"
 msgstr "cannot verify upstream tarball signature for %s: %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid ""
+"using implicit trusted keyring %s is deprecated; use --signer-cert with an "
+"OpenPGP keyring instead"
+msgstr ""
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -4367,11 +4452,15 @@ msgid "version number does not start with digit"
 msgstr "version number does not start with digit"
 
 #: scripts/Dpkg/Version.pm
-#, perl-format
-msgid "version number contains illegal character '%s'"
+#, fuzzy, perl-format
+#| msgid "version number contains illegal character '%s'"
+msgid "version number contains invalid character '%s'"
 msgstr "version number contains illegal character '%s'"
 
 #: scripts/Dpkg/Version.pm
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "epoch part of the version number is not a number: '%s'"
+
+#~ msgid "couldn't close stdout"
+#~ msgstr "couldn't close stdout"

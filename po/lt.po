@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-05-19 00:00+0200\n"
+"POT-Creation-Date: 2025-12-16 21:20+0000\n"
 "PO-Revision-Date: 2015-04-07 09:50+0200\n"
 "Last-Translator: Gintautas Miliauskas <gintas@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -406,7 +406,7 @@ msgstr ""
 #: lib/dpkg/db-ctrl-upgrade.c
 #, fuzzy, c-format
 #| msgid "conffile `%s' does not appear in package"
-msgid "info file %s/%s not associated to any package"
+msgid "metadata file %s/%s not associated to any package"
 msgstr "konfigūracijos failo „%s“ nėra pakete"
 
 #: lib/dpkg/db-ctrl-upgrade.c src/main/archives.c
@@ -474,8 +474,8 @@ msgid ""
 "files list file for package '%s' missing; assuming package has no files "
 "currently installed"
 msgstr ""
-"dpkg: rimtas įspėjimas: failų sąrašo failas paketui „%s“ nerastas; "
-"daroma prielaida, kad nėra įdiegtų paketo failų.\n"
+"dpkg: rimtas įspėjimas: failų sąrašo failas paketui „%s“ nerastas; daroma "
+"prielaida, kad nėra įdiegtų paketo failų.\n"
 
 #: lib/dpkg/db-fsys-files.c
 msgid "(Reading database ... "
@@ -756,7 +756,7 @@ msgid "unable to open file '%s'"
 msgstr "nepavyko užverti %s: %s"
 
 #: lib/dpkg/dir.c src/deb/build.c src/split/join.c src/split/queue.c
-#: src/divert/main.c utils/update-alternatives.c
+#: src/divert/main.c src/main/archives.c utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "nepavyko užverti %s: %s"
@@ -979,8 +979,7 @@ msgstr "laukelyje `%s', trūksta paketo pavadinimo, arba vietoj jo šiukšlės"
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "`%s' field, reference to `%s': error in version: %s"
-msgid ""
-"'%s' field, reference to '%s': invalid architecture name '%s': %s"
+msgid "'%s' field, reference to '%s': invalid architecture name '%s': %s"
 msgstr "laukelyje`%s', nuorodoje į `%s': klaida versijoje: %s"
 
 #: lib/dpkg/fields.c
@@ -1036,8 +1035,7 @@ msgstr "laukelyje`%s', nuorodoje į `%s': neužbaigta versija"
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "'%s' field, reference to '%s': version contains '%c'"
-msgid ""
-"'%s' field, reference to '%s': version contains '%c' instead of '%c'"
+msgid "'%s' field, reference to '%s': version contains '%c' instead of '%c'"
 msgstr "laukelyje`%s', nuorodoje į `%s': versija `%c'"
 
 #: lib/dpkg/fields.c
@@ -1059,7 +1057,7 @@ msgstr "laukelyje %s neleistinas alternatyvus (`|')"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
-msgid "illegal pending trigger name '%s': %s"
+msgid "invalid pending trigger name '%s': %s"
 msgstr "laukelyje `%s', nekorektiškas paketo pavadinimas `%s': %s"
 
 #: lib/dpkg/fields.c
@@ -1069,7 +1067,7 @@ msgstr ""
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
-msgid "illegal package name in awaited trigger '%s': %s"
+msgid "invalid package name in awaited trigger '%s': %s"
 msgstr "nekorektiškas paketo vardas eilutėje %d: %s"
 
 #: lib/dpkg/fields.c
@@ -1439,30 +1437,32 @@ msgid ""
 msgstr ""
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "failed to open package info file '%s' for reading"
+#, fuzzy, c-format
+#| msgid "failed to open package info file '%s' for reading"
+msgid "failed to open package control file '%s' for reading"
 msgstr "nepavyko atverti skaitymui paketo informacijos failo `%s'"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot stat package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot stat package info file '%s'"
+msgid "cannot stat package control file '%s'"
 msgstr "nepavyko patikrinti paketo informacijos failo „%s“"
 
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "cannot stat package info file `%s'"
-msgid "reading package info file '%s': %s"
+msgid "reading package control file '%s': %s"
 msgstr "nepavyko patikrinti paketo informacijos failo „%s“"
 
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
-msgid "cannot mmap package info file '%s'"
+msgid "cannot mmap package control file '%s'"
 msgstr "neįmanoma mmap paketo info failo `%s'"
 
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "cannot stat package info file `%s'"
-msgid "reading package info file '%s'"
+msgid "reading package control file '%s'"
 msgstr "nepavyko patikrinti paketo informacijos failo „%s“"
 
 #: lib/dpkg/parse.c
@@ -1488,7 +1488,7 @@ msgstr "naujos eilutės žymė laukelyje `%.*s'"
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF (^Z) in field name `%.*s'"
-msgid "MSDOS end of file (^Z) in field name '%.*s'"
+msgid "MSDOS end of file (Ctrl+Z) in field name '%.*s'"
 msgstr "MSDOS failo pabaigos žymė (^Z) laukelio varde „%.*s“"
 
 #: lib/dpkg/parse.c
@@ -1507,7 +1507,7 @@ msgstr ""
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
-msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
+msgid "MSDOS end of file (Ctrl+Z) in value of field '%.*s' (missing newline?)"
 msgstr ""
 "MSDOS failo pabaigos žymė laukelio `%.*s' reikšmėje (trūksta naujos eilutės "
 "žymės?)"
@@ -1630,7 +1630,7 @@ msgstr "versijos numeryje po kablelio nieko nėra"
 msgid "invalid character in revision number"
 msgstr "versijos numeryje po kablelio nieko nėra"
 
-#: lib/dpkg/path-remove.c
+#: lib/dpkg/path-remove.c src/main/remove.c
 #, fuzzy, c-format
 msgid "unable to securely remove '%s'"
 msgstr "nepavyko sukurti `%s'"
@@ -1674,16 +1674,17 @@ msgstr "dpkg: versija '%s' su bloga sintakse: %s\n"
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
-msgid "illegal package name in specifier '%s%s%s': %s"
+msgid "invalid package name in specifier '%s%s%s': %s"
 msgstr "nekorektiškas paketo vardas eilutėje %d: %s"
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
-msgid "illegal architecture name in specifier '%s:%s': %s"
+msgid "invalid architecture name in specifier '%s:%s': %s"
 msgstr "nekorektiškas paketo vardas eilutėje %d: %s"
 
 #. TRANSLATORS: This is part of the progress output, it is a decimal
-#. * percentage.
+#. percentage.
+#.
 #: lib/dpkg/progress.c
 #, c-format
 msgid "%d%%"
@@ -1733,9 +1734,9 @@ msgstr "nepavyko suskirstymas"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
-#| msgid "subprocess %s returned error exit status %d"
-msgid "%s subprocess returned error exit status %d"
-msgstr "vidinis procesas %s nutrūko gražindamas reikšmę %d"
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with exit status %d"
+msgstr "sub-procesas %s nepavyko su laukimo būsenos kodu %d"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
@@ -1913,18 +1914,15 @@ msgid "failed to rewind trigger interest file '%s'"
 msgstr "nepavyko patikrinti kito naujo failo „%s“"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid ""
-"trigger interest file '%s' syntax error; illegal package name '%s': "
-"%s"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "'%s' field, invalid package name '%s': %s"
+msgid "trigger interest file '%s' syntax error; invalid package name '%s': %s"
+msgstr "laukelyje `%s', nekorektiškas paketo pavadinimas `%s': %s"
 
 #: lib/dpkg/triglib.c
 #, fuzzy, c-format
-msgid ""
-"duplicate file trigger interest for filename '%s' and package '%s'"
-msgstr ""
-"nepavyko įdiegti naujo informacijos failo „%s“ su pavadinimu „%s“"
+msgid "duplicate file trigger interest for filename '%s' and package '%s'"
+msgstr "nepavyko įdiegti naujo informacijos failo „%s“ su pavadinimu „%s“"
 
 #: lib/dpkg/triglib.c
 #, fuzzy, c-format
@@ -1939,29 +1937,30 @@ msgstr "nuskaitymo klaida konfigūracijos faile  `%s'"
 #: lib/dpkg/triglib.c
 #, c-format
 msgid ""
-"file triggers record mentions illegal package name '%s' (for interest in "
+"file triggers record mentions invalid package name '%s' (for interest in "
 "file '%s'): %s"
 msgstr ""
 
 #: lib/dpkg/triglib.c
 #, c-format
 msgid ""
-"triggers ci file '%s' contains illegal trigger syntax in trigger name "
-"'%s': %s"
+"triggers package metadata file '%s' contains invalid trigger syntax in "
+"trigger name '%s': %s"
 msgstr ""
 
 #: lib/dpkg/triglib.c
 #, fuzzy, c-format
-msgid "unable to open triggers ci file '%s'"
+msgid "unable to open triggers package metadata file '%s'"
 msgstr "nepavyko pakartotinai atverti `%s' dalinio failo"
 
 #: lib/dpkg/triglib.c
-msgid "triggers ci file contains unknown directive syntax"
+#, c-format
+msgid "triggers package metadata file '%s' contains unknown directive syntax"
 msgstr ""
 
 #: lib/dpkg/triglib.c
 #, c-format
-msgid "triggers ci file contains unknown directive '%s'"
+msgid "triggers package metadata file '%s' contains unknown directive '%s'"
 msgstr ""
 
 #: lib/dpkg/triglib.c
@@ -2248,7 +2247,7 @@ msgstr ""
 msgid "cannot read link '%s'"
 msgstr "nepavyko rašyti %s: %s"
 
-#: src/realpath/main.c
+#: src/realpath/main.c src/main/archives.c src/main/configure.c
 #, c-format
 msgid "symbolic link '%s' size has changed from %jd to %zd"
 msgstr ""
@@ -2312,11 +2311,10 @@ msgstr "prižiūrėtojo scenarijus `%s', nėra paprastas failas arba saitas"
 #: src/deb/build.c
 #, c-format
 msgid ""
-"maintainer script '%s' has bad permissions %03lo (must be >=0555 and "
-"<=0775)"
+"maintainer script '%s' has bad permissions %03lo (must be >=0555 and <=0775)"
 msgstr ""
-"prižiūrėtojo scenarijus `%s' yra negeromis %03lo teisėmis (turį būti "
-">=0555 ir <=0775)"
+"prižiūrėtojo scenarijus `%s' yra negeromis %03lo teisėmis (turį būti >=0555 "
+"ir <=0775)"
 
 #: src/deb/build.c
 #, c-format
@@ -2568,8 +2566,7 @@ msgstr "failas „%s“ sugadintas – blogas leidimo numeris"
 #, fuzzy, c-format
 #| msgid "file '%s' is not a debian binary archive (try dpkg-split?)"
 msgid "file '%s' is not a Debian binary archive (try dpkg-split?)"
-msgstr ""
-"failas „%s“ nėra debian dvejetainis archyvas (pabandykite dpkg-split?)"
+msgstr "failas „%s“ nėra debian dvejetainis archyvas (pabandykite dpkg-split?)"
 
 #: src/deb/extract.c
 #, fuzzy
@@ -2750,6 +2747,11 @@ msgstr ""
 msgid "--%s does not support (yet) reading the .deb from standard input"
 msgstr ""
 
+#: src/deb/info.c src/statoverride/main.c src/main/archives.c
+#, c-format
+msgid "error setting permissions of '%s'"
+msgstr "klaida nustatant teises `%s'"
+
 #: src/deb/info.c src/main/unpack.c
 #, fuzzy
 msgid "unable to create temporary directory"
@@ -2868,11 +2870,11 @@ msgid ""
 "  -I|--info <deb> [<cfile>...]     Show info to stdout.\n"
 "  -W|--show <deb>                  Show information on package(s)\n"
 "  -f|--field <deb> [<cfield>...]   Show field(s) to stdout.\n"
-"  -e|--control <deb> [<directory>] Extract control info.\n"
-"  -x|--extract <deb> <directory>   Extract files.\n"
-"  -X|--vextract <deb> <directory>  Extract & list files.\n"
+"  -e|--control <deb> [<directory>] Extract metadata files.\n"
+"  -x|--extract <deb> <directory>   Extract filesystem files.\n"
+"  -X|--vextract <deb> <directory>  Extract and list filesystem files.\n"
 "  -R|--raw-extract <deb> <directory>\n"
-"                                   Extract control info and files.\n"
+"                                   Extract metadata and filesystem files.\n"
 "  --ctrl-tarfile <deb>             Output control tarfile.\n"
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
@@ -3057,9 +3059,21 @@ msgid "error reading %s"
 msgstr "klaida skaitant %s"
 
 #: src/split/info.c
+#, fuzzy
+#| msgid "archive has no newlines in header"
+msgid "ar header"
+msgstr "archyvo antraštėje nėra naujos eilutės simbolių"
+
+#: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - bad magic at end of first header"
 msgstr "failas „%s“ sugadintas - klaidinga pirmos antraštės pabaiga"
+
+#: src/split/info.c
+#, fuzzy
+#| msgid "archive has no dot in version number"
+msgid "reading header member"
+msgstr "archyvo versijos numeryje nėra taškų"
 
 #: src/split/info.c
 #, c-format
@@ -3084,11 +3098,9 @@ msgstr "  %s yra įdiegtas, tačiau yra versija %s.\n"
 
 #: src/split/info.c
 #, fuzzy, c-format
-#| msgid ""
-#| "file `%s' is format version `%s' - you need a newer dpkg-split"
+#| msgid "file `%s' is format version `%s' - you need a newer dpkg-split"
 msgid "file '%s' is format version %d.%d; get a newer dpkg-split"
-msgstr ""
-"„%s“ failo formato versija yra „%s“ – reikia naujesnio dpkg-split"
+msgstr "„%s“ failo formato versija yra „%s“ – reikia naujesnio dpkg-split"
 
 #: src/split/info.c
 msgid "package name"
@@ -3125,8 +3137,7 @@ msgstr "versijos numeris"
 #, fuzzy, c-format
 #| msgid "file `%s' is corrupt - no slash between part numbers"
 msgid "file '%s' is corrupt - no slash between archive part numbers"
-msgstr ""
-"Failas „%s“ sugadintas – tarp dalių numerių nėra pasvirųjų brūkšnių"
+msgstr "Failas „%s“ sugadintas – tarp dalių numerių nėra pasvirųjų brūkšnių"
 
 #: src/split/info.c
 msgid "number of archive parts"
@@ -3150,6 +3161,10 @@ msgstr "failas „%s“ sugadintas – blogas leidimo numeris"
 
 #: src/split/info.c
 msgid "package architecture"
+msgstr ""
+
+#: src/split/info.c
+msgid "reading data part member ar header"
 msgstr ""
 
 #: src/split/info.c
@@ -3309,7 +3324,6 @@ msgid ""
 "  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
 "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
-"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 
@@ -3561,7 +3575,7 @@ msgstr ""
 #: src/divert/main.c
 msgid ""
 "please specify --no-rename explicitly, the default will change to --rename "
-"in 1.20.x"
+"not before 1.23.x"
 msgstr ""
 
 #: src/divert/main.c utils/update-alternatives.c
@@ -3691,8 +3705,7 @@ msgstr "Pridedamas `%s'"
 #, fuzzy, c-format
 msgid "Ignoring request to rename file '%s' owned by diverting package '%s'\n"
 msgstr ""
-"dpkg: įspėjimas: prašymas pašalinti %s ignoruojamas, nes jis nėra "
-"įdiegtas.\n"
+"dpkg: įspėjimas: prašymas pašalinti %s ignoruojamas, nes jis nėra įdiegtas.\n"
 
 #: src/divert/main.c
 #, c-format
@@ -3726,8 +3739,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Ignoring request to remove shared diversion '%s'.\n"
 msgstr ""
-"dpkg: įspėjimas: prašymas pašalinti %s ignoruojamas, nes jis nėra "
-"įdiegtas.\n"
+"dpkg: įspėjimas: prašymas pašalinti %s ignoruojamas, nes jis nėra įdiegtas.\n"
 
 #: src/divert/main.c
 #, fuzzy, c-format
@@ -3796,11 +3808,6 @@ msgstr "nepavyko nuskaityti %s: %s"
 #, c-format
 msgid "error setting ownership of '%s'"
 msgstr "klaida nustatant savininką `%s'"
-
-#: src/statoverride/main.c src/main/archives.c
-#, c-format
-msgid "error setting permissions of '%s'"
-msgstr "klaida nustatant teises `%s'"
 
 #: src/statoverride/main.c
 #, fuzzy, c-format
@@ -3896,7 +3903,7 @@ msgstr "--%s priima tik vieną parametrą (.deb failą)"
 
 #: src/trigger/main.c
 #, fuzzy, c-format
-msgid "illegal awaited package name '%s': %s"
+msgid "invalid awaited package name '%s': %s"
 msgstr "laukelyje `%s', nekorektiškas paketo pavadinimas `%s': %s"
 
 #: src/trigger/main.c
@@ -3919,24 +3926,31 @@ msgid "no packages found matching %s"
 msgstr "Nerasta paketų kurie atitiktu %s kriterijų.\n"
 
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
-#. * string should remain under 80 characters. The uppercase letters in
-#. * the state values denote the abbreviated letter that will appear on
-#. * the first three columns, which should ideally match the English one
-#. * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
-#. * translated message can use additional lines if needed.
+#. string should remain under 80 characters. The uppercase letters in
+#. the state values denote the abbreviated letter that will appear on
+#. the first three columns, which should ideally match the English one
+#. (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
+#. translated message can use additional lines if needed. The ASCII art
+#. can use Unicode box characters.
+#.
 #: src/query/main.c
 #, fuzzy
 msgid ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
+"+-- Desired=Unknown/Install/Remove/Purge/Hold\n"
+"|+- Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
 "pend\n"
-"|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
+"||+ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
 "Pasirinktinai=Nežinoma/Įdiegti/Pašalinti/Išmesti/Sulaikyti\n"
 "| Būsena=Ne/Įdiegtas/Konfigūracijos-failai/Išpakuota/Nepavykusi-"
 "konfigūracija/Pusiau-įdiegtas\n"
 "|/ Klaida?=(jokia)/Užlaikyta/Reikalingas-naujas-įdiegimas/X=abi-problemos "
 "(Būsena,Klaida: didžiosios-raidės=blogai)\n"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "|"
+msgstr ""
 
 #: src/query/main.c
 msgid "Name"
@@ -3953,6 +3967,21 @@ msgstr ""
 #: src/query/main.c
 msgid "Description"
 msgstr "Aprašymas"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "+++-"
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "="
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "-"
+msgstr ""
 
 #: src/query/main.c
 msgid "showing package list on pager"
@@ -4211,8 +4240,8 @@ msgstr "neįmanoma rasti nuorodos `%s'"
 #: src/main/archives.c
 #, fuzzy, c-format
 msgid ""
-"trying to overwrite shared '%s', which is different from other instances "
-"of package %s"
+"trying to overwrite shared '%s', which is different from other instances of "
+"package %s"
 msgstr "bandoma perrašyti „%s“, kuris taip pat yra pakete %s"
 
 #: src/main/archives.c
@@ -4223,8 +4252,8 @@ msgstr ""
 #: src/main/archives.c
 #, c-format
 msgid ""
-"failed to stat (dereference) proposed new symlink target '%s' for "
-"symlink '%s'"
+"failed to stat (dereference) proposed new symlink target '%s' for symlink "
+"'%s'"
 msgstr ""
 
 #: src/main/archives.c
@@ -4242,8 +4271,7 @@ msgstr "konfigūracijos failo „%s“ nėra pakete"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"trying to overwrite '%s', which is the diverted version of '%s' "
-"(package: %s)"
+"trying to overwrite '%s', which is the diverted version of '%s' (package: %s)"
 msgstr ""
 
 #: src/main/archives.c
@@ -4260,8 +4288,7 @@ msgstr "negaliu patikrinti `%s' (kurį bandžiau įdiegti)"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"unable to clean up mess surrounding '%s' before installing another "
-"version"
+"unable to clean up mess surrounding '%s' before installing another version"
 msgstr ""
 
 #: src/main/archives.c
@@ -4288,9 +4315,7 @@ msgstr "Pakeista failais iš įdiegto %s paketo ...\n"
 
 #: src/main/archives.c
 #, fuzzy, c-format
-msgid ""
-"trying to overwrite directory '%s' in package %s (%s) with "
-"nondirectory"
+msgid "trying to overwrite directory '%s' in package %s (%s) with nondirectory"
 msgstr "bandoma perrašyti aplanką `%s' esantį pakete %s su ne aplanku"
 
 #: src/main/archives.c
@@ -4547,8 +4572,8 @@ msgstr "Nesendinsiu %s įš versijos %s į %s, todėl praleidžiama.\n"
 #: src/main/cleanup.c
 #, c-format
 msgid ""
-"unable to remove newly-installed version of '%s' to allow reinstallation "
-"of backup copy"
+"unable to remove newly-installed version of '%s' to allow reinstallation of "
+"backup copy"
 msgstr ""
 "nepavyko pašalinti naujai įdiegtos `%s' versijos, norint sukurti sąlygas "
 "atsarginės kopijos naujam įdiegimui"
@@ -4780,8 +4805,7 @@ msgstr "dpkg: %s: įspėjimas: nepavyko pašalinti senos „%s“: %s kopijos\n"
 #: src/main/configure.c
 #, fuzzy, c-format
 msgid "%s: failed to remove '%s' (before overwrite): %s"
-msgstr ""
-"dpkg: %s: įspėjimas: nepavyko pašalinti „%s“ (prieš perrašant): %s\n"
+msgstr "dpkg: %s: įspėjimas: nepavyko pašalinti „%s“ (prieš perrašant): %s\n"
 
 #: src/main/configure.c
 #, fuzzy, c-format
@@ -4924,8 +4948,8 @@ msgstr ""
 #, fuzzy, c-format
 msgid "%s: conffile '%s' is not a plain file or symlink (= '%s')"
 msgstr ""
-"dpkg: %s: įspėjimas: nustatymų failas „%s“ nėra teksto failas ar nuoroda "
-"(= „%s“)\n"
+"dpkg: %s: įspėjimas: nustatymų failas „%s“ nėra teksto failas ar nuoroda (= "
+"„%s“)\n"
 
 #: src/main/configure.c
 #, fuzzy, c-format
@@ -5120,7 +5144,7 @@ msgid "The following packages do not have an architecture:\n"
 msgstr ""
 
 #: src/main/enquiry.c
-msgid "The following packages have an illegal architecture:\n"
+msgid "The following packages have an invalid architecture:\n"
 msgstr ""
 
 #: src/main/enquiry.c
@@ -5428,7 +5452,6 @@ msgid ""
 "  --update-avail [<Packages-file>] Replace available packages info.\n"
 "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
 "  --clear-avail                    Erase existing available info.\n"
-"  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
 "  -s|--status [<package>...]       Display package status details.\n"
 "  -p|--print-avail [<package>...]  Display available version details.\n"
 "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
@@ -5735,9 +5758,9 @@ msgid "status logger"
 msgstr ""
 
 #: src/main/main.c
-#, c-format
-msgid "architecture '%s' is illegal: %s"
-msgstr ""
+#, fuzzy, c-format
+msgid "architecture '%s' is invalid: %s"
+msgstr "laukelyje `%s', nekorektiškas paketo pavadinimas `%s': %s"
 
 #: src/main/main.c
 #, c-format
@@ -5760,8 +5783,9 @@ msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr ""
 
 #: src/main/main.c
-#, c-format
-msgid "couldn't open '%i' for stream"
+#, fuzzy, c-format
+#| msgid "couldn't open '%i' for stream"
+msgid "cannot open '%i' for stream"
 msgstr "nepavyko atverti `%i' srautui sukurti"
 
 #: src/main/main.c
@@ -5906,8 +5930,7 @@ msgstr "; tačiau:\n"
 #, fuzzy, c-format
 msgid "ignoring request to remove %s which is not installed"
 msgstr ""
-"dpkg: įspėjimas: prašymas pašalinti %s ignoruojamas, nes jis nėra "
-"įdiegtas.\n"
+"dpkg: įspėjimas: prašymas pašalinti %s ignoruojamas, nes jis nėra įdiegtas.\n"
 
 #: src/main/remove.c
 #, fuzzy, c-format
@@ -5984,25 +6007,26 @@ msgid "Removing %s (%s) ...\n"
 msgstr "Šalinamas %s ...\n"
 
 #: src/main/remove.c src/main/unpack.c
-#, c-format
-msgid "unable to delete control info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to delete control info file '%s'"
+msgid "unable to delete package metadata file '%s'"
 msgstr "nepavyko pašalinti valdymo informacijos failo „%s“"
 
 #: src/main/remove.c
 #, fuzzy, c-format
 msgid ""
-"while removing %s, unable to remove directory '%s': %s - directory "
-"may be a mount point?"
+"while removing %s, unable to remove directory '%s': %s - directory may be a "
+"mount point?"
 msgstr ""
-"dpkg: įspėjimas: šalinant %s nepavyko pašalinti aplanko „%s“: %s - "
-"aplankas yra montavimo taškas?\n"
+"dpkg: įspėjimas: šalinant %s nepavyko pašalinti aplanko „%s“: %s - aplankas "
+"yra montavimo taškas?\n"
 
 #: src/main/remove.c
 #, fuzzy, c-format
 msgid "while removing %s, directory '%s' not empty so not removed"
 msgstr ""
-"dpkg: įspėjimas: šalinant %s, rastas netuščias aplankas „%s“, todėl "
-"aplankas neištrintas.\n"
+"dpkg: įspėjimas: šalinant %s, rastas netuščias aplankas „%s“, todėl aplankas "
+"neištrintas.\n"
 
 #: src/main/remove.c
 #, fuzzy, c-format
@@ -6024,8 +6048,7 @@ msgstr "nepavyksta atverti konfigūracijos failų aplanko `%s' (iš `%s')"
 #: src/main/remove.c
 #, c-format
 msgid "cannot remove old backup config file '%s' (of '%s')"
-msgstr ""
-"nepavyko pašalinti senų konfigūracijos failų kopijų`%s' (iš `%s')"
+msgstr "nepavyko pašalinti senų konfigūracijos failų kopijų`%s' (iš `%s')"
 
 #: src/main/remove.c
 msgid "cannot remove old files list"
@@ -6067,7 +6090,8 @@ msgstr "nepavyko gauti vsnprintf būsenos"
 
 #: src/main/script.c
 #, fuzzy, c-format
-msgid "installed %s package %s script"
+#| msgid "old %s script"
+msgid "old %s package %s maintainer script"
 msgstr "senas %s scenarijus"
 
 #: src/main/script.c
@@ -6078,14 +6102,8 @@ msgstr "nepavyksta patikrinti %s `%s'"
 #: src/main/script.c
 #, fuzzy, c-format
 #| msgid "new %s script"
-msgid "new %s package %s script"
+msgid "new %s package %s maintainer script"
 msgstr "naujas %s scenarijus"
-
-#: src/main/script.c
-#, fuzzy, c-format
-#| msgid "old %s script"
-msgid "old %s package %s script"
-msgstr "senas %s scenarijus"
 
 #: src/main/script.c
 #, fuzzy, c-format
@@ -6093,13 +6111,15 @@ msgid "unable to stat %s '%s': %s"
 msgstr "nepavyksta patikrinti %s `%s'"
 
 #: src/main/script.c
-#, fuzzy
+#, fuzzy, c-format
 #| msgid "dpkg - trying script from the new package instead ...\n"
-msgid "trying script from the new package instead ..."
+msgid "trying %s maintainer script from the new %s package instead ..."
 msgstr "dpkg - bandomas scenarijus iš naujos paketo versijos ...\n"
 
 #: src/main/script.c
-msgid "there is no script in the new version of the package - giving up"
+#, fuzzy, c-format
+#| msgid "there is no script in the new version of the package - giving up"
+msgid "missing %s maintainer script in new %s package, giving up"
 msgstr "naujo paketo versijoje nėra scenarijaus - paliekama taip"
 
 #: src/main/script.c
@@ -6136,8 +6156,9 @@ msgid "unexpected data after package and selection at line %d"
 msgstr "netikėti duomenys po paketo ir pažymėjimo, %d eilutėje"
 
 #: src/main/select.c
-#, c-format
-msgid "illegal package name at line %d: %s"
+#, fuzzy, c-format
+#| msgid "illegal package name at line %d: %s"
+msgid "invalid package name at line %d: %s"
 msgstr "nekorektiškas paketo vardas eilutėje %d: %s"
 
 #: src/main/select.c
@@ -6214,6 +6235,11 @@ msgstr ""
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "Šalinami %s konfigūracijos failai...\n"
 
+#. TRANSLATORS: This string represents a summarized pathname,
+#. were prefix directories get abbreviated with ".../", if the
+#. total length exceeds a limit. The three dots would usually
+#. be represented by «…/».
+#.
 #: src/main/unpack.c
 #, c-format
 msgid ".../%s"
@@ -6324,20 +6350,24 @@ msgid "error closing %s"
 msgstr "klaida uždarant %s"
 
 #: src/main/unpack.c
-#, c-format
-msgid "old version of package has overly-long info file name starting '%s'"
+#, fuzzy, c-format
+#| msgid "old version of package has overly-long info file name starting '%s'"
+msgid ""
+"old version of package has overly-long meatada file name (starting with "
+"'%.*s')"
 msgstr ""
-"sena paketo versija turi per daug didelę informacijos failą pradedant "
-"„%s“"
+"sena paketo versija turi per daug didelę informacijos failą pradedant „%s“"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to remove obsolete info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to remove obsolete info file '%s'"
+msgid "unable to remove obsolete package metadata file '%s'"
 msgstr "nepavyko pašalinti pasenusio „%s“ informacijos failo"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install (supposed) new info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install (supposed) new info file '%s'"
+msgid "unable to install (supposed) new package metadata file '%s'"
 msgstr "nepavyko įdiegti informacijos failo „%s“ (nors reikėtų)"
 
 #: src/main/unpack.c
@@ -6345,34 +6375,37 @@ msgid "unable to open temp control directory"
 msgstr "nepavyko atverti laikino valdymo aplanko"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package contains overly-long control info file name (starting '%.50s')"
+#, fuzzy, c-format
+#| msgid ""
+#| "package contains overly-long control info file name (starting '%.50s')"
+msgid "package has overly-long metadata file name (starting with '%.*s')"
 msgstr ""
 "pakete yra informacijos valdymo failas per ilgu pavadinimu (pradedant "
 "„%.50s“)"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info contained directory '%s'"
+#, fuzzy, c-format
+#| msgid "package control info contained directory '%s'"
+msgid "package metadata contained directory '%s'"
 msgstr "paketo valdymo informacijoje yra aplankas `%s'"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info rmdir of '%s' did not say not a dir"
+#, fuzzy, c-format
+#| msgid "package control info rmdir of '%s' did not say not a dir"
+msgid "package metadata rmdir of '%s' did not say not a dir"
 msgstr ""
-"paketo valdymo informacijoje nebuvo parašyta, kad rmdir `%s' yra ne "
-"aplankas"
+"paketo valdymo informacijoje nebuvo parašyta, kad rmdir `%s' yra ne aplankas"
 
 #: src/main/unpack.c
 #, fuzzy, c-format
-msgid "package %s contained list as info file"
+msgid "package %s contained '%s' as a metadata file"
 msgstr "dpkg: įspėjimas: %s pakete informacijos failas yra sąrašas"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install new info file '%s' as '%s'"
-msgstr ""
-"nepavyko įdiegti naujo informacijos failo „%s“ su pavadinimu „%s“"
+#, fuzzy, c-format
+#| msgid "unable to install new info file '%s' as '%s'"
+msgid "unable to install new metadata file '%s' as '%s'"
+msgstr "nepavyko įdiegti naujo informacijos failo „%s“ su pavadinimu „%s“"
 
 #: src/main/unpack.c
 #, fuzzy, c-format
@@ -6401,8 +6434,8 @@ msgstr "nepavyko rašyti %s: %s"
 #, fuzzy, c-format
 msgid "could not stat old file '%s' so not deleting it: %s"
 msgstr ""
-"dpkg: įspėjimas: nepavyko patikrinti seno „%s“ failo, todėl jis "
-"netrinamas: %s"
+"dpkg: įspėjimas: nepavyko patikrinti seno „%s“ failo, todėl jis netrinamas: "
+"%s"
 
 #: src/main/unpack.c
 #, fuzzy, c-format
@@ -6413,8 +6446,8 @@ msgstr "dpkg: įspėjimas: nepavyko ištrinti seno aplanko „%s“: %s\n"
 #, fuzzy, c-format
 msgid "old conffile '%s' was an empty directory (and has now been deleted)"
 msgstr ""
-"dpkg: įspėjimas: senas nustatymų failas „%s“ buvo tuščias aplankas (ir "
-"buvo ištrintas)\n"
+"dpkg: įspėjimas: senas nustatymų failas „%s“ buvo tuščias aplankas (ir buvo "
+"ištrintas)\n"
 
 #: src/main/unpack.c
 #, c-format
@@ -6423,9 +6456,7 @@ msgstr "nepavyko patikrinti kito naujo failo „%s“"
 
 #: src/main/unpack.c
 #, c-format
-msgid ""
-"old file '%s' is the same as several new files! (both '%s' and "
-"'%s')"
+msgid "old file '%s' is the same as several new files! (both '%s' and '%s')"
 msgstr ""
 
 #: src/main/unpack.c
@@ -6441,7 +6472,7 @@ msgstr "(Pažymėtinas %s dingimas, kuris buvo visiškai pakeistas.)\n"
 #: src/main/unpack.c
 #, fuzzy
 #| msgid "control information length"
-msgid "package control information extraction"
+msgid "package metadata files extraction"
 msgstr "valdymo informacijos dydis"
 
 #: src/main/unpack.c
@@ -6500,6 +6531,12 @@ msgstr "Šalinami %s konfigūracijos failai...\n"
 msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s reikia lygiai vieno paketų failo pavadinimo"
 
+#: src/main/update.c utils/update-alternatives.c
+#, fuzzy
+#| msgid "read error on standard input"
+msgid "<standard input>"
+msgstr "skaitymo klaida standartinėje įvestyje"
+
 #: src/main/update.c
 #, fuzzy, c-format
 #| msgid "unable to access dpkg status area for bulk available update"
@@ -6515,13 +6552,15 @@ msgid ""
 msgstr "atnaujinimo paketui nepavyko pasiekti dpkg būsenos įrašo"
 
 #: src/main/update.c
-#, c-format
-msgid "Replacing available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Replacing available packages info, using %s.\n"
+msgid "Replacing available packages information from %s.\n"
 msgstr "Keičiama prieinama paketų informacija, naudojant %s.\n"
 
 #: src/main/update.c
-#, c-format
-msgid "Updating available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Updating available packages info, using %s.\n"
+msgid "Updating available packages information from %s.\n"
 msgstr "Atnaujinama prieinamų paketų informacija, naudojant %s.\n"
 
 #: src/main/update.c
@@ -6549,7 +6588,7 @@ msgstr "Debian %s versija %s.\n"
 msgid ""
 "Commands:\n"
 "  --install <link> <name> <path> <priority>\n"
-"    [--slave <link> <name> <path>] ...\n"
+"    [--slave <link> <name> <path>]...\n"
 "                           add a group of alternatives to the system.\n"
 "  --remove <name> <path>   remove <path> from the <name> group alternative.\n"
 "  --remove-all <name>      remove <name> group from the alternatives "
@@ -7140,12 +7179,6 @@ msgstr ""
 msgid "no alternatives for %s"
 msgstr ""
 
-#: utils/update-alternatives.c
-#, fuzzy
-#| msgid "read error on standard input"
-msgid "<standard input>"
-msgstr "skaitymo klaida standartinėje įvestyje"
-
 #: utils/update-alternatives.polkit.in
 msgid "Run update-alternatives to modify system alternative selections"
 msgstr ""
@@ -7153,6 +7186,15 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, fuzzy, c-format
+#~| msgid "subprocess %s returned error exit status %d"
+#~ msgid "%s subprocess returned error exit status %d"
+#~ msgstr "vidinis procesas %s nutrūko gražindamas reikšmę %d"
+
+#, fuzzy, c-format
+#~ msgid "installed %s package %s script"
+#~ msgstr "senas %s scenarijus"
 
 #~ msgid "failed to open statoverride file"
 #~ msgstr "nepavyko atverti statoverride failo"
@@ -7364,8 +7406,7 @@ msgstr ""
 
 #~ msgid "name of conffile (starting `%s') is too long (>%d characters)"
 #~ msgstr ""
-#~ "konfigūracijos failo vardas (pradedant „%s“) yra per ilgas (>%d "
-#~ "simbolių)"
+#~ "konfigūracijos failo vardas (pradedant „%s“) yra per ilgas (>%d simbolių)"
 
 #~ msgid " (actually `%s')"
 #~ msgstr " (iš tiesų „%s“)"
@@ -7453,8 +7494,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "failed to link '%s' to '%s' for backup of %s database"
-#~ msgstr ""
-#~ "nepavyko susieti `%s' su `%s informacijos apie %s išsaugojimui"
+#~ msgstr "nepavyko susieti `%s' su `%s informacijos apie %s išsaugojimui"
 
 #, fuzzy
 #~ msgid "failed to install '%s' as '%s' containing %s database"
@@ -7491,33 +7531,27 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "unable to create new file triggers file `%s'"
-#~ msgstr ""
-#~ "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%s“"
+#~ msgstr "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%s“"
 
 #, fuzzy
 #~ msgid "unable to write new file triggers file `%s'"
-#~ msgstr ""
-#~ "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%s“"
+#~ msgstr "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%s“"
 
 #, fuzzy
 #~ msgid "unable to flush new file triggers file '%s'"
-#~ msgstr ""
-#~ "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%s“"
+#~ msgstr "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%s“"
 
 #, fuzzy
 #~ msgid "unable to sync new file triggers file '%s'"
-#~ msgstr ""
-#~ "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%s“"
+#~ msgstr "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%s“"
 
 #, fuzzy
 #~ msgid "unable to close new file triggers file `%s'"
-#~ msgstr ""
-#~ "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%s“"
+#~ msgstr "nepavyko patikrinti naujos distributyvo konfigūracijos failo „%s“"
 
 #, fuzzy
 #~ msgid "unable to install new file triggers file as `%s'"
-#~ msgstr ""
-#~ "nepavyko įdiegti naujo informacijos failo „%s“ su pavadinimu „%s“"
+#~ msgstr "nepavyko įdiegti naujo informacijos failo „%s“ su pavadinimu „%s“"
 
 #, fuzzy
 #~| msgid "cannot open GPL file"

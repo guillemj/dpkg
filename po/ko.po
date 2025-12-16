@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-05-19 00:00+0200\n"
+"POT-Creation-Date: 2025-12-16 21:20+0000\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -427,7 +427,7 @@ msgstr ""
 #: lib/dpkg/db-ctrl-upgrade.c
 #, fuzzy, c-format
 #| msgid "conffile `%s' does not appear in package"
-msgid "info file %s/%s not associated to any package"
+msgid "metadata file %s/%s not associated to any package"
 msgstr "`%s' 설정 파일이 패키지 안에 없습니다"
 
 #: lib/dpkg/db-ctrl-upgrade.c src/main/archives.c
@@ -474,8 +474,7 @@ msgstr "설정 파일 디렉터리 `%s' 디렉터리를 읽을 수 없습니다 
 #: lib/dpkg/db-fsys-divert.c
 #, c-format
 msgid "conflicting diversions involving '%s' or '%s'"
-msgstr ""
-"전환 파일과 관련해 발생한 충돌이 `%s' 혹은 `%s'에 관련되었습니다"
+msgstr "전환 파일과 관련해 발생한 충돌이 `%s' 혹은 `%s'에 관련되었습니다"
 
 #: lib/dpkg/db-fsys-files.c
 #, c-format
@@ -496,14 +495,14 @@ msgstr "`%s' 패키지의 파일 목록 파일을 닫는데 오류가 발생했�
 #: lib/dpkg/db-fsys-files.c
 #, fuzzy, c-format
 #| msgid ""
-#| "files list file for package `%s' missing, assuming package has no "
-#| "files currently installed."
+#| "files list file for package `%s' missing, assuming package has no files "
+#| "currently installed."
 msgid ""
 "files list file for package '%s' missing; assuming package has no files "
 "currently installed"
 msgstr ""
-"`%s' 패키지의 파일 목록 파일이 없습니다, 패키지에 설치된 파일이 하나도 없"
-"다고 가정합니다."
+"`%s' 패키지의 파일 목록 파일이 없습니다, 패키지에 설치된 파일이 하나도 없다"
+"고 가정합니다."
 
 #: lib/dpkg/db-fsys-files.c
 msgid "(Reading database ... "
@@ -595,8 +594,8 @@ msgid ""
 "updates directory contains file '%s' whose name is too long (length=%d, "
 "max=%d)"
 msgstr ""
-"업데이트 디렉터리에 들어 있는 `%s' 파일의 이름이 너무 깁니다 (길이=%d, 최"
-"대값=%d)"
+"업데이트 디렉터리에 들어 있는 `%s' 파일의 이름이 너무 깁니다 (길이=%d, 최대값"
+"=%d)"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -787,7 +786,7 @@ msgid "unable to open file '%s'"
 msgstr "'%s' 파일을 열 수 없습니다"
 
 #: lib/dpkg/dir.c src/deb/build.c src/split/join.c src/split/queue.c
-#: src/divert/main.c utils/update-alternatives.c
+#: src/divert/main.c src/main/archives.c utils/update-alternatives.c
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "'%s' 파일을 동기화할 수 없습니다"
@@ -1034,8 +1033,7 @@ msgstr ""
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "'%s' field, reference to '%s': error in version"
-msgid ""
-"'%s' field, reference to '%s': invalid architecture name '%s': %s"
+msgid "'%s' field, reference to '%s': invalid architecture name '%s': %s"
 msgstr "'%s' 필드, '%s' 참조: 버전에 오류가 있습니다"
 
 #: lib/dpkg/fields.c
@@ -1088,8 +1086,7 @@ msgstr "`%s' 필드, `%s' 참조: 버전이 끝나지 않았습니다"
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "'%s' field, reference to '%s': version contains '%c'"
-msgid ""
-"'%s' field, reference to '%s': version contains '%c' instead of '%c'"
+msgid "'%s' field, reference to '%s': version contains '%c' instead of '%c'"
 msgstr "`%s' 필드, `%s' 참조: 버전에 `%c'(이)가 들어 있습니다"
 
 #: lib/dpkg/fields.c
@@ -1110,8 +1107,9 @@ msgid "alternatives ('|') not allowed in '%s' field"
 msgstr "%s 필드에는 대신할 패키지 표시를 (`|') 쓸 수 없습니다"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "illegal pending trigger name '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal pending trigger name '%s': %s"
+msgid "invalid pending trigger name '%s': %s"
 msgstr "밀린 트리거 이름(`%s')이 잘못되었습니다: %s"
 
 #: lib/dpkg/fields.c
@@ -1120,8 +1118,9 @@ msgid "duplicate pending trigger '%s'"
 msgstr "밀린 트리거 중복 `%s'"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "illegal package name in awaited trigger '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal package name in awaited trigger '%s': %s"
+msgid "invalid package name in awaited trigger '%s': %s"
 msgstr "대기 트리거 `%s'에서 사용할 수 없는 패키지 이름이 나왔습니다: %s"
 
 #: lib/dpkg/fields.c
@@ -1303,8 +1302,8 @@ msgstr "%s 파일의 \"실행할 때 닫기\" 플래그를 설정할 수 없습�
 #| msgid "--ignore-depends requires a legal package name. `%s' is not; %s"
 msgid "--%s needs a valid package name but '%s' is not: %s"
 msgstr ""
-"--ignore-depends 옵션에는 올바른 패키지 이름이 필요합니다. `%s' 패키지는 "
-"올바르지 않습니다: %s"
+"--ignore-depends 옵션에는 올바른 패키지 이름이 필요합니다. `%s' 패키지는 올바"
+"르지 않습니다: %s"
 
 #: lib/dpkg/options.c
 #, c-format
@@ -1499,30 +1498,33 @@ msgid ""
 msgstr ""
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "failed to open package info file '%s' for reading"
+#, fuzzy, c-format
+#| msgid "failed to open package info file '%s' for reading"
+msgid "failed to open package control file '%s' for reading"
 msgstr "읽기 작업을 위해 패키지 정보 파일 `%s' 파일을 여는데 실패했습니다"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot stat package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot stat package info file '%s'"
+msgid "cannot stat package control file '%s'"
 msgstr "패키지 정보 파일 `%s'의 파일 정보를 읽을 수 없습니다"
 
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "cannot stat package info file `%s'"
-msgid "reading package info file '%s': %s"
+msgid "reading package control file '%s': %s"
 msgstr "패키지 정보 파일 `%s'의 파일 정보를 읽을 수 없습니다"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot mmap package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot mmap package info file '%s'"
+msgid "cannot mmap package control file '%s'"
 msgstr "패키지 정보 파일 `%s'에 mmap할 수 없습니다"
 
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "cannot stat package info file `%s'"
-msgid "reading package info file '%s'"
+msgid "reading package control file '%s'"
 msgstr "패키지 정보 파일 `%s'의 파일 정보를 읽을 수 없습니다"
 
 #: lib/dpkg/parse.c
@@ -1548,7 +1550,7 @@ msgstr "필드 이름 `%.*s'에 줄바꿈 문자가 있습니다"
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF (^Z) in field name `%.*s'"
-msgid "MSDOS end of file (^Z) in field name '%.*s'"
+msgid "MSDOS end of file (Ctrl+Z) in field name '%.*s'"
 msgstr "필드 이름 `%.*s'에 MSDOS 방식 EOF(^Z)가 있습니다"
 
 #: lib/dpkg/parse.c
@@ -1565,7 +1567,7 @@ msgstr "필드 값 `%.*s' 앞에 파일이 끝났습니다 (끝에 줄바꿈 빠
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
-msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
+msgid "MSDOS end of file (Ctrl+Z) in value of field '%.*s' (missing newline?)"
 msgstr "필드 값 `%.*s'에 MSDOS 방식 EOF 문자가 있습니다 (줄바꿈 빠짐?)"
 
 #: lib/dpkg/parse.c
@@ -1689,7 +1691,7 @@ msgstr "버전 번호에서 쓸 수 없는 문자가 있습니다"
 msgid "invalid character in revision number"
 msgstr "리비전 번호에서 쓸 수 없는 문자가 있습니다"
 
-#: lib/dpkg/path-remove.c
+#: lib/dpkg/path-remove.c src/main/remove.c
 #, c-format
 msgid "unable to securely remove '%s'"
 msgstr "'%s'을(를) 안전하게 제거할 수 없습니다"
@@ -1735,17 +1737,18 @@ msgstr "버전 '%s'의 형식이 잘못되었습니다: %s"
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
 #| msgid "illegal package name in awaited trigger `%s': %s"
-msgid "illegal package name in specifier '%s%s%s': %s"
+msgid "invalid package name in specifier '%s%s%s': %s"
 msgstr "대기 트리거 `%s'에서 사용할 수 없는 패키지 이름이 나왔습니다: %s"
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
 #| msgid "illegal package name in awaited trigger `%s': %s"
-msgid "illegal architecture name in specifier '%s:%s': %s"
+msgid "invalid architecture name in specifier '%s:%s': %s"
 msgstr "대기 트리거 `%s'에서 사용할 수 없는 패키지 이름이 나왔습니다: %s"
 
 #. TRANSLATORS: This is part of the progress output, it is a decimal
-#. * percentage.
+#. percentage.
+#.
 #: lib/dpkg/progress.c
 #, c-format
 msgid "%d%%"
@@ -1795,9 +1798,9 @@ msgstr "fork가 실패했습니다"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
-#| msgid "subprocess %s returned error exit status %d"
-msgid "%s subprocess returned error exit status %d"
-msgstr "%s 하위 프로세스가 오류 %d번을 리턴했습니다"
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with exit status %d"
+msgstr "하위 프로세스 %s이(가) 지연 상태 코드 %d을(를) 갖고 실패"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
@@ -1946,8 +1949,7 @@ msgstr "트리거 전환 파일의 (`%s') `%s' 문자에 문법 오류가 있습
 #: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "invalid package name '%s' in triggers deferred file '%s'"
-msgstr ""
-"패키지 이름이 (`%s') 잘못되었습니다 (`%s' 트리거 전환 파일에서)"
+msgstr "패키지 이름이 (`%s') 잘못되었습니다 (`%s' 트리거 전환 파일에서)"
 
 #: lib/dpkg/trigdeferred.c
 #, c-format
@@ -1975,8 +1977,8 @@ msgid ""
 "invalid or unknown syntax in trigger name '%s' (in trigger interests for "
 "package '%s')"
 msgstr ""
-"트리거 이름 `%s'에서 문법이 잘못되었거나 알 수 없습니다 (`%s' 패키지"
-"의 트리거 관심 파일에서)"
+"트리거 이름 `%s'에서 문법이 잘못되었거나 알 수 없습니다 (`%s' 패키지의 트리"
+"거 관심 파일에서)"
 
 #: lib/dpkg/triglib.c
 #, c-format
@@ -1989,21 +1991,18 @@ msgid "failed to rewind trigger interest file '%s'"
 msgstr "트리거 관심 파일을 (`%s') 되돌리는데 실패했습니다"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid ""
-"trigger interest file '%s' syntax error; illegal package name '%s': "
-"%s"
+#, fuzzy, c-format
+#| msgid ""
+#| "trigger interest file '%s' syntax error; illegal package name '%s': %s"
+msgid "trigger interest file '%s' syntax error; invalid package name '%s': %s"
 msgstr ""
-"트리거 관심 파일에 (`%s') 문법 오류가 있습니다. 잘못된 패키지 이름 "
-"(`%s'): %s"
+"트리거 관심 파일에 (`%s') 문법 오류가 있습니다. 잘못된 패키지 이름 (`%s'): %s"
 
 #: lib/dpkg/triglib.c
 #, c-format
-msgid ""
-"duplicate file trigger interest for filename '%s' and package '%s'"
+msgid "duplicate file trigger interest for filename '%s' and package '%s'"
 msgstr ""
-"`%s' 파일 이름 및 `%s' 패키지에 대한 파일 트리거 관심 파일이 중복되었"
-"습니다"
+"`%s' 파일 이름 및 `%s' 패키지에 대한 파일 트리거 관심 파일이 중복되었습니다"
 
 #: lib/dpkg/triglib.c
 #, c-format
@@ -2016,35 +2015,44 @@ msgid "syntax error in file triggers file '%s'"
 msgstr "새 파일 트리거 파일에 (`%s') 문법 오류가 있습니다"
 
 #: lib/dpkg/triglib.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "file triggers record mentions illegal package name '%s' (for interest in "
+#| "file '%s'): %s"
 msgid ""
-"file triggers record mentions illegal package name '%s' (for interest in "
+"file triggers record mentions invalid package name '%s' (for interest in "
 "file '%s'): %s"
 msgstr ""
-"파일 트리거 기록의 패키지 이름이 (`%s') 잘못되었습니다 (`%s' 파일 관"
-"심에서): %s"
+"파일 트리거 기록의 패키지 이름이 (`%s') 잘못되었습니다 (`%s' 파일 관심에서): "
+"%s"
 
 #: lib/dpkg/triglib.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "triggers ci file '%s' contains illegal trigger syntax in trigger name "
+#| "'%s': %s"
 msgid ""
-"triggers ci file '%s' contains illegal trigger syntax in trigger name "
-"'%s': %s"
+"triggers package metadata file '%s' contains invalid trigger syntax in "
+"trigger name '%s': %s"
 msgstr ""
-"트리거 ci 파일에 (`%s') 트리거 문법이 잘못되었습니다 (트리거 이름 "
-"`%s'): %s"
+"트리거 ci 파일에 (`%s') 트리거 문법이 잘못되었습니다 (트리거 이름 `%s'): %s"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to open triggers ci file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to open triggers ci file '%s'"
+msgid "unable to open triggers package metadata file '%s'"
 msgstr "트리거 ci 파일을 (`%s') 열 수 없습니다"
 
 #: lib/dpkg/triglib.c
-msgid "triggers ci file contains unknown directive syntax"
+#, fuzzy, c-format
+#| msgid "triggers ci file contains unknown directive syntax"
+msgid "triggers package metadata file '%s' contains unknown directive syntax"
 msgstr "트리거 ci 파일에 알 수 없는 지시어 문법이 들어 있습니다"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid "triggers ci file contains unknown directive '%s'"
+#, fuzzy, c-format
+#| msgid "triggers ci file contains unknown directive '%s'"
+msgid "triggers package metadata file '%s' contains unknown directive '%s'"
 msgstr "트리거 ci 파일에 알 수 없는 지시어가 (`%s') 들어 있습니다"
 
 #: lib/dpkg/triglib.c
@@ -2332,7 +2340,7 @@ msgstr ""
 msgid "cannot read link '%s'"
 msgstr "%s에 쓸 수 없습니다: %s"
 
-#: src/realpath/main.c
+#: src/realpath/main.c src/main/archives.c src/main/configure.c
 #, c-format
 msgid "symbolic link '%s' size has changed from %jd to %zd"
 msgstr ""
@@ -2395,11 +2403,10 @@ msgstr "관리자 스크립트 `%s'은(는) 일반 파일이 아니거나 심볼
 #: src/deb/build.c
 #, c-format
 msgid ""
-"maintainer script '%s' has bad permissions %03lo (must be >=0555 and "
-"<=0775)"
+"maintainer script '%s' has bad permissions %03lo (must be >=0555 and <=0775)"
 msgstr ""
-"관리자 스크립트 `%s'의 권한이 잘못되었습니다 : %03lo (>=0555 및 <=0775이어"
-"야 합니다)"
+"관리자 스크립트 `%s'의 권한이 잘못되었습니다 : %03lo (>=0555 및 <=0775이어야 "
+"합니다)"
 
 #: src/deb/build.c
 #, c-format
@@ -2654,8 +2661,8 @@ msgstr "`%s' 파일이 손상되었습니다 - 구성 요소 번호가 잘못되
 #| msgid "file '%s' is not a debian binary archive (try dpkg-split?)"
 msgid "file '%s' is not a Debian binary archive (try dpkg-split?)"
 msgstr ""
-"`%s' 파일은 데비안 바이너리 아카이브가 아닙니다 (dpkg-split을 시도해 보십"
-"시오?)"
+"`%s' 파일은 데비안 바이너리 아카이브가 아닙니다 (dpkg-split을 시도해 보십시"
+"오?)"
 
 #: src/deb/extract.c
 #, fuzzy
@@ -2678,8 +2685,7 @@ msgstr "아카이브의 버전 번호에 점이 없습니다"
 #| msgid "archive version %s not understood, get newer dpkg-deb"
 msgid "archive is format version %d.%d; get a newer dpkg-deb"
 msgstr ""
-"아카이브의 %s 버전 형식을 알지 못합니다. 더 최신의 dpkg-deb을 이용하십시"
-"오"
+"아카이브의 %s 버전 형식을 알지 못합니다. 더 최신의 dpkg-deb을 이용하십시오"
 
 #: src/deb/extract.c
 #, fuzzy, c-format
@@ -2691,8 +2697,7 @@ msgstr "%s에서 멤버 데이터를 건너 뜁니다"
 #, fuzzy, c-format
 #| msgid "file `%s' contains ununderstood data member %.*s, giving up"
 msgid "archive '%s' uses unknown compression for member '%.*s', giving up"
-msgstr ""
-"`%s' 파일에 이해할 수 없는 데이터 멤버(%.*s)가 있습니다. 포기합니다"
+msgstr "`%s' 파일에 이해할 수 없는 데이터 멤버(%.*s)가 있습니다. 포기합니다"
 
 #: src/deb/extract.c
 #, fuzzy, c-format
@@ -2704,8 +2709,7 @@ msgstr "`%s' 파일에 두 개의 컨트롤 멤버가 있습니다. 포기합니
 #, fuzzy, c-format
 #| msgid "file `%s' contains ununderstood data member %.*s, giving up"
 msgid "archive '%s' has premature member '%.*s' before '%s', giving up"
-msgstr ""
-"`%s' 파일에 이해할 수 없는 데이터 멤버(%.*s)가 있습니다. 포기합니다"
+msgstr "`%s' 파일에 이해할 수 없는 데이터 멤버(%.*s)가 있습니다. 포기합니다"
 
 #: src/deb/extract.c
 #, fuzzy, c-format
@@ -2841,6 +2845,11 @@ msgstr ""
 msgid "--%s does not support (yet) reading the .deb from standard input"
 msgstr ""
 
+#: src/deb/info.c src/statoverride/main.c src/main/archives.c
+#, c-format
+msgid "error setting permissions of '%s'"
+msgstr "`%s'의 권한을 설정하는데 오류가 발생했습니다"
+
 #: src/deb/info.c src/main/unpack.c
 msgid "unable to create temporary directory"
 msgstr "임시 디렉터리를 만들 수 없습니다"
@@ -2959,11 +2968,11 @@ msgid ""
 "  -I|--info <deb> [<cfile>...]     Show info to stdout.\n"
 "  -W|--show <deb>                  Show information on package(s)\n"
 "  -f|--field <deb> [<cfield>...]   Show field(s) to stdout.\n"
-"  -e|--control <deb> [<directory>] Extract control info.\n"
-"  -x|--extract <deb> <directory>   Extract files.\n"
-"  -X|--vextract <deb> <directory>  Extract & list files.\n"
+"  -e|--control <deb> [<directory>] Extract metadata files.\n"
+"  -x|--extract <deb> <directory>   Extract filesystem files.\n"
+"  -X|--vextract <deb> <directory>  Extract and list filesystem files.\n"
 "  -R|--raw-extract <deb> <directory>\n"
-"                                   Extract control info and files.\n"
+"                                   Extract metadata and filesystem files.\n"
 "  --ctrl-tarfile <deb>             Output control tarfile.\n"
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
@@ -3200,10 +3209,21 @@ msgid "error reading %s"
 msgstr "%s 파일을 읽는데 오류가 발생했습니다"
 
 #: src/split/info.c
+#, fuzzy
+#| msgid "archive has no newlines in header"
+msgid "ar header"
+msgstr "아카이브의 헤더에 줄바꿈이 없습니다"
+
+#: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - bad magic at end of first header"
-msgstr ""
-"`%s' 파일이 손상되었습니다 - 첫번째 헤더의 끝에 버전 번호가 틀렸습니다"
+msgstr "`%s' 파일이 손상되었습니다 - 첫번째 헤더의 끝에 버전 번호가 틀렸습니다"
+
+#: src/split/info.c
+#, fuzzy
+#| msgid "archive has no dot in version number"
+msgid "reading header member"
+msgstr "아카이브의 버전 번호에 점이 없습니다"
 
 #: src/split/info.c
 #, c-format
@@ -3227,12 +3247,9 @@ msgstr " %s 패키지는 설치되었지만, 버전이 %s입니다.\n"
 
 #: src/split/info.c
 #, fuzzy, c-format
-#| msgid ""
-#| "file `%s' is format version `%s' - you need a newer dpkg-split"
+#| msgid "file `%s' is format version `%s' - you need a newer dpkg-split"
 msgid "file '%s' is format version %d.%d; get a newer dpkg-split"
-msgstr ""
-"`%s' 파일의 포맷 버전이 '%s'입니다 - 더 최신의 dpkg-split이 필요합니"
-"다"
+msgstr "`%s' 파일의 포맷 버전이 '%s'입니다 - 더 최신의 dpkg-split이 필요합니다"
 
 #: src/split/info.c
 msgid "package name"
@@ -3271,8 +3288,7 @@ msgstr "부분 번호"
 #, fuzzy, c-format
 #| msgid "file `%s' is corrupt - no slash between part numbers"
 msgid "file '%s' is corrupt - no slash between archive part numbers"
-msgstr ""
-"`%s' 파일이 손상되었습니다 - 구성 요소 번호 사이에 슬래시가 없습니다"
+msgstr "`%s' 파일이 손상되었습니다 - 구성 요소 번호 사이에 슬래시가 없습니다"
 
 #: src/split/info.c
 #, fuzzy
@@ -3305,10 +3321,13 @@ msgid "package architecture"
 msgstr "패키지 이름"
 
 #: src/split/info.c
+msgid "reading data part member ar header"
+msgstr ""
+
+#: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - bad magic at end of second header"
-msgstr ""
-"`%s' 파일이 손상되었습니다 - 두 번째 헤더의 끝에 매직이 잘못되었습니다"
+msgstr "`%s' 파일이 손상되었습니다 - 두 번째 헤더의 끝에 매직이 잘못되었습니다"
 
 #: src/split/info.c
 #, c-format
@@ -3319,8 +3338,7 @@ msgstr "`%s' 파일이 손상되었습니다 - 두 번째 멤버가 데이터 �
 #, c-format
 msgid "file '%s' is corrupt - wrong number of parts for quoted sizes"
 msgstr ""
-"`%s' 파일이 손상되었습니다 - 지정한 크기에 대해 구성 요소 개수가 틀렸습니"
-"다"
+"`%s' 파일이 손상되었습니다 - 지정한 크기에 대해 구성 요소 개수가 틀렸습니다"
 
 #: src/split/info.c
 #, c-format
@@ -3507,7 +3525,6 @@ msgid ""
 "  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
 "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
-"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "옵션:\n"
@@ -3810,7 +3827,7 @@ msgstr ""
 #: src/divert/main.c
 msgid ""
 "please specify --no-rename explicitly, the default will change to --rename "
-"in 1.20.x"
+"not before 1.23.x"
 msgstr ""
 
 #: src/divert/main.c utils/update-alternatives.c
@@ -4075,11 +4092,6 @@ msgstr "'%s' 파일의 정보를 읽을 수 없습니다"
 msgid "error setting ownership of '%s'"
 msgstr "`%s'의 소유권을 설정하는데 오류가 발생했습니다"
 
-#: src/statoverride/main.c src/main/archives.c
-#, c-format
-msgid "error setting permissions of '%s'"
-msgstr "`%s'의 권한을 설정하는데 오류가 발생했습니다"
-
 #: src/statoverride/main.c
 #, fuzzy, c-format
 #| msgid "--add needs four arguments"
@@ -4219,7 +4231,7 @@ msgstr "한 개의 인자를 받습니다 (트리거 이름)"
 #: src/trigger/main.c
 #, fuzzy, c-format
 #| msgid "dpkg-trigger: illegal awaited package name `%s': %s"
-msgid "illegal awaited package name '%s': %s"
+msgid "invalid awaited package name '%s': %s"
 msgstr "dpkg-trigger: 대기중인 패키지 이름이 (`%s') 잘못되었습니다: %s"
 
 #: src/trigger/main.c
@@ -4246,23 +4258,36 @@ msgid "no packages found matching %s"
 msgstr "%s에 맞는 패키지가 없습니다.\n"
 
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
-#. * string should remain under 80 characters. The uppercase letters in
-#. * the state values denote the abbreviated letter that will appear on
-#. * the first three columns, which should ideally match the English one
-#. * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
-#. * translated message can use additional lines if needed.
+#. string should remain under 80 characters. The uppercase letters in
+#. the state values denote the abbreviated letter that will appear on
+#. the first three columns, which should ideally match the English one
+#. (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
+#. translated message can use additional lines if needed. The ASCII art
+#. can use Unicode box characters.
+#.
 #: src/query/main.c
+#, fuzzy
+#| msgid ""
+#| "Desired=Unknown/Install/Remove/Purge/Hold\n"
+#| "| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
+#| "pend\n"
+#| "|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgid ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
+"+-- Desired=Unknown/Install/Remove/Purge/Hold\n"
+"|+- Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
 "pend\n"
-"|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
+"||+ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
 "희망상태=알수없음(U)/설치(I)/지우기(R)/깨끗이(P)/고정(H)\n"
 "| 상태=아님(N)/설치(I)/설정(C)/풀림(U)/절반설정(F)/일부설치(H)/트리거대기"
 "(W)/\n"
 "| /    트리거밀림(T)\n"
 "|/ 오류?=(없음)/다시설치필요(R) (상태, 오류가 대문자=불량)\n"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "|"
+msgstr ""
 
 #: src/query/main.c
 msgid "Name"
@@ -4281,6 +4306,21 @@ msgstr "패키지 이름"
 #: src/query/main.c
 msgid "Description"
 msgstr "설명"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "+++-"
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "="
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "-"
+msgstr ""
 
 #: src/query/main.c
 #, fuzzy
@@ -4553,11 +4593,9 @@ msgstr "`%s' 링크를 읽을 수 없습니다"
 #, fuzzy, c-format
 #| msgid "trying to overwrite '%s', which is also in package %s %s"
 msgid ""
-"trying to overwrite shared '%s', which is different from other instances "
-"of package %s"
-msgstr ""
-"'%s'의 덮어쓰기를 시도합니다. 이 파일은 %s %s 패키지에도 들어있습"
-"니다"
+"trying to overwrite shared '%s', which is different from other instances of "
+"package %s"
+msgstr "'%s'의 덮어쓰기를 시도합니다. 이 파일은 %s %s 패키지에도 들어있습니다"
 
 #: src/main/archives.c
 #, c-format
@@ -4567,8 +4605,8 @@ msgstr "심볼릭 링크 `%s'에 stat을 실행할 수 없습니다(참조하지
 #: src/main/archives.c
 #, c-format
 msgid ""
-"failed to stat (dereference) proposed new symlink target '%s' for "
-"symlink '%s'"
+"failed to stat (dereference) proposed new symlink target '%s' for symlink "
+"'%s'"
 msgstr ""
 "`%2$.250s' 심볼릭 링크의 새 목적지 `%1$.250s'에 stat을 실행할 수 없습니다(참"
 "조하지 못했습니다)"
@@ -4588,11 +4626,10 @@ msgstr "`%s' 설정 파일이 패키지 안에 없습니다"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"trying to overwrite '%s', which is the diverted version of '%s' "
-"(package: %s)"
+"trying to overwrite '%s', which is the diverted version of '%s' (package: %s)"
 msgstr ""
-"`%s' 덮어쓰기를 시도합니다. 이 버전은 `%s'의 전환된 버전입니다(해당 "
-"패키지: %s)"
+"`%s' 덮어쓰기를 시도합니다. 이 버전은 `%s'의 전환된 버전입니다(해당 패키지: "
+"%s)"
 
 #: src/main/archives.c
 #, c-format
@@ -4608,16 +4645,14 @@ msgstr "`%s' 파일의 정보를 읽을 수 없습니다 (지금 설치하려는
 #: src/main/archives.c
 #, c-format
 msgid ""
-"unable to clean up mess surrounding '%s' before installing another "
-"version"
+"unable to clean up mess surrounding '%s' before installing another version"
 msgstr ""
 "다른 버전을 설치하기에 앞서 `%s' 관련 필요없는 파일들을 지울 수 없습니다"
 
 #: src/main/archives.c
 #, c-format
 msgid "unable to stat restored '%s' before installing another version"
-msgstr ""
-"다른 버전을 설치하기에 앞서 복구한 `%s' 파일 정보를 읽을 수 없습니다"
+msgstr "다른 버전을 설치하기에 앞서 복구한 `%s' 파일 정보를 읽을 수 없습니다"
 
 #: src/main/archives.c
 #, c-format
@@ -4639,11 +4674,8 @@ msgstr "설치된 패키지 %s의 파일들로 대체합니다...\n"
 #: src/main/archives.c
 #, fuzzy, c-format
 #| msgid ""
-#| "trying to overwrite directory '%s' in package %s %s with "
-#| "nondirectory"
-msgid ""
-"trying to overwrite directory '%s' in package %s (%s) with "
-"nondirectory"
+#| "trying to overwrite directory '%s' in package %s %s with nondirectory"
+msgid "trying to overwrite directory '%s' in package %s (%s) with nondirectory"
 msgstr ""
 "디렉터리가 없는 %2$.250s %3$s.250s 패키지의 '%1$.250s' 디렉터리 덮어쓰기를 시"
 "도합니다"
@@ -4652,9 +4684,7 @@ msgstr ""
 #, fuzzy, c-format
 #| msgid "trying to overwrite '%s', which is also in package %s %s"
 msgid "trying to overwrite '%s', which is also in package %s (%s)"
-msgstr ""
-"'%s'의 덮어쓰기를 시도합니다. 이 파일은 %s %s 패키지에도 들어있습"
-"니다"
+msgstr "'%s'의 덮어쓰기를 시도합니다. 이 파일은 %s %s 패키지에도 들어있습니다"
 
 #: src/main/archives.c
 #, c-format
@@ -4940,17 +4970,16 @@ msgstr "%s 패키지를 %s 버전에서 %s 버전으로 다운그레이드."
 #| msgid "Will not downgrade %s from version %s to %s, skipping.\n"
 msgid "will not downgrade %s (%s) to (%s), skipping"
 msgstr ""
-"%s 패키지를 %s 버전에서 %s 버전으로 다운그레이드하지 않습니다.  "
-"건너 뜁니다.\n"
+"%s 패키지를 %s 버전에서 %s 버전으로 다운그레이드하지 않습니다.  건너 뜁니"
+"다.\n"
 
 #: src/main/cleanup.c
 #, c-format
 msgid ""
-"unable to remove newly-installed version of '%s' to allow reinstallation "
-"of backup copy"
+"unable to remove newly-installed version of '%s' to allow reinstallation of "
+"backup copy"
 msgstr ""
-"백업 복사본을 다시 설치하기 위해 `%s'의 새로 설치된 버전을 지울 수 없습니"
-"다."
+"백업 복사본을 다시 설치하기 위해 `%s'의 새로 설치된 버전을 지울 수 없습니다."
 
 #: src/main/cleanup.c
 #, c-format
@@ -5321,8 +5350,7 @@ msgstr ""
 #: src/main/configure.c
 #, c-format
 msgid "%s: conffile '%s' is not a plain file or symlink (= '%s')"
-msgstr ""
-"%s: 설정 파일 '%s'은(는) (= '%s') 일반 파일이나 심볼릭 링크가 아닙니다"
+msgstr "%s: 설정 파일 '%s'은(는) (= '%s') 일반 파일이나 심볼릭 링크가 아닙니다"
 
 #: src/main/configure.c
 #, fuzzy, c-format
@@ -5522,7 +5550,7 @@ msgid "The following packages do not have an architecture:\n"
 msgstr ""
 
 #: src/main/enquiry.c
-msgid "The following packages have an illegal architecture:\n"
+msgid "The following packages have an invalid architecture:\n"
 msgstr ""
 
 #: src/main/enquiry.c
@@ -5877,7 +5905,6 @@ msgid ""
 "  --update-avail [<Packages-file>] Replace available packages info.\n"
 "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
 "  --clear-avail                    Erase existing available info.\n"
-"  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
 "  -s|--status [<package>...]       Display package status details.\n"
 "  -p|--print-avail [<package>...]  Display available version details.\n"
 "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
@@ -6217,8 +6244,7 @@ msgstr "알 수 없는 옵션 '%s'"
 #| msgid "null package name in --ignore-depends comma-separated list `%s'"
 msgid "null package name in --%s comma-separated list '%s'"
 msgstr ""
-"--ignore-depends 옵션의 (쉼표로 구분한) 목록에 (`%s') 패키지 이름이 없습"
-"니다"
+"--ignore-depends 옵션의 (쉼표로 구분한) 목록에 (`%s') 패키지 이름이 없습니다"
 
 #: src/main/main.c
 #, c-format
@@ -6232,9 +6258,10 @@ msgid "status logger"
 msgstr "상태"
 
 #: src/main/main.c
-#, c-format
-msgid "architecture '%s' is illegal: %s"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "trigger name contains invalid character"
+msgid "architecture '%s' is invalid: %s"
+msgstr "트리거 이름에 쓸 수 없는 문자가 들어 있습니다"
 
 #: src/main/main.c
 #, c-format
@@ -6258,8 +6285,9 @@ msgstr ""
 
 # fdopen() 실패 상황
 #: src/main/main.c
-#, c-format
-msgid "couldn't open '%i' for stream"
+#, fuzzy, c-format
+#| msgid "couldn't open '%i' for stream"
+msgid "cannot open '%i' for stream"
 msgstr "`%i' 파일디스크립터를 스트림으로 열 수 없습니다"
 
 #: src/main/main.c
@@ -6482,26 +6510,26 @@ msgid "Removing %s (%s) ...\n"
 msgstr "%s 패키지를 지우는 중입니다 ...\n"
 
 #: src/main/remove.c src/main/unpack.c
-#, c-format
-msgid "unable to delete control info file '%s'"
-msgstr "컨트롤 정보 파일 `%s' 파일을 지울 수 없습니다"
+#, fuzzy, c-format
+#| msgid "unable to delete used-up depot file '%s'"
+msgid "unable to delete package metadata file '%s'"
+msgstr "다 사용한 저장 파일 `%s'을(를) 지울 수 없습니다"
 
 #: src/main/remove.c
 #, c-format
 msgid ""
-"while removing %s, unable to remove directory '%s': %s - directory "
-"may be a mount point?"
+"while removing %s, unable to remove directory '%s': %s - directory may be a "
+"mount point?"
 msgstr ""
-"%s 패키지를 지우는 데, '%s' 디렉터리를 지울 수 없습니다: %s - 디렉터"
-"리가 마운트 포인트입니까?"
+"%s 패키지를 지우는 데, '%s' 디렉터리를 지울 수 없습니다: %s - 디렉터리가 마운"
+"트 포인트입니까?"
 
 #: src/main/remove.c
 #, fuzzy, c-format
 #| msgid "while removing %s, directory '%s' not empty so not removed."
 msgid "while removing %s, directory '%s' not empty so not removed"
 msgstr ""
-"%s 패키지를 지우는 중, '%s' 디렉터리는 비어있지 않아서 지우지 않습니"
-"다."
+"%s 패키지를 지우는 중, '%s' 디렉터리는 비어있지 않아서 지우지 않습니다."
 
 #: src/main/remove.c
 #, fuzzy, c-format
@@ -6523,8 +6551,7 @@ msgstr "설정 파일 디렉터리 `%s' 디렉터리를 읽을 수 없습니다 
 #: src/main/remove.c
 #, c-format
 msgid "cannot remove old backup config file '%s' (of '%s')"
-msgstr ""
-"오래된 백업 설정 파일 `%s' 파일을 지울 수 없습니다 (`%s'의 백업)"
+msgstr "오래된 백업 설정 파일 `%s' 파일을 지울 수 없습니다 (`%s'의 백업)"
 
 #: src/main/remove.c
 msgid "cannot remove old files list"
@@ -6566,9 +6593,9 @@ msgstr "메인테이너 스크립트에서 환경 변수를 설정할 수 없습
 
 #: src/main/script.c
 #, fuzzy, c-format
-#| msgid "installed %s script"
-msgid "installed %s package %s script"
-msgstr "설치한 %s 스크립트"
+#| msgid "old %s script"
+msgid "old %s package %s maintainer script"
+msgstr "과거의 %s 스크립트"
 
 # FIXME: bad msgid
 #: src/main/script.c
@@ -6579,14 +6606,8 @@ msgstr "%s `%s'의 정보를 읽을 수 없습니다"
 #: src/main/script.c
 #, fuzzy, c-format
 #| msgid "new %s script"
-msgid "new %s package %s script"
+msgid "new %s package %s maintainer script"
 msgstr "새로운 %s 스크립트"
-
-#: src/main/script.c
-#, fuzzy, c-format
-#| msgid "old %s script"
-msgid "old %s package %s script"
-msgstr "과거의 %s 스크립트"
 
 #: src/main/script.c
 #, c-format
@@ -6594,13 +6615,15 @@ msgid "unable to stat %s '%s': %s"
 msgstr "%s '%s'의 정보를 읽을 수 없습니다: %s"
 
 #: src/main/script.c
-#, fuzzy
+#, fuzzy, c-format
 #| msgid "dpkg - trying script from the new package instead ...\n"
-msgid "trying script from the new package instead ..."
+msgid "trying %s maintainer script from the new %s package instead ..."
 msgstr "dpkg - 대신에 새 패키지의 스크립트를 시도합니다 ...\n"
 
 #: src/main/script.c
-msgid "there is no script in the new version of the package - giving up"
+#, fuzzy, c-format
+#| msgid "there is no script in the new version of the package - giving up"
+msgid "missing %s maintainer script in new %s package, giving up"
 msgstr "패키지 새 버전에 스크립트가 없습니다 - 포기합니다"
 
 #: src/main/script.c
@@ -6637,8 +6660,9 @@ msgid "unexpected data after package and selection at line %d"
 msgstr "%d번째 줄에 있는 패키지와 선택 후 예상치 못한 데이터가 나왔습니다"
 
 #: src/main/select.c
-#, c-format
-msgid "illegal package name at line %d: %s"
+#, fuzzy, c-format
+#| msgid "illegal package name at line %d: %s"
+msgid "invalid package name at line %d: %s"
 msgstr "%d번째 줄에 사용할 수 없는 패키지 이름이 나왔습니다: %s"
 
 #: src/main/select.c
@@ -6724,6 +6748,11 @@ msgstr ""
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "%s에 대한 트리거를 처리하는 중입니다 ...\n"
 
+#. TRANSLATORS: This string represents a summarized pathname,
+#. were prefix directories get abbreviated with ".../", if the
+#. total length exceeds a limit. The three dots would usually
+#. be represented by «…/».
+#.
 #: src/main/unpack.c
 #, c-format
 msgid ".../%s"
@@ -6835,20 +6864,25 @@ msgid "error closing %s"
 msgstr "%s을(를) 닫기 오류가 발생했습니다"
 
 #: src/main/unpack.c
-#, c-format
-msgid "old version of package has overly-long info file name starting '%s'"
+#, fuzzy, c-format
+#| msgid "old version of package has overly-long info file name starting '%s'"
+msgid ""
+"old version of package has overly-long meatada file name (starting with "
+"'%.*s')"
 msgstr ""
-"패키지의 과거 버전에 들어 있는 정보 파일의 이름이 (`%s'(으)로 시작) 너무 "
-"깁니다."
+"패키지의 과거 버전에 들어 있는 정보 파일의 이름이 (`%s'(으)로 시작) 너무 깁니"
+"다."
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to remove obsolete info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to remove obsolete info file '%s'"
+msgid "unable to remove obsolete package metadata file '%s'"
 msgstr "과거 정보 파일 `%s' 파일을 지울 수 없습니다"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install (supposed) new info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install (supposed) new info file '%s'"
+msgid "unable to install (supposed) new package metadata file '%s'"
 msgstr "새 (예상) 정보 파일 `%s' 파일을 설치할 수 없습니다"
 
 #: src/main/unpack.c
@@ -6856,32 +6890,37 @@ msgid "unable to open temp control directory"
 msgstr "임시 컨트롤 디렉터리를 열 수 없습니다"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package contains overly-long control info file name (starting '%.50s')"
-msgstr ""
-"패키지에 들어 있는 정보 파일의 이름이 (`%s'(으)로 시작) 너무 깁니다."
+#, fuzzy, c-format
+#| msgid ""
+#| "package contains overly-long control info file name (starting '%.50s')"
+msgid "package has overly-long metadata file name (starting with '%.*s')"
+msgstr "패키지에 들어 있는 정보 파일의 이름이 (`%s'(으)로 시작) 너무 깁니다."
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info contained directory '%s'"
+#, fuzzy, c-format
+#| msgid "package control info contained directory '%s'"
+msgid "package metadata contained directory '%s'"
 msgstr "패키지 컨트롤 정보에 `%s' 디렉터리가 들어 있습니다"
 
 # FIXME: bad msgid -- jargon (NOTADIR)
 #: src/main/unpack.c
-#, c-format
-msgid "package control info rmdir of '%s' did not say not a dir"
+#, fuzzy, c-format
+#| msgid "package control info rmdir of '%s' did not say not a dir"
+msgid "package metadata rmdir of '%s' did not say not a dir"
 msgstr ""
-"패키지 컨트롤 정보 `%s'의 rmdir에서 디렉터리가 아니라는 결과가 나오지 않"
-"았습니다"
+"패키지 컨트롤 정보 `%s'의 rmdir에서 디렉터리가 아니라는 결과가 나오지 않았습"
+"니다"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package %s contained list as info file"
+#, fuzzy, c-format
+#| msgid "package %s contained list as info file"
+msgid "package %s contained '%s' as a metadata file"
 msgstr "%s 패키지는 정보 파일로 목록이 들어 있습니다"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install new info file '%s' as '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install new info file '%s' as '%s'"
+msgid "unable to install new metadata file '%s' as '%s'"
 msgstr "새 정보 파일 `%s'을(를) `%s'(으)로 설치할 수 없습니다"
 
 #: src/main/unpack.c
@@ -6929,11 +6968,8 @@ msgstr "새로운 파일 `%s'의 정보를 읽을 수 없습니다"
 
 #: src/main/unpack.c
 #, c-format
-msgid ""
-"old file '%s' is the same as several new files! (both '%s' and "
-"'%s')"
-msgstr ""
-"오래된 파일 `%s'은(는) 새로운 파일과 같습니다! (%s와 %s 모두)"
+msgid "old file '%s' is the same as several new files! (both '%s' and '%s')"
+msgstr "오래된 파일 `%s'은(는) 새로운 파일과 같습니다! (%s와 %s 모두)"
 
 #: src/main/unpack.c
 #, c-format
@@ -6949,9 +6985,9 @@ msgstr ""
 
 #: src/main/unpack.c
 #, fuzzy
-#| msgid "control information length"
-msgid "package control information extraction"
-msgstr "컨트롤 정보 길이"
+#| msgid "dpkg-deb field extraction"
+msgid "package metadata files extraction"
+msgstr "dpkg-deb 필드 값을 빼 내기"
 
 #: src/main/unpack.c
 #, c-format
@@ -7011,6 +7047,10 @@ msgstr "%2$s을(를) 지우기 위해 %1$s을(를) 설정 해제하는 중입니
 msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s 옵션은 정확히 하나의 Packages 파일 인수만을 받습니다"
 
+#: src/main/update.c utils/update-alternatives.c
+msgid "<standard input>"
+msgstr "<표준 입력>"
+
 #: src/main/update.c
 #, fuzzy, c-format
 #| msgid "unable to access dpkg status area for bulk available update"
@@ -7026,13 +7066,15 @@ msgid ""
 msgstr "사용 가능 목록을 업데이트하려는데 dpkg 상태 영역에 접근할 수 없습니다"
 
 #: src/main/update.c
-#, c-format
-msgid "Replacing available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Replacing available packages info, using %s.\n"
+msgid "Replacing available packages information from %s.\n"
 msgstr "%s을(를) 사용하여 이용가능한 패키지 정보를 대체하는 중입니다.\n"
 
 #: src/main/update.c
-#, c-format
-msgid "Updating available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Updating available packages info, using %s.\n"
+msgid "Updating available packages information from %s.\n"
 msgstr "%s을(를) 사용하여 이용가능한 패키지 정보를 업데이트하는 중입니다.\n"
 
 #: src/main/update.c
@@ -7106,7 +7148,7 @@ msgstr "데비안 %s 버전 %s.\n"
 msgid ""
 "Commands:\n"
 "  --install <link> <name> <path> <priority>\n"
-"    [--slave <link> <name> <path>] ...\n"
+"    [--slave <link> <name> <path>]...\n"
 "                           add a group of alternatives to the system.\n"
 "  --remove <name> <path>   remove <path> from the <name> group alternative.\n"
 "  --remove-all <name>      remove <name> group from the alternatives "
@@ -7507,8 +7549,8 @@ msgstr "알 수 없는 %s 선택을 설치하지 않습니다"
 #: utils/update-alternatives.c
 #, fuzzy, c-format
 #| msgid ""
-#| "skip creation of %s because associated file %s (of link group %s) does not "
-#| "exist."
+#| "skip creation of %s because associated file %s (of link group %s) does "
+#| "not exist."
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) does not "
 "exist"
@@ -7814,10 +7856,6 @@ msgstr ""
 msgid "no alternatives for %s"
 msgstr "%s의 대체 항목이 없습니다."
 
-#: utils/update-alternatives.c
-msgid "<standard input>"
-msgstr "<표준 입력>"
-
 #: utils/update-alternatives.polkit.in
 msgid "Run update-alternatives to modify system alternative selections"
 msgstr ""
@@ -7826,10 +7864,28 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#, fuzzy, c-format
+#~| msgid "subprocess %s returned error exit status %d"
+#~ msgid "%s subprocess returned error exit status %d"
+#~ msgstr "%s 하위 프로세스가 오류 %d번을 리턴했습니다"
+
+#, c-format
+#~ msgid "unable to delete control info file '%s'"
+#~ msgstr "컨트롤 정보 파일 `%s' 파일을 지울 수 없습니다"
+
+#, fuzzy, c-format
+#~| msgid "installed %s script"
+#~ msgid "installed %s package %s script"
+#~ msgstr "설치한 %s 스크립트"
+
+#, fuzzy
+#~| msgid "control information length"
+#~ msgid "package control information extraction"
+#~ msgstr "컨트롤 정보 길이"
+
 #, c-format
 #~ msgid "open component '%s' (in %s) failed in an unexpected way"
-#~ msgstr ""
-#~ "`%s' 컴포넌트를 (%s 안에) 여는데 예상치 못한 방법으로 실패했습니다"
+#~ msgstr "`%s' 컴포넌트를 (%s 안에) 여는데 예상치 못한 방법으로 실패했습니다"
 
 #, c-format
 #~ msgid "cannot stat '%s' (in '%s')"
@@ -8496,8 +8552,8 @@ msgstr ""
 #~ "  confold [!]            Always use the old config files, do not prompt\n"
 #~ "  confdef [!]            Use the default option for new config files if "
 #~ "one\n"
-#~ "                         is available, do not prompt. If no default can be "
-#~ "found,\n"
+#~ "                         is available, do not prompt. If no default can "
+#~ "be found,\n"
 #~ "                         you will be prompted unless one of the confold "
 #~ "or\n"
 #~ "                         confnew options is also given\n"

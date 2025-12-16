@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-05-19 00:00+0200\n"
+"POT-Creation-Date: 2025-12-16 21:20+0000\n"
 "PO-Revision-Date: 2023-01-27 15:39-0500\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -386,8 +386,9 @@ msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
 msgstr "信息数据库格式(%d)是伪造的或者太新；建议尝试新版本的 dpkg"
 
 #: lib/dpkg/db-ctrl-upgrade.c
-#, c-format
-msgid "info file %s/%s not associated to any package"
+#, fuzzy, c-format
+#| msgid "info file %s/%s not associated to any package"
+msgid "metadata file %s/%s not associated to any package"
 msgstr "info 文件 %s/%s 与任何软件包都无关"
 
 #: lib/dpkg/db-ctrl-upgrade.c src/main/archives.c
@@ -451,8 +452,7 @@ msgid ""
 "files list file for package '%s' missing; assuming package has no files "
 "currently installed"
 msgstr ""
-"无法找到软件包 %s 的文件列表，现假定目前该软件包没有任何文件被安装在系统"
-"里"
+"无法找到软件包 %s 的文件列表，现假定目前该软件包没有任何文件被安装在系统里"
 
 #: lib/dpkg/db-fsys-files.c
 msgid "(Reading database ... "
@@ -714,7 +714,7 @@ msgid "unable to open file '%s'"
 msgstr "无法打开文件 %s"
 
 #: lib/dpkg/dir.c src/deb/build.c src/split/join.c src/split/queue.c
-#: src/divert/main.c utils/update-alternatives.c
+#: src/divert/main.c src/main/archives.c utils/update-alternatives.c
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "无法同步文件 %s"
@@ -906,8 +906,7 @@ msgstr "'%s' 字段缺少体系结构名，或者填写的体系结构名称无�
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid ""
-"'%s' field, reference to '%s': invalid architecture name '%s': %s"
+msgid "'%s' field, reference to '%s': invalid architecture name '%s': %s"
 msgstr "%s 字段，引用 %s : 无效的体系结构名 '%s': %s"
 
 #: lib/dpkg/fields.c
@@ -958,8 +957,7 @@ msgstr "'%s' 字段，引用 '%s' ：版本号未终止"
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid ""
-"'%s' field, reference to '%s': version contains '%c' instead of '%c'"
+msgid "'%s' field, reference to '%s': version contains '%c' instead of '%c'"
 msgstr "'%s' 字段，引用 '%s' ：版本号含有 '%c' 而非 '%c'"
 
 #: lib/dpkg/fields.c
@@ -978,8 +976,9 @@ msgid "alternatives ('|') not allowed in '%s' field"
 msgstr "'%s' 字段不允许可替代项 ('|')"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "illegal pending trigger name '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal pending trigger name '%s': %s"
+msgid "invalid pending trigger name '%s': %s"
 msgstr "非法的未决触发器名 %s ：%s"
 
 #: lib/dpkg/fields.c
@@ -988,8 +987,9 @@ msgid "duplicate pending trigger '%s'"
 msgstr "重复的未决触发器 %s"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "illegal package name in awaited trigger '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal package name in awaited trigger '%s': %s"
+msgid "invalid package name in awaited trigger '%s': %s"
 msgstr "在等待触发器 %s 中包含非法的软件包名：%s"
 
 #: lib/dpkg/fields.c
@@ -1354,28 +1354,33 @@ msgstr ""
 "存"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "failed to open package info file '%s' for reading"
+#, fuzzy, c-format
+#| msgid "failed to open package info file '%s' for reading"
+msgid "failed to open package control file '%s' for reading"
 msgstr "无法打开软件包的 info 文件 %s 以便读取"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot stat package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot stat package info file '%s'"
+msgid "cannot stat package control file '%s'"
 msgstr "无法获得软件包 info 文件 %s 的状态"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "reading package info file '%s': %s"
+#, fuzzy, c-format
+#| msgid "reading package info file '%s': %s"
+msgid "reading package control file '%s': %s"
 msgstr "正在读取软件包 info 文件 '%s': %s"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot mmap package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot mmap package info file '%s'"
+msgid "cannot mmap package control file '%s'"
 msgstr "无法 mmap 软件包的 info 文件 %s"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "reading package info file '%s'"
+#, fuzzy, c-format
+#| msgid "reading package info file '%s'"
+msgid "reading package control file '%s'"
 msgstr "正在读取软件包 info 文件 '%s'"
 
 #: lib/dpkg/parse.c
@@ -1398,8 +1403,9 @@ msgid "newline in field name '%.*s'"
 msgstr "在字段名 %.*s 中有换行符"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "MSDOS end of file (^Z) in field name '%.*s'"
+#, fuzzy, c-format
+#| msgid "MSDOS end of file (^Z) in field name '%.*s'"
+msgid "MSDOS end of file (Ctrl+Z) in field name '%.*s'"
 msgstr "在字段名 %.*s 中有 MSDOS EOF (^Z)"
 
 #: lib/dpkg/parse.c
@@ -1413,8 +1419,9 @@ msgid "end of file before value of field '%.*s' (missing final newline)"
 msgstr "在字段 %.*s 的值的前面有 EOF (缺失结尾的换行符)"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
+#, fuzzy, c-format
+#| msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
+msgid "MSDOS end of file (Ctrl+Z) in value of field '%.*s' (missing newline?)"
 msgstr "在字段 %.*s 的值里有MSDOS EOF(^Z)字符(缺失换行符？)"
 
 #: lib/dpkg/parse.c
@@ -1514,7 +1521,7 @@ msgstr "版本号含无效字符"
 msgid "invalid character in revision number"
 msgstr "修订号含无效字符"
 
-#: lib/dpkg/path-remove.c
+#: lib/dpkg/path-remove.c src/main/remove.c
 #, c-format
 msgid "unable to securely remove '%s'"
 msgstr "无法安全删除 %s"
@@ -1556,17 +1563,20 @@ msgid "version '%s' has bad syntax: %s"
 msgstr "版本号 '%s' 语法错误: %s"
 
 #: lib/dpkg/pkg-spec.c
-#, c-format
-msgid "illegal package name in specifier '%s%s%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal package name in specifier '%s%s%s': %s"
+msgid "invalid package name in specifier '%s%s%s': %s"
 msgstr "在说明符 '%s%s%s' 中包含非法软件包名: %s"
 
 #: lib/dpkg/pkg-spec.c
-#, c-format
-msgid "illegal architecture name in specifier '%s:%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal architecture name in specifier '%s:%s': %s"
+msgid "invalid architecture name in specifier '%s:%s': %s"
 msgstr "在说明符 '%s:%s' 中有非法体系结构名: %s"
 
 #. TRANSLATORS: This is part of the progress output, it is a decimal
-#. * percentage.
+#. percentage.
+#.
 #: lib/dpkg/progress.c
 #, c-format
 msgid "%d%%"
@@ -1616,9 +1626,10 @@ msgid "fork failed"
 msgstr "fork 失败"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "%s subprocess returned error exit status %d"
-msgstr "%s 子进程返回错误状态 %d"
+#, fuzzy, c-format
+#| msgid "%s subprocess failed with wait status code %d"
+msgid "%s subprocess failed with exit status %d"
+msgstr "%s 子进程失败，获得的等待状态号为 %d"
 
 #: lib/dpkg/subproc.c
 #, c-format
@@ -1784,16 +1795,15 @@ msgid "failed to rewind trigger interest file '%s'"
 msgstr "返回触发关注文件 %s 起始位置失败"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid ""
-"trigger interest file '%s' syntax error; illegal package name '%s': "
-"%s"
+#, fuzzy, c-format
+#| msgid ""
+#| "trigger interest file '%s' syntax error; illegal package name '%s': %s"
+msgid "trigger interest file '%s' syntax error; invalid package name '%s': %s"
 msgstr "触发关注文件 %s 语法错误；非法的软件包名 %s ：%s"
 
 #: lib/dpkg/triglib.c
 #, c-format
-msgid ""
-"duplicate file trigger interest for filename '%s' and package '%s'"
+msgid "duplicate file trigger interest for filename '%s' and package '%s'"
 msgstr "文件 %s 和软件包 %s 有重复的文件触发关注"
 
 #: lib/dpkg/triglib.c
@@ -1807,32 +1817,41 @@ msgid "syntax error in file triggers file '%s'"
 msgstr "文件触发文件 %s 有语法错误"
 
 #: lib/dpkg/triglib.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "file triggers record mentions illegal package name '%s' (for interest in "
+#| "file '%s'): %s"
 msgid ""
-"file triggers record mentions illegal package name '%s' (for interest in "
+"file triggers record mentions invalid package name '%s' (for interest in "
 "file '%s'): %s"
-msgstr ""
-"文件触发记录有提到非法的软件包名 %s (用于文件 %s 的触发关注)：%s"
+msgstr "文件触发记录有提到非法的软件包名 %s (用于文件 %s 的触发关注)：%s"
 
 #: lib/dpkg/triglib.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "triggers ci file '%s' contains illegal trigger syntax in trigger name "
+#| "'%s': %s"
 msgid ""
-"triggers ci file '%s' contains illegal trigger syntax in trigger name "
-"'%s': %s"
+"triggers package metadata file '%s' contains invalid trigger syntax in "
+"trigger name '%s': %s"
 msgstr "触发器配置项文件`%s'在触发器名 %s 中包含非法触发器语法：%s"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to open triggers ci file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to open triggers ci file '%s'"
+msgid "unable to open triggers package metadata file '%s'"
 msgstr "无法打开触发器 ci 文件 %s"
 
 #: lib/dpkg/triglib.c
-msgid "triggers ci file contains unknown directive syntax"
+#, fuzzy, c-format
+#| msgid "triggers ci file contains unknown directive syntax"
+msgid "triggers package metadata file '%s' contains unknown directive syntax"
 msgstr "触发器 ci 文件包含位置指令语法"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid "triggers ci file contains unknown directive '%s'"
+#, fuzzy, c-format
+#| msgid "triggers ci file contains unknown directive '%s'"
+msgid "triggers package metadata file '%s' contains unknown directive '%s'"
 msgstr "触发器 ci 文件包含位置指令 %s"
 
 #: lib/dpkg/triglib.c
@@ -2132,7 +2151,7 @@ msgstr ""
 msgid "cannot read link '%s'"
 msgstr "无法读取 %s"
 
-#: src/realpath/main.c
+#: src/realpath/main.c src/main/archives.c src/main/configure.c
 #, fuzzy, c-format
 #| msgid "symbolic link '%s' size has changed from %jd to %zd"
 msgid "symbolic link '%s' size has changed from %jd to %zd"
@@ -2188,8 +2207,7 @@ msgstr "维护者的脚本 %s 不是普通文件或符号链接"
 #: src/deb/build.c
 #, c-format
 msgid ""
-"maintainer script '%s' has bad permissions %03lo (must be >=0555 and "
-"<=0775)"
+"maintainer script '%s' has bad permissions %03lo (must be >=0555 and <=0775)"
 msgstr "维护者的脚本 %s 的权限位是 %03lo (必须 >=0555 且 <=0775)"
 
 #: src/deb/build.c
@@ -2574,6 +2592,11 @@ msgstr ""
 msgid "--%s does not support (yet) reading the .deb from standard input"
 msgstr "--%s 到目前为止仍不支持从标准输入读取 .deb 文件"
 
+#: src/deb/info.c src/statoverride/main.c src/main/archives.c
+#, c-format
+msgid "error setting permissions of '%s'"
+msgstr "为 %s 设置权限位时出错"
+
 #: src/deb/info.c src/main/unpack.c
 msgid "unable to create temporary directory"
 msgstr "无法创建临时目录"
@@ -2662,7 +2685,22 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -b|--build <directory> [<deb>]   Build an archive.\n"
+#| "  -c|--contents <deb>              List contents.\n"
+#| "  -I|--info <deb> [<cfile>...]     Show info to stdout.\n"
+#| "  -W|--show <deb>                  Show information on package(s)\n"
+#| "  -f|--field <deb> [<cfield>...]   Show field(s) to stdout.\n"
+#| "  -e|--control <deb> [<directory>] Extract control info.\n"
+#| "  -x|--extract <deb> <directory>   Extract files.\n"
+#| "  -X|--vextract <deb> <directory>  Extract & list files.\n"
+#| "  -R|--raw-extract <deb> <directory>\n"
+#| "                                   Extract control info and files.\n"
+#| "  --ctrl-tarfile <deb>             Output control tarfile.\n"
+#| "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  -b|--build <directory> [<deb>]   Build an archive.\n"
@@ -2670,11 +2708,11 @@ msgid ""
 "  -I|--info <deb> [<cfile>...]     Show info to stdout.\n"
 "  -W|--show <deb>                  Show information on package(s)\n"
 "  -f|--field <deb> [<cfield>...]   Show field(s) to stdout.\n"
-"  -e|--control <deb> [<directory>] Extract control info.\n"
-"  -x|--extract <deb> <directory>   Extract files.\n"
-"  -X|--vextract <deb> <directory>  Extract & list files.\n"
+"  -e|--control <deb> [<directory>] Extract metadata files.\n"
+"  -x|--extract <deb> <directory>   Extract filesystem files.\n"
+"  -X|--vextract <deb> <directory>  Extract and list filesystem files.\n"
 "  -R|--raw-extract <deb> <directory>\n"
-"                                   Extract control info and files.\n"
+"                                   Extract metadata and filesystem files.\n"
 "  --ctrl-tarfile <deb>             Output control tarfile.\n"
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
@@ -2911,9 +2949,21 @@ msgid "error reading %s"
 msgstr "读取 %s 时出错"
 
 #: src/split/info.c
+#, fuzzy
+#| msgid "archive member header"
+msgid "ar header"
+msgstr "归档成员头"
+
+#: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - bad magic at end of first header"
 msgstr "文件 %s 已损毁 - 在第一个文件头末尾有错误的魔数(magic)"
+
+#: src/split/info.c
+#, fuzzy
+#| msgid "archive information header member"
+msgid "reading header member"
+msgstr "归档信息头成员"
 
 #: src/split/info.c
 #, c-format
@@ -2994,6 +3044,10 @@ msgstr "文件 %s 已经损毁 - 归档分块编号有误"
 #: src/split/info.c
 msgid "package architecture"
 msgstr "软件包体系结构"
+
+#: src/split/info.c
+msgid "reading data part member ar header"
+msgstr ""
 
 #: src/split/info.c
 #, c-format
@@ -3158,7 +3212,18 @@ msgstr ""
 "\n"
 
 #: src/split/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
+#| "      --admindir <directory>       Use <directory> instead of %s.\n"
+#| "      --root <directory>           Use <directory> instead of %s.\n"
+#| "  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
+#| "  -o, --output <file>              Filename, for -j (default is\n"
+#| "                                     <package>_<version>_<arch>.deb).\n"
+#| "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
+#| "      --msdos                      Generate 8.3 filenames.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
@@ -3168,7 +3233,6 @@ msgid ""
 "  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
 "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
-"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "选项：\n"
@@ -3452,9 +3516,13 @@ msgstr ""
 "软件包的 preinst 和 postrm 脚本通常应当指定 --package 和 --divert 选项。\n"
 
 #: src/divert/main.c
+#, fuzzy
+#| msgid ""
+#| "please specify --no-rename explicitly, the default will change to --"
+#| "rename in 1.20.x"
 msgid ""
 "please specify --no-rename explicitly, the default will change to --rename "
-"in 1.20.x"
+"not before 1.23.x"
 msgstr "请显式指定 --no-rename ，默认选项将会在 1.20.x 版本中变为 --rename"
 
 #: src/divert/main.c utils/update-alternatives.c
@@ -3697,11 +3765,6 @@ msgstr "用户组 '%s' 不存在"
 msgid "error setting ownership of '%s'"
 msgstr "为 %s 设置属主时出错"
 
-#: src/statoverride/main.c src/main/archives.c
-#, c-format
-msgid "error setting permissions of '%s'"
-msgstr "为 %s 设置权限位时出错"
-
 #: src/statoverride/main.c
 #, c-format
 msgid "--%s needs four arguments"
@@ -3805,8 +3868,9 @@ msgid "takes one argument, the trigger name"
 msgstr "只接受一个参数，触发器名"
 
 #: src/trigger/main.c
-#, c-format
-msgid "illegal awaited package name '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal awaited package name '%s': %s"
+msgid "invalid awaited package name '%s': %s"
 msgstr "非法的等待软件包名 %s :%s"
 
 #: src/trigger/main.c
@@ -3828,22 +3892,35 @@ msgid "no packages found matching %s"
 msgstr "没有找到与 %s 相匹配的软件包"
 
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
-#. * string should remain under 80 characters. The uppercase letters in
-#. * the state values denote the abbreviated letter that will appear on
-#. * the first three columns, which should ideally match the English one
-#. * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
-#. * translated message can use additional lines if needed.
+#. string should remain under 80 characters. The uppercase letters in
+#. the state values denote the abbreviated letter that will appear on
+#. the first three columns, which should ideally match the English one
+#. (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
+#. translated message can use additional lines if needed. The ASCII art
+#. can use Unicode box characters.
+#.
 #: src/query/main.c
+#, fuzzy
+#| msgid ""
+#| "Desired=Unknown/Install/Remove/Purge/Hold\n"
+#| "| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
+#| "pend\n"
+#| "|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgid ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
+"+-- Desired=Unknown/Install/Remove/Purge/Hold\n"
+"|+- Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
 "pend\n"
-"|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
+"||+ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
 "期望状态=未知(u)/安装(i)/删除(r)/清除(p)/保持(h)\n"
 "| 状态=未安装(n)/已安装(i)/仅存配置(c)/仅解压缩(U)/配置失败(F)/不完全安装(H)/"
 "触发器等待(W)/触发器未决(T)\n"
 "|/ 错误?=(无)/须重装(R) (状态，错误：大写=故障)\n"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "|"
+msgstr ""
 
 #: src/query/main.c
 msgid "Name"
@@ -3860,6 +3937,21 @@ msgstr "体系结构"
 #: src/query/main.c
 msgid "Description"
 msgstr "描述"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "+++-"
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "="
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "-"
+msgstr ""
 
 #: src/query/main.c
 msgid "showing package list on pager"
@@ -4094,8 +4186,8 @@ msgstr "无法读取符号链接 %s"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"trying to overwrite shared '%s', which is different from other instances "
-"of package %s"
+"trying to overwrite shared '%s', which is different from other instances of "
+"package %s"
 msgstr "尝试覆盖共享的 '%s', 它与软件包 %s 中的其他实例不同"
 
 #: src/main/archives.c
@@ -4106,8 +4198,8 @@ msgstr "获取现有的符号链接 %s 的状态(反引用)失败"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"failed to stat (dereference) proposed new symlink target '%s' for "
-"symlink '%s'"
+"failed to stat (dereference) proposed new symlink target '%s' for symlink "
+"'%s'"
 msgstr "获取建议的新符号链接 %s 的状态失败，它将替代符号链接 %s"
 
 #: src/main/archives.c
@@ -4123,8 +4215,7 @@ msgstr "conffile '%s' 已标记为升级时移除，但在软件包中提供"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"trying to overwrite '%s', which is the diverted version of '%s' "
-"(package: %s)"
+"trying to overwrite '%s', which is the diverted version of '%s' (package: %s)"
 msgstr "正在尝试覆盖 %s，它是 %s 的转移版本(软件包：%s)"
 
 #: src/main/archives.c
@@ -4140,8 +4231,7 @@ msgstr "无法获取 '%s' 的状态（正准备安装该文件）"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"unable to clean up mess surrounding '%s' before installing another "
-"version"
+"unable to clean up mess surrounding '%s' before installing another version"
 msgstr "在安装另一版本前，无法清理 %s 的临时文件"
 
 #: src/main/archives.c
@@ -4167,13 +4257,9 @@ msgstr "被已安装的软件包 %s (%s) 中的文件替换了...\n"
 #: src/main/archives.c
 #, fuzzy, c-format
 #| msgid ""
-#| "trying to overwrite directory '%s' in package %s %s with "
-#| "nondirectory"
-msgid ""
-"trying to overwrite directory '%s' in package %s (%s) with "
-"nondirectory"
-msgstr ""
-"正试图用一个非目录的文件替换目录 %s，该目录属于软件包 %s %s"
+#| "trying to overwrite directory '%s' in package %s %s with nondirectory"
+msgid "trying to overwrite directory '%s' in package %s (%s) with nondirectory"
+msgstr "正试图用一个非目录的文件替换目录 %s，该目录属于软件包 %s %s"
 
 #: src/main/archives.c
 #, fuzzy, c-format
@@ -4413,8 +4499,8 @@ msgstr "不会将 %s 从 %s 降级到 %s，因而将跳过它"
 #: src/main/cleanup.c
 #, c-format
 msgid ""
-"unable to remove newly-installed version of '%s' to allow reinstallation "
-"of backup copy"
+"unable to remove newly-installed version of '%s' to allow reinstallation of "
+"backup copy"
 msgstr "无法把新近安装的 %s 卸载，以允许安装备份"
 
 #: src/main/cleanup.c
@@ -4939,7 +5025,9 @@ msgid "The following packages do not have an architecture:\n"
 msgstr "下列软件包没有体系结构：\n"
 
 #: src/main/enquiry.c
-msgid "The following packages have an illegal architecture:\n"
+#, fuzzy
+#| msgid "The following packages have an illegal architecture:\n"
+msgid "The following packages have an invalid architecture:\n"
 msgstr "下列软件包有非法体系结构：\n"
 
 #: src/main/enquiry.c
@@ -5206,7 +5294,47 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "Debian %s 软件包管理程序 %s 版。\n"
 
 #: src/main/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
+#| "  --unpack           <.deb file name>... | -R|--recursive <directory>...\n"
+#| "  -A|--record-avail  <.deb file name>... | -R|--recursive <directory>...\n"
+#| "  --configure        <package>... | -a|--pending\n"
+#| "  --triggers-only    <package>... | -a|--pending\n"
+#| "  -r|--remove        <package>... | -a|--pending\n"
+#| "  -P|--purge         <package>... | -a|--pending\n"
+#| "  -V|--verify [<package>...]       Verify the integrity of package(s).\n"
+#| "  --get-selections [<pattern>...]  Get list of selections to stdout.\n"
+#| "  --set-selections                 Set package selections from stdin.\n"
+#| "  --clear-selections               Deselect every non-essential package.\n"
+#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
+#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
+#| "  --clear-avail                    Erase existing available info.\n"
+#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
+#| "  -s|--status [<package>...]       Display package status details.\n"
+#| "  -p|--print-avail [<package>...]  Display available version details.\n"
+#| "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern>...]         List packages concisely.\n"
+#| "  -S|--search <pattern>...         Find package(s) owning file(s).\n"
+#| "  -C|--audit [<package>...]        Check for broken package(s).\n"
+#| "  --yet-to-unpack                  Print packages selected for "
+#| "installation.\n"
+#| "  --predep-package                 Print pre-dependencies to unpack.\n"
+#| "  --add-architecture <arch>        Add <arch> to the list of "
+#| "architectures.\n"
+#| "  --remove-architecture <arch>     Remove <arch> from the list of "
+#| "architectures.\n"
+#| "  --print-architecture             Print dpkg architecture.\n"
+#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+#| "  --assert-help                    Show help on assertions.\n"
+#| "  --assert-<feature>               Assert support for the specified "
+#| "feature.\n"
+#| "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
+#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
+#| "  --force-help                     Show help on forcing.\n"
+#| "  -Dh|--debug=help                 Show help on debugging.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
@@ -5223,7 +5351,6 @@ msgid ""
 "  --update-avail [<Packages-file>] Replace available packages info.\n"
 "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
 "  --clear-avail                    Erase existing available info.\n"
-"  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
 "  -s|--status [<package>...]       Display package status details.\n"
 "  -p|--print-avail [<package>...]  Display available version details.\n"
 "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
@@ -5522,9 +5649,10 @@ msgid "status logger"
 msgstr "状态日志记录器"
 
 #: src/main/main.c
-#, c-format
-msgid "architecture '%s' is illegal: %s"
-msgstr "%s 体系结构非法：%s"
+#, fuzzy, c-format
+#| msgid "architecture name '%s' is invalid: %s"
+msgid "architecture '%s' is invalid: %s"
+msgstr "体系结构名称 '%s' 无效: %s"
 
 #: src/main/main.c
 #, c-format
@@ -5547,8 +5675,9 @@ msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr "无法移除体系结构 %s ，当前它仍被数据库使用"
 
 #: src/main/main.c
-#, c-format
-msgid "couldn't open '%i' for stream"
+#, fuzzy, c-format
+#| msgid "couldn't open '%i' for stream"
+msgid "cannot open '%i' for stream"
 msgstr "无法为流打开 %i"
 
 #: src/main/main.c
@@ -5746,15 +5875,16 @@ msgid "Removing %s (%s) ...\n"
 msgstr "正在卸载 %s (%s) ...\n"
 
 #: src/main/remove.c src/main/unpack.c
-#, c-format
-msgid "unable to delete control info file '%s'"
-msgstr "无法删除控制信息文件 %s"
+#, fuzzy, c-format
+#| msgid "unable to delete used-up depot file '%s'"
+msgid "unable to delete package metadata file '%s'"
+msgstr "无法删除用毕的存储文件 %s"
 
 #: src/main/remove.c
 #, c-format
 msgid ""
-"while removing %s, unable to remove directory '%s': %s - directory "
-"may be a mount point?"
+"while removing %s, unable to remove directory '%s': %s - directory may be a "
+"mount point?"
 msgstr "当卸载 %s 时，无法删掉目录 %s ：%s - 它会不会是一个挂载点呢？"
 
 #: src/main/remove.c
@@ -5821,9 +5951,10 @@ msgid "cannot set security execution context for maintainer script"
 msgstr "无法为维护者脚本设置安全执行上下文"
 
 #: src/main/script.c
-#, c-format
-msgid "installed %s package %s script"
-msgstr "已安装 %s 软件包 %s 脚本"
+#, fuzzy, c-format
+#| msgid "old %s package %s script"
+msgid "old %s package %s maintainer script"
+msgstr "旧的 %s 软件包 %s 脚本"
 
 #: src/main/script.c
 #, c-format
@@ -5831,14 +5962,10 @@ msgid "unable to stat %s '%s'"
 msgstr "无法获取 %s  %s 的状态"
 
 #: src/main/script.c
-#, c-format
-msgid "new %s package %s script"
+#, fuzzy, c-format
+#| msgid "new %s package %s script"
+msgid "new %s package %s maintainer script"
 msgstr "新的 %s 软件包 %s 脚本"
-
-#: src/main/script.c
-#, c-format
-msgid "old %s package %s script"
-msgstr "旧的 %s 软件包 %s 脚本"
 
 #: src/main/script.c
 #, c-format
@@ -5846,11 +5973,15 @@ msgid "unable to stat %s '%s': %s"
 msgstr "无法获取 %s  %s 的状态：%s"
 
 #: src/main/script.c
-msgid "trying script from the new package instead ..."
+#, fuzzy, c-format
+#| msgid "trying script from the new package instead ..."
+msgid "trying %s maintainer script from the new %s package instead ..."
 msgstr "现在尝试使用新软件包所带的脚本..."
 
 #: src/main/script.c
-msgid "there is no script in the new version of the package - giving up"
+#, fuzzy, c-format
+#| msgid "there is no script in the new version of the package - giving up"
+msgid "missing %s maintainer script in new %s package, giving up"
 msgstr "新版本的软件包里没有脚本 - 取消操作"
 
 #: src/main/script.c
@@ -5883,8 +6014,9 @@ msgid "unexpected data after package and selection at line %d"
 msgstr "在第 %d 行的软件包和用户选择后有发现了数据，这出乎我们的意料"
 
 #: src/main/select.c
-#, c-format
-msgid "illegal package name at line %d: %s"
+#, fuzzy, c-format
+#| msgid "illegal package name at line %d: %s"
+msgid "invalid package name at line %d: %s"
 msgstr "在第 %d 行发现非法的软件包名：%s"
 
 #: src/main/select.c
@@ -5959,6 +6091,11 @@ msgstr ""
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "正在处理用于 %s (%s) 的触发器 ...\n"
 
+#. TRANSLATORS: This string represents a summarized pathname,
+#. were prefix directories get abbreviated with ".../", if the
+#. total length exceeds a limit. The three dots would usually
+#. be represented by «…/».
+#.
 #: src/main/unpack.c
 #, c-format
 msgid ".../%s"
@@ -6055,18 +6192,23 @@ msgid "error closing %s"
 msgstr "关闭 %s 出错"
 
 #: src/main/unpack.c
-#, c-format
-msgid "old version of package has overly-long info file name starting '%s'"
+#, fuzzy, c-format
+#| msgid "old version of package has overly-long info file name starting '%s'"
+msgid ""
+"old version of package has overly-long meatada file name (starting with "
+"'%.*s')"
 msgstr "原先版本的软件包中有一个信息文件的文件名太长，文件名是以 %s 开头的"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to remove obsolete info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to remove obsolete info file '%s'"
+msgid "unable to remove obsolete package metadata file '%s'"
 msgstr "无法删除废弃不用的信息文件 %s"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install (supposed) new info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install (supposed) new info file '%s'"
+msgid "unable to install (supposed) new package metadata file '%s'"
 msgstr "无法安装文件 %s，该文件被认定是新的信息文件"
 
 #: src/main/unpack.c
@@ -6074,28 +6216,34 @@ msgid "unable to open temp control directory"
 msgstr "无法打开临时的 control 目录"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package contains overly-long control info file name (starting '%.50s')"
+#, fuzzy, c-format
+#| msgid ""
+#| "package contains overly-long control info file name (starting '%.50s')"
+msgid "package has overly-long metadata file name (starting with '%.*s')"
 msgstr "软件包中有一个主控信息文件的文件名太长(该文件名是以 %s 开头的)"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info contained directory '%s'"
+#, fuzzy, c-format
+#| msgid "package control info contained directory '%s'"
+msgid "package metadata contained directory '%s'"
 msgstr "软件包的主控信息含有一个目录 %s"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info rmdir of '%s' did not say not a dir"
+#, fuzzy, c-format
+#| msgid "package control info rmdir of '%s' did not say not a dir"
+msgid "package metadata rmdir of '%s' did not say not a dir"
 msgstr "软件包控制信息，rmdir  %s 也没有说这不是一个目录"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package %s contained list as info file"
+#, fuzzy, c-format
+#| msgid "package %s contained list as info file"
+msgid "package %s contained '%s' as a metadata file"
 msgstr "软件包 %s 把一个列表作为信息文件使用"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install new info file '%s' as '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install new info file '%s' as '%s'"
+msgid "unable to install new metadata file '%s' as '%s'"
 msgstr "无法把新的信息文件 %s 安装到 %s"
 
 #: src/main/unpack.c
@@ -6140,9 +6288,7 @@ msgstr "无法获取其它新文件 %s 的信息"
 
 #: src/main/unpack.c
 #, c-format
-msgid ""
-"old file '%s' is the same as several new files! (both '%s' and "
-"'%s')"
+msgid "old file '%s' is the same as several new files! (both '%s' and '%s')"
 msgstr "旧文件 %s 与多个新文件相同！( %s 和 %s )"
 
 #: src/main/unpack.c
@@ -6156,8 +6302,10 @@ msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(注意到 %s 已经不复存在，它已然被完全取代了。)\n"
 
 #: src/main/unpack.c
-msgid "package control information extraction"
-msgstr "软件包 control 信息抽取"
+#, fuzzy
+#| msgid "package field value extraction"
+msgid "package metadata files extraction"
+msgstr "软件包字段值提取"
 
 #: src/main/unpack.c
 #, c-format
@@ -6207,6 +6355,10 @@ msgstr "正在移除 %s (%s)，以允许配置 %s (%s) ...\n"
 msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s 只需要一个“软件包文件名”作为参数"
 
+#: src/main/update.c utils/update-alternatives.c
+msgid "<standard input>"
+msgstr "<标准输入>"
+
 #: src/main/update.c
 #, c-format
 msgid "unable to access dpkg database directory '%s' for bulk available update"
@@ -6220,13 +6372,15 @@ msgid ""
 msgstr "需要对于 dpkg 数据库目录 '%s' 的写权限以进行批量的可用更新"
 
 #: src/main/update.c
-#, c-format
-msgid "Replacing available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Replacing available packages info, using %s.\n"
+msgid "Replacing available packages information from %s.\n"
 msgstr "正在使用 %s 替换可用软件包的信息。\n"
 
 #: src/main/update.c
-#, c-format
-msgid "Updating available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Updating available packages info, using %s.\n"
+msgid "Updating available packages information from %s.\n"
 msgstr "正在使用 %s 更新可用软件包的信息。\n"
 
 #: src/main/update.c
@@ -6248,11 +6402,35 @@ msgid "%s version %s.\n"
 msgstr "Debian %s 版本 %s。\n"
 
 #: utils/update-alternatives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  --install <link> <name> <path> <priority>\n"
+#| "    [--slave <link> <name> <path>] ...\n"
+#| "                           add a group of alternatives to the system.\n"
+#| "  --remove <name> <path>   remove <path> from the <name> group "
+#| "alternative.\n"
+#| "  --remove-all <name>      remove <name> group from the alternatives "
+#| "system.\n"
+#| "  --auto <name>            switch the master link <name> to automatic "
+#| "mode.\n"
+#| "  --display <name>         display information about the <name> group.\n"
+#| "  --query <name>           machine parseable version of --display "
+#| "<name>.\n"
+#| "  --list <name>            display all targets of the <name> group.\n"
+#| "  --get-selections         list master alternative names and their "
+#| "status.\n"
+#| "  --set-selections         read alternative status from standard input.\n"
+#| "  --config <name>          show alternatives for the <name> group and ask "
+#| "the\n"
+#| "                           user to select which one to use.\n"
+#| "  --set <name> <path>      set <path> as alternative for <name>.\n"
+#| "  --all                    call --config on all alternatives.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  --install <link> <name> <path> <priority>\n"
-"    [--slave <link> <name> <path>] ...\n"
+"    [--slave <link> <name> <path>]...\n"
 "                           add a group of alternatives to the system.\n"
 "  --remove <name> <path>   remove <path> from the <name> group alternative.\n"
 "  --remove-all <name>      remove <name> group from the alternatives "
@@ -6867,10 +7045,6 @@ msgstr ""
 msgid "no alternatives for %s"
 msgstr "无 %s 的候选项"
 
-#: utils/update-alternatives.c
-msgid "<standard input>"
-msgstr "<标准输入>"
-
 #: utils/update-alternatives.polkit.in
 msgid "Run update-alternatives to modify system alternative selections"
 msgstr "运行 update-alternatives 工具以修改系统可选项的选择情况"
@@ -6878,6 +7052,25 @@ msgstr "运行 update-alternatives 工具以修改系统可选项的选择情况
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "需要认证后才能执行 update-alternatives"
+
+#, c-format
+#~ msgid "%s subprocess returned error exit status %d"
+#~ msgstr "%s 子进程返回错误状态 %d"
+
+#, c-format
+#~ msgid "architecture '%s' is illegal: %s"
+#~ msgstr "%s 体系结构非法：%s"
+
+#, c-format
+#~ msgid "unable to delete control info file '%s'"
+#~ msgstr "无法删除控制信息文件 %s"
+
+#, c-format
+#~ msgid "installed %s package %s script"
+#~ msgstr "已安装 %s 软件包 %s 脚本"
+
+#~ msgid "package control information extraction"
+#~ msgstr "软件包 control 信息抽取"
 
 #, c-format
 #~ msgid "open component '%s' (in %s) failed in an unexpected way"
@@ -7470,8 +7663,8 @@ msgstr "需要认证后才能执行 update-alternatives"
 #~ "  confold [!]            Always use the old config files, do not prompt\n"
 #~ "  confdef [!]            Use the default option for new config files if "
 #~ "one\n"
-#~ "                         is available, do not prompt. If no default can be "
-#~ "found,\n"
+#~ "                         is available, do not prompt. If no default can "
+#~ "be found,\n"
 #~ "                         you will be prompted unless one of the confold "
 #~ "or\n"
 #~ "                         confnew options is also given\n"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dselect 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-05-19 00:00+0200\n"
+"POT-Creation-Date: 2025-12-16 21:20+0000\n"
 "PO-Revision-Date: 2023-01-31 22:38+0100\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -113,11 +113,16 @@ msgid "%s to go back"
 msgstr "вернуться, нажмите %s"
 
 #: dselect/bindings.cc
+#, fuzzy
+#| msgid "[not bound]"
+msgctxt "keybinding"
 msgid "[not bound]"
 msgstr "[не сопоставлена]"
 
 #: dselect/bindings.cc
-#, c-format
+#, fuzzy, c-format
+#| msgid "[unk: %d]"
+msgctxt "keybinding"
 msgid "[unk: %d]"
 msgstr "[неизв: %d]"
 
@@ -434,6 +439,41 @@ msgstr ""
 "зависимостей"
 
 #: dselect/helpmsgs.cc
+#, fuzzy
+#| msgid ""
+#| "Dependency/conflict resolution - introduction.\n"
+#| "\n"
+#| "One or more of your choices have raised a conflict or dependency problem "
+#| "-\n"
+#| "some packages should only be installed in conjunction with certain "
+#| "others, and\n"
+#| "some combinations of packages may not be installed together.\n"
+#| "\n"
+#| "You will see a sub-list containing the packages involved.  The bottom "
+#| "half of\n"
+#| "the display shows relevant conflicts and dependencies; use 'i' to cycle "
+#| "between\n"
+#| "that, the package descriptions and the internal control information.\n"
+#| "\n"
+#| "A set of 'suggested' packages has been calculated, and the initial "
+#| "markings in\n"
+#| "this sub-list have been set to match those, so you can just hit Return "
+#| "to\n"
+#| "accept the suggestions if you wish.  You may abort the change(s) which "
+#| "caused\n"
+#| "the problem(s), and go back to the main list, by pressing capital 'X'.\n"
+#| "\n"
+#| "You can also move around the list and change the markings so that they "
+#| "are more\n"
+#| "like what you want, and you can 'reject' my suggestions by using the "
+#| "capital\n"
+#| "'D' or 'R' keys (see the keybindings help screen).  You can use capital "
+#| "'Q' to\n"
+#| "force to accept the situation currently displayed, in case you want to\n"
+#| "override a recommendation or think that the program is mistaken.\n"
+#| "\n"
+#| "Press <space> to leave help and enter the sub-list; remember: press '?' "
+#| "for help.\n"
 msgid ""
 "Dependency/conflict resolution - introduction.\n"
 "\n"
@@ -446,7 +486,7 @@ msgid ""
 "of\n"
 "the display shows relevant conflicts and dependencies; use 'i' to cycle "
 "between\n"
-"that, the package descriptions and the internal control information.\n"
+"that, the package descriptions and the internal package metadata.\n"
 "\n"
 "A set of 'suggested' packages has been calculated, and the initial markings "
 "in\n"
@@ -902,8 +942,9 @@ msgid "<attr> is:"
 msgstr "<Атрибут>:"
 
 #: dselect/main.cc
-#, c-format
-msgid "couldn't open debug file '%s'\n"
+#, fuzzy, c-format
+#| msgid "couldn't open debug file '%s'\n"
+msgid "cannot open debug file '%s'\n"
 msgstr "не удалось открыть отладочный файл «%s»\n"
 
 #: dselect/main.cc
@@ -955,11 +996,19 @@ msgid "terminal lacks necessary features, giving up"
 msgstr "у терминала отсутствуют необходимые возможности, останов"
 
 #: dselect/main.cc
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "\n"
+#| "Move around with ^P and ^N, cursor keys, initial letters, or digits;\n"
+#| "Press <enter> to confirm selection.   ^L redraws screen.\n"
+#| "\n"
 msgid ""
 "\n"
 "\n"
-"Move around with ^P and ^N, cursor keys, initial letters, or digits;\n"
-"Press <enter> to confirm selection.   ^L redraws screen.\n"
+"Move around with Ctrl+P and Ctrl+N, cursor keys, initial letters, or "
+"digits;\n"
+"Press <enter> to confirm selection. Ctrl+L redraws screen.\n"
 "\n"
 msgstr ""
 "\n"
@@ -1215,10 +1264,6 @@ msgstr "удалить"
 msgid "purge"
 msgstr "вычистить"
 
-#. TRANSLATORS: The space is a trick to work around gettext which uses
-#. * the empty string to store information about the translation. DO NOT
-#. * CHANGE THAT IN A TRANSLATION! The code really relies on that being
-#. * a single space.
 #: dselect/pkgdisplay.cc
 msgid " "
 msgstr " "

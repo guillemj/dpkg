@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-05-19 00:00+0200\n"
+"POT-Creation-Date: 2025-12-16 21:20+0000\n"
 "PO-Revision-Date: 2015-04-07 09:53+0200\n"
 "Last-Translator: Eric Pareja <xenos@upm.edu.ph>\n"
 "Language-Team: Tagalog <debian-tl@banwa.upm.edu.ph>\n"
@@ -406,7 +406,7 @@ msgstr ""
 #: lib/dpkg/db-ctrl-upgrade.c
 #, fuzzy, c-format
 #| msgid "conffile `%s' does not appear in package"
-msgid "info file %s/%s not associated to any package"
+msgid "metadata file %s/%s not associated to any package"
 msgstr "conffile `%s' ay wala sa pakete"
 
 #: lib/dpkg/db-ctrl-upgrade.c src/main/archives.c
@@ -478,8 +478,7 @@ msgstr ""
 #, fuzzy, c-format
 #| msgid "error closing files list file for package '%s'"
 msgid "loading files list file for package '%s'"
-msgstr ""
-"error sa pagsara ng talaksang listahan ng mga talaksan ng pakete `%s'"
+msgstr "error sa pagsara ng talaksang listahan ng mga talaksan ng pakete `%s'"
 
 #: lib/dpkg/db-fsys-files.c
 #, fuzzy, c-format
@@ -771,7 +770,7 @@ msgid "unable to open file '%s'"
 msgstr "hindi mabuksan ang pinagmulan na talaksang `%s'"
 
 #: lib/dpkg/dir.c src/deb/build.c src/split/join.c src/split/queue.c
-#: src/divert/main.c utils/update-alternatives.c
+#: src/divert/main.c src/main/archives.c utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "hindi mabuksan ang pinagmulan na talaksang `%s'"
@@ -1004,8 +1003,7 @@ msgstr ""
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "`%s' field, reference to `%s': error in version: %s"
-msgid ""
-"'%s' field, reference to '%s': invalid architecture name '%s': %s"
+msgid "'%s' field, reference to '%s': invalid architecture name '%s': %s"
 msgstr "saklaw na `%s', tumutukoy sa `%s': error sa bersyon: %s"
 
 #: lib/dpkg/fields.c
@@ -1060,8 +1058,7 @@ msgstr "saklaw na `%s', tumutukoy sa `%s': hindi nagwakas ang bersyon"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
-msgid ""
-"'%s' field, reference to '%s': version contains '%c' instead of '%c'"
+msgid "'%s' field, reference to '%s': version contains '%c' instead of '%c'"
 msgstr "saklaw na `%s', tumutukoy sa `%s': naglalaman ang bersyon ng `('"
 
 #: lib/dpkg/fields.c
@@ -1082,7 +1079,7 @@ msgstr "di pinapayagan ang mga halili (`|') sa saklaw na %s"
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
-msgid "illegal pending trigger name '%s': %s"
+msgid "invalid pending trigger name '%s': %s"
 msgstr "saklaw na `%s', imbalido na pangalan ng pakete `%s': %s"
 
 #: lib/dpkg/fields.c
@@ -1092,7 +1089,7 @@ msgstr ""
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
-msgid "illegal package name in awaited trigger '%s': %s"
+msgid "invalid package name in awaited trigger '%s': %s"
 msgstr "bawal na pangalan ng pakete sa linya %d: %s"
 
 #: lib/dpkg/fields.c
@@ -1263,8 +1260,8 @@ msgstr "hindi matakda ang close-on-exec flag para sa %s"
 #| msgid "--ignore-depends requires a legal package name. `%s' is not; %s"
 msgid "--%s needs a valid package name but '%s' is not: %s"
 msgstr ""
-"--ignore-depends ay nangangailangan ng legal na pangalan ng pakete. `%s' "
-"ay hindi: %s"
+"--ignore-depends ay nangangailangan ng legal na pangalan ng pakete. `%s' ay "
+"hindi: %s"
 
 #: lib/dpkg/options.c
 #, fuzzy, c-format
@@ -1456,30 +1453,33 @@ msgid ""
 msgstr ""
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "failed to open package info file '%s' for reading"
+#, fuzzy, c-format
+#| msgid "failed to open package info file '%s' for reading"
+msgid "failed to open package control file '%s' for reading"
 msgstr "bigo sa pagbukas ng talaksang info ng pakete `%s' para sa pagbasa"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot stat package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot stat package info file '%s'"
+msgid "cannot stat package control file '%s'"
 msgstr "hindi ma-stat ang talaksang info ng pakete `%s'"
 
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "cannot stat package info file `%s'"
-msgid "reading package info file '%s': %s"
+msgid "reading package control file '%s': %s"
 msgstr "hindi ma-stat ang talaksang info ng pakete `%s'"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot mmap package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot mmap package info file '%s'"
+msgid "cannot mmap package control file '%s'"
 msgstr "hindi ma-mmap ang talaksang info ng pakete `%s'"
 
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "cannot stat package info file `%s'"
-msgid "reading package info file '%s'"
+msgid "reading package control file '%s'"
 msgstr "hindi ma-stat ang talaksang info ng pakete `%s'"
 
 #: lib/dpkg/parse.c
@@ -1505,7 +1505,7 @@ msgstr "newline sa loob ng pangalan ng saklaw `%.*s'"
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF (^Z) in field name `%.*s'"
-msgid "MSDOS end of file (^Z) in field name '%.*s'"
+msgid "MSDOS end of file (Ctrl+Z) in field name '%.*s'"
 msgstr "MSDOS EOF (^Z) sa loob ng pangalan ng saklaw `%.*s'"
 
 #: lib/dpkg/parse.c
@@ -1522,7 +1522,7 @@ msgstr "EOF nauna sa halaga ng saklaw `%.*s' (kulang ng kahulihang newline)"
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
-msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
+msgid "MSDOS end of file (Ctrl+Z) in value of field '%.*s' (missing newline?)"
 msgstr "MSDOS EOF char sa halaga ng saklaw `%.*s' (kulang na newline?)"
 
 #: lib/dpkg/parse.c
@@ -1641,7 +1641,7 @@ msgstr "walang sumunod sa kolon sa bilang ng bersyon"
 msgid "invalid character in revision number"
 msgstr "walang sumunod sa kolon sa bilang ng bersyon"
 
-#: lib/dpkg/path-remove.c
+#: lib/dpkg/path-remove.c src/main/remove.c
 #, fuzzy, c-format
 msgid "unable to securely remove '%s'"
 msgstr "hindi malikha ang `%s'"
@@ -1686,16 +1686,17 @@ msgstr "bersyon ay may maling syntax: %s\n"
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
-msgid "illegal package name in specifier '%s%s%s': %s"
+msgid "invalid package name in specifier '%s%s%s': %s"
 msgstr "bawal na pangalan ng pakete sa linya %d: %s"
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
-msgid "illegal architecture name in specifier '%s:%s': %s"
+msgid "invalid architecture name in specifier '%s:%s': %s"
 msgstr "bawal na pangalan ng pakete sa linya %d: %s"
 
 #. TRANSLATORS: This is part of the progress output, it is a decimal
-#. * percentage.
+#. percentage.
+#.
 #: lib/dpkg/progress.c
 #, c-format
 msgid "%d%%"
@@ -1745,9 +1746,9 @@ msgstr "bigo ang pag-fork"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
-#| msgid "subprocess %s returned error exit status %d"
-msgid "%s subprocess returned error exit status %d"
-msgstr "nagbalik ang subprocess %s ng error exit status %d"
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with exit status %d"
+msgstr "subprocess %s ay bigo na may wait status code %d"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
@@ -1926,16 +1927,14 @@ msgid "failed to rewind trigger interest file '%s'"
 msgstr "hindi mabasa ang talaksang bahagi `%s'"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid ""
-"trigger interest file '%s' syntax error; illegal package name '%s': "
-"%s"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "'%s' field, invalid package name '%s': %s"
+msgid "trigger interest file '%s' syntax error; invalid package name '%s': %s"
+msgstr "saklaw na `%s', imbalido na pangalan ng pakete `%s': %s"
 
 #: lib/dpkg/triglib.c
 #, fuzzy, c-format
-msgid ""
-"duplicate file trigger interest for filename '%s' and package '%s'"
+msgid "duplicate file trigger interest for filename '%s' and package '%s'"
 msgstr "hindi mailuklok ang bagong talaksang info `%s' bilang `%s'"
 
 #: lib/dpkg/triglib.c
@@ -1951,29 +1950,30 @@ msgstr "error sa pagbasa ng talaksang pagkaayos `%s'"
 #: lib/dpkg/triglib.c
 #, c-format
 msgid ""
-"file triggers record mentions illegal package name '%s' (for interest in "
+"file triggers record mentions invalid package name '%s' (for interest in "
 "file '%s'): %s"
 msgstr ""
 
 #: lib/dpkg/triglib.c
 #, c-format
 msgid ""
-"triggers ci file '%s' contains illegal trigger syntax in trigger name "
-"'%s': %s"
+"triggers package metadata file '%s' contains invalid trigger syntax in "
+"trigger name '%s': %s"
 msgstr ""
 
 #: lib/dpkg/triglib.c
 #, fuzzy, c-format
-msgid "unable to open triggers ci file '%s'"
+msgid "unable to open triggers package metadata file '%s'"
 msgstr "hindi mabuksan ang pinagmulan na talaksang `%s'"
 
 #: lib/dpkg/triglib.c
-msgid "triggers ci file contains unknown directive syntax"
+#, c-format
+msgid "triggers package metadata file '%s' contains unknown directive syntax"
 msgstr ""
 
 #: lib/dpkg/triglib.c
 #, c-format
-msgid "triggers ci file contains unknown directive '%s'"
+msgid "triggers package metadata file '%s' contains unknown directive '%s'"
 msgstr ""
 
 #: lib/dpkg/triglib.c
@@ -2258,7 +2258,7 @@ msgstr ""
 msgid "cannot read link '%s'"
 msgstr "hindi ma-execute ang %s"
 
-#: src/realpath/main.c
+#: src/realpath/main.c src/main/archives.c src/main/configure.c
 #, c-format
 msgid "symbolic link '%s' size has changed from %jd to %zd"
 msgstr ""
@@ -2323,8 +2323,7 @@ msgstr "skripto ng tagapangalaga `%s' ay hindi payak na talaksan o symlink"
 #: src/deb/build.c
 #, c-format
 msgid ""
-"maintainer script '%s' has bad permissions %03lo (must be >=0555 and "
-"<=0775)"
+"maintainer script '%s' has bad permissions %03lo (must be >=0555 and <=0775)"
 msgstr ""
 "skripto ng tagapangalaga `%s' ay may masamang pahintulot %03lo\n"
 "(kailangang >=0555 at <=0775)"
@@ -2770,6 +2769,11 @@ msgstr ""
 msgid "--%s does not support (yet) reading the .deb from standard input"
 msgstr ""
 
+#: src/deb/info.c src/statoverride/main.c src/main/archives.c
+#, c-format
+msgid "error setting permissions of '%s'"
+msgstr "error sa pagtakda ng pahintulo ng `%s'"
+
 #: src/deb/info.c src/main/unpack.c
 #, fuzzy
 msgid "unable to create temporary directory"
@@ -2871,11 +2875,11 @@ msgid ""
 "  -I|--info <deb> [<cfile>...]     Show info to stdout.\n"
 "  -W|--show <deb>                  Show information on package(s)\n"
 "  -f|--field <deb> [<cfield>...]   Show field(s) to stdout.\n"
-"  -e|--control <deb> [<directory>] Extract control info.\n"
-"  -x|--extract <deb> <directory>   Extract files.\n"
-"  -X|--vextract <deb> <directory>  Extract & list files.\n"
+"  -e|--control <deb> [<directory>] Extract metadata files.\n"
+"  -x|--extract <deb> <directory>   Extract filesystem files.\n"
+"  -X|--vextract <deb> <directory>  Extract and list filesystem files.\n"
 "  -R|--raw-extract <deb> <directory>\n"
-"                                   Extract control info and files.\n"
+"                                   Extract metadata and filesystem files.\n"
 "  --ctrl-tarfile <deb>             Output control tarfile.\n"
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
@@ -3086,9 +3090,21 @@ msgid "error reading %s"
 msgstr "error sa pagbasa ng %s"
 
 #: src/split/info.c
+#, fuzzy
+#| msgid "archive has no newlines in header"
+msgid "ar header"
+msgstr "walang newline sa header ng arkibo"
+
+#: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - bad magic at end of first header"
 msgstr "sira ang talaksang `%s' - maling magic sa dulo ng unang header"
+
+#: src/split/info.c
+#, fuzzy
+#| msgid "archive has no dot in version number"
+msgid "reading header member"
+msgstr "walang tuldok sa bilang ng bersyon ng arkibo"
 
 #: src/split/info.c
 #, c-format
@@ -3113,12 +3129,10 @@ msgstr "  %s ay nakaluklok, ngunit ang bersyon nito ay %s.\n"
 
 #: src/split/info.c
 #, fuzzy, c-format
-#| msgid ""
-#| "file `%s' is format version `%s' - you need a newer dpkg-split"
+#| msgid "file `%s' is format version `%s' - you need a newer dpkg-split"
 msgid "file '%s' is format version %d.%d; get a newer dpkg-split"
 msgstr ""
-"sira ang talaksang `%s' nasa anyong bersyon `%s' - kailangan niyo "
-"ng \n"
+"sira ang talaksang `%s' nasa anyong bersyon `%s' - kailangan niyo ng \n"
 "mas-bagong dpkg-split"
 
 #: src/split/info.c
@@ -3186,30 +3200,31 @@ msgid "package architecture"
 msgstr " (pakete: "
 
 #: src/split/info.c
+msgid "reading data part member ar header"
+msgstr ""
+
+#: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - bad magic at end of second header"
-msgstr ""
-"sira ang talaksang `%s' - masamang magic sa dulo ng pangalawang header"
+msgstr "sira ang talaksang `%s' - masamang magic sa dulo ng pangalawang header"
 
 #: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - second member is not data member"
-msgstr ""
-"sira ang talaksang `%s' - pangalawang kasapi ay hindi kasaping datos"
+msgstr "sira ang talaksang `%s' - pangalawang kasapi ay hindi kasaping datos"
 
 #: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - wrong number of parts for quoted sizes"
 msgstr ""
-"sira ang talaksang `%s' - mali ang bilang ng mga bahagi para sa "
-"nabanggit na laki"
+"sira ang talaksang `%s' - mali ang bilang ng mga bahagi para sa nabanggit na "
+"laki"
 
 #: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - size is wrong for quoted part number"
 msgstr ""
-"sira ang talaksang `%s' - mali ang laki para sa bilang ng bahaging "
-"nabanggit"
+"sira ang talaksang `%s' - mali ang laki para sa bilang ng bahaging nabanggit"
 
 #: src/split/info.c
 #, c-format
@@ -3323,15 +3338,13 @@ msgstr "tapos\n"
 #: src/split/join.c
 #, c-format
 msgid "files '%s' and '%s' are not parts of the same file"
-msgstr ""
-"ang mga talaksang `%s' at `%s' ay hindi bahagi ng parehong talaksan"
+msgstr "ang mga talaksang `%s' at `%s' ay hindi bahagi ng parehong talaksan"
 
 #: src/split/join.c
 #, c-format
 msgid "there are several versions of part %d - at least '%s' and '%s'"
 msgstr ""
-"may iba't ibang bersyon ng bahaging %d - kabilang dito ang `%s' at "
-"`%s'"
+"may iba't ibang bersyon ng bahaging %d - kabilang dito ang `%s' at `%s'"
 
 #: src/split/join.c
 #, c-format
@@ -3377,7 +3390,6 @@ msgid ""
 "  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
 "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
-"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 
@@ -3456,8 +3468,7 @@ msgstr "hindi ma-stat ang `%s' (sa `%s')"
 #, c-format
 msgid "unable to rename new depot file '%s' to '%s'"
 msgstr ""
-"hindi mapalitan ang pangalan ng bagong talaksang bodega `%s' tungo "
-"`%s'"
+"hindi mapalitan ang pangalan ng bagong talaksang bodega `%s' tungo `%s'"
 
 #: src/split/queue.c
 #, c-format
@@ -3632,7 +3643,7 @@ msgstr ""
 #: src/divert/main.c
 msgid ""
 "please specify --no-rename explicitly, the default will change to --rename "
-"in 1.20.x"
+"not before 1.23.x"
 msgstr ""
 
 #: src/divert/main.c utils/update-alternatives.c
@@ -3858,11 +3869,6 @@ msgstr "hindi ma-stat ang `%s' (sa `%s')"
 msgid "error setting ownership of '%s'"
 msgstr "error sa pagtakda ng pagmamayari ng `%s'"
 
-#: src/statoverride/main.c src/main/archives.c
-#, c-format
-msgid "error setting permissions of '%s'"
-msgstr "error sa pagtakda ng pahintulo ng `%s'"
-
 #: src/statoverride/main.c
 #, fuzzy, c-format
 msgid "--%s needs four arguments"
@@ -3957,7 +3963,7 @@ msgstr ""
 
 #: src/trigger/main.c
 #, fuzzy, c-format
-msgid "illegal awaited package name '%s': %s"
+msgid "invalid awaited package name '%s': %s"
 msgstr "saklaw na `%s', imbalido na pangalan ng pakete `%s': %s"
 
 #: src/trigger/main.c
@@ -3980,24 +3986,31 @@ msgid "no packages found matching %s"
 msgstr "Walang paketeng tugma sa %s.\n"
 
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
-#. * string should remain under 80 characters. The uppercase letters in
-#. * the state values denote the abbreviated letter that will appear on
-#. * the first three columns, which should ideally match the English one
-#. * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
-#. * translated message can use additional lines if needed.
+#. string should remain under 80 characters. The uppercase letters in
+#. the state values denote the abbreviated letter that will appear on
+#. the first three columns, which should ideally match the English one
+#. (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
+#. translated message can use additional lines if needed. The ASCII art
+#. can use Unicode box characters.
+#.
 #: src/query/main.c
 #, fuzzy
 msgid ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
+"+-- Desired=Unknown/Install/Remove/Purge/Hold\n"
+"|+- Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
 "pend\n"
-"|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
+"||+ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
 "Hiling=U-Di alam/Iluklok/R-Tanggalin/Purgahin/Hold\n"
 "| Kalagayan=Not/Installed/Config-files/Unpacked/Failed-config/Half-"
 "installed\n"
 "|/ Err?=(wala)/Hold/Reinst-required/X=parehong-problema \n"
 "|       (Status, Err: masama kapag malaking letra)\n"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "|"
+msgstr ""
 
 #: src/query/main.c
 msgid "Name"
@@ -4015,6 +4028,21 @@ msgstr " (pakete: "
 #: src/query/main.c
 msgid "Description"
 msgstr "Paglalarawan"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "+++-"
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "="
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "-"
+msgstr ""
 
 #: src/query/main.c
 msgid "showing package list on pager"
@@ -4240,8 +4268,7 @@ msgstr "bigo ang pagbasa ng `%s' (sa `%s')"
 #: src/main/archives.c
 #, fuzzy, c-format
 msgid "cannot copy extracted data for '%s' to '%s': %s"
-msgstr ""
-"dpkg: %s: babala - bigo sa pagpalit ng pangalan ng `%s' sa `%s': %s\n"
+msgstr "dpkg: %s: babala - bigo sa pagpalit ng pangalan ng `%s' sa `%s': %s\n"
 
 #: src/main/archives.c
 #, c-format
@@ -4292,8 +4319,8 @@ msgstr "hindi mabasa ang link `%s'"
 #: src/main/archives.c
 #, fuzzy, c-format
 msgid ""
-"trying to overwrite shared '%s', which is different from other instances "
-"of package %s"
+"trying to overwrite shared '%s', which is different from other instances of "
+"package %s"
 msgstr "sinusubukang patungan ang `%s', na nasa paketeng %s din"
 
 #: src/main/archives.c
@@ -4304,8 +4331,8 @@ msgstr "hindi matakda ang pahintulot ng pag-execute sa `%s'"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"failed to stat (dereference) proposed new symlink target '%s' for "
-"symlink '%s'"
+"failed to stat (dereference) proposed new symlink target '%s' for symlink "
+"'%s'"
 msgstr ""
 
 #: src/main/archives.c
@@ -4323,8 +4350,7 @@ msgstr "conffile `%s' ay wala sa pakete"
 #: src/main/archives.c
 #, fuzzy, c-format
 msgid ""
-"trying to overwrite '%s', which is the diverted version of '%s' "
-"(package: %s)"
+"trying to overwrite '%s', which is the diverted version of '%s' (package: %s)"
 msgstr ""
 "sinusubukang patungan ang `%s', na siyang dibertadong bersyon ng "
 "`%s'%.10s%.100s%.10s"
@@ -4345,11 +4371,9 @@ msgstr "hindi ma-stat ang `%s' (na siyang iluluklok sana)"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"unable to clean up mess surrounding '%s' before installing another "
-"version"
+"unable to clean up mess surrounding '%s' before installing another version"
 msgstr ""
-"hindi malinis ang kalat sa paligid ng `%s' bago magluklok ng ibang "
-"bersyon"
+"hindi malinis ang kalat sa paligid ng `%s' bago magluklok ng ibang bersyon"
 
 #: src/main/archives.c
 #, c-format
@@ -4375,12 +4399,9 @@ msgstr "Pinalitan ng mga talaksan sa nakaluklok na paketeng %s ...\n"
 
 #: src/main/archives.c
 #, fuzzy, c-format
-msgid ""
-"trying to overwrite directory '%s' in package %s (%s) with "
-"nondirectory"
+msgid "trying to overwrite directory '%s' in package %s (%s) with nondirectory"
 msgstr ""
-"sinusubukang patungan ang directory `%s' sa paketeng %s ng hindi "
-"directory"
+"sinusubukang patungan ang directory `%s' sa paketeng %s ng hindi directory"
 
 #: src/main/archives.c
 #, fuzzy, c-format
@@ -4405,8 +4426,7 @@ msgstr "hindi ma-chown ang backup symlink para sa `%s'"
 #: src/main/archives.c
 #, c-format
 msgid "unable to make backup link of '%s' before installing new version"
-msgstr ""
-"hindi makagawa ng backup link ng `%s' bago iluklok ang bagong bersyon"
+msgstr "hindi makagawa ng backup link ng `%s' bago iluklok ang bagong bersyon"
 
 #: src/main/archives.c
 #, c-format
@@ -4647,18 +4667,16 @@ msgstr "%s - babala: downgrade ng %s mula %s tungong %s.\n"
 #, fuzzy, c-format
 #| msgid "Will not downgrade %s from version %s to %s, skipping.\n"
 msgid "will not downgrade %s (%s) to (%s), skipping"
-msgstr ""
-"Hindi mag-downgrade ng %s mula bersyon %s tungong %s, "
-"lalagpasin.\n"
+msgstr "Hindi mag-downgrade ng %s mula bersyon %s tungong %s, lalagpasin.\n"
 
 #: src/main/cleanup.c
 #, c-format
 msgid ""
-"unable to remove newly-installed version of '%s' to allow reinstallation "
-"of backup copy"
+"unable to remove newly-installed version of '%s' to allow reinstallation of "
+"backup copy"
 msgstr ""
-"hindi matanggal ang bagong-luklok na bersyon ng `%s' upang maaaring "
-"iluklok-muli ang kopyang backup"
+"hindi matanggal ang bagong-luklok na bersyon ng `%s' upang maaaring iluklok-"
+"muli ang kopyang backup"
 
 #: src/main/cleanup.c
 #, c-format
@@ -4872,8 +4890,7 @@ msgstr "dpkg: %s: babala - bigo sa pagtanggal ng lumang backup `%s': %s\n"
 #: src/main/configure.c
 #, fuzzy, c-format
 msgid "%s: failed to rename '%s' to '%s': %s"
-msgstr ""
-"dpkg: %s: babala - bigo sa pagpalit ng pangalan ng `%s' sa `%s': %s\n"
+msgstr "dpkg: %s: babala - bigo sa pagpalit ng pangalan ng `%s' sa `%s': %s\n"
 
 #: src/main/configure.c src/main/unpack.c
 #, fuzzy, c-format
@@ -4884,14 +4901,12 @@ msgstr "%s: bigo sa pag-exec gzip %s"
 #, fuzzy, c-format
 msgid "%s: failed to remove old distributed version '%s': %s"
 msgstr ""
-"dpkg: %s: babala - bigo sa pagtanggal ng lumang distrib bersyon ng `%s': "
-"%s\n"
+"dpkg: %s: babala - bigo sa pagtanggal ng lumang distrib bersyon ng `%s': %s\n"
 
 #: src/main/configure.c
 #, fuzzy, c-format
 msgid "%s: failed to remove '%s' (before overwrite): %s"
-msgstr ""
-"dpkg: %s: babala - bigo sa pagtanggal ng `%s' (bago patungan): %s\n"
+msgstr "dpkg: %s: babala - bigo sa pagtanggal ng `%s' (bago patungan): %s\n"
 
 #: src/main/configure.c
 #, fuzzy, c-format
@@ -5127,8 +5142,7 @@ msgstr "  %s ay nagbibigay ng %s ngunit ito'y tatanggalin.\n"
 #: src/main/depcon.c
 #, c-format
 msgid "  %s provides %s but is to be deconfigured.\n"
-msgstr ""
-"  %s ay nagbibigay ng %s ngunit ito'y tatanggalan ng pagkaayos.\n"
+msgstr "  %s ay nagbibigay ng %s ngunit ito'y tatanggalan ng pagkaayos.\n"
 
 #: src/main/depcon.c
 #, c-format
@@ -5234,7 +5248,7 @@ msgid "The following packages do not have an architecture:\n"
 msgstr ""
 
 #: src/main/enquiry.c
-msgid "The following packages have an illegal architecture:\n"
+msgid "The following packages have an invalid architecture:\n"
 msgstr ""
 
 #: src/main/enquiry.c
@@ -5340,8 +5354,7 @@ msgstr ""
 #: src/main/enquiry.c
 #, c-format
 msgid "cannot satisfy pre-dependencies for %s (wanted due to %s)"
-msgstr ""
-"hindi maayos ang pre-dependensiya para sa %s (kailangan dahil sa %s)"
+msgstr "hindi maayos ang pre-dependensiya para sa %s (kailangan dahil sa %s)"
 
 #: src/main/enquiry.c
 #, fuzzy, c-format
@@ -5555,7 +5568,6 @@ msgid ""
 "  --update-avail [<Packages-file>] Replace available packages info.\n"
 "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
 "  --clear-avail                    Erase existing available info.\n"
-"  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
 "  -s|--status [<package>...]       Display package status details.\n"
 "  -p|--print-avail [<package>...]  Display available version details.\n"
 "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
@@ -5868,8 +5880,7 @@ msgstr "di kilalang opsyon --%s"
 #| msgid "null package name in --ignore-depends comma-separated list `%s'"
 msgid "null package name in --%s comma-separated list '%s'"
 msgstr ""
-"pangalan ng pakete na null sa --ignore-depends listahang hiwalay-ng-koma "
-"`%s'"
+"pangalan ng pakete na null sa --ignore-depends listahang hiwalay-ng-koma `%s'"
 
 #: src/main/main.c
 #, c-format
@@ -5881,9 +5892,9 @@ msgid "status logger"
 msgstr ""
 
 #: src/main/main.c
-#, c-format
-msgid "architecture '%s' is illegal: %s"
-msgstr ""
+#, fuzzy, c-format
+msgid "architecture '%s' is invalid: %s"
+msgstr "saklaw na `%s', imbalido na pangalan ng pakete `%s': %s"
 
 #: src/main/main.c
 #, c-format
@@ -5907,8 +5918,9 @@ msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr ""
 
 #: src/main/main.c
-#, c-format
-msgid "couldn't open '%i' for stream"
+#, fuzzy, c-format
+#| msgid "couldn't open '%i' for stream"
+msgid "cannot open '%i' for stream"
 msgstr "hindi mabuksan ang `%i' para sa stream"
 
 #: src/main/main.c
@@ -6011,8 +6023,7 @@ msgstr "dpkg: isinasaayos din ang `%s' (kailangan ng `%s')\n"
 #: src/main/packages.c
 #, fuzzy, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
-msgstr ""
-"  %s ay nagbibigay ng %s ngunit ito'y tatanggalan ng pagkaayos.\n"
+msgstr "  %s ay nagbibigay ng %s ngunit ito'y tatanggalan ng pagkaayos.\n"
 
 #: src/main/packages.c
 #, fuzzy, c-format
@@ -6137,15 +6148,16 @@ msgid "Removing %s (%s) ...\n"
 msgstr "Tinatanggal ang %s ...\n"
 
 #: src/main/remove.c src/main/unpack.c
-#, c-format
-msgid "unable to delete control info file '%s'"
-msgstr "hindi matanggal ang talaksang control info `%s'"
+#, fuzzy, c-format
+#| msgid "unable to delete used-up depot file '%s'"
+msgid "unable to delete package metadata file '%s'"
+msgstr "hindi matanggal ang nagamit na talaksang bodega `%s'"
 
 #: src/main/remove.c
 #, fuzzy, c-format
 msgid ""
-"while removing %s, unable to remove directory '%s': %s - directory "
-"may be a mount point?"
+"while removing %s, unable to remove directory '%s': %s - directory may be a "
+"mount point?"
 msgstr ""
 "dpkg - babala: habang tinatanggal ang %s, hindi matanggal ang directory\n"
 " `%s': %s - directory ay maaaring punto ng paglapat ?\n"
@@ -6154,8 +6166,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid "while removing %s, directory '%s' not empty so not removed"
 msgstr ""
-"dpkg - babala: habang tinatanggal ang %s, may laman ang directory "
-"`%s'\n"
+"dpkg - babala: habang tinatanggal ang %s, may laman ang directory `%s'\n"
 " kaya't hindi ito tinanggal.\n"
 
 #: src/main/remove.c
@@ -6179,8 +6190,7 @@ msgstr "hindi mabasa ang dir ng talaksang pagkaayos `%s' (mula `%s')"
 #, c-format
 msgid "cannot remove old backup config file '%s' (of '%s')"
 msgstr ""
-"hindi matanggal ang lumang backup ng talaksang pagkaayos `%s' (ng "
-"`%s')"
+"hindi matanggal ang lumang backup ng talaksang pagkaayos `%s' (ng `%s')"
 
 #: src/main/remove.c
 msgid "cannot remove old files list"
@@ -6222,7 +6232,8 @@ msgstr "hindî maka-stat sa vsnprintf"
 
 #: src/main/script.c
 #, fuzzy, c-format
-msgid "installed %s package %s script"
+#| msgid "old %s script"
+msgid "old %s package %s maintainer script"
 msgstr "lumang %s skripto"
 
 #: src/main/script.c
@@ -6233,14 +6244,8 @@ msgstr "hindi ma-stat ang %s `%s'"
 #: src/main/script.c
 #, fuzzy, c-format
 #| msgid "new %s script"
-msgid "new %s package %s script"
+msgid "new %s package %s maintainer script"
 msgstr "bagong %s skripto"
-
-#: src/main/script.c
-#, fuzzy, c-format
-#| msgid "old %s script"
-msgid "old %s package %s script"
-msgstr "lumang %s skripto"
 
 #: src/main/script.c
 #, fuzzy, c-format
@@ -6248,14 +6253,16 @@ msgid "unable to stat %s '%s': %s"
 msgstr "hindi ma-stat ang %s `%s'"
 
 #: src/main/script.c
-#, fuzzy
+#, fuzzy, c-format
 #| msgid "dpkg - trying script from the new package instead ...\n"
-msgid "trying script from the new package instead ..."
+msgid "trying %s maintainer script from the new %s package instead ..."
 msgstr ""
 "dpkg - sinusubukan na lamang ang skripto mula sa bagong pakete sa halip ...\n"
 
 #: src/main/script.c
-msgid "there is no script in the new version of the package - giving up"
+#, fuzzy, c-format
+#| msgid "there is no script in the new version of the package - giving up"
+msgid "missing %s maintainer script in new %s package, giving up"
 msgstr "walang skripto sa bagong bersyon ng pakete - sumusuko na"
 
 #: src/main/script.c
@@ -6292,8 +6299,9 @@ msgid "unexpected data after package and selection at line %d"
 msgstr "di inaasahang datos matapos ng pakete at pinili sa linya %d"
 
 #: src/main/select.c
-#, c-format
-msgid "illegal package name at line %d: %s"
+#, fuzzy, c-format
+#| msgid "illegal package name at line %d: %s"
+msgid "invalid package name at line %d: %s"
 msgstr "bawal na pangalan ng pakete sa linya %d: %s"
 
 #: src/main/select.c
@@ -6371,6 +6379,11 @@ msgstr ""
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "Pinupurga ang talaksang pagkaayos ng %s ...\n"
 
+#. TRANSLATORS: This string represents a summarized pathname,
+#. were prefix directories get abbreviated with ".../", if the
+#. total length exceeds a limit. The three dots would usually
+#. be represented by «…/».
+#.
 #: src/main/unpack.c
 #, c-format
 msgid ".../%s"
@@ -6482,20 +6495,25 @@ msgid "error closing %s"
 msgstr "error sa pagsara %s"
 
 #: src/main/unpack.c
-#, c-format
-msgid "old version of package has overly-long info file name starting '%s'"
+#, fuzzy, c-format
+#| msgid "old version of package has overly-long info file name starting '%s'"
+msgid ""
+"old version of package has overly-long meatada file name (starting with "
+"'%.*s')"
 msgstr ""
 "lumang bersyon ng pakete ay may sobrang-haba na pangalan ng talaksang info \n"
 "nagsisimula `%s'"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to remove obsolete info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to remove obsolete info file '%s'"
+msgid "unable to remove obsolete package metadata file '%s'"
 msgstr "hindi matanggal ang laos na talaksang info `%s'"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install (supposed) new info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install (supposed) new info file '%s'"
+msgid "unable to install (supposed) new package metadata file '%s'"
 msgstr "hindi maluklok (daw) bagong talaksang info `%s'"
 
 #: src/main/unpack.c
@@ -6503,31 +6521,36 @@ msgid "unable to open temp control directory"
 msgstr "hindi mabuksan ang temp control directory"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package contains overly-long control info file name (starting '%.50s')"
+#, fuzzy, c-format
+#| msgid ""
+#| "package contains overly-long control info file name (starting '%.50s')"
+msgid "package has overly-long metadata file name (starting with '%.*s')"
 msgstr ""
 "naglalaman ang pakete ng sobrang-haba na pangalan ng talaksang control info\n"
 "(nagsisimula `%.50s')"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info contained directory '%s'"
+#, fuzzy, c-format
+#| msgid "package control info contained directory '%s'"
+msgid "package metadata contained directory '%s'"
 msgstr "control info ng pakete ay naglaman ng directory `%s'"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info rmdir of '%s' did not say not a dir"
+#, fuzzy, c-format
+#| msgid "package control info rmdir of '%s' did not say not a dir"
+msgid "package metadata rmdir of '%s' did not say not a dir"
 msgstr "control info ng pakete rmdir ng `%s' hindi nagsabing hindi ito dir"
 
 #: src/main/unpack.c
 #, fuzzy, c-format
-msgid "package %s contained list as info file"
+msgid "package %s contained '%s' as a metadata file"
 msgstr ""
 "dpkg: babala - ang paketeng %s ay naglaman ng listahan bilang talaksang info"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install new info file '%s' as '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install new info file '%s' as '%s'"
+msgid "unable to install new metadata file '%s' as '%s'"
 msgstr "hindi mailuklok ang bagong talaksang info `%s' bilang `%s'"
 
 #: src/main/unpack.c
@@ -6576,9 +6599,7 @@ msgstr "hindi ma-fstat ang talaksang bahagi `%s'"
 
 #: src/main/unpack.c
 #, fuzzy, c-format
-msgid ""
-"old file '%s' is the same as several new files! (both '%s' and "
-"'%s')"
+msgid "old file '%s' is the same as several new files! (both '%s' and '%s')"
 msgstr ""
 "dpkg: %s: babala - conffile `%s' ay hindi payak na talaksan o symlink\n"
 " (= `%s')\n"
@@ -6595,7 +6616,7 @@ msgstr "(Pinupuna ang pagkawala ng %s, na siyang napalitan ng buo.)\n"
 
 #: src/main/unpack.c
 #, fuzzy
-msgid "package control information extraction"
+msgid "package metadata files extraction"
 msgstr "haba ng impormasyong ctrl"
 
 #: src/main/unpack.c
@@ -6654,6 +6675,12 @@ msgstr ""
 msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s ay nangangailangan ng isang argumentong talaksang Packages"
 
+#: src/main/update.c utils/update-alternatives.c
+#, fuzzy
+#| msgid "read error on standard input"
+msgid "<standard input>"
+msgstr "error sa pagbasa ng standard input"
+
 #: src/main/update.c
 #, fuzzy, c-format
 #| msgid "unable to access dpkg status area for bulk available update"
@@ -6671,14 +6698,16 @@ msgstr ""
 "di ma-akses ang dpkg status area para sa maramihang pag-apdeyt ng magagamit"
 
 #: src/main/update.c
-#, c-format
-msgid "Replacing available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Replacing available packages info, using %s.\n"
+msgid "Replacing available packages information from %s.\n"
 msgstr ""
 "Pinapalitan ang info tungkol sa magagamit na mga pakete, gamit ang %s.\n"
 
 #: src/main/update.c
-#, c-format
-msgid "Updating available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Updating available packages info, using %s.\n"
+msgid "Updating available packages information from %s.\n"
 msgstr ""
 "Ina-apdeyt ang info tungkol sa magagamit na mga pakete, gamit ang %s.\n"
 
@@ -6706,7 +6735,7 @@ msgstr "' bersyon ng backend ng arkibong pakete"
 msgid ""
 "Commands:\n"
 "  --install <link> <name> <path> <priority>\n"
-"    [--slave <link> <name> <path>] ...\n"
+"    [--slave <link> <name> <path>]...\n"
 "                           add a group of alternatives to the system.\n"
 "  --remove <name> <path>   remove <path> from the <name> group alternative.\n"
 "  --remove-all <name>      remove <name> group from the alternatives "
@@ -7012,8 +7041,7 @@ msgstr ""
 #: utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "There is no program which provides %s."
-msgstr ""
-"  %s ay nagbibigay ng %s ngunit ito'y tatanggalan ng pagkaayos.\n"
+msgstr "  %s ay nagbibigay ng %s ngunit ito'y tatanggalan ng pagkaayos.\n"
 
 #: utils/update-alternatives.c
 msgid "Nothing to configure."
@@ -7065,8 +7093,7 @@ msgstr ""
 #: utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "there is no program which provides %s"
-msgstr ""
-"  %s ay nagbibigay ng %s ngunit ito'y tatanggalan ng pagkaayos.\n"
+msgstr "  %s ay nagbibigay ng %s ngunit ito'y tatanggalan ng pagkaayos.\n"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -7293,12 +7320,6 @@ msgstr ""
 msgid "no alternatives for %s"
 msgstr "di kilalang uri ng compression `%s'!"
 
-#: utils/update-alternatives.c
-#, fuzzy
-#| msgid "read error on standard input"
-msgid "<standard input>"
-msgstr "error sa pagbasa ng standard input"
-
 #: utils/update-alternatives.polkit.in
 msgid "Run update-alternatives to modify system alternative selections"
 msgstr ""
@@ -7307,10 +7328,22 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#, fuzzy, c-format
+#~| msgid "subprocess %s returned error exit status %d"
+#~ msgid "%s subprocess returned error exit status %d"
+#~ msgstr "nagbalik ang subprocess %s ng error exit status %d"
+
+#, c-format
+#~ msgid "unable to delete control info file '%s'"
+#~ msgstr "hindi matanggal ang talaksang control info `%s'"
+
+#, fuzzy, c-format
+#~ msgid "installed %s package %s script"
+#~ msgstr "lumang %s skripto"
+
 #, c-format
 #~ msgid "open component '%s' (in %s) failed in an unexpected way"
-#~ msgstr ""
-#~ "pagbukas ng bahaging `%s' (ng %s) bigo sa hindi inaasahang paraan"
+#~ msgstr "pagbukas ng bahaging `%s' (ng %s) bigo sa hindi inaasahang paraan"
 
 #, c-format
 #~ msgid "cannot stat '%s' (in '%s')"
@@ -7409,14 +7442,12 @@ msgstr ""
 #~| msgid "unable to open files list file for package `%s'"
 #~ msgid "cannot open control file '%s' for package '%s'"
 #~ msgstr ""
-#~ "hindi mabuksan ang talaksan ng listahan ng talaksan para sa paketeng "
-#~ "`%s'"
+#~ "hindi mabuksan ang talaksan ng listahan ng talaksan para sa paketeng `%s'"
 
 #, fuzzy
 #~ msgid "cannot stat control file '%s' for package '%s'"
 #~ msgstr ""
-#~ "hindi mabuksan ang talaksan ng listahan ng talaksan para sa paketeng "
-#~ "`%s'"
+#~ "hindi mabuksan ang talaksan ng listahan ng talaksan para sa paketeng `%s'"
 
 #, fuzzy
 #~ msgid "control file '%s' for package '%s' is not a regular file"
@@ -7432,14 +7463,12 @@ msgstr ""
 
 #~ msgid "unable to open files list file for package '%s'"
 #~ msgstr ""
-#~ "hindi mabuksan ang talaksan ng listahan ng talaksan para sa paketeng "
-#~ "`%s'"
+#~ "hindi mabuksan ang talaksan ng listahan ng talaksan para sa paketeng `%s'"
 
 #, fuzzy
 #~ msgid "unable to stat files list file for package '%s'"
 #~ msgstr ""
-#~ "hindi mabuksan ang talaksan ng listahan ng talaksan para sa paketeng "
-#~ "`%s'"
+#~ "hindi mabuksan ang talaksan ng listahan ng talaksan para sa paketeng `%s'"
 
 #, fuzzy
 #~ msgid "files list for package '%s' is not a regular file"
@@ -7665,8 +7694,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "failed to install '%s' as '%s' containing %s database"
-#~ msgstr ""
-#~ "bigo sa pagluklok ng `%s' bilang `%s' na naglalaman ng %s info"
+#~ msgstr "bigo sa pagluklok ng `%s' bilang `%s' na naglalaman ng %s info"
 
 #, fuzzy
 #~ msgid "realloc failed (%zu bytes)"
@@ -7916,8 +7944,8 @@ msgstr ""
 #~ "  confold [!]            Always use the old config files, do not prompt\n"
 #~ "  confdef [!]            Use the default option for new config files if "
 #~ "one\n"
-#~ "                         is available, do not prompt. If no default can be "
-#~ "found,\n"
+#~ "                         is available, do not prompt. If no default can "
+#~ "be found,\n"
 #~ "                         you will be prompted unless one of the confold "
 #~ "or\n"
 #~ "                         confnew options is also given\n"
@@ -8046,8 +8074,7 @@ msgstr ""
 #~ msgstr "bigo na i-exec ang sh -c mv foo/* &c"
 
 #~ msgid "file `%s' is corrupt - %s length contains nulls"
-#~ msgstr ""
-#~ "talaksang `%s' ay sira - %s na haba ay naglalaman ng mga null"
+#~ msgstr "talaksang `%s' ay sira - %s na haba ay naglalaman ng mga null"
 
 #~ msgid "file `%s' is corrupt - negative member length %zi"
 #~ msgstr "sira ang talaksang `%s' - negatibo ang haba ng kasapi %zi"
@@ -8109,8 +8136,7 @@ msgstr ""
 #, fuzzy
 #~ msgid "rename: rename `%s' to `%s': %s"
 #~ msgstr ""
-#~ "dpkg: %s: babala - bigo sa pagpalit ng pangalan ng `%s' sa `%s': "
-#~ "%s\n"
+#~ "dpkg: %s: babala - bigo sa pagpalit ng pangalan ng `%s' sa `%s': %s\n"
 
 #, fuzzy
 #~ msgid "create diversions-new: %s"
@@ -8518,8 +8544,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "missing newline after %s"
-#~ msgstr ""
-#~ "sira ang talaksang `%s' - may kulang na newline matapos ang %s"
+#~ msgstr "sira ang talaksang `%s' - may kulang na newline matapos ang %s"
 
 #~ msgid "couldn't allocate memory for strdup in findpackage(%s)"
 #~ msgstr "hindi makapag-allocate ng memory para sa strdup sa findpackage(%s)"

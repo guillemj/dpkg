@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-05-19 00:00+0200\n"
+"POT-Creation-Date: 2025-12-16 21:20+0000\n"
 "PO-Revision-Date: 2015-04-07 10:01+0200\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <debian-l10n-slovak@lists.debian.org>\n"
@@ -397,7 +397,7 @@ msgstr ""
 #: lib/dpkg/db-ctrl-upgrade.c
 #, fuzzy, c-format
 #| msgid "Info file %s/%s not associated to any package"
-msgid "info file %s/%s not associated to any package"
+msgid "metadata file %s/%s not associated to any package"
 msgstr "Súbor info %s/%s nie je priradený žiadnemu balíku"
 
 #: lib/dpkg/db-ctrl-upgrade.c src/main/archives.c
@@ -467,8 +467,8 @@ msgid ""
 "files list file for package '%s' missing; assuming package has no files "
 "currently installed"
 msgstr ""
-"súbor so zoznamom súborov balíka „%s“ chýba, predpokladá sa, že balík "
-"nemá momentálne nainštalované žiadne súbory"
+"súbor so zoznamom súborov balíka „%s“ chýba, predpokladá sa, že balík nemá "
+"momentálne nainštalované žiadne súbory"
 
 #: lib/dpkg/db-fsys-files.c
 msgid "(Reading database ... "
@@ -561,8 +561,8 @@ msgid ""
 "updates directory contains file '%s' whose name is too long (length=%d, "
 "max=%d)"
 msgstr ""
-"adresár s aktualizáciami obsahuje súbor „%s“, ktorého názov je príliš "
-"dlhý (dĺžka=%d, max=%d)"
+"adresár s aktualizáciami obsahuje súbor „%s“, ktorého názov je príliš dlhý "
+"(dĺžka=%d, max=%d)"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -748,7 +748,7 @@ msgid "unable to open file '%s'"
 msgstr "nie je možné otvoriť súbor „%s“"
 
 #: lib/dpkg/dir.c src/deb/build.c src/split/join.c src/split/queue.c
-#: src/divert/main.c utils/update-alternatives.c
+#: src/divert/main.c src/main/archives.c utils/update-alternatives.c
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "nie je možné vyprázdniť (sync) súbor „%s“"
@@ -987,10 +987,8 @@ msgstr ""
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid ""
-"'%s' field, reference to '%s': invalid architecture name '%s': %s"
-msgstr ""
-"pole „%s“ odkazujúce na „%s“: neplatný názov architektúry „%s“: %s"
+msgid "'%s' field, reference to '%s': invalid architecture name '%s': %s"
+msgstr "pole „%s“ odkazujúce na „%s“: neplatný názov architektúry „%s“: %s"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -1042,8 +1040,7 @@ msgstr "pole „%s“ odkazujúce na „%s“: verzia neukončená"
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "'%s' field, reference to '%s': version contains '%c'"
-msgid ""
-"'%s' field, reference to '%s': version contains '%c' instead of '%c'"
+msgid "'%s' field, reference to '%s': version contains '%c' instead of '%c'"
 msgstr "pole „%s“ odkazujúce na „%s“: verzia obsahuje „%c“"
 
 #: lib/dpkg/fields.c
@@ -1064,8 +1061,9 @@ msgid "alternatives ('|') not allowed in '%s' field"
 msgstr "alternatíva („|“) nie je prípustná v poli %s"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "illegal pending trigger name '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal pending trigger name '%s': %s"
+msgid "invalid pending trigger name '%s': %s"
 msgstr "neplatný názov čakajúceho spúšťača (triggers-pending) „%s“: %s"
 
 #: lib/dpkg/fields.c
@@ -1074,15 +1072,15 @@ msgid "duplicate pending trigger '%s'"
 msgstr "duplicitný čakajúci spúšťač (triggers-pending) „%s“"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "illegal package name in awaited trigger '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal package name in awaited trigger '%s': %s"
+msgid "invalid package name in awaited trigger '%s': %s"
 msgstr "nepovolený názov balíka v očakávanom spúšťači „%s“: %s"
 
 #: lib/dpkg/fields.c
 #, c-format
 msgid "duplicate awaited trigger package '%s'"
-msgstr ""
-"duplicitný názov balíka v očakávanom spúšťači (triggers-awaited) „%s“"
+msgstr "duplicitný názov balíka v očakávanom spúšťači (triggers-awaited) „%s“"
 
 #: lib/dpkg/file.c
 #, fuzzy, c-format
@@ -1460,29 +1458,33 @@ msgstr ""
 "viaceré nainštalované inštancie"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "failed to open package info file '%s' for reading"
+#, fuzzy, c-format
+#| msgid "failed to open package info file '%s' for reading"
+msgid "failed to open package control file '%s' for reading"
 msgstr "zlyhalo otváranie info súboru balíka „%s“ na čítanie"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot stat package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot stat package info file '%s'"
+msgid "cannot stat package control file '%s'"
 msgstr "nie je možné zistiť stav súboru s informáciami o balíku „%s“"
 
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "reading package info file '%s'"
-msgid "reading package info file '%s': %s"
+msgid "reading package control file '%s': %s"
 msgstr "číta sa súbor s informáciami o balíku „%s“"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot mmap package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot mmap package info file '%s'"
+msgid "cannot mmap package control file '%s'"
 msgstr "nie je možné vykonať funkciu mmap na info súbor balíka „%s“"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "reading package info file '%s'"
+#, fuzzy, c-format
+#| msgid "reading package info file '%s'"
+msgid "reading package control file '%s'"
 msgstr "číta sa súbor s informáciami o balíku „%s“"
 
 #: lib/dpkg/parse.c
@@ -1508,7 +1510,7 @@ msgstr "nový riadok v poli „%.*s“"
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF (^Z) in field name `%.*s'"
-msgid "MSDOS end of file (^Z) in field name '%.*s'"
+msgid "MSDOS end of file (Ctrl+Z) in field name '%.*s'"
 msgstr "MSDOS EOF (^Z) v názve poľa „%.*s“"
 
 #: lib/dpkg/parse.c
@@ -1525,7 +1527,7 @@ msgstr "EOF pred hodnotou poľa „%.*s“ (chýbajúci záverečný nový riado
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
-msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
+msgid "MSDOS end of file (Ctrl+Z) in value of field '%.*s' (missing newline?)"
 msgstr "znak MSDOS EOF v hodnote poľa „%.*s“ (chýbajúci nový riadok?)"
 
 #: lib/dpkg/parse.c
@@ -1641,7 +1643,7 @@ msgstr "neplatný znak v čísle verzie"
 msgid "invalid character in revision number"
 msgstr "neplatný znak v čísle revízie"
 
-#: lib/dpkg/path-remove.c
+#: lib/dpkg/path-remove.c src/main/remove.c
 #, c-format
 msgid "unable to securely remove '%s'"
 msgstr "nedá sa bezpečne odstrániť „%s“"
@@ -1685,17 +1687,20 @@ msgid "version '%s' has bad syntax: %s"
 msgstr "verzia „%s“ má chybnú syntax: %s"
 
 #: lib/dpkg/pkg-spec.c
-#, c-format
-msgid "illegal package name in specifier '%s%s%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal package name in specifier '%s%s%s': %s"
+msgid "invalid package name in specifier '%s%s%s': %s"
 msgstr "neplatný názov balíka v špecifikátore „%s%s%s“: %s"
 
 #: lib/dpkg/pkg-spec.c
-#, c-format
-msgid "illegal architecture name in specifier '%s:%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal architecture name in specifier '%s:%s': %s"
+msgid "invalid architecture name in specifier '%s:%s': %s"
 msgstr "neplatný názov architektúry v špecifikátore „%s:%s“: %s"
 
 #. TRANSLATORS: This is part of the progress output, it is a decimal
-#. * percentage.
+#. percentage.
+#.
 #: lib/dpkg/progress.c
 #, c-format
 msgid "%d%%"
@@ -1745,9 +1750,9 @@ msgstr "funkcia fork zlyhala"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
-#| msgid "subprocess %s returned error exit status %d"
-msgid "%s subprocess returned error exit status %d"
-msgstr "podproces %s vrátil chybový kód %d"
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with exit status %d"
+msgstr "podproces %s zlyhal s čakacím stavovým kódom %d"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
@@ -1891,8 +1896,7 @@ msgstr "nie je možné otvoriť/vytvoriť nový odložený súbor spúšťača �
 #| msgid "syntax error in triggers deferred file '%s' at character '%s'%s"
 msgid ""
 "syntax error in triggers deferred file '%s' at line %d character %zd '%s'"
-msgstr ""
-"syntaktická chyba v súbore odložených spúšťačov „%s“ na znaku „%s“%s"
+msgstr "syntaktická chyba v súbore odložených spúšťačov „%s“ na znaku „%s“%s"
 
 #: lib/dpkg/trigdeferred.c
 #, c-format
@@ -1939,20 +1943,18 @@ msgid "failed to rewind trigger interest file '%s'"
 msgstr "nepodarilo sa vrátiť na začiatok súboru záujmu spúšťača „%s“"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid ""
-"trigger interest file '%s' syntax error; illegal package name '%s': "
-"%s"
+#, fuzzy, c-format
+#| msgid ""
+#| "trigger interest file '%s' syntax error; illegal package name '%s': %s"
+msgid "trigger interest file '%s' syntax error; invalid package name '%s': %s"
 msgstr ""
-"syntaktická chyba v súbore záujmu spúšťača „%s“; neplatný názov balíka "
-"„%s“: %s"
+"syntaktická chyba v súbore záujmu spúšťača „%s“; neplatný názov balíka „%s“: "
+"%s"
 
 #: lib/dpkg/triglib.c
 #, c-format
-msgid ""
-"duplicate file trigger interest for filename '%s' and package '%s'"
-msgstr ""
-"duplicitný súbor záujmu spúšťača pri názve súboru „%s“ a balíka „%s“"
+msgid "duplicate file trigger interest for filename '%s' and package '%s'"
+msgstr "duplicitný súbor záujmu spúšťača pri názve súboru „%s“ a balíka „%s“"
 
 #: lib/dpkg/triglib.c
 #, c-format
@@ -1965,35 +1967,45 @@ msgid "syntax error in file triggers file '%s'"
 msgstr "syntaktická chyba v súbore spúšťača súboru „%s“"
 
 #: lib/dpkg/triglib.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "file triggers record mentions illegal package name '%s' (for interest in "
+#| "file '%s'): %s"
 msgid ""
-"file triggers record mentions illegal package name '%s' (for interest in "
+"file triggers record mentions invalid package name '%s' (for interest in "
 "file '%s'): %s"
 msgstr ""
-"záznam spúšťača zmieňuje neplatný názov balíka „%s“ (súbor záujmu "
-"spúšťača „%s“): %s"
+"záznam spúšťača zmieňuje neplatný názov balíka „%s“ (súbor záujmu spúšťača "
+"„%s“): %s"
 
 #: lib/dpkg/triglib.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "triggers ci file '%s' contains illegal trigger syntax in trigger name "
+#| "'%s': %s"
 msgid ""
-"triggers ci file '%s' contains illegal trigger syntax in trigger name "
-"'%s': %s"
+"triggers package metadata file '%s' contains invalid trigger syntax in "
+"trigger name '%s': %s"
 msgstr ""
-"súbor ci spúšťača „%s“ obsahuje neplatnú syntax spúšťača v názve "
-"spúšťača „%s“: %s"
+"súbor ci spúšťača „%s“ obsahuje neplatnú syntax spúšťača v názve spúšťača "
+"„%s“: %s"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid "unable to open triggers ci file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to open triggers ci file '%s'"
+msgid "unable to open triggers package metadata file '%s'"
 msgstr "nepodarilo sa otvoriť súbor ci spúšťača „%s“"
 
 #: lib/dpkg/triglib.c
-msgid "triggers ci file contains unknown directive syntax"
+#, fuzzy, c-format
+#| msgid "triggers ci file contains unknown directive syntax"
+msgid "triggers package metadata file '%s' contains unknown directive syntax"
 msgstr "súbor ci spúšťača „%s“ obsahuje neplatnú syntax direktívy"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid "triggers ci file contains unknown directive '%s'"
+#, fuzzy, c-format
+#| msgid "triggers ci file contains unknown directive '%s'"
+msgid "triggers package metadata file '%s' contains unknown directive '%s'"
 msgstr "súbor ci spúšťača obsahuje neznámu direktívu „%s“"
 
 #: lib/dpkg/triglib.c
@@ -2302,7 +2314,7 @@ msgstr ""
 msgid "cannot read link '%s'"
 msgstr "nedá sa dopisovať do súboru „%s“"
 
-#: src/realpath/main.c
+#: src/realpath/main.c src/main/archives.c src/main/configure.c
 #, fuzzy, c-format
 #| msgid "symbolic link '%s' size has changed from %jd to %zd"
 msgid "symbolic link '%s' size has changed from %jd to %zd"
@@ -2359,8 +2371,7 @@ msgstr "skript správcu „%s“ nie je obyčajný súbor ani symbolický odkaz"
 #: src/deb/build.c
 #, c-format
 msgid ""
-"maintainer script '%s' has bad permissions %03lo (must be >=0555 and "
-"<=0775)"
+"maintainer script '%s' has bad permissions %03lo (must be >=0555 and <=0775)"
 msgstr ""
 "skript správcu „%s“ má nesprávne práva %03lo (musí byť >=0555 a <=0775)"
 
@@ -2382,8 +2393,8 @@ msgstr "prázdny reťazec z funkcie fgets počas čítania súboru"
 #| msgid "conffile name '%s...' is too long, or missing final newline"
 msgid "conffile name '%s' is too long, or missing final newline"
 msgstr ""
-"názov konfiguračného súboru „%s...“ je príliš dlhý alebo chýba znak "
-"nového riadka na konci"
+"názov konfiguračného súboru „%s...“ je príliš dlhý alebo chýba znak nového "
+"riadka na konci"
 
 #: src/deb/build.c
 msgid "empty and whitespace-only lines are not allowed in conffiles"
@@ -2775,6 +2786,11 @@ msgstr ""
 msgid "--%s does not support (yet) reading the .deb from standard input"
 msgstr ""
 
+#: src/deb/info.c src/statoverride/main.c src/main/archives.c
+#, c-format
+msgid "error setting permissions of '%s'"
+msgstr "chyba pri nastavovaní prístupových práv u „%s“"
+
 #: src/deb/info.c src/main/unpack.c
 msgid "unable to create temporary directory"
 msgstr "zlyhalo vytvorenie dočasného adresára"
@@ -2892,11 +2908,11 @@ msgid ""
 "  -I|--info <deb> [<cfile>...]     Show info to stdout.\n"
 "  -W|--show <deb>                  Show information on package(s)\n"
 "  -f|--field <deb> [<cfield>...]   Show field(s) to stdout.\n"
-"  -e|--control <deb> [<directory>] Extract control info.\n"
-"  -x|--extract <deb> <directory>   Extract files.\n"
-"  -X|--vextract <deb> <directory>  Extract & list files.\n"
+"  -e|--control <deb> [<directory>] Extract metadata files.\n"
+"  -x|--extract <deb> <directory>   Extract filesystem files.\n"
+"  -X|--vextract <deb> <directory>  Extract and list filesystem files.\n"
 "  -R|--raw-extract <deb> <directory>\n"
-"                                   Extract control info and files.\n"
+"                                   Extract metadata and filesystem files.\n"
 "  --ctrl-tarfile <deb>             Output control tarfile.\n"
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
@@ -3132,10 +3148,22 @@ msgid "error reading %s"
 msgstr "chyba pri čítaní %s"
 
 #: src/split/info.c
+#, fuzzy
+#| msgid "archive member header"
+msgid "ar header"
+msgstr "hlavička člena archívu"
+
+#: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - bad magic at end of first header"
 msgstr ""
 "súbor „%s“ je poškodený - chybné magické znaky na konci prvého záhlavia"
+
+#: src/split/info.c
+#, fuzzy
+#| msgid "archive information header member"
+msgid "reading header member"
+msgstr "člena informačnej hlavičky archívu"
 
 #: src/split/info.c
 #, c-format
@@ -3218,10 +3246,13 @@ msgid "package architecture"
 msgstr "architektúra balíka"
 
 #: src/split/info.c
+msgid "reading data part member ar header"
+msgstr ""
+
+#: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - bad magic at end of second header"
-msgstr ""
-"súbor „%s“ je poškodený - chybný magický znak na konci druhej hlavičky"
+msgstr "súbor „%s“ je poškodený - chybný magický znak na konci druhej hlavičky"
 
 #: src/split/info.c
 #, c-format
@@ -3402,7 +3433,6 @@ msgid ""
 "  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
 "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
-"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "Voľby:\n"
@@ -3466,8 +3496,7 @@ msgstr "nie je možné prečítať časť súboru „%s“"
 #: src/split/queue.c
 #, c-format
 msgid "File '%s' is not part of a multipart archive.\n"
-msgstr ""
-"Súbor „%s“ nie je časťou archívu skladajúceho sa z viacerých častí.\n"
+msgstr "Súbor „%s“ nie je časťou archívu skladajúceho sa z viacerých častí.\n"
 
 #: src/split/queue.c
 #, fuzzy, c-format
@@ -3705,7 +3734,7 @@ msgstr ""
 #: src/divert/main.c
 msgid ""
 "please specify --no-rename explicitly, the default will change to --rename "
-"in 1.20.x"
+"not before 1.23.x"
 msgstr ""
 
 #: src/divert/main.c utils/update-alternatives.c
@@ -3966,11 +3995,6 @@ msgstr "riadiaci súbor „%s“ neexistuje"
 msgid "error setting ownership of '%s'"
 msgstr "chyba pri nastavovaní vlastníckych práv u „%s“"
 
-#: src/statoverride/main.c src/main/archives.c
-#, c-format
-msgid "error setting permissions of '%s'"
-msgstr "chyba pri nastavovaní prístupových práv u „%s“"
-
 #: src/statoverride/main.c
 #, c-format
 msgid "--%s needs four arguments"
@@ -4094,8 +4118,9 @@ msgid "takes one argument, the trigger name"
 msgstr "potrebuje jeden parameter, názov spúšťača"
 
 #: src/trigger/main.c
-#, c-format
-msgid "illegal awaited package name '%s': %s"
+#, fuzzy, c-format
+#| msgid "illegal awaited package name '%s': %s"
+msgid "invalid awaited package name '%s': %s"
 msgstr "neplatný názov očakávaného balíka „%s“: %s"
 
 #: src/trigger/main.c
@@ -4117,22 +4142,35 @@ msgid "no packages found matching %s"
 msgstr "nenašli sa žiadne balíky zodpovedajúce %s"
 
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
-#. * string should remain under 80 characters. The uppercase letters in
-#. * the state values denote the abbreviated letter that will appear on
-#. * the first three columns, which should ideally match the English one
-#. * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
-#. * translated message can use additional lines if needed.
+#. string should remain under 80 characters. The uppercase letters in
+#. the state values denote the abbreviated letter that will appear on
+#. the first three columns, which should ideally match the English one
+#. (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
+#. translated message can use additional lines if needed. The ASCII art
+#. can use Unicode box characters.
+#.
 #: src/query/main.c
+#, fuzzy
+#| msgid ""
+#| "Desired=Unknown/Install/Remove/Purge/Hold\n"
+#| "| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
+#| "pend\n"
+#| "|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgid ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
+"+-- Desired=Unknown/Install/Remove/Purge/Hold\n"
+"|+- Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
 "pend\n"
-"|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
+"||+ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
 "Požadovaný=Neznámy/Inštalovať/Odstrániť/Vyčistiť/Podržať\n"
 "| Stav=Nie/Inštalovaný/Konfig-súbory/Rozbalený/Zlý-konfig/Polo-inštalovaný/"
 "očak-spúšť/čaká-na-spúšť\n"
 "|/ Chyba?=(žiadna)/Reinšt-vyžadovaná (Stav,Chyba: veľké písmeno=zle)\n"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "|"
+msgstr ""
 
 #: src/query/main.c
 msgid "Name"
@@ -4149,6 +4187,21 @@ msgstr "Architektúra"
 #: src/query/main.c
 msgid "Description"
 msgstr "Popis"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "+++-"
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "="
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "-"
+msgstr ""
 
 #: src/query/main.c
 #, fuzzy
@@ -4420,11 +4473,11 @@ msgstr "nie je možné prečítať odkaz „%s“"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"trying to overwrite shared '%s', which is different from other instances "
-"of package %s"
+"trying to overwrite shared '%s', which is different from other instances of "
+"package %s"
 msgstr ""
-"pokus o prepísanie zdieľaného súboru „%s“, ktorý sa líši od iných "
-"inštancií balíka %s"
+"pokus o prepísanie zdieľaného súboru „%s“, ktorý sa líši od iných inštancií "
+"balíka %s"
 
 #: src/main/archives.c
 #, c-format
@@ -4436,8 +4489,8 @@ msgstr ""
 #: src/main/archives.c
 #, c-format
 msgid ""
-"failed to stat (dereference) proposed new symlink target '%s' for "
-"symlink '%s'"
+"failed to stat (dereference) proposed new symlink target '%s' for symlink "
+"'%s'"
 msgstr ""
 "nepodarilo sa vykonať stat() (dereferencovanie) na navrhovanom novom cieli "
 "symbolického odkazu „%s“ symbolického odkazu „%s“"
@@ -4457,11 +4510,9 @@ msgstr "konfiguračný súbor „%s“ nebol v balíku nájdený"
 #: src/main/archives.c
 #, c-format
 msgid ""
-"trying to overwrite '%s', which is the diverted version of '%s' "
-"(package: %s)"
+"trying to overwrite '%s', which is the diverted version of '%s' (package: %s)"
 msgstr ""
-"pokus o prepísanie „%s“, ktorý je odklonenou verziou „%s“ (balík: "
-"„%s“)"
+"pokus o prepísanie „%s“, ktorý je odklonenou verziou „%s“ (balík: „%s“)"
 
 #: src/main/archives.c
 #, c-format
@@ -4477,11 +4528,9 @@ msgstr "nie je možné zistiť stav „%s“ (ktorý bude práve nainštalovaný
 #: src/main/archives.c
 #, c-format
 msgid ""
-"unable to clean up mess surrounding '%s' before installing another "
-"version"
+"unable to clean up mess surrounding '%s' before installing another version"
 msgstr ""
-"nie je možné upratať odpad obklopujúci „%s“ pred nainštalovaním inej "
-"verzie"
+"nie je možné upratať odpad obklopujúci „%s“ pred nainštalovaním inej verzie"
 
 #: src/main/archives.c
 #, c-format
@@ -4509,13 +4558,9 @@ msgstr "Nahradzujú sa súbory v nainštalovanom balíku %s ...\n"
 #: src/main/archives.c
 #, fuzzy, c-format
 #| msgid ""
-#| "trying to overwrite directory '%s' in package %s %s with "
-#| "nondirectory"
-msgid ""
-"trying to overwrite directory '%s' in package %s (%s) with "
-"nondirectory"
-msgstr ""
-"pokus o prepísanie adresára „%s“ v balíku %s %s neadresárom"
+#| "trying to overwrite directory '%s' in package %s %s with nondirectory"
+msgid "trying to overwrite directory '%s' in package %s (%s) with nondirectory"
+msgstr "pokus o prepísanie adresára „%s“ v balíku %s %s neadresárom"
 
 #: src/main/archives.c
 #, fuzzy, c-format
@@ -4537,8 +4582,7 @@ msgstr "nie je možné vytvoriť záložný symbolický odkaz na „%s“"
 #, c-format
 msgid "unable to chown backup symlink for '%s'"
 msgstr ""
-"nie je možné zmeniť vlastnícke práva na záložnom symbolickom odkaze na "
-"„%s“"
+"nie je možné zmeniť vlastnícke práva na záložnom symbolickom odkaze na „%s“"
 
 #: src/main/archives.c
 #, c-format
@@ -4785,14 +4829,14 @@ msgstr "inštaluje sa staršia verzia %s z %s na %s."
 #| msgid "will not downgrade %s from %s to %s, skipping"
 msgid "will not downgrade %s (%s) to (%s), skipping"
 msgstr ""
-"Nebude sa inštalovať staršia verziu balíka %s z verzie %s na %s, "
-"preskakuje sa"
+"Nebude sa inštalovať staršia verziu balíka %s z verzie %s na %s, preskakuje "
+"sa"
 
 #: src/main/cleanup.c
 #, c-format
 msgid ""
-"unable to remove newly-installed version of '%s' to allow reinstallation "
-"of backup copy"
+"unable to remove newly-installed version of '%s' to allow reinstallation of "
+"backup copy"
 msgstr ""
 "nie je možné odstrániť novonainštalovanú verziu balíka „%s“, aby sa "
 "umožnila\n"
@@ -4987,8 +5031,7 @@ msgstr "shell konfiguračných súborov conffile"
 #, c-format
 msgid "unable to stat new distributed conffile '%s'"
 msgstr ""
-"nepodarilo sa vykonať stat() nového distribučného konfiguračného súboru "
-"„%s“"
+"nepodarilo sa vykonať stat() nového distribučného konfiguračného súboru „%s“"
 
 #: src/main/configure.c
 #, c-format
@@ -5161,8 +5204,7 @@ msgstr ""
 #: src/main/configure.c
 #, c-format
 msgid "%s: conffile '%s' is not a plain file or symlink (= '%s')"
-msgstr ""
-"%s: konfiguračný súbor „%s“ nie je súbor ani symbolický odkaz (= „%s“)"
+msgstr "%s: konfiguračný súbor „%s“ nie je súbor ani symbolický odkaz (= „%s“)"
 
 #: src/main/configure.c
 #, fuzzy, c-format
@@ -5370,7 +5412,9 @@ msgid "The following packages do not have an architecture:\n"
 msgstr "Nasledovné balíky nemajú architektúru:\n"
 
 #: src/main/enquiry.c
-msgid "The following packages have an illegal architecture:\n"
+#, fuzzy
+#| msgid "The following packages have an illegal architecture:\n"
+msgid "The following packages have an invalid architecture:\n"
 msgstr "Nasledovné balíky majú neplatnú architektúru:\n"
 
 #: src/main/enquiry.c
@@ -5485,8 +5529,7 @@ msgstr ""
 #: src/main/enquiry.c
 #, c-format
 msgid "cannot satisfy pre-dependencies for %s (wanted due to %s)"
-msgstr ""
-"nie je možné vyriešiť pred-závislosti pre %s (vyžadované pre %s)"
+msgstr "nie je možné vyriešiť pred-závislosti pre %s (vyžadované pre %s)"
 
 #: src/main/enquiry.c
 #, fuzzy, c-format
@@ -5731,7 +5774,6 @@ msgid ""
 "  --update-avail [<Packages-file>] Replace available packages info.\n"
 "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
 "  --clear-avail                    Erase existing available info.\n"
-"  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
 "  -s|--status [<package>...]       Display package status details.\n"
 "  -p|--print-avail [<package>...]  Display available version details.\n"
 "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
@@ -6092,8 +6134,9 @@ msgid "status logger"
 msgstr "záznam stavu"
 
 #: src/main/main.c
-#, c-format
-msgid "architecture '%s' is illegal: %s"
+#, fuzzy, c-format
+#| msgid "architecture '%s' is illegal: %s"
+msgid "architecture '%s' is invalid: %s"
 msgstr "architektúra „%s“ je neplatná: %s"
 
 #: src/main/main.c
@@ -6117,8 +6160,9 @@ msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr "nemožno odstrániť architektúru „%s“, ktorú momentálne používa databáza"
 
 #: src/main/main.c
-#, c-format
-msgid "couldn't open '%i' for stream"
+#, fuzzy, c-format
+#| msgid "couldn't open '%i' for stream"
+msgid "cannot open '%i' for stream"
 msgstr "nie je možné otvoriť „%i“ pre tok"
 
 #: src/main/main.c
@@ -6260,8 +6304,7 @@ msgstr "; aj keď:\n"
 #: src/main/remove.c
 #, c-format
 msgid "ignoring request to remove %s which is not installed"
-msgstr ""
-"ignoruje sa požiadavka na odstránenie %s, ktorý nie je nainštalovaný"
+msgstr "ignoruje sa požiadavka na odstránenie %s, ktorý nie je nainštalovaný"
 
 #: src/main/remove.c
 #, c-format
@@ -6331,25 +6374,25 @@ msgid "Removing %s (%s) ...\n"
 msgstr "Odstraňuje sa %s ...\n"
 
 #: src/main/remove.c src/main/unpack.c
-#, c-format
-msgid "unable to delete control info file '%s'"
-msgstr "nie je možné vymazať riadiaci info súbor „%s“"
+#, fuzzy, c-format
+#| msgid "unable to delete used-up depot file '%s'"
+msgid "unable to delete package metadata file '%s'"
+msgstr "nie je možné vymazať použitý uskladňovací súbor „%s“"
 
 #: src/main/remove.c
 #, c-format
 msgid ""
-"while removing %s, unable to remove directory '%s': %s - directory "
-"may be a mount point?"
+"while removing %s, unable to remove directory '%s': %s - directory may be a "
+"mount point?"
 msgstr ""
-"počas odstraňovania %s, nebolo možné odstrániť adresár „%s“: %s - "
-"nie je adresár koreňom pripojeného systému súborov?"
+"počas odstraňovania %s, nebolo možné odstrániť adresár „%s“: %s - nie je "
+"adresár koreňom pripojeného systému súborov?"
 
 #: src/main/remove.c
 #, c-format
 msgid "while removing %s, directory '%s' not empty so not removed"
 msgstr ""
-"pri odstraňovaní %s, adresár „%s“ nebol prázdny a teda nebol "
-"odstránený"
+"pri odstraňovaní %s, adresár „%s“ nebol prázdny a teda nebol odstránený"
 
 #: src/main/remove.c
 #, fuzzy, c-format
@@ -6366,14 +6409,12 @@ msgstr "nie je možné odstrániť starý konfiguračný súbor „%s“ (= „%
 #, fuzzy, c-format
 #| msgid "cannot read config file dir `%s' (from `%s')"
 msgid "cannot read config file directory '%s' (from '%s')"
-msgstr ""
-"nie je možné prečítať adresár konfiguračného súboru „%s“ (z „%s“)"
+msgstr "nie je možné prečítať adresár konfiguračného súboru „%s“ (z „%s“)"
 
 #: src/main/remove.c
 #, c-format
 msgid "cannot remove old backup config file '%s' (of '%s')"
-msgstr ""
-"nie je možné odstrániť starý záložný konfiguračný súbor „%s“ (z „%s“)"
+msgstr "nie je možné odstrániť starý záložný konfiguračný súbor „%s“ (z „%s“)"
 
 #: src/main/remove.c
 msgid "cannot remove old files list"
@@ -6415,9 +6456,9 @@ msgstr "nie je možné nastaviť premennú prostredia pre skript údržby"
 
 #: src/main/script.c
 #, fuzzy, c-format
-#| msgid "installed %s script"
-msgid "installed %s package %s script"
-msgstr "nainštalovaný skript %s"
+#| msgid "old %s script"
+msgid "old %s package %s maintainer script"
+msgstr "starý %s skript"
 
 #: src/main/script.c
 #, c-format
@@ -6427,14 +6468,8 @@ msgstr "nie je možné zistiť stav %s „%s“"
 #: src/main/script.c
 #, fuzzy, c-format
 #| msgid "new %s script"
-msgid "new %s package %s script"
+msgid "new %s package %s maintainer script"
 msgstr "nový skript %s"
-
-#: src/main/script.c
-#, fuzzy, c-format
-#| msgid "old %s script"
-msgid "old %s package %s script"
-msgstr "starý %s skript"
 
 #: src/main/script.c
 #, c-format
@@ -6442,11 +6477,15 @@ msgid "unable to stat %s '%s': %s"
 msgstr "nie je možné zistiť stav %s „%s“: %s"
 
 #: src/main/script.c
-msgid "trying script from the new package instead ..."
+#, fuzzy, c-format
+#| msgid "trying script from the new package instead ..."
+msgid "trying %s maintainer script from the new %s package instead ..."
 msgstr "skúša sa radšej skript z nového balíka ..."
 
 #: src/main/script.c
-msgid "there is no script in the new version of the package - giving up"
+#, fuzzy, c-format
+#| msgid "there is no script in the new version of the package - giving up"
+msgid "missing %s maintainer script in new %s package, giving up"
 msgstr "v novej verzii balíka nie je žiaden skript - ukončuje sa"
 
 #: src/main/script.c
@@ -6481,8 +6520,9 @@ msgid "unexpected data after package and selection at line %d"
 msgstr "neočakávané dáta za balíkom a výberom na riadku %d"
 
 #: src/main/select.c
-#, c-format
-msgid "illegal package name at line %d: %s"
+#, fuzzy, c-format
+#| msgid "illegal package name at line %d: %s"
+msgid "invalid package name at line %d: %s"
 msgstr "nepovolený názov balíka na riadku %d: %s"
 
 #: src/main/select.c
@@ -6564,6 +6604,11 @@ msgstr ""
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "Spracúvajú sa spúšťače %s ...\n"
 
+#. TRANSLATORS: This string represents a summarized pathname,
+#. were prefix directories get abbreviated with ".../", if the
+#. total length exceeds a limit. The three dots would usually
+#. be represented by «…/».
+#.
 #: src/main/unpack.c
 #, c-format
 msgid ".../%s"
@@ -6666,19 +6711,24 @@ msgid "error closing %s"
 msgstr "chyba pri zatváraní %s"
 
 #: src/main/unpack.c
-#, c-format
-msgid "old version of package has overly-long info file name starting '%s'"
+#, fuzzy, c-format
+#| msgid "old version of package has overly-long info file name starting '%s'"
+msgid ""
+"old version of package has overly-long meatada file name (starting with "
+"'%.*s')"
 msgstr ""
 "stará verzia balíka má príliš dlhý názov info súboru, ktorý začína „%s“"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to remove obsolete info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to remove obsolete info file '%s'"
+msgid "unable to remove obsolete package metadata file '%s'"
 msgstr "nie je možné odstrániť zastaralý info súbor „%s“"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install (supposed) new info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install (supposed) new info file '%s'"
+msgid "unable to install (supposed) new package metadata file '%s'"
 msgstr "nie je možné nainštalovať (navrhovaný) nový info súbor „%s“"
 
 #: src/main/unpack.c
@@ -6686,31 +6736,37 @@ msgid "unable to open temp control directory"
 msgstr "nie je možné otvoriť dočasný riadiaci adresár"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package contains overly-long control info file name (starting '%.50s')"
+#, fuzzy, c-format
+#| msgid ""
+#| "package contains overly-long control info file name (starting '%.50s')"
+msgid "package has overly-long metadata file name (starting with '%.*s')"
 msgstr ""
 "balík obsahuje príliš dlhý názov riadiaceho info súboru (začínajúci „%.50s“)"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info contained directory '%s'"
+#, fuzzy, c-format
+#| msgid "package control info contained directory '%s'"
+msgid "package metadata contained directory '%s'"
 msgstr "riadiaci info balík obsahoval adresár „%s“"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info rmdir of '%s' did not say not a dir"
+#, fuzzy, c-format
+#| msgid "package control info rmdir of '%s' did not say not a dir"
+msgid "package metadata rmdir of '%s' did not say not a dir"
 msgstr ""
-"funkcia rmdir u informácií o riadení balíka „%s“ nepovedala, že to nie "
-"je adresár"
+"funkcia rmdir u informácií o riadení balíka „%s“ nepovedala, že to nie je "
+"adresár"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package %s contained list as info file"
+#, fuzzy, c-format
+#| msgid "package %s contained list as info file"
+msgid "package %s contained '%s' as a metadata file"
 msgstr "balík %s obsahoval zoznam ako info súbor"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install new info file '%s' as '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install new info file '%s' as '%s'"
+msgid "unable to install new metadata file '%s' as '%s'"
 msgstr "nie je možné nainštalovať nový info súbor „%s“ ako „%s“"
 
 #: src/main/unpack.c
@@ -6749,8 +6805,7 @@ msgstr "nedá sa zmazať starý adresár „%s“: %s"
 #: src/main/unpack.c
 #, c-format
 msgid "old conffile '%s' was an empty directory (and has now been deleted)"
-msgstr ""
-"starý konfiguračný súbor „%s“ je prázdny adresár (a teraz bol zmazaný)"
+msgstr "starý konfiguračný súbor „%s“ je prázdny adresár (a teraz bol zmazaný)"
 
 #: src/main/unpack.c
 #, c-format
@@ -6759,12 +6814,9 @@ msgstr "nedá sa zistiť stav ďalšieho nového súboru „%s“"
 
 #: src/main/unpack.c
 #, c-format
-msgid ""
-"old file '%s' is the same as several new files! (both '%s' and "
-"'%s')"
+msgid "old file '%s' is the same as several new files! (both '%s' and '%s')"
 msgstr ""
-"starý súbor „%s“ je rovnaký ako niekoľko nových súborov! („%s“ aj "
-"„%s“)"
+"starý súbor „%s“ je rovnaký ako niekoľko nových súborov! („%s“ aj „%s“)"
 
 #: src/main/unpack.c
 #, c-format
@@ -6777,8 +6829,10 @@ msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Vyskytlo sa zmiznutie balíka %s, ktorý bol úplne nahradený.)\n"
 
 #: src/main/unpack.c
-msgid "package control information extraction"
-msgstr "extrakcia riadiacich informácií balíka"
+#, fuzzy
+#| msgid "package field value extraction"
+msgid "package metadata files extraction"
+msgstr "extrakcia hodnoty poľa balíka"
 
 #: src/main/unpack.c
 #, c-format
@@ -6835,6 +6889,10 @@ msgstr "Dekonfiguruje sa %s, aby sa umožnilo odstránenie %s ...\n"
 msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s potrebuje presne jeden argument - súbor Packages"
 
+#: src/main/update.c utils/update-alternatives.c
+msgid "<standard input>"
+msgstr "<štand. vstup>"
+
 #: src/main/update.c
 #, fuzzy, c-format
 #| msgid "unable to access dpkg status area for bulk available update"
@@ -6852,13 +6910,15 @@ msgstr ""
 "nie je možné vstúpiť do oblasti stavu dpkg pre celkovú dostupnú aktualizáciu"
 
 #: src/main/update.c
-#, c-format
-msgid "Replacing available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Replacing available packages info, using %s.\n"
+msgid "Replacing available packages information from %s.\n"
 msgstr "Nahradzujú sa informácie o dostupných balíkoch, pomocou %s.\n"
 
 #: src/main/update.c
-#, c-format
-msgid "Updating available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Updating available packages info, using %s.\n"
+msgid "Updating available packages information from %s.\n"
 msgstr "Aktualizujú sa informácie o dostupných balíkoch, pomocou %s.\n"
 
 #: src/main/update.c
@@ -6882,11 +6942,35 @@ msgid "%s version %s.\n"
 msgstr "Debian %s verzia %s.\n"
 
 #: utils/update-alternatives.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  --install <link> <name> <path> <priority>\n"
+#| "    [--slave <link> <name> <path>] ...\n"
+#| "                           add a group of alternatives to the system.\n"
+#| "  --remove <name> <path>   remove <path> from the <name> group "
+#| "alternative.\n"
+#| "  --remove-all <name>      remove <name> group from the alternatives "
+#| "system.\n"
+#| "  --auto <name>            switch the master link <name> to automatic "
+#| "mode.\n"
+#| "  --display <name>         display information about the <name> group.\n"
+#| "  --query <name>           machine parseable version of --display "
+#| "<name>.\n"
+#| "  --list <name>            display all targets of the <name> group.\n"
+#| "  --get-selections         list master alternative names and their "
+#| "status.\n"
+#| "  --set-selections         read alternative status from standard input.\n"
+#| "  --config <name>          show alternatives for the <name> group and ask "
+#| "the\n"
+#| "                           user to select which one to use.\n"
+#| "  --set <name> <path>      set <path> as alternative for <name>.\n"
+#| "  --all                    call --config on all alternatives.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  --install <link> <name> <path> <priority>\n"
-"    [--slave <link> <name> <path>] ...\n"
+"    [--slave <link> <name> <path>]...\n"
 "                           add a group of alternatives to the system.\n"
 "  --remove <name> <path>   remove <path> from the <name> group alternative.\n"
 "  --remove-all <name>      remove <name> group from the alternatives "
@@ -7571,10 +7655,6 @@ msgstr ""
 msgid "no alternatives for %s"
 msgstr "žiadne alternatívy pre %s"
 
-#: utils/update-alternatives.c
-msgid "<standard input>"
-msgstr "<štand. vstup>"
-
 #: utils/update-alternatives.polkit.in
 msgid "Run update-alternatives to modify system alternative selections"
 msgstr ""
@@ -7582,6 +7662,27 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, fuzzy, c-format
+#~| msgid "subprocess %s returned error exit status %d"
+#~ msgid "%s subprocess returned error exit status %d"
+#~ msgstr "podproces %s vrátil chybový kód %d"
+
+#, c-format
+#~ msgid "architecture '%s' is illegal: %s"
+#~ msgstr "architektúra „%s“ je neplatná: %s"
+
+#, c-format
+#~ msgid "unable to delete control info file '%s'"
+#~ msgstr "nie je možné vymazať riadiaci info súbor „%s“"
+
+#, fuzzy, c-format
+#~| msgid "installed %s script"
+#~ msgid "installed %s package %s script"
+#~ msgstr "nainštalovaný skript %s"
+
+#~ msgid "package control information extraction"
+#~ msgstr "extrakcia riadiacich informácií balíka"
 
 #, c-format
 #~ msgid "open component '%s' (in %s) failed in an unexpected way"
@@ -7671,8 +7772,7 @@ msgstr ""
 #~ "auto"
 
 #~ msgid "unable to set ownership of triggers state directory '%s'"
-#~ msgstr ""
-#~ "nepodarilo sa nastaviť vlastníctvo adresára stavu spúšťačov „%s“"
+#~ msgstr "nepodarilo sa nastaviť vlastníctvo adresára stavu spúšťačov „%s“"
 
 #~ msgid "unable to open lock file %s for testing"
 #~ msgstr "nie je možné otvoriť súbor zámku %s na testovanie"
@@ -7849,8 +7949,7 @@ msgstr ""
 
 #~ msgid "name of conffile (starting `%s') is too long (>%d characters)"
 #~ msgstr ""
-#~ "názov konfiguračného súboru (začínajúci „%s“) je príliš dlhý (>%d "
-#~ "znakov)"
+#~ "názov konfiguračného súboru (začínajúci „%s“) je príliš dlhý (>%d znakov)"
 
 #~ msgid " (actually `%s')"
 #~ msgstr " (v skutočnosti „%s“)"

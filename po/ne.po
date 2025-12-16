@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-05-19 00:00+0200\n"
+"POT-Creation-Date: 2025-12-16 21:20+0000\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -416,7 +416,7 @@ msgstr ""
 #: lib/dpkg/db-ctrl-upgrade.c
 #, fuzzy, c-format
 #| msgid "conffile `%s' does not appear in package"
-msgid "info file %s/%s not associated to any package"
+msgid "metadata file %s/%s not associated to any package"
 msgstr "कन्फफाइल `%s' प्याकेजमा देखा पर्दैन"
 
 #: lib/dpkg/db-ctrl-upgrade.c src/main/archives.c
@@ -766,7 +766,7 @@ msgid "unable to open file '%s'"
 msgstr "स्रोत फाइल `%s' खोल्न अक्षम"
 
 #: lib/dpkg/dir.c src/deb/build.c src/split/join.c src/split/queue.c
-#: src/divert/main.c utils/update-alternatives.c
+#: src/divert/main.c src/main/archives.c utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "स्रोत फाइल `%s' खोल्न अक्षम"
@@ -994,8 +994,7 @@ msgstr "`%s' फाँट, हराएको प्याकेज नाम, �
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "`%s' field, reference to `%s': error in version: %s"
-msgid ""
-"'%s' field, reference to '%s': invalid architecture name '%s': %s"
+msgid "'%s' field, reference to '%s': invalid architecture name '%s': %s"
 msgstr "`%s' फाँट, %s' लाई सन्दर्भ: संस्करणमा त्रुटि: %s"
 
 #: lib/dpkg/fields.c
@@ -1048,8 +1047,7 @@ msgstr "`%s' फाँट, `%s' लाई सन्दर्भ: समाप्
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
 #| msgid "'%s' field, reference to '%s': version contains '%c'"
-msgid ""
-"'%s' field, reference to '%s': version contains '%c' instead of '%c'"
+msgid "'%s' field, reference to '%s': version contains '%c' instead of '%c'"
 msgstr "`%s' फाँट, `%s' लाई सन्दर्भ: संस्करण '%c' समाहित गर्दछ"
 
 #: lib/dpkg/fields.c
@@ -1071,7 +1069,7 @@ msgstr "फाँट %s मा वैकल्पिकहरू (`|') लाई
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
-msgid "illegal pending trigger name '%s': %s"
+msgid "invalid pending trigger name '%s': %s"
 msgstr "`%s' फाँट, अवैध प्याकेज नाम `%s': %s"
 
 #: lib/dpkg/fields.c
@@ -1081,7 +1079,7 @@ msgstr ""
 
 #: lib/dpkg/fields.c
 #, fuzzy, c-format
-msgid "illegal package name in awaited trigger '%s': %s"
+msgid "invalid package name in awaited trigger '%s': %s"
 msgstr "लाइन %d: %s मा अवैध प्याकेज नाम"
 
 #: lib/dpkg/fields.c
@@ -1260,8 +1258,7 @@ msgstr "%s का लागि बन्द-मा-कार्यान्व�
 #, fuzzy, c-format
 #| msgid "--ignore-depends requires a legal package name. `%s' is not; %s"
 msgid "--%s needs a valid package name but '%s' is not: %s"
-msgstr ""
-"--ignore-depends लाई कानूनी प्याकेज नामको आवश्यकता पर्दछ । `%s' होइन; %s"
+msgstr "--ignore-depends लाई कानूनी प्याकेज नामको आवश्यकता पर्दछ । `%s' होइन; %s"
 
 #: lib/dpkg/options.c
 #, fuzzy, c-format
@@ -1451,30 +1448,33 @@ msgid ""
 msgstr ""
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "failed to open package info file '%s' for reading"
+#, fuzzy, c-format
+#| msgid "failed to open package info file '%s' for reading"
+msgid "failed to open package control file '%s' for reading"
 msgstr "प्याकेज सूचना फाइल `%s' पढ्नका लागि खोल्न असफल"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot stat package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot stat package info file '%s'"
+msgid "cannot stat package control file '%s'"
 msgstr "प्याकेज सूचना फाइल `%s' तोक्न सकिदैन"
 
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "cannot stat package info file `%s'"
-msgid "reading package info file '%s': %s"
+msgid "reading package control file '%s': %s"
 msgstr "प्याकेज सूचना फाइल `%s' तोक्न सकिदैन"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "cannot mmap package info file '%s'"
+#, fuzzy, c-format
+#| msgid "cannot mmap package info file '%s'"
+msgid "cannot mmap package control file '%s'"
 msgstr "प्याकेज सूचना फाइल`%s' mmap गर्न सकिदैन"
 
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "cannot stat package info file `%s'"
-msgid "reading package info file '%s'"
+msgid "reading package control file '%s'"
 msgstr "प्याकेज सूचना फाइल `%s' तोक्न सकिदैन"
 
 #: lib/dpkg/parse.c
@@ -1500,7 +1500,7 @@ msgstr "फाँट नाम `%.*s'मा नयाँ लाइन"
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF (^Z) in field name `%.*s'"
-msgid "MSDOS end of file (^Z) in field name '%.*s'"
+msgid "MSDOS end of file (Ctrl+Z) in field name '%.*s'"
 msgstr " फाँट नाम`%.*s' मा MSDOS EOF (^Z)"
 
 #: lib/dpkg/parse.c
@@ -1517,7 +1517,7 @@ msgstr "फाँटको मान `%.*s' (हराएको अन्ति�
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
-msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
+msgid "MSDOS end of file (Ctrl+Z) in value of field '%.*s' (missing newline?)"
 msgstr "फाँटको मान `%.*s' (हराइरहेको नयाँलाइन ?) मा MSDOS EOF"
 
 #: lib/dpkg/parse.c
@@ -1635,7 +1635,7 @@ msgstr "संस्करण नम्बरमा विराम पछि �
 msgid "invalid character in revision number"
 msgstr "संस्करण नम्बरमा विराम पछि केहि पनि छैन"
 
-#: lib/dpkg/path-remove.c
+#: lib/dpkg/path-remove.c src/main/remove.c
 #, fuzzy, c-format
 msgid "unable to securely remove '%s'"
 msgstr "`%s' सिर्जना गर्न अक्षम"
@@ -1681,16 +1681,17 @@ msgstr "dpkg: संस्करण '%s' सँग खराब वाक्य 
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
-msgid "illegal package name in specifier '%s%s%s': %s"
+msgid "invalid package name in specifier '%s%s%s': %s"
 msgstr "लाइन %d: %s मा अवैध प्याकेज नाम"
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
-msgid "illegal architecture name in specifier '%s:%s': %s"
+msgid "invalid architecture name in specifier '%s:%s': %s"
 msgstr "लाइन %d: %s मा अवैध प्याकेज नाम"
 
 #. TRANSLATORS: This is part of the progress output, it is a decimal
-#. * percentage.
+#. percentage.
+#.
 #: lib/dpkg/progress.c
 #, c-format
 msgid "%d%%"
@@ -1740,9 +1741,9 @@ msgstr "फ्रोक असफल"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
-#| msgid "subprocess %s returned error exit status %d"
-msgid "%s subprocess returned error exit status %d"
-msgstr "उपप्रक्रियाहरू %s फिर्ता त्रुटि निकास स्थिति %d"
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with exit status %d"
+msgstr "उपप्रक्रियाहरू %s पर्खने स्थिति कोड %d सँग असफल भयो"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
@@ -1923,16 +1924,14 @@ msgid "failed to rewind trigger interest file '%s'"
 msgstr "भाग फाइल `%s' पढ्दा त्रुटि"
 
 #: lib/dpkg/triglib.c
-#, c-format
-msgid ""
-"trigger interest file '%s' syntax error; illegal package name '%s': "
-"%s"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "'%s' field, invalid package name '%s': %s"
+msgid "trigger interest file '%s' syntax error; invalid package name '%s': %s"
+msgstr "`%s' फाँट, अवैध प्याकेज नाम `%s': %s"
 
 #: lib/dpkg/triglib.c
 #, fuzzy, c-format
-msgid ""
-"duplicate file trigger interest for filename '%s' and package '%s'"
+msgid "duplicate file trigger interest for filename '%s' and package '%s'"
 msgstr "नयाँ सूचना फाइल `%s' को रुपमा `%s' स्थापना गर्न अक्षम"
 
 #: lib/dpkg/triglib.c
@@ -1948,29 +1947,30 @@ msgstr "कन्फिगरेसन`%s' फाइलमा त्रुटि
 #: lib/dpkg/triglib.c
 #, c-format
 msgid ""
-"file triggers record mentions illegal package name '%s' (for interest in "
+"file triggers record mentions invalid package name '%s' (for interest in "
 "file '%s'): %s"
 msgstr ""
 
 #: lib/dpkg/triglib.c
 #, c-format
 msgid ""
-"triggers ci file '%s' contains illegal trigger syntax in trigger name "
-"'%s': %s"
+"triggers package metadata file '%s' contains invalid trigger syntax in "
+"trigger name '%s': %s"
 msgstr ""
 
 #: lib/dpkg/triglib.c
 #, fuzzy, c-format
-msgid "unable to open triggers ci file '%s'"
+msgid "unable to open triggers package metadata file '%s'"
 msgstr "स्रोत फाइल `%s' खोल्न अक्षम"
 
 #: lib/dpkg/triglib.c
-msgid "triggers ci file contains unknown directive syntax"
+#, c-format
+msgid "triggers package metadata file '%s' contains unknown directive syntax"
 msgstr ""
 
 #: lib/dpkg/triglib.c
 #, c-format
-msgid "triggers ci file contains unknown directive '%s'"
+msgid "triggers package metadata file '%s' contains unknown directive '%s'"
 msgstr ""
 
 #: lib/dpkg/triglib.c
@@ -2261,7 +2261,7 @@ msgstr ""
 msgid "cannot read link '%s'"
 msgstr "%s लेख्न अक्षम: %s"
 
-#: src/realpath/main.c
+#: src/realpath/main.c src/main/archives.c src/main/configure.c
 #, c-format
 msgid "symbolic link '%s' size has changed from %jd to %zd"
 msgstr ""
@@ -2324,10 +2324,8 @@ msgstr "मर्मत गर्ने स्क्रिप्ट `%s' एउ�
 #: src/deb/build.c
 #, c-format
 msgid ""
-"maintainer script '%s' has bad permissions %03lo (must be >=0555 and "
-"<=0775)"
-msgstr ""
-"मर्मत गर्ने स्क्रिप्ट `%s' संग खराब अनुमतिहरू %03lo छन् (हुनुपर्ने >=0555 र <=0775)"
+"maintainer script '%s' has bad permissions %03lo (must be >=0555 and <=0775)"
+msgstr "मर्मत गर्ने स्क्रिप्ट `%s' संग खराब अनुमतिहरू %03lo छन् (हुनुपर्ने >=0555 र <=0775)"
 
 #: src/deb/build.c
 #, c-format
@@ -2345,8 +2343,7 @@ msgstr "fgets पढ्ने कन्फफाइलहरूबाट रि�
 #: src/deb/build.c src/main/unpack.c
 #, fuzzy, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
-msgstr ""
-"चेतावनी, कन्फफाइल नाम `%s...' धेरै लामो छ, वा अन्तिम नयाँलाइन हराइरहेको छ \n"
+msgstr "चेतावनी, कन्फफाइल नाम `%s...' धेरै लामो छ, वा अन्तिम नयाँलाइन हराइरहेको छ \n"
 
 #: src/deb/build.c
 msgid "empty and whitespace-only lines are not allowed in conffiles"
@@ -2757,6 +2754,11 @@ msgstr ""
 msgid "--%s does not support (yet) reading the .deb from standard input"
 msgstr ""
 
+#: src/deb/info.c src/statoverride/main.c src/main/archives.c
+#, c-format
+msgid "error setting permissions of '%s'"
+msgstr "`%s'को सेटिङ् अनुमति त्रुटि"
+
 #: src/deb/info.c src/main/unpack.c
 #, fuzzy
 msgid "unable to create temporary directory"
@@ -2877,11 +2879,11 @@ msgid ""
 "  -I|--info <deb> [<cfile>...]     Show info to stdout.\n"
 "  -W|--show <deb>                  Show information on package(s)\n"
 "  -f|--field <deb> [<cfield>...]   Show field(s) to stdout.\n"
-"  -e|--control <deb> [<directory>] Extract control info.\n"
-"  -x|--extract <deb> <directory>   Extract files.\n"
-"  -X|--vextract <deb> <directory>  Extract & list files.\n"
+"  -e|--control <deb> [<directory>] Extract metadata files.\n"
+"  -x|--extract <deb> <directory>   Extract filesystem files.\n"
+"  -X|--vextract <deb> <directory>  Extract and list filesystem files.\n"
 "  -R|--raw-extract <deb> <directory>\n"
-"                                   Extract control info and files.\n"
+"                                   Extract metadata and filesystem files.\n"
 "  --ctrl-tarfile <deb>             Output control tarfile.\n"
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
@@ -3097,9 +3099,21 @@ msgid "error reading %s"
 msgstr "%s पढ्दा त्रुटि"
 
 #: src/split/info.c
+#, fuzzy
+#| msgid "archive has no newlines in header"
+msgid "ar header"
+msgstr "सङ्ग्रहमा हेडरमा कुनै पनि न्युलाइन छैन"
+
+#: src/split/info.c
 #, c-format
 msgid "file '%s' is corrupt - bad magic at end of first header"
 msgstr "फाइल `%s' दुषित छ - पहिलो हेडरको समाप्तीमा खराब जादु"
+
+#: src/split/info.c
+#, fuzzy
+#| msgid "archive has no dot in version number"
+msgid "reading header member"
+msgstr "संस्करण नम्बरमा सङ्ग्रहसंग थोप्ला छैन"
 
 #: src/split/info.c
 #, c-format
@@ -3124,11 +3138,9 @@ msgstr "  %s स्थापना गरिएको छ, तर संस्�
 
 #: src/split/info.c
 #, fuzzy, c-format
-#| msgid ""
-#| "file `%s' is format version `%s' - you need a newer dpkg-split"
+#| msgid "file `%s' is format version `%s' - you need a newer dpkg-split"
 msgid "file '%s' is format version %d.%d; get a newer dpkg-split"
-msgstr ""
-"फाइल `%s' ढाँचाबद्ध संस्करण हो `%s' - तपाईँलाई नयाँ dpkg-split चाहिन्छ"
+msgstr "फाइल `%s' ढाँचाबद्ध संस्करण हो `%s' - तपाईँलाई नयाँ dpkg-split चाहिन्छ"
 
 #: src/split/info.c
 #, fuzzy
@@ -3192,6 +3204,10 @@ msgstr "फाइल `%s' दूषित छ - खराब भाग नम्
 #, fuzzy
 msgid "package architecture"
 msgstr " (प्याकेज: "
+
+#: src/split/info.c
+msgid "reading data part member ar header"
+msgstr ""
 
 #: src/split/info.c
 #, c-format
@@ -3393,7 +3409,6 @@ msgid ""
 "  -o, --output <file>              Filename, for -j (default is\n"
 "                                     <package>_<version>_<arch>.deb).\n"
 "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
-"      --msdos                      Generate 8.3 filenames.\n"
 "\n"
 msgstr ""
 "विकल्पहरू:\n"
@@ -3679,7 +3694,7 @@ msgstr ""
 #: src/divert/main.c
 msgid ""
 "please specify --no-rename explicitly, the default will change to --rename "
-"in 1.20.x"
+"not before 1.23.x"
 msgstr ""
 
 #: src/divert/main.c utils/update-alternatives.c
@@ -3934,11 +3949,6 @@ msgstr "पुरानो नाम `%s' तोक्न सकिदैन: %s
 msgid "error setting ownership of '%s'"
 msgstr "`%s' को स्यामित्व सेट गर्दा त्रुटि"
 
-#: src/statoverride/main.c src/main/archives.c
-#, c-format
-msgid "error setting permissions of '%s'"
-msgstr "`%s'को सेटिङ् अनुमति त्रुटि"
-
 #: src/statoverride/main.c
 #, fuzzy, c-format
 #| msgid "--add needs four arguments"
@@ -4060,7 +4070,7 @@ msgstr "--%s ले एक मात्र (.deb फाइलनाम) तर�
 
 #: src/trigger/main.c
 #, fuzzy, c-format
-msgid "illegal awaited package name '%s': %s"
+msgid "invalid awaited package name '%s': %s"
 msgstr "`%s' फाँट, अवैध प्याकेज नाम `%s': %s"
 
 #: src/trigger/main.c
@@ -4083,23 +4093,30 @@ msgid "no packages found matching %s"
 msgstr " %s संग मिल्ने कुनै पनि प्याकेजहरू फेला परेन ।\n"
 
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
-#. * string should remain under 80 characters. The uppercase letters in
-#. * the state values denote the abbreviated letter that will appear on
-#. * the first three columns, which should ideally match the English one
-#. * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
-#. * translated message can use additional lines if needed.
+#. string should remain under 80 characters. The uppercase letters in
+#. the state values denote the abbreviated letter that will appear on
+#. the first three columns, which should ideally match the English one
+#. (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
+#. translated message can use additional lines if needed. The ASCII art
+#. can use Unicode box characters.
+#.
 #: src/query/main.c
 #, fuzzy
 msgid ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
+"+-- Desired=Unknown/Install/Remove/Purge/Hold\n"
+"|+- Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
 "pend\n"
-"|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
+"||+ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
 "  Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n"
 "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
 "uppercase=bad)\n"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "|"
+msgstr ""
 
 #: src/query/main.c
 msgid "Name"
@@ -4117,6 +4134,21 @@ msgstr " (प्याकेज: "
 #: src/query/main.c
 msgid "Description"
 msgstr "बर्णन"
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "+++-"
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "="
+msgstr ""
+
+#: src/query/main.c
+msgctxt "query-list-header"
+msgid "-"
+msgstr ""
 
 #: src/query/main.c
 msgid "showing package list on pager"
@@ -4370,8 +4402,8 @@ msgstr "लिङ्क`%s' पढ्न अक्षम"
 #: src/main/archives.c
 #, fuzzy, c-format
 msgid ""
-"trying to overwrite shared '%s', which is different from other instances "
-"of package %s"
+"trying to overwrite shared '%s', which is different from other instances of "
+"package %s"
 msgstr "`%s'अधावधिक गर्न प्रयास गर्दै, जुन प्याकेज %s मा पनि छ"
 
 #: src/main/archives.c
@@ -4382,8 +4414,8 @@ msgstr "`%s' मा कार्यन्वयन अनुमतिहरू �
 #: src/main/archives.c
 #, c-format
 msgid ""
-"failed to stat (dereference) proposed new symlink target '%s' for "
-"symlink '%s'"
+"failed to stat (dereference) proposed new symlink target '%s' for symlink "
+"'%s'"
 msgstr ""
 
 #: src/main/archives.c
@@ -4401,18 +4433,15 @@ msgstr "कन्फफाइल `%s' प्याकेजमा देखा �
 #: src/main/archives.c
 #, fuzzy, c-format
 msgid ""
-"trying to overwrite '%s', which is the diverted version of '%s' "
-"(package: %s)"
+"trying to overwrite '%s', which is the diverted version of '%s' (package: %s)"
 msgstr ""
-"`%s' अधिलेखन गर्न प्रयास गर्दै, जुन `%s'%.10s%.100s%.10s को फेरिएको संस्करण "
-"हो ।"
+"`%s' अधिलेखन गर्न प्रयास गर्दै, जुन `%s'%.10s%.100s%.10s को फेरिएको संस्करण हो ।"
 
 #: src/main/archives.c
 #, fuzzy, c-format
 msgid "trying to overwrite '%s', which is the diverted version of '%s'"
 msgstr ""
-"`%s' अधिलेखन गर्न प्रयास गर्दै, जुन `%s'%.10s%.100s%.10s को फेरिएको संस्करण "
-"हो ।"
+"`%s' अधिलेखन गर्न प्रयास गर्दै, जुन `%s'%.10s%.100s%.10s को फेरिएको संस्करण हो ।"
 
 #: src/main/archives.c
 #, fuzzy, c-format
@@ -4423,8 +4452,7 @@ msgstr "`%s' (जुन मैले स्थापना गर्न ला�
 #: src/main/archives.c
 #, c-format
 msgid ""
-"unable to clean up mess surrounding '%s' before installing another "
-"version"
+"unable to clean up mess surrounding '%s' before installing another version"
 msgstr "अन्य संस्करण स्थापना गर्नुभन्दा पहिले `%s' वरिपरिको वातावरणहरू हटाउन अक्षम"
 
 #: src/main/archives.c
@@ -4451,9 +4479,7 @@ msgstr "स्थापना गरिएको प्याकेजमा फ
 
 #: src/main/archives.c
 #, fuzzy, c-format
-msgid ""
-"trying to overwrite directory '%s' in package %s (%s) with "
-"nondirectory"
+msgid "trying to overwrite directory '%s' in package %s (%s) with nondirectory"
 msgstr "डाइरेक्टरी बिनाको प्याकेज`%s'मा डाइरेक्टरी %s अधावधिक गर्न प्रयास गर्दै"
 
 #: src/main/archives.c
@@ -4709,8 +4735,8 @@ msgstr "%s बाट संस्करण %s सम्म %s स्तरन्
 #: src/main/cleanup.c
 #, c-format
 msgid ""
-"unable to remove newly-installed version of '%s' to allow reinstallation "
-"of backup copy"
+"unable to remove newly-installed version of '%s' to allow reinstallation of "
+"backup copy"
 msgstr ""
 "जगेडा प्रतिलिपिको पूनस्थापनालाई अनुमति दिन %s'को भर्खरै स्थापित संस्करण हटाउन अक्षम"
 
@@ -5281,7 +5307,7 @@ msgid "The following packages do not have an architecture:\n"
 msgstr ""
 
 #: src/main/enquiry.c
-msgid "The following packages have an illegal architecture:\n"
+msgid "The following packages have an invalid architecture:\n"
 msgstr ""
 
 #: src/main/enquiry.c
@@ -5587,7 +5613,6 @@ msgid ""
 "  --update-avail [<Packages-file>] Replace available packages info.\n"
 "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
 "  --clear-avail                    Erase existing available info.\n"
-"  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
 "  -s|--status [<package>...]       Display package status details.\n"
 "  -p|--print-avail [<package>...]  Display available version details.\n"
 "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
@@ -5895,9 +5920,9 @@ msgid "status logger"
 msgstr ""
 
 #: src/main/main.c
-#, c-format
-msgid "architecture '%s' is illegal: %s"
-msgstr ""
+#, fuzzy, c-format
+msgid "architecture '%s' is invalid: %s"
+msgstr "`%s' फाँट, अवैध प्याकेज नाम `%s': %s"
 
 #: src/main/main.c
 #, c-format
@@ -5921,8 +5946,9 @@ msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr ""
 
 #: src/main/main.c
-#, c-format
-msgid "couldn't open '%i' for stream"
+#, fuzzy, c-format
+#| msgid "couldn't open '%i' for stream"
+msgid "cannot open '%i' for stream"
 msgstr "प्रवाहका लागि`%i' खोोल्न सकेन"
 
 #: src/main/main.c
@@ -6141,24 +6167,24 @@ msgid "Removing %s (%s) ...\n"
 msgstr "हटाउँदैछ %s ...\n"
 
 #: src/main/remove.c src/main/unpack.c
-#, c-format
-msgid "unable to delete control info file '%s'"
-msgstr "नियन्त्रण सूचना फाइल `%s' हटाउन अक्षम"
+#, fuzzy, c-format
+#| msgid "unable to delete used-up depot file '%s'"
+msgid "unable to delete package metadata file '%s'"
+msgstr "डिपोट फाइल `%s' को प्रयोगलाई मेट्न अक्षम"
 
 #: src/main/remove.c
 #, fuzzy, c-format
 msgid ""
-"while removing %s, unable to remove directory '%s': %s - directory "
-"may be a mount point?"
+"while removing %s, unable to remove directory '%s': %s - directory may be a "
+"mount point?"
 msgstr ""
-"dpkg - चेतावनी: %s हटाउदा, `%s' डाइरेक्टरी हटाउन अक्षम: %s - डाइरेक्टरी "
-"एउटा माउन्ट बिन्दु हुनसक्छ ?\n"
+"dpkg - चेतावनी: %s हटाउदा, `%s' डाइरेक्टरी हटाउन अक्षम: %s - डाइरेक्टरी एउटा माउन्ट "
+"बिन्दु हुनसक्छ ?\n"
 
 #: src/main/remove.c
 #, fuzzy, c-format
 msgid "while removing %s, directory '%s' not empty so not removed"
-msgstr ""
-"dpkg - चेतावनी: %s हटाउदा, डाइरेक्टरी `%s' रित्तो छैन त्यसैले हटाउन सकिएन ।\n"
+msgstr "dpkg - चेतावनी: %s हटाउदा, डाइरेक्टरी `%s' रित्तो छैन त्यसैले हटाउन सकिएन ।\n"
 
 #: src/main/remove.c
 #, fuzzy, c-format
@@ -6222,7 +6248,8 @@ msgstr "vsnprintf मा सुरू गर्न अक्षम"
 
 #: src/main/script.c
 #, fuzzy, c-format
-msgid "installed %s package %s script"
+#| msgid "old %s script"
+msgid "old %s package %s maintainer script"
 msgstr "पुरानो %s स्क्रिप्ट"
 
 #: src/main/script.c
@@ -6233,14 +6260,8 @@ msgstr " %s `%s' लाई stat गर्न अक्षम"
 #: src/main/script.c
 #, fuzzy, c-format
 #| msgid "new %s script"
-msgid "new %s package %s script"
+msgid "new %s package %s maintainer script"
 msgstr "नयाँ %s स्क्रिप्ट"
-
-#: src/main/script.c
-#, fuzzy, c-format
-#| msgid "old %s script"
-msgid "old %s package %s script"
-msgstr "पुरानो %s स्क्रिप्ट"
 
 #: src/main/script.c
 #, fuzzy, c-format
@@ -6248,13 +6269,15 @@ msgid "unable to stat %s '%s': %s"
 msgstr " %s `%s' लाई stat गर्न अक्षम"
 
 #: src/main/script.c
-#, fuzzy
+#, fuzzy, c-format
 #| msgid "dpkg - trying script from the new package instead ...\n"
-msgid "trying script from the new package instead ..."
+msgid "trying %s maintainer script from the new %s package instead ..."
 msgstr "dpkg - साट्टोमा नयाँ प्याकेजबाट टाइपिङ्ग स्क्रिप्ट ...\n"
 
 #: src/main/script.c
-msgid "there is no script in the new version of the package - giving up"
+#, fuzzy, c-format
+#| msgid "there is no script in the new version of the package - giving up"
+msgid "missing %s maintainer script in new %s package, giving up"
 msgstr "त्यहाँ प्याकेजको नयाँ संस्करणमा स्क्रिप्ट छैन - छोड्दै"
 
 #: src/main/script.c
@@ -6291,8 +6314,9 @@ msgid "unexpected data after package and selection at line %d"
 msgstr "लाइन %d मा प्याकेज र चयन पछि अप्रत्यासित डेटा"
 
 #: src/main/select.c
-#, c-format
-msgid "illegal package name at line %d: %s"
+#, fuzzy, c-format
+#| msgid "illegal package name at line %d: %s"
+msgid "invalid package name at line %d: %s"
 msgstr "लाइन %d: %s मा अवैध प्याकेज नाम"
 
 #: src/main/select.c
@@ -6369,6 +6393,11 @@ msgstr ""
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr " %s ... का लागि कन्फिगरेसन फाइलहरू पर्जगर्दै\n"
 
+#. TRANSLATORS: This string represents a summarized pathname,
+#. were prefix directories get abbreviated with ".../", if the
+#. total length exceeds a limit. The three dots would usually
+#. be represented by «…/».
+#.
 #: src/main/unpack.c
 #, c-format
 msgid ".../%s"
@@ -6477,18 +6506,23 @@ msgid "error closing %s"
 msgstr "%s बन्द गर्दा त्रुटि"
 
 #: src/main/unpack.c
-#, c-format
-msgid "old version of package has overly-long info file name starting '%s'"
+#, fuzzy, c-format
+#| msgid "old version of package has overly-long info file name starting '%s'"
+msgid ""
+"old version of package has overly-long meatada file name (starting with "
+"'%.*s')"
 msgstr " प्याकेजको पुरानो संस्करणसँग `%s'सँग सुरुआत अति-लामो सूचना फाइल नाम छ"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to remove obsolete info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to remove obsolete info file '%s'"
+msgid "unable to remove obsolete package metadata file '%s'"
 msgstr "अप्रचलित सूचना फाइल `%s हटाउन अक्षम"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install (supposed) new info file '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install (supposed) new info file '%s'"
+msgid "unable to install (supposed) new package metadata file '%s'"
 msgstr "नयाँ सूचना फाइल स्थापन (मानेको) गर्न अक्षम`%s'"
 
 #: src/main/unpack.c
@@ -6496,28 +6530,33 @@ msgid "unable to open temp control directory"
 msgstr "अस्थायी नियन्त्रण डाइरेक्टरी खोल्न अक्षम"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package contains overly-long control info file name (starting '%.50s')"
+#, fuzzy, c-format
+#| msgid ""
+#| "package contains overly-long control info file name (starting '%.50s')"
+msgid "package has overly-long metadata file name (starting with '%.*s')"
 msgstr "प्याकेजले अति धेरै लामो नियन्त्रण सूचना फाइलनाम (सुरू`%.50s') समावेश गर्दछ"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info contained directory '%s'"
+#, fuzzy, c-format
+#| msgid "package control info contained directory '%s'"
+msgid "package metadata contained directory '%s'"
 msgstr "प्याकेज नियन्त्रण सूचनाले`%s' डाइरेक्टरी समाहित गर्दछ"
 
 #: src/main/unpack.c
-#, c-format
-msgid "package control info rmdir of '%s' did not say not a dir"
+#, fuzzy, c-format
+#| msgid "package control info rmdir of '%s' did not say not a dir"
+msgid "package metadata rmdir of '%s' did not say not a dir"
 msgstr "rmdir को `%s' प्याकेज नियन्त्रण सूचनाले dir होइन भन्दैन"
 
 #: src/main/unpack.c
 #, fuzzy, c-format
-msgid "package %s contained list as info file"
+msgid "package %s contained '%s' as a metadata file"
 msgstr "dpkg: चेतावनी - प्याकेज %s ले सूचना फाइलको रुपमा समाहित गर्दछ"
 
 #: src/main/unpack.c
-#, c-format
-msgid "unable to install new info file '%s' as '%s'"
+#, fuzzy, c-format
+#| msgid "unable to install new info file '%s' as '%s'"
+msgid "unable to install new metadata file '%s' as '%s'"
 msgstr "नयाँ सूचना फाइल `%s' को रुपमा `%s' स्थापना गर्न अक्षम"
 
 #: src/main/unpack.c
@@ -6557,8 +6596,8 @@ msgstr "dpkg: चेतावनी - पुरानो फाइल `%s' म�
 #, fuzzy, c-format
 msgid "old conffile '%s' was an empty directory (and has now been deleted)"
 msgstr ""
-"dpkg: चेतावनी - पुरानो कन्फफाइल `%s' एउटा रित्तो डाइरेक्टरी हो (र अहिले कसरि "
-"मेटिदै छ)\n"
+"dpkg: चेतावनी - पुरानो कन्फफाइल `%s' एउटा रित्तो डाइरेक्टरी हो (र अहिले कसरि मेटिदै "
+"छ)\n"
 
 #: src/main/unpack.c
 #, c-format
@@ -6567,12 +6606,9 @@ msgstr "अन्य नयाँ फाइल `%s' stat गर्न अक्�
 
 #: src/main/unpack.c
 #, fuzzy, c-format
-msgid ""
-"old file '%s' is the same as several new files! (both '%s' and "
-"'%s')"
+msgid "old file '%s' is the same as several new files! (both '%s' and '%s')"
 msgstr ""
-"dpkg: चेतावनी - पूरानो फाइल `%s' विभिन्न नयाँ फाइलसँग समान छ!  (दुवै `%s' र "
-"`%s')\n"
+"dpkg: चेतावनी - पूरानो फाइल `%s' विभिन्न नयाँ फाइलसँग समान छ!  (दुवै `%s' र `%s')\n"
 
 #: src/main/unpack.c
 #, fuzzy, c-format
@@ -6587,7 +6623,7 @@ msgstr "( %s को केहिपनि हराएको छैन, ति �
 #: src/main/unpack.c
 #, fuzzy
 #| msgid "control information length"
-msgid "package control information extraction"
+msgid "package metadata files extraction"
 msgstr "नियन्त्रण सूचना लम्बाई"
 
 #: src/main/unpack.c
@@ -6645,6 +6681,12 @@ msgstr "%s डि-कन्फीगर गर्नुहोस्, जसल�
 msgid "--%s takes at most one Packages-file argument"
 msgstr "--%s लाई यथार्थमा एउटा प्याकेज फाइल तर्क आवश्यक पर्दछ"
 
+#: src/main/update.c utils/update-alternatives.c
+#, fuzzy
+#| msgid "read error on standard input"
+msgid "<standard input>"
+msgstr "मानक आगतमा त्रुटि पढ्नुहोस्"
+
 #: src/main/update.c
 #, fuzzy, c-format
 #| msgid "unable to access dpkg status area for bulk available update"
@@ -6660,13 +6702,15 @@ msgid ""
 msgstr "bulk उपलब्ध अद्यावधिकका लागि dpkg स्थिति क्षेत्र पहुँच गर्न अक्षम"
 
 #: src/main/update.c
-#, c-format
-msgid "Replacing available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Replacing available packages info, using %s.\n"
+msgid "Replacing available packages information from %s.\n"
 msgstr "%s प्रयोग गर्दै, उपलब्ध प्याकेजका सूचना प्रतिस्थापन गर्दै ।\n"
 
 #: src/main/update.c
-#, c-format
-msgid "Updating available packages info, using %s.\n"
+#, fuzzy, c-format
+#| msgid "Updating available packages info, using %s.\n"
+msgid "Updating available packages information from %s.\n"
 msgstr "%s प्रयोग गर्दै, उपलब्ध प्याकेज सूचनाहरू अद्यावधिक गर्दै ।\n"
 
 #: src/main/update.c
@@ -6694,7 +6738,7 @@ msgstr "डेबियन %s संस्करण %s \n"
 msgid ""
 "Commands:\n"
 "  --install <link> <name> <path> <priority>\n"
-"    [--slave <link> <name> <path>] ...\n"
+"    [--slave <link> <name> <path>]...\n"
 "                           add a group of alternatives to the system.\n"
 "  --remove <name> <path>   remove <path> from the <name> group alternative.\n"
 "  --remove-all <name>      remove <name> group from the alternatives "
@@ -7352,12 +7396,6 @@ msgstr ""
 msgid "no alternatives for %s"
 msgstr "%s का लागि विकल्प छैन"
 
-#: utils/update-alternatives.c
-#, fuzzy
-#| msgid "read error on standard input"
-msgid "<standard input>"
-msgstr "मानक आगतमा त्रुटि पढ्नुहोस्"
-
 #: utils/update-alternatives.polkit.in
 msgid "Run update-alternatives to modify system alternative selections"
 msgstr ""
@@ -7365,6 +7403,19 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, fuzzy, c-format
+#~| msgid "subprocess %s returned error exit status %d"
+#~ msgid "%s subprocess returned error exit status %d"
+#~ msgstr "उपप्रक्रियाहरू %s फिर्ता त्रुटि निकास स्थिति %d"
+
+#, c-format
+#~ msgid "unable to delete control info file '%s'"
+#~ msgstr "नियन्त्रण सूचना फाइल `%s' हटाउन अक्षम"
+
+#, fuzzy, c-format
+#~ msgid "installed %s package %s script"
+#~ msgstr "पुरानो %s स्क्रिप्ट"
 
 #, c-format
 #~ msgid "open component '%s' (in %s) failed in an unexpected way"
@@ -8027,8 +8078,8 @@ msgstr ""
 #~ "  confold [!]            Always use the old config files, do not prompt\n"
 #~ "  confdef [!]            Use the default option for new config files if "
 #~ "one\n"
-#~ "                         is available, do not prompt. If no default can be "
-#~ "found,\n"
+#~ "                         is available, do not prompt. If no default can "
+#~ "be found,\n"
 #~ "                         you will be prompted unless one of the confold "
 #~ "or\n"
 #~ "                         confnew options is also given\n"
