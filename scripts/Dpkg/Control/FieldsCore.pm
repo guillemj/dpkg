@@ -1291,8 +1291,8 @@ Breaks, ...). Returns undef for fields which are not dependencies.
 sub field_get_dep_type {
     my $field = lc shift;
 
-    return unless exists $FIELDS{$field};
-    return $FIELDS{$field}{dependency} if exists $FIELDS{$field}{dependency};
+    return $FIELDS{$field}{dependency}
+        if exists $FIELDS{$field} && exists $FIELDS{$field}{dependency};
     return;
 }
 
@@ -1306,7 +1306,8 @@ FIELD_SEP_SPACE, FIELD_SEP_COMMA or FIELD_SEP_LINE.
 sub field_get_sep_type {
     my $field = lc shift;
 
-    return $FIELDS{$field}{separator} if exists $FIELDS{$field}{separator};
+    return $FIELDS{$field}{separator}
+        if exists $FIELDS{$field} && exists $FIELDS{$field}{separator};
     return FIELD_SEP_UNKNOWN;
 }
 
@@ -1320,7 +1321,8 @@ then it returns "undef".
 sub field_get_default_value {
     my $field = lc shift;
 
-    return $FIELDS{$field}{default} if exists $FIELDS{$field}{default};
+    return $FIELDS{$field}{default}
+        if exists $FIELDS{$field} && exists $FIELDS{$field}{default};
     return;
 }
 
