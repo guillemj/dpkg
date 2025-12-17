@@ -15,7 +15,7 @@
 
 use v5.36;
 
-use Test::More tests => 23;
+use Test::More tests => 24;
 
 use ok 'Dpkg::BuildProfiles', qw(
     build_profile_is_invalid
@@ -67,6 +67,10 @@ is_deeply([ parse_build_profiles('<nocheck> <nodoc>') ], $formula,
 $formula = [ [ qw(nocheck nodoc) ], [ qw(stage1) ] ];
 is_deeply([ parse_build_profiles('<nocheck nodoc> <stage1>') ], $formula,
     'parse build profiles formula AND, OR');
+
+$formula = [ [ qw(nocheck !nodoc) ], [ qw(!stage1) ] ];
+is_deeply([ parse_build_profiles('<nocheck !nodoc> <!stage1>') ], $formula,
+    'parse build profiles formula negations');
 
 {
     local $ENV{DEB_BUILD_PROFILES} = 'cross nodoc profile.name';
