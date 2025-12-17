@@ -37,8 +37,11 @@ ok(!build_profile_is_invalid('<nocheck nodoc> <pkg/dpkg/author-checks>'),
 
 ok(build_profile_is_invalid('<invalid> + <characters>'),
     'check that build profiles with invalid characters are invalid');
+TODO: {
+    local $TODO = 'workaround due to incorrect API uses';
 ok(build_profile_is_invalid('missing angle brackets'),
     'check that build profiles with missing opening/closing angle brackets are invalid');
+}
 ok(build_profile_is_invalid('<missing angle brackets <here too'),
     'check that build profiles with missing closing angle brackets are invalid 1');
 ok(build_profile_is_invalid('<missing angle brackets <here too>'),
@@ -81,8 +84,11 @@ is_deeply([ parse_build_profiles('<nocheck !nodoc> <!stage1>') ], $formula,
 eval { parse_build_profiles('<invalid> + <characters>') };
 ok($@, 'fail to parse build profiles with invalid characters');
 
+TODO: {
+    local $TODO = 'workaround due to incorrect API uses';
 eval { parse_build_profiles('missing angle brackets') };
 ok($@, 'fail to parse build profiles with missing opening/closing angles brackets');
+}
 
 eval { parse_build_profiles('<missing angle brackets <here too') };
 ok($@, 'fail to parse build profiles with missing closing angles brackets 1');

@@ -142,6 +142,12 @@ It will die on invalid syntax.
 
 sub parse_build_profiles($string)
 {
+    # XXX: Workaround for incorrect usage of the API in dh-exec, remove once
+    # the usage is fixed.
+    if (build_profile_is_invalid($string)) {
+        $string = "<$string>";
+    }
+
     if (build_profile_is_invalid($string)) {
         error(g_("'%s' is not a valid build profile restriction formula"),
               $string);
