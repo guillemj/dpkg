@@ -41,6 +41,8 @@ our @EXPORT_OK = qw(
 use Exporter qw(import);
 use List::Util qw(any);
 
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling;
 use Dpkg::BuildEnv;
 
 my $cache_profiles;
