@@ -208,7 +208,7 @@ sub do_extract {
         if ($tarfile =~ m/\.orig\.tar\.gz$/) {
             # We only need to warn on this branch, because of the $native reset
             # below, otherwise the V3::Native module will handle the warning.
-            if (! $v->__is_native()) {
+            if ($v->has_revision()) {
                 warning(g_('native package version may not have a revision'));
             }
 
@@ -217,7 +217,7 @@ sub do_extract {
             $native = 0;
         }
     } else {
-        if ($v->__is_native()) {
+        if (! $v->has_revision()) {
             warning(g_('non-native package version does not contain a revision'))
         }
     }
@@ -385,9 +385,9 @@ sub do_build {
     my $v = Dpkg::Version->new($self->{fields}->{'Version'});
     if ($sourcestyle =~ m/[kpursKPUR]/) {
         error(g_('non-native package version does not contain a revision'))
-            if $v->__is_native();
+            if ! $v->has_revision();
     } else {
-        if (! $v->__is_native) {
+        if ($v->has_revision()) {
             if (run_vendor_hook('has-fuzzy-native-source')) {
                 warning(g_('native package version may not have a revision'));
             } else {

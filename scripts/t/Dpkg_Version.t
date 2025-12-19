@@ -15,7 +15,7 @@
 
 use v5.36;
 
-use Test::More tests => 1747;
+use Test::More tests => 1752;
 
 use IPC::Cmd qw(can_run);
 
@@ -122,17 +122,22 @@ ok(! $ver->is_valid(), 'version does not start with digit 1/2');
 $ver = Dpkg::Version->new('0:foo5.2');
 ok(! $ver->is_valid(), 'version does not start with digit 2/2');
 
-# Native and non-native versions.
+# Upstream versions with revision and without.
 $ver = Dpkg::Version->new('1.0');
-ok($ver->__is_native(), 'upstream version is native');
+ok(! $ver->has_epoch(), 'upstream version does not have epoch');
+ok(! $ver->has_revision(), 'upstream version does not have revision');
 $ver = Dpkg::Version->new('1:1.0');
-ok($ver->__is_native(), 'upstream version w/ epoch is native');
+ok($ver->has_epoch(), 'upstream version w/ epoch has epoch');
+ok(! $ver->has_revision(), 'upstream version w/ epoch does not have revision');
 $ver = Dpkg::Version->new('1:1.0:1.0');
-ok($ver->__is_native(), 'upstream version w/ epoch and colon is native');
+ok($ver->has_epoch(), 'upstream version w/ epoch and colon has epoch');
+ok(! $ver->has_revision(), 'upstream version w/ epoch and colon does not have revision');
 $ver = Dpkg::Version->new('1.0-1');
-ok(! $ver->__is_native(), 'upstream version w/ revision is not native');
+ok(! $ver->has_epoch(), 'upstream version w/ revision does not have epoch');
+ok($ver->has_revision(), 'upstream version w/ revision has revision');
 $ver = Dpkg::Version->new('1.0-1.0-1');
-ok(! $ver->__is_native(), 'upstream version w/ dash and revision is not native');
+ok(! $ver->has_epoch(), 'upstream version w/ dash and revision does not have epoch');
+ok($ver->has_revision(), 'upstream version w/ dash and revision has revision');
 
 # Comparisons.
 foreach my $case (@tests) {
