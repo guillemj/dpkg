@@ -277,6 +277,20 @@ sub do_extract {
                     sort keys %{$analysis->{filepatched}};
         info(g_('upstream files that have been modified: %s'),
              "\n " . join("\n ", @files)) if scalar @files;
+
+        # As the diff might not represent executable permissions, we need to
+        # make sure debian/rules is executable if it exists. Otherwise the
+        # debian-rules build driver will take care of the warnings.
+        my $rules = File::Spec->catfile($newdirectory, 'debian', 'rules');
+        my @s = lstat $rules;
+        if (not scalar @s) {
+            syserr(g_('cannot stat %s'), $rules) if $! != ENOENT;
+        } elsif (-f _) {
+            chmod $s[2] | 0o111, $rules
+                or syserr(g_('cannot make %s executable'), $rules);
+        } else {
+            warning(g_('%s is not a plain file'), $rules);
+        }
     }
 }
 
