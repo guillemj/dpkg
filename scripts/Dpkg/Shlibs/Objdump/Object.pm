@@ -337,7 +337,7 @@ sub add_verneed_symbol($self, $solib, $name)
         defined => 0,
     };
 
-    # Register artificial symbol.
+    # Register synthetic symbol.
     $self->add_dynamic_symbol($symbol);
 
     return;
