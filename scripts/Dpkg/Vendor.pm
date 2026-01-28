@@ -92,6 +92,7 @@ if there's no file for the given vendor.
 
 =cut
 
+my $vendor_ok_regex = qw{[A-Za-z0-9]+};
 my $vendor_sep_regex = qr{[^A-Za-z0-9]+};
 
 sub get_vendor_info {
@@ -174,7 +175,7 @@ sub get_vendor_object {
     state %OBJECT_CACHE;
     return $OBJECT_CACHE{$vendor_key} if exists $OBJECT_CACHE{$vendor_key};
 
-    my @vendor_parts = split m{$vendor_sep_regex}, $vendor;
+    my @vendor_parts = $vendor =~ m{$vendor_ok_regex}g;
 
     my @names;
     push @names, join q{}, map { ucfirst } @vendor_parts;
