@@ -561,7 +561,8 @@ sub _generate_patch {
         my $analysis = $diff->analyze($dir,
             verbose => 0,
         );
-        foreach my $fn (sort keys %{$analysis->{filepatched}}) {
+        foreach my $fullfn (sort keys %{$analysis->{filepatched}}) {
+            my $fn = ($fullfn =~ s{^\Q$dir\E/+}{}r);
             print " $fn\n";
         }
     }
