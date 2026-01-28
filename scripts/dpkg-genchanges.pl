@@ -37,6 +37,7 @@ use Dpkg::Compression;
 use Dpkg::Control::Info;
 use Dpkg::Control::Fields;
 use Dpkg::Control;
+use Dpkg::Email::Address;
 use Dpkg::Substvars;
 use Dpkg::Package;
 use Dpkg::Changelog::Parse;
@@ -178,9 +179,11 @@ while (@ARGV) {
         $substvars->load($1) if -e $1;
         $substvars_loaded = 1;
     } elsif (m/^-m(.*)$/s) {
-        $forcemaint = $1;
+        my $addr = Dpkg::Email::Address->new($1);
+        $forcemaint = $addr->as_string();
     } elsif (m/^-e(.*)$/s) {
-        $forcechangedby = $1;
+        my $addr = Dpkg::Email::Address->new($1);
+        $forcechangedby = $addr->as_string();
     } elsif (m/^-F([0-9a-z]+)$/) {
         $changelogformat = $1;
     } elsif (m/^-D([^\=:]+)[=:](.*)$/s) {
@@ -436,7 +439,8 @@ foreach my $f (keys %{$changelog}) {
     if ($f eq 'Source') {
         set_source_name($v);
     } elsif ($f eq 'Maintainer') {
-        $fields->{'Changed-By'} = $v;
+        my $addr = Dpkg::Email::Address->new($v);
+        $fields->{'Changed-By'} = $addr->as_string();
     } else {
         field_transfer_single($changelog, $fields, $f);
     }

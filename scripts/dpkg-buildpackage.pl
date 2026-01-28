@@ -42,6 +42,7 @@ use Dpkg::Compression;
 use Dpkg::Checksums;
 use Dpkg::Package;
 use Dpkg::Version;
+use Dpkg::Email::Address;
 use Dpkg::Control;
 use Dpkg::Control::Info;
 use Dpkg::Changelog::Parse;
@@ -404,9 +405,11 @@ while (@ARGV) {
     } elsif (/^-v(.*)$/) {
         $since = $1;
     } elsif (/^-m(.*)$/ or /^--(?:source|build)-by=(.*)$/) {
-        $maint = $1;
+        my $email = Dpkg::Email::Address->new($1);
+        $maint = $email->as_string();
     } elsif (/^-e(.*)$/ or /^--(?:changed|release)-by=(.*)$/) {
-        $changedby = $1;
+        my $email = Dpkg::Email::Address->new($1);
+        $changedby = $email->as_string();
     } elsif (/^-C(.*)$/) {
         $desc = $1;
     } elsif (m/^-[EW]$/) {
@@ -557,7 +560,14 @@ if ($changedby) {
 } elsif ($maint) {
     $maintainer = $maint;
 } else {
-    $maintainer = mustsetvar($changelog->{maintainer}, g_('source changed by'));
+    my $email = mustsetvar($changelog->{maintainer}, g_('source changed by'));
+    eval {
+        my $addr = Dpkg::Email::Address->new($email);
+        $maintainer = $addr->as_string();
+    } or do {
+        error(g_('cannot parse maintainer email address "%s" from changelog entry'),
+              $email);
+    }
 }
 
 # <https://reproducible-builds.org/specs/source-date-epoch/>
