@@ -411,8 +411,8 @@ sub _intuit_file_patched {
     # Precalculate metrics used by patch.
     my ($tmp_o, $tmp_n) = ($old, $new);
     my ($len_o, $len_n) = (length($old), length($new));
-    $tmp_o =~ s{[/\\]+}{/}g;
-    $tmp_n =~ s{[/\\]+}{/}g;
+    $tmp_o =~ tr{/\\}{/}s;
+    $tmp_n =~ tr{/\\}{/}s;
     my $nb_comp_o = ($tmp_o =~ tr{/}{/});
     my $nb_comp_n = ($tmp_n =~ tr{/}{/});
     $tmp_o =~ s{^.*/}{};
