@@ -413,6 +413,7 @@ sub _intuit_file_patched {
     my ($len_o, $len_n) = (length($old), length($new));
     $tmp_o =~ tr{/\\}{/}s;
     $tmp_n =~ tr{/\\}{/}s;
+    # Count the number of / in the strings.
     my $nb_comp_o = ($tmp_o =~ tr{/}{/});
     my $nb_comp_n = ($tmp_n =~ tr{/}{/});
     $tmp_o =~ s{^.*/}{};
