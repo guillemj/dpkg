@@ -248,7 +248,7 @@ command_in_path(const char *cmd)
 			varbuf_add_char(&filename, '/');
 		varbuf_add_str(&filename, cmd);
 
-		if (file_is_exec(filename.buf)) {
+		if (file_is_exec(varbuf_str(&filename))) {
 			varbuf_destroy(&filename);
 			return true;
 		}
