@@ -408,7 +408,7 @@ sub _intuit_file_patched {
     # where patch picks the one with the fewest directories to create
     # since dpkg-source will pre-create the required directories.
 
-    # Precalculate metrics used by patch.
+    # Pre-calculate metrics used by patch.
     my ($tmp_o, $tmp_n) = ($old, $new);
     my ($len_o, $len_n) = (length($old), length($new));
     $tmp_o =~ tr{/\\}{/}s;
