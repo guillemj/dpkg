@@ -123,17 +123,28 @@ sub _gpg_options_weak_digests {
     return @gpg_weak_digests;
 }
 
-sub _file_is_keybox($file)
+sub _file_read_header($file, $size)
 {
     my $header;
 
     open my $fh, '<', $file
         or syserr(g_('cannot open %s'), $file);
-    my $rc = read $fh, $header, 32;
-    if (! defined $rc || $rc != 32) {
+    my $rc = read $fh, $header, $size;
+    if (! defined $rc) {
         syserr(g_('cannot read %s'), $file);
+    } elsif ($rc == 0) {
+        error(g_('unexpected empty file %s'), $file);
+    } elsif ($rc != $size) {
+        error(g_('partial read %s (%d bytes of %d total)'), $file, $rc, $size);
     }
     close $fh;
+
+    return $header;
+}
+
+sub _file_is_keybox($file)
+{
+    my $header = _file_read_header($file, 32);
 
     my ($lead, $magic) = unpack 'a8a4', $header;
 
