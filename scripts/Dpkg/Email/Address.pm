@@ -157,6 +157,10 @@ sub parse($self, $str)
         $self->{name} = $1;
         $self->{email} = $2;
 
+        if ($self->{email} !~ m{@.*\.}) {
+            warning(g_("email address '%s' with single label domain"), $str);
+        }
+
         return;
     }
 
