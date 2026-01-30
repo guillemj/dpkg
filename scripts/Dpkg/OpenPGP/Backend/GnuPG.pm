@@ -38,6 +38,7 @@ use File::Basename;
 use File::Temp;
 use File::Copy;
 
+use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
 use Dpkg::File;
