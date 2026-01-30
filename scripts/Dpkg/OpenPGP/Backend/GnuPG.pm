@@ -151,6 +151,72 @@ sub _file_is_keybox($file)
     return $magic eq 'KBXf';
 }
 
+# https://www.rfc-editor.org/rfc/rfc9580.html#name-packet-headers
+use constant {
+    PKT_FORMAT_MASK => 0b11000000,
+    PKT_FORMAT_NEW  => 0b11000000,
+    PKT_FORMAT_OLD  => 0b10000000,
+
+    PKT_OLD_LEN_TYPE_MASK => 0b11,
+};
+
+# https://www.rfc-editor.org/rfc/rfc9580.html#name-packet-types
+use constant {
+    PKT_ID_SECKEY => 5,
+    PKT_ID_PUBKEY => 6,
+};
+
+sub _file_is_librepgp($file)
+{
+    return 0 if -z $file;
+
+    my $header = _file_read_header($file, 32);
+
+    my ($ctb, @bytes) = unpack 'C8', $header;
+    my ($length, $version);
+
+    my $format = $ctb & PKT_FORMAT_MASK;
+    my $type_id;
+    if ($format == PKT_FORMAT_NEW) {
+        $type_id = $ctb ^ $format;
+        if ($bytes[0] < 192) {
+            $length = 1;
+        } elsif ($bytes[0] < 224) {
+            $length = 2;
+        } elsif ($bytes[0] < 255) {
+            $length = 1;
+        } elsif ($bytes[0] == 255) {
+            $length = 5;
+        }
+    } elsif ($format == PKT_FORMAT_OLD) {
+        $type_id = ($ctb ^ $format) >> 2;
+        $length = $ctb & PKT_OLD_LEN_TYPE_MASK;
+        if ($length == 0) {
+            $length = 1;
+        } elsif ($length == 1) {
+            $length = 2;
+        } elsif ($length == 2) {
+            $length = 4;
+        } else {
+            warning(g_('old OpenPGP packet in %s with indeterminate length'),
+                    $file);
+            return 0;
+        }
+    }
+
+    if ($type_id == PKT_ID_SECKEY || $type_id == PKT_ID_PUBKEY) {
+        $version = $bytes[$length];
+    } else {
+        warning(g_('unknown OpenPGP packet type %0x in %s'), $ctb, $file);
+        return 0;
+    }
+
+    debug(1, 'pgp-packet file=%s ctb=%0x format=%0b id=%d len=%0x version=%0x',
+          $file, $ctb, $format, $type_id, $length, $version);
+
+    return $version == 5;
+}
+
 sub _gpg_verify {
     my ($self, $signeddata, $sig, $data, @certs) = @_;
 
@@ -191,6 +257,11 @@ sub _gpg_verify {
             # relying on gpgv, and gpgv itself does not verify multiple
             # signatures correctly (see https://bugs.debian.org/1010955).
             $rc = $self->dearmor('PUBLIC KEY BLOCK', $cert, $certring);
+
+            if (_file_is_librepgp($certring)) {
+                warning(g_('found non-interoperable LibrePGP artifact in %s, ' .
+                           'only OpenPGP is supported'), $cert);
+            }
         }
         $certring = $cert if $rc;
         push @exec, '--keyring', $certring;
