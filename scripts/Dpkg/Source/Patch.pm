@@ -345,6 +345,11 @@ sub finish {
     return not *$self->{errors};
 }
 
+sub has_errors($self)
+{
+    return *$self->{errors};
+}
+
 sub register_error {
     my $self = shift;
     *$self->{errors}++;
