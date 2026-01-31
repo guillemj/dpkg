@@ -554,7 +554,7 @@ sub _generate_patch {
         handle_binary_func => $opts{handle_binary},
         order_from => $opts{order_from},
     );
-    error(g_('unrepresentable changes to source')) if not $diff->finish();
+    $diff->finish();
 
     if (-s $tmpdiff) {
         info(g_('local changes detected, the modified files are:'));
@@ -566,6 +566,8 @@ sub _generate_patch {
             print " $fn\n";
         }
     }
+
+    error(g_('unrepresentable changes to source')) if $diff->has_errors();
 
     # Remove the temporary directory.
     erasedir($tmpdir);
