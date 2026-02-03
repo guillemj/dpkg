@@ -198,6 +198,7 @@ test_scripts = \
 	t/syntax.t \
 	t/strict.t \
 	t/critic.t \
+	t/taint.t \
 	t/codespell.t \
 	t/shellcheck.t \
 	t/cppcheck.t \
