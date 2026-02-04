@@ -27,14 +27,13 @@ interact with the set of supported compression methods.
 
 =cut
 
-package Dpkg::Compression 2.01;
+package Dpkg::Compression 3.00;
 
 use v5.36;
 
 our @EXPORT = qw(
     compression_is_supported
     compression_get_list
-    compression_get_property
     compression_guess_from_filename
     compression_get_file_extension_regex
     compression_get_file_extension
@@ -129,31 +128,6 @@ sub compression_is_supported {
     my $comp = shift;
 
     return exists $COMP{$comp};
-}
-
-=item compression_get_property($comp, $property)
-
-Returns the requested property of the compression method. Returns undef if
-either the property or the compression method doesn't exist. Valid
-properties currently include "file_ext" for the file extension,
-"default_level" for the default compression level,
-"comp_prog" for the name of the compression program and "decomp_prog" for
-the name of the decompression program.
-
-B<Note>: This function is deprecated, please switch to one of the new
-specialized getters instead.
-
-=cut
-
-sub compression_get_property {
-    my ($comp, $property) = @_;
-
-    warnings::warnif('deprecated',
-        'Dpkg::Compression::compression_get_property() is deprecated, ' .
-        'use one of the specialized getters instead');
-    return unless compression_is_supported($comp);
-    return $COMP{$comp}{$property} if exists $COMP{$comp}{$property};
-    return;
 }
 
 =item compression_guess_from_filename($filename)
@@ -411,6 +385,10 @@ sub compression_get_cmdline_decompress {
 =back
 
 =head1 CHANGES
+
+=head2 Version 3.00 (dpkg 1.23.6)
+
+Remove function: compression_get_property().
 
 =head2 Version 2.01 (dpkg 1.21.14)
 
