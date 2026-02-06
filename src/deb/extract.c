@@ -213,6 +213,10 @@ extracthalf(const char *debar, const char *dir,
 						ohshit(_("archive '%s' contains two control members, giving up"),
 						       debar);
 					ctrllennum = memberlen;
+
+					if (memberlen == 0)
+						ohshit(_("archive '%s' has zero sized tar member %.*s"),
+						       ar->name, (int)sizeof(arh.ar_name), arh.ar_name);
 				} else {
 					if (adminmember != 1)
 						ohshit(_("archive '%s' has premature member '%.*s' before '%s', "
@@ -228,6 +232,10 @@ extracthalf(const char *debar, const char *dir,
 							ohshit(_("archive '%s' uses unknown compression for member '%.*s', "
 							         "giving up"),
 							       debar, (int)sizeof(arh.ar_name), arh.ar_name);
+
+						if (memberlen == 0)
+							ohshit(_("archive '%s' has zero sized tar member %.*s"),
+							       ar->name, (int)sizeof(arh.ar_name), arh.ar_name);
 					} else {
 						ohshit(_("archive '%s' has premature member '%.*s' before '%s', "
 						         "giving up"),
