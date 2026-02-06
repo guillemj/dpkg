@@ -1071,6 +1071,11 @@ filter_unzstd_code(struct io_zstd *io, struct io_zstd_stream *s)
 	ZSTD_outBuffer buf_out = { s->next_out, s->avail_out, 0 };
 	size_t ret;
 
+	if (buf_in.size == 0) {
+		s->status = DPKG_STREAM_END;
+		return;
+	}
+
 	ret = ZSTD_decompressStream(s->ctx.d, &buf_out, &buf_in);
 	if (ZSTD_isError(ret))
 		filter_zstd_error(io, ret);
