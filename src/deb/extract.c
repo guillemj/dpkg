@@ -135,8 +135,11 @@ extracthalf(const char *debar, const char *dir,
 		read_fail(rc, debar, _("archive magic version number"));
 
 	if (strcmp(versionbuf, DPKG_AR_MAGIC) == 0) {
+		off_t ar_pos = 0;
 		int adminmember = -1;
 		bool header_done = false;
+
+		ar_pos += strlen(DPKG_AR_MAGIC);
 
 		ctrllennum = 0;
 		for (;;) {
@@ -146,6 +149,8 @@ extracthalf(const char *debar, const char *dir,
 			rc = fd_read(ar->fd, &arh, sizeof(arh));
 			if (rc != sizeof(arh))
 				read_fail(rc, debar, _("archive member header"));
+
+			ar_pos += sizeof(arh);
 
 			if (dpkg_ar_member_is_invalid(&arh))
 				ohshit(_("file '%s' is corrupt - bad archive header magic"),
@@ -167,6 +172,8 @@ extracthalf(const char *debar, const char *dir,
 					read_fail(rc, debar, _("archive information header member"));
 				infobuf[memberlen] = '\0';
 
+				ar_pos += ar_member_size;
+
 				if (strchr(infobuf, '\n') == NULL)
 					ohshit(_("archive has no newlines in header"));
 				errstr = deb_version_parse(&version, infobuf);
@@ -186,6 +193,8 @@ extracthalf(const char *debar, const char *dir,
 				if (fd_skip(ar->fd, ar_member_size, &err) < 0)
 					ohshit(_("cannot skip archive member from '%s': %s"),
 					       ar->name, err.str);
+
+				ar_pos += ar_member_size;
 			} else {
 				if (strncmp(arh.ar_name, ADMINMEMBER, strlen(ADMINMEMBER)) == 0) {
 					const char *extension = arh.ar_name + strlen(ADMINMEMBER);
@@ -229,8 +238,19 @@ extracthalf(const char *debar, const char *dir,
 					if (fd_skip(ar->fd, ar_member_size, &err) < 0)
 						ohshit(_("cannot skip archive member from '%s': %s"),
 						       ar->name, err.str);
+
+					ar_pos += ar_member_size;
 				} else {
 					/* Yes! - found it. */
+					off_t ar_new_pos = ar_pos + ar_member_size;
+
+					if (ar_new_pos < ar_pos)
+						ohshit(_("archive '%s' contains an overflowing member '%.*s' size"),
+						       ar->name, (int)sizeof(arh.ar_name), arh.ar_name);
+					if (ar_new_pos > ar->size)
+						ohshit(_("archive '%s' is truncated or corrupt, "
+						         "expected more data than available (%jd > %jd)"),
+						       ar->name, ar_new_pos, ar->size);
 					break;
 				}
 			}
