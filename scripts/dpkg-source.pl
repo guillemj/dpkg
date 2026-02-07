@@ -122,9 +122,10 @@ if (defined($options{opmode}) &&
     if (not -d $dir) {
         error(g_('directory argument %s is not a directory'), $dir);
     }
-    if ($dir eq '.') {
+    my $curdir = getcwd();
+    if ($dir eq '.' || Cwd::realpath($dir) eq $curdir) {
         # «.» is never correct, adjust automatically.
-        $dir = getcwd();
+        $dir = $curdir;
         $basedir = File::Spec->updir();
     }
     # --format options are not allowed, they would take precedence
