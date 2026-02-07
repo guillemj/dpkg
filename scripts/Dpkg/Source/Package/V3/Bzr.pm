@@ -159,7 +159,7 @@ sub do_build {
            "$tardir/.bzr/branch/parent");
 
     # Create the tar file.
-    my $debianfile = "$basenamerev.bzr.tar." . $self->{options}{comp_ext};
+    my $debianfile = File::Spec->catfile($self->{basedir}, "$basenamerev.bzr.tar." . $self->{options}{comp_ext});
     info(g_('building %s in %s'),
          $sourcepackage, $debianfile);
     my $tar = Dpkg::Source::Archive->new(

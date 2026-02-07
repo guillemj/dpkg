@@ -248,6 +248,7 @@ sub new {
         $self->init_options();
     } elsif ($opts{format}) {
         $self->{fields}{Format} = $opts{format};
+        $self->{basedir} = $opts{basedir} // '.';
         $self->upgrade_object_type(0);
         $self->init_options();
     }
@@ -302,7 +303,7 @@ sub initialize {
     my ($self, $filename) = @_;
     my ($fn, $dir) = fileparse($filename);
     error(g_('%s is not the name of a file'), $filename) unless $fn;
-    $self->{basedir} = $dir || './';
+    $self->{basedir} = $dir || '.';
     $self->{filename} = $fn;
 
     # Read the fields.
@@ -440,7 +441,7 @@ sub find_original_tarballs {
     $opts{include_supplementary} //= 1;
     my $basename = $self->get_basename();
     my @tar;
-    foreach my $dir ('.', $self->{basedir}, $self->{options}{origtardir}) {
+    foreach my $dir ($self->{basedir}, $self->{options}{origtardir}) {
         next unless defined($dir) and -d $dir;
         opendir(my $dir_dh, $dir) or syserr(g_('cannot opendir %s'), $dir);
         push @tar, map { File::Spec->catfile($dir, $_) } grep {
@@ -615,7 +616,7 @@ sub extract {
     if ($self->{options}{copy_orig_tarballs}) {
         my $basename = $self->get_basename();
         my ($dirname, $destdir) = fileparse($newdirectory);
-        $destdir ||= './';
+        $destdir ||= '.';
         my $ext = compression_get_file_extension_regex();
         foreach my $orig (grep { /^\Q$basename\E\.orig(-[[:alnum:]-]+)?\.tar\.$ext$/ }
                           $self->get_files())
@@ -734,7 +735,7 @@ sub write_dsc {
     }
 
     my $filename = $opts{filename};
-    $filename //= $self->get_basename(1) . '.dsc';
+    $filename //= File::Spec->catfile($self->{basedir}, $self->get_basename(1) . '.dsc');
     open(my $dsc_fh, '>', $filename)
         or syserr(g_('cannot write %s'), $filename);
     $fields->apply_substvars($opts{substvars});

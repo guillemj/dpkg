@@ -363,7 +363,7 @@ sub _upstream_tarball_template {
         sort map {
             compression_get_file_extension($_)
         } compression_get_list()) . '}';
-    return File::Spec->catfile('..', $self->get_basename() . ".orig.tar.$ext");
+    return File::Spec->catfile($self->{basedir}, $self->get_basename() . ".orig.tar.$ext");
 }
 
 sub can_build {
@@ -651,7 +651,7 @@ sub do_build {
     pop_exit_handler();
 
     # Create the "debian.tar".
-    my $debianfile = "$basenamerev.debian.tar." . $self->{options}{comp_ext};
+    my $debianfile = File::Spec->catfile($self->{basedir}, "$basenamerev.debian.tar." . $self->{options}{comp_ext});
     info(g_('building %s in %s'), $sourcepackage, $debianfile);
     my $tar = Dpkg::Source::Archive->new(
         filename => $debianfile,

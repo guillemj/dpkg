@@ -115,7 +115,7 @@ sub do_build {
 
     my $sourcepackage = $self->{fields}{'Source'};
     my $basenamerev = $self->get_basename(1);
-    my $tarname = "$basenamerev.tar." . $self->{options}{comp_ext};
+    my $tarname = File::Spec->catfile($self->{basedir}, "$basenamerev.tar." . $self->{options}{comp_ext});
 
     info(g_('building %s in %s'), $sourcepackage, $tarname);
 

@@ -108,6 +108,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
 }
 
 my $dir;
+my $basedir = '.';
 if (defined($options{opmode}) &&
     $options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     if (not scalar(@ARGV)) {
@@ -123,8 +124,8 @@ if (defined($options{opmode}) &&
     }
     if ($dir eq '.') {
         # «.» is never correct, adjust automatically.
-        $dir = basename(getcwd());
-        chdir '..' or syserr(g_("unable to chdir to '%s'"), '..');
+        $dir = getcwd();
+        $basedir = File::Spec->updir();
     }
     # --format options are not allowed, they would take precedence
     # over real command line options, debian/source/format should be used
@@ -271,6 +272,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
     my $srcpkg = Dpkg::Source::Package->new(
         format => $build_format,
+        basedir => $basedir,
         options => \%options,
     );
     my $fields = $srcpkg->{fields};
@@ -489,7 +491,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     $srcpkg->build($dir);
 
     # Write the .dsc.
-    my $dscname = $srcpkg->get_basename(1) . '.dsc';
+    my $dscname = File::Spec->catfile($basedir, $srcpkg->get_basename(1) . '.dsc');
     info(g_('building %s in %s'), get_source_name(), $dscname);
     $srcpkg->write_dsc(
         filename => $dscname,
