@@ -141,6 +141,7 @@ extracthalf(const char *debar, const char *dir,
 		ctrllennum = 0;
 		for (;;) {
 			struct dpkg_ar_hdr arh;
+			off_t ar_member_size;
 
 			rc = fd_read(ar->fd, &arh, sizeof(arh));
 			if (rc != sizeof(arh))
@@ -153,6 +154,7 @@ extracthalf(const char *debar, const char *dir,
 			dpkg_ar_normalize_name(&arh);
 
 			memberlen = dpkg_ar_member_get_size(ar, &arh);
+			ar_member_size = memberlen + (memberlen & 1);
 			if (!header_done) {
 				char *infobuf;
 
@@ -160,9 +162,8 @@ extracthalf(const char *debar, const char *dir,
 					ohshit(_("file '%s' is not a Debian binary archive (try dpkg-split?)"),
 					       debar);
 				infobuf = m_malloc(memberlen + 1);
-				rc = fd_read(ar->fd, infobuf,
-				             memberlen + (memberlen & 1));
-				if (rc != (memberlen + (memberlen & 1)))
+				rc = fd_read(ar->fd, infobuf, ar_member_size);
+				if (rc != ar_member_size)
 					read_fail(rc, debar, _("archive information header member"));
 				infobuf[memberlen] = '\0';
 
@@ -182,7 +183,7 @@ extracthalf(const char *debar, const char *dir,
 			} else if (arh.ar_name[0] == '_') {
 				/* Members with ‘_’ are noncritical, and if we
 				 * don't understand them we skip them. */
-				if (fd_skip(ar->fd, memberlen + (memberlen & 1), &err) < 0)
+				if (fd_skip(ar->fd, ar_member_size, &err) < 0)
 					ohshit(_("cannot skip archive member from '%s': %s"),
 					       ar->name, err.str);
 			} else {
@@ -225,7 +226,7 @@ extracthalf(const char *debar, const char *dir,
 					}
 				}
 				if (!adminmember != !admininfo) {
-					if (fd_skip(ar->fd, memberlen + (memberlen & 1), &err) < 0)
+					if (fd_skip(ar->fd, ar_member_size, &err) < 0)
 						ohshit(_("cannot skip archive member from '%s': %s"),
 						       ar->name, err.str);
 				} else {
