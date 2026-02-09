@@ -229,6 +229,13 @@ sub parse_member {
     # Remove optional slash terminator (on GNU-style archives).
     $hdr{name} =~ s{/$}{};
 
+    foreach my $f (qw(name time uid gid mode size fmag)) {
+        if (not length $hdr{$f}) {
+            error(g_('file member %s in archive %s contains empty %s field'),
+                  $hdr{name}, $self->{filename}, $f);
+        }
+    }
+
     my $member = {
         name => $hdr{name},
         time => int $hdr{time},
