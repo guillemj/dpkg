@@ -54,6 +54,7 @@ my %options = (
     },
     type            => undef,
     arch            => undef,
+    'implicit-arch' => 1,
     hash            => undef,
     multiversion    => 0,
     'extra-override' => undef,
@@ -65,6 +66,7 @@ my @options_spec = (
     'version',
     'type|t=s',
     'arch|a=s',
+    'implicit-arch!',
     'hash|h=s',
     'multiversion|m!',
     'extra-override|e=s',
@@ -81,7 +83,8 @@ sub usage {
 
 Options:
   -t, --type <type>        scan for <type> packages (default is 'deb').
-  -a, --arch <arch>        architecture to scan for.
+  -a, --arch <arch>        architecture to scan for (with implicit arch all).
+      --no-implicit-arch   do not add implicit architecture all to --arch.
   -h, --hash <hash-list>   only generate hashes for the specified list.
   -m, --multiversion       allow multiple versions of a single package.
   -e, --extra-override <file>
@@ -257,7 +260,11 @@ $pathprefix //= '';
 
 my $find_filter;
 if ($options{arch}) {
-    $find_filter = qr/_(?:all|${arch})\.$type$/;
+    if ($options{'implicit-arch'}) {
+        $find_filter = qr/_(?:all|${arch})\.$type$/;
+    } else {
+        $find_filter = qr/_${arch}\.$type$/;
+    }
 } else {
     $find_filter = qr/\.$type$/;
 }
