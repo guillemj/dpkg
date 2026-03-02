@@ -110,6 +110,8 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 	if (memcmp(magicbuf, DPKG_AR_MAGIC, sizeof(magicbuf)))
 		return NULL;
 
+	dpkg_ar_check_size(ar);
+
 	rc = fd_read(ar->fd, &arh, sizeof(arh));
 	if (rc != sizeof(arh))
 		read_fail(rc, ar->name, _("ar header"));

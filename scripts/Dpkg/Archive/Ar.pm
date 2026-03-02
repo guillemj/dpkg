@@ -106,6 +106,10 @@ sub init_archive {
     $self->{fh}->stat
         or syserr(g_('cannot get archive %s size'), $self->{filename});
     $self->{size} = -s _;
+    if ($self->{size} % 2) {
+        error(g_('archive %s is truncated or corrupt, ' .
+                 'it has a non-even byte size'), $self->{filename});
+    }
 
     return;
 }

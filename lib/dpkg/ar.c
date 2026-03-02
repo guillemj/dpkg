@@ -84,6 +84,14 @@ dpkg_ar_create(const char *filename, mode_t mode)
 }
 
 void
+dpkg_ar_check_size(struct dpkg_ar *ar)
+{
+	if (ar->size % 2)
+		ohshit(_("archive %s is truncated or corrupt, "
+		         "it has a non-even byte size"), ar->name);
+}
+
+void
 dpkg_ar_set_mtime(struct dpkg_ar *ar, intmax_t mtime)
 {
 	ar->time = mtime;

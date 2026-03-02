@@ -90,6 +90,8 @@ dpkg_ar_open(const char *filename);
 struct dpkg_ar *
 dpkg_ar_create(const char *filename, mode_t mode);
 void
+dpkg_ar_check_size(struct dpkg_ar *ar);
+void
 dpkg_ar_set_mtime(struct dpkg_ar *ar, intmax_t mtime);
 void
 dpkg_ar_close(struct dpkg_ar *ar);

@@ -141,6 +141,8 @@ extracthalf(const char *debar, const char *dir,
 
 		ar_pos += strlen(DPKG_AR_MAGIC);
 
+		dpkg_ar_check_size(ar);
+
 		ctrllennum = 0;
 		for (;;) {
 			struct dpkg_ar_hdr arh;
