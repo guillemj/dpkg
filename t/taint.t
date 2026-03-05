@@ -30,7 +30,7 @@ my $PERL = $ENV{PERL} // $^X // 'perl';
 sub taint_ok {
     my $file = shift;
 
-    my $eval = qx($PERL -Iscripts -cwT \"$file\" 2>&1);
+    my $eval = qx($PERL -Iscripts -Idselect/methods -cwT \"$file\" 2>&1);
     my $ok = ($eval =~ s{^\Q$file\E syntax OK\n$}{}ms) && length $eval == 0;
 
     ok($ok, "Tainting check $file");
