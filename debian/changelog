@@ -1,8 +1,59 @@
-dpkg (1.23.6) UNRELEASED; urgency=medium
+dpkg (1.23.6) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * dpkg-query: Fix segfault with empty -S argument. LP: #2092676
+  * dpkg-deb: Be more robust against truncated ar archives.
+    Reported by Yashashree Gund <yash_gund@live.com>.
+  * dpkg-deb: Reject ar archives with 0 sized tar members.
+    Reported by Yashashree Gund <yash_gund@live.com>.
+  * libdpkg, scripts: Detect corrupt ar archive with non-even byte sizes.
+  * dpkg-source: Fix running from within the source tree.
+    Reported by Umut <ue16@gmx.de> (on IRC).
+  * dpkg-source: Support running --commit from within the source tree w/o
+    «.». Closes: #1127383
+  * dpkg-source: Fix format in maintainer error message.
+    Thanks to Marko Zajc <marko@zajc.tel>.
+  * dpkg-scanpackages: Add new --no-implicit-arch option. Closes: #1128325
+  * Perl modules:
+    - Dpkg::Shlibs::Objdump::Object: Clarify code comment.
+    - Dpkg::Source::Package::V2: Do not print source root on modified files
+      list. Closes: #1126558
+    - Dpkg::Source::Patch: Speed up patched filename retrieval in patches.
+    - Dpkg::Source::Patch: Add comment about the use of tr{}{} as char counter.
+    - Dpkg::OpenPGP::Backend::GnuPG: Add missing Dpkg::Gettext import.
+      Closes: #1128406
+    - Dpkg::OpenPGP::Backend::GnuPG: Refactor _file_read_header().
+    - Dpkg::OpenPGP::Backend::GnuPG: Detect and warn on LibrePGP artifacts.
+    - Dpkg::Email::Address: Warn on email domains with a single label.
+      Closes: #1126508
+    - Dpkg::Source::Patch: Fix code comment.
+    - Dpkg::Source::Patch: Add new has_errors() method.
+    - Dpkg::Source::Package::V2: Delay unrepresentable error after local
+      changes list. Closes: #1126665
+    - Dpkg::Vendor: Fix taint mode in get_vendor_object().
+    - Dpkg::Compression: Remove deprecated function compression_get_property().
+    - Dpkg::Archive::Ar: Switch header variables into a hash.
+    - Dpkg::Archive::Ar: Check that no header field is empty.
+  * Code internals:
+    - libdpkg: Use varbuf_str() instead of directly accessing buf.
+    - scripts: Parse and validate all Changed-By and Maintainer field inputs.
+      Closes: #1126507
+    - libdpkg: Terminate zstd decompression when we have no more data.
+      Reported by Yashashree Gund <yash_gund@live.com>. Closes: #1129722
+      Fixes CVE-2026-2219.
+    - dpkg-deb: Refactor ar member size into an intermediate variable.
+  * Build system:
+    - Add URL, Maintainer and License fields to .pc file.
+  * Test suite:
+    - Add basic Perl taint mode checks.
+  * Localization:
+    - Update Dutch translations.
+      Thanks to Frans Spiesschaert <Frans.Spiesschaert@yucom.be>.
+      Closes: #1127882, #1127884
+    - Update Swedish translations.
+      Thanks to Peter Krefting <peter@softwolves.pp.se>. Closes: #1128529
 
- -- Guillem Jover <guillem@debian.org>  Fri, 23 Jan 2026 02:09:09 +0100
+ -- Guillem Jover <guillem@debian.org>  Thu, 05 Mar 2026 06:54:58 +0100
 
 dpkg (1.23.5) unstable; urgency=medium
 
