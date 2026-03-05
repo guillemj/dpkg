@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2026-01-23 01:41+0100\n"
+"POT-Creation-Date: 2026-03-05 06:54+0100\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Håvard Korsvoll <korsvoll@skulelinux.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -31,6 +31,11 @@ msgstr "klarte ikkje lesa arkivet «%s»"
 #, c-format
 msgid "unable to create '%s'"
 msgstr "klarte ikkje oppretta «%s»"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "archive %s is truncated or corrupt, it has a non-even byte size"
+msgstr ""
 
 #: lib/dpkg/ar.c lib/dpkg/dir.c src/split/join.c src/split/queue.c
 #: src/divert/main.c utils/update-alternatives.c
@@ -2587,9 +2592,27 @@ msgstr "fila «%s» inneheld to kontrollmedlemmer. Gjev opp"
 
 #: src/deb/extract.c
 #, fuzzy, c-format
+msgid "archive '%s' has zero sized tar member %.*s"
+msgstr "arkivet har ei misforma kontrollengd «%s»"
+
+#: src/deb/extract.c
+#, fuzzy, c-format
 #| msgid "file `%s' contains ununderstood data member %.*s, giving up"
 msgid "archive '%s' has premature member '%.*s' before '%s', giving up"
 msgstr "fila «%s» inneheld eit datamedlem %.*s som eg ikkje skjønar. Gjev opp"
+
+#: src/deb/extract.c
+#, fuzzy, c-format
+#| msgid "file `%s' contains two control members, giving up"
+msgid "archive '%s' contains an overflowing member '%.*s' size"
+msgstr "fila «%s» inneheld to kontrollmedlemmer. Gjev opp"
+
+#: src/deb/extract.c
+#, c-format
+msgid ""
+"archive '%s' is truncated or corrupt, expected more data than available (%jd "
+"> %jd)"
+msgstr ""
 
 #: src/deb/extract.c
 #, fuzzy, c-format

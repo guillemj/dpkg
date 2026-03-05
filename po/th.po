@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.21.20\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2026-01-23 01:41+0100\n"
+"POT-Creation-Date: 2026-03-05 06:54+0100\n"
 "PO-Revision-Date: 2023-02-05 23:45+0100\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@debian.org>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -31,6 +31,11 @@ msgstr "อ่านแพกเกจ '%s' ไม่สำเร็จ"
 #, c-format
 msgid "unable to create '%s'"
 msgstr "ไม่สามารถสร้าง '%s'"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "archive %s is truncated or corrupt, it has a non-even byte size"
+msgstr ""
 
 #: lib/dpkg/ar.c lib/dpkg/dir.c src/split/join.c src/split/queue.c
 #: src/divert/main.c utils/update-alternatives.c
@@ -2474,9 +2479,28 @@ msgid "archive '%s' contains two control members, giving up"
 msgstr "แพกเกจ '%s' มีสมาชิกข้อมูลควบคุมสองชุด ขอเลิกล้ม"
 
 #: src/deb/extract.c
+#, fuzzy, c-format
+#| msgid "archive has malformed control member size '%s'"
+msgid "archive '%s' has zero sized tar member %.*s"
+msgstr "แพกเกจมีขนาดของสมาชิกส่วนควบคุมผิดรูปแบบ '%s'"
+
+#: src/deb/extract.c
 #, c-format
 msgid "archive '%s' has premature member '%.*s' before '%s', giving up"
 msgstr "แพกเกจ '%s' มีสมาชิก '%.*s' ที่มาก่อนกำหนดก่อน '%s' ขอเลิกล้ม"
+
+#: src/deb/extract.c
+#, fuzzy, c-format
+#| msgid "archive '%s' contains two control members, giving up"
+msgid "archive '%s' contains an overflowing member '%.*s' size"
+msgstr "แพกเกจ '%s' มีสมาชิกข้อมูลควบคุมสองชุด ขอเลิกล้ม"
+
+#: src/deb/extract.c
+#, c-format
+msgid ""
+"archive '%s' is truncated or corrupt, expected more data than available (%jd "
+"> %jd)"
+msgstr ""
 
 #: src/deb/extract.c
 #, c-format

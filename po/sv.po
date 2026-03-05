@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.23.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2026-01-23 01:41+0100\n"
+"POT-Creation-Date: 2026-03-05 06:54+0100\n"
 "PO-Revision-Date: 2026-02-20 16:31+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -33,6 +33,11 @@ msgstr "kunde inte läsa arkivet ”%s”"
 #, c-format
 msgid "unable to create '%s'"
 msgstr "kunde inte skapa ”%s”"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "archive %s is truncated or corrupt, it has a non-even byte size"
+msgstr ""
 
 #: lib/dpkg/ar.c lib/dpkg/dir.c src/split/join.c src/split/queue.c
 #: src/divert/main.c utils/update-alternatives.c
@@ -2466,9 +2471,28 @@ msgid "archive '%s' contains two control members, giving up"
 msgstr "arkivet ”%s” innehåller två kontrolldelar, ger upp"
 
 #: src/deb/extract.c
+#, fuzzy, c-format
+#| msgid "archive has malformed control member size '%s'"
+msgid "archive '%s' has zero sized tar member %.*s"
+msgstr "arkivet har felformaterad kontroldellängd ”%s”"
+
+#: src/deb/extract.c
 #, c-format
 msgid "archive '%s' has premature member '%.*s' before '%s', giving up"
 msgstr "arkivet ”%s” har förtida medlem ”%.*s” före ”%s”, ger upp"
+
+#: src/deb/extract.c
+#, fuzzy, c-format
+#| msgid "archive '%s' contains two control members, giving up"
+msgid "archive '%s' contains an overflowing member '%.*s' size"
+msgstr "arkivet ”%s” innehåller två kontrolldelar, ger upp"
+
+#: src/deb/extract.c
+#, c-format
+msgid ""
+"archive '%s' is truncated or corrupt, expected more data than available (%jd "
+"> %jd)"
+msgstr ""
 
 #: src/deb/extract.c
 #, c-format
@@ -2784,8 +2808,8 @@ msgid ""
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
-"  by inserting variable references to package fields using the ${var[;"
-"width]}\n"
+"  by inserting variable references to package fields using the $"
+"{var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in "
 "which\n"
 "  case left alignment will be used.\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.23.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2026-01-23 01:41+0100\n"
+"POT-Creation-Date: 2026-03-05 06:54+0100\n"
 "PO-Revision-Date: 2026-03-02 04:03+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -354,15 +354,15 @@ msgstr ""
 "  -A, --build=all             endast binär, endast arkitektur-oberoende "
 "filer.\n"
 "  -S, --build=source          endast källkod, inga binärfiler.\n"
-"  -nc, --no-pre-clean         städa inte källkodsträd först (implicerar -"
-"b).\n"
+"  -nc, --no-pre-clean         städa inte källkodsträd först (implicerar "
+"-b).\n"
 "      --pre-clean             städa källkodströdet först (förval).\n"
 "      --no-post-clean         städa inte källkodsträdet efteråt (förval).\n"
 "  -tc, --post-clean           städa källkodsträd efteråt.\n"
 "  -D, --check-builddeps       kontroll. byggberoenden och -konflikter "
 "(förval).\n"
-"  -d, --no-check-builddeps    kontrollera inte byggberoenden och -"
-"konflkter.\n"
+"  -d, --no-check-builddeps    kontrollera inte byggberoenden och "
+"-konflkter.\n"
 "      --ignore-builtin-builddeps\n"
 "                              kontrollera inte inbyggda byggberoenden.\n"
 "  -P, --build-profiles=<profiler>\n"
@@ -488,8 +488,8 @@ msgstr ""
 "  -Z, --compression=<komprim> komprimering att använda för källkod\n"
 "                                (gz|xz|bzip2|lzma).\n"
 "  -i, --diff-ingore=[<reg.uttr>]\n"
-"                              ignorerar diff på filer som motsvarar reg."
-"uttr.\n"
+"                              ignorerar diff på filer som motsvarar "
+"reg.uttr.\n"
 "  -I, --tar-ignore=[<mönster>]\n"
 "                              filtrera ut filer när tarboll byggs.\n"
 "      --source-option=<flagga>\n"
@@ -589,6 +589,11 @@ msgstr "källkodsdistribution"
 #: scripts/dpkg-buildpackage.pl
 msgid "source changed by"
 msgstr "källkod ändrad av"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "cannot parse maintainer email address \"%s\" from changelog entry"
+msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
 msgid "host architecture"
@@ -1468,14 +1473,31 @@ msgid "takes no non-option arguments"
 msgstr "tar inga argument som inte är flaggor"
 
 #: scripts/dpkg-scanpackages.pl
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
+#| "Packages\n"
+#| "\n"
+#| "Options:\n"
+#| "  -t, --type <type>        scan for <type> packages (default is 'deb').\n"
+#| "  -a, --arch <arch>        architecture to scan for.\n"
+#| "  -h, --hash <hash-list>   only generate hashes for the specified list.\n"
+#| "  -m, --multiversion       allow multiple versions of a single package.\n"
+#| "  -e, --extra-override <file>\n"
+#| "                           use extra override file.\n"
+#| "  -M, --medium <medium>    add X-Medium field for dselect media access "
+#| "method\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version.\n"
 msgid ""
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
 "Packages\n"
 "\n"
 "Options:\n"
 "  -t, --type <type>        scan for <type> packages (default is 'deb').\n"
-"  -a, --arch <arch>        architecture to scan for.\n"
+"  -a, --arch <arch>        architecture to scan for (with implicit arch "
+"all).\n"
+"      --no-implicit-arch   do not add implicit architecture all to --arch.\n"
 "  -h, --hash <hash-list>   only generate hashes for the specified list.\n"
 "  -m, --multiversion       allow multiple versions of a single package.\n"
 "  -e, --extra-override <file>\n"
@@ -1839,8 +1861,8 @@ msgstr ""
 "  -p<varnamnprefix>        sätt <varnamnprefix>:* istället för shlibs:*.\n"
 "  -O[<fil>]                skriv variabelinställningar till standard ut/"
 "fil.\n"
-"  -L<lokalshlibsfil>       shlibs-överstyrningsfil, inte debian/shlibs."
-"local.\n"
+"  -L<lokalshlibsfil>       shlibs-överstyrningsfil, inte debian/"
+"shlibs.local.\n"
 "  -T<varlistfil>           uppdatera variabler här, inte debian/substvars.\n"
 "  -t<typ>                  sätt pakettyp (förval är deb).\n"
 "  -x<paket>                uteslut ett paket från skapade beroenden.\n"
@@ -1926,12 +1948,6 @@ msgstr "kan inte ta status på katalogen %s"
 #, perl-format
 msgid "directory argument %s is not a directory"
 msgstr "katalogargumentet %s är inte en katalog"
-
-#: scripts/dpkg-source.pl scripts/Dpkg/Source/BinaryFiles.pm
-#: scripts/Dpkg/Source/Package/V3/Bzr.pm scripts/Dpkg/Source/Package/V3/Git.pm
-#, perl-format
-msgid "unable to chdir to '%s'"
-msgstr "kan inte byta katalog till ”%s”"
 
 #: scripts/dpkg-source.pl
 #, perl-format
@@ -2256,6 +2272,11 @@ msgstr "kan inte hämta storleken för arkivet %s"
 
 #: scripts/Dpkg/Archive/Ar.pm
 #, perl-format
+msgid "archive %s is truncated or corrupt, it has a non-even byte size"
+msgstr ""
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
 msgid "cannot open or create archive %s"
 msgstr "kan inte öppna eller skapa arkivet %s"
 
@@ -2299,6 +2320,12 @@ msgstr "ett filhuvud"
 #: scripts/Dpkg/Archive/Ar.pm
 #, perl-format
 msgid "file header at offset %d in archive %s contains bad magic"
+msgstr "filhuvudet vid position %d i arkivet %s har fel magiskt tal"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "file header at offset %d in archive %s contains bad magic"
+msgid "file member %s in archive %s contains empty %s field"
 msgstr "filhuvudet vid position %d i arkivet %s har fel magiskt tal"
 
 #: scripts/Dpkg/Archive/Ar.pm
@@ -2944,6 +2971,11 @@ msgstr "ogiltigt filnamn %s"
 
 #: scripts/Dpkg/Email/Address.pm
 #, perl-format
+msgid "email address '%s' with single label domain"
+msgstr ""
+
+#: scripts/Dpkg/Email/Address.pm
+#, perl-format
 msgid "invalid email address '%s'"
 msgstr "ogiltig e-postadress ”%s”"
 
@@ -3068,6 +3100,28 @@ msgstr ""
 "konstruktion, se <%s>"
 
 #: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, fuzzy, perl-format
+#| msgid "unexpected end of diff '%s'"
+msgid "unexpected empty file %s"
+msgstr "oväntad slut på diffen ”%s”"
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, perl-format
+msgid "partial read %s (%d bytes of %d total)"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, perl-format
+msgid "old OpenPGP packet in %s with indeterminate length"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, fuzzy, perl-format
+#| msgid "unknown OpenPGP backend %s"
+msgid "unknown OpenPGP packet type %0x in %s"
+msgstr "okänt OpenPGP-program %s"
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
 #, perl-format
 msgid ""
 "using GnuPG specific KeyBox formatted keyring %s is deprecated; use an "
@@ -3075,6 +3129,12 @@ msgid ""
 msgstr ""
 "att använda GnuPG-specifika KeyBox-formaterade nyckelringen %s avråds från; "
 "använd en OpenPGP-formaterad nyckelring istället"
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, perl-format
+msgid ""
+"found non-interoperable LibrePGP artifact in %s, only OpenPGP is supported"
+msgstr ""
 
 #: scripts/Dpkg/OpenPGP/Backend/Sequoia.pm
 msgid "imported own keys might be missing ownership information, try:"
@@ -3340,6 +3400,12 @@ msgstr "lägger %s till %s"
 msgid "unwanted binary file: %s"
 msgstr "oönskad binärfil: %s"
 
+#: scripts/Dpkg/Source/BinaryFiles.pm scripts/Dpkg/Source/Package/V3/Bzr.pm
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, perl-format
+msgid "unable to chdir to '%s'"
+msgstr "kan inte byta katalog till ”%s”"
+
 #: scripts/Dpkg/Source/BinaryFiles.pm
 #, perl-format
 msgid ""
@@ -3435,8 +3501,8 @@ msgid ""
 "using implicit trusted keyring %s is deprecated; use --signer-cert with an "
 "OpenPGP keyring instead"
 msgstr ""
-"att använda dne implicit betrodda nyckelringen %s avråds från; använd -"
-"signer-cert med en OpenPGP-nyckelring istället"
+"att använda dne implicit betrodda nyckelringen %s avråds från; använd "
+"-signer-cert med en OpenPGP-nyckelring istället"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -3622,8 +3688,8 @@ msgstr "kunde inte ta status på originalargumentet %s"
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is unpacked but source handling style -s%s calls for packed (."
-"orig.tar.<ext>)"
+"orig argument is unpacked but source handling style -s%s calls for packed "
+"(.orig.tar.<ext>)"
 msgstr ""
 "originalargument har packats upp men källkodshanteringstypen -s%s ber om en "
 "packad (.orig.tar.<ändelse>)"
@@ -3631,8 +3697,8 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is packed but source handling style -s%s calls for unpacked (."
-"orig/)"
+"orig argument is packed but source handling style -s%s calls for unpacked "
+"(.orig/)"
 msgstr ""
 "originalargument har packats men källkodshanteringstypen -s%s ber om en "
 "uppackad (orig/)"
@@ -3645,8 +3711,8 @@ msgstr "orig-parametern %s är inte en vanlig fil eller katalog"
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid ""
-"orig argument is empty (means no orig, no diff) but source handling style -"
-"s%s wants something"
+"orig argument is empty (means no orig, no diff) but source handling style "
+"-s%s wants something"
 msgstr ""
 "originalargument är tomt (betyder ingen orig, ingen diff) men "
 "källkodshanteringstypen -s%s ber om något"
@@ -3719,8 +3785,8 @@ msgid ""
 "orig directory '%s' already exists, not overwriting, giving up; use -sA, -sK "
 "or -sP to override"
 msgstr ""
-"originalkatalog ”%s” finns redan, skriver inte över, ger upp; använd -sA, -"
-"sK eller -sP för att överstyra"
+"originalkatalog ”%s” finns redan, skriver inte över, ger upp; använd -sA, "
+"-sK eller -sP för att överstyra"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -4458,7 +4524,7 @@ msgstr "revisionen kan inte vara tom"
 msgid "version number does not start with digit"
 msgstr "versionsnumret börjar inte med en siffra"
 
-#: scripts/Dpkg/Version.
+#: scripts/Dpkg/Version.pm
 #, perl-format
 msgid "version number contains invalid character '%s'"
 msgstr "versionsnummer innehåller ogiltigt tecken ”%s”"

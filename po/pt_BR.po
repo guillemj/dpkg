@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.22.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2026-01-23 01:41+0100\n"
+"POT-Creation-Date: 2026-03-05 06:54+0100\n"
 "PO-Revision-Date: 2025-03-21 11:28-0300\n"
 "Last-Translator: Paulo Henrique de Lima Santana (phls) <phls@debian.org>\n"
 "Language-Team: Brazilian Portuguese <debian-l10n-"
@@ -42,6 +42,11 @@ msgstr "falhou ao ler o arquivo '%s'"
 #, c-format
 msgid "unable to create '%s'"
 msgstr "não é possível criar '%s'"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "archive %s is truncated or corrupt, it has a non-even byte size"
+msgstr ""
 
 #: lib/dpkg/ar.c lib/dpkg/dir.c src/split/join.c src/split/queue.c
 #: src/divert/main.c utils/update-alternatives.c
@@ -2562,9 +2567,28 @@ msgid "archive '%s' contains two control members, giving up"
 msgstr "arquivo '%s' contém dois membros de controle, desistindo"
 
 #: src/deb/extract.c
+#, fuzzy, c-format
+#| msgid "archive has malformed control member size '%s'"
+msgid "archive '%s' has zero sized tar member %.*s"
+msgstr "arquivo possui tamanho de membro de controle mal formatado '%s'"
+
+#: src/deb/extract.c
 #, c-format
 msgid "archive '%s' has premature member '%.*s' before '%s', giving up"
 msgstr "arquivo '%s' possui membro prematuro '%.*s' antes de '%s', desistindo"
+
+#: src/deb/extract.c
+#, fuzzy, c-format
+#| msgid "archive '%s' contains two control members, giving up"
+msgid "archive '%s' contains an overflowing member '%.*s' size"
+msgstr "arquivo '%s' contém dois membros de controle, desistindo"
+
+#: src/deb/extract.c
+#, c-format
+msgid ""
+"archive '%s' is truncated or corrupt, expected more data than available (%jd "
+"> %jd)"
+msgstr ""
 
 #: src/deb/extract.c
 #, c-format

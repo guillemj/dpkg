@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.22.19\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2026-01-23 01:41+0100\n"
+"POT-Creation-Date: 2026-03-05 06:54+0100\n"
 "PO-Revision-Date: 2025-08-31 06:36+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: English <debian-l10n-english@lists.debian.org>\n"
@@ -584,6 +584,11 @@ msgstr "source distribution"
 #: scripts/dpkg-buildpackage.pl
 msgid "source changed by"
 msgstr "source changed by"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "cannot parse maintainer email address \"%s\" from changelog entry"
+msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
 msgid "host architecture"
@@ -1468,14 +1473,31 @@ msgid "takes no non-option arguments"
 msgstr "takes no non-option arguments"
 
 #: scripts/dpkg-scanpackages.pl
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
+#| "Packages\n"
+#| "\n"
+#| "Options:\n"
+#| "  -t, --type <type>        scan for <type> packages (default is 'deb').\n"
+#| "  -a, --arch <arch>        architecture to scan for.\n"
+#| "  -h, --hash <hash-list>   only generate hashes for the specified list.\n"
+#| "  -m, --multiversion       allow multiple versions of a single package.\n"
+#| "  -e, --extra-override <file>\n"
+#| "                           use extra override file.\n"
+#| "  -M, --medium <medium>    add X-Medium field for dselect media access "
+#| "method\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version.\n"
 msgid ""
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
 "Packages\n"
 "\n"
 "Options:\n"
 "  -t, --type <type>        scan for <type> packages (default is 'deb').\n"
-"  -a, --arch <arch>        architecture to scan for.\n"
+"  -a, --arch <arch>        architecture to scan for (with implicit arch "
+"all).\n"
+"      --no-implicit-arch   do not add implicit architecture all to --arch.\n"
 "  -h, --hash <hash-list>   only generate hashes for the specified list.\n"
 "  -m, --multiversion       allow multiple versions of a single package.\n"
 "  -e, --extra-override <file>\n"
@@ -1953,12 +1975,6 @@ msgstr "cannot stat directory %s"
 msgid "directory argument %s is not a directory"
 msgstr "directory argument %s is not a directory"
 
-#: scripts/dpkg-source.pl scripts/Dpkg/Source/BinaryFiles.pm
-#: scripts/Dpkg/Source/Package/V3/Bzr.pm scripts/Dpkg/Source/Package/V3/Git.pm
-#, perl-format
-msgid "unable to chdir to '%s'"
-msgstr "unable to chdir to '%s'"
-
 #: scripts/dpkg-source.pl
 #, perl-format
 msgid "using options from %s: %s"
@@ -2296,6 +2312,11 @@ msgstr "cannot get archive %s size"
 
 #: scripts/Dpkg/Archive/Ar.pm
 #, perl-format
+msgid "archive %s is truncated or corrupt, it has a non-even byte size"
+msgstr ""
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
 msgid "cannot open or create archive %s"
 msgstr "cannot open or create archive %s"
 
@@ -2339,6 +2360,12 @@ msgstr "a file header"
 #: scripts/Dpkg/Archive/Ar.pm
 #, perl-format
 msgid "file header at offset %d in archive %s contains bad magic"
+msgstr "file header at offset %d in archive %s contains bad magic"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, fuzzy, perl-format
+#| msgid "file header at offset %d in archive %s contains bad magic"
+msgid "file member %s in archive %s contains empty %s field"
 msgstr "file header at offset %d in archive %s contains bad magic"
 
 #: scripts/Dpkg/Archive/Ar.pm
@@ -2980,6 +3007,11 @@ msgid "invalid filename %s"
 msgstr "invalid filename %s"
 
 #: scripts/Dpkg/Email/Address.pm
+#, perl-format
+msgid "email address '%s' with single label domain"
+msgstr ""
+
+#: scripts/Dpkg/Email/Address.pm
 #, fuzzy, perl-format
 #| msgid "'%s' is not a legal architecture in list '%s'"
 msgid "invalid email address '%s'"
@@ -3107,10 +3139,38 @@ msgstr ""
 "interoperable construct, see <%s>"
 
 #: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, fuzzy, perl-format
+#| msgid "unexpected end of diff '%s'"
+msgid "unexpected empty file %s"
+msgstr "unexpected end of diff '%s'"
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, perl-format
+msgid "partial read %s (%d bytes of %d total)"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, perl-format
+msgid "old OpenPGP packet in %s with indeterminate length"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, fuzzy, perl-format
+#| msgid "unknown OpenPGP backend %s"
+msgid "unknown OpenPGP packet type %0x in %s"
+msgstr "unknown OpenPGP backend %s"
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
 #, perl-format
 msgid ""
 "using GnuPG specific KeyBox formatted keyring %s is deprecated; use an "
 "OpenPGP formatted keyring instead"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, perl-format
+msgid ""
+"found non-interoperable LibrePGP artifact in %s, only OpenPGP is supported"
 msgstr ""
 
 #: scripts/Dpkg/OpenPGP/Backend/Sequoia.pm
@@ -3377,6 +3437,12 @@ msgstr "adding %s to %s"
 #, perl-format
 msgid "unwanted binary file: %s"
 msgstr "unwanted binary file: %s"
+
+#: scripts/Dpkg/Source/BinaryFiles.pm scripts/Dpkg/Source/Package/V3/Bzr.pm
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, perl-format
+msgid "unable to chdir to '%s'"
+msgstr "unable to chdir to '%s'"
 
 #: scripts/Dpkg/Source/BinaryFiles.pm
 #, perl-format
