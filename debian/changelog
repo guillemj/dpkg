@@ -1,8 +1,21 @@
-dpkg (1.22.22) UNRELEASED; urgency=medium
+dpkg (1.22.22) trixie; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * dpkg-query: Fix segfault with empty -S argument. LP: #2092676
+  * Perl modules:
+    - Dpkg::OpenPGP: Do not run verify with no keyrings. Closes: #1111617
+    - Dpkg::Shlibs::Objdump::Object: Add support for "Version References"
+      symbols. Closes: #1122107
+    - Dpkg::OpenPGP::Backend::GnuPG: Add missing Dpkg::Gettext import.
+      Closes: #1128406
+  * Code internals:
+    - libdpkg: Terminate zstd decompression when we have no more data.
+      Reported by Yashashree Gund <yash_gund@live.com>. Closes: #1129722
+      Fixes CVE-2026-2219.
+  * Build system:
+    - Build gitlab CI images for trixie instead of sid.
 
- -- Guillem Jover <guillem@debian.org>  Fri, 06 Mar 2026 03:49:07 +0100
+ -- Guillem Jover <guillem@debian.org>  Fri, 06 Mar 2026 04:01:23 +0100
 
 dpkg (1.22.21) unstable; urgency=medium
 
