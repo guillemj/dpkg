@@ -273,7 +273,8 @@ sub do_extract {
         my $analysis = $patch_obj->apply($newdirectory,
             force_timestamp => 1,
         );
-        my @files = grep { ! m{^\Q$newdirectory\E/debian/} }
+        my @files = grep { ! m{^debian/} }
+                    map { s{^\Q$newdirectory\E/+}{}r }
                     sort keys %{$analysis->{filepatched}};
         info(g_('upstream files that have been modified: %s'),
              "\n " . join("\n ", @files)) if scalar @files;
@@ -546,7 +547,7 @@ sub do_build {
 
         my $analysis = $diff->analyze($origdir);
         my @files = grep { ! m{^debian/} }
-                    map { s{^[^/]+/+}{}r }
+                    map { s{^\Q$origdir\E/+}{}r }
                     sort keys %{$analysis->{filepatched}};
         if (scalar @files) {
             warning(g_('the diff modifies the following upstream files: %s'),
