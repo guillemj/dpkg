@@ -74,9 +74,6 @@ extern struct compress_params compress_params;
 
 #define OLDARCHIVEVERSION	"0.939000"
 
-#define OLDDEBDIR		"DEBIAN"
-#define OLDOLDDEBDIR		".DEBIAN"
-
 #define DEBMAGIC		"debian-binary"
 #define ADMINMEMBER		"control.tar"
 #define DATAMEMBER		"data.tar"

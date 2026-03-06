@@ -50,22 +50,6 @@
 
 #include "dpkg-deb.h"
 
-static void
-movecontrolfiles(const char *dir, const char *thing)
-{
-	char *cmd;
-	pid_t pid;
-
-	cmd = str_fmt("mv %s/%s/* %s/ && rmdir %s/%s",
-	              dir, thing, dir, dir, thing);
-	pid = subproc_fork();
-	if (pid == 0) {
-		command_shell(cmd, _("shell command to move files"));
-	}
-	subproc_reap(pid, _("shell command to move files"), 0);
-	free(cmd);
-}
-
 static void DPKG_ATTR_NORET
 read_fail(int rc, const char *filename, const char *what)
 {
@@ -285,6 +269,9 @@ extracthalf(const char *debar, const char *dir,
 		if (errstr)
 			ohshit(_("archive has invalid format version: %s"),
 			       errstr);
+		if (version.minor < 939000)
+			ohshit(_("archive '%s' has unsupported format version: %d.%d"),
+			       debar, version.major, version.minor);
 
 		rc = read_line(ar->fd, ctrllenbuf, 1, sizeof(ctrllenbuf) - 1);
 		if (rc <= 0)
@@ -413,19 +400,6 @@ extracthalf(const char *debar, const char *dir,
 	subproc_reap(c2, _("<decompress>"), SUBPROC_NOPIPE);
 	if (c1 >= 0)
 		subproc_reap(c1, _("paste"), 0);
-	if (version.major == 0 && admininfo) {
-		/* Handle the version as a float to preserve the behavior of
-		 * old code, because even if the format is defined to be
-		 * padded by 0's that might not have been always true for
-		 * really ancient versions... */
-		while (version.minor && (version.minor % 10) == 0)
-			version.minor /= 10;
-
-		if (version.minor == 931)
-			movecontrolfiles(dir, OLDOLDDEBDIR);
-		else if (version.minor == 932 || version.minor == 933)
-			movecontrolfiles(dir, OLDDEBDIR);
-	}
 }
 
 int

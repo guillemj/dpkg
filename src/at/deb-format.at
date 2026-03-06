@@ -12,12 +12,20 @@ AT_KEYWORDS([dpkg-deb deb-old])
 
 AT_SKIP_IF([! command -v gzip >/dev/null])
 
-AT_DATA([pkg-deb-old-bogus-only-version.deb], [0.93
+AT_DATA([pkg-deb-old-bogus-only-version.deb], [0.939000
 ])
 AT_CHECK([
 # Check truncated old deb w/ only version magic
 dpkg-deb --info pkg-deb-old-bogus-only-version.deb
 ], [2], [], [dpkg-deb: error: unexpected end of file in archive control member size in pkg-deb-old-bogus-only-version.deb
+])
+
+AT_DATA([pkg-deb-old-unsupported-version.deb], [0.938000
+])
+AT_CHECK([
+# Check unsupported old deb version
+dpkg-deb --info pkg-deb-old-unsupported-version.deb
+], [2], [], [dpkg-deb: error: archive 'pkg-deb-old-unsupported-version.deb' has unsupported format version: 0.938000
 ])
 
 DPKG_GEN_CONTROL([pkg-deb-old-format])
@@ -44,35 +52,6 @@ echo '0.939000' >pkg-old.deb
 DPKG_FILE_SIZE([ctrl.tar.gz]) >>pkg-old.deb
 cat ctrl.tar.gz >>pkg-old.deb
 cat fsys.tar.gz >>pkg-old.deb
-
-# Create deb-old-old-old 0.931
-mkdir -p pkg-old-0931-templ/.DEBIAN
-cp pkg-old-templ/DEBIAN/* pkg-old-0931-templ/.DEBIAN/
-find pkg-old-0931-templ | xargs touch -t 197001010100.00
-$TAR czf ctrl-0931.tar.gz --format=gnu --mtime @0 --clamp-mtime --owner root:0 --group root:0 -C pkg-old-0931-templ .DEBIAN
-
-echo '0.931000' >pkg-old-0931.deb
-DPKG_FILE_SIZE([ctrl-0931.tar.gz]) >>pkg-old-0931.deb
-cat ctrl-0931.tar.gz >>pkg-old-0931.deb
-cat fsys.tar.gz >>pkg-old-0931.deb
-
-# Create deb-old-old template
-mkdir -p pkg-old-0932-templ/DEBIAN
-cp pkg-old-templ/DEBIAN/* pkg-old-0932-templ/DEBIAN/
-find pkg-old-0932-templ | xargs touch -t 197001010100.00
-$TAR czf ctrl-0932.tar.gz --format=gnu --mtime @0 --clamp-mtime --owner root:0 --group root:0 -C pkg-old-0932-templ DEBIAN
-
-# Create deb-old-old 0.932
-echo '0.932000' >pkg-old-0932.deb
-DPKG_FILE_SIZE([ctrl-0932.tar.gz]) >>pkg-old-0932.deb
-cat ctrl-0932.tar.gz >>pkg-old-0932.deb
-cat fsys.tar.gz >>pkg-old-0932.deb
-
-# Create deb-old-old 0.933
-echo '0.933000' >pkg-old-0933.deb
-DPKG_FILE_SIZE([ctrl-0932.tar.gz]) >>pkg-old-0933.deb
-cat ctrl-0932.tar.gz >>pkg-old-0933.deb
-cat fsys.tar.gz >>pkg-old-0933.deb
 ])
 
 DEB_OLD_CTRL_SIZE=$(DPKG_FILE_SIZE([ctrl.tar.gz]))
@@ -94,87 +73,9 @@ dpkg-deb -I pkg-old.deb
  Description: test package - deb old format support
 ])
 
-DEB_OLD_0931_SIZE=$(DPKG_FILE_SIZE([pkg-old-0931.deb]))
-DEB_OLD_0931_CTRL_SIZE=$(DPKG_FILE_SIZE([ctrl-0931.tar.gz]))
-
-AT_CHECK_UNQUOTED([
-# Check old package metadata
-dpkg-deb -I pkg-old-0931.deb
-], [], [ old Debian package, version 0.931000.
- size $DEB_OLD_0931_SIZE bytes: control archive=$DEB_OLD_0931_CTRL_SIZE, main archive=$DEB_OLD_FSYS_SIZE.
-     201 bytes,     7 lines      control
- Package: pkg-deb-old-format
- Version: 0.0-1
- Section: test
- Priority: extra
- Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
- Architecture: all
- Description: test package - deb old format support
-])
-
-DEB_OLD_0932_SIZE=$(DPKG_FILE_SIZE([pkg-old-0932.deb]))
-DEB_OLD_0932_CTRL_SIZE=$(DPKG_FILE_SIZE([ctrl-0932.tar.gz]))
-
-AT_CHECK_UNQUOTED([
-# Check old package metadata
-dpkg-deb -I pkg-old-0932.deb
-], [], [ old Debian package, version 0.932000.
- size $DEB_OLD_0932_SIZE bytes: control archive=$DEB_OLD_0932_CTRL_SIZE, main archive=$DEB_OLD_FSYS_SIZE.
-     201 bytes,     7 lines      control
- Package: pkg-deb-old-format
- Version: 0.0-1
- Section: test
- Priority: extra
- Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
- Architecture: all
- Description: test package - deb old format support
-])
-
-DEB_OLD_0933_SIZE=$(DPKG_FILE_SIZE([pkg-old-0933.deb]))
-DEB_OLD_0933_CTRL_SIZE=$DEB_OLD_0932_CTRL_SIZE
-
-AT_CHECK_UNQUOTED([
-# Check old package metadata
-dpkg-deb -I pkg-old-0933.deb
-], [], [ old Debian package, version 0.933000.
- size $DEB_OLD_0933_SIZE bytes: control archive=$DEB_OLD_0933_CTRL_SIZE, main archive=$DEB_OLD_FSYS_SIZE.
-     201 bytes,     7 lines      control
- Package: pkg-deb-old-format
- Version: 0.0-1
- Section: test
- Priority: extra
- Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
- Architecture: all
- Description: test package - deb old format support
-])
-
 AT_CHECK([
 # Check old package contents
 dpkg-deb -c pkg-old.deb
-], [], [drwxr-xr-x root/root         0 1970-01-01 00:00 ./
--rw-r--r-- root/root    641344 1970-01-01 00:00 ./ChangeLog.old
--rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
-])
-
-AT_CHECK([
-# Check old package contents
-dpkg-deb -c pkg-old-0931.deb
-], [], [drwxr-xr-x root/root         0 1970-01-01 00:00 ./
--rw-r--r-- root/root    641344 1970-01-01 00:00 ./ChangeLog.old
--rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
-])
-
-AT_CHECK([
-# Check old package contents
-dpkg-deb -c pkg-old-0932.deb
-], [], [drwxr-xr-x root/root         0 1970-01-01 00:00 ./
--rw-r--r-- root/root    641344 1970-01-01 00:00 ./ChangeLog.old
--rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
-])
-
-AT_CHECK([
-# Check old package contents
-dpkg-deb -c pkg-old-0933.deb
 ], [], [drwxr-xr-x root/root         0 1970-01-01 00:00 ./
 -rw-r--r-- root/root    641344 1970-01-01 00:00 ./ChangeLog.old
 -rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
