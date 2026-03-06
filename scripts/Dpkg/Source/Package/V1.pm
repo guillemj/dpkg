@@ -330,7 +330,9 @@ sub do_build {
 
     # Try to find a .orig tarball for the package.
     my $origdir = "$dir.orig";
-    my $origtargz = $self->get_basename() . '.orig.tar.gz';
+    my $origtargz = File::Spec->catfile(
+        $self->{basedir}, $self->get_basename() . '.orig.tar.gz'
+    );
     if (-e $origtargz) {
         unless (-f $origtargz) {
             error(g_("packed orig '%s' exists but is not a plain file"), $origtargz);
@@ -430,7 +432,10 @@ sub do_build {
         $tardirbase = $origdirbase;
         $tardirname = $origdirname;
 
-        $tarname = $origtargz || "$basename.orig.tar.gz";
+        $tarname = $origtargz;
+        $tarname ||= File::Spec->catfile(
+            $self->{basedir}, "$basename.orig.tar.gz"
+        );
         $tarsign = "$tarname.asc";
         unless ($tarname =~ /\Q$basename\E\.orig\.tar\.gz/) {
             warning(g_('.orig.tar name %s is not <package>_<upstreamversion>' .
@@ -520,7 +525,9 @@ sub do_build {
     # Unrepresentable changes.
     my $ur;
     if ($sourcestyle =~ m/[kpursKPUR]/) {
-        my $diffname = "$basenamerev.diff.gz";
+        my $diffname = File::Spec->catfile(
+            $self->{basedir}, "$basenamerev.diff.gz"
+        );
         info(g_('building %s in %s'),
              $sourcepackage, $diffname);
         my $newdiffgz = File::Temp->new(
