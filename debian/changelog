@@ -1,8 +1,35 @@
-dpkg (1.21.23) UNRELEASED; urgency=medium
+dpkg (1.21.23) bookworm; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * dpkg-deb: Fix cleanup for control member with restricted directories.
+    Reported by zhutyra on HackerOne. Fixes CVE-2025-6297.
+  * Perl modules:
+    - Dpkg::BuildDriver::DebianRules: Fix uninitialized Perl variables.
+      Closes: #1107971
+    - Dpkg::BuildDriver::DebianRules: Fix R³ dpkg/target/<target> values
+      handling.
+  * Code internals:
+    - libdpkg: Fix varbuf memory leak in pkg_source_version().
+    - dpkg-deb: Initialize threads_max in no-uniform-compression mode.
+    - libdpkg: Handle tar long GNU names and links not being NUL terminated.
+      Closes: #1061404
+    - libdpkg: Do not segfault when adding triggers in no-act mode.
+      Closes: #1108192
+    - libdpkg: Terminate zstd decompression when we have no more data.
+      Reported by Yashashree Gund <yash_gund@live.com>. Closes: #1129722
+      Fixes CVE-2026-2219.
+  * Build system:
+    - Build gitlab CI images for bookworm instead of sid.
+  * Localization:
+    - Fix typos in Swedish man pages translations. Closes: #1065575
+    - Update Swedish translations.
+      Thanks to Peter Krefting <peter@softwolves.pp.se>. Closes: #1070010
 
- -- Guillem Jover <guillem@debian.org>  Sat, 21 Oct 2023 02:31:45 +0200
+  [ Helge Kreutzmann ]
+  * Localization:
+    - Update German man pages translation.
+
+ -- Guillem Jover <guillem@debian.org>  Sat, 07 Mar 2026 13:15:41 +0100
 
 dpkg (1.21.22) unstable; urgency=medium
 
