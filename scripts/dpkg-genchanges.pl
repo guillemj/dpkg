@@ -439,8 +439,10 @@ foreach my $f (keys %{$changelog}) {
     if ($f eq 'Source') {
         set_source_name($v);
     } elsif ($f eq 'Maintainer') {
-        my $addr = Dpkg::Email::Address->new($v);
-        $fields->{'Changed-By'} = $addr->as_string();
+        if (length $v) {
+            my $addr = Dpkg::Email::Address->new($v);
+            $fields->{'Changed-By'} = $addr->as_string();
+        }
     } else {
         field_transfer_single($changelog, $fields, $f);
     }

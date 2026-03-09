@@ -559,7 +559,7 @@ if ($changedby) {
     $maintainer = $changedby;
 } elsif ($maint) {
     $maintainer = $maint;
-} else {
+} elsif (length $changelog->{maintainer}) {
     my $email = mustsetvar($changelog->{maintainer}, g_('source changed by'));
     eval {
         my $addr = Dpkg::Email::Address->new($email);
