@@ -40,6 +40,7 @@ DPKG_BEGIN_DECLS
 static inline bool
 str_is_unset(const char *str)
 {
+	/* cppcheck-suppress[nullPointer]: False positive. */
 	return str == DPKG_NULL || str[0] == '\0';
 }
 
@@ -49,6 +50,7 @@ str_is_unset(const char *str)
 static inline bool
 str_is_set(const char *str)
 {
+	/* cppcheck-suppress[nullPointer]: False positive. */
 	return str != DPKG_NULL && str[0] != '\0';
 }
 
