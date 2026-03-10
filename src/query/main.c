@@ -508,7 +508,6 @@ list_files(const char *const *argv)
 	const char *thisarg;
 	struct fsys_namenode_list *file;
 	struct pkginfo *pkg;
-	struct fsys_namenode *namenode;
 	int misses = 0;
 
 	if (!*argv)
@@ -535,6 +534,8 @@ list_files(const char *const *argv)
 				       pkg_name(pkg, pnaw_nonambig));
 			} else {
 				while (file) {
+					struct fsys_namenode *namenode;
+
 					namenode = file->namenode;
 					puts(namenode->name);
 					if (namenode->divert && !namenode->divert->camefrom) {

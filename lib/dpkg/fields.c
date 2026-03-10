@@ -451,7 +451,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
              struct parsedb_state *ps,
              const char *value, const struct fieldinfo *fip)
 {
-	const char *p, *emsg;
+	const char *p;
 	static struct varbuf depname, version;
 
 	struct dependency **ldypp;
@@ -485,6 +485,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
 		/* Loop creating new struct deppossi's. */
 		for (;;) {
+			const char *emsg;
 			const char *depnamestart;
 			int depnamelength;
 			struct deppossi *dop;

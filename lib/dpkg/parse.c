@@ -906,7 +906,7 @@ copy_dependency_links(struct pkginfo *pkg,
                       bool available)
 {
 	struct dependency *dyp;
-	struct deppossi *dop, **revdeps;
+	struct deppossi *dop;
 
 	/* Delete ‘backward’ (‘depended’) links from other packages to
 	 * dependencies listed in old version of this one. We do this by
@@ -931,6 +931,8 @@ copy_dependency_links(struct pkginfo *pkg,
 	for (dyp = newdepends; dyp; dyp = dyp->next) {
 		dyp->up = pkg;
 		for (dop = dyp->list; dop; dop = dop->next) {
+			struct deppossi **revdeps;
+
 			revdeps = available ? &dop->ed->depended.available :
 			                      &dop->ed->depended.installed;
 			dop->rev_next = *revdeps;
