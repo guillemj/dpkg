@@ -76,7 +76,7 @@ if cd $BACKUPSDIR ; then
   # XXX: Ideally we'd use --warning=none instead of discarding stderr, but
   # as of GNU tar 1.27.1, it does not seem to work reliably (see #749307).
   if ! test -e ${dbalt}.tar.0 ||
-     ! $TAR -df ${dbalt}.tar.0 -C $dbdir $dbalt >/dev/null 2>&1 ;
+     ! $TAR -df ${dbalt}.tar.0 -C $dbdir $dbalt >/dev/null 2>&1
   then
     $TAR -cf ${dbalt}.tar -C $dbdir $dbalt >/dev/null 2>&1
     savelog -c "$ROTATE" ${dbalt}.tar >/dev/null

@@ -160,7 +160,7 @@ if [ $ncdroms -gt 1 ]; then
     echo -n "Is it any of these ?  Type a number, or 'n' for none.  "
     read response
     response="$(echo "$response" | sed -e 's/[ 	]*$//')"
-    if expr "$response" : '[0-9][0-9]*$' >/dev/null && \
+    if expr "$response" : '[0-9][0-9]*$' >/dev/null &&
        [ $response -ge 1 -a $response -le $ncdroms ]; then
              mountpoint="$(sed -n $response'p' <$tp.l)"
       echo
@@ -278,7 +278,7 @@ nor are you using a multiple media set"
     #zcat "$multi_contentsfile" > disk-contents.$option
   fi
 
-  break;
+  break
 done
 
 distribution=$dist

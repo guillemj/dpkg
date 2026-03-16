@@ -22,7 +22,7 @@ cd "$vardir/methods/file"
 
 . ./shvar.$option
 
-if [ -z "$p_main_packages" ] && [ -z "$p_ctb_packages" ] && \
+if [ -z "$p_main_packages" ] && [ -z "$p_ctb_packages" ] &&
    [ -z "$p_nf_packages" ] && [ -z "$p_lcl_packages" ]; then
   echo '
 No Packages files available, cannot update available packages list.

@@ -47,11 +47,11 @@ rm_conffile() {
 
   [ -n "$PACKAGE" ] || error "couldn't identify the package"
   [ -n "$1" ] || error "maintainer script parameters are missing"
-  [ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
+  [ -n "$DPKG_MAINTSCRIPT_NAME" ] ||
     error "environment variable DPKG_MAINTSCRIPT_NAME is required"
-  [ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || \
+  [ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] ||
     error "environment variable DPKG_MAINTSCRIPT_PACKAGE is required"
-  [ "${CONFFILE}" != "${CONFFILE#/}" ] || \
+  [ "${CONFFILE}" != "${CONFFILE#/}" ] ||
     error "conffile '$CONFFILE' is not an absolute path"
   validate_optional_version "$LASTVERSION"
 
@@ -165,13 +165,13 @@ mv_conffile() {
 
   [ -n "$PACKAGE" ] || error "couldn't identify the package"
   [ -n "$1" ] || error "maintainer script parameters are missing"
-  [ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
+  [ -n "$DPKG_MAINTSCRIPT_NAME" ] ||
     error "environment variable DPKG_MAINTSCRIPT_NAME is required"
-  [ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || \
+  [ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] ||
     error "environment variable DPKG_MAINTSCRIPT_PACKAGE is required"
-  [ "${OLDCONFFILE}" != "${OLDCONFFILE#/}" ] || \
+  [ "${OLDCONFFILE}" != "${OLDCONFFILE#/}" ] ||
     error "old-conffile '$OLDCONFFILE' is not an absolute path"
-  [ "${NEWCONFFILE}" != "${NEWCONFFILE#/}" ] || \
+  [ "${NEWCONFFILE}" != "${NEWCONFFILE#/}" ] ||
     error "new-conffile '$NEWCONFFILE' is not an absolute path"
   validate_optional_version "$LASTVERSION"
 
@@ -277,15 +277,15 @@ symlink_to_dir() {
   [ $# -gt 0 ] || badusage "missing arguments after --"
   shift
 
-  [ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
+  [ -n "$DPKG_MAINTSCRIPT_NAME" ] ||
     error "environment variable DPKG_MAINTSCRIPT_NAME is required"
-  [ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || \
+  [ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] ||
     error "environment variable DPKG_MAINTSCRIPT_PACKAGE is required"
   [ -n "$PACKAGE" ] || error "cannot identify the package"
   [ -n "$SYMLINK" ] || error "symlink parameter is missing"
-  [ "${SYMLINK#/}" = "$SYMLINK" ] && \
+  [ "${SYMLINK#/}" = "$SYMLINK" ] &&
     error "symlink pathname is not an absolute path"
-  [ "${SYMLINK%/}" = "$SYMLINK" ] || \
+  [ "${SYMLINK%/}" = "$SYMLINK" ] ||
     error "symlink pathname ends with a slash"
   [ -n "$SYMLINK_TARGET" ] || error "original symlink target is missing"
   [ -n "$1" ] || error "maintainer script parameters are missing"
@@ -362,13 +362,13 @@ dir_to_symlink() {
   [ $# -gt 0 ] || badusage "missing arguments after --"
   shift
 
-  [ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
+  [ -n "$DPKG_MAINTSCRIPT_NAME" ] ||
     error "environment variable DPKG_MAINTSCRIPT_NAME is required"
-  [ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || \
+  [ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] ||
     error "environment variable DPKG_MAINTSCRIPT_PACKAGE is required"
   [ -n "$PACKAGE" ] || error "cannot identify the package"
   [ -n "$PATHNAME" ] || error "directory parameter is missing"
-  [ "${PATHNAME#/}" = "$PATHNAME" ] && \
+  [ "${PATHNAME#/}" = "$PATHNAME" ] &&
     error "directory parameter is not an absolute path"
   [ -n "$SYMLINK_TARGET" ] || error "new symlink target is missing"
   [ -n "$1" ] || error "maintainer script parameters are missing"
@@ -446,7 +446,7 @@ prepare_dir_to_symlink()
   # we should not perform the switch.
   export DPKG_MAINTSCRIPT_HELPER_INTERNAL_API="$version"
   find "$DPKG_ROOT$PATHNAME" -print0 | \
-    xargs -0 -n1 "$0" _internal_pkg_must_own_file "$PACKAGE" || \
+    xargs -0 -n1 "$0" _internal_pkg_must_own_file "$PACKAGE" ||
     error "directory '$PATHNAME' contains files not owned by" \
           "package $PACKAGE, cannot switch to symlink"
   unset DPKG_MAINTSCRIPT_HELPER_INTERNAL_API
@@ -563,7 +563,7 @@ symlink_match()
   local SYMLINK="$1"
   local SYMLINK_TARGET="$2"
 
-  [ "$(readlink "$DPKG_ROOT$SYMLINK")" = "$SYMLINK_TARGET" ] || \
+  [ "$(readlink "$DPKG_ROOT$SYMLINK")" = "$SYMLINK_TARGET" ] ||
   [ "$(dpkg-realpath "$SYMLINK")" = "$SYMLINK_TARGET" ]
 }
 

@@ -469,7 +469,7 @@ scrollkeeper, goes like this:
      - Provide a new wrapper script as scrollkeeper-update:
 	   #!/bin/sh
 	   set -e
-	   if type dpkg-trigger >/dev/null 2>&1 && \
+	   if type dpkg-trigger >/dev/null 2>&1 &&
 	      dpkg-trigger /usr/share/omf; then
 		 exit 0
 	   fi
@@ -589,7 +589,7 @@ in their postinst:
     * Declare an interest in the trigger.
     * Edit «update-consumer» so that if it is called without --real
       it does the following:
-	  if type dpkg-trigger >/dev/null 2>&1 && \
+	  if type dpkg-trigger >/dev/null 2>&1 &&
 	     dpkg-trigger name-of-trigger; then
 		exit 0
 	  fi
