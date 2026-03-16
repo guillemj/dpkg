@@ -1,0 +1,4645 @@
+# Translation of dpkg-dev to Ukrainian.
+# Copyright © 1994-2026 Dpkg Developers
+# This file is distributed under the same license as the dpkg package.
+#
+# Andriy Pysyk <ep.nestor@gmail.com>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dpkg-dev 1.23.8\n"
+"Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
+"POT-Creation-Date: 2026-03-07 00:40+0100\n"
+"PO-Revision-Date: 2026-05-13 05:00+0200\n"
+"Last-Translator: Andriy Pysyk <ep.nestor@gmail.com>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.6\n"
+
+#: scripts/dpkg-architecture.pl scripts/dpkg-buildapi.pl
+#: scripts/dpkg-buildflags.pl scripts/dpkg-buildpackage.pl
+#: scripts/dpkg-buildtree.pl scripts/dpkg-checkbuilddeps.pl
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
+#: scripts/dpkg-gensymbols.pl scripts/dpkg-mergechangelogs.pl
+#: scripts/dpkg-name.pl scripts/dpkg-parsechangelog.pl
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
+#: scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl scripts/dpkg-vendor.pl
+#, perl-format
+msgid "Debian %s version %s.\n"
+msgstr "Debian %s версії %s.\n"
+
+#: scripts/dpkg-architecture.pl scripts/dpkg-buildflags.pl
+#: scripts/dpkg-buildpackage.pl scripts/dpkg-buildtree.pl
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
+#: scripts/dpkg-gensymbols.pl scripts/dpkg-parsechangelog.pl
+#: scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl scripts/dpkg-vendor.pl
+msgid ""
+"\n"
+"This is free software; see the GNU General Public License version 2 or\n"
+"later for copying conditions. There is NO warranty.\n"
+msgstr ""
+"\n"
+"Це вільне програмне забезпечення; див. Загальну публічну\n"
+"ліцензію GNU версії 2 або пізнішої щодо умов копіювання.\n"
+"Жодних гарантій НЕ НАДАЄТЬСЯ.\n"
+
+#: scripts/dpkg-architecture.pl scripts/dpkg-buildapi.pl scripts/dpkg-vendor.pl
+#, perl-format
+msgid "Usage: %s [<option>...] [<command>]"
+msgstr "Використання: %s [<параметр>...] [<команда>]"
+
+#: scripts/dpkg-architecture.pl
+msgid ""
+"Commands:\n"
+"  -l, --list                list variables (default).\n"
+"  -L, --list-known          list valid architectures (matching some "
+"criteria).\n"
+"  -e, --equal <arch>        compare with host Debian architecture.\n"
+"  -i, --is <arch-wildcard>  match against host Debian architecture.\n"
+"  -q, --query <variable>    prints only the value of <variable>.\n"
+"  -s, --print-set           print command to set environment variables.\n"
+"  -u, --print-unset         print command to unset environment variables.\n"
+"  -c, --command <command>   set environment and run the command in it.\n"
+"  -?, --help                show this help message.\n"
+"      --version             show the version."
+msgstr ""
+"Команди:\n"
+"  -l, --list               вивести список змінних (типово).\n"
+"  -L, --list-known         вивести список дійсних архітектур\n"
+"                                        (що відповідають певним критеріям).\n"
+"  -e, --equal <арх>        порівняти з архітектурою Debian хоста.\n"
+"  -i, --is <шаблон-арх>    зіставити з архітектурою Debian хоста.\n"
+"  -q, --query <змінна>     виводить лише значення <змінна>.\n"
+"  -s, --print-set          вивести команду для встановлення змінних "
+"середовища.\n"
+"  -u, --print-unset        вивести команду для скасування змінних "
+"середовища.\n"
+"  -c, --command <команда>  встановити середовище та виконати\n"
+"                                        команду в ньому.\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"    --version              показати версію."
+
+#: scripts/dpkg-architecture.pl
+msgid ""
+"Options:\n"
+"  -a, --host-arch <arch>    set host Debian architecture.\n"
+"  -t, --host-type <type>    set host GNU system type.\n"
+"  -A, --target-arch <arch>  set target Debian architecture.\n"
+"  -T, --target-type <type>  set target GNU system type.\n"
+"  -W, --match-wildcard <arch-wildcard>\n"
+"                            restrict architecture list matching <arch-"
+"wildcard>.\n"
+"  -B, --match-bits <arch-bits>\n"
+"                            restrict architecture list matching <arch-"
+"bits>.\n"
+"  -E, --match-endian <arch-endian>\n"
+"                            restrict architecture list matching <arch-"
+"endian>.\n"
+"      --print-format <format>\n"
+"                            use <format> for --print-set and --print-unset,\n"
+"                              allowed values: shell (default), make.\n"
+"  -f, --force               force flag (override variables set in "
+"environment)."
+msgstr ""
+"Параметри:\n"
+"  -a, --host-arch <арх>    встановити архітектуру Debian хоста.\n"
+"  -t, --host-type <тип>    встановити тип системи GNU хоста.\n"
+"  -A, --target-arch <арх>  встановити цільову архітектуру Debian.\n"
+"  -T, --target-type <тип>  встановити цільовий тип системи GNU.\n"
+"  -W, --match-wildcard <шаблон-арх>\n"
+"                           обмежити список архітектур, що відповідають "
+"<шаблон-арх>\n"
+"  -B, --match-bits <біти>  обмежити список архітектур за кількістю біт.\n"
+"  -E, --match-endian <ендіан>\n"
+"                           обмежити список архітектур за порядком байтів.\n"
+"  --print-format <формат>  використовувати <формат> для --print-set та --"
+"print-unset;\n"
+"                                        дозволені значення: shell (типово), "
+"make.\n"
+"  -f, --force              примусово встановити прапорець\n"
+"                                        (перевизначити змінні середовища)."
+
+#: scripts/dpkg-architecture.pl
+#, perl-format
+msgid "unknown Debian architecture %s, you must specify GNU system type, too"
+msgstr "невідома архітектура Debian %s, також потрібно вказати тип системи GNU"
+
+#: scripts/dpkg-architecture.pl
+#, perl-format
+msgid "unknown GNU system type %s, you must specify Debian architecture, too"
+msgstr ""
+"невідомий тип системи GNU %s, також потрібно вказати архітектуру Debian"
+
+#: scripts/dpkg-architecture.pl
+#, perl-format
+msgid "unknown default GNU system type for Debian architecture %s"
+msgstr "невідомий типовий тип системи GNU для архітектури Debian %s"
+
+#: scripts/dpkg-architecture.pl
+#, perl-format
+msgid ""
+"default GNU system type %s for Debian arch %s does not match specified GNU "
+"system type %s"
+msgstr ""
+"типовий тип системи GNU %s для архітектури Debian %s не відповідає вказаному "
+"типу системи GNU %s"
+
+#: scripts/dpkg-architecture.pl
+#, perl-format
+msgid "%s is not a supported print format"
+msgstr "%s не є підтримуваним форматом виводу"
+
+#: scripts/dpkg-architecture.pl
+#, perl-format
+msgid "%s is not a supported variable name"
+msgstr "%s не є підтримуваною назвою змінної"
+
+#: scripts/dpkg-architecture.pl scripts/dpkg-buildapi.pl
+#: scripts/dpkg-buildflags.pl scripts/dpkg-buildtree.pl
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
+#: scripts/dpkg-gensymbols.pl scripts/dpkg-name.pl
+#: scripts/dpkg-parsechangelog.pl scripts/dpkg-shlibdeps.pl
+#: scripts/dpkg-vendor.pl
+#, perl-format
+msgid "unknown option '%s'"
+msgstr "невідомий параметр '%s'"
+
+#: scripts/dpkg-architecture.pl
+#, perl-format
+msgid ""
+"specified GNU system type %s does not match CC system type %s, try setting a "
+"correct CC environment variable"
+msgstr ""
+"вказаний тип системи GNU %s не відповідає типу системи CC %s, спробуйте "
+"встановити правильну змінну середовища CC"
+
+#: scripts/dpkg-architecture.pl scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/Shlibs/Cppfilt.pm
+#, perl-format
+msgid "unable to execute %s"
+msgstr "не вдалося виконати %s"
+
+#: scripts/dpkg-buildapi.pl
+msgid ""
+"Commands:\n"
+"  -?, --help               show this help message.\n"
+"      --version            show the version."
+msgstr ""
+"Команди:\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"      --version            показати версію."
+
+#: scripts/dpkg-buildapi.pl
+msgid ""
+"Options:\n"
+"  -c<control-file>         get control info from this file.\n"
+msgstr ""
+"Параметри:\n"
+"  -c<файл-керування>       отримати інформацію керування з цього файлу.\n"
+
+#: scripts/dpkg-buildapi.pl
+msgid "no arguments accepted"
+msgstr "аргументи не приймаються"
+
+#: scripts/dpkg-buildflags.pl scripts/dpkg-buildtree.pl
+#, perl-format
+msgid "Usage: %s [<command>]"
+msgstr "Використання: %s [<команда>]"
+
+#: scripts/dpkg-buildflags.pl
+msgid ""
+"Commands:\n"
+"  --get <flag>       output the requested flag to stdout.\n"
+"  --origin <flag>    output the origin of the flag to stdout:\n"
+"                     value is one of vendor, system, user, env.\n"
+"  --status           output a synopsis with all parameters affecting the\n"
+"                     program behavior, the resulting flags and their "
+"origin.\n"
+"  --query            like --status, but in deb822 format.\n"
+"  --query-features <area>\n"
+"                     output the status of features for the given area.\n"
+"  --list             output a list of the flags supported by the current "
+"vendor.\n"
+"  --export=(sh|make|cmdline|configure)\n"
+"                     output something convenient to import the compilation\n"
+"                     flags in a shell script, in make, or in a command "
+"line.\n"
+"  --dump             output all compilation flags with their values.\n"
+"  --help             show this help message.\n"
+"  --version          show the version.\n"
+msgstr ""
+"Команди:\n"
+"  --get <прапорець>        вивести запитуваний прапорець\n"
+"                                        на стандартний вивід.\n"
+"  --origin <прапорець>     вивести походження прапорця\n"
+"                                        на стандартний вивід:\n"
+"                           значення - одне з: vendor, system, user, env.\n"
+"  --status                 вивести короткий опис усіх параметрів,\n"
+"                                        що впливають на поведінку програми,\n"
+"                                        отримані прапорці та їх походження.\n"
+"  --query                  як у --status, але у форматі deb822.\n"
+"  --query-features <область>\n"
+"                           вивести стан функцій для заданої області.\n"
+"  --list                   вивести список прапорців, що підтримуються\n"
+"                                        поточним постачальником.\n"
+"  --export=(sh|make|cmdline|configure)\n"
+"                           вивести дані, зручні для імпорту прапорців "
+"компіляції\n"
+"                                      в скрипт оболонки, у make або в "
+"командний рядок.\n"
+"  --dump                   вивести всі прапорці компіляції з їхніми "
+"значеннями.\n"
+"  --help                   показати це довідкове повідомлення.\n"
+"  --version                показати версію.\n"
+
+#: scripts/dpkg-buildflags.pl scripts/dpkg-source.pl scripts/dpkg-vendor.pl
+#, perl-format
+msgid "two commands specified: --%s and --%s"
+msgstr "вказано дві команди: --%s та --%s"
+
+#: scripts/dpkg-buildflags.pl scripts/dpkg-vendor.pl
+#, perl-format
+msgid "%s needs a parameter"
+msgstr "%s потребує параметра"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "Usage: %s [<option>...] [--] [<filename.dsc>|<directory>]"
+msgstr "Використання: %s [<параметр>...] [--] [<ім'я_файлу.dsc>|<каталог>]"
+
+#: scripts/dpkg-buildpackage.pl
+msgid ""
+"Options:\n"
+"      --build=<type>[,...]    specify the build <type>: full, source, "
+"binary,\n"
+"                                any, all (default is 'full').\n"
+"  -F, --build=full            normal full build (source and binary; "
+"default).\n"
+"  -g, --build=source,all      source and arch-indep build.\n"
+"  -G, --build=source,any      source and arch-specific build.\n"
+"  -b, --build=binary          binary-only, no source files.\n"
+"  -B, --build=any             binary-only, only arch-specific files.\n"
+"  -A, --build=all             binary-only, only arch-indep files.\n"
+"  -S, --build=source          source-only, no binary files.\n"
+"  -nc, --no-pre-clean         do not pre clean source tree (implies -b).\n"
+"      --pre-clean             pre clean source tree (default).\n"
+"      --no-post-clean         do not post clean source tree (default).\n"
+"  -tc, --post-clean           post clean source tree.\n"
+"      --sanitize-env          sanitize the build environment.\n"
+"  -D, --check-builddeps       check build dependencies and conflicts "
+"(default).\n"
+"  -d, --no-check-builddeps    do not check build dependencies and "
+"conflicts.\n"
+"      --ignore-builtin-builddeps\n"
+"                              do not check builtin build dependencies.\n"
+"  -P, --build-profiles=<profiles>\n"
+"                              assume comma-separated build <profiles> as "
+"active.\n"
+"      --rules-requires-root   assume legacy Rules-Requires-Root field "
+"value.\n"
+"  -R, --rules-file=<rules>    rules file to execute (default is debian/"
+"rules).\n"
+"  -T, --rules-target=<target> call debian/rules <target>.\n"
+"      --as-root               ensure -T calls the target with root rights.\n"
+"  -j, --jobs[=<jobs>|auto]    jobs to run simultaneously (passed to "
+"<rules>),\n"
+"                                (default; default is auto, opt-in mode).\n"
+"  -J, --jobs-try[=<jobs>|auto]\n"
+"                              alias for -j, --jobs.\n"
+"      --jobs-force[=<jobs>|auto]\n"
+"                              jobs to run simultaneously (passed to "
+"<rules>),\n"
+"                                (default is auto, forced mode).\n"
+"  -r, --root-command=<command>\n"
+"                              command to gain root rights (default is "
+"fakeroot).\n"
+"      --check-command=<command>\n"
+"                              command to check the .changes file (no "
+"default).\n"
+"      --check-option=<opt>    pass <opt> to check <command>.\n"
+"      --hook-<name>=<command> set <command> as the hook <name>, known "
+"hooks:\n"
+"                                preinit init preclean source build binary\n"
+"                                buildinfo changes postclean check sign done\n"
+"      --buildinfo-file=<file> set the .buildinfo filename to generate.\n"
+"      --buildinfo-option=<opt>\n"
+"                              pass option <opt> to dpkg-genbuildinfo.\n"
+"      --changes-file=<file>   set the .changes filename to generate.\n"
+"      --sign-backend=<backend>\n"
+"                              OpenPGP backend to use to sign\n"
+"                                (default is auto).\n"
+"  -p, --sign-command=<command>\n"
+"                              command to sign .dsc and/or .changes files\n"
+"                                (default is gpg).\n"
+"      --sign-keyfile=<file>   the key file to use for signing.\n"
+"  -k, --sign-keyid=<keyid>    the key id to use for signing.\n"
+"      --sign-key=<keyid>      alias for -k, --sign-keyid.\n"
+"  -ap, --sign-pause           add pause before starting signature process.\n"
+"  -us, --unsigned-source      unsigned source package.\n"
+"  -ui, --unsigned-buildinfo   unsigned .buildinfo file.\n"
+"  -uc, --unsigned-changes     unsigned .buildinfo and .changes file.\n"
+"      --no-sign               do not sign any file.\n"
+"      --force-sign            force signing the resulting files.\n"
+"      --admindir=<directory>  change the administrative directory.\n"
+"  -?, --help                  show this help message.\n"
+"      --version               show the version."
+msgstr ""
+"Параметри:\n"
+"  --build=<тип>[,...]      вказати тип збірки: full, source, binary,\n"
+"                                        any, all (типово 'full').\n"
+"  -F, --build=full         звичайна повна збірка (вихідний код та бінарний "
+"код; типово).\n"
+"  -g, --build=source,all   збірка вихідного коду та незалежних від "
+"архітектури файлів.\n"
+"  -G, --build=source,any   збірка вихідного коду та прив’язаних до "
+"архітектури файлів.\n"
+"  -b, --build=binary       лише бінарні файли, без вихідних.\n"
+"  -B, --build=any          лише бінарні файли, лише прив’язані до "
+"архітектури.\n"
+"  -A, --build=all          лише бінарні файли, лише незалежні від "
+"архітектури.\n"
+"  -S, --build=source       лише вихідний код, без бінарних файлів.\n"
+"  -nc, --no-pre-clean      не очищати попередньо дерево вихідних кодів\n"
+"                                        (мається на увазі -b).\n"
+"  --pre-clean              попередньо очищати дерево вихідних кодів "
+"(типово).\n"
+"  --no-post-clean          не очищувати дерево вихідних кодів після "
+"завершення (типово).\n"
+"  -tc, --post-clean        очищувати дерево вихідних кодів після "
+"завершення.\n"
+"  --sanitize-env           очищувати середовище збірки.\n"
+"  -D, --check-builddeps    перевіряти залежності та конфлікти збірки "
+"(типово).\n"
+"  -d, --no-check-builddeps не перевіряти залежності та конфлікти збірки.\n"
+"  --ignore-builtin-builddeps\n"
+"                           не перевіряти вбудовані залежності збірки.\n"
+"  -P, --build-profiles=<профілі>\n"
+"                           вважати активними профілі збірки, розділені "
+"комами.\n"
+"  --rules-requires-root    вважати чинним значення застарілого\n"
+"                                        поля Rules-Requires-Root.\n"
+"  -R, --rules-file=<правила>\n"
+"                           файл правил для виконання (типово debian/rules).\n"
+"  -T, --rules-target=<ціль>викликати debian/rules <ціль>.\n"
+"      --as-root            забезпечити виклик цілі через -T з правами root.\n"
+"  -j, --jobs[=<кількість>|auto]\n"
+"                           кількість завдань для одночасного\n"
+"                                        виконання (передається до "
+"<правила>),\n"
+"                                        (типово; типово auto, режим opt-"
+"in).\n"
+"  -J, --jobs-try[=<кількість>|auto]\n"
+"                           псевдонім для -j, --jobs.\n"
+"  --jobs-force[=<кількість>|auto]\n"
+"                           кількість завдань для одночасного виконання "
+"(передається\n"
+"                                        до <правила>), (типово auto, "
+"примусовий режим).\n"
+"  -r, --root-command=<команда>\n"
+"                           команда для отримання root-прав (типово "
+"fakeroot).\n"
+"  --check-command=<команда>команда для перевірки файлу .changes\n"
+"                                        (типового значення немає).\n"
+"  --check-option=<опція>   передати <опція> до команди перевірки.\n"
+"  --hook-<ім'я>=<команда>  встановити <команда> як перехоплювач <ім'я>,\n"
+"                                        відомі перехоплювачі:\n"
+"                                        preinit init preclean source build "
+"binary\n"
+"                                        buildinfo changes postclean check "
+"sign done\n"
+"  --buildinfo-file=<файл>  встановити ім'я файлу .buildinfo для створення.\n"
+"  --buildinfo-option=<опція>\n"
+"                           передати опцію <опція> до dpkg-genbuildinfo.\n"
+"  --changes-file=<файл>    встановити ім'я файлу .changes для створення.\n"
+"  --sign-backend=<бекенд>  бекенд OpenPGP для підпису (типово авто).\n"
+"  -p, --sign-command=<команда>\n"
+"                           команда для підпису файлів .dsc та/або .changes\n"
+"                                        (типово gpg).\n"
+"  --sign-keyfile=<файл>    файл ключа для підпису.\n"
+"  -k, --sign-keyid=<ID ключа>\n"
+"                           ідентифікатор ключа для підпису.\n"
+"  --sign-key=<ID ключа>    псевдонім для -k, --sign-keyid.\n"
+"  -ap, --sign-pause        додати паузу перед початком процесу підпису.\n"
+"  -us, --unsigned-source   непідписаний вихідний пакунок.\n"
+"  -ui, --unsigned-buildinfoнепідписаний файл .buildinfo.\n"
+"  -uc, --unsigned-changes  непідписані файли .buildinfo та .changes.\n"
+"  --no-sign                не підписувати жодних файлів.\n"
+"  --force-sign             примусово підписувати створені файли.\n"
+"  --admindir=<каталог>     змінити адміністративний каталог.\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"  --version                показати версію."
+
+#: scripts/dpkg-buildpackage.pl
+msgid ""
+"Options passed to dpkg-architecture:\n"
+"  -a, --host-arch <arch>      set the host Debian architecture.\n"
+"  -t, --host-type <type>      set the host GNU system type.\n"
+"      --target-arch <arch>    set the target Debian architecture.\n"
+"      --target-type <type>    set the target GNU system type."
+msgstr ""
+"Параметри, що передаються до dpkg-architecture:\n"
+"  -a, --host-arch <арх>    встановити архітектуру Debian хоста.\n"
+"  -t, --host-type <тип>    встановити тип системи GNU хоста.\n"
+"      --target-arch <арх>  встановити цільову архітектуру Debian.\n"
+"      --target-type <тип>  встановити цільовий тип системи GNU."
+
+#: scripts/dpkg-buildpackage.pl
+msgid ""
+"Options passed to dpkg-genchanges:\n"
+"  -si                         source includes orig, if new upstream "
+"(default).\n"
+"  -sa                         source includes orig, always.\n"
+"  -sd                         source is diff and .dsc only.\n"
+"  -v<version>                 changes since version <version>.\n"
+"  -m, --source-by=<maint>     maintainer for this source or build is "
+"<maint>.\n"
+"      --build-by=<maint>      ditto.\n"
+"  -e, --release-by=<maint>    maintainer for this change or release is "
+"<maint>.\n"
+"      --changed-by=<maint>    ditto.\n"
+"  -C<descfile>                changes are described in <descfile>.\n"
+"      --changes-option=<opt>  pass option <opt> to dpkg-genchanges."
+msgstr ""
+"Параметри, що передаються до dpkg-genchanges:\n"
+"  -si                      вихідний код містить orig, якщо новий upstream "
+"(типово).\n"
+"  -sa                      вихідний код містить orig, завжди.\n"
+"  -sd                      вихідний код - це diff та лише .dsc.\n"
+"  -v<версія>               зміни з версії <версія>.\n"
+"  -m, --source-by=<maint>  супроводжувач цього джерела або збірки - "
+"<maint>.\n"
+"  --build-by=<maint>       те саме.\n"
+"  -e, --release-by=<maint> супроводжувач для цієї зміни або релізу - "
+"<maint>.\n"
+"  --changed-by=<maint>     те саме.\n"
+"  -C<файл-опису>           зміни описано в <файл-опису>.\n"
+"  --changes-option=<опція> передати опцію <опція> до dpkg-genchanges."
+
+#: scripts/dpkg-buildpackage.pl
+msgid ""
+"Options passed to dpkg-source:\n"
+"  -sn                         force Debian native source format.\n"
+"  -s[sAkurKUR]                see dpkg-source for explanation.\n"
+"  -z, --compression-level=<level>\n"
+"                              compression level to use for source.\n"
+"  -Z, --compression=<compressor>\n"
+"                              compression to use for source (gz|xz|bzip2|"
+"lzma).\n"
+"  -i, --diff-ignore[=<regex>] ignore diffs of files matching <regex>.\n"
+"  -I, --tar-ignore[=<pattern>]\n"
+"                              filter out files when building tarballs.\n"
+"      --source-option=<opt>   pass option <opt> to dpkg-source.\n"
+msgstr ""
+"Параметри, що передаються до dpkg-source:\n"
+"  -sn                      примусово використовувати рідний формат вихідного "
+"коду Debian.\n"
+"  -s[sAkurKUR]            див. dpkg-source для пояснення.\n"
+"  -z, --compression-level=<рівень>\n"
+"                           рівень стиснення для вихідного коду.\n"
+"  -Z, --compression=<компресор>\n"
+"                           спосіб стиснення для вихідного коду (gz|xz|bzip2|"
+"lzma).\n"
+"  -i, --diff-ignore[=<регулярний_вираз>]\n"
+"                           ігнорувати відмінності файлів,\n"
+"                                        що відповідають <регулярний_вираз>.\n"
+"  -I, --tar-ignore[=<шаблон>]\n"
+"                           фільтрувати файли під час створення tar-архівів.\n"
+"  --source-option=<опція>  передати опцію <опція> до dpkg-source.\n"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "missing .buildinfo filename"
+msgstr "відсутнє ім'я файлу .buildinfo"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "passing %s via %s is not supported; please use %s instead"
+msgstr "передавання %s через %s не підтримується; використовуйте натомість %s"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "missing .changes filename"
+msgstr "відсутнє ім'я файлу .changes"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "unknown hook name %s"
+msgstr "невідоме ім'я перехоплювача %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "missing hook %s command"
+msgstr "відсутня команда перехоплювача %s"
+
+#: scripts/dpkg-buildpackage.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-gencontrol.pl
+#, perl-format
+msgid "%s is deprecated; it is without effect"
+msgstr "%s застаріло; не має жодного ефекту"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "-s%s is deprecated; always using gpg style interface"
+msgstr "-s%s застаріло; завжди використовується інтерфейс у стилі gpg"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "unknown option or argument %s"
+msgstr "невідомий параметр або аргумент %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "option %s is only meaningful with option %s"
+msgstr "параметр %s має сенс лише з параметром %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "check-command '%s' not found"
+msgstr "команду перевірки '%s' не знайдено"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "sign-command '%s' not found"
+msgstr "команду підпису '%s' не знайдено"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "cannot change directory to %s"
+msgstr "неможливо перейти до каталогу на %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "building source package would overwrite input source %s"
+msgstr "збірка вихідного пакунка перезапише вхідний каталог %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "source package %s is expected in the current directory"
+msgstr "у поточному каталозі очікується вихідний пакунок %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "source directory %s exists already, aborting"
+msgstr "вихідний каталог %s вже існує, переривання"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "extracting source package %s"
+msgstr "розпакування вихідного пакунка %s"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "source package"
+msgstr "вихідний пакунок"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "source version"
+msgstr "вихідна версія"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "source distribution"
+msgstr "вихідний дистрибутив"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "source changed by"
+msgstr "зміни внесено користувачем"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "cannot parse maintainer email address \"%s\" from changelog entry"
+msgstr ""
+"не вдалося розібрати адресу електронної пошти супроводжувача \"%s\" із "
+"запису журналу змін"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "host architecture"
+msgstr "архітектура хоста"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "build dependencies/conflicts unsatisfied; aborting"
+msgstr "залежності/конфлікти збірки не задоволено; переривання"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "satisfy build dependencies with your package manager frontend"
+msgstr ""
+"задовольніть залежності збірки за допомогою інтерфейсу менеджера пакунків"
+
+#: scripts/dpkg-buildpackage.pl
+msgid ""
+"building a source package without cleaning up as you asked; it might contain "
+"undesired files"
+msgstr ""
+"збираю вихідний пакунок без очищення, як ви просили; він може містити "
+"небажані файли"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "Press <enter> to start the signing process.\n"
+msgstr "Натисніть <enter>, щоб розпочати процес підписання.\n"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "not signing UNRELEASED build; use --force-sign to override"
+msgstr ""
+"НЕВИПУЩЕНУ збірку не підписують; використовуйте --force-sign для "
+"перевизначення"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "removing extracted source directory %s"
+msgstr "видалення розпакованого вихідного каталогу %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "unable to determine %s"
+msgstr "не вдалося визначити %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "unknown %% substitution in hook: %%%s"
+msgstr "невідома %% підстановка у перехоплювачі: %%%s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid ""
+"short OpenPGP key IDs are broken; please use key fingerprints in %s or %s "
+"instead"
+msgstr ""
+"короткі ідентифікатори ключів OpenPGP некоректні; використовуйте натомість "
+"відбитки ключів у %s або %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid ""
+"long OpenPGP key IDs are strongly discouraged; please use key fingerprints "
+"in %s or %s instead"
+msgstr ""
+"довгі ідентифікатори ключів OpenPGP настійно не рекомендуються; "
+"використовуйте натомість відбитки ключів у %s або %s"
+
+#: scripts/dpkg-buildpackage.pl scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot move %s to %s"
+msgstr "не вдалося перемістити %s до %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "failed to sign %s file: %s"
+msgstr "не вдалося підписати файл %s: %s"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "source-only upload: Debian-native package"
+msgstr "вивантаження лише вихідного пакунка: нативний пакунок Debian"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "source-only, diff-only upload (original source NOT included)"
+msgstr ""
+"вивантаження лише вихідного пакунка, лише diff (оригінальний вихідний код НЕ "
+"включено)"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "source-only upload (original source is included)"
+msgstr ""
+"вивантаження лише вихідного пакунка (оригінальний вихідний код включено)"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "binary-only upload (no source included)"
+msgstr "вивантаження лише бінарних файлів (без вихідного коду)"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "full upload; Debian-native package (full source is included)"
+msgstr ""
+"повне вивантаження; нативний пакунок Debian (повний вихідний код включено)"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "binary and diff upload (original source NOT included)"
+msgstr ""
+"вивантаження бінарних файлів та diff (оригінальний вихідний код НЕ включено)"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "full upload (original source is included)"
+msgstr "повне вивантаження (оригінальний вихідний код включено)"
+
+#: scripts/dpkg-buildtree.pl
+msgid ""
+"Commands:\n"
+"  clean              clean dpkg generated artifacts from the build tree.\n"
+"  is-rootless        checks whether the build tree needs root to build.\n"
+"  --help             show this help message.\n"
+"  --version          show the version.\n"
+msgstr ""
+"Команди:\n"
+"  clean                    очистити артефакти, згенеровані dpkg, з дерева "
+"збірки.\n"
+"  is-rootless              перевірити, чи потрібні root‑права для збірки.\n"
+"  --help                   показати це довідкове повідомлення.\n"
+"  --version                показати версію.\n"
+
+#: scripts/dpkg-buildtree.pl
+#, perl-format
+msgid "two commands specified: %s and %s"
+msgstr "вказано дві команди: %s та %s"
+
+#: scripts/dpkg-buildtree.pl
+msgid "missing action"
+msgstr "відсутня дія"
+
+#: scripts/dpkg-checkbuilddeps.pl
+#, perl-format
+msgid "Usage: %s [<option>...] [<control-file>]"
+msgstr "Використання: %s [<параметр>...] [<файл-керування>]"
+
+#: scripts/dpkg-checkbuilddeps.pl
+msgid ""
+"Options:\n"
+"  -A             ignore Build-Depends-Arch and Build-Conflicts-Arch.\n"
+"  -B             ignore Build-Depends-Indep and Build-Conflicts-Indep.\n"
+"  -I             ignore built-in build dependencies and conflicts.\n"
+"  -d build-deps  use given string as build dependencies instead of\n"
+"                 retrieving them from control file\n"
+"  -c build-conf  use given string for build conflicts instead of\n"
+"                 retrieving them from control file\n"
+"  -a arch        assume given host architecture\n"
+"  -P profiles    assume given build profiles (comma-separated list)\n"
+"  --admindir=<directory>\n"
+"                 change the administrative directory.\n"
+"  -?, --help     show this help message.\n"
+"      --version  show the version."
+msgstr ""
+"Параметри:\n"
+"  -A                       ігнорувати Build-Depends-Arch та Build-Conflicts-"
+"Arch.\n"
+"  -B                       ігнорувати Build-Depends-Indep та Build-Conflicts-"
+"Indep.\n"
+"  -I                       ігнорувати вбудовані залежності та конфлікти "
+"збірки.\n"
+"  -d build-deps            використовувати заданий рядок як залежності\n"
+"                                        збірки замість отримання їх з файлу "
+"керування.\n"
+"  -c build-conf            використовувати заданий рядок як конфлікти\n"
+"                                        збірки замість отримання їх з файлу "
+"керування.\n"
+"  -a arch                  припускати задану архітектуру хоста.\n"
+"  -P profiles              припускати задані профілі збірки (список, "
+"розділений комами).\n"
+"  --admindir=<каталог>     змінити адміністративний каталог.\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"  --version                показати версію."
+
+#: scripts/dpkg-checkbuilddeps.pl
+msgid ""
+"<control-file> is the control file to process (default: debian/control)."
+msgstr ""
+"<файл-керування> - файл керування для обробки (типово: debian/control)."
+
+#: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-shlibdeps.pl
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "cannot parse %s field"
+msgstr "не вдалося розібрати поле %s"
+
+#: scripts/dpkg-checkbuilddeps.pl
+#, perl-format
+msgid "unmet build dependencies: %s"
+msgstr "незадоволені залежності збірки: %s"
+
+#: scripts/dpkg-checkbuilddeps.pl
+#, perl-format
+msgid "unmet build conflicts: %s"
+msgstr "незадоволені конфлікти збірки: %s"
+
+#: scripts/dpkg-checkbuilddeps.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-name.pl scripts/Dpkg/Arch.pm scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm scripts/Dpkg/Shlibs.pm
+#, perl-format
+msgid "cannot open %s"
+msgstr "не вдалося відкрити %s"
+
+#: scripts/dpkg-distaddfile.pl
+#, perl-format
+msgid ""
+"Usage: %s [<option>...] <filename> <section> <priority>\n"
+"\n"
+"Options:\n"
+"  -f<files-list-file>      write files here instead of debian/files.\n"
+"  -?, --help               show this help message.\n"
+"      --version            show the version.\n"
+msgstr ""
+"Використання: %s [<параметр>...] <ім'я файлу> <розділ> <пріоритет>\n"
+"\n"
+"Параметри:\n"
+"  -f<файл-списку-файлів>   записувати файли сюди замість debian/files.\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"  --version                показати версію.\n"
+
+#: scripts/dpkg-distaddfile.pl
+msgid "need exactly a filename, section and priority"
+msgstr "потрібно точно вказати ім'я файлу, розділ та пріоритет"
+
+#: scripts/dpkg-distaddfile.pl
+msgid "filename, section and priority may contain no whitespace"
+msgstr "ім'я файлу, розділ та пріоритет не можуть містити пробілів"
+
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-mergechangelogs.pl
+#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/File.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/Source/BinaryFiles.pm scripts/Dpkg/Source/Package.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "cannot write %s"
+msgstr "не вдалося записати %s"
+
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-gencontrol.pl
+msgid "install new files list file"
+msgstr "встановити новий файл списку файлів"
+
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-gencontrol.pl scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm scripts/Dpkg/Source/Package/V2.pm
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "cannot close %s"
+msgstr "не вдалося закрити %s"
+
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+#: scripts/dpkg-parsechangelog.pl
+#, perl-format
+msgid "Usage: %s [<option>...]"
+msgstr "Використання: %s [<параметр>...]"
+
+#: scripts/dpkg-genbuildinfo.pl
+msgid ""
+"Options:\n"
+"  --build=<type>[,...]     specify the build <type>: full, source, binary,\n"
+"                             any, all (default is 'full').\n"
+"  -c<control-file>         get control info from this file.\n"
+"  -l<changelog-file>       get per-version info from this file.\n"
+"  -f<files-list-file>      get .deb files list from this file.\n"
+"  -F<changelog-format>     force changelog format.\n"
+"  -O[<buildinfo-file>]     write to stdout (or <buildinfo-file>).\n"
+"  -u<upload-files-dir>     directory with files (default is '..').\n"
+"  --always-include-kernel  always include Build-Kernel-Version.\n"
+"  --always-include-path    always include Build-Path.\n"
+"  --admindir=<directory>   change the administrative directory.\n"
+"  -?, --help               show this help message.\n"
+"      --version            show the version.\n"
+msgstr ""
+"Параметри:\n"
+"  --build=<тип>[,...]      вказати тип збірки <тип>: full, source, binary,\n"
+"                                        any, all (типово 'full').\n"
+"  -c<файл-керування>       отримати інформацію керування з цього файлу.\n"
+"  -l<файл-журналу-змін>    отримати інформацію про версії з цього файлу.\n"
+"  -f<файл-списку-файлів>   отримати список файлів .deb з цього файлу.\n"
+"  -F<формат-журналу-змін>  примусово встановити формат журналу змін.\n"
+"  -O[<файл-buildinfo>]     записувати на stdout (або <файл-buildinfo>).\n"
+"  -u<каталог-файлів>       каталог з файлами (типово '..').\n"
+"  --always-include-kernel  завжди включати Build-Kernel-Version.\n"
+"  --always-include-path    завжди включати Build-Path.\n"
+"  --admindir=<каталог>     змінити адміністративний каталог.\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"  --version                показати версію.\n"
+
+#: scripts/dpkg-genbuildinfo.pl
+msgid "binary build with no binary artifacts found; .buildinfo is meaningless"
+msgstr ""
+"бінарна збірка без знайдених бінарних артефактів; .buildinfo не має сенсу"
+
+#: scripts/dpkg-genbuildinfo.pl
+#, perl-format
+msgid "cannot install output buildinfo file '%s'"
+msgstr "не вдалося встановити вихідний файл buildinfo '%s'"
+
+#: scripts/dpkg-genchanges.pl
+msgid ""
+"Options:\n"
+"  --build=<type>[,...]     specify the build <type>: full, source, binary,\n"
+"                             any, all (default is 'full').\n"
+"  -g                       source and arch-indep build.\n"
+"  -G                       source and arch-specific build.\n"
+"  -b                       binary-only, no source files.\n"
+"  -B                       binary-only, only arch-specific files.\n"
+"  -A                       binary-only, only arch-indep files.\n"
+"  -S                       source-only, no binary files.\n"
+"  -c<control-file>         get control info from this file.\n"
+"  -l<changelog-file>       get per-version info from this file.\n"
+"  -f<files-list-file>      get .deb files list from this file.\n"
+"  -v<since-version>        include all changes later than version.\n"
+"  -C<changes-description>  use change description from this file.\n"
+"  -m<maintainer>           override control's maintainer value.\n"
+"  -e<maintainer>           override changelog's maintainer value.\n"
+"  -u<upload-files-dir>     directory with files (default is '..').\n"
+"  -si                      source includes orig, if new upstream (default).\n"
+"  -sa                      source includes orig, always.\n"
+"  -sd                      source is diff and .dsc only.\n"
+"  -q                       quiet - no informational messages on stderr.\n"
+"  -F<changelog-format>     force changelog format.\n"
+"  -V<name>=<value>         set a substitution variable.\n"
+"  -T<substvars-file>       read variables here, not debian/substvars.\n"
+"  -D<field>=<value>        override or add a field and value.\n"
+"  -U<field>                remove a field.\n"
+"  -O[<filename>]           write to stdout (default) or <filename>.\n"
+"  -?, --help               show this help message.\n"
+"      --version            show the version.\n"
+msgstr ""
+"Параметри:\n"
+"  --build=<тип>[,...]      вказати тип збірки <тип>: full, source, binary,\n"
+"                                        any, all (типово 'full').\n"
+"  -g                       вихідний пакунок та файли, незалежні від "
+"архітектури.\n"
+"  -G                       вихідний пакунок та файли, специфічні для "
+"архітектури.\n"
+"  -b                       лише бінарні файли, без вихідних.\n"
+"  -B                       лише бінарні файли, лише специфічні для "
+"архітектури.\n"
+"  -A                       лише бінарні файли, лише незалежні від "
+"архітектури.\n"
+"  -S                       лише вихідний пакунок, без бінарних файлів.\n"
+"  -c<файл-керування>       отримати інформацію керування з цього файлу.\n"
+"  -l<файл-журналу-змін>    отримати інформацію про версії з цього файлу.\n"
+"  -f<файл-списку-файлів>   отримати список файлів .deb з цього файлу.\n"
+"  -v<версія>               включити всі зміни, новіші за <версія>.\n"
+"  -C<опис-змін>            використовувати опис змін з цього файлу.\n"
+"  -m<супровідник>          перевизначити значення супровідника з control.\n"
+"  -e<супровідник>          перевизначити значення супровідника з changelog.\n"
+"  -u<каталог-файлів>       каталог із файлами (типово '..').\n"
+"  -si                      вихідний пакунок містить orig, якщо новий "
+"upstream (типово).\n"
+"  -sa                      вихідний пакунок завжди містить orig.\n"
+"  -sd                      вихідний пакунок містить лише diff та .dsc.\n"
+"  -q                       тихий режим - без інформаційних повідомлень на "
+"stderr.\n"
+"  -F<формат-журналу-змін>  примусово встановити формат журналу змін.\n"
+"  -V<назва>=<значення>     встановити змінну підстановки.\n"
+"  -T<файл-змін>            читати змінні тут, а не з debian/substvars.\n"
+"  -D<поле>=<значення>      перевизначити або додати поле та значення.\n"
+"  -U<поле>                 видалити поле.\n"
+"  -O[<файл>]               записувати на stdout (типово) або до <файл>.\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"  --version                показати версію.\n"
+
+#: scripts/dpkg-genchanges.pl
+#, perl-format
+msgid "the current version (%s) is earlier than the previous one (%s)"
+msgstr "поточна версія (%s) є ранішою за попередню (%s)"
+
+#: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Format.pm
+#: scripts/Dpkg/Vendor.pm
+#, perl-format
+msgid "%s is empty"
+msgstr "%s порожній"
+
+#: scripts/dpkg-genchanges.pl
+msgid "not including original source code in upload"
+msgstr "без включення оригінального вихідного коду до вивантаження"
+
+#: scripts/dpkg-genchanges.pl
+msgid "ignoring -sd option for native Debian package"
+msgstr "ігнорування параметра -sd для нативного пакунка Debian"
+
+#: scripts/dpkg-genchanges.pl
+msgid "including full source code in upload"
+msgstr "включення повного вихідного коду у вивантаження"
+
+#: scripts/dpkg-genchanges.pl
+msgid ""
+"binary-only arch-specific upload (source code and arch-indep packages not "
+"included)"
+msgstr ""
+"вивантаження лише бінарних файлів, специфічних для архітектури (вихідний код "
+"та пакунки, незалежні від архітектури, не включено)"
+
+#: scripts/dpkg-genchanges.pl
+msgid ""
+"binary-only arch-indep upload (source code and arch-specific packages not "
+"included)"
+msgstr ""
+"вивантаження лише бінарних файлів, незалежних від архітектури (вихідний код "
+"та специфічні для архітектури пакунки не включено)"
+
+#: scripts/dpkg-genchanges.pl
+msgid "binary-only upload (no source code included)"
+msgstr "вивантаження лише бінарних файлів (вихідний код не включено)"
+
+#: scripts/dpkg-genchanges.pl
+msgid "binary build with no binary artifacts found; cannot distribute"
+msgstr ""
+"бінарна збірка без знайдених бінарних артефактів; неможливо розповсюдити"
+
+#: scripts/dpkg-genchanges.pl
+#, perl-format
+msgid "package %s in control file but not in files list"
+msgstr "пакунок %s у файлі керування, але відсутній у списку файлів"
+
+#: scripts/dpkg-genchanges.pl
+#, perl-format
+msgid "package %s listed in files list but not in control info"
+msgstr "пакунок %s зазначено у списку файлів, але не у файлі керування"
+
+#: scripts/dpkg-genchanges.pl
+#, perl-format
+msgid ""
+"package %s has value '%s' in %s field in control file but '%s' in files list"
+msgstr ""
+"пакунок %s має значення '%s' у полі %s у файлі керування, але '%s' у списку "
+"файлів"
+
+#: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "missing information for critical output field %s"
+msgstr "відсутня інформація для критичного вихідного поля %s"
+
+#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "missing information for output field %s"
+msgstr "відсутня інформація для вихідного поля %s"
+
+#: scripts/dpkg-gencontrol.pl
+msgid ""
+"Options:\n"
+"  -p<package>              print control file for package.\n"
+"  -c<control-file>         get control info from this file.\n"
+"  -l<changelog-file>       get per-version info from this file.\n"
+"  -F<changelog-format>     force changelog format.\n"
+"  -v<force-version>        set version of binary package.\n"
+"  -f<files-list-file>      write files here instead of debian/files.\n"
+"  -P<package-build-dir>    temporary build directory instead of debian/tmp.\n"
+"  -n<filename>             assume the package filename will be <filename>.\n"
+"  -O[<file>]               write to stdout (or <file>), not .../DEBIAN/"
+"control.\n"
+"  -is, -ip, -isp, -ips     deprecated, ignored for compatibility.\n"
+"  -D<field>=<value>        override or add a field and value.\n"
+"  -U<field>                remove a field.\n"
+"  -V<name>=<value>         set a substitution variable.\n"
+"  -T<substvars-file>       read variables here, not debian/substvars.\n"
+"  -?, --help               show this help message.\n"
+"      --version            show the version.\n"
+msgstr ""
+"Параметри:\n"
+"  -p<пакунок>              вивести файл керування пакунка.\n"
+"  -c<файл-керування>       отримати інформацію керування з цього файлу.\n"
+"  -l<файл-журналу-змін>    отримати інформацію про версії з цього файлу.\n"
+"  -F<формат-журналу-змін>  примусово встановити формат журналу змін.\n"
+"  -v<версія>               встановити версію бінарного пакунка.\n"
+"  -f<файл-списку-файлів>   записувати файли сюди замість debian/files.\n"
+"  -P<каталог-збірки-пакунка>\n"
+"                           тимчасовий каталог збірки замість debian/tmp.\n"
+"  -n<ім'я-файлу>           припускати, що ім'я файлу пакунка буде <ім'я-"
+"файлу>.\n"
+"  -O[<файл>]               записувати в stdout (або <файл>), а не .../DEBIAN/"
+"control.\n"
+"  -is, -ip, -isp, -ips     застарілі, ігноруються для сумісності.\n"
+"  -D<поле>=<значення>      перевизначити або додати поле та значення.\n"
+"  -U<поле>                 видалити поле.\n"
+"  -V<ім'я>=<значення>      встановити змінну підстановки.\n"
+"  -T<файл-substvars>       читати змінні тут, а не debian/substvars.\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"  --version                показати версію.\n"
+
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "invalid package name '%s': %s"
+msgstr "неприпустиме ім'я пакунка '%s': %s"
+
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "package %s not in control info"
+msgstr "пакунок %s відсутній в інформації керування"
+
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+msgid "no package stanza found in control info"
+msgstr "в інформації керування не знайдено розділу пакунка"
+
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+#, perl-format
+msgid "must specify package since control info has many (%s)"
+msgstr ""
+"необхідно вказати пакунок, оскільки інформація керування містить багато (%s)"
+
+#: scripts/dpkg-gencontrol.pl
+#, perl-format
+msgid "package %s: "
+msgstr "пакунок %s: "
+
+#: scripts/dpkg-gencontrol.pl
+#, perl-format
+msgid ""
+"current host architecture '%s' does not appear in package '%s' architecture "
+"list (%s)"
+msgstr ""
+"поточна архітектура хоста '%s' відсутня у списку архітектур пакунка '%s' (%s)"
+
+#: scripts/dpkg-gencontrol.pl
+#, perl-format
+msgid "%s field of package %s: "
+msgstr "поле %s пакунка %s: "
+
+#: scripts/dpkg-gencontrol.pl
+#, perl-format
+msgid "parsing package '%s' %s field: %s"
+msgstr "розбір пакунка '%s', поля %s: %s"
+
+#: scripts/dpkg-gencontrol.pl
+#, perl-format
+msgid ""
+"the %s field contains an arch-specific dependency but the package '%s' is "
+"architecture all"
+msgstr ""
+"поле %s містить залежність, специфічну для архітектури, але пакунок '%s' "
+"призначений для всіх архітектур"
+
+#: scripts/dpkg-gencontrol.pl
+#, perl-format
+msgid "missing information for output field %s; using default value \"%s\""
+msgstr ""
+"відсутня інформація для вихідного поля %s; використовується типове значення "
+"\"%s\""
+
+#: scripts/dpkg-gencontrol.pl
+#, perl-format
+msgid "%s package '%s' with udeb specific field %s"
+msgstr "%s пакунок '%s' зі специфічним для udeb полем %s"
+
+#: scripts/dpkg-gencontrol.pl scripts/Dpkg/BuildDriver/DebianRules.pm
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "cannot stat %s"
+msgstr "не вдалося виконати stat для %s"
+
+#: scripts/dpkg-gencontrol.pl
+#, perl-format
+msgid "cannot install output control file '%s'"
+msgstr "не вдалося встановити вихідний файл керування '%s'"
+
+#: scripts/dpkg-gensymbols.pl
+msgid ""
+"Options:\n"
+"  -l<library-path>         add directory to private shared library search "
+"list.\n"
+"  -p<package>              generate symbols file for package.\n"
+"  -P<package-build-dir>    temporary build directory instead of debian/tmp.\n"
+"  -e<library>              explicitly list libraries to scan.\n"
+"  -v<version>              version of the packages (defaults to\n"
+"                           version extracted from debian/changelog).\n"
+"  -c<level>                compare generated symbols file with the "
+"reference\n"
+"                           template in the debian directory and fail if\n"
+"                           difference is too important; level goes from 0 "
+"for\n"
+"                           no check, to 4 for all checks (default level is "
+"1).\n"
+"  -q                       keep quiet and never emit any warnings or\n"
+"                           generate a diff between generated symbols\n"
+"                           file and the reference template.\n"
+"  -I<file>                 force usage of <file> as reference symbols\n"
+"                           file instead of the default file.\n"
+"  -O[<file>]               write to stdout (or <file>), not .../DEBIAN/"
+"symbols.\n"
+"  -t                       write in template mode (tags are not\n"
+"                           processed and included in output).\n"
+"  -V                       verbose output; write deprecated symbols and "
+"pattern\n"
+"                           matching symbols as comments (in template mode "
+"only).\n"
+"  -a<arch>                 assume <arch> as host architecture when "
+"processing\n"
+"                           symbol files.\n"
+"  -d                       display debug information during work.\n"
+"  -?, --help               show this help message.\n"
+"      --version            show the version.\n"
+msgstr ""
+"Параметри:\n"
+"  -l<шлях-до-бібліотеки>   додати каталог до списку пошуку\n"
+"                                        приватних спільних бібліотек.\n"
+"  -p<пакунок>              створити файл символів для пакунка.\n"
+"  -P<каталог-збірки-пакунка>\n"
+"                           тимчасовий каталог збірки замість debian/tmp.\n"
+"  -e<бібліотека>           явно перелічити бібліотеки для сканування.\n"
+"  -v<версія>               версія пакунків (типово - версія з debian/"
+"changelog).\n"
+"  -c<рівень>               порівняти згенерований файл символів із шаблоном\n"
+"                           посилання в каталозі debian та завершити роботу\n"
+"                           з помилкою, якщо різниця надто суттєва; рівень "
+"від 0\n"
+"                           (без перевірок) до 4 (усіх перевірки), типовий "
+"рівень - 1.\n"
+"  -q                       не виводити попереджень і не генерувати різницю "
+"між\n"
+"                           згенерованим файлом символів та шаблоном "
+"посилання.\n"
+"  -I<файл>                 примусово використовувати <файл> як файл "
+"символів\n"
+"                                        посилання замість типового.\n"
+"  -O[<файл>]               записувати на stdout (або до <файл>), а не .../"
+"DEBIAN/symbols.\n"
+"  -t                       записувати в режимі шаблону (теги не обробляються "
+"і\n"
+"                                        не включаються до виводу).\n"
+"  -V                       детальний вивід; записувати застарілі символи та "
+"символи, що\n"
+"                           відповідають шаблону, як коментарі (лише в режимі "
+"шаблону).\n"
+"  -a<арх>                  вважати <арх> архітектурою хоста під час обробки\n"
+"                                        файлів символів.\n"
+"  -d                       відображати налагоджувальну інформацію під час "
+"роботи.\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"  --version                показати версію.\n"
+
+#: scripts/dpkg-gensymbols.pl
+#, perl-format
+msgid "pattern '%s' did not match any file"
+msgstr "шаблон '%s' не відповідає жодному файлу"
+
+#: scripts/dpkg-gensymbols.pl
+#, perl-format
+msgid "cannot read directory %s: %s"
+msgstr "не вдалося прочитати каталог %s: %s"
+
+#: scripts/dpkg-gensymbols.pl
+#, perl-format
+msgid "Dpkg::Shlibs::Objdump cannot parse %s\n"
+msgstr "Dpkg::Shlibs::Objdump не може розібрати %s\n"
+
+#: scripts/dpkg-gensymbols.pl
+msgid "<standard output>"
+msgstr "<стандартний вивід>"
+
+#: scripts/dpkg-gensymbols.pl
+#, perl-format
+msgid "new libraries appeared in the symbols file: %s"
+msgstr "у файлі символів з'явилися нові бібліотеки: %s"
+
+#: scripts/dpkg-gensymbols.pl
+#, perl-format
+msgid "some libraries disappeared in the symbols file: %s"
+msgstr "деякі бібліотеки зникли з файлу символів: %s"
+
+#: scripts/dpkg-gensymbols.pl
+#, perl-format
+msgid "some new symbols appeared in the symbols file: %s"
+msgstr "у файлі символів з'явилися нові символи: %s"
+
+#: scripts/dpkg-gensymbols.pl
+msgid "see diff output below"
+msgstr "див. вивід diff нижче"
+
+#: scripts/dpkg-gensymbols.pl
+#, perl-format
+msgid "some symbols or patterns disappeared in the symbols file: %s"
+msgstr "деякі символи або шаблони зникли з файлу символів: %s"
+
+#: scripts/dpkg-gensymbols.pl
+msgid "the generated symbols file is empty"
+msgstr "згенерований файл символів порожній"
+
+#: scripts/dpkg-gensymbols.pl
+#, perl-format
+msgid "%s does not match completely %s"
+msgstr "%s не повністю відповідає %s"
+
+#: scripts/dpkg-gensymbols.pl
+#, perl-format
+msgid "no debian/symbols file used as basis for generating %s"
+msgstr "файл debian/symbols не використовується як основа для створення %s"
+
+#: scripts/dpkg-mergechangelogs.pl
+msgid ""
+"This is free software; see the GNU General Public License version 2 or\n"
+"later for copying conditions. There is NO warranty.\n"
+msgstr ""
+"Це вільне програмне забезпечення; див. Загальну публічну\n"
+"ліцензію GNU версії 2 або пізнішої щодо умов копіювання.\n"
+"Гарантії НЕМАЄ.\n"
+
+#: scripts/dpkg-mergechangelogs.pl
+#, perl-format
+msgid ""
+"Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]\n"
+"\n"
+"Options:\n"
+"  -m, --merge-prereleases  merge pre-releases together, ignores everything\n"
+"                             after the last '~' in the version.\n"
+"      --merge-unreleased   merge UNRELEASED entries together, ignoring "
+"their\n"
+"                             version numbers.\n"
+"  -?, --help               show this help message.\n"
+"      --version            show the version.\n"
+msgstr ""
+"Використання: %s [<параметр>...] <старий> <новий-a> <новий-b> [<вивід>]\n"
+"\n"
+"Параметри:\n"
+"  -m, --merge-prereleases  об'єднати попередні релізи, ігноруючи\n"
+"                                        все після останнього '~' у версії.\n"
+"  --merge-unreleased       об’єднати записи UNRELEASED,\n"
+"                                        ігноруючи їхні номери версій.\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"  --version                показати версію.\n"
+
+#: scripts/dpkg-mergechangelogs.pl
+msgid "needs at least three arguments"
+msgstr "потрібно принаймні три аргументи"
+
+#: scripts/dpkg-mergechangelogs.pl
+msgid "file arguments need to exist"
+msgstr "файли, передані як аргументи, повинні існувати"
+
+#: scripts/dpkg-name.pl
+#, perl-format
+msgid "Usage: %s [<option>...] <file>...\n"
+msgstr "Використання: %s [<параметр>...] <файл>...\n"
+
+#: scripts/dpkg-name.pl
+msgid ""
+"\n"
+"Options:\n"
+"  -a, --no-architecture    no architecture part in filename.\n"
+"  -o, --overwrite          overwrite if file exists.\n"
+"  -k, --symlink            do not create a new file, but a symlink.\n"
+"  -s, --subdir [dir]       move file into subdirectory (use with care).\n"
+"  -c, --create-dir         create target directory if not there (use with "
+"care).\n"
+"  -?, --help               show this help message.\n"
+"  -v, --version            show the version.\n"
+"\n"
+"file.deb changes to <package>_<version>_<architecture>.<package_type>\n"
+"according to the 'underscores convention'.\n"
+msgstr ""
+"\n"
+"Параметри:\n"
+"  -a, --no-architecture    без частини архітектури в назві файлу.\n"
+"  -o, --overwrite          перезаписати, якщо файл існує.\n"
+"  -k, --symlink            не створювати новий файл, а створити\n"
+"                                        символічне посилання.\n"
+"  -s, --subdir [каталог]   перемістити файл у підкаталог\n"
+"                                        (використовувати обережно).\n"
+"  -c, --create-dir         створити цільовий каталог, якщо\n"
+"                                        його немає (використовувати "
+"обережно).\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"  -v, --version            показати версію.\n"
+"\n"
+"file.deb перетворюється на <пакунок>_<версія>_<архітектура>.<тип_пакунка>\n"
+"згідно з 'домовленістю про підкреслення'.\n"
+
+#: scripts/dpkg-name.pl
+#, perl-format
+msgid "cannot find '%s'"
+msgstr "не вдалося знайти '%s'"
+
+#: scripts/dpkg-name.pl
+#, perl-format
+msgid "binary control file %s"
+msgstr "бінарний файл керування %s"
+
+#: scripts/dpkg-name.pl
+#, perl-format
+msgid "assuming architecture '%s' for '%s'"
+msgstr "припускаю архітектуру '%s' для '%s'"
+
+#: scripts/dpkg-name.pl
+#, perl-format
+msgid "bad package control information for '%s'"
+msgstr "некоректна інформація керування пакунком для '%s'"
+
+#: scripts/dpkg-name.pl
+#, perl-format
+msgid "assuming section '%s' for '%s'"
+msgstr "припускаю розділ '%s' для '%s'"
+
+#: scripts/dpkg-name.pl
+#, perl-format
+msgid "no Package field found in '%s', skipping package"
+msgstr "у '%s' не знайдено поле Package, пропускаю пакунок"
+
+#: scripts/dpkg-name.pl
+#, perl-format
+msgid "created directory '%s'"
+msgstr "створено каталог '%s'"
+
+#: scripts/dpkg-name.pl
+#, perl-format
+msgid "cannot create directory '%s'"
+msgstr "не вдалося створити каталог '%s'"
+
+#: scripts/dpkg-name.pl
+#, perl-format
+msgid "no such directory '%s', try --create-dir (-c) option"
+msgstr "каталогу '%s' не існує, спробуйте опцію --create-dir (-c)"
+
+#: scripts/dpkg-name.pl
+#, perl-format
+msgid "skipping '%s'"
+msgstr "пропускаю '%s'"
+
+#: scripts/dpkg-name.pl
+#, perl-format
+msgid "cannot move '%s' to existing file"
+msgstr "не вдалося перемістити '%s' до наявного файлу"
+
+#: scripts/dpkg-name.pl
+#, perl-format
+msgid "moved '%s' to '%s'"
+msgstr "переміщено '%s' до '%s'"
+
+#: scripts/dpkg-name.pl
+msgid "mkdir can be used to create directory"
+msgstr "mkdir можна використовувати для створення каталогу"
+
+#: scripts/dpkg-name.pl
+msgid "need at least a filename"
+msgstr "потрібно хоча б ім'я файлу"
+
+#: scripts/dpkg-parsechangelog.pl
+msgid ""
+"Options:\n"
+"  -l, --file <changelog-file>\n"
+"                           get per-version info from this file.\n"
+"  -F <changelog-format>    force changelog format.\n"
+"  -S, --show-field <field> show the values for <field>.\n"
+"  -?, --help               show this help message.\n"
+"      --version            show the version."
+msgstr ""
+"Параметри:\n"
+"  -l, --file <файл-журналу-змін>\n"
+"                           отримати інформацію для кожної версії з цього "
+"файлу.\n"
+"  -F <формат-журналу-змін> примусово встановити\n"
+"                                        формат журналу змін.\n"
+"  -S, --show-field <поле>  показати значення для <поле>.\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"  --version                показати версію."
+
+#: scripts/dpkg-parsechangelog.pl
+msgid ""
+"Parser options:\n"
+"      --format <output-format>\n"
+"                           set output format (defaults to 'dpkg').\n"
+"      --reverse            include all changes in reverse order.\n"
+"      --all                include all changes.\n"
+"  -s, --since <version>    include all changes later than <version>.\n"
+"  -v <version>             ditto.\n"
+"  -u, --until <version>    include all changes earlier than <version>.\n"
+"  -f, --from <version>     include all changes equal or later than "
+"<version>.\n"
+"  -t, --to <version>       include all changes up to or equal than "
+"<version>.\n"
+"  -c, --count <number>     include <number> entries from the top (or tail\n"
+"                             if <number> is lower than 0).\n"
+"  -n <number>              ditto.\n"
+"  -o, --offset <number>    change starting point for --count, counted from\n"
+"                             the top (or tail if <number> is lower than 0).\n"
+msgstr ""
+"Параметри парсера:\n"
+"      --format <формат виводу>\n"
+"                           встановити формат виводу (типово 'dpkg').\n"
+"      --reverse            включити всі зміни у зворотному порядку.\n"
+"      --all                включити всі зміни.\n"
+"  -s, --since <версія>     включити всі зміни, пізніші за <версія>.\n"
+"  -v <версія>              те саме.\n"
+"  -u, --until <версія>     включити всі зміни, раніші за <версія>.\n"
+"  -f, --from <версія>      включити всі зміни, рівні або пізніші за "
+"<версія>.\n"
+"  -t, --to <версія>        включити всі зміни, рівні або раніші за "
+"<версія>.\n"
+"  -c, --count <число>      включити <число> записів з початку\n"
+"                                        (або з кінця якщо <число> менше за "
+"0).\n"
+"  -n <число>               те саме.\n"
+"  -o, --offset <число>     змінити початкову точку для --count,\n"
+"                                        відраховуючи з початку (або з "
+"кінця,\n"
+"                                        якщо <число> менше за 0).\n"
+
+#: scripts/dpkg-parsechangelog.pl
+msgid "-L is obsolete; it is without effect"
+msgstr "-L застаріло; воно не має жодного ефекту"
+
+#: scripts/dpkg-parsechangelog.pl
+msgid "bad changelog format name"
+msgstr "некоректна назва формату журналу змін"
+
+#: scripts/dpkg-parsechangelog.pl
+msgid "missing changelog filename"
+msgstr "відсутнє ім'я файлу журналу змін"
+
+#: scripts/dpkg-parsechangelog.pl
+msgid "takes no non-option arguments"
+msgstr "не приймає аргументів, що не є параметрами"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid ""
+"Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
+"Packages\n"
+"\n"
+"Options:\n"
+"  -t, --type <type>        scan for <type> packages (default is 'deb').\n"
+"  -a, --arch <arch>        architecture to scan for (with implicit arch "
+"all).\n"
+"      --no-implicit-arch   do not add implicit architecture all to --arch.\n"
+"  -h, --hash <hash-list>   only generate hashes for the specified list.\n"
+"  -m, --multiversion       allow multiple versions of a single package.\n"
+"  -e, --extra-override <file>\n"
+"                           use extra override file.\n"
+"  -M, --medium <medium>    add X-Medium field for dselect media access "
+"method\n"
+"  -?, --help               show this help message.\n"
+"      --version            show the version.\n"
+msgstr ""
+"Використання: %s [<параметр>...] <шлях-до-бінарного-файлу> [<файл-"
+"перевизначення> [<префікс-шляху>]] > Packages\n"
+"\n"
+"Параметри:\n"
+"  -t, --type <тип>         сканувати пакунки типу <тип> (типово 'deb').\n"
+"  -a, --arch <арх>         архітектура для сканування (з неявним arch all).\n"
+"      --no-implicit-arch   не додавати неявну архітектуру all до --arch.\n"
+"  -h, --hash <список-хешів>генерувати хеші лише для вказаного списку.\n"
+"  -m, --multiversion       дозволити кілька версій одного пакунка.\n"
+"  -e, --extra-override <файл>\n"
+"                           використовувати додатковий файл перевизначення.\n"
+"  -M, --medium <носій>     додати поле X-Medium для методу доступу\n"
+"                                        до носія у dselect\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"  --version                показати версію.\n"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "  %s (package says %s, not %s)"
+msgstr "  %s (пакунок вказує %s, не %s)"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "unconditional maintainer override for %s"
+msgstr "безумовне перевизначення супроводжувача для %s"
+
+#: scripts/dpkg-scanpackages.pl scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/Shlibs/Objdump/Object.pm
+#, perl-format
+msgid "cannot fork for %s"
+msgstr "не вдалося виконати fork для %s"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "cannot parse control information from %s"
+msgstr "не вдалося розібрати інформацію керування з %s"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "'dpkg-deb -I %s control' exited with %d, skipping package"
+msgstr "'dpkg-deb -I %s control' завершився з %d, пропускаю пакунок"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "no Package field in control file of %s"
+msgstr "у файлі керування %s немає поля Package"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid ""
+"package %s (filename %s) is repeat but newer version; used that one and "
+"ignored data from %s!"
+msgstr ""
+"пакунок %s (файл %s) повторюється, але має новішу версію; використано його, "
+"а дані з %s проігноровано!"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid ""
+"package %s (filename %s) is repeat; ignored that one and using data from %s!"
+msgstr ""
+"пакунок %s (файл %s) повторюється; його проігноровано, використано дані з %s!"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "package %s (filename %s) has Filename field!"
+msgstr "пакунок %s (файл %s) має поле Filename!"
+
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
+msgid "one to three arguments expected"
+msgstr "очікується від одного до трьох аргументів"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "unsupported checksum '%s'"
+msgstr "непідтримувана контрольна сума '%s'"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "binary path %s not found"
+msgstr "бінарний шлях %s не знайдено"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "override file %s not found"
+msgstr "файл перевизначення %s не знайдено"
+
+#: scripts/dpkg-scanpackages.pl
+msgid "failed when writing stdout"
+msgstr "помилка під час запису до stdout"
+
+#: scripts/dpkg-scanpackages.pl
+msgid "cannot close stdout"
+msgstr "не вдалося закрити stdout"
+
+#: scripts/dpkg-scanpackages.pl
+msgid "Packages with multiple instances but no --multiversion specified:"
+msgstr "Пакунки з кількома екземплярами, але без параметра --multiversion:"
+
+#: scripts/dpkg-scanpackages.pl
+msgid "Packages in override file with incorrect old maintainer value:"
+msgstr ""
+"Пакунки у файлі перевизначення з некоректним старим значенням супроводжувача:"
+
+#: scripts/dpkg-scanpackages.pl
+msgid "Packages specifying same maintainer as override file:"
+msgstr ""
+"Пакунки, що вказують того самого супроводжувача, що й у файлі перевизначення:"
+
+#: scripts/dpkg-scanpackages.pl
+msgid "Packages in archive but missing from override file:"
+msgstr "Пакунки в архіві, але відсутні у файлі перевизначення:"
+
+#: scripts/dpkg-scanpackages.pl
+msgid "Packages in override file but not in archive:"
+msgstr "Пакунки у файлі перевизначення, але відсутні в архіві:"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "Wrote %s entries to output Packages file."
+msgstr "Записано %s записів до вихідного файлу Packages."
+
+#: scripts/dpkg-scansources.pl
+#, perl-format
+msgid ""
+"Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
+"Sources\n"
+"\n"
+"Options:\n"
+"  -n, --no-sort            do not sort by package before outputting.\n"
+"  -e, --extra-override <file>\n"
+"                           use extra override file.\n"
+"  -s, --source-override <file>\n"
+"                           use file for additional source overrides, "
+"default\n"
+"                           is regular override file with .src appended.\n"
+"      --debug              turn debugging on.\n"
+"  -?, --help               show this help message.\n"
+"      --version            show the version.\n"
+"\n"
+"See the man page for the full documentation.\n"
+msgstr ""
+"Використання: %s [<параметр>...] <шлях-до-бінарного-файлу> [<файл-"
+"перевизначення> [<префікс-шляху>]] > Sources\n"
+"\n"
+"Параметри:\n"
+"  -n, --no-sort            не сортувати за пакунком перед виведенням.\n"
+"  -e, --extra-override <файл>\n"
+"                           використовувати додатковий файл перевизначення.\n"
+"  -s, --source-override <файл>\n"
+"                           використовувати файл для додаткових "
+"перевизначень\n"
+"                                        джерел; типово є звичайний файл "
+"перевизначення\n"
+"                                        з доданим суфіксом .src.\n"
+"  --debug                  увімкнути налагодження.\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"  --version                показати версію.\n"
+"\n"
+"Докладну документацію наведено на сторінці man.\n"
+
+#: scripts/dpkg-scansources.pl
+#, perl-format
+msgid "invalid override entry at line %d (%d fields)"
+msgstr "недійсний запис перевизначення в рядку %d (%d полів)"
+
+#: scripts/dpkg-scansources.pl
+#, perl-format
+msgid "ignoring duplicate override entry for %s at line %d"
+msgstr "ігнорую дублікат запису перевизначення для %s у рядку %d"
+
+#: scripts/dpkg-scansources.pl
+#, perl-format
+msgid "ignoring override entry for %s, invalid priority %s"
+msgstr "ігнорую запис перевизначення для %s, недійсний пріоритет %s"
+
+#: scripts/dpkg-scansources.pl
+#, perl-format
+msgid "invalid source override entry at line %d (%d fields)"
+msgstr "недійсний запис перевизначення джерела в рядку %d (%d полів)"
+
+#: scripts/dpkg-scansources.pl
+#, perl-format
+msgid "ignoring duplicate source override entry for %s at line %d"
+msgstr "ігнорую дублікат запису перевизначення джерела для %s у рядку %d"
+
+#: scripts/dpkg-scansources.pl
+#, perl-format
+msgid "no binary packages specified in %s"
+msgstr "у %s не вказано жодних бінарних пакунків"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "administrative directory '%s' does not exist"
+msgstr "адміністративний каталог '%s' не існує"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "unrecognized dependency field '%s'"
+msgstr "нерозпізнане поле залежності '%s'"
+
+#: scripts/dpkg-shlibdeps.pl
+msgid "need at least one executable"
+msgstr "потрібен хоча б один виконуваний файл"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid ""
+"cannot find library %s needed by %s (ELF format: '%s' abi: '%s'; RPATH: '%s')"
+msgstr ""
+"не вдалося знайти бібліотеку %s, необхідну для %s (формат ELF: '%s' ABI: "
+"'%s'; RPATH: '%s')"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "%s has an unexpected SONAME (%s)"
+msgstr "%s має неочікуване SONAME (%s)"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "no dependency information found for %s (used by %s)"
+msgstr "не знайдено інформації про залежності для %s (використовується %s)"
+
+#: scripts/dpkg-shlibdeps.pl
+msgid "check if the library actually comes from a package"
+msgstr "перевірте, чи бібліотека справді походить з пакунка"
+
+#: scripts/dpkg-shlibdeps.pl
+msgid ""
+"binaries to analyze should already be installed in their package's directory"
+msgstr ""
+"бінарні файли для аналізу вже повинні бути встановлені в каталозі свого "
+"пакунка"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "symbol %s used by %s found in none of the libraries"
+msgstr "символ %s, який використовується %s, не знайдено в жодній бібліотеці"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid ""
+"%s contains an unresolvable reference to symbol %s: it is probably a plugin"
+msgstr "%s містить нерозв'язне посилання на символ %s: ймовірно, це плагін"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "%d similar warning has been skipped (use -v to see it)"
+msgid_plural ""
+"%d other similar warnings have been skipped (use -v to see them all)"
+msgstr[0] ""
+"%d подібне попередження пропущено (використайте -v, щоб його побачити)"
+msgstr[1] ""
+"%d інші подібні попередження пропущено (використовуйте -v, щоб переглянути "
+"їх усі)"
+msgstr[2] ""
+"%d інших подібних попереджень пропущено (використовуйте -v, щоб переглянути "
+"їх усі)"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid ""
+"%s should not be linked against %s (it uses none of the library's symbols)"
+msgstr ""
+"%s не слід компонувати з %s (він не використовує жодного символу бібліотеки)"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid ""
+"package could avoid a useless dependency if %s was not linked against %s (it "
+"uses none of the library's symbols)"
+msgid_plural ""
+"package could avoid a useless dependency if %s were not linked against %s "
+"(they use none of the library's symbols)"
+msgstr[0] ""
+"пакунок міг би уникнути непотрібної залежності, якби %s не було пов'язано з "
+"%s (він не використовує жодного символу бібліотеки)"
+msgstr[1] ""
+"пакунок міг би уникнути непотрібної залежності, якби %s не було пов'язано з "
+"%s (вони не використовують жодного символу бібліотеки)"
+msgstr[2] ""
+"пакунок міг би уникнути непотрібної залежності, якби %s не було пов'язано з "
+"%s (вони не використовують жодного символу бібліотеки)"
+
+#: scripts/dpkg-shlibdeps.pl
+msgid ""
+"Note: libraries are not searched in other binary packages that do not have "
+"any shlibs or symbols file.\n"
+"To help dpkg-shlibdeps find private libraries, you might need to use -l."
+msgstr ""
+"Примітка: пошук бібліотек не виконується в інших бінарних пакунках, які не "
+"мають файлів shlibs або символів.\n"
+"Щоб допомогти dpkg-shlibdeps знайти приватні бібліотеки, вам може "
+"знадобитися використати -l."
+
+#: scripts/dpkg-shlibdeps.pl
+msgid "cannot continue due to the error above"
+msgid_plural "cannot continue due to the errors listed above"
+msgstr[0] "неможливо продовжити через вищезгадану помилку"
+msgstr[1] "неможливо продовжити через вищезгадані помилки"
+msgstr[2] "неможливо продовжити через вищезгадані помилки"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "invalid dependency got generated: %s"
+msgstr "згенеровано недійсну залежність: %s"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "install new varlist file '%s'"
+msgstr "встановити новий файл списку змінних '%s'"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "Usage: %s [<option>...] <executable>|-e<executable> [<option>...]"
+msgstr ""
+"Використання: %s [<параметр>...] <виконуваний файл>|-e<виконуваний файл> "
+"[<параметр>...]"
+
+#: scripts/dpkg-shlibdeps.pl
+msgid ""
+"Positional options (order is significant):\n"
+"  <executable>             include dependencies for <executable>,\n"
+"  -e<executable>           (use -e if <executable> starts with '-')\n"
+"  -d<dependency-field>     next executable(s) set shlibs:<dependency-field>."
+msgstr ""
+"Позиційні параметри (порядок має значення):\n"
+"  <виконуваний файл>        включити залежності для <виконуваний файл>,\n"
+"  -e<виконуваний файл>     (використовуйте -e, якщо <виконуваний файл> "
+"починається з '-')\n"
+"  -d<поле-залежності>      наступний(і) виконуваний(і) файл(и) встановити як "
+"shlibs:<поле-залежності>."
+
+#: scripts/dpkg-shlibdeps.pl
+msgid ""
+"Options:\n"
+"  --package=<package>      generate substvars for <package> (default is "
+"unset).\n"
+"  -l<library-dir>          add directory to private shared library search "
+"list.\n"
+"  -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.\n"
+"  -O[<file>]               write variable settings to stdout (or <file>).\n"
+"  -L<local-shlibs-file>    shlibs override file, not debian/shlibs.local.\n"
+"  -T<substvars-file>       update variables here, not debian/substvars.\n"
+"  -t<type>                 set package type (default is deb).\n"
+"  -x<package>              exclude package from the generated dependencies.\n"
+"  -S<package-build-dir>    search needed libraries in the given\n"
+"                             package build directory first.\n"
+"  -I<package-build-dir>    ignore needed libraries, shlibs and symbols "
+"files\n"
+"                             in the given build directory.\n"
+"  -v                       enable verbose mode (can be used multiple "
+"times).\n"
+"  --ignore-missing-info    do not fail on missing dependency information.\n"
+"  --warnings=<value>       define set of active warnings (see manual page).\n"
+"  --admindir=<directory>   change the administrative directory.\n"
+"  -?, --help               show this help message.\n"
+"      --version            show the version."
+msgstr ""
+"Параметри:\n"
+"  --package=<пакунок>       генерувати підзмінні для <пакунок>\n"
+"                                        (типово не встановлено).\n"
+"  -l<каталог-бібліотеки>   додати каталог до списку пошуку\n"
+"                                        приватних спільних бібліотек.\n"
+"  -p<префікс-змінної>      встановити <префікс-змінної>:* замість shlibs:*.\n"
+"  -O[<файл>]               записати налаштування змінних у stdout (або "
+"<файл>).\n"
+"  -L<локальний-файл-shlibs>файл перевизначення shlibs, а не debian/"
+"shlibs.local.\n"
+"  -T<файл-підзмінних>      оновити змінні тут, а не в debian/substvars.\n"
+"  -t<тип>                  встановити тип пакунка (типово deb).\n"
+"  -x<пакунок>              виключити пакунок зі згенерованих залежностей.\n"
+"  -S<каталог-збірки-пакунка>\n"
+"                           спочатку шукати потрібні бібліотеки\n"
+"                                        у заданому каталозі збірки пакунка.\n"
+"  -I<каталог-збірки-пакунка>\n"
+"                           ігнорувати необхідні бібліотеки, shlibs та файли\n"
+"                                        символів у заданому каталозі "
+"збірки.\n"
+"  -v                       увімкнути детальний режим\n"
+"                                        (можна використовувати кілька "
+"разів).\n"
+"  --ignore-missing-info    не завершуватися помилкою, якщо\n"
+"                                        інформація про залежності відсутня.\n"
+"  --warnings=<значення>    визначає набір активних попереджень\n"
+"                                        (див. сторінку довідки).\n"
+"  --admindir=<каталог>     змінити адміністративний каталог.\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"  --version                показати версію."
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid ""
+"Dependency fields recognized are:\n"
+"  %s\n"
+msgstr ""
+"Розпізнані поля залежностей:\n"
+"%s\n"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "cannot extract name and version from library name '%s'"
+msgstr "не вдалося витягти назву та версію з бібліотеки з назвою '%s'"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "unable to open shared libs metadata file '%s'"
+msgstr "не вдалося відкрити файл метаданих спільних бібліотек '%s'"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "shared libs metadata file '%s' line %d: bad line '%s'"
+msgstr "файл метаданих спільних бібліотек '%s', рядок %d: недійсний рядок '%s'"
+
+#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/Changelog/Parse.pm
+#: scripts/Dpkg/Checksums.pm
+#, perl-format
+msgid "cannot open file %s"
+msgstr "не вдалося відкрити файл %s"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid ""
+"$ORIGIN is used in RPATH of %s and the corresponding directory could not be "
+"identified due to lack of DEBIAN sub-directory in the root of package's "
+"build tree"
+msgstr ""
+"$ORIGIN використовується в RPATH %s, і відповідний каталог не вдалося "
+"ідентифікувати через відсутність підкаталогу DEBIAN у кореневому каталозі "
+"дерева збірки пакунка"
+
+#: scripts/dpkg-shlibdeps.pl
+msgid "diversions involved - output may be incorrect"
+msgstr "задіяно переспрямування - вихідні дані можуть бути некоректними"
+
+#: scripts/dpkg-shlibdeps.pl
+msgid "write diversion info to stderr"
+msgstr "записати інформацію про переспрямування до stderr"
+
+#: scripts/dpkg-shlibdeps.pl
+#, perl-format
+msgid "unknown output from dpkg --search: '%s'"
+msgstr "невідомий вивід з dpkg --search: '%s'"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "--%s needs a directory"
+msgstr "--%s потребує каталогу"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "cannot stat directory %s"
+msgstr "не вдалося виконати stat для каталогу %s"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "directory argument %s is not a directory"
+msgstr "аргумент каталогу %s не є каталогом"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "using options from %s: %s"
+msgstr "використовую параметри з %s: %s"
+
+#: scripts/dpkg-source.pl scripts/Dpkg/Compression.pm
+#, perl-format
+msgid "%s is not a supported compression"
+msgstr "стиснення %s не підтримується"
+
+#: scripts/dpkg-source.pl scripts/Dpkg/Compression.pm
+#, perl-format
+msgid "%s is not a compression level"
+msgstr "%s не є рівнем стиснення"
+
+#: scripts/dpkg-source.pl
+msgid "-E and -W are deprecated, they are without effect"
+msgstr "-E та -W застарілі, вони не мають жодного ефекту"
+
+#: scripts/dpkg-source.pl scripts/dpkg-vendor.pl
+msgid "need an action option"
+msgstr "потрібен варіант дії"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "no source format specified in %s, see dpkg-source(1)"
+msgstr "не вказано вихідний формат у %s, див. dpkg-source(1)"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "%s does not contain any information about the source package"
+msgstr "%s не містить жодної інформації про вихідний пакунок"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "'%s' is not a valid architecture string in package '%s'"
+msgstr "'%s' не є коректним рядком архітектури в пакунку '%s'"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "architecture %s only allowed on its own (list for package %s is '%s')"
+msgstr "архітектура %s дозволена лише окремо (список для пакунка %s - '%s')"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "%s does not list any binary package"
+msgstr "%s не містить жодного бінарного пакунка"
+
+#: scripts/dpkg-source.pl
+msgid "building source for a binary-only release"
+msgstr "збірка вихідного коду для випуску, що містить лише бінарні пакунки"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "%s field contains the maintainer address"
+msgstr "поле %s містить адресу супроводжувача"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "cannot build with source format '%s': %s"
+msgstr "не вдалося зібрати з вихідним форматом '%s': %s"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "using source format '%s'"
+msgstr "використовую вихідний формат '%s'"
+
+#: scripts/dpkg-source.pl scripts/Dpkg/Source/Package/V1.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Package/V3/Bzr.pm
+#: scripts/Dpkg/Source/Package/V3/Native.pm
+#, perl-format
+msgid "building %s in %s"
+msgstr "збираю %s у %s"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "--%s needs at least one argument, the .dsc"
+msgstr "--%s потребує принаймні одного аргументу, .dsc"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "--%s takes no more than two arguments"
+msgstr "--%s приймає не більше двох аргументів"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "--%s needs the .dsc file as first argument, not a directory"
+msgstr "--%s потребує файлу .dsc як першого аргументу, а не каталогу"
+
+#: scripts/dpkg-source.pl scripts/Dpkg/Source/Package/V1.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Package/V3/Bzr.pm
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#: scripts/Dpkg/Source/Package/V3/Native.pm
+#, perl-format
+msgid "unpack target exists: %s"
+msgstr "ціль розпакування існує: %s"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "%s does not contain a valid OpenPGP signature"
+msgstr "%s не містить дійсного підпису OpenPGP"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "extracting unsigned source package (%s)"
+msgstr "розпакування непідписаного пакунка‑джерела (%s)"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "extracting %s in %s"
+msgstr "видобуваю %s у %s"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "test control %s is not a regular file"
+msgstr "файл керування тестами %s не є звичайним файлом"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "%s field contains value '%s', but no tests control file %s"
+msgstr "поле %s містить значення '%s', але файл керування тестами %s відсутній"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "test control %s is missing %s or %s field"
+msgstr "у файлі керуванні тестами %s відсутнє поле %s або %s"
+
+#: scripts/dpkg-source.pl
+msgctxt "source options"
+msgid "<none>"
+msgstr "<немає>"
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid "Usage: %s [<option>...] <command>"
+msgstr "Використання: %s [<параметр>...] <команда>"
+
+#: scripts/dpkg-source.pl
+msgid ""
+"Commands:\n"
+"  -x, --extract <filename>.dsc [<output-dir>]\n"
+"                           extract source package.\n"
+"  -b, --build <dir>        build source package.\n"
+"      --print-format <dir> print the format to be used for the source "
+"package.\n"
+"      --before-build <dir> run the corresponding source package format "
+"hook.\n"
+"      --after-build <dir>  run the corresponding source package format "
+"hook.\n"
+"      --commit [<dir> [<patch-name>]]\n"
+"                           store upstream changes in a new patch."
+msgstr ""
+"Команди:\n"
+"  -x, --extract <ім'я файлу>.dsc [<каталог-виводу>]\n"
+"                           видобути пакунок з вихідним кодом.\n"
+"  -b, --build <каталог>    зібрати пакунок з вихідним кодом.\n"
+"  --print-format <каталог> вивести формат, який буде\n"
+"                                        використано для пакунка з вихідним "
+"кодом.\n"
+"  --before-build <каталог> виконати відповідний виклик\n"
+"                                        формату пакунка з вихідним кодом.\n"
+"  --after-build <каталог>  виконати відповідний виклик\n"
+"                                        формату пакунка з вихідним кодом.\n"
+"  --commit [<каталог> [<назва-патча>]]\n"
+"                           зберегти зміни upstream у новому патчі."
+
+#: scripts/dpkg-source.pl
+#, perl-format
+msgid ""
+"Build options:\n"
+"  -c<control-file>         get control info from this file.\n"
+"  -l<changelog-file>       get per-version info from this file.\n"
+"  -F<changelog-format>     force changelog format.\n"
+"  --format=<source-format> set the format to be used for the source "
+"package.\n"
+"  -V<name>=<value>         set a substitution variable.\n"
+"  -T<substvars-file>       read variables here.\n"
+"  -D<field>=<value>        override or add a .dsc field and value.\n"
+"  -U<field>                remove a field.\n"
+"  -i, --diff-ignore[=<regex>]\n"
+"                           filter out files to ignore diffs of\n"
+"                             (defaults to: '%s').\n"
+"  -I, --tar-ignore[=<pattern>]\n"
+"                           filter out files when building tarballs\n"
+"                             (defaults to: %s).\n"
+"  -Z, --compression=<compression>\n"
+"                           select compression to use (defaults to '%s',\n"
+"                             supported are: %s).\n"
+"  -z, --compression-level=<level>\n"
+"                           compression level to use (defaults to '%d',\n"
+"                             supported are: '1'-'9', 'best', 'fast')"
+msgstr ""
+"Параметри збірки:\n"
+"  -c<файл-керування>       отримати інформацію про керування з цього файлу.\n"
+"  -l<файл-змін>            отримати інформацію для кожної версії з цього "
+"файлу.\n"
+"  -F<формат-змін>          примусово встановити формат журналу змін.\n"
+"  --format=<формат-вихідного-пакунка>\n"
+"                           встановити формат, який буде використовуватися\n"
+"                                        для вихідного пакунка.\n"
+"  -V<назва>=<значення>     встановити змінну підстановки.\n"
+"  -T<файл-підзмінних>      зчитати змінні тут.\n"
+"  -D<поле>=<значення>      перевизначити або додати поле .dsc\n"
+"                                        із його значенням.\n"
+"  -U<поле>                 видалити поле.\n"
+"  -i, --diff-ignore[=<регулярний-вираз>]\n"
+"                           відфільтрувати файли, щоб ігнорувати відмінності\n"
+"                                        (типово: '%s').\n"
+"  -I, --tar-ignore[=<шаблон>]\n"
+"                           відфільтрувати файли під час збірки tar-архівів\n"
+"                                        (типово: %s).\n"
+"  -Z, --compression=<стиснення>\n"
+"                           вибрати алгоритм стиснення (типово '%s',\n"
+"                                        підтримуються: %s).\n"
+"-z, --compression-level=<рівень>\n"
+"                           рівень стиснення (типово '%d',\n"
+"                                        підтримуються: '1'-'9', 'best', "
+"'fast')"
+
+#: scripts/dpkg-source.pl
+msgid ""
+"Extract options:\n"
+"  --no-copy                do not copy .orig tarballs\n"
+"  --no-check               do not check signature and checksums on "
+"extraction\n"
+"  --no-overwrite-dir       do not overwrite directory on extraction\n"
+"  --no-vendor-certs        do not use vendor specific certificate keyrings\n"
+"  --signer-certs=<keyring> use a signer certificates keyring\n"
+"  --require-valid-signature\n"
+"                           abort if the package does not have a valid "
+"signature\n"
+"  --require-strong-checksums\n"
+"                           abort if the package contains no strong "
+"checksums\n"
+"  --ignore-bad-version     allow bad source package versions."
+msgstr ""
+"Параметри видобування:\n"
+"  --no-copy                не копіювати .orig tar-архіви\n"
+"  --no-check               не перевіряти підпис та контрольні суми під час "
+"видобування\n"
+"  --no-overwrite-dir       не перезаписувати каталог під час видобування\n"
+"  --no-vendor-certs        не використовувати в'язки ключів сертифікатів,\n"
+"                                        специфічних для постачальника\n"
+"  --signer-certs=<в'язка>  використовувати в'язку ключів сертифікатів "
+"підписувача\n"
+"  --require-valid-signatureперервати, якщо пакунок не має дійсного підпису\n"
+"  --require-strong-checksums\n"
+"                           перервати, якщо пакунок не містить надійних "
+"контрольних сум\n"
+"  --ignore-bad-version     дозволити неправильні версії вихідного пакунка."
+
+#: scripts/dpkg-source.pl
+msgid ""
+"General options:\n"
+"      --threads-max=<threads>\n"
+"                           use at most <threads> with compressor.\n"
+"  -q                       quiet mode.\n"
+"  -?, --help               show this help message.\n"
+"      --version            show the version."
+msgstr ""
+"Загальні параметри:\n"
+"  --threads-max=<потоки>   використовувати не більше <потоків> з "
+"компресором.\n"
+"  -q                       тихий режим.\n"
+"  -?, --help               показати це довідкове повідомлення.\n"
+"  --version                показати версію."
+
+#: scripts/dpkg-source.pl
+msgid ""
+"Source format specific build and extract options are available;\n"
+"use --format with --help to see them."
+msgstr ""
+"Доступні параметри збірки та розпакування, що відповідають\n"
+"певному формату вихідного пакунка; використовуйте --format\n"
+"з --help, щоб їх побачити."
+
+#: scripts/dpkg-vendor.pl
+msgid ""
+"Commands:\n"
+"  --is <vendor>           returns true if current vendor is <vendor>.\n"
+"  --derives-from <vendor> returns true if current vendor derives from "
+"<vendor>.\n"
+"  --query <field>         print the content of the vendor-specific field.\n"
+"  --help                  show this help message.\n"
+"  --version               show the version."
+msgstr ""
+"Команди:\n"
+"  --is <постачальник>      повертає true, якщо поточний\n"
+"                                        постачальник є <постачальник>.\n"
+"  --derives-from <постачальник>\n"
+"                           повертає true, якщо поточний постачальник "
+"походить\n"
+"                                       від <постачальник>.\n"
+"  --query <поле>           вивести вміст поля, специфічного для "
+"постачальника.\n"
+"  --help                   показати це довідкове повідомлення.\n"
+"  --version                показати версію."
+
+#: scripts/dpkg-vendor.pl
+msgid ""
+"Options:\n"
+"  --vendor <vendor>       assume <vendor> is the current vendor."
+msgstr ""
+"Параметри:\n"
+"  --vendor <постачальник>  вважати <постачальник>\n"
+"                                        поточним постачальником."
+
+#: scripts/dpkg-vendor.pl
+#, perl-format
+msgid "vendor %s does not exist in %s"
+msgstr "постачальник %s не існує в %s"
+
+#: scripts/Dpkg/Arch.pm
+msgid ""
+"cannot determine CC system type, falling back to default (native compilation)"
+msgstr ""
+"неможливо визначити тип системи CC, повертаюся до типової (нативна "
+"компіляція)"
+
+#: scripts/Dpkg/Arch.pm
+#, perl-format
+msgid "unknown CC system type %s, falling back to default (native compilation)"
+msgstr ""
+"невідомий тип системи CC %s, повертаюся до типової (нативна компіляція)"
+
+#: scripts/Dpkg/Arch.pm
+#, perl-format
+msgid "'%s' is not a valid architecture in list '%s'"
+msgstr "'%s' не є дійсною архітектурою у списку '%s'"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot get archive %s size"
+msgstr "не вдалося отримати розмір архіву %s"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "archive %s is truncated or corrupt, it has a non-even byte size"
+msgstr "архів %s обрізаний або пошкоджений, його розмір непарний у байтах"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot open or create archive %s"
+msgstr "не вдалося відкрити або створити архів %s"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot write magic into archive %s"
+msgstr "не вдалося записати magic в архів %s"
+
+#. TRANSLATORS: The first %s string is either "the archive magic" or
+#. "a file header".
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot read %s; archive %s at offset %d"
+msgstr "не вдалося прочитати %s; архів %s зі зміщенням %d"
+
+#. TRANSLATORS: The first %s string is either "the archive magic" or
+#. "a file header".
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot read %s; archive %s is truncated at offset %d"
+msgstr "не вдалося прочитати %s; архів %s обрізано зі зміщенням %d"
+
+#: scripts/Dpkg/Archive/Ar.pm
+msgid "the archive magic"
+msgstr "magic архіву"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "archive %s contains no magic"
+msgstr "архів %s не містить magic"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "archive %s contains bad magic"
+msgstr "архів %s містить некоректний magic"
+
+#: scripts/Dpkg/Archive/Ar.pm
+msgid "a file header"
+msgstr "заголовок файлу"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "file header at offset %d in archive %s contains bad magic"
+msgstr "заголовок файлу за зміщенням %d в архіві %s містить некоректний magic"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "file member %s in archive %s contains empty %s field"
+msgstr "елемент %s в архіві %s містить порожнє поле %s"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot seek into next file header at offset %d from archive %s"
+msgstr ""
+"не вдалося перейти до наступного заголовка файлу зі зміщенням %d в архіві %s"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot seek into beginning of archive %s"
+msgstr "не вдалося перейти на початок архіву %s"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot read file %s"
+msgstr "не вдалося прочитати файл %s"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot write file %s"
+msgstr "не вдалося записати файл %s"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot create file %s to extract from archive %s"
+msgstr "не вдалося створити файл %s для розпакування з архіву %s"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot write file %s to the filesystem"
+msgstr "не вдалося записати файл %s до файлової системи"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot write file header into archive %s"
+msgstr "не вдалося записати заголовок файлу в архів %s"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "filename %s is too long"
+msgstr "ім'я файлу %s занадто довге"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot open file %s to append to archive %s"
+msgstr "не вдалося відкрити файл %s для додавання до архіву %s"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot get file %s size"
+msgstr "не вдалося отримати розмір файлу %s"
+
+#: scripts/Dpkg/Archive/Ar.pm
+#, perl-format
+msgid "cannot write file %s padding to archive %s"
+msgstr "не вдалося записати доповнення файлу %s до архіву %s"
+
+#: scripts/Dpkg/BuildAPI.pm
+msgid "dpkg build API level needs an exact version"
+msgstr "рівень API збірки dpkg потребує точної версії"
+
+#: scripts/Dpkg/BuildAPI.pm
+#, perl-format
+msgid "dpkg build API level with conflicting versions: %s vs %s"
+msgstr "рівень API збірки dpkg з конфліктними версіями: %s та %s"
+
+#: scripts/Dpkg/BuildAPI.pm
+#, perl-format
+msgid "invalid dpkg build API level '%s'"
+msgstr "некоректний рівень API збірки dpkg '%s'"
+
+#: scripts/Dpkg/BuildAPI.pm
+#, perl-format
+msgid "dpkg build API level '%s' greater than max '%s'"
+msgstr "рівень API збірки dpkg '%s' перевищує максимальний '%s'"
+
+#: scripts/Dpkg/BuildDriver.pm
+#, perl-format
+msgid "build driver %s is unknown: %s"
+msgstr "механізм збірки %s невідомий: %s"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+msgid "using a gain-root-command while being root"
+msgstr ""
+"застосовано команду отримання прав root, хоча процес уже працює від імені "
+"root"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+msgid ""
+"fakeroot not found, either install the fakeroot\n"
+"package, specify a command with the -r option, or run this as root"
+msgstr ""
+"fakeroot не знайдено, або встановіть пакунок fakeroot,\n"
+"вкажіть команду з опцією -r, або запустіть від імені root"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "gain-root-command '%s' not found"
+msgstr "команду для отримання прав root '%s' не знайдено"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "disallowed target in %s field keyword %s"
+msgstr "у полі %s ключове слово %s містить заборонену ціль"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "%s field keyword \"%s\" is unknown in dpkg namespace"
+msgstr "ключове слово поля %s \"%s\" невідоме в просторі імен dpkg"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "%s field keyword \"%s\" is uppercase; use \"%s\" instead"
+msgstr ""
+"ключове слово поля %s \"%s\" у верхньому регістрі; використовуйте замість "
+"нього \"%s\""
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "%s field keyword \"%s\" is invalid; use \"%s\" instead"
+msgstr ""
+"ключове слово поля %s \"%s\" недійсне; використовуйте замість нього \"%s\""
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "%s field keyword \"%s\" is unknown"
+msgstr "ключове слово поля %s \"%s\" невідоме"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "field %s contains duplicate keyword %s"
+msgstr "поле %s містить дублікат ключового слова %s"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "%s field contains both global and implementation specific keywords"
+msgstr ""
+"поле %s містить як глобальні, так і специфічні для реалізації ключові слова"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "%s does not exist"
+msgstr "%s не існує"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm
+#, perl-format
+msgid "%s is not executable; fixing that"
+msgstr "%s не є виконуваним; виправляю"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "cannot make %s executable"
+msgstr "не вдалося зробити %s виконуваним"
+
+#: scripts/Dpkg/BuildDriver/DebianRules.pm scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "%s is not a plain file"
+msgstr "%s не є звичайним файлом"
+
+#: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
+#: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/Dpkg/Source/BinaryFiles.pm scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "cannot read %s"
+msgstr "не вдалося прочитати %s"
+
+#: scripts/Dpkg/BuildFlags.pm
+#, perl-format
+msgid "line %d of %s mentions unknown flag %s"
+msgstr "рядок %d з %s згадує невідомий прапорець %s"
+
+#: scripts/Dpkg/BuildFlags.pm
+#, perl-format
+msgid "line %d of %s is invalid, it has been ignored"
+msgstr "рядок %d з %s некоректний, його проігноровано"
+
+#: scripts/Dpkg/BuildOptions.pm
+#, perl-format
+msgid "invalid flag in %s: %s"
+msgstr "некоректний прапорець у %s: %s"
+
+#: scripts/Dpkg/BuildOptions.pm
+#, perl-format
+msgid "unknown %s feature in %s variable: %s"
+msgstr "невідома можливість %s у змінній %s: %s"
+
+#: scripts/Dpkg/BuildOptions.pm
+#, perl-format
+msgid "incorrect value in %s option of %s variable: %s"
+msgstr "некоректне значення в параметрі %s змінної %s: %s"
+
+#: scripts/Dpkg/BuildProfiles.pm
+#, perl-format
+msgid "'%s' is not a valid build profile restriction formula"
+msgstr "'%s' не є дійсною формулою обмеження профілю збірки"
+
+#: scripts/Dpkg/BuildTypes.pm
+#, perl-format
+msgid "cannot combine %s and %s"
+msgstr "неможливо поєднати %s та %s"
+
+#: scripts/Dpkg/BuildTypes.pm
+#, perl-format
+msgid "unknown build type %s"
+msgstr "невідомий тип збірки %s"
+
+#: scripts/Dpkg/Changelog.pm
+#, perl-format
+msgid ""
+"%s(l%s): %s\n"
+"LINE: %s"
+msgstr ""
+"%s(р%s): %s\n"
+"РЯДОК: %s"
+
+#: scripts/Dpkg/Changelog.pm
+#, perl-format
+msgid "%s(l%s): %s"
+msgstr "%s(р%s): %s"
+
+#: scripts/Dpkg/Changelog.pm
+msgid "'offset' without 'count' has no effect"
+msgstr "'offset' без 'count' не має жодного ефекту"
+
+#: scripts/Dpkg/Changelog.pm
+msgid "you cannot combine 'count' or 'offset' with any other range option"
+msgstr ""
+"не можна поєднувати 'count' або 'offset' з будь-яким іншим параметром "
+"діапазону"
+
+#: scripts/Dpkg/Changelog.pm
+msgid "you can only specify one of 'from' and 'since', using 'since'"
+msgstr "можна вказати лише один із 'from' або 'since'; використано 'since'"
+
+#: scripts/Dpkg/Changelog.pm
+msgid "you can only specify one of 'to' and 'until', using 'until'"
+msgstr "можна вказати лише один із 'to' або 'until'; використано 'until'"
+
+#: scripts/Dpkg/Changelog.pm
+#, perl-format
+msgid "'%s' option specifies non-existing version '%s'"
+msgstr "параметр '%s' вказує на неіснуючу версію '%s'"
+
+#: scripts/Dpkg/Changelog.pm
+msgid "use newest entry that is earlier than the one specified"
+msgstr "використовую найновіший запис, що є ранішим за вказаний"
+
+#: scripts/Dpkg/Changelog.pm
+msgid "none found, starting from the oldest entry"
+msgstr "нічого не знайдено, починаю з найстарішого запису"
+
+#: scripts/Dpkg/Changelog.pm
+msgid "use oldest entry that is later than the one specified"
+msgstr "використовую найстаріший запис, пізніший за вказаний"
+
+#: scripts/Dpkg/Changelog.pm
+#, perl-format
+msgid "no such entry found, ignoring '%s' parameter '%s'"
+msgstr "такого запису не знайдено, параметр '%s' '%s' проігноровано"
+
+#: scripts/Dpkg/Changelog.pm
+#, perl-format
+msgid "'since' option specifies most recent version '%s', ignoring"
+msgstr "параметр 'since' вказує на найновішу версію '%s', ігнорую"
+
+#: scripts/Dpkg/Changelog.pm
+#, perl-format
+msgid "'until' option specifies oldest version '%s', ignoring"
+msgstr "параметр 'until' вказує на найстарішу версію '%s', ігнорую"
+
+#: scripts/Dpkg/Changelog/Debian.pm
+msgid "first heading"
+msgstr "перший заголовок"
+
+#: scripts/Dpkg/Changelog/Debian.pm
+msgid "next heading or end of file"
+msgstr "наступний заголовок або кінець файлу"
+
+#: scripts/Dpkg/Changelog/Debian.pm
+msgid "start of change data"
+msgstr "початок даних про зміни"
+
+#: scripts/Dpkg/Changelog/Debian.pm
+msgid "more change data or trailer"
+msgstr "продовження даних про зміни або трейлер"
+
+#: scripts/Dpkg/Changelog/Debian.pm
+#, perl-format
+msgid "found start of entry where expected %s"
+msgstr "знайдено початок запису там, де очікувалося %s"
+
+#: scripts/Dpkg/Changelog/Debian.pm
+msgid "badly formatted heading line"
+msgstr "неправильно відформатований рядок заголовка"
+
+#: scripts/Dpkg/Changelog/Debian.pm
+#, perl-format
+msgid "found trailer where expected %s"
+msgstr "знайдено трейлер там, де очікувалося %s"
+
+#: scripts/Dpkg/Changelog/Debian.pm scripts/Dpkg/Changelog/Entry/Debian.pm
+msgid "badly formatted trailer line"
+msgstr "неправильно відформатований рядок трейлера"
+
+#: scripts/Dpkg/Changelog/Debian.pm
+#, perl-format
+msgid "found change data where expected %s"
+msgstr "знайдено дані про зміни там, де очікувалося %s"
+
+#: scripts/Dpkg/Changelog/Debian.pm
+#, perl-format
+msgid "found blank line where expected %s"
+msgstr "знайдено порожній рядок там, де очікувалося %s"
+
+#: scripts/Dpkg/Changelog/Debian.pm
+msgid "unrecognized line"
+msgstr "нерозпізнаний рядок"
+
+#: scripts/Dpkg/Changelog/Debian.pm
+#, perl-format
+msgid "found end of file where expected %s"
+msgstr "знайдено кінець файлу там, де очікувалося %s"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
+msgid "version '%s' is invalid: %s"
+msgstr "версія '%s' некоректна: %s"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
+msgid "bad key-value after ';': '%s'"
+msgstr "некоректна пара ключ–значення після ';': '%s'"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
+msgid "repeated key-value %s"
+msgstr "повторювана пара ключ-значення %s"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
+msgid "badly formatted urgency value: %s"
+msgstr "неправильно відформатоване значення терміновості: %s"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
+msgid "bad binary-only value: %s"
+msgstr "некоректне значення binary-only: %s"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
+msgid "unknown key-value %s"
+msgstr "невідома пара ключ-значення %s"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+msgid "the header does not match the expected regex"
+msgstr "заголовок не відповідає очікуваному регулярному виразу"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
+msgid "ignoring invalid week day '%s'"
+msgstr "ігнорую некоректний день тижня '%s'"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
+msgid "uses full '%s' instead of abbreviated month name '%s'"
+msgstr "використовую повну назву місяця '%s' замість скороченої '%s'"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
+msgid "invalid abbreviated month name '%s'"
+msgstr "некоректна скорочена назва місяця '%s'"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
+msgid "cannot parse non-conformant date '%s'"
+msgstr "неможливо розібрати невідповідну дату '%s'"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+msgid "the trailer does not match the expected regex"
+msgstr "трейлер не відповідає очікуваному регулярному виразу"
+
+#: scripts/Dpkg/Changelog/Parse.pm
+#, perl-format
+msgid "cannot seek into file %s"
+msgstr "не вдалося виконати перехід у файлі %s"
+
+#: scripts/Dpkg/Changelog/Parse.pm
+#, perl-format
+msgid "changelog format %s is unknown: %s"
+msgstr "формат журналу змін %s невідомий: %s"
+
+#: scripts/Dpkg/Changelog/Parse.pm
+#, perl-format
+msgid "changelog format %s is not a Dpkg::Changelog class"
+msgstr "формат журналу змін %s не є класом Dpkg::Changelog"
+
+#: scripts/Dpkg/Changelog/Parse.pm
+#, perl-format
+msgid "fatal error occurred while parsing %s"
+msgstr "під час розбору %s сталася фатальна помилка"
+
+#: scripts/Dpkg/Changelog/Parse.pm
+#, perl-format
+msgid "unknown output format %s"
+msgstr "невідомий вихідний формат %s"
+
+#: scripts/Dpkg/Checksums.pm
+#, perl-format
+msgid "cannot fstat file %s"
+msgstr "не вдалося виконати fstat для файлу %s"
+
+#: scripts/Dpkg/Checksums.pm
+#, perl-format
+msgid "file %s has size %u instead of expected %u"
+msgstr "файл %s має розмір %u замість очікуваного %u"
+
+#: scripts/Dpkg/Checksums.pm
+#, perl-format
+msgid "file %s has checksum %s instead of expected %s (algorithm %s)"
+msgstr "файл %s має контрольну суму %s замість очікуваної %s (алгоритм %s)"
+
+#: scripts/Dpkg/Checksums.pm
+#, perl-format
+msgid "invalid line in %s checksums string: %s"
+msgstr "некоректний рядок у полі контрольних сум %s: %s"
+
+#: scripts/Dpkg/Checksums.pm
+#, perl-format
+msgid "conflicting checksums '%s' and '%s' for file '%s'"
+msgstr "конфлікт контрольних сум '%s' та '%s' для файлу '%s'"
+
+#: scripts/Dpkg/Checksums.pm
+#, perl-format
+msgid "conflicting file sizes '%u' and '%u' for file '%s'"
+msgstr "конфлікт розмірів файлів '%u' та '%u' для файлу '%s'"
+
+#: scripts/Dpkg/Compression.pm
+#, perl-format
+msgid "compression threads %s is not a number"
+msgstr "значення параметра compression threads %s не є числом"
+
+#: scripts/Dpkg/Compression/Process.pm
+#, perl-format
+msgid "%s is not a supported compression method"
+msgstr "%s не є підтримуваним методом стиснення"
+
+#: scripts/Dpkg/Compression/Process.pm
+msgid "Dpkg::Compression::Process can only start one subprocess at a time"
+msgstr ""
+"Dpkg::Compression::Process може запускати лише один підпроцес одночасно"
+
+#: scripts/Dpkg/Conf.pm
+#, perl-format
+msgid "short option not allowed in %s, line %d"
+msgstr "короткий параметр не дозволено в %s, рядок %d"
+
+#: scripts/Dpkg/Conf.pm
+#, perl-format
+msgid "invalid syntax for option in %s, line %d"
+msgstr "некоректний синтаксис для опції в %s, рядок %d"
+
+#: scripts/Dpkg/Control.pm
+msgid "source package stanza of template control file"
+msgstr "розділ вихідного пакунка шаблонного файлу керування"
+
+#: scripts/Dpkg/Control.pm
+msgid "binary package stanza of template control file"
+msgstr "розділ бінарного пакунка шаблонного файлу керування"
+
+#: scripts/Dpkg/Control.pm
+msgid "parsed version of changelog"
+msgstr "розібрана версія журналу змін"
+
+#: scripts/Dpkg/Control.pm
+msgid "header stanza of copyright file"
+msgstr "параграф заголовка файлу авторських прав"
+
+#: scripts/Dpkg/Control.pm
+msgid "files stanza of copyright file"
+msgstr "параграф Files файла авторських прав"
+
+#: scripts/Dpkg/Control.pm
+msgid "license stanza of copyright file"
+msgstr "параграф License файла авторських прав"
+
+#: scripts/Dpkg/Control.pm
+msgid "source package tests control file"
+msgstr "файл керування тестами вихідного пакунка"
+
+#: scripts/Dpkg/Control.pm
+#, perl-format
+msgid "repository's %s file"
+msgstr "файл %s сховища"
+
+#: scripts/Dpkg/Control.pm
+#, perl-format
+msgid "stanza in repository's %s file"
+msgstr "параграф у файлі %s сховища"
+
+#: scripts/Dpkg/Control.pm
+msgid "source package control file"
+msgstr "файл керування вихідним пакунком"
+
+#: scripts/Dpkg/Control.pm
+msgid "binary package control file"
+msgstr "файл керування бінарним пакунком"
+
+#: scripts/Dpkg/Control.pm
+msgid "build information file"
+msgstr "файл інформації про збірку"
+
+#: scripts/Dpkg/Control.pm
+msgid "upload changes control file"
+msgstr "файл керування змінами для вивантаження"
+
+#: scripts/Dpkg/Control.pm
+msgid "vendor file"
+msgstr "файл постачальника"
+
+#: scripts/Dpkg/Control.pm
+msgid "stanza in dpkg's status file"
+msgstr "параграф у файлі стану dpkg"
+
+#: scripts/Dpkg/Control/FieldsCore.pm
+#, perl-format
+msgid ""
+"non-sensical field export rules (%s) in field %s in binary stanza from "
+"source package template control file"
+msgstr ""
+"безглузді правила експорту полів (%s) у полі %s бінарного параграфа "
+"шаблонного файлу керування вихідного пакунка"
+
+#: scripts/Dpkg/Control/FieldsCore.pm
+#, perl-format
+msgid "unknown information field '%s' in input data in %s"
+msgstr "невідоме інформаційне поле '%s' у вхідних даних у %s"
+
+#: scripts/Dpkg/Control/FieldsCore.pm
+msgid "control information"
+msgstr "інформація керування"
+
+#: scripts/Dpkg/Control/FieldsCore.pm
+#, perl-format
+msgid "unexpected trailing comma in %s field with value \"%s\""
+msgstr "неочікувана кінцева кома в полі %s зі значенням \"%s\""
+
+#: scripts/Dpkg/Control/FieldsCore.pm
+#, perl-format
+msgid "cannot parse %s field value \"%s\""
+msgstr "не вдалося розібрати значення поля %s \"%s\""
+
+#: scripts/Dpkg/Control/HashCore.pm
+#, perl-format
+msgid "syntax error in %s at line %d: %s"
+msgstr "синтаксична помилка у %s в рядку %d: %s"
+
+#: scripts/Dpkg/Control/HashCore.pm
+msgid "field cannot start with a hyphen"
+msgstr "поле не може починатися з дефісу"
+
+#: scripts/Dpkg/Control/HashCore.pm
+#, perl-format
+msgid "duplicate field %s found"
+msgstr "знайдено дублікат поля %s"
+
+#: scripts/Dpkg/Control/HashCore.pm
+msgid "continued value line not in field"
+msgstr "продовження рядка значення не в полі"
+
+#: scripts/Dpkg/Control/HashCore.pm
+msgid "expected OpenPGP signature, found end of file after blank line"
+msgstr ""
+"очікувався підпис OpenPGP, знайдено кінець файлу після порожнього рядка"
+
+#: scripts/Dpkg/Control/HashCore.pm
+#, perl-format
+msgid "expected OpenPGP signature, found something else '%s'"
+msgstr "очікувався підпис OpenPGP, знайдено щось інше '%s'"
+
+#: scripts/Dpkg/Control/HashCore.pm
+msgid "unfinished OpenPGP signature"
+msgstr "незавершений підпис OpenPGP"
+
+#: scripts/Dpkg/Control/HashCore.pm
+msgid "OpenPGP signature not allowed here"
+msgstr "підпис OpenPGP тут не дозволено"
+
+#: scripts/Dpkg/Control/HashCore.pm
+msgid "line with unknown format (not field-colon-value)"
+msgstr "рядок з невідомим форматом (не поле-двокрапка-значення)"
+
+#: scripts/Dpkg/Control/HashCore.pm
+msgid "write error on control data"
+msgstr "помилка запису в контрольних даних"
+
+#: scripts/Dpkg/Control/Info.pm
+#, perl-format
+msgid "first stanza lacks a '%s' field"
+msgstr "у першому параграфі відсутнє поле '%s'"
+
+#: scripts/Dpkg/Control/Info.pm
+#, perl-format
+msgid "stanza lacks the '%s' field"
+msgstr "у параграфі відсутнє поле '%s'"
+
+#: scripts/Dpkg/Control/Tests/Entry.pm
+#, perl-format
+msgid "stanza lacks either %s or %s fields"
+msgstr "у параграфі відсутні поля %s чи %s"
+
+#: scripts/Dpkg/Deps.pm
+#, perl-format
+msgid "cannot parse dependency %s"
+msgstr "неможливо розібрати залежність %s"
+
+#: scripts/Dpkg/Deps.pm
+#, perl-format
+msgid "virtual dependency contains invalid relation: %s"
+msgstr "віртуальна залежність містить некоректне відношення: %s"
+
+#: scripts/Dpkg/Deps.pm
+msgid "an union dependency can only contain simple dependencies"
+msgstr "об'єднання залежностей може містити лише прості залежності"
+
+#: scripts/Dpkg/Dist/Files.pm
+#, perl-format
+msgid "badly formed file name in files list file, line %d"
+msgstr "неправильно сформоване ім'я файлу у списку файлів, рядок %d"
+
+#: scripts/Dpkg/Dist/Files.pm
+#, perl-format
+msgid "badly formed line in files list file, line %d"
+msgstr "неправильно сформований рядок у файлі списку файлів, рядок %d"
+
+#: scripts/Dpkg/Dist/Files.pm
+#, perl-format
+msgid "duplicate files list entry for file %s (line %d)"
+msgstr "повторний запис у списку файлів для файлу %s (рядок %d)"
+
+#: scripts/Dpkg/Dist/Files.pm
+#, perl-format
+msgid "cannot open directory %s"
+msgstr "не вдалося відкрити каталог %s"
+
+#: scripts/Dpkg/Dist/Files.pm
+#, perl-format
+msgid "invalid filename %s"
+msgstr "некоректне ім'я файлу %s"
+
+#: scripts/Dpkg/Email/Address.pm
+#, perl-format
+msgid "email address '%s' with single label domain"
+msgstr ""
+"адреса електронної пошти '%s' з доменом, що складається з однієї частини"
+
+#: scripts/Dpkg/Email/Address.pm
+#, perl-format
+msgid "invalid email address '%s'"
+msgstr "недійсна адреса електронної пошти '%s'"
+
+#: scripts/Dpkg/Email/AddressList.pm
+#, perl-format
+msgid "invalid email address list '%s'"
+msgstr "недійсний список адрес електронної пошти '%s'"
+
+#: scripts/Dpkg/ErrorHandling.pm
+msgid "hint"
+msgstr "порада"
+
+#: scripts/Dpkg/ErrorHandling.pm
+msgid "info"
+msgstr "інформація"
+
+#: scripts/Dpkg/ErrorHandling.pm
+msgid "notice"
+msgstr "сповіщення"
+
+#: scripts/Dpkg/ErrorHandling.pm
+msgid "warning"
+msgstr "попередження"
+
+#: scripts/Dpkg/ErrorHandling.pm
+msgid "error"
+msgstr "помилка"
+
+#: scripts/Dpkg/ErrorHandling.pm
+#, perl-format
+msgid "%s subprocess failed with exit status %d"
+msgstr "підпроцес %s завершився невдачею, код завершення %d"
+
+#: scripts/Dpkg/ErrorHandling.pm
+#, perl-format
+msgid "%s subprocess was killed by signal %d"
+msgstr "підпроцес %s було завершено сигналом %d"
+
+#: scripts/Dpkg/ErrorHandling.pm
+#, perl-format
+msgid "%s subprocess failed with unknown status code %d"
+msgstr "підпроцес %s завершився невдачею з невідомим кодом стану %d"
+
+#: scripts/Dpkg/ErrorHandling.pm
+msgid "Use --help for program usage information."
+msgstr ""
+"Використовуйте --help для отримання інформації про використання програми."
+
+#: scripts/Dpkg/File.pm
+#, perl-format
+msgid "cannot create file %s"
+msgstr "не вдалося створити файл %s"
+
+#: scripts/Dpkg/IPC.pm
+#, perl-format
+msgid "pipe for %s"
+msgstr "канал для %s"
+
+#: scripts/Dpkg/IPC.pm
+#, perl-format
+msgid "chdir to %s"
+msgstr "перехід до каталогу %s"
+
+#: scripts/Dpkg/IPC.pm
+msgid "reopen stdin"
+msgstr "знову відкрити stdin"
+
+#: scripts/Dpkg/IPC.pm
+msgid "reopen stdout"
+msgstr "знову відкрити stdout"
+
+#: scripts/Dpkg/IPC.pm
+msgid "child process"
+msgstr "дочірній процес"
+
+#: scripts/Dpkg/IPC.pm
+#, perl-format
+msgid "wait for %s"
+msgstr "чекаю %s"
+
+#: scripts/Dpkg/IPC.pm
+#, perl-format
+msgid "%s did not complete in %d second"
+msgid_plural "%s did not complete in %d seconds"
+msgstr[0] "%s не завершився за %d секунду"
+msgstr[1] "%s не завершився за %d секунди"
+msgstr[2] "%s не завершився за %d секунд"
+
+#: scripts/Dpkg/Interface/Storable.pm
+msgid "<standard input>"
+msgstr "<стандартний ввід>"
+
+#: scripts/Dpkg/Lock.pm
+#, perl-format
+msgid "failed to get a write lock on %s"
+msgstr "не вдалося отримати блокування запису для %s"
+
+#: scripts/Dpkg/Lock.pm
+msgid "File::FcntlLock not available; using flock which is not NFS-safe"
+msgstr ""
+"File::FcntlLock недоступний; використовується flock, який не є безпечним для "
+"NFS"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "unknown OpenPGP api requested %s"
+msgstr "запитано невідомий API OpenPGP %s"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "cannot load OpenPGP backend %s"
+msgstr "неможливо завантажити бекенд OpenPGP %s"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "unknown OpenPGP backend %s"
+msgstr "невідомий бекенд OpenPGP %s"
+
+#: scripts/Dpkg/OpenPGP/Backend.pm
+#, perl-format
+msgid ""
+"multiple concatenated ASCII Armor blocks in %s, which is not an "
+"interoperable construct, see <%s>"
+msgstr ""
+"кілька об'єднаних блоків ASCII Armor у %s, що не є сумісною конструкцією, "
+"див. <%s>"
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, perl-format
+msgid "unexpected empty file %s"
+msgstr "неочікуваний порожній файл %s"
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, perl-format
+msgid "partial read %s (%d bytes of %d total)"
+msgstr "частково прочитано %s (%d байтів з %d загалом)"
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, perl-format
+msgid "old OpenPGP packet in %s with indeterminate length"
+msgstr "старий пакунок OpenPGP у %s з невизначеною довжиною"
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, perl-format
+msgid "unknown OpenPGP packet type %0x in %s"
+msgstr "невідомий тип пакета OpenPGP %0x у %s"
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, perl-format
+msgid ""
+"using GnuPG specific KeyBox formatted keyring %s is deprecated; use an "
+"OpenPGP formatted keyring instead"
+msgstr ""
+"використання в’язки ключів %s у форматі GnuPG KeyBox є застарілим; "
+"використовуйте в’язку ключів у форматі OpenPGP"
+
+#: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
+#, perl-format
+msgid ""
+"found non-interoperable LibrePGP artifact in %s, only OpenPGP is supported"
+msgstr "знайдено несумісний артефакт LibrePGP у %s, підтримується лише OpenPGP"
+
+#: scripts/Dpkg/OpenPGP/Backend/Sequoia.pm
+msgid "imported own keys might be missing ownership information, try:"
+msgstr ""
+"імпортованим власним ключам може бракувати інформації про власника, "
+"спробуйте:"
+
+#: scripts/Dpkg/OpenPGP/Backend/Sequoia.pm
+msgid "  sq pki link authorize --cert FINGERPRINT --all --unconstrained"
+msgstr "  sq pki link authorize --cert FINGERPRINT --all --unconstrained"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "success"
+msgstr "успіх"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "no acceptable signature found"
+msgstr "не знайдено прийнятного підпису"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "missing required argument"
+msgstr "відсутній обов'язковий аргумент"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "unsupported option"
+msgstr "непідтримувана опція"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "invalid data type"
+msgstr "некоректний тип даних"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "non-text input where text expected"
+msgstr "нетекстовий ввід там, де очікувався текст"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "output file already exists"
+msgstr "вихідний файл вже існує"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "input file does not exist"
+msgstr "вхідний файл не існує"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "cannot unlock password-protected key"
+msgstr "не вдалося розблокувати ключ, захищений паролем"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "unsupported subcommand"
+msgstr "непідтримувана підкоманда"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "unknown special designator in indirect parameter"
+msgstr "невідоме спеціальне позначення в непрямому параметрі"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "special designator in indirect parameter is an existing file"
+msgstr "спеціальне позначення в непрямому параметрі є існуючим файлом"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "key is not signature-capable"
+msgstr "ключ не підтримує створення підписів"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "mutually exclusive options"
+msgstr "взаємовиключні опції"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "cannot identify hardware device for hardware-backed secret keys"
+msgstr ""
+"не вдалося ідентифікувати апаратний пристрій для секретних ключів з "
+"апаратною підтримкою"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "cannot perform operation on hardware-backed secret key"
+msgstr "не вдалося виконати операцію з апаратно-підтримуваним секретним ключем"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "missing OpenPGP implementation"
+msgstr "відсутня реалізація OpenPGP"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "specified key needs a keystore"
+msgstr "зазначеному ключу потрібне сховище"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "OpenPGP backend command cannot sign"
+msgstr "команда бекенда OpenPGP не може підписати"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+msgid "missing OpenPGP keyrings"
+msgstr "відсутні зв’язки ключів OpenPGP"
+
+#: scripts/Dpkg/OpenPGP/ErrorCodes.pm
+#, perl-format
+msgid "error code %d"
+msgstr "код помилки %d"
+
+#: scripts/Dpkg/Package.pm
+msgid "may not be empty string"
+msgstr "не може бути порожнім рядком"
+
+#: scripts/Dpkg/Package.pm
+#, perl-format
+msgid "character '%s' not allowed"
+msgstr "символ '%s' не дозволено"
+
+#: scripts/Dpkg/Package.pm
+msgid "must start with an alphanumeric character"
+msgstr "має починатися з букви або цифри"
+
+#: scripts/Dpkg/Package.pm
+#, perl-format
+msgid "source package name '%s' is invalid %s"
+msgstr "ім'я вихідного пакунка '%s' некоректне %s"
+
+#: scripts/Dpkg/Package.pm
+#, perl-format
+msgid "source package has two conflicting values - %s and %s"
+msgstr "вихідний пакунок має два конфліктні значення - %s та %s"
+
+#: scripts/Dpkg/Path.pm scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "pathname '%s' cannot be canonicalized"
+msgstr "шлях '%s' неможливо привести до правильного вигляду"
+
+#: scripts/Dpkg/Path.pm scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "pathname '%s' points outside source root (to '%s')"
+msgstr "шлях '%s' вказує за межі кореневого каталогу джерела (на '%s')"
+
+#: scripts/Dpkg/Shlibs.pm
+msgid "use -l option instead of LD_LIBRARY_PATH"
+msgstr "використовуйте опцію -l замість LD_LIBRARY_PATH"
+
+#: scripts/Dpkg/Shlibs.pm
+msgid ""
+"deprecated use of LD_LIBRARY_PATH with private library directory which "
+"interferes with cross-building, please use -l option instead"
+msgstr ""
+"застаріле використання LD_LIBRARY_PATH з приватним каталогом бібліотек "
+"перешкоджає крос-збірці, будь ласка, використовуйте замість цього опцію -l"
+
+#: scripts/Dpkg/Shlibs.pm scripts/Dpkg/Shlibs/Objdump/Object.pm
+#, perl-format
+msgid "unknown executable format in file '%s'"
+msgstr "невідомий формат виконуваного файлу у файлі '%s'"
+
+#: scripts/Dpkg/Shlibs/Objdump/Object.pm
+#, perl-format
+msgid "cannot parse dynamic relocation record: %s"
+msgstr "не вдалося розібрати запис динамічного переміщення: %s"
+
+#: scripts/Dpkg/Shlibs/Objdump/Object.pm
+#, perl-format
+msgid "cannot parse dynamic symbol definition: %s"
+msgstr "не вдалося розібрати визначення динамічного символу: %s"
+
+#: scripts/Dpkg/Shlibs/Symbol.pm
+#, perl-format
+msgid "symbol name unspecified: %s"
+msgstr "не вказана назва символу: %s"
+
+#: scripts/Dpkg/Shlibs/Symbol.pm
+#, perl-format
+msgid "deprecated wildcard syntax in \"%s\"; use \"%s\" instead"
+msgstr "застарілий синтаксис шаблону у \"%s\"; використовуйте \"%s\" натомість"
+
+#: scripts/Dpkg/Shlibs/Symbol.pm
+#, perl-format
+msgid "symver tag with versioned symbol will not match: %s"
+msgstr "тег symver із символом версії не збігатиметься: %s"
+
+#: scripts/Dpkg/Shlibs/Symbol.pm
+#, perl-format
+msgid "you can not use symver tag to catch unversioned symbols: %s"
+msgstr ""
+"ви не можете використовувати тег symver для перехоплення неверсійованих "
+"символів: %s"
+
+#: scripts/Dpkg/Shlibs/SymbolFile.pm
+#, perl-format
+msgid "symbol information must be preceded by a header (file %s, line %s)"
+msgstr "інформації про символ має передувати заголовок (файл %s, рядок %s)"
+
+#: scripts/Dpkg/Shlibs/SymbolFile.pm
+#, perl-format
+msgid "failed to parse line in %s: %s"
+msgstr "не вдалося розібрати рядок у %s: %s"
+
+#: scripts/Dpkg/Shlibs/SymbolFile.pm
+#, perl-format
+msgid "failed to parse a line in %s: %s"
+msgstr "не вдалося розібрати рядок у %s: %s"
+
+#: scripts/Dpkg/Shlibs/SymbolFile.pm
+#, perl-format
+msgid "tried to merge the same object (%s) twice in a symfile"
+msgstr "спроба двічі об'єднати той самий об'єкт (%s) у символьному файлі"
+
+#: scripts/Dpkg/Shlibs/SymbolFile.pm
+msgid "cannot merge symbols from objects without SONAME"
+msgstr "неможливо об'єднати символи з об'єктів без SONAME"
+
+#: scripts/Dpkg/Source/Archive.pm
+msgid "write on tar input"
+msgstr "запис на вхід tar"
+
+#: scripts/Dpkg/Source/Archive.pm
+msgid "close on tar input"
+msgstr "закриття входу tar"
+
+#: scripts/Dpkg/Source/Archive.pm scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "cannot create directory %s"
+msgstr "не вдалося створити каталог %s"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot get source pathname %s metadata"
+msgstr "не вдалося отримати метадані вихідного шляху %s"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot get target pathname %s metadata"
+msgstr "не вдалося отримати метадані цільового шляху %s"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot change directory %s mode"
+msgstr "не вдалося змінити режим каталогу %s"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot change directory %s times"
+msgstr "не вдалося виконати зміну каталогу %s разів поспіль"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot remove destination directory %s"
+msgstr "не вдалося видалити цільовий каталог %s"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "cannot remove destination file %s"
+msgstr "не вдалося видалити цільовий файл %s"
+
+#: scripts/Dpkg/Source/Archive.pm scripts/Dpkg/Source/Package.pm
+#: scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "cannot opendir %s"
+msgstr "не вдалося відкрити каталог %s"
+
+#: scripts/Dpkg/Source/Archive.pm
+#, perl-format
+msgid "unable to rename %s to %s"
+msgstr "не вдалося перейменувати %s на %s"
+
+#: scripts/Dpkg/Source/BinaryFiles.pm
+#, perl-format
+msgid "adding %s to %s"
+msgstr "додавання %s до %s"
+
+#: scripts/Dpkg/Source/BinaryFiles.pm
+#, perl-format
+msgid "unwanted binary file: %s"
+msgstr "небажаний бінарний файл: %s"
+
+#: scripts/Dpkg/Source/BinaryFiles.pm scripts/Dpkg/Source/Package/V3/Bzr.pm
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, perl-format
+msgid "unable to chdir to '%s'"
+msgstr "не вдалося виконати chdir до '%s'"
+
+#: scripts/Dpkg/Source/BinaryFiles.pm
+#, perl-format
+msgid ""
+"detected %d unwanted binary file (add it in debian/source/include-binaries "
+"to allow its inclusion)."
+msgid_plural ""
+"detected %d unwanted binary files (add them in debian/source/include-"
+"binaries to allow their inclusion)."
+msgstr[0] ""
+"виявлено %d небажаний бінарний файл (додайте його до debian/source/include-"
+"binaries, щоб дозволити його включення)."
+msgstr[1] ""
+"виявлено %d небажані бінарні файли (додайте їх до debian/source/include-"
+"binaries, щоб дозволити їх включення)."
+msgstr[2] ""
+"виявлено %d небажаних бінарних файлів (додайте їх до debian/source/include-"
+"binaries, щоб дозволити їх включення)."
+
+#: scripts/Dpkg/Source/Format.pm
+#, perl-format
+msgid "source package format '%s' is invalid"
+msgstr "формат вихідного пакунка '%s' некоректний"
+
+#: scripts/Dpkg/Source/Functions.pm
+#, perl-format
+msgid "cannot stat directory %s (before removal)"
+msgstr "не вдалося виконати stat до каталогу %s (до видалення)"
+
+#: scripts/Dpkg/Source/Functions.pm
+#, perl-format
+msgid "unable to check for removal of directory '%s'"
+msgstr "не вдалося перевірити видалення каталогу '%s'"
+
+#: scripts/Dpkg/Source/Functions.pm
+#, perl-format
+msgid "rm -rf failed to remove '%s'"
+msgstr "команді rm -rf не вдалося видалити '%s'"
+
+#: scripts/Dpkg/Source/Functions.pm scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "cannot change timestamp for %s"
+msgstr "не вдалося змінити позначку часу для %s"
+
+#: scripts/Dpkg/Source/Functions.pm
+#, perl-format
+msgid "cannot read timestamp from %s"
+msgstr "не вдалося прочитати позначку часу з %s"
+
+#: scripts/Dpkg/Source/Functions.pm
+#, perl-format
+msgid "cannot open file %s for binary detection"
+msgstr "не вдалося відкрити файл %s для виявлення бінарних файлів"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "%s is not the name of a file"
+msgstr "%s не є іменем файлу"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "missing critical source control field %s"
+msgstr "відсутнє критичне поле керування вихідним пакунком %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "source package format '%s' is not supported: %s"
+msgstr "формат вихідного пакунка '%s' не підтримується: %s"
+
+#: scripts/Dpkg/Source/Package.pm
+msgid "source package uses only weak checksums"
+msgstr "вихідний пакунок використовує лише слабкі контрольні суми"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "%s and %s fields are required to compute the source basename"
+msgstr ""
+"поля %s та %s обов'язкові для обчислення базового імені вихідного пакунка"
+
+#: scripts/Dpkg/Source/Package.pm
+msgid "upstream tarball signatures but no upstream signing key"
+msgstr ""
+"виявлено підписи upstream‑архіву tar, але відсутній upstream‑ключ для "
+"перевірки"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "verifying %s"
+msgstr "перевіряю %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "cannot verify upstream tarball signature for %s: %s"
+msgstr "не вдалося перевірити підпис upstream‑архіву tar для %s: %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid ""
+"using implicit trusted keyring %s is deprecated; use --signer-cert with an "
+"OpenPGP keyring instead"
+msgstr ""
+"використання неявної довіреної зв’язки ключів %s застаріле; використовуйте --"
+"signer-cert зі зв'язкою ключів OpenPGP"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "using keyring %s"
+msgstr "використання зв'язки ключів %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "skipping absent keyring %s"
+msgstr "пропускається відсутня зв'язка ключів %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "cannot verify inline signature for %s: %s"
+msgstr "не вдалося перевірити вбудований підпис для %s: %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "%s is not a valid option for %s"
+msgstr "%s не є допустимою опцією для %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "cannot copy %s to %s"
+msgstr "не вдалося скопіювати %s до %s"
+
+#: scripts/Dpkg/Source/Package.pm
+#, perl-format
+msgid "'%s' is not supported by the source format '%s'"
+msgstr "'%s' не підтримується вихідним форматом '%s'"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "auto select original source"
+msgstr "автоматичний вибір оригінального вихідного пакунку"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "use packed original source (unpack and keep)"
+msgstr ""
+"використовувати упакований оригінальний вихідний пакунок (розпакувати та "
+"залишити)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "use packed original source (unpack and remove)"
+msgstr ""
+"використовувати упакований оригінальний вихідний пакунок (розпакувати та "
+"видалити)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "use unpacked original source (pack and keep)"
+msgstr ""
+"використовувати розпакований оригінальний вихідний пакунок (запакувати та "
+"залишити)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "use unpacked original source (pack and remove)"
+msgstr ""
+"використовувати розпакований оригінальний вихідний пакунок (запакувати та "
+"видалити)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "trust packed and unpacked original sources are same"
+msgstr "вважати упаковане та розпаковане оригінальне джерело однаковими"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "there is no diff, do main tarfile only"
+msgstr "немає diff-файлу, виконувати лише основний tar-архів"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "like -sa, -sk, -sp, -su, -sr but may overwrite"
+msgstr "як -sa, -sk, -sp, -su, -sr, але може перезаписувати"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "abort if generated diff has upstream files changes"
+msgstr ""
+"перервати, якщо згенерований diff містить зміни у файлах upstream‑джерела"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "leave original source packed in current directory"
+msgstr "залишити оригінальний вихідний код упакованим у поточному каталозі"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "do not copy original source to current directory"
+msgstr "не копіювати оригінальний код до поточного каталогу"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "unpack original source tree too"
+msgstr "розпакувати також дерево оригінального вихідного коду"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "do not apply debian diff to upstream sources"
+msgstr "не застосовувати debian diff до upstream‑джерела"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "-s%s option overrides earlier -s%s option"
+msgstr "опція -s%s замінює попередню опцію -s%s"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "source handling style -s%s not allowed with -x"
+msgstr "стиль обробки вихідного пакунка -s%s не дозволено з -x"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "multiple tarfiles in v1.0 source package"
+msgstr "кілька tar-файлів у вихідному пакунку версії 1.0"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "unrecognized file for a %s source package: %s"
+msgstr "нерозпізнаний файл для вихідного пакунка %s: %s"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
+msgid "no tarfile in Files field"
+msgstr "немає tar-файлу в полі Files"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
+msgid "native package version may not have a revision"
+msgstr "версія нативного пакунка може не мати редакції"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "native package with .orig.tar"
+msgstr "нативний пакунок з .orig.tar"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "non-native package version does not contain a revision"
+msgstr "ненативна версія пакунка не містить редакції"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "unable to rename '%s' to '%s'"
+msgstr "не вдалося перейменувати '%s' на '%s'"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+#: scripts/Dpkg/Source/Package/V3/Bzr.pm
+#: scripts/Dpkg/Source/Package/V3/Native.pm
+#, perl-format
+msgid "unpacking %s"
+msgstr "розпаковую %s"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "unable to keep orig directory (already exists)"
+msgstr "не вдалося залишити каталог orig (вже існує)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "failed to rename newly-extracted %s to %s"
+msgstr "не вдалося перейменувати щойно розпакований %s на %s"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "failed to rename saved %s to %s"
+msgstr "не вдалося перейменувати збережений %s на %s"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+#: scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "applying %s"
+msgstr "застосовую %s"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "upstream files that have been modified: %s"
+msgstr "файли upstream‑джерела, які були змінені: %s"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "only supports gzip compression"
+msgstr "підтримується лише стиснення gzip"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid ""
+"-b takes at most a directory and an orig source argument (with v1.0 source "
+"package)"
+msgstr ""
+"-b приймає щонайбільше каталог та аргумент orig‑джерела (для вихідного "
+"пакунка версії 1.0)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "source handling style -s%s not allowed with -b"
+msgstr "стиль обробки вихідного пакунка -s%s не дозволено з -b"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "packed orig '%s' exists but is not a plain file"
+msgstr "упакований orig '%s' існує, але не є звичайним файлом"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "cannot stat orig argument %s"
+msgstr "не вдалося виконати stat для аргументу orig %s"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid ""
+"orig argument is unpacked but source handling style -s%s calls for packed "
+"(.orig.tar.<ext>)"
+msgstr ""
+"аргумент orig розпаковано, але стиль обробки вихідного пакунка -s%s вимагає "
+"упакованого (.orig.tar.<розш>)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid ""
+"orig argument is packed but source handling style -s%s calls for unpacked "
+"(.orig/)"
+msgstr ""
+"аргумент orig упакований, але стиль обробки вихідного пакунка -s%s вимагає "
+"розпакованого (.orig/)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "orig argument %s is not a plain file or directory"
+msgstr "аргумент orig %s не є звичайним файлом або каталогом"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid ""
+"orig argument is empty (means no orig, no diff) but source handling style "
+"-s%s wants something"
+msgstr ""
+"аргумент orig порожній (тобто немає ні orig, ні diff), але стиль обробки "
+"вихідного пакунка -s%s очікує певний аргумент"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "unpacked orig '%s' exists but is not a directory"
+msgstr "розпакований orig '%s' існує, але не є каталогом"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "unable to stat putative unpacked orig '%s'"
+msgstr "не вдалося виконати stat до ймовірного розпакованого orig '%s'"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "source directory '%s' is not <sourcepackage>-<upstreamversion> '%s'"
+msgstr "вихідний каталог '%s' не є <вихіднийпакунок>-<upstreamверсія> '%s'"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid ".orig directory name %s is not <package>-<upstreamversion> (wanted %s)"
+msgstr "ім'я каталогу .orig %s не є <пакунок>-<upstreamверсія> (потрібне %s)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid ""
+".orig.tar name %s is not <package>_<upstreamversion>.orig.tar (wanted %s)"
+msgstr ""
+"Ім'я .orig.tar %s не є <пакунок>_<upstreamверсія>.orig.tar (потрібна %s)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid ""
+"tarfile '%s' already exists, not overwriting, giving up; use -sU or -sR to "
+"override"
+msgstr ""
+"tar-файл '%s' вже існує, перезапис не відбувається, скасовую; використовуйте "
+"-sU або -sR для перевизначення"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "unable to check for existence of '%s'"
+msgstr "не вдалося перевірити наявність '%s'"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
+#, perl-format
+msgid "unable to rename '%s' (newly created) to '%s'"
+msgstr "не вдалося перейменувати '%s' (щойно створений) на '%s'"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+#: scripts/Dpkg/Source/Package/V3/Native.pm
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "unable to change permission of '%s'"
+msgstr "не вдалося змінити дозвіл для '%s'"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "building %s using existing %s"
+msgstr "збираю %s з використанням наявного %s"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "upstream signing key but no upstream tarball signature"
+msgstr "є ключ підпису upstream, але немає підпису upstream-tar-архіву"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid ""
+"orig directory '%s' already exists, not overwriting, giving up; use -sA, -sK "
+"or -sP to override"
+msgstr ""
+"каталог orig '%s' вже існує, перезапис не виконується, скасовую; "
+"використовуйте -sA, -sK або -sP для перевизначення"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "unable to check for existence of orig directory '%s'"
+msgstr "не вдалося перевірити наявність каталогу orig '%s'"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, perl-format
+msgid "the diff modifies the following upstream files: %s"
+msgstr "diff змінює такі файли upstream‑джерела: %s"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid ""
+"use the '3.0 (quilt)' format to have separate and documented changes to "
+"upstream files, see dpkg-source(1)"
+msgstr ""
+"використовуйте формат '3.0 (quilt)' для окремих та задокументованих змін у "
+"upstream-файлах, див. dpkg-source(1)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "aborting due to --abort-on-upstream-changes"
+msgstr "перериваю через --abort-on-upstream-changes"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "unrepresentable changes to source"
+msgstr "непредставні зміни у вихідному коді"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "include removed files in the patch"
+msgstr "включити видалені файли до патчу"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "include timestamp in the patch"
+msgstr "включити позначку часу до патчу"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "include binary files in the tarball"
+msgstr "включити бінарні файли до tar-архіву"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not prepare build tree by applying patches"
+msgstr "не готувати дерево збірки, застосовуючи патчі"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not unapply patches if previously applied"
+msgstr "не скасовувати патчі, якщо були застосовані попередні"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "unapply patches if previously applied (default)"
+msgstr "скасовувати патчі, якщо були застосовані попередні (типово)"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "create an empty original tarball if missing"
+msgstr "створити порожній оригінальний tar-архів, якщо він відсутній"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "record generated patches, instead of aborting"
+msgstr "записувати згенеровані патчі замість переривання"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not extract debian tarball into upstream sources"
+msgstr "не розпаковувати debian‑tar‑архів у upstream‑джерела"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not apply patches at the end of the extraction"
+msgstr "не застосовувати патчі в кінці розпакування"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "duplicate files in %s source package: %s"
+msgstr "дублікати файлів у вихідному пакунку %s: %s"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "missing orig.tar or debian.tar file in v2.0 source package"
+msgstr "відсутній файл orig.tar або debian.tar у вихідному пакунку версії 2.0"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "mismatched orig.tar %s for signature %s in source package"
+msgstr "невідповідний orig.tar %s для сигнатури %s у вихідному пакунку"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "missing addon orig.tar for signature %s in source package"
+msgstr "відсутній додаток orig.tar для сигнатури %s у вихідному пакунку"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "mismatched addon orig.tar %s for signature %s in source package"
+msgstr "невідповідний додаток orig.tar %s для сигнатури %s у вихідному пакунку"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "required removal of '%s' installed by original tarball"
+msgstr "потрібне видалення '%s', встановленого оригінальним tar-архівом"
+
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "unapplying %s"
+msgstr "скасовую застосування %s"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "no upstream tarball found at %s"
+msgstr "не знайдено upstream tar-архіву в %s"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "patches are not applied, applying them now"
+msgstr "патчі не накладено, застосовуємо їх зараз"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "several orig.tar files found (%s and %s) but only one is allowed"
+msgstr "знайдено кілька файлів orig.tar (%s та %s), але дозволено лише один"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "copy of the debian directory"
+msgstr "копія каталогу debian"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "local changes detected, the modified files are:"
+msgstr "виявлені локальні зміни, змінені файли:"
+
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Package/V3/Bzr.pm
+#: scripts/Dpkg/Source/Package/V3/Native.pm
+#, perl-format
+msgid "-b takes only one parameter with format '%s'"
+msgstr "-b приймає лише один параметр у форматі '%s'"
+
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "cannot represent change to %s: %s"
+msgstr "не вдалося відобразити зміну %s: %s"
+
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Patch.pm
+msgid "binary file contents changed"
+msgstr "вміст бінарного файлу змінено"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid ""
+"add %s in debian/source/include-binaries if you want to store the modified "
+"binary in the debian tarball"
+msgstr ""
+"додайте %s до debian/source/include-binaries, якщо ви хочете зберегти "
+"змінений бінарний файл у tar-архіві debian"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid ""
+"make sure the version in debian/changelog matches the unpacked source tree"
+msgstr ""
+"переконайтеся, що версія в debian/changelog відповідає розпакованому дереву "
+"вихідного коду"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "you can integrate the local changes with %s"
+msgstr "ви можете інтегрувати локальні зміни за допомогою %s"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "aborting due to unexpected upstream changes, see %s"
+msgstr "переривання через неочікувані зміни в upstream-джерелі, див. %s"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "local changes have been recorded in a new patch: %s"
+msgstr "локальні зміни були записані в новому патчі: %s"
+
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Package/V3/Quilt.pm
+#, perl-format
+msgid "cannot remove %s"
+msgstr "не вдалося видалити %s"
+
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Package/V3/Quilt.pm
+#: scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "failed to copy %s to %s"
+msgstr "не вдалося скопіювати %s до %s"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "cannot register changes in %s, this patch already exists"
+msgstr "не вдалося зареєструвати зміни в %s, цей патч вже існує"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+#, perl-format
+msgid "patch file '%s' does not exist"
+msgstr "файл патчу '%s' не існує"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "there are no local changes to record"
+msgstr "немає локальних змін для запису"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "Enter the desired patch name: "
+msgstr "Введіть бажане ім'я патча: "
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "no patch name given; cannot proceed"
+msgstr "не вказано ім'я патча; неможливо продовжити"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "cannot find an editor"
+msgstr "не вдалося знайти редактор"
+
+#: scripts/Dpkg/Source/Package/V3/Bzr.pm
+msgid "cannot unpack bzr-format source package because bzr is not in the PATH"
+msgstr ""
+"не вдалося розпакувати вихідний пакунок формату bzr, оскільки bzr відсутній "
+"у PATH"
+
+#: scripts/Dpkg/Source/Package/V3/Bzr.pm
+#, perl-format
+msgid ""
+"source directory is not the top directory of a bzr repository (%s/.bzr not "
+"present), but Format bzr was specified"
+msgstr ""
+"вихідний каталог не є верхнім каталогом репозиторію bzr (%s/.bzr відсутній), "
+"але було вказано Format bzr"
+
+#: scripts/Dpkg/Source/Package/V3/Bzr.pm
+#, perl-format
+msgid "%s is a symlink"
+msgstr "%s - це символічне посилання"
+
+#: scripts/Dpkg/Source/Package/V3/Bzr.pm
+#, perl-format
+msgid "%s is a symlink to outside %s"
+msgstr "%s – це символічне посилання, що вказує за межі %s"
+
+#: scripts/Dpkg/Source/Package/V3/Bzr.pm
+msgid "does not contain a bzr repository"
+msgstr "не містить сховища bzr"
+
+#: scripts/Dpkg/Source/Package/V3/Bzr.pm
+msgid "bzr status exited nonzero"
+msgstr "вихідний статус bzr не дорівнює нулю"
+
+#: scripts/Dpkg/Source/Package/V3/Bzr.pm scripts/Dpkg/Source/Package/V3/Git.pm
+#, perl-format
+msgid "uncommitted, not-ignored changes in working directory: %s"
+msgstr "незбережені, неігноровані зміни в робочому каталозі: %s"
+
+#: scripts/Dpkg/Source/Package/V3/Bzr.pm
+msgid "format v3.0 (bzr) uses only one source file"
+msgstr "формат v3.0 (bzr) використовує лише один вихідний файл"
+
+#: scripts/Dpkg/Source/Package/V3/Bzr.pm
+#, perl-format
+msgid "expected %s, got %s"
+msgstr "очікувалося %s, отримано %s"
+
+#: scripts/Dpkg/Source/Package/V3/Custom.pm
+msgid "define the format of the generated source package"
+msgstr "визначити формат згенерованого вихідного пакунка"
+
+#: scripts/Dpkg/Source/Package/V3/Custom.pm
+msgid "Format '3.0 (custom)' is only used to create source packages"
+msgstr ""
+"Формат '3.0 (користувацький)' використовується лише для створення вихідних "
+"пакунків"
+
+#: scripts/Dpkg/Source/Package/V3/Custom.pm
+msgid "no files indicated on command line"
+msgstr "у командному рядку не вказано жодних файлів"
+
+#: scripts/Dpkg/Source/Package/V3/Custom.pm
+msgid "--target-format option is missing"
+msgstr "відсутній параметр --target-format"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+msgid "cannot unpack git-format source package because git is not in the PATH"
+msgstr ""
+"не вдалося розпакувати вихідний пакунок формату git, оскільки git не "
+"знаходиться в PATH"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, perl-format
+msgid ""
+"source directory is not the top directory of a git repository (%s/.git not "
+"present), but Format git was specified"
+msgstr ""
+"вихідний каталог не є верхнім каталогом репозиторію git (%s/.git відсутній), "
+"але було вказано формат git"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, perl-format
+msgid "git repository %s uses submodules; this is not yet supported"
+msgstr "репозиторій git %s використовує підмодулі; це ще не підтримується"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+msgid "specify a git <ref> to include in the git bundle"
+msgstr "вкажіть git <ref> для включення до git‑пакета"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+msgid "create a shallow clone with <number> depth"
+msgstr "створити поверхневий клон з глибиною <число>"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+msgid "does not contain a git repository"
+msgstr "не містить git-репозиторію"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+msgid "git ls-files exited nonzero"
+msgstr "git ls-files завершився з ненульовим значенням"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, perl-format
+msgid "creating shallow clone with depth %s"
+msgstr "створення поверхневого клону з глибиною %s"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, perl-format
+msgid "bundling: %s"
+msgstr "пакетування: %s"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+msgid "format v3.0 (git) uses only one .git file"
+msgstr "формат v3.0 (git) використовує лише один файл .git"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+msgid "format v3.0 (git) uses only one .gitshallow file"
+msgstr "формат v3.0 (git) використовує лише один файл .gitshallow"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, perl-format
+msgid "format v3.0 (git) unknown file: %s"
+msgstr "формат v3.0 (git) невідомий файл: %s"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, perl-format
+msgid "format v3.0 (git) expected %s"
+msgstr "формат v3.0 (git) очікує %s"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, perl-format
+msgid "cloning %s"
+msgstr "клоную %s"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+msgid "setting up shallow clone"
+msgstr "налаштування поверхневого клонування"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, perl-format
+msgid "setting remote %s to %s"
+msgstr "налаштування віддаленого %s на %s"
+
+#: scripts/Dpkg/Source/Package/V3/Native.pm
+msgid "multiple tarfiles in native source package"
+msgstr "кілька tar-файлів у нативному вихідному пакунку"
+
+#: scripts/Dpkg/Source/Package/V3/Native.pm
+#, perl-format
+msgid "unrecognized file for a native source package: %s"
+msgstr "нерозпізнаний файл для нативного вихідного пакунка: %s"
+
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm
+msgid "use a single debianization patch"
+msgstr "використовувати один патч для дебіанізації"
+
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm
+msgid "accept quilt metadata <version> even if unknown"
+msgstr "приймати метадані quilt <версія>, навіть якщо вони невідомі"
+
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm
+#, perl-format
+msgid "cannot create symlink %s"
+msgstr "не вдалося створити символічне посилання %s"
+
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm
+#, perl-format
+msgid "using patch list from %s"
+msgstr "використовую список патчів від %s"
+
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm
+#, perl-format
+msgid "unsupported version of the quilt metadata: %s"
+msgstr "непідтримувана версія метаданих quilt: %s"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "file %s has no final newline (either original or modified version)"
+msgstr ""
+"файл %s не має кінцевого символу перенесення рядка (ні оригінальна, ні "
+"змінена версія)"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "unknown line from diff -u on %s: '%s'"
+msgstr "невідомий рядок з diff -u в %s: '%s'"
+
+#: scripts/Dpkg/Source/Patch.pm
+msgid "failed to write"
+msgstr "не вдалося записати"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "diff on %s"
+msgstr "diff у %s"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "cannot stat file %s"
+msgstr "не вдалося виконати stat до файлу %s"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "cannot read link %s"
+msgstr "не вдалося прочитати посилання %s"
+
+#: scripts/Dpkg/Source/Patch.pm
+msgid "device or socket is not allowed"
+msgstr "пристрій або сокет не допускається"
+
+#: scripts/Dpkg/Source/Patch.pm
+msgid "unknown file type"
+msgstr "невідомий тип файлу"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "ignoring deletion of file %s"
+msgstr "ігнорую видалення файлу %s"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "ignoring deletion of file %s, use --include-removal to override"
+msgstr ""
+"ігнорую видалення файлу %s, використовуйте --include-removal для "
+"перевизначення"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "ignoring deletion of directory %s"
+msgstr "ігнорую видалення каталогу %s"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "ignoring deletion of symlink %s"
+msgstr "ігнорую видалення символічного посилання %s"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "newly created empty file '%s' will not be represented in diff"
+msgstr "новостворений порожній файл '%s' не буде представлений у diff"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "executable mode %04o of '%s' will not be represented in diff"
+msgstr "виконуваний режим %04o для '%s' не буде представлений в diff"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "special mode %04o of '%s' will not be represented in diff"
+msgstr "спеціальний режим %04o для '%s' не буде представлений в diff"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "cannot represent change to %s:"
+msgstr "не вдалося відобразити зміну %s:"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "  new version is %s"
+msgstr "  нова версія - %s"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "  old version is %s"
+msgstr "  стара версія - %s"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "diff %s patches file with C-style encoded filename"
+msgstr "diff %s містить патч для файлу з іменем, закодованим у стилі C"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "expected ^--- in line %d of diff '%s'"
+msgstr "очікувалося ^--- у рядку %d diff '%s'"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "diff '%s' patches file with name ending in .dpkg-orig"
+msgstr ""
+"diff '%s' містить патч для файлу з іменем, що закінчується на .dpkg-orig"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "diff '%s' finishes in middle of ---/+++ (line %d)"
+msgstr "diff '%s' завершується посередині ---/+++ (рядок %d)"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "line after --- is not as expected in diff '%s' (line %d)"
+msgstr "рядок після --- не відповідає очікуванням у diff '%s' (рядок %d)"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "none of the filenames in ---/+++ are valid in diff '%s' (line %d)"
+msgstr "жодне з імен файлів у ---/+++ не є коректним у diff '%s' (рядок %d)"
+
+#: scripts/Dpkg/Source/Patch.pm scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "%s contains an insecure path: %s"
+msgstr "%s містить небезпечний шлях: %s"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "diff %s modifies file %s through a symlink: %s"
+msgstr "diff %s змінює файл %s через символічне посилання: %s"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "original and modified files are /dev/null in diff '%s' (line %d)"
+msgstr "оригінальний та змінений файли є /dev/null у diff '%s' (рядок %d)"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "file removal without proper filename in diff '%s' (line %d)"
+msgstr "видалення файлу без належної назви файлу в diff '%s' (рядок %d)"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "diff %s removes a non-existing file %s (line %d)"
+msgstr "diff %s видаляє неіснуючий файл %s (рядок %d)"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "diff '%s' patches something which is not a plain file"
+msgstr "diff '%s' патчить щось, що не є звичайним файлом"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "diff '%s' patches hard link %s which can have unintended consequences"
+msgstr ""
+"diff '%s' патчить жорстке посилання %s, що може мати непередбачувані наслідки"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid ""
+"diff '%s' patches files multiple times; split the diff in multiple files or "
+"merge the hunks into a single one"
+msgstr ""
+"diff '%s' патчить файли кілька разів; розділіть diff на кілька файлів або "
+"об'єднайте фрагменти в один"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "diff '%s' patches file %s more than once"
+msgstr "diff '%s' патчить файл %s більше одного разу"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "unexpected end of diff '%s'"
+msgstr "неочікуваний кінець diff '%s'"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "expected [ +-] at start of line %d of diff '%s'"
+msgstr "очікувалося [ +-] на початку рядка %d diff '%s'"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "expected ^@@ at line %d of diff '%s'"
+msgstr "очікувалося ^@@ у рядку %d diff '%s'"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "diff '%s' does not contain any patch"
+msgstr "diff '%s' не містить жодного патчу"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "remove patch backup file %s"
+msgstr "видаляю файл резервної копії патча %s"
+
+#: scripts/Dpkg/Source/Patch.pm
+msgid "nonexistent"
+msgstr "неіснуючий"
+
+#: scripts/Dpkg/Source/Patch.pm
+msgid "plain file"
+msgstr "звичайний файл"
+
+#: scripts/Dpkg/Source/Patch.pm
+msgid "directory"
+msgstr "каталог"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "symlink to %s"
+msgstr "символічне посилання на %s"
+
+#: scripts/Dpkg/Source/Patch.pm
+msgid "block device"
+msgstr "блочний пристрій"
+
+#: scripts/Dpkg/Source/Patch.pm
+msgid "character device"
+msgstr "символьний пристрій"
+
+#: scripts/Dpkg/Source/Patch.pm
+msgid "named pipe"
+msgstr "іменований канал"
+
+#: scripts/Dpkg/Source/Patch.pm
+msgid "named socket"
+msgstr "іменований сокет"
+
+#: scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "cannot mkdir %s"
+msgstr "не вдалося mkdir %s"
+
+#: scripts/Dpkg/Source/Quilt.pm
+msgid "the patch has fuzz which is not allowed, or is malformed"
+msgstr "патч містить недозволений fuzz або є некоректним"
+
+#: scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "if patch '%s' is correctly applied by quilt, use '%s' to update it"
+msgstr ""
+"якщо quilt правильно застосував патч '%s', використовуйте '%s' для його "
+"оновлення"
+
+#: scripts/Dpkg/Source/Quilt.pm
+msgid ""
+"if the file is present in the unpacked source, make sure it is also present "
+"in the orig tarball"
+msgstr ""
+"якщо файл присутній у розпакованому вихідному коді, переконайтеся, що він "
+"також присутній у вихідному tar-архіві"
+
+#: scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "%s should be a directory or non-existing"
+msgstr "%s має бути каталогом або не має існувати"
+
+#: scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "%s should be a file or non-existing"
+msgstr "%s має бути файлом або не має існувати"
+
+#: scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid ""
+"the series file (%s) contains unsupported options ('%s', line %s); dpkg-"
+"source might fail when applying patches"
+msgstr ""
+"файл серії (%s) містить непідтримувані параметри ('%s', рядок %s); dpkg-"
+"source може завершитися помилкою під час застосування патчів"
+
+#: scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "restoring quilt backup files for %s"
+msgstr "відновлення резервних копій файлів quilt для %s"
+
+#: scripts/Dpkg/Substvars.pm
+#, perl-format
+msgid "bad line in substvars file %s at line %d"
+msgstr "неправильний рядок у файлі substvars %s у рядку %d"
+
+#: scripts/Dpkg/Substvars.pm
+#, perl-format
+msgid "invalid source version %s"
+msgstr "недійсна вихідна версія %s"
+
+#: scripts/Dpkg/Substvars.pm
+#, perl-format
+msgid "too many ${%s} substitutions (recursive?) in '%s'"
+msgstr "забагато підстановок ${%s} (рекурсивних?) у '%s'"
+
+#: scripts/Dpkg/Substvars.pm
+#, perl-format
+msgid "obsolete substitution variable ${%s}"
+msgstr "застаріла змінна підстановки ${%s}"
+
+#: scripts/Dpkg/Substvars.pm
+#, perl-format
+msgid "substitution variable ${%s} used, but is not defined"
+msgstr "змінна підстановки ${%s} використовується, але не визначена"
+
+#: scripts/Dpkg/Substvars.pm
+#, perl-format
+msgid "required substitution variable ${%s} not used"
+msgstr "обов'язкова змінна підстановки ${%s} не використовується"
+
+#: scripts/Dpkg/Substvars.pm
+#, perl-format
+msgid "substitution variable ${%s} unused, but is defined"
+msgstr "змінна підстановки ${%s} не використовується, але визначена"
+
+#: scripts/Dpkg/Vendor/Debian.pm
+#, perl-format
+msgid "unknown host architecture '%s'"
+msgstr "невідома архітектура хоста '%s'"
+
+#: scripts/Dpkg/Vendor/Debian.pm
+#, perl-format
+msgid "unknown abi attributes for architecture '%s'"
+msgstr "невідомі атрибути ABI для архітектури '%s'"
+
+#: scripts/Dpkg/Vendor/PureOS.pm scripts/Dpkg/Vendor/Ubuntu.pm
+#, perl-format
+msgid "version number suggests %s vendor changes, but there is no %s field"
+msgstr "номер версії вказує на %s змін постачальника, але поле %s відсутнє"
+
+#: scripts/Dpkg/Vendor/Ubuntu.pm
+#, perl-format
+msgid ""
+"version number suggests %s vendor changes, but the %s field does not have %s "
+"vendor address"
+msgstr ""
+"номер версії вказує на %s змін постачальника, але поле %s не містить адреси "
+"постачальника %s"
+
+#: scripts/Dpkg/Version.pm
+#, perl-format
+msgid "%s is not a valid version"
+msgstr "%s не є дійсною версією"
+
+#: scripts/Dpkg/Version.pm
+msgid "version number cannot be empty"
+msgstr "номер версії не може бути порожнім"
+
+#: scripts/Dpkg/Version.pm
+msgid "epoch part of the version number cannot be empty"
+msgstr "частина номера версії epoch не може бути порожньою"
+
+#: scripts/Dpkg/Version.pm
+msgid "upstream version cannot be empty"
+msgstr "upstream-версія не може бути порожньою"
+
+#: scripts/Dpkg/Version.pm
+msgid "revision cannot be empty"
+msgstr "ревізія не може бути порожньою"
+
+#: scripts/Dpkg/Version.pm
+msgid "version number does not start with digit"
+msgstr "номер версії не починається з цифри"
+
+#: scripts/Dpkg/Version.pm
+#, perl-format
+msgid "version number contains invalid character '%s'"
+msgstr "номер версії містить неприпустимий символ '%s'"
+
+#: scripts/Dpkg/Version.pm
+#, perl-format
+msgid "epoch part of the version number is not a number: '%s'"
+msgstr "частина epoch у номері версії не є числом: '%s'"
