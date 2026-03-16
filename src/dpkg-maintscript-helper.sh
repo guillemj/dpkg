@@ -664,6 +664,7 @@ END
 *)
   badusage "command $command is unknown
 Hint: upgrading dpkg to a newer version might help."
+  ;;
 esac
 
 exit 0
