@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 set -e
+
 vardir="$1"
 method=$2
 option=$3
@@ -27,7 +28,8 @@ cd "$vardir/methods/$method"
 . ./shvar.$option
 
 #debug() { echo "DEBUG: $@"; }
-debug() {
+debug()
+{
   true
 }
 
@@ -109,7 +111,7 @@ for f in main ctb nf lcl; do
       updatetype=merge
       ;;
     esac
-  ;;
+    ;;
   esac
 done
 

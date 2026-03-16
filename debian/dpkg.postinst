@@ -30,7 +30,7 @@ configure)
   create_db_native_arch
   setup_aliases
   ;;
-abort-upgrade|abort-deconfigure|abort-remove)
+abort-upgrade | abort-deconfigure | abort-remove)
   ;;
 *)
   error "called with unknown argument '$1'"
@@ -39,7 +39,7 @@ esac
 
 # Due to #932360 in debhelper we need to explicitly tell systemd to reload.
 case "$1" in
-configure|abort-upgrade|abort-deconfigure|abort-remove)
+configure | abort-upgrade | abort-deconfigure | abort-remove)
   if [ -d /run/systemd/system ]; then
     systemctl --system daemon-reload >/dev/null || true
   fi

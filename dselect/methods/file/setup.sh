@@ -14,6 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 set -e
+
 vardir="$1"
 method=$2
 option=$3
@@ -33,7 +34,8 @@ if ls -d "$tp.?" >/dev/null 2>&1; then
   rm $tp.?
 fi
 
-yesno () {
+yesno()
+{
   while true; do
     echo -n "$2 [$1]  "
     read response
@@ -53,7 +55,8 @@ yesno () {
   done
 }
 
-outputparam () {
+outputparam()
+{
   echo "$2" | sed -e "s/'/'\\\\''/; s/^/$1='/; s/$/'/" >&3
 }
 
@@ -151,7 +154,8 @@ case "$hierbase" in
   ;;
 esac
 
-check_binary () {
+check_binary()
+{
   # args: area-in-messages directory
   # eg:   main             "$hierbase/main/binary-$iarch"
   # checks whether $2 contains *.deb
@@ -161,7 +165,7 @@ check_binary () {
   fi
 
   if ! ( find -L "$mountpoint$2/" -name '*.deb' -print \
-       | head -n 1 ) 2>/dev/null  | grep . >/dev/null; then
+       | head -n 1 ) 2>/dev/null | grep . >/dev/null; then
     echo "'$2' does not contain any *.deb packages.  Hmmpf."
     return
   fi
@@ -169,7 +173,8 @@ check_binary () {
   this_binary="$2"
 }
 
-find_area () {
+find_area()
+{
   # args: area-in-messages area-in-vars subdirectory-in-hier
   #       last-time-binary last-time-packages
   # eg:   main             main         main

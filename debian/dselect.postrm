@@ -4,7 +4,8 @@
 set -e
 
 # Remove dselect methods state.
-purge_state() {
+purge_state()
+{
   local admindir="${DPKG_ADMINDIR:-/var/lib/dpkg}"
 
   rm -f "$admindir/cmethopt" 2>/dev/null
@@ -21,7 +22,7 @@ purge)
   ;;
 upgrade)
   ;;
-failed-upgrade|disappear|abort-install|abort-upgrade)
+failed-upgrade | disappear | abort-install | abort-upgrade)
   ;;
 *)
   echo "$0 called with unknown argument '$1'" 1>&2

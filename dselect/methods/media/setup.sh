@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 set -e
+
 vardir="$1"
 method=$2
 option=$3
@@ -43,16 +44,21 @@ if ls -d "$tp.?" >/dev/null 2>&1; then
 fi
 
 #debug() { echo "DEBUG: $@"; }
-debug() {
+debug()
+{
   true
 }
-ismulti() {
-  debug $1 $2; test -e "$1/.disk/info" || test -e "$1$2/.disk/info"
+
+ismulti()
+{
+  debug $1 $2
+  test -e "$1/.disk/info" || test -e "$1$2/.disk/info"
 }
 
 # 1/ mountpoint
 # 2/ hierarchy
-getdisklabel () {
+getdisklabel()
+{
   debug "$1" "$2"
   if [ -f $1/.disk/info ]; then
     echo -n $(head -1 "$1/.disk/info")
@@ -63,7 +69,8 @@ getdisklabel () {
   fi
 }
 
-yesno () {
+yesno()
+{
   while true; do
     echo -n "$2 [$1]  "
     read response
@@ -83,7 +90,8 @@ yesno () {
   done
 }
 
-getblockdev () {
+getblockdev()
+{
   mountpoint="$vardir/methods/mnt"
   if [ -z "$defaultdevice" ]; then
     defaultdevice="$newdefaultdevice"
@@ -115,11 +123,13 @@ getblockdev () {
   done
 }
 
-outputparam () {
+outputparam()
+{
   echo "$2" | sed -e "s/'/'\\\\''/; s/^/$1='/; s/$/'/" >&3
 }
 
 ## MAIN
+
 intrkey="$(stty -a | sed -n 's/.*intr = \([^;]*\);.*/\1/p')"
 echo "
 If you make a mistake, use the interrupt key ($intrkey) to abort.
@@ -161,8 +171,9 @@ if [ $ncdroms -gt 1 ]; then
     read response
     response="$(echo "$response" | sed -e 's/[ 	]*$//')"
     if expr "$response" : '[0-9][0-9]*$' >/dev/null &&
-       [ $response -ge 1 -a $response -le $ncdroms ]; then
-             mountpoint="$(sed -n $response'p' <$tp.l)"
+       [ $response -ge 1 -a $response -le $ncdroms ]
+    then
+      mountpoint="$(sed -n $response'p' <$tp.l)"
       echo
     elif expr "$response" : '[Nn]' >/dev/null; then
       mountpoint=""
@@ -183,8 +194,7 @@ elif [ $ncdroms = 1 ]; then
     while true; do
       echo -n 'Please insert the right disc, and hit return:  '
       read response
-      if mount -rt iso9660 -o nosuid,nodev \
-         "$blockdevice" "$mountpoint"; then
+      if mount -rt iso9660 -o nosuid,nodev "$blockdevice" "$mountpoint"; then
         echo
         break
       fi
@@ -225,8 +235,9 @@ individually."
 
   defhierbase=none
   if [ -n "$p_hierbase" ]; then
-    if [ -d "$mountpoint/$p_hierbase/dists/$dist/main/binary-$iarch" \
-         -o -n "$multi" ]; then
+    if [ -d "$mountpoint/$p_hierbase/dists/$dist/main/binary-$iarch" ] ||
+       [ -n "$multi" ]
+    then
       echo "Last time you said '$p_hierbase', and that looks plausible."
       defhierbase="$p_hierbase"
     else
@@ -240,7 +251,8 @@ And it does not appear that you are using a multiple media set."
   # at this point defhierbase is set if it looks plausible
   # if ‘none’ was entered, we assume a media with a debian/ directory
 
-  if [ none = "$defhierbase" -a -d "$mountpoint/debian/dists/$dist/main/binary-$iarch" ]
+  if [ none = "$defhierbase" ] &&
+     [ -d "$mountpoint/debian/dists/$dist/main/binary-$iarch" ]
   then
     echo "'/debian' exists and looks plausible, so that's the default."
     defhierbase=/debian
@@ -258,8 +270,9 @@ And it does not appear that you are using a multiple media set."
     multi=yes
   fi
 
-  if ! [ -d "$mountpoint/$response/dists/$dist/main/binary-$iarch" \
-         -o -n "$multi" ]; then
+  if ! [ -d "$mountpoint/$response/dists/$dist/main/binary-$iarch" -o
+         -n "$multi" ]
+  then
     echo \
 "Neither $response/dists/$dist/main/binary-$iarch does not exist,
 nor are you using a multiple media set"
@@ -311,7 +324,8 @@ case "$hierbase" in
   ;;
 esac
 
-check_binary () {
+check_binary()
+{
   # args: area-in-messages directory
   debug "check_binary($@)"
 
@@ -320,16 +334,16 @@ check_binary () {
     return
   fi
 
-# In this special case it is ok for a sub-distribution to not contain any
-# .deb files. Each media should contain all Packages.cd files but does not
-# need to contain the .deb files.
-#
-#   if ! { find -L "$mountpoint$2" -name '*.deb' -print \
-#     | head -1 | grep . ; } >/dev/null 2>&1 && [ -z "$multi" ];
-#   then
-#     echo "'$2' does not contain any *.deb packages."
-#     return
-#   fi
+  # In this special case it is ok for a sub-distribution to not contain any
+  # .deb files. Each media should contain all Packages.cd files but does not
+  # need to contain the .deb files.
+  #
+  #if ! { find -L "$mountpoint$2" -name '*.deb' -print \
+  #   | head -1 | grep . ; } >/dev/null 2>&1 && [ -z "$multi" ];
+  #then
+  #  echo "'$2' does not contain any *.deb packages."
+  #  return
+  #fi
 
   this_binary="$2"
   echo -n "Using '$this_binary' as $1 binary directory"
@@ -343,7 +357,8 @@ check_binary () {
   fi
 }
 
-find_area () {
+find_area()
+{
   # args: area-in-messages area-in-vars subdirectory-in-hier
   #       last-time-binary last-time-packages
   debug "find_area($@)"
@@ -400,7 +415,8 @@ Say 'none' if this area is not available."
         fi
       done
     elif [ -f "${mountpoint}${hierbase}/.disk/packages/$1/Packages.gz" ]; then
-      this_packages=$(echo "${hierbase}/.disk/packages/$1/Packages.gz"|sed 's:/\+:/:g')
+      this_packages=$(echo "${hierbase}/.disk/packages/$1/Packages.gz" \
+                        | sed 's:/\+:/:g')
       echo "Using '${this_packages}' for $1."
     fi
     while [ -z "$this_packages" ]; do

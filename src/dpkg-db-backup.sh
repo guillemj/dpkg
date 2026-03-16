@@ -45,12 +45,12 @@ done
 dbdir="$ADMINDIR"
 
 # Backup the N last versions of dpkg databases containing user data.
-if cd $BACKUPSDIR ; then
+if cd $BACKUPSDIR; then
   # We backup all relevant database files if any has changed, so that
   # the rotation number always contains an internally consistent set.
   dbchanged=no
   dbfiles="arch status diversions statoverride"
-  for db in $dbfiles ; do
+  for db in $dbfiles; do
     if ! [ -s "dpkg.${db}.0" ] && ! [ -s "$dbdir/$db" ]; then
       # Special case the files not existing or being empty as being equal.
       continue
@@ -59,8 +59,8 @@ if cd $BACKUPSDIR ; then
       break
     fi
   done
-  if [ "$dbchanged" = "yes" ] ; then
-    for db in $dbfiles ; do
+  if [ "$dbchanged" = "yes" ]; then
+    for db in $dbfiles; do
       if [ -e "$dbdir/$db" ]; then
         cp -p "$dbdir/$db" "dpkg.$db"
       else

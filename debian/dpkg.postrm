@@ -4,7 +4,8 @@
 set -e
 
 # Remove log file when dpkg is purged
-remove_logfile() {
+remove_logfile()
+{
   local logdir="$DPKG_ROOT/var/log"
 
   rm -f "$logdir"/dpkg.log "$logdir"/dpkg.log.* 2>/dev/null
@@ -12,7 +13,8 @@ remove_logfile() {
 }
 
 # Remove backward compatibility symlink alias when dpkg is removed.
-remove_aliases() {
+remove_aliases()
+{
   local prog=start-stop-daemon
 
   if [ -L "$DPKG_ROOT/sbin/$prog" ]; then
@@ -22,7 +24,8 @@ remove_aliases() {
 
 # Version 1.22.0 stopped the systemd timer, which meant it would not run
 # anymore.
-fixup_systemd_timer() {
+fixup_systemd_timer()
+{
   if [ -d /run/systemd/system ]; then
     deb-systemd-invoke restart 'dpkg-db-backup.timer' >/dev/null || true
   fi
@@ -37,11 +40,12 @@ purge)
   ;;
 upgrade)
   if dpkg --compare-versions "$2" gt 1.22.0~ &&
-     dpkg --compare-versions "$2" le 1.22.1; then
+     dpkg --compare-versions "$2" le 1.22.1
+  then
     fixup_systemd_timer
   fi
   ;;
-failed-upgrade|disappear|abort-install|abort-upgrade)
+failed-upgrade | disappear | abort-install | abort-upgrade)
   ;;
 *)
   echo "$0 called with unknown argument '$1'" 1>&2

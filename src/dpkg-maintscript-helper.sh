@@ -26,7 +26,8 @@
 ##
 ## Functions to remove an obsolete conffile during upgrade
 ##
-rm_conffile() {
+rm_conffile()
+{
   local CONFFILE="$1"
   local LASTVERSION="$2"
   local PACKAGE="$3"
@@ -92,7 +93,8 @@ rm_conffile() {
   esac
 }
 
-prepare_rm_conffile() {
+prepare_rm_conffile()
+{
   local CONFFILE="$1"
   local PACKAGE="$2"
 
@@ -101,8 +103,8 @@ prepare_rm_conffile() {
 
   local md5sum old_md5sum
   md5sum="$(md5sum "$DPKG_ROOT$CONFFILE" | sed -e 's/ .*//')"
-  old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
-    sed -n -e "\\'^ $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
+  old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" \
+    | sed -n -e "\\'^ $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
   if [ "$md5sum" != "$old_md5sum" ]; then
     mv -f "$DPKG_ROOT$CONFFILE" "$DPKG_ROOT$CONFFILE.dpkg-backup"
   else
@@ -110,7 +112,8 @@ prepare_rm_conffile() {
   fi
 }
 
-finish_rm_conffile() {
+finish_rm_conffile()
+{
   local CONFFILE="$1"
 
   if [ -e "$DPKG_ROOT$CONFFILE.dpkg-backup" ]; then
@@ -124,7 +127,8 @@ finish_rm_conffile() {
   fi
 }
 
-abort_rm_conffile() {
+abort_rm_conffile()
+{
   local CONFFILE="$1"
   local PACKAGE="$2"
 
@@ -143,7 +147,8 @@ abort_rm_conffile() {
 ##
 ## Functions to rename a conffile during upgrade
 ##
-mv_conffile() {
+mv_conffile()
+{
   local OLDCONFFILE="$1"
   local NEWCONFFILE="$2"
   local LASTVERSION="$3"
@@ -207,7 +212,8 @@ mv_conffile() {
   esac
 }
 
-prepare_mv_conffile() {
+prepare_mv_conffile()
+{
   local CONFFILE="$1"
   local PACKAGE="$2"
 
@@ -217,14 +223,15 @@ prepare_mv_conffile() {
 
   local md5sum old_md5sum
   md5sum="$(md5sum "$DPKG_ROOT$CONFFILE" | sed -e 's/ .*//')"
-  old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
-    sed -n -e "\\'^ $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
+  old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" \
+    | sed -n -e "\\'^ $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
   if [ "$md5sum" = "$old_md5sum" ]; then
     mv -f "$DPKG_ROOT$CONFFILE" "$DPKG_ROOT$CONFFILE.dpkg-remove"
   fi
 }
 
-finish_mv_conffile() {
+finish_mv_conffile()
+{
   local OLDCONFFILE="$1"
   local NEWCONFFILE="$2"
   local PACKAGE="$3"
@@ -241,7 +248,8 @@ finish_mv_conffile() {
   mv -f "$DPKG_ROOT$OLDCONFFILE" "$DPKG_ROOT$NEWCONFFILE"
 }
 
-abort_mv_conffile() {
+abort_mv_conffile()
+{
   local CONFFILE="$1"
   local PACKAGE="$2"
 
@@ -256,7 +264,8 @@ abort_mv_conffile() {
 ##
 ## Functions to replace a symlink with a directory
 ##
-symlink_to_dir() {
+symlink_to_dir()
+{
   local SYMLINK="$1"
   local SYMLINK_TARGET="$2"
   local LASTVERSION="$3"
@@ -341,7 +350,8 @@ symlink_to_dir() {
 ##
 ## Functions to replace a directory with a symlink
 ##
-dir_to_symlink() {
+dir_to_symlink()
+{
   local PATHNAME="${1%/}"
   local SYMLINK_TARGET="$2"
   local LASTVERSION="$3"
@@ -398,13 +408,15 @@ dir_to_symlink() {
        [ -d "$DPKG_ROOT${PATHNAME}.dpkg-backup" ] &&
        [ ! -h "$DPKG_ROOT$PATHNAME" ] &&
        [ -d "$DPKG_ROOT$PATHNAME" ] &&
-       [ -f "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir" ]; then
+       [ -f "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir" ]
+    then
       finish_dir_to_symlink "$PATHNAME" "$SYMLINK_TARGET"
     fi
     ;;
   postrm)
     if [ "$1" = "purge" ] &&
-       [ -d "$DPKG_ROOT${PATHNAME}.dpkg-backup" ]; then
+       [ -d "$DPKG_ROOT${PATHNAME}.dpkg-backup" ]
+    then
       rm -rf "$DPKG_ROOT${PATHNAME}.dpkg-backup"
     fi
     if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
@@ -445,10 +457,10 @@ prepare_dir_to_symlink()
   # If there are locally created files or files owned by another package
   # we should not perform the switch.
   export DPKG_MAINTSCRIPT_HELPER_INTERNAL_API="$version"
-  find "$DPKG_ROOT$PATHNAME" -print0 | \
-    xargs -0 -n1 "$0" _internal_pkg_must_own_file "$PACKAGE" ||
-    error "directory '$PATHNAME' contains files not owned by" \
-          "package $PACKAGE, cannot switch to symlink"
+  find "$DPKG_ROOT$PATHNAME" -print0 \
+    | xargs -0 -n1 "$0" _internal_pkg_must_own_file "$PACKAGE" ||
+      error "directory '$PATHNAME' contains files not owned by" \
+            "package $PACKAGE, cannot switch to symlink"
   unset DPKG_MAINTSCRIPT_HELPER_INTERNAL_API
 
   # At this point, we know that the directory either contains no files,
@@ -487,8 +499,8 @@ finish_dir_to_symlink()
     ABS_SYMLINK_TARGET="$SYMLINK_TARGET"
   fi
   rm "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir"
-  find "$DPKG_ROOT$PATHNAME" -mindepth 1 -maxdepth 1 -print0 | \
-    xargs -0 -I% mv -f "%" "$DPKG_ROOT$ABS_SYMLINK_TARGET/"
+  find "$DPKG_ROOT$PATHNAME" -mindepth 1 -maxdepth 1 -print0 \
+    | xargs -0 -I% mv -f "%" "$DPKG_ROOT$ABS_SYMLINK_TARGET/"
 
   # Remove the staging directory.
   rmdir "$DPKG_ROOT$PATHNAME"
@@ -519,7 +531,8 @@ abort_dir_to_symlink()
 }
 
 # Common functions
-validate_optional_version() {
+validate_optional_version()
+{
   local VERSION="$1"
 
   if [ -z "$VERSION" ]; then
@@ -531,7 +544,8 @@ validate_optional_version() {
   fi
 }
 
-ensure_package_owns_file() {
+ensure_package_owns_file()
+{
   local PACKAGE="$1"
   local FILE="$2"
 
@@ -567,7 +581,8 @@ symlink_match()
   [ "$(dpkg-realpath "$SYMLINK")" = "$SYMLINK_TARGET" ]
 }
 
-usage() {
+usage()
+{
   cat <<END
 Usage: $PROGNAME <command> <parameter>... -- <maintainer-script-parameter>...
 
@@ -617,7 +632,7 @@ shift
 case "$command" in
 supports)
   case "$1" in
-  rm_conffile|mv_conffile|symlink_to_dir|dir_to_symlink)
+  rm_conffile | mv_conffile | symlink_to_dir | dir_to_symlink)
     code=0
     ;;
   *)
@@ -650,7 +665,7 @@ _internal_pkg_must_own_file)
   # This is an internal command, must not be used outside this program.
   internal_pkg_must_own_file "$@"
   ;;
---help|help|-?)
+--help | help | -?)
   usage
   ;;
 --version)
