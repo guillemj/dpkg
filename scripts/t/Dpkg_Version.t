@@ -15,7 +15,7 @@
 
 use v5.36;
 
-use Test::More tests => 1752;
+use Test::More tests => 1755;
 
 use IPC::Cmd qw(can_run);
 
@@ -173,6 +173,67 @@ foreach my $case (@tests) {
         }
     }
 }
+
+my @versions_unsorted;
+my @versions_expected;
+my @versions_sorted;
+
+@versions_unsorted = qw(
+    4:4-4
+    5.0abc
+    0.0-0.0alpha0
+    10.100.1-1
+    0~999.999zeta
+    0:1.0-0
+);
+@versions_expected = qw(
+    0~999.999zeta
+    0.0-0.0alpha0
+    0:1.0-0
+    5.0abc
+    10.100.1-1
+    4:4-4
+);
+@versions_sorted = sort version_compare @versions_unsorted;
+is_deeply(\@versions_sorted, \@versions_expected, 'sort version_compare');
+
+@versions_unsorted = qw(
+    4
+    5.0abc
+    0.0alpha0
+    10.100.1
+    0~999.999zeta
+    1.0
+);
+@versions_expected = qw(
+    0~999.999zeta
+    0.0alpha0
+    1.0
+    4
+    5.0abc
+    10.100.1
+);
+@versions_sorted = sort version_compare_part @versions_unsorted;
+is_deeply(\@versions_sorted, \@versions_expected, 'sort version_compare_part');
+
+@versions_unsorted = qw(
+    10a10
+    ~zyx999
+    Z0z
+    ~000
+    aa5AA
+    ~abc
+);
+@versions_expected = qw(
+    ~000
+    ~abc
+    ~zyx999
+    10a10
+    Z0z
+    aa5AA
+);
+@versions_sorted = sort version_compare_string @versions_unsorted;
+is_deeply(\@versions_sorted, \@versions_expected, 'sort version_compare_string');
 
 __DATA__
 1.0-1 2.0-2 -1

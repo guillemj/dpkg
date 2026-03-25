@@ -301,7 +301,8 @@ If $a or $b are not valid version numbers, it dies with an error.
 
 =cut
 
-sub version_compare {
+sub version_compare :prototype($$)
+{
     my ($a, $b) = @_;
     my $va = Dpkg::Version->new($a, check => 1);
     defined($va) || error(g_('%s is not a valid version'), "$a");
@@ -398,7 +399,8 @@ sub _version_order {
     }
 }
 
-sub version_compare_string {
+sub version_compare_string :prototype($$)
+{
     my @a = map { _version_order($_) } split(//, shift);
     my @b = map { _version_order($_) } split(//, shift);
     while (1) {
@@ -423,7 +425,8 @@ $a is earlier than $b, 0 if they are equal and 1 if $a is later than $b.
 
 =cut
 
-sub version_compare_part {
+sub version_compare_part :prototype($$)
+{
     my @a = version_split_digits(shift);
     my @b = version_split_digits(shift);
     while (1) {
