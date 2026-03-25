@@ -363,9 +363,11 @@ sub _fail_not_same_type {
     my ($self, $old, $new, $file) = @_;
     my $old_type = get_type($old);
     my $new_type = get_type($new);
-    errormsg(g_('cannot represent change to %s:'), $file);
+    errormsg(g_('cannot represent change to %s using GNU diff:'), $file);
     errormsg(g_('  new version is %s'), $new_type);
     errormsg(g_('  old version is %s'), $old_type);
+    hint(g_('you can use a git formatted patch to represent these changes:'));
+    hint(g_('  with "git format-patch" or "git diff --no-index a/ b/"'));
     $self->register_error();
 }
 
