@@ -409,7 +409,8 @@ my %relation_ordering = (
     REL_LE() => 5,
 );
 
-sub deps_compare {
+sub deps_compare :prototype($$)
+{
     my ($aref, $bref) = @_;
 
     my (@as, @bs);
