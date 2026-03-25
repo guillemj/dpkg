@@ -506,10 +506,6 @@ sub analyze {
             }
             my $path = $fn{$key};
             while (1) {
-                if (-l $path) {
-                    error(g_('diff %s modifies file %s through a symlink: %s'),
-                          $diff, $fn{$key}, $path);
-                }
                 last unless $path =~ s{/+[^/]*$}{};
                 # $destdir is assumed safe.
                 last if length($path) <= length($destdir);
