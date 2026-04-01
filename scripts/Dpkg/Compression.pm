@@ -84,20 +84,6 @@ my %COMP = (
     },
 );
 
-# The gzip --rsyncable option is not universally supported, so we need to
-# conditionally use it. Ideally we would invoke 'gzip --help' and check
-# whether the option is supported, but that would imply forking and executing
-# that process for any module that ends up loading this one, which is not
-# acceptable performance-wise. Instead we will approximate it by osname, which
-# is not ideal, but better than nothing.
-#
-# Requires GNU gzip >= 1.7 for the --rsyncable option. On AIX GNU gzip is
-# too old. On the BSDs they use their own implementation based on zlib,
-# which does not currently support the --rsyncable option.
-if (any { $Config{osname} eq $_ } qw(linux gnu solaris)) {
-    push @{$COMP{gzip}{comp_prog}}, '--rsyncable';
-}
-
 my $default_compression = 'xz';
 my $default_compression_level = undef;
 my $default_compression_threads = 0;
@@ -351,7 +337,22 @@ sub compression_get_cmdline_compress {
         # non-reproducible output we pass -T+1 (supported with xz >= 5.4.0)
         # to request multi-threaded mode with a single thread.
         push @prog, $threads == 1 ? '-T+1' : "-T$threads";
+    } elsif ($comp eq 'gzip') {
+        # The gzip --rsyncable option is not universally supported, so we need
+        # to conditionally use it. Ideally we would invoke 'gzip --help' and
+        # check whether the option is supported, but that would imply forking
+        # and executing that process for any caller, which is not ideal
+        # performance-wise. Instead we will approximate it by osname, which is
+        # not ideal either, but better than nothing.
+        #
+        # Requires GNU gzip >= 1.7 for the --rsyncable option. On AIX GNU gzip
+        # is too old. On the BSDs they use their own implementation based on
+        # zlib, which does not currently support the --rsyncable option.
+        if (any { $Config{osname} eq $_ } qw(linux gnu solaris)) {
+            push @prog, '--rsyncable';
+        }
     }
+
     return @prog;
 }
 
