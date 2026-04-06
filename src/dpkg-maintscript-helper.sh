@@ -61,14 +61,16 @@ rm_conffile() {
         "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
   case "$DPKG_MAINTSCRIPT_NAME" in
   preinst)
-    if [ "$1" = "install" -o "$1" = "upgrade" ] && [ -n "$2" ] &&
-       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+    if [ "$1" = "install" -o "$1" = "upgrade" ] &&
+       [ -n "$2" ] && dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"
+    then
       prepare_rm_conffile "$CONFFILE" "$PACKAGE"
     fi
     ;;
   postinst)
-    if [ "$1" = "configure" ] && [ -n "$2" ] &&
-       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+    if [ "$1" = "configure" ] &&
+       [ -n "$2" ] && dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"
+    then
       finish_rm_conffile "$CONFFILE"
     fi
     ;;
@@ -79,8 +81,8 @@ rm_conffile() {
             "$DPKG_ROOT$CONFFILE.dpkg-backup"
     fi
     if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
-       [ -n "$2" ] &&
-       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+       [ -n "$2" ] && dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"
+    then
       abort_rm_conffile "$CONFFILE" "$PACKAGE"
     fi
     ;;
@@ -179,21 +181,23 @@ mv_conffile() {
         "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
   case "$DPKG_MAINTSCRIPT_NAME" in
   preinst)
-    if [ "$1" = "install" -o "$1" = "upgrade" ] && [ -n "$2" ] &&
-       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+    if [ "$1" = "install" -o "$1" = "upgrade" ] &&
+       [ -n "$2" ] && dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"
+    then
       prepare_mv_conffile "$OLDCONFFILE" "$PACKAGE"
     fi
     ;;
   postinst)
-    if [ "$1" = "configure" ] && [ -n "$2" ] &&
-       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+    if [ "$1" = "configure" ] &&
+       [ -n "$2" ] && dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"
+    then
       finish_mv_conffile "$OLDCONFFILE" "$NEWCONFFILE" "$PACKAGE"
     fi
     ;;
   postrm)
     if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
-       [ -n "$2" ] &&
-       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+       [ -n "$2" ] && dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"
+    then
       abort_mv_conffile "$OLDCONFFILE" "$PACKAGE"
     fi
     ;;
@@ -295,9 +299,10 @@ symlink_to_dir() {
   case "$DPKG_MAINTSCRIPT_NAME" in
   preinst)
     if [ "$1" = "install" -o "$1" = "upgrade" ] &&
-       [ -n "$2" ] && [ -h "$DPKG_ROOT$SYMLINK" ] &&
-       symlink_match "$SYMLINK" "$SYMLINK_TARGET" &&
-       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+       [ -n "$2" ] && dpkg --compare-versions -- "$2" le-nl "$LASTVERSION" &&
+       [ -h "$DPKG_ROOT$SYMLINK" ] &&
+       symlink_match "$SYMLINK" "$SYMLINK_TARGET"
+    then
       mv -f "$DPKG_ROOT$SYMLINK" "$DPKG_ROOT${SYMLINK}.dpkg-backup"
     fi
     ;;
@@ -318,11 +323,11 @@ symlink_to_dir() {
       rm -f "$DPKG_ROOT${SYMLINK}.dpkg-backup"
     fi
     if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
-       [ -n "$2" ] &&
+       [ -n "$2" ] && dpkg --compare-versions -- "$2" le-nl "$LASTVERSION" &&
        [ ! -e "$DPKG_ROOT$SYMLINK" ] &&
        [ -h "$DPKG_ROOT${SYMLINK}.dpkg-backup" ] &&
-       symlink_match "${SYMLINK}.dpkg-backup" "$SYMLINK_TARGET" &&
-       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+       symlink_match "${SYMLINK}.dpkg-backup" "$SYMLINK_TARGET"
+    then
       echo "Restoring backup of $DPKG_ROOT$SYMLINK ..."
       mv "$DPKG_ROOT${SYMLINK}.dpkg-backup" "$DPKG_ROOT$SYMLINK"
     fi
@@ -377,10 +382,10 @@ dir_to_symlink() {
   case "$DPKG_MAINTSCRIPT_NAME" in
   preinst)
     if [ "$1" = "install" -o "$1" = "upgrade" ] &&
-       [ -n "$2" ] &&
+       [ -n "$2" ] && dpkg --compare-versions -- "$2" le-nl "$LASTVERSION" &&
        [ ! -h "$DPKG_ROOT$PATHNAME" ] &&
-       [ -d "$DPKG_ROOT$PATHNAME" ] &&
-       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+       [ -d "$DPKG_ROOT$PATHNAME" ]
+    then
       prepare_dir_to_symlink "$PACKAGE" "$PATHNAME"
     fi
     ;;
@@ -403,15 +408,15 @@ dir_to_symlink() {
       rm -rf "$DPKG_ROOT${PATHNAME}.dpkg-backup"
     fi
     if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
-       [ -n "$2" ] &&
+       [ -n "$2" ] && dpkg --compare-versions -- "$2" le-nl "$LASTVERSION" &&
        [ -d "$DPKG_ROOT${PATHNAME}.dpkg-backup" ] &&
        [ \( ! -h "$DPKG_ROOT$PATHNAME" -a \
             -d "$DPKG_ROOT$PATHNAME" -a \
             -f "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir" \) -o \
          \( -h "$DPKG_ROOT$PATHNAME" -a \
             \( "$(readlink "$DPKG_ROOT$PATHNAME")" = "$SYMLINK_TARGET" -o \
-               "$(dpkg-realpath "$PATHNAME")" = "$SYMLINK_TARGET" \) \) ] &&
-       dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
+               "$(dpkg-realpath "$PATHNAME")" = "$SYMLINK_TARGET" \) \) ]
+    then
       abort_dir_to_symlink "$PATHNAME"
     fi
     ;;
