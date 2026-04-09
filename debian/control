@@ -75,11 +75,6 @@ Depends:
 Suggests:
  apt,
  debsig-verify,
-Breaks:
-# Due to --status-fd not duplicating output.
- libapt-pkg5.0 (<< 1.7~b),
-# Due to s-s-d requiring secure usage of --pidfile.
- lsb-base (<< 10.2019031300),
 Description: Debian package management system
  This package provides the low-level infrastructure for handling the
  installation and removal of Debian software packages.
@@ -140,25 +135,10 @@ Suggests:
  debian-keyring,
  debian-tag2upload-keyring,
 Breaks:
-# Force R³ support, w/o requiring debhelper users to depend on dpkg-dev.
- debhelper (<< 10.10.1~),
 # Require .pgp extensions
  debian-keyring (<< 2025.04.25~),
  devuan-keyring (<< 2025.07.30~),
  pureos-archive-keyring (<< 2026.02.0~),
-# Uses new sq features, w/o requiring a hard dependency on sq.
- sq (<< 0.40.0~),
-# Uses new sqv features, w/o requiring a hard dependency on sqv.
- sqv (<< 1.3.0~),
-# Uses required SOP features, w/o requiring a hard dependency on sqop.
- sqop (<< 0.27.2~),
-# Uses required SOP features, w/o requiring a hard dependency on rsop.
- rsop (<< 0.4.0~),
-# Uses required SOP features, w/o requiring a hard dependency on gosop.
- gosop (<< 1.1.0~),
-# Uses required SOP features, w/o requiring a hard dependency on pgpainless.
- pgpainless-cli (<< 1.3.13~),
- libsop-java-java (<< 4.0.7~),
 Provides:
  dpkg-build-api (= 0),
  dpkg-build-api (= 1),
@@ -208,25 +188,6 @@ Breaks:
  debian-keyring (<< 2025.04.25~),
  devuan-keyring (<< 2025.07.30~),
  pureos-archive-keyring (<< 2026.02.0~),
-# Uses the private Dpkg::Shlibs::SymbolFile module with no API stability
-# guarantees! Which obviously broke with 1.19.0.
- pkg-kde-tools (<< 0.15.28~),
-# Uses Dpkg::Compression::Process imported from Dpkg::Source::Package in
-# versions prior to 1.19.0.
- dgit (<< 3.13~),
-# Uses new sq features, w/o requiring a hard dependency on sq.
- sq (<< 0.40.0~),
-# Uses new sqv features, w/o requiring a hard dependency on sqv.
- sqv (<< 1.3.0~),
-# Uses required SOP features, w/o requiring a hard dependency on sqop.
- sqop (<< 0.27.2~),
-# Uses required SOP features, w/o requiring a hard dependency on rsop.
- rsop (<< 0.4.0~),
-# Uses required SOP features, w/o requiring a hard dependency on gosop.
- gosop (<< 1.1.0~),
-# Uses required SOP features, w/o requiring a hard dependency on pgpainless.
- pgpainless-cli (<< 1.3.13~),
- libsop-java-java (<< 4.0.7~),
 # Uses the Dpkg::BuildProfiles in an incorrect way, which broke when making
 # the parser more strict.
  dh-exec (<< 0.31~),
