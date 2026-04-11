@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.23.5\n"
+"Project-Id-Version: dpkg-man 1.23.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2026-03-05 06:54+0100\n"
-"PO-Revision-Date: 2026-02-04 22:57+0100\n"
+"POT-Creation-Date: 2026-04-11 21:07+0200\n"
+"PO-Revision-Date: 2026-04-11 21:05+0200\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
 "Language: nl\n"
@@ -4652,7 +4652,7 @@ msgid ""
 " Homepage: https://wiki.debian.org/Teams/Dpkg\n"
 " Vcs-Browser: https://git.dpkg.org/cgit/dpkg/dpkg.git\n"
 " Vcs-Git: https://git.dpkg.org/git/dpkg/dpkg.git\n"
-" Standards-Version: 4.7.3\n"
+" Standards-Version: 4.7.4\n"
 " Build-Depends:\n"
 "  dpkg-build-api (= 1),\n"
 "  debhelper-compat (= 13),\n"
@@ -4671,7 +4671,7 @@ msgstr ""
 " Homepage: https://wiki.debian.org/Teams/Dpkg\n"
 " Vcs-Browser: https://git.dpkg.org/cgit/dpkg/dpkg.git\n"
 " Vcs-Git: https://git.dpkg.org/git/dpkg/dpkg.git\n"
-" Standards-Version: 4.7.3\n"
+" Standards-Version: 4.7.4\n"
 " Build-Depends:\n"
 "\n"
 "  dpkg-build-api (= 1),\n"
@@ -4822,15 +4822,33 @@ msgstr ""
 
 #. type: textblock
 #: deb-src-files.pod
+#, fuzzy
+#| msgid ""
+#| "I<keyword=value...> corresponds to an optional whitespace-delimited list "
+#| "of attributes for this entry.  The only currently supported keyword is "
+#| "B<automatic> with value B<yes>, to mark automatically generated files."
 msgid ""
 "I<keyword=value...> corresponds to an optional whitespace-delimited list of "
-"attributes for this entry.  The only currently supported keyword is "
-"B<automatic> with value B<yes>, to mark automatically generated files."
+"attributes for this entry.  The only currently supported keyword is:"
 msgstr ""
 "I<trefwoord=waarde...> komt overeen met een facultatieve door witruimte "
 "afgebakende lijst van attributen voor dit element. Momenteel is het enige "
 "ondersteunde trefwoord B<automatic> met als waarde B<yes>, om automatisch "
 "gegenereerde bestanden te markeren."
+
+#. type: =item
+#: deb-src-files.pod
+#, fuzzy
+#| msgid "automatic mode"
+msgid "* B<automatic>"
+msgstr "automatische modus"
+
+#. type: textblock
+#: deb-src-files.pod
+#, fuzzy
+#| msgid "Include timestamp in the automatically generated patch."
+msgid "With value B<yes>, to mark automatically generated files."
+msgstr "De tijdsaanduiding toevoegen in de automatisch gegenereerde patch."
 
 #. type: =head1
 #: deb-src-files.pod deb-version.pod dpkg-architecture.pod
@@ -10571,6 +10589,14 @@ msgstr ""
 "ondersteuning voor grote bestanden (Large File Support) op 32-bits "
 "architecturen waarvan de ABI standaard geen LFS-ondersteuning biedt, door B<-"
 "D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64> toe te voegen aan B<CPPFLAGS>."
+
+#. type: textblock
+#: dpkg-buildflags.pod
+msgid ""
+"B<Note>: The L<getconf(1)> interface to query LFS build flags, such as "
+"B<LFS_CFLAGS> or B<LFS_LDFLAGS>, must B<not> be used because this interface "
+"does not support cross-building."
+msgstr ""
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -19843,24 +19869,19 @@ msgstr "B<-a>, B<--arch> I<arch>"
 
 #. type: textblock
 #: dpkg-scanpackages.pod
-#, fuzzy
-#| msgid ""
-#| "Use a pattern consisting of I<*_all.deb> and I<*_arch.deb> instead of "
-#| "scanning for all debs."
 msgid ""
 "Use a pattern consisting of I<*_all.deb> and I<*_arch.deb>, or I<*_arch.deb> "
 "if B<--no-implicit-arch> has been specified, instead of scanning for all "
 "debs."
 msgstr ""
-"Een patroon gebruiken dat bestaat uit I<*_all.deb> en I<*_arch.deb> in "
-"plaats van te zoeken naar alle deb-bestanden."
+"Een patroon gebruiken dat bestaat uit I<*_all.deb> en I<*_arch.deb>, of "
+"I<*_arch.deb> als B<--no-implicit-arch> is opgegeven, in plaats van te "
+"zoeken naar alle deb-bestanden."
 
 #. type: =item
 #: dpkg-scanpackages.pod
-#, fuzzy
-#| msgid "B<bug-implicit-func>"
 msgid "B<--no-implicit-arch>"
-msgstr "B<bug-implicit-func>"
+msgstr "B<--no-implicit-arch>"
 
 #. type: textblock
 #: dpkg-scanpackages.pod
@@ -19868,13 +19889,13 @@ msgid ""
 "Do not implicitly add architecture B<all> binary packages when specifying "
 "B<--arch>."
 msgstr ""
+"Wanneer B<--arch> wordt opgegeven niet impliciet binaire pakketten van "
+"architectuur B<all> toevoegen."
 
 #. type: textblock
 #: dpkg-scanpackages.pod
-#, fuzzy
-#| msgid "Supported since dpkg 1.23.4."
 msgid "Supported since dpkg 1.23.6."
-msgstr "Ondersteund sinds dpkg 1.23.4."
+msgstr "Ondersteund sinds dpkg 1.23.6."
 
 #. type: =item
 #: dpkg-scanpackages.pod
@@ -22775,12 +22796,19 @@ msgstr "kan wijziging aan I<bestand> niet representeren"
 
 #. type: textblock
 #: dpkg-source.pod
+#, fuzzy
+#| msgid ""
+#| "Changes to upstream sources are usually stored with patch files, but not "
+#| "all changes can be represented with patches: they can only alter the "
+#| "content of plain text files.  If you try replacing a file with something "
+#| "of a different type (for example replacing a plain file with a symlink or "
+#| "a directory), you will get this error message."
 msgid ""
 "Changes to upstream sources are usually stored with patch files, but not all "
-"changes can be represented with patches: they can only alter the content of "
-"plain text files.  If you try replacing a file with something of a different "
-"type (for example replacing a plain file with a symlink or a directory), you "
-"will get this error message."
+"changes can be represented with patches generated by GNU diff: they can only "
+"alter the content of plain text files.  If you try replacing a file with "
+"something of a different type (for example replacing a plain file with a "
+"symlink or a directory), you will get this error message."
 msgstr ""
 "Wijzigingen aan de broncode van de toeleveraar worden gewoonlijk met patch-"
 "bestanden opgeslagen, maar niet alle wijzigingen kunnen met patches "
@@ -22788,6 +22816,13 @@ msgstr ""
 "kunnen aanpassen. Indien u een bestand tracht te vervangen door iets van een "
 "ander type (bijvoorbeeld een gewoon bestand vervangen door een symbolische "
 "koppeling of een map), zult u deze foutmelding krijgen."
+
+#. type: textblock
+#: dpkg-source.pod
+msgid ""
+"You can use «git format-patch» or «git diff --no-index I<dir.orig>/ I<dir>/» "
+"to generate such patches."
+msgstr ""
 
 #. type: =head2
 #: dpkg-source.pod
@@ -22798,9 +22833,13 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-source.pod
+#, fuzzy
+#| msgid ""
+#| "Empty files can't be created with patch files.  Thus this change is not "
+#| "recorded in the source package and you are warned about it."
 msgid ""
-"Empty files can't be created with patch files.  Thus this change is not "
-"recorded in the source package and you are warned about it."
+"GNU diff patch files cannot represent creating an empty file.  Thus this "
+"change is not recorded in the source package and you are warned about it."
 msgstr ""
 "Lege bestanden kunnen niet met behulp van patch-bestanden aangemaakt worden. "
 "Deze wijziging wordt dus niet geregistreerd in het broncodepakket en u wordt "
@@ -22815,8 +22854,13 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-source.pod
+#, fuzzy
+#| msgid ""
+#| "Patch files do not record permissions of files and thus executable "
+#| "permissions are not stored in the source package.  This warning reminds "
+#| "you of that fact."
 msgid ""
-"Patch files do not record permissions of files and thus executable "
+"GNU diff patch files do not record permissions of files and thus executable "
 "permissions are not stored in the source package.  This warning reminds you "
 "of that fact."
 msgstr ""
@@ -22833,9 +22877,15 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-source.pod
+#, fuzzy
+#| msgid ""
+#| "Patch files do not record permissions of files and thus modified "
+#| "permissions are not stored in the source package.  This warning reminds "
+#| "you of that fact."
 msgid ""
-"Patch files do not record permissions of files and thus modified permissions "
-"are not stored in the source package.  This warning reminds you of that fact."
+"GNU diff patch files do not record permissions of files and thus modified "
+"permissions are not stored in the source package.  This warning reminds you "
+"of that fact."
 msgstr ""
 "Patch-bestanden registreren geen toegangsrechten van bestanden en dus worden "
 "wijzigingen aan toegangsrechten niet opgeslagen in het broncodepakket. Deze "
