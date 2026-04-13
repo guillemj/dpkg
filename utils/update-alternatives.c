@@ -2822,6 +2822,7 @@ alternative_check_install_args(struct alternative *inst_alt,
 	if (found && strcmp(found->master_name, inst_alt->master_name) != 0) {
 		found = alternative_map_find(alt_map_parent,
 		                             found->master_name);
+		assert(found);
 		error(_("alternative link %s is already managed by %s"),
 		      inst_alt->master_link, found->master_name);
 	}
