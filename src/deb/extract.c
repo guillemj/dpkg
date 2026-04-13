@@ -144,7 +144,7 @@ extracthalf(const char *debar, const char *dir,
 
 			dpkg_ar_normalize_name(&arh);
 
-			memberlen = dpkg_ar_member_get_size(ar, &arh);
+			memberlen = dpkg_ar_member_parse_size(ar, &arh);
 			ar_member_size = memberlen + (memberlen & 1);
 			if (!header_done) {
 				char *infobuf;

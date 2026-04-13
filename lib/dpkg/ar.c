@@ -133,7 +133,7 @@ dpkg_ar_normalize_name(struct dpkg_ar_hdr *arh)
 }
 
 off_t
-dpkg_ar_member_get_size(struct dpkg_ar *ar, struct dpkg_ar_hdr *arh)
+dpkg_ar_member_parse_size(struct dpkg_ar *ar, struct dpkg_ar_hdr *arh)
 {
 	const char *str = arh->ar_size;
 	int len = sizeof(arh->ar_size);

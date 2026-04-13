@@ -100,6 +100,8 @@ void
 dpkg_ar_normalize_name(struct dpkg_ar_hdr *arh);
 bool
 dpkg_ar_member_is_invalid(struct dpkg_ar_hdr *arh);
+off_t
+dpkg_ar_member_parse_size(struct dpkg_ar *ar, struct dpkg_ar_hdr *arh);
 
 void
 dpkg_ar_put_magic(struct dpkg_ar *ar);
@@ -112,8 +114,6 @@ dpkg_ar_member_put_file(struct dpkg_ar *ar, const char *name,
 void
 dpkg_ar_member_put_mem(struct dpkg_ar *ar, const char *name,
                        const void *data, size_t size);
-off_t
-dpkg_ar_member_get_size(struct dpkg_ar *ar, struct dpkg_ar_hdr *arh);
 
 /** @} */
 

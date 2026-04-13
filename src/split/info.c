@@ -123,7 +123,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 	if (dpkg_ar_member_is_invalid(&arh))
 		ohshit(_("file '%s' is corrupt - bad magic at end of first header"),
 		       ar->name);
-	thisilen = dpkg_ar_member_get_size(ar, &arh);
+	thisilen = dpkg_ar_member_parse_size(ar, &arh);
 
 	varbuf_reset(&format_member);
 	varbuf_grow(&format_member, thisilen + 2);
@@ -212,7 +212,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
 		ohshit(_("file '%s' is corrupt - second member is not data member"),
 		       ar->name);
 
-	ir->thispartlen = dpkg_ar_member_get_size(ar, &arh);
+	ir->thispartlen = dpkg_ar_member_parse_size(ar, &arh);
 	ir->thispartoffset = (ir->thispartn - 1) * ir->maxpartlen;
 
 	if (ir->maxpartn != (ir->orglength + ir->maxpartlen - 1) / ir->maxpartlen)
