@@ -161,7 +161,6 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
     DPKG_CHECK_COMPILER_FLAG([-Wc11-extensions])
     DPKG_CHECK_COMPILER_FLAG([-Wc2x-compat])
     DPKG_CHECK_COMPILER_FLAG([-Wc2x-extensions])
-    DPKG_CHECK_COMPILER_FLAG([-Wpre-c2x-compat])
     DPKG_CHECK_COMPILER_FLAG([-Wdeclaration-after-statement])
     DPKG_CHECK_COMPILER_FLAG([-Wenum-int-mismatch])
     DPKG_CHECK_COMPILER_FLAG([-Wmissing-prototypes])
