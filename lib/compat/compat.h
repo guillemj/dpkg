@@ -35,7 +35,7 @@
 #include <stdarg.h>
 #endif
 
-#if  TEST_LIBCOMPAT || !defined(HAVE_VA_COPY)
+#if TEST_LIBCOMPAT || !defined(HAVE_VA_COPY)
 #include <string.h>
 #endif
 
