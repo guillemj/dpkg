@@ -151,7 +151,7 @@ createimptmp(void)
 		ohshite(_("unable to create '%s'"), importanttmpfile);
 	setcloexec(fileno(importanttmp), importanttmpfile);
 	for (i = 0; i < 512; i++)
-		fputs("#padding\n", importanttmp);
+		fputs("#padded\n", importanttmp);
 	if (ferror(importanttmp))
 		ohshite(_("unable to fill %s with padding"),
 		        importanttmpfile);
