@@ -101,7 +101,7 @@ info_prepare(const char *const **argvp, const char **debarp, const char **dirp,
 }
 
 static int
-ilist_select(const struct dirent *de)
+ctrl_file_filter(const struct dirent *de)
 {
 	return strcmp(de->d_name, ".") && strcmp(de->d_name, "..");
 }
@@ -191,7 +191,7 @@ info_list(const char *debar, const char *dir)
 	int cdn, n;
 	FILE *cc;
 
-	cdn = scandir(dir, &cdlist, &ilist_select, alphasort);
+	cdn = scandir(dir, &cdlist, ctrl_file_filter, alphasort);
 	if (cdn < 0)
 		ohshite(_("cannot scan directory '%s'"), dir);
 

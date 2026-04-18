@@ -62,7 +62,7 @@ static struct varbuf_state updatefn_state;
 static struct varbuf uvb;
 
 static int
-ulist_select(const struct dirent *de)
+update_file_filter(const struct dirent *de)
 {
 	const char *p;
 	int l;
@@ -94,7 +94,7 @@ cleanupdates(void)
 	parsedb(statusfile, pdb_parse_status, NULL);
 
 	updateslength = -1;
-	cdn = scandir(updatesdir, &cdlist, &ulist_select, alphasort);
+	cdn = scandir(updatesdir, &cdlist, update_file_filter, alphasort);
 	if (cdn < 0) {
 		if (errno == ENOENT) {
 			if (cstatus >= msdbrw_write &&

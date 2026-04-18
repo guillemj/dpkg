@@ -160,7 +160,7 @@ dpkg_options_load_file(const char *fn, const struct cmdinfo *cmdinfos)
 }
 
 static int
-valid_config_filename(const struct dirent *dent)
+config_file_filter(const struct dirent *dent)
 {
 	const char *c;
 
@@ -186,7 +186,7 @@ dpkg_options_load_dir(const char *prog, const struct cmdinfo *cmdinfos)
 
 	dirname = str_fmt("%s/%s.cfg.d", CONFIGDIR, prog);
 
-	dlist_n = scandir(dirname, &dlist, valid_config_filename, alphasort);
+	dlist_n = scandir(dirname, &dlist, config_file_filter, alphasort);
 	if (dlist_n < 0) {
 		if (errno == ENOENT) {
 			free(dirname);
