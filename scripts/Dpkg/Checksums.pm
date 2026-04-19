@@ -190,13 +190,13 @@ sub add_from_file {
     }
 
     push @{$self->{files}}, $key unless exists $self->{size}{$key};
-    (my @s = stat($file)) or syserr(g_('cannot fstat file %s'), $file);
+    stat $file or syserr(g_('cannot fstat file %s'), $file);
     if (not $opts{update} and exists $self->{size}{$key} and
-        $self->{size}{$key} != $s[7]) {
+        $self->{size}{$key} != -s _) {
         error(g_('file %s has size %u instead of expected %u'),
-              $file, $s[7], $self->{size}{$key});
+              $file, -s _, $self->{size}{$key});
     }
-    $self->{size}{$key} = $s[7];
+    $self->{size}{$key} = -s _;
 
     foreach my $alg (@alg) {
         my $digest = Digest->new($CHECKSUMS->{$alg}{name});
