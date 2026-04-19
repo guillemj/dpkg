@@ -33,6 +33,7 @@ package Dpkg::Source::Patch 0.01;
 use v5.36;
 
 use POSIX qw(:errno_h :sys_wait_h);
+use File::stat ();
 use File::Find;
 use File::Basename;
 use File::Spec;
@@ -86,6 +87,8 @@ sub get_header {
 
 sub _gen_hires_diff_label($filename)
 {
+    # XXX: Make do without File::stat::stat as otherwise we need to use the
+    # undocumented File::stat::populate() function with Time::HiRes::stat().
     my $mtime = (Time::HiRes::stat($filename))[9];
     my $t = POSIX::strftime('%Y-%m-%d %H:%M:%S', gmtime $mtime);
     return sprintf "\t%s.%09d +0000", $t, ($mtime - int $mtime) * 1_000_000_000;
@@ -194,10 +197,11 @@ sub add_diff_directory {
         my $fn = (length > length($new)) ? substr($_, length($new) + 1) : '.';
         return if $diff_ignore->($fn);
         $files_in_new{$fn} = 1;
-        lstat("$new/$fn") or syserr(g_('cannot stat file %s'), "$new/$fn");
-        my $mode = S_IMODE((lstat(_))[2]);
-        my $size = (lstat(_))[7];
-        if (-l _) {
+        my $new_st = File::stat::lstat("$new/$fn")
+            or syserr(g_('cannot stat file %s'), "$new/$fn");
+        my $mode = S_IMODE($new_st->mode);
+        my $size = $new_st->size;
+        if (-l $new_st) {
             unless (-l "$old/$fn") {
                 $self->_fail_not_same_type("$old/$fn", "$new/$fn", $fn);
                 return;
@@ -213,7 +217,7 @@ sub add_diff_directory {
             unless ($n eq $n2) {
                 $self->_fail_not_same_type("$old/$fn", "$new/$fn", $fn);
             }
-        } elsif (-f _) {
+        } elsif (-f $new_st) {
             my $old_file = "$old/$fn";
             if (not lstat("$old/$fn")) {
                 if ($! != ENOENT) {
@@ -231,14 +235,14 @@ sub add_diff_directory {
             }
             push @diff_files, [$fn, $mode, $size, $old_file, "$new/$fn",
                                $label_old, "$basedir/$fn"];
-        } elsif (-p _) {
+        } elsif (-p $new_st) {
             unless (-p "$old/$fn") {
                 $self->_fail_not_same_type("$old/$fn", "$new/$fn", $fn);
             }
-        } elsif (-b _ || -c _ || -S _) {
+        } elsif (-b $new_st || -c $new_st || -S $new_st) {
             $self->_fail_with_msg("$new/$fn",
                 g_('device or socket is not allowed'));
-        } elsif (-d _) {
+        } elsif (-d $new_st) {
             if (not lstat("$old/$fn")) {
                 if ($! != ENOENT) {
                     syserr(g_('cannot stat file %s'), "$old/$fn");
@@ -533,13 +537,13 @@ sub analyze {
             $dirtocreate{$dirname} = 1;
         }
 
-        if (-e $fn) {
-            if (not -f _) {
+        my $st = File::stat::stat($fn);
+        if (defined $st) {
+            if (not -f $st) {
                 error(g_("diff '%s' patches something which is not a plain file"),
                       $diff);
             }
-            my $nlink = (stat _)[3];
-            if ($nlink > 1) {
+            if ($st->nlink > 1) {
                 warning(g_("diff '%s' patches hard link %s which can have " .
                            'unintended consequences'), $diff, $fn);
             }

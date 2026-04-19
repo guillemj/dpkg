@@ -32,6 +32,7 @@ package Dpkg::Source::Quilt 0.02;
 use v5.36;
 
 use List::Util qw(any none);
+use File::stat ();
 use File::Spec;
 use File::Copy;
 use File::Find;
@@ -399,16 +400,18 @@ sub restore_quilt_backup_files {
     my $scan_quilt = {
         no_chdir => 1,
         wanted => sub {
-            return if -d;
+            my $st = File::stat::stat($_)
+                or syserr(g_('cannot stat %s'), $_);
+            return if -d $st;
             my $relpath_in_srcpkg = File::Spec->abs2rel($_, $patch_dir);
             my $target = File::Spec->catfile($self->{dir}, $relpath_in_srcpkg);
-            if (-s) {
+            if (-s $st) {
                 unlink($target);
                 make_path(dirname($target));
                 unless (link($_, $target)) {
                     copy($_, $target)
                         or syserr(g_('failed to copy %s to %s'), $_, $target);
-                    chmod_if_needed((stat _)[2], $target)
+                    chmod_if_needed($st->mode, $target)
                         or syserr(g_("unable to change permission of '%s'"), $target);
                 }
             } else {

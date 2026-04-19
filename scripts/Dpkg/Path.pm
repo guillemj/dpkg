@@ -45,6 +45,7 @@ our @EXPORT_OK = qw(
 
 use Exporter qw(import);
 use Errno qw(ENOENT);
+use File::stat ();
 use File::Spec;
 use File::Find;
 use Cwd qw(realpath);
@@ -138,17 +139,16 @@ sub check_files_are_the_same {
     my ($file1, $file2, $resolve_symlink) = @_;
 
     return 1 if $file1 eq $file2;
-    return 0 if ((! -e $file1) || (! -e $file2));
-    my (@stat1, @stat2);
+    my ($st1, $st2);
     if ($resolve_symlink) {
-        @stat1 = stat($file1);
-        @stat2 = stat($file2);
+        $st1 = File::stat::stat($file1);
+        $st2 = File::stat::stat($file2);
     } else {
-        @stat1 = lstat($file1);
-        @stat2 = lstat($file2);
+        $st1 = File::stat::lstat($file1);
+        $st2 = File::stat::lstat($file2);
     }
-    my $result = ($stat1[0] == $stat2[0]) && ($stat1[1] == $stat2[1]);
-    return $result;
+    return 0 if ! defined $st1 || ! defined $st2;
+    return $st1->dev == $st2->dev && $st1->ino == $st2->ino;
 }
 
 

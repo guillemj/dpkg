@@ -42,6 +42,7 @@ our @EXPORT_OK = qw(
 
 use Exporter qw(import);
 use Errno qw(ENOENT);
+use File::stat ();
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -91,7 +92,9 @@ sub fixperms {
 # but not necessarily ownership of those files.
 sub chmod_if_needed {
     my ($newperms, $pathname) = @_;
-    my $oldperms = (stat $pathname)[2] & 0o7777;
+    my $st = File::stat::stat($pathname);
+    return 0 if ! defined $st;
+    my $oldperms = $st->mode & 0o7777;
 
     return 1 if $oldperms == $newperms;
     return chmod $newperms, $pathname;
@@ -114,10 +117,10 @@ sub fs_time {
         utime(undef, undef, $file) or
             syserr(g_('cannot change timestamp for %s'), $file);
     }
-    stat($file) or syserr(g_('cannot read timestamp from %s'), $file);
-    my $mtime = (stat(_))[9];
+    my $st = File::stat::stat($file)
+        or syserr(g_('cannot read timestamp from %s'), $file);
     unlink($file) if $is_temp;
-    return $mtime;
+    return $st->mtime;
 }
 
 sub is_binary {

@@ -34,6 +34,7 @@ use v5.36;
 
 use Carp;
 use Errno qw(ENOENT);
+use File::stat ();
 use File::Temp;
 use File::Basename qw(basename);
 use File::Spec;
@@ -205,33 +206,25 @@ sub extract {
             my $relpath = File::Spec->abs2rel($File::Find::name, $tmpdir);
             my $destpath = File::Spec->catfile($dest, $relpath);
 
-            my ($mode, $atime, $mtime);
-            lstat $File::Find::name
+            my $src_st = File::stat::lstat($File::Find::name)
                 or syserr(g_('cannot get source pathname %s metadata'), $File::Find::name);
-            ((undef) x 2, $mode, (undef) x 5, $atime, $mtime) = lstat _;
-            my $src_is_dir = -d _;
-
-            my $dest_exists = 1;
-            if (not lstat $destpath) {
-                if ($! == ENOENT) {
-                    $dest_exists = 0;
-                } else {
-                    syserr(g_('cannot get target pathname %s metadata'), $destpath);
-                }
+            my $dst_st = File::stat::lstat($destpath);
+            if (! $dst_st && $! != ENOENT) {
+                syserr(g_('cannot get target pathname %s metadata'), $destpath);
             }
-            my $dest_is_dir = -d _;
-            if ($dest_exists) {
-                if ($dest_is_dir && $src_is_dir) {
+
+            if (defined $dst_st) {
+                if (-d $dst_st && -d $src_st) {
                     # Refresh the destination directory attributes with the
                     # ones from the tarball.
-                    chmod $mode, $destpath
+                    chmod $src_st->mode, $destpath
                         or syserr(g_('cannot change directory %s mode'), $File::Find::name);
-                    utime $atime, $mtime, $destpath
+                    utime $src_st->atime, $src_st->mtime, $destpath
                         or syserr(g_('cannot change directory %s times'), $File::Find::name);
 
                     # We should do nothing, and just walk further tree.
                     return;
-                } elsif ($dest_is_dir) {
+                } elsif (-d $dst_st) {
                     rmdir $destpath
                         or syserr(g_('cannot remove destination directory %s'), $destpath);
                 } else {
@@ -241,7 +234,7 @@ sub extract {
                 }
             }
             # If we are moving a directory, we do not need to walk it.
-            if ($src_is_dir) {
+            if (-d $src_st) {
                 $File::Find::prune = 1;
             }
             rename $File::Find::name, $destpath

@@ -21,6 +21,7 @@
 use v5.36;
 
 use List::Util qw(none);
+use File::stat ();
 use File::Basename;
 use File::Path qw(make_path);
 
@@ -81,11 +82,10 @@ sub fileexists
 sub filesame
 {
     my ($a, $b) = @_;
-    my @sta = stat($a);
-    my @stb = stat($b);
+    my $sta = File::stat::stat($a);
+    my $stb = file::stat::stat($b);
 
-    # Same device and inode numbers.
-    return (@sta and @stb and $sta[0] == $stb[0] and $sta[1] == $stb[1]);
+    return $sta && $stb && $sta->dev == $stb->dev && $sta->ino == $stb->dev;
 }
 
 sub getfields

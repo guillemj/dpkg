@@ -34,6 +34,7 @@ use v5.36;
 
 use Errno qw(ENOENT);
 use Cwd;
+use File::stat ();
 use File::Basename;
 use File::Temp;
 use File::Spec;
@@ -285,11 +286,11 @@ sub do_extract {
         # make sure debian/rules is executable if it exists. Otherwise the
         # debian-rules build driver will take care of the warnings.
         my $rules = File::Spec->catfile($newdirectory, 'debian', 'rules');
-        my @s = lstat $rules;
-        if (not scalar @s) {
+        my $st = File::stat::lstat($rules);
+        if (! defined $st) {
             syserr(g_('cannot stat %s'), $rules) if $! != ENOENT;
-        } elsif (-f _) {
-            chmod $s[2] | 0o111, $rules
+        } elsif (-f $st) {
+            chmod $st->mode | 0o111, $rules
                 or syserr(g_('cannot make %s executable'), $rules);
         } else {
             warning(g_('%s is not a plain file'), $rules);

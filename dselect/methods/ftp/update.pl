@@ -28,6 +28,8 @@ if ($@) {
     exit 1;
 }
 
+use File::stat ();
+
 use Dselect::Method;
 use Dselect::Method::Ftp;
 
@@ -122,11 +124,13 @@ sub download {
                 $must_get = 1;
             } else {
                 # Else check last modification date.
-                my @pack_stat = stat($file);
-                if ($newest_pack_date > $pack_stat[9]) {
+                my $st = File::stat::stat($file);
+                if (! defined $st) {
+                    $must_get = 1;
+                } elsif ($newest_pack_date > $st->mtime) {
 #                   print "Packages has changed; must get it.\n";
                     $must_get = 1;
-                } elsif ($newest_pack_date < $pack_stat[9]) {
+                } elsif ($newest_pack_date < $st->mtime) {
                     print " Our file is newer than theirs; skipping.\n";
                 } else {
                     print " Already up-to-date; skipping.\n";
