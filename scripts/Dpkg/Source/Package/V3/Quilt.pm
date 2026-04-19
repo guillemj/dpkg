@@ -46,7 +46,9 @@ use Dpkg::Exit;
 # Based on wig&pen implementation.
 use parent qw(Dpkg::Source::Package::V2);
 
-our $CURRENT_MINOR_VERSION = '0';
+sub CURRENT_MINOR_VERSION {
+    '0';
+}
 
 sub init_options {
     my $self = shift;

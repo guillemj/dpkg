@@ -47,7 +47,9 @@ use Dpkg::Vendor qw(run_vendor_hook);
 
 use parent qw(Dpkg::Source::Package);
 
-our $CURRENT_MINOR_VERSION = '0';
+sub CURRENT_MINOR_VERSION {
+    '0';
+}
 
 sub do_extract {
     my ($self, $newdirectory) = @_;

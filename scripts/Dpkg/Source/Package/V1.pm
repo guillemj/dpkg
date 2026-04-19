@@ -52,7 +52,9 @@ use Dpkg::Vendor qw(run_vendor_hook);
 
 use parent qw(Dpkg::Source::Package);
 
-our $CURRENT_MINOR_VERSION = '0';
+sub CURRENT_MINOR_VERSION {
+    '0';
+}
 
 sub init_options {
     my $self = shift;

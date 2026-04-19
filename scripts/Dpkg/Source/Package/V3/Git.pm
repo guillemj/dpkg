@@ -46,7 +46,9 @@ use Dpkg::Source::Functions qw(erasedir);
 
 use parent qw(Dpkg::Source::Package);
 
-our $CURRENT_MINOR_VERSION = '0';
+sub CURRENT_MINOR_VERSION {
+    '0';
+}
 
 # Remove variables from the environment that might cause git to do
 # something unexpected.

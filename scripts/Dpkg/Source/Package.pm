@@ -333,13 +333,13 @@ sub upgrade_object_type {
     $module .= '::' . ucfirst $variant if defined $variant;
     eval qq{
         require $module;
-        \$minor = \$${module}::CURRENT_MINOR_VERSION;
     };
     if ($@) {
         error(g_("source package format '%s' is not supported: %s"),
               $format, $@);
     }
     if ($update_format) {
+        $minor = $module->CURRENT_MINOR_VERSION();
         $self->{format}->set_from_parts($major, $minor, $variant);
         $self->{fields}{'Format'} = $self->{format}->get();
     }

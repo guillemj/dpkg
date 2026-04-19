@@ -50,7 +50,9 @@ use Dpkg::Source::Functions qw(erasedir);
 
 use parent qw(Dpkg::Source::Package);
 
-our $CURRENT_MINOR_VERSION = '0';
+sub CURRENT_MINOR_VERSION {
+    '0';
+}
 
 sub prerequisites {
     return 1 if find_command('bzr');
