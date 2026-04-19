@@ -39,7 +39,7 @@ use File::Spec;
 use File::Path qw(make_path);
 use File::Compare;
 use Fcntl qw(:mode);
-use Time::HiRes qw(stat);
+use Time::HiRes;
 
 use Dpkg;
 use Dpkg::Gettext;
@@ -86,7 +86,7 @@ sub get_header {
 
 sub _gen_hires_diff_label($filename)
 {
-    my $mtime = (stat $filename)[9];
+    my $mtime = (Time::HiRes::stat($filename))[9];
     my $t = POSIX::strftime('%Y-%m-%d %H:%M:%S', gmtime $mtime);
     return sprintf "\t%s.%09d +0000", $t, ($mtime - int $mtime) * 1_000_000_000;
 }
@@ -538,8 +538,7 @@ sub analyze {
                 error(g_("diff '%s' patches something which is not a plain file"),
                       $diff);
             }
-            # Note: We cannot use "stat _" due to Time::HiRes.
-            my $nlink = (stat $fn)[3];
+            my $nlink = (stat _)[3];
             if ($nlink > 1) {
                 warning(g_("diff '%s' patches hard link %s which can have " .
                            'unintended consequences'), $diff, $fn);
