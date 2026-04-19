@@ -84,6 +84,13 @@ sub get_header {
     }
 }
 
+sub _gen_hires_diff_label($filename)
+{
+    my $mtime = (stat $filename)[9];
+    my $t = POSIX::strftime('%Y-%m-%d %H:%M:%S', gmtime $mtime);
+    return sprintf "\t%s.%09d +0000", $t, ($mtime - int $mtime) * 1_000_000_000;
+}
+
 sub add_diff_file {
     my ($self, $old, $new, %opts) = @_;
     $opts{include_timestamp} //= 0;
@@ -104,14 +111,8 @@ sub add_diff_file {
     # Add labels.
     if ($opts{label_old} and $opts{label_new}) {
         if ($opts{include_timestamp}) {
-            my $ts = (stat($old))[9];
-            my $t = POSIX::strftime('%Y-%m-%d %H:%M:%S', gmtime($ts));
-            $opts{label_old} .= sprintf("\t%s.%09d +0000", $t,
-                                        ($ts - int($ts)) * 1_000_000_000);
-            $ts = (stat($new))[9];
-            $t = POSIX::strftime('%Y-%m-%d %H:%M:%S', gmtime($ts));
-            $opts{label_new} .= sprintf("\t%s.%09d +0000", $t,
-                                        ($ts - int($ts)) * 1_000_000_000);
+            $opts{label_old} .= _gen_hires_diff_label($old);
+            $opts{label_new} .= _gen_hires_diff_label($new);
         } else {
             # Space in filenames need special treatment.
             $opts{label_old} .= "\t" if $opts{label_old} =~ / /;
