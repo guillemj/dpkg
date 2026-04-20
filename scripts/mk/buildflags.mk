@@ -1,7 +1,7 @@
 # This Makefile fragment (since dpkg 1.16.1) defines the following host
 # variables:
 #
-#   ASFLAGS: Flags for the host assembler (since 1.21.0).
+#   ASFLAGS: Flags for the host assembler (since dpkg 1.21.0).
 #   CFLAGS: Flags for the host C compiler.
 #   CPPFLAGS: Flags for the host C preprocessor.
 #   CXXFLAGS: Flags for the host C++ compiler.

@@ -22,7 +22,7 @@
 # Symbols starting with «_dpkg_» are considered private and should not
 # be used outside this shell library.
 
-# Set a default program name (since 1.22.12).
+# Set a default program name (since dpkg 1.22.12).
 : "${PROGNAME:=$(basename "$0")}"
 
 # Standard ANSI colors and attributes.
