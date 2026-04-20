@@ -116,14 +116,19 @@ m_dup(int oldfd)
 void
 m_dup2(int oldfd, int newfd)
 {
-	const char *const stdstrings[] = { "in", "out", "err" };
+	const char *const stdstrings[] = {
+		N_("<standard input>"),
+		N_("<standard output>"),
+		N_("<standard error>"),
+	};
 
 	if (dup2(oldfd, newfd) == newfd)
 		return;
 
 	onerr_abort++;
 	if (newfd < 3)
-		ohshite(_("failed to dup for std%s"), stdstrings[newfd]);
+		ohshite(_("cannot duplicate file descriptor for %s"),
+		        gettext(stdstrings[newfd]));
 	ohshite(_("failed to dup for fd %d"), newfd);
 }
 
