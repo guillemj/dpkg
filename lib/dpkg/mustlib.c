@@ -44,22 +44,32 @@ must_alloc(void *ptr)
 	ohshite(_("failed to allocate memory"));
 }
 
+static inline void *
+must_alloc_size(void *ptr, size_t size)
+{
+	if (ptr)
+		return ptr;
+
+	onerr_abort++;
+	ohshite(_("cannot allocate memory (%zu bytes)"), size);
+}
+
 void *
 m_malloc(size_t amount)
 {
-	return must_alloc(malloc(amount));
+	return must_alloc_size(malloc(amount), amount);
 }
 
 void *
 m_calloc(size_t nmemb, size_t size)
 {
-	return must_alloc(calloc(nmemb, size));
+	return must_alloc_size(calloc(nmemb, size), nmemb * size);
 }
 
 void *
 m_realloc(void *r, size_t amount)
 {
-	return must_alloc(realloc(r, amount));
+	return must_alloc_size(realloc(r, amount), amount);
 }
 
 char *
