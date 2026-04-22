@@ -77,7 +77,7 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
 	db_dir = opendir(db_path.buf);
 	if (!db_dir)
-		ohshite(_("cannot read info directory"));
+		ohshite(_("cannot open info directory"));
 
 	push_cleanup(cu_closedir, ~0, 1, (void *)db_dir);
 	while ((db_de = readdir(db_dir)) != NULL) {

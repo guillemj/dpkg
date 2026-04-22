@@ -214,7 +214,7 @@ if (not scalar @files) {
             next PATH if -l $updir;
         }
         opendir(my $libdir_dh, "$libdir")
-            or syserr(g_('cannot read directory %s: %s'), $libdir, $!);
+            or syserr(g_('cannot open directory %s: %s'), $libdir, $!);
         push @files, grep {
             /(\.so\.|\.so$)/ && -f &&
             Dpkg::Shlibs::Objdump::is_elf($_);

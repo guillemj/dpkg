@@ -2425,7 +2425,7 @@ do_procinit(void)
 
 	procdir = opendir("/proc");
 	if (!procdir)
-		fatale("cannot opendir /proc");
+		fatale("cannot open directory /proc");
 
 	foundany = 0;
 	while ((entry = readdir(procdir)) != NULL) {

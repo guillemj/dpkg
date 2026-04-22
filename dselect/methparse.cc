@@ -92,7 +92,7 @@ readmethods(const char *pathbase, dselect_option **optionspp, int *nread)
 	if (!dir) {
 		if (errno == ENOENT)
 			return;
-		ohshite(_("cannot read '%s' directory to read methods"),
+		ohshite(_("cannot open '%s' directory to read methods"),
 		        path.str());
 	}
 

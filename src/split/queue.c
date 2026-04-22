@@ -96,7 +96,7 @@ scandepot(void)
 		if (errno == ENOENT)
 			return NULL;
 
-		ohshite(_("cannot read depot directory '%s'"),
+		ohshite(_("cannot open depot directory '%s'"),
 		        opt_depotdir);
 	}
 	while ((de = readdir(depot))) {

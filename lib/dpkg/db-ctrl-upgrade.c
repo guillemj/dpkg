@@ -88,7 +88,7 @@ pkg_infodb_link_multiarch_files(void)
 
 	db_dir = opendir(pkg_infodb_get_dir());
 	if (!db_dir)
-		ohshite(_("cannot read info directory"));
+		ohshite(_("cannot open info directory"));
 
 	push_cleanup(cu_closedir, ~0, 1, (void *)db_dir);
 	while ((db_de = readdir(db_dir)) != NULL) {

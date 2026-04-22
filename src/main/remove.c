@@ -616,7 +616,7 @@ removal_bulk_remove_configfiles(struct pkginfo *pkg)
 			errno = e;
 			if (errno == ENOENT || errno == ENOTDIR)
 				continue;
-			ohshite(_("cannot read config file directory '%s' (from '%s')"),
+			ohshite(_("cannot open config file directory '%s' (from '%s')"),
 			        fnvb.buf, conff->name);
 		}
 		debug_at(dbg_conffdetail, "conffile cleaning dir %s", fnvb.buf);

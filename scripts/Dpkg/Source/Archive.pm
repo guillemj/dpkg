@@ -251,7 +251,7 @@ sub extract {
     } else {
         # Rename extracted directory.
         opendir my $dir_dh, $tmpdir
-            or syserr(g_('cannot opendir %s'), $tmpdir);
+            or syserr(g_('cannot open directory %s'), $tmpdir);
         my @entries = grep { $_ ne '.' && $_ ne '..' } readdir($dir_dh);
         closedir($dir_dh);
 

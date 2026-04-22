@@ -298,7 +298,8 @@ sub _get_patches {
     my $pd = "$dir/debian/patches";
     my $auto_patch = $self->get_autopatch_name();
     if (-d $pd) {
-        opendir(my $dir_dh, $pd) or syserr(g_('cannot opendir %s'), $pd);
+        opendir(my $dir_dh, $pd)
+            or syserr(g_('cannot open directory %s'), $pd);
         foreach my $patch (sort readdir($dir_dh)) {
             # The «patches» directory matches the same rules as run-parts.
             next unless $patch =~ /^[\w-]+$/ and -f "$pd/$patch";

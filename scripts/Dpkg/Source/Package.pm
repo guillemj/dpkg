@@ -443,7 +443,8 @@ sub find_original_tarballs {
     my @tar;
     foreach my $dir ($self->{basedir}, $self->{options}{origtardir}) {
         next unless defined($dir) and -d $dir;
-        opendir(my $dir_dh, $dir) or syserr(g_('cannot opendir %s'), $dir);
+        opendir(my $dir_dh, $dir)
+            or syserr(g_('cannot open directory %s'), $dir);
         push @tar, map { File::Spec->catfile($dir, $_) } grep {
                 ($opts{include_main} and
                  /^\Q$basename\E\.orig\.tar\.$opts{extension}$/) or
