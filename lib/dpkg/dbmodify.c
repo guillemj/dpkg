@@ -475,7 +475,7 @@ modstatdb_note_core(struct pkginfo *pkg)
 		ohshite(_("cannot truncate for updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 	if (fsync(fileno(importanttmp)))
-		ohshite(_("cannot fsync updated status of '%s'"),
+		ohshite(_("cannot sync updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 	if (fclose(importanttmp))
 		ohshite(_("cannot close updated status of '%s'"),
