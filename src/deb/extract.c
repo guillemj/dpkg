@@ -388,7 +388,7 @@ extracthalf(const char *debar, const char *dir,
 						        dir);
 				}
 				if (chdir(dir) != 0)
-					ohshite(_("cannot chdir to directory"));
+					ohshite(_("cannot change directory to directory"));
 			}
 
 			command_exec(&cmd);

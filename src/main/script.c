@@ -130,7 +130,7 @@ maintscript_pre_exec(struct command *cmd)
 	/* Switch to a known good directory to give the maintainer script
 	 * a saner environment, also needed after the chroot(). */
 	if (chdir(changedir))
-		ohshite(_("cannot chdir to '%s'"), changedir);
+		ohshite(_("cannot change directory to '%s'"), changedir);
 
 	if (debug_has_flag(dbg_scripts)) {
 		struct varbuf args = VARBUF_INIT;

@@ -115,7 +115,7 @@ sub do_build {
     _check_workdir($dir);
 
     my $old_cwd = getcwd();
-    chdir $dir or syserr(g_("cannot chdir to '%s'"), $dir);
+    chdir $dir or syserr(g_("cannot change directory to '%s'"), $dir);
 
     local $_;
 
@@ -139,7 +139,7 @@ sub do_build {
               join(' ', @files));
     }
 
-    chdir $old_cwd or syserr(g_("cannot chdir to '%s'"), $old_cwd);
+    chdir $old_cwd or syserr(g_("cannot change directory to '%s'"), $old_cwd);
 
     my $tmpdir = File::Temp->newdir(
         TEMPLATE => "$dirname.bzr.XXXXXX",
@@ -214,13 +214,13 @@ sub do_extract {
 
     my $old_cwd = getcwd();
     chdir($newdirectory)
-        or syserr(g_("cannot chdir to '%s'"), $newdirectory);
+        or syserr(g_("cannot change directory to '%s'"), $newdirectory);
 
     # Reconstitute the working tree.
     system('bzr', 'checkout');
     subprocerr('bzr checkout') if $?;
 
-    chdir $old_cwd or syserr(g_("cannot chdir to '%s'"), $old_cwd);
+    chdir $old_cwd or syserr(g_("cannot change directory to '%s'"), $old_cwd);
 }
 
 =head1 CHANGES

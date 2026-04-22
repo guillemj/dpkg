@@ -545,7 +545,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
 		close(pipe_tarball[1]);
 
 		if (chdir(dir))
-			ohshite(_("cannot chdir to '%s'"), dir);
+			ohshite(_("cannot change directory to '%s'"), dir);
 
 		snprintf(mtime, sizeof(mtime), "@%jd", options->timestamp);
 

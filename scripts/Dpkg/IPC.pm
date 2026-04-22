@@ -279,7 +279,7 @@ sub spawn {
         # Change the current directory.
         if ($opts{chdir}) {
             chdir($opts{chdir})
-                or syserr(g_('cannot chdir to %s'), $opts{chdir});
+                or syserr(g_('cannot change directory to %s'), $opts{chdir});
         }
         # Redirect STDIN if needed.
         if ($opts{from_file}) {

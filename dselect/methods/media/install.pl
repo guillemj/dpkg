@@ -298,7 +298,7 @@ foreach my $need (@media) {
         ($basename = $filename{$pkgname}) =~ s/.*\///;
         symlink "$p_mountpoint/$p_hierbase/$filename{$pkgname}", "tmp/$basename";
     }
-    chdir 'tmp' or syserr("cannot chdir to '%s'", 'tmp');
+    chdir 'tmp' or syserr("cannot change directory to '%s'", 'tmp');
     system 'dpkg', '-iGROEB', q{.};
     unlink <*>;
     chdir q{..};

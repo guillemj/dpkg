@@ -2685,12 +2685,12 @@ do_start(int argc, char **argv)
 		set_io_schedule(io_sched);
 	if (changeroot != NULL) {
 		if (chdir(changeroot) < 0)
-			fatale("cannot chdir() to %s", changeroot);
+			fatale("cannot change directory to %s", changeroot);
 		if (chroot(changeroot) < 0)
 			fatale("cannot chroot() to %s", changeroot);
 	}
 	if (chdir(changedir) < 0)
-		fatale("cannot chdir() to %s", changedir);
+		fatale("cannot change directory to %s", changedir);
 
 	rgid = getgid();
 	ruid = getuid();
