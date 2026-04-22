@@ -71,13 +71,13 @@ sub _check_workdir {
     # Symlinks from .bzr to outside could cause unpack failures, or point to
     # files they should not, so check for and do not allow.
     if (-l "$srcdir/.bzr") {
-        error(g_('%s is a symlink'), "$srcdir/.bzr");
+        error(g_('%s is a symbolic link'), "$srcdir/.bzr");
     }
     my $abs_srcdir = Cwd::abs_path($srcdir);
     find(sub {
         if (-l) {
             if (Cwd::abs_path(readlink) !~ /^\Q$abs_srcdir\E(?:\/|$)/) {
-                error(g_('%s is a symlink to outside %s'),
+                error(g_('%s is a symbolic link to outside %s'),
                       $File::Find::name, $srcdir);
             }
         }

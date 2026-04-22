@@ -571,7 +571,7 @@ tarobject_set_perms(struct tar_entry *te, const char *path, struct file_stat *st
 	if (te->type == TAR_FILETYPE_SYMLINK) {
 		rc = lchown(path, st->uid, st->gid);
 		if (forcible_nonroot_error(rc))
-			ohshite(_("cannot set ownership of symlink '%s'"),
+			ohshite(_("cannot set ownership of symbolic link '%s'"),
 			        path);
 	} else {
 		rc = chown(path, st->uid, st->gid);
@@ -614,7 +614,7 @@ tarobject_matches(struct tarcontext *tc,
 			break;
 		linksize = file_readlink(fn_old, &linkname, stab->st_size);
 		if (linksize < 0)
-			ohshite(_("cannot read link '%s'"), fn_old);
+			ohshite(_("cannot read symbolic link '%s'"), fn_old);
 		else if (linksize > stab->st_size)
 			ohshit(_("symbolic link '%s' size has changed from %jd to %zd"),
 			       fn_old, (intmax_t)stab->st_size, linksize);
@@ -687,7 +687,7 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
 	statr = stat(fname, &oldstab);
 	if (statr) {
 		if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
-			ohshite(_("cannot stat (dereference) existing symlink '%s'"),
+			ohshite(_("cannot stat (dereference) existing symbolic link '%s'"),
 			        fname);
 		return false;
 	}
@@ -712,8 +712,8 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
 	if (statr) {
 		if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
 			ohshite(_("cannot stat (dereference) proposed "
-			          "new symlink target '%s'"
-			          "for symlink '%s'"),
+			          "new symbolic link target '%s'"
+			          "for symbolic link '%s'"),
 			        symlinkfn->buf, fname);
 		return false;
 	}
@@ -1163,7 +1163,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
 			 * of a symlink is the same as linking to it.) */
 			linksize = file_readlink(fnamevb.buf, &symlinkfn, stab.st_size);
 			if (linksize < 0)
-				ohshite(_("cannot read link '%s'"),
+				ohshite(_("cannot read symbolic link '%s'"),
 				        ti->name);
 			else if (linksize > stab.st_size)
 				ohshit(_("symbolic link '%s' size has changed from %jd to %zd"),
@@ -1172,11 +1172,11 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
 				warning(_("symbolic link '%s' size has changed from %jd to %zd"),
 				       fnamevb.buf, (intmax_t)stab.st_size, linksize);
 			if (symlink(symlinkfn.buf, fnametmpvb.buf))
-				ohshite(_("cannot make backup symlink for '%s'"),
+				ohshite(_("cannot make backup symbolic link for '%s'"),
 				        ti->name);
 			rc = lchown(fnametmpvb.buf, stab.st_uid, stab.st_gid);
 			if (forcible_nonroot_error(rc))
-				ohshite(_("cannot chown backup symlink for '%s'"),
+				ohshite(_("cannot chown backup symbolic link for '%s'"),
 				        ti->name);
 			tarobject_set_se_context(fnamevb.buf, fnametmpvb.buf,
 			                         stab.st_mode);

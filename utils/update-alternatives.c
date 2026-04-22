@@ -151,7 +151,7 @@ usage(void)
 "\n"));
 
 	printf(_(
-"<link> is the symlink pointing to %s/<name>.\n"
+"<link> is the symbolic link pointing to %s/<name>.\n"
 "  (e.g. /usr/bin/pager)\n"
 "<name> is the master name for this link group.\n"
 "  (e.g. pager)\n"
@@ -628,7 +628,8 @@ fsys_xreadlink(const char *linkname)
 
 	buf = fsys_areadlink(linkname);
 	if (buf == NULL)
-		syserr(_("cannot read link '%s%s'"), instdir, linkname);
+		syserr(_("cannot read symbolic link '%s%s'"),
+		       instdir, linkname);
 
 	return buf;
 }
@@ -659,7 +660,7 @@ fsys_set_ref_time(const char *linkname, const char *target)
 
 	root_linkname = fsys_get_path(linkname);
 	if (lutimes(root_linkname, tv) < 0 && errno != ENOSYS)
-		syserr(_("cannot set symlink '%s' timestamp"), root_linkname);
+		syserr(_("cannot set symbolic link '%s' timestamp"), root_linkname);
 	free(root_linkname);
 #endif
 }
@@ -2098,7 +2099,7 @@ alternative_prepare_install(struct alternative *a, const char *choice)
 		if (alternative_path_can_remove(sl->link))
 			alternative_add_commit_op(a, OPCODE_RM, sl->link, NULL);
 		else
-			warning(_("not removing %s since it is not a symlink"),
+			warning(_("not removing %s since it is not a symbolic link"),
 			        sl->link);
 		alternative_add_commit_op(a, OPCODE_RM, fn, NULL);
 		free(fn);

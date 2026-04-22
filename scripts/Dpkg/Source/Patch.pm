@@ -210,11 +210,11 @@ sub add_diff_directory {
             }
             my $n = readlink("$new/$fn");
             unless (defined $n) {
-                syserr(g_('cannot read link %s'), "$new/$fn");
+                syserr(g_('cannot read symbolic link %s'), "$new/$fn");
             }
             my $n2 = readlink("$old/$fn");
             unless (defined $n2) {
-                syserr(g_('cannot read link %s'), "$old/$fn");
+                syserr(g_('cannot read symbolic link %s'), "$old/$fn");
             }
             unless ($n eq $n2) {
                 $self->_fail_not_same_type("$old/$fn", "$new/$fn", $fn);
@@ -273,7 +273,7 @@ sub add_diff_directory {
         } elsif (-d _) {
             warning(g_('ignoring deletion of directory %s'), $fn);
         } elsif (-l _) {
-            warning(g_('ignoring deletion of symlink %s'), $fn);
+            warning(g_('ignoring deletion of symbolic link %s'), $fn);
         } else {
             $self->_fail_not_same_type("$old/$fn", "$new/$fn", $fn);
         }
@@ -749,7 +749,7 @@ sub get_type {
             if -f _ ;
         return g_('directory')
             if -d _;
-        return sprintf(g_('symlink to %s'), readlink($file))
+        return sprintf(g_('symbolic link to %s'), readlink($file))
             if -l _;
         return g_('block device')
             if -b _;

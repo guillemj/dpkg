@@ -150,7 +150,7 @@ sub apply_patches {
         # Do not overwrite real files.
         unless (-f _) {
             symlink($basename, $dest)
-                or syserr(g_('cannot create symlink %s'), $dest);
+                or syserr(g_('cannot create symbolic link %s'), $dest);
         }
     }
 

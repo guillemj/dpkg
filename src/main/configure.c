@@ -772,7 +772,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 					;
 				if (r < 0) {
 					warning(_("%s: conffile '%s' resolves to degenerate filename\n"
-					          " ('%s' is a symlink to '%s')"),
+					          " ('%s' is a symbolic link to '%s')"),
 					        pkg_name(pkg, pnaw_nonambig),
 					        in, result->buf, target.buf);
 					return -1;
@@ -786,7 +786,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 			}
 			varbuf_add_varbuf(result, &target);
 		} else {
-			warning(_("%s: conffile '%s' is not a plain file or symlink (= '%s')"),
+			warning(_("%s: conffile '%s' is not a plain file or symbolic link (= '%s')"),
 			        pkg_name(pkg, pnaw_nonambig), in, result->buf);
 			return -1;
 		}

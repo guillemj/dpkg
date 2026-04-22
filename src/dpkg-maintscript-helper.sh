@@ -449,7 +449,7 @@ prepare_dir_to_symlink()
     case "$LINE" in
     "$PATHNAME"/*)
       error "directory '$PATHNAME' contains conffiles," \
-            "cannot switch to symlink"
+            "cannot switch to symbolic link"
       ;;
     esac
   done
@@ -460,7 +460,7 @@ prepare_dir_to_symlink()
   find "$DPKG_ROOT$PATHNAME" -print0 \
     | xargs -0 -n1 "$0" _internal_pkg_must_own_file "$PACKAGE" ||
       error "directory '$PATHNAME' contains files not owned by" \
-            "package $PACKAGE, cannot switch to symlink"
+            "package $PACKAGE, cannot switch to symbolic link"
   unset DPKG_MAINTSCRIPT_HELPER_INTERNAL_API
 
   # At this point, we know that the directory either contains no files,

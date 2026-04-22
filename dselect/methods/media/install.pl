@@ -291,7 +291,7 @@ foreach my $need (@media) {
     }
     unlink <tmp/*>;
 
-    print "creating symlinks...\n";
+    print "creating symbolic links...\n";
     foreach my $pkgname (@{$medium{$need}}) {
         my $basename;
 

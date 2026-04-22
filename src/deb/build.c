@@ -231,7 +231,8 @@ check_ctrl_perms(const char *ctrldir)
 			if (S_ISLNK(mscriptstab.st_mode))
 				continue;
 			if (!S_ISREG(mscriptstab.st_mode))
-				ohshit(_("maintainer script '%s' is not a plain file or symlink"),
+				ohshit(_("maintainer script '%s' is not "
+				         "a plain file or symbolic link"),
 				       *mscriptp);
 			if ((mscriptstab.st_mode & 07557) != 0555)
 				ohshit(_("maintainer script '%s' has bad permissions %03lo "

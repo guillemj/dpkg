@@ -160,7 +160,8 @@ realpath_relative_to(const char *pathname, const char *rootdir)
 			/* Resolve the symlink within result. */
 			linksize = file_readlink(slink.buf, &dst, st.st_size);
 			if (linksize < 0)
-				ohshite(_("cannot read link '%s'"), slink.buf);
+				ohshite(_("cannot read symbolic link '%s'"),
+				        slink.buf);
 			else if ((off_t)linksize != st.st_size)
 				ohshit(_("symbolic link '%s' size has changed from %jd to %zd"),
 				       slink.buf, (intmax_t)st.st_size, linksize);
