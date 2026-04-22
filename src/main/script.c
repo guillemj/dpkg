@@ -124,7 +124,7 @@ maintscript_pre_exec(struct command *cmd)
 			         "directory with --force-not-root, consider "
 			         "using --force-script-chrootless?"));
 		else if (rc)
-			ohshite(_("cannot chroot to '%s'"), instdir);
+			ohshite(_("cannot change root directory to '%s'"), instdir);
 	}
 
 	/* Switch to a known good directory to give the maintainer script

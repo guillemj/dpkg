@@ -2687,7 +2687,7 @@ do_start(int argc, char **argv)
 		if (chdir(changeroot) < 0)
 			fatale("cannot change directory to %s", changeroot);
 		if (chroot(changeroot) < 0)
-			fatale("cannot chroot() to %s", changeroot);
+			fatale("cannot change root directory to %s", changeroot);
 	}
 	if (chdir(changedir) < 0)
 		fatale("cannot change directory to %s", changedir);
