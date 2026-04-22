@@ -204,7 +204,7 @@ methodlist::display()
 			}
 		} while (response == ERR && errno == EINTR);
 		if (response == ERR)
-			ohshite(_("cannot getch"));
+			ohshite(_("cannot get input character"));
 		interp = (*bindings)(response);
 		debug(dbg_general,
 		      "methodlist[%p]::display() response=%d interp=%s",
