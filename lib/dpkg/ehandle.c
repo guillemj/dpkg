@@ -128,7 +128,7 @@ print_fatal_error(const char *emsg, const void *data)
 static void
 print_abort_error(const char *etype, const char *emsg)
 {
-	fprintf(stderr, _("%s%s%s: %s%s:%s\n %s\n"),
+	fprintf(stderr, "%s%s:%s %s%s:%s\n %s\n",
 	        color_get(COLOR_PROG), dpkg_get_progname(), color_reset(),
 	        color_get(COLOR_ERROR), etype, color_reset(), emsg);
 }
