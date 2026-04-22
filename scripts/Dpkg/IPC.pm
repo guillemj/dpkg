@@ -256,7 +256,8 @@ sub spawn {
     }
     # Fork and exec.
     my $pid = fork();
-    syserr(g_('cannot fork for %s'), "@prog") unless defined $pid;
+    syserr(g_('cannot create child process for %s'), "@prog")
+        unless defined $pid;
     if (not $pid) {
         # Define environment variables.
         if ($opts{env}) {

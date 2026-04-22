@@ -84,7 +84,7 @@ while (1) {
             $base =~ s{.*/}{};
             my $c = open my $find_fh, '-|';
             if (not defined $c) {
-                syserr("cannot fork for '%s'", 'find');
+                syserr("cannot create child process for '%s'", 'find');
             }
             if (! $c) {
                 exec('find', '-L',

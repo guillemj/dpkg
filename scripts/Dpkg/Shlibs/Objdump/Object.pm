@@ -99,7 +99,7 @@ sub analyze {
     state $OBJDUMP = _select_objdump();
     local $ENV{LC_ALL} = 'C';
     open(my $objdump, '-|', $OBJDUMP, '-w', '-f', '-p', '-T', '-R', $file)
-        or syserr(g_('cannot fork for %s'), $OBJDUMP);
+        or syserr(g_('cannot create child process for %s'), $OBJDUMP);
     my $ret = $self->parse_objdump_output($objdump);
     close($objdump);
     return $ret;

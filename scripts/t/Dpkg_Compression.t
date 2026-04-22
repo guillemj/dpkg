@@ -63,7 +63,7 @@ sub check_uncompressed {
 sub check_compressed {
     my ($filename, $method) = @_;
     open my $read_fh, '-|', 'gunzip', '-c', "$tmpdir/myfile.gz"
-        or die 'cannot fork zcat';
+        or die 'cannot create child process for zcat';
     my @read = <$read_fh>;
     close $read_fh or die 'cannot close';
     is_deeply(\@lines, \@read, "$filename correctly written ($method)");

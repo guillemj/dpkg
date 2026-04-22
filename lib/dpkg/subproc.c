@@ -109,7 +109,7 @@ subproc_fork(void)
 	pid = fork();
 	if (pid < 0) {
 		onerr_abort++;
-		ohshite(_("cannot fork"));
+		ohshite(_("cannot create child process"));
 	}
 	if (pid > 0)
 		return pid;

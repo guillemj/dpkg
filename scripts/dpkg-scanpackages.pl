@@ -173,7 +173,7 @@ sub process_deb {
     my $fields = Dpkg::Control->new(type => CTRL_REPO_PKG);
 
     open my $output_fh, '-|', 'dpkg-deb', '-I', $fn, 'control'
-        or syserr(g_('cannot fork for %s'), 'dpkg-deb');
+        or syserr(g_('cannot create child process for %s'), 'dpkg-deb');
     $fields->parse($output_fh, $fn)
         or error(g_('cannot parse control information from %s'), $fn);
     close $output_fh;

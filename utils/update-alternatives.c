@@ -401,7 +401,7 @@ spawn(const char *prog, const char *args[])
 
 	pid = fork();
 	if (pid < 0)
-		error(_("cannot fork"));
+		error(_("cannot create child process"));
 	if (pid == 0) {
 		execvp(prog, (char *const *)args);
 		syserr(_("cannot execute %s (%s)"), prog, prog);
