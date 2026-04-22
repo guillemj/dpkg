@@ -445,12 +445,12 @@ timespec_gettime(struct timespec *ts)
 #if defined(_POSIX_TIMERS) && _POSIX_TIMERS > 0 && \
     defined(_POSIX_MONOTONIC_CLOCK) && _POSIX_MONOTONIC_CLOCK > 0
 	if (clock_gettime(CLOCK_MONOTONIC, ts) < 0)
-		fatale("cannot clock_gettime");
+		fatale("cannot get current time");
 #else
 	struct timeval tv;
 
 	if (gettimeofday(&tv, NULL) != 0)
-		fatale("cannot gettimeofday");
+		fatale("cannot get current time");
 
 	ts->tv_sec = tv.tv_sec;
 	ts->tv_nsec = tv.tv_usec * NANOSEC_IN_MICROSEC;
