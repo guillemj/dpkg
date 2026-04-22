@@ -464,10 +464,8 @@ run_error_handler(void)
 	}
 
 	if (econtext == NULL) {
-		print_abort_error(_("outside error context, aborting"),
-		                  _("an error occurred with no error handling "
-		                    "in place"));
-		exit(2);
+		internerr("error outside error context, aborting; "
+		          "an error occurred with no error handling in place");
 	} else if (econtext->handler_type == HANDLER_TYPE_FUNC) {
 		econtext->handler.func();
 		internerr("error handler returned unexpectedly!");
