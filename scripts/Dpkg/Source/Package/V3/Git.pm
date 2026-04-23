@@ -164,7 +164,16 @@ sub do_build {
     # To support «dpkg-source -i», get a list of files equivalent to the ones
     # «git status» finds, and remove any ignored files from it.
     my @ignores = '--exclude-per-directory=.gitignore';
-    my $core_excludesfile = qx(git config --get core.excludesfile);
+    my $core_excludesfile;
+    spawn(
+        exec => [
+            'git', 'config',
+                '--get', 'core.excludesfile'
+        ],
+        to_string => \$core_excludesfile,
+        wait_child => 1,
+        no_check => 1,
+    );
     chomp $core_excludesfile;
     if (length $core_excludesfile && -e $core_excludesfile) {
         push @ignores, "--exclude-from=$core_excludesfile";
