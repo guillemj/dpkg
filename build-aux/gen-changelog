@@ -144,7 +144,7 @@ my $log_format =
 my $tag_prev = $ARGV[0];
 my $tag_next = $ARGV[1] // "";
 
-$tag_prev //= qx(git describe --abbrev=0);
+$tag_prev //= qx(git describe --tags --abbrev=0);
 chomp $tag_prev;
 
 my $fh_gitlog;
