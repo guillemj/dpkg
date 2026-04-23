@@ -56,8 +56,10 @@ sub erasedir {
         return if $! == ENOENT;
         syserr(g_('cannot stat directory %s (before removal)'), $dir);
     }
-    system 'rm', '-rf', '--', $dir;
-    subprocerr("rm -rf $dir") if $?;
+    spawn(
+        exec => [ 'rm', '-rf', '--', $dir ],
+        wait_child => 1,
+    );
     if (not stat($dir)) {
         return if $! == ENOENT;
         syserr(g_("cannot check for removal of directory '%s'"), $dir);
@@ -83,8 +85,10 @@ sub fixperms {
             $modes_set .= qw(r w X)[$j];
         }
     }
-    system('chmod', '-R', '--', $modes_set, $dir);
-    subprocerr("chmod -R -- $modes_set $dir") if $?;
+    spawn(
+        exec => [ 'chmod', '-R', '--', $modes_set, $dir ],
+        wait_child => 1,
+    );
 }
 
 # Only change the pathname permissions if they differ from the desired.

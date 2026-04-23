@@ -181,8 +181,18 @@ sub do_build {
     if (-e '.git/info/exclude') {
         push @ignores, '--exclude-from=.git/info/exclude';
     }
-    open(my $git_ls_files_fh, '-|', 'git', 'ls-files', '--modified', '--deleted',
-         '-z', '--others', @ignores) or subprocerr('git ls-files');
+    my $git_ls_files_fh;
+    my $git_ls_files_pid = spawn(
+        exec => [
+            'git', 'ls-files',
+                '--modified',
+                '--deleted',
+                '-z',
+                '--others',
+                @ignores,
+        ],
+        to_pipe => \$git_ls_files_fh,
+    );
     my @files;
     {
         local $_;
@@ -195,6 +205,8 @@ sub do_build {
         }
     }
     close($git_ls_files_fh) or subprocerr('git ls-files');
+    wait_child($git_ls_files_pid, cmdline => 'git ls-files');
+
     if (@files) {
         error(g_('uncommitted, not-ignored changes in working directory: %s'),
               join(' ', @files));
@@ -217,15 +229,16 @@ sub do_build {
         # create a shallow clone.
         info(g_('creating shallow clone with depth %s'),
                 $self->{options}{git_depth});
-        system(
-            'git', 'clone',
-            '--depth=' . $self->{options}{git_depth},
-            '--quiet',
-            '--bare',
-            '--end-of-options',
-            'file://' . abs_path($dir), $clone_dir
+        spawn(
+            exec => [
+                'git', 'clone',
+                    '--depth=' . $self->{options}{git_depth},
+                    '--quiet',
+                    '--bare',
+                    'file://' . abs_path($dir), $clone_dir,
+            ],
+            wait_child => 1,
         );
-        subprocerr('git clone') if $?;
         chdir($clone_dir)
             or syserr(g_("cannot change directory to '%s'"), $clone_dir);
         $shallowfile = "$basenamerev.gitshallow";
@@ -240,15 +253,18 @@ sub do_build {
     my @bundle_arg = $self->{options}{git_ref} ?
         (@{$self->{options}{git_ref}}) : '--all';
     info(g_('bundling: %s'), join(' ', @bundle_arg));
-    system('git', 'bundle', 'create', "$old_cwd/$bundlefile",
-           @bundle_arg,
-           # Ensure HEAD is included no matter what.
-           'HEAD',
-           # Avoids ambiguity error when referring to, for example, a debian
-           # branch.
-           '--',
+    spawn(
+        exec => [
+            'git', 'bundle', 'create', "$old_cwd/$bundlefile",
+                @bundle_arg,
+                # Ensure HEAD is included no matter what.
+                'HEAD',
+                # Avoids ambiguity error when referring to, for example, a
+                # debian branch.
+                '--',
+        ],
+        wait_child => 1,
     );
-    subprocerr("git bundle create $old_cwd/$bundlefile") if $?;
 
     chdir $old_cwd or syserr(g_("cannot change directory to '%s'"), $old_cwd);
 
@@ -301,14 +317,15 @@ sub do_extract {
     # Extract git bundle.
     info(g_('cloning %s'), $bundle);
     my $bundle_path = File::Spec->catfile($self->{basedir}, $bundle);
-    system(
-        'git', 'clone',
-        '--quiet',
-        '--origin=bundle',
-        '--end-of-options',
-        $bundle_path, $newdirectory
+    spawn(
+        exec => [
+            'git', 'clone',
+                '--quiet',
+                '--origin=bundle',
+                $bundle_path, $newdirectory
+        ],
+        wait_child => 1,
     );
-    subprocerr('git bundle') if $?;
 
     if (defined $shallow) {
         # Move shallow info file into place, so git does not try to follow
@@ -327,12 +344,18 @@ sub do_extract {
         my $remote = 'origin';
         my ($url, $head) = _parse_vcs_git($fields->{'Vcs-Git'});
 
-        my @git_remote_add = (qw(git -C), $newdirectory, qw(remote add));
-        push @git_remote_add, '-m', $head if defined $head;
+        my @remote_opts;
+        push @remote_opts, '-m', $head if defined $head;
 
         info(g_('setting remote %s to %s'), $remote, $url);
-        system(@git_remote_add, $remote, $url);
-        subprocerr('git remote add') if $?;
+        spawn(
+            exec => [
+                'git', '-C', $newdirectory, 'remote', 'add',
+                    @remote_opts,
+                    $remote, $url,
+            ],
+            wait_child => 1,
+        );
     }
 }
 

@@ -43,6 +43,7 @@ use File::Spec;
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::IPC;
 use Dpkg::Version;
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
@@ -254,8 +255,12 @@ sub do_extract {
             if (-e "$newdirectory.tmp-keep") {
                 error(g_('cannot keep orig directory (already exists)'));
             }
-            system('cp', '-RPp', '--', $expectprefix, "$newdirectory.tmp-keep");
-            subprocerr("cp $expectprefix $newdirectory.tmp-keep") if $?;
+            spawn(
+                exec => [
+                    'cp', '-RPp', '--', $expectprefix, "$newdirectory.tmp-keep",
+                ],
+                wait_child => 1
+            );
         }
 
         rename($expectprefix, $newdirectory)

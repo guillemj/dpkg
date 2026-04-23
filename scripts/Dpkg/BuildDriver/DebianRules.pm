@@ -40,6 +40,7 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Path qw(find_command);
+use Dpkg::IPC;
 use Dpkg::BuildTypes;
 
 =head1 METHODS
@@ -198,8 +199,12 @@ sub _rules_requires_root {
 
 sub _run_cmd {
     my @cmd = @_;
+
     printcmd(@cmd);
-    system @cmd and subprocerr("@cmd");
+    spawn(
+        exec => \@cmd,
+        wait_child => 1,
+    );
 }
 
 sub _run_rules_cond_root {

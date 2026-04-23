@@ -43,6 +43,7 @@ use File::Temp;
 use Dpkg::Gettext;
 use Dpkg::Compression;
 use Dpkg::ErrorHandling;
+use Dpkg::IPC;
 use Dpkg::Source::Archive;
 use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
 use Dpkg::Path qw(find_command);
@@ -122,8 +123,11 @@ sub do_build {
     # Check for uncommitted files.
     # To support «dpkg-source -i», remove any ignored files from the
     # output of bzr status.
-    open(my $bzr_status_fh, '-|', 'bzr', 'status')
-        or subprocerr('bzr status');
+    my $bzr_status_fh;
+    my $bzr_status_pid = spawn(
+        exec => [ 'bzr', 'status' ],
+        to_pipe => \$bzr_status_fh,
+    );
     my @files;
     while (<$bzr_status_fh>) {
         chomp;
@@ -134,6 +138,8 @@ sub do_build {
         }
     }
     close($bzr_status_fh) or subprocerr('bzr status');
+    wait_child($bzr_status_pid, cmdline => 'bzr status');
+
     if (@files) {
         error(g_('uncommitted, not-ignored changes in working directory: %s'),
               join(' ', @files));
@@ -149,12 +155,16 @@ sub do_build {
     push_exit_handler(sub { erasedir($tmpdir) });
     my $tardir = "$tmpdir/$dirname";
 
-    system('bzr', 'branch', $dir, $tardir);
-    subprocerr("bzr branch $dir $tardir") if $?;
+    spawn(
+        exec => [ 'bzr', 'branch', $dir, $tardir ],
+        wait_child => 1,
+    );
 
     # Remove the working tree.
-    system('bzr', 'remove-tree', $tardir);
-    subprocerr("bzr remove-tree $tardir") if $?;
+    spawn(
+        exec => [ 'bzr', 'remove-tree', $tardir ],
+        wait_child => 1,
+    );
 
     # Some branch metadata files are unhelpful.
     unlink("$tardir/.bzr/branch/branch-name",
@@ -217,8 +227,10 @@ sub do_extract {
         or syserr(g_("cannot change directory to '%s'"), $newdirectory);
 
     # Reconstitute the working tree.
-    system('bzr', 'checkout');
-    subprocerr('bzr checkout') if $?;
+    spawn(
+        exec => [ 'bzr', 'checkout' ],
+        wait_child => 1,
+    );
 
     chdir $old_cwd or syserr(g_("cannot change directory to '%s'"), $old_cwd);
 }

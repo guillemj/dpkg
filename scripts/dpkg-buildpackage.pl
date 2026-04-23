@@ -789,14 +789,18 @@ push @arch_opts, ('--host-type', $host_type) if $host_type;
 push @arch_opts, ('--target-arch', $target_arch) if $target_arch;
 push @arch_opts, ('--target-type', $target_type) if $target_type;
 
-open my $arch_env, '-|', 'dpkg-architecture', '-f', @arch_opts
-    or subprocerr('dpkg-architecture');
-while (<$arch_env>) {
+my $arch_fh;
+my $arch_pid = spawn(
+    exec => [ 'dpkg-architecture', '-f', @arch_opts ],
+    to_pipe => \$arch_fh,
+);
+while (<$arch_fh>) {
     chomp;
     my ($key, $value) = split /=/, $_, 2;
     $ENV{$key} = $value;
 }
-close $arch_env or subprocerr('dpkg-architecture');
+close $arch_fh or subprocerr('dpkg-architecture');
+wait_child($arch_pid, cmdline => "dpkg-architecture -f @arch_opts");
 
 my $arch;
 if (build_has_any(BUILD_ARCH_DEP)) {

@@ -61,13 +61,18 @@ sub cmd_get_vars {
     my (@cmd) = @_;
     my %var;
 
-    open my $cmd_fh, '-|', @cmd or subprocerr($cmd[0]);
+    my $cmd_fh;
+    my $cmd_pid = spawn(
+        exec => \@cmd,
+        to_pipe => \$cmd_fh,
+    );
     while (<$cmd_fh>) {
         chomp;
         my ($key, $value) = split /=/, $_, 2;
         $var{$key} = $value;
     }
     close $cmd_fh or subprocerr($cmd[0]);
+    wait_child($cmd_pid, cmdline => $cmd[0]);
 
     return %var;
 }
