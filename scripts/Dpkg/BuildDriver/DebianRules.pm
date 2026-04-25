@@ -33,6 +33,7 @@ package Dpkg::BuildDriver::DebianRules 0.01;
 use v5.36;
 
 use Errno qw(ENOENT);
+use Fcntl qw(:mode);
 use File::stat ();
 
 use Dpkg ();
@@ -234,7 +235,7 @@ sub pre_check {
             if (! -x $st) {
                 warning(g_('%s is not executable; fixing that'), $rules);
 
-                chmod $st->mode | 0o111, $rules
+                chmod S_IMODE($st->mode) | 0o111, $rules
                     or syserr(g_('cannot make %s executable'), $rules);
             }
         } else {

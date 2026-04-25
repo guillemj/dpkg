@@ -32,6 +32,7 @@ package Dpkg::Source::Quilt 0.02;
 use v5.36;
 
 use List::Util qw(any none);
+use Fcntl qw(:mode);
 use File::stat ();
 use File::Spec;
 use File::Copy;
@@ -411,7 +412,7 @@ sub restore_quilt_backup_files {
                 unless (link($_, $target)) {
                     copy($_, $target)
                         or syserr(g_('failed to copy %s to %s'), $_, $target);
-                    chmod_if_needed($st->mode, $target)
+                    chmod_if_needed(S_IMODE($st->mode), $target)
                         or syserr(g_("unable to change permission of '%s'"), $target);
                 }
             } else {

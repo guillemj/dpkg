@@ -34,6 +34,7 @@ use v5.36;
 
 use Carp;
 use Errno qw(ENOENT);
+use Fcntl qw(:mode);
 use File::stat ();
 use File::Temp;
 use File::Basename qw(basename);
@@ -217,7 +218,7 @@ sub extract {
                 if (-d $dst_st && -d $src_st) {
                     # Refresh the destination directory attributes with the
                     # ones from the tarball.
-                    chmod $src_st->mode, $destpath
+                    chmod S_IMODE($src_st->mode), $destpath
                         or syserr(g_('cannot change directory %s mode'), $File::Find::name);
                     utime $src_st->atime, $src_st->mtime, $destpath
                         or syserr(g_('cannot change directory %s times'), $File::Find::name);

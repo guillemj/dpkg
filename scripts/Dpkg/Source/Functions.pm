@@ -42,6 +42,7 @@ our @EXPORT_OK = qw(
 
 use Exporter qw(import);
 use Errno qw(ENOENT);
+use Fcntl qw(:mode);
 use File::stat ();
 
 use Dpkg::ErrorHandling;
@@ -94,7 +95,7 @@ sub chmod_if_needed {
     my ($newperms, $pathname) = @_;
     my $st = File::stat::stat($pathname);
     return 0 if ! defined $st;
-    my $oldperms = $st->mode & 0o7777;
+    my $oldperms = S_IMODE($st->mode);
 
     return 1 if $oldperms == $newperms;
     return chmod $newperms, $pathname;

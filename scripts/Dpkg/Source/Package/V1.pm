@@ -34,6 +34,7 @@ use v5.36;
 
 use Errno qw(ENOENT);
 use Cwd;
+use Fcntl qw(:mode);
 use File::stat ();
 use File::Basename;
 use File::Temp;
@@ -290,7 +291,7 @@ sub do_extract {
         if (! defined $st) {
             syserr(g_('cannot stat %s'), $rules) if $! != ENOENT;
         } elsif (-f $st) {
-            chmod $st->mode | 0o111, $rules
+            chmod S_IMODE($st->mode) | 0o111, $rules
                 or syserr(g_('cannot make %s executable'), $rules);
         } else {
             warning(g_('%s is not a plain file'), $rules);
