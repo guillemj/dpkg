@@ -70,7 +70,7 @@ able to open another file.
 
 =cut
 
-package Dpkg::Compression::FileHandle 1.01;
+package Dpkg::Compression::FileHandle 1.02;
 
 use v5.36;
 
@@ -344,8 +344,8 @@ sub set_filename {
     }
     my $comp_ext_regex = compression_get_file_extension_regex();
     if (*$self->{add_comp_ext} and $filename =~ /\.$comp_ext_regex$/) {
-        warning('filename %s already has an extension of a compressed file ' .
-                'and add_comp_ext is active', $filename);
+        croak "filename $filename already has an extension of a compressed " .
+              'file and add_comp_ext is active';
     }
 }
 
@@ -491,6 +491,11 @@ C<*$self->{...}> to access the associated hash like in the example below:
     }
 
 =head1 CHANGES
+
+=head2 Version 1.02 (dpkg 1.23.8)
+
+Change behavior: Change $fh->set_filename() to croak instead of warn on
+'add_comp_ext' with a $filename with a compression extension.
 
 =head2 Version 1.01 (dpkg 1.17.11)
 
