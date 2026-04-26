@@ -238,19 +238,19 @@ sub spawn {
     my ($input_pipe, $output_pipe, $error_pipe);
     if ($opts{from_pipe}) {
         pipe($opts{from_handle}, $input_pipe)
-            or syserr(g_('pipe for %s'), "@prog");
+            or syserr(g_('create pipe for %s'), "@prog");
         ${$opts{from_pipe}} = $input_pipe;
         push @{$opts{close_in_child}}, $input_pipe;
     }
     if ($opts{to_pipe}) {
         pipe($output_pipe, $opts{to_handle})
-            or syserr(g_('pipe for %s'), "@prog");
+            or syserr(g_('create pipe for %s'), "@prog");
         ${$opts{to_pipe}} = $output_pipe;
         push @{$opts{close_in_child}}, $output_pipe;
     }
     if ($opts{error_to_pipe}) {
         pipe($error_pipe, $opts{error_to_handle})
-            or syserr(g_('pipe for %s'), "@prog");
+            or syserr(g_('create pipe for %s'), "@prog");
         ${$opts{error_to_pipe}} = $error_pipe;
         push @{$opts{close_in_child}}, $error_pipe;
     }
