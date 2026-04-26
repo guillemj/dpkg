@@ -36,6 +36,7 @@ our @EXPORT = qw(
 
 use Exporter qw(import);
 use Carp;
+use Time::Local;
 
 eval q{
     use Net::FTP;
@@ -182,8 +183,6 @@ sub do_mdtm {
 #   }
 
     if (! $has_mdtm) {
-        require Time::Local;
-
         my @files = $ftp->dir($file);
         # Codes:
         #   550 No such file or directory.
