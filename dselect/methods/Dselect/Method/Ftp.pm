@@ -232,7 +232,7 @@ sub do_mdtm {
             }
 
             # Build a system time.
-            $time = Time::Local::timegm(0, $minutes, $hours, $day, $month, $year);
+            $time = timegm_posix(0, $minutes, $hours, $day, $month, $year);
         } else {
             error('cannot match regex on LIST output');
         }
