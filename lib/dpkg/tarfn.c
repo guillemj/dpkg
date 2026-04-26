@@ -365,7 +365,7 @@ tar_gnu_long(struct tar_archive *tar, struct tar_entry *te, char **longp)
 	char buf[TARBLKSZ];
 	char *bp;
 	int status = 0;
-	int long_read;
+	off_t long_read;
 
 	free(*longp);
 	*longp = bp = m_malloc(te->size + 1);
