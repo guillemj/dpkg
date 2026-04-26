@@ -887,7 +887,7 @@ sub run_hook {
 
     return if not $cmd;
 
-    info("running hook $name");
+    info(g_('running hook %s'), $name);
 
     my %hook_vars = (
         '%' => '%',

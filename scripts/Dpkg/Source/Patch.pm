@@ -161,7 +161,7 @@ sub add_diff_file {
         print { $self } $_
             or syserr(g_('cannot write'));
     }
-    close($diffgen) or syserr('close on diff pipe');
+    close($diffgen) or syserr(g_('close on diff pipe'));
     wait_child($diff_pid,
         no_check => 1,
         cmdline => "diff -u @options -- $old $new",

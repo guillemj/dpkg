@@ -2965,7 +2965,7 @@ main(int argc, char **argv)
 	log_file = fsys_get_path(LOGDIR "/alternatives.log");
 
 	if (setvbuf(stdout, NULL, _IONBF, 0))
-		syserr("cannot setvbuf");
+		syserr(_("cannot setvbuf"));
 
 	prog_path = argv[0];
 
