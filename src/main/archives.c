@@ -1176,7 +1176,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
 				        ti->name);
 			rc = lchown(fnametmpvb.buf, stab.st_uid, stab.st_gid);
 			if (forcible_nonroot_error(rc))
-				ohshite(_("cannot chown backup symbolic link for '%s'"),
+				ohshite(_("cannot set ownership of backup symbolic link for '%s'"),
 				        ti->name);
 			tarobject_set_se_context(fnamevb.buf, fnametmpvb.buf,
 			                         stab.st_mode);
