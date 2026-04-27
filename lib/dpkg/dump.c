@@ -524,7 +524,7 @@ writedb_stanzas(FILE *fp, const char *filename, enum writedb_flags flags)
 	which = (flags & wdb_dump_available) ? "available" : "status";
 
 	if (setvbuf(fp, writebuf, _IOFBF, sizeof(writebuf)))
-		ohshite(_("cannot set buffering on %s database file"), which);
+		ohshite(_("cannot set buffering for %s"), filename);
 
 	pkg_array_init_from_hash(&array);
 	pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);

@@ -2965,7 +2965,7 @@ main(int argc, char **argv)
 	log_file = fsys_get_path(LOGDIR "/alternatives.log");
 
 	if (setvbuf(stdout, NULL, _IONBF, 0))
-		syserr(_("cannot setvbuf"));
+		syserr(_("cannot unset buffering for %s"), _("<standard output>"));
 
 	prog_path = argv[0];
 
