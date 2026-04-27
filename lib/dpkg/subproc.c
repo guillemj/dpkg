@@ -177,7 +177,7 @@ subproc_wait(pid_t pid, const char *desc)
 
 	if (dead_pid != pid) {
 		onerr_abort++;
-		ohshite(_("cannot wait for %s subprocess"), desc);
+		ohshite(_("cannot reap %s subprocess"), desc);
 	}
 
 	return status;

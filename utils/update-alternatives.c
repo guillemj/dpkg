@@ -409,7 +409,7 @@ spawn(const char *prog, const char *args[])
 	while ((dead_pid = waitpid(pid, &status, 0)) < 0 && errno == EINTR)
 		;
 	if (dead_pid != pid)
-		error(_("cannot wait for subprocess %s"), prog);
+		error(_("cannot reap %s subprocess"), prog);
 
 	return status;
 }
