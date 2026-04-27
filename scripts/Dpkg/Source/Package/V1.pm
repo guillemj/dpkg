@@ -255,7 +255,7 @@ sub do_extract {
                 error(g_('cannot keep orig directory (already exists)'));
             }
             system('cp', '-RPp', '--', $expectprefix, "$newdirectory.tmp-keep");
-            subprocerr("cp $expectprefix to $newdirectory.tmp-keep") if $?;
+            subprocerr("cp $expectprefix $newdirectory.tmp-keep") if $?;
         }
 
         rename($expectprefix, $newdirectory)

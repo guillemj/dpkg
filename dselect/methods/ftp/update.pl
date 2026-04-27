@@ -246,7 +246,7 @@ if (! $packages_modified) {
 } else {
     foreach my $file (@pkgfiles) {
         if (system('dpkg', '--merge-avail', $file)) {
-            errormsg("dpkg --merge-avail failed on '%s'", $file);
+            errormsg('%s subprocess failed', "dpkg --merge-avail $file");
             $exit = 1;
         }
     }

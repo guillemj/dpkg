@@ -782,7 +782,7 @@ wait_for_notify(int fd)
 					if (parse_unsigned(line + 6, 10, &suberrno) != 0)
 						fatale("cannot parse errno notification %s", line);
 					errno = suberrno;
-					fatale("program failed to initialize");
+					fatale("subprocess failed service startup");
 				} else if (strcmp(line, "READY=1") == 0) {
 					debug("-> Notification => ready for service.\n");
 					return;
