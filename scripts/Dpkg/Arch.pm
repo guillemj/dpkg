@@ -136,7 +136,7 @@ sub get_raw_build_arch
     ## no critic (TestingAndDebugging::ProhibitNoWarnings)
     no warnings qw(exec);
     $build_arch = qx(dpkg --print-architecture);
-    syserr('dpkg --print-architecture failed') if $? >> 8;
+    subprocerr('dpkg --print-architecture') if $?;
 
     chomp $build_arch;
     return $build_arch;
