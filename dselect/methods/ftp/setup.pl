@@ -129,8 +129,7 @@ sub download {
             my $dir = "$dist/binary-$arch";
             print "Checking $dir...\n";
 #           if (! $ftp->pasv()) {
-#               print $ftp->message . "\n";
-#               die 'error';
+#               error($ftp->message);
 #           }
             my @dirlst = $ftp->ls("$dir/");
             my $got_pkgfile = 0;
@@ -141,8 +140,8 @@ sub download {
                 }
             }
             if (! $got_pkgfile) {
-                print "warning: could not find a Packages file in $dir\n",
-                      "this may not be a problem if the directory is a symbolic link\n";
+                warning("could not find a Packages file in '%s'", $dir);
+                hint('this may not be a problem if the directory is a symbolic link');
                 $problem = 1;
             }
         }
@@ -155,18 +154,19 @@ sub download {
 print "\nUsing FTP to check directories... (use Ctrl+C to stop)\n\n";
 eval {
     local $SIG{INT} = sub {
-        die "interrupted!\n";
+        error('interrupted!');
     };
     download();
 };
 if ($@) {
     $ftp->quit();
-    print 'FTP ERROR - ';
+    my $reason;
     if ($@ eq 'connect') {
-        print "config was untested\n";
+        $reason = 'config was untested';
     } else {
-        print "$@\n";
+        $reason = "$@";
     }
+    errormsg('cannot download with FTP: %s', $reason);
     $exit = 1;
 }
 

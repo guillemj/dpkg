@@ -26,6 +26,7 @@ eval q{
     use File::Find;
     use Data::Dumper;
 
+    use Dpkg::ErrorHandling;
     use Dpkg::File;
     use Dpkg::Version;
 };
@@ -48,8 +49,7 @@ my $method = $ARGV[1];
 my $option = $ARGV[2];
 
 if ($option eq 'manual') {
-    print "manual mode not supported yet\n";
-    exit 1;
+    error('manual mode not supported yet');
 }
 #print "vardir: $vardir, method: $method, option: $option\n";
 
@@ -69,7 +69,7 @@ if (-f "$methdir/md5sums") {
     my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
     my $res = eval $code;
     if ($@) {
-        die "cannot eval $methdir/md5sums content: $@\n";
+        error("cannot eval '%s' content: %s", "$methdir/md5sums", "$@");
     }
     if (ref($res)) {
         %md5sums = %{$res}
@@ -102,7 +102,8 @@ sub get_stanza {
                     }
                     return %flds;
                 } else {
-                    die "expected a start of field line, but got:\n$_";
+                    errormsg('expected a start of field line, but got:');
+                    error($_);
                 }
             }
         }
@@ -119,7 +120,7 @@ my %curpkgs;
 sub procstatus {
     my (%flds, $fld);
     open(my $status_fh, '<', "$vardir/status") or
-        die 'could not open status file';
+        syserr("could not open '%s' file", 'status');
     while (%flds = get_stanza($status_fh), %flds) {
         if ($flds{'status'} =~ /^install ok/) {
             my $cs = (split(/ /, $flds{'status'}))[2];
@@ -150,7 +151,8 @@ sub procpkgfile {
     my (@files, @sizes, @md5sums, $pkg, $ver, $nfs, $fld);
     my %flds;
 
-    open(my $pkgfile_fh, '<', $fn) or die "could not open package file $fn";
+    open(my $pkgfile_fh, '<', $fn)
+        or syserr("could not open package file '%s'", $fn);
     while (%flds = get_stanza($pkgfile_fh), %flds) {
         $pkg = $flds{'package'};
         $ver = $curpkgs{$pkg};
@@ -173,7 +175,7 @@ sub procpkgfile {
             }
         }
     }
-    close $pkgfile_fh or die "cannot close package file $fn: $!\n";
+    close $pkgfile_fh or syserr("cannot close package file '%s'", $fn);
 }
 
 print "\nProcessing Package files...\n";
@@ -189,7 +191,9 @@ foreach my $site (@{$CONFIG{site}}) {
             print " $site->[0] $dist...\n";
             procpkgfile($fn, $i, $j);
         } else {
-            print "could not find packages file for $site->[0] $dist distribution (re-run Update)\n"
+            errormsg('could not find packages file for %s distribution',
+                     "$site->[0] $dist");
+            hint("try to relaunch the 'Update' step in dselect");
         }
         $j++;
     }
@@ -341,7 +345,7 @@ sub download {
         );
 
         local $SIG{INT} = sub {
-            die "interrupted !\n";
+            error('interrupted !');
         };
 
         my ($rsize, $res, $pre);
@@ -408,7 +412,7 @@ if ($totsize != 0) {
                     $ftp->quit();
                     undef $ftp;
                 }
-                print "FTP ERROR\n";
+                errormsg('cannot download from FTP: %s', "$@");
                 if (yesno('y', "\nDo you want to retry downloading at once")) {
                     # Get the first $fn that foreach would give:
                     #   this is the one that got interrupted.
@@ -430,7 +434,8 @@ if ($totsize != 0) {
                     last DOWNLOAD_TRY;
                 }
             } elsif ($@) {
-                print "an error occurred ($@) : stopping download\n";
+                errormsg('cannot download from FTP: %s; stopping download',
+                         "$@");
             }
             last DOWNLOAD_TRY;
         }
@@ -467,7 +472,7 @@ sub getdebinfo {
     my ($pkg, $ver);
     if ($type == 1) {
         open(my $pkgfile_fh, '-|', "dpkg-deb --field $fn")
-            or die "cannot create pipe for 'dpkg-deb --field $fn'";
+            or syserr("cannot create pipe for '%s'", "dpkg-deb --field $fn");
         my %fields = get_stanza($pkgfile_fh);
         close($pkgfile_fh);
         $pkg = $fields{'package'};
@@ -475,7 +480,7 @@ sub getdebinfo {
         return $pkg, $ver;
     } elsif ($type == 2) {
         open(my $pkgfile_fh, '-|', "dpkg-split --info $fn")
-            or die "cannot create pipe for 'dpkg-split --info $fn'";
+            or syserr("cannot create pipe for '%s'", "dpkg-split --info $fn");
         while (<$pkgfile_fh>) {
             if (/Part of package:\s*(\S+)/) {
                 $pkg = $1;
@@ -487,7 +492,7 @@ sub getdebinfo {
         close($pkgfile_fh);
         return $pkg, $ver;
     }
-    print "could not figure out type of $fn\n";
+    errormsg("could not figure out type of '%s'", $fn);
     return $pkg, $ver;
 }
 
@@ -496,7 +501,7 @@ sub prcdeb {
     my ($dir, $fn) = @_;
     my ($pkg, $ver) = getdebinfo($fn);
     if (! defined($pkg) || ! defined($ver)) {
-        print "could not get package info from file\n";
+        errormsg('could not get package info from file');
         return 0;
     }
     if ($vers{$pkg}) {
@@ -575,14 +580,14 @@ if (yesno('y', "\nDo you want to install the files fetched")) {
         next if (! @filename);
         $r = system('dpkg', '-iB', '--', @filename);
         if ($r) {
-            print "DPKG ERROR\n";
+            errormsg("cannot execute '%s': %s", 'dpkg -iB', "$!");
             $exit = 1;
         }
     }
     # Installing other packages after.
     $r = system('dpkg', '-iGREOB', $dldir);
     if ($r) {
-        print "DPKG ERROR\n";
+        errormsg("cannot execute '%s': %s", 'dpkg -iGREOB', "$!");
         $exit = 1;
     }
 }

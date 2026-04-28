@@ -56,7 +56,7 @@ while (1) {
     subprocerr('dpkg --predep-package') if $rc;
 
     open my $predep_fh, '<', $predep
-        or die "cannot open $predep: $!\n";
+        or syserr("cannot open '%s'", $predep);
     while (<$predep_fh>) {
         s/\s*\n$//;
         $package = $_ if s/^Package: //i;
@@ -64,8 +64,8 @@ while (1) {
         @filename = split / / if s/^Filename: //i;
     }
     close $predep_fh;
-    die 'internal error - no package' if length($package) == 0;
-    die 'internal error - no filename' if not @filename;
+    internerr('no package') if length($package) == 0;
+    internerr('no filename') if not @filename;
 
     my @invoke = ();
     $| = 1;
@@ -84,14 +84,14 @@ while (1) {
             $base =~ s{.*/}{};
             my $c = open my $find_fh, '-|';
             if (not defined $c) {
-                die "failed to fork for find: $!\n";
+                syserr("failed to fork for '%s'", 'find');
             }
             if (! $c) {
                 exec('find', '-L',
                      length($binaryprefix) ?
                      $binaryprefix : q{.},
-                     '-name', $base);
-                die "failed to exec find: $!\n";
+                     '-name', $base)
+                    or syserr("failed to exec '%s'", 'find');
             }
             while (chop($invoke = <$find_fh>)) {
                 last if -f $invoke;
@@ -124,8 +124,8 @@ WARN
     }
 
     print "Running dpkg -iB for $package ...\n";
-    exec('dpkg', '--admindir', $vardir, '-iB', '--', @invoke);
-    die "failed to exec dpkg: $!\n";
+    exec('dpkg', '--admindir', $vardir, '-iB', '--', @invoke)
+        or syserr("failed to exec '%s'", 'dpkg');
 }
 
 foreach my $f (qw(main ctb nf lcl)) {

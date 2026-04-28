@@ -40,9 +40,11 @@ use Carp;
 eval q{
     use Net::FTP;
     use Data::Dumper;
+
+    use Dpkg::ErrorHandling;
 };
 if ($@) {
-    warn "Missing Net::FTP modules required by the FTP access method.\n\n";
+    warn "Missing Dpkg modules required by the FTP access method.\n\n";
     exit 1;
 }
 
@@ -66,7 +68,7 @@ sub do_connect {
             Passive => $opts{passive},
         );
         if (! $ftp || ! $ftp->ok) {
-            print "failed to connect\n";
+            errormsg('failed to connect');
             $exit = 1;
         }
         if (! $exit) {
@@ -88,21 +90,21 @@ sub do_connect {
                 $rpass = $opts{password};
             }
             if (! $ftp->login($remoteuser, $rpass)) {
-                print $ftp->message() . "\n";
+                errormsg($ftp->message());
                 $exit = 1;
             }
         }
         if (! $exit) {
             print "Setting transfer mode to binary...\n";
             if (! $ftp->binary()) {
-                print $ftp->message . "\n";
+                errormsg($ftp->message);
                 $exit = 1;
             }
         }
         if (! $exit) {
             print "Cd to '$opts{ftpdir}'...\n";
             if (! $ftp->cwd($opts{ftpdir})) {
-                print $ftp->message . "\n";
+                errormsg($ftp->message);
                 $exit = 1;
             }
         }
@@ -111,7 +113,7 @@ sub do_connect {
             if (yesno ('y', 'Retry connection at once')) {
                 next TRY_CONNECT;
             } else {
-                die 'error';
+                error('cannot connect to FTP site');
             }
         }
 
@@ -119,8 +121,8 @@ sub do_connect {
     }
 
 #   if (! $ftp->pasv()) {
-#       print $ftp->message . "\n";
-#       die 'error';
+#       errormsg($ftp->message);
+#       error('cannot set FTP connection in passive mode');
 #   }
 
     return $ftp;
@@ -227,13 +229,13 @@ sub do_mdtm {
                 $minutes = 0;
                 $year = $year_or_time - 1900;
             } else {
-                die 'cannot parse year-or-time';
+                error('cannot parse year-or-time');
             }
 
             # Build a system time.
             $time = Time::Local::timegm(0, $minutes, $hours, $day, $month, $year);
         } else {
-            die 'regex match failed on LIST output';
+            error('regex match failed on LIST output');
         }
     }
 

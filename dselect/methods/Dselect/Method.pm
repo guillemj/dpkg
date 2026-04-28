@@ -47,6 +47,7 @@ use Carp;
 eval q{
     use Data::Dumper;
 
+    use Dpkg::ErrorHandling;
     use Dpkg::File;
 };
 if ($@) {
@@ -94,21 +95,22 @@ sub read_config {
         $code = file_slurp($vars);
     };
     if ($@) {
-        warn "$@\n";
-        die "try to relaunch the 'Access' step in dselect\n";
+        errormsg("$@");
+        hint("try to relaunch the 'Access' step in dselect");
+        exit 1;
     }
 
     my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
     $conf = eval $code;
-    die "cannot eval $vars content: $@\n" if $@;
+    error("cannot eval '%s' content: %s", $vars, "$@") if $@;
     if (ref($conf) =~ /HASH/) {
         foreach my $var (keys %{$conf}) {
             $CONFIG{$var} = $conf->{$var};
         }
     } else {
-        print "bad $vars file : removing it\n";
-        print "try to relaunch the 'Access' step in dselect\n";
+        errormsg("bad '%s' file: removing it", $vars);
         unlink $vars;
+        hint("try to relaunch the 'Access' step in dselect");
         exit 0;
     }
 }

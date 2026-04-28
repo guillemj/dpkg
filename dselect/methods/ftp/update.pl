@@ -49,7 +49,7 @@ if ($option eq 'manual') {
         if (-f $fn) {
             system('dpkg', '--merge-avail', $fn);
         } else {
-            print "could not find $fn, try again\n";
+            errormsg("could not find '%s', try again", $fn);
         }
     }
 }
@@ -103,9 +103,10 @@ sub download {
                 if (defined $newest_pack_date) {
                     print "$dir/Packages.gz\n";
                 } else {
-                    print "cannot find Packages.gz in $dist/binary-$arch or $dist; ignoring\n";
-                    print "the setup is probably wrong, check the distributions directories,\n";
-                    print "and try with passive mode enabled/disabled (when using a proxy/firewall)\n";
+                    errormsg('cannot find Packages.gz in %s or %s; ignoring',
+                             "$dist/binary-$arch", $dist);
+                    hint("the setup is probably wrong, check the distributions directories,\n" .
+                         'and try with passive mode enabled/disabled (when using a proxy/firewall)');
                     next PACKAGE;
                 }
             }
@@ -154,8 +155,8 @@ sub download {
                                 subprocerr('gunzip Packages.gz');
                             }
                         } else {
-                            print "cannot get Packages.gz from $dir, stopped";
-                            die 'error';
+                            error("cannot get '%s' from directory '%s'",
+                                  'Packages.gz', $dir);
                         }
                     };
                     if ($@) {
@@ -183,15 +184,15 @@ sub download {
                             }
                             next TRY_GET_PACKAGES;
                         } else {
-                            die 'error';
+                            error("cannot download '%s' file", 'Packages.gz');
                         }
                     }
                     last TRY_GET_PACKAGES;
                 }
 
                 if (! rename 'Packages', "Packages.$site->[0].$dist") {
-                    print "cannot rename Packages to Packages.$site->[0].$dist";
-                    die 'error';
+                    error("cannot rename '%s' to '%s'",
+                          'Packages', "Packages.$site->[0].$dist");
                 } else {
                     # Set local Packages file to same date as the one it mirrors
                     # to allow comparison to work.
@@ -207,17 +208,19 @@ sub download {
 
 eval {
     local $SIG{INT} = sub {
-        die "interrupted!\n";
+        error('interrupted!');
     };
     download();
 };
 if ($@) {
     $ftp->quit() if (ref($ftp));
+    my $reason;
     if ($@ =~ /timeout/i) {
-        print "FTP TIMEOUT\n";
+        $reason = 'connection timed out';
     } else {
-        print "FTP ERROR - $@\n";
+        $reason = "$@";
     }
+    errormsg('cannot download using FTP: %s', $reason);
     $exit = 1;
 }
 
@@ -243,7 +246,7 @@ if (! $packages_modified) {
 } else {
     foreach my $file (@pkgfiles) {
         if (system('dpkg', '--merge-avail', $file)) {
-            print "dpkg merge available failed on $file";
+            errormsg("dpkg --merge-avail failed on '%s'", $file);
             $exit = 1;
         }
     }
