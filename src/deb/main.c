@@ -127,7 +127,7 @@ usage(const char *const *argv)
 
 	printf(_(
 "\n"
-"Use 'dpkg' to install and remove packages from your system, or\n"
+"Use 'dpkg' to install and remove packages from the system, or\n"
 "'apt' or 'aptitude' for user-friendly package management. Packages\n"
 "unpacked using 'dpkg-deb --extract' will be incorrectly installed !\n"));
 

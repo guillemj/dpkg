@@ -103,14 +103,14 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 
 	if (what & CFOF_IS_NEW) {
 		fprintf(stderr,
-		        _(" ==> File on system created by you or by a script.\n"
+		        _(" ==> File on system created locally.\n"
 		          " ==> File also in package provided by package maintainer.\n"));
 	} else {
 		fprintf(stderr, !useredited ?
 		        _("     Not modified since installation.\n") :
 		        !(what & CFOF_USER_DEL) ?
-		        _(" ==> Modified (by you or by a script) since installation.\n") :
-		        _(" ==> Deleted (by you or by a script) since installation.\n"));
+		        _(" ==> Modified locally since installation.\n") :
+		        _(" ==> Deleted locally since installation.\n"));
 
 		fprintf(stderr, distedited ?
 		        _(" ==> Package distributor has shipped an updated version.\n") :
@@ -123,11 +123,11 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 	if (!(in_force(FORCE_CONFF_DEF) && (what & (CFOF_INSTALL | CFOF_KEEP)))) {
 		if (in_force(FORCE_CONFF_NEW)) {
 			fprintf(stderr,
-			        _(" ==> Using new file as you requested.\n"));
+			        _(" ==> Using new file as requested.\n"));
 			return 'y';
 		} else if (in_force(FORCE_CONFF_OLD)) {
 			fprintf(stderr,
-			        _(" ==> Using current old file as you requested.\n"));
+			        _(" ==> Using current old file as requested.\n"));
 			return 'n';
 		}
 	}
@@ -148,13 +148,13 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 	fprintf(stderr,
 	        _("   What would you like to do about it ? Your options are:\n"
 	          "    Y or I  : install the package maintainer's version\n"
-	          "    N or O  : keep your currently-installed version\n"
+	          "    N or O  : keep the current locally installed version\n"
 	          "      D     : show the differences between the versions\n"
 	          "      Z     : start a shell to examine the situation\n"));
 
 	if (what & CFOF_KEEP)
 		fprintf(stderr,
-		        _(" The default action is to keep your current version.\n"));
+		        _(" The default action is to keep the current version.\n"));
 	else if (what & CFOF_INSTALL)
 		fprintf(stderr,
 		        _(" The default action is to install the new version.\n"));
@@ -437,7 +437,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		fprintf(stderr,
 		        _("\n"
 		          "Configuration file '%s', does not exist on system.\n"
-		          "Installing new config file as you requested.\n"),
+		          "Installing new config file as requested.\n"),
 		        usenode->name);
 		what = CFO_NEW_CONFF;
 		useredited = -1;
@@ -617,7 +617,7 @@ deferred_configure(struct pkginfo *pkg)
 		varbuf_destroy(&aemsgs);
 		ohshit(_("dependency problems - leaving unconfigured"));
 	} else if (aemsgs.used) {
-		notice(_("%s: dependency problems, but configuring anyway as you requested:\n%s"),
+		notice(_("%s: dependency problems, but configuring anyway as requested:\n%s"),
 		       pkg_name(pkg, pnaw_nonambig), varbuf_str(&aemsgs));
 	}
 	varbuf_destroy(&aemsgs);
@@ -625,8 +625,8 @@ deferred_configure(struct pkginfo *pkg)
 
 	if (pkg->eflag & PKG_EFLAG_REINSTREQ)
 		forcibleerr(FORCE_REMOVE_REINSTREQ,
-		            _("package is in a very bad inconsistent state; you should\n"
-		              " reinstall it before attempting configuration"));
+		            _("package is in a very bad inconsistent state; it should\n"
+		              " be reinstalled before attempting configuration"));
 
 	printf(_("Setting up %s (%s) ...\n"), pkg_name(pkg, pnaw_nonambig),
 	       versiondescribe(&pkg->installed.version, vdew_nonambig));

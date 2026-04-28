@@ -78,15 +78,15 @@ sub check_arch_coherency
 
     if ($arch ne '' && $gnu_type eq '') {
         $gnu_type = debarch_to_gnutriplet($arch);
-        error(g_('unknown Debian architecture %s, you must specify ' .
-                 'GNU system type, too'), $arch)
+        error(g_('unknown Debian architecture %s, the GNU system type ' .
+                 'needs to be specified too'), $arch)
             unless defined $gnu_type;
     }
 
     if ($gnu_type ne '' && $arch eq '') {
         $arch = gnutriplet_to_debarch($gnu_type);
-        error(g_('unknown GNU system type %s, you must specify ' .
-                 'Debian architecture, too'), $gnu_type)
+        error(g_('unknown GNU system type %s, the Debian architecture ' .
+                 'needs to be specified too'), $gnu_type)
             unless defined $arch;
     }
 

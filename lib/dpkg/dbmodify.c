@@ -297,7 +297,7 @@ void
 modstatdb_lock(void)
 {
 	if (!modstatdb_can_lock())
-		ohshit(_("you do not have permission to lock the dpkg database directory %s"),
+		ohshit(_("no permissions to lock the dpkg database directory %s"),
 		       dpkg_db_get_dir());
 
 	if (frontendlockfd >= 0)

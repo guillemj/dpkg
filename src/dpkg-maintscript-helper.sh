@@ -117,7 +117,7 @@ finish_rm_conffile()
   local CONFFILE="$1"
 
   if [ -e "$DPKG_ROOT$CONFFILE.dpkg-backup" ]; then
-    echo "Obsolete conffile $DPKG_ROOT$CONFFILE has been modified by you."
+    echo "Obsolete conffile $DPKG_ROOT$CONFFILE has been modified locally."
     echo "Saving as $DPKG_ROOT$CONFFILE.dpkg-bak ..."
     mv -f "$DPKG_ROOT$CONFFILE.dpkg-backup" "$DPKG_ROOT$CONFFILE.dpkg-bak"
   fi

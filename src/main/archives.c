@@ -1610,7 +1610,7 @@ check_conflict(struct dependency *dep, struct pkginfo *pkg,
 			if (!pdep && (fixbyrm->eflag & PKG_EFLAG_REINSTREQ)) {
 				if (in_force(FORCE_REMOVE_REINSTREQ)) {
 					notice(_("package %s requires reinstallation, but will "
-					         "remove anyway as you requested"),
+					         "remove anyway as requested"),
 					       pkg_name(fixbyrm, pnaw_nonambig));
 				} else {
 					notice(_("package %s requires reinstallation, will not remove"),

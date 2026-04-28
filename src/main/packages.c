@@ -132,7 +132,7 @@ enqueue_specified(const char *const *argv)
 		pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
 		if (pkg->status == PKG_STAT_NOTINSTALLED &&
 		    str_match_end(pkg->set->name, DEBEXT)) {
-			badusage(_("you must specify packages by their own names, "
+			badusage(_("must specify packages by their own names, "
 			           "not by quoting the names of the files they come in"));
 		}
 		enqueue_package_mark_seen(pkg);

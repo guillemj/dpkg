@@ -160,7 +160,7 @@ deb_verify(const char *filename)
 				       filename);
 			else
 				notice(_("verification on package %s failed; "
-				         "but installing anyway as you requested"),
+				         "but installing anyway as requested"),
 				       filename);
 		} else {
 			printf(_("passed\n"));
@@ -699,7 +699,7 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg,
 	varbuf_rollback(&cdrext_state);
 	varbuf_add_str(&cdrext, DPKGOLDEXT);
 
-	printf(_("Obsolete conffile '%s' has been modified by you.\n"),
+	printf(_("Obsolete conffile '%s' has been modified locally.\n"),
 	       cdr.buf);
 	printf(_("Saving as %s ...\n"), cdrext.buf);
 	if (rename(cdr.buf, cdrext.buf) < 0)

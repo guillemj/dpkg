@@ -176,7 +176,7 @@ static const menuentry menuentries[] = {
 		"select",
 		N_("s"),
 		N_("[S]elect"),
-		N_("Request which packages you want on your system."),
+		N_("Request which packages to install on the system."),
 		&urq_list,
 	}, {
 		"install",
@@ -427,7 +427,7 @@ curseson()
 			fputs(_("Terminal does not appear to support highlighting.\n"),
 			      stderr);
 		fprintf(stderr,
-		        _("Set your TERM variable correctly, use a better terminal,\n"
+		        _("Set the TERM variable correctly, use a better terminal,\n"
 		          "or make do with the per-package management tool %s.\n"),
 		        DPKG);
 		ohshit(_("terminal lacks necessary features, giving up"));

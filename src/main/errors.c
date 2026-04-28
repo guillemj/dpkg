@@ -134,7 +134,7 @@ skip_due_to_hold(struct pkginfo *pkg)
 
 	if (in_force(FORCE_HOLD)) {
 		notice(_("package %s was on hold, "
-		         "processing it anyway as you requested"),
+		         "processing it anyway as requested"),
 		       pkg_name(pkg, pnaw_nonambig));
 		return false;
 	}

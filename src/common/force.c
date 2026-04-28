@@ -300,7 +300,7 @@ parse_force(const char *value, bool set)
 
 		printf(_(
 "\n"
-"WARNING - use of options marked [!] can seriously damage your installation.\n"
+"WARNING - use of options marked [!] can seriously damage the installation.\n"
 "Forcing options marked [*] are enabled by default.\n"));
 		m_output(stdout, _("<standard output>"));
 

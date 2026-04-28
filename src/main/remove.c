@@ -173,7 +173,7 @@ deferred_remove(struct pkginfo *pkg)
 		        pkg_name(pkg, pnaw_nonambig), varbuf_str(&raemsgs));
 		ohshit(_("dependency problems - not removing"));
 	} else if (raemsgs.used) {
-		notice(_("%s: dependency problems, but removing anyway as you requested:\n%s"),
+		notice(_("%s: dependency problems, but removing anyway as requested:\n%s"),
 		        pkg_name(pkg, pnaw_nonambig), varbuf_str(&raemsgs));
 	}
 	varbuf_destroy(&raemsgs);
@@ -181,8 +181,8 @@ deferred_remove(struct pkginfo *pkg)
 
 	if (pkg->eflag & PKG_EFLAG_REINSTREQ)
 		forcibleerr(FORCE_REMOVE_REINSTREQ,
-		            _("package is in a very bad inconsistent state; you should\n"
-		              " reinstall it before attempting a removal"));
+		            _("package is in a very bad inconsistent state; it should\n"
+		              " be reinstalled before attempting a removal"));
 
 	ensure_allinstfiles_available();
 	fsys_hash_init();

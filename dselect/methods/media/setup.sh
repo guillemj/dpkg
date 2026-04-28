@@ -96,7 +96,7 @@ getblockdev()
   if [ -z "$defaultdevice" ]; then
     defaultdevice="$newdefaultdevice"
   elif [ "$defaultdevice" != "$newdefaultdevice" ]; then
-    echo "Last time you specified installation from $defaultdevice."
+    echo "Previous specified installation was $defaultdevice."
   fi
   promptstring="$1"
   while [ -z "$blockdevice" ]; do
@@ -238,11 +238,11 @@ individually."
     if [ -d "$mountpoint/$p_hierbase/dists/$dist/main/binary-$iarch" ] ||
        [ -n "$multi" ]
     then
-      echo "Last time you said '$p_hierbase', and that looks plausible."
+      echo "Previous pathname was '$p_hierbase', and that looks plausible."
       defhierbase="$p_hierbase"
     else
       echo "
-Last time you said '$p_hierbase', but that doesn't look plausible,
+Previous pathname was '$p_hierbase', but that doesn't look plausible,
 since '$p_hierbase/dists/$dist/main/binary-$iarch' doesn't seem to exist.
 And it does not appear that you are using a multiple media set."
     fi

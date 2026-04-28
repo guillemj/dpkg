@@ -445,7 +445,7 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 			ohshit(_("dependency problems - leaving triggers unprocessed"));
 		} else if (depwhynot.used) {
 			notice(_("%s: dependency problems, but processing "
-			         "triggers anyway as you requested:\n%s"),
+			         "triggers anyway as requested:\n%s"),
 			       pkg_name(pkg, pnaw_nonambig),
 			       varbuf_str(&depwhynot));
 			varbuf_destroy(&depwhynot);

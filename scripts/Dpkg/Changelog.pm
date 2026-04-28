@@ -257,7 +257,7 @@ sub _sanitize_range {
         (defined($r->{from}) || defined($r->{since}) ||
          defined($r->{to}) || defined($r->{until})))
     {
-        warning(g_("you cannot combine 'count' or 'offset' with any other " .
+        warning(g_("cannot combine 'count' or 'offset' with any other " .
                    'range option')) if $self->{verbose};
         delete $r->{from};
         delete $r->{since};
@@ -265,12 +265,12 @@ sub _sanitize_range {
         delete $r->{until};
     }
     if (defined($r->{from}) && defined($r->{since})) {
-        warning(g_("you can only specify one of 'from' and 'since', using " .
+        warning(g_("can only specify one of 'from' and 'since', using " .
                    "'since'")) if $self->{verbose};
         delete $r->{from};
     }
     if (defined($r->{to}) && defined($r->{until})) {
-        warning(g_("you can only specify one of 'to' and 'until', using " .
+        warning(g_("can only specify one of 'to' and 'until', using " .
                    "'until'")) if $self->{verbose};
         delete $r->{to};
     }

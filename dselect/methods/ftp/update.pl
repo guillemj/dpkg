@@ -105,8 +105,8 @@ sub download {
                     print "$dir/Packages.gz\n";
                 } else {
                     print "Cannot find Packages.gz in $dist/binary-$arch or $dist; ignoring.\n";
-                    print "Your setup is probably wrong, check the distributions directories,\n";
-                    print "and try with passive mode enabled/disabled (if you use a proxy/firewall)\n";
+                    print "The setup is probably wrong, check the distributions directories,\n";
+                    print "and try with passive mode enabled/disabled (when using a proxy/firewall)\n";
                     next PACKAGE;
                 }
             }

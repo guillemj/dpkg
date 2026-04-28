@@ -710,7 +710,7 @@ run_hook('source', {
 });
 
 if (build_has_any(BUILD_SOURCE)) {
-    warning(g_('building a source package without cleaning up as you asked; ' .
+    warning(g_('building a source package without cleaning up as requested; ' .
                'it might contain undesired files')) if not $preclean;
     run_cmd('dpkg-source', @source_opts, '-b', '.');
 }
