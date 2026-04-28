@@ -226,7 +226,7 @@ setselections(const char *const *argv)
 	if (db_possibly_outdated)
 		warning(_("found unknown packages; this might mean the available database\n"
 		          "is outdated, and needs to be updated through a frontend method;\n"
-		          "please see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ#set-selections>"));
+		          "see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ#set-selections>"));
 
 	return 0;
 }

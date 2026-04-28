@@ -192,7 +192,7 @@ elif [ $ncdroms = 1 ]; then
     echo 'Unmounting it ...'
     umount="$mountpoint"
     while true; do
-      echo -n 'Please insert the right disc, and hit return: '
+      echo -n 'Insert the right disc, and hit return: '
       read response
       if mount -rt iso9660 -o nosuid,nodev "$blockdevice" "$mountpoint"; then
         echo

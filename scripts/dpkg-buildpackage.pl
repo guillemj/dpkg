@@ -260,7 +260,7 @@ while (@ARGV) {
     } elsif (/^--buildinfo-option=(.*)$/) {
         my $buildinfo_opt = $1;
         if ($buildinfo_opt =~ m/^-O(.*)/) {
-            warning(g_('passing %s via %s is not supported; please use %s instead'),
+            warning(g_('passing %s via %s is not supported; use %s instead'),
                     '-O', '--buildinfo-option', '--buildinfo-file');
             $buildinfo_file = $1;
         } else {
@@ -272,7 +272,7 @@ while (@ARGV) {
     } elsif (/^--changes-option=(.*)$/) {
         my $changes_opt = $1;
         if ($changes_opt =~ m/^-O(.*)/) {
-            warning(g_('passing %s via %s is not supported; please use %s instead'),
+            warning(g_('passing %s via %s is not supported; use %s instead'),
                     '-O', '--changes-option', '--changes-file');
             $changes_file = $1;
         } else {
@@ -935,11 +935,11 @@ sub signkey_validate {
 
     if (length $signkey->handle <= 8) {
         error(g_('short OpenPGP key IDs are broken; ' .
-                 'please use key fingerprints in %s or %s instead'),
+                 'use key fingerprints in %s or %s instead'),
               '-k', 'DEB_SIGN_KEYID');
     } elsif (length $signkey->handle <= 16) {
         warning(g_('long OpenPGP key IDs are strongly discouraged; ' .
-                   'please use key fingerprints in %s or %s instead'),
+                   'use key fingerprints in %s or %s instead'),
                 '-k', 'DEB_SIGN_KEYID');
     }
 }

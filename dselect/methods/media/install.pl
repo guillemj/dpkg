@@ -106,7 +106,7 @@ This is
     $thisdisk
 However, $package is expected on disc:
     $medium
-Please change the discs and press <RETURN>.
+Change the discs and press <RETURN>.
 
 INFO
         exit(1);
@@ -273,7 +273,7 @@ foreach my $need (@media) {
     while ($disk ne $need) {
         print "Wrong disc. This is disc\n    $disk\n";
         print "However, the needed disc is\n    $need\n";
-        print "Please change the discs and press <RETURN>\n";
+        print "Change the discs and press <RETURN>\n";
         do_umount();
         <STDIN>;
         do_mount();
@@ -303,7 +303,7 @@ foreach my $need (@media) {
     chdir q{..};
 
     if ($?) {
-        print "\nThe dpkg run produced errors. Please state whether to\n",
+        print "\nThe dpkg run produced errors. State whether to\n",
               'continue with the next media disc. [Y/n]: ';
         my $answer = <STDIN>;
         exit 1 if $answer =~ /^n/i;

@@ -28,7 +28,7 @@
  */
 
 #ifndef LIBDPKG_VOLATILE_API
-#error "The libdpkg API is to be considered volatile, please read 'README.api'."
+#error "The libdpkg API is to be considered volatile, see 'README.api'."
 #endif
 
 /* Language definitions. */

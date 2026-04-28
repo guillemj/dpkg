@@ -66,9 +66,8 @@ Some of your choices will cause conflicts or dependency problems; you will be\n\
 given a sub-list of the relevant packages, so that you can solve the problems.\n\n\
 \
 You should read the list of keys and the explanations of the display.\n\
-Much on-line help is available, please make use of it - press '?' at\n\
-any time for help.\n\n\
-\
+Much on-line help is available, press '?' at any time to access it.\n\
+\n\
 When you have finished selecting packages, press <enter> to confirm changes,\n\
 or 'X' to quit without saving changes. A final check on conflicts and\n\
 dependencies will be done - here too you may see a sublist.\n\n\
@@ -83,13 +82,12 @@ Welcome to dselect's main package listing.\n\n\
 You will be presented with a list of packages which are installed or available\n\
 for installation. Since you do not have the privilege necessary to update\n\
 package states, you are in a read-only mode. You can navigate around the\n\
-list using the cursor keys (please see the 'Keystrokes' help screen), observe\n\
+list using the cursor keys (see the 'Keystrokes' help screen), observe\n\
 the status of the packages and read information about them.\n\n\
 \
 You should read the list of keys and the explanations of the display.\n\
-Much on-line help is available, please make use of it - press '?' at\n\
-any time for help.\n\n\
-\
+Much on-line help is available, press '?' at any time to access it.\n\
+\n\
 When you have finished browsing, press 'Q' or <enter> to quit.\n\n\
 \
 Press <space> to leave help and enter the list now.\n")

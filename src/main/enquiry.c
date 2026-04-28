@@ -467,7 +467,7 @@ assert_version_support(const char *const *argv,
 		return 0;
 
 	printf(_("Running version of dpkg does not support %s.\n"
-	         " Please upgrade to at least dpkg %s, and then try again.\n"),
+	         " Upgrade to at least dpkg %s, and then try again.\n"),
 	       gettext(feature->desc),
 	       versiondescribe(&version, vdew_nonambig));
 	return 1;

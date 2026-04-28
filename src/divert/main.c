@@ -126,7 +126,7 @@ opt_rename_setup(void)
 		return;
 
 	opt_rename = 0;
-	warning(_("please specify --no-rename explicitly, the default "
+	warning(_("specify --no-rename explicitly, the default "
 	          "will change to --rename not before 1.23.x"));
 }
 

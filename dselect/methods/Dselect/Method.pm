@@ -70,7 +70,7 @@ sub yesno {
         return 1 if $res =~ /^[Yy]/;
         return 0 if $res =~ /^[Nn]/;
         return $r if $res =~ /^[ \t]*$/;
-        print "Please enter one of the letters 'y' or 'n'\n";
+        print "Enter one of the letters 'y' or 'n'\n";
     }
 }
 
@@ -95,7 +95,7 @@ sub read_config {
     };
     if ($@) {
         warn "$@\n";
-        die "Try to relaunch the 'Access' step in dselect, thanks.\n";
+        die "Try to relaunch the 'Access' step in dselect.\n";
     }
 
     my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
@@ -107,7 +107,7 @@ sub read_config {
         }
     } else {
         print "Bad $vars file : removing it.\n";
-        print "Please relaunch the 'Access' step in dselect. Thanks.\n";
+        print "Try to relaunch the 'Access' step in dselect.\n";
         unlink $vars;
         exit 0;
     }
@@ -124,7 +124,7 @@ sub store_config {
 
 sub view_mirrors {
     print <<'MIRRORS';
-Please see <https://www.debian.org/mirror/list> for a current
+See <https://www.debian.org/mirror/list> for a current
 list of Debian mirror sites.
 MIRRORS
 }

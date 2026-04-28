@@ -119,7 +119,7 @@ sub setup_library_paths {
                 } else {
                     warning(g_('deprecated use of LD_LIBRARY_PATH with private ' .
                                'library directory which interferes with ' .
-                               'cross-building, please use -l option instead'));
+                               'cross-building, use -l option instead'));
                 }
             }
 
