@@ -41,7 +41,7 @@ DPKG_BEGIN_DECLS
  * rest should only assume the availability of the public API.
  *
  * Applications need to define the LIBDPKG_VOLATILE_API macro to acknowledge
- * that the API is to be considered volatile, please read doc/README.api for
+ * that the API is to be considered volatile, see doc/README.api for
  * more information.
  *
  * @defgroup dpkg-internal Internal libdpkg C API

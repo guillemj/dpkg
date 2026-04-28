@@ -41,7 +41,7 @@ package Dpkg::Vendor::Default 0.01;
 
 use v5.36;
 
-# If you use this file as template to create a new vendor class, please
+# If you use this file as template to create a new vendor class,
 # uncomment the following lines:
 #use parent qw(Dpkg::Vendor::Default);
 

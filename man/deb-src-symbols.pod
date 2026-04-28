@@ -262,8 +262,7 @@ Then if the pattern does not match anything,
 it will only appear in the diff as MISSING.
 Moreover, like any symbol,
 the pattern may be limited to the specific architectures with the I<arch> tag.
-Please
-refer to L</Standard symbol tags> subsection above for more information.
+See the L</Standard symbol tags> subsection above for more information.
 
 Patterns are an extension of the L<deb-symbols(5)> format hence they are
 only valid in symbol file templates.
@@ -306,7 +305,7 @@ The demangled name above can be obtained by executing the following command:
 
   $ echo '_ZThn8_N3NSB6ClassDD1Ev@Base' | c++filt
 
-Please note that while mangled name is unique in the library by definition,
+Note that while mangled name is unique in the library by definition,
 this is not necessarily true for demangled names.
 A couple of distinct real symbols may have the same demangled name.
 For example, that's the case with
@@ -339,7 +338,7 @@ The latter will lead to a minimal dependency on libc6 version
 2.2 despite being in the scope of the "(symver)GLIBC_2.0" pattern because
 specific symbols take precedence over patterns.
 
-Please note that while old style wildcard patterns (denoted by "*@version" in
+Note that while old style wildcard patterns (denoted by "*@version" in
 the symbol name field) are still supported, they have been deprecated by new
 style syntax "(symver|optional)version".
 For example, "*@GLIBC_2.0 2.0" should
@@ -399,7 +398,7 @@ then I<symver>) are preferred over generic patterns.
 Generic patterns are
 matched in the order they are found in the symbol file template until the first
 success.
-Please note, however, that manual reordering of template file entries
+Note, however, that manual reordering of template file entries
 is not recommended because B<dpkg-gensymbols> generates diffs based on the
 alphanumerical order of their names.
 

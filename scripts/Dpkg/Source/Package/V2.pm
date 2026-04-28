@@ -721,8 +721,8 @@ HEADER
 
     $text .= <<'TRAILER';
 ---
-The information above should follow the Patch Tagging Guidelines, please
-checkout https://dep.debian.net/deps/dep3/ to learn about the format. Here
+The information above should follow the Patch Tagging Guidelines,
+see https://dep.debian.net/deps/dep3/ to learn about the format. Here
 are templates for supplementary fields that you might want to add:
 
 Origin: (upstream|backport|vendor|other), (<patch-url>|commit:<commit-id>)
