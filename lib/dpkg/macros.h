@@ -67,7 +67,7 @@
 #endif
 
 /* Supported since gcc 5.1.0 and clang 2.9.0. For attributes that appeared
- * before these versions, in addition we need to do version checks.  */
+ * before these versions, in addition we need to do version checks. */
 #ifndef __has_attribute
 #define __has_attribute(x)	0
 #endif

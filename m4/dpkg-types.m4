@@ -36,7 +36,7 @@ AC_DEFUN([DPKG_DECL_SYS_SIGLIST], [
   AC_CHECK_HEADERS([unistd.h])
   AC_CHECK_DECLS([sys_siglist], [], [], [[
 #include <signal.h>
-/* NetBSD declares sys_siglist in unistd.h.  */
+/* NetBSD declares sys_siglist in unistd.h. */
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
 #endif
@@ -50,7 +50,7 @@ AC_DEFUN([DPKG_DECL_SYS_SIGLIST], [
 AC_DEFUN([DPKG_DECL_SYS_ERRLIST], [
   AC_CHECK_DECLS([sys_errlist, sys_nerr], [], [], [[
 #include <errno.h>
-/* glibc declares sys_errlist in stdio.h.  */
+/* glibc declares sys_errlist in stdio.h. */
 #include <stdio.h>
   ]])
   AM_CONDITIONAL([HAVE_SYS_ERRLIST],

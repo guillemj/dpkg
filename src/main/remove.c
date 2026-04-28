@@ -703,7 +703,7 @@ removal_bulk(struct pkginfo *pkg)
 
 	if (!foundpostrm && !pkg->installed.conffiles) {
 		/* If there are no config files and no postrm script then we
-		 * go straight into ‘purge’.  */
+		 * go straight into ‘purge’. */
 		debug_at(dbg_general, "no postrm, no conffiles, purging");
 
 		pkg_set_want(pkg, PKG_WANT_PURGE);

@@ -8,7 +8,7 @@ Introduction
 
 A dpkg trigger is a facility that allows events caused by one package
 but of interest to another package to be recorded and aggregated, and
-processed later by the interested package.  This feature simplifies
+processed later by the interested package. This feature simplifies
 various registration and system-update tasks and reduces duplication
 of processing.
 
@@ -23,27 +23,27 @@ Each trigger is named, and at any time zero or more packages may be
 interested in it.
 
 We currently envisage three kinds of triggers:
- * Explicit triggers.  These can be activated by any program
+ * Explicit triggers. These can be activated by any program
    by running dpkg-trigger (at any time, but ideally from a maintainer
    script).
- * File triggers.  These are activated automatically by dpkg
+ * File triggers. These are activated automatically by dpkg
    when a matching file is installed, upgraded or removed as part
-   of a package.  They may also be explicitly activated by running
+   of a package. They may also be explicitly activated by running
    dpkg-trigger.
  * Future kinds of special triggers, which are activated by magic code
-   in dpkg itself.  Currently none are defined besides file triggers.
+   in dpkg itself. Currently none are defined besides file triggers.
 
 A trigger is always activated by a particular package.
 
 Trigger names contain only printing 7-bit ASCII characters (no
-whitespace).  Each trigger kind has a distinct subset of the trigger
-name space so that the kind can be determined from the name.  After we
+whitespace). Each trigger kind has a distinct subset of the trigger
+name space so that the kind can be determined from the name. After we
 run out of straightforward syntaxes, we will use <kind>:<details>.
 
 When a trigger is activated, it becomes pending for every package
-which is interested in the trigger at that time.  Each package has a
-list of zero or more pending triggers.  Repeated activation of the
-same trigger has no additional effect.  Note that in general a trigger
+which is interested in the trigger at that time. Each package has a
+list of zero or more pending triggers. Repeated activation of the
+same trigger has no additional effect. Note that in general a trigger
 will not be processed immediately when it is activated; processing is
 deferred until it is convenient (as described below).
 
@@ -53,7 +53,7 @@ trigger has been configured to not require it); the triggering
 package is said to await the trigger processing.
 
 A package which has pending triggers, or which awaits triggers, is not
-considered properly installed.  There are two new dpkg status values,
+considered properly installed. There are two new dpkg status values,
 ‘triggers-pending’ and ‘triggers-awaited’, which lie between
 ‘config-failed’ and ‘installed’.
 
@@ -88,7 +88,7 @@ in this way.)
 
 A package which awaits trigger processing but would otherwise be
 ‘installed’ or ‘triggers-pending’ is considered to be in state
-‘triggers-awaited’.  Packages in ‘triggers-awaited’ do not satisfy
+‘triggers-awaited’. Packages in ‘triggers-awaited’ do not satisfy
 Depends dependencies.
 
 Every triggered package <I> in <T>'s list of awaited packages either has a
@@ -105,13 +105,13 @@ Details - triggered package
 
 When one of the triggers in which a package is interested is
 activated, the triggered package has the trigger added to its list of
-pending triggers.  Packages with a nonempty list of pending triggers
+pending triggers. Packages with a nonempty list of pending triggers
 which would otherwise be in state ‘installed’ are in state
 ‘triggers-pending’ instead, so if the package was previously
 ‘installed’ it becomes ‘triggers-pending’.
 
 If a package has nonempty lists both of pending and awaited triggers,
-then it is in ‘triggers-awaited’.  Nevertheless efforts will still be
+then it is in ‘triggers-awaited’. Nevertheless efforts will still be
 made to process its triggers so as to make the list of pending
 triggers empty.
 
@@ -125,7 +125,7 @@ by passing a space-separated list of <trigger-name>s as the second argument.
 
 This will be attempted for each relevant package at the end of each
 dpkg run; so, normally, in the same dpkg run as the event which made
-the package go to ‘triggers-pending’.  This leaves packages in
+the package go to ‘triggers-pending’. This leaves packages in
 reasonable states by default.
 
 If the “postinst triggered” run fails the package goes to
@@ -165,7 +165,7 @@ again until explicitly requested.
        └───────────────────────────────────────────────────┘
 
 Packages in ‘config-failed’ or worse are never considered to have
-lists of pending triggers.  A package whose postinst is being run
+lists of pending triggers. A package whose postinst is being run
 can however acquire pending triggers during that run (ie, a package
 can trigger itself).
 
@@ -182,7 +182,7 @@ deal with any trigger activations which might have occurred while it
 was not configured, just as if the package was being configured for
 the first time.
 
-Trigger processing should be idempotent.  The list of triggers being
+Trigger processing should be idempotent. The list of triggers being
 processed is provided to the postinst only so that it can optimize
 away redundant processing.
 
@@ -214,7 +214,7 @@ activation if it is continuously interested in the trigger, and never
 in ‘config-failed’ or worse, during the period from when the trigger
 is activated until dpkg runs the package postinst (either due to
 --configure --pending, or at the end of the relevant run, as described
-above).  Subsequent to activation and before notification, the
+above). Subsequent to activation and before notification, the
 interested package will not be considered in state ‘installed’, so
 long as the package remains interested, and the triggering package
 will not be considered ‘installed’.
@@ -226,15 +226,15 @@ However, if such a package (between ‘half-installed’ and
 triggering packages *will* await their configuration (which implies
 completion of any necessary trigger processing) or removal.
 
-It is not defined in what order triggers will run.  dpkg will make
+It is not defined in what order triggers will run. dpkg will make
 some effort to minimize redundant work in the case where many packages
 have postinst trigger processing activating another package's triggers
 (for example, by processing triggers in fifo order during a single
-dpkg run).  Cycles in the triggering graph are prohibited and will
+dpkg run). Cycles in the triggering graph are prohibited and will
 eventually, perhaps after some looping, be detected by dpkg and cause
 trigger processing to fail; when this happens one of the packages
 involved will be put in state ‘config-failed’ so that the trigger loop
-will not be reattempted.  See “Cycle detection” below.
+will not be reattempted. See “Cycle detection” below.
 
 
 Explicit triggers
@@ -245,7 +245,7 @@ Explicit triggers have names with the same syntax as package names,
 
 When choosing an explicit trigger name it is usually good to include a
 relevant package name or some other useful identifier to help make the
-trigger name unique.  On the other hand, explicit triggers should
+trigger name unique. On the other hand, explicit triggers should
 generally not be renamed just because the interested or triggering
 packages' names change.
 
@@ -262,7 +262,7 @@ File triggers have names of the form
   /path/to/directory/or/file
 and are activated when the specified filesystem object, or any object
 under the specified subdirectory, is created, updated or deleted by
-dpkg during package unpack or removal.  The pathname must be absolute.
+dpkg during package unpack or removal. The pathname must be absolute.
 
 File triggers should not generally be used without mutual consent.
 The use of a file trigger, and the name of the trigger used, should be
@@ -271,7 +271,7 @@ relevant file in a maintainer script can activate the trigger explicitly.
 
 File triggers must definitely not be used as an escalation tool in
 disagreements between different packages as to the desired contents of
-the filesystem.  Trigger activation due to a particular file should
+the filesystem. Trigger activation due to a particular file should
 not generally modify that file again.
 
 Configuration files (whether dpkg-handled conffiles or not), or any
@@ -284,20 +284,20 @@ referring to files by different names, then to be sure of activation
 all of the paths which might be included in packages should be listed.
 The path specified by the interested package is matched against the
 path included in the triggering package, not against the truename of
-the file as installed.  Only textually identical filenames (or
+the file as installed. Only textually identical filenames (or
 filenames where the interest is a directory prefix of the installed
 file) are guaranteed to match.
 
 A file trigger is guaranteed to be activated before the file in
 question is modified by dpkg; on the other hand, a file trigger might
-be activated even though no file was actually modified.  Changes made
+be activated even though no file was actually modified. Changes made
 by dpkg to the link count of a file, or to solely the inode number
 (ie, if dpkg atomically replaces it with another identical file), are
 not guaranteed to cause trigger activation.
 
 Because of the restriction on trigger names, it is not possible to
 declare a file trigger for a directory whose name contains whitespace,
-i18n characters, etc.  Such a trigger should not be necessary.
+i18n characters, etc. Such a trigger should not be necessary.
 
 
 Package declarations regarding triggers
@@ -309,9 +309,9 @@ Support future extension of the trigger name syntax with additional
 dpkg-generated triggers is as follows: a package which is interested
 in any unsupported trigger kinds cannot be configured (since such a
 package cannot be guaranteed to have these triggers properly activated
-by dpkg).  Therefore no package can be interested in any unsupported
+by dpkg). Therefore no package can be interested in any unsupported
 trigger kinds and they can be freely activated (both by ‘activate’ and
-by dpkg-trigger).  dpkg-deb will be changed to warn about unrecognized
+by dpkg-trigger). dpkg-deb will be changed to warn about unrecognized
 trigger names syntaxes and unrecognized trigger control directives.
 
 
@@ -353,7 +353,7 @@ apt and aptitude
 ----------------
 
 These must be taught about the new ‘triggers-awaited’ and
-‘triggers-pending’ states.  Packages in these states should be treated
+‘triggers-pending’ states. Packages in these states should be treated
 roughly like those in ‘unpacked’: the remedy is to run dpkg
 --configure.
 
@@ -368,7 +368,7 @@ state ‘triggers-pending’ (or indeed ‘triggers-awaited’) with dpkg
 or similar approaches. This might defeat dpkg's trigger cycle detection.
 
 A package management tool which will run dpkg --configure --pending at
-the end may use --no-triggers on its other dpkg runs.  This would be
+the end may use --no-triggers on its other dpkg runs. This would be
 more efficient as it allows more aggressive deferral (and hence more
 unification) of trigger processing.
 
@@ -377,7 +377,7 @@ Error handling
 --------------
 
 Packages should be written so that they DO NOT BREAK just because
-their pending triggers have not yet been run.  It is allowed for the
+their pending triggers have not yet been run. It is allowed for the
 functionality relating to the unprocessed trigger to fail (ie, the
 package which is awaiting the trigger processing may be broken), but
 the remainder of the interested package must work normally.
@@ -385,7 +385,7 @@ the remainder of the interested package must work normally.
 For example, a package which uses file triggers to register addons
 must cope with (a) an addon being dropped into the filesystem but not
 yet registered and (b) an addon being removed but not yet
-deregistered.  In both of these cases the package's main functionality
+deregistered. In both of these cases the package's main functionality
 must continue to work normally; failure of the addon in question is
 expected, warning messages are tolerable, but complete failure of the
 whole package, or failures of other addons, are not acceptable.
@@ -402,9 +402,9 @@ problem to the user.
 
 Alternatively, in some situations it may be more desirable to allow
 the interested package to be configured even though it can only
-provide partial service.  In this case clear information will have to
+provide partial service. In this case clear information will have to
 be given in appropriate places about the missing functionality, and a
-record should be made of the cause of the errors.  This option is
+record should be made of the cause of the errors. This option is
 recommended for situations where the coupling between the interested
 and triggering package is particularly loose; an example of such a
 loose coupling would be Python modules.
@@ -416,7 +416,7 @@ WORKED EXAMPLE - SCROLLKEEPER
 
 Currently, every Gnome program which comes with some help installs the
 help files in /usr/share/gnome/help and then in the postinst runs
-scrollkeeper-update.  scrollkeeper-update reads, parses and rewrites
+scrollkeeper-update. scrollkeeper-update reads, parses and rewrites
 some large xml files in /var/lib/scrollkeeper; currently this
 occurs at every relevant package installation, upgrade or removal.
 
@@ -483,7 +483,7 @@ scrollkeeper, goes like this:
      - instead say:
 
          OMF files should be installed under /usr/share/omf in the
-         usual way.  A dpkg trigger is used to arrange to update the
+         usual way. A dpkg trigger is used to arrange to update the
          scrollkeeper documentation index automatically and no special
          care need be taken in packages which supply OMFs.
 
@@ -498,7 +498,7 @@ scrollkeeper, goes like this:
          scrollkeeper.
 
  3. Update debhelper's dh_scrollkeeper not to edit maintainer
-    scripts.  One of dh_scrollkeeper or lintian should be changed to
+    scripts. One of dh_scrollkeeper or lintian should be changed to
     issue a warning for packages with scrollkeeper (>= 3.8) in the
     Depends control file line.
 
@@ -517,7 +517,7 @@ is some possibility that the help will not properly be available.
 
 Unfortunately, dh_scrollkeeper doesn't generate the scrollkeeper
 dependency in the control file, which makes it excessively hard to get
-the dependency up to date.  The bad consequences of the inaccurate
+the dependency up to date. The bad consequences of the inaccurate
 dependencies are less severe than the contortions which would be
 required to deal with the problem.
 
@@ -534,10 +534,10 @@ activate all triggers in which anyone is interested, immediately.
 
 These trigger activations will not be processed in the same dpkg run,
 to avoid unexpectedly processing triggers while attempting an
-unrelated operation.  dpkg --configure --pending (and not other dpkg
+unrelated operation. dpkg --configure --pending (and not other dpkg
 operations) will run the triggers, and the dpkg postinst will warn the
 user about the need to run it (if this deferred triggers condition
-exists).  (Any triggers activated or reactivated *after* this
+exists). (Any triggers activated or reactivated *after* this
 mass-activation will be processed in the normal way.)
 
 To use this correctly:
@@ -549,12 +549,12 @@ To use this correctly:
    after the install; this will process the pending triggers.
 
 dpkg's prerm will check for attempts to downgrade while triggers are
-pending and refuse.  (Since the new dpkg would be installed but then
+pending and refuse. (Since the new dpkg would be installed but then
 refuse to read the status file.)  In case this is necessary a separate
 tool will be provided which will:
   * Put all packages with any pending triggers into state
     ‘config-failed’ and remove the list of pending triggers.
-  * Remove the list of awaited triggers from every package.  This
+  * Remove the list of awaited triggers from every package. This
     may cause packages to go from ‘triggers-awaited’ to ‘installed’
     which is not 100% accurate but the best that can be done.
   * Remove /var/lib/dpkg/triggers (to put the situation to that which
@@ -567,7 +567,7 @@ Higher-level programs
 
 The new dpkg will declare versioned Conflicts against apt and aptitude
 and other critical package management tools which will be broken by
-the new Status field values.  Therefore, the new higher-level tools
+the new Status field values. Therefore, the new higher-level tools
 will have to be deployed first.
 
 The new dpkg will declare versioned Breaks against any known
@@ -594,12 +594,12 @@ in their postinst:
 		exit 0
 	  fi
       If this fails to cause «update-consumer» to exit, it should do
-      its normal update processing.  Alternatively, if it is more
+      its normal update processing. Alternatively, if it is more
       convenient, «update-consumer» could be renamed and supplanted with
       a wrapper script which conditionally runs the real
       «update-consumer».
     * In the postinst, arrange for the new ‘triggered’ invocation to
-      run «update-consumer --real».  The consumer package's postinst
+      run «update-consumer --real». The consumer package's postinst
       will already run «update-consumer» during configuration, and this
       should be retained and supplemented with the --real option (or
       changed to call the real script rather than the wrapper).
@@ -607,13 +607,13 @@ in their postinst:
     * In the postinst, remove the call to «update-consumer».
     * Change the dependency on consumer to be versioned, specifying a
       trigger-interested consumer.
-    This can be done at our leisure.  Ideally for loosely coupled
+    This can be done at our leisure. Ideally for loosely coupled
     packages this would be done only in the release after the one
     containing the triggers-interested consumer, to facilitate partial
     upgrades and backports.
  4. After all producer packages have been updated according to step 3,
     «update-consumer» has become an interface internal to the consumer
-    and need no longer be kept stable.  If un-updated producers are
+    and need no longer be kept stable. If un-updated producers are
     still of interest, incompatible changes to «update-consumer» imply
     a versioned Breaks against the old producers.
 (See also “Transition plan”, below.)
@@ -621,7 +621,7 @@ in their postinst:
 If there are several consumer packages all of which are interested in
 the features provided by producer packages, the current arrangements
 usually involve an additional central switchboard package (eg,
-emacsen-common).  In this case:
+emacsen-common). In this case:
 
  -- NOTE - this part of the transition plan is still a proof of
            concept and we might yet improve on it
@@ -632,7 +632,7 @@ emacsen-common).  In this case:
  3. Update the consumer packages:
     * Declare an interest in the trigger.
     * In the postinst, arrange for the new ‘trigger’ invocation to run
-      the compilation/registration process.  This may involve scanning
+      the compilation/registration process. This may involve scanning
       for new or removed producers, and may involve new common
       functionality from the switchboard (in which case a versioned
       Depends is needed).
@@ -648,7 +648,7 @@ emacsen-common).  In this case:
     * Remove the calls to the switchboard registration/compilation
       functions.
     * Change the dependency on the switchboard to a versioned one,
-      specifying the one which Breaks old consumers.  Alternatively,
+      specifying the one which Breaks old consumers. Alternatively,
       it may be the case that the switchboard is no longer needed (or
       not needed for this producer), in which case the dependency on
       the switchboard can be removed in favour of an appropriate
@@ -672,8 +672,8 @@ DISCUSSION
 ==========
 
 The activation of a trigger does not record details of the activating
-event.  For example, file triggers do not inform the package of the
-filename.  In the future this might be added as an additional feature,
+event. For example, file triggers do not inform the package of the
+filename. In the future this might be added as an additional feature,
 but there are some problems with this.
 
 
@@ -685,14 +685,14 @@ compiling or generally parsing some data provided by a leaf package.
 
 If the central package finds problems with the leaf package data it is
 usually more correct for only the individual leaf package to be
-recorded as not properly installed.  There is not currently any way to
+recorded as not properly installed. There is not currently any way to
 do this and there are no plans to provide one.
 
 The naive approach of giving the postinst a list of the triggering
 packages does not work because this information is not recorded in the
 right way (it might suffer from lacunae); enhancing the bookkeeping
 for this to work would be possible but it is far better simply to make
-the system more idempotent.  See above for the recommended approach.
+the system more idempotent. See above for the recommended approach.
 
 
 
@@ -717,7 +717,7 @@ a state change causes it not to be interested in any triggers any more
 
 For each package which has pending triggers, the status file contains
 a Triggers-Pending field which contains the space-separated names of
-the pending triggers.  For each package which awaits triggers the
+the pending triggers. For each package which awaits triggers the
 status file contains a Triggers-Awaited field which contains the
 *package* names of the packages whose trigger processing is awaited.
 See “Details - Overview table” above for the invariants which relate
@@ -725,15 +725,15 @@ Triggers-Pending, Triggers-Awaited, and Status.
 
 During dpkg's execution, /var/lib/dpkg/triggers/Unincorp is a list of
 the triggers which have been requested by dpkg-trigger but not yet
-incorporated in the status file.  Each line is a trigger name followed
-by one or more triggering package names.  The triggering package name
+incorporated in the status file. Each line is a trigger name followed
+by one or more triggering package names. The triggering package name
 "-" is used to indicate one or more package(s) which did not need to
 await the trigger.
 
 /var/lib/dpkg/triggers/Lock is the fcntl lockfile for the trigger
-system.  Processes hang onto this lock only briefly: dpkg-trigger
+system. Processes hang onto this lock only briefly: dpkg-trigger
 to add new activations, or dpkg to incorporate activations (and
-perhaps when it updates interests).  Therefore this lock is always
+perhaps when it updates interests). Therefore this lock is always
 acquired with F_GETLKW so as to serialize rather than fail on
 contention.
 
@@ -742,9 +742,9 @@ Processing
 ----------
 
 dpkg-trigger updates triggers/Unincorp, and does not read or write the
-status file or take out the dpkg status lock.  dpkg (and dpkg-query)
+status file or take out the dpkg status lock. dpkg (and dpkg-query)
 reads triggers/Unincorp after reading /var/lib/dpkg/status, and after
-running a maintainer script.  If the status database is opened for
+running a maintainer script. If the status database is opened for
 writing then the data from Unincorp is moved to updates as
 Triggers-Pending and Triggers-Awaited entries and corresponding Status
 changes.
@@ -757,13 +757,13 @@ operation.
 When a package is unpacked or removed, its triggers control file will
 be parsed and /var/lib/dpkg/triggers/* updated accordingly.
 
-Triggers are run as part of configuration.  dpkg will try to first
+Triggers are run as part of configuration. dpkg will try to first
 configure all packages which do not depend on packages which are
 awaiting triggers, and then run triggers one package at a time in the
-hope of making useful progress.  (This will involve a new ‘dependtry’
+hope of making useful progress. (This will involve a new ‘dependtry’
 level in configure.c's algorithm.)  The only constraint on the
 ordering of postinsts is only the normal Depends constraint, so the
-usual Depends cycle breaking will function properly.  See “Cycle
+usual Depends cycle breaking will function properly. See “Cycle
 detection” below regarding cycles in the “A triggers B” relation.
 
 
@@ -771,7 +771,7 @@ Processing - Transitional
 -------------------------
 
 The case where a triggers-supporting dpkg is run for the first time is
-detected by the absence of /var/lib/dpkg/triggers/Unincorp.  When the
+detected by the absence of /var/lib/dpkg/triggers/Unincorp. When the
 triggers-supporting dpkg starts up without this it will set each
 package's list of pending triggers equal to its interests (obviously
 only for packages which are in ‘installed’ or ‘triggers-pending’).
@@ -801,18 +801,18 @@ mutually triggering packages - a cycle detectable only dynamically,
 which we will call a “trigger cycle”.
 
 Trigger cycles are detected using the usual hare-and-tortoise
-approach.  Each time after dpkg runs a postinst for triggers, dpkg
+approach. Each time after dpkg runs a postinst for triggers, dpkg
 records the set of pending triggers (ie, the set of activated <pending
-package, trigger name> tuples).  If the hare set is a superset of the
+package, trigger name> tuples). If the hare set is a superset of the
 tortoise set, a cycle has been found.
 
 For guaranteed termination, it would be sufficient to declare a cycle
 only when the two sets are identical, but because of the requirement
-to make progress we can cut this short.  Formally, there is supposed
+to make progress we can cut this short. Formally, there is supposed
 to be a complete ordering of pending trigger sets satisfying the
 condition that any set of pending triggers is (strictly) greater than
-all its (strict) subsets.  Trigger processing is supposed to
-monotonically decrease the set in this ordering.  (The set elements
+all its (strict) subsets. Trigger processing is supposed to
+monotonically decrease the set in this ordering. (The set elements
 are <package, trigger name> tuples.)
 
 (See “Processing” above for discussion of dependency cycles.)

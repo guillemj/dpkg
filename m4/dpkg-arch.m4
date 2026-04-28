@@ -15,7 +15,7 @@ AC_DEFUN([_DPKG_ARCHITECTURE], [
 # DPKG_CPU_TYPE
 # -------------
 # Parse the host cpu name and check it against the cputable to determine
-# the Debian name for it.  Sets ARCHITECTURE_CPU.
+# the Debian name for it. Sets ARCHITECTURE_CPU.
 AC_DEFUN([DPKG_CPU_TYPE], [
   AC_MSG_CHECKING([dpkg cpu type])
   _DPKG_ARCHITECTURE([DEB_HOST_ARCH_CPU], [cpu_type])
@@ -33,7 +33,7 @@ AC_DEFUN([DPKG_CPU_TYPE], [
 # DPKG_OS_TYPE
 # ------------
 # Parse the host operating system name and check it against a list of
-# special cases to determine what type it is.  Sets ARCHITECTURE_OS.
+# special cases to determine what type it is. Sets ARCHITECTURE_OS.
 AC_DEFUN([DPKG_OS_TYPE], [
   AC_MSG_CHECKING([dpkg operating system type])
   _DPKG_ARCHITECTURE([DEB_HOST_ARCH_OS], [os_type])
