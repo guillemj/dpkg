@@ -72,7 +72,7 @@ getdisklabel()
 yesno()
 {
   while true; do
-    echo -n "$2 [$1]  "
+    echo -n "$2 [$1] "
     read response
     if [ -z "$response" ]; then
       response="$1"
@@ -100,7 +100,7 @@ getblockdev()
   fi
   promptstring="$1"
   while [ -z "$blockdevice" ]; do
-    echo -n "$promptstring [$defaultdevice]:  "
+    echo -n "$promptstring [$defaultdevice]: "
     read response
     if [ -z "$response" ]; then
       response="$defaultdevice"
@@ -167,7 +167,7 @@ if [ $ncdroms -gt 1 ]; then
   while [ -z "$response" ]; do
     echo 'Several media discs (ISO9660 filesystems) are mounted:'
     grep -E 'type iso9660 \([^)]*\)$' <$tp.m | nl
-    echo -n "Is it any of these ?  Type a number, or 'n' for none.  "
+    echo -n "Is it any of these ? Type a number, or 'n' for none. "
     read response
     response="$(echo "$response" | sed -e 's/[ 	]*$//')"
     if expr "$response" : '[0-9][0-9]*$' >/dev/null &&
@@ -192,7 +192,7 @@ elif [ $ncdroms = 1 ]; then
     echo 'Unmounting it ...'
     umount="$mountpoint"
     while true; do
-      echo -n 'Please insert the right disc, and hit return:  '
+      echo -n 'Please insert the right disc, and hit return: '
       read response
       if mount -rt iso9660 -o nosuid,nodev "$blockdevice" "$mountpoint"; then
         echo
@@ -258,7 +258,7 @@ And it does not appear that you are using a multiple media set."
     defhierbase=/debian
   fi
 
-  echo -n "Distribution top level ? [$defhierbase]  "
+  echo -n "Distribution top level ? [$defhierbase] "
   read response
   if [ -z "$response" ]; then
     response="$defhierbase"
@@ -300,7 +300,7 @@ if [ -n "$hierbase" ]; then
     echo \
 '
 Both a stable released distribution and a work-in-progress
-development tree are available for installation.  Would you like to
+development tree are available for installation. Would you like to
 use the unreleased development tree (this is only recommended for
 experts who like to live dangerously and want to help with testing) ?'
     yesno "$p_usedevel" 'Use unreleased development distribution ?'
@@ -390,7 +390,7 @@ Say 'none' if this area is not available."
     fi
     echo -n \
 "Enter _$1_ binary directory. [$4]
- ?  "
+ ? "
     read response
     if [ -z "$response" -a -n "$defaultbinary" ]; then
       response="$defaultbinary"
@@ -437,7 +437,7 @@ you wish to install.
 
 Where is the _$1_ 'Packages.cd' file (if none is available, say 'none')
 [$5]
- ?  "
+ ? "
       read response
       if [ -z "$response" -a -n "$5" ]; then
         response="$5"
@@ -473,7 +473,7 @@ find_area non-free nf "$distribution" "$p_nf_binary" "$p_nf_packages"
 find_area local lcl local "$p_lcl_binary" "$p_lcl_packages"
 
 echo -n '
-Hit RETURN to continue.  '
+Hit RETURN to continue. '
 read response
 
 exec 3>shvar.$option.new

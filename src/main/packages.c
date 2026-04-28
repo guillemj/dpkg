@@ -221,7 +221,7 @@ process_queue(void)
 				break;
 			case act_install:
 				printf(_("More than one copy of package %s has been unpacked\n"
-				         " in this run !  Only configuring it once.\n"),
+				         " in this run ! Only configuring it once.\n"),
 				       pkg_name(rundown->pkg, pnaw_nonambig));
 				break;
 			default:
@@ -735,7 +735,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
 			struct pkginfo *pkg_pos;
 
 			debug(dbg_depcondetail,
-			      "    checking possibility  -> %s",
+			      "    checking possibility -> %s",
 			      possi->ed->name);
 			if (possi->cyclebreak) {
 				debug(dbg_depcondetail,

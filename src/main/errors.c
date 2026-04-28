@@ -139,7 +139,7 @@ skip_due_to_hold(struct pkginfo *pkg)
 		return false;
 	}
 
-	printf(_("Package %s is on hold, not touching it.  "
+	printf(_("Package %s is on hold, not touching it. "
 	         "Use --force-hold to override.\n"),
 	       pkg_name(pkg, pnaw_nonambig));
 

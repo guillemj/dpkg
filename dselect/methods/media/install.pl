@@ -271,7 +271,7 @@ foreach my $need (@media) {
     print "Processing disc\n   $need\n";
 
     while ($disk ne $need) {
-        print "Wrong disc.  This is disc\n    $disk\n";
+        print "Wrong disc. This is disc\n    $disk\n";
         print "However, the needed disc is\n    $need\n";
         print "Please change the discs and press <RETURN>\n";
         do_umount();

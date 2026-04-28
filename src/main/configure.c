@@ -146,7 +146,7 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 	}
 
 	fprintf(stderr,
-	        _("   What would you like to do about it ?  Your options are:\n"
+	        _("   What would you like to do about it ? Your options are:\n"
 	          "    Y or I  : install the package maintainer's version\n"
 	          "    N or O  : keep your currently-installed version\n"
 	          "      D     : show the differences between the versions\n"

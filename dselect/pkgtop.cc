@@ -128,7 +128,7 @@ packagelist::redrawthisstate()
 	varbuf vb;
 
 	if (table[cursorline]->pkg->set->name) {
-		vb.add_fmt(_("%-*s %s%s%s;  %s (was: %s).  %s"),
+		vb.add_fmt(_("%-*s %s%s%s; %s (was: %s). %s"),
 		           col_package.width,
 		           table[cursorline]->pkg->set->name,
 		           gettext(statusstrings[table[cursorline]->pkg->status]),

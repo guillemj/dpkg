@@ -56,10 +56,10 @@ const struct helpmessage hlp_mainintro = {
 Welcome to dselect's main package listing.\n\n\
 \
 You will be presented with a list of packages which are installed or available\n\
-for installation.  You can navigate around the list using the cursor keys,\n\
+for installation. You can navigate around the list using the cursor keys,\n\
 mark packages for installation (using '+') or deinstallation (using '-').\n\
 Packages can be marked either singly or in groups; initially you will see that\n\
-the line 'All packages' is selected.  '+', '-' and so on will affect all the\n\
+the line 'All packages' is selected. '+', '-' and so on will affect all the\n\
 packages described by the highlighted line.\n\n\
 \
 Some of your choices will cause conflicts or dependency problems; you will be\n\
@@ -81,8 +81,8 @@ const struct helpmessage hlp_readonlyintro = {
 Welcome to dselect's main package listing.\n\n\
 \
 You will be presented with a list of packages which are installed or available\n\
-for installation.  Since you do not have the privilege necessary to update\n\
-package states, you are in a read-only mode.  You can navigate around the\n\
+for installation. Since you do not have the privilege necessary to update\n\
+package states, you are in a read-only mode. You can navigate around the\n\
 list using the cursor keys (please see the 'Keystrokes' help screen), observe\n\
 the status of the packages and read information about them.\n\n\
 \
@@ -103,18 +103,18 @@ One or more of your choices have raised a conflict or dependency problem -\n\
 some packages should only be installed in conjunction with certain others, and\n\
 some combinations of packages may not be installed together.\n\n\
 \
-You will see a sub-list containing the packages involved.  The bottom half of\n\
+You will see a sub-list containing the packages involved. The bottom half of\n\
 the display shows relevant conflicts and dependencies; use 'i' to cycle between\n\
 that, the package descriptions and the internal package metadata.\n\n\
 \
 A set of 'suggested' packages has been calculated, and the initial markings in\n\
 this sub-list have been set to match those, so you can just hit Return to\n\
-accept the suggestions if you wish.  You may abort the change(s) which caused\n\
+accept the suggestions if you wish. You may abort the change(s) which caused\n\
 the problem(s), and go back to the main list, by pressing capital 'X'.\n\n\
 \
 You can also move around the list and change the markings so that they are more\n\
 like what you want, and you can 'reject' my suggestions by using the capital\n\
-'D' or 'R' keys (see the keybindings help screen).  You can use capital 'Q' to\n\
+'D' or 'R' keys (see the keybindings help screen). You can use capital 'Q' to\n\
 force to accept the situation currently displayed, in case you want to\n\
 override a recommendation or think that the program is mistaken.\n\n\
 \
@@ -123,8 +123,8 @@ Press <space> to leave help and enter the sub-list; remember: press '?' for help
 
 const struct helpmessage hlp_displayexplain1 = {
 	N_("Display, part 1: package listing and status chars"), N_("\
-The top half of the screen shows a list of packages.  For each package you see\n\
-four columns for its current status on the system and mark.  In terse mode (use\n\
+The top half of the screen shows a list of packages. For each package you see\n\
+four columns for its current status on the system and mark. In terse mode (use\n\
 'v' to toggle verbose display) these are single characters, from left to right:\n\n\
 \
  Error flag: Space - no error (but package may be in broken state - see below)\n\
@@ -150,12 +150,12 @@ available version numbers (shift-V to display/hide) and summary description.\n")
 
 const struct helpmessage hlp_displayexplain2 = {
 	N_("Display, part 2: list highlight; information display"), N_("\
-* Highlight: One line in the package list will be highlighted.  It indicates\n\
+* Highlight: One line in the package list will be highlighted. It indicates\n\
   which package(s) will be affected by presses of '+', '-' and '_'.\n\n\
 \
 * The dividing line in the middle of the screen shows a brief explanation of\n\
   the status of the currently-highlighted package, or a description of which\n\
-  group is highlighted if a group line is.  If you don't understand the\n\
+  group is highlighted if a group line is. If you don't understand the\n\
   meaning of some of the status characters displayed, go to the relevant\n\
   package and look at this divider line, or use the 'v' key for a verbose\n\
   display (press 'v' again to go back to the terse display).\n\n\
@@ -179,7 +179,7 @@ installed from one of a number of different possible places.\n\n\
 \
 This list allows you to select one of these installation methods.\n\n\
 \
-Move the highlight to the method you wish to use, and hit Enter.  You will then\n\
+Move the highlight to the method you wish to use, and hit Enter. You will then\n\
 be prompted for the information required to do the installation.\n\n\
 \
 As you move the highlight a description of each method, where available, is\n\

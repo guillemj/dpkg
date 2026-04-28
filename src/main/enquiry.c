@@ -95,7 +95,7 @@ static const struct audit_problem audit_problems[] = {
 		.value.number = 0,
 		.explanation = N_(
 		"The following packages are in a mess due to serious problems during\n"
-		"installation.  They must be reinstalled for them (and any packages\n"
+		"installation. They must be reinstalled for them (and any packages\n"
 		"that depend on them) to function properly:\n")
 	}, {
 		.check = audit_status,
@@ -109,28 +109,28 @@ static const struct audit_problem audit_problems[] = {
 		.value.number = PKG_STAT_HALFCONFIGURED,
 		.explanation = N_(
 		"The following packages are only half configured, probably due to problems\n"
-		"configuring them the first time.  The configuration should be retried using\n"
+		"configuring them the first time. The configuration should be retried using\n"
 		"dpkg --configure <package> or the configure menu option in dselect:\n")
 	}, {
 		.check = audit_status,
 		.value.number = PKG_STAT_HALFINSTALLED,
 		.explanation = N_(
 		"The following packages are only half installed, due to problems during\n"
-		"installation.  The installation can probably be completed by retrying it;\n"
+		"installation. The installation can probably be completed by retrying it;\n"
 		"the packages can be removed using dselect or dpkg --remove:\n")
 	}, {
 		.check = audit_status,
 		.value.number = PKG_STAT_TRIGGERSAWAITED,
 		.explanation = N_(
 		"The following packages are awaiting processing of triggers that they\n"
-		"have activated in other packages.  This processing can be requested using\n"
+		"have activated in other packages. This processing can be requested using\n"
 		"dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
 	}, {
 		.check = audit_status,
 		.value.number = PKG_STAT_TRIGGERSPENDING,
 		.explanation = N_(
 		"The following packages have been triggered, but the trigger processing\n"
-		"has not yet been done.  Trigger processing can be requested using\n"
+		"has not yet been done. Trigger processing can be requested using\n"
 		"dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
 	}, {
 		.check = audit_infofile,
