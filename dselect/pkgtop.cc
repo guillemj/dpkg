@@ -133,7 +133,7 @@ packagelist::redrawthisstate()
 		           table[cursorline]->pkg->set->name,
 		           gettext(statusstrings[table[cursorline]->pkg->status]),
 		           ((eflagstrings[table[cursorline]->pkg->eflag][0] == ' ') &&
-		            (eflagstrings[table[cursorline]->pkg->eflag][1] == '\0'))  ? "" : " - ",
+		            (eflagstrings[table[cursorline]->pkg->eflag][1] == '\0')) ? "" : " - ",
 		           gettext(eflagstrings[table[cursorline]->pkg->eflag]),
 		           gettext(wantstrings[table[cursorline]->selected]),
 		           gettext(wantstrings[table[cursorline]->original]),

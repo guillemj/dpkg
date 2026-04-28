@@ -65,5 +65,5 @@ if ($has_alg_merge) {
          "$datadir/ch-unreleased-a",
          "$datadir/ch-unreleased-b"));
 }
-test_merge("$datadir/ch-badver-merged",  ("$datadir/ch-badver-old",
+test_merge("$datadir/ch-badver-merged", ("$datadir/ch-badver-old",
     "$datadir/ch-badver-a", "$datadir/ch-badver-b"));
