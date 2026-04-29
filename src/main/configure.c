@@ -104,7 +104,7 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 	if (what & CFOF_IS_NEW) {
 		fprintf(stderr,
 		        _(" ==> File on system created locally.\n"
-		          " ==> File also in package provided by package maintainer.\n"));
+		          " ==> File also in package provided by package distributor.\n"));
 	} else {
 		fprintf(stderr, !useredited ?
 		        _("     Not modified since installation.\n") :
@@ -147,7 +147,7 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 
 	fprintf(stderr,
 	        _("   What would you like to do about it ? Your options are:\n"
-	          "    Y or I  : install the package maintainer's version\n"
+	          "    Y or I  : install the new package distributor's version\n"
 	          "    N or O  : keep the current locally installed version\n"
 	          "      D     : show the differences between the versions\n"
 	          "      Z     : start a shell to examine the situation\n"));
