@@ -107,7 +107,7 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 		          " ==> File also in package provided by package distributor.\n"));
 	} else {
 		fprintf(stderr, !useredited ?
-		        _("     Not modified since installation.\n") :
+		        _("     Not modified locally since installation.\n") :
 		        !(what & CFOF_USER_DEL) ?
 		        _(" ==> Modified locally since installation.\n") :
 		        _(" ==> Deleted locally since installation.\n"));
