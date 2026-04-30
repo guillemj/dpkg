@@ -1361,8 +1361,8 @@ altdb_get_line(struct altdb_context *ctx, const char *name)
 		}
 		if (feof(ctx->fh))
 			altdb_bad_format(ctx,
-			                 _("unexpected end of file while "
-			                   "trying to read %s"), name);
+			                 _("cannot read file '%s': %s"),
+			                 name, _("unexpected end of file"));
 		altdb_bad_format(ctx, _("while reading %s: %s"),
 		                 name, strerror(errno));
 	}

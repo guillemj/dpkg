@@ -716,7 +716,8 @@ commandfd(const char *const *argv)
 				argc++;
 		} while (c != EOF && c != '\n');
 		if (c == EOF)
-			ohshit(_("unexpected end of file before end of line %d"), lno);
+			ohshit(_("cannot read end of line after command at line %d: %s"),
+			       lno, _("unexpected end of file"));
 
 		if (!argc)
 			continue;

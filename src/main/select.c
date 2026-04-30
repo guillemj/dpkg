@@ -169,17 +169,21 @@ setselections(const char *const *argv)
 			varbuf_add_char(&namevb, c);
 			c = getchar();
 			if (c == EOF)
-				ohshit(_("unexpected end of file in package name at line %d"), lno);
+				ohshit(_("cannot read package name at line %d: %s"),
+				       lno, _("unexpected end of file"));
 			if (c == '\n')
-				ohshit(_("unexpected end of line in package name at line %d"), lno);
+				ohshit(_("cannot read package name at line %d: %s"),
+				       lno, _("unexpected end of line"));
 		}
 
 		while (c != EOF && c_isspace(c)) {
 			c = getchar();
 			if (c == EOF)
-				ohshit(_("unexpected end of file after package name at line %d"), lno);
+				ohshit(_("cannot read after package name at line %d: %s"),
+				       lno, _("unexpected end of file"));
 			if (c == '\n')
-				ohshit(_("unexpected end of line after package name at line %d"), lno);
+				ohshit(_("cannot read after package name at line %d: %s"),
+				       lno, _("unexpected end of line"));
 		}
 
 		varbuf_reset(&selvb);

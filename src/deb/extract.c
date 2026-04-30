@@ -54,8 +54,8 @@ static void DPKG_ATTR_NORET
 read_fail(int rc, const char *filename, const char *what)
 {
 	if (rc >= 0)
-		ohshit(_("unexpected end of file in %s in %s"),
-		       what, filename);
+		ohshit(_("cannot read %s from file %s: %s"),
+		       what, filename, _("unexpected end of file"));
 	else
 		ohshite(_("cannot read %s from file %s"), what, filename);
 }

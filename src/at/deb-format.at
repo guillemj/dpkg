@@ -17,7 +17,7 @@ AT_DATA([pkg-deb-old-bogus-only-version.deb], [0.939000
 AT_CHECK([
 # Check truncated old deb w/ only version magic
 dpkg-deb --info pkg-deb-old-bogus-only-version.deb
-], [2], [], [dpkg-deb: error: unexpected end of file in archive control member size in pkg-deb-old-bogus-only-version.deb
+], [2], [], [dpkg-deb: error: cannot read archive control member size from file pkg-deb-old-bogus-only-version.deb: unexpected end of file
 ])
 
 AT_DATA([pkg-deb-old-unsupported-version.deb], [0.938000
@@ -115,7 +115,7 @@ AT_DATA([pkg-deb-bogus-empty.deb], [])
 AT_CHECK([
 # Check truncated deb w/ 0 size
 dpkg-deb --info pkg-deb-bogus-empty.deb
-], [2], [], [dpkg-deb: error: unexpected end of file in archive magic version number in pkg-deb-bogus-empty.deb
+], [2], [], [dpkg-deb: error: cannot read archive magic version number from file pkg-deb-bogus-empty.deb: unexpected end of file
 ])
 
 AT_DATA([unknown], [])
@@ -193,7 +193,7 @@ DPKG_AR_LIST([pkg-missing-data.deb])
 dpkg-deb -c pkg-missing-data.deb
 ], [2], [debian-binary
 control.tar
-], [dpkg-deb: error: unexpected end of file in archive member header in pkg-missing-data.deb
+], [dpkg-deb: error: cannot read archive member header from file pkg-missing-data.deb: unexpected end of file
 ])
 
 AT_CHECK([
