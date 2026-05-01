@@ -62,7 +62,7 @@ sthfailed(const char * reasoning)
 	clear();
 	printw("\n\n%s: %s\n", DSELECT, reasoning);
 	attrset(A_BOLD);
-	addstr(_("\nPress <enter> to continue."));
+	addstr(_("\nPress <Enter> to continue."));
 	attrset(A_NORMAL);
 	refresh();
 	getch();
@@ -169,7 +169,7 @@ falliblesubprocess(struct command *cmd)
 		return urqr_normal;
 	}
 
-	fprintf(stderr, _("Press <enter> to continue.\n"));
+	fprintf(stderr, _("Press <Enter> to continue.\n"));
 	m_output(stderr, _("<standard error>"));
 	do {
 		c = fgetc(stdin);

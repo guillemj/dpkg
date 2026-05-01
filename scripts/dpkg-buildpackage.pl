@@ -1003,7 +1003,7 @@ if ($check_command) {
 }
 
 if ($signpause && ($signsource || $signbuildinfo || $signchanges)) {
-    print g_("Press <enter> to start the signing process.\n");
+    print g_("Press <Enter> to start the signing process.\n");
     getc();
 }
 

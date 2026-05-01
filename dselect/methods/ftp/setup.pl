@@ -175,7 +175,7 @@ store_config("$methdir/vars");
 chmod 0o600, "$methdir/vars";
 
 if ($exit || $problem) {
-    print "Press <enter> to continue\n";
+    print "Press <Enter> to continue\n";
     <STDIN>;
 }
 

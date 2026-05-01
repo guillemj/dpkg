@@ -288,7 +288,7 @@ find_area non-free nf non-free "$p_nf_binary" "$p_nf_packages"
 find_area local lcl local "$p_lcl_binary" "$p_lcl_packages"
 
 echo -n '
-Press RETURN to continue. '
+Press <Enter> to continue. '
 read response
 
 exec 3>shvar.$option.new

@@ -43,11 +43,11 @@ Mark packages for later processing:\n\
  _          remove & purge config\n\
                                              Miscellaneous:\n\
 Quit, exit, overwrite (note capitals!):       ?, F1 request help (also Help)\n\
- Return  Confirm, quit (check dependencies)   i, I  toggle/cycle info displays\n\
+ Enter   Confirm, quit (check dependencies)   i, I  toggle/cycle info displays\n\
    Q     Confirm, quit (override dep.s)       o, O  cycle through sort options\n\
  X, Esc  eXit, abandoning any changes made   v, A, V  change status display opts\n\
    R     Revert to state before this list      ^l   redraw display\n\
-   U     set all to sUggested state             /   search (Return to cancel)\n\
+   U     set all to sUggested state             /   search (<Enter> to cancel)\n\
    D     set all to Directly requested state  n, \\  repeat last search\n")
 };
 
@@ -68,7 +68,7 @@ given a sub-list of the relevant packages, so that you can solve the problems.\n
 You should read the list of keys and the explanations of the display.\n\
 Much on-line help is available, press '?' at any time to access it.\n\
 \n\
-When you have finished selecting packages, press <enter> to confirm changes,\n\
+When you have finished selecting packages, press <Enter> to confirm changes,\n\
 or 'X' to quit without saving changes. A final check on conflicts and\n\
 dependencies will be done - here too you may see a sublist.\n\
 \n\
@@ -88,7 +88,7 @@ the status of the packages and read information about them.\n\
 You should read the list of keys and the explanations of the display.\n\
 Much on-line help is available, press '?' at any time to access it.\n\
 \n\
-When you have finished browsing, press 'Q' or <enter> to quit.\n\
+When you have finished browsing, press 'Q' or <Enter> to quit.\n\
 \n\
 Press <space> to leave help and enter the list now.\n")
 };
@@ -106,7 +106,7 @@ the display shows relevant conflicts and dependencies; use 'i' to cycle between\
 that, the package descriptions and the internal package metadata.\n\
 \n\
 A set of 'suggested' packages has been calculated, and the initial markings in\n\
-this sub-list have been set to match those, so you can just press Return to\n\
+this sub-list have been set to match those, so you can just press <Enter> to\n\
 accept the suggestions if you wish. You may abort the change(s) which caused\n\
 the problem(s), and go back to the main list, by pressing capital 'X'.\n\
 \n\
@@ -177,7 +177,7 @@ installed from one of a number of different possible places.\n\
 \n\
 This list allows you to select one of these installation methods.\n\
 \n\
-Move the highlight to the method you wish to use, and press Enter. You will\n\
+Move the highlight to the method you wish to use, and press <Enter>. You will\n\
 then be prompted for the information required to do the installation.\n\
 \n\
 As you move the highlight a description of each method, where available, is\n\
@@ -204,12 +204,12 @@ Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n\
 (These are the same motion keys as in the package list display.)\n\
 \n\
 Quit:\n\
- Return, Enter    select this method and go to its configuration dialogue\n\
+ Enter            select this method and go to its configuration dialogue\n\
  x, X             exit without changing or setting up the installation method\n\
 \n\
 Miscellaneous:\n\
   ?, Help, F1      request help\n\
  ^l                redraw display\n\
-  /                search (just return to cancel)\n\
+  /                search (<Enter> to cancel)\n\
   \\                repeat last search\n")
 };

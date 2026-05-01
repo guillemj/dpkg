@@ -107,7 +107,7 @@ This is
     $thisdisk
 However, $package is expected on disc:
     $medium
-Change the discs and press <RETURN>.
+Change the discs and press <Enter>.
 
 INFO
         exit(1);
@@ -274,7 +274,7 @@ foreach my $need (@media) {
     while ($disk ne $need) {
         print "Wrong disc. This is disc\n    $disk\n";
         print "However, the needed disc is\n    $need\n";
-        print "Change the discs and press <RETURN>\n";
+        print "Change the discs and press <Enter>\n";
         do_umount();
         <STDIN>;
         do_mount();
@@ -315,7 +315,7 @@ foreach my $need (@media) {
 exit $ouch;
 
 
-print 'Installation OK. Press RETURN.';
+print 'Installation OK. Press <Enter>.';
 <STDIN>;
 
 $exit = 0;
