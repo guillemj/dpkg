@@ -66,7 +66,7 @@ read_config("$vardir/methods/ftp/vars");
 
 chdir "$vardir/methods/ftp";
 
-print "Getting Packages files... (use Ctrl+C to stop)\n\n";
+print "Getting Packages files... (press Ctrl+C to stop)\n\n";
 
 my @pkgfiles;
 my $ftp;

@@ -192,7 +192,7 @@ elif [ $ncdroms = 1 ]; then
     echo 'Unmounting it ...'
     umount="$mountpoint"
     while true; do
-      echo -n 'Insert the right disc, and hit return: '
+      echo -n 'Insert the right disc, and press return: '
       read response
       if mount -rt iso9660 -o nosuid,nodev "$blockdevice" "$mountpoint"; then
         echo
@@ -473,7 +473,7 @@ find_area non-free nf "$distribution" "$p_nf_binary" "$p_nf_packages"
 find_area local lcl local "$p_lcl_binary" "$p_lcl_packages"
 
 echo -n '
-Hit RETURN to continue. '
+Press RETURN to continue. '
 read response
 
 exec 3>shvar.$option.new

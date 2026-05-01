@@ -45,7 +45,7 @@ done
 if [ $packages eq 0 ]; then
   echo '
 No Packages files available, cannot update available packages list.
-Hit RETURN to continue. '
+Press RETURN to continue. '
   read response
   exit 0
 fi
@@ -117,7 +117,7 @@ done
 
 cp -f $vardir/available $vardir/methods/$method
 
-echo -n 'Update OK. Hit RETURN. '
+echo -n 'Update OK. Press RETURN. '
 read response
 
 xit=0

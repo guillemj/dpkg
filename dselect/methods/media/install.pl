@@ -315,7 +315,7 @@ foreach my $need (@media) {
 exit $ouch;
 
 
-print 'Installation OK. Hit RETURN.';
+print 'Installation OK. Press RETURN.';
 <STDIN>;
 
 $exit = 0;

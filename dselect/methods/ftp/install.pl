@@ -398,7 +398,7 @@ sub download {
 if ($totsize != 0) {
     if (yesno('y', "\nDo you want to download the required files")) {
         DOWNLOAD_TRY: while (1) {
-            print "Downloading files... (use Ctrl+C to stop)\n";
+            print "Downloading files... (press Ctrl+C to stop)\n";
             eval {
                 if ((download() == 1) &&
                     yesno('y', "\nDo you want to retry downloading at once")) {

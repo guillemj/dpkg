@@ -27,7 +27,7 @@ if [ -z "$p_main_packages" ] && [ -z "$p_ctb_packages" ] &&
    [ -z "$p_nf_packages" ] && [ -z "$p_lcl_packages" ]; then
   echo '
 No Packages files available, cannot update available packages list.
-Hit RETURN to continue. '
+Press RETURN to continue. '
   read response
   exit 0
 fi
@@ -79,7 +79,7 @@ for f in main ctb nf lcl; do
   esac
 done
 
-echo -n 'Update OK. Hit RETURN. '
+echo -n 'Update OK. Press RETURN. '
 read response
 
 xit=0

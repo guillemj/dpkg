@@ -144,7 +144,7 @@ foreach my $f (qw(main ctb nf lcl)) {
         or subprocerr("@cmd");
 }
 
-print 'Installation OK. Hit RETURN.';
+print 'Installation OK. Press RETURN.';
 <STDIN>;
 
 $exit = 0;

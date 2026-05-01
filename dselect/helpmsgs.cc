@@ -106,7 +106,7 @@ the display shows relevant conflicts and dependencies; use 'i' to cycle between\
 that, the package descriptions and the internal package metadata.\n\
 \n\
 A set of 'suggested' packages has been calculated, and the initial markings in\n\
-this sub-list have been set to match those, so you can just hit Return to\n\
+this sub-list have been set to match those, so you can just press Return to\n\
 accept the suggestions if you wish. You may abort the change(s) which caused\n\
 the problem(s), and go back to the main list, by pressing capital 'X'.\n\
 \n\
@@ -177,8 +177,8 @@ installed from one of a number of different possible places.\n\
 \n\
 This list allows you to select one of these installation methods.\n\
 \n\
-Move the highlight to the method you wish to use, and hit Enter. You will then\n\
-be prompted for the information required to do the installation.\n\
+Move the highlight to the method you wish to use, and press Enter. You will\n\
+then be prompted for the information required to do the installation.\n\
 \n\
 As you move the highlight a description of each method, where available, is\n\
 displayed in the bottom half of the screen.\n\
