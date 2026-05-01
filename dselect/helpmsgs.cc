@@ -30,12 +30,12 @@ const struct helpmessage hlp_listkeys = {
 Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n\
   j, Down-arrow         k, Up-arrow             move highlight\n\
   N, Page-down, Space   P, Page-up, Backspace   scroll list by 1 page\n\
-  ^n                    ^p                      scroll list by 1 line\n\
+  Ctrl+n                Ctrl+p                  scroll list by 1 line\n\
   t, Home               e, End                  jump to top/end of list\n\
   u                     d                       scroll info by 1 page\n\
-  ^u                    ^d                      scroll info by 1 line\n\
+  Ctrl+u                Ctrl+d                  scroll info by 1 line\n\
   B, Left-arrow         F, Right-arrow          pan display by 1/3 screen\n\
-  ^b                    ^f                      pan display by 1 character\n\
+  Ctrl+b                Ctrl+f                  pan display by 1 character\n\n\
 \n\
 Mark packages for later processing:\n\
  +, Insert  install or upgrade      =, H  hold in present version\n\
@@ -46,7 +46,7 @@ Quit, exit, overwrite (note capitals!):       ?, F1 request help (also Help)\n\
  Enter   Confirm, quit (check dependencies)   i, I  toggle/cycle info displays\n\
    Q     Confirm, quit (override dep.s)       o, O  cycle through sort options\n\
  X, Esc  eXit, abandoning any changes made   v, A, V  change status display opts\n\
-   R     Revert to state before this list      ^l   redraw display\n\
+   R     Revert to state before this list    Ctrl+l   redraw display\n\
    U     set all to sUggested state             /   search (<Enter> to cancel)\n\
    D     set all to Directly requested state  n, \\  repeat last search\n")
 };
@@ -195,12 +195,12 @@ const struct helpmessage hlp_methkeys = {
 Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n\
   j, Down-arrow         k, Up-arrow             move highlight\n\
   N, Page-down, Space   P, Page-up, Backspace   scroll list by 1 page\n\
-  ^n                    ^p                      scroll list by 1 line\n\
+  Ctrl+n                Ctrl+p                  scroll list by 1 line\n\
   t, Home               e, End                  jump to top/end of list\n\
   u                     d                       scroll info by 1 page\n\
-  ^u                    ^d                      scroll info by 1 line\n\
+  Ctrl+u                Ctrl+d                  scroll info by 1 line\n\
   B, Left-arrow         F, Right-arrow          pan display by 1/3 screen\n\
-  ^b                    ^f                      pan display by 1 character\n\
+  Ctrl+b                Ctrl+f                  pan display by 1 character\n\
 (These are the same motion keys as in the package list display.)\n\
 \n\
 Quit:\n\
@@ -209,7 +209,7 @@ Quit:\n\
 \n\
 Miscellaneous:\n\
   ?, Help, F1      request help\n\
- ^l                redraw display\n\
+  Ctrl+l           redraw display\n\
   /                search (<Enter> to cancel)\n\
   \\                repeat last search\n")
 };
