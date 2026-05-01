@@ -233,7 +233,7 @@ baselist::displayhelp(const struct helpmenuentry *helpmenu, int key)
 				addch(' ');
 			attrset(part_attr[thisstate]);
 			mvaddstr(maxy - 1, 0,
-			         _("Press ? for help menu, . for next topic, <space> to exit help."));
+			         _("Press ? for help menu, . for next topic, <Space> to exit help."));
 			getyx(stdscr, y, x);
 			while (++x < maxx)
 				addch(' ');
@@ -249,7 +249,7 @@ baselist::displayhelp(const struct helpmenuentry *helpmenu, int key)
 				mvaddstr(i + 3, 6, gettext(hme->msg->title));
 			}
 			mvaddstr(i + 4, 1,
-			         _("Press a key from the list above, <space> or 'q' to exit help,\n"
+			         _("Press a key from the list above, <Space> or 'q' to exit help,\n"
 			           "  or '.' (full stop) to read each help page in turn. "));
 			nextkey = helpmenu[0].key;
 		}

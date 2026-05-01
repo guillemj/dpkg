@@ -72,7 +72,7 @@ When you have finished selecting packages, press <Enter> to confirm changes,\n\
 or 'X' to quit without saving changes. A final check on conflicts and\n\
 dependencies will be done - here too you may see a sublist.\n\
 \n\
-Press <space> to leave help and enter the list now.\n")
+Press <Space> to leave help and enter the list now.\n")
 };
 
 const struct helpmessage hlp_readonlyintro = {
@@ -90,7 +90,7 @@ Much on-line help is available, press '?' at any time to access it.\n\
 \n\
 When you have finished browsing, press 'Q' or <Enter> to quit.\n\
 \n\
-Press <space> to leave help and enter the list now.\n")
+Press <Space> to leave help and enter the list now.\n")
 };
 
 const struct helpmessage hlp_recurintro = {
@@ -116,7 +116,7 @@ like what you want, and you can 'reject' the suggestions by using the capital\n\
 force to accept the situation currently displayed, in case you want to\n\
 override a recommendation or think that the program is mistaken.\n\
 \n\
-Press <space> to leave help and enter the sub-list; remember: press '?' for help.\n")
+Press <Space> to leave help and enter the sub-list; remember: press '?' for help.\n")
 };
 
 const struct helpmessage hlp_displayexplain1 = {
