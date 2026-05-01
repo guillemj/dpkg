@@ -307,7 +307,8 @@ dpkg_options_parse(const char *const **argvp, const struct cmdinfo *cmdinfos,
 					if (!*p) {
 						value = *(*argvp)++;
 						if (!value)
-							badusage(_("-%c option takes a value"),cip->oshort);
+							badusage(_("-%c option takes a value"),
+							         cip->oshort);
 					} else {
 						value = p;
 						p = "";
@@ -321,7 +322,8 @@ dpkg_options_parse(const char *const **argvp, const struct cmdinfo *cmdinfos,
 						*cip->sassignto = value;
 				} else {
 					if (*p == '=')
-						badusage(_("-%c option does not take a value"),cip->oshort);
+						badusage(_("-%c option does not take a value"),
+						         cip->oshort);
 
 					if (cip->call)
 						cip->call(cip, NULL);
