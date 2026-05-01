@@ -116,7 +116,7 @@ like what you want, and you can 'reject' the suggestions by using the capital\n\
 force to accept the situation currently displayed, in case you want to\n\
 override a recommendation or think that the program is mistaken.\n\
 \n\
-Press <Space> to leave help and enter the sub-list; remember: press '?' for help.\n")
+Press <Space> to leave help and enter the sub-list; press '?' for help.\n")
 };
 
 const struct helpmessage hlp_displayexplain1 = {
