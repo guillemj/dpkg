@@ -2705,7 +2705,7 @@ do_start(int argc, char **argv)
 		 * will be already in place. */
 		if (rgid != (gid_t)runas_gid || ruid != (uid_t)runas_uid)
 			if (initgroups(changeuser, runas_gid))
-				fatale("cannot set initgroups() with gid %d",
+				fatale("cannot initialize user groups with gid %d",
 				      runas_gid);
 
 		if (ruid != (uid_t)runas_uid)
