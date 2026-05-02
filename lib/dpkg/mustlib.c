@@ -120,7 +120,7 @@ m_dup(int oldfd)
 		return newfd;
 
 	onerr_abort++;
-	ohshite(_("cannot dup for fd %d"), oldfd);
+	ohshite(_("cannot duplicate file descriptor %d"), oldfd);
 }
 
 void
@@ -139,7 +139,7 @@ m_dup2(int oldfd, int newfd)
 	if (newfd < 3)
 		ohshite(_("cannot duplicate file descriptor for %s"),
 		        gettext(stdstrings[newfd]));
-	ohshite(_("cannot dup for fd %d"), newfd);
+	ohshite(_("cannot duplicate file descriptor %d"), newfd);
 }
 
 void
@@ -166,7 +166,7 @@ setcloexec(int fd, const char *fn)
 
 	f = fcntl(fd, F_GETFD);
 	if (f < 0)
-		ohshite(_("cannot read file descriptor flags for %s"), fn);
+		ohshite(_("cannot get file descriptor flags for %s"), fn);
 	if (fcntl(fd, F_SETFD, (f | FD_CLOEXEC)) < 0)
 		ohshite(_("cannot set close-on-execute flag for %s"), fn);
 }
