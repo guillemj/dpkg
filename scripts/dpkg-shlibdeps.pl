@@ -821,7 +821,7 @@ sub extract_from_shlibs {
         next if m/^\#/;
         ## no critic (RegularExpressions::ProhibitCaptureWithoutTest)
         if (! m/$shlibs_regex/) {
-            warning(g_("shared libs metadata file '%s' line %d: bad line '%s'"),
+            warning(g_("shared libraries metadata file '%s' line %d: bad line '%s'"),
                     $shlibfile, $., $_);
             next;
         }
