@@ -102,7 +102,7 @@ sub read_config {
 
     my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
     $conf = eval $code;
-    error("cannot eval '%s' content: %s", $vars, "$@") if $@;
+    error("cannot parse file '%s' content: %s", $vars, $@) if $@;
     if (ref($conf) =~ /HASH/) {
         foreach my $var (keys %{$conf}) {
             $CONFIG{$var} = $conf->{$var};
