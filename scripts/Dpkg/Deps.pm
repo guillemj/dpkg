@@ -6,12 +6,12 @@
 # Copyright © 2007-2009 Raphaël Hertzog <hertzog@debian.org>
 # Copyright © 2008-2009,2012-2014 Guillem Jover <guillem@debian.org>
 #
-# This program is free software; you may redistribute it and/or modify
+# This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
 #
-# This is distributed in the hope that it will be useful,
+# This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
