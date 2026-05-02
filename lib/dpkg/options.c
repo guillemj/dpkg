@@ -192,8 +192,7 @@ dpkg_options_load_dir(const char *prog, const struct cmdinfo *cmdinfos)
 			free(dirname);
 			return;
 		} else {
-			ohshite(_("cannot open configuration directory '%s'"),
-			        dirname);
+			ohshite(_("cannot scan directory '%s'"), dirname);
 		}
 	}
 

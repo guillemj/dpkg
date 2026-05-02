@@ -104,8 +104,7 @@ cleanupdates(void)
 
 			return;
 		}
-		ohshite(_("cannot scan updates directory '%s'"),
-		        updatesdir);
+		ohshite(_("cannot scan directory '%s'"), updatesdir);
 	}
 
 	if (cdn) {
