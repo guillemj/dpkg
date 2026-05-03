@@ -988,7 +988,8 @@ sub find_packages {
         if (m/^local diversion |^diversion by/) {
             warning(g_('diversions involved - output may be incorrect'));
             print { *STDERR } " $_\n"
-                or syserr(g_('cannot write diversion info to stderr'));
+                or syserr(g_('cannot write diversion info to %s'),
+                          g_('<standard error>'));
         } elsif (m/^([-a-z0-9+.:, ]+): (\/.*)$/) {
             my ($pkgs, $path) = ($1, $2);
             my $realpath = realpath($path);

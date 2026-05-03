@@ -292,11 +292,13 @@ for my $p (sort keys %packages) {
         push @missingover, $p;
     }
     for my $package (sort { $a->{Version} cmp $b->{Version} } @{$packages{$p}}) {
-        print("$package\n") or syserr(g_('cannot write to stdout'));
+        print("$package\n")
+            or syserr(g_('cannot write to %s'), g_('<standard output>'));
         $records_written++;
     }
 }
-close(STDOUT) or syserr(g_('cannot close stdout'));
+close(STDOUT)
+    or syserr(g_('cannot close %s'), g_('<standard output>'));
 
 if (@multi_instances) {
     warning(g_('Packages with multiple instances but no --multiversion specified:'));

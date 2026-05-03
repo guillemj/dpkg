@@ -166,7 +166,8 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 	        _("[no default]"));
 
 	if (ferror(stderr))
-		ohshite(_("cannot write to stderr, discovered before conffile prompt"));
+		ohshite(_("cannot write to %s, discovered before conffile prompt"),
+		        _("<standard error>"));
 
 	cc = 0;
 	while ((c = getchar()) != EOF && c != '\n')
@@ -175,8 +176,10 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 
 	if (c == EOF) {
 		if (ferror(stdin))
-			ohshite(_("cannot read from stdin at conffile prompt"));
-		ohshit(_("end of file on stdin at conffile prompt"));
+			ohshite(_("cannot read from %s at conffile prompt"),
+			        _("<standard input>"));
+		ohshit(_("end of file on %s at conffile prompt"),
+		       _("<standard input>"));
 	}
 
 	if (!cc) {

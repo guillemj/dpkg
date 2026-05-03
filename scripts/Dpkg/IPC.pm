@@ -288,7 +288,7 @@ sub spawn {
                 or syserr(g_('cannot open %s'), $opts{from_file});
         } elsif ($opts{from_handle}) {
             open(STDIN, '<&', $opts{from_handle})
-                or syserr(g_('cannot reopen stdin'));
+                or syserr(g_('cannot reopen %s'), g_('<standard input>'));
             # Has been duped, can be closed.
             push @{$opts{close_in_child}}, $opts{from_handle};
         }
@@ -298,7 +298,7 @@ sub spawn {
                 or syserr(g_('cannot write %s'), $opts{to_file});
         } elsif ($opts{to_handle}) {
             open(STDOUT, '>&', $opts{to_handle})
-                or syserr(g_('cannot reopen stdout'));
+                or syserr(g_('cannot reopen %s'), g_('<standard output>'));
             # Has been duped, can be closed.
             push @{$opts{close_in_child}}, $opts{to_handle};
         }
@@ -308,7 +308,7 @@ sub spawn {
                 or syserr(g_('cannot write %s'), $opts{error_to_file});
         } elsif ($opts{error_to_handle}) {
             open(STDERR, '>&', $opts{error_to_handle})
-                or syserr(g_('cannot reopen stderr'));
+                or syserr(g_('cannot reopen %s'), g_('<standard error>'));
             # Has been duped, can be closed.
             push @{$opts{close_in_child}}, $opts{error_to_handle};
         }
