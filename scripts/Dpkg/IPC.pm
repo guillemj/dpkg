@@ -308,7 +308,7 @@ sub spawn {
                 or syserr(g_('cannot write %s'), $opts{error_to_file});
         } elsif ($opts{error_to_handle}) {
             open(STDERR, '>&', $opts{error_to_handle})
-                or syserr(g_('cannot reopen stdout'));
+                or syserr(g_('cannot reopen stderr'));
             # Has been duped, can be closed.
             push @{$opts{close_in_child}}, $opts{error_to_handle};
         }
