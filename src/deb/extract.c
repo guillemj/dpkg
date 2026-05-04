@@ -382,14 +382,14 @@ extracthalf(const char *debar, const char *dir,
 			if (dir) {
 				if (mkdir(dir, 0777) != 0) {
 					if (errno != EEXIST)
-						ohshite(_("cannot create directory"));
+						ohshite(_("cannot create directory '%s'"), dir);
 
 					if (taroption & DPKG_TAR_CREATE_DIR)
 						ohshite(_("unexpected pre-existing pathname %s"),
 						        dir);
 				}
 				if (chdir(dir) != 0)
-					ohshite(_("cannot change directory to directory"));
+					ohshite(_("cannot change directory to '%s'"), dir);
 			}
 
 			command_exec(&cmd);
