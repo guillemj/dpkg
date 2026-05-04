@@ -94,7 +94,7 @@ sub _add_entry {
         $file = $1;
     }
     print({ *$self->{tar_input} } "$file\0")
-        or syserr(g_('write on tar input'));
+        or syserr(g_('cannot write into tar input'));
 }
 
 sub add_file {
@@ -122,7 +122,7 @@ sub add_directory {
 sub finish {
     my $self = shift;
 
-    close(*$self->{tar_input}) or syserr(g_('close on tar input'));
+    close(*$self->{tar_input}) or syserr(g_('cannot close tar input'));
     wait_child(*$self->{pid}, cmdline => "$Dpkg::PROGTAR -cf -");
     delete *$self->{pid};
     delete *$self->{tar_input};
@@ -194,7 +194,7 @@ sub extract {
             if (not defined $canon_pathname) {
                 return if $! == ENOENT;
 
-                syserr(g_("pathname '%s' cannot be canonicalized"), $pathname);
+                syserr(g_("cannot canonicalize pathname '%s'"), $pathname);
             }
             return if $canon_pathname eq $canon_devnull;
             return if $canon_pathname eq $canon_basedir;

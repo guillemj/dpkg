@@ -639,7 +639,7 @@ $substvars->save($varlistfilenew);
 # Replace old file by new one.
 if (! $stdout) {
     rename $varlistfilenew, $varlistfile
-        or syserr(g_("install new varlist file '%s'"), $varlistfile);
+        or syserr(g_("cannot install new varlist file '%s'"), $varlistfile);
 }
 
 ## Functions.
@@ -988,7 +988,7 @@ sub find_packages {
         if (m/^local diversion |^diversion by/) {
             warning(g_('diversions involved - output may be incorrect'));
             print { *STDERR } " $_\n"
-                or syserr(g_('write diversion info to stderr'));
+                or syserr(g_('cannot write diversion info to stderr'));
         } elsif (m/^([-a-z0-9+.:, ]+): (\/.*)$/) {
             my ($pkgs, $path) = ($1, $2);
             my $realpath = realpath($path);

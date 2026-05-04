@@ -594,7 +594,7 @@ if ($stdout) {
     $dist->save("$fileslistfile.new");
 
     rename "$fileslistfile.new", $fileslistfile
-        or syserr(g_('install new files list file'));
+        or syserr(g_('cannot install new files list file'));
 
     # Release the lock.
     close $lockfh or syserr(g_('cannot close %s'), $lockfile);

@@ -161,7 +161,7 @@ sub add_diff_file {
         print { $self } $_
             or syserr(g_('cannot write'));
     }
-    close($diffgen) or syserr(g_('close on diff pipe'));
+    close($diffgen) or syserr(g_('cannot close diff pipe'));
     wait_child($diff_pid,
         no_check => 1,
         cmdline => "diff -u @options -- $old $new",
@@ -685,7 +685,8 @@ sub apply {
         }
         if ($opts{remove_backup}) {
             $fn .= '.dpkg-orig';
-            unlink($fn) or syserr(g_('remove patch backup file %s'), $fn);
+            unlink($fn)
+                or syserr(g_('cannot remove patch backup file %s'), $fn);
         }
     }
     return $analysis;

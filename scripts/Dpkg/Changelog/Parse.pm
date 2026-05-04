@@ -179,7 +179,7 @@ sub changelog_parse {
 
     # Load and parse the changelog.
     $changes->load($opts{filename}, compression => $opts{compression})
-        or error(g_('fatal error occurred while parsing %s'), $opts{filename});
+        or error(g_('cannot parse changelog %s'), $opts{filename});
 
     # Get the output into several Dpkg::Control objects.
     my @res;

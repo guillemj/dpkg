@@ -228,7 +228,7 @@ sub check_directory_traversal {
         if (not defined $canon_pathname) {
             return if $! == ENOENT;
 
-            syserr(g_("pathname '%s' cannot be canonicalized"), $_);
+            syserr(g_("cannot canonicalize pathname '%s'"), $_);
         }
         return if $canon_pathname eq $canon_devnull;
         return if $canon_pathname eq $canon_basedir;

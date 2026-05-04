@@ -411,7 +411,8 @@ sub wait_child {
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" };
         alarm($opts{timeout}) if defined($opts{timeout});
-        $pid == waitpid($pid, 0) or syserr(g_('wait for %s'), $opts{cmdline});
+        $pid == waitpid($pid, 0)
+            or syserr(g_('cannot wait for %s'), $opts{cmdline});
         alarm(0) if defined($opts{timeout});
     };
     if ($@) {
