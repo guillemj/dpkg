@@ -517,7 +517,7 @@ sub _generate_patch {
     # Copy over the debian directory.
     erasedir("$tmpdir/debian");
     system('cp', '-RPp', '--', "$dir/debian", "$tmpdir/");
-    subprocerr(g_('copy of the debian directory')) if $?;
+    subprocerr("cp $dir/debian $tmpdir/") if $?;
 
     # Apply all patches except the last automatic one.
     $opts{skip_auto} //= 0;

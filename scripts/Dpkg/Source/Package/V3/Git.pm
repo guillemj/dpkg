@@ -184,7 +184,7 @@ sub do_build {
             }
         }
     }
-    close($git_ls_files_fh) or syserr(g_('git ls-files exited nonzero'));
+    close($git_ls_files_fh) or subprocerr('git ls-files');
     if (@files) {
         error(g_('uncommitted, not-ignored changes in working directory: %s'),
               join(' ', @files));
@@ -214,7 +214,7 @@ sub do_build {
             or syserr(g_("cannot change directory to '%s'"), $clone_dir);
         $shallowfile = "$basenamerev.gitshallow";
         system('cp', '-f', 'shallow', "$old_cwd/$shallowfile");
-        subprocerr('cp shallow') if $?;
+        subprocerr("cp shallow $old_cwd/$shallowfile") if $?;
     }
 
     # Create the git bundle.
@@ -230,7 +230,7 @@ sub do_build {
            # branch.
            '--',
     );
-    subprocerr('git bundle') if $?;
+    subprocerr("git bundle create $old_cwd/$bundlefile") if $?;
 
     chdir $old_cwd or syserr(g_("cannot change directory to '%s'"), $old_cwd);
 

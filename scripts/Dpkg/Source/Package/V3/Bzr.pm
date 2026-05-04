@@ -133,7 +133,7 @@ sub do_build {
             push @files, $_;
         }
     }
-    close($bzr_status_fh) or syserr(g_('bzr status exited nonzero'));
+    close($bzr_status_fh) or subprocerr('bzr status');
     if (@files) {
         error(g_('uncommitted, not-ignored changes in working directory: %s'),
               join(' ', @files));
