@@ -639,7 +639,7 @@ $substvars->save($varlistfilenew);
 # Replace old file by new one.
 if (! $stdout) {
     rename $varlistfilenew, $varlistfile
-        or syserr(g_("cannot install new varlist file '%s'"), $varlistfile);
+        or syserr(g_("cannot install new substvars file '%s'"), $varlistfile);
 }
 
 ## Functions.
