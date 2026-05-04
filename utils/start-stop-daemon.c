@@ -586,7 +586,7 @@ wait_for_child(pid_t pid)
 	} while (child < 0 && errno == EINTR);
 
 	if (child != pid)
-		fatal("cannot wait for child");
+		fatal("cannot reap child");
 
 	if (WIFEXITED(status)) {
 		int ret = WEXITSTATUS(status);
