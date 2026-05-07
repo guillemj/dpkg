@@ -318,6 +318,16 @@ static struct res_schedule *io_sched = NULL;
 static int schedule_length;
 static struct schedule_item *schedule = NULL;
 
+static void LIBCOMPAT_ATTR_NORET
+exit_status(int code)
+{
+	switch (action) {
+	case ACTION_STATUS:
+		exit(STATUS_UNKNOWN);
+	default:
+		exit(code);
+	}
+}
 
 static void LIBCOMPAT_ATTR_PRINTF(1)
 debug(const char *format, ...)
@@ -370,10 +380,7 @@ fatalv(int errno_fatal, const char *format, va_list args)
 	else
 		fprintf(stderr, "\n");
 
-	if (action == ACTION_STATUS)
-		exit(STATUS_UNKNOWN);
-	else
-		exit(2);
+	exit_status(2);
 }
 
 static void LIBCOMPAT_ATTR_NORET LIBCOMPAT_ATTR_PRINTF(1)
@@ -411,10 +418,7 @@ bug(const char *file, int line, const char *func, const char *format, ...)
 	vfprintf(stderr, format, arglist);
 	va_end(arglist);
 
-	if (action == ACTION_STATUS)
-		exit(STATUS_UNKNOWN);
-	else
-		exit(3);
+	exit_status(3);
 }
 
 static void *
@@ -1020,10 +1024,7 @@ badusage(const char *msg)
 		fprintf(stderr, "%s: %s\n", progname, msg);
 	fprintf(stderr, "Try '%s --help' for more information.\n", progname);
 
-	if (action == ACTION_STATUS)
-		exit(STATUS_UNKNOWN);
-	else
-		exit(3);
+	exit_status(3);
 }
 
 struct sigpair {
