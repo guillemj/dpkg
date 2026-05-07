@@ -2964,12 +2964,16 @@ main(int argc, char **argv)
 	argc -= optind;
 	argv += optind;
 
-	if (action == ACTION_START)
+	switch (action) {
+	case ACTION_START:
 		return do_start(argc, argv);
-	else if (action == ACTION_STOP)
+	case ACTION_STOP:
 		return run_stop_schedule();
-	else if (action == ACTION_STATUS)
+	case ACTION_STATUS:
 		return do_findprocs();
+	default:
+		BUG("unknown action[%d]", action);
+	}
 
 	return 0;
 }
