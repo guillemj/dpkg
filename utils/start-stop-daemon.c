@@ -215,6 +215,7 @@ enum action_code {
 	ACTION_START,
 	ACTION_STOP,
 	ACTION_STATUS,
+	ACTION_PIDOF,
 };
 
 enum LIBCOMPAT_ATTR_ENUM_FLAGS match_code {
@@ -323,6 +324,7 @@ exit_status(int code)
 {
 	switch (action) {
 	case ACTION_STATUS:
+	case ACTION_PIDOF:
 		exit(STATUS_UNKNOWN);
 	default:
 		exit(code);
@@ -933,6 +935,7 @@ usage(void)
 "  -S, --start -- <argument>...  start a program and pass <arguments> to it\n"
 "  -K, --stop                    stop a program\n"
 "  -T, --status                  get the program status\n"
+"      --pidof                   print the program pid\n"
 "  -H, --help                    print help information\n"
 "  -V, --version                 print version\n"
 "\n");
@@ -1002,7 +1005,7 @@ usage(void)
 "  1 = nothing done (=> 0 if --oknodo)\n"
 "  2 = with --retry, processes would not die\n"
 "  3 = trouble\n"
-"Exit status with --status:\n"
+"Exit status with --status and --pidof:\n"
 "  0 = program is running\n"
 "  1 = program is not running and the pid file exists\n"
 "  3 = program is not running\n"
@@ -1310,6 +1313,7 @@ set_action(enum action_code new_action)
 #define OPT_RM_PIDFILE	502
 #define OPT_NOTIFY_AWAIT	503
 #define OPT_NOTIFY_TIMEOUT	504
+#define OPT_PIDOF	505
 
 static void
 parse_options(int argc, char * const *argv)
@@ -1319,6 +1323,7 @@ parse_options(int argc, char * const *argv)
 		{ "stop",	  0, NULL, 'K'},
 		{ "start",	  0, NULL, 'S'},
 		{ "status",	  0, NULL, 'T'},
+		{ "pidof",	  0, NULL, OPT_PIDOF},
 		{ "version",	  0, NULL, 'V'},
 		{ "startas",	  1, NULL, 'a'},
 		{ "name",	  1, NULL, 'n'},
@@ -1379,6 +1384,9 @@ parse_options(int argc, char * const *argv)
 			break;
 		case 'T':  /* --status */
 			set_action(ACTION_STATUS);
+			break;
+		case OPT_PIDOF:
+			set_action(ACTION_PIDOF);
 			break;
 		case 'V':  /* --version */
 			do_version();
@@ -2356,6 +2364,9 @@ pid_check(pid_t pid)
 
 	pid_list_push(&found, pid);
 
+	if (action == ACTION_PIDOF)
+		printf("%d\n", pid);
+
 	return STATUS_OK;
 }
 
@@ -2970,6 +2981,7 @@ main(int argc, char **argv)
 	case ACTION_STOP:
 		return run_stop_schedule();
 	case ACTION_STATUS:
+	case ACTION_PIDOF:
 		return do_findprocs();
 	default:
 		BUG("unknown action[%d]", action);
