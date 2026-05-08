@@ -236,6 +236,9 @@ update-po:
 
 include $(top_srcdir)/build-aux/cpan.am
 
+TAR_OPTIONS = --owner=0 --group=0
+export TAR_OPTIONS
+
 # If we create the dist tarball from the git repository, make sure
 # that we're not forgetting some files, and we are not storing any symlink
 # in the repository (except for the origins/default one) as those degrade
