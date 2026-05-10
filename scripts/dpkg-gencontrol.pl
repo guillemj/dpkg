@@ -345,7 +345,14 @@ my $pkg_type = $pkg->{'Package-Type'} ||
 
 if ($pkg_type eq 'udeb') {
     delete $fields->{'Package-Type'};
+    # Inherited automatically.
     delete $fields->{'Homepage'};
+    # Specified explicitly.
+    foreach my $f (qw(Multi-Arch)) {
+        warning(g_("package '%s' (type %s) contains irrelevant field %s"),
+                $oppackage, $pkg_type, $f)
+            if delete $fields->{$f};
+    }
 } else {
     for my $f (qw(Subarchitecture Kernel-Version Installer-Menu-Item)) {
         warning(g_("package '%s' (type %s) with udeb specific field %s"),
