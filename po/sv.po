@@ -7,10 +7,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.23.6\n"
+"Project-Id-Version: dpkg 1.23.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2026-03-07 00:40+0100\n"
-"PO-Revision-Date: 2026-02-20 16:31+0100\n"
+"PO-Revision-Date: 2026-03-12 20:34+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -37,7 +37,7 @@ msgstr "kunde inte skapa ”%s”"
 #: lib/dpkg/ar.c
 #, c-format
 msgid "archive %s is truncated or corrupt, it has a non-even byte size"
-msgstr ""
+msgstr "arkivet %s är avhugget eller trasigt, det har en icke-jämn bytestorlek"
 
 #: lib/dpkg/ar.c lib/dpkg/dir.c src/split/join.c src/split/queue.c
 #: src/divert/main.c utils/update-alternatives.c
@@ -1167,7 +1167,7 @@ msgstr "kunde inte ställa in ”close-on-exec”-flaggan på ”%s”"
 #: lib/dpkg/options-parsers.c
 #, c-format
 msgid "--%s needs a valid package name but '%s' is not: %s"
-msgstr "--%s behöver ett giltigt paketnamn. ”%s” är inte det; %s"
+msgstr "--%s behöver ett giltigt paketnamn, men ”%s” är inte det: %s"
 
 #: lib/dpkg/options.c
 #, c-format
@@ -1971,7 +1971,8 @@ msgid ""
 msgstr ""
 "Använd förval för nya konfigurationsfiler om sådant\n"
 "finns, fråga ej. Om inget förval finns tillfrågas du\n"
-"såvida inte flaggorna confold eller confnew också angivit"
+"såvida inte flaggorna confold eller confnew också\n"
+"angivits"
 
 #: src/common/force.c
 msgid "Always install missing config files"
@@ -2467,10 +2468,9 @@ msgid "archive '%s' contains two control members, giving up"
 msgstr "arkivet ”%s” innehåller två kontrolldelar, ger upp"
 
 #: src/deb/extract.c
-#, fuzzy, c-format
-#| msgid "archive has malformed control member size '%s'"
+#, c-format
 msgid "archive '%s' has zero sized tar member %.*s"
-msgstr "arkivet har felformaterad kontroldellängd ”%s”"
+msgstr "arkivet ”%s” har tar-medlemmen %.*s med nollstorlek"
 
 #: src/deb/extract.c
 #, c-format
@@ -2478,10 +2478,9 @@ msgid "archive '%s' has premature member '%.*s' before '%s', giving up"
 msgstr "arkivet ”%s” har förtida medlem ”%.*s” före ”%s”, ger upp"
 
 #: src/deb/extract.c
-#, fuzzy, c-format
-#| msgid "archive '%s' contains two control members, giving up"
+#, c-format
 msgid "archive '%s' contains an overflowing member '%.*s' size"
-msgstr "arkivet ”%s” innehåller två kontrolldelar, ger upp"
+msgstr "arkivet ”%s” innehåller spill i storleken för medlemmen ”%.*s”"
 
 #: src/deb/extract.c
 #, c-format
@@ -2489,6 +2488,8 @@ msgid ""
 "archive '%s' is truncated or corrupt, expected more data than available (%jd "
 "> %jd)"
 msgstr ""
+"arkivet ”%s” är avhugget eller trasigt, förväntade mer data än tillgängligt "
+"(%jd > %jd)"
 
 #: src/deb/extract.c
 #, c-format
@@ -2500,10 +2501,9 @@ msgstr ""
 " storlek %jd byte: kontrollarkiv= %jd byte.\n"
 
 #: src/deb/extract.c
-#, fuzzy, c-format
-#| msgid "archive has invalid format version: %s"
+#, c-format
 msgid "archive '%s' has unsupported format version: %d.%d"
-msgstr "arkivet har ogiltig formatversion: %s"
+msgstr "arkivet ”%s” har en formatversion som inte stöds: %d.%d"
 
 #: src/deb/extract.c
 msgid "archive control member size"
@@ -2795,11 +2795,11 @@ msgstr ""
 "      --[no-]uniform-compression   Använd komprimeringsparam. för alla "
 "delar.\n"
 "  -Z<typ>                          Väljer komprimeringstyp för byggning.\n"
-"                                    Tillåtna typer: gzip, xz, zstd, none\n"
+"                                     Tillåtna typer: gzip, xz, zstd, none\n"
 "  -z, --compression-level=<nivå>   Välj komprimeringsnivå för byggning.\n"
-"  -S, --compression-strategy=<strategi>\n"
+"  -S, --compression-strategy=<namn>\n"
 "                                   Välj komprimeringsstrategi för byggning.\n"
-"                                    Tillåtna värden: none; extreme (xz);\n"
+"                                     Tillåtna värden: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
 
@@ -2843,7 +2843,7 @@ msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
 msgstr ""
-"Skriv dpkg-deb --help för hjälp om att hantera *.deb-filer\n"
+"Skriv dpkg-deb --help för hjälp om att hantera *.deb-filer;\n"
 "Skriv dpkg --help för hjälp om att installera och avinstallera paket."
 
 #: src/deb/main.c
@@ -2864,7 +2864,7 @@ msgstr "okänd komprimeringsstrategi ”%s”!"
 #: src/deb/main.c
 #, c-format
 msgid "unknown compression type '%s'!"
-msgstr "okänd komprimeringstyp ”%s”."
+msgstr "okänd komprimeringstyp ”%s”!"
 
 #: src/deb/main.c
 #, c-format
@@ -3052,7 +3052,7 @@ msgstr "kan inte öppna arkivdelen i fil ”%s”"
 #: src/split/info.c
 #, c-format
 msgid "file '%s' is not an archive part"
-msgstr "filen ”%s” är inte en arkivdel"
+msgstr "filen ”%s” är inte en del av ett arkiv"
 
 #: src/split/info.c
 #, c-format
@@ -3075,7 +3075,7 @@ msgstr ""
 "    Formatversion för del:          %d.%d\n"
 "    Del av paket:                   %s\n"
 "       ... version:                 %s\n"
-"        ...arloteltir:              %s\n"
+"       ... arkitektur:              %s\n"
 "       ... MD5-kontrollsumma:       %s\n"
 "       ... längd:                   %jd byte\n"
 "       ... dela vid:                %jd byte\n"
@@ -4357,7 +4357,7 @@ msgstr ""
 #: src/main/archives.c
 #, c-format
 msgid "yes, will deconfigure %s (broken by %s)"
-msgstr "ja, kommer att avkonfigurera %s (förstörs av %s)."
+msgstr "ja, kommer att avkonfigurera %s (förstörs av %s)"
 
 #: src/main/archives.c
 #, c-format
@@ -4759,7 +4759,7 @@ msgid ""
 " reinstall it before attempting configuration"
 msgstr ""
 "Paketet är i ett väldigt dåligt inkonsistent läge; du bör\n"
-" ominstallera det innan du försöker konfigurera."
+" ominstallera det innan du försöker konfigurera"
 
 #: src/main/configure.c
 #, c-format
@@ -4902,7 +4902,7 @@ msgstr "  %s tillhandahåller %s men kommer att avkonfigureras.\n"
 #: src/main/depcon.c
 #, c-format
 msgid "  %s provides %s but is %s.\n"
-msgstr "%s tillhandahåller %s men men är %s.\n"
+msgstr "%s tillhandahåller %s men är %s.\n"
 
 #: src/main/depcon.c
 #, c-format
@@ -5375,7 +5375,7 @@ msgstr ""
 "Använd dpkg med -b, --build, -c, --contents, -e, --control, -I, --info,\n"
 "  -f, --field, -x, --extract, -X, --vextract, --ctrl-tarfile, --fsys-"
 "tarfile\n"
-"på arkiv (skriv %s --help.)\n"
+"på arkiv (skriv %s --help).\n"
 "\n"
 
 #: src/main/main.c
@@ -5782,11 +5782,11 @@ msgstr ""
 
 #: src/main/remove.c
 msgid "this is an essential package; it should not be removed"
-msgstr "Detta är ett systemkritiskt paket; det bör inte tas bort."
+msgstr "Detta är ett systemkritiskt paket; det bör inte tas bort"
 
 #: src/main/remove.c
 msgid "this is a protected package; it should not be removed"
-msgstr "detta är ett skyddat paket; det bör inte tas bort."
+msgstr "detta är ett skyddat paket; det bör inte tas bort"
 
 #: src/main/remove.c
 #, c-format
@@ -5816,7 +5816,7 @@ msgid ""
 " reinstall it before attempting a removal"
 msgstr ""
 "paketet är i ett väldigt dåligt inkonsistent läge; du bör\n"
-" ominstallera det innan du försöker ta bort det."
+" ominstallera det innan du försöker ta bort det"
 
 #: src/main/remove.c
 #, c-format
@@ -5905,7 +5905,7 @@ msgstr "kunde inte utföra setenv för utvecklarskript"
 
 #: src/main/script.c
 msgid "cannot set security execution context for maintainer script"
-msgstr "kan inte sätta säkerhetsexekveringssammanhang för för utvecklarskript"
+msgstr "kan inte sätta säkerhetsexekveringssammanhang för utvecklarskript"
 
 #: src/main/script.c
 #, c-format
@@ -6786,7 +6786,7 @@ msgstr "byter namn på länken %s från %s%s till %s%s"
 #: utils/update-alternatives.c
 #, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
-msgstr "automatiska uppdateringar av %s/%s är inaktiverad; låter den vara."
+msgstr "automatiska uppdateringar av %s/%s är inaktiverad; låter den vara"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6991,42 +6991,3 @@ msgstr "Kör update-alternatives för att ändra systemets val av alternativ"
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "Autentisering krävs för att köra update-alternatives"
-
-#~ msgid "shell command to move files"
-#~ msgstr "skalkommando för att flytta filer"
-
-#, c-format
-#~ msgid "%s subprocess returned error exit status %d"
-#~ msgstr "underprocessen %s gav felkod %d vid avslut"
-
-#, c-format
-#~ msgid "architecture '%s' is illegal: %s"
-#~ msgstr "arkitekturen ”%s” är ogiltig: %s"
-
-#, c-format
-#~ msgid "unable to delete control info file '%s'"
-#~ msgstr "kunde inte ta bort kontrollinformationsfil ”%s”"
-
-#, c-format
-#~ msgid "installed %s package %s script"
-#~ msgstr "installerat paket %s:s skript %s"
-
-#~ msgid "package control information extraction"
-#~ msgstr "hämtning av paketkontrollinformation"
-
-#, c-format
-#~ msgid "open component '%s' (in %s) failed in an unexpected way"
-#~ msgstr ""
-#~ "öppnande av komponenten ”%s” (i %s) misslyckades på ett oväntat sätt"
-
-#, c-format
-#~ msgid "cannot stat '%s' (in '%s')"
-#~ msgstr "kan inte ta status på ”%s” (i ”%s”)"
-
-#, c-format
-#~ msgid "cannot open '%s' (in '%s')"
-#~ msgstr "kan inte öppna ”%s” (i ”%s”)"
-
-#, c-format
-#~ msgid "failed to read '%s' (in '%s')"
-#~ msgstr "kunde inte läsa ”%s” (i ”%s”)"

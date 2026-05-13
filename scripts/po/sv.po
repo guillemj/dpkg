@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-dev 1.23.6\n"
+"Project-Id-Version: dpkg-dev 1.23.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2026-03-07 00:40+0100\n"
-"PO-Revision-Date: 2026-03-02 04:03+0100\n"
+"PO-Revision-Date: 2026-03-12 20:37+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -593,7 +593,7 @@ msgstr "källkod ändrad av"
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "cannot parse maintainer email address \"%s\" from changelog entry"
-msgstr ""
+msgstr "kan inte tolka ansvariges epostadress ”%s” från ändringsloggposten"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "host architecture"
@@ -1353,7 +1353,7 @@ msgstr "antar arkitekturen ”%s” för ”%s”"
 #: scripts/dpkg-name.pl
 #, perl-format
 msgid "bad package control information for '%s'"
-msgstr "felaktig paketstyrinformation för %s."
+msgstr "felaktig paketstyrinformation för %s"
 
 #: scripts/dpkg-name.pl
 #, perl-format
@@ -1473,22 +1473,7 @@ msgid "takes no non-option arguments"
 msgstr "tar inga argument som inte är flaggor"
 
 #: scripts/dpkg-scanpackages.pl
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
-#| "Packages\n"
-#| "\n"
-#| "Options:\n"
-#| "  -t, --type <type>        scan for <type> packages (default is 'deb').\n"
-#| "  -a, --arch <arch>        architecture to scan for.\n"
-#| "  -h, --hash <hash-list>   only generate hashes for the specified list.\n"
-#| "  -m, --multiversion       allow multiple versions of a single package.\n"
-#| "  -e, --extra-override <file>\n"
-#| "                           use extra override file.\n"
-#| "  -M, --medium <medium>    add X-Medium field for dselect media access "
-#| "method\n"
-#| "  -?, --help               show this help message.\n"
-#| "      --version            show the version.\n"
+#, perl-format
 msgid ""
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
 "Packages\n"
@@ -1512,7 +1497,9 @@ msgstr ""
 "\n"
 "Flaggor:\n"
 "  -t, --type <typ>         sök efter <typ>-paket (förval är ”deb”).\n"
-"  -a, --arch <ark>         arkitektur att söka efter.\n"
+"  -a, --arch <ark>         arkitektur att söka efter (med implicit ark. "
+"all).\n"
+"      --no-implicit-arch   lägg inte implicit arkitektur all till --arch.\n"
 "  -h, --hash <hashlista>   generera bara hashar för den angivna listan.\n"
 "  -m, --multiversion       tillåt flera versioner av samma paket.\n"
 "  -e, --extra-override <fil>\n"
@@ -1747,7 +1734,7 @@ msgstr "symbolen %s, som används av %s, hittades inte i något av biblioteken"
 msgid ""
 "%s contains an unresolvable reference to symbol %s: it is probably a plugin"
 msgstr ""
-"%s innehåller en referens till symbolen %s som inte kan kopplas; det är "
+"%s innehåller en referens till symbolen %s som inte kan kopplas: det är "
 "troligen ett insticksprogram"
 
 #: scripts/dpkg-shlibdeps.pl
@@ -2273,7 +2260,7 @@ msgstr "kan inte hämta storleken för arkivet %s"
 #: scripts/Dpkg/Archive/Ar.pm
 #, perl-format
 msgid "archive %s is truncated or corrupt, it has a non-even byte size"
-msgstr ""
+msgstr "arkivet %s är avhugget eller trasigt, det har en icke-jämn bytestorlek"
 
 #: scripts/Dpkg/Archive/Ar.pm
 #, perl-format
@@ -2323,10 +2310,9 @@ msgid "file header at offset %d in archive %s contains bad magic"
 msgstr "filhuvudet vid position %d i arkivet %s har fel magiskt tal"
 
 #: scripts/Dpkg/Archive/Ar.pm
-#, fuzzy, perl-format
-#| msgid "file header at offset %d in archive %s contains bad magic"
+#, perl-format
 msgid "file member %s in archive %s contains empty %s field"
-msgstr "filhuvudet vid position %d i arkivet %s har fel magiskt tal"
+msgstr "filmedlemmen %s i arkivet %s har tomt fält %s"
 
 #: scripts/Dpkg/Archive/Ar.pm
 #, perl-format
@@ -2972,7 +2958,7 @@ msgstr "ogiltigt filnamn %s"
 #: scripts/Dpkg/Email/Address.pm
 #, perl-format
 msgid "email address '%s' with single label domain"
-msgstr ""
+msgstr "epostadress ”%s” med domän med enkel etikett"
 
 #: scripts/Dpkg/Email/Address.pm
 #, perl-format
@@ -3100,26 +3086,24 @@ msgstr ""
 "konstruktion, se <%s>"
 
 #: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
-#, fuzzy, perl-format
-#| msgid "unexpected end of diff '%s'"
+#, perl-format
 msgid "unexpected empty file %s"
-msgstr "oväntad slut på diffen ”%s”"
+msgstr "oväntad tom fil %s"
 
 #: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
 #, perl-format
 msgid "partial read %s (%d bytes of %d total)"
-msgstr ""
+msgstr "delvis läsning av %s (%d byte av %d totalt)"
 
 #: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
 #, perl-format
 msgid "old OpenPGP packet in %s with indeterminate length"
-msgstr ""
+msgstr "gammalt OpenPGP-paket i %s med obestämd längd"
 
 #: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
-#, fuzzy, perl-format
-#| msgid "unknown OpenPGP backend %s"
+#, perl-format
 msgid "unknown OpenPGP packet type %0x in %s"
-msgstr "okänt OpenPGP-program %s"
+msgstr "okänd OpenPGP-pakettyp %0x i %s"
 
 #: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
 #, perl-format
@@ -3135,6 +3119,7 @@ msgstr ""
 msgid ""
 "found non-interoperable LibrePGP artifact in %s, only OpenPGP is supported"
 msgstr ""
+"hittade icke-interoperabel LibrePGP-artefakt i %s, endast OpenPGP stöds"
 
 #: scripts/Dpkg/OpenPGP/Backend/Sequoia.pm
 msgid "imported own keys might be missing ownership information, try:"
@@ -3142,7 +3127,7 @@ msgstr "importerade egna nycklar kan sakna information om ägarskap, testa:"
 
 #: scripts/Dpkg/OpenPGP/Backend/Sequoia.pm
 msgid "  sq pki link authorize --cert FINGERPRINT --all --unconstrained"
-msgstr "  sq pki link authorize --cert FINGERPRINT --all --unconstrained"
+msgstr "  sq pki link authorize --cert FINGERAVTRYCK --all --unconstrained"
 
 #: scripts/Dpkg/OpenPGP/ErrorCodes.pm
 msgid "success"
@@ -3416,10 +3401,10 @@ msgid_plural ""
 "binaries to allow their inclusion)."
 msgstr[0] ""
 "upptäckte %d oönskad binärfil (lägg till den i debian/source/include-"
-"binaries för att tillåta att den tas med)"
+"binaries för att tillåta att den tas med)."
 msgstr[1] ""
 "upptäckte %d oönskade binärfiler (lägg till dem i debian/source/include-"
-"binaries för att tillåta att de tas med)"
+"binaries för att tillåta att de tas med)."
 
 #: scripts/Dpkg/Source/Format.pm
 #, perl-format
@@ -4533,21 +4518,3 @@ msgstr "versionsnummer innehåller ogiltigt tecken ”%s”"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "epokdelen av versionsnumret är inte ett tal: ”%s”"
-
-#~ msgid "couldn't close stdout"
-#~ msgstr "kunde inte stänga standard ut"
-
-#, perl-format
-#~ msgid "%s subprocess returned exit status %d"
-#~ msgstr "underprocessen %s returnerade felkod %d vid avslut"
-
-#, perl-format
-#~ msgid "sq keyring merge --overwrite --output %s %s"
-#~ msgstr "sq keyring merge --overwrite --output %s %s"
-
-#~ msgid ""
-#~ "Version number suggests Ubuntu changes, but there is no XSBC-Original-"
-#~ "Maintainer field"
-#~ msgstr ""
-#~ "Versionsnumret indikerar Ubuntuändringar, men fältet XSBC-Original-"
-#~ "Maintainer saknas"
