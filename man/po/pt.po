@@ -2,13 +2,13 @@
 # Copyright (C) 2014 Free Software Foundation, Inc.
 # This file is distributed under the same license as the dpkg package.
 #
-# SPDX-FileCopyrightText: 2014 - 2025 Américo Monteiro <a_monteiro@gmx.com>
+# SPDX-FileCopyrightText: 2014 - 2026 Américo Monteiro <a_monteiro@gmx.com>
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.23.3\n"
+"Project-Id-Version: dpkg-man 1.23.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2026-03-05 06:54+0100\n"
-"PO-Revision-Date: 2026-01-18 18:07+0100\n"
+"POT-Creation-Date: 2026-01-23 01:41+0100\n"
+"PO-Revision-Date: 2026-05-13 05:12+0200\n"
 "Last-Translator: Américo Monteiro <a_monteiro@gmx.com>\n"
 "Language-Team: Portuguese <debian-l10n-portuguese@lists.debian.org>\n"
 "Language: pt\n"
@@ -4525,7 +4525,7 @@ msgstr ""
 
 #. type: verbatim
 #: deb-src-control.pod
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| " # Comment.\n"
 #| " Source: dpkg\n"
@@ -4575,7 +4575,7 @@ msgstr ""
 " Homepage: https://wiki.debian.org/Teams/Dpkg\n"
 " Vcs-Browser: https://git.dpkg.org/cgit/dpkg/dpkg.git\n"
 " Vcs-Git: https://git.dpkg.org/git/dpkg/dpkg.git\n"
-" Standards-Version: 4.7.2\n"
+" Standards-Version: 4.7.3\n"
 " Build-Depends:\n"
 "  dpkg-build-api (= 1),\n"
 "  debhelper-compat (= 13),\n"
@@ -4963,10 +4963,9 @@ msgstr ""
 
 #. type: =head2
 #: deb-src-symbols.pod
-#, fuzzy
 #| msgid "Using #PACKAGE# substitution"
 msgid "Using metavariable substitutions"
-msgstr "Usando substituição de #PACKAGE#"
+msgstr "Usando substituições de meta-variável"
 
 #. type: textblock
 #: deb-src-symbols.pod
@@ -4975,6 +4974,10 @@ msgid ""
 "metavariables that will be replaced either when generating the symbols file "
 "shipped in the binary package, or during dependency generation."
 msgstr ""
+"Em alguns casos em vez de codificar rigidamente algum texto variável, "
+"podemos usar meta-variáveis que irão ser substituídas ou quando se gere "
+"o ficheiro de símbolos empacotado com o pacote binário, ou durante a "
+"geração da dependência."
 
 #. type: textblock
 #: deb-src-symbols.pod
@@ -4982,17 +4985,17 @@ msgid ""
 "Contrary to the I<#MINVER#> metavariable, the following metavariables will "
 "never appear in a symbols file inside a binary package."
 msgstr ""
+"Ao contrário da meta-variável I<#MINVER#>, as seguintes meta-variáveis "
+"nunca irão aparecer num ficheiro de símbolos dentro de um pacote binário."
 
 #. type: =head3
 #: deb-src-symbols.pod
-#, fuzzy
 #| msgid "Using #PACKAGE# substitution"
 msgid "Using the #PACKAGE# metavariable"
-msgstr "Usando substituição de #PACKAGE#"
+msgstr "Usando a meta-variável #PACKAGE#"
 
 #. type: textblock
 #: deb-src-symbols.pod
-#, fuzzy
 #| msgid ""
 #| "In some rare cases, the name of the library varies between "
 #| "architectures.  To avoid hardcoding the name of the package in the "
@@ -5007,16 +5010,14 @@ msgid ""
 "during installation of the symbols files."
 msgstr ""
 "Em alguns casos raros, o nome da biblioteca varia entre arquitecturas. Para "
-"evitar dificultar o nome do pacote no ficheiro de símbolos, você pode usar o "
-"marcador I<#PACKAGE#>. Será substituído pelo nome real do pacote durante a "
-"instalação dos ficheiros de símbolos. Contrariamente ao marcador "
-"I<#MINVER#>, I<#PACKAGE#> nunca irá aparecer num ficheiro de símbolos dentro "
-"de um pacote binário."
+"evitar dificultar o nome do pacote no ficheiro de símbolos, você pode usar a "
+"meta-variável I<#PACKAGE#>. Será substituída pelo nome real do pacote "
+"durante a instalação dos ficheiros de símbolos."
 
 #. type: =head2
 #: deb-src-symbols.pod
 msgid "Using the #CURVER# metavariable"
-msgstr ""
+msgstr "Usado a meta-variável #CURVER#"
 
 #. type: textblock
 #: deb-src-symbols.pod
@@ -5028,13 +5029,18 @@ msgid ""
 "I<binary-version>)”, where this would be generally be used in combination "
 "with I<#PACKAGE#>."
 msgstr ""
+"Em alguns casos, um símbolo com uma ABI instável vai requerer uma "
+"dependência estrita na versão do pacote atual.  Para evitar uma codificação "
+"rígida da versão atual no ficheiro de símbolos, você pode usar a "
+"meta-variável I<#CURVER#>.  Irá ser substituída por uma versão de "
+"dependência limitada no formato de “(= I<binário-versão>)”, onde isto será "
+"geralmente usado em combinação com I<#PACKAGE#>."
 
 #. type: textblock
 #: deb-src-symbols.pod
-#, fuzzy
 #| msgid "Supported since dpkg 1.23.0."
 msgid "Supported since dpkg 1.23.4."
-msgstr "Suportado desde dpkg 1.23.0."
+msgstr "Suportado desde dpkg 1.23.4."
 
 #. type: =head2
 #: deb-src-symbols.pod
@@ -10059,6 +10065,8 @@ msgid ""
 "Options passed to the host compiler when linking executables or shared "
 "objects."
 msgstr ""
+"Opções passadas à máquina compiladora quando se vincula executáveis ou "
+"objetos partilhados."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -10071,11 +10079,18 @@ msgid ""
 "be passed through, will depend on the intended semantics of the L<ld(1)> "
 "invocation."
 msgstr ""
+"B<Nota>: Não é seguro passar esta variável diretamente a L<ld(1)>, mas se "
+"a variável precisar mesmo de ser passada, então estas opções devem ser "
+"higienizadas para permitir apenas opções que se sabe que funcionam. Em "
+"geral as opções B<-Wl>, B<-l> e B<-L> deverão ser seguras, com B<-Wl> a ser "
+"despida e as B<,> nos seus argumentos a serem substituídas por espaços.  "
+"Mas se alguma opção higienizada é segura de ser passada, vai depender "
+"na semântica pretendida da invocação do L<ld(1)>."
 
 #. type: textblock
 #: dpkg-buildflags.pod
 msgid "Default value: empty."
-msgstr ""
+msgstr "Valor predefinido: vazio (empty)."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -10214,13 +10229,14 @@ msgid ""
 "Options passed to the build compiler when linking executables or shared "
 "objects."
 msgstr ""
+"Opções passadas ao compilador de compilação quando se vincula executáveis "
+"ou objetos partilhados."
 
 #. type: textblock
 #: dpkg-buildflags.pod
-#, fuzzy
 #| msgid "Since dpkg 1.22.16."
 msgid "Since dpkg 1.22.1."
-msgstr "Desde dpkg 1.22.16."
+msgstr "Desde dpkg 1.22.1."
 
 #. type: textblock
 #: dpkg-buildflags.pod
@@ -12880,12 +12896,13 @@ msgstr "B<sop>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
 #| msgid "(any conforming Stateless OpenPGP implementation)"
 msgid ""
 "Any conforming Stateless OpenPGP (SOP) implementation, such as sqop, rsop, "
 "gosop or pgpainless-cli."
-msgstr "(qualquer implementação em conformidade com Stateless OpenPGP)"
+msgstr ""
+"Qualquer implementação em conformidade com Stateless OpenPGP (SOP), tal "
+"como sqop, rsop, gosop ou pgpainless-cli."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -12894,10 +12911,9 @@ msgstr "B<sq>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
 #| msgid "(from Sequoia-PGP)"
 msgid "From Sequoia-PGP."
-msgstr "(de Sequoia-PGP)"
+msgstr "De Sequoia-PGP."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -12906,10 +12922,9 @@ msgstr "B<gpg>"
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
 #| msgid "(from GnuPG)"
 msgid "From GnuPG."
-msgstr "(de GnuPG)"
+msgstr "De GnuPG."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -13566,7 +13581,6 @@ msgstr ""
 
 #. type: textblock
 #: dpkg-buildpackage.pod
-#, fuzzy
 #| msgid ""
 #| "I<%PKGDOCDIR%/spec/rootless-builds.txt>, L<dpkg-source(1)>, L<dpkg-"
 #| "architecture(1)>, L<dpkg-buildflags(1)>, L<dpkg-genbuildinfo(1)>, L<dpkg-"
@@ -13582,7 +13596,7 @@ msgid ""
 msgstr ""
 "I<%PKGDOCDIR%/spec/rootless-builds.txt>, L<dpkg-source(1)>, L<dpkg-"
 "architecture(1)>, L<dpkg-buildflags(1)>, L<dpkg-genbuildinfo(1)>, L<dpkg-"
-"genchanges(1)>, L<fakeroot(1)>, L<lintian(1)>, L<https://"
+"genchanges(1)>, L<fakeroot(1)>, L<lintian(1)>, L<SOP|https://"
 "datatracker.ietf.org/doc/draft-dkg-openpgp-stateless-cli/>, L<sq(1)>, "
 "L<gpg(1)>."
 
@@ -18286,7 +18300,7 @@ msgstr "i = Installed"
 #. type: textblock
 #: dpkg-query.pod
 msgid "Error flags:"
-msgstr "Flags de erro:"
+msgstr "Bandeiras de erro:"
 
 #. type: =item
 #: dpkg-query.pod
@@ -19470,38 +19484,12 @@ msgstr "B<-a>, B<--arch> I<arch>"
 
 #. type: textblock
 #: dpkg-scanpackages.pod
-#, fuzzy
-#| msgid ""
-#| "Use a pattern consisting of I<*_all.deb> and I<*_arch.deb> instead of "
-#| "scanning for all debs."
 msgid ""
-"Use a pattern consisting of I<*_all.deb> and I<*_arch.deb>, or I<*_arch.deb> "
-"if B<--no-implicit-arch> has been specified, instead of scanning for all "
-"debs."
+"Use a pattern consisting of I<*_all.deb> and I<*_arch.deb> instead of "
+"scanning for all debs."
 msgstr ""
 "Usa um padrão que consistem de I<*_all.deb> e I<*_arch.deb> em vez de "
 "examinar todos os debs."
-
-#. type: =item
-#: dpkg-scanpackages.pod
-#, fuzzy
-#| msgid "B<bug-implicit-func>"
-msgid "B<--no-implicit-arch>"
-msgstr "B<bug-implicit-func>"
-
-#. type: textblock
-#: dpkg-scanpackages.pod
-msgid ""
-"Do not implicitly add architecture B<all> binary packages when specifying "
-"B<--arch>."
-msgstr ""
-
-#. type: textblock
-#: dpkg-scanpackages.pod
-#, fuzzy
-#| msgid "Supported since dpkg 1.23.0."
-msgid "Supported since dpkg 1.23.6."
-msgstr "Suportado desde dpkg 1.23.0."
 
 #. type: =item
 #: dpkg-scanpackages.pod
@@ -29299,7 +29287,6 @@ msgstr ""
 
 #. type: textblock
 #: start-stop-daemon.pod
-#, fuzzy
 #| msgid ""
 #| "B<Warning>: B<start-stop-daemon> cannot check the exit status if the "
 #| "process fails to execute for B<any> reason.  This is a last resort, and "
@@ -29313,11 +29300,12 @@ msgid ""
 "daemonizing on their own, or where it is not feasible or desired to add the "
 "daemonizing and notification code for them to do this themselves."
 msgstr ""
-"B<Aviso>: B<start-stop-daemon> não pode verificar o estado de saída se o "
-"processo falhar ao executar por B<qualquer> razão. Este é o último recurso, "
-"e destina-se apenas a programas que ou não fazem sentido a bifurcarem por si "
-"só, ou onde não é praticável adicionar-lhes o código para fazerem isto eles "
-"próprios."
+"B<Nota>: O estado de saída de uma falha inesperada tardia durante o "
+"processo de inicialização não pode ser verificado, a menos que seja usada "
+"a opção B<--notify-await>.  Destina-se a ser usada por programas que ou "
+"não faz sentido serem deamonizados por si próprios, ou onde não é viável "
+"ou desejável adicionar o código de deamonização e notificação para eles "
+"fazerem isto por si próprios."
 
 #. type: =item
 #: start-stop-daemon.pod
@@ -29326,7 +29314,6 @@ msgstr "B<--notify-await>"
 
 #. type: textblock
 #: start-stop-daemon.pod
-#, fuzzy
 #| msgid ""
 #| "Wait for the background process to send a readiness notification before "
 #| "considering the service started (since version 1.19.3).  This implements "
@@ -29338,13 +29325,11 @@ msgid ""
 "only be used with B<--background>."
 msgstr ""
 "Espera pelo processo nos bastidores que envie uma notificação de prontidão "
-"antes de considerar o serviço arrancado (desde versão 1.19.3). Isto "
-"implementa partes do protocolo de prontidão do systemd, como especificado no "
-"manual L<sd_notify(3)>. As seguintes variáveis são suportadas:"
+"antes de considerar o serviço arrancado (desde versão 1.19.3).  Esta opção "
+"só pode ser usada com B<--background>."
 
 #. type: textblock
 #: start-stop-daemon.pod
-#, fuzzy
 #| msgid ""
 #| "Wait for the background process to send a readiness notification before "
 #| "considering the service started (since version 1.19.3).  This implements "
@@ -29354,10 +29339,9 @@ msgid ""
 "This implements parts of the systemd readiness protocol, as specified in the "
 "L<sd_notify(3)> manual page.  The following variables are supported:"
 msgstr ""
-"Espera pelo processo nos bastidores que envie uma notificação de prontidão "
-"antes de considerar o serviço arrancado (desde versão 1.19.3). Isto "
-"implementa partes do protocolo de prontidão do systemd, como especificado no "
-"manual L<sd_notify(3)>. As seguintes variáveis são suportadas:"
+"Isto implementa partes do protocolo de prontidão do systemd, como "
+"especificado no manual L<sd_notify(3)>.  As seguintes variáveis são "
+"suportadas:"
 
 #. type: =item
 #: start-stop-daemon.pod
