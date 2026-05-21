@@ -944,6 +944,10 @@ sub signkey_validate {
                    'use key fingerprints in %s or %s instead'),
                 '-k', 'DEB_SIGN_KEYID');
     }
+
+    if ($keyid_len != 40 && $keyid_len != 64) {
+        warning(g_('OpenPGP key ID has unknown v4 or v6 fingerprint length'));
+    }
 }
 
 sub signfile {
