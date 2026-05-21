@@ -933,11 +933,13 @@ sub update_files_field {
 sub signkey_validate {
     return unless $signkey->type eq 'keyid';
 
-    if (length $signkey->handle <= 8) {
+    my $keyid_len = length $signkey->handle;
+
+    if ($keyid_len <= 8) {
         error(g_('short OpenPGP key IDs are broken; ' .
                  'use key fingerprints in %s or %s instead'),
               '-k', 'DEB_SIGN_KEYID');
-    } elsif (length $signkey->handle <= 16) {
+    } elsif ($keyid_len <= 16) {
         warning(g_('long OpenPGP key IDs are strongly discouraged; ' .
                    'use key fingerprints in %s or %s instead'),
                 '-k', 'DEB_SIGN_KEYID');
