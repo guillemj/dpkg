@@ -92,7 +92,6 @@ Validate a build profile formula.
 =cut
 
 my $profile_name_regex = qr{
-    !?
     # Be lenient for now. Accept operators for extensibility, uppercase,
     # and package name characters.
     [
@@ -106,10 +105,10 @@ my $restriction_list_regex = qr{
     <
     \s*
     (
-        $profile_name_regex
+        !? $profile_name_regex
         (?:
             \s+
-            $profile_name_regex
+            !? $profile_name_regex
         )*
     )
     \s*
