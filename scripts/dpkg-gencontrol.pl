@@ -348,8 +348,8 @@ if ($pkg_type eq 'udeb') {
     delete $fields->{'Homepage'};
 } else {
     for my $f (qw(Subarchitecture Kernel-Version Installer-Menu-Item)) {
-        warning(g_("%s package '%s' with udeb specific field %s"),
-                $pkg_type, $oppackage, $f)
+        warning(g_("package '%s' (type %s) with udeb specific field %s"),
+                $oppackage, $pkg_type, $f)
             if defined($fields->{$f});
     }
 }
