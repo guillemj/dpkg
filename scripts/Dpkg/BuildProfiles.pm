@@ -97,7 +97,15 @@ sub get_build_profiles {
     return @build_profiles if $cache_profiles;
 
     if (Dpkg::BuildEnv::has('DEB_BUILD_PROFILES')) {
-        @build_profiles = split ' ', Dpkg::BuildEnv::get('DEB_BUILD_PROFILES');
+        @build_profiles = map {
+            if (m{^$profile_name_regex$}) {
+                $_
+            } else {
+                warning(g_('invalid profile name %s ' .
+                           'in environment variable %s; ignoring it for now'),
+                        $_, 'DEB_BUILD_PROFILES');
+            }
+        } split ' ', Dpkg::BuildEnv::get('DEB_BUILD_PROFILES');
     }
     $cache_profiles = 1;
 
@@ -115,7 +123,13 @@ sub set_build_profiles {
     my (@profiles) = @_;
 
     $cache_profiles = 1;
-    @build_profiles = @profiles;
+    @build_profiles = map {
+        if (m{^$profile_name_regex$}) {
+            $_
+        } else {
+            warning(g_('invalid profile name %s; ignoring it for now'), $_);
+        }
+    } @profiles;
     Dpkg::BuildEnv::set('DEB_BUILD_PROFILES', join ' ', @profiles);
 }
 
