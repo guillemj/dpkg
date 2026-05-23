@@ -34,6 +34,7 @@ my $builddir = $ENV{builddir} || '.';
 my $tmpdir = 't.tmp/t-tarextract';
 
 # We require GNU tar >= 1.27 for --owner=NAME:ID and --group=NAME:ID.
+delete $ENV{TAR_OPTIONS};
 my $tar_version = qx($Dpkg::PROGTAR --version 2>/dev/null);
 if ($tar_version and $tar_version =~ m/^tar \(GNU tar\) (\d+\.\d+)/ and
     qv("v$1") < qv('v1.27'))
@@ -149,6 +150,9 @@ TAR
                 '--no-unquote',
                 '--no-recursion',
                 '-T-',
+            ],
+            delete_env => [
+                'TAR_OPTIONS',
             ],
             wait_child => 1,
             from_string => \$paths_list,

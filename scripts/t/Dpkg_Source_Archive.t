@@ -28,6 +28,8 @@ use Dpkg::File;
 
 my $tmpdir = test_get_temp_path();
 
+delete $ENV{TAR_OPTIONS};
+
 sub test_path_escape
 {
     my $name = shift;
