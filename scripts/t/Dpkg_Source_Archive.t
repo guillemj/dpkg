@@ -107,11 +107,11 @@ sub test_path_escape
 
     # Check results.
     ok(length $warnseen && $warnseen =~ m/points outside source root/,
-        'expected warning seen');
+        "expected warning seen for $expdir");
     ok(system($Dpkg::PROGTAR, '--compare', '-f', "$expdir.tar", '-C', $treedir) == 0,
-        'expected directory matches');
+        "expected directory $treedir matches archive $expdir.tar");
     ok(! -e "$outdir/escaped-file",
-        'expected output directory is empty, directory traversal');
+        "expected $outdir output directory is empty, directory traversal");
 }
 
 test_path_escape('in-place');
