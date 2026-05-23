@@ -48,6 +48,40 @@ use Dpkg::BuildEnv;
 my $cache_profiles;
 my @build_profiles;
 
+my $profile_name_regex = qr{
+    # Be lenient for now. Accept operators for extensibility, uppercase,
+    # and package name characters.
+    [
+        ?/;:=@%*~_
+        A-Z
+        a-z0-9+.\-
+    ]+
+}x;
+
+my $restriction_list_regex = qr{
+    <
+    \s*
+    (
+        !? $profile_name_regex
+        (?:
+            \s+
+            !? $profile_name_regex
+        )*
+    )
+    \s*
+    >
+}x;
+
+my $restriction_formula_regex = qr{
+    ^
+    (?:
+        \s*
+        $restriction_list_regex
+    )*
+    \s*
+    $
+}x;
+
 =head1 FUNCTIONS
 
 =over 4
@@ -90,41 +124,6 @@ sub set_build_profiles {
 Validate a build profile formula.
 
 =cut
-
-my $profile_name_regex = qr{
-    # Be lenient for now. Accept operators for extensibility, uppercase,
-    # and package name characters.
-    [
-        ?/;:=@%*~_
-        A-Z
-        a-z0-9+.\-
-    ]+
-}x;
-
-my $restriction_list_regex = qr{
-    <
-    \s*
-    (
-        !? $profile_name_regex
-        (?:
-            \s+
-            !? $profile_name_regex
-        )*
-    )
-    \s*
-    >
-}x;
-
-my $restriction_formula_regex = qr{
-    ^
-    (?:
-        \s*
-        $restriction_list_regex
-    )*
-    \s*
-    $
-}x;
-
 
 sub build_profile_is_invalid($string)
 {
