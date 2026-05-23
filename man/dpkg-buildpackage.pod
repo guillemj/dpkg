@@ -359,6 +359,9 @@ separated list) as the B<DEB_BUILD_PROFILES> environment variable which
 allows, for example, B<debian/rules> files to use this information for
 conditional builds.
 
+The exclamation marks are not part of the build profile names,
+and thus not accepted in this option.
+
 Support for short option since dpkg 1.17.2.
 Support for long option since dpkg 1.18.8.
 
@@ -930,7 +933,8 @@ See L<dpkg-buildflags(1)> for further details.
 
 If set, it will be used as the active build profile(s) for the package
 being built.
-It is a space separated list of profile names.
+It is a space separated list of profile names,
+without any exclamation marks.
 Overridden by the B<-P> option.
 
 Supported since dpkg 1.17.2.
