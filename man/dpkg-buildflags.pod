@@ -469,7 +469,7 @@ backwards compatibility reasons unless coordinated or checked individually.
 
 =item B<lfs>
 
-This setting (since dpkg 1.22.0; disabled by default) enables
+This setting (since dpkg 1.22.0) enables
 Large File Support on 32-bit architectures where their ABI does
 not include LFS by default, by adding
 B<-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64> to B<CPPFLAGS>.
@@ -481,10 +481,11 @@ must B<not> be used because this interface does not support cross-building.
 When this feature is enabled it will override the value from the same
 feature in the B<future> feature area.
 
+Disabled by default.
+
 =item B<time64>
 
-This setting (since dpkg 1.22.0; enabled by default except for i386 and
-hurd-i386 since dpkg 1.22.5) enables 64-bit time_t support
+This setting (since dpkg 1.22.0) enables 64-bit time_t support
 on 32-bit architectures where their ABI does not include it by default,
 by adding B<-D_TIME_BITS=64> to B<CPPFLAGS>.
 This setting automatically enables the B<lfs> feature from the B<abi>
@@ -509,6 +510,8 @@ Debian architectures,
 where disabling the feature will add instead
 B<-U_LARGEFILE_SOURCE -U_FILE_OFFSET_BITS -U_TIME_BITS> to B<CPPFLAGS>.
 
+Enabled by default except for i386 and hurd-i386 since dpkg 1.22.5.
+
 =back
 
 =head2 future
@@ -521,9 +524,11 @@ reasons.
 
 =item B<lfs>
 
-This setting (since dpkg 1.19.0; disabled by default) is now an alias
+This setting (since dpkg 1.19.0) is now an alias
 for the B<lfs> feature in the B<abi> area, use that instead.
 The feature from the B<abi> area overrides this setting.
+
+Disabled by default.
 
 =back
 
@@ -536,12 +541,14 @@ problems in the source code or build system.
 
 =item B<bug-implicit-func>
 
-This setting (since dpkg 1.22.3; enabled by default since dpkg 1.22.6) adds
+This setting (since dpkg 1.22.3) adds
 B<-Werror=implicit-function-declaration> to B<CFLAGS>.
+
+Enabled by default since dpkg 1.22.6.
 
 =item B<bug>
 
-This setting (since dpkg 1.17.4; disabled by default) adds any warning
+This setting (since dpkg 1.17.4) adds any warning
 option that reliably detects problematic source code.
 The warnings are fatal.
 The only currently supported flags are B<CFLAGS> and B<CXXFLAGS>
@@ -552,9 +559,11 @@ B<-Werror=volatile-register-var>.
 This feature handles B<-Werror=implicit-function-declaration> via
 the B<bug-implicit-func> feature, if that has not been specified.
 
+Disabled by default.
+
 =item B<canary>
 
-This setting (since dpkg 1.17.14; disabled by default) adds dummy canary
+This setting (since dpkg 1.17.14) adds dummy canary
 options to the build flags, so that the build logs can be checked for how
 the build flags propagate and to allow finding any omission of normal
 build flag settings.
@@ -562,6 +571,8 @@ The only currently supported flags are B<CPPFLAGS>, B<CFLAGS>,
 B<OBJCFLAGS>, B<CXXFLAGS> and B<OBJCXXFLAGS> with flags set
 to B<-D__DEB_CANARY_>I<flag>_I<random-id>B<__>, and
 B<LDFLAGS> set to B<-Wl,-z,deb-canary->I<random-id>.
+
+Disabled by default.
 
 =back
 
@@ -576,10 +587,12 @@ artifacts.
 
 =item B<lto>
 
-This setting (since dpkg 1.21.0; disabled by default) enables
+This setting (since dpkg 1.21.0) enables
 Link Time Optimization by adding B<-flto=auto -ffat-lto-objects> to
 B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS>, B<FCFLAGS> and B<LDFLAGS>.
+
+Disabled by default.
 
 =back
 
@@ -596,30 +609,38 @@ even functionality.
 
 =item B<address>
 
-This setting (since dpkg 1.18.0; disabled by default) adds
+This setting (since dpkg 1.18.0) adds
 B<-fsanitize=address> to
 B<LDFLAGS> and B<-fsanitize=address -fno-omit-frame-pointer> to
 B<CFLAGS> and B<CXXFLAGS>.
 
+Disabled by default.
+
 =item B<thread>
 
-This setting (since dpkg 1.18.0; disabled by default) adds
+This setting (since dpkg 1.18.0) adds
 B<-fsanitize=thread> to
 B<CFLAGS>, B<CXXFLAGS> and B<LDFLAGS>.
 
+Disabled by default.
+
 =item B<leak>
 
-This setting (since dpkg 1.18.0; disabled by default) adds
+This setting (since dpkg 1.18.0) adds
 B<-fsanitize=leak> to
 B<LDFLAGS>.
 It gets automatically disabled if either the B<address>
 or the B<thread> features are enabled, as they imply it.
 
+Disabled by default.
+
 =item B<undefined>
 
-This setting (since dpkg 1.18.0; disabled by default) adds
+This setting (since dpkg 1.18.0) adds
 B<-fsanitize=undefined> to
 B<CFLAGS>, B<CXXFLAGS> and B<LDFLAGS>.
+
+Disabled by default.
 
 =back
 
@@ -635,7 +656,7 @@ that support them.
 
 =item B<format>
 
-This setting (since dpkg 1.16.1; enabled by default) adds
+This setting (since dpkg 1.16.1) adds
 B<-Wformat -Werror=format-security>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS> and B<OBJCXXFLAGS>.
 This will warn about improper format
@@ -648,9 +669,11 @@ B<printf(foo);> instead of B<printf("%s", foo);>
 This may be a security hole if the format string came from untrusted
 input and contains ‘%n’.
 
+Enabled by default.
+
 =item B<fortify>
 
-This setting (since dpkg 1.16.1; enabled by default) adds
+This setting (since dpkg 1.16.1) adds
 B<-D_FORTIFY_SOURCE=2>
 to B<CPPFLAGS>.
 During code generation the compiler
@@ -670,10 +693,11 @@ B<DEB_BUILD_OPTIONS> contains I<noopt>, then B<fortify>
 support will be disabled, due to new warnings being issued by
 glibc 2.16 and later.
 
+Enabled by default.
+
 =item B<stackprotector>
 
-This setting (since dpkg 1.16.1; enabled by default if stackprotectorstrong
-is not in use) adds B<-fstack-protector --param=ssp-buffer-size=4>
+This setting (since dpkg 1.16.1) adds B<-fstack-protector --param=ssp-buffer-size=4>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS>.
 This adds safety checks against stack
@@ -687,40 +711,47 @@ This feature requires linking against glibc (or another provider of
 B<__stack_chk_fail>), so needs to be disabled when building with
 B<-nostdlib> or B<-ffreestanding> or similar.
 
+Enabled by default if B<stackprotectorstrong> is not in use.
+
 =item B<stackprotectorstrong>
 
-This setting (since dpkg 1.17.11; enabled by default) adds
+This setting (since dpkg 1.17.11) adds
 B<-fstack-protector-strong>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS>.
 This is a stronger variant of B<stackprotector>, but without significant
 performance penalties.
 
-Disabling B<stackprotector> will also disable this setting.
-
 This feature has the same requirements as B<stackprotector>, and in
 addition also requires gcc 4.9 and later.
 
+Enabled by default.
+Disabling B<stackprotector> will also disable this setting.
+
 =item B<stackclash>
 
-This setting (since dpkg 1.22.0; enabled by default) adds
+This setting (since dpkg 1.22.0) adds
 B<-fstack-clash-protection> on B<amd64>, B<arm64>, B<armhf> and B<armel> to
 B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS>.
 This adds code to prevent stack clash style attacks.
 
+Enabled by default.
+
 =item B<branch>
 
-This setting (since dpkg 1.22.0; enabled by default) adds B<-fcf-protection>
+This setting (since dpkg 1.22.0) adds B<-fcf-protection>
 on B<amd64> and B<-mbranch-protection=standard> on B<arm64> to
 B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS>.
 This adds branch protection to indirect calls, jumps and returns to check
 whether these are valid at run-time.
 
+Enabled by default.
+
 =item B<relro>
 
-This setting (since dpkg 1.16.1; enabled by default) adds
+This setting (since dpkg 1.16.1) adds
 B<-Wl,-z,relro>
 to B<LDFLAGS>.
 During program load,
@@ -731,9 +762,11 @@ Most notably this prevents GOT overwrite attacks.
 If this option is disabled,
 B<bindnow> will become disabled as well.
 
+Enabled by default.
+
 =item B<bindnow>
 
-This setting (since dpkg 1.16.1; disabled by default) adds
+This setting (since dpkg 1.16.1) adds
 B<-Wl,-z,now>
 to B<LDFLAGS>.
 During program load, all dynamic symbols are resolved,
@@ -741,13 +774,11 @@ allowing for the entire PLT to be marked read-only (due to B<relro>
 above).
 The option cannot become enabled if B<relro> is not enabled.
 
+Disabled by default.
+
 =item B<pie>
 
-This setting (since dpkg 1.16.1; with no global default since dpkg 1.18.23,
-as it is enabled
-by default now by gcc on the amd64, arm64, armel, armhf, hurd-i386, i386,
-mips, mipsel, mips64el, powerpc, ppc64,
-ppc64el, riscv64, s390x, sparc and sparc64 Debian architectures) adds
+This setting (since dpkg 1.16.1) adds
 the required options to enable or disable PIE via gcc specs files, if
 needed, depending on whether gcc injects on that architecture the flags
 by itself or not.
@@ -823,6 +854,26 @@ see less than 1%.
 Architectures with more general registers (e.g. amd64)
 do not see as high a worst-case penalty.
 
+No global default since dpkg 1.18.23,
+as it is enabled by default now by gcc on the
+amd64,
+arm64,
+armel,
+armhf,
+hurd-i386,
+i386,
+mips,
+mipsel,
+mips64el,
+powerpc,
+ppc64,
+ppc64el,
+riscv64,
+s390x,
+sparc and
+sparc64
+Debian architectures.
+
 =back
 
 =head2 reproducible
@@ -837,15 +888,17 @@ architectures that support them.
 
 =item B<timeless>
 
-This setting (since dpkg 1.17.14; enabled by default) adds
+This setting (since dpkg 1.17.14) adds
 B<-Wdate-time>
 to B<CPPFLAGS>.
 This will cause warnings when the B<__TIME__>, B<__DATE__> and
 B<__TIMESTAMP__> macros are used.
 
+Enabled by default.
+
 =item B<fixfilepath>
 
-This setting (since dpkg 1.19.1; enabled by default) adds
+This setting (since dpkg 1.19.1) adds
 B<-ffile-prefix-map=>I<BUILDPATH>B<=.>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is
@@ -862,9 +915,11 @@ again this would also require disabling B<fixdebugpath>, which might make
 any generated debug symbols objects unreproducible.
 The ideal fix is to stop capturing build flags.
 
+Enabled by default.
+
 =item B<fixdebugpath>
 
-This setting (since dpkg 1.18.5; enabled by default) adds
+This setting (since dpkg 1.18.5) adds
 B<-fdebug-prefix-map=>I<BUILDPATH>B<=.>
 to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>,
 B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is
@@ -873,6 +928,8 @@ This has the effect of removing the build path from any generated debug
 symbols.
 
 B<Note>: This feature has similar reproducible properties as B<fixfilepath>.
+
+Enabled by default.
 
 =back
 
