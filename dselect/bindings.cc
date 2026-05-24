@@ -95,7 +95,7 @@ keybindings::find(const char *action)
 }
 
 const keybindings::interpretation *
-keybindings::operator()(int key)
+keybindings::operator ()(int key)
 {
 	binding *b = bindings;
 

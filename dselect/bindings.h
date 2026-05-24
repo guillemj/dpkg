@@ -62,7 +62,7 @@ public:
 
 	bool bind(const char *name, const char *action)
 	{ return bind(name2key(name), action); }
-	const interpretation *operator()(int key);
+	const interpretation *operator ()(int key);
 	varbuf find(const char *action);
 
 	void describestart()
