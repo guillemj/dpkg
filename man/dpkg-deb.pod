@@ -293,18 +293,25 @@ Allowed values are B<gzip>, B<xz> (since dpkg 1.15.6),
 B<zstd> (since dpkg 1.21.18)
 and B<none> (default is B<%DEB_DEFAULT_COMPRESSOR%>).
 
-=item B<--[no-]uniform-compression>
+=item B<--uniform-compression>
 
 Specify that the same compression parameters should be used for all archive
 members (i.e. B<control.tar> and B<data.tar>; since dpkg 1.17.6).
-Otherwise only the
-B<data.tar> member will use those parameters.
+
 The only supported
 compression types allowed to be uniformly used are B<none>, B<gzip>,
 B<xz> and B<zstd>.
-The B<--no-uniform-compression> option disables uniform compression
-(since dpkg 1.19.0).
+
 Uniform compression is the default (since dpkg 1.19.0).
+
+=item B<--no-uniform-compression>
+
+Specify that only the B<data.tar> archive member will use the compression
+parameters specified.
+The B<control.tar> archive member will use B<gzip> in its default compression
+parameters.
+
+Supported since dpkg 1.19.0.
 
 =item B<--threads-max=>I<threads>
 
