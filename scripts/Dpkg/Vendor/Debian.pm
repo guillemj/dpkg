@@ -335,7 +335,7 @@ sub set_build_features {
         $use_feature{reproducible}{fixdebugpath}) {
         require Cwd;
 
-        my $build_path =$ENV{DEB_BUILD_PATH} || Cwd::getcwd();
+        my $build_path = $ENV{DEB_BUILD_PATH} || Cwd::getcwd();
 
         $flags->set_option_value('build-path', $build_path);
 
