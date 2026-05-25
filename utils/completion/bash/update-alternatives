@@ -21,16 +21,15 @@
 
 _comp_cmd_update_alternatives__installed()
 {
-  local i admindir
-  admindir=/var/lib/dpkg/alternatives
-
+  local i
+  local -a opts
   for ((i = 1; i < cword; i++)); do
     if [[ ${words[i]} == --admindir ]]; then
-      admindir=${words[i + 1]}
+      opts+=("--admindir" "${words[i + 1]}")
       break
     fi
   done
-  [[ -d $admindir ]] && _comp_compgen_split -- "$(command ls "$admindir")"
+  _comp_compgen_split -- "$(command update-alternatives "${opts[@]}" --get-selections | cut -d\  -f1)"
 }
 
 _comp_cmd_update_alternatives()
