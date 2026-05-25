@@ -26,14 +26,57 @@ _comp_cmd_dpkg_source()
   local cur prev words cword comp_args
   _comp_initialize -- "$@" || return
 
-  local options word action packopts unpackopts fields
+  local word action
+  local -a options fields
+  local -a packopts
+  local -a unpackopts
 
-  packopts="-c -l -F -V -T -D -U -W -E -sa -i -I -sk -sr -ss -sA -sK -sP \
-            -sU -sR"
-  unpackopts="-sp -sn -su"
-  options="-x -b --print-format --before-build --after-build --commit $packopts $unpackopts"
-  fields="Format Source Version Binary Maintainer Uploader Architecture \
-          Standards-Version Build-Depends Files"
+  packopts=(
+    -D
+    -E
+    -F
+    -I
+    -T
+    -U
+    -V
+    -W
+    -c
+    -i
+    -l
+    -sa -sA
+    -sk -sK
+    -sP
+    -sr -sR
+    -ss
+    -sU
+  )
+  unpackopts=(
+    -sn
+    -sp
+    -su
+  )
+  options=(
+    -b
+    -x
+    --after-build
+    --before-build
+    --commit
+    --print-format
+    "${packopts[@]}"
+    "${unpackopts[@]}"
+  )
+  fields=(
+    Architecture
+    Binary
+    Build-Depends
+    Files
+    Format
+    Maintainer
+    Source
+    Standards-Version
+    Uploaders
+    Version
+  )
 
   action=options
   for word in "${words[@]:1}"; do
@@ -53,7 +96,7 @@ _comp_cmd_dpkg_source()
       _comp_compgen_filedir 'dsc'
       ;;
     *)
-      _comp_compgen -- -W "$unpackopts"
+      _comp_compgen -- -W "${unpackopts[*]}"
       _comp_compgen -a filedir
       ;;
     esac
@@ -90,23 +133,23 @@ _comp_cmd_dpkg_source()
         # $cur contains a "="
         COMPREPLY=()
       else
-        _comp_compgen -- -W "$fields"
+        _comp_compgen -- -W "${fields[*]}"
       fi
       ;;
     -U)
       # -U: remove a field.
       # Suggest possible fieldnames.
-      _comp_compgen -- -W "$fields"
+      _comp_compgen -- -W "${fields[*]}"
       ;;
     *)
       # shellcheck disable=SC2016
-      _comp_compgen -- -W '$packopts $unpackopts'
+      _comp_compgen -- -W '${packopts[*]} ${unpackopts[*]}'
       ;;
     esac
     return
     ;;
   *)
-    _comp_compgen -- -W "$options"
+    _comp_compgen -- -W "${options[*]}"
     return
     ;;
   esac

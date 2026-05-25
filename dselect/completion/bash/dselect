@@ -41,6 +41,16 @@ _comp_cmd_dselect()
   if [[ $cur == -* ]]; then
     _comp_compgen_help
   else
-    _comp_compgen -- -W 'access update select install config remove quit'
+    declare -a commands
+    commands=(
+      access
+      update
+      select
+      install
+      config
+      remove
+      quit
+    )
+    _comp_compgen -- -W "${commands[*]}"
   fi
 } && complete -F _comp_cmd_dselect dselect
