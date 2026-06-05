@@ -1,0 +1,64 @@
+# dpkg manual page - deb-email(7)
+#
+# Copyright © 2026 Guillem Jover <guillem@debian.org>
+#
+# This is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+=encoding utf8
+
+=head1 NAME
+
+deb-email - Debian package email address format
+
+=head1 SYNOPSIS
+
+Näme "quoted, text" S. Surname E<lt>näme@exâmple.orgE<gt>
+
+=head1 DESCRIPTION
+
+Email addresses as used for Debian package metadata in
+binary and source packages.
+These consist of a name,
+followed by at least one space,
+and then an email address.
+
+The name is composed of one or more quoted (") or non-quoted parts.
+These parts can contain any UTF-8 character except for
+angle brackets (<>),
+double quotes ("),
+and
+control characters.
+A comma (,) is only allowed inside double quoted parts.
+
+The email address is contained inside angle brackets (<>),
+and is composed of a local part separated by an at sign (@)
+followed by the domain part.
+
+Both local and domain parts can contain any UTF-8 character except for
+angle brackets (<>),
+at sign (@)
+double quotes ("),
+space ( ),
+and
+control characters.
+
+B<Note>: A domain part with a single label is allowed but will emit a warning,
+as those domains are either for local hosts,
+or a TLD which are not supposed to receive mail.
+
+B<Note>: A domain part is expected to be encoded in UTF-8,
+and not in IDNA/Punycode,
+for readability and general handling reasons.
+
+Multiple addresses must be separated with a comma.
