@@ -51,11 +51,11 @@ my $addr_name_regex = qr{
 
 my $addr_email_regex = qr{
     # Local part.
-    [^@<>"\s[:cntrl:]]+
+    [^@<>"\s[:cntrl:],]+
     # Separator.
     @
     # Domain part.
-    [^@<>"\s[:cntrl:]]+
+    [^@<>"\s[:cntrl:],]+
 }x;
 
 my $addr_regex = qr{
