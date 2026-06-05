@@ -37,7 +37,7 @@ _comp_xfunc_dpkg_compgen_installed_packages()
   _comp_compgen_split -- "$(
     _comp_awk -F '\n' -v RS="" "
       index(\$1, \"Package: ${cur-}\") == 1 &&
-      \$2 ~ /ok installed|half-installed|unpacked|half-configured|^Essential: yes/ {
+      \$0 ~! /Status: [a-z-]+ [a-z-]+ (not-installed|config-files)/ {
         print(substr(\$1, 10));
       }" /var/lib/dpkg/status 2>/dev/null
   )"
@@ -49,7 +49,7 @@ _comp_xfunc_dpkg_compgen_purgeable_packages()
   _comp_compgen_split -- "$(
     _comp_awk -F '\n' -v RS="" "
       index(\$1, \"Package: ${cur-}\") == 1 &&
-      \$2 ~ /ok installed|half-installed|unpacked|half-configured|config-files|^Essential: yes/ {
+      \$0 ~! /Status: [a-z-]+ [a-z-]+ not-installed/ {
         print(substr(\$1, 10));
       }" /var/lib/dpkg/status 2>/dev/null
   )"
