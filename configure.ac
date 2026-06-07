@@ -107,7 +107,13 @@ DPKG_PROG_POD2MAN
 DPKG_CODE_COVERAGE
 
 # Checks for operating system services and capabilities.
-AC_SYS_LARGEFILE
+m4_ifdef([
+  AC_SYS_YEAR2038
+], [
+  AC_SYS_YEAR2038
+], [
+  AC_SYS_LARGEFILE
+])
 
 # Checks for libraries.
 DPKG_LIB_RT
