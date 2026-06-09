@@ -32,6 +32,13 @@ The symbol files are shipped in Debian binary packages, and its format
 is a subset of the template symbol files used by L<dpkg-gensymbols(1)>
 in Debian source packages, see L<deb-src-symbols(5)>.
 
+A B<symbols> file must be shipped in the same binary package as the shared
+libraries described within.
+This is to guarantee that the symbols descriptions match the shared library
+being described,
+and so that the B<symbols> file can be found from the package owning the
+shared library.
+
 The format for an extended shared library dependency information entry
 in these files is:
 
