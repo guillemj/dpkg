@@ -1,5 +1,5 @@
 # Translation of dpkg to Romanian
-# Copyright © 2005-2025 Dpkg Developers
+# Copyright © 2005-2026 Dpkg Developers
 # This file is distributed under the same license as the dpkg package.
 #
 # Rușeț Zeno <rzeno@cwazy.co.uk>, 2005.
@@ -7,7 +7,7 @@
 # Sorin Batariuc <sorin@bonbon.net>, 2005, 2006.
 # Andrei POPESCU <andreimpopescu@gmail.com>, 2010.
 # ioan-eugen STAN <stan.ieugen@gmail.com>, 2011 (dpkg 1.17.0).
-# Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2023-2025.
+# Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2023-2026.
 #
 # Explicații legate de modul de traducere:
 # - la mesajele emise în urma acțiunilor programului se folosește forma impersonală,
@@ -21,10 +21,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.22.18\n"
+"Project-Id-Version: dpkg 1.23.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2026-03-07 00:40+0100\n"
-"PO-Revision-Date: 2025-03-29 08:49+0100\n"
+"PO-Revision-Date: 2026-05-26 16:50+0200\n"
 "Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
 "Language: ro\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.8\n"
 
 #: lib/dpkg/ar.c
 msgid "failed to fstat archive"
@@ -54,6 +54,8 @@ msgstr "nu se poate crea „%s”"
 #, c-format
 msgid "archive %s is truncated or corrupt, it has a non-even byte size"
 msgstr ""
+"arhiva %s este trunchiată sau coruptă; dimensiunea sa în octeți nu este un "
+"număr par"
 
 #: lib/dpkg/ar.c lib/dpkg/dir.c src/split/join.c src/split/queue.c
 #: src/divert/main.c utils/update-alternatives.c
@@ -65,8 +67,7 @@ msgstr "nu se poate închide fișierul „%s”"
 #, c-format
 msgid "invalid character '%c' in archive '%s' member '%.16s' size"
 msgstr ""
-"caracter nevalid „%1$c” în dimensiunea membrului „%3$.16s” din arhiva "
-"„%2$.250s”"
+"caracter nevalid „%1$c” în dimensiunea membrului „%3$.16s” din arhiva „%2$s”"
 
 #: lib/dpkg/ar.c utils/update-alternatives.c
 #, c-format
@@ -410,10 +411,9 @@ msgstr ""
 "versiune mai nouă de «dpkg»"
 
 #: lib/dpkg/db-ctrl-upgrade.c
-#, fuzzy, c-format
-#| msgid "info file %s/%s not associated to any package"
+#, c-format
 msgid "metadata file %s/%s not associated to any package"
-msgstr "fișierul info %s/%s nu este asociat cu niciun pachet"
+msgstr "fișierul de metadate %s/%s nu este asociat cu niciun pachet"
 
 # hard link este un alt nume pentru un target și spre
 # deosebire de symbolic link, target obligatoriu trebuie
@@ -969,7 +969,7 @@ msgstr "al treilea cuvânt (de stare) în câmpul „%s”: %s"
 #: lib/dpkg/fields.c
 #, c-format
 msgid "'%s' field value '%s'"
-msgstr "valoarea „%2$.250s” a câmpului „%1$s”"
+msgstr "valoarea „%2$s” a câmpului „%1$s”"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -1085,8 +1085,7 @@ msgid "alternatives ('|') not allowed in '%s' field"
 msgstr "alternativele („|”) nu sunt permise în câmpul „%s”"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "illegal pending trigger name '%s': %s"
+#, c-format
 msgid "invalid pending trigger name '%s': %s"
 msgstr "nume de declanșator în așteptare nevalid: „%s”: %s"
 
@@ -1096,10 +1095,9 @@ msgid "duplicate pending trigger '%s'"
 msgstr "declanșator în așteptare duplicat „%s”"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "illegal package name in awaited trigger '%s': %s"
+#, c-format
 msgid "invalid package name in awaited trigger '%s': %s"
-msgstr "nume ilegal de pachet în declanșatorul așteptat „%s”: %s"
+msgstr "nume nevalid de pachet în declanșatorul așteptat „%s”: %s"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -1475,37 +1473,31 @@ msgstr ""
 "multiple instanțe instalate”"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "failed to open package info file '%s' for reading"
+#, c-format
 msgid "failed to open package control file '%s' for reading"
 msgstr ""
-"nu s-a putut deschide fișierul cu informații al pachetului „%s” pentru citire"
+"nu s-a putut deschide fișierul control al pachetului „%s” pentru citire"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "cannot stat package info file '%s'"
+#, c-format
 msgid "cannot stat package control file '%s'"
-msgstr "nu se poate obține starea curentă pentru fișierul info „%s”"
+msgstr "nu se poate obține starea curentă pentru fișierul control „%s”"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "reading package info file '%s': %s"
+#, c-format
 msgid "reading package control file '%s': %s"
-msgstr "se citește fișierul de informații al pachetului „%s”: %s"
+msgstr "se citește fișierul control al pachetului „%s”: %s"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "cannot mmap package info file '%s'"
+#, c-format
 msgid "cannot mmap package control file '%s'"
 msgstr ""
-"nu se poate plasa în memorie conținutul fișierului de informații al "
-"pachetului „%s”"
+"nu se poate plasa în memorie conținutul fișierului control al pachetului „%s”"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "reading package info file '%s'"
+#, c-format
 msgid "reading package control file '%s'"
-msgstr "se citește fișierul de informații al pachetului „%s”"
+msgstr "se citește fișierul control al pachetului „%s”"
 
 #: lib/dpkg/parse.c
 msgid "empty field name"
@@ -1527,10 +1519,9 @@ msgid "newline in field name '%.*s'"
 msgstr "linie nouă în numele câmpului „%.*s”"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "MSDOS end of file (^Z) in field name '%.*s'"
+#, c-format
 msgid "MSDOS end of file (Ctrl+Z) in field name '%.*s'"
-msgstr "sfârșit de fișier MSDOS (^Z) în numele câmpului „%.*s”"
+msgstr "sfârșit de fișier MSDOS (Ctrl+Z) în numele câmpului „%.*s”"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1545,11 +1536,10 @@ msgstr ""
 "finală)"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
+#, c-format
 msgid "MSDOS end of file (Ctrl+Z) in value of field '%.*s' (missing newline?)"
 msgstr ""
-"sfârșit de fișier MSDOS (^Z) în valoarea câmpului „%.*s” (lipsește linia "
+"sfârșit de fișier MSDOS (Ctrl+Z) în valoarea câmpului „%.*s” (lipsește linia "
 "nouă?)"
 
 #: lib/dpkg/parse.c
@@ -1710,16 +1700,14 @@ msgid "version '%s' has bad syntax: %s"
 msgstr "versiunea „%s” are sintaxa greșită: %s"
 
 #: lib/dpkg/pkg-spec.c
-#, fuzzy, c-format
-#| msgid "illegal package name in specifier '%s%s%s': %s"
+#, c-format
 msgid "invalid package name in specifier '%s%s%s': %s"
-msgstr "nume de pachet ilegal în specificatorul „%s%s%s”: %s"
+msgstr "nume de pachet nevalid în specificatorul „%s%s%s”: %s"
 
 #: lib/dpkg/pkg-spec.c
-#, fuzzy, c-format
-#| msgid "illegal architecture name in specifier '%s:%s': %s"
+#, c-format
 msgid "invalid architecture name in specifier '%s:%s': %s"
-msgstr "nume de arhitectură ilegal în specificatorul „%s:%s”: %s"
+msgstr "nume de arhitectură nevalid în specificatorul „%s:%s”: %s"
 
 #. TRANSLATORS: This is part of the progress output, it is a decimal
 #. percentage.
@@ -1801,10 +1789,9 @@ msgid "fork failed"
 msgstr "fork() a eșuat"
 
 #: lib/dpkg/subproc.c
-#, fuzzy, c-format
-#| msgid "%s subprocess failed with wait status code %d"
+#, c-format
 msgid "%s subprocess failed with exit status %d"
-msgstr "subprocesul %s a eșuat cu codul stării de așteptare %d"
+msgstr "subprocesul %s a eșuat cu codul de ieșire %d"
 
 #: lib/dpkg/subproc.c
 #, c-format
@@ -1825,7 +1812,7 @@ msgstr "subprocesul %s a fost omorât de semnalul (%s)%s"
 # *****
 # O „versiune” mai scurtă a traducerii actuale,
 # ar fi:
-# , s-a generat fișierul „core” pentru deoanare”
+# , s-a generat fișierul „core” pentru depanare”
 # *****
 # Opinii, sugestii?
 #: lib/dpkg/subproc.c
@@ -2013,12 +2000,10 @@ msgstr ""
 "declanșatori „%s”"
 
 #: lib/dpkg/triglib.c
-#, fuzzy, c-format
-#| msgid ""
-#| "trigger interest file '%s' syntax error; illegal package name '%s': %s"
+#, c-format
 msgid "trigger interest file '%s' syntax error; invalid package name '%s': %s"
 msgstr ""
-"eroare de sintaxă în fișierul cu interese în declanșatori „%s”; nume ilegal "
+"eroare de sintaxă în fișierul cu interese în declanșatori „%s”; nume nevalid "
 "de pachet „%s”: %s"
 
 #: lib/dpkg/triglib.c
@@ -2039,55 +2024,43 @@ msgid "syntax error in file triggers file '%s'"
 msgstr "eroare de sintaxă în fișierul cu declanșatori fișier „%s”"
 
 #: lib/dpkg/triglib.c
-#, fuzzy, c-format
-#| msgid ""
-#| "file triggers record mentions illegal package name '%s' (for interest in "
-#| "file '%s'): %s"
+#, c-format
 msgid ""
 "file triggers record mentions invalid package name '%s' (for interest in "
 "file '%s'): %s"
 msgstr ""
-"înregistrarea declanșatorilor de fișier menționează un nume ilegal de pachet "
-"„%s” (în fișierul „%s”): %s"
+"înregistrarea declanșatorilor de fișier menționează un nume nevalid de "
+"pachet „%s” (în fișierul „%s”): %s"
 
 # R-GC, scrie:
 # se pare că „ci = informații de control”, după
 # o minte „luminată”
 #: lib/dpkg/triglib.c
-#, fuzzy, c-format
-#| msgid ""
-#| "triggers ci file '%s' contains illegal trigger syntax in trigger name "
-#| "'%s': %s"
+#, c-format
 msgid ""
 "triggers package metadata file '%s' contains invalid trigger syntax in "
 "trigger name '%s': %s"
 msgstr ""
-"fișierul de informații de control al declanșatorului „%s” conține sintaxă "
-"ilegală în numele declanșatorului „%s”: %s"
+"fișierul de metadate al pachetului de declanșatori „%s” conține o sintaxă "
+"nevalidă în numele declanșatorului „%s”: %s"
 
 #: lib/dpkg/triglib.c
-#, fuzzy, c-format
-#| msgid "unable to open triggers ci file '%s'"
+#, c-format
 msgid "unable to open triggers package metadata file '%s'"
-msgstr ""
-"nu se poate deschide fișierul de informații de control ale declanșatorilor "
-"„%s”"
+msgstr "nu se poate deschide fișierul de metadate ale declanșatorilor „%s”"
 
 #: lib/dpkg/triglib.c
-#, fuzzy, c-format
-#| msgid "triggers ci file contains unknown directive syntax"
+#, c-format
 msgid "triggers package metadata file '%s' contains unknown directive syntax"
 msgstr ""
-"fișierul cu informațiile de control ale declanșatorilor conține o sintaxă "
-"necunoscută pentru directive"
+"fișierul de metadate al pachetului „%s” conține o sintaxă necunoscută pentru "
+"directive"
 
 #: lib/dpkg/triglib.c
-#, fuzzy, c-format
-#| msgid "triggers ci file contains unknown directive '%s'"
+#, c-format
 msgid "triggers package metadata file '%s' contains unknown directive '%s'"
 msgstr ""
-"fișierul cu informațiile de control ale declanșatorilor conține o directivă "
-"necunoscută „%s”"
+"fișierul de metadate al pachetului „%s” conține o directivă necunoscută „%s”"
 
 #: lib/dpkg/triglib.c
 #, c-format
@@ -2760,10 +2733,9 @@ msgid "archive '%s' contains two control members, giving up"
 msgstr "arhiva „%s” conține două elemente de control, se renunță"
 
 #: src/deb/extract.c
-#, fuzzy, c-format
-#| msgid "archive has malformed control member size '%s'"
+#, c-format
 msgid "archive '%s' has zero sized tar member %.*s"
-msgstr "arhiva are dimensiunea elementului de control incorectă „%s”"
+msgstr "arhiva „%s” are un membru tar cu dimensiunea zero, %.*s"
 
 #: src/deb/extract.c
 #, c-format
@@ -2771,10 +2743,9 @@ msgid "archive '%s' has premature member '%.*s' before '%s', giving up"
 msgstr "arhiva „%s” are un membru prematur „%.*s” înainte de „%s”, se renunță"
 
 #: src/deb/extract.c
-#, fuzzy, c-format
-#| msgid "archive '%s' contains two control members, giving up"
+#, c-format
 msgid "archive '%s' contains an overflowing member '%.*s' size"
-msgstr "arhiva „%s” conține două elemente de control, se renunță"
+msgstr "arhiva „%s” conține un membru ce depășește dimensiunea de „%.*s”"
 
 #: src/deb/extract.c
 #, c-format
@@ -2782,6 +2753,8 @@ msgid ""
 "archive '%s' is truncated or corrupt, expected more data than available (%jd "
 "> %jd)"
 msgstr ""
+"arhiva „%s” este trunchiată sau coruptă; se așteptau mai multe date decât "
+"cele disponibile (%jd > %jd)"
 
 # aici e ceva ciudat, %z: vezi "info libc printf", %zi bytes, e ce?
 #: src/deb/extract.c
@@ -2794,10 +2767,9 @@ msgstr ""
 " dimensiune %jd octeți: arhiva de control= %jd octeți.\n"
 
 #: src/deb/extract.c
-#, fuzzy, c-format
-#| msgid "archive has invalid format version: %s"
+#, c-format
 msgid "archive '%s' has unsupported format version: %d.%d"
-msgstr "arhiva are un format de versiune nevalid: %s"
+msgstr "arhiva „%s” are un format de versiune nevalid: %d.%d"
 
 #: src/deb/extract.c
 msgid "archive control member size"
@@ -2997,22 +2969,7 @@ msgstr ""
 "\n"
 
 #: src/deb/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -b|--build <directory> [<deb>]   Build an archive.\n"
-#| "  -c|--contents <deb>              List contents.\n"
-#| "  -I|--info <deb> [<cfile>...]     Show info to stdout.\n"
-#| "  -W|--show <deb>                  Show information on package(s)\n"
-#| "  -f|--field <deb> [<cfield>...]   Show field(s) to stdout.\n"
-#| "  -e|--control <deb> [<directory>] Extract control info.\n"
-#| "  -x|--extract <deb> <directory>   Extract files.\n"
-#| "  -X|--vextract <deb> <directory>  Extract & list files.\n"
-#| "  -R|--raw-extract <deb> <directory>\n"
-#| "                                   Extract control info and files.\n"
-#| "  --ctrl-tarfile <deb>             Output control tarfile.\n"
-#| "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -b|--build <directory> [<deb>]   Build an archive.\n"
@@ -3038,11 +2995,15 @@ msgstr ""
 "  -W|--show <deb>                   afișează informațiile despre pachet(e)\n"
 "  -f|--field <deb> [<câmp_ctrl>...] afișează câmpul(urile) la ieșirea "
 "standard\n"
-"  -e|--control <deb> [<director>]   extrage informațiile de control\n"
-"  -x|--extract <deb> <director>     extrage fișierele\n"
-"  -X|--vextract <deb> <director>    extrage și listează fișierele\n"
-"  -R|--raw-extract <deb> <director> extrage informațiile de control și "
-"fișierele\n"
+"  -e|--control <deb> [<director>]   extrage fișierele de metadate\n"
+"  -x|--extract <deb> <director>     extrage fișierele sistemului de fișiere\n"
+"  -X|--vextract <deb> <director>    extrage și listează fișierele "
+"sistemului\n"
+"                                    de fișiere\n"
+"  -R|--raw-extract <deb> <director>\n"
+"                                    extrage metadatele și fișierele "
+"sistemului\n"
+"                                    de fișiere\n"
 "     --ctrl-tarfile <deb>           afișează fișierul tar de control\n"
 "     --fsys-tarfile <deb>           afișează fișierul tar cu sistemul de "
 "fișiere\n"
@@ -3260,10 +3221,8 @@ msgid "error reading %s"
 msgstr "eroare la citire %s"
 
 #: src/split/info.c
-#, fuzzy
-#| msgid "archive member header"
 msgid "ar header"
-msgstr "antetul membrului arhivei"
+msgstr "antetul ar"
 
 #: src/split/info.c
 #, c-format
@@ -3273,10 +3232,8 @@ msgstr ""
 "antet"
 
 #: src/split/info.c
-#, fuzzy
-#| msgid "archive information header member"
 msgid "reading header member"
-msgstr "antetul elementului de informații de arhivă"
+msgstr "se citește antetul membrului"
 
 #: src/split/info.c
 #, c-format
@@ -3364,7 +3321,7 @@ msgstr "arhitectura pachetului"
 
 #: src/split/info.c
 msgid "reading data part member ar header"
-msgstr ""
+msgstr "se citește membrul părții de date a antetului ar"
 
 #: src/split/info.c
 #, c-format
@@ -3538,18 +3495,7 @@ msgstr ""
 "\n"
 
 #: src/split/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
-#| "      --admindir <directory>       Use <directory> instead of %s.\n"
-#| "      --root <directory>           Use <directory> instead of %s.\n"
-#| "  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
-#| "  -o, --output <file>              Filename, for -j (default is\n"
-#| "                                     <package>_<version>_<arch>.deb).\n"
-#| "  -Q, --npquiet                    Be quiet when -a is not a part.\n"
-#| "      --msdos                      Generate 8.3 filenames.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
@@ -3570,7 +3516,7 @@ msgstr ""
 "                                   <nume_pachet>-<versiune>.deb)\n"
 "  -Q|--npquiet                     ieșire fără detalii când „-a” nu este o "
 "parte\n"
-"     --msdos                       generează nume de fișier tip 8.3\n"
+"\n"
 
 #: src/split/main.c
 #, c-format
@@ -3859,16 +3805,12 @@ msgstr ""
 "întotdeauna „--package” și „--divert”.\n"
 
 #: src/divert/main.c
-#, fuzzy
-#| msgid ""
-#| "please specify --no-rename explicitly, the default will change to --"
-#| "rename in 1.20.x"
 msgid ""
 "please specify --no-rename explicitly, the default will change to --rename "
 "not before 1.23.x"
 msgstr ""
 "vă rugăm să specificați „--no-rename” în mod explicit, valoarea implicită se "
-"va schimba în „--rename” începând cu versiunea 1.20.x"
+"va schimba în „--rename” începând cu versiunea 1.23.x"
 
 #: src/divert/main.c utils/update-alternatives.c
 #, c-format
@@ -4235,8 +4177,7 @@ msgid "takes one argument, the trigger name"
 msgstr "acceptă un argument, numele declanșatorului"
 
 #: src/trigger/main.c
-#, fuzzy, c-format
-#| msgid "illegal awaited package name '%s': %s"
+#, c-format
 msgid "invalid awaited package name '%s': %s"
 msgstr "numele pachetului așteptat „%s” nu este valid: %s"
 
@@ -4267,27 +4208,21 @@ msgstr "nu au fost găsite pachete care să se potrivească cu %s"
 #. can use Unicode box characters.
 #.
 #: src/query/main.c
-#, fuzzy
-#| msgid ""
-#| "Desired=Unknown/Install/Remove/Purge/Hold\n"
-#| "| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
-#| "pend\n"
-#| "|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgid ""
 "+-- Desired=Unknown/Install/Remove/Purge/Hold\n"
 "|+- Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
 "pend\n"
 "||+ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"
 msgstr ""
-"Dorit=necUnoscut/Instalează/elimină(R)/curăță(P)/păstrează(H)\n"
-"| Stare=Ne/Inst/fișCfg/despachetat(U)/jum-conF/jum-inst(H)/așteaptă-decl(W)/"
-"decl-în-aștepT\n"
-"|/ Ero?=(nimic)/Reinst-nec (St,Ero: majuscule=rău)\n"
+"+-- Dorit=necUnoscut/Instalează/elimină(R)/curăță(P)/păstrează(H)\n"
+"|+- Stare=Ne/Inst/fișCfg/despachetat(U)/jum-conF/jum-inst(H)/\n"
+"          așteaptă-decl(W)/decl-în-aștepT\n"
+"||+ Ero?=(nimic)/Reinst-nec (St,Ero: majuscule=rău)\n"
 
 #: src/query/main.c
 msgctxt "query-list-header"
 msgid "|"
-msgstr ""
+msgstr "|"
 
 #: src/query/main.c
 msgid "Name"
@@ -4308,17 +4243,17 @@ msgstr "Descriere"
 #: src/query/main.c
 msgctxt "query-list-header"
 msgid "+++-"
-msgstr ""
+msgstr "+++-"
 
 #: src/query/main.c
 msgctxt "query-list-header"
 msgid "="
-msgstr ""
+msgstr "="
 
 #: src/query/main.c
 msgctxt "query-list-header"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: src/query/main.c
 msgid "showing package list on pager"
@@ -5486,10 +5421,8 @@ msgid "The following packages do not have an architecture:\n"
 msgstr "Următoarele pachete nu au o arhitectură:\n"
 
 #: src/main/enquiry.c
-#, fuzzy
-#| msgid "The following packages have an illegal architecture:\n"
 msgid "The following packages have an invalid architecture:\n"
-msgstr "Următoarele pachete au o arhitectură ilegală:\n"
+msgstr "Următoarele pachete au o arhitectură nevalidă:\n"
 
 #: src/main/enquiry.c
 msgid ""
@@ -5783,47 +5716,7 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "Programul „%s” de administrare a pachetelor Debian versiunea %s.\n"
 
 #: src/main/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
-#| "  --unpack           <.deb file name>... | -R|--recursive <directory>...\n"
-#| "  -A|--record-avail  <.deb file name>... | -R|--recursive <directory>...\n"
-#| "  --configure        <package>... | -a|--pending\n"
-#| "  --triggers-only    <package>... | -a|--pending\n"
-#| "  -r|--remove        <package>... | -a|--pending\n"
-#| "  -P|--purge         <package>... | -a|--pending\n"
-#| "  -V|--verify [<package>...]       Verify the integrity of package(s).\n"
-#| "  --get-selections [<pattern>...]  Get list of selections to stdout.\n"
-#| "  --set-selections                 Set package selections from stdin.\n"
-#| "  --clear-selections               Deselect every non-essential package.\n"
-#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
-#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
-#| "  --clear-avail                    Erase existing available info.\n"
-#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-#| "  -s|--status [<package>...]       Display package status details.\n"
-#| "  -p|--print-avail [<package>...]  Display available version details.\n"
-#| "  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
-#| "  -l|--list [<pattern>...]         List packages concisely.\n"
-#| "  -S|--search <pattern>...         Find package(s) owning file(s).\n"
-#| "  -C|--audit [<package>...]        Check for broken package(s).\n"
-#| "  --yet-to-unpack                  Print packages selected for "
-#| "installation.\n"
-#| "  --predep-package                 Print pre-dependencies to unpack.\n"
-#| "  --add-architecture <arch>        Add <arch> to the list of "
-#| "architectures.\n"
-#| "  --remove-architecture <arch>     Remove <arch> from the list of "
-#| "architectures.\n"
-#| "  --print-architecture             Print dpkg architecture.\n"
-#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
-#| "  --assert-help                    Show help on assertions.\n"
-#| "  --assert-<feature>               Assert support for the specified "
-#| "feature.\n"
-#| "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
-#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
-#| "  --force-help                     Show help on forcing.\n"
-#| "  -Dh|--debug=help                 Show help on debugging.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
@@ -5871,49 +5764,46 @@ msgstr ""
 "  --triggers-only   <pachet> ...    | -a|--pending\n"
 "  -r|--remove       <pachet> ...    | -a|--pending\n"
 "  -P|--purge        <pachet> ...    | -a|--pending\n"
-"  -V|--verify [<pachet>...]         Verifică integritatea pachetelor.\n"
-"  --get-selections [<șablon> ...]   Afișează lista selecțiilor la ieșirea\n"
-"                                    standard.\n"
-"  --set-selections                  Definește selecțiile de pachete de la\n"
-"                                    intrarea standard.\n"
-"  --clear-selections                Deselectează orice pachet neesențial.\n"
-"  --update-avail <fișier-Packages>  Înlocuiește informațiile pachetelor\n"
-"                                    disponibile.\n"
-"  --merge-avail <fișier-Packages>   Fuzionează cu informațiile din fișier.\n"
-"  --clear-avail                     Șterge informațiile disponibile "
-"existente.\n"
-"  --forget-old-unavail              Uită de pachetele neinstalate și care "
-"nu\n"
-"                                    sunt disponibile\n"
-"  -s|--status <pachet> ...          Afișează detalii despre starea "
-"pachetului\n"
-"  -p|--print-avail <pachet> ...     Afișează detalii despre versiunile \n"
+"  -V|--verify [<pachet>...]         verifică integritatea pachetelor.\n"
+"  --get-selections [<șablon> ...]   afișează lista selecțiilor la ieșirea\n"
+"                                    standard\n"
+"  --set-selections                  definește selecțiile de pachete de la\n"
+"                                    intrarea standard\n"
+"  --clear-selections                deselectează orice pachet neesențial\n"
+"  --update-avail <fișier-Packages>  înlocuiește informațiile pachetelor\n"
 "                                    disponibile\n"
-"  -L|--listfiles <pachet> ...       Listează fișierele aparținând "
+"  --merge-avail <fișier-Packages>   fuzionează cu informațiile din fișier\n"
+"  --clear-avail                     șterge informațiile disponibile "
+"existente\n"
+"  -s|--status <pachet> ...          afișează detalii despre starea "
+"pachetului\n"
+"  -p|--print-avail <pachet> ...     afișează detalii despre versiunile \n"
+"                                    disponibile\n"
+"  -L|--listfiles <pachet> ...       listează fișierele aparținând "
 "pachetului/\n"
 "                                    pachetelor\n"
-"  -l|--list [<șablon> ...]          Listează concis pachetele\n"
-"  -S|--search <șablon> ...          Caută pachetul(pachetele) care conțin\n"
+"  -l|--list [<șablon> ...]          listează concis pachetele\n"
+"  -S|--search <șablon> ...          caută pachetul(pachetele) care conțin\n"
 "                                    fișierul(fișierele)\n"
-"  -C|--audit                        Verifică dacă există pachete "
+"  -C|--audit                        verifică dacă există pachete "
 "deteriorate\n"
-"  --yet-to-unpack                   Afișează pachetele selectate pentru "
+"  --yet-to-unpack                   afișează pachetele selectate pentru "
 "instalare\n"
-"  --predep-package                  Afișează pre-dependențele de "
-"despachetat.\n"
-"  --add-architecture <arch>         Adaugă <arch> la lista de arhitecturi.\n"
-"  --remove-architecture <arch>      Elimină <arch> de la lista de "
-"arhitecturi.\n"
-"  --print-architecture              Afișează arhitectura dpkg\n"
-"  --print-foreign-architectures     Afișează arhitecturile străine permise.\n"
-"  --assert-help                     Afișează ajutor pentru aserțiuni.\n"
-"  --assert-<caracteristică>         Confirmă suportul pentru caracteristica\n"
-"                                    specificată.\n"
-"  --validate-<lucru> <șir>          Validează un <șir> de <lucruri>.\n"
-"  --compare-versions <a> <op> <b>   Compară numerele de versiune - vedeți "
+"  --predep-package                  afișează pre-dependențele de "
+"despachetat\n"
+"  --add-architecture <arch>         adaugă <arch> la lista de arhitecturi\n"
+"  --remove-architecture <arch>      elimină <arch> de la lista de "
+"arhitecturi\n"
+"  --print-architecture              afișează arhitectura dpkg\n"
+"  --print-foreign-architectures     afișează arhitecturile străine permise\n"
+"  --assert-help                     afișează ajutor pentru aserțiuni\n"
+"  --assert-<caracteristică>         confirmă suportul pentru caracteristica\n"
+"                                    specificată\n"
+"  --validate-<lucru> <șir>          validează un <șir> de <lucruri>\n"
+"  --compare-versions <a> <op> <b>   compară numerele de versiune - vedeți "
 "mai jos\n"
-"  --force-help                      Afișează ajutorul pentru forțare.\n"
-"  -Dh|--debug=help                  Afișează ajutorul pentru depanare\n"
+"  --force-help                      afișează ajutorul pentru forțare\n"
+"  -Dh|--debug=help                  afișează ajutorul pentru depanare\n"
 "\n"
 
 #: src/main/main.c
@@ -6188,10 +6078,9 @@ msgid "status logger"
 msgstr "jurnalul de stare"
 
 #: src/main/main.c
-#, fuzzy, c-format
-#| msgid "architecture name '%s' is invalid: %s"
+#, c-format
 msgid "architecture '%s' is invalid: %s"
-msgstr "numele arhitecturii „%s” nu este valid: %s"
+msgstr "arhitectura „%s” nu este validă: %s"
 
 #: src/main/main.c
 #, c-format
@@ -6215,8 +6104,7 @@ msgstr ""
 "nu se poate elimina arhitectura „%s” folosită în prezent de baza de date"
 
 #: src/main/main.c
-#, fuzzy, c-format
-#| msgid "couldn't open '%i' for stream"
+#, c-format
 msgid "cannot open '%i' for stream"
 msgstr "nu s-a putut deschide „%i” pentru fluxul de date"
 
@@ -6425,10 +6313,9 @@ msgid "Removing %s (%s) ...\n"
 msgstr "Se elimină %s (%s) ...\n"
 
 #: src/main/remove.c src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "unable to delete used-up depot file '%s'"
+#, c-format
 msgid "unable to delete package metadata file '%s'"
-msgstr "nu se poate șterge fișierul depozit folosit „%s”"
+msgstr "nu se poate șterge fișierul de metadate „%s”"
 
 #: src/main/remove.c
 #, c-format
@@ -6510,10 +6397,9 @@ msgstr ""
 "responsabilului de pachet"
 
 #: src/main/script.c
-#, fuzzy, c-format
-#| msgid "old %s package %s script"
+#, c-format
 msgid "old %s package %s maintainer script"
-msgstr "script %s vechi al pachetului %s"
+msgstr "vechiul script %s al responsabilului pachetului %s"
 
 #: src/main/script.c
 #, c-format
@@ -6521,10 +6407,9 @@ msgid "unable to stat %s '%s'"
 msgstr "nu se poate obține starea pentru %s „%s”"
 
 #: src/main/script.c
-#, fuzzy, c-format
-#| msgid "new %s package %s script"
+#, c-format
 msgid "new %s package %s maintainer script"
-msgstr "script %s nou al pachetului %s"
+msgstr "noul script %s al responsabilului pachetului %s"
 
 #: src/main/script.c
 #, c-format
@@ -6532,16 +6417,15 @@ msgid "unable to stat %s '%s': %s"
 msgstr "nu se poate obține starea pentru %s „%s”: %s"
 
 #: src/main/script.c
-#, fuzzy, c-format
-#| msgid "trying script from the new package instead ..."
+#, c-format
 msgid "trying %s maintainer script from the new %s package instead ..."
-msgstr "se încearcă scriptul din noul pachet în schimb ..."
+msgstr ""
+"se încearcă în schimb scriptul reponsabilului %s din noul pachet %s ..."
 
 #: src/main/script.c
-#, fuzzy, c-format
-#| msgid "there is no script in the new version of the package - giving up"
+#, c-format
 msgid "missing %s maintainer script in new %s package, giving up"
-msgstr "nu există nici un script în noua versiune a pachetului - se renunță"
+msgstr "lipsește scriptul responsabilului %s din noul pachet %s, se renunță"
 
 #: src/main/script.c
 msgid "... it looks like that went OK"
@@ -6573,10 +6457,9 @@ msgid "unexpected data after package and selection at line %d"
 msgstr "date neașteptate după pachet și selecție la linia %d"
 
 #: src/main/select.c
-#, fuzzy, c-format
-#| msgid "illegal package name at line %d: %s"
+#, c-format
 msgid "invalid package name at line %d: %s"
-msgstr "nume ilegal de pachet la linia %d: %s"
+msgstr "nume nevalid de pachet la linia %d: %s"
 
 #: src/main/select.c
 #, c-format
@@ -6760,69 +6643,72 @@ msgid "error closing %s"
 msgstr "eroare la închiderea lui %s"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "old version of package has overly-long info file name starting '%s'"
+#, c-format
 msgid ""
 "old version of package has overly-long metadata file name (starting with "
 "'%.*s')"
 msgstr ""
-"versiunea veche a pachetului are un nume de fișier info prea lung care "
-"începe cu „%s”"
+"versiunea veche a pachetului are un nume de fișier de metadate prea lung "
+"(care începe cu „%.*s”)"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "unable to remove obsolete info file '%s'"
+#, c-format
 msgid "unable to remove obsolete package metadata file '%s'"
-msgstr "nu se poate elimina fișierul info învechit „%s”"
+msgstr "nu se poate elimina fișierul de metadate învechit „%s”"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "unable to install (supposed) new info file '%s'"
+#, c-format
 msgid "unable to install (supposed) new package metadata file '%s'"
-msgstr "nu se poate instala (presupusul) fișier info nou „%s”"
+msgstr "nu se poate instala (presupusul) fișier de metadate nou „%s”"
 
 #: src/main/unpack.c
 msgid "unable to open temp control directory"
 msgstr "nu se poate deschide directorul de control temporal"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid ""
-#| "package contains overly-long control info file name (starting '%.50s')"
+#, c-format
 msgid "package has overly-long metadata file name (starting with '%.*s')"
 msgstr ""
-"pachetul conține un fișier info de control cu un nume prea lung (care începe "
-"cu „%.50s”)"
+"pachetul conține un fișier de metadate cu un nume prea lung (care începe cu "
+"„%.*s”)"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "package control info contained directory '%s'"
+#, c-format
 msgid "package metadata contained directory '%s'"
-msgstr "info de control a pachetului conținea directorul „%s”"
+msgstr "metadatele pachetului conțineau directorul „%s”"
 
-# Analiza codului arată că traducerea asta este corectă  -- ante-traducătorii fișierului
+# Analiza codului arată că traducerea asta este corectă :
+# msgid "package control info rmdir of `%.250s' didn't say not a dir"
+# msgstr "rmdir pentru „%.250s” nu a semnalat că nu este director"
+# Spuneau -- ante-traducătorii fișierului
 # *****
 # R-GC, scrie:
 # S-au pe-aproape de-a fi corectă;
 # cred că în definitv nici autorul mesajului,
 # nu știe ce ... vrea să însemne asta!!!
+# *
+# În versiunea 1.23.7, am tradus din catalană,
+# limba/dialectul autorului; cu acest rezultat:
+# „la ștergerea directorului „%s” ce conține metadatele pachetului a părut o eroare diferită, cum că nu este un director”,
+# *
+# Originalul în această versiune, este:
+# msgid "package metadata rmdir of '%s' did not say not a dir"
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "package control info rmdir of '%s' did not say not a dir"
+#, c-format
 msgid "package metadata rmdir of '%s' did not say not a dir"
-msgstr "«rmdir» pentru „%s” nu a semnalat că nu este director"
+msgstr ""
+"la ștergerea directorului „%s” ce conține metadatele pachetului a părut o "
+"eroare diferită, cum că nu este un director"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "package %s contained list as info file"
+#, c-format
 msgid "package %s contained '%s' as a metadata file"
-msgstr "pachetul %s conține „list” ca fișier de informații"
+msgstr "pachetul %s conține „%s” ca fișier de metadate"
 
 #: src/main/unpack.c
-#, fuzzy, c-format
-#| msgid "unable to install new info file '%s' as '%s'"
+#, c-format
 msgid "unable to install new metadata file '%s' as '%s'"
-msgstr "nu se poate instala noul fișier info „%s” ca „%s”"
+msgstr "nu se poate instala noul fișier de metadate „%s” ca „%s”"
 
 #: src/main/unpack.c
 #, c-format
@@ -6884,10 +6770,8 @@ msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Se notează dispariția lui %s, care a fost înlocuit complet.)\n"
 
 #: src/main/unpack.c
-#, fuzzy
-#| msgid "package field value extraction"
 msgid "package metadata files extraction"
-msgstr "extragerea valorii câmpului pachetului"
+msgstr "extragerea fișierelor de metadate ale pachetelui"
 
 #: src/main/unpack.c
 #, c-format
@@ -6958,18 +6842,14 @@ msgstr ""
 "actualizarea disponibilă în masă"
 
 #: src/main/update.c
-#, fuzzy, c-format
-#| msgid "Replacing available packages info, using %s.\n"
+#, c-format
 msgid "Replacing available packages information from %s.\n"
-msgstr ""
-"Se înlocuiesc informațiile despre pachetele disponibile, folosind %s.\n"
+msgstr "Se înlocuiesc informațiile despre pachetele disponibile din %s.\n"
 
 #: src/main/update.c
-#, fuzzy, c-format
-#| msgid "Updating available packages info, using %s.\n"
+#, c-format
 msgid "Updating available packages information from %s.\n"
-msgstr ""
-"Se actualizează informațiile despre pachetele disponibile, folosind %s.\n"
+msgstr "Se actualizează informațiile despre pachetele disponibile din %s.\n"
 
 #: src/main/update.c
 #, c-format
@@ -6993,31 +6873,7 @@ msgid "%s version %s.\n"
 msgstr "%s versiunea %s.\n"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  --install <link> <name> <path> <priority>\n"
-#| "    [--slave <link> <name> <path>] ...\n"
-#| "                           add a group of alternatives to the system.\n"
-#| "  --remove <name> <path>   remove <path> from the <name> group "
-#| "alternative.\n"
-#| "  --remove-all <name>      remove <name> group from the alternatives "
-#| "system.\n"
-#| "  --auto <name>            switch the master link <name> to automatic "
-#| "mode.\n"
-#| "  --display <name>         display information about the <name> group.\n"
-#| "  --query <name>           machine parseable version of --display "
-#| "<name>.\n"
-#| "  --list <name>            display all targets of the <name> group.\n"
-#| "  --get-selections         list master alternative names and their "
-#| "status.\n"
-#| "  --set-selections         read alternative status from standard input.\n"
-#| "  --config <name>          show alternatives for the <name> group and ask "
-#| "the\n"
-#| "                           user to select which one to use.\n"
-#| "  --set <name> <path>      set <path> as alternative for <name>.\n"
-#| "  --all                    call --config on all alternatives.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  --install <link> <name> <path> <priority>\n"
@@ -7062,6 +6918,7 @@ msgstr ""
 "  --set <nume> <rută>      configurează <ruta> ca alternativă pentru "
 "<nume>.\n"
 "  --all                    execută „--config” pentru toate alternativele.\n"
+"\n"
 
 #: utils/update-alternatives.c
 #, c-format
