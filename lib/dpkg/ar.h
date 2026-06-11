@@ -67,6 +67,7 @@ struct dpkg_ar {
 	intmax_t time;
 	off_t size;
 	int fd;
+	bool is_seekable;
 };
 
 /**

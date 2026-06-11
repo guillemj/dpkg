@@ -52,6 +52,7 @@ dpkg_ar_fdopen(const char *filename, int fd)
 	ar->size = st.st_size;
 	ar->time = st.st_mtime;
 	ar->fd = fd;
+	ar->is_seekable = lseek(fd, 0, SEEK_CUR) == 0;
 
 	return ar;
 }

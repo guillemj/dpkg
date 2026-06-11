@@ -241,7 +241,8 @@ extracthalf(const char *debar, const char *dir,
 					if (ar_new_pos < ar_pos)
 						ohshit(_("archive '%s' contains an overflowing member '%.*s' size"),
 						       ar->name, (int)sizeof(arh.ar_name), arh.ar_name);
-					if (ar_new_pos > ar->size)
+					if (ar->is_seekable &&
+					    ar_new_pos > ar->size)
 						ohshit(_("archive '%s' is truncated or corrupt, "
 						         "expected more data than available (%jd > %jd)"),
 						       ar->name, ar_new_pos, ar->size);

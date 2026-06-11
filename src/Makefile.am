@@ -159,6 +159,7 @@ TESTSUITE_AT += $(srcdir)/at/deb-format.at
 TESTSUITE_AT += $(srcdir)/at/deb-fields.at
 TESTSUITE_AT += $(srcdir)/at/deb-content.at
 TESTSUITE_AT += $(srcdir)/at/deb-split.at
+TESTSUITE_AT += $(srcdir)/at/deb-streaming.at
 TESTSUITE_AT += $(srcdir)/at/realpath.at
 TESTSUITE_AT += $(srcdir)/at/divert.at
 TESTSUITE_AT += $(srcdir)/at/trigger.at

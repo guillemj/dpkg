@@ -1,0 +1,44 @@
+AT_SETUP([dpkg-deb .deb streaming])
+AT_KEYWORDS([dpkg-deb deb streaming])
+
+DPKG_GEN_CONTROL([pkg-streaming])
+AT_CHECK([
+dpkg-deb --root-owner-group -b pkg-streaming
+], [0], [ignore])
+
+AT_CHECK([
+cat pkg-streaming.deb | dpkg-deb --info -
+], [0], [ new Debian package, version 2.0.
+ size 0 bytes: control archive=328 bytes.
+     171 bytes,     7 lines      control
+ Package: pkg-streaming
+ Version: 0.0-1
+ Section: test
+ Priority: extra
+ Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+ Architecture: all
+ Description: test package
+])
+
+AT_CHECK([
+cat pkg-streaming.deb | dpkg-deb --show -
+], [0], [pkg-streaming	0.0-1
+])
+
+AT_CHECK([
+cat pkg-streaming.deb | dpkg-deb --field - Package
+], [0], [pkg-streaming
+])
+
+AT_CHECK([
+cat pkg-streaming.deb | dpkg-deb --ctrl-tarfile - | $TAR tf -
+], [0], [./
+./control
+])
+
+AT_CHECK([
+cat pkg-streaming.deb | dpkg-deb --fsys-tarfile - | $TAR tf -
+], [0], [./
+])
+
+AT_CLEANUP
