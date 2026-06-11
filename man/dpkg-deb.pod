@@ -195,8 +195,8 @@ subdirectory of the specified directory.
 
 The target directory (but not its parents) will be created if necessary.
 
-The input archive is not (currently) processed sequentially, so reading
-it from standard input («B<->») is B<not> supported.
+The input archive is not processed sequentially,
+so reading it from standard input («B<->») is B<not> supported.
 
 Supported since dpkg 1.16.1.
 
@@ -209,7 +209,10 @@ format.
 Together with
 L<tar(1)>
 this can be used to extract a particular control file from a package archive.
-The input archive will always be processed sequentially.
+
+The input archive might be processed non-sequentially if possible,
+and will fall back to be processed sequentially at the cost of fewer
+robustness or security checks.
 
 Supported since dpkg 1.17.14.
 
@@ -222,7 +225,10 @@ format.
 Together with
 L<tar(1)>
 this can be used to extract a particular file from a package archive.
-The input archive will always be processed sequentially.
+
+The input archive might be processed non-sequentially if possible,
+and will fall back to be processed sequentially at the cost of fewer
+robustness or security checks.
 
 =item B<-e>, B<--control> I<archive> [I<directory>]
 
