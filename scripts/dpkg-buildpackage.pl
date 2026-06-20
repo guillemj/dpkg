@@ -120,7 +120,7 @@ sub usage {
                                 (default is gpg).
       --sign-keyfile=<file>   the key file to use for signing.
   -k, --sign-keyid=<keyid>    the key id to use for signing.
-      --sign-key=<keyid>      alias for -k, --sign-keyid.
+      --sign-key=<keyid>      deprecated alias for --sign-keyid.
   -ap, --sign-pause           add pause before starting signature process.
   -us, --unsigned-source      unsigned source package.
   -ui, --unsigned-buildinfo   unsigned .buildinfo file.
@@ -310,8 +310,12 @@ while (@ARGV) {
         $signcommand = $1;
     } elsif (/^--sign-keyfile=(.*)$/) {
         $signkeyfile = $1;
-    } elsif (/^(?:-k|--sign-keyid=|--sign-key=)(.*)$/) {
+    } elsif (/^(?:-k|--sign-keyid=)(.*)$/) {
         $signkeyid = $1;
+    } elsif (/^(--sign-key)=(.*)$/) {
+        $signkeyid = $2;
+        # Deprecated option.
+        warning(g_('%s is deprecated; use %s instead'), $1, '--sign-keyid');
     } elsif (/^--(no-)?check-builddeps$/) {
         $checkbuilddep = ! (defined $1 and $1 eq 'no-');
     } elsif (/^-([dD])$/) {
