@@ -175,6 +175,11 @@ my @env_allowed = (
     qw(
         DPKG_ORIGINS_DIR
     ),
+    # See dpkg-deb(1).
+    qw(
+        DPKG_DEB_COMPRESSOR_TYPE
+        DPKG_DEB_COMPRESSOR_LEVEL
+    ),
     # See dpkg-gensymbols(1).
     qw(
         DPKG_GENSYMBOLS_CHECK_LEVEL
