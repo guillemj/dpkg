@@ -30,6 +30,10 @@ use POSIX qw(:sys_wait_h);
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Exit qw(
+    push_exit_handler
+    pop_exit_handler
+);
 use Dpkg::SysInfo qw(
     get_num_processors
 );
@@ -960,6 +964,14 @@ sub signfile {
 
     printcmd("signfile $file");
 
+    # Remove any leftover signed file.
+    if (-e "$signfile.asc") {
+        unlink "$signfile.asc"
+            or syserr(g_('cannot remove %s'), "$signfile.asc");
+    }
+
+    push_exit_handler(sub { unlink "$signfile.asc" });
+
     my $status = $openpgp->inline_sign($signfile, "$signfile.asc", $signkey);
     if ($status == OPENPGP_OK) {
         move("$signfile.asc", $signfile)
@@ -968,6 +980,8 @@ sub signfile {
         error(g_('cannot sign %s file: %s'), $signfile,
               openpgp_errorcode_to_string($status));
     }
+
+    pop_exit_handler();
 
     return $status
 }
