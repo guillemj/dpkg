@@ -963,7 +963,7 @@ sub signfile {
     my $status = $openpgp->inline_sign($signfile, "$signfile.asc", $signkey);
     if ($status == OPENPGP_OK) {
         move("$signfile.asc", $signfile)
-            or syserror(g_('cannot move %s to %s'), "$signfile.asc", $signfile);
+            or syserr(g_('cannot move %s to %s'), "$signfile.asc", $signfile);
     } else {
         error(g_('cannot sign %s file: %s'), $signfile,
               openpgp_errorcode_to_string($status));
