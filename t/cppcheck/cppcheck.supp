@@ -12,8 +12,15 @@ constVariablePointer
 constParameterCallback
 constParameterPointer
 
+// XXX: While valid, we never use these shadowed functions in this context.
+shadowFunction:lib/dpkg/varbuf.h
+
 // Ignore, false positives on empty methods or with only local variables.
 functionStatic
+
+// Ignore, false positives?
+uninitMemberVarNoCtor
+nullPointerRedundantCheck:src/split/queue.c
 
 // Ignore, this is an imported module.
 cstyleCast:lib/compat/gettext.h
