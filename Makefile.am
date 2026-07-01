@@ -69,6 +69,7 @@ EXTRA_DIST = \
 	build-aux/test-runner \
 	doc/coding-style.txt \
 	debian/README.bug-usertags \
+	debian/buildpackage.conf \
 	debian/changelog \
 	debian/control \
 	debian/copyright \
