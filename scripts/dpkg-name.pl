@@ -83,9 +83,9 @@ sub filesame
 {
     my ($a, $b) = @_;
     my $sta = File::stat::stat($a);
-    my $stb = file::stat::stat($b);
+    my $stb = File::stat::stat($b);
 
-    return $sta && $stb && $sta->dev == $stb->dev && $sta->ino == $stb->dev;
+    return $sta && $stb && $sta->dev == $stb->dev && $sta->ino == $stb->ino;
 }
 
 sub getfields
