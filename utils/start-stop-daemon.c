@@ -848,6 +848,9 @@ daemonize(void)
 	if (notify_await)
 		notify_fd = create_notify_socket();
 
+	/* Avoid any potential output duplication. */
+	fflush(stdout);
+
 	pid = fork();
 	if (pid < 0)
 		fatale("cannot do first fork");
