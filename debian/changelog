@@ -1,8 +1,21 @@
-dpkg (1.20.14) UNRELEASED; urgency=medium
+dpkg (1.20.14) bullseye-security; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * libdpkg: Handle tar long GNU names and links not being NUL terminated.
+    Closes: #1061404
+  * libdpkg: Do not segfault when adding triggers in no-act mode.
+    Closes: #1108192
+  * dpkg-deb: Fix cleanup for control member with restricted directories.
+    Reported by zhutyra on HackerOne. Fixes CVE-2025-6297.
+  * Perl modules:
+    - Dpkg::BuildDriver::DebianRules: Fix uninitialized Perl variables.
+      Closes: #1107971
+    - Dpkg::BuildDriver::DebianRules: Fix R³ dpkg/target/<target> values
+      handling.
+  * Localization:
+    - Fix typos in Swedish man pages translations. Closes: #1065575
 
- -- Guillem Jover <guillem@debian.org>  Tue, 01 Jul 2025 03:08:52 +0200
+ -- Guillem Jover <guillem@debian.org>  Mon, 06 Jul 2026 03:44:17 +0200
 
 dpkg (1.20.13) bullseye; urgency=medium
 
