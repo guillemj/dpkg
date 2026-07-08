@@ -159,12 +159,15 @@ sub usage {
   -z, --compression-level=<level>
                               compression level to use for source.
   -Z, --compression=<compressor>
-                              compression to use for source (gz|xz|bzip2|lzma).
+                              compression to use for source (defaults to %s;
+                                supported are: %s).
   -i, --diff-ignore[=<regex>] ignore diffs of files matching <regex>.
   -I, --tar-ignore[=<pattern>]
                               filter out files when building tarballs.
       --source-option=<opt>   pass option <opt> to dpkg-source.
-'), $Dpkg::PROGNAME;
+'), $Dpkg::PROGNAME,
+    compression_get_default(),
+    join(', ', compression_get_list());
 }
 
 my $admindir;
