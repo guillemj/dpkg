@@ -729,6 +729,6 @@ use --format with --help to see them.') . "\n",
     get_default_diff_ignore_regex(),
     join(' ', map { "-I$_" } get_default_tar_ignore_pattern()),
     compression_get_default(),
-    join(' ', compression_get_list()),
+    join(', ', compression_get_list()),
     compression_get_default_level();
 }
