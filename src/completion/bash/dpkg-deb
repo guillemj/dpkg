@@ -17,6 +17,7 @@
 # Copyright © 2018 Gabriel F. T. Gomes <gabriel@inconstante.eti.br>
 # Copyright © 2021-2023 Koichi Murase <myoga.murase@gmail.com>
 # Copyright © 2024 Arnaud Rebillout <arnaudr@kali.org>
+# Copyright © 2026 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -45,12 +46,32 @@ _comp_cmd_dpkg_deb()
     done
   fi
 
-  local noargopts='!(-*|*[bcIWfexXRD]*)'
+  local debformats=(
+    0.939000
+    2.0
+  )
+  local debcompression=(
+    gzip
+    none
+    xz
+    zstd
+  )
+  local debcompstrategy=(
+    extreme
+    filtered
+    fixed
+    huffman
+    none
+    rle
+  )
+
+  local noargopts='!(-*|*[bcIWfexXRvDzZS]*)'
   # shellcheck disable=SC2254
   case $prev in
   --contents | \
   --info | \
   --show | \
+  --ctrl-tarfile | \
   --fsys-tarfile | \
   --field | \
   --control | \
@@ -64,6 +85,31 @@ _comp_cmd_dpkg_deb()
   --build | \
   -${noargopts}b)
     _comp_compgen_filedir -d
+    return
+    ;;
+  --deb-format)
+    _comp_compgen -- -W "${debformats[*]}"
+    return
+    ;;
+  --compression | -Z)
+    _comp_compgen -- -W "${debcompression[*]}"
+    return
+    ;;
+  --compression-level | -z)
+    _comp_compgen -- -W "$(seq 0 22)"
+    return
+    ;;
+  --compression-strategy | -S)
+    _comp_compgen -- -W "${debcompstrategy[*]}"
+    return
+    ;;
+  --threads-max)
+    local nproc
+    # Most Unices.
+    : ${nproc:=$(getconf _NPROCESSORS_ONLN 2>/dev/null)}
+    # Fallback for at least Irix.
+    : ${nproc:=$(getconf _NPROC_ONLN 2>/dev/null)}
+    _comp_compgen -- -W "$(seq 1 "${nproc:-1}")"
     return
     ;;
   esac

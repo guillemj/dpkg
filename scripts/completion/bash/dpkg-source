@@ -6,6 +6,7 @@
 # Copyright © 2009-2026 Ville Skyttä <ville.skytta@iki.fi>
 # Copyright © 2009 Guillaume Rousse <rousse@ccr.jussieu.fr>
 # Copyright © 2021-2024 Koichi Murase <myoga.murase@gmail.com>
+# Copyright © 2026 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,37 +29,86 @@ _comp_cmd_dpkg_source()
 
   local word action
   local -a options fields
-  local -a packopts
-  local -a unpackopts
+  local -a packopts packoptsv1 packoptsv3quilt packoptsv3custom packoptsv3git
+  local -a unpackopts unpackoptsv1 unpackoptsv3quilt
 
+  packoptsv1=(
+    -sa -sA
+    -sk -sK
+    -sn
+    -sp -sP
+    -sr -sR
+    -ss
+    -su -sU
+    --abort-on-upstream-changes
+  )
+  packoptsv3quilt=(
+    --abort-on-upstream-changes
+    --allow-version-of-quilt-db
+    --auto-commit
+    --create-empty-orig
+    --include-binaries
+    --include-removal
+    --include-timestamp
+    --no-preparation
+    --no-unapply-patches
+    --single-debian-patch
+    --unapply-patches
+  )
+  packoptsv3custom=(
+    --target-format
+  )
+  packoptsv3git=(
+    --git-depth
+    --git-ref
+  )
   packopts=(
     -D
     -F
-    -I
+    -I --tar-ignore
     -T
     -U
     -V
     -c
-    -i
+    -i --diff-ignore
     -l
-    -sa -sA
-    -sk -sK
-    -sP
-    -sr -sR
-    -ss
-    -sU
+    -z --compression-level
+    -Z --compression
+    --extend-diff-ignore
+    --format
+    "${packoptsv1[@]}"
+    "${packoptsv3quilt[@]}"
+    "${packoptsv3custom[@]}"
+    "${packoptsv3git[@]}"
   )
-  unpackopts=(
+  unpackoptsv1=(
     -sn
     -sp
     -su
+    --skip-debianization
+  )
+  unpackoptsv3quilt=(
+    --skip-debianization
+    --skip-patches
+  )
+  unpackopts=(
+    --ignore-bad-version
+    --no-check
+    --no-copy
+    --no-overwrite-dir
+    --require-strong-checksums
+    --require-valid-signature
+    "${unpackoptsv1[@]}"
+    "${unpackoptsv3quilt[@]}"
   )
   options=(
-    -b
-    -x
+    -b --build
+    -x --extract
     --after-build
     --before-build
+    --before-build
     --commit
+    --print-format
     --print-format
     "${packopts[@]}"
     "${unpackopts[@]}"

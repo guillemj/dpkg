@@ -17,6 +17,7 @@
 # Copyright © 2018 Gabriel F. T. Gomes <gabriel@inconstante.eti.br>
 # Copyright © 2021-2023 Koichi Murase <myoga.murase@gmail.com>
 # Copyright © 2024 Arnaud Rebillout <arnaudr@kali.org>
+# Copyright © 2026 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -100,7 +101,7 @@ _comp_cmd_dpkg()
     done
   fi
 
-  local noargopts='!(-*|*[iArPVsplLSVD]*)'
+  local noargopts='!(-*|*[iArPVsplLSVDaR]*)'
   # shellcheck disable=SC2254
   case $prev in
   --install | \
@@ -108,29 +109,49 @@ _comp_cmd_dpkg()
   --record-avail | \
   -${noargopts}[iA])
     _comp_compgen_filedir '?(u|d)deb'
+    _comp_compgen -a -- -W '--recursive'
     return
     ;;
   --status | \
   --print-avail | \
   --list | \
-  -${noargopts}[spl])
+  --verify | \
+  --audit | \
+  -${noargopts}[splVC])
     _comp_xfunc_dpkg_compgen_installed_packages
     return
     ;;
+  --configure | \
+  --triggers-only | \
   --remove | \
-  --verify | \
-  -${noargopts}[rV])
+  -${noargopts}[r])
     _comp_xfunc_dpkg_compgen_installed_packages
+    _comp_compgen -a -- -W '--pending'
     return
     ;;
   --listfiles | \
-  --purge | \
-  -${noargopts}[LP])
+  -${noargopts}[L])
     _comp_xfunc_dpkg_compgen_purgeable_packages
+    return
+    ;;
+  --purge | \
+  -${noargopts}[P])
+    _comp_xfunc_dpkg_compgen_purgeable_packages
+    _comp_compgen -a -- -W '--recursive'
+    return
+    ;;
+  --recursive | \
+  -${noargopts}R)
+    _comp_compgen_filedir -d
     return
     ;;
   --search | \
   -${noargopts}S)
+    _comp_compgen_filedir
+    return
+    ;;
+  --update-avail | \
+  --merge-avail)
     _comp_compgen_filedir
     return
     ;;

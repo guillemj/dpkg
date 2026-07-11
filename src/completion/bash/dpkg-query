@@ -17,6 +17,7 @@
 # Copyright © 2018 Gabriel F. T. Gomes <gabriel@inconstante.eti.br>
 # Copyright © 2021-2023 Koichi Murase <myoga.murase@gmail.com>
 # Copyright © 2024 Arnaud Rebillout <arnaudr@kali.org>
+# Copyright © 2026 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,6 +32,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+_comp_cmd_dpkg_compgen__control_files()
+{
+  local pkg
+  pkg="${words[$((cword - 1))]}"
+  _comp_compgen_split -- "$(command dpkg-query --control-list "$pkg")"
+}
+
 # dpkg-query(1) completion
 #
 _comp_cmd_dpkg_query()
@@ -39,7 +47,7 @@ _comp_cmd_dpkg_query()
   local cur prev words cword was_split comp_args
   _comp_initialize -s -- "$@" || return
 
-  local i=$cword
+  local args i=$cword
 
   # Find the last option flag.
   if [[ $cur != -* ]]; then
@@ -48,14 +56,38 @@ _comp_cmd_dpkg_query()
     done
   fi
 
-  local noargopts='!(-*|*[splLS]*)'
+  local noargopts='!(-*|*[splLWSc]*)'
   # shellcheck disable=SC2254
   case $prev in
   --status | \
   --print-avail | \
   --list | \
-  -${noargopts}[spl])
+  --show | \
+  --control-list | \
+  -${noargopts}[splW])
     _comp_compgen -x dpkg installed_packages
+    return
+    ;;
+  --control-show | \
+  --control-path)
+    # Find how many real args used so far.
+    for ((i = 1; i < cword; i++)); do
+      if [[ ${words[i]} == --@(control-show|control-path) ]]; then
+        args=$((cword - i))
+        break
+      fi
+    done
+
+    case $args in
+    1)
+      _comp_compgen -x dpkg installed_packages
+      return
+      ;;
+    2)
+      _comp_cmd_dpkg_compgen__control_files
+      return
+      ;;
+    esac
     return
     ;;
   --listfiles | \

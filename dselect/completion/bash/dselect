@@ -7,6 +7,7 @@
 # Copyright © 2009-2010 David Paleino <dapal@debian.org>
 # Copyright © 2009-2023 Ville Skyttä <ville.skytta@iki.fi>
 # Copyright © 2022-2023 Koichi Murase <myoga.murase@gmail.com>
+# Copyright © 2026 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +29,9 @@ _comp_cmd_dselect()
   _comp_initialize -- "$@" || return
 
   case $prev in
-  --admindir)
+  --admindir | \
+  --instdir | \
+  --root)
     _comp_compgen_filedir -d
     return
     ;;
