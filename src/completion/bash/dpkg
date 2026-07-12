@@ -110,22 +110,11 @@ _comp_cmd_dpkg()
     _comp_compgen_filedir '?(u|d)deb'
     return
     ;;
-  --admindir | \
-  --instdir | \
-  --root)
-    _comp_compgen_filedir -d
-    return
-    ;;
   --status | \
   --print-avail | \
   --list | \
   -${noargopts}[spl])
     _comp_xfunc_dpkg_compgen_installed_packages
-    return
-    ;;
-  --search | \
-  -${noargopts}S)
-    _comp_compgen_filedir
     return
     ;;
   --remove | \
@@ -140,9 +129,9 @@ _comp_cmd_dpkg()
     _comp_xfunc_dpkg_compgen_purgeable_packages
     return
     ;;
-  --debug | \
-  -${noargopts}D)
-    _comp_compgen -- -W 'help'
+  --search | \
+  -${noargopts}S)
+    _comp_compgen_filedir
     return
     ;;
   --ignore-depends)
@@ -151,6 +140,12 @@ _comp_cmd_dpkg()
     _comp_compgen -v packages -c "${cur##*,}" -x dpkg installed_packages
     # shellcheck disable=SC2016
     _comp_delimited , -W '"${packages[@]}"'
+    return
+    ;;
+  --admindir | \
+  --instdir | \
+  --root)
+    _comp_compgen_filedir -d
     return
     ;;
   --log)
@@ -167,6 +162,11 @@ _comp_cmd_dpkg()
     ;;
   --verify-format)
     _comp_compgen -- -W 'rpm'
+    return
+    ;;
+  --debug | \
+  -${noargopts}D)
+    _comp_compgen -- -W 'help'
     return
     ;;
   esac
