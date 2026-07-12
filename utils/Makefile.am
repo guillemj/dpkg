@@ -79,7 +79,9 @@ start_stop_daemon_LDADD = \
 	$(KVM_LIBS) \
 	# EOL
 
-dist_bashcompletions_DATA +=
+dist_bashcompletions_DATA += \
+	completion/bash/start-stop-daemon \
+	# EOL
 endif
 
 install-data-local:

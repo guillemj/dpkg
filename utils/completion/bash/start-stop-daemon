@@ -1,0 +1,74 @@
+#!/bin/bash
+# start-stop-daemon(8) bash completion
+#
+# Copyright © 2023-2026 Guillem Jover <guillem@debian.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+_comp_cmd_start_stop_daemon()
+{
+  # shellcheck disable=SC2034
+  local cur prev words cword comp_args
+  _comp_initialize -- "$@" || return
+
+  case $prev in
+  --pid | \
+  --ppid)
+    _comp_compgen_pids
+    return
+    ;;
+  --user | -u)
+    _comp_compgen_uids
+    return
+    ;;
+  --group | -g)
+    _comp_compgen_gids
+    return
+    ;;
+  --chuid | -c)
+    _comp_compgen_usergroups
+    return
+    ;;
+  --signal | -s)
+    _comp_compgen_signals
+    return
+    ;;
+  --pidfile | -p)
+    # /run/*.pid
+    _comp_compgen_filedir
+    return
+    ;;
+  --chroot | -r | \
+  --chdir | -d)
+    _comp_compgen_filedir -d
+    return
+    ;;
+  --output | -O | \
+  --log)
+    _comp_compgen_filedir
+    return
+    ;;
+  --notify-timeout)
+    _comp_compgen -aR -- -W '{0..9}'
+    return
+    ;;
+  esac
+
+  _comp_compgen_help
+  for i in ${!COMPREPLY[*]}; do
+    # Remove ones ending with a dash (known parse issue, hard to fix).
+    [[ ${COMPREPLY[i]} != *- ]] || unset -v 'COMPREPLY[i]'
+  done
+  [[ ${COMPREPLY-} == *= ]] && compopt -o nospace
+} && complete -F _comp_cmd_start_stop_daemon start-stop-daemon
