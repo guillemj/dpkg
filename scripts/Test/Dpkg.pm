@@ -186,7 +186,7 @@ sub all_shell_files(@files_todo)
 
     my $keep_shell_file = sub ($file) {
         return 0 if exists $files_todo{$file};
-        return $file =~ qr{\.sh$};
+        return $file =~ qr{\.(?:sh|bash)$};
     };
     my $keep_shebang_file = sub ($file) {
         return 0 if exists $files_todo{$file};
@@ -201,7 +201,7 @@ sub all_shell_files(@files_todo)
 
         chomp $shebang;
 
-        return $shebang =~ m{^#!/bin/sh};
+        return $shebang =~ m{^#!/bin/(?:sh|bash)};
     };
 
 
