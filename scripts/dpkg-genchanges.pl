@@ -99,12 +99,12 @@ sub usage {
 "Options:
   --build=<type>[,...]     specify the build <type>: full, source, binary,
                              any, all (default is \'full\').
-  -g                       source and arch-indep build.
-  -G                       source and arch-specific build.
-  -b                       binary-only, no source files.
-  -B                       binary-only, only arch-specific files.
-  -A                       binary-only, only arch-indep files.
-  -S                       source-only, no binary files.
+  -g, --build=source,all   source and arch-indep build.
+  -G, --build=source,any   source and arch-specific build.
+  -b, --build=binary       binary-only, no source files.
+  -B, --build=any          binary-only, only arch-specific files.
+  -A, --build=all          binary-only, only arch-indep files.
+  -S, --build=source       source-only, no binary files.
   -c<control-file>         get control info from this file.
   -l<changelog-file>       get per-version info from this file.
   -f<files-list-file>      get .deb files list from this file.
