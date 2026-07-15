@@ -105,11 +105,11 @@ sub _parse_vcs_git {
 my @module_cmdline = (
     {
         name => '--git-ref=<ref>',
-        help => N_('specify a git <ref> to include in the git bundle'),
+        help => N_('Specify a git <ref> to include in the git bundle'),
         when => 'build',
     }, {
         name => '--git-depth=<number>',
-        help => N_('create a shallow clone with <number> depth'),
+        help => N_('Create a shallow clone with <number> depth'),
         when => 'build',
     }
 );

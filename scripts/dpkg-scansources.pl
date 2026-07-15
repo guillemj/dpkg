@@ -87,15 +87,15 @@ sub usage {
 'Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > Sources
 
 Options:
-  -n, --no-sort            do not sort by package before outputting.
+  -n, --no-sort            Do not sort by package before outputting.
   -e, --extra-override <file>
-                           use extra override file.
+                           Use extra override file.
   -s, --source-override <file>
-                           use file for additional source overrides, default
+                           Use file for additional source overrides, default
                            is regular override file with .src appended.
-      --debug              turn debugging on.
-  -?, --help               show this help message.
-      --version            show the version.
+      --debug              Turn debugging on.
+  -?, --help               Show this help message.
+      --version            Show the version.
 
 See the man page for the full documentation.
 '), $Dpkg::PROGNAME;

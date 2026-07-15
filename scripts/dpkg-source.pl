@@ -672,56 +672,56 @@ sub usage {
     . "\n\n" . g_(
 'Commands:
   -x, --extract <filename>.dsc [<output-dir>]
-                           extract source package.
-  -b, --build <dir>        build source package.
-      --print-format <dir> print the format to be used for the source package.
-      --before-build <dir> run the corresponding source package format hook.
-      --after-build <dir>  run the corresponding source package format hook.
+                           Extract source package.
+  -b, --build <dir>        Build source package.
+      --print-format <dir> Print the format to be used for the source package.
+      --before-build <dir> Run the corresponding source package format hook.
+      --after-build <dir>  Run the corresponding source package format hook.
       --commit [<dir> [<patch-name>]]
-                           store upstream changes in a new patch.')
+                           Store upstream changes in a new patch.')
     . "\n\n" . g_(
 "Build options:
-  -c<control-file>         get control info from this file.
-  -l<changelog-file>       get per-version info from this file.
-  -F<changelog-format>     force changelog format.
-  --format=<source-format> set the format to be used for the source package.
-  -V<name>=<value>         set a substitution variable.
-  -T<substvars-file>       read variables here.
-  -D<field>=<value>        override or add a .dsc field and value.
-  -U<field>                remove a field.
+  -c<control-file>         Get control info from this file.
+  -l<changelog-file>       Get per-version info from this file.
+  -F<changelog-format>     Force changelog format.
+  --format=<source-format> Set the format to be used for the source package.
+  -V<name>=<value>         Set a substitution variable.
+  -T<substvars-file>       Read variables here.
+  -D<field>=<value>        Override or add a .dsc field and value.
+  -U<field>                Remove a field.
   -i, --diff-ignore[=<regex>]
-                           filter out files to ignore diffs of
+                           Filter out files to ignore diffs of
                              (defaults to: '%s').
   -I, --tar-ignore[=<pattern>]
-                           filter out files when building tarballs
+                           Filter out files when building tarballs
                              (defaults to: %s).
   -Z, --compression=<compression>
-                           select compression to use (defaults to '%s',
+                           Select compression to use (defaults to '%s',
                              supported are: %s).
   -z, --compression-level=<level>
-                           compression level to use (defaults to '%d',
+                           Compression level to use (defaults to '%d',
                              supported are: '1'-'9', 'best', 'fast')")
     . "\n\n" . g_(
 'Extract options:
-  --no-copy                do not copy .orig tarballs
-  --no-check               do not check signature and checksums on extraction
-  --no-overwrite-dir       do not overwrite directory on extraction
-  --no-vendor-certs        do not use vendor specific certificate keyrings
-  --signer-certs=<keyring> use a signer certificates keyring
+  --no-copy                Do not copy .orig tarballs
+  --no-check               Do not check signature and checksums on extraction
+  --no-overwrite-dir       Do not overwrite directory on extraction
+  --no-vendor-certs        Do not use vendor specific certificate keyrings
+  --signer-certs=<keyring> Use a signer certificates keyring
   --require-valid-signature
-                           abort if the package does not have a valid signature
+                           Abort if the package does not have a valid signature
   --require-strong-checksums
-                           abort if the package contains no strong checksums
-  --ignore-bad-version     allow bad source package versions.')
+                           Abort if the package contains no strong checksums
+  --ignore-bad-version     Allow bad source package versions.')
     . "\n" .
     get_format_help()
     . "\n" . g_(
 'General options:
       --threads-max=<threads>
-                           use at most <threads> with compressor.
-  -q                       quiet mode.
-  -?, --help               show this help message.
-      --version            show the version.')
+                           Use at most <threads> with compressor.
+  -q                       Quiet mode.
+  -?, --help               Show this help message.
+      --version            Show the version.')
     . "\n\n" . g_(
 'Source format specific build and extract options are available;
 use --format with --help to see them.') . "\n",

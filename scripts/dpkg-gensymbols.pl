@@ -65,31 +65,31 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . g_(
 'Options:
-  -l<library-path>         add directory to private shared library search list.
-  -p<package>              generate symbols file for package.
-  -P<package-build-dir>    temporary build directory instead of debian/tmp.
-  -e<library>              explicitly list libraries to scan.
-  -v<version>              version of the packages (defaults to
+  -l<library-path>         Add directory to private shared library search list.
+  -p<package>              Generate symbols file for package.
+  -P<package-build-dir>    Temporary build directory instead of debian/tmp.
+  -e<library>              Explicitly list libraries to scan.
+  -v<version>              Version of the packages (defaults to
                            version extracted from debian/changelog).
-  -c<level>                compare generated symbols file with the reference
+  -c<level>                Compare generated symbols file with the reference
                            template in the debian directory and fail if
                            difference is too important; level goes from 0 for
                            no check, to 4 for all checks (default level is 1).
-  -q                       keep quiet and never emit any warnings or
+  -q                       Keep quiet and never emit any warnings or
                            generate a diff between generated symbols
                            file and the reference template.
-  -I<file>                 force usage of <file> as reference symbols
+  -I<file>                 Force usage of <file> as reference symbols
                            file instead of the default file.
-  -O[<file>]               write to stdout (or <file>), not .../DEBIAN/symbols.
-  -t                       write in template mode (tags are not
+  -O[<file>]               Write to stdout (or <file>), not .../DEBIAN/symbols.
+  -t                       Write in template mode (tags are not
                            processed and included in output).
-  -V                       verbose output; write deprecated symbols and pattern
+  -V                       Verbose output; write deprecated symbols and pattern
                            matching symbols as comments (in template mode only).
-  -a<arch>                 assume <arch> as host architecture when processing
+  -a<arch>                 Assume <arch> as host architecture when processing
                            symbol files.
-  -d                       display debug information during work.
-  -?, --help               show this help message.
-      --version            show the version.
+  -d                       Display debug information during work.
+  -?, --help               Show this help message.
+      --version            Show the version.
 '), $Dpkg::PROGNAME;
 }
 

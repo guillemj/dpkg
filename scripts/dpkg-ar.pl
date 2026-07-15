@@ -39,11 +39,11 @@ sub usage
 
     print(g_('
 Commands:
-      --create <archive> <file>...      create an ar archive.
-      --list <archive>                  list the contents of an ar archive.
-      --extract <archive> [<file>...]   extract the contents of an ar archive.
-  -?, --help                            show this help message.
-      --version                         show the version.
+      --create <archive> <file>...      Create an ar archive.
+      --list <archive>                  List the contents of an ar archive.
+      --extract <archive> [<file>...]   Extract the contents of an ar archive.
+  -?, --help                            Show this help message.
+      --version                         Show the version.
 '));
 }
 

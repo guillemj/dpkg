@@ -61,11 +61,11 @@ sub init_options {
 my @module_cmdline = (
     {
         name => '--single-debian-patch',
-        help => N_('use a single debianization patch'),
+        help => N_('Use a single debianization patch'),
         when => 'build',
     }, {
         name => '--allow-version-of-quilt-db=<version>',
-        help => N_('accept quilt metadata <version> even if unknown'),
+        help => N_('Accept quilt metadata <version> even if unknown'),
         when => 'build',
     }
 );

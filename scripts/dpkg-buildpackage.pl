@@ -73,98 +73,98 @@ sub usage {
 'Usage: %s [<option>...] [--] [<filename.dsc>|<directory>]')
     . "\n\n" . g_(
 'Options:
-      --build=<type>[,...]    specify the build <type>: full, source, binary,
+      --build=<type>[,...]    Specify the build <type>: full, source, binary,
                                 any, all (default is \'full\').
-  -F, --build=full            normal full build (source and binary; default).
-  -g, --build=source,all      source and arch-indep build.
-  -G, --build=source,any      source and arch-specific build.
-  -b, --build=binary          binary-only, no source files.
-  -B, --build=any             binary-only, only arch-specific files.
-  -A, --build=all             binary-only, only arch-indep files.
-  -S, --build=source          source-only, no binary files.
-  -nc, --no-pre-clean         do not pre clean source tree (implies -b).
-      --pre-clean             pre clean source tree (default).
-      --no-post-clean         do not post clean source tree (default).
-  -tc, --post-clean           post clean source tree.
-      --sanitize-env          sanitize the build environment.
-  -D, --check-builddeps       check build dependencies and conflicts (default).
-  -d, --no-check-builddeps    do not check build dependencies and conflicts.
+  -F, --build=full            Normal full build (source and binary; default).
+  -g, --build=source,all      Source and arch-indep build.
+  -G, --build=source,any      Source and arch-specific build.
+  -b, --build=binary          Binary-only, no source files.
+  -B, --build=any             Binary-only, only arch-specific files.
+  -A, --build=all             Binary-only, only arch-indep files.
+  -S, --build=source          Source-only, no binary files.
+  -nc, --no-pre-clean         Do not pre clean source tree (implies -b).
+      --pre-clean             Pre clean source tree (default).
+      --no-post-clean         Do not post clean source tree (default).
+  -tc, --post-clean           Post clean source tree.
+      --sanitize-env          Sanitize the build environment.
+  -D, --check-builddeps       Check build dependencies and conflicts (default).
+  -d, --no-check-builddeps    Do not check build dependencies and conflicts.
       --ignore-builtin-builddeps
-                              do not check builtin build dependencies.
+                              Do not check builtin build dependencies.
   -P, --build-profiles=<profiles>
-                              assume comma-separated build <profiles> as active.
-      --rules-requires-root   assume legacy Rules-Requires-Root field value.
-  -R, --rules-file=<rules>    rules file to execute (default is debian/rules).
-  -T, --rules-target=<target> call debian/rules <target>.
-      --as-root               ensure -T calls the target with root rights.
-  -j, --jobs[=<jobs>|auto]    jobs to run simultaneously (passed to <rules>),
+                              Assume comma-separated build <profiles> as active.
+      --rules-requires-root   Assume legacy Rules-Requires-Root field value.
+  -R, --rules-file=<rules>    Rules file to execute (default is debian/rules).
+  -T, --rules-target=<target> Call debian/rules <target>.
+      --as-root               Ensure -T calls the target with root rights.
+  -j, --jobs[=<jobs>|auto]    Jobs to run simultaneously (passed to <rules>),
                                 (default; default is auto, opt-in mode).
   -J, --jobs-try[=<jobs>|auto]
-                              alias for -j, --jobs.
+                              Alias for -j, --jobs.
       --jobs-force[=<jobs>|auto]
-                              jobs to run simultaneously (passed to <rules>),
+                              Jobs to run simultaneously (passed to <rules>),
                                 (default is auto, forced mode).
   -r, --root-command=<command>
-                              command to gain root rights (default is fakeroot).
+                              Command to gain root rights (default is fakeroot).
       --check-command=<command>
-                              command to check the .changes file (no default).
-      --check-option=<opt>    pass <opt> to check <command>.
-      --hook-<name>=<command> set <command> as the hook <name>, known hooks:
+                              Command to check the .changes file (no default).
+      --check-option=<opt>    Pass <opt> to check <command>.
+      --hook-<name>=<command> Set <command> as the hook <name>, known hooks:
                                 preinit init preclean source build binary
                                 buildinfo changes postclean check sign done
-      --buildinfo-file=<file> set the .buildinfo filename to generate.
+      --buildinfo-file=<file> Set the .buildinfo filename to generate.
       --buildinfo-option=<opt>
-                              pass option <opt> to dpkg-genbuildinfo.
-      --changes-file=<file>   set the .changes filename to generate.
+                              Pass option <opt> to dpkg-genbuildinfo.
+      --changes-file=<file>   Set the .changes filename to generate.
       --sign-backend=<backend>
                               OpenPGP backend to use to sign
                                 (default is auto).
   -p, --sign-command=<command>
-                              command to sign .dsc and/or .changes files
+                              Command to sign .dsc and/or .changes files
                                 (default is gpg).
-      --sign-keyfile=<file>   the key file to use for signing.
-  -k, --sign-keyid=<keyid>    the key id to use for signing.
-      --sign-key=<keyid>      deprecated alias for --sign-keyid.
-  -ap, --sign-pause           add pause before starting signature process.
-  -us, --unsigned-source      unsigned source package.
-  -ui, --unsigned-buildinfo   unsigned .buildinfo file.
-  -uc, --unsigned-changes     unsigned .buildinfo and .changes file.
-      --no-sign               do not sign any file.
-      --force-sign            force signing the resulting files.
-      --admindir=<directory>  change the administrative directory.
-  -?, --help                  show this help message.
-      --version               show the version.')
+      --sign-keyfile=<file>   The key file to use for signing.
+  -k, --sign-keyid=<keyid>    The key id to use for signing.
+      --sign-key=<keyid>      Deprecated alias for --sign-keyid.
+  -ap, --sign-pause           Add pause before starting signature process.
+  -us, --unsigned-source      Unsigned source package.
+  -ui, --unsigned-buildinfo   Unsigned .buildinfo file.
+  -uc, --unsigned-changes     Unsigned .buildinfo and .changes file.
+      --no-sign               Do not sign any file.
+      --force-sign            Force signing the resulting files.
+      --admindir=<directory>  Change the administrative directory.
+  -?, --help                  Show this help message.
+      --version               Show the version.')
     . "\n\n" . g_(
 'Options passed to dpkg-architecture:
-  -a, --host-arch <arch>      set the host Debian architecture.
-  -t, --host-type <type>      set the host GNU system type.
-      --target-arch <arch>    set the target Debian architecture.
-      --target-type <type>    set the target GNU system type.')
+  -a, --host-arch <arch>      Set the host Debian architecture.
+  -t, --host-type <type>      Set the host GNU system type.
+      --target-arch <arch>    Set the target Debian architecture.
+      --target-type <type>    Set the target GNU system type.')
     . "\n\n" . g_(
 'Options passed to dpkg-genchanges:
-  -si                         source includes orig, if new upstream (default).
-  -sa                         source includes orig, always.
-  -sd                         source is diff and .dsc only.
-  -v<version>                 changes since version <version>.
-  -m, --source-by=<maint>     maintainer for this source or build is <maint>.
-      --build-by=<maint>      ditto.
-  -e, --release-by=<maint>    maintainer for this change or release is <maint>.
-      --changed-by=<maint>    ditto.
-  -C<descfile>                changes are described in <descfile>.
-      --changes-option=<opt>  pass option <opt> to dpkg-genchanges.')
+  -si                         Source includes orig, if new upstream (default).
+  -sa                         Source includes orig, always.
+  -sd                         Source is diff and .dsc only.
+  -v<version>                 Changes since version <version>.
+  -m, --source-by=<maint>     Maintainer for this source or build is <maint>.
+      --build-by=<maint>      Ditto.
+  -e, --release-by=<maint>    Maintainer for this change or release is <maint>.
+      --changed-by=<maint>    Ditto.
+  -C<descfile>                Changes are described in <descfile>.
+      --changes-option=<opt>  Pass option <opt> to dpkg-genchanges.')
     . "\n\n" . g_(
 'Options passed to dpkg-source:
-  -sn                         force Debian native source format.
-  -s[sAkurKUR]                see dpkg-source for explanation.
+  -sn                         Force Debian native source format.
+  -s[sAkurKUR]                See dpkg-source for explanation.
   -z, --compression-level=<level>
-                              compression level to use for source.
+                              Compression level to use for source.
   -Z, --compression=<compressor>
-                              compression to use for source (defaults to %s;
+                              Compression to use for source (defaults to %s;
                                 supported are: %s).
-  -i, --diff-ignore[=<regex>] ignore diffs of files matching <regex>.
+  -i, --diff-ignore[=<regex>] Ignore diffs of files matching <regex>.
   -I, --tar-ignore[=<pattern>]
-                              filter out files when building tarballs.
-      --source-option=<opt>   pass option <opt> to dpkg-source.
+                              Filter out files when building tarballs.
+      --source-option=<opt>   Pass option <opt> to dpkg-source.
 '), $Dpkg::PROGNAME,
     compression_get_default(),
     join(', ', compression_get_list());

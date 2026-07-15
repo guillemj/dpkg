@@ -85,28 +85,28 @@ usage(const char *const *argv)
 
 	printf(_(
 "Commands:\n"
-"  [--add] <file>           add a diversion.\n"
-"  --remove <file>          remove the diversion.\n"
-"  --list [<glob-pattern>]  show file diversions.\n"
-"  --listpackage <file>     show what package diverts the file.\n"
-"  --truename <file>        return the diverted file.\n"
+"  [--add] <file>           Add a diversion.\n"
+"  --remove <file>          Remove the diversion.\n"
+"  --list [<glob-pattern>]  Show file diversions.\n"
+"  --listpackage <file>     Show what package diverts the file.\n"
+"  --truename <file>        Return the diverted file.\n"
 "\n"));
 
 	printf(_(
 "Options:\n"
-"  --package <package>      name of the package whose copy of <file> will not\n"
+"  --package <package>      Name of the package whose copy of <file> will not\n"
 "                             be diverted.\n"
-"  --local                  all packages' versions are diverted.\n"
-"  --divert <divert-to>     the name used by other packages' versions.\n"
-"  --rename                 actually move the file aside (or back).\n"
-"  --no-rename              do not move the file aside (or back) (default).\n"
-"  --admindir <directory>   set the directory with the diversions file.\n"
-"  --instdir <directory>    set the root directory, but not the admin dir.\n"
-"  --root <directory>       set the directory of the root filesystem.\n"
-"  --test                   do not do anything, just demonstrate.\n"
-"  --quiet                  quiet operation, minimal output.\n"
-"  --help                   show this help message.\n"
-"  --version                show the version.\n"
+"  --local                  All packages' versions are diverted.\n"
+"  --divert <divert-to>     The name used by other packages' versions.\n"
+"  --rename                 Actually move the file aside (or back).\n"
+"  --no-rename              Do not move the file aside (or back) (default).\n"
+"  --admindir <directory>   Set the directory with the diversions file.\n"
+"  --instdir <directory>    Set the root directory, but not the admin dir.\n"
+"  --root <directory>       Set the directory of the root filesystem.\n"
+"  --test                   Do not do anything, just demonstrate.\n"
+"  --quiet                  Quiet operation, minimal output.\n"
+"  --help                   Show this help message.\n"
+"  --version                Show the version.\n"
 "\n"));
 
 	printf(_(

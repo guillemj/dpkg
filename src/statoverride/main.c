@@ -81,24 +81,24 @@ usage(const char *const *argv)
 	printf(_(
 "Commands:\n"
 "  --add <owner> <group> <mode> <path>\n"
-"                           add a new <path> entry into the database.\n"
-"  --remove <path>          remove <path> from the database.\n"
-"  --list [<glob-pattern>]  list current overrides in the database.\n"
+"                           Add a new <path> entry into the database.\n"
+"  --remove <path>          Remove <path> from the database.\n"
+"  --list [<glob-pattern>]  List current overrides in the database.\n"
 "\n"));
 
 	printf(_(
 "Options:\n"
-"  --admindir <directory>   set the directory with the statoverride file.\n"
-"  --instdir <directory>    set the root directory, but not the admin dir.\n"
-"  --root <directory>       set the directory of the root filesystem.\n"
-"  --update                 immediately update <path> permissions.\n"
-"  --force                  deprecated alias for --force-all.\n"
-"  --force-<thing>[,...]    override problems (see --force-help).\n"
-"  --no-force-<thing>[,...] stop when problems encountered.\n"
-"  --refuse-<thing>[,...]   ditto.\n"
-"  --quiet                  quiet operation, minimal output.\n"
-"  --help                   show this help message.\n"
-"  --version                show the version.\n"
+"  --admindir <directory>   Set the directory with the statoverride file.\n"
+"  --instdir <directory>    Set the root directory, but not the admin dir.\n"
+"  --root <directory>       Set the directory of the root filesystem.\n"
+"  --update                 Immediately update <path> permissions.\n"
+"  --force                  Deprecated alias for --force-all.\n"
+"  --force-<thing>[,...]    Override problems (see --force-help).\n"
+"  --no-force-<thing>[,...] Stop when problems encountered.\n"
+"  --refuse-<thing>[,...]   Ditto.\n"
+"  --quiet                  Quiet operation, minimal output.\n"
+"  --help                   Show this help message.\n"
+"  --version                Show the version.\n"
 "\n"));
 
 	m_output(stdout, _("<standard output>"));

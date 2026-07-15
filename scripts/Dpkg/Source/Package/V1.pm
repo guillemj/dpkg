@@ -94,55 +94,55 @@ sub init_options {
 my @module_cmdline = (
     {
         name => '-sa',
-        help => N_('auto select original source'),
+        help => N_('Auto select original source'),
         when => 'build',
     }, {
         name => '-sk',
-        help => N_('use packed original source (unpack and keep)'),
+        help => N_('Use packed original source (unpack and keep)'),
         when => 'build',
     }, {
         name => '-sp',
-        help => N_('use packed original source (unpack and remove)'),
+        help => N_('Use packed original source (unpack and remove)'),
         when => 'build',
     }, {
         name => '-su',
-        help => N_('use unpacked original source (pack and keep)'),
+        help => N_('Use unpacked original source (pack and keep)'),
         when => 'build',
     }, {
         name => '-sr',
-        help => N_('use unpacked original source (pack and remove)'),
+        help => N_('Use unpacked original source (pack and remove)'),
         when => 'build',
     }, {
         name => '-ss',
-        help => N_('trust packed and unpacked original sources are same'),
+        help => N_('Trust packed and unpacked original sources are same'),
         when => 'build',
     }, {
         name => '-sn',
-        help => N_('there is no diff, do main tarfile only'),
+        help => N_('There is no diff, do main tarfile only'),
         when => 'build',
     }, {
         name => '-sA, -sK, -sP, -sU, -sR',
-        help => N_('like -sa, -sk, -sp, -su, -sr but may overwrite'),
+        help => N_('Like -sa, -sk, -sp, -su, -sr but may overwrite'),
         when => 'build',
     }, {
         name => '--abort-on-upstream-changes',
-        help => N_('abort if generated diff has upstream files changes'),
+        help => N_('Abort if generated diff has upstream files changes'),
         when => 'build',
     }, {
         name => '-sp',
-        help => N_('leave original source packed in current directory'),
+        help => N_('Leave original source packed in current directory'),
         when => 'extract',
     }, {
         name => '-su',
-        help => N_('do not copy original source to current directory'),
+        help => N_('Do not copy original source to current directory'),
         when => 'extract',
     }, {
         name => '-sn',
-        help => N_('unpack original source tree too'),
+        help => N_('Unpack original source tree too'),
         when => 'extract',
     }, {
         name => '--skip-debianization',
-        help => N_('do not apply debian diff to upstream sources'),
+        help => N_('Do not apply debian diff to upstream sources'),
         when => 'extract',
     },
 );

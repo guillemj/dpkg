@@ -57,12 +57,12 @@ sub usage {
 "Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]
 
 Options:
-  -m, --merge-prereleases  merge pre-releases together, ignores everything
+  -m, --merge-prereleases  Merge pre-releases together, ignores everything
                              after the last '~' in the version.
-      --merge-unreleased   merge UNRELEASED entries together, ignoring their
+      --merge-unreleased   Merge UNRELEASED entries together, ignoring their
                              version numbers.
-  -?, --help               show this help message.
-      --version            show the version.
+  -?, --help               Show this help message.
+      --version            Show the version.
 "), $Dpkg::PROGNAME;
 }
 

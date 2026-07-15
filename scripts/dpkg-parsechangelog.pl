@@ -47,26 +47,26 @@ sub usage {
     . "\n\n" . g_(
 'Options:
   -l, --file <changelog-file>
-                           get per-version info from this file.
-  -F <changelog-format>    force changelog format.
-  -S, --show-field <field> show the values for <field>.
-  -?, --help               show this help message.
-      --version            show the version.')
+                           Get per-version info from this file.
+  -F <changelog-format>    Force changelog format.
+  -S, --show-field <field> Show the values for <field>.
+  -?, --help               Show this help message.
+      --version            Show the version.')
     . "\n\n" . g_(
 "Parser options:
       --format <output-format>
-                           set output format (defaults to 'dpkg').
-      --reverse            include all changes in reverse order.
-      --all                include all changes.
-  -s, --since <version>    include all changes later than <version>.
-  -v <version>             ditto.
-  -u, --until <version>    include all changes earlier than <version>.
-  -f, --from <version>     include all changes equal or later than <version>.
-  -t, --to <version>       include all changes up to or equal than <version>.
-  -c, --count <number>     include <number> entries from the top (or tail
+                           Set output format (defaults to 'dpkg').
+      --reverse            Include all changes in reverse order.
+      --all                Include all changes.
+  -s, --since <version>    Include all changes later than <version>.
+  -v <version>             Ditto.
+  -u, --until <version>    Include all changes earlier than <version>.
+  -f, --from <version>     Include all changes equal or later than <version>.
+  -t, --to <version>       Include all changes up to or equal than <version>.
+  -c, --count <number>     Include <number> entries from the top (or tail
                              if <number> is lower than 0).
-  -n <number>              ditto.
-  -o, --offset <number>    change starting point for --count, counted from
+  -n <number>              Ditto.
+  -o, --offset <number>    Change starting point for --count, counted from
                              the top (or tail if <number> is lower than 0).
 "), $Dpkg::PROGNAME;
 }

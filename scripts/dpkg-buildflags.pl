@@ -43,21 +43,21 @@ sub usage {
 'Usage: %s [<command>]')
     . "\n\n" . g_(
 'Commands:
-  --get <flag>       output the requested flag to stdout.
-  --origin <flag>    output the origin of the flag to stdout:
+  --get <flag>       Output the requested flag to stdout.
+  --origin <flag>    Output the origin of the flag to stdout:
                      value is one of vendor, system, user, env.
-  --status           output a synopsis with all parameters affecting the
+  --status           Output a synopsis with all parameters affecting the
                      program behavior, the resulting flags and their origin.
-  --query            like --status, but in deb822 format.
+  --query            Like --status, but in deb822 format.
   --query-features <area>
-                     output the status of features for the given area.
-  --list             output a list of the flags supported by the current vendor.
+                     Output the status of features for the given area.
+  --list             Output a list of the flags supported by the current vendor.
   --export=(sh|make|cmdline|configure)
-                     output something convenient to import the compilation
+                     Output something convenient to import the compilation
                      flags in a shell script, in make, or in a command line.
-  --dump             output all compilation flags with their values.
-  --help             show this help message.
-  --version          show the version.
+  --dump             Output all compilation flags with their values.
+  --help             Show this help message.
+  --version          Show the version.
 '), $Dpkg::PROGNAME;
 }
 
