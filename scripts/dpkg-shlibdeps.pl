@@ -658,8 +658,8 @@ sub usage {
 'Usage: %s [<option>...] <executable>|-e<executable> [<option>...]')
     . "\n\n" . g_(
 "Positional options (order is significant):
-  <executable>             include dependencies for <executable>,
-  -e<executable>           (use -e if <executable> starts with '-')
+  <executable>             include dependencies for <executable>.
+  -e<executable>           ditto, used when <executable> starts with '-'.
   -d<dependency-field>     next executable(s) set shlibs:<dependency-field>.")
     . "\n\n" . g_(
 'Options:
