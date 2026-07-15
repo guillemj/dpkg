@@ -69,11 +69,16 @@ usage(const struct cmdinfo *cip, const char *value)
 
 	printf(_(
 "Options:\n"
-"  -z, --zero                   End output line with NUL, not newline.\n"
-"      --instdir <directory>    Set the root directory.\n"
-"      --root <directory>       Set the root directory.\n"
-"      --version                Show the version.\n"
-"      --help                   Show this help message.\n"
+"  -z, --zero\n"
+"          End output line with NUL, not newline.\n"
+"      --instdir <directory>\n"
+"          Set the root directory.\n"
+"      --root <directory>\n"
+"          Set the root directory.\n"
+"      --version\n"
+"          Show the version.\n"
+"      --help\n"
+"          Show this help message.\n"
 "\n"));
 
 	m_output(stdout, _("<standard output>"));

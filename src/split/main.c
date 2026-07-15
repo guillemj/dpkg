@@ -68,28 +68,41 @@ usage(const char *const *argv)
 
 	printf(_(
 "Commands:\n"
-"  -s|--split <file> [<prefix>]     Split an archive.\n"
-"  -j|--join <part> <part>...       Join parts together.\n"
-"  -I|--info <part>...              Display info about a part.\n"
-"  -a|--auto -o <complete> <part>   Auto-accumulate parts.\n"
-"  -l|--listq                       List unmatched pieces.\n"
-"  -d|--discard [<filename>...]     Discard unmatched pieces.\n"
+"  -s, --split <file> [<prefix>]\n"
+"          Split an archive.\n"
+"  -j, --join <part> <part>...\n"
+"          Join parts together.\n"
+"  -I, --info <part>...\n"
+"          Display info about a part.\n"
+"  -a, --auto -o <complete> <part>\n"
+"          Auto-accumulate parts.\n"
+"  -l, --listq\n"
+"          List unmatched pieces.\n"
+"  -d, --discard [<filename>...]\n"
+"          Discard unmatched pieces.\n"
 "\n"));
 
 	printf(_(
-"  -?, --help                       Show this help message.\n"
-"      --version                    Show the version.\n"
+"  -?, --help\n"
+"          Show this help message.\n"
+"      --version\n"
+"          Show the version.\n"
 "\n"));
 
 	printf(_(
 "Options:\n"
-"      --depotdir <directory>       Use <directory> instead of %s/%s.\n"
-"      --admindir <directory>       Use <directory> instead of %s.\n"
-"      --root <directory>           Use <directory> instead of %s.\n"
-"  -S, --partsize <size>            In KiB, for -s (default is 450).\n"
-"  -o, --output <file>              Filename, for -j (default is\n"
-"                                     <package>_<version>_<arch>.deb).\n"
-"  -Q, --npquiet                    Be quiet when -a is not a part.\n"
+"      --depotdir <directory>\n"
+"          Use <directory> instead of %s/%s.\n"
+"      --admindir <directory>\n"
+"          Use <directory> instead of %s.\n"
+"      --root <directory>\n"
+"          Use <directory> instead of %s.\n"
+"  -S, --partsize <size>\n"
+"          In KiB, for -s (default is 450).\n"
+"  -o, --output <file>\n"
+"          Filename, for -j (default is <package>_<version>_<arch>.deb).\n"
+"  -Q, --npquiet\n"
+"          Be quiet when -a is not a part.\n"
 "\n"), ADMINDIR, PARTSDIR, ADMINDIR, "/");
 
 	printf(_(

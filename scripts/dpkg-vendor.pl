@@ -41,14 +41,20 @@ sub usage {
 'Usage: %s [<option>...] [<command>]')
     . "\n\n" . g_(
 'Commands:
-  --is <vendor>           Returns true if current vendor is <vendor>.
-  --derives-from <vendor> Returns true if current vendor derives from <vendor>.
-  --query <field>         Print the content of the vendor-specific field.
-  --help                  Show this help message.
-  --version               Show the version.')
+      --is <vendor>
+          Returns true if current vendor is <vendor>.
+      --derives-from <vendor>
+          Returns true if current vendor derives from <vendor>.
+      --query <field>
+          Print the content of the vendor-specific field.
+      --help
+          Show this help message.
+      --version
+          Show the version.')
     . "\n\n" . g_(
 'Options:
-  --vendor <vendor>       Assume <vendor> is the current vendor.')
+      --vendor <vendor>
+          Assume <vendor> is the current vendor.')
     . "\n", $Dpkg::PROGNAME;
 }
 

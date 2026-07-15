@@ -44,19 +44,28 @@ sub usage {
 'Usage: %s [<option>...] [<control-file>]')
     . "\n\n" . g_(
 'Options:
-  -A             Ignore Build-Depends-Arch and Build-Conflicts-Arch.
-  -B             Ignore Build-Depends-Indep and Build-Conflicts-Indep.
-  -I             Ignore built-in build dependencies and conflicts.
-  -d build-deps  Use given string as build dependencies instead of
-                 retrieving them from control file
-  -c build-conf  Use given string for build conflicts instead of
-                 retrieving them from control file
-  -a arch        Assume given host architecture
-  -P profiles    Assume given build profiles (comma-separated list)
-  --admindir=<directory>
-                 Change the administrative directory.
-  -?, --help     Show this help message.
-      --version  Show the version.')
+  -A
+          Ignore Build-Depends-Arch and Build-Conflicts-Arch.
+  -B
+          Ignore Build-Depends-Indep and Build-Conflicts-Indep.
+  -I
+          Ignore built-in build dependencies and conflicts.
+  -d build-deps
+          Use given string as build dependencies instead of retrieving them
+          from control file
+  -c build-conf
+          Use given string for build conflicts instead of retrieving them
+          from control file
+  -a arch
+          Assume given host architecture
+  -P profiles
+          Assume given build profiles (comma-separated list)
+      --admindir=<directory>
+          Change the administrative directory.
+  -?, --help
+          Show this help message.
+      --version
+          Show the version.')
     . "\n\n" . g_(
 '<control-file> is the control file to process (default: debian/control).')
     . "\n", $Dpkg::PROGNAME;

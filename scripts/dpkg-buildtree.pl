@@ -40,10 +40,14 @@ sub usage {
 'Usage: %s [<command>]')
     . "\n\n" . g_(
 'Commands:
-  clean              Clean dpkg generated artifacts from the build tree.
-  is-rootless        Checks whether the build tree needs root to build.
-  --help             Show this help message.
-  --version          Show the version.
+      clean
+          Clean dpkg generated artifacts from the build tree.
+      is-rootless
+          Checks whether the build tree needs root to build.
+      --help
+          Show this help message.
+      --version
+          Show the version.
 '), $Dpkg::PROGNAME;
 }
 

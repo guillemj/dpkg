@@ -43,32 +43,47 @@ sub usage {
 'Usage: %s [<option>...] [<command>]')
     . "\n\n" . g_(
 'Commands:
-  -l, --list                List variables (default).
-  -L, --list-known          List valid architectures (matching some criteria).
-  -e, --equal <arch>        Compare with host Debian architecture.
-  -i, --is <arch-wildcard>  Match against host Debian architecture.
-  -q, --query <variable>    Prints only the value of <variable>.
-  -s, --print-set           Print command to set environment variables.
-  -u, --print-unset         Print command to unset environment variables.
-  -c, --command <command>   Set environment and run the command in it.
-  -?, --help                Show this help message.
-      --version             Show the version.')
+  -l, --list
+          List variables (default).
+  -L, --list-known
+          List valid architectures (matching some criteria).
+  -e, --equal <arch>
+          Compare with host Debian architecture.
+  -i, --is <arch-wildcard>
+          Match against host Debian architecture.
+  -q, --query <variable>
+          Prints only the value of <variable>.
+  -s, --print-set
+          Print command to set environment variables.
+  -u, --print-unset
+          Print command to unset environment variables.
+  -c, --command <command>
+          Set environment and run the command in it.
+  -?, --help
+          Show this help message.
+      --version
+          Show the version.')
     . "\n\n" . g_(
 'Options:
-  -a, --host-arch <arch>    Set host Debian architecture.
-  -t, --host-type <type>    Set host GNU system type.
-  -A, --target-arch <arch>  Set target Debian architecture.
-  -T, --target-type <type>  Set target GNU system type.
+  -a, --host-arch <arch>
+          Set host Debian architecture.
+  -t, --host-type <type>
+          Set host GNU system type.
+  -A, --target-arch <arch>
+          Set target Debian architecture.
+  -T, --target-type <type>
+          Set target GNU system type.
   -W, --match-wildcard <arch-wildcard>
-                            Restrict architecture list matching <arch-wildcard>.
+          Restrict architecture list matching <arch-wildcard>.
   -B, --match-bits <arch-bits>
-                            Restrict architecture list matching <arch-bits>.
+          Restrict architecture list matching <arch-bits>.
   -E, --match-endian <arch-endian>
-                            Restrict architecture list matching <arch-endian>.
+          Restrict architecture list matching <arch-endian>.
       --print-format <format>
-                            Use <format> for --print-set and --print-unset,
-                              allowed values: shell (default), make.
-  -f, --force               Force flag (override variables set in environment).')
+          Use <format> for --print-set and --print-unset, allowed values:
+            shell (default), make.
+  -f, --force
+          Force flag (override variables set in environment).')
     . "\n", $Dpkg::PROGNAME;
 }
 

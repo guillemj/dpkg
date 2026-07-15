@@ -38,11 +38,14 @@ sub usage
 'Usage: %s [<option>...] [<command>]')
     . "\n\n" . g_(
 'Commands:
-  -?, --help               Show this help message.
-      --version            Show the version.')
+  -?, --help
+          Show this help message.
+      --version
+          Show the version.')
     . "\n\n" . g_(
 'Options:
-  -c<control-file>         Get control info from this file.
+  -c<control-file>
+          Get control info from this file.
 '), $Dpkg::PROGNAME;
 }
 

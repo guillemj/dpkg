@@ -588,23 +588,23 @@ Usage: $PROGNAME <command> <parameter>... -- <maintainer-script-parameter>...
 
 Commands:
   supports <command>
-        Returns 0 (success) if the given command is supported, 1 otherwise.
+          Returns 0 (success) if the given command is supported, 1 otherwise.
   rm_conffile <conffile> [<last-version> [<package>]]
-        Remove obsolete conffile. Must be called in preinst, postinst and
-        postrm.
+          Remove obsolete conffile. Must be called in preinst, postinst and
+          postrm.
   mv_conffile <old-conf> <new-conf> [<last-version> [<package>]]
-        Rename a conffile. Must be called in preinst, postinst and postrm.
+          Rename a conffile. Must be called in preinst, postinst and postrm.
   symlink_to_dir <pathname> <old-symlink-target> [<last-version> [<package>]]
-        Replace a symlink with a directory. Must be called in preinst,
-        postinst and postrm.
+          Replace a symlink with a directory. Must be called in preinst,
+          postinst and postrm.
   dir_to_symlink <pathname> <new-symlink-target> [<last-version> [<package>]]
-        Replace a directory with a symlink. Must be called in preinst,
-        postinst and postrm.
+          Replace a directory with a symlink. Must be called in preinst,
+          postinst and postrm.
   help
   -?, --help
-        Show this help message.
+          Show this help message.
       --version
-        Show the version.
+          Show the version.
 END
 }
 

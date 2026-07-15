@@ -70,23 +70,31 @@ usage(const char *const *argv)
 
 	printf(_(
 "Commands:\n"
-"  --check-supported                Check if the running dpkg supports triggers.\n"
+"      --check-supported\n"
+"          Check if the running dpkg supports triggers.\n"
 "\n"));
 
 	printf(_(
-"  -?, --help                       Show this help message.\n"
-"      --version                    Show the version.\n"
+"  -?, --help\n"
+"          Show this help message.\n"
+"      --version\n"
+"          Show the version.\n"
 "\n"));
 
 	printf(_(
 "Options:\n"
-"  --admindir=<directory>           Use <directory> instead of %s.\n"
-"  --root=<directory>               Use <directory> instead of %s.\n"
-"  --by-package=<package>           Override trigger awaiter (normally set\n"
-"                                     by dpkg).\n"
-"  --await                          Package needs to await the processing.\n"
-"  --no-await                       No package needs to await the processing.\n"
-"  --no-act                         Just test - do not actually change anything.\n"
+"      --admindir=<directory>\n"
+"          Use <directory> instead of %s.\n"
+"      --root=<directory>\n"
+"          Use <directory> instead of %s.\n"
+"      --by-package=<package>\n"
+"          Override trigger awaiter (normally set by dpkg).\n"
+"      --await\n"
+"          Package needs to await the processing.\n"
+"      --no-await\n"
+"          No package needs to await the processing.\n"
+"      --no-act\n"
+"          Just test - do not actually change anything.\n"
 "\n"), ADMINDIR, "/");
 
 	m_output(stdout, _("<standard output>"));

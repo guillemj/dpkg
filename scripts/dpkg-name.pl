@@ -54,13 +54,20 @@ sub usage
 
     print(g_("
 Options:
-  -a, --no-architecture    No architecture part in filename.
-  -o, --overwrite          Overwrite if file exists.
-  -k, --symlink            Do not create a new file, but a symlink.
-  -s, --subdir [dir]       Move file into subdirectory (use with care).
-  -c, --create-dir         Create target directory if not there (use with care).
-  -?, --help               Show this help message.
-  -v, --version            Show the version.
+  -a, --no-architecture
+          No architecture part in filename.
+  -o, --overwrite
+          Overwrite if file exists.
+  -k, --symlink
+          Do not create a new file, but a symlink.
+  -s, --subdir [dir]
+          Move file into subdirectory (use with care).
+  -c, --create-dir
+          Create target directory if not there (use with care).
+  -?, --help
+          Show this help message.
+  -v, --version
+          Show the version.
 
 file.deb changes to <package>_<version>_<architecture>.<package_type>
 according to the 'underscores convention'.

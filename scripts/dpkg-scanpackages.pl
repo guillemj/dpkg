@@ -82,16 +82,24 @@ sub usage {
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > Packages
 
 Options:
-  -t, --type <type>        Scan for <type> packages (default is 'deb').
-  -a, --arch <arch>        Architecture to scan for (with implicit arch all).
-      --no-implicit-arch   Do not add implicit architecture all to --arch.
-  -h, --hash <hash-list>   Only generate hashes for the specified list.
-  -m, --multiversion       Allow multiple versions of a single package.
+  -t, --type <type>
+          Scan for <type> packages (default is 'deb').
+  -a, --arch <arch>
+          Architecture to scan for (with implicit arch all).
+      --no-implicit-arch
+          Do not add implicit architecture all to --arch.
+  -h, --hash <hash-list>
+          Only generate hashes for the specified list.
+  -m, --multiversion
+          Allow multiple versions of a single package.
   -e, --extra-override <file>
-                           Use extra override file.
-  -M, --medium <medium>    Add X-Medium field for dselect media access method
-  -?, --help               Show this help message.
-      --version            Show the version.
+          Use extra override file.
+  -M, --medium <medium>
+          Add X-Medium field for dselect media access method
+  -?, --help
+          Show this help message.
+      --version
+          Show the version.
 "), $Dpkg::PROGNAME;
 }
 

@@ -835,31 +835,45 @@ usage(const char *const *argv)
 
 	printf(_(
 "Commands:\n"
-"  -s, --status [<package>...]      Display package status details.\n"
-"  -p, --print-avail [<package>...] Display available version details.\n"
-"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
-"  -l, --list [<pattern>...]        List packages concisely.\n"
-"  -W, --show [<pattern>...]        Show information on package(s).\n"
-"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
-"      --control-list <package>     Print the package control file list.\n"
+"  -s, --status [<package>...]\n"
+"          Display package status details.\n"
+"  -p, --print-avail [<package>...]\n"
+"          Display available version details.\n"
+"  -L, --listfiles <package>...\n"
+"          List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]\n"
+"          List packages concisely.\n"
+"  -W, --show [<pattern>...]\n"
+"          Show information on package(s).\n"
+"  -S, --search <pattern>...\n"
+"          Find package(s) owning file(s).\n"
+"      --control-list <package>\n"
+"          Print the package control file list.\n"
 "      --control-show <package> <file>\n"
-"                                   Show the package control file.\n"
+"          Show the package control file.\n"
 "  -c, --control-path <package> [<file>]\n"
-"                                   Print path for package control file.\n"
+"          Print path for package control file.\n"
 "\n"));
 
 	printf(_(
-"  -?, --help                       Show this help message.\n"
-"      --version                    Show the version.\n"
+"  -?, --help\n"
+"          Show this help message.\n"
+"      --version\n"
+"          Show the version.\n"
 "\n"));
 
 	printf(_(
 "Options:\n"
-"  --admindir=<directory>           Use <directory> instead of %s.\n"
-"  --root=<directory>               Use <directory> instead of %s.\n"
-"  --load-avail                     Use available file on --show and --list.\n"
-"  --no-pager                       Disables the use of any pager.\n"
-"  -f|--showformat=<format>         Use alternative format for --show.\n"
+"      --admindir=<directory>\n"
+"          Use <directory> instead of %s.\n"
+"      --root=<directory>\n"
+"          Use <directory> instead of %s.\n"
+"      --load-avail\n"
+"          Use available file on --show and --list.\n"
+"      --no-pager\n"
+"          Disables the use of any pager.\n"
+"  -f, --showformat=<format>\n"
+"          Use alternative format for --show.\n"
 "\n"), ADMINDIR, "/");
 
 	printf(_(

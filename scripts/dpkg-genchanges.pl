@@ -97,34 +97,61 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . g_(
 "Options:
-  --build=<type>[,...]     Specify the build <type>: full, source, binary,
-                             any, all (default is \'full\').
-  -g, --build=source,all   Source and arch-indep build.
-  -G, --build=source,any   Source and arch-specific build.
-  -b, --build=binary       Binary-only, no source files.
-  -B, --build=any          Binary-only, only arch-specific files.
-  -A, --build=all          Binary-only, only arch-indep files.
-  -S, --build=source       Source-only, no binary files.
-  -c<control-file>         Get control info from this file.
-  -l<changelog-file>       Get per-version info from this file.
-  -f<files-list-file>      Get .deb files list from this file.
-  -v<since-version>        Include all changes later than version.
-  -C<changes-description>  Use change description from this file.
-  -m<maintainer>           Override control's maintainer value.
-  -e<maintainer>           Override changelog's maintainer value.
-  -u<upload-files-dir>     Directory with files (default is '..').
-  -si                      Source includes orig, if new upstream (default).
-  -sa                      Source includes orig, always.
-  -sd                      Source is diff and .dsc only.
-  -q                       Quiet - no informational messages on stderr.
-  -F<changelog-format>     Force changelog format.
-  -V<name>=<value>         Set a substitution variable.
-  -T<substvars-file>       Read variables here, not debian/substvars.
-  -D<field>=<value>        Override or add a field and value.
-  -U<field>                Remove a field.
-  -O[<filename>]           Write to stdout (default) or <filename>.
-  -?, --help               Show this help message.
-      --version            Show the version.
+      --build=<type>[,...]
+          Specify the build <type>: full, source, binary, any, all
+          (default is \'full\').
+  -g, --build=source,all
+          Source and arch-indep build.
+  -G, --build=source,any
+          Source and arch-specific build.
+  -b, --build=binary
+          Binary-only, no source files.
+  -B, --build=any
+          Binary-only, only arch-specific files.
+  -A, --build=all
+          Binary-only, only arch-indep files.
+  -S, --build=source
+          Source-only, no binary files.
+  -c<control-file>
+          Get control info from this file.
+  -l<changelog-file>
+          Get per-version info from this file.
+  -f<files-list-file>
+          Get .deb files list from this file.
+  -v<since-version>
+          Include all changes later than version.
+  -C<changes-description>
+          Use change description from this file.
+  -m<maintainer>
+          Override control's maintainer value.
+  -e<maintainer>
+          Override changelog's maintainer value.
+  -u<upload-files-dir>
+          Directory with files (default is '..').
+  -si
+          Source includes orig, if new upstream (default).
+  -sa
+          Source includes orig, always.
+  -sd
+          Source is diff and .dsc only.
+  -q
+          Quiet - no informational messages on stderr.
+  -F<changelog-format>
+          Force changelog format.
+  -V<name>=<value>
+          Set a substitution variable.
+  -T<substvars-file>
+          Read variables here, not debian/substvars.
+  -D<field>=<value>
+          Override or add a field and value.
+  -U<field>
+          Remove a field.
+  -O[<filename>]
+          Write to stdout (default) or <filename>.
+  -?, --help
+          Show this help message.
+      --version
+          Show the version.
 "), $Dpkg::PROGNAME;
 }
 

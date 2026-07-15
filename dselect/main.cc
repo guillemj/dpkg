@@ -242,25 +242,35 @@ usage(const struct cmdinfo *ci, const char *value)
 
 	printf(_("Commands:\n"));
 	for (i = 0; menuentries[i].command; i++)
-		printf("  %-10s  %s\n",
+		printf("      %s\n"
+		       "          %s\n",
 		       menuentries[i].command,
 		       menuentries[i].menuent);
 	fputs("\n", stdout);
 
 	printf(_(
 "Options:\n"
-"      --admindir <directory>       Use <directory> instead of %s.\n"
-"      --instdir <directory>        Use <directory> instead of %s.\n"
-"      --root <directory>           Use <directory> instead of %s.\n"
-"      --expert                     Turn on expert mode.\n"
-"  -D, --debug <file>               Turn on debugging, send output to <file>.\n"
-"      --color <color-spec>         Configure screen colors.\n"
-"      --colour <color-spec>        Ditto.\n"
+"      --admindir <directory>\n"
+"          Use <directory> instead of %s.\n"
+"      --instdir <directory>\n"
+"          Use <directory> instead of %s.\n"
+"      --root <directory>\n"
+"          Use <directory> instead of %s.\n"
+"      --expert\n"
+"          Turn on expert mode.\n"
+"  -D, --debug <file>\n"
+"          Turn on debugging, send output to <file>.\n"
+"      --color <color-spec>\n"
+"          Configure screen colors.\n"
+"      --colour <color-spec>\n"
+"          Ditto.\n"
 ), ADMINDIR, "/", "/");
 
 	printf(_(
-"  -?, --help                       Show this help message.\n"
-"      --version                    Show the version.\n"
+"  -?, --help\n"
+"          Show this help message.\n"
+"      --version\n"
+"          Show the version.\n"
 "\n"));
 
 	printf(_("<color-spec> is <screen-part>:[<foreground>],[<background>][:<attr>[+<attr>]...]\n"));

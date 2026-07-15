@@ -363,19 +363,31 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . g_(
 "Options:
-  --build=<type>[,...]     Specify the build <type>: full, source, binary,
-                             any, all (default is \'full\').
-  -c<control-file>         Get control info from this file.
-  -l<changelog-file>       Get per-version info from this file.
-  -f<files-list-file>      Get .deb files list from this file.
-  -F<changelog-format>     Force changelog format.
-  -O[<buildinfo-file>]     Write to stdout (or <buildinfo-file>).
-  -u<upload-files-dir>     Directory with files (default is '..').
-  --always-include-kernel  Always include Build-Kernel-Version.
-  --always-include-path    Always include Build-Path.
-  --admindir=<directory>   Change the administrative directory.
-  -?, --help               Show this help message.
-      --version            Show the version.
+      --build=<type>[,...]
+          Specify the build <type>: full, source, binary, any, all
+          (default is \'full\').
+  -c<control-file>
+          Get control info from this file.
+  -l<changelog-file>
+          Get per-version info from this file.
+  -f<files-list-file>
+          Get .deb files list from this file.
+  -F<changelog-format>
+          Force changelog format.
+  -O[<buildinfo-file>]
+          Write to stdout (or <buildinfo-file>).
+  -u<upload-files-dir>
+          Directory with files (default is '..').
+      --always-include-kernel
+          Always include Build-Kernel-Version.
+      --always-include-path
+          Always include Build-Path.
+      --admindir=<directory>
+          Change the administrative directory.
+  -?, --help
+          Show this help message.
+      --version
+          Show the version.
 "), $Dpkg::PROGNAME;
 }
 

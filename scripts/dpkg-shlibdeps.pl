@@ -658,29 +658,47 @@ sub usage {
 'Usage: %s [<option>...] <executable>|-e<executable> [<option>...]')
     . "\n\n" . g_(
 "Positional options (order is significant):
-  <executable>             Include dependencies for <executable>.
-  -e<executable>           Ditto, used when <executable> starts with '-'.
-  -d<dependency-field>     Next executable(s) set shlibs:<dependency-field>.")
+  <executable>
+          Include dependencies for <executable>.
+  -e<executable>
+          Ditto, used when <executable> starts with '-'.
+  -d<dependency-field>
+          Next executable(s) set shlibs:<dependency-field>.")
     . "\n\n" . g_(
 'Options:
-  --package=<package>      Generate substvars for <package> (default is unset).
-  -l<library-dir>          Add directory to private shared library search list.
-  -p<varname-prefix>       Set <varname-prefix>:* instead of shlibs:*.
-  -O[<file>]               Write variable settings to stdout (or <file>).
-  -L<local-shlibs-file>    Shlibs override file, not debian/shlibs.local.
-  -T<substvars-file>       Update variables here, not debian/substvars.
-  -t<type>                 Set package type (default is deb).
-  -x<package>              Exclude package from the generated dependencies.
-  -S<package-build-dir>    Search needed libraries in the given
-                             package build directory first.
-  -I<package-build-dir>    Ignore needed libraries, shlibs and symbols files
-                             in the given build directory.
-  -v                       Enable verbose mode (can be used multiple times).
-  --ignore-missing-info    Do not fail on missing dependency information.
-  --warnings=<value>       Define set of active warnings (see manual page).
-  --admindir=<directory>   Change the administrative directory.
-  -?, --help               Show this help message.
-      --version            Show the version.')
+      --package=<package>
+          Generate substvars for <package> (default is unset).
+  -l<library-dir>
+          Add directory to private shared library search list.
+  -p<varname-prefix>
+          Set <varname-prefix>:* instead of shlibs:*.
+  -O[<file>]
+          Write variable settings to stdout (or <file>).
+  -L<local-shlibs-file>
+          Shlibs override file, not debian/shlibs.local.
+  -T<substvars-file>
+          Update variables here, not debian/substvars.
+  -t<type>
+          Set package type (default is deb).
+  -x<package>
+          Exclude package from the generated dependencies.
+  -S<package-build-dir>
+          Search needed libraries in the given package build directory first.
+  -I<package-build-dir>
+          Ignore needed libraries, shlibs and symbols files in the given build
+          directory.
+  -v
+          Enable verbose mode (can be used multiple times).
+      --ignore-missing-info
+          Do not fail on missing dependency information.
+      --warnings=<value>
+          Define set of active warnings (see manual page).
+      --admindir=<directory>
+          Change the administrative directory.
+  -?, --help
+          Show this help message.
+      --version
+          Show the version.')
     . "\n\n" . g_(
 'Dependency fields recognized are:
   %s

@@ -75,21 +75,36 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . g_(
 'Options:
-  -p<package>              Print control file for package.
-  -c<control-file>         Get control info from this file.
-  -l<changelog-file>       Get per-version info from this file.
-  -F<changelog-format>     Force changelog format.
-  -v<force-version>        Set version of binary package.
-  -f<files-list-file>      Write files here instead of debian/files.
-  -P<package-build-dir>    Temporary build directory instead of debian/tmp.
-  -n<filename>             Assume the package filename will be <filename>.
-  -O[<file>]               Write to stdout (or <file>), not .../DEBIAN/control.
-  -D<field>=<value>        Override or add a field and value.
-  -U<field>                Remove a field.
-  -V<name>=<value>         Set a substitution variable.
-  -T<substvars-file>       Read variables here, not debian/substvars.
-  -?, --help               Show this help message.
-      --version            Show the version.
+  -p<package>
+          Print control file for package.
+  -c<control-file>
+          Get control info from this file.
+  -l<changelog-file>
+          Get per-version info from this file.
+  -F<changelog-format>
+          Force changelog format.
+  -v<force-version>
+          Set version of binary package.
+  -f<files-list-file>
+          Write files here instead of debian/files.
+  -P<package-build-dir>
+          Temporary build directory instead of debian/tmp.
+  -n<filename>
+          Assume the package filename will be <filename>.
+  -O[<file>]
+          Write to stdout (or <file>), not .../DEBIAN/control.
+  -D<field>=<value>
+          Override or add a field and value.
+  -U<field>
+          Remove a field.
+  -V<name>=<value>
+          Set a substitution variable.
+  -T<substvars-file>
+          Read variables here, not debian/substvars.
+  -?, --help
+          Show this help message.
+      --version
+          Show the version.
 '), $Dpkg::PROGNAME;
 }
 

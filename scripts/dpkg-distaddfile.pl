@@ -47,9 +47,12 @@ sub usage {
 'Usage: %s [<option>...] <filename> <section> <priority>
 
 Options:
-  -f<files-list-file>      Write files here instead of debian/files.
-  -?, --help               Show this help message.
-      --version            Show the version.
+  -f<files-list-file>
+          Write files here instead of debian/files.
+  -?, --help
+          Show this help message.
+      --version
+          Show the version.
 '), $Dpkg::PROGNAME;
 }
 

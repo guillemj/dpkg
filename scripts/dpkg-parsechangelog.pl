@@ -47,27 +47,41 @@ sub usage {
     . "\n\n" . g_(
 'Options:
   -l, --file <changelog-file>
-                           Get per-version info from this file.
-  -F <changelog-format>    Force changelog format.
-  -S, --show-field <field> Show the values for <field>.
-  -?, --help               Show this help message.
-      --version            Show the version.')
+          Get per-version info from this file.
+  -F <changelog-format>
+          Force changelog format.
+  -S, --show-field <field>
+          Show the values for <field>.
+  -?, --help
+          Show this help message.
+      --version
+          Show the version.')
     . "\n\n" . g_(
 "Parser options:
       --format <output-format>
-                           Set output format (defaults to 'dpkg').
-      --reverse            Include all changes in reverse order.
-      --all                Include all changes.
-  -s, --since <version>    Include all changes later than <version>.
-  -v <version>             Ditto.
-  -u, --until <version>    Include all changes earlier than <version>.
-  -f, --from <version>     Include all changes equal or later than <version>.
-  -t, --to <version>       Include all changes up to or equal than <version>.
-  -c, --count <number>     Include <number> entries from the top (or tail
-                             if <number> is lower than 0).
-  -n <number>              Ditto.
-  -o, --offset <number>    Change starting point for --count, counted from
-                             the top (or tail if <number> is lower than 0).
+          Set output format (defaults to 'dpkg').
+      --reverse
+          Include all changes in reverse order.
+      --all
+          Include all changes.
+  -s, --since <version>
+          Include all changes later than <version>.
+  -v <version>
+          Ditto.
+  -u, --until <version>
+          Include all changes earlier than <version>.
+  -f, --from <version>
+          Include all changes equal or later than <version>.
+  -t, --to <version>
+          Include all changes up to or equal than <version>.
+  -c, --count <number>
+          Include <number> entries from the top (or tail if <number> is lower
+          than 0).
+  -n <number>
+          Ditto.
+  -o, --offset <number>
+          Change starting point for --count, counted from the top (or tail
+          if <number> is lower than 0).
 "), $Dpkg::PROGNAME;
 }
 

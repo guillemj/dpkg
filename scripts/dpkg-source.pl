@@ -619,12 +619,12 @@ sub setopmode {
 sub print_option {
     my $opt = shift;
 
-    my $help = gettext($opt->{help});
-    if (length $opt->{name} > 25) {
-        return sprintf "  %-25s\n%s%s.\n", $opt->{name}, ' ' x 27, $help;
-    } else {
-        return sprintf "  %-25s%s.\n", $opt->{name}, $help;
-    }
+    my $prefix_indent = $opt->{name} =~ m{^--} ? 6 : 2;
+    my $prefix_name = ' ' x $prefix_indent;
+    my $prefix_help = ' ' x 10;
+
+    return sprintf "%s%s\n%s%s.\n",
+        $prefix_name, $opt->{name}, $prefix_help, gettext($opt->{help});
 }
 
 sub get_format_help {
@@ -672,56 +672,75 @@ sub usage {
     . "\n\n" . g_(
 'Commands:
   -x, --extract <filename>.dsc [<output-dir>]
-                           Extract source package.
-  -b, --build <dir>        Build source package.
-      --print-format <dir> Print the format to be used for the source package.
-      --before-build <dir> Run the corresponding source package format hook.
-      --after-build <dir>  Run the corresponding source package format hook.
+          Extract source package.
+  -b, --build <dir>
+          Build source package.
+      --print-format <dir>
+          Print the format to be used for the source package.
+      --before-build <dir>
+          Run the corresponding source package format hook.
+      --after-build <dir>
+          Run the corresponding source package format hook.
       --commit [<dir> [<patch-name>]]
-                           Store upstream changes in a new patch.')
+          Store upstream changes in a new patch.')
     . "\n\n" . g_(
 "Build options:
-  -c<control-file>         Get control info from this file.
-  -l<changelog-file>       Get per-version info from this file.
-  -F<changelog-format>     Force changelog format.
-  --format=<source-format> Set the format to be used for the source package.
-  -V<name>=<value>         Set a substitution variable.
-  -T<substvars-file>       Read variables here.
-  -D<field>=<value>        Override or add a .dsc field and value.
-  -U<field>                Remove a field.
+  -c<control-file>
+          Get control info from this file.
+  -l<changelog-file>
+          Get per-version info from this file.
+  -F<changelog-format>
+          Force changelog format.
+      --format=<source-format>
+          Set the format to be used for the source package.
+  -V<name>=<value>
+          Set a substitution variable.
+  -T<substvars-file>
+          Read variables here.
+  -D<field>=<value>
+          Override or add a .dsc field and value.
+  -U<field>
+          Remove a field.
   -i, --diff-ignore[=<regex>]
-                           Filter out files to ignore diffs of
-                             (defaults to: '%s').
+          Filter out files to ignore diffs of (defaults to: '%s').
   -I, --tar-ignore[=<pattern>]
-                           Filter out files when building tarballs
-                             (defaults to: %s).
+          Filter out files when building tarballs (defaults to: %s).
   -Z, --compression=<compression>
-                           Select compression to use (defaults to '%s',
-                             supported are: %s).
+          Select compression to use
+          (defaults to '%s', supported are: %s).
   -z, --compression-level=<level>
-                           Compression level to use (defaults to '%d',
-                             supported are: '1'-'9', 'best', 'fast')")
+          Compression level to use
+          (defaults to '%d', supported are: '1'-'9', 'best', 'fast')")
     . "\n\n" . g_(
 'Extract options:
-  --no-copy                Do not copy .orig tarballs
-  --no-check               Do not check signature and checksums on extraction
-  --no-overwrite-dir       Do not overwrite directory on extraction
-  --no-vendor-certs        Do not use vendor specific certificate keyrings
-  --signer-certs=<keyring> Use a signer certificates keyring
-  --require-valid-signature
-                           Abort if the package does not have a valid signature
-  --require-strong-checksums
-                           Abort if the package contains no strong checksums
-  --ignore-bad-version     Allow bad source package versions.')
+      --no-copy
+          Do not copy .orig tarballs
+      --no-check
+          Do not check signature and checksums on extraction
+      --no-overwrite-dir
+          Do not overwrite directory on extraction
+      --no-vendor-certs
+          Do not use vendor specific certificate keyrings
+      --signer-certs=<keyring>
+          Use a signer certificates keyring
+      --require-valid-signature
+          Abort if the package does not have a valid signature
+      --require-strong-checksums
+          Abort if the package contains no strong checksums
+      --ignore-bad-version
+          Allow bad source package versions.')
     . "\n" .
     get_format_help()
     . "\n" . g_(
 'General options:
       --threads-max=<threads>
-                           Use at most <threads> with compressor.
-  -q                       Quiet mode.
-  -?, --help               Show this help message.
-      --version            Show the version.')
+          Use at most <threads> with compressor.
+  -q
+          Quiet mode.
+  -?, --help
+          Show this help message.
+      --version
+          Show the version.')
     . "\n\n" . g_(
 'Source format specific build and extract options are available;
 use --format with --help to see them.') . "\n",
