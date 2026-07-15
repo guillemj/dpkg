@@ -945,12 +945,12 @@ usage(void)
 
 	printf(
 "Matching options (at least one is required):\n"
-"      --pid <pid>               pid to check\n"
-"      --ppid <ppid>             parent pid to check\n"
-"  -p, --pidfile <pid-file>      pid file to check\n"
-"  -x, --exec <executable>       program to start/check if it is running\n"
-"  -n, --name <process-name>     process name to check\n"
-"  -u, --user <username|uid>     process owner to check\n"
+"      --pid <pid>               match on pid\n"
+"      --ppid <ppid>             match on parent pid\n"
+"  -p, --pidfile <pid-file>      match on pid file\n"
+"  -x, --exec <executable>       match (if it is running) or start program\n"
+"  -n, --name <process-name>     match on process name\n"
+"  -u, --user <username|uid>     match on process owner\n"
 "\n");
 
 	printf(
