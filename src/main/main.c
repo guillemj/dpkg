@@ -87,13 +87,13 @@ usage(const char *const *argv)
 
 	printf(_(
 "Commands:\n"
-"  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
-"  --unpack           <.deb file name>... | -R|--recursive <directory>...\n"
-"  -A|--record-avail  <.deb file name>... | -R|--recursive <directory>...\n"
-"  --configure        <package>... | -a|--pending\n"
-"  --triggers-only    <package>... | -a|--pending\n"
-"  -r|--remove        <package>... | -a|--pending\n"
-"  -P|--purge         <package>... | -a|--pending\n"
+"  -i|--install <archive-spec>      Install the archives.\n"
+"  --unpack <archive-spec>          Unpack the archives.\n"
+"  -A|--record-avail <archive-spec> Record the archives in the available file.\n"
+"  --configure <package-spec>       Configure the packages.\n"
+"  --triggers-only <package-spec>   Process triggers for the packages.\n"
+"  -r|--remove <package-spec>       Remove the packages.\n"
+"  -P|--purge <package-spec>        Purge the packages.\n"
 "  -V|--verify [<package>...]       Verify the integrity of package(s).\n"
 "  --get-selections [<pattern>...]  Get list of selections to stdout.\n"
 "  --set-selections                 Set package selections from stdin.\n"
@@ -124,6 +124,11 @@ usage(const char *const *argv)
 	printf(_(
 "  -?, --help                       Show this help message.\n"
 "      --version                    Show the version.\n"
+"\n"));
+
+	printf(_(
+"<archive-spec> is <.deb file name>... | (-R|--recursive) <directory>...\n"
+"<package-spec> is <package>... | (-a|--pending)\n"
 "\n"));
 
 	printf(_(
