@@ -84,7 +84,6 @@ sub usage {
   -P<package-build-dir>    temporary build directory instead of debian/tmp.
   -n<filename>             assume the package filename will be <filename>.
   -O[<file>]               write to stdout (or <file>), not .../DEBIAN/control.
-  -is, -ip, -isp, -ips     deprecated, ignored for compatibility.
   -D<field>=<value>        override or add a field and value.
   -U<field>                remove a field.
   -V<name>=<value>         set a substitution variable.
