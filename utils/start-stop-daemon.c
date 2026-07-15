@@ -961,7 +961,7 @@ usage(void)
 "                                  process\n"
 "  -s, --signal <signal>         signal to send (default TERM)\n"
 "  -a, --startas <pathname>      program to start (default is <executable>)\n"
-"  -r, --chroot <directory>      chroot to <directory> before starting\n"
+"  -r, --chroot <directory>      change root to <directory> before starting\n"
 "  -d, --chdir <directory>       change to <directory> (default is /)\n"
 "  -N, --nicelevel <incr>        add incr to the process' nice level\n"
 "  -P, --procsched <policy[:prio]>\n"
