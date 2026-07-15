@@ -75,7 +75,7 @@ static int
 usage(const char *const *argv)
 {
 	printf(_(
-"Usage: %s [<option> ...] <command>\n"
+"Usage: %s [<option>...] <command>\n"
 "\n"), dpkg_get_progname());
 
 	printf(_(

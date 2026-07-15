@@ -128,7 +128,7 @@ static void
 usage(void)
 {
 	printf(_(
-"Usage: %s [<option> ...] <command>\n"
+"Usage: %s [<option>...] <command>\n"
 "\n"), PROGNAME);
 
 	printf(_(

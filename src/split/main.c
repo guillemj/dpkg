@@ -63,17 +63,17 @@ static int
 usage(const char *const *argv)
 {
 	printf(_(
-"Usage: %s [<option> ...] <command>\n"
+"Usage: %s [<option>...] <command>\n"
 "\n"), SPLITTER);
 
 	printf(_(
 "Commands:\n"
 "  -s|--split <file> [<prefix>]     Split an archive.\n"
-"  -j|--join <part> <part> ...      Join parts together.\n"
-"  -I|--info <part> ...             Display info about a part.\n"
+"  -j|--join <part> <part>...       Join parts together.\n"
+"  -I|--info <part>...              Display info about a part.\n"
 "  -a|--auto -o <complete> <part>   Auto-accumulate parts.\n"
 "  -l|--listq                       List unmatched pieces.\n"
-"  -d|--discard [<filename> ...]    Discard unmatched pieces.\n"
+"  -d|--discard [<filename>...]     Discard unmatched pieces.\n"
 "\n"));
 
 	printf(_(
