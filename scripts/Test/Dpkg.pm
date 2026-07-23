@@ -347,6 +347,10 @@ my @openpgp_backends = (
     },
     {
         backend => 'sop',
+        cmd => 'hop',
+    },
+    {
+        backend => 'sop',
         cmd => 'pgpainless-cli',
     },
 );

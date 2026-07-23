@@ -45,6 +45,7 @@ Build-Depends:
  gpg-sq <pkg.dpkg.author-testing>,
  gpgv-sq <pkg.dpkg.author-testing>,
  gnupg <pkg.dpkg.author-testing>,
+ hopenpgp-tools (>= 0.25.1~) <pkg.dpkg.author-testing>,
  cppcheck <pkg.dpkg.author-testing>,
  shellcheck <pkg.dpkg.author-testing>,
  aspell <pkg.dpkg.author-testing>,
@@ -127,9 +128,9 @@ Recommends:
  gcc | c-compiler,
  fakeroot,
 # OpenPGP implementations providing full support.
- sq | sqop | rsop | gosop | pgpainless-cli | gpg-sq | gnupg,
+ sq | sqop | rsop | gosop | hopenpgp-tools | pgpainless-cli | gpg-sq | gnupg,
 # OpenPGP implementations providing at least verification-only support.
- sqv | sqopv | rsopv | sopv | gosop | pgpainless-cli | gpgv-sq | gpgv,
+ sqv | sqopv | rsopv | sopv | gosop | hopenpgp-tools | pgpainless-cli | gpgv-sq | gpgv,
 # Used by dpkg-mergechangelogs.
  libalgorithm-merge-perl,
 Suggests:
@@ -140,6 +141,8 @@ Breaks:
  debian-keyring (<< 2025.04.25~),
  devuan-keyring (<< 2025.07.30~),
  pureos-archive-keyring (<< 2026.02.0~),
+# Uses new hop features, w/o requiring a hard dependency on hopenpgp-tools.
+ hopenpgp-tools (<< 0.25.1~),
 # Require new bash-completion API.
  bash-completion (<< 1:2.12~),
 Replaces:
@@ -174,9 +177,9 @@ Suggests:
  debian-keyring,
  debian-tag2upload-keyring,
 # OpenPGP implementations providing full support.
- sq | sqop | rsop | gosop | pgpainless-cli | gpg-sq | gnupg,
+ sq | sqop | rsop | gosop | hopenpgp-tools | pgpainless-cli | gpg-sq | gnupg,
 # OpenPGP implementations providing at least verification-only support.
- sqv | sqopv | rsopv | sopv | gosop | pgpainless-cli | gpgv-sq | gpgv,
+ sqv | sqopv | rsopv | sopv | gosop | hopenpgp-tools | pgpainless-cli | gpgv-sq | gpgv,
  gcc | c-compiler,
  binutils,
  patch,
@@ -191,6 +194,8 @@ Breaks:
  debian-keyring (<< 2025.04.25~),
  devuan-keyring (<< 2025.07.30~),
  pureos-archive-keyring (<< 2026.02.0~),
+# Uses new hop features, w/o requiring a hard dependency on hopenpgp-tools.
+ hopenpgp-tools (<< 0.25.1~),
 # Uses the Dpkg::BuildProfiles in an incorrect way, which broke when making
 # the parser more strict.
  dh-exec (<< 0.31~),

@@ -41,8 +41,6 @@ use Dpkg::OpenPGP::ErrorCodes;
 
 use parent qw(Dpkg::OpenPGP::Backend);
 
-# - Once "hop" implements the new SOP draft, add as alternative.
-#   Ref: https://salsa.debian.org/clint/hopenpgp-tools/-/issues/4
 # - Once the SOP MR !23 is finalized and merged, implement a way to select
 #   whether the SOP instance supports the expected draft.
 #   Ref: https://gitlab.com/dkg/openpgp-stateless-cli/-/merge_requests/23
@@ -55,7 +53,7 @@ sub DEFAULT_CMDV {
 }
 
 sub DEFAULT_CMD {
-    return [ qw(sqop rsop gosop pgpainless-cli) ];
+    return [ qw(sqop rsop gosop hop pgpainless-cli) ];
 }
 
 sub _sop_exec
