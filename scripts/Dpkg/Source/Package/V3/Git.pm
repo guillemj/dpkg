@@ -207,8 +207,14 @@ sub do_build {
         # create a shallow clone.
         info(g_('creating shallow clone with depth %s'),
                 $self->{options}{git_depth});
-        system('git', 'clone', '--depth=' . $self->{options}{git_depth},
-               '--quiet', '--bare', 'file://' . abs_path($dir), $clone_dir);
+        system(
+            'git', 'clone',
+            '--depth=' . $self->{options}{git_depth},
+            '--quiet',
+            '--bare',
+            '--end-of-options',
+            'file://' . abs_path($dir), $clone_dir
+        );
         subprocerr('git clone') if $?;
         chdir($clone_dir)
             or syserr(g_("cannot change directory to '%s'"), $clone_dir);
@@ -283,7 +289,13 @@ sub do_extract {
     # Extract git bundle.
     info(g_('cloning %s'), $bundle);
     my $bundle_path = File::Spec->catfile($self->{basedir}, $bundle);
-    system('git', 'clone', '--quiet', '--origin=bundle', $bundle_path, $newdirectory);
+    system(
+        'git', 'clone',
+        '--quiet',
+        '--origin=bundle',
+        '--end-of-options',
+        $bundle_path, $newdirectory
+    );
     subprocerr('git bundle') if $?;
 
     if (defined $shallow) {
