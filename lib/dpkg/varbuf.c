@@ -178,12 +178,11 @@ varbuf_add_char(struct varbuf *v, int c)
 void
 varbuf_dup_char(struct varbuf *v, int c, size_t n)
 {
-	if (n == 0)
-		return;
-
 	varbuf_grow(v, n + 1);
-	memset(v->buf + v->used, c, n);
-	v->used += n;
+	if (n > 0) {
+		memset(v->buf + v->used, c, n);
+		v->used += n;
+	}
 	v->buf[v->used] = '\0';
 }
 
@@ -208,11 +207,11 @@ varbuf_add_dir(struct varbuf *v, const char *dirname)
 void
 varbuf_add_buf(struct varbuf *v, const void *s, size_t size)
 {
-	if (size == 0)
-		return;
 	varbuf_grow(v, size + 1);
-	memcpy(v->buf + v->used, s, size);
-	v->used += size;
+	if (size > 0) {
+		memcpy(v->buf + v->used, s, size);
+		v->used += size;
+	}
 	v->buf[v->used] = '\0';
 }
 

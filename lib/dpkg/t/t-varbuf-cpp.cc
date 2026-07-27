@@ -509,8 +509,8 @@ test_varbuf_detach(void)
 	vb.init(0);
 	vb.add_buf(nullptr, 0);
 	test_pass(vb.used == 0);
-	test_pass(vb.size == 0);
-	test_pass(vb.buf == nullptr);
+	test_pass(vb.size > 0);
+	test_pass(vb.buf != nullptr);
 	str = vb.detach();
 	test_str(str, ==, "");
 	test_pass(vb.used == 0);

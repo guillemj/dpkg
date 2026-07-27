@@ -581,8 +581,8 @@ test_varbuf_detach(void)
 	varbuf_init(&vb, 0);
 	varbuf_add_buf(&vb, NULL, 0);
 	test_pass(vb.used == 0);
-	test_pass(vb.size == 0);
-	test_pass(vb.buf == NULL);
+	test_pass(vb.size > 0);
+	test_pass(vb.buf != NULL);
 	str = varbuf_detach(&vb);
 	test_str(str, ==, "");
 	test_pass(vb.used == 0);
