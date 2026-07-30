@@ -83,7 +83,8 @@ usage(const char *const *argv)
 {
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
-"\n"), DPKG);
+	), DPKG);
+	print_option_sep();
 
 	printf(_(
 "Commands:\n"
@@ -151,29 +152,32 @@ usage(const char *const *argv)
 "          Show help on forcing.\n"
 "  -Dh, --debug=help\n"
 "          Show help on debugging.\n"
-"\n"));
-
+	));
 	printf(_(
 "  -?, --help\n"
 "          Show this help message.\n"
 "      --version\n"
 "          Show the version.\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_(
 "<archive-spec> is <.deb file name>... | (-R|--recursive) <directory>...\n"
 "<package-spec> is <package>... | (-a|--pending)\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_(
 "Validatable things: pkgname, archname, trigname, version.\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_(
 "Use dpkg with -b, --build, -c, --contents, -e, --control, -I, --info,\n"
 "  -f, --field, -x, --extract, -X, --vextract, --ctrl-tarfile, --fsys-tarfile\n"
 "on archives (type %s --help).\n"
-"\n"), BACKEND);
+	), BACKEND);
+	print_option_sep();
 
 	printf(_(
 "Options:\n"
@@ -235,14 +239,16 @@ usage(const char *const *argv)
 "          Abort after encountering <n> errors.\n"
 "      --robot\n"
 "          Use machine-readable output on some commands.\n"
-"\n"), ADMINDIR);
+	), ADMINDIR);
+	print_option_sep();
 
 	printf(_(
 "Comparison operators for --compare-versions are:\n"
 "  lt le eq ne ge gt       (treat empty version as earlier than any version);\n"
 "  lt-nl le-nl ge-nl gt-nl (treat empty version as later than any version);\n"
 "  < << <= = >= >> >       (only for compatibility with control file syntax).\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_(
 "Use 'apt' or 'aptitude' for user-friendly package management.\n"));

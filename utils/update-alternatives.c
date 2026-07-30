@@ -135,7 +135,8 @@ usage(void)
 {
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
-"\n"), PROGNAME);
+	), PROGNAME);
+	print_option_sep();
 
 	printf(_(
 "Commands:\n"
@@ -165,7 +166,8 @@ usage(void)
 "          Set <path> as alternative for <name>.\n"
 "      --all\n"
 "          Call --config on all alternatives.\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_(
 "<link> is the symbolic link pointing to %s/<name>.\n"
@@ -176,7 +178,8 @@ usage(void)
 "  (e.g. /usr/bin/less)\n"
 "<priority> is an integer; options with higher numbers have higher priority in\n"
 "  automatic mode.\n"
-"\n"), altdir);
+	), altdir);
+	print_option_sep();
 
 	printf(_(
 "Options:\n"
@@ -205,7 +208,8 @@ usage(void)
 "          Show this help message.\n"
 "      --version\n"
 "          Show the version.\n"
-), altdir, admdir);
+	), altdir, admdir);
+	print_option_sep();
 }
 
 static void LIBCOMPAT_ATTR_NORET LIBCOMPAT_ATTR_PRINTF(1)

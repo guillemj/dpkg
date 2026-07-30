@@ -81,7 +81,8 @@ usage(const char *const *argv)
 {
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
-"\n"), dpkg_get_progname());
+	), dpkg_get_progname());
+	print_option_sep();
 
 	printf(_(
 "Commands:\n"
@@ -95,7 +96,8 @@ usage(const char *const *argv)
 "          Show what package diverts the file.\n"
 "      --truename <file>\n"
 "          Return the diverted file.\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_(
 "Options:\n"
@@ -123,7 +125,8 @@ usage(const char *const *argv)
 "          Show this help message.\n"
 "      --version\n"
 "          Show the version.\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_(
 "When adding, default is --local and --divert <original>.distrib.\n"

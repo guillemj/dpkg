@@ -66,7 +66,8 @@ usage(const char *const *argv)
 {
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
-"\n"), BACKEND);
+	), BACKEND);
+	print_option_sep();
 
 	printf(_(
 "Commands:\n"
@@ -92,20 +93,21 @@ usage(const char *const *argv)
 "          Output control tarfile.\n"
 "      --fsys-tarfile <deb>\n"
 "          Output filesystem tarfile.\n"
-"\n"));
-
+	));
 	printf(_(
 "  -?, --help\n"
 "          Show this help message.\n"
 "      --version\n"
 "          Show the version.\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_(
 "<deb> is the filename of a Debian format archive.\n"
 "<cfile> is the name of an administrative file component.\n"
 "<cfield> is the name of a field in the main 'control' file.\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_(
 "Options:\n"
@@ -138,7 +140,8 @@ usage(const char *const *argv)
 "  -S, --compression-strategy=<name>\n"
 "          Set build compression strategy. Allowed values:\n"
 "            none; extreme (xz); filtered, huffman, rle, fixed (gzip).\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_(
 "Format syntax:\n"
@@ -148,9 +151,9 @@ usage(const char *const *argv)
 "  by inserting variable references to package fields using the ${var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in which\n"
 "  case left alignment will be used.\n"));
+	print_option_sep();
 
 	printf(_(
-"\n"
 "Use 'dpkg' to install and remove packages from the system, or\n"
 "'apt' or 'aptitude' for user-friendly package management. Packages\n"
 "unpacked using 'dpkg-deb --extract' will be incorrectly installed !\n"));

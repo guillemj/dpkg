@@ -238,7 +238,8 @@ usage(const struct cmdinfo *ci, const char *value)
 
 	printf(_(
 "Usage: %s [<option>...] [<command>...]\n"
-"\n"), DSELECT);
+	), DSELECT);
+	print_option_sep();
 
 	printf(_("Commands:\n"));
 	for (i = 0; menuentries[i].command; i++)
@@ -246,7 +247,7 @@ usage(const struct cmdinfo *ci, const char *value)
 		       "          %s\n",
 		       menuentries[i].command,
 		       menuentries[i].menuent);
-	fputs("\n", stdout);
+	print_option_sep();
 
 	printf(_(
 "Options:\n"
@@ -271,24 +272,25 @@ usage(const struct cmdinfo *ci, const char *value)
 "          Show this help message.\n"
 "      --version\n"
 "          Show the version.\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_("<color-spec> is <screen-part>:[<foreground>],[<background>][:<attr>[+<attr>]...]\n"));
 
 	printf(_("<screen-part> is:"));
 	for (i = 0; screenparttable[i].name; i++)
 		printf(" %s", screenparttable[i].name);
-	fputs("\n", stdout);
+	print_option_sep();
 
 	printf(_("<color> is:"));
 	for (i = 0; colortable[i].name; i++)
 		printf(" %s", colortable[i].name);
-	fputs("\n", stdout);
+	print_option_sep();
 
 	printf(_("<attr> is:"));
 	for (i = 0; attrtable[i].name; i++)
 		printf(" %s", attrtable[i].name);
-	fputs("\n", stdout);
+	print_option_sep();
 
 	m_output(stdout, _("<standard output>"));
 

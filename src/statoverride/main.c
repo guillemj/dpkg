@@ -76,7 +76,8 @@ usage(const char *const *argv)
 {
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
-"\n"), dpkg_get_progname());
+	), dpkg_get_progname());
+	print_option_sep();
 
 	printf(_(
 "Commands:\n"
@@ -86,7 +87,8 @@ usage(const char *const *argv)
 "          Remove <path> from the database.\n"
 "      --list [<glob-pattern>]\n"
 "          List current overrides in the database.\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_(
 "Options:\n"
@@ -112,7 +114,8 @@ usage(const char *const *argv)
 "          Show this help message.\n"
 "      --version\n"
 "          Show the version.\n"
-"\n"));
+	));
+	print_option_sep();
 
 	m_output(stdout, _("<standard output>"));
 

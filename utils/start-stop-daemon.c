@@ -937,7 +937,8 @@ usage(void)
 {
 	printf(
 "Usage: start-stop-daemon [<option>...] <command>\n"
-"\n");
+	);
+	print_option_sep();
 
 	printf(
 "Commands:\n"
@@ -953,7 +954,8 @@ usage(void)
 "          Print help information\n"
 "  -V, --version\n"
 "          Print version\n"
-"\n");
+	);
+	print_option_sep();
 
 	printf(
 "Matching options (at least one is required):\n"
@@ -969,7 +971,8 @@ usage(void)
 "          Match on process name\n"
 "  -u, --user <username|uid>\n"
 "          Match on process owner\n"
-"\n");
+	);
+	print_option_sep();
 
 	printf(
 "Options:\n"
@@ -1019,7 +1022,8 @@ usage(void)
 "          Be more quiet\n"
 "  -v, --verbose\n"
 "          Be more verbose\n"
-"\n");
+	);
+	print_option_sep();
 
 	printf(
 "Retry <schedule> is <item>|/<item>/... where <item> is one of\n"
@@ -1030,17 +1034,20 @@ usage(void)
 "  forever\n"
 "          Repeat remainder forever\n"
 "or <schedule> may be just <timeout>, meaning <signal>/<timeout>/KILL/<timeout>\n"
-"\n");
+	);
+	print_option_sep();
 
 	printf(
 "The process scheduler <policy> can be one of:\n"
 "  other, fifo or rr\n"
-"\n");
+	);
+	print_option_sep();
 
 	printf(
 "The IO scheduler <class> can be one of:\n"
 "  real-time, best-effort or idle\n"
-"\n");
+	);
+	print_option_sep();
 
 	printf(
 "Exit status:\n"
@@ -1052,7 +1059,8 @@ usage(void)
 "  0 = program is running\n"
 "  1 = program is not running and the pid file exists\n"
 "  3 = program is not running\n"
-"  4 = cannot determine status\n");
+"  4 = cannot determine status\n"
+	);
 }
 
 static void

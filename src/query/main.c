@@ -831,7 +831,8 @@ usage(const char *const *argv)
 {
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
-"\n"), DPKGQUERY);
+	), DPKGQUERY);
+	print_option_sep();
 
 	printf(_(
 "Commands:\n"
@@ -853,14 +854,14 @@ usage(const char *const *argv)
 "          Show the package control file.\n"
 "  -c, --control-path <package> [<file>]\n"
 "          Print path for package control file.\n"
-"\n"));
-
+	));
 	printf(_(
 "  -?, --help\n"
 "          Show this help message.\n"
 "      --version\n"
 "          Show the version.\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_(
 "Options:\n"
@@ -874,7 +875,8 @@ usage(const char *const *argv)
 "          Disables the use of any pager.\n"
 "  -f, --showformat=<format>\n"
 "          Use alternative format for --show.\n"
-"\n"), ADMINDIR, "/");
+	), ADMINDIR, "/");
+	print_option_sep();
 
 	printf(_(
 "Format syntax:\n"

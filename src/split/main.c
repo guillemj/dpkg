@@ -64,7 +64,8 @@ usage(const char *const *argv)
 {
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
-"\n"), SPLITTER);
+	), SPLITTER);
+	print_option_sep();
 
 	printf(_(
 "Commands:\n"
@@ -80,14 +81,14 @@ usage(const char *const *argv)
 "          List unmatched pieces.\n"
 "  -d, --discard [<filename>...]\n"
 "          Discard unmatched pieces.\n"
-"\n"));
-
+	));
 	printf(_(
 "  -?, --help\n"
 "          Show this help message.\n"
 "      --version\n"
 "          Show the version.\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_(
 "Options:\n"
@@ -103,14 +104,15 @@ usage(const char *const *argv)
 "          Filename, for -j (default is <package>_<version>_<arch>.deb).\n"
 "  -Q, --npquiet\n"
 "          Be quiet when -a is not a part.\n"
-"\n"), ADMINDIR, PARTSDIR, ADMINDIR, "/");
+	), ADMINDIR, PARTSDIR, ADMINDIR, "/");
+	print_option_sep();
 
 	printf(_(
 "Exit status:\n"
 "  0 = ok\n"
 "  1 = with --auto, file is not a part\n"
-"  2 = trouble\n"));
-
+"  2 = trouble\n"
+	));
 
 	m_output(stdout, _("<standard output>"));
 

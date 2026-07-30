@@ -66,20 +66,22 @@ usage(const char *const *argv)
 	printf(_(
 "Usage: %s [<option>...] <trigger-name>\n"
 "       %s [<option>...] <command>\n"
-"\n"), dpkg_get_progname(), dpkg_get_progname());
+	), dpkg_get_progname(), dpkg_get_progname());
+	print_option_sep();
 
 	printf(_(
 "Commands:\n"
 "      --check-supported\n"
 "          Check if the running dpkg supports triggers.\n"
-"\n"));
+	));
 
 	printf(_(
 "  -?, --help\n"
 "          Show this help message.\n"
 "      --version\n"
 "          Show the version.\n"
-"\n"));
+	));
+	print_option_sep();
 
 	printf(_(
 "Options:\n"
@@ -95,7 +97,8 @@ usage(const char *const *argv)
 "          No package needs to await the processing.\n"
 "      --no-act\n"
 "          Just test - do not actually change anything.\n"
-"\n"), ADMINDIR, "/");
+	), ADMINDIR, "/");
+	print_option_sep();
 
 	m_output(stdout, _("<standard output>"));
 

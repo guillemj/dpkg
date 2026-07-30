@@ -65,7 +65,8 @@ usage(const struct cmdinfo *cip, const char *value)
 {
 	printf(_(
 "Usage: %s [<option>...] <pathname>\n"
-"\n"), dpkg_get_progname());
+	), dpkg_get_progname());
+	print_option_sep();
 
 	printf(_(
 "Options:\n"
@@ -79,7 +80,8 @@ usage(const struct cmdinfo *cip, const char *value)
 "          Show the version.\n"
 "      --help\n"
 "          Show this help message.\n"
-"\n"));
+	));
+	print_option_sep();
 
 	m_output(stdout, _("<standard output>"));
 
