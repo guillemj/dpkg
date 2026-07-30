@@ -37,6 +37,14 @@ DPKG_BEGIN_DECLS
 #define COLOR_NORMAL		""
 #define COLOR_RESET		"\e[0m"
 #define COLOR_BOLD		"\e[1m"
+#define COLOR_DIM		"\e[2m"
+#define COLOR_ITALIC		"\e[3m"
+#define COLOR_UNDERLINE		"\e[4m"
+#define COLOR_BLINK		"\e[5m"
+#define COLOR_INVERT		"\e[7m"
+#define COLOR_HIDE		"\e[8m"
+#define COLOR_STRIKE		"\e[9m"
+
 #define COLOR_BLACK		"\e[30m"
 #define COLOR_RED		"\e[31m"
 #define COLOR_GREEN		"\e[32m"
@@ -45,6 +53,7 @@ DPKG_BEGIN_DECLS
 #define COLOR_MAGENTA		"\e[35m"
 #define COLOR_CYAN		"\e[36m"
 #define COLOR_WHITE		"\e[37m"
+
 #define COLOR_BOLD_BLACK	"\e[1;30m"
 #define COLOR_BOLD_RED		"\e[1;31m"
 #define COLOR_BOLD_GREEN	"\e[1;32m"
