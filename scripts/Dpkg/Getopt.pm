@@ -34,6 +34,7 @@ use v5.36;
 
 our @EXPORT = qw(
     normalize_options
+    format_option_parts
 );
 
 use Exporter qw(import);
@@ -56,6 +57,15 @@ sub normalize_options
     } @{$opts{args}};
 
     return @args;
+}
+
+sub format_option_parts($spec, $help)
+{
+    my $indent_type = $spec =~ m{^--} ? 6 : 2;
+    my $indent_spec = ' ' x $indent_type;
+    my $indent_help = ' ' x 10;
+
+    return sprintf "%s%s\n%s%s.\n", $indent_spec, $spec, $indent_help, $help;
 }
 
 =head1 CHANGES

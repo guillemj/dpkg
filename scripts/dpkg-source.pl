@@ -34,6 +34,7 @@ use File::Spec;
 
 use Dpkg ();
 use Dpkg::Gettext;
+use Dpkg::Getopt;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(:operators);
 use Dpkg::BuildProfiles qw(
@@ -616,17 +617,6 @@ sub setopmode {
     $options{opmode} = $opmode;
 }
 
-sub print_option {
-    my $opt = shift;
-
-    my $prefix_indent = $opt->{name} =~ m{^--} ? 6 : 2;
-    my $prefix_name = ' ' x $prefix_indent;
-    my $prefix_help = ' ' x 10;
-
-    return sprintf "%s%s\n%s%s.\n",
-        $prefix_name, $opt->{name}, $prefix_help, gettext($opt->{help});
-}
-
 sub get_format_help {
     $build_format //= '1.0';
 
@@ -639,7 +629,7 @@ sub get_format_help {
     my $help;
 
     foreach my $opt (@cmdline) {
-        my $help_add = print_option($opt);
+        my $help_add = format_option_parts($opt->{name}, gettext($opt->{help}));
 
         $help_build .= $help_add if $opt->{when} eq 'build';
         $help_extract .= $help_add if $opt->{when} eq 'extract';
