@@ -62,28 +62,12 @@ use Exporter qw(import);
 
 use Dpkg ();
 use Dpkg::Gettext;
+use Dpkg::Color;
 
 my $quiet_warnings = 0;
 my $show_hints = 1;
 my $debug_level = 0;
 my $info_fh = \*STDOUT;
-
-sub setup_color
-{
-    my $mode = $ENV{'DPKG_COLORS'} // 'auto';
-    my $use_color;
-
-    if ($mode eq 'auto') {
-        ## no critic (InputOutput::ProhibitInteractiveTest)
-        $use_color = 1 if -t *STDOUT or -t *STDERR;
-    } elsif ($mode eq 'always') {
-        $use_color = 1;
-    } else {
-        $use_color = 0;
-    }
-
-    require Term::ANSIColor if $use_color;
-}
 
 use constant {
     REPORT_PROGNAME => 1,
@@ -174,25 +158,19 @@ sub report_pretty
 {
     my ($msg, $color) = @_;
 
-    state $use_color = setup_color();
-
-    if ($use_color) {
-        return Term::ANSIColor::colored($msg, $color);
-    } else {
-        return $msg;
-    }
+    return colored_str($msg, $color);
 }
 
 sub _progname_prefix
 {
-    return report_pretty("$Dpkg::PROGNAME: ", report_color(REPORT_PROGNAME));
+    return colored_str("$Dpkg::PROGNAME: ", report_color(REPORT_PROGNAME));
 }
 
 sub _typename_prefix
 {
     my $type = shift;
 
-    return report_pretty(report_name($type), report_color($type));
+    return colored_str(report_name($type), report_color($type));
 }
 
 sub report
@@ -269,7 +247,7 @@ sub printcmd
 {
     my (@cmd) = @_;
 
-    print { *STDERR } report_pretty(" @cmd\n", report_color(REPORT_COMMAND));
+    print { *STDERR } colored_str(" @cmd\n", report_color(REPORT_COMMAND));
 }
 
 sub subprocerr
