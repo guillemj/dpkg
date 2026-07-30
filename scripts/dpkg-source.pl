@@ -639,8 +639,10 @@ sub get_format_help {
     my $help;
 
     foreach my $opt (@cmdline) {
-        $help_build .= print_option($opt) if $opt->{when} eq 'build';
-        $help_extract .= print_option($opt) if $opt->{when} eq 'extract';
+        my $help_add = print_option($opt);
+
+        $help_build .= $help_add if $opt->{when} eq 'build';
+        $help_extract .= $help_add if $opt->{when} eq 'extract';
     }
 
     if ($help_build) {
