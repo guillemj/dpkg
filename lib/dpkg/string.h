@@ -22,6 +22,7 @@
 #define LIBDPKG_STRING_H
 
 #include <stddef.h>
+#include <stdarg.h>
 #include <stdbool.h>
 
 #include <dpkg/macros.h>
@@ -63,6 +64,9 @@ str_fnv_hash(const char *str);
 char *
 str_concat(char *dst, ...)
 	DPKG_ATTR_SENTINEL;
+char *
+str_vfmt(const char *fmt, va_list args)
+	DPKG_ATTR_VPRINTF(1);
 char *
 str_fmt(const char *fmt, ...)
 	DPKG_ATTR_PRINTF(1);

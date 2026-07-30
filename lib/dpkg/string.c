@@ -73,6 +73,27 @@ str_match_end(const char *str, const char *end)
  * Print formatted output to an allocated string.
  *
  * @param fmt The format string.
+ * @param args The format arguments.
+ *
+ * @return The new allocated formatted output string (never NULL).
+ */
+char *
+str_vfmt(const char *fmt, va_list args)
+{
+	va_list args_copy;
+	char *str;
+
+	va_copy(args_copy, args);
+	m_vasprintf(&str, fmt, args);
+	va_end(args);
+
+	return str;
+}
+
+/**
+ * Print formatted output to an allocated string.
+ *
+ * @param fmt The format string.
  * @param ... The format arguments.
  *
  * @return The new allocated formatted output string (never NULL).
