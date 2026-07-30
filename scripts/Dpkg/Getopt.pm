@@ -34,10 +34,15 @@ use v5.36;
 
 our @EXPORT = qw(
     normalize_options
+    print_option_sep
+    format_option_spec
     format_option_parts
+    print_option
 );
 
 use Exporter qw(import);
+
+use Dpkg::Color;
 
 sub normalize_options
 {
@@ -59,13 +64,41 @@ sub normalize_options
     return @args;
 }
 
+sub print_option_sep()
+{
+    print "\n";
+}
+
+sub format_option_spec($spec)
+{
+    my $color_reset = color_get('reset');
+    my $color_opt = color_get('bold');
+    my $color_arg = color_get('italic');
+
+    $spec =~ s{([][.])}{$color_reset$1$color_opt}g;
+    $spec =~ s{<}{$color_reset<$color_arg}g;
+    $spec =~ s{>}{$color_reset>$color_opt}g;
+
+    return "$color_opt$spec$color_reset";
+}
+
 sub format_option_parts($spec, $help)
 {
     my $indent_type = $spec =~ m{^--} ? 6 : 2;
     my $indent_spec = ' ' x $indent_type;
     my $indent_help = ' ' x 10;
 
+    $spec = format_option_spec($spec);
+
     return sprintf "%s%s\n%s%s.\n", $indent_spec, $spec, $indent_help, $help;
+}
+
+sub print_option($desc_fmt, @args)
+{
+    my $desc = sprintf $desc_fmt, @args;
+    my ($spec, $help) = split /\n/, $desc, 2;
+
+    printf format_option_spec($spec) . "\n$help";
 }
 
 =head1 CHANGES
