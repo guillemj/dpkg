@@ -243,7 +243,8 @@ usage(const struct cmdinfo *ci, const char *value)
 
 	printf(_("Commands:\n"));
 	for (i = 0; menuentries[i].command; i++)
-		printf("      %s\n"
+		print_option(
+		       "      %s\n"
 		       "          %s\n",
 		       menuentries[i].command,
 		       menuentries[i].menuent);
@@ -251,25 +252,40 @@ usage(const struct cmdinfo *ci, const char *value)
 
 	printf(_(
 "Options:\n"
+	));
+	print_option(_(
 "      --admindir <directory>\n"
 "          Use <directory> instead of %s.\n"
+	), ADMINDIR);
+	print_option(_(
 "      --instdir <directory>\n"
 "          Use <directory> instead of %s.\n"
+	), "/");
+	print_option(_(
 "      --root <directory>\n"
 "          Use <directory> instead of %s.\n"
+	), "/");
+	print_option(_(
 "      --expert\n"
 "          Turn on expert mode.\n"
+	));
+	print_option(_(
 "  -D, --debug <file>\n"
 "          Turn on debugging, send output to <file>.\n"
+	));
+	print_option(_(
 "      --color <color-spec>\n"
 "          Configure screen colors.\n"
+	));
+	print_option(_(
 "      --colour <color-spec>\n"
 "          Ditto.\n"
-), ADMINDIR, "/", "/");
-
-	printf(_(
+	));
+	print_option(_(
 "  -?, --help\n"
 "          Show this help message.\n"
+	));
+	print_option(_(
 "      --version\n"
 "          Show the version.\n"
 	));

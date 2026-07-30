@@ -36,24 +36,36 @@ sub usage {
 
     printf g_(
 "Commands:\n" .
+    '');
+    print_option(g_(
 "      --is <vendor>\n" .
 "          Returns true if current vendor is <vendor>.\n" .
+    ''));
+    print_option(g_(
 "      --derives-from <vendor>\n" .
 "          Returns true if current vendor derives from <vendor>.\n" .
+    ''));
+    print_option(g_(
 "      --query <field>\n" .
 "          Print the content of the vendor-specific field.\n" .
+    ''));
+    print_option(g_(
 "      --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
     print_option_sep();
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "      --vendor <vendor>\n" .
 "          Assume <vendor> is the current vendor.\n" .
-    '');
+    ''));
 }
 
 my ($vendor, $param, $action);

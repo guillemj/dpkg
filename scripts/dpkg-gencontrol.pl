@@ -70,37 +70,67 @@ sub usage {
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "  -p<package>\n" .
 "          Print control file for package.\n" .
+    ''));
+    print_option(g_(
 "  -c<control-file>\n" .
 "          Get control info from this file.\n" .
+    ''));
+    print_option(g_(
 "  -l<changelog-file>\n" .
 "          Get per-version info from this file.\n" .
+    ''));
+    print_option(g_(
 "  -F<changelog-format>\n" .
 "          Force changelog format.\n" .
+    ''));
+    print_option(g_(
 "  -v<force-version>\n" .
 "          Set version of binary package.\n" .
+    ''));
+    print_option(g_(
 "  -f<files-list-file>\n" .
 "          Write files here instead of debian/files.\n" .
+    ''));
+    print_option(g_(
 "  -P<package-build-dir>\n" .
 "          Temporary build directory instead of debian/tmp.\n" .
+    ''));
+    print_option(g_(
 "  -n<filename>\n" .
 "          Assume the package filename will be <filename>.\n" .
+    ''));
+    print_option(g_(
 "  -O[<file>]\n" .
 "          Write to stdout (or <file>), not .../DEBIAN/control.\n" .
+    ''));
+    print_option(g_(
 "  -D<field>=<value>\n" .
 "          Override or add a field and value.\n" .
+    ''));
+    print_option(g_(
 "  -U<field>\n" .
 "          Remove a field.\n" .
+    ''));
+    print_option(g_(
 "  -V<name>=<value>\n" .
 "          Set a substitution variable.\n" .
+    ''));
+    print_option(g_(
 "  -T<substvars-file>\n" .
 "          Read variables here, not debian/substvars.\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
 }
 
 while (@ARGV) {

@@ -82,25 +82,43 @@ sub usage {
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "  -t, --type <type>\n" .
 "          Scan for <type> packages (default is 'deb').\n" .
+    ''));
+    print_option(g_(
 "  -a, --arch <arch>\n" .
 "          Architecture to scan for (with implicit arch all).\n" .
+    ''));
+    print_option(g_(
 "      --no-implicit-arch\n" .
 "          Do not add implicit architecture all to --arch.\n" .
+    ''));
+    print_option(g_(
 "  -h, --hash <hash-list>\n" .
 "          Only generate hashes for the specified list.\n" .
+    ''));
+    print_option(g_(
 "  -m, --multiversion\n" .
 "          Allow multiple versions of a single package.\n" .
+    ''));
+    print_option(g_(
 "  -e, --extra-override <file>\n" .
 "          Use extra override file.\n" .
+    ''));
+    print_option(g_(
 "  -M, --medium <medium>\n" .
 "          Add X-Medium field for dselect media access method\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
 }
 
 sub load_override

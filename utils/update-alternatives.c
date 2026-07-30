@@ -150,30 +150,54 @@ usage(void)
 
 	printf(_(
 "Commands:\n"
+	));
+	print_option(_(
 "      --install <link> <name> <path> <priority>\n"
 "        [--slave <link> <name> <path>]...\n"
 "          Add a group of alternatives to the system.\n"
+	));
+	print_option(_(
 "      --remove <name> <path>\n"
 "          Remove <path> from the <name> group alternative.\n"
+	));
+	print_option(_(
 "      --remove-all <name>\n"
 "          Remove <name> group from the alternatives system.\n"
+	));
+	print_option(_(
 "      --auto <name>\n"
 "          Switch the master link <name> to automatic mode.\n"
+	));
+	print_option(_(
 "      --display <name>\n"
 "          Display information about the <name> group.\n"
+	));
+	print_option(_(
 "      --query <name>\n"
 "          Machine parseable version of --display <name>.\n"
+	));
+	print_option(_(
 "      --list <name>\n"
 "          Display all targets of the <name> group.\n"
+	));
+	print_option(_(
 "      --get-selections\n"
 "          List master alternative names and their status.\n"
+	));
+	print_option(_(
 "      --set-selections\n"
 "          Read alternative status from standard input.\n"
+	));
+	print_option(_(
 "      --config <name>\n"
 "          Show alternatives for the <name> group and ask the user to select\n"
 "          which one to use.\n"
+	));
+	print_option(_(
 "      --set <name> <path>\n"
 "          Set <path> as alternative for <name>.\n"
+	));
+	print_option(_(
 "      --all\n"
 "          Call --config on all alternatives.\n"
 	));
@@ -193,32 +217,56 @@ usage(void)
 
 	printf(_(
 "Options:\n"
+	));
+	print_option(_(
 "      --altdir <directory>\n"
 "          Change the alternatives directory (default is %s).\n"
+	), altdir);
+	print_option(_(
 "      --admindir <directory>\n"
 "          Change the administrative directory (default is %s).\n"
+	), admdir);
+	print_option(_(
 "      --instdir <directory>\n"
 "          Change the installation directory.\n"
+	));
+	print_option(_(
 "      --root <directory>\n"
 "          Change the filesystem root directory.\n"
+	));
+	print_option(_(
 "      --log <file>\n"
 "          Change the log file.\n"
+	));
+	print_option(_(
 "      --force\n"
 "          Allow replacing files with alternative links.\n"
+	));
+	print_option(_(
 "      --skip-auto\n"
 "          Skip prompt for alternatives correctly configured in automatic mode\n"
 "          (relevant for --config only).\n"
+	));
+	print_option(_(
 "      --quiet\n"
 "          Quiet operation, minimal output.\n"
+	));
+	print_option(_(
 "      --verbose\n"
 "          Verbose operation, more output.\n"
+	));
+	print_option(_(
 "      --debug\n"
 "          Debug output, way more output.\n"
+	));
+	print_option(_(
 "      --help\n"
 "          Show this help message.\n"
+	));
+	print_option(_(
 "      --version\n"
 "          Show the version.\n"
-	), altdir, admdir);
+	));
 	print_option_sep();
 }
 

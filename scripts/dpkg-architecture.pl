@@ -37,51 +37,89 @@ sub usage {
 
     printf g_(
 "Commands:\n" .
+    '');
+    print_option(g_(
 "  -l, --list\n" .
 "          List variables (default).\n" .
+    ''));
+    print_option(g_(
 "  -L, --list-known\n" .
 "          List valid architectures (matching some criteria).\n" .
+    ''));
+    print_option(g_(
 "  -e, --equal <arch>\n" .
 "          Compare with host Debian architecture.\n" .
+    ''));
+    print_option(g_(
 "  -i, --is <arch-wildcard>\n" .
 "          Match against host Debian architecture.\n" .
+    ''));
+    print_option(g_(
 "  -q, --query <variable>\n" .
 "          Prints only the value of <variable>.\n" .
+    ''));
+    print_option(g_(
 "  -s, --print-set\n" .
 "          Print command to set environment variables.\n" .
+    ''));
+    print_option(g_(
 "  -u, --print-unset\n" .
 "          Print command to unset environment variables.\n" .
+    ''));
+    print_option(g_(
 "  -c, --command <command>\n" .
 "          Set environment and run the command in it.\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
     print_option_sep();
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "  -a, --host-arch <arch>\n" .
 "          Set host Debian architecture.\n" .
+    ''));
+    print_option(g_(
 "  -t, --host-type <type>\n" .
 "          Set host GNU system type.\n" .
+    ''));
+    print_option(g_(
 "  -A, --target-arch <arch>\n" .
 "          Set target Debian architecture.\n" .
+    ''));
+    print_option(g_(
 "  -T, --target-type <type>\n" .
 "          Set target GNU system type.\n" .
+    ''));
+    print_option(g_(
 "  -W, --match-wildcard <arch-wildcard>\n" .
 "          Restrict architecture list matching <arch-wildcard>.\n" .
+    ''));
+    print_option(g_(
 "  -B, --match-bits <arch-bits>\n" .
 "          Restrict architecture list matching <arch-bits>.\n" .
+    ''));
+    print_option(g_(
 "  -E, --match-endian <arch-endian>\n" .
 "          Restrict architecture list matching <arch-endian>.\n" .
+    ''));
+    print_option(g_(
 "      --print-format <format>\n" .
 "          Use <format> for --print-set and --print-unset, allowed values:\n" .
 "            shell (default), make.\n" .
+    ''));
+    print_option(g_(
 "  -f, --force\n" .
 "          Force flag (override variables set in environment).\n" .
-    '');
+    ''));
 }
 
 sub check_arch_coherency

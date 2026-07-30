@@ -70,14 +70,24 @@ usage(const struct cmdinfo *cip, const char *value)
 
 	printf(_(
 "Options:\n"
+	));
+	print_option(_(
 "  -z, --zero\n"
 "          End output line with NUL, not newline.\n"
+	));
+	print_option(_(
 "      --instdir <directory>\n"
 "          Set the root directory.\n"
+	));
+	print_option(_(
 "      --root <directory>\n"
 "          Set the root directory.\n"
+	));
+	print_option(_(
 "      --version\n"
 "          Show the version.\n"
+	));
+	print_option(_(
 "      --help\n"
 "          Show this help message.\n"
 	));

@@ -68,162 +68,292 @@ sub usage {
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "      --build=<type>[,...]\n" .
 "          Specify the build <type>: full, source, binary, any, all\n" .
 "          (default is \'full\').\n" .
+    ''));
+    print_option(g_(
 "  -F, --build=full\n" .
 "          Normal full build (source and binary; default).\n" .
+    ''));
+    print_option(g_(
 "  -g, --build=source,all\n" .
 "          Source and arch-indep build.\n" .
+    ''));
+    print_option(g_(
 "  -G, --build=source,any\n" .
 "          Source and arch-specific build.\n" .
+    ''));
+    print_option(g_(
 "  -b, --build=binary\n" .
 "          Binary-only, no source files.\n" .
+    ''));
+    print_option(g_(
 "  -B, --build=any\n" .
 "          Binary-only, only arch-specific files.\n" .
+    ''));
+    print_option(g_(
 "  -A, --build=all\n" .
 "          Binary-only, only arch-indep files.\n" .
+    ''));
+    print_option(g_(
 "  -S, --build=source\n" .
 "          Source-only, no binary files.\n" .
+    ''));
+    print_option(g_(
 "  -nc, --no-pre-clean\n" .
 "          Do not pre clean source tree (implies -b).\n" .
+    ''));
+    print_option(g_(
 "      --pre-clean\n" .
 "          Pre clean source tree (default).\n" .
+    ''));
+    print_option(g_(
 "      --no-post-clean\n" .
 "          Do not post clean source tree (default).\n" .
+    ''));
+    print_option(g_(
 "  -tc, --post-clean\n" .
 "          Post clean source tree.\n" .
+    ''));
+    print_option(g_(
 "      --sanitize-env\n" .
 "          Sanitize the build environment.\n" .
+    ''));
+    print_option(g_(
 "  -D, --check-builddeps\n" .
 "          Check build dependencies and conflicts (default).\n" .
+    ''));
+    print_option(g_(
 "  -d, --no-check-builddeps\n" .
 "          Do not check build dependencies and conflicts.\n" .
+    ''));
+    print_option(g_(
 "      --ignore-builtin-builddeps\n" .
 "          Do not check builtin build dependencies.\n" .
+    ''));
+    print_option(g_(
 "  -P, --build-profiles=<profiles>\n" .
 "          Assume comma-separated build <profiles> as active.\n" .
+    ''));
+    print_option(g_(
 "      --rules-requires-root\n" .
 "          Assume legacy Rules-Requires-Root field value.\n" .
+    ''));
+    print_option(g_(
 "  -R, --rules-file=<rules>\n" .
 "          Rules file to execute (default is debian/rules).\n" .
+    ''));
+    print_option(g_(
 "  -T, --rules-target=<target>\n" .
 "          Call debian/rules <target>.\n" .
+    ''));
+    print_option(g_(
 "      --as-root\n" .
 "          Ensure -T calls the target with root rights.\n" .
+    ''));
+    print_option(g_(
 "  -j, --jobs[=<jobs>|auto]\n" .
 "          Jobs to run simultaneously (passed to <rules>),\n" .
 "          (default; default is auto, opt-in mode).\n" .
+    ''));
+    print_option(g_(
 "  -J, --jobs-try[=<jobs>|auto]\n" .
 "          Alias for -j, --jobs.\n" .
+    ''));
+    print_option(g_(
 "      --jobs-force[=<jobs>|auto]\n" .
 "          Jobs to run simultaneously (passed to <rules>),\n" .
 "          (default is auto, forced mode).\n" .
+    ''));
+    print_option(g_(
 "  -r, --root-command=<command>\n" .
 "          Command to gain root rights (default is fakeroot).\n" .
+    ''));
+    print_option(g_(
 "      --check-command=<command>\n" .
 "          Command to check the .changes file (no default).\n" .
+    ''));
+    print_option(g_(
 "      --check-option=<opt>\n" .
 "          Pass <opt> to check <command>.\n" .
+    ''));
+    print_option(g_(
 "      --hook-<name>=<command>\n" .
 "          Set <command> as the hook <name>, known hooks:\n" .
 "             preinit init preclean source build binary\n" .
 "             buildinfo changes postclean check sign done\n" .
+    ''));
+    print_option(g_(
 "      --buildinfo-file=<file>\n" .
 "          Set the .buildinfo filename to generate.\n" .
+    ''));
+    print_option(g_(
 "      --buildinfo-option=<opt>\n" .
 "          Pass option <opt> to dpkg-genbuildinfo.\n" .
+    ''));
+    print_option(g_(
 "      --changes-file=<file>\n" .
 "          Set the .changes filename to generate.\n" .
+    ''));
+    print_option(g_(
 "      --sign-backend=<backend>\n" .
 "          OpenPGP backend to use to sign (default is auto).\n" .
+    ''));
+    print_option(g_(
 "  -p, --sign-command=<command>\n" .
 "          Command to sign .dsc and/or .changes files (default is gpg).\n" .
+    ''));
+    print_option(g_(
 "      --sign-keyfile=<file>\n" .
 "          The key file to use for signing.\n" .
+    ''));
+    print_option(g_(
 "  -k, --sign-keyid=<keyid>\n" .
 "          The key id to use for signing.\n" .
+    ''));
+    print_option(g_(
 "      --sign-key=<keyid>\n" .
 "          Deprecated alias for --sign-keyid.\n" .
+    ''));
+    print_option(g_(
 "  -ap, --sign-pause\n" .
 "          Add pause before starting signature process.\n" .
+    ''));
+    print_option(g_(
 "  -us, --unsigned-source\n" .
 "          Unsigned source package.\n" .
+    ''));
+    print_option(g_(
 "  -ui, --unsigned-buildinfo\n" .
 "          Unsigned .buildinfo file.\n" .
+    ''));
+    print_option(g_(
 "  -uc, --unsigned-changes\n" .
 "          Unsigned .buildinfo and .changes file.\n" .
+    ''));
+    print_option(g_(
 "      --no-sign\n" .
 "          Do not sign any file.\n" .
+    ''));
+    print_option(g_(
 "      --force-sign\n" .
 "          Force signing the resulting files.\n" .
+    ''));
+    print_option(g_(
 "      --admindir=<directory>\n" .
 "          Change the administrative directory.\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
     print_option_sep();
 
     printf g_(
 "Options passed to dpkg-architecture:\n" .
+    '');
+    print_option(g_(
 "  -a, --host-arch <arch>\n" .
 "          Set the host Debian architecture.\n" .
+    ''));
+    print_option(g_(
 "  -t, --host-type <type>\n" .
 "          Set the host GNU system type.\n" .
+    ''));
+    print_option(g_(
 "      --target-arch <arch>\n" .
 "          Set the target Debian architecture.\n" .
+    ''));
+    print_option(g_(
 "      --target-type <type>\n" .
 "          Set the target GNU system type.\n" .
-    '');
+    ''));
     print_option_sep();
 
     printf g_(
 "Options passed to dpkg-genchanges:\n" .
+    '');
+    print_option(g_(
 "  -si\n" .
 "          Source includes orig, if new upstream (default).\n" .
+    ''));
+    print_option(g_(
 "  -sa\n" .
 "          Source includes orig, always.\n" .
+    ''));
+    print_option(g_(
 "  -sd\n" .
 "          Source is diff and .dsc only.\n" .
+    ''));
+    print_option(g_(
 "  -v<version>\n" .
 "          Changes since version <version>.\n" .
+    ''));
+    print_option(g_(
 "  -m, --source-by=<maint>\n" .
 "          Maintainer for this source or build is <maint>.\n" .
+    ''));
+    print_option(g_(
 "      --build-by=<maint>\n" .
 "          Ditto.\n" .
+    ''));
+    print_option(g_(
 "  -e, --release-by=<maint>\n" .
 "          Maintainer for this change or release is <maint>.\n" .
+    ''));
+    print_option(g_(
 "      --changed-by=<maint>\n" .
 "          Ditto.\n" .
+    ''));
+    print_option(g_(
 "  -C<descfile>\n" .
 "          Changes are described in <descfile>.\n" .
+    ''));
+    print_option(g_(
 "      --changes-option=<opt>\n" .
 "          Pass option <opt> to dpkg-genchanges.\n" .
-    '');
+    ''));
     print_option_sep();
 
     printf g_(
 "Options passed to dpkg-source:\n" .
+    '');
+    print_option(g_(
 "  -sn\n" .
 "          Force Debian native source format.\n" .
+    ''));
+    print_option(g_(
 "  -s[sAkurKUR]\n" .
 "          See dpkg-source for explanation.\n" .
+    ''));
+    print_option(g_(
 "  -z, --compression-level=<level>\n" .
 "          Compression level to use for source.\n" .
+    ''));
+    print_option(g_(
 "  -Z, --compression=<compressor>\n" .
 "          Compression to use for source\n" .
 "          (defaults to %s; supported are: %s).\n" .
+    ''), compression_get_default(), join(', ', compression_get_list()));
+    print_option(g_(
 "  -i, --diff-ignore[=<regex>]\n" .
 "          Ignore diffs of files matching <regex>.\n" .
+    ''));
+    print_option(g_(
 "  -I, --tar-ignore[=<pattern>]\n" .
 "          Filter out files when building tarballs.\n" .
+    ''));
+    print_option(g_(
 "      --source-option=<opt>\n" .
 "          Pass option <opt> to dpkg-source.\n" .
-    ''),
-    compression_get_default(),
-    join(', ', compression_get_list());
+    ''));
 }
 
 my $admindir;

@@ -71,32 +71,56 @@ usage(const char *const *argv)
 
 	printf(_(
 "Commands:\n"
+	));
+	print_option(_(
 "  -b, --build <directory> [<deb>]\n"
 "          Build an archive.\n"
+	));
+	print_option(_(
 "  -c, --contents <deb>\n"
 "          List contents.\n"
+	));
+	print_option(_(
 "  -I, --info <deb> [<cfile>...]\n"
 "          Show info to stdout.\n"
+	));
+	print_option(_(
 "  -W, --show <deb>\n"
 "          Show information on package(s)\n"
+	));
+	print_option(_(
 "  -f, --field <deb> [<cfield>...]\n"
 "          Show field(s) to stdout.\n"
+	));
+	print_option(_(
 "  -e, --control <deb> [<directory>]\n"
 "          Extract metadata files.\n"
+	));
+	print_option(_(
 "  -x, --extract <deb> <directory>\n"
 "          Extract filesystem files.\n"
+	));
+	print_option(_(
 "  -X, --vextract <deb> <directory>\n"
 "          Extract and list filesystem files.\n"
+	));
+	print_option(_(
 "  -R, --raw-extract <deb> <directory>\n"
 "          Extract metadata and filesystem files.\n"
+	));
+	print_option(_(
 "      --ctrl-tarfile <deb>\n"
 "          Output control tarfile.\n"
+	));
+	print_option(_(
 "      --fsys-tarfile <deb>\n"
 "          Output filesystem tarfile.\n"
 	));
-	printf(_(
+	print_option(_(
 "  -?, --help\n"
 "          Show this help message.\n"
+	));
+	print_option(_(
 "      --version\n"
 "          Show the version.\n"
 	));
@@ -111,32 +135,58 @@ usage(const char *const *argv)
 
 	printf(_(
 "Options:\n"
+	));
+	print_option(_(
 "  -v, --verbose\n"
 "          Enable verbose output.\n"
+	));
+	print_option(_(
 "  -D, --debug\n"
 "          Enable debugging output.\n"
+	));
+	print_option(_(
 "      --showformat=<format>\n"
 "          Use alternative format for --show.\n"
+	));
+	print_option(_(
 "      --deb-format=<format>\n"
 "          Select archive format. Allowed values:\n"
 "            0.939000, 2.0 (default).\n"
+	));
+	print_option(_(
 "      --no-check\n"
 "          Suppress all checks (build bad packages).\n"
+	));
+	print_option(_(
 "      --nocheck\n"
 "          Alias for --no-check.\n"
+	));
+	print_option(_(
 "      --root-owner-group\n"
 "          Forces the owner and groups to root.\n"
+	));
+	print_option(_(
 "      --threads-max=<threads>\n"
 "          Use at most <threads> with compressor.\n"
+	));
+	print_option(_(
 "      --uniform-compression\n"
 "          Use the compression params on all members.\n"
+	));
+	print_option(_(
 "      --no-uniform-compression\n"
 "          Use the compression params only on the data.tar member.\n"
+	));
+	print_option(_(
 "  -Z, --compression=<compressor>\n"
 "          Set build compression type. Allowed types:\n"
 "            gzip, xz, zstd, none.\n"
+	));
+	print_option(_(
 "  -z, --compression-level=<level>\n"
 "          Set build compression level.\n"
+	));
+	print_option(_(
 "  -S, --compression-strategy=<name>\n"
 "          Set build compression strategy. Allowed values:\n"
 "            none; extreme (xz); filtered, huffman, rle, fixed (gzip).\n"

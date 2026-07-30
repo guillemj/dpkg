@@ -92,62 +92,116 @@ sub usage {
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "      --build=<type>[,...]\n" .
 "          Specify the build <type>: full, source, binary, any, all\n" .
 "          (default is \'full\').\n" .
+    ''));
+    print_option(g_(
 "  -g, --build=source,all\n" .
 "          Source and arch-indep build.\n" .
+    ''));
+    print_option(g_(
 "  -G, --build=source,any\n" .
 "          Source and arch-specific build.\n" .
+    ''));
+    print_option(g_(
 "  -b, --build=binary\n" .
 "          Binary-only, no source files.\n" .
+    ''));
+    print_option(g_(
 "  -B, --build=any\n" .
 "          Binary-only, only arch-specific files.\n" .
+    ''));
+    print_option(g_(
 "  -A, --build=all\n" .
 "          Binary-only, only arch-indep files.\n" .
+    ''));
+    print_option(g_(
 "  -S, --build=source\n" .
 "          Source-only, no binary files.\n" .
+    ''));
+    print_option(g_(
 "  -c<control-file>\n" .
 "          Get control info from this file.\n" .
+    ''));
+    print_option(g_(
 "  -l<changelog-file>\n" .
 "          Get per-version info from this file.\n" .
+    ''));
+    print_option(g_(
 "  -f<files-list-file>\n" .
 "          Get .deb files list from this file.\n" .
+    ''));
+    print_option(g_(
 "  -v<since-version>\n" .
 "          Include all changes later than version.\n" .
+    ''));
+    print_option(g_(
 "  -C<changes-description>\n" .
 "          Use change description from this file.\n" .
+    ''));
+    print_option(g_(
 "  -m<maintainer>\n" .
 "          Override control's maintainer value.\n" .
+    ''));
+    print_option(g_(
 "  -e<maintainer>\n" .
 "          Override changelog's maintainer value.\n" .
+    ''));
+    print_option(g_(
 "  -u<upload-files-dir>\n" .
 "          Directory with files (default is '..').\n" .
+    ''));
+    print_option(g_(
 "  -si\n" .
 "          Source includes orig, if new upstream (default).\n" .
+    ''));
+    print_option(g_(
 "  -sa\n" .
 "          Source includes orig, always.\n" .
+    ''));
+    print_option(g_(
 "  -sd\n" .
 "          Source is diff and .dsc only.\n" .
+    ''));
+    print_option(g_(
 "  -q\n" .
 "          Quiet - no informational messages on stderr.\n" .
+    ''));
+    print_option(g_(
 "  -F<changelog-format>\n" .
 "          Force changelog format.\n" .
+    ''));
+    print_option(g_(
 "  -V<name>=<value>\n" .
 "          Set a substitution variable.\n" .
+    ''));
+    print_option(g_(
 "  -T<substvars-file>\n" .
 "          Read variables here, not debian/substvars.\n" .
+    ''));
+    print_option(g_(
 "  -D<field>=<value>\n" .
 "          Override or add a field and value.\n" .
+    ''));
+    print_option(g_(
 "  -U<field>\n" .
 "          Remove a field.\n" .
+    ''));
+    print_option(g_(
 "  -O[<filename>]\n" .
 "          Write to stdout (default) or <filename>.\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
 }
 
 sub format_desc

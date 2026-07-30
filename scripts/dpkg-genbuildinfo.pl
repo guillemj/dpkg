@@ -358,32 +358,56 @@ sub usage {
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "      --build=<type>[,...]\n" .
 "          Specify the build <type>: full, source, binary, any, all\n" .
 "          (default is \'full\').\n" .
+    ''));
+    print_option(g_(
 "  -c<control-file>\n" .
 "          Get control info from this file.\n" .
+    ''));
+    print_option(g_(
 "  -l<changelog-file>\n" .
 "          Get per-version info from this file.\n" .
+    ''));
+    print_option(g_(
 "  -f<files-list-file>\n" .
 "          Get .deb files list from this file.\n" .
+    ''));
+    print_option(g_(
 "  -F<changelog-format>\n" .
 "          Force changelog format.\n" .
+    ''));
+    print_option(g_(
 "  -O[<buildinfo-file>]\n" .
 "          Write to stdout (or <buildinfo-file>).\n" .
+    ''));
+    print_option(g_(
 "  -u<upload-files-dir>\n" .
 "          Directory with files (default is '..').\n" .
+    ''));
+    print_option(g_(
 "      --always-include-kernel\n" .
 "          Always include Build-Kernel-Version.\n" .
+    ''));
+    print_option(g_(
 "      --always-include-path\n" .
 "          Always include Build-Path.\n" .
+    ''));
+    print_option(g_(
 "      --admindir=<directory>\n" .
 "          Change the administrative directory.\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
 }
 
 my $build_opts = Dpkg::BuildOptions->new();

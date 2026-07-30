@@ -40,46 +40,78 @@ sub usage {
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "  -l, --file <changelog-file>\n" .
 "          Get per-version info from this file.\n" .
+    ''));
+    print_option(g_(
 "  -F <changelog-format>\n" .
 "          Force changelog format.\n" .
+    ''));
+    print_option(g_(
 "  -S, --show-field <field>\n" .
 "          Show the values for <field>.\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
     print_option_sep();
 
     printf g_(
 "Parser options:\n" .
+    '');
+    print_option(g_(
 "      --format <output-format>\n" .
 "          Set output format (defaults to 'dpkg').\n" .
+    ''));
+    print_option(g_(
 "      --reverse\n" .
 "          Include all changes in reverse order.\n" .
+    ''));
+    print_option(g_(
 "      --all\n" .
 "          Include all changes.\n" .
+    ''));
+    print_option(g_(
 "  -s, --since <version>\n" .
 "          Include all changes later than <version>.\n" .
+    ''));
+    print_option(g_(
 "  -v <version>\n" .
 "          Ditto.\n" .
+    ''));
+    print_option(g_(
 "  -u, --until <version>\n" .
 "          Include all changes earlier than <version>.\n" .
+    ''));
+    print_option(g_(
 "  -f, --from <version>\n" .
 "          Include all changes equal or later than <version>.\n" .
+    ''));
+    print_option(g_(
 "  -t, --to <version>\n" .
 "          Include all changes up to or equal than <version>.\n" .
+    ''));
+    print_option(g_(
 "  -c, --count <number>\n" .
 "          Include <number> entries from the top (or tail if <number> is lower\n" .
 "          than 0).\n" .
+    ''));
+    print_option(g_(
 "  -n <number>\n" .
 "          Ditto.\n" .
+    ''));
+    print_option(g_(
 "  -o, --offset <number>\n" .
 "          Change starting point for --count, counted from the top (or tail\n" .
 "          if <number> is lower than 0).\n" .
-    '');
+    ''));
 }
 
 @ARGV = normalize_options(args => \@ARGV, delim => '--');

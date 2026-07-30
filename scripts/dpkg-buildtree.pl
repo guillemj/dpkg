@@ -35,15 +35,23 @@ sub usage {
 
     printf g_(
 "Commands:\n" .
+    '');
+    print_option(g_(
 "      clean\n" .
 "          Clean dpkg generated artifacts from the build tree.\n" .
+    ''));
+    print_option(g_(
 "      is-rootless\n" .
 "          Checks whether the build tree needs root to build.\n" .
+    ''));
+    print_option(g_(
 "      --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
 }
 
 my %known_actions = map { $_ => 1 } qw(

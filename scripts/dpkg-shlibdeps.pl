@@ -653,51 +653,89 @@ sub usage {
 
     printf g_(
 "Positional options (order is significant):\n" .
+    '');
+    print_option(g_(
 "  <executable>\n" .
 "          Include dependencies for <executable>.\n" .
+    ''));
+    print_option(g_(
 "  -e<executable>\n" .
 "          Ditto, used when <executable> starts with '-'.\n" .
+    ''));
+    print_option(g_(
 "  -d<dependency-field>\n" .
 "          Next executable(s) set shlibs:<dependency-field>.\n" .
-    '');
+    ''));
     print_option_sep();
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "      --package=<package>\n" .
 "          Generate substvars for <package> (default is unset).\n" .
+    ''));
+    print_option(g_(
 "  -l<library-dir>\n" .
 "          Add directory to private shared library search list.\n" .
+    ''));
+    print_option(g_(
 "  -p<varname-prefix>\n" .
 "          Set <varname-prefix>:* instead of shlibs:*.\n" .
+    ''));
+    print_option(g_(
 "  -O[<file>]\n" .
 "          Write variable settings to stdout (or <file>).\n" .
+    ''));
+    print_option(g_(
 "  -L<local-shlibs-file>\n" .
 "          Shlibs override file, not debian/shlibs.local.\n" .
+    ''));
+    print_option(g_(
 "  -T<substvars-file>\n" .
 "          Update variables here, not debian/substvars.\n" .
+    ''));
+    print_option(g_(
 "  -t<type>\n" .
 "          Set package type (default is deb).\n" .
+    ''));
+    print_option(g_(
 "  -x<package>\n" .
 "          Exclude package from the generated dependencies.\n" .
+    ''));
+    print_option(g_(
 "  -S<package-build-dir>\n" .
 "          Search needed libraries in the given package build directory first.\n" .
+    ''));
+    print_option(g_(
 "  -I<package-build-dir>\n" .
 "          Ignore needed libraries, shlibs and symbols files in the given build\n" .
 "          directory.\n" .
+    ''));
+    print_option(g_(
 "  -v\n" .
 "          Enable verbose mode (can be used multiple times).\n" .
+    ''));
+    print_option(g_(
 "      --ignore-missing-info\n" .
 "          Do not fail on missing dependency information.\n" .
+    ''));
+    print_option(g_(
 "      --warnings=<value>\n" .
 "          Define set of active warnings (see manual page).\n" .
+    ''));
+    print_option(g_(
 "      --admindir=<directory>\n" .
 "          Change the administrative directory.\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
     print_option_sep();
 
     printf g_(

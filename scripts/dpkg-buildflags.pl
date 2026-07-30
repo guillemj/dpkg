@@ -38,30 +38,50 @@ sub usage {
 
     printf g_(
 "Commands:\n" .
+    '');
+    print_option(g_(
 "      --get <flag>\n" .
 "          Output the requested flag to stdout.\n" .
+    ''));
+    print_option(g_(
 "      --origin <flag>\n" .
 "          Output the origin of the flag to stdout; value is one of:\n" .
 "            vendor, system, user, env.\n" .
+    ''));
+    print_option(g_(
 "      --status\n" .
 "          Output a synopsis with all parameters affecting the program behavior,\n" .
 "          the resulting flags and their origin.\n" .
+    ''));
+    print_option(g_(
 "      --query\n" .
 "          Like --status, but in deb822 format.\n" .
+    ''));
+    print_option(g_(
 "      --query-features <area>\n" .
 "          Output the status of features for the given area.\n" .
+    ''));
+    print_option(g_(
 "      --list\n" .
 "          Output a list of the flags supported by the current vendor.\n" .
+    ''));
+    print_option(g_(
 "      --export=(sh|make|cmdline|configure)\n" .
 "          Output something convenient to import the compilation flags in a\n" .
 "          shell script, in make, or in a command line.\n" .
+    ''));
+    print_option(g_(
 "      --dump\n" .
 "          Output all compilation flags with their values.\n" .
+    ''));
+    print_option(g_(
 "      --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
 }
 
 my ($param, $action);

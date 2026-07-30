@@ -48,26 +48,40 @@ sub usage
 {
     printf g_(
 "Usage: %s [<option>...] <file>...\n" .
-    ''), $Dpkg::PROGNAME);
+    ''), $Dpkg::PROGNAME;
     print_option_sep();
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "  -a, --no-architecture\n" .
 "          No architecture part in filename.\n" .
+    ''));
+    print_option(g_(
 "  -o, --overwrite\n" .
 "          Overwrite if file exists.\n" .
+    ''));
+    print_option(g_(
 "  -k, --symlink\n" .
 "          Do not create a new file, but a symlink.\n" .
+    ''));
+    print_option(g_(
 "  -s, --subdir [<dir>]\n" .
 "          Move file into subdirectory (use with care).\n" .
+    ''));
+    print_option(g_(
 "  -c, --create-dir\n" .
 "          Create target directory if not there (use with care).\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "  -v, --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
     print_option_sep();
 
     printf g_(

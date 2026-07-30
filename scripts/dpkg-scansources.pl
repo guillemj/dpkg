@@ -87,20 +87,32 @@ sub usage {
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "  -n, --no-sort\n" .
 "          Do not sort by package before outputting.\n" .
+    ''));
+    print_option(g_(
 "  -e, --extra-override <file>\n" .
 "          Use extra override file.\n" .
+    ''));
+    print_option(g_(
 "  -s, --source-override <file>\n" .
 "          Use file for additional source overrides, default is regular override\n" .
 "          file with .src appended.\n" .
+    ''));
+    print_option(g_(
 "      --debug\n" .
 "          Turn debugging on.\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
     print_option_sep();
 
     printf g_(

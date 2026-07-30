@@ -71,13 +71,16 @@ usage(const char *const *argv)
 
 	printf(_(
 "Commands:\n"
+	));
+	print_option(_(
 "      --check-supported\n"
 "          Check if the running dpkg supports triggers.\n"
 	));
-
-	printf(_(
+	print_option(_(
 "  -?, --help\n"
 "          Show this help message.\n"
+	));
+	print_option(_(
 "      --version\n"
 "          Show the version.\n"
 	));
@@ -85,19 +88,31 @@ usage(const char *const *argv)
 
 	printf(_(
 "Options:\n"
+	));
+	print_option(_(
 "      --admindir=<directory>\n"
 "          Use <directory> instead of %s.\n"
+	), ADMINDIR);
+	print_option(_(
 "      --root=<directory>\n"
 "          Use <directory> instead of %s.\n"
+	), "/");
+	print_option(_(
 "      --by-package=<package>\n"
 "          Override trigger awaiter (normally set by dpkg).\n"
+	));
+	print_option(_(
 "      --await\n"
 "          Package needs to await the processing.\n"
+	));
+	print_option(_(
 "      --no-await\n"
 "          No package needs to await the processing.\n"
+	));
+	print_option(_(
 "      --no-act\n"
 "          Just test - do not actually change anything.\n"
-	), ADMINDIR, "/");
+	));
 	print_option_sep();
 
 	m_output(stdout, _("<standard output>"));

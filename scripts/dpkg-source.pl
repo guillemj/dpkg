@@ -657,91 +657,146 @@ sub usage {
 
     printf g_(
 "Commands:\n" .
+    '');
+    print_option(g_(
 "  -x, --extract <filename>.dsc [<output-dir>]\n" .
 "          Extract source package.\n" .
+    ''));
+    print_option(g_(
 "  -b, --build <dir>\n" .
 "          Build source package.\n" .
+    ''));
+    print_option(g_(
 "      --print-format <dir>\n" .
 "          Print the format to be used for the source package.\n" .
+    ''));
+    print_option(g_(
 "      --before-build <dir>\n" .
 "          Run the corresponding source package format hook.\n" .
+    ''));
+    print_option(g_(
 "      --after-build <dir>\n" .
 "          Run the corresponding source package format hook.\n" .
+    ''));
+    print_option(g_(
 "      --commit [<dir> [<patch-name>]]\n" .
 "          Store upstream changes in a new patch.\n" .
-    '');
+    ''));
     print_option_sep();
 
     printf g_(
 "Build options:\n" .
+    '');
+    print_option(g_(
 "  -c<control-file>\n" .
 "          Get control info from this file.\n" .
+    ''));
+    print_option(g_(
 "  -l<changelog-file>\n" .
 "          Get per-version info from this file.\n" .
+    ''));
+    print_option(g_(
 "  -F<changelog-format>\n" .
 "          Force changelog format.\n" .
+    ''));
+    print_option(g_(
 "      --format=<source-format>\n" .
 "          Set the format to be used for the source package.\n" .
+    ''));
+    print_option(g_(
 "  -V<name>=<value>\n" .
 "          Set a substitution variable.\n" .
+    ''));
+    print_option(g_(
 "  -T<substvars-file>\n" .
 "          Read variables here.\n" .
+    ''));
+    print_option(g_(
 "  -D<field>=<value>\n" .
 "          Override or add a .dsc field and value.\n" .
+    ''));
+    print_option(g_(
 "  -U<field>\n" .
 "          Remove a field.\n" .
+    ''));
+    print_option(g_(
 "  -i, --diff-ignore[=<regex>]\n" .
 "          Filter out files to ignore diffs of (defaults to: '%s').\n" .
+    ''), get_default_diff_ignore_regex());
+    print_option(g_(
 "  -I, --tar-ignore[=<pattern>]\n" .
 "          Filter out files when building tarballs (defaults to: %s).\n" .
+    ''), join(' ', map { "-I$_" } get_default_tar_ignore_pattern()));
+    print_option(g_(
 "  -Z, --compression=<compression>\n" .
 "          Select compression to use\n" .
 "          (defaults to '%s', supported are: %s).\n" .
+    ''), compression_get_default(), join(', ', compression_get_list()));
+    print_option(g_(
 "  -z, --compression-level=<level>\n" .
 "          Compression level to use\n" .
 "          (defaults to '%d', supported are: '1'-'9', 'best', 'fast')\n" .
-    ''),
-    get_default_diff_ignore_regex(),
-    join(' ', map { "-I$_" } get_default_tar_ignore_pattern()),
-    compression_get_default(),
-    join(', ', compression_get_list()),
-    compression_get_default_level();
+    ''), compression_get_default_level());
     print_option_sep();
 
     printf g_(
 "Extract options:\n" .
+    '');
+    print_option(g_(
 "      --no-copy\n" .
 "          Do not copy .orig tarballs\n" .
+    ''));
+    print_option(g_(
 "      --no-check\n" .
 "          Do not check signature and checksums on extraction\n" .
+    ''));
+    print_option(g_(
 "      --no-overwrite-dir\n" .
 "          Do not overwrite directory on extraction\n" .
+    ''));
+    print_option(g_(
 "      --no-vendor-certs\n" .
 "          Do not use vendor specific certificate keyrings\n" .
+    ''));
+    print_option(g_(
 "      --signer-certs=<keyring>\n" .
 "          Use a signer certificates keyring\n" .
+    ''));
+    print_option(g_(
 "      --require-valid-signature\n" .
 "          Abort if the package does not have a valid signature\n" .
+    ''));
+    print_option(g_(
 "      --require-strong-checksums\n" .
 "          Abort if the package contains no strong checksums\n" .
+    ''));
+    print_option(g_(
 "      --ignore-bad-version\n" .
 "          Allow bad source package versions.\n" .
-    '');
+    ''));
 
     printf get_format_help();
     print_option_sep();
 
     printf g_(
 "General options:\n" .
+    '');
+    print_option(g_(
 "      --threads-max=<threads>\n" .
 "          Use at most <threads> with compressor.\n" .
+    ''));
+    print_option(g_(
 "  -q\n" .
 "          Quiet mode.\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
     print_option_sep();
 
     printf g_(

@@ -43,29 +43,49 @@ sub usage {
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "  -A\n" .
 "          Ignore Build-Depends-Arch and Build-Conflicts-Arch.\n" .
+    ''));
+    print_option(g_(
 "  -B\n" .
 "          Ignore Build-Depends-Indep and Build-Conflicts-Indep.\n" .
+    ''));
+    print_option(g_(
 "  -I\n" .
 "          Ignore built-in build dependencies and conflicts.\n" .
+    ''));
+    print_option(g_(
 "  -d <build-deps>\n" .
 "          Use given string as build dependencies instead of retrieving them\n" .
 "          from control file\n" .
+    ''));
+    print_option(g_(
 "  -c <build-conf>\n" .
 "          Use given string for build conflicts instead of retrieving them\n" .
 "          from control file\n" .
+    ''));
+    print_option(g_(
 "  -a <arch>\n" .
 "          Assume given host architecture\n" .
+    ''));
+    print_option(g_(
 "  -P <profiles>\n" .
 "          Assume given build profiles (comma-separated list)\n" .
+    ''));
+    print_option(g_(
 "      --admindir=<directory>\n" .
 "          Change the administrative directory.\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
     print_option_sep();
 
     printf g_(

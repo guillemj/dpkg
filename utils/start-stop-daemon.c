@@ -952,16 +952,28 @@ usage(void)
 
 	printf(
 "Commands:\n"
+	);
+	print_option(
 "  -S, --start -- <argument>...\n"
 "          Start a program and pass <arguments> to it\n"
+	);
+	print_option(
 "  -K, --stop\n"
 "          Stop a program\n"
+	);
+	print_option(
 "  -T, --status\n"
 "          Get the program status\n"
+	);
+	print_option(
 "      --pidof\n"
 "          Print the program pid\n"
+	);
+	print_option(
 "  -H, --help\n"
 "          Print help information\n"
+	);
+	print_option(
 "  -V, --version\n"
 "          Print version\n"
 	);
@@ -969,16 +981,28 @@ usage(void)
 
 	printf(
 "Matching options (at least one is required):\n"
+	);
+	print_option(
 "      --pid <pid>\n"
 "          Match on pid\n"
+	);
+	print_option(
 "      --ppid <ppid>\n"
 "          Match on parent pid\n"
+	);
+	print_option(
 "  -p, --pidfile <pid-file>\n"
 "          Match on pid file\n"
+	);
+	print_option(
 "  -x, --exec <executable>\n"
 "          Match (if it is running) or start program\n"
+	);
+	print_option(
 "  -n, --name <process-name>\n"
 "          Match on process name\n"
+	);
+	print_option(
 "  -u, --user <username|uid>\n"
 "          Match on process owner\n"
 	);
@@ -986,50 +1010,94 @@ usage(void)
 
 	printf(
 "Options:\n"
+	);
+	print_option(
 "  -g, --group <group|gid>\n"
 "          Run process as this group\n"
+	);
+	print_option(
 "  -c, --chuid <name|uid[:group|gid]>\n"
 "          Change to this user/group before starting process\n"
+	);
+	print_option(
 "  -s, --signal <signal>\n"
 "          Signal to send (default TERM)\n"
+	);
+	print_option(
 "  -a, --startas <pathname>\n"
 "          Program to start (default is <executable>)\n"
+	);
+	print_option(
 "  -r, --chroot <directory>\n"
 "          Change root to <directory> before starting\n"
+	);
+	print_option(
 "  -d, --chdir <directory>\n"
 "          Change to <directory> (default is /)\n"
+	);
+	print_option(
 "  -N, --nicelevel <incr>\n"
 "          Add incr to the process' nice level\n"
+	);
+	print_option(
 "  -P, --procsched <policy[:prio]>\n"
 "          Use <policy> with <prio> for the kernel process scheduler\n"
 "          (default prio is 0)\n"
+	);
+	print_option(
 "  -I, --iosched <class[:prio]>\n"
 "          Use <class> with <prio> to set the IO scheduler\n"
 "          (default prio is 4)\n"
+	);
+	print_option(
 "  -k, --umask <mask>\n"
 "          Change the umask to <mask> before starting\n"
+	);
+	print_option(
 "  -b, --background\n"
 "          Force the process to detach\n"
+	);
+	print_option(
 "      --notify-await\n"
 "          Wait for a readiness notification\n"
+	);
+	print_option(
 "      --notify-timeout <int>\n"
 "          Timeout after <int> seconds of notify wait\n"
+	);
+	print_option(
 "  -C, --no-close\n"
 "          Do not close any file descriptor\n"
+	);
+	print_option(
 "  -O, --output <filename>\n"
 "          Send stdout and stderr to <filename>\n"
+	);
+	print_option(
 "  -m, --make-pidfile\n"
 "          Create the pidfile before starting\n"
+	);
+	print_option(
 "      --remove-pidfile\n"
 "          Delete the pidfile after stopping\n"
+	);
+	print_option(
 "  -R, --retry <schedule>\n"
 "          Check whether processes die, and retry\n"
+	);
+	print_option(
 "  -t, --test\n"
 "          Test mode, do not do anything\n"
+	);
+	print_option(
 "  -o, --oknodo\n"
 "          Exit status 0 (not 1) if nothing done\n"
+	);
+	print_option(
 "  -q, --quiet\n"
 "          Be more quiet\n"
+	);
+	print_option(
 "  -v, --verbose\n"
 "          Be more verbose\n"
 	);

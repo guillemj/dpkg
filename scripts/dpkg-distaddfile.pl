@@ -41,13 +41,19 @@ sub usage {
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "  -f<files-list-file>\n" .
 "          Write files here instead of debian/files.\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
 }
 
 while (@ARGV && $ARGV[0] =~ m/^-/) {

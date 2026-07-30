@@ -88,74 +88,140 @@ usage(const char *const *argv)
 
 	printf(_(
 "Commands:\n"
+	));
+	print_option(_(
 "  -i, --install <archive-spec>\n"
 "          Install the archives.\n"
+	));
+	print_option(_(
 "      --unpack <archive-spec>\n"
 "          Unpack the archives.\n"
+	));
+	print_option(_(
 "  -A, --record-avail <archive-spec>\n"
 "          Record the archives in the available file.\n"
+	));
+	print_option(_(
 "      --configure <package-spec>\n"
 "          Configure the packages.\n"
+	));
+	print_option(_(
 "      --triggers-only <package-spec>\n"
 "          Process triggers for the packages.\n"
+	));
+	print_option(_(
 "  -r, --remove <package-spec>\n"
 "          Remove the packages.\n"
+	));
+	print_option(_(
 "  -P, --purge <package-spec>\n"
 "          Purge the packages.\n"
+	));
+	print_option(_(
 "  -V, --verify [<package>...]\n"
 "          Verify the integrity of package(s).\n"
+	));
+	print_option(_(
 "      --get-selections [<pattern>...]\n"
 "          Get list of selections to stdout.\n"
+	));
+	print_option(_(
 "      --set-selections\n"
 "          Set package selections from stdin.\n"
+	));
+	print_option(_(
 "      --clear-selections\n"
 "          Deselect every non-essential package.\n"
+	));
+	print_option(_(
 "      --update-avail [<Packages-file>]\n"
 "          Replace available packages info.\n"
+	));
+	print_option(_(
 "      --merge-avail [<Packages-file>]\n"
 "          Merge with info from file.\n"
+	));
+	print_option(_(
 "      --clear-avail\n"
 "          Erase existing available info.\n"
+	));
+	print_option(_(
 "  -s, --status [<package>...]\n"
 "          Display package status details.\n"
+	));
+	print_option(_(
 "  -p, --print-avail [<package>...]\n"
 "          Display available version details.\n"
+	));
+	print_option(_(
 "  -L, --listfiles <package>...\n"
 "          List files 'owned' by package(s).\n"
+	));
+	print_option(_(
 "  -l, --list [<pattern>...]\n"
 "          List packages concisely.\n"
+	));
+	print_option(_(
 "  -S, --search <pattern>...\n"
 "          Find package(s) owning file(s).\n"
+	));
+	print_option(_(
 "  -C, --audit [<package>...]\n"
 "          Check for broken package(s).\n"
+	));
+	print_option(_(
 "      --yet-to-unpack\n"
 "          Print packages selected for installation.\n"
+	));
+	print_option(_(
 "      --predep-package\n"
 "          Print pre-dependencies to unpack.\n"
+	));
+	print_option(_(
 "      --add-architecture <arch>\n"
 "          Add <arch> to the list of architectures.\n"
+	));
+	print_option(_(
 "      --remove-architecture <arch>\n"
 "          Remove <arch> from the list of architectures.\n"
+	));
+	print_option(_(
 "      --print-architecture\n"
 "          Print dpkg architecture.\n"
+	));
+	print_option(_(
 "      --print-foreign-architectures\n"
 "          Print allowed foreign architectures.\n"
+	));
+	print_option(_(
 "      --assert-help\n"
 "          Show help on assertions.\n"
+	));
+	print_option(_(
 "      --assert-<feature>\n"
 "          Assert support for the specified feature.\n"
+	));
+	print_option(_(
 "      --validate-<thing> <string>\n"
 "          Validate a <thing>'s <string>.\n"
+	));
+	print_option(_(
 "      --compare-versions <a> <op> <b>\n"
 "          Compare version numbers - see below.\n"
+	));
+	print_option(_(
 "      --force-help\n"
 "          Show help on forcing.\n"
+	));
+	print_option(_(
 "  -Dh, --debug=help\n"
 "          Show help on debugging.\n"
 	));
-	printf(_(
+	print_option(_(
 "  -?, --help\n"
 "          Show this help message.\n"
+	));
+	print_option(_(
 "      --version\n"
 "          Show the version.\n"
 	));
@@ -181,65 +247,123 @@ usage(const char *const *argv)
 
 	printf(_(
 "Options:\n"
+	));
+	print_option(_(
 "      --admindir=<directory>\n"
 "          Use <directory> instead of %s.\n"
+	), ADMINDIR);
+	print_option(_(
 "      --root=<directory>\n"
 "          Install on a different root directory.\n"
+	));
+	print_option(_(
 "      --instdir=<directory>\n"
 "          Change installation dir without changing admin dir.\n"
+	));
+	print_option(_(
 "      --pre-invoke=<command>\n"
 "          Set a pre-invoke hook.\n"
+	));
+	print_option(_(
 "      --post-invoke=<command>\n"
 "          Set a post-invoke hook.\n"
+	));
+	print_option(_(
 "      --path-exclude=<pattern>\n"
 "          Do not install paths which match a shell pattern.\n"
+	));
+	print_option(_(
 "      --path-include=<pattern>\n"
 "          Re-include a pattern after a previous exclusion.\n"
+	));
+	print_option(_(
 "  -O, --selected-only\n"
 "          Skip packages not selected for install/upgrade.\n"
+	));
+	print_option(_(
 "  -E, --skip-same-version\n"
 "          Skip packages with same installed version/arch.\n"
+	));
+	print_option(_(
 "  -G, --refuse-downgrade\n"
 "          Skip packages with earlier version than installed.\n"
+	));
+	print_option(_(
 "  -B, --auto-deconfigure\n"
 "          Install even if it would break some other package.\n"
+	));
+	print_option(_(
 "      --triggers\n"
 "          Force consequential trigger processing.\n"
+	));
+	print_option(_(
 "      --no-triggers\n"
 "          Skip consequential trigger processing.\n"
+	));
+	print_option(_(
 "      --verify-format=<format>\n"
 "          Verify output format (supported: 'rpm').\n"
+	));
+	print_option(_(
 "      --no-pager\n"
 "          Disables the use of any pager.\n"
+	));
+	print_option(_(
 "      --no-debsig\n"
 "          Do not try to verify package signatures.\n"
+	));
+	print_option(_(
 "      --no-act\n"
 "          Just say what we would do - do not do it.\n"
+	));
+	print_option(_(
 "      --dry-run\n"
 "          Ditto.\n"
+	));
+	print_option(_(
 "      --simulate\n"
 "          Ditto.\n"
+	));
+	print_option(_(
 "  -D, --debug=<octal>\n"
 "          Enable debugging (see -Dhelp or --debug=help).\n"
+	));
+	print_option(_(
 "      --status-fd <n>\n"
 "          Send status change updates to file descriptor <n>.\n"
+	));
+	print_option(_(
 "      --status-logger=<command>\n"
 "          Send status change updates to <command>'s stdin.\n"
+	));
+	print_option(_(
 "      --log=<filename>\n"
 "          Log status changes and actions to <filename>.\n"
+	));
+	print_option(_(
 "      --ignore-depends=<package>[,...]\n"
 "          Ignore dependencies involving <package>.\n"
+	));
+	print_option(_(
 "      --force-<thing>[,...]\n"
 "          Override problems (see --force-help).\n"
+	));
+	print_option(_(
 "      --no-force-<thing>[,...]\n"
 "          Stop when problems encountered.\n"
+	));
+	print_option(_(
 "      --refuse-<thing>[,...]\n"
 "          Ditto.\n"
+	));
+	print_option(_(
 "      --abort-after <n>\n"
 "          Abort after encountering <n> errors.\n"
+	));
+	print_option(_(
 "      --robot\n"
 "          Use machine-readable output on some commands.\n"
-	), ADMINDIR);
+	));
 	print_option_sep();
 
 	printf(_(

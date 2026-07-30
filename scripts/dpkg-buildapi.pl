@@ -37,18 +37,24 @@ sub usage
 
     printf g_(
 "Commands:\n" .
+    '');
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
     print_option_sep();
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "  -c<control-file>\n" .
 "          Get control info from this file.\n" .
-    '');
+    ''));
 }
 
 my $controlfile = 'debian/control';

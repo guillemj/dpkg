@@ -37,17 +37,27 @@ sub usage
 
     print g_(
 "Commands:\n" .
+    '');
+    print_option(g_(
 "      --create <archive> <file>...\n" .
 "          Create an ar archive.\n" .
+    ''));
+    print_option(g_(
 "      --list <archive>\n" .
 "          List the contents of an ar archive.\n" .
+    ''));
+    print_option(g_(
 "      --extract <archive> [<file>...]\n" .
 "          Extract the contents of an ar archive.\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
 }
 
 sub create

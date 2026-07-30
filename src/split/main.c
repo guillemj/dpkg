@@ -69,22 +69,36 @@ usage(const char *const *argv)
 
 	printf(_(
 "Commands:\n"
+	));
+	print_option(_(
 "  -s, --split <file> [<prefix>]\n"
 "          Split an archive.\n"
+	));
+	print_option(_(
 "  -j, --join <part> <part>...\n"
 "          Join parts together.\n"
+	));
+	print_option(_(
 "  -I, --info <part>...\n"
 "          Display info about a part.\n"
+	));
+	print_option(_(
 "  -a, --auto -o <complete> <part>\n"
 "          Auto-accumulate parts.\n"
+	));
+	print_option(_(
 "  -l, --listq\n"
 "          List unmatched pieces.\n"
+	));
+	print_option(_(
 "  -d, --discard [<filename>...]\n"
 "          Discard unmatched pieces.\n"
 	));
-	printf(_(
+	print_option(_(
 "  -?, --help\n"
 "          Show this help message.\n"
+	));
+	print_option(_(
 "      --version\n"
 "          Show the version.\n"
 	));
@@ -92,19 +106,31 @@ usage(const char *const *argv)
 
 	printf(_(
 "Options:\n"
+	));
+	print_option(_(
 "      --depotdir <directory>\n"
 "          Use <directory> instead of %s/%s.\n"
+	), ADMINDIR, PARTSDIR);
+	print_option(_(
 "      --admindir <directory>\n"
 "          Use <directory> instead of %s.\n"
+	), ADMINDIR);
+	print_option(_(
 "      --root <directory>\n"
 "          Use <directory> instead of %s.\n"
+	), "/");
+	print_option(_(
 "  -S, --partsize <size>\n"
 "          In KiB, for -s (default is 450).\n"
+	));
+	print_option(_(
 "  -o, --output <file>\n"
 "          Filename, for -j (default is <package>_<version>_<arch>.deb).\n"
+	));
+	print_option(_(
 "  -Q, --npquiet\n"
 "          Be quiet when -a is not a part.\n"
-	), ADMINDIR, PARTSDIR, ADMINDIR, "/");
+	));
 	print_option_sep();
 
 	printf(_(

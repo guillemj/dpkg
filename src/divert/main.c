@@ -86,14 +86,24 @@ usage(const char *const *argv)
 
 	printf(_(
 "Commands:\n"
+	));
+	print_option(_(
 "      [--add] <file>\n"
 "          Add a diversion.\n"
+	));
+	print_option(_(
 "      --remove <file>\n"
 "          Remove the diversion.\n"
+	));
+	print_option(_(
 "      --list [<glob-pattern>]\n"
 "          Show file diversions.\n"
+	));
+	print_option(_(
 "      --listpackage <file>\n"
 "          Show what package diverts the file.\n"
+	));
+	print_option(_(
 "      --truename <file>\n"
 "          Return the diverted file.\n"
 	));
@@ -101,28 +111,52 @@ usage(const char *const *argv)
 
 	printf(_(
 "Options:\n"
+	));
+	print_option(_(
 "      --package <package>\n"
 "          Name of the package whose copy of <file> will not be diverted.\n"
+	));
+	print_option(_(
 "      --local\n"
 "          All packages' versions are diverted.\n"
+	));
+	print_option(_(
 "      --divert <divert-to>\n"
 "          The name used by other packages' versions.\n"
+	));
+	print_option(_(
 "      --rename\n"
 "          Actually move the file aside (or back).\n"
+	));
+	print_option(_(
 "      --no-rename\n"
 "          Do not move the file aside (or back) (default).\n"
+	));
+	print_option(_(
 "      --admindir <directory>\n"
 "          Set the directory with the diversions file.\n"
+	));
+	print_option(_(
 "      --instdir <directory>\n"
 "          Set the root directory, but not the admin dir.\n"
+	));
+	print_option(_(
 "      --root <directory>\n"
 "          Set the directory of the root filesystem.\n"
+	));
+	print_option(_(
 "      --test\n"
 "          Do not do anything, just demonstrate.\n"
+	));
+	print_option(_(
 "      --quiet\n"
 "          Quiet operation, minimal output.\n"
+	));
+	print_option(_(
 "      --help\n"
 "          Show this help message.\n"
+	));
+	print_option(_(
 "      --version\n"
 "          Show the version.\n"
 	));

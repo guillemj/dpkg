@@ -81,10 +81,16 @@ usage(const char *const *argv)
 
 	printf(_(
 "Commands:\n"
+	));
+	print_option(_(
 "      --add <owner> <group> <mode> <path>\n"
 "          Add a new <path> entry into the database.\n"
+	));
+	print_option(_(
 "      --remove <path>\n"
 "          Remove <path> from the database.\n"
+	));
+	print_option(_(
 "      --list [<glob-pattern>]\n"
 "          List current overrides in the database.\n"
 	));
@@ -92,26 +98,48 @@ usage(const char *const *argv)
 
 	printf(_(
 "Options:\n"
+	));
+	print_option(_(
 "      --admindir <directory>\n"
 "          Set the directory with the statoverride file.\n"
+	));
+	print_option(_(
 "      --instdir <directory>\n"
 "          Set the root directory, but not the admin dir.\n"
+	));
+	print_option(_(
 "      --root <directory>\n"
 "          Set the directory of the root filesystem.\n"
+	));
+	print_option(_(
 "      --update\n"
 "          Immediately update <path> permissions.\n"
+	));
+	print_option(_(
 "      --force\n"
 "          Deprecated alias for --force-all.\n"
+	));
+	print_option(_(
 "      --force-<thing>[,...]\n"
 "          Override problems (see --force-help).\n"
+	));
+	print_option(_(
 "      --no-force-<thing>[,...]\n"
 "          Stop when problems encountered.\n"
+	));
+	print_option(_(
 "      --refuse-<thing>[,...]\n"
 "          Ditto.\n"
+	));
+	print_option(_(
 "      --quiet\n"
 "          Quiet operation, minimal output.\n"
+	));
+	print_option(_(
 "      --help\n"
 "          Show this help message.\n"
+	));
+	print_option(_(
 "      --version\n"
 "          Show the version.\n"
 	));

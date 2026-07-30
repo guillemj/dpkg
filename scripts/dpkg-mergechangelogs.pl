@@ -52,16 +52,24 @@ sub usage {
 
     printf g_(
 "Options:\n" .
+    '');
+    print_option(g_(
 "  -m, --merge-prereleases\n" .
 "          Merge pre-releases together, ignores everything after the last '~'\n" .
 "          in the version.\n" .
+    ''));
+    print_option(g_(
 "      --merge-unreleased\n" .
 "          Merge UNRELEASED entries together, ignoring their version numbers.\n" .
+    ''));
+    print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .
+    ''));
+    print_option(g_(
 "      --version\n" .
 "          Show the version.\n" .
-    '');
+    ''));
 }
 
 my $merge_prereleases;
