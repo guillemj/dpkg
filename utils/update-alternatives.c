@@ -125,6 +125,12 @@ version(void)
 }
 
 static void
+print_option_sep(void)
+{
+	fputs("\n", stdout);
+}
+
+static void
 usage(void)
 {
 	printf(_(

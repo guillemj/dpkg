@@ -927,6 +927,12 @@ pid_list_free(struct pid_list **list)
 }
 
 static void
+print_option_sep()
+{
+	fputs("\n", stdout);
+}
+
+static void
 usage(void)
 {
 	printf(

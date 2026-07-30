@@ -355,6 +355,12 @@ dpkg_options_parse_arg_int(const struct cmdinfo *cmd, const char *str)
 }
 
 void
+print_option_sep(void)
+{
+	fputs("\n", stdout);
+}
+
+void
 setobsolete(const struct cmdinfo *cip, const char *value)
 {
 	warning(_("obsolete option '--%s'"), cip->olong);

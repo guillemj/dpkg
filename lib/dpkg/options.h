@@ -74,6 +74,9 @@ dpkg_options_parse_arg_int(const struct cmdinfo *cmd, const char *str);
 struct pkginfo *
 dpkg_options_parse_pkgname(const struct cmdinfo *cmd, const char *name);
 
+void
+print_option_sep(void);
+
 /**
  * Current cmdinfo action.
  */
