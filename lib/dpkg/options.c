@@ -34,6 +34,8 @@
 #include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/string.h>
+#include <dpkg/varbuf.h>
+#include <dpkg/color.h>
 #include <dpkg/options.h>
 
 static const char *printforhelp;
@@ -358,6 +360,55 @@ void
 print_option_sep(void)
 {
 	fputs("\n", stdout);
+}
+
+void
+print_option(const char *opt_fmt_spec, ...)
+{
+	va_list args;
+	struct varbuf color_spec = VARBUF_INIT;
+	const char *opt_desc;
+	char *opt_spec;
+	char *p;
+
+	va_start(args, opt_fmt_spec);
+	opt_spec = str_vfmt(opt_fmt_spec, args);
+	va_end(args);
+	opt_desc = strchr(opt_spec, '\n');
+
+	varbuf_add_str(&color_spec, color_get(COLOR_BOLD));
+	for (p = opt_spec; p < opt_desc; p++) {
+		switch (*p) {
+		case '<':
+			varbuf_add_str(&color_spec, color_get(COLOR_RESET));
+			varbuf_add_char(&color_spec, *p);
+			varbuf_add_str(&color_spec, color_get(COLOR_ITALIC));
+			break;
+		case '>':
+			varbuf_add_str(&color_spec, color_get(COLOR_RESET));
+			varbuf_add_char(&color_spec, *p);
+			varbuf_add_str(&color_spec, color_get(COLOR_BOLD));
+			break;
+		case '=':
+		case '[':
+		case ']':
+		case '.':
+			varbuf_add_str(&color_spec, color_get(COLOR_RESET));
+			varbuf_add_char(&color_spec, *p);
+			varbuf_add_str(&color_spec, color_get(COLOR_BOLD));
+			break;
+		default:
+			varbuf_add_char(&color_spec, *p);
+			break;
+		}
+	}
+	varbuf_add_str(&color_spec, color_get(COLOR_RESET));
+
+	varbuf_add_str(&color_spec, opt_desc);
+
+	fputs(color_spec.buf, stdout);
+
+	varbuf_destroy(&color_spec);
 }
 
 void

@@ -130,6 +130,16 @@ print_option_sep(void)
 	fputs("\n", stdout);
 }
 
+static void LIBCOMPAT_ATTR_PRINTF(1)
+print_option(const char *fmt_spec, ...)
+{
+	va_list args;
+
+	va_start(args, fmt_spec);
+	vprintf(fmt_spec, args);
+	va_end(args);
+}
+
 static void
 usage(void)
 {

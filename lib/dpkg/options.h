@@ -76,6 +76,9 @@ dpkg_options_parse_pkgname(const struct cmdinfo *cmd, const char *name);
 
 void
 print_option_sep(void);
+void
+print_option(const char *opt_fmt_spec, ...)
+	DPKG_ATTR_PRINTF(1);
 
 /**
  * Current cmdinfo action.
