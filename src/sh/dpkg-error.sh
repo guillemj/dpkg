@@ -29,6 +29,13 @@
 COLOR_NORMAL=''
 COLOR_RESET='[0m'
 COLOR_BOLD='[1m'                      # [0m
+COLOR_DIM='[2m'                       # [0m
+COLOR_ITALIC='[3m'                    # [0m
+COLOR_UNDERLINE='[4m'                 # [0m
+COLOR_BLINK='[5m'                     # [0m
+COLOR_INVERT='[7m'                    # [0m
+COLOR_HIDE='[8m'                      # [0m
+COLOR_STRIKE='[9m'                    # [0m
 
 COLOR_BLACK='[30m'                    # [0m
 COLOR_RED='[31m'                      # [0m
