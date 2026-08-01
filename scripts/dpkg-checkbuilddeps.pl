@@ -50,15 +50,15 @@ sub usage {
           Ignore Build-Depends-Indep and Build-Conflicts-Indep.
   -I
           Ignore built-in build dependencies and conflicts.
-  -d build-deps
+  -d <build-deps>
           Use given string as build dependencies instead of retrieving them
           from control file
-  -c build-conf
+  -c <build-conf>
           Use given string for build conflicts instead of retrieving them
           from control file
-  -a arch
+  -a <arch>
           Assume given host architecture
-  -P profiles
+  -P <profiles>
           Assume given build profiles (comma-separated list)
       --admindir=<directory>
           Change the administrative directory.

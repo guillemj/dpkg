@@ -60,7 +60,7 @@ Options:
           Overwrite if file exists.
   -k, --symlink
           Do not create a new file, but a symlink.
-  -s, --subdir [dir]
+  -s, --subdir [<dir>]
           Move file into subdirectory (use with care).
   -c, --create-dir
           Create target directory if not there (use with care).
