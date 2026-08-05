@@ -645,12 +645,12 @@ sub get_format_help {
 
     if ($help_build) {
         $help .= "\n";
-        $help .= "Build format $build_format options:\n";
+        $help .= sprintf g_("Build format %s options:\n"), $build_format;
         $help .= $help_build || C_('source options', '<none>');
     }
     if ($help_extract) {
         $help .= "\n";
-        $help .= "Extract format $build_format options:\n";
+        $help .= sprintf g_("Extract format %s options:\n"), $build_format;
         $help .= $help_extract || C_('source options', '<none>');
     }
 
