@@ -29,6 +29,7 @@ use POSIX qw(:sys_wait_h);
 
 use Dpkg ();
 use Dpkg::Gettext;
+use Dpkg::Getopt;
 use Dpkg::ErrorHandling;
 use Dpkg::Exit qw(
     push_exit_handler
@@ -58,15 +59,6 @@ use Dpkg::IPC;
 use Dpkg::Vendor qw(run_vendor_hook);
 
 textdomain('dpkg-dev');
-
-sub showversion {
-    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
-
-    print g_('
-This is free software; see the GNU General Public License version 2 or
-later for copying conditions. There is NO warranty.
-');
-}
 
 sub usage {
     printf g_(
@@ -305,7 +297,7 @@ while (@ARGV) {
         usage;
         exit 0;
     } elsif (/^--version$/) {
-        showversion;
+        print_version;
         exit 0;
     } elsif (/^--admindir$/) {
         $admindir = shift @ARGV;

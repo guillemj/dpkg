@@ -25,6 +25,7 @@ use Dpkg ();
 use Dpkg::Changelog::Debian;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
+use Dpkg::Getopt;
 use Dpkg::Version;
 use Dpkg::Vendor qw(run_vendor_hook);
 
@@ -41,15 +42,6 @@ BEGIN {
             return get_conflict_block($a, $b);
         };
     }
-}
-
-sub version {
-    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
-
-    printf "\n" . g_(
-'This is free software; see the GNU General Public License version 2 or
-later for copying conditions. There is NO warranty.
-');
 }
 
 sub usage {
@@ -74,7 +66,10 @@ my $merge_unreleased;
 
 my @options_spec = (
     'help|?' => sub { usage(); exit(0) },
-    'version' => sub { version(); exit(0) },
+    'version' => sub {
+        print_version();
+        exit(0)
+    },
     'merge-prereleases|m' => \$merge_prereleases,
     'merge-unreleased' => \$merge_unreleased,
 );

@@ -21,17 +21,13 @@ use v5.36;
 
 use Dpkg ();
 use Dpkg::Gettext;
+use Dpkg::Getopt;
 use Dpkg::ErrorHandling;
 use Dpkg::Archive::Ar;
 
 textdomain('dpkg-dev');
 
 my $action;
-
-sub version
-{
-    printf(g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION);
-}
 
 sub usage
 {
@@ -99,7 +95,7 @@ while (@ARGV) {
         usage();
         exit(0);
     } elsif ($arg eq '-v' or $arg eq '--version') {
-        version();
+        print_version();
         exit(0);
     } elsif ($arg eq '--create') {
         $action = 'create';

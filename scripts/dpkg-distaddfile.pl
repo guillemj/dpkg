@@ -24,6 +24,7 @@ use Fcntl;
 
 use Dpkg ();
 use Dpkg::Gettext;
+use Dpkg::Getopt;
 use Dpkg::ErrorHandling;
 use Dpkg::Lock;
 use Dpkg::Dist::Files;
@@ -31,16 +32,6 @@ use Dpkg::Dist::Files;
 textdomain('dpkg-dev');
 
 my $fileslistfile = 'debian/files';
-
-
-sub version {
-    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
-
-    printf g_('
-This is free software; see the GNU General Public License version 2 or
-later for copying conditions. There is NO warranty.
-');
-}
 
 sub usage {
     printf g_(
@@ -64,7 +55,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {
-        version();
+        print_version();
         exit(0);
     } elsif (m/^--$/) {
         last;

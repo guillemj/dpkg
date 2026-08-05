@@ -224,7 +224,7 @@ while (@options) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {
-        version();
+        print_version();
         exit(0);
     } elsif (m/^-[EW]$/) {
         # Deprecated option.
@@ -647,15 +647,6 @@ sub get_format_help {
     }
 
     return $help;
-}
-
-sub version {
-    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
-
-    print g_('
-This is free software; see the GNU General Public License version 2 or
-later for copying conditions. There is NO warranty.
-');
 }
 
 sub usage {

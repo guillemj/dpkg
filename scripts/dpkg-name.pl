@@ -27,6 +27,7 @@ use File::Path qw(make_path);
 
 use Dpkg ();
 use Dpkg::Gettext;
+use Dpkg::Getopt;
 use Dpkg::ErrorHandling;
 use Dpkg::Version;
 use Dpkg::Control;
@@ -42,11 +43,6 @@ my %options = (
     symlink => 0,
     architecture => 1,
 );
-
-sub version
-{
-    printf(g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION);
-}
 
 sub usage
 {
@@ -234,7 +230,7 @@ while (@ARGV) {
         usage();
         exit(0);
     } elsif (m/^-v|--version$/) {
-        version();
+        print_version();
         exit(0);
     } elsif (m/^-c|--create-dir$/) {
         $options{createdir} = 1;

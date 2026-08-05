@@ -28,6 +28,7 @@ use Dpkg::Shlibs qw(get_library_paths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Gettext;
+use Dpkg::Getopt;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Info;
 use Dpkg::Changelog::Parse;
@@ -50,15 +51,6 @@ my $template_mode = 0;
 my $verbose_output = 0;
 my $debug = 0;
 my $host_arch = get_host_arch();
-
-sub version {
-    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
-
-    printf g_('
-This is free software; see the GNU General Public License version 2 or
-later for copying conditions. There is NO warranty.
-');
-}
 
 sub usage {
     printf g_(
@@ -151,7 +143,7 @@ while (@ARGV) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {
-        version();
+        print_version();
         exit(0);
     } else {
         usageerr(g_("unknown option '%s'"), $_);

@@ -26,6 +26,7 @@ use POSIX qw(:errno_h :locale_h);
 
 use Dpkg ();
 use Dpkg::Gettext;
+use Dpkg::Getopt;
 use Dpkg::File;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
@@ -82,15 +83,6 @@ my $since;
 my $substvars_loaded = 0;
 my $substvars = Dpkg::Substvars->new();
 $substvars->set_as_auto('Format', $changes_format);
-
-sub version {
-    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
-
-    printf g_('
-This is free software; see the GNU General Public License version 2 or
-later for copying conditions. There is NO warranty.
-');
-}
 
 sub usage {
     printf g_(
@@ -227,7 +219,7 @@ while (@ARGV) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {
-        version();
+        print_version();
         exit(0);
     } else {
         usageerr(g_("unknown option '%s'"), $_);

@@ -29,15 +29,6 @@ use Dpkg::Arch qw(:getters :mappers debarch_eq debarch_is);
 
 textdomain('dpkg-dev');
 
-sub version {
-    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
-
-    printf g_('
-This is free software; see the GNU General Public License version 2 or
-later for copying conditions. There is NO warranty.
-');
-}
-
 sub usage {
     printf g_(
 'Usage: %s [<option>...] [<command>]')
@@ -256,7 +247,7 @@ while (@ARGV) {
         usage();
         exit 0;
     } elsif ($arg eq '--version') {
-        version();
+        print_version();
         exit 0;
     } else {
         usageerr(g_("unknown option '%s'"), $arg);

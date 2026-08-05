@@ -25,6 +25,7 @@ use Getopt::Long qw(:config posix_default bundling_values no_ignorecase);
 
 use Dpkg ();
 use Dpkg::Gettext;
+use Dpkg::Getopt;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Vendor qw(run_vendor_hook);
@@ -33,11 +34,6 @@ use Dpkg::Deps;
 use Dpkg::Control::Info;
 
 textdomain('dpkg-dev');
-
-sub version
-{
-    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
-}
 
 sub usage {
     printf g_(
@@ -84,7 +80,7 @@ my @options_spec = (
         exit 0;
     },
     'version' => sub {
-        version();
+        print_version();
         exit 0;
     },
     'A' => \$ignore_bd_arch,

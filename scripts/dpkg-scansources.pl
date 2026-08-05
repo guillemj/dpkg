@@ -25,6 +25,7 @@ use File::Find;
 
 use Dpkg ();
 use Dpkg::Gettext;
+use Dpkg::Getopt;
 use Dpkg::ErrorHandling;
 use Dpkg::Control;
 use Dpkg::Control::Fields;
@@ -70,17 +71,13 @@ my @option_spec = (
         exit 0;
     },
     'version' => sub {
-        version();
+        print_version();
         exit 0;
     },
     'no-sort|n' => \$no_sort,
     'source-override|s=s' => \$src_override,
     'extra-override|e=s' => \$extra_override_file,
 );
-
-sub version {
-    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
-}
 
 sub usage {
     printf g_(

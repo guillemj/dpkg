@@ -29,6 +29,7 @@ use File::Basename qw(dirname);
 
 use Dpkg ();
 use Dpkg::Gettext;
+use Dpkg::Getopt;
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
 use Dpkg::Path qw(relative_to_pkg_root guess_pkg_root_dir
@@ -110,7 +111,7 @@ foreach (@ARGV) {
         usage();
         exit 0;
     } elsif (m/^--version$/) {
-        version();
+        print_version();
         exit 0;
     } elsif (m/^--admindir=(.*)$/) {
         $admindir = $1;
@@ -643,15 +644,6 @@ if (! $stdout) {
 }
 
 ## Functions.
-
-sub version {
-    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
-
-    printf g_('
-This is free software; see the GNU General Public License version 2 or
-later for copying conditions. There is NO warranty.
-');
-}
 
 sub usage {
     printf g_(

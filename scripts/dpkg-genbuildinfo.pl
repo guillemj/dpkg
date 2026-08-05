@@ -32,6 +32,7 @@ use POSIX qw(:fcntl_h :locale_h strftime);
 
 use Dpkg ();
 use Dpkg::Gettext;
+use Dpkg::Getopt;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
@@ -349,15 +350,6 @@ sub cleansed_environment {
                       sort keys %env;
 }
 
-sub version {
-    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
-
-    printf g_('
-This is free software; see the GNU General Public License version 2 or
-later for copying conditions. There is NO warranty.
-');
-}
-
 sub usage {
     printf g_(
 'Usage: %s [<option>...]')
@@ -425,7 +417,7 @@ while (@ARGV) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {
-        version();
+        print_version();
         exit(0);
     } else {
         usageerr(g_("unknown option '%s'"), $_);
