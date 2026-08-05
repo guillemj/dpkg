@@ -114,10 +114,6 @@ sub usage {
 "          Show the version.\n" .
     ''));
     print_option_sep();
-
-    printf g_(
-"See the man page for the full documentation.\n" .
-    '');
 }
 
 sub load_override {
