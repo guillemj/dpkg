@@ -76,28 +76,31 @@ my @options_spec = (
 
 sub usage {
     printf g_(
-"Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > Packages
+"Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > Packages\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
 
-Options:
-  -t, --type <type>
-          Scan for <type> packages (default is 'deb').
-  -a, --arch <arch>
-          Architecture to scan for (with implicit arch all).
-      --no-implicit-arch
-          Do not add implicit architecture all to --arch.
-  -h, --hash <hash-list>
-          Only generate hashes for the specified list.
-  -m, --multiversion
-          Allow multiple versions of a single package.
-  -e, --extra-override <file>
-          Use extra override file.
-  -M, --medium <medium>
-          Add X-Medium field for dselect media access method
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.
-"), $Dpkg::PROGNAME;
+    printf g_(
+"Options:\n" .
+"  -t, --type <type>\n" .
+"          Scan for <type> packages (default is 'deb').\n" .
+"  -a, --arch <arch>\n" .
+"          Architecture to scan for (with implicit arch all).\n" .
+"      --no-implicit-arch\n" .
+"          Do not add implicit architecture all to --arch.\n" .
+"  -h, --hash <hash-list>\n" .
+"          Only generate hashes for the specified list.\n" .
+"  -m, --multiversion\n" .
+"          Allow multiple versions of a single package.\n" .
+"  -e, --extra-override <file>\n" .
+"          Use extra override file.\n" .
+"  -M, --medium <medium>\n" .
+"          Add X-Medium field for dselect media access method\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
 }
 
 sub load_override

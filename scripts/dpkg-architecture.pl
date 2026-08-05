@@ -31,51 +31,57 @@ textdomain('dpkg-dev');
 
 sub usage {
     printf g_(
-'Usage: %s [<option>...] [<command>]')
-    . "\n\n" . g_(
-'Commands:
-  -l, --list
-          List variables (default).
-  -L, --list-known
-          List valid architectures (matching some criteria).
-  -e, --equal <arch>
-          Compare with host Debian architecture.
-  -i, --is <arch-wildcard>
-          Match against host Debian architecture.
-  -q, --query <variable>
-          Prints only the value of <variable>.
-  -s, --print-set
-          Print command to set environment variables.
-  -u, --print-unset
-          Print command to unset environment variables.
-  -c, --command <command>
-          Set environment and run the command in it.
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.')
-    . "\n\n" . g_(
-'Options:
-  -a, --host-arch <arch>
-          Set host Debian architecture.
-  -t, --host-type <type>
-          Set host GNU system type.
-  -A, --target-arch <arch>
-          Set target Debian architecture.
-  -T, --target-type <type>
-          Set target GNU system type.
-  -W, --match-wildcard <arch-wildcard>
-          Restrict architecture list matching <arch-wildcard>.
-  -B, --match-bits <arch-bits>
-          Restrict architecture list matching <arch-bits>.
-  -E, --match-endian <arch-endian>
-          Restrict architecture list matching <arch-endian>.
-      --print-format <format>
-          Use <format> for --print-set and --print-unset, allowed values:
-            shell (default), make.
-  -f, --force
-          Force flag (override variables set in environment).')
-    . "\n", $Dpkg::PROGNAME;
+"Usage: %s [<option>...] [<command>]\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    printf g_(
+"Commands:\n" .
+"  -l, --list\n" .
+"          List variables (default).\n" .
+"  -L, --list-known\n" .
+"          List valid architectures (matching some criteria).\n" .
+"  -e, --equal <arch>\n" .
+"          Compare with host Debian architecture.\n" .
+"  -i, --is <arch-wildcard>\n" .
+"          Match against host Debian architecture.\n" .
+"  -q, --query <variable>\n" .
+"          Prints only the value of <variable>.\n" .
+"  -s, --print-set\n" .
+"          Print command to set environment variables.\n" .
+"  -u, --print-unset\n" .
+"          Print command to unset environment variables.\n" .
+"  -c, --command <command>\n" .
+"          Set environment and run the command in it.\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
+    print_option_sep();
+
+    printf g_(
+"Options:\n" .
+"  -a, --host-arch <arch>\n" .
+"          Set host Debian architecture.\n" .
+"  -t, --host-type <type>\n" .
+"          Set host GNU system type.\n" .
+"  -A, --target-arch <arch>\n" .
+"          Set target Debian architecture.\n" .
+"  -T, --target-type <type>\n" .
+"          Set target GNU system type.\n" .
+"  -W, --match-wildcard <arch-wildcard>\n" .
+"          Restrict architecture list matching <arch-wildcard>.\n" .
+"  -B, --match-bits <arch-bits>\n" .
+"          Restrict architecture list matching <arch-bits>.\n" .
+"  -E, --match-endian <arch-endian>\n" .
+"          Restrict architecture list matching <arch-endian>.\n" .
+"      --print-format <format>\n" .
+"          Use <format> for --print-set and --print-unset, allowed values:\n" .
+"            shell (default), make.\n" .
+"  -f, --force\n" .
+"          Force flag (override variables set in environment).\n" .
+    '');
 }
 
 sub check_arch_coherency

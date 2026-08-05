@@ -34,46 +34,52 @@ my $fieldname;
 
 sub usage {
     printf g_(
-'Usage: %s [<option>...]')
-    . "\n\n" . g_(
-'Options:
-  -l, --file <changelog-file>
-          Get per-version info from this file.
-  -F <changelog-format>
-          Force changelog format.
-  -S, --show-field <field>
-          Show the values for <field>.
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.')
-    . "\n\n" . g_(
-"Parser options:
-      --format <output-format>
-          Set output format (defaults to 'dpkg').
-      --reverse
-          Include all changes in reverse order.
-      --all
-          Include all changes.
-  -s, --since <version>
-          Include all changes later than <version>.
-  -v <version>
-          Ditto.
-  -u, --until <version>
-          Include all changes earlier than <version>.
-  -f, --from <version>
-          Include all changes equal or later than <version>.
-  -t, --to <version>
-          Include all changes up to or equal than <version>.
-  -c, --count <number>
-          Include <number> entries from the top (or tail if <number> is lower
-          than 0).
-  -n <number>
-          Ditto.
-  -o, --offset <number>
-          Change starting point for --count, counted from the top (or tail
-          if <number> is lower than 0).
-"), $Dpkg::PROGNAME;
+"Usage: %s [<option>...]\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    printf g_(
+"Options:\n" .
+"  -l, --file <changelog-file>\n" .
+"          Get per-version info from this file.\n" .
+"  -F <changelog-format>\n" .
+"          Force changelog format.\n" .
+"  -S, --show-field <field>\n" .
+"          Show the values for <field>.\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
+    print_option_sep();
+
+    printf g_(
+"Parser options:\n" .
+"      --format <output-format>\n" .
+"          Set output format (defaults to 'dpkg').\n" .
+"      --reverse\n" .
+"          Include all changes in reverse order.\n" .
+"      --all\n" .
+"          Include all changes.\n" .
+"  -s, --since <version>\n" .
+"          Include all changes later than <version>.\n" .
+"  -v <version>\n" .
+"          Ditto.\n" .
+"  -u, --until <version>\n" .
+"          Include all changes earlier than <version>.\n" .
+"  -f, --from <version>\n" .
+"          Include all changes equal or later than <version>.\n" .
+"  -t, --to <version>\n" .
+"          Include all changes up to or equal than <version>.\n" .
+"  -c, --count <number>\n" .
+"          Include <number> entries from the top (or tail if <number> is lower\n" .
+"          than 0).\n" .
+"  -n <number>\n" .
+"          Ditto.\n" .
+"  -o, --offset <number>\n" .
+"          Change starting point for --count, counted from the top (or tail\n" .
+"          if <number> is lower than 0).\n" .
+    '');
 }
 
 @ARGV = normalize_options(args => \@ARGV, delim => '--');

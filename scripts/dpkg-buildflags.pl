@@ -32,33 +32,36 @@ textdomain('dpkg-dev');
 
 sub usage {
     printf g_(
-'Usage: %s [<command>]')
-    . "\n\n" . g_(
-'Commands:
-      --get <flag>
-          Output the requested flag to stdout.
-      --origin <flag>
-          Output the origin of the flag to stdout; value is one of:
-            vendor, system, user, env.
-      --status
-          Output a synopsis with all parameters affecting the program behavior,
-          the resulting flags and their origin.
-      --query
-          Like --status, but in deb822 format.
-      --query-features <area>
-          Output the status of features for the given area.
-      --list
-          Output a list of the flags supported by the current vendor.
-      --export=(sh|make|cmdline|configure)
-          Output something convenient to import the compilation flags in a
-          shell script, in make, or in a command line.
-      --dump
-          Output all compilation flags with their values.
-      --help
-          Show this help message.
-      --version
-          Show the version.
-'), $Dpkg::PROGNAME;
+"Usage: %s [<command>]\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    printf g_(
+"Commands:\n" .
+"      --get <flag>\n" .
+"          Output the requested flag to stdout.\n" .
+"      --origin <flag>\n" .
+"          Output the origin of the flag to stdout; value is one of:\n" .
+"            vendor, system, user, env.\n" .
+"      --status\n" .
+"          Output a synopsis with all parameters affecting the program behavior,\n" .
+"          the resulting flags and their origin.\n" .
+"      --query\n" .
+"          Like --status, but in deb822 format.\n" .
+"      --query-features <area>\n" .
+"          Output the status of features for the given area.\n" .
+"      --list\n" .
+"          Output a list of the flags supported by the current vendor.\n" .
+"      --export=(sh|make|cmdline|configure)\n" .
+"          Output something convenient to import the compilation flags in a\n" .
+"          shell script, in make, or in a command line.\n" .
+"      --dump\n" .
+"          Output all compilation flags with their values.\n" .
+"      --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
 }
 
 my ($param, $action);

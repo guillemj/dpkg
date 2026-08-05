@@ -46,28 +46,34 @@ my %options = (
 
 sub usage
 {
-    printf(g_("Usage: %s [<option>...] <file>...\n"), $Dpkg::PROGNAME);
+    printf g_(
+"Usage: %s [<option>...] <file>...\n" .
+    ''), $Dpkg::PROGNAME);
+    print_option_sep();
 
-    print(g_("
-Options:
-  -a, --no-architecture
-          No architecture part in filename.
-  -o, --overwrite
-          Overwrite if file exists.
-  -k, --symlink
-          Do not create a new file, but a symlink.
-  -s, --subdir [<dir>]
-          Move file into subdirectory (use with care).
-  -c, --create-dir
-          Create target directory if not there (use with care).
-  -?, --help
-          Show this help message.
-  -v, --version
-          Show the version.
+    printf g_(
+"Options:\n" .
+"  -a, --no-architecture\n" .
+"          No architecture part in filename.\n" .
+"  -o, --overwrite\n" .
+"          Overwrite if file exists.\n" .
+"  -k, --symlink\n" .
+"          Do not create a new file, but a symlink.\n" .
+"  -s, --subdir [<dir>]\n" .
+"          Move file into subdirectory (use with care).\n" .
+"  -c, --create-dir\n" .
+"          Create target directory if not there (use with care).\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"  -v, --version\n" .
+"          Show the version.\n" .
+    '');
+    print_option_sep();
 
-file.deb changes to <package>_<version>_<architecture>.<package_type>
-according to the 'underscores convention'.
-"));
+    printf g_(
+"file.deb changes to <package>_<version>_<architecture>.<package_type>\n" .
+"according to the 'underscores convention'.\n" .
+    '');
 }
 
 sub fileexists

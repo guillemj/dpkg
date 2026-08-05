@@ -64,40 +64,43 @@ my $substvars_loaded = 0;
 
 sub usage {
     printf g_(
-'Usage: %s [<option>...]')
-    . "\n\n" . g_(
-'Options:
-  -p<package>
-          Print control file for package.
-  -c<control-file>
-          Get control info from this file.
-  -l<changelog-file>
-          Get per-version info from this file.
-  -F<changelog-format>
-          Force changelog format.
-  -v<force-version>
-          Set version of binary package.
-  -f<files-list-file>
-          Write files here instead of debian/files.
-  -P<package-build-dir>
-          Temporary build directory instead of debian/tmp.
-  -n<filename>
-          Assume the package filename will be <filename>.
-  -O[<file>]
-          Write to stdout (or <file>), not .../DEBIAN/control.
-  -D<field>=<value>
-          Override or add a field and value.
-  -U<field>
-          Remove a field.
-  -V<name>=<value>
-          Set a substitution variable.
-  -T<substvars-file>
-          Read variables here, not debian/substvars.
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.
-'), $Dpkg::PROGNAME;
+"Usage: %s [<option>...]\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    printf g_(
+"Options:\n" .
+"  -p<package>\n" .
+"          Print control file for package.\n" .
+"  -c<control-file>\n" .
+"          Get control info from this file.\n" .
+"  -l<changelog-file>\n" .
+"          Get per-version info from this file.\n" .
+"  -F<changelog-format>\n" .
+"          Force changelog format.\n" .
+"  -v<force-version>\n" .
+"          Set version of binary package.\n" .
+"  -f<files-list-file>\n" .
+"          Write files here instead of debian/files.\n" .
+"  -P<package-build-dir>\n" .
+"          Temporary build directory instead of debian/tmp.\n" .
+"  -n<filename>\n" .
+"          Assume the package filename will be <filename>.\n" .
+"  -O[<file>]\n" .
+"          Write to stdout (or <file>), not .../DEBIAN/control.\n" .
+"  -D<field>=<value>\n" .
+"          Override or add a field and value.\n" .
+"  -U<field>\n" .
+"          Remove a field.\n" .
+"  -V<name>=<value>\n" .
+"          Set a substitution variable.\n" .
+"  -T<substvars-file>\n" .
+"          Read variables here, not debian/substvars.\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
 }
 
 while (@ARGV) {

@@ -31,21 +31,23 @@ my $action;
 
 sub usage
 {
-    printf(g_("Usage: %s [<option>...]\n"), $Dpkg::PROGNAME);
+    printf g_(
+"Usage: %s [<option>...]\n" .
+    ''), $Dpkg::PROGNAME;
 
-    print(g_('
-Commands:
-      --create <archive> <file>...
-          Create an ar archive.
-      --list <archive>
-          List the contents of an ar archive.
-      --extract <archive> [<file>...]
-          Extract the contents of an ar archive.
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.
-'));
+    print g_(
+"Commands:\n" .
+"      --create <archive> <file>...\n" .
+"          Create an ar archive.\n" .
+"      --list <archive>\n" .
+"          List the contents of an ar archive.\n" .
+"      --extract <archive> [<file>...]\n" .
+"          Extract the contents of an ar archive.\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
 }
 
 sub create

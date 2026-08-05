@@ -54,47 +54,50 @@ my $host_arch = get_host_arch();
 
 sub usage {
     printf g_(
-'Usage: %s [<option>...]')
-    . "\n\n" . g_(
-'Options:
-  -l<library-path>
-          Add directory to private shared library search list.
-  -p<package>
-          Generate symbols file for package.
-  -P<package-build-dir>
-          Temporary build directory instead of debian/tmp.
-  -e<library>
-          Explicitly list libraries to scan.
-  -v<version>
-          Version of the packages (defaults to version extracted from
-          debian/changelog).
-  -c<level>
-          Compare generated symbols file with the reference template in the
-          debian directory and fail if difference is too important; level goes
-          from 0 for no check, to 4 for all checks (default level is 1).
-  -q
-          Keep quiet and never emit any warnings or generate a diff between
-          generated symbols file and the reference template.
-  -I<file>
-          Force usage of <file> as reference symbols file instead of the
-          default file.
-  -O[<file>]
-          Write to stdout (or <file>), not .../DEBIAN/symbols.
-  -t
-          Write in template mode (tags are not processed and included in
-          output).
-  -V
-          Verbose output; write deprecated symbols and pattern matching symbols
-          as comments (in template mode only).
-  -a<arch>
-          Assume <arch> as host architecture when processing symbol files.
-  -d
-          Display debug information during work.
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.
-'), $Dpkg::PROGNAME;
+"Usage: %s [<option>...]\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    printf g_(
+"Options:\n" .
+"  -l<library-path>\n" .
+"          Add directory to private shared library search list.\n" .
+"  -p<package>\n" .
+"          Generate symbols file for package.\n" .
+"  -P<package-build-dir>\n" .
+"          Temporary build directory instead of debian/tmp.\n" .
+"  -e<library>\n" .
+"          Explicitly list libraries to scan.\n" .
+"  -v<version>\n" .
+"          Version of the packages (defaults to version extracted from\n" .
+"          debian/changelog).\n" .
+"  -c<level>\n" .
+"          Compare generated symbols file with the reference template in the\n" .
+"          debian directory and fail if difference is too important; level goes\n" .
+"          from 0 for no check, to 4 for all checks (default level is 1).\n" .
+"  -q\n" .
+"          Keep quiet and never emit any warnings or generate a diff between\n" .
+"          generated symbols file and the reference template.\n" .
+"  -I<file>\n" .
+"          Force usage of <file> as reference symbols file instead of the\n" .
+"          default file.\n" .
+"  -O[<file>]\n" .
+"          Write to stdout (or <file>), not .../DEBIAN/symbols.\n" .
+"  -t\n" .
+"          Write in template mode (tags are not processed and included in\n" .
+"          output).\n" .
+"  -V\n" .
+"          Verbose output; write deprecated symbols and pattern matching symbols\n" .
+"          as comments (in template mode only).\n" .
+"  -a<arch>\n" .
+"          Assume <arch> as host architecture when processing symbol files.\n" .
+"  -d\n" .
+"          Display debug information during work.\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
 }
 
 my @files;

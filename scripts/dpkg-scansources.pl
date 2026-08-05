@@ -81,25 +81,31 @@ my @option_spec = (
 
 sub usage {
     printf g_(
-'Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > Sources
+"Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > Sources\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
 
-Options:
-  -n, --no-sort
-          Do not sort by package before outputting.
-  -e, --extra-override <file>
-          Use extra override file.
-  -s, --source-override <file>
-          Use file for additional source overrides, default is regular override
-          file with .src appended.
-      --debug
-          Turn debugging on.
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.
+    printf g_(
+"Options:\n" .
+"  -n, --no-sort\n" .
+"          Do not sort by package before outputting.\n" .
+"  -e, --extra-override <file>\n" .
+"          Use extra override file.\n" .
+"  -s, --source-override <file>\n" .
+"          Use file for additional source overrides, default is regular override\n" .
+"          file with .src appended.\n" .
+"      --debug\n" .
+"          Turn debugging on.\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
+    print_option_sep();
 
-See the man page for the full documentation.
-'), $Dpkg::PROGNAME;
+    printf g_(
+"See the man page for the full documentation.\n" .
+    '');
 }
 
 sub load_override {

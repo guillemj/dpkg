@@ -35,16 +35,19 @@ my $fileslistfile = 'debian/files';
 
 sub usage {
     printf g_(
-'Usage: %s [<option>...] <filename> <section> <priority>
+"Usage: %s [<option>...] <filename> <section> <priority>\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
 
-Options:
-  -f<files-list-file>
-          Write files here instead of debian/files.
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.
-'), $Dpkg::PROGNAME;
+    printf g_(
+"Options:\n" .
+"  -f<files-list-file>\n" .
+"          Write files here instead of debian/files.\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
 }
 
 while (@ARGV && $ARGV[0] =~ m/^-/) {

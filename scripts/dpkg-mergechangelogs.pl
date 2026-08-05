@@ -46,19 +46,22 @@ BEGIN {
 
 sub usage {
     printf g_(
-"Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]
+"Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
 
-Options:
-  -m, --merge-prereleases
-          Merge pre-releases together, ignores everything after the last '~'
-          in the version.
-      --merge-unreleased
-          Merge UNRELEASED entries together, ignoring their version numbers.
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.
-"), $Dpkg::PROGNAME;
+    printf g_(
+"Options:\n" .
+"  -m, --merge-prereleases\n" .
+"          Merge pre-releases together, ignores everything after the last '~'\n" .
+"          in the version.\n" .
+"      --merge-unreleased\n" .
+"          Merge UNRELEASED entries together, ignoring their version numbers.\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
 }
 
 my $merge_prereleases;

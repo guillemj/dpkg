@@ -352,35 +352,38 @@ sub cleansed_environment {
 
 sub usage {
     printf g_(
-'Usage: %s [<option>...]')
-    . "\n\n" . g_(
-"Options:
-      --build=<type>[,...]
-          Specify the build <type>: full, source, binary, any, all
-          (default is \'full\').
-  -c<control-file>
-          Get control info from this file.
-  -l<changelog-file>
-          Get per-version info from this file.
-  -f<files-list-file>
-          Get .deb files list from this file.
-  -F<changelog-format>
-          Force changelog format.
-  -O[<buildinfo-file>]
-          Write to stdout (or <buildinfo-file>).
-  -u<upload-files-dir>
-          Directory with files (default is '..').
-      --always-include-kernel
-          Always include Build-Kernel-Version.
-      --always-include-path
-          Always include Build-Path.
-      --admindir=<directory>
-          Change the administrative directory.
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.
-"), $Dpkg::PROGNAME;
+"Usage: %s [<option>...]\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    printf g_(
+"Options:\n" .
+"      --build=<type>[,...]\n" .
+"          Specify the build <type>: full, source, binary, any, all\n" .
+"          (default is \'full\').\n" .
+"  -c<control-file>\n" .
+"          Get control info from this file.\n" .
+"  -l<changelog-file>\n" .
+"          Get per-version info from this file.\n" .
+"  -f<files-list-file>\n" .
+"          Get .deb files list from this file.\n" .
+"  -F<changelog-format>\n" .
+"          Force changelog format.\n" .
+"  -O[<buildinfo-file>]\n" .
+"          Write to stdout (or <buildinfo-file>).\n" .
+"  -u<upload-files-dir>\n" .
+"          Directory with files (default is '..').\n" .
+"      --always-include-kernel\n" .
+"          Always include Build-Kernel-Version.\n" .
+"      --always-include-path\n" .
+"          Always include Build-Path.\n" .
+"      --admindir=<directory>\n" .
+"          Change the administrative directory.\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
 }
 
 my $build_opts = Dpkg::BuildOptions->new();

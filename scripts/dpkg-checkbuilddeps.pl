@@ -37,34 +37,40 @@ textdomain('dpkg-dev');
 
 sub usage {
     printf g_(
-'Usage: %s [<option>...] [<control-file>]')
-    . "\n\n" . g_(
-'Options:
-  -A
-          Ignore Build-Depends-Arch and Build-Conflicts-Arch.
-  -B
-          Ignore Build-Depends-Indep and Build-Conflicts-Indep.
-  -I
-          Ignore built-in build dependencies and conflicts.
-  -d <build-deps>
-          Use given string as build dependencies instead of retrieving them
-          from control file
-  -c <build-conf>
-          Use given string for build conflicts instead of retrieving them
-          from control file
-  -a <arch>
-          Assume given host architecture
-  -P <profiles>
-          Assume given build profiles (comma-separated list)
-      --admindir=<directory>
-          Change the administrative directory.
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.')
-    . "\n\n" . g_(
-'<control-file> is the control file to process (default: debian/control).')
-    . "\n", $Dpkg::PROGNAME;
+"Usage: %s [<option>...] [<control-file>]\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    printf g_(
+"Options:\n" .
+"  -A\n" .
+"          Ignore Build-Depends-Arch and Build-Conflicts-Arch.\n" .
+"  -B\n" .
+"          Ignore Build-Depends-Indep and Build-Conflicts-Indep.\n" .
+"  -I\n" .
+"          Ignore built-in build dependencies and conflicts.\n" .
+"  -d <build-deps>\n" .
+"          Use given string as build dependencies instead of retrieving them\n" .
+"          from control file\n" .
+"  -c <build-conf>\n" .
+"          Use given string for build conflicts instead of retrieving them\n" .
+"          from control file\n" .
+"  -a <arch>\n" .
+"          Assume given host architecture\n" .
+"  -P <profiles>\n" .
+"          Assume given build profiles (comma-separated list)\n" .
+"      --admindir=<directory>\n" .
+"          Change the administrative directory.\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
+    print_option_sep();
+
+    printf g_(
+"<control-file> is the control file to process (default: debian/control).\n" .
+    '');
 }
 
 my $ignore_bd_arch = 0;

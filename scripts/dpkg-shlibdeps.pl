@@ -647,54 +647,63 @@ if (! $stdout) {
 
 sub usage {
     printf g_(
-'Usage: %s [<option>...] <executable>|-e<executable> [<option>...]')
-    . "\n\n" . g_(
-"Positional options (order is significant):
-  <executable>
-          Include dependencies for <executable>.
-  -e<executable>
-          Ditto, used when <executable> starts with '-'.
-  -d<dependency-field>
-          Next executable(s) set shlibs:<dependency-field>.")
-    . "\n\n" . g_(
-'Options:
-      --package=<package>
-          Generate substvars for <package> (default is unset).
-  -l<library-dir>
-          Add directory to private shared library search list.
-  -p<varname-prefix>
-          Set <varname-prefix>:* instead of shlibs:*.
-  -O[<file>]
-          Write variable settings to stdout (or <file>).
-  -L<local-shlibs-file>
-          Shlibs override file, not debian/shlibs.local.
-  -T<substvars-file>
-          Update variables here, not debian/substvars.
-  -t<type>
-          Set package type (default is deb).
-  -x<package>
-          Exclude package from the generated dependencies.
-  -S<package-build-dir>
-          Search needed libraries in the given package build directory first.
-  -I<package-build-dir>
-          Ignore needed libraries, shlibs and symbols files in the given build
-          directory.
-  -v
-          Enable verbose mode (can be used multiple times).
-      --ignore-missing-info
-          Do not fail on missing dependency information.
-      --warnings=<value>
-          Define set of active warnings (see manual page).
-      --admindir=<directory>
-          Change the administrative directory.
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.')
-    . "\n\n" . g_(
-'Dependency fields recognized are:
-  %s
-'), $Dpkg::PROGNAME, join('/', @depfields);
+"Usage: %s [<option>...] <executable>|-e<executable> [<option>...]\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    printf g_(
+"Positional options (order is significant):\n" .
+"  <executable>\n" .
+"          Include dependencies for <executable>.\n" .
+"  -e<executable>\n" .
+"          Ditto, used when <executable> starts with '-'.\n" .
+"  -d<dependency-field>\n" .
+"          Next executable(s) set shlibs:<dependency-field>.\n" .
+    '');
+    print_option_sep();
+
+    printf g_(
+"Options:\n" .
+"      --package=<package>\n" .
+"          Generate substvars for <package> (default is unset).\n" .
+"  -l<library-dir>\n" .
+"          Add directory to private shared library search list.\n" .
+"  -p<varname-prefix>\n" .
+"          Set <varname-prefix>:* instead of shlibs:*.\n" .
+"  -O[<file>]\n" .
+"          Write variable settings to stdout (or <file>).\n" .
+"  -L<local-shlibs-file>\n" .
+"          Shlibs override file, not debian/shlibs.local.\n" .
+"  -T<substvars-file>\n" .
+"          Update variables here, not debian/substvars.\n" .
+"  -t<type>\n" .
+"          Set package type (default is deb).\n" .
+"  -x<package>\n" .
+"          Exclude package from the generated dependencies.\n" .
+"  -S<package-build-dir>\n" .
+"          Search needed libraries in the given package build directory first.\n" .
+"  -I<package-build-dir>\n" .
+"          Ignore needed libraries, shlibs and symbols files in the given build\n" .
+"          directory.\n" .
+"  -v\n" .
+"          Enable verbose mode (can be used multiple times).\n" .
+"      --ignore-missing-info\n" .
+"          Do not fail on missing dependency information.\n" .
+"      --warnings=<value>\n" .
+"          Define set of active warnings (see manual page).\n" .
+"      --admindir=<directory>\n" .
+"          Change the administrative directory.\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
+    print_option_sep();
+
+    printf g_(
+"Dependency fields recognized are:\n" .
+"  %s\n" .
+    ''), join('/', @depfields);
 }
 
 sub get_min_version_from_deps {

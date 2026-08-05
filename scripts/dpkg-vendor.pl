@@ -30,24 +30,30 @@ textdomain('dpkg-dev');
 
 sub usage {
     printf g_(
-'Usage: %s [<option>...] [<command>]')
-    . "\n\n" . g_(
-'Commands:
-      --is <vendor>
-          Returns true if current vendor is <vendor>.
-      --derives-from <vendor>
-          Returns true if current vendor derives from <vendor>.
-      --query <field>
-          Print the content of the vendor-specific field.
-      --help
-          Show this help message.
-      --version
-          Show the version.')
-    . "\n\n" . g_(
-'Options:
-      --vendor <vendor>
-          Assume <vendor> is the current vendor.')
-    . "\n", $Dpkg::PROGNAME;
+"Usage: %s [<option>...] [<command>]\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    printf g_(
+"Commands:\n" .
+"      --is <vendor>\n" .
+"          Returns true if current vendor is <vendor>.\n" .
+"      --derives-from <vendor>\n" .
+"          Returns true if current vendor derives from <vendor>.\n" .
+"      --query <field>\n" .
+"          Print the content of the vendor-specific field.\n" .
+"      --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
+    print_option_sep();
+
+    printf g_(
+"Options:\n" .
+"      --vendor <vendor>\n" .
+"          Assume <vendor> is the current vendor.\n" .
+    '');
 }
 
 my ($vendor, $param, $action);

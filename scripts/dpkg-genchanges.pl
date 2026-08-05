@@ -86,65 +86,68 @@ $substvars->set_as_auto('Format', $changes_format);
 
 sub usage {
     printf g_(
-'Usage: %s [<option>...]')
-    . "\n\n" . g_(
-"Options:
-      --build=<type>[,...]
-          Specify the build <type>: full, source, binary, any, all
-          (default is \'full\').
-  -g, --build=source,all
-          Source and arch-indep build.
-  -G, --build=source,any
-          Source and arch-specific build.
-  -b, --build=binary
-          Binary-only, no source files.
-  -B, --build=any
-          Binary-only, only arch-specific files.
-  -A, --build=all
-          Binary-only, only arch-indep files.
-  -S, --build=source
-          Source-only, no binary files.
-  -c<control-file>
-          Get control info from this file.
-  -l<changelog-file>
-          Get per-version info from this file.
-  -f<files-list-file>
-          Get .deb files list from this file.
-  -v<since-version>
-          Include all changes later than version.
-  -C<changes-description>
-          Use change description from this file.
-  -m<maintainer>
-          Override control's maintainer value.
-  -e<maintainer>
-          Override changelog's maintainer value.
-  -u<upload-files-dir>
-          Directory with files (default is '..').
-  -si
-          Source includes orig, if new upstream (default).
-  -sa
-          Source includes orig, always.
-  -sd
-          Source is diff and .dsc only.
-  -q
-          Quiet - no informational messages on stderr.
-  -F<changelog-format>
-          Force changelog format.
-  -V<name>=<value>
-          Set a substitution variable.
-  -T<substvars-file>
-          Read variables here, not debian/substvars.
-  -D<field>=<value>
-          Override or add a field and value.
-  -U<field>
-          Remove a field.
-  -O[<filename>]
-          Write to stdout (default) or <filename>.
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.
-"), $Dpkg::PROGNAME;
+"Usage: %s [<option>...]\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    printf g_(
+"Options:\n" .
+"      --build=<type>[,...]\n" .
+"          Specify the build <type>: full, source, binary, any, all\n" .
+"          (default is \'full\').\n" .
+"  -g, --build=source,all\n" .
+"          Source and arch-indep build.\n" .
+"  -G, --build=source,any\n" .
+"          Source and arch-specific build.\n" .
+"  -b, --build=binary\n" .
+"          Binary-only, no source files.\n" .
+"  -B, --build=any\n" .
+"          Binary-only, only arch-specific files.\n" .
+"  -A, --build=all\n" .
+"          Binary-only, only arch-indep files.\n" .
+"  -S, --build=source\n" .
+"          Source-only, no binary files.\n" .
+"  -c<control-file>\n" .
+"          Get control info from this file.\n" .
+"  -l<changelog-file>\n" .
+"          Get per-version info from this file.\n" .
+"  -f<files-list-file>\n" .
+"          Get .deb files list from this file.\n" .
+"  -v<since-version>\n" .
+"          Include all changes later than version.\n" .
+"  -C<changes-description>\n" .
+"          Use change description from this file.\n" .
+"  -m<maintainer>\n" .
+"          Override control's maintainer value.\n" .
+"  -e<maintainer>\n" .
+"          Override changelog's maintainer value.\n" .
+"  -u<upload-files-dir>\n" .
+"          Directory with files (default is '..').\n" .
+"  -si\n" .
+"          Source includes orig, if new upstream (default).\n" .
+"  -sa\n" .
+"          Source includes orig, always.\n" .
+"  -sd\n" .
+"          Source is diff and .dsc only.\n" .
+"  -q\n" .
+"          Quiet - no informational messages on stderr.\n" .
+"  -F<changelog-format>\n" .
+"          Force changelog format.\n" .
+"  -V<name>=<value>\n" .
+"          Set a substitution variable.\n" .
+"  -T<substvars-file>\n" .
+"          Read variables here, not debian/substvars.\n" .
+"  -D<field>=<value>\n" .
+"          Override or add a field and value.\n" .
+"  -U<field>\n" .
+"          Remove a field.\n" .
+"  -O[<filename>]\n" .
+"          Write to stdout (default) or <filename>.\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
 }
 
 sub format_desc

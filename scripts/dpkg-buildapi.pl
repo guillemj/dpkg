@@ -31,18 +31,24 @@ textdomain('dpkg-dev');
 sub usage
 {
     printf g_(
-'Usage: %s [<option>...] [<command>]')
-    . "\n\n" . g_(
-'Commands:
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.')
-    . "\n\n" . g_(
-'Options:
-  -c<control-file>
-          Get control info from this file.
-'), $Dpkg::PROGNAME;
+"Usage: %s [<option>...] [<command>]\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    printf g_(
+"Commands:\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
+    print_option_sep();
+
+    printf g_(
+"Options:\n" .
+"  -c<control-file>\n" .
+"          Get control info from this file.\n" .
+    '');
 }
 
 my $controlfile = 'debian/control';

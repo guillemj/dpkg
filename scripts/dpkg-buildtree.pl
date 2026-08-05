@@ -29,18 +29,21 @@ textdomain('dpkg-dev');
 
 sub usage {
     printf g_(
-'Usage: %s [<command>]')
-    . "\n\n" . g_(
-'Commands:
-      clean
-          Clean dpkg generated artifacts from the build tree.
-      is-rootless
-          Checks whether the build tree needs root to build.
-      --help
-          Show this help message.
-      --version
-          Show the version.
-'), $Dpkg::PROGNAME;
+"Usage: %s [<command>]\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    printf g_(
+"Commands:\n" .
+"      clean\n" .
+"          Clean dpkg generated artifacts from the build tree.\n" .
+"      is-rootless\n" .
+"          Checks whether the build tree needs root to build.\n" .
+"      --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
 }
 
 my %known_actions = map { $_ => 1 } qw(

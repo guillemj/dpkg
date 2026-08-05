@@ -62,154 +62,166 @@ textdomain('dpkg-dev');
 
 sub usage {
     printf g_(
-'Usage: %s [<option>...] [--] [<filename.dsc>|<directory>]')
-    . "\n\n" . g_(
-'Options:
-      --build=<type>[,...]
-          Specify the build <type>: full, source, binary, any, all
-          (default is \'full\').
-  -F, --build=full
-          Normal full build (source and binary; default).
-  -g, --build=source,all
-          Source and arch-indep build.
-  -G, --build=source,any
-          Source and arch-specific build.
-  -b, --build=binary
-          Binary-only, no source files.
-  -B, --build=any
-          Binary-only, only arch-specific files.
-  -A, --build=all
-          Binary-only, only arch-indep files.
-  -S, --build=source
-          Source-only, no binary files.
-  -nc, --no-pre-clean
-          Do not pre clean source tree (implies -b).
-      --pre-clean
-          Pre clean source tree (default).
-      --no-post-clean
-          Do not post clean source tree (default).
-  -tc, --post-clean
-          Post clean source tree.
-      --sanitize-env
-          Sanitize the build environment.
-  -D, --check-builddeps
-          Check build dependencies and conflicts (default).
-  -d, --no-check-builddeps
-          Do not check build dependencies and conflicts.
-      --ignore-builtin-builddeps
-          Do not check builtin build dependencies.
-  -P, --build-profiles=<profiles>
-          Assume comma-separated build <profiles> as active.
-      --rules-requires-root
-          Assume legacy Rules-Requires-Root field value.
-  -R, --rules-file=<rules>
-          Rules file to execute (default is debian/rules).
-  -T, --rules-target=<target>
-          Call debian/rules <target>.
-      --as-root
-          Ensure -T calls the target with root rights.
-  -j, --jobs[=<jobs>|auto]
-          Jobs to run simultaneously (passed to <rules>),
-          (default; default is auto, opt-in mode).
-  -J, --jobs-try[=<jobs>|auto]
-          Alias for -j, --jobs.
-      --jobs-force[=<jobs>|auto]
-          Jobs to run simultaneously (passed to <rules>),
-          (default is auto, forced mode).
-  -r, --root-command=<command>
-          Command to gain root rights (default is fakeroot).
-      --check-command=<command>
-          Command to check the .changes file (no default).
-      --check-option=<opt>
-          Pass <opt> to check <command>.
-      --hook-<name>=<command>
-          Set <command> as the hook <name>, known hooks:
-             preinit init preclean source build binary
-             buildinfo changes postclean check sign done
-      --buildinfo-file=<file>
-          Set the .buildinfo filename to generate.
-      --buildinfo-option=<opt>
-          Pass option <opt> to dpkg-genbuildinfo.
-      --changes-file=<file>
-          Set the .changes filename to generate.
-      --sign-backend=<backend>
-          OpenPGP backend to use to sign (default is auto).
-  -p, --sign-command=<command>
-          Command to sign .dsc and/or .changes files (default is gpg).
-      --sign-keyfile=<file>
-          The key file to use for signing.
-  -k, --sign-keyid=<keyid>
-          The key id to use for signing.
-      --sign-key=<keyid>
-          Deprecated alias for --sign-keyid.
-  -ap, --sign-pause
-          Add pause before starting signature process.
-  -us, --unsigned-source
-          Unsigned source package.
-  -ui, --unsigned-buildinfo
-          Unsigned .buildinfo file.
-  -uc, --unsigned-changes
-          Unsigned .buildinfo and .changes file.
-      --no-sign
-          Do not sign any file.
-      --force-sign
-          Force signing the resulting files.
-      --admindir=<directory>
-          Change the administrative directory.
-  -?, --help
-          Show this help message.
-      --version
-          Show the version.')
-    . "\n\n" . g_(
-'Options passed to dpkg-architecture:
-  -a, --host-arch <arch>
-          Set the host Debian architecture.
-  -t, --host-type <type>
-          Set the host GNU system type.
-      --target-arch <arch>
-          Set the target Debian architecture.
-      --target-type <type>
-          Set the target GNU system type.')
-    . "\n\n" . g_(
-'Options passed to dpkg-genchanges:
-  -si
-          Source includes orig, if new upstream (default).
-  -sa
-          Source includes orig, always.
-  -sd
-          Source is diff and .dsc only.
-  -v<version>
-          Changes since version <version>.
-  -m, --source-by=<maint>
-          Maintainer for this source or build is <maint>.
-      --build-by=<maint>
-          Ditto.
-  -e, --release-by=<maint>
-          Maintainer for this change or release is <maint>.
-      --changed-by=<maint>
-          Ditto.
-  -C<descfile>
-          Changes are described in <descfile>.
-      --changes-option=<opt>
-          Pass option <opt> to dpkg-genchanges.')
-    . "\n\n" . g_(
-'Options passed to dpkg-source:
-  -sn
-          Force Debian native source format.
-  -s[sAkurKUR]
-          See dpkg-source for explanation.
-  -z, --compression-level=<level>
-          Compression level to use for source.
-  -Z, --compression=<compressor>
-          Compression to use for source
-          (defaults to %s; supported are: %s).
-  -i, --diff-ignore[=<regex>]
-          Ignore diffs of files matching <regex>.
-  -I, --tar-ignore[=<pattern>]
-          Filter out files when building tarballs.
-      --source-option=<opt>
-          Pass option <opt> to dpkg-source.
-'), $Dpkg::PROGNAME,
+"Usage: %s [<option>...] [--] [<filename.dsc>|<directory>]\n" .
+    ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    printf g_(
+"Options:\n" .
+"      --build=<type>[,...]\n" .
+"          Specify the build <type>: full, source, binary, any, all\n" .
+"          (default is \'full\').\n" .
+"  -F, --build=full\n" .
+"          Normal full build (source and binary; default).\n" .
+"  -g, --build=source,all\n" .
+"          Source and arch-indep build.\n" .
+"  -G, --build=source,any\n" .
+"          Source and arch-specific build.\n" .
+"  -b, --build=binary\n" .
+"          Binary-only, no source files.\n" .
+"  -B, --build=any\n" .
+"          Binary-only, only arch-specific files.\n" .
+"  -A, --build=all\n" .
+"          Binary-only, only arch-indep files.\n" .
+"  -S, --build=source\n" .
+"          Source-only, no binary files.\n" .
+"  -nc, --no-pre-clean\n" .
+"          Do not pre clean source tree (implies -b).\n" .
+"      --pre-clean\n" .
+"          Pre clean source tree (default).\n" .
+"      --no-post-clean\n" .
+"          Do not post clean source tree (default).\n" .
+"  -tc, --post-clean\n" .
+"          Post clean source tree.\n" .
+"      --sanitize-env\n" .
+"          Sanitize the build environment.\n" .
+"  -D, --check-builddeps\n" .
+"          Check build dependencies and conflicts (default).\n" .
+"  -d, --no-check-builddeps\n" .
+"          Do not check build dependencies and conflicts.\n" .
+"      --ignore-builtin-builddeps\n" .
+"          Do not check builtin build dependencies.\n" .
+"  -P, --build-profiles=<profiles>\n" .
+"          Assume comma-separated build <profiles> as active.\n" .
+"      --rules-requires-root\n" .
+"          Assume legacy Rules-Requires-Root field value.\n" .
+"  -R, --rules-file=<rules>\n" .
+"          Rules file to execute (default is debian/rules).\n" .
+"  -T, --rules-target=<target>\n" .
+"          Call debian/rules <target>.\n" .
+"      --as-root\n" .
+"          Ensure -T calls the target with root rights.\n" .
+"  -j, --jobs[=<jobs>|auto]\n" .
+"          Jobs to run simultaneously (passed to <rules>),\n" .
+"          (default; default is auto, opt-in mode).\n" .
+"  -J, --jobs-try[=<jobs>|auto]\n" .
+"          Alias for -j, --jobs.\n" .
+"      --jobs-force[=<jobs>|auto]\n" .
+"          Jobs to run simultaneously (passed to <rules>),\n" .
+"          (default is auto, forced mode).\n" .
+"  -r, --root-command=<command>\n" .
+"          Command to gain root rights (default is fakeroot).\n" .
+"      --check-command=<command>\n" .
+"          Command to check the .changes file (no default).\n" .
+"      --check-option=<opt>\n" .
+"          Pass <opt> to check <command>.\n" .
+"      --hook-<name>=<command>\n" .
+"          Set <command> as the hook <name>, known hooks:\n" .
+"             preinit init preclean source build binary\n" .
+"             buildinfo changes postclean check sign done\n" .
+"      --buildinfo-file=<file>\n" .
+"          Set the .buildinfo filename to generate.\n" .
+"      --buildinfo-option=<opt>\n" .
+"          Pass option <opt> to dpkg-genbuildinfo.\n" .
+"      --changes-file=<file>\n" .
+"          Set the .changes filename to generate.\n" .
+"      --sign-backend=<backend>\n" .
+"          OpenPGP backend to use to sign (default is auto).\n" .
+"  -p, --sign-command=<command>\n" .
+"          Command to sign .dsc and/or .changes files (default is gpg).\n" .
+"      --sign-keyfile=<file>\n" .
+"          The key file to use for signing.\n" .
+"  -k, --sign-keyid=<keyid>\n" .
+"          The key id to use for signing.\n" .
+"      --sign-key=<keyid>\n" .
+"          Deprecated alias for --sign-keyid.\n" .
+"  -ap, --sign-pause\n" .
+"          Add pause before starting signature process.\n" .
+"  -us, --unsigned-source\n" .
+"          Unsigned source package.\n" .
+"  -ui, --unsigned-buildinfo\n" .
+"          Unsigned .buildinfo file.\n" .
+"  -uc, --unsigned-changes\n" .
+"          Unsigned .buildinfo and .changes file.\n" .
+"      --no-sign\n" .
+"          Do not sign any file.\n" .
+"      --force-sign\n" .
+"          Force signing the resulting files.\n" .
+"      --admindir=<directory>\n" .
+"          Change the administrative directory.\n" .
+"  -?, --help\n" .
+"          Show this help message.\n" .
+"      --version\n" .
+"          Show the version.\n" .
+    '');
+    print_option_sep();
+
+    printf g_(
+"Options passed to dpkg-architecture:\n" .
+"  -a, --host-arch <arch>\n" .
+"          Set the host Debian architecture.\n" .
+"  -t, --host-type <type>\n" .
+"          Set the host GNU system type.\n" .
+"      --target-arch <arch>\n" .
+"          Set the target Debian architecture.\n" .
+"      --target-type <type>\n" .
+"          Set the target GNU system type.\n" .
+    '');
+    print_option_sep();
+
+    printf g_(
+"Options passed to dpkg-genchanges:\n" .
+"  -si\n" .
+"          Source includes orig, if new upstream (default).\n" .
+"  -sa\n" .
+"          Source includes orig, always.\n" .
+"  -sd\n" .
+"          Source is diff and .dsc only.\n" .
+"  -v<version>\n" .
+"          Changes since version <version>.\n" .
+"  -m, --source-by=<maint>\n" .
+"          Maintainer for this source or build is <maint>.\n" .
+"      --build-by=<maint>\n" .
+"          Ditto.\n" .
+"  -e, --release-by=<maint>\n" .
+"          Maintainer for this change or release is <maint>.\n" .
+"      --changed-by=<maint>\n" .
+"          Ditto.\n" .
+"  -C<descfile>\n" .
+"          Changes are described in <descfile>.\n" .
+"      --changes-option=<opt>\n" .
+"          Pass option <opt> to dpkg-genchanges.\n" .
+    '');
+    print_option_sep();
+
+    printf g_(
+"Options passed to dpkg-source:\n" .
+"  -sn\n" .
+"          Force Debian native source format.\n" .
+"  -s[sAkurKUR]\n" .
+"          See dpkg-source for explanation.\n" .
+"  -z, --compression-level=<level>\n" .
+"          Compression level to use for source.\n" .
+"  -Z, --compression=<compressor>\n" .
+"          Compression to use for source\n" .
+"          (defaults to %s; supported are: %s).\n" .
+"  -i, --diff-ignore[=<regex>]\n" .
+"          Ignore diffs of files matching <regex>.\n" .
+"  -I, --tar-ignore[=<pattern>]\n" .
+"          Filter out files when building tarballs.\n" .
+"      --source-option=<opt>\n" .
+"          Pass option <opt> to dpkg-source.\n" .
+    ''),
     compression_get_default(),
     join(', ', compression_get_list());
 }
