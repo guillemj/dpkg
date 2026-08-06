@@ -84,8 +84,8 @@ str_vfmt(const char *fmt, va_list args)
 	char *str;
 
 	va_copy(args_copy, args);
-	m_vasprintf(&str, fmt, args);
-	va_end(args);
+	m_vasprintf(&str, fmt, args_copy);
+	va_end(args_copy);
 
 	return str;
 }
