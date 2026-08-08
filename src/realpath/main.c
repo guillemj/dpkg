@@ -91,7 +91,6 @@ usage(const struct cmdinfo *cip, const char *value)
 "      --help\n"
 "          Show this help message.\n"
 	));
-	print_option_sep();
 
 	m_output(stdout, _("<standard output>"));
 

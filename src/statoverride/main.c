@@ -143,7 +143,6 @@ usage(const char *const *argv)
 "      --version\n"
 "          Show the version.\n"
 	));
-	print_option_sep();
 
 	m_output(stdout, _("<standard output>"));
 

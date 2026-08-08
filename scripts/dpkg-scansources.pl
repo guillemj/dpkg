@@ -113,7 +113,6 @@ sub usage {
 "      --version\n" .
 "          Show the version.\n" .
     ''));
-    print_option_sep();
 }
 
 sub load_override {

@@ -113,7 +113,6 @@ usage(const char *const *argv)
 "      --no-act\n"
 "          Just test - do not actually change anything.\n"
 	));
-	print_option_sep();
 
 	m_output(stdout, _("<standard output>"));
 
