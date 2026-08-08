@@ -389,7 +389,6 @@ print_option(const char *opt_fmt_spec, ...)
 			varbuf_add_char(&color_spec, *p);
 			varbuf_add_str(&color_spec, color_get(COLOR_BOLD));
 			break;
-		case '=':
 		case '[':
 		case ']':
 		case '.':
