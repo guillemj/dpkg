@@ -78,7 +78,7 @@ sub format_option_spec($spec)
     my $color_opt = color_get('bold');
     my $color_arg = color_get('italic');
 
-    $spec =~ s{([][.])}{$color_reset$1$color_opt}g;
+    $spec =~ s{([][.|])}{$color_reset$1$color_opt}g;
     $spec =~ s{<}{$color_reset<$color_arg}g;
     $spec =~ s{>}{$color_reset>$color_opt}g;
 
