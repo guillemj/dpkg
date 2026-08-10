@@ -130,6 +130,7 @@ libdpkg_la_SOURCES = \
 	subproc.c \
 	sysuser.c \
 	tarfn.c \
+	term.c \
 	test.h \
 	treewalk.c \
 	trigname.c \
@@ -188,6 +189,7 @@ pkginclude_HEADERS = \
 	subproc.h \
 	sysuser.h \
 	tarfn.h \
+	term.h \
 	treewalk.h \
 	trigdeferred.h \
 	triglib.h \
