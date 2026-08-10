@@ -171,13 +171,19 @@ sub getdir
     if (! $options{destdir}) {
         $dir = dirname($filename);
         if ($options{subdir}) {
+            my @sections = qw(
+                no-section
+                contrib
+                non-free
+            );
+
             my $section = $fields->{Section};
             if (! $section) {
                 $section = 'no-section';
                 warning(g_("assuming section '%s' for '%s'"), $section,
                         $filename);
             }
-            if (none { $section eq $_ } qw(no-section contrib non-free)) {
+            if (none { $section eq $_ } @sections) {
                 $dir = "unstable/binary-$arch/$section";
             } else {
                 $dir = "$section/binary-$arch";
