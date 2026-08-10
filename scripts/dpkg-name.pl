@@ -174,6 +174,7 @@ sub getdir
             my @sections = qw(
                 no-section
                 contrib
+                non-free-firmware
                 non-free
             );
 
