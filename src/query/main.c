@@ -130,10 +130,10 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
 	if (fmt->nw != 0)
 		return;
 
-	fmt->nw = 14;
-	fmt->vw = 12;
-	fmt->aw = 12;
-	fmt->dw = 33;
+	fmt->nw = str_width(_("Name"));
+	fmt->vw = str_width(_("Version"));
+	fmt->aw = str_width(_("Architecture"));
+	fmt->dw = str_width(_("Description"));
 
 	for (i = 0; i < array->n_pkgs; i++) {
 		int plen, vlen, alen, dlen;
