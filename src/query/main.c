@@ -129,6 +129,21 @@ struct list_format {
 
 #define LIST_SEP_WIDTH 7
 
+static bool
+list_format_pad_needed(struct list_format *fmt, int pad)
+{
+	return fmt->tw < (fmt->term_width - LIST_SEP_WIDTH) - pad * 3;
+}
+
+static void
+list_format_pad_columns(struct list_format *fmt, int pad)
+{
+	fmt->nw += pad;
+	fmt->vw += pad;
+	fmt->aw += pad;
+	fmt->tw += pad * 3;
+}
+
 /* TODO: Refactor to reduce lines length. */
 static void
 list_format_init(struct list_format *fmt, struct pkg_array *array)
@@ -167,6 +182,13 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
 
 	fmt->term_width = term_get_width();
 	fmt->tw = fmt->nw + fmt->vw + fmt->aw + fmt->dw;
+
+	/* Check whether we should pad the columns to a more comfortable
+	 * two spaces, if that does not fit, try with one space. */
+	if (list_format_pad_needed(fmt, 2))
+		list_format_pad_columns(fmt, 2);
+	else if (list_format_pad_needed(fmt, 1))
+		list_format_pad_columns(fmt, 1);
 
 	/* Extend the description column into the end of the "terminal". */
 	if (fmt->tw < (fmt->term_width - LIST_SEP_WIDTH))
