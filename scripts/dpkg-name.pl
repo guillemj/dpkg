@@ -256,7 +256,7 @@ while (@ARGV) {
         $options{createdir} = 1;
     } elsif (m/^-s|--subdir$/) {
         $options{subdir} = 1;
-        if (-d $ARGV[0]) {
+        if (! -f $ARGV[0]) {
             $options{destdir} = shift(@ARGV);
         }
     } elsif (m/^-o|--overwrite$/) {
