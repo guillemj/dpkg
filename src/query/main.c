@@ -52,6 +52,7 @@
 #include <dpkg/string.h>
 #include <dpkg/path.h>
 #include <dpkg/file.h>
+#include <dpkg/term.h>
 #include <dpkg/pager.h>
 #include <dpkg/options.h>
 #include <dpkg/db-ctrl.h>
@@ -115,11 +116,18 @@ pkg_array_match_patterns(struct pkg_array *array,
 
 struct list_format {
 	bool head;
+	int term_width;
+
 	int nw;
 	int vw;
 	int aw;
 	int dw;
+
+	/* Total width. */
+	int tw;
 };
+
+#define LIST_SEP_WIDTH 7
 
 /* TODO: Refactor to reduce lines length. */
 static void
@@ -156,6 +164,13 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
 		if (dlen > fmt->dw)
 			fmt->dw = dlen;
 	}
+
+	fmt->term_width = term_get_width();
+	fmt->tw = fmt->nw + fmt->vw + fmt->aw + fmt->dw;
+
+	/* Extend the description column into the end of the "terminal". */
+	if (fmt->tw < (fmt->term_width - LIST_SEP_WIDTH))
+		fmt->dw += (fmt->term_width - LIST_SEP_WIDTH) - fmt->tw;
 }
 
 static void
