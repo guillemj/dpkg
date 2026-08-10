@@ -265,7 +265,7 @@ while (@ARGV) {
     } elsif (m/^-D([^\=:]+)[=:](.*)$/s) {
         $override{$1} = $2;
     } elsif (m/^-u(.*)$/) {
-        $uploadfilesdir = $1;
+        $uploadfilesdir = parse_option_dir('-u', $1);
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1} = 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/s) {

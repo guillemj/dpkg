@@ -144,7 +144,7 @@ while (@ARGV) {
     } elsif (m/^-l/p) {
         $changelogfile = ${^POSTMATCH};
     } elsif (m/^-P/p) {
-        $packagebuilddir = ${^POSTMATCH};
+        $packagebuilddir = parse_option_dir('-P', ${^POSTMATCH});
     } elsif (m/^-f/p) {
         $fileslistfile = ${^POSTMATCH};
     } elsif (m/^-v(.+)$/) {

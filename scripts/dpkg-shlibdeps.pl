@@ -98,11 +98,11 @@ foreach (@ARGV) {
     } elsif (m/^-L(.*)$/) {
         $shlibslocal = $1;
     } elsif (m/^-l(.*)$/) {
-        push @priv_lib_dirs, $1;
+        push @priv_lib_dirs, parse_option_dir('-l', $1);
     } elsif (m/^-S(.*)$/) {
-        push @pkg_dir_to_search, $1;
+        push @pkg_dir_to_search, parse_option_dir('-S', $1);
     } elsif (m/^-I(.*)$/) {
-        push @pkg_dir_to_ignore, $1;
+        push @pkg_dir_to_ignore, parse_option_dir('-I', $1);
     } elsif (m/^-O$/) {
         $stdout = 1;
     } elsif (m/^-O(.+)$/) {

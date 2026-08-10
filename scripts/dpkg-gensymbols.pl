@@ -158,8 +158,7 @@ while (@ARGV) {
                 unless scalar(@to_add);
         }
     } elsif (m/^-P(.+)$/) {
-        $packagebuilddir = $1;
-        $packagebuilddir =~ s{/+$}{};
+        $packagebuilddir = parse_option_dir('-P', $1);
     } elsif (m/^-O$/) {
         $stdout = 1;
     } elsif (m/^-I(.+)$/) {
