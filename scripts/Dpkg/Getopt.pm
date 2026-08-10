@@ -34,6 +34,7 @@ use v5.36;
 
 our @EXPORT = qw(
     normalize_options
+    parse_option_dir
     print_option_sep
     format_option_spec
     format_option_parts
@@ -46,6 +47,7 @@ use Exporter qw(import);
 use Dpkg;
 use Dpkg::Color;
 use Dpkg::Gettext;
+use Dpkg::ErrorHandling;
 
 sub normalize_options
 {
@@ -65,6 +67,27 @@ sub normalize_options
     } @{$opts{args}};
 
     return @args;
+}
+
+sub parse_option_dir($opt, $dir)
+{
+    if (! length $dir) {
+        usageerr(g_('missing directory for option %s'), $opt);
+    }
+
+    if (! -e $dir) {
+        # TODO: Switch this warning into an error, after checking its impact.
+        warning(g_('directory %s for %s does not exist'), $dir, $opt);
+        return;
+    }
+
+    if (! -d $dir) {
+        usageerr(g_('argument %s for %s is not a directory'), $dir, $opt);
+    }
+
+    $dir =~ s{/+$}{};
+
+    return $dir;
 }
 
 sub print_option_sep()
