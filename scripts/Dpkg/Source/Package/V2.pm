@@ -80,47 +80,47 @@ sub init_options {
 my @module_cmdline = (
     {
         name => '--include-removal',
-        help => N_('Include removed files in the patch'),
+        help => N_('Include removed files in the patch.'),
         when => 'build',
     }, {
         name => '--include-timestamp',
-        help => N_('Include timestamp in the patch'),
+        help => N_('Include timestamp in the patch.'),
         when => 'build',
     }, {
         name => '--include-binaries',
-        help => N_('Include binary files in the tarball'),
+        help => N_('Include binary files in the tarball.'),
         when => 'build',
     }, {
         name => '--no-preparation',
-        help => N_('Do not prepare build tree by applying patches'),
+        help => N_('Do not prepare build tree by applying patches.'),
         when => 'build',
     }, {
         name => '--no-unapply-patches',
-        help => N_('Do not unapply patches if previously applied'),
+        help => N_('Do not unapply patches if previously applied.'),
         when => 'build',
     }, {
         name => '--unapply-patches',
-        help => N_('Unapply patches if previously applied (default)'),
+        help => N_('Unapply patches if previously applied (default).'),
         when => 'build',
     }, {
         name => '--create-empty-orig',
-        help => N_('Create an empty original tarball if missing'),
+        help => N_('Create an empty original tarball if missing.'),
         when => 'build',
     }, {
         name => '--abort-on-upstream-changes',
-        help => N_('Abort if generated diff has upstream files changes'),
+        help => N_('Abort if generated diff has upstream files changes.'),
         when => 'build',
     }, {
         name => '--auto-commit',
-        help => N_('Record generated patches, instead of aborting'),
+        help => N_('Record generated patches, instead of aborting.'),
         when => 'build',
     }, {
         name => '--skip-debianization',
-        help => N_('Do not extract debian tarball into upstream sources'),
+        help => N_('Do not extract debian tarball into upstream sources.'),
         when => 'extract',
     }, {
         name => '--skip-patches',
-        help => N_('Do not apply patches at the end of the extraction'),
+        help => N_('Do not apply patches at the end of the extraction.'),
         when => 'extract',
     }
 );

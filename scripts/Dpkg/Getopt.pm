@@ -116,7 +116,7 @@ sub format_option_parts($spec, $help)
 
     $spec = format_option_spec($spec);
 
-    return sprintf "%s%s\n%s%s.\n", $indent_spec, $spec, $indent_help, $help;
+    return sprintf "%s%s\n%s%s\n", $indent_spec, $spec, $indent_help, $help;
 }
 
 sub print_option($desc_fmt, @args)
