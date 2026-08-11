@@ -547,7 +547,8 @@ xunlink_args(const char *fmt, ...)
 static char *
 xdirname(const char *pathname)
 {
-	char *dirname, *slash;
+	const char *slash;
+	char *dirname;
 
 	slash = strrchr(pathname, '/');
 	if (slash)

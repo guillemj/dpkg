@@ -27,11 +27,11 @@
 char *
 strchrnul(const char *s, int c)
 {
-	char *match;
+	const char *match;
 
 	match = strchr(s, c);
 	if (match)
-		return match;
+		return (char *)match;
 
 	return (char *)s + strlen(s);
 }
