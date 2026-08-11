@@ -59,20 +59,20 @@ sub usage {
     print_option(g_(
 "  -d <build-deps>\n" .
 "          Use given string as build dependencies instead of retrieving them\n" .
-"          from control file\n" .
+"          from control file.\n" .
     ''));
     print_option(g_(
 "  -c <build-conf>\n" .
 "          Use given string for build conflicts instead of retrieving them\n" .
-"          from control file\n" .
+"          from control file.\n" .
     ''));
     print_option(g_(
 "  -a <arch>\n" .
-"          Assume given host architecture\n" .
+"          Assume given host architecture.\n" .
     ''));
     print_option(g_(
 "  -P <profiles>\n" .
-"          Assume given build profiles (comma-separated list)\n" .
+"          Assume given build profiles (comma-separated list).\n" .
     ''));
     print_option(g_(
 "      --admindir=<directory>\n" .

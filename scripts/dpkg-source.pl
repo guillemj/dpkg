@@ -735,7 +735,7 @@ sub usage {
     print_option(g_(
 "  -z, --compression-level=<level>\n" .
 "          Compression level to use\n" .
-"          (defaults to '%d', supported are: '1'-'9', 'best', 'fast')\n" .
+"          (defaults to '%d', supported are: '1'-'9', 'best', 'fast').\n" .
     ''), compression_get_default_level());
     print_option_sep();
 
@@ -744,31 +744,31 @@ sub usage {
     '');
     print_option(g_(
 "      --no-copy\n" .
-"          Do not copy .orig tarballs\n" .
+"          Do not copy .orig tarballs.\n" .
     ''));
     print_option(g_(
 "      --no-check\n" .
-"          Do not check signature and checksums on extraction\n" .
+"          Do not check signature and checksums on extraction.\n" .
     ''));
     print_option(g_(
 "      --no-overwrite-dir\n" .
-"          Do not overwrite directory on extraction\n" .
+"          Do not overwrite directory on extraction.\n" .
     ''));
     print_option(g_(
 "      --no-vendor-certs\n" .
-"          Do not use vendor specific certificate keyrings\n" .
+"          Do not use vendor specific certificate keyrings.\n" .
     ''));
     print_option(g_(
 "      --signer-certs=<keyring>\n" .
-"          Use a signer certificates keyring\n" .
+"          Use a signer certificates keyring.\n" .
     ''));
     print_option(g_(
 "      --require-valid-signature\n" .
-"          Abort if the package does not have a valid signature\n" .
+"          Abort if the package does not have a valid signature.\n" .
     ''));
     print_option(g_(
 "      --require-strong-checksums\n" .
-"          Abort if the package contains no strong checksums\n" .
+"          Abort if the package contains no strong checksums.\n" .
     ''));
     print_option(g_(
 "      --ignore-bad-version\n" .

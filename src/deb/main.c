@@ -86,7 +86,7 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "  -W, --show <deb>\n"
-"          Show information on package(s)\n"
+"          Show information on package(s).\n"
 	));
 	print_option(_(
 "  -f, --field <deb> [<cfield>...]\n"

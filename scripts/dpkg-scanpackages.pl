@@ -109,7 +109,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -M, --medium <medium>\n" .
-"          Add X-Medium field for dselect media access method\n" .
+"          Add X-Medium field for dselect media access method.\n" .
     ''));
     print_option(g_(
 "  -?, --help\n" .
