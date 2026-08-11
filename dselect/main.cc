@@ -291,19 +291,23 @@ usage(const struct cmdinfo *ci, const char *value)
 	));
 	print_option_sep();
 
-	printf(_("<color-spec> is <screen-part>:[<foreground>],[<background>][:<attr>[+<attr>]...]\n"));
+	printf(_("<color-spec> is:\n"
+	         "  <screen-part>:[<foreground>],[<background>][:<attr>[+<attr>]...]\n"));
 
-	printf(_("<screen-part> is:"));
+	printf(_("<screen-part> is:\n"));
+	printf(" ");
 	for (i = 0; screenparttable[i].name; i++)
 		printf(" %s", screenparttable[i].name);
 	print_option_sep();
 
-	printf(_("<color> is:"));
+	printf(_("<color> is:\n"));
+	printf(" ");
 	for (i = 0; colortable[i].name; i++)
 		printf(" %s", colortable[i].name);
 	print_option_sep();
 
-	printf(_("<attr> is:"));
+	printf(_("<attr> is:\n"));
+	printf(" ");
 	for (i = 0; attrtable[i].name; i++)
 		printf(" %s", attrtable[i].name);
 	print_option_sep();

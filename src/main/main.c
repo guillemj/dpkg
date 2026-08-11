@@ -228,8 +228,8 @@ usage(const char *const *argv)
 	print_option_sep();
 
 	printf(_(
-"<archive-spec> is <.deb file name>... | (-R|--recursive) <directory>...\n"
-"<package-spec> is <package>... | (-a|--pending)\n"
+"<archive-spec> is: <.deb file name>... | (-R|--recursive) <directory>...\n"
+"<package-spec> is: <package>... | (-a|--pending)\n"
 	));
 	print_option_sep();
 
