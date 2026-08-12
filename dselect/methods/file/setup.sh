@@ -93,7 +93,7 @@ fi
 
 while true; do
   echo \
-"In order to make it easy to find the relevant files, it is preferred
+"To make it easy to find the relevant files, it is preferred
 to install from a straightforward copy of the Debian distribution.
 To use this, it is required to know where the top level of that copy of
 the distribution is (eg. 'debian/dists/stable') - this directory usually

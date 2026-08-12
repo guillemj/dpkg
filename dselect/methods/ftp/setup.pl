@@ -93,8 +93,7 @@ Eg:      ftp site: ftp.debian.org
     distributions: dists/stable/main dists/stable/contrib
      download dir: debian
 
-You may have to use an authenticated FTP proxy in order to reach the
-FTP site:
+You may have to use an authenticated FTP proxy to reach the FTP site:
 
 Eg:  use auth proxy: y
               proxy: proxy.isp.com

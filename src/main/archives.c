@@ -1414,7 +1414,7 @@ try_remove_can(struct deppossi *pdep,
 				        pkg_name(pkg_removal, pnaw_nonambig));
 			} else {
 				notice(_("no, %s is essential, will not deconfigure\n"
-				         " it in order to enable removal of %s"),
+				         " it to enable removal of %s"),
 				       pkg_name(pkg, pnaw_nonambig),
 				       pkg_name(pkg_removal, pnaw_nonambig));
 				return 0;
@@ -1428,7 +1428,7 @@ try_remove_can(struct deppossi *pdep,
 				        pkg_name(pkg_removal, pnaw_nonambig));
 			} else {
 				notice(_("no, %s is protected, will not deconfigure\n"
-				         " it in order to enable removal of %s"),
+				         " it to enable removal of %s"),
 				       pkg_name(pkg, pnaw_nonambig),
 				       pkg_name(pkg_removal, pnaw_nonambig));
 				return 0;
