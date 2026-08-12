@@ -182,9 +182,8 @@ sub get_items_to_merge {
     return @items;
 }
 
-# Compares the versions taking into account some oddities like the fact
-# that we want backport versions to sort higher than the version
-# on which they are based.
+# Compares the versions taking into account some oddities like wanting
+# backport versions to sort higher than the version on which they are based.
 sub compare_versions {
     my ($a, $b) = @_;
 
