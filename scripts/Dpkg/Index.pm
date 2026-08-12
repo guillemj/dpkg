@@ -114,7 +114,7 @@ otherwise the Package field;
 
 =item *
 
-for CTRL_TMPL_PKG it is simply the Package field;
+for CTRL_TMPL_PKG it is the Package field;
 
 =item *
 

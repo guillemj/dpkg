@@ -174,7 +174,7 @@ pkg_sorter_by_files_list_phys_offs(const void *a, const void *b)
 	const struct pkginfo *pa = *(const struct pkginfo **)a;
 	const struct pkginfo *pb = *(const struct pkginfo **)b;
 
-	/* We can't simply subtract, because the difference may be greater than
+	/* We can't subtract, because the difference may be greater than
 	 * INT_MAX. */
 	if (pa->files_list_phys_offs < pb->files_list_phys_offs)
 		return -1;

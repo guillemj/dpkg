@@ -132,7 +132,7 @@ sub arch_is_concerned {
 =item $dep->reduce_arch($arch)
 
 Simplifies the dependencies to contain only information relevant to the
-given architecture. The non-relevant sub-dependencies are simply removed.
+given architecture. The non-relevant sub-dependencies are removed.
 
 This trims off the architecture restriction list of L<Dpkg::Deps::Simple>
 objects.
@@ -185,7 +185,7 @@ sub profile_is_concerned {
 =item $dep->reduce_profiles()
 
 Simplifies the dependencies to contain only information relevant to the
-given profile. The non-relevant sub-dependencies are simply removed.
+given profile. The non-relevant sub-dependencies are removed.
 
 This trims off the profile restriction list of L<Dpkg::Deps::Simple> objects.
 

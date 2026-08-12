@@ -61,7 +61,7 @@ int cleanup_conflictor_failed = 0;
  * In both cases, we also make sure we delete «pathname».dpkg-new in
  * case that's still hanging around.
  *
- * For conffiles, we simply delete «pathname».dpkg-new. For these,
+ * For conffiles, we delete «pathname».dpkg-new. For these,
  * «pathname».dpkg-tmp shouldn't exist, as we don't make a backup
  * at this stage. Just to be on the safe side, though, we don't
  * look for it.

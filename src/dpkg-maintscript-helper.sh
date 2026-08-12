@@ -466,7 +466,7 @@ prepare_dir_to_symlink()
   # At this point, we know that the directory either contains no files,
   # or only non-conffiles owned by the package.
   #
-  # To do the switch we cannot simply replace it with the final symlink
+  # To do the switch we cannot replace it with the final symlink
   # just yet, because dpkg needs to remove any file present in the old
   # package that have disappeared in the new one, and we do not want to
   # lose files resolving to the same pathname in the symlink target.

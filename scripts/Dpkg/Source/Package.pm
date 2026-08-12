@@ -472,7 +472,7 @@ sub get_upstream_signing_key {
 
 Convert a signature from binary to ASCII armored form. If the signature file
 does not exist, it is a no-op. If the signature file is already ASCII armored
-then simply copy it, otherwise convert it from binary to ASCII armored form.
+then copy it, otherwise convert it from binary to ASCII armored form.
 
 =cut
 

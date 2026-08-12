@@ -124,7 +124,7 @@ AC_DEFUN([DPKG_PROG_POD2MAN], [
 # DPKG_PROG_TAR
 # -------------
 # Specify GNU tar program name to use by dpkg. On GNU systems this is
-# usually simply tar, on BSD systems this is usually gnutar or gtar.
+# usually tar, on BSD systems this is usually gnutar or gtar.
 AC_DEFUN([DPKG_PROG_TAR], [
   AC_ARG_VAR([TAR], [GNU tar program])
   AC_CHECK_PROGS([TAR], [gnutar gtar tar], [tar])
@@ -137,7 +137,7 @@ AC_DEFUN([DPKG_PROG_TAR], [
 # DPKG_PROG_PATCH
 # ---------------
 # Specify GNU patch program name to use by dpkg-source. On GNU systems this
-# is usually simply patch, on BSD systems this is usually gpatch.
+# is usually patch, on BSD systems this is usually gpatch.
 # Even though most invocations would work with other patch implementations,
 # currently only GNU patch is directory traversal resistant.
 AC_DEFUN([DPKG_PROG_PATCH], [

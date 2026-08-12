@@ -1543,7 +1543,7 @@ process_archive(const char *filename)
 	 * There are several possibilities:
 	 *
 	 * + We are trying to install a non-directory ...
-	 *  - It doesn't exist. In this case we simply extract it.
+	 *  - It doesn't exist. In this case we extract it.
 	 *  - It is a plain file, device, symlink, &c. We do an ‘atomic
 	 *    overwrite’ using link() and rename(), but leave a backup copy.
 	 *    Later, when we delete the backup, we remove it from any other
