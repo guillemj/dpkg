@@ -425,9 +425,9 @@ treewalk_node(struct treeroot *tree)
 /**
  * Return the next node.
  *
- * This function works basically as an iterator. And will return NULL when
- * the whole tree has been traversed. When starting it will skip the root
- * node, so you might want to use treewalk_node() to get that, otherwise
+ * This function works as an iterator. And will return NULL when the whole
+ * tree has been traversed. When starting it will skip the root node,
+ * so you might want to use treewalk_node() to get that, otherwise
  * you could use it like this:
  *
  * @code

@@ -165,8 +165,7 @@ sub initialize {
         $type = 'alias-c++';
     }
 
-    # Support old style wildcard syntax. That is basically a symver with an
-    # optional tag.
+    # Support old style wildcard syntax. That is a symver with an optional tag.
     if ($self->get_symbolname() =~ /^\*@(.*)$/) {
         warning(g_('deprecated wildcard syntax in "%s"; use "%s" instead'),
                 $self->get_symbolname(), "(symver|optional)$1");
