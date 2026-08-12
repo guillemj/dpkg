@@ -279,7 +279,7 @@ usage(const struct cmdinfo *ci, const char *value)
 	));
 	print_option(_(
 "      --colour <color-spec>\n"
-"          Ditto.\n"
+"          Alias for --color.\n"
 	));
 	print_option(_(
 "  -?, --help\n"

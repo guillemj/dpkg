@@ -660,7 +660,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -e<executable>\n" .
-"          Ditto, used when <executable> starts with '-'.\n" .
+"          Alias for <executable> when it starts with '-'.\n" .
     ''));
     print_option(g_(
 "  -d<dependency-field>\n" .

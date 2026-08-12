@@ -302,7 +302,7 @@ sub usage {
     ''));
     print_option(g_(
 "      --build-by=<maint>\n" .
-"          Ditto.\n" .
+"          Alias for --source-by.\n" .
     ''));
     print_option(g_(
 "  -e, --release-by=<maint>\n" .
@@ -310,7 +310,7 @@ sub usage {
     ''));
     print_option(g_(
 "      --changed-by=<maint>\n" .
-"          Ditto.\n" .
+"          Alias for --release-by.\n" .
     ''));
     print_option(g_(
 "  -C<descfile>\n" .

@@ -318,11 +318,11 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --dry-run\n"
-"          Ditto.\n"
+"          Alias for --no-act.\n"
 	));
 	print_option(_(
 "      --simulate\n"
-"          Ditto.\n"
+"          Alias for --no-act.\n"
 	));
 	print_option(_(
 "  -D, --debug=<octal>\n"
@@ -354,7 +354,7 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --refuse-<thing>[,...]\n"
-"          Ditto.\n"
+"          Alias for --no-force.\n"
 	));
 	print_option(_(
 "      --abort-after <n>\n"

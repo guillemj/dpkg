@@ -84,7 +84,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -v <version>\n" .
-"          Ditto.\n" .
+"          Alias for --since.\n" .
     ''));
     print_option(g_(
 "  -u, --until <version>\n" .
@@ -105,7 +105,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -n <number>\n" .
-"          Ditto.\n" .
+"          Alias for --count.\n" .
     ''));
     print_option(g_(
 "  -o, --offset <number>\n" .

@@ -129,7 +129,7 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --refuse-<thing>[,...]\n"
-"          Ditto.\n"
+"          Alias for --no-force.\n"
 	));
 	print_option(_(
 "      --quiet\n"
