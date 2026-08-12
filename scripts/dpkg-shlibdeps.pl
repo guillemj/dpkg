@@ -647,7 +647,7 @@ if (! $stdout) {
 
 sub usage {
     printf g_(
-"Usage: %s [<option>...] <executable>|-e<executable> [<option>...]\n" .
+"Usage: %s [<option>...] [-e]<executable> [<option>...]\n" .
     ''), $Dpkg::PROGNAME;
     print_option_sep();
 
