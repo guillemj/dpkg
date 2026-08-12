@@ -75,8 +75,8 @@
  *
  *
  * Before quitting from most operations, we trigproc each package in the
- * deferred trigproc list. This may (if not --no-triggers) of course add
- * new things to the deferred trigproc list.
+ * deferred trigproc list. This may (if not --no-triggers) add new things
+ * to the deferred trigproc list.
  *
  *
  * Note that ‘we trigproc T’ must involve trigger cycle detection and

@@ -576,7 +576,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
 	close(pipe_filenames[0]);
 	close(pipe_tarball[1]);
 
-	/* Of course we should not forget to compress the archive as well. */
+	/* We should not forget to compress the archive as well. */
 	pid_comp = subproc_fork();
 	if (pid_comp == 0) {
 		close(pipe_filenames[1]);

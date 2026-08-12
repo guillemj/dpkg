@@ -1595,9 +1595,9 @@ process_archive(const char *filename)
 	 *    it's a plain file, device, pipe, &c, or a symlink to one, or a
 	 *    dangling symlink). We delete it.
 	 *
-	 * The removed packages' list becomes empty (of course, the new
-	 * version of the package we're installing will have a new list,
-	 * which replaces the old version's list).
+	 * The removed packages' list becomes empty (the new version of the
+	 * package we're installing will have a new list, which replaces the
+	 * old version's list).
 	 *
 	 * If at any stage we remove a file from a package's list, and the
 	 * package isn't one we're already processing, and the package's
@@ -1768,7 +1768,7 @@ process_archive(const char *filename)
 	/* Right, the package we've unpacked is now in a reasonable state.
 	 * The only thing that we have left to do with it is remove
 	 * backup files, and we can leave the user to fix that if and when
-	 * it happens (we leave the reinstall required flag, of course). */
+	 * it happens (we leave the reinstall required flag). */
 	pkg_set_status(pkg, PKG_STAT_UNPACKED);
 	modstatdb_note(pkg);
 
