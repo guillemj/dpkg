@@ -391,6 +391,8 @@ print_option(const char *opt_fmt_spec, ...)
 			break;
 		case '[':
 		case ']':
+		case '(':
+		case ')':
 		case '.':
 		case '|':
 			varbuf_add_str(&color_spec, color_get(COLOR_RESET));
