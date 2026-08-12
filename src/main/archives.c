@@ -936,11 +936,10 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
 
 			if (nifd->namenode->divert &&
 			    nifd->namenode->divert->useinstead) {
-				/* Right, so we may be diverting this file.
-				 * This makes the conflict OK iff one of us is
-				 * the diverting package (we don't need to
-				 * check for both being the diverting package,
-				 * obviously). */
+				/* Right, we may be diverting this file. This
+				 * makes the conflict OK iff one of us is the
+				 * diverting package (we don't need to check
+				 * for both being the diverting package). */
 				divpkgset = nifd->namenode->divert->pkgset;
 
 				debug(dbg_eachfile,

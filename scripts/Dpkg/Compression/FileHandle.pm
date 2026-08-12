@@ -132,8 +132,8 @@ See $fh->set_compression_level().
 =item B<add_comp_ext>
 
 If set to true, then the extension corresponding to the selected
-compression scheme is automatically added to the recorded filename. It's
-obviously incompatible with automatic detection of the compression method.
+compression scheme is automatically added to the recorded filename.
+It is incompatible with automatic detection of the compression method.
 
 =back
 
