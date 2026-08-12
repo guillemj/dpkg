@@ -1214,7 +1214,7 @@ pkg_remove_files_from_others(struct pkginfo *pkg,
 			/* If !files_list_valid then it's one of the
 			 * disappeared packages above or we have already
 			 * updated the files list file, and we don't bother
-			 * with it here, clearly. */
+			 * with it here. */
 			if (!otherpkg->files_list_valid)
 				continue;
 
