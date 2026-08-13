@@ -144,7 +144,8 @@ pkg_spec_set(struct pkg_spec *ps, const char *pkgname, const char *archname)
 const char *
 pkg_spec_parse(struct pkg_spec *ps, const char *str)
 {
-	char *pkgname, *archname;
+	const char *archname;
+	char *pkgname;
 
 	archname = strchr(str, ':');
 	if (archname == NULL) {

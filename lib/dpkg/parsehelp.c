@@ -243,7 +243,8 @@ int
 parseversion(struct dpkg_version *rversion, const char *string,
              struct dpkg_error *err)
 {
-	char *hyphen, *colon, *eepochcolon;
+	const char *colon;
+	char *version_str, *hyphen, *eepochcolon;
 	const char *end, *ptr;
 
 	/* Trim leading and trailing space. */
@@ -287,15 +288,16 @@ parseversion(struct dpkg_version *rversion, const char *string,
 		rversion->epoch = 0;
 	}
 
-	rversion->version = nfstrnsave(string, end - string);
+	version_str = nfstrnsave(string, end - string);
 
-	hyphen = strrchr(rversion->version, '-');
+	hyphen = strrchr(version_str, '-');
 	if (hyphen) {
 		*hyphen++ = '\0';
 
 		if (*hyphen == '\0')
 			return dpkg_put_error(err, _("revision number is empty"));
 	}
+	rversion->version = version_str;
 	rversion->revision = hyphen ? hyphen : "";
 
 	/* XXX: Would be faster to use something like cisversion() and
