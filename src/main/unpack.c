@@ -707,6 +707,9 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg,
 		warning(_("%s: cannot rename obsolete conffile '%s' to '%s': %s"),
 		        pkg_name(pkg, pnaw_nonambig),
 		        cdr.buf, cdrext.buf, strerror(errno));
+
+	varbuf_destroy(&cdrext);
+	varbuf_destroy(&cdr);
 }
 
 /* TODO: Refactor to reduce nesting levels. */
