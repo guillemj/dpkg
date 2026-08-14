@@ -141,10 +141,12 @@ parse_filehash(struct pkginfo *pkg, struct pkgbin *pkgbin)
 
 	hashfile = pkg_infodb_get_file(pkg, pkgbin, HASHFILE);
 
-	if (file_slurp(hashfile, &buf, &err) < 0 && err.syserrno != ENOENT)
-		dpkg_error_print(&err,
-		                 _("loading control file '%s' for package '%s'"),
-		                 HASHFILE, pkg_name(pkg, pnaw_nonambig));
+	if (file_slurp(hashfile, &buf, &err) < 0) {
+		if (err.syserrno != ENOENT)
+			dpkg_error_print(&err,
+			                 _("loading control file '%s' for package '%s'"),
+			                 HASHFILE, pkg_name(pkg, pnaw_nonambig));
+	}
 
 	if (buf.used > 0)
 		parse_filehash_buffer(&buf, pkg, pkgbin);
