@@ -42,12 +42,6 @@ m4_define([DPKG_SEQ], [dnl
   m4_for([i], [1], [$1], [], [i ])dnl
 ])
 
-# DPKG_CAT($file)
-# Avoid cat(1) as it defeats the streaming checks on some systems.
-m4_define([DPKG_CAT], [dnl
-  $PERL -p -E '' <"$1" dnl
-])
-
 # DPKG_CWD()
 m4_define([DPKG_CWD], [dnl
   $PERL -MCwd=realpath,getcwd -E 'say realpath(getcwd())'dnl
