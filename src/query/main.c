@@ -234,7 +234,7 @@ list_format_print_header(struct list_format *fmt)
 	 */
 	fputs(_("\
 +-- Desired=Unknown/Install/Remove/Purge/Hold\n\
-|+- Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n\
+|+- Status=Inst/Not-inst/Confs/Unpack/halF-conf/Half-inst/trig-aWait/Trig-pend\n\
 ||+ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"), stdout);
 	list_format_print(fmt,
 	                  C_("query-list-header", "|"),
