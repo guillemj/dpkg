@@ -222,6 +222,7 @@ readmethods(const char *pathbase, dselect_option **optionspp, int *nread)
 				if (err.syserrno != ENOENT)
 					dpkg_error_print(&err, _("cannot load option description file '%s'"),
 					                       pathoptsdesc.str());
+				dpkg_error_destroy(&err);
 			}
 
 			debug(dbg_general,

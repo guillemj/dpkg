@@ -146,6 +146,7 @@ parse_filehash(struct pkginfo *pkg, struct pkgbin *pkgbin)
 			dpkg_error_print(&err,
 			                 _("loading control file '%s' for package '%s'"),
 			                 HASHFILE, pkg_name(pkg, pnaw_nonambig));
+		dpkg_error_destroy(&err);
 	}
 
 	if (buf.used > 0)
