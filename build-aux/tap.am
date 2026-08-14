@@ -25,11 +25,11 @@ tap-check: $(test_data) $(test_programs) $(test_scripts)
 	  abs_top_srcdir=$(abs_top_srcdir) \
 	  abs_top_builddir=$(abs_top_builddir) \
 	  srcdir=$(srcdir) builddir=$(builddir) \
-	  CC=$(CC) \
-	  SHELL=$(SHELL) \
-	  PERL=$(PERL) \
+	  CC="$(CC)" \
+	  SHELL="$(SHELL)" \
+	  PERL="$(PERL)" \
 	  PERL_DL_NONLAZY=1 \
-	  PERL5OPT=$(TEST_COVERAGE) \
+	  PERL5OPT="$(TEST_COVERAGE)" \
 	  $(PERL) $(top_srcdir)/build-aux/test-runner \
 	    $(addprefix $(builddir)/,$(test_programs)) \
 	    $(addprefix $(srcdir)/,$(test_scripts))
