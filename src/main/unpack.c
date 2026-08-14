@@ -667,6 +667,8 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg,
 		         "namenode '%s' owned by other %s, remove-on-upgrade ignored",
 		         namenode->name, pkg_name(otherpkg, pnaw_always));
 		fsys_node_pkgs_iter_free(iter);
+		varbuf_destroy(&cdrext);
+		varbuf_destroy(&cdr);
 		return;
 	}
 	fsys_node_pkgs_iter_free(iter);
@@ -683,8 +685,11 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg,
 	md5hash(pkg, currenthash, cdr.buf);
 
 	/* Has it been already removed (e.g. by local admin)? */
-	if (strcmp(currenthash, NONEXISTENTFLAG) == 0)
+	if (strcmp(currenthash, NONEXISTENTFLAG) == 0) {
+		varbuf_destroy(&cdrext);
+		varbuf_destroy(&cdr);
 		return;
+	}
 
 	/* For unmodified conffiles, we just remove them. */
 	if (strcmp(currenthash, namenode->oldhash) == 0) {
@@ -693,6 +698,8 @@ pkg_remove_conffile_on_upgrade(struct pkginfo *pkg,
 			warning(_("%s: cannot remove '%s': %s"),
 			        pkg_name(pkg, pnaw_nonambig), cdr.buf,
 			        strerror(errno));
+		varbuf_destroy(&cdrext);
+		varbuf_destroy(&cdr);
 		return;
 	}
 
