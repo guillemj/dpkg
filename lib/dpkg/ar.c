@@ -53,6 +53,12 @@ dpkg_ar_fdopen(const char *filename, int fd)
 	ar->time = st.st_mtime;
 	ar->fd = fd;
 	ar->is_seekable = lseek(fd, 0, SEEK_CUR) == 0;
+	/* The size returned for a pipe file descriptor is neither portable
+	 * nor deterministic. On many BSD systems, it might return 0 or
+	 * the size of the file clamped to the size of a specific kernel
+	 * buffer size. We force the size to 0, to get consistent behavior. */
+	if (! ar->is_seekable)
+		ar->size = 0;
 
 	return ar;
 }
