@@ -3,13 +3,13 @@ AT_KEYWORDS([dpkg-deb deb streaming])
 
 DPKG_GEN_CONTROL([pkg-streaming])
 AT_CHECK([
-dpkg-deb --root-owner-group -b pkg-streaming
+dpkg-deb --root-owner-group --compression=none -b pkg-streaming
 ], [0], [ignore])
 
 AT_CHECK([
 DPKG_CAT([pkg-streaming.deb]) | dpkg-deb --info -
 ], [0], [ new Debian package, version 2.0.
- size 0 bytes: control archive=328 bytes.
+ size 0 bytes: control archive=10240 bytes.
      171 bytes,     7 lines      control
  Package: pkg-streaming
  Version: 0.0-1
