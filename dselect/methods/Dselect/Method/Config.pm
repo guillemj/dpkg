@@ -190,8 +190,10 @@ Return a string representation of the content.
 
 =cut
 
-sub output($self, $fh //= undef, %opts)
+sub output($self, @args)
 {
+    # TODO: Switch to ($self, $fh //= undef, %opts), after perl 5.38.
+    my ($fh, %opts) = @args;
     my $ret = q{};
 
     foreach my $name ($self->get_options()) {
