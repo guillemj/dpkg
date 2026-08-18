@@ -51,7 +51,9 @@ must_alloc_string(void *ptr, const char *str)
 		return ptr;
 
 	onerr_abort++;
-	ohshite(_("cannot allocate memory to duplicate string '%s'"), str);
+	ohshite(_("cannot allocate memory (%zu bytes) "
+	          "to duplicate string '%s'"),
+	        strlen(str), str);
 }
 
 void *
@@ -94,7 +96,7 @@ m_vasprintf(char **strp, const char *fmt, va_list args)
 		return n;
 
 	onerr_abort++;
-	ohshite(_("cannot allocate memory"));
+	ohshite(_("cannot allocate memory (%zu bytes)"), (size_t)n);
 }
 
 int

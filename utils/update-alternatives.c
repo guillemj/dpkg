@@ -390,7 +390,7 @@ xmalloc(size_t size)
 
 	ptr = malloc(size);
 	if (!ptr)
-		error(_("cannot malloc (%zu bytes)"), size);
+		error(_("cannot allocate memory (%zu bytes)"), size);
 
 	return ptr;
 }
@@ -405,7 +405,9 @@ xstrdup(const char *str)
 
 	new_str = strdup(str);
 	if (!new_str)
-		error(_("cannot allocate memory"));
+		error(_("cannot allocate memory (%zu bytes) "
+		        "to duplicate string '%s'"),
+		      strlen(str), str);
 
 	return new_str;
 }
@@ -420,7 +422,7 @@ xstrndup(const char *str, size_t n)
 
 	new_str = strndup(str, n);
 	if (!new_str)
-		error(_("cannot allocate memory"));
+		error(_("cannot allocate memory (%zu bytes)"), n);
 
 	return new_str;
 }

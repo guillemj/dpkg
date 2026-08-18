@@ -431,7 +431,7 @@ xmalloc(size_t size)
 	ptr = malloc(size);
 	if (ptr)
 		return ptr;
-	fatale("cannot malloc(%zu)", size);
+	fatale("cannot allocate memory (%zu bytes)", size);
 }
 
 static char *
@@ -442,7 +442,8 @@ xstrndup(const char *str, size_t n)
 	new_str = strndup(str, n);
 	if (new_str)
 		return new_str;
-	fatale("cannot strndup(%s, %zu)", str, n);
+	fatale("cannot allocate memory (%zu bytes) to duplicate string '%s'",
+	       n, str);
 }
 
 static void
