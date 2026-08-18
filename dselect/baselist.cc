@@ -146,7 +146,7 @@ baselist::startdisplay()
 	    COLOR_PAIRS >= numscreenparts) {
 		int i;
 
-		printf("allocing\n");
+		debug(dbg_general, "baselist::startdisplay() color init");
 		for (i = 1; i < numscreenparts; i++) {
 			if (init_pair(i, color[i].fore, color[i].back) != OK)
 				ohshite(_("cannot allocate color pair"));
