@@ -35,16 +35,6 @@
 #include <dpkg/dpkg.h>
 
 static inline void *
-must_alloc(void *ptr)
-{
-	if (ptr)
-		return ptr;
-
-	onerr_abort++;
-	ohshite(_("cannot allocate memory"));
-}
-
-static inline void *
 must_alloc_size(void *ptr, size_t size)
 {
 	if (ptr)
@@ -52,6 +42,16 @@ must_alloc_size(void *ptr, size_t size)
 
 	onerr_abort++;
 	ohshite(_("cannot allocate memory (%zu bytes)"), size);
+}
+
+static inline void *
+must_alloc_string(void *ptr, const char *str)
+{
+	if (ptr)
+		return ptr;
+
+	onerr_abort++;
+	ohshite(_("cannot allocate memory to duplicate string '%s'"), str);
 }
 
 void *
@@ -75,13 +75,13 @@ m_realloc(void *r, size_t amount)
 char *
 m_strdup(const char *str)
 {
-	return must_alloc(strdup(str));
+	return must_alloc_string(strdup(str), str);
 }
 
 char *
 m_strndup(const char *str, size_t n)
 {
-	return must_alloc(strndup(str, n));
+	return must_alloc_string(strndup(str, n), str);
 }
 
 int
