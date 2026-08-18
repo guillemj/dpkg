@@ -149,7 +149,8 @@ baselist::startdisplay()
 		debug(dbg_general, "baselist::startdisplay() color init");
 		for (i = 1; i < numscreenparts; i++) {
 			if (init_pair(i, color[i].fore, color[i].back) != OK)
-				ohshite(_("cannot allocate color pair"));
+				ohshite(_("cannot initialize color pair %d:%d"),
+				        color[i].fore, color[i].back);
 			part_attr[i] = COLOR_PAIR(i) | color[i].attr;
 		}
 	} else {
