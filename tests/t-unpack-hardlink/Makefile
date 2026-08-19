@@ -30,7 +30,7 @@ TEST_LINKS := \
 	$(PKG)/test-fifo-link0 \
 	# EOL
 
-ifdef DPKG_AS_ROOT
+ifdef DPKG_SYS_HAS_MKNOD
 TEST_LINKS += \
 	$(PKG)/test-null-link0 \
 	$(PKG)/test-ram0-link0 \

@@ -63,7 +63,7 @@ $(foreach ma,same foreign foreign-any allowed allowed-any allowed-fake no,\
   $(eval $(call build_pkg,dep-on-$(ma)_1.0_all,dep-on-$(ma),1.0,all,no,pkg-ma-$(subst -,:,$(ma)) (>= 1.0))))
 
 shared_file_types := file symlink fifo
-ifdef DPKG_AS_ROOT
+ifdef DPKG_SYS_HAS_MKNOD
 shared_file_types += chardev blockdev
 endif
 $(foreach arch,$(NATIVE_ARCH) $(FOREIGN_ARCH),\
@@ -488,6 +488,7 @@ pkg-ma-shared-files_$(1)_$(2)-fifo_$(3):: pkg-template
 	test -e pkg-ma-shared-files_$(1)_$(2)-fifo_$(3)$(common_file) || \
 	$(BEROOT) mkfifo pkg-ma-shared-files_$(1)_$(2)-fifo_$(3)$(common_file)
 
+ifdef DPKG_SYS_HAS_MKNOD
 pkg-ma-shared-files_$(1)_$(2)-chardev_$(3):: pkg-template
 	[ "$(2)" = "orig" ] && major=1 || major=2; \
 	[ "$(1)" = "1.0" ] && minor=3 || minor=4; \
@@ -499,6 +500,7 @@ pkg-ma-shared-files_$(1)_$(2)-blockdev_$(3):: pkg-template
 	[ "$(1)" = "1.0" ] && minor=3 || minor=4; \
 	test -e pkg-ma-shared-files_$(1)_$(2)-blockdev_$(3)$(common_file) || \
 	$(BEROOT) mknod pkg-ma-shared-files_$(1)_$(2)-blockdev_$(3)$(common_file) b $$$$major $$$$minor
+endif
 endef
 
 $(foreach version,1.0 2.0,$(foreach variant,orig alt,\
@@ -513,7 +515,7 @@ test-coinstall-shared-files: ma-setup
 	test -f "$(DPKG_INSTDIR)$(common_file)"
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-fifo_$(FOREIGN_ARCH).deb
 	test -f "$(DPKG_INSTDIR)$(common_file)"
-ifdef DPKG_AS_ROOT
+ifdef DPKG_SYS_HAS_MKNOD
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-chardev_$(FOREIGN_ARCH).deb
 	test -f "$(DPKG_INSTDIR)$(common_file)"
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-blockdev_$(FOREIGN_ARCH).deb
@@ -560,7 +562,7 @@ endif
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-symlink_$(FOREIGN_ARCH).deb
 	$(call stdout_is,readlink "$(DPKG_INSTDIR)$(common_file)",orig-1.0)
 	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH) pkg-ma-shared-files:$(FOREIGN_ARCH)
-ifdef DPKG_AS_ROOT
+ifdef DPKG_SYS_HAS_MKNOD
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-chardev_$(NATIVE_ARCH).deb
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-chardev_$(FOREIGN_ARCH).deb
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-chardev_$(FOREIGN_ARCH).deb

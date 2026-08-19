@@ -1,7 +1,7 @@
 #
 # Dpkg functional testsuite (kind of)
 #
-# Copyright © 2015 Guillem Jover <guillem@debian.org>
+# Copyright © 2015-2026 Guillem Jover <guillem@debian.org>
 #
 
 ## Feature checks setup ##
@@ -14,6 +14,16 @@ export DPKG_FEATURE_CHECKS := yes
 
 ifneq (,$(filter as-root,$(DPKG_TESTSUITE_OPTIONS)))
 export DPKG_AS_ROOT = 1
+endif
+
+# Some containers, such as lxc, do not permit creating devices, as that would
+# defeat the containment.
+# TODO: Switch this into a dynamic feature check, once we have rewritten the
+# test suite in autotest.
+ifneq (,$(filter has-mknod,$(DPKG_TESTSUITE_OPTIONS)))
+ifdef DPKG_AS_ROOT
+export DPKG_SYS_HAS_MKNOD = 1
+endif
 endif
 
 endif

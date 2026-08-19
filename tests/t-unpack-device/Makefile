@@ -10,7 +10,15 @@ $(PKG)/test-null:
 $(PKG)/test-ram0:
 	$(BEROOT) mknod $@ b 1 0
 
-build-hook: $(PKG)/test-null $(PKG)/test-ram0
+TEST_DEVICES =
+ifdef DPKG_SYS_HAS_MKNOD
+TEST_DEVICES += \
+	$(PKG)/test-null \
+	$(PKG)/test-ram0 \
+	# EOL
+endif
+
+build-hook: $(TEST_DEVICES)
 
 clean-hook:
 	rm -f $(PKG)/test-null
