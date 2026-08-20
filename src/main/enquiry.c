@@ -294,6 +294,9 @@ unpackchk(const char *const *argv)
 	if (*argv)
 		badusage(_("--%s takes no arguments"), cipaction->olong);
 
+	warning(_("deprecated --%s option; use %s --%s instead"),
+	        cipaction->olong, DPKGQUERY, "show");
+
 	modstatdb_open(msdbrw_readonly);
 
 	totalcount = 0;

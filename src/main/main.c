@@ -170,10 +170,6 @@ usage(const char *const *argv)
 "          Check for broken package(s).\n"
 	));
 	print_option(_(
-"      --yet-to-unpack\n"
-"          Print packages selected for installation.\n"
-	));
-	print_option(_(
 "      --predep-package\n"
 "          Print pre-dependencies to unpack.\n"
 	));
