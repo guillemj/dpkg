@@ -246,14 +246,8 @@ audit(const char *const *argv)
 	return 0;
 }
 
-struct sectionentry {
-	struct sectionentry *next;
-	const char *name;
-	int count;
-};
-
 static bool
-yettobeunpacked(struct pkginfo *pkg, const char **thissect)
+yettobeunpacked(struct pkginfo *pkg)
 {
 	if (pkg->want != PKG_WANT_INSTALL)
 		return false;
@@ -268,10 +262,6 @@ yettobeunpacked(struct pkginfo *pkg, const char **thissect)
 	case PKG_STAT_NOTINSTALLED:
 	case PKG_STAT_HALFINSTALLED:
 	case PKG_STAT_CONFIGFILES:
-		if (thissect)
-			*thissect = str_is_set(pkg->section) ?
-			            pkg->section :
-		                    C_("section", "<unknown>");
 		return true;
 	default:
 		internerr("unknown package status '%d'", pkg->status);
@@ -279,17 +269,11 @@ yettobeunpacked(struct pkginfo *pkg, const char **thissect)
 	return false;
 }
 
-/* TODO: Refactor sectionentries searches. */
 int
 unpackchk(const char *const *argv)
 {
-	int totalcount, sects;
-	struct sectionentry *sectionentries, *se, **sep;
 	struct pkg_hash_iter *iter;
 	struct pkginfo *pkg;
-	const char *thissect;
-	char buf[20];
-	int width;
 
 	if (*argv)
 		badusage(_("--%s takes no arguments"), cipaction->olong);
@@ -299,95 +283,14 @@ unpackchk(const char *const *argv)
 
 	modstatdb_open(msdbrw_readonly);
 
-	totalcount = 0;
-	sectionentries = NULL;
-	sects = 0;
-
 	iter = pkg_hash_iter_new();
 	while ((pkg = pkg_hash_iter_next_pkg(iter))) {
-		if (!yettobeunpacked(pkg, &thissect))
+		if (!yettobeunpacked(pkg))
 			continue;
 
-		for (se = sectionentries;
-		     se && strcasecmp(thissect, se->name);
-		     se = se->next)
-			;
-		if (!se) {
-			se = nfmalloc(sizeof(*se));
-			for (sep = &sectionentries;
-			     *sep && strcasecmp(thissect, (*sep)->name) > 0;
-			     sep = &(*sep)->next)
-				;
-			se->name = thissect;
-			se->count = 0;
-			se->next = *sep;
-			*sep = se;
-			sects++;
-		}
-		se->count++; totalcount++;
+		describebriefly(pkg);
 	}
 	pkg_hash_iter_free(iter);
-
-	if (totalcount == 0)
-		return 0;
-
-	if (totalcount <= 12) {
-		iter = pkg_hash_iter_new();
-		while ((pkg = pkg_hash_iter_next_pkg(iter))) {
-			if (!yettobeunpacked(pkg, NULL))
-				continue;
-
-			describebriefly(pkg);
-		}
-		pkg_hash_iter_free(iter);
-	} else if (sects <= 12) {
-		for (se = sectionentries; se; se = se->next) {
-			snprintf(buf, sizeof(buf), "%d", se->count);
-			printf(_(" %d in %s: "), se->count, se->name);
-			width = 70 - strlen(se->name) - strlen(buf);
-			while (width > 59) {
-				putchar(' ');
-				width--;
-			}
-			iter = pkg_hash_iter_new();
-			while ((pkg = pkg_hash_iter_next_pkg(iter))) {
-				const char *pkgname;
-
-				if (!yettobeunpacked(pkg, &thissect))
-					continue;
-
-				if (strcasecmp(thissect, se->name))
-					continue;
-
-				pkgname = pkg_name(pkg, pnaw_nonambig);
-				width -= strlen(pkgname);
-				width--;
-				if (width < 4) {
-					printf(" ...");
-					break;
-				}
-				printf(" %s", pkgname);
-			}
-			pkg_hash_iter_free(iter);
-			putchar('\n');
-		}
-	} else {
-		printf(P_(" %d package, from the following section:",
-		          " %d packages, from the following sections:",
-		          totalcount),
-		       totalcount);
-		width = 0;
-		for (se = sectionentries; se; se = se->next) {
-			snprintf(buf, sizeof(buf), "%d", se->count);
-			width -= (6 + strlen(se->name) + strlen(buf));
-			if (width < 0) {
-				putchar('\n');
-				width = 73 - strlen(se->name) - strlen(buf);
-			}
-			printf("   %s (%d)", se->name, se->count);
-		}
-		putchar('\n');
-	}
 
 	m_output(stdout, _("<standard output>"));
 
