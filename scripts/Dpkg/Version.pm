@@ -208,8 +208,8 @@ source package format can end up having a non-native version, adding
 to the confusion of the whole concept. And while this method would
 be fine to be used on vendors that have a coherent native source concept,
 this is not a pattern that will be portably relied on. Thus this method
-is being deprecated. Depending on the context, using the $v->has_revision()
-method might be sensible.
+is being deprecated. Depending on the context, using the negated result of
+the $v->has_revision() method might be sensible.
 
 =cut
 
@@ -219,7 +219,7 @@ sub is_native {
         'using Dpkg::Version->is_native() has been made incoherent and ' .
         'confusing on some dpkg vendors; it is deprecated as not having ' .
         'portable semantics anymore; depending on the context, using ' .
-        'has_revsion() might be sensible');
+        'the negated result of the has_revision() method might be sensible');
     return ! $self->has_revision();
 }
 
