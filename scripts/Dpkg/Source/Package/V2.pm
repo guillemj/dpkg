@@ -610,7 +610,7 @@ sub do_build {
         my $file = $opts{filename};
         $binaryfiles->new_binary_found($file);
         unless ($include_binaries or $binaryfiles->binary_is_allowed($file)) {
-            errormsg(g_('cannot represent change to %s: %s'), $file,
+            errormsg(g_('cannot represent changes to %s: %s'), $file,
                      g_('binary file contents changed'));
             errormsg(g_('add %s in debian/source/include-binaries if you want ' .
                         'to store the modified binary in the debian tarball'),

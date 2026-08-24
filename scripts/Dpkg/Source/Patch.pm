@@ -363,14 +363,14 @@ sub register_error {
 }
 sub _fail_with_msg {
     my ($self, $file, $msg) = @_;
-    errormsg(g_('cannot represent change to %s: %s'), $file, $msg);
+    errormsg(g_('cannot represent changes to %s: %s'), $file, $msg);
     $self->register_error();
 }
 sub _fail_not_same_type {
     my ($self, $old, $new, $file) = @_;
     my $old_type = get_type($old);
     my $new_type = get_type($new);
-    errormsg(g_('cannot represent change to %s using GNU diff:'), $file);
+    errormsg(g_('cannot represent changes to %s using GNU diff:'), $file);
     errormsg(g_('  new version is %s'), $new_type);
     errormsg(g_('  old version is %s'), $old_type);
     hint(g_('you can use a git formatted patch to represent these changes:'));
