@@ -858,7 +858,7 @@ commandfd(const char *const *argv)
 	const char **newargs = NULL, **endargs;
 	char *ptr, *endptr;
 	FILE *in;
-	long infd;
+	int infd;
 	int ret = 0;
 	int c, lno, i;
 	bool skipchar;
@@ -871,7 +871,7 @@ commandfd(const char *const *argv)
 	infd = dpkg_options_parse_arg_int(cipaction, pipein);
 	in = fdopen(infd, "r");
 	if (in == NULL)
-		ohshite(_("cannot open '%i' for stream"), (int)infd);
+		ohshite(_("cannot open '%i' for stream"), infd);
 
 	lno = 0;
 
