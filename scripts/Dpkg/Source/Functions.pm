@@ -112,12 +112,9 @@ sub fs_time {
     my $file = shift;
     my $is_temp = 0;
     if (not -e $file) {
-        file_touch($file);
         $is_temp = 1;
-    } else {
-        utime(undef, undef, $file) or
-            syserr(g_('cannot change timestamp for %s'), $file);
     }
+    file_touch($file);
     my $st = File::stat::stat($file)
         or syserr(g_('cannot read timestamp from %s'), $file);
     unlink($file) if $is_temp;

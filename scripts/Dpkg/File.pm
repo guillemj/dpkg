@@ -87,6 +87,8 @@ sub file_touch {
     open my $fh, '>>', $file
         or syserr(g_('cannot touch file %s'), $file);
     close $fh or syserr(g_('cannot write %s'), $file);
+    utime undef, undef, $file
+        or syserr(g_('cannot change timestamp for %s'), $file);
 }
 
 =head1 CHANGES
