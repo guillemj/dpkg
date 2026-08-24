@@ -84,7 +84,8 @@ sub file_dump {
 sub file_touch {
     my $file = shift;
 
-    open my $fh, '>', $file or syserr(g_('cannot create file %s'), $file);
+    open my $fh, '>>', $file
+        or syserr(g_('cannot touch file %s'), $file);
     close $fh or syserr(g_('cannot write %s'), $file);
 }
 
