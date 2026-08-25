@@ -90,14 +90,6 @@ usage(const char *const *argv)
 "Options:\n"
 	));
 	print_option(_(
-"      --admindir=<directory>\n"
-"          Use <directory> instead of %s.\n"
-	), ADMINDIR);
-	print_option(_(
-"      --root=<directory>\n"
-"          Use <directory> instead of %s.\n"
-	), "/");
-	print_option(_(
 "      --by-package=<package>\n"
 "          Override trigger awaiter (normally set by dpkg).\n"
 	));
@@ -113,6 +105,14 @@ usage(const char *const *argv)
 "      --no-act\n"
 "          Just test - do not actually change anything.\n"
 	));
+	print_option(_(
+"      --admindir=<directory>\n"
+"          Use <directory> instead of %s.\n"
+	), ADMINDIR);
+	print_option(_(
+"      --root=<directory>\n"
+"          Use <directory> instead of %s.\n"
+	), "/");
 
 	m_output(stdout, _("<standard output>"));
 

@@ -42,16 +42,16 @@ sub usage {
 "Options:\n" .
     '');
     print_option(g_(
+"  -S, --show-field <field>\n" .
+"          Show the values for <field>.\n" .
+    ''));
+    print_option(g_(
 "  -l, --file <changelog-file>\n" .
 "          Get per-version info from this file.\n" .
     ''));
     print_option(g_(
 "  -F <changelog-format>\n" .
 "          Force changelog format.\n" .
-    ''));
-    print_option(g_(
-"  -S, --show-field <field>\n" .
-"          Show the values for <field>.\n" .
     ''));
     print_option(g_(
 "  -?, --help\n" .
@@ -71,12 +71,12 @@ sub usage {
 "          Set output format (defaults to 'dpkg').\n" .
     ''));
     print_option(g_(
-"      --reverse\n" .
-"          Include all changes in reverse order.\n" .
-    ''));
-    print_option(g_(
 "      --all\n" .
 "          Include all changes.\n" .
+    ''));
+    print_option(g_(
+"      --reverse\n" .
+"          Include all changes in reverse order.\n" .
     ''));
     print_option(g_(
 "  -s, --since <version>\n" .

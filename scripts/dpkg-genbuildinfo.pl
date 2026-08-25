@@ -373,20 +373,20 @@ sub usage {
 "          Get per-version info from this file.\n" .
     ''));
     print_option(g_(
-"  -f<files-list-file>\n" .
-"          Get .deb files list from this file.\n" .
-    ''));
-    print_option(g_(
 "  -F<changelog-format>\n" .
 "          Force changelog format.\n" .
     ''));
     print_option(g_(
-"  -O[<buildinfo-file>]\n" .
-"          Write to stdout (or <buildinfo-file>).\n" .
+"  -f<files-list-file>\n" .
+"          Get .deb files list from this file.\n" .
     ''));
     print_option(g_(
 "  -u<upload-files-dir>\n" .
 "          Directory with files (default is '..').\n" .
+    ''));
+    print_option(g_(
+"  -O[<buildinfo-file>]\n" .
+"          Write to stdout (or <buildinfo-file>).\n" .
     ''));
     print_option(g_(
 "      --always-include-kernel\n" .

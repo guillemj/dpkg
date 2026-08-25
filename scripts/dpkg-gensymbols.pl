@@ -62,25 +62,34 @@ sub usage {
 "Options:\n" .
     '');
     print_option(g_(
-"  -l<library-path>\n" .
-"          Add directory to private shared library search list.\n" .
-    ''));
-    print_option(g_(
 "  -p<package>\n" .
 "          Generate symbols file for package.\n" .
-    ''));
-    print_option(g_(
-"  -P<package-build-dir>\n" .
-"          Temporary build directory instead of debian/tmp.\n" .
     ''));
     print_option(g_(
 "  -e<library>\n" .
 "          Explicitly list libraries to scan.\n" .
     ''));
     print_option(g_(
+"  -P<package-build-dir>\n" .
+"          Temporary build directory instead of debian/tmp.\n" .
+    ''));
+    print_option(g_(
+"  -I<file>\n" .
+"          Force usage of <file> as reference symbols file instead of the\n" .
+"          default file.\n" .
+    ''));
+    print_option(g_(
+"  -l<library-path>\n" .
+"          Add directory to private shared library search list.\n" .
+    ''));
+    print_option(g_(
 "  -v<version>\n" .
 "          Version of the packages (defaults to version extracted from\n" .
 "          debian/changelog).\n" .
+    ''));
+    print_option(g_(
+"  -a<arch>\n" .
+"          Assume <arch> as host architecture when processing symbol files.\n" .
     ''));
     print_option(g_(
 "  -c<level>\n" .
@@ -89,32 +98,23 @@ sub usage {
 "          from 0 for no check, to 4 for all checks (default level is 1).\n" .
     ''));
     print_option(g_(
-"  -q\n" .
-"          Keep quiet and never emit any warnings or generate a diff between\n" .
-"          generated symbols file and the reference template.\n" .
-    ''));
-    print_option(g_(
-"  -I<file>\n" .
-"          Force usage of <file> as reference symbols file instead of the\n" .
-"          default file.\n" .
+"  -t\n" .
+"          Write in template mode (tags are not processed and included in\n" .
+"          output).\n" .
     ''));
     print_option(g_(
 "  -O[<file>]\n" .
 "          Write to stdout (or <file>), not .../DEBIAN/symbols.\n" .
     ''));
     print_option(g_(
-"  -t\n" .
-"          Write in template mode (tags are not processed and included in\n" .
-"          output).\n" .
+"  -q\n" .
+"          Keep quiet and never emit any warnings or generate a diff between\n" .
+"          generated symbols file and the reference template.\n" .
     ''));
     print_option(g_(
 "  -V\n" .
 "          Verbose output; write deprecated symbols and pattern matching symbols\n" .
 "          as comments (in template mode only).\n" .
-    ''));
-    print_option(g_(
-"  -a<arch>\n" .
-"          Assume <arch> as host architecture when processing symbol files.\n" .
     ''));
     print_option(g_(
 "  -d\n" .

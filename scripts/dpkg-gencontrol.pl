@@ -76,6 +76,14 @@ sub usage {
 "          Print control file for package.\n" .
     ''));
     print_option(g_(
+"  -v<force-version>\n" .
+"          Set version of binary package.\n" .
+    ''));
+    print_option(g_(
+"  -P<package-build-dir>\n" .
+"          Temporary build directory instead of debian/tmp.\n" .
+    ''));
+    print_option(g_(
 "  -c<control-file>\n" .
 "          Get control info from this file.\n" .
     ''));
@@ -88,24 +96,20 @@ sub usage {
 "          Force changelog format.\n" .
     ''));
     print_option(g_(
-"  -v<force-version>\n" .
-"          Set version of binary package.\n" .
-    ''));
-    print_option(g_(
 "  -f<files-list-file>\n" .
 "          Write files here instead of debian/files.\n" .
-    ''));
-    print_option(g_(
-"  -P<package-build-dir>\n" .
-"          Temporary build directory instead of debian/tmp.\n" .
     ''));
     print_option(g_(
 "  -n<filename>\n" .
 "          Assume the package filename will be <filename>.\n" .
     ''));
     print_option(g_(
-"  -O[<file>]\n" .
-"          Write to stdout (or <file>), not .../DEBIAN/control.\n" .
+"  -T<substvars-file>\n" .
+"          Read variables here, not debian/substvars.\n" .
+    ''));
+    print_option(g_(
+"  -V<name>=<value>\n" .
+"          Set a substitution variable.\n" .
     ''));
     print_option(g_(
 "  -D<field>=<value>\n" .
@@ -116,12 +120,8 @@ sub usage {
 "          Remove a field.\n" .
     ''));
     print_option(g_(
-"  -V<name>=<value>\n" .
-"          Set a substitution variable.\n" .
-    ''));
-    print_option(g_(
-"  -T<substvars-file>\n" .
-"          Read variables here, not debian/substvars.\n" .
+"  -O[<file>]\n" .
+"          Write to stdout (or <file>), not .../DEBIAN/control.\n" .
     ''));
     print_option(g_(
 "  -?, --help\n" .

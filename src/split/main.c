@@ -108,18 +108,6 @@ usage(const char *const *argv)
 "Options:\n"
 	));
 	print_option(_(
-"      --depotdir <directory>\n"
-"          Use <directory> instead of %s/%s.\n"
-	), ADMINDIR, PARTSDIR);
-	print_option(_(
-"      --admindir <directory>\n"
-"          Use <directory> instead of %s.\n"
-	), ADMINDIR);
-	print_option(_(
-"      --root <directory>\n"
-"          Use <directory> instead of %s.\n"
-	), "/");
-	print_option(_(
 "  -S, --partsize <size>\n"
 "          In KiB, for -s (default is 450).\n"
 	));
@@ -131,6 +119,18 @@ usage(const char *const *argv)
 "  -Q, --npquiet\n"
 "          Be quiet when -a is not a part.\n"
 	));
+	print_option(_(
+"      --depotdir <directory>\n"
+"          Use <directory> instead of %s/%s.\n"
+	), ADMINDIR, PARTSDIR);
+	print_option(_(
+"      --admindir <directory>\n"
+"          Use <directory> instead of %s.\n"
+	), ADMINDIR);
+	print_option(_(
+"      --root <directory>\n"
+"          Use <directory> instead of %s.\n"
+	), "/");
 	print_option_sep();
 
 	printf(_(

@@ -107,6 +107,14 @@ usage(const char *const *argv)
 "      --truename <file>\n"
 "          Return the diverted file.\n"
 	));
+	print_option(_(
+"      --help\n"
+"          Show this help message.\n"
+	));
+	print_option(_(
+"      --version\n"
+"          Show the version.\n"
+	));
 	print_option_sep();
 
 	printf(_(
@@ -133,6 +141,14 @@ usage(const char *const *argv)
 "          Do not move the file aside (or back) (default).\n"
 	));
 	print_option(_(
+"      --test\n"
+"          Do not do anything, just demonstrate.\n"
+	));
+	print_option(_(
+"      --quiet\n"
+"          Quiet operation, minimal output.\n"
+	));
+	print_option(_(
 "      --admindir <directory>\n"
 "          Set the directory with the diversions file.\n"
 	));
@@ -143,22 +159,6 @@ usage(const char *const *argv)
 	print_option(_(
 "      --root <directory>\n"
 "          Set the directory of the root filesystem.\n"
-	));
-	print_option(_(
-"      --test\n"
-"          Do not do anything, just demonstrate.\n"
-	));
-	print_option(_(
-"      --quiet\n"
-"          Quiet operation, minimal output.\n"
-	));
-	print_option(_(
-"      --help\n"
-"          Show this help message.\n"
-	));
-	print_option(_(
-"      --version\n"
-"          Show the version.\n"
 	));
 	print_option_sep();
 

@@ -65,7 +65,21 @@ usage(const struct cmdinfo *cip, const char *value)
 {
 	printf(_(
 "Usage: %s [<option>...] <pathname>\n"
-	), dpkg_get_progname());
+"       %s <command>\n"
+	), dpkg_get_progname(), dpkg_get_progname());
+	print_option_sep();
+
+	printf(_(
+"Commands:\n"
+	));
+	print_option(_(
+"      --help\n"
+"          Show this help message.\n"
+	));
+	print_option(_(
+"      --version\n"
+"          Show the version.\n"
+	));
 	print_option_sep();
 
 	printf(_(
@@ -82,14 +96,6 @@ usage(const struct cmdinfo *cip, const char *value)
 	print_option(_(
 "      --root <directory>\n"
 "          Set the root directory.\n"
-	));
-	print_option(_(
-"      --version\n"
-"          Show the version.\n"
-	));
-	print_option(_(
-"      --help\n"
-"          Show this help message.\n"
 	));
 
 	m_output(stdout, _("<standard output>"));

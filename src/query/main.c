@@ -879,24 +879,24 @@ usage(const char *const *argv)
 "          Display package status details.\n"
 	));
 	print_option(_(
-"  -p, --print-avail [<package>...]\n"
-"          Display available version details.\n"
-	));
-	print_option(_(
-"  -L, --listfiles <package>...\n"
-"          List files 'owned' by package(s).\n"
+"  -W, --show [<pattern>...]\n"
+"          Show information on package(s).\n"
 	));
 	print_option(_(
 "  -l, --list [<pattern>...]\n"
 "          List packages concisely.\n"
 	));
 	print_option(_(
-"  -W, --show [<pattern>...]\n"
-"          Show information on package(s).\n"
+"  -L, --listfiles <package>...\n"
+"          List files 'owned' by package(s).\n"
 	));
 	print_option(_(
 "  -S, --search <pattern>...\n"
 "          Find package(s) owning file(s).\n"
+	));
+	print_option(_(
+"  -p, --print-avail [<package>...]\n"
+"          Display available version details.\n"
 	));
 	print_option(_(
 "      --control-list <package>\n"
@@ -924,13 +924,9 @@ usage(const char *const *argv)
 "Options:\n"
 	));
 	print_option(_(
-"      --admindir=<directory>\n"
-"          Use <directory> instead of %s.\n"
-	), ADMINDIR);
-	print_option(_(
-"      --root=<directory>\n"
-"          Use <directory> instead of %s.\n"
-	), "/");
+"  -f, --showformat=<format>\n"
+"          Use alternative format for --show.\n"
+	));
 	print_option(_(
 "      --load-avail\n"
 "          Use available file on --show and --list.\n"
@@ -940,9 +936,13 @@ usage(const char *const *argv)
 "          Disables the use of any pager.\n"
 	));
 	print_option(_(
-"  -f, --showformat=<format>\n"
-"          Use alternative format for --show.\n"
-	));
+"      --admindir=<directory>\n"
+"          Use <directory> instead of %s.\n"
+	), ADMINDIR);
+	print_option(_(
+"      --root=<directory>\n"
+"          Use <directory> instead of %s.\n"
+	), "/");
 	print_option_sep();
 
 	printf(_(

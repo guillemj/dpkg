@@ -137,14 +137,6 @@ usage(const char *const *argv)
 "Options:\n"
 	));
 	print_option(_(
-"  -v, --verbose\n"
-"          Enable verbose output.\n"
-	));
-	print_option(_(
-"  -D, --debug\n"
-"          Enable debugging output.\n"
-	));
-	print_option(_(
 "      --showformat=<format>\n"
 "          Use alternative format for --show.\n"
 	));
@@ -170,14 +162,6 @@ usage(const char *const *argv)
 "          Use at most <threads> with compressor.\n"
 	));
 	print_option(_(
-"      --uniform-compression\n"
-"          Use the compression params on all members.\n"
-	));
-	print_option(_(
-"      --no-uniform-compression\n"
-"          Use the compression params only on the data.tar member.\n"
-	));
-	print_option(_(
 "  -Z, --compression=<compressor>\n"
 "          Set build compression type. Allowed types:\n"
 "            gzip, xz, zstd, none.\n"
@@ -190,6 +174,22 @@ usage(const char *const *argv)
 "  -S, --compression-strategy=<name>\n"
 "          Set build compression strategy. Allowed values:\n"
 "            none; extreme (xz); filtered, huffman, rle, fixed (gzip).\n"
+	));
+	print_option(_(
+"      --uniform-compression\n"
+"          Use the compression params on all members.\n"
+	));
+	print_option(_(
+"      --no-uniform-compression\n"
+"          Use the compression params only on the data.tar member.\n"
+	));
+	print_option(_(
+"  -v, --verbose\n"
+"          Enable verbose output.\n"
+	));
+	print_option(_(
+"  -D, --debug\n"
+"          Enable debugging output.\n"
 	));
 	print_option_sep();
 

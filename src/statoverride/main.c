@@ -94,22 +94,18 @@ usage(const char *const *argv)
 "      --list [<glob-pattern>]\n"
 "          List current overrides in the database.\n"
 	));
+	print_option(_(
+"      --help\n"
+"          Show this help message.\n"
+	));
+	print_option(_(
+"      --version\n"
+"          Show the version.\n"
+	));
 	print_option_sep();
 
 	printf(_(
 "Options:\n"
-	));
-	print_option(_(
-"      --admindir <directory>\n"
-"          Set the directory with the statoverride file.\n"
-	));
-	print_option(_(
-"      --instdir <directory>\n"
-"          Set the root directory, but not the admin dir.\n"
-	));
-	print_option(_(
-"      --root <directory>\n"
-"          Set the directory of the root filesystem.\n"
 	));
 	print_option(_(
 "      --update\n"
@@ -136,12 +132,16 @@ usage(const char *const *argv)
 "          Quiet operation, minimal output.\n"
 	));
 	print_option(_(
-"      --help\n"
-"          Show this help message.\n"
+"      --admindir <directory>\n"
+"          Set the directory with the statoverride file.\n"
 	));
 	print_option(_(
-"      --version\n"
-"          Show the version.\n"
+"      --instdir <directory>\n"
+"          Set the root directory, but not the admin dir.\n"
+	));
+	print_option(_(
+"      --root <directory>\n"
+"          Set the directory of the root filesystem.\n"
 	));
 
 	m_output(stdout, _("<standard output>"));

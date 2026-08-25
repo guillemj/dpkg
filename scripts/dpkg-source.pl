@@ -704,12 +704,12 @@ sub usage {
 "          Set the format to be used for the source package.\n" .
     ''));
     print_option(g_(
-"  -V<name>=<value>\n" .
-"          Set a substitution variable.\n" .
-    ''));
-    print_option(g_(
 "  -T<substvars-file>\n" .
 "          Read variables here.\n" .
+    ''));
+    print_option(g_(
+"  -V<name>=<value>\n" .
+"          Set a substitution variable.\n" .
     ''));
     print_option(g_(
 "  -D<field>=<value>\n" .

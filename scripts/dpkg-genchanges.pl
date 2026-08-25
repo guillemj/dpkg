@@ -123,38 +123,6 @@ sub usage {
 "          Source-only, no binary files.\n" .
     ''));
     print_option(g_(
-"  -c<control-file>\n" .
-"          Get control info from this file.\n" .
-    ''));
-    print_option(g_(
-"  -l<changelog-file>\n" .
-"          Get per-version info from this file.\n" .
-    ''));
-    print_option(g_(
-"  -f<files-list-file>\n" .
-"          Get .deb files list from this file.\n" .
-    ''));
-    print_option(g_(
-"  -v<since-version>\n" .
-"          Include all changes later than version.\n" .
-    ''));
-    print_option(g_(
-"  -C<changes-description>\n" .
-"          Use change description from this file.\n" .
-    ''));
-    print_option(g_(
-"  -m<maintainer>\n" .
-"          Override control's maintainer value.\n" .
-    ''));
-    print_option(g_(
-"  -e<maintainer>\n" .
-"          Override changelog's maintainer value.\n" .
-    ''));
-    print_option(g_(
-"  -u<upload-files-dir>\n" .
-"          Directory with files (default is '..').\n" .
-    ''));
-    print_option(g_(
 "  -si\n" .
 "          Source includes orig, if new upstream (default).\n" .
     ''));
@@ -167,20 +135,48 @@ sub usage {
 "          Source is diff and .dsc only.\n" .
     ''));
     print_option(g_(
-"  -q\n" .
-"          Quiet - no informational messages on stderr.\n" .
+"  -v<since-version>\n" .
+"          Include all changes later than version.\n" .
+    ''));
+    print_option(g_(
+"  -m<maintainer>\n" .
+"          Override control's maintainer value.\n" .
+    ''));
+    print_option(g_(
+"  -e<maintainer>\n" .
+"          Override changelog's maintainer value.\n" .
+    ''));
+    print_option(g_(
+"  -c<control-file>\n" .
+"          Get control info from this file.\n" .
+    ''));
+    print_option(g_(
+"  -l<changelog-file>\n" .
+"          Get per-version info from this file.\n" .
     ''));
     print_option(g_(
 "  -F<changelog-format>\n" .
 "          Force changelog format.\n" .
     ''));
     print_option(g_(
-"  -V<name>=<value>\n" .
-"          Set a substitution variable.\n" .
+"  -C<changes-description>\n" .
+"          Use change description from this file.\n" .
+    ''));
+    print_option(g_(
+"  -f<files-list-file>\n" .
+"          Get .deb files list from this file.\n" .
+    ''));
+    print_option(g_(
+"  -u<upload-files-dir>\n" .
+"          Directory with files (default is '..').\n" .
     ''));
     print_option(g_(
 "  -T<substvars-file>\n" .
 "          Read variables here, not debian/substvars.\n" .
+    ''));
+    print_option(g_(
+"  -V<name>=<value>\n" .
+"          Set a substitution variable.\n" .
     ''));
     print_option(g_(
 "  -D<field>=<value>\n" .
@@ -193,6 +189,10 @@ sub usage {
     print_option(g_(
 "  -O[<filename>]\n" .
 "          Write to stdout (default) or <filename>.\n" .
+    ''));
+    print_option(g_(
+"  -q\n" .
+"          Quiet - no informational messages on stderr.\n" .
     ''));
     print_option(g_(
 "  -?, --help\n" .

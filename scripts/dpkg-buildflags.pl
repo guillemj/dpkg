@@ -49,9 +49,8 @@ sub usage {
 "            vendor, system, user, env.\n" .
     ''));
     print_option(g_(
-"      --status\n" .
-"          Output a synopsis with all parameters affecting the program behavior,\n" .
-"          the resulting flags and their origin.\n" .
+"      --list\n" .
+"          Output a list of the flags supported by the current vendor.\n" .
     ''));
     print_option(g_(
 "      --query\n" .
@@ -62,8 +61,9 @@ sub usage {
 "          Output the status of features for the given area.\n" .
     ''));
     print_option(g_(
-"      --list\n" .
-"          Output a list of the flags supported by the current vendor.\n" .
+"      --status\n" .
+"          Output a synopsis with all parameters affecting the program behavior,\n" .
+"          the resulting flags and their origin.\n" .
     ''));
     print_option(g_(
 "      --export=(sh|make|cmdline|configure)\n" .

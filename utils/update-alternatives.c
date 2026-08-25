@@ -219,6 +219,31 @@ usage(void)
 "Options:\n"
 	));
 	print_option(_(
+"      --skip-auto\n"
+"          Skip prompt for alternatives correctly configured in automatic mode\n"
+"          (relevant for --config only).\n"
+	));
+	print_option(_(
+"      --force\n"
+"          Allow replacing files with alternative links.\n"
+	));
+	print_option(_(
+"      --quiet\n"
+"          Quiet operation, minimal output.\n"
+	));
+	print_option(_(
+"      --verbose\n"
+"          Verbose operation, more output.\n"
+	));
+	print_option(_(
+"      --debug\n"
+"          Debug output, way more output.\n"
+	));
+	print_option(_(
+"      --log <file>\n"
+"          Change the log file.\n"
+	));
+	print_option(_(
 "      --altdir <directory>\n"
 "          Change the alternatives directory (default is %s).\n"
 	), altdir);
@@ -233,31 +258,6 @@ usage(void)
 	print_option(_(
 "      --root <directory>\n"
 "          Change the filesystem root directory.\n"
-	));
-	print_option(_(
-"      --log <file>\n"
-"          Change the log file.\n"
-	));
-	print_option(_(
-"      --force\n"
-"          Allow replacing files with alternative links.\n"
-	));
-	print_option(_(
-"      --skip-auto\n"
-"          Skip prompt for alternatives correctly configured in automatic mode\n"
-"          (relevant for --config only).\n"
-	));
-	print_option(_(
-"      --quiet\n"
-"          Quiet operation, minimal output.\n"
-	));
-	print_option(_(
-"      --verbose\n"
-"          Verbose operation, more output.\n"
-	));
-	print_option(_(
-"      --debug\n"
-"          Debug output, way more output.\n"
 	));
 	print_option(_(
 "      --help\n"

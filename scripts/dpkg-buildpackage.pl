@@ -139,10 +139,6 @@ sub usage {
 "          Assume comma-separated build <profiles> as active.\n" .
     ''));
     print_option(g_(
-"      --rules-requires-root\n" .
-"          Assume legacy Rules-Requires-Root field value.\n" .
-    ''));
-    print_option(g_(
 "  -R, --rules-file=<rules>\n" .
 "          Rules file to execute (default is debian/rules).\n" .
     ''));
@@ -153,6 +149,14 @@ sub usage {
     print_option(g_(
 "      --as-root\n" .
 "          Ensure --rules-target calls the target with root rights.\n" .
+    ''));
+    print_option(g_(
+"      --rules-requires-root\n" .
+"          Assume legacy Rules-Requires-Root field value.\n" .
+    ''));
+    print_option(g_(
+"  -r, --root-command=<command>\n" .
+"          Command to gain root rights (default is fakeroot).\n" .
     ''));
     print_option(g_(
 "  -j, --jobs[=<jobs>|auto]\n" .
@@ -169,8 +173,10 @@ sub usage {
 "          (default is auto, forced mode).\n" .
     ''));
     print_option(g_(
-"  -r, --root-command=<command>\n" .
-"          Command to gain root rights (default is fakeroot).\n" .
+"      --hook-<name>=<command>\n" .
+"          Set <command> as the hook <name>, known hooks:\n" .
+"             preinit init preclean source build binary\n" .
+"             buildinfo changes postclean check sign done\n" .
     ''));
     print_option(g_(
 "      --check-command=<command>\n" .
@@ -179,12 +185,6 @@ sub usage {
     print_option(g_(
 "      --check-option=<opt>\n" .
 "          Pass <opt> to check <command>.\n" .
-    ''));
-    print_option(g_(
-"      --hook-<name>=<command>\n" .
-"          Set <command> as the hook <name>, known hooks:\n" .
-"             preinit init preclean source build binary\n" .
-"             buildinfo changes postclean check sign done\n" .
     ''));
     print_option(g_(
 "      --buildinfo-file=<file>\n" .
@@ -334,14 +334,14 @@ sub usage {
 "          See dpkg-source for explanation.\n" .
     ''));
     print_option(g_(
-"  -z, --compression-level=<level>\n" .
-"          Compression level to use for source.\n" .
-    ''));
-    print_option(g_(
 "  -Z, --compression=<compressor>\n" .
 "          Compression to use for source\n" .
 "          (defaults to %s; supported are: %s).\n" .
     ''), compression_get_default(), join(', ', compression_get_list()));
+    print_option(g_(
+"  -z, --compression-level=<level>\n" .
+"          Compression level to use for source.\n" .
+    ''));
     print_option(g_(
 "  -i, --diff-ignore[=<regex>]\n" .
 "          Ignore diffs of files matching <regex>.\n" .

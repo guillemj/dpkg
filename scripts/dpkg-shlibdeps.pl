@@ -676,28 +676,12 @@ sub usage {
 "          Generate substvars for <package> (default is unset).\n" .
     ''));
     print_option(g_(
-"  -l<library-dir>\n" .
-"          Add directory to private shared library search list.\n" .
+"  -t<type>\n" .
+"          Set package type (default is deb).\n" .
     ''));
     print_option(g_(
 "  -p<varname-prefix>\n" .
 "          Set <varname-prefix>:* instead of shlibs:*.\n" .
-    ''));
-    print_option(g_(
-"  -O[<file>]\n" .
-"          Write variable settings to stdout (or <file>).\n" .
-    ''));
-    print_option(g_(
-"  -L<local-shlibs-file>\n" .
-"          Shlibs override file, not debian/shlibs.local.\n" .
-    ''));
-    print_option(g_(
-"  -T<substvars-file>\n" .
-"          Update variables here, not debian/substvars.\n" .
-    ''));
-    print_option(g_(
-"  -t<type>\n" .
-"          Set package type (default is deb).\n" .
     ''));
     print_option(g_(
 "  -x<package>\n" .
@@ -713,8 +697,20 @@ sub usage {
 "          directory.\n" .
     ''));
     print_option(g_(
-"  -v\n" .
-"          Enable verbose mode (can be used multiple times).\n" .
+"  -l<library-dir>\n" .
+"          Add directory to private shared library search list.\n" .
+    ''));
+    print_option(g_(
+"  -L<local-shlibs-file>\n" .
+"          Shlibs override file, not debian/shlibs.local.\n" .
+    ''));
+    print_option(g_(
+"  -T<substvars-file>\n" .
+"          Update variables here, not debian/substvars.\n" .
+    ''));
+    print_option(g_(
+"  -O[<file>]\n" .
+"          Write variable settings to stdout (or <file>).\n" .
     ''));
     print_option(g_(
 "      --ignore-missing-info\n" .
@@ -723,6 +719,10 @@ sub usage {
     print_option(g_(
 "      --warnings=<value>\n" .
 "          Define set of active warnings (see manual page).\n" .
+    ''));
+    print_option(g_(
+"  -v\n" .
+"          Enable verbose mode (can be used multiple times).\n" .
     ''));
     print_option(g_(
 "      --admindir=<directory>\n" .
