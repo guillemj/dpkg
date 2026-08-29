@@ -515,9 +515,6 @@ while (@ARGV) {
         $checkbuilddep = ($1 eq 'D');
     } elsif (/^--ignore-builtin-builddeps$/) {
         $check_builtin_builddep = 0;
-    } elsif (/^-s(gpg|pgp)$/) {
-        # Deprecated option.
-        warning(g_('-s%s is deprecated; always using gpg style interface'), $1);
     } elsif (/^--force-sign$/) {
         $signforce = 1;
     } elsif (/^--no-sign$/) {
