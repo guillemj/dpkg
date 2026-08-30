@@ -48,7 +48,7 @@ subproc_reset_signal(int sig, struct sigaction *sa_old)
 	if (sigaction(sig, sa_old, NULL)) {
 		fprintf(stderr, _("cannot restore signal %s to its previous disposition: %s\n"),
 		        strsignal(sig), strerror(errno));
-		onerr_abort++;
+		push_fatal_errors_section();
 	}
 }
 
@@ -67,7 +67,7 @@ subproc_signals_ignore(const char *name)
 	struct sigaction sa;
 	size_t i;
 
-	onerr_abort++;
+	push_fatal_errors_section();
 	memset(&sa, 0, sizeof(sa));
 	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = SIG_IGN;
@@ -77,7 +77,7 @@ subproc_signals_ignore(const char *name)
 		subproc_set_signal(signo_ignores[i], &sa, &sa_save[i], name);
 
 	push_cleanup(subproc_signals_cleanup, ~0, 0);
-	onerr_abort--;
+	pop_fatal_errors_section();
 }
 
 void
@@ -108,7 +108,7 @@ subproc_fork(void)
 
 	pid = fork();
 	if (pid < 0) {
-		onerr_abort++;
+		push_fatal_errors_section();
 		ohshite(_("cannot create child process"));
 	}
 	if (pid > 0)
@@ -176,7 +176,7 @@ subproc_wait(pid_t pid, const char *desc)
 		;
 
 	if (dead_pid != pid) {
-		onerr_abort++;
+		push_fatal_errors_section();
 		ohshite(_("cannot reap %s subprocess"), desc);
 	}
 

@@ -61,7 +61,7 @@ ensure_diversions(void)
 	if (rc == DPKG_DB_NONE)
 		return;
 
-	onerr_abort++;
+	push_fatal_errors_section();
 
 	while (fgets_checked(linebuf, sizeof(linebuf), db.file, db.pathname) >= 0) {
 		oicontest = nfmalloc(sizeof(*oicontest));
@@ -92,5 +92,5 @@ ensure_diversions(void)
 		diversions = oicontest;
 	}
 
-	onerr_abort--;
+	pop_fatal_errors_section();
 }

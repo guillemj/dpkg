@@ -1776,10 +1776,10 @@ archivefiles(const char *const *argv)
 		dpkg_selabel_load();
 
 		process_archive(argp[i]);
-		onerr_abort++;
+		push_fatal_errors_section();
 		m_output(stdout, _("<standard output>"));
 		m_output(stderr, _("<standard error>"));
-		onerr_abort--;
+		pop_fatal_errors_section();
 
 		pop_error_context(ehflag_normaltidy);
 	}

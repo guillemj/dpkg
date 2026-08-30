@@ -36,8 +36,6 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
-extern volatile int onerr_abort;
-
 enum {
 	ehflag_normaltidy	= DPKG_BIT(0),
 	ehflag_bombout		= DPKG_BIT(1),
@@ -76,6 +74,11 @@ void
 push_checkpoint(int mask, int value);
 void
 pop_cleanup(int flagset);
+
+void
+push_fatal_errors_section(void);
+void
+pop_fatal_errors_section(void);
 
 void
 ohshitv(const char *fmt, va_list args)

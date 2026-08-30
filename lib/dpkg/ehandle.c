@@ -38,7 +38,7 @@
 /* Incremented when we do some kind of generally necessary operation,
  * so that loops &c know to quit if we take an error exit. Decremented
  * again afterwards. */
-volatile int onerr_abort = 0;
+static volatile int onerr_abort = 0;
 
 #define NCALLS 2
 
@@ -475,6 +475,18 @@ run_error_handler(void)
 		internerr("unknown error handler type %d!",
 		          econtext->handler_type);
 	}
+}
+
+void
+push_fatal_errors_section(void)
+{
+	onerr_abort++;
+}
+
+void
+pop_fatal_errors_section(void)
+{
+	onerr_abort--;
 }
 
 void

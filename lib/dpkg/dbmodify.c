@@ -143,7 +143,7 @@ createimptmp(void)
 {
 	int i;
 
-	onerr_abort++;
+	push_fatal_errors_section();
 
 	importanttmp = fopen(importanttmpfile, "w");
 	if (!importanttmp)
@@ -161,7 +161,7 @@ createimptmp(void)
 		ohshite(_("cannot seek to start of %s after padding"),
 		        importanttmpfile);
 
-	onerr_abort--;
+	pop_fatal_errors_section();
 }
 
 static const struct fni {
@@ -516,7 +516,7 @@ modstatdb_note(struct pkginfo *pkg)
 {
 	struct trigaw *ta;
 
-	onerr_abort++;
+	push_fatal_errors_section();
 
 	/* Clear pending triggers here so that only code that sets the status
 	 * to interesting (for triggers) values has to care about triggers. */
@@ -553,7 +553,7 @@ modstatdb_note(struct pkginfo *pkg)
 		trig_clear_awaiters(pkg);
 	}
 
-	onerr_abort--;
+	pop_fatal_errors_section();
 }
 
 void

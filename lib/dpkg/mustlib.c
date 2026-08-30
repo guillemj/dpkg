@@ -40,7 +40,7 @@ must_alloc_size(void *ptr, size_t size)
 	if (ptr)
 		return ptr;
 
-	onerr_abort++;
+	push_fatal_errors_section();
 	ohshite(_("cannot allocate memory (%zu bytes)"), size);
 }
 
@@ -50,7 +50,7 @@ must_alloc_string(void *ptr, const char *str)
 	if (ptr)
 		return ptr;
 
-	onerr_abort++;
+	push_fatal_errors_section();
 	ohshite(_("cannot allocate memory (%zu bytes) "
 	          "to duplicate string '%s'"),
 	        strlen(str), str);
@@ -95,7 +95,7 @@ m_vasprintf(char **strp, const char *fmt, va_list args)
 	if (n >= 0)
 		return n;
 
-	onerr_abort++;
+	push_fatal_errors_section();
 	ohshite(_("cannot allocate memory (%zu bytes)"), (size_t)n);
 }
 
@@ -121,7 +121,7 @@ m_dup(int oldfd)
 	if (newfd >= 0)
 		return newfd;
 
-	onerr_abort++;
+	push_fatal_errors_section();
 	ohshite(_("cannot duplicate file descriptor %d"), oldfd);
 }
 
@@ -137,7 +137,7 @@ m_dup2(int oldfd, int newfd)
 	if (dup2(oldfd, newfd) == newfd)
 		return;
 
-	onerr_abort++;
+	push_fatal_errors_section();
 	if (newfd < 3)
 		ohshite(_("cannot duplicate file descriptor for %s"),
 		        gettext(stdstrings[newfd]));
@@ -149,7 +149,8 @@ m_pipe(int fds[2])
 {
 	if (!pipe(fds))
 		return;
-	onerr_abort++;
+
+	push_fatal_errors_section();
 	ohshite(_("cannot create pipe"));
 }
 

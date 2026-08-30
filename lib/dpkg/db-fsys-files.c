@@ -137,7 +137,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 
 	filelistfile = pkg_infodb_get_file(pkg, &pkg->installed, LISTFILE);
 
-	onerr_abort++;
+	push_fatal_errors_section();
 
 	if (file_slurp(filelistfile, &buf, &err) < 0) {
 		if (err.syserrno != ENOENT)
@@ -145,7 +145,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 			                 _("loading files list file for package '%s'"),
 			                 pkg_name(pkg, pnaw_nonambig));
 
-		onerr_abort--;
+		pop_fatal_errors_section();
 		if (pkg->status != PKG_STAT_CONFIGFILES &&
 		    dpkg_version_is_informative(&pkg->configversion)) {
 			warning(_("files list file for package '%s' missing; "
@@ -162,7 +162,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 
 	varbuf_destroy(&buf);
 
-	onerr_abort--;
+	pop_fatal_errors_section();
 
 	pkg->files_list_valid = true;
 }

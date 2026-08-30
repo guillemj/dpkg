@@ -122,7 +122,7 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 	if (rc == DPKG_DB_SAME)
 		return;
 
-	onerr_abort++;
+	push_fatal_errors_section();
 
 	/* Reset statoverride information. */
 	iter = fsys_hash_iter_new();
@@ -130,7 +130,7 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 		fnn->statoverride = NULL;
 	fsys_hash_iter_free(iter);
 
-	onerr_abort--;
+	pop_fatal_errors_section();
 
 	if (rc == DPKG_DB_NONE)
 		return;
@@ -140,7 +140,7 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 	if (!db.st.st_size)
 		return;
 
-	onerr_abort++;
+	push_fatal_errors_section();
 
 	loaded_list = m_malloc(db.st.st_size);
 	loaded_list_end = loaded_list + db.st.st_size;
@@ -232,5 +232,5 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 
 	free(loaded_list);
 
-	onerr_abort--;
+	pop_fatal_errors_section();
 }

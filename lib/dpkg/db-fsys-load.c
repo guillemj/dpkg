@@ -42,7 +42,7 @@ dpkg_db_reopen(struct dpkg_db *db)
 	if (db->pathname == NULL)
 		db->pathname = dpkg_db_get_path(db->name);
 
-	onerr_abort++;
+	push_fatal_errors_section();
 
 	file_next = fopen(db->pathname, "r");
 	if (!file_next) {
@@ -65,7 +65,7 @@ dpkg_db_reopen(struct dpkg_db *db)
 		    db->st.st_dev == st_next.st_dev &&
 		    db->st.st_ino == st_next.st_ino) {
 			fclose(file_next);
-			onerr_abort--;
+			pop_fatal_errors_section();
 
 			debug_at(dbg_general, "unchanged db %s, skipping",
 			         db->pathname);
@@ -77,7 +77,7 @@ dpkg_db_reopen(struct dpkg_db *db)
 		fclose(db->file);
 	db->file = file_next;
 
-	onerr_abort--;
+	pop_fatal_errors_section();
 
 	if (db->file) {
 		debug_at(dbg_general, "new db %s, (re)loading", db->pathname);
