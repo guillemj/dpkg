@@ -148,7 +148,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -T, --rules-target=<target>\n" .
-"          Call debian/rules <target>.\n" .
+"          Call <rules> <target>.\n" .
     ''));
     print_option(g_(
 "      --as-root\n" .
