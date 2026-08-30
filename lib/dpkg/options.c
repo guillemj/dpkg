@@ -362,6 +362,39 @@ print_option_sep(void)
 	fputs("\n", stdout);
 }
 
+
+/*
+ * Indent the entries with 10 spaces, to cover 2 for the short option
+ * indentation, 4 for the short option itself, and 4 for the long option.
+ *
+ * "  -s, --short"
+ * "          Description for short.\n"
+ */
+static const int option_desc_indent = 10;
+
+void
+print_option_def(const char *def_fmt, ...)
+{
+	char *def = NULL;
+	va_list args;
+
+	va_start(args, def_fmt);
+	m_vasprintf(&def, def_fmt, args);
+	va_end(args);
+
+	printf("%-*s[%s: %s]\n", option_desc_indent, " ",
+	       C_("cli-options", "default"), def);
+
+	free(def);
+}
+
+void
+print_option_env(const char *env)
+{
+	printf("%-*s[%s: %s=]\n", option_desc_indent, " ",
+	       C_("cli-options", "env"), env);
+}
+
 void
 print_option(const char *opt_fmt_spec, ...)
 {

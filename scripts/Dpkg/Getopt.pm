@@ -36,6 +36,8 @@ our @EXPORT = qw(
     normalize_options
     parse_option_dir
     print_option_sep
+    print_option_def
+    print_option_env
     format_option_spec
     format_option_parts
     print_option
@@ -93,6 +95,26 @@ sub parse_option_dir($opt, $dir)
 sub print_option_sep()
 {
     print "\n";
+}
+
+
+# Indent the entries with 10 spaces, to cover 2 for the short option
+# indentation, 4 for the short option itself, and 4 for the long option.
+#
+# "  -s, --short"
+# "          Description for short.\n"
+use constant OPTION_DESC_INDENT => 10;
+
+sub print_option_def($def)
+{
+    printf "%s[%s: %s]\n", ' ' x OPTION_DESC_INDENT,
+           C_('cli-options', 'default'), $def;
+}
+
+sub print_option_env($env)
+{
+    printf "%s[%s: %s=]\n", ' ' x OPTION_DESC_INDENT,
+           C_('cli-options', 'env'), $env;
 }
 
 sub format_option_spec($spec)
