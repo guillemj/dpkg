@@ -98,8 +98,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -s, --source-override <file>\n" .
-"          Use file for additional source overrides, default is regular override\n" .
-"          file with .src appended.\n" .
+"          Use file for additional source overrides, default is <override-file>.src.\n" .
     ''));
     print_option(g_(
 "      --debug\n" .
