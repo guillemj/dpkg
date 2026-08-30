@@ -104,7 +104,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -nc, --no-pre-clean\n" .
-"          Do not pre clean source tree (implies -b).\n" .
+"          Do not pre clean source tree (implies --build=binary).\n" .
     ''));
     print_option(g_(
 "      --pre-clean\n" .
@@ -152,7 +152,7 @@ sub usage {
     ''));
     print_option(g_(
 "      --as-root\n" .
-"          Ensure -T calls the target with root rights.\n" .
+"          Ensure --rules-target calls the target with root rights.\n" .
     ''));
     print_option(g_(
 "  -j, --jobs[=<jobs>|auto]\n" .
