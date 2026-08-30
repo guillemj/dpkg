@@ -104,7 +104,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -O[<file>]\n" .
-"          Write to stdout (or <file>), not .../DEBIAN/symbols.\n" .
+"          Write to stdout (or <file>), not <package-build-dir>/DEBIAN/symbols.\n" .
     ''));
     print_option(g_(
 "  -q\n" .

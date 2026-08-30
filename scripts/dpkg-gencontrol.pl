@@ -121,7 +121,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -O[<file>]\n" .
-"          Write to stdout (or <file>), not .../DEBIAN/control.\n" .
+"          Write to stdout (or <file>), not <package-build-dir>/DEBIAN/control.\n" .
     ''));
     print_option(g_(
 "  -?, --help\n" .
