@@ -180,7 +180,7 @@ sub usage {
     ''));
     print_option(g_(
 "      --check-command=<command>\n" .
-"          Command to check the .changes file (no default).\n" .
+"          Command to check the .changes file.\n" .
     ''));
     print_option(g_(
 "      --check-option=<opt>\n" .

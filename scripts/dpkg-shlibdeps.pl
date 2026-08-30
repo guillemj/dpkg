@@ -673,7 +673,7 @@ sub usage {
     '');
     print_option(g_(
 "      --package=<package>\n" .
-"          Generate substvars for <package> (default is unset).\n" .
+"          Generate substvars for <package>.\n" .
     ''));
     print_option(g_(
 "  -t<type>\n" .
