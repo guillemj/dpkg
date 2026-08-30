@@ -927,6 +927,8 @@ usage(const char *const *argv)
 "  -f, --showformat=<format>\n"
 "          Use alternative format for --show.\n"
 	));
+	/* FIXME: Derive the default from escaping opt_showformat. */
+	print_option_def("${binary:Package}\\t${Version}\\n");
 	print_option(_(
 "      --load-avail\n"
 "          Use available file on --show and --list.\n"
@@ -940,11 +942,13 @@ usage(const char *const *argv)
 "          Change the database directory.\n"
 	));
 	print_option_def(ADMINDIR);
+	print_option_env("DPKG_ADMINDIR");
 	print_option(_(
 "      --root=<directory>\n"
 "          Change the root directory.\n"
 	));
 	print_option_def("/");
+	print_option_env("DPKG_ROOT");
 	print_option_sep();
 
 	printf(_(

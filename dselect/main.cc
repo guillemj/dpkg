@@ -282,6 +282,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "          Set the database directory.\n"
 	));
 	print_option_def(ADMINDIR);
+	print_option_env("DPKG_ADMINDIR");
 	print_option(_(
 "      --instdir <directory>\n"
 "          Set the installation directory.\n"
@@ -292,6 +293,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "          Set the root directory.\n"
 	));
 	print_option_def("/");
+	print_option_env("DPKG_ROOT");
 	print_option_sep();
 
 	printf(_("<color-spec> is:\n"

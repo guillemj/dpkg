@@ -99,6 +99,7 @@ sub usage {
 "          from 0 for no check, to 4 for all checks.\n" .
     ''));
     print_option_def('1');
+    print_option_env('DPKG_GENSYMBOLS_CHECK_LEVEL');
     print_option(g_(
 "  -t\n" .
 "          Write in template mode (tags are not processed and included in\n" .

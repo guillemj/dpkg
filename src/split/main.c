@@ -131,11 +131,13 @@ usage(const char *const *argv)
 "          Change the database directory.\n"
 	));
 	print_option_def(ADMINDIR);
+	print_option_env("DPKG_ADMINDIR");
 	print_option(_(
 "      --root <directory>\n"
 "          Change the root directory.\n"
 	));
 	print_option_def("/");
+	print_option_env("DPKG_ROOT");
 	print_option_sep();
 
 	printf(_(

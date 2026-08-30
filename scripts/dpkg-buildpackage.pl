@@ -138,6 +138,7 @@ sub usage {
 "  -P, --build-profiles=<profiles>\n" .
 "          Assume comma-separated build <profiles> as active.\n" .
     ''));
+    print_option_env('DEB_BUILD_PROFILES');
     print_option(g_(
 "  -R, --rules-file=<rules>\n" .
 "          Rules file to execute.\n" .
@@ -186,6 +187,7 @@ sub usage {
 "      --check-command=<command>\n" .
 "          Command to check the .changes file.\n" .
     ''));
+    print_option_env('DEB_CHECK_COMMAND');
     print_option(g_(
 "      --check-option=<opt>\n" .
 "          Pass <opt> to check <command>.\n" .
@@ -216,10 +218,12 @@ sub usage {
 "      --sign-keyfile=<file>\n" .
 "          The key file to use for signing.\n" .
     ''));
+    print_option_env('DEB_SIGN_KEYFILE');
     print_option(g_(
 "  -k, --sign-keyid=<keyid>\n" .
 "          The key id to use for signing.\n" .
     ''));
+    print_option_env('DEB_SIGN_KEYID');
     print_option(g_(
 "      --sign-key=<keyid>\n" .
 "          Deprecated alias for --sign-keyid.\n" .

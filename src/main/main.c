@@ -81,6 +81,8 @@ printversion(const char *const *argv)
 static int
 usage(const char *const *argv)
 {
+	char *def_force;
+
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
 	), DPKG);
@@ -292,6 +294,10 @@ usage(const char *const *argv)
 "      --force-<thing>[,...]\n"
 "          Override problems (see --force-help).\n"
 	));
+	def_force = get_force_string();
+	print_option_def("%s", def_force);
+	free(def_force);
+	print_option_env("DPKG_FORCE");
 	print_option(_(
 "      --no-force-<thing>[,...]\n"
 "          Stop when problems encountered.\n"
@@ -353,14 +359,18 @@ usage(const char *const *argv)
 "          Change the database directory.\n"
 	));
 	print_option_def(ADMINDIR);
+	print_option_env("DPKG_ADMINDIR");
 	print_option(_(
 "      --instdir=<directory>\n"
 "          Change installation dir without changing admin dir.\n"
 	));
+	print_option_def("/");
 	print_option(_(
 "      --root=<directory>\n"
 "          Install on a different root directory.\n"
 	));
+	print_option_def("/");
+	print_option_env("DPKG_ROOT");
 	print_option_sep();
 
 	printf(_(

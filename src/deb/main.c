@@ -161,15 +161,18 @@ usage(const char *const *argv)
 "      --threads-max=<threads>\n"
 "          Use at most <threads> with compressor.\n"
 	));
+	print_option_env("DPKG_DEB_THREADS_MAX");
 	print_option(_(
 "  -Z, --compression=<compressor>\n"
 "          Set build compression type. Allowed types:\n"
 "            gzip, xz, zstd, none.\n"
 	));
+	print_option_env("DPKG_DEB_COMPRESSOR_TYPE");
 	print_option(_(
 "  -z, --compression-level=<level>\n"
 "          Set build compression level.\n"
 	));
+	print_option_env("DPKG_DEB_COMPRESSOR_LEVEL");
 	print_option(_(
 "  -S, --compression-strategy=<name>\n"
 "          Set build compression strategy. Allowed values:\n"

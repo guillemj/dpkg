@@ -277,14 +277,18 @@ usage(void)
 "          Change the administrative directory.\n"
 	));
 	print_option_def(admdir);
+	print_option_env(ADMINDIR_ENVVAR);
 	print_option(_(
 "      --instdir <directory>\n"
 "          Change the installation directory.\n"
 	));
+	print_option_def("/");
+	print_option_env(INSTDIR_ENVVAR);
 	print_option(_(
 "      --root <directory>\n"
 "          Change the filesystem root directory.\n"
 	));
+	print_option_def("/");
 	print_option(_(
 "      --help\n"
 "          Show this help message.\n"

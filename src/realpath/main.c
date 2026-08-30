@@ -93,10 +93,13 @@ usage(const struct cmdinfo *cip, const char *value)
 "      --instdir <directory>\n"
 "          Set the root directory.\n"
 	));
+	print_option_def("/");
 	print_option(_(
 "      --root <directory>\n"
 "          Set the root directory.\n"
 	));
+	print_option_def("/");
+	print_option_env("DPKG_ROOT");
 
 	m_output(stdout, _("<standard output>"));
 

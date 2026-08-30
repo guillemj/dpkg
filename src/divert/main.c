@@ -152,14 +152,19 @@ usage(const char *const *argv)
 "      --admindir <directory>\n"
 "          Set the directory with the diversions file.\n"
 	));
+	print_option_def(ADMINDIR);
+	print_option_env("DPKG_ADMINDIR");
 	print_option(_(
 "      --instdir <directory>\n"
 "          Set the root directory, but not the admin dir.\n"
 	));
+	print_option_def("/");
 	print_option(_(
 "      --root <directory>\n"
 "          Set the directory of the root filesystem.\n"
 	));
+	print_option_def("/");
+	print_option_env("DPKG_ROOT");
 	print_option_sep();
 
 	printf(_(
