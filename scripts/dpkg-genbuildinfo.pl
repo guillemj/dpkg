@@ -361,9 +361,9 @@ sub usage {
     '');
     print_option(g_(
 "      --build=<type>[,...]\n" .
-"          Specify the build <type>: full, source, binary, any, all\n" .
-"          (default is \'full\').\n" .
+"          Specify the build <type>: full, source, binary, any, all.\n" .
     ''));
+    print_option_def('full');
     print_option(g_(
 "  -c<control-file>\n" .
 "          Get control info from this file.\n" .
@@ -382,8 +382,9 @@ sub usage {
     ''));
     print_option(g_(
 "  -u<upload-files-dir>\n" .
-"          Directory with files (default is '..').\n" .
+"          Directory with files.\n" .
     ''));
+    print_option_def('..');
     print_option(g_(
 "  -O[<buildinfo-file>]\n" .
 "          Write to stdout (or <buildinfo-file>).\n" .

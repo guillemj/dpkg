@@ -107,12 +107,14 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --admindir=<directory>\n"
-"          Use <directory> instead of %s.\n"
-	), ADMINDIR);
+"          Change the database directory.\n"
+	));
+	print_option_def(ADMINDIR);
 	print_option(_(
 "      --root=<directory>\n"
-"          Use <directory> instead of %s.\n"
-	), "/");
+"          Change the root directory.\n"
+	));
+	print_option_def("/");
 
 	m_output(stdout, _("<standard output>"));
 

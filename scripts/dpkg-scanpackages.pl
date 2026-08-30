@@ -85,8 +85,9 @@ sub usage {
     '');
     print_option(g_(
 "  -t, --type <type>\n" .
-"          Scan for <type> packages (default is 'deb').\n" .
+"          Scan for <type> packages.\n" .
     ''));
+    print_option_def('deb');
     print_option(g_(
 "  -a, --arch <arch>\n" .
 "          Architecture to scan for (with implicit arch all).\n" .

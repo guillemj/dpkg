@@ -677,12 +677,14 @@ sub usage {
     ''));
     print_option(g_(
 "  -t<type>\n" .
-"          Set package type (default is deb).\n" .
+"          Set package type.\n" .
     ''));
+    print_option_def('deb');
     print_option(g_(
 "  -p<varname-prefix>\n" .
-"          Set <varname-prefix>:* instead of shlibs:*.\n" .
+"          Set <varname-prefix>:*.\n" .
     ''));
+    print_option_def('shlibs:*');
     print_option(g_(
 "  -x<package>\n" .
 "          Exclude package from the generated dependencies.\n" .
@@ -702,12 +704,14 @@ sub usage {
     ''));
     print_option(g_(
 "  -L<local-shlibs-file>\n" .
-"          Shlibs override file, not debian/shlibs.local.\n" .
+"          Shlibs override file.\n" .
     ''));
+    print_option_def('debian/shlibs.local');
     print_option(g_(
 "  -T<substvars-file>\n" .
-"          Update variables here, not debian/substvars.\n" .
+"          Update variables here.\n" .
     ''));
+    print_option_def('debian/substvars');
     print_option(g_(
 "  -O[<file>]\n" .
 "          Write variable settings to stdout (or <file>).\n" .

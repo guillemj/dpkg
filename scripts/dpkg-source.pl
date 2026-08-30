@@ -721,22 +721,24 @@ sub usage {
     ''));
     print_option(g_(
 "  -i, --diff-ignore[=<regex>]\n" .
-"          Filter out files to ignore diffs of (defaults to: '%s').\n" .
-    ''), get_default_diff_ignore_regex());
+"          Filter out files to ignore diffs of.\n" .
+    ''));
+    print_option_def(get_default_diff_ignore_regex());
     print_option(g_(
 "  -I, --tar-ignore[=<pattern>]\n" .
-"          Filter out files when building tarballs (defaults to: %s).\n" .
-    ''), join(' ', map { "-I$_" } get_default_tar_ignore_pattern()));
+"          Filter out files when building tarballs.\n" .
+    ''));
+    print_option_def(join ' ', map { "-I$_" } get_default_tar_ignore_pattern());
     print_option(g_(
 "  -Z, --compression=<compression>\n" .
-"          Select compression to use\n" .
-"          (defaults to '%s', supported are: %s).\n" .
-    ''), compression_get_default(), join(', ', compression_get_list()));
+"          Select compression to use (supported are: %s).\n" .
+    ''), join(', ', compression_get_list()));
+    print_option_def(compression_get_default());
     print_option(g_(
 "  -z, --compression-level=<level>\n" .
-"          Compression level to use\n" .
-"          (defaults to '%d', supported are: '1'-'9', 'best', 'fast').\n" .
-    ''), compression_get_default_level());
+"          Compression level to use (supported are: '1'-'9', 'best', 'fast').\n" .
+    ''));
+    print_option_def(compression_get_default_level());
     print_option_sep();
 
     printf g_(

@@ -44,8 +44,9 @@ sub usage {
     '');
     print_option(g_(
 "  -f<files-list-file>\n" .
-"          Write files here instead of debian/files.\n" .
+"          Write files here.\n" .
     ''));
+    print_option_def('debian/files');
     print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .

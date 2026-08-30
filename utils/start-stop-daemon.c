@@ -1039,20 +1039,23 @@ usage(void)
 	);
 	print_option(
 "  -s, --signal <signal>\n"
-"          Signal to send (default TERM).\n"
+"          Signal to send.\n"
 	);
+	print_option_def("TERM");
 	print_option(
 "  -a, --startas <pathname>\n"
-"          Program to start (default is <executable>).\n"
+"          Program to start.\n"
 	);
+	print_option_def("<executable>");
 	print_option(
 "  -r, --chroot <directory>\n"
 "          Change root to <directory> before starting.\n"
 	);
 	print_option(
 "  -d, --chdir <directory>\n"
-"          Change to <directory> (default is /).\n"
+"          Change to <directory>.\n"
 	);
+	print_option_def("/");
 	print_option(
 "  -N, --nicelevel <incr>\n"
 "          Add incr to the process' nice level.\n"

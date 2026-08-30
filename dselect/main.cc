@@ -279,16 +279,19 @@ usage(const struct cmdinfo *ci, const char *value)
 	));
 	print_option(_(
 "      --admindir <directory>\n"
-"          Use <directory> instead of %s.\n"
-	), ADMINDIR);
+"          Set the database directory.\n"
+	));
+	print_option_def(ADMINDIR);
 	print_option(_(
 "      --instdir <directory>\n"
-"          Use <directory> instead of %s.\n"
-	), "/");
+"          Set the installation directory.\n"
+	));
+	print_option_def("/");
 	print_option(_(
 "      --root <directory>\n"
-"          Use <directory> instead of %s.\n"
-	), "/");
+"          Set the root directory.\n"
+	));
+	print_option_def("/");
 	print_option_sep();
 
 	printf(_("<color-spec> is:\n"

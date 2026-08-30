@@ -68,8 +68,9 @@ sub usage {
     '');
     print_option(g_(
 "      --format <output-format>\n" .
-"          Set output format (defaults to 'dpkg').\n" .
+"          Set output format.\n" .
     ''));
+    print_option_def('dpkg');
     print_option(g_(
 "      --all\n" .
 "          Include all changes.\n" .

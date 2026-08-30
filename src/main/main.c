@@ -350,8 +350,9 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --admindir=<directory>\n"
-"          Use <directory> instead of %s.\n"
-	), ADMINDIR);
+"          Change the database directory.\n"
+	));
+	print_option_def(ADMINDIR);
 	print_option(_(
 "      --instdir=<directory>\n"
 "          Change installation dir without changing admin dir.\n"

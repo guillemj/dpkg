@@ -269,12 +269,14 @@ usage(void)
 	));
 	print_option(_(
 "      --altdir <directory>\n"
-"          Change the alternatives directory (default is %s).\n"
-	), altdir);
+"          Change the alternatives directory.\n"
+	));
+	print_option_def(altdir);
 	print_option(_(
 "      --admindir <directory>\n"
-"          Change the administrative directory (default is %s).\n"
-	), admdir);
+"          Change the administrative directory.\n"
+	));
+	print_option_def(admdir);
 	print_option(_(
 "      --instdir <directory>\n"
 "          Change the installation directory.\n"

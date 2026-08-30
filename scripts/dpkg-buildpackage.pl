@@ -71,9 +71,9 @@ sub usage {
     '');
     print_option(g_(
 "      --build=<type>[,...]\n" .
-"          Specify the build <type>: full, source, binary, any, all\n" .
-"          (default is \'full\').\n" .
+"          Specify the build <type>: full, source, binary, any, all.\n" .
     ''));
+    print_option_def('full');
     print_option(g_(
 "  -F, --build=full\n" .
 "          Normal full build (source and binary; default).\n" .
@@ -140,8 +140,9 @@ sub usage {
     ''));
     print_option(g_(
 "  -R, --rules-file=<rules>\n" .
-"          Rules file to execute (default is debian/rules).\n" .
+"          Rules file to execute.\n" .
     ''));
+    print_option_def('debian/rules');
     print_option(g_(
 "  -T, --rules-target=<target>\n" .
 "          Call <rules> <target>.\n" .
@@ -156,13 +157,15 @@ sub usage {
     ''));
     print_option(g_(
 "  -r, --root-command=<command>\n" .
-"          Command to gain root rights (default is fakeroot).\n" .
+"          Command to gain root rights.\n" .
     ''));
+    print_option_def('fakeroot');
     print_option(g_(
 "  -j, --jobs[=<jobs>|auto]\n" .
 "          Jobs to run simultaneously (passed to <rules>),\n" .
-"          (default; default is auto, opt-in mode).\n" .
+"          (default; opt-in mode).\n" .
     ''));
+    print_option_def('auto');
     print_option(g_(
 "  -J, --jobs-try[=<jobs>|auto]\n" .
 "          Alias for -j, --jobs.\n" .
@@ -170,8 +173,9 @@ sub usage {
     print_option(g_(
 "      --jobs-force[=<jobs>|auto]\n" .
 "          Jobs to run simultaneously (passed to <rules>),\n" .
-"          (default is auto, forced mode).\n" .
+"          (forced mode).\n" .
     ''));
+    print_option_def('auto');
     print_option(g_(
 "      --hook-<name>=<command>\n" .
 "          Set <command> as the hook <name>, known hooks:\n" .
@@ -200,12 +204,14 @@ sub usage {
     ''));
     print_option(g_(
 "      --sign-backend=<backend>\n" .
-"          OpenPGP backend to use to sign (default is auto).\n" .
+"          OpenPGP backend to use to sign.\n" .
     ''));
+    print_option_def('auto');
     print_option(g_(
 "  -p, --sign-command=<command>\n" .
-"          Command to sign .dsc and/or .changes files (default is auto).\n" .
+"          Command to sign .dsc and/or .changes files.\n" .
     ''));
+    print_option_def('auto');
     print_option(g_(
 "      --sign-keyfile=<file>\n" .
 "          The key file to use for signing.\n" .
@@ -335,9 +341,9 @@ sub usage {
     ''));
     print_option(g_(
 "  -Z, --compression=<compressor>\n" .
-"          Compression to use for source\n" .
-"          (defaults to %s; supported are: %s).\n" .
-    ''), compression_get_default(), join(', ', compression_get_list()));
+"          Compression to use for source (supported are: %s).\n" .
+    ''), join(', ', compression_get_list()));
+    print_option_def(compression_get_default());
     print_option(g_(
 "  -z, --compression-level=<level>\n" .
 "          Compression level to use for source.\n" .

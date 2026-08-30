@@ -81,8 +81,9 @@ sub usage {
     ''));
     print_option(g_(
 "  -P<package-build-dir>\n" .
-"          Temporary build directory instead of debian/tmp.\n" .
+"          Temporary build directory.\n" .
     ''));
+    print_option_def('debian/tmp');
     print_option(g_(
 "  -c<control-file>\n" .
 "          Get control info from this file.\n" .
@@ -97,16 +98,18 @@ sub usage {
     ''));
     print_option(g_(
 "  -f<files-list-file>\n" .
-"          Write files here instead of debian/files.\n" .
+"          Write files here.\n" .
     ''));
+    print_option_def('debian/files');
     print_option(g_(
 "  -n<filename>\n" .
 "          Assume the package filename will be <filename>.\n" .
     ''));
     print_option(g_(
 "  -T<substvars-file>\n" .
-"          Read variables here, not debian/substvars.\n" .
+"          Read variables here.\n" .
     ''));
+    print_option_def('debian/substvars');
     print_option(g_(
 "  -V<name>=<value>\n" .
 "          Set a substitution variable.\n" .
@@ -121,8 +124,9 @@ sub usage {
     ''));
     print_option(g_(
 "  -O[<file>]\n" .
-"          Write to stdout (or <file>), not <package-build-dir>/DEBIAN/control.\n" .
+"          Write to stdout (or <file>).\n" .
     ''));
+    print_option_def(g_('<package-build-dir>/DEBIAN/control'));
     print_option(g_(
 "  -?, --help\n" .
 "          Show this help message.\n" .

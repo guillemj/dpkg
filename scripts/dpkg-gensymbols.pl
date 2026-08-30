@@ -71,8 +71,9 @@ sub usage {
     ''));
     print_option(g_(
 "  -P<package-build-dir>\n" .
-"          Temporary build directory instead of debian/tmp.\n" .
+"          Temporary build directory.\n" .
     ''));
+    print_option_def('debian/tmp');
     print_option(g_(
 "  -I<file>\n" .
 "          Force usage of <file> as reference symbols file instead of the\n" .
@@ -84,9 +85,9 @@ sub usage {
     ''));
     print_option(g_(
 "  -v<version>\n" .
-"          Version of the packages (defaults to version extracted from\n" .
-"          debian/changelog).\n" .
+"          Version of the packages.\n" .
     ''));
+    print_option_def(g_('version from debian/changelog'));
     print_option(g_(
 "  -a<arch>\n" .
 "          Assume <arch> as host architecture when processing symbol files.\n" .
@@ -95,8 +96,9 @@ sub usage {
 "  -c<level>\n" .
 "          Compare generated symbols file with the reference template in the\n" .
 "          debian directory and fail if difference is too important; level goes\n" .
-"          from 0 for no check, to 4 for all checks (default level is 1).\n" .
+"          from 0 for no check, to 4 for all checks.\n" .
     ''));
+    print_option_def('1');
     print_option(g_(
 "  -t\n" .
 "          Write in template mode (tags are not processed and included in\n" .
@@ -104,8 +106,9 @@ sub usage {
     ''));
     print_option(g_(
 "  -O[<file>]\n" .
-"          Write to stdout (or <file>), not <package-build-dir>/DEBIAN/symbols.\n" .
+"          Write to stdout (or <file>).\n" .
     ''));
+    print_option_def(g_('<package-build-dir>/DEBIAN/symbols'));
     print_option(g_(
 "  -q\n" .
 "          Keep quiet and never emit any warnings or generate a diff between\n" .

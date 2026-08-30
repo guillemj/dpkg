@@ -95,9 +95,9 @@ sub usage {
     '');
     print_option(g_(
 "      --build=<type>[,...]\n" .
-"          Specify the build <type>: full, source, binary, any, all\n" .
-"          (default is \'full\').\n" .
+"          Specify the build <type>: full, source, binary, any, all.\n" .
     ''));
+    print_option_def('full');
     print_option(g_(
 "  -g, --build=source,all\n" .
 "          Source and arch-indep build.\n" .
@@ -168,12 +168,14 @@ sub usage {
     ''));
     print_option(g_(
 "  -u<upload-files-dir>\n" .
-"          Directory with files (default is '..').\n" .
+"          Directory with files.\n" .
     ''));
+    print_option_def('..');
     print_option(g_(
 "  -T<substvars-file>\n" .
-"          Read variables here, not debian/substvars.\n" .
+"          Read variables here.\n" .
     ''));
+    print_option_def('debian/substvars');
     print_option(g_(
 "  -V<name>=<value>\n" .
 "          Set a substitution variable.\n" .

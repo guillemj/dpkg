@@ -109,28 +109,33 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "  -S, --partsize <size>\n"
-"          In KiB, for -s (default is 450).\n"
+"          In KiB, for -s.\n"
 	));
+	print_option_def("%d", SPLITPARTDEFMAX / 1024);
 	print_option(_(
 "  -o, --output <file>\n"
-"          Filename, for -j (default is <package>_<version>_<arch>.deb).\n"
+"          Filename, for -j.\n"
 	));
+	print_option_def(_("<package>_<version>_<arch>.deb"));
 	print_option(_(
 "  -Q, --npquiet\n"
 "          Be quiet when -a is not a part.\n"
 	));
 	print_option(_(
 "      --depotdir <directory>\n"
-"          Use <directory> instead of %s/%s.\n"
-	), ADMINDIR, PARTSDIR);
+"          Set the archive parts queue directory.\n"
+	));
+	print_option_def(ADMINDIR "/" PARTSDIR);
 	print_option(_(
 "      --admindir <directory>\n"
-"          Use <directory> instead of %s.\n"
-	), ADMINDIR);
+"          Change the database directory.\n"
+	));
+	print_option_def(ADMINDIR);
 	print_option(_(
 "      --root <directory>\n"
-"          Use <directory> instead of %s.\n"
-	), "/");
+"          Change the root directory.\n"
+	));
+	print_option_def("/");
 	print_option_sep();
 
 	printf(_(
