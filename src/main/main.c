@@ -526,6 +526,12 @@ set_pipe(const struct cmdinfo *cip, const char *value)
 	statusfd_add(v);
 }
 
+static void
+set_log(const struct cmdinfo *cip, const char *value)
+{
+	log_set_file(value);
+}
+
 static bool
 is_invoke_action(enum action action)
 {
@@ -794,7 +800,7 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "verify-format",     0,   1, NULL,          NULL,      set_verify_format },
 	{ "status-logger",     0,   1, NULL,          NULL,      set_invoke_hook, 0, &status_loggers },
 	{ "status-fd",         0,   1, NULL,          NULL,      set_pipe, 0 },
-	{ "log",               0,   1, NULL,          &log_file, NULL,    0 },
+	{ "log",               0,   1, NULL,          NULL,      set_log,  0 },
 	{ "pending",           'a', 0, &f_pending,    NULL,      NULL,    1 },
 	{ "recursive",         'R', 0, &f_recursive,  NULL,      NULL,    1 },
 	{ "no-act",            0,   0, &f_act,        NULL,      NULL,    0 },

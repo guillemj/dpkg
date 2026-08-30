@@ -120,7 +120,8 @@ DPKG_BEGIN_DECLS
 
 /*** log.c ***/
 
-extern const char *log_file;
+void
+log_set_file(const char *filename);
 void
 log_message(const char *fmt, ...)
 	DPKG_ATTR_PRINTF(1);

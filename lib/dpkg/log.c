@@ -35,7 +35,14 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/fdio.h>
 
-const char *log_file = NULL;
+static char *log_file = NULL;
+
+void
+log_set_file(const char *filename)
+{
+	free(log_file);
+	log_file = m_strdup(filename);
+}
 
 void
 log_message(const char *fmt, ...)
