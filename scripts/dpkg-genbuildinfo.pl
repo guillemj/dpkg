@@ -366,11 +366,11 @@ sub usage {
     print_option_def('full');
     print_option(g_(
 "  -c<control-file>\n" .
-"          Get control info from this file.\n" .
+"          Get control information from this file.\n" .
     ''));
     print_option(g_(
 "  -l<changelog-file>\n" .
-"          Get per-version info from this file.\n" .
+"          Get per-version changelog information from this file.\n" .
     ''));
     print_option(g_(
 "  -F<changelog-format>\n" .
@@ -378,11 +378,11 @@ sub usage {
     ''));
     print_option(g_(
 "  -f<files-list-file>\n" .
-"          Get .deb files list from this file.\n" .
+"          Get list of built artifacts from this file.\n" .
     ''));
     print_option(g_(
 "  -u<upload-files-dir>\n" .
-"          Directory with files.\n" .
+"          Directory with built artifacts.\n" .
     ''));
     print_option_def('..');
     print_option(g_(
@@ -391,11 +391,11 @@ sub usage {
     ''));
     print_option(g_(
 "      --always-include-kernel\n" .
-"          Always include Build-Kernel-Version.\n" .
+"          Always include Build-Kernel-Version field.\n" .
     ''));
     print_option(g_(
 "      --always-include-path\n" .
-"          Always include Build-Path.\n" .
+"          Always include Build-Path field.\n" .
     ''));
     print_option(g_(
 "      --admindir=<directory>\n" .

@@ -271,11 +271,11 @@ usage(const struct cmdinfo *ci, const char *value)
 	));
 	print_option(_(
 "      --expert\n"
-"          Turn on expert mode.\n"
+"          Enable expert mode.\n"
 	));
 	print_option(_(
 "  -D, --debug <file>\n"
-"          Turn on debugging, send output to <file>.\n"
+"          Enable debugging mode, send output to <file>.\n"
 	));
 	print_option(_(
 "      --admindir <directory>\n"

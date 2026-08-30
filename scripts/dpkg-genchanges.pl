@@ -100,35 +100,35 @@ sub usage {
     print_option_def('full');
     print_option(g_(
 "  -g, --build=source,all\n" .
-"          Source and arch-indep build.\n" .
+"          Specify a source and arch-indep build.\n" .
     ''));
     print_option(g_(
 "  -G, --build=source,any\n" .
-"          Source and arch-specific build.\n" .
+"          Specify a source and arch-specific build.\n" .
     ''));
     print_option(g_(
 "  -b, --build=binary\n" .
-"          Binary-only, no source files.\n" .
+"          Specify a binary-only, no source files build.\n" .
     ''));
     print_option(g_(
 "  -B, --build=any\n" .
-"          Binary-only, only arch-specific files.\n" .
+"          Specify a binary-only, only arch-specific files build.\n" .
     ''));
     print_option(g_(
 "  -A, --build=all\n" .
-"          Binary-only, only arch-indep files.\n" .
+"          Specify a binary-only, only arch-indep files build.\n" .
     ''));
     print_option(g_(
 "  -S, --build=source\n" .
-"          Source-only, no binary files.\n" .
+"          Specify a source-only, no binary files build.\n" .
     ''));
     print_option(g_(
 "  -si\n" .
-"          Source includes orig, if new upstream (default).\n" .
+"          Source includes original source, if new upstream (default behavior).\n" .
     ''));
     print_option(g_(
 "  -sa\n" .
-"          Source includes orig, always.\n" .
+"          Source includes original source, always.\n" .
     ''));
     print_option(g_(
 "  -sd\n" .
@@ -148,11 +148,11 @@ sub usage {
     ''));
     print_option(g_(
 "  -c<control-file>\n" .
-"          Get control info from this file.\n" .
+"          Get control information from this file.\n" .
     ''));
     print_option(g_(
 "  -l<changelog-file>\n" .
-"          Get per-version info from this file.\n" .
+"          Get per-version changelog information from this file.\n" .
     ''));
     print_option(g_(
 "  -F<changelog-format>\n" .
@@ -164,16 +164,16 @@ sub usage {
     ''));
     print_option(g_(
 "  -f<files-list-file>\n" .
-"          Get .deb files list from this file.\n" .
+"          Get list of built artifacts from this file.\n" .
     ''));
     print_option(g_(
 "  -u<upload-files-dir>\n" .
-"          Directory with files.\n" .
+"          Directory with built artifacts.\n" .
     ''));
     print_option_def('..');
     print_option(g_(
 "  -T<substvars-file>\n" .
-"          Read variables here.\n" .
+"          Read substitution variables from this file.\n" .
     ''));
     print_option_def('debian/substvars');
     print_option(g_(
@@ -194,7 +194,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -q\n" .
-"          Quiet - no informational messages on stderr.\n" .
+"          Enable quiet mode, no informational messages on stderr.\n" .
     ''));
     print_option(g_(
 "  -?, --help\n" .

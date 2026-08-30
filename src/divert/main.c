@@ -93,7 +93,7 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --remove <file>\n"
-"          Remove the diversion.\n"
+"          Remove a diversion.\n"
 	));
 	print_option(_(
 "      --list [<glob-pattern>]\n"
@@ -105,7 +105,7 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --truename <file>\n"
-"          Return the diverted file.\n"
+"          Show the diverted file.\n"
 	));
 	print_option(_(
 "      --help\n"
@@ -134,34 +134,34 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --rename\n"
-"          Actually move the file aside (or back).\n"
+"          Move the file aside or back.\n"
 	));
 	print_option(_(
 "      --no-rename\n"
-"          Do not move the file aside (or back) (default).\n"
+"          Do not move the file aside or back (default behavior).\n"
 	));
 	print_option(_(
 "      --test\n"
-"          Do not do anything, just demonstrate.\n"
+"          Print what would be done, but perform no action.\n"
 	));
 	print_option(_(
 "      --quiet\n"
-"          Quiet operation, minimal output.\n"
+"          Enable quiet mode, minimal output.\n"
 	));
 	print_option(_(
 "      --admindir <directory>\n"
-"          Set the directory with the diversions file.\n"
+"          Change the database directory.\n"
 	));
 	print_option_def(ADMINDIR);
 	print_option_env("DPKG_ADMINDIR");
 	print_option(_(
 "      --instdir <directory>\n"
-"          Set the root directory, but not the admin dir.\n"
+"          Change the installation directory.\n"
 	));
 	print_option_def("/");
 	print_option(_(
 "      --root <directory>\n"
-"          Set the directory of the root filesystem.\n"
+"          Change the root directory.\n"
 	));
 	print_option_def("/");
 	print_option_env("DPKG_ROOT");

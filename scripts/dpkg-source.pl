@@ -689,11 +689,11 @@ sub usage {
     '');
     print_option(g_(
 "  -c<control-file>\n" .
-"          Get control info from this file.\n" .
+"          Get control information from this file.\n" .
     ''));
     print_option(g_(
 "  -l<changelog-file>\n" .
-"          Get per-version info from this file.\n" .
+"          Get per-version changelog information from this file.\n" .
     ''));
     print_option(g_(
 "  -F<changelog-format>\n" .
@@ -705,7 +705,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -T<substvars-file>\n" .
-"          Read variables here.\n" .
+"          Read substitution variables from this file.\n" .
     ''));
     print_option(g_(
 "  -V<name>=<value>\n" .
@@ -746,7 +746,7 @@ sub usage {
     '');
     print_option(g_(
 "      --no-copy\n" .
-"          Do not copy .orig tarballs.\n" .
+"          Do not copy original source tarballs.\n" .
     ''));
     print_option(g_(
 "      --no-check\n" .
@@ -789,7 +789,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -q\n" .
-"          Quiet mode.\n" .
+"          Enable quiet mode, minimal output.\n" .
     ''));
     print_option(g_(
 "  -?, --help\n" .

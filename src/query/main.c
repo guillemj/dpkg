@@ -876,11 +876,11 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "  -s, --status [<package>...]\n"
-"          Display package status details.\n"
+"          Show package metadata information.\n"
 	));
 	print_option(_(
 "  -W, --show [<pattern>...]\n"
-"          Show information on package(s).\n"
+"          Show package metadata information, with specified format.\n"
 	));
 	print_option(_(
 "  -l, --list [<pattern>...]\n"
@@ -888,23 +888,23 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "  -L, --listfiles <package>...\n"
-"          List files 'owned' by package(s).\n"
+"          List files 'owned' by packages.\n"
 	));
 	print_option(_(
 "  -S, --search <pattern>...\n"
-"          Find package(s) owning file(s).\n"
+"          Find packages owning files.\n"
 	));
 	print_option(_(
 "  -p, --print-avail [<package>...]\n"
-"          Display available version details.\n"
+"          Show available package version information.\n"
 	));
 	print_option(_(
 "      --control-list <package>\n"
-"          Print the package control file list.\n"
+"          List the package metadata control files.\n"
 	));
 	print_option(_(
 "      --control-show <package> <file>\n"
-"          Show the package control file.\n"
+"          Show the package metadata control file.\n"
 	));
 	print_option(_(
 "  -c, --control-path <package> [<file>]\n"

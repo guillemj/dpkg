@@ -90,15 +90,15 @@ sub usage {
     print_option_def('deb');
     print_option(g_(
 "  -a, --arch <arch>\n" .
-"          Architecture to scan for (with implicit arch all).\n" .
+"          Scan for <arch> packages (with implicit architecture 'all').\n" .
     ''));
     print_option(g_(
 "      --no-implicit-arch\n" .
-"          Do not add implicit architecture all to --arch.\n" .
+"          Do not add implicit architecture 'all' to --arch.\n" .
     ''));
     print_option(g_(
 "  -h, --hash <hash-list>\n" .
-"          Only generate hashes for the specified list.\n" .
+"          Only generate hashes for the specified hashes list.\n" .
     ''));
     print_option(g_(
 "  -m, --multiversion\n" .
@@ -110,7 +110,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -M, --medium <medium>\n" .
-"          Add X-Medium field for dselect media access method.\n" .
+"          Add 'X-Medium' field for dselect media access method.\n" .
     ''));
     print_option(g_(
 "  -?, --help\n" .

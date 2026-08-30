@@ -40,7 +40,7 @@ sub usage {
     '');
     print_option(g_(
 "  -l, --list\n" .
-"          List variables (default).\n" .
+"          List variables (default command).\n" .
     ''));
     print_option(g_(
 "  -L, --list-known\n" .
@@ -56,7 +56,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -q, --query <variable>\n" .
-"          Prints only the value of <variable>.\n" .
+"          Prints the value of <variable>.\n" .
     ''));
     print_option(g_(
 "  -s, --print-set\n" .

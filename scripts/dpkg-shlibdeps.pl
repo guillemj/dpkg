@@ -664,7 +664,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -d<dependency-field>\n" .
-"          Next executable(s) set shlibs:<dependency-field>.\n" .
+"          Next executables set shlibs:<dependency-field>.\n" .
     ''));
     print_option_sep();
 
@@ -673,7 +673,7 @@ sub usage {
     '');
     print_option(g_(
 "      --package=<package>\n" .
-"          Generate substvars for <package>.\n" .
+"          Generate substitution variables for <package>.\n" .
     ''));
     print_option(g_(
 "  -t<type>\n" .
@@ -704,12 +704,12 @@ sub usage {
     ''));
     print_option(g_(
 "  -L<local-shlibs-file>\n" .
-"          Shlibs override file.\n" .
+"          Specify shlibs override file to use.\n" .
     ''));
     print_option_def('debian/shlibs.local');
     print_option(g_(
 "  -T<substvars-file>\n" .
-"          Update variables here.\n" .
+"          Update substitution variables from this file.\n" .
     ''));
     print_option_def('debian/substvars');
     print_option(g_(
@@ -726,7 +726,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -v\n" .
-"          Enable verbose mode (can be used multiple times).\n" .
+"          Enable verbose mode; can be used multiple times.\n" .
     ''));
     print_option(g_(
 "      --admindir=<directory>\n" .

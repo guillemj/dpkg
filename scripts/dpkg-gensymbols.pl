@@ -71,7 +71,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -P<package-build-dir>\n" .
-"          Temporary build directory.\n" .
+"          Set temporary build directory to use.\n" .
     ''));
     print_option_def('debian/tmp');
     print_option(g_(
@@ -112,17 +112,17 @@ sub usage {
     print_option_def(g_('<package-build-dir>/DEBIAN/symbols'));
     print_option(g_(
 "  -q\n" .
-"          Keep quiet and never emit any warnings or generate a diff between\n" .
-"          generated symbols file and the reference template.\n" .
+"          Enable quiet mode; never emit any warnings or generate a diff\n" .
+"          between generated symbols file and the reference template.\n" .
     ''));
     print_option(g_(
 "  -V\n" .
-"          Verbose output; write deprecated symbols and pattern matching symbols\n" .
-"          as comments (in template mode only).\n" .
+"          Enable verbose mode; write deprecated symbols and pattern matching\n" .
+"          symbols as comments (in template mode only).\n" .
     ''));
     print_option(g_(
 "  -d\n" .
-"          Display debug information during work.\n" .
+"          Enable debugging mode.\n" .
     ''));
     print_option(g_(
 "  -?, --help\n" .

@@ -253,15 +253,15 @@ usage(void)
 	));
 	print_option(_(
 "      --quiet\n"
-"          Quiet operation, minimal output.\n"
+"          Enable quiet mode, minimal output.\n"
 	));
 	print_option(_(
 "      --verbose\n"
-"          Verbose operation, more output.\n"
+"          Enable verbose mode, more output.\n"
 	));
 	print_option(_(
 "      --debug\n"
-"          Debug output, way more output.\n"
+"          Enable debugging mode, way more output.\n"
 	));
 	print_option(_(
 "      --log <file>\n"

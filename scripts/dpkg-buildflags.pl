@@ -41,29 +41,30 @@ sub usage {
     '');
     print_option(g_(
 "      --get <flag>\n" .
-"          Output the requested flag to stdout.\n" .
+"          Show the requested flag.\n" .
     ''));
     print_option(g_(
 "      --origin <flag>\n" .
-"          Output the origin of the flag to stdout; value is one of:\n" .
+"          Show the origin of the flag, value is one of:\n" .
 "            vendor, system, user, env.\n" .
     ''));
     print_option(g_(
 "      --list\n" .
-"          Output a list of the flags supported by the current vendor.\n" .
+"          Show a list of the flags supported by the current vendor.\n" .
     ''));
     print_option(g_(
 "      --query\n" .
-"          Like --status, but in deb822 format.\n" .
+"          Show a synopsis with all parameters affecting the program behavior,\n" .
+"          the resulting flags and their origin (output format: deb822).\n" .
     ''));
     print_option(g_(
 "      --query-features <area>\n" .
-"          Output the status of features for the given area.\n" .
+"          Show the status of features for the given area.\n" .
     ''));
     print_option(g_(
 "      --status\n" .
-"          Output a synopsis with all parameters affecting the program behavior,\n" .
-"          the resulting flags and their origin.\n" .
+"          Show a synopsis with all parameters affecting the program behavior,\n" .
+"          the resulting flags and their origin (output format: line).\n" .
     ''));
     print_option(g_(
 "      --export=(sh|make|cmdline|configure)\n" .

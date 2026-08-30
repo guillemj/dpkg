@@ -76,47 +76,47 @@ sub usage {
     print_option_def('full');
     print_option(g_(
 "  -F, --build=full\n" .
-"          Normal full build (source and binary; default).\n" .
+"          Specify a full, source and binary build (default behavior).\n" .
     ''));
     print_option(g_(
 "  -g, --build=source,all\n" .
-"          Source and arch-indep build.\n" .
+"          Specify a source and arch-indep build.\n" .
     ''));
     print_option(g_(
 "  -G, --build=source,any\n" .
-"          Source and arch-specific build.\n" .
+"          Specify a source and arch-specific build.\n" .
     ''));
     print_option(g_(
 "  -b, --build=binary\n" .
-"          Binary-only, no source files.\n" .
+"          Specify a binary-only, no source files build.\n" .
     ''));
     print_option(g_(
 "  -B, --build=any\n" .
-"          Binary-only, only arch-specific files.\n" .
+"          Specify a binary-only, only arch-specific files build.\n" .
     ''));
     print_option(g_(
 "  -A, --build=all\n" .
-"          Binary-only, only arch-indep files.\n" .
+"          Specify a binary-only, only arch-indep files build.\n" .
     ''));
     print_option(g_(
 "  -S, --build=source\n" .
-"          Source-only, no binary files.\n" .
+"          Specify a source-only, no binary files build.\n" .
     ''));
     print_option(g_(
 "  -nc, --no-pre-clean\n" .
-"          Do not pre clean source tree (implies --build=binary).\n" .
+"          Do not pre-clean source tree (implies --build=binary).\n" .
     ''));
     print_option(g_(
 "      --pre-clean\n" .
-"          Pre clean source tree (default).\n" .
+"          Pre-clean source tree (default behavior).\n" .
     ''));
     print_option(g_(
 "      --no-post-clean\n" .
-"          Do not post clean source tree (default).\n" .
+"          Do not post-clean source tree (default behavior).\n" .
     ''));
     print_option(g_(
 "  -tc, --post-clean\n" .
-"          Post clean source tree.\n" .
+"          Post-clean source tree.\n" .
     ''));
     print_option(g_(
 "      --sanitize-env\n" .
@@ -124,7 +124,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -D, --check-builddeps\n" .
-"          Check build dependencies and conflicts (default).\n" .
+"          Check build dependencies and conflicts (default behavior).\n" .
     ''));
     print_option(g_(
 "  -d, --no-check-builddeps\n" .
@@ -163,8 +163,8 @@ sub usage {
     print_option_def('fakeroot');
     print_option(g_(
 "  -j, --jobs[=<jobs>|auto]\n" .
-"          Jobs to run simultaneously (passed to <rules>),\n" .
-"          (default; opt-in mode).\n" .
+"          Jobs to run simultaneously in opt-in mode (passed to <rules>),\n" .
+"          (default behavior).\n" .
     ''));
     print_option_def('auto');
     print_option(g_(
@@ -173,8 +173,7 @@ sub usage {
     ''));
     print_option(g_(
 "      --jobs-force[=<jobs>|auto]\n" .
-"          Jobs to run simultaneously (passed to <rules>),\n" .
-"          (forced mode).\n" .
+"          Jobs to run simultaneously in forced mode (passed to <rules>).\n" .
     ''));
     print_option_def('auto');
     print_option(g_(
@@ -234,15 +233,15 @@ sub usage {
     ''));
     print_option(g_(
 "  -us, --unsigned-source\n" .
-"          Unsigned source package.\n" .
+"          Do not sign the .dsc file.\n" .
     ''));
     print_option(g_(
 "  -ui, --unsigned-buildinfo\n" .
-"          Unsigned .buildinfo file.\n" .
+"          Do not sign the .buildinfo file.\n" .
     ''));
     print_option(g_(
 "  -uc, --unsigned-changes\n" .
-"          Unsigned .buildinfo and .changes file.\n" .
+"          Do not sign the .buildinfo and .changes files.\n" .
     ''));
     print_option(g_(
 "      --no-sign\n" .
@@ -292,11 +291,11 @@ sub usage {
     '');
     print_option(g_(
 "  -si\n" .
-"          Source includes orig, if new upstream (default).\n" .
+"          Source includes original source, if new upstream (default behavior).\n" .
     ''));
     print_option(g_(
 "  -sa\n" .
-"          Source includes orig, always.\n" .
+"          Source includes original source, always.\n" .
     ''));
     print_option(g_(
 "  -sd\n" .
@@ -304,7 +303,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -v<version>\n" .
-"          Changes since version <version>.\n" .
+"          Include all changes later than <version>.\n" .
     ''));
     print_option(g_(
 "  -m, --source-by=<maint>\n" .

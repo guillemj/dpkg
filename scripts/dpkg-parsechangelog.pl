@@ -47,7 +47,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -l, --file <changelog-file>\n" .
-"          Get per-version info from this file.\n" .
+"          Get per-version changelog information from this file.\n" .
     ''));
     print_option(g_(
 "  -F <changelog-format>\n" .

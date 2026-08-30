@@ -91,7 +91,7 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --by-package=<package>\n"
-"          Override trigger awaiter (normally set by dpkg).\n"
+"          Override trigger awaiter package (normally set by dpkg).\n"
 	));
 	print_option(_(
 "      --await\n"
@@ -103,7 +103,7 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --no-act\n"
-"          Just test - do not actually change anything.\n"
+"          Print what would be done, but perform no action.\n"
 	));
 	print_option(_(
 "      --admindir=<directory>\n"

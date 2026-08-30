@@ -44,7 +44,7 @@ sub usage {
     '');
     print_option(g_(
 "  -f<files-list-file>\n" .
-"          Write files here.\n" .
+"          Write built artifact entry to this file.\n" .
     ''));
     print_option_def('debian/files');
     print_option(g_(

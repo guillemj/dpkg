@@ -129,22 +129,22 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --quiet\n"
-"          Quiet operation, minimal output.\n"
+"          Enable quiet mode, minimal output.\n"
 	));
 	print_option(_(
 "      --admindir <directory>\n"
-"          Set the directory with the statoverride file.\n"
+"          Change the database directory.\n"
 	));
 	print_option_def(ADMINDIR);
 	print_option_env("DPKG_ADMINDIR");
 	print_option(_(
 "      --instdir <directory>\n"
-"          Set the root directory, but not the admin dir.\n"
+"          Change the installation directory.\n"
 	));
 	print_option_def("/");
 	print_option(_(
 "      --root <directory>\n"
-"          Set the directory of the root filesystem.\n"
+"          Change the root directory.\n"
 	));
 	print_option_def("/");
 	print_option_env("DPKG_ROOT");

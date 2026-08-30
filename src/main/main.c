@@ -117,15 +117,15 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "  -V, --verify [<package>...]\n"
-"          Verify the integrity of package(s).\n"
+"          Verify the integrity of packages.\n"
 	));
 	print_option(_(
 "  -C, --audit [<package>...]\n"
-"          Check for broken package(s).\n"
+"          Check for broken packages.\n"
 	));
 	print_option(_(
 "  -s, --status [<package>...]\n"
-"          Display package status details.\n"
+"          Show package status details.\n"
 	));
 	print_option(_(
 "  -l, --list [<pattern>...]\n"
@@ -133,11 +133,11 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "  -L, --listfiles <package>...\n"
-"          List files 'owned' by package(s).\n"
+"          List files 'owned' by packages.\n"
 	));
 	print_option(_(
 "  -S, --search <pattern>...\n"
-"          Find package(s) owning file(s).\n"
+"          Find packages owning files.\n"
 	));
 	print_option(_(
 "      --get-selections [<pattern>...]\n"
@@ -153,7 +153,7 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "  -p, --print-avail [<package>...]\n"
-"          Display available version details.\n"
+"          Show available package version details.\n"
 	));
 	print_option(_(
 "  -A, --record-avail <archive-spec>\n"
@@ -161,15 +161,15 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --update-avail [<Packages-file>]\n"
-"          Replace available packages info.\n"
+"          Replace available packages information.\n"
 	));
 	print_option(_(
 "      --merge-avail [<Packages-file>]\n"
-"          Merge with info from file.\n"
+"          Merge available package information.\n"
 	));
 	print_option(_(
 "      --clear-avail\n"
-"          Erase existing available info.\n"
+"          Erase existing available package information.\n"
 	));
 	print_option(_(
 "      --add-architecture <arch>\n"
@@ -181,7 +181,7 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --print-architecture\n"
-"          Print dpkg architecture.\n"
+"          Print native dpkg architecture.\n"
 	));
 	print_option(_(
 "      --print-foreign-architectures\n"
@@ -193,7 +193,7 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --compare-versions <a> <op> <b>\n"
-"          Compare version numbers - see below.\n"
+"          Compare version numbers (see below).\n"
 	));
 	print_option(_(
 "      --predep-package\n"
@@ -312,7 +312,7 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --no-act\n"
-"          Just say what we would do - do not do it.\n"
+"          Print what would be done, but perform no action.\n"
 	));
 	print_option(_(
 "      --dry-run\n"
@@ -324,7 +324,7 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "  -D, --debug=<octal>\n"
-"          Enable debugging (see -Dhelp or --debug=help).\n"
+"          Enable debugging output (see -Dhelp or --debug=help).\n"
 	));
 	print_option(_(
 "      --path-exclude=<pattern>\n"
@@ -362,12 +362,12 @@ usage(const char *const *argv)
 	print_option_env("DPKG_ADMINDIR");
 	print_option(_(
 "      --instdir=<directory>\n"
-"          Change installation dir without changing admin dir.\n"
+"          Change the installation directory.\n"
 	));
 	print_option_def("/");
 	print_option(_(
 "      --root=<directory>\n"
-"          Install on a different root directory.\n"
+"          Change the root directory.\n"
 	));
 	print_option_def("/");
 	print_option_env("DPKG_ROOT");

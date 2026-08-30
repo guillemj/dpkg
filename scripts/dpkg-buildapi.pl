@@ -53,7 +53,7 @@ sub usage
     '');
     print_option(g_(
 "  -c<control-file>\n" .
-"          Get control info from this file.\n" .
+"          Get control information from this file.\n" .
     ''));
 }
 

@@ -78,43 +78,43 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "  -c, --contents <deb>\n"
-"          List contents.\n"
+"          List archive filesystem contents.\n"
 	));
 	print_option(_(
 "  -I, --info <deb> [<cfile>...]\n"
-"          Show info to stdout.\n"
+"          Show archive metadata information.\n"
 	));
 	print_option(_(
 "  -W, --show <deb>\n"
-"          Show information on package(s).\n"
+"          Show archive metadata information, with specified format.\n"
 	));
 	print_option(_(
 "  -f, --field <deb> [<cfield>...]\n"
-"          Show field(s) to stdout.\n"
+"          Show archive metadata fields.\n"
 	));
 	print_option(_(
 "  -e, --control <deb> [<directory>]\n"
-"          Extract metadata files.\n"
+"          Extract archive metadata files.\n"
 	));
 	print_option(_(
 "  -x, --extract <deb> <directory>\n"
-"          Extract filesystem files.\n"
+"          Extract archive filesystem files.\n"
 	));
 	print_option(_(
 "  -X, --vextract <deb> <directory>\n"
-"          Extract and list filesystem files.\n"
+"          Extract and list archive filesystem files.\n"
 	));
 	print_option(_(
 "  -R, --raw-extract <deb> <directory>\n"
-"          Extract metadata and filesystem files.\n"
+"          Extract archive metadata and filesystem files.\n"
 	));
 	print_option(_(
 "      --ctrl-tarfile <deb>\n"
-"          Output control tarfile.\n"
+"          Output archive control tarfile.\n"
 	));
 	print_option(_(
 "      --fsys-tarfile <deb>\n"
-"          Output filesystem tarfile.\n"
+"          Output archive filesystem tarfile.\n"
 	));
 	print_option(_(
 "  -?, --help\n"
@@ -180,19 +180,19 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "      --uniform-compression\n"
-"          Use the compression params on all members.\n"
+"          Use the compression parameters on all members.\n"
 	));
 	print_option(_(
 "      --no-uniform-compression\n"
-"          Use the compression params only on the data.tar member.\n"
+"          Use the compression parameters only on the data.tar member.\n"
 	));
 	print_option(_(
 "  -v, --verbose\n"
-"          Enable verbose output.\n"
+"          Enable verbose mode.\n"
 	));
 	print_option(_(
 "  -D, --debug\n"
-"          Enable debugging output.\n"
+"          Enable debugging mode.\n"
 	));
 	print_option_sep();
 

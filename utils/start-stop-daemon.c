@@ -1108,7 +1108,7 @@ usage(void)
 	);
 	print_option(
 "  -t, --test\n"
-"          Test mode, do not do anything.\n"
+"          Print what would be done, but perform no action.\n"
 	);
 	print_option(
 "  -o, --oknodo\n"
@@ -1116,11 +1116,11 @@ usage(void)
 	);
 	print_option(
 "  -q, --quiet\n"
-"          Be more quiet.\n"
+"          Enable quiet mode, minimal output.\n"
 	);
 	print_option(
 "  -v, --verbose\n"
-"          Be more verbose.\n"
+"          Enable verbose mode, more output.\n"
 	);
 	print_option_sep();
 

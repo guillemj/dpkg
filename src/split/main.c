@@ -76,23 +76,23 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "  -j, --join <part> <part>...\n"
-"          Join parts together.\n"
+"          Join archive parts together.\n"
 	));
 	print_option(_(
 "  -I, --info <part>...\n"
-"          Display info about a part.\n"
+"          Show information about an archive part.\n"
 	));
 	print_option(_(
 "  -a, --auto -o <complete> <part>\n"
-"          Auto-accumulate parts.\n"
+"          Auto-accumulate archive parts via the queue.\n"
 	));
 	print_option(_(
 "  -l, --listq\n"
-"          List unmatched pieces.\n"
+"          List unmatched archive parts in the queue.\n"
 	));
 	print_option(_(
 "  -d, --discard [<filename>...]\n"
-"          Discard unmatched pieces.\n"
+"          Discard unmatched archive parts in the queue.\n"
 	));
 	print_option(_(
 "  -?, --help\n"
@@ -109,21 +109,21 @@ usage(const char *const *argv)
 	));
 	print_option(_(
 "  -S, --partsize <size>\n"
-"          In KiB, for -s.\n"
+"          Set the part size in KiB, for --split.\n"
 	));
 	print_option_def("%d", SPLITPARTDEFMAX / 1024);
 	print_option(_(
 "  -o, --output <file>\n"
-"          Filename, for -j.\n"
+"          Set the filename for --join.\n"
 	));
 	print_option_def(_("<package>_<version>_<arch>.deb"));
 	print_option(_(
 "  -Q, --npquiet\n"
-"          Be quiet when -a is not a part.\n"
+"          Enable quiet mode, no output when --auto is not an archive part.\n"
 	));
 	print_option(_(
 "      --depotdir <directory>\n"
-"          Set the archive parts queue directory.\n"
+"          Change the archive parts queue directory.\n"
 	));
 	print_option_def(ADMINDIR "/" PARTSDIR);
 	print_option(_(
@@ -143,7 +143,7 @@ usage(const char *const *argv)
 	printf(_(
 "Exit status:\n"
 "  0 = ok\n"
-"  1 = with --auto, file is not a part\n"
+"  1 = with --auto, file is not an archive part\n"
 "  2 = trouble\n"
 	));
 

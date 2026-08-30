@@ -90,7 +90,7 @@ sub usage {
     '');
     print_option(g_(
 "  -n, --no-sort\n" .
-"          Do not sort by package before outputting.\n" .
+"          Do not sort output source package stanzas by package name.\n" .
     ''));
     print_option(g_(
 "  -e, --extra-override <file>\n" .
@@ -98,12 +98,12 @@ sub usage {
     ''));
     print_option(g_(
 "  -s, --source-override <file>\n" .
-"          Use file for additional source overrides.\n" .
+"          Use file for source overrides.\n" .
     ''));
     print_option_def(g_('<override-file>.src'));
     print_option(g_(
 "      --debug\n" .
-"          Turn debugging on.\n" .
+"          Enable debugging mode.\n" .
     ''));
     print_option(g_(
 "  -?, --help\n" .
