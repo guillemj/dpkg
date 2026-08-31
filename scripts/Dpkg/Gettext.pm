@@ -40,6 +40,7 @@ our @EXPORT = qw(
     gettext
     ngettext
     g_
+    C_
     P_
     N_
 );
