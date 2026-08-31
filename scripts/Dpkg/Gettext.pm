@@ -165,8 +165,10 @@ BEGIN {
         };
         *C_ = sub {
             my ($msgctxt, $msgid) = @_;
-            return dgettext($DEFAULT_TEXT_DOMAIN,
-                            $msgctxt . GETTEXT_CONTEXT_GLUE . $msgid);
+            my $msgctxtid = $msgctxt . GETTEXT_CONTEXT_GLUE . $msgid;
+            my $msg = dgettext($DEFAULT_TEXT_DOMAIN, $msgctxtid);
+
+            return $msg eq $msgctxtid ? $msgid : $msg;
         };
         *P_ = sub {
             return dngettext($DEFAULT_TEXT_DOMAIN, @_);
