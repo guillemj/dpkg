@@ -204,7 +204,7 @@ sub usage {
     ''));
     print_option(g_(
 "  -p, --sign-command=<command>\n" .
-"          Command to sign .dsc and/or .changes files (default is gpg).\n" .
+"          Command to sign .dsc and/or .changes files (default is auto).\n" .
     ''));
     print_option(g_(
 "      --sign-keyfile=<file>\n" .
