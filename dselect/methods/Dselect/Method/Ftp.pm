@@ -157,7 +157,7 @@ sub do_mdtm {
     my ($ftp, $file) = @_;
     my $time;
 
-#   if ($ftp->supported('MDTM')) {
+    if ($ftp->supported('MDTM')) {
         $time = $ftp->mdtm($file);
 #       my $code = $ftp->code();
 #       my $message = $ftp->message();
@@ -171,7 +171,7 @@ sub do_mdtm {
         } elsif (! $ftp->ok()) {
             return;
         }
-#   }
+    }
 
     if (! $ftp->supported('MDTM')) {
         my @files = $ftp->dir($file);
