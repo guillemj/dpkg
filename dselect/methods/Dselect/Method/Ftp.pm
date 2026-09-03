@@ -50,7 +50,7 @@ if ($@) {
 
 sub connect_once(%opts)
 {
-    my ($rpass, $remotehost, $remoteuser);
+    my ($remotehost, $remoteuser, $remotepass);
 
     if ($opts{useproxy}) {
         $remotehost = $opts{proxyhost};
@@ -79,14 +79,14 @@ sub connect_once(%opts)
     if ($opts{password} eq '?') {
         print 'Enter password for ftp: ';
         system('stty', '-echo');
-        $rpass = <STDIN>;
-        chomp $rpass;
+        $remotepass = <STDIN>;
+        chomp $remotepass;
         print "\n";
         system('stty', 'echo');
     } else {
-        $rpass = $opts{password};
+        $remotepass = $opts{password};
     }
-    if (! $ftp->login($remoteuser, $rpass)) {
+    if (! $ftp->login($remoteuser, $remotepass)) {
         errormsg($ftp->message());
         return;
     }
