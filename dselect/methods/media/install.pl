@@ -50,13 +50,13 @@ my $umount;
 
 my $exit = 1;
 
-sub do_umount {
+sub media_unmount {
     if (length $umount) {
         system 'umount', $umount;
     }
 }
 
-sub do_mount {
+sub media_mount {
     my $opts = 'nosuid,nodev';
     if (! -b $p_blockdev) {
         $opts .= ',loop';
@@ -68,7 +68,7 @@ sub do_mount {
     }
 }
 
-do_mount();
+media_mount();
 
 my $predep = "$vardir/predep-package";
 my $binaryprefix = "$p_mountpoint$p_hierbase";
@@ -275,9 +275,9 @@ foreach my $need (@media) {
         print "Wrong disc. This is disc\n    $disk\n";
         print "However, the needed disc is\n    $need\n";
         print "Change the discs and press <Enter>\n";
-        do_umount();
+        media_unmount();
         <STDIN>;
-        do_mount();
+        media_mount();
         if ($?) {
             warning("cannot mount '%s'", $p_mountpoint);;
         }
@@ -321,6 +321,6 @@ print 'Installation OK. Press <Enter>.';
 $exit = 0;
 
 END {
-    do_umount();
+    media_unmount();
     exit $exit;
 }
