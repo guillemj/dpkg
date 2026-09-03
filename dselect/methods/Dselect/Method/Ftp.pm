@@ -120,11 +120,6 @@ sub do_connect {
         last TRY_CONNECT;
     }
 
-#   if (! $ftp->pasv()) {
-#       errormsg($ftp->message);
-#       error('cannot set FTP connection in passive mode');
-#   }
-
     return $ftp;
 }
 
