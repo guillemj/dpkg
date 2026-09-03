@@ -48,79 +48,79 @@ if ($@) {
     exit 1;
 }
 
-sub do_connect {
-    my (%opts) = @_;
-
+sub connect_once(%opts)
+{
     my ($rpass, $remotehost, $remoteuser, $ftp);
 
-    TRY_CONNECT: while (1) {
-        my $exit = 0;
+    if ($opts{useproxy}) {
+        $remotehost = $opts{proxyhost};
+        $remoteuser = $opts{username} . '@' . $opts{ftpsite};
+    } else {
+        $remotehost = $opts{ftpsite};
+        $remoteuser = $opts{username};
+    }
 
-        if ($opts{useproxy}) {
-            $remotehost = $opts{proxyhost};
-            $remoteuser = $opts{username} . '@' . $opts{ftpsite};
-        } else {
-            $remotehost = $opts{ftpsite};
-            $remoteuser = $opts{username};
-        }
-        print "Connecting to $opts{ftpsite}...\n";
-        $ftp = Net::FTP->new($remotehost,
-            Passive => $opts{passive},
-            Debug => $opts{debug},
-        );
-        if (! $ftp || ! $ftp->ok) {
-            errormsg('cannot connect');
-            $exit = 1;
-        }
-        if (! $exit) {
-            if ($opts{useproxy}) {
-                print "Login on $opts{proxyhost}...\n";
-                $ftp->_USER($opts{proxylogname});
-                $ftp->_PASS($opts{proxypassword});
-            }
-            print "Login as $opts{username}...\n";
-            if ($opts{password} eq '?') {
-                print 'Enter password for ftp: ';
-                system('stty', '-echo');
-                $rpass = <STDIN>;
-                chomp $rpass;
-                print "\n";
-                system('stty', 'echo');
-            } else {
-                $rpass = $opts{password};
-            }
-            if (! $ftp->login($remoteuser, $rpass)) {
-                errormsg($ftp->message());
-                $exit = 1;
-            }
-        }
-        if (! $exit) {
-            print "Setting transfer mode to binary...\n";
-            if (! $ftp->binary()) {
-                errormsg($ftp->message);
-                $exit = 1;
-            }
-        }
-        if (! $exit) {
-            print "Cd to '$opts{ftpdir}'...\n";
-            if (! $ftp->cwd($opts{ftpdir})) {
-                errormsg($ftp->message);
-                $exit = 1;
-            }
-        }
+    print "Connecting to $opts{ftpsite}...\n";
+    $ftp = Net::FTP->new($remotehost,
+        Passive => $opts{passive},
+        Debug => $opts{debug},
+    );
+    if (! $ftp || ! $ftp->ok) {
+        errormsg('cannot connect');
+        return;
+    }
 
-        if ($exit) {
-            if (yesno ('y', 'Retry connection at once')) {
-                next TRY_CONNECT;
-            } else {
-                error('cannot connect to FTP site');
-            }
-        }
+    if ($opts{useproxy}) {
+        print "Login on $opts{proxyhost}...\n";
+        $ftp->_USER($opts{proxylogname});
+        $ftp->_PASS($opts{proxypassword});
+    }
+    print "Login as $opts{username}...\n";
+    if ($opts{password} eq '?') {
+        print 'Enter password for ftp: ';
+        system('stty', '-echo');
+        $rpass = <STDIN>;
+        chomp $rpass;
+        print "\n";
+        system('stty', 'echo');
+    } else {
+        $rpass = $opts{password};
+    }
+    if (! $ftp->login($remoteuser, $rpass)) {
+        errormsg($ftp->message());
+        return;
+    }
 
-        last TRY_CONNECT;
+    print "Setting transfer mode to binary...\n";
+    if (! $ftp->binary()) {
+        errormsg($ftp->message);
+        return;
+    }
+
+    print "Cd to '$opts{ftpdir}'...\n";
+    if (! $ftp->cwd($opts{ftpdir})) {
+        errormsg($ftp->message);
+        return;
     }
 
     return $ftp;
+}
+
+sub do_connect {
+    my (%opts) = @_;
+
+    TRY_CONNECT: while (1) {
+        my $ftp = connect_once(%opts);
+        return $ftp if $ftp;
+
+        if (yesno ('y', 'Retry connection at once')) {
+            next TRY_CONNECT;
+        } else {
+            error('cannot connect to FTP site');
+        }
+    }
+
+    return;
 }
 
 ## Support for MDTM.
