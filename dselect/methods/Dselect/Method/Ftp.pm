@@ -66,13 +66,13 @@ sub do_connect {
         print "Connecting to $opts{ftpsite}...\n";
         $ftp = Net::FTP->new($remotehost,
             Passive => $opts{passive},
+            Debug => $opts{debug},
         );
         if (! $ftp || ! $ftp->ok) {
             errormsg('cannot connect');
             $exit = 1;
         }
         if (! $exit) {
-#           $ftp->debug(1);
             if ($opts{useproxy}) {
                 print "Login on $opts{proxyhost}...\n";
                 $ftp->_USER($opts{proxylogname});
@@ -153,15 +153,22 @@ my $ls_l_regex = qr<
     \ ([0-9 ][0-9][:0-9][0-9]{2})
 >x;
 
+sub _debug_cmd_reply($self)
+{
+    my $code = $self->code();
+    my $message = $self->message();
+    print " [ $code: $message ] ";
+
+    return;
+}
+
 sub do_mdtm {
     my ($ftp, $file) = @_;
     my $time;
 
     if ($ftp->supported('MDTM')) {
         $time = $ftp->mdtm($file);
-#       my $code = $ftp->code();
-#       my $message = $ftp->message();
-#       print " [ $code: $message ] ";
+        $ftp->_debug_cmd_reply() if $ftp->debug();
         # Codes:
         #   500 Command not understood (SUN firewall).
         #   502 MDTM not implemented.
@@ -182,11 +189,10 @@ sub do_mdtm {
             return;
         }
 
-#       my $code = $ftp->code();
-#       my $message = $ftp->message();
-#       print " [ $code: $message ] ";
-
-#       print "[$#files]";
+        if ($ftp->debug()) {
+            $ftp->_debug_cmd_reply();
+            print "[$#files]";
+        }
 
         # Get the date components from the output of 'ls -l'.
         if ($files[0] =~ $ls_l_regex) {
