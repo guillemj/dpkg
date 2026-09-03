@@ -74,7 +74,7 @@ my $packages_modified = 0;
 
 sub download {
     foreach my $site (@{$CONFIG{site}}) {
-        $ftp = do_connect(
+        $ftp = Dselect::Method::Ftp->new(
             ftpsite => $site->[0],
             ftpdir => $site->[1],
             passive => $site->[3],
@@ -94,12 +94,12 @@ sub download {
 
             # Check existing Packages on remote site.
             print "\nChecking for Packages file... ";
-            $newest_pack_date = do_mdtm($ftp, "$dir/Packages.gz");
+            $newest_pack_date = $ftp->mdtm("$dir/Packages.gz");
             if (defined $newest_pack_date) {
                 print "$dir/Packages.gz\n";
             } else {
                 $dir = "$dist";
-                $newest_pack_date = do_mdtm($ftp, "$dir/Packages.gz");
+                $newest_pack_date = $ftp->mdtm("$dir/Packages.gz");
                 if (defined $newest_pack_date) {
                     print "$dir/Packages.gz\n";
                 } else {
@@ -166,7 +166,7 @@ sub download {
                             $ftp->quit();
                         }
                         if (yesno('y', "Transfer failed at $size: retry at once")) {
-                            $ftp = do_connect(
+                            $ftp = Dselect::Method::Ftp->new(
                                 ftpsite => $site->[0],
                                 ftpdir => $site->[1],
                                 passive => $site->[3],
@@ -178,7 +178,7 @@ sub download {
                                 proxypassword => $CONFIG{proxypassword},
                             );
 
-                            if ($newest_pack_date != do_mdtm($ftp, "$dir/Packages.gz")) {
+                            if ($newest_pack_date != $ftp->mdtm("$dir/Packages.gz")) {
                                 print ("Packages file has changed !\n");
                                 $size = 0;
                             }

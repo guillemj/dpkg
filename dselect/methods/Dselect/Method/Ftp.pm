@@ -29,16 +29,10 @@ package Dselect::Method::Ftp 0.01;
 
 use v5.36;
 
-our @EXPORT = qw(
-    do_connect
-    do_mdtm
-);
-
-use Exporter qw(import);
 use Time::Local;
 
 eval q{
-    use Net::FTP;
+    use parent qw(Net::FTP);
 
     use Dselect::Method;
     use Dpkg::ErrorHandling;
@@ -106,12 +100,13 @@ sub connect_once(%opts)
     return $ftp;
 }
 
-sub do_connect {
-    my (%opts) = @_;
+sub new($this, %opts)
+{
+    my $class = ref($this) || $this;
 
     TRY_CONNECT: while (1) {
         my $ftp = connect_once(%opts);
-        return $ftp if $ftp;
+        return bless $ftp, $class if $ftp;
 
         if (yesno ('y', 'Retry connection at once')) {
             next TRY_CONNECT;
@@ -162,35 +157,35 @@ sub _debug_cmd_reply($self)
     return;
 }
 
-sub do_mdtm {
-    my ($ftp, $file) = @_;
+sub mdtm($self, $file)
+{
     my $time;
 
-    if ($ftp->supported('MDTM')) {
-        $time = $ftp->mdtm($file);
-        $ftp->_debug_cmd_reply() if $ftp->debug();
+    if ($self->supported('MDTM')) {
+        $time = $self->SUPER::mdtm($file);
+        $self->_debug_cmd_reply() if $self->debug();
         # Codes:
         #   500 Command not understood (SUN firewall).
         #   502 MDTM not implemented.
-        if ($ftp->code() == 502 ||
-            $ftp->code() == 500) {
+        if ($self->code() == 502 ||
+            $self->code() == 500) {
             # Fallback to compatibility implementation.
-        } elsif (! $ftp->ok()) {
+        } elsif (! $self->ok()) {
             return;
         }
     }
 
-    if (! $ftp->supported('MDTM')) {
-        my @files = $ftp->dir($file);
+    if (! $self->supported('MDTM')) {
+        my @files = $self->dir($file);
         # Codes:
         #   550 No such file or directory.
         if (($#files == -1) ||
-            ($ftp->code == 550)) {
+            ($self->code == 550)) {
             return;
         }
 
-        if ($ftp->debug()) {
-            $ftp->_debug_cmd_reply();
+        if ($self->debug()) {
+            $self->_debug_cmd_reply();
             print "[$#files]";
         }
 

@@ -332,7 +332,7 @@ sub download {
             next;
         }
 
-        $ftp = do_connect(
+        $ftp = Dselect::Method::Ftp->new(
             ftpsite => $site->[0],
             ftpdir => $site->[1],
             passive => $site->[3],
