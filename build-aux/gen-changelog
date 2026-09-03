@@ -29,11 +29,13 @@ use Dpkg::Index;
 
 my @sections = qw(
     main
+    output
     arch
     port
     perl-mod
     make-mod
     shell-mod
+    completion
     doc
     code-int
     build-sys
@@ -43,6 +45,12 @@ my @sections = qw(
 );
 
 my %sections = (
+    output => {
+        title => 'Output messages',
+        type => 'output',
+        match => qr{(?:(?:output|warning|error|help) message|--help output)},
+        keep => 1,
+    },
     arch => {
         title => 'Architecture support',
         match => qr/^arch: /,
@@ -58,11 +66,15 @@ my %sections = (
     },
     'make-mod' => {
         title => 'Make fragments',
-        match => qr{^scripts/mk: },
+        match => qr{^(?:scripts/)?mk: },
     },
     'shell-mod' => {
         title => 'Shell library',
-        match => qr{^src/sh: },
+        match => qr{^(?:src/)?sh: },
+    },
+    completion => {
+        title => 'Shell completion',
+        match => qr{^completion: },
     },
     doc => {
         title => 'Documentation',
@@ -72,7 +84,7 @@ my %sections = (
     'code-int' => {
         title => 'Code internals',
         type => 'internal',
-        match => qr/^(?:lib(?:compat|dpkg)?|src|scripts|perl|utils): /,
+        match => qr/^(?:lib(?:compat|dpkg)?|src|scripts|shell|perl|utils): /,
         keep => 1,
     },
     'build-sys' => {
