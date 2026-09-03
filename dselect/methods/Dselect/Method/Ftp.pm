@@ -35,12 +35,10 @@ our @EXPORT = qw(
 );
 
 use Exporter qw(import);
-use Carp;
 use Time::Local;
 
 eval q{
     use Net::FTP;
-    use Data::Dumper;
 
     use Dselect::Method;
     use Dpkg::ErrorHandling;
