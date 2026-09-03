@@ -125,9 +125,6 @@ sub do_connect {
 
 ## Support for MDTM.
 
-# Assume server supports MDTM - will be adjusted if needed.
-my $has_mdtm = 1;
-
 my %months = (
     Jan => 0,
     Feb => 1,
@@ -160,7 +157,7 @@ sub do_mdtm {
     my ($ftp, $file) = @_;
     my $time;
 
-#   if ($has_mdtm) {
+#   if ($ftp->supported('MDTM')) {
         $time = $ftp->mdtm($file);
 #       my $code = $ftp->code();
 #       my $message = $ftp->message();
@@ -170,13 +167,13 @@ sub do_mdtm {
         #   502 MDTM not implemented.
         if ($ftp->code() == 502 ||
             $ftp->code() == 500) {
-            $has_mdtm = 0;
+            # Fallback to compatibility implementation.
         } elsif (! $ftp->ok()) {
             return;
         }
 #   }
 
-    if (! $has_mdtm) {
+    if (! $ftp->supported('MDTM')) {
         my @files = $ftp->dir($file);
         # Codes:
         #   550 No such file or directory.
