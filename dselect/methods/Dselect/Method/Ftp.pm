@@ -50,7 +50,7 @@ if ($@) {
 
 sub connect_once(%opts)
 {
-    my ($rpass, $remotehost, $remoteuser, $ftp);
+    my ($rpass, $remotehost, $remoteuser);
 
     if ($opts{useproxy}) {
         $remotehost = $opts{proxyhost};
@@ -61,7 +61,7 @@ sub connect_once(%opts)
     }
 
     print "Connecting to $opts{ftpsite}...\n";
-    $ftp = Net::FTP->new($remotehost,
+    my $ftp = Net::FTP->new($remotehost,
         Passive => $opts{passive},
         Debug => $opts{debug},
     );
