@@ -537,7 +537,8 @@ ohshite(const char *fmt, ...)
 }
 
 void
-do_internerr(const char *file, int line, const char *func, const char *fmt, ...)
+impl_internerr(const char *file, int line, const char *func,
+               const char *fmt, ...)
 {
 	va_list args;
 

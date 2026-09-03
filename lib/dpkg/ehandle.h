@@ -91,10 +91,10 @@ ohshite(const char *fmt, ...)
 	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
 
 void
-do_internerr(const char *file, int line, const char *func,
-             const char *fmt, ...)
+impl_internerr(const char *file, int line, const char *func,
+               const char *fmt, ...)
 	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(4);
-#define internerr(...) do_internerr(__FILE__, __LINE__, __func__, __VA_ARGS__)
+#define internerr(...) impl_internerr(__FILE__, __LINE__, __func__, __VA_ARGS__)
 
 /** @} */
 
