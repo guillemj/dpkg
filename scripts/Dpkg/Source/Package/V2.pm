@@ -237,19 +237,20 @@ sub do_extract {
     my $tar = Dpkg::Source::Archive->new(
         filename => File::Spec->catfile($self->{basedir}, $tarfile),
     );
-    $tar->extract($newdirectory,
-        options => [
-            '--anchored',
-            '--no-wildcards-match-slash',
-            '--exclude',
-            '*/.pc',
-            '--exclude',
-            '.pc',
-        ],
-    );
     # The ".pc" exclusion is only needed for 3.0 (quilt) and to avoid having
     # an upstream tarball provide a directory with symlinks that would be
     # blindly followed when applying the patches.
+    my @tar_options = (
+        '--anchored',
+        '--no-wildcards-match-slash',
+        '--exclude',
+        '*/.pc',
+        '--exclude',
+        '.pc',
+    );
+    $tar->extract($newdirectory,
+        options => \@tar_options,
+    );
 
     # Extract additional orig tarballs.
     foreach my $subdir (sort keys %addonfile) {
