@@ -238,8 +238,8 @@ sub do_extract {
         filename => File::Spec->catfile($self->{basedir}, $tarfile),
     );
     # The ".pc" exclusion is only needed for 3.0 (quilt) and to avoid having
-    # an upstream tarball provide a directory with symlinks that would be
-    # blindly followed when applying the patches.
+    # an upstream or debian tarball provide a directory with symlinks that
+    # would be blindly followed when applying the patches.
     my @tar_options = (
         '--anchored',
         '--no-wildcards-match-slash',
@@ -282,6 +282,7 @@ sub do_extract {
     );
     $tar->extract($newdirectory,
         in_place => 1,
+        options => \@tar_options,
     );
 
     # Apply patches (in a separate method as it might be overridden).
