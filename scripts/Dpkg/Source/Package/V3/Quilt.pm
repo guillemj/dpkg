@@ -133,6 +133,14 @@ sub apply_patches {
         $opts{verbose} = 0;
     }
 
+    if ($opts{usage} eq 'unpack') {
+        # When unpacking, make sure we have no quilt db, which would be coming
+        # from a potentially untrusted origin.
+        # FIXME: Do not hardcode ".pc" pathname, refactor Dpkg::Source::Quilt
+        # to abstract it, to avoid needing to construct the object that loads
+        # data from the untrusted db.
+        erasedir("$dir/.pc");
+    }
     my $quilt = $self->_build_quilt_object($dir);
     # Trigger warnings.
     $quilt->load_series(%opts) if $opts{warn_options};
