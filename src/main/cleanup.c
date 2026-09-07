@@ -45,8 +45,15 @@
 #include "main.h"
 #include "archives.h"
 
-int cleanup_pkg_failed = 0;
-int cleanup_conflictor_failed = 0;
+static int cleanup_pkg_failed = 0;
+static int cleanup_conflictor_failed = 0;
+
+void
+clear_cleanup_state(void)
+{
+	cleanup_pkg_failed = 0;
+	cleanup_conflictor_failed = 0;
+}
 
 /**
  * Something went wrong and we're undoing.

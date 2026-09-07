@@ -59,6 +59,9 @@ void
 enqueue_conflictor(struct pkginfo *pkg);
 
 void
+clear_cleanup_state(void);
+
+void
 cu_pathname(int argc, void **argv);
 void
 cu_cidir(int argc, void **argv);
@@ -112,7 +115,5 @@ check_conflict(struct dependency *dep, struct pkginfo *pkg,
 void
 check_breaks(struct dependency *dep, struct pkginfo *pkg,
              const char *pfilename);
-
-extern int cleanup_pkg_failed, cleanup_conflictor_failed;
 
 #endif /* ARCHIVES_H */

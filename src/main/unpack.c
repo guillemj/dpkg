@@ -1301,8 +1301,7 @@ process_archive(const char *filename)
 	struct fsys_namenode_queue newconffiles, newfiles_queue;
 	struct stat stab;
 
-	cleanup_pkg_failed = 0;
-	cleanup_conflictor_failed = 0;
+	clear_cleanup_state();
 
 	pfilename = summarize_filename(filename);
 
