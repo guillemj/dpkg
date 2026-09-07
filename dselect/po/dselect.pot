@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.23.7\n"
+"Project-Id-Version: dpkg 1.23.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2026-03-07 00:40+0100\n"
+"POT-Creation-Date: 2026-09-07 13:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgid "Help: "
 msgstr ""
 
 #: dselect/basecmds.cc
-msgid "Press ? for help menu, . for next topic, <space> to exit help."
+msgid "Press ? for help menu, . for next topic, <Space> to exit help."
 msgstr ""
 
 #: dselect/basecmds.cc
@@ -39,12 +39,12 @@ msgstr ""
 
 #: dselect/basecmds.cc
 msgid ""
-"Press a key from the list above, <space> or 'q' to exit help,\n"
+"Press a key from the list above, <Space> or 'q' to exit help,\n"
 "  or '.' (full stop) to read each help page in turn. "
 msgstr ""
 
-#: dselect/basecmds.cc
-msgid "error reading keyboard in help"
+#: dselect/basecmds.cc dselect/main.cc dselect/methlist.cc dselect/pkglist.cc
+msgid "cannot get input character"
 msgstr ""
 
 #: dselect/baselist.cc
@@ -52,35 +52,18 @@ msgid "cannot update screen after window resize"
 msgstr ""
 
 #: dselect/baselist.cc
-msgid "cannot allocate color pair"
+#, c-format
+msgid "cannot initialize color pair %d:%d"
 msgstr ""
 
 #: dselect/baselist.cc
-msgid "failed to create title window"
+#, c-format
+msgid "cannot create '%s' window"
 msgstr ""
 
 #: dselect/baselist.cc
-msgid "failed to create whatinfo window"
-msgstr ""
-
-#: dselect/baselist.cc
-msgid "failed to create baselist pad"
-msgstr ""
-
-#: dselect/baselist.cc
-msgid "failed to create heading pad"
-msgstr ""
-
-#: dselect/baselist.cc
-msgid "failed to create thisstate pad"
-msgstr ""
-
-#: dselect/baselist.cc
-msgid "failed to create info pad"
-msgstr ""
-
-#: dselect/baselist.cc
-msgid "failed to create query window"
+#, c-format
+msgid "cannot create '%s' screen pad"
 msgstr ""
 
 #: dselect/baselist.cc
@@ -254,12 +237,13 @@ msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  j, Down-arrow         k, Up-arrow             move highlight\n"
 "  N, Page-down, Space   P, Page-up, Backspace   scroll list by 1 page\n"
-"  ^n                    ^p                      scroll list by 1 line\n"
+"  Ctrl+n                Ctrl+p                  scroll list by 1 line\n"
 "  t, Home               e, End                  jump to top/end of list\n"
 "  u                     d                       scroll info by 1 page\n"
-"  ^u                    ^d                      scroll info by 1 line\n"
+"  Ctrl+u                Ctrl+d                  scroll info by 1 line\n"
 "  B, Left-arrow         F, Right-arrow          pan display by 1/3 screen\n"
-"  ^b                    ^f                      pan display by 1 character\n"
+"  Ctrl+b                Ctrl+f                  pan display by 1 character\n"
+"\n"
 "\n"
 "Mark packages for later processing:\n"
 " +, Insert  install or upgrade      =, H  hold in present version\n"
@@ -269,14 +253,14 @@ msgid ""
 "                                             Miscellaneous:\n"
 "Quit, exit, overwrite (note capitals!):       ?, F1 request help (also "
 "Help)\n"
-" Return  Confirm, quit (check dependencies)   i, I  toggle/cycle info "
+" Enter   Confirm, quit (check dependencies)   i, I  toggle/cycle info "
 "displays\n"
 "   Q     Confirm, quit (override dep.s)       o, O  cycle through sort "
 "options\n"
 " X, Esc  eXit, abandoning any changes made   v, A, V  change status display "
 "opts\n"
-"   R     Revert to state before this list      ^l   redraw display\n"
-"   U     set all to sUggested state             /   search (Return to "
+"   R     Revert to state before this list    Ctrl+l   redraw display\n"
+"   U     set all to sUggested state             /   search (<Enter> to "
 "cancel)\n"
 "   D     set all to Directly requested state  n, \\  repeat last search\n"
 msgstr ""
@@ -291,12 +275,11 @@ msgid ""
 "\n"
 "You will be presented with a list of packages which are installed or "
 "available\n"
-"for installation.  You can navigate around the list using the cursor keys,\n"
+"for installation. You can navigate around the list using the cursor keys,\n"
 "mark packages for installation (using '+') or deinstallation (using '-').\n"
 "Packages can be marked either singly or in groups; initially you will see "
 "that\n"
-"the line 'All packages' is selected.  '+', '-' and so on will affect all "
-"the\n"
+"the line 'All packages' is selected. '+', '-' and so on will affect all the\n"
 "packages described by the highlighted line.\n"
 "\n"
 "Some of your choices will cause conflicts or dependency problems; you will "
@@ -305,15 +288,14 @@ msgid ""
 "problems.\n"
 "\n"
 "You should read the list of keys and the explanations of the display.\n"
-"Much on-line help is available, please make use of it - press '?' at\n"
-"any time for help.\n"
+"Much on-line help is available, press '?' at any time to access it.\n"
 "\n"
-"When you have finished selecting packages, press <enter> to confirm "
+"When you have finished selecting packages, press <Enter> to confirm "
 "changes,\n"
 "or 'X' to quit without saving changes. A final check on conflicts and\n"
 "dependencies will be done - here too you may see a sublist.\n"
 "\n"
-"Press <space> to leave help and enter the list now.\n"
+"Press <Space> to leave help and enter the list now.\n"
 msgstr ""
 
 #: dselect/helpmsgs.cc
@@ -326,19 +308,17 @@ msgid ""
 "\n"
 "You will be presented with a list of packages which are installed or "
 "available\n"
-"for installation.  Since you do not have the privilege necessary to update\n"
-"package states, you are in a read-only mode.  You can navigate around the\n"
-"list using the cursor keys (please see the 'Keystrokes' help screen), "
-"observe\n"
+"for installation. Since you do not have the privilege necessary to update\n"
+"package states, you are in a read-only mode. You can navigate around the\n"
+"list using the cursor keys (see the 'Keystrokes' help screen), observe\n"
 "the status of the packages and read information about them.\n"
 "\n"
 "You should read the list of keys and the explanations of the display.\n"
-"Much on-line help is available, please make use of it - press '?' at\n"
-"any time for help.\n"
+"Much on-line help is available, press '?' at any time to access it.\n"
 "\n"
-"When you have finished browsing, press 'Q' or <enter> to quit.\n"
+"When you have finished browsing, press 'Q' or <Enter> to quit.\n"
 "\n"
-"Press <space> to leave help and enter the list now.\n"
+"Press <Space> to leave help and enter the list now.\n"
 msgstr ""
 
 #: dselect/helpmsgs.cc
@@ -354,7 +334,7 @@ msgid ""
 "and\n"
 "some combinations of packages may not be installed together.\n"
 "\n"
-"You will see a sub-list containing the packages involved.  The bottom half "
+"You will see a sub-list containing the packages involved. The bottom half "
 "of\n"
 "the display shows relevant conflicts and dependencies; use 'i' to cycle "
 "between\n"
@@ -362,22 +342,22 @@ msgid ""
 "\n"
 "A set of 'suggested' packages has been calculated, and the initial markings "
 "in\n"
-"this sub-list have been set to match those, so you can just hit Return to\n"
-"accept the suggestions if you wish.  You may abort the change(s) which "
+"this sub-list have been set to match those, so you can just press <Enter> "
+"to\n"
+"accept the suggestions if you wish. You may abort the change(s) which "
 "caused\n"
 "the problem(s), and go back to the main list, by pressing capital 'X'.\n"
 "\n"
 "You can also move around the list and change the markings so that they are "
 "more\n"
-"like what you want, and you can 'reject' my suggestions by using the "
+"like what you want, and you can 'reject' the suggestions by using the "
 "capital\n"
-"'D' or 'R' keys (see the keybindings help screen).  You can use capital 'Q' "
+"'D' or 'R' keys (see the keybindings help screen). You can use capital 'Q' "
 "to\n"
 "force to accept the situation currently displayed, in case you want to\n"
 "override a recommendation or think that the program is mistaken.\n"
 "\n"
-"Press <space> to leave help and enter the sub-list; remember: press '?' for "
-"help.\n"
+"Press <Space> to leave help and enter the sub-list; press '?' for help.\n"
 msgstr ""
 
 #: dselect/helpmsgs.cc
@@ -386,9 +366,9 @@ msgstr ""
 
 #: dselect/helpmsgs.cc
 msgid ""
-"The top half of the screen shows a list of packages.  For each package you "
+"The top half of the screen shows a list of packages. For each package you "
 "see\n"
-"four columns for its current status on the system and mark.  In terse mode "
+"four columns for its current status on the system and mark. In terse mode "
 "(use\n"
 "'v' to toggle verbose display) these are single characters, from left to "
 "right:\n"
@@ -423,15 +403,14 @@ msgstr ""
 
 #: dselect/helpmsgs.cc
 msgid ""
-"* Highlight: One line in the package list will be highlighted.  It "
-"indicates\n"
+"* Highlight: One line in the package list will be highlighted. It indicates\n"
 "  which package(s) will be affected by presses of '+', '-' and '_'.\n"
 "\n"
 "* The dividing line in the middle of the screen shows a brief explanation "
 "of\n"
 "  the status of the currently-highlighted package, or a description of "
 "which\n"
-"  group is highlighted if a group line is.  If you don't understand the\n"
+"  group is highlighted if a group line is. If you don't understand the\n"
 "  meaning of some of the status characters displayed, go to the relevant\n"
 "  package and look at this divider line, or use the 'v' key for a verbose\n"
 "  display (press 'v' again to go back to the terse display).\n"
@@ -460,9 +439,9 @@ msgid ""
 "\n"
 "This list allows you to select one of these installation methods.\n"
 "\n"
-"Move the highlight to the method you wish to use, and hit Enter.  You will "
-"then\n"
-"be prompted for the information required to do the installation.\n"
+"Move the highlight to the method you wish to use, and press <Enter>. You "
+"will\n"
+"then be prompted for the information required to do the installation.\n"
 "\n"
 "As you move the highlight a description of each method, where available, is\n"
 "displayed in the bottom half of the screen.\n"
@@ -485,23 +464,23 @@ msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  j, Down-arrow         k, Up-arrow             move highlight\n"
 "  N, Page-down, Space   P, Page-up, Backspace   scroll list by 1 page\n"
-"  ^n                    ^p                      scroll list by 1 line\n"
+"  Ctrl+n                Ctrl+p                  scroll list by 1 line\n"
 "  t, Home               e, End                  jump to top/end of list\n"
 "  u                     d                       scroll info by 1 page\n"
-"  ^u                    ^d                      scroll info by 1 line\n"
+"  Ctrl+u                Ctrl+d                  scroll info by 1 line\n"
 "  B, Left-arrow         F, Right-arrow          pan display by 1/3 screen\n"
-"  ^b                    ^f                      pan display by 1 character\n"
+"  Ctrl+b                Ctrl+f                  pan display by 1 character\n"
 "(These are the same motion keys as in the package list display.)\n"
 "\n"
 "Quit:\n"
-" Return, Enter    select this method and go to its configuration dialogue\n"
+" Enter            select this method and go to its configuration dialogue\n"
 " x, X             exit without changing or setting up the installation "
 "method\n"
 "\n"
 "Miscellaneous:\n"
 "  ?, Help, F1      request help\n"
-" ^l                redraw display\n"
-"  /                search (just return to cancel)\n"
+"  Ctrl+l           redraw display\n"
+"  /                search (<Enter> to cancel)\n"
 "  \\                repeat last search\n"
 msgstr ""
 
@@ -542,7 +521,7 @@ msgid "[S]elect"
 msgstr ""
 
 #: dselect/main.cc
-msgid "Request which packages you want on your system."
+msgid "Request which packages to install on the system."
 msgstr ""
 
 #: dselect/main.cc
@@ -614,9 +593,7 @@ msgstr ""
 
 #: dselect/main.cc
 #, c-format
-msgid ""
-"Usage: %s [<option>...] [<command>...]\n"
-"\n"
+msgid "Usage: %s [<option>...] [<command>...]\n"
 msgstr ""
 
 #: dselect/main.cc
@@ -625,52 +602,89 @@ msgid "Commands:\n"
 msgstr ""
 
 #: dselect/main.cc
+msgid ""
+"  -?, --help\n"
+"          Show this help message.\n"
+msgstr ""
+
+#: dselect/main.cc
+msgid ""
+"      --version\n"
+"          Show the version.\n"
+msgstr ""
+
+#: dselect/main.cc
+#, c-format
+msgid "Options:\n"
+msgstr ""
+
+#: dselect/main.cc
+msgid ""
+"      --color <color-spec>\n"
+"          Configure screen colors.\n"
+msgstr ""
+
+#: dselect/main.cc
+msgid ""
+"      --colour <color-spec>\n"
+"          Alias for --color.\n"
+msgstr ""
+
+#: dselect/main.cc
+msgid ""
+"      --expert\n"
+"          Enable expert mode.\n"
+msgstr ""
+
+#: dselect/main.cc
+msgid ""
+"  -D, --debug <file>\n"
+"          Enable debugging mode, send output to <file>.\n"
+msgstr ""
+
+#: dselect/main.cc
+msgid ""
+"      --admindir <directory>\n"
+"          Set the database directory.\n"
+msgstr ""
+
+#: dselect/main.cc
+msgid ""
+"      --instdir <directory>\n"
+"          Set the installation directory.\n"
+msgstr ""
+
+#: dselect/main.cc
+msgid ""
+"      --root <directory>\n"
+"          Set the root directory.\n"
+msgstr ""
+
+#: dselect/main.cc
 #, c-format
 msgid ""
-"Options:\n"
-"      --admindir <directory>       Use <directory> instead of %s.\n"
-"      --instdir <directory>        Use <directory> instead of %s.\n"
-"      --root <directory>           Use <directory> instead of %s.\n"
-"      --expert                     Turn on expert mode.\n"
-"  -D, --debug <file>               Turn on debugging, send output to "
-"<file>.\n"
-"      --color <color-spec>         Configure screen colors.\n"
-"      --colour <color-spec>        Ditto.\n"
+"<color-spec> is:\n"
+"  <screen-part>:[<foreground>],[<background>][:<attr>[+<attr>]...]\n"
 msgstr ""
 
 #: dselect/main.cc
 #, c-format
-msgid ""
-"  -?, --help                       Show this help message.\n"
-"      --version                    Show the version.\n"
-"\n"
+msgid "<screen-part> is:\n"
 msgstr ""
 
 #: dselect/main.cc
 #, c-format
-msgid ""
-"<color-spec> is <screen-part>:[<foreground>],[<background>][:"
-"<attr>[+<attr>]...]\n"
+msgid "<color> is:\n"
 msgstr ""
 
 #: dselect/main.cc
 #, c-format
-msgid "<screen-part> is:"
+msgid "<attr> is:\n"
 msgstr ""
 
 #: dselect/main.cc
 #, c-format
-msgid "<color> is:"
-msgstr ""
-
-#: dselect/main.cc
-#, c-format
-msgid "<attr> is:"
-msgstr ""
-
-#: dselect/main.cc
-#, c-format
-msgid "cannot open debug file '%s'\n"
+msgid "cannot open debug file '%s'"
 msgstr ""
 
 #: dselect/main.cc
@@ -705,7 +719,7 @@ msgstr ""
 #: dselect/main.cc
 #, c-format
 msgid ""
-"Set your TERM variable correctly, use a better terminal,\n"
+"Set the TERM variable correctly, use a better terminal,\n"
 "or make do with the per-package management tool %s.\n"
 msgstr ""
 
@@ -719,7 +733,7 @@ msgid ""
 "\n"
 "Move around with Ctrl+P and Ctrl+N, cursor keys, initial letters, or "
 "digits;\n"
-"Press <enter> to confirm selection. Ctrl+L redraws screen.\n"
+"Press <Enter> to confirm selection. Ctrl+L redraws screen.\n"
 "\n"
 msgstr ""
 
@@ -734,10 +748,6 @@ msgid ""
 "\n"
 "\n"
 "Read-only access: only preview of selections is available!"
-msgstr ""
-
-#: dselect/main.cc
-msgid "failed to getch in main menu"
 msgstr ""
 
 #: dselect/main.cc
@@ -763,11 +773,7 @@ msgid "Access method '%s'."
 msgstr ""
 
 #: dselect/methlist.cc dselect/pkglist.cc
-msgid "doupdate failed"
-msgstr ""
-
-#: dselect/methlist.cc dselect/pkglist.cc
-msgid "getch failed"
+msgid "cannot refresh window"
 msgstr ""
 
 #: dselect/methlist.cc
@@ -781,7 +787,7 @@ msgstr ""
 #: dselect/method.cc
 msgid ""
 "\n"
-"Press <enter> to continue."
+"Press <Enter> to continue."
 msgstr ""
 
 #: dselect/method.cc
@@ -801,7 +807,7 @@ msgid "cannot open or create access method lockfile"
 msgstr ""
 
 #: dselect/method.cc
-msgid "the access method area is already locked"
+msgid "access method area is already locked"
 msgstr ""
 
 #: dselect/method.cc
@@ -810,7 +816,7 @@ msgstr ""
 
 #: dselect/method.cc
 #, c-format
-msgid "Press <enter> to continue.\n"
+msgid "Press <Enter> to continue.\n"
 msgstr ""
 
 #: dselect/method.cc
@@ -818,7 +824,7 @@ msgid "<standard error>"
 msgstr ""
 
 #: dselect/method.cc
-msgid "error reading acknowledgement of program failure message"
+msgid "cannot read acknowledgement of program failure message"
 msgstr ""
 
 #: dselect/method.cc
@@ -844,17 +850,17 @@ msgstr ""
 
 #: dselect/methparse.cc
 #, c-format
-msgid "syntax error in method options file '%s' -- %s"
+msgid "invalid syntax in method options file '%s': %s"
 msgstr ""
 
 #: dselect/methparse.cc
 #, c-format
-msgid "error reading options file '%s'"
+msgid "cannot read method options file '%s'"
 msgstr ""
 
 #: dselect/methparse.cc
 #, c-format
-msgid "unable to read '%s' directory for reading methods"
+msgid "cannot open '%s' directory to read methods"
 msgstr ""
 
 #: dselect/methparse.cc
@@ -864,12 +870,7 @@ msgstr ""
 
 #: dselect/methparse.cc
 #, c-format
-msgid "unable to access method script '%s'"
-msgstr ""
-
-#: dselect/methparse.cc
-#, c-format
-msgid "unable to read method options file '%s'"
+msgid "cannot access method script '%s'"
 msgstr ""
 
 #: dselect/methparse.cc
@@ -923,17 +924,12 @@ msgstr ""
 
 #: dselect/methparse.cc
 #, c-format
-msgid "error during read of method options file '%s'"
+msgid "cannot open current option file '%s'"
 msgstr ""
 
 #: dselect/methparse.cc
 #, c-format
-msgid "unable to open current option file '%s'"
-msgstr ""
-
-#: dselect/methparse.cc
-#, c-format
-msgid "unable to write new option to '%s'"
+msgid "cannot write new option to '%s'"
 msgstr ""
 
 #: dselect/pkgdisplay.cc
@@ -1301,7 +1297,7 @@ msgid "invalid search option given"
 msgstr ""
 
 #: dselect/pkglist.cc
-msgid "error in regular expression"
+msgid "invalid syntax in regular expression"
 msgstr ""
 
 #: dselect/pkgsublist.cc
@@ -1345,7 +1341,12 @@ msgstr ""
 msgid "%s %s packages in section %s"
 msgstr ""
 
+#. TRANSLATORS: The format string shows the
+#.   "<package-name> <package-status>;"
+#. followed by
+#.   "<want-selected> (was: <want-original>). <priority>"
+#.
 #: dselect/pkgtop.cc
 #, c-format
-msgid "%-*s %s%s%s;  %s (was: %s).  %s"
+msgid "%-*s %s%s%s; %s (was: %s). %s"
 msgstr ""
