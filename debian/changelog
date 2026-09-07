@@ -1,8 +1,389 @@
-dpkg (1.23.8) UNRELEASED; urgency=medium
+dpkg (1.23.8) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * dpkg-maintscript-helper: Move version comparison after its argument check.
+  * dpkg: Translate --assert feature description on failure message.
+  * dpkg-gencontrol: Remove and warn about Multi-Arch field on udeb packages.
+    See #1136160.
+  * dpkg-buildpackage: Check that the OpenPGP key ID has a known length.
+  * dpkg-buildpackage: Deprecate --sign-key as an alias for --sign-keyid.
+  * dpkg-deb: Do not fail on non-seekable archives. Closes: #1132051
+  * dpkg: Do not filter not-installed packages from --get-selections.
+  * dpkg-buildpackage: Fix syserr() function name in call site.
+  * dpkg-buildpackage: Remove temporary *.dsc.asc file before and after
+    signing. Closes: #1140788
+  * start-stop-daemon: Add new --pidof command to print the PIDs found.
+    See #810018.
+  * start-stop-daemon: Force line buffering for stdout in --start.
+    Closes: #1099097
+  * dpkg-buildpackage: Parametrize default and supported source compressors.
+    Prompted by John Scott <jscott@posteo.net>.
+  * dpkg-source: Mark --help dynamic section strings for translation.
+  * dpkg-name: Fix --subdir with a non-existent directory argument.
+  * dpkg-query: Determine the minimum --list column width from the titles.
+  * dpkg-query: Make --list title separator fill up to the terminal width.
+  * dpkg-query: Improve --list column padding.
+  * dpkg-name: Add support for non-free-firmware package section.
+  * Fix memory leaks on file_slurp() failures for ENOENT.
+  * dpkg: Fix memory leaks for varbufs during conffile upgrade handling.
+  * dpkg: Deprecate --yet-to-unpack.
+  * dpkg: Simplify --yet-to-unpack after deprecation.
+  * dpkg-scanpackages: Parametrize command names for system errors messages.
+  * dpkg-buildpackage: Remove obsolete no-op -s(gpg|pgp) option.
+  * Output messages:
+    - Remove anachronistic two space sentence separation in output messages.
+    - Avoid "please" and "thanks" in output messages.
+    - Avoid "you" or "your" on output messages unless prompting for something.
+    - dpkg: Switch --assert output message into a notice() and hint().
+    - dpkg: Say "package distributor" instead of "package maintainer" for
+      conffiles.
+    - dpkg: Clarify that the modified conffile has been done locally.
+    - dselect: Decapitalize warning and error messages.
+    - dselect: Remove trailing newline from error message.
+    - Standardize error/warning messages on "cannot ...".
+    - Improve "unexpected end of file" error messages.
+    - Avoid "the" when unnecessary in error output messages.
+    - start-stop-daemon: Reword pselect() error message.
+    - Use "reap" instead of "wait" in subprocess error messages.
+    - Improve subprocess error messages.
+    - Use "refresh window" instead of "doupdate" in output message.
+    - Use "set/unset buffering for" for setvbuf error messages.
+    - Use "execute" instead of "exec" in output messages.
+    - Use "invalid syntax ..." instead of "syntax error" in error messages.
+    - Use "symbolic link" instead of "symlink"/"link" in output messages.
+    - Use "create directory" instead of "mkdir" in output messages.
+    - Use "change directory" instead of "chdir" in output messages.
+    - Use "change root directory" instead of "chroot" in output messages.
+    - Use "set ownership" instead of "chown" in output messages.
+    - Use "set environment" instead of "setenv" in output messages.
+    - Use "open directory" instead of "opendir"/"read" in output messages.
+    - Use "scan directory" for scandir() error messages.
+    - Use "get current time" instead of the function name in output messages.
+    - Use "create child process" instead of "fork" in output messages.
+    - Use "sync" instead of "fsync" in output messages.
+    - Use "initialize user groups" instead of "initgroups()" in output message.
+    - Use "get input character" for prompt errors in output messages.
+    - Use "libraries" instead of "libs" in output messages.
+    - Use "parse file" instead of "eval" in output messages.
+    - Improve file descriptor related output messages.
+    - Use "press" instead of "hit"/"use" for keyboard keys in output messages.
+    - dpkg-gencontrol: Clarify package type in warning message.
+    - Use "substvars file" instead of "varlist file" in error message.
+    - Say "<standard input|output|error>" instead of "stdin|stdout|stderr".
+    - dpkg-source: Separate supported compressors in --help with a comma and
+      space.
+    - dpkg-deb: Print directory pathname instead of nothing or "directory".
+    - Avoid using "my" in output messages.
+    - Use present form for "contains" in error messages.
+    - Clarify status-fd error message.
+    - Clarify very confusing "un-catch signal" error message.
+    - Clarify error message about removing directory with 'rm -rf'.
+    - Clarify error message about checking a file within a writable directory.
+    - Clarify error message about not being able to remove a directory.
+    - Do not print filename as error condition in error message.
+    - dpkg-genchanges: Add --build aliases for short options to --help output.
+    - Remove spaces before some repetition markers ("...") in --help output.
+    - dpkg: Refactor archive-spec and package-spec for --help commands.
+    - start-stop-daemon: Reword match options to say "match" instead of
+      "check".
+    - start-stop-daemon: Use "change root" instead of "chroot" in --help
+      output.
+    - dpkg-shlibdeps: Make -e description in --help output stand on its own.
+    - dpkg-gencontrol: Remove deprecated -is/-ip/-isp/-ips from --help output.
+    - Capitalize all option descriptions in --help output. Closes: #1088758
+    - dpkg: Split --no-act aliases into their own lines in --help output.
+      Closes: #1137545
+    - Standardize command line option help messages.
+    - Surround replaceable arguments with angle brackets in --help output.
+    - Split description for --no-<opt> from --<opt> in --help output.
+    - Use print_option() to print each individual option in --help output.
+    - dpkg-scansources: Remove reference to man page from --help output.
+    - Remove spurious blank lines from program's --help output.
+    - Do not mark «|» in bold in the option specification on --help output.
+    - Add missing full stop to all option descriptions in --help output.
+    - Improve clarity for argument specifiers in --help output.
+    - Do not mark «()» in bold in option specification on --help output.
+    - dpkg-shlibdeps: Merge <executable> specifications in --help usage output.
+    - Use «Alias for <option>.» instead of «Ditto.» in --help output.
+    - Use "Enter" or "<Enter>" to refer to the keyboard key name.
+    - Use "<Space>" to refer to the keyboard key name.
+    - dselect: Remove superfluous "remember: " in help screen.
+    - dselect: Replace a stray printf() into debug() when initializing color
+      pairs.
+    - dselect: Say "color initialization" instead of "color allocation".
+    - dselect: Use Ctrl+key instead of ^key for keyboard shortcuts.
+    - Improve memory allocation error messages (round two).
+    - dpkg-source: Change "represent change" error to plural.
+    - dpkg-buildpackage: Fix --help output default value for --sign-command.
+    - dpkg-buildpackage: Use "<rules>" instead of "debian/rules" in --help
+      output.
+    - dpkg-buildpackage: Use long option names in --help output references.
+    - Improve options sorting in --help output.
+    - Use "<package-build-dir>/DEBIAN/" instead o ".../DEBIAN/" in --help
+      output.
+    - Use "<override-file>.src" instead of describing the value in --help
+      output.
+    - Add support for defaults and environment variable printing in --help
+      output.
+    - Remove mentions of options with no default value from --help output.
+    - Move default value from option descriptions to its own --help output
+      lines.
+    - Print missing default values and environment variables in --help output.
+    - Improve and unify option descriptions in --help output.
+    - dpkg-query: Clarify Status header line in --list output message.
+      Prompted by Adeodato Simó <dato@net.com.org.es>.
+  * Portability:
+    - dpkg: Use utimensat() if available and in preference of lutimes/utimes.
+  * Perl modules:
+    - Dpkg::Version: Add prototypes for sort functions.
+      Analysis by Oron Peled <Oron.Peled@harmonicinc.com>. Closes: #1131556
+    - Dpkg::Deps: Add a prototype to deps_compare().
+    - Dpkg::Source::Patch: Remove check for patching via a symlink.
+      Reported by Jonathan Dowland <jmtd@debian.org>.
+      See https://lists.debian.org/debian-devel/2026/03/msg00250.html.
+    - Dpkg::Source::Patch: Improve unrepresentable change error to hint git
+      usage.
+    - Dpkg::Compression: Move gzip --rsyncable handling to the get cmdline
+      function.
+    - Dpkg::Vendor::PureOS: Use .pgp keyrings instead of .gpg ones.
+      See
+      https://source.puri.sm/pureos/core/pureos-archive-keyring/-/merge_requests/1.
+    - Dpkg::Changelog: Rename variables from $c to $chlog or $ctrl.
+    - Dpkg::Source::Package: Switch CURRENT_MINOR_VERSION from scalar to sub.
+    - Dpkg::Source::Patch: Refactor _gen_hires_diff_label() function.
+    - Dpkg::Checksums: Use -s _ instead of the direct result from stat.
+    - Dpkg::Source::Patch: Use Time::HiRes::stat only when needed.
+    - Dpkg::IPC: Add missing verbs to error messages.
+    - Dselect::Method::Ftp: Load Time::Local with «use» instead of
+      «require».
+    - Dselect::Method::Ftp: Switch from deprecated timegm() to timegm_posix().
+    - Dpkg::Compression::FileHandle: Switch set_filename() warning into croak.
+    - Dpkg::Arch: Use subprocerr() instead of syserr() for subprocess error
+      handling.
+    - Dpkg::Vendor::Debian: Add space after = operator.
+    - Dpkg::Email::Address: Reject all control characters in email addresses.
+    - Dpkg::Email::Address: Reject commas in the email local and domain parts.
+    - Dpkg::BuildInfo: Allow dpkg-deb compressor variables.
+      Thanks to Serge Schneider <serge@raspberrypi.com>. Closes: #1140613
+    - Dpkg::BuildProfiles: Move exclamation mark into restriction list regex.
+    - Dpkg::BuildProfiles: Move regex variables at the top of the file.
+    - Dpkg::BuildProfiles: Validate profile names on get and set.
+    - Dpkg::IPC: Fix error message to refer to "stderr" instead of "stdout".
+    - Dselect::Method::Ftp: Clarify that LIST is an FTP command in error
+      message.
+    - Dpkg::Shlibs::Symbol: Use "match" instead of "catch" in error message.
+    - Dpkg::Color: Refactor color handling into this new module.
+    - Dpkg::Getopt: Refactor format_option_parts() from dpkg-source
+      print_option().
+    - Dpkg::Getopt: Add option formatting and printing functions.
+    - Dpkg::Getopt: Add new print_version() function.
+    - Dpkg::Getopt: Add new parse_option_dir().
+    - Dpkg::OpenPGP::Backend::SOP: Add hop as an alternative SOP
+      implementation.
+    - Dpkg::Source::Package::V3::Git: Use git --end-of-options before URLs.
+      Prompted by Adeodato Simó <dato@net.com.org.es>.
+      See https://nesbitt.io/2026/07/21/end-of-options.html.
+    - Dpkg::Source::Package: Move full stop from option formatter to strings.
+    - Dselect::Method::Config: Do not use Perl 5.38 //= in sub signature.
+    - Dpkg::File: Change file_touch() to open for appending.
+    - Dpkg::File: Fix file_touch() to update existing file timestamps.
+    - Dpkg::Version: Fix and improve is_native() deprecation warning.
+      Closes: #1145181
+    - Dpkg::Gettext: Fix C_() context string handling on missing translations.
+    - Dpkg::Gettext: Export C_() by default.
+  * Make fragments:
+    - Add supported since versions to variables.
+  * Shell library:
+    - Add an ANSI reset escape comment after the color constants.
+    - Add constants for all common ANSI character color attributes.
+  * Shell completion:
+    - Import completion files from bash-completion.
+      See https://github.com/scop/bash-completion/pull/1639.
+    - Split completions for dpkg-deb and dpkg-query.
+    - Sort and group dpkg completion options.
+    - Switch word lists into bash arrays.
+    - Fix dpkg-source -F argument completion.
+    - Fix completion for dselect --debug.
+    - Use update-alternatives --get-selections instead of accessing the
+      admindir.
+    - Rely only on _comp_compgen_help for update-alternatives --help parsing.
+    - Improve dpkg status parsing to be more robust.
+    - Remove unsupported -W and -E completion for dpkg-source.
+    - Add missing fields to dpkg-source completion.
+    - Add handling for missing options.
+    - Add new start-stop-daemon bash completion.
+  * Documentation:
+    - man: Clarify that git-style patches can represent changes that GNU diff
+      cannot.
+    - man: Itemize attribute keywords in deb-src-files(5).
+    - man: Document that getconf(1) must not be used for LFS support.
+      Closes: #1133272
+    - doc: Refer to deb822 instead of RFC822.
+    - man: Remove trailing full stops from diagnostic items.
+    - man: Fix markup for C<> and B<> to include the relevant text.
+    - man: Document the full ar archive magic value.
+    - man: Use semantic line breaks (must requirements, round two).
+    - doc: Remove anachronistic two space sentence separation.
+    - doc: Avoid "please" and "thanks" in man pages and code comments.
+    - doc: Fix formatting for version introducing features.
+    - man: Add supported since version information for Rules-Requires-Root
+      field.
+    - man: Split dpkg-deb --[no-]uniform-compression description into two
+      items.
+    - man: Remove "or" from end of =item in FILES section.
+    - man: Move build flags enabled/disabled state on its own paragraph.
+    - man: Improve supported since version information.
+    - man: Add new deb-email(7) man page. Closes: #1126502
+    - man: Move the #CURVER# metavariable from =head2 to =head3.
+    - man: Document where to ship shlibs and symbols files.
+      See #1009300.
+    - man: Document that DPKG_PAGER only overrides PAGER when non-empty.
+      Closes: #931094
+    - man: Document that using "cat" in DPKG_PAGER or PAGER disables it.
+      See #931094.
+    - man: Clarify guarantees for non-seekable inputs to dpkg-deb.
+    - man: Clarify that build profile names do not include exclamation marks.
+    - man: Add supported since version for some dpkg-buildpackage long options.
+    - man: Mark in bold dpkg-shlibdeps --warning values.
+    - man: Mark in bold the literal commas needed by option arguments.
+    - man: Split multiple long option aliases into their own items.
+    - man: Remove no longer relevant SEE ALSO references for dpkg-name(1).
+    - doc: Update list of optional SOP build dependencies.
+    - doc: Remove usage of condescending wording "obviously".
+    - doc: Remove usage of condescending wording "of course".
+    - doc: Remove usage of condescending wording "clearly".
+    - doc: Remove usage of weasel wording "simply".
+    - doc: Remove usage of weasel wording "in fact".
+    - doc: Remove usage of weasel wording "the fact that".
+    - doc: Remove usage of weasel wording "basically".
+    - doc: Remove usage of weasel wording "in order".
+    - doc: Improve feature-removal-schedule machine readable annotation format.
+  * Code internals:
+    - scripts: Do not fail on empty Maintainer field from parsed changelog.
+      Closes: #1130119
+    - src, lib: Reduce variables scope.
+    - libdpkg: Update suppressions for cppcheck 2.20.0.
+    - shell: Add missing ;; for switch cases.
+    - shell: Remove unneeded trailing «;» and «\».
+    - shell: Reformat shell scripts.
+    - perl: Improve POD for functions.
+    - libdpkg: Rename dpkg_ar_member_get_size() to dpkg_ar_member_parse_size().
+    - update-alternatives: Add an assert on value returned by
+      alternative_map_find().
+    - libcompat: Remove spurious space in #if conditional.
+    - libcompat: Add countof() support.
+    - Use countof() instead of array_count().
+    - Rename scandir() filter functions.
+    - libdpkg: Make the pre-allocated update file size be a power of two.
+    - perl: Switch to use File::stat when we need to access its members.
+    - scripts: Use S_IMODE to get the mode bits from st_mode.
+    - libdpkg: Spell out standard descriptor names in error message.
+    - libdpkg: On memory allocation failures print the requested size.
+    - libdpkg: Unify abort error format string with fatal error format string.
+    - libdpkg: Clarify and switch "outside error context" error into
+      internerr().
+    - libdpkg: Fix tar long name/link entry parsing to avoid truncation.
+      Reported by Tristan <TristanInSec@gmail.com>.
+    - libdpkg: Do not allow tar long name/link entries longer than SSIZE_MAX.
+      Reported by Tristan <TristanInSec@gmail.com>.
+    - scripts: Make license grant text internally consistent.
+    - Collapse consecutive spaces into a single space in code.
+    - libdpkg: Add missing blank after comma.
+    - dselect: Move newline at end of string literal paragraph on its own line.
+    - dselect: Use subprocerr() in methods instead of open-coding it.
+    - dselect: Rework methods to use Dpkg::ErrorHandling for reporting.
+    - dselect: Refactor screen pad and window names into an untranslated
+      argument.
+    - libdpkg: Rework compression error messages.
+    - scripts: Mark strings for translation.
+    - dpkg-buildpackage: Refactor signer key ID length computation.
+    - dselect: Add a space after operator keyword.
+    - start-stop-daemon: Refactor exit_status() function.
+    - start-stop-daemon: Switch action handling in main() from cascading
+      if/else to switch.
+    - start-stop-daemon: Flush stdout before fork() to avoid any potential
+      output duplication.
+    - update-alternatives, libdpkg: Force line instead of no buffering for
+      stdout even on a tty.
+    - dselect: Add TRANSLATORS comment to help describe what the string is
+      about.
+    - libdpkg: Add macros for all common ANSI character color attributes.
+    - libdpkg: Add new str_vfmt() function.
+    - libdpkg, utils: Add new print_option_sep() function.
+    - dpkg-source: Call print_option() once instead of once per option section.
+    - scripts: Switch to use print_version() from Dpkg::Getopt.
+    - Switch to use an explicit print_option_sep() instead of "\n".
+    - scripts: Represent --help output strings as line literals.
+    - libdpkg, utils: Add new print_option() function.
+    - libdpkg: Mark «=» in bold in the option specification on --help output.
+    - scripts: Parse directory options with parse_option_dir().
+      See #1143871.
+    - libdpkg: Add new term_get_width() function.
+    - dpkg-name: Refactor supported package sections into an array.
+    - Fix warnings due to new libc const-preserving string functions.
+    - libdpkg: Nest file_slurp() ENOENT check inside if conditional.
+    - libdpkg: Reset the ar size to 0 on non-seekable file descriptors.
+    - libdpkg: Change must_alloc() to must_alloc_string().
+    - dpkg: Change --command-fd file descriptor to an int.
+    - libdpkg: Add log_set_file() function instead of exposing log_file
+      variable.
+    - libdpkg: Add push/pop_fatal_errors_section() instead of onerr_abort
+      variable.
+    - dpkg: Add new clear_cleanup_state() instead of exposing cleanup
+      variables.
+    - libdpkg: Do not skip varbuf allocations on additions with zero sizes.
+      Reported by Elias Hasas (zer0d4y5) <eliash977@gmail.com> (empty first
+      field). Closes: #1147121
+  * Build system:
+    - Update .editorconfig shell directives for shfmt.
+    - Remove -Wpre-c2x-compat flag.
+    - Rename c2x warning options to use c23 instead.
+    - Add new gcc-15 warnings.
+    - Add --tags to «git describe».
+    - Add generated configure file artifacts to .gitignore.
+    - Add max_line_length to .editorconfig.
+    - Set TAR_OPTIONS to avoid leaking maintainer information on dist.
+    - Move max_line_length from the catch-all glob to each section.
+    - Add AC_SYS_YEAR2038 support to configure. Closes: #1054552
+    - Add support for bash scripts in the source tree.
+    - Quote shell variables that might contain spaces in TAP test runner.
+    - Improve gen-changelog section filtering and grouping.
+  * Packaging:
+    - Bump Standards-Version to 4.7.4 (no changes needed).
+    - Remove build dependency on debhelper (>= 13.10).
+    - Remove obsolete Breaks satisfied since Debian oldstable or stable.
+    - Remove obsolete versioned dependencies on essential packages.
+    - Remove trailing spaces from conffiles.
+    - Do not use unbalanced quotes in dpkg/dselect conffiles.
+    - Improve description for dpkg and dselect config files.
+    - Ship an /etc/dpkg/buildpackage.conf file in dpkg-dev.
+    - Remove package prefix from lintian-overrides.
+  * Test suite:
+    - Improve unit test description message to include directory.
+    - Remove TAR_OPTIONS from environment before calling $Dpkg::PROGTAR.
+    - Update cppcheck suppressions for 2.21.0.
+    - Make mknod(1) tests conditional and disabled by default.
+      Analysis by Arnaud Rebillout <arnaudr@debian.org>. Closes: #1142100,
+      #1144781
+  * Localization:
+    - Add Ukrainian translations.
+      Thanks to Andriy Pysyk <ep.nestor@gmail.com>. Closes: #1130980
+    - Update .gitignore files for new gettext.
+    - Update Dutch translations.
+      Thanks to Frans Spiesschaert <Frans.Spiesschaert@yucom.be>.
+      Closes: #1131211, #1132541, #1132542
+    - Update Portuguese translations.
+      Thanks to Américo Monteiro <a_monteiro@gmx.com>. Closes: #1127394
+    - Update Romanian dselect translation.
+      Thanks to Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>.
+      Closes: #1139332
+    - Update Romanian programs translation.
+      Thanks to Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>.
+      Closes: #1139334
+    - Update Swedish translations.
+      Thanks to Peter Krefting <peter@softwolves.pp.se>. Closes: #1130536
 
- -- Guillem Jover <guillem@debian.org>  Sat, 07 Mar 2026 01:00:52 +0100
+ -- Guillem Jover <guillem@debian.org>  Mon, 07 Sep 2026 23:55:19 +0200
 
 dpkg (1.23.7) unstable; urgency=medium
 
