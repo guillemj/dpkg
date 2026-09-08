@@ -3,3 +3,8 @@ very-long-line-length-in-source-file * > * [man/*/*.pod:*]
 # This is currently the most convenient way to handle the translated man
 # pages (see #1017097).
 brace-expansion-in-debhelper-config-file {*,*/*} [debian/*.manpages:*]
+# We want compatibility with at least Debian stable, for downstreams.
+ored-build-depends-on-obsolete-package Build-Depends: libselinux1-dev [*] => libselinux-dev
+# We need to evaluate whether some design decisions in debhelper compatibility
+# level 14 are worth the trouble.
+package-uses-old-debhelper-compat-version 13
