@@ -47,7 +47,7 @@ my $addr_name_regex = qr{
         # Or quoted name, with optional comma.
         " [^<>"[:cntrl:]]+ "
     )*
-}x;
+}xa;
 
 my $addr_email_regex = qr{
     # Local part.
@@ -56,7 +56,7 @@ my $addr_email_regex = qr{
     @
     # Domain part.
     [^@<>"\s[:cntrl:],]+
-}x;
+}xa;
 
 my $addr_regex = qr{
     \s*

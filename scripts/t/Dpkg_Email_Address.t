@@ -14,8 +14,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 use v5.36;
+use utf8;
 
-use Test::More tests => 31;
+use Test::More tests => 34;
 use Test::Dpkg qw(:paths);
 
 use ok qw(Dpkg::Email::Address);
@@ -38,6 +39,14 @@ is($addr->name, 'Some "Alias" Name',
     'Parse name from address with alias correctly');
 is($addr->email, 'email@example.org',
     'Parse email from address with alias correctly');
+
+$addr->parse('Some (🤞) Name <email@example.org>');
+is($addr->as_string, 'Some (🤞) Name <email@example.org>',
+    'Parse address with UTF-8 literals correctly');
+is($addr->name, 'Some (🤞) Name',
+    'Parse name from address with UTF-8 literals correctly');
+is($addr->email, 'email@example.org',
+    'Parse email from address with UTF-8 literals correctly');
 
 $addr->parse('"Some Name, Comma" <email@example.org>');
 is($addr->as_string, '"Some Name, Comma" <email@example.org>',
