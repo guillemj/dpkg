@@ -238,6 +238,8 @@ enum {
 /* The minimum polling interval, 20ms. */
 static const long MIN_POLL_INTERVAL = 20L * NANOSEC_IN_MILLISEC;
 
+#define PROGNAME "start-stop-daemon"
+
 static enum action_code action;
 static enum match_code match_mode;
 static bool testmode = false;
@@ -964,8 +966,8 @@ static void
 usage(void)
 {
 	printf(
-"Usage: start-stop-daemon [<option>...] <command>\n"
-	);
+"Usage: %s [<option>...] <command>\n"
+	, PROGNAME);
 	print_option_sep();
 
 	printf(
@@ -1165,7 +1167,7 @@ usage(void)
 static void
 do_version(void)
 {
-	printf("start-stop-daemon %s for Debian\n\n", VERSION);
+	printf("%s %s for Debian\n\n", PROGNAME, VERSION);
 
 	printf("Written by Marek Michalkiewicz, public domain.\n");
 }
