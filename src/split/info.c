@@ -269,7 +269,7 @@ print_info(const struct partinfo *pi)
 	         "    Part number:                    %d/%d\n"
 	         "    Part length:                    %jd bytes\n"
 	         "    Part offset:                    %jd bytes\n"
-	         "    Part file size (used portion):  %jd bytes\n\n"),
+	         "    Part file size (used portion):  %jd bytes\n"),
 	       pi->filename,
 	       pi->fmtversion.major, pi->fmtversion.minor,
 	       pi->package,
@@ -283,6 +283,10 @@ print_info(const struct partinfo *pi)
 	       (intmax_t)pi->thispartlen,
 	       (intmax_t)pi->thispartoffset,
 	       (intmax_t)pi->filesize);
+	/* FIXME: Needed to separate multiple entries, although ideally we
+	 * would only print it when we have to print multiple entries, and
+	 * not when we only print one entry. */
+	printf("\n");
 }
 
 int

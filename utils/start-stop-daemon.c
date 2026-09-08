@@ -1167,7 +1167,8 @@ usage(void)
 static void
 do_version(void)
 {
-	printf("%s %s for Debian\n\n", PROGNAME, VERSION);
+	printf("%s %s for Debian\n", PROGNAME, VERSION);
+	printf("\n");
 
 	printf("Written by Marek Michalkiewicz, public domain.\n");
 }
