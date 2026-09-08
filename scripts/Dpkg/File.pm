@@ -84,9 +84,11 @@ sub file_dump {
 sub file_touch {
     my $file = shift;
 
-    open my $fh, '>>', $file
-        or syserr(g_('cannot touch file %s'), $file);
-    close $fh or syserr(g_('cannot write %s'), $file);
+    if (! -e $file) {
+        open my $fh, '>', $file
+            or syserr(g_('cannot create file %s'), $file);
+        close $fh or syserr(g_('cannot close file %s'), $file);
+    }
     utime undef, undef, $file
         or syserr(g_('cannot change timestamp for %s'), $file);
 }
