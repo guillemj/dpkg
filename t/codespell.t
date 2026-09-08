@@ -48,6 +48,7 @@ my @codespell_skip = qw(
     build-aux
     build-tree
     tmp
+    t.tmp
 );
 my $codespell_skip = join ',', @codespell_skip;
 
