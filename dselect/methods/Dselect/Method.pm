@@ -138,7 +138,8 @@ sub edit_config {
     # Get a config for the sites.
     while (1) {
         $i = 1;
-        print "\n\nList of selected $method sites :\n";
+        print "\n\n";
+        print "List of selected $method sites :\n";
         foreach my $site (@{$CONFIG{site}}) {
             print "$i. $method://$site->[0]$site->[1] @{$site->[2]}\n";
             $i++;

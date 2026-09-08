@@ -549,7 +549,8 @@ refreshmenu(void)
 		display_menu_entry(i, 0);
 
 	attrset(A_BOLD);
-	addstr(_("\n\n"
+	addstr("\n\n");
+	addstr(_(
 	       "Move around with Ctrl+P and Ctrl+N, cursor keys, initial letters, or digits;\n"
 	       "Press <Enter> to confirm selection. Ctrl+L redraws screen.\n\n"));
 
@@ -559,9 +560,10 @@ refreshmenu(void)
 	addstr(gettext(licensestring));
 
 	modstatdb_init();
-	if (!modstatdb_can_lock())
-		addstr(_("\n\n"
-		         "Read-only access: only preview of selections is available!"));
+	if (!modstatdb_can_lock()) {
+		addstr("\n\n");
+		addstr(_("Read-only access: only preview of selections is available!"));
+	}
 	modstatdb_done();
 
 	return i;
