@@ -42,6 +42,7 @@ eval q{
     use Net::FTP;
     use Data::Dumper;
 
+    use Dselect::Method;
     use Dpkg::ErrorHandling;
 };
 if ($@) {
