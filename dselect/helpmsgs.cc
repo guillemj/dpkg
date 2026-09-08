@@ -35,7 +35,7 @@ Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n\
   u                     d                       scroll info by 1 page\n\
   Ctrl+u                Ctrl+d                  scroll info by 1 line\n\
   B, Left-arrow         F, Right-arrow          pan display by 1/3 screen\n\
-  Ctrl+b                Ctrl+f                  pan display by 1 character\n\n\
+  Ctrl+b                Ctrl+f                  pan display by 1 character\n\
 \n\
 Mark packages for later processing:\n\
  +, Insert  install or upgrade      =, H  hold in present version\n\
