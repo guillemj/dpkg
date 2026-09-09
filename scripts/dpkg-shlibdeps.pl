@@ -98,7 +98,7 @@ foreach (@ARGV) {
     } elsif (m/^-L(.*)$/) {
         $shlibslocal = $1;
     } elsif (m/^-l(.*)$/) {
-        push @priv_lib_dirs, parse_option_dir('-l', $1);
+        push @priv_lib_dirs, $1;
     } elsif (m/^-S(.*)$/) {
         push @pkg_dir_to_search, parse_option_dir('-S', $1);
     } elsif (m/^-I(.*)$/) {
