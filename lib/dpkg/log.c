@@ -29,6 +29,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdarg.h>
+#include <stdlib.h>
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
