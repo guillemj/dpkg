@@ -76,6 +76,8 @@ dpkg_options_parse_pkgname(const struct cmdinfo *cmd, const char *name);
 
 int
 print_version(const char *const *argv);
+void
+print_synopsis(const char *prog_synopsis);
 
 void
 print_option_sep(void);

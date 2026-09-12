@@ -367,6 +367,12 @@ print_version(const char *const *argv)
 }
 
 void
+print_synopsis(const char *prog_synopsis)
+{
+	printf(_("Synopsis: %s\n"), gettext(prog_synopsis));
+}
+
+void
 print_option_sep(void)
 {
 	fputs("\n", stdout);
