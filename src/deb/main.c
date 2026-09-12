@@ -45,12 +45,15 @@
 
 #include "dpkg-deb.h"
 
+static const char prog_synopsis[] = N_(
+	"binary package archive backend tool"
+);
 const char *opt_showformat = "${Package}\t${Version}\n";
 
 static int
 printversion(const char *const *argv)
 {
-	printf(_("Debian '%s' package archive backend version %s.\n"),
+	printf(_("Debian '%s' version %s.\n"),
 	       BACKEND, PACKAGE_RELEASE);
 	printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -67,6 +70,9 @@ usage(const char *const *argv)
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
 	), BACKEND);
+	print_option_sep();
+
+	print_synopsis(prog_synopsis);
 	print_option_sep();
 
 	printf(_(

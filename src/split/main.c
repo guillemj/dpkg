@@ -44,10 +44,14 @@
 
 #include "dpkg-split.h"
 
+static const char prog_synopsis[] = N_(
+	"binary package archive split/join tool"
+);
+
 static int
 printversion(const char *const *argv)
 {
-	printf(_("Debian '%s' package split/join tool; version %s.\n"),
+	printf(_("Debian '%s' version %s.\n"),
 	       SPLITTER, PACKAGE_RELEASE);
 
 	printf(_(
@@ -65,6 +69,9 @@ usage(const char *const *argv)
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
 	), SPLITTER);
+	print_option_sep();
+
+	print_synopsis(prog_synopsis);
 	print_option_sep();
 
 	printf(_(

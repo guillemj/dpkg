@@ -60,6 +60,9 @@
 
 #include "actions.h"
 
+static const char prog_synopsis[] = N_(
+	"binary package database query program"
+);
 static const char *opt_showformat = "${binary:Package}\t${Version}\n";
 
 static int opt_loadavail = 0;
@@ -852,7 +855,7 @@ set_no_pager(const struct cmdinfo *ci, const char *value)
 static int
 printversion(const char *const *argv)
 {
-	printf(_("Debian %s package management program query tool version %s.\n"),
+	printf(_("Debian %s version %s.\n"),
 	       DPKGQUERY, PACKAGE_RELEASE);
 	printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -869,6 +872,9 @@ usage(const char *const *argv)
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
 	), DPKGQUERY);
+	print_option_sep();
+
+	print_synopsis(prog_synopsis);
 	print_option_sep();
 
 	printf(_(

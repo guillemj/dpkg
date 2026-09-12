@@ -55,13 +55,17 @@
 #include "main.h"
 #include "filters.h"
 
+static const char prog_synopsis[] = N_(
+	"binary package management program"
+);
+
 static int
 printversion(const char *const *argv)
 {
 	if (f_robot) {
 		printf("%s", PACKAGE_VERSION);
 	} else {
-		printf(_("Debian '%s' package management program version %s.\n"),
+		printf(_("Debian '%s' version %s.\n"),
 		       DPKG, PACKAGE_RELEASE);
 		printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -86,6 +90,9 @@ usage(const char *const *argv)
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
 	), DPKG);
+	print_option_sep();
+
+	print_synopsis(prog_synopsis);
 	print_option_sep();
 
 	printf(_(

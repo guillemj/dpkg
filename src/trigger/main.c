@@ -42,13 +42,16 @@
 #include <dpkg/triglib.h>
 #include <dpkg/pkg-spec.h>
 
+static const char prog_synopsis[] = N_(
+	"binary package trigger program"
+);
 static const char printforhelp[] = N_(
 "Type dpkg-trigger --help for help about this utility.");
 
 static int
 printversion(const char *const *argv)
 {
-	printf(_("Debian %s package trigger utility version %s.\n"),
+	printf(_("Debian %s version %s.\n"),
 	       dpkg_get_progname(), PACKAGE_RELEASE);
 
 	printf(_(
@@ -67,6 +70,9 @@ usage(const char *const *argv)
 "Usage: %s [<option>...] <trigger-name>\n"
 "       %s [<option>...] <command>\n"
 	), dpkg_get_progname(), dpkg_get_progname());
+	print_option_sep();
+
+	print_synopsis(prog_synopsis);
 	print_option_sep();
 
 	printf(_(
