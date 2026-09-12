@@ -228,6 +228,8 @@ while (@options) {
         $substvars->set($1, $2);
     } elsif (m/^-T(.*)$/) {
         $substvars->load($1) if -e $1;
+    } elsif (m/^--robot$/) {
+        $options{robot} = 1;
     } elsif (m/^-[EW]$/) {
         # Deprecated option.
         warning(g_('-E and -W are deprecated, they are without effect'));
@@ -249,7 +251,11 @@ if ($options{opmode} eq 'help') {
     usage();
     exit(0);
 } elsif ($options{opmode} eq 'version') {
-    print_version();
+    if ($options{robot}) {
+        print_robot_version();
+    } else {
+        print_version();
+    }
     exit(0);
 }
 
