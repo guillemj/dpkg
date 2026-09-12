@@ -41,6 +41,7 @@ our @EXPORT = qw(
     format_option_spec
     format_option_parts
     print_option
+    print_robot_version
     print_version
 );
 
@@ -147,6 +148,11 @@ sub print_option($desc_fmt, @args)
     my ($spec, $help) = split /\n/, $desc, 2;
 
     printf format_option_spec($spec) . "\n$help";
+}
+
+sub print_robot_version()
+{
+    printf '%s', $Dpkg::PROGVERSION;
 }
 
 sub print_version()
