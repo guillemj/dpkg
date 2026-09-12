@@ -51,14 +51,7 @@ static const char printforhelp[] = N_(
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *cip, const char *value)
 {
-	printf(_("Debian %s version %s.\n"), dpkg_get_progname(),
-	       PACKAGE_RELEASE);
-
-	printf(_(
-"This is free software; see the GNU General Public License version 2 or\n"
-"later for copying conditions. There is NO warranty.\n"));
-
-	m_output(stdout, _("<standard output>"));
+	print_version(NULL);
 
 	exit(0);
 }

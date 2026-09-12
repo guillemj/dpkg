@@ -60,21 +60,6 @@ static const char printforhelp[] = N_(
 "Use --help for help about overriding file stat information.");
 
 static int
-printversion(const char *const *argv)
-{
-	printf(_("Debian %s version %s.\n"), dpkg_get_progname(),
-	       PACKAGE_RELEASE);
-
-	printf(_(
-"This is free software; see the GNU General Public License version 2 or\n"
-"later for copying conditions. There is NO warranty.\n"));
-
-	m_output(stdout, _("<standard output>"));
-
-	return 0;
-}
-
-static int
 usage(const char *const *argv)
 {
 	printf(_(
@@ -437,7 +422,7 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("remove", 0, act_remove,    statoverride_remove),
 	ACTION("list",   0, act_listfiles, statoverride_list),
 	ACTION("help",   '?', act_help,    usage),
-	ACTION("version", 0,  act_version, printversion),
+	ACTION("version", 0,  act_version, print_version),
 
 	{ "admindir",   0,   1,  NULL,         NULL,      set_admindir, 0 },
 	{ "instdir",    0,   1,  NULL,         NULL,      set_instdir,  0 },

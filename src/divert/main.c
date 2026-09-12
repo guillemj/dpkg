@@ -65,21 +65,6 @@ static int opt_rename = -1;
 
 
 static int
-printversion(const char *const *argv)
-{
-	printf(_("Debian %s version %s.\n"), dpkg_get_progname(),
-	       PACKAGE_RELEASE);
-
-	printf(_(
-"This is free software; see the GNU General Public License version 2 or\n"
-"later for copying conditions. There is NO warranty.\n"));
-
-	m_output(stdout, _("<standard output>"));
-
-	return 0;
-}
-
-static int
 usage(const char *const *argv)
 {
 	printf(_(
@@ -909,7 +894,7 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("listpackage", 0, 0, diversion_listpackage),
 	ACTION("truename",    0, 0, diversion_truename),
 	ACTION("help",        '?', 0, usage),
-	ACTION("version",     0,   0, printversion),
+	ACTION("version",     0,   0, print_version),
 
 	{ "admindir",   0,   1,  NULL,         NULL,      set_admindir, 0 },
 	{ "instdir",    0,   1,  NULL,         NULL,      set_instdir,  0 },

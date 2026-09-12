@@ -49,21 +49,6 @@ static const char prog_synopsis[] = N_(
 );
 
 static int
-printversion(const char *const *argv)
-{
-	printf(_("Debian '%s' version %s.\n"),
-	       SPLITTER, PACKAGE_RELEASE);
-
-	printf(_(
-"This is free software; see the GNU General Public License version 2 or\n"
-"later for copying conditions. There is NO warranty.\n"));
-
-	m_output(stdout, _("<standard output>"));
-
-	return 0;
-}
-
-static int
 usage(const char *const *argv)
 {
 	printf(_(
@@ -206,7 +191,7 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("listq",   'l',  0,  do_queue),
 	ACTION("discard", 'd',  0,  do_discard),
 	ACTION("help",    '?',  0,  usage),
-	ACTION("version",  0,   0,  printversion),
+	ACTION("version",  0,   0,  print_version),
 
 	{ "admindir",      0,   1,  NULL, NULL,             set_admindir,   0   },
 	{ "root",          0,   1,  NULL, NULL,             set_root,       0   },

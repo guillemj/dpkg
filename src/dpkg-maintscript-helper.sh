@@ -670,10 +670,7 @@ _internal_pkg_must_own_file)
   ;;
 --version)
   cat <<END
-Debian $PROGNAME version $version.
-
-This is free software; see the GNU General Public License version 2 or
-later for copying conditions. There is NO warranty.
+$PROGNAME version $version
 END
   ;;
 *)

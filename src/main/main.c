@@ -65,11 +65,7 @@ printversion(const char *const *argv)
 	if (f_robot) {
 		printf("%s", PACKAGE_VERSION);
 	} else {
-		printf(_("Debian '%s' version %s.\n"),
-		       DPKG, PACKAGE_RELEASE);
-		printf(_(
-"This is free software; see the GNU General Public License version 2 or\n"
-"later for copying conditions. There is NO warranty.\n"));
+		print_version(argv);
 	}
 
 	m_output(stdout, _("<standard output>"));
