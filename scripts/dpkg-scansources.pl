@@ -35,6 +35,10 @@ use Dpkg::Compression;
 
 textdomain('dpkg-dev');
 
+my $PROG_SYNOPSIS = N_(
+    'source package repository metadata generation tool'
+);
+
 # Hash of lists. The constants below describe what is in the lists.
 my %override;
 use constant {
@@ -83,6 +87,9 @@ sub usage {
     printf g_(
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > Sources\n" .
     ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    print_synopsis($PROG_SYNOPSIS);
     print_option_sep();
 
     printf g_(

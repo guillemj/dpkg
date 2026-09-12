@@ -42,6 +42,9 @@ use Dpkg::Dist::Files;
 
 textdomain('dpkg-dev');
 
+my $PROG_SYNOPSIS = N_(
+    'build-time binary package control file generation tool'
+);
 
 my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
@@ -66,6 +69,9 @@ sub usage {
     printf g_(
 "Usage: %s [<option>...]\n" .
     ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    print_synopsis($PROG_SYNOPSIS);
     print_option_sep();
 
     printf g_(

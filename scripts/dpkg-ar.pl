@@ -27,6 +27,10 @@ use Dpkg::Archive::Ar;
 
 textdomain('dpkg-dev');
 
+my $PROG_SYNOPSIS = N_(
+    'binary package ar archive handling tool'
+);
+
 my $action;
 
 sub usage
@@ -34,6 +38,9 @@ sub usage
     printf g_(
 "Usage: %s [<option>...]\n" .
     ''), $Dpkg::PROGNAME;
+
+    print_synopsis($PROG_SYNOPSIS);
+    print_option_sep();
 
     print g_(
 "Commands:\n" .

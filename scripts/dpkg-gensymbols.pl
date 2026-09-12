@@ -36,6 +36,10 @@ use Dpkg::Path qw(check_files_are_the_same find_command);
 
 textdomain('dpkg-dev');
 
+my $PROG_SYNOPSIS = N_(
+    'build-time package extended shared library information generation tool'
+);
+
 my $packagebuilddir = 'debian/tmp';
 
 my $sourceversion;
@@ -56,6 +60,9 @@ sub usage {
     printf g_(
 "Usage: %s [<option>...]\n" .
     ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    print_synopsis($PROG_SYNOPSIS);
     print_option_sep();
 
     printf g_(

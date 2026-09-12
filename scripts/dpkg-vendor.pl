@@ -28,10 +28,17 @@ use Dpkg::Vendor qw(get_vendor_dir get_vendor_info get_current_vendor);
 
 textdomain('dpkg-dev');
 
+my $PROG_SYNOPSIS = N_(
+    'build-time package distribution vendor querying tool'
+);
+
 sub usage {
     printf g_(
 "Usage: %s [<option>...] [<command>]\n" .
     ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    print_synopsis($PROG_SYNOPSIS);
     print_option_sep();
 
     printf g_(

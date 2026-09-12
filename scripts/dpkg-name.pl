@@ -35,6 +35,10 @@ use Dpkg::Arch qw(get_host_arch);
 
 textdomain('dpkg-dev');
 
+my $PROG_SYNOPSIS = N_(
+    'binary package archive renaming tool'
+);
+
 my %options = (
     subdir => 0,
     destdir => '',
@@ -49,6 +53,9 @@ sub usage
     printf g_(
 "Usage: %s [<option>...] <file>...\n" .
     ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    print_synopsis($PROG_SYNOPSIS);
     print_option_sep();
 
     printf g_(

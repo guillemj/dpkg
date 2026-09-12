@@ -42,6 +42,9 @@
 #include <dpkg/db-fsys.h>
 #include <dpkg/options.h>
 
+static const char prog_synopsis[] = N_(
+	"package management root directory aware pathname resolving tool"
+);
 static const char printforhelp[] = N_(
 "Use --help for help about this utility.");
 
@@ -67,6 +70,9 @@ usage(const struct cmdinfo *cip, const char *value)
 "Usage: %s [<option>...] <pathname>\n"
 "       %s <command>\n"
 	), dpkg_get_progname(), dpkg_get_progname());
+	print_option_sep();
+
+	print_synopsis(prog_synopsis);
 	print_option_sep();
 
 	printf(_(

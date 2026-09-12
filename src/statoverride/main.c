@@ -53,6 +53,9 @@
 #include "actions.h"
 #include "security-mac.h"
 
+static const char prog_synopsis[] = N_(
+	"binary package file ownership and mode override program"
+);
 static const char printforhelp[] = N_(
 "Use --help for help about overriding file stat information.");
 
@@ -77,6 +80,9 @@ usage(const char *const *argv)
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
 	), dpkg_get_progname());
+	print_option_sep();
+
+	print_synopsis(prog_synopsis);
 	print_option_sep();
 
 	printf(_(

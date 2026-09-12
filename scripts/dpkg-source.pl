@@ -58,6 +58,10 @@ use Dpkg::Vendor qw(run_vendor_hook);
 
 textdomain('dpkg-dev');
 
+my $PROG_SYNOPSIS = N_(
+    'source package handling tool'
+);
+
 my $controlfile;
 my $changelogformat;
 
@@ -653,6 +657,9 @@ sub usage {
     printf g_(
 "Usage: %s [<option>...] <command>\n" .
     ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    print_synopsis($PROG_SYNOPSIS);
     print_option_sep();
 
     printf g_(

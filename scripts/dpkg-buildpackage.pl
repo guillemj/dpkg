@@ -60,10 +60,17 @@ use Dpkg::Vendor qw(run_vendor_hook);
 
 textdomain('dpkg-dev');
 
+my $PROG_SYNOPSIS = N_(
+    'source and binary package build driving tool'
+);
+
 sub usage {
     printf g_(
 "Usage: %s [<option>...] [--] [<filename.dsc>|<directory>]\n" .
     ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    print_synopsis($PROG_SYNOPSIS);
     print_option_sep();
 
     printf g_(

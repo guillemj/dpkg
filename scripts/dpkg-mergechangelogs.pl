@@ -44,10 +44,17 @@ BEGIN {
     }
 }
 
+my $PROG_SYNOPSIS = N_(
+    'source package changelog merging tool'
+);
+
 sub usage {
     printf g_(
 "Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]\n" .
     ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    print_synopsis($PROG_SYNOPSIS);
     print_option_sep();
 
     printf g_(

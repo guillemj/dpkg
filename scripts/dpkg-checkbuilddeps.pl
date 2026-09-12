@@ -35,10 +35,17 @@ use Dpkg::Control::Info;
 
 textdomain('dpkg-dev');
 
+my $PROG_SYNOPSIS = N_(
+    'build-time package build dependency checking tool'
+);
+
 sub usage {
     printf g_(
 "Usage: %s [<option>...] [<control-file>]\n" .
     ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    print_synopsis($PROG_SYNOPSIS);
     print_option_sep();
 
     printf g_(

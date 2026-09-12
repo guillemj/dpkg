@@ -29,6 +29,10 @@ use Dpkg::Changelog::Parse;
 
 textdomain('dpkg-dev');
 
+my $PROG_SYNOPSIS = N_(
+    'source package changelog parsing tool'
+);
+
 my %options;
 my $fieldname;
 
@@ -36,6 +40,9 @@ sub usage {
     printf g_(
 "Usage: %s [<option>...]\n" .
     ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    print_synopsis($PROG_SYNOPSIS);
     print_option_sep();
 
     printf g_(

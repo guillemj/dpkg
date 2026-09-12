@@ -31,12 +31,19 @@ use Dpkg::Dist::Files;
 
 textdomain('dpkg-dev');
 
+my $PROG_SYNOPSIS = N_(
+    'build-time package artifact distribution injection tool'
+);
+
 my $fileslistfile = 'debian/files';
 
 sub usage {
     printf g_(
 "Usage: %s [<option>...] <filename> <section> <priority>\n" .
     ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    print_synopsis($PROG_SYNOPSIS);
     print_option_sep();
 
     printf g_(

@@ -37,6 +37,10 @@ textdomain('dpkg-dev');
 # Do not pollute STDOUT with info messages.
 report_options(info_fh => \*STDERR);
 
+my $PROG_SYNOPSIS = N_(
+    'binary package repository metadata generation tool'
+);
+
 my (@samemaint, @changedmaint);
 my @multi_instances;
 my @spuriousover;
@@ -78,6 +82,9 @@ sub usage {
     printf g_(
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > Packages\n" .
     ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    print_synopsis($PROG_SYNOPSIS);
     print_option_sep();
 
     printf g_(

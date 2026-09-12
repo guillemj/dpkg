@@ -49,6 +49,9 @@
 #include <dpkg/db-fsys.h>
 
 
+static const char prog_synopsis[] = N_(
+	"binary package file location diversion program"
+);
 static const char printforhelp[] = N_(
 "Use --help for help about diverting files.");
 
@@ -82,6 +85,9 @@ usage(const char *const *argv)
 	printf(_(
 "Usage: %s [<option>...] <command>\n"
 	), dpkg_get_progname());
+	print_option_sep();
+
+	print_synopsis(prog_synopsis);
 	print_option_sep();
 
 	printf(_(

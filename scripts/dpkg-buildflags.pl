@@ -30,10 +30,17 @@ use Dpkg::Vendor qw(get_current_vendor);
 
 textdomain('dpkg-dev');
 
+my $PROG_SYNOPSIS = N_(
+    'build-time package build flags tool'
+);
+
 sub usage {
     printf g_(
 "Usage: %s [<command>]\n" .
     ''), $Dpkg::PROGNAME;
+    print_option_sep();
+
+    print_synopsis($PROG_SYNOPSIS);
     print_option_sep();
 
     printf g_(
