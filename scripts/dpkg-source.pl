@@ -107,6 +107,10 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         setopmode('print-format');
         # Avoid clutter on stdout.
         report_options(info_fh => \*STDERR);
+    } elsif ($arg eq '-?' or $arg eq '--help') {
+        setopmode('help');
+    } elsif ($arg eq '--version') {
+        setopmode('version');
     } else {
         push @options, $arg;
     }
@@ -224,12 +228,6 @@ while (@options) {
         $substvars->set($1, $2);
     } elsif (m/^-T(.*)$/) {
         $substvars->load($1) if -e $1;
-    } elsif (m/^-(?:\?|-help)$/) {
-        usage();
-        exit(0);
-    } elsif (m/^--version$/) {
-        print_version();
-        exit(0);
     } elsif (m/^-[EW]$/) {
         # Deprecated option.
         warning(g_('-E and -W are deprecated, they are without effect'));
@@ -245,6 +243,14 @@ while (@options) {
 
 unless (defined($options{opmode})) {
     usageerr(g_('need an action option'));
+}
+
+if ($options{opmode} eq 'help') {
+    usage();
+    exit(0);
+} elsif ($options{opmode} eq 'version') {
+    print_version();
+    exit(0);
 }
 
 if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
@@ -689,6 +695,14 @@ sub usage {
 "      --commit [<dir> [<patch-name>]]\n" .
 "          Store upstream changes in a new patch.\n" .
     ''));
+    print_option(g_(
+"  -?, --help\n" .
+"          Show this help message.\n" .
+    ''));
+    print_option(g_(
+"      --version\n" .
+"          Show the version.\n" .
+    ''));
     print_option_sep();
 
     printf g_(
@@ -797,14 +811,6 @@ sub usage {
     print_option(g_(
 "  -q\n" .
 "          Enable quiet mode, minimal output.\n" .
-    ''));
-    print_option(g_(
-"  -?, --help\n" .
-"          Show this help message.\n" .
-    ''));
-    print_option(g_(
-"      --version\n" .
-"          Show the version.\n" .
     ''));
     print_option_sep();
 
