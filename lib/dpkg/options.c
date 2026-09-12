@@ -356,6 +356,16 @@ dpkg_options_parse_arg_int(const struct cmdinfo *cmd, const char *str)
 	return value;
 }
 
+int
+print_version(const char *const *argv)
+{
+	printf(_("%s version %s\n"), dpkg_get_progname(), PACKAGE_RELEASE);
+
+	m_output(stdout, _("<standard output>"));
+
+	return 0;
+}
+
 void
 print_option_sep(void)
 {
