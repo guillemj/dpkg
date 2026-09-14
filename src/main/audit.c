@@ -28,6 +28,7 @@
 
 #include <string.h>
 #include <fcntl.h>
+#include <dirent.h>
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -190,6 +191,114 @@ pkg_array_mapper(const char *name)
 	return pkg;
 }
 
+static bool
+audit_db_is_known_file(const char *filename)
+{
+	const char *known_files[] = {
+		DPKG_DB_LOCK_FILE,
+		DPKG_DB_FRONTEND_LOCK_FILE,
+		DPKG_DB_ARCH_FILE,
+		DPKG_DB_ARCH_NATIVE_FILE,
+		DPKG_DB_STATUS_FILE,
+		DPKG_DB_STATUS_FILE "-old",
+		DPKG_DB_DIVERSIONS_FILE,
+		DPKG_DB_DIVERSIONS_FILE "-old",
+		DPKG_DB_STATOVERRIDE_FILE,
+		DPKG_DB_STATOVERRIDE_FILE "-old",
+		DPKG_DB_AVAIL_FILE,
+		DPKG_DB_AVAIL_FILE "-old",
+
+		DPKG_DB_REASSEMBLE_TMPFILE,
+
+		/* dselect method files. */
+		DPKG_DB_METHODS_STATE_FILE,
+		DPKG_DB_METHODS_LOCK_FILE,
+
+		/* Let the database be tracked with git, such as with
+		 * dpkg-db-keeper. */
+		".gitattributes",
+		".gitignore",
+	};
+
+	for (size_t i = 0; i < countof(known_files); i++)
+		if (strcmp(filename, known_files[i]) == 0)
+			return true;
+
+	return false;
+}
+
+static bool
+audit_db_is_known_dir(const char *dirname)
+{
+	const char *known_dirs[] = {
+		DPKG_DB_CONTROL_TMPDIR,
+		DPKG_DB_INFO_DIR,
+		DPKG_DB_TRIGGERS_DIR,
+		DPKG_DB_UPDATES_DIR,
+		DPKG_DB_PARTS_DIR,
+		DPKG_DB_METHODS_DIR,
+
+		"alternatives",
+
+		/* Let the database be tracked with git, such as with
+		 * dpkg-db-keeper. */
+		".git",
+	};
+
+	for (size_t i = 0; i < countof(known_dirs); i++)
+		if (strcmp(dirname, known_dirs[i]) == 0)
+			return true;
+
+	return false;
+}
+
+static void
+audit_db(void)
+{
+	DIR *db_dir;
+	struct dirent *de;
+	struct varbuf pathname = VARBUF_INIT;
+
+	db_dir = opendir(dpkg_db_get_dir());
+
+	while ((de = readdir(db_dir))) {
+		struct stat st;
+
+		if (strcmp(de->d_name, ".") == 0 ||
+		    strcmp(de->d_name, "..") == 0)
+			continue;
+
+		varbuf_reset(&pathname);
+		varbuf_add_str(&pathname, dpkg_db_get_dir());
+		varbuf_add_char(&pathname, '/');
+		varbuf_add_str(&pathname, de->d_name);
+
+		if (lstat(pathname.buf, &st) < 0)
+			ohshite(_("cannot get pathname '%s' metadata"),
+			        pathname.buf);
+
+		if (audit_db_is_known_file(de->d_name)) {
+			if (!S_ISREG(st.st_mode))
+				printf(_("pathname '%s' in database directory "
+				         "is not a regular file\n"),
+				       de->d_name);
+			continue;
+		}
+		if (audit_db_is_known_dir(de->d_name)) {
+			if (!S_ISDIR(st.st_mode))
+				printf(_("pathname '%s' in database directory "
+				         "is not a directory\n"),
+				       de->d_name);
+			continue;
+		}
+
+		printf(_("unknown entry '%s' in database directory\n"),
+		       de->d_name);
+	}
+
+	closedir(db_dir);
+}
+
 int
 audit(const char *const *argv)
 {
@@ -197,6 +306,8 @@ audit(const char *const *argv)
 	struct pkg_array array;
 	bool head_running = false;
 	int i;
+
+	audit_db();
 
 	modstatdb_open(msdbrw_readonly);
 
