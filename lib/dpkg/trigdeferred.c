@@ -73,10 +73,10 @@ enum trigdef_update_status
 trigdef_update_start(enum trigdef_update_flags uf)
 {
 	free(triggersdir);
-	triggersdir = dpkg_db_get_path(TRIGGERSDIR);
+	triggersdir = dpkg_db_get_path(DPKG_DB_TRIGGERS_DIR);
 
 	if (uf & TDUF_WRITE) {
-		constructfn(&fn, triggersdir, TRIGGERSLOCKFILE);
+		constructfn(&fn, triggersdir, DPKG_DB_TRIGGERS_LOCK_FILE);
 		if (lock_fd < 0) {
 			lock_fd = open(fn.buf, O_RDWR | O_CREAT | O_TRUNC, 0600);
 			if (lock_fd < 0) {
@@ -92,7 +92,7 @@ trigdef_update_start(enum trigdef_update_flags uf)
 		          _("triggers database lock"));
 	}
 
-	constructfn(&fn, triggersdir, TRIGGERSDEFERREDFILE);
+	constructfn(&fn, triggersdir, DPKG_DB_TRIGGERS_DEFERRED_FILE);
 
 	if (old_deferred)
 		fclose(old_deferred);
@@ -125,7 +125,8 @@ trigdef_update_start(enum trigdef_update_flags uf)
 	}
 
 	if (uf & TDUF_WRITE) {
-		constructfn(&newfn, triggersdir, TRIGGERSDEFERREDFILE ".new");
+		constructfn(&newfn, triggersdir,
+		            DPKG_DB_TRIGGERS_DEFERRED_FILE ".new");
 		if (trig_new_deferred)
 			fclose(trig_new_deferred);
 		trig_new_deferred = fopen(newfn.buf, "w");

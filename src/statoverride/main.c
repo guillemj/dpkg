@@ -262,7 +262,7 @@ statdb_write(void)
 	struct fsys_hash_iter *iter;
 	struct fsys_namenode *file;
 
-	dbname = dpkg_db_get_path(STATOVERRIDEFILE);
+	dbname = dpkg_db_get_path(DPKG_DB_STATOVERRIDE_FILE);
 	dbfile = atomic_file_new(dbname, ATOMIC_FILE_BACKUP);
 	atomic_file_open(dbfile);
 

@@ -97,7 +97,7 @@ deb_reassemble(const char **filename, const char **pfilename)
 	pid_t pid;
 
 	if (!reasmbuf)
-		reasmbuf = dpkg_db_get_path(REASSEMBLETMP);
+		reasmbuf = dpkg_db_get_path(DPKG_DB_REASSEMBLE_TMPFILE);
 	if (unlink(reasmbuf) && errno != ENOENT)
 		ohshite(_("cannot ensure '%s' does not exist"), reasmbuf);
 
@@ -195,13 +195,13 @@ get_control_dir(char *cidir)
 		 * run. */
 		if (cidir == NULL)
 			cidir = m_malloc(strlen(admindir) +
-			                 sizeof(CONTROLDIRTMP) +
+			                 sizeof(DPKG_DB_CONTROL_TMPDIR) +
 			                 MAXCONTROLFILENAME + 10);
 
 		/* We want it to be on the same filesystem so that we can
 		 * use rename(2) to install the postinst &c. */
 		strcpy(cidir, admindir);
-		strcat(cidir, "/" CONTROLDIRTMP);
+		strcat(cidir, "/" DPKG_DB_CONTROL_TMPDIR);
 
 		/* Make sure the package metadata directory is empty. */
 		path_remove_tree(cidir);

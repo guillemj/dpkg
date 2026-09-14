@@ -70,10 +70,10 @@ update_file_filter(const struct dirent *de)
 	for (p = de->d_name, l = 0; *p; p++, l++)
 		if (!c_isdigit(*p))
 			return 0;
-	if (l > IMPORTANTMAXLEN)
+	if (l > DPKG_DB_IMPORTANT_MAXLEN)
 		ohshit(_("updates directory contains file '%s' "
 		         "whose name is too long (length=%d, max=%d)"),
-		       de->d_name, l, IMPORTANTMAXLEN);
+		       de->d_name, l, DPKG_DB_IMPORTANT_MAXLEN);
 
 	if (updateslength < 0)
 		updateslength = l;
@@ -169,22 +169,22 @@ static const struct fni {
 	char **store;
 } fnis[] = {
 	{
-		.suffix = LOCKFILE,
+		.suffix = DPKG_DB_LOCK_FILE,
 		.store = &lockfile,
 	}, {
-		.suffix = FRONTENDLOCKFILE,
+		.suffix = DPKG_DB_FRONTEND_LOCK_FILE,
 		.store = &frontendlockfile,
 	}, {
-		.suffix = STATUSFILE,
+		.suffix = DPKG_DB_STATUS_FILE,
 		.store = &statusfile,
 	}, {
-		.suffix = AVAILFILE,
+		.suffix = DPKG_DB_AVAIL_FILE,
 		.store = &availablefile,
 	}, {
-		.suffix = UPDATESDIR,
+		.suffix = DPKG_DB_UPDATES_DIR,
 		.store = &updatesdir,
 	}, {
-		.suffix = UPDATESDIR "/" IMPORTANTTMP,
+		.suffix = DPKG_DB_UPDATES_DIR "/" DPKG_DB_IMPORTANT_TMPFILE,
 		.store = &importanttmpfile,
 	}, {
 		.suffix = NULL,
@@ -205,7 +205,7 @@ modstatdb_init(void)
 		*fnip->store = dpkg_db_get_path(fnip->suffix);
 	}
 
-	varbuf_init(&updatefn, strlen(updatesdir) + 1 + IMPORTANTMAXLEN);
+	varbuf_init(&updatefn, strlen(updatesdir) + 1 + DPKG_DB_IMPORTANT_MAXLEN);
 	varbuf_add_dir(&updatefn, updatesdir);
 	varbuf_snapshot(&updatefn, &updatefn_state);
 
@@ -411,13 +411,13 @@ modstatdb_checkpoint(void)
 
 	for (i = 0; i < nextupdate; i++) {
 		varbuf_rollback(&updatefn_state);
-		varbuf_add_fmt(&updatefn, IMPORTANTFMT, i);
+		varbuf_add_fmt(&updatefn, DPKG_DB_IMPORTANT_FMT, i);
 
 		/* Have we made a real mess? */
-		if (varbuf_rollback_len(&updatefn_state) > IMPORTANTMAXLEN)
+		if (varbuf_rollback_len(&updatefn_state) > DPKG_DB_IMPORTANT_MAXLEN)
 			internerr("modstatdb update entry name '%s' longer than %d",
 			          varbuf_rollback_end(&updatefn_state),
-			          IMPORTANTMAXLEN);
+			          DPKG_DB_IMPORTANT_MAXLEN);
 
 		if (unlink(updatefn.buf))
 			ohshite(_("cannot remove update file '%s'"),
@@ -481,7 +481,7 @@ modstatdb_note_core(struct pkginfo *pkg)
 		ohshite(_("cannot close updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
 	varbuf_rollback(&updatefn_state);
-	varbuf_add_fmt(&updatefn, IMPORTANTFMT, nextupdate);
+	varbuf_add_fmt(&updatefn, DPKG_DB_IMPORTANT_FMT, nextupdate);
 	if (rename(importanttmpfile, updatefn.buf))
 		ohshite(_("cannot install updated status of '%s'"),
 		        pkg_name(pkg, pnaw_nonambig));
@@ -489,14 +489,14 @@ modstatdb_note_core(struct pkginfo *pkg)
 	dir_sync_path(updatesdir);
 
 	/* Have we made a real mess? */
-	if (varbuf_rollback_len(&updatefn_state) > IMPORTANTMAXLEN)
+	if (varbuf_rollback_len(&updatefn_state) > DPKG_DB_IMPORTANT_MAXLEN)
 		internerr("modstatdb update entry name '%s' longer than %d",
 		          varbuf_rollback_end(&updatefn_state),
-		          IMPORTANTMAXLEN);
+		          DPKG_DB_IMPORTANT_MAXLEN);
 
 	nextupdate++;
 
-	if (nextupdate > MAXUPDATES) {
+	if (nextupdate > DPKG_DB_MAX_UPDATES) {
 		modstatdb_checkpoint();
 		nextupdate = 0;
 	}

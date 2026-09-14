@@ -266,7 +266,7 @@ getcurrentopt()
 	char *p;
 
 	if (methoptfile == nullptr)
-		methoptfile = dpkg_db_get_path(CMETHOPTFILE);
+		methoptfile = dpkg_db_get_path(DPKG_DB_METHODS_STATE_FILE);
 
 	coption = nullptr;
 	cmo = fopen(methoptfile, "r");

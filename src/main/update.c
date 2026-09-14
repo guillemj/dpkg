@@ -94,7 +94,7 @@ updateavailable(const char *const *argv)
 		internerr("unknown action '%d'", cipaction->arg_int);
 	}
 
-	availfile = dpkg_db_get_path(AVAILFILE);
+	availfile = dpkg_db_get_path(DPKG_DB_AVAIL_FILE);
 
 	if (cipaction->arg_int == act_avmerge)
 		parsedb(availfile, pdb_parse_available, NULL);

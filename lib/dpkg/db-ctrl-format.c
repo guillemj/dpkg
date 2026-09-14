@@ -67,7 +67,7 @@ pkg_infodb_read_format(void)
 	struct stat st;
 	char *filename;
 
-	filename = dpkg_db_get_path(INFODIR "/format");
+	filename = dpkg_db_get_path(DPKG_DB_INFO_DIR "/format");
 	file = atomic_file_new(filename, 0);
 
 	db_format = pkg_infodb_parse_format(file->name);
@@ -119,7 +119,7 @@ const char *
 pkg_infodb_get_dir(void)
 {
 	if (db_infodir == NULL)
-		db_infodir = dpkg_db_get_path(INFODIR);
+		db_infodir = dpkg_db_get_path(DPKG_DB_INFO_DIR);
 
 	return db_infodir;
 }

@@ -429,7 +429,7 @@ divertdb_write(void)
 	struct fsys_hash_iter *iter;
 	struct fsys_namenode *namenode;
 
-	dbname = dpkg_db_get_path(DIVERSIONSFILE);
+	dbname = dpkg_db_get_path(DPKG_DB_DIVERSIONS_FILE);
 
 	file = atomic_file_new(dbname, ATOMIC_FILE_BACKUP);
 	atomic_file_open(file);

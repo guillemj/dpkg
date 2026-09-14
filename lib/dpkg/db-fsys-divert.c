@@ -42,7 +42,7 @@ void
 ensure_diversions(void)
 {
 	static struct dpkg_db db = {
-		.name = DIVERSIONSFILE,
+		.name = DPKG_DB_DIVERSIONS_FILE,
 	};
 	enum dpkg_db_error rc;
 	char linebuf[MAXDIVERTFILENAME];

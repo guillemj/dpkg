@@ -110,7 +110,7 @@ void
 ensure_statoverrides(enum statdb_parse_flags flags)
 {
 	static struct dpkg_db db = {
-		.name = STATOVERRIDEFILE,
+		.name = DPKG_DB_STATOVERRIDE_FILE,
 	};
 	enum dpkg_db_error rc;
 	char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;

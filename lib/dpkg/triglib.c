@@ -814,10 +814,10 @@ trig_incorporate(enum modstatdb_rw cstatus)
 	enum trigdef_update_flags tduf;
 
 	free(triggersdir);
-	triggersdir = dpkg_db_get_path(TRIGGERSDIR);
+	triggersdir = dpkg_db_get_path(DPKG_DB_TRIGGERS_DIR);
 
 	free(triggersfilefile);
-	triggersfilefile = trig_get_filename(triggersdir, TRIGGERSFILEFILE);
+	triggersfilefile = trig_get_filename(triggersdir, DPKG_DB_TRIGGERS_FILE_FILE);
 
 	trigdef_set_methods(&tdm_incorp);
 	trig_file_interests_ensure();

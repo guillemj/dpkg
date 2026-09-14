@@ -117,7 +117,7 @@ usage(const char *const *argv)
 "      --depotdir <directory>\n"
 "          Change the archive parts queue directory.\n"
 	));
-	print_option_def(ADMINDIR "/" PARTSDIR);
+	print_option_def(ADMINDIR "/" DPKG_DB_PARTS_DIR);
 	print_option(_(
 "      --admindir <directory>\n"
 "          Change the database directory.\n"
@@ -216,7 +216,7 @@ main(int argc, const char *const *argv)
 	      dpkg_fsys_get_dir(), dpkg_db_get_dir());
 
 	if (opt_depotdir == NULL)
-		opt_depotdir = dpkg_db_get_path(PARTSDIR);
+		opt_depotdir = dpkg_db_get_path(DPKG_DB_PARTS_DIR);
 
 	if (!cipaction)
 		badusage(_("need an action option"));

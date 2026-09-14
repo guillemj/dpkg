@@ -204,7 +204,7 @@ pkg_infodb_upgrade_to_multiarch(void)
 	struct atomic_file *db_file;
 	char *db_format_file;
 
-	db_format_file = dpkg_db_get_path(INFODIR "/format");
+	db_format_file = dpkg_db_get_path(DPKG_DB_INFO_DIR "/format");
 	db_file = atomic_file_new(db_format_file, ATOMIC_FILE_MKPATH);
 	atomic_file_open(db_file);
 
