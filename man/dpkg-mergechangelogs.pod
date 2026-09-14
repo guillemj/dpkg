@@ -37,6 +37,11 @@ not given.
 Each entry is identified by its version number and they are assumed to
 be not conflicting, they are merged in the right order (by
 decreasing version number).
+Any vendor specific backport version marker
+(usually in the form I<~marker>)
+will get remapped
+(to something like I<+marker>)
+so that these sort higher than the versions they are based on.
 When B<--merge-prereleases> is used, the
 part of the version number after the last tilde is dropped so that
 1.0-1~exp1 and 1.0-1~exp5 are considered to be the same entry.
