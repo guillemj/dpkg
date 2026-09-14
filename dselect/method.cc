@@ -47,8 +47,8 @@
 #include "method.h"
 
 static const char *const methoddirectories[] = {
-	LIBDIR "/" METHODSDIR,
-	LOCALLIBDIR "/" METHODSDIR,
+	LIBDIR "/" DPKG_LIBEXEC_METHODS_DIR,
+	LOCALLIBDIR "/" DPKG_LIBEXEC_METHODS_DIR,
 	nullptr
 };
 

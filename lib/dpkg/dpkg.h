@@ -97,6 +97,8 @@ DPKG_BEGIN_DECLS
 #define MD5HASHLEN           32
 #define MAXTRIGDIRECTIVE     256
 
+#define DPKG_LIBEXEC_METHODS_DIR	"methods"
+
 #define BACKEND		"dpkg-deb"
 #define SPLITTER	"dpkg-split"
 #define DPKGQUERY	"dpkg-query"
