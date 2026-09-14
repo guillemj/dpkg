@@ -164,23 +164,6 @@ static const struct audit_problem audit_problems[] = {
 	}
 };
 
-static void
-describebriefly(struct pkginfo *pkg)
-{
-	int maxl, l;
-	const char *pdesc;
-
-	maxl = 57;
-	l = strlen(pkg->set->name);
-	if (l > 20)
-		maxl -= (l - 20);
-
-	pdesc = pkgbin_synopsis(pkg, &pkg->installed, &l);
-	l = min(l, maxl);
-
-	printf(" %-20s %.*s\n", pkg_name(pkg, pnaw_nonambig), l, pdesc);
-}
-
 static struct pkginfo *
 pkg_array_mapper(const char *name)
 {
@@ -232,7 +215,7 @@ audit(const char *const *argv)
 				head = true;
 			}
 
-			describebriefly(pkg);
+			printf(" %s\n", pkg_name(pkg, pnaw_nonambig));
 		}
 
 		if (head)
@@ -288,7 +271,7 @@ unpackchk(const char *const *argv)
 		if (!yettobeunpacked(pkg))
 			continue;
 
-		describebriefly(pkg);
+		printf(" %s\n", pkg_name(pkg, pnaw_nonambig));
 	}
 	pkg_hash_iter_free(iter);
 
