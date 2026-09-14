@@ -97,6 +97,9 @@ ensure_statoverrides(enum statdb_parse_flags flags);
 #define HASHFILE           "md5sums"
 
 void
+pkg_files_load_pkg(struct pkginfo *pkg, void *pkg_data);
+
+void
 ensure_packagefiles_available(struct pkginfo *pkg);
 void
 ensure_allinstfiles_available(void);

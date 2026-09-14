@@ -613,12 +613,6 @@ list_files(const char *const *argv)
 }
 
 static void
-pkg_array_load_db_fsys(struct pkginfo *pkg, void *pkg_data)
-{
-	ensure_packagefiles_available(pkg);
-}
-
-static void
 pkg_array_show_item(struct pkginfo *pkg, void *pkg_data)
 {
 	struct pkg_format_node *fmt = pkg_data;
@@ -667,7 +661,7 @@ showpackages(const char *const *argv)
 		}
 	} else {
 		if (fmt_needs_db_fsys)
-			pkg_array_foreach(&array, pkg_array_load_db_fsys, NULL);
+			pkg_array_foreach(&array, pkg_files_load_pkg, NULL);
 		misses = pkg_array_match_patterns(&array, pkg_array_show_item,
 		                                  fmt, argv);
 	}

@@ -264,6 +264,12 @@ pkg_files_optimize_load(struct pkg_array *array)
 #endif
 
 void
+pkg_files_load_pkg(struct pkginfo *pkg, void *pkg_data)
+{
+	ensure_packagefiles_available(pkg);
+}
+
+void
 ensure_allinstfiles_available(void)
 {
 	struct pkg_array array;
