@@ -318,6 +318,13 @@ audit(const char *const *argv)
 
 	pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
 
+	if (!*argv)
+		ensure_allinstfiles_available_quiet();
+	else
+		pkg_array_foreach(&array, pkg_files_load_pkg, NULL);
+	ensure_statoverrides(STATDB_PARSE_NORMAL);
+	ensure_diversions();
+
 	for (problem = audit_problems; problem->check; problem++) {
 		bool head = false;
 
