@@ -22,11 +22,6 @@
 #ifndef METHOD_H
 #define METHOD_H
 
-#define CMETHOPTFILE		"cmethopt"
-#define METHLOCKFILE		"methlock"
-
-#define METHODSDIR		"methods"
-
 #define IMETHODMAXLEN		50
 #define IOPTIONMAXLEN		IMETHODMAXLEN
 #define METHODOPTIONSFILE	"names"

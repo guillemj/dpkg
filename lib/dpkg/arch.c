@@ -39,9 +39,6 @@
 #include <dpkg/varbuf.h>
 #include <dpkg/arch.h>
 
-#define DPKG_DB_ARCH_FILE "arch"
-#define DPKG_DB_ARCH_NATIVE_FILE "arch-native"
-
 /**
  * Verify if the architecture name is valid.
  *

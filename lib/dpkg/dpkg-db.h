@@ -274,6 +274,40 @@ dpkg_db_get_path(const char *pathpart);
 
 /*** from dbmodify.c ***/
 
+/* Database files and directories. */
+
+#define LOCKFILE			"lock"
+#define FRONTENDLOCKFILE		"lock-frontend"
+
+#define DPKG_DB_ARCH_FILE		"arch"
+#define DPKG_DB_ARCH_NATIVE_FILE	"arch-native"
+
+#define STATUSFILE			"status"
+#define AVAILFILE			"available"
+#define DIVERSIONSFILE			"diversions"
+#define STATOVERRIDEFILE		"statoverride"
+
+#define UPDATESDIR			"updates"
+#define INFODIR				"info"
+
+#define TRIGGERSDIR			"triggers"
+#define TRIGGERSFILEFILE		"File"
+#define TRIGGERSDEFERREDFILE		"Unincorp"
+#define TRIGGERSLOCKFILE		"Lock"
+
+#define PARTSDIR			"parts"
+#define REASSEMBLETMP			"reassemble" DEBEXT
+
+#define METHODSDIR			"methods"
+#define METHLOCKFILE			"methlock"
+#define CMETHOPTFILE			"cmethopt"
+
+#define CONTROLDIRTMP			"tmp.ci"
+#define IMPORTANTTMP			"tmp.i"
+#define IMPORTANTMAXLEN			10
+#define IMPORTANTFMT			"%04d"
+#define MAXUPDATES			250
+
 enum DPKG_ATTR_ENUM_FLAGS modstatdb_rw {
 	msdbrw_unset			= -1,
 

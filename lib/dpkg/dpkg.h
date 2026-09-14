@@ -75,25 +75,6 @@ DPKG_BEGIN_DECLS
 #define MAINTSCRIPT_FILE_CONFIG		"config"
 #define TRIGGERSCIFILE     "triggers"
 
-#define STATUSFILE        "status"
-#define AVAILFILE         "available"
-#define LOCKFILE          "lock"
-#define FRONTENDLOCKFILE  "lock-frontend"
-#define DIVERSIONSFILE    "diversions"
-#define STATOVERRIDEFILE  "statoverride"
-#define UPDATESDIR        "updates"
-#define INFODIR           "info"
-#define TRIGGERSDIR       "triggers"
-#define TRIGGERSFILEFILE  "File"
-#define TRIGGERSDEFERREDFILE "Unincorp"
-#define TRIGGERSLOCKFILE  "Lock"
-#define CONTROLDIRTMP     "tmp.ci"
-#define IMPORTANTTMP      "tmp.i"
-#define REASSEMBLETMP     "reassemble" DEBEXT
-#define IMPORTANTMAXLEN    10
-#define IMPORTANTFMT      "%04d"
-#define MAXUPDATES         250
-
 #define MD5HASHLEN           32
 #define MAXTRIGDIRECTIVE     256
 
