@@ -61,6 +61,7 @@ dpkg_SOURCES = \
 	common/selinux.c \
 	main/archives.c \
 	main/archives.h \
+	main/audit.c \
 	main/cleanup.c \
 	main/configure.c \
 	main/depcon.c \
