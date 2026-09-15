@@ -122,7 +122,7 @@ extern const char *assert_feature_name;
 int
 audit(const char *const *argv);
 int
-unpackchk(const char *const *argv);
+unpack_check(const char *const *argv);
 int
 assert_feature(const char *const *argv);
 int

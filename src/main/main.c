@@ -787,7 +787,7 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION( "clear-avail",                     0,  act_avclear,              updateavailable ),
 	ACTION( "forget-old-unavail",              0,  act_forgetold,            forgetold       ),
 	ACTION( "audit",                          'C', act_audit,                audit           ),
-	ACTION( "yet-to-unpack",                   0,  act_unpackchk,            unpackchk       ),
+	ACTION( "yet-to-unpack",                   0,  act_unpack_check,         unpack_check    ),
 	ACTIONBACKEND( "list",                    'l', DPKGQUERY),
 	ACTIONBACKEND( "search",                  'S', DPKGQUERY),
 	ACTION_MUX( "assert",                      0,  act_assert_feature,       assert_feature, &assert_feature_name),

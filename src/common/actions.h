@@ -57,7 +57,7 @@ enum action {
 	act_validate_version,
 
 	act_audit,
-	act_unpackchk,
+	act_unpack_check,
 	act_predeppackage,
 
 	act_getselections,

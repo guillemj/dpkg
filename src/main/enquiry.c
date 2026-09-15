@@ -48,7 +48,7 @@
 #include "main.h"
 
 static bool
-yettobeunpacked(struct pkginfo *pkg)
+pkg_is_yet_to_be_unpacked(struct pkginfo *pkg)
 {
 	if (pkg->want != PKG_WANT_INSTALL)
 		return false;
@@ -71,7 +71,7 @@ yettobeunpacked(struct pkginfo *pkg)
 }
 
 int
-unpackchk(const char *const *argv)
+unpack_check(const char *const *argv)
 {
 	struct pkg_hash_iter *iter;
 	struct pkginfo *pkg;
@@ -86,7 +86,7 @@ unpackchk(const char *const *argv)
 
 	iter = pkg_hash_iter_new();
 	while ((pkg = pkg_hash_iter_next_pkg(iter))) {
-		if (!yettobeunpacked(pkg))
+		if (!pkg_is_yet_to_be_unpacked(pkg))
 			continue;
 
 		printf("  %s\n", pkg_name(pkg, pnaw_nonambig));
