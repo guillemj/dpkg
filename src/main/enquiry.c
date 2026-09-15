@@ -215,7 +215,7 @@ audit(const char *const *argv)
 				head = true;
 			}
 
-			printf(" %s\n", pkg_name(pkg, pnaw_nonambig));
+			printf("  %s\n", pkg_name(pkg, pnaw_nonambig));
 		}
 
 		if (head)
@@ -271,7 +271,7 @@ unpackchk(const char *const *argv)
 		if (!yettobeunpacked(pkg))
 			continue;
 
-		printf(" %s\n", pkg_name(pkg, pnaw_nonambig));
+		printf("  %s\n", pkg_name(pkg, pnaw_nonambig));
 	}
 	pkg_hash_iter_free(iter);
 
