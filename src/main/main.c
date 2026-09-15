@@ -765,8 +765,23 @@ arch_remove(const char *const *argv)
 	return 0;
 }
 
-int
-execbackend(const char *const *argv) DPKG_ATTR_NORET;
+static int DPKG_ATTR_NORET
+execbackend(const char *const *argv)
+{
+	struct command cmd;
+
+	command_init(&cmd, cipaction->arg_ptr, NULL);
+	command_add_arg(&cmd, cipaction->arg_ptr);
+	command_add_arg(&cmd, str_fmt("--%s", cipaction->olong));
+
+	/* Explicitly separate arguments from options as any user-supplied
+	 * separator got stripped by the option parser */
+	command_add_arg(&cmd, "--");
+	command_add_argl(&cmd, (const char **)argv);
+
+	command_exec(&cmd);
+}
+
 int
 commandfd(const char *const *argv);
 
@@ -861,23 +876,6 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTIONBACKEND( "fsys-tarfile",	0,   BACKEND),
 	{ NULL,                0,   0, NULL,          NULL,      NULL,          0 }
 };
-
-int
-execbackend(const char *const *argv)
-{
-	struct command cmd;
-
-	command_init(&cmd, cipaction->arg_ptr, NULL);
-	command_add_arg(&cmd, cipaction->arg_ptr);
-	command_add_arg(&cmd, str_fmt("--%s", cipaction->olong));
-
-	/* Explicitly separate arguments from options as any user-supplied
-	 * separator got stripped by the option parser */
-	command_add_arg(&cmd, "--");
-	command_add_argl(&cmd, (const char **)argv);
-
-	command_exec(&cmd);
-}
 
 int
 commandfd(const char *const *argv)
