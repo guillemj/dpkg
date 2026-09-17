@@ -52,34 +52,21 @@ db_available_check_access(void)
 		       dbdir);
 }
 
-/* TODO: Refactor to reduce nesting levels. */
 int
-updateavailable(const char *const *argv)
+available_update(const char *const *argv)
 {
 	const char *sourcefile = argv[0];
 	const char *sourcename = sourcefile;
 	char *availfile;
 	int count = 0;
 
-	switch (cipaction->arg_int) {
-	case act_avclear:
-		if (sourcefile)
-			badusage(_("--%s takes no arguments"),
-			         cipaction->olong);
-		break;
-	case act_avreplace:
-	case act_avmerge:
-		if (sourcefile == NULL)
-			sourcefile = "-";
-		else if (argv[1])
-			badusage(_("--%s takes at most one Packages-file argument"),
-			         cipaction->olong);
-		if (strcmp(sourcefile, "-") == 0)
-			sourcename = _("<standard input>");
-		break;
-	default:
-		internerr("unknown action '%d'", cipaction->arg_int);
-	}
+	if (sourcefile == NULL)
+		sourcefile = "-";
+	else if (argv[1])
+		badusage(_("--%s takes at most one Packages-file argument"),
+		         cipaction->olong);
+	if (strcmp(sourcefile, "-") == 0)
+		sourcename = _("<standard input>");
 
 	modstatdb_init();
 
@@ -97,8 +84,6 @@ updateavailable(const char *const *argv)
 		printf(_("Updating available packages information from %s.\n"),
 		       sourcename);
 		break;
-	case act_avclear:
-		break;
 	default:
 		internerr("unknown action '%d'", cipaction->arg_int);
 	}
@@ -108,10 +93,9 @@ updateavailable(const char *const *argv)
 	if (cipaction->arg_int == act_avmerge)
 		parsedb(availfile, pdb_parse_available, NULL);
 
-	if (cipaction->arg_int != act_avclear)
-		count += parsedb(sourcefile,
-		                 pdb_parse_available | pdb_ignoreolder | pdb_dash_is_stdin,
-		                 NULL);
+	count += parsedb(sourcefile,
+	                 pdb_parse_available | pdb_ignoreolder | pdb_dash_is_stdin,
+	                 NULL);
 
 	if (f_act) {
 		writedb(availfile, wdb_dump_available);
@@ -120,11 +104,39 @@ updateavailable(const char *const *argv)
 
 	free(availfile);
 
-	if (cipaction->arg_int != act_avclear)
-		printf(P_("Information about %d package was updated.\n",
-		          "Information about %d packages was updated.\n",
-		          count),
-		       count);
+	printf(P_("Information about %d package was updated.\n",
+	          "Information about %d packages was updated.\n",
+	          count),
+	       count);
+
+	modstatdb_done();
+
+	return 0;
+}
+
+int
+available_clear(const char *const *argv)
+{
+	const char *sourcefile = argv[0];
+
+	if (sourcefile)
+		badusage(_("--%s takes no arguments"), cipaction->olong);
+
+	modstatdb_init();
+
+	if (f_act) {
+		char *availfile;
+
+		db_available_check_access();
+		modstatdb_lock();
+
+		availfile = dpkg_db_get_path(DPKG_DB_AVAIL_FILE);
+
+		writedb(availfile, wdb_dump_available);
+		modstatdb_unlock();
+
+		free(availfile);
+	}
 
 	modstatdb_done();
 

@@ -113,7 +113,9 @@ wanttoinstall(struct pkginfo *pkg);
 int
 forgetold(const char *const *argv);
 int
-updateavailable(const char *const *argv);
+available_update(const char *const *argv);
+int
+available_clear(const char *const *argv);
 
 /* from enquiry.c */
 
