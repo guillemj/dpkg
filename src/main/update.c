@@ -34,6 +34,24 @@
 
 #include "main.h"
 
+static void
+db_available_check_access(void)
+{
+	const char *dbdir = dpkg_db_get_dir();
+
+	if (access(dbdir, W_OK) == 0)
+		return;
+
+	if (errno != EACCES)
+		ohshite(_("cannot access dpkg database directory '%s' "
+		          "for bulk available update"),
+		        dbdir);
+	else
+		ohshit(_("required write access to dpkg database directory '%s' "
+		         "for bulk available update"),
+		       dbdir);
+}
+
 /* TODO: Refactor to reduce nesting levels. */
 int
 updateavailable(const char *const *argv)
@@ -66,16 +84,7 @@ updateavailable(const char *const *argv)
 	}
 
 	if (f_act) {
-		const char *dbdir = dpkg_db_get_dir();
-
-		if (access(dbdir, W_OK)) {
-			if (errno != EACCES)
-				ohshite(_("cannot access dpkg database directory '%s' for bulk available update"),
-				        dbdir);
-			else
-				ohshit(_("required write access to dpkg database directory '%s' for bulk available update"),
-				       dbdir);
-		}
+		db_available_check_access();
 		modstatdb_lock();
 	}
 
