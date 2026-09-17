@@ -473,7 +473,8 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
         $fields->{'Uploaders'} = $uploaders->as_string();
 
         if (defined $maint && $uploaders->contains($maint)) {
-            warning(g_('%s field contains the maintainer address'), 'Uploaders');
+            warning(g_('%s field contains the %s field address'),
+                    'Uploaders', 'Maintainer');
         }
     }
 
