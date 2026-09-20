@@ -43,6 +43,7 @@ our @EXPORT = qw(
     print_option
     print_robot_version
     print_version
+    print_synopsis
 );
 
 use Exporter qw(import);
@@ -158,6 +159,11 @@ sub print_robot_version()
 sub print_version()
 {
     printf g_("%s version %s\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
+}
+
+sub print_synopsis($prog_synopsis)
+{
+    printf g_("Synopsis: %s\n"), gettext($prog_synopsis);
 }
 
 =head1 CHANGES
