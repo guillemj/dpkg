@@ -179,7 +179,7 @@ sub do_build {
         local $/ = "\0";
         while (<$git_ls_files_fh>) {
             chomp;
-            if (! length $diff_ignore_regex || ! m/$diff_ignore_regex/o) {
+            if (! length $diff_ignore_regex || ! m/$diff_ignore_regex/) {
                 push @files, $_;
             }
         }

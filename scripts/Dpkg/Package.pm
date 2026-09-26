@@ -51,10 +51,10 @@ sub pkg_name_is_invalid {
     if ($name eq '') {
         return g_('may not be empty string');
     }
-    if ($name =~ m/[^-+.0-9a-z]/op) {
+    if ($name =~ m/[^-+.0-9a-z]/p) {
         return sprintf(g_("character '%s' not allowed"), ${^MATCH});
     }
-    if ($name !~ m/^[0-9a-z]/o) {
+    if ($name !~ m/^[0-9a-z]/) {
         return g_('must start with an alphanumeric character');
     }
 

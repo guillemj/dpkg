@@ -129,7 +129,7 @@ sub do_build {
         chomp;
         next unless s/^ +//;
         if (! length $diff_ignore_regex ||
-            ! m/$diff_ignore_regex/o) {
+            ! m/$diff_ignore_regex/) {
             push @files, $_;
         }
     }

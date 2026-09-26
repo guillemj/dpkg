@@ -529,7 +529,7 @@ sub version_check {
         return (0, $msg) if wantarray;
         return 0;
     }
-    if ($str =~ m/([^-+:.0-9a-zA-Z~])/o) {
+    if ($str =~ m/([^-+:.0-9a-zA-Z~])/) {
         my $msg = sprintf g_("version number contains invalid character '%s'"), $1;
         return (0, $msg) if wantarray;
         return 0;

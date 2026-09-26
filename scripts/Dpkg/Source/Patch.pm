@@ -188,7 +188,7 @@ sub add_diff_directory {
     if ($opts{diff_ignore_func}) {
         $diff_ignore = $opts{diff_ignore_func};
     } elsif ($opts{diff_ignore_regex}) {
-        $diff_ignore = sub { return $_[0] =~ /$opts{diff_ignore_regex}/o };
+        $diff_ignore = sub { return $_[0] =~ /$opts{diff_ignore_regex}/ };
     } else {
         $diff_ignore = sub { return 0 };
     }
