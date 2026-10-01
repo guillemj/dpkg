@@ -46,7 +46,6 @@ use Dpkg::Gettext;
 use Dpkg::Control::Types;
 use Dpkg::Control::Fields;
 use Dpkg::Control::Changelog;
-use Dpkg::Changelog::Entry;
 use Dpkg::Version;
 
 use parent qw(Dpkg::Changelog::Entry);

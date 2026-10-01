@@ -32,7 +32,6 @@ use v5.36;
 
 use Dpkg::Control;
 use Dpkg::Control::Tests::Entry;
-use Dpkg::Index;
 
 use parent qw(Dpkg::Index);
 

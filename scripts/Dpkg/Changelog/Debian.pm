@@ -48,7 +48,6 @@ use v5.36;
 
 use Dpkg::Gettext;
 use Dpkg::File;
-use Dpkg::Changelog;
 use Dpkg::Changelog::Entry::Debian qw(match_header match_trailer);
 
 use parent qw(Dpkg::Changelog);

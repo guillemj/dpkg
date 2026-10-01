@@ -30,7 +30,6 @@ package Dpkg::Control::Changelog 1.00;
 
 use v5.36;
 
-use Dpkg::Control;
 use Dpkg::Control::Types;
 
 use parent qw(Dpkg::Control);

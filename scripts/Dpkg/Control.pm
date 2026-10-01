@@ -172,7 +172,6 @@ use Exporter qw(import);
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Types;
-use Dpkg::Control::Hash;
 use Dpkg::Control::Fields;
 
 use parent qw(Dpkg::Control::Hash);
