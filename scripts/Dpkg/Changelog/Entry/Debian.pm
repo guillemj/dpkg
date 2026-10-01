@@ -43,6 +43,7 @@ use Exporter qw(import);
 use Time::Piece;
 
 use Dpkg::Gettext;
+use Dpkg::Control::Types;
 use Dpkg::Control::Fields;
 use Dpkg::Control::Changelog;
 use Dpkg::Changelog::Entry;

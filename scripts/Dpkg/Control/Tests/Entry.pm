@@ -32,6 +32,7 @@ use v5.36;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control;
+use Dpkg::Control::Types;
 
 use parent qw(Dpkg::Control);
 
