@@ -82,6 +82,10 @@ command_grow_argv(struct command *cmd, int need)
 	/* We need a ghost byte for the NUL character. */
 	need++;
 
+	if (cmd->argv_size < cmd->argc)
+		internerr("command '%s' argv_size(%d) < argc(%d)",
+		          cmd->name, cmd->argv_size, cmd->argc);
+
 	/* Check if we already have enough room. */
 	if ((cmd->argv_size - cmd->argc) >= need)
 		return;
