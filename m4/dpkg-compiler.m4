@@ -146,7 +146,7 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
   DPKG_CHECK_COMPILER_FLAG([-Wshift-overflow=2])
   DPKG_CHECK_COMPILER_FLAG([-Wshift-sign-overflow])
   DPKG_CHECK_COMPILER_FLAG([-Wsizeof-array-argument])
-  DPKG_CHECK_COMPILER_FLAG([-Wstrict-overflow=2])
+  DPKG_CHECK_COMPILER_FLAG([-Wstrict-overflow=3])
   DPKG_CHECK_COMPILER_FLAG([-Wstrict-flex-arrays])
   DPKG_CHECK_COMPILER_FLAG([-Wswitch-bool])
   DPKG_CHECK_COMPILER_FLAG([-Wtrailing-whitespace=any])
