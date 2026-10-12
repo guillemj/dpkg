@@ -86,7 +86,7 @@ pkg_array_init_from_hash(struct pkg_array *a)
  * @param pkg_data Data to pass pkg_visit for each package visited.
  */
 void
-pkg_array_foreach(struct pkg_array *a, pkg_array_visitor_func *pkg_visitor,
+pkg_array_foreach(struct pkg_array *a, pkg_visitor_func *pkg_visitor,
                   void *pkg_data)
 {
 	int i;
@@ -97,7 +97,7 @@ pkg_array_foreach(struct pkg_array *a, pkg_array_visitor_func *pkg_visitor,
 		if (pkg == NULL)
 			continue;
 
-		pkg_visitor(a, pkg, pkg_data);
+		pkg_visitor(pkg, pkg_data);
 	}
 }
 

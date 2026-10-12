@@ -69,7 +69,7 @@ static int opt_loadavail = 0;
 
 static int
 pkg_array_match_patterns(struct pkg_array *array,
-                         pkg_array_visitor_func *pkg_visitor, void *pkg_data,
+                         pkg_visitor_func *pkg_visitor, void *pkg_data,
                          const char *const *argv)
 {
 	int argc, i, ip, *found;
@@ -275,8 +275,7 @@ list_format_print_header(struct list_format *fmt)
 }
 
 static void
-pkg_array_list_item(struct pkg_array *array, struct pkginfo *pkg,
-                    void *pkg_data)
+pkg_array_list_item(struct pkginfo *pkg, void *pkg_data)
 {
 	struct list_format *fmt = pkg_data;
 	int l;
@@ -614,15 +613,13 @@ list_files(const char *const *argv)
 }
 
 static void
-pkg_array_load_db_fsys(struct pkg_array *array, struct pkginfo *pkg,
-                       void *pkg_data)
+pkg_array_load_db_fsys(struct pkginfo *pkg, void *pkg_data)
 {
 	ensure_packagefiles_available(pkg);
 }
 
 static void
-pkg_array_show_item(struct pkg_array *array, struct pkginfo *pkg,
-                    void *pkg_data)
+pkg_array_show_item(struct pkginfo *pkg, void *pkg_data)
 {
 	struct pkg_format_node *fmt = pkg_data;
 
