@@ -282,7 +282,6 @@ pkg_array_list_item(struct pkg_array *array, struct pkginfo *pkg,
 	int l;
 	const char *pdesc;
 
-	list_format_init(fmt, array);
 	list_format_print_header(fmt);
 
 	pdesc = pkg_synopsis(pkg, &l);
@@ -315,6 +314,8 @@ listpackages(const char *const *argv)
 	pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
 
 	memset(&fmt, 0, sizeof(fmt));
+
+	list_format_init(&fmt, &array);
 
 	pager = pager_spawn(_("showing package list on pager"));
 
