@@ -40,9 +40,6 @@ struct pkg_array {
 	struct pkginfo **pkgs;
 };
 
-typedef struct pkginfo *pkg_mapper_func(const char *name);
-typedef void pkg_visitor_func(struct pkginfo *pkg, void *pkg_data);
-
 void
 pkg_array_init_from_hash(struct pkg_array *a);
 void

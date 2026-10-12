@@ -32,7 +32,9 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
+typedef struct pkginfo *pkg_mapper_func(const char *name);
 typedef int pkg_sorter_func(const void *a, const void *b);
+typedef void pkg_visitor_func(struct pkginfo *pkg, void *pkg_data);
 
 void
 pkgset_link_pkg(struct pkgset *set, struct pkginfo *pkg);
