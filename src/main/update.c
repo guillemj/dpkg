@@ -61,8 +61,6 @@ updateavailable(const char *const *argv)
 	char *availfile;
 	int count = 0;
 
-	modstatdb_init();
-
 	switch (cipaction->arg_int) {
 	case act_avclear:
 		if (sourcefile)
@@ -82,6 +80,8 @@ updateavailable(const char *const *argv)
 	default:
 		internerr("unknown action '%d'", cipaction->arg_int);
 	}
+
+	modstatdb_init();
 
 	if (f_act) {
 		db_available_check_access();
