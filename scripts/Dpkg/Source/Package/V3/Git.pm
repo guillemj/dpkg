@@ -32,7 +32,7 @@ package Dpkg::Source::Package::V3::Git 0.02;
 
 use v5.36;
 
-use Cwd qw(abs_path getcwd);
+use Cwd qw(abs_path);
 use File::Basename;
 use File::Spec;
 use File::Copy;
@@ -157,9 +157,6 @@ sub do_build {
 
     _check_workdir($dir);
 
-    my $old_cwd = getcwd();
-    chdir $dir or syserr(g_("cannot change directory to '%s'"), $dir);
-
     # Check for uncommitted files.
     # To support «dpkg-source -i», get a list of files equivalent to the ones
     # «git status» finds, and remove any ignored files from it.
@@ -170,15 +167,16 @@ sub do_build {
             'git', 'config',
                 '--get', 'core.excludesfile'
         ],
+        chdir => $dir,
         to_string => \$core_excludesfile,
         wait_child => 1,
         no_check => 1,
     );
     chomp $core_excludesfile;
-    if (length $core_excludesfile && -e $core_excludesfile) {
+    if (length $core_excludesfile && -e "$dir/$core_excludesfile") {
         push @ignores, "--exclude-from=$core_excludesfile";
     }
-    if (-e '.git/info/exclude') {
+    if (-e "$dir/.git/info/exclude") {
         push @ignores, '--exclude-from=.git/info/exclude';
     }
     my $git_ls_files_fh;
@@ -191,6 +189,7 @@ sub do_build {
                 '--others',
                 @ignores,
         ],
+        chdir => $dir,
         to_pipe => \$git_ls_files_fh,
     );
     my @files;
@@ -216,8 +215,6 @@ sub do_build {
     my $tmpdir;
     my $shallowfile;
     if ($self->{options}{git_depth}) {
-        chdir $old_cwd
-            or syserr(g_("cannot change directory to '%s'"), $old_cwd);
         $tmpdir = File::Temp->newdir(
             TEMPLATE => "$dirname.git.XXXXXX",
             DIR => $updir,
@@ -239,23 +236,21 @@ sub do_build {
             ],
             wait_child => 1,
         );
-        chdir($clone_dir)
-            or syserr(g_("cannot change directory to '%s'"), $clone_dir);
-        $shallowfile = "$basenamerev.gitshallow";
-        unlink "$old_cwd/$shallowfile";
-        copy('shallow', "$old_cwd/$shallowfile")
-            or syserr(g_('cannot copy %s to %s'),
-                      'shallow', "$old_cwd/$shallowfile");
+        my $shallow_orig = "$clone_dir/shallow";
+        $shallowfile = File::Spec->catfile($self->{basedir}, "$basenamerev.gitshallow");
+        unlink $shallowfile;
+        copy($shallow_orig, $shallowfile)
+            or syserr(g_('cannot copy %s to %s'), $shallow_orig, $shallowfile);
     }
 
     # Create the git bundle.
-    my $bundlefile = "$basenamerev.git";
+    my $bundlefile = File::Spec->catfile($self->{basedir}, "$basenamerev.git");
     my @bundle_arg = $self->{options}{git_ref} ?
         (@{$self->{options}{git_ref}}) : '--all';
     info(g_('bundling: %s'), join(' ', @bundle_arg));
     spawn(
         exec => [
-            'git', 'bundle', 'create', "$old_cwd/$bundlefile",
+            'git', 'bundle', 'create', abs_path($bundlefile),
                 @bundle_arg,
                 # Ensure HEAD is included no matter what.
                 'HEAD',
@@ -263,10 +258,10 @@ sub do_build {
                 # debian branch.
                 '--',
         ],
+        chdir => $dir,
         wait_child => 1,
     );
 
-    chdir $old_cwd or syserr(g_("cannot change directory to '%s'"), $old_cwd);
 
     if (defined $tmpdir) {
         erasedir($tmpdir);
@@ -350,10 +345,11 @@ sub do_extract {
         info(g_('setting remote %s to %s'), $remote, $url);
         spawn(
             exec => [
-                'git', '-C', $newdirectory, 'remote', 'add',
+                'git', 'remote', 'add',
                     @remote_opts,
                     $remote, $url,
             ],
+            chdir => $newdirectory,
             wait_child => 1,
         );
     }
