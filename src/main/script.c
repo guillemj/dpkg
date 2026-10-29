@@ -234,7 +234,11 @@ vmaintscript_run_old(struct pkginfo *pkg,
 	char *scriptdesc;
 
 	scriptpath = pkg_infodb_get_file(pkg, &pkg->installed, scriptname);
-	scriptdesc = str_fmt(_("old %s package %s maintainer script"),
+	/* We use "installed" instead of "old" as for almost all our callers
+	 * there is no "new" package being handled, and thus the latter in
+	 * that context becomes very confusing, while the former is always
+	 * correct. */
+	scriptdesc = str_fmt(_("installed %s package %s maintainer script"),
 	                     pkg_name(pkg, pnaw_nonambig), scriptname);
 
 	command_init(&cmd, scriptpath, scriptdesc);
