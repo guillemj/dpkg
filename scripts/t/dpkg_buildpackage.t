@@ -29,7 +29,7 @@ use Dpkg::BuildTypes;
 use Dpkg::Substvars;
 
 test_needs_command('fakeroot');
-plan tests => 17;
+plan tests => 18;
 
 my $srcdir = rel2abs($ENV{srcdir} || '.');
 my $datadir = "$srcdir/t/dpkg_buildpackage";
@@ -51,6 +51,21 @@ delete $ENV{$_} foreach grep { m/^DEB_/ } keys %ENV;
 $ENV{PATH} = "$srcdir/t/mock-bin:$ENV{PATH}";
 
 chdir $tmpdir;
+
+my $stderr;
+
+spawn(
+    exec => [
+        $ENV{PERL}, "$srcdir/dpkg-buildpackage.pl",
+            '--sign-pause', '--help',
+    ],
+    to_file => '/dev/null',
+    error_to_string => \$stderr,
+    wait_child => 1,
+    no_check => 1,
+);
+ok($? == 0 && $stderr eq '', '--sign-pause is accepted');
+diag($stderr) unless $? == 0;
 
 my $tmpl_format = <<'TMPL_FORMAT';
 3.0 (native)

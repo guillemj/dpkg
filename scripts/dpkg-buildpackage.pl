@@ -545,7 +545,7 @@ while (@ARGV) {
     } elsif (/^-uc$/ or /^--unsigned-changes$/) {
         $signbuildinfo = 0;
         $signchanges = 0;
-    } elsif (/^-ap$/ or /^--sign-pausa$/) {
+    } elsif (/^-ap$/ or /^--sign-pause$/) {
         $signpause = 1;
     } elsif (/^-a$/ or /^--host-arch$/) {
         $host_arch = shift;
