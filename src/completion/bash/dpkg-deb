@@ -106,9 +106,9 @@ _comp_cmd_dpkg_deb()
   --threads-max)
     local nproc
     # Most Unices.
-    : ${nproc:=$(getconf _NPROCESSORS_ONLN 2>/dev/null)}
+    : "${nproc:=$(getconf _NPROCESSORS_ONLN 2>/dev/null)}"
     # Fallback for at least Irix.
-    : ${nproc:=$(getconf _NPROC_ONLN 2>/dev/null)}
+    : "${nproc:=$(getconf _NPROC_ONLN 2>/dev/null)}"
     _comp_compgen -- -W "$(seq 1 "${nproc:-1}")"
     return
     ;;
