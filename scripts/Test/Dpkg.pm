@@ -216,9 +216,13 @@ sub all_shell_files(@files_todo)
         $keep_shebang_file,
         [ qw(
             debian/tests
+            dselect/completion/bash
             lib/dpkg/t/data
+            scripts/completion/bash
             scripts/t
+            src/completion/bash
             tests
+            utils/completion/bash
         ) ],
     );
 
