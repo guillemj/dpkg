@@ -1,3 +1,37 @@
+AT_SETUP([dpkg-deb .deb control files])
+AT_KEYWORDS([dpkg-deb deb control files])
+
+DPKG_GEN_CONTROL([pkg-ctrl-symlink-escape])
+mv pkg-ctrl-symlink-escape/DEBIAN/control ext-control
+ln -sf ../../ext-control pkg-ctrl-symlink-escape/DEBIAN/control
+# Check that we cannot build a package with a symlinked control file.
+AT_CHECK([
+dpkg-deb --root-owner-group -b pkg-ctrl-symlink-escape
+], [2], [ignore], [dpkg-deb: error: control file 'pkg-ctrl-symlink-escape/DEBIAN/control' is a symbolic link trying to escape the control directory to '../../ext-control'
+])
+# Check that we cannot extract a package with a symlinked control file.
+AT_CHECK([
+dpkg-deb --root-owner-group --no-check -b pkg-ctrl-symlink-escape
+], [0], [ignore], [dpkg-deb: warning: not checking contents of control area
+])
+AT_CHECK([
+dpkg-deb --info pkg-ctrl-symlink-escape.deb control
+], [2], [ignore], [ignore])
+
+DPKG_GEN_CONTROL([pkg-ctrl-symlink-local])
+mv pkg-ctrl-symlink-local/DEBIAN/control pkg-ctrl-symlink-local/DEBIAN/ctrl
+ln -sf ctrl pkg-ctrl-symlink-local/DEBIAN/control
+# Check that we can build a package with a locally symlinked control file.
+AT_CHECK([
+dpkg-deb --root-owner-group -b pkg-ctrl-symlink-local
+], [0], [ignore], [])
+# Check that we can extract a package with a locally symlinked control file.
+AT_CHECK([
+dpkg-deb --info pkg-ctrl-symlink-local.deb control
+], [0], [ignore], [])
+
+AT_CLEANUP
+
 AT_SETUP([dpkg-deb .deb conffiles])
 AT_KEYWORDS([dpkg-deb deb conffiles])
 

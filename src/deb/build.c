@@ -228,12 +228,11 @@ check_ctrl_perms(const char *ctrldir)
 	for (mscriptp = maintainerscripts; *mscriptp; mscriptp++) {
 		varbuf_set_fmt(&path, "%s/%s", ctrldir, *mscriptp);
 		if (!lstat(path.buf, &mscriptstab)) {
+			check_ctrl_filetype(path.buf, &mscriptstab);
+
 			if (S_ISLNK(mscriptstab.st_mode))
 				continue;
-			if (!S_ISREG(mscriptstab.st_mode))
-				ohshit(_("maintainer script '%s' is not "
-				         "a plain file or symbolic link"),
-				       *mscriptp);
+
 			if ((mscriptstab.st_mode & 07557) != 0555)
 				ohshit(_("maintainer script '%s' has bad permissions %03lo "
 				         "(must be >=0555 and <=0775)"),
@@ -384,9 +383,12 @@ static struct pkginfo *
 check_ctrl_control(const char *ctrldir)
 {
 	struct pkginfo *pkg;
+	struct stat st;
 	char *controlfile;
 
 	controlfile = str_fmt("%s/%s", ctrldir, CONTROLFILE);
+	if (lstat(controlfile, &st) == 0)
+		check_ctrl_filetype(controlfile, &st);
 	parsedb(controlfile, pdb_parse_binary, &pkg);
 
 	if (strspn(pkg->set->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=

@@ -45,6 +45,7 @@
 #include <dpkg/pkg-format.h>
 #include <dpkg/buffer.h>
 #include <dpkg/path.h>
+#include <dpkg/file.h>
 #include <dpkg/treewalk.h>
 #include <dpkg/options.h>
 
@@ -106,6 +107,36 @@ ctrl_file_filter(const struct dirent *de)
 	return strcmp(de->d_name, ".") && strcmp(de->d_name, "..");
 }
 
+void
+check_ctrl_filetype(const char *filename, struct stat *st)
+{
+	if (S_ISLNK(st->st_mode)) {
+		struct varbuf target = VARBUF_INIT;
+		ssize_t linksize;
+
+		linksize = file_readlink(filename, &target, st->st_size);
+		if (linksize < 0)
+			ohshite(_("cannot read symbolic link '%s'"),
+			        filename);
+		else if ((off_t)linksize != st->st_size)
+			ohshit(_("symbolic link '%s' size has changed from %jd to %zd"),
+			       filename, (intmax_t)st->st_size, linksize);
+
+		if (strcmp(target.buf, "..") == 0 ||
+		    strchr(target.buf, '/')) {
+			ohshit(_("control file '%s' is a symbolic link trying "
+			         "to escape the control directory to '%s'"),
+			       filename, target.buf);
+		}
+
+		varbuf_destroy(&target);
+	} else if (!S_ISREG(st->st_mode)) {
+		ohshit(_("control file '%s' is not "
+		         "a plain file or symbolic link"),
+		       filename);
+	}
+}
+
 static void
 info_spew(const char *debar, const char *dir, const char *const *argv)
 {
@@ -115,9 +146,13 @@ info_spew(const char *debar, const char *dir, const char *const *argv)
 	int re = 0;
 
 	while ((component = *argv++) != NULL) {
+		struct stat st;
 		int fd;
 
 		varbuf_set_fmt(&controlfile, "%s/%s", dir, component);
+
+		if (lstat(varbuf_str(&controlfile), &st) == 0)
+			check_ctrl_filetype(varbuf_str(&controlfile), &st);
 
 		fd = open(varbuf_str(&controlfile), O_RDONLY);
 		if (fd >= 0) {

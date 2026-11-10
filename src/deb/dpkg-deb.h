@@ -22,6 +22,8 @@
 #ifndef DPKG_DEB_H
 #define DPKG_DEB_H
 
+#include <sys/stat.h>
+
 #include <dpkg/deb-version.h>
 
 action_func do_build;
@@ -59,6 +61,9 @@ enum DPKG_ATTR_ENUM_FLAGS dpkg_tar_options {
 	/** Guarantee extraction into a new directory, abort if it exists. */
 	DPKG_TAR_CREATE_DIR = DPKG_BIT(4),
 };
+
+void
+check_ctrl_filetype(const char *filename, struct stat *st);
 
 void
 extracthalf(const char *debar, const char *dir,
