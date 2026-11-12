@@ -671,7 +671,8 @@ if ($check_command and not find_command($check_command)) {
     error(g_("check-command '%s' not found"), $check_command);
 }
 
-if ($signcommand and not find_command($signcommand)) {
+if ($signcommand && $signcommand ne 'auto' && $signcommand ne 'none' &&
+    ! find_command($signcommand)) {
     error(g_("sign-command '%s' not found"), $signcommand);
 }
 
