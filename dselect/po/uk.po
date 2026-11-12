@@ -6,18 +6,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dselect 1.23.8\n"
+"Project-Id-Version: dselect 1.23.12\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2025-12-20 02:18+0100\n"
-"PO-Revision-Date: 2026-05-13 04:59+0200\n"
+"POT-Creation-Date: 2026-09-09 00:21+0200\n"
+"PO-Revision-Date: 2026-09-29 14:46+0300\n"
 "Last-Translator: Andriy Pysyk <ep.nestor@gmail.com>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 3.6\n"
 
 #: dselect/basecmds.cc
@@ -33,10 +33,8 @@ msgid "Help: "
 msgstr "Допомога: "
 
 #: dselect/basecmds.cc
-msgid "Press ? for help menu, . for next topic, <space> to exit help."
-msgstr ""
-"Натисніть ? для меню довідки, . для переходу до наступної теми, <пробіл> для виходу "
-"з довідки."
+msgid "Press ? for help menu, . for next topic, <Space> to exit help."
+msgstr "Натисніть ? для довідки, . для наступної теми, <Пробіл> для виходу з довідки."
 
 #: dselect/basecmds.cc
 msgid "Help information is available under the following topics:"
@@ -44,52 +42,35 @@ msgstr "Довідкова інформація доступна за таким
 
 #: dselect/basecmds.cc
 msgid ""
-"Press a key from the list above, <space> or 'q' to exit help,\n"
+"Press a key from the list above, <Space> or 'q' to exit help,\n"
 "  or '.' (full stop) to read each help page in turn. "
 msgstr ""
-"Натисніть клавішу зі списку вище, <пробіл> або 'q', щоб\n"
-"  вийти з довідки, або '.' (крапка), щоб прочитати кожну\n"
-"  сторінку довідки по черзі. "
+"Натисніть клавішу зі списку вище, <Пробіл> або q', щоб\n"
+"  вийти з довідки, або '.' (крапка), щоб читати сторінки\n"
+"  довідки по черзі. "
 
-#: dselect/basecmds.cc
-msgid "error reading keyboard in help"
-msgstr "помилка читання клавіатури в довідці"
+#: dselect/basecmds.cc dselect/main.cc dselect/methlist.cc dselect/pkglist.cc
+msgid "cannot get input character"
+msgstr "не вдалося отримати вхідний символ"
 
 #: dselect/baselist.cc
 msgid "cannot update screen after window resize"
 msgstr "не вдалося оновити екран після зміни розміру вікна"
 
 #: dselect/baselist.cc
-msgid "cannot allocate color pair"
-msgstr "не вдалося виділити кольорову пару"
+#, c-format
+msgid "cannot initialize color pair %d:%d"
+msgstr "не вдалося ініціалізувати пару кольорів %d:%d"
 
 #: dselect/baselist.cc
-msgid "failed to create title window"
-msgstr "не вдалося створити вікно заголовка"
+#, c-format
+msgid "cannot create '%s' window"
+msgstr "не вдалося створити вікно '%s'"
 
 #: dselect/baselist.cc
-msgid "failed to create whatinfo window"
-msgstr "не вдалося створити вікно whatinfo"
-
-#: dselect/baselist.cc
-msgid "failed to create baselist pad"
-msgstr "не вдалося створити пад базового списку"
-
-#: dselect/baselist.cc
-msgid "failed to create heading pad"
-msgstr "не вдалося створити пад заголовка"
-
-#: dselect/baselist.cc
-msgid "failed to create thisstate pad"
-msgstr "не вдалося створити пад thisstate"
-
-#: dselect/baselist.cc
-msgid "failed to create info pad"
-msgstr "не вдалося створити інформаційний пад"
-
-#: dselect/baselist.cc
-msgid "failed to create query window"
-msgstr "не вдалося створити вікно запиту"
+#, c-format
+msgid "cannot create '%s' screen pad"
+msgstr "не вдалося створити екранну панель '%s'"
 
 #: dselect/baselist.cc
 msgid "Keybindings"
@@ -262,12 +243,12 @@ msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  j, Down-arrow         k, Up-arrow             move highlight\n"
 "  N, Page-down, Space   P, Page-up, Backspace   scroll list by 1 page\n"
-"  ^n                    ^p                      scroll list by 1 line\n"
+"  Ctrl+n                Ctrl+p                  scroll list by 1 line\n"
 "  t, Home               e, End                  jump to top/end of list\n"
 "  u                     d                       scroll info by 1 page\n"
-"  ^u                    ^d                      scroll info by 1 line\n"
+"  Ctrl+u                Ctrl+d                  scroll info by 1 line\n"
 "  B, Left-arrow         F, Right-arrow          pan display by 1/3 screen\n"
-"  ^b                    ^f                      pan display by 1 character\n"
+"  Ctrl+b                Ctrl+f                  pan display by 1 character\n"
 "\n"
 "Mark packages for later processing:\n"
 " +, Insert  install or upgrade      =, H  hold in present version\n"
@@ -275,27 +256,24 @@ msgid ""
 " _          remove & purge config\n"
 "                                             Miscellaneous:\n"
 "Quit, exit, overwrite (note capitals!):       ?, F1 request help (also Help)\n"
-" Return  Confirm, quit (check dependencies)   i, I  toggle/cycle info displays\n"
+" Enter   Confirm, quit (check dependencies)   i, I  toggle/cycle info displays\n"
 "   Q     Confirm, quit (override dep.s)       o, O  cycle through sort options\n"
 " X, Esc  eXit, abandoning any changes made   v, A, V  change status display opts\n"
-"   R     Revert to state before this list      ^l   redraw display\n"
-"   U     set all to sUggested state             /   search (Return to cancel)\n"
+"   R     Revert to state before this list    Ctrl+l   redraw display\n"
+"   U     set all to sUggested state             /   search (<Enter> to cancel)\n"
 "   D     set all to Directly requested state  n, \\  repeat last search\n"
 msgstr ""
 "Клавіші руху: Наступний/Попередній, Початок/Кінець, Вгору/Вниз, Назад/Вперед:\n"
 "  j, Стрілка вниз   k, Стрілка вгору      переміщення виділення\n"
 "  N, Page-down, Пробіл   P, Page-up, Backspace    прокручування на 1 сторінку\n"
-"  ^n                              ^p                               прокручування "
-"списку на 1 рядок\n"
+"  Ctrl+n                  Ctrl+p                 прокручування списку на 1 рядок\n"
 "  t, Home                     e, End                             перехід до початку/"
 "кінця списку\n"
 "  u                                d                        прокручування "
 "інформації на 1 сторінку\n"
-"  ^u                             ^d                          прокручування "
-"інформації на 1 рядок\n"
+"  Ctrl+u                 Ctrl+d              прокручування інформації на 1 рядок\n"
 "  B, Стрілка вліво     F, Стрілка вправо зміщення відображення на 1/3 екрана\n"
-"  ^b                            ^f                              зміщення "
-"відображення на 1 символ\n"
+"  Ctrl+b                Ctrl+f                 зміщення відображення на 1 символ\n"
 "\n"
 "Позначення пакунків для подальшої обробки:\n"
 "+, Insert встановити або оновити            =, H утримувати в поточній версії\n"
@@ -304,14 +282,15 @@ msgstr ""
 "                                       Різне:\n"
 "Quit, exit, overwrite (зверніть увагу на великі літери!): ?, F1 виклик довідки "
 "(також Help)\n"
-"Return Підтвердити зміни, перевірити залежності й вийти   i, I перемикати режими "
-"відображення інформації\n"
-"  Q Підтвердити зміни, перевизначити залежності й вийти   o, O перемикати "
-"параметри  сортування\n"
-" X, Esc   вийти, скасувавши всі внесені зміни    v, A, V змінити параметри "
-"відображення стану\n"
-"  R    Повернутися до стану перед цим списком     ^l   перемалювати екран\n"
-"  U    встановити всі пакунки в запропонований стан       / пошук (Return для "
+"Return Підтвердити зміни, перевірити залежності й вийти\n"
+"  i, I перемикати режими відображення інформації\n"
+"  Q Підтвердити зміни, перевизначити залежності й вийти\n"
+"  o, O перемикати параметри  сортування\n"
+"  X, Esc   вийти, скасувавши всі внесені зміни\n"
+"  v, A, V змінити параметри відображення стану\n"
+"  R    Повернутися до стану перед цим списком\n"
+"     Ctrl+l   перемалювати екран\n"
+"  U    встановити всі пакунки в запропонований стан       / пошук (<Enter> для "
 "скасування)\n"
 "  D    встановити всі пакунки в безпосередньо запитуваний стан   n, \\ повторити "
 "останній пошук\n"
@@ -325,31 +304,30 @@ msgid ""
 "Welcome to dselect's main package listing.\n"
 "\n"
 "You will be presented with a list of packages which are installed or available\n"
-"for installation.  You can navigate around the list using the cursor keys,\n"
+"for installation. You can navigate around the list using the cursor keys,\n"
 "mark packages for installation (using '+') or deinstallation (using '-').\n"
 "Packages can be marked either singly or in groups; initially you will see that\n"
-"the line 'All packages' is selected.  '+', '-' and so on will affect all the\n"
+"the line 'All packages' is selected. '+', '-' and so on will affect all the\n"
 "packages described by the highlighted line.\n"
 "\n"
 "Some of your choices will cause conflicts or dependency problems; you will be\n"
 "given a sub-list of the relevant packages, so that you can solve the problems.\n"
 "\n"
 "You should read the list of keys and the explanations of the display.\n"
-"Much on-line help is available, please make use of it - press '?' at\n"
-"any time for help.\n"
+"Much on-line help is available, press '?' at any time to access it.\n"
 "\n"
-"When you have finished selecting packages, press <enter> to confirm changes,\n"
+"When you have finished selecting packages, press <Enter> to confirm changes,\n"
 "or 'X' to quit without saving changes. A final check on conflicts and\n"
 "dependencies will be done - here too you may see a sublist.\n"
 "\n"
-"Press <space> to leave help and enter the list now.\n"
+"Press <Space> to leave help and enter the list now.\n"
 msgstr ""
 "Ласкаво просимо до головного списку пакунків dselect.\n"
 "\n"
 "Вам буде показано список пакунків, які встановлені або доступні\n"
 "для встановлення. Ви можете переміщатися по списку за допомогою\n"
-"клавіш курсора, позначати пакунки для встановлення ('+') або\n"
-"видалення ('-'). Пакунки можна позначати окремо або групами;\n"
+"клавіш курсора, позначати пакунки для встановлення (за допомогою '+')\n"
+"або видалення (за допомогою '-'). Пакунки можна позначати окремо або групами;\n"
 "спочатку ви побачите, що вибрано рядок 'Усі пакунки'. '+', '-' тощо\n"
 "вплинуть на всі пакунки, описані виділеним рядком.\n"
 "\n"
@@ -357,15 +335,14 @@ msgstr ""
 "залежностями; вам буде показано підсписок відповідних пакунків,\n"
 "щоб ви могли їх вирішити.\n"
 "\n"
-"Варто ознайомитися зі списком клавіш і поясненнями відображення.\n"
-"Доступна розширена онлайн-довідка, будь ласка, користуйтеся\n"
-"нею. Натисніть '?' у будь-який момент, щоб отримати допомогу.\n"
+"Варто ознайомитися зі списком клавіш і поясненням елементів екрана.\n"
+"Доступна онлайн-довідка, натисніть '?', щоб отримати до неї доступ.\n"
 "\n"
-"Після завершення вибору пакунків натисніть <enter>, щоб підтвердити\n"
+"Після завершення вибору пакунків натисніть <Enter>, щоб підтвердити\n"
 "зміни, або 'X', щоб вийти без їх збереження. Буде виконано остаточну\n"
 "перевірку конфліктів і залежностей - тут також може бути підсписок.\n"
 "\n"
-"Натисніть <пробіл>, щоб вийти з довідки та перейти до списку.\n"
+"Натисніть <Пробіл>, щоб вийти з довідки та перейти до списку.\n"
 
 #: dselect/helpmsgs.cc
 msgid "Introduction to read-only package list browser"
@@ -376,18 +353,17 @@ msgid ""
 "Welcome to dselect's main package listing.\n"
 "\n"
 "You will be presented with a list of packages which are installed or available\n"
-"for installation.  Since you do not have the privilege necessary to update\n"
-"package states, you are in a read-only mode.  You can navigate around the\n"
-"list using the cursor keys (please see the 'Keystrokes' help screen), observe\n"
+"for installation. Since you do not have the privilege necessary to update\n"
+"package states, you are in a read-only mode. You can navigate around the\n"
+"list using the cursor keys (see the 'Keystrokes' help screen), observe\n"
 "the status of the packages and read information about them.\n"
 "\n"
 "You should read the list of keys and the explanations of the display.\n"
-"Much on-line help is available, please make use of it - press '?' at\n"
-"any time for help.\n"
+"Much on-line help is available, press '?' at any time to access it.\n"
 "\n"
-"When you have finished browsing, press 'Q' or <enter> to quit.\n"
+"When you have finished browsing, press 'Q' or <Enter> to quit.\n"
 "\n"
-"Press <space> to leave help and enter the list now.\n"
+"Press <Space> to leave help and enter the list now.\n"
 msgstr ""
 "Ласкаво просимо до головного списку пакунків dselect.\n"
 "\n"
@@ -398,12 +374,13 @@ msgstr ""
 "'Натискання клавіш'), переглядати стан пакунків і читати інформацію про них.\n"
 "\n"
 "Варто ознайомитися зі списком клавіш і поясненнями відображення.\n"
-"Доступна розширена онлайн-довідка, будь ласка, користуйтеся нею.\n"
-"Натисніть '?' у будь-який момент, щоб отримати допомогу.\n"
+"Доступна велика кількість онлайн-довідки. Натисніть '?'\n"
+"у будь-який момент, щоб отримати до неї доступ.\n"
 "\n"
-"Після завершення перегляду натисніть «Q» або <enter>, щоб вийти.\n"
 "\n"
-"Натисніть <пробіл>, щоб вийти з довідки та перейти до списку.\n"
+"Після завершення перегляду натисніть «Q» або <Enter>, щоб вийти.\n"
+"\n"
+"Натисніть <Пробіл>, щоб вийти з довідки та перейти до списку.\n"
 
 #: dselect/helpmsgs.cc
 msgid "Introduction to conflict/dependency resolution sub-list"
@@ -417,22 +394,22 @@ msgid ""
 "some packages should only be installed in conjunction with certain others, and\n"
 "some combinations of packages may not be installed together.\n"
 "\n"
-"You will see a sub-list containing the packages involved.  The bottom half of\n"
+"You will see a sub-list containing the packages involved. The bottom half of\n"
 "the display shows relevant conflicts and dependencies; use 'i' to cycle between\n"
 "that, the package descriptions and the internal package metadata.\n"
 "\n"
 "A set of 'suggested' packages has been calculated, and the initial markings in\n"
-"this sub-list have been set to match those, so you can just hit Return to\n"
-"accept the suggestions if you wish.  You may abort the change(s) which caused\n"
+"this sub-list have been set to match those, so you can just press <Enter> to\n"
+"accept the suggestions if you wish. You may abort the change(s) which caused\n"
 "the problem(s), and go back to the main list, by pressing capital 'X'.\n"
 "\n"
 "You can also move around the list and change the markings so that they are more\n"
-"like what you want, and you can 'reject' my suggestions by using the capital\n"
-"'D' or 'R' keys (see the keybindings help screen).  You can use capital 'Q' to\n"
+"like what you want, and you can 'reject' the suggestions by using the capital\n"
+"'D' or 'R' keys (see the keybindings help screen). You can use capital 'Q' to\n"
 "force to accept the situation currently displayed, in case you want to\n"
 "override a recommendation or think that the program is mistaken.\n"
 "\n"
-"Press <space> to leave help and enter the sub-list; remember: press '?' for help.\n"
+"Press <Space> to leave help and enter the sub-list; press '?' for help.\n"
 msgstr ""
 "Вирішення конфліктів і залежностей - вступ.\n"
 "\n"
@@ -447,18 +424,18 @@ msgstr ""
 "\n"
 "Було визначено набір 'запропонованих' пакунків, і початкові позначки в\n"
 "цьому підсписку встановлено відповідно до нього. Тому, якщо бажаєте,\n"
-"ви можете просто натиснути Enter, щоб прийняти ці пропозиції. Ви також\n"
+"ви можете просто натиснути <Enter>, щоб прийняти ці пропозиції. Ви також\n"
 "можете скасувати зміни, що спричинили проблему(и), і повернутися\n"
 "до основного списку, натиснувши велику літеру 'X'.\n"
 "\n"
 "Ви можете переміщатися по списку та змінювати позначки так, щоб\n"
 "вони відповідали вашим намірам. Ви також можете 'відхилити'\n"
-"мої пропозиції, використовуючи великі літери 'D' або 'R' (див. екран\n"
+"запропоновані варіанти, використовуючи великі літери 'D' або 'R' (див. екран\n"
 "довідки щодо комбінацій клавіш). Велику літеру 'Q' можна використати,\n"
-"щоб примусово прийняти поточний стан, якщо ви хочете проігнорувати\n"
-"рекомендацію або вважаєте, що програма помиляється.\n"
+"щоб примусово прийняти поточний стан залежностей, якщо ви хочете\n"
+"проігнорувати рекомендацію або вважаєте, що програма помиляється.\n"
 "\n"
-"Натисніть <пробіл>, щоб вийти з довідки та перейти до підсписку.\n"
+"Натисніть <Пробіл>, щоб вийти з довідки та перейти до підсписку.\n"
 "Пам’ятайте: натисніть '?' для отримання довідки.\n"
 
 #: dselect/helpmsgs.cc
@@ -467,8 +444,8 @@ msgstr "Екран, частина 1: список пакунків та сим�
 
 #: dselect/helpmsgs.cc
 msgid ""
-"The top half of the screen shows a list of packages.  For each package you see\n"
-"four columns for its current status on the system and mark.  In terse mode (use\n"
+"The top half of the screen shows a list of packages. For each package you see\n"
+"four columns for its current status on the system and mark. In terse mode (use\n"
 "'v' to toggle verbose display) these are single characters, from left to right:\n"
 "\n"
 " Error flag: Space - no error (but package may be in broken state - see below)\n"
@@ -507,9 +484,9 @@ msgstr ""
 "(повністю) правильно { 'I' - наполовину встановлено (сталася помилка);\n"
 "встановлені              { 'W','t' - тригери очікують виконання або перебувають\n"
 "                                     у черзі.\n"
-"Стара позначка: що було запрошено для цього пакунка до\n"
+"Стара позначка: що було вказано для цього пакунка до\n"
 "                             показу цього списку;\n"
-"Позначка: що зараз запитується для цього пакунка:\n"
+"Позначка: що вказано для цього пакунка:\n"
 "  '*': позначено для встановлення або оновлення;\n"
 "  '-': позначено для видалення, але файли конфігурації залишаться;\n"
 "  '=': утримується: пакунок не буде встановлено, оновлено чи видалено;\n"
@@ -525,12 +502,12 @@ msgstr "Екран, частина 2: виділення списку; інфо�
 
 #: dselect/helpmsgs.cc
 msgid ""
-"* Highlight: One line in the package list will be highlighted.  It indicates\n"
+"* Highlight: One line in the package list will be highlighted. It indicates\n"
 "  which package(s) will be affected by presses of '+', '-' and '_'.\n"
 "\n"
 "* The dividing line in the middle of the screen shows a brief explanation of\n"
 "  the status of the currently-highlighted package, or a description of which\n"
-"  group is highlighted if a group line is.  If you don't understand the\n"
+"  group is highlighted if a group line is. If you don't understand the\n"
 "  meaning of some of the status characters displayed, go to the relevant\n"
 "  package and look at this divider line, or use the 'v' key for a verbose\n"
 "  display (press 'v' again to go back to the terse display).\n"
@@ -557,10 +534,10 @@ msgstr ""
 "  повернутися до стислого режиму).\n"
 "\n"
 "* Унизу екрана відображається додаткова інформація про поточний\n"
-"  підсвічений пакунок (якщо він один).\n"
+"  виділений пакунок (якщо він один).\n"
 "\n"
-"  Тут може бути показано розширений опис пакунка, внутрішні службові\n"
-"  дані пакунка (для встановленої або доступної версії) або інформацію\n"
+"  Тут можуть відображатися розширений опис пакунка, внутрішні дані\n"
+"  керування пакунком (для встановленої або доступної версії) або інформацію\n"
 "  про конфлікти та залежності, що стосуються поточного пакунка (у\n"
 "  підсписках вирішення конфліктів/залежностей).\n"
 "\n"
@@ -579,8 +556,8 @@ msgid ""
 "\n"
 "This list allows you to select one of these installation methods.\n"
 "\n"
-"Move the highlight to the method you wish to use, and hit Enter.  You will then\n"
-"be prompted for the information required to do the installation.\n"
+"Move the highlight to the method you wish to use, and press <Enter>. You will\n"
+"then be prompted for the information required to do the installation.\n"
 "\n"
 "As you move the highlight a description of each method, where available, is\n"
 "displayed in the bottom half of the screen.\n"
@@ -596,7 +573,7 @@ msgstr ""
 "\n"
 "Цей список дозволяє вибрати один із доступних методів інсталяції.\n"
 "\n"
-"Перемістіть виділення на потрібний метод і натисніть Enter. Після цього\n"
+"Перемістіть виділення на потрібний метод і натисніть <Enter>. Після цього\n"
 "вам буде запропоновано ввести інформацію, необхідну для виконання\n"
 "інсталяції.\n"
 "\n"
@@ -607,7 +584,7 @@ msgstr ""
 "списку методів інсталяції.\n"
 "\n"
 "Повний список комбінацій клавіш можна переглянути, натиснувши\n"
-"'k' зараз або відкривши меню довідки, доступне через клавішу '?'.\n"
+"'k' або відкривши меню довідки, доступне через клавішу '?'.\n"
 
 #: dselect/helpmsgs.cc
 msgid "Keystrokes for method selection"
@@ -618,22 +595,22 @@ msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  j, Down-arrow         k, Up-arrow             move highlight\n"
 "  N, Page-down, Space   P, Page-up, Backspace   scroll list by 1 page\n"
-"  ^n                    ^p                      scroll list by 1 line\n"
+"  Ctrl+n                Ctrl+p                  scroll list by 1 line\n"
 "  t, Home               e, End                  jump to top/end of list\n"
 "  u                     d                       scroll info by 1 page\n"
-"  ^u                    ^d                      scroll info by 1 line\n"
+"  Ctrl+u                Ctrl+d                  scroll info by 1 line\n"
 "  B, Left-arrow         F, Right-arrow          pan display by 1/3 screen\n"
-"  ^b                    ^f                      pan display by 1 character\n"
+"  Ctrl+b                Ctrl+f                  pan display by 1 character\n"
 "(These are the same motion keys as in the package list display.)\n"
 "\n"
 "Quit:\n"
-" Return, Enter    select this method and go to its configuration dialogue\n"
+" Enter            select this method and go to its configuration dialogue\n"
 " x, X             exit without changing or setting up the installation method\n"
 "\n"
 "Miscellaneous:\n"
 "  ?, Help, F1      request help\n"
-" ^l                redraw display\n"
-"  /                search (just return to cancel)\n"
+"  Ctrl+l           redraw display\n"
+"  /                search (<Enter> to cancel)\n"
 "  \\                repeat last search\n"
 msgstr ""
 "Клавіші переміщення: Наступний/Попередній, Початок/Кінець,\n"
@@ -642,14 +619,14 @@ msgstr ""
 "  N, Page Down, Пробіл       P, Page Up, Backspace    прокручування\n"
 "                                                                             списку "
 "на 1 сторінку\n"
-"  ^n                       ^p                    прокручування списку на 1 рядок\n"
+"  Ctrl+n                  Ctrl+p               прокручування списку на 1 рядок\n"
 "  t, Home               e, End                перехід до початку/кінця списку\n"
 "  u                          d            прокручування інформації на 1 сторінку\n"
-"  ^u                       ^d              прокручування інформації на 1 рядок\n"
+"  Ctrl+u                   Ctrl+d          прокручування інформації на 1 рядок\n"
 "  B, Стрілка вліво           F, Стрілка вправо                      зміщення\n"
 "                                                                відображення на 1/3 "
 "екрана\n"
-"  ^b                    ^f                  зміщення відображення на 1 символ\n"
+"  Ctrl+b                Ctrl+f              зміщення відображення на 1 символ\n"
 "(Це ті самі клавіші переміщення, що й у відображенні списку пакунків.)\n"
 "\n"
 "Вихід:\n"
@@ -659,7 +636,7 @@ msgstr ""
 "\n"
 "Різне:\n"
 "  ?, Help, F1         виклик довідки\n"
-"  ^l                      перемалювати екран\n"
+"  Ctrl+l                  перемалювати екран\n"
 "  /       пошук (натисніть Return для скасування)\n"
 "  \\       повторити останній пошук\n"
 
@@ -673,11 +650,11 @@ msgstr "a"
 
 #: dselect/main.cc
 msgid "[A]ccess"
-msgstr "[A] - доступ"
+msgstr "[A] дост"
 
 #: dselect/main.cc
 msgid "Choose the access method to use."
-msgstr "Вибрати метод доступу, який буде використано."
+msgstr "Вибрати метод доступу."
 
 #: dselect/main.cc
 msgid "u"
@@ -685,11 +662,11 @@ msgstr "u"
 
 #: dselect/main.cc
 msgid "[U]pdate"
-msgstr "[U] - оновити"
+msgstr "[U] онов"
 
 #: dselect/main.cc
 msgid "Update list of available packages, if possible."
-msgstr "Оновити список доступних пакунків, якщо це можливо."
+msgstr "Оновити список доступних пакунків."
 
 #: dselect/main.cc
 msgid "s"
@@ -697,11 +674,11 @@ msgstr "s"
 
 #: dselect/main.cc
 msgid "[S]elect"
-msgstr "[S] - вибрати"
+msgstr "[S] вибр"
 
 #: dselect/main.cc
-msgid "Request which packages you want on your system."
-msgstr "Вибрати, які пакунки мають бути у вашій системі."
+msgid "Request which packages to install on the system."
+msgstr "Вибрати пакунки для встановлення."
 
 #: dselect/main.cc
 msgid "i"
@@ -709,11 +686,11 @@ msgstr "i"
 
 #: dselect/main.cc
 msgid "[I]nstall"
-msgstr "[I] - встановити"
+msgstr "[I] інст"
 
 #: dselect/main.cc
 msgid "Install and upgrade wanted packages."
-msgstr "Встановити та оновити позначені пакунки."
+msgstr "Встановити та оновити пакунки."
 
 #: dselect/main.cc
 msgid "c"
@@ -721,11 +698,11 @@ msgstr "c"
 
 #: dselect/main.cc
 msgid "[C]onfig"
-msgstr "[C] - налаштувати"
+msgstr "[C] налашт"
 
 #: dselect/main.cc
 msgid "Configure any packages that are unconfigured."
-msgstr "Налаштувати всі пакунки, які ще не налаштовані."
+msgstr "Налаштувати неналаштовані пакунки."
 
 #: dselect/main.cc
 msgid "r"
@@ -733,11 +710,11 @@ msgstr "r"
 
 #: dselect/main.cc
 msgid "[R]emove"
-msgstr "[R] - видалити"
+msgstr "[R] видал"
 
 #: dselect/main.cc
 msgid "Remove unwanted software."
-msgstr "Видалити небажане програмне забезпечення."
+msgstr "Видалити небажані програми."
 
 #: dselect/main.cc
 msgid "q"
@@ -745,7 +722,7 @@ msgstr "q"
 
 #: dselect/main.cc
 msgid "[Q]uit"
-msgstr "[Q] - вийти"
+msgstr "[Q] вийти"
 
 #: dselect/main.cc
 msgid "Quit dselect."
@@ -775,12 +752,8 @@ msgstr "<стандартний вивід>"
 
 #: dselect/main.cc
 #, c-format
-msgid ""
-"Usage: %s [<option>...] [<command>...]\n"
-"\n"
-msgstr ""
-"Використання: %s [<параметр>...] [<команда>...]\n"
-"\n"
+msgid "Usage: %s [<option>...] [<command>...]\n"
+msgstr "Використання: %s [<параметр>...] [<команда>...]\n"
 
 #: dselect/main.cc
 #, c-format
@@ -788,64 +761,110 @@ msgid "Commands:\n"
 msgstr "Команди:\n"
 
 #: dselect/main.cc
+msgid ""
+"  -?, --help\n"
+"          Show this help message.\n"
+msgstr ""
+"  -?, --help\n"
+"  Показати це довідкове повідомлення.\n"
+
+#: dselect/main.cc
+msgid ""
+"      --version\n"
+"          Show the version.\n"
+msgstr ""
+"      --version\n"
+"          Показати версію.\n"
+
+#: dselect/main.cc
+#, c-format
+msgid "Options:\n"
+msgstr "Опції:\n"
+
+#: dselect/main.cc
+msgid ""
+"      --color <color-spec>\n"
+"          Configure screen colors.\n"
+msgstr ""
+"      --color <color-spec>\n"
+"          Налаштувати кольори екрана.\n"
+
+#: dselect/main.cc
+msgid ""
+"      --colour <color-spec>\n"
+"          Alias for --color.\n"
+msgstr ""
+"      --colour <color-spec>\n"
+"          Те саме що --color.\n"
+
+#: dselect/main.cc
+msgid ""
+"      --expert\n"
+"          Enable expert mode.\n"
+msgstr ""
+"      --expert\n"
+"          Увімкнути режим експерта.\n"
+
+#: dselect/main.cc
+msgid ""
+"  -D, --debug <file>\n"
+"          Enable debugging mode, send output to <file>.\n"
+msgstr ""
+"  -D, --debug <файл>\n"
+"          Увімкнути режим налагодження, спрямувати вивід у <файл>.\n"
+
+#: dselect/main.cc
+msgid ""
+"      --admindir <directory>\n"
+"          Set the database directory.\n"
+msgstr ""
+"      --admindir <каталог>\n"
+"          Вказати каталог бази даних.\n"
+
+#: dselect/main.cc
+msgid ""
+"      --instdir <directory>\n"
+"          Set the installation directory.\n"
+msgstr ""
+"      --instdir <directory>\n"
+"          Вказати каталог встановлення.\n"
+
+#: dselect/main.cc
+msgid ""
+"      --root <directory>\n"
+"          Set the root directory.\n"
+msgstr ""
+"      --root <directory>\n"
+"          Вказати кореневий каталог.\n"
+
+#: dselect/main.cc
 #, c-format
 msgid ""
-"Options:\n"
-"      --admindir <directory>       Use <directory> instead of %s.\n"
-"      --instdir <directory>        Use <directory> instead of %s.\n"
-"      --root <directory>           Use <directory> instead of %s.\n"
-"      --expert                     Turn on expert mode.\n"
-"  -D, --debug <file>               Turn on debugging, send output to <file>.\n"
-"      --color <color-spec>         Configure screen colors.\n"
-"      --colour <color-spec>        Ditto.\n"
+"<color-spec> is:\n"
+"  <screen-part>:[<foreground>],[<background>][:<attr>[+<attr>]...]\n"
 msgstr ""
-"Параметри:\n"
-"  --admindir <каталог> Використовувати <каталог> замість %s.\n"
-"  --instdir <каталог>     Використовувати <каталог> замість %s.\n"
-"  --root <каталог>         Використовувати <каталог> замість %s.\n"
-"  --expert                         Увімкнути експертний режим.\n"
-"  -D, --debug <файл>    Увімкнути налагодження, надсилати вивід до <файл>.\n"
-"  --color <специфікація кольорів>   Налаштувати кольори екрана.\n"
-"  --colour <специфікація кольорів> Те саме.\n"
+"<специфікація кольору> - це:\n"
+"  <частина екрана>:[<передній план>],[<фон>][:<атрибут>[+<атрибут>]...]\n"
 
 #: dselect/main.cc
 #, c-format
-msgid ""
-"  -?, --help                       Show this help message.\n"
-"      --version                    Show the version.\n"
-"\n"
-msgstr ""
-"  -?, --help Показати це довідкове повідомлення.\n"
-"  --version Показати версію.\n"
-"\n"
+msgid "<screen-part> is:\n"
+msgstr "<частина екрану> це:\n"
 
 #: dselect/main.cc
 #, c-format
-msgid ""
-"<color-spec> is <screen-part>:[<foreground>],[<background>][:<attr>[+<attr>]...]\n"
-msgstr ""
-"<специфікація кольору> - це <частина екрана>:[<передній план>],[<фон>][:"
-"<атрибут>[+<атрибут>]...]\n"
+msgid "<color> is:\n"
+msgstr "<колір> це:\n"
 
 #: dselect/main.cc
 #, c-format
-msgid "<screen-part> is:"
-msgstr "<частина екрану> це:"
+msgid "<attr> is:\n"
+msgstr "<атрибут> це:\n"
 
 #: dselect/main.cc
 #, c-format
-msgid "<color> is:"
-msgstr "<колір> це:"
-
-#: dselect/main.cc
-#, c-format
-msgid "<attr> is:"
-msgstr "<атрибут> це:"
-
-#: dselect/main.cc
-#, c-format
-msgid "cannot open debug file '%s'\n"
-msgstr "не вдалося відкрити файл налагодження '%s'\n"
+msgid "cannot open debug file '%s'"
+msgstr "не вдалося відкрити файл налагодження '%s'"
 
 #: dselect/main.cc
 #, c-format
@@ -879,7 +898,7 @@ msgstr "Схоже, термінал не підтримує виділення.
 #: dselect/main.cc
 #, c-format
 msgid ""
-"Set your TERM variable correctly, use a better terminal,\n"
+"Set the TERM variable correctly, use a better terminal,\n"
 "or make do with the per-package management tool %s.\n"
 msgstr ""
 "Правильно задайте змінну TERM, використовуйте кращий\n"
@@ -892,19 +911,12 @@ msgstr "терміналу бракує необхідних функцій, п�
 
 #: dselect/main.cc
 msgid ""
-"\n"
-"\n"
 "Move around with Ctrl+P and Ctrl+N, cursor keys, initial letters, or digits;\n"
-"Press <enter> to confirm selection. Ctrl+L redraws screen.\n"
-"\n"
+"Press <Enter> to confirm selection. Ctrl+L redraws screen.\n"
 msgstr ""
-"\n"
-"\n"
 "Переміщення за допомогою Ctrl+P та Ctrl+N, клавіш курсора,\n"
 "початкових літер або цифр;\n"
-"Натисніть <enter> для підтвердження вибору.\n"
-"Ctrl+L перемальовує екран.\n"
-"\n"
+"Натисніть <Enter> для підтвердження вибору. Ctrl+L перемальовує екран.\n"
 
 #: dselect/main.cc
 msgid ""
@@ -915,18 +927,9 @@ msgstr ""
 "Copyright (C) 2000,2001 Wichert Akkerman.\n"
 
 #: dselect/main.cc
-msgid ""
-"\n"
-"\n"
-"Read-only access: only preview of selections is available!"
+msgid "Read-only access: only preview of selections is available!"
 msgstr ""
-"\n"
-"\n"
 "Доступ лише для читання: доступний тільки попередній перегляд вибраних елементів!"
-
-#: dselect/main.cc
-msgid "failed to getch in main menu"
-msgstr "не вдалося зчитати клавішу в головному меню"
 
 #: dselect/main.cc
 #, c-format
@@ -951,12 +954,8 @@ msgid "Access method '%s'."
 msgstr "Метод доступу '%s'."
 
 #: dselect/methlist.cc dselect/pkglist.cc
-msgid "doupdate failed"
-msgstr "не вдалося виконати doupdate"
-
-#: dselect/methlist.cc dselect/pkglist.cc
-msgid "getch failed"
-msgstr "не вдалося виконати getch"
+msgid "cannot refresh window"
+msgstr "не вдалося оновити вікно"
 
 #: dselect/methlist.cc
 msgid "Explanation"
@@ -969,10 +968,10 @@ msgstr "Пояснення недоступне."
 #: dselect/method.cc
 msgid ""
 "\n"
-"Press <enter> to continue."
+"Press <Enter> to continue."
 msgstr ""
 "\n"
-"Натисніть <enter>, щоб продовжити."
+"Натисніть <Enter>, щоб продовжити."
 
 #: dselect/method.cc
 msgid "cannot unlock access method area"
@@ -991,7 +990,7 @@ msgid "cannot open or create access method lockfile"
 msgstr "не вдалося відкрити або створити файл блокування методу доступу"
 
 #: dselect/method.cc
-msgid "the access method area is already locked"
+msgid "access method area is already locked"
 msgstr "область методу доступу вже заблокована"
 
 #: dselect/method.cc
@@ -1000,16 +999,16 @@ msgstr "не вдалося заблокувати область методу �
 
 #: dselect/method.cc
 #, c-format
-msgid "Press <enter> to continue.\n"
-msgstr "Натисніть <enter>, щоб продовжити.\n"
+msgid "Press <Enter> to continue.\n"
+msgstr "Натисніть <Enter>, щоб продовжити.\n"
 
 #: dselect/method.cc
 msgid "<standard error>"
 msgstr "<стандартна помилка>"
 
 #: dselect/method.cc
-msgid "error reading acknowledgement of program failure message"
-msgstr "помилка читання підтвердження повідомлення про збій програми"
+msgid "cannot read acknowledgement of program failure message"
+msgstr "не вдалося прочитати підтвердження повідомлення про збій програми"
 
 #: dselect/method.cc
 msgid "no access method is selected or configured"
@@ -1034,18 +1033,18 @@ msgstr "скрипт запиту/налаштування"
 
 #: dselect/methparse.cc
 #, c-format
-msgid "syntax error in method options file '%s' -- %s"
-msgstr "синтаксична помилка у файлі параметрів методу '%s' -- %s"
+msgid "invalid syntax in method options file '%s': %s"
+msgstr "неприпустимий синтаксис у файлі параметрів методу '%s': %s"
 
 #: dselect/methparse.cc
 #, c-format
-msgid "error reading options file '%s'"
-msgstr "помилка читання файлу параметрів '%s'"
+msgid "cannot read method options file '%s'"
+msgstr "не вдалося прочитати файл параметрів методу '%s'"
 
 #: dselect/methparse.cc
 #, c-format
-msgid "unable to read '%s' directory for reading methods"
-msgstr "не вдалося прочитати каталог '%s' для методів доступу"
+msgid "cannot open '%s' directory to read methods"
+msgstr "не вдалося відкрити каталог '%s' для зчитування методів"
 
 #: dselect/methparse.cc
 #, c-format
@@ -1054,13 +1053,8 @@ msgstr "метод '%s' має надто довгу назву (%d > %d сим�
 
 #: dselect/methparse.cc
 #, c-format
-msgid "unable to access method script '%s'"
+msgid "cannot access method script '%s'"
 msgstr "не вдалося отримати доступ до скрипта методу '%s'"
-
-#: dselect/methparse.cc
-#, c-format
-msgid "unable to read method options file '%s'"
-msgstr "не вдалося прочитати файл опцій методу '%s'"
 
 #: dselect/methparse.cc
 msgid "non-digit where digit wanted"
@@ -1113,18 +1107,13 @@ msgstr "не вдалося завантажити файл опису опці�
 
 #: dselect/methparse.cc
 #, c-format
-msgid "error during read of method options file '%s'"
-msgstr "помилка під час читання файлу опцій методу '%s'"
-
-#: dselect/methparse.cc
-#, c-format
-msgid "unable to open current option file '%s'"
+msgid "cannot open current option file '%s'"
 msgstr "не вдалося відкрити поточний файл опцій '%s'"
 
 #: dselect/methparse.cc
 #, c-format
-msgid "unable to write new option to '%s'"
-msgstr "не вдалося записати новий параметр у '%s'"
+msgid "cannot write new option to '%s'"
+msgstr "не вдалося записати нову опцію у '%s'"
 
 #: dselect/pkgdisplay.cc
 msgid "new package"
@@ -1499,8 +1488,8 @@ msgid "invalid search option given"
 msgstr "вказано неприпустимий параметр пошуку"
 
 #: dselect/pkglist.cc
-msgid "error in regular expression"
-msgstr "помилка у регулярному виразі"
+msgid "invalid syntax in regular expression"
+msgstr "неприпустимий синтаксис у регулярному виразі"
 
 #: dselect/pkgsublist.cc
 msgid " does not appear to be available\n"
@@ -1543,7 +1532,80 @@ msgstr "%s %s пакунків без розділу"
 msgid "%s %s packages in section %s"
 msgstr "%s %s пакунків у розділі %s"
 
+#. TRANSLATORS: The format string shows the
+#.   "<package-name> <package-status>;"
+#. followed by
+#.   "<want-selected> (was: <want-original>). <priority>"
+#.
 #: dselect/pkgtop.cc
 #, c-format
-msgid "%-*s %s%s%s;  %s (was: %s).  %s"
-msgstr "%-*s %s%s%s;  %s (було: %s).  %s"
+msgid "%-*s %s%s%s; %s (was: %s). %s"
+msgstr "%-*s %s%s%s; %s (було: %s). %s"
+
+#~ msgid "error reading keyboard in help"
+#~ msgstr "помилка читання клавіатури в довідці"
+
+#~ msgid "failed to create whatinfo window"
+#~ msgstr "не вдалося створити вікно whatinfo"
+
+#~ msgid "failed to create baselist pad"
+#~ msgstr "не вдалося створити пад базового списку"
+
+#~ msgid "failed to create heading pad"
+#~ msgstr "не вдалося створити пад заголовка"
+
+#~ msgid "failed to create thisstate pad"
+#~ msgstr "не вдалося створити пад thisstate"
+
+#~ msgid "failed to create info pad"
+#~ msgstr "не вдалося створити інформаційний пад"
+
+#~ msgid "failed to create query window"
+#~ msgstr "не вдалося створити вікно запиту"
+
+#, c-format
+#~ msgid ""
+#~ "Options:\n"
+#~ "      --admindir <directory>       Use <directory> instead of %s.\n"
+#~ "      --instdir <directory>        Use <directory> instead of %s.\n"
+#~ "      --root <directory>           Use <directory> instead of %s.\n"
+#~ "      --expert                     Turn on expert mode.\n"
+#~ "  -D, --debug <file>               Turn on debugging, send output to <file>.\n"
+#~ "      --color <color-spec>         Configure screen colors.\n"
+#~ "      --colour <color-spec>        Ditto.\n"
+#~ msgstr ""
+#~ "Параметри:\n"
+#~ "  --admindir <каталог> Використовувати <каталог> замість %s.\n"
+#~ "  --instdir <каталог>     Використовувати <каталог> замість %s.\n"
+#~ "  --root <каталог>         Використовувати <каталог> замість %s.\n"
+#~ "  --expert                         Увімкнути експертний режим.\n"
+#~ "  -D, --debug <файл>    Увімкнути налагодження, надсилати вивід до <файл>.\n"
+#~ "  --color <специфікація кольорів>   Налаштувати кольори екрана.\n"
+#~ "  --colour <специфікація кольорів> Те саме.\n"
+
+#, c-format
+#~ msgid ""
+#~ "  -?, --help                       Show this help message.\n"
+#~ "      --version                    Show the version.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "  -?, --help Показати це довідкове повідомлення.\n"
+#~ "  --version Показати версію.\n"
+#~ "\n"
+
+#~ msgid "failed to getch in main menu"
+#~ msgstr "не вдалося зчитати клавішу в головному меню"
+
+#~ msgid "doupdate failed"
+#~ msgstr "не вдалося виконати doupdate"
+
+#~ msgid "getch failed"
+#~ msgstr "не вдалося виконати getch"
+
+#, c-format
+#~ msgid "error reading options file '%s'"
+#~ msgstr "помилка читання файлу параметрів '%s'"
+
+#, c-format
+#~ msgid "error during read of method options file '%s'"
+#~ msgstr "помилка під час читання файлу опцій методу '%s'"
