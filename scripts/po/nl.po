@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-dev 1.23.5\n"
+"Project-Id-Version: dpkg-dev 1.23.11\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2026-04-11 21:03+0200\n"
-"PO-Revision-Date: 2026-03-07 21:09+0100\n"
+"PO-Revision-Date: 2026-10-20 15:08+0200\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -618,6 +618,8 @@ msgstr "broncode gewijzigd door"
 #, perl-format
 msgid "cannot parse maintainer email address \"%s\" from changelog entry"
 msgstr ""
+"kan het e-mailadres van de beheerder \"%s\" niet ontleden uit de changelog-"
+"invoer"
 
 #: scripts/dpkg-buildpackage.pl
 msgid "host architecture"
@@ -1523,22 +1525,7 @@ msgid "takes no non-option arguments"
 msgstr "aanvaardt geen argumenten die geen opties zijn"
 
 #: scripts/dpkg-scanpackages.pl
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
-#| "Packages\n"
-#| "\n"
-#| "Options:\n"
-#| "  -t, --type <type>        scan for <type> packages (default is 'deb').\n"
-#| "  -a, --arch <arch>        architecture to scan for.\n"
-#| "  -h, --hash <hash-list>   only generate hashes for the specified list.\n"
-#| "  -m, --multiversion       allow multiple versions of a single package.\n"
-#| "  -e, --extra-override <file>\n"
-#| "                           use extra override file.\n"
-#| "  -M, --medium <medium>    add X-Medium field for dselect media access "
-#| "method\n"
-#| "  -?, --help               show this help message.\n"
-#| "      --version            show the version.\n"
+#, perl-format
 msgid ""
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
 "Packages\n"
@@ -1563,7 +1550,9 @@ msgstr ""
 "Opties:\n"
 "  -t, --type <type>        zoeken naar pakketten van <type> (standaard is "
 "'deb').\n"
-"  -a, --arch <arch>        te zoeken architectuur.\n"
+"  -a, --arch <arch>        te zoeken architectuur (met impliciete arch "
+"all).\n"
+"      --no-implicit-arch   niet impliciet arch all toevoegen aan --arch.\n"
 "  -h, --hash <hash-lijst>  alleen hashes maken voor de opgegeven lijst.\n"
 "  -m, --multiversion       meerdere versies van eenzelfde pakket toestaan.\n"
 "  -e, --extra-override <bestand>\n"
@@ -2066,10 +2055,9 @@ msgid "building source for a binary-only release"
 msgstr "broncode bouwen voor een release die enkel-binair is"
 
 #: scripts/dpkg-source.pl
-#, fuzzy, perl-format
-#| msgid "%f field contains the maintainer address"
+#, perl-format
 msgid "%s field contains the maintainer address"
-msgstr "veld %f bevat het adres van de beheerder"
+msgstr "veld %s bevat het adres van de beheerder"
 
 #: scripts/dpkg-source.pl
 #, perl-format
@@ -2353,6 +2341,7 @@ msgstr "kan de grootte van archief %s niet ophalen"
 #, perl-format
 msgid "archive %s is truncated or corrupt, it has a non-even byte size"
 msgstr ""
+"archief %s is afgekapt of beschadigd, het heeft een niet-even bytegrootte"
 
 #: scripts/Dpkg/Archive/Ar.pm
 #, perl-format
@@ -2403,11 +2392,9 @@ msgstr ""
 "bestandskop bij offset %d in archief %s bevat ongeldige magische waarde"
 
 #: scripts/Dpkg/Archive/Ar.pm
-#, fuzzy, perl-format
-#| msgid "file header at offset %d in archive %s contains bad magic"
+#, perl-format
 msgid "file member %s in archive %s contains empty %s field"
-msgstr ""
-"bestandskop bij offset %d in archief %s bevat ongeldige magische waarde"
+msgstr "bestandsonderdeel %s in archief %s bevat een leeg veld %s"
 
 #: scripts/Dpkg/Archive/Ar.pm
 #, perl-format
@@ -3056,7 +3043,7 @@ msgstr "ongeldige bestandsnaam %s"
 #: scripts/Dpkg/Email/Address.pm
 #, perl-format
 msgid "email address '%s' with single label domain"
-msgstr ""
+msgstr "e-mailadres '%s' met domein met één label"
 
 #: scripts/Dpkg/Email/Address.pm
 #, perl-format
@@ -3186,26 +3173,24 @@ msgstr ""
 "interoperabele constructie is, zie <%s>"
 
 #: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
-#, fuzzy, perl-format
-#| msgid "unexpected end of diff '%s'"
+#, perl-format
 msgid "unexpected empty file %s"
-msgstr "onverwacht einde van diff '%s'"
+msgstr "onverwacht leeg bestand %s"
 
 #: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
 #, perl-format
 msgid "partial read %s (%d bytes of %d total)"
-msgstr ""
+msgstr "gedeeltelijk gelezen %s (%d bytes van in totaal %d)"
 
 #: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
 #, perl-format
 msgid "old OpenPGP packet in %s with indeterminate length"
-msgstr ""
+msgstr "oud OpenPGP-pakket in %s met onbepaalde lengte"
 
 #: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
-#, fuzzy, perl-format
-#| msgid "unknown OpenPGP backend %s"
+#, perl-format
 msgid "unknown OpenPGP packet type %0x in %s"
-msgstr "onbekende OpenPGP-backend %s"
+msgstr "onbekend OpenPGP-pakkettype %0x in %s"
 
 #: scripts/Dpkg/OpenPGP/Backend/GnuPG.pm
 #, perl-format
@@ -3221,6 +3206,8 @@ msgstr ""
 msgid ""
 "found non-interoperable LibrePGP artifact in %s, only OpenPGP is supported"
 msgstr ""
+"niet-interoperabel LibrePGP-artefact gevonden in %s; alleen OpenPGP wordt "
+"ondersteund"
 
 #: scripts/Dpkg/OpenPGP/Backend/Sequoia.pm
 msgid "imported own keys might be missing ownership information, try:"
@@ -4355,10 +4342,9 @@ msgid "special mode %04o of '%s' will not be represented in diff"
 msgstr "bijzondere modus %04o van '%s' zal niet weergegeven worden in diff"
 
 #: scripts/Dpkg/Source/Patch.pm
-#, fuzzy, perl-format
-#| msgid "cannot represent change to %s:"
+#, perl-format
 msgid "cannot represent change to %s using GNU diff:"
-msgstr "kan wijziging aan %s niet weergeven:"
+msgstr "kan wijziging aan %s niet weergeven met behulp van GNU diff:"
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
@@ -4373,10 +4359,11 @@ msgstr "  oude versie is %s"
 #: scripts/Dpkg/Source/Patch.pm
 msgid "you can use a git formatted patch to represent these changes:"
 msgstr ""
+"u kunt een patch in Git-formaat gebruiken om deze wijzigingen weer te geven:"
 
 #: scripts/Dpkg/Source/Patch.pm
 msgid "  with \"git format-patch\" or \"git diff --no-index a/ b/\""
-msgstr ""
+msgstr "  met \"git format-patch\" of \"git diff --no-index a/ b/\""
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
@@ -4656,7 +4643,3 @@ msgstr "versienummer bevat ongeldig teken '%s'"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "epoch-gedeelte van het versienummer is geen nummer: '%s'"
-
-#, perl-format
-#~ msgid "diff %s modifies file %s through a symlink: %s"
-#~ msgstr "diff %s wijzigt bestand %s via een symbolische koppeling: %s"
