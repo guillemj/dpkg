@@ -35,6 +35,7 @@ use v5.36;
 use Cwd qw(abs_path getcwd);
 use File::Basename;
 use File::Spec;
+use File::Copy;
 use File::Temp;
 
 use Dpkg::Gettext;
@@ -219,8 +220,10 @@ sub do_build {
         chdir($clone_dir)
             or syserr(g_("cannot change directory to '%s'"), $clone_dir);
         $shallowfile = "$basenamerev.gitshallow";
-        system('cp', '-f', 'shallow', "$old_cwd/$shallowfile");
-        subprocerr("cp shallow $old_cwd/$shallowfile") if $?;
+        unlink "$old_cwd/$shallowfile";
+        copy('shallow', "$old_cwd/$shallowfile")
+            or syserr(g_('cannot copy %s to %s'),
+                      'shallow', "$old_cwd/$shallowfile");
     }
 
     # Create the git bundle.
@@ -304,8 +307,9 @@ sub do_extract {
         info(g_('setting up shallow clone'));
         my $shallow_orig = File::Spec->catfile($self->{basedir}, $shallow);
         my $shallow_dest = File::Spec->catfile($newdirectory, '.git', 'shallow');
-        system('cp', '-f',  $shallow_orig, $shallow_dest);
-        subprocerr('cp') if $?;
+        unlink $shallow_dest;
+        copy($shallow_orig, $shallow_dest)
+            or syserr(g_('cannot copy %s to %s'), $shallow_orig, $shallow_dest);
     }
 
     _check_workdir($newdirectory);

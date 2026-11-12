@@ -24,6 +24,7 @@ use List::Util qw(none);
 use File::stat ();
 use File::Basename;
 use File::Path qw(make_path);
+use File::Copy;
 
 use Dpkg ();
 use Dpkg::Gettext;
@@ -237,18 +238,13 @@ sub rename_archive
 
         my $newname = "$dir/$name";
 
-        my @command;
-        if ($options{symlink}) {
-            @command = qw(ln -s --);
-        } else {
-            @command = qw(mv --);
-        }
-
         if (filesame($newname, $filename)) {
             warning(g_("skipping '%s'"), $filename);
         } elsif (-f $newname and not $options{overwrite}) {
             warning(g_("cannot move '%s' to existing file"), $filename);
-        } elsif (system(@command, $filename, $newname) == 0) {
+        } elsif ($options{symlink} && symlink $filename, $newname) {
+            info(g_("linked '%s' to '%s'"), basename($filename), $newname);
+        } elsif (move($filename, $newname)) {
             info(g_("moved '%s' to '%s'"), basename($filename), $newname);
         } else {
             error(g_('mkdir can be used to create directory'));
