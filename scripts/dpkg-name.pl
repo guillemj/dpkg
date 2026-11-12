@@ -204,7 +204,7 @@ sub getdir
     return $dir;
 }
 
-sub move
+sub rename_archive
 {
     my $filename = shift;
 
@@ -292,5 +292,5 @@ while (@ARGV) {
 @files or usageerr(g_('need at least a filename'));
 
 foreach my $file (@files) {
-    move($file);
+    rename_archive($file);
 }
