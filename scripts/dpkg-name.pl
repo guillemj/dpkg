@@ -242,7 +242,11 @@ sub rename_archive
             warning(g_("skipping '%s'"), $filename);
         } elsif (-f $newname and not $options{overwrite}) {
             warning(g_("cannot move '%s' to existing file"), $filename);
-        } elsif ($options{symlink} && symlink $filename, $newname) {
+        } elsif ($options{symlink}) {
+            unlink $newname if $options{overwrite};
+            symlink $filename, $newname
+                or syserr(g_('cannot create symbolic link %s to %s'),
+                          $filename, $newname);
             info(g_("linked '%s' to '%s'"), basename($filename), $newname);
         } elsif (move($filename, $newname)) {
             info(g_("moved '%s' to '%s'"), basename($filename), $newname);
