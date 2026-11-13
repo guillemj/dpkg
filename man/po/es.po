@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.16.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2026-09-07 23:54+0200\n"
+"POT-Creation-Date: 2026-11-13 07:37+0100\n"
 "PO-Revision-Date: 2021-04-08 04:42+0200\n"
 "Last-Translator: Omar Campagne <ocampagne@gmail.com>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -600,10 +600,12 @@ msgid ""
 msgstr ""
 
 #. type: textblock
-#: deb-buildinfo.pod
+#: deb-buildinfo.pod dpkg-buildpackage.pod dpkg-deb.pod dpkg-divert.pod
+#: dpkg-query.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
+#: dpkg.pod
 #, fuzzy
 #| msgid "Cancels a previous B<--no-triggers>."
-msgid "Since dpkg 1.21.10."
+msgid "Supported since dpkg 1.21.10."
 msgstr "Cancela un B<--no-triggers> previo."
 
 #. type: =item
@@ -3282,8 +3284,10 @@ msgstr ""
 
 #. type: =item
 #: deb-postinst.pod
-msgid "I<old-postinst> B<abort-remove>"
-msgstr ""
+#, fuzzy
+#| msgid "I<postrm>"
+msgid "I<postinst> B<abort-remove>"
+msgstr "I<postrm>"
 
 #. type: textblock
 #: deb-postinst.pod
@@ -10370,8 +10374,15 @@ msgstr ""
 #: dpkg-build-api.pod
 #, fuzzy
 #| msgid "Set the GNU system type."
-msgid "This is the recommended level.  Since dpkg 1.22.0."
+msgid "This is the recommended level."
 msgstr "Define el tipo de sistema GNU."
+
+#. type: textblock
+#: dpkg-build-api.pod dpkg-buildflags.pod
+#, fuzzy
+#| msgid "Cancels a previous B<--no-triggers>."
+msgid "Supported since dpkg 1.22.0."
+msgstr "Cancela un B<--no-triggers> previo."
 
 #. type: textblock
 #: dpkg-build-api.pod
@@ -11627,13 +11638,6 @@ msgstr ""
 #: dpkg-buildflags.pod
 msgid "Disabled by default."
 msgstr ""
-
-#. type: textblock
-#: dpkg-buildflags.pod
-#, fuzzy
-#| msgid "Cancels a previous B<--no-triggers>."
-msgid "Supported since dpkg 1.22.0."
-msgstr "Cancela un B<--no-triggers> previo."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -13927,14 +13931,6 @@ msgid ""
 "safe with the L<make(1)> B<.NOTPARALLEL> target."
 msgstr ""
 
-#. type: textblock
-#: dpkg-buildpackage.pod dpkg-deb.pod dpkg-divert.pod dpkg-query.pod
-#: dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod dpkg.pod
-#, fuzzy
-#| msgid "Cancels a previous B<--no-triggers>."
-msgid "Supported since dpkg 1.21.10."
-msgstr "Cancela un B<--no-triggers> previo."
-
 #. type: =item
 #: dpkg-buildpackage.pod
 #, fuzzy
@@ -14610,6 +14606,27 @@ msgid ""
 "B<Note>: For security reasons the I<key-file> is best kept locked with a "
 "password."
 msgstr ""
+
+#. type: =item
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid "B<-t>, B<--test>"
+msgid "B<-ap>, B<--sign-pause>"
+msgstr "B<-t>, B<--test>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"Wait for the user to press B<Enter> before starting the signing process.  "
+"This only has an effect if at least one file is going to be signed."
+msgstr ""
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid "Cancels a previous B<--no-triggers>."
+msgid "Support for long option since dpkg 1.23.12."
+msgstr "Cancela un B<--no-triggers> previo."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -19439,13 +19456,15 @@ msgstr ""
 msgid ""
 "Each entry is identified by its version number and they are assumed to be "
 "not conflicting, they are merged in the right order (by decreasing version "
-"number).  When B<--merge-prereleases> is used, the part of the version "
-"number after the last tilde is dropped so that 1.0-1~exp1 and 1.0-1~exp5 are "
-"considered to be the same entry.  When the same version is available in both "
-"I<new-a> and I<new-b>, a standard line-based 3-way merge is attempted "
-"(provided that the module Algorithm::Merge is available — it's part of the "
-"package libalgorithm-merge-perl — otherwise you get a global conflict on the "
-"content of the entry)."
+"number).  Any vendor specific backport version marker (usually in the form "
+"I<~marker>)  will get remapped (to something like I<+marker>)  so that these "
+"sort higher than the versions they are based on.  When B<--merge-"
+"prereleases> is used, the part of the version number after the last tilde is "
+"dropped so that 1.0-1~exp1 and 1.0-1~exp5 are considered to be the same "
+"entry.  When the same version is available in both I<new-a> and I<new-b>, a "
+"standard line-based 3-way merge is attempted (provided that the module "
+"Algorithm::Merge is available — it's part of the package libalgorithm-merge-"
+"perl — otherwise you get a global conflict on the content of the entry)."
 msgstr ""
 "Cada entrada se identifica por su número de versión y, asumiendo que no "
 "entran en conflicto, se fusionarán en el orden correcto (por orden "
@@ -23560,6 +23579,13 @@ msgid ""
 "options can be shown by using the B<--format> option."
 msgstr ""
 
+#. type: textblock
+#: dpkg-source.pod
+msgid ""
+"When used with B<--robot> (since dpkg 1.23.12), the output will be the "
+"program version number in a dotted numerical format, with no newline."
+msgstr ""
+
 #. type: =head2
 #: dpkg-source.pod
 #, fuzzy
@@ -24066,6 +24092,34 @@ msgstr "B<Opciones de extracción>"
 #, fuzzy
 #| msgid "Cancels a previous B<--no-triggers>."
 msgid "Supported since dpkg 1.21.14."
+msgstr "Cancela un B<--no-triggers> previo."
+
+#. type: =item
+#: dpkg-source.pod dpkg.pod
+#, fuzzy
+#| msgid "B<--as-root>"
+msgid "B<--robot>"
+msgstr "B<--as-root>"
+
+#. type: textblock
+#: dpkg-source.pod dpkg.pod
+msgid ""
+"Use a machine-readable output format.  This provides an interface for "
+"programs that need to parse the output of some of the commands that do not "
+"otherwise emit a machine-readable output format.  No localization will be "
+"used, and the output will be modified to make it easier to parse."
+msgstr ""
+
+#. type: textblock
+#: dpkg-source.pod dpkg.pod
+msgid "The only currently supported command is B<--version>."
+msgstr ""
+
+#. type: textblock
+#: dpkg-source.pod
+#, fuzzy
+#| msgid "Cancels a previous B<--no-triggers>."
+msgid "Supported since dpkg 1.23.12."
 msgstr "Cancela un B<--no-triggers> previo."
 
 #. type: textblock
@@ -30017,27 +30071,6 @@ msgstr ""
 
 #. type: =item
 #: dpkg.pod
-#, fuzzy
-#| msgid "B<--as-root>"
-msgid "B<--robot>"
-msgstr "B<--as-root>"
-
-#. type: textblock
-#: dpkg.pod
-msgid ""
-"Use a machine-readable output format.  This provides an interface for "
-"programs that need to parse the output of some of the commands that do not "
-"otherwise emit a machine-readable output format.  No localization will be "
-"used, and the output will be modified to make it easier to parse."
-msgstr ""
-
-#. type: textblock
-#: dpkg.pod
-msgid "The only currently supported command is B<--version>."
-msgstr ""
-
-#. type: =item
-#: dpkg.pod
 msgid "B<--no-debsig>"
 msgstr "B<--no-debsig>"
 
@@ -35152,6 +35185,11 @@ msgstr "B<update-alternatives --auto vi>"
 #| msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgid "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
 msgstr "B<ln>(1), FHS, el estándar de la jerarquía del sistema de ficheros."
+
+#, fuzzy
+#~| msgid "Cancels a previous B<--no-triggers>."
+#~ msgid "Since dpkg 1.21.10."
+#~ msgstr "Cancela un B<--no-triggers> previo."
 
 #, fuzzy
 #~| msgid "Cancels a previous B<--no-triggers>."

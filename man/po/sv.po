@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.23.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2026-09-07 23:54+0200\n"
+"POT-Creation-Date: 2026-11-13 07:37+0100\n"
 "PO-Revision-Date: 2026-03-12 20:38+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -552,9 +552,13 @@ msgstr ""
 "emuleringslager."
 
 #. type: textblock
-#: deb-buildinfo.pod
-msgid "Since dpkg 1.21.10."
-msgstr "Stöds sedan dpkg 1.21.10."
+#: deb-buildinfo.pod dpkg-buildpackage.pod dpkg-deb.pod dpkg-divert.pod
+#: dpkg-query.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
+#: dpkg.pod
+#, fuzzy
+#| msgid "Supported since dpkg 1.21.3."
+msgid "Supported since dpkg 1.21.10."
+msgstr "Stöds sedan dpkg 1.21.3."
 
 #. type: =item
 #: deb-buildinfo.pod
@@ -3169,7 +3173,9 @@ msgstr ""
 
 #. type: =item
 #: deb-postinst.pod
-msgid "I<old-postinst> B<abort-remove>"
+#, fuzzy
+#| msgid "I<old-postinst> B<abort-remove>"
+msgid "I<postinst> B<abort-remove>"
 msgstr "I<gammal-postinst> B<abort-remove>"
 
 #. type: textblock
@@ -9792,8 +9798,17 @@ msgstr "v1"
 
 #. type: textblock
 #: dpkg-build-api.pod
-msgid "This is the recommended level.  Since dpkg 1.22.0."
+#, fuzzy
+#| msgid "This is the recommended level.  Since dpkg 1.22.0."
+msgid "This is the recommended level."
 msgstr "Detta är den rekommenderade nivån. Sedan dpkg 1.22.0."
+
+#. type: textblock
+#: dpkg-build-api.pod dpkg-buildflags.pod
+#, fuzzy
+#| msgid "Supported since dpkg 1.22.7."
+msgid "Supported since dpkg 1.22.0."
+msgstr "Stöds sedan dpkg 1.22.7."
 
 #. type: textblock
 #: dpkg-build-api.pod
@@ -11076,13 +11091,6 @@ msgstr ""
 #| msgid "Enabled by default."
 msgid "Disabled by default."
 msgstr "Aktiverad som förval."
-
-#. type: textblock
-#: dpkg-buildflags.pod
-#, fuzzy
-#| msgid "Supported since dpkg 1.22.7."
-msgid "Supported since dpkg 1.22.0."
-msgstr "Stöds sedan dpkg 1.22.7."
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -13465,14 +13473,6 @@ msgstr ""
 "De bör antingen göras säkra för parallellisering, eller markeras som osäkra "
 "med L<make(1)>-målet B<.NOTPARALLEL>."
 
-#. type: textblock
-#: dpkg-buildpackage.pod dpkg-deb.pod dpkg-divert.pod dpkg-query.pod
-#: dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod dpkg.pod
-#, fuzzy
-#| msgid "Supported since dpkg 1.21.3."
-msgid "Supported since dpkg 1.21.10."
-msgstr "Stöds sedan dpkg 1.21.3."
-
 #. type: =item
 #: dpkg-buildpackage.pod
 msgid "B<-D>, B<--check-builddeps>"
@@ -14209,6 +14209,27 @@ msgid ""
 msgstr ""
 "B<Observera>: Av säkerhetsskäl är det bäst att hålla I<nyckelfil> låst med "
 "ett lösenord."
+
+#. type: =item
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid "B<-u>, B<--print-unset>"
+msgid "B<-ap>, B<--sign-pause>"
+msgstr "B<-u>, B<--print-unset>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"Wait for the user to press B<Enter> before starting the signing process.  "
+"This only has an effect if at least one file is going to be signed."
+msgstr ""
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+#, fuzzy
+#| msgid "Supported since dpkg 1.21.3."
+msgid "Support for long option since dpkg 1.23.12."
+msgstr "Stöds sedan dpkg 1.21.3."
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -18759,13 +18780,15 @@ msgstr ""
 msgid ""
 "Each entry is identified by its version number and they are assumed to be "
 "not conflicting, they are merged in the right order (by decreasing version "
-"number).  When B<--merge-prereleases> is used, the part of the version "
-"number after the last tilde is dropped so that 1.0-1~exp1 and 1.0-1~exp5 are "
-"considered to be the same entry.  When the same version is available in both "
-"I<new-a> and I<new-b>, a standard line-based 3-way merge is attempted "
-"(provided that the module Algorithm::Merge is available — it's part of the "
-"package libalgorithm-merge-perl — otherwise you get a global conflict on the "
-"content of the entry)."
+"number).  Any vendor specific backport version marker (usually in the form "
+"I<~marker>)  will get remapped (to something like I<+marker>)  so that these "
+"sort higher than the versions they are based on.  When B<--merge-"
+"prereleases> is used, the part of the version number after the last tilde is "
+"dropped so that 1.0-1~exp1 and 1.0-1~exp5 are considered to be the same "
+"entry.  When the same version is available in both I<new-a> and I<new-b>, a "
+"standard line-based 3-way merge is attempted (provided that the module "
+"Algorithm::Merge is available — it's part of the package libalgorithm-merge-"
+"perl — otherwise you get a global conflict on the content of the entry)."
 msgstr ""
 "Enskilda poster identifieras av sitt versionsnummer och de antas inte stå i "
 "konflikt med varandra, de slås helt enkelt ihop i rätt ordning (enligt "
@@ -22618,6 +22641,20 @@ msgstr ""
 "Visar hjälpskärm och avslutar. De formatspecifika bygg- och "
 "extraheringsflaggorna kan visas genom att använda flaggan B<--format>."
 
+#. type: textblock
+#: dpkg-source.pod
+#, fuzzy
+#| msgid ""
+#| "When used with B<--robot>, the output will be the program version number "
+#| "in a dotted numerical format, with no newline."
+msgid ""
+"When used with B<--robot> (since dpkg 1.23.12), the output will be the "
+"program version number in a dotted numerical format, with no newline."
+msgstr ""
+"När det används tillsammans med B<--robot> kommer utdata vara programmets "
+"versionsnummer i ett numeriskt format avdelat med punkt, utan "
+"radbrytningstecken."
+
 #. type: =head2
 #: dpkg-source.pod
 msgid "Generic build options"
@@ -23095,6 +23132,37 @@ msgstr "Generiska generella flaggor"
 #| msgid "Supported since dpkg 1.21.3."
 msgid "Supported since dpkg 1.21.14."
 msgstr "Stöds sedan dpkg 1.21.3."
+
+#. type: =item
+#: dpkg-source.pod dpkg.pod
+msgid "B<--robot>"
+msgstr "B<--robot>"
+
+#. type: textblock
+#: dpkg-source.pod dpkg.pod
+msgid ""
+"Use a machine-readable output format.  This provides an interface for "
+"programs that need to parse the output of some of the commands that do not "
+"otherwise emit a machine-readable output format.  No localization will be "
+"used, and the output will be modified to make it easier to parse."
+msgstr ""
+"Använd ett maskinläsbart utdataformat. Detta tillhandahåller ett gränssnitt "
+"för program som behöver tolka utdata från några av de kommandon som annars "
+"inte skriver ut ett maskinläsbart utdataformat. Ingen lokalanpassning kommer "
+"att användas och utdata kommer att modifieras så att det är lättare att "
+"tolka."
+
+#. type: textblock
+#: dpkg-source.pod dpkg.pod
+msgid "The only currently supported command is B<--version>."
+msgstr "Det enda kommando som för närvarande stöds är B<--version>."
+
+#. type: textblock
+#: dpkg-source.pod
+#, fuzzy
+#| msgid "Supported since dpkg 1.22.7."
+msgid "Supported since dpkg 1.23.12."
+msgstr "Stöds sedan dpkg 1.22.7."
 
 #. type: textblock
 #: dpkg-source.pod
@@ -28440,30 +28508,6 @@ msgstr ""
 
 #. type: =item
 #: dpkg.pod
-msgid "B<--robot>"
-msgstr "B<--robot>"
-
-#. type: textblock
-#: dpkg.pod
-msgid ""
-"Use a machine-readable output format.  This provides an interface for "
-"programs that need to parse the output of some of the commands that do not "
-"otherwise emit a machine-readable output format.  No localization will be "
-"used, and the output will be modified to make it easier to parse."
-msgstr ""
-"Använd ett maskinläsbart utdataformat. Detta tillhandahåller ett gränssnitt "
-"för program som behöver tolka utdata från några av de kommandon som annars "
-"inte skriver ut ett maskinläsbart utdataformat. Ingen lokalanpassning kommer "
-"att användas och utdata kommer att modifieras så att det är lättare att "
-"tolka."
-
-#. type: textblock
-#: dpkg.pod
-msgid "The only currently supported command is B<--version>."
-msgstr "Det enda kommando som för närvarande stöds är B<--version>."
-
-#. type: =item
-#: dpkg.pod
 msgid "B<--no-debsig>"
 msgstr "B<--no-debsig>"
 
@@ -33218,6 +33262,9 @@ msgstr ""
 #: update-alternatives.pod
 msgid "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
 msgstr "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
+
+#~ msgid "Since dpkg 1.21.10."
+#~ msgstr "Stöds sedan dpkg 1.21.10."
 
 #~ msgid "This field is supported since dpkg 1.22.7."
 #~ msgstr "Fältet stöds sedan dpkg 1.22.7."

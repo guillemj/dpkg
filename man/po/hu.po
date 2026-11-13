@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2026-09-07 23:54+0200\n"
+"POT-Creation-Date: 2026-11-13 07:37+0100\n"
 "PO-Revision-Date: 2021-04-08 04:42+0200\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.debian.org>\n"
@@ -530,9 +530,11 @@ msgid ""
 msgstr ""
 
 #. type: textblock
-#: deb-buildinfo.pod
+#: deb-buildinfo.pod dpkg-buildpackage.pod dpkg-deb.pod dpkg-divert.pod
+#: dpkg-query.pod dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod
+#: dpkg.pod
 #, fuzzy
-msgid "Since dpkg 1.21.10."
+msgid "Supported since dpkg 1.21.10."
 msgstr "Debian Project"
 
 #. type: =item
@@ -2925,8 +2927,9 @@ msgstr ""
 
 #. type: =item
 #: deb-postinst.pod
-msgid "I<old-postinst> B<abort-remove>"
-msgstr ""
+#, fuzzy
+msgid "I<postinst> B<abort-remove>"
+msgstr "B<--new>"
 
 #. type: textblock
 #: deb-postinst.pod
@@ -8211,7 +8214,13 @@ msgstr ""
 #. type: textblock
 #: dpkg-build-api.pod
 #, fuzzy
-msgid "This is the recommended level.  Since dpkg 1.22.0."
+msgid "This is the recommended level."
+msgstr "Debian Project"
+
+#. type: textblock
+#: dpkg-build-api.pod dpkg-buildflags.pod
+#, fuzzy
+msgid "Supported since dpkg 1.22.0."
 msgstr "Debian Project"
 
 #. type: textblock
@@ -9231,12 +9240,6 @@ msgstr ""
 #: dpkg-buildflags.pod
 msgid "Disabled by default."
 msgstr ""
-
-#. type: textblock
-#: dpkg-buildflags.pod
-#, fuzzy
-msgid "Supported since dpkg 1.22.0."
-msgstr "Debian Project"
 
 #. type: =item
 #: dpkg-buildflags.pod
@@ -10968,13 +10971,6 @@ msgid ""
 "safe with the L<make(1)> B<.NOTPARALLEL> target."
 msgstr ""
 
-#. type: textblock
-#: dpkg-buildpackage.pod dpkg-deb.pod dpkg-divert.pod dpkg-query.pod
-#: dpkg-split.pod dpkg-statoverride.pod dpkg-trigger.pod dpkg.pod
-#, fuzzy
-msgid "Supported since dpkg 1.21.10."
-msgstr "Debian Project"
-
 #. type: =item
 #: dpkg-buildpackage.pod
 #, fuzzy
@@ -11522,6 +11518,25 @@ msgid ""
 "B<Note>: For security reasons the I<key-file> is best kept locked with a "
 "password."
 msgstr ""
+
+#. type: =item
+#: dpkg-buildpackage.pod
+#, fuzzy
+msgid "B<-ap>, B<--sign-pause>"
+msgstr "B<--show>, B<-W>"
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+msgid ""
+"Wait for the user to press B<Enter> before starting the signing process.  "
+"This only has an effect if at least one file is going to be signed."
+msgstr ""
+
+#. type: textblock
+#: dpkg-buildpackage.pod
+#, fuzzy
+msgid "Support for long option since dpkg 1.23.12."
+msgstr "Debian Project"
 
 #. type: =item
 #: dpkg-buildpackage.pod
@@ -15290,13 +15305,15 @@ msgstr ""
 msgid ""
 "Each entry is identified by its version number and they are assumed to be "
 "not conflicting, they are merged in the right order (by decreasing version "
-"number).  When B<--merge-prereleases> is used, the part of the version "
-"number after the last tilde is dropped so that 1.0-1~exp1 and 1.0-1~exp5 are "
-"considered to be the same entry.  When the same version is available in both "
-"I<new-a> and I<new-b>, a standard line-based 3-way merge is attempted "
-"(provided that the module Algorithm::Merge is available — it's part of the "
-"package libalgorithm-merge-perl — otherwise you get a global conflict on the "
-"content of the entry)."
+"number).  Any vendor specific backport version marker (usually in the form "
+"I<~marker>)  will get remapped (to something like I<+marker>)  so that these "
+"sort higher than the versions they are based on.  When B<--merge-"
+"prereleases> is used, the part of the version number after the last tilde is "
+"dropped so that 1.0-1~exp1 and 1.0-1~exp5 are considered to be the same "
+"entry.  When the same version is available in both I<new-a> and I<new-b>, a "
+"standard line-based 3-way merge is attempted (provided that the module "
+"Algorithm::Merge is available — it's part of the package libalgorithm-merge-"
+"perl — otherwise you get a global conflict on the content of the entry)."
 msgstr ""
 
 #. type: =item
@@ -18271,6 +18288,13 @@ msgid ""
 "options can be shown by using the B<--format> option."
 msgstr ""
 
+#. type: textblock
+#: dpkg-source.pod
+msgid ""
+"When used with B<--robot> (since dpkg 1.23.12), the output will be the "
+"program version number in a dotted numerical format, with no newline."
+msgstr ""
+
 #. type: =head2
 #: dpkg-source.pod
 msgid "Generic build options"
@@ -18578,6 +18602,32 @@ msgstr "B<--licence>"
 #: dpkg-source.pod
 #, fuzzy
 msgid "Supported since dpkg 1.21.14."
+msgstr "Debian Project"
+
+#. type: =item
+#: dpkg-source.pod dpkg.pod
+#, fuzzy
+msgid "B<--robot>"
+msgstr "B<--new>"
+
+#. type: textblock
+#: dpkg-source.pod dpkg.pod
+msgid ""
+"Use a machine-readable output format.  This provides an interface for "
+"programs that need to parse the output of some of the commands that do not "
+"otherwise emit a machine-readable output format.  No localization will be "
+"used, and the output will be modified to make it easier to parse."
+msgstr ""
+
+#. type: textblock
+#: dpkg-source.pod dpkg.pod
+msgid "The only currently supported command is B<--version>."
+msgstr ""
+
+#. type: textblock
+#: dpkg-source.pod
+#, fuzzy
+msgid "Supported since dpkg 1.23.12."
 msgstr "Debian Project"
 
 #. type: textblock
@@ -22822,26 +22872,6 @@ msgstr ""
 #. type: =item
 #: dpkg.pod
 #, fuzzy
-msgid "B<--robot>"
-msgstr "B<--new>"
-
-#. type: textblock
-#: dpkg.pod
-msgid ""
-"Use a machine-readable output format.  This provides an interface for "
-"programs that need to parse the output of some of the commands that do not "
-"otherwise emit a machine-readable output format.  No localization will be "
-"used, and the output will be modified to make it easier to parse."
-msgstr ""
-
-#. type: textblock
-#: dpkg.pod
-msgid "The only currently supported command is B<--version>."
-msgstr ""
-
-#. type: =item
-#: dpkg.pod
-#, fuzzy
 msgid "B<--no-debsig>"
 msgstr "B<--new>"
 
@@ -26639,6 +26669,10 @@ msgstr ""
 #: update-alternatives.pod
 msgid "L<ln(1)>, FHS (the Filesystem Hierarchy Standard)."
 msgstr ""
+
+#, fuzzy
+#~ msgid "Since dpkg 1.21.10."
+#~ msgstr "Debian Project"
 
 #, fuzzy
 #~ msgid "This field is supported since dpkg 1.22.7."

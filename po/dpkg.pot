@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.23.11\n"
+"Project-Id-Version: dpkg 1.23.12\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2026-09-09 16:12+0200\n"
+"POT-Creation-Date: 2026-11-13 07:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1035,11 +1035,12 @@ msgstr ""
 msgid "<standard input>"
 msgstr ""
 
-#: lib/dpkg/mustlib.c src/common/force.c src/realpath/main.c src/deb/build.c
-#: src/deb/extract.c src/deb/info.c src/deb/main.c src/split/info.c
-#: src/split/main.c src/split/queue.c src/divert/main.c src/statoverride/main.c
-#: src/trigger/main.c src/query/main.c src/main/archives.c src/main/enquiry.c
-#: src/main/main.c src/main/packages.c src/main/select.c src/main/verify.c
+#: lib/dpkg/mustlib.c lib/dpkg/options.c src/common/force.c src/realpath/main.c
+#: src/deb/build.c src/deb/extract.c src/deb/info.c src/deb/main.c
+#: src/split/info.c src/split/main.c src/split/queue.c src/divert/main.c
+#: src/statoverride/main.c src/trigger/main.c src/query/main.c
+#: src/main/archives.c src/main/audit.c src/main/enquiry.c src/main/main.c
+#: src/main/packages.c src/main/select.c src/main/verify.c
 #: utils/update-alternatives.c
 msgid "<standard output>"
 msgstr ""
@@ -1161,6 +1162,16 @@ msgstr ""
 #: lib/dpkg/options.c
 #, c-format
 msgid "invalid integer for -%c: '%s'"
+msgstr ""
+
+#: lib/dpkg/options.c
+#, c-format
+msgid "%s version %s\n"
+msgstr ""
+
+#: lib/dpkg/options.c
+#, c-format
+msgid "Synopsis: %s\n"
 msgstr ""
 
 #: lib/dpkg/options.c utils/update-alternatives.c
@@ -1965,21 +1976,11 @@ msgid "cannot set security context for file object '%s'"
 msgstr ""
 
 #: src/realpath/main.c
+msgid "package management root directory aware pathname resolving tool"
+msgstr ""
+
+#: src/realpath/main.c
 msgid "Use --help for help about this utility."
-msgstr ""
-
-#: src/realpath/main.c src/divert/main.c src/statoverride/main.c
-#, c-format
-msgid "Debian %s version %s.\n"
-msgstr ""
-
-#: src/realpath/main.c src/deb/main.c src/split/main.c src/divert/main.c
-#: src/statoverride/main.c src/trigger/main.c src/query/main.c src/main/main.c
-#: utils/update-alternatives.c
-#, c-format
-msgid ""
-"This is free software; see the GNU General Public License version 2 or\n"
-"later for copying conditions. There is NO warranty.\n"
 msgstr ""
 
 #: src/realpath/main.c
@@ -2042,12 +2043,12 @@ msgstr ""
 msgid "too many levels of symbolic links"
 msgstr ""
 
-#: src/realpath/main.c src/main/archives.c
+#: src/realpath/main.c src/deb/info.c src/main/archives.c
 #, c-format
 msgid "cannot read symbolic link '%s'"
 msgstr ""
 
-#: src/realpath/main.c src/main/archives.c src/main/configure.c
+#: src/realpath/main.c src/deb/info.c src/main/archives.c src/main/configure.c
 #, c-format
 msgid "symbolic link '%s' size has changed from %jd to %zd"
 msgstr ""
@@ -2090,11 +2091,6 @@ msgstr ""
 #: src/deb/build.c
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
-msgstr ""
-
-#: src/deb/build.c
-#, c-format
-msgid "maintainer script '%s' is not a plain file or symbolic link"
 msgstr ""
 
 #: src/deb/build.c
@@ -2497,6 +2493,18 @@ msgstr ""
 
 #: src/deb/info.c
 #, c-format
+msgid ""
+"control file '%s' is a symbolic link trying to escape the control directory "
+"to '%s'"
+msgstr ""
+
+#: src/deb/info.c
+#, c-format
+msgid "control file '%s' is not a plain file or symbolic link"
+msgstr ""
+
+#: src/deb/info.c
+#, c-format
 msgid "cannot extract control file '%s' from '%s': %s"
 msgstr ""
 
@@ -2552,8 +2560,7 @@ msgid "--%s takes exactly one argument"
 msgstr ""
 
 #: src/deb/main.c
-#, c-format
-msgid "Debian '%s' package archive backend version %s.\n"
+msgid "binary package archive backend tool"
 msgstr ""
 
 #: src/deb/main.c src/split/main.c src/divert/main.c src/statoverride/main.c
@@ -3039,8 +3046,7 @@ msgid "part %d is missing"
 msgstr ""
 
 #: src/split/main.c
-#, c-format
-msgid "Debian '%s' package split/join tool; version %s.\n"
+msgid "binary package archive split/join tool"
 msgstr ""
 
 #: src/split/main.c
@@ -3302,6 +3308,10 @@ msgid "--split takes at most a source filename and destination prefix"
 msgstr ""
 
 #: src/divert/main.c
+msgid "binary package file location diversion program"
+msgstr ""
+
+#: src/divert/main.c
 msgid "Use --help for help about diverting files."
 msgstr ""
 
@@ -3554,6 +3564,10 @@ msgid "divert-to may not contain newlines"
 msgstr ""
 
 #: src/statoverride/main.c
+msgid "binary package file ownership and mode override program"
+msgstr ""
+
+#: src/statoverride/main.c
 msgid "Use --help for help about overriding file stat information."
 msgstr ""
 
@@ -3657,18 +3671,17 @@ msgstr ""
 msgid "--update is useless for --remove"
 msgstr ""
 
-#: src/statoverride/main.c
+#: src/statoverride/main.c src/main/main.c
 #, c-format
 msgid "deprecated --%s option; use --%s instead"
 msgstr ""
 
 #: src/trigger/main.c
-msgid "Type dpkg-trigger --help for help about this utility."
+msgid "binary package trigger program"
 msgstr ""
 
 #: src/trigger/main.c
-#, c-format
-msgid "Debian %s package trigger utility version %s.\n"
+msgid "Type dpkg-trigger --help for help about this utility."
 msgstr ""
 
 #: src/trigger/main.c
@@ -3744,6 +3757,10 @@ msgstr ""
 
 #: src/trigger/main.c
 msgid "trigger records not yet in existence"
+msgstr ""
+
+#: src/query/main.c
+msgid "binary package database query program"
 msgstr ""
 
 #: src/query/main.c src/main/select.c
@@ -3855,7 +3872,7 @@ msgstr ""
 msgid "--%s needs at least one package name argument"
 msgstr ""
 
-#: src/query/main.c src/main/enquiry.c src/main/verify.c
+#: src/query/main.c src/main/audit.c src/main/verify.c
 #, c-format
 msgid "package '%s' is not installed"
 msgstr ""
@@ -3903,11 +3920,6 @@ msgstr ""
 #: src/query/main.c
 #, c-format
 msgid "control file '%s' does not exist"
-msgstr ""
-
-#: src/query/main.c
-#, c-format
-msgid "Debian %s package management program query tool version %s.\n"
 msgstr ""
 
 #: src/query/main.c
@@ -4339,6 +4351,101 @@ msgstr ""
 msgid "will not downgrade %s (%s) to (%s), skipping"
 msgstr ""
 
+#: src/main/audit.c
+msgid ""
+"The following packages are in a mess due to serious problems during\n"
+"installation. They must be reinstalled for them (and any packages\n"
+"that depend on them) to function properly:\n"
+msgstr ""
+
+#: src/main/audit.c
+msgid ""
+"The following packages have been unpacked but not yet configured.\n"
+"They must be configured using dpkg --configure or the configure\n"
+"menu option in dselect for them to work:\n"
+msgstr ""
+
+#: src/main/audit.c
+msgid ""
+"The following packages are only half configured, probably due to problems\n"
+"configuring them the first time. The configuration should be retried using\n"
+"dpkg --configure <package> or the configure menu option in dselect:\n"
+msgstr ""
+
+#: src/main/audit.c
+msgid ""
+"The following packages are only half installed, due to problems during\n"
+"installation. The installation can probably be completed by retrying it;\n"
+"the packages can be removed using dselect or dpkg --remove:\n"
+msgstr ""
+
+#: src/main/audit.c
+msgid ""
+"The following packages are awaiting processing of triggers that they\n"
+"have activated in other packages. This processing can be requested using\n"
+"dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
+msgstr ""
+
+#: src/main/audit.c
+msgid ""
+"The following packages have been triggered, but the trigger processing\n"
+"has not yet been done. Trigger processing can be requested using\n"
+"dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
+msgstr ""
+
+#: src/main/audit.c
+msgid ""
+"The following packages are missing the list control file in the\n"
+"database, they need to be reinstalled:\n"
+msgstr ""
+
+#: src/main/audit.c
+msgid ""
+"The following packages are missing the md5sums control file in the\n"
+"database, they need to be reinstalled:\n"
+msgstr ""
+
+#: src/main/audit.c
+msgid "The following packages do not have an architecture:\n"
+msgstr ""
+
+#: src/main/audit.c
+msgid "The following packages have an invalid architecture:\n"
+msgstr ""
+
+#: src/main/audit.c
+msgid ""
+"The following packages have an unknown foreign architecture, which will\n"
+"cause dependency issues on front-ends. This can be fixed by registering\n"
+"the foreign architecture with dpkg --add-architecture:\n"
+msgstr ""
+
+#: src/main/audit.c
+#, c-format
+msgid "cannot get pathname '%s' metadata"
+msgstr ""
+
+#: src/main/audit.c
+#, c-format
+msgid "pathname '%s' in database directory is not a regular file\n"
+msgstr ""
+
+#: src/main/audit.c
+#, c-format
+msgid "pathname '%s' in database directory is not a directory\n"
+msgstr ""
+
+#: src/main/audit.c
+#, c-format
+msgid "unknown entry '%s' in database directory\n"
+msgstr ""
+
+#: src/main/audit.c
+msgid ""
+"Another process has locked the database for writing, and might currently be\n"
+"modifying it, some of the following problems might just be due to that.\n"
+msgstr ""
+
 #: src/main/cleanup.c
 #, c-format
 msgid ""
@@ -4762,81 +4869,6 @@ msgid "  %s provides %s and is present and %s.\n"
 msgstr ""
 
 #: src/main/enquiry.c
-msgid ""
-"The following packages are in a mess due to serious problems during\n"
-"installation. They must be reinstalled for them (and any packages\n"
-"that depend on them) to function properly:\n"
-msgstr ""
-
-#: src/main/enquiry.c
-msgid ""
-"The following packages have been unpacked but not yet configured.\n"
-"They must be configured using dpkg --configure or the configure\n"
-"menu option in dselect for them to work:\n"
-msgstr ""
-
-#: src/main/enquiry.c
-msgid ""
-"The following packages are only half configured, probably due to problems\n"
-"configuring them the first time. The configuration should be retried using\n"
-"dpkg --configure <package> or the configure menu option in dselect:\n"
-msgstr ""
-
-#: src/main/enquiry.c
-msgid ""
-"The following packages are only half installed, due to problems during\n"
-"installation. The installation can probably be completed by retrying it;\n"
-"the packages can be removed using dselect or dpkg --remove:\n"
-msgstr ""
-
-#: src/main/enquiry.c
-msgid ""
-"The following packages are awaiting processing of triggers that they\n"
-"have activated in other packages. This processing can be requested using\n"
-"dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
-msgstr ""
-
-#: src/main/enquiry.c
-msgid ""
-"The following packages have been triggered, but the trigger processing\n"
-"has not yet been done. Trigger processing can be requested using\n"
-"dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
-msgstr ""
-
-#: src/main/enquiry.c
-msgid ""
-"The following packages are missing the list control file in the\n"
-"database, they need to be reinstalled:\n"
-msgstr ""
-
-#: src/main/enquiry.c
-msgid ""
-"The following packages are missing the md5sums control file in the\n"
-"database, they need to be reinstalled:\n"
-msgstr ""
-
-#: src/main/enquiry.c
-msgid "The following packages do not have an architecture:\n"
-msgstr ""
-
-#: src/main/enquiry.c
-msgid "The following packages have an invalid architecture:\n"
-msgstr ""
-
-#: src/main/enquiry.c
-msgid ""
-"The following packages have an unknown foreign architecture, which will\n"
-"cause dependency issues on front-ends. This can be fixed by registering\n"
-"the foreign architecture with dpkg --add-architecture:\n"
-msgstr ""
-
-#: src/main/enquiry.c
-msgid ""
-"Another process has locked the database for writing, and might currently be\n"
-"modifying it, some of the following problems might just be due to that.\n"
-msgstr ""
-
-#: src/main/enquiry.c
 #, c-format
 msgid "deprecated --%s option; use %s --%s instead"
 msgstr ""
@@ -5055,8 +5087,7 @@ msgid ""
 msgstr ""
 
 #: src/main/main.c
-#, c-format
-msgid "Debian '%s' package management program version %s.\n"
+msgid "binary package management program"
 msgstr ""
 
 #: src/main/main.c
@@ -5790,7 +5821,7 @@ msgstr ""
 
 #: src/main/script.c
 #, c-format
-msgid "old %s package %s maintainer script"
+msgid "installed %s package %s maintainer script"
 msgstr ""
 
 #: src/main/script.c
@@ -5801,6 +5832,11 @@ msgstr ""
 #: src/main/script.c
 #, c-format
 msgid "new %s package %s maintainer script"
+msgstr ""
+
+#: src/main/script.c
+#, c-format
+msgid "old %s package %s maintainer script"
 msgstr ""
 
 #: src/main/script.c
@@ -6150,11 +6186,6 @@ msgstr ""
 
 #: src/main/update.c
 #, c-format
-msgid "--%s takes at most one Packages-file argument"
-msgstr ""
-
-#: src/main/update.c
-#, c-format
 msgid "cannot access dpkg database directory '%s' for bulk available update"
 msgstr ""
 
@@ -6163,6 +6194,11 @@ msgstr ""
 msgid ""
 "required write access to dpkg database directory '%s' for bulk available "
 "update"
+msgstr ""
+
+#: src/main/update.c
+#, c-format
+msgid "--%s takes at most one Packages-file argument"
 msgstr ""
 
 #: src/main/update.c
@@ -6191,6 +6227,13 @@ msgstr ""
 #: utils/update-alternatives.c
 #, c-format
 msgid "%s version %s.\n"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, c-format
+msgid ""
+"This is free software; see the GNU General Public License version 2 or\n"
+"later for copying conditions. There is NO warranty.\n"
 msgstr ""
 
 #: utils/update-alternatives.c
