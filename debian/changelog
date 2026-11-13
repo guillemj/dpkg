@@ -1,8 +1,94 @@
-dpkg (1.23.12) UNRELEASED; urgency=medium
+dpkg (1.23.12) unstable; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * dpkg-source: Handle --help and --version as commands.
+  * dpkg-source: Add support for --robot for --version output.
+  * dpkg: Add minimal database structure audit support.
+  * dpkg: Add support for auditing the database contents. Closes: #1016143
+  * dpkg: Deprecate ancient alias for --selected-only.
+  * dpkg: Parse the --*-avail arguments before initializing the database.
+  * dpkg-name: Honor --overwrite with --symlink.
+  * dpkg: Use "installed" instead of "old" for maintscript error with no "new".
+    Closes: #1151270
+  * dpkg-buildpackage: Fix --sign-pause long option name.
+    Thanks to Cheng Li <shiptux@gmail.com>.
+  * dpkg-buildpackage: Accept --sign-command auto and none arguments.
+    Reported by Cheng Li <shiptux@gmail.com>. See #1061450.
+  * dpkg-deb: Check for directory traversal symlinks in control.tar deb member.
+    Reported by Thai Duong <thai@calif.io>.
+  * Output messages:
+    - Move program synopsis from --version to a new field in --help output.
+    - Add missing program synopsis to new field in --help output.
+    - dpkg-ar: Add missing paragraph separator in --help output.
+    - dpkg: Print only the package name in --audit and --yet-to-unpack.
+    - dpkg: Indent package names in --audit and --yet-to-unpack with two
+      spaces.
+    - dpkg-source: Clarify warning about duplicate address in Uploader field.
+  * Perl modules:
+    - Dpkg::Getopt: Add a function to print the version in robot format.
+    - Dpkg::Getopt: Add print_synopsis() function.
+    - Test::Dpkg: Add completion/bash directories to all_shell_files.
+      Reported by Cheng Li <shiptux@gmail.com>. See #1061450.
+    - Dpkg::OpenPGP: Remove unused Dpkg::IPC import.
+    - Dpkg::Source::Package::V3::Git: Use spawn() instead of qx().
+    - Dpkg::Source::Package::V3::Git: Fix chdir usage. Closes: #1152228
+    - Dpkg::Source::Package::V2: Move tar options into a variable.
+    - Dpkg::Source::Package::V2: Pass the same tar exclusion options for
+      debian.tar. Reported by Thai Duong <thai@calif.io>.
+      Analysis by Anthropic LLM, verified by humans at Calif.io.
+    - Dpkg::Source::Package::V3::Quilt: Remove database dir on unpack.
+      Reported by Thai Duong <thai@calif.io>.
+  * Shell completion:
+    - Add quotes around variable expansion.
+  * Documentation:
+    - man: Fix format of some "since version" sentences.
+    - man: Document backport markers handling in dpkg-mergechangelogs(1).
+      Closes: #1079138
+    - man: Rename "old-postinst" to "postinst" for abort-remove in
+      deb-postinst(5).
+  * Code internals:
+    - libdpkg: Add missing included header.
+      Thanks to Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>.
+    - libdpkg: Add print_version() function.
+    - libdpkg: Add print_synopsis() function.
+    - Switch to libdpkg print_version().
+    - Split dselect methods libdir macro usage from database dir macro.
+    - libdpkg: Move database pathname macros to dpkg-db.h.
+    - libdpkg: Rename and namespace database file and directory macros.
+    - dpkg: Split database audit code into its own module.
+    - dpkg-query: Move list_format_init() outside of the pkg_array visitor.
+    - libdpkg: Change pkg_array_visitor_func() to pkg_visitor_func().
+    - libdpkg: Move pkg function typedefs to pkg.h.
+    - libdpkg: Refactor files list file loading from a package array visitor
+      function.
+    - dpkg: Rename yet-to-unpack functions.
+    - dpkg: Make execbackend() static and move it to its declaration location.
+    - dpkg: Refactor db_available_check_access() function.
+    - dpkg: Split available db update and clear actions into different
+      functions.
+    - scripts: Remove /o modifier from regular expressions.
+    - scripts: Explicitly import Dpkg::Control::Types module.
+    - scripts: Remove redundant imports.
+    - libdpkg: Make sure we do not overflow when growing command argv.
+    - dpkg-name: Rename move() function to rename_archive().
+    - scripts: Use Perl functions instead of simple ln, cp, mv commands.
+    - scripts: Use spawn() instead of system() when not needing a shell.
+    - perl: Switch directory from within the spawn() call.
+  * Build system:
+    - Bump -Wstrict-overflow from level 2 to 3.
+    - Anchor .gitignore entries for generated files.
+      Thanks to Cheng Li <shiptux@gmail.com>. See #1061450.
+  * Test suite:
+    - Skip hop 0.26.1 from tests as it was a buggy release.
+  * Localization:
+    - Update Dutch translations. Closes: #1152941, #1153834
+      Thanks to Frans Spiesschaert <Frans.Spiesschaert@yucom.be>.
+    - Update Portuguese man pages translation. Closes: #1149150
+      Thanks to Américo Monteiro <a_monteiro@gmx.com>.
+    - Update Ukrainian translations. Closes: #1137427, #1152021, #1153538
+      Thanks to Andriy Pysyk <ep.nestor@gmail.com>.
 
- -- Guillem Jover <guillem@debian.org>  Wed, 09 Sep 2026 16:36:12 +0200
+ -- Guillem Jover <guillem@debian.org>  Fri, 13 Nov 2026 07:37:29 +0100
 
 dpkg (1.23.11) unstable; urgency=medium
 
