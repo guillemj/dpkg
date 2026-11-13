@@ -35,7 +35,6 @@ use List::Util qw(none);
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::IPC;
 use Dpkg::Path qw(find_command);
 use Dpkg::OpenPGP::ErrorCodes;
 
